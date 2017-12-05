@@ -48,10 +48,6 @@ var _RecipientsInput = require('../RecipientsInput');
 
 var _RecipientsInput2 = _interopRequireDefault(_RecipientsInput);
 
-var _DropdownSelect = require('../DropdownSelect');
-
-var _DropdownSelect2 = _interopRequireDefault(_DropdownSelect);
-
 var _SpinnerOverlay = require('../SpinnerOverlay');
 
 var _SpinnerOverlay2 = _interopRequireDefault(_SpinnerOverlay);
@@ -60,31 +56,11 @@ var _NoSenderAlert = require('./NoSenderAlert');
 
 var _NoSenderAlert2 = _interopRequireDefault(_NoSenderAlert);
 
+var _FromField = require('../FromField');
+
+var _FromField2 = _interopRequireDefault(_FromField);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function SenderField(props) {
-  return _react2.default.createElement(_DropdownSelect2.default, {
-    label: _i18n2.default.getString('from', props.currentLocale) + ':',
-    className: _styles2.default.senderSelect,
-    value: props.value,
-    onChange: props.onChange,
-    options: props.options,
-    paddingLeft: 0,
-    renderValue: props.formatPhone,
-    valueFunction: function valueFunction(value) {
-      return value;
-    },
-    renderFunction: props.formatPhone
-  });
-}
-
-SenderField.propTypes = {
-  currentLocale: _propTypes2.default.string.isRequired,
-  value: _propTypes2.default.string.isRequired,
-  onChange: _propTypes2.default.func.isRequired,
-  formatPhone: _propTypes2.default.func.isRequired,
-  options: _propTypes2.default.arrayOf(_propTypes2.default.string.isRequired).isRequired
-};
 
 var ComposeTextPanel = function (_Component) {
   (0, _inherits3.default)(ComposeTextPanel, _Component);
@@ -98,17 +74,8 @@ var ComposeTextPanel = function (_Component) {
       _this.props.updateSenderNumber(value);
     };
 
-    _this.onReceiverChange = function (e) {
-      var value = e.currentTarget.value;
-      _this.props.updateTypingToNumber(value);
-    };
-
     _this.cleanReceiverValue = function () {
       _this.props.cleanTypingToNumber();
-    };
-
-    _this.onReceiverInputKeyUp = function (e) {
-      _this.props.searchContact(e.currentTarget.value);
     };
 
     _this.addToRecipients = function (receiver) {
@@ -145,11 +112,6 @@ var ComposeTextPanel = function (_Component) {
   }
 
   (0, _createClass3.default)(ComposeTextPanel, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.props.searchContact(this.props.typingToNumber);
-    }
-  }, {
     key: 'hasSenderNumbers',
     value: function hasSenderNumbers() {
       return this.props.senderNumbers.length > 0;
@@ -164,13 +126,6 @@ var ComposeTextPanel = function (_Component) {
           _react2.default.createElement(_SpinnerOverlay2.default, null)
         );
       }
-      var senderField = this.hasSenderNumbers() ? _react2.default.createElement(SenderField, {
-        currentLocale: this.props.currentLocale,
-        value: this.props.senderNumber,
-        options: this.props.senderNumbers,
-        formatPhone: this.props.formatPhone,
-        onChange: this.onSenderChange
-      }) : null;
       return _react2.default.createElement(
         'div',
         { className: (0, _classnames2.default)(_styles2.default.root, this.props.className) },
@@ -182,29 +137,33 @@ var ComposeTextPanel = function (_Component) {
         _react2.default.createElement(
           'form',
           { onSubmit: this.handleSubmit },
-          _react2.default.createElement(
-            'div',
-            { className: _styles2.default.receiverField },
-            _react2.default.createElement(_RecipientsInput2.default, {
-              value: this.props.typingToNumber,
-              label: _i18n2.default.getString('to', this.props.currentLocale) + ':',
-              onChange: this.onReceiverChange,
-              onClean: this.cleanReceiverValue,
-              placeholder: _i18n2.default.getString('enterNameOrNumber', this.props.currentLocale),
-              recipients: this.props.toNumbers,
-              addToRecipients: this.addToRecipients,
-              removeFromRecipients: this.removeFromRecipients,
-              searchContactList: this.props.searchContactList,
-              onKeyUp: this.onReceiverInputKeyUp,
-              formatContactPhone: this.props.formatContactPhone,
-              titleEnabled: true,
-              autoFocus: true
-            })
-          ),
+          _react2.default.createElement(_RecipientsInput2.default, {
+            value: this.props.typingToNumber,
+            onChange: this.props.updateTypingToNumber,
+            onClean: this.cleanReceiverValue,
+            recipients: this.props.toNumbers,
+            addToRecipients: this.addToRecipients,
+            removeFromRecipients: this.removeFromRecipients,
+            searchContact: this.props.searchContact,
+            searchContactList: this.props.searchContactList,
+            formatContactPhone: this.props.formatContactPhone,
+            currentLocale: this.props.currentLocale,
+            titleEnabled: true,
+            autoFocus: true,
+            multiple: true
+          }),
           _react2.default.createElement(
             'div',
             { className: _styles2.default.senderField },
-            senderField
+            _react2.default.createElement(_FromField2.default, {
+              currentLocale: this.props.currentLocale,
+              fromNumber: this.props.senderNumber,
+              fromNumbers: this.props.senderNumbers,
+              formatPhone: this.props.formatPhone,
+              onChange: this.onSenderChange,
+              hidden: !this.hasSenderNumbers(),
+              showAnonymous: false
+            })
           ),
           _react2.default.createElement(
             'div',
@@ -241,7 +200,9 @@ var ComposeTextPanel = function (_Component) {
 ComposeTextPanel.propTypes = {
   className: _propTypes2.default.string,
   send: _propTypes2.default.func.isRequired,
-  senderNumbers: _propTypes2.default.arrayOf(_propTypes2.default.string.isRequired).isRequired,
+  senderNumbers: _propTypes2.default.arrayOf(_propTypes2.default.shape({
+    phoneNumber: _propTypes2.default.string.isRequired
+  })).isRequired,
   sendButtonDisabled: _propTypes2.default.bool.isRequired,
   formatPhone: _propTypes2.default.func.isRequired,
   formatContactPhone: _propTypes2.default.func.isRequired,

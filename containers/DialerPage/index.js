@@ -28,7 +28,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function mapToProps(_, _ref) {
   var _ref$phone = _ref.phone,
       call = _ref$phone.call,
+      dialerUI = _ref$phone.dialerUI,
       callingSettings = _ref$phone.callingSettings,
+      contactSearch = _ref$phone.contactSearch,
       connectivityMonitor = _ref$phone.connectivityMonitor,
       locale = _ref$phone.locale,
       rateLimiter = _ref$phone.rateLimiter,
@@ -45,7 +47,9 @@ function mapToProps(_, _ref) {
     callingMode: callingSettings.callingMode,
     isWebphoneMode: isWebphoneMode,
     callButtonDisabled: !call.isIdle || !connectivityMonitor.connectivity || rateLimiter.throttling || webphoneDisconnected,
-    toNumber: call.toNumber,
+    toNumber: dialerUI.toNumberField,
+    recipient: dialerUI.recipient,
+    searchContactList: contactSearch.sortedResult,
     fromNumbers: callingSettings.fromNumbers,
     fromNumber: callingSettings.fromNumber,
     showSpinner: !(call.ready && callingSettings.ready && locale.ready && connectivityMonitor.ready && (!isWebphoneMode || !webphone || !waitingWebphoneConnected)),
@@ -56,16 +60,20 @@ function mapToProps(_, _ref) {
 
 function mapToFunctions(_, _ref2) {
   var _ref2$phone = _ref2.phone,
-      call = _ref2$phone.call,
       callingSettings = _ref2$phone.callingSettings,
-      regionSettings = _ref2$phone.regionSettings;
+      regionSettings = _ref2$phone.regionSettings,
+      contactSearch = _ref2$phone.contactSearch,
+      dialerUI = _ref2$phone.dialerUI;
 
   return {
-    keepToNumber: function keepToNumber(value) {
-      call.onToNumberChange(value);
+    onToNumberChange: function onToNumberChange(value) {
+      return dialerUI.setToNumberField(value);
     },
-    onCall: function onCall() {
-      call.onCall();
+    clearToNumber: function clearToNumber() {
+      return dialerUI.clearToNumberField();
+    },
+    onCallButtonClick: function onCallButtonClick() {
+      dialerUI.onCallButtonClick();
     },
     changeFromNumber: function changeFromNumber() {
       return callingSettings.updateFromNumber.apply(callingSettings, arguments);
@@ -76,7 +84,17 @@ function mapToFunctions(_, _ref2) {
         areaCode: regionSettings && regionSettings.areaCode,
         countryCode: regionSettings && regionSettings.countryCode
       });
+    },
+    setRecipient: function setRecipient(recipient) {
+      return dialerUI.setRecipient(recipient);
+    },
+    clearRecipient: function clearRecipient() {
+      return dialerUI.clearRecipient();
+    },
+    searchContact: function searchContact(searchString) {
+      return contactSearch.search({ searchString: searchString });
     }
+
   };
 }
 

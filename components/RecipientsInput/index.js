@@ -44,6 +44,10 @@ var _ContactDropdownList = require('../ContactDropdownList');
 
 var _ContactDropdownList2 = _interopRequireDefault(_ContactDropdownList);
 
+var _i18n = require('./i18n');
+
+var _i18n2 = _interopRequireDefault(_i18n);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function SelectedRecipientItem(_ref) {
@@ -78,33 +82,58 @@ SelectedRecipientItem.defaultProps = {
   name: undefined
 };
 
-function SelectedRecipients(props) {
-  var items = props.items;
-  if (items.length < 1) {
-    return null;
-  }
-  return _react2.default.createElement(
-    'ul',
-    { className: _styles2.default.selectReceivers },
-    items.map(function (item) {
-      return _react2.default.createElement(SelectedRecipientItem, {
-        key: item.phoneNumber,
-        name: item.name,
-        phoneNumber: item.phoneNumber,
+function SelectedRecipients(_ref2) {
+  var recipient = _ref2.recipient,
+      recipients = _ref2.recipients,
+      multiple = _ref2.multiple,
+      _onRemove = _ref2.onRemove;
+
+  if (multiple && recipients.length) {
+    return _react2.default.createElement(
+      'ul',
+      { className: _styles2.default.selectReceivers },
+      recipients.map(function (item) {
+        return _react2.default.createElement(SelectedRecipientItem, {
+          key: item.phoneNumber,
+          name: item.name,
+          phoneNumber: item.phoneNumber,
+          onRemove: function onRemove() {
+            return _onRemove(item.phoneNumber);
+          }
+        });
+      })
+    );
+  } else if (!multiple && recipient) {
+    return _react2.default.createElement(
+      'ul',
+      { className: _styles2.default.selectReceivers },
+      _react2.default.createElement(SelectedRecipientItem, {
+        key: recipient.phoneNumber,
+        name: recipient.name,
+        phoneNumber: recipient.phoneNumber,
         onRemove: function onRemove() {
-          return props.removeFromRecipients(item.phoneNumber);
+          return _onRemove(recipient.phoneNumber);
         }
-      });
-    })
-  );
+      })
+    );
+  }
+  return null;
 }
 
 SelectedRecipients.propTypes = {
-  removeFromRecipients: _propTypes2.default.func.isRequired,
-  items: _propTypes2.default.arrayOf(_propTypes2.default.shape({
+  onRemove: _propTypes2.default.func.isRequired,
+  recipient: _propTypes2.default.shape({
     phoneNumber: _propTypes2.default.string.isRequired,
     name: _propTypes2.default.string
-  })).isRequired
+  }),
+  recipients: _propTypes2.default.arrayOf(_propTypes2.default.shape({
+    phoneNumber: _propTypes2.default.string.isRequired,
+    name: _propTypes2.default.string
+  })).isRequired,
+  multiple: _propTypes2.default.bool.isRequired
+};
+SelectedRecipients.defaultProps = {
+  recipient: null
 };
 
 var RecipientsInput = function (_Component) {
@@ -115,11 +144,18 @@ var RecipientsInput = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (RecipientsInput.__proto__ || (0, _getPrototypeOf2.default)(RecipientsInput)).call(this, props));
 
+    _this.onReceiverInputKeyUp = function (e) {
+      _this.props.searchContact(e.currentTarget.value);
+    };
+
+    _this.onReceiverChange = function (e) {
+      _this.props.onChange(e.currentTarget.value);
+    };
+
     _this.state = {
       isFocusOnInput: false,
       selectedContactIndex: 0,
-      scrollDirection: null,
-      currentValue: props.value.replace(',', '')
+      scrollDirection: null
     };
 
     _this.onReceiversInputFocus = function () {
@@ -227,30 +263,46 @@ var RecipientsInput = function (_Component) {
   }
 
   (0, _createClass3.default)(RecipientsInput, [{
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(newProps) {
-      this.setState({
-        currentValue: newProps.value.replace(',', '')
-      });
-      if (newProps.value && newProps.value !== this.props.value && this.props.value[this.props.value.length - 1] === ',') {
-        this.setState({
-          isFocusOnInput: true
-        });
-        this.props.addToRecipients({
-          name: this.props.value.replace(',', ''),
-          phoneNumber: this.props.value.replace(',', '')
-        }, false);
-      }
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.props.searchContact(this.props.value);
     }
   }, {
     key: 'render',
     value: function render() {
       var relatedContactList = this.props.value.length >= 3 ? this.props.searchContactList : [];
-      var label = this.props.label ? _react2.default.createElement(
+      var label = _react2.default.createElement(
         'label',
         null,
-        this.props.label
-      ) : null;
+        this.props.label || _i18n2.default.getString('to', this.props.currentLocale)
+      );
+      var toNumberInput = !this.props.multiple && this.props.recipient ? null : _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'div',
+          { className: _styles2.default.inputField },
+          _react2.default.createElement('input', {
+            name: 'receiver',
+            value: this.props.value,
+            onChange: this.onReceiverChange,
+            className: _styles2.default.numberInput,
+            maxLength: 30,
+            onFocus: this.onReceiversInputFocus,
+            onBlur: this.onReceiversInputBlur,
+            onKeyUp: this.onReceiverInputKeyUp,
+            placeholder: this.props.placeholder || _i18n2.default.getString('enterNameOrNumber', this.props.currentLocale),
+            autoComplete: 'off',
+            autoFocus: this.props.autoFocus // eslint-disable-line
+          })
+        ),
+        _react2.default.createElement(_RemoveButton2.default, {
+          className: _styles2.default.removeButton,
+          onClick: this.props.onClean,
+          visibility: this.props.value.length > 0 && this.state.isFocusOnInput
+        })
+      );
+
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.container, onKeyDown: this.handleHotKey },
@@ -259,32 +311,12 @@ var RecipientsInput = function (_Component) {
           'div',
           { className: _styles2.default.rightPanel },
           _react2.default.createElement(SelectedRecipients, {
-            items: this.props.recipients,
-            removeFromRecipients: this.props.removeFromRecipients
+            recipient: this.props.recipient,
+            recipients: this.props.recipients,
+            multiple: this.props.multiple,
+            onRemove: this.props.removeFromRecipients
           }),
-          _react2.default.createElement(
-            'div',
-            { className: _styles2.default.inputField },
-            _react2.default.createElement('input', {
-              name: 'receiver',
-              value: this.state.currentValue,
-              onChange: this.props.onChange,
-              onKeyUp: this.props.onKeyUp,
-              onKeyDown: this.props.onKeyDown,
-              className: _styles2.default.numberInput,
-              maxLength: 30,
-              onFocus: this.onReceiversInputFocus,
-              onBlur: this.onReceiversInputBlur,
-              placeholder: this.props.placeholder,
-              autoComplete: 'off',
-              autoFocus: this.props.autoFocus // eslint-disable-line
-            })
-          ),
-          _react2.default.createElement(_RemoveButton2.default, {
-            className: _styles2.default.removeButton,
-            onClick: this.props.onClean,
-            visibility: this.props.value.length > 0 && this.state.isFocusOnInput
-          })
+          toNumberInput
         ),
         _react2.default.createElement(_ContactDropdownList2.default, {
           scrollDirection: this.state.scrollDirection,
@@ -312,33 +344,38 @@ RecipientsInput.propTypes = {
     phoneType: _propTypes2.default.string.isRequired,
     phoneNumber: _propTypes2.default.string.isRequired
   })).isRequired,
+  recipient: _propTypes2.default.shape({
+    phoneNumber: _propTypes2.default.string.isRequired,
+    name: _propTypes2.default.string
+  }),
   recipients: _propTypes2.default.arrayOf(_propTypes2.default.shape({
     phoneNumber: _propTypes2.default.string.isRequired,
     name: _propTypes2.default.string
-  })).isRequired,
+  })),
   value: _propTypes2.default.string.isRequired,
   onChange: _propTypes2.default.func.isRequired,
   onClean: _propTypes2.default.func.isRequired,
-  onKeyUp: _propTypes2.default.func,
-  onKeyDown: _propTypes2.default.func,
   addToRecipients: _propTypes2.default.func.isRequired,
   removeFromRecipients: _propTypes2.default.func.isRequired,
   formatContactPhone: _propTypes2.default.func.isRequired,
+  searchContact: _propTypes2.default.func,
   titleEnabled: _propTypes2.default.bool,
-  autoFocus: _propTypes2.default.bool
+  autoFocus: _propTypes2.default.bool,
+  currentLocale: _propTypes2.default.string.isRequired,
+  multiple: _propTypes2.default.bool
 };
 
 RecipientsInput.defaultProps = {
-  label: null,
-  placeholder: '',
-  onKeyUp: function onKeyUp() {
-    return null;
-  },
-  onKeyDown: function onKeyDown() {
+  label: undefined,
+  placeholder: undefined,
+  recipient: null,
+  recipients: [],
+  searchContact: function searchContact() {
     return null;
   },
   titleEnabled: undefined,
-  autoFocus: false
+  autoFocus: false,
+  multiple: false
 };
 
 exports.default = RecipientsInput;

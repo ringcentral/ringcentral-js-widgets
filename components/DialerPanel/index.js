@@ -20,13 +20,13 @@ var _DialPad = require('../DialPad');
 
 var _DialPad2 = _interopRequireDefault(_DialPad);
 
-var _DialTextInput = require('../DialTextInput');
+var _RecipientsInput = require('../RecipientsInput');
 
-var _DialTextInput2 = _interopRequireDefault(_DialTextInput);
+var _RecipientsInput2 = _interopRequireDefault(_RecipientsInput);
 
-var _CallIdSelect = require('../CallIdSelect');
+var _FromField = require('../FromField');
 
-var _CallIdSelect2 = _interopRequireDefault(_CallIdSelect);
+var _FromField2 = _interopRequireDefault(_FromField);
 
 var _SpinnerOverlay = require('../SpinnerOverlay');
 
@@ -49,8 +49,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function DialerPanel(_ref) {
   var callButtonDisabled = _ref.callButtonDisabled,
       className = _ref.className,
-      keepToNumber = _ref.keepToNumber,
-      onCall = _ref.onCall,
+      onToNumberChange = _ref.onToNumberChange,
+      onCallButtonClick = _ref.onCallButtonClick,
       toNumber = _ref.toNumber,
       fromNumber = _ref.fromNumber,
       fromNumbers = _ref.fromNumbers,
@@ -60,31 +60,41 @@ function DialerPanel(_ref) {
       currentLocale = _ref.currentLocale,
       showSpinner = _ref.showSpinner,
       dialButtonVolume = _ref.dialButtonVolume,
-      dialButtonMuted = _ref.dialButtonMuted;
+      dialButtonMuted = _ref.dialButtonMuted,
+      searchContact = _ref.searchContact,
+      searchContactList = _ref.searchContactList,
+      recipient = _ref.recipient,
+      clearToNumber = _ref.clearToNumber,
+      setRecipient = _ref.setRecipient,
+      clearRecipient = _ref.clearRecipient;
 
   var onCallFunc = function onCallFunc() {
     if (!callButtonDisabled) {
-      onCall();
+      onCallButtonClick();
     }
   };
   var content = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : null;
   return _react2.default.createElement(
     'div',
     { className: (0, _classnames2.default)(_styles2.default.root, className) },
+    _react2.default.createElement(_RecipientsInput2.default, {
+      value: toNumber,
+      onChange: onToNumberChange,
+      onClean: clearToNumber,
+      recipient: recipient,
+      addToRecipients: setRecipient,
+      removeFromRecipients: clearRecipient,
+      searchContact: searchContact,
+      searchContactList: searchContactList,
+      formatContactPhone: formatPhone,
+      currentLocale: currentLocale,
+      titleEnabled: true,
+      autoFocus: true
+    }),
     _react2.default.createElement(
       'div',
       { className: _styles2.default.inputFields },
-      _react2.default.createElement(_DialTextInput2.default, {
-        value: toNumber,
-        onChangeEvent: function onChangeEvent(event) {
-          keepToNumber(event.currentTarget.value);
-        },
-        onDelete: function onDelete() {
-          keepToNumber('');
-        },
-        autoFocus: true
-      }),
-      _react2.default.createElement(_CallIdSelect2.default, {
+      _react2.default.createElement(_FromField2.default, {
         fromNumber: fromNumber,
         fromNumbers: fromNumbers,
         onChange: changeFromNumber,
@@ -99,7 +109,7 @@ function DialerPanel(_ref) {
       _react2.default.createElement(_DialPad2.default, {
         className: _styles2.default.dialPad,
         onButtonOutput: function onButtonOutput(key) {
-          keepToNumber(toNumber + key);
+          onToNumberChange(toNumber + key);
         },
         dialButtonVolume: dialButtonVolume,
         dialButtonMuted: dialButtonMuted
@@ -125,11 +135,11 @@ function DialerPanel(_ref) {
 }
 DialerPanel.propTypes = {
   className: _propTypes2.default.string,
-  onCall: _propTypes2.default.func.isRequired,
+  onCallButtonClick: _propTypes2.default.func.isRequired,
   callButtonDisabled: _propTypes2.default.bool,
   isWebphoneMode: _propTypes2.default.bool,
   toNumber: _propTypes2.default.string,
-  keepToNumber: _propTypes2.default.func,
+  onToNumberChange: _propTypes2.default.func,
   fromNumber: _propTypes2.default.string,
   currentLocale: _propTypes2.default.string.isRequired,
   fromNumbers: _propTypes2.default.arrayOf(_propTypes2.default.shape({
@@ -140,7 +150,21 @@ DialerPanel.propTypes = {
   formatPhone: _propTypes2.default.func,
   showSpinner: _propTypes2.default.bool,
   dialButtonVolume: _propTypes2.default.number,
-  dialButtonMuted: _propTypes2.default.bool
+  dialButtonMuted: _propTypes2.default.bool,
+  searchContact: _propTypes2.default.func.isRequired,
+  searchContactList: _propTypes2.default.arrayOf(_propTypes2.default.shape({
+    name: _propTypes2.default.string.isRequired,
+    entityType: _propTypes2.default.string.isRequired,
+    phoneType: _propTypes2.default.string.isRequired,
+    phoneNumber: _propTypes2.default.string.isRequired
+  })).isRequired,
+  recipient: _propTypes2.default.shape({
+    phoneNumber: _propTypes2.default.string.isRequired,
+    name: _propTypes2.default.string
+  }),
+  clearToNumber: _propTypes2.default.func.isRequired,
+  setRecipient: _propTypes2.default.func.isRequired,
+  clearRecipient: _propTypes2.default.func.isRequired
 };
 
 DialerPanel.defaultProps = {
@@ -153,7 +177,7 @@ DialerPanel.defaultProps = {
   changeFromNumber: function changeFromNumber() {
     return null;
   },
-  keepToNumber: function keepToNumber() {
+  onToNumberChange: function onToNumberChange() {
     return null;
   },
   formatPhone: function formatPhone(phoneNumber) {
@@ -161,7 +185,8 @@ DialerPanel.defaultProps = {
   },
   showSpinner: false,
   dialButtonVolume: 1,
-  dialButtonMuted: false
+  dialButtonMuted: false,
+  recipient: []
 };
 
 exports.default = DialerPanel;

@@ -17,9 +17,17 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+
+var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
@@ -90,19 +98,24 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 var OAuth = (_dec = (0, _di.Module)({
   name: 'OAuth',
-  deps: ['OAuthOptions']
+  deps: [{ dep: 'OAuthOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_OAuthBase) {
   (0, _inherits3.default)(OAuth, _OAuthBase);
 
-  function OAuth() {
+  function OAuth(_ref) {
+    var _ref$redirectUri = _ref.redirectUri,
+        redirectUri = _ref$redirectUri === undefined ? './redirect.html' : _ref$redirectUri,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['redirectUri']);
     (0, _classCallCheck3.default)(this, OAuth);
-    return (0, _possibleConstructorReturn3.default)(this, (OAuth.__proto__ || (0, _getPrototypeOf2.default)(OAuth)).apply(this, arguments));
+    return (0, _possibleConstructorReturn3.default)(this, (OAuth.__proto__ || (0, _getPrototypeOf2.default)(OAuth)).call(this, (0, _extends3.default)({
+      redirectUri: redirectUri
+    }, options)));
   }
 
   (0, _createClass3.default)(OAuth, [{
     key: 'setupOAuth',
     value: function () {
-      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         var _this2 = this;
 
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -127,7 +140,7 @@ var OAuth = (_dec = (0, _di.Module)({
       }));
 
       function setupOAuth() {
-        return _ref.apply(this, arguments);
+        return _ref2.apply(this, arguments);
       }
 
       return setupOAuth;
@@ -135,7 +148,7 @@ var OAuth = (_dec = (0, _di.Module)({
   }, {
     key: 'destroyOAuth',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -156,7 +169,7 @@ var OAuth = (_dec = (0, _di.Module)({
       }));
 
       function destroyOAuth() {
-        return _ref2.apply(this, arguments);
+        return _ref3.apply(this, arguments);
       }
 
       return destroyOAuth;
@@ -171,7 +184,7 @@ var OAuth = (_dec = (0, _di.Module)({
   }, {
     key: 'name',
     get: function get() {
-      return 'oAuth';
+      return 'OAuth';
     }
   }]);
   return OAuth;

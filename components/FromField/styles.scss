@@ -1,0 +1,38 @@
+@import '../../lib/commonStyles/colors';
+
+.root {
+  font-size: 12px;
+  width: 100%;
+  border: none;
+  padding: 0;
+
+  label {
+    color: $grey-light;
+    font-size: 12px;
+    width: 46px;
+  }
+  button {
+    margin-left: 0;
+    margin-right: 0;
+    color: $grey-light;
+    font-size: 12px;
+  }
+  ul {
+    overflow-y: auto;
+    margin-top: -2px;
+  }
+
+  li {
+    text-align: left;
+    padding: 10px;
+    font-size: 13px;
+  }
+}
+
+.usageType {
+  float: right;
+}
+
+.phoneNumber {
+  width: 100%;
+}

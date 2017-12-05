@@ -85,8 +85,9 @@ function mapToFunctions(_, _ref2) {
     searchContact: function searchContact(searchString) {
       return contactSearch.search({ searchString: searchString });
     },
-    updateSenderNumber: function updateSenderNumber() {
-      return composeText.updateSenderNumber.apply(composeText, arguments);
+    updateSenderNumber: function updateSenderNumber(_ref3) {
+      var phoneNumber = _ref3.phoneNumber;
+      return composeText.updateSenderNumber(phoneNumber);
     },
     updateTypingToNumber: function updateTypingToNumber() {
       return composeText.updateTypingToNumber.apply(composeText, arguments);
