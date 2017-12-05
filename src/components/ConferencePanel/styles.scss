@@ -95,3 +95,30 @@
   border: 1px solid $primary-color;
   color: $primary-color;
 }
+
+.conferenceCommands {
+  margin-left: 16px;
+  margin-right: 16px;
+  font-size: 12px;
+}
+.title {
+  font-weight: bolder;
+}
+.body {
+  color: gray;
+}
+.button {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  line-height: 28px;
+  text-align: center;
+  display: inline-block;
+  border: 1px solid $rc-blue;
+  margin-right: 10px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.section {
+  border-top: 1px solid #e2e2e2;
+  padding-top: 8px;
+}

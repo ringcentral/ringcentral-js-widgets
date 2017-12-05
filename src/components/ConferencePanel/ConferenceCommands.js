@@ -1,63 +1,70 @@
 import React from 'react';
+import styles from './styles.scss';
 
-const ConferenceCommands = () => (
-  <div>
-    * # 2
-    <h3>Caller Count</h3>
-    <p>Keep track of how many people are on the call</p>
-    <hr />
+const button = text => <span key={text} className={styles.button}>{text}</span>;
 
-    * # 3
-    <h3>Leave Conference</h3>
-    <p>Lets the host hang up and end the call</p>
-    <hr />
+const section = (buttons, title, body) => (
+  <div key={buttons.join('')} className={styles.section}>
+    {buttons.map(b => button(b))}
+    <p className={styles.title}>{title}</p>
+    {body.split('\n').map(line => <p className={styles.body}>{line}</p>)}
+  </div>
+);
 
-    * # 4
-    <h3>Menu</h3>
-    <p>Listen to the list of touchtone commands</p>
-    <hr />
-
-    * # 5
-    <h3>Set Listening Modes</h3>
-    <p>
-Press 1x: Mute callers - Callers can unmute with  *, #, 6
+const sections = [
+  {
+    buttons: ['*', '#', '2'],
+    title: 'Caller Count',
+    body: 'Keep track of how many people are on the call'
+  },
+  {
+    buttons: ['*', '#', '3'],
+    title: 'Leave Conference',
+    body: 'Lets the host hang up and end the call'
+  },
+  {
+    buttons: ['*', '#', '4'],
+    title: 'Menu',
+    body: 'Listen to the list of touchtone commands'
+  },
+  {
+    buttons: ['*', '#', '5'],
+    title: 'Set Listening Modes',
+    body: `Press 1x: Mute callers - Callers can unmute with  *, #, 6
 Press 2x: Mute callers - Listen only. No unmuting option
-Press 3x: Unmute callers - Opens the line again
-    </p>
-    <hr />
-
-    * # 6
-    <h3>Mute Host Line</h3>
-    <p>
-Press once to MUTE
-Press again to UNMUTE
-    </p>
-    <hr />
-
-    * # 7
-    <h3>Secure the Call</h3>
-    <p>
-Press once to BLOCK all callers
-Press again to OPEN the call
-    </p>
-    <hr />
-
-    * # 8
-    <h3>Hear sound when people Enter or Exit call</h3>
-    <p>
-Press 1x: Turns OFF sound
+Press 3x: Unmute callers - Opens the line again`
+  },
+  {
+    buttons: ['*', '#', '6'],
+    title: 'Mute Host Line',
+    body: `Press once to MUTE
+Press again to UNMUTE`
+  },
+  {
+    buttons: ['*', '#', '7'],
+    title: 'Secure the Call',
+    body: `Press once to BLOCK all callers
+Press again to OPEN the call`
+  },
+  {
+    buttons: ['*', '#', '8'],
+    title: 'Hear sound when people Enter or Exit call',
+    body: `Press 1x: Turns OFF sound
 Press 2x: Enter tone is ON Exit tone is OFF
 Press 3x: Enter tone is OFF Exit tone is ON
-Press 4x: Turns ON sound
-    </p>
-    <hr />
+Press 4x: Turns ON sound`
+  },
+  {
+    buttons: ['*', '9'],
+    title: 'Record your conference',
+    body: `Press once to START recording
+Press again to STOP recording`
+  }
+];
 
-    * 9
-    <h3>Record your conference</h3>
-    <p>
-Press once to START recording
-Press again to STOP recording
-    </p>
+const ConferenceCommands = () => (
+  <div className={styles.conferenceCommands}>
+    {sections.map(s => section(s.buttons, s.title, s.body))}
   </div>
 );
 
