@@ -255,7 +255,15 @@ export default class CallItem extends Component {
   }
   clickToDial = () => {
     if (this.props.onClickToDial) {
-      this.props.onClickToDial(this.getPhoneNumber());
+      const contact = this.getSelectedContact() || {};
+      const phoneNumber = this.getPhoneNumber();
+
+      if (phoneNumber) {
+        this.props.onClickToDial({
+          ...contact,
+          phoneNumber,
+        });
+      }
     }
   }
   render() {
