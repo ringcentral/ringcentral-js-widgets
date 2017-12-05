@@ -278,7 +278,9 @@ This conference call is brought to you by RingCentral Conferencing.`;
         <Button className={styles.link}>{i18n.getString('conferenceCommands', currentLocale)}</Button>
 
         <div className={styles.bottom}>
-          {additionalButtons.map(Btn => <Btn />)}
+          {additionalButtons.map(
+            Btn => <Btn dialInNumber={dialInNumber} inviteText={this.inviteTxt()} />
+          )}
           <Button
             className={styles.button}
             onClick={this.inviteWithText}>
