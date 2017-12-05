@@ -185,7 +185,9 @@ This conference call is brought to you by RingCentral Conferencing.`;
       updateDialInNumber,
       updateAdditionalNumbers,
       joinAsHost,
-      additionalButtons
+      allowJoinBeforeHost,
+      additionalButtons,
+      onAllowJoinBeforeHostChange
     } = this.props;
     const {
       dialInNumbers,
@@ -270,7 +272,8 @@ This conference call is brought to you by RingCentral Conferencing.`;
           <label>{i18n.getString('enableJoinBeforeHost', currentLocale)}</label>
           <span className={styles.field}>
             <Switch
-              onChange={this.onAddionalNumbersSwitch}
+              checked={allowJoinBeforeHost}
+              onChange={onAllowJoinBeforeHostChange}
             />
           </span>
         </div>
@@ -310,6 +313,8 @@ ConferencePanel.propTypes = {
   participantCode: PropTypes.string.isRequired,
   inviteWithText: PropTypes.func.isRequired,
   joinAsHost: PropTypes.func.isRequired,
+  allowJoinBeforeHost: PropTypes.bool.isRequired,
+  onAllowJoinBeforeHostChange: PropTypes.func.isRequired,
   additionalButtons: PropTypes.array
 };
 ConferencePanel.defaultProps = {

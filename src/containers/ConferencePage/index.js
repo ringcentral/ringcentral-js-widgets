@@ -5,13 +5,13 @@ import withPhone from '../../lib/withPhone';
 function mapToProps(_, {
   phone: {
     conference,
-  regionSettings,
-  locale,
-  composeText,
+    regionSettings,
+    locale,
+    composeText,
   },
 }) {
   const { data } = conference;
-  const { hostCode, participantCode } = data;
+  const { hostCode, participantCode, allowJoinBeforeHost } = data;
   const dialInNumbers = [];
   for (const p of data.phoneNumbers) {
     dialInNumbers.push({
@@ -24,6 +24,7 @@ function mapToProps(_, {
     dialInNumber: conference.dialInNumber,
     hostCode,
     participantCode,
+    allowJoinBeforeHost,
     additionalNumbers: conference.additionalNumbers,
     countryCode: regionSettings.countryCode,
     areaCode: regionSettings.areaCode,
@@ -60,6 +61,9 @@ function mapToFunctions(_, {
       routerInteraction.history.push('/dialer');
       call.onToNumberChange(phoneNumber);
       call.onCall();
+    },
+    onAllowJoinBeforeHostChange: (allowJoinBeforeHost) => {
+      conference.updateEnableJoinBeforeHost(allowJoinBeforeHost);
     }
   };
 }
