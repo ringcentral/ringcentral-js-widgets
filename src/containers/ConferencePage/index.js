@@ -1,7 +1,4 @@
 import { connect } from 'react-redux';
-
-import formatNumber from 'ringcentral-integration/lib/formatNumber';
-
 import ConferencePanel from '../../components/ConferencePanel';
 import withPhone from '../../lib/withPhone';
 
@@ -13,8 +10,22 @@ function mapToProps(_, {
     composeText,
   },
 }) {
+  const { data } = conference;
+  const { hostCode, participantCode, allowJoinBeforeHost } = data;
+  const dialInNumbers = [];
+  for (const p of data.phoneNumbers) {
+    dialInNumbers.push({
+      region: p.country.name,
+      phoneNumber: p.phoneNumber
+    });
+  }
   return {
-    conferenceNumbers: conference.conferenceNumbers,
+    dialInNumbers,
+    dialInNumber: conference.dialInNumber,
+    hostCode,
+    participantCode,
+    allowJoinBeforeHost,
+    additionalNumbers: conference.additionalNumbers,
     countryCode: regionSettings.countryCode,
     areaCode: regionSettings.areaCode,
     currentLocale: locale.currentLocale,
@@ -29,32 +40,33 @@ function mapToProps(_, {
 
 function mapToFunctions(_, {
   phone: {
+    conference,
     composeText,
     routerInteraction,
+    call,
   },
 }) {
   return {
+    updateDialInNumber: (dialInNumber) => {
+      conference.updateDialInNumber(dialInNumber);
+    },
+    updateAdditionalNumbers: (additionalDialInNumbers) => {
+      conference.updateAdditionalNumbers(additionalDialInNumbers);
+    },
     inviteWithText: (text) => {
       composeText.updateMessageText(text);
       routerInteraction.push('/composeText');
     },
-    formatInternational: (phoneNumber, callingCode) => {
-      if (phoneNumber.indexOf(callingCode === 1)) {
-        return `+${callingCode} ${phoneNumber.replace('+', '').replace(callingCode, '')}`;
-      }
-      return phoneNumber;
+    joinAsHost: (phoneNumber) => {
+      routerInteraction.history.push('/dialer');
+      call.call({ phoneNumber });
     },
-    formatPin: (number) => {
-      if (!number) {
-        return '';
-      }
-      return number.replace(/(\d{3})/g, '$1-').replace(/-$/, '');
+    onAllowJoinBeforeHostChange: (allowJoinBeforeHost) => {
+      conference.updateEnableJoinBeforeHost(allowJoinBeforeHost);
     },
-    formatPhone: (phoneNumber, countryCode, areaCode) => formatNumber({
-      phoneNumber,
-      countryCode,
-      areaCode: areaCode || '',
-    })
+    showHelpCommands: () => {
+      routerInteraction.push('/conference/commands');
+    }
   };
 }
 
