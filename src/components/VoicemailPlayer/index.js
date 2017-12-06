@@ -59,6 +59,9 @@ class VoicemailPlayer extends Component {
         this._audio.currentTime = 0;
       }
       this._audio.play();
+      if (typeof this.props.onPlay === 'function') {
+        this.props.onPlay();
+      }
     };
 
     this._pauseAudio = () => {
@@ -107,11 +110,13 @@ VoicemailPlayer.propTypes = {
   duration: PropTypes.number,
   uri: PropTypes.string.isRequired,
   className: PropTypes.string,
+  onPlay: PropTypes.func,
 };
 
 VoicemailPlayer.defaultProps = {
   duration: 0,
   className: undefined,
+  onPlay: undefined,
 };
 
 export default VoicemailPlayer;
