@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import Button from '../Button';
+import formatDuration from '../../lib/formatDuration';
+import DownloadIcon from '../../assets/images/Download.svg';
+import PlayIcon from '../../assets/images/Play.svg';
+import PauseIcon from '../../assets/images/Pause.svg';
 
 import styles from './styles.scss';
 
@@ -12,11 +15,12 @@ class VoicemailPlayer extends Component {
     this.state = {
       playing: false,
       paused: false,
-      progress: 0.1,
+      progress: 0,
     };
 
     this._audio = new Audio();
     this._audio.src = props.uri;
+    this._audio.load(props.uri);
     this._audio.volume = 1;
 
     this._audio.addEventListener('timeupdate', () => {
@@ -51,6 +55,9 @@ class VoicemailPlayer extends Component {
       if (this.state.playing) {
         return;
       }
+      if (!this.state.paused) {
+        this._audio.currentTime = 0;
+      }
       this._audio.play();
     };
 
@@ -63,12 +70,34 @@ class VoicemailPlayer extends Component {
   }
 
   render() {
-    const { className } = this.props;
+    const { className, duration } = this.props;
+    let icon;
+    if (this.state.playing) {
+      icon = (
+        <span className={styles.play} onClick={this._pauseAudio}>
+          <PauseIcon width={18} height={18} />
+        </span>
+      );
+    } else {
+      icon = (
+        <span className={styles.play} onClick={this._playAudio}>
+          <PlayIcon width={18} height={18} />
+        </span>
+      );
+    }
     return (
       <div className={classnames(styles.root, className)}>
-        <Button onClick={this._playAudio}>Play</Button>
-        <Button onClick={this._pauseAudio}>Pause</Button>
-        {this.state.progress}
+        {icon}
+        <span className={styles.startTime}>{formatDuration(this._audio.currentTime)}</span>
+        <span className={styles.download}>
+          <DownloadIcon width={18} height={18} />
+        </span>
+        <span className={styles.endTime}>{formatDuration(duration)}</span>
+        <div className={styles.progress}>
+          <div className={styles.all} />
+          <div className={styles.done} style={{ width: `${this.state.progress * 100}%` }} />
+          <div className={styles.current} style={{ left: `${this.state.progress * 100}%` }} />
+        </div>
       </div>
     );
   }

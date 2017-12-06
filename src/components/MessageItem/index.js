@@ -7,8 +7,10 @@ import {
   messageIsVoicemail,
 } from 'ringcentral-integration/lib/messageHelper';
 
+import formatDuration from '../../lib/formatDuration';
+
 import ContactDisplay from '../ContactDisplay';
-import ActionMenu from '../ActionMenu';
+import ActionMenuList from '../ActionMenuList';
 import VoicemailPlayer from '../VoicemailPlayer';
 import SlideMenu from '../SlideMenu';
 
@@ -57,12 +59,6 @@ ConversationIcon.defaultProps = {
   currentLocale: undefined,
 };
 
-function formatVoiceMailDuration(duration) {
-  const mins = Math.round(duration / 60);
-  const secs = Math.round(duration % 60);
-  return `${mins < 10 ? `0${mins}` : mins}:${secs < 10 ? `0${secs}` : secs}`;
-}
-
 export default class MessageItem extends Component {
   constructor(props) {
     super(props);
@@ -104,6 +100,13 @@ export default class MessageItem extends Component {
   componentWillUnmount() {
     this._mounted = false;
   }
+
+  preventEventPropogation = (e) => {
+    if (e.target !== e.currentTarget) {
+      e.stopPropagation();
+    }
+  }
+
   onSelectContact = (value, idx) => {
     const selected = this.props.showContactDisplayPlaceholder
       ? parseInt(idx, 10) - 1 : parseInt(idx, 10);
@@ -255,9 +258,8 @@ export default class MessageItem extends Component {
       return conversation.subject;
     }
     if (messageIsVoicemail(conversation)) {
-      const attachment = conversation.voicemailAttachment;
-      const { duration } = attachment.duration;
-      return `${i18n.getString('voiceMessage', currentLocale)} (${formatVoiceMailDuration(duration)})`;
+      const { duration } = conversation.voicemailAttachment;
+      return `${i18n.getString('voiceMessage', currentLocale)} (${formatDuration(duration)})`;
     }
     return '';
   }
@@ -299,8 +301,14 @@ export default class MessageItem extends Component {
     const phoneNumber = this.getPhoneNumber();
     const fallbackName = this.getFallbackContactName();
     const detail = this.getDetail();
-    const player = voicemailAttachment &&
-      <VoicemailPlayer uri={voicemailAttachment.uri} duration={voicemailAttachment.duration} />
+    let player;
+    let slideMenuHeight = 30;
+    if (voicemailAttachment) {
+      player =
+        <VoicemailPlayer uri={voicemailAttachment.uri} duration={voicemailAttachment.duration} />;
+      slideMenuHeight = 50;
+    }
+
     return (
       <div className={styles.root} onClick={this.onClickItem}>
         <div
@@ -346,7 +354,6 @@ export default class MessageItem extends Component {
           <div className={styles.creationTime}>
             {dateTimeFormatter({ utcTimestamp: creationTime })}
           </div>
-          {player}
         </div>
         <div ref={reference}>
           <SlideMenu
@@ -382,32 +389,6 @@ export default class MessageItem extends Component {
             />
           </SlideMenu>
         </div>
-        <ActionMenu
-          extended={this.state.extended}
-          onToggle={this.toggleExtended}
-          extendIconClassName={styles.extendIcon}
-          currentLocale={currentLocale}
-          onLog={onLogConversation && this.logConversation}
-          onViewEntity={onViewContact && this.viewSelectedContact}
-          onCreateEntity={onCreateContact && this.createSelectedContact}
-          hasEntity={correspondents.length === 1 && !!correspondentMatches.length}
-          onClickToDial={onClickToDial && this.clickToDial}
-          phoneNumber={phoneNumber}
-          disableLinks={disableLinks}
-          disableClickToDial={disableClickToDial}
-          isLogging={isLogging || this.state.isLogging}
-          isLogged={conversationMatches.length > 0}
-          isCreating={this.state.isCreating}
-          addLogTitle={i18n.getString('addLog', currentLocale)}
-          editLogTitle={i18n.getString('editLog', currentLocale)}
-          callTitle={i18n.getString('call', currentLocale)}
-          createEntityTitle={i18n.getString('addEntity', currentLocale)}
-          viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
-          stopPropagation={false}
-          enableDelete={type === messageTypes.voiceMail}
-          onDelete={this.deleteMessage}
-          deleteTitle={i18n.getString('delete', currentLocale)}
-        />
       </div>
     );
   }
