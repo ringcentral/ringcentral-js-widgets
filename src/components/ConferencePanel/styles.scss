@@ -97,15 +97,15 @@
 }
 
 .conferenceCommands {
-  margin-left: 16px;
-  margin-right: 16px;
-  font-size: 12px;
+  margin-left: 20px;
+  margin-right: 20px;
+  font-size: 13px;
 }
 .title {
-  font-weight: bolder;
+  font-weight: bold;
 }
 .body {
-  color: gray;
+  color: $ash;
 }
 .button {
   width: 25px;
@@ -114,11 +114,11 @@
   line-height: 28px;
   text-align: center;
   display: inline-block;
-  border: 1px solid $rc-blue;
+  border: 1px solid $primary-color;
   margin-right: 10px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: $snow;
 }
 .section {
-  border-top: 1px solid #e2e2e2;
+  border-top: 1px solid $silver;
   padding-top: 8px;
 }
