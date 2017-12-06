@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+
+var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -41,7 +45,7 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _dec, _class;
+var _dec, _class, _desc, _value, _class2;
 
 var _jsonMask = require('json-mask');
 
@@ -53,17 +57,58 @@ var _DataFetcher2 = require('../../lib/DataFetcher');
 
 var _DataFetcher3 = _interopRequireDefault(_DataFetcher2);
 
+var _createSimpleReducer = require('../../lib/createSimpleReducer');
+
+var _createSimpleReducer2 = _interopRequireDefault(_createSimpleReducer);
+
+var _actionTypes = require('./actionTypes');
+
+var _actionTypes2 = _interopRequireDefault(_actionTypes);
+
+var _proxify = require('../../lib/proxy/proxify');
+
+var _proxify2 = _interopRequireDefault(_proxify);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var DEFAULT_MASK = 'phoneNumber,hostCode,participantCode,phoneNumbers(country,phoneNumber)';
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+  var desc = {};
+  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+    desc[key] = descriptor[key];
+  });
+  desc.enumerable = !!desc.enumerable;
+  desc.configurable = !!desc.configurable;
+
+  if ('value' in desc || desc.initializer) {
+    desc.writable = true;
+  }
+
+  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    return decorator(target, property, desc) || desc;
+  }, desc);
+
+  if (context && desc.initializer !== void 0) {
+    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+    desc.initializer = undefined;
+  }
+
+  if (desc.initializer === void 0) {
+    Object['define' + 'Property'](target, property, desc);
+    desc = null;
+  }
+
+  return desc;
+}
+
+var DEFAULT_MASK = 'phoneNumber,hostCode,participantCode,phoneNumbers(country,phoneNumber),allowJoinBeforeHost';
 
 /**
  * @class
  * @description Conference managing module
  */
 var Conference = (_dec = (0, _di.Module)({
-  deps: ['Client', 'RegionSettings', { dep: 'ConferenceOptions', optional: true }]
-}), _dec(_class = function (_DataFetcher) {
+  deps: ['Client', 'Storage', 'RegionSettings', { dep: 'ConferenceOptions', optional: true }]
+}), _dec(_class = (_class2 = function (_DataFetcher) {
   (0, _inherits3.default)(Conference, _DataFetcher);
 
   /**
@@ -77,7 +122,8 @@ var Conference = (_dec = (0, _di.Module)({
 
     var client = _ref.client,
         regionSettings = _ref.regionSettings,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'regionSettings']);
+        storage = _ref.storage,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'regionSettings', 'storage']);
     (0, _classCallCheck3.default)(this, Conference);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Conference.__proto__ || (0, _getPrototypeOf2.default)(Conference)).call(this, (0, _extends3.default)({
@@ -109,40 +155,82 @@ var Conference = (_dec = (0, _di.Module)({
         return function fetchFunction() {
           return _ref2.apply(this, arguments);
         };
-      }()
+      }(),
+      actionTypes: _actionTypes2.default,
+      storage: storage
     }, options)));
 
-    _this.addSelector('conferenceNumbers', function () {
-      return regionSettings.countryCode;
-    }, function () {
-      return _this.data;
-    }, function (isoCode, data) {
-      if (!data) {
-        return data;
-      }
-      var countrys = data.phoneNumbers.find(function (value) {
-        return value.country.isoCode === isoCode;
-      });
-      if (typeof countrys === 'undefined') {
-        return data;
-      }
-      return (0, _extends3.default)({}, data, {
-        phoneNumber: countrys.phoneNumber,
-        phoneNumbers: data.phoneNumbers.filter(function (value) {
-          return value.phoneNumber !== countrys.phoneNumber;
-        })
-      });
+    _this._dialInNumberStorageKey = 'conferenceDialInNumber';
+    _this._additionalNumbersStorageKey = 'conferenceAdditionalNumbers';
+    _this._storage.registerReducer({
+      key: _this._dialInNumberStorageKey,
+      reducer: (0, _createSimpleReducer2.default)(_this.actionTypes.updateDialInNumber, 'dialInNumber')
+    });
+    _this._storage.registerReducer({
+      key: _this._additionalNumbersStorageKey,
+      reducer: (0, _createSimpleReducer2.default)(_this.actionTypes.updateAdditionalNumbers, 'additionalNumbers')
     });
     return _this;
   }
 
   (0, _createClass3.default)(Conference, [{
-    key: 'conferenceNumbers',
+    key: 'updateEnableJoinBeforeHost',
+    value: function () {
+      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(allowJoinBeforeHost) {
+        var data;
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return this._client.account().extension().conferencing().put({ allowJoinBeforeHost: allowJoinBeforeHost });
+
+              case 2:
+                data = _context2.sent;
+
+                this._store.dispatch({ type: this.actionTypes.fetchSuccess, data: data });
+
+              case 4:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function updateEnableJoinBeforeHost(_x) {
+        return _ref3.apply(this, arguments);
+      }
+
+      return updateEnableJoinBeforeHost;
+    }()
+  }, {
+    key: 'updateDialInNumber',
+    value: function updateDialInNumber(dialInNumber) {
+      this._store.dispatch({ type: this.actionTypes.updateDialInNumber, dialInNumber: dialInNumber });
+    }
+  }, {
+    key: 'updateAdditionalNumbers',
+    value: function updateAdditionalNumbers(additionalNumbers) {
+      this._store.dispatch({ type: this.actionTypes.updateAdditionalNumbers, additionalNumbers: additionalNumbers });
+    }
+  }, {
+    key: '_shouldFetch',
+    value: function _shouldFetch() {
+      return !this._tabManager || this._tabManager.active;
+    }
+  }, {
+    key: 'additionalNumbers',
     get: function get() {
-      return this._selectors.conferenceNumbers();
+      return this._storage.getItem(this._additionalNumbersStorageKey) || [];
+    }
+  }, {
+    key: 'dialInNumber',
+    get: function get() {
+      return this._storage.getItem(this._dialInNumberStorageKey) || this.data.phoneNumber;
     }
   }]);
   return Conference;
-}(_DataFetcher3.default)) || _class);
+}(_DataFetcher3.default), (_applyDecoratedDescriptor(_class2.prototype, 'updateEnableJoinBeforeHost', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateEnableJoinBeforeHost'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateDialInNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateDialInNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateAdditionalNumbers', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateAdditionalNumbers'), _class2.prototype)), _class2)) || _class);
 exports.default = Conference;
 //# sourceMappingURL=index.js.map
