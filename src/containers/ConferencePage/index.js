@@ -59,8 +59,7 @@ function mapToFunctions(_, {
     },
     joinAsHost: (phoneNumber) => {
       routerInteraction.history.push('/dialer');
-      call.onToNumberChange(phoneNumber);
-      call.onCall();
+      call.call({ phoneNumber });
     },
     onAllowJoinBeforeHostChange: (allowJoinBeforeHost) => {
       conference.updateEnableJoinBeforeHost(allowJoinBeforeHost);
