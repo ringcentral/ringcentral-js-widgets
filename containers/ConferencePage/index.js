@@ -5,11 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = exports.mapToProps = exports.mapToFunctions = undefined;
 
+var _getIterator2 = require('babel-runtime/core-js/get-iterator');
+
+var _getIterator3 = _interopRequireDefault(_getIterator2);
+
 var _reactRedux = require('react-redux');
-
-var _formatNumber = require('ringcentral-integration/lib/formatNumber');
-
-var _formatNumber2 = _interopRequireDefault(_formatNumber);
 
 var _ConferencePanel = require('../../components/ConferencePanel');
 
@@ -27,9 +27,47 @@ function mapToProps(_, _ref) {
       regionSettings = _ref$phone.regionSettings,
       locale = _ref$phone.locale,
       composeText = _ref$phone.composeText;
+  var data = conference.data;
+  var hostCode = data.hostCode,
+      participantCode = data.participantCode,
+      allowJoinBeforeHost = data.allowJoinBeforeHost;
+
+  var dialInNumbers = [];
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = (0, _getIterator3.default)(data.phoneNumbers), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var p = _step.value;
+
+      dialInNumbers.push({
+        region: p.country.name,
+        phoneNumber: p.phoneNumber
+      });
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
 
   return {
-    conferenceNumbers: conference.conferenceNumbers,
+    dialInNumbers: dialInNumbers,
+    dialInNumber: conference.dialInNumber,
+    hostCode: hostCode,
+    participantCode: participantCode,
+    allowJoinBeforeHost: allowJoinBeforeHost,
+    additionalNumbers: conference.additionalNumbers,
     countryCode: regionSettings.countryCode,
     areaCode: regionSettings.areaCode,
     currentLocale: locale.currentLocale,
@@ -39,32 +77,31 @@ function mapToProps(_, _ref) {
 
 function mapToFunctions(_, _ref2) {
   var _ref2$phone = _ref2.phone,
+      conference = _ref2$phone.conference,
       composeText = _ref2$phone.composeText,
-      routerInteraction = _ref2$phone.routerInteraction;
+      routerInteraction = _ref2$phone.routerInteraction,
+      call = _ref2$phone.call;
 
   return {
+    updateDialInNumber: function updateDialInNumber(dialInNumber) {
+      conference.updateDialInNumber(dialInNumber);
+    },
+    updateAdditionalNumbers: function updateAdditionalNumbers(additionalDialInNumbers) {
+      conference.updateAdditionalNumbers(additionalDialInNumbers);
+    },
     inviteWithText: function inviteWithText(text) {
       composeText.updateMessageText(text);
       routerInteraction.push('/composeText');
     },
-    formatInternational: function formatInternational(phoneNumber, callingCode) {
-      if (phoneNumber.indexOf(callingCode === 1)) {
-        return '+' + callingCode + ' ' + phoneNumber.replace('+', '').replace(callingCode, '');
-      }
-      return phoneNumber;
+    joinAsHost: function joinAsHost(phoneNumber) {
+      routerInteraction.history.push('/dialer');
+      call.call({ phoneNumber: phoneNumber });
     },
-    formatPin: function formatPin(number) {
-      if (!number) {
-        return '';
-      }
-      return number.replace(/(\d{3})/g, '$1-').replace(/-$/, '');
+    onAllowJoinBeforeHostChange: function onAllowJoinBeforeHostChange(allowJoinBeforeHost) {
+      conference.updateEnableJoinBeforeHost(allowJoinBeforeHost);
     },
-    formatPhone: function formatPhone(phoneNumber, countryCode, areaCode) {
-      return (0, _formatNumber2.default)({
-        phoneNumber: phoneNumber,
-        countryCode: countryCode,
-        areaCode: areaCode || ''
-      });
+    showHelpCommands: function showHelpCommands() {
+      routerInteraction.push('/conference/commands');
     }
   };
 }
