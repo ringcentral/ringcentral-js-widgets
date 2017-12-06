@@ -63,6 +63,9 @@ function mapToFunctions(_, {
     },
     onAllowJoinBeforeHostChange: (allowJoinBeforeHost) => {
       conference.updateEnableJoinBeforeHost(allowJoinBeforeHost);
+    },
+    showHelpCommands: () => {
+      routerInteraction.push('/conference/commands');
     }
   };
 }
