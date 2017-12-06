@@ -1,0 +1,28 @@
+@import '../../lib/commonStyles/colors';
+
+.conferenceCommands {
+  margin-left: 20px;
+  margin-right: 20px;
+  font-size: 13px;
+}
+.title {
+  font-weight: bold;
+}
+.body {
+  color: $ash;
+}
+.button {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  line-height: 28px;
+  text-align: center;
+  display: inline-block;
+  border: 1px solid $primary-color;
+  margin-right: 10px;
+  background-color: $snow;
+}
+.section {
+  border-top: 1px solid $silver;
+  padding-top: 8px;
+}
