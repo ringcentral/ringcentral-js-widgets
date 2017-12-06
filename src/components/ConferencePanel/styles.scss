@@ -33,11 +33,15 @@
 .formGroup {
   padding: 10px 0;
   border-bottom: 1px solid $silver;
-  transition: height 0.5s ease-in;
-  overflow:hidden;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+  label {
+    flex-grow: 1;
+  }
 
   .field {
-    float:right;
     color: $ash;
   }
 
@@ -46,7 +50,7 @@
     border: none;
     min-height: initial;
     padding: 0;
-    margin-top: 20px;
+    margin-top: 19px;
   }
 
   ul.dialInNumberList {

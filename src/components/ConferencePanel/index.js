@@ -216,7 +216,7 @@ This conference call is brought to you by RingCentral Conferencing.`;
       additionalNumberObjs.push(dialInNumbers.find(e => e.phoneNumber === n));
     }
     const additionalNumbersCtrl = showAdditionalNumbers ? (
-      <div>
+      <div style={{ width: '100%' }}>
         <LinkLine
           className={styles.linkLine}
           onClick={() => { this.setState({ showAdditionalNumberList: true }); }} >
