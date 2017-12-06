@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes, { func } from 'prop-types';
-import formatMessage from 'format-message';
+import PropTypes from 'prop-types';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import Switch from '../Switch';
 import i18n from './i18n';
@@ -19,7 +18,7 @@ function CheckBox({ checked, onChange }) {
   }
   return (
     <div
-      onClick={evt => onChange && onChange(!checked)}
+      onClick={() => onChange && onChange(!checked)}
       style={{
         width: 13,
         height: 13,
@@ -40,6 +39,10 @@ function CheckBox({ checked, onChange }) {
 CheckBox.propTypes = {
   checked: PropTypes.bool.isRequired,
   onChange: PropTypes.func
+};
+
+CheckBox.defaultProps = {
+  onChange: null
 };
 
 function DialInNumberItem({ region, formattedPhoneNumber }) {
