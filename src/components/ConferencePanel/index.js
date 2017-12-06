@@ -230,64 +230,65 @@ This conference call is brought to you by RingCentral Conferencing.`;
     ) : '';
     return (
       <div className={styles.container}>
-        <div className={styles.dialInNumber}>
-          <label>{i18n.getString('dialInNumber', currentLocale)}</label>
-          <Select
-            className={styles.select}
-            value={dialInNumber}
-            onChange={option => updateDialInNumber(option.phoneNumber)}
-            renderFunction={DialInNumberItem}
-            renderValue={(phoneNumber) => {
-              const option = dialInNumbers.find(p => p.phoneNumber === phoneNumber);
-              if (!option) {
-                console.warn(`Conference dial in number ${phoneNumber} is not found in the list.`);
-              }
-              return DialInNumberItem(option || dialInNumbers[0]);
-            }}
-            options={dialInNumbers}
-            disabled={false}
-            dropdownAlign="left"
-            titleEnabled
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <label>{i18n.getString('hostAccess', currentLocale)}</label>
-          <div className={styles.field}>
-            {formatPin(hostCode)}
-          </div>
-        </div>
-        <div className={styles.formGroup}>
-          <label>{i18n.getString('participantsAccess', currentLocale)}</label>
-          <div className={styles.field}>
-            {formatPin(participantCode)}
-          </div>
-        </div>
-        <div className={styles.formGroup}>
-          <label>{i18n.getString('addinalDialInNumbers', currentLocale)}</label>
-          <span className={styles.field}>
-            <Switch
-              checked={showAdditionalNumbers}
-              onChange={this.onAddionalNumbersSwitch}
+        <div className={styles.main}>
+          <div className={styles.dialInNumber}>
+            <label>{i18n.getString('dialInNumber', currentLocale)}</label>
+            <Select
+              className={styles.select}
+              value={dialInNumber}
+              onChange={option => updateDialInNumber(option.phoneNumber)}
+              renderFunction={DialInNumberItem}
+              renderValue={(phoneNumber) => {
+                const option = dialInNumbers.find(p => p.phoneNumber === phoneNumber);
+                if (!option) {
+                  console.warn(`Conference dial in number ${phoneNumber} is not found in the list.`);
+                }
+                return DialInNumberItem(option || dialInNumbers[0]);
+              }}
+              options={dialInNumbers}
+              disabled={false}
+              dropdownAlign="left"
+              titleEnabled
             />
-          </span>
-          {additionalNumbersCtrl}
-        </div>
-        <div className={styles.formGroup}>
-          <label>{i18n.getString('enableJoinBeforeHost', currentLocale)}</label>
-          <span className={styles.field}>
-            <Switch
-              checked={allowJoinBeforeHost}
-              onChange={onAllowJoinBeforeHostChange}
-            />
-          </span>
-        </div>
+          </div>
+          <div className={styles.formGroup}>
+            <label>{i18n.getString('hostAccess', currentLocale)}</label>
+            <div className={styles.field}>
+              {formatPin(hostCode)}
+            </div>
+          </div>
+          <div className={styles.formGroup}>
+            <label>{i18n.getString('participantsAccess', currentLocale)}</label>
+            <div className={styles.field}>
+              {formatPin(participantCode)}
+            </div>
+          </div>
+          <div className={styles.formGroup}>
+            <label>{i18n.getString('addinalDialInNumbers', currentLocale)}</label>
+            <span className={styles.field}>
+              <Switch
+                checked={showAdditionalNumbers}
+                onChange={this.onAddionalNumbersSwitch}
+              />
+            </span>
+            {additionalNumbersCtrl}
+          </div>
+          <div className={styles.formGroup}>
+            <label>{i18n.getString('enableJoinBeforeHost', currentLocale)}</label>
+            <span className={styles.field}>
+              <Switch
+                checked={allowJoinBeforeHost}
+                onChange={onAllowJoinBeforeHostChange}
+              />
+            </span>
+          </div>
 
-        <Button
-          onClick={showHelpCommands}
-          className={styles.link}>
-          {i18n.getString('conferenceCommands', currentLocale)}
-        </Button>
-
+          <Button
+            onClick={showHelpCommands}
+            className={styles.link}>
+            {i18n.getString('conferenceCommands', currentLocale)}
+          </Button>
+        </div>
         <div className={styles.bottom}>
           {additionalButtons.map(
             Btn => (
@@ -308,7 +309,6 @@ This conference call is brought to you by RingCentral Conferencing.`;
             {i18n.getString('JoinAsHost', currentLocale)}
           </Button>
         </div>
-
       </div>
     );
   }

@@ -4,12 +4,19 @@
 .container {
   margin: 0 20px;
   height: 100%;
-  position: relative;
+  display: flex;
+  flex-direction: column;
   @include secondary-font;
 
   label {
     color: $night;
   }
+}
+.main {
+  flex-grow: 1;
+  overflow: scroll;
+}
+.bottom {
 }
 .dialInNumber {
   padding: 10px 0;
@@ -55,26 +62,19 @@
 .link {
   margin-top: 20px;
 }
-.bottom{
-  position: absolute;
-  bottom: 10px;
-  right: 0;
-  left: 0;
+.button {
+  margin-bottom: 10px;
+  line-height: 32px;
+  text-align: center;
+  border-radius: 100px;
+  border: solid 1px rgba(6, 132, 189, 0.4);
+  background-color: $snow;
+}
 
-  .button {
-    margin-bottom: 10px;
-    line-height: 32px;
-    text-align: center;
-    border-radius: 100px;
-    border: solid 1px rgba(6, 132, 189, 0.4);
-    background-color: $snow;
-  }
-
-  .primaryButton {
-    @extend .button;
-    background-color: $primary-color;
-    color: $snow;
-  }
+ .primaryButton {
+  @extend .button;
+  background-color: $primary-color;
+  color: $snow;
 }
 
 .selectNumberPage {
