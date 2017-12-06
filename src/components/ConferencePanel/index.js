@@ -287,7 +287,12 @@ This conference call is brought to you by RingCentral Conferencing.`;
 
         <div className={styles.bottom}>
           {additionalButtons.map(
-            Btn => <Btn dialInNumber={dialInNumber} inviteText={this.inviteTxt()} />
+            Btn => (
+              <Btn
+                dialInNumber={dialInNumber}
+                inviteText={this.inviteTxt()}
+                key={Date.now()}
+              />)
           )}
           <Button
             className={styles.button}
