@@ -133,6 +133,9 @@ function mapToFunctions(_, {
     },
     composeText: () => routerInteraction.push(composeTextRoute),
     updateTypeFilter: type => messages.updateTypeFilter(type),
+    deleteMessage: (conversationId) => {
+      messageStore.deleteMessage(conversationId);
+    },
   };
 }
 export default withPhone(connect(

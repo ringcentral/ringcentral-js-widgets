@@ -49,24 +49,29 @@ export default function Modal({
   textCancel,
   currentLocale,
   clickOutToClose,
+  modalClassName,
+  cancelBtnClassName,
+  confirmBtnClassName,
+  closeBtn,
 }) {
   return (
     <div className={classnames(className, show ? styles.container : styles.containerHidden)}>
-      <div className={show ? styles.modal : styles.modalHidden}>
+      <div className={classnames(modalClassName, show ? styles.modal : styles.modalHidden)}>
         {title ?
           <div className={styles.header}>{title}</div> : null}
+        {closeBtn}
         <div className={styles.content}>
           {children}
         </div>
         <div className={styles.footer}>
           <FlatButton
-            className={styles.btn}
+            className={classnames(cancelBtnClassName, styles.btn)}
             onClick={onCancel}>
             {textCancel ||
               i18n.getString('cancel', currentLocale)}
           </FlatButton>
           <FlatButton
-            className={styles.btn}
+            className={classnames(confirmBtnClassName, styles.btn)}
             onClick={onConfirm}>
             {textConfirm ||
               i18n.getString('confirm', currentLocale)}
@@ -75,12 +80,15 @@ export default function Modal({
       </div>
       <div
         className={show ? styles.mask : styles.maskHidden}
-        onClick={clickOutToClose ? onCancel : false} />
+        onClick={clickOutToClose ? onCancel : () => {}} />
     </div>
   );
 }
 Modal.propTypes = {
   className: PropTypes.string,
+  modalClassName: PropTypes.string,
+  cancelBtnClassName: PropTypes.string,
+  confirmBtnClassName: PropTypes.string,
   children: PropTypes.node,
   show: PropTypes.bool,
   onConfirm: PropTypes.func.isRequired,
@@ -90,14 +98,19 @@ Modal.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   textConfirm: PropTypes.string,
   textCancel: PropTypes.string,
+  closeBtn: PropTypes.node,
 };
 Modal.defaultProps = {
   className: '',
+  modalClassName: '',
+  cancelBtnClassName: '',
+  confirmBtnClassName: '',
   children: undefined,
   show: false,
   clickOutToClose: false,
   title: undefined,
   textConfirm: '',
   textCancel: '',
+  closeBtn: undefined,
 };
 

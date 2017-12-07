@@ -2,11 +2,59 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import SlideMenu from '../SlideMenu';
+import Modal from '../Modal';
 import EntityButton from '../EntityButton';
 import EntityModal from '../EntityModal';
 import Button from '../Button';
 import LogButton from '../LogButton';
+import DeleteMessageIcon from '../../assets/images/DeleteMessageIcon.svg';
+import CloseIcon from '../../assets/images/CloseIcon.svg';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
+import i18n from './i18n';
+import styles from './styles.scss';
+
+function ConfirmDeleteModal({
+  currentLocale,
+  show,
+  onDelete,
+  onCancel,
+}) {
+  return (
+    <Modal
+      show={show}
+      currentLocale={currentLocale}
+      onConfirm={onDelete}
+      onCancel={onCancel}
+      className={styles.confirmDeleteModal}
+      modalClassName={styles.confirmDeleteModal}
+      cancelBtnClassName={styles.cancelBtn}
+      confirmBtnClassName={styles.confirmBtn}
+      closeBtn={
+        <Button
+          className={styles.closeBtn}
+          onClick={onCancel}
+         >
+          <CloseIcon />
+        </Button>
+      }
+    >
+      <div className={styles.contentText}>
+        {i18n.getString('sureToDeleteVoiceMail', currentLocale)}
+      </div>
+    </Modal>
+  );
+}
+ConfirmDeleteModal.propTypes = {
+  currentLocale: PropTypes.string.isRequired,
+  show: PropTypes.bool.isRequired,
+  onDelete: PropTypes.func,
+  onCancel: PropTypes.func,
+};
+
+ConfirmDeleteModal.defaultProps = {
+  onDelete: () => {},
+  onCancel: () => {}
+};
 
 function ClickToDialButton({
   className,
@@ -67,12 +115,41 @@ ClickToSmsButton.propTypes = {
   onClickToSms: PropTypes.func,
   disableLinks: PropTypes.bool,
   phoneNumber: PropTypes.string,
+  title: PropTypes.string,
 };
 ClickToSmsButton.defaultProps = {
   className: undefined,
   onClickToSms: undefined,
   disableLinks: false,
   phoneNumber: undefined,
+  title: undefined,
+};
+
+function DeleteButton({
+  className,
+  title,
+  openDeleteModal,
+}) {
+  return (
+    <Button
+      className={className}
+      onClick={openDeleteModal} >
+      <DeleteMessageIcon
+        title={title}
+      />
+    </Button>
+  );
+}
+
+DeleteButton.propTypes = {
+  className: PropTypes.string,
+  title: PropTypes.string,
+  openDeleteModal: PropTypes.func,
+};
+DeleteButton.defaultProps = {
+  className: undefined,
+  title: undefined,
+  openDeleteModal: () => {},
 };
 
 export default class ActionMenu extends Component {
@@ -81,6 +158,7 @@ export default class ActionMenu extends Component {
 
     this.state = {
       entityModalVisible: false,
+      deleteModalVisible: false,
     };
   }
   onCreateEnityModal = (entityType) => {
@@ -98,6 +176,20 @@ export default class ActionMenu extends Component {
   closeEntityModal = () => {
     this.setState({
       entityModalVisible: false
+    });
+  }
+  onDelete = () => {
+    this.props.onDelete();
+    this.onCancelDelete();
+  }
+  openDeleteModal = () => {
+    this.setState({
+      deleteModalVisible: true,
+    });
+  }
+  onCancelDelete = () => {
+    this.setState({
+      deleteModalVisible: false,
     });
   }
 
@@ -130,6 +222,9 @@ export default class ActionMenu extends Component {
       textTitle,
       createEntityTitle,
       viewEntityTitle,
+      enableDelete,
+      onDelete,
+      deleteTitle,
     } = this.props;
 
     const logButton = onLog ?
@@ -198,6 +293,27 @@ export default class ActionMenu extends Component {
         />
       ) :
       null;
+    const deleteButton = enableDelete ?
+      (
+        <DeleteButton
+          onDelete={onDelete}
+          currentLocale={currentLocale}
+          title={deleteTitle}
+          openDeleteModal={this.openDeleteModal}
+        />
+      ) :
+      null;
+
+    const confirmDeleteModal = enableDelete ?
+      (
+        <ConfirmDeleteModal
+          currentLocale={currentLocale}
+          show={this.state.deleteModalVisible}
+          onDelete={this.onDelete}
+          onCancel={this.onCancelDelete}
+        />
+      ) :
+      null;
     return (
       <div ref={reference}>
         <SlideMenu
@@ -213,8 +329,11 @@ export default class ActionMenu extends Component {
             {clickToSmsButton}
             {entityButton}
             {logButton}
+            {deleteButton}
           </div>
         </SlideMenu>
+        {entityModal}
+        {confirmDeleteModal}
       </div>
     );
   }
@@ -245,6 +364,9 @@ ActionMenu.propTypes = {
   callTitle: PropTypes.string,
   createEntityTitle: PropTypes.string,
   viewEntityTitle: PropTypes.string,
+  enableDelete: PropTypes.bool,
+  onDelete: PropTypes.func,
+  deleteTitle: PropTypes.string,
 };
 ActionMenu.defaultProps = {
   extended: undefined,
@@ -270,4 +392,7 @@ ActionMenu.defaultProps = {
   callTitle: undefined,
   createEntityTitle: undefined,
   viewEntityTitle: undefined,
+  deleteTitle: undefined,
+  enableDelete: false,
+  onDelete: () => {},
 };
