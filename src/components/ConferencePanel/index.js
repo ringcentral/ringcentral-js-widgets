@@ -306,7 +306,7 @@ This conference call is brought to you by RingCentral Conferencing.`;
           <Button
             className={styles.primaryButton}
             onClick={() => joinAsHost(dialInNumber)}>
-            {i18n.getString('JoinAsHost', currentLocale)}
+            {i18n.getString('joinAsHost', currentLocale)}
           </Button>
         </div>
       </div>
