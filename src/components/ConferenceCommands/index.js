@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import BackHeader from '../BackHeader';
 import styles from './styles.scss';
 
 const button = text => <span key={text} className={styles.button}>{text}</span>;
@@ -62,10 +64,19 @@ Press again to STOP recording`
   }
 ];
 
-const ConferenceCommands = () => (
-  <div className={styles.conferenceCommands}>
-    {sections.map(s => section(s.buttons, s.title, s.body))}
+const ConferenceCommands = ({ onBack }) => (
+  <div>
+    <BackHeader onBackClick={onBack}>
+      Conference Commands
+    </BackHeader>
+    <div className={styles.conferenceCommands}>
+      {sections.map(s => section(s.buttons, s.title, s.body))}
+    </div>
   </div>
 );
+
+ConferenceCommands.propTypes = {
+  onBack: PropTypes.func.isRequired
+};
 
 export default ConferenceCommands;

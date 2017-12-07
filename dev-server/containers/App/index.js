@@ -175,7 +175,10 @@ export default function App({
                 component={ConferencePage} />
               <Route
                 path="/conference/commands"
-                component={ConferenceCommands} />
+                component={routerProps => (
+                  <ConferenceCommands
+                    onBack={() => phone.routerInteraction.goBack()} />
+                )} />
               <Route
                 path="/composeText"
                 component={ComposeTextPage} />
@@ -229,8 +232,8 @@ export default function App({
                         useContact
                       />
                     </ContactDetailsPage>
-                )}
-              />
+                  )}
+                />
               </Route>
               <Route
                 path="/meeting"
