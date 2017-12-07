@@ -159,6 +159,7 @@ export default class ActionMenu extends Component {
     this.state = {
       entityModalVisible: false,
       deleteModalVisible: false,
+      disableDelete: false,
     };
   }
   onCreateEnityModal = (entityType) => {
@@ -180,17 +181,23 @@ export default class ActionMenu extends Component {
   }
   onDelete = () => {
     this.props.onDelete();
-    this.onCancelDelete();
+    this.setState({
+      disableDelete: true
+    });
+    this.onCloseDeleteModal();
   }
   openDeleteModal = () => {
     this.setState({
       deleteModalVisible: true,
     });
   }
-  onCancelDelete = () => {
+  onCloseDeleteModal = () => {
     this.setState({
       deleteModalVisible: false,
     });
+  }
+  onCancelDelete = () => {
+    this.onCloseDeleteModal();
   }
 
   preventEventPropogation = (e) => {
@@ -300,6 +307,7 @@ export default class ActionMenu extends Component {
           currentLocale={currentLocale}
           title={deleteTitle}
           openDeleteModal={this.openDeleteModal}
+          disable={this.state.disableDelete}
         />
       ) :
       null;
