@@ -8,6 +8,14 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _BackHeader = require('../BackHeader');
+
+var _BackHeader2 = _interopRequireDefault(_BackHeader);
+
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -34,10 +42,10 @@ var section = function section(buttons, title, body) {
       { className: _styles2.default.title },
       title
     ),
-    body.split('\n').map(function (line) {
+    body.split('\n').map(function (line, index) {
       return _react2.default.createElement(
         'p',
-        { className: _styles2.default.body },
+        { key: index, className: _styles2.default.body },
         line
       );
     })
@@ -78,14 +86,28 @@ var sections = [{
   body: 'Press once to START recording\nPress again to STOP recording'
 }];
 
-var ConferenceCommands = function ConferenceCommands() {
+var ConferenceCommands = function ConferenceCommands(_ref) {
+  var onBack = _ref.onBack;
   return _react2.default.createElement(
     'div',
-    { className: _styles2.default.conferenceCommands },
-    sections.map(function (s) {
-      return section(s.buttons, s.title, s.body);
-    })
+    { className: _styles2.default.container },
+    _react2.default.createElement(
+      _BackHeader2.default,
+      { onBackClick: onBack },
+      'Conference Commands'
+    ),
+    _react2.default.createElement(
+      'div',
+      { className: _styles2.default.conferenceCommands },
+      sections.map(function (s) {
+        return section(s.buttons, s.title, s.body);
+      })
+    )
   );
+};
+
+ConferenceCommands.propTypes = {
+  onBack: _propTypes2.default.func.isRequired
 };
 
 exports.default = ConferenceCommands;

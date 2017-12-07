@@ -2,14 +2,23 @@
 @import '../../lib/commonStyles/fonts';
 
 .container {
-  margin: 0 20px;
   height: 100%;
-  position: relative;
+  display: flex;
+  flex-direction: column;
   @include secondary-font;
 
   label {
     color: $night;
   }
+}
+.main {
+  margin: 0 20px;
+  flex-grow: 1;
+  overflow: scroll;
+}
+.bottom {
+  padding: 10px 20px;
+  box-shadow: 0 -1px 4px 0 rgba(0, 0, 0, 0.1);
 }
 .dialInNumber {
   padding: 10px 0;
@@ -26,11 +35,15 @@
 .formGroup {
   padding: 10px 0;
   border-bottom: 1px solid $silver;
-  transition: height 0.5s ease-in;
-  overflow:hidden;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+  label {
+    flex-grow: 1;
+  }
 
   .field {
-    float:right;
     color: $ash;
   }
 
@@ -39,7 +52,7 @@
     border: none;
     min-height: initial;
     padding: 0;
-    margin-top: 20px;
+    margin-top: 19px;
   }
 
   ul.dialInNumberList {
@@ -53,28 +66,25 @@
   }
 }
 .link {
-  margin-top: 20px;
+  margin: 20px 0 15px;;
 }
-.bottom{
-  position: absolute;
-  bottom: 10px;
-  right: 0;
-  left: 0;
+.button {
+  margin: 10px 0;
+  line-height: 32px;
+  text-align: center;
+  border-radius: 100px;
+  border: solid 1px rgba(6, 132, 189, 0.4);
+  background-color: $snow;
+}
 
-  .button {
-    margin-bottom: 10px;
-    line-height: 32px;
-    text-align: center;
-    border-radius: 100px;
-    border: solid 1px rgba(6, 132, 189, 0.4);
-    background-color: $snow;
-  }
+.primaryButton {
+  @extend .button;
+  background-color: $primary-color;
+  color: $snow;
+}
 
-  .primaryButton {
-    @extend .button;
-    background-color: $primary-color;
-    color: $snow;
-  }
+.primaryButton:hover {
+  color: $silver;
 }
 
 .selectNumberPage {

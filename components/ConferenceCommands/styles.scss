@@ -1,5 +1,9 @@
 @import '../../lib/commonStyles/colors';
 
+.container {
+  overflow: scroll;
+  height: 100%;
+}
 .conferenceCommands {
   margin-left: 20px;
   margin-right: 20px;
@@ -23,6 +27,6 @@
   background-color: $snow;
 }
 .section {
-  border-top: 1px solid $silver;
-  padding-top: 8px;
+  border-bottom: 1px solid $silver;
+  padding-top: 10px;
 }

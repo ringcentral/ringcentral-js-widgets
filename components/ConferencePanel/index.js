@@ -344,7 +344,7 @@ var ConferencePanel = function (_Component) {
 
       var additionalNumbersCtrl = showAdditionalNumbers ? _react2.default.createElement(
         'div',
-        null,
+        { style: { width: '100%' } },
         _react2.default.createElement(
           _LinkLine2.default,
           {
@@ -364,103 +364,107 @@ var ConferencePanel = function (_Component) {
         { className: _styles2.default.container },
         _react2.default.createElement(
           'div',
-          { className: _styles2.default.dialInNumber },
+          { className: _styles2.default.main },
           _react2.default.createElement(
-            'label',
-            null,
-            _i18n2.default.getString('dialInNumber', currentLocale)
-          ),
-          _react2.default.createElement(_DropdownSelect2.default, {
-            className: _styles2.default.select,
-            value: dialInNumber,
-            onChange: function onChange(option) {
-              return updateDialInNumber(option.phoneNumber);
-            },
-            renderFunction: DialInNumberItem,
-            renderValue: function renderValue(phoneNumber) {
-              var option = dialInNumbers.find(function (p) {
-                return p.phoneNumber === phoneNumber;
-              });
-              if (!option) {
-                console.warn('Conference dial in number ' + phoneNumber + ' is not found in the list.');
-              }
-              return DialInNumberItem(option || dialInNumbers[0]);
-            },
-            options: dialInNumbers,
-            disabled: false,
-            dropdownAlign: 'left',
-            titleEnabled: true
-          })
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.formGroup },
-          _react2.default.createElement(
-            'label',
-            null,
-            _i18n2.default.getString('hostAccess', currentLocale)
+            'div',
+            { className: _styles2.default.dialInNumber },
+            _react2.default.createElement(
+              'label',
+              null,
+              _i18n2.default.getString('dialInNumber', currentLocale)
+            ),
+            _react2.default.createElement(_DropdownSelect2.default, {
+              className: _styles2.default.select,
+              value: dialInNumber,
+              onChange: function onChange(option) {
+                return updateDialInNumber(option.phoneNumber);
+              },
+              renderFunction: DialInNumberItem,
+              renderValue: function renderValue(phoneNumber) {
+                var option = dialInNumbers.find(function (p) {
+                  return p.phoneNumber === phoneNumber;
+                });
+                if (!option) {
+                  console.warn('Conference dial in number ' + phoneNumber + ' is not found in the list.');
+                }
+                return DialInNumberItem(option || dialInNumbers[0]);
+              },
+              options: dialInNumbers,
+              disabled: false,
+              dropdownAlign: 'left',
+              titleEnabled: true
+            })
           ),
           _react2.default.createElement(
             'div',
-            { className: _styles2.default.field },
-            formatPin(hostCode)
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.formGroup },
-          _react2.default.createElement(
-            'label',
-            null,
-            _i18n2.default.getString('participantsAccess', currentLocale)
+            { className: _styles2.default.formGroup },
+            _react2.default.createElement(
+              'label',
+              null,
+              _i18n2.default.getString('hostAccess', currentLocale)
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: _styles2.default.field },
+              formatPin(hostCode)
+            )
           ),
           _react2.default.createElement(
             'div',
-            { className: _styles2.default.field },
-            formatPin(participantCode)
+            { className: _styles2.default.formGroup },
+            _react2.default.createElement(
+              'label',
+              null,
+              _i18n2.default.getString('participantsAccess', currentLocale)
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: _styles2.default.field },
+              formatPin(participantCode)
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: _styles2.default.formGroup },
+            _react2.default.createElement(
+              'label',
+              null,
+              _i18n2.default.getString('addinalDialInNumbers', currentLocale)
+            ),
+            _react2.default.createElement(
+              'span',
+              { className: _styles2.default.field },
+              _react2.default.createElement(_Switch2.default, {
+                checked: showAdditionalNumbers,
+                onChange: this.onAddionalNumbersSwitch
+              })
+            ),
+            additionalNumbersCtrl
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: _styles2.default.formGroup },
+            _react2.default.createElement(
+              'label',
+              null,
+              _i18n2.default.getString('enableJoinBeforeHost', currentLocale)
+            ),
+            _react2.default.createElement(
+              'span',
+              { className: _styles2.default.field },
+              _react2.default.createElement(_Switch2.default, {
+                checked: allowJoinBeforeHost,
+                onChange: onAllowJoinBeforeHostChange
+              })
+            )
+          ),
+          _react2.default.createElement(
+            _Button2.default,
+            {
+              onClick: showHelpCommands,
+              className: _styles2.default.link },
+            _i18n2.default.getString('conferenceCommands', currentLocale)
           )
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.formGroup },
-          _react2.default.createElement(
-            'label',
-            null,
-            _i18n2.default.getString('addinalDialInNumbers', currentLocale)
-          ),
-          _react2.default.createElement(
-            'span',
-            { className: _styles2.default.field },
-            _react2.default.createElement(_Switch2.default, {
-              checked: showAdditionalNumbers,
-              onChange: this.onAddionalNumbersSwitch
-            })
-          ),
-          additionalNumbersCtrl
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.formGroup },
-          _react2.default.createElement(
-            'label',
-            null,
-            _i18n2.default.getString('enableJoinBeforeHost', currentLocale)
-          ),
-          _react2.default.createElement(
-            'span',
-            { className: _styles2.default.field },
-            _react2.default.createElement(_Switch2.default, {
-              checked: allowJoinBeforeHost,
-              onChange: onAllowJoinBeforeHostChange
-            })
-          )
-        ),
-        _react2.default.createElement(
-          _Button2.default,
-          {
-            onClick: showHelpCommands,
-            className: _styles2.default.link },
-          _i18n2.default.getString('conferenceCommands', currentLocale)
         ),
         _react2.default.createElement(
           'div',
@@ -486,7 +490,7 @@ var ConferencePanel = function (_Component) {
               onClick: function onClick() {
                 return joinAsHost(dialInNumber);
               } },
-            _i18n2.default.getString('JoinAsHost', currentLocale)
+            _i18n2.default.getString('joinAsHost', currentLocale)
           )
         )
       );
