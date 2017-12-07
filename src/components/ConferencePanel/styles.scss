@@ -75,7 +75,7 @@
   background-color: $snow;
 }
 
- .primaryButton {
+.primaryButton {
   @extend .button;
   background-color: $primary-color;
   color: $snow;
