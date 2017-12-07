@@ -175,7 +175,7 @@ export default function App({
                 component={ConferencePage} />
               <Route
                 path="/conference/commands"
-                component={routerProps => (
+                component={() => (
                   <ConferenceCommands
                     onBack={() => phone.routerInteraction.goBack()} />
                 )} />
