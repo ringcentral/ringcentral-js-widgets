@@ -3,7 +3,7 @@ import React from 'react';
 import Markdown from '../../../components/Markdown';
 import styles from './styles.scss';
 
-const ALL_COLORS = [
+const COLORS_LIST1 = [
   [
     { name: 'Marine', value: '#0570A1' },
     { name: 'RC Blue', value: '#0684BD' },
@@ -20,6 +20,9 @@ const ALL_COLORS = [
     { name: 'Gold', value: '#FFBF2A' },
     { name: 'Sunny', value: '#FFE5AA' },
   ],
+];
+
+const COLORS_LIST2 = [
   [
     { name: 'Carmel', value: '#D97400' },
     { name: 'Orange', value: '#FF8800' },
@@ -70,9 +73,16 @@ function ColorsPage() {
       <Markdown
         text={'# Colors\nBase colors used by widgets\n'}
       />
-      {
-        ALL_COLORS.map((colors, index) => <ColorsBlock colors={colors} key={index} />)
-      }
+      <div className={styles.colorsList}>
+        {
+          COLORS_LIST1.map((colors, index) => <ColorsBlock colors={colors} key={index} />)
+        }
+      </div>
+      <div className={styles.colorsList}>
+        {
+          COLORS_LIST2.map((colors, index) => <ColorsBlock colors={colors} key={index} />)
+        }
+      </div>
     </div>
   );
 }

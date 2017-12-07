@@ -70,7 +70,9 @@ function PropTypeDescription(props) {
     componentInfo,
     header,
   } = props;
-
+  if (!componentInfo.props) {
+    return null;
+  }
   let requiredProps = 0;
 
   let text = `${header}
