@@ -15,6 +15,7 @@ import MessageSenderAlert from '../../components/MessageSenderAlert';
 import RateExceededAlert from '../../components/RateExceededAlert';
 import ConnectivityAlert from '../../components/ConnectivityAlert';
 import WebphoneAlert from '../../components/WebphoneAlert';
+import MessageStoreAlert from '../../components/MessageStoreAlert';
 import MeetingAlert from '../../components/MeetingAlert';
 import RolesAndPermissionsAlert from '../../components/RolesAndPermissionsAlert';
 import withPhone from '../../lib/withPhone';
@@ -84,6 +85,10 @@ function getDefaultRenderer({
           onAreaCodeLink={onRegionSettingsLinkClick}
         />
       );
+    }
+
+    if (MessageStoreAlert.handleMessage(message)) {
+      return MessageStoreAlert;
     }
 
     if (RateExceededAlert.handleMessage(message)) {
