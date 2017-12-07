@@ -175,9 +175,12 @@ var Topic = function Topic(_ref) {
 
           var topic = target.value;
           if (topic.length >= 0 && topic.length <= MAX_TOPIC_LENGTH) {
-            update((0, _extends3.default)({}, meeting, {
-              topic: topic
-            }));
+            clearTimeout(that.topicSetTimeoutId);
+            that.topicSetTimeoutId = setTimeout(function () {
+              update((0, _extends3.default)({}, meeting, {
+                topic: topic
+              }));
+            }, 10);
           } else {
             target.value = meeting.topic || '';
           }

@@ -89,7 +89,9 @@ var MeetingScheduleButton = (_temp = _class = function (_PureComponent) {
           'button',
           {
             onClick: function onClick() {
-              return !disabled && _onClick(meeting);
+              return !disabled && setTimeout(function () {
+                return _onClick(meeting);
+              }, 100);
             },
             disabled: disabled,
             className: (0, _classnames2.default)(_styles2.default.button, disabled ? _styles2.default.disabled : null) },
