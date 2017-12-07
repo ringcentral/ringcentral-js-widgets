@@ -1,5 +1,9 @@
 @import '../../lib/commonStyles/colors';
 
+.container {
+  overflow: scroll;
+  height: 100%;
+}
 .conferenceCommands {
   margin-left: 20px;
   margin-right: 20px;

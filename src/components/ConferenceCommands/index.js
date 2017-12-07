@@ -65,7 +65,7 @@ Press again to STOP recording`
 ];
 
 const ConferenceCommands = ({ onBack }) => (
-  <div>
+  <div className={styles.container}>
     <BackHeader onBackClick={onBack}>
       Conference Commands
     </BackHeader>
