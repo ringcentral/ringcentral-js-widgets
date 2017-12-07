@@ -246,7 +246,7 @@ var MessageSender = (_dec = (0, _di.Module)({
       this.store.dispatch({ type: this.actionTypes.validate });
       if (validateResult) {
         var isMySenderNumber = this.senderNumbersList.find(function (number) {
-          return number === senderNumber;
+          return number.phoneNumber === senderNumber;
         });
         if (!isMySenderNumber) {
           validateResult = false;
