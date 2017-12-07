@@ -4,6 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _keys = require('babel-runtime/core-js/object/keys');
+
+var _keys2 = _interopRequireDefault(_keys);
+
 var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
@@ -37,6 +41,8 @@ function getMessageDataReducer(types) {
         syncConversationId = _ref$syncConversation === undefined ? null : _ref$syncConversation,
         _ref$conversationId = _ref.conversationId,
         conversationId = _ref$conversationId === undefined ? null : _ref$conversationId,
+        _ref$messageId = _ref.messageId,
+        messageId = _ref$messageId === undefined ? null : _ref$messageId,
         _ref$recipients = _ref.recipients,
         recipients = _ref$recipients === undefined ? null : _ref$recipients;
 
@@ -58,6 +64,24 @@ function getMessageDataReducer(types) {
           conversationId: conversationId,
           recipients: recipients
         }));
+      case types.removeMessage:
+        {
+          var newConversationMap = {};
+          (0, _keys2.default)(state.conversationMap).forEach(function (key) {
+            if (key !== conversationId) {
+              newConversationMap[key] = state.conversationMap[key];
+            }
+          });
+          return {
+            conversations: state.conversations.filter(function (conversation) {
+              return conversation.conversationId !== conversationId;
+            }),
+            conversationMap: newConversationMap,
+            messages: state.messages.filter(function (message) {
+              return message.id !== messageId;
+            })
+          };
+        }
       case types.cleanUp:
       case types.resetSuccess:
         return initialConversationsDataState;

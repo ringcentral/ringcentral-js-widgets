@@ -104,8 +104,10 @@ function prepareNewMessagesData(_ref2) {
     newConversations.push((0, _extends3.default)({}, conversation));
   });
   messages.forEach(function (message) {
-    newMessages.push((0, _extends3.default)({}, message));
-    messageMap[message.id] = newMessages.length - 1;
+    if (message.availability !== 'Purged') {
+      newMessages.push((0, _extends3.default)({}, message));
+      messageMap[message.id] = newMessages.length - 1;
+    }
   });
   return {
     newConversations: newConversations,
