@@ -262,6 +262,7 @@ class RecipientsInput extends Component {
           {toNumberInput}
         </div>
         <ContactDropdownList
+          phoneTypeRenderer={this.props.phoneTypeRenderer}
           scrollDirection={this.state.scrollDirection}
           selectedIndex={this.state.selectedContactIndex}
           setSelectedIndex={this.setSelectedIndex}
@@ -305,6 +306,7 @@ RecipientsInput.propTypes = {
   autoFocus: PropTypes.bool,
   currentLocale: PropTypes.string.isRequired,
   multiple: PropTypes.bool,
+  phoneTypeRenderer: PropTypes.func,
 };
 
 RecipientsInput.defaultProps = {
@@ -316,6 +318,7 @@ RecipientsInput.defaultProps = {
   titleEnabled: undefined,
   autoFocus: false,
   multiple: false,
+  phoneTypeRenderer: undefined,
 };
 
 export default RecipientsInput;

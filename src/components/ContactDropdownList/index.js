@@ -12,7 +12,9 @@ function ContactItem(props) {
     props.active ? styles.active : null,
   );
   const spliter = '|';
-  const phoneTypeName = phoneTypeNames.getString(props.phoneType);
+  const phoneTypeName = props.phoneTypeRenderer ?
+    props.phoneTypeRenderer(props.phoneType) :
+    phoneTypeNames.getString(props.phoneType);
   const phoneSourceName = phoneSourceNames.getString(props.entityType);
   const nameTitle = `${props.name} ${spliter} ${phoneSourceName}`;
   const phoneNumberTitle =
@@ -54,9 +56,11 @@ ContactItem.propTypes = {
   active: PropTypes.bool.isRequired,
   onHover: PropTypes.func.isRequired,
   titleEnabled: PropTypes.bool,
+  phoneTypeRenderer: PropTypes.func,
 };
 ContactItem.defaultProps = {
   titleEnabled: undefined,
+  phoneTypeRenderer: undefined,
 };
 
 class ContactDropdownList extends Component {
@@ -90,6 +94,7 @@ class ContactDropdownList extends Component {
       addToRecipients,
       titleEnabled,
       visibility,
+      phoneTypeRenderer,
     } = this.props;
     let listClassName = null;
     let hiddenClassName = null;
@@ -108,6 +113,7 @@ class ContactDropdownList extends Component {
               entityType={item.entityType}
               phoneType={item.phoneType}
               phoneNumber={item.phoneNumber}
+              phoneTypeRenderer={phoneTypeRenderer}
               formatContactPhone={formatContactPhone}
               onHover={() => setSelectedIndex(index)}
               onClick={() => addToRecipients(item)}
@@ -136,12 +142,14 @@ ContactDropdownList.propTypes = {
   setSelectedIndex: PropTypes.func.isRequired,
   selectedIndex: PropTypes.number.isRequired,
   titleEnabled: PropTypes.bool,
+  phoneTypeRenderer: PropTypes.func,
 };
 
 ContactDropdownList.defaultProps = {
   className: null,
   scrollDirection: null,
   titleEnabled: undefined,
+  phoneTypeRenderer: undefined,
 };
 
 export default ContactDropdownList;
