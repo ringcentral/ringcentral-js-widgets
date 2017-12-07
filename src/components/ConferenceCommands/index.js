@@ -7,7 +7,7 @@ const section = (buttons, title, body) => (
   <div key={buttons.join('')} className={styles.section}>
     {buttons.map(b => button(b))}
     <p className={styles.title}>{title}</p>
-    {body.split('\n').map(line => <p className={styles.body}>{line}</p>)}
+    {body.split('\n').map((line, index) => <p key={index} className={styles.body}>{line}</p>)}
   </div>
 );
 
