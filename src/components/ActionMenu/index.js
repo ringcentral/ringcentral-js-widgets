@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import SlideMenu from '../SlideMenu';
 import ActionMenuList from '../ActionMenuList';
 
+import styles from './styles.scss';
+
 export default class ActionMenu extends Component {
   render() {
     const {
@@ -39,9 +41,10 @@ export default class ActionMenu extends Component {
           className={className}
           extendIconClassName={this.props.extendIconClassName}
           minHeight={0}
-          maxHeight={30}
+          maxHeight={53}
         >
           <ActionMenuList
+            className={styles.actionMenu}
             onLog={onLog}
             isLogged={isLogged}
             isLogging={isLogging}

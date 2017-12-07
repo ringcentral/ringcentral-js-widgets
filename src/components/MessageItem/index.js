@@ -240,13 +240,16 @@ export default class MessageItem extends Component {
       this.props.showConversationDetail(this.props.conversation.conversationId);
       return;
     }
+
+    this.toggleExtended();
+  }
+
+  onPlayVoicemail = () => {
     if (
-      messageIsVoicemail(this.props.conversation) &&
       this.props.conversation.unreadCounts > 0
     ) {
       this.props.readVoicemail(this.props.conversation.conversationId);
     }
-    this.toggleExtended();
   }
 
   getDetail() {
@@ -257,7 +260,7 @@ export default class MessageItem extends Component {
     if (messageIsTextMessage(conversation)) {
       return conversation.subject;
     }
-    if (messageIsVoicemail(conversation)) {
+    if (conversation.voicemailAttachment) {
       const { duration } = conversation.voicemailAttachment;
       return `${i18n.getString('voiceMessage', currentLocale)} (${formatDuration(duration)})`;
     }
@@ -302,11 +305,17 @@ export default class MessageItem extends Component {
     const fallbackName = this.getFallbackContactName();
     const detail = this.getDetail();
     let player;
-    let slideMenuHeight = 30;
+    let slideMenuHeight = 60;
     if (voicemailAttachment) {
-      player =
-        <VoicemailPlayer uri={voicemailAttachment.uri} duration={voicemailAttachment.duration} />;
-      slideMenuHeight = 50;
+      player = (
+        <VoicemailPlayer
+          className={styles.player}
+          uri={voicemailAttachment.uri}
+          duration={voicemailAttachment.duration}
+          onPlay={this.onPlayVoicemail}
+        />
+      );
+      slideMenuHeight = 88;
     }
 
     return (
