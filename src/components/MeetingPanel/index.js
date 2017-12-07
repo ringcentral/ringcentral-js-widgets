@@ -93,10 +93,16 @@ const Topic = (
         onChange={({ target }) => {
           const topic = target.value;
           if (topic.length >= 0 && topic.length <= MAX_TOPIC_LENGTH) {
-            update({
-              ...meeting,
-              topic,
-            });
+            clearTimeout(that.topicSetTimeoutId);
+            that.topicSetTimeoutId = setTimeout(
+              () => {
+                update({
+                  ...meeting,
+                  topic,
+                });
+              },
+              10
+            );
           } else {
             target.value = meeting.topic || '';
           }
