@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import CallIdSelect from 'ringcentral-widgets/components/CallIdSelect';
+import FromField from 'ringcentral-widgets/components/FromField';
 
 const props = {};
 props.fromNumber = '123456';
@@ -9,13 +9,14 @@ props.fromNumbers = [{ phoneNumber: '123456', usageType: 'DirectNumber' }];
 props.onChange = () => null;
 props.currentLocale = 'en-US';
 props.hidden = false;
+props.showAnonymous = true;
 
 /**
- * A example of `CallIdSelect`
+ * A example of `FromField`
  */
-const CallIdSelectDemo = () => (
-  <CallIdSelect
+const FromFieldDemo = () => (
+  <FromField
     {...props}
   />
 );
-export default CallIdSelectDemo;
+export default FromFieldDemo;

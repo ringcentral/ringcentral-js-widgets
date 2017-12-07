@@ -8,16 +8,16 @@ import Demo from './Demo';
 // eslint-disable-next-line
 import demoCode from '!raw-loader!./Demo';
 // eslint-disable-next-line
-import componentCode from '!raw-loader!ringcentral-widgets/components/CallIdSelect';
+import componentCode from '!raw-loader!ringcentral-widgets/components/MeetingScheduleButton';
 
-const CallIdSelectPage = () => {
+const MeetingScheduleButtonPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="CallIdSelect" description={info.description} />
+      <ComponentHeader name="MeetingScheduleButton" description={info.description} />
       <CodeExample
         code={demoCode}
-        title="CallIdSelect Example"
+        title="MeetingScheduleButton Example"
       >
         <Demo />
       </CodeExample>
@@ -26,4 +26,4 @@ const CallIdSelectPage = () => {
   );
 };
 
-export default CallIdSelectPage;
+export default MeetingScheduleButtonPage;

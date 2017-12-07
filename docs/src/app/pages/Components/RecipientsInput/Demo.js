@@ -4,21 +4,22 @@ import RecipientsInput from 'ringcentral-widgets/components/RecipientsInput';
 
 const props = {};
 props.searchContactList = [{
-  name: 'test string',
-  entityType: 'test string',
-  phoneType: 'test string',
-  phoneNumber: 'test string'
+  name: 'Test Name',
+  entityType: 'Contact',
+  phoneType: 'extension',
+  phoneNumber: '101'
 }];
 props.recipients = [{
-  phoneNumber: 'test string'
+  phoneNumber: '+1234567890'
 }];
-props.value = 'test string';
+props.value = 'test';
 props.onChange = () => null;
 props.onClean = () => null;
 props.addToRecipients = () => null;
 props.removeFromRecipients = () => null;
 props.formatContactPhone = () => null;
 props.label = 'To:';
+props.currentLocale = 'en-US';
 
 /**
  * A example of `RecipientsInput`

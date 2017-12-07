@@ -91,6 +91,9 @@ function getValueFromPropType(type) {
 
 function getPropsFromPropTypes(propTypes) {
   const props = {};
+  if (!propTypes) {
+    return props;
+  }
   Object.keys(propTypes).forEach((propName) => {
     const propType = propTypes[propName];
     if (!propType.required) {
@@ -168,7 +171,25 @@ function createComponentRoutesFile() {
   fs.writeFileSync(componentRoutesPath, routesPageStr);
 }
 
+function listRemovedComponents(existedComponents) {
+  const componentPageNames = fs.readdirSync(componentDocPagesDir);
+  const existedComponentMap = {};
+  existedComponents.forEach((component) => {
+    existedComponentMap[component.name] = true;
+  });
+  const removedComponents = [];
+  console.log('Component removed:');
+  componentPageNames.forEach((componentName) => {
+    if (existedComponentMap[componentName]) {
+      return;
+    }
+    removedComponents.push(componentName);
+    console.log(componentName);
+  });
+}
+
 const components = getComponentsList();
 fs.writeFileSync(jsonDataPath, JSON.stringify(components, null, 2));
+// listRemovedComponents(components);
 createComponentDocPages(components);
 createComponentRoutesFile();
