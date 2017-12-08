@@ -53,7 +53,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function ContactItem(props) {
   var className = (0, _classnames2.default)(_styles2.default.contactItem, props.active ? _styles2.default.active : null);
   var spliter = '|';
-  var phoneTypeName = _phoneTypeNames2.default.getString(props.phoneType);
+  var phoneTypeName = props.phoneTypeRenderer ? props.phoneTypeRenderer(props.phoneType) : _phoneTypeNames2.default.getString(props.phoneType);
   var phoneSourceName = _phoneSourceNames2.default.getString(props.entityType);
   var nameTitle = props.name + ' ' + spliter + ' ' + phoneSourceName;
   var phoneNumberTitle = props.formatContactPhone(props.phoneNumber) + ' ' + spliter + ' ' + phoneTypeName;
@@ -115,10 +115,12 @@ ContactItem.propTypes = {
   phoneNumber: _propTypes2.default.string.isRequired,
   active: _propTypes2.default.bool.isRequired,
   onHover: _propTypes2.default.func.isRequired,
-  titleEnabled: _propTypes2.default.bool
+  titleEnabled: _propTypes2.default.bool,
+  phoneTypeRenderer: _propTypes2.default.func
 };
 ContactItem.defaultProps = {
-  titleEnabled: undefined
+  titleEnabled: undefined,
+  phoneTypeRenderer: undefined
 };
 
 var ContactDropdownList = function (_Component) {
@@ -164,7 +166,8 @@ var ContactDropdownList = function (_Component) {
           setSelectedIndex = _props.setSelectedIndex,
           addToRecipients = _props.addToRecipients,
           titleEnabled = _props.titleEnabled,
-          visibility = _props.visibility;
+          visibility = _props.visibility,
+          phoneTypeRenderer = _props.phoneTypeRenderer;
 
       var listClassName = null;
       var hiddenClassName = null;
@@ -185,6 +188,7 @@ var ContactDropdownList = function (_Component) {
             entityType: item.entityType,
             phoneType: item.phoneType,
             phoneNumber: item.phoneNumber,
+            phoneTypeRenderer: phoneTypeRenderer,
             formatContactPhone: formatContactPhone,
             onHover: function onHover() {
               return setSelectedIndex(index);
@@ -216,13 +220,15 @@ ContactDropdownList.propTypes = {
   addToRecipients: _propTypes2.default.func.isRequired,
   setSelectedIndex: _propTypes2.default.func.isRequired,
   selectedIndex: _propTypes2.default.number.isRequired,
-  titleEnabled: _propTypes2.default.bool
+  titleEnabled: _propTypes2.default.bool,
+  phoneTypeRenderer: _propTypes2.default.func
 };
 
 ContactDropdownList.defaultProps = {
   className: null,
   scrollDirection: null,
-  titleEnabled: undefined
+  titleEnabled: undefined,
+  phoneTypeRenderer: undefined
 };
 
 exports.default = ContactDropdownList;

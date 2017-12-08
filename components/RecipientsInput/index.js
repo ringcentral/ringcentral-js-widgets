@@ -320,6 +320,7 @@ var RecipientsInput = function (_Component) {
           toNumberInput
         ),
         _react2.default.createElement(_ContactDropdownList2.default, {
+          phoneTypeRenderer: this.props.phoneTypeRenderer,
           scrollDirection: this.state.scrollDirection,
           selectedIndex: this.state.selectedContactIndex,
           setSelectedIndex: this.setSelectedIndex,
@@ -363,7 +364,8 @@ RecipientsInput.propTypes = {
   titleEnabled: _propTypes2.default.bool,
   autoFocus: _propTypes2.default.bool,
   currentLocale: _propTypes2.default.string.isRequired,
-  multiple: _propTypes2.default.bool
+  multiple: _propTypes2.default.bool,
+  phoneTypeRenderer: _propTypes2.default.func
 };
 
 RecipientsInput.defaultProps = {
@@ -376,7 +378,8 @@ RecipientsInput.defaultProps = {
   },
   titleEnabled: undefined,
   autoFocus: false,
-  multiple: false
+  multiple: false,
+  phoneTypeRenderer: undefined
 };
 
 exports.default = RecipientsInput;

@@ -148,6 +148,7 @@ var ComposeTextPanel = function (_Component) {
             searchContactList: this.props.searchContactList,
             formatContactPhone: this.props.formatContactPhone,
             currentLocale: this.props.currentLocale,
+            phoneTypeRenderer: this.props.phoneTypeRenderer,
             titleEnabled: true,
             autoFocus: true,
             multiple: true
@@ -228,7 +229,8 @@ ComposeTextPanel.propTypes = {
     name: _propTypes2.default.string
   })).isRequired,
   outboundSMS: _propTypes2.default.bool,
-  showSpinner: _propTypes2.default.bool
+  showSpinner: _propTypes2.default.bool,
+  phoneTypeRenderer: _propTypes2.default.func
 };
 
 ComposeTextPanel.defaultProps = {
@@ -237,7 +239,8 @@ ComposeTextPanel.defaultProps = {
   typingToNumber: '',
   senderNumber: '',
   outboundSMS: false,
-  showSpinner: false
+  showSpinner: false,
+  phoneTypeRenderer: undefined
 };
 
 exports.default = ComposeTextPanel;

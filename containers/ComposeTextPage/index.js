@@ -58,7 +58,8 @@ function mapToFunctions(_, _ref2) {
       areaCode: regionSettings.areaCode,
       countryCode: regionSettings.countryCode
     });
-  } : _ref2$formatContactPh;
+  } : _ref2$formatContactPh,
+      phoneTypeRenderer = _ref2.phoneTypeRenderer;
 
   return {
     send: function send() {
@@ -83,7 +84,7 @@ function mapToFunctions(_, _ref2) {
     formatPhone: formatContactPhone,
     formatContactPhone: formatContactPhone,
     searchContact: function searchContact(searchString) {
-      return contactSearch.search({ searchString: searchString });
+      return contactSearch.debouncedSearch({ searchString: searchString });
     },
     updateSenderNumber: function updateSenderNumber(_ref3) {
       var phoneNumber = _ref3.phoneNumber;
@@ -103,7 +104,8 @@ function mapToFunctions(_, _ref2) {
     },
     updateMessageText: function updateMessageText() {
       return composeText.updateMessageText.apply(composeText, arguments);
-    }
+    },
+    phoneTypeRenderer: phoneTypeRenderer
   };
 }
 
