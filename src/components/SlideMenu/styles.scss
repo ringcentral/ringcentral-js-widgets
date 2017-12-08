@@ -22,13 +22,6 @@
   top: 0;
   right: 0;
   padding: 0;
-
-  div {
-    display: inline-block;
-  }
-  div:not(:last-child) {
-    margin-right: 30px;
-  }
 }
 
 .extendIcon {

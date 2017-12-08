@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import Modal from '../Modal';
 import EntityButton from '../EntityButton';
 import EntityModal from '../EntityModal';
@@ -7,6 +8,9 @@ import Button from '../Button';
 import LogButton from '../LogButton';
 import DeleteMessageIcon from '../../assets/images/DeleteMessageIcon.svg';
 import CloseIcon from '../../assets/images/CloseIcon.svg';
+import MarkIcon from '../../assets/images/Mark.svg';
+import UnmarkIcon from '../../assets/images/Unmark.svg';
+
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 
 import styles from './styles.scss';
@@ -65,7 +69,7 @@ function ClickToDialButton({
 }) {
   return (
     <Button
-      className={className}
+      className={classnames(styles.button, className)}
       onClick={onClickToDial}
       disabled={disableLinks || disableClickToDial || !phoneNumber} >
       <span
@@ -100,7 +104,7 @@ function ClickToSmsButton({
 }) {
   return (
     <Button
-      className={className}
+      className={classnames(styles.button, className)}
       onClick={onClickToSms}
       disabled={disableLinks || !phoneNumber} >
       <span
@@ -131,9 +135,11 @@ function DeleteButton({
 }) {
   return (
     <Button
-      className={className}
+      className={classnames(styles.button, styles.svgBtn, className)}
       onClick={openDeleteModal} >
       <DeleteMessageIcon
+        width={14}
+        height={17}
         title={title}
       />
     </Button>
@@ -151,12 +157,62 @@ DeleteButton.defaultProps = {
   openDeleteModal: () => {},
 };
 
+function MarkButton({
+  marked, className, onClick, title,
+}) {
+  const Icon = marked ? UnmarkIcon : MarkIcon;
+  return (
+    <Button
+      className={classnames(styles.button, styles.svgBtn, className)}
+      onClick={onClick} >
+      <Icon
+        width={14}
+        height={17}
+        title={title}
+      />
+    </Button>
+  );
+}
+
+MarkButton.propTypes = {
+  className: PropTypes.string,
+  title: PropTypes.string,
+  onClick: PropTypes.func.isRequired,
+  marked: PropTypes.bool.isRequired,
+};
+MarkButton.defaultProps = {
+  className: undefined,
+  title: undefined,
+};
+
 export default class ActionMenuList extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       entityModalVisible: false,
+      deleteModalVisible: false,
+      disableDelete: false,
+      marking: false,
+    };
+
+    this.onMark = async () => {
+      if (this.state.marking) {
+        return;
+      }
+      this.setState({
+        marking: true,
+      });
+      const { marked, onUnmark, onMark } = this.props;
+      const onClick = marked ? onUnmark : onMark;
+      try {
+        await onClick();
+      } catch (e) {
+        //
+      }
+      this.setState({
+        marking: false,
+      });
     };
   }
   onCreateEnityModal = (entityType) => {
@@ -225,14 +281,17 @@ export default class ActionMenuList extends Component {
       textTitle,
       createEntityTitle,
       viewEntityTitle,
-      enableDelete,
       onDelete,
       deleteTitle,
+      onMark,
+      marked,
+      markTitle,
     } = this.props;
 
     const logButton = onLog ?
       (
         <LogButton
+          className={styles.button}
           onLog={onLog}
           disableLinks={disableLinks}
           isLogged={isLogged}
@@ -247,6 +306,7 @@ export default class ActionMenuList extends Component {
     let entityButton;
     if (hasEntity && onViewEntity) {
       entityButton = (<EntityButton
+        className={styles.button}
         onViewEntity={onViewEntity}
         hasEntity={hasEntity}
         disableLinks={disableLinks}
@@ -254,6 +314,7 @@ export default class ActionMenuList extends Component {
       />);
     } else if (!hasEntity && phoneNumber && onCreateEntity) {
       entityButton = (<EntityButton
+        className={styles.button}
         onCreateEntity={this.openEntityModal}
         hasEntity={hasEntity}
         disableLinks={disableLinks}
@@ -296,7 +357,7 @@ export default class ActionMenuList extends Component {
         />
       ) :
       null;
-    const deleteButton = enableDelete ?
+    const deleteButton = onDelete ?
       (
         <DeleteButton
           onDelete={onDelete}
@@ -308,7 +369,7 @@ export default class ActionMenuList extends Component {
       ) :
       null;
 
-    const confirmDeleteModal = enableDelete ?
+    const confirmDeleteModal = onDelete ?
       (
         <ConfirmDeleteModal
           currentLocale={currentLocale}
@@ -318,12 +379,23 @@ export default class ActionMenuList extends Component {
         />
       ) :
       null;
+    const markButton = onMark ?
+      (
+        <MarkButton
+          title={markTitle}
+          marked={marked}
+          onClick={this.onMark}
+        />
+      ) :
+      null;
     return (
-      <div className={className} onClick={this.preventEventPropogation}>
+      <div className={classnames(styles.root, className)} onClick={this.preventEventPropogation}>
         {clickToDialButton}
         {clickToSmsButton}
         {entityButton}
         {logButton}
+        {markButton}
+        {deleteButton}
         {entityModal}
         {confirmDeleteModal}
       </div>
@@ -352,9 +424,12 @@ ActionMenuList.propTypes = {
   callTitle: PropTypes.string,
   createEntityTitle: PropTypes.string,
   viewEntityTitle: PropTypes.string,
-  enableDelete: PropTypes.bool,
   onDelete: PropTypes.func,
   deleteTitle: PropTypes.string,
+  onMark: PropTypes.func,
+  onUnmark: PropTypes.func,
+  marked: PropTypes.bool,
+  markTitle: PropTypes.string,
 };
 ActionMenuList.defaultProps = {
   className: undefined,
@@ -377,6 +452,9 @@ ActionMenuList.defaultProps = {
   createEntityTitle: undefined,
   viewEntityTitle: undefined,
   deleteTitle: undefined,
-  enableDelete: false,
-  onDelete: () => {},
+  onDelete: undefined,
+  onMark: undefined,
+  onUnmark: undefined,
+  marked: false,
+  markTitle: undefined,
 };

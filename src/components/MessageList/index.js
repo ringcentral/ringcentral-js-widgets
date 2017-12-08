@@ -110,6 +110,7 @@ MessageList.propTypes = {
   className: PropTypes.string,
   showConversationDetail: PropTypes.func.isRequired,
   readVoicemail: PropTypes.func.isRequired,
+  markVoicemail: PropTypes.func.isRequired,
   dateTimeFormatter: PropTypes.func,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,

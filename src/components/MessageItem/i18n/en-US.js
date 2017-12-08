@@ -10,4 +10,6 @@ export default {
   groupConversation: 'Group Conversation',
   voiceMessage: 'Voice message',
   [messageTypes.voiceMail]: 'Voice Mail',
+  mark: 'Mark',
+  unmark: 'Unmark',
 };

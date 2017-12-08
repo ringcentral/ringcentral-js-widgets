@@ -13,11 +13,12 @@ import ActionMenuList from '../ActionMenuList';
 import VoicemailPlayer from '../VoicemailPlayer';
 import SlideMenu from '../SlideMenu';
 
-import styles from './styles.scss';
-import i18n from './i18n';
 import VoicemailIcon from '../../assets/images/VoicemailIcon.svg';
 import ComposeTextIcon from '../../assets/images/ComposeText.svg';
 import GroupConversationIcon from '../../assets/images/GroupConversation.svg';
+
+import styles from './styles.scss';
+import i18n from './i18n';
 
 function ConversationIcon({
   group,
@@ -141,12 +142,12 @@ export default class MessageItem extends Component {
   }
 
   getPhoneNumber() {
-    const correspondents = this.props.conversation.correspondents;
+    const { correspondents } = this.props.conversation;
     return (correspondents.length === 1 &&
       (correspondents[0].phoneNumber || correspondents[0].extensionNumber)) || undefined;
   }
   getGroupPhoneNumbers() {
-    const correspondents = this.props.conversation.correspondents;
+    const { correspondents } = this.props.conversation;
     const groupNumbers = correspondents.length > 1 ?
       correspondents.map(correspondent =>
         correspondent.extensionNumber || correspondent.phoneNumber || undefined
@@ -155,7 +156,7 @@ export default class MessageItem extends Component {
     return groupNumbers;
   }
   getFallbackContactName() {
-    const correspondents = this.props.conversation.correspondents;
+    const { correspondents } = this.props.conversation;
     return (correspondents.length === 1 &&
       (correspondents[0].name)) || undefined;
   }
@@ -228,6 +229,19 @@ export default class MessageItem extends Component {
       }
     }
   }
+  onClickToSms = () => {
+    if (this.props.onClickToSms) {
+      const contact = this.getSelectedContact() || {};
+      const phoneNumber = this.getPhoneNumber();
+
+      if (phoneNumber) {
+        this.props.onClickToSms({
+          ...contact,
+          phoneNumber,
+        });
+      }
+    }
+  }
   onClickItem = (e) => {
     if ((
       this.contactDisplay &&
@@ -251,6 +265,14 @@ export default class MessageItem extends Component {
     }
   }
 
+  onMarkVoicemail = () => {
+    if (
+      this.props.conversation.unreadCounts === 0
+    ) {
+      this.props.markVoicemail(this.props.conversation.conversationId);
+    }
+  }
+
   getDetail() {
     const {
       conversation,
@@ -266,7 +288,7 @@ export default class MessageItem extends Component {
     return '';
   }
 
-  deleteMessage = () => {
+  onDeleteMessage = () => {
     this.props.deleteMessage(this.props.conversation.conversationId);
   }
 
@@ -289,6 +311,7 @@ export default class MessageItem extends Component {
       disableLinks,
       disableClickToDial,
       onClickToDial,
+      onClickToSms,
       onLogConversation,
       onViewContact,
       onCreateContact,
@@ -305,7 +328,8 @@ export default class MessageItem extends Component {
     const detail = this.getDetail();
     let player;
     let slideMenuHeight = 60;
-    if (voicemailAttachment) {
+    const isVoicemail = !!voicemailAttachment;
+    if (isVoicemail) {
       player = (
         <VoicemailPlayer
           className={styles.player}
@@ -363,40 +387,47 @@ export default class MessageItem extends Component {
             {dateTimeFormatter({ utcTimestamp: creationTime })}
           </div>
         </div>
-        <div ref={reference}>
-          <SlideMenu
-            extended={this.state.extended}
-            onToggle={this.toggleExtended}
-            extendIconClassName={styles.extendIcon}
-            className={className}
-            minHeight={0}
-            maxHeight={30}
-          >
-            <ActionMenuList
-              currentLocale={currentLocale}
-              onLog={onLogConversation && this.logConversation}
-              onViewEntity={onViewContact && this.viewSelectedContact}
-              onCreateEntity={onCreateContact && this.createSelectedContact}
-              hasEntity={correspondents.length === 1 && !!correspondentMatches.length}
-              onClickToDial={onClickToDial && this.clickToDial}
-              phoneNumber={phoneNumber}
-              disableLinks={disableLinks}
-              disableClickToDial={disableClickToDial}
-              isLogging={isLogging || this.state.isLogging}
-              isLogged={conversationMatches.length > 0}
-              isCreating={this.state.isCreating}
-              addLogTitle={i18n.getString('addLog', currentLocale)}
-              editLogTitle={i18n.getString('editLog', currentLocale)}
-              callTitle={i18n.getString('call', currentLocale)}
-              createEntityTitle={i18n.getString('addEntity', currentLocale)}
-              viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
-              stopPropagation={false}
-              enableDelete={type === messageTypes.voiceMail}
-              onDelete={this.deleteMessage}
-              deleteTitle={i18n.getString('delete', currentLocale)}
-            />
-          </SlideMenu>
-        </div>
+        <SlideMenu
+          extended={this.state.extended}
+          onToggle={this.toggleExtended}
+          extendIconClassName={styles.extendIcon}
+          className={styles.slideMenu}
+          minHeight={0}
+          maxHeight={slideMenuHeight}
+        >
+          <div className={styles.playContainer} onClick={this.preventEventPropogation}>
+            {player}
+          </div>
+          <ActionMenuList
+            className={styles.actionMenuList}
+            currentLocale={currentLocale}
+            onLog={isVoicemail ? undefined : (onLogConversation && this.logConversation)}
+            onViewEntity={onViewContact && this.viewSelectedContact}
+            onCreateEntity={onCreateContact && this.createSelectedContact}
+            hasEntity={correspondents.length === 1 && !!correspondentMatches.length}
+            onClickToDial={onClickToDial && this.clickToDial}
+            onClickToSms={isVoicemail ? (onClickToSms && this.onClickToSms) : undefined}
+            phoneNumber={phoneNumber}
+            disableLinks={disableLinks}
+            disableClickToDial={disableClickToDial}
+            isLogging={isLogging || this.state.isLogging}
+            isLogged={conversationMatches.length > 0}
+            isCreating={this.state.isCreating}
+            addLogTitle={i18n.getString('addLog', currentLocale)}
+            editLogTitle={i18n.getString('editLog', currentLocale)}
+            callTitle={i18n.getString('call', currentLocale)}
+            createEntityTitle={i18n.getString('addEntity', currentLocale)}
+            viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
+            stopPropagation={false}
+            enableDelete={!!voicemailAttachment}
+            onDelete={this.onDeleteMessage}
+            deleteTitle={i18n.getString('delete', currentLocale)}
+            marked={unreadCounts > 0}
+            onMark={isVoicemail ? this.onMarkVoicemail : undefined}
+            onUnmark={isVoicemail ? this.onPlayVoicemail : undefined}
+            markTitle={i18n.getString('mark', currentLocale)}
+          />
+        </SlideMenu>
       </div>
     );
   }
@@ -428,11 +459,13 @@ MessageItem.propTypes = {
   onViewContact: PropTypes.func,
   onCreateContact: PropTypes.func,
   onClickToDial: PropTypes.func,
+  onClickToSms: PropTypes.func,
   disableLinks: PropTypes.bool,
   disableClickToDial: PropTypes.bool,
   dateTimeFormatter: PropTypes.func.isRequired,
   showConversationDetail: PropTypes.func.isRequired,
   readVoicemail: PropTypes.func.isRequired,
+  markVoicemail: PropTypes.func.isRequired,
   autoLog: PropTypes.bool,
   enableContactFallback: PropTypes.bool,
   showContactDisplayPlaceholder: PropTypes.bool,
@@ -447,6 +480,7 @@ MessageItem.defaultProps = {
   onViewContact: undefined,
   onCreateContact: undefined,
   disableClickToDial: false,
+  onClickToSms: undefined,
   disableLinks: false,
   autoLog: false,
   enableContactFallback: undefined,

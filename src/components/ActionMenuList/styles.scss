@@ -1,3 +1,15 @@
+@import '../../lib/commonStyles/colors';
+
+.root {
+  display: block;
+  margin: 5px 20px 15px 36px;
+  height: 36px;
+  line-height: 36px;
+  padding: 0 15px;
+  background: $egg;
+  border-radius: 100px;
+}
+
 .confirmDeleteModal {
   min-width: 260px;
   height: 133px;
@@ -20,8 +32,19 @@
     margin-left: 10px;
   }
 }
+.button {
+  display: block;
+  float: left;
+}
+.button:not(:last-child) {
+  margin-right: 26px;
+}
 .closeBtn {
   margin-top: 10px;
   margin-right: 11px;
   text-align: right;
+}
+.svgBtn {
+  position: relative;
+  top: 4px;
 }

@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import SlideMenu from '../SlideMenu';
 import ActionMenuList from '../ActionMenuList';
 
-import styles from './styles.scss';
-
 export default class ActionMenu extends Component {
   render() {
     const {
@@ -29,9 +27,12 @@ export default class ActionMenu extends Component {
       textTitle,
       createEntityTitle,
       viewEntityTitle,
-      enableDelete,
       onDelete,
       deleteTitle,
+      onMark,
+      onUnmark,
+      marked,
+      markTitle,
     } = this.props;
     return (
       <div ref={reference}>
@@ -44,7 +45,6 @@ export default class ActionMenu extends Component {
           maxHeight={53}
         >
           <ActionMenuList
-            className={styles.actionMenu}
             onLog={onLog}
             isLogged={isLogged}
             isLogging={isLogging}
@@ -64,9 +64,12 @@ export default class ActionMenu extends Component {
             createEntityTitle={createEntityTitle}
             viewEntityTitle={viewEntityTitle}
             currentLocale={currentLocale}
-            enableDelete={enableDelete}
             onDelete={onDelete}
             deleteTitle={deleteTitle}
+            onMark={onMark}
+            onUnmark={onUnmark}
+            marked={marked}
+            markTitle={markTitle}
           />
         </SlideMenu>
       </div>
@@ -99,9 +102,12 @@ ActionMenu.propTypes = {
   callTitle: PropTypes.string,
   createEntityTitle: PropTypes.string,
   viewEntityTitle: PropTypes.string,
-  enableDelete: PropTypes.bool,
   onDelete: PropTypes.func,
   deleteTitle: PropTypes.string,
+  onMark: PropTypes.func,
+  onUnmark: PropTypes.func,
+  marked: PropTypes.bool,
+  markTitle: PropTypes.string,
 };
 ActionMenu.defaultProps = {
   extended: undefined,
@@ -128,6 +134,9 @@ ActionMenu.defaultProps = {
   createEntityTitle: undefined,
   viewEntityTitle: undefined,
   deleteTitle: undefined,
-  enableDelete: false,
-  onDelete: () => {},
+  onDelete: undefined,
+  onMark: undefined,
+  onUnmark: undefined,
+  marked: false,
+  markTitle: undefined,
 };
