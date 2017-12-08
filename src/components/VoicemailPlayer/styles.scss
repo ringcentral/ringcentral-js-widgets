@@ -21,7 +21,20 @@
   cursor: pointer;
   svg {
     path {
-      fill: $primary-color
+      fill: $primary-color;
+    }
+    rect {
+      fill: $primary-color;
+    }
+  }
+  &.disabled {
+    svg {
+      path {
+        fill: $coin;
+      }
+      rect {
+        fill: $coin;
+      }
     }
   }
 }
@@ -48,6 +61,15 @@
   svg {
     path {
       fill: $primary-color;
+    }
+  }
+  &.disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+    svg {
+      path {
+        fill: $coin;
+      }
     }
   }
 }

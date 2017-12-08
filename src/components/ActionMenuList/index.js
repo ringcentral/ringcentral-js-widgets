@@ -132,15 +132,19 @@ function DeleteButton({
   className,
   title,
   openDeleteModal,
+  disabled,
 }) {
   return (
     <Button
       className={classnames(styles.button, styles.svgBtn, className)}
-      onClick={openDeleteModal} >
+      onClick={openDeleteModal}
+      disabled={disabled}
+    >
       <DeleteMessageIcon
         width={14}
         height={17}
         title={title}
+        className={classnames(styles.svgFillIcon, (disabled ? styles.disabled : null))}
       />
     </Button>
   );
@@ -150,6 +154,7 @@ DeleteButton.propTypes = {
   className: PropTypes.string,
   title: PropTypes.string,
   openDeleteModal: PropTypes.func,
+  disabled: PropTypes.bool.isRequired,
 };
 DeleteButton.defaultProps = {
   className: undefined,
@@ -158,17 +163,29 @@ DeleteButton.defaultProps = {
 };
 
 function MarkButton({
-  marked, className, onClick, title,
+  marked,
+  className,
+  onClick,
+  title,
+  disabled,
 }) {
   const Icon = marked ? UnmarkIcon : MarkIcon;
+  const classNames = classnames(
+    styles.unmarked,
+    (marked ? styles.svgFillIcon : null),
+    (disabled ? styles.disabled : null)
+  );
   return (
     <Button
       className={classnames(styles.button, styles.svgBtn, className)}
-      onClick={onClick} >
+      onClick={onClick}
+      disabled={disabled}
+    >
       <Icon
         width={14}
         height={17}
         title={title}
+        className={classNames}
       />
     </Button>
   );
@@ -179,6 +196,7 @@ MarkButton.propTypes = {
   title: PropTypes.string,
   onClick: PropTypes.func.isRequired,
   marked: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 MarkButton.defaultProps = {
   className: undefined,
@@ -364,7 +382,7 @@ export default class ActionMenuList extends Component {
           currentLocale={currentLocale}
           title={deleteTitle}
           openDeleteModal={this.openDeleteModal}
-          disable={this.state.disableDelete}
+          disabled={this.state.disableDelete || disableLinks}
         />
       ) :
       null;
@@ -385,6 +403,7 @@ export default class ActionMenuList extends Component {
           title={markTitle}
           marked={marked}
           onClick={this.onMark}
+          disabled={disableLinks}
         />
       ) :
       null;

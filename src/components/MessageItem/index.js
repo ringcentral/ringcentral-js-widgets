@@ -336,6 +336,7 @@ export default class MessageItem extends Component {
           uri={voicemailAttachment.uri}
           duration={voicemailAttachment.duration}
           onPlay={this.onPlayVoicemail}
+          disabled={disableLinks}
         />
       );
       slideMenuHeight = 88;
@@ -419,8 +420,7 @@ export default class MessageItem extends Component {
             createEntityTitle={i18n.getString('addEntity', currentLocale)}
             viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
             stopPropagation={false}
-            enableDelete={!!voicemailAttachment}
-            onDelete={this.onDeleteMessage}
+            onDelete={isVoicemail ? this.onDeleteMessage : undefined}
             deleteTitle={i18n.getString('delete', currentLocale)}
             marked={unreadCounts > 0}
             onMark={isVoicemail ? this.onMarkVoicemail : undefined}

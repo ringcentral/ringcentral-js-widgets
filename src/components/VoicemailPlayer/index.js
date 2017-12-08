@@ -7,6 +7,8 @@ import DownloadIcon from '../../assets/images/Download.svg';
 import PlayIcon from '../../assets/images/Play.svg';
 import PauseIcon from '../../assets/images/Pause.svg';
 
+import Button from '../Button';
+
 import styles from './styles.scss';
 
 const audiosMap = {};
@@ -25,12 +27,18 @@ class VoicemailPlayer extends Component {
     this._audio.volume = 1;
     audiosMap[this._id] = this._audio;
     this._audio.addEventListener('timeupdate', () => {
+      if (!this._mounted) {
+        return;
+      }
       this.setState({
         progress: (this._audio.currentTime / this._audio.duration),
       });
     });
 
     this._audio.addEventListener('ended', () => {
+      if (!this._mounted) {
+        return;
+      }
       this.setState({
         playing: false,
       });
@@ -38,6 +46,9 @@ class VoicemailPlayer extends Component {
     });
 
     this._audio.addEventListener('pause', () => {
+      if (!this._mounted) {
+        return;
+      }
       this.setState({
         paused: true,
         playing: false,
@@ -46,6 +57,9 @@ class VoicemailPlayer extends Component {
     });
 
     this._audio.addEventListener('play', () => {
+      if (!this._mounted) {
+        return;
+      }
       this.setState({
         playing: true,
         paused: false,
@@ -88,34 +102,56 @@ class VoicemailPlayer extends Component {
       }
     });
   }
+  componentDidMount() {
+    this._mounted = true;
+  }
 
   componentWillUnmount() {
+    this._mounted = false;
     this._audio.currentTime = 0;
     this._audio.pause();
     delete audiosMap[this._id];
   }
 
   render() {
-    const { className, duration, uri } = this.props;
+    const {
+      className,
+      duration,
+      uri,
+      disabled,
+    } = this.props;
     let icon;
     if (this.state.playing) {
       icon = (
-        <span className={styles.play} onClick={this._pauseAudio}>
+        <Button
+          className={classnames(styles.play, (disabled ? styles.disabled : null))}
+          onClick={this._pauseAudio}
+          disabled={disabled}
+        >
           <PauseIcon width={18} height={18} />
-        </span>
+        </Button>
       );
     } else {
       icon = (
-        <span className={styles.play} onClick={this._playAudio}>
+        <Button
+          className={classnames(styles.play, (disabled ? styles.disabled : null))}
+          onClick={this._playAudio}
+          disabled={disabled}
+        >
           <PlayIcon width={18} height={18} />
-        </span>
+        </Button>
       );
     }
     return (
       <div className={classnames(styles.root, className)}>
         {icon}
         <span className={styles.startTime}>{formatDuration(this._audio.currentTime)}</span>
-        <a className={styles.download} target="_blank" download href={uri}>
+        <a
+          className={classnames(styles.download, (disabled ? styles.disabled : null))}
+          target="_blank"
+          download
+          href={uri}
+        >
           <DownloadIcon width={18} height={18} />
         </a>
         <span className={styles.endTime}>{formatDuration(duration)}</span>
@@ -134,12 +170,14 @@ VoicemailPlayer.propTypes = {
   uri: PropTypes.string.isRequired,
   className: PropTypes.string,
   onPlay: PropTypes.func,
+  disabled: PropTypes.bool,
 };
 
 VoicemailPlayer.defaultProps = {
   duration: 0,
   className: undefined,
   onPlay: undefined,
+  disabled: false,
 };
 
 export default VoicemailPlayer;

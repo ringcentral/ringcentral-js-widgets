@@ -48,3 +48,34 @@
   position: relative;
   top: 4px;
 }
+.svgFillIcon {
+  path {
+    fill: $primary-color;
+  }
+  &:hover {
+    path {
+      fill: $primary-color-highlight;
+    }
+  }
+  &.disabled {
+    path {
+      fill: $coin;
+    }
+  }
+}
+.unmarked {
+  path {
+    stroke: $primary-color;
+  }
+  &:hover {
+    path {
+      stroke: $primary-color-highlight;
+    }
+  }
+  &.disabled {
+    path {
+      stroke: $coin;
+    }
+  }
+}
+
