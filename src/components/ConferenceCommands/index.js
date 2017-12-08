@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import BackHeader from '../BackHeader';
 import styles from './styles.scss';
+import i18n from './i18n';
 
 const button = text => <span key={text} className={styles.button}>{text}</span>;
 
@@ -13,69 +14,62 @@ const section = (buttons, title, body) => (
   </div>
 );
 
-const sections = [
+const sections = currentLocale => ([
   {
     buttons: ['*', '#', '2'],
-    title: 'Caller Count',
-    body: 'Keep track of how many people are on the call'
+    title: i18n.getString('starSharp2Title', currentLocale),
+    body: i18n.getString('starSharp2Body', currentLocale),
   },
   {
     buttons: ['*', '#', '3'],
-    title: 'Leave Conference',
-    body: 'Lets the host hang up and end the call'
+    title: i18n.getString('starSharp3Title', currentLocale),
+    body: i18n.getString('starSharp3Body', currentLocale),
   },
   {
     buttons: ['*', '#', '4'],
-    title: 'Menu',
-    body: 'Listen to the list of touchtone commands'
+    title: i18n.getString('starSharp4Title', currentLocale),
+    body: i18n.getString('starSharp4Body', currentLocale),
   },
   {
     buttons: ['*', '#', '5'],
-    title: 'Set Listening Modes',
-    body: `Press 1x: Mute callers - Callers can unmute with  *, #, 6
-Press 2x: Mute callers - Listen only. No unmuting option
-Press 3x: Unmute callers - Opens the line again`
+    title: i18n.getString('starSharp5Title', currentLocale),
+    body: i18n.getString('starSharp5Body', currentLocale),
   },
   {
     buttons: ['*', '#', '6'],
-    title: 'Mute Host Line',
-    body: `Press once to MUTE
-Press again to UNMUTE`
+    title: i18n.getString('starSharp6Title', currentLocale),
+    body: i18n.getString('starSharp6Body', currentLocale),
   },
   {
     buttons: ['*', '#', '7'],
-    title: 'Secure the Call',
-    body: `Press once to BLOCK all callers
-Press again to OPEN the call`
+    title: i18n.getString('starSharp7Title', currentLocale),
+    body: i18n.getString('starSharp7Body', currentLocale),
   },
   {
     buttons: ['*', '#', '8'],
-    title: 'Hear sound when people Enter or Exit call',
-    body: `Press 1x: Turns OFF sound
-Press 2x: Enter tone is ON Exit tone is OFF
-Press 3x: Enter tone is OFF Exit tone is ON
-Press 4x: Turns ON sound`
+    title: i18n.getString('starSharp8Title', currentLocale),
+    body: i18n.getString('starSharp8Body', currentLocale),
   },
   {
     buttons: ['*', '9'],
-    title: 'Record your conference',
-    body: `Press once to START recording
-Press again to STOP recording`
+    title: i18n.getString('star9Title', currentLocale),
+    body: i18n.getString('star9Body', currentLocale),
   }
-];
+]);
 
-const ConferenceCommands = ({ onBack }) => (
+const ConferenceCommands = ({ currentLocale, onBack }) => (
   <div className={styles.container}>
     <BackHeader onBackClick={onBack}>
       Conference Commands
     </BackHeader>
     <div className={styles.conferenceCommands}>
-      {sections.map(s => section(s.buttons, s.title, s.body))}
+      {sections(currentLocale).map(s => section(s.buttons, s.title, s.body))}
     </div>
   </div>
 );
 
 ConferenceCommands.propTypes = {
+  currentLocale: PropTypes.string.isRequired,
   onBack: PropTypes.func.isRequired
 };
 
