@@ -423,4 +423,5 @@ MessageItem.defaultProps = {
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
   showGroupNumberName: false,
+  deleteMessage: () => {},
 };
