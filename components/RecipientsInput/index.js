@@ -270,7 +270,8 @@ var RecipientsInput = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var relatedContactList = this.props.value.length >= 3 ? this.props.searchContactList : [];
+      // TODO a temporary fix for rendering slower search result.
+      var relatedContactList = this.props.value.length >= 3 ? this.props.searchContactList.slice(0, 50) : [];
       var label = _react2.default.createElement(
         'label',
         null,
