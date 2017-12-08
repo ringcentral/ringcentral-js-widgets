@@ -259,6 +259,10 @@ export default class MessageItem extends Component {
     return '';
   }
 
+  deleteMessage = () => {
+    this.props.deleteMessage(this.props.conversation.conversationId);
+  }
+
   render() {
     const {
       areaCode,
@@ -359,6 +363,9 @@ export default class MessageItem extends Component {
           createEntityTitle={i18n.getString('addEntity', currentLocale)}
           viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
           stopPropagation={false}
+          enableDelete={type === messageTypes.voiceMail}
+          onDelete={this.deleteMessage}
+          deleteTitle={i18n.getString('delete', currentLocale)}
         />
       </div>
     );
@@ -401,6 +408,7 @@ MessageItem.propTypes = {
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
   showGroupNumberName: PropTypes.bool,
+  deleteMessage: PropTypes.func,
 };
 
 MessageItem.defaultProps = {
@@ -415,4 +423,5 @@ MessageItem.defaultProps = {
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
   showGroupNumberName: false,
+  deleteMessage: () => {},
 };
