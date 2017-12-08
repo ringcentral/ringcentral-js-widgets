@@ -41,10 +41,12 @@
   width: 18px;
   float: right;
   cursor: pointer;
-
+  &:focus {
+    outline: 0;
+  }
   svg {
     path {
-      fill: $primary-color
+      fill: $primary-color;
     }
   }
 }

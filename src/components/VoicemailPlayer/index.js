@@ -9,6 +9,8 @@ import PauseIcon from '../../assets/images/Pause.svg';
 
 import styles from './styles.scss';
 
+const audiosMap = {};
+
 class VoicemailPlayer extends Component {
   constructor(props) {
     super(props);
@@ -18,14 +20,11 @@ class VoicemailPlayer extends Component {
       progress: 0,
     };
 
+    this._id = `${props.uri && props.uri.split('?')[0].split('/').pop()}/${(new Date()).getTime()}`;
     this._audio = new Audio();
-    this._audio.src = props.uri;
-    this._audio.load(props.uri);
     this._audio.volume = 1;
-
+    audiosMap[this._id] = this._audio;
     this._audio.addEventListener('timeupdate', () => {
-      console.log(this._audio.duration);
-      console.log(this._audio.currentTime);
       this.setState({
         progress: (this._audio.currentTime / this._audio.duration),
       });
@@ -35,6 +34,7 @@ class VoicemailPlayer extends Component {
       this.setState({
         playing: false,
       });
+      this._audio.isPlaying = false;
     });
 
     this._audio.addEventListener('pause', () => {
@@ -42,6 +42,7 @@ class VoicemailPlayer extends Component {
         paused: true,
         playing: false,
       });
+      this._audio.isPlaying = false;
     });
 
     this._audio.addEventListener('play', () => {
@@ -49,6 +50,7 @@ class VoicemailPlayer extends Component {
         playing: true,
         paused: false,
       });
+      this._audio.isPlaying = true;
     });
 
     this._playAudio = () => {
@@ -56,8 +58,11 @@ class VoicemailPlayer extends Component {
         return;
       }
       if (!this.state.paused) {
+        this._audio.src = props.uri;
+        this._audio.load(props.uri);
         this._audio.currentTime = 0;
       }
+      this._pauseOtherAudios();
       this._audio.play();
       if (typeof this.props.onPlay === 'function') {
         this.props.onPlay();
@@ -72,8 +77,26 @@ class VoicemailPlayer extends Component {
     };
   }
 
+  _pauseOtherAudios() {
+    Object.keys(audiosMap).forEach((id) => {
+      if (id === this._id) {
+        return;
+      }
+      const otherAudio = audiosMap[id];
+      if (otherAudio.isPlaying) {
+        otherAudio.pause();
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this._audio.currentTime = 0;
+    this._audio.pause();
+    delete audiosMap[this._id];
+  }
+
   render() {
-    const { className, duration } = this.props;
+    const { className, duration, uri } = this.props;
     let icon;
     if (this.state.playing) {
       icon = (
@@ -92,9 +115,9 @@ class VoicemailPlayer extends Component {
       <div className={classnames(styles.root, className)}>
         {icon}
         <span className={styles.startTime}>{formatDuration(this._audio.currentTime)}</span>
-        <span className={styles.download}>
+        <a className={styles.download} target="_blank" download href={uri}>
           <DownloadIcon width={18} height={18} />
-        </span>
+        </a>
         <span className={styles.endTime}>{formatDuration(duration)}</span>
         <div className={styles.progress}>
           <div className={styles.all} />

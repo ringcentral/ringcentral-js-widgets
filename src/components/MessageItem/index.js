@@ -4,7 +4,6 @@ import classnames from 'classnames';
 import messageTypes from 'ringcentral-integration/enums/messageTypes';
 import {
   messageIsTextMessage,
-  messageIsVoicemail,
 } from 'ringcentral-integration/lib/messageHelper';
 
 import formatDuration from '../../lib/formatDuration';
