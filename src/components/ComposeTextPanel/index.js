@@ -83,6 +83,7 @@ class ComposeTextPanel extends Component {
             searchContactList={this.props.searchContactList}
             formatContactPhone={this.props.formatContactPhone}
             currentLocale={this.props.currentLocale}
+            phoneTypeRenderer={this.props.phoneTypeRenderer}
             titleEnabled
             autoFocus
             multiple
@@ -155,6 +156,7 @@ ComposeTextPanel.propTypes = {
   })).isRequired,
   outboundSMS: PropTypes.bool,
   showSpinner: PropTypes.bool,
+  phoneTypeRenderer: PropTypes.func,
 };
 
 ComposeTextPanel.defaultProps = {
@@ -164,6 +166,7 @@ ComposeTextPanel.defaultProps = {
   senderNumber: '',
   outboundSMS: false,
   showSpinner: false,
+  phoneTypeRenderer: undefined,
 };
 
 export default ComposeTextPanel;

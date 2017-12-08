@@ -31,6 +31,7 @@ function DialerPanel({
   clearToNumber,
   setRecipient,
   clearRecipient,
+  phoneTypeRenderer,
 }) {
   const onCallFunc = () => {
     if (!callButtonDisabled) {
@@ -51,6 +52,7 @@ function DialerPanel({
         searchContactList={searchContactList}
         formatContactPhone={formatPhone}
         currentLocale={currentLocale}
+        phoneTypeRenderer={phoneTypeRenderer}
         titleEnabled
         autoFocus
       />
@@ -124,6 +126,7 @@ DialerPanel.propTypes = {
   clearToNumber: PropTypes.func.isRequired,
   setRecipient: PropTypes.func.isRequired,
   clearRecipient: PropTypes.func.isRequired,
+  phoneTypeRenderer: PropTypes.func,
 };
 
 DialerPanel.defaultProps = {
@@ -140,6 +143,7 @@ DialerPanel.defaultProps = {
   dialButtonVolume: 1,
   dialButtonMuted: false,
   recipient: [],
+  phoneTypeRenderer: undefined,
 };
 
 export default DialerPanel;

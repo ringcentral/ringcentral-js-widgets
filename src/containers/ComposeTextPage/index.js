@@ -56,6 +56,7 @@ function mapToFunctions(_, {
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
   }),
+  phoneTypeRenderer,
 }) {
   return {
     send: () =>
@@ -80,7 +81,7 @@ function mapToFunctions(_, {
     formatPhone: formatContactPhone,
     formatContactPhone,
     searchContact: searchString => (
-      contactSearch.search({ searchString })
+      contactSearch.debouncedSearch({ searchString })
     ),
     updateSenderNumber: ({ phoneNumber }) => composeText.updateSenderNumber(phoneNumber),
     updateTypingToNumber: (...args) => composeText.updateTypingToNumber(...args),
@@ -88,6 +89,7 @@ function mapToFunctions(_, {
     addToNumber: (...args) => composeText.addToNumber(...args),
     removeToNumber: (...args) => composeText.removeToNumber(...args),
     updateMessageText: (...args) => composeText.updateMessageText(...args),
+    phoneTypeRenderer,
   };
 }
 
