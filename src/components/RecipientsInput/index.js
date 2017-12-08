@@ -206,7 +206,7 @@ class RecipientsInput extends Component {
   }
   render() {
     const relatedContactList = this.props.value.length >= 3 ?
-      this.props.searchContactList : [];
+      this.props.searchContactList.slice(0, 50) : [];
     const label = (
       <label>
         {
