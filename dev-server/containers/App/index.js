@@ -177,6 +177,7 @@ export default function App({
                 path="/conference/commands"
                 component={() => (
                   <ConferenceCommands
+                    currentLocale={phone.locale.currentLocale}
                     onBack={() => phone.routerInteraction.goBack()} />
                 )} />
               <Route

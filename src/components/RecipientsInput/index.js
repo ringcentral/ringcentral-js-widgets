@@ -205,8 +205,9 @@ class RecipientsInput extends Component {
     this.props.searchContact(this.props.value);
   }
   render() {
+    // TODO a temporary fix for rendering slower search result.
     const relatedContactList = this.props.value.length >= 3 ?
-      this.props.searchContactList : [];
+      this.props.searchContactList.slice(0, 50) : [];
     const label = (
       <label>
         {
@@ -261,6 +262,7 @@ class RecipientsInput extends Component {
           {toNumberInput}
         </div>
         <ContactDropdownList
+          phoneTypeRenderer={this.props.phoneTypeRenderer}
           scrollDirection={this.state.scrollDirection}
           selectedIndex={this.state.selectedContactIndex}
           setSelectedIndex={this.setSelectedIndex}
@@ -304,6 +306,7 @@ RecipientsInput.propTypes = {
   autoFocus: PropTypes.bool,
   currentLocale: PropTypes.string.isRequired,
   multiple: PropTypes.bool,
+  phoneTypeRenderer: PropTypes.func,
 };
 
 RecipientsInput.defaultProps = {
@@ -315,6 +318,7 @@ RecipientsInput.defaultProps = {
   titleEnabled: undefined,
   autoFocus: false,
   multiple: false,
+  phoneTypeRenderer: undefined,
 };
 
 export default RecipientsInput;
