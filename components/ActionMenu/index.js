@@ -41,6 +41,10 @@ var _SlideMenu = require('../SlideMenu');
 
 var _SlideMenu2 = _interopRequireDefault(_SlideMenu);
 
+var _Modal = require('../Modal');
+
+var _Modal2 = _interopRequireDefault(_Modal);
+
 var _EntityButton = require('../EntityButton');
 
 var _EntityButton2 = _interopRequireDefault(_EntityButton);
@@ -57,19 +61,80 @@ var _LogButton = require('../LogButton');
 
 var _LogButton2 = _interopRequireDefault(_LogButton);
 
+var _DeleteMessageIcon = require('../../assets/images/DeleteMessageIcon.svg');
+
+var _DeleteMessageIcon2 = _interopRequireDefault(_DeleteMessageIcon);
+
+var _CloseIcon = require('../../assets/images/CloseIcon.svg');
+
+var _CloseIcon2 = _interopRequireDefault(_CloseIcon);
+
 var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
 
 var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
 
+var _i18n = require('./i18n');
+
+var _i18n2 = _interopRequireDefault(_i18n);
+
+var _styles = require('./styles.scss');
+
+var _styles2 = _interopRequireDefault(_styles);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function ClickToDialButton(_ref) {
-  var className = _ref.className,
-      onClickToDial = _ref.onClickToDial,
-      disableLinks = _ref.disableLinks,
-      disableClickToDial = _ref.disableClickToDial,
-      phoneNumber = _ref.phoneNumber,
-      title = _ref.title;
+function ConfirmDeleteModal(_ref) {
+  var currentLocale = _ref.currentLocale,
+      show = _ref.show,
+      onDelete = _ref.onDelete,
+      onCancel = _ref.onCancel;
+
+  return _react2.default.createElement(
+    _Modal2.default,
+    {
+      show: show,
+      currentLocale: currentLocale,
+      onConfirm: onDelete,
+      onCancel: onCancel,
+      className: _styles2.default.confirmDeleteModal,
+      modalClassName: _styles2.default.confirmDeleteModal,
+      cancelBtnClassName: _styles2.default.cancelBtn,
+      confirmBtnClassName: _styles2.default.confirmBtn,
+      closeBtn: _react2.default.createElement(
+        _Button2.default,
+        {
+          className: _styles2.default.closeBtn,
+          onClick: onCancel
+        },
+        _react2.default.createElement(_CloseIcon2.default, null)
+      )
+    },
+    _react2.default.createElement(
+      'div',
+      { className: _styles2.default.contentText },
+      _i18n2.default.getString('sureToDeleteVoiceMail', currentLocale)
+    )
+  );
+}
+ConfirmDeleteModal.propTypes = {
+  currentLocale: _propTypes2.default.string.isRequired,
+  show: _propTypes2.default.bool.isRequired,
+  onDelete: _propTypes2.default.func,
+  onCancel: _propTypes2.default.func
+};
+
+ConfirmDeleteModal.defaultProps = {
+  onDelete: function onDelete() {},
+  onCancel: function onCancel() {}
+};
+
+function ClickToDialButton(_ref2) {
+  var className = _ref2.className,
+      onClickToDial = _ref2.onClickToDial,
+      disableLinks = _ref2.disableLinks,
+      disableClickToDial = _ref2.disableClickToDial,
+      phoneNumber = _ref2.phoneNumber,
+      title = _ref2.title;
 
   return _react2.default.createElement(
     _Button2.default,
@@ -99,12 +164,12 @@ ClickToDialButton.defaultProps = {
   title: undefined
 };
 
-function ClickToSmsButton(_ref2) {
-  var className = _ref2.className,
-      onClickToSms = _ref2.onClickToSms,
-      disableLinks = _ref2.disableLinks,
-      phoneNumber = _ref2.phoneNumber,
-      title = _ref2.title;
+function ClickToSmsButton(_ref3) {
+  var className = _ref3.className,
+      onClickToSms = _ref3.onClickToSms,
+      disableLinks = _ref3.disableLinks,
+      phoneNumber = _ref3.phoneNumber,
+      title = _ref3.title;
 
   return _react2.default.createElement(
     _Button2.default,
@@ -121,13 +186,42 @@ ClickToSmsButton.propTypes = {
   className: _propTypes2.default.string,
   onClickToSms: _propTypes2.default.func,
   disableLinks: _propTypes2.default.bool,
-  phoneNumber: _propTypes2.default.string
+  phoneNumber: _propTypes2.default.string,
+  title: _propTypes2.default.string
 };
 ClickToSmsButton.defaultProps = {
   className: undefined,
   onClickToSms: undefined,
   disableLinks: false,
-  phoneNumber: undefined
+  phoneNumber: undefined,
+  title: undefined
+};
+
+function DeleteButton(_ref4) {
+  var className = _ref4.className,
+      title = _ref4.title,
+      openDeleteModal = _ref4.openDeleteModal;
+
+  return _react2.default.createElement(
+    _Button2.default,
+    {
+      className: className,
+      onClick: openDeleteModal },
+    _react2.default.createElement(_DeleteMessageIcon2.default, {
+      title: title
+    })
+  );
+}
+
+DeleteButton.propTypes = {
+  className: _propTypes2.default.string,
+  title: _propTypes2.default.string,
+  openDeleteModal: _propTypes2.default.func
+};
+DeleteButton.defaultProps = {
+  className: undefined,
+  title: undefined,
+  openDeleteModal: function openDeleteModal() {}
 };
 
 var ActionMenu = function (_Component) {
@@ -159,6 +253,30 @@ var ActionMenu = function (_Component) {
       });
     };
 
+    _this.onDelete = function () {
+      _this.props.onDelete();
+      _this.setState({
+        disableDelete: true
+      });
+      _this.onCloseDeleteModal();
+    };
+
+    _this.openDeleteModal = function () {
+      _this.setState({
+        deleteModalVisible: true
+      });
+    };
+
+    _this.onCloseDeleteModal = function () {
+      _this.setState({
+        deleteModalVisible: false
+      });
+    };
+
+    _this.onCancelDelete = function () {
+      _this.onCloseDeleteModal();
+    };
+
     _this.preventEventPropogation = function (e) {
       if (e.target !== e.currentTarget) {
         e.stopPropagation();
@@ -166,7 +284,9 @@ var ActionMenu = function (_Component) {
     };
 
     _this.state = {
-      entityModalVisible: false
+      entityModalVisible: false,
+      deleteModalVisible: false,
+      disableDelete: false
     };
     return _this;
   }
@@ -195,7 +315,10 @@ var ActionMenu = function (_Component) {
           callTitle = _props.callTitle,
           textTitle = _props.textTitle,
           createEntityTitle = _props.createEntityTitle,
-          viewEntityTitle = _props.viewEntityTitle;
+          viewEntityTitle = _props.viewEntityTitle,
+          enableDelete = _props.enableDelete,
+          onDelete = _props.onDelete,
+          deleteTitle = _props.deleteTitle;
 
 
       var logButton = onLog ? _react2.default.createElement(_LogButton2.default, {
@@ -249,6 +372,20 @@ var ActionMenu = function (_Component) {
         currentLocale: currentLocale,
         title: textTitle
       }) : null;
+      var deleteButton = enableDelete ? _react2.default.createElement(DeleteButton, {
+        onDelete: onDelete,
+        currentLocale: currentLocale,
+        title: deleteTitle,
+        openDeleteModal: this.openDeleteModal,
+        disable: this.state.disableDelete
+      }) : null;
+
+      var confirmDeleteModal = enableDelete ? _react2.default.createElement(ConfirmDeleteModal, {
+        currentLocale: currentLocale,
+        show: this.state.deleteModalVisible,
+        onDelete: this.onDelete,
+        onCancel: this.onCancelDelete
+      }) : null;
       return _react2.default.createElement(
         'div',
         { ref: reference },
@@ -268,9 +405,12 @@ var ActionMenu = function (_Component) {
             clickToDialButton,
             clickToSmsButton,
             entityButton,
-            logButton
+            logButton,
+            deleteButton
           )
-        )
+        ),
+        entityModal,
+        confirmDeleteModal
       );
     }
   }]);
@@ -304,7 +444,10 @@ ActionMenu.propTypes = {
   textTitle: _propTypes2.default.string,
   callTitle: _propTypes2.default.string,
   createEntityTitle: _propTypes2.default.string,
-  viewEntityTitle: _propTypes2.default.string
+  viewEntityTitle: _propTypes2.default.string,
+  enableDelete: _propTypes2.default.bool,
+  onDelete: _propTypes2.default.func,
+  deleteTitle: _propTypes2.default.string
 };
 ActionMenu.defaultProps = {
   extended: undefined,
@@ -329,6 +472,9 @@ ActionMenu.defaultProps = {
   textTitle: undefined,
   callTitle: undefined,
   createEntityTitle: undefined,
-  viewEntityTitle: undefined
+  viewEntityTitle: undefined,
+  deleteTitle: undefined,
+  enableDelete: false,
+  onDelete: function onDelete() {}
 };
 //# sourceMappingURL=index.js.map

@@ -192,6 +192,10 @@ var MessageItem = function (_Component) {
       _this.toggleExtended();
     };
 
+    _this.deleteMessage = function () {
+      _this.props.deleteMessage(_this.props.conversation.conversationId);
+    };
+
     _this.state = {
       selected: _this.getInitialContactIndex(),
       isLogging: false,
@@ -490,7 +494,10 @@ var MessageItem = function (_Component) {
           callTitle: _i18n2.default.getString('call', currentLocale),
           createEntityTitle: _i18n2.default.getString('addEntity', currentLocale),
           viewEntityTitle: _i18n2.default.getString('viewDetails', currentLocale),
-          stopPropagation: false
+          stopPropagation: false,
+          enableDelete: type === _messageTypes2.default.voiceMail,
+          onDelete: this.deleteMessage,
+          deleteTitle: _i18n2.default.getString('delete', currentLocale)
         })
       );
     }
@@ -536,7 +543,8 @@ MessageItem.propTypes = {
   enableContactFallback: _propTypes2.default.bool,
   showContactDisplayPlaceholder: _propTypes2.default.bool,
   sourceIcons: _propTypes2.default.object,
-  showGroupNumberName: _propTypes2.default.bool
+  showGroupNumberName: _propTypes2.default.bool,
+  deleteMessage: _propTypes2.default.func
 };
 
 MessageItem.defaultProps = {
@@ -550,6 +558,7 @@ MessageItem.defaultProps = {
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
-  showGroupNumberName: false
+  showGroupNumberName: false,
+  deleteMessage: function deleteMessage() {}
 };
 //# sourceMappingURL=index.js.map

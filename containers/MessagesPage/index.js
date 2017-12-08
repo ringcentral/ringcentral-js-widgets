@@ -202,6 +202,9 @@ function mapToFunctions(_, _ref2) {
     },
     updateTypeFilter: function updateTypeFilter(type) {
       return messages.updateTypeFilter(type);
+    },
+    deleteMessage: function deleteMessage(conversationId) {
+      messageStore.deleteMessage(conversationId);
     }
   };
 }

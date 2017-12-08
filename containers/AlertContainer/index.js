@@ -62,6 +62,10 @@ var _WebphoneAlert = require('../../components/WebphoneAlert');
 
 var _WebphoneAlert2 = _interopRequireDefault(_WebphoneAlert);
 
+var _MessageStoreAlert = require('../../components/MessageStoreAlert');
+
+var _MessageStoreAlert2 = _interopRequireDefault(_MessageStoreAlert);
+
 var _MeetingAlert = require('../../components/MeetingAlert');
 
 var _MeetingAlert2 = _interopRequireDefault(_MeetingAlert);
@@ -135,6 +139,10 @@ function getDefaultRenderer(_ref2) {
           onAreaCodeLink: onRegionSettingsLinkClick
         }));
       };
+    }
+
+    if (_MessageStoreAlert2.default.handleMessage(message)) {
+      return _MessageStoreAlert2.default;
     }
 
     if (_RateExceededAlert2.default.handleMessage(message)) {
