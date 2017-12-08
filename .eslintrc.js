@@ -31,6 +31,7 @@ module.exports = {
     "jsx-a11y/label-has-for": 0, // allow implicit label for input implementation
     "jsx-a11y/no-static-element-interactions": 0,
     "jsx-a11y/no-noninteractive-element-interactions": 0,
+    "jsx-a11y/mouse-events-have-key-events": 0,
     "linebreak-style": "off",
     "no-await-in-loop": 0,
     "no-console": 0,

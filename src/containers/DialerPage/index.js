@@ -57,7 +57,8 @@ function mapToFunctions(_, {
     regionSettings,
     contactSearch,
     dialerUI,
-  }
+  },
+  phoneTypeRenderer,
 }) {
   return {
     onToNumberChange: value => (
@@ -76,8 +77,9 @@ function mapToFunctions(_, {
     setRecipient: recipient => dialerUI.setRecipient(recipient),
     clearRecipient: () => dialerUI.clearRecipient(),
     searchContact: searchString => (
-      contactSearch.search({ searchString })
+      contactSearch.debouncedSearch({ searchString })
     ),
+    phoneTypeRenderer,
 
   };
 }
