@@ -63,6 +63,10 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _dec, _class, _desc, _value, _class2;
 
+var _uuid = require('uuid');
+
+var _uuid2 = _interopRequireDefault(_uuid);
+
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
@@ -76,6 +80,10 @@ var _loginStatus2 = _interopRequireDefault(_loginStatus);
 var _proxify = require('../../lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
+
+var _debounce = require('../../lib/debounce');
+
+var _debounce2 = _interopRequireDefault(_debounce);
 
 var _actionTypes = require('./actionTypes');
 
@@ -156,6 +164,8 @@ var ContactSearch = (_dec = (0, _di.Module)({
     var _this = (0, _possibleConstructorReturn3.default)(this, (ContactSearch.__proto__ || (0, _getPrototypeOf2.default)(ContactSearch)).call(this, (0, _extends3.default)({}, options, {
       actionTypes: _actionTypes2.default
     })));
+
+    _this.debouncedSearch = (0, _debounce2.default)(_this.search, 800, true);
 
     _this._auth = auth;
     _this._storage = storage;
@@ -407,54 +417,59 @@ var ContactSearch = (_dec = (0, _di.Module)({
         var searchOnSources = _ref7.searchOnSources,
             sourceName = _ref7.sourceName,
             searchString = _ref7.searchString;
-        var entities;
+        var searchId, entities;
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
+                searchId = _uuid2.default.v4();
+
+                this._searchId = searchId;
                 this.store.dispatch({
                   type: this.actionTypes.search
                 });
-                _context3.prev = 1;
+                _context3.prev = 3;
                 entities = null;
 
                 entities = this._searchFromCache({ sourceName: sourceName, searchString: searchString });
 
                 if (!entities) {
-                  _context3.next = 7;
+                  _context3.next = 9;
                   break;
                 }
 
                 this._loadSearching({ searchOnSources: searchOnSources, searchString: searchString, entities: entities });
                 return _context3.abrupt('return');
 
-              case 7:
-                _context3.next = 9;
+              case 9:
+                _context3.next = 11;
                 return this._searchSources.get(sourceName)({
                   searchString: searchString
                 });
 
-              case 9:
+              case 11:
                 entities = _context3.sent;
 
                 entities = this._searchSourcesFormat.get(sourceName)(entities);
-                this._loadSearching({ searchOnSources: searchOnSources, searchString: searchString, entities: entities });
                 this._saveSearching({ sourceName: sourceName, searchString: searchString, entities: entities });
-                _context3.next = 18;
+                if (this._searchId === searchId) {
+                  this._loadSearching({ searchOnSources: searchOnSources, searchString: searchString, entities: entities });
+                }
+                _context3.next = 20;
                 break;
 
-              case 15:
-                _context3.prev = 15;
-                _context3.t0 = _context3['catch'](1);
+              case 17:
+                _context3.prev = 17;
+                _context3.t0 = _context3['catch'](3);
 
                 this._onSearchError();
 
-              case 18:
+              case 20:
               case 'end':
                 return _context3.stop();
             }
           }
-        }, _callee3, this, [[1, 15]]);
+        }, _callee3, this, [[3, 17]]);
       }));
 
       function _searchSource(_x2) {
