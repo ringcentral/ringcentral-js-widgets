@@ -32,6 +32,7 @@ function mapToFunctions(_, {
     contactDetails,
     regionSettings,
     call,
+    dialerUI,
     composeText,
     contactSearch,
   },
@@ -56,12 +57,11 @@ function mapToFunctions(_, {
     onBackClick: () => {
       routerInteraction.goBack();
     },
-    onClickToDial: call ?
-      (phoneNumber) => {
+    onClickToDial: dialerUI ?
+      (recipient) => {
         if (call.isIdle) {
           routerInteraction.push(dialerRoute);
-          call.onToNumberChange(phoneNumber);
-          call.onCall();
+          dialerUI.call({ recipient });
         }
       } :
       undefined,

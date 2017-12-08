@@ -33,7 +33,7 @@ function ConfirmDeleteModal({
         <Button
           className={styles.closeBtn}
           onClick={onCancel}
-         >
+        >
           <CloseIcon />
         </Button>
       }

@@ -23,46 +23,11 @@
 	transition: height 0.5s ease-in;
   color: #797979;
 }
-
-.senderSelect {
-  font-size: 12px;
-  width: 100%;
-  border: none;
-  padding: 0;
-
-  label {
-    color: $grey-light;
-    font-size: 12px;
-    width: 46px;
-  }
-  button {
-    margin-left: 0;
-    margin-right: 0;
-    color: $grey-light;
-    font-size: 12px;
-  }
-  ul {
-    overflow-y: auto;
-    margin-top: -2px;
-  }
-
-  li {
-    text-align: left;
-    padding: 10px;
-    font-size: 13px;
-  }
-}
-
 .hiddenField {
   height: 0px;
 }
 
-.receiverField {
-  margin-top: 10px;
-  padding: 0 10px 0 20px;
-  position: relative;
-  color: #303030;
-}
+
 
 .buttomField {
   position: absolute;

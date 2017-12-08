@@ -93,10 +93,16 @@ const Topic = (
         onChange={({ target }) => {
           const topic = target.value;
           if (topic.length >= 0 && topic.length <= MAX_TOPIC_LENGTH) {
-            update({
-              ...meeting,
-              topic,
-            });
+            clearTimeout(that.topicSetTimeoutId);
+            that.topicSetTimeoutId = setTimeout(
+              () => {
+                update({
+                  ...meeting,
+                  topic,
+                });
+              },
+              10
+            );
           } else {
             target.value = meeting.topic || '';
           }
@@ -597,6 +603,7 @@ class MeetingPanel extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.meeting.topic !== nextProps.meeting.topic) {
       setTimeout(() => {
+        if (!this.topic) return;
         const selectionStart = this.topic.selectionStart;
         const selectionEnd = this.topic.selectionEnd;
         this.topic.value = nextProps.meeting.topic;

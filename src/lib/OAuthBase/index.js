@@ -20,7 +20,7 @@ import oAuthMessages from './oAuthMessages';
     { dep: 'TabManager', optional: true },
   ],
 })
-export default class OAuth extends RcModule {
+export default class OAuthBase extends RcModule {
   constructor({
     alert,
     auth,

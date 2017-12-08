@@ -1,97 +1,124 @@
 @import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/fonts';
 
-.showConferenceNumbers {
-  margin:10px 15px 0 15px;
-  height:20px;
-  transition: height 0.5s ease-in;
-  overflow:hidden;
-  font-size:13px;
-  label{
-    float:left;
-    color: #b3b3b3;
-    line-height:20px;
-    display:block;
-    width:60px;
-  }
-  .dialInNumber{
-    float:right;
-    margin-left:10px;
-    line-height:20px;
-    color:#0073ae;
-  }
-  .conferenceNumber{
-    float:right;
-    margin-left:10px;
-    line-height:20px;
-    color:#2f2f2f;
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  @include secondary-font;
+
+  label {
+    color: $night;
   }
 }
-.participantsSwitch{
-  margin:10px 15px 0 15px;
-  height:20px;
-  font-size:13px;
-  color: #555;
+.main {
+  margin: 0 20px;
+  flex-grow: 1;
+  overflow: scroll;
 }
-.international{
-  margin:20px 15px 0 15px;
-  h2{
-    border-bottom: 1px solid #e3e3e5;
-    font-size:13px;
-    margin:10px 0;
-  }
-  .search{
-    span{
-      color:#2f2f2f;
-    }
-    .rightPanel{
-      display:inline-block;
-      margin-left:3px;
-      input{
-        color:$lightblack;
-        outline:0;
-        border:0;
-        width:100%;
-        background:0;
-      }
-    }
-  }
-  .numbers{
-    width:100%;
-    height:200px;
-    margin-top:10px;
-    border-top:1px solid #e3e3e5;
-    border-bottom:1px solid #e3e3e5;
-    overflow-y:scroll;
-      label{
-        display:block;
-        height:25px;
-        line-height:25px;
-        overflow:hidden;
-        input{
-          float:left;
-          margin-top:6px;
-        }
-       .country{
-          float:left;
-          margin-left:5px;
-        }
-        .phoneNumber{
-          float:right;
-          margin-right:5px;
-         }
-      }
-    }
+.bottom {
+  padding: 10px 20px;
+  box-shadow: 0 -1px 4px 0 rgba(0, 0, 0, 0.1);
 }
-.textBtn{
-  display: block;
-  margin: 25px 15px 0 15px;
-  width: calc(100% - 30px);
-  box-sizing: border-box;
-  font-size: 14px;
-  padding: 7px;
-  border-radius: 3px;
-  outline: medium none!important;
-  background-color: #fff;
-  border: 1px solid $primary-color;
-  color: $primary-color;
+.dialInNumber {
+  padding: 10px 0;
+
+  label {
+    padding: 5px 0;
+    display: block;
+    font-weight: bold;
+  }
+  .select {
+    height: 28px;
+  }
+}
+.formGroup {
+  padding: 10px 0;
+  border-bottom: 1px solid $silver;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+  label {
+    flex-grow: 1;
+  }
+
+  .field {
+    color: $ash;
+  }
+
+  .linkLine {
+    background: transparent;
+    border: none;
+    min-height: initial;
+    padding: 0;
+    margin-top: 19px;
+  }
+
+  ul.dialInNumberList {
+    max-height: 60px;
+    overflow: scroll;
+    margin: 10px 0 0;
+
+    li {
+      padding: 4px 0 5px;
+    }
+  }
+}
+.link {
+  margin: 20px 0 15px;;
+}
+.button {
+  margin: 10px 0;
+  line-height: 32px;
+  text-align: center;
+  border-radius: 100px;
+  border: solid 1px rgba(6, 132, 189, 0.4);
+  background-color: $snow;
+}
+
+.primaryButton {
+  @extend .button;
+  background-color: $primary-color;
+  color: $snow;
+}
+
+.primaryButton:hover {
+  color: $silver;
+}
+
+.selectNumberPage {
+  height: 100%;
+  overflow: scroll;
+}
+ul.dialInNumberList {
+  padding: 0;
+  margin: 15px 20px;
+
+  li {
+    list-style: none;
+    line-height: 17px;
+    height: 17px;
+    padding: 9px 0 10px;
+
+    .region {
+      color: $night;
+      @include secondary-font;
+      margin-left: 10px;
+    }
+
+    .phoneNumber {
+      font-family: $font-family;
+      font-size: $tertiary-font-size;
+      color: $ash;
+      float: right;
+    }
+  }
+
+  li:first-child {
+    padding-top: 0;
+  }
+  li:last-child {
+    padding-bottom: 0;
+  }
 }

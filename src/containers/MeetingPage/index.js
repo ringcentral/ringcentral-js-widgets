@@ -24,7 +24,13 @@ function mapToFunctions(_, {
 }) {
   return {
     update: meetingState => meeting.update(meetingState),
-    invite: schedule || meeting.schedule,
+    invite: (meetingInfo) => {
+      if (schedule) {
+        schedule(meetingInfo);
+        return;
+      }
+      meeting.schedule(meetingInfo);
+    },
     init: () => meeting.init(),
   };
 }

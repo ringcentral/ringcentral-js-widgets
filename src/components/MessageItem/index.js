@@ -212,7 +212,15 @@ export default class MessageItem extends Component {
 
   clickToDial = () => {
     if (this.props.onClickToDial) {
-      this.props.onClickToDial(this.getPhoneNumber());
+      const contact = this.getSelectedContact() || {};
+      const phoneNumber = this.getPhoneNumber();
+
+      if (phoneNumber) {
+        this.props.onClickToDial({
+          ...contact,
+          phoneNumber,
+        });
+      }
     }
   }
   onClickItem = (e) => {
@@ -281,7 +289,6 @@ export default class MessageItem extends Component {
       showContactDisplayPlaceholder,
       sourceIcons,
       showGroupNumberName,
-      deleteMessage,
     } = this.props;
 
     const groupNumbers = this.getGroupPhoneNumbers();

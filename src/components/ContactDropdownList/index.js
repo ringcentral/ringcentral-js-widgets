@@ -110,10 +110,7 @@ class ContactDropdownList extends Component {
               phoneNumber={item.phoneNumber}
               formatContactPhone={formatContactPhone}
               onHover={() => setSelectedIndex(index)}
-              onClick={() => addToRecipients({
-                name: item.name,
-                phoneNumber: item.phoneNumber,
-              })}
+              onClick={() => addToRecipients(item)}
               key={`${index}${item.phoneNumber}${item.name}${item.phoneType}`}
               titleEnabled={titleEnabled}
             />
