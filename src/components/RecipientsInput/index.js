@@ -205,6 +205,7 @@ class RecipientsInput extends Component {
     this.props.searchContact(this.props.value);
   }
   render() {
+    // TODO a temporary fix for rendering slower search result.
     const relatedContactList = this.props.value.length >= 3 ?
       this.props.searchContactList.slice(0, 50) : [];
     const label = (
