@@ -4,15 +4,23 @@ import BackHeader from '../BackHeader';
 import styles from './styles.scss';
 import i18n from './i18n';
 
-const button = text => <span key={text} className={styles.button}>{text}</span>;
+const Button = ({ text }) => <span key={text} className={styles.button}>{text}</span>;
+Button.propTypes = {
+  text: PropTypes.string.isRequired,
+};
 
-const section = (buttons, title, body) => (
+const Section = ({ buttons, title, body }) => (
   <div key={buttons.join('')} className={styles.section}>
-    {buttons.map(b => button(b))}
+    {buttons.map(b => <Button text={b} key={b} />)}
     <p className={styles.title}>{title}</p>
-    {body.split('\n').map((line, index) => <p key={index} className={styles.body}>{line}</p>)}
+    {body.split('\n').map(line => <p key={line} className={styles.body}>{line}</p>)}
   </div>
 );
+Section.propTypes = {
+  title: PropTypes.string.isRequired,
+  buttons: PropTypes.array.isRequired,
+  body: PropTypes.string.isRequired,
+};
 
 const sections = currentLocale => ([
   {
@@ -58,12 +66,16 @@ const sections = currentLocale => ([
 ]);
 
 const ConferenceCommands = ({ currentLocale, onBack }) => (
-  <div className={styles.container}>
+  <div className={styles.root}>
     <BackHeader onBackClick={onBack}>
       Conference Commands
     </BackHeader>
     <div className={styles.conferenceCommands}>
-      {sections(currentLocale).map(s => section(s.buttons, s.title, s.body))}
+      {
+        sections(currentLocale).map(
+          s => <Section key={s.title} buttons={s.buttons} title={s.title} body={s.body} />
+        )
+      }
     </div>
   </div>
 );

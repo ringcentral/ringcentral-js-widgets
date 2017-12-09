@@ -13,11 +13,23 @@
 
 .wrapper {
   width: 100%;
-  max-width: 980px;
+  max-width: 1080px;
   margin-left: auto;
   margin-right: auto;
   padding-left: 10px;
   padding-right: 10px;
+}
+
+@media only screen and (max-width: 992px) {
+  .wrapper {
+    max-width: 952px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .wrapper {
+    max-width: 728px;
+  }
 }
 
 .header {

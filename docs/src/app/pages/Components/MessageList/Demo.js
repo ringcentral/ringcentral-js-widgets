@@ -7,6 +7,7 @@ props.currentLocale = 'en-US';
 props.conversations = [{
   conversationId: 'test string'
 }];
+props.brand = 'RingCentral';
 props.showConversationDetail = () => null;
 
 /**

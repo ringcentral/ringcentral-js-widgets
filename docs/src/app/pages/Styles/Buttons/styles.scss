@@ -1,0 +1,55 @@
+.root {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.header {
+  color: #389DCA;
+  font-size: 25px;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.subHeader {
+  composes: header;
+  font-size: 18px;
+}
+
+.buttonListGroup {
+  width: 100%;
+  padding: 10px 50px;
+}
+
+.buttonList {
+  float: left;
+  width: 50%;
+}
+
+@media only screen and (max-width: 768px) {
+  .buttonList {
+    width: 100%;
+  }
+}
+
+.buttonItem {
+  width: 100%;
+  font-size: 13px;
+  text-align: left;
+  color: #666666;
+  padding: 30px 20px 0 10px;
+  min-height: 200px;
+}
+
+.button {
+  width: 100%;
+  line-height: 100%;
+  text-align: center;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.styleText {
+  margin-top: 20px;
+  p {
+    margin: 5px 0;
+  }
+}

@@ -1,7 +1,54 @@
 [
   {
     "description": "",
-    "methods": [],
+    "displayName": "ActionMenu",
+    "methods": [
+      {
+        "name": "onCreateEnityModal",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "entityType",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "onCancelEntityModal",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "openEntityModal",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "closeEntityModal",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "preventEventPropogation",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "e",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
     "props": {
       "extended": {
         "type": {
@@ -268,6 +315,7 @@
   },
   {
     "description": "",
+    "displayName": "ActiveCallActionMenu",
     "methods": [],
     "props": {
       "className": {
@@ -458,6 +506,7 @@
   },
   {
     "description": "",
+    "displayName": "ActiveCallBadge",
     "methods": [],
     "props": {
       "onClick": {
@@ -504,6 +553,7 @@
   },
   {
     "description": "",
+    "displayName": "ActiveCallButton",
     "methods": [],
     "props": {
       "className": {
@@ -679,6 +729,7 @@
   },
   {
     "description": "",
+    "displayName": "ActiveCallDialPad",
     "methods": [],
     "props": {
       "onChange": {
@@ -714,12 +765,37 @@
   },
   {
     "description": "",
+    "displayName": "ActiveCallItem",
     "methods": [
+      {
+        "name": "onSelectContact",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "value",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
       {
         "name": "getFallbackContactName",
         "docblock": null,
         "modifiers": [],
         "params": [],
+        "returns": null
+      },
+      {
+        "name": "getSelectedContact",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "selected",
+            "type": null
+          }
+        ],
         "returns": null
       },
       {
@@ -750,6 +826,34 @@
       },
       {
         "name": "getCallInfo",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "clickToSms",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "createSelectedContact",
+        "docblock": null,
+        "modifiers": [
+          "async"
+        ],
+        "params": [
+          {
+            "name": "entityType",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "viewSelectedContact",
         "docblock": null,
         "modifiers": [],
         "params": [],
@@ -1075,6 +1179,7 @@
   },
   {
     "description": "",
+    "displayName": "ActiveCallPad",
     "methods": [],
     "props": {
       "currentLocale": {
@@ -1220,6 +1325,7 @@
   },
   {
     "description": "",
+    "displayName": "ActiveCallPanel",
     "methods": [],
     "props": {
       "phoneNumber": {
@@ -1528,6 +1634,7 @@
   },
   {
     "description": "",
+    "displayName": "ActiveCallsPanel",
     "methods": [
       {
         "name": "hasCalls",
@@ -1831,6 +1938,7 @@
   },
   {
     "description": "",
+    "displayName": "AlertDisplay",
     "methods": [],
     "props": {
       "className": {
@@ -1925,6 +2033,7 @@
   },
   {
     "description": "",
+    "displayName": "AnimationAlert",
     "methods": [],
     "props": {
       "entranceAnimation": {
@@ -1932,21 +2041,33 @@
           "name": "string"
         },
         "required": false,
-        "description": ""
+        "description": "",
+        "defaultValue": {
+          "value": "'fadeInDown'",
+          "computed": false
+        }
       },
       "exitAnimation": {
         "type": {
           "name": "string"
         },
         "required": false,
-        "description": ""
+        "description": "",
+        "defaultValue": {
+          "value": "'fadeOutUp'",
+          "computed": false
+        }
       },
       "duration": {
         "type": {
           "name": "number"
         },
         "required": false,
-        "description": ""
+        "description": "",
+        "defaultValue": {
+          "value": "500",
+          "computed": false
+        }
       }
     },
     "composes": [
@@ -1956,7 +2077,106 @@
   },
   {
     "description": "",
+    "displayName": "AudioSettingsPanel",
     "methods": [
+      {
+        "name": "onSave",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "onReset",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "onDialButtonVolumeChange",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "dialButtonVolume",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "onDialButtonMutedChange",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "dialButtonMuted",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "onRingtoneVolumeChange",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "ringtoneVolume",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "onRingtoneMutedChange",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "ringtoneMuted",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "onCallVolumeChange",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "callVolume",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "onOutputDeviceIdChange",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "device",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "onInputDeviceIdChange",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "device",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
       {
         "name": "renderDeviceOption",
         "docblock": null,
@@ -1976,6 +2196,30 @@
         "params": [
           {
             "name": "device",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "renderOutputDevice",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "value",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "renderInputDevice",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "value",
             "type": null
           }
         ],
@@ -2137,6 +2381,7 @@
   },
   {
     "description": "",
+    "displayName": "AuthAlert",
     "methods": [],
     "props": {
       "currentLocale": {
@@ -2246,6 +2491,7 @@
   },
   {
     "description": "",
+    "displayName": "Badge",
     "methods": [],
     "props": {
       "onClick": {
@@ -2293,6 +2539,7 @@
   },
   {
     "description": "",
+    "displayName": "Button",
     "methods": [],
     "props": {
       "className": {
@@ -2344,6 +2591,7 @@
   },
   {
     "description": "",
+    "displayName": "CallAlert",
     "methods": [],
     "props": {
       "onAreaCodeLinkClick": {
@@ -2389,6 +2637,7 @@
   },
   {
     "description": "",
+    "displayName": "CallCtrlPanel",
     "methods": [],
     "props": {
       "callStatus": {
@@ -2722,73 +2971,36 @@
   },
   {
     "description": "",
-    "methods": [],
-    "props": {
-      "fromNumber": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "",
-        "defaultValue": {
-          "value": "null",
-          "computed": false
-        }
-      },
-      "formatPhone": {
-        "type": {
-          "name": "func"
-        },
-        "required": true,
-        "description": ""
-      },
-      "fromNumbers": {
-        "type": {
-          "name": "arrayOf",
-          "value": {
-            "name": "shape",
-            "value": {
-              "phoneNumber": {
-                "name": "string",
-                "required": false
-              },
-              "usageType": {
-                "name": "string",
-                "required": false
-              }
-            }
-          }
-        },
-        "required": true,
-        "description": ""
-      },
-      "onChange": {
-        "type": {
-          "name": "func"
-        },
-        "required": true,
-        "description": ""
-      },
-      "currentLocale": {
-        "type": {
-          "name": "string"
-        },
-        "required": true,
-        "description": ""
-      },
-      "hidden": {
-        "type": {
-          "name": "bool"
-        },
-        "required": true,
-        "description": ""
-      }
-    },
-    "name": "CallIdSelect"
-  },
-  {
-    "description": "",
+    "displayName": "CallItem",
     "methods": [
+      {
+        "name": "onSelectContact",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "value",
+            "type": null
+          },
+          {
+            "name": "idx",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "toggleExtended",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "e",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
       {
         "name": "getInitialContactIndex",
         "docblock": null,
@@ -2796,6 +3008,18 @@
         "params": [
           {
             "name": "nextProps",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "getSelectedContact",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "selected",
             "type": null
           }
         ],
@@ -2839,6 +3063,46 @@
             "type": null
           }
         ],
+        "returns": null
+      },
+      {
+        "name": "viewSelectedContact",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "createSelectedContact",
+        "docblock": null,
+        "modifiers": [
+          "async"
+        ],
+        "params": [
+          {
+            "name": "entityType",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "clickToSms",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "{ countryCode, areaCode }",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "clickToDial",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
         "returns": null
       }
     ],
@@ -3128,6 +3392,7 @@
   },
   {
     "description": "",
+    "displayName": "CallList",
     "methods": [],
     "props": {
       "className": {
@@ -3412,6 +3677,7 @@
   },
   {
     "description": "",
+    "displayName": "CallingSettingsAlert",
     "methods": [],
     "props": {
       "message": {
@@ -3457,12 +3723,87 @@
   },
   {
     "description": "",
+    "displayName": "CallingSettingsPanel",
     "methods": [
+      {
+        "name": "onSave",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "onReset",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "onCallWithChange",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "callWith",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "onMyLocationChange",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "myLocation",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "onMyLocationTextChange",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "e",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "onRingoutPromptChange",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "checked",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
       {
         "name": "getTooltipContent",
         "docblock": null,
         "modifiers": [],
         "params": [],
+        "returns": null
+      },
+      {
+        "name": "renderHandler",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "option",
+            "type": null
+          }
+        ],
         "returns": null
       }
     ],
@@ -3560,6 +3901,7 @@
   },
   {
     "description": "",
+    "displayName": "CallsPanel",
     "methods": [],
     "props": {
       "brand": {
@@ -3849,7 +4191,70 @@
     "name": "CallsPanel"
   },
   {
+    "description": "",
+    "displayName": "CheckBox",
+    "methods": [],
+    "props": {
+      "valueField": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
+      "textField": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
+      "selected": {
+        "type": {
+          "name": "any"
+        },
+        "required": true,
+        "description": ""
+      },
+      "data": {
+        "type": {
+          "name": "array"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onSelect": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      }
+    },
+    "name": "CheckBox"
+  },
+  {
     "description": "Circle Button with SVG",
+    "displayName": "CircleButton",
     "methods": [],
     "props": {
       "icon": {
@@ -4011,6 +4416,7 @@
   },
   {
     "description": "",
+    "displayName": "ComposeTextPanel",
     "methods": [
       {
         "name": "hasSenderNumbers",
@@ -4043,7 +4449,13 @@
         "type": {
           "name": "arrayOf",
           "value": {
-            "name": "string"
+            "name": "shape",
+            "value": {
+              "phoneNumber": {
+                "name": "string",
+                "required": true
+              }
+            }
           }
         },
         "required": true,
@@ -4235,28 +4647,87 @@
   {
     "description": "",
     "methods": [],
-    "props": {
-      "conferenceNumbers": {
-        "type": {
-          "name": "shape",
-          "value": {
-            "phoneNumber": {
-              "name": "string",
-              "required": false
-            },
-            "hostCode": {
-              "name": "string",
-              "required": false
-            },
-            "participantCode": {
-              "name": "string",
-              "required": false
-            },
-            "phoneNumbers": {
-              "name": "array",
-              "required": false
-            }
+    "name": "ConferenceCommands"
+  },
+  {
+    "description": "",
+    "displayName": "ConferencePanel",
+    "methods": [
+      {
+        "name": "onAddionalNumbersSwitch",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "checked",
+            "type": null
           }
+        ],
+        "returns": null
+      },
+      {
+        "name": "inviteTxt",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "inviteWithText",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "formatDialInNumbers",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "{\n  dialInNumbers,\n  countryCode,\n  areaCode,\n}",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
+    "props": {
+      "dialInNumbers": {
+        "type": {
+          "name": "array"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
+      },
+      "dialInNumber": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "additionalNumbers": {
+        "type": {
+          "name": "array"
+        },
+        "required": true,
+        "description": ""
+      },
+      "updateAdditionalNumbers": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "updateDialInNumber": {
+        "type": {
+          "name": "func"
         },
         "required": true,
         "description": ""
@@ -4282,6 +4753,20 @@
         "required": true,
         "description": ""
       },
+      "hostCode": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "participantCode": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
       "inviteWithText": {
         "type": {
           "name": "func"
@@ -4289,21 +4774,39 @@
         "required": true,
         "description": ""
       },
-      "formatPhone": {
+      "joinAsHost": {
         "type": {
           "name": "func"
         },
         "required": true,
         "description": ""
       },
-      "formatInternational": {
+      "allowJoinBeforeHost": {
+        "type": {
+          "name": "bool"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onAllowJoinBeforeHostChange": {
         "type": {
           "name": "func"
         },
         "required": true,
         "description": ""
       },
-      "formatPin": {
+      "additionalButtons": {
+        "type": {
+          "name": "array"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
+      },
+      "showHelpCommands": {
         "type": {
           "name": "func"
         },
@@ -4311,13 +4814,8 @@
         "description": ""
       },
       "showSpinner": {
-        "type": {
-          "name": "bool"
-        },
-        "required": false,
-        "description": "",
         "defaultValue": {
-          "value": "false",
+          "value": "true",
           "computed": false
         }
       }
@@ -4326,6 +4824,7 @@
   },
   {
     "description": "",
+    "displayName": "ConnectivityAlert",
     "methods": [],
     "props": {
       "message": {
@@ -4353,7 +4852,56 @@
   },
   {
     "description": "",
+    "displayName": "ContactDetails",
     "methods": [
+      {
+        "name": "onClickToDial",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "contact",
+            "type": null
+          },
+          {
+            "name": "phoneNumber",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "onClickToSMS",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "contact",
+            "type": null
+          },
+          {
+            "name": "phoneNumber",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "onClickMailTo",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "email",
+            "type": null
+          },
+          {
+            "name": "contactType",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
       {
         "name": "renderProfile",
         "docblock": null,
@@ -4505,6 +5053,7 @@
   },
   {
     "description": "",
+    "displayName": "ContactDisplay",
     "methods": [],
     "props": {
       "reference": {
@@ -4704,12 +5253,24 @@
           "value": "undefined",
           "computed": true
         }
+      },
+      "showGroupNumberName": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
       }
     },
     "name": "ContactDisplay"
   },
   {
     "description": "",
+    "displayName": "ContactDropdownList",
     "methods": [],
     "props": {
       "scrollDirection": {
@@ -4813,6 +5374,7 @@
   },
   {
     "description": "",
+    "displayName": "ContactItem",
     "methods": [
       {
         "name": "onItemSelected",
@@ -4901,6 +5463,7 @@
   },
   {
     "description": "",
+    "displayName": "ContactList",
     "methods": [
       {
         "name": "onScroll",
@@ -5026,6 +5589,7 @@
   },
   {
     "description": "",
+    "displayName": "ContactsView",
     "methods": [
       {
         "name": "doSearchByText",
@@ -5259,7 +5823,36 @@
   },
   {
     "description": "",
+    "displayName": "ConversationPanel",
     "methods": [
+      {
+        "name": "onSelectContact",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "value",
+            "type": null
+          },
+          {
+            "name": "idx",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "getSelectedContact",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "selected",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
       {
         "name": "getInitialContactIndex",
         "docblock": null,
@@ -5476,12 +6069,24 @@
           "value": "undefined",
           "computed": true
         }
+      },
+      "showGroupNumberName": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
       }
     },
     "name": "ConversationPanel"
   },
   {
     "description": "",
+    "displayName": "DialButton",
     "methods": [],
     "props": {
       "btn": {
@@ -5580,6 +6185,7 @@
   },
   {
     "description": "",
+    "displayName": "DialPad",
     "methods": [],
     "props": {
       "className": {
@@ -5664,6 +6270,7 @@
   },
   {
     "description": "",
+    "displayName": "DialTextInput",
     "methods": [],
     "props": {
       "className": {
@@ -5713,6 +6320,7 @@
   },
   {
     "description": "",
+    "displayName": "DialerPanel",
     "methods": [],
     "props": {
       "className": {
@@ -5726,7 +6334,7 @@
           "computed": false
         }
       },
-      "onCall": {
+      "onCallButtonClick": {
         "type": {
           "name": "func"
         },
@@ -5766,7 +6374,7 @@
           "computed": false
         }
       },
-      "keepToNumber": {
+      "onToNumberChange": {
         "type": {
           "name": "func"
         },
@@ -5873,12 +6481,90 @@
           "value": "false",
           "computed": false
         }
+      },
+      "searchContact": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "searchContactList": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "name": {
+                "name": "string",
+                "required": true
+              },
+              "entityType": {
+                "name": "string",
+                "required": true
+              },
+              "phoneType": {
+                "name": "string",
+                "required": true
+              },
+              "phoneNumber": {
+                "name": "string",
+                "required": true
+              }
+            }
+          }
+        },
+        "required": true,
+        "description": ""
+      },
+      "recipient": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "phoneNumber": {
+              "name": "string",
+              "required": true
+            },
+            "name": {
+              "name": "string",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
+      },
+      "clearToNumber": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "setRecipient": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "clearRecipient": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
       }
     },
     "name": "DialerPanel"
   },
   {
     "description": "",
+    "displayName": "Draggable",
     "methods": [],
     "props": {
       "className": {
@@ -5959,6 +6645,7 @@
   },
   {
     "description": "",
+    "displayName": "DropdownNavigationItem",
     "methods": [],
     "props": {
       "icon": {
@@ -6024,6 +6711,7 @@
   },
   {
     "description": "",
+    "displayName": "DropdownNavigationView",
     "methods": [
       {
         "name": "setChildNavigationElement",
@@ -6103,7 +6791,52 @@
   },
   {
     "description": "",
+    "displayName": "DropdownSelect",
     "methods": [
+      {
+        "name": "toggleShowDropdown",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "e",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "onChange",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "e",
+            "type": null
+          },
+          {
+            "name": "option",
+            "type": null
+          },
+          {
+            "name": "idx",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "_handleDocumentClick",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "e",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
       {
         "name": "valueFunction",
         "docblock": null,
@@ -6400,6 +7133,7 @@
   },
   {
     "description": "",
+    "displayName": "DurationCounter",
     "methods": [
       {
         "name": "calculateState",
@@ -6444,6 +7178,7 @@
   },
   {
     "description": "",
+    "displayName": "EntityButton",
     "methods": [],
     "props": {
       "className": {
@@ -6539,30 +7274,9 @@
   },
   {
     "description": "",
+    "displayName": "EntityModal",
     "methods": [],
     "props": {
-      "className": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "",
-        "defaultValue": {
-          "value": "''",
-          "computed": false
-        }
-      },
-      "children": {
-        "type": {
-          "name": "node"
-        },
-        "required": false,
-        "description": "",
-        "defaultValue": {
-          "value": "undefined",
-          "computed": true
-        }
-      },
       "show": {
         "type": {
           "name": "bool"
@@ -6611,6 +7325,7 @@
   },
   {
     "description": "Environment component for switching api server. Intended only for testing.\nThis component current does not comply to use redux properly.",
+    "displayName": "Environment",
     "methods": [],
     "props": {
       "server": {
@@ -6657,6 +7372,7 @@
   },
   {
     "description": "",
+    "displayName": "Eula",
     "methods": [],
     "props": {
       "brandId": {
@@ -6685,6 +7401,7 @@
   },
   {
     "description": "",
+    "displayName": "FlipPanel",
     "methods": [],
     "props": {
       "isOnFlip": {
@@ -6741,6 +7458,7 @@
   },
   {
     "description": "",
+    "displayName": "Footer",
     "methods": [],
     "props": {
       "className": {
@@ -6762,6 +7480,7 @@
   },
   {
     "description": "",
+    "displayName": "FormattedMessage",
     "methods": [],
     "props": {
       "message": {
@@ -6798,6 +7517,7 @@
   },
   {
     "description": "",
+    "displayName": "ForwardForm",
     "methods": [
       {
         "name": "getValue",
@@ -6877,6 +7597,96 @@
   },
   {
     "description": "",
+    "displayName": "FromField",
+    "methods": [],
+    "props": {
+      "fromNumber": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
+      "formatPhone": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "fromNumbers": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "phoneNumber": {
+                "name": "string",
+                "required": false
+              },
+              "usageType": {
+                "name": "string",
+                "required": false
+              }
+            }
+          }
+        },
+        "required": true,
+        "description": ""
+      },
+      "onChange": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "currentLocale": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "hidden": {
+        "type": {
+          "name": "bool"
+        },
+        "required": true,
+        "description": ""
+      },
+      "showAnonymous": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      }
+    },
+    "name": "FromField"
+  },
+  {
+    "description": "",
+    "displayName": "IconField",
     "methods": [],
     "props": {
       "children": {
@@ -6905,6 +7715,7 @@
   },
   {
     "description": "",
+    "displayName": "IconLine",
     "methods": [],
     "props": {
       "children": {
@@ -6947,6 +7758,7 @@
   },
   {
     "description": "",
+    "displayName": "IncomingCallPad",
     "methods": [],
     "props": {
       "answer": {
@@ -7065,6 +7877,7 @@
   },
   {
     "description": "",
+    "displayName": "IncomingCallPanel",
     "methods": [],
     "props": {
       "currentLocale": {
@@ -7294,6 +8107,7 @@
   },
   {
     "description": "",
+    "displayName": "InputField",
     "methods": [],
     "props": {
       "children": {
@@ -7334,6 +8148,7 @@
   },
   {
     "description": "",
+    "displayName": "InputLine",
     "methods": [],
     "props": {
       "children": {
@@ -7383,6 +8198,7 @@
   },
   {
     "description": "",
+    "displayName": "Line",
     "methods": [],
     "props": {
       "className": {
@@ -7429,6 +8245,7 @@
   },
   {
     "description": "",
+    "displayName": "LinkLine",
     "methods": [],
     "props": {
       "children": {
@@ -7465,6 +8282,39 @@
   },
   {
     "description": "",
+    "displayName": "LocalePicker",
+    "methods": [],
+    "props": {
+      "value": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "options": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "string"
+          }
+        },
+        "required": true,
+        "description": ""
+      },
+      "onChange": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      }
+    },
+    "name": "LocalePicker"
+  },
+  {
+    "description": "",
+    "displayName": "LogButton",
     "methods": [],
     "props": {
       "className": {
@@ -7549,6 +8399,7 @@
   },
   {
     "description": "",
+    "displayName": "LoginPanel",
     "methods": [],
     "props": {
       "className": {
@@ -7562,14 +8413,14 @@
           "computed": false
         }
       },
-      "setupProxyFrame": {
+      "setupOAuth": {
         "type": {
           "name": "func"
         },
         "required": true,
         "description": ""
       },
-      "clearProxyFrame": {
+      "destroyOAuth": {
         "type": {
           "name": "func"
         },
@@ -7639,6 +8490,240 @@
   },
   {
     "description": "",
+    "displayName": "MeetingAlert",
+    "methods": [],
+    "props": {
+      "currentLocale": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "message": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "message": {
+              "name": "string",
+              "required": true
+            }
+          }
+        },
+        "required": true,
+        "description": ""
+      }
+    },
+    "name": "MeetingAlert"
+  },
+  {
+    "description": "",
+    "displayName": "MeetingPanel",
+    "methods": [],
+    "props": {
+      "update": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "invite": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "init": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "meeting": {
+        "type": {
+          "name": "object"
+        },
+        "required": true,
+        "description": ""
+      },
+      "currentLocale": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "scheduleButton": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "disabled": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "hidden": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      }
+    },
+    "name": "MeetingPanel"
+  },
+  {
+    "description": "",
+    "displayName": "MeetingScheduleButton",
+    "methods": [
+      {
+        "name": "getI18nButtonString",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "getI18nPromptString",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      }
+    ],
+    "props": {
+      "meeting": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
+      "hidden": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "disabled": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "onClick": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      }
+    },
+    "name": "MeetingScheduleButton"
+  },
+  {
+    "description": "",
+    "displayName": "MeetingSection",
+    "methods": [],
+    "props": {
+      "children": {
+        "type": {
+          "name": "element"
+        },
+        "required": true,
+        "description": ""
+      },
+      "title": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
+      "withSwitch": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "toggle": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "hideTopBorderLine": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      }
+    },
+    "name": "MeetingSection"
+  },
+  {
+    "description": "",
+    "displayName": "Message",
     "methods": [],
     "props": {
       "level": {
@@ -7667,7 +8752,24 @@
   },
   {
     "description": "",
+    "displayName": "MessageItem",
     "methods": [
+      {
+        "name": "onSelectContact",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "value",
+            "type": null
+          },
+          {
+            "name": "idx",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
       {
         "name": "getInitialContactIndex",
         "docblock": null,
@@ -7675,6 +8777,18 @@
         "params": [
           {
             "name": "nextProps",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "getSelectedContact",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "selected",
             "type": null
           }
         ],
@@ -7696,6 +8810,13 @@
       },
       {
         "name": "getFallbackContactName",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "viewSelectedContact",
         "docblock": null,
         "modifiers": [],
         "params": [],
@@ -7727,6 +8848,32 @@
             "type": null
           }
         ],
+        "returns": null
+      },
+      {
+        "name": "clickToDial",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "onClickItem",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "e",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "getDetail",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
         "returns": null
       }
     ],
@@ -7793,6 +8940,10 @@
                 }
               },
               "required": false
+            },
+            "unreadCounts": {
+              "name": "number",
+              "required": true
             }
           }
         },
@@ -7907,6 +9058,13 @@
         "required": true,
         "description": ""
       },
+      "readVoicemail": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
       "autoLog": {
         "type": {
           "name": "bool"
@@ -7950,13 +9108,33 @@
           "value": "undefined",
           "computed": true
         }
+      },
+      "showGroupNumberName": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
       }
     },
     "name": "MessageItem"
   },
   {
     "description": "",
-    "methods": [],
+    "displayName": "MessageList",
+    "methods": [
+      {
+        "name": "onScroll",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      }
+    ],
     "props": {
       "brand": {
         "type": {
@@ -8058,6 +9236,13 @@
         "required": true,
         "description": ""
       },
+      "readVoicemail": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
       "dateTimeFormatter": {
         "type": {
           "name": "func"
@@ -8090,12 +9275,24 @@
           "value": "undefined",
           "computed": true
         }
+      },
+      "showGroupNumberName": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
       }
     },
     "name": "MessageList"
   },
   {
     "description": "",
+    "displayName": "MessageSenderAlert",
     "methods": [],
     "props": {
       "currentLocale": {
@@ -8134,6 +9331,227 @@
   },
   {
     "description": "",
+    "displayName": "NavigationButton",
+    "methods": [],
+    "props": {
+      "icon": {
+        "type": {
+          "name": "node"
+        },
+        "required": true,
+        "description": ""
+      },
+      "active": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "label": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "noticeCounts": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "width": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "number"
+            },
+            {
+              "name": "string"
+            }
+          ]
+        },
+        "required": true,
+        "description": ""
+      },
+      "onClick": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      }
+    },
+    "name": "MessageTabButton"
+  },
+  {
+    "description": "",
+    "displayName": "MessagesPanel",
+    "methods": [
+      {
+        "name": "renderTabs",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      }
+    ],
+    "props": {
+      "currentLocale": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "showSpinner": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "showTitle": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "showContactDisplayPlaceholder": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "sourceIcons": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "showComposeText": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "composeText": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "typeFilter": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "messageTypes.all",
+          "computed": true
+        }
+      },
+      "updateTypeFilter": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "readVoicemail": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "showConversationDetail": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "textUnreadCounts": {
+        "type": {
+          "name": "number"
+        },
+        "required": true,
+        "description": ""
+      },
+      "voiceUnreadCounts": {
+        "type": {
+          "name": "number"
+        },
+        "required": true,
+        "description": ""
+      },
+      "showGroupNumberName": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      }
+    },
+    "name": "MessagesPanel"
+  },
+  {
+    "description": "",
+    "displayName": "Modal",
     "methods": [],
     "props": {
       "className": {
@@ -8239,6 +9657,7 @@
   },
   {
     "description": "",
+    "displayName": "MultiCallAnswerButton",
     "methods": [],
     "props": {
       "title": {
@@ -8326,6 +9745,7 @@
   },
   {
     "description": "",
+    "displayName": "NavigationBar",
     "methods": [
       {
         "name": "goTo",
@@ -8440,6 +9860,7 @@
   },
   {
     "description": "",
+    "displayName": "OfflineModeBadge",
     "methods": [],
     "props": {
       "offline": {
@@ -8479,6 +9900,7 @@
   },
   {
     "description": "",
+    "displayName": "Panel",
     "methods": [],
     "props": {
       "className": {
@@ -8500,6 +9922,7 @@
   },
   {
     "description": "",
+    "displayName": "PresenceItem",
     "methods": [],
     "props": {
       "className": {
@@ -8557,6 +9980,7 @@
   },
   {
     "description": "",
+    "displayName": "PresenceSettingSection",
     "methods": [],
     "props": {
       "currentLocale": {
@@ -8634,6 +10058,7 @@
   },
   {
     "description": "",
+    "displayName": "PresenceStatusIcon",
     "methods": [],
     "props": {
       "className": {
@@ -8685,6 +10110,7 @@
   },
   {
     "description": "",
+    "displayName": "RadioButtonGroup",
     "methods": [],
     "props": {
       "className": {
@@ -8721,13 +10147,36 @@
         },
         "required": true,
         "description": ""
+      },
+      "currentLocale": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
       }
     },
     "name": "RadioBtnGroup"
   },
   {
     "description": "",
-    "methods": [],
+    "displayName": "RequestRateExceededAlert",
+    "methods": [
+      {
+        "name": "handleMessage",
+        "docblock": null,
+        "modifiers": [
+          "static"
+        ],
+        "params": [
+          {
+            "name": "{ message }",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
     "props": {
       "timestamp": {
         "type": {
@@ -8755,6 +10204,7 @@
   },
   {
     "description": "",
+    "displayName": "RecentActivityCalls",
     "methods": [],
     "props": {
       "currentLocale": {
@@ -8790,6 +10240,7 @@
   },
   {
     "description": "",
+    "displayName": "RecentActivityMessages",
     "methods": [],
     "props": {
       "currentLocale": {
@@ -8832,6 +10283,7 @@
   },
   {
     "description": "",
+    "displayName": "NavigationButton",
     "methods": [],
     "props": {
       "icon": {
@@ -8905,6 +10357,7 @@
   },
   {
     "description": "RecentActivityPanel component provides a animated slide-out panel.",
+    "displayName": "RecentActivityPanel",
     "methods": [],
     "props": {
       "title": {
@@ -8944,7 +10397,20 @@
   },
   {
     "description": "",
+    "displayName": "RecentActivityView",
     "methods": [
+      {
+        "name": "onTabChanged",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "tabName",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
       {
         "name": "getCurrentTabPanel",
         "docblock": null,
@@ -8999,7 +10465,33 @@
   },
   {
     "description": "",
-    "methods": [],
+    "displayName": "RecipientsInput",
+    "methods": [
+      {
+        "name": "onReceiverInputKeyUp",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "e",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "onReceiverChange",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "e",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
     "props": {
       "label": {
         "type": {
@@ -9008,8 +10500,8 @@
         "required": false,
         "description": "",
         "defaultValue": {
-          "value": "null",
-          "computed": false
+          "value": "undefined",
+          "computed": true
         }
       },
       "placeholder": {
@@ -9019,8 +10511,8 @@
         "required": false,
         "description": "",
         "defaultValue": {
-          "value": "''",
-          "computed": false
+          "value": "undefined",
+          "computed": true
         }
       },
       "searchContactList": {
@@ -9051,6 +10543,27 @@
         "required": true,
         "description": ""
       },
+      "recipient": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "phoneNumber": {
+              "name": "string",
+              "required": true
+            },
+            "name": {
+              "name": "string",
+              "required": false
+            }
+          }
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
       "recipients": {
         "type": {
           "name": "arrayOf",
@@ -9068,8 +10581,12 @@
             }
           }
         },
-        "required": true,
-        "description": ""
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
       },
       "value": {
         "type": {
@@ -9092,28 +10609,6 @@
         "required": true,
         "description": ""
       },
-      "onKeyUp": {
-        "type": {
-          "name": "func"
-        },
-        "required": false,
-        "description": "",
-        "defaultValue": {
-          "value": "() => null",
-          "computed": false
-        }
-      },
-      "onKeyDown": {
-        "type": {
-          "name": "func"
-        },
-        "required": false,
-        "description": "",
-        "defaultValue": {
-          "value": "() => null",
-          "computed": false
-        }
-      },
       "addToRecipients": {
         "type": {
           "name": "func"
@@ -9134,6 +10629,17 @@
         },
         "required": true,
         "description": ""
+      },
+      "searchContact": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "() => null",
+          "computed": false
+        }
       },
       "titleEnabled": {
         "type": {
@@ -9156,12 +10662,31 @@
           "value": "false",
           "computed": false
         }
+      },
+      "currentLocale": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "multiple": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
       }
     },
     "name": "RecipientsInput"
   },
   {
     "description": "",
+    "displayName": "RegionSettingsAlert",
     "methods": [],
     "props": {
       "message": {
@@ -9200,7 +10725,90 @@
   },
   {
     "description": "",
-    "methods": [],
+    "displayName": "RegionSettings",
+    "methods": [
+      {
+        "name": "onAreaCodeChange",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "e",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "onCountryCodeChange",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "option",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "onResetClick",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "onSaveClick",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "onBackClick",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "areaCodeInputFilter",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "value",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "renderHandler",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "option",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "renderValue",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "value",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
     "props": {
       "className": {
         "type": {
@@ -9292,6 +10900,7 @@
   },
   {
     "description": "",
+    "displayName": "RemoveButton",
     "methods": [],
     "props": {
       "className": {
@@ -9328,6 +10937,7 @@
   },
   {
     "description": "",
+    "displayName": "ReplyWithMessage",
     "methods": [
       {
         "name": "_getValue",
@@ -9393,6 +11003,7 @@
   },
   {
     "description": "",
+    "displayName": "RolesAndPermissionsAlert",
     "methods": [],
     "props": {
       "message": {
@@ -9434,6 +11045,7 @@
   },
   {
     "description": "",
+    "displayName": "SaveButton",
     "methods": [],
     "props": {
       "className": {
@@ -9481,6 +11093,7 @@
   },
   {
     "description": "",
+    "displayName": "SearchInput",
     "methods": [],
     "props": {
       "className": {
@@ -9557,6 +11170,7 @@
   },
   {
     "description": "",
+    "displayName": "Select",
     "methods": [],
     "props": {
       "className": {
@@ -9651,6 +11265,7 @@
   },
   {
     "description": "",
+    "displayName": "SettingsPanel",
     "methods": [],
     "props": {
       "brandId": {
@@ -10001,13 +11616,63 @@
           "value": "null",
           "computed": false
         }
+      },
+      "supportedLocales": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "string"
+          }
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "savedLocale": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "saveLocale": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       }
     },
     "name": "SettingsPanel"
   },
   {
     "description": "",
-    "methods": [],
+    "displayName": "SlideMenu",
+    "methods": [
+      {
+        "name": "onToggle",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "e",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
     "props": {
       "children": {
         "type": {
@@ -10083,6 +11748,7 @@
   },
   {
     "description": "",
+    "displayName": "Spinner",
     "methods": [],
     "props": {
       "className": {
@@ -10112,6 +11778,7 @@
   },
   {
     "description": "",
+    "displayName": "SpinnerOverlay",
     "methods": [],
     "props": {
       "className": {
@@ -10130,6 +11797,7 @@
   },
   {
     "description": "",
+    "displayName": "Switch",
     "methods": [],
     "props": {
       "checked": {
@@ -10159,6 +11827,7 @@
   },
   {
     "description": "",
+    "displayName": "NavigationButton",
     "methods": [],
     "props": {
       "icon": {
@@ -10239,6 +11908,7 @@
   },
   {
     "description": "",
+    "displayName": "TabNavigationView",
     "methods": [],
     "props": {
       "children": {
@@ -10326,7 +11996,21 @@
   },
   {
     "description": "",
-    "methods": [],
+    "displayName": "TextInput",
+    "methods": [
+      {
+        "name": "onInputChange",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "e",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
     "props": {
       "className": {
         "type": {
@@ -10487,7 +12171,318 @@
   },
   {
     "description": "",
-    "methods": [],
+    "displayName": "ToField",
+    "methods": [
+      {
+        "name": "onReceiversInputFocus",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "onReceiversInputBlur",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "onReceiversInputKeyUp",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "e",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "setSelectedIndex",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "index",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "scrollOperation",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "direction",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "addSelectedContactIndex",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "reduceSelectedContactIndex",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "isSplitter",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "e",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "handleHotKey",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "e",
+            "type": {
+              "name": "ReactKeyboardEvent",
+              "raw": "React.KeyboardEvent"
+            }
+          }
+        ],
+        "returns": null
+      }
+    ],
+    "props": {
+      "label": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
+      "placeholder": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
+      "searchContact": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "() => null",
+          "computed": false
+        }
+      },
+      "searchResults": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "name": {
+                "name": "string",
+                "required": true
+              },
+              "entityType": {
+                "name": "string",
+                "required": true
+              },
+              "phoneType": {
+                "name": "string",
+                "required": true
+              },
+              "phoneNumber": {
+                "name": "string",
+                "required": true
+              }
+            }
+          }
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
+      },
+      "recipients": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "phoneNumber": {
+                "name": "string",
+                "required": true
+              },
+              "name": {
+                "name": "string",
+                "required": false
+              }
+            }
+          }
+        },
+        "required": true,
+        "description": ""
+      },
+      "value": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onChange": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onClean": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "addToRecipients": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "removeFromRecipients": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "formatPhone": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "phoneNumber => phoneNumber",
+          "computed": false
+        }
+      },
+      "titleEnabled": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "autoFocus": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "currentLocale": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "multiple": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      }
+    },
+    "name": "ToField"
+  },
+  {
+    "description": "",
+    "displayName": "TransferPanel",
+    "methods": [
+      {
+        "name": "onButtonOutput",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "key",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "onTransfer",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "clearText",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "handleChange",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "event",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
     "props": {
       "onTransfer": {
         "type": {
@@ -10522,6 +12517,7 @@
   },
   {
     "description": "",
+    "displayName": "WebphoneAlert",
     "methods": [],
     "props": {
       "currentLocale": {
