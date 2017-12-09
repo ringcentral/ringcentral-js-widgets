@@ -154,7 +154,7 @@ var ToField = function (_Component) {
     };
 
     _this.addSelectedContactIndex = function () {
-      var length = _this.props.searchContactList.length;
+      var length = _this.props.searchResults.length;
       if (_this.state.selectedContactIndex >= length - 1) {
         _this.setState({
           selectedContactIndex: length - 1
@@ -212,7 +212,7 @@ var ToField = function (_Component) {
         if (_this.props.value.length === 0) {
           return;
         }
-        var relatedContactList = _this.props.value.length >= 3 ? _this.props.searchContactList : [];
+        var relatedContactList = _this.props.value.length >= 3 ? _this.props.searchResults : [];
         var currentSelected = relatedContactList[_this.state.selectedContactIndex];
         if (currentSelected && e.key === 'Enter') {
           _this.props.addToRecipients({
@@ -265,7 +265,7 @@ var ToField = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var relatedContactList = this.props.value.length >= 3 ? this.props.searchContactList : [];
+      var relatedContactList = this.props.value.length >= 3 ? this.props.searchResults : [];
       var label = _react2.default.createElement(
         'label',
         null,
@@ -347,8 +347,7 @@ ToField.propTypes = {
   formatPhone: _propTypes2.default.func,
   titleEnabled: _propTypes2.default.bool,
   autoFocus: _propTypes2.default.bool,
-  currentLocale: _propTypes2.default.string.isRequired,
-  multiple: _propTypes2.default.bool
+  currentLocale: _propTypes2.default.string.isRequired
 };
 
 ToField.defaultProps = {
@@ -362,7 +361,6 @@ ToField.defaultProps = {
   formatPhone: function formatPhone(phoneNumber) {
     return phoneNumber;
   },
-  searchResults: [],
-  multiple: false
+  searchResults: []
 };
 //# sourceMappingURL=index.js.map

@@ -26,34 +26,46 @@ var _i18n2 = _interopRequireDefault(_i18n);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var button = function button(text) {
+var Button = function Button(_ref) {
+  var text = _ref.text;
   return _react2.default.createElement(
     'span',
     { key: text, className: _styles2.default.button },
     text
   );
 };
+Button.propTypes = {
+  text: _propTypes2.default.string.isRequired
+};
 
-var section = function section(buttons, title, body) {
+var Section = function Section(_ref2) {
+  var buttons = _ref2.buttons,
+      title = _ref2.title,
+      body = _ref2.body;
   return _react2.default.createElement(
     'div',
     { key: buttons.join(''), className: _styles2.default.section },
     buttons.map(function (b) {
-      return button(b);
+      return _react2.default.createElement(Button, { text: b, key: b });
     }),
     _react2.default.createElement(
       'p',
       { className: _styles2.default.title },
       title
     ),
-    body.split('\n').map(function (line, index) {
+    body.split('\n').map(function (line) {
       return _react2.default.createElement(
         'p',
-        { key: index, className: _styles2.default.body },
+        { key: line, className: _styles2.default.body },
         line
       );
     })
   );
+};
+Section.propTypes = {
+  title: _propTypes2.default.string.isRequired,
+  buttons: _propTypes2.default.array.isRequired,
+  body: _propTypes2.default.string.isRequired
 };
 
 var sections = function sections(currentLocale) {
@@ -92,12 +104,12 @@ var sections = function sections(currentLocale) {
   }];
 };
 
-var ConferenceCommands = function ConferenceCommands(_ref) {
-  var currentLocale = _ref.currentLocale,
-      onBack = _ref.onBack;
+var ConferenceCommands = function ConferenceCommands(_ref3) {
+  var currentLocale = _ref3.currentLocale,
+      onBack = _ref3.onBack;
   return _react2.default.createElement(
     'div',
-    { className: _styles2.default.container },
+    { className: _styles2.default.root },
     _react2.default.createElement(
       _BackHeader2.default,
       { onBackClick: onBack },
@@ -107,7 +119,7 @@ var ConferenceCommands = function ConferenceCommands(_ref) {
       'div',
       { className: _styles2.default.conferenceCommands },
       sections(currentLocale).map(function (s) {
-        return section(s.buttons, s.title, s.body);
+        return _react2.default.createElement(Section, { key: s.title, buttons: s.buttons, title: s.title, body: s.body });
       })
     )
   );
