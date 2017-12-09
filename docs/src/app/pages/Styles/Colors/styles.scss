@@ -17,3 +17,15 @@
 .colorValue {
   float: right;
 }
+
+.colorsList {
+  float: left;
+  width: 50%;
+  padding: 0 20px;
+}
+
+@media only screen and (max-width: 768px) {
+  .colorsList {
+    width: 100%;
+  }
+}

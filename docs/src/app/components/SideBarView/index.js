@@ -52,6 +52,11 @@ function SideBarView(props) {
                        Colors
                     </Link>
                   </li>
+                  <li>
+                    <Link to={'/styles/buttons'}>
+                       Buttons
+                    </Link>
+                  </li>
                 </ul>
               </Collapse>
             </li>

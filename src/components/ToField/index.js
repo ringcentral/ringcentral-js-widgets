@@ -102,7 +102,7 @@ export default class ToField extends Component {
     }
   }
   addSelectedContactIndex = () => {
-    const length = this.props.searchContactList.length;
+    const length = this.props.searchResults.length;
     if (this.state.selectedContactIndex >= (length - 1)) {
       this.setState({
         selectedContactIndex: length - 1,
@@ -159,7 +159,7 @@ export default class ToField extends Component {
         return;
       }
       const relatedContactList = this.props.value.length >= 3 ?
-        this.props.searchContactList : [];
+        this.props.searchResults : [];
       const currentSelected
         = relatedContactList[this.state.selectedContactIndex];
       if (currentSelected && e.key === 'Enter') {
@@ -198,7 +198,7 @@ export default class ToField extends Component {
   }
   render() {
     const relatedContactList = this.props.value.length >= 3 ?
-      this.props.searchContactList : [];
+      this.props.searchResults : [];
     const label = (
       <label>
         {
@@ -281,7 +281,6 @@ ToField.propTypes = {
   titleEnabled: PropTypes.bool,
   autoFocus: PropTypes.bool,
   currentLocale: PropTypes.string.isRequired,
-  multiple: PropTypes.bool,
 };
 
 ToField.defaultProps = {
@@ -292,6 +291,5 @@ ToField.defaultProps = {
   searchContact: () => null,
   formatPhone: phoneNumber => phoneNumber,
   searchResults: [],
-  multiple: false,
 };
 
