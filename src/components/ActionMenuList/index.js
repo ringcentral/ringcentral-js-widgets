@@ -140,12 +140,13 @@ function DeleteButton({
       onClick={openDeleteModal}
       disabled={disabled}
     >
-      <DeleteMessageIcon
-        width={14}
-        height={17}
-        title={title}
-        className={classnames(styles.svgFillIcon, (disabled ? styles.disabled : null))}
-      />
+      <span title={title}>
+        <DeleteMessageIcon
+          width={14}
+          height={17}
+          className={classnames(styles.svgFillIcon, (disabled ? styles.disabled : null))}
+        />
+      </span>
     </Button>
   );
 }
@@ -166,10 +167,12 @@ function MarkButton({
   marked,
   className,
   onClick,
-  title,
+  markTitle,
+  unmarkTitle,
   disabled,
 }) {
   const Icon = marked ? UnmarkIcon : MarkIcon;
+  const title = marked ? unmarkTitle : markTitle;
   const classNames = classnames(
     styles.unmarked,
     (marked ? styles.svgFillIcon : null),
@@ -181,26 +184,30 @@ function MarkButton({
       onClick={onClick}
       disabled={disabled}
     >
-      <Icon
-        width={14}
-        height={17}
-        title={title}
-        className={classNames}
-      />
+      <span title={title}>
+        <Icon
+          width={14}
+          height={17}
+          title={title}
+          className={classNames}
+        />
+      </span>
     </Button>
   );
 }
 
 MarkButton.propTypes = {
   className: PropTypes.string,
-  title: PropTypes.string,
+  markTitle: PropTypes.string,
+  unmarkTitle: PropTypes.string,
   onClick: PropTypes.func.isRequired,
   marked: PropTypes.bool.isRequired,
   disabled: PropTypes.bool.isRequired,
 };
 MarkButton.defaultProps = {
   className: undefined,
-  title: undefined,
+  markTitle: undefined,
+  unmarkTitle: undefined,
 };
 
 export default class ActionMenuList extends Component {
@@ -304,6 +311,7 @@ export default class ActionMenuList extends Component {
       onMark,
       marked,
       markTitle,
+      unmarkTitle,
     } = this.props;
 
     const logButton = onLog ?
@@ -400,7 +408,8 @@ export default class ActionMenuList extends Component {
     const markButton = onMark ?
       (
         <MarkButton
-          title={markTitle}
+          markTitle={markTitle}
+          unmarkTitle={unmarkTitle}
           marked={marked}
           onClick={this.onMark}
           disabled={disableLinks}
@@ -449,6 +458,7 @@ ActionMenuList.propTypes = {
   onUnmark: PropTypes.func,
   marked: PropTypes.bool,
   markTitle: PropTypes.string,
+  unmarkTitle: PropTypes.string,
 };
 ActionMenuList.defaultProps = {
   className: undefined,
@@ -476,4 +486,5 @@ ActionMenuList.defaultProps = {
   onUnmark: undefined,
   marked: false,
   markTitle: undefined,
+  unmarkTitle: undefined,
 };

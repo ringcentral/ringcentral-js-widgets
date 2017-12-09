@@ -417,6 +417,7 @@ export default class MessageItem extends Component {
             addLogTitle={i18n.getString('addLog', currentLocale)}
             editLogTitle={i18n.getString('editLog', currentLocale)}
             callTitle={i18n.getString('call', currentLocale)}
+            textTitle={i18n.getString('text', currentLocale)}
             createEntityTitle={i18n.getString('addEntity', currentLocale)}
             viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
             stopPropagation={false}
@@ -426,6 +427,7 @@ export default class MessageItem extends Component {
             onMark={isVoicemail ? this.onMarkVoicemail : undefined}
             onUnmark={isVoicemail ? this.onPlayVoicemail : undefined}
             markTitle={i18n.getString('mark', currentLocale)}
+            unmarkTitle={i18n.getString('unmark', currentLocale)}
           />
         </SlideMenu>
       </div>
