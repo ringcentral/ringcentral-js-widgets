@@ -66,7 +66,7 @@ const sections = currentLocale => ([
 ]);
 
 const ConferenceCommands = ({ currentLocale, onBack }) => (
-  <div className={styles.container}>
+  <div className={styles.root}>
     <BackHeader onBackClick={onBack}>
       Conference Commands
     </BackHeader>
