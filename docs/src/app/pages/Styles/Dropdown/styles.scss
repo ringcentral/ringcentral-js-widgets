@@ -1,0 +1,179 @@
+.root {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.header {
+  color: #389DCA;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.dropdownGroup {
+  width: 100%;
+}
+
+.dropdownList {
+  width: 33%;
+  padding: 10px;
+  float: left;
+}
+
+@media only screen and (max-width: 768px) {
+  .dropdownList {
+    width: 50%;
+  }
+}
+
+.dropdown {
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
+  color: #666666;
+  font-size: 13px;
+  line-height: 26px;
+  margin-bottom: 50px;
+}
+
+.option {
+  padding: 0 10px;
+
+  &:first-child {
+    padding-top: 5px;
+  }
+
+  &:last-child {
+    padding-bottom: 5px;
+  }
+}
+
+.filter {
+  max-width: 97px;
+}
+
+.menus {
+  width: 300px;
+  max-width: 100%;
+  padding: 10px 0;
+}
+
+.menuItem {
+  height: 35px;
+  line-height: 35px;
+  padding: 0 22px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  svg {
+    display: inline-block;
+  }
+
+  .icon {
+    width: 22px;
+    margin-right: 10px;
+    position: relative;
+    top: 6px;
+    float: left;
+  }
+
+  .title {
+    margin-left: 32px;
+  }
+}
+
+.searchList {
+  width: 260px;
+  max-width: 100%;
+}
+
+.searchItem {
+  padding: 5px 10px;
+  line-height: 20px;
+
+  &:first-child {
+    padding-top: 10px;
+  }
+
+  &:last-child {
+    padding-bottom: 10px;
+  }
+
+  .name {
+    font-weight: bold;
+    color: #333333;
+  }
+
+  .line {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.contactItem {
+  height: 30px;
+  line-height: 30px;
+  padding: 0 13px;
+
+  .icon {
+    float: left;
+  }
+
+  .name {
+    margin-left: 20px;
+  }
+}
+
+.contactDisplay {
+  width: 180px;
+  max-width: 100%;
+  color: #333333;
+  padding: 5px 0;
+}
+
+.hover {
+  .option:nth-child(2) {
+    background-color: #f9f9f9;
+  }
+
+  .searchItem:first-child {
+    background-color: #f9f9f9;
+  }
+
+  .contactItem:nth-child(2) {
+    background-color: #f9f9f9;
+  }
+
+  .menuItem:nth-child(2) {
+    background-color: #f9f9f9;
+  }
+}
+
+.selected {
+  .option:nth-child(2) {
+    color: #0684bd;
+  }
+
+  .searchItem:first-child {
+    color: #0684bd;
+
+    .name {
+      color: #0684bd;
+    }
+  }
+
+  .contactItem:nth-child(2) {
+    color: #0684bd;
+  }
+
+  .menuItem:nth-child(2) {
+    color: #0684bd;
+
+    svg {
+      path: {
+        fill: #0684bd;
+      }
+    }
+  }
+}

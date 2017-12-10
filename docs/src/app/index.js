@@ -9,6 +9,7 @@ import MainView from './components/MainView';
 import OverView from './pages/OverView';
 import ColorsPage from './pages/Styles/Colors';
 import ButtonsPage from './pages/Styles/Buttons';
+import DropdownPage from './pages/Styles/Dropdown';
 import ComponentRoutes from './pages/ComponentRoutes';
 
 import componentsData from './componentsData.json';
@@ -22,6 +23,7 @@ render(
       <Route path="/home" component={OverView} />
       <Route path="/styles/colors" component={ColorsPage} />
       <Route path="/styles/buttons" component={ButtonsPage} />
+      <Route path="/styles/dropdown" component={DropdownPage} />
       <ComponentRoutes />
     </MainView>
   </Router>
