@@ -275,7 +275,8 @@ var RecipientsInput = function (_Component) {
       var label = _react2.default.createElement(
         'label',
         null,
-        this.props.label || _i18n2.default.getString('to', this.props.currentLocale)
+        this.props.label || _i18n2.default.getString('to', this.props.currentLocale),
+        ':'
       );
       var toNumberInput = !this.props.multiple && this.props.recipient ? null : _react2.default.createElement(
         'div',
