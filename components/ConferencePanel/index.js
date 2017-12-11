@@ -518,7 +518,6 @@ ConferencePanel.propTypes = {
   showHelpCommands: _propTypes2.default.func.isRequired
 };
 ConferencePanel.defaultProps = {
-  showSpinner: true,
   dialInNumbers: [],
   additionalButtons: []
 };
