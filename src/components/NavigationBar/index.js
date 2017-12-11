@@ -80,7 +80,10 @@ export default class NavigationBar extends Component {
                   (tab.isActive && tab.isActive(currentPath, currentVirtualPath)) ||
                   (tab.path && tab.path === currentPath) ||
                   (tab.virtualPath && tab.virtualPath === currentVirtualPath) ||
-                  (tab.childTabs && tab.childTabs.some(childTab => childTab.path === currentPath || childTab.path === currentPath.slice(0, 9)))
+                  (tab.childTabs && tab.childTabs.some(childTab =>
+                    childTab.path === currentPath ||
+                    childTab.path === currentPath.slice(0, 9)
+                  ))
                 }
                 width={tabWidth}
                 icon={icon}
