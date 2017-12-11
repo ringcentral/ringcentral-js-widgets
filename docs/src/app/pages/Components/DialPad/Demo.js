@@ -8,8 +8,15 @@ const props = {};
  * A example of `DialPad`
  */
 const DialPadDemo = () => (
-  <DialPad
-    {...props}
-  />
+  <div style={{
+    position: 'relative',
+    height: '400px',
+    width: '300px',
+    border: '1px solid #f3f3f3',
+  }}>
+    <DialPad
+      {...props}
+    />
+  </div>
 );
 export default DialPadDemo;

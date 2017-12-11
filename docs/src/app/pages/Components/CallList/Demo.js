@@ -51,6 +51,7 @@ props.calls = [{
 props.areaCode = 'test string';
 props.countryCode = 'test string';
 props.dateTimeFormatter = () => '12:00';
+props.brand = 'RingCentral';
 
 /**
  * A example of `CallList`

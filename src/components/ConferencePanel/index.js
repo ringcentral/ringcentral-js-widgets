@@ -208,7 +208,7 @@ This conference call is brought to you by RingCentral Conferencing.`;
             dialInNumbers={dialInNumbers}
             selected={additionalNumbers}
             onChange={updateAdditionalNumbers} />
-        </div >
+        </div>
       );
     }
     const additionalNumberObjs = [];
@@ -226,7 +226,7 @@ This conference call is brought to you by RingCentral Conferencing.`;
           dialInNumbers={additionalNumberObjs}
           selected={additionalNumbers}
           onChange={updateAdditionalNumbers} />
-      </div >
+      </div>
     ) : '';
     return (
       <div className={styles.container}>
@@ -332,7 +332,6 @@ ConferencePanel.propTypes = {
   showHelpCommands: PropTypes.func.isRequired
 };
 ConferencePanel.defaultProps = {
-  showSpinner: true,
   dialInNumbers: [],
   additionalButtons: []
 };

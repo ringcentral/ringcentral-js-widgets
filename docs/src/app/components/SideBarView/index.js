@@ -6,6 +6,20 @@ import classnames from 'classnames';
 import Collapse from '../Collapse';
 import styles from './styles.scss';
 
+const STYLES_ITEMS = [
+  {
+    name: 'Colors',
+    path: '/styles/colors',
+  },
+  {
+    name: 'Buttons',
+    path: '/styles/buttons',
+  },
+  {
+    name: 'Dropdown',
+    path: '/styles/dropdown',
+  }
+];
 function ComponentList(props) {
   return (
     <ul>
@@ -44,26 +58,27 @@ function SideBarView(props) {
             <li>
               <Collapse
                 collapsed={false}
-                button={'Styles'}
+                button="Styles"
               >
                 <ul>
-                  <li>
-                    <Link to={'/styles/colors'}>
-                       Colors
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to={'/styles/buttons'}>
-                       Buttons
-                    </Link>
-                  </li>
+                  {
+                    STYLES_ITEMS.map(
+                      item => (
+                        <li key={item.name}>
+                          <Link to={item.path}>
+                            {item.name}
+                          </Link>
+                        </li>
+                      )
+                    )
+                  }
                 </ul>
               </Collapse>
             </li>
             <li>
               <Collapse
                 collapsed={false}
-                button={'Components'}
+                button="Components"
               >
                 <ComponentList components={props.components} />
               </Collapse>

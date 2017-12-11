@@ -11,8 +11,13 @@ props.btn = {
  * A example of `DialButton`
  */
 const DialButtonDemo = () => (
-  <DialButton
-    {...props}
-  />
+  <div style={{
+    height: '100px',
+    width: '100px',
+  }}>
+    <DialButton
+      {...props}
+    />
+  </div>
 );
 export default DialButtonDemo;
