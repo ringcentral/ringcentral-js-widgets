@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ActionMenuList/i18n/en-US.js"],"names":["sureToDeleteVoiceMail","doNotAskAgain"],"mappings":";;;;;kBAAe;AACbA,yBAAuB,iDADV;AAEbC,iBAAe;AAFF,C","file":"en-US.js","sourcesContent":["export default {\n  sureToDeleteVoiceMail: 'Are you sure you want to delete this voicemail?',\n  doNotAskAgain: \"Don't ask me again\",\n};\n"]}

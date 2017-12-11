@@ -33,262 +33,22 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
 var _SlideMenu = require('../SlideMenu');
 
 var _SlideMenu2 = _interopRequireDefault(_SlideMenu);
 
-var _Modal = require('../Modal');
+var _ActionMenuList = require('../ActionMenuList');
 
-var _Modal2 = _interopRequireDefault(_Modal);
-
-var _EntityButton = require('../EntityButton');
-
-var _EntityButton2 = _interopRequireDefault(_EntityButton);
-
-var _EntityModal = require('../EntityModal');
-
-var _EntityModal2 = _interopRequireDefault(_EntityModal);
-
-var _Button = require('../Button');
-
-var _Button2 = _interopRequireDefault(_Button);
-
-var _LogButton = require('../LogButton');
-
-var _LogButton2 = _interopRequireDefault(_LogButton);
-
-var _DeleteMessageIcon = require('../../assets/images/DeleteMessageIcon.svg');
-
-var _DeleteMessageIcon2 = _interopRequireDefault(_DeleteMessageIcon);
-
-var _CloseIcon = require('../../assets/images/CloseIcon.svg');
-
-var _CloseIcon2 = _interopRequireDefault(_CloseIcon);
-
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
-
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
+var _ActionMenuList2 = _interopRequireDefault(_ActionMenuList);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function ConfirmDeleteModal(_ref) {
-  var currentLocale = _ref.currentLocale,
-      show = _ref.show,
-      onDelete = _ref.onDelete,
-      onCancel = _ref.onCancel;
-
-  return _react2.default.createElement(
-    _Modal2.default,
-    {
-      show: show,
-      currentLocale: currentLocale,
-      onConfirm: onDelete,
-      onCancel: onCancel,
-      className: _styles2.default.confirmDeleteModal,
-      modalClassName: _styles2.default.confirmDeleteModal,
-      cancelBtnClassName: _styles2.default.cancelBtn,
-      confirmBtnClassName: _styles2.default.confirmBtn,
-      closeBtn: _react2.default.createElement(
-        _Button2.default,
-        {
-          className: _styles2.default.closeBtn,
-          onClick: onCancel
-        },
-        _react2.default.createElement(_CloseIcon2.default, null)
-      )
-    },
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.contentText },
-      _i18n2.default.getString('sureToDeleteVoiceMail', currentLocale)
-    )
-  );
-}
-ConfirmDeleteModal.propTypes = {
-  currentLocale: _propTypes2.default.string.isRequired,
-  show: _propTypes2.default.bool.isRequired,
-  onDelete: _propTypes2.default.func,
-  onCancel: _propTypes2.default.func
-};
-
-ConfirmDeleteModal.defaultProps = {
-  onDelete: function onDelete() {},
-  onCancel: function onCancel() {}
-};
-
-function ClickToDialButton(_ref2) {
-  var className = _ref2.className,
-      onClickToDial = _ref2.onClickToDial,
-      disableLinks = _ref2.disableLinks,
-      disableClickToDial = _ref2.disableClickToDial,
-      phoneNumber = _ref2.phoneNumber,
-      title = _ref2.title;
-
-  return _react2.default.createElement(
-    _Button2.default,
-    {
-      className: className,
-      onClick: onClickToDial,
-      disabled: disableLinks || disableClickToDial || !phoneNumber },
-    _react2.default.createElement('span', {
-      className: _DynamicsFont2.default.call,
-      title: title })
-  );
-}
-ClickToDialButton.propTypes = {
-  className: _propTypes2.default.string,
-  onClickToDial: _propTypes2.default.func,
-  disableLinks: _propTypes2.default.bool,
-  disableClickToDial: _propTypes2.default.bool,
-  phoneNumber: _propTypes2.default.string,
-  title: _propTypes2.default.string
-};
-ClickToDialButton.defaultProps = {
-  className: undefined,
-  onClickToDial: undefined,
-  disableLinks: false,
-  disableClickToDial: false,
-  phoneNumber: undefined,
-  title: undefined
-};
-
-function ClickToSmsButton(_ref3) {
-  var className = _ref3.className,
-      onClickToSms = _ref3.onClickToSms,
-      disableLinks = _ref3.disableLinks,
-      phoneNumber = _ref3.phoneNumber,
-      title = _ref3.title;
-
-  return _react2.default.createElement(
-    _Button2.default,
-    {
-      className: className,
-      onClick: onClickToSms,
-      disabled: disableLinks || !phoneNumber },
-    _react2.default.createElement('span', {
-      className: _DynamicsFont2.default.composeText,
-      title: title })
-  );
-}
-ClickToSmsButton.propTypes = {
-  className: _propTypes2.default.string,
-  onClickToSms: _propTypes2.default.func,
-  disableLinks: _propTypes2.default.bool,
-  phoneNumber: _propTypes2.default.string,
-  title: _propTypes2.default.string
-};
-ClickToSmsButton.defaultProps = {
-  className: undefined,
-  onClickToSms: undefined,
-  disableLinks: false,
-  phoneNumber: undefined,
-  title: undefined
-};
-
-function DeleteButton(_ref4) {
-  var className = _ref4.className,
-      title = _ref4.title,
-      openDeleteModal = _ref4.openDeleteModal;
-
-  return _react2.default.createElement(
-    _Button2.default,
-    {
-      className: className,
-      onClick: openDeleteModal },
-    _react2.default.createElement(_DeleteMessageIcon2.default, {
-      title: title
-    })
-  );
-}
-
-DeleteButton.propTypes = {
-  className: _propTypes2.default.string,
-  title: _propTypes2.default.string,
-  openDeleteModal: _propTypes2.default.func
-};
-DeleteButton.defaultProps = {
-  className: undefined,
-  title: undefined,
-  openDeleteModal: function openDeleteModal() {}
-};
 
 var ActionMenu = function (_Component) {
   (0, _inherits3.default)(ActionMenu, _Component);
 
-  function ActionMenu(props) {
+  function ActionMenu() {
     (0, _classCallCheck3.default)(this, ActionMenu);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (ActionMenu.__proto__ || (0, _getPrototypeOf2.default)(ActionMenu)).call(this, props));
-
-    _this.onCreateEnityModal = function (entityType) {
-      _this.props.onCreateEntity(entityType);
-      _this.closeEntityModal();
-    };
-
-    _this.onCancelEntityModal = function () {
-      _this.closeEntityModal();
-    };
-
-    _this.openEntityModal = function () {
-      _this.setState({
-        entityModalVisible: true
-      });
-    };
-
-    _this.closeEntityModal = function () {
-      _this.setState({
-        entityModalVisible: false
-      });
-    };
-
-    _this.onDelete = function () {
-      _this.props.onDelete();
-      _this.setState({
-        disableDelete: true
-      });
-      _this.onCloseDeleteModal();
-    };
-
-    _this.openDeleteModal = function () {
-      _this.setState({
-        deleteModalVisible: true
-      });
-    };
-
-    _this.onCloseDeleteModal = function () {
-      _this.setState({
-        deleteModalVisible: false
-      });
-    };
-
-    _this.onCancelDelete = function () {
-      _this.onCloseDeleteModal();
-    };
-
-    _this.preventEventPropogation = function (e) {
-      if (e.target !== e.currentTarget) {
-        e.stopPropagation();
-      }
-    };
-
-    _this.state = {
-      entityModalVisible: false,
-      deleteModalVisible: false,
-      disableDelete: false
-    };
-    return _this;
+    return (0, _possibleConstructorReturn3.default)(this, (ActionMenu.__proto__ || (0, _getPrototypeOf2.default)(ActionMenu)).apply(this, arguments));
   }
 
   (0, _createClass3.default)(ActionMenu, [{
@@ -316,76 +76,13 @@ var ActionMenu = function (_Component) {
           textTitle = _props.textTitle,
           createEntityTitle = _props.createEntityTitle,
           viewEntityTitle = _props.viewEntityTitle,
-          enableDelete = _props.enableDelete,
           onDelete = _props.onDelete,
-          deleteTitle = _props.deleteTitle;
+          deleteTitle = _props.deleteTitle,
+          onMark = _props.onMark,
+          onUnmark = _props.onUnmark,
+          marked = _props.marked,
+          markTitle = _props.markTitle;
 
-
-      var logButton = onLog ? _react2.default.createElement(_LogButton2.default, {
-        onLog: onLog,
-        disableLinks: disableLinks,
-        isLogged: isLogged,
-        isLogging: isLogging,
-        currentLocale: currentLocale,
-        addTitle: addLogTitle,
-        editTitle: editLogTitle
-      }) : null;
-
-      var entityButton = void 0;
-      if (hasEntity && onViewEntity) {
-        entityButton = _react2.default.createElement(_EntityButton2.default, {
-          onViewEntity: onViewEntity,
-          hasEntity: hasEntity,
-          disableLinks: disableLinks,
-          viewEntityTitle: viewEntityTitle
-        });
-      } else if (!hasEntity && phoneNumber && onCreateEntity) {
-        entityButton = _react2.default.createElement(_EntityButton2.default, {
-          onCreateEntity: this.openEntityModal,
-          hasEntity: hasEntity,
-          disableLinks: disableLinks,
-          createEntityTitle: createEntityTitle
-        });
-      } else {
-        entityButton = null;
-      }
-
-      var entityModal = !hasEntity && phoneNumber ? _react2.default.createElement(_EntityModal2.default, {
-        currentLocale: currentLocale,
-        show: this.state.entityModalVisible,
-        onCreate: this.onCreateEnityModal,
-        onCancel: this.onCancelEntityModal
-      }) : null;
-
-      var clickToDialButton = onClickToDial ? _react2.default.createElement(ClickToDialButton, {
-        onClickToDial: onClickToDial,
-        phoneNumber: phoneNumber,
-        disableLinks: disableLinks,
-        disableClickToDial: disableClickToDial,
-        currentLocale: currentLocale,
-        title: callTitle
-      }) : null;
-      var clickToSmsButton = onClickToSms ? _react2.default.createElement(ClickToSmsButton, {
-        onClickToSms: onClickToSms,
-        phoneNumber: phoneNumber,
-        disableLinks: disableLinks,
-        currentLocale: currentLocale,
-        title: textTitle
-      }) : null;
-      var deleteButton = enableDelete ? _react2.default.createElement(DeleteButton, {
-        onDelete: onDelete,
-        currentLocale: currentLocale,
-        title: deleteTitle,
-        openDeleteModal: this.openDeleteModal,
-        disable: this.state.disableDelete
-      }) : null;
-
-      var confirmDeleteModal = enableDelete ? _react2.default.createElement(ConfirmDeleteModal, {
-        currentLocale: currentLocale,
-        show: this.state.deleteModalVisible,
-        onDelete: this.onDelete,
-        onCancel: this.onCancelDelete
-      }) : null;
       return _react2.default.createElement(
         'div',
         { ref: reference },
@@ -397,20 +94,36 @@ var ActionMenu = function (_Component) {
             className: className,
             extendIconClassName: this.props.extendIconClassName,
             minHeight: 0,
-            maxHeight: 30
+            maxHeight: 53
           },
-          _react2.default.createElement(
-            'div',
-            { onClick: this.preventEventPropogation },
-            clickToDialButton,
-            clickToSmsButton,
-            entityButton,
-            logButton,
-            deleteButton
-          )
-        ),
-        entityModal,
-        confirmDeleteModal
+          _react2.default.createElement(_ActionMenuList2.default, {
+            onLog: onLog,
+            isLogged: isLogged,
+            isLogging: isLogging,
+            isCreating: isCreating,
+            onViewEntity: onViewEntity,
+            onCreateEntity: onCreateEntity,
+            hasEntity: hasEntity,
+            onClickToDial: onClickToDial,
+            onClickToSms: onClickToSms,
+            phoneNumber: phoneNumber,
+            disableLinks: disableLinks,
+            disableClickToDial: disableClickToDial,
+            addLogTitle: addLogTitle,
+            editLogTitle: editLogTitle,
+            textTitle: textTitle,
+            callTitle: callTitle,
+            createEntityTitle: createEntityTitle,
+            viewEntityTitle: viewEntityTitle,
+            currentLocale: currentLocale,
+            onDelete: onDelete,
+            deleteTitle: deleteTitle,
+            onMark: onMark,
+            onUnmark: onUnmark,
+            marked: marked,
+            markTitle: markTitle
+          })
+        )
       );
     }
   }]);
@@ -445,9 +158,12 @@ ActionMenu.propTypes = {
   callTitle: _propTypes2.default.string,
   createEntityTitle: _propTypes2.default.string,
   viewEntityTitle: _propTypes2.default.string,
-  enableDelete: _propTypes2.default.bool,
   onDelete: _propTypes2.default.func,
-  deleteTitle: _propTypes2.default.string
+  deleteTitle: _propTypes2.default.string,
+  onMark: _propTypes2.default.func,
+  onUnmark: _propTypes2.default.func,
+  marked: _propTypes2.default.bool,
+  markTitle: _propTypes2.default.string
 };
 ActionMenu.defaultProps = {
   extended: undefined,
@@ -474,7 +190,10 @@ ActionMenu.defaultProps = {
   createEntityTitle: undefined,
   viewEntityTitle: undefined,
   deleteTitle: undefined,
-  enableDelete: false,
-  onDelete: function onDelete() {}
+  onDelete: undefined,
+  onMark: undefined,
+  onUnmark: undefined,
+  marked: false,
+  markTitle: undefined
 };
 //# sourceMappingURL=index.js.map

@@ -21,14 +21,7 @@
   height: 100%;
   top: 0;
   right: 0;
-  padding: 0 30px;
-  
-  div {
-    display: inline-block;
-  }
-  div:not(:last-child) {
-    margin-right: 30px;
-  }
+  padding: 0;
 }
 
 .extendIcon {

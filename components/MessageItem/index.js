@@ -55,21 +55,25 @@ var _messageTypes2 = _interopRequireDefault(_messageTypes);
 
 var _messageHelper = require('ringcentral-integration/lib/messageHelper');
 
+var _formatDuration = require('../../lib/formatDuration');
+
+var _formatDuration2 = _interopRequireDefault(_formatDuration);
+
 var _ContactDisplay = require('../ContactDisplay');
 
 var _ContactDisplay2 = _interopRequireDefault(_ContactDisplay);
 
-var _ActionMenu = require('../ActionMenu');
+var _ActionMenuList = require('../ActionMenuList');
 
-var _ActionMenu2 = _interopRequireDefault(_ActionMenu);
+var _ActionMenuList2 = _interopRequireDefault(_ActionMenuList);
 
-var _styles = require('./styles.scss');
+var _VoicemailPlayer = require('../VoicemailPlayer');
 
-var _styles2 = _interopRequireDefault(_styles);
+var _VoicemailPlayer2 = _interopRequireDefault(_VoicemailPlayer);
 
-var _i18n = require('./i18n');
+var _SlideMenu = require('../SlideMenu');
 
-var _i18n2 = _interopRequireDefault(_i18n);
+var _SlideMenu2 = _interopRequireDefault(_SlideMenu);
 
 var _VoicemailIcon = require('../../assets/images/VoicemailIcon.svg');
 
@@ -82,6 +86,14 @@ var _ComposeText2 = _interopRequireDefault(_ComposeText);
 var _GroupConversation = require('../../assets/images/GroupConversation.svg');
 
 var _GroupConversation2 = _interopRequireDefault(_GroupConversation);
+
+var _styles = require('./styles.scss');
+
+var _styles2 = _interopRequireDefault(_styles);
+
+var _i18n = require('./i18n');
+
+var _i18n2 = _interopRequireDefault(_i18n);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -122,12 +134,6 @@ ConversationIcon.defaultProps = {
   currentLocale: undefined
 };
 
-function formatVoiceMailDuration(duration) {
-  var mins = Math.round(duration / 60);
-  var secs = Math.round(duration % 60);
-  return (mins < 10 ? '0' + mins : mins) + ':' + (secs < 10 ? '0' + secs : secs);
-}
-
 var MessageItem = function (_Component) {
   (0, _inherits3.default)(MessageItem, _Component);
 
@@ -135,6 +141,12 @@ var MessageItem = function (_Component) {
     (0, _classCallCheck3.default)(this, MessageItem);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (MessageItem.__proto__ || (0, _getPrototypeOf2.default)(MessageItem)).call(this, props));
+
+    _this.preventEventPropogation = function (e) {
+      if (e.target !== e.currentTarget) {
+        e.stopPropagation();
+      }
+    };
 
     _this.onSelectContact = function (value, idx) {
       var selected = _this.props.showContactDisplayPlaceholder ? parseInt(idx, 10) - 1 : parseInt(idx, 10);
@@ -178,6 +190,19 @@ var MessageItem = function (_Component) {
       }
     };
 
+    _this.onClickToSms = function () {
+      if (_this.props.onClickToSms) {
+        var contact = _this.getSelectedContact() || {};
+        var phoneNumber = _this.getPhoneNumber();
+
+        if (phoneNumber) {
+          _this.props.onClickToSms((0, _extends3.default)({}, contact, {
+            phoneNumber: phoneNumber
+          }));
+        }
+      }
+    };
+
     _this.onClickItem = function (e) {
       if (_this.contactDisplay && _this.contactDisplay.contains(e.target)) {
         return;
@@ -186,13 +211,23 @@ var MessageItem = function (_Component) {
         _this.props.showConversationDetail(_this.props.conversation.conversationId);
         return;
       }
-      if ((0, _messageHelper.messageIsVoicemail)(_this.props.conversation) && _this.props.conversation.unreadCounts > 0) {
-        _this.props.readVoicemail(_this.props.conversation.conversationId);
-      }
+
       _this.toggleExtended();
     };
 
-    _this.deleteMessage = function () {
+    _this.onPlayVoicemail = function () {
+      if (_this.props.conversation.unreadCounts > 0) {
+        _this.props.readVoicemail(_this.props.conversation.conversationId);
+      }
+    };
+
+    _this.onMarkVoicemail = function () {
+      if (_this.props.conversation.unreadCounts === 0) {
+        _this.props.markVoicemail(_this.props.conversation.conversationId);
+      }
+    };
+
+    _this.onDeleteMessage = function () {
       _this.props.deleteMessage(_this.props.conversation.conversationId);
     };
 
@@ -256,12 +291,14 @@ var MessageItem = function (_Component) {
     key: 'getPhoneNumber',
     value: function getPhoneNumber() {
       var correspondents = this.props.conversation.correspondents;
+
       return correspondents.length === 1 && (correspondents[0].phoneNumber || correspondents[0].extensionNumber) || undefined;
     }
   }, {
     key: 'getGroupPhoneNumbers',
     value: function getGroupPhoneNumbers() {
       var correspondents = this.props.conversation.correspondents;
+
       var groupNumbers = correspondents.length > 1 ? correspondents.map(function (correspondent) {
         return correspondent.extensionNumber || correspondent.phoneNumber || undefined;
       }) : null;
@@ -271,6 +308,7 @@ var MessageItem = function (_Component) {
     key: 'getFallbackContactName',
     value: function getFallbackContactName() {
       var correspondents = this.props.conversation.correspondents;
+
       return correspondents.length === 1 && correspondents[0].name || undefined;
     }
   }, {
@@ -382,10 +420,10 @@ var MessageItem = function (_Component) {
       if ((0, _messageHelper.messageIsTextMessage)(conversation)) {
         return conversation.subject;
       }
-      if ((0, _messageHelper.messageIsVoicemail)(conversation)) {
-        var attachment = conversation.attachments && conversation.attachments[0];
-        var duration = attachment && attachment.vmDuration || 0;
-        return _i18n2.default.getString('voiceMessage', currentLocale) + ' (' + formatVoiceMailDuration(duration) + ')';
+      if (conversation.voicemailAttachment) {
+        var duration = conversation.voicemailAttachment.duration;
+
+        return _i18n2.default.getString('voiceMessage', currentLocale) + ' (' + (0, _formatDuration2.default)(duration) + ')';
       }
       return '';
     }
@@ -407,9 +445,11 @@ var MessageItem = function (_Component) {
           isLogging = _props2$conversation.isLogging,
           conversationMatches = _props2$conversation.conversationMatches,
           type = _props2$conversation.type,
+          voicemailAttachment = _props2$conversation.voicemailAttachment,
           disableLinks = _props2.disableLinks,
           disableClickToDial = _props2.disableClickToDial,
           onClickToDial = _props2.onClickToDial,
+          onClickToSms = _props2.onClickToSms,
           onLogConversation = _props2.onLogConversation,
           onViewContact = _props2.onViewContact,
           onCreateContact = _props2.onCreateContact,
@@ -424,6 +464,20 @@ var MessageItem = function (_Component) {
       var phoneNumber = this.getPhoneNumber();
       var fallbackName = this.getFallbackContactName();
       var detail = this.getDetail();
+      var player = void 0;
+      var slideMenuHeight = 60;
+      var isVoicemail = !!voicemailAttachment;
+      if (isVoicemail) {
+        player = _react2.default.createElement(_VoicemailPlayer2.default, {
+          className: _styles2.default.player,
+          uri: voicemailAttachment.uri,
+          duration: voicemailAttachment.duration,
+          onPlay: this.onPlayVoicemail,
+          disabled: disableLinks
+        });
+        slideMenuHeight = 88;
+      }
+
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.root, onClick: this.onClickItem },
@@ -473,32 +527,52 @@ var MessageItem = function (_Component) {
             dateTimeFormatter({ utcTimestamp: creationTime })
           )
         ),
-        _react2.default.createElement(_ActionMenu2.default, {
-          extended: this.state.extended,
-          onToggle: this.toggleExtended,
-          extendIconClassName: _styles2.default.extendIcon,
-          currentLocale: currentLocale,
-          onLog: onLogConversation && this.logConversation,
-          onViewEntity: onViewContact && this.viewSelectedContact,
-          onCreateEntity: onCreateContact && this.createSelectedContact,
-          hasEntity: correspondents.length === 1 && !!correspondentMatches.length,
-          onClickToDial: onClickToDial && this.clickToDial,
-          phoneNumber: phoneNumber,
-          disableLinks: disableLinks,
-          disableClickToDial: disableClickToDial,
-          isLogging: isLogging || this.state.isLogging,
-          isLogged: conversationMatches.length > 0,
-          isCreating: this.state.isCreating,
-          addLogTitle: _i18n2.default.getString('addLog', currentLocale),
-          editLogTitle: _i18n2.default.getString('editLog', currentLocale),
-          callTitle: _i18n2.default.getString('call', currentLocale),
-          createEntityTitle: _i18n2.default.getString('addEntity', currentLocale),
-          viewEntityTitle: _i18n2.default.getString('viewDetails', currentLocale),
-          stopPropagation: false,
-          enableDelete: type === _messageTypes2.default.voiceMail,
-          onDelete: this.deleteMessage,
-          deleteTitle: _i18n2.default.getString('delete', currentLocale)
-        })
+        _react2.default.createElement(
+          _SlideMenu2.default,
+          {
+            extended: this.state.extended,
+            onToggle: this.toggleExtended,
+            extendIconClassName: _styles2.default.extendIcon,
+            className: _styles2.default.slideMenu,
+            minHeight: 0,
+            maxHeight: slideMenuHeight
+          },
+          _react2.default.createElement(
+            'div',
+            { className: _styles2.default.playContainer, onClick: this.preventEventPropogation },
+            player
+          ),
+          _react2.default.createElement(_ActionMenuList2.default, {
+            className: _styles2.default.actionMenuList,
+            currentLocale: currentLocale,
+            onLog: isVoicemail ? undefined : onLogConversation && this.logConversation,
+            onViewEntity: onViewContact && this.viewSelectedContact,
+            onCreateEntity: onCreateContact && this.createSelectedContact,
+            hasEntity: correspondents.length === 1 && !!correspondentMatches.length,
+            onClickToDial: onClickToDial && this.clickToDial,
+            onClickToSms: isVoicemail ? onClickToSms && this.onClickToSms : undefined,
+            phoneNumber: phoneNumber,
+            disableLinks: disableLinks,
+            disableClickToDial: disableClickToDial,
+            isLogging: isLogging || this.state.isLogging,
+            isLogged: conversationMatches.length > 0,
+            isCreating: this.state.isCreating,
+            addLogTitle: _i18n2.default.getString('addLog', currentLocale),
+            editLogTitle: _i18n2.default.getString('editLog', currentLocale),
+            callTitle: _i18n2.default.getString('call', currentLocale),
+            textTitle: _i18n2.default.getString('text', currentLocale),
+            createEntityTitle: _i18n2.default.getString('addEntity', currentLocale),
+            viewEntityTitle: _i18n2.default.getString('viewDetails', currentLocale),
+            stopPropagation: false,
+            onDelete: isVoicemail ? this.onDeleteMessage : undefined,
+            deleteTitle: _i18n2.default.getString('delete', currentLocale),
+            marked: unreadCounts > 0,
+            onMark: isVoicemail ? this.onMarkVoicemail : undefined,
+            onUnmark: isVoicemail ? this.onPlayVoicemail : undefined,
+            markTitle: _i18n2.default.getString('mark', currentLocale),
+            unmarkTitle: _i18n2.default.getString('unmark', currentLocale)
+          })
+        )
       );
     }
   }]);
@@ -534,11 +608,13 @@ MessageItem.propTypes = {
   onViewContact: _propTypes2.default.func,
   onCreateContact: _propTypes2.default.func,
   onClickToDial: _propTypes2.default.func,
+  onClickToSms: _propTypes2.default.func,
   disableLinks: _propTypes2.default.bool,
   disableClickToDial: _propTypes2.default.bool,
   dateTimeFormatter: _propTypes2.default.func.isRequired,
   showConversationDetail: _propTypes2.default.func.isRequired,
   readVoicemail: _propTypes2.default.func.isRequired,
+  markVoicemail: _propTypes2.default.func.isRequired,
   autoLog: _propTypes2.default.bool,
   enableContactFallback: _propTypes2.default.bool,
   showContactDisplayPlaceholder: _propTypes2.default.bool,
@@ -553,6 +629,7 @@ MessageItem.defaultProps = {
   onViewContact: undefined,
   onCreateContact: undefined,
   disableClickToDial: false,
+  onClickToSms: undefined,
   disableLinks: false,
   autoLog: false,
   enableContactFallback: undefined,

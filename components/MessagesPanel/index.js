@@ -205,11 +205,14 @@ MessagesPanel.propTypes = {
   composeText: _propTypes2.default.func.isRequired,
   typeFilter: _propTypes2.default.string,
   updateTypeFilter: _propTypes2.default.func,
-  readVoicemail: _propTypes2.default.func.isRequired,
   showConversationDetail: _propTypes2.default.func.isRequired,
   textUnreadCounts: _propTypes2.default.number.isRequired,
   voiceUnreadCounts: _propTypes2.default.number.isRequired,
-  showGroupNumberName: _propTypes2.default.bool
+  showGroupNumberName: _propTypes2.default.bool,
+  onClickToDial: _propTypes2.default.func,
+  onClickToSms: _propTypes2.default.func,
+  markVoicemail: _propTypes2.default.func.isRequired,
+  readVoicemail: _propTypes2.default.func.isRequired
 };
 
 MessagesPanel.defaultProps = {
@@ -220,6 +223,8 @@ MessagesPanel.defaultProps = {
   showComposeText: false,
   typeFilter: _messageTypes2.default.all,
   updateTypeFilter: undefined,
-  showGroupNumberName: false
+  showGroupNumberName: false,
+  onClickToDial: undefined,
+  onClickToSms: undefined
 };
 //# sourceMappingURL=index.js.map

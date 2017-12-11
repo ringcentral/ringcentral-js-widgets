@@ -176,7 +176,8 @@ var DialerUI = (_dec = (0, _di.Module)({
 
   function DialerUI(_ref3) {
     var call = _ref3.call,
-        options = (0, _objectWithoutProperties3.default)(_ref3, ['call']);
+        alert = _ref3.alert,
+        options = (0, _objectWithoutProperties3.default)(_ref3, ['call', 'alert']);
     (0, _classCallCheck3.default)(this, DialerUI);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (DialerUI.__proto__ || (0, _getPrototypeOf2.default)(DialerUI)).call(this, (0, _extends3.default)({}, options)));

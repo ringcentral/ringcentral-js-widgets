@@ -88,6 +88,8 @@ function mapToFunctions(_, _ref2) {
       call = _ref2$phone.call,
       dialerUI = _ref2$phone.dialerUI,
       routerInteraction = _ref2$phone.routerInteraction,
+      composeText = _ref2$phone.composeText,
+      contactSearch = _ref2$phone.contactSearch,
       _ref2$dateTimeFormatt = _ref2.dateTimeFormatter,
       dateTimeFormatter = _ref2$dateTimeFormatt === undefined ? function () {
     return dateTimeFormat.formatDateTime.apply(dateTimeFormat, arguments);
@@ -161,6 +163,23 @@ function mapToFunctions(_, _ref2) {
         dialerUI.call({ recipient: recipient });
       }
     } : undefined,
+    onClickToSms: dialerUI ? function (contact) {
+      var isDummyContact = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+      if (routerInteraction) {
+        routerInteraction.push(composeTextRoute);
+      }
+      // if contact autocomplete, if no match fill the number only
+      if (contact.name && contact.phoneNumber && isDummyContact) {
+        composeText.updateTypingToNumber(contact.name);
+        contactSearch.search({ searchString: contact.name });
+      } else {
+        composeText.addToNumber(contact);
+        if (composeText.typingToNumber === contact.phoneNumber) {
+          composeText.cleanTypingToNumber();
+        }
+      }
+    } : undefined,
     isLoggedContact: isLoggedContact,
     onLogConversation: onLogConversation || conversationLogger && function () {
       var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(_ref7) {
@@ -184,7 +203,7 @@ function mapToFunctions(_, _ref2) {
         }, _callee2, _this);
       }));
 
-      return function (_x2) {
+      return function (_x3) {
         return _ref6.apply(this, arguments);
       };
     }(),
@@ -195,7 +214,10 @@ function mapToFunctions(_, _ref2) {
       routerInteraction.push(conversationDetailRoute.replace('{conversationId}', conversationId));
     },
     readVoicemail: function readVoicemail(conversationId) {
-      messageStore.readMessages(conversationId);
+      return messageStore.readMessages(conversationId);
+    },
+    markVoicemail: function markVoicemail(conversationId) {
+      return messageStore.unreadMessage(conversationId);
     },
     composeText: function composeText() {
       return routerInteraction.push(composeTextRoute);

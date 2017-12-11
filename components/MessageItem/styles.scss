@@ -3,10 +3,11 @@
 @import '../../lib/commonStyles/fonts';
 
 .root {
-  border-bottom: 1px solid #e2e2e2;
+  border-bottom: 1px solid $silver;
   cursor: pointer;
+  background-color: $snow;
   &:hover {
-    background-color: #fafafa;
+    background-color: $egg;
   }
 }
 
@@ -14,10 +15,17 @@
   border-top-color: #fafafa;
 }
 
+.slideMenu {
+  background: $snow;
+  &:hover {
+    background: $snow;
+  }
+}
+
 .wrapper {
   display: block;
   position: relative;
-  height: 66px;
+  height: 64px;
   width: 100%;
 }
 
@@ -25,7 +33,7 @@
   display: block;
   position: absolute;
   top: 0;
-  left: 6px;
+  left: 11px;
   width: 40px;
   height: 66px;
   line-height: 66px;
@@ -42,8 +50,8 @@
 .details {
   @include field-value-font;
   position: absolute;
-  left: 46px;
-  bottom: 17px;
+  left: 50px;
+  bottom: 12px;
   color: $ash;
   @include text-ellipsis;
   max-width: 140px;
@@ -60,13 +68,28 @@
 .contactDisplay {
   position: absolute;
   top: 5px;
-  left: 45px;
+  left: 50px;
   @include secondary-font;
   @include text-ellipsis;
   overflow: inherit;
   max-width: 160px;
   color: $night;
 }
+
+.playContainer {
+  display: block!important;
+  width: 100%;
+}
+
+.player {
+  padding: 8px 20px 0 43px;
+  box-sizing: border-box;
+}
+
+.actionMenuList {
+  margin: 10px 20px 15px 43px;
+}
+
 // .messageLink {
 //   text-decoration: none;
 // }

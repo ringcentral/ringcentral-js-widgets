@@ -177,6 +177,7 @@ MessageList.propTypes = {
   className: _propTypes2.default.string,
   showConversationDetail: _propTypes2.default.func.isRequired,
   readVoicemail: _propTypes2.default.func.isRequired,
+  markVoicemail: _propTypes2.default.func.isRequired,
   dateTimeFormatter: _propTypes2.default.func,
   showContactDisplayPlaceholder: _propTypes2.default.bool,
   sourceIcons: _propTypes2.default.object,
