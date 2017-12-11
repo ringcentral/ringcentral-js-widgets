@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import Switch from '../Switch';
 import i18n from './i18n';
@@ -9,28 +10,13 @@ import BackHeader from '../BackHeader';
 import Button from '../Button';
 import LinkLine from '../LinkLine';
 
+// TODO Move to a separate folder.
 function CheckBox({ checked, onChange }) {
-  let background = 'transparent';
-  let border = 'solid 1px #e2e2e2';
-  if (checked) {
-    background = '#0684bd';
-    border = 'solid 1px #0684bd';
-  }
+  const className = classNames(styles.checkbox, checked ? styles.checked : '');
   return (
     <div
-      onClick={() => onChange && onChange(!checked)}
-      style={{
-        width: 13,
-        height: 13,
-        fontSize: 13,
-        lineHeight: '13px',
-        color: '#fff',
-        display: 'inline-block',
-        textAlign: 'center',
-        userSelect: 'none',
-        background,
-        border
-      }}>
+      className={className}
+      onClick={() => onChange && onChange(!checked)}>
       ✓
     </div>
   );
