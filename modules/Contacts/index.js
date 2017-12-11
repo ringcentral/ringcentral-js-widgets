@@ -17,10 +17,6 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
-var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
-
 var _from = require('babel-runtime/core-js/array/from');
 
 var _from2 = _interopRequireDefault(_from);
@@ -68,10 +64,6 @@ var _RcModule2 = require('../../lib/RcModule');
 var _RcModule3 = _interopRequireDefault(_RcModule2);
 
 var _di = require('../../lib/di');
-
-var _normalizeNumber = require('../../lib/normalizeNumber');
-
-var _normalizeNumber2 = _interopRequireDefault(_normalizeNumber);
 
 var _ensureExist = require('../../lib/ensureExist');
 
@@ -365,6 +357,7 @@ var Contacts = (_dec = (0, _di.Module)({
      * @param {Function} params.getPresence - get source presence function, optional
      * @param {Function} params.getProfileImage - get source profile image function, optional
      * @param {Function} params.sync - sync source data function, optional
+     * @param {Function} params.matchPhoneNumber - get match phoneNumber function, optional
      */
 
   }, {
@@ -381,6 +374,9 @@ var Contacts = (_dec = (0, _di.Module)({
       }
       if (source.getProfileImage && typeof source.getProfileImage !== 'function') {
         throw new Error('Contacts: source\' getProfileImage must be a function');
+      }
+      if (source.matchPhoneNumber && typeof source.matchPhoneNumber !== 'function') {
+        throw new Error('Contacts: source\' matchPhoneNumber must be a function');
       }
       this._contactSources.set(source.sourceName, source);
       this._sourcesLastStatus.set(source.sourceName, {});
@@ -430,35 +426,36 @@ var Contacts = (_dec = (0, _di.Module)({
     }
   }, {
     key: 'matchPhoneNumber',
-    value: function matchPhoneNumber(phone) {
+    value: function matchPhoneNumber(phoneNumber) {
       var result = [];
-      var phoneNumber = (0, _normalizeNumber2.default)({ phoneNumber: phone });
-      var matchContact = function matchContact(contact) {
-        var found = contact.extensionNumber && contact.extensionNumber === phoneNumber;
-        if (!found) {
-          contact.phoneNumbers.forEach(function (contactPhoneNumber) {
-            if (!found && contactPhoneNumber.phoneNumber === phoneNumber) {
-              found = true;
-            }
-          });
+      var _iteratorNormalCompletion5 = true;
+      var _didIteratorError5 = false;
+      var _iteratorError5 = undefined;
+
+      try {
+        for (var _iterator5 = (0, _getIterator3.default)((0, _from2.default)(this._contactSources.keys())), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+          var sourceName = _step5.value;
+
+          var source = this._contactSources.get(sourceName);
+          if (typeof source.matchPhoneNumber === 'function') {
+            result = result.concat(source.matchPhoneNumber(phoneNumber));
+          }
         }
-        if (!found) {
-          return;
+      } catch (err) {
+        _didIteratorError5 = true;
+        _iteratorError5 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion5 && _iterator5.return) {
+            _iterator5.return();
+          }
+        } finally {
+          if (_didIteratorError5) {
+            throw _iteratorError5;
+          }
         }
-        var matchedContact = (0, _extends3.default)({}, contact, {
-          phoneNumbers: [].concat((0, _toConsumableArray3.default)(contact.phoneNumbers)),
-          entityType: 'rcContact'
-        });
-        if (contact.extensionNumber) {
-          matchedContact.phoneNumbers.push({
-            phoneType: 'extension',
-            phoneNumber: contact.extensionNumber
-          });
-        }
-        result.push(matchedContact);
-      };
-      this.companyContacts.forEach(matchContact);
-      this.personalContacts.forEach(matchContact);
+      }
+
       return result;
     }
   }, {
@@ -575,25 +572,25 @@ var Contacts = (_dec = (0, _di.Module)({
     key: 'sync',
     value: function () {
       var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
-        var _iteratorNormalCompletion5, _didIteratorError5, _iteratorError5, _iterator5, _step5, sourceName, source;
+        var _iteratorNormalCompletion6, _didIteratorError6, _iteratorError6, _iterator6, _step6, sourceName, source;
 
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _iteratorNormalCompletion5 = true;
-                _didIteratorError5 = false;
-                _iteratorError5 = undefined;
+                _iteratorNormalCompletion6 = true;
+                _didIteratorError6 = false;
+                _iteratorError6 = undefined;
                 _context3.prev = 3;
-                _iterator5 = (0, _getIterator3.default)((0, _from2.default)(this._contactSources.keys()));
+                _iterator6 = (0, _getIterator3.default)((0, _from2.default)(this._contactSources.keys()));
 
               case 5:
-                if (_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done) {
+                if (_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done) {
                   _context3.next = 14;
                   break;
                 }
 
-                sourceName = _step5.value;
+                sourceName = _step6.value;
                 source = this._contactSources.get(sourceName);
 
                 if (!(typeof source.sync === 'function')) {
@@ -605,7 +602,7 @@ var Contacts = (_dec = (0, _di.Module)({
                 return source.sync();
 
               case 11:
-                _iteratorNormalCompletion5 = true;
+                _iteratorNormalCompletion6 = true;
                 _context3.next = 5;
                 break;
 
@@ -616,26 +613,26 @@ var Contacts = (_dec = (0, _di.Module)({
               case 16:
                 _context3.prev = 16;
                 _context3.t0 = _context3['catch'](3);
-                _didIteratorError5 = true;
-                _iteratorError5 = _context3.t0;
+                _didIteratorError6 = true;
+                _iteratorError6 = _context3.t0;
 
               case 20:
                 _context3.prev = 20;
                 _context3.prev = 21;
 
-                if (!_iteratorNormalCompletion5 && _iterator5.return) {
-                  _iterator5.return();
+                if (!_iteratorNormalCompletion6 && _iterator6.return) {
+                  _iterator6.return();
                 }
 
               case 23:
                 _context3.prev = 23;
 
-                if (!_didIteratorError5) {
+                if (!_didIteratorError6) {
                   _context3.next = 26;
                   break;
                 }
 
-                throw _iteratorError5;
+                throw _iteratorError6;
 
               case 26:
                 return _context3.finish(23);
@@ -666,13 +663,13 @@ var Contacts = (_dec = (0, _di.Module)({
     key: 'sourceModuleReady',
     get: function get() {
       var ready = true;
-      var _iteratorNormalCompletion6 = true;
-      var _didIteratorError6 = false;
-      var _iteratorError6 = undefined;
+      var _iteratorNormalCompletion7 = true;
+      var _didIteratorError7 = false;
+      var _iteratorError7 = undefined;
 
       try {
-        for (var _iterator6 = (0, _getIterator3.default)((0, _from2.default)(this._contactSources.keys())), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-          var sourceName = _step6.value;
+        for (var _iterator7 = (0, _getIterator3.default)((0, _from2.default)(this._contactSources.keys())), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+          var sourceName = _step7.value;
 
           var source = this._contactSources.get(sourceName);
           if (!source.ready) {
@@ -680,16 +677,16 @@ var Contacts = (_dec = (0, _di.Module)({
           }
         }
       } catch (err) {
-        _didIteratorError6 = true;
-        _iteratorError6 = err;
+        _didIteratorError7 = true;
+        _iteratorError7 = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion6 && _iterator6.return) {
-            _iterator6.return();
+          if (!_iteratorNormalCompletion7 && _iterator7.return) {
+            _iterator7.return();
           }
         } finally {
-          if (_didIteratorError6) {
-            throw _iteratorError6;
+          if (_didIteratorError7) {
+            throw _iteratorError7;
           }
         }
       }

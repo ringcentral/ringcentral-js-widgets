@@ -887,14 +887,24 @@ var Auth = (_dec = (0, _di.Module)({
       return this._proxyUri;
     }
   }, {
+    key: 'token',
+    get: function get() {
+      return this.state.token;
+    }
+  }, {
     key: 'ownerId',
     get: function get() {
-      return this.state.ownerId;
+      return this.token.ownerId;
     }
   }, {
     key: 'endpointId',
     get: function get() {
-      return this.state.endpointId;
+      return this.token.endpointId;
+    }
+  }, {
+    key: 'accessToken',
+    get: function get() {
+      return this.token.accessToken;
     }
   }, {
     key: 'status',

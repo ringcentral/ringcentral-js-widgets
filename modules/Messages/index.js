@@ -119,7 +119,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @description Conversation list managing module
  */
 var Messages = (_dec = (0, _di.Module)({
-  deps: ['MessageStore', 'ExtensionInfo', { dep: 'ContactMatcher', optional: true }, { dep: 'ConversationLogger', optional: true }, { dep: 'MessagesOptions', optional: true }]
+  deps: ['MessageStore', 'ExtensionInfo', 'Auth', { dep: 'ContactMatcher', optional: true }, { dep: 'ConversationLogger', optional: true }, { dep: 'MessagesOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(Messages, _RcModule);
 
@@ -133,13 +133,14 @@ var Messages = (_dec = (0, _di.Module)({
    * @param {Number} params.defaultPerPage - default numbers of perPage, default 20
    */
   function Messages(_ref) {
-    var messageStore = _ref.messageStore,
+    var auth = _ref.auth,
+        messageStore = _ref.messageStore,
         extensionInfo = _ref.extensionInfo,
         _ref$defaultPerPage = _ref.defaultPerPage,
         defaultPerPage = _ref$defaultPerPage === undefined ? 20 : _ref$defaultPerPage,
         contactMatcher = _ref.contactMatcher,
         conversationLogger = _ref.conversationLogger,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['messageStore', 'extensionInfo', 'defaultPerPage', 'contactMatcher', 'conversationLogger']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'messageStore', 'extensionInfo', 'defaultPerPage', 'contactMatcher', 'conversationLogger']);
     (0, _classCallCheck3.default)(this, Messages);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Messages.__proto__ || (0, _getPrototypeOf2.default)(Messages)).call(this, (0, _extends3.default)({}, options, {
@@ -148,6 +149,7 @@ var Messages = (_dec = (0, _di.Module)({
 
     _this._contactMatcher = contactMatcher;
     _this._conversationLogger = conversationLogger;
+    _this._auth = _ensureExist2.default.call(_this, auth, 'auth');
     _this._messageStore = _ensureExist2.default.call(_this, messageStore, 'messageStore');
     _this._extensionInfo = _ensureExist2.default.call(_this, extensionInfo, 'extensionInfo');
     _this._reducer = (0, _getMessagesReducer2.default)(_this.actionTypes, defaultPerPage);
@@ -198,10 +200,13 @@ var Messages = (_dec = (0, _di.Module)({
       return _this._conversationLogger && _this._conversationLogger.loggingMap;
     }, function () {
       return _this._conversationLogger && _this._conversationLogger.dataMapping;
+    }, function () {
+      return _this._auth.accessToken;
     }, function (conversations, extensionNumber) {
       var contactMapping = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
       var loggingMap = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
       var conversationLogMapping = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
+      var accessToken = arguments[5];
       return conversations.map(function (message) {
         var _getNumbersFromMessag = (0, _messageHelper.getNumbersFromMessage)({ extensionNumber: extensionNumber, message: message }),
             self = _getNumbersFromMessag.self,
@@ -216,6 +221,10 @@ var Messages = (_dec = (0, _di.Module)({
         var conversationLogId = _this._conversationLogger ? _this._conversationLogger.getConversationLogId(message) : null;
         var isLogging = !!(conversationLogId && loggingMap[conversationLogId]);
         var conversationMatches = conversationLogMapping[conversationLogId] || [];
+        var voicemailAttachment = null;
+        if ((0, _messageHelper.messageIsVoicemail)(message)) {
+          voicemailAttachment = (0, _messageHelper.getVoicemailAttachment)(message, accessToken);
+        }
         return (0, _extends3.default)({}, message, {
           self: self,
           selfMatches: selfMatches,
@@ -224,6 +233,7 @@ var Messages = (_dec = (0, _di.Module)({
           conversationLogId: conversationLogId,
           isLogging: isLogging,
           conversationMatches: conversationMatches,
+          voicemailAttachment: voicemailAttachment,
           lastMatchedCorrespondentEntity: _this._conversationLogger && _this._conversationLogger.getLastMatchedCorrespondentEntity(message) || null
         });
       });
@@ -366,7 +376,7 @@ var Messages = (_dec = (0, _di.Module)({
   }, {
     key: '_shouldInit',
     value: function _shouldInit() {
-      return !!(this._messageStore.ready && this._extensionInfo.ready && (!this._contactMatcher || this._contactMatcher.ready) && (!this._conversationLogger || this._conversationLogger.ready) && this.pending);
+      return !!(this._auth.loggedIn && this._messageStore.ready && this._extensionInfo.ready && (!this._contactMatcher || this._contactMatcher.ready) && (!this._conversationLogger || this._conversationLogger.ready) && this.pending);
     }
   }, {
     key: '_init',
@@ -384,7 +394,7 @@ var Messages = (_dec = (0, _di.Module)({
   }, {
     key: '_shouldReset',
     value: function _shouldReset() {
-      return !!((!this._messageStore.ready || !this._extensionInfo.ready || this._contactMatcher && !this._contactMatcher.ready || this._conversationLogger && !this._conversationLogger.ready) && this.ready);
+      return !!((!this._auth.loggedIn || !this._messageStore.ready || !this._extensionInfo.ready || this._contactMatcher && !this._contactMatcher.ready || this._conversationLogger && !this._conversationLogger.ready) && this.ready);
     }
   }, {
     key: '_reset',

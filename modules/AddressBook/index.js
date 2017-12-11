@@ -564,6 +564,18 @@ var AddressBook = (_dec = (0, _di.Module)({
         type: this.actionTypes.cleanUp
       });
     }
+
+    // interface of contact source
+
+  }, {
+    key: 'matchPhoneNumber',
+    value: function matchPhoneNumber(phoneNumber) {
+      return (0, _contactHelper.getMatchContacts)({
+        contacts: this.contacts,
+        phoneNumber: phoneNumber,
+        entityType: 'rcContact'
+      });
+    }
   }, {
     key: 'fetchData',
     value: function () {

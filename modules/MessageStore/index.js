@@ -1056,7 +1056,7 @@ var MessageStore = (_dec = (0, _di.Module)({
                   type: this.actionTypes.updateMessages,
                   records: updatedMessages
                 });
-                _context17.next = 16;
+                _context17.next = 17;
                 break;
 
               case 13:
@@ -1064,11 +1064,14 @@ var MessageStore = (_dec = (0, _di.Module)({
                 _context17.t0 = _context17['catch'](6);
 
                 console.error(_context17.t0);
-
-              case 16:
-                return _context17.abrupt('return', null);
+                this._alert.warning({
+                  message: _messageStoreErrors2.default.readFailed
+                });
 
               case 17:
+                return _context17.abrupt('return', null);
+
+              case 18:
               case 'end':
                 return _context17.stop();
             }
@@ -1083,15 +1086,61 @@ var MessageStore = (_dec = (0, _di.Module)({
       return readMessages;
     }()
   }, {
-    key: 'deleteMessage',
+    key: 'unreadMessage',
     value: function () {
       var _ref21 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee18(messageId) {
+        var message;
         return _regenerator2.default.wrap(function _callee18$(_context18) {
           while (1) {
             switch (_context18.prev = _context18.next) {
               case 0:
                 _context18.prev = 0;
                 _context18.next = 3;
+                return this._updateMessageApi(messageId, 'Unread');
+
+              case 3:
+                message = _context18.sent;
+
+                this.store.dispatch({
+                  type: this.actionTypes.updateMessages,
+                  records: [message]
+                });
+                _context18.next = 11;
+                break;
+
+              case 7:
+                _context18.prev = 7;
+                _context18.t0 = _context18['catch'](0);
+
+                console.error(_context18.t0);
+                this._alert.warning({
+                  message: _messageStoreErrors2.default.unreadFailed
+                });
+
+              case 11:
+              case 'end':
+                return _context18.stop();
+            }
+          }
+        }, _callee18, this, [[0, 7]]);
+      }));
+
+      function unreadMessage(_x14) {
+        return _ref21.apply(this, arguments);
+      }
+
+      return unreadMessage;
+    }()
+  }, {
+    key: 'deleteMessage',
+    value: function () {
+      var _ref22 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee19(messageId) {
+        return _regenerator2.default.wrap(function _callee19$(_context19) {
+          while (1) {
+            switch (_context19.prev = _context19.next) {
+              case 0:
+                _context19.prev = 0;
+                _context19.next = 3;
                 return this._deleteMessageApi(messageId);
 
               case 3:
@@ -1100,28 +1149,28 @@ var MessageStore = (_dec = (0, _di.Module)({
                   conversationId: messageId,
                   messageId: messageId
                 });
-                _context18.next = 10;
+                _context19.next = 10;
                 break;
 
               case 6:
-                _context18.prev = 6;
-                _context18.t0 = _context18['catch'](0);
+                _context19.prev = 6;
+                _context19.t0 = _context19['catch'](0);
 
-                console.error(_context18.t0);
-                this._alert.info({
+                console.error(_context19.t0);
+                this._alert.warning({
                   message: _messageStoreErrors2.default.deleteFailed
                 });
 
               case 10:
               case 'end':
-                return _context18.stop();
+                return _context19.stop();
             }
           }
-        }, _callee18, this, [[0, 6]]);
+        }, _callee19, this, [[0, 6]]);
       }));
 
-      function deleteMessage(_x14) {
-        return _ref21.apply(this, arguments);
+      function deleteMessage(_x15) {
+        return _ref22.apply(this, arguments);
       }
 
       return deleteMessage;
@@ -1139,42 +1188,15 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: 'updateConversationRecipientList',
     value: function () {
-      var _ref22 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee19(conversationId, recipients) {
-        return _regenerator2.default.wrap(function _callee19$(_context19) {
-          while (1) {
-            switch (_context19.prev = _context19.next) {
-              case 0:
-                this.store.dispatch({
-                  type: this.actionTypes.updateConversationRecipients,
-                  conversationId: conversationId,
-                  recipients: recipients
-                });
-
-              case 1:
-              case 'end':
-                return _context19.stop();
-            }
-          }
-        }, _callee19, this);
-      }));
-
-      function updateConversationRecipientList(_x15, _x16) {
-        return _ref22.apply(this, arguments);
-      }
-
-      return updateConversationRecipientList;
-    }()
-  }, {
-    key: 'pushMessages',
-    value: function () {
-      var _ref23 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee20(records) {
+      var _ref23 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee20(conversationId, recipients) {
         return _regenerator2.default.wrap(function _callee20$(_context20) {
           while (1) {
             switch (_context20.prev = _context20.next) {
               case 0:
                 this.store.dispatch({
-                  type: this.actionTypes.updateMessages,
-                  records: records
+                  type: this.actionTypes.updateConversationRecipients,
+                  conversationId: conversationId,
+                  recipients: recipients
                 });
 
               case 1:
@@ -1185,8 +1207,35 @@ var MessageStore = (_dec = (0, _di.Module)({
         }, _callee20, this);
       }));
 
-      function pushMessages(_x17) {
+      function updateConversationRecipientList(_x16, _x17) {
         return _ref23.apply(this, arguments);
+      }
+
+      return updateConversationRecipientList;
+    }()
+  }, {
+    key: 'pushMessages',
+    value: function () {
+      var _ref24 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee21(records) {
+        return _regenerator2.default.wrap(function _callee21$(_context21) {
+          while (1) {
+            switch (_context21.prev = _context21.next) {
+              case 0:
+                this.store.dispatch({
+                  type: this.actionTypes.updateMessages,
+                  records: records
+                });
+
+              case 1:
+              case 'end':
+                return _context21.stop();
+            }
+          }
+        }, _callee21, this);
+      }));
+
+      function pushMessages(_x18) {
+        return _ref24.apply(this, arguments);
       }
 
       return pushMessages;
@@ -1306,6 +1355,6 @@ var MessageStore = (_dec = (0, _di.Module)({
     }
   }]);
   return MessageStore;
-}(_Pollable3.default), (_applyDecoratedDescriptor(_class2.prototype, 'fetchData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'fetchData'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'syncConversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'syncConversation'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'readMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'readMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'deleteMessage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'deleteMessage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateConversationRecipientList', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateConversationRecipientList'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'pushMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'pushMessages'), _class2.prototype)), _class2)) || _class);
+}(_Pollable3.default), (_applyDecoratedDescriptor(_class2.prototype, 'fetchData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'fetchData'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'syncConversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'syncConversation'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'readMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'readMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unreadMessage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unreadMessage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'deleteMessage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'deleteMessage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateConversationRecipientList', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateConversationRecipientList'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'pushMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'pushMessages'), _class2.prototype)), _class2)) || _class);
 exports.default = MessageStore;
 //# sourceMappingURL=index.js.map
