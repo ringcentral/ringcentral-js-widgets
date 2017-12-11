@@ -40,6 +40,10 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
 var _formatNumber = require('ringcentral-integration/lib/formatNumber');
 
 var _formatNumber2 = _interopRequireDefault(_formatNumber);
@@ -74,33 +78,18 @@ var _LinkLine2 = _interopRequireDefault(_LinkLine);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// TODO Move to a separate folder.
 function CheckBox(_ref) {
   var checked = _ref.checked,
       onChange = _ref.onChange;
 
-  var background = 'transparent';
-  var border = 'solid 1px #e2e2e2';
-  if (checked) {
-    background = '#0684bd';
-    border = 'solid 1px #0684bd';
-  }
+  var className = (0, _classnames2.default)(_styles2.default.checkbox, checked ? _styles2.default.checked : '');
   return _react2.default.createElement(
     'div',
     {
+      className: className,
       onClick: function onClick() {
         return onChange && onChange(!checked);
-      },
-      style: {
-        width: 13,
-        height: 13,
-        fontSize: 13,
-        lineHeight: '13px',
-        color: '#fff',
-        display: 'inline-block',
-        textAlign: 'center',
-        userSelect: 'none',
-        background: background,
-        border: border
       } },
     '\u2713'
   );
