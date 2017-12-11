@@ -83,7 +83,7 @@ function getTabs({
       icon: ({ currentPath }) => {
         if (currentPath.substr(0, 9) === '/contacts') {
           return <ContactNavIcon />;
-        } else if (currentPath === '/settings') {
+        } else if (currentPath.substr(0, 9) === '/settings') {
           return <SettingsNavIcon />;
         } else if (currentPath === '/meeting') {
           return <MeetingNavIcon />;
@@ -97,7 +97,7 @@ function getTabs({
       activeIcon: ({ currentPath }) => {
         if (currentPath.substr(0, 9) === '/contacts') {
           return <ContactNavIcon />;
-        } else if (currentPath === '/settings') {
+        } else if (currentPath.substr(0, 9) === '/settings') {
           return <SettingsNavIcon />;
         } else if (currentPath === '/meeting') {
           return <MeetingNavIcon />;

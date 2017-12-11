@@ -214,6 +214,7 @@ class RecipientsInput extends Component {
           this.props.label ||
           i18n.getString('to', this.props.currentLocale)
         }
+      :
       </label>
     );
     const toNumberInput = !this.props.multiple && this.props.recipient ?
