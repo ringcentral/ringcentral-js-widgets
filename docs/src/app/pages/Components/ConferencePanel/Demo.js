@@ -16,8 +16,35 @@ props.formatPin = () => null;
  * A example of `ConferencePanel`
  */
 const ConferencePanelDemo = () => (
-  <ConferencePanel
-    {...props}
-  />
+  <div style={{
+    position: 'relative',
+    height: '500px',
+    width: '300px',
+    border: '1px solid #f3f3f3',
+  }}>
+    <ConferencePanel
+      countryCode="1"
+      areaCode="1234"
+      dialInNumber="+123456"
+      dialInNumbers={[
+        {
+          phoneNumber: '+12679304000',
+          region: 'United States',
+        }
+      ]}
+      currentLocale="en-US"
+      inviteWithText={() => null}
+      additionalNumbers={[]}
+      updateAdditionalNumbers={() => null}
+      updateDialInNumber={() => null}
+      hostCode="12345678"
+      participantCode="123456"
+      joinAsHost={() => null}
+      allowJoinBeforeHost={false}
+      onAllowJoinBeforeHostChange={() => null}
+      showHelpCommands={() => null}
+      additionalButtons={[]}
+    />
+  </div>
 );
 export default ConferencePanelDemo;

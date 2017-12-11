@@ -71,7 +71,7 @@ function ColorsPage() {
   return (
     <div>
       <Markdown
-        text={'# Colors\nBase colors used by widgets\n'}
+        text="# Colors"
       />
       <div className={styles.colorsList}>
         {

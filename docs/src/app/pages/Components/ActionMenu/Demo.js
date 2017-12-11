@@ -7,14 +7,15 @@ import ActionMenu from 'ringcentral-widgets/components/ActionMenu';
  */
 const ActionMenuDemo = () => (
   <ActionMenu
-    currentLocale='en-US'
+    currentLocale="en-US"
     disableLinks={false}
-    hasEntity={true}
-    phoneNumber={'12345678'}
-    onViewEntity={ () => alert(`click 'onViewEntity'`) }
-    onClickToDial={ () => alert(`click 'onClickToDial'`) }
-    onClickToSms={ () => alert(`click 'onClickToSms'`) }
-    onLog={ () => alert(`click 'onLog'`) }
+    hasEntity
+    phoneNumber="12345678"
+    onViewEntity={() => alert("click 'onViewEntity'")}
+    onClickToDial={() => alert("click 'onClickToDial'")}
+    onClickToSms={() => alert("click 'onClickToSms'")}
+    onLog={() => alert("click 'onLog'")}
+    extended
   />
 );
 export default ActionMenuDemo;
