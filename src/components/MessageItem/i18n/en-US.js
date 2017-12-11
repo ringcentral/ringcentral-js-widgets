@@ -6,8 +6,12 @@ export default {
   viewDetails: 'View Details',
   addEntity: 'Create New',
   call: 'Call',
+  text: 'Text',
   conversation: 'Conversation',
   groupConversation: 'Group Conversation',
   voiceMessage: 'Voice message',
   [messageTypes.voiceMail]: 'Voice Mail',
+  mark: 'Mark as Unread',
+  unmark: 'Mark as Read',
+  delete: 'Delete',
 };

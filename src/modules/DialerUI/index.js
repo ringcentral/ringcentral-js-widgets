@@ -55,6 +55,7 @@ function getRecipientReducer(types) {
 export default class DialerUI extends RcModule {
   constructor({
     call,
+    alert,
     ...options
   }) {
     super({

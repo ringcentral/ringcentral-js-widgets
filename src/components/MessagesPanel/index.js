@@ -89,9 +89,11 @@ export default class MessagesPanel extends Component {
       });
     }
     const header = showTitle ?
-      (<Header buttons={buttons}>
-        {i18n.getString('title', currentLocale)}
-      </Header>) :
+      (
+        <Header buttons={buttons}>
+          {i18n.getString('title', currentLocale)}
+        </Header>
+      ) :
       null;
     const tabsHeader = this.renderTabs();
     const content = showSpinner ?
@@ -126,11 +128,14 @@ MessagesPanel.propTypes = {
   composeText: PropTypes.func.isRequired,
   typeFilter: PropTypes.string,
   updateTypeFilter: PropTypes.func,
-  readVoicemail: PropTypes.func.isRequired,
   showConversationDetail: PropTypes.func.isRequired,
   textUnreadCounts: PropTypes.number.isRequired,
   voiceUnreadCounts: PropTypes.number.isRequired,
   showGroupNumberName: PropTypes.bool,
+  onClickToDial: PropTypes.func,
+  onClickToSms: PropTypes.func,
+  markVoicemail: PropTypes.func.isRequired,
+  readVoicemail: PropTypes.func.isRequired,
 };
 
 MessagesPanel.defaultProps = {
@@ -142,4 +147,6 @@ MessagesPanel.defaultProps = {
   typeFilter: messageTypes.all,
   updateTypeFilter: undefined,
   showGroupNumberName: false,
+  onClickToDial: undefined,
+  onClickToSms: undefined,
 };

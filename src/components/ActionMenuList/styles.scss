@@ -1,0 +1,82 @@
+@import '../../lib/commonStyles/colors';
+
+.root {
+  display: block;
+  margin: 5px 20px 15px 36px;
+  height: 36px;
+  line-height: 36px;
+  padding: 0 15px;
+  background: $egg;
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.confirmDeleteModal {
+  min-width: 260px;
+  height: 133px;
+
+  .contentText {
+    margin-top: 5px;
+  }
+  .cancelBtn {
+    width: 70px;
+    height: 28px;
+    border-radius: 100px;
+    border: solid 1px #9bcee5;
+  }
+  .confirmBtn {
+    width: 70px;
+    height: 28px;
+    border-radius: 100px;
+    background-color: #0684bd;
+    color: #fff;
+    margin-left: 10px;
+  }
+}
+.button {
+  display: block;
+  float: left;
+}
+.button:not(:last-child) {
+  margin-right: 26px;
+}
+.closeBtn {
+  margin-top: 10px;
+  margin-right: 11px;
+  text-align: right;
+}
+.svgBtn {
+  position: relative;
+  top: 4px;
+}
+.svgFillIcon {
+  path {
+    fill: $primary-color;
+  }
+  &:hover {
+    path {
+      fill: $primary-color-highlight;
+    }
+  }
+  &.disabled {
+    path {
+      fill: $coin;
+    }
+  }
+}
+.unmarked {
+  path {
+    stroke: $primary-color;
+  }
+  &:hover {
+    path {
+      stroke: $primary-color-highlight;
+    }
+  }
+  &.disabled {
+    path {
+      stroke: $coin;
+    }
+  }
+}
+

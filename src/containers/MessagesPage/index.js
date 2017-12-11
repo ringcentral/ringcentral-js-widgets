@@ -76,6 +76,8 @@ function mapToFunctions(_, {
     call,
     dialerUI,
     routerInteraction,
+    composeText,
+    contactSearch,
   },
   dateTimeFormatter = (...args) => dateTimeFormat.formatDateTime(...args),
   dialerRoute = '/dialer',
@@ -112,6 +114,23 @@ function mapToFunctions(_, {
         }
       } :
       undefined,
+    onClickToSms: dialerUI ?
+      (contact, isDummyContact = false) => {
+        if (routerInteraction) {
+          routerInteraction.push(composeTextRoute);
+        }
+        // if contact autocomplete, if no match fill the number only
+        if (contact.name && contact.phoneNumber && isDummyContact) {
+          composeText.updateTypingToNumber(contact.name);
+          contactSearch.search({ searchString: contact.name });
+        } else {
+          composeText.addToNumber(contact);
+          if (composeText.typingToNumber === contact.phoneNumber) {
+            composeText.cleanTypingToNumber();
+          }
+        }
+      } :
+      undefined,
     isLoggedContact,
     onLogConversation: onLogConversation ||
     (conversationLogger && (async ({ redirect = true, ...options }) => {
@@ -128,9 +147,10 @@ function mapToFunctions(_, {
         conversationDetailRoute.replace('{conversationId}', conversationId)
       );
     },
-    readVoicemail: (conversationId) => {
-      messageStore.readMessages(conversationId);
-    },
+    readVoicemail: conversationId =>
+      messageStore.readMessages(conversationId),
+    markVoicemail: conversationId =>
+      messageStore.unreadMessage(conversationId),
     composeText: () => routerInteraction.push(composeTextRoute),
     updateTypeFilter: type => messages.updateTypeFilter(type),
     deleteMessage: (conversationId) => {
