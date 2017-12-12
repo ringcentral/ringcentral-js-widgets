@@ -52,7 +52,7 @@
   }
   .number {
     min-width: 40%;
-    max-width: calc(80% - 60px);
+    max-width: calc(80% - 70px);
     vertical-align: middle;
     @include secondary-font;
     @include text-ellipsis;
