@@ -318,6 +318,7 @@ var Auth = (_dec = (0, _di.Module)({
     _this._defaultProxyRetry = defaultProxyRetry;
     _this._reducer = (0, _getAuthReducer2.default)(_this.actionTypes);
     _this._beforeLogoutHandlers = new _set2.default();
+    _this._afterLoggedInHandlers = new _set2.default();
     _this._proxyFrame = null;
     _this._proxyFrameLoaded = false;
     _this._unbindEvents = null;
@@ -340,12 +341,114 @@ var Auth = (_dec = (0, _di.Module)({
         }
       };
 
-      var onLoginSuccess = function onLoginSuccess() {
-        _this3.store.dispatch({
-          type: _this3.actionTypes.loginSuccess,
-          token: platform.auth().data()
-        });
-      };
+      var onLoginSuccess = function () {
+        var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+          var handlers, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _loop, _iterator, _step;
+
+          return _regenerator2.default.wrap(function _callee3$(_context4) {
+            while (1) {
+              switch (_context4.prev = _context4.next) {
+                case 0:
+                  _this3.store.dispatch({
+                    type: _this3.actionTypes.loginSuccess,
+                    token: platform.auth().data()
+                  });
+                  handlers = [].concat((0, _toConsumableArray3.default)(_this3._afterLoggedInHandlers));
+                  _iteratorNormalCompletion = true;
+                  _didIteratorError = false;
+                  _iteratorError = undefined;
+                  _context4.prev = 5;
+                  _loop = _regenerator2.default.mark(function _loop() {
+                    var handler;
+                    return _regenerator2.default.wrap(function _loop$(_context3) {
+                      while (1) {
+                        switch (_context3.prev = _context3.next) {
+                          case 0:
+                            handler = _step.value;
+                            _context3.next = 3;
+                            return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+                              return _regenerator2.default.wrap(function _callee2$(_context2) {
+                                while (1) {
+                                  switch (_context2.prev = _context2.next) {
+                                    case 0:
+                                      return _context2.abrupt('return', handler());
+
+                                    case 1:
+                                    case 'end':
+                                      return _context2.stop();
+                                  }
+                                }
+                              }, _callee2, _this3);
+                            }))();
+
+                          case 3:
+                          case 'end':
+                            return _context3.stop();
+                        }
+                      }
+                    }, _loop, _this3);
+                  });
+                  _iterator = (0, _getIterator3.default)(handlers);
+
+                case 8:
+                  if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
+                    _context4.next = 13;
+                    break;
+                  }
+
+                  return _context4.delegateYield(_loop(), 't0', 10);
+
+                case 10:
+                  _iteratorNormalCompletion = true;
+                  _context4.next = 8;
+                  break;
+
+                case 13:
+                  _context4.next = 19;
+                  break;
+
+                case 15:
+                  _context4.prev = 15;
+                  _context4.t1 = _context4['catch'](5);
+                  _didIteratorError = true;
+                  _iteratorError = _context4.t1;
+
+                case 19:
+                  _context4.prev = 19;
+                  _context4.prev = 20;
+
+                  if (!_iteratorNormalCompletion && _iterator.return) {
+                    _iterator.return();
+                  }
+
+                case 22:
+                  _context4.prev = 22;
+
+                  if (!_didIteratorError) {
+                    _context4.next = 25;
+                    break;
+                  }
+
+                  throw _iteratorError;
+
+                case 25:
+                  return _context4.finish(22);
+
+                case 26:
+                  return _context4.finish(19);
+
+                case 27:
+                case 'end':
+                  return _context4.stop();
+              }
+            }
+          }, _callee3, _this3, [[5, 15, 19, 27], [20,, 22, 26]]);
+        }));
+
+        return function onLoginSuccess() {
+          return _ref4.apply(this, arguments);
+        };
+      }();
       var onLoginError = function onLoginError(error) {
         _this3.store.dispatch({
           type: _this3.actionTypes.loginError,
@@ -423,14 +526,14 @@ var Auth = (_dec = (0, _di.Module)({
       var _this4 = this;
 
       var loggedIn = void 0;
-      this.store.subscribe((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+      this.store.subscribe((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
         var platform;
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+        return _regenerator2.default.wrap(function _callee4$(_context5) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 if (!(_this4.status === _moduleStatuses2.default.pending && _this4._locale.ready && (!_this4._tabManager || _this4._tabManager.ready) && (!_this4._environment || _this4._environment.ready))) {
-                  _context2.next = 8;
+                  _context5.next = 8;
                   break;
                 }
 
@@ -438,11 +541,11 @@ var Auth = (_dec = (0, _di.Module)({
                   type: _this4.actionTypes.init
                 });
                 platform = _this4._client.service.platform();
-                _context2.next = 5;
+                _context5.next = 5;
                 return platform.loggedIn();
 
               case 5:
-                loggedIn = _context2.sent;
+                loggedIn = _context5.sent;
 
                 _this4._bindEvents();
                 _this4.store.dispatch({
@@ -473,30 +576,30 @@ var Auth = (_dec = (0, _di.Module)({
 
               case 10:
               case 'end':
-                return _context2.stop();
+                return _context5.stop();
             }
           }
-        }, _callee2, _this4);
+        }, _callee4, _this4);
       })));
     }
   }, {
     key: 'login',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(_ref6) {
-        var username = _ref6.username,
-            password = _ref6.password,
-            extension = _ref6.extension,
-            remember = _ref6.remember,
-            code = _ref6.code,
-            redirectUri = _ref6.redirectUri;
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(_ref8) {
+        var username = _ref8.username,
+            password = _ref8.password,
+            extension = _ref8.extension,
+            remember = _ref8.remember,
+            code = _ref8.code,
+            redirectUri = _ref8.redirectUri;
+        return _regenerator2.default.wrap(function _callee5$(_context6) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 this.store.dispatch({
                   type: this.actionTypes.login
                 });
-                return _context3.abrupt('return', this._client.service.platform().login({
+                return _context6.abrupt('return', this._client.service.platform().login({
                   username: username,
                   password: password,
                   extension: extension,
@@ -507,14 +610,14 @@ var Auth = (_dec = (0, _di.Module)({
 
               case 2:
               case 'end':
-                return _context3.stop();
+                return _context6.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee5, this);
       }));
 
       function login(_x3) {
-        return _ref5.apply(this, arguments);
+        return _ref7.apply(this, arguments);
       }
 
       return login;
@@ -530,13 +633,13 @@ var Auth = (_dec = (0, _di.Module)({
 
   }, {
     key: 'getLoginUrl',
-    value: function getLoginUrl(_ref7) {
-      var redirectUri = _ref7.redirectUri,
-          state = _ref7.state,
-          brandId = _ref7.brandId,
-          display = _ref7.display,
-          prompt = _ref7.prompt,
-          force = _ref7.force;
+    value: function getLoginUrl(_ref9) {
+      var redirectUri = _ref9.redirectUri,
+          state = _ref9.state,
+          brandId = _ref9.brandId,
+          display = _ref9.display,
+          prompt = _ref9.prompt,
+          force = _ref9.force;
 
       return '' + this._client.service.platform().loginUrl({
         redirectUri: redirectUri,
@@ -556,157 +659,157 @@ var Auth = (_dec = (0, _di.Module)({
   }, {
     key: 'logout',
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
+      var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
         var _this5 = this;
 
-        var handlers, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _loop, _iterator, _step, _ret;
+        var handlers, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _loop2, _iterator2, _step2, _ret2;
 
-        return _regenerator2.default.wrap(function _callee5$(_context6) {
+        return _regenerator2.default.wrap(function _callee7$(_context9) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
                 this.store.dispatch({
                   type: this.actionTypes.beforeLogout
                 });
                 handlers = [].concat((0, _toConsumableArray3.default)(this._beforeLogoutHandlers));
-                _context6.prev = 2;
-                _iteratorNormalCompletion = true;
-                _didIteratorError = false;
-                _iteratorError = undefined;
-                _context6.prev = 6;
-                _loop = _regenerator2.default.mark(function _loop() {
+                _context9.prev = 2;
+                _iteratorNormalCompletion2 = true;
+                _didIteratorError2 = false;
+                _iteratorError2 = undefined;
+                _context9.prev = 6;
+                _loop2 = _regenerator2.default.mark(function _loop2() {
                   var handler, result;
-                  return _regenerator2.default.wrap(function _loop$(_context5) {
+                  return _regenerator2.default.wrap(function _loop2$(_context8) {
                     while (1) {
-                      switch (_context5.prev = _context5.next) {
+                      switch (_context8.prev = _context8.next) {
                         case 0:
-                          handler = _step.value;
-                          _context5.next = 3;
-                          return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
-                            return _regenerator2.default.wrap(function _callee4$(_context4) {
+                          handler = _step2.value;
+                          _context8.next = 3;
+                          return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
+                            return _regenerator2.default.wrap(function _callee6$(_context7) {
                               while (1) {
-                                switch (_context4.prev = _context4.next) {
+                                switch (_context7.prev = _context7.next) {
                                   case 0:
-                                    return _context4.abrupt('return', handler());
+                                    return _context7.abrupt('return', handler());
 
                                   case 1:
                                   case 'end':
-                                    return _context4.stop();
+                                    return _context7.stop();
                                 }
                               }
-                            }, _callee4, _this5);
+                            }, _callee6, _this5);
                           }))();
 
                         case 3:
-                          result = _context5.sent;
+                          result = _context8.sent;
 
                           if (!result) {
-                            _context5.next = 7;
+                            _context8.next = 7;
                             break;
                           }
 
                           _this5.store.dispatch({
                             type: _this5.actionTypes.cancelLogout
                           });
-                          return _context5.abrupt('return', {
+                          return _context8.abrupt('return', {
                             v: _promise2.default.reject(result)
                           });
 
                         case 7:
                         case 'end':
-                          return _context5.stop();
+                          return _context8.stop();
                       }
                     }
-                  }, _loop, _this5);
+                  }, _loop2, _this5);
                 });
-                _iterator = (0, _getIterator3.default)(handlers);
+                _iterator2 = (0, _getIterator3.default)(handlers);
 
               case 9:
-                if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-                  _context6.next = 17;
+                if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
+                  _context9.next = 17;
                   break;
                 }
 
-                return _context6.delegateYield(_loop(), 't0', 11);
+                return _context9.delegateYield(_loop2(), 't0', 11);
 
               case 11:
-                _ret = _context6.t0;
+                _ret2 = _context9.t0;
 
-                if (!((typeof _ret === 'undefined' ? 'undefined' : (0, _typeof3.default)(_ret)) === "object")) {
-                  _context6.next = 14;
+                if (!((typeof _ret2 === 'undefined' ? 'undefined' : (0, _typeof3.default)(_ret2)) === "object")) {
+                  _context9.next = 14;
                   break;
                 }
 
-                return _context6.abrupt('return', _ret.v);
+                return _context9.abrupt('return', _ret2.v);
 
               case 14:
-                _iteratorNormalCompletion = true;
-                _context6.next = 9;
+                _iteratorNormalCompletion2 = true;
+                _context9.next = 9;
                 break;
 
               case 17:
-                _context6.next = 23;
+                _context9.next = 23;
                 break;
 
               case 19:
-                _context6.prev = 19;
-                _context6.t1 = _context6['catch'](6);
-                _didIteratorError = true;
-                _iteratorError = _context6.t1;
+                _context9.prev = 19;
+                _context9.t1 = _context9['catch'](6);
+                _didIteratorError2 = true;
+                _iteratorError2 = _context9.t1;
 
               case 23:
-                _context6.prev = 23;
-                _context6.prev = 24;
+                _context9.prev = 23;
+                _context9.prev = 24;
 
-                if (!_iteratorNormalCompletion && _iterator.return) {
-                  _iterator.return();
+                if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                  _iterator2.return();
                 }
 
               case 26:
-                _context6.prev = 26;
+                _context9.prev = 26;
 
-                if (!_didIteratorError) {
-                  _context6.next = 29;
+                if (!_didIteratorError2) {
+                  _context9.next = 29;
                   break;
                 }
 
-                throw _iteratorError;
+                throw _iteratorError2;
 
               case 29:
-                return _context6.finish(26);
+                return _context9.finish(26);
 
               case 30:
-                return _context6.finish(23);
+                return _context9.finish(23);
 
               case 31:
-                _context6.next = 36;
+                _context9.next = 36;
                 break;
 
               case 33:
-                _context6.prev = 33;
-                _context6.t2 = _context6['catch'](2);
+                _context9.prev = 33;
+                _context9.t2 = _context9['catch'](2);
 
                 this._alert.danger({
                   message: _authMessages2.default.beforeLogoutError,
-                  payload: _context6.t2
+                  payload: _context9.t2
                 });
 
               case 36:
                 this.store.dispatch({
                   type: this.actionTypes.logout
                 });
-                return _context6.abrupt('return', this._client.service.platform().logout());
+                return _context9.abrupt('return', this._client.service.platform().logout());
 
               case 38:
               case 'end':
-                return _context6.stop();
+                return _context9.stop();
             }
           }
-        }, _callee5, this, [[2, 33], [6, 19, 23, 31], [24,, 26, 30]]);
+        }, _callee7, this, [[2, 33], [6, 19, 23, 31], [24,, 26, 30]]);
       }));
 
       function logout() {
-        return _ref8.apply(this, arguments);
+        return _ref10.apply(this, arguments);
       }
 
       return logout;
@@ -740,29 +843,39 @@ var Auth = (_dec = (0, _di.Module)({
       this._beforeLogoutHandlers.remove(handler);
     }
   }, {
+    key: 'addAfterLoggedInHandler',
+    value: function addAfterLoggedInHandler(handler) {
+      var _this7 = this;
+
+      this._afterLoggedInHandlers.add(handler);
+      return function () {
+        _this7._afterLoggedInHandlers.remove(handler);
+      };
+    }
+  }, {
     key: 'checkIsLoggedIn',
     value: function () {
-      var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
-        return _regenerator2.default.wrap(function _callee6$(_context7) {
+      var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8() {
+        return _regenerator2.default.wrap(function _callee8$(_context10) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
-                _context7.next = 2;
+                _context10.next = 2;
                 return this._client.service.platform().loggedIn();
 
               case 2:
-                return _context7.abrupt('return', this.state.loginStatus === _loginStatus2.default.loggedIn);
+                return _context10.abrupt('return', this.state.loginStatus === _loginStatus2.default.loggedIn);
 
               case 3:
               case 'end':
-                return _context7.stop();
+                return _context10.stop();
             }
           }
-        }, _callee6, this);
+        }, _callee8, this);
       }));
 
       function checkIsLoggedIn() {
-        return _ref10.apply(this, arguments);
+        return _ref12.apply(this, arguments);
       }
 
       return checkIsLoggedIn;
@@ -777,10 +890,10 @@ var Auth = (_dec = (0, _di.Module)({
      *  through oAuth.
      */
     value: function () {
-      var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(onLogin) {
-        return _regenerator2.default.wrap(function _callee7$(_context8) {
+      var _ref13 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9(onLogin) {
+        return _regenerator2.default.wrap(function _callee9$(_context11) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context11.prev = _context11.next) {
               case 0:
                 if (!this._transport && // skip on proxy instance
                 typeof window !== 'undefined' && typeof document !== 'undefined' && this._proxyUri && this._proxyUri !== '' && !this._proxyFrame) {
@@ -792,14 +905,14 @@ var Auth = (_dec = (0, _di.Module)({
 
               case 1:
               case 'end':
-                return _context8.stop();
+                return _context11.stop();
             }
           }
-        }, _callee7, this);
+        }, _callee9, this);
       }));
 
       function setupProxyFrame(_x4) {
-        return _ref11.apply(this, arguments);
+        return _ref13.apply(this, arguments);
       }
 
       return setupProxyFrame;
@@ -827,10 +940,10 @@ var Auth = (_dec = (0, _di.Module)({
   }, {
     key: 'clearProxyFrame',
     value: function () {
-      var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8() {
-        return _regenerator2.default.wrap(function _callee8$(_context9) {
+      var _ref14 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10() {
+        return _regenerator2.default.wrap(function _callee10$(_context12) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context12.prev = _context12.next) {
               case 0:
                 if (this._proxyFrame) {
                   if (this._retryTimeoutId) {
@@ -845,14 +958,14 @@ var Auth = (_dec = (0, _di.Module)({
 
               case 1:
               case 'end':
-                return _context9.stop();
+                return _context12.stop();
             }
           }
-        }, _callee8, this);
+        }, _callee10, this);
       }));
 
       function clearProxyFrame() {
-        return _ref12.apply(this, arguments);
+        return _ref14.apply(this, arguments);
       }
 
       return clearProxyFrame;
