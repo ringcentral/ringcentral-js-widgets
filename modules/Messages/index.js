@@ -71,10 +71,6 @@ var _getMessagesReducer2 = _interopRequireDefault(_getMessagesReducer);
 
 var _messageHelper = require('../../lib/messageHelper');
 
-var _cleanNumber = require('../../lib/cleanNumber');
-
-var _cleanNumber2 = _interopRequireDefault(_cleanNumber);
-
 var _proxify = require('../../lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
@@ -266,17 +262,7 @@ var Messages = (_dec = (0, _di.Module)({
       if (effectiveSearchString !== '') {
         var searchResults = [];
         allConversations.forEach(function (message) {
-          var searchNumber = (0, _cleanNumber2.default)(effectiveSearchString, false);
           var searchRegExp = new RegExp(effectiveSearchString, 'i');
-          if (searchNumber !== '' && message.correspondents.find(function (contact) {
-            return (0, _cleanNumber2.default)(contact.phoneNumber || contact.extensionNumber || '').indexOf(searchNumber) > -1;
-          })) {
-            // match by phoneNumber or extensionNumber
-            searchResults.push((0, _extends3.default)({}, message, {
-              matchOrder: 0
-            }));
-            return;
-          }
           if (message.correspondentMatches.length) {
             if (message.correspondentMatches.find(function (entity) {
               return entity.name && searchRegExp.test(entity.name);
