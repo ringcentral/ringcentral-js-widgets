@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/Conference/messages.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,yBADsB,CAAT,EAEZ,gBAFY,C","file":"messages.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'requireAditionalNumbers',\n], 'conference-msg');\n"]}
