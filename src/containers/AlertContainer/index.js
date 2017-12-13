@@ -19,6 +19,7 @@ import MessageStoreAlert from '../../components/MessageStoreAlert';
 import MeetingAlert from '../../components/MeetingAlert';
 import RolesAndPermissionsAlert from '../../components/RolesAndPermissionsAlert';
 import withPhone from '../../lib/withPhone';
+import ConferenceAlert from '../../components/ConferenceAlert/index';
 
 
 function mapToProps(_, {
@@ -117,6 +118,10 @@ function getDefaultRenderer({
           brand={brand.fullName}
           application={brand.application} />
       );
+    }
+
+    if (ConferenceAlert.handleMessage(message)) {
+      return ConferenceAlert;
     }
 
     return undefined;

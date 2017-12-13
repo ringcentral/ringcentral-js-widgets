@@ -44,9 +44,13 @@ function mapToFunctions(_, {
     composeText,
     routerInteraction,
     call,
+    alert
   },
 }) {
   return {
+    alert: (msg) => {
+      alert.warning({ message: msg });
+    },
     updateDialInNumber: (dialInNumber) => {
       conference.updateDialInNumber(dialInNumber);
     },
