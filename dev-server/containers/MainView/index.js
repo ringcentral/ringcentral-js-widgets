@@ -87,7 +87,7 @@ function getTabs({
           return <SettingsNavIcon />;
         } else if (currentPath === '/meeting') {
           return <MeetingNavIcon />;
-        } else if (currentPath === '/conference') {
+        } else if (currentPath.startsWith('/conference')) {
           return <ConferenceNavIcon />;
         }
         return <MoreMenuIcon />;
@@ -101,7 +101,7 @@ function getTabs({
           return <SettingsNavIcon />;
         } else if (currentPath === '/meeting') {
           return <MeetingNavIcon />;
-        } else if (currentPath === '/conference') {
+        } else if (currentPath.startsWith('/conference')) {
           return <ConferenceNavIcon />;
         }
         return <MoreMenuHoverIcon />;
