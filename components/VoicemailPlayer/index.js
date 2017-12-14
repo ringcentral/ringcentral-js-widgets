@@ -136,8 +136,8 @@ var VoicemailPlayer = function (_Component) {
         return;
       }
       if (!_this.state.paused) {
-        _this._audio.src = props.uri;
-        _this._audio.load(props.uri);
+        _this._audio.src = _this.props.uri;
+        _this._audio.load(_this.props.uri);
         _this._audio.currentTime = 0;
       }
       _this._pauseOtherAudios();
