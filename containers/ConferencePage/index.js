@@ -26,7 +26,8 @@ function mapToProps(_, _ref) {
       conference = _ref$phone.conference,
       regionSettings = _ref$phone.regionSettings,
       locale = _ref$phone.locale,
-      composeText = _ref$phone.composeText;
+      composeText = _ref$phone.composeText,
+      serviceFeatures = _ref$phone.extensionInfo.serviceFeatures;
   var data = conference.data;
   var hostCode = data.hostCode,
       participantCode = data.participantCode,
@@ -61,6 +62,7 @@ function mapToProps(_, _ref) {
     }
   }
 
+  var disableTxtBtn = !serviceFeatures.SMS.enabled && !serviceFeatures.Pager.enabled;
   return {
     dialInNumbers: dialInNumbers,
     dialInNumber: conference.dialInNumber,
@@ -68,6 +70,7 @@ function mapToProps(_, _ref) {
     participantCode: participantCode,
     allowJoinBeforeHost: allowJoinBeforeHost,
     additionalNumbers: conference.additionalNumbers,
+    disableTxtBtn: disableTxtBtn,
     countryCode: regionSettings.countryCode,
     areaCode: regionSettings.areaCode,
     currentLocale: locale.currentLocale,
@@ -80,9 +83,13 @@ function mapToFunctions(_, _ref2) {
       conference = _ref2$phone.conference,
       composeText = _ref2$phone.composeText,
       routerInteraction = _ref2$phone.routerInteraction,
-      call = _ref2$phone.call;
+      call = _ref2$phone.call,
+      _alert = _ref2$phone.alert;
 
   return {
+    alert: function alert(msg) {
+      _alert.warning({ message: msg });
+    },
     updateDialInNumber: function updateDialInNumber(dialInNumber) {
       conference.updateDialInNumber(dialInNumber);
     },

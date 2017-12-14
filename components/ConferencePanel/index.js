@@ -48,6 +48,10 @@ var _formatNumber = require('ringcentral-integration/lib/formatNumber');
 
 var _formatNumber2 = _interopRequireDefault(_formatNumber);
 
+var _messages = require('ringcentral-integration/modules/Conference/messages');
+
+var _messages2 = _interopRequireDefault(_messages);
+
 var _Switch = require('../Switch');
 
 var _Switch2 = _interopRequireDefault(_Switch);
@@ -194,6 +198,10 @@ var ConferencePanel = function (_Component) {
     };
 
     _this.inviteWithText = function () {
+      if (_this.state.showAdditionalNumbers && _this.props.additionalNumbers.length < 1) {
+        _this.props.alert(_messages2.default.requireAdditionalNumbers);
+        return;
+      }
       _this.props.inviteWithText(_this.inviteTxt());
     };
 
@@ -276,7 +284,8 @@ var ConferencePanel = function (_Component) {
           allowJoinBeforeHost = _props2.allowJoinBeforeHost,
           additionalButtons = _props2.additionalButtons,
           onAllowJoinBeforeHostChange = _props2.onAllowJoinBeforeHostChange,
-          showHelpCommands = _props2.showHelpCommands;
+          showHelpCommands = _props2.showHelpCommands,
+          disableTxtBtn = _props2.disableTxtBtn;
       var _state2 = this.state,
           dialInNumbers = _state2.dialInNumbers,
           showAdditionalNumbers = _state2.showAdditionalNumbers,
@@ -465,7 +474,7 @@ var ConferencePanel = function (_Component) {
               key: Date.now()
             });
           }),
-          _react2.default.createElement(
+          !disableTxtBtn && _react2.default.createElement(
             _Button2.default,
             {
               className: _styles2.default.button,
@@ -504,7 +513,9 @@ ConferencePanel.propTypes = {
   allowJoinBeforeHost: _propTypes2.default.bool.isRequired,
   onAllowJoinBeforeHostChange: _propTypes2.default.func.isRequired,
   additionalButtons: _propTypes2.default.array,
-  showHelpCommands: _propTypes2.default.func.isRequired
+  showHelpCommands: _propTypes2.default.func.isRequired,
+  alert: _propTypes2.default.func.isRequired,
+  disableTxtBtn: _propTypes2.default.bool.isRequired
 };
 ConferencePanel.defaultProps = {
   dialInNumbers: [],

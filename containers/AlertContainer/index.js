@@ -78,6 +78,10 @@ var _withPhone = require('../../lib/withPhone');
 
 var _withPhone2 = _interopRequireDefault(_withPhone);
 
+var _index = require('../../components/ConferenceAlert/index');
+
+var _index2 = _interopRequireDefault(_index);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function mapToProps(_, _ref) {
@@ -169,6 +173,10 @@ function getDefaultRenderer(_ref2) {
           brand: brand.fullName,
           application: brand.application }));
       };
+    }
+
+    if (_index2.default.handleMessage(message)) {
+      return _index2.default;
     }
 
     return undefined;
