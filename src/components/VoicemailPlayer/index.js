@@ -73,8 +73,8 @@ class VoicemailPlayer extends Component {
         return;
       }
       if (!this.state.paused) {
-        this._audio.src = props.uri;
-        this._audio.load(props.uri);
+        this._audio.src = this.props.uri;
+        this._audio.load(this.props.uri);
         this._audio.currentTime = 0;
       }
       this._pauseOtherAudios();
@@ -103,6 +103,7 @@ class VoicemailPlayer extends Component {
       }
     });
   }
+
   componentDidMount() {
     this._mounted = true;
   }
