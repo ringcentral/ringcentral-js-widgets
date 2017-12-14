@@ -10,6 +10,7 @@ import PauseIcon from '../../assets/images/Pause.svg';
 import Button from '../Button';
 
 import styles from './styles.scss';
+import i18n from './i18n';
 
 const audiosMap = {};
 
@@ -119,6 +120,7 @@ class VoicemailPlayer extends Component {
       duration,
       uri,
       disabled,
+      currentLocale,
     } = this.props;
     let icon;
     if (this.state.playing) {
@@ -142,14 +144,17 @@ class VoicemailPlayer extends Component {
         </Button>
       );
     }
+    const currentTime =
+      (this._audio.currentTime < duration) ? this._audio.currentTime : duration;
     return (
       <div className={classnames(styles.root, className)}>
         {icon}
-        <span className={styles.startTime}>{formatDuration(this._audio.currentTime)}</span>
+        <span className={styles.startTime}>{formatDuration(currentTime)}</span>
         <a
           className={classnames(styles.download, (disabled ? styles.disabled : null))}
           target="_blank"
           download
+          title={i18n.getString('download', currentLocale)}
           href={uri}
         >
           <DownloadIcon width={18} height={18} />
@@ -171,6 +176,7 @@ VoicemailPlayer.propTypes = {
   className: PropTypes.string,
   onPlay: PropTypes.func,
   disabled: PropTypes.bool,
+  currentLocale: PropTypes.string.isRequired,
 };
 
 VoicemailPlayer.defaultProps = {
