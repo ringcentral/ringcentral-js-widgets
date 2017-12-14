@@ -337,6 +337,7 @@ export default class MessageItem extends Component {
           duration={voicemailAttachment.duration}
           onPlay={this.onPlayVoicemail}
           disabled={disableLinks}
+          currentLocale={currentLocale}
         />
       );
       slideMenuHeight = 88;
