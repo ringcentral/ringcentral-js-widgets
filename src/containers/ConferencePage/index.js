@@ -8,6 +8,7 @@ function mapToProps(_, {
     regionSettings,
     locale,
     composeText,
+    extensionInfo: { serviceFeatures }
   },
 }) {
   const { data } = conference;
@@ -19,6 +20,7 @@ function mapToProps(_, {
       phoneNumber: p.phoneNumber
     });
   }
+  const disableTxtBtn = !serviceFeatures.SMS.enabled && !serviceFeatures.Pager.enabled;
   return {
     dialInNumbers,
     dialInNumber: conference.dialInNumber,
@@ -26,6 +28,7 @@ function mapToProps(_, {
     participantCode,
     allowJoinBeforeHost,
     additionalNumbers: conference.additionalNumbers,
+    disableTxtBtn,
     countryCode: regionSettings.countryCode,
     areaCode: regionSettings.areaCode,
     currentLocale: locale.currentLocale,

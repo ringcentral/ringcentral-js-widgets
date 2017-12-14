@@ -182,7 +182,8 @@ This conference call is brought to you by RingCentral Conferencing.`;
       allowJoinBeforeHost,
       additionalButtons,
       onAllowJoinBeforeHostChange,
-      showHelpCommands
+      showHelpCommands,
+      disableTxtBtn
     } = this.props;
     const {
       dialInNumbers,
@@ -289,11 +290,12 @@ This conference call is brought to you by RingCentral Conferencing.`;
                 key={Date.now()}
               />)
           )}
-          <Button
-            className={styles.button}
-            onClick={this.inviteWithText}>
-            {i18n.getString('inviteWithText', currentLocale)}
-          </Button>
+          {!disableTxtBtn &&
+            <Button
+              className={styles.button}
+              onClick={this.inviteWithText}>
+              {i18n.getString('inviteWithText', currentLocale)}
+            </Button>}
           <Button
             className={styles.primaryButton}
             onClick={() => joinAsHost(dialInNumber)}>
@@ -321,7 +323,8 @@ ConferencePanel.propTypes = {
   onAllowJoinBeforeHostChange: PropTypes.func.isRequired,
   additionalButtons: PropTypes.array,
   showHelpCommands: PropTypes.func.isRequired,
-  alert: PropTypes.func.isRequired
+  alert: PropTypes.func.isRequired,
+  disableTxtBtn: PropTypes.bool.isRequired
 };
 ConferencePanel.defaultProps = {
   dialInNumbers: [],
