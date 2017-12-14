@@ -473,7 +473,8 @@ var MessageItem = function (_Component) {
           uri: voicemailAttachment.uri,
           duration: voicemailAttachment.duration,
           onPlay: this.onPlayVoicemail,
-          disabled: disableLinks
+          disabled: disableLinks,
+          currentLocale: currentLocale
         });
         slideMenuHeight = 88;
       }

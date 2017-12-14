@@ -64,6 +64,10 @@ var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
 
+var _i18n = require('./i18n');
+
+var _i18n2 = _interopRequireDefault(_i18n);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var audiosMap = {};
@@ -187,7 +191,8 @@ var VoicemailPlayer = function (_Component) {
           className = _props.className,
           duration = _props.duration,
           uri = _props.uri,
-          disabled = _props.disabled;
+          disabled = _props.disabled,
+          currentLocale = _props.currentLocale;
 
       var icon = void 0;
       if (this.state.playing) {
@@ -211,6 +216,7 @@ var VoicemailPlayer = function (_Component) {
           _react2.default.createElement(_Play2.default, { width: 18, height: 18 })
         );
       }
+      var currentTime = this._audio.currentTime < duration ? this._audio.currentTime : duration;
       return _react2.default.createElement(
         'div',
         { className: (0, _classnames2.default)(_styles2.default.root, className) },
@@ -218,7 +224,7 @@ var VoicemailPlayer = function (_Component) {
         _react2.default.createElement(
           'span',
           { className: _styles2.default.startTime },
-          (0, _formatDuration2.default)(this._audio.currentTime)
+          (0, _formatDuration2.default)(currentTime)
         ),
         _react2.default.createElement(
           'a',
@@ -226,6 +232,7 @@ var VoicemailPlayer = function (_Component) {
             className: (0, _classnames2.default)(_styles2.default.download, disabled ? _styles2.default.disabled : null),
             target: '_blank',
             download: true,
+            title: _i18n2.default.getString('download', currentLocale),
             href: uri
           },
           _react2.default.createElement(_Download2.default, { width: 18, height: 18 })
@@ -253,7 +260,8 @@ VoicemailPlayer.propTypes = {
   uri: _propTypes2.default.string.isRequired,
   className: _propTypes2.default.string,
   onPlay: _propTypes2.default.func,
-  disabled: _propTypes2.default.bool
+  disabled: _propTypes2.default.bool,
+  currentLocale: _propTypes2.default.string.isRequired
 };
 
 VoicemailPlayer.defaultProps = {
