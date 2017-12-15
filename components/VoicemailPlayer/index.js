@@ -88,6 +88,7 @@ var VoicemailPlayer = function (_Component) {
 
     _this._id = (props.uri && props.uri.split('?')[0].split('/').pop()) + '/' + new Date().getTime();
     _this._audio = new Audio();
+    _this._audio.preload = false;
     _this._audio.volume = 1;
     audiosMap[_this._id] = _this._audio;
     _this._audio.addEventListener('timeupdate', function () {
@@ -131,6 +132,10 @@ var VoicemailPlayer = function (_Component) {
       _this._audio.isPlaying = true;
     });
 
+    _this._audio.addEventListener('error', function () {
+      console.error(_this._audio.error);
+    });
+
     _this._playAudio = function () {
       if (_this.state.playing) {
         return;
@@ -141,7 +146,7 @@ var VoicemailPlayer = function (_Component) {
         _this._audio.currentTime = 0;
       }
       _this._pauseOtherAudios();
-      _this._audio.play();
+      _this._audio._playPromise = _this._audio.play();
       if (typeof _this.props.onPlay === 'function') {
         _this.props.onPlay();
       }
@@ -151,7 +156,11 @@ var VoicemailPlayer = function (_Component) {
       if (_this.state.paused) {
         return;
       }
-      _this._audio.pause();
+      if (_this._audio._playPromise !== undefined) {
+        _this._audio._playPromise.then(function () {
+          _this._audio.pause();
+        });
+      }
     };
 
     _this._onDownloadClick = function (e) {
@@ -172,8 +181,10 @@ var VoicemailPlayer = function (_Component) {
           return;
         }
         var otherAudio = audiosMap[id];
-        if (otherAudio.isPlaying) {
-          otherAudio.pause();
+        if (otherAudio.isPlaying && otherAudio._playPromise) {
+          otherAudio._playPromise.then(function () {
+            otherAudio.pause();
+          });
         }
       });
     }
