@@ -86,6 +86,12 @@ function formatPin(number) {
   return number.replace(/(\d{3})/g, '$1-').replace(/-$/, '');
 }
 
+const dialInNumbersLinks = {
+  rc: 'https://rcconf.net/1L06Hd5',
+  telus: 'https://telus.com/BusinessConnect/ConferencingFrequentlyAskedQuestions',
+  bt: 'https://www.btcloudphone.bt.com/conferencing'
+};
+
 class ConferencePanel extends Component {
   constructor(props) {
     super(props);
@@ -103,7 +109,7 @@ class ConferencePanel extends Component {
   };
 
   inviteTxt() {
-    const { dialInNumber, additionalNumbers, participantCode } = this.props;
+    const { dialInNumber, additionalNumbers, participantCode, brand } = this.props;
     const { dialInNumbers, showAdditionalNumbers } = this.state;
     const formattedDialInNumber = dialInNumbers.find(
       e => e.phoneNumber === dialInNumber
@@ -122,15 +128,15 @@ ${additionalNumbersTxt}
 `;
     }
     return `
-Please join the RingCentral conference.
+Please join the ${brand.name} conference.
 
 Dial-In Numbers:${formattedDialInNumber}
 ${additionalNumbersSection}
 Participant Access: ${formatPin(participantCode)}
 
-Need an international dial-in phone number? Please visit https://rcconf.net/1L06Hd5
+Need an international dial-in phone number? Please visit ${dialInNumbersLinks[brand.code]}
 
-This conference call is brought to you by RingCentral Conferencing.`;
+This conference call is brought to you by ${brand.name} Conferencing.`;
   }
 
   inviteWithText = () => {
@@ -324,7 +330,8 @@ ConferencePanel.propTypes = {
   additionalButtons: PropTypes.array,
   showHelpCommands: PropTypes.func.isRequired,
   alert: PropTypes.func.isRequired,
-  disableTxtBtn: PropTypes.bool.isRequired
+  disableTxtBtn: PropTypes.bool.isRequired,
+  brand: PropTypes.object.isRequired
 };
 ConferencePanel.defaultProps = {
   dialInNumbers: [],
