@@ -25,6 +25,7 @@ class VoicemailPlayer extends Component {
 
     this._id = `${props.uri && props.uri.split('?')[0].split('/').pop()}/${(new Date()).getTime()}`;
     this._audio = new Audio();
+    this._audio.preload = false;
     this._audio.volume = 1;
     audiosMap[this._id] = this._audio;
     this._audio.addEventListener('timeupdate', () => {
@@ -68,6 +69,10 @@ class VoicemailPlayer extends Component {
       this._audio.isPlaying = true;
     });
 
+    this._audio.addEventListener('error', () => {
+      console.error(this._audio.error);
+    });
+
     this._playAudio = () => {
       if (this.state.playing) {
         return;
@@ -78,7 +83,7 @@ class VoicemailPlayer extends Component {
         this._audio.currentTime = 0;
       }
       this._pauseOtherAudios();
-      this._audio.play();
+      this._audio._playPromise = this._audio.play();
       if (typeof this.props.onPlay === 'function') {
         this.props.onPlay();
       }
@@ -88,7 +93,11 @@ class VoicemailPlayer extends Component {
       if (this.state.paused) {
         return;
       }
-      this._audio.pause();
+      if (this._audio._playPromise !== undefined) {
+        this._audio._playPromise.then(() => {
+          this._audio.pause();
+        });
+      }
     };
 
     this._onDownloadClick = (e) => {
@@ -104,8 +113,10 @@ class VoicemailPlayer extends Component {
         return;
       }
       const otherAudio = audiosMap[id];
-      if (otherAudio.isPlaying) {
-        otherAudio.pause();
+      if (otherAudio.isPlaying && otherAudio._playPromise) {
+        otherAudio._playPromise.then(() => {
+          otherAudio.pause();
+        });
       }
     });
   }
