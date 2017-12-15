@@ -44,6 +44,12 @@ const ConferencePanelDemo = () => (
       onAllowJoinBeforeHostChange={() => null}
       showHelpCommands={() => null}
       additionalButtons={[]}
+      brand={{
+        code: '1210',
+        name: 'rc',
+      }}
+      alert={() => null}
+      disableTxtBtn={false}
     />
   </div>
 );

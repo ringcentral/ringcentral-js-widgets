@@ -4,12 +4,14 @@ import CallItem from 'ringcentral-widgets/components/CallItem';
 
 const props = {};
 props.call = {
-  direction: 'test string',
+  direction: 'Inbound',
   startTime: 0,
   activityMatches: [],
   fromMatches: [],
   toMatches: [],
-  from: {},
+  from: {
+    phoneNumber: '+1234567890'
+  },
   to: {},
 };
 props.areaCode = 'test string';
@@ -17,7 +19,9 @@ props.countryCode = 'test string';
 props.currentLocale = 'en-US';
 props.active = false;
 props.dateTimeFormatter = () => null;
-props.barnd = 'RingCentral';
+props.brand = 'RingCentral';
+props.onClickToSms = () => null;
+props.onClickToDial = () => null;
 
 /**
  * A example of `CallItem`
