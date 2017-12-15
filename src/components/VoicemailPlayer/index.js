@@ -90,6 +90,12 @@ class VoicemailPlayer extends Component {
       }
       this._audio.pause();
     };
+
+    this._onDownloadClick = (e) => {
+      if (this.props.disabled) {
+        e.preventDefault();
+      }
+    };
   }
 
   _pauseOtherAudios() {
@@ -131,7 +137,9 @@ class VoicemailPlayer extends Component {
           onClick={this._pauseAudio}
           disabled={disabled}
         >
-          <PauseIcon width={18} height={18} />
+          <span title={i18n.getString('pause', currentLocale)}>
+            <PauseIcon width={18} height={18} />
+          </span>
         </Button>
       );
     } else {
@@ -141,7 +149,9 @@ class VoicemailPlayer extends Component {
           onClick={this._playAudio}
           disabled={disabled}
         >
-          <PlayIcon width={18} height={18} />
+          <span title={i18n.getString('play', currentLocale)}>
+            <PlayIcon width={18} height={18} />
+          </span>
         </Button>
       );
     }
@@ -157,6 +167,7 @@ class VoicemailPlayer extends Component {
           download
           title={i18n.getString('download', currentLocale)}
           href={uri}
+          onClick={this._onDownloadClick}
         >
           <DownloadIcon width={18} height={18} />
         </a>
