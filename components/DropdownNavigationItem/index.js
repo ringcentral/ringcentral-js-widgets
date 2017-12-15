@@ -27,6 +27,7 @@ function DropdownNavigationItem(_ref) {
   var icon = _ref.icon,
       activeIcon = _ref.activeIcon,
       active = _ref.active,
+      isReverseFillIcon = _ref.isReverseFillIcon,
       label = _ref.label,
       noticeCounts = _ref.noticeCounts,
       onClick = _ref.onClick;
@@ -52,7 +53,7 @@ function DropdownNavigationItem(_ref) {
     {
       title: label,
       onClick: onClick,
-      className: (0, _classnames2.default)(_styles2.default.root, active && _styles2.default.active)
+      className: (0, _classnames2.default)(_styles2.default.root, active && _styles2.default.active, isReverseFillIcon && _styles2.default.reverseFillIcon)
     },
     _react2.default.createElement(
       'div',
@@ -72,6 +73,7 @@ DropdownNavigationItem.propTypes = {
   icon: _propTypes2.default.node.isRequired,
   activeIcon: _propTypes2.default.node.isRequired,
   active: _propTypes2.default.bool,
+  isReverseFillIcon: _propTypes2.default.bool,
   label: _propTypes2.default.string,
   noticeCounts: _propTypes2.default.number,
   onClick: _propTypes2.default.func
@@ -79,6 +81,7 @@ DropdownNavigationItem.propTypes = {
 
 DropdownNavigationItem.defaultProps = {
   active: false,
+  isReverseFillIcon: false,
   label: undefined,
   noticeCounts: undefined,
   onClick: undefined

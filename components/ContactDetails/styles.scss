@@ -72,10 +72,10 @@
       &:active {
         outline: none;
         i {
-          color: $rc-blue;
+          color: $primary-color;
         }
         path {
-          fill: $rc-blue;
+          fill: $primary-color;
         }
       }
     }
@@ -214,7 +214,7 @@ $rowHeight: 50px;
       @include text-ellipsis;
     }
     a, a:hover, a:visited, a:focus {
-      color: $rc-blue;
+      color: $primary-color;
     }
   }
   .underline:hover {

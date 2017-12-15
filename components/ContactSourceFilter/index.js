@@ -173,7 +173,8 @@ var ContactSourceFilter = function (_Component) {
             className: _styles2.default.filterIconContainer,
             title: this.getString(selectedSourceName, currentLocale)
           },
-          isAllSource ? _react2.default.createElement(_ContactFilter2.default, { className: _styles2.default.filterIconNode }) : _react2.default.createElement(_ContactFilterSolid2.default, { className: _styles2.default.filterIconNode })
+          isAllSource ? _react2.default.createElement(_ContactFilter2.default, {
+            className: (0, _classnames2.default)(_styles2.default.filterIconNode, _styles2.default.iconNoneFill) }) : _react2.default.createElement(_ContactFilterSolid2.default, { className: _styles2.default.filterIconNode })
         ),
         !this.state.unfold ? null : _react2.default.createElement(
           'div',

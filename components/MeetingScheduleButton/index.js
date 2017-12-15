@@ -74,7 +74,9 @@ var MeetingScheduleButton = (_temp = _class = function (_PureComponent) {
           hidden = _props.hidden,
           disabled = _props.disabled,
           meeting = _props.meeting,
-          _onClick = _props.onClick;
+          _onClick = _props.onClick,
+          brand = _props.brand,
+          currentLocale = _props.currentLocale;
 
       return _react2.default.createElement(
         'div',
@@ -102,14 +104,18 @@ var MeetingScheduleButton = (_temp = _class = function (_PureComponent) {
   }]);
   return MeetingScheduleButton;
 }(_react.PureComponent), _class.propTypes = {
+  currentLocale: _propTypes2.default.string,
   meeting: _propTypes2.default.object,
   hidden: _propTypes2.default.bool,
   disabled: _propTypes2.default.bool,
-  onClick: _propTypes2.default.func.isRequired
+  onClick: _propTypes2.default.func.isRequired,
+  brand: _propTypes2.default.string
 }, _class.defaultProps = {
   meeting: null,
   hidden: false,
-  disabled: false
+  disabled: false,
+  brand: undefined,
+  currentLocale: undefined
 }, _temp);
 exports.default = MeetingScheduleButton;
 //# sourceMappingURL=index.js.map

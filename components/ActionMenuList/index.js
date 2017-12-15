@@ -151,7 +151,7 @@ function ClickToDialButton(_ref2) {
   return _react2.default.createElement(
     _Button2.default,
     {
-      className: (0, _classnames2.default)(_styles2.default.button, className),
+      className: (0, _classnames2.default)(_styles2.default.button, _styles2.default.clickToDialButton, className),
       onClick: onClickToDial,
       disabled: disableLinks || disableClickToDial || !phoneNumber },
     _react2.default.createElement('span', {
@@ -186,7 +186,7 @@ function ClickToSmsButton(_ref3) {
   return _react2.default.createElement(
     _Button2.default,
     {
-      className: (0, _classnames2.default)(_styles2.default.button, className),
+      className: (0, _classnames2.default)(_styles2.default.button, _styles2.default.clickToSmsButton, className),
       onClick: onClickToSms,
       disabled: disableLinks || !phoneNumber },
     _react2.default.createElement('span', {
