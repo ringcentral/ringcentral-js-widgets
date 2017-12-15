@@ -8,7 +8,8 @@ function mapToProps(_, {
     regionSettings,
     locale,
     composeText,
-    extensionInfo: { serviceFeatures }
+    extensionInfo: { serviceFeatures },
+    brand
   },
 }) {
   const { data } = conference;
@@ -32,6 +33,10 @@ function mapToProps(_, {
     countryCode: regionSettings.countryCode,
     areaCode: regionSettings.areaCode,
     currentLocale: locale.currentLocale,
+    brand: {
+      code: brand.code,
+      name: brand.name
+    },
     showSpinner: !(
       conference.ready &&
       regionSettings.ready &&
