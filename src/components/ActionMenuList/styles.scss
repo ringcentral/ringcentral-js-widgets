@@ -4,11 +4,13 @@
   display: block;
   margin: 5px 20px 15px 36px;
   height: 36px;
-  line-height: 36px;
+  line-height: 34px;
   padding: 0 15px;
   background: $egg;
   border-radius: 100px;
   overflow: hidden;
+  box-sizing: border-box;
+  font-size: 16px;
 }
 
 .confirmDeleteModal {
@@ -47,7 +49,7 @@
 }
 .svgBtn {
   position: relative;
-  top: 4px;
+  top: 5px;
 }
 .svgFillIcon {
   path {

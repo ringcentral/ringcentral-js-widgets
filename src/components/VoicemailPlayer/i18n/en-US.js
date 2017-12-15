@@ -1,3 +1,5 @@
 export default {
-  download: 'Download voicemail message',
+  download: 'Download',
+  play: 'Play',
+  pause: 'Pause',
 };
