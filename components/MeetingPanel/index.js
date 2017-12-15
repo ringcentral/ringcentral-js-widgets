@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.PASSWORD_REGEX = undefined;
 
 var _keys = require('babel-runtime/core-js/object/keys');
 
@@ -95,6 +96,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var MINUTE_SCALE = 4;
 var HOUR_SCALE = 13;
 var MAX_TOPIC_LENGTH = 128;
+var PASSWORD_REGEX = exports.PASSWORD_REGEX = /^[A-Za-z0-9]{0,10}$/;
 
 function getMinutesList(MINUTE_SCALE) {
   return new Array(MINUTE_SCALE).fill(0).map(function (_, key) {
@@ -692,7 +694,7 @@ var MeetingOptions = function MeetingOptions(_ref18) {
           onChange: function onChange(_ref19) {
             var target = _ref19.target;
 
-            if (/^[A-Za-z0-9]{0,10}$/.test(target.value)) {
+            if (PASSWORD_REGEX.test(target.value)) {
               update((0, _extends3.default)({}, meeting, {
                 password: target.value
               }));
