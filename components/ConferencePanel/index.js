@@ -183,6 +183,12 @@ function formatPin(number) {
   return number.replace(/(\d{3})/g, '$1-').replace(/-$/, '');
 }
 
+var dialInNumbersLinks = {
+  rc: 'https://rcconf.net/1L06Hd5',
+  telus: 'https://telus.com/BusinessConnect/ConferencingFrequentlyAskedQuestions',
+  bt: 'https://www.btcloudphone.bt.com/conferencing'
+};
+
 var ConferencePanel = function (_Component) {
   (0, _inherits3.default)(ConferencePanel, _Component);
 
@@ -219,7 +225,8 @@ var ConferencePanel = function (_Component) {
       var _props = this.props,
           dialInNumber = _props.dialInNumber,
           additionalNumbers = _props.additionalNumbers,
-          participantCode = _props.participantCode;
+          participantCode = _props.participantCode,
+          brand = _props.brand;
       var _state = this.state,
           dialInNumbers = _state.dialInNumbers,
           showAdditionalNumbers = _state.showAdditionalNumbers;
@@ -238,7 +245,7 @@ var ConferencePanel = function (_Component) {
       if (showAdditionalNumbers) {
         additionalNumbersSection = '\n\nInternational Dial-in Numbers:\n' + additionalNumbersTxt + '\n\n';
       }
-      return '\nPlease join the RingCentral conference.\n\nDial-In Numbers:' + formattedDialInNumber + '\n' + additionalNumbersSection + '\nParticipant Access: ' + formatPin(participantCode) + '\n\nNeed an international dial-in phone number? Please visit https://rcconf.net/1L06Hd5\n\nThis conference call is brought to you by RingCentral Conferencing.';
+      return '\nPlease join the ' + brand.name + ' conference.\n\nDial-In Numbers:' + formattedDialInNumber + '\n' + additionalNumbersSection + '\nParticipant Access: ' + formatPin(participantCode) + '\n\nNeed an international dial-in phone number? Please visit ' + dialInNumbersLinks[brand.code] + '\n\nThis conference call is brought to you by ' + brand.name + ' Conferencing.';
     }
   }, {
     key: 'formatDialInNumbers',
@@ -515,7 +522,8 @@ ConferencePanel.propTypes = {
   additionalButtons: _propTypes2.default.array,
   showHelpCommands: _propTypes2.default.func.isRequired,
   alert: _propTypes2.default.func.isRequired,
-  disableTxtBtn: _propTypes2.default.bool.isRequired
+  disableTxtBtn: _propTypes2.default.bool.isRequired,
+  brand: _propTypes2.default.object.isRequired
 };
 ConferencePanel.defaultProps = {
   dialInNumbers: [],

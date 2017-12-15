@@ -27,7 +27,8 @@ function mapToProps(_, _ref) {
       regionSettings = _ref$phone.regionSettings,
       locale = _ref$phone.locale,
       composeText = _ref$phone.composeText,
-      serviceFeatures = _ref$phone.extensionInfo.serviceFeatures;
+      serviceFeatures = _ref$phone.extensionInfo.serviceFeatures,
+      brand = _ref$phone.brand;
   var data = conference.data;
   var hostCode = data.hostCode,
       participantCode = data.participantCode,
@@ -74,6 +75,10 @@ function mapToProps(_, _ref) {
     countryCode: regionSettings.countryCode,
     areaCode: regionSettings.areaCode,
     currentLocale: locale.currentLocale,
+    brand: {
+      code: brand.code,
+      name: brand.name
+    },
     showSpinner: !(conference.ready && regionSettings.ready && locale.ready && composeText.ready)
   };
 }
