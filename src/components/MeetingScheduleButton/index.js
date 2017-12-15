@@ -6,16 +6,20 @@ import i18n from './i18n';
 
 export default class MeetingScheduleButton extends PureComponent {
   static propTypes = {
+    currentLocale: PropTypes.string,
     meeting: PropTypes.object,
     hidden: PropTypes.bool,
     disabled: PropTypes.bool,
     onClick: PropTypes.func.isRequired,
+    brand: PropTypes.string,
   }
 
   static defaultProps = {
     meeting: null,
     hidden: false,
     disabled: false,
+    brand: undefined,
+    currentLocale: undefined,
   }
 
   getI18nButtonString() {
@@ -32,6 +36,8 @@ export default class MeetingScheduleButton extends PureComponent {
       disabled,
       meeting,
       onClick,
+      brand,
+      currentLocale
     } = this.props;
     return (
       <div

@@ -69,7 +69,7 @@ function ClickToDialButton({
 }) {
   return (
     <Button
-      className={classnames(styles.button, className)}
+      className={classnames(styles.button, styles.clickToDialButton, className)}
       onClick={onClickToDial}
       disabled={disableLinks || disableClickToDial || !phoneNumber} >
       <span
@@ -104,7 +104,7 @@ function ClickToSmsButton({
 }) {
   return (
     <Button
-      className={classnames(styles.button, className)}
+      className={classnames(styles.button, styles.clickToSmsButton, className)}
       onClick={onClickToSms}
       disabled={disableLinks || !phoneNumber} >
       <span

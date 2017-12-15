@@ -103,7 +103,8 @@ export default class ContactSourceFilter extends Component {
         >
           {
             isAllSource
-              ? <ContactFilterIcon className={styles.filterIconNode} />
+              ? <ContactFilterIcon
+                className={classnames(styles.filterIconNode, styles.iconNoneFill)} />
               : <ContactFilterSolidIcon className={styles.filterIconNode} />
           }
         </div>

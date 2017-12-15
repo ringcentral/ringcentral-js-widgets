@@ -15,9 +15,19 @@
     cursor: pointer;
 
     .filterIconNode {
+      path {
+        fill: $primary-color;
+        stroke: $primary-color;
+      }
       @include reset;
       width: 100%;
       height: 100%;
+    }
+    .iconNoneFill {
+      path {
+        fill: none;
+        stroke: $primary-color;
+      }
     }
   }
 }
@@ -40,7 +50,7 @@
     border-bottom: 1px solid #ffffff;
 
     &.selected {
-      color: #0073ae;
+      color: $primary-color;
     }
 
     &:hover {

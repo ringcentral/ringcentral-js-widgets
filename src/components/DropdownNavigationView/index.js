@@ -65,6 +65,12 @@ export default class DropdownNavigationView extends Component {
             tabs.map((tab, index) => {
               const Icon = tab.icon;
               const ActiveIcon = tab.activeIcon;
+              const active = (
+                (tab.isActive && tab.isActive(currentPath, currentVirtualPath)) ||
+                (tab.path && tab.path === currentPath) ||
+                (tab.virtualPath && tab.virtualPath === currentVirtualPath)
+              );
+              const isReverseFillIcon = tab.path === '/contacts' && !active;
               return (
                 <DropdownNavigationItem
                   {...tab}
@@ -72,12 +78,9 @@ export default class DropdownNavigationView extends Component {
                   onClick={() => {
                     goTo(tab);
                   }}
-                  active={
-                    (tab.isActive && tab.isActive(currentPath, currentVirtualPath)) ||
-                    (tab.path && tab.path === currentPath) ||
-                    (tab.virtualPath && tab.virtualPath === currentVirtualPath)
-                  }
+                  active={active}
                   icon={typeof Icon === 'function' ? <Icon /> : Icon}
+                  isReverseFillIcon={isReverseFillIcon}
                   activeIcon={typeof ActiveIcon === 'function' ? <ActiveIcon /> : ActiveIcon}
                 />
               );
