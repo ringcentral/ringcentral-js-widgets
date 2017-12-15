@@ -150,6 +150,9 @@
 }
 
 .icon {
+  path {
+    fill: $primary-color;
+  }
   @include reset;
   width: 100%;
   height: 100%;

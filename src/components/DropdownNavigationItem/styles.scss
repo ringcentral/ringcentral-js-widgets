@@ -1,5 +1,6 @@
 @import '../../lib/commonStyles/full-size.scss';
 @import '../../lib/commonStyles/layout.scss';
+@import '../../lib/commonStyles/colors.scss';
 
 .root {
   position: relative;
@@ -8,6 +9,12 @@
   background-color: #ffffff;
   border-bottom: 1px solid #ffffff;
   cursor: pointer;
+
+  svg {
+    path {
+      fill: $primary-color;
+    }
+  }
 
   &:hover,
   &:focus {
@@ -19,7 +26,16 @@
 
   &.active {
     opacity: 1;
-    color: #0073ae;
+    color: $primary-color;
+  }
+
+  &.reverseFillIcon {
+    svg {
+      path {
+        fill: none;
+        stroke: $primary-color;
+      }
+    }
   }
 }
 
@@ -37,7 +53,6 @@
   span {
     line-height: initial !important;
   }
-
   svg {
     position: absolute;
     top: 50%;
@@ -72,6 +87,6 @@
 }
 
 .active {
-  color: #0073ae;
+  color: $primary-color;
 }
 
