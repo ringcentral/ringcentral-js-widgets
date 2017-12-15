@@ -153,6 +153,12 @@ var VoicemailPlayer = function (_Component) {
       }
       _this._audio.pause();
     };
+
+    _this._onDownloadClick = function (e) {
+      if (_this.props.disabled) {
+        e.preventDefault();
+      }
+    };
     return _this;
   }
 
@@ -203,7 +209,11 @@ var VoicemailPlayer = function (_Component) {
             onClick: this._pauseAudio,
             disabled: disabled
           },
-          _react2.default.createElement(_Pause2.default, { width: 18, height: 18 })
+          _react2.default.createElement(
+            'span',
+            { title: _i18n2.default.getString('pause', currentLocale) },
+            _react2.default.createElement(_Pause2.default, { width: 18, height: 18 })
+          )
         );
       } else {
         icon = _react2.default.createElement(
@@ -213,7 +223,11 @@ var VoicemailPlayer = function (_Component) {
             onClick: this._playAudio,
             disabled: disabled
           },
-          _react2.default.createElement(_Play2.default, { width: 18, height: 18 })
+          _react2.default.createElement(
+            'span',
+            { title: _i18n2.default.getString('play', currentLocale) },
+            _react2.default.createElement(_Play2.default, { width: 18, height: 18 })
+          )
         );
       }
       var currentTime = this._audio.currentTime < duration ? this._audio.currentTime : duration;
@@ -233,7 +247,8 @@ var VoicemailPlayer = function (_Component) {
             target: '_blank',
             download: true,
             title: _i18n2.default.getString('download', currentLocale),
-            href: uri
+            href: uri,
+            onClick: this._onDownloadClick
           },
           _react2.default.createElement(_Download2.default, { width: 18, height: 18 })
         ),
