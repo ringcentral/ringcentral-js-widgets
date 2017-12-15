@@ -19,6 +19,7 @@ import MeetingSection from '../MeetingSection';
 const MINUTE_SCALE = 4;
 const HOUR_SCALE = 13;
 const MAX_TOPIC_LENGTH = 128;
+export const PASSWORD_REGEX = /^[A-Za-z0-9]{0,10}$/;
 
 function getMinutesList(MINUTE_SCALE) {
   return new Array(MINUTE_SCALE).fill(0).map((_, key) => {
@@ -557,7 +558,7 @@ const MeetingOptions = (
               ref={(ref) => { that.password = ref; }}
               value={meeting.password || ''}
               onChange={({ target }) => {
-                if (/^[A-Za-z0-9]{0,10}$/.test(target.value)) {
+                if (PASSWORD_REGEX.test(target.value)) {
                   update({
                     ...meeting,
                     password: target.value
