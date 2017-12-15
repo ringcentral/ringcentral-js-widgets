@@ -41,6 +41,10 @@ var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstru
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
+var _get2 = require('babel-runtime/helpers/get');
+
+var _get3 = _interopRequireDefault(_get2);
+
 var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
@@ -162,6 +166,8 @@ var Conference = (_dec = (0, _di.Module)({
 
     _this._dialInNumberStorageKey = 'conferenceDialInNumber';
     _this._additionalNumbersStorageKey = 'conferenceAdditionalNumbers';
+    _this._regionSetting = regionSettings;
+    _this._lastCountryCode = null;
     _this._storage.registerReducer({
       key: _this._dialInNumberStorageKey,
       reducer: (0, _createSimpleReducer2.default)(_this.actionTypes.updateDialInNumber, 'dialInNumber')
@@ -174,23 +180,37 @@ var Conference = (_dec = (0, _di.Module)({
   }
 
   (0, _createClass3.default)(Conference, [{
-    key: 'updateEnableJoinBeforeHost',
+    key: '_onStateChange',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(allowJoinBeforeHost) {
-        var data;
+      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+        var _this3 = this;
+
+        var _data$phoneNumbers$fi, phoneNumber;
+
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.next = 2;
-                return this._client.account().extension().conferencing().put({ allowJoinBeforeHost: allowJoinBeforeHost });
+                (0, _get3.default)(Conference.prototype.__proto__ || (0, _getPrototypeOf2.default)(Conference.prototype), '_onStateChange', this).call(this);
 
-              case 2:
-                data = _context2.sent;
+                if (!(!this.data || !this._regionSetting.ready || this._lastCountryCode === this._regionSetting.countryCode)) {
+                  _context2.next = 3;
+                  break;
+                }
 
-                this._store.dispatch({ type: this.actionTypes.fetchSuccess, data: data });
+                return _context2.abrupt('return');
 
-              case 4:
+              case 3:
+                this._lastCountryCode = this._regionSetting.countryCode;
+                _data$phoneNumbers$fi = this.data.phoneNumbers.find(function (e) {
+                  return e.country.isoCode === _this3._lastCountryCode;
+                }), phoneNumber = _data$phoneNumbers$fi.phoneNumber;
+
+                if (phoneNumber !== this.dialInNumber) {
+                  this.updateDialInNumber(phoneNumber);
+                }
+
+              case 6:
               case 'end':
                 return _context2.stop();
             }
@@ -198,8 +218,39 @@ var Conference = (_dec = (0, _di.Module)({
         }, _callee2, this);
       }));
 
-      function updateEnableJoinBeforeHost(_x) {
+      function _onStateChange() {
         return _ref3.apply(this, arguments);
+      }
+
+      return _onStateChange;
+    }()
+  }, {
+    key: 'updateEnableJoinBeforeHost',
+    value: function () {
+      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(allowJoinBeforeHost) {
+        var data;
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return this._client.account().extension().conferencing().put({ allowJoinBeforeHost: allowJoinBeforeHost });
+
+              case 2:
+                data = _context3.sent;
+
+                this._store.dispatch({ type: this.actionTypes.fetchSuccess, data: data });
+
+              case 4:
+              case 'end':
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function updateEnableJoinBeforeHost(_x) {
+        return _ref4.apply(this, arguments);
       }
 
       return updateEnableJoinBeforeHost;
