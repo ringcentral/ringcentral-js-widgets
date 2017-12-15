@@ -99,7 +99,17 @@ class ConferencePanel extends Component {
       dialInNumbers: this.formatDialInNumbers(props),
       showAdditionalNumbers: false,
       showAdditionalNumberList: false,
+      mainCtrlOverlapped: false
     };
+  }
+
+  checkOverlap = () => {
+    const { mainCtrl } = this;
+    const overlappedHeight = mainCtrl.scrollHeight - mainCtrl.clientHeight - mainCtrl.scrollTop;
+    const mainCtrlOverlapped = overlappedHeight > 1;
+    if (mainCtrlOverlapped !== this.state.mainCtrlOverlapped) {
+      this.setState({ mainCtrlOverlapped });
+    }
   }
 
   onAddionalNumbersSwitch = (checked) => {
@@ -175,6 +185,14 @@ This conference call is brought to you by ${brand.name} Conferencing.`;
     }
   }
 
+  componentDidMount() {
+    window.addEventListener('resize', this.checkOverlap, false);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.checkOverlap, false);
+  }
+
   render() {
     const {
       currentLocale,
@@ -194,7 +212,8 @@ This conference call is brought to you by ${brand.name} Conferencing.`;
     const {
       dialInNumbers,
       showAdditionalNumbers,
-      showAdditionalNumberList
+      showAdditionalNumberList,
+      mainCtrlOverlapped
     } = this.state;
     if (showAdditionalNumberList) {
       return (
@@ -226,9 +245,15 @@ This conference call is brought to you by ${brand.name} Conferencing.`;
           onChange={updateAdditionalNumbers} />
       </div>
     ) : '';
+    const bottomClass = [styles.bottom];
+    if (mainCtrlOverlapped) bottomClass.push(styles.overlapped);
+    setTimeout(this.checkOverlap, 1);
     return (
       <div className={styles.container}>
-        <div className={styles.main}>
+        <div
+          className={styles.main}
+          onScroll={this.checkOverlap}
+          ref={(ref) => { this.mainCtrl = ref; }}>
           <div className={styles.dialInNumber}>
             <label>{i18n.getString('dialInNumber', currentLocale)}</label>
             <Select
@@ -287,7 +312,7 @@ This conference call is brought to you by ${brand.name} Conferencing.`;
             {i18n.getString('conferenceCommands', currentLocale)}
           </Button>
         </div>
-        <div className={styles.bottom}>
+        <div className={bottomClass.join(' ')}>
           {additionalButtons.map(
             Btn => (
               <Btn
