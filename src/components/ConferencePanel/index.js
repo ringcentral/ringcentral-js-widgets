@@ -141,7 +141,7 @@ This conference call is brought to you by ${brand.name} Conferencing.`;
 
   inviteWithText = () => {
     if (this.state.showAdditionalNumbers && this.props.additionalNumbers.length < 1) {
-      this.props.alert(messages.requireAdditionalNumbers);
+      this.props.alert(messages.requireAditionalNumbers);
       return;
     }
     this.props.inviteWithText(this.inviteTxt());
