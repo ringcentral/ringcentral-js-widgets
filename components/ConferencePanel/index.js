@@ -197,6 +197,16 @@ var ConferencePanel = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ConferencePanel.__proto__ || (0, _getPrototypeOf2.default)(ConferencePanel)).call(this, props));
 
+    _this.checkOverlap = function () {
+      var mainCtrl = _this.mainCtrl;
+
+      var overlappedHeight = mainCtrl.scrollHeight - mainCtrl.clientHeight - mainCtrl.scrollTop;
+      var mainCtrlOverlapped = overlappedHeight > 1;
+      if (mainCtrlOverlapped !== _this.state.mainCtrlOverlapped) {
+        _this.setState({ mainCtrlOverlapped: mainCtrlOverlapped });
+      }
+    };
+
     _this.onAddionalNumbersSwitch = function (checked) {
       _this.setState({
         showAdditionalNumbers: checked
@@ -214,7 +224,8 @@ var ConferencePanel = function (_Component) {
     _this.state = {
       dialInNumbers: _this.formatDialInNumbers(props),
       showAdditionalNumbers: false,
-      showAdditionalNumberList: false
+      showAdditionalNumberList: false,
+      mainCtrlOverlapped: false
     };
     return _this;
   }
@@ -275,6 +286,16 @@ var ConferencePanel = function (_Component) {
       }
     }
   }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      window.addEventListener('resize', this.checkOverlap, false);
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      window.removeEventListener('resize', this.checkOverlap, false);
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -296,7 +317,8 @@ var ConferencePanel = function (_Component) {
       var _state2 = this.state,
           dialInNumbers = _state2.dialInNumbers,
           showAdditionalNumbers = _state2.showAdditionalNumbers,
-          showAdditionalNumberList = _state2.showAdditionalNumberList;
+          showAdditionalNumberList = _state2.showAdditionalNumberList,
+          mainCtrlOverlapped = _state2.mainCtrlOverlapped;
 
       if (showAdditionalNumberList) {
         return _react2.default.createElement(
@@ -364,12 +386,20 @@ var ConferencePanel = function (_Component) {
           selected: additionalNumbers,
           onChange: updateAdditionalNumbers })
       ) : '';
+      var bottomClass = [_styles2.default.bottom];
+      if (mainCtrlOverlapped) bottomClass.push(_styles2.default.overlapped);
+      setTimeout(this.checkOverlap, 1);
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.container },
         _react2.default.createElement(
           'div',
-          { className: _styles2.default.main },
+          {
+            className: _styles2.default.main,
+            onScroll: this.checkOverlap,
+            ref: function ref(_ref5) {
+              _this2.mainCtrl = _ref5;
+            } },
           _react2.default.createElement(
             'div',
             { className: _styles2.default.dialInNumber },
@@ -473,7 +503,7 @@ var ConferencePanel = function (_Component) {
         ),
         _react2.default.createElement(
           'div',
-          { className: _styles2.default.bottom },
+          { className: bottomClass.join(' ') },
           additionalButtons.map(function (Btn) {
             return _react2.default.createElement(Btn, {
               dialInNumber: dialInNumber,
