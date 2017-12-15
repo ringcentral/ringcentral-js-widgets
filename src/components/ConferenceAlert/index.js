@@ -18,5 +18,5 @@ ConferenceAlert.propTypes = {
 };
 
 ConferenceAlert.handleMessage = ({ message }) => (
-  message === messages.requireAdditionalNumbers
+  message === messages.requireAditionalNumbers
 );
