@@ -205,7 +205,7 @@ var ConferencePanel = function (_Component) {
 
     _this.inviteWithText = function () {
       if (_this.state.showAdditionalNumbers && _this.props.additionalNumbers.length < 1) {
-        _this.props.alert(_messages2.default.requireAdditionalNumbers);
+        _this.props.alert(_messages2.default.requireAditionalNumbers);
         return;
       }
       _this.props.inviteWithText(_this.inviteTxt());
