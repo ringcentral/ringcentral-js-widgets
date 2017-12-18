@@ -113,6 +113,10 @@ ul.dialInNumberList {
     padding: 9px 0 10px;
     display: flex;
 
+    .checkbox {
+      flex-shrink: 0;
+    }
+
     .region {
       color: $night;
       @include secondary-font;
@@ -156,7 +160,6 @@ ul.dialInNumberList {
   font-size: 13px;
   line-height: 13px;
   color: $snow;
-  display: inline-block;
   text-align: center;
   user-select: none;
   background: transparent;
