@@ -256,7 +256,7 @@ var ConferencePanel = function (_Component) {
       if (showAdditionalNumbers) {
         additionalNumbersSection = '\n\nInternational Dial-in Numbers:\n' + additionalNumbersTxt + '\n\n';
       }
-      return '\nPlease join the ' + brand.name + ' conference.\n\nDial-In Numbers:' + formattedDialInNumber + '\n' + additionalNumbersSection + '\nParticipant Access: ' + formatPin(participantCode) + '\n\nNeed an international dial-in phone number? Please visit ' + dialInNumbersLinks[brand.code] + '\n\nThis conference call is brought to you by ' + brand.name + ' Conferencing.';
+      return '\nPlease join the ' + brand.name + ' conference.\n\nDial-In Number:' + formattedDialInNumber + '\n' + additionalNumbersSection + '\nParticipant Access: ' + formatPin(participantCode) + '\n\nNeed an international dial-in phone number? Please visit ' + dialInNumbersLinks[brand.code] + '\n\nThis conference call is brought to you by ' + brand.name + ' Conferencing.';
     }
   }, {
     key: 'formatDialInNumbers',
@@ -332,7 +332,9 @@ var ConferencePanel = function (_Component) {
             _i18n2.default.getString('selectNumbers', currentLocale)
           ),
           _react2.default.createElement(DialInNumberList, {
-            dialInNumbers: dialInNumbers,
+            dialInNumbers: dialInNumbers.filter(function (e) {
+              return e.phoneNumber !== dialInNumber;
+            }),
             selected: additionalNumbers,
             onChange: updateAdditionalNumbers })
         );
@@ -346,9 +348,11 @@ var ConferencePanel = function (_Component) {
         var _loop = function _loop() {
           var n = _step.value;
 
-          additionalNumberObjs.push(dialInNumbers.find(function (e) {
-            return e.phoneNumber === n;
-          }));
+          if (n !== dialInNumber) {
+            additionalNumberObjs.push(dialInNumbers.find(function (e) {
+              return e.phoneNumber === n;
+            }));
+          }
         };
 
         for (var _iterator = (0, _getIterator3.default)(additionalNumbers), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {

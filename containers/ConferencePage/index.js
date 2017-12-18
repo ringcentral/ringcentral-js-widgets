@@ -43,8 +43,13 @@ function mapToProps(_, _ref) {
     for (var _iterator = (0, _getIterator3.default)(data.phoneNumbers), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
       var p = _step.value;
 
+      var region = p.country.name;
+      if (p.location) {
+        region += ', ';
+        region += p.location;
+      }
       dialInNumbers.push({
-        region: p.country.name,
+        region: region,
         phoneNumber: p.phoneNumber
       });
     }
