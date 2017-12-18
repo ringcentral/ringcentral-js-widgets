@@ -84,9 +84,11 @@ class ContactDropdownList extends Component {
       }
     }
   }
+
   render() {
     const {
       className,
+      listRef,
       items,
       selectedIndex,
       formatContactPhone,
@@ -104,7 +106,15 @@ class ContactDropdownList extends Component {
     listClassName = classnames(styles.dropdownList, className, hiddenClassName);
 
     return (
-      <ul className={listClassName} ref={(c) => { this.node = c; }}>
+      <ul
+        className={listClassName}
+        ref={(c) => {
+          this.node = c;
+          if (typeof listRef === 'function') {
+            listRef(c);
+          }
+        }}
+      >
         {
           items.map((item, index) => (
             <ContactItem
@@ -143,6 +153,7 @@ ContactDropdownList.propTypes = {
   selectedIndex: PropTypes.number.isRequired,
   titleEnabled: PropTypes.bool,
   phoneTypeRenderer: PropTypes.func,
+  listRef: PropTypes.func,
 };
 
 ContactDropdownList.defaultProps = {
@@ -150,6 +161,7 @@ ContactDropdownList.defaultProps = {
   scrollDirection: null,
   titleEnabled: undefined,
   phoneTypeRenderer: undefined,
+  listRef: undefined,
 };
 
 export default ContactDropdownList;

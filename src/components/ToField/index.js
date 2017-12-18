@@ -249,7 +249,6 @@ export default class ToField extends Component {
           addToRecipients={this.props.addToRecipients}
           items={relatedContactList}
           formatContactPhone={this.props.formatPhone}
-          className={styles.contactsDropdown}
           visibility={this.state.isFocusOnInput}
           titleEnabled={this.props.titleEnabled}
         />
