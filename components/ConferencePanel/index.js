@@ -114,10 +114,10 @@ function DialInNumberItem(_ref2) {
 
   return _react2.default.createElement(
     'div',
-    { className: _styles2.default.dialInNumberItem },
+    { className: _styles2.default.dialInNumberItem, title: region },
     _react2.default.createElement(
       'span',
-      { className: _styles2.default.region, title: region },
+      { className: _styles2.default.region },
       region
     ),
     _react2.default.createElement(
@@ -160,7 +160,8 @@ function DialInNumberList(_ref3) {
         'li',
         {
           key: e.phoneNumber,
-          onClick: selectChange
+          onClick: selectChange,
+          title: e.region
         },
         _react2.default.createElement(CheckBox, { className: _styles2.default.checkbox, checked: checked }),
         _react2.default.createElement(
