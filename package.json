@@ -27,7 +27,7 @@
     "react-router-redux": "^4.0.7",
     "ringcentral": "^3.1.3",
     "ringcentral-client": "^1.0.0-rc1",
-    "ringcentral-integration": "^0.7.29"
+    "ringcentral-integration": "^0.7.31"
   },
   "devDependencies": {
     "alias-webpack-plugin": "^1.0.6",
