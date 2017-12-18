@@ -16,8 +16,13 @@ function mapToProps(_, {
   const { hostCode, participantCode, allowJoinBeforeHost } = data;
   const dialInNumbers = [];
   for (const p of data.phoneNumbers) {
+    let region = p.country.name;
+    if (p.location) {
+      region += ', ';
+      region += p.location;
+    }
     dialInNumbers.push({
-      region: p.country.name,
+      region,
       phoneNumber: p.phoneNumber
     });
   }
