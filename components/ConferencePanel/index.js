@@ -114,11 +114,15 @@ function DialInNumberItem(_ref2) {
 
   return _react2.default.createElement(
     'div',
-    null,
-    region,
+    { className: _styles2.default.dialInNumberItem },
     _react2.default.createElement(
       'span',
-      { style: { float: 'right' } },
+      { className: _styles2.default.region, title: region },
+      region
+    ),
+    _react2.default.createElement(
+      'span',
+      null,
       formattedPhoneNumber
     )
   );
@@ -160,12 +164,12 @@ function DialInNumberList(_ref3) {
         },
         _react2.default.createElement(CheckBox, { className: _styles2.default.checkbox, checked: checked }),
         _react2.default.createElement(
-          'span',
+          'div',
           { className: _styles2.default.region },
           e.region
         ),
         _react2.default.createElement(
-          'span',
+          'div',
           { className: _styles2.default.phoneNumber },
           e.formattedPhoneNumber
         )
@@ -213,35 +217,21 @@ var ConferencePanel = function (_Component) {
       });
     };
 
-    _this.inviteWithText = function () {
-      if (_this.state.showAdditionalNumbers && _this.props.additionalNumbers.length < 1) {
-        _this.props.alert(_messages2.default.requireAditionalNumbers);
-        return;
+    _this.inviteTxt = function () {
+      var _this$props = _this.props,
+          dialInNumber = _this$props.dialInNumber,
+          additionalNumbers = _this$props.additionalNumbers,
+          participantCode = _this$props.participantCode,
+          brand = _this$props.brand,
+          alert = _this$props.alert;
+      var _this$state = _this.state,
+          dialInNumbers = _this$state.dialInNumbers,
+          showAdditionalNumbers = _this$state.showAdditionalNumbers;
+
+      if (showAdditionalNumbers && additionalNumbers.length < 1) {
+        alert(_messages2.default.requireAditionalNumbers);
+        return '';
       }
-      _this.props.inviteWithText(_this.inviteTxt());
-    };
-
-    _this.state = {
-      dialInNumbers: _this.formatDialInNumbers(props),
-      showAdditionalNumbers: false,
-      showAdditionalNumberList: false,
-      mainCtrlOverlapped: false
-    };
-    return _this;
-  }
-
-  (0, _createClass3.default)(ConferencePanel, [{
-    key: 'inviteTxt',
-    value: function inviteTxt() {
-      var _props = this.props,
-          dialInNumber = _props.dialInNumber,
-          additionalNumbers = _props.additionalNumbers,
-          participantCode = _props.participantCode,
-          brand = _props.brand;
-      var _state = this.state,
-          dialInNumbers = _state.dialInNumbers,
-          showAdditionalNumbers = _state.showAdditionalNumbers;
-
       var formattedDialInNumber = dialInNumbers.find(function (e) {
         return e.phoneNumber === dialInNumber;
       }).formattedPhoneNumber;
@@ -257,8 +247,25 @@ var ConferencePanel = function (_Component) {
         additionalNumbersSection = '\n\nInternational Dial-in Numbers:\n' + additionalNumbersTxt + '\n\n';
       }
       return '\nPlease join the ' + brand.name + ' conference.\n\nDial-In Number:' + formattedDialInNumber + '\n' + additionalNumbersSection + '\nParticipant Access: ' + formatPin(participantCode) + '\n\nNeed an international dial-in phone number? Please visit ' + dialInNumbersLinks[brand.code] + '\n\nThis conference call is brought to you by ' + brand.name + ' Conferencing.';
-    }
-  }, {
+    };
+
+    _this.inviteWithText = function () {
+      var txt = _this.inviteTxt();
+      if (txt) {
+        _this.props.inviteWithText(txt);
+      }
+    };
+
+    _this.state = {
+      dialInNumbers: _this.formatDialInNumbers(props),
+      showAdditionalNumbers: false,
+      showAdditionalNumberList: false,
+      mainCtrlOverlapped: false
+    };
+    return _this;
+  }
+
+  (0, _createClass3.default)(ConferencePanel, [{
     key: 'formatDialInNumbers',
     value: function formatDialInNumbers(_ref4) {
       var dialInNumbers = _ref4.dialInNumbers,
@@ -300,25 +307,25 @@ var ConferencePanel = function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var _props2 = this.props,
-          currentLocale = _props2.currentLocale,
-          hostCode = _props2.hostCode,
-          participantCode = _props2.participantCode,
-          dialInNumber = _props2.dialInNumber,
-          additionalNumbers = _props2.additionalNumbers,
-          updateDialInNumber = _props2.updateDialInNumber,
-          updateAdditionalNumbers = _props2.updateAdditionalNumbers,
-          joinAsHost = _props2.joinAsHost,
-          allowJoinBeforeHost = _props2.allowJoinBeforeHost,
-          additionalButtons = _props2.additionalButtons,
-          onAllowJoinBeforeHostChange = _props2.onAllowJoinBeforeHostChange,
-          showHelpCommands = _props2.showHelpCommands,
-          disableTxtBtn = _props2.disableTxtBtn;
-      var _state2 = this.state,
-          dialInNumbers = _state2.dialInNumbers,
-          showAdditionalNumbers = _state2.showAdditionalNumbers,
-          showAdditionalNumberList = _state2.showAdditionalNumberList,
-          mainCtrlOverlapped = _state2.mainCtrlOverlapped;
+      var _props = this.props,
+          currentLocale = _props.currentLocale,
+          hostCode = _props.hostCode,
+          participantCode = _props.participantCode,
+          dialInNumber = _props.dialInNumber,
+          additionalNumbers = _props.additionalNumbers,
+          updateDialInNumber = _props.updateDialInNumber,
+          updateAdditionalNumbers = _props.updateAdditionalNumbers,
+          joinAsHost = _props.joinAsHost,
+          allowJoinBeforeHost = _props.allowJoinBeforeHost,
+          additionalButtons = _props.additionalButtons,
+          onAllowJoinBeforeHostChange = _props.onAllowJoinBeforeHostChange,
+          showHelpCommands = _props.showHelpCommands,
+          disableTxtBtn = _props.disableTxtBtn;
+      var _state = this.state,
+          dialInNumbers = _state.dialInNumbers,
+          showAdditionalNumbers = _state.showAdditionalNumbers,
+          showAdditionalNumberList = _state.showAdditionalNumberList,
+          mainCtrlOverlapped = _state.mainCtrlOverlapped;
 
       if (showAdditionalNumberList) {
         return _react2.default.createElement(
@@ -430,8 +437,7 @@ var ConferencePanel = function (_Component) {
               },
               options: dialInNumbers,
               disabled: false,
-              dropdownAlign: 'left',
-              titleEnabled: true
+              dropdownAlign: 'left'
             })
           ),
           _react2.default.createElement(
@@ -511,7 +517,7 @@ var ConferencePanel = function (_Component) {
           additionalButtons.map(function (Btn) {
             return _react2.default.createElement(Btn, {
               dialInNumber: dialInNumber,
-              inviteText: _this2.inviteTxt(),
+              getInviteTxt: _this2.inviteTxt,
               key: Date.now()
             });
           }),
