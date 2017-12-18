@@ -111,18 +111,23 @@ ul.dialInNumberList {
     line-height: 17px;
     height: 17px;
     padding: 9px 0 10px;
+    display: flex;
 
     .region {
       color: $night;
       @include secondary-font;
-      margin-left: 10px;
+      margin: 0 10px;
+      flex-grow: 1;
+      overflow: auto;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .phoneNumber {
       font-family: $font-family;
       font-size: $tertiary-font-size;
       color: $ash;
-      float: right;
+      white-space: nowrap;
     }
   }
 
@@ -131,6 +136,17 @@ ul.dialInNumberList {
   }
   li:last-child {
     padding-bottom: 0;
+  }
+}
+
+.dialInNumberItem {
+  display: flex;
+
+  .region {
+    flex-grow: 1;
+    overflow: auto;
+    text-overflow: ellipsis;
+    margin-right: 1em;
   }
 }
 
