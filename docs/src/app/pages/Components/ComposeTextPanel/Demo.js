@@ -14,7 +14,7 @@ class ComposeTextPanelDemo extends Component {
       typingToNumber: '',
       messageText: '',
       toNumbers: [],
-      senderNumber: '',
+      senderNumber: '7654321',
     };
   }
   updateMessageText = (messageText) => {
@@ -28,13 +28,13 @@ class ComposeTextPanelDemo extends Component {
     });
   }
   removeToNumber = ({ phoneNumber }) => {
-    const toNumbers = this.state.toNumbers;
+    const { toNumbers } = this.state;
     this.setState({
       toNumbers: toNumbers.filter(toNumber => toNumber.phoneNumber !== phoneNumber)
     });
   }
   addToNumber = (toNumber) => {
-    const toNumbers = this.state.toNumbers;
+    const { toNumbers } = this.state;
     toNumbers.push(toNumber);
     this.setState({
       toNumbers
@@ -47,7 +47,7 @@ class ComposeTextPanelDemo extends Component {
   }
   updateSenderNumber = (senderNumber) => {
     this.setState({
-      senderNumber
+      senderNumber: senderNumber.phoneNumber,
     });
   }
   render() {
@@ -70,10 +70,13 @@ class ComposeTextPanelDemo extends Component {
         border: '1px solid #f3f3f3',
       }}>
         <ComposeTextPanel
-          currentLocale={'en-US'}
+          currentLocale="en-US"
           className={styles.root}
           send={() => null}
-          senderNumbers={['7654321']}
+          senderNumbers={[{
+            phoneNumber: '7654321',
+            usageType: 'Main',
+          }]}
           sendButtonDisabled={false}
           formatPhone={phoneNumber => phoneNumber}
           formatContactPhone={phoneNumber => phoneNumber}

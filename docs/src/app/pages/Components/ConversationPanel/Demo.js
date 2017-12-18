@@ -19,6 +19,7 @@ props.conversation = {
   correspondentMatches: [],
   correspondents: [],
 };
+props.formatPhone = p => p;
 
 /**
  * A example of `ConversationPanel`

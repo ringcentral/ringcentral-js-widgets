@@ -8,13 +8,15 @@ import styles from './styles.scss';
 class DialerPanelDemo extends Component {
   constructor(props) {
     super(props);
-    this.state={
+    this.state = {
       toNumber: ''
-    }
+    };
   }
+
   onCall = () => {
     alert('click \'onCall\'');
   }
+
   keepToNumber = (toNumber) => {
     this.setState({
       toNumber
@@ -22,14 +24,39 @@ class DialerPanelDemo extends Component {
   }
   render() {
     return (
-      <DialerPanel
-        className={styles.root}
-        currentLocale='en-US'
-        onCall={this.onCall}
-        keepToNumber={this.keepToNumber}
-        toNumber={this.state.toNumber}
-        callButtonDisabled={false}
-      />
+      <div style={{
+        position: 'relative',
+        height: '500px',
+        width: '300px',
+        border: '1px solid #f3f3f3',
+      }}>
+        <DialerPanel
+          className={styles.root}
+          currentLocale="en-US"
+          isWebphoneMode
+          onCallButtonClick={this.onCall}
+          onToNumberChange={this.keepToNumber}
+          toNumber={this.state.toNumber}
+          fromNumber="123456789"
+          fromNumbers={[
+            {
+              phoneNumber: '123456789',
+              usageType: 'Company',
+            }
+          ]}
+          changeFromNumber={() => null}
+          callButtonDisabled={false}
+          recipient={{
+            phoneNumber: '1234',
+            name: 'Test',
+          }}
+          searchContactList={[]}
+          searchContact={() => null}
+          clearToNumber={() => null}
+          setRecipient={() => null}
+          clearRecipient={() => null}
+        />
+      </div>
     );
   }
 }
