@@ -471,7 +471,15 @@ var Call = (_dec = (0, _di.Module)({
                 _context5.prev = 20;
                 _context5.t0 = _context5['catch'](7);
 
-                if (_context5.t0.message === _ringoutErrors2.default.firstLegConnectFailed) {
+                if (!_context5.t0.message) {
+                  // validate format error
+                  this._alert.warning({
+                    message: _callErrors2.default[_context5.t0.type],
+                    payload: {
+                      phoneNumber: _context5.t0.phoneNumber
+                    }
+                  });
+                } else if (_context5.t0.message === _ringoutErrors2.default.firstLegConnectFailed) {
                   this._alert.warning({
                     message: _callErrors2.default.connectFailed,
                     payload: _context5.t0
@@ -510,8 +518,6 @@ var Call = (_dec = (0, _di.Module)({
     key: '_getValidatedNumbers',
     value: function () {
       var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(_ref10) {
-        var _this3 = this;
-
         var toNumber = _ref10.toNumber;
         var isWebphone, fromNumber, waitingValidateNumbers, validatedResult, parsedNumbers, parsedFromNumber;
         return _regenerator2.default.wrap(function _callee6$(_context6) {
@@ -546,12 +552,13 @@ var Call = (_dec = (0, _di.Module)({
                 }
 
                 validatedResult.errors.forEach(function (error) {
-                  _this3._alert.warning({
-                    message: _callErrors2.default[error.type],
-                    payload: {
-                      phoneNumber: error.phoneNumber
-                    }
-                  });
+                  // this._alert.warning({
+                  //   message: callErrors[error.type],
+                  //   payload: {
+                  //     phoneNumber: error.phoneNumber
+                  //   }
+                  // });
+                  throw error;
                 });
                 return _context6.abrupt('return', null);
 
@@ -591,7 +598,7 @@ var Call = (_dec = (0, _di.Module)({
     key: '_makeCall',
     value: function () {
       var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(_ref12) {
-        var _this4 = this;
+        var _this3 = this;
 
         var toNumber = _ref12.toNumber,
             fromNumber = _ref12.fromNumber,
@@ -603,7 +610,7 @@ var Call = (_dec = (0, _di.Module)({
             switch (_context7.prev = _context7.next) {
               case 0:
                 homeCountry = this._regionSettings.availableCountries.find(function (country) {
-                  return country.isoCode === _this4._regionSettings.countryCode;
+                  return country.isoCode === _this3._regionSettings.countryCode;
                 });
                 homeCountryId = homeCountry && homeCountry.callingCode || '1';
                 _context7.t0 = callingMode;
