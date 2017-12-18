@@ -1,4 +1,4 @@
 export default {
   to: 'To',
-  enterNameOrNumber: 'Enter Number or Name...',
+  enterNameOrNumber: 'Enter Name or Number',
 };
