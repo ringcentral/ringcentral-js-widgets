@@ -93,18 +93,6 @@ class RecipientsInput extends Component {
       scrollDirection: null,
     };
 
-    this.onReceiversInputFocus = () => {
-      this.setState({
-        isFocusOnInput: true,
-      });
-    };
-
-    this.onReceiversInputBlur = () => {
-      this.setState({
-        isFocusOnInput: false,
-      });
-    };
-
     this.setSelectedIndex = (index) => {
       this.setState({
         selectedContactIndex: index,
@@ -197,13 +185,37 @@ class RecipientsInput extends Component {
   }
   onReceiverInputKeyUp = (e) => {
     this.props.searchContact(e.currentTarget.value);
+    this.setState({
+      isFocusOnInput: true
+    });
   }
   onReceiverChange = (e) => {
     this.props.onChange(e.currentTarget.value);
   }
   componentDidMount() {
     this.props.searchContact(this.props.value);
+    window.addEventListener('click', this.clickHandler);
   }
+
+  componentWillUnmount() {
+    window.removeEventListener('click', this.clickHandler);
+  }
+
+  clickHandler = (evt) => {
+    if (this.listRef && this.listRef.contains(evt.target)) return;
+    if (this.inputRef && this.inputRef.contains(evt.target)) return;
+    this.setState({
+      isFocusOnInput: false
+    });
+  }
+
+  _addToRecipients = (item) => {
+    this.props.addToRecipients(item);
+    this.setState({
+      isFocusOnInput: false
+    });
+  }
+
   render() {
     // TODO a temporary fix for rendering slower search result.
     const relatedContactList = this.props.value.length >= 3 ?
@@ -223,13 +235,12 @@ class RecipientsInput extends Component {
         <div>
           <div className={styles.inputField}>
             <input
+              ref={(ref) => { this.inputRef = ref; }}
               name="receiver"
               value={this.props.value}
               onChange={this.onReceiverChange}
               className={styles.numberInput}
               maxLength={30}
-              onFocus={this.onReceiversInputFocus}
-              onBlur={this.onReceiversInputBlur}
               onKeyUp={this.onReceiverInputKeyUp}
               placeholder={
                 this.props.placeholder ||
@@ -263,14 +274,14 @@ class RecipientsInput extends Component {
           {toNumberInput}
         </div>
         <ContactDropdownList
+          listRef={(ref) => { this.listRef = ref; }}
           phoneTypeRenderer={this.props.phoneTypeRenderer}
           scrollDirection={this.state.scrollDirection}
           selectedIndex={this.state.selectedContactIndex}
           setSelectedIndex={this.setSelectedIndex}
-          addToRecipients={this.props.addToRecipients}
+          addToRecipients={this._addToRecipients}
           items={relatedContactList}
           formatContactPhone={this.props.formatContactPhone}
-          className={styles.contactsDropdown}
           visibility={this.state.isFocusOnInput}
           titleEnabled={this.props.titleEnabled}
         />
