@@ -140,7 +140,7 @@ ${additionalNumbersTxt}
     return `
 Please join the ${brand.name} conference.
 
-Dial-In Numbers:${formattedDialInNumber}
+Dial-In Number:${formattedDialInNumber}
 ${additionalNumbersSection}
 Participant Access: ${formatPin(participantCode)}
 
@@ -222,7 +222,7 @@ This conference call is brought to you by ${brand.name} Conferencing.`;
             {i18n.getString('selectNumbers', currentLocale)}
           </BackHeader>
           <DialInNumberList
-            dialInNumbers={dialInNumbers}
+            dialInNumbers={dialInNumbers.filter(e => e.phoneNumber !== dialInNumber)}
             selected={additionalNumbers}
             onChange={updateAdditionalNumbers} />
         </div>
@@ -230,7 +230,9 @@ This conference call is brought to you by ${brand.name} Conferencing.`;
     }
     const additionalNumberObjs = [];
     for (const n of additionalNumbers) {
-      additionalNumberObjs.push(dialInNumbers.find(e => e.phoneNumber === n));
+      if (n !== dialInNumber) {
+        additionalNumberObjs.push(dialInNumbers.find(e => e.phoneNumber === n));
+      }
     }
     const additionalNumbersCtrl = showAdditionalNumbers ? (
       <div style={{ width: '100%' }}>
