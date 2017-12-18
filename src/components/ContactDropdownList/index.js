@@ -108,14 +108,13 @@ class ContactDropdownList extends Component {
     return (
       <ul
         className={listClassName}
-        ref={
-        (c) => {
+        ref={(c) => {
           this.node = c;
           if (typeof listRef === 'function') {
             listRef(c);
           }
-        }
-      }>
+        }}
+      >
         {
           items.map((item, index) => (
             <ContactItem
