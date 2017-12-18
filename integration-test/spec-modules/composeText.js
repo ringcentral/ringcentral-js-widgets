@@ -74,7 +74,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                       }
                       _context.next = 6;
                       return (0, _WaitUtil.waitUntilNotNull)(function () {
-                        return messageSender.senderNumbersList[0];
+                        return messageSender.senderNumbersList[0].phoneNumber;
                       }, 'First number in senderNumberList', 3);
 
                     case 6:
@@ -94,15 +94,15 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
             conditionalDescribe('Should Init Successfully with Default Setting', function () {
               _this.timeout(20000);
               it('Should Set Sender Number with First SmsSender Phone Number by Default', function () {
-                expect(composeText.senderNumber).to.equals(messageSender.senderNumbersList[0]);
+                expect(composeText.senderNumber).to.equals(messageSender.senderNumbersList[0].phoneNumber);
               });
             });
 
             conditionalDescribe('Should Save Sender Number', function () {
               _this.timeout(20000);
               it('Should Update Sender Number After User Change Sender Number', function () {
-                composeText.updateSenderNumber(messageSender.senderNumbersList[1]);
-                expect(composeText.senderNumber).to.equals(messageSender.senderNumbersList[1]);
+                composeText.updateSenderNumber(messageSender.senderNumbersList[1].phoneNumber);
+                expect(composeText.senderNumber).to.equals(messageSender.senderNumbersList[1].phoneNumber);
               });
 
               it('Should Remember Sender Number After Logout', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
@@ -110,7 +110,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                   while (1) {
                     switch (_context2.prev = _context2.next) {
                       case 0:
-                        composeText.updateSenderNumber(messageSender.senderNumbersList[1]);
+                        composeText.updateSenderNumber(messageSender.senderNumbersList[1].phoneNumber);
                         auth.logout();
                         _context2.next = 4;
                         return (0, _WaitUtil.waitUntilEqual)(function () {
@@ -126,7 +126,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
 
                       case 7:
                         (0, _WaitUtil.waitInSeconds)(2);
-                        expect(composeText.senderNumber).to.equals(messageSender.senderNumbersList[1]);
+                        expect(composeText.senderNumber).to.equals(messageSender.senderNumbersList[1].phoneNumber);
 
                       case 9:
                       case 'end':
@@ -1250,8 +1250,8 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                     while (1) {
                       switch (_context40.prev = _context40.next) {
                         case 0:
-                          regionSettings.setData({ countryCode: 'GB', areaCode: '' });
-                          composeText.addToNumber({ phoneNumber: '8558990011' });
+                          regionSettings.setData({ countryCode: 'FR', areaCode: '' });
+                          composeText.addToNumber({ phoneNumber: '855899001' });
                           composeText.updateMessageText("test sender");
                           _context40.prev = 3;
                           _context40.next = 6;

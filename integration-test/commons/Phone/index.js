@@ -588,6 +588,7 @@ var Phone = function (_RcModule) {
     })));
 
     _this.addModule('messages', new _Messages2.default((0, _extends3.default)({}, options, {
+      auth: _this.auth,
       messageStore: _this.messageStore,
       extensionInfo: _this.extensionInfo,
       getState: function getState() {
