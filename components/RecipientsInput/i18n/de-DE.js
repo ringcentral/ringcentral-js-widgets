@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   to: 'An',
-  enterNameOrNumber: 'Nummer oder Name eingeben ...'
+  enterNameOrNumber: 'Name oder Nummer eingeben'
 };
 
 // @key: @#@"to"@#@ @source: @#@"To"@#@

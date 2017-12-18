@@ -160,6 +160,7 @@ var ContactDropdownList = function (_Component) {
 
       var _props = this.props,
           className = _props.className,
+          listRef = _props.listRef,
           items = _props.items,
           selectedIndex = _props.selectedIndex,
           formatContactPhone = _props.formatContactPhone,
@@ -178,9 +179,15 @@ var ContactDropdownList = function (_Component) {
 
       return _react2.default.createElement(
         'ul',
-        { className: listClassName, ref: function ref(c) {
+        {
+          className: listClassName,
+          ref: function ref(c) {
             _this2.node = c;
-          } },
+            if (typeof listRef === 'function') {
+              listRef(c);
+            }
+          }
+        },
         items.map(function (item, index) {
           return _react2.default.createElement(ContactItem, {
             active: selectedIndex === index,
@@ -221,14 +228,16 @@ ContactDropdownList.propTypes = {
   setSelectedIndex: _propTypes2.default.func.isRequired,
   selectedIndex: _propTypes2.default.number.isRequired,
   titleEnabled: _propTypes2.default.bool,
-  phoneTypeRenderer: _propTypes2.default.func
+  phoneTypeRenderer: _propTypes2.default.func,
+  listRef: _propTypes2.default.func
 };
 
 ContactDropdownList.defaultProps = {
   className: null,
   scrollDirection: null,
   titleEnabled: undefined,
-  phoneTypeRenderer: undefined
+  phoneTypeRenderer: undefined,
+  listRef: undefined
 };
 
 exports.default = ContactDropdownList;

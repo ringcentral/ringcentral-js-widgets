@@ -146,28 +146,34 @@ var RecipientsInput = function (_Component) {
 
     _this.onReceiverInputKeyUp = function (e) {
       _this.props.searchContact(e.currentTarget.value);
+      _this.setState({
+        isFocusOnInput: true
+      });
     };
 
     _this.onReceiverChange = function (e) {
       _this.props.onChange(e.currentTarget.value);
     };
 
+    _this.clickHandler = function (evt) {
+      if (_this.listRef && _this.listRef.contains(evt.target)) return;
+      if (_this.inputRef && _this.inputRef.contains(evt.target)) return;
+      _this.setState({
+        isFocusOnInput: false
+      });
+    };
+
+    _this._addToRecipients = function (item) {
+      _this.props.addToRecipients(item);
+      _this.setState({
+        isFocusOnInput: false
+      });
+    };
+
     _this.state = {
       isFocusOnInput: false,
       selectedContactIndex: 0,
       scrollDirection: null
-    };
-
-    _this.onReceiversInputFocus = function () {
-      _this.setState({
-        isFocusOnInput: true
-      });
-    };
-
-    _this.onReceiversInputBlur = function () {
-      _this.setState({
-        isFocusOnInput: false
-      });
     };
 
     _this.setSelectedIndex = function (index) {
@@ -266,10 +272,18 @@ var RecipientsInput = function (_Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.props.searchContact(this.props.value);
+      window.addEventListener('click', this.clickHandler);
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      window.removeEventListener('click', this.clickHandler);
     }
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       // TODO a temporary fix for rendering slower search result.
       var relatedContactList = this.props.value.length >= 3 ? this.props.searchContactList.slice(0, 50) : [];
       var label = _react2.default.createElement(
@@ -285,13 +299,14 @@ var RecipientsInput = function (_Component) {
           'div',
           { className: _styles2.default.inputField },
           _react2.default.createElement('input', {
+            ref: function ref(_ref3) {
+              _this2.inputRef = _ref3;
+            },
             name: 'receiver',
             value: this.props.value,
             onChange: this.onReceiverChange,
             className: _styles2.default.numberInput,
             maxLength: 30,
-            onFocus: this.onReceiversInputFocus,
-            onBlur: this.onReceiversInputBlur,
             onKeyUp: this.onReceiverInputKeyUp,
             placeholder: this.props.placeholder || _i18n2.default.getString('enterNameOrNumber', this.props.currentLocale),
             autoComplete: 'off',
@@ -321,14 +336,16 @@ var RecipientsInput = function (_Component) {
           toNumberInput
         ),
         _react2.default.createElement(_ContactDropdownList2.default, {
+          listRef: function listRef(ref) {
+            _this2.listRef = ref;
+          },
           phoneTypeRenderer: this.props.phoneTypeRenderer,
           scrollDirection: this.state.scrollDirection,
           selectedIndex: this.state.selectedContactIndex,
           setSelectedIndex: this.setSelectedIndex,
-          addToRecipients: this.props.addToRecipients,
+          addToRecipients: this._addToRecipients,
           items: relatedContactList,
           formatContactPhone: this.props.formatContactPhone,
-          className: _styles2.default.contactsDropdown,
           visibility: this.state.isFocusOnInput,
           titleEnabled: this.props.titleEnabled
         })

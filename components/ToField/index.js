@@ -312,7 +312,6 @@ var ToField = function (_Component) {
           addToRecipients: this.props.addToRecipients,
           items: relatedContactList,
           formatContactPhone: this.props.formatPhone,
-          className: _styles2.default.contactsDropdown,
           visibility: this.state.isFocusOnInput,
           titleEnabled: this.props.titleEnabled
         })
