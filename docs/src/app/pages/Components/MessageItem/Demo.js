@@ -4,19 +4,26 @@ import MessageItem from 'ringcentral-widgets/components/MessageItem';
 
 const props = {};
 props.conversation = {
-  conversationId: 'test string',
-  subject: 'test',
-  correspondents: [],
+  id: '1',
+  conversationId: '1',
+  subject: 'subject text',
+  correspondents: [{
+    phoneNumber: '123456789',
+  }],
   correspondentMatches: [],
   conversationMatches: [],
+  unreadCounts: 0,
 };
 props.areaCode = 'test string';
 props.countryCode = 'test string';
 props.currentLocale = 'en-US';
 props.dateTimeFormatter = () => null;
 props.showConversationDetail = () => null;
-props.brand = '';
-
+props.brand = 'RingCentral';
+props.markVoicemail = () => null;
+props.readVoicemail = () => null;
+props.onClickToDial = () => null;
+props.onCreateContact = () => null;
 /**
  * A example of `MessageItem`
  */

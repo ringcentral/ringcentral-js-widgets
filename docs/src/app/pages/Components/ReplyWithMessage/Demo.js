@@ -7,7 +7,7 @@ props.onCancel = () => null;
 props.onReply = () => null;
 props.currentLocale = 'en-US';
 props.onChange = () => null;
-
+props.disabled = false;
 /**
  * A example of `ReplyWithMessage`
  */

@@ -3,8 +3,8 @@ import React from 'react';
 import LoginPanel from 'ringcentral-widgets/components/LoginPanel';
 
 const props = {};
-props.setupProxyFrame = () => null;
-props.clearProxyFrame = () => null;
+props.setupOAuth = () => null;
+props.destroyOAuth = () => null;
 props.currentLocale = 'en-US';
 props.onLoginButtonClick = () => null;
 
