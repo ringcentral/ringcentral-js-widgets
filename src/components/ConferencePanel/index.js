@@ -34,9 +34,9 @@ CheckBox.defaultProps = {
 
 function DialInNumberItem({ region, formattedPhoneNumber }) {
   return (
-    <div>
-      {region}
-      <span style={{ float: 'right' }}>{formattedPhoneNumber}</span>
+    <div className={styles.dialInNumberItem}>
+      <span className={styles.region} title={region}>{region}</span>
+      <span>{formattedPhoneNumber}</span>
     </div>
   );
 }
@@ -68,8 +68,8 @@ function DialInNumberList({ dialInNumbers, selected, onChange }) {
             onClick={selectChange}
           >
             <CheckBox className={styles.checkbox} checked={checked} />
-            <span className={styles.region}>{e.region}</span>
-            <span className={styles.phoneNumber}>{e.formattedPhoneNumber}</span>
+            <div className={styles.region}>{e.region}</div>
+            <div className={styles.phoneNumber}>{e.formattedPhoneNumber}</div>
           </li>
         );
       })}
@@ -118,9 +118,13 @@ class ConferencePanel extends Component {
     });
   };
 
-  inviteTxt() {
-    const { dialInNumber, additionalNumbers, participantCode, brand } = this.props;
+  inviteTxt = () => {
+    const { dialInNumber, additionalNumbers, participantCode, brand, alert } = this.props;
     const { dialInNumbers, showAdditionalNumbers } = this.state;
+    if (showAdditionalNumbers && additionalNumbers.length < 1) {
+      alert(messages.requireAditionalNumbers);
+      return '';
+    }
     const formattedDialInNumber = dialInNumbers.find(
       e => e.phoneNumber === dialInNumber
     ).formattedPhoneNumber;
@@ -150,11 +154,10 @@ This conference call is brought to you by ${brand.name} Conferencing.`;
   }
 
   inviteWithText = () => {
-    if (this.state.showAdditionalNumbers && this.props.additionalNumbers.length < 1) {
-      this.props.alert(messages.requireAditionalNumbers);
-      return;
+    const txt = this.inviteTxt();
+    if (txt) {
+      this.props.inviteWithText(txt);
     }
-    this.props.inviteWithText(this.inviteTxt());
   };
 
   formatDialInNumbers({
@@ -273,7 +276,6 @@ This conference call is brought to you by ${brand.name} Conferencing.`;
               options={dialInNumbers}
               disabled={false}
               dropdownAlign="left"
-              titleEnabled
             />
           </div>
           <div className={styles.formGroup}>
@@ -319,7 +321,7 @@ This conference call is brought to you by ${brand.name} Conferencing.`;
             Btn => (
               <Btn
                 dialInNumber={dialInNumber}
-                inviteText={this.inviteTxt()}
+                getInviteTxt={this.inviteTxt}
                 key={Date.now()}
               />)
           )}
