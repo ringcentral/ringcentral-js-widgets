@@ -34,8 +34,8 @@ CheckBox.defaultProps = {
 
 function DialInNumberItem({ region, formattedPhoneNumber }) {
   return (
-    <div className={styles.dialInNumberItem}>
-      <span className={styles.region} title={region}>{region}</span>
+    <div className={styles.dialInNumberItem} title={region}>
+      <span className={styles.region}>{region}</span>
       <span>{formattedPhoneNumber}</span>
     </div>
   );
@@ -66,6 +66,7 @@ function DialInNumberList({ dialInNumbers, selected, onChange }) {
           <li
             key={e.phoneNumber}
             onClick={selectChange}
+            title={e.region}
           >
             <CheckBox className={styles.checkbox} checked={checked} />
             <div className={styles.region}>{e.region}</div>
