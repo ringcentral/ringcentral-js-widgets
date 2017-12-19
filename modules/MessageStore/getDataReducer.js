@@ -4,10 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _keys = require('babel-runtime/core-js/object/keys');
-
-var _keys2 = _interopRequireDefault(_keys);
-
 var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
@@ -67,15 +63,20 @@ function getMessageDataReducer(types) {
       case types.removeMessage:
         {
           var newConversationMap = {};
-          (0, _keys2.default)(state.conversationMap).forEach(function (key) {
-            if (key !== conversationId) {
-              newConversationMap[key] = state.conversationMap[key];
+          var newConversations = [];
+          state.conversations.forEach(function (conversation) {
+            if (conversation && conversation.conversationId !== conversationId) {
+              newConversations.push((0, _extends3.default)({}, conversation));
+              if (state.conversationMap[conversation.conversationId]) {
+                newConversationMap[conversation.conversationId] = (0, _extends3.default)({}, state.conversationMap[conversation.conversationId], {
+                  index: newConversations.length - 1,
+                  unreadMessages: (0, _extends3.default)({}, state.conversationMap[conversation.conversationId].unreadMessages)
+                });
+              }
             }
           });
           return {
-            conversations: state.conversations.filter(function (conversation) {
-              return conversation.conversationId !== conversationId;
-            }),
+            conversations: newConversations,
             conversationMap: newConversationMap,
             messages: state.messages.filter(function (message) {
               return message.id !== messageId;
