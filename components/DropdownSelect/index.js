@@ -75,6 +75,7 @@ var DropdownSelect = function (_Component) {
           open: !preState.open
         };
       });
+      _this.props.onToggle(!_this.state.open);
     };
 
     _this.onChange = function (e, option, idx) {
@@ -277,7 +278,8 @@ DropdownSelect.propTypes = {
   stopPropagation: _propTypes2.default.bool,
   placeholder: _propTypes2.default.string,
   ellipsis: _propTypes2.default.bool,
-  noPadding: _propTypes2.default.bool
+  noPadding: _propTypes2.default.bool,
+  onToggle: _propTypes2.default.func
 };
 
 DropdownSelect.defaultProps = {
@@ -304,7 +306,8 @@ DropdownSelect.defaultProps = {
   stopPropagation: false,
   placeholder: undefined,
   ellipsis: true,
-  noPadding: false
+  noPadding: false,
+  onToggle: function onToggle() {}
 };
 
 exports.default = DropdownSelect;

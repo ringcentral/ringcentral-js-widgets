@@ -205,10 +205,26 @@ var ConferencePanel = function (_Component) {
     _this.checkOverlap = function () {
       var mainCtrl = _this.mainCtrl;
 
+      if (!mainCtrl) {
+        return;
+      }
       var overlappedHeight = mainCtrl.scrollHeight - mainCtrl.clientHeight - mainCtrl.scrollTop;
       var mainCtrlOverlapped = overlappedHeight > 1;
       if (mainCtrlOverlapped !== _this.state.mainCtrlOverlapped) {
         _this.setState({ mainCtrlOverlapped: mainCtrlOverlapped });
+      }
+    };
+
+    _this.onSelectToggle = function (open) {
+      var mainCtrl = _this.mainCtrl;
+
+      if (!mainCtrl) {
+        return;
+      }
+      if (open) {
+        mainCtrl.style.overflow = 'hidden';
+      } else {
+        mainCtrl.style.overflow = '';
       }
     };
 
@@ -247,7 +263,7 @@ var ConferencePanel = function (_Component) {
       if (showAdditionalNumbers) {
         additionalNumbersSection = '\n\nInternational Dial-in Numbers:\n' + additionalNumbersTxt + '\n\n';
       }
-      return '\nPlease join the ' + brand.name + ' conference.\n\nDial-In Number:' + formattedDialInNumber + '\n' + additionalNumbersSection + '\nParticipant Access: ' + formatPin(participantCode) + '\n\nNeed an international dial-in phone number? Please visit ' + dialInNumbersLinks[brand.code] + '\n\nThis conference call is brought to you by ' + brand.name + ' Conferencing.';
+      return '\nPlease join the ' + brand.name + ' conference.\n\nDial-In Number: ' + formattedDialInNumber + '\n' + additionalNumbersSection + '\nParticipant Access: ' + formatPin(participantCode) + '\n\nNeed an international dial-in phone number? Please visit ' + dialInNumbersLinks[brand.code] + '\n\nThis conference call is brought to you by ' + brand.name + ' Conferencing.';
     };
 
     _this.inviteWithText = function () {
@@ -265,6 +281,9 @@ var ConferencePanel = function (_Component) {
     };
     return _this;
   }
+
+  // Fix bug: Dropdown select on Mac Chrome 63.0.3239.108 doesn't scroll
+
 
   (0, _createClass3.default)(ConferencePanel, [{
     key: 'formatDialInNumbers',
@@ -436,6 +455,7 @@ var ConferencePanel = function (_Component) {
                 }
                 return DialInNumberItem(option || dialInNumbers[0]);
               },
+              onToggle: this.onSelectToggle,
               options: dialInNumbers,
               disabled: false,
               dropdownAlign: 'left'
