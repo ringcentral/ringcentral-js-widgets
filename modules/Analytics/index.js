@@ -78,7 +78,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @description Analytics module.
  */
 var Analytics = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Call', 'Webphone', 'Contacts', 'MessageSender', { dep: 'Router', optional: true }, { dep: 'AnalyticsAdapter', optional: true }, { dep: 'AnalyticsOptions', optional: true }]
+  deps: ['Auth', 'Call', 'Webphone', 'Contacts', 'MessageSender', { dep: 'RouterInteraction', optional: true }, { dep: 'AnalyticsAdapter', optional: true }, { dep: 'AnalyticsOptions', optional: true }]
 }), _dec(_class = function (_RcModule) {
   (0, _inherits3.default)(Analytics, _RcModule);
 
@@ -89,12 +89,12 @@ var Analytics = (_dec = (0, _di.Module)({
         contacts = _ref.contacts,
         messageSender = _ref.messageSender,
         adapter = _ref.adapter,
-        router = _ref.router,
+        routerInteraction = _ref.routerInteraction,
         analyticsKey = _ref.analyticsKey,
         appName = _ref.appName,
         appVersion = _ref.appVersion,
         brandCode = _ref.brandCode,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'call', 'webphone', 'contacts', 'messageSender', 'adapter', 'router', 'analyticsKey', 'appName', 'appVersion', 'brandCode']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'call', 'webphone', 'contacts', 'messageSender', 'adapter', 'routerInteraction', 'analyticsKey', 'appName', 'appVersion', 'brandCode']);
     (0, _classCallCheck3.default)(this, Analytics);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Analytics.__proto__ || (0, _getPrototypeOf2.default)(Analytics)).call(this, (0, _extends3.default)({}, options, {
@@ -107,7 +107,7 @@ var Analytics = (_dec = (0, _di.Module)({
     _this._contacts = contacts;
     _this._messageSender = messageSender;
     _this._adapter = adapter;
-    _this._router = router;
+    _this._router = routerInteraction;
     _this._analyticsKey = analyticsKey;
     _this._appName = appName;
     _this._appVersion = appVersion;
@@ -408,6 +408,9 @@ var Analytics = (_dec = (0, _di.Module)({
         }, {
           eventPostfix: 'Meeting',
           router: '/meeting'
+        }, {
+          eventPostfix: 'Contacts',
+          router: '/contacts'
         }];
         return targets.find(function (target) {
           return firstRoute === target.router;
