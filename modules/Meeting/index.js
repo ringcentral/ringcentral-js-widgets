@@ -145,7 +145,8 @@ var getDefaultMeetingSettings = exports.getDefaultMeetingSettings = function get
     audioOptions: ['Phone', 'ComputerAudio'],
     _requireMeetingPassword: false,
     _showDate: false,
-    _showTime: false
+    _showTime: false,
+    _saved: false
   };
 };
 
@@ -285,7 +286,7 @@ var Meeting = (_dec = (0, _di.Module)({
       var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(meeting) {
         var _this3 = this;
 
-        var resp, serviceInfo, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, error;
+        var formattedMeeting, resp, serviceInfo, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, error;
 
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -307,10 +308,9 @@ var Meeting = (_dec = (0, _di.Module)({
                 });
                 // Validate meeting
                 this._validate(meeting);
-                meeting = this._format(meeting);
-
+                formattedMeeting = this._format(meeting);
                 _context.next = 9;
-                return this._client.account().extension().meeting().post(meeting);
+                return this._client.account().extension().meeting().post(formattedMeeting);
 
               case 9:
                 resp = _context.sent;
@@ -322,7 +322,9 @@ var Meeting = (_dec = (0, _di.Module)({
 
                 this.store.dispatch({
                   type: this.actionTypes.scheduled,
-                  meeting: meeting
+                  meeting: (0, _extends3.default)({}, formattedMeeting, {
+                    _saved: meeting._saved
+                  })
                 });
                 // Reload meeting info
                 this._initMeeting();

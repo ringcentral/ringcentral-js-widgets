@@ -71,7 +71,8 @@ function getMeetingStorageReducer(types) {
           startHostVideo: meeting.startHostVideo,
           startParticipantsVideo: meeting.startParticipantsVideo,
           allowJoinBeforeHost: meeting.allowJoinBeforeHost,
-          audioOptions: meeting.audioOptions
+          audioOptions: meeting.audioOptions,
+          _saved: meeting._saved
         } : {};
       default:
         return state;
