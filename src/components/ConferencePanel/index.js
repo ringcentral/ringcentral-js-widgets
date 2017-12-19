@@ -106,10 +106,26 @@ class ConferencePanel extends Component {
 
   checkOverlap = () => {
     const { mainCtrl } = this;
+    if (!mainCtrl) {
+      return;
+    }
     const overlappedHeight = mainCtrl.scrollHeight - mainCtrl.clientHeight - mainCtrl.scrollTop;
     const mainCtrlOverlapped = overlappedHeight > 1;
     if (mainCtrlOverlapped !== this.state.mainCtrlOverlapped) {
       this.setState({ mainCtrlOverlapped });
+    }
+  }
+
+  // Fix bug: Dropdown select on Mac Chrome 63.0.3239.108 doesn't scroll
+  onSelectToggle = (open) => {
+    const { mainCtrl } = this;
+    if (!mainCtrl) {
+      return;
+    }
+    if (open) {
+      mainCtrl.style.overflow = 'hidden';
+    } else {
+      mainCtrl.style.overflow = '';
     }
   }
 
@@ -145,7 +161,7 @@ ${additionalNumbersTxt}
     return `
 Please join the ${brand.name} conference.
 
-Dial-In Number:${formattedDialInNumber}
+Dial-In Number: ${formattedDialInNumber}
 ${additionalNumbersSection}
 Participant Access: ${formatPin(participantCode)}
 
@@ -274,6 +290,7 @@ This conference call is brought to you by ${brand.name} Conferencing.`;
                 }
                 return DialInNumberItem(option || dialInNumbers[0]);
               }}
+              onToggle={this.onSelectToggle}
               options={dialInNumbers}
               disabled={false}
               dropdownAlign="left"
