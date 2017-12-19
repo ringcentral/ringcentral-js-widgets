@@ -26,6 +26,7 @@ class DropdownSelect extends Component {
     this.setState(preState => ({
       open: !preState.open,
     }));
+    this.props.onToggle(!this.state.open);
   }
 
   onChange = (e, option, idx) => {
@@ -223,6 +224,7 @@ DropdownSelect.propTypes = {
   placeholder: PropTypes.string,
   ellipsis: PropTypes.bool,
   noPadding: PropTypes.bool,
+  onToggle: PropTypes.func
 };
 
 DropdownSelect.defaultProps = {
@@ -244,6 +246,7 @@ DropdownSelect.defaultProps = {
   placeholder: undefined,
   ellipsis: true,
   noPadding: false,
+  onToggle: () => {}
 };
 
 export default DropdownSelect;
