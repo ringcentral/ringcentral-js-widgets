@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import DialPad from '../DialPad';
+import RecipientsInput from '../RecipientsInput';
 import BackHeader from '../BackHeader';
 import CircleButton from '../CircleButton';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
@@ -14,39 +15,71 @@ export default class TransferPanel extends PureComponent {
     onTransfer: PropTypes.func.isRequired,
     currentLocale: PropTypes.string.isRequired,
     toggleTransferPanel: PropTypes.func.isRequired,
-    isOnTransfer: PropTypes.bool.isRequired
+    searchContactList: PropTypes.array.isRequired,
+    searchContact: PropTypes.func.isRequired,
+    formatPhone: PropTypes.func.isRequired,
+    phoneTypeRenderer: PropTypes.func,
+    isOnTransfer: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    phoneTypeRenderer: undefined,
+    isOnTransfer: false,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      value: '',
+      toNumber: '',
+      recipient: null,
     };
   }
 
+  _getTransferNumber() {
+    return (
+      (this.state.recipient && this.state.recipient.phoneNumber) ||
+      this.state.toNumber
+    );
+  }
+
   onButtonOutput = (key) => {
+    if (this.state.recipient) {
+      return;
+    }
     this.setState((preState) => {
-      const value = preState.value + key;
-      return { value };
+      const value = preState.toNumber + key;
+      return { toNumber: value };
     });
   }
 
   onTransfer = () => {
-    this.props.onTransfer(this.state.value);
+    this.props.onTransfer(this._getTransferNumber());
   }
 
-  clearText = () => {
+  onToNumberChange = (toNumber) => {
     this.setState({
-      value: ''
+      toNumber
     });
   }
 
-  handleChange = (event) => {
-    this.setState({ value: event.target.value });
+  clearToNumber = () => {
+    this.setState({
+      toNumber: '',
+    });
+  }
+
+  setRecipient = (recipient) => {
+    this.setState({
+      recipient,
+      toNumber: '',
+    });
+  }
+
+  clearRecipient = () => {
+    this.setState({ recipient: null });
   }
 
   render() {
-    const showClearButton = this.state.value === '' ? { display: 'none' } : { display: 'block' };
     return (
       <div className={styles.root}>
         <BackHeader
@@ -59,23 +92,22 @@ export default class TransferPanel extends PureComponent {
         >
           {i18n.getString('transferTo', this.props.currentLocale)}
         </BackHeader>
-        <div className={styles.dialInput}>
-          <label>
-            {i18n.getString('to', this.props.currentLocale)}
-          </label>
-          <input
-            className={styles.input}
-            onChange={this.handleChange}
-            placeholder={i18n.getString('enterNameOrNumber', this.props.currentLocale)}
-            value={this.state.value}
-            autoFocus // eslint-disable-line
-          />
-          <span
-            style={showClearButton}
-            className={classnames(styles.clear, dynamicsFont.clear)}
-            onClick={this.clearText}
-          />
-        </div>
+        <RecipientsInput
+          className={styles.dialInput}
+          value={this.state.toNumber}
+          onChange={this.onToNumberChange}
+          onClean={this.clearToNumber}
+          recipient={this.state.recipient}
+          addToRecipients={this.setRecipient}
+          removeFromRecipients={this.clearRecipient}
+          searchContact={this.props.searchContact}
+          searchContactList={this.props.searchContactList}
+          formatContactPhone={this.props.formatPhone}
+          currentLocale={this.props.currentLocale}
+          phoneTypeRenderer={this.props.phoneTypeRenderer}
+          titleEnabled
+          autoFocus
+        />
         <div className={styles.padContainer}>
           <DialPad
             className={styles.dialPad}
@@ -84,8 +116,10 @@ export default class TransferPanel extends PureComponent {
           <div className={styles.buttonRow}>
             <div className={styles.button}>
               <CircleButton
+                className={this.props.isOnTransfer ? styles.disabled : undefined}
                 onClick={this.onTransfer}
                 icon={TransferIcon}
+                disabled={this.props.isOnTransfer}
               />
             </div>
           </div>
