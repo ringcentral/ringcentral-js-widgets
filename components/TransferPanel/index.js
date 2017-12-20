@@ -43,6 +43,10 @@ var _DialPad = require('../DialPad');
 
 var _DialPad2 = _interopRequireDefault(_DialPad);
 
+var _RecipientsInput = require('../RecipientsInput');
+
+var _RecipientsInput2 = _interopRequireDefault(_RecipientsInput);
+
 var _BackHeader = require('../BackHeader');
 
 var _BackHeader2 = _interopRequireDefault(_BackHeader);
@@ -78,36 +82,57 @@ var TransferPanel = (_temp = _class = function (_PureComponent) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (TransferPanel.__proto__ || (0, _getPrototypeOf2.default)(TransferPanel)).call(this, props));
 
     _this.onButtonOutput = function (key) {
+      if (_this.state.recipient) {
+        return;
+      }
       _this.setState(function (preState) {
-        var value = preState.value + key;
-        return { value: value };
+        var value = preState.toNumber + key;
+        return { toNumber: value };
       });
     };
 
     _this.onTransfer = function () {
-      _this.props.onTransfer(_this.state.value);
+      _this.props.onTransfer(_this._getTransferNumber());
     };
 
-    _this.clearText = function () {
+    _this.onToNumberChange = function (toNumber) {
       _this.setState({
-        value: ''
+        toNumber: toNumber
       });
     };
 
-    _this.handleChange = function (event) {
-      _this.setState({ value: event.target.value });
+    _this.clearToNumber = function () {
+      _this.setState({
+        toNumber: ''
+      });
+    };
+
+    _this.setRecipient = function (recipient) {
+      _this.setState({
+        recipient: recipient,
+        toNumber: ''
+      });
+    };
+
+    _this.clearRecipient = function () {
+      _this.setState({ recipient: null });
     };
 
     _this.state = {
-      value: ''
+      toNumber: '',
+      recipient: null
     };
     return _this;
   }
 
   (0, _createClass3.default)(TransferPanel, [{
+    key: '_getTransferNumber',
+    value: function _getTransferNumber() {
+      return this.state.recipient && this.state.recipient.phoneNumber || this.state.toNumber;
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var showClearButton = this.state.value === '' ? { display: 'none' } : { display: 'block' };
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.root },
@@ -123,27 +148,22 @@ var TransferPanel = (_temp = _class = function (_PureComponent) {
           },
           _i18n2.default.getString('transferTo', this.props.currentLocale)
         ),
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.dialInput },
-          _react2.default.createElement(
-            'label',
-            null,
-            _i18n2.default.getString('to', this.props.currentLocale)
-          ),
-          _react2.default.createElement('input', {
-            className: _styles2.default.input,
-            onChange: this.handleChange,
-            placeholder: _i18n2.default.getString('enterNameOrNumber', this.props.currentLocale),
-            value: this.state.value,
-            autoFocus: true // eslint-disable-line
-          }),
-          _react2.default.createElement('span', {
-            style: showClearButton,
-            className: (0, _classnames2.default)(_styles2.default.clear, _DynamicsFont2.default.clear),
-            onClick: this.clearText
-          })
-        ),
+        _react2.default.createElement(_RecipientsInput2.default, {
+          className: _styles2.default.dialInput,
+          value: this.state.toNumber,
+          onChange: this.onToNumberChange,
+          onClean: this.clearToNumber,
+          recipient: this.state.recipient,
+          addToRecipients: this.setRecipient,
+          removeFromRecipients: this.clearRecipient,
+          searchContact: this.props.searchContact,
+          searchContactList: this.props.searchContactList,
+          formatContactPhone: this.props.formatPhone,
+          currentLocale: this.props.currentLocale,
+          phoneTypeRenderer: this.props.phoneTypeRenderer,
+          titleEnabled: true,
+          autoFocus: true
+        }),
         _react2.default.createElement(
           'div',
           { className: _styles2.default.padContainer },
@@ -158,8 +178,10 @@ var TransferPanel = (_temp = _class = function (_PureComponent) {
               'div',
               { className: _styles2.default.button },
               _react2.default.createElement(_CircleButton2.default, {
+                className: this.props.isOnTransfer ? _styles2.default.disabled : undefined,
                 onClick: this.onTransfer,
-                icon: _Transfer2.default
+                icon: _Transfer2.default,
+                disabled: this.props.isOnTransfer
               })
             )
           )
@@ -172,7 +194,14 @@ var TransferPanel = (_temp = _class = function (_PureComponent) {
   onTransfer: _propTypes2.default.func.isRequired,
   currentLocale: _propTypes2.default.string.isRequired,
   toggleTransferPanel: _propTypes2.default.func.isRequired,
-  isOnTransfer: _propTypes2.default.bool.isRequired
+  searchContactList: _propTypes2.default.array.isRequired,
+  searchContact: _propTypes2.default.func.isRequired,
+  formatPhone: _propTypes2.default.func.isRequired,
+  phoneTypeRenderer: _propTypes2.default.func,
+  isOnTransfer: _propTypes2.default.bool
+}, _class.defaultProps = {
+  phoneTypeRenderer: undefined,
+  isOnTransfer: false
 }, _temp);
 exports.default = TransferPanel;
 //# sourceMappingURL=index.js.map

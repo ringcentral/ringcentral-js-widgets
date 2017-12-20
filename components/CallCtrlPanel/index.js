@@ -124,7 +124,11 @@ var CallCtrlPanel = function (_Component) {
           onTransfer: this.props.onTransfer,
           currentLocale: this.props.currentLocale,
           toggleTransferPanel: this.toggleTransferPanel,
-          isOnTransfer: this.props.isOnTransfer
+          isOnTransfer: this.props.isOnTransfer,
+          searchContactList: this.props.searchContactList,
+          searchContact: this.props.searchContact,
+          formatPhone: this.props.formatPhone,
+          phoneTypeRenderer: this.props.phoneTypeRenderer
         });
       }
       return _react2.default.createElement(
@@ -211,7 +215,10 @@ CallCtrlPanel.propTypes = {
   backButtonLabel: _propTypes2.default.string,
   brand: _propTypes2.default.string,
   showContactDisplayPlaceholder: _propTypes2.default.bool,
-  sourceIcons: _propTypes2.default.object
+  sourceIcons: _propTypes2.default.object,
+  searchContactList: _propTypes2.default.array.isRequired,
+  searchContact: _propTypes2.default.func.isRequired,
+  phoneTypeRenderer: _propTypes2.default.func
 };
 
 CallCtrlPanel.defaultProps = {
@@ -229,7 +236,8 @@ CallCtrlPanel.defaultProps = {
   callStatus: null,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
-  sourceIcons: undefined
+  sourceIcons: undefined,
+  phoneTypeRenderer: undefined
 };
 
 exports.default = CallCtrlPanel;

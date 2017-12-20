@@ -32,6 +32,10 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -144,15 +148,29 @@ var RecipientsInput = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (RecipientsInput.__proto__ || (0, _getPrototypeOf2.default)(RecipientsInput)).call(this, props));
 
-    _this.onReceiverInputKeyUp = function (e) {
+    _this.onInputKeyUp = function (e) {
       _this.props.searchContact(e.currentTarget.value);
       _this.setState({
         isFocusOnInput: true
       });
     };
 
-    _this.onReceiverChange = function (e) {
-      _this.props.onChange(e.currentTarget.value);
+    _this.onInputFocus = function () {
+      _this.setState({
+        isFocusOnInput: true
+      });
+    };
+
+    _this.onInputChange = function (e) {
+      var value = e.currentTarget.value;
+
+      _this.setState({ value: value });
+      _this.props.onChange(value);
+    };
+
+    _this.onClean = function () {
+      _this.setState({ value: '' });
+      _this.props.onClean();
     };
 
     _this.clickHandler = function (evt) {
@@ -164,13 +182,12 @@ var RecipientsInput = function (_Component) {
     };
 
     _this._addToRecipients = function (item) {
+      _this.setState({ value: '', isFocusOnInput: false });
       _this.props.addToRecipients(item);
-      _this.setState({
-        isFocusOnInput: false
-      });
     };
 
     _this.state = {
+      value: '',
       isFocusOnInput: false,
       selectedContactIndex: 0,
       scrollDirection: null
@@ -191,6 +208,7 @@ var RecipientsInput = function (_Component) {
     };
     _this.addSelectedContactIndex = function () {
       var length = _this.props.searchContactList.length;
+
       if (_this.state.selectedContactIndex >= length - 1) {
         _this.setState({
           selectedContactIndex: length - 1
@@ -230,7 +248,7 @@ var RecipientsInput = function (_Component) {
     };
     // using React SyntheticEvent to deal with cross browser issue
     _this.handleHotKey = function (e) {
-      if (_this.state.isFocusOnInput && _this.props.value.length >= 3) {
+      if (_this.state.isFocusOnInput && _this.state.value.length >= 3) {
         if (e.key === 'ArrowUp') {
           _this.reduceSelectedContactIndex();
           _this.scrollOperation(e.key);
@@ -245,10 +263,10 @@ var RecipientsInput = function (_Component) {
       }
       if (_this.isSplitter(e)) {
         e.preventDefault();
-        if (_this.props.value.length === 0) {
+        if (_this.state.value.length === 0) {
           return;
         }
-        var relatedContactList = _this.props.value.length >= 3 ? _this.props.searchContactList : [];
+        var relatedContactList = _this.state.value.length >= 3 ? _this.props.searchContactList : [];
         var currentSelected = relatedContactList[_this.state.selectedContactIndex];
         if (currentSelected && e.key === 'Enter') {
           _this.props.addToRecipients({
@@ -257,18 +275,26 @@ var RecipientsInput = function (_Component) {
           });
         } else {
           _this.props.addToRecipients({
-            name: _this.props.value.replace(',', ''),
-            phoneNumber: _this.props.value.replace(',', '')
+            name: _this.state.value.replace(',', ''),
+            phoneNumber: _this.state.value.replace(',', '')
           });
-          _this.props.onClean();
+          _this.onClean();
         }
-        _this.props.onClean();
+        _this.onClean();
       }
     };
     return _this;
   }
 
   (0, _createClass3.default)(RecipientsInput, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      if (nextProps.value && nextProps.value !== this.state.value) {
+        this.setState({ value: nextProps.value });
+        this.props.searchContact(nextProps.value);
+      }
+    }
+  }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.props.searchContact(this.props.value);
@@ -285,7 +311,7 @@ var RecipientsInput = function (_Component) {
       var _this2 = this;
 
       // TODO a temporary fix for rendering slower search result.
-      var relatedContactList = this.props.value.length >= 3 ? this.props.searchContactList.slice(0, 50) : [];
+      var relatedContactList = this.state.value.length >= 3 ? this.props.searchContactList.slice(0, 50) : [];
       var label = _react2.default.createElement(
         'label',
         null,
@@ -303,11 +329,12 @@ var RecipientsInput = function (_Component) {
               _this2.inputRef = _ref3;
             },
             name: 'receiver',
-            value: this.props.value,
-            onChange: this.onReceiverChange,
+            value: this.state.value,
+            onChange: this.onInputChange,
             className: _styles2.default.numberInput,
             maxLength: 30,
-            onKeyUp: this.onReceiverInputKeyUp,
+            onFocus: this.onInputFocus,
+            onKeyUp: this.onInputKeyUp,
             placeholder: this.props.placeholder || _i18n2.default.getString('enterNameOrNumber', this.props.currentLocale),
             autoComplete: 'off',
             autoFocus: this.props.autoFocus // eslint-disable-line
@@ -315,14 +342,17 @@ var RecipientsInput = function (_Component) {
         ),
         _react2.default.createElement(_RemoveButton2.default, {
           className: _styles2.default.removeButton,
-          onClick: this.props.onClean,
-          visibility: this.props.value.length > 0 && this.state.isFocusOnInput
+          onClick: this.onClean,
+          visibility: this.state.value.length > 0 && this.state.isFocusOnInput
         })
       );
 
       return _react2.default.createElement(
         'div',
-        { className: _styles2.default.container, onKeyDown: this.handleHotKey },
+        {
+          className: (0, _classnames2.default)(_styles2.default.container, this.props.className),
+          onKeyDown: this.handleHotKey
+        },
         label,
         _react2.default.createElement(
           'div',
@@ -356,6 +386,7 @@ var RecipientsInput = function (_Component) {
 }(_react.Component);
 
 RecipientsInput.propTypes = {
+  className: _propTypes2.default.string,
   label: _propTypes2.default.string,
   placeholder: _propTypes2.default.string,
   searchContactList: _propTypes2.default.arrayOf(_propTypes2.default.shape({
@@ -387,6 +418,7 @@ RecipientsInput.propTypes = {
 };
 
 RecipientsInput.defaultProps = {
+  className: undefined,
   label: undefined,
   placeholder: undefined,
   recipient: null,
