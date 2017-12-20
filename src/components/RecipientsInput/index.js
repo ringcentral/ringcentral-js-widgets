@@ -221,6 +221,13 @@ class RecipientsInput extends Component {
   componentDidMount() {
     this.props.searchContact(this.props.value);
     window.addEventListener('click', this.clickHandler);
+    if (this.props.autoFocus) {
+      this._focusTimeout = setTimeout(() => {
+        if (this.inputRef) {
+          this.inputRef.focus();
+        }
+      }, 300);
+    }
   }
 
   componentWillUnmount() {
@@ -272,7 +279,6 @@ class RecipientsInput extends Component {
                 i18n.getString('enterNameOrNumber', this.props.currentLocale)
               }
               autoComplete="off"
-              autoFocus={this.props.autoFocus} // eslint-disable-line
             />
           </div>
           <RemoveButton
