@@ -62,6 +62,7 @@
 .customInput {
   display: none;
   border: solid 1px #e3e3e3;
+  margin: 10px 10px 0 10px;
   input {
     @include secondary-font;
     padding: 0 10px;

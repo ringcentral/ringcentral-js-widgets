@@ -244,15 +244,13 @@ class RecipientsInput extends Component {
     const relatedContactList = this.state.value.length >= 3 ?
       this.props.searchContactList.slice(0, 50) : [];
     const label = (
-      !this.props.hideLabel ?
-        (
-          <label>
-            {
-            this.props.label ||
-              i18n.getString('to', this.props.currentLocale)
-          }
-          </label>
-        ) : null
+      <label>
+        {
+          this.props.label === undefined
+            ? i18n.getString('to', this.props.currentLocale)
+            : this.props.label
+        }
+      </label>
     );
     const toNumberInput = !this.props.multiple && this.props.recipient ?
       null :
@@ -274,8 +272,9 @@ class RecipientsInput extends Component {
               onFocus={this.onInputFocus}
               onKeyUp={this.onInputKeyUp}
               placeholder={
-                this.props.placeholder ||
-                  i18n.getString('enterNameOrNumber', this.props.currentLocale)
+                this.props.placeholder === undefined
+                  ? i18n.getString('enterNameOrNumber', this.props.currentLocale)
+                  : this.props.placeholder
               }
               autoComplete="off"
               autoFocus={this.props.autoFocus} // eslint-disable-line
@@ -298,7 +297,7 @@ class RecipientsInput extends Component {
         onKeyDown={this.handleHotKey}
       >
         {label}
-        <div className={!this.props.hideLabel ? styles.rightPanel : ''}>
+        <div className={this.props.label === undefined ? styles.rightPanel : ''}>
           <SelectedRecipients
             recipient={this.props.recipient}
             recipients={this.props.recipients}
@@ -327,7 +326,6 @@ class RecipientsInput extends Component {
 RecipientsInput.propTypes = {
   className: PropTypes.string,
   label: PropTypes.string,
-  hideLabel: PropTypes.bool,
   className: PropTypes.string,
   placeholder: PropTypes.string,
   searchContactList: PropTypes.arrayOf(PropTypes.shape({
@@ -362,7 +360,6 @@ RecipientsInput.propTypes = {
 RecipientsInput.defaultProps = {
   className: undefined,
   label: undefined,
-  hideLabel: false,
   className: undefined,
   placeholder: undefined,
   recipient: null,

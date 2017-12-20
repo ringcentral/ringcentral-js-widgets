@@ -183,6 +183,8 @@ export default class ForwardForm extends Component {
             {i18n.getString('customNumber', currentLocale)}
           </div>
           <RecipientsInput
+            label=""
+            placeholder=""
             inputRef={(ref) => { this.customInput = ref; }}
             value={this.state.customValue}
             className={styles.customInput}
