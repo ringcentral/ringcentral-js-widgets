@@ -99,7 +99,6 @@ var IncomingCallPad = function (_Component) {
 
     _this.state = {
       showForward: false,
-      forwardNumber: '',
       replyMessage: null,
       showReplyWithMessage: false,
       toVoiceMailEnabled: true,
@@ -107,12 +106,8 @@ var IncomingCallPad = function (_Component) {
     };
     _this.onShowForwardChange = function (visible) {
       _this.setState({
-        showForward: visible,
-        forwardNumber: ''
+        showForward: visible
       });
-    };
-    _this.onForwardNumberChange = function (forwardNumber) {
-      _this.setState({ forwardNumber: forwardNumber });
     };
     _this.closeForwardForm = function () {
       _this.onShowForwardChange(false);
@@ -281,9 +276,10 @@ var IncomingCallPad = function (_Component) {
                 currentLocale: currentLocale,
                 onCancel: this.closeForwardForm,
                 formatPhone: formatPhone,
-                value: this.state.forwardNumber,
-                onChange: this.onForwardNumberChange,
-                onForward: this.props.onForward
+                onForward: this.props.onForward,
+                searchContact: this.props.searchContact,
+                searchContactList: this.props.searchContactList,
+                phoneTypeRenderer: this.props.phoneTypeRenderer
               })
             },
             _react2.default.createElement(_ActiveCallButton2.default, {
@@ -357,7 +353,10 @@ IncomingCallPad.propTypes = {
   answerAndEnd: _propTypes2.default.func,
   answerAndHold: _propTypes2.default.func,
   hasOtherActiveCall: _propTypes2.default.bool,
-  sessionId: _propTypes2.default.string.isRequired
+  sessionId: _propTypes2.default.string.isRequired,
+  searchContactList: _propTypes2.default.array.isRequired,
+  searchContact: _propTypes2.default.func.isRequired,
+  phoneTypeRenderer: _propTypes2.default.func
 };
 
 IncomingCallPad.defaultProps = {
@@ -371,6 +370,8 @@ IncomingCallPad.defaultProps = {
   answerAndHold: function answerAndHold() {
     return null;
   },
-  hasOtherActiveCall: false
+  hasOtherActiveCall: false,
+  contactSearch: undefined,
+  phoneTypeRenderer: undefined
 };
 //# sourceMappingURL=index.js.map

@@ -186,6 +186,13 @@ var RecipientsInput = function (_Component) {
       _this.props.addToRecipients(item);
     };
 
+    _this.setInputRef = function (ref) {
+      _this.inputRef = ref;
+      if (typeof _this.props.inputRef === 'function') {
+        _this.props.inputRef(ref);
+      }
+    };
+
     _this.state = {
       value: '',
       isFocusOnInput: false,
@@ -297,8 +304,17 @@ var RecipientsInput = function (_Component) {
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
+      var _this2 = this;
+
       this.props.searchContact(this.props.value);
       window.addEventListener('click', this.clickHandler);
+      if (this.props.autoFocus) {
+        this._focusTimeout = setTimeout(function () {
+          if (_this2.inputRef) {
+            _this2.inputRef.focus();
+          }
+        }, 300);
+      }
     }
   }, {
     key: 'componentWillUnmount',
@@ -308,26 +324,23 @@ var RecipientsInput = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       // TODO a temporary fix for rendering slower search result.
       var relatedContactList = this.state.value.length >= 3 ? this.props.searchContactList.slice(0, 50) : [];
       var label = _react2.default.createElement(
         'label',
         null,
-        this.props.label || _i18n2.default.getString('to', this.props.currentLocale),
-        ':'
+        this.props.label === undefined ? _i18n2.default.getString('to', this.props.currentLocale) + ':' : this.props.label
       );
       var toNumberInput = !this.props.multiple && this.props.recipient ? null : _react2.default.createElement(
         'div',
-        null,
+        { className: _styles2.default.inputWrapper },
         _react2.default.createElement(
           'div',
           { className: _styles2.default.inputField },
           _react2.default.createElement('input', {
-            ref: function ref(_ref3) {
-              _this2.inputRef = _ref3;
-            },
+            ref: this.setInputRef,
             name: 'receiver',
             value: this.state.value,
             onChange: this.onInputChange,
@@ -335,15 +348,14 @@ var RecipientsInput = function (_Component) {
             maxLength: 30,
             onFocus: this.onInputFocus,
             onKeyUp: this.onInputKeyUp,
-            placeholder: this.props.placeholder || _i18n2.default.getString('enterNameOrNumber', this.props.currentLocale),
-            autoComplete: 'off',
-            autoFocus: this.props.autoFocus // eslint-disable-line
+            placeholder: this.props.placeholder === undefined ? _i18n2.default.getString('enterNameOrNumber', this.props.currentLocale) : this.props.placeholder,
+            autoComplete: 'off'
           })
         ),
         _react2.default.createElement(_RemoveButton2.default, {
           className: _styles2.default.removeButton,
           onClick: this.onClean,
-          visibility: this.state.value.length > 0 && this.state.isFocusOnInput
+          visibility: this.props.value.length > 0 && this.state.isFocusOnInput
         })
       );
 
@@ -356,7 +368,7 @@ var RecipientsInput = function (_Component) {
         label,
         _react2.default.createElement(
           'div',
-          { className: _styles2.default.rightPanel },
+          { className: this.props.label === undefined ? _styles2.default.rightPanel : '' },
           _react2.default.createElement(SelectedRecipients, {
             recipient: this.props.recipient,
             recipients: this.props.recipients,
@@ -367,7 +379,7 @@ var RecipientsInput = function (_Component) {
         ),
         _react2.default.createElement(_ContactDropdownList2.default, {
           listRef: function listRef(ref) {
-            _this2.listRef = ref;
+            _this3.listRef = ref;
           },
           phoneTypeRenderer: this.props.phoneTypeRenderer,
           scrollDirection: this.state.scrollDirection,
@@ -414,7 +426,8 @@ RecipientsInput.propTypes = {
   autoFocus: _propTypes2.default.bool,
   currentLocale: _propTypes2.default.string.isRequired,
   multiple: _propTypes2.default.bool,
-  phoneTypeRenderer: _propTypes2.default.func
+  phoneTypeRenderer: _propTypes2.default.func,
+  inputRef: _propTypes2.default.func
 };
 
 RecipientsInput.defaultProps = {
@@ -429,7 +442,8 @@ RecipientsInput.defaultProps = {
   titleEnabled: undefined,
   autoFocus: false,
   multiple: false,
-  phoneTypeRenderer: undefined
+  phoneTypeRenderer: undefined,
+  inputRef: undefined
 };
 
 exports.default = RecipientsInput;

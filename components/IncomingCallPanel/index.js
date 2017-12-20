@@ -154,7 +154,10 @@ function IncomingCallPanel(props) {
       hasOtherActiveCall: props.hasOtherActiveCall,
       answerAndEnd: props.answerAndEnd,
       answerAndHold: props.answerAndHold,
-      sessionId: props.sessionId
+      sessionId: props.sessionId,
+      searchContact: props.searchContact,
+      searchContactList: props.searchContactList,
+      phoneTypeRenderer: props.phoneTypeRenderer
     }),
     props.children
   );
@@ -186,7 +189,10 @@ IncomingCallPanel.propTypes = {
   answerAndHold: _propTypes2.default.func,
   hasOtherActiveCall: _propTypes2.default.bool,
   sessionId: _propTypes2.default.string.isRequired,
-  sourceIcons: _propTypes2.default.object
+  sourceIcons: _propTypes2.default.object,
+  searchContactList: _propTypes2.default.array.isRequired,
+  searchContact: _propTypes2.default.func.isRequired,
+  phoneTypeRenderer: _propTypes2.default.func
 };
 
 IncomingCallPanel.defaultProps = {
@@ -199,6 +205,8 @@ IncomingCallPanel.defaultProps = {
   answerAndEnd: undefined,
   answerAndHold: undefined,
   hasOtherActiveCall: false,
-  sourceIcons: undefined
+  sourceIcons: undefined,
+  contactSearch: undefined,
+  phoneTypeRenderer: undefined
 };
 //# sourceMappingURL=index.js.map

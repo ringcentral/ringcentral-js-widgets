@@ -49,6 +49,10 @@ var _isBlank = require('ringcentral-integration/lib/isBlank');
 
 var _isBlank2 = _interopRequireDefault(_isBlank);
 
+var _RecipientsInput = require('../RecipientsInput');
+
+var _RecipientsInput2 = _interopRequireDefault(_RecipientsInput);
+
 var _TextInput = require('../TextInput');
 
 var _TextInput2 = _interopRequireDefault(_TextInput);
@@ -125,24 +129,40 @@ var ForwardForm = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ForwardForm.__proto__ || (0, _getPrototypeOf2.default)(ForwardForm)).call(this, props));
 
+    _this._onCustomValueChange = function (value) {
+      _this.setState({
+        customValue: value
+      });
+    };
+
+    _this._clearToNumber = function () {
+      _this.setState({
+        customValue: ''
+      });
+    };
+
+    _this._setRecipient = function (recipient) {
+      _this.setState({
+        recipient: recipient
+      });
+      _this._clearToNumber();
+    };
+
+    _this._clearRecipient = function () {
+      _this.setState({
+        recipient: null
+      });
+    };
+
     _this.state = {
       selectedIndex: 0,
       customValue: '',
-      handling: false
+      handling: false,
+      recipient: null
     };
 
     _this.filter = function (value) {
       return value.replace(cleanRegex, '');
-    };
-    _this.onCustomValueChange = function (e) {
-      var value = e.currentTarget.value;
-      var cleanValue = _this.filter(value);
-      _this.setState({
-        customValue: cleanValue
-      });
-      if (typeof _this.props.onChange === 'function') {
-        _this.props.onChange(cleanValue);
-      }
     };
 
     _this.onSelect = function (index) {
@@ -194,11 +214,11 @@ var ForwardForm = function (_Component) {
 
     _this.onSelectCustomNumber = function () {
       _this.onSelect(_this.props.forwardingNumbers.length);
-      if (_this.customInput && _this.customInput.input) {
-        setTimeout(function () {
-          _this.customInput.input.focus();
-        }, 100);
-      }
+      setTimeout(function () {
+        if (_this.customInput) {
+          _this.customInput.focus();
+        }
+      }, 100);
     };
     return _this;
   }
@@ -207,7 +227,6 @@ var ForwardForm = function (_Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this._mounted = true;
-      this.focusInput();
     }
   }, {
     key: 'componentWillUnmount',
@@ -221,14 +240,10 @@ var ForwardForm = function (_Component) {
         var forwardingNumber = this.props.forwardingNumbers[this.state.selectedIndex];
         return forwardingNumber && forwardingNumber.phoneNumber;
       }
-      return this.state.customValue;
-    }
-  }, {
-    key: 'focusInput',
-    value: function focusInput() {
-      if (this.state.selectedIndex === this.props.forwardingNumbers.length && this.customInput && this.customInput.input) {
-        this.customInput.input.focus();
+      if (this.state.recipient) {
+        return this.state.recipient.phoneNumber;
       }
+      return this.state.customValue;
     }
   }, {
     key: 'render',
@@ -240,7 +255,10 @@ var ForwardForm = function (_Component) {
           onCancel = _props.onCancel,
           currentLocale = _props.currentLocale,
           forwardingNumbers = _props.forwardingNumbers,
-          formatPhone = _props.formatPhone;
+          formatPhone = _props.formatPhone,
+          searchContact = _props.searchContact,
+          searchContactList = _props.searchContactList,
+          phoneTypeRenderer = _props.phoneTypeRenderer;
 
       var value = this.getValue();
       var disableButton = (0, _isBlank2.default)(value) || this.state.handling;
@@ -264,14 +282,26 @@ var ForwardForm = function (_Component) {
             { className: _styles2.default.customLabel },
             _i18n2.default.getString('customNumber', currentLocale)
           ),
-          _react2.default.createElement(_TextInput2.default, {
-            ref: function ref(input) {
-              _this3.customInput = input;
+          _react2.default.createElement(_RecipientsInput2.default, {
+            label: '',
+            placeholder: '',
+            inputRef: function inputRef(ref) {
+              _this3.customInput = ref;
             },
-            filter: this.filter,
-            className: _styles2.default.customInput,
             value: this.state.customValue,
-            onChange: this.onCustomValueChange
+            className: _styles2.default.customInput,
+            onChange: this._onCustomValueChange,
+            onClean: this._clearToNumber,
+            recipient: this.state.recipient,
+            addToRecipients: this._setRecipient,
+            removeFromRecipients: this._clearRecipient,
+            searchContact: searchContact,
+            searchContactList: searchContactList,
+            phoneTypeRenderer: phoneTypeRenderer,
+            formatContactPhone: formatPhone,
+            currentLocale: currentLocale,
+            titleEnabled: true,
+            autoFocus: true
           })
         ),
         _react2.default.createElement(
@@ -315,11 +345,15 @@ ForwardForm.propTypes = {
   forwardingNumbers: _propTypes2.default.array.isRequired,
   formatPhone: _propTypes2.default.func.isRequired,
   onForward: _propTypes2.default.func.isRequired,
-  onChange: _propTypes2.default.func
+  onChange: _propTypes2.default.func,
+  searchContactList: _propTypes2.default.array.isRequired,
+  searchContact: _propTypes2.default.func.isRequired,
+  phoneTypeRenderer: _propTypes2.default.func
 };
 
 ForwardForm.defaultProps = {
   className: null,
-  onChange: undefined
+  onChange: undefined,
+  phoneTypeRenderer: undefined
 };
 //# sourceMappingURL=index.js.map

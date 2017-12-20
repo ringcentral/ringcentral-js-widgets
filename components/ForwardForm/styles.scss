@@ -61,17 +61,12 @@
 
 .customInput {
   display: none;
-  padding: 0;
-  background: #ffffff;
   border: solid 1px #e3e3e3;
-  width: 90%;
-  height: 26px;
-  margin-top: 10px;
+  margin: 10px 10px 0 10px;
   input {
     @include secondary-font;
     padding: 0 10px;
     font-size: 12px;
-    line-height: 14px;
   }
 }
 

@@ -257,7 +257,10 @@ var IncomingCallPage = function (_Component) {
           answerAndEnd: this.answerAndEnd,
           answerAndHold: this.answerAndHold,
           sessionId: this.props.session.id,
-          sourceIcons: this.props.sourceIcons
+          sourceIcons: this.props.sourceIcons,
+          searchContact: this.props.searchContact,
+          searchContactList: this.props.searchContactList,
+          phoneTypeRenderer: this.props.phoneTypeRenderer
         },
         this.props.children
       );
@@ -298,13 +301,17 @@ IncomingCallPage.propTypes = {
   activeSessionId: _propTypes2.default.string,
   sourceIcons: _propTypes2.default.object,
   hangup: _propTypes2.default.func.isRequired,
-  onHold: _propTypes2.default.func.isRequired
+  onHold: _propTypes2.default.func.isRequired,
+  searchContactList: _propTypes2.default.array.isRequired,
+  searchContact: _propTypes2.default.func.isRequired,
+  phoneTypeRenderer: _propTypes2.default.func
 };
 
 IncomingCallPage.defaultProps = {
   children: undefined,
   activeSessionId: null,
-  sourceIcons: undefined
+  sourceIcons: undefined,
+  phoneTypeRenderer: undefined
 };
 
 function mapToProps(_, _ref3) {
@@ -312,11 +319,13 @@ function mapToProps(_, _ref3) {
       webphone = _ref3$phone.webphone,
       locale = _ref3$phone.locale,
       contactMatcher = _ref3$phone.contactMatcher,
+      contactSearch = _ref3$phone.contactSearch,
       regionSettings = _ref3$phone.regionSettings,
       forwardingNumber = _ref3$phone.forwardingNumber,
       brand = _ref3$phone.brand,
       _ref3$showContactDisp = _ref3.showContactDisplayPlaceholder,
-      showContactDisplayPlaceholder = _ref3$showContactDisp === undefined ? false : _ref3$showContactDisp;
+      showContactDisplayPlaceholder = _ref3$showContactDisp === undefined ? false : _ref3$showContactDisp,
+      phoneTypeRenderer = _ref3.phoneTypeRenderer;
 
   var currentSession = webphone.ringSession || {};
   var contactMapping = contactMatcher && contactMatcher.dataMapping;
@@ -332,7 +341,9 @@ function mapToProps(_, _ref3) {
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
     forwardingNumbers: forwardingNumber.forwardingNumbers,
-    showContactDisplayPlaceholder: showContactDisplayPlaceholder
+    showContactDisplayPlaceholder: showContactDisplayPlaceholder,
+    searchContactList: contactSearch.sortedResult,
+    phoneTypeRenderer: phoneTypeRenderer
   };
 }
 
@@ -340,6 +351,7 @@ function mapToFunctions(_, _ref4) {
   var _ref4$phone = _ref4.phone,
       webphone = _ref4$phone.webphone,
       regionSettings = _ref4$phone.regionSettings,
+      contactSearch = _ref4$phone.contactSearch,
       _ref4$getAvatarUrl = _ref4.getAvatarUrl,
       getAvatarUrl = _ref4$getAvatarUrl === undefined ? function () {
     return null;
@@ -380,6 +392,9 @@ function mapToFunctions(_, _ref4) {
     },
     onHold: function onHold(sessionId) {
       return webphone.hold(sessionId);
+    },
+    searchContact: function searchContact(pattern) {
+      return contactSearch.debouncedSearch({ searchString: pattern });
     }
   };
 }
