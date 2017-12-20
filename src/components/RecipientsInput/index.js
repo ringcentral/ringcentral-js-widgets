@@ -254,7 +254,7 @@ class RecipientsInput extends Component {
       <label>
         {
           this.props.label === undefined
-            ? i18n.getString('to', this.props.currentLocale)
+            ? `${i18n.getString('to', this.props.currentLocale)}:`
             : this.props.label
         }
       </label>
