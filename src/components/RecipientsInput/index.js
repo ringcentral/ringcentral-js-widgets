@@ -326,7 +326,6 @@ class RecipientsInput extends Component {
 RecipientsInput.propTypes = {
   className: PropTypes.string,
   label: PropTypes.string,
-  className: PropTypes.string,
   placeholder: PropTypes.string,
   searchContactList: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
@@ -360,7 +359,6 @@ RecipientsInput.propTypes = {
 RecipientsInput.defaultProps = {
   className: undefined,
   label: undefined,
-  className: undefined,
   placeholder: undefined,
   recipient: null,
   recipients: [],
