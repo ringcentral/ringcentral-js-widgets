@@ -192,6 +192,9 @@ export default class IncomingCallPad extends Component {
                 value={this.state.forwardNumber}
                 onChange={this.onForwardNumberChange}
                 onForward={this.props.onForward}
+                searchContact={this.props.searchContact}
+                searchContactList={this.props.searchContactList}
+                phoneTypeRenderer={this.props.phoneTypeRenderer}
               />
             }
           >
@@ -257,6 +260,9 @@ IncomingCallPad.propTypes = {
   answerAndHold: PropTypes.func,
   hasOtherActiveCall: PropTypes.bool,
   sessionId: PropTypes.string.isRequired,
+  searchContactList: PropTypes.array.isRequired,
+  searchContact: PropTypes.func.isRequired,
+  phoneTypeRenderer: PropTypes.func,
 };
 
 IncomingCallPad.defaultProps = {
@@ -265,4 +271,6 @@ IncomingCallPad.defaultProps = {
   answerAndEnd: () => null,
   answerAndHold: () => null,
   hasOtherActiveCall: false,
+  contactSearch: undefined,
+  phoneTypeRenderer: undefined,
 };
