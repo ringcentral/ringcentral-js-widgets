@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
+
 import styles from './styles.scss';
 import RemoveButton from '../RemoveButton';
 import ContactDropdownList from '../ContactDropdownList';
@@ -88,6 +90,7 @@ class RecipientsInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      value: '',
       isFocusOnInput: false,
       selectedContactIndex: 0,
       scrollDirection: null,
@@ -107,7 +110,7 @@ class RecipientsInput extends Component {
       }
     };
     this.addSelectedContactIndex = () => {
-      const length = this.props.searchContactList.length;
+      const { length } = this.props.searchContactList;
       if (this.state.selectedContactIndex >= (length - 1)) {
         this.setState({
           selectedContactIndex: length - 1,
@@ -145,7 +148,7 @@ class RecipientsInput extends Component {
     };
     // using React SyntheticEvent to deal with cross browser issue
     this.handleHotKey = (e: React.KeyboardEvent) => {
-      if (this.state.isFocusOnInput && this.props.value.length >= 3) {
+      if (this.state.isFocusOnInput && this.state.value.length >= 3) {
         if (e.key === 'ArrowUp') {
           this.reduceSelectedContactIndex();
           this.scrollOperation(e.key);
@@ -160,10 +163,10 @@ class RecipientsInput extends Component {
       }
       if (this.isSplitter(e)) {
         e.preventDefault();
-        if (this.props.value.length === 0) {
+        if (this.state.value.length === 0) {
           return;
         }
-        const relatedContactList = this.props.value.length >= 3 ?
+        const relatedContactList = this.state.value.length >= 3 ?
           this.props.searchContactList : [];
         const currentSelected
           = relatedContactList[this.state.selectedContactIndex];
@@ -174,24 +177,47 @@ class RecipientsInput extends Component {
           });
         } else {
           this.props.addToRecipients({
-            name: this.props.value.replace(',', ''),
-            phoneNumber: this.props.value.replace(',', ''),
+            name: this.state.value.replace(',', ''),
+            phoneNumber: this.state.value.replace(',', ''),
           });
-          this.props.onClean();
+          this.onClean();
         }
-        this.props.onClean();
+        this.onClean();
       }
     };
   }
-  onReceiverInputKeyUp = (e) => {
+
+  onInputKeyUp = (e) => {
     this.props.searchContact(e.currentTarget.value);
     this.setState({
       isFocusOnInput: true
     });
   }
-  onReceiverChange = (e) => {
-    this.props.onChange(e.currentTarget.value);
+
+  onInputFocus = () => {
+    this.setState({
+      isFocusOnInput: true
+    });
   }
+
+  onInputChange = (e) => {
+    const { value } = e.currentTarget;
+    this.setState({ value });
+    this.props.onChange(value);
+  }
+
+  onClean = () => {
+    this.setState({ value: '' });
+    this.props.onClean();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value && nextProps.value !== this.state.value) {
+      this.setState({ value: nextProps.value });
+      this.props.searchContact(nextProps.value);
+    }
+  }
+
   componentDidMount() {
     this.props.searchContact(this.props.value);
     window.addEventListener('click', this.clickHandler);
@@ -210,15 +236,13 @@ class RecipientsInput extends Component {
   }
 
   _addToRecipients = (item) => {
+    this.setState({ value: '', isFocusOnInput: false });
     this.props.addToRecipients(item);
-    this.setState({
-      isFocusOnInput: false
-    });
   }
 
   render() {
     // TODO a temporary fix for rendering slower search result.
-    const relatedContactList = this.props.value.length >= 3 ?
+    const relatedContactList = this.state.value.length >= 3 ?
       this.props.searchContactList.slice(0, 50) : [];
     const label = (
       <label>
@@ -237,11 +261,12 @@ class RecipientsInput extends Component {
             <input
               ref={(ref) => { this.inputRef = ref; }}
               name="receiver"
-              value={this.props.value}
-              onChange={this.onReceiverChange}
+              value={this.state.value}
+              onChange={this.onInputChange}
               className={styles.numberInput}
               maxLength={30}
-              onKeyUp={this.onReceiverInputKeyUp}
+              onFocus={this.onInputFocus}
+              onKeyUp={this.onInputKeyUp}
               placeholder={
                 this.props.placeholder ||
                 i18n.getString('enterNameOrNumber', this.props.currentLocale)
@@ -252,9 +277,9 @@ class RecipientsInput extends Component {
           </div>
           <RemoveButton
             className={styles.removeButton}
-            onClick={this.props.onClean}
+            onClick={this.onClean}
             visibility={
-              this.props.value.length > 0 &&
+              this.state.value.length > 0 &&
               this.state.isFocusOnInput
             }
           />
@@ -262,7 +287,10 @@ class RecipientsInput extends Component {
       );
 
     return (
-      <div className={styles.container} onKeyDown={this.handleHotKey}>
+      <div
+        className={classnames(styles.container, this.props.className)}
+        onKeyDown={this.handleHotKey}
+      >
         {label}
         <div className={styles.rightPanel}>
           <SelectedRecipients
@@ -291,6 +319,7 @@ class RecipientsInput extends Component {
 }
 
 RecipientsInput.propTypes = {
+  className: PropTypes.string,
   label: PropTypes.string,
   placeholder: PropTypes.string,
   searchContactList: PropTypes.arrayOf(PropTypes.shape({
@@ -322,6 +351,7 @@ RecipientsInput.propTypes = {
 };
 
 RecipientsInput.defaultProps = {
+  className: undefined,
   label: undefined,
   placeholder: undefined,
   recipient: null,

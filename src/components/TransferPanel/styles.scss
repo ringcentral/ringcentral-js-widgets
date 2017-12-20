@@ -7,44 +7,16 @@ $input-height: 43px;
 .root {
   @include full-size;
   box-sizing: border-box;
+  background: $snow;
 }
 
 .dialInput {
   height: $input-height;
-  box-sizing: border-box;
   border: 0px;
   padding: 5px 0;
-  margin: 5px 20px;
-  min-width: 100px;
+  margin: 0 20px;
   border-bottom: 1px solid $gray;
-  label {
-    @include secondary-font;
-    color: $lightblack;
-  }
-  input {
-    @include secondary-font;
-    box-sizing: content-box;
-    display: inline-block;
-    text-align: left;
-    padding: 0;
-    outline: 0;
-    height: 100%;
-    width: calc(100% - 75px);
-    margin-left: 15px;
-    background-color: transparent;
-    border: none;
-    font-size:15px;
-    color: $lightblack;
-
-    &::placeholder {
-      font-size: 13px;
-      font-weight: 300;
-      color: $disabled-background-color;
-    }
-  }
-  .input::-ms-clear {
-    display: none;
-  }
+  box-sizing: border-box;
 }
 
 .padContainer {
@@ -85,16 +57,5 @@ $input-height: 43px;
   .backLabel {
     display: inline-block;
     width: 79px;
-  }
-}
-.clear {
-  position: absolute;
-  right: 25px;
-  margin-top: -24px;
-  cursor: pointer;
-  font-size: 18px;
-  color: $grey-light;
-  &:hover {
-    color: $primary-color;
   }
 }
