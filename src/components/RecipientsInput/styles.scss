@@ -32,9 +32,14 @@
   margin-left: 45px;
 }
 
+.inputWrapper {
+  position: relative;
+}
+
 .removeButton {
   position: absolute;
-  top: 5px;
+  top: 50%;
+  margin-top: -8px;
   right: 5px;
   width: 14px;
 }
@@ -71,7 +76,7 @@
 
 .selectReceivers {
   margin: 2px 0;
-  padding: 0 5px;
+  padding: 0;
 
   li {
     position: relative;

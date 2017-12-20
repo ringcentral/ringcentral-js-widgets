@@ -255,7 +255,7 @@ class RecipientsInput extends Component {
     const toNumberInput = !this.props.multiple && this.props.recipient ?
       null :
       (
-        <div>
+        <div className={styles.inputWrapper}>
           <div className={styles.inputField}>
             <input
               ref={(ref) => {
