@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import isBlank from 'ringcentral-integration/lib/isBlank';
+import RecipientsInput from '../RecipientsInput';
 
 import TextInput from '../TextInput';
 import Button from '../Button';
@@ -52,19 +53,10 @@ export default class ForwardForm extends Component {
       selectedIndex: 0,
       customValue: '',
       handling: false,
+      recipient: null,
     };
 
     this.filter = value => value.replace(cleanRegex, '');
-    this.onCustomValueChange = (e) => {
-      const value = e.currentTarget.value;
-      const cleanValue = this.filter(value);
-      this.setState({
-        customValue: cleanValue,
-      });
-      if (typeof this.props.onChange === 'function') {
-        this.props.onChange(cleanValue);
-      }
-    };
 
     this.onSelect = (index) => {
       this.setState({
@@ -93,17 +85,16 @@ export default class ForwardForm extends Component {
 
     this.onSelectCustomNumber = () => {
       this.onSelect(this.props.forwardingNumbers.length);
-      if (this.customInput && this.customInput.input) {
-        setTimeout(() => {
-          this.customInput.input.focus();
-        }, 100);
-      }
+      setTimeout(() => {
+        if (this.customInput) {
+          this.customInput.focus();
+        }
+      }, 100);
     };
   }
 
   componentDidMount() {
     this._mounted = true;
-    this.focusInput();
   }
 
   componentWillUnmount() {
@@ -117,17 +108,35 @@ export default class ForwardForm extends Component {
         forwardingNumber && forwardingNumber.phoneNumber
       );
     }
+    if (this.state.recipient) {
+      return this.state.recipient.phoneNumber;
+    }
     return this.state.customValue;
   }
 
-  focusInput() {
-    if (
-      this.state.selectedIndex === this.props.forwardingNumbers.length &&
-      this.customInput &&
-      this.customInput.input
-    ) {
-      this.customInput.input.focus();
-    }
+  _onCustomValueChange = (value) => {
+    this.setState({
+      customValue: value
+    });
+  }
+
+  _clearToNumber = () => {
+    this.setState({
+      customValue: ''
+    });
+  }
+
+  _setRecipient = (recipient) => {
+    this.setState({
+      recipient
+    });
+    this._clearToNumber();
+  }
+
+  _clearRecipient = () => {
+    this.setState({
+      recipient: null
+    });
   }
 
   render() {
@@ -137,6 +146,9 @@ export default class ForwardForm extends Component {
       currentLocale,
       forwardingNumbers,
       formatPhone,
+      searchContact,
+      searchContactList,
+      phoneTypeRenderer,
     } = this.props;
     const value = this.getValue();
     const disableButton = isBlank(value) || this.state.handling;
@@ -160,12 +172,24 @@ export default class ForwardForm extends Component {
           <div className={styles.customLabel}>
             {i18n.getString('customNumber', currentLocale)}
           </div>
-          <TextInput
-            ref={(input) => { this.customInput = input; }}
-            filter={this.filter}
-            className={styles.customInput}
+          <RecipientsInput
+            label=""
+            placeholder=""
+            inputRef={(ref) => { this.customInput = ref; }}
             value={this.state.customValue}
-            onChange={this.onCustomValueChange}
+            className={styles.customInput}
+            onChange={this._onCustomValueChange}
+            onClean={this._clearToNumber}
+            recipient={this.state.recipient}
+            addToRecipients={this._setRecipient}
+            removeFromRecipients={this._clearRecipient}
+            searchContact={searchContact}
+            searchContactList={searchContactList}
+            phoneTypeRenderer={phoneTypeRenderer}
+            formatContactPhone={formatPhone}
+            currentLocale={currentLocale}
+            titleEnabled
+            autoFocus
           />
         </div>
         <div className={styles.buttonGroup}>
@@ -200,9 +224,13 @@ ForwardForm.propTypes = {
   formatPhone: PropTypes.func.isRequired,
   onForward: PropTypes.func.isRequired,
   onChange: PropTypes.func,
+  searchContactList: PropTypes.array.isRequired,
+  searchContact: PropTypes.func.isRequired,
+  phoneTypeRenderer: PropTypes.func,
 };
 
 ForwardForm.defaultProps = {
   className: null,
   onChange: undefined,
+  phoneTypeRenderer: undefined,
 };

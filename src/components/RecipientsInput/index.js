@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-
 import styles from './styles.scss';
 import RemoveButton from '../RemoveButton';
 import ContactDropdownList from '../ContactDropdownList';
@@ -247,6 +246,13 @@ class RecipientsInput extends Component {
     this.props.addToRecipients(item);
   }
 
+  setInputRef = (ref) => {
+    this.inputRef = ref;
+    if (typeof this.props.inputRef === 'function') {
+      this.props.inputRef(ref);
+    }
+  }
+
   render() {
     // TODO a temporary fix for rendering slower search result.
     const relatedContactList = this.state.value.length >= 3 ?
@@ -254,19 +260,19 @@ class RecipientsInput extends Component {
     const label = (
       <label>
         {
-          this.props.label ||
-          i18n.getString('to', this.props.currentLocale)
+          this.props.label === undefined
+            ? `${i18n.getString('to', this.props.currentLocale)}:`
+            : this.props.label
         }
-      :
       </label>
     );
     const toNumberInput = !this.props.multiple && this.props.recipient ?
       null :
       (
-        <div>
+        <div className={styles.inputWrapper}>
           <div className={styles.inputField}>
             <input
-              ref={(ref) => { this.inputRef = ref; }}
+              ref={this.setInputRef}
               name="receiver"
               value={this.state.value}
               onChange={this.onInputChange}
@@ -275,8 +281,9 @@ class RecipientsInput extends Component {
               onFocus={this.onInputFocus}
               onKeyUp={this.onInputKeyUp}
               placeholder={
-                this.props.placeholder ||
-                i18n.getString('enterNameOrNumber', this.props.currentLocale)
+                this.props.placeholder === undefined
+                  ? i18n.getString('enterNameOrNumber', this.props.currentLocale)
+                  : this.props.placeholder
               }
               autoComplete="off"
             />
@@ -285,7 +292,7 @@ class RecipientsInput extends Component {
             className={styles.removeButton}
             onClick={this.onClean}
             visibility={
-              this.state.value.length > 0 &&
+              this.props.value.length > 0 &&
               this.state.isFocusOnInput
             }
           />
@@ -298,7 +305,7 @@ class RecipientsInput extends Component {
         onKeyDown={this.handleHotKey}
       >
         {label}
-        <div className={styles.rightPanel}>
+        <div className={this.props.label === undefined ? styles.rightPanel : ''}>
           <SelectedRecipients
             recipient={this.props.recipient}
             recipients={this.props.recipients}
@@ -354,6 +361,7 @@ RecipientsInput.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   multiple: PropTypes.bool,
   phoneTypeRenderer: PropTypes.func,
+  inputRef: PropTypes.func,
 };
 
 RecipientsInput.defaultProps = {
@@ -367,6 +375,7 @@ RecipientsInput.defaultProps = {
   autoFocus: false,
   multiple: false,
   phoneTypeRenderer: undefined,
+  inputRef: undefined,
 };
 
 export default RecipientsInput;

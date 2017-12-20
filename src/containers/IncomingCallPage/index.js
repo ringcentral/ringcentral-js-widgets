@@ -145,6 +145,9 @@ class IncomingCallPage extends Component {
         answerAndHold={this.answerAndHold}
         sessionId={this.props.session.id}
         sourceIcons={this.props.sourceIcons}
+        searchContact={this.props.searchContact}
+        searchContactList={this.props.searchContactList}
+        phoneTypeRenderer={this.props.phoneTypeRenderer}
       >
         {this.props.children}
       </IncomingCallPanel>
@@ -184,13 +187,17 @@ IncomingCallPage.propTypes = {
   activeSessionId: PropTypes.string,
   sourceIcons: PropTypes.object,
   hangup: PropTypes.func.isRequired,
-  onHold: PropTypes.func.isRequired
+  onHold: PropTypes.func.isRequired,
+  searchContactList: PropTypes.array.isRequired,
+  searchContact: PropTypes.func.isRequired,
+  phoneTypeRenderer: PropTypes.func,
 };
 
 IncomingCallPage.defaultProps = {
   children: undefined,
   activeSessionId: null,
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
 };
 
 function mapToProps(_, {
@@ -198,11 +205,13 @@ function mapToProps(_, {
     webphone,
     locale,
     contactMatcher,
+    contactSearch,
     regionSettings,
     forwardingNumber,
     brand,
   },
   showContactDisplayPlaceholder = false,
+  phoneTypeRenderer
 }) {
   const currentSession = webphone.ringSession || {};
   const contactMapping = contactMatcher && contactMatcher.dataMapping;
@@ -220,6 +229,8 @@ function mapToProps(_, {
     countryCode: regionSettings.countryCode,
     forwardingNumbers: forwardingNumber.forwardingNumbers,
     showContactDisplayPlaceholder,
+    searchContactList: contactSearch.sortedResult,
+    phoneTypeRenderer
   };
 }
 
@@ -227,6 +238,7 @@ function mapToFunctions(_, {
   phone: {
     webphone,
     regionSettings,
+    contactSearch,
   },
   getAvatarUrl = () => null,
 }) {
@@ -247,6 +259,7 @@ function mapToFunctions(_, {
     getAvatarUrl,
     hangup: sessionId => webphone.hangup(sessionId),
     onHold: sessionId => webphone.hold(sessionId),
+    searchContact: pattern => contactSearch.debouncedSearch({ searchString: pattern })
   };
 }
 
