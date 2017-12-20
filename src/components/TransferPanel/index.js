@@ -80,7 +80,6 @@ export default class TransferPanel extends PureComponent {
   }
 
   render() {
-    const transferNumber = this._getTransferNumber();
     return (
       <div className={styles.root}>
         <BackHeader
