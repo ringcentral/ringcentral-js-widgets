@@ -95,7 +95,6 @@ export default class ForwardForm extends Component {
 
   componentDidMount() {
     this._mounted = true;
-    this.focusInput();
   }
 
   componentWillUnmount() {
@@ -113,15 +112,6 @@ export default class ForwardForm extends Component {
       return this.state.recipient.phoneNumber;
     }
     return this.state.customValue;
-  }
-
-  focusInput() {
-    if (
-      this.state.selectedIndex === this.props.forwardingNumbers.length &&
-      this.customInput
-    ) {
-      this.customInput.focus();
-    }
   }
 
   _onCustomValueChange = (value) => {
@@ -199,7 +189,6 @@ export default class ForwardForm extends Component {
             formatContactPhone={formatPhone}
             currentLocale={currentLocale}
             titleEnabled
-            hideLabel
             autoFocus
           />
         </div>

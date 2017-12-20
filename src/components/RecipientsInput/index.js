@@ -239,6 +239,13 @@ class RecipientsInput extends Component {
     this.props.addToRecipients(item);
   }
 
+  setInputRef = (ref) => {
+    this.inputRef = ref;
+    if (typeof this.props.inputRef === 'function') {
+      this.props.inputRef(ref);
+    }
+  }
+
   render() {
     // TODO a temporary fix for rendering slower search result.
     const relatedContactList = this.state.value.length >= 3 ?
@@ -258,12 +265,7 @@ class RecipientsInput extends Component {
         <div className={styles.inputWrapper}>
           <div className={styles.inputField}>
             <input
-              ref={(ref) => {
-                this.inputRef = ref;
-                if (typeof this.props.inputRef === 'function') {
-                  this.props.inputRef(ref);
-                }
-              }}
+              ref={this.setInputRef}
               name="receiver"
               value={this.state.value}
               onChange={this.onInputChange}
