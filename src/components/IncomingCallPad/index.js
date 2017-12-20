@@ -23,7 +23,6 @@ export default class IncomingCallPad extends Component {
     super(props);
     this.state = {
       showForward: false,
-      forwardNumber: '',
       replyMessage: null,
       showReplyWithMessage: false,
       toVoiceMailEnabled: true,
@@ -32,11 +31,7 @@ export default class IncomingCallPad extends Component {
     this.onShowForwardChange = (visible) => {
       this.setState({
         showForward: visible,
-        forwardNumber: '',
       });
-    };
-    this.onForwardNumberChange = (forwardNumber) => {
-      this.setState({ forwardNumber });
     };
     this.closeForwardForm = () => {
       this.onShowForwardChange(false);
@@ -189,8 +184,6 @@ export default class IncomingCallPad extends Component {
                 currentLocale={currentLocale}
                 onCancel={this.closeForwardForm}
                 formatPhone={formatPhone}
-                value={this.state.forwardNumber}
-                onChange={this.onForwardNumberChange}
                 onForward={this.props.onForward}
                 searchContact={this.props.searchContact}
                 searchContactList={this.props.searchContactList}
