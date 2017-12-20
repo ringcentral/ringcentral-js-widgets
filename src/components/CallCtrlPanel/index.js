@@ -76,6 +76,10 @@ class CallCtrlPanel extends Component {
           currentLocale={this.props.currentLocale}
           toggleTransferPanel={this.toggleTransferPanel}
           isOnTransfer={this.props.isOnTransfer}
+          searchContactList={this.props.searchContactList}
+          searchContact={this.props.searchContact}
+          formatPhone={this.props.formatPhone}
+          phoneTypeRenderer={this.props.phoneTypeRenderer}
         />
       );
     }
@@ -162,6 +166,9 @@ CallCtrlPanel.propTypes = {
   brand: PropTypes.string,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
+  searchContactList: PropTypes.array.isRequired,
+  searchContact: PropTypes.func.isRequired,
+  phoneTypeRenderer: PropTypes.func,
 };
 
 CallCtrlPanel.defaultProps = {
@@ -180,6 +187,7 @@ CallCtrlPanel.defaultProps = {
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
 };
 
 export default CallCtrlPanel;

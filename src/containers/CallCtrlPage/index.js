@@ -159,6 +159,9 @@ class CallCtrlPage extends Component {
         flipNumbers={this.props.flipNumbers}
         calls={this.props.calls}
         sourceIcons={this.props.sourceIcons}
+        searchContactList={this.props.searchContactList}
+        searchContact={this.props.searchContact}
+        phoneTypeRenderer={this.props.phoneTypeRenderer}
       >
         {this.props.children}
       </CallCtrlPanel>
@@ -207,12 +210,16 @@ CallCtrlPage.propTypes = {
   flipNumbers: PropTypes.array.isRequired,
   calls: PropTypes.array.isRequired,
   sourceIcons: PropTypes.object,
+  searchContactList: PropTypes.array.isRequired,
+  searchContact: PropTypes.func.isRequired,
+  phoneTypeRenderer: PropTypes.func,
 };
 
 CallCtrlPage.defaultProps = {
   children: undefined,
   backButtonLabel: null,
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
 };
 
 function mapToProps(_, {
@@ -224,6 +231,7 @@ function mapToProps(_, {
     brand,
     forwardingNumber,
     callMonitor,
+    contactSearch,
   },
 }) {
   const currentSession = webphone.activeSession || {};
@@ -240,7 +248,8 @@ function mapToProps(_, {
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
     flipNumbers: forwardingNumber.flipNumbers,
-    calls: callMonitor.calls
+    calls: callMonitor.calls,
+    searchContactList: contactSearch.sortedResult,
   };
 }
 
@@ -248,10 +257,12 @@ function mapToFunctions(_, {
   phone: {
     webphone,
     regionSettings,
+    contactSearch,
   },
   getAvatarUrl,
   onBackButtonClick,
   onAdd,
+  phoneTypeRenderer,
 }) {
   return {
     formatPhone: phoneNumber => formatNumber({
@@ -275,6 +286,10 @@ function mapToFunctions(_, {
     onFlip: (flipNumber, sessionId) => webphone.flip(flipNumber, sessionId),
     onTransfer: (transferNumber, sessionId) => webphone.transfer(transferNumber, sessionId),
     onPark: sessionId => webphone.park(sessionId),
+    searchContact: searchString => (
+      contactSearch.debouncedSearch({ searchString })
+    ),
+    phoneTypeRenderer,
   };
 }
 
