@@ -59,3 +59,18 @@ $input-height: 43px;
     width: 79px;
   }
 }
+
+.disabled {
+  g {
+    cursor: not-allowed;
+  }
+
+  circle {
+    opacity: 1;
+    stroke: $disabled-background-color;
+  }
+
+  path {
+    fill: $disabled-background-color;
+  }
+}

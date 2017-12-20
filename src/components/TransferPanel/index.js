@@ -19,10 +19,12 @@ export default class TransferPanel extends PureComponent {
     searchContact: PropTypes.func.isRequired,
     formatPhone: PropTypes.func.isRequired,
     phoneTypeRenderer: PropTypes.func,
+    isOnTransfer: PropTypes.bool,
   };
 
   static defaultProps = {
     phoneTypeRenderer: undefined,
+    isOnTransfer: false,
   };
 
   constructor(props) {
@@ -115,8 +117,10 @@ export default class TransferPanel extends PureComponent {
           <div className={styles.buttonRow}>
             <div className={styles.button}>
               <CircleButton
+                className={this.props.isOnTransfer ? styles.disabled : undefined}
                 onClick={this.onTransfer}
                 icon={TransferIcon}
+                disabled={this.props.isOnTransfer}
               />
             </div>
           </div>
