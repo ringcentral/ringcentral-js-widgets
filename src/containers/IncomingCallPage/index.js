@@ -102,10 +102,7 @@ class IncomingCallPage extends Component {
   }
 
   render() {
-    // const { session } = this.props;
-    // eslint-disable-next-line
-    const session = JSON.parse(`{"id":"d9ca29efc22b46c59c8416651d0ba27b10.13.22.253-5070-914578ab6ffe4b","direction":"Inbound","callStatus":"webphone-session-connecting","to":"18885287464*171","toUserName":"Eric Huang","from":"171","fromUserName":"Eric Huang","startTime":null,"creationTime":1513669924945,"isOnHold":false,"isOnMute":false,"isOnFlip":false,"isOnTransfer":false,"isToVoicemail":false,"isForwarded":false,"isReplied":false,"recordStatus":"webphone-record-idle","minimized":false}`);
-
+    const { session } = this.props;
     const active = !!session.id;
     if (!active) {
       return null;

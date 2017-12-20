@@ -53,21 +53,10 @@ export default class ForwardForm extends Component {
       selectedIndex: 0,
       customValue: '',
       handling: false,
-      toNumber: '',
       recipient: null,
     };
 
-    // this.filter = value => value.replace(cleanRegex, '');
-    // this.onCustomValueChange = (e) => {
-    //   const value = e.currentTarget.value;
-    //   const cleanValue = this.filter(value);
-    //   this.setState({
-    //     customValue: cleanValue,
-    //   });
-    //   if (typeof this.props.onChange === 'function') {
-    //     this.props.onChange(cleanValue);
-    //   }
-    // };
+    this.filter = value => value.replace(cleanRegex, '');
 
     this.onSelect = (index) => {
       this.setState({
