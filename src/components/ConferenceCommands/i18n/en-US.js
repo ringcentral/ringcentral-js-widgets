@@ -1,4 +1,5 @@
 export default {
+  title: 'Conference Commands',
   starSharp2Title: 'Caller Count',
   starSharp2Body: 'Keep track of how many people are on the call',
   starSharp3Title: 'Leave Conference',

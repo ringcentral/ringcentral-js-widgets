@@ -68,7 +68,7 @@ const sections = currentLocale => ([
 const ConferenceCommands = ({ currentLocale, onBack }) => (
   <div className={styles.root}>
     <BackHeader onBackClick={onBack}>
-      Conference Commands
+      {i18n.getString('title', currentLocale)}
     </BackHeader>
     <div className={styles.conferenceCommands}>
       {
