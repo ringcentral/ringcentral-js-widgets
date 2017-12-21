@@ -211,7 +211,11 @@ class RecipientsInput extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.value && nextProps.value !== this.state.value) {
+    if (
+      nextProps.value !== undefined &&
+      nextProps.value !== this.props.value &&
+      nextProps.value !== this.state.value
+    ) {
       this.setState({ value: nextProps.value });
       this.props.searchContact(nextProps.value);
     }
