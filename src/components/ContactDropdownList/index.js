@@ -65,21 +65,22 @@ ContactItem.defaultProps = {
 
 class ContactDropdownList extends Component {
   componentWillReceiveProps(nextProps) {
-    if (nextProps.visibility) {
-      if (nextProps.scrollDirection === 'ArrowDown') {
-        if (nextProps.selectedIndex < nextProps.items.length) {
-          if (nextProps.selectedIndex > 4) {
-            this.node.scrollTop += 53;
-            this.node.scrollTop = Math.floor(this.node.scrollTop / 53) * 53;
-          }
+    if (!nextProps.visibility) {
+      return;
+    }
+    if (nextProps.scrollDirection === 'ArrowDown') {
+      if (nextProps.selectedIndex < nextProps.items.length) {
+        if (nextProps.selectedIndex > 4) {
+          this.node.scrollTop += 53;
+          this.node.scrollTop = Math.floor(this.node.scrollTop / 53) * 53;
         }
       }
-      if (nextProps.scrollDirection === 'ArrowUp') {
-        if (nextProps.selectedIndex > -1) {
-          if (nextProps.selectedIndex < nextProps.items.length - 4) {
-            this.node.scrollTop -= 53;
-            this.node.scrollTop = Math.floor(this.node.scrollTop / 53) * 53;
-          }
+    }
+    if (nextProps.scrollDirection === 'ArrowUp') {
+      if (nextProps.selectedIndex > -1) {
+        if (nextProps.selectedIndex < nextProps.items.length - 4) {
+          this.node.scrollTop -= 53;
+          this.node.scrollTop = Math.floor(this.node.scrollTop / 53) * 53;
         }
       }
     }
@@ -98,16 +99,12 @@ class ContactDropdownList extends Component {
       visibility,
       phoneTypeRenderer,
     } = this.props;
-    let listClassName = null;
-    let hiddenClassName = null;
     if (!visibility || items.length === 0) {
-      hiddenClassName = styles.hidden;
+      return null;
     }
-    listClassName = classnames(styles.dropdownList, className, hiddenClassName);
-
     return (
       <ul
-        className={listClassName}
+        className={classnames(styles.dropdownList, className)}
         ref={(c) => {
           this.node = c;
           if (typeof listRef === 'function') {
