@@ -487,7 +487,8 @@ var Auth = (_dec = (0, _di.Module)({
       };
       var onRefreshError = function onRefreshError(error) {
         // user is still considered logged in if the refreshToken is still valid
-        var refreshTokenValid = platform.auth().refreshTokenValid();
+
+        var refreshTokenValid = error.message === 'Failed to fetch' && platform.auth().refreshTokenValid();
         _this3.store.dispatch({
           type: _this3.actionTypes.refreshError,
           error: error,
