@@ -225,9 +225,9 @@ export default class MessageItem extends Component {
         this.props.onClickToDial({
           recipient: {
             ...contact,
-            phoneNumber
+            phoneNumber,
+            fromType: this.props.conversation.type
           },
-          type: this.props.conversation.type
         });
       }
     }

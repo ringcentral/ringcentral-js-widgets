@@ -107,7 +107,7 @@ function mapToFunctions(_, {
       } :
       undefined,
     onClickToDial: dialerUI ?
-      ({ recipient }) => {
+      (recipient) => {
         if (call.isIdle) {
           routerInteraction.push(dialerRoute);
           // for track router
