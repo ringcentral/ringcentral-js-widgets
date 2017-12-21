@@ -292,7 +292,7 @@ var MessageItem = function (_Component) {
     value: function getPhoneNumber() {
       var correspondents = this.props.conversation.correspondents;
 
-      return correspondents.length === 1 && (correspondents[0].phoneNumber || correspondents[0].extensionNumber) || undefined;
+      return correspondents.length === 1 && correspondents[0] && (correspondents[0].phoneNumber || correspondents[0].extensionNumber) || undefined;
     }
   }, {
     key: 'getGroupPhoneNumbers',

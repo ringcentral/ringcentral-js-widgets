@@ -1,7 +1,9 @@
 @import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/fonts';
 @import '../../lib/commonStyles/text-ellipsis';
 
 .container {
+  @include primary-font;
   position: relative;
   display: block;
   color: $night;

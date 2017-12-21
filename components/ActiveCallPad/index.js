@@ -123,7 +123,11 @@ function ActiveCallPad(props) {
           iconHeight: 160,
           iconX: 190,
           iconY: 165
-        }),
+        })
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: _styles2.default.buttonRow },
         _react2.default.createElement(_ActiveCallButton2.default, {
           onClick: props.onToggleTransferPanel,
           title: _i18n2.default.getString('transfer', props.currentLocale),
@@ -131,21 +135,6 @@ function ActiveCallPad(props) {
           className: _styles2.default.callButton,
           iconWidth: 220,
           iconX: 140
-        })
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default.buttonRow },
-        _react2.default.createElement(_ActiveCallButton2.default, {
-          onClick: props.onPark,
-          className: _styles2.default.callButton,
-          title: _i18n2.default.getString('park', props.currentLocale),
-          icon: _Park2.default,
-          disabled: props.isOnHold,
-          iconWidth: 180,
-          iconHeight: 180,
-          iconX: 160,
-          iconY: 160
         }),
         _react2.default.createElement(_ActiveCallButton2.default, {
           onClick: onRecordClicked,
@@ -154,16 +143,6 @@ function ActiveCallPad(props) {
           className: _styles2.default.callButton,
           icon: _Record2.default,
           disabled: props.isOnHold || isRecordDisabled
-        }),
-        _react2.default.createElement(_ActiveCallButton2.default, {
-          onClick: props.onAdd,
-          title: _i18n2.default.getString('add', props.currentLocale),
-          className: _styles2.default.callButton,
-          icon: _AddCall2.default,
-          iconWidth: 170,
-          iconHeight: 170,
-          iconX: 165,
-          iconY: 165
         }),
         _react2.default.createElement(_ActiveCallButton2.default, {
           onClick: props.onShowFlipPanel,

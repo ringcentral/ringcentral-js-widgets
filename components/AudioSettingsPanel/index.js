@@ -282,24 +282,21 @@ var AudioSettingsPanel = function (_Component) {
         'The app does not have permission to use microphone'
       );
 
-      var webphoneVolume = isWebRTC ? _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          _InputField2.default,
-          {
-            label: _i18n2.default.getString('ringtoneVolume', currentLocale)
-          },
-          ringtoneVolume * 100 + '%'
-        ),
-        _react2.default.createElement(
-          _InputField2.default,
-          {
-            label: _i18n2.default.getString('callVolume', currentLocale)
-          },
-          callVolume * 100 + '%'
-        )
-      ) : null;
+      // const webphoneVolume = isWebRTC ?
+      //   (
+      //     <div>
+      //       <InputField
+      //         label={i18n.getString('ringtoneVolume', currentLocale)}
+      //     >
+      //         {`${ringtoneVolume * 100}%`}
+      //       </InputField>
+      //       <InputField
+      //         label={i18n.getString('callVolume', currentLocale)}
+      //     >
+      //         {`${callVolume * 100}%`}
+      //       </InputField>
+      //     </div>
+      //   ) : null;
 
       var devices = supportDevices && userMedia && isWebRTC ? _react2.default.createElement(
         'div',
@@ -355,14 +352,6 @@ var AudioSettingsPanel = function (_Component) {
         _react2.default.createElement(
           _Panel2.default,
           { className: _styles2.default.content },
-          _react2.default.createElement(
-            _InputField2.default,
-            {
-              label: _i18n2.default.getString('dialButtonVolume', currentLocale)
-            },
-            dialButtonVolume * 100 + '%'
-          ),
-          webphoneVolume,
           devices,
           permission,
           _react2.default.createElement(_SaveButton2.default, {
