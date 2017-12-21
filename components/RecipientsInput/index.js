@@ -296,7 +296,7 @@ var RecipientsInput = function (_Component) {
   (0, _createClass3.default)(RecipientsInput, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      if (nextProps.value && nextProps.value !== this.state.value) {
+      if (nextProps.value !== undefined && nextProps.value !== this.props.value && nextProps.value !== this.state.value) {
         this.setState({ value: nextProps.value });
         this.props.searchContact(nextProps.value);
       }

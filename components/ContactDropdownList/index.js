@@ -134,21 +134,22 @@ var ContactDropdownList = function (_Component) {
   (0, _createClass3.default)(ContactDropdownList, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      if (nextProps.visibility) {
-        if (nextProps.scrollDirection === 'ArrowDown') {
-          if (nextProps.selectedIndex < nextProps.items.length) {
-            if (nextProps.selectedIndex > 4) {
-              this.node.scrollTop += 53;
-              this.node.scrollTop = Math.floor(this.node.scrollTop / 53) * 53;
-            }
+      if (!nextProps.visibility) {
+        return;
+      }
+      if (nextProps.scrollDirection === 'ArrowDown') {
+        if (nextProps.selectedIndex < nextProps.items.length) {
+          if (nextProps.selectedIndex > 4) {
+            this.node.scrollTop += 53;
+            this.node.scrollTop = Math.floor(this.node.scrollTop / 53) * 53;
           }
         }
-        if (nextProps.scrollDirection === 'ArrowUp') {
-          if (nextProps.selectedIndex > -1) {
-            if (nextProps.selectedIndex < nextProps.items.length - 4) {
-              this.node.scrollTop -= 53;
-              this.node.scrollTop = Math.floor(this.node.scrollTop / 53) * 53;
-            }
+      }
+      if (nextProps.scrollDirection === 'ArrowUp') {
+        if (nextProps.selectedIndex > -1) {
+          if (nextProps.selectedIndex < nextProps.items.length - 4) {
+            this.node.scrollTop -= 53;
+            this.node.scrollTop = Math.floor(this.node.scrollTop / 53) * 53;
           }
         }
       }
@@ -170,17 +171,13 @@ var ContactDropdownList = function (_Component) {
           visibility = _props.visibility,
           phoneTypeRenderer = _props.phoneTypeRenderer;
 
-      var listClassName = null;
-      var hiddenClassName = null;
       if (!visibility || items.length === 0) {
-        hiddenClassName = _styles2.default.hidden;
+        return null;
       }
-      listClassName = (0, _classnames2.default)(_styles2.default.dropdownList, className, hiddenClassName);
-
       return _react2.default.createElement(
         'ul',
         {
-          className: listClassName,
+          className: (0, _classnames2.default)(_styles2.default.dropdownList, className),
           ref: function ref(c) {
             _this2.node = c;
             if (typeof listRef === 'function') {
