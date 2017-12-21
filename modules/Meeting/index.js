@@ -286,6 +286,10 @@ var Meeting = (_dec = (0, _di.Module)({
       var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(meeting) {
         var _this3 = this;
 
+        var _ref3 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+            _ref3$isAlertSuccess = _ref3.isAlertSuccess,
+            isAlertSuccess = _ref3$isAlertSuccess === undefined ? true : _ref3$isAlertSuccess;
+
         var formattedMeeting, resp, serviceInfo, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, error;
 
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -329,11 +333,13 @@ var Meeting = (_dec = (0, _di.Module)({
                 // Reload meeting info
                 this._initMeeting();
                 // Notify user the meeting has been scheduled
-                setTimeout(function () {
-                  _this3._alert.info({
-                    message: _meetingStatus2.default.scheduledSuccess
-                  });
-                }, 50);
+                if (isAlertSuccess) {
+                  setTimeout(function () {
+                    _this3._alert.info({
+                      message: _meetingStatus2.default.scheduledSuccess
+                    });
+                  }, 50);
+                }
                 return _context.abrupt('return', {
                   meeting: resp,
                   serviceInfo: serviceInfo,
