@@ -73,6 +73,8 @@ export default function ActiveCallPad(props) {
             iconX={190}
             iconY={165}
           />
+        </div>
+        <div className={styles.buttonRow}>
           <ActiveCallButton
             onClick={props.onToggleTransferPanel}
             title={i18n.getString('transfer', props.currentLocale)}
@@ -81,19 +83,19 @@ export default function ActiveCallPad(props) {
             iconWidth={220}
             iconX={140}
           />
-        </div>
-        <div className={styles.buttonRow}>
-          <ActiveCallButton
-            onClick={props.onPark}
-            className={styles.callButton}
-            title={i18n.getString('park', props.currentLocale)}
-            icon={ParkIcon}
-            disabled={props.isOnHold}
-            iconWidth={180}
-            iconHeight={180}
-            iconX={160}
-            iconY={160}
-          />
+          {
+            // <ActiveCallButton
+            //   onClick={props.onPark}
+            //   className={styles.callButton}
+            //   title={i18n.getString('park', props.currentLocale)}
+            //   icon={ParkIcon}
+            //   disabled={props.isOnHold}
+            //   iconWidth={180}
+            //   iconHeight={180}
+            //   iconX={160}
+            //   iconY={160}
+            // />
+          }
           <ActiveCallButton
             onClick={onRecordClicked}
             title={recordTitle}
@@ -102,16 +104,18 @@ export default function ActiveCallPad(props) {
             icon={RecordIcon}
             disabled={props.isOnHold || isRecordDisabled}
           />
-          <ActiveCallButton
-            onClick={props.onAdd}
-            title={i18n.getString('add', props.currentLocale)}
-            className={styles.callButton}
-            icon={AddIcon}
-            iconWidth={170}
-            iconHeight={170}
-            iconX={165}
-            iconY={165}
-          />
+          {
+            // <ActiveCallButton
+            //   onClick={props.onAdd}
+            //   title={i18n.getString('add', props.currentLocale)}
+            //   className={styles.callButton}
+            //   icon={AddIcon}
+            //   iconWidth={170}
+            //   iconHeight={170}
+            //   iconX={165}
+            //   iconY={165}
+            // />
+          }
           <ActiveCallButton
             onClick={props.onShowFlipPanel}
             title={i18n.getString('flip', props.currentLocale)}
