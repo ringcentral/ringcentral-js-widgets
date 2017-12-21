@@ -61,7 +61,8 @@ function mapToFunctions(_, {
       (recipient) => {
         if (call.isIdle) {
           routerInteraction.push(dialerRoute);
-          dialerUI.call({ recipient, clickToDialType: dialerUI.dialerTypes.contactDetail });
+          dialerUI.call({ recipient });
+          contactDetails.clickToCall();
         }
       } :
       undefined,

@@ -80,14 +80,6 @@ export default class DialerUI extends RcModule {
     ], 'dialerUI');
   }
 
-  get dialerTypes() {
-    return new Enum([
-      'text',
-      'voicemail',
-      'contactDetail',
-      'callHistory',
-    ], 'dialerUI');
-  }
 
   get reducer() {
     return combineReducers({
@@ -158,14 +150,12 @@ export default class DialerUI extends RcModule {
   async call({
     phoneNumber = '',
     recipient = null,
-    clickToDialType,
   }) {
     if (phoneNumber || recipient) {
       this.store.dispatch({
         type: this.actionTypes.call,
         phoneNumber,
         recipient,
-        clickToDialType,
       });
       try {
         await this._call.call({

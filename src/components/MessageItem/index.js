@@ -264,7 +264,7 @@ export default class MessageItem extends Component {
     if (
       this.props.conversation.unreadCounts > 0
     ) {
-      this.props.readVoicemail({ conversationId: this.props.conversation.conversationId });
+      this.props.readVoicemail(this.props.conversation.conversationId);
     }
   }
 
@@ -280,10 +280,7 @@ export default class MessageItem extends Component {
     if (
       this.props.conversation.unreadCounts > 0
     ) {
-      this.props.readVoicemail({
-        conversationId: this.props.conversation.conversationId,
-        mark: true
-      });
+      this.props.unMarkVoicemail(this.props.conversation.conversationId);
     }
   }
 
@@ -484,6 +481,7 @@ MessageItem.propTypes = {
   showConversationDetail: PropTypes.func.isRequired,
   readVoicemail: PropTypes.func.isRequired,
   markVoicemail: PropTypes.func.isRequired,
+  unMarkVoicemail: PropTypes.func.isRequired,
   autoLog: PropTypes.bool,
   enableContactFallback: PropTypes.bool,
   showContactDisplayPlaceholder: PropTypes.bool,

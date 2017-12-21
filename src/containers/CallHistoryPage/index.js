@@ -97,7 +97,8 @@ function mapToFunctions(_, {
       (recipient) => {
         if (call.isIdle) {
           routerInteraction.push(dialerRoute);
-          dialerUI.call({ recipient, clickToDialType: dialerUI.dialerTypes.callHistory });
+          dialerUI.call({ recipient });
+          callHistory.onClickToDial();
         }
       } :
       undefined,

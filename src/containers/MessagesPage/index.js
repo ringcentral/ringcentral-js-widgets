@@ -107,18 +107,12 @@ function mapToFunctions(_, {
       } :
       undefined,
     onClickToDial: dialerUI ?
-      ({ recipient, type }) => {
+      ({ recipient }) => {
         if (call.isIdle) {
           routerInteraction.push(dialerRoute);
           // for track router
-          let clickToDialType;
-          console.log(type);
-          if (type === 'VoiceMail') {
-            clickToDialType = dialerUI.dialerTypes.voicemail;
-          } else {
-            clickToDialType = dialerUI.dialerTypes.text;
-          }
-          dialerUI.call({ recipient, clickToDialType });
+          messageStore.onClickToCall({ fromType: recipient.fromType });
+          dialerUI.call({ recipient });
         }
       } :
       undefined,
@@ -155,10 +149,14 @@ function mapToFunctions(_, {
         conversationDetailRoute.replace('{conversationId}', conversationId)
       );
     },
-    readVoicemail: ({ conversationId, mark = false }) =>
-      messageStore.readMessages({ conversationId, mark }),
+    readVoicemail: conversationId =>
+      messageStore.readMessages(conversationId),
     markVoicemail: conversationId =>
       messageStore.unreadMessage(conversationId),
+    unMarkVoicemail: (conversationId) => {
+      messageStore.readMessages(conversationId);
+      messageStore.unMarkMessage(conversationId);
+    },
     composeText: () => routerInteraction.push(composeTextRoute),
     updateTypeFilter: type => messages.updateTypeFilter(type),
     deleteMessage: (conversationId) => {
