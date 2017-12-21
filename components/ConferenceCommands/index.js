@@ -113,7 +113,7 @@ var ConferenceCommands = function ConferenceCommands(_ref3) {
     _react2.default.createElement(
       _BackHeader2.default,
       { onBackClick: onBack },
-      'Conference Commands'
+      _i18n2.default.getString('title', currentLocale)
     ),
     _react2.default.createElement(
       'div',

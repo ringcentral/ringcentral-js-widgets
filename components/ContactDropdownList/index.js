@@ -134,12 +134,12 @@ var ContactDropdownList = function (_Component) {
   (0, _createClass3.default)(ContactDropdownList, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      if (!nextProps.visibility) {
+      if (!nextProps.visibility || nextProps.items.length === 0) {
         return;
       }
       if (nextProps.scrollDirection === 'ArrowDown') {
         if (nextProps.selectedIndex < nextProps.items.length) {
-          if (nextProps.selectedIndex > 4) {
+          if (nextProps.selectedIndex > 4 && this.node) {
             this.node.scrollTop += 53;
             this.node.scrollTop = Math.floor(this.node.scrollTop / 53) * 53;
           }
@@ -147,7 +147,7 @@ var ContactDropdownList = function (_Component) {
       }
       if (nextProps.scrollDirection === 'ArrowUp') {
         if (nextProps.selectedIndex > -1) {
-          if (nextProps.selectedIndex < nextProps.items.length - 4) {
+          if (nextProps.selectedIndex < nextProps.items.length - 4 && this.node) {
             this.node.scrollTop -= 53;
             this.node.scrollTop = Math.floor(this.node.scrollTop / 53) * 53;
           }
