@@ -143,7 +143,7 @@ export default class MessageItem extends Component {
 
   getPhoneNumber() {
     const { correspondents } = this.props.conversation;
-    return (correspondents.length === 1 &&
+    return (correspondents.length === 1 && correspondents[0] &&
       (correspondents[0].phoneNumber || correspondents[0].extensionNumber)) || undefined;
   }
   getGroupPhoneNumbers() {
