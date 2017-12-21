@@ -201,21 +201,21 @@ export default class AudioSettingsPanel extends Component {
         </IconLine>
       );
 
-    const webphoneVolume = isWebRTC ?
-      (
-        <div>
-          <InputField
-            label={i18n.getString('ringtoneVolume', currentLocale)}
-        >
-            {`${ringtoneVolume * 100}%`}
-          </InputField>
-          <InputField
-            label={i18n.getString('callVolume', currentLocale)}
-        >
-            {`${callVolume * 100}%`}
-          </InputField>
-        </div>
-      ) : null;
+    // const webphoneVolume = isWebRTC ?
+    //   (
+    //     <div>
+    //       <InputField
+    //         label={i18n.getString('ringtoneVolume', currentLocale)}
+    //     >
+    //         {`${ringtoneVolume * 100}%`}
+    //       </InputField>
+    //       <InputField
+    //         label={i18n.getString('callVolume', currentLocale)}
+    //     >
+    //         {`${callVolume * 100}%`}
+    //       </InputField>
+    //     </div>
+    //   ) : null;
 
     const devices = (supportDevices && userMedia && isWebRTC) ?
       (
@@ -263,12 +263,14 @@ export default class AudioSettingsPanel extends Component {
           {i18n.getString('title', currentLocale)}
         </BackHeader>
         <Panel className={styles.content}>
-          <InputField
-            label={i18n.getString('dialButtonVolume', currentLocale)}
-          >
-            {`${dialButtonVolume * 100}%`}
-          </InputField>
-          {webphoneVolume}
+          {
+            // <InputField
+            //   label={i18n.getString('dialButtonVolume', currentLocale)}
+            // >
+            //   {`${dialButtonVolume * 100}%`}
+            // </InputField>
+            // webphoneVolume
+          }
           {devices}
           {permission}
           <SaveButton
