@@ -55,6 +55,7 @@ import AudioSettings from 'ringcentral-integration/modules/AudioSettings';
 import Meeting from 'ringcentral-integration/modules/Meeting';
 import LocaleSettings from 'ringcentral-integration/modules/LocaleSettings';
 import ContactMatcher from 'ringcentral-integration/modules/ContactMatcher';
+import Analytics from 'ringcentral-integration/modules/Analytics';
 import { ModuleFactory } from 'ringcentral-integration/lib/di';
 import RouterInteraction from '../src/modules/RouterInteraction';
 import DialerUI from '../src/modules/DialerUI';
@@ -169,6 +170,16 @@ const sdkConfig = {
       useFactory: () => '0.1.0',
     },
     DialerUI,
+    Analytics,
+    {
+      provide: 'AnalyticsOptions',
+      useValue: {
+        appName: 'RingCentral Widgets',
+        appVersion: '0.1.0',
+        analyticsKey: 'BnyIBDFjj4oPggiCccU97IyfdTjlzJEj'
+      },
+      spread: true,
+    }
   ]
 })
 export default class Phone extends RcModule {

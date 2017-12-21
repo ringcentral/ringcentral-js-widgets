@@ -8,7 +8,7 @@ import getter from 'ringcentral-integration/lib/getter';
 import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import getModuleStatusReducer from 'ringcentral-integration/lib/getModuleStatusReducer';
 import moduleActionTypes from 'ringcentral-integration/enums/moduleActionTypes';
-import callErrors from 'ringcentral-integration/modules/Call/callErrors'
+import callErrors from 'ringcentral-integration/modules/Call/callErrors';
 
 function getToNumberFieldReducer(types) {
   return (state = '', { type, phoneNumber }) => {
@@ -77,6 +77,15 @@ export default class DialerUI extends RcModule {
       'call',
       'callError',
       'callSuccess',
+    ], 'dialerUI');
+  }
+
+  get dialerTypes() {
+    return new Enum([
+      'text',
+      'voicemail',
+      'contactDetail',
+      'callHistory',
     ], 'dialerUI');
   }
 
@@ -149,12 +158,14 @@ export default class DialerUI extends RcModule {
   async call({
     phoneNumber = '',
     recipient = null,
+    clickToDialType,
   }) {
     if (phoneNumber || recipient) {
       this.store.dispatch({
         type: this.actionTypes.call,
         phoneNumber,
         recipient,
+        clickToDialType,
       });
       try {
         await this._call.call({

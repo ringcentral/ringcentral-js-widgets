@@ -61,7 +61,7 @@ function mapToFunctions(_, {
       (recipient) => {
         if (call.isIdle) {
           routerInteraction.push(dialerRoute);
-          dialerUI.call({ recipient });
+          dialerUI.call({ recipient, clickToDialType: dialerUI.dialerTypes.contactDetail });
         }
       } :
       undefined,
@@ -80,6 +80,8 @@ function mapToFunctions(_, {
             composeText.cleanTypingToNumber();
           }
         }
+        // for track
+        contactDetails.onClickToSMS();
       } :
       undefined,
   };

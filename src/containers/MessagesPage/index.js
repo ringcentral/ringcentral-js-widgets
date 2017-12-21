@@ -107,30 +107,38 @@ function mapToFunctions(_, {
       } :
       undefined,
     onClickToDial: dialerUI ?
-      (recipient) => {
+      ({ recipient, type }) => {
         if (call.isIdle) {
           routerInteraction.push(dialerRoute);
-          dialerUI.call({ recipient });
-        }
-      } :
-      undefined,
-    onClickToSms: dialerUI ?
-      (contact, isDummyContact = false) => {
-        if (routerInteraction) {
-          routerInteraction.push(composeTextRoute);
-        }
-        // if contact autocomplete, if no match fill the number only
-        if (contact.name && contact.phoneNumber && isDummyContact) {
-          composeText.updateTypingToNumber(contact.name);
-          contactSearch.search({ searchString: contact.name });
-        } else {
-          composeText.addToNumber(contact);
-          if (composeText.typingToNumber === contact.phoneNumber) {
-            composeText.cleanTypingToNumber();
+          // for track router
+          let clickToDialType;
+          console.log(type);
+          if (type === 'VoiceMail') {
+            clickToDialType = dialerUI.dialerTypes.voicemail;
+          } else {
+            clickToDialType = dialerUI.dialerTypes.text;
           }
+          dialerUI.call({ recipient, clickToDialType });
         }
       } :
       undefined,
+    onClickToSms: (contact, isDummyContact = false) => {
+      if (routerInteraction) {
+        routerInteraction.push(composeTextRoute);
+      }
+      // if contact autocomplete, if no match fill the number only
+      if (contact.name && contact.phoneNumber && isDummyContact) {
+        composeText.updateTypingToNumber(contact.name);
+        contactSearch.search({ searchString: contact.name });
+      } else {
+        composeText.addToNumber(contact);
+        if (composeText.typingToNumber === contact.phoneNumber) {
+          composeText.cleanTypingToNumber();
+        }
+      }
+      // for track
+      messageStore.onClickToSMS();
+    },
     isLoggedContact,
     onLogConversation: onLogConversation ||
     (conversationLogger && (async ({ redirect = true, ...options }) => {
@@ -147,8 +155,8 @@ function mapToFunctions(_, {
         conversationDetailRoute.replace('{conversationId}', conversationId)
       );
     },
-    readVoicemail: conversationId =>
-      messageStore.readMessages(conversationId),
+    readVoicemail: ({ conversationId, mark = false }) =>
+      messageStore.readMessages({ conversationId, mark }),
     markVoicemail: conversationId =>
       messageStore.unreadMessage(conversationId),
     composeText: () => routerInteraction.push(composeTextRoute),

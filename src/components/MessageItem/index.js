@@ -223,8 +223,11 @@ export default class MessageItem extends Component {
 
       if (phoneNumber) {
         this.props.onClickToDial({
-          ...contact,
-          phoneNumber,
+          recipient: {
+            ...contact,
+            phoneNumber
+          },
+          type: this.props.conversation.type
         });
       }
     }
@@ -261,7 +264,7 @@ export default class MessageItem extends Component {
     if (
       this.props.conversation.unreadCounts > 0
     ) {
-      this.props.readVoicemail(this.props.conversation.conversationId);
+      this.props.readVoicemail({ conversationId: this.props.conversation.conversationId });
     }
   }
 
@@ -270,6 +273,17 @@ export default class MessageItem extends Component {
       this.props.conversation.unreadCounts === 0
     ) {
       this.props.markVoicemail(this.props.conversation.conversationId);
+    }
+  }
+
+  onUnmarkVoicemail = () => {
+    if (
+      this.props.conversation.unreadCounts > 0
+    ) {
+      this.props.readVoicemail({
+        conversationId: this.props.conversation.conversationId,
+        mark: true
+      });
     }
   }
 
@@ -426,7 +440,7 @@ export default class MessageItem extends Component {
             deleteTitle={i18n.getString('delete', currentLocale)}
             marked={unreadCounts > 0}
             onMark={isVoicemail ? this.onMarkVoicemail : undefined}
-            onUnmark={isVoicemail ? this.onPlayVoicemail : undefined}
+            onUnmark={isVoicemail ? this.onUnmarkVoicemail : undefined}
             markTitle={i18n.getString('mark', currentLocale)}
             unmarkTitle={i18n.getString('unmark', currentLocale)}
           />
@@ -453,6 +467,7 @@ MessageItem.propTypes = {
       id: PropTypes.string,
     })),
     unreadCounts: PropTypes.number.isRequired,
+    type: PropTypes.string.isRequired,
   }).isRequired,
   areaCode: PropTypes.string.isRequired,
   brand: PropTypes.string.isRequired,
