@@ -111,11 +111,7 @@ function mapToFunctions(_, {
         if (call.isIdle) {
           routerInteraction.push(dialerRoute);
           // for track router
-          let { fromType } = recipient;
-          if (recipient.fromType !== 'VoiceMail') {
-            fromType = 'Text';
-          }
-          messageStore.onClickToCall({ fromType });
+          messageStore.onClickToCall({ fromType: recipient.fromType });
           dialerUI.call({ recipient });
         }
       } :
