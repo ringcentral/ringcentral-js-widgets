@@ -72,9 +72,13 @@ function mapToFunctions(_, {
     },
     inviteWithText: (text) => {
       composeText.updateMessageText(text);
+      // for track
+      conference.onInviteWithText();
       routerInteraction.push('/composeText');
     },
     joinAsHost: (phoneNumber) => {
+      // for track
+      conference.onJoinAsHost();
       routerInteraction.history.push('/dialer');
       call.call({ phoneNumber });
     },
