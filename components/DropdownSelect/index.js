@@ -70,12 +70,12 @@ var DropdownSelect = function (_Component) {
       if (_this.props.disabled) {
         return;
       }
+      _this.props.onToggle(!_this.state.open);
       _this.setState(function (preState) {
         return {
           open: !preState.open
         };
       });
-      _this.props.onToggle(!_this.state.open);
     };
 
     _this.onChange = function (e, option, idx) {
@@ -98,6 +98,7 @@ var DropdownSelect = function (_Component) {
       if (_this.dropdownMenu && _this.dropdownMenu.contains(e.target)) {
         return;
       }
+      _this.props.onToggle(false);
       _this.setState({
         open: false
       });
