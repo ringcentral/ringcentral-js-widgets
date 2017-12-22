@@ -62,7 +62,7 @@ function mapToFunctions(_, {
         if (call.isIdle) {
           routerInteraction.push(dialerRoute);
           dialerUI.call({ recipient });
-          contactDetails.clickToCall();
+          contactDetails.onClickToCall();
         }
       } :
       undefined,

@@ -98,7 +98,7 @@ function mapToFunctions(_, {
         if (call.isIdle) {
           routerInteraction.push(dialerRoute);
           dialerUI.call({ recipient });
-          callHistory.onClickToDial();
+          callHistory.onClickToCall();
         }
       } :
       undefined,

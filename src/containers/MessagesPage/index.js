@@ -111,7 +111,11 @@ function mapToFunctions(_, {
         if (call.isIdle) {
           routerInteraction.push(dialerRoute);
           // for track router
-          messageStore.onClickToCall({ fromType: recipient.fromType });
+          let { fromType } = recipient;
+          if (recipient.fromType !== 'VoiceMail') {
+            fromType = 'Text';
+          }
+          messageStore.onClickToCall({ fromType });
           dialerUI.call({ recipient });
         }
       } :
@@ -153,9 +157,9 @@ function mapToFunctions(_, {
       messageStore.readMessages(conversationId),
     markVoicemail: conversationId =>
       messageStore.unreadMessage(conversationId),
-    unMarkVoicemail: (conversationId) => {
+    unmarkVoicemail: (conversationId) => {
       messageStore.readMessages(conversationId);
-      messageStore.unMarkMessage(conversationId);
+      messageStore.unmarkMessages();
     },
     composeText: () => routerInteraction.push(composeTextRoute),
     updateTypeFilter: type => messages.updateTypeFilter(type),

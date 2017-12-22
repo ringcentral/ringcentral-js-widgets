@@ -223,11 +223,9 @@ export default class MessageItem extends Component {
 
       if (phoneNumber) {
         this.props.onClickToDial({
-          recipient: {
-            ...contact,
-            phoneNumber,
-            fromType: this.props.conversation.type
-          },
+          ...contact,
+          phoneNumber,
+          fromType: this.props.conversation.type
         });
       }
     }
@@ -280,7 +278,7 @@ export default class MessageItem extends Component {
     if (
       this.props.conversation.unreadCounts > 0
     ) {
-      this.props.unMarkVoicemail(this.props.conversation.conversationId);
+      this.props.unmarkVoicemail(this.props.conversation.conversationId);
     }
   }
 
@@ -481,7 +479,7 @@ MessageItem.propTypes = {
   showConversationDetail: PropTypes.func.isRequired,
   readVoicemail: PropTypes.func.isRequired,
   markVoicemail: PropTypes.func.isRequired,
-  unMarkVoicemail: PropTypes.func.isRequired,
+  unmarkVoicemail: PropTypes.func.isRequired,
   autoLog: PropTypes.bool,
   enableContactFallback: PropTypes.bool,
   showContactDisplayPlaceholder: PropTypes.bool,
