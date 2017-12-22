@@ -160,10 +160,12 @@ function mapToFunctions(_, _ref2) {
     onClickToDial: dialerUI ? function (recipient) {
       if (call.isIdle) {
         routerInteraction.push(dialerRoute);
+        // for track router
+        messageStore.onClickToCall({ fromType: recipient.fromType });
         dialerUI.call({ recipient: recipient });
       }
     } : undefined,
-    onClickToSms: dialerUI ? function (contact) {
+    onClickToSms: function onClickToSms(contact) {
       var isDummyContact = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
       if (routerInteraction) {
@@ -179,7 +181,9 @@ function mapToFunctions(_, _ref2) {
           composeText.cleanTypingToNumber();
         }
       }
-    } : undefined,
+      // for track
+      messageStore.onClickToSMS();
+    },
     isLoggedContact: isLoggedContact,
     onLogConversation: onLogConversation || conversationLogger && function () {
       var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(_ref7) {
@@ -218,6 +222,10 @@ function mapToFunctions(_, _ref2) {
     },
     markVoicemail: function markVoicemail(conversationId) {
       return messageStore.unreadMessage(conversationId);
+    },
+    unmarkVoicemail: function unmarkVoicemail(conversationId) {
+      messageStore.readMessages(conversationId);
+      messageStore.unmarkMessages();
     },
     composeText: function composeText() {
       return routerInteraction.push(composeTextRoute);

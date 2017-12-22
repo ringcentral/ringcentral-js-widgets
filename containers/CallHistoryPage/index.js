@@ -73,6 +73,7 @@ function mapToFunctions(_, _ref2) {
       composeText = _ref2$phone.composeText,
       routerInteraction = _ref2$phone.routerInteraction,
       contactSearch = _ref2$phone.contactSearch,
+      callHistory = _ref2$phone.callHistory,
       onCreateContact = _ref2.onCreateContact,
       _ref2$dateTimeFormatt = _ref2.dateTimeFormatter,
       dateTimeFormatter = _ref2$dateTimeFormatt === undefined ? function (_ref3) {
@@ -145,6 +146,7 @@ function mapToFunctions(_, _ref2) {
       if (call.isIdle) {
         routerInteraction.push(dialerRoute);
         dialerUI.call({ recipient: recipient });
+        callHistory.onClickToCall();
       }
     } : undefined,
     onClickToSms: composeText ? function () {
@@ -167,8 +169,9 @@ function mapToFunctions(_, _ref2) {
                     composeText.cleanTypingToNumber();
                   }
                 }
+                callHistory.onClickToSMS();
 
-              case 2:
+              case 3:
               case 'end':
                 return _context2.stop();
             }

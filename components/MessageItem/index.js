@@ -184,7 +184,8 @@ var MessageItem = function (_Component) {
 
         if (phoneNumber) {
           _this.props.onClickToDial((0, _extends3.default)({}, contact, {
-            phoneNumber: phoneNumber
+            phoneNumber: phoneNumber,
+            fromType: _this.props.conversation.type
           }));
         }
       }
@@ -224,6 +225,12 @@ var MessageItem = function (_Component) {
     _this.onMarkVoicemail = function () {
       if (_this.props.conversation.unreadCounts === 0) {
         _this.props.markVoicemail(_this.props.conversation.conversationId);
+      }
+    };
+
+    _this.onUnmarkVoicemail = function () {
+      if (_this.props.conversation.unreadCounts > 0) {
+        _this.props.unmarkVoicemail(_this.props.conversation.conversationId);
       }
     };
 
@@ -569,7 +576,7 @@ var MessageItem = function (_Component) {
             deleteTitle: _i18n2.default.getString('delete', currentLocale),
             marked: unreadCounts > 0,
             onMark: isVoicemail ? this.onMarkVoicemail : undefined,
-            onUnmark: isVoicemail ? this.onPlayVoicemail : undefined,
+            onUnmark: isVoicemail ? this.onUnmarkVoicemail : undefined,
             markTitle: _i18n2.default.getString('mark', currentLocale),
             unmarkTitle: _i18n2.default.getString('unmark', currentLocale)
           })
@@ -599,7 +606,8 @@ MessageItem.propTypes = {
     conversationMatches: _propTypes2.default.arrayOf(_propTypes2.default.shape({
       id: _propTypes2.default.string
     })),
-    unreadCounts: _propTypes2.default.number.isRequired
+    unreadCounts: _propTypes2.default.number.isRequired,
+    type: _propTypes2.default.string.isRequired
   }).isRequired,
   areaCode: _propTypes2.default.string.isRequired,
   brand: _propTypes2.default.string.isRequired,
@@ -616,6 +624,7 @@ MessageItem.propTypes = {
   showConversationDetail: _propTypes2.default.func.isRequired,
   readVoicemail: _propTypes2.default.func.isRequired,
   markVoicemail: _propTypes2.default.func.isRequired,
+  unmarkVoicemail: _propTypes2.default.func.isRequired,
   autoLog: _propTypes2.default.bool,
   enableContactFallback: _propTypes2.default.bool,
   showContactDisplayPlaceholder: _propTypes2.default.bool,

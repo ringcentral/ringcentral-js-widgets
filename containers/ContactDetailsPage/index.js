@@ -90,6 +90,7 @@ function mapToFunctions(_, _ref2) {
       if (call.isIdle) {
         routerInteraction.push(dialerRoute);
         dialerUI.call({ recipient: recipient });
+        contactDetails.onClickToCall();
       }
     } : undefined,
     onClickToSMS: composeText ? function () {
@@ -112,8 +113,10 @@ function mapToFunctions(_, _ref2) {
                     composeText.cleanTypingToNumber();
                   }
                 }
+                // for track
+                contactDetails.onClickToSMS();
 
-              case 2:
+              case 3:
               case 'end':
                 return _context.stop();
             }
