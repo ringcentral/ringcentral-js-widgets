@@ -89,7 +89,7 @@ class RecipientsInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: '',
+      value: props.value,
       isFocusOnInput: false,
       selectedContactIndex: 0,
       scrollDirection: null,
