@@ -23,10 +23,10 @@ class DropdownSelect extends Component {
     if (this.props.disabled) {
       return;
     }
+    this.props.onToggle(!this.state.open);
     this.setState(preState => ({
       open: !preState.open,
     }));
-    this.props.onToggle(!this.state.open);
   }
 
   onChange = (e, option, idx) => {
@@ -49,6 +49,7 @@ class DropdownSelect extends Component {
     if (this.dropdownMenu && this.dropdownMenu.contains(e.target)) {
       return;
     }
+    this.props.onToggle(false);
     this.setState({
       open: false,
     });
