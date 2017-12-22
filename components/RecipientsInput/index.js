@@ -194,7 +194,7 @@ var RecipientsInput = function (_Component) {
     };
 
     _this.state = {
-      value: '',
+      value: props.value,
       isFocusOnInput: false,
       selectedContactIndex: 0,
       scrollDirection: null
