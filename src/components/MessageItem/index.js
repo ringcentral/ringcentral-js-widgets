@@ -225,6 +225,7 @@ export default class MessageItem extends Component {
         this.props.onClickToDial({
           ...contact,
           phoneNumber,
+          fromType: this.props.conversation.type
         });
       }
     }
@@ -270,6 +271,14 @@ export default class MessageItem extends Component {
       this.props.conversation.unreadCounts === 0
     ) {
       this.props.markVoicemail(this.props.conversation.conversationId);
+    }
+  }
+
+  onUnmarkVoicemail = () => {
+    if (
+      this.props.conversation.unreadCounts > 0
+    ) {
+      this.props.unmarkVoicemail(this.props.conversation.conversationId);
     }
   }
 
@@ -426,7 +435,7 @@ export default class MessageItem extends Component {
             deleteTitle={i18n.getString('delete', currentLocale)}
             marked={unreadCounts > 0}
             onMark={isVoicemail ? this.onMarkVoicemail : undefined}
-            onUnmark={isVoicemail ? this.onPlayVoicemail : undefined}
+            onUnmark={isVoicemail ? this.onUnmarkVoicemail : undefined}
             markTitle={i18n.getString('mark', currentLocale)}
             unmarkTitle={i18n.getString('unmark', currentLocale)}
           />
@@ -453,6 +462,7 @@ MessageItem.propTypes = {
       id: PropTypes.string,
     })),
     unreadCounts: PropTypes.number.isRequired,
+    type: PropTypes.string.isRequired,
   }).isRequired,
   areaCode: PropTypes.string.isRequired,
   brand: PropTypes.string.isRequired,
@@ -469,6 +479,7 @@ MessageItem.propTypes = {
   showConversationDetail: PropTypes.func.isRequired,
   readVoicemail: PropTypes.func.isRequired,
   markVoicemail: PropTypes.func.isRequired,
+  unmarkVoicemail: PropTypes.func.isRequired,
   autoLog: PropTypes.bool,
   enableContactFallback: PropTypes.bool,
   showContactDisplayPlaceholder: PropTypes.bool,

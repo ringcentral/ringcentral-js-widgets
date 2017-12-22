@@ -110,27 +110,29 @@ function mapToFunctions(_, {
       (recipient) => {
         if (call.isIdle) {
           routerInteraction.push(dialerRoute);
+          // for track router
+          messageStore.onClickToCall({ fromType: recipient.fromType });
           dialerUI.call({ recipient });
         }
       } :
       undefined,
-    onClickToSms: dialerUI ?
-      (contact, isDummyContact = false) => {
-        if (routerInteraction) {
-          routerInteraction.push(composeTextRoute);
+    onClickToSms: (contact, isDummyContact = false) => {
+      if (routerInteraction) {
+        routerInteraction.push(composeTextRoute);
+      }
+      // if contact autocomplete, if no match fill the number only
+      if (contact.name && contact.phoneNumber && isDummyContact) {
+        composeText.updateTypingToNumber(contact.name);
+        contactSearch.search({ searchString: contact.name });
+      } else {
+        composeText.addToNumber(contact);
+        if (composeText.typingToNumber === contact.phoneNumber) {
+          composeText.cleanTypingToNumber();
         }
-        // if contact autocomplete, if no match fill the number only
-        if (contact.name && contact.phoneNumber && isDummyContact) {
-          composeText.updateTypingToNumber(contact.name);
-          contactSearch.search({ searchString: contact.name });
-        } else {
-          composeText.addToNumber(contact);
-          if (composeText.typingToNumber === contact.phoneNumber) {
-            composeText.cleanTypingToNumber();
-          }
-        }
-      } :
-      undefined,
+      }
+      // for track
+      messageStore.onClickToSMS();
+    },
     isLoggedContact,
     onLogConversation: onLogConversation ||
     (conversationLogger && (async ({ redirect = true, ...options }) => {
@@ -151,6 +153,10 @@ function mapToFunctions(_, {
       messageStore.readMessages(conversationId),
     markVoicemail: conversationId =>
       messageStore.unreadMessage(conversationId),
+    unmarkVoicemail: (conversationId) => {
+      messageStore.readMessages(conversationId);
+      messageStore.unmarkMessages();
+    },
     composeText: () => routerInteraction.push(composeTextRoute),
     updateTypeFilter: type => messages.updateTypeFilter(type),
     deleteMessage: (conversationId) => {

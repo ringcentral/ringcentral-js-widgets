@@ -8,7 +8,7 @@ import getter from 'ringcentral-integration/lib/getter';
 import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import getModuleStatusReducer from 'ringcentral-integration/lib/getModuleStatusReducer';
 import moduleActionTypes from 'ringcentral-integration/enums/moduleActionTypes';
-import callErrors from 'ringcentral-integration/modules/Call/callErrors'
+import callErrors from 'ringcentral-integration/modules/Call/callErrors';
 
 function getToNumberFieldReducer(types) {
   return (state = '', { type, phoneNumber }) => {
@@ -79,6 +79,7 @@ export default class DialerUI extends RcModule {
       'callSuccess',
     ], 'dialerUI');
   }
+
 
   get reducer() {
     return combineReducers({
