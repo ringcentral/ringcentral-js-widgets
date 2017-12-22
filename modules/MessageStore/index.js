@@ -1094,35 +1094,39 @@ var MessageStore = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context18.prev = _context18.next) {
               case 0:
-                _context18.prev = 0;
-                _context18.next = 3;
+                //  for track mark message
+                this.store.dispatch({
+                  type: this.actionTypes.markMessages
+                });
+                _context18.prev = 1;
+                _context18.next = 4;
                 return this._updateMessageApi(messageId, 'Unread');
 
-              case 3:
+              case 4:
                 message = _context18.sent;
 
                 this.store.dispatch({
                   type: this.actionTypes.updateMessages,
                   records: [message]
                 });
-                _context18.next = 11;
+                _context18.next = 12;
                 break;
 
-              case 7:
-                _context18.prev = 7;
-                _context18.t0 = _context18['catch'](0);
+              case 8:
+                _context18.prev = 8;
+                _context18.t0 = _context18['catch'](1);
 
                 console.error(_context18.t0);
                 this._alert.warning({
                   message: _messageStoreErrors2.default.unreadFailed
                 });
 
-              case 11:
+              case 12:
               case 'end':
                 return _context18.stop();
             }
           }
-        }, _callee18, this, [[0, 7]]);
+        }, _callee18, this, [[1, 8]]);
       }));
 
       function unreadMessage(_x14) {
@@ -1131,16 +1135,45 @@ var MessageStore = (_dec = (0, _di.Module)({
 
       return unreadMessage;
     }()
+
+    // for track mark message
+
   }, {
-    key: 'deleteMessage',
+    key: 'unmarkMessages',
     value: function () {
-      var _ref22 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee19(messageId) {
+      var _ref22 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee19() {
         return _regenerator2.default.wrap(function _callee19$(_context19) {
           while (1) {
             switch (_context19.prev = _context19.next) {
               case 0:
-                _context19.prev = 0;
-                _context19.next = 3;
+                this.store.dispatch({
+                  type: this.actionTypes.markMessages
+                });
+
+              case 1:
+              case 'end':
+                return _context19.stop();
+            }
+          }
+        }, _callee19, this);
+      }));
+
+      function unmarkMessages() {
+        return _ref22.apply(this, arguments);
+      }
+
+      return unmarkMessages;
+    }()
+  }, {
+    key: 'deleteMessage',
+    value: function () {
+      var _ref23 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee20(messageId) {
+        return _regenerator2.default.wrap(function _callee20$(_context20) {
+          while (1) {
+            switch (_context20.prev = _context20.next) {
+              case 0:
+                _context20.prev = 0;
+                _context20.next = 3;
                 return this._deleteMessageApi(messageId);
 
               case 3:
@@ -1149,28 +1182,28 @@ var MessageStore = (_dec = (0, _di.Module)({
                   conversationId: messageId,
                   messageId: messageId
                 });
-                _context19.next = 10;
+                _context20.next = 10;
                 break;
 
               case 6:
-                _context19.prev = 6;
-                _context19.t0 = _context19['catch'](0);
+                _context20.prev = 6;
+                _context20.t0 = _context20['catch'](0);
 
-                console.error(_context19.t0);
+                console.error(_context20.t0);
                 this._alert.warning({
                   message: _messageStoreErrors2.default.deleteFailed
                 });
 
               case 10:
               case 'end':
-                return _context19.stop();
+                return _context20.stop();
             }
           }
-        }, _callee19, this, [[0, 6]]);
+        }, _callee20, this, [[0, 6]]);
       }));
 
       function deleteMessage(_x15) {
-        return _ref22.apply(this, arguments);
+        return _ref23.apply(this, arguments);
       }
 
       return deleteMessage;
@@ -1188,42 +1221,15 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: 'updateConversationRecipientList',
     value: function () {
-      var _ref23 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee20(conversationId, recipients) {
-        return _regenerator2.default.wrap(function _callee20$(_context20) {
-          while (1) {
-            switch (_context20.prev = _context20.next) {
-              case 0:
-                this.store.dispatch({
-                  type: this.actionTypes.updateConversationRecipients,
-                  conversationId: conversationId,
-                  recipients: recipients
-                });
-
-              case 1:
-              case 'end':
-                return _context20.stop();
-            }
-          }
-        }, _callee20, this);
-      }));
-
-      function updateConversationRecipientList(_x16, _x17) {
-        return _ref23.apply(this, arguments);
-      }
-
-      return updateConversationRecipientList;
-    }()
-  }, {
-    key: 'pushMessages',
-    value: function () {
-      var _ref24 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee21(records) {
+      var _ref24 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee21(conversationId, recipients) {
         return _regenerator2.default.wrap(function _callee21$(_context21) {
           while (1) {
             switch (_context21.prev = _context21.next) {
               case 0:
                 this.store.dispatch({
-                  type: this.actionTypes.updateMessages,
-                  records: records
+                  type: this.actionTypes.updateConversationRecipients,
+                  conversationId: conversationId,
+                  recipients: recipients
                 });
 
               case 1:
@@ -1234,8 +1240,35 @@ var MessageStore = (_dec = (0, _di.Module)({
         }, _callee21, this);
       }));
 
-      function pushMessages(_x18) {
+      function updateConversationRecipientList(_x16, _x17) {
         return _ref24.apply(this, arguments);
+      }
+
+      return updateConversationRecipientList;
+    }()
+  }, {
+    key: 'pushMessages',
+    value: function () {
+      var _ref25 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee22(records) {
+        return _regenerator2.default.wrap(function _callee22$(_context22) {
+          while (1) {
+            switch (_context22.prev = _context22.next) {
+              case 0:
+                this.store.dispatch({
+                  type: this.actionTypes.updateMessages,
+                  records: records
+                });
+
+              case 1:
+              case 'end':
+                return _context22.stop();
+            }
+          }
+        }, _callee22, this);
+      }));
+
+      function pushMessages(_x18) {
+        return _ref25.apply(this, arguments);
       }
 
       return pushMessages;
@@ -1244,6 +1277,30 @@ var MessageStore = (_dec = (0, _di.Module)({
     key: 'pushMessage',
     value: function pushMessage(record) {
       this.pushMessages([record]);
+    }
+
+    // for track click to sms in message list
+
+  }, {
+    key: 'onClickToSMS',
+    value: function onClickToSMS() {
+      this.store.dispatch({
+        type: this.actionTypes.clickToSMS
+      });
+    }
+
+    // for track click to call in message list
+
+  }, {
+    key: 'onClickToCall',
+    value: function onClickToCall(_ref26) {
+      var _ref26$fromType = _ref26.fromType,
+          fromType = _ref26$fromType === undefined ? '' : _ref26$fromType;
+
+      this.store.dispatch({
+        type: this.actionTypes.clickToCall,
+        fromType: fromType
+      });
     }
   }, {
     key: 'cache',
@@ -1355,6 +1412,6 @@ var MessageStore = (_dec = (0, _di.Module)({
     }
   }]);
   return MessageStore;
-}(_Pollable3.default), (_applyDecoratedDescriptor(_class2.prototype, 'fetchData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'fetchData'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'syncConversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'syncConversation'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'readMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'readMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unreadMessage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unreadMessage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'deleteMessage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'deleteMessage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateConversationRecipientList', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateConversationRecipientList'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'pushMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'pushMessages'), _class2.prototype)), _class2)) || _class);
+}(_Pollable3.default), (_applyDecoratedDescriptor(_class2.prototype, 'fetchData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'fetchData'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'syncConversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'syncConversation'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'readMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'readMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unreadMessage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unreadMessage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unmarkMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unmarkMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'deleteMessage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'deleteMessage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateConversationRecipientList', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateConversationRecipientList'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'pushMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'pushMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onClickToSMS', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onClickToSMS'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onClickToCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onClickToCall'), _class2.prototype)), _class2)) || _class);
 exports.default = MessageStore;
 //# sourceMappingURL=index.js.map

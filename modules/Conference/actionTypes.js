@@ -22,5 +22,5 @@ var _moduleActionTypes2 = _interopRequireDefault(_moduleActionTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)(_moduleActionTypes2.default)), ['fetch', 'fetchSuccess', 'fetchError', 'updateDialInNumber', 'updateAdditionalNumbers']), 'conference');
+exports.default = new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)(_moduleActionTypes2.default)), ['fetch', 'fetchSuccess', 'fetchError', 'updateDialInNumber', 'updateAdditionalNumbers', 'inviteWithText', 'joinAsHost']), 'conference');
 //# sourceMappingURL=actionTypes.js.map

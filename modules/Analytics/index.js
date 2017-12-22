@@ -78,7 +78,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @description Analytics module.
  */
 var Analytics = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Call', 'Webphone', 'Contacts', 'MessageSender', { dep: 'RouterInteraction', optional: true }, { dep: 'AnalyticsAdapter', optional: true }, { dep: 'AnalyticsOptions', optional: true }]
+  deps: ['Auth', 'Call', 'Webphone', 'Contacts', 'MessageSender', 'MessageStore', 'ContactDetails', 'CallHistory', 'Conference', { dep: 'RouterInteraction', optional: true }, { dep: 'AnalyticsAdapter', optional: true }, { dep: 'AnalyticsOptions', optional: true }]
 }), _dec(_class = function (_RcModule) {
   (0, _inherits3.default)(Analytics, _RcModule);
 
@@ -94,7 +94,11 @@ var Analytics = (_dec = (0, _di.Module)({
         appName = _ref.appName,
         appVersion = _ref.appVersion,
         brandCode = _ref.brandCode,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'call', 'webphone', 'contacts', 'messageSender', 'adapter', 'routerInteraction', 'analyticsKey', 'appName', 'appVersion', 'brandCode']);
+        messageStore = _ref.messageStore,
+        contactDetails = _ref.contactDetails,
+        callHistory = _ref.callHistory,
+        conference = _ref.conference,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'call', 'webphone', 'contacts', 'messageSender', 'adapter', 'routerInteraction', 'analyticsKey', 'appName', 'appVersion', 'brandCode', 'messageStore', 'contactDetails', 'callHistory', 'conference']);
     (0, _classCallCheck3.default)(this, Analytics);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Analytics.__proto__ || (0, _getPrototypeOf2.default)(Analytics)).call(this, (0, _extends3.default)({}, options, {
@@ -112,6 +116,10 @@ var Analytics = (_dec = (0, _di.Module)({
     _this._appName = appName;
     _this._appVersion = appVersion;
     _this._brandCode = brandCode;
+    _this._messageStore = messageStore;
+    _this._contactDetails = contactDetails;
+    _this._callHistory = callHistory;
+    _this._conference = conference;
     _this._reducer = (0, _getAnalyticsReducer2.default)(_this.actionTypes);
     _this._segment = (0, _Analytics.Segment)();
     return _this;
@@ -209,7 +217,7 @@ var Analytics = (_dec = (0, _di.Module)({
 
               case 3:
                 this.lastActions.forEach(function (action) {
-                  ['_authentication', '_logout', '_callAttempt', '_callConnected', '_webRTCRegistration', '_smsAttempt', '_smsSent', '_logCall', '_logSMS', '_clickToDial', '_clickToSMS', '_viewEntity', '_createEntity', '_editCallLog', '_editSMSLog', '_navigate', '_inboundCall', '_coldTransfer'].forEach(function (key) {
+                  ['_authentication', '_logout', '_callAttempt', '_callConnected', '_webRTCRegistration', '_smsAttempt', '_smsSent', '_logCall', '_logSMS', '_clickToDial', '_clickToSMS', '_viewEntity', '_createEntity', '_editCallLog', '_editSMSLog', '_navigate', '_inboundCall', '_coldTransfer', '_textClickToDial', '_voicemailClickToDial', '_voicemailClickToSMS', '_voicemailDelete', '_voicemailFlag', '_contactDetailClickToDial', '_contactDetailClickToSMS', '_callHistoryClickToDial', '_callHistoryClickToSMS', '_conferenceInviteWithText', '_conferenceAddDialInNumber', '_conferenceJoinAsHost'].forEach(function (key) {
                     _this3[key](action);
                   });
                 });
@@ -378,6 +386,90 @@ var Analytics = (_dec = (0, _di.Module)({
       }
     }
   }, {
+    key: '_textClickToDial',
+    value: function _textClickToDial(action) {
+      if (this._messageStore && this._messageStore.actionTypes.clickToCall === action.type && (action.fromType === 'Pager' || action.fromType === 'SMS')) {
+        this.track('Click To Dial (Text List)');
+      }
+    }
+  }, {
+    key: '_voicemailClickToDial',
+    value: function _voicemailClickToDial(action) {
+      if (this._messageStore && this._messageStore.actionTypes.clickToCall === action.type && action.fromType === 'VoiceMail') {
+        this.track('Click To Dial (Voicemail List)');
+      }
+    }
+  }, {
+    key: '_voicemailClickToSMS',
+    value: function _voicemailClickToSMS(action) {
+      if (this._messageStore && this._messageStore.actionTypes.clickToSMS === action.type) {
+        this.track('Click to SMS (Voicemail List)');
+      }
+    }
+  }, {
+    key: '_voicemailDelete',
+    value: function _voicemailDelete(action) {
+      if (this._messageStore && this._messageStore.actionTypes.removeMessage === action.type) {
+        this.track('Delete Voicemail');
+      }
+    }
+  }, {
+    key: '_voicemailFlag',
+    value: function _voicemailFlag(action) {
+      if (this._messageStore && this._messageStore.actionTypes.markMessages === action.type) {
+        this.track('Flag Voicemail');
+      }
+    }
+  }, {
+    key: '_contactDetailClickToDial',
+    value: function _contactDetailClickToDial(action) {
+      if (this._contactDetails && this._contactDetails.actionTypes.clickToCall === action.type) {
+        this.track('Click To Dial (Contact Details)');
+      }
+    }
+  }, {
+    key: '_contactDetailClickToSMS',
+    value: function _contactDetailClickToSMS(action) {
+      if (this._contactDetails && this._contactDetails.actionTypes.clickToSMS === action.type) {
+        this.track('Click To SMS (Contact Details)');
+      }
+    }
+  }, {
+    key: '_callHistoryClickToDial',
+    value: function _callHistoryClickToDial(action) {
+      if (this._callHistory && this._callHistory.actionTypes.clickToCall === action.type) {
+        this.track('Click To dial (Call History)');
+      }
+    }
+  }, {
+    key: '_callHistoryClickToSMS',
+    value: function _callHistoryClickToSMS(action) {
+      if (this._callHistory && this._callHistory.actionTypes.clickToSMS === action.type) {
+        this.track('Click To SMS (Call History)');
+      }
+    }
+  }, {
+    key: '_conferenceInviteWithText',
+    value: function _conferenceInviteWithText(action) {
+      if (this._conference && this._conference.actionTypes.inviteWithText === action.type) {
+        this.track('Invite With Text (Conference)');
+      }
+    }
+  }, {
+    key: '_conferenceAddDialInNumber',
+    value: function _conferenceAddDialInNumber(action) {
+      if (this._conference && this._conference.actionTypes.updateAdditionalNumbers === action.type) {
+        this.track('Select Additional Dial-in Number (Conference)');
+      }
+    }
+  }, {
+    key: '_conferenceJoinAsHost',
+    value: function _conferenceJoinAsHost(action) {
+      if (this._conference && this._conference.actionTypes.joinAsHost === action.type) {
+        this.track('Join As Host (Conference)');
+      }
+    }
+  }, {
     key: '_getTrackTarget',
     value: function _getTrackTarget(path) {
       if (path) {
@@ -386,7 +478,7 @@ var Analytics = (_dec = (0, _di.Module)({
 
         var targets = [{
           eventPostfix: 'Dialer',
-          router: '/'
+          router: '/dialer'
         }, {
           eventPostfix: 'Compose SMS',
           router: '/composeText'

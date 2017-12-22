@@ -265,6 +265,25 @@ var Conference = (_dec = (0, _di.Module)({
     value: function updateAdditionalNumbers(additionalNumbers) {
       this._store.dispatch({ type: this.actionTypes.updateAdditionalNumbers, additionalNumbers: additionalNumbers });
     }
+
+    // for track invite with text
+
+  }, {
+    key: 'onInviteWithText',
+    value: function onInviteWithText() {
+      this.store.dispatch({
+        type: this.actionTypes.inviteWithText
+      });
+    }
+    // for track join as host
+
+  }, {
+    key: 'onJoinAsHost',
+    value: function onJoinAsHost() {
+      this.store.dispatch({
+        type: this.actionTypes.joinAsHost
+      });
+    }
   }, {
     key: '_shouldFetch',
     value: function _shouldFetch() {
@@ -282,6 +301,6 @@ var Conference = (_dec = (0, _di.Module)({
     }
   }]);
   return Conference;
-}(_DataFetcher3.default), (_applyDecoratedDescriptor(_class2.prototype, 'updateEnableJoinBeforeHost', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateEnableJoinBeforeHost'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateDialInNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateDialInNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateAdditionalNumbers', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateAdditionalNumbers'), _class2.prototype)), _class2)) || _class);
+}(_DataFetcher3.default), (_applyDecoratedDescriptor(_class2.prototype, 'updateEnableJoinBeforeHost', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateEnableJoinBeforeHost'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateDialInNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateDialInNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateAdditionalNumbers', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateAdditionalNumbers'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onInviteWithText', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onInviteWithText'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onJoinAsHost', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onJoinAsHost'), _class2.prototype)), _class2)) || _class);
 exports.default = Conference;
 //# sourceMappingURL=index.js.map

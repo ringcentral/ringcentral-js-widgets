@@ -13,6 +13,10 @@ var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
+var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+
+var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -85,6 +89,10 @@ var _getter = require('../../lib/getter');
 
 var _getter2 = _interopRequireDefault(_getter);
 
+var _proxify = require('../../lib/proxy/proxify');
+
+var _proxify2 = _interopRequireDefault(_proxify);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _initDefineProp(target, property, descriptor, context) {
@@ -95,6 +103,10 @@ function _initDefineProp(target, property, descriptor, context) {
     writable: descriptor.writable,
     value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
   });
+}
+
+function _initializerWarningHelper(descriptor, context) {
+  throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
 }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
@@ -124,10 +136,6 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
   }
 
   return desc;
-}
-
-function _initializerWarningHelper(descriptor, context) {
-  throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
 }
 
 /**
@@ -374,6 +382,25 @@ var CallHistory = (_dec = (0, _di.Module)({
         endedCalls: endedCalls
       });
     }
+
+    // for track click to sms in call history
+
+  }, {
+    key: 'onClickToSMS',
+    value: function onClickToSMS() {
+      this.store.dispatch({
+        type: this.actionTypes.clickToSMS
+      });
+    }
+    // for track click to call in call history
+
+  }, {
+    key: 'onClickToCall',
+    value: function onClickToCall() {
+      this.store.dispatch({
+        type: this.actionTypes.clickToCall
+      });
+    }
   }, {
     key: '_actionTypes',
     get: function get() {
@@ -401,7 +428,7 @@ var CallHistory = (_dec = (0, _di.Module)({
     }
   }]);
   return CallHistory;
-}(_RcModule3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'normalizedCalls', [_getter2.default], {
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'onClickToSMS', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onClickToSMS'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onClickToCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onClickToCall'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'normalizedCalls', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
     var _this3 = this;

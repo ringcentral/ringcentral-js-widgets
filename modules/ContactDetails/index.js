@@ -189,6 +189,26 @@ var ContactDetails = (_dec = (0, _di.Module)({
     value: function getPresence(contact) {
       return this._contacts.getPresence(contact, false);
     }
+
+    // for track click to sms in contact detail
+
+  }, {
+    key: 'onClickToSMS',
+    value: function onClickToSMS() {
+      this.store.dispatch({
+        type: this.actionTypes.clickToSMS
+      });
+    }
+
+    // for track click to call in contact detail
+
+  }, {
+    key: 'onClickToCall',
+    value: function onClickToCall() {
+      this.store.dispatch({
+        type: this.actionTypes.clickToCall
+      });
+    }
   }, {
     key: 'contact',
     get: function get() {
@@ -206,6 +226,6 @@ var ContactDetails = (_dec = (0, _di.Module)({
     }
   }]);
   return ContactDetails;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'find', [_background2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'find'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'clear', [_background2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'clear'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProfileImage', [_background2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getProfileImage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getPresence', [_background2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getPresence'), _class2.prototype)), _class2)) || _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'find', [_background2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'find'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'clear', [_background2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'clear'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProfileImage', [_background2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getProfileImage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getPresence', [_background2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getPresence'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onClickToSMS', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onClickToSMS'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onClickToCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onClickToCall'), _class2.prototype)), _class2)) || _class);
 exports.default = ContactDetails;
 //# sourceMappingURL=index.js.map
