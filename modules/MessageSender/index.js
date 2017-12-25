@@ -676,7 +676,7 @@ var MessageSender = (_dec = (0, _di.Module)({
       var _this4 = this;
 
       var errResp = error.apiResponse;
-      if (errResp && errResp.response && !errResp.response.ok && (errResp._json.errorCode === 'InvalidParameter' || errResp._json.errorCode === 'InternationalProhibited')) {
+      if (errResp && errResp.response && !errResp.response.ok && (errResp._json.errorCode === 'InvalidParameter' || errResp._json.errorCode === 'InternationalProhibited' || errResp._json.errorCode === 'CMN-408')) {
         errResp._json.errors.map(function (err) {
           if ((err.errorCode === 'CMN-101' || err.errorCode === 'CMN-102' || err.errorCode === 'CMN-414') && err.parameterName.startsWith('to')) {
             // 101 : "Parameter [to.extensionNumber] value is invalid"
@@ -692,6 +692,10 @@ var MessageSender = (_dec = (0, _di.Module)({
           if (err.errorCode === 'MSG-240') {
             // MSG-240 : "International SMS is not supported"
             _this4._alertWarning(_messageSenderMessages2.default.internationalSMSNotSupported);
+          }
+          if (err.errorCode === 'CMN-408') {
+            // MSG-240 : "In order to call this API endpoint, user needs to have [InternalSMS] permission for requested resource."
+            _this4._alertWarning(_messageSenderMessages2.default.noInternalSMSPermission);
           }
           return null;
         });
