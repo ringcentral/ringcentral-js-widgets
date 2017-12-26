@@ -65,6 +65,10 @@ var _url = require('url');
 
 var _url2 = _interopRequireDefault(_url);
 
+var _uuid = require('uuid');
+
+var _uuid2 = _interopRequireDefault(_uuid);
+
 var _actionTypes = require('./actionTypes');
 
 var _actionTypes2 = _interopRequireDefault(_actionTypes);
@@ -136,16 +140,16 @@ var ProxyFrameOAuth = (_dec = (0, _di.Module)({
       var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(_ref3) {
         var origin = _ref3.origin,
             data = _ref3.data;
-        var callbackUri, proxyLoaded, fromLocalStorage;
+        var callbackUri, proxyLoaded;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 // TODO origin check
                 if (data) {
-                  callbackUri = data.callbackUri, proxyLoaded = data.proxyLoaded, fromLocalStorage = data.fromLocalStorage;
+                  callbackUri = data.callbackUri, proxyLoaded = data.proxyLoaded;
 
-                  if (callbackUri && (fromLocalStorage !== true || !_this._tabManager || _this._tabManager.active)) {
+                  if (callbackUri) {
                     _this._handleCallbackUri(callbackUri);
                   } else if (proxyLoaded) {
                     clearTimeout(_this._retryTimeoutId);
@@ -181,6 +185,7 @@ var ProxyFrameOAuth = (_dec = (0, _di.Module)({
       }, _this._defaultProxyRetry);
     };
 
+    _this._uuid = _uuid2.default.v4();
     _this._proxyUri = (0, _ensureExist2.default)(proxyUri, 'proxyUri');
     _this._defaultProxyRetry = defaultProxyRetry;
 
@@ -291,7 +296,7 @@ var ProxyFrameOAuth = (_dec = (0, _di.Module)({
   }, {
     key: 'proxyUri',
     get: function get() {
-      return _url2.default.resolve(window.location.href, this._proxyUri);
+      return _url2.default.resolve(window.location.href, this._proxyUri) + '?uuid=' + this._uuid;
     }
   }, {
     key: 'proxyRetryCount',

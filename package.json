@@ -102,6 +102,7 @@
     "react-svg-loader": "^1.1.1",
     "react-widgets": "^4.1.1",
     "react-widgets-moment": "^4.0.4",
-    "through2": "^2.0.3"
+    "through2": "^2.0.3",
+    "uuid": "^3.1.0"
   }
 }
