@@ -3,6 +3,7 @@ import proxify from 'ringcentral-integration/lib/proxy/proxify';
 import { Module } from 'ringcentral-integration/lib/di';
 import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import url from 'url';
+import uuid from 'uuid';
 import actionTypes from './actionTypes';
 import getProxyFrameOAuthReducer from './getProxyFrameOAuthReducer';
 
@@ -27,6 +28,7 @@ export default class ProxyFrameOAuth extends OAuthBase {
       redirectUri,
       ...options,
     });
+    this._uuid = uuid.v4();
     this._proxyUri = ensureExist(proxyUri, 'proxyUri');
     this._defaultProxyRetry = defaultProxyRetry;
 
@@ -42,7 +44,7 @@ export default class ProxyFrameOAuth extends OAuthBase {
   }
 
   get proxyUri() {
-    return url.resolve(window.location.href, this._proxyUri);
+    return `${url.resolve(window.location.href, this._proxyUri)}?uuid=${this._uuid}`;
   }
 
   get proxyRetryCount() {
@@ -55,14 +57,9 @@ export default class ProxyFrameOAuth extends OAuthBase {
       const {
         callbackUri,
         proxyLoaded,
-        fromLocalStorage,
       } = data;
       if (
-        callbackUri &&
-        (
-          fromLocalStorage !== true ||
-          (!this._tabManager || this._tabManager.active)
-        )
+        callbackUri
       ) {
         this._handleCallbackUri(callbackUri);
       } else if (proxyLoaded) {
