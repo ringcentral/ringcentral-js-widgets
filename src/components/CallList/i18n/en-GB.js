@@ -1,6 +1,6 @@
 export default {
   noActiveCalls: 'No active calls',
-  noRecords: 'No records',
+  noRecords: 'No records.',
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
