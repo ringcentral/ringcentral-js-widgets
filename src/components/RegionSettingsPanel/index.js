@@ -58,8 +58,9 @@ export default class RegionSettings extends Component {
   }
   onSaveClick = () => {
     if (typeof this.props.onSave === 'function') {
+      const showAreaCode = ['CA', 'US'].includes(this.state.countryCodeValue);
       this.props.onSave({
-        areaCode: this.state.areaCodeValue,
+        areaCode: showAreaCode ? this.state.areaCodeValue : undefined,
         countryCode: this.state.countryCodeValue,
       });
     }
