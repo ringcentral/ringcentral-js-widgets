@@ -141,7 +141,9 @@ var ContactSourceFilter = function (_Component) {
   (0, _createClass3.default)(ContactSourceFilter, [{
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      window.removeEventListener('click', this.hideList);
+      if (!this.state.unfold) {
+        window.removeEventListener('click', this.hideList);
+      }
     }
   }, {
     key: 'getString',
