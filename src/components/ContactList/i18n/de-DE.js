@@ -1,5 +1,5 @@
 export default {
-  noContacts: 'Keine Datensätze gefunden',
+  noContacts: 'Keine Datensätze gefunden.',
 };
 
 // @key: @#@"noContacts"@#@ @source: @#@"No records found"@#@
