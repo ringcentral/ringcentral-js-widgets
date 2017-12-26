@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   noActiveCalls: 'No hay llamadas activas',
-  noRecords: 'Sin registros'
+  noRecords: 'Sin registros.'
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@

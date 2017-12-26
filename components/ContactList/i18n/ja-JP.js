@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  noContacts: '記録が見つかりません'
+  noContacts: '記録が見つかりません.'
 };
 
 // @key: @#@"noContacts"@#@ @source: @#@"No records found"@#@
