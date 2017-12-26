@@ -108,8 +108,9 @@ var RegionSettings = function (_Component) {
 
     _this.onSaveClick = function () {
       if (typeof _this.props.onSave === 'function') {
+        var showAreaCode = ['CA', 'US'].includes(_this.state.countryCodeValue);
         _this.props.onSave({
-          areaCode: _this.state.areaCodeValue,
+          areaCode: showAreaCode ? _this.state.areaCodeValue : undefined,
           countryCode: _this.state.countryCodeValue
         });
       }

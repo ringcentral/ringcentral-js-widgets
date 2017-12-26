@@ -136,7 +136,8 @@ var CallingSettingsPanel = function (_Component) {
     _this.onCallWithChange = function (callWith) {
       _this.setState({
         callWith: callWith,
-        myLocation: _this.props.availableNumbers[callWith] && _this.props.availableNumbers[callWith][0] || ''
+        myLocation: _this.props.availableNumbers[callWith] && _this.props.availableNumbers[callWith][0] || '',
+        ringoutPrompt: _this.defaultRingoutPrompt
       });
     };
 
@@ -164,6 +165,7 @@ var CallingSettingsPanel = function (_Component) {
       return (0, _formatMessage2.default)(_i18n2.default.getString(option, _this.props.currentLocale), { brand: brand });
     };
 
+    _this.defaultRingoutPrompt = props.ringoutPrompt;
     _this.state = {
       callWith: props.callWith,
       ringoutPrompt: props.ringoutPrompt,
