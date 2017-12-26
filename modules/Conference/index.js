@@ -185,8 +185,7 @@ var Conference = (_dec = (0, _di.Module)({
       var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
         var _this3 = this;
 
-        var _data$phoneNumbers$fi, phoneNumber;
-
+        var matchedPhoneNumber;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -202,12 +201,12 @@ var Conference = (_dec = (0, _di.Module)({
 
               case 3:
                 this._lastCountryCode = this._regionSetting.countryCode;
-                _data$phoneNumbers$fi = this.data.phoneNumbers.find(function (e) {
+                matchedPhoneNumber = this.data.phoneNumbers.find(function (e) {
                   return e.country.isoCode === _this3._lastCountryCode;
-                }), phoneNumber = _data$phoneNumbers$fi.phoneNumber;
+                });
 
-                if (phoneNumber !== this.dialInNumber) {
-                  this.updateDialInNumber(phoneNumber);
+                if (matchedPhoneNumber && matchedPhoneNumber.phoneNumber !== this.dialInNumber) {
+                  this.updateDialInNumber(matchedPhoneNumber.phoneNumber);
                 }
 
               case 6:
