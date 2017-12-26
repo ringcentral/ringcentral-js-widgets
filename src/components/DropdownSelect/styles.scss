@@ -98,6 +98,7 @@
   box-shadow: 0 4px 12px rgba(0,0,0,.175);
   background: #fff;
   max-height: 250px;
+  overflow: hidden;
   overflow-y: auto;
 
   &:hover {

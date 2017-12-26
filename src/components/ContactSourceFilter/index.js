@@ -39,7 +39,9 @@ export default class ContactSourceFilter extends Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('click', this.hideList);
+    if (!this.state.unfold) {
+      window.removeEventListener('click', this.hideList);
+    }
   }
 
   getString(key, locale) {
