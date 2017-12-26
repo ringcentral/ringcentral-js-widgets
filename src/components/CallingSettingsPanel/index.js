@@ -23,6 +23,7 @@ import SaveButton from '../SaveButton';
 export default class CallingSettingsPanel extends Component {
   constructor(props) {
     super(props);
+    this.defaultRingoutPrompt = props.ringoutPrompt;
     this.state = {
       callWith: props.callWith,
       ringoutPrompt: props.ringoutPrompt,
@@ -78,6 +79,7 @@ export default class CallingSettingsPanel extends Component {
       myLocation: (this.props.availableNumbers[callWith] &&
         this.props.availableNumbers[callWith][0]) ||
         '',
+      ringoutPrompt: this.defaultRingoutPrompt,
     });
   }
   onMyLocationChange = (myLocation) => {
