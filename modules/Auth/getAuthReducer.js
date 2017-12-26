@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.getLoginStatusReducer = getLoginStatusReducer;
 exports.getTokenReducer = getTokenReducer;
 exports.getFreshLoginReducer = getFreshLoginReducer;
-exports.getProxyLoadedReducer = getProxyLoadedReducer;
-exports.getProxyRetryCountReducer = getProxyRetryCountReducer;
 exports.default = getAuthReducer;
 
 var _redux = require('redux');
@@ -136,50 +134,12 @@ function getFreshLoginReducer(types) {
   };
 }
 
-function getProxyLoadedReducer(types) {
-  return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-    var _ref4 = arguments[1];
-    var type = _ref4.type;
-
-    switch (type) {
-      case types.proxyLoaded:
-        return true;
-      case types.proxyCleared:
-        return false;
-      default:
-        return state;
-    }
-  };
-}
-
-function getProxyRetryCountReducer(types) {
-  return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-    var _ref5 = arguments[1];
-    var type = _ref5.type;
-
-    switch (type) {
-      case types.proxySetup:
-      case types.proxyCleared:
-      case types.proxyLoaded:
-        return 0;
-      case types.proxyRetry:
-        return state + 1;
-      default:
-        return state;
-    }
-  };
-}
-
 function getAuthReducer(types) {
   return (0, _redux.combineReducers)({
     status: (0, _getModuleStatusReducer2.default)(types),
     loginStatus: getLoginStatusReducer(types),
     freshLogin: getFreshLoginReducer(types),
-    token: getTokenReducer(types),
-    proxyLoaded: getProxyLoadedReducer(types),
-    proxyRetryCount: getProxyRetryCountReducer(types)
+    token: getTokenReducer(types)
   });
 }
 //# sourceMappingURL=getAuthReducer.js.map
