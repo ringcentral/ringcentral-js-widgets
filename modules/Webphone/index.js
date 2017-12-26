@@ -1202,30 +1202,38 @@ var Webphone = (_dec = (0, _di.Module)({
                 return _context13.abrupt('return', false);
 
               case 3:
-                _context13.prev = 3;
-                _context13.next = 6;
+                if (!session.isOnHold().local) {
+                  _context13.next = 5;
+                  break;
+                }
+
+                return _context13.abrupt('return', true);
+
+              case 5:
+                _context13.prev = 5;
+                _context13.next = 8;
                 return session.hold();
 
-              case 6:
+              case 8:
                 this._updateSessions();
                 return _context13.abrupt('return', true);
 
-              case 10:
-                _context13.prev = 10;
-                _context13.t0 = _context13['catch'](3);
+              case 12:
+                _context13.prev = 12;
+                _context13.t0 = _context13['catch'](5);
 
-                console.log(_context13.t0);
+                console.error('hold error:', _context13.t0);
                 this._alert.warning({
                   message: _webphoneErrors2.default.holdError
                 });
                 return _context13.abrupt('return', false);
 
-              case 15:
+              case 17:
               case 'end':
                 return _context13.stop();
             }
           }
-        }, _callee13, this, [[3, 10]]);
+        }, _callee13, this, [[5, 12]]);
       }));
 
       function hold(_x9) {
