@@ -6822,7 +6822,7 @@ ringcentral-client@^1.0.0-rc1:
 
 "ringcentral-integration@https://github.com/ringcentral/ringcentral-js-integration-commons#latest":
   version "0.1.0"
-  resolved "https://github.com/ringcentral/ringcentral-js-integration-commons#bc952f9efd3e1ae17351514a0cfa7629210f24d9"
+  resolved "https://github.com/ringcentral/ringcentral-js-integration-commons#83f0bdcc5bd1751e372bca39781cf32fc5287b7b"
   dependencies:
     file-loader "^0.11.2"
     json-mask "^0.3.8"
@@ -7779,7 +7779,7 @@ uuid@^2.0.2:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-2.0.3.tgz#67e2e863797215530dff318e5bf9dcebfd47b21a"
 
-uuid@^3.0.0, uuid@^3.0.1:
+uuid@^3.0.0, uuid@^3.0.1, uuid@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.1.0.tgz#3dd3d3e790abc24d7b0d3a034ffababe28ebbc04"
 

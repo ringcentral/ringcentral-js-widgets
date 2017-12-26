@@ -59,7 +59,7 @@ import Analytics from 'ringcentral-integration/modules/Analytics';
 import { ModuleFactory } from 'ringcentral-integration/lib/di';
 import RouterInteraction from '../src/modules/RouterInteraction';
 import DialerUI from '../src/modules/DialerUI';
-import OAuth from '../src/modules/OAuth';
+import ProxyFrameOAuth from '../src/modules/ProxyFrameOAuth';
 import apiConfig from './api-config';
 import brandConfig from './brandConfig';
 
@@ -106,7 +106,12 @@ const sdkConfig = {
       spread: true,
     },
     Auth,
-    OAuth,
+    ProxyFrameOAuth,
+    {
+      provide: 'OAuth',
+      deps: ['ProxyFrameOAuth'],
+      useFactory: ({ proxyFrameOAuth }) => proxyFrameOAuth,
+    },
     Ringout,
     ConnectivityMonitor,
     RateLimiter,
