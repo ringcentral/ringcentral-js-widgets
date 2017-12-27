@@ -11,11 +11,11 @@ export default class ProxyFrameController {
       },
     } = url.parse(window.location.href, true);
 
-    // window.oAuthCallback = (callbackUri) => {
-    //   window.parent.postMessage({
-    //     callbackUri,
-    //   }, '*');
-    // };
+    window.oAuthCallback = (callbackUri) => {
+      window.parent.postMessage({
+        callbackUri,
+      }, '*');
+    };
 
     window.addEventListener('message', ({ data }) => {
       if (data) {
