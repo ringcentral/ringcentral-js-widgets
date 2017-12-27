@@ -162,6 +162,10 @@ var CallingSettingsPanel = function (_Component) {
 
     _this.renderHandler = function (option) {
       var brand = _this.props.brand;
+
+      if (option === _callingOptions2.default.myphone) {
+        brand = brand.replace(/\sPhone$/, '');
+      }
       return (0, _formatMessage2.default)(_i18n2.default.getString(option, _this.props.currentLocale), { brand: brand });
     };
 
