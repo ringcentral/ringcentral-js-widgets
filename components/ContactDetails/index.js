@@ -59,10 +59,6 @@ var _DefaultAvatar = require('../../assets/images/DefaultAvatar.svg');
 
 var _DefaultAvatar2 = _interopRequireDefault(_DefaultAvatar);
 
-var _Fax = require('../../assets/images/Fax.svg');
-
-var _Fax2 = _interopRequireDefault(_Fax);
-
 var _i18n = require('./i18n');
 
 var _i18n2 = _interopRequireDefault(_i18n);
@@ -73,6 +69,7 @@ var _styles2 = _interopRequireDefault(_styles);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// import FaxIcon from '../../assets/images/Fax.svg';
 function getPresenceStatusName(presence, currentLocale) {
   var dndStatus = presence.dndStatus,
       presenceStatus = presence.presenceStatus;
@@ -303,11 +300,6 @@ var ContactDetails = function (_PureComponent) {
                   return _this3.onClickToSMS(contactItem, phoneNumber);
                 } },
               _react2.default.createElement('i', { className: _DynamicsFont2.default.composeText })
-            ),
-            _react2.default.createElement(
-              'button',
-              null,
-              _react2.default.createElement(_Fax2.default, { className: _styles2.default.faxIcon })
             )
           )
         );
