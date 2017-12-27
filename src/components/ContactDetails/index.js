@@ -5,7 +5,7 @@ import PresenceStatus from 'ringcentral-integration/modules/Presence/presenceSta
 import PresenceStatusIcon from '../PresenceStatusIcon';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import DefaultAvatar from '../../assets/images/DefaultAvatar.svg';
-import FaxIcon from '../../assets/images/Fax.svg';
+// import FaxIcon from '../../assets/images/Fax.svg';
 import i18n from './i18n';
 
 import styles from './styles.scss';
@@ -162,9 +162,11 @@ export default class ContactDetails extends PureComponent {
             <button title={i18n.getString('text', currentLocale)} onClick={() => this.onClickToSMS(contactItem, phoneNumber)}>
               <i className={dynamicsFont.composeText} />
             </button>
-            <button>
-              <FaxIcon className={styles.faxIcon} />
-            </button>
+            {
+              // <button>
+              //   <FaxIcon className={styles.faxIcon} />
+              // </button>
+            }
           </div>
         </li>
       );
