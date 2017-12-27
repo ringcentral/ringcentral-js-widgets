@@ -123,7 +123,10 @@ export default class CallingSettingsPanel extends Component {
   }
 
   renderHandler = (option) => {
-    const brand = this.props.brand;
+    let { brand } = this.props;
+    if (option === callingOptions.myphone) {
+      brand = brand.replace(/\sPhone$/, '');
+    }
     return formatMessage(i18n.getString(option, this.props.currentLocale), { brand });
   }
 

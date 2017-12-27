@@ -4,7 +4,7 @@ export default {
   historyLabel: 'History',
   messagesLabel: 'Messages',
   composeTextLabel: 'Compose Text',
-  moreMenuLabel: 'More menu',
+  moreMenuLabel: 'More Menu',
   contactsLabel: 'Contacts',
   meetingLabel: 'Schedule Meeting',
   conferenceLabel: 'Schedule Conference',
