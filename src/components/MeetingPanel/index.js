@@ -133,7 +133,7 @@ const When = (
   const changeTime = () => {
     setTimeout(() => {
       const allInputBlur = document.querySelectorAll('input[flag=timeInput]:focus').length;
-      if (!allInputBlur) {
+      if (!allInputBlur && that.hours) {
         const startTime = new Date(meeting.schedule.startTime);
         const hours = parseInt(that.hours.value, 10);
         const minutes = parseInt(that.minutes.value, 10);
@@ -599,6 +599,13 @@ class MeetingPanel extends Component {
     this.state = {};
     Moment.locale(this.props.currentLocale);
     momentLocalizer();
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.hours.value = Moment(this.props.meeting.schedule.startTime).format('HH');
+      this.minutes.value = Moment(this.props.meeting.schedule.startTime).format('mm');
+    });
   }
 
   componentWillReceiveProps(nextProps) {

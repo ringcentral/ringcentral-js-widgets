@@ -317,7 +317,7 @@ export default class MessageItem extends Component {
         type,
         voicemailAttachment,
       },
-      disableLinks,
+      disableLinks: parentDisableLinks,
       disableClickToDial,
       onClickToDial,
       onClickToSms,
@@ -330,14 +330,17 @@ export default class MessageItem extends Component {
       sourceIcons,
       showGroupNumberName,
     } = this.props;
-
+    let disableLinks = parentDisableLinks;
+    if (!voicemailAttachment) {
+      disableLinks = true;
+    }
     const groupNumbers = this.getGroupPhoneNumbers();
     const phoneNumber = this.getPhoneNumber();
     const fallbackName = this.getFallbackContactName();
     const detail = this.getDetail();
     let player;
     let slideMenuHeight = 60;
-    const isVoicemail = !!voicemailAttachment;
+    const isVoicemail = type === messageTypes.voiceMail;
     if (isVoicemail) {
       player = (
         <VoicemailPlayer
