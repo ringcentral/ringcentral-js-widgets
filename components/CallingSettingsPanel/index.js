@@ -250,7 +250,7 @@ var CallingSettingsPanel = function (_Component) {
           {
             label: _i18n2.default.getString('myLocationLabel', currentLocale) },
           availableNumbers[this.state.callWith] ? _react2.default.createElement(_DropdownSelect2.default, {
-            className: _styles2.default.select,
+            className: (0, _classnames2.default)(_styles2.default.select, _styles2.default.locationSelect),
             value: this.state.myLocation,
             onChange: this.onMyLocationChange,
             options: availableNumbers[this.state.callWith],
