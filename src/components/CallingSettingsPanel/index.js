@@ -161,7 +161,7 @@ export default class CallingSettingsPanel extends Component {
             {
               availableNumbers[this.state.callWith] ? (
                 <Select
-                  className={styles.select}
+                  className={classnames(styles.select, styles.locationSelect)}
                   value={this.state.myLocation}
                   onChange={this.onMyLocationChange}
                   options={availableNumbers[this.state.callWith]}
