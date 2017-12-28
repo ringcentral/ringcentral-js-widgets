@@ -94,7 +94,7 @@ var MeetingSection = function (_Component) {
         return withSwitch ? _react2.default.createElement(
           'span',
           {
-            className: (0, _classnames2.default)(!isDropDown ? _styles2.default.dropDown : null),
+            className: (0, _classnames2.default)(isDropDown ? _styles2.default.dropDown : null),
             onClick: onClick },
           _react2.default.createElement('i', { className: (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.arrow) })
         ) : null;
