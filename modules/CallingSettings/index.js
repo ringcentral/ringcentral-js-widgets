@@ -388,7 +388,8 @@ var CallingSettings = (_dec = (0, _di.Module)({
                     timestamp: Date.now()
                   });
                   this._alert.warning({
-                    message: this._brand.id === '1210' ? _callingSettingsMessages2.default.firstLogin : _callingSettingsMessages2.default.firstLoginOther
+                    message: this._brand.id === '1210' ? _callingSettingsMessages2.default.firstLogin : _callingSettingsMessages2.default.firstLoginOther,
+                    ttl: 0
                   });
                   this._warningEmergencyCallingNotAvailable();
                   if (typeof this._onFirstLogin === 'function') {
@@ -606,7 +607,8 @@ var CallingSettings = (_dec = (0, _di.Module)({
               case 0:
                 if (this.callWith === _callingOptions2.default.browser) {
                   this._alert.info({
-                    message: _callingSettingsMessages2.default.emergencyCallingNotAvailable
+                    message: _callingSettingsMessages2.default.emergencyCallingNotAvailable,
+                    ttl: 0
                   });
                 }
 
