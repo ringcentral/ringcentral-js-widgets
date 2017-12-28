@@ -53,6 +53,10 @@ var _fetchList = require('../../lib/fetchList');
 
 var _fetchList2 = _interopRequireDefault(_fetchList);
 
+var _ensureExist = require('../../lib/ensureExist');
+
+var _ensureExist2 = _interopRequireDefault(_ensureExist);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -60,7 +64,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @description Extension forwarding number list module
  */
 var ForwardingNumber = (_dec = (0, _di.Module)({
-  deps: ['Client', { dep: 'ForwardingNumberOptions', optional: true }]
+  deps: ['Client', 'RolesAndPermissions', { dep: 'ForwardingNumberOptions', optional: true }]
 }), _dec(_class = function (_DataFetcher) {
   (0, _inherits3.default)(ForwardingNumber, _DataFetcher);
 
@@ -73,7 +77,8 @@ var ForwardingNumber = (_dec = (0, _di.Module)({
     var _this2 = this;
 
     var client = _ref.client,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client']);
+        rolesAndPermissions = _ref.rolesAndPermissions,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'rolesAndPermissions']);
     (0, _classCallCheck3.default)(this, ForwardingNumber);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ForwardingNumber.__proto__ || (0, _getPrototypeOf2.default)(ForwardingNumber)).call(this, (0, _extends3.default)({
@@ -85,11 +90,19 @@ var ForwardingNumber = (_dec = (0, _di.Module)({
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
+                  if (_this._rolesAndPermissions.permissions.ReadUserForwardingFlipNumbers) {
+                    _context.next = 2;
+                    break;
+                  }
+
+                  return _context.abrupt('return', []);
+
+                case 2:
                   return _context.abrupt('return', (0, _fetchList2.default)(function (params) {
                     return _this._client.account().extension().forwardingNumber().list(params);
                   }));
 
-                case 1:
+                case 3:
                 case 'end':
                   return _context.stop();
               }
@@ -100,8 +113,13 @@ var ForwardingNumber = (_dec = (0, _di.Module)({
         return function fetchFunction() {
           return _ref2.apply(this, arguments);
         };
-      }()
+      }(),
+      readyCheckFn: function readyCheckFn() {
+        return _this._rolesAndPermissions.ready;
+      }
     }, options)));
+
+    _this._rolesAndPermissions = _ensureExist2.default.call(_this, rolesAndPermissions, 'rolesAndPermissions');
 
     _this.addSelector('flipNumbers', function () {
       return _this.numbers;
