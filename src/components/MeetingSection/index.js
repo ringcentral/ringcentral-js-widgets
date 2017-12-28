@@ -31,7 +31,7 @@ class MeetingSection extends Component {
     const DropDown = ({ isDropDown, onClick }) => (
       withSwitch ? (
         <span
-          className={classnames(!isDropDown ? styles.dropDown : null)}
+          className={classnames(isDropDown ? styles.dropDown : null)}
           onClick={onClick}>
           <i className={classnames(dynamicsFont.arrow, styles.arrow)} />
         </span>
