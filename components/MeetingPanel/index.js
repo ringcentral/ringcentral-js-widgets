@@ -210,7 +210,7 @@ var When = function When(_ref4) {
   var changeTime = function changeTime() {
     setTimeout(function () {
       var allInputBlur = document.querySelectorAll('input[flag=timeInput]:focus').length;
-      if (!allInputBlur) {
+      if (!allInputBlur && that.hours) {
         var startTime = new Date(meeting.schedule.startTime);
         var hours = parseInt(that.hours.value, 10);
         var minutes = parseInt(that.minutes.value, 10);
@@ -750,24 +750,34 @@ var MeetingPanel = function (_Component) {
   }
 
   (0, _createClass3.default)(MeetingPanel, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      setTimeout(function () {
+        _this2.hours.value = (0, _moment2.default)(_this2.props.meeting.schedule.startTime).format('HH');
+        _this2.minutes.value = (0, _moment2.default)(_this2.props.meeting.schedule.startTime).format('mm');
+      });
+    }
+  }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      var _this2 = this;
+      var _this3 = this;
 
       if (this.props.meeting.topic !== nextProps.meeting.topic) {
         setTimeout(function () {
-          if (!_this2.topic) return;
-          var selectionStart = _this2.topic.selectionStart;
-          var selectionEnd = _this2.topic.selectionEnd;
-          _this2.topic.value = nextProps.meeting.topic;
-          _this2.topic.setSelectionRange(selectionStart, selectionEnd);
+          if (!_this3.topic) return;
+          var selectionStart = _this3.topic.selectionStart;
+          var selectionEnd = _this3.topic.selectionEnd;
+          _this3.topic.value = nextProps.meeting.topic;
+          _this3.topic.setSelectionRange(selectionStart, selectionEnd);
         });
       }
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       var _props = this.props,
           update = _props.update,
@@ -782,13 +792,13 @@ var MeetingPanel = function (_Component) {
         return null;
       }
       var onToggle = function onToggle(type) {
-        var isToggle = !_this3[type + 'Blur'];
+        var isToggle = !_this4[type + 'Blur'];
         if (isToggle) {
-          if (_this3[type]._values.open) {
-            _this3[type].refs.inner.close();
+          if (_this4[type]._values.open) {
+            _this4[type].refs.inner.close();
           } else {
-            _this3[type].focus();
-            _this3[type].refs.inner.toggle();
+            _this4[type].focus();
+            _this4[type].refs.inner.toggle();
           }
         }
       };

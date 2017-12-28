@@ -453,7 +453,7 @@ var MessageItem = function (_Component) {
           conversationMatches = _props2$conversation.conversationMatches,
           type = _props2$conversation.type,
           voicemailAttachment = _props2$conversation.voicemailAttachment,
-          disableLinks = _props2.disableLinks,
+          parentDisableLinks = _props2.disableLinks,
           disableClickToDial = _props2.disableClickToDial,
           onClickToDial = _props2.onClickToDial,
           onClickToSms = _props2.onClickToSms,
@@ -466,14 +466,17 @@ var MessageItem = function (_Component) {
           sourceIcons = _props2.sourceIcons,
           showGroupNumberName = _props2.showGroupNumberName;
 
-
+      var disableLinks = parentDisableLinks;
+      if (!voicemailAttachment) {
+        disableLinks = true;
+      }
       var groupNumbers = this.getGroupPhoneNumbers();
       var phoneNumber = this.getPhoneNumber();
       var fallbackName = this.getFallbackContactName();
       var detail = this.getDetail();
       var player = void 0;
       var slideMenuHeight = 60;
-      var isVoicemail = !!voicemailAttachment;
+      var isVoicemail = type === _messageTypes2.default.voiceMail;
       if (isVoicemail) {
         player = _react2.default.createElement(_VoicemailPlayer2.default, {
           className: _styles2.default.player,
