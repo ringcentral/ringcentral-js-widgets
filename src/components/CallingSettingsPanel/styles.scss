@@ -47,3 +47,8 @@
   border-radius: 2px;
   height: 100%;
 }
+
+.locationSelect ul {
+  max-height: 120px;
+  overflow-y: auto;
+}
