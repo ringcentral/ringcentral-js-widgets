@@ -603,8 +603,8 @@ class MeetingPanel extends Component {
 
   componentDidMount() {
     setTimeout(() => {
-      this.hours.value = Moment(this.props.meeting.schedule.startTime).format('HH');
-      this.minutes.value = Moment(this.props.meeting.schedule.startTime).format('mm');
+      if (this.hours) this.hours.value = Moment(this.props.meeting.schedule.startTime).format('HH');
+      if (this.minutes) this.minutes.value = Moment(this.props.meeting.schedule.startTime).format('mm');
     });
   }
 
