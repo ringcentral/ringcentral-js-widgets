@@ -755,8 +755,8 @@ var MeetingPanel = function (_Component) {
       var _this2 = this;
 
       setTimeout(function () {
-        _this2.hours.value = (0, _moment2.default)(_this2.props.meeting.schedule.startTime).format('HH');
-        _this2.minutes.value = (0, _moment2.default)(_this2.props.meeting.schedule.startTime).format('mm');
+        if (_this2.hours) _this2.hours.value = (0, _moment2.default)(_this2.props.meeting.schedule.startTime).format('HH');
+        if (_this2.minutes) _this2.minutes.value = (0, _moment2.default)(_this2.props.meeting.schedule.startTime).format('mm');
       });
     }
   }, {
