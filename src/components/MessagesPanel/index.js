@@ -45,21 +45,21 @@ export default class MessagesPanel extends Component {
         path: messageTypes.all,
         isActive: path => path === messageTypes.all,
       },
-      {
+      this.props.readVoicemailPermission && {
         icon: <TabTitle type={messageTypes.voiceMail} currentLocale={this.props.currentLocale} />,
         label: i18n.getString(messageTypes.voiceMail, this.props.currentLocale),
         path: messageTypes.voiceMail,
         isActive: path => path === messageTypes.voiceMail,
         noticeCounts: this.props.voiceUnreadCounts,
       },
-      {
+      this.props.readTextPermission && {
         icon: <TabTitle type={messageTypes.text} currentLocale={this.props.currentLocale} />,
         label: i18n.getString(messageTypes.text, this.props.currentLocale),
         path: messageTypes.text,
         isActive: path => path === messageTypes.text,
         noticeCounts: this.props.textUnreadCounts,
       },
-    ];
+    ].filter(x => !!x);
     return (
       <NavigationBar
         button={MessageTabButton}
@@ -136,6 +136,8 @@ MessagesPanel.propTypes = {
   onClickToSms: PropTypes.func,
   markVoicemail: PropTypes.func.isRequired,
   readVoicemail: PropTypes.func.isRequired,
+  readTextPermission: PropTypes.bool,
+  readVoicemailPermission: PropTypes.bool,
 };
 
 MessagesPanel.defaultProps = {
@@ -149,4 +151,6 @@ MessagesPanel.defaultProps = {
   showGroupNumberName: false,
   onClickToDial: undefined,
   onClickToSms: undefined,
+  readTextPermission: true,
+  readVoicemailPermission: true,
 };
