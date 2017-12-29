@@ -773,6 +773,10 @@ var MeetingPanel = function (_Component) {
           _this3.topic.setSelectionRange(selectionStart, selectionEnd);
         });
       }
+      if (this.props.meeting.schedule && this.props.meeting.schedule.startTime !== nextProps.meeting.schedule.startTime) {
+        if (this.hours) this.hours.value = (0, _moment2.default)(nextProps.meeting.schedule.startTime).format('HH');
+        if (this.minutes) this.minutes.value = (0, _moment2.default)(nextProps.meeting.schedule.startTime).format('mm');
+      }
     }
   }, {
     key: 'render',
