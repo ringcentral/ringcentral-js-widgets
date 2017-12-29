@@ -52,6 +52,8 @@ function mapToProps(_, _ref) {
       enableContactFallback = _ref$enableContactFal === undefined ? false : _ref$enableContactFal,
       _ref$showGroupNumberN = _ref.showGroupNumberName,
       showGroupNumberName = _ref$showGroupNumberN === undefined ? false : _ref$showGroupNumberN;
+  var serviceFeatures = rolesAndPermissions.serviceFeatures,
+      permissions = rolesAndPermissions.permissions;
 
   return {
     showTitle: showTitle,
@@ -64,15 +66,17 @@ function mapToProps(_, _ref) {
     countryCode: regionSettings.countryCode,
     disableLinks: !connectivityMonitor.connectivity || rateLimiter.throttling,
     disableClickToDial: !(call && call.isIdle),
-    outboundSmsPermission: !!(rolesAndPermissions.permissions && rolesAndPermissions.permissions.OutboundSMS),
-    internalSmsPermission: !!(rolesAndPermissions.permissions && rolesAndPermissions.permissions.InternalSMS),
+    outboundSmsPermission: !!(permissions && permissions.OutboundSMS),
+    internalSmsPermission: !!(permissions && permissions.InternalSMS),
     loggingMap: conversationLogger && conversationLogger.loggingMap,
     showSpinner: !(locale.ready && messages.ready && (!contactMatcher || contactMatcher.ready) && dateTimeFormat.ready && regionSettings.ready && rolesAndPermissions.ready && connectivityMonitor.ready && rateLimiter.ready && (!rolesAndPermissions || rolesAndPermissions.ready) && (!call || call.ready) && (!conversationLogger || conversationLogger.ready)),
     searchInput: messages.searchInput,
     autoLog: !!(conversationLogger && conversationLogger.autoLog),
     typeFilter: messages.typeFilter,
     textUnreadCounts: messageStore.textUnreadCounts,
-    voiceUnreadCounts: messageStore.voiceUnreadCounts
+    voiceUnreadCounts: messageStore.voiceUnreadCounts,
+    readTextPermission: !!(serviceFeatures && (serviceFeatures.PagerReceiving && serviceFeatures.PagerReceiving.enabled || serviceFeatures.SMSReceiving && serviceFeatures.SMSReceiving.enabled)),
+    readVoicemailPermission: !!(serviceFeatures && serviceFeatures.Voicemail && serviceFeatures.Voicemail.enabled)
   };
 }
 

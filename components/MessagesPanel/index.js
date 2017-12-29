@@ -125,7 +125,7 @@ var MessagesPanel = function (_Component) {
         isActive: function isActive(path) {
           return path === _messageTypes2.default.all;
         }
-      }, {
+      }, this.props.readVoicemailPermission && {
         icon: _react2.default.createElement(TabTitle, { type: _messageTypes2.default.voiceMail, currentLocale: this.props.currentLocale }),
         label: _i18n2.default.getString(_messageTypes2.default.voiceMail, this.props.currentLocale),
         path: _messageTypes2.default.voiceMail,
@@ -133,7 +133,7 @@ var MessagesPanel = function (_Component) {
           return path === _messageTypes2.default.voiceMail;
         },
         noticeCounts: this.props.voiceUnreadCounts
-      }, {
+      }, this.props.readTextPermission && {
         icon: _react2.default.createElement(TabTitle, { type: _messageTypes2.default.text, currentLocale: this.props.currentLocale }),
         label: _i18n2.default.getString(_messageTypes2.default.text, this.props.currentLocale),
         path: _messageTypes2.default.text,
@@ -141,7 +141,9 @@ var MessagesPanel = function (_Component) {
           return path === _messageTypes2.default.text;
         },
         noticeCounts: this.props.textUnreadCounts
-      }];
+      }].filter(function (x) {
+        return !!x;
+      });
       return _react2.default.createElement(_NavigationBar2.default, {
         button: _MessageTabButton2.default,
         className: _styles2.default.tabBar,
@@ -212,7 +214,9 @@ MessagesPanel.propTypes = {
   onClickToDial: _propTypes2.default.func,
   onClickToSms: _propTypes2.default.func,
   markVoicemail: _propTypes2.default.func.isRequired,
-  readVoicemail: _propTypes2.default.func.isRequired
+  readVoicemail: _propTypes2.default.func.isRequired,
+  readTextPermission: _propTypes2.default.bool,
+  readVoicemailPermission: _propTypes2.default.bool
 };
 
 MessagesPanel.defaultProps = {
@@ -225,6 +229,8 @@ MessagesPanel.defaultProps = {
   updateTypeFilter: undefined,
   showGroupNumberName: false,
   onClickToDial: undefined,
-  onClickToSms: undefined
+  onClickToSms: undefined,
+  readTextPermission: true,
+  readVoicemailPermission: true
 };
 //# sourceMappingURL=index.js.map
