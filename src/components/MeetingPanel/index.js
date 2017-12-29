@@ -618,6 +618,12 @@ class MeetingPanel extends Component {
         this.topic.setSelectionRange(selectionStart, selectionEnd);
       });
     }
+    if (this.props.meeting.schedule &&
+      this.props.meeting.schedule.startTime !== nextProps.meeting.schedule.startTime
+    ) {
+      if (this.hours) this.hours.value = Moment(nextProps.meeting.schedule.startTime).format('HH');
+      if (this.minutes) this.minutes.value = Moment(nextProps.meeting.schedule.startTime).format('mm');
+    }
   }
 
   render() {
