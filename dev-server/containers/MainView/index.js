@@ -174,6 +174,10 @@ function mapToProps(_, {
       (
         serviceFeatures.SMSReceiving &&
         serviceFeatures.SMSReceiving.enabled
+      ) ||
+      (
+        serviceFeatures.Voicemail &&
+        serviceFeatures.Voicemail.enabled
       )
     )
   );
