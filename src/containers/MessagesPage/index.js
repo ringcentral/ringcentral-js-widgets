@@ -22,6 +22,7 @@ function mapToProps(_, {
   enableContactFallback = false,
   showGroupNumberName = false,
 }) {
+  const { serviceFeatures, permissions } = rolesAndPermissions;
   return ({
     showTitle,
     enableContactFallback,
@@ -37,12 +38,12 @@ function mapToProps(_, {
     ),
     disableClickToDial: !(call && call.isIdle),
     outboundSmsPermission: !!(
-      rolesAndPermissions.permissions &&
-      rolesAndPermissions.permissions.OutboundSMS
+      permissions &&
+      permissions.OutboundSMS
     ),
     internalSmsPermission: !!(
-      rolesAndPermissions.permissions &&
-      rolesAndPermissions.permissions.InternalSMS
+      permissions &&
+      permissions.InternalSMS
     ),
     loggingMap: (conversationLogger && conversationLogger.loggingMap),
     showSpinner: !(
@@ -63,6 +64,24 @@ function mapToProps(_, {
     typeFilter: messages.typeFilter,
     textUnreadCounts: messageStore.textUnreadCounts,
     voiceUnreadCounts: messageStore.voiceUnreadCounts,
+    readTextPermission: !!(
+      serviceFeatures && (
+        (
+          serviceFeatures.PagerReceiving &&
+          serviceFeatures.PagerReceiving.enabled
+        ) ||
+        (
+          serviceFeatures.SMSReceiving &&
+          serviceFeatures.SMSReceiving.enabled
+        )
+      )
+    ),
+    readVoicemailPermission: !!(
+      serviceFeatures && (
+        serviceFeatures.Voicemail &&
+        serviceFeatures.Voicemail.enabled
+      )
+    ),
   });
 }
 
