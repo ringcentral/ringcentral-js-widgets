@@ -19,7 +19,8 @@ function mapToProps(_, {
     showSpinner: !(
       locale.ready &&
       contactSearch.ready &&
-      contactDetails.ready
+      contactDetails.ready &&
+      rolesAndPermissions.ready
     ),
     outboundSmsPermission: !!(
       rolesAndPermissions.permissions &&

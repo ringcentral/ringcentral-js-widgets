@@ -123,7 +123,7 @@ export default class ContactDetails extends PureComponent {
     const textBtn = this.props.internalSmsPermission ? (
       <button title={i18n.getString('text', currentLocale)} onClick={() => this.onClickToSMS(contactItem, extensionNumber)}>
         <i className={dynamicsFont.composeText} />
-      </button>) : '';
+      </button>) : null;
     return (
       <div className={styles.item}>
         <div className={styles.label}>
@@ -155,7 +155,7 @@ export default class ContactDetails extends PureComponent {
       const textBtn = this.props.outboundSmsPermission ? (
         <button title={i18n.getString('text', currentLocale)} onClick={() => this.onClickToSMS(contactItem, phoneNumber)}>
           <i className={dynamicsFont.composeText} />
-        </button>) : '';
+        </button>) : null;
       return (
         <li key={index}>
           <div className={styles.number}>
