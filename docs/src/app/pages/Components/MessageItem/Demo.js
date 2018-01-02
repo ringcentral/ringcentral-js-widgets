@@ -13,6 +13,7 @@ props.conversation = {
   correspondentMatches: [],
   conversationMatches: [],
   unreadCounts: 0,
+  type: 'SMS',
 };
 props.areaCode = 'test string';
 props.countryCode = 'test string';
@@ -22,6 +23,7 @@ props.showConversationDetail = () => null;
 props.brand = 'RingCentral';
 props.markVoicemail = () => null;
 props.readVoicemail = () => null;
+props.unmarkVoicemail = () => null;
 props.onClickToDial = () => null;
 props.onCreateContact = () => null;
 /**

@@ -23,6 +23,9 @@ props.forwardingNumbers = [{
   phoneNumber: '12345678',
 }];
 props.onForward = () => null;
+props.searchContact = () => null;
+props.searchContactList = [];
+props.sessionId = '123456';
 /**
  * A example of `IncomingCallPanel`
  */

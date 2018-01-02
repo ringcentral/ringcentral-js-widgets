@@ -53,6 +53,7 @@ props.countryCode = 'test string';
 props.disableLinks = false;
 props.dateTimeFormatter = () => '12:00';
 props.title = 'Calls Example';
+props.brand = 'RingCentral';
 
 /**
  * A example of `CallsPanel`
