@@ -6,7 +6,6 @@ function mapToProps(_, {
   phone: {
     locale,
     contacts,
-    rolesAndPermissions,
   },
 }) {
   return {
