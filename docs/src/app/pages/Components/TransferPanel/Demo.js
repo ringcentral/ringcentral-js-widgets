@@ -7,6 +7,9 @@ props.onTransfer = () => null;
 props.currentLocale = 'en-US';
 props.toggleTransferPanel = () => null;
 props.isOnTransfer = false;
+props.formatPhone = p => p;
+props.searchContactList = [];
+props.searchContact = () => null;
 
 /**
  * A example of `TransferPanel`

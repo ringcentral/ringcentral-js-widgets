@@ -18,7 +18,6 @@ props.onClean = () => null;
 props.addToRecipients = () => null;
 props.removeFromRecipients = () => null;
 props.formatContactPhone = () => null;
-props.label = 'To:';
 props.currentLocale = 'en-US';
 
 /**

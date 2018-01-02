@@ -26,7 +26,8 @@ props.countryCode = 'test string';
 props.selectedMatcherIndex = 0;
 props.onSelectMatcherName = () => null;
 props.calls = [{}, {}];
-
+props.searchContactList = [];
+props.searchContact = () => null;
 /**
  * A example of `CallCtrlPanel`
  */

@@ -264,6 +264,5 @@ IncomingCallPad.defaultProps = {
   answerAndEnd: () => null,
   answerAndHold: () => null,
   hasOtherActiveCall: false,
-  contactSearch: undefined,
   phoneTypeRenderer: undefined,
 };
