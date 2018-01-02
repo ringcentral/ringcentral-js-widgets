@@ -371,7 +371,6 @@ IncomingCallPad.defaultProps = {
     return null;
   },
   hasOtherActiveCall: false,
-  contactSearch: undefined,
   phoneTypeRenderer: undefined
 };
 //# sourceMappingURL=index.js.map

@@ -206,7 +206,6 @@ IncomingCallPanel.defaultProps = {
   answerAndHold: undefined,
   hasOtherActiveCall: false,
   sourceIcons: undefined,
-  contactSearch: undefined,
   phoneTypeRenderer: undefined
 };
 //# sourceMappingURL=index.js.map
