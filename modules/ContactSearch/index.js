@@ -175,6 +175,7 @@ var ContactSearch = (_dec = (0, _di.Module)({
     _this._searchSources = new _map2.default();
     _this._searchSourcesFormat = new _map2.default();
     _this._searchSourcesCheck = new _map2.default();
+    _this._searchIds = {};
     if (_this._storage) {
       _this._reducer = (0, _getContactSearchReducer2.default)(_this.actionTypes);
       _this._storage.registerReducer({
@@ -424,7 +425,7 @@ var ContactSearch = (_dec = (0, _di.Module)({
               case 0:
                 searchId = _uuid2.default.v4();
 
-                this._searchId = searchId;
+                this._searchIds[sourceName] = searchId;
                 this.store.dispatch({
                   type: this.actionTypes.search
                 });
@@ -452,7 +453,7 @@ var ContactSearch = (_dec = (0, _di.Module)({
 
                 entities = this._searchSourcesFormat.get(sourceName)(entities);
                 this._saveSearching({ sourceName: sourceName, searchString: searchString, entities: entities });
-                if (this._searchId === searchId) {
+                if (this._searchIds[sourceName] === searchId) {
                   this._loadSearching({ searchOnSources: searchOnSources, searchString: searchString, entities: entities });
                 }
                 _context3.next = 20;
