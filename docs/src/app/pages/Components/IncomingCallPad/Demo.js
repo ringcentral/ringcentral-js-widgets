@@ -13,7 +13,10 @@ props.forwardingNumbers = [{
   label: 'Mobile',
   phoneNumber: '12345678',
 }];
+props.sessionId = '1234';
 props.onForward = () => null;
+props.searchContact = () => null;
+props.searchContactList = [];
 /**
  * A example of `IncomingCallPad`
  */

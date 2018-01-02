@@ -14,6 +14,7 @@ props.conversations = [{
   correspondentMatches: [],
   conversationMatches: [],
   unreadCounts: 0,
+  type: 'SMS',
 }, {
   id: 2,
   conversationId: '2',
@@ -24,6 +25,7 @@ props.conversations = [{
   correspondentMatches: [],
   conversationMatches: [],
   unreadCounts: 1,
+  type: 'SMS',
 }];
 props.dateTimeFormatter = ({ utcTimestamp }) => utcTimestamp;
 props.brand = 'RingCentral';
@@ -34,6 +36,7 @@ props.markVoicemail = () => null;
 props.readVoicemail = () => null;
 props.onClickToDial = () => null;
 props.onCreateContact = () => null;
+props.unmarkVoicemail = () => null;
 
 /**
  * A example of `MessageList`
