@@ -10,6 +10,7 @@ function mapToProps(_, {
     contacts,
     contactDetails,
     contactSearch,
+    rolesAndPermissions,
   },
 }) {
   return {
@@ -19,6 +20,14 @@ function mapToProps(_, {
       locale.ready &&
       contactSearch.ready &&
       contactDetails.ready
+    ),
+    outboundSmsPermission: !!(
+      rolesAndPermissions.permissions &&
+      rolesAndPermissions.permissions.OutboundSMS
+    ),
+    internalSmsPermission: !!(
+      rolesAndPermissions.permissions &&
+      rolesAndPermissions.permissions.InternalSMS
     ),
   };
 }
