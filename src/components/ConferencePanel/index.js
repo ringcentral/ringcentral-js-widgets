@@ -154,12 +154,7 @@ class ConferencePanel extends Component {
       .join('\n');
     let additionalNumbersSection = '';
     if (showAdditionalNumbers) {
-      additionalNumbersSection = `
-
-International Dial-in Numbers:
-${additionalNumbersTxt}
-
-`;
+      additionalNumbersSection = `${i18n.getString('internationalNumber', this.props.currentLocale)}\n${additionalNumbersTxt}`;
     }
     //     return `
     // Please join the ${brand.name} conference.
@@ -177,7 +172,7 @@ ${additionalNumbersTxt}
       formattedDialInNumber,
       additionalNumbersSection,
       participantCode: formatPin(participantCode),
-      dialInNumbersLinks: dialInNumbersLinks[brand.code],
+      dialInNumbersLinks: dialInNumbersLinks[brand.code]
     }
     );
   }

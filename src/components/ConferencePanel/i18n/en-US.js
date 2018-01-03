@@ -10,5 +10,6 @@ export default {
   inviteWithGCalendar: 'Invite with Google Calendar',
   inviteWithText: 'Invite with Text',
   joinAsHost: 'Join as Host',
+  internationalNumber: 'International Dial-in Numbers:',
   inviteText: 'Please join the {brandName} conference.\n\nDial-In Numbers: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nNeed an international dial-in phone number? Please visit {dialInNumbersLinks} \n\nThis conference call is brought to you by {brandName} Conferencing.'
 };
