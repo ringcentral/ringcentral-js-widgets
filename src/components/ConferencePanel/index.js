@@ -10,6 +10,7 @@ import Select from '../DropdownSelect';
 import BackHeader from '../BackHeader';
 import Button from '../Button';
 import LinkLine from '../LinkLine';
+import formatMessage from 'format-message';
 
 // TODO Move to a separate folder.
 function CheckBox({ checked, onChange }) {
@@ -136,7 +137,9 @@ class ConferencePanel extends Component {
   };
 
   inviteTxt = () => {
-    const { dialInNumber, additionalNumbers, participantCode, brand, alert } = this.props;
+    const {
+      dialInNumber, additionalNumbers, participantCode, brand, alert
+    } = this.props;
     const { dialInNumbers, showAdditionalNumbers } = this.state;
     if (showAdditionalNumbers && additionalNumbers.length < 1) {
       alert(messages.requireAditionalNumbers);
@@ -158,16 +161,25 @@ ${additionalNumbersTxt}
 
 `;
     }
-    return `
-Please join the ${brand.name} conference.
+    //     return `
+    // Please join the ${brand.name} conference.
 
-Dial-In Number: ${formattedDialInNumber}
-${additionalNumbersSection}
-Participant Access: ${formatPin(participantCode)}
+    // Dial-In Number: ${formattedDialInNumber}
+    // ${additionalNumbersSection}
+    // Participant Access: ${formatPin(participantCode)}
 
-Need an international dial-in phone number? Please visit ${dialInNumbersLinks[brand.code]}
+    // Need an international dial-in phone number? Please visit ${dialInNumbersLinks[brand.code]}
 
-This conference call is brought to you by ${brand.name} Conferencing.`;
+    // This conference call is brought to you by ${brand.name} Conferencing.`;
+    // return i18n.getString('inviteText', this.props.currentLocale);
+    return formatMessage(i18n.getString('inviteText', this.props.currentLocale), {
+      brandName: brand.name,
+      formattedDialInNumber,
+      additionalNumbersSection,
+      participantCode: formatPin(participantCode),
+      dialInNumbersLinks: dialInNumbersLinks[brand.code],
+    }
+    );
   }
 
   inviteWithText = () => {
