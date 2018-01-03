@@ -467,7 +467,8 @@ var MessageItem = function (_Component) {
           showGroupNumberName = _props2.showGroupNumberName;
 
       var disableLinks = parentDisableLinks;
-      if (!voicemailAttachment) {
+      var isVoicemail = type === _messageTypes2.default.voiceMail;
+      if (isVoicemail && !voicemailAttachment) {
         disableLinks = true;
       }
       var groupNumbers = this.getGroupPhoneNumbers();
@@ -476,7 +477,6 @@ var MessageItem = function (_Component) {
       var detail = this.getDetail();
       var player = void 0;
       var slideMenuHeight = 60;
-      var isVoicemail = type === _messageTypes2.default.voiceMail;
       if (isVoicemail) {
         player = _react2.default.createElement(_VoicemailPlayer2.default, {
           className: _styles2.default.player,
