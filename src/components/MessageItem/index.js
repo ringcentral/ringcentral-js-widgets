@@ -331,7 +331,8 @@ export default class MessageItem extends Component {
       showGroupNumberName,
     } = this.props;
     let disableLinks = parentDisableLinks;
-    if (!voicemailAttachment) {
+    const isVoicemail = type === messageTypes.voiceMail;
+    if (isVoicemail && !voicemailAttachment) {
       disableLinks = true;
     }
     const groupNumbers = this.getGroupPhoneNumbers();
@@ -340,7 +341,6 @@ export default class MessageItem extends Component {
     const detail = this.getDetail();
     let player;
     let slideMenuHeight = 60;
-    const isVoicemail = type === messageTypes.voiceMail;
     if (isVoicemail) {
       player = (
         <VoicemailPlayer
