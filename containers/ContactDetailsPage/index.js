@@ -34,12 +34,15 @@ function mapToProps(_, _ref) {
       locale = _ref$phone.locale,
       contacts = _ref$phone.contacts,
       contactDetails = _ref$phone.contactDetails,
-      contactSearch = _ref$phone.contactSearch;
+      contactSearch = _ref$phone.contactSearch,
+      rolesAndPermissions = _ref$phone.rolesAndPermissions;
 
   return {
     currentLocale: locale.currentLocale,
     contactItem: contactDetails.contact,
-    showSpinner: !(locale.ready && contactSearch.ready && contactDetails.ready)
+    showSpinner: !(locale.ready && contactSearch.ready && contactDetails.ready && rolesAndPermissions.ready),
+    outboundSmsPermission: !!(rolesAndPermissions.permissions && rolesAndPermissions.permissions.OutboundSMS),
+    internalSmsPermission: !!(rolesAndPermissions.permissions && rolesAndPermissions.permissions.InternalSMS)
   };
 }
 

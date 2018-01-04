@@ -166,6 +166,9 @@ var RecipientsInput = function (_Component) {
 
       _this.setState({ value: value });
       _this.props.onChange(value);
+      if (_this.listRef) {
+        _this.listRef.scrollTop = 0;
+      }
     };
 
     _this.onClean = function () {

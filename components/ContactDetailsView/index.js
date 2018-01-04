@@ -98,6 +98,8 @@ var ContactDetailsView = function (_PureComponent) {
           onClickMailTo = _props.onClickMailTo,
           formatNumber = _props.formatNumber,
           sourceNodeRenderer = _props.sourceNodeRenderer,
+          outboundSmsPermission = _props.outboundSmsPermission,
+          internalSmsPermission = _props.internalSmsPermission,
           children = _props.children;
 
       if (!contactItem) return null;
@@ -108,7 +110,9 @@ var ContactDetailsView = function (_PureComponent) {
         onClickToDial: onClickToDial,
         onClickMailTo: onClickMailTo,
         formatNumber: formatNumber,
-        sourceNodeRenderer: sourceNodeRenderer
+        sourceNodeRenderer: sourceNodeRenderer,
+        outboundSmsPermission: outboundSmsPermission,
+        internalSmsPermission: internalSmsPermission
       });
 
       return _react2.default.createElement(
@@ -152,7 +156,9 @@ ContactDetailsView.propTypes = {
   onClickMailTo: _propTypes2.default.func,
   formatNumber: _propTypes2.default.func.isRequired,
   sourceNodeRenderer: _propTypes2.default.func,
-  children: _propTypes2.default.node
+  children: _propTypes2.default.node,
+  outboundSmsPermission: _propTypes2.default.bool,
+  internalSmsPermission: _propTypes2.default.bool
 };
 
 ContactDetailsView.defaultProps = {
@@ -164,6 +170,8 @@ ContactDetailsView.defaultProps = {
   onClickMailTo: undefined,
   sourceNodeRenderer: function sourceNodeRenderer() {
     return null;
-  }
+  },
+  outboundSmsPermission: false,
+  internalSmsPermission: false
 };
 //# sourceMappingURL=index.js.map

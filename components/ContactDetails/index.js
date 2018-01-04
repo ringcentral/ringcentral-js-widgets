@@ -207,6 +207,13 @@ var ContactDetails = function (_PureComponent) {
       var extensionNumber = contactItem.extensionNumber;
 
       if (!extensionNumber) return null;
+      var textBtn = this.props.internalSmsPermission ? _react2.default.createElement(
+        'button',
+        { title: _i18n2.default.getString('text', currentLocale), onClick: function onClick() {
+            return _this2.onClickToSMS(contactItem, extensionNumber);
+          } },
+        _react2.default.createElement('i', { className: _DynamicsFont2.default.composeText })
+      ) : null;
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.item },
@@ -244,13 +251,7 @@ var ContactDetails = function (_PureComponent) {
                   } },
                 _react2.default.createElement('i', { className: _DynamicsFont2.default.call })
               ),
-              _react2.default.createElement(
-                'button',
-                { title: _i18n2.default.getString('text', currentLocale), onClick: function onClick() {
-                    return _this2.onClickToSMS(contactItem, extensionNumber);
-                  } },
-                _react2.default.createElement('i', { className: _DynamicsFont2.default.composeText })
-              )
+              textBtn
             )
           )
         )
@@ -272,6 +273,13 @@ var ContactDetails = function (_PureComponent) {
 
         if (phoneType === 'extension') return null;
         var formattedPhoneNumber = _this3.props.formatNumber(phoneNumber);
+        var textBtn = _this3.props.outboundSmsPermission ? _react2.default.createElement(
+          'button',
+          { title: _i18n2.default.getString('text', currentLocale), onClick: function onClick() {
+              return _this3.onClickToSMS(contactItem, phoneNumber);
+            } },
+          _react2.default.createElement('i', { className: _DynamicsFont2.default.composeText })
+        ) : null;
         return _react2.default.createElement(
           'li',
           { key: index },
@@ -294,13 +302,7 @@ var ContactDetails = function (_PureComponent) {
                 } },
               _react2.default.createElement('i', { className: _DynamicsFont2.default.call })
             ),
-            _react2.default.createElement(
-              'button',
-              { title: _i18n2.default.getString('text', currentLocale), onClick: function onClick() {
-                  return _this3.onClickToSMS(contactItem, phoneNumber);
-                } },
-              _react2.default.createElement('i', { className: _DynamicsFont2.default.composeText })
-            )
+            textBtn
           )
         );
       }).filter(function (v) {
@@ -425,7 +427,9 @@ ContactDetails.propTypes = {
   onClickToSMS: _propTypes2.default.func,
   onClickToDial: _propTypes2.default.func,
   onClickMailTo: _propTypes2.default.func,
-  formatNumber: _propTypes2.default.func.isRequired
+  formatNumber: _propTypes2.default.func.isRequired,
+  outboundSmsPermission: _propTypes2.default.bool,
+  internalSmsPermission: _propTypes2.default.bool
 };
 
 ContactDetails.defaultProps = {
@@ -434,6 +438,8 @@ ContactDetails.defaultProps = {
   onClickMailTo: undefined,
   sourceNodeRenderer: function sourceNodeRenderer() {
     return null;
-  }
+  },
+  outboundSmsPermission: false,
+  internalSmsPermission: false
 };
 //# sourceMappingURL=index.js.map
