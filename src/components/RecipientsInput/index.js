@@ -203,6 +203,9 @@ class RecipientsInput extends Component {
     const { value } = e.currentTarget;
     this.setState({ value });
     this.props.onChange(value);
+    if (this.listRef) {
+      this.listRef.scrollTop = 0;
+    }
   }
 
   onClean = () => {
