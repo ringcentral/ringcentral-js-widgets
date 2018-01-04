@@ -39,6 +39,8 @@ export default class ContactDetailsView extends PureComponent {
       onClickMailTo,
       formatNumber,
       sourceNodeRenderer,
+      outboundSmsPermission,
+      internalSmsPermission,
       children,
     } = this.props;
     if (!contactItem) return null;
@@ -53,6 +55,8 @@ export default class ContactDetailsView extends PureComponent {
           onClickMailTo={onClickMailTo}
           formatNumber={formatNumber}
           sourceNodeRenderer={sourceNodeRenderer}
+          outboundSmsPermission={outboundSmsPermission}
+          internalSmsPermission={internalSmsPermission}
         />
       );
 
@@ -89,6 +93,8 @@ ContactDetailsView.propTypes = {
   formatNumber: PropTypes.func.isRequired,
   sourceNodeRenderer: PropTypes.func,
   children: PropTypes.node,
+  outboundSmsPermission: PropTypes.bool,
+  internalSmsPermission: PropTypes.bool,
 };
 
 ContactDetailsView.defaultProps = {
@@ -99,4 +105,6 @@ ContactDetailsView.defaultProps = {
   contactItem: undefined,
   onClickMailTo: undefined,
   sourceNodeRenderer: () => null,
+  outboundSmsPermission: false,
+  internalSmsPermission: false,
 };

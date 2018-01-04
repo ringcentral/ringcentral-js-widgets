@@ -120,6 +120,10 @@ export default class ContactDetails extends PureComponent {
     const { contactItem, currentLocale } = this.props;
     const { extensionNumber } = contactItem;
     if (!extensionNumber) return null;
+    const textBtn = this.props.internalSmsPermission ? (
+      <button title={i18n.getString('text', currentLocale)} onClick={() => this.onClickToSMS(contactItem, extensionNumber)}>
+        <i className={dynamicsFont.composeText} />
+      </button>) : null;
     return (
       <div className={styles.item}>
         <div className={styles.label}>
@@ -134,9 +138,7 @@ export default class ContactDetails extends PureComponent {
               <button title={i18n.getString('call', currentLocale)} onClick={() => this.onClickToDial(contactItem, extensionNumber)}>
                 <i className={dynamicsFont.call} />
               </button>
-              <button title={i18n.getString('text', currentLocale)} onClick={() => this.onClickToSMS(contactItem, extensionNumber)}>
-                <i className={dynamicsFont.composeText} />
-              </button>
+              {textBtn}
             </div>
           </li>
         </ul>
@@ -150,6 +152,10 @@ export default class ContactDetails extends PureComponent {
     const phoneNumberListView = phoneNumbers.map(({ phoneType, phoneNumber }, index) => {
       if (phoneType === 'extension') return null;
       const formattedPhoneNumber = this.props.formatNumber(phoneNumber);
+      const textBtn = this.props.outboundSmsPermission ? (
+        <button title={i18n.getString('text', currentLocale)} onClick={() => this.onClickToSMS(contactItem, phoneNumber)}>
+          <i className={dynamicsFont.composeText} />
+        </button>) : null;
       return (
         <li key={index}>
           <div className={styles.number}>
@@ -159,9 +165,7 @@ export default class ContactDetails extends PureComponent {
             <button title={i18n.getString('call', currentLocale)} onClick={() => this.onClickToDial(contactItem, phoneNumber)}>
               <i className={dynamicsFont.call} />
             </button>
-            <button title={i18n.getString('text', currentLocale)} onClick={() => this.onClickToSMS(contactItem, phoneNumber)}>
-              <i className={dynamicsFont.composeText} />
-            </button>
+            {textBtn}
             {
               // <button>
               //   <FaxIcon className={styles.faxIcon} />
@@ -256,6 +260,8 @@ ContactDetails.propTypes = {
   onClickToDial: PropTypes.func,
   onClickMailTo: PropTypes.func,
   formatNumber: PropTypes.func.isRequired,
+  outboundSmsPermission: PropTypes.bool,
+  internalSmsPermission: PropTypes.bool,
 };
 
 ContactDetails.defaultProps = {
@@ -263,4 +269,6 @@ ContactDetails.defaultProps = {
   onClickToDial: undefined,
   onClickMailTo: undefined,
   sourceNodeRenderer: () => null,
+  outboundSmsPermission: false,
+  internalSmsPermission: false,
 };
