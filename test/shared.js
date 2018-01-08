@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import { createStore } from 'redux';
 import getIntlDateTimeFormatter from 'ringcentral-integration/lib/getIntlDateTimeFormatter';
 
-import Phone from '../dev-server/Phone';
+import { createPhone } from '../dev-server/Phone';
 import App from '../dev-server/containers/App';
 import brandConfig from '../dev-server/brandConfig';
 import version from '../dev-server/version';
@@ -17,11 +17,11 @@ const apiConfig = {
 };
 
 const getPhone = async () => {
-  const phone = new Phone({
+  const phone = createPhone({
     apiConfig,
     brandConfig,
     prefix,
-    appVersion: version,
+    version,
   });
   if (window.authData === null) {
     await phone.client.service.platform().login({
