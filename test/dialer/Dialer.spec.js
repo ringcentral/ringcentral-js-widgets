@@ -1,8 +1,8 @@
-import { getWrapper } from '../shared';
+import { getWrapper, timeout } from '../shared';
 import NavigationBar from '../../src/components/NavigationBar';
 import DialerPanel from '../../src/components/DialerPanel';
-import DialTextInput from '../../src/components/DialTextInput';
-import TextInput from '../../src/components/TextInput';
+import RecipientsInput from '../../src/components/RecipientsInput';
+import RemoveButton from '../../src/components/RemoveButton';
 import DialButton from '../../src/components/DialButton';
 import DialPad from '../../src/components/DialPad';
 import DropdownSelect from '../../src/components/DropdownSelect';
@@ -16,32 +16,34 @@ beforeEach(async () => {
   store = wrapper.props().phone.store;
   const navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/');
+  wrapper.update();
   panel = wrapper.find(DialerPanel).first();
 });
 
 const clickButton = (button) => {
   button.find('g').first().props().onMouseDown();
   button.find('g').first().props().onMouseUp();
+  wrapper.update();
 };
 
 const enterToNumber = async (number) => {
-  const textInput = panel.find(DialTextInput).first().find(TextInput).first();
-  const domInput = textInput.find('input').first();
-  domInput.get(0).value = number;
+  const domInput = panel.find(RecipientsInput).find('input');
+  domInput.instance().value = number;
   await domInput.simulate('change');
 };
 
 describe('dialer panel', () => {
   test('dial text input', async () => {
-    const dialTextInput = panel.find(DialTextInput).first();
-    expect(dialTextInput).toBeDefined();
-    const textInput = dialTextInput.find(TextInput).first();
-    expect(textInput).toBeDefined();
-    expect(textInput.props().value).toEqual('');
-
+    const recipientsInput = panel.find(RecipientsInput);
+    expect(recipientsInput).toBeDefined();
+    let domInput = recipientsInput.find('input');
+    expect(domInput).toBeDefined();
+    expect(domInput.props().value).toEqual('');
     await enterToNumber('16506417422');
-    expect(textInput.props().value).toEqual('16506417422');
-    expect(store.getState(wrapper).call.toNumber).toEqual('16506417422');
+    panel = wrapper.find(DialerPanel).first();
+    domInput = panel.find(RecipientsInput).find('input');
+    expect(domInput.props().value).toEqual('16506417422');
+    expect(store.getState(wrapper).dialerUI.toNumberField).toEqual('16506417422');
   });
 
   test('dial buttons', () => {
@@ -73,7 +75,7 @@ describe('dialer panel', () => {
     const buttonSharp = buttons.at(11);
     expect(buttonSharp.props().btn.value).toEqual('#');
 
-    const textInput = panel.find(DialTextInput).first().find(TextInput).first();
+    let textInput = panel.find(RecipientsInput).find('input');
     expect(textInput.props().value).toEqual('');
     clickButton(button0);
     clickButton(button1);
@@ -87,17 +89,21 @@ describe('dialer panel', () => {
     clickButton(button9);
     clickButton(buttonStar);
     clickButton(buttonSharp);
+
+    panel = wrapper.find(DialerPanel).first();
+    textInput = panel.find(RecipientsInput).find('input');
     expect(textInput.props().value).toEqual('0123456789*#');
 
-    expect(store.getState(wrapper).call.toNumber).toEqual('0123456789*#');
+    expect(store.getState(wrapper).dialerUI.toNumberField).toEqual('0123456789*#');
   });
 
   test('invalid number', async () => {
     await enterToNumber('Hello world');
-    expect(store.getState(wrapper).call.toNumber).toEqual('Hello world');
+    expect(store.getState(wrapper).dialerUI.toNumberField).toEqual('Hello world');
 
-    const callButton = panel.find('.callBtnRow').first().find('.btnSvgGroup').first();
+    const callButton = panel.find('.callBtnRow').find('.callBtn').find('.btnSvgGroup');
     await callButton.simulate('click');
+    await timeout(1000);
     const messages = store.getState(wrapper).alert.messages;
     expect(messages.length).toEqual(1);
     const message = messages[0];
@@ -107,32 +113,33 @@ describe('dialer panel', () => {
 
   test('clear input', async () => {
     await enterToNumber('Hello world');
-    expect(store.getState(wrapper).call.toNumber).toEqual('Hello world');
+    expect(store.getState(wrapper).dialerUI.toNumberField).toEqual('Hello world');
 
-    const deleteButton = panel.find(DialTextInput).first().find('.delete').first();
+    const deleteButton = panel.find(RecipientsInput).first().find(RemoveButton);
     await deleteButton.simulate('click');
-    expect(store.getState(wrapper).call.toNumber).toEqual('');
+    expect(store.getState(wrapper).dialerUI.toNumberField).toEqual('');
   });
 
   test('click call button to restore last number', async () => {
     await enterToNumber('Hello world');
-    expect(store.getState(wrapper).call.toNumber).toEqual('Hello world');
+    expect(store.getState(wrapper).dialerUI.toNumberField).toEqual('Hello world');
 
-    const callButton = panel.find('.callBtnRow').first().find('.btnSvgGroup').first();
+    let callButton = panel.find('.callBtnRow').find('.callBtn').find('.btnSvgGroup');
     await callButton.simulate('click');
-
-    const deleteButton = panel.find(DialTextInput).first().find('.delete').first();
+    panel = wrapper.find(DialerPanel).first();
+    const deleteButton = panel.find(RecipientsInput).find(RemoveButton);
     await deleteButton.simulate('click');
-    expect(store.getState(wrapper).call.toNumber).toEqual('');
-
+    expect(store.getState(wrapper).dialerUI.toNumberField).toEqual('');
+    callButton = panel.find('.callBtnRow').find('.callBtn').find('.btnSvgGroup');
     await callButton.simulate('click');
-    expect(store.getState(wrapper).call.toNumber).toEqual('Hello world');
-    const textInput = panel.find(DialTextInput).first().find(TextInput).first();
-    expect(textInput.props().value).toEqual('Hello world');
+    expect(store.getState(wrapper).dialerUI.toNumberField).toEqual('Hello world');
+    panel = wrapper.find(DialerPanel).first();
+    const textInput = panel.find(RecipientsInput).find('input');
+    expect(textInput.instance().value).toEqual('Hello world');
   });
 
   test('from dropdown', async () => {
-    const dropdownSelect = panel.find(DropdownSelect).first();
+    let dropdownSelect = panel.find(DropdownSelect).first();
     const dropdown = dropdownSelect.find('.dropdown').first();
     const dropdownItems = dropdown.find('.dropdownItem');
     expect(dropdownItems.length > 1).toEqual(true);
@@ -141,16 +148,22 @@ describe('dialer panel', () => {
       .find('span')
       .first()
       .text();
-    const secondNumber = dropdownItems.at(1).find('span.phoneNumber').first().children()
+    const secondNumber = dropdownItems.at(1).find('span.phoneNumber').children()
       .find('span')
       .first()
       .text();
     expect(firstNumber).not.toEqual(secondNumber);
 
-    const selected = dropdownSelect.find('button.button').first().find('span.phoneNumber').first();
     await dropdownItems.at(1).simulate('click');
+
+    panel = wrapper.find(DialerPanel).first();
+    dropdownSelect = panel.find(DropdownSelect).first();
+    let selected = dropdownSelect.find('button.button').first().find('span.phoneNumber');
     expect(selected.children().find('span').first().text()).toEqual(secondNumber);
     await dropdownItems.at(0).simulate('click');
+    panel = wrapper.find(DialerPanel).first();
+    dropdownSelect = panel.find(DropdownSelect).first();
+    selected = dropdownSelect.find('button.button').first().find('span.phoneNumber');
     expect(selected.children().find('span').first().text()).toEqual(firstNumber);
   });
 });
