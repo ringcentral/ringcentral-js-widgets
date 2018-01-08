@@ -16,13 +16,14 @@ beforeEach(async () => {
   store = wrapper.props().phone.store;
   const navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/settings');
+  wrapper.update();
   panel = wrapper.find(SettingsPanel).first();
 });
 
 describe('settings panel', () => {
   test('initial state', () => {
     const linkLines = panel.find(LinkLine);
-    expect(linkLines.length).toBe(2);
+    expect(linkLines.length).toBe(3);
     expect(linkLines.at(0).props().children).toEqual('Calling');
     expect(linkLines.at(1).props().children).toEqual('Region');
 
@@ -46,7 +47,7 @@ describe('settings panel', () => {
   });
 
   test('change presence status', async () => {
-    const presenceSettingSection = panel.find(PresenceSettingSection).first();
+    let presenceSettingSection = panel.find(PresenceSettingSection).first();
 
     const presenceItems = presenceSettingSection.find('.presenceList').first().find(PresenceItem);
     expect(presenceItems.length).toBe(4);
@@ -56,27 +57,39 @@ describe('settings panel', () => {
     const invisibleItem = presenceItems.at(3);
 
     await availableItem.props().onClick();
+    wrapper.update();
+    panel = wrapper.find(SettingsPanel).first();
+    presenceSettingSection = panel.find(PresenceSettingSection).first();
     expect(presenceSettingSection.props().userStatus).toEqual('Available');
-    expect(store.getState().presence.userStatus).toEqual('Available');
+    expect(store.getState().detailedPresence.userStatus).toEqual('Available');
     expect(presenceSettingSection.props().dndStatus).toEqual('TakeAllCalls');
-    expect(store.getState().presence.dndStatus).toEqual('TakeAllCalls');
+    expect(store.getState().detailedPresence.dndStatus).toEqual('TakeAllCalls');
 
     await busyItem.props().onClick();
+    wrapper.update();
+    panel = wrapper.find(SettingsPanel).first();
+    presenceSettingSection = panel.find(PresenceSettingSection).first();
     expect(presenceSettingSection.props().userStatus).toEqual('Busy');
-    expect(store.getState().presence.userStatus).toEqual('Busy');
+    expect(store.getState().detailedPresence.userStatus).toEqual('Busy');
     expect(presenceSettingSection.props().dndStatus).toEqual('TakeAllCalls');
-    expect(store.getState().presence.dndStatus).toEqual('TakeAllCalls');
+    expect(store.getState().detailedPresence.dndStatus).toEqual('TakeAllCalls');
 
     await noDisturbItem.props().onClick();
+    wrapper.update();
+    panel = wrapper.find(SettingsPanel).first();
+    presenceSettingSection = panel.find(PresenceSettingSection).first();
     expect(presenceSettingSection.props().userStatus).toEqual('Busy');
-    expect(store.getState().presence.userStatus).toEqual('Busy');
+    expect(store.getState().detailedPresence.userStatus).toEqual('Busy');
     expect(presenceSettingSection.props().dndStatus).toEqual('DoNotAcceptAnyCalls');
-    expect(store.getState().presence.dndStatus).toEqual('DoNotAcceptAnyCalls');
+    expect(store.getState().detailedPresence.dndStatus).toEqual('DoNotAcceptAnyCalls');
 
     await invisibleItem.props().onClick();
+    wrapper.update();
+    panel = wrapper.find(SettingsPanel).first();
+    presenceSettingSection = panel.find(PresenceSettingSection).first();
     expect(presenceSettingSection.props().userStatus).toEqual('Offline');
-    expect(store.getState().presence.userStatus).toEqual('Offline');
+    expect(store.getState().detailedPresence.userStatus).toEqual('Offline');
     expect(presenceSettingSection.props().dndStatus).toEqual('TakeAllCalls');
-    expect(store.getState().presence.dndStatus).toEqual('TakeAllCalls');
+    expect(store.getState().detailedPresence.dndStatus).toEqual('TakeAllCalls');
   });
 });

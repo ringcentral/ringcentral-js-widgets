@@ -60,34 +60,17 @@ import { ModuleFactory } from 'ringcentral-integration/lib/di';
 import RouterInteraction from '../src/modules/RouterInteraction';
 import DialerUI from '../src/modules/DialerUI';
 import ProxyFrameOAuth from '../src/modules/ProxyFrameOAuth';
-import apiConfig from './api-config';
-import brandConfig from './brandConfig';
 
-
-const sdkConfig = {
-  ...apiConfig,
-  cachePrefix: 'sdk-rc',
-  clearCacheOnRefreshError: false,
-};
 @ModuleFactory({
   providers: [
     {
-      provide: 'ModuleOptions',
-      useValue: {
-        prefix: 'rc'
-      },
-      spread: true
-    },
-    {
       provide: 'Client',
-      useFactory: () => (
+      useFactory: ({ sdkConfig }) => (
         new RingCentralClient(new SDK(sdkConfig))
       ),
-    },
-    {
-      provide: 'BrandOptions',
-      spread: true,
-      useValue: brandConfig,
+      deps: [
+        { dep: 'SdkConfig', useParam: true, },
+      ],
     },
     Alert,
     Brand,
@@ -98,13 +81,6 @@ const sdkConfig = {
     GlobalStorage,
     LocaleSettings,
     Environment,
-    {
-      provide: 'EnvironmentOptions',
-      useValue: {
-        sdkConfig,
-      },
-      spread: true,
-    },
     Auth,
     ProxyFrameOAuth,
     {
@@ -159,35 +135,12 @@ const sdkConfig = {
     RecentCalls,
     Meeting,
     Webphone,
-    {
-      provide: 'WebphoneOptions',
-      useValue: {
-        appKey: sdkConfig.appKey,
-        appName: 'RingCentral Widgets',
-        appVersion: '0.1.0',
-      },
-      spread: true,
-    },
     ContactSearch,
     CallMonitor,
-    {
-      provide: 'Version',
-      useFactory: () => '0.1.0',
-    },
     DialerUI,
-    Analytics,
-    {
-      provide: 'AnalyticsOptions',
-      useValue: {
-        appName: 'RingCentral Widgets',
-        appVersion: '0.1.0',
-        analyticsKey: 'BnyIBDFjj4oPggiCccU97IyfdTjlzJEj'
-      },
-      spread: true,
-    }
   ]
 })
-export default class Phone extends RcModule {
+export default class BasePhone extends RcModule {
   constructor({
     webphone,
     routerInteraction,
@@ -301,4 +254,63 @@ export default class Phone extends RcModule {
     /* no action types */
     return null;
   }
+}
+
+export function createPhone({
+  prefix = 'rc',
+  version = '0.1.0',
+  apiConfig,
+  brandConfig,
+}) {
+  @ModuleFactory({
+    providers: [
+      {
+        provide: 'ModuleOptions',
+        useValue: {
+          prefix
+        },
+        spread: true
+      },
+      {
+        provide: 'SdkConfig',
+        useValue: {
+          ...apiConfig,
+          cachePrefix: 'sdk-rc',
+          clearCacheOnRefreshError: false,
+        },
+      },
+      {
+        provide: 'EnvironmentOptions',
+        useValue: {
+          sdkConfig: {
+            ...apiConfig,
+            cachePrefix: 'sdk-rc',
+            clearCacheOnRefreshError: false,
+          },
+        },
+        spread: true,
+      },
+      {
+        provide: 'BrandOptions',
+        spread: true,
+        useValue: brandConfig,
+      },
+      {
+        provide: 'WebphoneOptions',
+        spread: true,
+        useValue: {
+          appKey: apiConfig.appKey,
+          appName: brandConfig.appName,
+          appVersion: version,
+          webphoneLogLevel: 1,
+        },
+      },
+      {
+        provide: 'Version',
+        useFactory: () => version,
+      },
+    ]
+  })
+  class Phone extends BasePhone {}
+  return Phone.create();
 }

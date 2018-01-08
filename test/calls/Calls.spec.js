@@ -9,6 +9,7 @@ beforeEach(async () => {
   wrapper = await getWrapper();
   const navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/calls');
+  wrapper.update();
   panel = wrapper.find(ActiveCallsPanel).first();
 });
 

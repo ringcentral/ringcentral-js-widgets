@@ -15,6 +15,7 @@ beforeEach(async () => {
   store = wrapper.props().phone.store;
   const navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/settings');
+  wrapper.update();
   panel = wrapper.find(SettingsPanel).first();
   const callingLinkLine = panel.find(LinkLine).at(0);
   await callingLinkLine.simulate('click');
@@ -27,12 +28,14 @@ describe('calling settings', () => {
   });
 
   test('button state', async () => {
-    const saveButton = callingSettings.find(Button).first();
+    let saveButton = callingSettings.find(Button).first();
     expect(saveButton.props().disabled).toEqual(true);
 
     const items = callingSettings.find('.dropdownItem');
     const lastItem = items.at(items.length - 1);
     await lastItem.simulate('click');
+    callingSettings = wrapper.find(CallingSettings).first();
+    saveButton = callingSettings.find(Button).first();
     expect(saveButton.props().disabled).toEqual(false);
   });
 

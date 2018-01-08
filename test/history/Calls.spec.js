@@ -13,6 +13,7 @@ beforeEach(async () => {
   wrapper = await getWrapper();
   const navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/history');
+  wrapper.update();
   panel = wrapper.find(CallsPanel).first();
 });
 
@@ -20,17 +21,18 @@ describe('history', () => {
   test('initial state', async () => {
     expect(panel).toBeDefined();
     expect(panel.props()).toBeDefined();
-
+    await timeout(200); // because there is a setTimeout in CallItem implementation
     const callItems = panel.find(CallItem);
-    await timeout(20); // because there is a setTimeout in CallItem implementation
     for (let i = 0; i < callItems.length; i += 1) {
       expect(callItems.at(i).text().trim().length > 0).toEqual(true);
     }
   });
 
   test('log button', async () => {
+    await timeout(200); // because there is a setTimeout in CallItem implementation
+    wrapper.update();
+    panel = wrapper.find(CallsPanel).first();
     const callItems = panel.find(CallItem);
-    await timeout(20); // because there is a setTimeout in CallItem implementation
     if (callItems.length > 0) {
       const callItem = callItems.at(callItems.length - 1); // last item
       const logButton = callItem.find(LogButton).first().find(Button).first();
@@ -39,15 +41,22 @@ describe('history', () => {
   });
 
   test('click log button', async () => {
+    await timeout(200); // because there is a setTimeout in CallItem implementation
+    wrapper.update();
+    panel = wrapper.find(CallsPanel).first();
     const callItems = panel.find(CallItem);
-    await timeout(20); // because there is a setTimeout in CallItem implementation
     if (callItems.length > 0) {
       const callItem = callItems.at(callItems.length - 1); // last item
-      const logButton = callItem.find(LogButton).first().find(Button).first();
+      let logButton = callItem.find(LogButton).find(Button);
       logButton.simulate('click');
+      panel = wrapper.find(CallsPanel).first();
+      logButton = panel.find(CallItem).at(callItems.length - 1).find(LogButton).find(Button);
       expect(logButton.props().disabled).toBe(true);
       expect(logButton.find(Spinner).length).toBe(1);
       await timeout(3000);
+      wrapper.update();
+      panel = wrapper.find(CallsPanel).first();
+      logButton = panel.find(CallItem).at(callItems.length - 1).find(LogButton).find(Button);
       expect(logButton.props().disabled).toBe(false);
       expect(logButton.find(Spinner).length).toBe(0);
     }
