@@ -5,11 +5,14 @@
   "brand": {
     "id": "1210",
     "name": "RingCentral",
-    "fullName": "RingCentral"
+    "fullName": "RingCentral",
+    "code": "rc"
   },
+  "softphone": null,
   "locale": {
+    "status": "module-ready",
     "currentLocale": "en-US",
-    "status": "module-ready"
+    "debugMode": false
   },
   "dateTimeFormat": {
     "status": "module-ready"
@@ -22,13 +25,16 @@
   "globalStorage": {
     "status": "module-ready",
     "data": {
-      "environmentEnabled": false,
-      "environmentRecordingHost": "https://s3.ap-northeast-2.amazonaws.com/fetch-call-recording/test/index.html",
+      "environmentEnabled": true,
+      "environmentRecordingHost": "",
       "environmentServer": "https://platform.devtest.ringcentral.com",
-      "rateLimiterTimestamp": null,
-      "userMadia": false
+      "localeSettingsData": "en-US",
+      "rateLimiterTimestamp": null
     },
     "storageKey": "rc-widget-GlobalStorage"
+  },
+  "localeSettings": {
+    "status": "module-ready"
   },
   "environment": {
     "status": "module-ready",
@@ -37,10 +43,23 @@
   "auth": {
     "status": "module-ready",
     "loginStatus": "loginStatus-loggedIn",
-    "freshLogin": true,
-    "ownerId": "130829004",
-    "endpointId": "jlG5U9IySY-weJqDS6a78A",
-    "proxyLoaded": false,
+    "freshLogin": false,
+    "token": {
+      "ownerId": "130829004",
+      "endpointId": "x3MGDem-QgOZwu-TcQq45w",
+      "accessToken": "U0pDMTFQMDFQQVMwMHxBQURwYUlrX2ZiRnFGNzRRcHB6UzdQeUdIZVYxRVFicjZLM0otYV9zNHVpQlJjcE11Mko2d3djRnhFRUpvZFpWcUN6WU5nVEhXVHo4am54N01VVnFzNHZvZTQ0Q1M5VHdQVlFrTk5HSVFwbzBSd0p3S29HM0dOVUpzcTN2aDNWcUdNRXU1U0RXVDgxMFVuajg5aDA3UVJmZ0pjSHZHOXVWZXVHLWZ6TkF4cTVzbTI4dW80WVRwV05FWnpMOWZVbXNqeVpJNW9yMVZEQ1FPaUN4Y3k4Z3pULWRKMVR3Z1NXV3VMTHE1OFJHS1NHV2tfU29JT3hNWGo0c2xiMkd4M3BaU2tQdWFlNGRPa2ROMkF8WUlycEl3fDV6a1dxeWNNejJCVnczSTFyRmNLTnc",
+      "expireTime": 1515050116854,
+      "expiresIn": 3600
+    }
+  },
+  "proxyFrameOAuth": {
+    "status": "module-ready",
+    "oAuthReady": false,
+    "proxyRetryCount": 0
+  },
+  "oAuth": {
+    "status": "module-ready",
+    "oAuthReady": false,
     "proxyRetryCount": 0
   },
   "ringout": {
@@ -57,6 +76,37 @@
   "storage": {
     "status": "module-ready",
     "data": {
+      "audioSettings": {
+        "dialButtonVolume": 1,
+        "dialButtonMuted": false,
+        "ringtoneVolume": 0.3,
+        "ringtoneMuted": false,
+        "callVolume": 1,
+        "outputDeviceId": "default",
+        "inputDeviceId": "default"
+      },
+      "cachedSubscription": {
+        "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/subscription/31646efa-bebc-4a0c-97ef-db0a4e916a70",
+        "id": "31646efa-bebc-4a0c-97ef-db0a4e916a70",
+        "creationTime": "2018-01-04T06:15:25.396Z",
+        "status": "Active",
+        "eventFilters": [
+          "/restapi/v1.0/account/130829004/extension/130829004/presence?detailedTelephonyState=true",
+          "/restapi/v1.0/account/130829004/extension/130829004/message-store",
+          "/restapi/v1.0/account/130829004/extension/130829004/presence?detailedTelephonyState=true&sipData=true",
+          "/restapi/v1.0/account/130829004/extension"
+        ],
+        "expirationTime": "2018-01-04T06:34:22.760Z",
+        "expiresIn": 899,
+        "deliveryMode": {
+          "transportType": "PubNub",
+          "encryption": true,
+          "address": "4375665152081761_19705e6e",
+          "subscriberKey": "sub-c-b8b9cd8c-e906-11e2-b383-02ee2ddab7fe",
+          "encryptionAlgorithm": "AES",
+          "encryptionKey": "H0a3bBX43UO33n1baGmFiw=="
+        }
+      },
       "accountExtensionData": [
         {
           "ext": "101",
@@ -77,10 +127,27 @@
               "text": "Something New"
             }
           },
-          "hasProfileImage": "af61a11ebc07fc6274077de800450012"
+          "hasProfileImage": "fe106cf535a56bf66b9783e0e95d1b1e"
+        },
+        {
+          "ext": "103",
+          "name": "Jack Huang",
+          "id": 146769004,
+          "status": "Enabled",
+          "type": "User",
+          "contact": {
+            "firstName": "Jack",
+            "lastName": "Huang",
+            "email": "jack.huang@ringcentral.com",
+            "emailAsLoginName": true,
+            "pronouncedName": {
+              "type": "Default",
+              "text": "Jack Huang"
+            }
+          }
         }
       ],
-      "accountExtensionTimestamp": 1504753466985,
+      "accountExtensionTimestamp": 1515046525812,
       "accountInfoData": {
         "id": 130829004,
         "mainNumber": "+17322764403",
@@ -115,7 +182,7 @@
           "timeFormat": "12h"
         }
       },
-      "accountInfoTimestamp": 1504753466638,
+      "accountInfoTimestamp": 1515046524879,
       "extensionDeviceData": [
         {
           "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/device/22174004",
@@ -166,7 +233,7 @@
           "linePooling": "Host"
         }
       ],
-      "extensionDeviceTimestamp": 1504753466592,
+      "extensionDeviceTimestamp": 1515046524865,
       "extensionInfoData": {
         "id": 130829004,
         "extensionNumber": "101",
@@ -202,9 +269,9 @@
         },
         "profileImage": {
           "uri": "https://media.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/profile-image",
-          "etag": "af61a11ebc07fc6274077de800450012",
+          "etag": "fe106cf535a56bf66b9783e0e95d1b1e",
           "contentType": "image/png",
-          "lastModified": "2017-08-25T05:28:44.153Z",
+          "lastModified": "2018-01-03T09:09:50.605Z",
           "scales": [
             {
               "uri": "https://media.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/profile-image/90x90"
@@ -399,8 +466,7 @@
             "reason": "AccountTypeLimitation"
           },
           "CallSwitch": {
-            "enabled": false,
-            "reason": "AccountLimitation"
+            "enabled": true
           },
           "PromoMessage": {
             "enabled": true
@@ -411,7 +477,7 @@
           }
         }
       },
-      "extensionInfoTimestamp": 1504753466557,
+      "extensionInfoTimestamp": 1515046526919,
       "rolesAndPermissionsData": {
         "AccountAdministration": true,
         "AccountValidation": true,
@@ -478,7 +544,10 @@
         "LocalSMS": true,
         "Meetings": true,
         "MeetingsConfiguration": true,
+        "MeetingsDashboard": true,
         "MeetingsPlan": true,
+        "MeetingsReports": true,
+        "MeetingsSettings": true,
         "MessagesAndNotifications": true,
         "OrganizeConference": true,
         "OutboundCallerId": true,
@@ -489,7 +558,6 @@
         "PhonesAndDevices": true,
         "PhonesAndNumbers": true,
         "PremiumDestinations": true,
-        "QoSReports": true,
         "ReadAdvancedFeaturesInfo": true,
         "ReadAssignedRoles": true,
         "ReadBlockedNumbers": true,
@@ -529,11 +597,13 @@
         "ScreeningGreetingHoldMusic": true,
         "ServicePlan": true,
         "ServiceWebAccess": true,
+        "SiteCallLog": true,
+        "Sites": true,
         "ThirdPartyAppAccess": true,
         "UserInfo": true,
         "Users": true
       },
-      "rolesAndPermissionsTimestamp": 1504753466468,
+      "rolesAndPermissionsTimestamp": 1515046527693,
       "dialingPlanData": [
         {
           "id": "1",
@@ -541,7 +611,7 @@
           "callingCode": "1"
         }
       ],
-      "dialingPlanTimestamp": 1504753466345,
+      "dialingPlanTimestamp": 1515046523790,
       "extensionPhoneNumberData": [
         {
           "id": 246314004,
@@ -557,10 +627,9 @@
             "name": "United States"
           },
           "features": [
-            "MmsSender",
             "SmsSender",
-            "CallerId",
-            "InternationalSmsSender"
+            "MmsSender",
+            "CallerId"
           ]
         },
         {
@@ -577,10 +646,9 @@
             "name": "United States"
           },
           "features": [
-            "MmsSender",
             "SmsSender",
-            "CallerId",
-            "InternationalSmsSender"
+            "MmsSender",
+            "CallerId"
           ]
         },
         {
@@ -597,10 +665,9 @@
             "name": "United States"
           },
           "features": [
-            "MmsSender",
             "SmsSender",
-            "CallerId",
-            "InternationalSmsSender"
+            "MmsSender",
+            "CallerId"
           ]
         },
         {
@@ -617,10 +684,9 @@
             "name": "United States"
           },
           "features": [
-            "MmsSender",
             "SmsSender",
-            "CallerId",
-            "InternationalSmsSender"
+            "MmsSender",
+            "CallerId"
           ]
         },
         {
@@ -637,14 +703,13 @@
             "name": "United States"
           },
           "features": [
-            "MmsSender",
             "SmsSender",
-            "CallerId",
-            "InternationalSmsSender"
+            "MmsSender",
+            "CallerId"
           ]
         }
       ],
-      "extensionPhoneNumberTimestamp": 1504753466239,
+      "extensionPhoneNumberTimestamp": 1515046524396,
       "forwardingNumberData": [
         {
           "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/forwarding-number/444216004",
@@ -654,127 +719,86 @@
           "features": [
             "CallFlip"
           ],
-          "flipNumber": "1"
-        },
-        {
-          "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/forwarding-number/451131005",
-          "id": "451131005",
-          "phoneNumber": "+16507411615",
-          "label": "test",
-          "features": [
-            "CallFlip",
-            "CallForwarding"
-          ],
-          "flipNumber": "3"
-        },
-        {
-          "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/forwarding-number/455288004",
-          "id": "455288004",
-          "phoneNumber": "+18657118279",
-          "label": "Mobile",
-          "features": [
-            "CallFlip",
-            "CallForwarding"
-          ],
-          "flipNumber": "2"
+          "flipNumber": "1",
+          "type": "PhoneLine"
         }
       ],
-      "forwardingNumberTimestamp": 1504753466173,
+      "forwardingNumberTimestamp": 1515046528447,
+      "regionSettingsCountryCode": "US",
+      "regionSettingsAreaCode": "",
       "contactMatcherData": {
-        "+15623535396": {
+        "+17322764403": {
           "contacts": {
-            "_t": 1504753592622,
-            "data": []
+            "data": [
+              {
+                "type": "personal",
+                "phoneNumbers": [
+                  {
+                    "phoneNumber": "+12098135681",
+                    "phoneType": "homePhone"
+                  },
+                  {
+                    "phoneNumber": "+15856234100",
+                    "phoneType": "homePhone2"
+                  },
+                  {
+                    "phoneNumber": "+17322764403",
+                    "phoneType": "businessPhone"
+                  }
+                ],
+                "emails": [],
+                "availability": "Alive",
+                "id": "391595004",
+                "firstName": "qwe",
+                "lastName": "qwe",
+                "homePhone": "+12098135681",
+                "homePhone2": "+15856234100",
+                "businessPhone": "+17322764403",
+                "name": "qwe qwe",
+                "entityType": "rcContact"
+              },
+              {
+                "type": "personal",
+                "phoneNumbers": [
+                  {
+                    "phoneNumber": "+17322764403",
+                    "phoneType": "homePhone"
+                  }
+                ],
+                "emails": [],
+                "availability": "Alive",
+                "id": "391920004",
+                "firstName": "_test",
+                "lastName": "~!@#$%^&*(){}[]:\";'?>,.</_+-=\\|",
+                "homePhone": "+17322764403",
+                "name": "_test ~!@#$%^&*(){}[]:\";'?>,.</_+-=\\|",
+                "entityType": "rcContact"
+              }
+            ],
+            "_t": 1515046759005
           }
         },
         "+16505819954": {
           "contacts": {
-            "_t": 1504753592622,
-            "data": []
-          }
-        },
-        "+16506417402": {
-          "contacts": {
-            "_t": 1504753592622,
-            "data": []
-          }
-        },
-        "+19295755900": {
-          "contacts": {
-            "_t": 1504753592622,
+            "_t": 1515046759005,
             "data": []
           }
         }
       },
-      "regionSettingsCountryCode": "US",
-      "regionSettingsAreaCode": "456",
       "callingSettingsCallWith": "callingOptions-browser",
       "callingSettingsRingoutPrompt": true,
       "callingSettingsMyLocation": "",
-      "callingSettingsTimestamp": 1502348634950,
-      "fromCallIdNumber": "+19295755900",
-      "lastCallNumber": "16506417402",
-      "cachedSubscription": {
-        "uri": "https://platform.devtest.ringcentral.com:-1/restapi/v1.0/subscription/436e7184-b64e-4692-87b5-ddaced56861f",
-        "id": "436e7184-b64e-4692-87b5-ddaced56861f",
-        "creationTime": "2017-09-07T03:04:29.839Z",
-        "status": "Active",
-        "eventFilters": [
-          "/restapi/v1.0/account/130829004/extension/130829004/presence?detailedTelephonyState=true",
-          "/restapi/v1.0/account/130829004/extension/130829004/message-store",
-          "/restapi/v1.0/account/130829004/extension/130829004/presence?detailedTelephonyState=true&sipData=true",
-          "/restapi/v1.0/account/130829004/extension/130829004/presence"
-        ],
-        "expirationTime": "2017-09-07T03:19:29.839Z",
-        "expiresIn": 899,
-        "deliveryMode": {
-          "transportType": "PubNub",
-          "encryption": true,
-          "address": "136904225852596_ac53d37a",
-          "subscriberKey": "sub-c-b8b9cd8c-e906-11e2-b383-02ee2ddab7fe",
-          "encryptionAlgorithm": "AES",
-          "encryptionKey": "ZkpqxOmB3JyJPAbr7D/1WQ=="
-        }
+      "callingSettingsTimestamp": 1515046528460,
+      "fromCallIdNumber": "+16502578497",
+      "callData": {
+        "lastPhoneNumber": null,
+        "lastRecipient": null
       },
+      "activeCallsData": [],
+      "activeCallsTimestamp": 1515046522781,
+      "lastNotDisturbDndStatusDetailPresence": null,
       "contactSearchCache": {
-        "contactSearch": {
-          "extensions-165": {
-            "entities": [],
-            "timestamp": 1504753557077
-          },
-          "extensions-1650": {
-            "entities": [],
-            "timestamp": 1504753557739
-          },
-          "extensions-16506": {
-            "entities": [],
-            "timestamp": 1504753558352
-          },
-          "extensions-165064": {
-            "entities": [],
-            "timestamp": 1504753558489
-          },
-          "extensions-1650641": {
-            "entities": [],
-            "timestamp": 1504753558838
-          },
-          "extensions-16506417": {
-            "entities": [],
-            "timestamp": 1504753559054
-          },
-          "extensions-165064174": {
-            "entities": [],
-            "timestamp": 1504753559420
-          },
-          "extensions-1650641740": {
-            "entities": [],
-            "timestamp": 1504753559847
-          },
-          "extensions-16506417402": {
-            "entities": [],
-            "timestamp": 1504753560095
-          }
-        }
+        "contactSearch": {}
       },
       "composeText": {
         "senderNumber": "+15623535396"
@@ -783,7 +807,7 @@
         "data": {
           "conversations": [
             {
-              "id": 3435018004,
+              "id": 3875771004,
               "to": [
                 {
                   "phoneNumber": "+16505819954",
@@ -791,54 +815,17 @@
                 }
               ],
               "from": {
-                "phoneNumber": "+15623535396",
-                "location": "Lakewood, CA"
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
               },
               "type": "SMS",
-              "creationTime": "2017-09-07T03:00:07.000Z",
+              "creationTime": "2018-01-03T09:10:07.000Z",
               "readStatus": "Read",
               "priority": "Normal",
               "attachments": [
                 {
-                  "id": 3435018004,
-                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3435018004/content/3435018004",
-                  "type": "Text",
-                  "contentType": "text/plain"
-                }
-              ],
-              "direction": "Outbound",
-              "availability": "Alive",
-              "subject": "Test SMS using a RingCentral Developer account - Hello world 1504753204697",
-              "messageStatus": "Delivered",
-              "smsSendingAttemptsCount": 1,
-              "conversationId": "5208168283776351498",
-              "conversation": {
-                "id": "5208168283776351498",
-                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/5208168283776351498"
-              },
-              "lastModifiedTime": "2017-09-07T03:00:09.852Z",
-              "unreadCounts": 0
-            },
-            {
-              "id": 3435042004,
-              "to": [
-                {
-                  "phoneNumber": "+16506417402",
-                  "location": "Mountain View, CA"
-                }
-              ],
-              "from": {
-                "phoneNumber": "+15623535396",
-                "location": "Lakewood, CA"
-              },
-              "type": "SMS",
-              "creationTime": "2017-09-07T03:06:08.000Z",
-              "readStatus": "Read",
-              "priority": "Normal",
-              "attachments": [
-                {
-                  "id": 3435042004,
-                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3435042004/content/3435042004",
+                  "id": 3875771004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3875771004/content/3875771004",
                   "type": "Text",
                   "contentType": "text/plain"
                 }
@@ -848,32 +835,26 @@
               "subject": "Test SMS using a RingCentral Developer account - hello world",
               "messageStatus": "Delivered",
               "smsSendingAttemptsCount": 1,
-              "conversationId": "5208168284911200409",
+              "conversationId": "205133443784764385",
               "conversation": {
-                "id": "5208168284911200409",
-                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/5208168284911200409"
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
               },
-              "lastModifiedTime": "2017-09-07T03:06:10.243Z",
+              "lastModifiedTime": "2018-01-03T09:10:08.133Z",
               "unreadCounts": 0
             }
           ],
           "conversationMap": {
-            "5208168283776351498": {
+            "205133443784764385": {
               "unreadMessages": {},
               "index": 0,
-              "id": "5208168283776351498",
-              "syncToken": "AQEAAAAAAwAAAV47WszABgAAAPoFAAABXlpNUcMTAAgAAAAAB8xKzAkBCgFTfr9Y"
-            },
-            "5208168284911200409": {
-              "unreadMessages": {},
-              "index": 1,
-              "id": "5208168284911200409",
-              "syncToken": "AQEAAAAAAwAAAV47WszABgAAAPoFAAABXlpNUcMTAAgAAAAAB8xKzAkBCgFTfr9Y"
+              "id": "205133443784764385",
+              "syncToken": "AQEAAAAAAwAAAWC7CDNIBgAAAPoFAAABYL_SdgkTAAgAAAAAB8xKzAkBCgFNGl6T"
             }
           },
           "messages": [
             {
-              "id": 3415350004,
+              "id": 3875605004,
               "to": [
                 {
                   "phoneNumber": "+16505819954",
@@ -881,35 +862,35 @@
                 }
               ],
               "from": {
-                "phoneNumber": "+15623535396",
-                "location": "Lakewood, CA"
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
               },
               "type": "SMS",
-              "creationTime": "2017-09-01T02:52:40.000Z",
+              "creationTime": "2018-01-03T07:59:25.000Z",
               "readStatus": "Read",
               "priority": "Normal",
               "attachments": [
                 {
-                  "id": 3415350004,
-                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3415350004/content/3415350004",
+                  "id": 3875605004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3875605004/content/3875605004",
                   "type": "Text",
                   "contentType": "text/plain"
                 }
               ],
               "direction": "Outbound",
               "availability": "Alive",
-              "subject": "Test SMS using a RingCentral Developer account - Hello world 1504234358944",
+              "subject": "Test SMS using a RingCentral Developer account - Hello world",
               "messageStatus": "Delivered",
               "smsSendingAttemptsCount": 1,
-              "conversationId": "5208168283776351498",
+              "conversationId": "205133443784764385",
               "conversation": {
-                "id": "5208168283776351498",
-                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/5208168283776351498"
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
               },
-              "lastModifiedTime": "2017-09-01T02:52:42.430Z"
+              "lastModifiedTime": "2018-01-03T07:59:26.275Z"
             },
             {
-              "id": 3435002004,
+              "id": 3875635004,
               "to": [
                 {
                   "phoneNumber": "+16505819954",
@@ -917,35 +898,35 @@
                 }
               ],
               "from": {
-                "phoneNumber": "+15623535396",
-                "location": "Lakewood, CA"
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
               },
               "type": "SMS",
-              "creationTime": "2017-09-07T02:43:11.000Z",
+              "creationTime": "2018-01-03T08:09:39.000Z",
               "readStatus": "Read",
               "priority": "Normal",
               "attachments": [
                 {
-                  "id": 3435002004,
-                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3435002004/content/3435002004",
+                  "id": 3875635004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3875635004/content/3875635004",
                   "type": "Text",
                   "contentType": "text/plain"
                 }
               ],
               "direction": "Outbound",
               "availability": "Alive",
-              "subject": "Test SMS using a RingCentral Developer account - Hello world 1504752189260",
+              "subject": "Test SMS using a RingCentral Developer account - Hello world",
               "messageStatus": "Delivered",
               "smsSendingAttemptsCount": 1,
-              "conversationId": "5208168283776351498",
+              "conversationId": "205133443784764385",
               "conversation": {
-                "id": "5208168283776351498",
-                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/5208168283776351498"
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
               },
-              "lastModifiedTime": "2017-09-07T02:43:13.441Z"
+              "lastModifiedTime": "2018-01-03T08:09:40.990Z"
             },
             {
-              "id": 3435006004,
+              "id": 3875639004,
               "to": [
                 {
                   "phoneNumber": "+16505819954",
@@ -953,35 +934,35 @@
                 }
               ],
               "from": {
-                "phoneNumber": "+15623535396",
-                "location": "Lakewood, CA"
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
               },
               "type": "SMS",
-              "creationTime": "2017-09-07T02:44:39.000Z",
+              "creationTime": "2018-01-03T08:11:18.000Z",
               "readStatus": "Read",
               "priority": "Normal",
               "attachments": [
                 {
-                  "id": 3435006004,
-                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3435006004/content/3435006004",
+                  "id": 3875639004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3875639004/content/3875639004",
                   "type": "Text",
                   "contentType": "text/plain"
                 }
               ],
               "direction": "Outbound",
               "availability": "Alive",
-              "subject": "Test SMS using a RingCentral Developer account - Hello world 1504752276135",
+              "subject": "Test SMS using a RingCentral Developer account - Hello world",
               "messageStatus": "Delivered",
               "smsSendingAttemptsCount": 1,
-              "conversationId": "5208168283776351498",
+              "conversationId": "205133443784764385",
               "conversation": {
-                "id": "5208168283776351498",
-                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/5208168283776351498"
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
               },
-              "lastModifiedTime": "2017-09-07T02:44:40.664Z"
+              "lastModifiedTime": "2018-01-03T08:11:19.781Z"
             },
             {
-              "id": 3435018004,
+              "id": 3875649004,
               "to": [
                 {
                   "phoneNumber": "+16505819954",
@@ -989,53 +970,161 @@
                 }
               ],
               "from": {
-                "phoneNumber": "+15623535396",
-                "location": "Lakewood, CA"
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
               },
               "type": "SMS",
-              "creationTime": "2017-09-07T03:00:07.000Z",
+              "creationTime": "2018-01-03T08:12:21.000Z",
               "readStatus": "Read",
               "priority": "Normal",
               "attachments": [
                 {
-                  "id": 3435018004,
-                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3435018004/content/3435018004",
+                  "id": 3875649004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3875649004/content/3875649004",
                   "type": "Text",
                   "contentType": "text/plain"
                 }
               ],
               "direction": "Outbound",
               "availability": "Alive",
-              "subject": "Test SMS using a RingCentral Developer account - Hello world 1504753204697",
+              "subject": "Test SMS using a RingCentral Developer account - Hello world",
               "messageStatus": "Delivered",
               "smsSendingAttemptsCount": 1,
-              "conversationId": "5208168283776351498",
+              "conversationId": "205133443784764385",
               "conversation": {
-                "id": "5208168283776351498",
-                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/5208168283776351498"
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
               },
-              "lastModifiedTime": "2017-09-07T03:00:09.852Z"
+              "lastModifiedTime": "2018-01-03T08:12:22.426Z"
             },
             {
-              "id": 3435042004,
+              "id": 3875659004,
               "to": [
                 {
-                  "phoneNumber": "+16506417402",
-                  "location": "Mountain View, CA"
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
                 }
               ],
               "from": {
-                "phoneNumber": "+15623535396",
-                "location": "Lakewood, CA"
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
               },
               "type": "SMS",
-              "creationTime": "2017-09-07T03:06:08.000Z",
+              "creationTime": "2018-01-03T08:22:20.000Z",
               "readStatus": "Read",
               "priority": "Normal",
               "attachments": [
                 {
-                  "id": 3435042004,
-                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3435042004/content/3435042004",
+                  "id": 3875659004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3875659004/content/3875659004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - Hello world",
+              "messageStatus": "Delivered",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2018-01-03T08:22:21.919Z"
+            },
+            {
+              "id": 3875669004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2018-01-03T08:31:14.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3875669004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3875669004/content/3875669004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - Hello world",
+              "messageStatus": "Delivered",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2018-01-03T08:31:15.687Z"
+            },
+            {
+              "id": 3875693004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2018-01-03T08:38:04.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3875693004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3875693004/content/3875693004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - Hello world",
+              "messageStatus": "Delivered",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2018-01-03T08:38:10.192Z"
+            },
+            {
+              "id": 3875733004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2018-01-03T09:06:03.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3875733004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3875733004/content/3875733004",
                   "type": "Text",
                   "contentType": "text/plain"
                 }
@@ -1045,47 +1134,858 @@
               "subject": "Test SMS using a RingCentral Developer account - hello world",
               "messageStatus": "Delivered",
               "smsSendingAttemptsCount": 1,
-              "conversationId": "5208168284911200409",
+              "conversationId": "205133443784764385",
               "conversation": {
-                "id": "5208168284911200409",
-                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/5208168284911200409"
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
               },
-              "lastModifiedTime": "2017-09-07T03:06:10.243Z"
+              "lastModifiedTime": "2018-01-03T09:06:05.163Z"
+            },
+            {
+              "id": 3875737004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2018-01-03T09:06:27.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3875737004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3875737004/content/3875737004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - hello world",
+              "messageStatus": "Delivered",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2018-01-03T09:06:28.712Z"
+            },
+            {
+              "id": 3875741004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2018-01-03T09:06:42.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3875741004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3875741004/content/3875741004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - hello world",
+              "messageStatus": "Delivered",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2018-01-03T09:06:43.176Z"
+            },
+            {
+              "id": 3875745004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2018-01-03T09:06:56.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3875745004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3875745004/content/3875745004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - hello world",
+              "messageStatus": "Delivered",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2018-01-03T09:06:57.670Z"
+            },
+            {
+              "id": 3875749004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2018-01-03T09:07:23.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3875749004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3875749004/content/3875749004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - hello world",
+              "messageStatus": "Delivered",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2018-01-03T09:07:24.512Z"
+            },
+            {
+              "id": 3875755004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2018-01-03T09:07:52.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3875755004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3875755004/content/3875755004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - hello world",
+              "messageStatus": "Delivered",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2018-01-03T09:07:54.053Z"
+            },
+            {
+              "id": 3875759004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2018-01-03T09:08:27.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3875759004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3875759004/content/3875759004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - hello world",
+              "messageStatus": "Delivered",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2018-01-03T09:08:28.469Z"
+            },
+            {
+              "id": 3875763004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2018-01-03T09:08:58.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3875763004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3875763004/content/3875763004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - hello world",
+              "messageStatus": "Delivered",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2018-01-03T09:08:59.216Z"
+            },
+            {
+              "id": 3875769004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2018-01-03T09:10:06.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3875769004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3875769004/content/3875769004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - hello world",
+              "messageStatus": "Delivered",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2018-01-03T09:10:07.828Z"
+            },
+            {
+              "id": 3875771004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2018-01-03T09:10:07.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3875771004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3875771004/content/3875771004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - hello world",
+              "messageStatus": "Delivered",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2018-01-03T09:10:08.133Z"
             }
           ]
         },
-        "updatedTimestamp": 1504753580648,
-        "syncToken": "AQEAAAAAAwAAAV47WszABgAAAPoFAAABXlpNUcMTAAgAAAAAB8xKzAkBCgFTfr9Y",
-        "syncTimestamp": 1504753570243
+        "updatedTimestamp": 1515046758924,
+        "syncToken": "AQEAAAAAAwAAAWC7CDNIBgAAAPoFAAABYL_SdgkTAAgAAAAAB8xKzAkBCgFNGl6T",
+        "syncTimestamp": 1515046729225
       },
+      "conferenceData": {
+        "phoneNumber": "+12679304000",
+        "hostCode": "628456073",
+        "participantCode": "314228036",
+        "phoneNumbers": [
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/1",
+              "id": "1",
+              "name": "United States",
+              "isoCode": "US",
+              "callingCode": "1"
+            },
+            "phoneNumber": "+12679304000",
+            "location": "Philadelphia, PA"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/11",
+              "id": "11",
+              "name": "Argentina",
+              "isoCode": "AR",
+              "callingCode": "54"
+            },
+            "phoneNumber": "+541159842371",
+            "location": "Buenos Aires"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/16",
+              "id": "16",
+              "name": "Austria",
+              "isoCode": "AT",
+              "callingCode": "43"
+            },
+            "phoneNumber": "+4312675024",
+            "location": "Vienna"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/19",
+              "id": "19",
+              "name": "Bahrain",
+              "isoCode": "BH",
+              "callingCode": "973"
+            },
+            "phoneNumber": "+97316198814",
+            "location": "Manama"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/31",
+              "id": "31",
+              "name": "Brazil",
+              "isoCode": "BR",
+              "callingCode": "55"
+            },
+            "phoneNumber": "+556135500673",
+            "location": "Brasilia"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/34",
+              "id": "34",
+              "name": "Bulgaria",
+              "isoCode": "BG",
+              "callingCode": "359"
+            },
+            "phoneNumber": "+35924917819",
+            "location": "Sofia"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/39",
+              "id": "39",
+              "name": "Canada",
+              "isoCode": "CA",
+              "callingCode": "1"
+            },
+            "phoneNumber": "+14378000918",
+            "location": "Toronto, ON"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/45",
+              "id": "45",
+              "name": "Chile",
+              "isoCode": "CL",
+              "callingCode": "56"
+            },
+            "phoneNumber": "+56229382089",
+            "location": "Santiago"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/46",
+              "id": "46",
+              "name": "China",
+              "isoCode": "CN",
+              "callingCode": "86"
+            },
+            "phoneNumber": "+861059045554",
+            "location": "Beijing"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/54",
+              "id": "54",
+              "name": "Croatia",
+              "isoCode": "HR",
+              "callingCode": "385"
+            },
+            "phoneNumber": "+38517776559",
+            "location": "Zagreb"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/56",
+              "id": "56",
+              "name": "Cyprus",
+              "isoCode": "CY",
+              "callingCode": "357"
+            },
+            "phoneNumber": "+35722022567",
+            "location": "Nicosia"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/57",
+              "id": "57",
+              "name": "Czech Republic",
+              "isoCode": "CZ",
+              "callingCode": "420"
+            },
+            "phoneNumber": "+420228881000",
+            "location": "Prague"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/58",
+              "id": "58",
+              "name": "Denmark",
+              "isoCode": "DK",
+              "callingCode": "45"
+            },
+            "phoneNumber": "+4578793531",
+            "location": "Denmark"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/62",
+              "id": "62",
+              "name": "Dominican Republic",
+              "isoCode": "DO",
+              "callingCode": "1"
+            },
+            "phoneNumber": "+18299560014",
+            "location": "Santo Domingo"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/69",
+              "id": "69",
+              "name": "Estonia",
+              "isoCode": "EE",
+              "callingCode": "372"
+            },
+            "phoneNumber": "+3726681362",
+            "location": "Tallinn"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/74",
+              "id": "74",
+              "name": "Finland",
+              "isoCode": "FI",
+              "callingCode": "358"
+            },
+            "phoneNumber": "+358942704107",
+            "location": "Helsinki"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/75",
+              "id": "75",
+              "name": "France",
+              "isoCode": "FR",
+              "callingCode": "33"
+            },
+            "phoneNumber": "+33177696813",
+            "location": "Paris"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/83",
+              "id": "83",
+              "name": "Germany",
+              "isoCode": "DE",
+              "callingCode": "49"
+            },
+            "phoneNumber": "+498944396537",
+            "location": "Munich"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/101",
+              "id": "101",
+              "name": "Hungary",
+              "isoCode": "HU",
+              "callingCode": "36"
+            },
+            "phoneNumber": "+3618480332",
+            "location": "Budapest"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/107",
+              "id": "107",
+              "name": "Ireland",
+              "isoCode": "IE",
+              "callingCode": "353"
+            },
+            "phoneNumber": "+35315136078",
+            "location": "Dublin"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/108",
+              "id": "108",
+              "name": "Israel",
+              "isoCode": "IL",
+              "callingCode": "972"
+            },
+            "phoneNumber": "+97239121841",
+            "location": "Tel Aviv"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/109",
+              "id": "109",
+              "name": "Italy",
+              "isoCode": "IT",
+              "callingCode": "39"
+            },
+            "phoneNumber": "+390689970127",
+            "location": "Rome"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/112",
+              "id": "112",
+              "name": "Japan",
+              "isoCode": "JP",
+              "callingCode": "81"
+            },
+            "phoneNumber": "+81345406728",
+            "location": "Tokyo"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/121",
+              "id": "121",
+              "name": "Latvia",
+              "isoCode": "LV",
+              "callingCode": "371"
+            },
+            "phoneNumber": "+37166163239",
+            "location": "Riga"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/127",
+              "id": "127",
+              "name": "Lithuania",
+              "isoCode": "LT",
+              "callingCode": "370"
+            },
+            "phoneNumber": "+37052140076",
+            "location": "Vilnius"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/128",
+              "id": "128",
+              "name": "Luxembourg",
+              "isoCode": "LU",
+              "callingCode": "352"
+            },
+            "phoneNumber": "+35227862004",
+            "location": "Luxembourg"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/133",
+              "id": "133",
+              "name": "Malaysia",
+              "isoCode": "MY",
+              "callingCode": "60"
+            },
+            "phoneNumber": "+60392122033",
+            "location": "Kuala Lumpor"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/143",
+              "id": "143",
+              "name": "Mexico",
+              "isoCode": "MX",
+              "callingCode": "52"
+            },
+            "phoneNumber": "+525541629041",
+            "location": "Mexico City"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/157",
+              "id": "157",
+              "name": "Netherlands",
+              "isoCode": "NL",
+              "callingCode": "31"
+            },
+            "phoneNumber": "+31208086212",
+            "location": "Amsterdam"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/167",
+              "id": "167",
+              "name": "Norway",
+              "isoCode": "NO",
+              "callingCode": "47"
+            },
+            "phoneNumber": "+4721939591",
+            "location": "Oslo"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/171",
+              "id": "171",
+              "name": "Panama",
+              "isoCode": "PA",
+              "callingCode": "507"
+            },
+            "phoneNumber": "+5078338516",
+            "location": "Panama City"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/176",
+              "id": "176",
+              "name": "Poland",
+              "isoCode": "PL",
+              "callingCode": "48"
+            },
+            "phoneNumber": "+48221168039",
+            "location": "Warsaw"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/177",
+              "id": "177",
+              "name": "Portugal",
+              "isoCode": "PT",
+              "callingCode": "351"
+            },
+            "phoneNumber": "+351308800106",
+            "location": "Lisbon"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/182",
+              "id": "182",
+              "name": "Romania",
+              "isoCode": "RO",
+              "callingCode": "40"
+            },
+            "phoneNumber": "+40377881044",
+            "location": "Bucharest"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/189",
+              "id": "189",
+              "name": "Slovakia",
+              "isoCode": "SK",
+              "callingCode": "421"
+            },
+            "phoneNumber": "+421233325709",
+            "location": "Bratislava"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/190",
+              "id": "190",
+              "name": "Slovenia",
+              "isoCode": "SI",
+              "callingCode": "386"
+            },
+            "phoneNumber": "+38618888089",
+            "location": "Ljubljana"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/195",
+              "id": "195",
+              "name": "Spain",
+              "isoCode": "ES",
+              "callingCode": "34"
+            },
+            "phoneNumber": "+34911827803",
+            "location": "Madrid"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/205",
+              "id": "205",
+              "name": "Sweden",
+              "isoCode": "SE",
+              "callingCode": "46"
+            },
+            "phoneNumber": "+46852503839",
+            "location": "Stockholm"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/206",
+              "id": "206",
+              "name": "Switzerland",
+              "isoCode": "CH",
+              "callingCode": "41"
+            },
+            "phoneNumber": "+41315208019",
+            "location": "Bern"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/217",
+              "id": "217",
+              "name": "Turkey",
+              "isoCode": "TR",
+              "callingCode": "90"
+            },
+            "phoneNumber": "+902129003695",
+            "location": "Ankara"
+          },
+          {
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/224",
+              "id": "224",
+              "name": "United Kingdom",
+              "isoCode": "GB",
+              "callingCode": "44"
+            },
+            "phoneNumber": "+442035409587",
+            "location": "London"
+          }
+        ],
+        "allowJoinBeforeHost": false
+      },
+      "conferenceTimestamp": 1515046758332,
+      "conferenceDialInNumber": null,
+      "conferenceAdditionalNumbers": null,
       "callLogData": [
         {
-          "id": "AWwY-YGFY7pSzUA",
-          "sessionId": "17194021004",
-          "startTime": 1504753508289,
-          "duration": 17,
-          "type": "Voice",
+          "id": "2Vcldh6aSDbcMsA",
+          "sessionId": "-467365700400",
+          "startTime": 1514970707394,
+          "duration": 301,
+          "type": "Fax",
           "direction": "Outbound",
-          "action": "VoIP Call",
-          "result": "Hang Up",
+          "action": "Outgoing Fax",
+          "result": "Sent",
           "to": {
-            "phoneNumber": "+16506417402",
-            "location": "Mountain View, CA"
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
           },
           "from": {
-            "phoneNumber": "+19295755900",
+            "phoneNumber": "+17322764403",
             "name": "Jitender Kumar"
+          },
+          "message": {
+            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3875767004",
+            "id": "3875767004",
+            "type": "Fax"
+          }
+        },
+        {
+          "id": "2VcotslsY3JMMsA",
+          "sessionId": "-467365100400",
+          "startTime": 1514970347368,
+          "duration": 302,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Sent",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          },
+          "message": {
+            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3875731004",
+            "id": "3875731004",
+            "type": "Fax"
           }
         }
       ],
-      "callLogToken": "FAMAAAFeM97oAAQAAAFeWk0cmAgAAAAAB8xKzA0AAAAEANfwjA4AAAFd6fNp8BIAAAFeWk0cmBQBFQBY9H3l",
-      "callLogTimestamp": 1504753556633,
+      "callLogToken": "FAMAAAFgmLOsAAQAAAFgv89kyAgAAAAAB8xKzA3___-TLt6EkA4AAAFgbXwDIBEADwAxADUAMQA0ADMAOQAwADQAMAAwADAAMAAwAF8AMBIAAAFgv9LqZhQBFQAYALO7qvA",
+      "callLogTimestamp": 1515046759014,
       "callMatched": {},
-      "activityMatcherData": {},
-      "callLoggerData": {
-        "autoLog": true,
-        "logOnRinging": true
-      },
       "accountPhoneNumberData": [
         {
           "id": 246422004,
@@ -1095,7 +1995,6 @@
           "type": "VoiceFax",
           "usageType": "DirectNumber",
           "extension": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/137228004",
             "id": 137228004,
             "extensionNumber": "122"
           },
@@ -1109,7 +2008,6 @@
           "type": "VoiceFax",
           "usageType": "DirectNumber",
           "extension": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/136393004",
             "id": 136393004,
             "extensionNumber": "121"
           },
@@ -1122,7 +2020,8 @@
           "location": "La Puente, CA",
           "type": "VoiceFax",
           "usageType": "CompanyNumber",
-          "status": "Normal"
+          "status": "Normal",
+          "extension": {}
         },
         {
           "id": 244125004,
@@ -1132,7 +2031,6 @@
           "type": "VoiceFax",
           "usageType": "DirectNumber",
           "extension": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004",
             "id": 130829004,
             "extensionNumber": "101"
           },
@@ -1145,7 +2043,8 @@
           "location": "San Mateo, CA",
           "type": "VoiceFax",
           "usageType": "CompanyNumber",
-          "status": "Normal"
+          "status": "Normal",
+          "extension": {}
         },
         {
           "id": 244158004,
@@ -1155,7 +2054,6 @@
           "type": "VoiceFax",
           "usageType": "DirectNumber",
           "extension": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/146768004",
             "id": 146768004,
             "extensionNumber": "102"
           },
@@ -1168,7 +2066,8 @@
           "location": "Lakewood, NJ",
           "type": "VoiceFax",
           "usageType": "MainCompanyNumber",
-          "status": "Normal"
+          "status": "Normal",
+          "extension": {}
         },
         {
           "id": 255764004,
@@ -1177,7 +2076,8 @@
           "location": "New York City, NY",
           "type": "VoiceFax",
           "usageType": "CompanyNumber",
-          "status": "Normal"
+          "status": "Normal",
+          "extension": {}
         },
         {
           "id": 249517004,
@@ -1187,7 +2087,6 @@
           "type": "VoiceFax",
           "usageType": "DirectNumber",
           "extension": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/146770004",
             "id": 146770004,
             "extensionNumber": "104"
           },
@@ -1201,16 +2100,15 @@
           "type": "VoiceFax",
           "usageType": "DirectNumber",
           "extension": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/146769004",
             "id": 146769004,
             "extensionNumber": "103"
           },
           "status": "Normal"
         }
       ],
-      "accountPhoneNumberTimestamp": 1504753465265,
-      "contactsSyncToken": "HgAAAAAHzErMAQEAAAAAAAANKljsarQ",
-      "contactsSyncTimestamp": 1504753465611,
+      "accountPhoneNumberTimestamp": 1515046520360,
+      "contactsSyncToken": "HgAAAAAHzErMAQEAAAAAAAAOKerIaM0",
+      "contactsSyncTimestamp": 1515046758491,
       "addressBookContactsList": [
         {
           "availability": "Alive",
@@ -1230,29 +2128,14 @@
         },
         {
           "availability": "Alive",
-          "id": 389987005,
-          "firstName": "Jhon",
-          "lastName": "Travolta",
-          "homePhone": "+122334455",
-          "businessPhone": "+1875434343"
-        },
-        {
-          "availability": "Alive",
-          "id": 390003005,
-          "firstName": "Donald",
-          "lastName": "Duck",
-          "businessPhone": "+12098135681"
-        },
-        {
-          "availability": "Alive",
-          "id": 391101004,
           "company": "Test",
+          "id": 391101004,
           "firstName": "Test",
           "lastName": "Test",
-          "homePhone": "+11231231212",
           "middleName": "Test",
           "nickName": "Test",
-          "jobTitle": "Test"
+          "jobTitle": "Test",
+          "homePhone": "+11231231212"
         },
         {
           "availability": "Alive",
@@ -1263,42 +2146,8 @@
         },
         {
           "availability": "Alive",
-          "id": 391248004,
-          "firstName": "Ivan&apos;s",
-          "lastName": "phone",
-          "homePhone": "+14158021958"
-        },
-        {
-          "availability": "Alive",
-          "id": 391249004,
-          "firstName": "IvanPetrov",
-          "homePhone": "+12098134928"
-        },
-        {
-          "availability": "Alive",
-          "id": 391250004,
-          "firstName": "Call me!",
-          "homePhone": "+13193660139"
-        },
-        {
-          "availability": "Alive",
           "id": 391251004,
-          "firstName": "Peter &amp; Julia"
-        },
-        {
-          "availability": "Alive",
-          "id": 391252004,
-          "firstName": "Alex@gmail.com"
-        },
-        {
-          "availability": "Alive",
-          "id": 391253004,
-          "firstName": "#145"
-        },
-        {
-          "availability": "Alive",
-          "id": 391254004,
-          "firstName": "50% she&apos;ll call me"
+          "firstName": "Peter & Julia"
         },
         {
           "availability": "Alive",
@@ -1337,22 +2186,8 @@
           "availability": "Alive",
           "id": 391920004,
           "firstName": "_test",
-          "lastName": "~!@#$%^&amp;*(){}[]:\";&apos;?>,.<&sol;_+-=&bsol;|",
+          "lastName": "~!@#$%^&*(){}[]:\";'?>,.</_+-=\\|",
           "homePhone": "+17322764403"
-        },
-        {
-          "availability": "Alive",
-          "id": 392045004,
-          "firstName": "Jitender",
-          "lastName": "Kumar",
-          "mobilePhone": "+16502578497"
-        },
-        {
-          "availability": "Alive",
-          "id": 394775004,
-          "firstName": "Dmitry",
-          "lastName": "Markov",
-          "homePhone": "+16506429155"
         },
         {
           "availability": "Alive",
@@ -1375,14 +2210,95 @@
           "availability": "Alive",
           "id": 395565005,
           "firstName": "Test"
+        },
+        {
+          "availability": "Alive",
+          "id": 502481004,
+          "firstName": "test1@rc.com"
+        },
+        {
+          "availability": "Alive",
+          "id": 502482004,
+          "firstName": "test2@rc.com"
+        },
+        {
+          "availability": "Alive",
+          "id": 502483004,
+          "firstName": "test3@rc.com"
+        },
+        {
+          "availability": "Alive",
+          "id": 502484004,
+          "firstName": "test4@rc.com"
+        },
+        {
+          "availability": "Alive",
+          "id": 502485004,
+          "firstName": "test5@rc.com"
         }
       ],
-      "conversationMatcherData": {},
-      "conversationLoggerData": {
-        "autoLog": false
-      }
+      "lastMeetingSetting": {}
     },
     "storageKey": "rc-widget-storage-130829004"
+  },
+  "audioSettings": {
+    "status": "module-ready",
+    "availableDevices": [
+      {
+        "deviceId": "default",
+        "kind": "audioinput",
+        "label": "Default",
+        "groupId": "9a807d4b1c4723a7d76b272a8a56bdaf88e6b6a8cc78ed495c6a8f4249aa50cd"
+      },
+      {
+        "deviceId": "db77e3de084071aa4d75642ceae2a6e460dcc881b27c8c8b478dbe5f47898f32",
+        "kind": "audioinput",
+        "label": "Embbnux’s QC35 II",
+        "groupId": "5b49423a74e8e9066dde3642b4f243e31b2c535646073384a35a02f30cdc9daf"
+      },
+      {
+        "deviceId": "10368a59346591f16bec68b9c43917428e769d36995842ef75a0c497fea16362",
+        "kind": "audioinput",
+        "label": "Built-in Microphone",
+        "groupId": "f10e57cd2194e215d481373fe21263784ffee5a84ad7422c9a18234d064a7fde"
+      },
+      {
+        "deviceId": "09a93b0899d14adf98f9c0974f75551a7d2645c9297d3c9c24fef47bfad516a9",
+        "kind": "videoinput",
+        "label": "",
+        "groupId": ""
+      },
+      {
+        "deviceId": "default",
+        "kind": "audiooutput",
+        "label": "Default",
+        "groupId": "08fd24c75f0aa166a549635184a689ebe04c922dbdea3de8a3ce1f7f425bf248"
+      },
+      {
+        "deviceId": "d39f0a94110ec17bb9339ca2ce83b970d733b525d9b1ded131372dd7d1654bd0",
+        "kind": "audiooutput",
+        "label": "Embbnux’s QC35 II",
+        "groupId": "08fd24c75f0aa166a549635184a689ebe04c922dbdea3de8a3ce1f7f425bf248"
+      },
+      {
+        "deviceId": "a9534f47131bfb75b40d2b6a8a9d1fef1dc97afd8e836b6abf5bab899539785b",
+        "kind": "audiooutput",
+        "label": "Built-in Output",
+        "groupId": "f10e57cd2194e215d481373fe21263784ffee5a84ad7422c9a18234d064a7fde"
+      }
+    ],
+    "userMedia": false
+  },
+  "subscription": {
+    "status": "module-ready",
+    "message": null,
+    "filters": [
+      "/account/~/extension/~/presence?detailedTelephonyState=true",
+      "/account/~/extension",
+      "/account/~/extension/~/presence?detailedTelephonyState=true&sipData=true",
+      "/account/~/extension/~/message-store"
+    ],
+    "subscriptionStatus": "subscriptionStatus-subscribed"
   },
   "accountExtension": {
     "status": "module-ready"
@@ -1408,13 +2324,13 @@
   "forwardingNumber": {
     "status": "module-ready"
   },
-  "contactMatcher": {
-    "status": "module-ready"
-  },
   "regionSettings": {
     "status": "module-ready"
   },
   "numberValidate": {
+    "status": "module-ready"
+  },
+  "contactMatcher": {
     "status": "module-ready"
   },
   "webphone": {
@@ -1434,50 +2350,12 @@
   "call": {
     "status": "module-ready",
     "callStatus": "callStatus-idle",
-    "toNumber": "",
     "toNumberEntities": []
   },
-  "subscription": {
-    "status": "module-ready",
-    "message": {
-      "uuid": "4210515451890381164-1741375658175427602",
-      "event": "/restapi/v1.0/account/130829004/extension/130829004/presence?detailedTelephonyState=true&sipData=true",
-      "timestamp": "2017-09-07T03:06:33.344Z",
-      "subscriptionId": "436e7184-b64e-4692-87b5-ddaced56861f",
-      "body": {
-        "extensionId": 130829004,
-        "telephonyStatus": "NoCall",
-        "presenceStatus": "Available",
-        "userStatus": "Available",
-        "dndStatus": "TakeAllCalls",
-        "allowSeeMyPresence": true,
-        "ringOnMonitoredCall": false,
-        "pickUpCallsOnHold": false
-      }
-    },
-    "filters": [
-      "/account/~/extension/~/presence?detailedTelephonyState=true",
-      "/account/~/extension/~/message-store",
-      "/account/~/extension/~/presence?detailedTelephonyState=true&sipData=true",
-      "/account/~/extension/~/presence"
-    ],
-    "subscriptionStatus": "subscriptionStatus-subscribed"
-  },
   "activeCalls": {
-    "timestamp": 1504753466047,
-    "data": [],
     "status": "module-ready"
   },
-  "presence": {
-    "lastNotDisturbDndStatus": null,
-    "status": "module-ready",
-    "dndStatus": "TakeAllCalls",
-    "presenceStatus": "Available",
-    "userStatus": "Available",
-    "message": null
-  },
   "detailedPresence": {
-    "lastNotDisturbDndStatus": null,
     "status": "module-ready",
     "data": [],
     "dndStatus": "TakeAllCalls",
@@ -1486,17 +2364,18 @@
     "message": null,
     "telephonyStatus": "NoCall"
   },
+  "messageSender": {
+    "status": "module-ready",
+    "sendStatus": "messageSender-idle"
+  },
   "contactSearch": {
     "status": "module-ready",
     "searchStatus": "contactSearchStatus-idle",
     "searching": {
-      "searchString": "16506417402",
+      "searchOnSources": [],
+      "searchString": "",
       "result": []
     }
-  },
-  "messageSender": {
-    "status": "module-ready",
-    "sendStatus": "messageSender-idle"
   },
   "composeText": {
     "status": "module-ready",
@@ -1517,427 +2396,9 @@
     "messages": [],
     "senderNumber": null,
     "recipients": [],
-    "messageStoreUpdatedAt": 1504753568392
+    "messageStoreUpdatedAt": null
   },
   "conference": {
-    "timestamp": 1504753465820,
-    "data": {
-      "phoneNumber": "+12679304000",
-      "hostCode": "628456073",
-      "participantCode": "314228036",
-      "phoneNumbers": [
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/1",
-            "id": "1",
-            "name": "United States",
-            "isoCode": "US",
-            "callingCode": "1"
-          },
-          "phoneNumber": "+12679304000"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/11",
-            "id": "11",
-            "name": "Argentina",
-            "isoCode": "AR",
-            "callingCode": "54"
-          },
-          "phoneNumber": "+541159842371"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/16",
-            "id": "16",
-            "name": "Austria",
-            "isoCode": "AT",
-            "callingCode": "43"
-          },
-          "phoneNumber": "+4312675024"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/19",
-            "id": "19",
-            "name": "Bahrain",
-            "isoCode": "BH",
-            "callingCode": "973"
-          },
-          "phoneNumber": "+97316198814"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/31",
-            "id": "31",
-            "name": "Brazil",
-            "isoCode": "BR",
-            "callingCode": "55"
-          },
-          "phoneNumber": "+556135500673"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/34",
-            "id": "34",
-            "name": "Bulgaria",
-            "isoCode": "BG",
-            "callingCode": "359"
-          },
-          "phoneNumber": "+35924917819"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/39",
-            "id": "39",
-            "name": "Canada",
-            "isoCode": "CA",
-            "callingCode": "1"
-          },
-          "phoneNumber": "+14378000918"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/45",
-            "id": "45",
-            "name": "Chile",
-            "isoCode": "CL",
-            "callingCode": "56"
-          },
-          "phoneNumber": "+56229382089"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/46",
-            "id": "46",
-            "name": "China",
-            "isoCode": "CN",
-            "callingCode": "86"
-          },
-          "phoneNumber": "+861059045554"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/54",
-            "id": "54",
-            "name": "Croatia",
-            "isoCode": "HR",
-            "callingCode": "385"
-          },
-          "phoneNumber": "+38517776559"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/56",
-            "id": "56",
-            "name": "Cyprus",
-            "isoCode": "CY",
-            "callingCode": "357"
-          },
-          "phoneNumber": "+35722022567"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/57",
-            "id": "57",
-            "name": "Czech Republic",
-            "isoCode": "CZ",
-            "callingCode": "420"
-          },
-          "phoneNumber": "+420228881000"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/58",
-            "id": "58",
-            "name": "Denmark",
-            "isoCode": "DK",
-            "callingCode": "45"
-          },
-          "phoneNumber": "+4578793531"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/62",
-            "id": "62",
-            "name": "Dominican Republic",
-            "isoCode": "DO",
-            "callingCode": "1"
-          },
-          "phoneNumber": "+18299560014"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/69",
-            "id": "69",
-            "name": "Estonia",
-            "isoCode": "EE",
-            "callingCode": "372"
-          },
-          "phoneNumber": "+3726681362"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/74",
-            "id": "74",
-            "name": "Finland",
-            "isoCode": "FI",
-            "callingCode": "358"
-          },
-          "phoneNumber": "+358942704107"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/75",
-            "id": "75",
-            "name": "France",
-            "isoCode": "FR",
-            "callingCode": "33"
-          },
-          "phoneNumber": "+33177696813"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/83",
-            "id": "83",
-            "name": "Germany",
-            "isoCode": "DE",
-            "callingCode": "49"
-          },
-          "phoneNumber": "+498944396537"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/101",
-            "id": "101",
-            "name": "Hungary",
-            "isoCode": "HU",
-            "callingCode": "36"
-          },
-          "phoneNumber": "+3618480332"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/107",
-            "id": "107",
-            "name": "Ireland",
-            "isoCode": "IE",
-            "callingCode": "353"
-          },
-          "phoneNumber": "+35315136078"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/108",
-            "id": "108",
-            "name": "Israel",
-            "isoCode": "IL",
-            "callingCode": "972"
-          },
-          "phoneNumber": "+97239121841"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/109",
-            "id": "109",
-            "name": "Italy",
-            "isoCode": "IT",
-            "callingCode": "39"
-          },
-          "phoneNumber": "+390689970127"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/112",
-            "id": "112",
-            "name": "Japan",
-            "isoCode": "JP",
-            "callingCode": "81"
-          },
-          "phoneNumber": "+81345406728"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/121",
-            "id": "121",
-            "name": "Latvia",
-            "isoCode": "LV",
-            "callingCode": "371"
-          },
-          "phoneNumber": "+37166163239"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/127",
-            "id": "127",
-            "name": "Lithuania",
-            "isoCode": "LT",
-            "callingCode": "370"
-          },
-          "phoneNumber": "+37052140076"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/128",
-            "id": "128",
-            "name": "Luxembourg",
-            "isoCode": "LU",
-            "callingCode": "352"
-          },
-          "phoneNumber": "+35227862004"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/133",
-            "id": "133",
-            "name": "Malaysia",
-            "isoCode": "MY",
-            "callingCode": "60"
-          },
-          "phoneNumber": "+60392122033"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/143",
-            "id": "143",
-            "name": "Mexico",
-            "isoCode": "MX",
-            "callingCode": "52"
-          },
-          "phoneNumber": "+525541629041"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/157",
-            "id": "157",
-            "name": "Netherlands",
-            "isoCode": "NL",
-            "callingCode": "31"
-          },
-          "phoneNumber": "+31208086212"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/167",
-            "id": "167",
-            "name": "Norway",
-            "isoCode": "NO",
-            "callingCode": "47"
-          },
-          "phoneNumber": "+4721939591"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/171",
-            "id": "171",
-            "name": "Panama",
-            "isoCode": "PA",
-            "callingCode": "507"
-          },
-          "phoneNumber": "+5078338516"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/176",
-            "id": "176",
-            "name": "Poland",
-            "isoCode": "PL",
-            "callingCode": "48"
-          },
-          "phoneNumber": "+48221168039"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/177",
-            "id": "177",
-            "name": "Portugal",
-            "isoCode": "PT",
-            "callingCode": "351"
-          },
-          "phoneNumber": "+351308800106"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/182",
-            "id": "182",
-            "name": "Romania",
-            "isoCode": "RO",
-            "callingCode": "40"
-          },
-          "phoneNumber": "+40377881044"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/189",
-            "id": "189",
-            "name": "Slovakia",
-            "isoCode": "SK",
-            "callingCode": "421"
-          },
-          "phoneNumber": "+421233325709"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/190",
-            "id": "190",
-            "name": "Slovenia",
-            "isoCode": "SI",
-            "callingCode": "386"
-          },
-          "phoneNumber": "+38618888089"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/195",
-            "id": "195",
-            "name": "Spain",
-            "isoCode": "ES",
-            "callingCode": "34"
-          },
-          "phoneNumber": "+34911827803"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/205",
-            "id": "205",
-            "name": "Sweden",
-            "isoCode": "SE",
-            "callingCode": "46"
-          },
-          "phoneNumber": "+46852503839"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/206",
-            "id": "206",
-            "name": "Switzerland",
-            "isoCode": "CH",
-            "callingCode": "41"
-          },
-          "phoneNumber": "+41315208019"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/217",
-            "id": "217",
-            "name": "Turkey",
-            "isoCode": "TR",
-            "callingCode": "90"
-          },
-          "phoneNumber": "+902129003695"
-        },
-        {
-          "country": {
-            "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/224",
-            "id": "224",
-            "name": "United Kingdom",
-            "isoCode": "GB",
-            "callingCode": "44"
-          },
-          "phoneNumber": "+442035409587"
-        }
-      ]
-    },
     "status": "module-ready"
   },
   "routerInteraction": {
@@ -1946,7 +2407,7 @@
       "search": "",
       "hash": "",
       "action": "PUSH",
-      "key": "afwtn3",
+      "key": "jbsm47",
       "query": {}
     }
   },
@@ -1960,15 +2421,13 @@
     "status": "module-ready",
     "endedCalls": []
   },
-  "activityMatcher": {
-    "status": "module-ready"
-  },
-  "callLogger": {
-    "status": "module-ready",
-    "loggingList": []
-  },
   "accountPhoneNumber": {
     "status": "module-ready"
+  },
+  "accountContacts": {
+    "status": "module-ready",
+    "profileImages": {},
+    "presences": {}
   },
   "addressBook": {
     "status": "module-ready",
@@ -1976,20 +2435,20 @@
   },
   "contacts": {
     "status": "module-ready",
-    "profileImages": {}
+    "searchFilter": "",
+    "sourceFilter": "all",
+    "pageNumber": 1
   },
-  "conversationMatcher": {
-    "status": "module-ready"
-  },
-  "conversationLogger": {
+  "contactDetails": {
     "status": "module-ready",
-    "loggingList": []
+    "condition": null
   },
   "messages": {
     "status": "module-ready",
     "currentPage": 0,
     "perPage": 20,
-    "searchInput": ""
+    "searchInput": "",
+    "typeFilter": "All"
   },
   "recentMessages": {
     "status": "module-ready",
@@ -2002,19 +2461,17 @@
     "calls": {},
     "callStatus": null
   },
-  "app": {
-    "name": "RingCentral JS Widget",
-    "version": "1.0.0"
+  "meeting": {
+    "status": "module-ready",
+    "meeting": null,
+    "schedulingStatus": "meetingScheduleStatus-idle"
+  },
+  "dialerUI": {
+    "status": "module-ready",
+    "toNumberField": "",
+    "recipient": null
   },
   "lastAction": {
-    "type": "@@router/LOCATION_CHANGE",
-    "payload": {
-      "pathname": "/dialer",
-      "search": "",
-      "hash": "",
-      "action": "PUSH",
-      "key": "afwtn3",
-      "query": {}
-    }
+    "type": "rc-widget-contactSearchActionTypes-prepareSearch"
   }
 }

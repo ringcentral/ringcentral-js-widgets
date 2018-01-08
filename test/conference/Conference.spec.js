@@ -9,6 +9,7 @@ beforeEach(async () => {
   wrapper = await getWrapper();
   const navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/conference');
+  wrapper.update();
   panel = wrapper.find(ConferencePanel).first();
 });
 
@@ -19,11 +20,12 @@ describe('conference', () => {
   });
 
   test('click invite button', async () => {
-    const inviteButton = panel.find('input.textBtn').first();
+    const inviteButton = panel.find('.bottom').find('.button').first();
     expect(inviteButton.props()).toBeDefined();
+    expect(inviteButton.props().children).toEqual('Invite with Text');
 
     await inviteButton.simulate('click');
-    const textArea = wrapper.find('.textField').first().find('textarea').first();
-    expect(textArea.props().value).toMatch(/Please join the RingCentral conference/);
+    const textArea = wrapper.find('.textField').first().find('textarea');
+    expect(textArea.instance().value).toMatch(/Please join the RingCentral conference/);
   });
 });

@@ -1,3 +1,5 @@
+import sleep from 'ringcentral-integration/lib/sleep';
+
 import { getWrapper, timeout } from '../shared';
 import NavigationBar from '../../src/components/NavigationBar';
 import ComposeTextPanel from '../../src/components/ComposeTextPanel';
@@ -15,10 +17,11 @@ beforeEach(async () => {
   wrapper = await getWrapper();
   const navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/composeText');
+  wrapper.update();
   panel = wrapper.find(ComposeTextPanel).first();
   submitButton = panel.find('.submitButton').first();
-  textArea = panel.find('.textField').first().find('textarea').first();
-  toNumber = panel.find('.numberInput').first();
+  textArea = panel.find('.textField').first().find('textarea');
+  toNumber = panel.find('.numberInput');
 });
 
 describe('compose text panel', () => {
@@ -32,15 +35,17 @@ describe('compose text panel', () => {
 
   test('send button status', async () => {
     expect(submitButton.props().disabled).toBe(true);
-
-    textArea.get(0).value = 'Hello world';
+    textArea.instance().value = 'Hello world';
     await textArea.simulate('change');
+    panel = wrapper.find(ComposeTextPanel).first();
+    textArea = panel.find('.textField').first().find('textarea');
     expect(textArea.props().value).toEqual('Hello world');
-
-    toNumber.get(0).value = 'Hello world';
+    toNumber.instance().value = 'Hello world';
     await toNumber.simulate('change');
+    panel = wrapper.find(ComposeTextPanel).first();
+    toNumber = panel.find('.numberInput');
+    submitButton = panel.find('.submitButton').first();
     expect(toNumber.props().value).toEqual('Hello world');
-
     expect(submitButton.props().disabled).toBe(false);
   });
 
@@ -49,9 +54,8 @@ describe('compose text panel', () => {
     const dropdown = dropdownSelect.find('.dropdown').first();
     const dropdownItems = dropdown.find('.dropdownItem');
     expect(dropdownItems.length > 1).toEqual(true);
-
-    const firstNumber = dropdownItems.at(0).text();
-    const secondNumber = dropdownItems.at(1).text();
+    const firstNumber = dropdownItems.at(0).find('span').at(1).text();
+    const secondNumber = dropdownItems.at(1).find('span').at(1).text();
     expect(firstNumber).not.toEqual(secondNumber);
 
     const selected = dropdownSelect.find('button.button').first().find('span.selectedValue').first();
@@ -63,15 +67,16 @@ describe('compose text panel', () => {
 
   test('send an SMS', async () => {
     const messageContent = `Hello world ${Date.now()}`;
-    toNumber.get(0).value = process.env.receiver;
+    toNumber.instance().value = process.env.receiver;
     await toNumber.simulate('change');
-    textArea.get(0).value = messageContent;
+    textArea.instance().value = messageContent;
     await textArea.simulate('change');
+    panel = wrapper.find(ComposeTextPanel).first();
+    submitButton = panel.find('.submitButton').first();
     expect(submitButton.props().disabled).toBe(false);
     await submitButton.closest('form').simulate('submit');
-
     await timeout(16000);
-
+    wrapper.update();
     const conversationPanel = wrapper.find(ConversationPanel);
     expect(conversationPanel.length > 0).toBe(true);
     const messages = conversationPanel.first().find(Message);

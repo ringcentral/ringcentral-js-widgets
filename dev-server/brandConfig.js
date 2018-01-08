@@ -3,6 +3,6 @@ export default {
   brandCode: 'rc',
   code: 'rc',
   name: 'RingCentral',
-  appName: 'RingCentral JS Widget',
+  appName: 'RingCentral Widgets',
   fullName: 'RingCentral',
 };

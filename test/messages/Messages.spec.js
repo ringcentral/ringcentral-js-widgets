@@ -15,6 +15,7 @@ beforeEach(async () => {
   wrapper = await getWrapper();
   const navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/messages');
+  wrapper.update()
   panel = wrapper.find(MessageList).first();
 });
 
@@ -25,10 +26,12 @@ describe('messages', () => {
   });
 
   test('search but no match', () => {
-    const searchInput = panel.find(SearchInput).first();
+    let searchInput = panel.find(SearchInput).first();
     const domInput = searchInput.find('input').first();
-    domInput.get(0).value = 'something-doesnt-exist';
+    domInput.instance().value = 'something-doesnt-exist';
     domInput.simulate('change');
+    panel = wrapper.find(MessageList).first();
+    searchInput = panel.find(SearchInput).first();
     expect(searchInput.props().value).toEqual('something-doesnt-exist');
     expect(panel.find('.noMessages').text().trim()).toEqual('No matching records found');
   });
@@ -58,11 +61,16 @@ describe('messages', () => {
     const messageItems = panel.find(MessageItem);
     if (messageItems.length > 0) {
       const callItem = messageItems.at(messageItems.length - 1); // last item
-      const logButton = callItem.find(LogButton).first().find(Button).first();
+      let logButton = callItem.find(LogButton).find(Button);
       logButton.simulate('click');
+      panel = wrapper.find(MessageList).first();
+      logButton = panel.find(MessageItem).at(messageItems.length - 1).find(LogButton).find(Button);
       expect(logButton.props().disabled).toBe(true);
       expect(logButton.find(Spinner).length).toBe(1);
       await timeout(3000);
+      wrapper.update();
+      panel = wrapper.find(MessageList).first();
+      logButton = panel.find(MessageItem).at(messageItems.length - 1).find(LogButton).find(Button);
       expect(logButton.props().disabled).toBe(false);
       expect(logButton.find(Spinner).length).toBe(0);
     }
@@ -73,19 +81,24 @@ describe('messages', () => {
     await firstMessage.find('div').first().simulate('click');
     const conversationPanel = wrapper.find(ConversationPanel);
 
-    const logButton = conversationPanel.find(LogButton).first().find(Button).first();
+    const logButton = conversationPanel.find(LogButton).first().find(Button);
     expect(logButton.props().disabled).toBe(false);
   });
 
   test('message click log button', async () => {
     const firstMessage = panel.find(MessageItem).first();
     await firstMessage.find('div').first().simulate('click');
-    const conversationPanel = wrapper.find(ConversationPanel);
-    const logButton = conversationPanel.find(LogButton).first().find(Button).first();
+    let conversationPanel = wrapper.find(ConversationPanel);
+    let logButton = conversationPanel.find(LogButton).find(Button);
     logButton.simulate('click');
+    conversationPanel = wrapper.find(ConversationPanel);
+    logButton = conversationPanel.find(LogButton).find(Button);
     expect(logButton.props().disabled).toBe(true);
     expect(logButton.find(Spinner).length).toBe(1);
     await timeout(1000);
+    wrapper.update();
+    conversationPanel = wrapper.find(ConversationPanel);
+    logButton = conversationPanel.find(LogButton).find(Button);
     expect(logButton.props().disabled).toBe(false);
     expect(logButton.find(Spinner).length).toBe(0);
   });
