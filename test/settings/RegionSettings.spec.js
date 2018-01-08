@@ -15,6 +15,7 @@ beforeEach(async () => {
   store = wrapper.props().phone.store;
   const navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/settings');
+  wrapper.update();
   panel = wrapper.find(SettingsPanel).first();
   const regionLinkLine = panel.find(LinkLine).at(1);
   await regionLinkLine.simulate('click');
@@ -23,7 +24,7 @@ beforeEach(async () => {
 
 const enterAreaCode = async (areaCode) => {
   const input = regionSettings.find('input.input').first();
-  input.get(0).value = areaCode;
+  input.instance().value = areaCode;
   await input.simulate('change');
 };
 
@@ -33,9 +34,11 @@ describe('region settings', async () => {
   });
 
   test('button state', async () => {
-    const saveButton = regionSettings.find(Button).first();
+    let saveButton = regionSettings.find(Button).first();
     expect(saveButton.props().disabled).toEqual(true);
     await enterAreaCode('853');
+    regionSettings = wrapper.find(RegionSettings).first();
+    saveButton = regionSettings.find(Button).first();
     expect(saveButton.props().disabled).toEqual(false);
   });
 
