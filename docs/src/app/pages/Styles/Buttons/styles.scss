@@ -4,39 +4,32 @@
 
 .header {
   color: #389DCA;
-  font-size: 25px;
-  font-weight: bold;
-  padding: 10px;
+  font-size: 34px;
+  text-align: left;
+  margin-top: 30px;
+  margin-bottom: 60px;
 }
 
 .subHeader {
-  composes: header;
-  font-size: 18px;
+  color: #2f2f2f;
+  font-size: 28px;
 }
 
 .buttonListGroup {
   width: 100%;
-  padding: 10px 50px;
+  padding: 10px 0;
 }
 
 .buttonList {
   float: left;
-  width: 50%;
+  width: 45%;
+  margin-right: 5%;
 }
 
 @media only screen and (max-width: 768px) {
   .buttonList {
     width: 100%;
   }
-}
-
-.buttonItem {
-  width: 100%;
-  font-size: 13px;
-  text-align: left;
-  color: #666666;
-  padding: 30px 20px 0 10px;
-  min-height: 200px;
 }
 
 .button {
@@ -52,4 +45,48 @@
   p {
     margin: 5px 0;
   }
+}
+
+.buttonsWrapperRoot {
+  margin-top: 50px;
+  width: 100%;
+
+  .wrapperTitle {
+    color: #2f2f2f;
+    font-size: 18px;
+    margin-bottom: 22px;
+  }
+
+  .wrapperButtonList {
+    background: #f9f9f9;
+    padding-bottom: 50px;
+    padding-top: 60px;
+  }
+
+  .button {
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 60px;
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  .description {
+    margin-top: 40px;
+    font-size: 13px;
+  }
+
+  .descriptionLine {
+    margin: 3px 0;
+  }
+}
+
+.clearLine {
+  clear: both;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
 }
