@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="89px" height="66px" viewBox="0 0 89 66" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 14</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Button" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-1163.000000, -2695.000000)">
+        <g id="Group-14" transform="translate(1163.000000, 2695.000000)">
+            <g id="Group-8-Copy-2" transform="translate(10.000000, 35.000000)">
+                <rect id="Rectangle-3-Copy-2" fill="#0684BD" x="0" y="0" width="69" height="28" rx="14"></rect>
+                <text id="Normal" font-family="HelveticaNeue, Helvetica Neue" font-size="12" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="15" y="18">Normal</tspan>
+                </text>
+            </g>
+            <rect id="Rectangle-12-Copy-2" fill="#FF5500" opacity="0.4" x="64" y="31" width="15" height="35"></rect>
+            <rect id="Rectangle-12-Copy-4" fill="#FF5500" opacity="0.4" x="10" y="31" width="15" height="35"></rect>
+            <rect id="Rectangle-12-Copy" fill="#FF5500" opacity="0.2" x="79" y="31" width="10" height="35"></rect>
+            <rect id="Rectangle-12-Copy-5" fill="#FF5500" opacity="0.2" x="0" y="31" width="10" height="35"></rect>
+            <g id="WIDTH#9696A2E0-3826-4417-B448-C27C19E5C0F9">
+                <rect id="ruler-start" fill="#FF5500" x="10" y="26" width="1" height="5"></rect>
+                <rect id="ruler-end" fill="#FF5500" x="24" y="26" width="1" height="5"></rect>
+                <rect id="ruler-line" fill="#FF5500" x="10" y="28" width="15" height="1"></rect>
+                <polygon id="label-arrow" fill="#FF5500" points="14 22 18 18 22 22 18 26"></polygon>
+                <rect id="label-box" fill="#FF5500" x="0" y="0" width="35" height="22" rx="2"></rect>
+                <text id="label-text" font-family="HelveticaNeue, Helvetica Neue" font-size="12" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="4.162" y="15">15px</tspan>
+                </text>
+            </g>
+            <g id="WIDTH#9696A2E0-3826-4417-B448-C27C19E5C0F9-Copy" transform="translate(54.000000, 0.000000)">
+                <rect id="ruler-start" fill="#FF5500" x="10" y="26" width="1" height="5"></rect>
+                <rect id="ruler-end" fill="#FF5500" x="24" y="26" width="1" height="5"></rect>
+                <rect id="ruler-line" fill="#FF5500" x="10" y="28" width="15" height="1"></rect>
+                <polygon id="label-arrow" fill="#FF5500" points="14 22 18 18 22 22 18 26"></polygon>
+                <rect id="label-box" fill="#FF5500" x="0" y="0" width="35" height="22" rx="2"></rect>
+                <text id="label-text" font-family="HelveticaNeue, Helvetica Neue" font-size="12" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="4.162" y="15">15px</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

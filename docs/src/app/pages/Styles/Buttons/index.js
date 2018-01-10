@@ -1,6 +1,9 @@
 import React from 'react';
-
-import Markdown from '../../../components/Markdown';
+import classnames from 'classnames';
+import PrimaryButtonSpecs from '../../../assets/images/primary_button_specs.svg';
+import PrimaryButtonPopupSpecs from '../../../assets/images/primary_button_popup_specs.svg';
+import primaryButtonPageExample from '../../../assets/images/primary_button_in_page_example.png';
+import primaryButtonPopupExample from '../../../assets/images/primary_button_in_popup_example.png';
 import styles from './styles.scss';
 
 function ButtonsWrapper(props) {
@@ -34,7 +37,7 @@ function ButtonsWrapper(props) {
     const typeStyle = props[`${type}Style`];
     const name = type.charAt(0).toUpperCase() + type.slice(1);
     return (
-      <div>
+      <div key={type}>
         <div className={styles.descriptionLine} key={type}>
           {name} fill color: {typeStyle.backgroundName} {typeStyle.background}
         </div>
@@ -147,7 +150,7 @@ const primaryButtonInPopup = {
   width: 70,
   height: 28,
   cornerRadius: 100,
-  textSize: 13,
+  textSize: 12,
   textColor: '#FFFFFF',
   textColorName: 'Regular Snow',
   normalStyle: {
@@ -173,7 +176,7 @@ const secondaryButtonInPopup = {
   width: 70,
   height: 28,
   cornerRadius: 100,
-  textSize: 13,
+  textSize: 12,
   normalStyle: {
     background: 'transparent',
     color: '#0684BD',
@@ -216,26 +219,26 @@ function ButtonsPage() {
         </div>
       </div>
       <div className={styles.clearLine} />
-      <div className={styles.buttonListGroup}>
+      <div className={classnames(styles.buttonListGroup, styles.exampleGroup)}>
         <div className={styles.buttonList}>
           <div
-            className={styles.button}
+            className={classnames(styles.button, styles.buttonExample)}
             style={{
               width: 260,
               height: 35,
-              lineHeight: 35,
-              borderRadius: 100,
-              fontSize: 13,
-              color: '#FFFFFF',
-              background: '#0684BD',
+              lineHeight: '35px',
             }}
           >
             Normal
           </div>
         </div>
         <div className={styles.buttonList}>
-          Test
+          <PrimaryButtonSpecs width="100%" />
         </div>
+      </div>
+      <div className={styles.clearLine} />
+      <div className={styles.buttonListGroup}>
+        <img src={primaryButtonPageExample} alt="primary button in page examples" width="100%" />
       </div>
       <div className={styles.clearLine} />
       <div className={styles.buttonListGroup}>
@@ -245,6 +248,29 @@ function ButtonsPage() {
         <div className={styles.buttonList}>
           <ButtonsWrapper {...secondaryButtonInPopup} />
         </div>
+      </div>
+      <div className={styles.clearLine} />
+      <div className={classnames(styles.buttonListGroup, styles.exampleGroup)}>
+        <div className={styles.buttonList}>
+          <div
+            className={classnames(styles.button, styles.buttonExample)}
+            style={{
+              width: 68,
+              height: 28,
+              fontSize: '12px',
+              lineHeight: '28px',
+            }}
+          >
+            Normal
+          </div>
+        </div>
+        <div className={styles.buttonList}>
+          <PrimaryButtonPopupSpecs width="100%" />
+        </div>
+      </div>
+      <div className={styles.clearLine} />
+      <div className={styles.buttonListGroup}>
+        <img src={primaryButtonPopupExample} alt="primary button in popup examples" width="100%" />
       </div>
     </div>
   );

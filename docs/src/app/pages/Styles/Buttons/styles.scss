@@ -22,8 +22,12 @@
 
 .buttonList {
   float: left;
-  width: 45%;
-  margin-right: 5%;
+  width: 47%;
+  margin-left: 6%;
+
+  &:first-child {
+    margin-left: 0;
+  }
 }
 
 @media only screen and (max-width: 768px) {
@@ -38,6 +42,10 @@
   text-align: center;
   font-weight: 400;
   cursor: pointer;
+  color: #ffffff;
+  font-size: 13px;
+  border-radius: 100px;
+  background: #0684BD;
 }
 
 .styleText {
@@ -89,4 +97,18 @@
   border: 0;
   font: inherit;
   vertical-align: baseline;
+}
+
+.buttonExample {
+  margin-top: 37px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.exampleGroup {
+  margin-top: 60px;
+  margin-bottom: 60px;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  min-height: 90px;
 }
