@@ -20,5 +20,6 @@
     "release/**": true,
     "coverage/**": true,
     "docs/**": true
-  }
+  },
+  "files.eol": "\n"
 }
