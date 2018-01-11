@@ -231,6 +231,21 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
       }
       return this._extensionInfo.serviceFeatures[this._flag].enabled;
     }
+  }, {
+    key: 'readTextPermissions',
+    get: function get() {
+      return !!(this.serviceFeatures && (this.serviceFeatures.PagerReceiving && this.serviceFeatures.PagerReceiving.enabled || this.serviceFeatures.SMSReceiving && this.serviceFeatures.SMSReceiving.enabled));
+    }
+  }, {
+    key: 'voicemailPermissions',
+    get: function get() {
+      return !!(this.serviceFeatures && this.serviceFeatures.Voicemail && this.serviceFeatures.Voicemail.enabled);
+    }
+  }, {
+    key: 'readFaxPermissions',
+    get: function get() {
+      return !!(this.serviceFeatures && this.serviceFeatures.FaxReceiving && this.serviceFeatures.FaxReceiving.enabled);
+    }
   }]);
   return RolesAndPermissions;
 }(_DataFetcher3.default)) || _class);

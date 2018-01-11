@@ -147,7 +147,7 @@ var DEFAULT_DAY_SPAN = 7;
  * @description Messages data manageing module
  */
 var MessageStore = (_dec = (0, _di.Module)({
-  deps: ['Alert', 'Client', 'Auth', 'Subscription', 'ConnectivityMonitor', { dep: 'Storage', optional: true }, { dep: 'MessageStoreOptions', optional: true }]
+  deps: ['Alert', 'Client', 'Auth', 'Subscription', 'ConnectivityMonitor', 'RolesAndPermissions', { dep: 'Storage', optional: true }, { dep: 'MessageStoreOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_Pollable) {
   (0, _inherits3.default)(MessageStore, _Pollable);
 
@@ -160,6 +160,7 @@ var MessageStore = (_dec = (0, _di.Module)({
    * @param {Storage} params.storage - storage module instance
    * @param {subscription} params.subscription - subscription module instance
    * @param {connectivityMonitor} params.connectivityMonitor - connectivityMonitor module instance
+   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermissions module instance
    * @param {Number} params.ttl - local cache timestamp
    * @param {Number} params.timeToRetry - waiting time to retry
    * @param {Number} params.daySpan - day span of call log
@@ -178,11 +179,12 @@ var MessageStore = (_dec = (0, _di.Module)({
         storage = _ref.storage,
         subscription = _ref.subscription,
         connectivityMonitor = _ref.connectivityMonitor,
+        rolesAndPermissions = _ref.rolesAndPermissions,
         _ref$polling = _ref.polling,
         polling = _ref$polling === undefined ? false : _ref$polling,
         _ref$disableCache = _ref.disableCache,
         disableCache = _ref$disableCache === undefined ? false : _ref$disableCache,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'client', 'auth', 'ttl', 'timeToRetry', 'daySpan', 'storage', 'subscription', 'connectivityMonitor', 'polling', 'disableCache']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'client', 'auth', 'ttl', 'timeToRetry', 'daySpan', 'storage', 'subscription', 'connectivityMonitor', 'rolesAndPermissions', 'polling', 'disableCache']);
     (0, _classCallCheck3.default)(this, MessageStore);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (MessageStore.__proto__ || (0, _getPrototypeOf2.default)(MessageStore)).call(this, (0, _extends3.default)({}, options, {
@@ -196,6 +198,7 @@ var MessageStore = (_dec = (0, _di.Module)({
     }
     _this._subscription = subscription;
     _this._connectivityMonitor = connectivityMonitor;
+    _this._rolesAndPermissions = rolesAndPermissions;
     _this._ttl = ttl;
     _this._timeToRetry = timeToRetry;
     _this._daySpan = daySpan;
@@ -246,7 +249,14 @@ var MessageStore = (_dec = (0, _di.Module)({
     }, function () {
       return _this.textUnreadCounts;
     }, function (voiceUnreadCounts, textUnreadCounts) {
-      return voiceUnreadCounts + textUnreadCounts;
+      var unreadCounts = 0;
+      if (_this._rolesAndPermissions.readTextPermissions) {
+        unreadCounts += textUnreadCounts;
+      }
+      if (_this._rolesAndPermissions.voicemailPermissions) {
+        unreadCounts += voiceUnreadCounts;
+      }
+      return unreadCounts;
     });
 
     _this.addSelector('textConversations', function () {
@@ -316,12 +326,12 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: '_shouldInit',
     value: function _shouldInit() {
-      return (!this._storage || this._storage.ready) && this._subscription.ready && (!this._connectivityMonitor || this._connectivityMonitor.ready) && this.pending;
+      return (!this._storage || this._storage.ready) && this._subscription.ready && (!this._connectivityMonitor || this._connectivityMonitor.ready) && this._rolesAndPermissions.ready && this.pending;
     }
   }, {
     key: '_shouldReset',
     value: function _shouldReset() {
-      return (!!this._storage && !this._storage.ready || !this._subscription.ready || !!this._connectivityMonitor && !this._connectivityMonitor.ready) && this.ready;
+      return (!!this._storage && !this._storage.ready || !this._subscription.ready || !!this._connectivityMonitor && !this._connectivityMonitor.ready || !this._rolesAndPermissions.ready) && this.ready;
     }
   }, {
     key: '_shouleCleanCache',
