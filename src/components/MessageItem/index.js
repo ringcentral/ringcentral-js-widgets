@@ -301,6 +301,15 @@ export default class MessageItem extends Component {
     this.props.deleteMessage(this.props.conversation.conversationId);
   }
 
+  dateTimeFormatter(creationTime) {
+    try {
+      return this.props.dateTimeFormatter({ utcTimestamp: creationTime });
+    } catch (e) {
+      console.error('Format date time error', creationTime);
+      return creationTime;
+    }
+  }
+
   render() {
     const {
       areaCode,
@@ -324,7 +333,6 @@ export default class MessageItem extends Component {
       onLogConversation,
       onViewContact,
       onCreateContact,
-      dateTimeFormatter,
       enableContactFallback,
       showContactDisplayPlaceholder,
       sourceIcons,
@@ -398,7 +406,7 @@ export default class MessageItem extends Component {
             {detail}
           </div>
           <div className={styles.creationTime}>
-            {dateTimeFormatter({ utcTimestamp: creationTime })}
+            {this.dateTimeFormatter(creationTime)}
           </div>
         </div>
         <SlideMenu

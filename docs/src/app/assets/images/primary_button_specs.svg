@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="352" height="103" viewBox="0 0 352 103">
+    <g fill="none" fill-rule="evenodd">
+        <g transform="translate(65 41)">
+            <rect width="260" height="35" fill="#0684BD" rx="17.5"/>
+            <text fill="#FFF" font-family="HelveticaNeue, Helvetica Neue" font-size="13">
+                <tspan x="114" y="22">Normal </tspan>
+            </text>
+        </g>
+        <g transform="translate(65 81)">
+            <path fill="#F50" d="M0 8h1v5H0zM259 8h1v5h-1z"/>
+            <path fill="#F50" d="M0 10h260v1H0z"/>
+            <path fill="#F50" d="M126 11l4-4 4 4-4 4z"/>
+            <rect width="42" height="22" x="109" fill="#F50" rx="2"/>
+            <text fill="#FFF" font-family="HelveticaNeue, Helvetica Neue" font-size="12">
+                <tspan x="113.326" y="15">260px</tspan>
+            </text>
+        </g>
+        <path fill="#FDC" d="M45 41h20v35H45z"/>
+        <path fill="#F50" d="M305 41h20v35h-20zM65 41h20v35H65z" opacity=".4"/>
+        <path fill="#FDC" d="M325 41h20v35h-20z"/>
+        <g transform="translate(0 41)">
+            <path fill="#F50" d="M39 0h5v1h-5zM39 34h5v1h-5z"/>
+            <path fill="#F50" d="M41 0h1v35h-1zM31 18l4-4 4 4-4 4z"/>
+            <rect width="35" height="22" y="7" fill="#F50" rx="2"/>
+            <text fill="#FFF" font-family="HelveticaNeue, Helvetica Neue" font-size="12">
+                <tspan x="4.162" y="22">35px</tspan>
+            </text>
+        </g>
+        <g transform="translate(57)">
+            <path fill="#F50" d="M8 26h1v5H8zM27 26h1v5h-1z"/>
+            <path fill="#F50" d="M8 28h20v1H8zM14 22l4-4 4 4-4 4z"/>
+            <rect width="35" height="22" fill="#F50" rx="2"/>
+            <text fill="#FFF" font-family="HelveticaNeue, Helvetica Neue" font-size="12">
+                <tspan x="4.162" y="15">20px</tspan>
+            </text>
+        </g>
+        <g transform="translate(317 5)">
+            <path fill="#F50" d="M8 26h1v5H8zM27 26h1v5h-1z"/>
+            <path fill="#F50" d="M8 28h20v1H8zM14 22l4-4 4 4-4 4z"/>
+            <rect width="35" height="22" fill="#F50" rx="2"/>
+            <text fill="#FFF" font-family="HelveticaNeue, Helvetica Neue" font-size="12">
+                <tspan x="4.162" y="15">20px</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

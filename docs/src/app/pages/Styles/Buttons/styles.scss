@@ -4,24 +4,30 @@
 
 .header {
   color: #389DCA;
-  font-size: 25px;
-  font-weight: bold;
-  padding: 10px;
+  font-size: 34px;
+  text-align: left;
+  margin-top: 30px;
+  margin-bottom: 60px;
 }
 
 .subHeader {
-  composes: header;
-  font-size: 18px;
+  color: #2f2f2f;
+  font-size: 28px;
 }
 
 .buttonListGroup {
   width: 100%;
-  padding: 10px 50px;
+  padding: 10px 0;
 }
 
 .buttonList {
   float: left;
-  width: 50%;
+  width: 47%;
+  margin-left: 6%;
+
+  &:first-child {
+    margin-left: 0;
+  }
 }
 
 @media only screen and (max-width: 768px) {
@@ -30,21 +36,16 @@
   }
 }
 
-.buttonItem {
-  width: 100%;
-  font-size: 13px;
-  text-align: left;
-  color: #666666;
-  padding: 30px 20px 0 10px;
-  min-height: 200px;
-}
-
 .button {
   width: 100%;
   line-height: 100%;
   text-align: center;
   font-weight: 400;
   cursor: pointer;
+  color: #ffffff;
+  font-size: 13px;
+  border-radius: 100px;
+  background: #0684BD;
 }
 
 .styleText {
@@ -52,4 +53,62 @@
   p {
     margin: 5px 0;
   }
+}
+
+.buttonsWrapperRoot {
+  margin-top: 50px;
+  width: 100%;
+
+  .wrapperTitle {
+    color: #2f2f2f;
+    font-size: 18px;
+    margin-bottom: 22px;
+  }
+
+  .wrapperButtonList {
+    background: #f9f9f9;
+    padding-bottom: 50px;
+    padding-top: 60px;
+  }
+
+  .button {
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 60px;
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  .description {
+    margin-top: 40px;
+    font-size: 13px;
+  }
+
+  .descriptionLine {
+    margin: 3px 0;
+  }
+}
+
+.clearLine {
+  clear: both;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+.buttonExample {
+  margin-top: 37px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.exampleGroup {
+  margin-top: 60px;
+  margin-bottom: 60px;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  min-height: 90px;
 }
