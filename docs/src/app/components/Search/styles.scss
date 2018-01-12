@@ -9,8 +9,9 @@
 
 .input {
   display: block;
-  width: 542px;
-  border: 1px solid #e8e8e8;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #e8e8e8;
   font-size: 14px;
   background: #fff url(../../assets/images/ico_search.png) no-repeat 8px 50% !important;
   height: 40px;
@@ -21,9 +22,13 @@
   padding-left: 25px;
 
   &:hover {
-    border-color: #0073ae;
+    // border-color: #0073ae;
     outline: 0;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 8px rgba(102,175,233,0.6);
+    // box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 8px rgba(102,175,233,0.6);
+  }
+
+  &:focus {
+    outline: 0;
   }
 }
 
