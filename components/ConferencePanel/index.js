@@ -80,6 +80,10 @@ var _LinkLine = require('../LinkLine');
 
 var _LinkLine2 = _interopRequireDefault(_LinkLine);
 
+var _formatMessage = require('format-message');
+
+var _formatMessage2 = _interopRequireDefault(_formatMessage);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // TODO Move to a separate folder.
@@ -261,9 +265,26 @@ var ConferencePanel = function (_Component) {
       }).join('\n');
       var additionalNumbersSection = '';
       if (showAdditionalNumbers) {
-        additionalNumbersSection = '\n\nInternational Dial-in Numbers:\n' + additionalNumbersTxt + '\n\n';
+        additionalNumbersSection = _i18n2.default.getString('internationalNumber', _this.props.currentLocale) + '\n' + additionalNumbersTxt;
       }
-      return '\nPlease join the ' + brand.name + ' conference.\n\nDial-In Number: ' + formattedDialInNumber + '\n' + additionalNumbersSection + '\nParticipant Access: ' + formatPin(participantCode) + '\n\nNeed an international dial-in phone number? Please visit ' + dialInNumbersLinks[brand.code] + '\n\nThis conference call is brought to you by ' + brand.name + ' Conferencing.';
+      //     return `
+      // Please join the ${brand.name} conference.
+
+      // Dial-In Number: ${formattedDialInNumber}
+      // ${additionalNumbersSection}
+      // Participant Access: ${formatPin(participantCode)}
+
+      // Need an international dial-in phone number? Please visit ${dialInNumbersLinks[brand.code]}
+
+      // This conference call is brought to you by ${brand.name} Conferencing.`;
+      // return i18n.getString('inviteText', this.props.currentLocale);
+      return (0, _formatMessage2.default)(_i18n2.default.getString('inviteText', _this.props.currentLocale), {
+        brandName: brand.name,
+        formattedDialInNumber: formattedDialInNumber,
+        additionalNumbersSection: additionalNumbersSection,
+        participantCode: formatPin(participantCode),
+        dialInNumbersLinks: dialInNumbersLinks[brand.code]
+      });
     };
 
     _this.inviteWithText = function () {

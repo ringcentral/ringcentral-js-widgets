@@ -15,6 +15,7 @@ exports.default = {
   inviteWithGCalendar: 'Invite with Google Calendar',
   inviteWithText: 'Invite with Text',
   joinAsHost: 'Join as Host',
-  inviteText: 'Please join the RingCentral conference.\n\nDial-In Numbers: {dialInNumber} \n\n{internationals} \nParticipant Access: {participantCode} \n\nNeed an international dial-in phone number? Please visit http://www.ringcentral.com/conferencing \n\nThis conference call is brought to you by RingCentral Conferencing.'
+  internationalNumber: 'International Dial-in Numbers:',
+  inviteText: 'Please join the {brandName} conference.\n\nDial-In Numbers: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nNeed an international dial-in phone number? Please visit {dialInNumbersLinks} \n\nThis conference call is brought to you by {brandName} Conferencing.'
 };
 //# sourceMappingURL=en-US.js.map

@@ -435,6 +435,16 @@ var MessageItem = function (_Component) {
       return '';
     }
   }, {
+    key: 'dateTimeFormatter',
+    value: function dateTimeFormatter(creationTime) {
+      try {
+        return this.props.dateTimeFormatter({ utcTimestamp: creationTime });
+      } catch (e) {
+        console.error('Format date time error', creationTime);
+        return creationTime;
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -460,7 +470,6 @@ var MessageItem = function (_Component) {
           onLogConversation = _props2.onLogConversation,
           onViewContact = _props2.onViewContact,
           onCreateContact = _props2.onCreateContact,
-          dateTimeFormatter = _props2.dateTimeFormatter,
           enableContactFallback = _props2.enableContactFallback,
           showContactDisplayPlaceholder = _props2.showContactDisplayPlaceholder,
           sourceIcons = _props2.sourceIcons,
@@ -535,7 +544,7 @@ var MessageItem = function (_Component) {
           _react2.default.createElement(
             'div',
             { className: _styles2.default.creationTime },
-            dateTimeFormatter({ utcTimestamp: creationTime })
+            this.dateTimeFormatter(creationTime)
           )
         ),
         _react2.default.createElement(
