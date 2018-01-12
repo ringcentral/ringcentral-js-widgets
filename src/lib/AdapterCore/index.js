@@ -72,6 +72,9 @@ export default class AdapterCore {
         case this._messageTypes.pushLocale:
           this._onPushLocale(msg);
           break;
+        case this._messageTypes.pushRingState:
+          this._onPushRingState(msg);
+          break;
         default:
           break;
       }
@@ -298,6 +301,12 @@ export default class AdapterCore {
       size,
     });
   }
+
+  _onPushRingState({ ringing }) {
+    this._ringing = ringing;
+    this._render();
+  }
+
   _onPushPresence({ dndStatus, userStatus, telephonyStatus }) {
     if (
       dndStatus !== this._dndStatus ||
@@ -424,7 +433,6 @@ export default class AdapterCore {
     this._headerEl.setAttribute('class', classnames(
       this._styles.header,
       this._minimized && this._styles.minimized,
-      this._ringing && this._styles.ringing,
     ));
   }
   renderPresence() {
