@@ -136,17 +136,17 @@ function DropdownList({ label }) {
         items={CONTACT_DIPLAY_LIST}
         className={classnames(styles.contactDisplay, styles[label])}
         itemRender={contactDisplayRender}
-      />,
+      />
       <Dropdown
         items={SEARCH_LIST}
         className={classnames(styles.searchList, styles[label])}
         itemRender={searchRender}
-      />,
+      />
       <Dropdown
         items={label === 'selected' ? ACTIVE_MENUS_LIST : MENUS_LIST}
         className={classnames(styles.menus, styles[label])}
         itemRender={menuRender}
-      />,
+      />
       <Dropdown
         items={CONTACT_FILTERS}
         className={classnames(styles.filter, styles[label])}
