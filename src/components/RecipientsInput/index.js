@@ -242,7 +242,12 @@ class RecipientsInput extends Component {
 
   clickHandler = (evt) => {
     if (this.listRef && this.listRef.contains(evt.target)) return;
-    if (this.inputRef && this.inputRef.contains(evt.target)) return;
+    if (this.inputRef && this.inputRef.contains(evt.target)) {
+      this.setState({
+        isFocusOnInput: true
+      });
+      return;
+    }
     this.setState({
       isFocusOnInput: false
     });
