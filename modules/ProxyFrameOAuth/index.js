@@ -296,7 +296,7 @@ var ProxyFrameOAuth = (_dec = (0, _di.Module)({
   }, {
     key: 'proxyUri',
     get: function get() {
-      return _url2.default.resolve(window.location.href, this._proxyUri) + '?uuid=' + this._uuid;
+      return _url2.default.resolve(window.location.href, this._proxyUri) + '?hash=' + encodeURIComponent(btoa(this._uuid)) + '&prefix=' + encodeURIComponent(this.prefix);
     }
   }, {
     key: 'proxyRetryCount',

@@ -103,6 +103,7 @@
     "react-widgets": "^4.1.1",
     "react-widgets-moment": "^4.0.4",
     "through2": "^2.0.3",
+    "url-parse": "^1.2.0",
     "uuid": "^3.1.0"
   }
 }
