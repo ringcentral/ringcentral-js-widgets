@@ -132,10 +132,9 @@ function mapToFunctions(_, {
     })),
 
     dateTimeFormatter,
-    // TODO momentarily hide onViewContact
-    // onViewContact: onViewContact || (({ contact: { type, id } }) => {
-    //   routerInteraction.push(`/contacts/${type}/${id}?direct=true`);
-    // }),
+    onViewContact: onViewContact || (({ contact: { type, id } }) => {
+      routerInteraction.push(`/contacts/${type}/${id}?direct=true`);
+    }),
     onClickToDial: dialerUI ?
       (recipient) => {
         if (call.isIdle) {
