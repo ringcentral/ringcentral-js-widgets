@@ -2,6 +2,7 @@ import RcModule from 'ringcentral-integration/lib/RcModule';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
 import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import moduleStatuses from 'ringcentral-integration/enums/moduleStatuses';
+import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 import { prefixEnum } from 'ringcentral-integration/lib/Enum';
 import baseMessageTypes from '../AdapterCore/baseMessageTypes';
 import baseActionTypes from './baseActionTypes';
@@ -15,8 +16,10 @@ export default class AdapterModuleCore extends RcModule {
     storageKey = 'adapterCore',
     messageTypes = baseMessageTypes,
     actionTypes = baseActionTypes,
+    webphone,
     presence,
     locale,
+    callingSettings,
     routerInteraction,
     globalStorage,
     getGlobalStorageReducer = getDefaultGlobalStorageReducer,
@@ -36,6 +39,8 @@ export default class AdapterModuleCore extends RcModule {
     this._messageTransport = this::ensureExist(messageTransport, 'messageTransport');
     this._presence = this::ensureExist(presence, 'presence');
     this._router = this::ensureExist(routerInteraction, 'routerInteraction');
+    this._callingSettings = callingSettings;
+    this._webphone = webphone;
 
     this._storageKey = storageKey;
     this._globalStorage = this::ensureExist(globalStorage, 'globalStorage');
@@ -61,12 +66,14 @@ export default class AdapterModuleCore extends RcModule {
         type: this.actionTypes.init,
       });
       this._pushAdapterState();
+      this._pushRingState();
       this.store.dispatch({
         type: this.actionTypes.initSuccess,
       });
     }
     this._pushPresence();
     this._pushLocale();
+    this._pushRingState();
   }
   _onMessage(msg) {
     if (msg) {
@@ -119,6 +126,48 @@ export default class AdapterModuleCore extends RcModule {
       position,
     });
   }
+
+  _pushRingState() {
+    if (!this.ready || !this._callingSettings) return;
+
+    const { callingMode } = this._callingSettings;
+    if (callingMode === callingModes.webphone) {
+      const webphone = this._webphone;
+      if (!webphone) {
+        throw new Error('webphone is a required dependency for monitoring WebRTC call');
+      }
+      if (webphone.ringSession && webphone.ringSessionId !== this._ringSessionId) {
+        this._ringSessionId = webphone.ringSessionId;
+        this._postMessage({
+          type: this._messageTypes.pushRingState,
+          ringing: true
+        });
+      }
+      // Check if ringing is over
+      if (this._ringSessionId) {
+        const ringingSessions = webphone.sessions.filter(session =>
+          session.callStatus === 'webphone-session-connecting' && session.direction === 'Inbound'
+        );
+        if (ringingSessions.length <= 0) {
+          this._postMessage({
+            type: this._messageTypes.pushRingState,
+            ringing: false
+          });
+          this._ringSessionId = null;
+        }
+      }
+    } else {
+      const status = this._presence.telephonyStatus;
+      if (this._presence.telephonyStatus !== this._telephonyStatus) {
+        this._postMessage({
+          type: this._messageTypes.pushRingState,
+          ringing: status === 'Ringing'
+        });
+        this._telephonyStatus = status;
+      }
+    }
+  }
+
   _pushPresence() {
     if (
       this.ready &&

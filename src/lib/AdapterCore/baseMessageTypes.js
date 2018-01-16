@@ -11,4 +11,5 @@ export default new Enum([
   'presenceClicked',
   'clickToDial',
   'clickToSms',
+  'pushRingState'
 ]);

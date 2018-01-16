@@ -63,18 +63,6 @@
   cursor: ew-resize;
 }
 
-@keyframes sparkle {
-  from {background-color: inherit;}
-  to {background-color: $primary-color-highlight-solid; }
-}
-.minimized.ringing.header {
-  animation-name: sparkle;
-  animation-duration: 0.45s;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-  animation-timing-function: ease-in-out;
-}
-
 .logo {
   @include no-select;
   @extend .centerStyle;
@@ -215,4 +203,27 @@
 .frameContainer {
   overflow: hidden;
   transition: width 0.1s 0s ease-in-out, height 0.1s 0s ease-in-out;
+}
+
+@keyframes shake {
+  from, to, 70% {
+    right: 0;
+  }
+
+  76%, 82%, 88%, 94% {
+    right: -5px;
+  }
+
+  73%, 79%, 85%, 91%, 97% {
+    right: 5px;
+  }
+}
+
+.minimized.ringing {
+  animation-name: shake;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  &:hover {
+    animation-play-state: paused;
+  }
 }
