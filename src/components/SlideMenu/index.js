@@ -29,8 +29,7 @@ ToggleButton.defaultProps = {
 function ExtendIcon({ onClick, extendIconClassName }) {
   return (
     <div className={styles.extendIcon} onClick={onClick}>
-      <div className={classnames(extendIconClassName, styles.extendInner)} />
-      <div className={styles.extendInnerIcon} />
+      <div className={classnames(styles.extendInner, extendIconClassName)} />
     </div>
   );
 }
@@ -93,7 +92,9 @@ export default class SlideMenu extends Component {
             {children}
           </div>
         </div>
-        <ExtendIcon extendIconClassName={this.props.extendIconClassName} onClick={this.onToggle} />
+        <ExtendIcon
+          extendIconClassName={extended ? this.props.extendIconClassName : null}
+          onClick={this.onToggle} />
       </div>
     );
   }
@@ -110,7 +111,7 @@ SlideMenu.propTypes = {
 };
 SlideMenu.defaultProps = {
   className: undefined,
-  extendIconClassName: undefined,
+  extendIconClassName: styles.extended,
   children: undefined,
   minHeight: 0,
   maxHeight: 100,
