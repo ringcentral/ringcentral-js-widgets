@@ -455,8 +455,7 @@ export default class ActiveCallItem extends Component {
           viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
         />
         <ExtendIcon
-          extendIconClassName={this.state.extended ? styles.extended : null}
-          />
+          extendIconClassName={this.state.extended ? styles.extended : null} />
       </div>
     );
   }
