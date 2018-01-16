@@ -67,6 +67,14 @@ function ExtendIcon({ extendIconClassName }) {
   );
 }
 
+ExtendIcon.propTypes = {
+  extendIconClassName: PropTypes.object
+};
+
+ExtendIcon.defaultProps = {
+  extendIconClassName: null
+};
+
 function WebphoneButtons({
   session,
   webphoneAnswer,

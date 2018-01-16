@@ -83,7 +83,6 @@ function mapToFunctions(_, {
   onCreateContact,
   onLogCall,
   isLoggedContact,
-  onCallsEmpty,
   onViewContact,
   dateTimeFormatter = ({ utcTimestamp }) => dateTimeFormat.formatDateTime({
     utcTimestamp,
