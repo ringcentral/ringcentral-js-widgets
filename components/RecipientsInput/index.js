@@ -178,7 +178,12 @@ var RecipientsInput = function (_Component) {
 
     _this.clickHandler = function (evt) {
       if (_this.listRef && _this.listRef.contains(evt.target)) return;
-      if (_this.inputRef && _this.inputRef.contains(evt.target)) return;
+      if (_this.inputRef && _this.inputRef.contains(evt.target)) {
+        _this.setState({
+          isFocusOnInput: true
+        });
+        return;
+      }
       _this.setState({
         isFocusOnInput: false
       });
