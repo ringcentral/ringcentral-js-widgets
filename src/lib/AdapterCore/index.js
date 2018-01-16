@@ -42,8 +42,8 @@ export default class AdapterCore {
     this._appHeight = 0;
     this._dragStartPosition = null;
 
-    this._closed = false;
-    this._minimized = false;
+    this._closed = true;
+    this._minimized = true;
     this._dragging = false;
     this._hover = false;
     this._loading = false;
