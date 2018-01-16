@@ -44,7 +44,7 @@ export default class ProxyFrameOAuth extends OAuthBase {
   }
 
   get proxyUri() {
-    return `${url.resolve(window.location.href, this._proxyUri)}?uuid=${this._uuid}`;
+    return `${url.resolve(window.location.href, this._proxyUri)}?hash=${encodeURIComponent(btoa(this._uuid))}&prefix=${encodeURIComponent(this.prefix)}`;
   }
 
   get proxyRetryCount() {

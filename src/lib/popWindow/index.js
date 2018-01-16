@@ -16,12 +16,12 @@ export default function popWindow(url, id, w, h) {
   );
 
   // Puts focus on the newWindow
-  if (newWindow.focus) {
-    try {
+  try {
+    if (newWindow.focus) {
       newWindow.focus();
-    } catch (e) {
-      /* falls through */
     }
+  } catch (error) {
+    /* ignore error */
   }
   return newWindow;
 }
