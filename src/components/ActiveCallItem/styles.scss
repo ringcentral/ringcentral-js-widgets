@@ -13,7 +13,7 @@
 .callInfo {
   display: block;
   position: relative;
-  height: 53px;
+  height: 60px;
   width: 100%;
   @include secondary-font;
 }
@@ -86,7 +86,7 @@
 .webphoneButtons {
   position: absolute;
   right: 20px;
-  bottom: 11px;
+  bottom: 15px;
 }
 
 .rejectButton {
@@ -131,36 +131,37 @@
 
 .extendIcon {
   position: absolute;
+  z-index: 1;
   top: 100%;
   left: 50%;
-  border-top: 7px solid #e2e2e2;
-  border-right: 5px solid transparent;
-  border-left: 5px solid transparent;
+  background-color: #ffffff;
+  border: 1px solid #e2e2e2;
   box-sizing: border-box;
-  width: 28px;
-  height: 0;
-  margin-left: -14px;
+  border-radius: 8.5px;
+  width: 36px;
+  height: 17px;
+  margin-left: -18px;
+  margin-top: -8.5px;
   cursor: pointer;
 
   .extendInner {
     position: absolute;
-    top: -8px;
-    left: -4px;
-    border-top: 7px solid #ffffff;
-    border-right: 5px solid transparent;
-    border-left: 5px solid transparent;
+    top: 50%;
+    left: 50%;
+    margin-top: -5px;
+    margin-left: -4.5px;
+    z-index: 1;
+    height: 7px;
+    width: 7px;
+    border-left: 1px solid #e2e2e2;
+    border-bottom: 1px solid #e2e2e2;
     box-sizing: border-box;
-    width: 26px;
-    height: 0;
+    transform: rotate(-45deg);
   }
 
-  .extendInnerIcon {
-    position: absolute;
-    top: -5px;
-    left: 6px;
-    width: 6px;
-    height: 1px;
-    background: #e2e2e2;
+  .extended {
+    margin-top: -1.5px;
+    transform: rotate(135deg);
   }
 }
 
