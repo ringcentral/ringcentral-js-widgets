@@ -144,21 +144,30 @@ CallIcon.defaultProps = {
   missedTitle: undefined
 };
 
-function ExtendIcon() {
+function ExtendIcon(_ref2) {
+  var extendIconClassName = _ref2.extendIconClassName;
+
   return _react2.default.createElement(
     'div',
     { className: _styles2.default.extendIcon },
-    _react2.default.createElement('div', { className: _styles2.default.extendInner }),
-    _react2.default.createElement('div', { className: _styles2.default.extendInnerIcon })
+    _react2.default.createElement('div', { className: (0, _classnames2.default)(_styles2.default.extendInner, extendIconClassName) })
   );
 }
 
-function WebphoneButtons(_ref2) {
-  var session = _ref2.session,
-      webphoneAnswer = _ref2.webphoneAnswer,
-      webphoneReject = _ref2.webphoneReject,
-      webphoneHangup = _ref2.webphoneHangup,
-      webphoneResume = _ref2.webphoneResume;
+ExtendIcon.propTypes = {
+  extendIconClassName: _propTypes2.default.string
+};
+
+ExtendIcon.defaultProps = {
+  extendIconClassName: undefined
+};
+
+function WebphoneButtons(_ref3) {
+  var session = _ref3.session,
+      webphoneAnswer = _ref3.webphoneAnswer,
+      webphoneReject = _ref3.webphoneReject,
+      webphoneHangup = _ref3.webphoneHangup,
+      webphoneResume = _ref3.webphoneResume;
 
   if (!session || !webphoneAnswer || !webphoneHangup) {
     return null;
@@ -263,7 +272,7 @@ var ActiveCallItem = function (_Component) {
     };
 
     _this.createSelectedContact = function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(entityType) {
+      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(entityType) {
         var phoneNumber;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -304,7 +313,7 @@ var ActiveCallItem = function (_Component) {
       }));
 
       return function (_x2) {
-        return _ref3.apply(this, arguments);
+        return _ref4.apply(this, arguments);
       };
     }();
 
@@ -427,10 +436,10 @@ var ActiveCallItem = function (_Component) {
   }, {
     key: 'logCall',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(_ref5) {
-        var _ref5$redirect = _ref5.redirect,
-            redirect = _ref5$redirect === undefined ? true : _ref5$redirect,
-            selected = _ref5.selected;
+      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(_ref6) {
+        var _ref6$redirect = _ref6.redirect,
+            redirect = _ref6$redirect === undefined ? true : _ref6$redirect,
+            selected = _ref6.selected;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -466,7 +475,7 @@ var ActiveCallItem = function (_Component) {
       }));
 
       function logCall(_x4) {
-        return _ref4.apply(this, arguments);
+        return _ref5.apply(this, arguments);
       }
 
       return logCall;
@@ -574,7 +583,8 @@ var ActiveCallItem = function (_Component) {
           createEntityTitle: _i18n2.default.getString('addEntity', currentLocale),
           viewEntityTitle: _i18n2.default.getString('viewDetails', currentLocale)
         }),
-        _react2.default.createElement(ExtendIcon, null)
+        _react2.default.createElement(ExtendIcon, {
+          extendIconClassName: this.state.extended ? _styles2.default.extended : null })
       );
     }
   }]);

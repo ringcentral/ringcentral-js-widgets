@@ -78,8 +78,7 @@ function ExtendIcon(_ref2) {
   return _react2.default.createElement(
     'div',
     { className: _styles2.default.extendIcon, onClick: onClick },
-    _react2.default.createElement('div', { className: (0, _classnames2.default)(extendIconClassName, _styles2.default.extendInner) }),
-    _react2.default.createElement('div', { className: _styles2.default.extendInnerIcon })
+    _react2.default.createElement('div', { className: (0, _classnames2.default)(_styles2.default.extendInner, extendIconClassName) })
   );
 }
 
@@ -157,7 +156,9 @@ var SlideMenu = function (_Component) {
             children
           )
         ),
-        _react2.default.createElement(ExtendIcon, { extendIconClassName: this.props.extendIconClassName, onClick: this.onToggle })
+        _react2.default.createElement(ExtendIcon, {
+          extendIconClassName: extended ? (0, _classnames2.default)(_styles2.default.extended, this.props.extendIconClassName) : null,
+          onClick: this.onToggle })
       );
     }
   }]);
