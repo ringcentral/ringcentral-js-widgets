@@ -58,12 +58,11 @@ export default class NavigationBar extends Component {
       <nav className={classnames(styles.root, className)}>
         {
           tabs.map((tab, index) => {
-            let icon = tab.icon;
+            let { icon, activeIcon } = tab;
             if (typeof icon === 'function') {
               const Icon = icon;
               icon = (tab.childTabs ? <Icon currentPath={currentPath} /> : <Icon />);
             }
-            let activeIcon = tab.activeIcon;
             if (typeof activeIcon === 'function') {
               const ActiveIcon = activeIcon;
               activeIcon = (tab.childTabs ?

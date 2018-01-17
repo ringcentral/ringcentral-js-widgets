@@ -60,6 +60,12 @@
     transform: translateX(-50%) translateY(-50%);
     overflow: visible!important;
   }
+
+  svg {
+    path {
+      fill: $snow;
+    }
+  }
 }
 .labelHolder {
   @include full-size;
@@ -89,6 +95,7 @@
   background-color: #f65d60;
   overflow: hidden;
 }
+
 .notices {
   position: absolute;
   bottom: 2em;
