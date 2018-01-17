@@ -93,7 +93,9 @@ export default class SlideMenu extends Component {
           </div>
         </div>
         <ExtendIcon
-          extendIconClassName={extended ? this.props.extendIconClassName : null}
+          extendIconClassName={
+            extended ? classnames(styles.extended, this.props.extendIconClassName) : null
+          }
           onClick={this.onToggle} />
       </div>
     );
@@ -111,7 +113,7 @@ SlideMenu.propTypes = {
 };
 SlideMenu.defaultProps = {
   className: undefined,
-  extendIconClassName: styles.extended,
+  extendIconClassName: undefined,
   children: undefined,
   minHeight: 0,
   maxHeight: 100,

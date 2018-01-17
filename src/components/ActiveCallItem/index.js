@@ -68,11 +68,11 @@ function ExtendIcon({ extendIconClassName }) {
 }
 
 ExtendIcon.propTypes = {
-  extendIconClassName: PropTypes.object
+  extendIconClassName: PropTypes.string
 };
 
 ExtendIcon.defaultProps = {
-  extendIconClassName: null
+  extendIconClassName: undefined
 };
 
 function WebphoneButtons({
