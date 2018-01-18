@@ -553,15 +553,16 @@ var Auth = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
+                this._alert.dismissAll();
                 this.store.dispatch({
                   type: this.actionTypes.beforeLogout
                 });
                 handlers = [].concat((0, _toConsumableArray3.default)(this._beforeLogoutHandlers));
-                _context8.prev = 2;
+                _context8.prev = 3;
                 _iteratorNormalCompletion2 = true;
                 _didIteratorError2 = false;
                 _iteratorError2 = undefined;
-                _context8.prev = 6;
+                _context8.prev = 7;
                 _loop2 = _regenerator2.default.mark(function _loop2() {
                   var handler, result;
                   return _regenerator2.default.wrap(function _loop2$(_context7) {
@@ -609,88 +610,88 @@ var Auth = (_dec = (0, _di.Module)({
                 });
                 _iterator2 = (0, _getIterator3.default)(handlers);
 
-              case 9:
+              case 10:
                 if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
-                  _context8.next = 17;
+                  _context8.next = 18;
                   break;
                 }
 
-                return _context8.delegateYield(_loop2(), 't0', 11);
+                return _context8.delegateYield(_loop2(), 't0', 12);
 
-              case 11:
+              case 12:
                 _ret2 = _context8.t0;
 
                 if (!((typeof _ret2 === 'undefined' ? 'undefined' : (0, _typeof3.default)(_ret2)) === "object")) {
-                  _context8.next = 14;
+                  _context8.next = 15;
                   break;
                 }
 
                 return _context8.abrupt('return', _ret2.v);
 
-              case 14:
+              case 15:
                 _iteratorNormalCompletion2 = true;
-                _context8.next = 9;
+                _context8.next = 10;
                 break;
 
-              case 17:
-                _context8.next = 23;
+              case 18:
+                _context8.next = 24;
                 break;
 
-              case 19:
-                _context8.prev = 19;
-                _context8.t1 = _context8['catch'](6);
+              case 20:
+                _context8.prev = 20;
+                _context8.t1 = _context8['catch'](7);
                 _didIteratorError2 = true;
                 _iteratorError2 = _context8.t1;
 
-              case 23:
-                _context8.prev = 23;
+              case 24:
                 _context8.prev = 24;
+                _context8.prev = 25;
 
                 if (!_iteratorNormalCompletion2 && _iterator2.return) {
                   _iterator2.return();
                 }
 
-              case 26:
-                _context8.prev = 26;
+              case 27:
+                _context8.prev = 27;
 
                 if (!_didIteratorError2) {
-                  _context8.next = 29;
+                  _context8.next = 30;
                   break;
                 }
 
                 throw _iteratorError2;
 
-              case 29:
-                return _context8.finish(26);
-
               case 30:
-                return _context8.finish(23);
+                return _context8.finish(27);
 
               case 31:
-                _context8.next = 36;
+                return _context8.finish(24);
+
+              case 32:
+                _context8.next = 37;
                 break;
 
-              case 33:
-                _context8.prev = 33;
-                _context8.t2 = _context8['catch'](2);
+              case 34:
+                _context8.prev = 34;
+                _context8.t2 = _context8['catch'](3);
 
                 this._alert.danger({
                   message: _authMessages2.default.beforeLogoutError,
                   payload: _context8.t2
                 });
 
-              case 36:
+              case 37:
                 this.store.dispatch({
                   type: this.actionTypes.logout
                 });
                 return _context8.abrupt('return', this._client.service.platform().logout());
 
-              case 38:
+              case 39:
               case 'end':
                 return _context8.stop();
             }
           }
-        }, _callee6, this, [[2, 33], [6, 19, 23, 31], [24,, 26, 30]]);
+        }, _callee6, this, [[3, 34], [7, 20, 24, 32], [25,, 27, 31]]);
       }));
 
       function logout() {
