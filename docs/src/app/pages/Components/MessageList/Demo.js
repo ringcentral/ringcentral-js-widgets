@@ -15,6 +15,7 @@ props.conversations = [{
   conversationMatches: [],
   unreadCounts: 0,
   type: 'SMS',
+  creationTime: '2018-01-16T08:59:02.000Z',
 }, {
   id: 2,
   conversationId: '2',
@@ -26,8 +27,12 @@ props.conversations = [{
   conversationMatches: [],
   unreadCounts: 1,
   type: 'SMS',
+  creationTime: '2018-01-17T08:59:02.000Z',
 }];
-props.dateTimeFormatter = ({ utcTimestamp }) => utcTimestamp;
+props.dateTimeFormatter = ({ utcTimestamp }) => {
+  const time = new Date(utcTimestamp);
+  return `${time.getMonth() + 1}/${time.getDate()}/${time.getFullYear()}`;
+};
 props.brand = 'RingCentral';
 props.showConversationDetail = () => null;
 props.countryCode = '+1';
@@ -42,8 +47,15 @@ props.unmarkVoicemail = () => null;
  * A example of `MessageList`
  */
 const MessageListDemo = () => (
-  <MessageList
-    {...props}
-  />
+  <div style={{
+    position: 'relative',
+    height: '500px',
+    width: '300px',
+    border: '1px solid #f3f3f3',
+  }}>
+    <MessageList
+      {...props}
+    />
+  </div>
 );
 export default MessageListDemo;
