@@ -1,7 +1,7 @@
 import { getWrapper, timeout } from '../shared';
 import NavigationBar from '../../src/components/NavigationBar';
 import MessageList from '../../src/components/MessageList';
-import MessagePanel from '../../src/components/MessagesPanel';
+import MessagesPanel from '../../src/components/MessagesPanel';
 import SearchInput from '../../src/components/SearchInput';
 import MessageItem from '../../src/components/MessageItem';
 import ConversationPanel from '../../src/components/ConversationPanel';
@@ -17,7 +17,7 @@ beforeEach(async () => {
   const navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/messages');
   wrapper.update();
-  panel = wrapper.find(MessagePanel).first();
+  panel = wrapper.find(MessagesPanel).first();
 });
 
 describe('messages', () => {
@@ -31,7 +31,7 @@ describe('messages', () => {
     const domInput = searchInput.find('input').first();
     domInput.instance().value = 'something-doesnt-exist';
     domInput.simulate('change');
-    panel = wrapper.find(MessagePanel).first();
+    panel = wrapper.find(MessagesPanel).first();
     searchInput = panel.find(SearchInput).first();
     expect(searchInput.props().value).toEqual('something-doesnt-exist');
     expect(panel.find('.noMessages').text().trim()).toEqual('No matching records found');
