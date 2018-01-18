@@ -45,6 +45,13 @@ function mapToProps(_, {
       permissions &&
       permissions.InternalSMS
     ),
+    composeTextPermission: !!(
+      serviceFeatures &&
+      (
+        (serviceFeatures.Pager && serviceFeatures.Pager.enabled) ||
+        (serviceFeatures.SMS && serviceFeatures.SMS.enabled)
+      )
+    ),
     loggingMap: (conversationLogger && conversationLogger.loggingMap),
     showSpinner: !(
       locale.ready &&

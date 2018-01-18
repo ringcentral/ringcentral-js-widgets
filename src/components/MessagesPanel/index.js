@@ -105,11 +105,14 @@ export default class MessagesPanel extends Component {
       deleteMessage,
       typeFilter,
       goToComposeText,
+      composeTextPermission,
     } = this.props;
     if (showSpinner) {
       return (<SpinnerOverlay />);
     }
-    const showTextIcon = (typeFilter === messageTypes.all || typeFilter === messageTypes.text);
+    const showTextIcon =
+      composeTextPermission &&
+      (typeFilter === messageTypes.all || typeFilter === messageTypes.text);
     const search = onSearchInputChange ?
       (
         <div
@@ -246,6 +249,7 @@ MessagesPanel.propTypes = {
   autoLog: PropTypes.bool,
   enableContactFallback: PropTypes.bool,
   deleteMessage: PropTypes.func,
+  composeTextPermission: PropTypes.bool,
 };
 
 MessagesPanel.defaultProps = {
@@ -273,4 +277,5 @@ MessagesPanel.defaultProps = {
   autoLog: false,
   enableContactFallback: undefined,
   deleteMessage: undefined,
+  composeTextPermission: true,
 };
