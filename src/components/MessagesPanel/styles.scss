@@ -44,3 +44,12 @@ $tabBar-height: 35px;
   @include secondary-font;
   color: $night;
 }
+
+.searchInput {
+  margin: 10px 20px;
+  box-sizing: border-box;
+}
+
+.contentWithSearch {
+  height: calc(100% - 51px);
+}
