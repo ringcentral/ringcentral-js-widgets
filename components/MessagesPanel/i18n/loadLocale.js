@@ -142,6 +142,36 @@ function loadLocale(locale) {
           }
           break;
         }
+      case 'ja':
+
+      case 'ja-JP':
+        {
+          if (typeof require.ensure === 'function') {
+            require.ensure(['./ja-JP'], function (require) {
+              var data = require('./ja-JP');
+              resolve(data.__esModule === true ? data.default : data);
+            }, 'ja-JP');
+          } else {
+            var _data9 = require('./ja-JP');
+            resolve(_data9.__esModule === true ? _data9.default : _data9);
+          }
+          break;
+        }
+      case 'pt':
+
+      case 'pt-BR':
+        {
+          if (typeof require.ensure === 'function') {
+            require.ensure(['./pt-BR'], function (require) {
+              var data = require('./pt-BR');
+              resolve(data.__esModule === true ? data.default : data);
+            }, 'pt-BR');
+          } else {
+            var _data10 = require('./pt-BR');
+            resolve(_data10.__esModule === true ? _data10.default : _data10);
+          }
+          break;
+        }
       default:
         resolve({});
         break;

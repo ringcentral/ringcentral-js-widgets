@@ -5,14 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _extends2 = require('babel-runtime/helpers/extends');
-
-var _extends3 = _interopRequireDefault(_extends2);
-
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
-
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
-
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -49,29 +41,37 @@ var _messageTypes = require('ringcentral-integration/enums/messageTypes');
 
 var _messageTypes2 = _interopRequireDefault(_messageTypes);
 
-var _Header = require('../../components/Header');
+var _Header = require('../Header');
 
 var _Header2 = _interopRequireDefault(_Header);
 
-var _SpinnerOverlay = require('../../components/SpinnerOverlay');
+var _SpinnerOverlay = require('../SpinnerOverlay');
 
 var _SpinnerOverlay2 = _interopRequireDefault(_SpinnerOverlay);
 
-var _MessageList = require('../../components/MessageList');
+var _MessageList = require('../MessageList');
 
 var _MessageList2 = _interopRequireDefault(_MessageList);
 
-var _MessageTabButton = require('../../components/MessageTabButton');
+var _MessageTabButton = require('../MessageTabButton');
 
 var _MessageTabButton2 = _interopRequireDefault(_MessageTabButton);
 
-var _NavigationBar = require('../../components/NavigationBar');
+var _NavigationBar = require('../NavigationBar');
 
 var _NavigationBar2 = _interopRequireDefault(_NavigationBar);
+
+var _SearchInput = require('../SearchInput');
+
+var _SearchInput2 = _interopRequireDefault(_SearchInput);
 
 var _ComposeText = require('../../assets/images/ComposeText.svg');
 
 var _ComposeText2 = _interopRequireDefault(_ComposeText);
+
+var _NewComposeText = require('../../assets/images/NewComposeText.svg');
+
+var _NewComposeText2 = _interopRequireDefault(_NewComposeText);
 
 var _styles = require('./styles.scss');
 
@@ -153,21 +153,116 @@ var MessagesPanel = function (_Component) {
       });
     }
   }, {
-    key: 'render',
-    value: function render() {
+    key: 'renderContent',
+    value: function renderContent() {
       var _props = this.props,
-          currentLocale = _props.currentLocale,
           showSpinner = _props.showSpinner,
           showTitle = _props.showTitle,
-          showComposeText = _props.showComposeText,
-          composeText = _props.composeText,
-          props = (0, _objectWithoutProperties3.default)(_props, ['currentLocale', 'showSpinner', 'showTitle', 'showComposeText', 'composeText']);
+          searchInput = _props.searchInput,
+          onSearchInputChange = _props.onSearchInputChange,
+          currentLocale = _props.currentLocale,
+          perPage = _props.perPage,
+          disableLinks = _props.disableLinks,
+          conversations = _props.conversations,
+          brand = _props.brand,
+          showConversationDetail = _props.showConversationDetail,
+          readVoicemail = _props.readVoicemail,
+          markVoicemail = _props.markVoicemail,
+          dateTimeFormatter = _props.dateTimeFormatter,
+          showContactDisplayPlaceholder = _props.showContactDisplayPlaceholder,
+          sourceIcons = _props.sourceIcons,
+          showGroupNumberName = _props.showGroupNumberName,
+          areaCode = _props.areaCode,
+          countryCode = _props.countryCode,
+          onLogConversation = _props.onLogConversation,
+          onViewContact = _props.onViewContact,
+          onCreateContact = _props.onCreateContact,
+          onClickToDial = _props.onClickToDial,
+          onClickToSms = _props.onClickToSms,
+          disableClickToDial = _props.disableClickToDial,
+          unmarkVoicemail = _props.unmarkVoicemail,
+          autoLog = _props.autoLog,
+          enableContactFallback = _props.enableContactFallback,
+          deleteMessage = _props.deleteMessage,
+          typeFilter = _props.typeFilter,
+          goToComposeText = _props.goToComposeText,
+          composeTextPermission = _props.composeTextPermission;
+
+      if (showSpinner) {
+        return _react2.default.createElement(_SpinnerOverlay2.default, null);
+      }
+      var showTextIcon = composeTextPermission && (typeFilter === _messageTypes2.default.all || typeFilter === _messageTypes2.default.text);
+      var search = onSearchInputChange ? _react2.default.createElement(
+        'div',
+        {
+          className: (0, _classnames2.default)(_styles2.default.searchContainer, showTextIcon ? null : _styles2.default.withoutTextIcon)
+        },
+        _react2.default.createElement(_SearchInput2.default, {
+          className: _styles2.default.searchInput,
+          value: searchInput,
+          onChange: onSearchInputChange,
+          placeholder: _i18n2.default.getString('search', currentLocale),
+          disabled: disableLinks
+        }),
+        _react2.default.createElement(
+          'span',
+          {
+            title: _i18n2.default.getString('composeText', currentLocale),
+            className: _styles2.default.textIcon,
+            onClick: goToComposeText
+          },
+          _react2.default.createElement(_NewComposeText2.default, { width: 20, height: 21 })
+        )
+      ) : null;
+      var placeholder = onSearchInputChange && searchInput.length > 0 ? _i18n2.default.getString('noSearchResults', currentLocale) : _i18n2.default.getString('noMessages', currentLocale);
+      return _react2.default.createElement(
+        'div',
+        { className: (0, _classnames2.default)(_styles2.default.content, showTitle && _styles2.default.contentWithHeader) },
+        search,
+        _react2.default.createElement(_MessageList2.default, {
+          className: onSearchInputChange ? _styles2.default.contentWithSearch : null,
+          currentLocale: currentLocale,
+          perPage: perPage,
+          disableLinks: disableLinks,
+          conversations: conversations,
+          brand: brand,
+          showConversationDetail: showConversationDetail,
+          readVoicemail: readVoicemail,
+          markVoicemail: markVoicemail,
+          dateTimeFormatter: dateTimeFormatter,
+          showContactDisplayPlaceholder: showContactDisplayPlaceholder,
+          sourceIcons: sourceIcons,
+          showGroupNumberName: showGroupNumberName,
+          placeholder: placeholder,
+          areaCode: areaCode,
+          countryCode: countryCode,
+          onLogConversation: onLogConversation,
+          onViewContact: onViewContact,
+          onCreateContact: onCreateContact,
+          onClickToDial: onClickToDial,
+          onClickToSms: onClickToSms,
+          disableClickToDial: disableClickToDial,
+          unmarkVoicemail: unmarkVoicemail,
+          autoLog: autoLog,
+          enableContactFallback: enableContactFallback,
+          deleteMessage: deleteMessage
+        })
+      );
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props2 = this.props,
+          currentLocale = _props2.currentLocale,
+          showTitle = _props2.showTitle,
+          showComposeText = _props2.showComposeText,
+          goToComposeText = _props2.goToComposeText;
 
       var buttons = [];
       if (showComposeText) {
         buttons.push({
           label: _react2.default.createElement(_ComposeText2.default, { className: _styles2.default.composeText }),
-          onClick: composeText,
+          onClick: goToComposeText,
           placement: 'right'
         });
       }
@@ -177,11 +272,7 @@ var MessagesPanel = function (_Component) {
         _i18n2.default.getString('title', currentLocale)
       ) : null;
       var tabsHeader = this.renderTabs();
-      var content = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : _react2.default.createElement(_MessageList2.default, (0, _extends3.default)({
-        className: (0, _classnames2.default)(_styles2.default.content, showTitle && _styles2.default.contentWithHeader)
-      }, props, {
-        currentLocale: currentLocale
-      }));
+      var content = this.renderContent();
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.root },
@@ -204,7 +295,7 @@ MessagesPanel.propTypes = {
   showContactDisplayPlaceholder: _propTypes2.default.bool,
   sourceIcons: _propTypes2.default.object,
   showComposeText: _propTypes2.default.bool,
-  composeText: _propTypes2.default.func.isRequired,
+  goToComposeText: _propTypes2.default.func.isRequired,
   typeFilter: _propTypes2.default.string,
   updateTypeFilter: _propTypes2.default.func,
   showConversationDetail: _propTypes2.default.func.isRequired,
@@ -216,7 +307,25 @@ MessagesPanel.propTypes = {
   markVoicemail: _propTypes2.default.func.isRequired,
   readVoicemail: _propTypes2.default.func.isRequired,
   readTextPermission: _propTypes2.default.bool,
-  readVoicemailPermission: _propTypes2.default.bool
+  readVoicemailPermission: _propTypes2.default.bool,
+  onSearchInputChange: _propTypes2.default.func,
+  searchInput: _propTypes2.default.string,
+  perPage: _propTypes2.default.number,
+  disableLinks: _propTypes2.default.bool,
+  conversations: _propTypes2.default.array.isRequired,
+  brand: _propTypes2.default.string.isRequired,
+  dateTimeFormatter: _propTypes2.default.func,
+  areaCode: _propTypes2.default.string.isRequired,
+  countryCode: _propTypes2.default.string.isRequired,
+  onLogConversation: _propTypes2.default.func,
+  onViewContact: _propTypes2.default.func,
+  onCreateContact: _propTypes2.default.func,
+  disableClickToDial: _propTypes2.default.bool,
+  unmarkVoicemail: _propTypes2.default.func.isRequired,
+  autoLog: _propTypes2.default.bool,
+  enableContactFallback: _propTypes2.default.bool,
+  deleteMessage: _propTypes2.default.func,
+  composeTextPermission: _propTypes2.default.bool
 };
 
 MessagesPanel.defaultProps = {
@@ -231,6 +340,19 @@ MessagesPanel.defaultProps = {
   onClickToDial: undefined,
   onClickToSms: undefined,
   readTextPermission: true,
-  readVoicemailPermission: true
+  readVoicemailPermission: true,
+  onSearchInputChange: undefined,
+  searchInput: '',
+  perPage: 20,
+  disableLinks: false,
+  dateTimeFormatter: undefined,
+  onLogConversation: undefined,
+  onViewContact: undefined,
+  onCreateContact: undefined,
+  disableClickToDial: false,
+  autoLog: false,
+  enableContactFallback: undefined,
+  deleteMessage: undefined,
+  composeTextPermission: true
 };
 //# sourceMappingURL=index.js.map

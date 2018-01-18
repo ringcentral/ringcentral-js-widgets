@@ -45,10 +45,6 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _SearchInput = require('../SearchInput');
-
-var _SearchInput2 = _interopRequireDefault(_SearchInput);
-
 var _MessageItem = require('../MessageItem');
 
 var _MessageItem2 = _interopRequireDefault(_MessageItem);
@@ -56,10 +52,6 @@ var _MessageItem2 = _interopRequireDefault(_MessageItem);
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -112,21 +104,11 @@ var MessageList = function (_Component) {
           className = _props.className,
           currentLocale = _props.currentLocale,
           conversations = _props.conversations,
-          searchInput = _props.searchInput,
-          onSearchInputChange = _props.onSearchInputChange,
           perPage = _props.perPage,
           disableLinks = _props.disableLinks,
-          childProps = (0, _objectWithoutProperties3.default)(_props, ['className', 'currentLocale', 'conversations', 'searchInput', 'onSearchInputChange', 'perPage', 'disableLinks']);
+          placeholder = _props.placeholder,
+          childProps = (0, _objectWithoutProperties3.default)(_props, ['className', 'currentLocale', 'conversations', 'perPage', 'disableLinks', 'placeholder']);
 
-
-      var search = onSearchInputChange ? _react2.default.createElement(_SearchInput2.default, {
-        className: _styles2.default.searchInput,
-        value: searchInput,
-        onChange: onSearchInputChange,
-        placeholder: _i18n2.default.getString('search', currentLocale),
-        disabled: disableLinks
-      }) : null;
-      var placeholder = onSearchInputChange && searchInput.length > 0 ? _i18n2.default.getString('noSearchResults', currentLocale) : _i18n2.default.getString('noMessages', currentLocale);
 
       var lastIndex = (this.state.page + 1) * perPage - 1;
 
@@ -140,19 +122,14 @@ var MessageList = function (_Component) {
       }) : _react2.default.createElement(NoMessages, { placeholder: placeholder });
       return _react2.default.createElement(
         'div',
-        { className: (0, _classnames2.default)(_styles2.default.root, className) },
-        search,
-        _react2.default.createElement(
-          'div',
-          {
-            className: (0, _classnames2.default)(_styles2.default.content, _styles2.default.contentWithSearch),
-            onScroll: this.onScroll,
-            ref: function ref(list) {
-              _this2.messagesListBody = list;
-            }
-          },
-          content
-        )
+        {
+          className: (0, _classnames2.default)(_styles2.default.root, className),
+          onScroll: this.onScroll,
+          ref: function ref(list) {
+            _this2.messagesListBody = list;
+          }
+        },
+        content
       );
     }
   }]);
@@ -171,8 +148,6 @@ MessageList.propTypes = {
     subject: _propTypes2.default.string
   })).isRequired,
   disableLinks: _propTypes2.default.bool,
-  onSearchInputChange: _propTypes2.default.func,
-  searchInput: _propTypes2.default.string,
   perPage: _propTypes2.default.number,
   className: _propTypes2.default.string,
   showConversationDetail: _propTypes2.default.func.isRequired,
@@ -181,17 +156,17 @@ MessageList.propTypes = {
   dateTimeFormatter: _propTypes2.default.func,
   showContactDisplayPlaceholder: _propTypes2.default.bool,
   sourceIcons: _propTypes2.default.object,
-  showGroupNumberName: _propTypes2.default.bool
+  showGroupNumberName: _propTypes2.default.bool,
+  placeholder: _propTypes2.default.string
 };
 MessageList.defaultProps = {
-  onSearchInputChange: undefined,
-  searchInput: '',
   perPage: 20,
   className: undefined,
   disableLinks: false,
   dateTimeFormatter: undefined,
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
-  showGroupNumberName: false
+  showGroupNumberName: false,
+  placeholder: undefined
 };
 //# sourceMappingURL=index.js.map

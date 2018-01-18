@@ -68,6 +68,7 @@ function mapToProps(_, _ref) {
     disableClickToDial: !(call && call.isIdle),
     outboundSmsPermission: !!(permissions && permissions.OutboundSMS),
     internalSmsPermission: !!(permissions && permissions.InternalSMS),
+    composeTextPermission: !!(serviceFeatures && (serviceFeatures.Pager && serviceFeatures.Pager.enabled || serviceFeatures.SMS && serviceFeatures.SMS.enabled)),
     loggingMap: conversationLogger && conversationLogger.loggingMap,
     showSpinner: !(locale.ready && messages.ready && (!contactMatcher || contactMatcher.ready) && dateTimeFormat.ready && regionSettings.ready && rolesAndPermissions.ready && connectivityMonitor.ready && rateLimiter.ready && (!rolesAndPermissions || rolesAndPermissions.ready) && (!call || call.ready) && (!conversationLogger || conversationLogger.ready)),
     searchInput: messages.searchInput,
@@ -233,7 +234,7 @@ function mapToFunctions(_, _ref2) {
       messageStore.readMessages(conversationId);
       messageStore.unmarkMessages();
     },
-    composeText: function composeText() {
+    goToComposeText: function goToComposeText() {
       return routerInteraction.push(composeTextRoute);
     },
     updateTypeFilter: function updateTypeFilter(type) {
