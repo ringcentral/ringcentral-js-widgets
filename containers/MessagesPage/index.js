@@ -94,6 +94,8 @@ function mapToFunctions(_, _ref2) {
       routerInteraction = _ref2$phone.routerInteraction,
       composeText = _ref2$phone.composeText,
       contactSearch = _ref2$phone.contactSearch,
+      _ref2$showViewContact = _ref2.showViewContact,
+      showViewContact = _ref2$showViewContact === undefined ? true : _ref2$showViewContact,
       _ref2$dateTimeFormatt = _ref2.dateTimeFormatter,
       dateTimeFormatter = _ref2$dateTimeFormatt === undefined ? function () {
     return dateTimeFormat.formatDateTime.apply(dateTimeFormat, arguments);
@@ -111,13 +113,13 @@ function mapToFunctions(_, _ref2) {
 
   return {
     dateTimeFormatter: dateTimeFormatter,
-    onViewContact: onViewContact || function (_ref3) {
+    onViewContact: showViewContact ? onViewContact || function (_ref3) {
       var _ref3$contact = _ref3.contact,
           id = _ref3$contact.id,
           type = _ref3$contact.type;
 
       routerInteraction.push('/contacts/' + type + '/' + id + '?direct=true');
-    },
+    } : null,
     onCreateContact: onCreateContact ? function () {
       var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(_ref5) {
         var phoneNumber = _ref5.phoneNumber,
