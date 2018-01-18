@@ -98,6 +98,7 @@ function mapToFunctions(_, {
     composeText,
     contactSearch,
   },
+  showViewContact = true,
   dateTimeFormatter = (...args) => dateTimeFormat.formatDateTime(...args),
   dialerRoute = '/dialer',
   onCreateContact,
@@ -109,9 +110,9 @@ function mapToFunctions(_, {
 }) {
   return {
     dateTimeFormatter,
-    onViewContact: onViewContact || (({ contact: { id, type } }) => {
+    onViewContact: showViewContact ? (onViewContact || (({ contact: { id, type } }) => {
       routerInteraction.push(`/contacts/${type}/${id}?direct=true`);
-    }),
+    })) : null,
     onCreateContact: onCreateContact ?
       async ({ phoneNumber, name, entityType }) => {
         const hasMatchNumber = await contactMatcher.hasMatchNumber({
