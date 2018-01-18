@@ -9,6 +9,7 @@ import MessageTabButton from '../MessageTabButton';
 import NavigationBar from '../NavigationBar';
 import SearchInput from '../SearchInput';
 import ComposeText from '../../assets/images/ComposeText.svg';
+import NewComposeText from '../../assets/images/NewComposeText.svg';
 import styles from './styles.scss';
 import i18n from './i18n';
 
@@ -102,19 +103,35 @@ export default class MessagesPanel extends Component {
       autoLog,
       enableContactFallback,
       deleteMessage,
+      typeFilter,
+      goToComposeText,
     } = this.props;
     if (showSpinner) {
       return (<SpinnerOverlay />);
     }
+    const showTextIcon = (typeFilter === messageTypes.all || typeFilter === messageTypes.text);
     const search = onSearchInputChange ?
       (
-        <SearchInput
-          className={styles.searchInput}
-          value={searchInput}
-          onChange={onSearchInputChange}
-          placeholder={i18n.getString('search', currentLocale)}
-          disabled={disableLinks}
-        />
+        <div
+          className={
+            classnames(styles.searchContainer, showTextIcon ? null : styles.withoutTextIcon)
+          }
+        >
+          <SearchInput
+            className={styles.searchInput}
+            value={searchInput}
+            onChange={onSearchInputChange}
+            placeholder={i18n.getString('search', currentLocale)}
+            disabled={disableLinks}
+          />
+          <span
+            title={i18n.getString('composeText', currentLocale)}
+            className={styles.textIcon}
+            onClick={goToComposeText}
+          >
+            <NewComposeText width={20} height={21} />
+          </span>
+        </div>
       ) :
       null;
     const placeholder = onSearchInputChange && searchInput.length > 0 ?
@@ -163,13 +180,13 @@ export default class MessagesPanel extends Component {
       currentLocale,
       showTitle,
       showComposeText,
-      composeText,
+      goToComposeText,
     } = this.props;
     const buttons = [];
     if (showComposeText) {
       buttons.push({
         label: <ComposeText className={styles.composeText} />,
-        onClick: composeText,
+        onClick: goToComposeText,
         placement: 'right',
       });
     }
@@ -199,7 +216,7 @@ MessagesPanel.propTypes = {
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
   showComposeText: PropTypes.bool,
-  composeText: PropTypes.func.isRequired,
+  goToComposeText: PropTypes.func.isRequired,
   typeFilter: PropTypes.string,
   updateTypeFilter: PropTypes.func,
   showConversationDetail: PropTypes.func.isRequired,

@@ -45,9 +45,35 @@ $tabBar-height: 35px;
   color: $night;
 }
 
-.searchInput {
+.searchContainer {
   margin: 10px 20px;
+  position: relative;
+}
+
+.searchInput {
   box-sizing: border-box;
+  margin-right: 35px;
+}
+
+.textIcon {
+  position: absolute;
+  top: 5px;
+  right: 0px;
+  cursor: pointer;
+
+  path {
+    fill: $primary-color;
+  }
+}
+
+.withoutTextIcon {
+  .searchInput {
+    margin-right: 0;
+  }
+
+  .textIcon {
+    display: none;
+  }
 }
 
 .contentWithSearch {

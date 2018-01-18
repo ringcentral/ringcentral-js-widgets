@@ -176,7 +176,7 @@ function mapToFunctions(_, {
       messageStore.readMessages(conversationId);
       messageStore.unmarkMessages();
     },
-    composeText: () => routerInteraction.push(composeTextRoute),
+    goToComposeText: () => routerInteraction.push(composeTextRoute),
     updateTypeFilter: type => messages.updateTypeFilter(type),
     deleteMessage: (conversationId) => {
       messageStore.deleteMessage(conversationId);
