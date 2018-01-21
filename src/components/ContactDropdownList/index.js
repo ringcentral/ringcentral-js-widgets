@@ -25,7 +25,8 @@ function ContactItem(props) {
     if (props.titleEnabled) {
       setTimeout(() => {
         if (el) {
-          el.setAttribute('title', el.innerText);
+          const title = el.innerText.replace(spliter, ` ${spliter} `);
+          el.setAttribute('title', title);
         }
       }, 0);
     }
