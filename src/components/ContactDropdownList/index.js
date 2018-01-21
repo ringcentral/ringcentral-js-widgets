@@ -17,8 +17,19 @@ function ContactItem(props) {
     phoneTypeNames.getString(props.phoneType);
   const phoneSourceName = phoneSourceNames.getString(props.entityType);
   const nameTitle = `${props.name} ${spliter} ${phoneSourceName}`;
-  const phoneNumberTitle =
-    `${props.formatContactPhone(props.phoneNumber)} ${spliter} ${phoneTypeName}`;
+
+  // const phoneNumberTitle =
+  //   `${props.formatContactPhone(props.phoneNumber)} ${spliter} ${phoneTypeName}`;
+
+  function titleSelf(el) {
+    if (props.titleEnabled) {
+      setTimeout(() => {
+        if (el) {
+          el.setAttribute('title', el.innerText);
+        }
+      }, 0);
+    }
+  }
 
   return (
     <li className={className} onMouseOver={props.onHover}>
@@ -32,7 +43,7 @@ function ContactItem(props) {
             {phoneSourceName}
           </span>
         </div>
-        <div className={styles.phoneNumberSection} title={props.titleEnabled && phoneNumberTitle}>
+        <div className={styles.phoneNumberSection} ref={(el) => { titleSelf(el); }}>
           <span>
             {props.formatContactPhone(props.phoneNumber)}
           </span>
