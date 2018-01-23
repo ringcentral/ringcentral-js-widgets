@@ -33,27 +33,12 @@ TabTitle.propTypes = {
 export default class MessagesPanel extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isHoverOnComposeText: false,
-    };
 
     this.onTabChanged = (type) => {
       if (typeof this.props.updateTypeFilter === 'function') {
         this.props.updateTypeFilter(type);
       }
     };
-  }
-
-  onComposeTextHover = () => {
-    this.setState({
-      isHoverOnComposeText: true,
-    });
-  }
-
-  onComposeTextLeave = () => {
-    this.setState({
-      isHoverOnComposeText: false,
-    });
   }
 
   renderTabs() {
@@ -148,14 +133,9 @@ export default class MessagesPanel extends Component {
             title={i18n.getString('composeText', currentLocale)}
             className={styles.textIcon}
             onClick={goToComposeText}
-            onMouseEnter={this.onComposeTextHover}
-            onMouseLeave={this.onComposeTextLeave}
           >
-            {
-              this.state.isHoverOnComposeText ?
-                (<NewComposeTextHover width={20} height={21} />) :
-                (<NewComposeText width={20} height={21} />)
-            }
+            <NewComposeTextHover className={styles.hoverTextSVGIcon} width={20} height={21} />
+            <NewComposeText className={styles.textSVGIcon} width={20} height={21} />
           </span>
         </div>
       ) :
