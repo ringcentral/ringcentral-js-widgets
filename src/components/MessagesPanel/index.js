@@ -10,6 +10,7 @@ import NavigationBar from '../NavigationBar';
 import SearchInput from '../SearchInput';
 import ComposeText from '../../assets/images/ComposeText.svg';
 import NewComposeText from '../../assets/images/NewComposeText.svg';
+import NewComposeTextHover from '../../assets/images/NewComposeTextHover.svg';
 import styles from './styles.scss';
 import i18n from './i18n';
 
@@ -32,11 +33,27 @@ TabTitle.propTypes = {
 export default class MessagesPanel extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isHoverOnComposeText: false,
+    };
+
     this.onTabChanged = (type) => {
       if (typeof this.props.updateTypeFilter === 'function') {
         this.props.updateTypeFilter(type);
       }
     };
+  }
+
+  onComposeTextHover = () => {
+    this.setState({
+      isHoverOnComposeText: true,
+    });
+  }
+
+  onComposeTextLeave = () => {
+    this.setState({
+      isHoverOnComposeText: false,
+    });
   }
 
   renderTabs() {
@@ -131,8 +148,14 @@ export default class MessagesPanel extends Component {
             title={i18n.getString('composeText', currentLocale)}
             className={styles.textIcon}
             onClick={goToComposeText}
+            onMouseEnter={this.onComposeTextHover}
+            onMouseLeave={this.onComposeTextLeave}
           >
-            <NewComposeText width={20} height={21} />
+            {
+              this.state.isHoverOnComposeText ?
+                (<NewComposeTextHover width={20} height={21} />) :
+                (<NewComposeText width={20} height={21} />)
+            }
           </span>
         </div>
       ) :
