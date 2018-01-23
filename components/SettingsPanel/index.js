@@ -110,6 +110,7 @@ function SettingsPanel(_ref) {
       toggleAcceptCallQueueCalls = _ref.toggleAcceptCallQueueCalls,
       isCallQueueMember = _ref.isCallQueueMember,
       showPresenceSettings = _ref.showPresenceSettings,
+      showAudioSettings = _ref.showAudioSettings,
       additional = _ref.additional,
       supportedLocales = _ref.supportedLocales,
       savedLocale = _ref.savedLocale,
@@ -210,12 +211,12 @@ function SettingsPanel(_ref) {
         _i18n2.default.getString('calling', currentLocale)
       ),
       region,
-      _react2.default.createElement(
+      showAudioSettings ? _react2.default.createElement(
         _LinkLine2.default,
         {
           onClick: onAudioSettingsLinkClick },
         _i18n2.default.getString('audio', currentLocale)
-      ),
+      ) : null,
       presenceSetting,
       children,
       autoLog,
@@ -296,6 +297,7 @@ SettingsPanel.propTypes = {
   setInvisible: _propTypes2.default.func,
   toggleAcceptCallQueueCalls: _propTypes2.default.func,
   showPresenceSettings: _propTypes2.default.bool,
+  showAudioSettings: _propTypes2.default.bool,
   additional: _propTypes2.default.node,
   supportedLocales: _propTypes2.default.arrayOf(_propTypes2.default.string),
   savedLocale: _propTypes2.default.string,
@@ -337,6 +339,7 @@ SettingsPanel.defaultProps = {
     return null;
   },
   showPresenceSettings: false,
+  showAudioSettings: true,
   additional: null,
   supportedLocales: undefined,
   savedLocale: undefined,
