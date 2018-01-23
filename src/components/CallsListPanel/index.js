@@ -279,7 +279,7 @@ export default class ActiveCallsPanel extends Component {
         {getCallList(activeCurrentCalls, i18n.getString('currentCall', currentLocale))}
         {getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}
         {getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale))}
-        {historyCall}
+        { calls.length > 0 ? historyCall : null }
       </div>
     );
   }
