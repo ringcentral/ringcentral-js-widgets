@@ -53,6 +53,7 @@ export default function SettingsPanel({
   toggleAcceptCallQueueCalls,
   isCallQueueMember,
   showPresenceSettings,
+  showAudioSettings,
   additional,
   supportedLocales,
   savedLocale,
@@ -170,10 +171,12 @@ export default function SettingsPanel({
           {i18n.getString('calling', currentLocale)}
         </LinkLine>
         {region}
-        <LinkLine
-          onClick={onAudioSettingsLinkClick} >
-          {i18n.getString('audio', currentLocale)}
-        </LinkLine>
+        {showAudioSettings ? (
+          <LinkLine
+            onClick={onAudioSettingsLinkClick} >
+            {i18n.getString('audio', currentLocale)}
+          </LinkLine>
+        ) : null}
         {presenceSetting}
         {children}
         {autoLog}
@@ -243,6 +246,7 @@ SettingsPanel.propTypes = {
   setInvisible: PropTypes.func,
   toggleAcceptCallQueueCalls: PropTypes.func,
   showPresenceSettings: PropTypes.bool,
+  showAudioSettings: PropTypes.bool,
   additional: PropTypes.node,
   supportedLocales: PropTypes.arrayOf(PropTypes.string),
   savedLocale: PropTypes.string,
@@ -274,6 +278,7 @@ SettingsPanel.defaultProps = {
   setInvisible: () => null,
   toggleAcceptCallQueueCalls: () => null,
   showPresenceSettings: false,
+  showAudioSettings: true,
   additional: null,
   supportedLocales: undefined,
   savedLocale: undefined,
