@@ -334,7 +334,7 @@ var ActiveCallsPanel = function (_Component) {
         getCallList(activeCurrentCalls, _i18n2.default.getString('currentCall', currentLocale)),
         getCallList(activeOnHoldCalls, _i18n2.default.getString('onHoldCall', currentLocale)),
         getCallList(otherDeviceCalls, _i18n2.default.getString('otherDeviceCall', currentLocale)),
-        historyCall
+        calls.length > 0 ? historyCall : null
       );
     }
   }]);
