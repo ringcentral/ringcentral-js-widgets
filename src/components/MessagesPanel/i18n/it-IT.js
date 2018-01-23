@@ -8,6 +8,9 @@ export default {
 };
 
 // @key: @#@"title"@#@ @source: @#@"Messages"@#@
+// @key: @#@"search"@#@ @source: @#@"Search..."@#@
+// @key: @#@"noMessages"@#@ @source: @#@"No Messages"@#@
+// @key: @#@"noSearchResults"@#@ @source: @#@"No matching records found"@#@
 // @key: @#@"[messageTypes.all]"@#@ @source: @#@"All"@#@
 // @key: @#@"[messageTypes.voiceMail]"@#@ @source: @#@"Voice"@#@
 // @key: @#@"[messageTypes.text]"@#@ @source: @#@"Text"@#@
