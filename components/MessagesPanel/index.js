@@ -73,6 +73,10 @@ var _NewComposeText = require('../../assets/images/NewComposeText.svg');
 
 var _NewComposeText2 = _interopRequireDefault(_NewComposeText);
 
+var _NewComposeTextHover = require('../../assets/images/NewComposeTextHover.svg');
+
+var _NewComposeTextHover2 = _interopRequireDefault(_NewComposeTextHover);
+
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -211,7 +215,8 @@ var MessagesPanel = function (_Component) {
             className: _styles2.default.textIcon,
             onClick: goToComposeText
           },
-          _react2.default.createElement(_NewComposeText2.default, { width: 20, height: 21 })
+          _react2.default.createElement(_NewComposeTextHover2.default, { className: _styles2.default.hoverTextSVGIcon, width: 20, height: 21 }),
+          _react2.default.createElement(_NewComposeText2.default, { className: _styles2.default.textSVGIcon, width: 20, height: 21 })
         )
       ) : null;
       var placeholder = onSearchInputChange && searchInput.length > 0 ? _i18n2.default.getString('noSearchResults', currentLocale) : _i18n2.default.getString('noMessages', currentLocale);
