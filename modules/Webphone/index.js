@@ -164,7 +164,7 @@ var MAX_RETRIES_DELAY = 2 * 60 * 1000;
  * @description Web phone module to handle phone interaction with WebRTC.
  */
 var Webphone = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Alert', 'Client', { dep: 'ContactMatcher', optional: true }, 'ExtensionDevice', 'NumberValidate', 'RolesAndPermissions', 'AudioSettings', { dep: 'WebphoneOptions', optional: true }]
+  deps: ['Auth', 'Alert', 'Client', { dep: 'ContactMatcher', optional: true }, 'ExtensionDevice', 'NumberValidate', 'RolesAndPermissions', 'AudioSettings', { dep: 'TabManager', optional: true }, { dep: 'WebphoneOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(Webphone, _RcModule);
 
@@ -202,10 +202,11 @@ var Webphone = (_dec = (0, _di.Module)({
         extensionDevice = _ref.extensionDevice,
         numberValidate = _ref.numberValidate,
         audioSettings = _ref.audioSettings,
+        tabManager = _ref.tabManager,
         onCallEnd = _ref.onCallEnd,
         onCallRing = _ref.onCallRing,
         onCallStart = _ref.onCallStart,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['appKey', 'appName', 'appVersion', 'alert', 'auth', 'client', 'rolesAndPermissions', 'webphoneLogLevel', 'contactMatcher', 'extensionDevice', 'numberValidate', 'audioSettings', 'onCallEnd', 'onCallRing', 'onCallStart']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['appKey', 'appName', 'appVersion', 'alert', 'auth', 'client', 'rolesAndPermissions', 'webphoneLogLevel', 'contactMatcher', 'extensionDevice', 'numberValidate', 'audioSettings', 'tabManager', 'onCallEnd', 'onCallRing', 'onCallStart']);
     (0, _classCallCheck3.default)(this, Webphone);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Webphone.__proto__ || (0, _getPrototypeOf2.default)(Webphone)).call(this, (0, _extends3.default)({}, options, {
@@ -224,6 +225,7 @@ var Webphone = (_dec = (0, _di.Module)({
     _this._numberValidate = _ensureExist2.default.call(_this, numberValidate, 'numberValidate');
     _this._audioSettings = _ensureExist2.default.call(_this, audioSettings, 'audioSettings');
     _this._contactMatcher = contactMatcher;
+    _this._tabManager = tabManager;
     _this._onCallEndFunc = onCallEnd;
     _this._onCallRingFunc = onCallRing;
     _this._onCallStartFunc = onCallStart;
@@ -354,9 +356,6 @@ var Webphone = (_dec = (0, _di.Module)({
               case 0:
                 if (this._shouldInit()) {
                   this.store.dispatch({
-                    type: this.actionTypes.init
-                  });
-                  this.store.dispatch({
                     type: this.actionTypes.initSuccess
                   });
                 } else if (this._shouldReset()) {
@@ -402,12 +401,12 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: '_shouldInit',
     value: function _shouldInit() {
-      return this._auth.loggedIn && this._rolesAndPermissions.ready && this._extensionDevice.ready && this._numberValidate.ready && this._audioSettings.ready && this.pending;
+      return this._auth.loggedIn && this._rolesAndPermissions.ready && this._extensionDevice.ready && this._numberValidate.ready && this._audioSettings.ready && (!this._tabManager || this._tabManager.ready) && this.pending;
     }
   }, {
     key: '_shouldReset',
     value: function _shouldReset() {
-      return (!this._auth.loggedIn || !this._rolesAndPermissions.ready || !this._numberValidate.ready || !this._extensionDevice.ready || !this._audioSettings.ready) && this.ready;
+      return (!this._auth.loggedIn || !this._rolesAndPermissions.ready || !this._numberValidate.ready || !this._extensionDevice.ready || !!this._tabManager && !this._tabManager.ready || !this._audioSettings.ready) && this.ready;
     }
   }, {
     key: '_sipProvision',
@@ -532,7 +531,7 @@ var Webphone = (_dec = (0, _di.Module)({
         var errorCode = void 0;
         var needToReconnect = false;
         console.error(response);
-        console.error('webphone register failed: ' + cause);
+        console.error('webphone register failed:', cause);
         // limit logic:
         /*
         * Specialties of this flow are next:
@@ -626,31 +625,47 @@ var Webphone = (_dec = (0, _di.Module)({
                 return _context4.abrupt('return');
 
               case 11:
+                if (!(this._tabManager && !this._tabManager.active)) {
+                  _context4.next = 17;
+                  break;
+                }
+
+                _context4.next = 14;
+                return (0, _sleep2.default)(FIRST_THREE_RETRIES_DELAY);
+
+              case 14:
+                _context4.next = 16;
+                return this._connect(reconnect);
+
+              case 16:
+                return _context4.abrupt('return');
+
+              case 17:
 
                 this.store.dispatch({
                   type: reconnect ? this.actionTypes.reconnect : this.actionTypes.connect
                 });
 
-                _context4.next = 14;
+                _context4.next = 20;
                 return this._sipProvision();
 
-              case 14:
+              case 20:
                 sipProvision = _context4.sent;
 
                 if (!this.disconnecting) {
-                  _context4.next = 17;
+                  _context4.next = 23;
                   break;
                 }
 
                 return _context4.abrupt('return');
 
-              case 17:
+              case 23:
                 this._createWebphone(sipProvision);
-                _context4.next = 35;
+                _context4.next = 41;
                 break;
 
-              case 20:
-                _context4.prev = 20;
+              case 26:
+                _context4.prev = 26;
                 _context4.t0 = _context4['catch'](0);
 
                 console.error(_context4.t0);
@@ -663,7 +678,7 @@ var Webphone = (_dec = (0, _di.Module)({
                 errorCode = void 0;
 
                 if (!(_context4.t0 && _context4.t0.message && _context4.t0.message.indexOf('Feature [WebPhone] is not available') > -1)) {
-                  _context4.next = 31;
+                  _context4.next = 37;
                   break;
                 }
 
@@ -672,7 +687,7 @@ var Webphone = (_dec = (0, _di.Module)({
                 errorCode = _webphoneErrors2.default.notWebphonePermission;
                 return _context4.abrupt('return');
 
-              case 31:
+              case 37:
                 this.store.dispatch({
                   type: this.actionTypes.connectError,
                   errorCode: errorCode,
@@ -680,19 +695,19 @@ var Webphone = (_dec = (0, _di.Module)({
                 });
 
                 if (!needToReconnect) {
-                  _context4.next = 35;
+                  _context4.next = 41;
                   break;
                 }
 
-                _context4.next = 35;
+                _context4.next = 41;
                 return this._connect(needToReconnect);
 
-              case 35:
+              case 41:
               case 'end':
                 return _context4.stop();
             }
           }
-        }, _callee4, this, [[0, 20]]);
+        }, _callee4, this, [[0, 26]]);
       }));
 
       function _connect() {

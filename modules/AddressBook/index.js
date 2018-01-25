@@ -61,6 +61,10 @@ var _sleep = require('../../lib/sleep');
 
 var _sleep2 = _interopRequireDefault(_sleep);
 
+var _moduleStatuses = require('../../enums/moduleStatuses');
+
+var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
+
 var _syncTypes = require('../../enums/syncTypes');
 
 var _syncTypes2 = _interopRequireDefault(_syncTypes);
@@ -142,7 +146,7 @@ function getSyncParams(syncToken, pageId) {
  * @description Accound book module to get user person contacts in RC
  */
 var AddressBook = (_dec = (0, _di.Module)({
-  deps: ['Client', 'Auth', { dep: 'Storage', optional: true }, { dep: 'AddressBookOptions', optional: true }]
+  deps: ['Client', 'Auth', { dep: 'Storage', optional: true }, { dep: 'TabManager', optional: true }, { dep: 'AddressBookOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_Pollable) {
   (0, _inherits3.default)(AddressBook, _Pollable);
 
@@ -151,6 +155,7 @@ var AddressBook = (_dec = (0, _di.Module)({
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
    * @param {Auth} params.auth - Auth module instance
+   * @param {TabManager} params.tabManage - TabManager module instance
    * @param {Storage} params.storage - storage module instance, optional
    * @param {Number} params.ttl - local cache timestamp, default 30 mins
    * @param {Number} params.timeToRetry - timestamp to retry, default 62 seconds
@@ -161,6 +166,7 @@ var AddressBook = (_dec = (0, _di.Module)({
     var client = _ref.client,
         auth = _ref.auth,
         storage = _ref.storage,
+        tabManager = _ref.tabManager,
         _ref$ttl = _ref.ttl,
         ttl = _ref$ttl === undefined ? DEFAULT_TTL : _ref$ttl,
         _ref$timeToRetry = _ref.timeToRetry,
@@ -169,7 +175,7 @@ var AddressBook = (_dec = (0, _di.Module)({
         polling = _ref$polling === undefined ? true : _ref$polling,
         _ref$disableCache = _ref.disableCache,
         disableCache = _ref$disableCache === undefined ? false : _ref$disableCache,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'auth', 'storage', 'ttl', 'timeToRetry', 'polling', 'disableCache']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'auth', 'storage', 'tabManager', 'ttl', 'timeToRetry', 'polling', 'disableCache']);
     (0, _classCallCheck3.default)(this, AddressBook);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (AddressBook.__proto__ || (0, _getPrototypeOf2.default)(AddressBook)).call(this, (0, _extends3.default)({}, options, {
@@ -181,6 +187,7 @@ var AddressBook = (_dec = (0, _di.Module)({
       _this._storage = storage;
     }
     _this._auth = auth;
+    _this._tabManager = tabManager;
     _this._ttl = ttl;
     _this._timeToRetry = timeToRetry;
     _this._polling = polling;
@@ -258,7 +265,7 @@ var AddressBook = (_dec = (0, _di.Module)({
             switch (_context.prev = _context.next) {
               case 0:
                 if (!this._shouldInit()) {
-                  _context.next = 8;
+                  _context.next = 7;
                   break;
                 }
 
@@ -272,18 +279,19 @@ var AddressBook = (_dec = (0, _di.Module)({
                 return this._initAddressBook();
 
               case 5:
-                this.store.dispatch({
-                  type: this.actionTypes.initSuccess
-                });
-                _context.next = 9;
+                _context.next = 8;
                 break;
 
-              case 8:
-                if (this._shouldReset()) {
+              case 7:
+                if (this._isDataReady()) {
+                  this.store.dispatch({
+                    type: this.actionTypes.initSuccess
+                  });
+                } else if (this._shouldReset()) {
                   this._resetModuleStatus();
                 }
 
-              case 9:
+              case 8:
               case 'end':
                 return _context.stop();
             }
@@ -300,17 +308,29 @@ var AddressBook = (_dec = (0, _di.Module)({
   }, {
     key: '_shouldInit',
     value: function _shouldInit() {
-      return (!this._storage || this._storage.ready) && this._auth.loggedIn && this.pending;
+      return (!this._storage || this._storage.ready) && (!this._tabManager || this._tabManager.ready) && this._auth.loggedIn && this.pending;
     }
   }, {
     key: '_shouldReset',
     value: function _shouldReset() {
-      return (!!this._storage && !this._storage.ready || !this._auth.loggedIn) && this.ready;
+      return (!!this._storage && !this._storage.ready || !!this._tabManager && !this._tabManager.ready || !this._auth.loggedIn) && this.ready;
     }
   }, {
     key: '_shouleCleanCache',
     value: function _shouleCleanCache() {
       return this._auth.isFreshLogin || !this.timestamp || Date.now() - this.timestamp > this._ttl;
+    }
+  }, {
+    key: '_shouldFetch',
+    value: function _shouldFetch() {
+      return (!this._storage || !this._tabManager || this._tabManager.active) && this._shouleCleanCache();
+    }
+  }, {
+    key: '_isDataReady',
+    value: function _isDataReady() {
+      // only turns ready when data has been fetched
+      // (could be from other tabs)
+      return this.status === _moduleStatuses2.default.initializing && this.syncToken !== null;
     }
   }, {
     key: '_initAddressBook',
@@ -320,26 +340,42 @@ var AddressBook = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.prev = 0;
-                _context2.next = 3;
+                if (!this._shouldFetch()) {
+                  _context2.next = 11;
+                  break;
+                }
+
+                _context2.prev = 1;
+                _context2.next = 4;
                 return this.sync();
 
-              case 3:
-                _context2.next = 8;
+              case 4:
+                _context2.next = 9;
                 break;
 
-              case 5:
-                _context2.prev = 5;
-                _context2.t0 = _context2['catch'](0);
+              case 6:
+                _context2.prev = 6;
+                _context2.t0 = _context2['catch'](1);
 
-                console.error(_context2.t0);
+                console.error('syncData error:', _context2.t0);
 
-              case 8:
+              case 9:
+                _context2.next = 12;
+                break;
+
+              case 11:
+                if (this._polling) {
+                  this._startPolling();
+                } else {
+                  this._retry();
+                }
+
+              case 12:
               case 'end':
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[0, 5]]);
+        }, _callee2, this, [[1, 6]]);
       }));
 
       function _initAddressBook() {

@@ -165,7 +165,7 @@ var presenceRegExp = /\/presence\?detailedTelephonyState=true/;
  * @description Call log managing module
  */
 var CallLog = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Client', 'Subscription', 'RolesAndPermissions', { dep: 'Storage', optional: true }, { dep: 'CallLogOptions', optional: true }]
+  deps: ['Auth', 'Client', 'Subscription', 'RolesAndPermissions', { dep: 'TabManager', optional: true }, { dep: 'Storage', optional: true }, { dep: 'CallLogOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_Pollable) {
   (0, _inherits3.default)(CallLog, _Pollable);
 
@@ -192,6 +192,7 @@ var CallLog = (_dec = (0, _di.Module)({
         storage = _ref.storage,
         subscription = _ref.subscription,
         rolesAndPermissions = _ref.rolesAndPermissions,
+        tabManager = _ref.tabManager,
         _ref$ttl = _ref.ttl,
         ttl = _ref$ttl === undefined ? DEFAULT_TTL : _ref$ttl,
         _ref$tokenExpiresIn = _ref.tokenExpiresIn,
@@ -204,7 +205,7 @@ var CallLog = (_dec = (0, _di.Module)({
         polling = _ref$polling === undefined ? true : _ref$polling,
         _ref$disableCache = _ref.disableCache,
         disableCache = _ref$disableCache === undefined ? false : _ref$disableCache,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'client', 'storage', 'subscription', 'rolesAndPermissions', 'ttl', 'tokenExpiresIn', 'timeToRetry', 'daySpan', 'polling', 'disableCache']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'client', 'storage', 'subscription', 'rolesAndPermissions', 'tabManager', 'ttl', 'tokenExpiresIn', 'timeToRetry', 'daySpan', 'polling', 'disableCache']);
     (0, _classCallCheck3.default)(this, CallLog);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallLog.__proto__ || (0, _getPrototypeOf2.default)(CallLog)).call(this, (0, _extends3.default)({}, options, {
@@ -228,7 +229,7 @@ var CallLog = (_dec = (0, _di.Module)({
                 return (0, _sleep2.default)(SYNC_DELAY);
 
               case 4:
-                if (ownerId === _this._auth.ownerId) {
+                if (ownerId === _this._auth.ownerId && (!_this._storage || !_this._tabManager || _this._tabManager.active)) {
                   _this.sync();
                 }
 
@@ -250,8 +251,8 @@ var CallLog = (_dec = (0, _di.Module)({
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              if (!(_this._auth.loggedIn && (!_this._storage || _this._storage.ready) && (!_this._subscription || _this._subscription.ready) && _this._rolesAndPermissions.ready && _this.status === _moduleStatuses2.default.pending)) {
-                _context2.next = 9;
+              if (!(_this._auth.loggedIn && (!_this._storage || _this._storage.ready) && (!_this._subscription || _this._subscription.ready) && (!_this._tabManager || _this._tabManager.ready) && _this._rolesAndPermissions.ready && _this.status === _moduleStatuses2.default.pending)) {
+                _context2.next = 8;
                 break;
               }
 
@@ -265,20 +266,17 @@ var CallLog = (_dec = (0, _di.Module)({
                 });
               }
               _context2.next = 5;
-              return _this.sync();
+              return _this._init();
 
             case 5:
-              if (_this._subscription) {
-                _this._subscription.subscribe(_subscriptionFilters2.default.detailedPresence);
-              }
               _this.store.dispatch({
                 type: _this.actionTypes.initSuccess
               });
-              _context2.next = 10;
+              _context2.next = 9;
               break;
 
-            case 9:
-              if ((!_this._auth.loggedIn || !!_this._storage && !_this._storage.ready || _this._subscription && !_this._subscription.ready || !_this._rolesAndPermissions.ready) && _this.ready) {
+            case 8:
+              if ((!_this._auth.loggedIn || !!_this._storage && !_this._storage.ready || _this._subscription && !_this._subscription.ready || _this._tabManager && !_this._tabManager.ready || !_this._rolesAndPermissions.ready) && _this.ready) {
                 _this.store.dispatch({
                   type: _this.actionTypes.reset
                 });
@@ -292,7 +290,7 @@ var CallLog = (_dec = (0, _di.Module)({
                 _this._subscriptionHandler(_this._lastMessage);
               }
 
-            case 10:
+            case 9:
             case 'end':
               return _context2.stop();
           }
@@ -307,6 +305,7 @@ var CallLog = (_dec = (0, _di.Module)({
     }
     _this._subscription = subscription;
     _this._rolesAndPermissions = rolesAndPermissions;
+    _this._tabManager = tabManager;
     _this._dataStorageKey = 'callLogData';
     _this._tokenStorageKey = 'callLogToken';
     _this._timestampStorageKey = 'callLogTimestamp';
@@ -360,6 +359,61 @@ var CallLog = (_dec = (0, _di.Module)({
   }
 
   (0, _createClass3.default)(CallLog, [{
+    key: '_init',
+    value: function () {
+      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                if (!(!this._storage || !this._tabManager || this._tabManager.active)) {
+                  _context3.next = 11;
+                  break;
+                }
+
+                _context3.prev = 1;
+                _context3.next = 4;
+                return this.sync();
+
+              case 4:
+                _context3.next = 9;
+                break;
+
+              case 6:
+                _context3.prev = 6;
+                _context3.t0 = _context3['catch'](1);
+
+                console.log(_context3.t0);
+
+              case 9:
+                _context3.next = 12;
+                break;
+
+              case 11:
+                if (this._polling) {
+                  this._startPolling();
+                }
+
+              case 12:
+                if (this._subscription) {
+                  this._subscription.subscribe(_subscriptionFilters2.default.detailedPresence);
+                }
+
+              case 13:
+              case 'end':
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this, [[1, 6]]);
+      }));
+
+      function _init() {
+        return _ref4.apply(this, arguments);
+      }
+
+      return _init;
+    }()
+  }, {
     key: 'initialize',
     value: function initialize() {
       this.store.subscribe(this._onStateChange);
@@ -367,16 +421,16 @@ var CallLog = (_dec = (0, _di.Module)({
   }, {
     key: '_fetch',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(_ref5) {
+      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(_ref6) {
         var _this3 = this;
 
-        var dateFrom = _ref5.dateFrom,
-            dateTo = _ref5.dateTo;
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+        var dateFrom = _ref6.dateFrom,
+            dateTo = _ref6.dateTo;
+        return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                return _context3.abrupt('return', (0, _fetchList2.default)(function (params) {
+                return _context4.abrupt('return', (0, _fetchList2.default)(function (params) {
                   return _this3._client.account().extension().callLog().list((0, _extends3.default)({}, params, {
                     dateFrom: dateFrom,
                     dateTo: dateTo
@@ -385,14 +439,14 @@ var CallLog = (_dec = (0, _di.Module)({
 
               case 1:
               case 'end':
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee4, this);
       }));
 
       function _fetch(_x2) {
-        return _ref4.apply(this, arguments);
+        return _ref5.apply(this, arguments);
       }
 
       return _fetch;
@@ -400,29 +454,29 @@ var CallLog = (_dec = (0, _di.Module)({
   }, {
     key: '_iSync',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
+      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
         var ownerId, data;
-        return _regenerator2.default.wrap(function _callee4$(_context4) {
+        return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 ownerId = this._auth.ownerId;
-                _context4.prev = 1;
+                _context5.prev = 1;
 
                 this.store.dispatch({
                   type: this.actionTypes.iSync
                 });
-                _context4.next = 5;
+                _context5.next = 5;
                 return this._client.account().extension().callLogSync().list({
                   syncType: _syncTypes2.default.iSync,
                   syncToken: this.token
                 });
 
               case 5:
-                data = _context4.sent;
+                data = _context5.sent;
 
                 if (!(ownerId !== this._auth.ownerId)) {
-                  _context4.next = 8;
+                  _context5.next = 8;
                   break;
                 }
 
@@ -434,34 +488,34 @@ var CallLog = (_dec = (0, _di.Module)({
                 }, processData(data), {
                   daySpan: this._daySpan
                 }));
-                _context4.next = 16;
+                _context5.next = 16;
                 break;
 
               case 11:
-                _context4.prev = 11;
-                _context4.t0 = _context4['catch'](1);
+                _context5.prev = 11;
+                _context5.t0 = _context5['catch'](1);
 
                 if (!(ownerId === this._auth.ownerId)) {
-                  _context4.next = 16;
+                  _context5.next = 16;
                   break;
                 }
 
                 this.store.dispatch({
                   type: this.actionTypes.iSyncError,
-                  error: _context4.t0
+                  error: _context5.t0
                 });
-                throw _context4.t0;
+                throw _context5.t0;
 
               case 16:
               case 'end':
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this, [[1, 11]]);
+        }, _callee5, this, [[1, 11]]);
       }));
 
       function _iSync() {
-        return _ref6.apply(this, arguments);
+        return _ref7.apply(this, arguments);
       }
 
       return _iSync;
@@ -469,22 +523,22 @@ var CallLog = (_dec = (0, _di.Module)({
   }, {
     key: '_fSync',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
+      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
         var ownerId, dateFrom, data, supplementRecords, _processData, records, timestamp, syncToken;
 
-        return _regenerator2.default.wrap(function _callee5$(_context5) {
+        return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 ownerId = this._auth.ownerId;
-                _context5.prev = 1;
+                _context6.prev = 1;
 
                 this.store.dispatch({
                   type: this.actionTypes.fSync
                 });
 
                 dateFrom = getISODateFrom(this._daySpan);
-                _context5.next = 6;
+                _context6.next = 6;
                 return this._client.account().extension().callLogSync().list({
                   recordCount: RECORD_COUNT,
                   syncType: _syncTypes2.default.fSync,
@@ -492,10 +546,10 @@ var CallLog = (_dec = (0, _di.Module)({
                 });
 
               case 6:
-                data = _context5.sent;
+                data = _context6.sent;
 
                 if (!(ownerId !== this._auth.ownerId)) {
-                  _context5.next = 9;
+                  _context6.next = 9;
                   break;
                 }
 
@@ -506,22 +560,22 @@ var CallLog = (_dec = (0, _di.Module)({
                 _processData = processData(data), records = _processData.records, timestamp = _processData.timestamp, syncToken = _processData.syncToken;
 
                 if (!(records.length >= RECORD_COUNT)) {
-                  _context5.next = 15;
+                  _context6.next = 15;
                   break;
                 }
 
-                _context5.next = 14;
+                _context6.next = 14;
                 return this._fetch({
                   dateFrom: dateFrom,
                   dateTo: getISODateTo(records)
                 });
 
               case 14:
-                supplementRecords = _context5.sent;
+                supplementRecords = _context6.sent;
 
               case 15:
                 if (!(ownerId !== this._auth.ownerId)) {
-                  _context5.next = 17;
+                  _context6.next = 17;
                   break;
                 }
 
@@ -536,34 +590,34 @@ var CallLog = (_dec = (0, _di.Module)({
                   syncToken: syncToken,
                   daySpan: this._daySpan
                 });
-                _context5.next = 25;
+                _context6.next = 25;
                 break;
 
               case 20:
-                _context5.prev = 20;
-                _context5.t0 = _context5['catch'](1);
+                _context6.prev = 20;
+                _context6.t0 = _context6['catch'](1);
 
                 if (!(ownerId === this._auth.ownerId)) {
-                  _context5.next = 25;
+                  _context6.next = 25;
                   break;
                 }
 
                 this.store.dispatch({
                   type: this.actionTypes.fSyncError,
-                  error: _context5.t0
+                  error: _context6.t0
                 });
-                throw _context5.t0;
+                throw _context6.t0;
 
               case 25:
               case 'end':
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this, [[1, 20]]);
+        }, _callee6, this, [[1, 20]]);
       }));
 
       function _fSync() {
-        return _ref7.apply(this, arguments);
+        return _ref8.apply(this, arguments);
       }
 
       return _fSync;
@@ -571,54 +625,54 @@ var CallLog = (_dec = (0, _di.Module)({
   }, {
     key: '_sync',
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(syncType) {
+      var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(syncType) {
         var ownerId, shouldFSync;
-        return _regenerator2.default.wrap(function _callee6$(_context6) {
+        return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 ownerId = this._auth.ownerId;
-                _context6.prev = 1;
+                _context7.prev = 1;
                 shouldFSync = syncType === _syncTypes2.default.fSync;
 
                 if (shouldFSync) {
-                  _context6.next = 12;
+                  _context7.next = 12;
                   break;
                 }
 
-                _context6.prev = 4;
-                _context6.next = 7;
+                _context7.prev = 4;
+                _context7.next = 7;
                 return this._iSync();
 
               case 7:
-                _context6.next = 12;
+                _context7.next = 12;
                 break;
 
               case 9:
-                _context6.prev = 9;
-                _context6.t0 = _context6['catch'](4);
+                _context7.prev = 9;
+                _context7.t0 = _context7['catch'](4);
 
                 shouldFSync = true;
 
               case 12:
                 if (!(shouldFSync && ownerId === this._auth.ownerId)) {
-                  _context6.next = 15;
+                  _context7.next = 15;
                   break;
                 }
 
-                _context6.next = 15;
+                _context7.next = 15;
                 return this._fSync();
 
               case 15:
                 if (this._polling) {
                   this._startPolling();
                 }
-                _context6.next = 21;
+                _context7.next = 21;
                 break;
 
               case 18:
-                _context6.prev = 18;
-                _context6.t1 = _context6['catch'](1);
+                _context7.prev = 18;
+                _context7.t1 = _context7['catch'](1);
 
                 if (ownerId === this._auth.ownerId) {
                   if (this._polling) {
@@ -633,14 +687,14 @@ var CallLog = (_dec = (0, _di.Module)({
 
               case 22:
               case 'end':
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6, this, [[1, 18], [4, 9]]);
+        }, _callee7, this, [[1, 18], [4, 9]]);
       }));
 
       function _sync(_x3) {
-        return _ref8.apply(this, arguments);
+        return _ref9.apply(this, arguments);
       }
 
       return _sync;
@@ -648,80 +702,80 @@ var CallLog = (_dec = (0, _di.Module)({
   }, {
     key: 'sync',
     value: function () {
-      var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9() {
+      var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10() {
         var _this4 = this;
 
         var syncType = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.token ? _syncTypes2.default.iSync : _syncTypes2.default.fSync;
-        return _regenerator2.default.wrap(function _callee9$(_context9) {
+        return _regenerator2.default.wrap(function _callee10$(_context10) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
                 if (this._promise) {
-                  _context9.next = 5;
+                  _context10.next = 5;
                   break;
                 }
 
                 this._promise = this._sync(syncType);
-                return _context9.abrupt('return', this._promise);
+                return _context10.abrupt('return', this._promise);
 
               case 5:
                 if (this._queueSync) {
-                  _context9.next = 8;
+                  _context10.next = 8;
                   break;
                 }
 
-                this._queueSync = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8() {
-                  return _regenerator2.default.wrap(function _callee8$(_context8) {
+                this._queueSync = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9() {
+                  return _regenerator2.default.wrap(function _callee9$(_context9) {
                     while (1) {
-                      switch (_context8.prev = _context8.next) {
+                      switch (_context9.prev = _context9.next) {
                         case 0:
-                          _context8.next = 2;
+                          _context9.next = 2;
                           return _this4._promise;
 
                         case 2:
-                          _this4._promise = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
-                            return _regenerator2.default.wrap(function _callee7$(_context7) {
+                          _this4._promise = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8() {
+                            return _regenerator2.default.wrap(function _callee8$(_context8) {
                               while (1) {
-                                switch (_context7.prev = _context7.next) {
+                                switch (_context8.prev = _context8.next) {
                                   case 0:
-                                    _context7.next = 2;
+                                    _context8.next = 2;
                                     return (0, _sleep2.default)(300);
 
                                   case 2:
-                                    return _context7.abrupt('return', _this4._sync(syncType));
+                                    return _context8.abrupt('return', _this4._sync(syncType));
 
                                   case 3:
                                   case 'end':
-                                    return _context7.stop();
+                                    return _context8.stop();
                                 }
                               }
-                            }, _callee7, _this4);
+                            }, _callee8, _this4);
                           }))();
                           _this4._queueSync = null;
-                          return _context8.abrupt('return', _this4._promise);
+                          return _context9.abrupt('return', _this4._promise);
 
                         case 5:
                         case 'end':
-                          return _context8.stop();
+                          return _context9.stop();
                       }
                     }
-                  }, _callee8, _this4);
+                  }, _callee9, _this4);
                 }))();
-                return _context9.abrupt('return', this._queueSync);
+                return _context10.abrupt('return', this._queueSync);
 
               case 8:
-                return _context9.abrupt('return', this._queueSync);
+                return _context10.abrupt('return', this._queueSync);
 
               case 9:
               case 'end':
-                return _context9.stop();
+                return _context10.stop();
             }
           }
-        }, _callee9, this);
+        }, _callee10, this);
       }));
 
       function sync() {
-        return _ref9.apply(this, arguments);
+        return _ref10.apply(this, arguments);
       }
 
       return sync;
