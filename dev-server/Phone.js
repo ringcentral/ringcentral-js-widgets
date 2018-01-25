@@ -4,6 +4,7 @@ import { combineReducers } from 'redux';
 
 import RcModule from 'ringcentral-integration/lib/RcModule';
 
+import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
 import AccountContacts from 'ringcentral-integration/modules/AccountContacts';
 import AccountExtension from 'ringcentral-integration/modules/AccountExtension';
 import AccountInfo from 'ringcentral-integration/modules/AccountInfo';
@@ -233,6 +234,7 @@ export default class BasePhone extends RcModule {
   }
 
   initialize() {
+    const { rolesAndPermissions } = this;
     this.store.subscribe(() => {
       if (this.auth.ready) {
         if (
@@ -242,9 +244,39 @@ export default class BasePhone extends RcModule {
           this.routerInteraction.push('/');
         } else if (
           this.routerInteraction.currentPath === '/' &&
-          this.auth.loggedIn
+          this.auth.loggedIn &&
+          rolesAndPermissions.ready
         ) {
-          this.routerInteraction.push('/dialer');
+          // Determine default tab
+          const showDialPad = rolesAndPermissions.callingEnabled;
+          const showCalls = rolesAndPermissions.callingEnabled &&
+            this.callingSettings.ready &&
+            this.callingSettings.callWith !== callingOptions.browser;
+          const showHistory = rolesAndPermissions.permissions.ReadCallLog;
+          const showContact = rolesAndPermissions.callingEnabled;
+          const showComposeText = rolesAndPermissions.hasComposeTextPermission;
+          const showMessages = rolesAndPermissions.hasReadMessagesPermission;
+          const showConference = rolesAndPermissions.permissions.OrganizeConference;
+          const showMeeting = rolesAndPermissions.permissions.Meetings;
+          if (showDialPad) {
+            this.routerInteraction.push('/dialer');
+          } else if (showCalls) {
+            this.routerInteraction.push('/calls');
+          } else if (showHistory) {
+            this.routerInteraction.push('/history');
+          } else if (showMessages) {
+            this.routerInteraction.push('/messages');
+          } else if (showComposeText) {
+            this.routerInteraction.push('/composeText');
+          } else if (showContact) {
+            this.routerInteraction.push('/contacts');
+          } else if (showMeeting) {
+            this.routerInteraction.push('/meeting');
+          } else if (showConference) {
+            this.routerInteraction.push('/conference');
+          } else {
+            this.routerInteraction.push('/settings');
+          }
         }
       }
     });
