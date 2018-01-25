@@ -84,6 +84,7 @@ function mapToFunctions(_, {
   regionSettingsUrl = '/settings/region',
   callingSettingsUrl = '/settings/calling',
   audioSettingsUrl = '/settings/audio',
+  feedbackSettingsUrl = '/settings/feedback',
 }) {
   return {
     onLogoutButtonClick: async () => {
@@ -97,6 +98,9 @@ function mapToFunctions(_, {
     },
     onAudioSettingsLinkClick: () => {
       routerInteraction.push(audioSettingsUrl);
+    },
+    onFeedbackSettingsLinkClick: () => {
+      routerInteraction.push(feedbackSettingsUrl);
     },
     setAvailable: (...args) => (detailedPresence && detailedPresence.setAvailable(...args)),
     setBusy: (...args) => (detailedPresence && detailedPresence.setBusy(...args)),
