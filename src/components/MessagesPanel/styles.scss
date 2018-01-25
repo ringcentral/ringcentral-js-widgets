@@ -64,6 +64,24 @@ $tabBar-height: 35px;
   path {
     fill: $primary-color;
   }
+
+  .hoverTextSVGIcon {
+    display: none;
+  }
+
+  .textSVGIcon {
+    display: block;
+  }
+
+  &:hover {
+    .hoverTextSVGIcon {
+      display: block;
+    }
+
+    .textSVGIcon {
+      display: none;
+    }
+  }
 }
 
 .withoutTextIcon {

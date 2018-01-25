@@ -10,6 +10,7 @@ import NavigationBar from '../NavigationBar';
 import SearchInput from '../SearchInput';
 import ComposeText from '../../assets/images/ComposeText.svg';
 import NewComposeText from '../../assets/images/NewComposeText.svg';
+import NewComposeTextHover from '../../assets/images/NewComposeTextHover.svg';
 import styles from './styles.scss';
 import i18n from './i18n';
 
@@ -32,6 +33,7 @@ TabTitle.propTypes = {
 export default class MessagesPanel extends Component {
   constructor(props) {
     super(props);
+
     this.onTabChanged = (type) => {
       if (typeof this.props.updateTypeFilter === 'function') {
         this.props.updateTypeFilter(type);
@@ -132,7 +134,8 @@ export default class MessagesPanel extends Component {
             className={styles.textIcon}
             onClick={goToComposeText}
           >
-            <NewComposeText width={20} height={21} />
+            <NewComposeTextHover className={styles.hoverTextSVGIcon} width={20} height={21} />
+            <NewComposeText className={styles.textSVGIcon} width={20} height={21} />
           </span>
         </div>
       ) :
