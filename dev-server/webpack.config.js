@@ -101,6 +101,6 @@ const config = [{
   },
 }];
 
-config.port = '8191';
+config.port = '8080';
 
 export default config;
