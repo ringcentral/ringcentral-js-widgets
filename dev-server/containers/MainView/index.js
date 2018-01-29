@@ -34,24 +34,20 @@ import i18n from './i18n';
 
 function getTabs({
   currentLocale,
-  showDialPad,
-  showCalls,
-  showHistory,
   showMessages,
   showComposeText,
-  showContact,
   unreadCounts,
   showConference,
   showMeeting,
 }) {
-  let tabs = [
-    showDialPad && {
+  return [
+    {
       icon: DialPadIcon,
       activeIcon: DialPadHoverIcon,
       label: i18n.getString('dialpadLabel', currentLocale),
       path: '/dialer',
     },
-    showCalls && {
+    {
       icon: CallsIcon,
       activeIcon: CallsHoverIcon,
       label: i18n.getString('callsLabel', currentLocale),
@@ -60,7 +56,7 @@ function getTabs({
         currentPath === '/calls' || currentPath === '/calls/active'
       ),
     },
-    showHistory && {
+    {
       icon: HistoryIcon,
       activeIcon: HistoryHoverIcon,
       label: i18n.getString('historyLabel', currentLocale),
@@ -82,64 +78,31 @@ function getTabs({
       label: i18n.getString('composeTextLabel', currentLocale),
       path: '/composeText',
     },
-    showContact && {
-      icon: ContactIcon,
-      activeIcon: ContactHoverIcon,
-      moreMenuIcon: ContactNavIcon,
-      label: i18n.getString('contactsLabel', currentLocale),
-      path: '/contacts',
-      isActive: currentPath => (
-        currentPath.substr(0, 9) === '/contacts'
-      ),
-    },
-    showMeeting && {
-      icon: MeetingIcon,
-      activeIcon: MeetingHoverIcon,
-      moreMenuIcon: MeetingNavIcon,
-      label: i18n.getString('meetingLabel', currentLocale),
-      path: '/meeting',
-    },
-    showConference && {
-      icon: ConferenceIcon,
-      activeIcon: ConferenceHoverIcon,
-      moreMenuIcon: ConferenceNavIcon,
-      label: i18n.getString('conferenceLabel', currentLocale),
-      path: '/conference',
-    },
     {
-      icon: SettingsIcon,
-      activeIcon: SettingsHoverIcon,
-      moreMenuIcon: SettingsNavIcon,
-      label: i18n.getString('settingsLabel', currentLocale),
-      path: '/settings',
-      isActive: currentPath => (
-        currentPath.substr(0, 9) === '/settings'
-      ),
-    }
-  ].filter(x => !!x);
-  if (tabs.length > 5) {
-    const childTabs = tabs.slice(4, tabs.length);
-    tabs = tabs.slice(0, 4);
-    tabs.push({
+      // eslint-disable-next-line
       icon: ({ currentPath }) => {
-        const childTab = childTabs.filter(childTab => (
-          (currentPath === childTab.path || currentPath.substr(0, 9) === childTab.path)
-            && childTab.moreMenuIcon
-        ));
-        if (childTab.length > 0) {
-          const Icon = childTab[0].moreMenuIcon;
-          return <Icon />;
+        if (currentPath.substr(0, 9) === '/contacts') {
+          return <ContactNavIcon />;
+        } else if (currentPath.substr(0, 9) === '/settings') {
+          return <SettingsNavIcon />;
+        } else if (currentPath === '/meeting') {
+          return <MeetingNavIcon />;
+        } else if (currentPath.startsWith('/conference')) {
+          return <ConferenceNavIcon />;
         }
         return <MoreMenuIcon />;
       },
+      // activeIcon: MoreMenuHoverIcon,
+      // eslint-disable-next-line
       activeIcon: ({ currentPath }) => {
-        const childTab = childTabs.filter(childTab => (
-          (currentPath === childTab.path || currentPath.substr(0, 9) === childTab.path)
-            && childTab.moreMenuIcon
-        ));
-        if (childTab.length > 0) {
-          const Icon = childTab[0].moreMenuIcon;
-          return <Icon />;
+        if (currentPath.substr(0, 9) === '/contacts') {
+          return <ContactNavIcon />;
+        } else if (currentPath.substr(0, 9) === '/settings') {
+          return <SettingsNavIcon />;
+        } else if (currentPath === '/meeting') {
+          return <MeetingNavIcon />;
+        } else if (currentPath.startsWith('/conference')) {
+          return <ConferenceNavIcon />;
         }
         return <MoreMenuHoverIcon />;
       },
@@ -148,10 +111,40 @@ function getTabs({
       isActive: (currentPath, currentVirtualPath) => (
         currentVirtualPath === '!moreMenu'
       ),
-      childTabs
-    });
-  }
-  return tabs;
+      childTabs: [
+        {
+          icon: ContactIcon,
+          activeIcon: ContactHoverIcon,
+          label: i18n.getString('contactsLabel', currentLocale),
+          path: '/contacts',
+          isActive: currentPath => (
+            currentPath.substr(0, 9) === '/contacts'
+          ),
+        },
+        showMeeting && {
+          icon: MeetingIcon,
+          activeIcon: MeetingHoverIcon,
+          label: i18n.getString('meetingLabel', currentLocale),
+          path: '/meeting',
+        },
+        showConference && {
+          icon: ConferenceIcon,
+          activeIcon: ConferenceHoverIcon,
+          label: i18n.getString('conferenceLabel', currentLocale),
+          path: '/conference',
+        },
+        {
+          icon: SettingsIcon,
+          activeIcon: SettingsHoverIcon,
+          label: i18n.getString('settingsLabel', currentLocale),
+          path: '/settings',
+          isActive: currentPath => (
+            currentPath.substr(0, 9) === '/settings'
+          ),
+        },
+      ].filter(x => !!x),
+    },
+  ].filter(x => !!x);
 }
 
 function mapToProps(_, {
@@ -163,11 +156,7 @@ function mapToProps(_, {
   },
 }) {
   const unreadCounts = messageStore.unreadCounts || 0;
-  const { serviceFeatures } = rolesAndPermissions;
-  const showDialPad = true;
-  const showCalls = true;
-  const showHistory = true;
-  const showContact = true;
+  const serviceFeatures = rolesAndPermissions.serviceFeatures;
   const showComposeText = (
     rolesAndPermissions.ready &&
     (
@@ -204,12 +193,8 @@ function mapToProps(_, {
   const tabs = getTabs({
     currentLocale,
     unreadCounts,
-    showDialPad,
-    showCalls,
-    showHistory,
     showComposeText,
     showMessages,
-    showContact,
     showConference,
     showMeeting,
   });

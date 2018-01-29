@@ -56,7 +56,6 @@ import Meeting from 'ringcentral-integration/modules/Meeting';
 import LocaleSettings from 'ringcentral-integration/modules/LocaleSettings';
 import ContactMatcher from 'ringcentral-integration/modules/ContactMatcher';
 import Analytics from 'ringcentral-integration/modules/Analytics';
-import Feedback from 'ringcentral-integration/modules/Feedback';
 import { ModuleFactory } from 'ringcentral-integration/lib/di';
 import RouterInteraction from '../src/modules/RouterInteraction';
 import DialerUI from '../src/modules/DialerUI';
@@ -139,7 +138,6 @@ import ProxyFrameOAuth from '../src/modules/ProxyFrameOAuth';
     ContactSearch,
     CallMonitor,
     DialerUI,
-    Feedback
   ]
 })
 export default class BasePhone extends RcModule {

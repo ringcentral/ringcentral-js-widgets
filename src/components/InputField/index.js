@@ -9,9 +9,6 @@ function InputField(props) {
     <div className={classnames(styles.root, props.className)}>
       <div className={styles.label}>
         {props.label}
-        <div className={styles.hint}>
-          {props.labelHint}
-        </div>
       </div>
       <div className={styles.inputHolder}>
         {props.children}
@@ -23,13 +20,11 @@ function InputField(props) {
 InputField.propTypes = {
   children: PropTypes.node,
   label: PropTypes.node,
-  labelHint: PropTypes.node,
   className: PropTypes.string,
 };
 InputField.defaultProps = {
   children: undefined,
   label: undefined,
-  labelHint: undefined,
   className: undefined,
 };
 
