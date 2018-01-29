@@ -15,10 +15,7 @@
   padding-left: 1px;
   @include field-label-font;
 }
-.hint {
-  font-weight: normal;
-  font-size: 12px;
-}
+
 .inputHolder {
   @include no-select;
   @include field-value-font;

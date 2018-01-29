@@ -13,6 +13,5 @@ export default {
   clickToDialSMS: 'Click to Dial/SMS',
   audio: 'Audio',
   language: 'Language',
-  feedback: 'Feedback',
 };
 
