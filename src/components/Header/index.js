@@ -11,6 +11,7 @@ export function HeaderButton(props) {
         props.disabled && styles.disabled,
       )}
       onClick={props.disabled ? undefined : props.onClick}
+      title={props.title}
     >
       {props.label}
     </div>
@@ -20,6 +21,11 @@ HeaderButton.propTypes = {
   onClick: PropTypes.func,
   label: PropTypes.node,
   disabled: PropTypes.bool,
+  title: PropTypes.string,
+};
+
+HeaderButton.defaultProps = {
+  title: undefined,
 };
 
 function Header(props) {

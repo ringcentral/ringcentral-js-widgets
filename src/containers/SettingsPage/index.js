@@ -51,11 +51,13 @@ function mapToProps(_, {
       (!detailedPresence || detailedPresence.ready) &&
       (!localeSettings || localeSettings.ready)
     ),
+    showCalling: rolesAndPermissions.callingEnabled,
+    showAudio: rolesAndPermissions.callingEnabled,
     showRegion: loggedIn && brand.id === '1210' && (
       regionSettings.availableCountries.length > 1 ||
       !!regionSettings.availableCountries.find(c => c.isoCode === 'US') ||
       !!regionSettings.availableCountries.find(c => c.isoCode === 'CA')
-    ),
+    ) && rolesAndPermissions.callingEnabled,
     loginNumber,
     version,
     currentLocale: locale.currentLocale,
@@ -82,6 +84,7 @@ function mapToFunctions(_, {
   regionSettingsUrl = '/settings/region',
   callingSettingsUrl = '/settings/calling',
   audioSettingsUrl = '/settings/audio',
+  feedbackSettingsUrl = '/settings/feedback',
 }) {
   return {
     onLogoutButtonClick: async () => {
@@ -95,6 +98,9 @@ function mapToFunctions(_, {
     },
     onAudioSettingsLinkClick: () => {
       routerInteraction.push(audioSettingsUrl);
+    },
+    onFeedbackSettingsLinkClick: () => {
+      routerInteraction.push(feedbackSettingsUrl);
     },
     setAvailable: (...args) => (detailedPresence && detailedPresence.setAvailable(...args)),
     setBusy: (...args) => (detailedPresence && detailedPresence.setBusy(...args)),
