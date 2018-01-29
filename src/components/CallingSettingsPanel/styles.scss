@@ -24,8 +24,12 @@
 
 .infoIcon {
   margin-left: 6px;
-  font-size: 14px;
-  color: #848484;
+  vertical-align: bottom;
+  svg: {
+    path: {
+      fill: $ash;
+    }
+  }
 }
 
 .tooltipContainner {

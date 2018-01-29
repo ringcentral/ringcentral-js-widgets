@@ -6,7 +6,7 @@ import formatMessage from 'format-message';
 import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
 import Tooltip from 'rc-tooltip';
 import 'rc-tooltip/assets/bootstrap_white.css';
-import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
+import InfoIcon from '../../assets/images/Info.svg';
 
 import styles from './styles.scss';
 import i18n from './i18n';
@@ -214,7 +214,7 @@ export default class CallingSettingsPanel extends Component {
                   arrowContent={<div className="rc-tooltip-arrow-inner" />}
                   getTooltipContainer={() => this.tooltipContainner}
                 >
-                  <i className={classnames(dynamicsFont.information, styles.infoIcon)} />
+                  <InfoIcon width={14} height={14} className={styles.infoIcon} />
                 </Tooltip>
               </span>
             }
