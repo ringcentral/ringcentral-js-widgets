@@ -87,6 +87,8 @@ function SettingsPanel(_ref) {
       onCallingSettingsLinkClick = _ref.onCallingSettingsLinkClick,
       onRegionSettingsLinkClick = _ref.onRegionSettingsLinkClick,
       onAudioSettingsLinkClick = _ref.onAudioSettingsLinkClick,
+      onFeedbackSettingsLinkClick = _ref.onFeedbackSettingsLinkClick,
+      showCalling = _ref.showCalling,
       showAutoLog = _ref.showAutoLog,
       autoLogEnabled = _ref.autoLogEnabled,
       onAutoLogChange = _ref.onAutoLogChange,
@@ -224,6 +226,12 @@ function SettingsPanel(_ref) {
       clickToDial,
       additional,
       _react2.default.createElement(
+        _LinkLine2.default,
+        {
+          onClick: onFeedbackSettingsLinkClick },
+        _i18n2.default.getString('feedback', currentLocale)
+      ),
+      _react2.default.createElement(
         'section',
         { className: _styles2.default.section },
         _react2.default.createElement(
@@ -301,7 +309,8 @@ SettingsPanel.propTypes = {
   additional: _propTypes2.default.node,
   supportedLocales: _propTypes2.default.arrayOf(_propTypes2.default.string),
   savedLocale: _propTypes2.default.string,
-  saveLocale: _propTypes2.default.func
+  saveLocale: _propTypes2.default.func,
+  onFeedbackSettingsLinkClick: _propTypes2.default.func.isRequired
 };
 SettingsPanel.defaultProps = {
   className: null,

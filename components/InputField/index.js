@@ -29,7 +29,12 @@ function InputField(props) {
     _react2.default.createElement(
       'div',
       { className: _styles2.default.label },
-      props.label
+      props.label,
+      _react2.default.createElement(
+        'div',
+        { className: _styles2.default.hint },
+        props.labelHint
+      )
     ),
     _react2.default.createElement(
       'div',
@@ -42,11 +47,13 @@ function InputField(props) {
 InputField.propTypes = {
   children: _propTypes2.default.node,
   label: _propTypes2.default.node,
+  labelHint: _propTypes2.default.node,
   className: _propTypes2.default.string
 };
 InputField.defaultProps = {
   children: undefined,
   label: undefined,
+  labelHint: undefined,
   className: undefined
 };
 
