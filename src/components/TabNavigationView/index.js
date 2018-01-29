@@ -13,6 +13,7 @@ function TabNavigationView(props) {
       childNavigationView={DropdownNavigationView}
       tabs={props.tabs}
       goTo={props.goTo}
+      tabWidth={props.tabWidth}
       currentPath={props.currentPath}
       currentVirtualPath={props.currentVirtualPath}
     />
@@ -43,6 +44,7 @@ TabNavigationView.propTypes = {
   currentVirtualPath: PropTypes.string,
   goTo: PropTypes.func.isRequired,
   navigationPosition: PropTypes.oneOf(['top', 'bottom']),
+  tabWidth: PropTypes.string,
   tabs: NavigationBar.propTypes.tabs,
 };
 
@@ -51,6 +53,7 @@ TabNavigationView.defaultProps = {
   className: null,
   currentVirtualPath: undefined,
   navigationPosition: 'top',
+  tabWidth: undefined,
   tabs: null,
 };
 

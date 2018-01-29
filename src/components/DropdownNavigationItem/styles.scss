@@ -28,15 +28,6 @@
     opacity: 1;
     color: $primary-color;
   }
-
-  &.reverseFillIcon {
-    svg {
-      path {
-        fill: none;
-        stroke: $primary-color;
-      }
-    }
-  }
 }
 
 
