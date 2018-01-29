@@ -17,7 +17,6 @@ exports.default = {
   clickToSMS: 'Click to SMS',
   clickToDialSMS: 'Click to Dial/SMS',
   audio: 'Audio',
-  language: 'Language',
-  feedback: 'Feedback'
+  language: 'Language'
 };
 //# sourceMappingURL=en-US.js.map

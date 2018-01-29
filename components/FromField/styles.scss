@@ -1,5 +1,4 @@
 @import '../../lib/commonStyles/colors';
-@import '../../lib/commonStyles/fonts';
 
 .root {
   font-size: 12px;
@@ -8,7 +7,6 @@
   padding: 0;
 
   label {
-    @include primary-font;
     color: $grey-light;
     font-size: 12px;
     width: 46px;

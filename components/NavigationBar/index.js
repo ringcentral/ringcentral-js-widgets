@@ -111,13 +111,12 @@ var NavigationBar = function (_Component) {
         'nav',
         { className: (0, _classnames2.default)(_styles2.default.root, className) },
         tabs.map(function (tab, index) {
-          var icon = tab.icon,
-              activeIcon = tab.activeIcon;
-
+          var icon = tab.icon;
           if (typeof icon === 'function') {
             var Icon = icon;
             icon = tab.childTabs ? _react2.default.createElement(Icon, { currentPath: currentPath }) : _react2.default.createElement(Icon, null);
           }
+          var activeIcon = tab.activeIcon;
           if (typeof activeIcon === 'function') {
             var ActiveIcon = activeIcon;
             activeIcon = tab.childTabs ? _react2.default.createElement(ActiveIcon, { currentPath: currentPath }) : _react2.default.createElement(ActiveIcon, null);

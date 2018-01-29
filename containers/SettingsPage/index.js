@@ -95,9 +95,7 @@ function mapToFunctions(_, _ref2) {
       _ref2$callingSettings = _ref2.callingSettingsUrl,
       callingSettingsUrl = _ref2$callingSettings === undefined ? '/settings/calling' : _ref2$callingSettings,
       _ref2$audioSettingsUr = _ref2.audioSettingsUrl,
-      audioSettingsUrl = _ref2$audioSettingsUr === undefined ? '/settings/audio' : _ref2$audioSettingsUr,
-      _ref2$feedbackSetting = _ref2.feedbackSettingsUrl,
-      feedbackSettingsUrl = _ref2$feedbackSetting === undefined ? '/settings/feedback' : _ref2$feedbackSetting;
+      audioSettingsUrl = _ref2$audioSettingsUr === undefined ? '/settings/audio' : _ref2$audioSettingsUr;
 
   return {
     onLogoutButtonClick: function () {
@@ -129,9 +127,6 @@ function mapToFunctions(_, _ref2) {
     },
     onAudioSettingsLinkClick: function onAudioSettingsLinkClick() {
       routerInteraction.push(audioSettingsUrl);
-    },
-    onFeedbackSettingsLinkClick: function onFeedbackSettingsLinkClick() {
-      routerInteraction.push(feedbackSettingsUrl);
     },
     setAvailable: function setAvailable() {
       return detailedPresence && detailedPresence.setAvailable.apply(detailedPresence, arguments);
