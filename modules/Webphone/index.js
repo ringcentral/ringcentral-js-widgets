@@ -546,7 +546,7 @@ var Webphone = (_dec = (0, _di.Module)({
         *   (But the WebRTC client must logout on receiving SIP/2.0 403 Forbidden error and in case of login -
         *   provision again via Platform API and receive new InstanceID)
         */
-        if (response && response.status_code === 503) {
+        if (response && (response.status_code === 503 || response.status_code === 603)) {
           errorCode = _webphoneErrors2.default.webphoneCountOverLimit;
           _this3._alert.warning({
             message: errorCode
