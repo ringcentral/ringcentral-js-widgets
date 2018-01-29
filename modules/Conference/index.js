@@ -111,7 +111,7 @@ var DEFAULT_MASK = 'phoneNumber,hostCode,participantCode,phoneNumbers(country,ph
  * @description Conference managing module
  */
 var Conference = (_dec = (0, _di.Module)({
-  deps: ['Client', 'Storage', 'RegionSettings', { dep: 'ConferenceOptions', optional: true }]
+  deps: ['Client', 'Storage', 'RegionSettings', 'RolesAndPermissions', { dep: 'ConferenceOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_DataFetcher) {
   (0, _inherits3.default)(Conference, _DataFetcher);
 
@@ -127,7 +127,8 @@ var Conference = (_dec = (0, _di.Module)({
     var client = _ref.client,
         regionSettings = _ref.regionSettings,
         storage = _ref.storage,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'regionSettings', 'storage']);
+        rolesAndPermissions = _ref.rolesAndPermissions,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'regionSettings', 'storage', 'rolesAndPermissions']);
     (0, _classCallCheck3.default)(this, Conference);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Conference.__proto__ || (0, _getPrototypeOf2.default)(Conference)).call(this, (0, _extends3.default)({
@@ -167,6 +168,7 @@ var Conference = (_dec = (0, _di.Module)({
     _this._dialInNumberStorageKey = 'conferenceDialInNumber';
     _this._additionalNumbersStorageKey = 'conferenceAdditionalNumbers';
     _this._regionSetting = regionSettings;
+    _this._rolesAndPermissions = rolesAndPermissions;
     _this._lastCountryCode = null;
     _this._storage.registerReducer({
       key: _this._dialInNumberStorageKey,
@@ -223,6 +225,11 @@ var Conference = (_dec = (0, _di.Module)({
 
       return _onStateChange;
     }()
+  }, {
+    key: '_shouldInit',
+    value: function _shouldInit() {
+      return (0, _get3.default)(Conference.prototype.__proto__ || (0, _getPrototypeOf2.default)(Conference.prototype), '_shouldInit', this).call(this) && this._rolesAndPermissions.ready;
+    }
   }, {
     key: 'updateEnableJoinBeforeHost',
     value: function () {
@@ -297,6 +304,11 @@ var Conference = (_dec = (0, _di.Module)({
     key: 'dialInNumber',
     get: function get() {
       return this._storage.getItem(this._dialInNumberStorageKey) || this.data.phoneNumber;
+    }
+  }, {
+    key: '_hasPermission',
+    get: function get() {
+      return !!this._rolesAndPermissions.permissions.OrganizeConference;
     }
   }]);
   return Conference;

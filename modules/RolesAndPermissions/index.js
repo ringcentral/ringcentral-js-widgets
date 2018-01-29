@@ -224,12 +224,37 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
       return !!(this._extensionInfo.serviceFeatures && this._extensionInfo.serviceFeatures.WebPhone && this._extensionInfo.serviceFeatures.WebPhone.enabled);
     }
   }, {
+    key: 'callingEnabled',
+    get: function get() {
+      return this.webphoneEnabled || this.ringoutEnabled;
+    }
+  }, {
     key: 'tierEnabled',
     get: function get() {
       if (!this._extensionInfo.serviceFeatures || !this._extensionInfo.serviceFeatures[this._flag]) {
         return null;
       }
       return this._extensionInfo.serviceFeatures[this._flag].enabled;
+    }
+  }, {
+    key: 'hasReadCallLogPermission',
+    get: function get() {
+      return !!(this.ready && this.permissions && this.permissions.ReadCallLog);
+    }
+  }, {
+    key: 'hasPresencePermission',
+    get: function get() {
+      return !!(this.serviceFeatures && this.serviceFeatures.Presence && this.serviceFeatures.Presence.enabled);
+    }
+  }, {
+    key: 'hasComposeTextPermission',
+    get: function get() {
+      return !!(this.serviceFeatures && (this.serviceFeatures.Pager && this.serviceFeatures.Pager.enabled || this.serviceFeatures.SMS && this.serviceFeatures.SMS.enabled));
+    }
+  }, {
+    key: 'hasReadMessagesPermission',
+    get: function get() {
+      return this.ready && (this.readTextPermissions || this.voicemailPermissions);
     }
   }, {
     key: 'readTextPermissions',
@@ -239,7 +264,7 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
   }, {
     key: 'voicemailPermissions',
     get: function get() {
-      return !!(this.serviceFeatures && this.serviceFeatures.Voicemail && this.serviceFeatures.Voicemail.enabled);
+      return !!(this.callingEnabled && this.serviceFeatures && this.serviceFeatures.Voicemail && this.serviceFeatures.Voicemail.enabled);
     }
   }, {
     key: 'readFaxPermissions',

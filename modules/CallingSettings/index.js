@@ -374,6 +374,14 @@ var CallingSettings = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
+                if (this._rolesAndPermissions.callingEnabled) {
+                  _context2.next = 2;
+                  break;
+                }
+
+                return _context2.abrupt('return');
+
+              case 2:
                 this._myPhoneNumbers = this.myPhoneNumbers;
                 this._otherPhoneNumbers = this.otherPhoneNumbers;
                 this._ringoutEnabled = this._rolesAndPermissions.ringoutEnabled;
@@ -387,23 +395,19 @@ var CallingSettings = (_dec = (0, _di.Module)({
                     callWith: defaultCallWith,
                     timestamp: Date.now()
                   });
-                  this._alert.warning({
-                    message: this._brand.id === '1210' ? _callingSettingsMessages2.default.firstLogin : _callingSettingsMessages2.default.firstLoginOther,
-                    ttl: 0
-                  });
                   this._warningEmergencyCallingNotAvailable();
                   if (typeof this._onFirstLogin === 'function') {
                     this._onFirstLogin();
                   }
                 }
-                _context2.next = 7;
+                _context2.next = 9;
                 return this._validateSettings();
 
-              case 7:
-                _context2.next = 9;
+              case 9:
+                _context2.next = 11;
                 return this._initFromNumber();
 
-              case 9:
+              case 11:
               case 'end':
                 return _context2.stop();
             }

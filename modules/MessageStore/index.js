@@ -214,7 +214,6 @@ var MessageStore = (_dec = (0, _di.Module)({
     _this._lastSubscriptionMessage = null;
     _this._storageKey = 'messageStore';
     _this._polling = polling;
-
     if (_this._storage) {
       _this._reducer = (0, _getMessageStoreReducer2.default)(_this.actionTypes);
       _this._storage.registerReducer({
@@ -405,43 +404,51 @@ var MessageStore = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (!(!this._storage || !this._tabManager || this._tabManager.active)) {
-                  _context2.next = 11;
+                if (this._hasPermission) {
+                  _context2.next = 2;
                   break;
                 }
 
-                _context2.prev = 1;
-                _context2.next = 4;
+                return _context2.abrupt('return');
+
+              case 2:
+                if (!(!this._storage || !this._tabManager || this._tabManager.active)) {
+                  _context2.next = 13;
+                  break;
+                }
+
+                _context2.prev = 3;
+                _context2.next = 6;
                 return this._syncMessages();
 
-              case 4:
-                _context2.next = 9;
+              case 6:
+                _context2.next = 11;
                 break;
 
-              case 6:
-                _context2.prev = 6;
-                _context2.t0 = _context2['catch'](1);
+              case 8:
+                _context2.prev = 8;
+                _context2.t0 = _context2['catch'](3);
 
                 console.error(_context2.t0);
 
-              case 9:
-                _context2.next = 12;
+              case 11:
+                _context2.next = 14;
                 break;
 
-              case 11:
+              case 13:
                 if (this._polling) {
                   this._startPolling();
                 }
 
-              case 12:
+              case 14:
                 this._subscription.subscribe('/account/~/extension/~/message-store');
 
-              case 13:
+              case 15:
               case 'end':
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[1, 6]]);
+        }, _callee2, this, [[3, 8]]);
       }));
 
       function _initMessageStore() {
@@ -1365,6 +1372,11 @@ var MessageStore = (_dec = (0, _di.Module)({
         type: this.actionTypes.clickToCall,
         fromType: fromType
       });
+    }
+  }, {
+    key: '_hasPermission',
+    get: function get() {
+      return this._rolesAndPermissions.hasReadMessagesPermission;
     }
   }, {
     key: 'cache',

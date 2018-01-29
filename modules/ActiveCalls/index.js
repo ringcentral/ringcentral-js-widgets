@@ -37,6 +37,10 @@ var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstru
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
+var _get2 = require('babel-runtime/helpers/get');
+
+var _get3 = _interopRequireDefault(_get2);
+
 var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
@@ -74,7 +78,7 @@ var DEFAULT_TTL = 5 * 60 * 1000;
  * @description Active calls list manaing module
  */
 var ActiveCalls = (_dec = (0, _di.Module)({
-  deps: ['Client', { dep: 'TabManager', optional: true }, { dep: 'AccountPhoneNumberOptions', optional: true }]
+  deps: ['Client', 'RolesAndPermissions', { dep: 'TabManager', optional: true }, { dep: 'AccountPhoneNumberOptions', optional: true }]
 }), _dec(_class = function (_DataFetcher) {
   (0, _inherits3.default)(ActiveCalls, _DataFetcher);
 
@@ -88,10 +92,11 @@ var ActiveCalls = (_dec = (0, _di.Module)({
     var _this2 = this;
 
     var client = _ref.client,
+        rolesAndPermissions = _ref.rolesAndPermissions,
         tabManager = _ref.tabManager,
         _ref$ttl = _ref.ttl,
         ttl = _ref$ttl === undefined ? DEFAULT_TTL : _ref$ttl,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'tabManager', 'ttl']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'rolesAndPermissions', 'tabManager', 'ttl']);
     (0, _classCallCheck3.default)(this, ActiveCalls);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ActiveCalls.__proto__ || (0, _getPrototypeOf2.default)(ActiveCalls)).call(this, (0, _extends3.default)({}, options, {
@@ -161,6 +166,7 @@ var ActiveCalls = (_dec = (0, _di.Module)({
       }()
     })));
 
+    _this._rolesAndPermissions = rolesAndPermissions;
     _this.addSelector('calls', function () {
       return _this.data;
     }, function (data) {
@@ -170,6 +176,16 @@ var ActiveCalls = (_dec = (0, _di.Module)({
   }
 
   (0, _createClass3.default)(ActiveCalls, [{
+    key: '_shouldInit',
+    value: function _shouldInit() {
+      return (0, _get3.default)(ActiveCalls.prototype.__proto__ || (0, _getPrototypeOf2.default)(ActiveCalls.prototype), '_shouldInit', this).call(this) && this._rolesAndPermissions.ready;
+    }
+  }, {
+    key: '_hasPermission',
+    get: function get() {
+      return this._rolesAndPermissions.permissions.ReadCallLog;
+    }
+  }, {
     key: 'calls',
     get: function get() {
       return this._selectors.calls();

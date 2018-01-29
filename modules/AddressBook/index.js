@@ -146,7 +146,7 @@ function getSyncParams(syncToken, pageId) {
  * @description Accound book module to get user person contacts in RC
  */
 var AddressBook = (_dec = (0, _di.Module)({
-  deps: ['Client', 'Auth', { dep: 'Storage', optional: true }, { dep: 'TabManager', optional: true }, { dep: 'AddressBookOptions', optional: true }]
+  deps: ['Client', 'Auth', 'RolesAndPermissions', { dep: 'Storage', optional: true }, { dep: 'TabManager', optional: true }, { dep: 'AddressBookOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_Pollable) {
   (0, _inherits3.default)(AddressBook, _Pollable);
 
@@ -167,6 +167,7 @@ var AddressBook = (_dec = (0, _di.Module)({
         auth = _ref.auth,
         storage = _ref.storage,
         tabManager = _ref.tabManager,
+        rolesAndPermissions = _ref.rolesAndPermissions,
         _ref$ttl = _ref.ttl,
         ttl = _ref$ttl === undefined ? DEFAULT_TTL : _ref$ttl,
         _ref$timeToRetry = _ref.timeToRetry,
@@ -175,7 +176,7 @@ var AddressBook = (_dec = (0, _di.Module)({
         polling = _ref$polling === undefined ? true : _ref$polling,
         _ref$disableCache = _ref.disableCache,
         disableCache = _ref$disableCache === undefined ? false : _ref$disableCache,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'auth', 'storage', 'tabManager', 'ttl', 'timeToRetry', 'polling', 'disableCache']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'auth', 'storage', 'tabManager', 'rolesAndPermissions', 'ttl', 'timeToRetry', 'polling', 'disableCache']);
     (0, _classCallCheck3.default)(this, AddressBook);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (AddressBook.__proto__ || (0, _getPrototypeOf2.default)(AddressBook)).call(this, (0, _extends3.default)({}, options, {
@@ -189,6 +190,7 @@ var AddressBook = (_dec = (0, _di.Module)({
     _this._auth = auth;
     _this._tabManager = tabManager;
     _this._ttl = ttl;
+    _this._rolesAndPermissions = rolesAndPermissions;
     _this._timeToRetry = timeToRetry;
     _this._polling = polling;
     _this._promise = null;
@@ -340,42 +342,50 @@ var AddressBook = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (!this._shouldFetch()) {
-                  _context2.next = 11;
+                if (this._hasPermission) {
+                  _context2.next = 2;
                   break;
                 }
 
-                _context2.prev = 1;
-                _context2.next = 4;
+                return _context2.abrupt('return');
+
+              case 2:
+                if (!this._shouldFetch()) {
+                  _context2.next = 13;
+                  break;
+                }
+
+                _context2.prev = 3;
+                _context2.next = 6;
                 return this.sync();
 
-              case 4:
-                _context2.next = 9;
+              case 6:
+                _context2.next = 11;
                 break;
 
-              case 6:
-                _context2.prev = 6;
-                _context2.t0 = _context2['catch'](1);
+              case 8:
+                _context2.prev = 8;
+                _context2.t0 = _context2['catch'](3);
 
                 console.error('syncData error:', _context2.t0);
 
-              case 9:
-                _context2.next = 12;
+              case 11:
+                _context2.next = 14;
                 break;
 
-              case 11:
+              case 13:
                 if (this._polling) {
                   this._startPolling();
                 } else {
                   this._retry();
                 }
 
-              case 12:
+              case 14:
               case 'end':
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[1, 6]]);
+        }, _callee2, this, [[3, 8]]);
       }));
 
       function _initAddressBook() {
@@ -637,6 +647,11 @@ var AddressBook = (_dec = (0, _di.Module)({
 
       return fetchData;
     }()
+  }, {
+    key: '_hasPermission',
+    get: function get() {
+      return !!this._rolesAndPermissions.permissions.ReadPersonalContacts;
+    }
   }, {
     key: 'status',
     get: function get() {

@@ -252,7 +252,7 @@ var CallLog = (_dec = (0, _di.Module)({
           switch (_context2.prev = _context2.next) {
             case 0:
               if (!(_this._auth.loggedIn && (!_this._storage || _this._storage.ready) && (!_this._subscription || _this._subscription.ready) && (!_this._tabManager || _this._tabManager.ready) && _this._rolesAndPermissions.ready && _this.status === _moduleStatuses2.default.pending)) {
-                _context2.next = 8;
+                _context2.next = 9;
                 break;
               }
 
@@ -265,17 +265,23 @@ var CallLog = (_dec = (0, _di.Module)({
                   type: _this.actionTypes.clearToken
                 });
               }
-              _context2.next = 5;
+
+              if (!_this._rolesAndPermissions.permissions.ReadCallLog) {
+                _context2.next = 6;
+                break;
+              }
+
+              _context2.next = 6;
               return _this._init();
 
-            case 5:
+            case 6:
               _this.store.dispatch({
                 type: _this.actionTypes.initSuccess
               });
-              _context2.next = 9;
+              _context2.next = 10;
               break;
 
-            case 8:
+            case 9:
               if ((!_this._auth.loggedIn || !!_this._storage && !_this._storage.ready || _this._subscription && !_this._subscription.ready || _this._tabManager && !_this._tabManager.ready || !_this._rolesAndPermissions.ready) && _this.ready) {
                 _this.store.dispatch({
                   type: _this.actionTypes.reset
@@ -290,7 +296,7 @@ var CallLog = (_dec = (0, _di.Module)({
                 _this._subscriptionHandler(_this._lastMessage);
               }
 
-            case 9:
+            case 10:
             case 'end':
               return _context2.stop();
           }

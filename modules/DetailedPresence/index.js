@@ -78,7 +78,7 @@ var presenceRegExp = /\/presence(\?.*)?/;
  * @description Presence detail info managing module
  */
 var DetailedPresence = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Client', 'Storage', 'Subscription', 'ConnectivityMonitor']
+  deps: ['Auth', 'Client', 'Storage', 'Subscription', 'RolesAndPermissions', 'ConnectivityMonitor']
 }), _dec(_class = function (_Presence) {
   (0, _inherits3.default)(DetailedPresence, _Presence);
 
@@ -97,8 +97,9 @@ var DetailedPresence = (_dec = (0, _di.Module)({
         client = _ref.client,
         subscription = _ref.subscription,
         connectivityMonitor = _ref.connectivityMonitor,
+        rolesAndPermissions = _ref.rolesAndPermissions,
         storage = _ref.storage,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'client', 'subscription', 'connectivityMonitor', 'storage']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'client', 'subscription', 'connectivityMonitor', 'rolesAndPermissions', 'storage']);
     (0, _classCallCheck3.default)(this, DetailedPresence);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (DetailedPresence.__proto__ || (0, _getPrototypeOf2.default)(DetailedPresence)).call(this, (0, _extends3.default)({}, options, {
@@ -139,8 +140,8 @@ var DetailedPresence = (_dec = (0, _di.Module)({
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              if (!(_this._auth.loggedIn && _this._subscription.ready && (!_this._connectivityMonitor || _this._connectivityMonitor.ready) && _this.status === _moduleStatuses2.default.pending)) {
-                _context.next = 9;
+              if (!(_this._auth.loggedIn && _this._subscription.ready && _this._rolesAndPermissions.ready && (!_this._connectivityMonitor || _this._connectivityMonitor.ready) && _this.status === _moduleStatuses2.default.pending)) {
+                _context.next = 10;
                 break;
               }
 
@@ -150,18 +151,26 @@ var DetailedPresence = (_dec = (0, _di.Module)({
               if (_this._connectivityMonitor) {
                 _this._connectivity = _this._connectivityMonitor.connectivity;
               }
-              _context.next = 5;
+
+              if (!_this._rolesAndPermissions.hasPresencePermission) {
+                _context.next = 7;
+                break;
+              }
+
+              _context.next = 6;
               return _this.fetch();
 
-            case 5:
+            case 6:
               _this._subscription.subscribe(_subscriptionFilters2.default.detailedPresenceWithSip);
+
+            case 7:
               _this.store.dispatch({
                 type: _this.actionTypes.initSuccess
               });
-              _context.next = 10;
+              _context.next = 11;
               break;
 
-            case 9:
+            case 10:
               if ((!_this._auth.loggedIn || !_this._subscription.ready || _this._connectivityMonitor && !_this._connectivityMonitor.ready) && _this.ready) {
                 _this.store.dispatch({
                   type: _this.actionTypes.reset
@@ -179,11 +188,13 @@ var DetailedPresence = (_dec = (0, _di.Module)({
                 _this._connectivity = _this._connectivityMonitor.connectivity;
                 // fetch data on regain connectivity
                 if (_this._connectivity) {
-                  _this._fetch();
+                  if (_this._rolesAndPermissions.hasPresencePermission) {
+                    _this._fetch();
+                  }
                 }
               }
 
-            case 10:
+            case 11:
             case 'end':
               return _context.stop();
           }
@@ -196,6 +207,7 @@ var DetailedPresence = (_dec = (0, _di.Module)({
     _this._storage = storage;
     _this._subscription = subscription;
     _this._connectivityMonitor = connectivityMonitor;
+    _this._rolesAndPermissions = rolesAndPermissions;
     _this._lastNotDisturbDndStatusStorageKey = 'lastNotDisturbDndStatusDetailPresence';
     if (_this._storage) {
       _this._reducer = (0, _getDetailedPresenceReducer2.default)(_this.actionTypes);
