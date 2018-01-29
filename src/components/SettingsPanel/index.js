@@ -30,6 +30,8 @@ export default function SettingsPanel({
   onCallingSettingsLinkClick,
   onRegionSettingsLinkClick,
   onAudioSettingsLinkClick,
+  onFeedbackSettingsLinkClick,
+  showCalling,
   showAutoLog,
   autoLogEnabled,
   onAutoLogChange,
@@ -183,6 +185,10 @@ export default function SettingsPanel({
         {autoLogSMS}
         {clickToDial}
         {additional}
+        <LinkLine
+          onClick={onFeedbackSettingsLinkClick} >
+          {i18n.getString('feedback', currentLocale)}
+        </LinkLine>
         <section className={styles.section}>
           <Line>
             <EulaRenderer
@@ -251,6 +257,7 @@ SettingsPanel.propTypes = {
   supportedLocales: PropTypes.arrayOf(PropTypes.string),
   savedLocale: PropTypes.string,
   saveLocale: PropTypes.func,
+  onFeedbackSettingsLinkClick: PropTypes.func.isRequired,
 };
 SettingsPanel.defaultProps = {
   className: null,
