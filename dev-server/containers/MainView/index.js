@@ -166,7 +166,6 @@ function mapToProps(_, {
   },
 }) {
   const unreadCounts = messageStore.unreadCounts || 0;
-  const { serviceFeatures } = rolesAndPermissions;
   const showDialPad = rolesAndPermissions.ready && rolesAndPermissions.callingEnabled;
   const showCalls = rolesAndPermissions.ready && rolesAndPermissions.callingEnabled &&
     callingSettings.ready &&

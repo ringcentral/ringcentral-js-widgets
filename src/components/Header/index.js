@@ -24,6 +24,10 @@ HeaderButton.propTypes = {
   title: PropTypes.string,
 };
 
+HeaderButton.defaultProps = {
+  title: undefined,
+};
+
 function Header(props) {
   let label = null;
   if (props.children) {

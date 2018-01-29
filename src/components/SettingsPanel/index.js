@@ -281,6 +281,7 @@ SettingsPanel.defaultProps = {
   showCalling: false,
   showAudio: false,
   showAutoLog: false,
+  showRegion: false,
   autoLogEnabled: false,
   onAutoLogChange: undefined,
   showAutoLogSMS: false,

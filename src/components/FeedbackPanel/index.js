@@ -18,7 +18,7 @@ export default class FeedbackPanel extends Component {
     const { value } = e.currentTarget;
     this.props.onEmailChange(value);
   }
-  onTopicChange = (option, idx) => {
+  onTopicChange = (option) => {
     this.props.onTopicChange(option);
   }
   onSubjectChange = (e) => {
@@ -30,7 +30,6 @@ export default class FeedbackPanel extends Component {
     this.props.onDescriptionChange(value);
   }
   onSendClick = () => {
-    const { currentLocale } = this.props;
     const SERVICE_MAIL = 'integration.service@ringcentral.com';
     const FEEDBACK_SUBJECT = 'Google User Feedback';
 
