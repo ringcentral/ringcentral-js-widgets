@@ -14,6 +14,8 @@ function CallingSettingsAlert({
   switch (message) {
     case callingSettingsMessages.saveSuccess:
     case callingSettingsMessages.saveSuccessWithSoftphone:
+    case callingSettingsMessages.firstLogin:
+    case callingSettingsMessages.firstLoginOther:
     case callingSettingsMessages.webphonePermissionRemoved:
     case callingSettingsMessages.emergencyCallingNotAvailable:
       return (
@@ -61,6 +63,8 @@ CallingSettingsAlert.defaultProps = {
 CallingSettingsAlert.handleMessage = ({ message }) => (
   message === callingSettingsMessages.saveSuccess ||
   message === callingSettingsMessages.saveSuccessWithSoftphone ||
+  message === callingSettingsMessages.firstLogin ||
+  message === callingSettingsMessages.firstLoginOther ||
   message === callingSettingsMessages.permissionChanged ||
   message === callingSettingsMessages.webphonePermissionRemoved ||
   message === callingSettingsMessages.phoneNumberChanged ||

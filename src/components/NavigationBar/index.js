@@ -37,7 +37,6 @@ export default class NavigationBar extends Component {
       button,
       childNavigationView,
       currentPath,
-      tabWidth,
       tabs,
     } = this.props;
 
@@ -45,15 +44,9 @@ export default class NavigationBar extends Component {
     const ChildNavigationView = childNavigationView;
 
     const currentVirtualPath = this.state.currentVirtualPath;
-    let _tabWidth = 0;
-    if (tabWidth) {
-      _tabWidth = tabWidth;
-    } else {
-      // Align equally fully
-      _tabWidth = tabs.length > 0 ?
-        `${(1 / tabs.length) * 100}%` :
-        0;
-    }
+    const tabWidth = tabs.length > 0 ?
+      `${(1 / tabs.length) * 100}%` :
+      0;
     const dropdownMenuTab = tabs.find(tab =>
       (
         tab.childTabs &&
@@ -91,7 +84,7 @@ export default class NavigationBar extends Component {
                     childTab.path === currentPath.slice(0, 9)
                   ))
                 }
-                width={_tabWidth}
+                width={tabWidth}
                 icon={icon}
                 activeIcon={activeIcon}
               />
@@ -148,13 +141,11 @@ NavigationBar.propTypes = {
   goTo: PropTypes.func.isRequired,
   currentPath: PropTypes.string.isRequired,
   currentVirtualPath: PropTypes.string,
-  tabWidth: PropTypes.string,
 };
 
 NavigationBar.defaultProps = {
   className: undefined,
   childNavigationView: undefined,
   currentVirtualPath: undefined,
-  tabWidth: undefined,
   tabs: [],
 };

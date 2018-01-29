@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
 import TabNavigationView from '../../../src/components/TabNavigationView';
 import DialPadIcon from '../../../src/assets/images/DialPadNav.svg';
 import CallsIcon from '../../../src/assets/images/Calls.svg';
@@ -161,23 +160,40 @@ function mapToProps(_, {
     messageStore,
     rolesAndPermissions,
     routerInteraction,
-    callingSettings,
-    conference
   },
 }) {
   const unreadCounts = messageStore.unreadCounts || 0;
   const { serviceFeatures } = rolesAndPermissions;
-  const showDialPad = rolesAndPermissions.ready && rolesAndPermissions.callingEnabled;
-  const showCalls = rolesAndPermissions.ready && rolesAndPermissions.callingEnabled &&
-    callingSettings.ready &&
-    callingSettings.callWith !== callingOptions.browser;
-  const showHistory = rolesAndPermissions.ready && rolesAndPermissions.permissions.ReadCallLog;
-  const showContact = rolesAndPermissions.ready && rolesAndPermissions.callingEnabled;
-  const showComposeText = rolesAndPermissions.ready && rolesAndPermissions.hasComposeTextPermission;
-  const showMessages = rolesAndPermissions.ready && rolesAndPermissions.hasReadMessagesPermission;
+  const showDialPad = true;
+  const showCalls = true;
+  const showHistory = true;
+  const showContact = true;
+  const showComposeText = (
+    rolesAndPermissions.ready &&
+    (
+      (serviceFeatures.Pager && serviceFeatures.Pager.enabled) ||
+      (serviceFeatures.SMS && serviceFeatures.SMS.enabled)
+    )
+  );
+  const showMessages = (
+    rolesAndPermissions.ready &&
+    (
+      (
+        serviceFeatures.PagerReceiving &&
+        serviceFeatures.PagerReceiving.enabled
+      ) ||
+      (
+        serviceFeatures.SMSReceiving &&
+        serviceFeatures.SMSReceiving.enabled
+      ) ||
+      (
+        serviceFeatures.Voicemail &&
+        serviceFeatures.Voicemail.enabled
+      )
+    )
+  );
   const showConference = (
     rolesAndPermissions.ready &&
-    conference.data &&
     rolesAndPermissions.permissions.OrganizeConference
   );
   const showMeeting = (
@@ -199,7 +215,6 @@ function mapToProps(_, {
   });
   return {
     tabs,
-    tabWidth: '20%',
     unreadCounts,
     currentPath: routerInteraction.currentPath,
   };

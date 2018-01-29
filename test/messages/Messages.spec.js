@@ -16,8 +16,8 @@ beforeEach(async () => {
   wrapper = await getWrapper();
   const navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/messages');
-  wrapper.update()
-  panel = wrapper.find(MessageList).first();
+  wrapper.update();
+  panel = wrapper.find(MessagesPanel).first();
 });
 
 describe('messages', () => {
@@ -31,7 +31,7 @@ describe('messages', () => {
     const domInput = searchInput.find('input').first();
     domInput.instance().value = 'something-doesnt-exist';
     domInput.simulate('change');
-    panel = wrapper.find(MessageList).first();
+    panel = wrapper.find(MessagesPanel).first();
     searchInput = panel.find(SearchInput).first();
     expect(searchInput.props().value).toEqual('something-doesnt-exist');
     expect(panel.find('.noMessages').text().trim()).toEqual('No matching records found');

@@ -51,13 +51,11 @@ function mapToProps(_, {
       (!detailedPresence || detailedPresence.ready) &&
       (!localeSettings || localeSettings.ready)
     ),
-    showCalling: rolesAndPermissions.callingEnabled,
-    showAudio: rolesAndPermissions.callingEnabled,
     showRegion: loggedIn && brand.id === '1210' && (
       regionSettings.availableCountries.length > 1 ||
       !!regionSettings.availableCountries.find(c => c.isoCode === 'US') ||
       !!regionSettings.availableCountries.find(c => c.isoCode === 'CA')
-    ) && rolesAndPermissions.callingEnabled,
+    ),
     loginNumber,
     version,
     currentLocale: locale.currentLocale,
