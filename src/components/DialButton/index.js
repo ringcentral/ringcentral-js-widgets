@@ -100,7 +100,7 @@ export default class DialButton extends Component {
                 )
               }
               x="0"
-              dx="216"
+              dx="205"
               y="0"
               dy={isSpecial ? 350 : 250}
             >
