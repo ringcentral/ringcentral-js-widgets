@@ -44,12 +44,6 @@ describe('dynamic setting page', () => {
     await navigationBar.props().goTo('/settings');
     wrapper.update();
     const settingsPanel = wrapper.find(SettingsPanel).first();
-    // const calling = settingsPanel.find(LinkLine).find('div[children="Calling"]');
-    // const region = settingsPanel.find(LinkLine).find('div[children="Region"]');
-    // const audio = settingsPanel.find(LinkLine).find('div[children="Audio"]');
-    // expect(calling).toHaveLength(0);
-    // expect(region).toHaveLength(0);
-    // expect(audio).toHaveLength(0);
     expect(settingsPanel.find(LinkLine).contains('Calling')).toBeFalsy();
     expect(settingsPanel.find(LinkLine).contains('Region')).toBeFalsy();
     expect(settingsPanel.find(LinkLine).contains('Audio')).toBeFalsy();
