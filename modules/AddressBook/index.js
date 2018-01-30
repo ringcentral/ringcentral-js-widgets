@@ -267,7 +267,7 @@ var AddressBook = (_dec = (0, _di.Module)({
             switch (_context.prev = _context.next) {
               case 0:
                 if (!this._shouldInit()) {
-                  _context.next = 7;
+                  _context.next = 11;
                   break;
                 }
 
@@ -277,14 +277,29 @@ var AddressBook = (_dec = (0, _di.Module)({
                 if (this._shouleCleanCache()) {
                   this._cleanUp();
                 }
-                _context.next = 5;
+
+                if (!this._hasPermission) {
+                  _context.next = 8;
+                  break;
+                }
+
+                _context.next = 6;
                 return this._initAddressBook();
 
-              case 5:
-                _context.next = 8;
+              case 6:
+                _context.next = 9;
                 break;
 
-              case 7:
+              case 8:
+                this.store.dispatch({
+                  type: this.actionTypes.initSuccess
+                });
+
+              case 9:
+                _context.next = 12;
+                break;
+
+              case 11:
                 if (this._isDataReady()) {
                   this.store.dispatch({
                     type: this.actionTypes.initSuccess
@@ -293,7 +308,7 @@ var AddressBook = (_dec = (0, _di.Module)({
                   this._resetModuleStatus();
                 }
 
-              case 8:
+              case 12:
               case 'end':
                 return _context.stop();
             }
@@ -310,12 +325,12 @@ var AddressBook = (_dec = (0, _di.Module)({
   }, {
     key: '_shouldInit',
     value: function _shouldInit() {
-      return (!this._storage || this._storage.ready) && (!this._tabManager || this._tabManager.ready) && this._auth.loggedIn && this.pending;
+      return (!this._storage || this._storage.ready) && (!this._tabManager || this._tabManager.ready) && this._rolesAndPermissions.ready && this._auth.loggedIn && this.pending;
     }
   }, {
     key: '_shouldReset',
     value: function _shouldReset() {
-      return (!!this._storage && !this._storage.ready || !!this._tabManager && !this._tabManager.ready || !this._auth.loggedIn) && this.ready;
+      return (!!this._storage && !this._storage.ready || !!this._tabManager && !this._tabManager.ready || !this._rolesAndPermissions.ready || !this._auth.loggedIn) && this.ready;
     }
   }, {
     key: '_shouleCleanCache',
