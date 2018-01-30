@@ -100,6 +100,11 @@ var ForwardingNumber = (_dec = (0, _di.Module)({
                 case 2:
                   return _context.abrupt('return', (0, _fetchList2.default)(function (params) {
                     return _this._client.account().extension().forwardingNumber().list(params);
+                  }).catch(function (error) {
+                    if (error && error.apiResponse && error.apiResponse._response && error.apiResponse._response.status === 403) {
+                      return [];
+                    }
+                    throw error;
                   }));
 
                 case 3:
