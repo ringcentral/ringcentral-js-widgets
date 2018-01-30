@@ -157,7 +157,7 @@ var DialButton = function (_Component) {
               {
                 className: (0, _classnames2.default)(_styles2.default.btnValue, isSpecial ? _styles2.default.special : null),
                 x: '0',
-                dx: '216',
+                dx: '205',
                 y: '0',
                 dy: isSpecial ? 350 : 250
               },

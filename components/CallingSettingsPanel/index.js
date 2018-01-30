@@ -51,9 +51,9 @@ var _rcTooltip2 = _interopRequireDefault(_rcTooltip);
 
 require('rc-tooltip/assets/bootstrap_white.css');
 
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
+var _Info = require('../../assets/images/Info.svg');
 
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
+var _Info2 = _interopRequireDefault(_Info);
 
 var _styles = require('./styles.scss');
 
@@ -310,7 +310,7 @@ var CallingSettingsPanel = function (_Component) {
                       return _this3.tooltipContainner;
                     }
                   },
-                  _react2.default.createElement('i', { className: (0, _classnames2.default)(_DynamicsFont2.default.information, _styles2.default.infoIcon) })
+                  _react2.default.createElement(_Info2.default, { width: 14, height: 14, className: _styles2.default.infoIcon })
                 )
               ),
               noBorder: true
