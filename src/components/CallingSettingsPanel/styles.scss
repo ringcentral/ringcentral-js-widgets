@@ -25,10 +25,8 @@
 .infoIcon {
   margin-left: 6px;
   vertical-align: bottom;
-  svg: {
-    path: {
-      fill: $ash;
-    }
+  path {
+    fill: $ash;
   }
 }
 
