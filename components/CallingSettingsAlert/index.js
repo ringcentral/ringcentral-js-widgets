@@ -35,8 +35,6 @@ function CallingSettingsAlert(_ref) {
   switch (message) {
     case _callingSettingsMessages2.default.saveSuccess:
     case _callingSettingsMessages2.default.saveSuccessWithSoftphone:
-    case _callingSettingsMessages2.default.firstLogin:
-    case _callingSettingsMessages2.default.firstLoginOther:
     case _callingSettingsMessages2.default.webphonePermissionRemoved:
     case _callingSettingsMessages2.default.emergencyCallingNotAvailable:
       return _react2.default.createElement(_FormattedMessage2.default, {
@@ -78,7 +76,7 @@ CallingSettingsAlert.defaultProps = {
 };
 CallingSettingsAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
-  return message === _callingSettingsMessages2.default.saveSuccess || message === _callingSettingsMessages2.default.saveSuccessWithSoftphone || message === _callingSettingsMessages2.default.firstLogin || message === _callingSettingsMessages2.default.firstLoginOther || message === _callingSettingsMessages2.default.permissionChanged || message === _callingSettingsMessages2.default.webphonePermissionRemoved || message === _callingSettingsMessages2.default.phoneNumberChanged || message === _callingSettingsMessages2.default.emergencyCallingNotAvailable;
+  return message === _callingSettingsMessages2.default.saveSuccess || message === _callingSettingsMessages2.default.saveSuccessWithSoftphone || message === _callingSettingsMessages2.default.permissionChanged || message === _callingSettingsMessages2.default.webphonePermissionRemoved || message === _callingSettingsMessages2.default.phoneNumberChanged || message === _callingSettingsMessages2.default.emergencyCallingNotAvailable;
 };
 
 exports.default = CallingSettingsAlert;

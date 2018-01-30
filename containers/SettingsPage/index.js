@@ -62,11 +62,13 @@ function mapToProps(_, _ref) {
   }
   return {
     showSpinner: !(accountInfo.ready && auth.ready && loggedIn && extensionInfo.ready && locale.ready && regionSettings.ready && callingSettings.ready && rolesAndPermissions.ready && (!detailedPresence || detailedPresence.ready) && (!localeSettings || localeSettings.ready)),
+    showCalling: rolesAndPermissions.callingEnabled,
+    showAudio: rolesAndPermissions.callingEnabled,
     showRegion: loggedIn && brand.id === '1210' && (regionSettings.availableCountries.length > 1 || !!regionSettings.availableCountries.find(function (c) {
       return c.isoCode === 'US';
     }) || !!regionSettings.availableCountries.find(function (c) {
       return c.isoCode === 'CA';
-    })),
+    })) && rolesAndPermissions.callingEnabled,
     loginNumber: loginNumber,
     version: version,
     currentLocale: locale.currentLocale,
@@ -95,7 +97,9 @@ function mapToFunctions(_, _ref2) {
       _ref2$callingSettings = _ref2.callingSettingsUrl,
       callingSettingsUrl = _ref2$callingSettings === undefined ? '/settings/calling' : _ref2$callingSettings,
       _ref2$audioSettingsUr = _ref2.audioSettingsUrl,
-      audioSettingsUrl = _ref2$audioSettingsUr === undefined ? '/settings/audio' : _ref2$audioSettingsUr;
+      audioSettingsUrl = _ref2$audioSettingsUr === undefined ? '/settings/audio' : _ref2$audioSettingsUr,
+      _ref2$feedbackSetting = _ref2.feedbackSettingsUrl,
+      feedbackSettingsUrl = _ref2$feedbackSetting === undefined ? '/settings/feedback' : _ref2$feedbackSetting;
 
   return {
     onLogoutButtonClick: function () {
@@ -127,6 +131,9 @@ function mapToFunctions(_, _ref2) {
     },
     onAudioSettingsLinkClick: function onAudioSettingsLinkClick() {
       routerInteraction.push(audioSettingsUrl);
+    },
+    onFeedbackSettingsLinkClick: function onFeedbackSettingsLinkClick() {
+      routerInteraction.push(feedbackSettingsUrl);
     },
     setAvailable: function setAvailable() {
       return detailedPresence && detailedPresence.setAvailable.apply(detailedPresence, arguments);

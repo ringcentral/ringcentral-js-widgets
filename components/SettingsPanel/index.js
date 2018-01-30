@@ -87,7 +87,10 @@ function SettingsPanel(_ref) {
       onCallingSettingsLinkClick = _ref.onCallingSettingsLinkClick,
       onRegionSettingsLinkClick = _ref.onRegionSettingsLinkClick,
       onAudioSettingsLinkClick = _ref.onAudioSettingsLinkClick,
+      onFeedbackSettingsLinkClick = _ref.onFeedbackSettingsLinkClick,
+      showCalling = _ref.showCalling,
       showAutoLog = _ref.showAutoLog,
+      showAudio = _ref.showAudio,
       autoLogEnabled = _ref.autoLogEnabled,
       onAutoLogChange = _ref.onAutoLogChange,
       showAutoLogSMS = _ref.showAutoLogSMS,
@@ -137,6 +140,19 @@ function SettingsPanel(_ref) {
     {
       onClick: onRegionSettingsLinkClick },
     _i18n2.default.getString('region', currentLocale)
+  ) : null;
+
+  var calling = showCalling ? _react2.default.createElement(
+    _LinkLine2.default,
+    {
+      onClick: onCallingSettingsLinkClick },
+    _i18n2.default.getString('calling', currentLocale)
+  ) : null;
+  var audio = showAudio ? _react2.default.createElement(
+    _LinkLine2.default,
+    {
+      onClick: onAudioSettingsLinkClick },
+    _i18n2.default.getString('audio', currentLocale)
   ) : null;
   var presenceSetting = dndStatus && userStatus ? _react2.default.createElement(_PresenceSettingSection2.default, {
     currentLocale: currentLocale,
@@ -204,25 +220,21 @@ function SettingsPanel(_ref) {
       {
         className: (0, _classnames2.default)(_styles2.default.content, showHeader && _styles2.default.contentWithHeader) },
       locale,
-      _react2.default.createElement(
-        _LinkLine2.default,
-        {
-          onClick: onCallingSettingsLinkClick },
-        _i18n2.default.getString('calling', currentLocale)
-      ),
+      calling,
       region,
-      showAudioSettings ? _react2.default.createElement(
-        _LinkLine2.default,
-        {
-          onClick: onAudioSettingsLinkClick },
-        _i18n2.default.getString('audio', currentLocale)
-      ) : null,
+      audio,
       presenceSetting,
       children,
       autoLog,
       autoLogSMS,
       clickToDial,
       additional,
+      _react2.default.createElement(
+        _LinkLine2.default,
+        {
+          onClick: onFeedbackSettingsLinkClick },
+        _i18n2.default.getString('feedback', currentLocale)
+      ),
       _react2.default.createElement(
         'section',
         { className: _styles2.default.section },
@@ -273,13 +285,15 @@ SettingsPanel.propTypes = {
   loginNumber: _propTypes2.default.string.isRequired,
   onLogoutButtonClick: _propTypes2.default.func.isRequired,
   onRegionSettingsLinkClick: _propTypes2.default.func.isRequired,
+  showCalling: _propTypes2.default.bool,
+  showRegion: _propTypes2.default.bool,
+  showAudio: _propTypes2.default.bool,
   showAutoLog: _propTypes2.default.bool,
   autoLogEnabled: _propTypes2.default.bool,
   onAutoLogChange: _propTypes2.default.func,
   showAutoLogSMS: _propTypes2.default.bool,
   autoLogSMSEnabled: _propTypes2.default.bool,
   onAutoLogSMSChange: _propTypes2.default.func,
-  showRegion: _propTypes2.default.bool.isRequired,
   showClickToDial: _propTypes2.default.bool,
   clickToDialEnabled: _propTypes2.default.bool,
   onClickToDialChange: _propTypes2.default.func,
@@ -301,7 +315,8 @@ SettingsPanel.propTypes = {
   additional: _propTypes2.default.node,
   supportedLocales: _propTypes2.default.arrayOf(_propTypes2.default.string),
   savedLocale: _propTypes2.default.string,
-  saveLocale: _propTypes2.default.func
+  saveLocale: _propTypes2.default.func,
+  onFeedbackSettingsLinkClick: _propTypes2.default.func.isRequired
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -310,7 +325,10 @@ SettingsPanel.defaultProps = {
   showClickToDial: false,
   clickToDialEnabled: false,
   onClickToDialChange: undefined,
+  showCalling: false,
+  showAudio: false,
   showAutoLog: false,
+  showRegion: false,
   autoLogEnabled: false,
   onAutoLogChange: undefined,
   showAutoLogSMS: false,

@@ -95,6 +95,7 @@ var NavigationBar = function (_Component) {
           button = _props.button,
           childNavigationView = _props.childNavigationView,
           currentPath = _props.currentPath,
+          tabWidth = _props.tabWidth,
           tabs = _props.tabs;
 
 
@@ -102,7 +103,13 @@ var NavigationBar = function (_Component) {
       var ChildNavigationView = childNavigationView;
 
       var currentVirtualPath = this.state.currentVirtualPath;
-      var tabWidth = tabs.length > 0 ? 1 / tabs.length * 100 + '%' : 0;
+      var _tabWidth = 0;
+      if (tabWidth) {
+        _tabWidth = tabWidth;
+      } else {
+        // Align equally fully
+        _tabWidth = tabs.length > 0 ? 1 / tabs.length * 100 + '%' : 0;
+      }
       var dropdownMenuTab = tabs.find(function (tab) {
         return tab.childTabs && tab.isActive && tab.isActive(currentPath, currentVirtualPath);
       });
@@ -111,12 +118,13 @@ var NavigationBar = function (_Component) {
         'nav',
         { className: (0, _classnames2.default)(_styles2.default.root, className) },
         tabs.map(function (tab, index) {
-          var icon = tab.icon;
+          var icon = tab.icon,
+              activeIcon = tab.activeIcon;
+
           if (typeof icon === 'function') {
             var Icon = icon;
             icon = tab.childTabs ? _react2.default.createElement(Icon, { currentPath: currentPath }) : _react2.default.createElement(Icon, null);
           }
-          var activeIcon = tab.activeIcon;
           if (typeof activeIcon === 'function') {
             var ActiveIcon = activeIcon;
             activeIcon = tab.childTabs ? _react2.default.createElement(ActiveIcon, { currentPath: currentPath }) : _react2.default.createElement(ActiveIcon, null);
@@ -129,7 +137,7 @@ var NavigationBar = function (_Component) {
             active: tab.isActive && tab.isActive(currentPath, currentVirtualPath) || tab.path && tab.path === currentPath || tab.virtualPath && tab.virtualPath === currentVirtualPath || tab.childTabs && tab.childTabs.some(function (childTab) {
               return childTab.path === currentPath || childTab.path === currentPath.slice(0, 9);
             }),
-            width: tabWidth,
+            width: _tabWidth,
             icon: icon,
             activeIcon: activeIcon
           }));
@@ -168,13 +176,15 @@ NavigationBar.propTypes = {
   }))),
   goTo: _propTypes2.default.func.isRequired,
   currentPath: _propTypes2.default.string.isRequired,
-  currentVirtualPath: _propTypes2.default.string
+  currentVirtualPath: _propTypes2.default.string,
+  tabWidth: _propTypes2.default.string
 };
 
 NavigationBar.defaultProps = {
   className: undefined,
   childNavigationView: undefined,
   currentVirtualPath: undefined,
+  tabWidth: undefined,
   tabs: []
 };
 //# sourceMappingURL=index.js.map
