@@ -33,6 +33,33 @@ export default class ProxyFrameOAuth extends OAuthBase {
     this._defaultProxyRetry = defaultProxyRetry;
 
     this._reducer = getProxyFrameOAuthReducer(this.actionTypes);
+
+    this._loggedIn = false;
+  }
+
+  _onStateChange() {
+    super._onStateChange();
+    if (this._auth.loggedIn === this._loggedIn) {
+      return;
+    }
+    this._loggedIn = this._auth.loggedIn;
+    if (this._loggedIn && this._auth.isImplicit) {
+      console.log('new login, start refresh token timeout');
+      this._createImplicitRefreshTimeout();
+    }
+    if (!this._loggedIn && this._auth.isImplicit) {
+      this._clearImplicitRefreshIframe();
+      if (this._implicitRefreshTimeoutId) {
+        clearTimeout(this._implicitRefreshTimeoutId);
+      }
+    }
+  }
+
+  async _handleCallbackUri(options) {
+    await super._handleCallbackUri(options);
+    if (this._auth.isImplicit && this._auth.loggedIn) {
+      this._createImplicitRefreshTimeout();
+    }
   }
 
   get name() {
@@ -136,5 +163,62 @@ export default class ProxyFrameOAuth extends OAuthBase {
         oAuthUri: this.oAuthUri,
       }, '*');
     }
+  }
+
+  _createImplicitRefreshIframe() {
+    this._clearImplicitRefreshIframe();
+    this._implicitRefreshFrame = document.createElement('iframe');
+    this._implicitRefreshFrame.src = this.implictRefreshOAuthUri;
+    this._implicitRefreshFrame.style.display = 'none';
+    document.body.appendChild(this._implicitRefreshFrame);
+    this._implictitRefreshCallBack = ({ origin, data }) => {
+      const { refreshCallbackUri } = data;
+      if (refreshCallbackUri && this._auth.loggedIn) {
+        this._handleCallbackUri(refreshCallbackUri, true);
+        this._clearImplicitRefreshIframe();
+      }
+    };
+    window.addEventListener('message', this._implictitRefreshCallBack);
+  }
+
+  _clearImplicitRefreshIframe() {
+    if (this._implicitRefreshFrame) {
+      document.body.removeChild(this._implicitRefreshFrame);
+      this._implicitRefreshFrame = null;
+      window.removeEventListener('message', this._implictitRefreshCallBack);
+      this._callbackHandler = null;
+    }
+  }
+
+  // create a time out to refresh implicit flow token
+  _createImplicitRefreshTimeout() {
+    if (this._implicitRefreshTimeoutId) {
+      clearTimeout(this._implicitRefreshTimeoutId);
+    }
+    const authData = this._auth.token;
+    const refreshTokenExpiresIn = authData.expiresIn;
+    const { expireTime } = authData;
+    if (!refreshTokenExpiresIn || !expireTime) {
+      return;
+    }
+    // set refresh time to (token exposre time) / 3
+    let refreshTokenTimeoutTime = (parseInt(refreshTokenExpiresIn, 10) * 1000) / 3;
+    if (refreshTokenTimeoutTime + Date.now() > expireTime) {
+      refreshTokenTimeoutTime = expireTime - Date.now() - 5000;
+      if (refreshTokenTimeoutTime < 0) {
+        return;
+      }
+    }
+    this._implicitRefreshTimeoutId = setTimeout(() => {
+      if (!this._auth.loggedIn) {
+        return;
+      }
+      if (this._tabManager && !this._tabManager.active) {
+        this._createImplicitRefreshTimeout();
+        return;
+      }
+      this._createImplicitRefreshIframe();
+      this._implicitRefreshTimeoutId = null;
+    }, refreshTokenTimeoutTime);
   }
 }
