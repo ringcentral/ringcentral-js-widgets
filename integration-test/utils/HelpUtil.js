@@ -26,7 +26,7 @@ var ensureLogin = exports.ensureLogin = function () {
             auth.login((0, _extends3.default)({}, account));
             _context.next = 3;
             return (0, _WaitUtil.waitUntilNotNull)(function () {
-              return auth.state.ownerId;
+              return auth.ownerId;
             }, 'Login Success', 6);
 
           case 3:

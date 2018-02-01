@@ -573,6 +573,8 @@ var Phone = function (_RcModule) {
       client: _this.client,
       storage: _this.storage,
       subscription: _this.subscription,
+      connectivityMonitor: _this.connectivityMonitor,
+      rolesAndPermissions: _this.rolesAndPermissions,
       getState: function getState() {
         return _this.state.messageStore;
       }
@@ -592,6 +594,7 @@ var Phone = function (_RcModule) {
       auth: _this.auth,
       messageStore: _this.messageStore,
       extensionInfo: _this.extensionInfo,
+      rolesAndPermissions: _this.rolesAndPermissions,
       getState: function getState() {
         return _this.state.messages;
       }
