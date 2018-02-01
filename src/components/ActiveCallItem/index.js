@@ -59,22 +59,6 @@ CallIcon.defaultProps = {
   missedTitle: undefined,
 };
 
-function ExtendIcon({ extendIconClassName }) {
-  return (
-    <div className={styles.extendIcon}>
-      <div className={classnames(styles.extendInner, extendIconClassName)} />
-    </div>
-  );
-}
-
-ExtendIcon.propTypes = {
-  extendIconClassName: PropTypes.string
-};
-
-ExtendIcon.defaultProps = {
-  extendIconClassName: undefined
-};
-
 function WebphoneButtons({
   session,
   webphoneAnswer,
@@ -454,8 +438,6 @@ export default class ActiveCallItem extends Component {
           createEntityTitle={i18n.getString('addEntity', currentLocale)}
           viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
         />
-        <ExtendIcon
-          extendIconClassName={this.state.extended ? styles.extended : null} />
       </div>
     );
   }
