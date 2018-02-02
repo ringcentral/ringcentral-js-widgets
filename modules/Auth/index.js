@@ -97,10 +97,6 @@ var _moduleStatuses = require('../../enums/moduleStatuses');
 
 var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
 
-var _parseCallbackUri = require('../../lib/parseCallbackUri');
-
-var _parseCallbackUri2 = _interopRequireDefault(_parseCallbackUri);
-
 var _ensureExist = require('../../lib/ensureExist');
 
 var _ensureExist2 = _interopRequireDefault(_ensureExist);
@@ -138,22 +134,6 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
   }
 
   return desc;
-}
-
-var DEFAULT_PROXY_RETRY = 5000;
-
-function getDefaultRedirectUri() {
-  if (typeof window !== 'undefined') {
-    return _url2.default.resolve(window.location.href, './redirect.html');
-  }
-  return null;
-}
-
-function getDefaultProxyUri() {
-  if (typeof window !== 'undefined') {
-    return _url2.default.resolve(window.location.href, './proxy.html');
-  }
-  return null;
 }
 
 /**
@@ -476,7 +456,12 @@ var Auth = (_dec = (0, _di.Module)({
             extension = _ref6.extension,
             remember = _ref6.remember,
             code = _ref6.code,
-            redirectUri = _ref6.redirectUri;
+            redirectUri = _ref6.redirectUri,
+            accessToken = _ref6.accessToken,
+            expiresIn = _ref6.expiresIn,
+            endpointId = _ref6.endpointId,
+            tokenType = _ref6.tokenType;
+        var ownerId, extensionData;
         return _regenerator2.default.wrap(function _callee4$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -484,16 +469,43 @@ var Auth = (_dec = (0, _di.Module)({
                 this.store.dispatch({
                   type: this.actionTypes.login
                 });
+                ownerId = void 0;
+
+                if (!accessToken) {
+                  _context5.next = 8;
+                  break;
+                }
+
+                this._client.service.platform().auth().setData({
+                  token_type: tokenType,
+                  access_token: accessToken,
+                  expires_in: expiresIn,
+                  refresh_token_expires_in: expiresIn
+                });
+                _context5.next = 6;
+                return this._client.account().extension().get();
+
+              case 6:
+                extensionData = _context5.sent;
+
+                ownerId = extensionData.id;
+
+              case 8:
                 return _context5.abrupt('return', this._client.service.platform().login({
                   username: username,
                   password: password,
                   extension: extension,
                   remember: remember,
                   code: code,
-                  redirectUri: redirectUri
+                  redirectUri: redirectUri,
+                  endpoint_id: endpointId,
+                  expires_in: expiresIn,
+                  access_token: accessToken,
+                  token_type: tokenType,
+                  owner_id: ownerId
                 }));
 
-              case 2:
+              case 9:
               case 'end':
                 return _context5.stop();
             }
@@ -512,6 +524,7 @@ var Auth = (_dec = (0, _di.Module)({
      * @param {String} options.redirectUri
      * @param {String} options.brandId
      * @param {Boolean} options.force
+     * @param {Boolean} options.implicit
      * @return {String}
      * @description get OAuth page url
      */
@@ -524,14 +537,17 @@ var Auth = (_dec = (0, _di.Module)({
           brandId = _ref7.brandId,
           display = _ref7.display,
           prompt = _ref7.prompt,
-          force = _ref7.force;
+          force = _ref7.force,
+          _ref7$implicit = _ref7.implicit,
+          implicit = _ref7$implicit === undefined ? false : _ref7$implicit;
 
       return '' + this._client.service.platform().loginUrl({
         redirectUri: redirectUri,
         state: state,
         brandId: brandId,
         display: display,
-        prompt: prompt
+        prompt: prompt,
+        implicit: implicit
       }) + (force ? '&force' : '');
     }
 
@@ -684,9 +700,22 @@ var Auth = (_dec = (0, _di.Module)({
                 this.store.dispatch({
                   type: this.actionTypes.logout
                 });
+
+                if (!this.isImplicit) {
+                  _context8.next = 42;
+                  break;
+                }
+
+                this._client.service.platform()._cache.clean();
+                this.store.dispatch({
+                  type: this.actionTypes.logoutSuccess
+                });
+                return _context8.abrupt('return', null);
+
+              case 42:
                 return _context8.abrupt('return', this._client.service.platform().logout());
 
-              case 39:
+              case 43:
               case 'end':
                 return _context8.stop();
             }
@@ -739,29 +768,92 @@ var Auth = (_dec = (0, _di.Module)({
       };
     }
   }, {
-    key: 'checkIsLoggedIn',
+    key: 'refreshImplicitToken',
     value: function () {
-      var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
+      var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(_ref11) {
+        var tokenType = _ref11.tokenType,
+            accessToken = _ref11.accessToken,
+            expiresIn = _ref11.expiresIn,
+            endpointId = _ref11.endpointId;
+        var extensionData, ownerId, platform, newAuthData;
         return _regenerator2.default.wrap(function _callee7$(_context9) {
           while (1) {
             switch (_context9.prev = _context9.next) {
               case 0:
-                _context9.next = 2;
-                return this._client.service.platform().loggedIn();
-
-              case 2:
-                return _context9.abrupt('return', this.state.loginStatus === _loginStatus2.default.loggedIn);
+                _context9.prev = 0;
+                _context9.next = 3;
+                return this._client.account().extension().get();
 
               case 3:
+                extensionData = _context9.sent;
+                ownerId = extensionData.id;
+
+                if (!(ownerId !== this.ownerId)) {
+                  _context9.next = 7;
+                  break;
+                }
+
+                return _context9.abrupt('return');
+
+              case 7:
+                platform = this._client.service.platform();
+                newAuthData = {
+                  token_type: tokenType,
+                  access_token: accessToken,
+                  expires_in: expiresIn,
+                  refresh_token_expires_in: expiresIn,
+                  endpoint_id: endpointId
+                };
+
+                platform.auth().setData(newAuthData);
+                platform.emit(platform.events.refreshSuccess, newAuthData);
+                _context9.next = 16;
+                break;
+
+              case 13:
+                _context9.prev = 13;
+                _context9.t0 = _context9['catch'](0);
+
+                console.error('refreshImplicitToken error:', _context9.t0);
+
+              case 16:
               case 'end':
                 return _context9.stop();
             }
           }
-        }, _callee7, this);
+        }, _callee7, this, [[0, 13]]);
+      }));
+
+      function refreshImplicitToken(_x3) {
+        return _ref10.apply(this, arguments);
+      }
+
+      return refreshImplicitToken;
+    }()
+  }, {
+    key: 'checkIsLoggedIn',
+    value: function () {
+      var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8() {
+        return _regenerator2.default.wrap(function _callee8$(_context10) {
+          while (1) {
+            switch (_context10.prev = _context10.next) {
+              case 0:
+                _context10.next = 2;
+                return this._client.service.platform().loggedIn();
+
+              case 2:
+                return _context10.abrupt('return', this.state.loginStatus === _loginStatus2.default.loggedIn);
+
+              case 3:
+              case 'end':
+                return _context10.stop();
+            }
+          }
+        }, _callee8, this);
       }));
 
       function checkIsLoggedIn() {
-        return _ref10.apply(this, arguments);
+        return _ref12.apply(this, arguments);
       }
 
       return checkIsLoggedIn;
@@ -839,8 +931,13 @@ var Auth = (_dec = (0, _di.Module)({
     get: function get() {
       return this.state.loginStatus === _loginStatus2.default.notLoggedIn;
     }
+  }, {
+    key: 'isImplicit',
+    get: function get() {
+      return !(this._client.service.platform()._appSecret && this._client.service.platform()._appSecret.length > 0);
+    }
   }]);
   return Auth;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'login', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'login'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'logout', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'logout'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'checkIsLoggedIn', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'checkIsLoggedIn'), _class2.prototype)), _class2)) || _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'login', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'login'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'logout', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'logout'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'refreshImplicitToken', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'refreshImplicitToken'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'checkIsLoggedIn', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'checkIsLoggedIn'), _class2.prototype)), _class2)) || _class);
 exports.default = Auth;
 //# sourceMappingURL=index.js.map
