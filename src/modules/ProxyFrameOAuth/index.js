@@ -171,6 +171,7 @@ export default class ProxyFrameOAuth extends OAuthBase {
     this._implicitRefreshFrame.src = this.implictRefreshOAuthUri;
     this._implicitRefreshFrame.style.display = 'none';
     document.body.appendChild(this._implicitRefreshFrame);
+    // eslint-disable-next-line
     this._implictitRefreshCallBack = ({ origin, data }) => {
       const { refreshCallbackUri } = data;
       if (refreshCallbackUri && this._auth.loggedIn) {
