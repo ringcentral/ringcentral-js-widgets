@@ -3,10 +3,12 @@ import { prefixEnum } from 'ringcentral-integration/lib/Enum';
 import { Module } from 'ringcentral-integration/lib/di';
 import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
-import parseCallbackUri from 'ringcentral-integration/lib/parseCallbackUri';
+
 import required from 'ringcentral-integration/lib/required';
 import qs from 'qs';
 import url from 'url';
+
+import parseCallbackUri from '../parseCallbackUri';
 import baseActionTypes from './baseActionTypes';
 import getOAuthBaseReducer from './getOAuthBaseReducer';
 import oAuthMessages from './oAuthMessages';
@@ -72,16 +74,16 @@ export default class OAuthBase extends RcModule {
   }
 
   @proxify
-  async _handleCallbackUri(callbackUri) {
+  async _handleCallbackUri(callbackUri, refresh = false) {
     try {
-      const code = parseCallbackUri(callbackUri);
-      if (code) {
-        await this._auth.login({
-          code,
-          redirectUri: this.redirectUri,
-        });
+      const query = parseCallbackUri(callbackUri);
+      if (refresh) {
+        await this._refreshWithCallbackQuery(query);
+      } else {
+        await this._loginWithCallbackQuery(query);
       }
     } catch (error) {
+      console.error('oauth error: ', error);
       let message;
       switch (error.message) {
         case 'invalid_request':
@@ -102,6 +104,32 @@ export default class OAuthBase extends RcModule {
         payload: error,
       });
     }
+  }
+
+  async _loginWithCallbackQuery(query) {
+    if (!(query.code || query.access_token)) {
+      return;
+    }
+    await this._auth.login({
+      code: query.code,
+      accessToken: query.access_token,
+      expiresIn: query.expires_in,
+      endpointId: query.endpoint_id,
+      redirectUri: this.redirectUri,
+      tokenType: query.token_type,
+    });
+  }
+
+  async _refreshWithCallbackQuery(query) {
+    if (!query.access_token) {
+      return;
+    }
+    await this._auth.refreshImplicitToken({
+      tokenType: query.token_type,
+      accessToken: query.access_token,
+      expiresIn: query.expires_in,
+      endpointId: query.endpoint_id,
+    });
   }
 
   @required
@@ -125,7 +153,19 @@ export default class OAuthBase extends RcModule {
       brandId: this._brand.id,
       state: btoa(Date.now()),
       display: 'page',
+      implicit: this._auth.isImplicit,
     })}&${extendedQuery}`;
+  }
+
+  get implictRefreshOAuthUri() {
+    return `${this._auth.getLoginUrl({
+      redirectUri: this.redirectUri,
+      brandId: this._brand.id,
+      state: btoa(Date.now()),
+      display: 'page',
+      prompt: 'none',
+      implicit: this._auth.isImplicit,
+    })}`;
   }
 
   get status() {
