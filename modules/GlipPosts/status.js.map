@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/GlipPosts/status.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,UADsB,EAEtB,MAFsB,EAGtB,UAHsB,CAAT,EAIZ,WAJY,C","file":"status.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'fetching',\n  'idle',\n  'creating',\n], 'glipPosts');\n"]}

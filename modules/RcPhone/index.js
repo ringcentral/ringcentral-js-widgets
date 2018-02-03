@@ -279,10 +279,26 @@ var _Meeting = require('../Meeting');
 
 var _Meeting2 = _interopRequireDefault(_Meeting);
 
+var _GlipCompany = require('../GlipCompany');
+
+var _GlipCompany2 = _interopRequireDefault(_GlipCompany);
+
+var _GlipPersons = require('../GlipPersons');
+
+var _GlipPersons2 = _interopRequireDefault(_GlipPersons);
+
+var _GlipPosts = require('../GlipPosts');
+
+var _GlipPosts2 = _interopRequireDefault(_GlipPosts);
+
+var _GlipGroups = require('../GlipGroups');
+
+var _GlipGroups2 = _interopRequireDefault(_GlipGroups);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var RcPhone = (_dec = (0, _di.ModuleFactory)({
-  providers: [_AudioSettings2.default, _Alert2.default, _Brand2.default, _Locale2.default, _TabManager2.default, _GlobalStorage2.default, _Environment2.default, _ConnectivityMonitor2.default, _Auth2.default, _Storage2.default, _RateLimiter2.default, _ExtensionDevice2.default, _Softphone2.default, _Ringout2.default, _AccountInfo2.default, _ExtensionInfo2.default, _RolesAndPermissions2.default, _DialingPlan2.default, _ExtensionPhoneNumber2.default, _ForwardingNumber2.default, _BlockedNumber2.default, _ContactMatcher2.default, _Subscription2.default, _RegionSettings2.default, _AccountExtension2.default, _NumberValidate2.default, _Webphone2.default, _CallingSettings2.default, _Presence2.default, _DetailedPresence2.default, _CallLog2.default, _Call2.default, _MessageSender2.default, _ComposeText2.default, _CallMonitor2.default, _CallHistory2.default, _ActivityMatcher2.default, _ConversationMatcher2.default, _ContactSearch2.default, _MessageStore2.default, _Conversation2.default, _DateTimeFormat2.default, _Conference2.default, _CallLogger2.default, _AccountPhoneNumber2.default, _AddressBook2.default, _AccountContacts2.default, _Contacts2.default, _ContactDetails2.default, _ConversationLogger2.default, _Messages2.default, _RecentMessages2.default, _RecentCalls2.default, _Analytics2.default, _Meeting2.default, {
+  providers: [_AudioSettings2.default, _Alert2.default, _Brand2.default, _Locale2.default, _TabManager2.default, _GlobalStorage2.default, _Environment2.default, _ConnectivityMonitor2.default, _Auth2.default, _Storage2.default, _RateLimiter2.default, _ExtensionDevice2.default, _Softphone2.default, _Ringout2.default, _AccountInfo2.default, _ExtensionInfo2.default, _RolesAndPermissions2.default, _DialingPlan2.default, _ExtensionPhoneNumber2.default, _ForwardingNumber2.default, _BlockedNumber2.default, _ContactMatcher2.default, _Subscription2.default, _RegionSettings2.default, _AccountExtension2.default, _NumberValidate2.default, _Webphone2.default, _CallingSettings2.default, _Presence2.default, _DetailedPresence2.default, _CallLog2.default, _Call2.default, _MessageSender2.default, _ComposeText2.default, _CallMonitor2.default, _CallHistory2.default, _ActivityMatcher2.default, _ConversationMatcher2.default, _ContactSearch2.default, _MessageStore2.default, _Conversation2.default, _DateTimeFormat2.default, _Conference2.default, _CallLogger2.default, _AccountPhoneNumber2.default, _AddressBook2.default, _AccountContacts2.default, _Contacts2.default, _ContactDetails2.default, _ConversationLogger2.default, _Messages2.default, _RecentMessages2.default, _RecentCalls2.default, _Analytics2.default, _Meeting2.default, _GlipCompany2.default, _GlipPersons2.default, _GlipPosts2.default, _GlipGroups2.default, {
     provide: 'ModuleOptions',
     useValue: { prefix: 'rc-phone' },
     spread: true
