@@ -140,8 +140,7 @@ CallIcon.propTypes = {
 CallIcon.defaultProps = {
   ringing: false,
   inboundTitle: undefined,
-  outboundTitle: undefined,
-  missedTitle: undefined
+  outboundTitle: undefined
 };
 
 function WebphoneButtons(_ref2) {
@@ -157,34 +156,45 @@ function WebphoneButtons(_ref2) {
   var hangupFunc = webphoneHangup;
   var resumeFunc = webphoneResume;
   var endIcon = _End2.default;
+  var rejectTitle = _i18n2.default.getString('hangup');
+  var acceptTitle = _i18n2.default.getString('accept');
   if (session.direction === _callDirections2.default.inbound && session.callStatus === _sessionStatus2.default.connecting) {
     hangupFunc = webphoneReject;
     resumeFunc = webphoneAnswer;
     endIcon = _Voicemail2.default;
+    rejectTitle = _i18n2.default.getString('toVoicemail');
   }
   return _react2.default.createElement(
     'div',
     { className: _styles2.default.webphoneButtons },
-    _react2.default.createElement(_CircleButton2.default, {
-      className: _styles2.default.rejectButton,
-      onClick: function onClick(e) {
-        e.stopPropagation();
-        hangupFunc(session.id);
-      },
-      iconWidth: 260,
-      iconX: 120,
-      icon: endIcon,
-      showBorder: false
-    }),
-    _react2.default.createElement(_CircleButton2.default, {
-      className: _styles2.default.answerButton,
-      onClick: function onClick(e) {
-        e.stopPropagation();
-        resumeFunc(session.id);
-      },
-      icon: _Answer2.default,
-      showBorder: false
-    })
+    _react2.default.createElement(
+      'span',
+      { title: rejectTitle },
+      _react2.default.createElement(_CircleButton2.default, {
+        className: _styles2.default.rejectButton,
+        onClick: function onClick(e) {
+          e.stopPropagation();
+          hangupFunc(session.id);
+        },
+        iconWidth: 260,
+        iconX: 120,
+        icon: endIcon,
+        showBorder: false
+      })
+    ),
+    _react2.default.createElement(
+      'span',
+      { title: acceptTitle },
+      _react2.default.createElement(_CircleButton2.default, {
+        className: _styles2.default.answerButton,
+        onClick: function onClick(e) {
+          e.stopPropagation();
+          resumeFunc(session.id);
+        },
+        icon: _Answer2.default,
+        showBorder: false
+      })
+    )
   );
 }
 

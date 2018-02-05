@@ -24,6 +24,9 @@ exports.default = {
   inboundCall: 'Inbound',
   outboundCall: 'Outbound',
   from: 'From',
-  to: 'To'
+  to: 'To',
+  hangup: 'Hangup',
+  accept: 'Accept',
+  toVoicemail: 'Send to Voicemail'
 };
 //# sourceMappingURL=en-US.js.map
