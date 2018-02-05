@@ -428,11 +428,11 @@ export default class AdapterCore {
       this._dragging && this._styles.dragging,
       this._hover && this._styles.hover,
       this._loading && this._styles.loading,
-      this._ringing && this._styles.ringing,
     ));
     this._headerEl.setAttribute('class', classnames(
       this._styles.header,
       this._minimized && this._styles.minimized,
+      this._ringing && this._styles.ringing,
     ));
   }
   renderPresence() {

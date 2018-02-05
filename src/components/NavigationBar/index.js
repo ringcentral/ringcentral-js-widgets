@@ -37,6 +37,7 @@ export default class NavigationBar extends Component {
       button,
       childNavigationView,
       currentPath,
+      tabWidth,
       tabs,
     } = this.props;
 
@@ -44,9 +45,15 @@ export default class NavigationBar extends Component {
     const ChildNavigationView = childNavigationView;
 
     const currentVirtualPath = this.state.currentVirtualPath;
-    const tabWidth = tabs.length > 0 ?
-      `${(1 / tabs.length) * 100}%` :
-      0;
+    let _tabWidth = 0;
+    if (tabWidth) {
+      _tabWidth = tabWidth;
+    } else {
+      // Align equally fully
+      _tabWidth = tabs.length > 0 ?
+        `${(1 / tabs.length) * 100}%` :
+        0;
+    }
     const dropdownMenuTab = tabs.find(tab =>
       (
         tab.childTabs &&
@@ -58,12 +65,11 @@ export default class NavigationBar extends Component {
       <nav className={classnames(styles.root, className)}>
         {
           tabs.map((tab, index) => {
-            let icon = tab.icon;
+            let { icon, activeIcon } = tab;
             if (typeof icon === 'function') {
               const Icon = icon;
               icon = (tab.childTabs ? <Icon currentPath={currentPath} /> : <Icon />);
             }
-            let activeIcon = tab.activeIcon;
             if (typeof activeIcon === 'function') {
               const ActiveIcon = activeIcon;
               activeIcon = (tab.childTabs ?
@@ -85,7 +91,7 @@ export default class NavigationBar extends Component {
                     childTab.path === currentPath.slice(0, 9)
                   ))
                 }
-                width={tabWidth}
+                width={_tabWidth}
                 icon={icon}
                 activeIcon={activeIcon}
               />
@@ -142,11 +148,13 @@ NavigationBar.propTypes = {
   goTo: PropTypes.func.isRequired,
   currentPath: PropTypes.string.isRequired,
   currentVirtualPath: PropTypes.string,
+  tabWidth: PropTypes.string,
 };
 
 NavigationBar.defaultProps = {
   className: undefined,
   childNavigationView: undefined,
   currentVirtualPath: undefined,
+  tabWidth: undefined,
   tabs: [],
 };

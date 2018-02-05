@@ -7155,16 +7155,16 @@ rimraf@^2.6.1:
   dependencies:
     glob "^7.0.5"
 
-ringcentral-client@^1.0.0-rc1:
-  version "1.0.0-rc1"
-  resolved "https://registry.yarnpkg.com/ringcentral-client/-/ringcentral-client-1.0.0-rc1.tgz#eb7ac9e7ffac5d4de8971fb84eb9d172118a251c"
+ringcentral-client@^1.0.0-beta.1:
+  version "1.0.0-beta.1"
+  resolved "https://registry.yarnpkg.com/ringcentral-client/-/ringcentral-client-1.0.0-beta.1.tgz#79837692d788ff75409b36cd153d59f732782591"
   dependencies:
     form-data "^2.1.2"
     isomorphic-fetch "^2.2.1"
 
 "ringcentral-integration@https://github.com/ringcentral/ringcentral-js-integration-commons#latest":
   version "0.1.0"
-  resolved "https://github.com/ringcentral/ringcentral-js-integration-commons#a0cba8ed064389ea34ff0a1773b9aae5166900ad"
+  resolved "https://github.com/ringcentral/ringcentral-js-integration-commons#e46d8e78ab3926f487bac270a3f0b6acaf27bb62"
   dependencies:
     file-loader "^0.11.2"
     json-mask "^0.3.8"

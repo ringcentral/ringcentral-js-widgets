@@ -27,6 +27,7 @@ import ContactsPage from '../../../src/containers/ContactsPage';
 import ContactDetailsPage from '../../../src/containers/ContactDetailsPage';
 import ContactSourceFilter from '../../../src/components/ContactSourceFilter';
 import MeetingScheduleButton from '../../../src/components/MeetingScheduleButton';
+import FeedbackPage from '../../../src/containers/FeedbackPage';
 import MainView from '../MainView';
 import AppView from '../AppView';
 import PhoneProvider from '../../../src/lib/PhoneProvider';
@@ -124,6 +125,9 @@ export default function App({
               <Route
                 path="/settings/audio"
                 component={AudioSettingsPage} />
+              <Route
+                path="/settings/feedback"
+                component={FeedbackPage} />
               <Route
                 path="/calls"
                 component={() => (
