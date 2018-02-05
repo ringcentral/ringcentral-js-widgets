@@ -101,9 +101,9 @@ function WebphoneButtons({
         <CircleButton
           className={styles.answerButton}
           onClick={(e) => {
-          e.stopPropagation();
-          resumeFunc(session.id);
-        }}
+            e.stopPropagation();
+            resumeFunc(session.id);
+          }}
           icon={AnswerIcon}
           showBorder={false}
       />
