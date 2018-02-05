@@ -56,7 +56,6 @@ CallIcon.defaultProps = {
   ringing: false,
   inboundTitle: undefined,
   outboundTitle: undefined,
-  missedTitle: undefined,
 };
 
 function WebphoneButtons({
