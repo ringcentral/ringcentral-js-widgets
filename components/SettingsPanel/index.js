@@ -114,6 +114,7 @@ function SettingsPanel(_ref) {
       isCallQueueMember = _ref.isCallQueueMember,
       showPresenceSettings = _ref.showPresenceSettings,
       showAudioSettings = _ref.showAudioSettings,
+      showFeedback = _ref.showFeedback,
       additional = _ref.additional,
       supportedLocales = _ref.supportedLocales,
       savedLocale = _ref.savedLocale,
@@ -153,6 +154,12 @@ function SettingsPanel(_ref) {
     {
       onClick: onAudioSettingsLinkClick },
     _i18n2.default.getString('audio', currentLocale)
+  ) : null;
+  var feedback = showFeedback ? _react2.default.createElement(
+    _LinkLine2.default,
+    {
+      onClick: onFeedbackSettingsLinkClick },
+    _i18n2.default.getString('feedback', currentLocale)
   ) : null;
   var presenceSetting = dndStatus && userStatus ? _react2.default.createElement(_PresenceSettingSection2.default, {
     currentLocale: currentLocale,
@@ -229,12 +236,7 @@ function SettingsPanel(_ref) {
       autoLogSMS,
       clickToDial,
       additional,
-      _react2.default.createElement(
-        _LinkLine2.default,
-        {
-          onClick: onFeedbackSettingsLinkClick },
-        _i18n2.default.getString('feedback', currentLocale)
-      ),
+      feedback,
       _react2.default.createElement(
         'section',
         { className: _styles2.default.section },
@@ -312,6 +314,7 @@ SettingsPanel.propTypes = {
   toggleAcceptCallQueueCalls: _propTypes2.default.func,
   showPresenceSettings: _propTypes2.default.bool,
   showAudioSettings: _propTypes2.default.bool,
+  showFeedback: _propTypes2.default.bool,
   additional: _propTypes2.default.node,
   supportedLocales: _propTypes2.default.arrayOf(_propTypes2.default.string),
   savedLocale: _propTypes2.default.string,
@@ -361,6 +364,7 @@ SettingsPanel.defaultProps = {
   additional: null,
   supportedLocales: undefined,
   savedLocale: undefined,
-  saveLocale: undefined
+  saveLocale: undefined,
+  showFeedback: true
 };
 //# sourceMappingURL=index.js.map

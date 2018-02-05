@@ -46,6 +46,14 @@ function mapToProps(_, _ref) {
       version = _ref$phone.version,
       rolesAndPermissions = _ref$phone.rolesAndPermissions,
       detailedPresence = _ref$phone.detailedPresence,
+      _ref$showRegion = _ref.showRegion,
+      showRegion = _ref$showRegion === undefined ? true : _ref$showRegion,
+      _ref$showCalling = _ref.showCalling,
+      showCalling = _ref$showCalling === undefined ? true : _ref$showCalling,
+      _ref$showAudio = _ref.showAudio,
+      showAudio = _ref$showAudio === undefined ? true : _ref$showAudio,
+      _ref$showFeedback = _ref.showFeedback,
+      showFeedback = _ref$showFeedback === undefined ? true : _ref$showFeedback,
       params = _ref.params;
 
   var loginNumber = '';
@@ -61,14 +69,15 @@ function mapToProps(_, _ref) {
     });
   }
   return {
-    showSpinner: !(accountInfo.ready && auth.ready && loggedIn && extensionInfo.ready && locale.ready && regionSettings.ready && callingSettings.ready && rolesAndPermissions.ready && (!detailedPresence || detailedPresence.ready) && (!localeSettings || localeSettings.ready)),
-    showCalling: rolesAndPermissions.callingEnabled,
-    showAudio: rolesAndPermissions.callingEnabled,
+    showSpinner: !(accountInfo.ready && auth.ready && loggedIn && extensionInfo.ready && locale.ready && regionSettings.ready && (!callingSettings || callingSettings.ready) && rolesAndPermissions.ready && (!detailedPresence || detailedPresence.ready) && (!localeSettings || localeSettings.ready)),
+    showFeedback: showFeedback,
+    showCalling: showCalling && callingSettings && rolesAndPermissions.callingEnabled,
+    showAudio: showAudio && rolesAndPermissions.callingEnabled,
     showRegion: loggedIn && brand.id === '1210' && (regionSettings.availableCountries.length > 1 || !!regionSettings.availableCountries.find(function (c) {
       return c.isoCode === 'US';
     }) || !!regionSettings.availableCountries.find(function (c) {
       return c.isoCode === 'CA';
-    })) && rolesAndPermissions.callingEnabled,
+    })) && rolesAndPermissions.callingEnabled && showRegion,
     loginNumber: loginNumber,
     version: version,
     currentLocale: locale.currentLocale,
