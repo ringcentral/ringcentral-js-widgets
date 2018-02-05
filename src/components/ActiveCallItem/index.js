@@ -56,7 +56,6 @@ CallIcon.defaultProps = {
   ringing: false,
   inboundTitle: undefined,
   outboundTitle: undefined,
-  missedTitle: undefined,
 };
 
 function WebphoneButtons({
@@ -72,6 +71,8 @@ function WebphoneButtons({
   let hangupFunc = webphoneHangup;
   let resumeFunc = webphoneResume;
   let endIcon = EndIcon;
+  let rejectTitle = i18n.getString('hangup');
+  const acceptTitle = i18n.getString('accept');
   if (
     session.direction === callDirections.inbound &&
     session.callStatus === sessionStatus.connecting
@@ -79,29 +80,34 @@ function WebphoneButtons({
     hangupFunc = webphoneReject;
     resumeFunc = webphoneAnswer;
     endIcon = VoicemailIcon;
+    rejectTitle = i18n.getString('toVoicemail');
   }
   return (
     <div className={styles.webphoneButtons}>
-      <CircleButton
-        className={styles.rejectButton}
-        onClick={(e) => {
-          e.stopPropagation();
-          hangupFunc(session.id);
-        }}
-        iconWidth={260}
-        iconX={120}
-        icon={endIcon}
-        showBorder={false}
+      <span title={rejectTitle}>
+        <CircleButton
+          className={styles.rejectButton}
+          onClick={(e) => {
+            e.stopPropagation();
+            hangupFunc(session.id);
+          }}
+          iconWidth={260}
+          iconX={120}
+          icon={endIcon}
+          showBorder={false}
+        />
+      </span>
+      <span title={acceptTitle}>
+        <CircleButton
+          className={styles.answerButton}
+          onClick={(e) => {
+            e.stopPropagation();
+            resumeFunc(session.id);
+          }}
+          icon={AnswerIcon}
+          showBorder={false}
       />
-      <CircleButton
-        className={styles.answerButton}
-        onClick={(e) => {
-          e.stopPropagation();
-          resumeFunc(session.id);
-        }}
-        icon={AnswerIcon}
-        showBorder={false}
-      />
+      </span>
     </div>
   );
 }
