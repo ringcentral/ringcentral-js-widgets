@@ -57,7 +57,7 @@ function mapToProps(_, {
     ),
     showFeedback,
     showCalling: showCalling && callingSettings && rolesAndPermissions.callingEnabled,
-    showAudio: showAudio && callingSettings && rolesAndPermissions.callingEnabled,
+    showAudio: showAudio && rolesAndPermissions.callingEnabled,
     showRegion:
       loggedIn &&
       brand.id === '1210' &&
