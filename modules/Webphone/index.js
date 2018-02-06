@@ -310,12 +310,12 @@ var Webphone = (_dec = (0, _di.Module)({
     value: function _prepareVideoElement() {
       this._remoteVideo = document.createElement('video');
       this._remoteVideo.setAttribute('hidden', 'hidden');
-      this._localVideo = document.createElement('video');
+      this._localVideo = document.getElementById('video');
       this._localVideo.setAttribute('hidden', 'hidden');
-      this._localVideo.setAttribute('muted', 'muted');
+
       document.body.appendChild(this._remoteVideo);
       document.body.appendChild(this._localVideo);
-
+      this._localVideo.setAttribute('muted', 'muted');
       this._remoteVideo.volume = this._audioSettings.callVolume;
       if (this._audioSettings.supportDevices) {
         this._remoteVideo.setSinkId(this._audioSettings.outputDeviceId);
