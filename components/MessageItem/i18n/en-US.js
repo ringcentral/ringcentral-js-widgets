@@ -26,5 +26,5 @@ exports.default = (_addLog$editLog$viewD = {
   conversation: 'Conversation',
   groupConversation: 'Group Conversation',
   voiceMessage: 'Voice message'
-}, (0, _defineProperty3.default)(_addLog$editLog$viewD, _messageTypes2.default.voiceMail, 'Voice Mail'), (0, _defineProperty3.default)(_addLog$editLog$viewD, 'mark', 'Mark as Unread'), (0, _defineProperty3.default)(_addLog$editLog$viewD, 'unmark', 'Mark as Read'), (0, _defineProperty3.default)(_addLog$editLog$viewD, 'delete', 'Delete'), _addLog$editLog$viewD);
+}, (0, _defineProperty3.default)(_addLog$editLog$viewD, _messageTypes2.default.voiceMail, 'Voice Mail'), (0, _defineProperty3.default)(_addLog$editLog$viewD, 'mark', 'Mark as Unread'), (0, _defineProperty3.default)(_addLog$editLog$viewD, 'unmark', 'Mark as Read'), (0, _defineProperty3.default)(_addLog$editLog$viewD, 'delete', 'Delete'), (0, _defineProperty3.default)(_addLog$editLog$viewD, 'groupConversation', 'Group Conversation'), (0, _defineProperty3.default)(_addLog$editLog$viewD, 'conversation', 'Text Message'), _addLog$editLog$viewD);
 //# sourceMappingURL=en-US.js.map

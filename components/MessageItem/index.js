@@ -110,7 +110,7 @@ function ConversationIcon(_ref) {
       icon = _react2.default.createElement(_VoicemailIcon2.default, { width: 23, className: _styles2.default.icon });
       break;
     default:
-      title = group ? _i18n2.default.getString(_messageTypes2.default.groupConversation, currentLocale) : _i18n2.default.getString(_messageTypes2.default.conversation, currentLocale);
+      title = group ? _i18n2.default.getString('groupConversation', currentLocale) : _i18n2.default.getString('conversation', currentLocale);
       icon = group ? _react2.default.createElement(_GroupConversation2.default, { width: 19, className: _styles2.default.icon }) : _react2.default.createElement(_ComposeText2.default, { width: 18, className: _styles2.default.icon });
   }
   return _react2.default.createElement(
