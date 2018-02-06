@@ -113,7 +113,6 @@ function SettingsPanel(_ref) {
       toggleAcceptCallQueueCalls = _ref.toggleAcceptCallQueueCalls,
       isCallQueueMember = _ref.isCallQueueMember,
       showPresenceSettings = _ref.showPresenceSettings,
-      showAudioSettings = _ref.showAudioSettings,
       showFeedback = _ref.showFeedback,
       additional = _ref.additional,
       supportedLocales = _ref.supportedLocales,
@@ -313,7 +312,6 @@ SettingsPanel.propTypes = {
   setInvisible: _propTypes2.default.func,
   toggleAcceptCallQueueCalls: _propTypes2.default.func,
   showPresenceSettings: _propTypes2.default.bool,
-  showAudioSettings: _propTypes2.default.bool,
   showFeedback: _propTypes2.default.bool,
   additional: _propTypes2.default.node,
   supportedLocales: _propTypes2.default.arrayOf(_propTypes2.default.string),
@@ -360,7 +358,6 @@ SettingsPanel.defaultProps = {
     return null;
   },
   showPresenceSettings: false,
-  showAudioSettings: true,
   additional: null,
   supportedLocales: undefined,
   savedLocale: undefined,
