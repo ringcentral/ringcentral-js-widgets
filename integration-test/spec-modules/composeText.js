@@ -824,6 +824,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                   })));
 
                   it('Should Not Alert of Anything - toNumber is 7 Digital Number with CA Dialing Plan with Area Code', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee25() {
+                    var rawRequest;
                     return _regenerator2.default.wrap(function _callee25$(_context25) {
                       while (1) {
                         switch (_context25.prev = _context25.next) {
@@ -846,13 +847,16 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                             console.debug('message sender e:', _context25.t0);
 
                           case 11:
+                            rawRequest = clientHistoryRequest.getRawResponse(_ClientHistoryRequest2.default.endPoints.sms);
+
+                            expect(rawRequest.to[0].phoneNumber).to.equal('+18558990011');
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.noAreaCode)).to.equal(undefined);
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.specialNumber)).to.equal(undefined);
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.notAnExtension)).to.equal(undefined);
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.noToNumber)).to.equal(undefined);
                             expect(messageSender.idle).to.equals(true);
 
-                          case 16:
+                          case 18:
                           case 'end':
                             return _context25.stop();
                         }
@@ -861,6 +865,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                   })));
 
                   it('Should Not Alert of Anything - toNumber is 7 Digital Number with US Dialing Plan with Area Code', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee26() {
+                    var rawRequest;
                     return _regenerator2.default.wrap(function _callee26$(_context26) {
                       while (1) {
                         switch (_context26.prev = _context26.next) {
@@ -883,12 +888,15 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                             console.debug('message sender e:', _context26.t0);
 
                           case 11:
+                            rawRequest = clientHistoryRequest.getRawResponse(_ClientHistoryRequest2.default.endPoints.sms);
+
+                            expect(rawRequest.to[0].phoneNumber).to.equal('+18558990011');
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.noAreaCode)).to.equal(undefined);
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.specialNumber)).to.equal(undefined);
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.notAnExtension)).to.equal(undefined);
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.noToNumber)).to.equal(undefined);
 
-                          case 15:
+                          case 17:
                           case 'end':
                             return _context26.stop();
                         }
@@ -1171,6 +1179,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                     })));
 
                     it('Should Not Alert Anything - toNumber 101 (Existed Extension/Not Special Number)', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee38() {
+                      var rawRequest;
                       return _regenerator2.default.wrap(function _callee38$(_context38) {
                         while (1) {
                           switch (_context38.prev = _context38.next) {
@@ -1193,12 +1202,15 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                               console.debug('message sender e:', _context38.t0);
 
                             case 11:
+                              rawRequest = clientHistoryRequest.getRawResponse(_ClientHistoryRequest2.default.endPoints.companyPager);
+
+                              expect(rawRequest.to[0].extensionNumber).to.equal('101');
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.noAreaCode)).to.equal(undefined);
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.specialNumber)).to.equal(undefined);
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.notAnExtension)).to.equal(undefined);
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.noToNumber)).to.equal(undefined);
 
-                            case 15:
+                            case 17:
                             case 'end':
                               return _context38.stop();
                           }
