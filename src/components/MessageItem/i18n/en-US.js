@@ -14,4 +14,6 @@ export default {
   mark: 'Mark as Unread',
   unmark: 'Mark as Read',
   delete: 'Delete',
+  groupConversation: 'Group Conversation',
+  conversation: 'Text Message'
 };
