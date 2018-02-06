@@ -34,8 +34,8 @@ function ConversationIcon({
       break;
     default:
       title = group ?
-        i18n.getString(messageTypes.groupConversation, currentLocale) :
-        i18n.getString(messageTypes.conversation, currentLocale);
+        i18n.getString('groupConversation', currentLocale) :
+        i18n.getString('conversation', currentLocale);
       icon = group ?
         <GroupConversationIcon width={19} className={styles.icon} /> :
         <ComposeTextIcon width={18} className={styles.icon} />;
