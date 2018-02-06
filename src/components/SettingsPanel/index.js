@@ -57,6 +57,7 @@ export default function SettingsPanel({
   isCallQueueMember,
   showPresenceSettings,
   showAudioSettings,
+  showFeedback,
   additional,
   supportedLocales,
   savedLocale,
@@ -102,6 +103,14 @@ export default function SettingsPanel({
       <LinkLine
         onClick={onAudioSettingsLinkClick} >
         {i18n.getString('audio', currentLocale)}
+      </LinkLine>
+    )
+    : null;
+  const feedback = showFeedback
+    ? (
+      <LinkLine
+        onClick={onFeedbackSettingsLinkClick} >
+        {i18n.getString('feedback', currentLocale)}
       </LinkLine>
     )
     : null;
@@ -195,10 +204,7 @@ export default function SettingsPanel({
         {autoLogSMS}
         {clickToDial}
         {additional}
-        <LinkLine
-          onClick={onFeedbackSettingsLinkClick} >
-          {i18n.getString('feedback', currentLocale)}
-        </LinkLine>
+        {feedback}
         <section className={styles.section}>
           <Line>
             <EulaRenderer
@@ -265,6 +271,7 @@ SettingsPanel.propTypes = {
   toggleAcceptCallQueueCalls: PropTypes.func,
   showPresenceSettings: PropTypes.bool,
   showAudioSettings: PropTypes.bool,
+  showFeedback: PropTypes.bool,
   additional: PropTypes.node,
   supportedLocales: PropTypes.arrayOf(PropTypes.string),
   savedLocale: PropTypes.string,
@@ -305,4 +312,5 @@ SettingsPanel.defaultProps = {
   supportedLocales: undefined,
   savedLocale: undefined,
   saveLocale: undefined,
+  showFeedback: true,
 };
