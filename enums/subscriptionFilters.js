@@ -14,6 +14,7 @@ exports.default = new _HashMap2.default({
   presence: '/account/~/extension/~/presence',
   detailedPresence: '/account/~/extension/~/presence?detailedTelephonyState=true',
   detailedPresenceWithSip: '/account/~/extension/~/presence?detailedTelephonyState=true&sipData=true',
-  accountExtension: '/account/~/extension'
+  accountExtension: '/account/~/extension',
+  extensionInfo: '/account/~/extension/~'
 });
 //# sourceMappingURL=subscriptionFilters.js.map

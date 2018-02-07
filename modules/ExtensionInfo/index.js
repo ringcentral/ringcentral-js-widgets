@@ -47,6 +47,10 @@ var _jsonMask = require('json-mask');
 
 var _jsonMask2 = _interopRequireDefault(_jsonMask);
 
+var _subscriptionFilters = require('../../enums/subscriptionFilters');
+
+var _subscriptionFilters2 = _interopRequireDefault(_subscriptionFilters);
+
 var _di = require('../../lib/di');
 
 var _DataFetcher2 = require('../../lib/DataFetcher');
@@ -102,21 +106,17 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
     var _this = (0, _possibleConstructorReturn3.default)(this, (ExtensionInfo.__proto__ || (0, _getPrototypeOf2.default)(ExtensionInfo)).call(this, (0, _extends3.default)({
       name: 'extensionInfo',
       client: client,
-      fetchFunction: function () {
-        var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      subscriptionFilters: [_subscriptionFilters2.default.extensionInfo],
+      subscriptionHandler: function () {
+        var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(message) {
           return _regenerator2.default.wrap(function _callee$(_context) {
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
-                  _context.t0 = extractData;
-                  _context.next = 3;
-                  return _this._client.account().extension().get();
+                  _context.next = 2;
+                  return _this._subscriptionHandleFn(message);
 
-                case 3:
-                  _context.t1 = _context.sent;
-                  return _context.abrupt('return', (0, _context.t0)(_context.t1));
-
-                case 5:
+                case 2:
                 case 'end':
                   return _context.stop();
               }
@@ -124,8 +124,34 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
           }, _callee, _this2);
         }));
 
-        return function fetchFunction() {
+        return function subscriptionHandler(_x) {
           return _ref2.apply(this, arguments);
+        };
+      }(),
+      fetchFunction: function () {
+        var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+          return _regenerator2.default.wrap(function _callee2$(_context2) {
+            while (1) {
+              switch (_context2.prev = _context2.next) {
+                case 0:
+                  _context2.t0 = extractData;
+                  _context2.next = 3;
+                  return _this._client.account().extension().get();
+
+                case 3:
+                  _context2.t1 = _context2.sent;
+                  return _context2.abrupt('return', (0, _context2.t0)(_context2.t1));
+
+                case 5:
+                case 'end':
+                  return _context2.stop();
+              }
+            }
+          }, _callee2, _this2);
+        }));
+
+        return function fetchFunction() {
+          return _ref3.apply(this, arguments);
         };
       }()
     }, options)));
@@ -142,6 +168,36 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
   }
 
   (0, _createClass3.default)(ExtensionInfo, [{
+    key: '_subscriptionHandleFn',
+    value: function () {
+      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(message) {
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                if (!(message && message.body)) {
+                  _context3.next = 3;
+                  break;
+                }
+
+                _context3.next = 3;
+                return this.fetchData();
+
+              case 3:
+              case 'end':
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function _subscriptionHandleFn(_x2) {
+        return _ref4.apply(this, arguments);
+      }
+
+      return _subscriptionHandleFn;
+    }()
+  }, {
     key: 'info',
     get: function get() {
       return this._selectors.info();
@@ -174,7 +230,7 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
   }, {
     key: 'isCallQueueMember',
     get: function get() {
-      return !!this.departments;
+      return !!this.departments && Array.isArray(this.departments) && this.departments.length > 0;
     }
   }]);
   return ExtensionInfo;
