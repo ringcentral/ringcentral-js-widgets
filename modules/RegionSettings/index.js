@@ -236,6 +236,14 @@ var RegionSettings = (_dec = (0, _di.Module)({
       })));
     }
   }, {
+    key: '_alertSettingsChanged',
+    value: function _alertSettingsChanged() {
+      this._alert.warning({
+        message: _regionSettingsMessages2.default.dialingPlansChanged,
+        ttl: 0
+      });
+    }
+  }, {
     key: 'checkRegionSettings',
     value: function () {
       var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
@@ -252,10 +260,7 @@ var RegionSettings = (_dec = (0, _di.Module)({
                   return plan.isoCode === countryCode;
                 })) {
                   countryCode = null;
-                  this._alert.warning({
-                    message: _regionSettingsMessages2.default.dialingPlansChanged,
-                    ttl: 0
-                  });
+                  this._alertSettingsChanged();
                 }
                 if (!countryCode) {
                   country = this._dialingPlan.plans.find(function (plan) {
