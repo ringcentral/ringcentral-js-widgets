@@ -25,7 +25,7 @@ beforeEach(async () => {
 describe('settings panel', () => {
   test('initial state', () => {
     const linkLines = panel.find(LinkLine);
-    expect(linkLines.length).toBe(4);
+    expect(linkLines.length).toBe(5);
     expect(linkLines.at(0).props().children).toEqual('Calling');
     expect(linkLines.at(1).props().children).toEqual('Region');
 

@@ -140,7 +140,7 @@ import ProxyFrameOAuth from '../src/modules/ProxyFrameOAuth';
     ContactSearch,
     CallMonitor,
     DialerUI,
-    Feedback
+    Feedback,
   ]
 })
 export default class BasePhone extends RcModule {

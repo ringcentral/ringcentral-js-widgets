@@ -112,6 +112,7 @@
     "ramda": "^0.25.0",
     "rc-tooltip": "^3.4.6",
     "react-svg-loader": "^1.1.1",
+    "react-transition-group": "^2.2.1",
     "react-widgets": "^4.1.1",
     "react-widgets-moment": "^4.0.4",
     "through2": "^2.0.3",
