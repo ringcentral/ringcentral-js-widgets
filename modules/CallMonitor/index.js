@@ -116,7 +116,7 @@ function matchWephoneSessionWithAcitveCall(sessions, callItem) {
  * @description active calls monitor module
  */
 var CallMonitor = (_dec = (0, _di.Module)({
-  deps: ['Call', 'AccountInfo', 'Webphone', 'Storage', 'DetailedPresence', { dep: 'ActivityMatcher', optional: true }, { dep: 'CallMonitorOptions', optional: true }]
+  deps: ['AccountInfo', 'Storage', 'DetailedPresence', { dep: 'Webphone', optional: true }, { dep: 'Call', optional: true }, { dep: 'ActivityMatcher', optional: true }, { dep: 'CallMonitorOptions', optional: true }]
 }), _dec(_class = function (_RcModule) {
   (0, _inherits3.default)(CallMonitor, _RcModule);
 
