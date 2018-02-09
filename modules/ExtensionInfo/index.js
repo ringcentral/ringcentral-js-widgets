@@ -67,6 +67,8 @@ var DEFAULT_COUNTRY = {
   callingCode: '1'
 };
 
+var extensionRegExp = /.*\/extension\/\d+$/;
+
 function extractData(info) {
   var serviceFeatures = {};
   info.serviceFeatures.forEach(function (f) {
@@ -81,6 +83,9 @@ function extractData(info) {
   output.serviceFeatures = serviceFeatures;
   return output;
 }
+
+var DEFAULT_TTL = 30 * 60 * 1000; // half hour update
+var DEFAULT_TIME_TO_RETRY = 62 * 1000;
 
 /**
  * @class
@@ -100,12 +105,21 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
     var _this2 = this;
 
     var client = _ref.client,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client']);
+        _ref$ttl = _ref.ttl,
+        ttl = _ref$ttl === undefined ? DEFAULT_TTL : _ref$ttl,
+        _ref$timeToRetry = _ref.timeToRetry,
+        timeToRetry = _ref$timeToRetry === undefined ? DEFAULT_TIME_TO_RETRY : _ref$timeToRetry,
+        _ref$polling = _ref.polling,
+        polling = _ref$polling === undefined ? true : _ref$polling,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'ttl', 'timeToRetry', 'polling']);
     (0, _classCallCheck3.default)(this, ExtensionInfo);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ExtensionInfo.__proto__ || (0, _getPrototypeOf2.default)(ExtensionInfo)).call(this, (0, _extends3.default)({
       name: 'extensionInfo',
       client: client,
+      ttl: ttl,
+      polling: polling,
+      timeToRetry: timeToRetry,
       subscriptionFilters: [_subscriptionFilters2.default.extensionInfo],
       subscriptionHandler: function () {
         var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(message) {
@@ -175,7 +189,7 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                if (!(message && message.body)) {
+                if (!(message && message.body && extensionRegExp.test(message.event))) {
                   _context3.next = 3;
                   break;
                 }
