@@ -53,7 +53,7 @@ describe('history', () => {
       logButton = panel.find(CallItem).at(callItems.length - 1).find(LogButton).find(Button);
       expect(logButton.props().disabled).toBe(true);
       expect(logButton.find(Spinner).length).toBe(1);
-      await timeout(3000);
+      await timeout(1000);
       wrapper.update();
       panel = wrapper.find(CallsPanel).first();
       logButton = panel.find(CallItem).at(callItems.length - 1).find(LogButton).find(Button);

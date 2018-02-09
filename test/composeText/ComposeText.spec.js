@@ -1,4 +1,5 @@
 import sleep from 'ringcentral-integration/lib/sleep';
+import * as mock from 'ringcentral-integration/integration-test/mock';
 
 import { getWrapper, timeout } from '../shared';
 import NavigationBar from '../../src/components/NavigationBar';
@@ -67,6 +68,11 @@ describe('compose text panel', () => {
 
   test('send an SMS', async () => {
     const messageContent = `Hello world ${Date.now()}`;
+    mock.numberParser();
+    mock.sms({
+      subject: messageContent
+    });
+
     toNumber.instance().value = process.env.receiver;
     await toNumber.simulate('change');
     textArea.instance().value = messageContent;
@@ -74,8 +80,9 @@ describe('compose text panel', () => {
     panel = wrapper.find(ComposeTextPanel).first();
     submitButton = panel.find('.submitButton').first();
     expect(submitButton.props().disabled).toBe(false);
-    await submitButton.closest('form').simulate('submit');
-    await timeout(16000);
+    const submitForm = submitButton.closest('form');
+    await submitForm.simulate('submit');
+    await timeout(200);
     wrapper.update();
     const conversationPanel = wrapper.find(ConversationPanel);
     expect(conversationPanel.length > 0).toBe(true);

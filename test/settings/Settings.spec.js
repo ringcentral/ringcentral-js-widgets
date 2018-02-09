@@ -1,4 +1,6 @@
-import { getWrapper } from '../shared';
+import * as mock from 'ringcentral-integration/integration-test/mock';
+import presenceBody from 'ringcentral-integration/integration-test/mock/data/presence';
+import { getWrapper, timeout } from '../shared';
 import SettingsPanel from '../../src/components/SettingsPanel';
 import LinkLine from '../../src/components/LinkLine';
 import IconLine from '../../src/components/IconLine';
@@ -56,6 +58,7 @@ describe('settings panel', () => {
     const noDisturbItem = presenceItems.at(2);
     const invisibleItem = presenceItems.at(3);
 
+    mock.presenceUpdate('~');
     await availableItem.props().onClick();
     wrapper.update();
     panel = wrapper.find(SettingsPanel).first();
@@ -65,6 +68,16 @@ describe('settings panel', () => {
     expect(presenceSettingSection.props().dndStatus).toEqual('TakeAllCalls');
     expect(store.getState().detailedPresence.dndStatus).toEqual('TakeAllCalls');
 
+
+    const busyResponse = {
+      pickUpCallsOnHold: false,
+      presenceStatus: 'Busy',
+      ringOnMonitoredCall: false,
+      telephonyStatus: 'NoCall',
+      userStatus: 'Busy',
+    };
+    mock.restore();
+    mock.presenceUpdate('~', busyResponse);
     await busyItem.props().onClick();
     wrapper.update();
     panel = wrapper.find(SettingsPanel).first();
@@ -74,6 +87,17 @@ describe('settings panel', () => {
     expect(presenceSettingSection.props().dndStatus).toEqual('TakeAllCalls');
     expect(store.getState().detailedPresence.dndStatus).toEqual('TakeAllCalls');
 
+
+    const noDisturbResponse = {
+      dndStatus: 'DoNotAcceptAnyCalls',
+      pickUpCallsOnHold: false,
+      presenceStatus: 'Busy',
+      ringOnMonitoredCall: false,
+      telephonyStatus: 'NoCall',
+      userStatus: 'Busy',
+    };
+    mock.restore();
+    mock.presenceUpdate('~', noDisturbResponse);
     await noDisturbItem.props().onClick();
     wrapper.update();
     panel = wrapper.find(SettingsPanel).first();
@@ -83,6 +107,16 @@ describe('settings panel', () => {
     expect(presenceSettingSection.props().dndStatus).toEqual('DoNotAcceptAnyCalls');
     expect(store.getState().detailedPresence.dndStatus).toEqual('DoNotAcceptAnyCalls');
 
+    const offlineResponse = {
+      dndStatus: 'TakeAllCalls',
+      pickUpCallsOnHold: false,
+      presenceStatus: 'Offline',
+      ringOnMonitoredCall: false,
+      telephonyStatus: 'NoCall',
+      userStatus: 'Offline',
+    };
+    mock.restore();
+    mock.presenceUpdate('~', offlineResponse);
     await invisibleItem.props().onClick();
     wrapper.update();
     panel = wrapper.find(SettingsPanel).first();

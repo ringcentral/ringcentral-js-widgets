@@ -2,6 +2,8 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { createStore } from 'redux';
 import getIntlDateTimeFormatter from 'ringcentral-integration/lib/getIntlDateTimeFormatter';
+import * as mock from 'ringcentral-integration/integration-test/mock';
+import ClientHistoryRequest from 'ringcentral-integration/integration-test/utils/ClientHistoryRequest';
 
 import { createPhone } from '../dev-server/Phone';
 import App from '../dev-server/containers/App';
@@ -23,16 +25,15 @@ const getPhone = async () => {
     prefix,
     version,
   });
-  if (window.authData === null) {
-    await phone.client.service.platform().login({
-      username: process.env.username,
-      extension: process.env.extension,
-      password: process.env.password
-    });
-    window.authData = phone.client.service.platform().auth().data();
-  } else {
-    phone.client.service.platform().auth().setData(window.authData);
-  }
+  mock.mockClient(phone.client);
+  mock.mockForLogin();
+  const clientHistoryRequest = new ClientHistoryRequest(new Map(), phone.client);
+  clientHistoryRequest.debugHistoryRequest();
+  await phone.client.service.platform().login({
+    username: process.env.username,
+    extension: process.env.extension,
+    password: process.env.password
+  });
   state.storage.status = 'module-initializing';
   const store = createStore(phone.reducer, state);
   phone.setStore(store);
@@ -40,10 +41,10 @@ const getPhone = async () => {
   return phone;
 };
 
+export const timeout = ms => new Promise(resolve => setTimeout(() => resolve(true), ms));
+
 export const getWrapper = async () => {
   const phone = await getPhone();
   return mount(<App phone={phone} />);
 };
 
-
-export const timeout = ms => new Promise(resolve => setTimeout(() => resolve(true), ms));
