@@ -189,7 +189,7 @@ var Ringout = (_dec = (0, _di.Module)({
                 });
                 _context.prev = 2;
                 _context.next = 5;
-                return this._client.account().extension().ringout().post({
+                return this._client.account().extension().ringOut().post({
                   from: { phoneNumber: fromNumber },
                   to: { phoneNumber: toNumber },
                   playPrompt: prompt
@@ -315,7 +315,7 @@ var Ringout = (_dec = (0, _di.Module)({
               case 0:
                 _context3.prev = 0;
                 _context3.next = 3;
-                return this._client.account().extension().ringout(ringoutId).get();
+                return this._client.account().extension().ringOut(ringoutId).get();
 
               case 3:
                 resp = _context3.sent;
