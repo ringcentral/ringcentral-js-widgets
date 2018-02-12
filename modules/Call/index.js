@@ -123,7 +123,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @description Call managing module
  */
 var Call = (_dec = (0, _di.Module)({
-  deps: ['Alert', 'Storage', 'Softphone', 'Ringout', 'Webphone', 'NumberValidate', 'RegionSettings', 'CallingSettings', { provide: 'CallOptions', optional: true }]
+  deps: ['Alert', 'Storage', 'Softphone', 'Ringout', 'NumberValidate', 'RegionSettings', 'CallingSettings', { provide: 'Webphone', optional: true }, { provide: 'CallOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(Call, _RcModule);
 
