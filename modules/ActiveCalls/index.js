@@ -69,7 +69,7 @@ var _getActiveCallsReducer = require('./getActiveCallsReducer');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var presenceRegExp = /\/presence\?detailedTelephonyState=true$/;
+var presenceRegExp = /\/presence\?detailedTelephonyState=true/;
 var FETCH_DELAY = 1000;
 var DEFAULT_TTL = 5 * 60 * 1000;
 
@@ -78,7 +78,7 @@ var DEFAULT_TTL = 5 * 60 * 1000;
  * @description Active calls list manaing module
  */
 var ActiveCalls = (_dec = (0, _di.Module)({
-  deps: ['Client', 'RolesAndPermissions', { dep: 'TabManager', optional: true }, { dep: 'AccountPhoneNumberOptions', optional: true }]
+  deps: ['Client', 'RolesAndPermissions', { dep: 'TabManager', optional: true }, { dep: 'ActiveCallsOptions', optional: true }]
 }), _dec(_class = function (_DataFetcher) {
   (0, _inherits3.default)(ActiveCalls, _DataFetcher);
 
@@ -94,9 +94,11 @@ var ActiveCalls = (_dec = (0, _di.Module)({
     var client = _ref.client,
         rolesAndPermissions = _ref.rolesAndPermissions,
         tabManager = _ref.tabManager,
+        _ref$fetchDelay = _ref.fetchDelay,
+        fetchDelay = _ref$fetchDelay === undefined ? FETCH_DELAY : _ref$fetchDelay,
         _ref$ttl = _ref.ttl,
         ttl = _ref$ttl === undefined ? DEFAULT_TTL : _ref$ttl,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'rolesAndPermissions', 'tabManager', 'ttl']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'rolesAndPermissions', 'tabManager', 'fetchDelay', 'ttl']);
     (0, _classCallCheck3.default)(this, ActiveCalls);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ActiveCalls.__proto__ || (0, _getPrototypeOf2.default)(ActiveCalls)).call(this, (0, _extends3.default)({}, options, {
@@ -104,7 +106,7 @@ var ActiveCalls = (_dec = (0, _di.Module)({
       client: client,
       ttl: ttl,
       getDataReducer: _getActiveCallsReducer.getDataReducer,
-      subscriptionFilters: [_subscriptionFilters2.default.detailedPresence],
+      subscriptionFilters: [_subscriptionFilters2.default.detailedPresenceWithSip],
       subscriptionHandler: function () {
         var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(message) {
           var ownerId;
@@ -119,7 +121,7 @@ var ActiveCalls = (_dec = (0, _di.Module)({
 
                   ownerId = _this._auth.ownerId;
                   _context.next = 4;
-                  return (0, _sleep2.default)(FETCH_DELAY);
+                  return (0, _sleep2.default)(_this._fetchDelay);
 
                 case 4:
                   if (!(ownerId === _this._auth.ownerId)) {
@@ -166,6 +168,7 @@ var ActiveCalls = (_dec = (0, _di.Module)({
       }()
     })));
 
+    _this._fetchDelay = fetchDelay;
     _this._rolesAndPermissions = rolesAndPermissions;
     _this.addSelector('calls', function () {
       return _this.data;
