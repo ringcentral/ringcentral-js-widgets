@@ -35,9 +35,7 @@ function mapToProps(_, _ref) {
       locale = _ref$phone.locale,
       rateLimiter = _ref$phone.rateLimiter,
       webphone = _ref$phone.webphone,
-      _ref$phone$audioSetti = _ref$phone.audioSettings,
-      dialButtonVolume = _ref$phone$audioSetti.dialButtonVolume,
-      dialButtonMuted = _ref$phone$audioSetti.dialButtonMuted;
+      audioSettings = _ref$phone.audioSettings;
 
   var isWebphoneMode = callingSettings.callingMode === _callingModes2.default.webphone;
   var waitingWebphoneConnected = isWebphoneMode && webphone && webphone.connecting;
@@ -49,12 +47,12 @@ function mapToProps(_, _ref) {
     callButtonDisabled: !call.isIdle || !connectivityMonitor.connectivity || rateLimiter.throttling || webphoneDisconnected,
     toNumber: dialerUI.toNumberField,
     recipient: dialerUI.recipient,
-    searchContactList: contactSearch.sortedResult,
+    searchContactList: contactSearch ? contactSearch.sortedResult : [],
     fromNumbers: callingSettings.fromNumbers,
     fromNumber: callingSettings.fromNumber,
     showSpinner: !(call.ready && callingSettings.ready && locale.ready && connectivityMonitor.ready && (!isWebphoneMode || !webphone || !waitingWebphoneConnected)),
-    dialButtonVolume: dialButtonVolume,
-    dialButtonMuted: dialButtonMuted
+    dialButtonVolume: audioSettings ? audioSettings.dialButtonVolume : 1,
+    dialButtonMuted: audioSettings ? audioSettings.dialButtonMuted : 1
   };
 }
 
@@ -93,10 +91,12 @@ function mapToFunctions(_, _ref2) {
       return dialerUI.clearRecipient();
     },
     searchContact: function searchContact(searchString) {
-      return contactSearch.debouncedSearch({ searchString: searchString });
+      if (!contactSearch) {
+        return;
+      }
+      contactSearch.debouncedSearch({ searchString: searchString });
     },
     phoneTypeRenderer: phoneTypeRenderer
-
   };
 }
 
