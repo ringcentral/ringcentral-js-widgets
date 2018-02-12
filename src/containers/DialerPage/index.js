@@ -33,7 +33,7 @@ function mapToProps(_, {
     ),
     toNumber: dialerUI.toNumberField,
     recipient: dialerUI.recipient,
-    searchContactList: (contactSearch && contactSearch.sortedResult) || [],
+    searchContactList: contactSearch ? contactSearch.sortedResult : [],
     fromNumbers: callingSettings.fromNumbers,
     fromNumber: callingSettings.fromNumber,
     showSpinner: !(
