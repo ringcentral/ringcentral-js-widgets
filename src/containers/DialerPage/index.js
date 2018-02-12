@@ -15,10 +15,7 @@ function mapToProps(_, {
     locale,
     rateLimiter,
     webphone,
-    audioSettings: {
-      dialButtonVolume,
-      dialButtonMuted,
-    },
+    audioSettings,
   }
 }) {
   const isWebphoneMode = (callingSettings.callingMode === callingModes.webphone);
@@ -36,7 +33,7 @@ function mapToProps(_, {
     ),
     toNumber: dialerUI.toNumberField,
     recipient: dialerUI.recipient,
-    searchContactList: contactSearch.sortedResult,
+    searchContactList: (contactSearch && contactSearch.sortedResult) || [],
     fromNumbers: callingSettings.fromNumbers,
     fromNumber: callingSettings.fromNumber,
     showSpinner: !(
@@ -46,8 +43,8 @@ function mapToProps(_, {
       connectivityMonitor.ready &&
       (!isWebphoneMode || !webphone || !waitingWebphoneConnected)
     ),
-    dialButtonVolume,
-    dialButtonMuted,
+    dialButtonVolume: audioSettings ? audioSettings.dialButtonVolume : 1,
+    dialButtonMuted: audioSettings ? audioSettings.dialButtonMuted : 1,
   };
 }
 
@@ -76,11 +73,13 @@ function mapToFunctions(_, {
     }),
     setRecipient: recipient => dialerUI.setRecipient(recipient),
     clearRecipient: () => dialerUI.clearRecipient(),
-    searchContact: searchString => (
-      contactSearch.debouncedSearch({ searchString })
-    ),
+    searchContact: (searchString) => {
+      if (!contactSearch) {
+        return;
+      }
+      contactSearch.debouncedSearch({ searchString });
+    },
     phoneTypeRenderer,
-
   };
 }
 
