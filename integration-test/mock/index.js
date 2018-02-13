@@ -18,6 +18,7 @@ exports.authentication = authentication;
 exports.logout = logout;
 exports.tokenRefresh = tokenRefresh;
 exports.presence = presence;
+exports.presenceUpdate = presenceUpdate;
 exports.dialingPlan = dialingPlan;
 exports.extensionInfo = extensionInfo;
 exports.extensionList = extensionList;
@@ -29,6 +30,9 @@ exports.blockedNumber = blockedNumber;
 exports.forwardingNumber = forwardingNumber;
 exports.phoneNumber = phoneNumber;
 exports.subscription = subscription;
+exports.numberParser = numberParser;
+exports.sms = sms;
+exports.restore = restore;
 exports.mockForLogin = mockForLogin;
 exports.mockClient = mockClient;
 
@@ -37,7 +41,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 require('es6-promise').polyfill();
 require('./pubnub');
 var RingCentral = require('ringcentral');
-var fetchMock = require('fetch-mock/es5/client');
+var fetchMock = require('fetch-mock');
 
 var dialingPlanBody = require('./data/dialingPlan');
 var extensionBody = require('./data/extensionInfo');
@@ -50,6 +54,9 @@ var authzProfileBody = require('./data/authzProfile');
 var blockedNumberBody = require('./data/blockedNumber');
 var forwardingNumberBody = require('./data/forwardingNumber');
 var phoneNumberBody = require('./data/phoneNumber');
+var presenceBody = require('./data/presence.json');
+var numberParserBody = require('./data/numberParser.json');
+var smsBody = require('./data/sms.json');
 
 var mockServer = 'http://whatever';
 function createSDK() {
@@ -165,7 +172,7 @@ function tokenRefresh(failure) {
 
 function presence(id) {
   mockApi({
-    path: '/restapi/v1.0/account/~/extension/' + id + '/presence',
+    url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/' + id + '/presence',
     body: {
       uri: 'https://platform.ringcentral.com/restapi/v1.0/account/123/extension/' + id + '/presence',
       extension: {
@@ -183,82 +190,143 @@ function presence(id) {
   });
 }
 
+function presenceUpdate(id) {
+  var mockResponse = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  mockApi({
+    path: '/restapi/v1.0/account/~/extension/' + id + '/presence',
+    method: 'PUT',
+    body: (0, _extends3.default)({}, presenceBody, mockResponse)
+  });
+}
+
 function dialingPlan() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
   mockApi({
     path: '/restapi/v1.0/account/~/dialing-plan?perPage=MAX&page=1',
-    body: dialingPlanBody
+    body: (0, _extends3.default)({}, dialingPlanBody, mockResponse)
   });
 }
 
 function extensionInfo() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
   mockApi({
     path: '/restapi/v1.0/account/~/extension/~',
-    body: extensionBody
+    body: (0, _extends3.default)({}, extensionBody, mockResponse)
   });
 }
 
 function extensionList() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
   mockApi({
     url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension?',
-    body: extensionListBody
+    body: (0, _extends3.default)({}, extensionListBody, mockResponse)
   });
 }
 
 function accountInfo() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
   mockApi({
     path: '/restapi/v1.0/account/~',
-    body: accountBody
+    body: (0, _extends3.default)({}, accountBody, mockResponse)
   });
 }
 
 function apiInfo() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
   mockApi({
     path: '/restapi/v1.0',
-    body: apiInfoBody
+    body: (0, _extends3.default)({}, apiInfoBody, mockResponse)
   });
 }
 
 function messageSync() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
   mockApi({
     url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/message-sync',
-    body: messageSyncBody
+    body: (0, _extends3.default)({}, messageSyncBody, mockResponse)
   });
 }
 
 function authzProfile() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
   mockApi({
     path: '/restapi/v1.0/account/~/extension/~/authz-profile',
-    body: authzProfileBody
+    body: (0, _extends3.default)({}, authzProfileBody, mockResponse)
   });
 }
 
 function blockedNumber() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
   mockApi({
     path: '/restapi/v1.0/account/~/extension/~/blocked-number',
-    body: blockedNumberBody
+    body: (0, _extends3.default)({}, blockedNumberBody, mockResponse)
   });
 }
 
 function forwardingNumber() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
   mockApi({
     url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/forwarding-number',
-    body: forwardingNumberBody
+    body: (0, _extends3.default)({}, forwardingNumberBody, mockResponse)
   });
 }
 
 function phoneNumber() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
   mockApi({
     url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/phone-number',
-    body: phoneNumberBody
+    body: (0, _extends3.default)({}, phoneNumberBody, mockResponse)
   });
 }
 
 function subscription() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
   mockApi({
     method: 'POST',
-    path: '/restapi/v1.0/subscription',
-    body: subscriptionBody
+    url: 'begin:' + mockServer + '/restapi/v1.0/subscription',
+    body: (0, _extends3.default)({}, subscriptionBody, mockResponse)
   });
+  mockApi({
+    method: 'PUT',
+    url: 'begin:' + mockServer + '/restapi/v1.0/subscription',
+    body: (0, _extends3.default)({}, subscriptionBody, mockResponse)
+  });
+}
+
+function numberParser() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  mockApi({
+    method: 'POST',
+    url: 'begin:' + mockServer + '/restapi/v1.0/number-parser/',
+    body: (0, _extends3.default)({}, numberParserBody, mockResponse)
+  });
+}
+
+function sms() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  mockApi({
+    method: 'POST',
+    path: '/restapi/v1.0/account/~/extension/~/sms',
+    body: (0, _extends3.default)({}, smsBody, mockResponse)
+  });
+}
+
+function restore() {
+  fetchMock.restore();
 }
 
 function mockForLogin() {

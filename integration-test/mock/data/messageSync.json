@@ -1,0 +1,73 @@
+{
+  "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/message-sync?syncType=FSync&dateFrom=2017-05-26T07:11:15.287Z&recordCount=250",
+  "records" : [{
+    "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/message-store/5475922005",
+    "id" : 5475922005,
+    "to" : [ {
+      "extensionNumber" : "101",
+      "name" : "Something1 New1"
+    } ],
+    "from" : {
+      "extensionNumber" : "101",
+      "name" : "Something1 New1"
+    },
+    "type" : "Pager",
+    "creationTime" : "2017-06-01T02:24:02.000Z",
+    "readStatus" : "Read",
+    "priority" : "Normal",
+    "attachments" : [ {
+      "id" : 5475922005,
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/message-store/5475922005/content/5475922005",
+      "type" : "Text",
+      "contentType" : "text/plain"
+    } ],
+    "direction" : "Outbound",
+    "availability" : "Alive",
+    "subject" : "test 2",
+    "messageStatus" : "Sent",
+    "conversationId" : 6015823250778200101,
+    "conversation" : {
+      "id" : "6015823250778200101",
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/conversation/6015823250778200101"
+    },
+    "lastModifiedTime" : "2017-06-01T02:24:08.238Z",
+    "pgToDepartment" : false
+  }, {
+    "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/message-store/5475920005",
+    "id" : 5475920005,
+    "to" : [ {
+      "phoneNumber" : "+18558990011"
+    } ],
+    "from" : {
+      "phoneNumber" : "+12098415555",
+      "location" : "Oakdale, CA"
+    },
+    "type" : "SMS",
+    "creationTime" : "2017-06-01T02:23:59.000Z",
+    "readStatus" : "Read",
+    "priority" : "Normal",
+    "attachments" : [ {
+      "id" : 5475920005,
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/message-store/5475920005/content/5475920005",
+      "type" : "Text",
+      "contentType" : "text/plain"
+    } ],
+    "direction" : "Outbound",
+    "availability" : "Alive",
+    "subject" : "test",
+    "messageStatus" : "Delivered",
+    "smsSendingAttemptsCount" : 1,
+    "conversationId" : 356628458090137377,
+    "conversation" : {
+      "id" : "356628458090137377",
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/conversation/356628458090137377"
+    },
+    "lastModifiedTime" : "2017-06-01T02:24:05.124Z"
+  }],
+  "syncInfo" : {
+    "syncType" : "FSync",
+    "syncToken" : "AQEAAAAAAwAAAVxD-BXYBgAAAPoFAAABXGek2KYTAAgAAAAADG7kVAkBCgGeSTPY",
+    "syncTime" : "2017-06-02T07:11:15.622Z",
+    "olderRecordsExist" : false
+  }
+}

@@ -244,7 +244,7 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
   }, {
     key: 'hasPresencePermission',
     get: function get() {
-      return !!(this.serviceFeatures && this.serviceFeatures.Presence && this.serviceFeatures.Presence.enabled);
+      return !!(this.ready && this.callingEnabled && this.permissions && this.permissions.ReadPresenceStatus && this.permissions.EditPresenceStatus);
     }
   }, {
     key: 'hasComposeTextPermission',
@@ -270,6 +270,11 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
     key: 'readFaxPermissions',
     get: function get() {
       return !!(this.serviceFeatures && this.serviceFeatures.FaxReceiving && this.serviceFeatures.FaxReceiving.enabled);
+    }
+  }, {
+    key: 'hasUserGuidePermission',
+    get: function get() {
+      return !!(this.callingEnabled || this.hasReadMessagesPermission);
     }
   }]);
   return RolesAndPermissions;

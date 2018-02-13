@@ -1,0 +1,18 @@
+{
+  "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/forwarding-number?page=1&perPage=100",
+  "records" : [ ],
+  "paging" : {
+    "page" : 1,
+    "totalPages" : 1,
+    "perPage" : 100,
+    "totalElements" : 0
+  },
+  "navigation" : {
+    "firstPage" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/forwarding-number?page=1&perPage=100"
+    },
+    "lastPage" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/forwarding-number?page=1&perPage=100"
+    }
+  }
+}

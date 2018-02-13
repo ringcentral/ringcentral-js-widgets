@@ -1,0 +1,33 @@
+{
+  "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/message-store/937334008021",
+  "id" : 937334008021,
+  "to" : [ {
+    "phoneNumber" : "+12345678901",
+    "location" : "Orange, CA"
+  } ],
+  "from" : {
+    "phoneNumber" : "+12345678901",
+    "location" : "Orange, CA"
+  },
+  "type" : "SMS",
+  "creationTime" : "2018-02-08T13:37:18.000Z",
+  "readStatus" : "Read",
+  "priority" : "Normal",
+  "attachments" : [ {
+    "id" : 937334008021,
+    "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/message-store/937334008021/content/937334008021",
+    "type" : "Text",
+    "contentType" : "text/plain"
+  } ],
+  "direction" : "Outbound",
+  "availability" : "Alive",
+  "subject" : "test",
+  "messageStatus" : "Queued",
+  "smsSendingAttemptsCount" : 1,
+  "conversationId" : 927068438730660229,
+  "conversation" : {
+    "id" : "927068438730660229",
+    "uri" : "https://platform.ringcentral.com/restapi/v1.0/conversation/927068438730660229"
+  },
+  "lastModifiedTime" : "2018-02-08T13:37:18.408Z"
+}

@@ -1,0 +1,38 @@
+{
+  "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/~/dialing-plan?page=1&perPage=max",
+  "records" : [ {
+    "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/1",
+    "id" : "1",
+    "name" : "United States",
+    "isoCode" : "US",
+    "callingCode" : "1"
+  }, {
+    "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/39",
+    "id" : "39",
+    "name" : "Canada",
+    "isoCode" : "CA",
+    "callingCode" : "1"
+  }, {
+    "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/75",
+    "id" : "75",
+    "name" : "France",
+    "isoCode" : "FR",
+    "callingCode" : "33"
+  } ],
+  "paging" : {
+    "page" : 1,
+    "totalPages" : 1,
+    "perPage" : 1000,
+    "totalElements" : 3,
+    "pageStart" : 0,
+    "pageEnd" : 2
+  },
+  "navigation" : {
+    "firstPage" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/~/dialing-plan?page=1&perPage=max"
+    },
+    "lastPage" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/~/dialing-plan?page=1&perPage=max"
+    }
+  }
+}

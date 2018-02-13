@@ -1,0 +1,15 @@
+{
+  "uri": "https://platform.ringcentral.com//restapi/v1.0/account/208594004/extension/208594004/presence",
+  "extension": {
+    "uri": "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004",
+    "id": 208594004,
+    "extensionNumber": "101"
+  },
+  "presenceStatus": "Available",
+  "telephonyStatus": "NoCall",
+  "userStatus": "Available",
+  "dndStatus": "TakeAllCalls",
+  "allowSeeMyPresence": true,
+  "ringOnMonitoredCall": false,
+  "pickUpCallsOnHold": false
+}

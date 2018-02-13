@@ -71,7 +71,7 @@ var _callLogHelpers = require('../../lib/callLogHelpers');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var presenceRegExp = /\/presence(\?.*)?/;
+var presenceRegExp = /.*\/presence\?detailedTelephonyState=true&sipData=true/;
 
 /**
  * @class
