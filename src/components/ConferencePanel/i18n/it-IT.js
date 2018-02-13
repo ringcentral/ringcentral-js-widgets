@@ -7,7 +7,7 @@ export default {
   internationalNumbersHeader: 'Seleziona numeri con accesso esterno internazionali',
   search: 'Cerca...',
   inviteWithText: 'Invita con testo',
-  inviteText: 'Partecipa alla conferenza RingCentral. \n\nNumeri con accesso esterno: {dialInNumber} \n\n{internationals} \nAccesso partecipante: {participantCode} \n\nServe un numero con accesso esterno internazionale? Visita http://www.ringcentral.com/conferencing \n\nQuesta conferenza telefonica è offerta dal Servizio di conferenza RingCentral.',
+  inviteText: 'Partecipa alla conferenza RingCentral. \n\nNumeri con accesso esterno: {formattedDialInNumber} \n\n{additionalNumbersSection} \nAccesso partecipante: {participantCode} \n\nServe un numero con accesso esterno internazionale? Visita http://www.ringcentral.com/conferencing \n\nQuesta conferenza telefonica è offerta dal Servizio di conferenza RingCentral.',
 };
 
 // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@

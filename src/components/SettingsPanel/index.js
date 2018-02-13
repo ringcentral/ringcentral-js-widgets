@@ -31,6 +31,7 @@ export default function SettingsPanel({
   onRegionSettingsLinkClick,
   onAudioSettingsLinkClick,
   onFeedbackSettingsLinkClick,
+  onUserGuideClick,
   showCalling,
   showAutoLog,
   showAudio,
@@ -57,6 +58,7 @@ export default function SettingsPanel({
   isCallQueueMember,
   showPresenceSettings,
   showFeedback,
+  showUserGuide,
   additional,
   supportedLocales,
   savedLocale,
@@ -185,6 +187,12 @@ export default function SettingsPanel({
       {i18n.getString('settings', currentLocale)}
     </Header>
   ) : null;
+  const userGuide = showUserGuide ?  (
+    <LinkLine
+      onClick={onUserGuideClick} >
+      {i18n.getString('userGuide', currentLocale)}
+    </LinkLine>
+  ) : null;
   return (
     <div className={classnames(styles.root, className)}>
       {header}
@@ -204,6 +212,7 @@ export default function SettingsPanel({
         {clickToDial}
         {additional}
         {feedback}
+        {userGuide}
         <section className={styles.section}>
           <Line>
             <EulaRenderer
@@ -275,6 +284,8 @@ SettingsPanel.propTypes = {
   savedLocale: PropTypes.string,
   saveLocale: PropTypes.func,
   onFeedbackSettingsLinkClick: PropTypes.func.isRequired,
+  onUserGuideClick: PropTypes.func.isRequired,
+  showUserGuide: PropTypes.bool
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -287,6 +298,7 @@ SettingsPanel.defaultProps = {
   showAudio: false,
   showAutoLog: false,
   showRegion: false,
+  showUserGuide: false,
   autoLogEnabled: false,
   onAutoLogChange: undefined,
   showAutoLogSMS: false,

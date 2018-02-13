@@ -103,7 +103,7 @@ describe('dialer panel', () => {
 
     const callButton = panel.find('.callBtnRow').find('.callBtn').find('.btnSvgGroup');
     await callButton.simulate('click');
-    await timeout(1000);
+    await timeout(200);
     const messages = store.getState(wrapper).alert.messages;
     expect(messages.length).toEqual(1);
     const message = messages[0];

@@ -7,7 +7,7 @@ export default {
   internationalNumbersHeader: 'Seleccionar números de marcación internacionales',
   search: 'Buscar...',
   inviteWithText: 'Invitar con mensaje',
-  inviteText: 'Únase a la conferencia de RingCentral. \n\nNúmeros de marcación: {dialInNumber} \n\n{internationals} \nAcceso de participante: {participantCode} \n\n\xBFNecesita un número de marcación internacional? Consulte http://www.ringcentral.com/conferencing \n\nEsta llamada de conferencia es posible gracias a Conferencias de RingCentral.',
+  inviteText: 'Únase a la conferencia de RingCentral. \n\nNúmeros de marcación: {formattedDialInNumber} \n\n{additionalNumbersSection} \nAcceso de participante: {participantCode} \n\n\xBFNecesita un número de marcación internacional? Consulte http://www.ringcentral.com/conferencing \n\nEsta llamada de conferencia es posible gracias a Conferencias de RingCentral.',
 };
 
 // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@
