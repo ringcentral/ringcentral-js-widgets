@@ -23,7 +23,6 @@ function getTabs({
   if (!ready) return [];
   let messages = [];
   let calls = [];
-  let unreadMessageCounts = 0;
   if (currentContact && currentContact.id) {
     const contactId = currentContact.id;
     const activityCardId = sessionId ? `${contactId}-${sessionId}` : contactId;
@@ -32,9 +31,6 @@ function getTabs({
     }
     if (recentCalls.calls[activityCardId]) {
       calls = recentCalls.calls[activityCardId];
-    }
-    if (recentMessages.unreadMessageCounts[activityCardId]) {
-      unreadMessageCounts = recentMessages.unreadMessageCounts[activityCardId];
     }
   }
   return [
@@ -51,7 +47,6 @@ function getTabs({
       icon: <span className={dynamicsFont.composeText} />,
       label: i18n.getString('text', currentLocale),
       path: 'recentMessages',
-      noticeCounts: unreadMessageCounts,
       isActive: path => path === 'recentMessages',
       view: (
         <RecentActivityMessages

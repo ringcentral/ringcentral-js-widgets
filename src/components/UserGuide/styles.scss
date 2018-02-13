@@ -1,0 +1,143 @@
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/buttons';
+@import '../../lib/commonStyles/fonts';
+
+.root {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 15;
+  background: $snow;
+}
+
+@mixin container {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  max-width: 400px;
+  position: absolute;
+}
+
+@mixin bgView {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: -1;
+  background-size: cover;
+  background-position: 50% 0%;
+}
+
+.intro {
+  @include container;
+  .introBg {
+    @include bgView;
+  }
+  .buttonGroup {
+    left: 5%;
+    bottom: 8vh;
+    width: 90%;
+    position: absolute;
+    .secondaryButton {
+      margin-top: 2vh;
+    }
+  }
+}
+
+.primaryButton {
+  @include big-submit-button;  
+  height: 35px;
+  line-height: 35px;
+}
+
+.secondaryButton {
+  @include big-submit-button;  
+  height: 35px;
+  line-height: 35px;
+  color: $primary-color !important;
+  background: transparent;
+}
+
+.carousel {
+  @include container;
+  .carouselBox {
+    height: 100%;
+    transition: 0.3s ease-in-out;
+    transform: translateX(0);
+  }
+  .view {
+    @include bgView;
+  }
+  .control {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    padding-left: 3%;
+    padding-right: 3%;
+    box-sizing: border-box;
+    position: fixed;
+    background: $snow;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transform: translateY(40px);
+    transition: 0.3s ease-in-out;
+    .primaryButton,
+    .secondaryButton {
+      width: 60px;
+      height: 30px;
+      line-height: 30px;
+    }
+    .indicator {
+      margin: 0;
+      padding: 0;
+      width: 40%;
+      max-width: 150px;
+      display: flex;
+      list-style: none;
+      justify-content: space-around;
+      .dot {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        background: $smoke;
+        border-radius: 100%;
+        cursor: pointer;
+      }
+      .dot.highlight {
+        background: $primary-color;
+      }
+    }
+  }
+}
+
+.enter {
+  opacity: 0;
+}
+
+.enterActive {
+  opacity: 1;
+  transition: opacity 400ms ease-in-out;
+}
+
+.exit {
+  opacity: 1;
+}
+
+.exit.exitActive {
+  opacity: 0;
+  transition: opacity 400ms ease-in-out;
+}
+
+.controlEnter {
+  transform: translateY(40px);
+}
+
+.controlEnterActive {
+  transform: translateY(0px);
+  transition: transform 400ms ease-in-out;
+}

@@ -7,7 +7,7 @@ export default {
   internationalNumbersHeader: '国際ダイヤルイン番号の選択',
   search: '検索...',
   inviteWithText: 'テキストで招待',
-  inviteText: 'RingCentral会議に参加してください\u3002\n\nダイヤルイン番号\uFF1A{dialInNumber} \n\n{internationals} \n参加者アクセス\uFF1A{participantCode} \n\n国際ダイヤルイン番号が必要な場合は\u3001http://www.ringcentral.com/conferencing\n\nにアクセスしてください\u3002この電話会議は\u3001RingCentral Conferencingによって提供されます\u3002',
+  inviteText: 'RingCentral会議に参加してください\u3002\n\nダイヤルイン番号\uFF1A{formattedDialInNumber} \n\n{additionalNumbersSection} \n参加者アクセス\uFF1A{participantCode} \n\n国際ダイヤルイン番号が必要な場合は\u3001http://www.ringcentral.com/conferencing\n\nにアクセスしてください\u3002この電話会議は\u3001RingCentral Conferencingによって提供されます\u3002',
 };
 
 // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@

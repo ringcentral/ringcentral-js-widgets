@@ -23,6 +23,7 @@ function mapToProps(_, {
   showCalling = true,
   showAudio = true,
   showFeedback = true,
+  showUserGuide = true,
   params,
 }) {
   let loginNumber = '';
@@ -81,6 +82,7 @@ function mapToProps(_, {
     showPresenceSettings: !!(detailedPresence && params && params.showPresenceSettings),
     supportedLocales: localeSettings && localeSettings.supportedLocales,
     savedLocale: localeSettings && localeSettings.savedLocale,
+    showUserGuide: showUserGuide && rolesAndPermissions.hasUserGuidePermission,
   };
 }
 
@@ -90,6 +92,7 @@ function mapToFunctions(_, {
     detailedPresence,
     routerInteraction,
     localeSettings,
+    userGuide,
   },
   regionSettingsUrl = '/settings/region',
   callingSettingsUrl = '/settings/calling',
@@ -111,6 +114,9 @@ function mapToFunctions(_, {
     },
     onFeedbackSettingsLinkClick: () => {
       routerInteraction.push(feedbackSettingsUrl);
+    },
+    onUserGuideClick: () => {
+      userGuide.start();
     },
     setAvailable: (...args) => (detailedPresence && detailedPresence.setAvailable(...args)),
     setBusy: (...args) => (detailedPresence && detailedPresence.setBusy(...args)),

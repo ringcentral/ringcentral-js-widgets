@@ -68,7 +68,7 @@ describe('messages', () => {
       logButton = panel.find(MessageItem).at(messageItems.length - 1).find(LogButton).find(Button);
       expect(logButton.props().disabled).toBe(true);
       expect(logButton.find(Spinner).length).toBe(1);
-      await timeout(3000);
+      await timeout(1000);
       wrapper.update();
       panel = wrapper.find(MessageList).first();
       logButton = panel.find(MessageItem).at(messageItems.length - 1).find(LogButton).find(Button);
@@ -96,7 +96,7 @@ describe('messages', () => {
     logButton = conversationPanel.find(LogButton).find(Button);
     expect(logButton.props().disabled).toBe(true);
     expect(logButton.find(Spinner).length).toBe(1);
-    await timeout(1000);
+    await timeout(200);
     wrapper.update();
     conversationPanel = wrapper.find(ConversationPanel);
     logButton = conversationPanel.find(LogButton).find(Button);

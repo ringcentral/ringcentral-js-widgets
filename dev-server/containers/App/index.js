@@ -28,6 +28,7 @@ import ContactDetailsPage from '../../../src/containers/ContactDetailsPage';
 import ContactSourceFilter from '../../../src/components/ContactSourceFilter';
 import MeetingScheduleButton from '../../../src/components/MeetingScheduleButton';
 import FeedbackPage from '../../../src/containers/FeedbackPage';
+import UserGuidePage from '../../../src/containers/UserGuidePage';
 import MainView from '../MainView';
 import AppView from '../AppView';
 import PhoneProvider from '../../../src/lib/PhoneProvider';
@@ -78,6 +79,7 @@ export default function App({
                     useContact
                   />
                 </IncomingCallPage>
+                <UserGuidePage />
               </AppView>
             )} >
             <Route
