@@ -57,7 +57,7 @@ export default function SettingsPanel({
   toggleAcceptCallQueueCalls,
   isCallQueueMember,
   showPresenceSettings,
-  showAudioSettings,
+  showFeedback,
   showUserGuide,
   additional,
   supportedLocales,
@@ -211,10 +211,7 @@ export default function SettingsPanel({
         {autoLogSMS}
         {clickToDial}
         {additional}
-        <LinkLine
-          onClick={onFeedbackSettingsLinkClick} >
-          {i18n.getString('feedback', currentLocale)}
-        </LinkLine>
+        {feedback}
         {userGuide}
         <section className={styles.section}>
           <Line>

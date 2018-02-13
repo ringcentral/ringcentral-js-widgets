@@ -19,6 +19,10 @@ function mapToProps(_, {
     rolesAndPermissions,
     detailedPresence,
   },
+  showRegion = true,
+  showCalling = true,
+  showAudio = true,
+  showFeedback = true,
   showUserGuide = true,
   params,
 }) {
