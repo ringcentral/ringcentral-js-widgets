@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/UserGuide/i18n/en-US.js"],"names":["start","skip","next","finish"],"mappings":";;;;;kBAAe;AACbA,SAAO,mBADM;AAEbC,QAAM,MAFO;AAGbC,QAAM,MAHO;AAIbC,UAAQ;AAJK,C","file":"en-US.js","sourcesContent":["export default {\n  start: 'Take a Quick Tour',\n  skip: 'Skip',\n  next: 'Next',\n  finish: 'Finish',\n};\n"]}

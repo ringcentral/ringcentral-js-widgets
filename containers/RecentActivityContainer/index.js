@@ -61,7 +61,6 @@ function getTabs(_ref) {
   if (!ready) return [];
   var messages = [];
   var calls = [];
-  var unreadMessageCounts = 0;
   if (currentContact && currentContact.id) {
     var contactId = currentContact.id;
     var activityCardId = sessionId ? contactId + '-' + sessionId : contactId;
@@ -70,9 +69,6 @@ function getTabs(_ref) {
     }
     if (recentCalls.calls[activityCardId]) {
       calls = recentCalls.calls[activityCardId];
-    }
-    if (recentMessages.unreadMessageCounts[activityCardId]) {
-      unreadMessageCounts = recentMessages.unreadMessageCounts[activityCardId];
     }
   }
   return [{
@@ -89,7 +85,6 @@ function getTabs(_ref) {
     icon: _react2.default.createElement('span', { className: _DynamicsFont2.default.composeText }),
     label: _i18n2.default.getString('text', currentLocale),
     path: 'recentMessages',
-    noticeCounts: unreadMessageCounts,
     isActive: function isActive(path) {
       return path === 'recentMessages';
     },

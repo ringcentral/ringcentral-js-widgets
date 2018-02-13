@@ -12,7 +12,7 @@ exports.default = {
   internationalNumbersHeader: 'Select International Dial-in Numbers',
   search: 'Search...',
   inviteWithText: 'Invite with Text',
-  inviteText: 'Please join the RingCentral conference. \n\nDial-In Numbers: {dialInNumber} \n\n{internationals} \nParticipant Access: {participantCode} \n\nNeed an international dial-in phone number? Please visit http://www.ringcentral.com/conferencing \n\nThis conference call is brought to you by RingCentral Conferencing.'
+  inviteText: 'Please join the RingCentral conference. \n\nDial-In Numbers: {formattedDialInNumber} \n\n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nNeed an international dial-in phone number? Please visit http://www.ringcentral.com/conferencing \n\nThis conference call is brought to you by RingCentral Conferencing.'
 };
 
 // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@

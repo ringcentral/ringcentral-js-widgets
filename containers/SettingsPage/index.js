@@ -54,6 +54,8 @@ function mapToProps(_, _ref) {
       showAudio = _ref$showAudio === undefined ? true : _ref$showAudio,
       _ref$showFeedback = _ref.showFeedback,
       showFeedback = _ref$showFeedback === undefined ? true : _ref$showFeedback,
+      _ref$showUserGuide = _ref.showUserGuide,
+      showUserGuide = _ref$showUserGuide === undefined ? true : _ref$showUserGuide,
       params = _ref.params;
 
   var loginNumber = '';
@@ -89,7 +91,8 @@ function mapToProps(_, _ref) {
     userStatus: detailedPresence && detailedPresence.userStatus,
     showPresenceSettings: !!(detailedPresence && params && params.showPresenceSettings),
     supportedLocales: localeSettings && localeSettings.supportedLocales,
-    savedLocale: localeSettings && localeSettings.savedLocale
+    savedLocale: localeSettings && localeSettings.savedLocale,
+    showUserGuide: showUserGuide && rolesAndPermissions.hasUserGuidePermission
   };
 }
 
@@ -101,6 +104,7 @@ function mapToFunctions(_, _ref2) {
       detailedPresence = _ref2$phone.detailedPresence,
       routerInteraction = _ref2$phone.routerInteraction,
       localeSettings = _ref2$phone.localeSettings,
+      userGuide = _ref2$phone.userGuide,
       _ref2$regionSettingsU = _ref2.regionSettingsUrl,
       regionSettingsUrl = _ref2$regionSettingsU === undefined ? '/settings/region' : _ref2$regionSettingsU,
       _ref2$callingSettings = _ref2.callingSettingsUrl,
@@ -143,6 +147,9 @@ function mapToFunctions(_, _ref2) {
     },
     onFeedbackSettingsLinkClick: function onFeedbackSettingsLinkClick() {
       routerInteraction.push(feedbackSettingsUrl);
+    },
+    onUserGuideClick: function onUserGuideClick() {
+      userGuide.start();
     },
     setAvailable: function setAvailable() {
       return detailedPresence && detailedPresence.setAvailable.apply(detailedPresence, arguments);

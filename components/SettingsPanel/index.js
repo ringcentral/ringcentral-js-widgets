@@ -88,6 +88,7 @@ function SettingsPanel(_ref) {
       onRegionSettingsLinkClick = _ref.onRegionSettingsLinkClick,
       onAudioSettingsLinkClick = _ref.onAudioSettingsLinkClick,
       onFeedbackSettingsLinkClick = _ref.onFeedbackSettingsLinkClick,
+      onUserGuideClick = _ref.onUserGuideClick,
       showCalling = _ref.showCalling,
       showAutoLog = _ref.showAutoLog,
       showAudio = _ref.showAudio,
@@ -114,6 +115,7 @@ function SettingsPanel(_ref) {
       isCallQueueMember = _ref.isCallQueueMember,
       showPresenceSettings = _ref.showPresenceSettings,
       showFeedback = _ref.showFeedback,
+      showUserGuide = _ref.showUserGuide,
       additional = _ref.additional,
       supportedLocales = _ref.supportedLocales,
       savedLocale = _ref.savedLocale,
@@ -217,6 +219,12 @@ function SettingsPanel(_ref) {
     null,
     _i18n2.default.getString('settings', currentLocale)
   ) : null;
+  var userGuide = showUserGuide ? _react2.default.createElement(
+    _LinkLine2.default,
+    {
+      onClick: onUserGuideClick },
+    _i18n2.default.getString('userGuide', currentLocale)
+  ) : null;
   return _react2.default.createElement(
     'div',
     { className: (0, _classnames2.default)(_styles2.default.root, className) },
@@ -236,6 +244,7 @@ function SettingsPanel(_ref) {
       clickToDial,
       additional,
       feedback,
+      userGuide,
       _react2.default.createElement(
         'section',
         { className: _styles2.default.section },
@@ -317,7 +326,9 @@ SettingsPanel.propTypes = {
   supportedLocales: _propTypes2.default.arrayOf(_propTypes2.default.string),
   savedLocale: _propTypes2.default.string,
   saveLocale: _propTypes2.default.func,
-  onFeedbackSettingsLinkClick: _propTypes2.default.func.isRequired
+  onFeedbackSettingsLinkClick: _propTypes2.default.func.isRequired,
+  onUserGuideClick: _propTypes2.default.func.isRequired,
+  showUserGuide: _propTypes2.default.bool
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -330,6 +341,7 @@ SettingsPanel.defaultProps = {
   showAudio: false,
   showAutoLog: false,
   showRegion: false,
+  showUserGuide: false,
   autoLogEnabled: false,
   onAutoLogChange: undefined,
   showAutoLogSMS: false,

@@ -12,7 +12,7 @@ exports.default = {
   internationalNumbersHeader: 'Selecionar os números de discagem internacionais',
   search: 'Pesquisar...',
   inviteWithText: 'Convidar com texto',
-  inviteText: 'Entre na conferência do RingCentral.\n\nNúmeros de discagem: {dialInNumber} \n\n{internationals} \nAcesso de participantes: {participantCode} \n\nPrecisa de um número de telefone com discagem internacional? Acesse http://www.ringcentral.com/conferencing \n\nEsta chamada em conferência foi possibilitada pelo RingCentral Conferencing.'
+  inviteText: 'Entre na conferência do RingCentral.\n\nNúmeros de discagem: {formattedDialInNumber} \n\n{additionalNumbersSection} \nAcesso de participantes: {participantCode} \n\nPrecisa de um número de telefone com discagem internacional? Acesse http://www.ringcentral.com/conferencing \n\nEsta chamada em conferência foi possibilitada pelo RingCentral Conferencing.'
 };
 
 // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@

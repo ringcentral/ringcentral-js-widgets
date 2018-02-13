@@ -12,7 +12,7 @@ exports.default = {
   internationalNumbersHeader: 'Sélectionner un numéro international à composer',
   search: 'Recherche...',
   inviteWithText: 'Envoyer une invitation par texto',
-  inviteText: 'Veuillez rejoindre la conf\xE9rence RingCentral. \n\nNum\xE9ro \xE0 composer : {dialInNumber} \n\n{internationals} \nAcc\xE8s des participants : {participantCode} \n\nBesoin d\u2019un num\xE9ro de t\xE9l\xE9phone \xE0 composer international ? Veuillez vous rendre sur la page http://www.ringcentral.com/conferencing \n\nCette conf\xE9rence t\xE9l\xE9phonique vous est offerte par RingCentral.'
+  inviteText: 'Veuillez rejoindre la conf\xE9rence RingCentral. \n\nNum\xE9ro \xE0 composer : {formattedDialInNumber} \n\n{additionalNumbersSection} \nAcc\xE8s des participants : {participantCode} \n\nBesoin d\u2019un num\xE9ro de t\xE9l\xE9phone \xE0 composer international ? Veuillez vous rendre sur la page http://www.ringcentral.com/conferencing \n\nCette conf\xE9rence t\xE9l\xE9phonique vous est offerte par RingCentral.'
 };
 
 // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@
