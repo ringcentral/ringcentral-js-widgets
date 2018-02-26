@@ -635,6 +635,9 @@ class MeetingPanel extends Component {
       invite,
       currentLocale,
       scheduleButton: ScheduleButton,
+      showWhen,
+      showDuration,
+      showRecurringMeeting,
     } = this.props;
     if (!Object.keys(meeting).length) {
       return null;
@@ -680,24 +683,33 @@ class MeetingPanel extends Component {
                 meeting={meeting}
                 update={update}
                 currentLocale={currentLocale} />
-              <When
-                isRecurring={isRecurring}
-                currentLocale={currentLocale}
-                meeting={meeting}
-                update={update}
-                that={this}
-                onToggle={onToggle}
-                minTime={minTime} />
-              <Duration
-                isRecurring={isRecurring}
-                currentLocale={currentLocale}
-                meeting={meeting}
-                update={update} />
-              <RecurringMeeting
-                isRecurring={isRecurring}
-                currentLocale={currentLocale}
-                meeting={meeting}
-                update={update} />
+              {
+                showWhen ? <When
+                  isRecurring={isRecurring}
+                  currentLocale={currentLocale}
+                  meeting={meeting}
+                  update={update}
+                  that={this}
+                  onToggle={onToggle}
+                  minTime={minTime}
+                /> : null
+              }
+              {
+                showDuration ? <Duration
+                  isRecurring={isRecurring}
+                  currentLocale={currentLocale}
+                  meeting={meeting}
+                  update={update}
+                /> : null
+              }
+              {
+                showRecurringMeeting ? <RecurringMeeting
+                  isRecurring={isRecurring}
+                  currentLocale={currentLocale}
+                  meeting={meeting}
+                  update={update}
+                /> : null
+              }
               <Video
                 currentLocale={currentLocale}
                 meeting={meeting}
@@ -734,11 +746,17 @@ MeetingPanel.propTypes = {
   scheduleButton: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   hidden: PropTypes.bool,
+  showWhen: PropTypes.bool,
+  showDuration: PropTypes.bool,
+  showRecurringMeeting: PropTypes.bool,
 };
 
 MeetingPanel.defaultProps = {
   disabled: false,
   hidden: false,
+  showWhen: true,
+  showDuration: true,
+  showRecurringMeeting: true,
 };
 
 export default MeetingPanel;
