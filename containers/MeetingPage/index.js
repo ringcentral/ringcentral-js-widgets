@@ -20,12 +20,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function mapToProps(_, _ref) {
   var _ref$phone = _ref.phone,
       meeting = _ref$phone.meeting,
-      locale = _ref$phone.locale;
+      locale = _ref$phone.locale,
+      showWhen = _ref.showWhen,
+      showDuration = _ref.showDuration,
+      showRecurringMeeting = _ref.showRecurringMeeting;
 
   return {
     meeting: meeting.meeting || {},
     currentLocale: locale.currentLocale,
-    disabled: meeting.isScheduling || false
+    disabled: meeting.isScheduling || false,
+    showWhen: showWhen,
+    showDuration: showDuration,
+    showRecurringMeeting: showRecurringMeeting
   };
 }
 

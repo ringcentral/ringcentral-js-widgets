@@ -790,7 +790,10 @@ var MeetingPanel = function (_Component) {
           disabled = _props.disabled,
           invite = _props.invite,
           currentLocale = _props.currentLocale,
-          ScheduleButton = _props.scheduleButton;
+          ScheduleButton = _props.scheduleButton,
+          showWhen = _props.showWhen,
+          showDuration = _props.showDuration,
+          showRecurringMeeting = _props.showRecurringMeeting;
 
       if (!(0, _keys2.default)(meeting).length) {
         return null;
@@ -833,24 +836,27 @@ var MeetingPanel = function (_Component) {
             meeting: meeting,
             update: update,
             currentLocale: currentLocale }),
-          _react2.default.createElement(When, {
+          showWhen ? _react2.default.createElement(When, {
             isRecurring: isRecurring,
             currentLocale: currentLocale,
             meeting: meeting,
             update: update,
             that: this,
             onToggle: onToggle,
-            minTime: minTime }),
-          _react2.default.createElement(Duration, {
+            minTime: minTime
+          }) : null,
+          showDuration ? _react2.default.createElement(Duration, {
             isRecurring: isRecurring,
             currentLocale: currentLocale,
             meeting: meeting,
-            update: update }),
-          _react2.default.createElement(RecurringMeeting, {
+            update: update
+          }) : null,
+          showRecurringMeeting ? _react2.default.createElement(RecurringMeeting, {
             isRecurring: isRecurring,
             currentLocale: currentLocale,
             meeting: meeting,
-            update: update }),
+            update: update
+          }) : null,
           _react2.default.createElement(Video, {
             currentLocale: currentLocale,
             meeting: meeting,
@@ -885,12 +891,18 @@ MeetingPanel.propTypes = {
   currentLocale: _propTypes2.default.string.isRequired,
   scheduleButton: _propTypes2.default.func.isRequired,
   disabled: _propTypes2.default.bool,
-  hidden: _propTypes2.default.bool
+  hidden: _propTypes2.default.bool,
+  showWhen: _propTypes2.default.bool,
+  showDuration: _propTypes2.default.bool,
+  showRecurringMeeting: _propTypes2.default.bool
 };
 
 MeetingPanel.defaultProps = {
   disabled: false,
-  hidden: false
+  hidden: false,
+  showWhen: true,
+  showDuration: true,
+  showRecurringMeeting: true
 };
 
 exports.default = MeetingPanel;
