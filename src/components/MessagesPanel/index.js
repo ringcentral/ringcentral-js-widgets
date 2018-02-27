@@ -115,6 +115,16 @@ export default class MessagesPanel extends Component {
     const showTextIcon =
       composeTextPermission &&
       (typeFilter === messageTypes.all || typeFilter === messageTypes.text);
+    const composeTextIcon = composeTextPermission ? (
+      <span
+        title={i18n.getString('composeText', currentLocale)}
+        className={styles.textIcon}
+        onClick={goToComposeText}
+      >
+        <NewComposeTextHover className={styles.hoverTextSVGIcon} width={20} height={21} />
+        <NewComposeText className={styles.textSVGIcon} width={20} height={21} />
+      </span>
+    ) : null;
     const search = onSearchInputChange ?
       (
         <div
@@ -129,14 +139,7 @@ export default class MessagesPanel extends Component {
             placeholder={i18n.getString('search', currentLocale)}
             disabled={disableLinks}
           />
-          <span
-            title={i18n.getString('composeText', currentLocale)}
-            className={styles.textIcon}
-            onClick={goToComposeText}
-          >
-            <NewComposeTextHover className={styles.hoverTextSVGIcon} width={20} height={21} />
-            <NewComposeText className={styles.textSVGIcon} width={20} height={21} />
-          </span>
+          {composeTextIcon}
         </div>
       ) :
       null;
