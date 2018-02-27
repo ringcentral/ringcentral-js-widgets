@@ -58,6 +58,7 @@ export default function SettingsPanel({
   supportedLocales,
   savedLocale,
   saveLocale,
+  showCalling,
 }) {
   if (showSpinner) {
     return (
@@ -76,7 +77,12 @@ export default function SettingsPanel({
       />
     </InputLine>
   );
-
+  const calling = showCalling ? (
+    <LinkLine
+      onClick={onCallingSettingsLinkClick} >
+      {i18n.getString('calling', currentLocale)}
+    </LinkLine>
+  ) : null;
   const region = showRegion ?
     (
       <LinkLine
@@ -166,10 +172,7 @@ export default function SettingsPanel({
           showHeader && styles.contentWithHeader,
         )}>
         {locale}
-        <LinkLine
-          onClick={onCallingSettingsLinkClick} >
-          {i18n.getString('calling', currentLocale)}
-        </LinkLine>
+        {calling}
         {region}
         {showAudioSettings ? (
           <LinkLine
@@ -251,6 +254,7 @@ SettingsPanel.propTypes = {
   supportedLocales: PropTypes.arrayOf(PropTypes.string),
   savedLocale: PropTypes.string,
   saveLocale: PropTypes.func,
+  showCalling: PropTypes.bool,
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -283,4 +287,5 @@ SettingsPanel.defaultProps = {
   supportedLocales: undefined,
   savedLocale: undefined,
   saveLocale: undefined,
+  showCalling: true,
 };
