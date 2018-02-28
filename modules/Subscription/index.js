@@ -53,10 +53,6 @@ var _RcModule3 = _interopRequireDefault(_RcModule2);
 
 var _di = require('../../lib/di');
 
-var _sleep = require('../../lib/sleep');
-
-var _sleep2 = _interopRequireDefault(_sleep);
-
 var _loginStatus = require('../Auth/loginStatus');
 
 var _loginStatus2 = _interopRequireDefault(_loginStatus);
@@ -169,6 +165,7 @@ var Subscription = (_dec = (0, _di.Module)({
             switch (_context.prev = _context.next) {
               case 0:
                 if (_this2._auth.loginStatus === _loginStatus2.default.loggedIn && _this2._storage.ready && _this2.status === _moduleStatuses2.default.pending) {
+                  _this2._startSleepDetection();
                   _this2.store.dispatch({
                     type: _this2.actionTypes.initSuccess
                   });
@@ -205,61 +202,57 @@ var Subscription = (_dec = (0, _di.Module)({
       })));
     }
   }, {
+    key: '_startSleepDetection',
+    value: function _startSleepDetection() {
+      this._stopSleepDetection();
+      this._detectSleep();
+    }
+  }, {
+    key: '_stopSleepDetection',
+    value: function _stopSleepDetection() {
+      if (this._sleepTimeout) {
+        clearTimeout(this._sleepTimeout);
+        this._sleepTimeout = null;
+      }
+    }
+  }, {
     key: '_detectSleep',
-    value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
-        var t;
+    value: function _detectSleep() {
+      var _this3 = this;
+
+      var t = Date.now();
+      this._sleepTimeout = setTimeout((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                if (!this._subscription) {
-                  _context3.next = 12;
+                if (!(_this3.ready && _this3._subscription && Date.now() - t > 20 * 1000)) {
+                  _context3.next = 5;
                   break;
                 }
 
-                t = Date.now();
-                _context3.next = 4;
-                return (0, _sleep2.default)(10000);
+                _context3.next = 3;
+                return _this3.remove();
 
-              case 4:
-                if (!(this.ready && this._subscribe && Date.now() - t > 20 * 1000)) {
-                  _context3.next = 10;
-                  break;
-                }
+              case 3:
+                _context3.next = 5;
+                return _this3._subscribe();
 
-                _context3.next = 7;
-                return this.remove();
+              case 5:
+                _this3._detectSleep();
 
-              case 7:
-                _context3.next = 9;
-                return this._subscribe();
-
-              case 9:
-                return _context3.abrupt('break', 12);
-
-              case 10:
-                _context3.next = 0;
-                break;
-
-              case 12:
+              case 6:
               case 'end':
                 return _context3.stop();
             }
           }
-        }, _callee3, this);
-      }));
-
-      function _detectSleep() {
-        return _ref4.apply(this, arguments);
-      }
-
-      return _detectSleep;
-    }()
+        }, _callee3, _this3);
+      })), 10 * 1000);
+    }
   }, {
     key: '_createSubscription',
     value: function _createSubscription() {
-      var _this3 = this;
+      var _this4 = this;
 
       this._subscription = this._client.service.createSubscription();
       if (this.cachedSubscription) {
@@ -270,75 +263,74 @@ var Subscription = (_dec = (0, _di.Module)({
         }
       }
       this._subscription.on(this._subscription.events.notification, function (message) {
-        _this3.store.dispatch({
-          type: _this3.actionTypes.notification,
+        _this4.store.dispatch({
+          type: _this4.actionTypes.notification,
           message: message
         });
       });
       this._subscription.on(this._subscription.events.removeSuccess, function () {
-        _this3.store.dispatch({
-          type: _this3.actionTypes.removeSuccess
+        _this4.store.dispatch({
+          type: _this4.actionTypes.removeSuccess
         });
       });
       this._subscription.on(this._subscription.events.removeError, function (error) {
-        _this3.store.dispatch({
-          type: _this3.actionTypes.removeError,
+        _this4.store.dispatch({
+          type: _this4.actionTypes.removeError,
           error: error
         });
       });
       this._subscription.on(this._subscription.events.renewSuccess, function () {
-        _this3.store.dispatch({
-          type: _this3.actionTypes.renewSuccess,
-          subscription: _this3._subscription.subscription()
+        _this4.store.dispatch({
+          type: _this4.actionTypes.renewSuccess,
+          subscription: _this4._subscription.subscription()
         });
       });
       this._subscription.on(this._subscription.events.renewError, function (error) {
-        if (_this3._subscription) {
-          _this3._subscription.reset();
-          _this3._subscription = null;
+        if (_this4._subscription) {
+          _this4._subscription.reset();
+          _this4._subscription = null;
         }
-        _this3.store.dispatch({
-          type: _this3.actionTypes.renewError,
+        _this4.store.dispatch({
+          type: _this4.actionTypes.renewError,
           error: error
         });
-        if (_this3._auth.loginStatus === _loginStatus2.default.loggedIn && _this3._storage.ready) {
+        if (_this4._auth.loginStatus === _loginStatus2.default.loggedIn && _this4._storage.ready) {
           // immediately start the retry process after the first renewError
-          _this3._retry(0);
+          _this4._retry(0);
         }
       });
       this._subscription.on(this._subscription.events.subscribeSuccess, function () {
-        _this3.store.dispatch({
-          type: _this3.actionTypes.subscribeSuccess,
-          subscription: _this3._subscription.subscription()
+        _this4.store.dispatch({
+          type: _this4.actionTypes.subscribeSuccess,
+          subscription: _this4._subscription.subscription()
         });
       });
       this._subscription.on(this._subscription.events.subscribeError, function (error) {
-        _this3.store.dispatch({
-          type: _this3.actionTypes.subscribeError,
+        _this4.store.dispatch({
+          type: _this4.actionTypes.subscribeError,
           error: error
         });
-        if (_this3._auth.loginStatus === _loginStatus2.default.loggedIn && _this3._storage.ready) {
-          _this3._retry();
+        if (_this4._auth.loginStatus === _loginStatus2.default.loggedIn && _this4._storage.ready) {
+          _this4._retry();
         }
       });
-      this._detectSleep();
     }
   }, {
     key: '_register',
     value: function _register() {
-      var _this4 = this;
+      var _this5 = this;
 
       if (this._registerTimeoutId) {
         clearTimeout(this._registerTimeoutId);
       }
       this._registerTimeoutId = setTimeout(function () {
-        _this4._registerTimeoutId = null;
-        _this4.store.dispatch({
-          type: _this4.actionTypes.subscribe
+        _this5._registerTimeoutId = null;
+        _this5.store.dispatch({
+          type: _this5.actionTypes.subscribe
         });
-        if (_this4._subscription) {
-          _this4._subscription.setEventFilters(_this4.filters);
-          _this4._subscription.register();
+        if (_this5._subscription) {
+          _this5._subscription.setEventFilters(_this5.filters);
+          _this5._subscription.register();
         }
       }, 2000);
     }
@@ -464,7 +456,7 @@ var Subscription = (_dec = (0, _di.Module)({
     key: '_retry',
     value: function () {
       var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
-        var _this5 = this;
+        var _this6 = this;
 
         var t = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this._timeToRetry;
         return _regenerator2.default.wrap(function _callee7$(_context7) {
@@ -473,8 +465,8 @@ var Subscription = (_dec = (0, _di.Module)({
               case 0:
                 this._stopRetry();
                 this._retryTimeoutId = setTimeout(function () {
-                  if (_this5.ready) {
-                    _this5._subscribe();
+                  if (_this6.ready) {
+                    _this6._subscribe();
                   }
                 }, t);
 
@@ -581,50 +573,51 @@ var Subscription = (_dec = (0, _di.Module)({
                 this.store.dispatch({
                   type: this.actionTypes.reset
                 });
+                this._stopSleepDetection();
                 this._stopRetry();
 
                 if (!this._subscription) {
-                  _context10.next = 15;
+                  _context10.next = 16;
                   break;
                 }
 
                 if (!this._auth.loggedIn) {
-                  _context10.next = 13;
+                  _context10.next = 14;
                   break;
                 }
 
-                _context10.prev = 4;
-                _context10.next = 7;
+                _context10.prev = 5;
+                _context10.next = 8;
                 return this.remove();
 
-              case 7:
-                _context10.next = 11;
+              case 8:
+                _context10.next = 12;
                 break;
 
-              case 9:
-                _context10.prev = 9;
-                _context10.t0 = _context10['catch'](4);
+              case 10:
+                _context10.prev = 10;
+                _context10.t0 = _context10['catch'](5);
 
-              case 11:
-                _context10.next = 15;
+              case 12:
+                _context10.next = 16;
                 break;
 
-              case 13:
+              case 14:
                 this._subscription.reset();
                 this._subscription = null;
 
-              case 15:
+              case 16:
                 this._resetPromise = null;
                 this.store.dispatch({
                   type: this.actionTypes.resetSuccess
                 });
 
-              case 17:
+              case 18:
               case 'end':
                 return _context10.stop();
             }
           }
-        }, _callee10, this, [[4, 9]]);
+        }, _callee10, this, [[5, 10]]);
       }));
 
       function _reset() {
