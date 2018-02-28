@@ -141,7 +141,8 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
       }(),
       readyCheckFn: function readyCheckFn() {
         return _this._extensionInfo.ready;
-      }
+      },
+      cleanOnReset: true
     })));
 
     _this._isCRM = !!isCRM;

@@ -23,16 +23,19 @@ var ensureLogin = exports.ensureLogin = function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            auth.login((0, _extends3.default)({}, account));
-            _context.next = 3;
+            _context.next = 2;
+            return auth.login((0, _extends3.default)({}, account));
+
+          case 2:
+            _context.next = 4;
             return (0, _WaitUtil.waitUntilNotNull)(function () {
               return auth.ownerId;
             }, 'Login Success', 6);
 
-          case 3:
+          case 4:
             return _context.abrupt('return', _context.sent);
 
-          case 4:
+          case 5:
           case 'end':
             return _context.stop();
         }

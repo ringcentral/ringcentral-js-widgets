@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _defineProperty = require('babel-runtime/core-js/object/define-property');
+
+var _defineProperty2 = _interopRequireDefault(_defineProperty);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -41,7 +45,9 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _dec, _class;
+var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3;
+
+var _reselect = require('reselect');
 
 var _di = require('../../lib/di');
 
@@ -57,7 +63,54 @@ var _ensureExist = require('../../lib/ensureExist');
 
 var _ensureExist2 = _interopRequireDefault(_ensureExist);
 
+var _getter = require('../../lib/getter');
+
+var _getter2 = _interopRequireDefault(_getter);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _initDefineProp(target, property, descriptor, context) {
+  if (!descriptor) return;
+  (0, _defineProperty2.default)(target, property, {
+    enumerable: descriptor.enumerable,
+    configurable: descriptor.configurable,
+    writable: descriptor.writable,
+    value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+  });
+}
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+  var desc = {};
+  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+    desc[key] = descriptor[key];
+  });
+  desc.enumerable = !!desc.enumerable;
+  desc.configurable = !!desc.configurable;
+
+  if ('value' in desc || desc.initializer) {
+    desc.writable = true;
+  }
+
+  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    return decorator(target, property, desc) || desc;
+  }, desc);
+
+  if (context && desc.initializer !== void 0) {
+    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+    desc.initializer = undefined;
+  }
+
+  if (desc.initializer === void 0) {
+    Object['define' + 'Property'](target, property, desc);
+    desc = null;
+  }
+
+  return desc;
+}
+
+function _initializerWarningHelper(descriptor, context) {
+  throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
+}
 
 /**
  * @class
@@ -65,7 +118,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 var ForwardingNumber = (_dec = (0, _di.Module)({
   deps: ['Client', 'RolesAndPermissions', { dep: 'ForwardingNumberOptions', optional: true }]
-}), _dec(_class = function (_DataFetcher) {
+}), _dec(_class = (_class2 = function (_DataFetcher) {
   (0, _inherits3.default)(ForwardingNumber, _DataFetcher);
 
   /**
@@ -86,33 +139,41 @@ var ForwardingNumber = (_dec = (0, _di.Module)({
       client: client,
       fetchFunction: function () {
         var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+          var lists;
           return _regenerator2.default.wrap(function _callee$(_context) {
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
-                  if (_this._rolesAndPermissions.permissions.ReadUserForwardingFlipNumbers) {
-                    _context.next = 2;
+                  _context.prev = 0;
+                  _context.next = 3;
+                  return (0, _fetchList2.default)(function (params) {
+                    return _this._client.account().extension().forwardingNumber().list(params);
+                  });
+
+                case 3:
+                  lists = _context.sent;
+                  return _context.abrupt('return', lists);
+
+                case 7:
+                  _context.prev = 7;
+                  _context.t0 = _context['catch'](0);
+
+                  if (!(_context.t0 && _context.t0.apiResponse && _context.t0.apiResponse._response && _context.t0.apiResponse._response.status === 403)) {
+                    _context.next = 11;
                     break;
                   }
 
                   return _context.abrupt('return', []);
 
-                case 2:
-                  return _context.abrupt('return', (0, _fetchList2.default)(function (params) {
-                    return _this._client.account().extension().forwardingNumber().list(params);
-                  }).catch(function (error) {
-                    if (error && error.apiResponse && error.apiResponse._response && error.apiResponse._response.status === 403) {
-                      return [];
-                    }
-                    throw error;
-                  }));
+                case 11:
+                  throw _context.t0;
 
-                case 3:
+                case 12:
                 case 'end':
                   return _context.stop();
               }
             }
-          }, _callee, _this2);
+          }, _callee, _this2, [[0, 7]]);
         }));
 
         return function fetchFunction() {
@@ -121,50 +182,64 @@ var ForwardingNumber = (_dec = (0, _di.Module)({
       }(),
       readyCheckFn: function readyCheckFn() {
         return _this._rolesAndPermissions.ready;
-      }
+      },
+      cleanOnReset: true
     }, options)));
 
-    _this._rolesAndPermissions = _ensureExist2.default.call(_this, rolesAndPermissions, 'rolesAndPermissions');
+    _initDefineProp(_this, 'numbers', _descriptor, _this);
 
-    _this.addSelector('flipNumbers', function () {
-      return _this.numbers;
+    _initDefineProp(_this, 'flipNumbers', _descriptor2, _this);
+
+    _initDefineProp(_this, 'forwardingNumbers', _descriptor3, _this);
+
+    _this._rolesAndPermissions = _ensureExist2.default.call(_this, rolesAndPermissions, 'rolesAndPermissions');
+    return _this;
+  }
+
+  (0, _createClass3.default)(ForwardingNumber, [{
+    key: '_hasPermission',
+    get: function get() {
+      return !!this._rolesAndPermissions.permissions.ReadUserForwardingFlipNumbers;
+    }
+  }]);
+  return ForwardingNumber;
+}(_DataFetcher3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'numbers', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this3 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this3.data;
+    }, function (data) {
+      return data || [];
+    });
+  }
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'flipNumbers', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this4 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this4.numbers;
     }, function (phoneNumbers) {
       return phoneNumbers.filter(function (p) {
         return p.features.indexOf('CallFlip') !== -1 && p.phoneNumber;
       });
     });
-    _this.addSelector('numbers', function () {
-      return _this.data;
-    }, function (data) {
-      return data || [];
-    });
-    _this.addSelector('forwardingNumbers', function () {
-      return _this.numbers;
+  }
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'forwardingNumbers', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this5 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this5.numbers;
     }, function (phoneNumbers) {
       return phoneNumbers.filter(function (p) {
         return p.features.indexOf('CallForwarding') !== -1 && p.phoneNumber;
       });
     });
-    return _this;
   }
-
-  (0, _createClass3.default)(ForwardingNumber, [{
-    key: 'numbers',
-    get: function get() {
-      return this._selectors.numbers();
-    }
-  }, {
-    key: 'flipNumbers',
-    get: function get() {
-      return this._selectors.flipNumbers();
-    }
-  }, {
-    key: 'forwardingNumbers',
-    get: function get() {
-      return this._selectors.forwardingNumbers();
-    }
-  }]);
-  return ForwardingNumber;
-}(_DataFetcher3.default)) || _class);
+})), _class2)) || _class);
 exports.default = ForwardingNumber;
 //# sourceMappingURL=index.js.map

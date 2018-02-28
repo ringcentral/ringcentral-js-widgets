@@ -1,6 +1,20 @@
 {
   "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/forwarding-number?page=1&perPage=100",
-  "records" : [ ],
+  "records" : [{
+    "id" : "417276280004",
+    "phoneNumber" : "+16502095678",
+    "label" : "Mobile",
+    "type" : "Mobile",
+    "features" : [ "CallFlip", "CallForwarding" ],
+    "flipNumber" : "1"
+  }, {
+    "id" : "417276282004",
+    "phoneNumber" : "+16502096235",
+    "label" : "Work",
+    "type" : "Work",
+    "features" : [ "CallFlip" ],
+    "flipNumber" : "3"
+  }],
   "paging" : {
     "page" : 1,
     "totalPages" : 1,

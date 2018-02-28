@@ -330,6 +330,10 @@ function restore() {
 }
 
 function mockForLogin() {
+  var _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      _ref2$mockAuthzProfil = _ref2.mockAuthzProfile,
+      mockAuthzProfile = _ref2$mockAuthzProfil === undefined ? true : _ref2$mockAuthzProfil;
+
   authentication();
   logout();
   tokenRefresh();
@@ -338,7 +342,9 @@ function mockForLogin() {
   extensionInfo();
   accountInfo();
   apiInfo();
-  authzProfile();
+  if (mockAuthzProfile) {
+    authzProfile();
+  }
   extensionList();
   blockedNumber();
   forwardingNumber();

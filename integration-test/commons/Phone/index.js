@@ -388,6 +388,7 @@ var Phone = function (_RcModule) {
       auth: _this.auth,
       storage: _this.storage,
       client: _this.client,
+      rolesAndPermissions: _this.rolesAndPermissions,
       getState: function getState() {
         return _this.state.blockedNumber;
       }

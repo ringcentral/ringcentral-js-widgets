@@ -26,6 +26,14 @@ var _rateLimiter = require('../../spec-modules/rateLimiter');
 
 var _rateLimiter2 = _interopRequireDefault(_rateLimiter);
 
+var _blockedNumber = require('../../spec-modules/blockedNumber');
+
+var _blockedNumber2 = _interopRequireDefault(_blockedNumber);
+
+var _forwardingNumber = require('../../spec-modules/forwardingNumber');
+
+var _forwardingNumber2 = _interopRequireDefault(_forwardingNumber);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var phone = (0, _TestPhoneFactory2.default)();
@@ -48,4 +56,10 @@ phone = (0, _TestPhoneFactory2.default)();
 
 phone = (0, _TestPhoneFactory2.default)();
 (0, _rateLimiter2.default)(phone.auth, phone.alert, _testAccount.defaultAccount, phone.client, phone.rateLimiter);
+
+phone = (0, _TestPhoneFactory2.default)();
+(0, _blockedNumber2.default)(phone.auth, phone.client, phone.blockedNumber, _testAccount.defaultAccount);
+
+phone = (0, _TestPhoneFactory2.default)();
+(0, _forwardingNumber2.default)(phone.auth, phone.client, phone.forwardingNumber, _testAccount.defaultAccount);
 //# sourceMappingURL=commons.spec.js.map
