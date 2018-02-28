@@ -95,4 +95,3 @@ Run `JSON.stringify(localStorage, null, 2)` to generate content for `test/storag
 WebRTC code is excluded from test coverage report. Because we are unable to run WebRTC in node.js.
 
 We might need to do some mocking to cover this part in the future.
-
