@@ -56,6 +56,8 @@ function mapToFunctions(_, {
     dialerUI,
   },
   phoneTypeRenderer,
+  recipientsContactInfoRenderer,
+  recipientsContactPhoneRenderer,
 }) {
   return {
     onToNumberChange: value => (
@@ -80,6 +82,8 @@ function mapToFunctions(_, {
       contactSearch.debouncedSearch({ searchString });
     },
     phoneTypeRenderer,
+    recipientsContactInfoRenderer,
+    recipientsContactPhoneRenderer,
   };
 }
 

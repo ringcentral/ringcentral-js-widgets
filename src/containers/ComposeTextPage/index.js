@@ -57,6 +57,8 @@ function mapToFunctions(_, {
     countryCode: regionSettings.countryCode,
   }),
   phoneTypeRenderer,
+  recipientsContactInfoRenderer,
+  recipientsContactPhoneRenderer,
 }) {
   return {
     send: () =>
@@ -90,6 +92,8 @@ function mapToFunctions(_, {
     removeToNumber: (...args) => composeText.removeToNumber(...args),
     updateMessageText: (...args) => composeText.updateMessageText(...args),
     phoneTypeRenderer,
+    recipientsContactInfoRenderer,
+    recipientsContactPhoneRenderer,
   };
 }
 

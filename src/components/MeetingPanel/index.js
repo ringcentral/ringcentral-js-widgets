@@ -635,6 +635,7 @@ class MeetingPanel extends Component {
       invite,
       currentLocale,
       scheduleButton: ScheduleButton,
+      recipientsSection,
       showWhen,
       showDuration,
       showRecurringMeeting,
@@ -683,6 +684,9 @@ class MeetingPanel extends Component {
                 meeting={meeting}
                 update={update}
                 currentLocale={currentLocale} />
+              {
+                recipientsSection
+              }
               {
                 showWhen ? <When
                   isRecurring={isRecurring}
@@ -744,6 +748,7 @@ MeetingPanel.propTypes = {
   meeting: PropTypes.object.isRequired,
   currentLocale: PropTypes.string.isRequired,
   scheduleButton: PropTypes.func.isRequired,
+  recipientsSection: PropTypes.node,
   disabled: PropTypes.bool,
   hidden: PropTypes.bool,
   showWhen: PropTypes.bool,
@@ -752,6 +757,7 @@ MeetingPanel.propTypes = {
 };
 
 MeetingPanel.defaultProps = {
+  recipientsSection: undefined,
   disabled: false,
   hidden: false,
   showWhen: true,
