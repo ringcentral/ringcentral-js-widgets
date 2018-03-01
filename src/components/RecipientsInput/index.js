@@ -328,7 +328,6 @@ class RecipientsInput extends Component {
         </div>
         <ContactDropdownList
           listRef={(ref) => { this.listRef = ref; }}
-          phoneTypeRenderer={this.props.phoneTypeRenderer}
           scrollDirection={this.state.scrollDirection}
           selectedIndex={this.state.selectedContactIndex}
           setSelectedIndex={this.setSelectedIndex}
@@ -337,6 +336,9 @@ class RecipientsInput extends Component {
           formatContactPhone={this.props.formatContactPhone}
           visibility={this.state.isFocusOnInput}
           titleEnabled={this.props.titleEnabled}
+          phoneTypeRenderer={this.props.phoneTypeRenderer}
+          contactInfoRenderer={this.props.contactInfoRenderer}
+          contactPhoneRenderer={this.props.contactPhoneRenderer}
         />
       </div>
     );
@@ -372,8 +374,10 @@ RecipientsInput.propTypes = {
   autoFocus: PropTypes.bool,
   currentLocale: PropTypes.string.isRequired,
   multiple: PropTypes.bool,
-  phoneTypeRenderer: PropTypes.func,
   inputRef: PropTypes.func,
+  phoneTypeRenderer: PropTypes.func,
+  contactInfoRenderer: PropTypes.func,
+  contactPhoneRenderer: PropTypes.func,
 };
 
 RecipientsInput.defaultProps = {
@@ -386,8 +390,10 @@ RecipientsInput.defaultProps = {
   titleEnabled: undefined,
   autoFocus: false,
   multiple: false,
-  phoneTypeRenderer: undefined,
   inputRef: undefined,
+  phoneTypeRenderer: undefined,
+  contactInfoRenderer: undefined,
+  contactPhoneRenderer: undefined,
 };
 
 export default RecipientsInput;

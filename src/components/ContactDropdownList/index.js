@@ -6,46 +6,121 @@ import styles from './styles.scss';
 import phoneTypeNames from '../../lib/phoneTypeNames';
 import phoneSourceNames from '../../lib/phoneSourceNames';
 
-function ContactItem(props) {
+const spliter = '|';
+
+function ContactInfo({
+  name,
+  entityType,
+  titleEnabled,
+}) {
+  const phoneSourceName = phoneSourceNames.getString(entityType);
+  const nameTitle = `${name} ${spliter} ${phoneSourceName}`;
+  return (
+    <div className={styles.nameSection} title={titleEnabled && nameTitle}>
+      <span className={styles.name}>
+        {name}
+      </span>
+      <span className={styles.spliter}>{spliter}</span>
+      <span className={styles.label}>
+        {phoneSourceName}
+      </span>
+    </div>
+  );
+}
+ContactInfo.propTypes = {
+  name: PropTypes.string.isRequired,
+  entityType: PropTypes.string.isRequired,
+  titleEnabled: PropTypes.bool,
+};
+ContactInfo.defaultProps = {
+  titleEnabled: undefined,
+};
+
+function ContactPhone({
+  phoneType,
+  phoneNumber,
+  formatContactPhone,
+  titleEnabled,
+  phoneTypeRenderer,
+}) {
+  const phoneTypeName = phoneTypeRenderer ?
+    phoneTypeRenderer(phoneType) :
+    phoneTypeNames.getString(phoneType);
+  const phoneNumberTitle =
+    `${formatContactPhone(phoneNumber)} ${spliter} ${phoneTypeName}`;
+  return (
+    <div className={styles.phoneNumberSection} title={titleEnabled && phoneNumberTitle}>
+      <span>
+        {formatContactPhone(phoneNumber)}
+      </span>
+      <span className={styles.spliter}>{spliter}</span>
+      <span className={styles.label}>
+        {phoneTypeName}
+      </span>
+    </div>
+  );
+}
+ContactPhone.propTypes = {
+  phoneType: PropTypes.string.isRequired,
+  phoneNumber: PropTypes.string.isRequired,
+  formatContactPhone: PropTypes.func.isRequired,
+  titleEnabled: PropTypes.bool,
+  phoneTypeRenderer: PropTypes.func,
+};
+ContactPhone.defaultProps = {
+  titleEnabled: undefined,
+  phoneTypeRenderer: undefined,
+};
+
+function ContactItem({
+  active,
+  onHover,
+  onClick,
+  name,
+  entityType,
+  phoneType,
+  phoneNumber,
+  formatContactPhone,
+  titleEnabled,
+  phoneTypeRenderer,
+  contactInfoRenderer: ContactInfoRenderer,
+  contactPhoneRenderer: ContactPhoneRenderer,
+}) {
   const className = classnames(
     styles.contactItem,
-    props.active ? styles.active : null,
+    active ? styles.active : null,
   );
-  const spliter = '|';
-  const phoneTypeName = props.phoneTypeRenderer ?
-    props.phoneTypeRenderer(props.phoneType) :
-    phoneTypeNames.getString(props.phoneType);
-  const phoneSourceName = phoneSourceNames.getString(props.entityType);
-  const nameTitle = `${props.name} ${spliter} ${phoneSourceName}`;
-  const phoneNumberTitle =
-    `${props.formatContactPhone(props.phoneNumber)} ${spliter} ${phoneTypeName}`;
-
+  if (!ContactInfoRenderer) {
+    ContactInfoRenderer = ContactInfo;
+  }
+  if (!ContactPhoneRenderer) {
+    ContactPhoneRenderer = ContactPhone;
+  }
   return (
-    <li className={className} onMouseOver={props.onHover}>
-      <div className={styles.clickable} onClick={props.onClick}>
-        <div className={styles.nameSection} title={props.titleEnabled && nameTitle}>
-          <span className={styles.name}>
-            {props.name}
-          </span>
-          <span className={styles.spliter}>{spliter}</span>
-          <span className={styles.label}>
-            {phoneSourceName}
-          </span>
-        </div>
-        <div className={styles.phoneNumberSection} title={props.titleEnabled && phoneNumberTitle}>
-          <span>
-            {props.formatContactPhone(props.phoneNumber)}
-          </span>
-          <span className={styles.spliter}>{spliter}</span>
-          <span className={styles.label}>
-            {phoneTypeName}
-          </span>
-        </div>
+    <li className={className} onMouseOver={onHover}>
+      <div className={styles.clickable} onClick={onClick}>
+        <ContactInfoRenderer
+          name={name}
+          entityType={entityType}
+          phoneType={phoneType}
+          phoneNumber={phoneNumber}
+          formatContactPhone={formatContactPhone}
+          phoneTypeRenderer={phoneTypeRenderer}
+          titleEnabled={titleEnabled}
+        />
+        <ContactPhoneRenderer
+          name={name}
+          entityType={entityType}
+          phoneType={phoneType}
+          phoneNumber={phoneNumber}
+          formatContactPhone={formatContactPhone}
+          phoneTypeRenderer={phoneTypeRenderer}
+          titleEnabled={titleEnabled}
+        />
       </div>
     </li>
   );
 }
-
 ContactItem.propTypes = {
   onClick: PropTypes.func.isRequired,
   formatContactPhone: PropTypes.func.isRequired,
@@ -57,10 +132,14 @@ ContactItem.propTypes = {
   onHover: PropTypes.func.isRequired,
   titleEnabled: PropTypes.bool,
   phoneTypeRenderer: PropTypes.func,
+  contactInfoRenderer: PropTypes.func,
+  contactPhoneRenderer: PropTypes.func,
 };
 ContactItem.defaultProps = {
   titleEnabled: undefined,
   phoneTypeRenderer: undefined,
+  contactInfoRenderer: undefined,
+  contactPhoneRenderer: undefined,
 };
 
 class ContactDropdownList extends Component {
@@ -98,6 +177,8 @@ class ContactDropdownList extends Component {
       titleEnabled,
       visibility,
       phoneTypeRenderer,
+      contactInfoRenderer,
+      contactPhoneRenderer,
     } = this.props;
     if (!visibility || items.length === 0) {
       return null;
@@ -126,6 +207,8 @@ class ContactDropdownList extends Component {
               onClick={() => addToRecipients(item)}
               key={`${index}${item.phoneNumber}${item.name}${item.phoneType}`}
               titleEnabled={titleEnabled}
+              contactInfoRenderer={contactInfoRenderer}
+              contactPhoneRenderer={contactPhoneRenderer}
             />
           ))
         }
@@ -149,16 +232,20 @@ ContactDropdownList.propTypes = {
   setSelectedIndex: PropTypes.func.isRequired,
   selectedIndex: PropTypes.number.isRequired,
   titleEnabled: PropTypes.bool,
-  phoneTypeRenderer: PropTypes.func,
   listRef: PropTypes.func,
+  phoneTypeRenderer: PropTypes.func,
+  contactInfoRenderer: PropTypes.func,
+  contactPhoneRenderer: PropTypes.func,
 };
 
 ContactDropdownList.defaultProps = {
   className: null,
   scrollDirection: null,
   titleEnabled: undefined,
-  phoneTypeRenderer: undefined,
   listRef: undefined,
+  phoneTypeRenderer: undefined,
+  contactInfoRenderer: undefined,
+  contactPhoneRenderer: undefined,
 };
 
 export default ContactDropdownList;
