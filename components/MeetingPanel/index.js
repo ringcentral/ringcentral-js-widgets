@@ -791,6 +791,7 @@ var MeetingPanel = function (_Component) {
           invite = _props.invite,
           currentLocale = _props.currentLocale,
           ScheduleButton = _props.scheduleButton,
+          recipientsSection = _props.recipientsSection,
           showWhen = _props.showWhen,
           showDuration = _props.showDuration,
           showRecurringMeeting = _props.showRecurringMeeting;
@@ -836,6 +837,7 @@ var MeetingPanel = function (_Component) {
             meeting: meeting,
             update: update,
             currentLocale: currentLocale }),
+          recipientsSection,
           showWhen ? _react2.default.createElement(When, {
             isRecurring: isRecurring,
             currentLocale: currentLocale,
@@ -890,6 +892,7 @@ MeetingPanel.propTypes = {
   meeting: _propTypes2.default.object.isRequired,
   currentLocale: _propTypes2.default.string.isRequired,
   scheduleButton: _propTypes2.default.func.isRequired,
+  recipientsSection: _propTypes2.default.node,
   disabled: _propTypes2.default.bool,
   hidden: _propTypes2.default.bool,
   showWhen: _propTypes2.default.bool,
@@ -898,6 +901,7 @@ MeetingPanel.propTypes = {
 };
 
 MeetingPanel.defaultProps = {
+  recipientsSection: undefined,
   disabled: false,
   hidden: false,
   showWhen: true,

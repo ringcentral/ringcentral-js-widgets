@@ -389,7 +389,6 @@ var RecipientsInput = function (_Component) {
           listRef: function listRef(ref) {
             _this3.listRef = ref;
           },
-          phoneTypeRenderer: this.props.phoneTypeRenderer,
           scrollDirection: this.state.scrollDirection,
           selectedIndex: this.state.selectedContactIndex,
           setSelectedIndex: this.setSelectedIndex,
@@ -397,7 +396,10 @@ var RecipientsInput = function (_Component) {
           items: relatedContactList,
           formatContactPhone: this.props.formatContactPhone,
           visibility: this.state.isFocusOnInput,
-          titleEnabled: this.props.titleEnabled
+          titleEnabled: this.props.titleEnabled,
+          phoneTypeRenderer: this.props.phoneTypeRenderer,
+          contactInfoRenderer: this.props.contactInfoRenderer,
+          contactPhoneRenderer: this.props.contactPhoneRenderer
         })
       );
     }
@@ -434,8 +436,10 @@ RecipientsInput.propTypes = {
   autoFocus: _propTypes2.default.bool,
   currentLocale: _propTypes2.default.string.isRequired,
   multiple: _propTypes2.default.bool,
+  inputRef: _propTypes2.default.func,
   phoneTypeRenderer: _propTypes2.default.func,
-  inputRef: _propTypes2.default.func
+  contactInfoRenderer: _propTypes2.default.func,
+  contactPhoneRenderer: _propTypes2.default.func
 };
 
 RecipientsInput.defaultProps = {
@@ -450,8 +454,10 @@ RecipientsInput.defaultProps = {
   titleEnabled: undefined,
   autoFocus: false,
   multiple: false,
+  inputRef: undefined,
   phoneTypeRenderer: undefined,
-  inputRef: undefined
+  contactInfoRenderer: undefined,
+  contactPhoneRenderer: undefined
 };
 
 exports.default = RecipientsInput;

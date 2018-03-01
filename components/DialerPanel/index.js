@@ -67,7 +67,9 @@ function DialerPanel(_ref) {
       clearToNumber = _ref.clearToNumber,
       setRecipient = _ref.setRecipient,
       clearRecipient = _ref.clearRecipient,
-      phoneTypeRenderer = _ref.phoneTypeRenderer;
+      phoneTypeRenderer = _ref.phoneTypeRenderer,
+      recipientsContactInfoRenderer = _ref.recipientsContactInfoRenderer,
+      recipientsContactPhoneRenderer = _ref.recipientsContactPhoneRenderer;
 
   var onCallFunc = function onCallFunc() {
     if (!callButtonDisabled) {
@@ -90,6 +92,8 @@ function DialerPanel(_ref) {
       formatContactPhone: formatPhone,
       currentLocale: currentLocale,
       phoneTypeRenderer: phoneTypeRenderer,
+      contactInfoRenderer: recipientsContactInfoRenderer,
+      contactPhoneRenderer: recipientsContactPhoneRenderer,
       titleEnabled: true,
       autoFocus: true
     }),
@@ -167,7 +171,9 @@ DialerPanel.propTypes = {
   clearToNumber: _propTypes2.default.func.isRequired,
   setRecipient: _propTypes2.default.func.isRequired,
   clearRecipient: _propTypes2.default.func.isRequired,
-  phoneTypeRenderer: _propTypes2.default.func
+  phoneTypeRenderer: _propTypes2.default.func,
+  recipientsContactInfoRenderer: _propTypes2.default.func,
+  recipientsContactPhoneRenderer: _propTypes2.default.func
 };
 
 DialerPanel.defaultProps = {
@@ -190,7 +196,9 @@ DialerPanel.defaultProps = {
   dialButtonVolume: 1,
   dialButtonMuted: false,
   recipient: [],
-  phoneTypeRenderer: undefined
+  phoneTypeRenderer: undefined,
+  recipientsContactInfoRenderer: undefined,
+  recipientsContactPhoneRenderer: undefined
 };
 
 exports.default = DialerPanel;

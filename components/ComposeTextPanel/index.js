@@ -149,6 +149,8 @@ var ComposeTextPanel = function (_Component) {
             formatContactPhone: this.props.formatContactPhone,
             currentLocale: this.props.currentLocale,
             phoneTypeRenderer: this.props.phoneTypeRenderer,
+            contactInfoRenderer: this.props.recipientsContactInfoRenderer,
+            contactPhoneRenderer: this.props.recipientsContactPhoneRenderer,
             titleEnabled: true,
             autoFocus: true,
             multiple: true
@@ -230,7 +232,9 @@ ComposeTextPanel.propTypes = {
   })).isRequired,
   outboundSMS: _propTypes2.default.bool,
   showSpinner: _propTypes2.default.bool,
-  phoneTypeRenderer: _propTypes2.default.func
+  phoneTypeRenderer: _propTypes2.default.func,
+  recipientsContactInfoRenderer: _propTypes2.default.func,
+  recipientsContactPhoneRenderer: _propTypes2.default.func
 };
 
 ComposeTextPanel.defaultProps = {
@@ -240,7 +244,9 @@ ComposeTextPanel.defaultProps = {
   senderNumber: '',
   outboundSMS: false,
   showSpinner: false,
-  phoneTypeRenderer: undefined
+  phoneTypeRenderer: undefined,
+  recipientsContactInfoRenderer: undefined,
+  recipientsContactPhoneRenderer: undefined
 };
 
 exports.default = ComposeTextPanel;

@@ -59,7 +59,9 @@ function mapToFunctions(_, _ref2) {
       countryCode: regionSettings.countryCode
     });
   } : _ref2$formatContactPh,
-      phoneTypeRenderer = _ref2.phoneTypeRenderer;
+      phoneTypeRenderer = _ref2.phoneTypeRenderer,
+      recipientsContactInfoRenderer = _ref2.recipientsContactInfoRenderer,
+      recipientsContactPhoneRenderer = _ref2.recipientsContactPhoneRenderer;
 
   return {
     send: function send() {
@@ -105,7 +107,9 @@ function mapToFunctions(_, _ref2) {
     updateMessageText: function updateMessageText() {
       return composeText.updateMessageText.apply(composeText, arguments);
     },
-    phoneTypeRenderer: phoneTypeRenderer
+    phoneTypeRenderer: phoneTypeRenderer,
+    recipientsContactInfoRenderer: recipientsContactInfoRenderer,
+    recipientsContactPhoneRenderer: recipientsContactPhoneRenderer
   };
 }
 

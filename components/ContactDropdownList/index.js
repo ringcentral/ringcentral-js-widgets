@@ -50,62 +50,133 @@ var _phoneSourceNames2 = _interopRequireDefault(_phoneSourceNames);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function ContactItem(props) {
-  var className = (0, _classnames2.default)(_styles2.default.contactItem, props.active ? _styles2.default.active : null);
-  var spliter = '|';
-  var phoneTypeName = props.phoneTypeRenderer ? props.phoneTypeRenderer(props.phoneType) : _phoneTypeNames2.default.getString(props.phoneType);
-  var phoneSourceName = _phoneSourceNames2.default.getString(props.entityType);
-  var nameTitle = props.name + ' ' + spliter + ' ' + phoneSourceName;
-  var phoneNumberTitle = props.formatContactPhone(props.phoneNumber) + ' ' + spliter + ' ' + phoneTypeName;
+var spliter = '|';
 
+function ContactInfo(_ref) {
+  var name = _ref.name,
+      entityType = _ref.entityType,
+      titleEnabled = _ref.titleEnabled;
+
+  var phoneSourceName = _phoneSourceNames2.default.getString(entityType);
+  var nameTitle = name + ' ' + spliter + ' ' + phoneSourceName;
   return _react2.default.createElement(
-    'li',
-    { className: className, onMouseOver: props.onHover },
+    'div',
+    { className: _styles2.default.nameSection, title: titleEnabled && nameTitle },
     _react2.default.createElement(
-      'div',
-      { className: _styles2.default.clickable, onClick: props.onClick },
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default.nameSection, title: props.titleEnabled && nameTitle },
-        _react2.default.createElement(
-          'span',
-          { className: _styles2.default.name },
-          props.name
-        ),
-        _react2.default.createElement(
-          'span',
-          { className: _styles2.default.spliter },
-          spliter
-        ),
-        _react2.default.createElement(
-          'span',
-          { className: _styles2.default.label },
-          phoneSourceName
-        )
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default.phoneNumberSection, title: props.titleEnabled && phoneNumberTitle },
-        _react2.default.createElement(
-          'span',
-          null,
-          props.formatContactPhone(props.phoneNumber)
-        ),
-        _react2.default.createElement(
-          'span',
-          { className: _styles2.default.spliter },
-          spliter
-        ),
-        _react2.default.createElement(
-          'span',
-          { className: _styles2.default.label },
-          phoneTypeName
-        )
-      )
+      'span',
+      { className: _styles2.default.name },
+      name
+    ),
+    _react2.default.createElement(
+      'span',
+      { className: _styles2.default.spliter },
+      spliter
+    ),
+    _react2.default.createElement(
+      'span',
+      { className: _styles2.default.label },
+      phoneSourceName
     )
   );
 }
+ContactInfo.propTypes = {
+  name: _propTypes2.default.string.isRequired,
+  entityType: _propTypes2.default.string.isRequired,
+  titleEnabled: _propTypes2.default.bool
+};
+ContactInfo.defaultProps = {
+  titleEnabled: undefined
+};
 
+function ContactPhone(_ref2) {
+  var phoneType = _ref2.phoneType,
+      phoneNumber = _ref2.phoneNumber,
+      formatContactPhone = _ref2.formatContactPhone,
+      titleEnabled = _ref2.titleEnabled,
+      phoneTypeRenderer = _ref2.phoneTypeRenderer;
+
+  var phoneTypeName = phoneTypeRenderer ? phoneTypeRenderer(phoneType) : _phoneTypeNames2.default.getString(phoneType);
+  var phoneNumberTitle = formatContactPhone(phoneNumber) + ' ' + spliter + ' ' + phoneTypeName;
+  return _react2.default.createElement(
+    'div',
+    { className: _styles2.default.phoneNumberSection, title: titleEnabled && phoneNumberTitle },
+    _react2.default.createElement(
+      'span',
+      null,
+      formatContactPhone(phoneNumber)
+    ),
+    _react2.default.createElement(
+      'span',
+      { className: _styles2.default.spliter },
+      spliter
+    ),
+    _react2.default.createElement(
+      'span',
+      { className: _styles2.default.label },
+      phoneTypeName
+    )
+  );
+}
+ContactPhone.propTypes = {
+  phoneType: _propTypes2.default.string.isRequired,
+  phoneNumber: _propTypes2.default.string.isRequired,
+  formatContactPhone: _propTypes2.default.func.isRequired,
+  titleEnabled: _propTypes2.default.bool,
+  phoneTypeRenderer: _propTypes2.default.func
+};
+ContactPhone.defaultProps = {
+  titleEnabled: undefined,
+  phoneTypeRenderer: undefined
+};
+
+function ContactItem(_ref3) {
+  var active = _ref3.active,
+      onHover = _ref3.onHover,
+      onClick = _ref3.onClick,
+      name = _ref3.name,
+      entityType = _ref3.entityType,
+      phoneType = _ref3.phoneType,
+      phoneNumber = _ref3.phoneNumber,
+      formatContactPhone = _ref3.formatContactPhone,
+      titleEnabled = _ref3.titleEnabled,
+      phoneTypeRenderer = _ref3.phoneTypeRenderer,
+      ContactInfoRenderer = _ref3.contactInfoRenderer,
+      ContactPhoneRenderer = _ref3.contactPhoneRenderer;
+
+  var className = (0, _classnames2.default)(_styles2.default.contactItem, active ? _styles2.default.active : null);
+  if (!ContactInfoRenderer) {
+    ContactInfoRenderer = ContactInfo;
+  }
+  if (!ContactPhoneRenderer) {
+    ContactPhoneRenderer = ContactPhone;
+  }
+  return _react2.default.createElement(
+    'li',
+    { className: className, onMouseOver: onHover },
+    _react2.default.createElement(
+      'div',
+      { className: _styles2.default.clickable, onClick: onClick },
+      _react2.default.createElement(ContactInfoRenderer, {
+        name: name,
+        entityType: entityType,
+        phoneType: phoneType,
+        phoneNumber: phoneNumber,
+        formatContactPhone: formatContactPhone,
+        phoneTypeRenderer: phoneTypeRenderer,
+        titleEnabled: titleEnabled
+      }),
+      _react2.default.createElement(ContactPhoneRenderer, {
+        name: name,
+        entityType: entityType,
+        phoneType: phoneType,
+        phoneNumber: phoneNumber,
+        formatContactPhone: formatContactPhone,
+        phoneTypeRenderer: phoneTypeRenderer,
+        titleEnabled: titleEnabled
+      })
+    )
+  );
+}
 ContactItem.propTypes = {
   onClick: _propTypes2.default.func.isRequired,
   formatContactPhone: _propTypes2.default.func.isRequired,
@@ -116,11 +187,15 @@ ContactItem.propTypes = {
   active: _propTypes2.default.bool.isRequired,
   onHover: _propTypes2.default.func.isRequired,
   titleEnabled: _propTypes2.default.bool,
-  phoneTypeRenderer: _propTypes2.default.func
+  phoneTypeRenderer: _propTypes2.default.func,
+  contactInfoRenderer: _propTypes2.default.func,
+  contactPhoneRenderer: _propTypes2.default.func
 };
 ContactItem.defaultProps = {
   titleEnabled: undefined,
-  phoneTypeRenderer: undefined
+  phoneTypeRenderer: undefined,
+  contactInfoRenderer: undefined,
+  contactPhoneRenderer: undefined
 };
 
 var ContactDropdownList = function (_Component) {
@@ -169,7 +244,9 @@ var ContactDropdownList = function (_Component) {
           addToRecipients = _props.addToRecipients,
           titleEnabled = _props.titleEnabled,
           visibility = _props.visibility,
-          phoneTypeRenderer = _props.phoneTypeRenderer;
+          phoneTypeRenderer = _props.phoneTypeRenderer,
+          contactInfoRenderer = _props.contactInfoRenderer,
+          contactPhoneRenderer = _props.contactPhoneRenderer;
 
       if (!visibility || items.length === 0) {
         return null;
@@ -201,7 +278,9 @@ var ContactDropdownList = function (_Component) {
               return addToRecipients(item);
             },
             key: '' + index + item.phoneNumber + item.name + item.phoneType,
-            titleEnabled: titleEnabled
+            titleEnabled: titleEnabled,
+            contactInfoRenderer: contactInfoRenderer,
+            contactPhoneRenderer: contactPhoneRenderer
           });
         })
       );
@@ -225,16 +304,20 @@ ContactDropdownList.propTypes = {
   setSelectedIndex: _propTypes2.default.func.isRequired,
   selectedIndex: _propTypes2.default.number.isRequired,
   titleEnabled: _propTypes2.default.bool,
+  listRef: _propTypes2.default.func,
   phoneTypeRenderer: _propTypes2.default.func,
-  listRef: _propTypes2.default.func
+  contactInfoRenderer: _propTypes2.default.func,
+  contactPhoneRenderer: _propTypes2.default.func
 };
 
 ContactDropdownList.defaultProps = {
   className: null,
   scrollDirection: null,
   titleEnabled: undefined,
+  listRef: undefined,
   phoneTypeRenderer: undefined,
-  listRef: undefined
+  contactInfoRenderer: undefined,
+  contactPhoneRenderer: undefined
 };
 
 exports.default = ContactDropdownList;

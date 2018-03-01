@@ -62,7 +62,9 @@ function mapToFunctions(_, _ref2) {
       regionSettings = _ref2$phone.regionSettings,
       contactSearch = _ref2$phone.contactSearch,
       dialerUI = _ref2$phone.dialerUI,
-      phoneTypeRenderer = _ref2.phoneTypeRenderer;
+      phoneTypeRenderer = _ref2.phoneTypeRenderer,
+      recipientsContactInfoRenderer = _ref2.recipientsContactInfoRenderer,
+      recipientsContactPhoneRenderer = _ref2.recipientsContactPhoneRenderer;
 
   return {
     onToNumberChange: function onToNumberChange(value) {
@@ -96,7 +98,9 @@ function mapToFunctions(_, _ref2) {
       }
       contactSearch.debouncedSearch({ searchString: searchString });
     },
-    phoneTypeRenderer: phoneTypeRenderer
+    phoneTypeRenderer: phoneTypeRenderer,
+    recipientsContactInfoRenderer: recipientsContactInfoRenderer,
+    recipientsContactPhoneRenderer: recipientsContactPhoneRenderer
   };
 }
 
