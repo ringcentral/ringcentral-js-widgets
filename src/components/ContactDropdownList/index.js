@@ -10,42 +10,48 @@ const spliter = '|';
 
 function ContactInfo({
   name,
-  nameTitle,
-  sourceName,
+  entityType,
+  titleEnabled,
 }) {
+  const phoneSourceName = phoneSourceNames.getString(entityType);
+  const nameTitle = `${name} ${spliter} ${phoneSourceName}`;
   return (
-    <div className={styles.nameSection} title={nameTitle}>
+    <div className={styles.nameSection} title={titleEnabled && nameTitle}>
       <span className={styles.name}>
         {name}
       </span>
       <span className={styles.spliter}>{spliter}</span>
       <span className={styles.label}>
-        {sourceName}
+        {phoneSourceName}
       </span>
     </div>
   );
 }
 ContactInfo.propTypes = {
   name: PropTypes.string.isRequired,
-  nameTitle: PropTypes.string,
-  sourceName: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-  ]).isRequired,
+  entityType: PropTypes.string.isRequired,
+  titleEnabled: PropTypes.bool,
 };
 ContactInfo.defaultProps = {
-  nameTitle: undefined,
+  titleEnabled: undefined,
 };
 
 function ContactPhone({
+  phoneType,
   phoneNumber,
-  phoneNumberTitle,
-  phoneTypeName,
+  formatContactPhone,
+  titleEnabled,
+  phoneTypeRenderer,
 }) {
+  const phoneTypeName = phoneTypeRenderer ?
+    phoneTypeRenderer(phoneType) :
+    phoneTypeNames.getString(phoneType);
+  const phoneNumberTitle =
+    `${formatContactPhone(phoneNumber)} ${spliter} ${phoneTypeName}`;
   return (
-    <div className={styles.phoneNumberSection} title={phoneNumberTitle}>
+    <div className={styles.phoneNumberSection} title={titleEnabled && phoneNumberTitle}>
       <span>
-        {phoneNumber}
+        {formatContactPhone(phoneNumber)}
       </span>
       <span className={styles.spliter}>{spliter}</span>
       <span className={styles.label}>
@@ -55,61 +61,56 @@ function ContactPhone({
   );
 }
 ContactPhone.propTypes = {
-  phoneNumber: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-  ]).isRequired,
-  phoneNumberTitle: PropTypes.string,
-  phoneTypeName: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-  ]).isRequired,
+  phoneType: PropTypes.string.isRequired,
+  phoneNumber: PropTypes.string.isRequired,
+  formatContactPhone: PropTypes.func.isRequired,
+  titleEnabled: PropTypes.bool,
+  phoneTypeRenderer: PropTypes.func,
 };
 ContactPhone.defaultProps = {
-  phoneNumberTitle: undefined,
+  titleEnabled: undefined,
+  phoneTypeRenderer: undefined,
 };
 
-function ContactItem(props) {
+function ContactItem({
+  active,
+  onHover,
+  onClick,
+  name,
+  entityType,
+  phoneType,
+  phoneNumber,
+  formatContactPhone,
+  titleEnabled,
+  phoneTypeRenderer,
+  contactInfoRenderer: ContactInfoRenderer,
+  contactPhoneRenderer: ContactPhoneRenderer,
+}) {
   const className = classnames(
     styles.contactItem,
-    props.active ? styles.active : null,
+    active ? styles.active : null,
   );
-  let contactInfo;
-  if (props.contactInfoRenderer) {
-    contactInfo = props.contactInfoRenderer(props);
-  } else {
-    const phoneSourceName = phoneSourceNames.getString(props.entityType);
-    const nameTitle = `${props.name} ${spliter} ${phoneSourceName}`;
-    contactInfo = (
-      <ContactInfo
-        name={props.name}
-        nameTitle={props.titleEnabled ? nameTitle : undefined}
-        sourceName={phoneSourceName}
-      />
-    );
+  if (!ContactInfoRenderer) {
+    ContactInfoRenderer = ContactInfo;
   }
-  let contactPhone;
-  if (props.contactPhoneRenderer) {
-    contactPhone = props.contactPhoneRenderer(props);
-  } else {
-    const phoneTypeName = props.phoneTypeRenderer ?
-      props.phoneTypeRenderer(props.phoneType) :
-      phoneTypeNames.getString(props.phoneType);
-    const phoneNumberTitle =
-      `${props.formatContactPhone(props.phoneNumber)} ${spliter} ${phoneTypeName}`;
-    contactPhone = (
-      <ContactPhone
-        phoneNumber={props.formatContactPhone(props.phoneNumber)}
-        phoneNumberTitle={props.titleEnabled && phoneNumberTitle}
-        phoneTypeName={phoneTypeName}
-      />
-    );
+  if (!ContactPhoneRenderer) {
+    ContactPhoneRenderer = ContactPhone;
   }
   return (
-    <li className={className} onMouseOver={props.onHover}>
-      <div className={styles.clickable} onClick={props.onClick}>
-        {contactInfo}
-        {contactPhone}
+    <li className={className} onMouseOver={onHover}>
+      <div className={styles.clickable} onClick={onClick}>
+        <ContactInfoRenderer
+          name={name}
+          entityType={entityType}
+          titleEnabled={titleEnabled}
+        />
+        <ContactPhoneRenderer
+          phoneType={phoneType}
+          phoneNumber={phoneNumber}
+          formatContactPhone={formatContactPhone}
+          phoneTypeRenderer={phoneTypeRenderer}
+          titleEnabled={titleEnabled}
+        />
       </div>
     </li>
   );
