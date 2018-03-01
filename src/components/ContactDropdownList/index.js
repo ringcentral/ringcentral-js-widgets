@@ -102,9 +102,15 @@ function ContactItem({
         <ContactInfoRenderer
           name={name}
           entityType={entityType}
+          phoneType={phoneType}
+          phoneNumber={phoneNumber}
+          formatContactPhone={formatContactPhone}
+          phoneTypeRenderer={phoneTypeRenderer}
           titleEnabled={titleEnabled}
         />
         <ContactPhoneRenderer
+          name={name}
+          entityType={entityType}
           phoneType={phoneType}
           phoneNumber={phoneNumber}
           formatContactPhone={formatContactPhone}
