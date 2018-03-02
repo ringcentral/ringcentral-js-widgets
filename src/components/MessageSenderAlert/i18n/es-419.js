@@ -10,7 +10,6 @@ export default {
   [messageSenderMessages.noToNumber]: 'Número de teléfono no válido.',
   [messageSenderMessages.recipientsEmpty]: 'Ingrese un número válido de destinatario.',
   [messageSenderMessages.textTooLong]: 'El mensaje es demasiado largo. El número máximo de caracteres permitidos es 1000',
-  [messageSenderMessages.recipientNumberInvalids]: 'El número del destinatario no es válido',
   [messageSenderMessages.noAreaCode]: 'Defina el {areaCodeLink} para utilizar números de teléfono locales de 7 dígitos.',
   [messageSenderMessages.specialNumber]: 'No es posible llamar a emergencias o a números de servicios especiales.',
   [messageSenderMessages.connectFailed]: 'Error de conexión. Vuelva a intentarlo más tarde.',

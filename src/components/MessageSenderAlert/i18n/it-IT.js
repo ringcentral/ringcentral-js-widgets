@@ -10,7 +10,6 @@ export default {
   [messageSenderMessages.noToNumber]: 'Numero di telefono non valido.',
   [messageSenderMessages.recipientsEmpty]: 'Immetti un numero di destinazione valido.',
   [messageSenderMessages.textTooLong]: 'Testo troppo lungo, limite di 1000',
-  [messageSenderMessages.recipientNumberInvalids]: 'Numero destinatario non valido',
   [messageSenderMessages.noAreaCode]: 'Imposta {areaCodeLink} per utilizzare i numeri di telefono locali a 7 cifre.',
   [messageSenderMessages.specialNumber]: 'Le chiamate di emergenza o a servizi speciali non sono supportate.',
   [messageSenderMessages.connectFailed]: 'Connessione non riuscita. Riprova più tardi.',
