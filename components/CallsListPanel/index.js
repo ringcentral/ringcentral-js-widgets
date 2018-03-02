@@ -86,7 +86,8 @@ function ActiveCallList(_ref) {
       webphoneToVoicemail = _ref.webphoneToVoicemail,
       enableContactFallback = _ref.enableContactFallback,
       title = _ref.title,
-      sourceIcons = _ref.sourceIcons;
+      sourceIcons = _ref.sourceIcons,
+      disableLinks = _ref.disableLinks;
 
   if (calls.length === 0) {
     return null;
@@ -124,7 +125,8 @@ function ActiveCallList(_ref) {
         webphoneToVoicemail: webphoneToVoicemail,
         enableContactFallback: enableContactFallback,
         autoLog: autoLog,
-        sourceIcons: sourceIcons
+        sourceIcons: sourceIcons,
+        disableLinks: disableLinks
       });
     })
   );
@@ -155,7 +157,8 @@ ActiveCallList.propTypes = {
   webphoneToVoicemail: _propTypes2.default.func,
   enableContactFallback: _propTypes2.default.bool,
   autoLog: _propTypes2.default.bool,
-  sourceIcons: _propTypes2.default.object
+  sourceIcons: _propTypes2.default.object,
+  disableLinks: _propTypes2.default.bool
 };
 
 ActiveCallList.defaultProps = {
@@ -177,7 +180,8 @@ ActiveCallList.defaultProps = {
   autoLog: false,
   onViewContact: undefined,
   webphoneToVoicemail: undefined,
-  sourceIcons: undefined
+  sourceIcons: undefined,
+  disableLinks: false
 };
 
 var ActiveCallsPanel = function (_Component) {
@@ -287,7 +291,8 @@ var ActiveCallsPanel = function (_Component) {
           webphoneResume: webphoneResume,
           webphoneToVoicemail: webphoneToVoicemail,
           enableContactFallback: enableContactFallback,
-          sourceIcons: sourceIcons
+          sourceIcons: sourceIcons,
+          disableLinks: disableLinks
         });
       };
       var historyCall = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : _react2.default.createElement(
