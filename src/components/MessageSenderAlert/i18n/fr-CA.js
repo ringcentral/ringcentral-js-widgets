@@ -10,7 +10,6 @@ export default {
   [messageSenderMessages.noToNumber]: 'Veuillez entrer un numéro de téléphone valide.',
   [messageSenderMessages.recipientsEmpty]: 'Veuillez entrer un numéro de destinataire valide.',
   [messageSenderMessages.textTooLong]: 'Le texte est trop long, limite\xA0: 1\xA0000',
-  [messageSenderMessages.recipientNumberInvalids]: 'Le numéro du destinataire n\'est pas valide',
   [messageSenderMessages.noAreaCode]: 'Veuillez configurer {areaCodeLink} pour utiliser des numéros de téléphone locaux à 7\xA0chiffres.',
   [messageSenderMessages.specialNumber]: 'La composition de numéros d\'urgence ou renvoyant à des services spéciaux n\'est pas prise en charge.',
   [messageSenderMessages.connectFailed]: 'Échec de la connexion. Veuillez réessayer plus tard.',
