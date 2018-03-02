@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "yarn test:jest",
-    "test:jest": "jest --no-cache --maxWorkers=2",
+    "test:jest": "jest --no-cache --maxWorkers=5",
     "test:watch": "yarn test -- --watch",
     "test:coverage": "yarn test --coverage",
     "build": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js build",
@@ -99,7 +99,8 @@
     "url-loader": "^0.5.8",
     "webpack": "^3.5.5",
     "webpack-dev-server": "^2.4.5",
-    "yargs": "^8.0.1"
+    "yargs": "^8.0.1",
+    "pubnub": "^4.20.1"
   },
   "dependencies": {
     "animate.css": "^3.5.2",

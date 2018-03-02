@@ -10,13 +10,15 @@ import DeleteMessageIcon from '../../assets/images/DeleteMessageIcon.svg';
 import CloseIcon from '../../assets/images/CloseIcon.svg';
 import MarkIcon from '../../assets/images/Mark.svg';
 import UnmarkIcon from '../../assets/images/Unmark.svg';
+import PreviewIcon from '../../assets/images/Preview.svg';
+import DownloadIcon from '../../assets/images/Download.svg';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 
 import styles from './styles.scss';
 import i18n from './i18n';
 
-function ConfirmDeleteModal({
+export function ConfirmDeleteModal({
   currentLocale,
   show,
   onDelete,
@@ -59,7 +61,7 @@ ConfirmDeleteModal.defaultProps = {
   onCancel: () => {}
 };
 
-function ClickToDialButton({
+export function ClickToDialButton({
   className,
   onClickToDial,
   disableLinks,
@@ -95,7 +97,7 @@ ClickToDialButton.defaultProps = {
   title: undefined,
 };
 
-function ClickToSmsButton({
+export function ClickToSmsButton({
   className,
   onClickToSms,
   disableLinks,
@@ -128,7 +130,7 @@ ClickToSmsButton.defaultProps = {
   title: undefined,
 };
 
-function DeleteButton({
+export function DeleteButton({
   className,
   title,
   openDeleteModal,
@@ -163,7 +165,7 @@ DeleteButton.defaultProps = {
   openDeleteModal: () => {},
 };
 
-function MarkButton({
+export function MarkButton({
   marked,
   className,
   onClick,
@@ -208,6 +210,36 @@ MarkButton.defaultProps = {
   className: undefined,
   markTitle: undefined,
   unmarkTitle: undefined,
+};
+
+export function PreviewButton({
+  title,
+  onClick,
+  disabled,
+  className,
+}) {
+  return (
+    <Button
+      className={classnames(styles.button, styles.svgBtn, className)}
+      onClick={onClick}
+      disabled={disabled}
+    >
+      <span title={title}>
+        <PreviewIcon
+          className={classnames(styles.svgFillIcon, (disabled ? styles.disabled : null))}
+        />
+      </span>
+    </Button>
+  );
+}
+PreviewButton.propTypes = {
+  title: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
+  className: PropTypes.string,
+};
+PreviewButton.defaultProps = {
+  className: undefined,
 };
 
 export default class ActionMenuList extends Component {
@@ -283,7 +315,16 @@ export default class ActionMenuList extends Component {
       e.stopPropagation();
     }
   }
-
+  onPreview = () => {
+    if (this.props.faxAttachment && this.props.faxAttachment.uri) {
+      this.props.onPreview(this.props.faxAttachment.uri);
+    }
+  }
+  _onDownloadClick = (e) => {
+    if (this.props.disableLinks) {
+      e.preventDefault();
+    }
+  }
   render() {
     const {
       className,
@@ -312,6 +353,10 @@ export default class ActionMenuList extends Component {
       marked,
       markTitle,
       unmarkTitle,
+      previewTitle,
+      downloadTitle,
+      onPreview,
+      faxAttachment,
     } = this.props;
 
     const logButton = onLog ?
@@ -416,10 +461,36 @@ export default class ActionMenuList extends Component {
         />
       ) :
       null;
+    const previewButton = onPreview && faxAttachment && faxAttachment.uri ?
+      (
+        <PreviewButton
+          title={previewTitle}
+          onClick={this.onPreview}
+          disabled={disableLinks}
+        />
+      ) : null;
+    const downloadButton = faxAttachment && faxAttachment.uri ?
+      (
+        <div className={classnames(styles.button, styles.svgBtn, styles.svgFillIcon,
+          disableLinks ? styles.disabled : null)} >
+          <a
+            target="_blank"
+            download
+            title={downloadTitle}
+            href={faxAttachment.uri}
+            onClick={this._onDownloadClick}
+            disabled={disableLinks}
+          >
+            <DownloadIcon width={18} height={18} />
+          </a>
+        </div>
+      ) : null;
     return (
       <div className={classnames(styles.root, className)} onClick={this.preventEventPropogation}>
         {clickToDialButton}
         {clickToSmsButton}
+        {previewButton}
+        {downloadButton}
         {entityButton}
         {logButton}
         {markButton}
@@ -459,6 +530,12 @@ ActionMenuList.propTypes = {
   marked: PropTypes.bool,
   markTitle: PropTypes.string,
   unmarkTitle: PropTypes.string,
+  previewTitle: PropTypes.string,
+  downloadTitle: PropTypes.string,
+  onPreview: PropTypes.func,
+  faxAttachment: PropTypes.shape({
+    uri: PropTypes.string,
+  }),
 };
 ActionMenuList.defaultProps = {
   className: undefined,
@@ -487,4 +564,8 @@ ActionMenuList.defaultProps = {
   marked: false,
   markTitle: undefined,
   unmarkTitle: undefined,
+  previewTitle: undefined,
+  downloadTitle: undefined,
+  onPreview: undefined,
+  faxAttachment: undefined,
 };

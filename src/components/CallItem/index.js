@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import 'core-js/fn/array/find';
 import callDirections from 'ringcentral-integration/enums/callDirections';
+import messageTypes from 'ringcentral-integration/enums/messageTypes';
+import messageDirection from 'ringcentral-integration/enums/messageDirection';
 // import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 import {
   isInbound,
@@ -16,6 +18,8 @@ import DurationCounter from '../DurationCounter';
 import ContactDisplay from '../ContactDisplay';
 import formatDuration from '../../lib/formatDuration';
 import ActionMenu from '../ActionMenu';
+import FaxInboundIcon from '../../assets/images/FaxInbound.svg';
+import FaxOutboundIcon from '../../assets/images/FaxOutbound.svg';
 // import Button from '../Button';
 import styles from './styles.scss';
 
@@ -35,20 +39,35 @@ function CallIcon({
   inboundTitle,
   outboundTitle,
   missedTitle,
+  type,
 }) {
-  const title = missed ? missedTitle :
-    (direction === callDirections.inbound) ? inboundTitle : outboundTitle;
+  let icon = '';
+  switch (type) {
+    case messageTypes.fax: {
+      icon = direction === messageDirection.inbound ?
+        <span title={inboundTitle} ><FaxInboundIcon width={21} className={styles.icon} /></span> :
+        <span title={outboundTitle} ><FaxOutboundIcon width={21} className={styles.icon} /></span>;
+      break;
+    }
+    default: {
+      const title = missed ? missedTitle :
+      (direction === callDirections.inbound) ? inboundTitle : outboundTitle;
+      icon = (
+        <span
+          className={classnames(
+            missed ? callIconMap.missed : callIconMap[direction],
+            active && styles.activeCall,
+            ringing && styles.ringing,
+            missed && styles.missed,
+          )}
+          title={title}
+        />
+      );
+    }
+  }
   return (
     <div className={styles.callIcon}>
-      <span
-        className={classnames(
-          missed ? callIconMap.missed : callIconMap[direction],
-          active && styles.activeCall,
-          ringing && styles.ringing,
-          missed && styles.missed,
-        )}
-        title={title}
-      />
+      {icon}
     </div>
   );
 }
@@ -57,11 +76,19 @@ CallIcon.propTypes = {
   missed: PropTypes.bool,
   active: PropTypes.bool,
   ringing: PropTypes.bool,
+  inboundTitle: PropTypes.string,
+  outboundTitle: PropTypes.string,
+  missedTitle: PropTypes.string,
+  type: PropTypes.string,
 };
 CallIcon.defaultProps = {
   missed: false,
   active: false,
   ringing: false,
+  inboundTitle: '',
+  outboundTitle: '',
+  missedTitle: '',
+  type: '',
 };
 
 export default class CallItem extends Component {
@@ -281,6 +308,7 @@ export default class CallItem extends Component {
         duration,
         activityMatches,
         offset,
+        type
       },
       brand,
       currentLocale,
@@ -346,6 +374,7 @@ export default class CallItem extends Component {
             inboundTitle={i18n.getString('inboundCall', currentLocale)}
             outboundTitle={i18n.getString('outboundCall', currentLocale)}
             missedTitle={i18n.getString('missedCall', currentLocale)}
+            type={type}
           />
           <ContactDisplay
             reference={(ref) => { this.contactDisplay = ref; }}
