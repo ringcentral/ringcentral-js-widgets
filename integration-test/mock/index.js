@@ -35,6 +35,8 @@ exports.sms = sms;
 exports.restore = restore;
 exports.mockForLogin = mockForLogin;
 exports.mockClient = mockClient;
+exports.ringOut = ringOut;
+exports.ringOutUpdate = ringOutUpdate;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -57,6 +59,7 @@ var phoneNumberBody = require('./data/phoneNumber');
 var presenceBody = require('./data/presence.json');
 var numberParserBody = require('./data/numberParser.json');
 var smsBody = require('./data/sms.json');
+var ringOutBody = require('./data/ringOut.json');
 
 var mockServer = 'http://whatever';
 function createSDK() {
@@ -90,7 +93,9 @@ function mockApi(_ref) {
       status = _ref$status === undefined ? 200 : _ref$status,
       _ref$statusText = _ref.statusText,
       statusText = _ref$statusText === undefined ? 'OK' : _ref$statusText,
-      headers = _ref.headers;
+      headers = _ref.headers,
+      _ref$isOnce = _ref.isOnce,
+      isOnce = _ref$isOnce === undefined ? true : _ref$isOnce;
 
   var responseHeaders = void 0;
   var isJson = typeof body !== 'string';
@@ -105,7 +110,8 @@ function mockApi(_ref) {
   } else {
     mockUrl = '' + server + path;
   }
-  fetchMock.once(mockUrl, {
+  var mock = isOnce ? fetchMock.once.bind(fetchMock) : fetchMock.mock.bind(fetchMock);
+  mock(mockUrl, {
     body: isJson ? (0, _stringify2.default)(body) : body,
     status: status,
     statusText: statusText,
@@ -355,5 +361,26 @@ function mockForLogin() {
 
 function mockClient(client) {
   client.service = createSDK({});
+}
+
+function ringOut() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  mockApi({
+    isOnce: false,
+    method: 'POST',
+    url: mockServer + '/restapi/v1.0/account/~/extension/~/ring-out',
+    body: (0, _extends3.default)({}, ringOutBody, mockResponse)
+  });
+}
+
+function ringOutUpdate() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  mockApi({
+    isOnce: false,
+    url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/ring-out/',
+    body: (0, _extends3.default)({}, ringOutBody, mockResponse)
+  });
 }
 //# sourceMappingURL=index.js.map
