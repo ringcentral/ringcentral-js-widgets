@@ -47,7 +47,7 @@ export default function MessageSenderAlert({
 
 MessageSenderAlert.propTypes = {
   currentLocale: PropTypes.string.isRequired,
-  brand: PropTypes.string.isRequired,
+  brand: PropTypes.string,
   message: PropTypes.shape({
     message: PropTypes.string.isRequired,
   }).isRequired,
@@ -55,6 +55,7 @@ MessageSenderAlert.propTypes = {
 };
 MessageSenderAlert.defaultProps = {
   onAreaCodeLink: undefined,
+  brand: 'RingCentral'
 };
 
 MessageSenderAlert.handleMessage = ({ message }) => (
