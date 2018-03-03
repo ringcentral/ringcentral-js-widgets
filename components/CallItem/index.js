@@ -73,6 +73,14 @@ var _callDirections = require('ringcentral-integration/enums/callDirections');
 
 var _callDirections2 = _interopRequireDefault(_callDirections);
 
+var _messageTypes = require('ringcentral-integration/enums/messageTypes');
+
+var _messageTypes2 = _interopRequireDefault(_messageTypes);
+
+var _messageDirection = require('ringcentral-integration/enums/messageDirection');
+
+var _messageDirection2 = _interopRequireDefault(_messageDirection);
+
 var _callLogHelpers = require('ringcentral-integration/lib/callLogHelpers');
 
 var _parseNumber = require('ringcentral-integration/lib/parseNumber');
@@ -103,6 +111,14 @@ var _ActionMenu = require('../ActionMenu');
 
 var _ActionMenu2 = _interopRequireDefault(_ActionMenu);
 
+var _FaxInbound = require('../../assets/images/FaxInbound.svg');
+
+var _FaxInbound2 = _interopRequireDefault(_FaxInbound);
+
+var _FaxOutbound = require('../../assets/images/FaxOutbound.svg');
+
+var _FaxOutbound2 = _interopRequireDefault(_FaxOutbound);
+
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -122,28 +138,64 @@ function CallIcon(_ref) {
       ringing = _ref.ringing,
       inboundTitle = _ref.inboundTitle,
       outboundTitle = _ref.outboundTitle,
-      missedTitle = _ref.missedTitle;
+      missedTitle = _ref.missedTitle,
+      type = _ref.type;
 
-  var title = missed ? missedTitle : direction === _callDirections2.default.inbound ? inboundTitle : outboundTitle;
+  var icon = '';
+  switch (type) {
+    case _messageTypes2.default.fax:
+      {
+        icon = direction === _messageDirection2.default.inbound ? _react2.default.createElement(
+          'span',
+          { title: inboundTitle },
+          _react2.default.createElement(_FaxInbound2.default, { width: 21, className: _styles2.default.icon })
+        ) : _react2.default.createElement(
+          'span',
+          { title: outboundTitle },
+          _react2.default.createElement(_FaxOutbound2.default, { width: 21, className: _styles2.default.icon })
+        );
+        break;
+      }
+    default:
+      {
+        var title = null;
+        if (missed) {
+          title = missedTitle;
+        } else if (direction === _callDirections2.default.inbound) {
+          title = inboundTitle;
+        } else {
+          title = outboundTitle;
+        }
+        icon = _react2.default.createElement('span', {
+          className: (0, _classnames2.default)(missed ? callIconMap.missed : callIconMap[direction], active && _styles2.default.activeCall, ringing && _styles2.default.ringing, missed && _styles2.default.missed),
+          title: title
+        });
+      }
+  }
   return _react2.default.createElement(
     'div',
     { className: _styles2.default.callIcon },
-    _react2.default.createElement('span', {
-      className: (0, _classnames2.default)(missed ? callIconMap.missed : callIconMap[direction], active && _styles2.default.activeCall, ringing && _styles2.default.ringing, missed && _styles2.default.missed),
-      title: title
-    })
+    icon
   );
 }
 CallIcon.propTypes = {
   direction: _propTypes2.default.string.isRequired,
   missed: _propTypes2.default.bool,
   active: _propTypes2.default.bool,
-  ringing: _propTypes2.default.bool
+  ringing: _propTypes2.default.bool,
+  inboundTitle: _propTypes2.default.string,
+  outboundTitle: _propTypes2.default.string,
+  missedTitle: _propTypes2.default.string,
+  type: _propTypes2.default.string
 };
 CallIcon.defaultProps = {
   missed: false,
   active: false,
-  ringing: false
+  ringing: false,
+  inboundTitle: '',
+  outboundTitle: '',
+  missedTitle: '',
+  type: ''
 };
 
 var CallItem = function (_Component) {
@@ -461,6 +513,7 @@ var CallItem = function (_Component) {
           duration = _props$call.duration,
           activityMatches = _props$call.activityMatches,
           offset = _props$call.offset,
+          type = _props$call.type,
           brand = _props.brand,
           currentLocale = _props.currentLocale,
           areaCode = _props.areaCode,
@@ -517,7 +570,8 @@ var CallItem = function (_Component) {
             missed: missed,
             inboundTitle: _i18n2.default.getString('inboundCall', currentLocale),
             outboundTitle: _i18n2.default.getString('outboundCall', currentLocale),
-            missedTitle: _i18n2.default.getString('missedCall', currentLocale)
+            missedTitle: _i18n2.default.getString('missedCall', currentLocale),
+            type: type
           }),
           _react2.default.createElement(_ContactDisplay2.default, {
             reference: function reference(ref) {

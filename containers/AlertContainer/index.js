@@ -98,12 +98,19 @@ function mapToProps(_, _ref) {
 function getDefaultRenderer(_ref2) {
   var rateLimiter = _ref2.rateLimiter,
       brand = _ref2.brand,
+      alert = _ref2.alert,
       routerInteraction = _ref2.routerInteraction,
       regionSettingsUrl = _ref2.regionSettingsUrl,
       callingSettingsUrl = _ref2.callingSettingsUrl;
 
   var onRegionSettingsLinkClick = function onRegionSettingsLinkClick() {
+    var _ref3 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+        alertId = _ref3.alertId;
+
     routerInteraction.push(regionSettingsUrl);
+    if (alertId) {
+      alert.dismiss(alertId);
+    }
   };
   var onCallingSettingsLinkClick = function onCallingSettingsLinkClick() {
     routerInteraction.push(callingSettingsUrl);
@@ -183,23 +190,24 @@ function getDefaultRenderer(_ref2) {
   };
 }
 
-function mapToFunctions(_, _ref3) {
-  var _ref3$phone = _ref3.phone,
-      rateLimiter = _ref3$phone.rateLimiter,
-      brand = _ref3$phone.brand,
-      alert = _ref3$phone.alert,
-      routerInteraction = _ref3$phone.routerInteraction,
-      regionSettingsUrl = _ref3.regionSettingsUrl,
-      callingSettingsUrl = _ref3.callingSettingsUrl,
-      _ref3$getRenderer = _ref3.getRenderer,
-      _getRenderer = _ref3$getRenderer === undefined ? getDefaultRenderer({
+function mapToFunctions(_, _ref4) {
+  var _ref4$phone = _ref4.phone,
+      rateLimiter = _ref4$phone.rateLimiter,
+      brand = _ref4$phone.brand,
+      alert = _ref4$phone.alert,
+      routerInteraction = _ref4$phone.routerInteraction,
+      regionSettingsUrl = _ref4.regionSettingsUrl,
+      callingSettingsUrl = _ref4.callingSettingsUrl,
+      _ref4$getRenderer = _ref4.getRenderer,
+      _getRenderer = _ref4$getRenderer === undefined ? getDefaultRenderer({
     rateLimiter: rateLimiter,
     brand: brand,
+    alert: alert,
     routerInteraction: routerInteraction,
     regionSettingsUrl: regionSettingsUrl,
     callingSettingsUrl: callingSettingsUrl
-  }) : _ref3$getRenderer,
-      getAdditionalRenderer = _ref3.getAdditionalRenderer;
+  }) : _ref4$getRenderer,
+      getAdditionalRenderer = _ref4.getAdditionalRenderer;
 
   var additionalRenderer = getAdditionalRenderer && getAdditionalRenderer();
   return {

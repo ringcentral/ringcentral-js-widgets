@@ -53,7 +53,10 @@ function mapToProps(_, _ref) {
       _ref$showGroupNumberN = _ref.showGroupNumberName,
       showGroupNumberName = _ref$showGroupNumberN === undefined ? false : _ref$showGroupNumberN;
   var serviceFeatures = rolesAndPermissions.serviceFeatures,
-      permissions = rolesAndPermissions.permissions;
+      permissions = rolesAndPermissions.permissions,
+      readTextPermissions = rolesAndPermissions.readTextPermissions,
+      voicemailPermissions = rolesAndPermissions.voicemailPermissions,
+      readFaxPermissions = rolesAndPermissions.readFaxPermissions;
 
   return {
     showTitle: showTitle,
@@ -76,8 +79,10 @@ function mapToProps(_, _ref) {
     typeFilter: messages.typeFilter,
     textUnreadCounts: messageStore.textUnreadCounts,
     voiceUnreadCounts: messageStore.voiceUnreadCounts,
-    readTextPermission: !!(serviceFeatures && (serviceFeatures.PagerReceiving && serviceFeatures.PagerReceiving.enabled || serviceFeatures.SMSReceiving && serviceFeatures.SMSReceiving.enabled)),
-    readVoicemailPermission: !!(serviceFeatures && serviceFeatures.Voicemail && serviceFeatures.Voicemail.enabled)
+    faxUnreadCounts: messageStore.faxUnreadCounts,
+    readTextPermission: readTextPermissions,
+    readVoicemailPermission: voicemailPermissions,
+    readFaxPermission: readFaxPermissions
   };
 }
 
@@ -110,7 +115,8 @@ function mapToFunctions(_, _ref2) {
       _ref2$conversationDet = _ref2.conversationDetailRoute,
       conversationDetailRoute = _ref2$conversationDet === undefined ? '/conversations/{conversationId}' : _ref2$conversationDet,
       _ref2$composeTextRout = _ref2.composeTextRoute,
-      composeTextRoute = _ref2$composeTextRout === undefined ? '/composeText' : _ref2$composeTextRout;
+      composeTextRoute = _ref2$composeTextRout === undefined ? '/composeText' : _ref2$composeTextRout,
+      _previewFaxMessages = _ref2.previewFaxMessages;
 
   return {
     dateTimeFormatter: dateTimeFormatter,
@@ -224,15 +230,15 @@ function mapToFunctions(_, _ref2) {
     showConversationDetail: function showConversationDetail(conversationId) {
       routerInteraction.push(conversationDetailRoute.replace('{conversationId}', conversationId));
     },
-    readVoicemail: function readVoicemail(conversationId) {
+    readMessage: function readMessage(conversationId) {
       return messageStore.readMessages(conversationId);
     },
-    markVoicemail: function markVoicemail(conversationId) {
+    markMessage: function markMessage(conversationId) {
       return messageStore.unreadMessage(conversationId);
     },
-    unmarkVoicemail: function unmarkVoicemail(conversationId) {
+    unmarkMessage: function unmarkMessage(conversationId) {
       messageStore.readMessages(conversationId);
-      messageStore.unmarkMessages();
+      messageStore.onUnmarkMessages();
     },
     goToComposeText: function goToComposeText() {
       return routerInteraction.push(composeTextRoute);
@@ -242,6 +248,14 @@ function mapToFunctions(_, _ref2) {
     },
     deleteMessage: function deleteMessage(conversationId) {
       messageStore.deleteMessage(conversationId);
+    },
+    previewFaxMessages: function previewFaxMessages(uri, conversationId) {
+      if (!_previewFaxMessages) {
+        window.open(uri);
+      } else {
+        _previewFaxMessages(uri);
+      }
+      messageStore.readMessages(conversationId);
     }
   };
 }

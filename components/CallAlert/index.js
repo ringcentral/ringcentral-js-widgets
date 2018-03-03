@@ -21,6 +21,10 @@ var _FormattedMessage = require('../FormattedMessage');
 
 var _FormattedMessage2 = _interopRequireDefault(_FormattedMessage);
 
+var _styles = require('./styles.scss');
+
+var _styles2 = _interopRequireDefault(_styles);
+
 var _i18n = require('./i18n');
 
 var _i18n2 = _interopRequireDefault(_i18n);
@@ -30,6 +34,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var TELUS_ID = '7310';
 function CallAlert(_ref) {
   var _ref$message = _ref.message,
+      id = _ref$message.id,
       message = _ref$message.message,
       payload = _ref$message.payload,
       brand = _ref.brand,
@@ -50,9 +55,10 @@ function CallAlert(_ref) {
     var areaCodeLink = onAreaCodeLinkClick ? _react2.default.createElement(
       'a',
       {
+        className: _styles2.default.link,
         onClick: function onClick(e) {
           e.preventDefault();
-          onAreaCodeLinkClick();
+          onAreaCodeLinkClick({ alertId: id });
         } },
       areaCode
     ) : areaCode;

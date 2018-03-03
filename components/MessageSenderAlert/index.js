@@ -21,6 +21,10 @@ var _FormattedMessage = require('../FormattedMessage');
 
 var _FormattedMessage2 = _interopRequireDefault(_FormattedMessage);
 
+var _styles = require('./styles.scss');
+
+var _styles2 = _interopRequireDefault(_styles);
+
 var _i18n = require('./i18n');
 
 var _i18n2 = _interopRequireDefault(_i18n);
@@ -29,7 +33,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function MessageSenderAlert(_ref) {
   var currentLocale = _ref.currentLocale,
-      message = _ref.message.message,
+      _ref$message = _ref.message,
+      id = _ref$message.id,
+      message = _ref$message.message,
       onAreaCodeLink = _ref.onAreaCodeLink;
 
   if (message === _messageSenderMessages2.default.noAreaCode) {
@@ -37,9 +43,10 @@ function MessageSenderAlert(_ref) {
     var areaCodeLink = onAreaCodeLink ? _react2.default.createElement(
       'a',
       {
+        className: _styles2.default.link,
         onClick: function onClick(e) {
           e.preventDefault();
-          onAreaCodeLink();
+          onAreaCodeLink({ alertId: id });
         } },
       areaCode
     ) : areaCode;

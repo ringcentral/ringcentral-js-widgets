@@ -77,6 +77,7 @@ var _AlertDisplay2 = _interopRequireDefault(_AlertDisplay);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ANIMATION_DURATION = 500;
+var ANIMATION_DELAY = '0.3s';
 var ENTRANCE_ANIMATION = 'fadeInDown';
 var EXIT_ANIMATION = 'fadeOutUp';
 
@@ -91,7 +92,8 @@ function AnimationMessage(_ref) {
     {
       className: (0, _classnames2.default)([animation, 'animated']),
       style: {
-        animationDuration: second + 's'
+        animationDuration: second + 's',
+        animationDelay: ANIMATION_DELAY
       } },
     _react2.default.createElement(_Message2.default, props)
   );

@@ -184,15 +184,15 @@ ActiveCallList.defaultProps = {
   disableLinks: false
 };
 
-var ActiveCallsPanel = function (_Component) {
-  (0, _inherits3.default)(ActiveCallsPanel, _Component);
+var CallsListPanel = function (_Component) {
+  (0, _inherits3.default)(CallsListPanel, _Component);
 
-  function ActiveCallsPanel() {
-    (0, _classCallCheck3.default)(this, ActiveCallsPanel);
-    return (0, _possibleConstructorReturn3.default)(this, (ActiveCallsPanel.__proto__ || (0, _getPrototypeOf2.default)(ActiveCallsPanel)).apply(this, arguments));
+  function CallsListPanel() {
+    (0, _classCallCheck3.default)(this, CallsListPanel);
+    return (0, _possibleConstructorReturn3.default)(this, (CallsListPanel.__proto__ || (0, _getPrototypeOf2.default)(CallsListPanel)).apply(this, arguments));
   }
 
-  (0, _createClass3.default)(ActiveCallsPanel, [{
+  (0, _createClass3.default)(CallsListPanel, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
       if (!this.hasCalls(this.props) && typeof this.props.onCallsEmpty === 'function') {
@@ -343,13 +343,13 @@ var ActiveCallsPanel = function (_Component) {
       );
     }
   }]);
-  return ActiveCallsPanel;
+  return CallsListPanel;
 }(_react.Component);
 
-exports.default = ActiveCallsPanel;
+exports.default = CallsListPanel;
 
 
-ActiveCallsPanel.propTypes = {
+CallsListPanel.propTypes = {
   currentLocale: _propTypes2.default.string.isRequired,
   className: _propTypes2.default.string,
   activeRingCalls: _propTypes2.default.array.isRequired,
@@ -387,7 +387,7 @@ ActiveCallsPanel.propTypes = {
   active: _propTypes2.default.bool
 };
 
-ActiveCallsPanel.defaultProps = {
+CallsListPanel.defaultProps = {
   className: undefined,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,

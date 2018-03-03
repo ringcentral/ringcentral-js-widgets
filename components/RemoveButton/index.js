@@ -35,7 +35,7 @@ function RemoveButton(props) {
   }
   return _react2.default.createElement(
     'span',
-    { className: className, onClick: props.onClick },
+    { className: className, onClick: props.visibility ? props.onClick : null },
     _react2.default.createElement('i', { className: _RcFont2.default.uni2471 })
   );
 }

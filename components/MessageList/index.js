@@ -78,6 +78,7 @@ var MessageList = function (_Component) {
     _this.onScroll = function () {
       var totalScrollHeight = _this.messagesListBody.scrollHeight;
       var clientHeight = _this.messagesListBody.clientHeight;
+
       var currentScrollTop = _this.messagesListBody.scrollTop;
       // load next page if scroll near buttom
       if (totalScrollHeight - _this._scrollTop > clientHeight + 10 && totalScrollHeight - currentScrollTop <= clientHeight + 10) {
@@ -151,8 +152,9 @@ MessageList.propTypes = {
   perPage: _propTypes2.default.number,
   className: _propTypes2.default.string,
   showConversationDetail: _propTypes2.default.func.isRequired,
-  readVoicemail: _propTypes2.default.func.isRequired,
-  markVoicemail: _propTypes2.default.func.isRequired,
+  readMessage: _propTypes2.default.func.isRequired,
+  markMessage: _propTypes2.default.func.isRequired,
+  unmarkMessage: _propTypes2.default.func.isRequired,
   dateTimeFormatter: _propTypes2.default.func,
   showContactDisplayPlaceholder: _propTypes2.default.bool,
   sourceIcons: _propTypes2.default.object,

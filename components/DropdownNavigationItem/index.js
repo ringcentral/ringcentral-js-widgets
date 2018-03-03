@@ -29,8 +29,10 @@ function DropdownNavigationItem(_ref) {
       active = _ref.active,
       isReverseFillIcon = _ref.isReverseFillIcon,
       label = _ref.label,
+      title = _ref.title,
       noticeCounts = _ref.noticeCounts,
-      onClick = _ref.onClick;
+      onClick = _ref.onClick,
+      keepStyle = _ref.keepStyle;
 
   var notice = null;
   if (noticeCounts && noticeCounts > 0) {
@@ -48,16 +50,17 @@ function DropdownNavigationItem(_ref) {
       );
     }
   }
+  var styleClass = !keepStyle ? _styles2.default.iconStyles : null;
   return _react2.default.createElement(
     'div',
     {
-      title: label,
+      title: title || label,
       onClick: onClick,
       className: (0, _classnames2.default)(_styles2.default.root, active && _styles2.default.active, isReverseFillIcon && _styles2.default.reverseFillIcon)
     },
     _react2.default.createElement(
       'div',
-      { className: _styles2.default.iconHolder },
+      { className: (0, _classnames2.default)(_styles2.default.iconHolder, styleClass) },
       active ? activeIcon : icon
     ),
     _react2.default.createElement(
@@ -75,15 +78,19 @@ DropdownNavigationItem.propTypes = {
   active: _propTypes2.default.bool,
   isReverseFillIcon: _propTypes2.default.bool,
   label: _propTypes2.default.string,
+  title: _propTypes2.default.string,
   noticeCounts: _propTypes2.default.number,
-  onClick: _propTypes2.default.func
+  onClick: _propTypes2.default.func,
+  keepStyle: _propTypes2.default.bool
 };
 
 DropdownNavigationItem.defaultProps = {
   active: false,
   isReverseFillIcon: false,
   label: undefined,
+  title: undefined,
   noticeCounts: undefined,
-  onClick: undefined
+  onClick: undefined,
+  keepStyle: false
 };
 //# sourceMappingURL=index.js.map

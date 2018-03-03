@@ -137,6 +137,14 @@ var MessagesPanel = function (_Component) {
           return path === _messageTypes2.default.voiceMail;
         },
         noticeCounts: this.props.voiceUnreadCounts
+      }, this.props.readFaxPermission && {
+        icon: _react2.default.createElement(TabTitle, { type: _messageTypes2.default.fax, currentLocale: this.props.currentLocale }),
+        label: _i18n2.default.getString(_messageTypes2.default.fax, this.props.currentLocale),
+        path: _messageTypes2.default.fax,
+        isActive: function isActive(path) {
+          return path === _messageTypes2.default.fax;
+        },
+        noticeCounts: this.props.faxUnreadCounts
       }, this.props.readTextPermission && {
         icon: _react2.default.createElement(TabTitle, { type: _messageTypes2.default.text, currentLocale: this.props.currentLocale }),
         label: _i18n2.default.getString(_messageTypes2.default.text, this.props.currentLocale),
@@ -170,8 +178,8 @@ var MessagesPanel = function (_Component) {
           conversations = _props.conversations,
           brand = _props.brand,
           showConversationDetail = _props.showConversationDetail,
-          readVoicemail = _props.readVoicemail,
-          markVoicemail = _props.markVoicemail,
+          readMessage = _props.readMessage,
+          markMessage = _props.markMessage,
           dateTimeFormatter = _props.dateTimeFormatter,
           showContactDisplayPlaceholder = _props.showContactDisplayPlaceholder,
           sourceIcons = _props.sourceIcons,
@@ -184,13 +192,14 @@ var MessagesPanel = function (_Component) {
           onClickToDial = _props.onClickToDial,
           onClickToSms = _props.onClickToSms,
           disableClickToDial = _props.disableClickToDial,
-          unmarkVoicemail = _props.unmarkVoicemail,
+          unmarkMessage = _props.unmarkMessage,
           autoLog = _props.autoLog,
           enableContactFallback = _props.enableContactFallback,
           deleteMessage = _props.deleteMessage,
           typeFilter = _props.typeFilter,
           goToComposeText = _props.goToComposeText,
-          composeTextPermission = _props.composeTextPermission;
+          composeTextPermission = _props.composeTextPermission,
+          previewFaxMessages = _props.previewFaxMessages;
 
       if (showSpinner) {
         return _react2.default.createElement(_SpinnerOverlay2.default, null);
@@ -232,8 +241,8 @@ var MessagesPanel = function (_Component) {
           conversations: conversations,
           brand: brand,
           showConversationDetail: showConversationDetail,
-          readVoicemail: readVoicemail,
-          markVoicemail: markVoicemail,
+          readMessage: readMessage,
+          markMessage: markMessage,
           dateTimeFormatter: dateTimeFormatter,
           showContactDisplayPlaceholder: showContactDisplayPlaceholder,
           sourceIcons: sourceIcons,
@@ -247,10 +256,11 @@ var MessagesPanel = function (_Component) {
           onClickToDial: onClickToDial,
           onClickToSms: onClickToSms,
           disableClickToDial: disableClickToDial,
-          unmarkVoicemail: unmarkVoicemail,
+          unmarkMessage: unmarkMessage,
           autoLog: autoLog,
           enableContactFallback: enableContactFallback,
-          deleteMessage: deleteMessage
+          deleteMessage: deleteMessage,
+          previewFaxMessages: previewFaxMessages
         })
       );
     }
@@ -306,13 +316,15 @@ MessagesPanel.propTypes = {
   showConversationDetail: _propTypes2.default.func.isRequired,
   textUnreadCounts: _propTypes2.default.number.isRequired,
   voiceUnreadCounts: _propTypes2.default.number.isRequired,
+  faxUnreadCounts: _propTypes2.default.number.isRequired,
   showGroupNumberName: _propTypes2.default.bool,
   onClickToDial: _propTypes2.default.func,
   onClickToSms: _propTypes2.default.func,
-  markVoicemail: _propTypes2.default.func.isRequired,
-  readVoicemail: _propTypes2.default.func.isRequired,
+  markMessage: _propTypes2.default.func.isRequired,
+  readMessage: _propTypes2.default.func.isRequired,
   readTextPermission: _propTypes2.default.bool,
   readVoicemailPermission: _propTypes2.default.bool,
+  readFaxPermission: _propTypes2.default.bool,
   onSearchInputChange: _propTypes2.default.func,
   searchInput: _propTypes2.default.string,
   perPage: _propTypes2.default.number,
@@ -326,11 +338,12 @@ MessagesPanel.propTypes = {
   onViewContact: _propTypes2.default.func,
   onCreateContact: _propTypes2.default.func,
   disableClickToDial: _propTypes2.default.bool,
-  unmarkVoicemail: _propTypes2.default.func.isRequired,
+  unmarkMessage: _propTypes2.default.func.isRequired,
   autoLog: _propTypes2.default.bool,
   enableContactFallback: _propTypes2.default.bool,
   deleteMessage: _propTypes2.default.func,
-  composeTextPermission: _propTypes2.default.bool
+  composeTextPermission: _propTypes2.default.bool,
+  previewFaxMessages: _propTypes2.default.func
 };
 
 MessagesPanel.defaultProps = {
@@ -346,6 +359,7 @@ MessagesPanel.defaultProps = {
   onClickToSms: undefined,
   readTextPermission: true,
   readVoicemailPermission: true,
+  readFaxPermission: true,
   onSearchInputChange: undefined,
   searchInput: '',
   perPage: 20,
@@ -358,6 +372,7 @@ MessagesPanel.defaultProps = {
   autoLog: false,
   enableContactFallback: undefined,
   deleteMessage: undefined,
-  composeTextPermission: true
+  composeTextPermission: true,
+  previewFaxMessages: undefined
 };
 //# sourceMappingURL=index.js.map

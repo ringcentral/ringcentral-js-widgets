@@ -363,7 +363,7 @@ var RecipientsInput = function (_Component) {
         _react2.default.createElement(_RemoveButton2.default, {
           className: _styles2.default.removeButton,
           onClick: this.onClean,
-          visibility: this.props.value.length > 0 && this.state.isFocusOnInput
+          visibility: this.state.value.length > 0
         })
       );
 

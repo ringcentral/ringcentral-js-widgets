@@ -53,6 +53,10 @@ var _messageTypes = require('ringcentral-integration/enums/messageTypes');
 
 var _messageTypes2 = _interopRequireDefault(_messageTypes);
 
+var _messageDirection = require('ringcentral-integration/enums/messageDirection');
+
+var _messageDirection2 = _interopRequireDefault(_messageDirection);
+
 var _messageHelper = require('ringcentral-integration/lib/messageHelper');
 
 var _formatDuration = require('../../lib/formatDuration');
@@ -79,6 +83,14 @@ var _VoicemailIcon = require('../../assets/images/VoicemailIcon.svg');
 
 var _VoicemailIcon2 = _interopRequireDefault(_VoicemailIcon);
 
+var _FaxInbound = require('../../assets/images/FaxInbound.svg');
+
+var _FaxInbound2 = _interopRequireDefault(_FaxInbound);
+
+var _FaxOutbound = require('../../assets/images/FaxOutbound.svg');
+
+var _FaxOutbound2 = _interopRequireDefault(_FaxOutbound);
+
 var _ComposeText = require('../../assets/images/ComposeText.svg');
 
 var _ComposeText2 = _interopRequireDefault(_ComposeText);
@@ -100,7 +112,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function ConversationIcon(_ref) {
   var group = _ref.group,
       type = _ref.type,
-      currentLocale = _ref.currentLocale;
+      currentLocale = _ref.currentLocale,
+      direction = _ref.direction;
 
   var title = void 0;
   var icon = void 0;
@@ -108,6 +121,10 @@ function ConversationIcon(_ref) {
     case _messageTypes2.default.voiceMail:
       title = _i18n2.default.getString(_messageTypes2.default.voiceMail, currentLocale);
       icon = _react2.default.createElement(_VoicemailIcon2.default, { width: 23, className: _styles2.default.icon });
+      break;
+    case _messageTypes2.default.fax:
+      title = _i18n2.default.getString(_messageTypes2.default.fax, currentLocale);
+      icon = direction === _messageDirection2.default.inbound ? _react2.default.createElement(_FaxInbound2.default, { width: 21, className: _styles2.default.icon }) : _react2.default.createElement(_FaxOutbound2.default, { width: 21, className: _styles2.default.icon });
       break;
     default:
       title = group ? _i18n2.default.getString('groupConversation', currentLocale) : _i18n2.default.getString('conversation', currentLocale);
@@ -126,12 +143,14 @@ function ConversationIcon(_ref) {
 ConversationIcon.propTypes = {
   group: _propTypes2.default.bool,
   type: _propTypes2.default.string,
-  currentLocale: _propTypes2.default.string
+  currentLocale: _propTypes2.default.string,
+  direction: _propTypes2.default.string
 };
 ConversationIcon.defaultProps = {
   group: false,
   type: undefined,
-  currentLocale: undefined
+  currentLocale: undefined,
+  direction: undefined
 };
 
 var MessageItem = function (_Component) {
@@ -218,20 +237,24 @@ var MessageItem = function (_Component) {
 
     _this.onPlayVoicemail = function () {
       if (_this.props.conversation.unreadCounts > 0) {
-        _this.props.readVoicemail(_this.props.conversation.conversationId);
+        _this.props.readMessage(_this.props.conversation.conversationId);
       }
     };
 
-    _this.onMarkVoicemail = function () {
+    _this.onMarkMessage = function () {
       if (_this.props.conversation.unreadCounts === 0) {
-        _this.props.markVoicemail(_this.props.conversation.conversationId);
+        _this.props.markMessage(_this.props.conversation.conversationId);
       }
     };
 
-    _this.onUnmarkVoicemail = function () {
+    _this.onUnmarkMessage = function () {
       if (_this.props.conversation.unreadCounts > 0) {
-        _this.props.unmarkVoicemail(_this.props.conversation.conversationId);
+        _this.props.unmarkMessage(_this.props.conversation.conversationId);
       }
+    };
+
+    _this.onPreviewFax = function (uri) {
+      _this.props.previewFaxMessages(uri, _this.props.conversation.conversationId);
     };
 
     _this.onDeleteMessage = function () {
@@ -432,6 +455,13 @@ var MessageItem = function (_Component) {
 
         return _i18n2.default.getString('voiceMessage', currentLocale) + ' (' + (0, _formatDuration2.default)(duration) + ')';
       }
+      if ((0, _messageHelper.messageIsFax)(conversation)) {
+        var pageCount = parseInt(conversation.faxPageCount, 10);
+        if (conversation.direction === _messageDirection2.default.inbound) {
+          return _i18n2.default.getString('faxReceived', currentLocale) + '(' + pageCount + ' ' + _i18n2.default.getString('pages', currentLocale) + ')';
+        }
+        return _i18n2.default.getString('faxSent', currentLocale) + '(' + pageCount + ' ' + _i18n2.default.getString('pages', currentLocale) + ')';
+      }
       return '';
     }
   }, {
@@ -462,7 +492,9 @@ var MessageItem = function (_Component) {
           isLogging = _props2$conversation.isLogging,
           conversationMatches = _props2$conversation.conversationMatches,
           type = _props2$conversation.type,
+          direction = _props2$conversation.direction,
           voicemailAttachment = _props2$conversation.voicemailAttachment,
+          faxAttachment = _props2$conversation.faxAttachment,
           parentDisableLinks = _props2.disableLinks,
           disableClickToDial = _props2.disableClickToDial,
           onClickToDial = _props2.onClickToDial,
@@ -477,7 +509,11 @@ var MessageItem = function (_Component) {
 
       var disableLinks = parentDisableLinks;
       var isVoicemail = type === _messageTypes2.default.voiceMail;
+      var isFax = type === _messageTypes2.default.fax;
       if (isVoicemail && !voicemailAttachment) {
+        disableLinks = true;
+      }
+      if (isFax && !faxAttachment) {
         disableLinks = true;
       }
       var groupNumbers = this.getGroupPhoneNumbers();
@@ -509,7 +545,8 @@ var MessageItem = function (_Component) {
           _react2.default.createElement(ConversationIcon, {
             group: correspondents.length > 1,
             type: type,
-            currentLocale: currentLocale
+            currentLocale: currentLocale,
+            direction: direction
           }),
           _react2.default.createElement(_ContactDisplay2.default, {
             reference: function reference(ref) {
@@ -565,11 +602,11 @@ var MessageItem = function (_Component) {
           _react2.default.createElement(_ActionMenuList2.default, {
             className: _styles2.default.actionMenuList,
             currentLocale: currentLocale,
-            onLog: isVoicemail ? undefined : onLogConversation && this.logConversation,
+            onLog: isVoicemail || isFax ? undefined : onLogConversation && this.logConversation,
             onViewEntity: onViewContact && this.viewSelectedContact,
             onCreateEntity: onCreateContact && this.createSelectedContact,
             hasEntity: correspondents.length === 1 && !!correspondentMatches.length,
-            onClickToDial: onClickToDial && this.clickToDial,
+            onClickToDial: !isFax ? onClickToDial && this.clickToDial : undefined,
             onClickToSms: isVoicemail ? onClickToSms && this.onClickToSms : undefined,
             phoneNumber: phoneNumber,
             disableLinks: disableLinks,
@@ -587,10 +624,14 @@ var MessageItem = function (_Component) {
             onDelete: isVoicemail ? this.onDeleteMessage : undefined,
             deleteTitle: _i18n2.default.getString('delete', currentLocale),
             marked: unreadCounts > 0,
-            onMark: isVoicemail ? this.onMarkVoicemail : undefined,
-            onUnmark: isVoicemail ? this.onUnmarkVoicemail : undefined,
+            onMark: isVoicemail || isFax && direction === _messageDirection2.default.inbound ? this.onMarkMessage : undefined,
+            onUnmark: isVoicemail || isFax && direction === _messageDirection2.default.inbound ? this.onUnmarkMessage : undefined,
+            onPreview: isFax ? this.onPreviewFax : undefined,
             markTitle: _i18n2.default.getString('mark', currentLocale),
-            unmarkTitle: _i18n2.default.getString('unmark', currentLocale)
+            unmarkTitle: _i18n2.default.getString('unmark', currentLocale),
+            faxAttachment: faxAttachment,
+            previewTitle: _i18n2.default.getString('preview', currentLocale),
+            downloadTitle: _i18n2.default.getString('download', currentLocale)
           })
         )
       );
@@ -619,7 +660,8 @@ MessageItem.propTypes = {
       id: _propTypes2.default.string
     })),
     unreadCounts: _propTypes2.default.number.isRequired,
-    type: _propTypes2.default.string.isRequired
+    type: _propTypes2.default.string.isRequired,
+    uri: _propTypes2.default.string
   }).isRequired,
   areaCode: _propTypes2.default.string.isRequired,
   brand: _propTypes2.default.string.isRequired,
@@ -634,15 +676,16 @@ MessageItem.propTypes = {
   disableClickToDial: _propTypes2.default.bool,
   dateTimeFormatter: _propTypes2.default.func.isRequired,
   showConversationDetail: _propTypes2.default.func.isRequired,
-  readVoicemail: _propTypes2.default.func.isRequired,
-  markVoicemail: _propTypes2.default.func.isRequired,
-  unmarkVoicemail: _propTypes2.default.func.isRequired,
+  readMessage: _propTypes2.default.func.isRequired,
+  markMessage: _propTypes2.default.func.isRequired,
+  unmarkMessage: _propTypes2.default.func.isRequired,
   autoLog: _propTypes2.default.bool,
   enableContactFallback: _propTypes2.default.bool,
   showContactDisplayPlaceholder: _propTypes2.default.bool,
   sourceIcons: _propTypes2.default.object,
   showGroupNumberName: _propTypes2.default.bool,
-  deleteMessage: _propTypes2.default.func
+  deleteMessage: _propTypes2.default.func,
+  previewFaxMessages: _propTypes2.default.func
 };
 
 MessageItem.defaultProps = {
@@ -658,6 +701,7 @@ MessageItem.defaultProps = {
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
   showGroupNumberName: false,
-  deleteMessage: function deleteMessage() {}
+  deleteMessage: function deleteMessage() {},
+  previewFaxMessages: undefined
 };
 //# sourceMappingURL=index.js.map

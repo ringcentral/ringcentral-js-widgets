@@ -50,6 +50,10 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactRedux = require('react-redux');
 
+var _messageTypes = require('ringcentral-integration/enums/messageTypes');
+
+var _messageTypes2 = _interopRequireDefault(_messageTypes);
+
 var _formatNumber2 = require('ringcentral-integration/lib/formatNumber');
 
 var _formatNumber3 = _interopRequireDefault(_formatNumber2);
@@ -239,6 +243,7 @@ function mapToFunctions(_, _ref2) {
       routerInteraction = _ref2$phone.routerInteraction,
       conversationLogger = _ref2$phone.conversationLogger,
       regionSettings = _ref2$phone.regionSettings,
+      messages = _ref2$phone.messages,
       _ref2$dateTimeFormatt = _ref2.dateTimeFormatter,
       dateTimeFormatter = _ref2$dateTimeFormatt === undefined ? function () {
     return dateTimeFormat.formatDateTime.apply(dateTimeFormat, arguments);
@@ -332,7 +337,8 @@ function mapToFunctions(_, _ref2) {
       };
     }(),
     goBack: function goBack() {
-      routerInteraction.goBack();
+      routerInteraction.push('/messages');
+      messages.updateTypeFilter(_messageTypes2.default.text);
     }
   };
 }

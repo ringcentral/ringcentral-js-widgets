@@ -21,6 +21,10 @@ var _FormattedMessage = require('../FormattedMessage');
 
 var _FormattedMessage2 = _interopRequireDefault(_FormattedMessage);
 
+var _styles = require('./styles.scss');
+
+var _styles2 = _interopRequireDefault(_styles);
+
 var _i18n = require('./i18n');
 
 var _i18n2 = _interopRequireDefault(_i18n);
@@ -28,7 +32,9 @@ var _i18n2 = _interopRequireDefault(_i18n);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function RegionSettingsAlert(_ref) {
-  var message = _ref.message.message,
+  var _ref$message = _ref.message,
+      id = _ref$message.id,
+      message = _ref$message.message,
       currentLocale = _ref.currentLocale,
       onRegionSettingsLinkClick = _ref.onRegionSettingsLinkClick;
 
@@ -40,9 +46,10 @@ function RegionSettingsAlert(_ref) {
         var regionSettingsLink = onRegionSettingsLinkClick ? _react2.default.createElement(
           'a',
           {
+            className: _styles2.default.link,
             onClick: function onClick(e) {
               e.preventDefault();
-              onRegionSettingsLinkClick();
+              onRegionSettingsLinkClick({ alertId: id });
             } },
           regionSettings
         ) : regionSettings;

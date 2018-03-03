@@ -33,6 +33,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+exports.ConfirmDeleteModal = ConfirmDeleteModal;
+exports.ClickToDialButton = ClickToDialButton;
+exports.ClickToSmsButton = ClickToSmsButton;
+exports.DeleteButton = DeleteButton;
+exports.MarkButton = MarkButton;
+exports.PreviewButton = PreviewButton;
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -80,6 +87,14 @@ var _Mark2 = _interopRequireDefault(_Mark);
 var _Unmark = require('../../assets/images/Unmark.svg');
 
 var _Unmark2 = _interopRequireDefault(_Unmark);
+
+var _Preview = require('../../assets/images/Preview.svg');
+
+var _Preview2 = _interopRequireDefault(_Preview);
+
+var _Download = require('../../assets/images/Download.svg');
+
+var _Download2 = _interopRequireDefault(_Download);
 
 var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
 
@@ -291,6 +306,38 @@ MarkButton.defaultProps = {
   unmarkTitle: undefined
 };
 
+function PreviewButton(_ref6) {
+  var title = _ref6.title,
+      onClick = _ref6.onClick,
+      disabled = _ref6.disabled,
+      className = _ref6.className;
+
+  return _react2.default.createElement(
+    _Button2.default,
+    {
+      className: (0, _classnames2.default)(_styles2.default.button, _styles2.default.svgBtn, className),
+      onClick: onClick,
+      disabled: disabled
+    },
+    _react2.default.createElement(
+      'span',
+      { title: title },
+      _react2.default.createElement(_Preview2.default, {
+        className: (0, _classnames2.default)(_styles2.default.svgFillIcon, disabled ? _styles2.default.disabled : null)
+      })
+    )
+  );
+}
+PreviewButton.propTypes = {
+  title: _propTypes2.default.string.isRequired,
+  onClick: _propTypes2.default.func.isRequired,
+  disabled: _propTypes2.default.bool.isRequired,
+  className: _propTypes2.default.string
+};
+PreviewButton.defaultProps = {
+  className: undefined
+};
+
 var ActionMenuList = function (_Component) {
   (0, _inherits3.default)(ActionMenuList, _Component);
 
@@ -349,6 +396,18 @@ var ActionMenuList = function (_Component) {
     _this.preventEventPropogation = function (e) {
       if (e.target !== e.currentTarget) {
         e.stopPropagation();
+      }
+    };
+
+    _this.onPreview = function () {
+      if (_this.props.faxAttachment && _this.props.faxAttachment.uri) {
+        _this.props.onPreview(_this.props.faxAttachment.uri);
+      }
+    };
+
+    _this._onDownloadClick = function (e) {
+      if (_this.props.disableLinks) {
+        e.preventDefault();
       }
     };
 
@@ -435,7 +494,11 @@ var ActionMenuList = function (_Component) {
           onMark = _props.onMark,
           marked = _props.marked,
           markTitle = _props.markTitle,
-          unmarkTitle = _props.unmarkTitle;
+          unmarkTitle = _props.unmarkTitle,
+          previewTitle = _props.previewTitle,
+          downloadTitle = _props.downloadTitle,
+          onPreview = _props.onPreview,
+          faxAttachment = _props.faxAttachment;
 
 
       var logButton = onLog ? _react2.default.createElement(_LogButton2.default, {
@@ -513,11 +576,34 @@ var ActionMenuList = function (_Component) {
         onClick: this.onMark,
         disabled: disableLinks
       }) : null;
+      var previewButton = onPreview && faxAttachment && faxAttachment.uri ? _react2.default.createElement(PreviewButton, {
+        title: previewTitle,
+        onClick: this.onPreview,
+        disabled: disableLinks
+      }) : null;
+      var downloadButton = faxAttachment && faxAttachment.uri ? _react2.default.createElement(
+        'div',
+        { className: (0, _classnames2.default)(_styles2.default.button, _styles2.default.svgBtn, _styles2.default.svgFillIcon, disableLinks ? _styles2.default.disabled : null) },
+        _react2.default.createElement(
+          'a',
+          {
+            target: '_blank',
+            download: true,
+            title: downloadTitle,
+            href: faxAttachment.uri,
+            onClick: this._onDownloadClick,
+            disabled: disableLinks
+          },
+          _react2.default.createElement(_Download2.default, { width: 18, height: 18 })
+        )
+      ) : null;
       return _react2.default.createElement(
         'div',
         { className: (0, _classnames2.default)(_styles2.default.root, className), onClick: this.preventEventPropogation },
         clickToDialButton,
         clickToSmsButton,
+        previewButton,
+        downloadButton,
         entityButton,
         logButton,
         markButton,
@@ -560,7 +646,13 @@ ActionMenuList.propTypes = {
   onUnmark: _propTypes2.default.func,
   marked: _propTypes2.default.bool,
   markTitle: _propTypes2.default.string,
-  unmarkTitle: _propTypes2.default.string
+  unmarkTitle: _propTypes2.default.string,
+  previewTitle: _propTypes2.default.string,
+  downloadTitle: _propTypes2.default.string,
+  onPreview: _propTypes2.default.func,
+  faxAttachment: _propTypes2.default.shape({
+    uri: _propTypes2.default.string
+  })
 };
 ActionMenuList.defaultProps = {
   className: undefined,
@@ -588,6 +680,10 @@ ActionMenuList.defaultProps = {
   onUnmark: undefined,
   marked: false,
   markTitle: undefined,
-  unmarkTitle: undefined
+  unmarkTitle: undefined,
+  previewTitle: undefined,
+  downloadTitle: undefined,
+  onPreview: undefined,
+  faxAttachment: undefined
 };
 //# sourceMappingURL=index.js.map
