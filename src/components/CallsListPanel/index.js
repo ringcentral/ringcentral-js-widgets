@@ -129,7 +129,7 @@ ActiveCallList.defaultProps = {
   sourceIcons: undefined,
 };
 
-export default class ActiveCallsPanel extends Component {
+export default class CallsListPanel extends Component {
   componentDidMount() {
     if (
       !this.hasCalls(this.props) &&
@@ -283,9 +283,10 @@ export default class ActiveCallsPanel extends Component {
       </div>
     );
   }
+
 }
 
-ActiveCallsPanel.propTypes = {
+CallsListPanel.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   className: PropTypes.string,
   activeRingCalls: PropTypes.array.isRequired,
@@ -323,7 +324,7 @@ ActiveCallsPanel.propTypes = {
   active: PropTypes.bool,
 };
 
-ActiveCallsPanel.defaultProps = {
+CallsListPanel.defaultProps = {
   className: undefined,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
