@@ -50,8 +50,14 @@ function CallIcon({
       break;
     }
     default: {
-      const title = missed ? missedTitle :
-      (direction === callDirections.inbound) ? inboundTitle : outboundTitle;
+      let title = null;
+      if (missed) {
+        title = missedTitle;
+      } else if (direction === callDirections.inbound) {
+        title = inboundTitle;
+      } else {
+        title = outboundTitle;
+      }
       icon = (
         <span
           className={classnames(
