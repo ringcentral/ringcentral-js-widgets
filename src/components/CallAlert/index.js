@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import callErrors from 'ringcentral-integration/modules/Call/callErrors';
 import FormattedMessage from '../FormattedMessage';
+import styles from './styles.scss';
 import i18n from './i18n';
 
 const TELUS_ID = '7310';
 export default function CallAlert({
   message: {
+    id,
     message,
     payload,
   },
@@ -28,9 +30,10 @@ export default function CallAlert({
     const areaCodeLink = onAreaCodeLinkClick ?
       (
         <a
+          className={styles.link}
           onClick={(e) => {
             e.preventDefault();
-            onAreaCodeLinkClick();
+            onAreaCodeLinkClick({ alertId: id });
           }} >
           {areaCode}
         </a>

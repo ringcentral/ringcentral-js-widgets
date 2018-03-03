@@ -37,12 +37,16 @@ function mapToProps(_, {
 function getDefaultRenderer({
   rateLimiter,
   brand,
+  alert,
   routerInteraction,
   regionSettingsUrl,
   callingSettingsUrl,
 }) {
-  const onRegionSettingsLinkClick = () => {
+  const onRegionSettingsLinkClick = ({ alertId } = {}) => {
     routerInteraction.push(regionSettingsUrl);
+    if (alertId) {
+      alert.dismiss(alertId);
+    }
   };
   const onCallingSettingsLinkClick = () => {
     routerInteraction.push(callingSettingsUrl);
@@ -140,6 +144,7 @@ function mapToFunctions(_, {
   getRenderer = getDefaultRenderer({
     rateLimiter,
     brand,
+    alert,
     routerInteraction,
     regionSettingsUrl,
     callingSettingsUrl,
