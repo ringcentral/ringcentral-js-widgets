@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import messageTypes from 'ringcentral-integration/enums/messageTypes';
+import messageDirection from 'ringcentral-integration/enums/messageDirection';
 import {
   messageIsTextMessage,
+  messageIsFax
 } from 'ringcentral-integration/lib/messageHelper';
 
 import formatDuration from '../../lib/formatDuration';
@@ -14,6 +16,10 @@ import VoicemailPlayer from '../VoicemailPlayer';
 import SlideMenu from '../SlideMenu';
 
 import VoicemailIcon from '../../assets/images/VoicemailIcon.svg';
+import FaxInboundIcon from '../../assets/images/FaxInbound.svg';
+import FaxOutboundIcon from '../../assets/images/FaxOutbound.svg';
+
+
 import ComposeTextIcon from '../../assets/images/ComposeText.svg';
 import GroupConversationIcon from '../../assets/images/GroupConversation.svg';
 
@@ -24,6 +30,7 @@ function ConversationIcon({
   group,
   type,
   currentLocale,
+  direction,
 }) {
   let title;
   let icon;
@@ -31,6 +38,12 @@ function ConversationIcon({
     case messageTypes.voiceMail:
       title = i18n.getString(messageTypes.voiceMail, currentLocale);
       icon = <VoicemailIcon width={23} className={styles.icon} />;
+      break;
+    case messageTypes.fax:
+      title = i18n.getString(messageTypes.fax, currentLocale);
+      icon = direction === messageDirection.inbound ?
+        <FaxInboundIcon width={21} className={styles.icon} /> :
+        <FaxOutboundIcon width={21} className={styles.icon} />;
       break;
     default:
       title = group ?
@@ -52,11 +65,13 @@ ConversationIcon.propTypes = {
   group: PropTypes.bool,
   type: PropTypes.string,
   currentLocale: PropTypes.string,
+  direction: PropTypes.string,
 };
 ConversationIcon.defaultProps = {
   group: false,
   type: undefined,
   currentLocale: undefined,
+  direction: undefined,
 };
 
 export default class MessageItem extends Component {
@@ -262,26 +277,28 @@ export default class MessageItem extends Component {
     if (
       this.props.conversation.unreadCounts > 0
     ) {
-      this.props.readVoicemail(this.props.conversation.conversationId);
+      this.props.readMessage(this.props.conversation.conversationId);
     }
   }
 
-  onMarkVoicemail = () => {
+  onMarkMessage= () => {
     if (
       this.props.conversation.unreadCounts === 0
     ) {
-      this.props.markVoicemail(this.props.conversation.conversationId);
+      this.props.markMessage(this.props.conversation.conversationId);
     }
   }
 
-  onUnmarkVoicemail = () => {
+  onUnmarkMessage = () => {
     if (
       this.props.conversation.unreadCounts > 0
     ) {
-      this.props.unmarkVoicemail(this.props.conversation.conversationId);
+      this.props.unmarkMessage(this.props.conversation.conversationId);
     }
   }
-
+  onPreviewFax = (uri) => {
+    this.props.previewFaxMessages(uri, this.props.conversation.conversationId);
+  }
   getDetail() {
     const {
       conversation,
@@ -293,6 +310,13 @@ export default class MessageItem extends Component {
     if (conversation.voicemailAttachment) {
       const { duration } = conversation.voicemailAttachment;
       return `${i18n.getString('voiceMessage', currentLocale)} (${formatDuration(duration)})`;
+    }
+    if (messageIsFax(conversation)) {
+      const pageCount = parseInt(conversation.faxPageCount, 10);
+      if (conversation.direction === messageDirection.inbound) {
+        return `${i18n.getString('faxReceived', currentLocale)}(${pageCount} ${i18n.getString('pages', currentLocale)})`;
+      }
+      return `${i18n.getString('faxSent', currentLocale)}(${pageCount} ${i18n.getString('pages', currentLocale)})`;
     }
     return '';
   }
@@ -324,7 +348,9 @@ export default class MessageItem extends Component {
         isLogging,
         conversationMatches,
         type,
+        direction,
         voicemailAttachment,
+        faxAttachment,
       },
       disableLinks: parentDisableLinks,
       disableClickToDial,
@@ -340,7 +366,11 @@ export default class MessageItem extends Component {
     } = this.props;
     let disableLinks = parentDisableLinks;
     const isVoicemail = type === messageTypes.voiceMail;
+    const isFax = type === messageTypes.fax;
     if (isVoicemail && !voicemailAttachment) {
+      disableLinks = true;
+    }
+    if (isFax && !faxAttachment) {
       disableLinks = true;
     }
     const groupNumbers = this.getGroupPhoneNumbers();
@@ -375,6 +405,7 @@ export default class MessageItem extends Component {
             group={correspondents.length > 1}
             type={type}
             currentLocale={currentLocale}
+            direction={direction}
           />
           <ContactDisplay
             reference={(ref) => { this.contactDisplay = ref; }}
@@ -423,11 +454,11 @@ export default class MessageItem extends Component {
           <ActionMenuList
             className={styles.actionMenuList}
             currentLocale={currentLocale}
-            onLog={isVoicemail ? undefined : (onLogConversation && this.logConversation)}
+            onLog={isVoicemail || isFax ? undefined : (onLogConversation && this.logConversation)}
             onViewEntity={onViewContact && this.viewSelectedContact}
             onCreateEntity={onCreateContact && this.createSelectedContact}
             hasEntity={correspondents.length === 1 && !!correspondentMatches.length}
-            onClickToDial={onClickToDial && this.clickToDial}
+            onClickToDial={!isFax ? (onClickToDial && this.clickToDial) : undefined}
             onClickToSms={isVoicemail ? (onClickToSms && this.onClickToSms) : undefined}
             phoneNumber={phoneNumber}
             disableLinks={disableLinks}
@@ -445,10 +476,16 @@ export default class MessageItem extends Component {
             onDelete={isVoicemail ? this.onDeleteMessage : undefined}
             deleteTitle={i18n.getString('delete', currentLocale)}
             marked={unreadCounts > 0}
-            onMark={isVoicemail ? this.onMarkVoicemail : undefined}
-            onUnmark={isVoicemail ? this.onUnmarkVoicemail : undefined}
+            onMark={(isVoicemail || (isFax && direction === messageDirection.inbound)) ?
+              this.onMarkMessage : undefined}
+            onUnmark={(isVoicemail || (isFax && direction === messageDirection.inbound)) ?
+              this.onUnmarkMessage : undefined}
+            onPreview={isFax ? this.onPreviewFax : undefined}
             markTitle={i18n.getString('mark', currentLocale)}
             unmarkTitle={i18n.getString('unmark', currentLocale)}
+            faxAttachment={faxAttachment}
+            previewTitle={i18n.getString('preview', currentLocale)}
+            downloadTitle={i18n.getString('download', currentLocale)}
           />
         </SlideMenu>
       </div>
@@ -474,6 +511,7 @@ MessageItem.propTypes = {
     })),
     unreadCounts: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
+    uri: PropTypes.string,
   }).isRequired,
   areaCode: PropTypes.string.isRequired,
   brand: PropTypes.string.isRequired,
@@ -488,15 +526,16 @@ MessageItem.propTypes = {
   disableClickToDial: PropTypes.bool,
   dateTimeFormatter: PropTypes.func.isRequired,
   showConversationDetail: PropTypes.func.isRequired,
-  readVoicemail: PropTypes.func.isRequired,
-  markVoicemail: PropTypes.func.isRequired,
-  unmarkVoicemail: PropTypes.func.isRequired,
+  readMessage: PropTypes.func.isRequired,
+  markMessage: PropTypes.func.isRequired,
+  unmarkMessage: PropTypes.func.isRequired,
   autoLog: PropTypes.bool,
   enableContactFallback: PropTypes.bool,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
   showGroupNumberName: PropTypes.bool,
   deleteMessage: PropTypes.func,
+  previewFaxMessages: PropTypes.func,
 };
 
 MessageItem.defaultProps = {
@@ -513,4 +552,5 @@ MessageItem.defaultProps = {
   sourceIcons: undefined,
   showGroupNumberName: false,
   deleteMessage: () => {},
+  previewFaxMessages: undefined,
 };

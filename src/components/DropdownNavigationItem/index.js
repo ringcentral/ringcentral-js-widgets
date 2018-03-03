@@ -10,8 +10,10 @@ export default function DropdownNavigationItem({
   active,
   isReverseFillIcon,
   label,
+  title,
   noticeCounts,
   onClick,
+  keepStyle,
 }) {
   let notice = null;
   if (noticeCounts && noticeCounts > 0) {
@@ -21,9 +23,10 @@ export default function DropdownNavigationItem({
       notice = <div className={styles.notice}>{noticeCounts}</div>;
     }
   }
+  const styleClass = !keepStyle ? styles.iconStyles : null;
   return (
     <div
-      title={label}
+      title={title || label}
       onClick={onClick}
       className={classnames(
         styles.root,
@@ -31,7 +34,7 @@ export default function DropdownNavigationItem({
         isReverseFillIcon && styles.reverseFillIcon
       )}
     >
-      <div className={styles.iconHolder}>
+      <div className={classnames(styles.iconHolder, styleClass)}>
         {active ? activeIcon : icon}
       </div>
       <div className={styles.labelHolder}>
@@ -48,14 +51,18 @@ DropdownNavigationItem.propTypes = {
   active: PropTypes.bool,
   isReverseFillIcon: PropTypes.bool,
   label: PropTypes.string,
+  title: PropTypes.string,
   noticeCounts: PropTypes.number,
   onClick: PropTypes.func,
+  keepStyle: PropTypes.bool,
 };
 
 DropdownNavigationItem.defaultProps = {
   active: false,
   isReverseFillIcon: false,
   label: undefined,
+  title: undefined,
   noticeCounts: undefined,
   onClick: undefined,
+  keepStyle: false,
 };

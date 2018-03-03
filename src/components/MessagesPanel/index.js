@@ -56,6 +56,13 @@ export default class MessagesPanel extends Component {
         isActive: path => path === messageTypes.voiceMail,
         noticeCounts: this.props.voiceUnreadCounts,
       },
+      this.props.readFaxPermission && {
+        icon: <TabTitle type={messageTypes.fax} currentLocale={this.props.currentLocale} />,
+        label: i18n.getString(messageTypes.fax, this.props.currentLocale),
+        path: messageTypes.fax,
+        isActive: path => path === messageTypes.fax,
+        noticeCounts: this.props.faxUnreadCounts,
+      },
       this.props.readTextPermission && {
         icon: <TabTitle type={messageTypes.text} currentLocale={this.props.currentLocale} />,
         label: i18n.getString(messageTypes.text, this.props.currentLocale),
@@ -87,8 +94,8 @@ export default class MessagesPanel extends Component {
       conversations,
       brand,
       showConversationDetail,
-      readVoicemail,
-      markVoicemail,
+      readMessage,
+      markMessage,
       dateTimeFormatter,
       showContactDisplayPlaceholder,
       sourceIcons,
@@ -101,13 +108,14 @@ export default class MessagesPanel extends Component {
       onClickToDial,
       onClickToSms,
       disableClickToDial,
-      unmarkVoicemail,
+      unmarkMessage,
       autoLog,
       enableContactFallback,
       deleteMessage,
       typeFilter,
       goToComposeText,
       composeTextPermission,
+      previewFaxMessages
     } = this.props;
     if (showSpinner) {
       return (<SpinnerOverlay />);
@@ -157,8 +165,8 @@ export default class MessagesPanel extends Component {
           conversations={conversations}
           brand={brand}
           showConversationDetail={showConversationDetail}
-          readVoicemail={readVoicemail}
-          markVoicemail={markVoicemail}
+          readMessage={readMessage}
+          markMessage={markMessage}
           dateTimeFormatter={dateTimeFormatter}
           showContactDisplayPlaceholder={showContactDisplayPlaceholder}
           sourceIcons={sourceIcons}
@@ -172,10 +180,11 @@ export default class MessagesPanel extends Component {
           onClickToDial={onClickToDial}
           onClickToSms={onClickToSms}
           disableClickToDial={disableClickToDial}
-          unmarkVoicemail={unmarkVoicemail}
+          unmarkMessage={unmarkMessage}
           autoLog={autoLog}
           enableContactFallback={enableContactFallback}
           deleteMessage={deleteMessage}
+          previewFaxMessages={previewFaxMessages}
         />
       </div>
     );
@@ -228,13 +237,15 @@ MessagesPanel.propTypes = {
   showConversationDetail: PropTypes.func.isRequired,
   textUnreadCounts: PropTypes.number.isRequired,
   voiceUnreadCounts: PropTypes.number.isRequired,
+  faxUnreadCounts: PropTypes.number.isRequired,
   showGroupNumberName: PropTypes.bool,
   onClickToDial: PropTypes.func,
   onClickToSms: PropTypes.func,
-  markVoicemail: PropTypes.func.isRequired,
-  readVoicemail: PropTypes.func.isRequired,
+  markMessage: PropTypes.func.isRequired,
+  readMessage: PropTypes.func.isRequired,
   readTextPermission: PropTypes.bool,
   readVoicemailPermission: PropTypes.bool,
+  readFaxPermission: PropTypes.bool,
   onSearchInputChange: PropTypes.func,
   searchInput: PropTypes.string,
   perPage: PropTypes.number,
@@ -248,11 +259,12 @@ MessagesPanel.propTypes = {
   onViewContact: PropTypes.func,
   onCreateContact: PropTypes.func,
   disableClickToDial: PropTypes.bool,
-  unmarkVoicemail: PropTypes.func.isRequired,
+  unmarkMessage: PropTypes.func.isRequired,
   autoLog: PropTypes.bool,
   enableContactFallback: PropTypes.bool,
   deleteMessage: PropTypes.func,
   composeTextPermission: PropTypes.bool,
+  previewFaxMessages: PropTypes.func,
 };
 
 MessagesPanel.defaultProps = {
@@ -268,6 +280,7 @@ MessagesPanel.defaultProps = {
   onClickToSms: undefined,
   readTextPermission: true,
   readVoicemailPermission: true,
+  readFaxPermission: true,
   onSearchInputChange: undefined,
   searchInput: '',
   perPage: 20,
@@ -281,4 +294,5 @@ MessagesPanel.defaultProps = {
   enableContactFallback: undefined,
   deleteMessage: undefined,
   composeTextPermission: true,
+  previewFaxMessages: undefined,
 };

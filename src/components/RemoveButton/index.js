@@ -12,7 +12,7 @@ function RemoveButton(props) {
     className = classnames(styles.containner, props.className, styles.hiddenRemoveButton);
   }
   return (
-    <span className={className} onClick={props.onClick}>
+    <span className={className} onClick={props.visibility ? props.onClick : null}>
       <i className={rcFont.uni2471} />
     </span>
   );
