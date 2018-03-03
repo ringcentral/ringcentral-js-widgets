@@ -304,7 +304,7 @@ class RecipientsInput extends Component {
             className={styles.removeButton}
             onClick={this.onClean}
             visibility={
-              this.props.value.length > 0
+              this.state.value.length > 0
             }
           />
         </div>
