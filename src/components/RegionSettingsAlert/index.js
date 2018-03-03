@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import regionSettingsMessages from
   'ringcentral-integration/modules/RegionSettings/regionSettingsMessages';
 import FormattedMessage from '../FormattedMessage';
+import styles from './styles.scss';
 import i18n from './i18n';
 
 export default function RegionSettingsAlert({
   message: {
-    message
+    id,
+    message,
   },
   currentLocale,
   onRegionSettingsLinkClick,
@@ -19,9 +21,10 @@ export default function RegionSettingsAlert({
       const regionSettingsLink = onRegionSettingsLinkClick ?
         (
           <a
+            className={styles.link}
             onClick={(e) => {
               e.preventDefault();
-              onRegionSettingsLinkClick();
+              onRegionSettingsLinkClick({ alertId: id });
             }}>
             {regionSettings}
           </a>
