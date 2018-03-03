@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "yarn test:jest",
-    "test:jest": "jest --no-cache --maxWorkers=2",
+    "test:jest": "jest --no-cache --maxWorkers=5",
     "test:watch": "yarn test -- --watch",
     "test:coverage": "yarn test --coverage",
     "build": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js build",
@@ -80,6 +80,7 @@
     "locale-loader": "^1.4.5",
     "node-sass": "^4.5.3",
     "postcss-loader": "^2.0.5",
+    "pubnub": "^4.20.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.5",

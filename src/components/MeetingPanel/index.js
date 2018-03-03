@@ -20,6 +20,7 @@ const MINUTE_SCALE = 4;
 const HOUR_SCALE = 13;
 const MAX_TOPIC_LENGTH = 128;
 export const PASSWORD_REGEX = /^[A-Za-z0-9]{0,10}$/;
+const NO_NUMBER_REGEX = /[^\d]/g;
 
 function getMinutesList(MINUTE_SCALE) {
   return new Array(MINUTE_SCALE).fill(0).map((_, key) => {
@@ -266,6 +267,7 @@ const When = (
                   className={styles.timeInput}
                   defaultValue={Moment(meeting.schedule.startTime).format('HH')}
                   onChange={({ target }) => {
+                    that.hours.value = target.value.replace(NO_NUMBER_REGEX, '');
                     const isSelectionEnd = target.selectionEnd === 2;
                     if (isSelectionEnd) {
                       that.minutes.value = '';
@@ -298,6 +300,9 @@ const When = (
                       that.hours.setSelectionRange(2, 2);
                     }
                     accumulator(event, 60);
+                  }}
+                  onChange={({ target }) => {
+                    that.minutes.value = target.value.replace(NO_NUMBER_REGEX, '');
                   }}
                   onBlur={changeTime}
                   maxLength={2}

@@ -22,7 +22,13 @@ function mapToProps(_, {
   enableContactFallback = false,
   showGroupNumberName = false,
 }) {
-  const { serviceFeatures, permissions } = rolesAndPermissions;
+  const {
+    serviceFeatures,
+    permissions,
+    readTextPermissions,
+    voicemailPermissions,
+    readFaxPermissions,
+  } = rolesAndPermissions;
   return ({
     showTitle,
     enableContactFallback,
@@ -71,24 +77,10 @@ function mapToProps(_, {
     typeFilter: messages.typeFilter,
     textUnreadCounts: messageStore.textUnreadCounts,
     voiceUnreadCounts: messageStore.voiceUnreadCounts,
-    readTextPermission: !!(
-      serviceFeatures && (
-        (
-          serviceFeatures.PagerReceiving &&
-          serviceFeatures.PagerReceiving.enabled
-        ) ||
-        (
-          serviceFeatures.SMSReceiving &&
-          serviceFeatures.SMSReceiving.enabled
-        )
-      )
-    ),
-    readVoicemailPermission: !!(
-      serviceFeatures && (
-        serviceFeatures.Voicemail &&
-        serviceFeatures.Voicemail.enabled
-      )
-    ),
+    faxUnreadCounts: messageStore.faxUnreadCounts,
+    readTextPermission: readTextPermissions,
+    readVoicemailPermission: voicemailPermissions,
+    readFaxPermission: readFaxPermissions,
   });
 }
 
@@ -114,6 +106,7 @@ function mapToFunctions(_, {
   onViewContact,
   conversationDetailRoute = '/conversations/{conversationId}',
   composeTextRoute = '/composeText',
+  previewFaxMessages,
 }) {
   return {
     dateTimeFormatter,
@@ -176,19 +169,27 @@ function mapToFunctions(_, {
         conversationDetailRoute.replace('{conversationId}', conversationId)
       );
     },
-    readVoicemail: conversationId =>
+    readMessage: conversationId =>
       messageStore.readMessages(conversationId),
-    markVoicemail: conversationId =>
+    markMessage: conversationId =>
       messageStore.unreadMessage(conversationId),
-    unmarkVoicemail: (conversationId) => {
+    unmarkMessage: (conversationId) => {
       messageStore.readMessages(conversationId);
-      messageStore.unmarkMessages();
+      messageStore.onUnmarkMessages();
     },
     goToComposeText: () => routerInteraction.push(composeTextRoute),
     updateTypeFilter: type => messages.updateTypeFilter(type),
     deleteMessage: (conversationId) => {
       messageStore.deleteMessage(conversationId);
     },
+    previewFaxMessages: (uri, conversationId) => {
+      if (!previewFaxMessages) {
+        window.open(uri);
+      } else {
+        previewFaxMessages(uri);
+      }
+      messageStore.readMessages(conversationId);
+    }
   };
 }
 export default withPhone(connect(

@@ -13,9 +13,9 @@ import prefix from '../dev-server/prefix';
 import state from './state.json';
 
 const apiConfig = {
-  appKey: process.env.appKey,
-  appSecret: process.env.appSecret,
-  server: process.env.server,
+  appKey: 'testKey',
+  appSecret: 'testSecret',
+  server: 'testServer',
 };
 
 const getPhone = async () => {
@@ -25,14 +25,16 @@ const getPhone = async () => {
     prefix,
     version,
   });
+  jest.mock('pubnub');
   mock.mockClient(phone.client);
   mock.mockForLogin();
   const clientHistoryRequest = new ClientHistoryRequest(new Map(), phone.client);
   clientHistoryRequest.debugHistoryRequest();
+  global.clientHistoryRequest = clientHistoryRequest;
   await phone.client.service.platform().login({
-    username: process.env.username,
-    extension: process.env.extension,
-    password: process.env.password
+    username: 'testName',
+    extension: '',
+    password: 'testPassword'
   });
   state.storage.status = 'module-initializing';
   const store = createStore(phone.reducer, state);
