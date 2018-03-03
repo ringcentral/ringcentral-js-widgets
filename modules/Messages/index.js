@@ -228,6 +228,10 @@ var Messages = (_dec = (0, _di.Module)({
         if ((0, _messageHelper.messageIsVoicemail)(message)) {
           voicemailAttachment = (0, _messageHelper.getVoicemailAttachment)(message, accessToken);
         }
+        var faxAttachment = null;
+        if ((0, _messageHelper.messageIsFax)(message)) {
+          faxAttachment = (0, _messageHelper.getFaxAttachment)(message, accessToken);
+        }
         return (0, _extends3.default)({}, message, {
           self: self,
           selfMatches: selfMatches,
@@ -237,6 +241,7 @@ var Messages = (_dec = (0, _di.Module)({
           isLogging: isLogging,
           conversationMatches: conversationMatches,
           voicemailAttachment: voicemailAttachment,
+          faxAttachment: faxAttachment,
           lastMatchedCorrespondentEntity: _this._conversationLogger && _this._conversationLogger.getLastMatchedCorrespondentEntity(message) || null
         });
       });
@@ -251,7 +256,7 @@ var Messages = (_dec = (0, _di.Module)({
         case _messageTypes2.default.all:
           {
             return allConversations.filter(function (conversation) {
-              return (_this._rolesAndPermissions.readTextPermissions || !(0, _messageHelper.messageIsTextMessage)(conversation)) && (_this._rolesAndPermissions.voicemailPermissions || !(0, _messageHelper.messageIsVoicemail)(conversation));
+              return (_this._rolesAndPermissions.readTextPermissions || !(0, _messageHelper.messageIsTextMessage)(conversation)) && (_this._rolesAndPermissions.voicemailPermissions || !(0, _messageHelper.messageIsVoicemail)(conversation)) && (_this._rolesAndPermissions.readFaxPermissions || !(0, _messageHelper.messageIsFax)(conversation));
             });
           }
         case _messageTypes2.default.text:
@@ -261,6 +266,10 @@ var Messages = (_dec = (0, _di.Module)({
         case _messageTypes2.default.voiceMail:
           return allConversations.filter(function (conversation) {
             return (0, _messageHelper.messageIsVoicemail)(conversation);
+          });
+        case _messageTypes2.default.fax:
+          return allConversations.filter(function (conversation) {
+            return (0, _messageHelper.messageIsFax)(conversation);
           });
         default:
           return allConversations;

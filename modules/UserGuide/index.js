@@ -9,6 +9,10 @@ var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-pr
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
+var _stringify = require('babel-runtime/core-js/json/stringify');
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -299,6 +303,15 @@ var UserGuide = (_dec = (0, _di.Module)({
                 return this.loadGuides(guides);
 
               case 6:
+                if (!((0, _stringify2.default)(guides) !== (0, _stringify2.default)(prevGuides))) {
+                  _context4.next = 9;
+                  break;
+                }
+
+                _context4.next = 9;
+                return this.start();
+
+              case 9:
               case 'end':
                 return _context4.stop();
             }

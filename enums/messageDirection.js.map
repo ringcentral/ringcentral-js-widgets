@@ -1,0 +1,1 @@
+{"version":3,"sources":["enums/messageDirection.js"],"names":["inbound","outbound"],"mappings":";;;;;;AAAA;;;;;;kBAEe,sBAAY;AACzBA,WAAS,SADgB;AAEzBC,YAAU;AAFe,CAAZ,C","file":"messageDirection.js","sourcesContent":["import HashMap from '../lib/HashMap';\n\nexport default new HashMap({\n  inbound: 'Inbound',\n  outbound: 'Outbound',\n});\n"]}

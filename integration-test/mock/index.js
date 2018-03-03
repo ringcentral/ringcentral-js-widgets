@@ -25,6 +25,7 @@ exports.extensionList = extensionList;
 exports.accountInfo = accountInfo;
 exports.apiInfo = apiInfo;
 exports.messageSync = messageSync;
+exports.updateMessageStatus = updateMessageStatus;
 exports.authzProfile = authzProfile;
 exports.blockedNumber = blockedNumber;
 exports.forwardingNumber = forwardingNumber;
@@ -41,7 +42,7 @@ exports.ringOutUpdate = ringOutUpdate;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 require('es6-promise').polyfill();
-require('./pubnub');
+// require('./pubnub');
 var RingCentral = require('ringcentral');
 var fetchMock = require('fetch-mock');
 
@@ -60,6 +61,7 @@ var presenceBody = require('./data/presence.json');
 var numberParserBody = require('./data/numberParser.json');
 var smsBody = require('./data/sms.json');
 var ringOutBody = require('./data/ringOut.json');
+var messageStoreBody = require('./data/messageStore.json');
 
 var mockServer = 'http://whatever';
 function createSDK() {
@@ -257,6 +259,16 @@ function messageSync() {
   mockApi({
     url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/message-sync',
     body: (0, _extends3.default)({}, messageSyncBody, mockResponse)
+  });
+}
+
+function updateMessageStatus() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  mockApi({
+    url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/message-store',
+    method: 'PUT',
+    body: (0, _extends3.default)({}, messageStoreBody, mockResponse)
   });
 }
 

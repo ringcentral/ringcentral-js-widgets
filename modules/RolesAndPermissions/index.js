@@ -255,7 +255,7 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
   }, {
     key: 'hasReadMessagesPermission',
     get: function get() {
-      return this.ready && (this.readTextPermissions || this.voicemailPermissions);
+      return this.ready && (this.readTextPermissions || this.voicemailPermissions || this.readFaxPermissions);
     }
   }, {
     key: 'readTextPermissions',

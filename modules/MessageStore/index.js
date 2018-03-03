@@ -250,17 +250,34 @@ var MessageStore = (_dec = (0, _di.Module)({
       return unreadCounts;
     });
 
+    _this.addSelector('faxUnreadCounts', function () {
+      return _this.allConversations;
+    }, function (conversations) {
+      var unreadCounts = 0;
+      conversations.forEach(function (conversation) {
+        if (messageHelper.messageIsFax(conversation)) {
+          unreadCounts += conversation.unreadCounts;
+        }
+      });
+      return unreadCounts;
+    });
+
     _this.addSelector('unreadCounts', function () {
       return _this.voiceUnreadCounts;
     }, function () {
       return _this.textUnreadCounts;
-    }, function (voiceUnreadCounts, textUnreadCounts) {
+    }, function () {
+      return _this.faxUnreadCounts;
+    }, function (voiceUnreadCounts, textUnreadCounts, faxUnreadCounts) {
       var unreadCounts = 0;
       if (_this._rolesAndPermissions.readTextPermissions) {
         unreadCounts += textUnreadCounts;
       }
       if (_this._rolesAndPermissions.voicemailPermissions) {
         unreadCounts += voiceUnreadCounts;
+      }
+      if (_this._rolesAndPermissions.readFaxPermissions) {
+        unreadCounts += faxUnreadCounts;
       }
       return unreadCounts;
     });
@@ -1210,7 +1227,7 @@ var MessageStore = (_dec = (0, _di.Module)({
     // for track mark message
 
   }, {
-    key: 'unmarkMessages',
+    key: 'onUnmarkMessages',
     value: function () {
       var _ref23 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee20() {
         return _regenerator2.default.wrap(function _callee20$(_context20) {
@@ -1229,11 +1246,11 @@ var MessageStore = (_dec = (0, _di.Module)({
         }, _callee20, this);
       }));
 
-      function unmarkMessages() {
+      function onUnmarkMessages() {
         return _ref23.apply(this, arguments);
       }
 
-      return unmarkMessages;
+      return onUnmarkMessages;
     }()
   }, {
     key: 'deleteMessage',
@@ -1414,7 +1431,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: 'conversations',
     get: function get() {
-      return this._selectors.textAndVoicemailMessages();
+      return this.allConversations;
     }
   }, {
     key: 'conversationMap',
@@ -1457,6 +1474,11 @@ var MessageStore = (_dec = (0, _di.Module)({
       return this._selectors.voiceUnreadCounts();
     }
   }, {
+    key: 'faxUnreadCounts',
+    get: function get() {
+      return this._selectors.faxUnreadCounts();
+    }
+  }, {
     key: 'messageStoreStatus',
     get: function get() {
       return this.state.messageStoreStatus;
@@ -1488,6 +1510,6 @@ var MessageStore = (_dec = (0, _di.Module)({
     }
   }]);
   return MessageStore;
-}(_Pollable3.default), (_applyDecoratedDescriptor(_class2.prototype, 'fetchData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'fetchData'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'syncConversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'syncConversation'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'readMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'readMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unreadMessage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unreadMessage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unmarkMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unmarkMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'deleteMessage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'deleteMessage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateConversationRecipientList', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateConversationRecipientList'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'pushMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'pushMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onClickToSMS', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onClickToSMS'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onClickToCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onClickToCall'), _class2.prototype)), _class2)) || _class);
+}(_Pollable3.default), (_applyDecoratedDescriptor(_class2.prototype, 'fetchData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'fetchData'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'syncConversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'syncConversation'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'readMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'readMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unreadMessage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unreadMessage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onUnmarkMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onUnmarkMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'deleteMessage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'deleteMessage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateConversationRecipientList', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateConversationRecipientList'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'pushMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'pushMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onClickToSMS', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onClickToSMS'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onClickToCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onClickToCall'), _class2.prototype)), _class2)) || _class);
 exports.default = MessageStore;
 //# sourceMappingURL=index.js.map
