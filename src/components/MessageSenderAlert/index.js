@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import messageSenderMessages from 'ringcentral-integration/modules/MessageSender/messageSenderMessages';
 import FormattedMessage from '../FormattedMessage';
+import styles from './styles.scss';
 import i18n from './i18n';
 
 export default function MessageSenderAlert({
   currentLocale,
   message: {
+    id,
     message,
   },
   onAreaCodeLink,
@@ -16,9 +18,10 @@ export default function MessageSenderAlert({
     const areaCodeLink = onAreaCodeLink ?
       (
         <a
+          className={styles.link}
           onClick={(e) => {
             e.preventDefault();
-            onAreaCodeLink();
+            onAreaCodeLink({ alertId: id });
           }}>
           {areaCode}
         </a>
