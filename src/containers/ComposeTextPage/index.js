@@ -12,9 +12,11 @@ function mapToProps(_, {
     messageSender,
     rateLimiter,
     rolesAndPermissions,
+    brand
   },
 }) {
   return {
+    brand,
     currentLocale: locale.currentLocale,
     sendButtonDisabled: (
       !(composeText.ready && messageSender.idle) ||
