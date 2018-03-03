@@ -11,6 +11,7 @@ export default function NavigationButton({
   noticeCounts,
   onClick,
   width,
+  keepStyle,
 }) {
   let notice = null;
   if (noticeCounts && noticeCounts > 0) {
@@ -20,6 +21,7 @@ export default function NavigationButton({
       notice = <div className={styles.notice}>{noticeCounts}</div>;
     }
   }
+  const styleClass = !keepStyle ? styles.iconStyles : null;
   return (
     <div
       onClick={onClick}
@@ -32,7 +34,7 @@ export default function NavigationButton({
       }}
     >
       <div className={styles.iconHolder} title={label}>
-        <div className={styles.icon}>
+        <div className={classnames(styles.icon, styleClass)}>
           {active ? activeIcon : icon}
         </div>
         {notice}
@@ -51,10 +53,12 @@ NavigationButton.propTypes = {
     PropTypes.string,
   ]).isRequired,
   onClick: PropTypes.func,
+  keepStyle: PropTypes.bool,
 };
 NavigationButton.defaultProps = {
   active: false,
   label: undefined,
   noticeCounts: undefined,
   onClick: undefined,
+  keepStyle: false,
 };

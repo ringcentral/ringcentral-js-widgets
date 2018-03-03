@@ -10,12 +10,6 @@
   border-bottom: 1px solid #ffffff;
   cursor: pointer;
 
-  svg {
-    path {
-      fill: $primary-color;
-    }
-  }
-
   &:hover,
   &:focus {
     outline: 0;
@@ -30,7 +24,13 @@
   }
 }
 
-
+.iconStyles {
+  svg {
+    path {
+      fill: $primary-color;
+    }
+  }
+}
 
 .iconHolder {
   position: relative;
