@@ -7,21 +7,13 @@ export default {
   starSharp4Title: 'Menu',
   starSharp4Body: 'Listen to the list of touchtone commands',
   starSharp5Title: 'Set Listening Modes',
-  starSharp5Body: `Press 1x: Mute callers - Callers can unmute with  *, #, 6
-Press 2x: Mute callers - Listen only. No unmuting option
-Press 3x: Unmute callers - Opens the line again`,
+  starSharp5Body: 'Press 1x: Mute callers - Callers can unmute with  *, #, 6\nPress 2x: Mute callers - Listen only. No unmuting option\nPress 3x: Unmute callers - Opens the line again',
   starSharp6Title: 'Mute Host Line',
-  starSharp6Body: `Press once to MUTE
-Press again to UNMUTE`,
+  starSharp6Body: 'Press once to MUTE\nPress again to UNMUTE',
   starSharp7Title: 'Secure the Call',
-  starSharp7Body: `Press once to BLOCK all callers
-Press again to OPEN the call`,
+  starSharp7Body: 'Press once to BLOCK all callers\nPress again to OPEN the call',
   starSharp8Title: 'Hear sound when people Enter or Exit call',
-  starSharp8Body: `Press 1x: Turns OFF sound
-Press 2x: Enter tone is ON Exit tone is OFF
-Press 3x: Enter tone is OFF Exit tone is ON
-Press 4x: Turns ON sound`,
+  starSharp8Body: 'Press 1x: Turns OFF sound\nPress 2x: Enter tone is ON Exit tone is OFF\nPress 3x: Enter tone is OFF Exit tone is ON\nPress 4x: Turns ON sound',
   star9Title: 'Record your conference',
-  star9Body: `Press once to START recording
-Press again to STOP recording`,
+  star9Body: 'Press once to START recording\nPress again to STOP recording',
 };

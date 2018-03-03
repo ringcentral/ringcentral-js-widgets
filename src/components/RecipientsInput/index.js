@@ -246,14 +246,11 @@ class RecipientsInput extends Component {
       this.setState({
         isFocusOnInput: true
       });
+      return;
     }
-  }
-  onInputBlur = () => {
-    setTimeout(() => {
-      this.setState({
-        isFocusOnInput: false
-      });
-    }, 10);
+    this.setState({
+      isFocusOnInput: false
+    });
   }
 
   _addToRecipients = (item) => {
@@ -301,15 +298,13 @@ class RecipientsInput extends Component {
                   : this.props.placeholder
               }
               autoComplete="off"
-              onBlur={this.onInputBlur}
             />
           </div>
           <RemoveButton
             className={styles.removeButton}
             onClick={this.onClean}
             visibility={
-              this.props.value.length > 0 &&
-              this.state.isFocusOnInput
+              this.state.value.length > 0
             }
           />
         </div>
