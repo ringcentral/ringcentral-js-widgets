@@ -80,6 +80,7 @@
     "locale-loader": "^1.4.5",
     "node-sass": "^4.5.3",
     "postcss-loader": "^2.0.5",
+    "pubnub": "^4.20.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.5",
@@ -99,8 +100,7 @@
     "url-loader": "^0.5.8",
     "webpack": "^3.5.5",
     "webpack-dev-server": "^2.4.5",
-    "yargs": "^8.0.1",
-    "pubnub": "^4.20.1"
+    "yargs": "^8.0.1"
   },
   "dependencies": {
     "animate.css": "^3.5.2",
