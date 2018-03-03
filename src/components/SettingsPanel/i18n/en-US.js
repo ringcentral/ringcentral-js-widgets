@@ -14,6 +14,6 @@ export default {
   audio: 'Audio',
   language: 'Language',
   feedback: 'Feedback',
-  userGuide: `What's New`,
+  userGuide: "What\'s New",
 };
 
