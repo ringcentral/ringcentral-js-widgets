@@ -14,6 +14,9 @@ export default {
   mark: 'Mark as Unread',
   unmark: 'Mark as Read',
   delete: 'Delete',
-  groupConversation: 'Group Conversation',
-  conversation: 'Text Message'
+  faxSent: 'Fax sent',
+  faxReceived: 'Fax received',
+  pages: 'pages',
+  preview: 'View',
+  download: 'Download'
 };

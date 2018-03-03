@@ -36,6 +36,7 @@ function ActiveCallList({
   enableContactFallback,
   title,
   sourceIcons,
+  disableLinks,
 }) {
   if (calls.length === 0) {
     return null;
@@ -72,6 +73,7 @@ function ActiveCallList({
             enableContactFallback={enableContactFallback}
             autoLog={autoLog}
             sourceIcons={sourceIcons}
+            disableLinks={disableLinks}
           />
         ))
       }
@@ -105,6 +107,7 @@ ActiveCallList.propTypes = {
   enableContactFallback: PropTypes.bool,
   autoLog: PropTypes.bool,
   sourceIcons: PropTypes.object,
+  disableLinks: PropTypes.bool,
 };
 
 ActiveCallList.defaultProps = {
@@ -127,6 +130,7 @@ ActiveCallList.defaultProps = {
   onViewContact: undefined,
   webphoneToVoicemail: undefined,
   sourceIcons: undefined,
+  disableLinks: false,
 };
 
 export default class CallsListPanel extends Component {
@@ -234,6 +238,7 @@ export default class CallsListPanel extends Component {
         webphoneToVoicemail={webphoneToVoicemail}
         enableContactFallback={enableContactFallback}
         sourceIcons={sourceIcons}
+        disableLinks={disableLinks}
       />
     );
     const historyCall = showSpinner ?

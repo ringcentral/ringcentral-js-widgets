@@ -24,7 +24,7 @@ export default class MessageList extends Component {
   }
   onScroll = () => {
     const totalScrollHeight = this.messagesListBody.scrollHeight;
-    const clientHeight = this.messagesListBody.clientHeight;
+    const { clientHeight } = this.messagesListBody;
     const currentScrollTop = this.messagesListBody.scrollTop;
     // load next page if scroll near buttom
     if (
@@ -86,8 +86,9 @@ MessageList.propTypes = {
   perPage: PropTypes.number,
   className: PropTypes.string,
   showConversationDetail: PropTypes.func.isRequired,
-  readVoicemail: PropTypes.func.isRequired,
-  markVoicemail: PropTypes.func.isRequired,
+  readMessage: PropTypes.func.isRequired,
+  markMessage: PropTypes.func.isRequired,
+  unmarkMessage: PropTypes.func.isRequired,
   dateTimeFormatter: PropTypes.func,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,

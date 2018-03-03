@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import messageTypes from 'ringcentral-integration/enums/messageTypes';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 
 import ConversationPanel from '../../components/ConversationPanel';
@@ -169,6 +170,7 @@ function mapToFunctions(_, {
     routerInteraction,
     conversationLogger,
     regionSettings,
+    messages,
   },
   dateTimeFormatter = (...args) => dateTimeFormat.formatDateTime(...args),
   isLoggedContact,
@@ -227,7 +229,8 @@ function mapToFunctions(_, {
       });
     })),
     goBack: () => {
-      routerInteraction.goBack();
+      routerInteraction.push('/messages');
+      messages.updateTypeFilter(messageTypes.text);
     },
   };
 }
