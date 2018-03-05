@@ -350,6 +350,7 @@ class ConferencePanel extends Component {
           {additionalButtons.map(
             Btn => (
               <Btn
+                currentLocale={currentLocale}
                 dialInNumber={dialInNumber}
                 getInviteTxt={this.inviteTxt}
                 key={Date.now()}
