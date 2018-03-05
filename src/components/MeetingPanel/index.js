@@ -737,6 +737,7 @@ class MeetingPanel extends Component {
           ) : null
         }
         <ScheduleButton
+          currentLocale={currentLocale}
           hidden={hidden}
           disabled={disabled}
           meeting={meeting}
