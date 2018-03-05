@@ -49,7 +49,8 @@ function AlertDisplay(props) {
         level: message.level,
         message: _react2.default.createElement(Renderer, {
           message: message,
-          currentLocale: props.currentLocale
+          currentLocale: props.currentLocale,
+          brand: props.brand
         }),
         onDismiss: function onDismiss() {
           props.dismiss(message.id);
@@ -71,6 +72,7 @@ AlertDisplay.propTypes = {
   dismiss: _propTypes2.default.func.isRequired,
   currentLocale: _propTypes2.default.string.isRequired,
   animation: _propTypes2.default.string,
+  brand: _propTypes2.default.string,
   duration: _propTypes2.default.number,
   component: _propTypes2.default.func
 };
@@ -78,7 +80,8 @@ AlertDisplay.defaultProps = {
   getRenderer: function getRenderer() {
     return undefined;
   },
-  component: _Message2.default
+  component: _Message2.default,
+  brand: 'RingCentral'
 };
 
 exports.default = AlertDisplay;

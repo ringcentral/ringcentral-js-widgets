@@ -28,9 +28,11 @@ function mapToProps(_, _ref) {
       locale = _ref$phone.locale,
       messageSender = _ref$phone.messageSender,
       rateLimiter = _ref$phone.rateLimiter,
-      rolesAndPermissions = _ref$phone.rolesAndPermissions;
+      rolesAndPermissions = _ref$phone.rolesAndPermissions,
+      brand = _ref$phone.brand;
 
   return {
+    brand: brand.fullName,
     currentLocale: locale.currentLocale,
     sendButtonDisabled: !(composeText.ready && messageSender.idle) || composeText.messageText.length === 0 || composeText.toNumbers.length === 0 && composeText.typingToNumber.length === 0 || !connectivityMonitor.connectivity || rateLimiter.throttling,
     senderNumbers: messageSender.senderNumbersList,

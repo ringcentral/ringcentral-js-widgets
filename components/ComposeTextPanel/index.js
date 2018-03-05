@@ -132,7 +132,8 @@ var ComposeTextPanel = function (_Component) {
         _react2.default.createElement(_NoSenderAlert2.default, {
           currentLocale: this.props.currentLocale,
           outboundSMS: this.props.outboundSMS,
-          hasSenderNumbers: this.hasSenderNumbers()
+          hasSenderNumbers: this.hasSenderNumbers(),
+          brand: this.props.brand
         }),
         _react2.default.createElement(
           'form',
@@ -201,6 +202,7 @@ var ComposeTextPanel = function (_Component) {
 }(_react.Component);
 
 ComposeTextPanel.propTypes = {
+  brand: _propTypes2.default.string,
   className: _propTypes2.default.string,
   send: _propTypes2.default.func.isRequired,
   senderNumbers: _propTypes2.default.arrayOf(_propTypes2.default.shape({
@@ -238,6 +240,7 @@ ComposeTextPanel.propTypes = {
 };
 
 ComposeTextPanel.defaultProps = {
+  brand: 'RingCentral',
   className: null,
   messageText: '',
   typingToNumber: '',

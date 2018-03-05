@@ -36,7 +36,8 @@ function MessageSenderAlert(_ref) {
       _ref$message = _ref.message,
       id = _ref$message.id,
       message = _ref$message.message,
-      onAreaCodeLink = _ref.onAreaCodeLink;
+      onAreaCodeLink = _ref.onAreaCodeLink,
+      brand = _ref.brand;
 
   if (message === _messageSenderMessages2.default.noAreaCode) {
     var areaCode = _i18n2.default.getString('areaCode', currentLocale);
@@ -53,6 +54,10 @@ function MessageSenderAlert(_ref) {
     return _react2.default.createElement(_FormattedMessage2.default, {
       message: _i18n2.default.getString(message, currentLocale),
       values: { areaCodeLink: areaCodeLink } });
+  } else if (message === _messageSenderMessages2.default.noInternalSMSPermission) {
+    return _react2.default.createElement(_FormattedMessage2.default, {
+      message: _i18n2.default.getString(message, currentLocale),
+      values: { brand: brand } });
   }
   return _react2.default.createElement(
     'span',
@@ -63,13 +68,15 @@ function MessageSenderAlert(_ref) {
 
 MessageSenderAlert.propTypes = {
   currentLocale: _propTypes2.default.string.isRequired,
+  brand: _propTypes2.default.string,
   message: _propTypes2.default.shape({
     message: _propTypes2.default.string.isRequired
   }).isRequired,
   onAreaCodeLink: _propTypes2.default.func
 };
 MessageSenderAlert.defaultProps = {
-  onAreaCodeLink: undefined
+  onAreaCodeLink: undefined,
+  brand: 'RingCentral'
 };
 
 MessageSenderAlert.handleMessage = function (_ref2) {

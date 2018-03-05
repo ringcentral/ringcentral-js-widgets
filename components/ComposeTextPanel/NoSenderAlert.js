@@ -78,6 +78,7 @@ var NoSenderAlert = function (_Component) {
     key: 'render',
     value: function render() {
       return this.state.showAlert ? _react2.default.createElement(_AlertDisplay2.default, {
+        brand: this.props.brand,
         currentLocale: this.props.currentLocale,
         messages: this.messages,
         dismiss: this.onDismissAlert,
@@ -94,6 +95,11 @@ exports.default = NoSenderAlert;
 NoSenderAlert.propTypes = {
   currentLocale: _propTypes2.default.string.isRequired,
   outboundSMS: _propTypes2.default.bool.isRequired,
-  hasSenderNumbers: _propTypes2.default.bool.isRequired
+  hasSenderNumbers: _propTypes2.default.bool.isRequired,
+  brand: _propTypes2.default.string
+};
+
+NoSenderAlert.defaultProps = {
+  brand: 'RingCentral'
 };
 //# sourceMappingURL=NoSenderAlert.js.map

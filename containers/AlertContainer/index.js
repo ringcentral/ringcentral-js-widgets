@@ -87,11 +87,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function mapToProps(_, _ref) {
   var _ref$phone = _ref.phone,
       locale = _ref$phone.locale,
-      alert = _ref$phone.alert;
+      alert = _ref$phone.alert,
+      brand = _ref$phone.brand;
 
   return {
     currentLocale: locale.currentLocale,
-    messages: alert.messages
+    messages: alert.messages,
+    brand: brand.fullName
   };
 }
 
@@ -147,6 +149,7 @@ function getDefaultRenderer(_ref2) {
     if (_MessageSenderAlert2.default.handleMessage(message)) {
       return function (props) {
         return _react2.default.createElement(_MessageSenderAlert2.default, (0, _extends3.default)({}, props, {
+          brand: brand.fullName,
           onAreaCodeLink: onRegionSettingsLinkClick
         }));
       };
