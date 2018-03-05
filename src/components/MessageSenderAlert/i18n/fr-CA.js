@@ -7,7 +7,6 @@ export default {
   [messageSenderMessages.textEmpty]: 'Veuillez entrer le texte à envoyer.',
   [messageSenderMessages.noPermission]: 'Vous n\'êtes pas autorisé à envoyer des messages.',
   [messageSenderMessages.senderEmpty]: 'Vous devez sélectionner un numéro parmi les numéros de téléphone pour envoyer',
-  [messageSenderMessages.noToNumber]: 'Veuillez entrer un numéro de téléphone valide.',
   [messageSenderMessages.recipientsEmpty]: 'Veuillez entrer un numéro de destinataire valide.',
   [messageSenderMessages.textTooLong]: 'Le texte est trop long, limite\xA0: 1\xA0000',
   [messageSenderMessages.noAreaCode]: 'Veuillez configurer {areaCodeLink} pour utiliser des numéros de téléphone locaux à 7\xA0chiffres.',

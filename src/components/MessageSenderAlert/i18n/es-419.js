@@ -7,7 +7,6 @@ export default {
   [messageSenderMessages.textEmpty]: 'Escriba el mensaje que desea enviar.',
   [messageSenderMessages.noPermission]: 'No tiene permiso para enviar este mensaje.',
   [messageSenderMessages.senderEmpty]: 'Debe seleccionar un número desde su teléfono para enviar el mensaje',
-  [messageSenderMessages.noToNumber]: 'Número de teléfono no válido.',
   [messageSenderMessages.recipientsEmpty]: 'Ingrese un número válido de destinatario.',
   [messageSenderMessages.textTooLong]: 'El mensaje es demasiado largo. El número máximo de caracteres permitidos es 1000',
   [messageSenderMessages.noAreaCode]: 'Defina el {areaCodeLink} para utilizar números de teléfono locales de 7 dígitos.',
