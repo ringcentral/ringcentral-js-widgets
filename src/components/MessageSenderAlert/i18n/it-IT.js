@@ -7,7 +7,6 @@ export default {
   [messageSenderMessages.textEmpty]: 'Immetti il testo da inviare.',
   [messageSenderMessages.noPermission]: 'Non disponi dell\'autorizzazione per inviare il messaggio.',
   [messageSenderMessages.senderEmpty]: 'Devi selezionare uno dei numeri di telefono per inviare il messaggio',
-  [messageSenderMessages.noToNumber]: 'Numero di telefono non valido.',
   [messageSenderMessages.recipientsEmpty]: 'Immetti un numero di destinazione valido.',
   [messageSenderMessages.textTooLong]: 'Testo troppo lungo, limite di 1000',
   [messageSenderMessages.noAreaCode]: 'Imposta {areaCodeLink} per utilizzare i numeri di telefono locali a 7 cifre.',

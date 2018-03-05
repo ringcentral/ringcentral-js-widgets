@@ -7,7 +7,6 @@ export default {
   [messageSenderMessages.textEmpty]: 'Please enter the text to be sent.',
   [messageSenderMessages.noPermission]: 'You do not have permission to send messages.',
   [messageSenderMessages.senderEmpty]: 'You must select a number from your phone numbers to send',
-  [messageSenderMessages.noToNumber]: 'Please enter a valid phone number.',
   [messageSenderMessages.recipientsEmpty]: 'Please enter a valid receiver number.',
   [messageSenderMessages.textTooLong]: 'Text is too long, 1000 limit',
   [messageSenderMessages.noAreaCode]: 'Please set {areaCodeLink} to use 7-digit local phone numbers.',
