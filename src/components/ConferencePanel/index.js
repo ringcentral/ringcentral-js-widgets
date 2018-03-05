@@ -234,7 +234,9 @@ class ConferencePanel extends Component {
       additionalButtons,
       onAllowJoinBeforeHostChange,
       showHelpCommands,
-      disableTxtBtn
+      disableTxtBtn,
+      showJoinAsHost = true,
+      recipientsSection,
     } = this.props;
     const {
       dialInNumbers,
@@ -315,6 +317,9 @@ class ConferencePanel extends Component {
               {formatPin(participantCode)}
             </div>
           </div>
+          {
+            recipientsSection
+          }
           <div className={styles.formGroup}>
             <label>{i18n.getString('addinalDialInNumbers', currentLocale)}</label>
             <span className={styles.field}>
@@ -350,17 +355,22 @@ class ConferencePanel extends Component {
                 key={Date.now()}
               />)
           )}
-          {!disableTxtBtn &&
+          {
+            !disableTxtBtn &&
             <Button
               className={styles.button}
               onClick={this.inviteWithText}>
               {i18n.getString('inviteWithText', currentLocale)}
-            </Button>}
-          <Button
-            className={styles.primaryButton}
-            onClick={() => joinAsHost(dialInNumber)}>
-            {i18n.getString('joinAsHost', currentLocale)}
-          </Button>
+            </Button>
+          }
+          {
+            showJoinAsHost &&
+            <Button
+              className={styles.primaryButton}
+              onClick={() => joinAsHost(dialInNumber)}>
+              {i18n.getString('joinAsHost', currentLocale)}
+            </Button>
+          }
         </div>
       </div>
     );
@@ -385,11 +395,15 @@ ConferencePanel.propTypes = {
   showHelpCommands: PropTypes.func.isRequired,
   alert: PropTypes.func.isRequired,
   disableTxtBtn: PropTypes.bool.isRequired,
-  brand: PropTypes.object.isRequired
+  showJoinAsHost: PropTypes.bool,
+  brand: PropTypes.object.isRequired,
+  recipientsSection: PropTypes.node,
 };
 ConferencePanel.defaultProps = {
   dialInNumbers: [],
-  additionalButtons: []
+  additionalButtons: [],
+  recipientsSection: undefined,
+  showJoinAsHost: true,
 };
 
 export default ConferencePanel;
