@@ -70,6 +70,7 @@ class ComposeTextPanel extends Component {
           currentLocale={this.props.currentLocale}
           outboundSMS={this.props.outboundSMS}
           hasSenderNumbers={this.hasSenderNumbers()}
+          brand={this.props.brand}
         />
         <form onSubmit={this.handleSubmit}>
           <RecipientsInput
@@ -127,6 +128,7 @@ class ComposeTextPanel extends Component {
 }
 
 ComposeTextPanel.propTypes = {
+  brand: PropTypes.string,
   className: PropTypes.string,
   send: PropTypes.func.isRequired,
   senderNumbers: PropTypes.arrayOf(PropTypes.shape({
@@ -164,6 +166,7 @@ ComposeTextPanel.propTypes = {
 };
 
 ComposeTextPanel.defaultProps = {
+  brand: 'RingCentral',
   className: null,
   messageText: '',
   typingToNumber: '',

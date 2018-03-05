@@ -12,6 +12,7 @@ export default function MessageSenderAlert({
     message,
   },
   onAreaCodeLink,
+  brand
 }) {
   if (message === messageSenderMessages.noAreaCode) {
     const areaCode = i18n.getString('areaCode', currentLocale);
@@ -32,6 +33,12 @@ export default function MessageSenderAlert({
         message={i18n.getString(message, currentLocale)}
         values={{ areaCodeLink }} />
     );
+  } else if (message === messageSenderMessages.noInternalSMSPermission) {
+    return (
+      <FormattedMessage
+        message={i18n.getString(message, currentLocale)}
+        values={{ brand }} />
+    );
   }
   return (
     <span>{i18n.getString(message, currentLocale)}</span>
@@ -40,6 +47,7 @@ export default function MessageSenderAlert({
 
 MessageSenderAlert.propTypes = {
   currentLocale: PropTypes.string.isRequired,
+  brand: PropTypes.string,
   message: PropTypes.shape({
     message: PropTypes.string.isRequired,
   }).isRequired,
@@ -47,6 +55,7 @@ MessageSenderAlert.propTypes = {
 };
 MessageSenderAlert.defaultProps = {
   onAreaCodeLink: undefined,
+  brand: 'RingCentral'
 };
 
 MessageSenderAlert.handleMessage = ({ message }) => (

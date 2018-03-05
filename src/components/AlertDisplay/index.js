@@ -24,6 +24,7 @@ function AlertDisplay(props) {
                 <Renderer
                   message={message}
                   currentLocale={props.currentLocale}
+                  brand={props.brand}
                 />
               }
               onDismiss={() => {
@@ -49,12 +50,14 @@ AlertDisplay.propTypes = {
   dismiss: PropTypes.func.isRequired,
   currentLocale: PropTypes.string.isRequired,
   animation: PropTypes.string,
+  brand: PropTypes.string,
   duration: PropTypes.number,
   component: PropTypes.func,
 };
 AlertDisplay.defaultProps = {
   getRenderer: () => undefined,
   component: Message,
+  brand: 'RingCentral'
 };
 
 export default AlertDisplay;

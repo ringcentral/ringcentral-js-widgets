@@ -28,6 +28,7 @@ export default class NoSenderAlert extends Component {
   render() {
     return this.state.showAlert ? (
       <AlertDisplay
+        brand={this.props.brand}
         currentLocale={this.props.currentLocale}
         messages={this.messages}
         dismiss={this.onDismissAlert}
@@ -41,4 +42,9 @@ NoSenderAlert.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   outboundSMS: PropTypes.bool.isRequired,
   hasSenderNumbers: PropTypes.bool.isRequired,
+  brand: PropTypes.string,
+};
+
+NoSenderAlert.defaultProps = {
+  brand: 'RingCentral'
 };
