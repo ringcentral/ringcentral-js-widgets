@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 import messageTypes from 'ringcentral-integration/enums/messageTypes';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
@@ -151,12 +151,12 @@ function mapToProps(_, {
     ),
     recipients: conversation.recipients,
     messages: conversation.messages,
+    messageText: conversation.messageText,
     conversation: messages.allConversations.find(item => (
       item.conversationId === params.conversationId
     )),
     disableLinks: (
-      rateLimiter.isThrottling ||
-      !connectivityMonitor.connectivity
+      rateLimiter.isThrottling || !connectivityMonitor.connectivity
     ),
     autoLog: !!(conversationLogger && conversationLogger.autoLog),
   });
@@ -211,6 +211,7 @@ function mapToFunctions(_, {
     changeMatchedNames: (...args) => conversation.changeMatchedNames(...args),
     unloadConversation: () => conversation.unloadConversation(),
     loadConversationById: id => conversation.loadConversationById(id),
+    updateMessageText: text => conversation.updateMessageText(text),
     dateTimeFormatter,
     formatNumber: phoneNumber => formatNumber({
       phoneNumber,
@@ -222,7 +223,7 @@ function mapToFunctions(_, {
     getMatcherContactNameList,
     isLoggedContact,
     onLogConversation: onLogConversation ||
-    (conversationLogger && (async ({ redirect = true, ...options }) => {
+    (conversationLogger && (async({redirect = true, ...options}) => {
       await conversationLogger.logConversation({
         ...options,
         redirect,
