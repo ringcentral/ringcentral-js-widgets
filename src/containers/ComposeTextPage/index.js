@@ -16,7 +16,7 @@ function mapToProps(_, {
   },
 }) {
   return {
-    brand,
+    brand: brand.fullName,
     currentLocale: locale.currentLocale,
     sendButtonDisabled: (
       !(composeText.ready && messageSender.idle) ||

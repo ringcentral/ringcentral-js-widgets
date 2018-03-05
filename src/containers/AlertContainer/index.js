@@ -32,7 +32,7 @@ function mapToProps(_, {
   return {
     currentLocale: locale.currentLocale,
     messages: alert.messages,
-    brand
+    brand: brand.fullName
   };
 }
 

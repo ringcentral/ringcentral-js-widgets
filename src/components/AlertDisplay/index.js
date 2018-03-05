@@ -50,13 +50,14 @@ AlertDisplay.propTypes = {
   dismiss: PropTypes.func.isRequired,
   currentLocale: PropTypes.string.isRequired,
   animation: PropTypes.string,
-  brand: PropTypes.object.isRequired,
+  brand: PropTypes.string,
   duration: PropTypes.number,
   component: PropTypes.func,
 };
 AlertDisplay.defaultProps = {
   getRenderer: () => undefined,
   component: Message,
+  brand: 'RingCentral'
 };
 
 export default AlertDisplay;

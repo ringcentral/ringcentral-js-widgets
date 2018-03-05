@@ -128,7 +128,7 @@ class ComposeTextPanel extends Component {
 }
 
 ComposeTextPanel.propTypes = {
-  brand: PropTypes.object.isRequired,
+  brand: PropTypes.string,
   className: PropTypes.string,
   send: PropTypes.func.isRequired,
   senderNumbers: PropTypes.arrayOf(PropTypes.shape({
@@ -166,6 +166,7 @@ ComposeTextPanel.propTypes = {
 };
 
 ComposeTextPanel.defaultProps = {
+  brand: 'RingCentral',
   className: null,
   messageText: '',
   typingToNumber: '',
