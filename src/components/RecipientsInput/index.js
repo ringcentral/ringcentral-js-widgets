@@ -9,11 +9,15 @@ import i18n from './i18n';
 function SelectedRecipientItem({
   phoneNumber,
   name = phoneNumber,
+  title = name,
   onRemove,
 }) {
   const className = phoneNumber.length > 5 ? styles.phoneNumber : styles.extension;
   return (
-    <li className={className}>
+    <li
+      className={className}
+      title={title}
+    >
       <span>{name}</span>
       <RemoveButton
         className={styles.removeReceiver}
@@ -25,12 +29,14 @@ function SelectedRecipientItem({
 }
 
 SelectedRecipientItem.propTypes = {
-  name: PropTypes.string,
   phoneNumber: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  title: PropTypes.string,
   onRemove: PropTypes.func.isRequired,
 };
 SelectedRecipientItem.defaultProps = {
   name: undefined,
+  title: undefined,
 };
 
 function SelectedRecipients({
