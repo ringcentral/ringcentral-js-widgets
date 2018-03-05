@@ -26,11 +26,13 @@ function mapToProps(_, {
   phone: {
     locale,
     alert,
+    brand
   },
 }) {
   return {
     currentLocale: locale.currentLocale,
     messages: alert.messages,
+    brand: brand.fullName
   };
 }
 
@@ -87,6 +89,7 @@ function getDefaultRenderer({
       return props => (
         <MessageSenderAlert
           {...props}
+          brand={brand.fullName}
           onAreaCodeLink={onRegionSettingsLinkClick}
         />
       );
