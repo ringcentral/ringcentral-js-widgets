@@ -7,7 +7,6 @@ export default {
   [messageSenderMessages.textEmpty]: '送信するテキストを入力してください\u3002',
   [messageSenderMessages.noPermission]: 'メッセージを送信するためのアクセス許可がありません\u3002',
   [messageSenderMessages.senderEmpty]: 'お使いの電話番号から送信用の電話番号を選択してください\u3002',
-  [messageSenderMessages.noToNumber]: '電話番号が無効です\u3002',
   [messageSenderMessages.recipientsEmpty]: '有効な受信者番号を入力してください\u3002',
   [messageSenderMessages.textTooLong]: 'テキストが長すぎます\u3002上限は1,000文字です',
   [messageSenderMessages.noAreaCode]: '7桁の国内電話番号を使用するには\u3001{areaCodeLink}を設定してください\u3002',

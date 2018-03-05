@@ -7,7 +7,7 @@ export default {
   [messageSenderMessages.textEmpty]: 'Please enter the text to be sent.',
   [messageSenderMessages.noPermission]: 'You have no permission to send message.',
   [messageSenderMessages.senderEmpty]: 'You must select a number from your phone numbers to send',
-  [messageSenderMessages.noToNumber]: 'Invalid phone number.',
+  [messageSenderMessages.noToNumber]: 'Please enter a valid phone number.',
   [messageSenderMessages.recipientsEmpty]: 'Please enter a valid receiver number.',
   [messageSenderMessages.textTooLong]: 'Text is too long, 1000 Limited',
   [messageSenderMessages.recipientNumberInvalids]: 'Please enter a valid phone number.',

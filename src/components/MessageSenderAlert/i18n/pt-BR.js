@@ -7,7 +7,6 @@ export default {
   [messageSenderMessages.textEmpty]: 'Insira o texto para envio.',
   [messageSenderMessages.noPermission]: 'Você não tem permissão para enviar mensagens.',
   [messageSenderMessages.senderEmpty]: 'Você deve selecionar um número de telefone para enviar',
-  [messageSenderMessages.noToNumber]: 'Número de telefone inválido.',
   [messageSenderMessages.recipientsEmpty]: 'Insira um número de recebimento válido.',
   [messageSenderMessages.textTooLong]: 'O texto é muito longo. Limitado a 1000',
   [messageSenderMessages.noAreaCode]: 'Defina o {areaCodeLink} para usar números de telefone locais de sete dígitos.',
