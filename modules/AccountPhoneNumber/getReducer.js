@@ -21,7 +21,8 @@ function getDataReducer(types) {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var _ref = arguments[1];
     var type = _ref.type,
-        data = _ref.data;
+        data = _ref.data,
+        hasPermission = _ref.hasPermission;
 
     switch (type) {
       case types.fetchSuccess:
@@ -31,6 +32,11 @@ function getDataReducer(types) {
           });
         });
       case types.resetSuccess:
+        return null;
+      case types.initSuccess:
+        if (hasPermission) {
+          return state;
+        }
         return null;
       default:
         return state;

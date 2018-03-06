@@ -34,6 +34,30 @@ var _forwardingNumber = require('../../spec-modules/forwardingNumber');
 
 var _forwardingNumber2 = _interopRequireDefault(_forwardingNumber);
 
+var _accountExtension = require('../../spec-modules/accountExtension');
+
+var _accountExtension2 = _interopRequireDefault(_accountExtension);
+
+var _accountPhoneNumber = require('../../spec-modules/accountPhoneNumber');
+
+var _accountPhoneNumber2 = _interopRequireDefault(_accountPhoneNumber);
+
+var _extensionInfo = require('../../spec-modules/extensionInfo');
+
+var _extensionInfo2 = _interopRequireDefault(_extensionInfo);
+
+var _accountInfo = require('../../spec-modules/accountInfo');
+
+var _accountInfo2 = _interopRequireDefault(_accountInfo);
+
+var _dialingPlan = require('../../spec-modules/dialingPlan');
+
+var _dialingPlan2 = _interopRequireDefault(_dialingPlan);
+
+var _rolesAndPermissions = require('../../spec-modules/rolesAndPermissions');
+
+var _rolesAndPermissions2 = _interopRequireDefault(_rolesAndPermissions);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var phone = (0, _TestPhoneFactory2.default)();
@@ -62,4 +86,22 @@ phone = (0, _TestPhoneFactory2.default)();
 
 phone = (0, _TestPhoneFactory2.default)();
 (0, _forwardingNumber2.default)(phone.auth, phone.client, phone.forwardingNumber, _testAccount.defaultAccount);
+
+phone = (0, _TestPhoneFactory2.default)();
+(0, _accountExtension2.default)(phone.auth, phone.client, phone.accountExtension, _testAccount.defaultAccount);
+
+phone = (0, _TestPhoneFactory2.default)();
+(0, _accountPhoneNumber2.default)(phone.auth, phone.client, phone.accountPhoneNumber, _testAccount.defaultAccount);
+
+phone = (0, _TestPhoneFactory2.default)();
+(0, _extensionInfo2.default)(phone.auth, phone.client, phone.extensionInfo, _testAccount.defaultAccount, phone.alert);
+
+phone = (0, _TestPhoneFactory2.default)();
+(0, _accountInfo2.default)(phone.auth, phone.client, phone.accountInfo, _testAccount.defaultAccount, phone.alert);
+
+phone = (0, _TestPhoneFactory2.default)();
+(0, _dialingPlan2.default)(phone.auth, phone.client, phone.dialingPlan, _testAccount.defaultAccount);
+
+phone = (0, _TestPhoneFactory2.default)();
+(0, _rolesAndPermissions2.default)(phone.auth, phone.client, phone.rolesAndPermissions, _testAccount.defaultAccount, phone.alert);
 //# sourceMappingURL=commons.spec.js.map

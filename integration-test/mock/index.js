@@ -30,11 +30,13 @@ exports.authzProfile = authzProfile;
 exports.blockedNumber = blockedNumber;
 exports.forwardingNumber = forwardingNumber;
 exports.phoneNumber = phoneNumber;
+exports.accountPhoneNumber = accountPhoneNumber;
 exports.subscription = subscription;
 exports.numberParser = numberParser;
 exports.sms = sms;
 exports.restore = restore;
 exports.mockForLogin = mockForLogin;
+exports.mockForbidden = mockForbidden;
 exports.mockClient = mockClient;
 exports.ringOut = ringOut;
 exports.ringOutUpdate = ringOutUpdate;
@@ -57,6 +59,7 @@ var authzProfileBody = require('./data/authzProfile');
 var blockedNumberBody = require('./data/blockedNumber');
 var forwardingNumberBody = require('./data/forwardingNumber');
 var phoneNumberBody = require('./data/phoneNumber');
+var accountPhoneNumberBody = require('./data/accountPhoneNumber');
 var presenceBody = require('./data/presence.json');
 var numberParserBody = require('./data/numberParser.json');
 var smsBody = require('./data/sms.json');
@@ -146,7 +149,8 @@ function authentication() {
 function logout() {
   mockApi({
     method: 'POST',
-    path: '/restapi/oauth/revoke'
+    path: '/restapi/oauth/revoke',
+    isOnce: false
   });
 }
 
@@ -308,6 +312,16 @@ function phoneNumber() {
   });
 }
 
+function accountPhoneNumber() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  mockApi({
+    url: 'begin:' + mockServer + '/restapi/v1.0/account/~/phone-number',
+    body: (0, _extends3.default)({}, accountPhoneNumberBody, mockResponse),
+    isOnce: false
+  });
+}
+
 function subscription() {
   var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -319,7 +333,8 @@ function subscription() {
   mockApi({
     method: 'PUT',
     url: 'begin:' + mockServer + '/restapi/v1.0/subscription',
-    body: (0, _extends3.default)({}, subscriptionBody, mockResponse)
+    body: (0, _extends3.default)({}, subscriptionBody, mockResponse),
+    isOnce: false
   });
 }
 
@@ -350,25 +365,51 @@ function restore() {
 function mockForLogin() {
   var _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
       _ref2$mockAuthzProfil = _ref2.mockAuthzProfile,
-      mockAuthzProfile = _ref2$mockAuthzProfil === undefined ? true : _ref2$mockAuthzProfil;
+      mockAuthzProfile = _ref2$mockAuthzProfil === undefined ? true : _ref2$mockAuthzProfil,
+      _ref2$mockExtensionIn = _ref2.mockExtensionInfo,
+      mockExtensionInfo = _ref2$mockExtensionIn === undefined ? true : _ref2$mockExtensionIn,
+      _ref2$mockForwardingN = _ref2.mockForwardingNumber,
+      mockForwardingNumber = _ref2$mockForwardingN === undefined ? true : _ref2$mockForwardingN;
 
   authentication();
   logout();
   tokenRefresh();
   presence('~');
   dialingPlan();
-  extensionInfo();
+  if (mockExtensionInfo) {
+    extensionInfo();
+  }
   accountInfo();
   apiInfo();
   if (mockAuthzProfile) {
     authzProfile();
   }
   extensionList();
+  accountPhoneNumber();
   blockedNumber();
-  forwardingNumber();
+  if (mockForwardingNumber) {
+    forwardingNumber();
+  }
   messageSync();
   phoneNumber();
   subscription();
+}
+
+function mockForbidden(_ref3) {
+  var _ref3$method = _ref3.method,
+      method = _ref3$method === undefined ? 'GET' : _ref3$method,
+      path = _ref3.path,
+      url = _ref3.url,
+      _ref3$body = _ref3.body,
+      body = _ref3$body === undefined ? '' : _ref3$body;
+
+  mockApi({
+    method: method,
+    path: path,
+    body: body,
+    url: url,
+    status: 403
+  });
 }
 
 function mockClient(client) {

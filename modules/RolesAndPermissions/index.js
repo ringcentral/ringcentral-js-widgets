@@ -142,12 +142,40 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
       readyCheckFn: function readyCheckFn() {
         return _this._extensionInfo.ready;
       },
+      forbiddenHandler: function () {
+        var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+          return _regenerator2.default.wrap(function _callee2$(_context2) {
+            while (1) {
+              switch (_context2.prev = _context2.next) {
+                case 0:
+                  _context2.next = 2;
+                  return _this._auth.logout();
+
+                case 2:
+                  _this._alert.danger({
+                    message: _permissionsMessages2.default.insufficientPrivilege,
+                    ttl: 0
+                  });
+                  return _context2.abrupt('return', {});
+
+                case 4:
+                case 'end':
+                  return _context2.stop();
+              }
+            }
+          }, _callee2, _this2);
+        }));
+
+        return function forbiddenHandler() {
+          return _ref3.apply(this, arguments);
+        };
+      }(),
       cleanOnReset: true
     })));
 
     _this._isCRM = !!isCRM;
     _this._flag = flag || 'SalesForce';
-    _this._alert = alert;
+    _this._alert = (0, _ensureExist2.default)(alert, 'alert');
     _this._extensionInfo = (0, _ensureExist2.default)(extensionInfo, 'extensionInfo');
     _this.addSelector('permissions', function () {
       return _this.data;
@@ -160,21 +188,21 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
   (0, _createClass3.default)(RolesAndPermissions, [{
     key: '_onStateChange',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                _context2.next = 2;
+                _context3.next = 2;
                 return (0, _get3.default)(RolesAndPermissions.prototype.__proto__ || (0, _getPrototypeOf2.default)(RolesAndPermissions.prototype), '_onStateChange', this).call(this);
 
               case 2:
                 if (!(this.ready && this._auth.loginStatus === _loginStatus2.default.loggedIn && this._isCRM && this.tierEnabled !== null && !this.tierEnabled)) {
-                  _context2.next = 6;
+                  _context3.next = 6;
                   break;
                 }
 
-                _context2.next = 5;
+                _context3.next = 5;
                 return this._auth.logout();
 
               case 5:
@@ -184,15 +212,30 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
                 });
 
               case 6:
+                if (!(this.ready && this._auth.loginStatus === _loginStatus2.default.loggedIn && !this.permissions.ReadUserInfo)) {
+                  _context3.next = 10;
+                  break;
+                }
+
+                _context3.next = 9;
+                return this._auth.logout();
+
+              case 9:
+                this._alert.danger({
+                  message: _permissionsMessages2.default.insufficientPrivilege,
+                  ttl: 0
+                });
+
+              case 10:
               case 'end':
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee3, this);
       }));
 
       function _onStateChange() {
-        return _ref3.apply(this, arguments);
+        return _ref4.apply(this, arguments);
       }
 
       return _onStateChange;

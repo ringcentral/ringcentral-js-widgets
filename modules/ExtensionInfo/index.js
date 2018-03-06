@@ -57,6 +57,10 @@ var _DataFetcher2 = require('../../lib/DataFetcher');
 
 var _DataFetcher3 = _interopRequireDefault(_DataFetcher2);
 
+var _permissionsMessages = require('../RolesAndPermissions/permissionsMessages');
+
+var _permissionsMessages2 = _interopRequireDefault(_permissionsMessages);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var DEFAULT_MASK = ['id', 'extensionNumber', 'contact(*)', 'name', 'type', 'status', 'permissions', 'profileImage', 'departments', 'regionalSettings(' + ['timezone(id,name,bias)', 'homeCountry(id,isoCode,callingCode)', 'language(localeCode)', 'formattingLocale(localeCode)', 'timeFormat'].join(',') + ')'].join(',');
@@ -92,7 +96,7 @@ var DEFAULT_TIME_TO_RETRY = 62 * 1000;
  * @description Extension info module
  */
 var ExtensionInfo = (_dec = (0, _di.Module)({
-  deps: ['Client', { dep: 'ExtensionInfoOptions', optional: true }]
+  deps: ['Client', { dep: 'Alert', optional: true }, { dep: 'ExtensionInfoOptions', optional: true }]
 }), _dec(_class = function (_DataFetcher) {
   (0, _inherits3.default)(ExtensionInfo, _DataFetcher);
 
@@ -111,7 +115,8 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
         timeToRetry = _ref$timeToRetry === undefined ? DEFAULT_TIME_TO_RETRY : _ref$timeToRetry,
         _ref$polling = _ref.polling,
         polling = _ref$polling === undefined ? true : _ref$polling,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'ttl', 'timeToRetry', 'polling']);
+        alert = _ref.alert,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'ttl', 'timeToRetry', 'polling', 'alert']);
     (0, _classCallCheck3.default)(this, ExtensionInfo);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ExtensionInfo.__proto__ || (0, _getPrototypeOf2.default)(ExtensionInfo)).call(this, (0, _extends3.default)({
@@ -142,6 +147,7 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
           return _ref2.apply(this, arguments);
         };
       }(),
+      cleanOnReset: true,
       fetchFunction: function () {
         var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
           return _regenerator2.default.wrap(function _callee2$(_context2) {
@@ -167,8 +173,40 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
         return function fetchFunction() {
           return _ref3.apply(this, arguments);
         };
+      }(),
+      forbiddenHandler: function () {
+        var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+          return _regenerator2.default.wrap(function _callee3$(_context3) {
+            while (1) {
+              switch (_context3.prev = _context3.next) {
+                case 0:
+                  _context3.next = 2;
+                  return _this._auth.logout();
+
+                case 2:
+                  if (_this._alert) {
+                    _this._alert.danger({
+                      message: _permissionsMessages2.default.insufficientPrivilege,
+                      ttl: 0
+                    });
+                  }
+                  return _context3.abrupt('return', {});
+
+                case 4:
+                case 'end':
+                  return _context3.stop();
+              }
+            }
+          }, _callee3, _this2);
+        }));
+
+        return function forbiddenHandler() {
+          return _ref4.apply(this, arguments);
+        };
       }()
     }, options)));
+
+    _this._alert = alert;
 
     _this.addSelector('info', function () {
       return _this.data;
@@ -184,29 +222,29 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
   (0, _createClass3.default)(ExtensionInfo, [{
     key: '_subscriptionHandleFn',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(message) {
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(message) {
+        return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 if (!(message && message.body && extensionRegExp.test(message.event))) {
-                  _context3.next = 3;
+                  _context4.next = 3;
                   break;
                 }
 
-                _context3.next = 3;
+                _context4.next = 3;
                 return this.fetchData();
 
               case 3:
               case 'end':
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee4, this);
       }));
 
       function _subscriptionHandleFn(_x2) {
-        return _ref4.apply(this, arguments);
+        return _ref5.apply(this, arguments);
       }
 
       return _subscriptionHandleFn;

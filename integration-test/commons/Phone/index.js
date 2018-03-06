@@ -63,6 +63,10 @@ var _Auth = require('../../../modules/Auth');
 
 var _Auth2 = _interopRequireDefault(_Auth);
 
+var _AccountPhoneNumber = require('../../../modules/AccountPhoneNumber');
+
+var _AccountPhoneNumber2 = _interopRequireDefault(_AccountPhoneNumber);
+
 var _Brand = require('../../../modules/Brand');
 
 var _Brand2 = _interopRequireDefault(_Brand);
@@ -275,6 +279,9 @@ var Phone = function (_RcModule) {
       alert: _this.alert,
       client: _this.client,
       environment: _this.environment,
+      checkConnectionFunc: function checkConnectionFunc() {
+        return true;
+      },
       getState: function getState() {
         return _this.state.connectivityMonitor;
       }
@@ -319,29 +326,12 @@ var Phone = function (_RcModule) {
     //   history,
     //   getState: () => this.state.router,
     // }));
-    _this.addModule('accountInfo', new _AccountInfo2.default((0, _extends3.default)({}, options, {
-      auth: _this.auth,
-      storage: _this.storage,
-      client: _this.client,
-      tabManager: _this.tabManager,
-      getState: function getState() {
-        return _this.state.accountInfo;
-      }
-    })));
-    _this.addModule('accountExtension', new _AccountExtension2.default((0, _extends3.default)({}, options, {
-      auth: _this.auth,
-      client: _this.client,
-      storage: _this.storage,
-      subscription: _this.subscription,
-      getState: function getState() {
-        return _this.state.accountExtension;
-      }
-    })));
     _this.addModule('extensionInfo', new _ExtensionInfo2.default((0, _extends3.default)({}, options, {
       auth: _this.auth,
       client: _this.client,
       storage: _this.storage,
       tabManager: _this.tabManager,
+      alert: _this.alert,
       getState: function getState() {
         return _this.state.extensionInfo;
       }
@@ -352,8 +342,40 @@ var Phone = function (_RcModule) {
       client: _this.client,
       extensionInfo: _this.extensionInfo,
       tabManager: _this.tabManager,
+      alert: _this.alert,
       getState: function getState() {
         return _this.state.rolesAndPermissions;
+      }
+    })));
+    _this.addModule('accountInfo', new _AccountInfo2.default((0, _extends3.default)({}, options, {
+      auth: _this.auth,
+      storage: _this.storage,
+      client: _this.client,
+      tabManager: _this.tabManager,
+      rolesAndPermissions: _this.rolesAndPermissions,
+      alert: _this.alert,
+      getState: function getState() {
+        return _this.state.accountInfo;
+      }
+    })));
+    _this.addModule('accountExtension', new _AccountExtension2.default((0, _extends3.default)({}, options, {
+      auth: _this.auth,
+      client: _this.client,
+      storage: _this.storage,
+      subscription: _this.subscription,
+      rolesAndPermissions: _this.rolesAndPermissions,
+      getState: function getState() {
+        return _this.state.accountExtension;
+      }
+    })));
+    _this.addModule('accountPhoneNumber', new _AccountPhoneNumber2.default((0, _extends3.default)({}, options, {
+      auth: _this.auth,
+      client: _this.client,
+      storage: _this.storage,
+      subscription: _this.subscription,
+      rolesAndPermissions: _this.rolesAndPermissions,
+      getState: function getState() {
+        return _this.state.accountPhoneNumber;
       }
     })));
     _this.addModule('dialingPlan', new _DialingPlan2.default((0, _extends3.default)({}, options, {
@@ -361,6 +383,7 @@ var Phone = function (_RcModule) {
       storage: _this.storage,
       client: _this.client,
       tabManager: _this.tabManager,
+      rolesAndPermissions: _this.rolesAndPermissions,
       getState: function getState() {
         return _this.state.dialingPlan;
       }
@@ -632,6 +655,7 @@ var Phone = function (_RcModule) {
       subscription: _this.subscription.reducer,
       // router: this.router.reducer,
       accountExtension: _this.accountExtension.reducer,
+      accountPhoneNumber: _this.accountPhoneNumber.reducer,
       accountInfo: _this.accountInfo.reducer,
       rolesAndPermissions: _this.rolesAndPermissions.reducer,
       extensionInfo: _this.extensionInfo.reducer,

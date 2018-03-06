@@ -144,42 +144,30 @@ var ForwardingNumber = (_dec = (0, _di.Module)({
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
-                  _context.prev = 0;
-                  _context.next = 3;
+                  _context.next = 2;
                   return (0, _fetchList2.default)(function (params) {
                     return _this._client.account().extension().forwardingNumber().list(params);
                   });
 
-                case 3:
+                case 2:
                   lists = _context.sent;
                   return _context.abrupt('return', lists);
 
-                case 7:
-                  _context.prev = 7;
-                  _context.t0 = _context['catch'](0);
-
-                  if (!(_context.t0 && _context.t0.apiResponse && _context.t0.apiResponse._response && _context.t0.apiResponse._response.status === 403)) {
-                    _context.next = 11;
-                    break;
-                  }
-
-                  return _context.abrupt('return', []);
-
-                case 11:
-                  throw _context.t0;
-
-                case 12:
+                case 4:
                 case 'end':
                   return _context.stop();
               }
             }
-          }, _callee, _this2, [[0, 7]]);
+          }, _callee, _this2);
         }));
 
         return function fetchFunction() {
           return _ref2.apply(this, arguments);
         };
       }(),
+      forbiddenHandler: function forbiddenHandler() {
+        return [];
+      },
       readyCheckFn: function readyCheckFn() {
         return _this._rolesAndPermissions.ready;
       },

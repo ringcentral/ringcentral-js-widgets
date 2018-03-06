@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _defineProperty = require('babel-runtime/core-js/object/define-property');
+
+var _defineProperty2 = _interopRequireDefault(_defineProperty);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -41,7 +45,9 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _dec, _class;
+var _dec, _class, _desc, _value, _class2, _descriptor;
+
+var _reselect = require('reselect');
 
 var _di = require('../../lib/di');
 
@@ -57,15 +63,66 @@ var _moduleStatuses = require('../../enums/moduleStatuses');
 
 var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
 
+var _ensureExist = require('../../lib/ensureExist');
+
+var _ensureExist2 = _interopRequireDefault(_ensureExist);
+
+var _getter = require('../../lib/getter');
+
+var _getter2 = _interopRequireDefault(_getter);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _initDefineProp(target, property, descriptor, context) {
+  if (!descriptor) return;
+  (0, _defineProperty2.default)(target, property, {
+    enumerable: descriptor.enumerable,
+    configurable: descriptor.configurable,
+    writable: descriptor.writable,
+    value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+  });
+}
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+  var desc = {};
+  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+    desc[key] = descriptor[key];
+  });
+  desc.enumerable = !!desc.enumerable;
+  desc.configurable = !!desc.configurable;
+
+  if ('value' in desc || desc.initializer) {
+    desc.writable = true;
+  }
+
+  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    return decorator(target, property, desc) || desc;
+  }, desc);
+
+  if (context && desc.initializer !== void 0) {
+    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+    desc.initializer = undefined;
+  }
+
+  if (desc.initializer === void 0) {
+    Object['define' + 'Property'](target, property, desc);
+    desc = null;
+  }
+
+  return desc;
+}
+
+function _initializerWarningHelper(descriptor, context) {
+  throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
+}
 
 /**
  * @class
  * @description Dial plan list managing module
  */
 var DialingPlan = (_dec = (0, _di.Module)({
-  deps: ['Client', { dep: 'DialingPlanOptions', optional: true }]
-}), _dec(_class = function (_DataFetcher) {
+  deps: ['Client', 'RolesAndPermissions', { dep: 'DialingPlanOptions', optional: true }]
+}), _dec(_class = (_class2 = function (_DataFetcher) {
   (0, _inherits3.default)(DialingPlan, _DataFetcher);
 
   /**
@@ -77,7 +134,8 @@ var DialingPlan = (_dec = (0, _di.Module)({
     var _this2 = this;
 
     var client = _ref.client,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client']);
+        rolesAndPermissions = _ref.rolesAndPermissions,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'rolesAndPermissions']);
     (0, _classCallCheck3.default)(this, DialingPlan);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (DialingPlan.__proto__ || (0, _getPrototypeOf2.default)(DialingPlan)).call(this, (0, _extends3.default)({
@@ -141,14 +199,15 @@ var DialingPlan = (_dec = (0, _di.Module)({
         return function fetchFunction() {
           return _ref2.apply(this, arguments);
         };
-      }()
+      }(),
+      readyCheckFn: function readyCheckFn() {
+        return _this._rolesAndPermissions.ready;
+      }
     }, options)));
 
-    _this.addSelector('plans', function () {
-      return _this.data;
-    }, function (data) {
-      return data || [];
-    });
+    _initDefineProp(_this, 'plans', _descriptor, _this);
+
+    _this._rolesAndPermissions = _ensureExist2.default.call(_this, rolesAndPermissions, 'rolesAndPermissions');
     return _this;
   }
 
@@ -167,8 +226,24 @@ var DialingPlan = (_dec = (0, _di.Module)({
     get: function get() {
       return this.state.status === _moduleStatuses2.default.ready;
     }
+  }, {
+    key: '_hasPermission',
+    get: function get() {
+      return !!this._rolesAndPermissions.permissions.ReadCompanyInfo;
+    }
   }]);
   return DialingPlan;
-}(_DataFetcher3.default)) || _class);
+}(_DataFetcher3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'plans', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this3 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this3.data;
+    }, function (data) {
+      return data || [];
+    });
+  }
+})), _class2)) || _class);
 exports.default = DialingPlan;
 //# sourceMappingURL=index.js.map

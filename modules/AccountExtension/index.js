@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _defineProperty = require('babel-runtime/core-js/object/define-property');
+
+var _defineProperty2 = _interopRequireDefault(_defineProperty);
+
 var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
@@ -49,9 +53,11 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _dec, _class, _desc, _value, _class2;
+var _dec, _class, _desc, _value, _class2, _descriptor;
 
 require('core-js/fn/array/find');
+
+var _reselect = require('reselect');
 
 var _di = require('../../lib/di');
 
@@ -62,6 +68,14 @@ var _DataFetcher3 = _interopRequireDefault(_DataFetcher2);
 var _fetchList = require('../../lib/fetchList');
 
 var _fetchList2 = _interopRequireDefault(_fetchList);
+
+var _ensureExist = require('../../lib/ensureExist');
+
+var _ensureExist2 = _interopRequireDefault(_ensureExist);
+
+var _getter = require('../../lib/getter');
+
+var _getter2 = _interopRequireDefault(_getter);
 
 var _actionTypes = require('./actionTypes');
 
@@ -80,6 +94,20 @@ var _proxify = require('../../lib/proxy/proxify');
 var _proxify2 = _interopRequireDefault(_proxify);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _initDefineProp(target, property, descriptor, context) {
+  if (!descriptor) return;
+  (0, _defineProperty2.default)(target, property, {
+    enumerable: descriptor.enumerable,
+    configurable: descriptor.configurable,
+    writable: descriptor.writable,
+    value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+  });
+}
+
+function _initializerWarningHelper(descriptor, context) {
+  throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
+}
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
   var desc = {};
@@ -118,7 +146,7 @@ var DEFAULT_TTL = 24 * 60 * 60 * 1000;
  * @description Accound extension list managing module
  */
 var AccountExtension = (_dec = (0, _di.Module)({
-  deps: ['Client', { dep: 'AccountExtensionOptions', optional: true }]
+  deps: ['Client', 'RolesAndPermissions', { dep: 'AccountExtensionOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_DataFetcher) {
   (0, _inherits3.default)(AccountExtension, _DataFetcher);
 
@@ -132,9 +160,10 @@ var AccountExtension = (_dec = (0, _di.Module)({
     var _this2 = this;
 
     var client = _ref.client,
+        rolesAndPermissions = _ref.rolesAndPermissions,
         _ref$ttl = _ref.ttl,
         ttl = _ref$ttl === undefined ? DEFAULT_TTL : _ref$ttl,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'ttl']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'rolesAndPermissions', 'ttl']);
     (0, _classCallCheck3.default)(this, AccountExtension);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (AccountExtension.__proto__ || (0, _getPrototypeOf2.default)(AccountExtension)).call(this, (0, _extends3.default)({}, options, {
@@ -192,14 +221,15 @@ var AccountExtension = (_dec = (0, _di.Module)({
         return function fetchFunction() {
           return _ref3.apply(this, arguments);
         };
-      }()
+      }(),
+      readyCheckFn: function readyCheckFn() {
+        return _this._rolesAndPermissions.ready;
+      }
     })));
 
-    _this.addSelector('availableExtensions', function () {
-      return _this.data;
-    }, function (data) {
-      return data || [];
-    });
+    _initDefineProp(_this, 'availableExtensions', _descriptor, _this);
+
+    _this._rolesAndPermissions = _ensureExist2.default.call(_this, rolesAndPermissions, 'rolesAndPermissions');
     return _this;
   }
 
@@ -409,12 +439,23 @@ var AccountExtension = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: 'availableExtensions',
+    key: '_hasPermission',
     get: function get() {
-      return this._selectors.availableExtensions();
+      return !!this._rolesAndPermissions.permissions.ReadExtensions;
     }
   }]);
   return AccountExtension;
-}(_DataFetcher3.default), (_applyDecoratedDescriptor(_class2.prototype, '_fetchExtensionData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_fetchExtensionData'), _class2.prototype)), _class2)) || _class);
+}(_DataFetcher3.default), (_applyDecoratedDescriptor(_class2.prototype, '_fetchExtensionData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_fetchExtensionData'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'availableExtensions', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this3 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this3.data;
+    }, function (data) {
+      return data || [];
+    });
+  }
+})), _class2)) || _class);
 exports.default = AccountExtension;
 //# sourceMappingURL=index.js.map
