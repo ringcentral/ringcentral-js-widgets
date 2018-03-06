@@ -84,6 +84,8 @@ ConversationPage.propTypes = {
   sendButtonDisabled: PropTypes.bool.isRequired,
   showSpinner: PropTypes.bool.isRequired,
   messages: ConversationPanel.propTypes.messages,
+  messageText: PropTypes.string,
+  updateMessageText: PropTypes.func,
   recipients: ConversationPanel.propTypes.recipients,
   replyToReceivers: PropTypes.func.isRequired,
   unloadConversation: PropTypes.func.isRequired,
@@ -100,9 +102,11 @@ ConversationPage.propTypes = {
 };
 
 ConversationPage.defaultProps = {
+  messageText: '',
   getMatcherContactName: null,
   getMatcherContactList: () => [],
   getMatcherContactNameList: () => [],
+  updateMessageText: () => {},
   sourceIcons: undefined,
 };
 
