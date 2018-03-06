@@ -8,6 +8,7 @@ function mapToProps(_, {
     meeting,
     locale,
   },
+  disabled,
   showWhen,
   showDuration,
   showRecurringMeeting,
@@ -15,7 +16,7 @@ function mapToProps(_, {
   return {
     meeting: meeting.meeting || {},
     currentLocale: locale.currentLocale,
-    disabled: meeting.isScheduling || false,
+    disabled: meeting.isScheduling || disabled,
     showWhen,
     showDuration,
     showRecurringMeeting,
