@@ -58,12 +58,17 @@ function SelectedRecipientItem(_ref) {
   var phoneNumber = _ref.phoneNumber,
       _ref$name = _ref.name,
       name = _ref$name === undefined ? phoneNumber : _ref$name,
+      _ref$title = _ref.title,
+      title = _ref$title === undefined ? name : _ref$title,
       onRemove = _ref.onRemove;
 
   var className = phoneNumber.length > 5 ? _styles2.default.phoneNumber : _styles2.default.extension;
   return _react2.default.createElement(
     'li',
-    { className: className },
+    {
+      className: className,
+      title: title
+    },
     _react2.default.createElement(
       'span',
       null,
@@ -78,12 +83,14 @@ function SelectedRecipientItem(_ref) {
 }
 
 SelectedRecipientItem.propTypes = {
-  name: _propTypes2.default.string,
   phoneNumber: _propTypes2.default.string.isRequired,
+  name: _propTypes2.default.string,
+  title: _propTypes2.default.string,
   onRemove: _propTypes2.default.func.isRequired
 };
 SelectedRecipientItem.defaultProps = {
-  name: undefined
+  name: undefined,
+  title: undefined
 };
 
 function SelectedRecipients(_ref2) {

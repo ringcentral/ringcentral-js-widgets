@@ -882,6 +882,7 @@ var MeetingPanel = function (_Component) {
             update: update })
         ) : null,
         _react2.default.createElement(ScheduleButton, {
+          currentLocale: currentLocale,
           hidden: hidden,
           disabled: disabled,
           meeting: meeting,

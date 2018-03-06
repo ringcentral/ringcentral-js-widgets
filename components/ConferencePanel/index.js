@@ -361,7 +361,10 @@ var ConferencePanel = function (_Component) {
           additionalButtons = _props.additionalButtons,
           onAllowJoinBeforeHostChange = _props.onAllowJoinBeforeHostChange,
           showHelpCommands = _props.showHelpCommands,
-          disableTxtBtn = _props.disableTxtBtn;
+          disableTxtBtn = _props.disableTxtBtn,
+          _props$showJoinAsHost = _props.showJoinAsHost,
+          showJoinAsHost = _props$showJoinAsHost === undefined ? true : _props$showJoinAsHost,
+          recipientsSection = _props.recipientsSection;
       var _state = this.state,
           dialInNumbers = _state.dialInNumbers,
           showAdditionalNumbers = _state.showAdditionalNumbers,
@@ -510,6 +513,7 @@ var ConferencePanel = function (_Component) {
               formatPin(participantCode)
             )
           ),
+          recipientsSection,
           _react2.default.createElement(
             'div',
             { className: _styles2.default.formGroup },
@@ -558,6 +562,7 @@ var ConferencePanel = function (_Component) {
           { className: bottomClass.join(' ') },
           additionalButtons.map(function (Btn) {
             return _react2.default.createElement(Btn, {
+              currentLocale: currentLocale,
               dialInNumber: dialInNumber,
               getInviteTxt: _this2.inviteTxt,
               key: Date.now()
@@ -570,7 +575,7 @@ var ConferencePanel = function (_Component) {
               onClick: this.inviteWithText },
             _i18n2.default.getString('inviteWithText', currentLocale)
           ),
-          _react2.default.createElement(
+          showJoinAsHost && _react2.default.createElement(
             _Button2.default,
             {
               className: _styles2.default.primaryButton,
@@ -605,11 +610,15 @@ ConferencePanel.propTypes = {
   showHelpCommands: _propTypes2.default.func.isRequired,
   alert: _propTypes2.default.func.isRequired,
   disableTxtBtn: _propTypes2.default.bool.isRequired,
-  brand: _propTypes2.default.object.isRequired
+  showJoinAsHost: _propTypes2.default.bool,
+  brand: _propTypes2.default.object.isRequired,
+  recipientsSection: _propTypes2.default.node
 };
 ConferencePanel.defaultProps = {
   dialInNumbers: [],
-  additionalButtons: []
+  additionalButtons: [],
+  recipientsSection: undefined,
+  showJoinAsHost: true
 };
 
 exports.default = ConferencePanel;
