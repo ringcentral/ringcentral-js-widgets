@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import messageTypes from 'ringcentral-integration/enums/messageTypes';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
@@ -58,6 +58,8 @@ class ConversationPage extends Component {
         conversationId={this.props.conversationId}
         currentLocale={this.props.currentLocale}
         messages={this.props.messages}
+        messageText={this.props.messageText}
+        updateMessageText={this.props.updateMessageText}
         conversation={this.props.conversation}
         onLogConversation={this.props.onLogConversation}
         isLoggedContact={this.props.isLoggedContact}
@@ -223,7 +225,7 @@ function mapToFunctions(_, {
     getMatcherContactNameList,
     isLoggedContact,
     onLogConversation: onLogConversation ||
-    (conversationLogger && (async({redirect = true, ...options}) => {
+    (conversationLogger && (async ({ redirect = true, ...options }) => {
       await conversationLogger.logConversation({
         ...options,
         redirect,

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 
@@ -68,7 +68,7 @@ class ConversationPanel extends Component {
       this.props.conversation.conversationMatches.length > 0 &&
       this.props.autoLog
     ) {
-      this.logConversation({redirect: false, selected, prefill: false});
+      this.logConversation({ redirect: false, selected, prefill: false });
     }
   }
   getSelectedContact = (selected = this.state.selected) => {
@@ -114,7 +114,7 @@ class ConversationPanel extends Component {
       (correspondents[0].name)) || undefined;
   }
 
-  async logConversation({redirect = true, selected, prefill = true}) {
+  async logConversation({ redirect = true, selected, prefill = true }) {
     if (typeof this.props.onLogConversation === 'function' &&
       this._mounted && !this.state.isLogging
     ) {
@@ -206,7 +206,7 @@ class ConversationPanel extends Component {
             onClick={() => this.props.goBack()}
             className={styles.backButton}
           >
-            <span className={dynamicsFont.arrow}/>
+            <span className={dynamicsFont.arrow} />
           </a>
           {logButton}
         </div>
@@ -246,6 +246,8 @@ ConversationPanel.propTypes = {
   brand: PropTypes.string.isRequired,
   replyToReceivers: PropTypes.func.isRequired,
   messages: ConversationMessageList.propTypes.messages,
+  updateMessageText: PropTypes.func,
+  messageText: PropTypes.string,
   recipients: PropTypes.arrayOf(PropTypes.shape({
     phoneNumber: PropTypes.string,
     extensionNumber: PropTypes.string,
@@ -275,6 +277,8 @@ ConversationPanel.defaultProps = {
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
   showGroupNumberName: false,
+  messageText: '',
+  updateMessageText: () => {},
 };
 
 export default ConversationPanel;
