@@ -8,7 +8,7 @@ function mapToProps(_, {
     meeting,
     locale,
   },
-  disabled,
+  disabled = false,
   showWhen,
   showDuration,
   showRecurringMeeting,
