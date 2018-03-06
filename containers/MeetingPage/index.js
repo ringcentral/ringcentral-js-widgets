@@ -21,6 +21,8 @@ function mapToProps(_, _ref) {
   var _ref$phone = _ref.phone,
       meeting = _ref$phone.meeting,
       locale = _ref$phone.locale,
+      _ref$disabled = _ref.disabled,
+      disabled = _ref$disabled === undefined ? false : _ref$disabled,
       showWhen = _ref.showWhen,
       showDuration = _ref.showDuration,
       showRecurringMeeting = _ref.showRecurringMeeting;
@@ -28,7 +30,7 @@ function mapToProps(_, _ref) {
   return {
     meeting: meeting.meeting || {},
     currentLocale: locale.currentLocale,
-    disabled: meeting.isScheduling || false,
+    disabled: meeting.isScheduling || disabled,
     showWhen: showWhen,
     showDuration: showDuration,
     showRecurringMeeting: showRecurringMeeting
