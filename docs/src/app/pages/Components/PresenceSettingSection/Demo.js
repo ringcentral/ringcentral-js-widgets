@@ -12,14 +12,19 @@ props.setBusy = () => null;
 props.setDoNotDisturb = () => null;
 props.setInvisible = () => null;
 props.toggleAcceptCallQueueCalls = () => null;
-props.showPresenceSettings = false;
+props.showPresenceSettings = true;
 
 /**
  * A example of `PresenceSettingSection`
  */
 const PresenceSettingSectionDemo = () => (
-  <PresenceSettingSection
-    {...props}
-  />
+  <div style={{
+    position: 'relative',
+    width: '300px',
+  }}>
+    <PresenceSettingSection
+      {...props}
+    />
+  </div>
 );
 export default PresenceSettingSectionDemo;

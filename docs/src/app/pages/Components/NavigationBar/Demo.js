@@ -58,9 +58,14 @@ props.tabs = [
 
 props.goTo = path => alert(`go to ${path}`);
 const NavigationBarDemo = () => (
-  <NavigationBar
-    button={TabNavigationButton}
-    {...props}
-  />
+  <div style={{
+    position: 'relative',
+    width: '300px',
+  }}>
+    <NavigationBar
+      button={TabNavigationButton}
+      {...props}
+    />
+  </div>
 );
 export default NavigationBarDemo;
