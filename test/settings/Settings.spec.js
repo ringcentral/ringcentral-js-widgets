@@ -1,5 +1,4 @@
 import * as mock from 'ringcentral-integration/integration-test/mock';
-import presenceBody from 'ringcentral-integration/integration-test/mock/data/presence';
 import { getWrapper, timeout } from '../shared';
 import SettingsPanel from '../../src/components/SettingsPanel';
 import LinkLine from '../../src/components/LinkLine';
@@ -9,21 +8,19 @@ import PresenceItem from '../../src/components/PresenceItem';
 import Eula from '../../src/components/Eula';
 import NavigationBar from '../../src/components/NavigationBar';
 
-let wrapper = null;
-let store = null;
-let panel = null;
-beforeEach(async () => {
+const setupWrapper = async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
-  wrapper = await getWrapper();
-  store = wrapper.props().phone.store;
+  const wrapper = await getWrapper();
   const navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/settings');
   wrapper.update();
-  panel = wrapper.find(SettingsPanel).first();
-});
+  return wrapper;
+};
 
 describe('settings panel', () => {
-  test('initial state', () => {
+  test('initial state', async () => {
+    const wrapper = await setupWrapper();
+    let panel = wrapper.find(SettingsPanel).first();
     const linkLines = panel.find(LinkLine);
     expect(linkLines.length).toBe(5);
     expect(linkLines.at(0).props().children).toEqual('Calling');
@@ -36,21 +33,25 @@ describe('settings panel', () => {
   });
 
   test('logout', async () => {
+    const storage = JSON.parse(JSON.stringify(localStorage.store));
+    const wrapper = await setupWrapper();
+    let panel = wrapper.find(SettingsPanel).first();
     const logoutIcon = panel.find('span.logout').first();
     const logoutLines = logoutIcon.closest(IconLine);
     expect(logoutLines.length).toBe(1);
     const logoutLine = logoutLines.at(0);
+    const store = wrapper.props().phone.store;
     expect(store.getState().auth.loginStatus).toMatch(/-loggedIn$/);
     await logoutLine.props().onClick();
     expect(store.getState().auth.loginStatus).toMatch(/-loggingOut$/);
-
-    // need to login again, otherwise other tests will fail
-    window.authData = null; // set it to null will trigger login
+    localStorage.store = JSON.parse(JSON.stringify(storage));
   });
 
   test('change presence status', async () => {
+    const wrapper = await setupWrapper();
+    let panel = wrapper.find(SettingsPanel).first();
     let presenceSettingSection = panel.find(PresenceSettingSection).first();
-
+    const store = wrapper.props().phone.store;
     const presenceItems = presenceSettingSection.find('.presenceList').first().find(PresenceItem);
     expect(presenceItems.length).toBe(4);
     const availableItem = presenceItems.at(0);

@@ -37,7 +37,7 @@ const getPhone = async () => {
     password: 'testPassword'
   });
   state.storage.status = 'module-initializing';
-  const store = createStore(phone.reducer, state);
+  const store = createStore(phone.reducer, JSON.parse(JSON.stringify(state)));
   phone.setStore(store);
   phone.dateTimeFormat._defaultFormatter = getIntlDateTimeFormatter();
   return phone;
