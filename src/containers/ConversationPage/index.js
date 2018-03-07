@@ -58,6 +58,8 @@ class ConversationPage extends Component {
         conversationId={this.props.conversationId}
         currentLocale={this.props.currentLocale}
         messages={this.props.messages}
+        messageText={this.props.messageText}
+        updateMessageText={this.props.updateMessageText}
         conversation={this.props.conversation}
         onLogConversation={this.props.onLogConversation}
         isLoggedContact={this.props.isLoggedContact}
@@ -82,6 +84,8 @@ ConversationPage.propTypes = {
   sendButtonDisabled: PropTypes.bool.isRequired,
   showSpinner: PropTypes.bool.isRequired,
   messages: ConversationPanel.propTypes.messages,
+  messageText: PropTypes.string,
+  updateMessageText: PropTypes.func,
   recipients: ConversationPanel.propTypes.recipients,
   replyToReceivers: PropTypes.func.isRequired,
   unloadConversation: PropTypes.func.isRequired,
@@ -98,9 +102,11 @@ ConversationPage.propTypes = {
 };
 
 ConversationPage.defaultProps = {
+  messageText: '',
   getMatcherContactName: null,
   getMatcherContactList: () => [],
   getMatcherContactNameList: () => [],
+  updateMessageText: () => {},
   sourceIcons: undefined,
 };
 
@@ -151,12 +157,12 @@ function mapToProps(_, {
     ),
     recipients: conversation.recipients,
     messages: conversation.messages,
+    messageText: conversation.messageText,
     conversation: messages.allConversations.find(item => (
       item.conversationId === params.conversationId
     )),
     disableLinks: (
-      rateLimiter.isThrottling ||
-      !connectivityMonitor.connectivity
+      rateLimiter.isThrottling || !connectivityMonitor.connectivity
     ),
     autoLog: !!(conversationLogger && conversationLogger.autoLog),
   });
@@ -211,6 +217,7 @@ function mapToFunctions(_, {
     changeMatchedNames: (...args) => conversation.changeMatchedNames(...args),
     unloadConversation: () => conversation.unloadConversation(),
     loadConversationById: id => conversation.loadConversationById(id),
+    updateMessageText: text => conversation.updateMessageText(text),
     dateTimeFormatter,
     formatNumber: phoneNumber => formatNumber({
       phoneNumber,
