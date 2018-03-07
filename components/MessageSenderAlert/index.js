@@ -54,7 +54,7 @@ function MessageSenderAlert(_ref) {
     return _react2.default.createElement(_FormattedMessage2.default, {
       message: _i18n2.default.getString(message, currentLocale),
       values: { areaCodeLink: areaCodeLink } });
-  } else if (message === _messageSenderMessages2.default.noInternalSMSPermission) {
+  } else if ([_messageSenderMessages2.default.noInternalSMSPermission, _messageSenderMessages2.default.senderNumberInvalid].indexOf(message) !== -1) {
     return _react2.default.createElement(_FormattedMessage2.default, {
       message: _i18n2.default.getString(message, currentLocale),
       values: { brand: brand } });

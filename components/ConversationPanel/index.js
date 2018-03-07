@@ -99,29 +99,20 @@ var ConversationPanel = function (_Component) {
     _this.logConversation = _this.logConversation.bind(_this);
 
     _this.state = {
-      textValue: '',
       selected: _this.getInitialContactIndex(),
       isLogging: false
     };
     _this._userSelection = false;
     _this.onTextChange = function (e) {
-      _this.setState({
-        textValue: e.currentTarget.value
-      });
+      _this.props.updateMessageText(e.currentTarget.value);
     };
     _this.handleSubmit = function (e) {
-      _this.props.replyToReceivers(_this.state.textValue);
-      _this.setState({
-        textValue: ''
-      });
+      _this.props.replyToReceivers(_this.props.messageText);
       e.preventDefault();
     };
     _this.onTextAreaKeyDown = function (e) {
       if (e.key === 'Enter') {
-        _this.props.replyToReceivers(_this.state.textValue);
-        _this.setState({
-          textValue: ''
-        });
+        _this.props.replyToReceivers(_this.props.messageText);
         e.preventDefault();
       }
     };
@@ -324,7 +315,7 @@ var ConversationPanel = function (_Component) {
               { className: _styles2.default.textField },
               _react2.default.createElement('textarea', {
                 placeholder: _i18n2.default.getString('typeMessage', this.props.currentLocale),
-                value: this.state.textValue,
+                value: this.props.messageText,
                 maxLength: '1000',
                 onChange: this.onTextChange,
                 onKeyPressCapture: this.onTextAreaKeyDown
@@ -337,7 +328,7 @@ var ConversationPanel = function (_Component) {
                 type: 'submit',
                 value: _i18n2.default.getString('send', this.props.currentLocale),
                 className: _styles2.default.submitButton,
-                disabled: this.props.disableLinks || this.props.sendButtonDisabled || loading || this.state.textValue.length === 0
+                disabled: this.props.disableLinks || this.props.sendButtonDisabled || loading || this.props.messageText.length === 0
               })
             )
           )
@@ -352,6 +343,8 @@ ConversationPanel.propTypes = {
   brand: _propTypes2.default.string.isRequired,
   replyToReceivers: _propTypes2.default.func.isRequired,
   messages: _ConversationMessageList2.default.propTypes.messages,
+  updateMessageText: _propTypes2.default.func,
+  messageText: _propTypes2.default.string,
   recipients: _propTypes2.default.arrayOf(_propTypes2.default.shape({
     phoneNumber: _propTypes2.default.string,
     extensionNumber: _propTypes2.default.string,
@@ -380,7 +373,9 @@ ConversationPanel.defaultProps = {
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
-  showGroupNumberName: false
+  showGroupNumberName: false,
+  messageText: '',
+  updateMessageText: function updateMessageText() {}
 };
 
 exports.default = ConversationPanel;

@@ -135,6 +135,8 @@ var ConversationPage = function (_Component) {
         conversationId: this.props.conversationId,
         currentLocale: this.props.currentLocale,
         messages: this.props.messages,
+        messageText: this.props.messageText,
+        updateMessageText: this.props.updateMessageText,
         conversation: this.props.conversation,
         onLogConversation: this.props.onLogConversation,
         isLoggedContact: this.props.isLoggedContact,
@@ -160,6 +162,8 @@ ConversationPage.propTypes = {
   sendButtonDisabled: _propTypes2.default.bool.isRequired,
   showSpinner: _propTypes2.default.bool.isRequired,
   messages: _ConversationPanel2.default.propTypes.messages,
+  messageText: _propTypes2.default.string,
+  updateMessageText: _propTypes2.default.func,
   recipients: _ConversationPanel2.default.propTypes.recipients,
   replyToReceivers: _propTypes2.default.func.isRequired,
   unloadConversation: _propTypes2.default.func.isRequired,
@@ -176,6 +180,7 @@ ConversationPage.propTypes = {
 };
 
 ConversationPage.defaultProps = {
+  messageText: '',
   getMatcherContactName: null,
   getMatcherContactList: function getMatcherContactList() {
     return [];
@@ -183,6 +188,7 @@ ConversationPage.defaultProps = {
   getMatcherContactNameList: function getMatcherContactNameList() {
     return [];
   },
+  updateMessageText: function updateMessageText() {},
   sourceIcons: undefined
 };
 
@@ -225,6 +231,7 @@ function mapToProps(_, _ref) {
     showSpinner: !(dateTimeFormat.ready && (!contactMatcher || contactMatcher.ready) && conversation.ready && regionSettings.ready && messages.ready && rateLimiter.ready && connectivityMonitor.ready && (!conversationLogger || conversationLogger.ready)),
     recipients: conversation.recipients,
     messages: conversation.messages,
+    messageText: conversation.messageText,
     conversation: messages.allConversations.find(function (item) {
       return item.conversationId === params.conversationId;
     }),
@@ -297,6 +304,9 @@ function mapToFunctions(_, _ref2) {
     },
     loadConversationById: function loadConversationById(id) {
       return conversation.loadConversationById(id);
+    },
+    updateMessageText: function updateMessageText(text) {
+      return conversation.updateMessageText(text);
     },
     dateTimeFormatter: dateTimeFormatter,
     formatNumber: function formatNumber(phoneNumber) {
