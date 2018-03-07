@@ -33,7 +33,8 @@ export default function MessageSenderAlert({
         message={i18n.getString(message, currentLocale)}
         values={{ areaCodeLink }} />
     );
-  } else if (message === messageSenderMessages.noInternalSMSPermission) {
+  } else if ([messageSenderMessages.noInternalSMSPermission,
+    messageSenderMessages.senderNumberInvalid].indexOf(message) !== -1) {
     return (
       <FormattedMessage
         message={i18n.getString(message, currentLocale)}
@@ -80,4 +81,3 @@ MessageSenderAlert.handleMessage = ({ message }) => (
   (message === messageSenderMessages.internationalSMSNotSupported) ||
   (message === messageSenderMessages.noInternalSMSPermission)
 );
-
