@@ -32,23 +32,20 @@ describe('settings panel', () => {
     expect(panel.find('div.versionContainer').length).toBe(1);
   });
 
-  // TODO: Action in this test case will influence other test case
-  // Find to way to keep every test case run independently.
-  // test('logout', async () => {
-  //   const wrapper = await setupWrapper();
-  //   let panel = wrapper.find(SettingsPanel).first();
-  //   const logoutIcon = panel.find('span.logout').first();
-  //   const logoutLines = logoutIcon.closest(IconLine);
-  //   expect(logoutLines.length).toBe(1);
-  //   const logoutLine = logoutLines.at(0);
-  //   const store = wrapper.props().phone.store;
-  //   expect(store.getState().auth.loginStatus).toMatch(/-loggedIn$/);
-  //   await logoutLine.props().onClick();
-  //   expect(store.getState().auth.loginStatus).toMatch(/-loggingOut$/);
-  //   // need to login again, otherwise other tests will fail
-  //   localStorage.testTest = 1234;
-  //   window.authData = null; // set it to null will trigger login
-  // });
+  test('logout', async () => {
+    const storage = JSON.parse(JSON.stringify(localStorage.store));
+    const wrapper = await setupWrapper();
+    let panel = wrapper.find(SettingsPanel).first();
+    const logoutIcon = panel.find('span.logout').first();
+    const logoutLines = logoutIcon.closest(IconLine);
+    expect(logoutLines.length).toBe(1);
+    const logoutLine = logoutLines.at(0);
+    const store = wrapper.props().phone.store;
+    expect(store.getState().auth.loginStatus).toMatch(/-loggedIn$/);
+    await logoutLine.props().onClick();
+    expect(store.getState().auth.loginStatus).toMatch(/-loggingOut$/);
+    localStorage.store = JSON.parse(JSON.stringify(storage));
+  });
 
   test('change presence status', async () => {
     const wrapper = await setupWrapper();
