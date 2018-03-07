@@ -27,7 +27,6 @@
   "peerDependencies": {
     "babel-runtime": "^6.20.0",
     "format-message": "^5.0.0",
-    "intl": "^1.2.5",
     "isomorphic-fetch": "^2.2.1",
     "locale-loader": "^1.4.5",
     "moment": "^2.19.2",
@@ -74,7 +73,6 @@
     "gulp-istanbul": "^1.1.1",
     "gulp-sourcemaps": "^2.4.0",
     "identity-obj-proxy": "^3.0.0",
-    "intl": "^1.2.5",
     "jest": "^20.0.4",
     "json-loader": "^0.5.4",
     "locale-loader": "^1.4.5",
