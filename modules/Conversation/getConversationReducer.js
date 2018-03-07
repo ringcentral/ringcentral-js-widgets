@@ -3,12 +3,18 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _typeof2 = require('babel-runtime/helpers/typeof');
+
+var _typeof3 = _interopRequireDefault(_typeof2);
+
 exports.getConversationStatusReducer = getConversationStatusReducer;
 exports.getConversationIdReducer = getConversationIdReducer;
 exports.getMessagesReducer = getMessagesReducer;
 exports.getSenderNumberReducer = getSenderNumberReducer;
 exports.getRecipientsReducer = getRecipientsReducer;
 exports.getMessageStoreUpdatedAtReducer = getMessageStoreUpdatedAtReducer;
+exports.getMessageTextsReducer = getMessageTextsReducer;
 exports.default = getConversationReducer;
 
 var _redux = require('redux');
@@ -133,6 +139,29 @@ function getMessageStoreUpdatedAtReducer(types) {
   };
 }
 
+function getMessageTextsReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var _ref7 = arguments[1];
+    var type = _ref7.type,
+        text = _ref7.text,
+        id = _ref7.id;
+
+    switch (type) {
+      case types.updateMessages:
+        return [{ id: id, text: text }].concat(state.filter(function (msg) {
+          return (typeof msg === 'undefined' ? 'undefined' : (0, _typeof3.default)(msg)) === 'object' && msg.id !== id;
+        }));
+      case types.removeMessage:
+        return state.filter(function (msg) {
+          return (typeof msg === 'undefined' ? 'undefined' : (0, _typeof3.default)(msg)) === 'object' && msg.id !== id;
+        });
+      default:
+        return state;
+    }
+  };
+}
+
 function getConversationReducer(types) {
   return (0, _redux.combineReducers)({
     status: (0, _getModuleStatusReducer2.default)(types),
@@ -141,7 +170,8 @@ function getConversationReducer(types) {
     messages: getMessagesReducer(types),
     senderNumber: getSenderNumberReducer(types),
     recipients: getRecipientsReducer(types),
-    messageStoreUpdatedAt: getMessageStoreUpdatedAtReducer(types)
+    messageStoreUpdatedAt: getMessageStoreUpdatedAtReducer(types),
+    messageTexts: getMessageTextsReducer(types)
   });
 }
 //# sourceMappingURL=getConversationReducer.js.map

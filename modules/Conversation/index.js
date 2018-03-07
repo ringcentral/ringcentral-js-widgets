@@ -5,6 +5,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _defineProperty = require('babel-runtime/core-js/object/define-property');
+
+var _defineProperty2 = _interopRequireDefault(_defineProperty);
+
+var _typeof2 = require('babel-runtime/helpers/typeof');
+
+var _typeof3 = _interopRequireDefault(_typeof2);
+
 var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
@@ -45,7 +53,9 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _dec, _class, _desc, _value, _class2;
+var _dec, _class, _desc, _value, _class2, _descriptor;
+
+var _reselect = require('reselect');
 
 var _RcModule2 = require('../../lib/RcModule');
 
@@ -53,9 +63,17 @@ var _RcModule3 = _interopRequireDefault(_RcModule2);
 
 var _di = require('../../lib/di');
 
+var _getter = require('../../lib/getter');
+
+var _getter2 = _interopRequireDefault(_getter);
+
 var _moduleStatuses = require('../../enums/moduleStatuses');
 
 var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
+
+var _messageSenderMessages = require('../MessageSender/messageSenderMessages');
+
+var _messageSenderMessages2 = _interopRequireDefault(_messageSenderMessages);
 
 var _messageHelper = require('../../lib/messageHelper');
 
@@ -76,6 +94,20 @@ var _proxify = require('../../lib/proxy/proxify');
 var _proxify2 = _interopRequireDefault(_proxify);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _initDefineProp(target, property, descriptor, context) {
+  if (!descriptor) return;
+  (0, _defineProperty2.default)(target, property, {
+    enumerable: descriptor.enumerable,
+    configurable: descriptor.configurable,
+    writable: descriptor.writable,
+    value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+  });
+}
+
+function _initializerWarningHelper(descriptor, context) {
+  throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
+}
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
   var desc = {};
@@ -111,7 +143,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @description Conversation managing module
  */
 var Conversation = (_dec = (0, _di.Module)({
-  deps: ['MessageSender', 'ExtensionInfo', 'MessageStore']
+  deps: ['Alert', 'MessageSender', 'ExtensionInfo', 'MessageStore']
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(Conversation, _RcModule);
 
@@ -123,16 +155,20 @@ var Conversation = (_dec = (0, _di.Module)({
    * @param {MessageStore} params.messageStore - messageStore module instance
    */
   function Conversation(_ref) {
-    var messageSender = _ref.messageSender,
+    var alert = _ref.alert,
+        messageSender = _ref.messageSender,
         extensionInfo = _ref.extensionInfo,
         messageStore = _ref.messageStore,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['messageSender', 'extensionInfo', 'messageStore']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'messageSender', 'extensionInfo', 'messageStore']);
     (0, _classCallCheck3.default)(this, Conversation);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Conversation.__proto__ || (0, _getPrototypeOf2.default)(Conversation)).call(this, (0, _extends3.default)({}, options, {
       actionTypes: _actionTypes2.default
     })));
 
+    _initDefineProp(_this, 'messageText', _descriptor, _this);
+
+    _this._alert = alert;
     _this._reducer = (0, _getConversationReducer2.default)(_this.actionTypes);
     _this._messageSender = messageSender;
     _this._extensionInfo = extensionInfo;
@@ -426,19 +462,67 @@ var Conversation = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: 'replyToReceivers',
+    key: '_alertWarning',
+    value: function _alertWarning(message) {
+      if (message) {
+        var ttlConfig = message !== _messageSenderMessages2.default.noAreaCode ? { ttl: 0 } : null;
+        this._alert.warning((0, _extends3.default)({
+          message: message
+        }, ttlConfig));
+        return true;
+      }
+      return false;
+    }
+  }, {
+    key: 'updateMessageText',
     value: function () {
       var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(text) {
-        var responses;
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
+                if (!(text.length > 1000)) {
+                  _context5.next = 2;
+                  break;
+                }
+
+                return _context5.abrupt('return', this._alertWarning(_messageSenderMessages2.default.textTooLong));
+
+              case 2:
+                return _context5.abrupt('return', this.store.dispatch({
+                  type: this.actionTypes.updateMessages,
+                  text: text,
+                  id: this.id
+                }));
+
+              case 3:
+              case 'end':
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
+      }));
+
+      function updateMessageText(_x4) {
+        return _ref6.apply(this, arguments);
+      }
+
+      return updateMessageText;
+    }()
+  }, {
+    key: 'replyToReceivers',
+    value: function () {
+      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(text) {
+        var responses;
+        return _regenerator2.default.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
                 this.store.dispatch({
                   type: this.actionTypes.reply
                 });
-                _context5.prev = 1;
-                _context5.next = 4;
+                _context6.prev = 1;
+                _context6.next = 4;
                 return this._messageSender.send({
                   fromNumber: this._getFromNumber(),
                   toNumbers: this._getToNumbers(),
@@ -447,10 +531,10 @@ var Conversation = (_dec = (0, _di.Module)({
                 });
 
               case 4:
-                responses = _context5.sent;
+                responses = _context6.sent;
 
                 if (!(responses && responses[0])) {
-                  _context5.next = 9;
+                  _context6.next = 10;
                   break;
                 }
 
@@ -458,29 +542,33 @@ var Conversation = (_dec = (0, _di.Module)({
                 this.store.dispatch({
                   type: this.actionTypes.replySuccess
                 });
-                return _context5.abrupt('return', responses[0]);
+                this.store.dispatch({
+                  type: this.actionTypes.removeMessage,
+                  id: this.id
+                });
+                return _context6.abrupt('return', responses[0]);
 
-              case 9:
+              case 10:
                 this._onReplyError();
-                return _context5.abrupt('return', null);
+                return _context6.abrupt('return', null);
 
-              case 13:
-                _context5.prev = 13;
-                _context5.t0 = _context5['catch'](1);
+              case 14:
+                _context6.prev = 14;
+                _context6.t0 = _context6['catch'](1);
 
                 this._onReplyError();
-                throw _context5.t0;
+                throw _context6.t0;
 
-              case 17:
+              case 18:
               case 'end':
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this, [[1, 13]]);
+        }, _callee6, this, [[1, 14]]);
       }));
 
-      function replyToReceivers(_x4) {
-        return _ref6.apply(this, arguments);
+      function replyToReceivers(_x5) {
+        return _ref7.apply(this, arguments);
       }
 
       return replyToReceivers;
@@ -537,8 +625,29 @@ var Conversation = (_dec = (0, _di.Module)({
     get: function get() {
       return this.state.messageStoreUpdatedAt;
     }
+  }, {
+    key: 'messageTexts',
+    get: function get() {
+      return this.state.messageTexts;
+    }
   }]);
   return Conversation;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'loadConversationById', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'loadConversationById'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unloadConversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unloadConversation'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'changeMatchedNames', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'changeMatchedNames'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'changeDefaultRecipient', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'changeDefaultRecipient'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'replyToReceivers', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'replyToReceivers'), _class2.prototype)), _class2)) || _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'loadConversationById', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'loadConversationById'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unloadConversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unloadConversation'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'changeMatchedNames', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'changeMatchedNames'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'changeDefaultRecipient', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'changeDefaultRecipient'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateMessageText', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateMessageText'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'replyToReceivers', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'replyToReceivers'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'messageText', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this3 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this3.messageTexts;
+    }, function () {
+      return _this3.id;
+    }, function (messageTexts, id) {
+      var res = messageTexts.find(function (msg) {
+        return (typeof msg === 'undefined' ? 'undefined' : (0, _typeof3.default)(msg)) === 'object' && msg.id === id;
+      });
+      return res ? res.text : '';
+    });
+  }
+})), _class2)) || _class);
 exports.default = Conversation;
 //# sourceMappingURL=index.js.map
