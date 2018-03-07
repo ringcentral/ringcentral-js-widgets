@@ -2,7 +2,7 @@ import messageSyncBody from 'ringcentral-integration/integration-test/mock/data/
 import subscriptionBody from 'ringcentral-integration/integration-test/mock/data/subscription.json';
 import pubnubMsg from 'ringcentral-integration/integration-test/mock/data/pubnub.json';
 import * as mock from 'ringcentral-integration/integration-test/mock';
-import { getWrapper, timeout } from '../shared';
+import { timeout } from '../shared';
 import * as MockedPubNub from '../__mocks__/pubnub.js';
 
 export async function mockPubnub() {
