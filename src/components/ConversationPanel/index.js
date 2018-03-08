@@ -140,7 +140,7 @@ class ConversationPanel extends Component {
   render() {
     let conversationBody = null;
     const loading = this.props.showSpinner;
-    const recipients = this.props.recipients;
+    const { recipients, messageSubjectRenderer } = this.props;
     if (loading) {
       conversationBody = (
         <div className={styles.spinerContainer}>
@@ -154,6 +154,7 @@ class ConversationPanel extends Component {
           className={styles.conversationBody}
           dateTimeFormatter={this.props.dateTimeFormatter}
           showFrom={recipients && recipients.length > 1}
+          messageSubjectRenderer={messageSubjectRenderer}
         />
       );
     }
@@ -268,6 +269,7 @@ ConversationPanel.propTypes = {
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
   showGroupNumberName: PropTypes.bool,
+  messageSubjectRenderer: PropTypes.func,
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
@@ -278,7 +280,8 @@ ConversationPanel.defaultProps = {
   sourceIcons: undefined,
   showGroupNumberName: false,
   messageText: '',
-  updateMessageText: () => {},
+  updateMessageText: () => { },
+  messageSubjectRenderer: undefined,
 };
 
 export default ConversationPanel;
