@@ -73,6 +73,7 @@ class ConversationPage extends Component {
         goBack={this.props.goBack}
         sourceIcons={this.props.sourceIcons}
         showGroupNumberName={this.props.showGroupNumberName}
+        messageSubjectRenderer={this.props.messageSubjectRenderer}
       />
     );
   }
@@ -99,6 +100,7 @@ ConversationPage.propTypes = {
   dateTimeFormatter: PropTypes.func.isRequired,
   sourceIcons: PropTypes.object,
   showGroupNumberName: PropTypes.bool.isRequired,
+  messageSubjectRenderer: PropTypes.func,
 };
 
 ConversationPage.defaultProps = {
@@ -108,6 +110,7 @@ ConversationPage.defaultProps = {
   getMatcherContactNameList: () => [],
   updateMessageText: () => {},
   sourceIcons: undefined,
+  messageSubjectRenderer: undefined,
 };
 
 ConversationPage.childContextTypes = {
