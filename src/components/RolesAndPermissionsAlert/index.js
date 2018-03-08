@@ -37,9 +37,15 @@ RolesAndPermissionsAlert.propTypes = {
     message: PropTypes.string.isRequired,
   }).isRequired,
   brand: PropTypes.string.isRequired,
-  application: PropTypes.string.isRequired,
+  application: PropTypes.string,
   currentLocale: PropTypes.string.isRequired,
 };
+
+RolesAndPermissionsAlert.defaultProps = {
+  application: undefined,
+};
+
 RolesAndPermissionsAlert.handleMessage = ({ message }) => (
-  message === permissionsMessages.invalidTier
+  message === permissionsMessages.invalidTier ||
+  message === permissionsMessages.insufficientPrivilege
 );
