@@ -193,9 +193,10 @@ function formatPin(number) {
 }
 
 var dialInNumbersLinks = {
+  att: 'https://rcconf.net/1L06Hd5', // att reuse rc brand
+  bt: 'https://www.btcloudphone.bt.com/conferencing',
   rc: 'https://rcconf.net/1L06Hd5',
-  telus: 'https://telus.com/BusinessConnect/ConferencingFrequentlyAskedQuestions',
-  bt: 'https://www.btcloudphone.bt.com/conferencing'
+  telus: 'https://telus.com/BusinessConnect/ConferencingFrequentlyAskedQuestions'
 };
 
 var ConferencePanel = function (_Component) {
@@ -278,7 +279,7 @@ var ConferencePanel = function (_Component) {
 
       // This conference call is brought to you by ${brand.name} Conferencing.`;
       // return i18n.getString('inviteText', this.props.currentLocale);
-      return (0, _formatMessage2.default)(_i18n2.default.getString('inviteText', _this.props.currentLocale), {
+      return (0, _formatMessage2.default)(_i18n2.default.getString('inviteText_' + brand.code, _this.props.currentLocale), {
         brandName: brand.name,
         formattedDialInNumber: formattedDialInNumber,
         additionalNumbersSection: additionalNumbersSection,
