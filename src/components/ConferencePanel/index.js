@@ -89,9 +89,10 @@ function formatPin(number) {
 }
 
 const dialInNumbersLinks = {
+  att: 'https://rcconf.net/1L06Hd5', // att reuse rc brand
+  bt: 'https://www.btcloudphone.bt.com/conferencing',
   rc: 'https://rcconf.net/1L06Hd5',
   telus: 'https://telus.com/BusinessConnect/ConferencingFrequentlyAskedQuestions',
-  bt: 'https://www.btcloudphone.bt.com/conferencing'
 };
 
 class ConferencePanel extends Component {
@@ -167,14 +168,13 @@ class ConferencePanel extends Component {
 
     // This conference call is brought to you by ${brand.name} Conferencing.`;
     // return i18n.getString('inviteText', this.props.currentLocale);
-    return formatMessage(i18n.getString('inviteText', this.props.currentLocale), {
+    return formatMessage(i18n.getString(`inviteText_${brand.code}`, this.props.currentLocale), {
       brandName: brand.name,
       formattedDialInNumber,
       additionalNumbersSection,
       participantCode: formatPin(participantCode),
-      dialInNumbersLinks: dialInNumbersLinks[brand.code]
-    }
-    );
+      dialInNumbersLinks: dialInNumbersLinks[brand.code],
+    });
   }
 
   inviteWithText = () => {
