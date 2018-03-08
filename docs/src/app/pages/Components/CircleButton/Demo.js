@@ -11,8 +11,14 @@ props.icon = EndIcon;
  * A example of `CircleButton`
  */
 const CircleButtonDemo = () => (
-  <CircleButton
-    {...props}
-  />
+  <div style={{
+    position: 'relative',
+    height: '100px',
+    width: '100px',
+  }}>
+    <CircleButton
+      {...props}
+    />
+  </div>
 );
 export default CircleButtonDemo;

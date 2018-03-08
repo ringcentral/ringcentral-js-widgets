@@ -14,8 +14,14 @@ props.icon = KeypadIcon;
  * A example of `ActiveCallButton`
  */
 const ActiveCallButtonDemo = () => (
-  <ActiveCallButton
-    {...props}
-  />
+  <div style={{
+    position: 'relative',
+    height: '200px',
+    width: '100px',
+  }}>
+    <ActiveCallButton
+      {...props}
+    />
+  </div>
 );
 export default ActiveCallButtonDemo;
