@@ -55,11 +55,16 @@ RolesAndPermissionsAlert.propTypes = {
     message: _propTypes2.default.string.isRequired
   }).isRequired,
   brand: _propTypes2.default.string.isRequired,
-  application: _propTypes2.default.string.isRequired,
+  application: _propTypes2.default.string,
   currentLocale: _propTypes2.default.string.isRequired
 };
+
+RolesAndPermissionsAlert.defaultProps = {
+  application: undefined
+};
+
 RolesAndPermissionsAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
-  return message === _permissionsMessages2.default.invalidTier;
+  return message === _permissionsMessages2.default.invalidTier || message === _permissionsMessages2.default.insufficientPrivilege;
 };
 //# sourceMappingURL=index.js.map
