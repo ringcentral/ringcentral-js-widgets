@@ -364,6 +364,8 @@ var ConferencePanel = function (_Component) {
           disableTxtBtn = _props.disableTxtBtn,
           _props$showJoinAsHost = _props.showJoinAsHost,
           showJoinAsHost = _props$showJoinAsHost === undefined ? true : _props$showJoinAsHost,
+          _props$showEnableJoin = _props.showEnableJoinBeforeHost,
+          showEnableJoinBeforeHost = _props$showEnableJoin === undefined ? true : _props$showEnableJoin,
           recipientsSection = _props.recipientsSection;
       var _state = this.state,
           dialInNumbers = _state.dialInNumbers,
@@ -532,7 +534,7 @@ var ConferencePanel = function (_Component) {
             ),
             additionalNumbersCtrl
           ),
-          _react2.default.createElement(
+          showEnableJoinBeforeHost && _react2.default.createElement(
             'div',
             { className: _styles2.default.formGroup },
             _react2.default.createElement(
@@ -611,6 +613,7 @@ ConferencePanel.propTypes = {
   alert: _propTypes2.default.func.isRequired,
   disableTxtBtn: _propTypes2.default.bool.isRequired,
   showJoinAsHost: _propTypes2.default.bool,
+  showEnableJoinBeforeHost: _propTypes2.default.bool,
   brand: _propTypes2.default.object.isRequired,
   recipientsSection: _propTypes2.default.node
 };
@@ -618,7 +621,8 @@ ConferencePanel.defaultProps = {
   dialInNumbers: [],
   additionalButtons: [],
   recipientsSection: undefined,
-  showJoinAsHost: true
+  showJoinAsHost: true,
+  showEnableJoinBeforeHost: true
 };
 
 exports.default = ConferencePanel;
