@@ -236,6 +236,7 @@ class ConferencePanel extends Component {
       showHelpCommands,
       disableTxtBtn,
       showJoinAsHost = true,
+      showEnableJoinBeforeHost = true,
       recipientsSection,
     } = this.props;
     const {
@@ -330,15 +331,18 @@ class ConferencePanel extends Component {
             </span>
             {additionalNumbersCtrl}
           </div>
-          <div className={styles.formGroup}>
-            <label>{i18n.getString('enableJoinBeforeHost', currentLocale)}</label>
-            <span className={styles.field}>
-              <Switch
-                checked={allowJoinBeforeHost}
-                onChange={onAllowJoinBeforeHostChange}
-              />
-            </span>
-          </div>
+          {
+            showEnableJoinBeforeHost &&
+            <div className={styles.formGroup}>
+              <label>{i18n.getString('enableJoinBeforeHost', currentLocale)}</label>
+              <span className={styles.field}>
+                <Switch
+                  checked={allowJoinBeforeHost}
+                  onChange={onAllowJoinBeforeHostChange}
+                />
+              </span>
+            </div>
+          }
 
           <Button
             onClick={showHelpCommands}
@@ -397,6 +401,7 @@ ConferencePanel.propTypes = {
   alert: PropTypes.func.isRequired,
   disableTxtBtn: PropTypes.bool.isRequired,
   showJoinAsHost: PropTypes.bool,
+  showEnableJoinBeforeHost: PropTypes.bool,
   brand: PropTypes.object.isRequired,
   recipientsSection: PropTypes.node,
 };
@@ -405,6 +410,7 @@ ConferencePanel.defaultProps = {
   additionalButtons: [],
   recipientsSection: undefined,
   showJoinAsHost: true,
+  showEnableJoinBeforeHost: true,
 };
 
 export default ConferencePanel;
