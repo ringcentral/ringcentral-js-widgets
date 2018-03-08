@@ -232,7 +232,10 @@ var ConversationPanel = function (_Component) {
 
       var conversationBody = null;
       var loading = this.props.showSpinner;
-      var recipients = this.props.recipients;
+      var _props = this.props,
+          recipients = _props.recipients,
+          messageSubjectRenderer = _props.messageSubjectRenderer;
+
       if (loading) {
         conversationBody = _react2.default.createElement(
           'div',
@@ -244,7 +247,8 @@ var ConversationPanel = function (_Component) {
           messages: this.props.messages,
           className: _styles2.default.conversationBody,
           dateTimeFormatter: this.props.dateTimeFormatter,
-          showFrom: recipients && recipients.length > 1
+          showFrom: recipients && recipients.length > 1,
+          messageSubjectRenderer: messageSubjectRenderer
         });
       }
       var _props$conversation = this.props.conversation,
@@ -364,7 +368,8 @@ ConversationPanel.propTypes = {
   goBack: _propTypes2.default.func.isRequired,
   showContactDisplayPlaceholder: _propTypes2.default.bool,
   sourceIcons: _propTypes2.default.object,
-  showGroupNumberName: _propTypes2.default.bool
+  showGroupNumberName: _propTypes2.default.bool,
+  messageSubjectRenderer: _propTypes2.default.func
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
@@ -375,7 +380,8 @@ ConversationPanel.defaultProps = {
   sourceIcons: undefined,
   showGroupNumberName: false,
   messageText: '',
-  updateMessageText: function updateMessageText() {}
+  updateMessageText: function updateMessageText() {},
+  messageSubjectRenderer: undefined
 };
 
 exports.default = ConversationPanel;

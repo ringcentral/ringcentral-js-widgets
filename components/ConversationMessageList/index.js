@@ -48,7 +48,8 @@ function Message(_ref) {
   var subject = _ref.subject,
       time = _ref.time,
       direction = _ref.direction,
-      sender = _ref.sender;
+      sender = _ref.sender,
+      SubjectRenderer = _ref.subjectRenderer;
 
   return _react2.default.createElement(
     'div',
@@ -67,7 +68,7 @@ function Message(_ref) {
       'div',
       {
         className: (0, _classnames2.default)(_styles2.default.messageBody, direction === 'Outbound' ? _styles2.default.outbound : _styles2.default.inbound, subject && subject.length > 500 && _styles2.default.big) },
-      subject
+      SubjectRenderer ? _react2.default.createElement(SubjectRenderer, { subject: subject }) : subject
     ),
     _react2.default.createElement('div', { className: _styles2.default.clear })
   );
@@ -77,13 +78,15 @@ Message.propTypes = {
   direction: _propTypes2.default.string.isRequired,
   subject: _propTypes2.default.string,
   time: _propTypes2.default.string,
-  sender: _propTypes2.default.string
+  sender: _propTypes2.default.string,
+  subjectRenderer: _propTypes2.default.func
 };
 
 Message.defaultProps = {
   subject: '',
   sender: undefined,
-  time: undefined
+  time: undefined,
+  subjectRenderer: undefined
 };
 
 var ConversationMessageList = function (_Component) {
@@ -128,7 +131,8 @@ var ConversationMessageList = function (_Component) {
           className = _props.className,
           dateTimeFormatter = _props.dateTimeFormatter,
           messages = _props.messages,
-          showSender = _props.showSender;
+          showSender = _props.showSender,
+          messageSubjectRenderer = _props.messageSubjectRenderer;
 
 
       var lastDate = 0;
@@ -142,7 +146,8 @@ var ConversationMessageList = function (_Component) {
           sender: sender,
           time: time,
           direction: message.direction,
-          subject: message.subject
+          subject: message.subject,
+          subjectRenderer: messageSubjectRenderer
         });
       });
       return _react2.default.createElement(
@@ -169,12 +174,14 @@ ConversationMessageList.propTypes = {
   })).isRequired,
   className: _propTypes2.default.string,
   showSender: _propTypes2.default.bool,
-  dateTimeFormatter: _propTypes2.default.func.isRequired
+  dateTimeFormatter: _propTypes2.default.func.isRequired,
+  messageSubjectRenderer: _propTypes2.default.func
 };
 
 ConversationMessageList.defaultProps = {
   className: null,
-  showSender: false
+  showSender: false,
+  messageSubjectRenderer: undefined
 };
 
 ConversationMessageList.contextTypes = {

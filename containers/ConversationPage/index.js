@@ -149,7 +149,8 @@ var ConversationPage = function (_Component) {
         showContactDisplayPlaceholder: this.props.showContactDisplayPlaceholder,
         goBack: this.props.goBack,
         sourceIcons: this.props.sourceIcons,
-        showGroupNumberName: this.props.showGroupNumberName
+        showGroupNumberName: this.props.showGroupNumberName,
+        messageSubjectRenderer: this.props.messageSubjectRenderer
       });
     }
   }]);
@@ -176,7 +177,8 @@ ConversationPage.propTypes = {
   changeMatchedNames: _propTypes2.default.func.isRequired,
   dateTimeFormatter: _propTypes2.default.func.isRequired,
   sourceIcons: _propTypes2.default.object,
-  showGroupNumberName: _propTypes2.default.bool.isRequired
+  showGroupNumberName: _propTypes2.default.bool.isRequired,
+  messageSubjectRenderer: _propTypes2.default.func
 };
 
 ConversationPage.defaultProps = {
@@ -189,7 +191,8 @@ ConversationPage.defaultProps = {
     return [];
   },
   updateMessageText: function updateMessageText() {},
-  sourceIcons: undefined
+  sourceIcons: undefined,
+  messageSubjectRenderer: undefined
 };
 
 ConversationPage.childContextTypes = {
