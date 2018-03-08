@@ -37,11 +37,11 @@ props.brand = 'RingCentral';
 props.showConversationDetail = () => null;
 props.countryCode = '+1';
 props.areaCode = '+1';
-props.markVoicemail = () => null;
-props.readVoicemail = () => null;
+props.markMessage = () => null;
+props.readMessage = () => null;
+props.unmarkMessage = () => null;
 props.onClickToDial = () => null;
 props.onCreateContact = () => null;
-props.unmarkVoicemail = () => null;
 
 /**
  * A example of `MessageList`

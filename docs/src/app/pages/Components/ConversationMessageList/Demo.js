@@ -15,8 +15,8 @@ props.messages = [{
   subject: 'I\'m fine.'
 }];
 props.dateTimeFormatter = ({
-    utcTimestamp,
-  }) => new Date(utcTimestamp).toString();
+  utcTimestamp,
+}) => new Date(utcTimestamp).toString();
 
 /**
  * A example of `ConversationMessageList`

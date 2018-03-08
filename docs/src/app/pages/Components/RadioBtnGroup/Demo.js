@@ -16,6 +16,7 @@ props.radioOptions = [{
 props.disabled = false;
 props.formatPhone = v => v;
 props.onRadioSelect = () => null;
+props.currentLocale = 'en-US';
 
 /**
  * A example of `RadioBtnGroup`

@@ -21,9 +21,9 @@ props.currentLocale = 'en-US';
 props.dateTimeFormatter = () => null;
 props.showConversationDetail = () => null;
 props.brand = 'RingCentral';
-props.markVoicemail = () => null;
-props.readVoicemail = () => null;
-props.unmarkVoicemail = () => null;
+props.markMessage = () => null;
+props.readMessage = () => null;
+props.unmarkMessage = () => null;
 props.onClickToDial = () => null;
 props.onCreateContact = () => null;
 /**
