@@ -73,6 +73,7 @@ class ConversationPage extends Component {
         goBack={this.props.goBack}
         sourceIcons={this.props.sourceIcons}
         showGroupNumberName={this.props.showGroupNumberName}
+        messageSubjectRenderer={this.props.messageSubjectRenderer}
       />
     );
   }
@@ -99,6 +100,7 @@ ConversationPage.propTypes = {
   dateTimeFormatter: PropTypes.func.isRequired,
   sourceIcons: PropTypes.object,
   showGroupNumberName: PropTypes.bool.isRequired,
+  messageSubjectRenderer: PropTypes.func,
 };
 
 ConversationPage.defaultProps = {
@@ -108,6 +110,7 @@ ConversationPage.defaultProps = {
   getMatcherContactNameList: () => [],
   updateMessageText: () => {},
   sourceIcons: undefined,
+  messageSubjectRenderer: undefined,
 };
 
 ConversationPage.childContextTypes = {
@@ -135,8 +138,10 @@ function mapToProps(_, {
   params,
   enableContactFallback = false,
   showGroupNumberName = false,
+  ...props
 }) {
   return ({
+    ...props,
     brand: brand.fullName,
     enableContactFallback,
     showGroupNumberName,
@@ -181,6 +186,7 @@ function mapToFunctions(_, {
   dateTimeFormatter = (...args) => dateTimeFormat.formatDateTime(...args),
   isLoggedContact,
   onLogConversation,
+  ...props
 }) {
   let getMatcherContactName;
   let getMatcherContactList;
@@ -212,6 +218,7 @@ function mapToFunctions(_, {
   }
 
   return {
+    ...props,
     replyToReceivers: (...args) => conversation.replyToReceivers(...args),
     changeDefaultRecipient: (...args) => conversation.changeDefaultRecipient(...args),
     changeMatchedNames: (...args) => conversation.changeMatchedNames(...args),
