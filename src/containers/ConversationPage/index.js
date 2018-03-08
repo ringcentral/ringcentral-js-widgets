@@ -138,10 +138,8 @@ function mapToProps(_, {
   params,
   enableContactFallback = false,
   showGroupNumberName = false,
-  ...props
 }) {
   return ({
-    ...props,
     brand: brand.fullName,
     enableContactFallback,
     showGroupNumberName,
@@ -186,7 +184,6 @@ function mapToFunctions(_, {
   dateTimeFormatter = (...args) => dateTimeFormat.formatDateTime(...args),
   isLoggedContact,
   onLogConversation,
-  ...props
 }) {
   let getMatcherContactName;
   let getMatcherContactList;
@@ -218,7 +215,6 @@ function mapToFunctions(_, {
   }
 
   return {
-    ...props,
     replyToReceivers: (...args) => conversation.replyToReceivers(...args),
     changeDefaultRecipient: (...args) => conversation.changeDefaultRecipient(...args),
     changeMatchedNames: (...args) => conversation.changeMatchedNames(...args),
