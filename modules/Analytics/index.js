@@ -78,33 +78,39 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @description Analytics module.
  */
 var Analytics = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Call', 'Webphone', 'Contacts', 'MessageSender', 'MessageStore', 'ContactDetails', 'CallHistory', 'Conference', { dep: 'RouterInteraction', optional: true }, { dep: 'AnalyticsAdapter', optional: true }, { dep: 'AnalyticsOptions', optional: true }]
+  deps: [{ dep: 'Auth', optional: true }, { dep: 'Call', optional: true }, { dep: 'Webphone', optional: true }, { dep: 'Contacts', optional: true }, { dep: 'MessageSender', optional: true }, { dep: 'MessageStore', optional: true }, { dep: 'ContactDetails', optional: true }, { dep: 'CallHistory', optional: true }, { dep: 'Conference', optional: true }, { dep: 'RouterInteraction', optional: true }, { dep: 'AnalyticsAdapter', optional: true }, { dep: 'AnalyticsOptions', optional: true }]
 }), _dec(_class = function (_RcModule) {
   (0, _inherits3.default)(Analytics, _RcModule);
 
   function Analytics(_ref) {
-    var auth = _ref.auth,
+    var analyticsKey = _ref.analyticsKey,
+        appName = _ref.appName,
+        appVersion = _ref.appVersion,
+        brandCode = _ref.brandCode,
+        auth = _ref.auth,
         call = _ref.call,
         webphone = _ref.webphone,
         contacts = _ref.contacts,
         messageSender = _ref.messageSender,
         adapter = _ref.adapter,
         routerInteraction = _ref.routerInteraction,
-        analyticsKey = _ref.analyticsKey,
-        appName = _ref.appName,
-        appVersion = _ref.appVersion,
-        brandCode = _ref.brandCode,
         messageStore = _ref.messageStore,
         contactDetails = _ref.contactDetails,
         callHistory = _ref.callHistory,
         conference = _ref.conference,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'call', 'webphone', 'contacts', 'messageSender', 'adapter', 'routerInteraction', 'analyticsKey', 'appName', 'appVersion', 'brandCode', 'messageStore', 'contactDetails', 'callHistory', 'conference']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['analyticsKey', 'appName', 'appVersion', 'brandCode', 'auth', 'call', 'webphone', 'contacts', 'messageSender', 'adapter', 'routerInteraction', 'messageStore', 'contactDetails', 'callHistory', 'conference']);
     (0, _classCallCheck3.default)(this, Analytics);
 
+    // config
     var _this = (0, _possibleConstructorReturn3.default)(this, (Analytics.__proto__ || (0, _getPrototypeOf2.default)(Analytics)).call(this, (0, _extends3.default)({}, options, {
       actionTypes: _actionTypes2.default
     })));
 
+    _this._analyticsKey = analyticsKey;
+    _this._appName = appName;
+    _this._appVersion = appVersion;
+    _this._brandCode = brandCode;
+    // modules
     _this._auth = auth;
     _this._call = call;
     _this._webphone = webphone;
@@ -112,14 +118,11 @@ var Analytics = (_dec = (0, _di.Module)({
     _this._messageSender = messageSender;
     _this._adapter = adapter;
     _this._router = routerInteraction;
-    _this._analyticsKey = analyticsKey;
-    _this._appName = appName;
-    _this._appVersion = appVersion;
-    _this._brandCode = brandCode;
     _this._messageStore = messageStore;
     _this._contactDetails = contactDetails;
     _this._callHistory = callHistory;
     _this._conference = conference;
+    // init
     _this._reducer = (0, _getAnalyticsReducer2.default)(_this.actionTypes);
     _this._segment = (0, _Analytics.Segment)();
     return _this;
