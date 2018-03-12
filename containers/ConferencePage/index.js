@@ -19,6 +19,10 @@ var _withPhone = require('../../lib/withPhone');
 
 var _withPhone2 = _interopRequireDefault(_withPhone);
 
+var _i18n = require('./i18n');
+
+var _i18n2 = _interopRequireDefault(_i18n);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function mapToProps(_, _ref) {
@@ -29,6 +33,8 @@ function mapToProps(_, _ref) {
       composeText = _ref$phone.composeText,
       serviceFeatures = _ref$phone.extensionInfo.serviceFeatures,
       brand = _ref$phone.brand;
+
+  var currentLocale = locale.currentLocale;
   var data = conference.data;
   var hostCode = data.hostCode,
       participantCode = data.participantCode,
@@ -43,7 +49,7 @@ function mapToProps(_, _ref) {
     for (var _iterator = (0, _getIterator3.default)(data.phoneNumbers), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
       var p = _step.value;
 
-      var region = p.country.name;
+      var region = _i18n2.default.getString(p.country.isoCode, currentLocale);
       if (p.location) {
         region += ', ';
         region += p.location;
@@ -79,7 +85,7 @@ function mapToProps(_, _ref) {
     disableTxtBtn: disableTxtBtn,
     countryCode: regionSettings.countryCode,
     areaCode: regionSettings.areaCode,
-    currentLocale: locale.currentLocale,
+    currentLocale: currentLocale,
     brand: {
       code: brand.code,
       name: brand.name
