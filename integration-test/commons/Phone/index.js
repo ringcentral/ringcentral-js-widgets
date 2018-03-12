@@ -393,6 +393,7 @@ var Phone = function (_RcModule) {
       storage: _this.storage,
       client: _this.client,
       tabManager: _this.tabManager,
+      rolesAndPermissions: _this.rolesAndPermissions,
       getState: function getState() {
         return _this.state.extensionPhoneNumber;
       }

@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _defineProperty = require('babel-runtime/core-js/object/define-property');
+
+var _defineProperty2 = _interopRequireDefault(_defineProperty);
+
 var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
@@ -33,9 +37,11 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _dec, _class;
+var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6;
 
 require('core-js/fn/array/find');
+
+var _reselect = require('reselect');
 
 var _di = require('../../lib/di');
 
@@ -47,15 +53,66 @@ var _DataFetcher2 = require('../../lib/DataFetcher');
 
 var _DataFetcher3 = _interopRequireDefault(_DataFetcher2);
 
+var _ensureExist = require('../../lib/ensureExist');
+
+var _ensureExist2 = _interopRequireDefault(_ensureExist);
+
+var _getter = require('../../lib/getter');
+
+var _getter2 = _interopRequireDefault(_getter);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _initDefineProp(target, property, descriptor, context) {
+  if (!descriptor) return;
+  (0, _defineProperty2.default)(target, property, {
+    enumerable: descriptor.enumerable,
+    configurable: descriptor.configurable,
+    writable: descriptor.writable,
+    value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+  });
+}
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+  var desc = {};
+  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+    desc[key] = descriptor[key];
+  });
+  desc.enumerable = !!desc.enumerable;
+  desc.configurable = !!desc.configurable;
+
+  if ('value' in desc || desc.initializer) {
+    desc.writable = true;
+  }
+
+  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    return decorator(target, property, desc) || desc;
+  }, desc);
+
+  if (context && desc.initializer !== void 0) {
+    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+    desc.initializer = undefined;
+  }
+
+  if (desc.initializer === void 0) {
+    Object['define' + 'Property'](target, property, desc);
+    desc = null;
+  }
+
+  return desc;
+}
+
+function _initializerWarningHelper(descriptor, context) {
+  throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
+}
 
 /**
  * @class
  * @description Extension phone number list module
  */
 var ExtensionPhoneNumber = (_dec = (0, _di.Module)({
-  deps: ['Client', { dep: 'ExtensionPhoneNumberOptions', optional: true }]
-}), _dec(_class = function (_DataFetcher) {
+  deps: ['Client', 'RolesAndPermissions', { dep: 'ExtensionPhoneNumberOptions', optional: true }]
+}), _dec(_class = (_class2 = function (_DataFetcher) {
   (0, _inherits3.default)(ExtensionPhoneNumber, _DataFetcher);
 
   /**
@@ -65,7 +122,8 @@ var ExtensionPhoneNumber = (_dec = (0, _di.Module)({
    */
   function ExtensionPhoneNumber(_ref) {
     var client = _ref.client,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client']);
+        rolesAndPermissions = _ref.rolesAndPermissions,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'rolesAndPermissions']);
     (0, _classCallCheck3.default)(this, ExtensionPhoneNumber);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ExtensionPhoneNumber.__proto__ || (0, _getPrototypeOf2.default)(ExtensionPhoneNumber)).call(this, (0, _extends3.default)({
@@ -75,89 +133,111 @@ var ExtensionPhoneNumber = (_dec = (0, _di.Module)({
         return (0, _fetchList2.default)(function (params) {
           return client.account().extension().phoneNumber().list(params);
         });
+      },
+      readyCheckFn: function readyCheckFn() {
+        return _this._rolesAndPermissions.ready;
       }
     }, options)));
 
-    _this.addSelector('numbers', function () {
-      return _this.data;
+    _initDefineProp(_this, 'numbers', _descriptor, _this);
+
+    _initDefineProp(_this, 'companyNumbers', _descriptor2, _this);
+
+    _initDefineProp(_this, 'mainCompanyNumber', _descriptor3, _this);
+
+    _initDefineProp(_this, 'directNumbers', _descriptor4, _this);
+
+    _initDefineProp(_this, 'callerIdNumbers', _descriptor5, _this);
+
+    _initDefineProp(_this, 'smsSenderNumbers', _descriptor6, _this);
+
+    _this._rolesAndPermissions = _ensureExist2.default.call(_this, rolesAndPermissions, 'rolesAndPermissions');
+    return _this;
+  }
+
+  (0, _createClass3.default)(ExtensionPhoneNumber, [{
+    key: '_hasPermission',
+    get: function get() {
+      return !!this._rolesAndPermissions.permissions.ReadUserPhoneNumbers;
+    }
+  }]);
+  return ExtensionPhoneNumber;
+}(_DataFetcher3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'numbers', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this2 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this2.data;
     }, function (data) {
       return data || [];
     });
+  }
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'companyNumbers', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this3 = this;
 
-    _this.addSelector('companyNumbers', function () {
-      return _this.numbers;
+    return (0, _reselect.createSelector)(function () {
+      return _this3.numbers;
     }, function (phoneNumbers) {
       return phoneNumbers.filter(function (p) {
         return p.usageType === 'CompanyNumber';
       });
     });
+  }
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'mainCompanyNumber', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this4 = this;
 
-    _this.addSelector('mainCompanyNumber', function () {
-      return _this.numbers;
+    return (0, _reselect.createSelector)(function () {
+      return _this4.numbers;
     }, function (phoneNumbers) {
       return phoneNumbers.find(function (p) {
         return p.usageType === 'MainCompanyNumber';
       });
     });
+  }
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'directNumbers', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this5 = this;
 
-    _this.addSelector('directNumbers', function () {
-      return _this.numbers;
+    return (0, _reselect.createSelector)(function () {
+      return _this5.numbers;
     }, function (phoneNumbers) {
       return phoneNumbers.filter(function (p) {
         return p.usageType === 'DirectNumber';
       });
     });
+  }
+}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'callerIdNumbers', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this6 = this;
 
-    _this.addSelector('callerIdNumbers', function () {
-      return _this.numbers;
+    return (0, _reselect.createSelector)(function () {
+      return _this6.numbers;
     }, function (phoneNumbers) {
       return phoneNumbers.filter(function (p) {
         return p.features && p.features.indexOf('CallerId') !== -1 || p.usageType === 'ForwardedNumber' && p.status === 'PortedIn';
       });
     });
+  }
+}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, 'smsSenderNumbers', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this7 = this;
 
-    _this.addSelector('smsSenderNumbers', function () {
-      return _this.numbers;
+    return (0, _reselect.createSelector)(function () {
+      return _this7.numbers;
     }, function (phoneNumbers) {
       return phoneNumbers.filter(function (p) {
         return p.features && p.features.indexOf('SmsSender') !== -1;
       });
     });
-    return _this;
   }
-
-  (0, _createClass3.default)(ExtensionPhoneNumber, [{
-    key: 'numbers',
-    get: function get() {
-      return this._selectors.numbers();
-    }
-  }, {
-    key: 'mainCompanyNumber',
-    get: function get() {
-      return this._selectors.mainCompanyNumber();
-    }
-  }, {
-    key: 'companyNumbers',
-    get: function get() {
-      return this._selectors.companyNumbers();
-    }
-  }, {
-    key: 'directNumbers',
-    get: function get() {
-      return this._selectors.directNumbers();
-    }
-  }, {
-    key: 'callerIdNumbers',
-    get: function get() {
-      return this._selectors.callerIdNumbers();
-    }
-  }, {
-    key: 'smsSenderNumbers',
-    get: function get() {
-      return this._selectors.smsSenderNumbers();
-    }
-  }]);
-  return ExtensionPhoneNumber;
-}(_DataFetcher3.default)) || _class);
+})), _class2)) || _class);
 exports.default = ExtensionPhoneNumber;
 //# sourceMappingURL=index.js.map

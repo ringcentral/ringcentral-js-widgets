@@ -58,12 +58,14 @@ var _rolesAndPermissions = require('../../spec-modules/rolesAndPermissions');
 
 var _rolesAndPermissions2 = _interopRequireDefault(_rolesAndPermissions);
 
+var _extensionPhoneNumber = require('../../spec-modules/extensionPhoneNumber');
+
+var _extensionPhoneNumber2 = _interopRequireDefault(_extensionPhoneNumber);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var phone = (0, _TestPhoneFactory2.default)();
-
 // import runCallLogTests from '../../spec-modules/callLog';
-
+var phone = (0, _TestPhoneFactory2.default)();
 (0, _numValidInCall2.default)(phone.auth, phone.alert, phone.client, phone.regionSettings, phone.call, _testAccount.multiDialingPlanIncludingUSCAAccount);
 
 // phone = getTestPhone();
@@ -104,4 +106,7 @@ phone = (0, _TestPhoneFactory2.default)();
 
 phone = (0, _TestPhoneFactory2.default)();
 (0, _rolesAndPermissions2.default)(phone.auth, phone.client, phone.rolesAndPermissions, _testAccount.defaultAccount, phone.alert);
+
+phone = (0, _TestPhoneFactory2.default)();
+(0, _extensionPhoneNumber2.default)(phone.auth, phone.client, phone.extensionPhoneNumber, _testAccount.defaultAccount);
 //# sourceMappingURL=commons.spec.js.map
