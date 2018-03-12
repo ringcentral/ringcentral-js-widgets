@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import ConferencePanel from '../../components/ConferencePanel';
 import withPhone from '../../lib/withPhone';
+import i18n from './i18n';
 
 function mapToProps(_, {
   phone: {
@@ -12,11 +13,12 @@ function mapToProps(_, {
     brand
   },
 }) {
+  const currentLocale = locale.currentLocale;
   const { data } = conference;
   const { hostCode, participantCode, allowJoinBeforeHost } = data;
   const dialInNumbers = [];
   for (const p of data.phoneNumbers) {
-    let region = p.country.name;
+    let region = i18n.getString(p.country.isoCode, currentLocale);
     if (p.location) {
       region += ', ';
       region += p.location;
@@ -37,7 +39,7 @@ function mapToProps(_, {
     disableTxtBtn,
     countryCode: regionSettings.countryCode,
     areaCode: regionSettings.areaCode,
-    currentLocale: locale.currentLocale,
+    currentLocale,
     brand: {
       code: brand.code,
       name: brand.name
