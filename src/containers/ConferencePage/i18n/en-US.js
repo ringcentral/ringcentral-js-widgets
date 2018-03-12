@@ -62,4 +62,4 @@ export default {
   UA: 'Ukraine',
   US: 'United States',
   VN: 'Vietnam'
-}
+};
