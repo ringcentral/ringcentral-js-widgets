@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = exports.mapToFunctions = exports.mapToProps = undefined;
 
 var _reactRedux = require('react-redux');
 
@@ -117,5 +118,7 @@ function mapToFunctions(_, _ref2) {
 
 var ComposeTextPage = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ComposeTextPanel2.default));
 
+exports.mapToProps = mapToProps;
+exports.mapToFunctions = mapToFunctions;
 exports.default = ComposeTextPage;
 //# sourceMappingURL=index.js.map
