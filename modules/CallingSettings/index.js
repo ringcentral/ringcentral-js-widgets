@@ -251,7 +251,12 @@ var CallingSettings = (_dec = (0, _di.Module)({
       return _this._rolesAndPermissions.webphoneEnabled;
     }, function () {
       return _this.otherPhoneNumbers.length > 0;
-    }, function (ringoutEnabled, webphoneEnabled, hasOtherPhone) {
+    }, function () {
+      return _this._extensionPhoneNumber.numbers.length > 0;
+    }, function (ringoutEnabled, webphoneEnabled, hasOtherPhone, hasExtensionPhoneNumber) {
+      if (!hasExtensionPhoneNumber) {
+        return [_callingOptions2.default.softphone];
+      }
       var callWithOptions = [];
       if (_this._webphone && webphoneEnabled) {
         callWithOptions.push(_callingOptions2.default.browser);
