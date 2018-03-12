@@ -104,4 +104,8 @@ const ComposeTextPage = withPhone(connect(
   mapToFunctions
 )(ComposeTextPanel));
 
-export default ComposeTextPage;
+export {
+  mapToProps,
+  mapToFunctions,
+  ComposeTextPage as default,
+};
