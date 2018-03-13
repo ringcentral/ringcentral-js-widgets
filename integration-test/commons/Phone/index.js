@@ -313,14 +313,6 @@ var Phone = function (_RcModule) {
         return _this.state.subscription;
       }
     })));
-    _this.addModule('presence', new _Presence2.default((0, _extends3.default)({}, options, {
-      auth: _this.auth,
-      client: _this.client,
-      subscription: _this.subscription,
-      getState: function getState() {
-        return _this.state.presence;
-      }
-    })));
     // this.addModule('router', new RouterInteraction({
     //   ...options,
     //   history,
@@ -356,6 +348,15 @@ var Phone = function (_RcModule) {
       alert: _this.alert,
       getState: function getState() {
         return _this.state.accountInfo;
+      }
+    })));
+    _this.addModule('presence', new _Presence2.default((0, _extends3.default)({}, options, {
+      auth: _this.auth,
+      client: _this.client,
+      subscription: _this.subscription,
+      rolesAndPermissions: _this.rolesAndPermissions,
+      getState: function getState() {
+        return _this.state.presence;
       }
     })));
     _this.addModule('accountExtension', new _AccountExtension2.default((0, _extends3.default)({}, options, {

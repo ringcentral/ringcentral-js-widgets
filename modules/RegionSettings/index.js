@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _defineProperty = require('babel-runtime/core-js/object/define-property');
+
+var _defineProperty2 = _interopRequireDefault(_defineProperty);
+
 var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
@@ -45,9 +49,11 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _dec, _class, _desc, _value, _class2;
+var _dec, _class, _desc, _value, _class2, _descriptor;
 
 require('core-js/fn/array/find');
+
+var _reselect = require('reselect');
 
 var _RcModule2 = require('../../lib/RcModule');
 
@@ -79,7 +85,21 @@ var _proxify = require('../../lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
 
+var _getter = require('../../lib/getter');
+
+var _getter2 = _interopRequireDefault(_getter);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _initDefineProp(target, property, descriptor, context) {
+  if (!descriptor) return;
+  (0, _defineProperty2.default)(target, property, {
+    enumerable: descriptor.enumerable,
+    configurable: descriptor.configurable,
+    writable: descriptor.writable,
+    value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+  });
+}
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
   var desc = {};
@@ -108,6 +128,10 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
   }
 
   return desc;
+}
+
+function _initializerWarningHelper(descriptor, context) {
+  throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
 }
 
 /**
@@ -140,6 +164,8 @@ var RegionSettings = (_dec = (0, _di.Module)({
     var _this = (0, _possibleConstructorReturn3.default)(this, (RegionSettings.__proto__ || (0, _getPrototypeOf2.default)(RegionSettings)).call(this, (0, _extends3.default)({}, options, {
       actionTypes: _actionTypes2.default
     })));
+
+    _initDefineProp(_this, 'availableCountries', _descriptor, _this);
 
     _this._storage = storage;
     _this._alert = alert;
@@ -192,7 +218,7 @@ var RegionSettings = (_dec = (0, _di.Module)({
                 return _this2.checkRegionSettings();
 
               case 5:
-                _this2._processedPlans = _this2._dialingPlan.plans;
+                _this2._processedPlans = _this2.availableCountries;
                 _this2.store.dispatch({
                   type: _this2.actionTypes.initSuccess
                 });
@@ -212,12 +238,12 @@ var RegionSettings = (_dec = (0, _di.Module)({
                 break;
 
               case 13:
-                if (!(_this2.ready && _this2._processedPlans !== _this2._dialingPlan.plans)) {
+                if (!(_this2.ready && _this2._processedPlans !== _this2.availableCountries)) {
                   _context.next = 18;
                   break;
                 }
 
-                _this2._processedPlans = _this2._dialingPlan.plans;
+                _this2._processedPlans = _this2.availableCountries;
 
                 if (!(!_this2._tabManager || _this2._tabManager.active)) {
                   _context.next = 18;
@@ -256,16 +282,16 @@ var RegionSettings = (_dec = (0, _di.Module)({
               case 0:
                 countryCode = this._storage.getItem(this._countryCodeKey);
 
-                if (countryCode && !this._dialingPlan.plans.find(function (plan) {
+                if (countryCode && !this.availableCountries.find(function (plan) {
                   return plan.isoCode === countryCode;
                 })) {
                   countryCode = null;
                   this._alertSettingsChanged();
                 }
                 if (!countryCode) {
-                  country = this._dialingPlan.plans.find(function (plan) {
+                  country = this.availableCountries.find(function (plan) {
                     return plan.isoCode === _this3._extensionInfo.country.isoCode;
-                  }) || this._dialingPlan.plans[0];
+                  }) || this.availableCountries[0];
 
                   countryCode = country && country.isoCode;
                   this.store.dispatch({
@@ -358,9 +384,15 @@ var RegionSettings = (_dec = (0, _di.Module)({
       return this.state.status === _moduleStatuses2.default.ready;
     }
   }, {
-    key: 'availableCountries',
+    key: 'showReginSetting',
     get: function get() {
-      return this._dialingPlan.plans;
+      if (this.availableCountries.length > 1) {
+        return true;
+      }
+      if (this.availableCountries.length === 1 && (this.availableCountries[0].isoCode === 'US' || this.availableCountries[0].isoCode === 'CA')) {
+        return true;
+      }
+      return false;
     }
   }, {
     key: 'countryCode',
@@ -374,6 +406,22 @@ var RegionSettings = (_dec = (0, _di.Module)({
     }
   }]);
   return RegionSettings;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'checkRegionSettings', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'checkRegionSettings'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setData'), _class2.prototype)), _class2)) || _class);
+}(_RcModule3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'availableCountries', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this4 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this4._dialingPlan.plans;
+    }, function () {
+      return _this4._extensionInfo.country;
+    }, function (plans, country) {
+      if (plans && plans.length > 0) {
+        return plans;
+      }
+      return country && [country] || [];
+    });
+  }
+}), _applyDecoratedDescriptor(_class2.prototype, 'checkRegionSettings', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'checkRegionSettings'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setData'), _class2.prototype)), _class2)) || _class);
 exports.default = RegionSettings;
 //# sourceMappingURL=index.js.map

@@ -288,7 +288,12 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
   }, {
     key: 'hasPresencePermission',
     get: function get() {
-      return !!(this.ready && this.callingEnabled && this.permissions && this.permissions.ReadPresenceStatus && this.permissions.EditPresenceStatus);
+      return !!(this.ready && this.callingEnabled && this.permissions && this.permissions.ReadPresenceStatus);
+    }
+  }, {
+    key: 'hasEditPresencePermission',
+    get: function get() {
+      return !!(this.ready && this.callingEnabled && this.permissions && this.permissions.EditPresenceStatus);
     }
   }, {
     key: 'hasComposeTextPermission',
