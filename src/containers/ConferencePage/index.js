@@ -7,27 +7,27 @@ function mapToProps(_, {
   phone: {
     conference,
     regionSettings,
-    locale,
+    locale: {
+      currentLocale,
+      ready
+    },
     composeText,
     extensionInfo: { serviceFeatures },
     brand
   },
 }) {
-  const currentLocale = locale.currentLocale;
   const { data } = conference;
   const { hostCode, participantCode, allowJoinBeforeHost } = data;
-  const dialInNumbers = [];
-  for (const p of data.phoneNumbers) {
-    let region = i18n.getString(p.country.isoCode, currentLocale);
-    if (p.location) {
-      region += ', ';
-      region += p.location;
-    }
-    dialInNumbers.push({
-      region,
+  const dialInNumbers = data.phoneNumbers.map((p) => {
+    const _region = i18n.getString(p.country.isoCode, currentLocale);
+    // only show the provinces of canada
+    return {
+      region: p.location && p.country.isoCode === 'CA'
+        ? `${_region}, ${p.location}`
+        : _region,
       phoneNumber: p.phoneNumber
-    });
-  }
+    };
+  });
   const disableTxtBtn = !serviceFeatures.SMS.enabled && !serviceFeatures.Pager.enabled;
   return {
     dialInNumbers,
@@ -47,7 +47,7 @@ function mapToProps(_, {
     showSpinner: !(
       conference.ready &&
       regionSettings.ready &&
-      locale.ready &&
+      ready &&
       composeText.ready
     ),
   };
