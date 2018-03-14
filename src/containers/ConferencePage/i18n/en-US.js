@@ -2,7 +2,7 @@ export default {
   conference_AR: 'Argentina',
   conference_AT: 'Austria',
   conference_BE: 'Belgium',
-  conference_BH: 'Bahrain
+  conference_BH: 'Bahrain',
   conference_BJ: 'Benin',
   conference_BR: 'Brazil',
   conference_BG: 'Bulgaria',
