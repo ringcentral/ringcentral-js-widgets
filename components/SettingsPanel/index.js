@@ -114,6 +114,7 @@ function SettingsPanel(_ref) {
       toggleAcceptCallQueueCalls = _ref.toggleAcceptCallQueueCalls,
       isCallQueueMember = _ref.isCallQueueMember,
       showPresenceSettings = _ref.showPresenceSettings,
+      openPresenceSettings = _ref.openPresenceSettings,
       showFeedback = _ref.showFeedback,
       showUserGuide = _ref.showUserGuide,
       additional = _ref.additional,
@@ -162,7 +163,7 @@ function SettingsPanel(_ref) {
       onClick: onFeedbackSettingsLinkClick },
     _i18n2.default.getString('feedback', currentLocale)
   ) : null;
-  var presenceSetting = dndStatus && userStatus ? _react2.default.createElement(_PresenceSettingSection2.default, {
+  var presenceSetting = showPresenceSettings && dndStatus && userStatus ? _react2.default.createElement(_PresenceSettingSection2.default, {
     currentLocale: currentLocale,
     dndStatus: dndStatus,
     userStatus: userStatus,
@@ -172,7 +173,7 @@ function SettingsPanel(_ref) {
     setDoNotDisturb: setDoNotDisturb,
     setInvisible: setInvisible,
     toggleAcceptCallQueueCalls: toggleAcceptCallQueueCalls,
-    showPresenceSettings: showPresenceSettings
+    showPresenceSettings: openPresenceSettings
   }) : null;
   var clickToDialText = void 0;
   if (outboundSMS && ringoutEnabled) {
@@ -320,6 +321,7 @@ SettingsPanel.propTypes = {
   setDoNotDisturb: _propTypes2.default.func,
   setInvisible: _propTypes2.default.func,
   toggleAcceptCallQueueCalls: _propTypes2.default.func,
+  openPresenceSettings: _propTypes2.default.bool,
   showPresenceSettings: _propTypes2.default.bool,
   showFeedback: _propTypes2.default.bool,
   additional: _propTypes2.default.node,
@@ -369,7 +371,8 @@ SettingsPanel.defaultProps = {
   toggleAcceptCallQueueCalls: function toggleAcceptCallQueueCalls() {
     return null;
   },
-  showPresenceSettings: false,
+  openPresenceSettings: false,
+  showPresenceSettings: true,
   additional: null,
   supportedLocales: undefined,
   savedLocale: undefined,

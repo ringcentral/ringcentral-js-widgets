@@ -56,6 +56,8 @@ function mapToProps(_, _ref) {
       showFeedback = _ref$showFeedback === undefined ? true : _ref$showFeedback,
       _ref$showUserGuide = _ref.showUserGuide,
       showUserGuide = _ref$showUserGuide === undefined ? true : _ref$showUserGuide,
+      _ref$showPresenceSett = _ref.showPresenceSettings,
+      showPresenceSettings = _ref$showPresenceSett === undefined ? true : _ref$showPresenceSett,
       params = _ref.params;
 
   var loginNumber = '';
@@ -75,11 +77,7 @@ function mapToProps(_, _ref) {
     showFeedback: showFeedback,
     showCalling: showCalling && callingSettings && rolesAndPermissions.callingEnabled,
     showAudio: showAudio && rolesAndPermissions.callingEnabled,
-    showRegion: loggedIn && brand.id === '1210' && (regionSettings.availableCountries.length > 1 || !!regionSettings.availableCountries.find(function (c) {
-      return c.isoCode === 'US';
-    }) || !!regionSettings.availableCountries.find(function (c) {
-      return c.isoCode === 'CA';
-    })) && rolesAndPermissions.callingEnabled && showRegion,
+    showRegion: loggedIn && brand.id === '1210' && regionSettings.showReginSetting && rolesAndPermissions.callingEnabled && showRegion,
     loginNumber: loginNumber,
     version: version,
     currentLocale: locale.currentLocale,
@@ -89,7 +87,8 @@ function mapToProps(_, _ref) {
     isCallQueueMember: extensionInfo.isCallQueueMember,
     dndStatus: detailedPresence && detailedPresence.dndStatus,
     userStatus: detailedPresence && detailedPresence.userStatus,
-    showPresenceSettings: !!(detailedPresence && params && params.showPresenceSettings),
+    openPresenceSettings: !!(detailedPresence && params && params.showPresenceSettings),
+    showPresenceSettings: showPresenceSettings && rolesAndPermissions.hasEditPresencePermission,
     supportedLocales: localeSettings && localeSettings.supportedLocales,
     savedLocale: localeSettings && localeSettings.savedLocale,
     showUserGuide: showUserGuide && rolesAndPermissions.hasUserGuidePermission
