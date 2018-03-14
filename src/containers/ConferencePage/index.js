@@ -9,7 +9,7 @@ function mapToProps(_, {
     regionSettings,
     locale: {
       currentLocale,
-      ready: localReady
+      ready: localeReady
     },
     composeText,
     extensionInfo: { serviceFeatures },
@@ -47,7 +47,7 @@ function mapToProps(_, {
     showSpinner: !(
       conference.ready &&
       regionSettings.ready &&
-      localReady &&
+      localeReady &&
       composeText.ready
     ),
   };
