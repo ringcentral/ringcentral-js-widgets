@@ -14,6 +14,7 @@ exports.default = {
   conference_CA: 'Canada',
   conference_CL: 'Chile',
   conference_CN: 'China',
+  conference_CO: 'Colombia',
   conference_HK: 'Hong Kong',
   conference_HR: 'Croatia',
   conference_CY: 'Cyprus',
