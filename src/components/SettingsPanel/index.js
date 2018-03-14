@@ -57,6 +57,7 @@ export default function SettingsPanel({
   toggleAcceptCallQueueCalls,
   isCallQueueMember,
   showPresenceSettings,
+  openPresenceSettings,
   showFeedback,
   showUserGuide,
   additional,
@@ -115,7 +116,7 @@ export default function SettingsPanel({
       </LinkLine>
     )
     : null;
-  const presenceSetting = (dndStatus && userStatus) ?
+  const presenceSetting = (showPresenceSettings && dndStatus && userStatus) ?
     (
       <PresenceSettingSection
         currentLocale={currentLocale}
@@ -127,7 +128,7 @@ export default function SettingsPanel({
         setDoNotDisturb={setDoNotDisturb}
         setInvisible={setInvisible}
         toggleAcceptCallQueueCalls={toggleAcceptCallQueueCalls}
-        showPresenceSettings={showPresenceSettings}
+        showPresenceSettings={openPresenceSettings}
       />
     ) :
     null;
@@ -277,6 +278,7 @@ SettingsPanel.propTypes = {
   setDoNotDisturb: PropTypes.func,
   setInvisible: PropTypes.func,
   toggleAcceptCallQueueCalls: PropTypes.func,
+  openPresenceSettings: PropTypes.bool,
   showPresenceSettings: PropTypes.bool,
   showFeedback: PropTypes.bool,
   additional: PropTypes.node,
@@ -316,7 +318,8 @@ SettingsPanel.defaultProps = {
   setDoNotDisturb: () => null,
   setInvisible: () => null,
   toggleAcceptCallQueueCalls: () => null,
-  showPresenceSettings: false,
+  openPresenceSettings: false,
+  showPresenceSettings: true,
   additional: null,
   supportedLocales: undefined,
   savedLocale: undefined,
