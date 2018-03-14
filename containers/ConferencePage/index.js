@@ -5,10 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = exports.mapToProps = exports.mapToFunctions = undefined;
 
-var _getIterator2 = require('babel-runtime/core-js/get-iterator');
-
-var _getIterator3 = _interopRequireDefault(_getIterator2);
-
 var _reactRedux = require('react-redux');
 
 var _ConferencePanel = require('../../components/ConferencePanel');
@@ -29,51 +25,25 @@ function mapToProps(_, _ref) {
   var _ref$phone = _ref.phone,
       conference = _ref$phone.conference,
       regionSettings = _ref$phone.regionSettings,
-      locale = _ref$phone.locale,
+      _ref$phone$locale = _ref$phone.locale,
+      currentLocale = _ref$phone$locale.currentLocale,
+      localeReady = _ref$phone$locale.ready,
       composeText = _ref$phone.composeText,
       serviceFeatures = _ref$phone.extensionInfo.serviceFeatures,
       brand = _ref$phone.brand;
-
-  var currentLocale = locale.currentLocale;
   var data = conference.data;
   var hostCode = data.hostCode,
       participantCode = data.participantCode,
       allowJoinBeforeHost = data.allowJoinBeforeHost;
 
-  var dialInNumbers = [];
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
-
-  try {
-    for (var _iterator = (0, _getIterator3.default)(data.phoneNumbers), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var p = _step.value;
-
-      var region = _i18n2.default.getString(p.country.isoCode, currentLocale);
-      if (p.location) {
-        region += ', ';
-        region += p.location;
-      }
-      dialInNumbers.push({
-        region: region,
-        phoneNumber: p.phoneNumber
-      });
-    }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator.return) {
-        _iterator.return();
-      }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
-      }
-    }
-  }
-
+  var dialInNumbers = data.phoneNumbers.map(function (p) {
+    var _region = _i18n2.default.getString('conference_' + p.country.isoCode, currentLocale);
+    // only show the provinces of canada
+    return {
+      region: p.location && p.country.isoCode === 'CA' ? _region + ', ' + p.location : _region,
+      phoneNumber: p.phoneNumber
+    };
+  });
   var disableTxtBtn = !serviceFeatures.SMS.enabled && !serviceFeatures.Pager.enabled;
   return {
     dialInNumbers: dialInNumbers,
@@ -90,7 +60,7 @@ function mapToProps(_, _ref) {
       code: brand.code,
       name: brand.name
     },
-    showSpinner: !(conference.ready && regionSettings.ready && locale.ready && composeText.ready)
+    showSpinner: !(conference.ready && regionSettings.ready && localeReady && composeText.ready)
   };
 }
 
