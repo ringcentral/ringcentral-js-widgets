@@ -9,7 +9,7 @@ function mapToProps(_, {
     regionSettings,
     locale: {
       currentLocale,
-      ready
+      ready: localReady
     },
     composeText,
     extensionInfo: { serviceFeatures },
@@ -19,7 +19,7 @@ function mapToProps(_, {
   const { data } = conference;
   const { hostCode, participantCode, allowJoinBeforeHost } = data;
   const dialInNumbers = data.phoneNumbers.map((p) => {
-    const _region = i18n.getString(p.country.isoCode, currentLocale);
+    const _region = i18n.getString(`conference_${p.country.isoCode}`, currentLocale);
     // only show the provinces of canada
     return {
       region: p.location && p.country.isoCode === 'CA'
@@ -47,7 +47,7 @@ function mapToProps(_, {
     showSpinner: !(
       conference.ready &&
       regionSettings.ready &&
-      ready &&
+      localReady &&
       composeText.ready
     ),
   };
