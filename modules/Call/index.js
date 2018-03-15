@@ -67,6 +67,10 @@ var _proxify = require('../../lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
 
+var _ensureExist = require('../../lib/ensureExist');
+
+var _ensureExist2 = _interopRequireDefault(_ensureExist);
+
 var _actionTypes = require('./actionTypes');
 
 var _actionTypes2 = _interopRequireDefault(_actionTypes);
@@ -123,7 +127,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @description Call managing module
  */
 var Call = (_dec = (0, _di.Module)({
-  deps: ['Alert', 'Storage', 'Softphone', 'Ringout', 'NumberValidate', 'RegionSettings', 'CallingSettings', { dep: 'Webphone', optional: true }, { dep: 'CallOptions', optional: true }]
+  deps: ['Alert', 'Storage', 'Softphone', 'Ringout', 'NumberValidate', 'RegionSettings', 'CallingSettings', 'RolesAndPermissions', { dep: 'Webphone', optional: true }, { dep: 'CallOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(Call, _RcModule);
 
@@ -149,23 +153,26 @@ var Call = (_dec = (0, _di.Module)({
         webphone = _ref.webphone,
         numberValidate = _ref.numberValidate,
         regionSettings = _ref.regionSettings,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'storage', 'callingSettings', 'softphone', 'ringout', 'webphone', 'numberValidate', 'regionSettings']);
+        rolesAndPermissions = _ref.rolesAndPermissions,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'storage', 'callingSettings', 'softphone', 'ringout', 'webphone', 'numberValidate', 'regionSettings', 'rolesAndPermissions']);
     (0, _classCallCheck3.default)(this, Call);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Call.__proto__ || (0, _getPrototypeOf2.default)(Call)).call(this, (0, _extends3.default)({}, options, {
       actionTypes: _actionTypes2.default
     })));
 
-    _this._alert = alert;
-    _this._storage = storage;
+    _this._alert = _ensureExist2.default.call(_this, alert, 'alert');
+    _this._storage = _ensureExist2.default.call(_this, storage, 'storage');
     _this._storageKey = 'callData';
     _this._reducer = (0, _getCallReducer2.default)(_this.actionTypes);
-    _this._callingSettings = callingSettings;
-    _this._ringout = ringout;
-    _this._softphone = softphone;
+    _this._callingSettings = _ensureExist2.default.call(_this, callingSettings, 'callingSettings');
+    _this._ringout = _ensureExist2.default.call(_this, ringout, 'ringout');
+    _this._softphone = _ensureExist2.default.call(_this, softphone, 'softphone');
     _this._webphone = webphone;
-    _this._numberValidate = numberValidate;
-    _this._regionSettings = regionSettings;
+    _this._numberValidate = _ensureExist2.default.call(_this, numberValidate, 'numberValidate');
+    _this._regionSettings = _ensureExist2.default.call(_this, regionSettings, 'regionSettings');
+    _this._rolesAndPermissions = _ensureExist2.default.call(_this, rolesAndPermissions, 'rolesAndPermissions');
+
     _this._callSettingMode = null;
 
     _this._storage.registerReducer({
@@ -249,12 +256,12 @@ var Call = (_dec = (0, _di.Module)({
   }, {
     key: '_shouldInit',
     value: function _shouldInit() {
-      return this._numberValidate.ready && this._callingSettings.ready && this._storage.ready && this._regionSettings.ready && (!this._webphone || this._webphone.ready) && this._ringout.ready && this._softphone.ready && this.pending;
+      return this._numberValidate.ready && this._callingSettings.ready && this._storage.ready && this._regionSettings.ready && (!this._webphone || this._webphone.ready) && this._ringout.ready && this._softphone.ready && this._rolesAndPermissions.ready && this.pending;
     }
   }, {
     key: '_shouldReset',
     value: function _shouldReset() {
-      return (!this._numberValidate.ready || !this._callingSettings.ready || !this._regionSettings.ready || !!this._webphone && !this._webphone.ready || !this._ringout.ready || !this._softphone.ready || !this._storage.ready) && this.ready;
+      return (!this._numberValidate.ready || !this._callingSettings.ready || !this._regionSettings.ready || !!this._webphone && !this._webphone.ready || !this._ringout.ready || !this._softphone.ready || !this._rolesAndPermissions.ready || !this._storage.ready) && this.ready;
     }
   }, {
     key: '_initCallModule',
@@ -471,7 +478,7 @@ var Call = (_dec = (0, _di.Module)({
                 _context5.prev = 20;
                 _context5.t0 = _context5['catch'](7);
 
-                if (!_context5.t0.message) {
+                if (!_context5.t0.message && _context5.t0.type && _callErrors2.default[_context5.t0.type]) {
                   // validate format error
                   this._alert.warning({
                     message: _callErrors2.default[_context5.t0.type],
@@ -519,7 +526,7 @@ var Call = (_dec = (0, _di.Module)({
     value: function () {
       var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(_ref10) {
         var toNumber = _ref10.toNumber;
-        var isWebphone, fromNumber, waitingValidateNumbers, validatedResult, parsedNumbers, parsedFromNumber;
+        var isWebphone, fromNumber, waitingValidateNumbers, validatedResult, parsedNumbers, parsedToNumber, error, parsedFromNumber;
         return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
@@ -564,8 +571,21 @@ var Call = (_dec = (0, _di.Module)({
 
               case 12:
                 parsedNumbers = validatedResult.numbers;
-                // using e164 in response to call
+                parsedToNumber = parsedNumbers[0];
 
+                if (!(parsedToNumber.international && !this._rolesAndPermissions.permissions.InternationalCalls)) {
+                  _context6.next = 17;
+                  break;
+                }
+
+                error = {
+                  phoneNumber: parsedToNumber.originalString,
+                  type: 'noInternational'
+                };
+                throw error;
+
+              case 17:
+                // using e164 in response to call
                 parsedFromNumber = parsedNumbers[1] ? parsedNumbers[1].e164 : '';
                 // add ext back if any
 
@@ -576,11 +596,11 @@ var Call = (_dec = (0, _di.Module)({
                   parsedFromNumber = 'anonymous';
                 }
                 return _context6.abrupt('return', {
-                  toNumber: parsedNumbers[0].e164,
+                  toNumber: parsedToNumber.e164,
                   fromNumber: parsedFromNumber
                 });
 
-              case 17:
+              case 21:
               case 'end':
                 return _context6.stop();
             }

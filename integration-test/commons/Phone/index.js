@@ -530,6 +530,8 @@ var Phone = function (_RcModule) {
       storage: _this.storage,
       ringout: _this.ringout,
       numberValidate: _this.numberValidate,
+      regionSettings: _this.regionSettings,
+      rolesAndPermissions: _this.rolesAndPermissions,
       getState: function getState() {
         return _this.state.call;
       }

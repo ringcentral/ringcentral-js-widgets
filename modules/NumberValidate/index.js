@@ -385,7 +385,11 @@ var NumberValidate = (_dec = (0, _di.Module)({
 
               case 5:
                 response = _context3.sent;
-                return _context3.abrupt('return', response.phoneNumbers);
+                return _context3.abrupt('return', response.phoneNumbers.map(function (phoneNumber) {
+                  return (0, _extends3.default)({}, phoneNumber, {
+                    international: !!phoneNumber.country && phoneNumber.country.isoCode !== response.homeCountry.isoCode
+                  });
+                }));
 
               case 7:
               case 'end':
