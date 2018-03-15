@@ -28,7 +28,10 @@ function mapToProps(_, {
       phoneNumber: p.phoneNumber
     };
   });
-  const disableTxtBtn = !serviceFeatures.SMS.enabled && !serviceFeatures.Pager.enabled;
+  const disableTxtBtn = (
+    (!serviceFeatures.SMS || !serviceFeatures.SMS.enabled) &&
+    (!serviceFeatures.Pager || !serviceFeatures.Pager.enabled)
+  );
   return {
     dialInNumbers,
     dialInNumber: conference.dialInNumber,
