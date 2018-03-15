@@ -44,7 +44,7 @@ function mapToProps(_, _ref) {
       phoneNumber: p.phoneNumber
     };
   });
-  var disableTxtBtn = !serviceFeatures.SMS.enabled && !serviceFeatures.Pager.enabled;
+  var disableTxtBtn = (!serviceFeatures.SMS || !serviceFeatures.SMS.enabled) && (!serviceFeatures.Pager || !serviceFeatures.Pager.enabled);
   return {
     dialInNumbers: dialInNumbers,
     dialInNumber: conference.dialInNumber,
