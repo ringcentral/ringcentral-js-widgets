@@ -66,6 +66,11 @@ function CallAlert(_ref) {
       message: _i18n2.default.getString(message, currentLocale),
       values: { areaCodeLink: areaCodeLink } });
   }
+  if (message === _callErrors2.default.noInternational) {
+    return _react2.default.createElement(_FormattedMessage2.default, {
+      message: _i18n2.default.getString(message, currentLocale),
+      values: { brand: brand.fullName } });
+  }
   return _react2.default.createElement(
     'span',
     null,
@@ -87,6 +92,6 @@ CallAlert.defaultProps = {
 
 CallAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
-  return message === _callErrors2.default.noToNumber || message === _callErrors2.default.noAreaCode || message === _callErrors2.default.specialNumber || message === _callErrors2.default.connectFailed || message === _callErrors2.default.internalError || message === _callErrors2.default.notAnExtension || message === _callErrors2.default.networkError || message === _callErrors2.default.noRingoutEnable;
+  return message === _callErrors2.default.noToNumber || message === _callErrors2.default.noAreaCode || message === _callErrors2.default.specialNumber || message === _callErrors2.default.connectFailed || message === _callErrors2.default.internalError || message === _callErrors2.default.notAnExtension || message === _callErrors2.default.networkError || message === _callErrors2.default.noInternational || message === _callErrors2.default.noRingoutEnable;
 };
 //# sourceMappingURL=index.js.map
