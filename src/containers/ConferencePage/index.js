@@ -16,9 +16,13 @@ function mapToProps(_, {
     brand
   },
 }) {
-  const { data } = conference;
-  const { hostCode, participantCode, allowJoinBeforeHost } = data;
-  const dialInNumbers = data.phoneNumbers.map((p) => {
+  const {
+    hostCode = '',
+    participantCode = '',
+    allowJoinBeforeHost = false,
+    phoneNumbers = [],
+  } = conference.data || {};
+  const dialInNumbers = phoneNumbers.map((p) => {
     const _region = i18n.getString(`conference_${p.country.isoCode}`, currentLocale);
     // only show the provinces of canada
     return {
@@ -34,7 +38,7 @@ function mapToProps(_, {
   );
   return {
     dialInNumbers,
-    dialInNumber: conference.dialInNumber,
+    dialInNumber: conference.dialInNumber || '',
     hostCode,
     participantCode,
     allowJoinBeforeHost,
