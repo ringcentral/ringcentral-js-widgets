@@ -303,7 +303,7 @@ var Conference = (_dec = (0, _di.Module)({
   }, {
     key: 'dialInNumber',
     get: function get() {
-      return this._storage.getItem(this._dialInNumberStorageKey) || this.data.phoneNumber;
+      return this._storage.getItem(this._dialInNumberStorageKey) || this.data && this.data.phoneNumber;
     }
   }, {
     key: '_hasPermission',

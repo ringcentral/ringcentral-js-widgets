@@ -325,6 +325,11 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
     get: function get() {
       return !!(this.callingEnabled || this.hasReadMessagesPermission);
     }
+  }, {
+    key: 'hasConferencingPermission',
+    get: function get() {
+      return !!(this.serviceFeatures && this.serviceFeatures.Conferencing && this.serviceFeatures.Conferencing.enabled);
+    }
   }]);
   return RolesAndPermissions;
 }(_DataFetcher3.default)) || _class);
