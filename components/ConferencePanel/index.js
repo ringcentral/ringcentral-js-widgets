@@ -480,7 +480,11 @@ var ConferencePanel = function (_Component) {
                 if (!option) {
                   console.warn('Conference dial in number ' + phoneNumber + ' is not found in the list.');
                 }
-                return DialInNumberItem(option || dialInNumbers[0]);
+                var itemOptions = option || dialInNumbers[0];
+                if (itemOptions) {
+                  return DialInNumberItem(itemOptions);
+                }
+                return '';
               },
               onToggle: this.onSelectToggle,
               options: dialInNumbers,

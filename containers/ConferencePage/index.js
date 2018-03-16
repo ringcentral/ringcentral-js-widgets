@@ -31,12 +31,18 @@ function mapToProps(_, _ref) {
       composeText = _ref$phone.composeText,
       serviceFeatures = _ref$phone.extensionInfo.serviceFeatures,
       brand = _ref$phone.brand;
-  var data = conference.data;
-  var hostCode = data.hostCode,
-      participantCode = data.participantCode,
-      allowJoinBeforeHost = data.allowJoinBeforeHost;
 
-  var dialInNumbers = data.phoneNumbers.map(function (p) {
+  var _ref2 = conference.data || {},
+      _ref2$hostCode = _ref2.hostCode,
+      hostCode = _ref2$hostCode === undefined ? '' : _ref2$hostCode,
+      _ref2$participantCode = _ref2.participantCode,
+      participantCode = _ref2$participantCode === undefined ? '' : _ref2$participantCode,
+      _ref2$allowJoinBefore = _ref2.allowJoinBeforeHost,
+      allowJoinBeforeHost = _ref2$allowJoinBefore === undefined ? false : _ref2$allowJoinBefore,
+      _ref2$phoneNumbers = _ref2.phoneNumbers,
+      phoneNumbers = _ref2$phoneNumbers === undefined ? [] : _ref2$phoneNumbers;
+
+  var dialInNumbers = phoneNumbers.map(function (p) {
     var _region = _i18n2.default.getString('conference_' + p.country.isoCode, currentLocale);
     // only show the provinces of canada
     return {
@@ -47,7 +53,7 @@ function mapToProps(_, _ref) {
   var disableTxtBtn = (!serviceFeatures.SMS || !serviceFeatures.SMS.enabled) && (!serviceFeatures.Pager || !serviceFeatures.Pager.enabled);
   return {
     dialInNumbers: dialInNumbers,
-    dialInNumber: conference.dialInNumber,
+    dialInNumber: conference.dialInNumber || '',
     hostCode: hostCode,
     participantCode: participantCode,
     allowJoinBeforeHost: allowJoinBeforeHost,
@@ -64,13 +70,13 @@ function mapToProps(_, _ref) {
   };
 }
 
-function mapToFunctions(_, _ref2) {
-  var _ref2$phone = _ref2.phone,
-      conference = _ref2$phone.conference,
-      composeText = _ref2$phone.composeText,
-      routerInteraction = _ref2$phone.routerInteraction,
-      call = _ref2$phone.call,
-      _alert = _ref2$phone.alert;
+function mapToFunctions(_, _ref3) {
+  var _ref3$phone = _ref3.phone,
+      conference = _ref3$phone.conference,
+      composeText = _ref3$phone.composeText,
+      routerInteraction = _ref3$phone.routerInteraction,
+      call = _ref3$phone.call,
+      _alert = _ref3$phone.alert;
 
   return {
     alert: function alert(msg) {
