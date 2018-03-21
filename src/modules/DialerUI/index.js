@@ -64,6 +64,7 @@ export default class DialerUI extends RcModule {
     this._call = this:: ensureExist(call, 'call');
     this._alert = this::ensureExist(alert, 'alert');
     this._storageKey = 'dialerUIData';
+    this._callHooks = [];
   }
 
   get _actionTypes() {
@@ -157,6 +158,10 @@ export default class DialerUI extends RcModule {
         phoneNumber,
         recipient,
       });
+      this._callHooks.forEach(hook => hook({
+        phoneNumber,
+        recipient,
+      }));
       try {
         await this._call.call({
           phoneNumber: this.toNumberField,
