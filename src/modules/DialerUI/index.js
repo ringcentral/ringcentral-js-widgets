@@ -54,17 +54,16 @@ function getRecipientReducer(types) {
 })
 export default class DialerUI extends RcModule {
   constructor({
-    call,
-    alert,
-    ...options
-  }) {
+                call,
+                alert,
+                ...options
+              }) {
     super({
       ...options,
     });
     this._call = this:: ensureExist(call, 'call');
     this._alert = this::ensureExist(alert, 'alert');
     this._storageKey = 'dialerUIData';
-    this._callHooks = [];
   }
 
   get _actionTypes() {
@@ -149,19 +148,15 @@ export default class DialerUI extends RcModule {
 
   @proxify
   async call({
-    phoneNumber = '',
-    recipient = null,
-  }) {
+               phoneNumber = '',
+               recipient = null,
+             }) {
     if (phoneNumber || recipient) {
       this.store.dispatch({
         type: this.actionTypes.call,
         phoneNumber,
         recipient,
       });
-      this._callHooks.forEach(hook => hook({
-        phoneNumber,
-        recipient,
-      }));
       try {
         await this._call.call({
           phoneNumber: this.toNumberField,
