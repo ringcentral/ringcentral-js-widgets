@@ -93,6 +93,7 @@ function SettingsPanel(_ref) {
       showAutoLog = _ref.showAutoLog,
       showAudio = _ref.showAudio,
       autoLogEnabled = _ref.autoLogEnabled,
+      disableAutoLogEnabled = _ref.disableAutoLogEnabled,
       onAutoLogChange = _ref.onAutoLogChange,
       showAutoLogSMS = _ref.showAutoLogSMS,
       autoLogSMSEnabled = _ref.autoLogSMSEnabled,
@@ -199,6 +200,7 @@ function SettingsPanel(_ref) {
     _IconLine2.default,
     {
       icon: _react2.default.createElement(_Switch2.default, {
+        disable: disableAutoLogEnabled,
         checked: autoLogEnabled,
         onChange: onAutoLogChange
       })
@@ -301,6 +303,7 @@ SettingsPanel.propTypes = {
   showAudio: _propTypes2.default.bool,
   showAutoLog: _propTypes2.default.bool,
   autoLogEnabled: _propTypes2.default.bool,
+  disableAutoLogEnabled: _propTypes2.default.bool,
   onAutoLogChange: _propTypes2.default.func,
   showAutoLogSMS: _propTypes2.default.bool,
   autoLogSMSEnabled: _propTypes2.default.bool,
@@ -345,6 +348,7 @@ SettingsPanel.defaultProps = {
   showRegion: false,
   showUserGuide: false,
   autoLogEnabled: false,
+  disableAutoLogEnabled: false,
   onAutoLogChange: undefined,
   showAutoLogSMS: false,
   autoLogSMSEnabled: false,

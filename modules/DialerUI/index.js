@@ -185,6 +185,7 @@ var DialerUI = (_dec = (0, _di.Module)({
     _this._call = _ensureExist2.default.call(_this, call, 'call');
     _this._alert = _ensureExist2.default.call(_this, alert, 'alert');
     _this._storageKey = 'dialerUIData';
+    _this._callHooks = [];
     return _this;
   }
 
@@ -347,7 +348,7 @@ var DialerUI = (_dec = (0, _di.Module)({
             switch (_context6.prev = _context6.next) {
               case 0:
                 if (!(phoneNumber || recipient)) {
-                  _context6.next = 11;
+                  _context6.next = 12;
                   break;
                 }
 
@@ -356,35 +357,41 @@ var DialerUI = (_dec = (0, _di.Module)({
                   phoneNumber: phoneNumber,
                   recipient: recipient
                 });
-                _context6.prev = 2;
-                _context6.next = 5;
+                this._callHooks.forEach(function (hook) {
+                  return hook({
+                    phoneNumber: phoneNumber,
+                    recipient: recipient
+                  });
+                });
+                _context6.prev = 3;
+                _context6.next = 6;
                 return this._call.call({
                   phoneNumber: this.toNumberField,
                   recipient: this.recipient
                 });
 
-              case 5:
+              case 6:
                 this.store.dispatch({
                   type: this.actionTypes.callSuccess
                 });
-                _context6.next = 11;
+                _context6.next = 12;
                 break;
 
-              case 8:
-                _context6.prev = 8;
-                _context6.t0 = _context6['catch'](2);
+              case 9:
+                _context6.prev = 9;
+                _context6.t0 = _context6['catch'](3);
 
                 this.store.dispatch({
                   type: this.actionTypes.callError,
                   error: _context6.t0
                 });
 
-              case 11:
+              case 12:
               case 'end':
                 return _context6.stop();
             }
           }
-        }, _callee6, this, [[2, 8]]);
+        }, _callee6, this, [[3, 9]]);
       }));
 
       function call(_x5) {
