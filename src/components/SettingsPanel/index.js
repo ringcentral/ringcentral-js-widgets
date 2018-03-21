@@ -36,6 +36,7 @@ export default function SettingsPanel({
   showAutoLog,
   showAudio,
   autoLogEnabled,
+  disableAutoLogEnabled,
   onAutoLogChange,
   showAutoLogSMS,
   autoLogSMSEnabled,
@@ -161,6 +162,7 @@ export default function SettingsPanel({
     <IconLine
       icon={
         <Switch
+          disable={disableAutoLogEnabled}
           checked={autoLogEnabled}
           onChange={onAutoLogChange}
         />
@@ -258,6 +260,7 @@ SettingsPanel.propTypes = {
   showAudio: PropTypes.bool,
   showAutoLog: PropTypes.bool,
   autoLogEnabled: PropTypes.bool,
+  disableAutoLogEnabled: PropTypes.bool,
   onAutoLogChange: PropTypes.func,
   showAutoLogSMS: PropTypes.bool,
   autoLogSMSEnabled: PropTypes.bool,
@@ -302,6 +305,7 @@ SettingsPanel.defaultProps = {
   showRegion: false,
   showUserGuide: false,
   autoLogEnabled: false,
+  disableAutoLogEnabled: false,
   onAutoLogChange: undefined,
   showAutoLogSMS: false,
   autoLogSMSEnabled: false,
