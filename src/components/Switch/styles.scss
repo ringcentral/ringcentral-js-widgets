@@ -45,6 +45,15 @@ $slider-size: #{$switch-height - 2 * $switch-padding};
   border-radius: 50%;
 }
 
+.disable {
+  input:checked + .slider {
+    background-color: #ccc;
+  }
+  input:focus + .slider {
+    box-shadow: 0 0 1px #ccc;
+  }
+}
+
 input:checked + .slider {
   background-color: $primary-color;
 }
