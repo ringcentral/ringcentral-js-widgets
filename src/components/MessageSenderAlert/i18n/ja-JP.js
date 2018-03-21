@@ -10,7 +10,6 @@ export default {
   [messageSenderMessages.recipientsEmpty]: '有効な受信者番号を入力してください\u3002',
   [messageSenderMessages.textTooLong]: 'テキストが長すぎます\u3002上限は1,000文字です',
   [messageSenderMessages.noAreaCode]: '7桁の国内電話番号を使用するには\u3001{areaCodeLink}を設定してください\u3002',
-  [messageSenderMessages.specialNumber]: '緊急サービスまたは特別なサービスの番号へのダイヤルはサポートされていません\u3002',
   [messageSenderMessages.connectFailed]: '接続に失敗しました\u3002後でもう一度やり直してください\u3002',
   [messageSenderMessages.internalError]: '内部エラーにより\u3001接続できません\u3002後でもう一度やり直してください\u3002',
   [messageSenderMessages.notAnExtension]: 'この内線番号は存在しません\u3002',

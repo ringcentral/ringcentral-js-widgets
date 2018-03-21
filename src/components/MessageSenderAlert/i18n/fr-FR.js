@@ -10,7 +10,6 @@ export default {
   [messageSenderMessages.recipientsEmpty]: 'Veuillez saisir un numéro de destinataire valide.',
   [messageSenderMessages.textTooLong]: 'Le texte est trop long, limite\xA0: 1\xA0000',
   [messageSenderMessages.noAreaCode]: 'Veuillez paramétrer {areaCodeLink} pour utiliser des numéros de téléphone locaux à 7\xA0chiffres.',
-  [messageSenderMessages.specialNumber]: 'La composition de numéros d\'urgence ou renvoyant à des services spéciaux n\'est pas prise en charge.',
   [messageSenderMessages.connectFailed]: 'Échec de la connexion. Veuillez réessayer plus tard.',
   [messageSenderMessages.internalError]: 'Connexion impossible en raison d\'erreurs internes. Veuillez réessayer plus tard.',
   [messageSenderMessages.notAnExtension]: 'Le numéro de l\'extension n\'existe pas.',

@@ -10,7 +10,6 @@ export default {
   [messageSenderMessages.recipientsEmpty]: 'Immetti un numero di destinazione valido.',
   [messageSenderMessages.textTooLong]: 'Testo troppo lungo, limite di 1000',
   [messageSenderMessages.noAreaCode]: 'Imposta {areaCodeLink} per utilizzare i numeri di telefono locali a 7 cifre.',
-  [messageSenderMessages.specialNumber]: 'Le chiamate di emergenza o a servizi speciali non sono supportate.',
   [messageSenderMessages.connectFailed]: 'Connessione non riuscita. Riprova più tardi.',
   [messageSenderMessages.internalError]: 'Impossibile connettersi a causa di errori interni. Riprova più tardi.',
   [messageSenderMessages.notAnExtension]: 'Il numero interno non esiste.',
