@@ -10,7 +10,6 @@ export default {
   [messageSenderMessages.recipientsEmpty]: 'Please enter a valid receiver number.',
   [messageSenderMessages.textTooLong]: 'Text is too long, 1000 limit',
   [messageSenderMessages.noAreaCode]: 'Please set {areaCodeLink} to use 7-digit local phone numbers.',
-  [messageSenderMessages.specialNumber]: 'Dialling emergency or special service numbers is not supported.',
   [messageSenderMessages.connectFailed]: 'Connection failed. Please try again later.',
   [messageSenderMessages.internalError]: 'Cannot connect due to internal errors. Please try again later.',
   [messageSenderMessages.notAnExtension]: 'The extension number does not exist.',
