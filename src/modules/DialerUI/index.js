@@ -54,10 +54,10 @@ function getRecipientReducer(types) {
 })
 export default class DialerUI extends RcModule {
   constructor({
-                call,
-                alert,
-                ...options
-              }) {
+    call,
+    alert,
+    ...options
+  }) {
     super({
       ...options,
     });
@@ -148,9 +148,9 @@ export default class DialerUI extends RcModule {
 
   @proxify
   async call({
-               phoneNumber = '',
-               recipient = null,
-             }) {
+    phoneNumber = '',
+    recipient = null,
+  }) {
     if (phoneNumber || recipient) {
       this.store.dispatch({
         type: this.actionTypes.call,
