@@ -24,6 +24,7 @@ function mapToProps(_, {
   showAudio = true,
   showFeedback = true,
   showUserGuide = true,
+  showPresenceSettings = true,
   params,
 }) {
   let loginNumber = '';
@@ -62,11 +63,7 @@ function mapToProps(_, {
     showRegion:
       loggedIn &&
       brand.id === '1210' &&
-      (
-        regionSettings.availableCountries.length > 1 ||
-        !!regionSettings.availableCountries.find(c => c.isoCode === 'US') ||
-        !!regionSettings.availableCountries.find(c => c.isoCode === 'CA')
-      ) &&
+      regionSettings.showReginSetting &&
       rolesAndPermissions.callingEnabled &&
       showRegion,
     loginNumber,
@@ -79,7 +76,9 @@ function mapToProps(_, {
     isCallQueueMember: extensionInfo.isCallQueueMember,
     dndStatus: detailedPresence && detailedPresence.dndStatus,
     userStatus: detailedPresence && detailedPresence.userStatus,
-    showPresenceSettings: !!(detailedPresence && params && params.showPresenceSettings),
+    openPresenceSettings: !!(detailedPresence && params && params.showPresenceSettings),
+    showPresenceSettings:
+      showPresenceSettings && rolesAndPermissions.hasEditPresencePermission,
     supportedLocales: localeSettings && localeSettings.supportedLocales,
     savedLocale: localeSettings && localeSettings.savedLocale,
     showUserGuide: showUserGuide && rolesAndPermissions.hasUserGuidePermission,

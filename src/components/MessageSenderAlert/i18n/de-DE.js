@@ -10,7 +10,6 @@ export default {
   [messageSenderMessages.recipientsEmpty]: 'Geben Sie eine gültige Empfängernummer ein.',
   [messageSenderMessages.textTooLong]: 'Text ist zu lang, maximal 1000 Zeichen',
   [messageSenderMessages.noAreaCode]: 'Legen Sie für die {areaCodeLink} die Verwendung von 7-stelligen lokalen Telefonnummern fest.',
-  [messageSenderMessages.specialNumber]: 'Das Anrufen des Notrufs oder bestimmter Servicenummern wird nicht unterstützt.',
   [messageSenderMessages.connectFailed]: 'Verbindungsaufbau fehlgeschlagen. Versuchen Sie es später erneut.',
   [messageSenderMessages.internalError]: 'Herstellen der Verbindung aufgrund interner Fehler nicht möglich. Versuchen Sie es später erneut.',
   [messageSenderMessages.notAnExtension]: 'Die Durchwahlnummer existiert nicht.',

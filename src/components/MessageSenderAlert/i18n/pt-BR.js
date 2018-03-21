@@ -10,7 +10,6 @@ export default {
   [messageSenderMessages.recipientsEmpty]: 'Insira um número de recebimento válido.',
   [messageSenderMessages.textTooLong]: 'O texto é muito longo. Limitado a 1000',
   [messageSenderMessages.noAreaCode]: 'Defina o {areaCodeLink} para usar números de telefone locais de sete dígitos.',
-  [messageSenderMessages.specialNumber]: 'Não há suporte de discagem para números de emergência ou serviço especiais.',
   [messageSenderMessages.connectFailed]: 'Falha de conexão. Tente novamente mais tarde.',
   [messageSenderMessages.internalError]: 'Não é possível conectar devido a erros internos. Tente novamente mais tarde.',
   [messageSenderMessages.notAnExtension]: 'O número de ramal não existe.',

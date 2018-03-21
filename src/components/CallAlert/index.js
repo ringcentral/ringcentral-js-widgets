@@ -45,6 +45,13 @@ export default function CallAlert({
         values={{ areaCodeLink }} />
     );
   }
+  if (message === callErrors.noInternational) {
+    return (
+      <FormattedMessage
+        message={i18n.getString(message, currentLocale)}
+        values={{ brand: brand.fullName }} />
+    );
+  }
   return (
     <span>{i18n.getString(message, currentLocale)}</span>
   );
@@ -70,5 +77,6 @@ CallAlert.handleMessage = ({ message }) => (
   message === callErrors.internalError ||
   message === callErrors.notAnExtension ||
   message === callErrors.networkError ||
+  message === callErrors.noInternational ||
   message === callErrors.noRingoutEnable
 );
