@@ -143,7 +143,8 @@ var CallLogger = (_dec = (0, _di.Module)({
         callMonitor = _ref.callMonitor,
         contactMatcher = _ref.contactMatcher,
         tabManager = _ref.tabManager,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['storage', 'activityMatcher', 'callHistory', 'callMonitor', 'contactMatcher', 'tabManager']);
+        initialState = _ref.initialState,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['storage', 'activityMatcher', 'callHistory', 'callMonitor', 'contactMatcher', 'tabManager', 'initialState']);
     (0, _classCallCheck3.default)(this, CallLogger);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallLogger.__proto__ || (0, _getPrototypeOf2.default)(CallLogger)).call(this, (0, _extends3.default)({}, options, {
@@ -162,7 +163,7 @@ var CallLogger = (_dec = (0, _di.Module)({
     _this._storageKey = _this._name + 'Data';
     _this._storage.registerReducer({
       key: _this._storageKey,
-      reducer: (0, _getDataReducer2.default)(_this.actionTypes)
+      reducer: (0, _getDataReducer2.default)(_this.actionTypes, initialState)
     });
 
     _this._lastProcessedCalls = null;

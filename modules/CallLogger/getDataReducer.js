@@ -22,8 +22,10 @@ function getLogOnRingingReducer(types) {
 }
 
 function getAutoLogReducer(types) {
+  var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
     var _ref2 = arguments[1];
     var type = _ref2.type,
         autoLog = _ref2.autoLog;
@@ -35,8 +37,10 @@ function getAutoLogReducer(types) {
 
 /* istanbul ignore next */
 function getDataReducer(types) {
+  var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
   return (0, _redux.combineReducers)({
-    autoLog: getAutoLogReducer(types),
+    autoLog: getAutoLogReducer(types, initialState.autoLog),
     logOnRinging: getLogOnRingingReducer(types)
   });
 }
