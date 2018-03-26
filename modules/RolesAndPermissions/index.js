@@ -301,6 +301,11 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
       return !!(this.serviceFeatures && (this.serviceFeatures.Pager && this.serviceFeatures.Pager.enabled || this.serviceFeatures.SMS && this.serviceFeatures.SMS.enabled));
     }
   }, {
+    key: 'onlyPagerPermission',
+    get: function get() {
+      return !!(this.serviceFeatures && this.serviceFeatures.Pager && this.serviceFeatures.Pager.enabled && this.serviceFeatures.SMS && !this.serviceFeatures.SMS.enabled);
+    }
+  }, {
     key: 'hasReadMessagesPermission',
     get: function get() {
       return this.ready && (this.readTextPermissions || this.voicemailPermissions || this.readFaxPermissions);

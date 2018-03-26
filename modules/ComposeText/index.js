@@ -117,7 +117,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @description Compose text managing module
  */
 var ComposeText = (_dec = (0, _di.Module)({
-  deps: ['Alert', 'Auth', 'Storage', 'MessageSender', 'NumberValidate', 'ContactSearch', { dep: 'ComposeTextOptions', optional: true }]
+  deps: ['Alert', 'Auth', 'Storage', 'MessageSender', 'NumberValidate', 'ContactSearch', 'RolesAndPermissions', { dep: 'ComposeTextOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(ComposeText, _RcModule);
 
@@ -138,7 +138,8 @@ var ComposeText = (_dec = (0, _di.Module)({
         messageSender = _ref.messageSender,
         numberValidate = _ref.numberValidate,
         contactSearch = _ref.contactSearch,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'auth', 'storage', 'messageSender', 'numberValidate', 'contactSearch']);
+        rolesAndPermissions = _ref.rolesAndPermissions,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'auth', 'storage', 'messageSender', 'numberValidate', 'contactSearch', 'rolesAndPermissions']);
     (0, _classCallCheck3.default)(this, ComposeText);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ComposeText.__proto__ || (0, _getPrototypeOf2.default)(ComposeText)).call(this, (0, _extends3.default)({}, options, {
@@ -148,6 +149,7 @@ var ComposeText = (_dec = (0, _di.Module)({
     _this._alert = alert;
     _this._auth = auth;
     _this._storage = storage;
+    _this._rolesAndPermissions = rolesAndPermissions;
     _this._storageKey = 'composeText';
     _this._reducer = (0, _getComposeTextReducer2.default)(_this.actionTypes);
     _this._cacheReducer = (0, _getCacheReducer2.default)(_this.actionTypes);
@@ -253,6 +255,9 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: '_validatePhoneNumber',
     value: function _validatePhoneNumber(phoneNumber) {
+      if (this._validateIsOnlyPager(phoneNumber)) {
+        return null;
+      }
       var validateResult = this._numberValidate.validateFormat([phoneNumber]);
       if (!validateResult.result) {
         var error = validateResult.errors[0];
@@ -263,6 +268,15 @@ var ComposeText = (_dec = (0, _di.Module)({
         return false;
       }
       return true;
+    }
+  }, {
+    key: '_validateIsOnlyPager',
+    value: function _validateIsOnlyPager(toNumbers) {
+      if (toNumbers.length >= 7 && this._rolesAndPermissions.onlyPagerPermission) {
+        this._alertWarning(_messageSenderMessages2.default.noSMSPermission);
+        return true;
+      }
+      return false;
     }
   }, {
     key: 'send',
