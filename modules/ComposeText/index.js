@@ -172,6 +172,7 @@ var ComposeText = (_dec = (0, _di.Module)({
     key: '_onStateChange',
     value: function _onStateChange() {
       if (this._shouldInit()) {
+        this.senderNumbersList = this._messageSender.senderNumbersList;
         this.store.dispatch({
           type: this.actionTypes.initSuccess
         });
@@ -183,6 +184,10 @@ var ComposeText = (_dec = (0, _di.Module)({
         this._handleRecipient();
       } else if (this._shouldReset()) {
         this._resetModuleStatus();
+      }
+      if (this.ready && this._messageSender.senderNumbersList.length !== this.senderNumbersList.length) {
+        this.senderNumbersList = this._messageSender.senderNumbersList;
+        this._initSenderNumber();
       }
     }
   }, {
