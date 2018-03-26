@@ -75,7 +75,9 @@ function mapToFunctions(_, _ref2) {
       onLogCall = _ref2.onLogCall,
       isLoggedContact = _ref2.isLoggedContact,
       onCallsEmpty = _ref2.onCallsEmpty,
-      onViewContact = _ref2.onViewContact;
+      onViewContact = _ref2.onViewContact,
+      _ref2$showViewContact = _ref2.showViewContact,
+      showViewContact = _ref2$showViewContact === undefined ? true : _ref2$showViewContact;
 
   return {
     formatPhone: function formatPhone(phoneNumber) {
@@ -132,13 +134,13 @@ function mapToFunctions(_, _ref2) {
         return _ref3.apply(this, arguments);
       };
     }(),
-    onViewContact: onViewContact || function (_ref4) {
+    onViewContact: showViewContact ? onViewContact || function (_ref4) {
       var contact = _ref4.contact;
+      var id = contact.id,
+          type = contact.type;
 
-      var id = contact.id;
-      var type = contact.type;
       routerInteraction.push('/contacts/' + type + '/' + id + '?direct=true');
-    },
+    } : null,
     onClickToSms: composeText ? function () {
       var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(contact) {
         var isDummyContact = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
