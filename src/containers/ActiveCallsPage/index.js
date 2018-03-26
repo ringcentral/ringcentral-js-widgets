@@ -79,7 +79,7 @@ function mapToFunctions(_, {
     onViewContact: showViewContact ? (onViewContact || (({ contact }) => {
       const { id, type } = contact;
       routerInteraction.push(`/contacts/${type}/${id}?direct=true`);
-    })) : undefined,
+    })) : null,
     onClickToSms: composeText ?
       async (contact, isDummyContact = false) => {
         if (routerInteraction) {
