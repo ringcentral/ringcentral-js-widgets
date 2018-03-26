@@ -55,6 +55,7 @@ function mapToFunctions(_, {
   isLoggedContact,
   onCallsEmpty,
   onViewContact,
+  showViewContact = true,
 }) {
   return {
     formatPhone: phoneNumber => formatNumber({
@@ -75,11 +76,10 @@ function mapToFunctions(_, {
         routerInteraction.push(callCtrlRoute);
       }
     },
-    onViewContact: onViewContact || (({ contact }) => {
-      const id = contact.id;
-      const type = contact.type;
+    onViewContact: showViewContact ? (onViewContact || (({ contact }) => {
+      const { id, type } = contact;
       routerInteraction.push(`/contacts/${type}/${id}?direct=true`);
-    }),
+    })) : undefined,
     onClickToSms: composeText ?
       async (contact, isDummyContact = false) => {
         if (routerInteraction) {
@@ -110,13 +110,13 @@ function mapToFunctions(_, {
       undefined,
     isLoggedContact,
     onLogCall: onLogCall ||
-    (callLogger && (async ({ call, contact, redirect = true }) => {
-      await callLogger.logCall({
-        call,
-        contact,
-        redirect,
-      });
-    })),
+      (callLogger && (async ({ call, contact, redirect = true }) => {
+        await callLogger.logCall({
+          call,
+          contact,
+          redirect,
+        });
+      })),
     onCallsEmpty,
   };
 }
