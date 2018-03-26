@@ -21,5 +21,6 @@ export default {
   [messageSenderMessages.notSmsToExtension]: 'Cannot send To a extension number with main phone number. If you want to sent to a extension Number, please just enter extension Number.',
   [messageSenderMessages.internationalSMSNotSupported]: 'Sending SMS to international phone number is not supported.',
   [messageSenderMessages.noInternalSMSPermission]: 'You don\'t have permission to send messages. Please contact your {brand} account administrator for upgrade.',
+  [messageSenderMessages.noSMSPermission]: 'You don\'t have permission to send messages to recipients outside of your organization. Please contact your {brand} account administrator for upgrade.',
   areaCode: 'area code',
 };
