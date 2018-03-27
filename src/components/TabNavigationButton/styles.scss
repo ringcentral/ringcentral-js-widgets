@@ -24,7 +24,7 @@
   height: 100%;
   text-decoration: none;
   cursor: pointer;
-  opacity: 0.8;
+  // opacity: 0.8;
   transition: all 0.1s ease;
   color: #fff !important;
   font-size: 16px;
@@ -36,10 +36,10 @@
 .navigationButton:hover,
 .navigationButton:focus {
   outline: 0;
-  opacity: 0.9;
+  // opacity: 0.9;
 }
 .navigationButton.active {
-  opacity: 1;
+  // opacity: 1;
 }
 .iconHolder {
   @include full-size;
@@ -61,10 +61,10 @@
   }
 }
 .iconStyles {
-  svg {	
-    path {	
-      fill: $snow;	
-    }	
+  svg {
+    path {
+      fill: $snow;
+    }
   }
 }
 .labelHolder {

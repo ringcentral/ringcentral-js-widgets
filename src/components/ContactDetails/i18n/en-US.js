@@ -9,7 +9,6 @@ export default {
   text: 'Text',
   [presenceStatus.available]: 'Available',
   [presenceStatus.offline]: 'Invisible',
-  [presenceStatus.busy + dndStatus.takeAllCalls]: 'Busy',
-  [presenceStatus.busy + dndStatus.doNotAcceptDepartmentCalls]: 'Busy',
-  [presenceStatus.busy + dndStatus.doNotAcceptAnyCalls]: 'Do not Disturb',
+  [presenceStatus.busy]: 'Busy',
+  [dndStatus.doNotAcceptAnyCalls]: 'Do not Disturb'
 };

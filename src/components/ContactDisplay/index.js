@@ -49,21 +49,21 @@ function ContactDisplayItem({
       SourceIcon = sourceIcons[entityType];
     }
   }
-  if (phoneNumber && entityName && SourceIcon) {
+  if (phoneNumber && entityName !== undefined && SourceIcon) {
     return (
       <span>
         <SourceIcon className={styles.typeIcon} width={10} height={10} />
         <span className={styles.typeName}>{entityName}</span>
       </span>
     );
-  } else if (entityName && SourceIcon) {
+  } else if (entityName !== undefined && SourceIcon) {
     return (
       <span>
         <SourceIcon className={styles.typeIcon} width={10} height={10} />
         <span className={styles.typeName}>{entityName}</span>
       </span>
     );
-  } else if (entityName) {
+  } else if (entityName !== undefined) {
     return <span>{entityName}</span>;
   } else if (phoneNumber) {
     return <span>{phoneNumber}</span>;
@@ -202,6 +202,7 @@ export default function ContactDisplay({
       />
     );
   }
+  
   return (
     <div
       className={classnames(

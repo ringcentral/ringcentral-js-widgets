@@ -1,18 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-
-import presenceStatus from 'ringcentral-integration/modules/Presence/presenceStatus';
+import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
 
 import PresenceStatusIcon from '../PresenceStatusIcon';
 import styles from './styles.scss';
 import i18n from './i18n';
 
-export function getPresenceStatusName(currentUserStatus, currentDndStatus, currentLocale) {
-  if (currentUserStatus !== presenceStatus.busy) {
-    return i18n.getString(currentUserStatus, currentLocale);
+export function getPresenceStatusName(
+  currentUserStatus,
+  currentDndStatus,
+  currentLocale
+) {
+  if (currentDndStatus === dndStatus.doNotAcceptAnyCalls) {
+    return i18n.getString(currentDndStatus, currentLocale);
   }
-  return i18n.getString(currentUserStatus + currentDndStatus, currentLocale);
+  return i18n.getString(currentUserStatus, currentLocale);
 }
 
 export default function PresenceItem(props) {
