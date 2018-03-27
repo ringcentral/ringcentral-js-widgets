@@ -53,7 +53,6 @@ AppView.propTypes = {
   offline: PropTypes.bool.isRequired,
   showOfflineAlert: PropTypes.func.isRequired,
   webphoneUnavailable: PropTypes.bool.isRequired,
-  onWebphoneBadgeClicked: PropTypes.func.isRequired,
 };
 
 AppView.defaultProps = {
@@ -122,8 +121,6 @@ export default withPhone(connect((state, {
       audioSettings.getUserMedia();
     }
     if (webphone && webphone.ready) {
-      // Trigger reconnect
-      // webphone.connect();
       webphone.showAlert();
     }
   },
