@@ -592,7 +592,8 @@ var Phone = function (_RcModule) {
         return _this.state.composeText;
       },
       messageSender: _this.messageSender,
-      numberValidate: _this.numberValidate
+      numberValidate: _this.numberValidate,
+      rolesAndPermissions: _this.rolesAndPermissions
     })));
 
     _this.addModule('messageStore', new _MessageStore2.default((0, _extends3.default)({}, options, {
