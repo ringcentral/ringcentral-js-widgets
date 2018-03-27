@@ -2,4 +2,4 @@ export default {
   noContacts: 'Nenhum registro encontrado.',
 };
 
-// @key: @#@"noContacts"@#@ @source: @#@"No records found"@#@
+// @key: @#@"noContacts"@#@ @source: @#@"No records found."@#@

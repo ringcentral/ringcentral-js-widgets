@@ -12,6 +12,9 @@ export default {
   clickToSMS: 'Click to SMS',
   clickToDialSMS: 'Click to Dial/SMS',
   audio: 'Audio',
+  language: 'Language',
+  feedback: 'Feedback',
+  userGuide: 'What\'s New',
 };
 
 
@@ -29,3 +32,5 @@ export default {
 // @key: @#@"clickToDialSMS"@#@ @source: @#@"Click to Dial/SMS"@#@
 // @key: @#@"audio"@#@ @source: @#@"Audio"@#@
 // @key: @#@"language"@#@ @source: @#@"Language"@#@
+// @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
+// @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@

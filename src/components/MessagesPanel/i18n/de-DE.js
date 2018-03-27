@@ -5,10 +5,16 @@ export default {
   search: 'Suchen\xA0...',
   noMessages: 'Keine Meldungen',
   noSearchResults: 'Kein übereinstimmender Datensatz gefunden',
+  composeText: 'Text erstellen',
+  [messageTypes.all]: 'Alle',
+  [messageTypes.voiceMail]: 'Sprachnachricht',
+  [messageTypes.text]: 'Textnachricht',
+  [messageTypes.fax]: 'Fax',
 };
 
 // @key: @#@"title"@#@ @source: @#@"Messages"@#@
 // @key: @#@"search"@#@ @source: @#@"Search..."@#@
+// @key: @#@"composeText"@#@ @source: @#@"Compose Text"@#@
 // @key: @#@"noMessages"@#@ @source: @#@"No Messages"@#@
 // @key: @#@"noSearchResults"@#@ @source: @#@"No matching records found"@#@
 // @key: @#@"[messageTypes.all]"@#@ @source: @#@"All"@#@

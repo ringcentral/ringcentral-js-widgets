@@ -1,6 +1,6 @@
 export default {
-  unmute: 'Stummschaltung aufheben',
-  mute: 'Stummschalten',
+  unmute: 'Stummsch. aufh.',
+  mute: 'Stummsch.',
   keypad: 'Wählfeld',
   hold: 'Halten',
   onHold: 'Wird gehalten',

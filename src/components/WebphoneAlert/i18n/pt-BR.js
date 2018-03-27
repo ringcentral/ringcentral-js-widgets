@@ -14,6 +14,9 @@ export default {
   [webphoneErrors.recordError]: 'Não é possível gravar a chamada no momento. Código de erro: {errorCode}',
   [webphoneErrors.recordDisabled]: 'Sua conta não tem o recurso de gravação de chamadas. Entre em contato com o administrador da conta.',
   [webphoneErrors.transferError]: 'Não é possível transferir a chamada. Tente novamente mais tarde.',
+  webphoneUnavailable: '{error}. Estamos nos reconectando ao servidor. Se o erro continuar, reporte esse erro ao Suporte de {brandName}.',
+  errorCode: 'Código de erro interno: {errorCode}',
+  occurs: 'Há um erro interno',
 };
 
 // @key: @#@"[webphoneErrors.connectFailed]"@#@ @source: @#@"Connect with web phone server failed."@#@
@@ -29,3 +32,6 @@ export default {
 // @key: @#@"[webphoneErrors.recordError]"@#@ @source: @#@"You cannot record the call at the moment. Error code: {errorCode}"@#@
 // @key: @#@"[webphoneErrors.recordDisabled]"@#@ @source: @#@"Sorry, your account does not have the feature to record a call. Please contact your account administrator."@#@
 // @key: @#@"[webphoneErrors.transferError]"@#@ @source: @#@"Cannot transfer the call. Please try again later."@#@
+// @key: @#@"webphoneUnavailable"@#@ @source: @#@"{error}. We are reconnecting to server. If the error persists, please report this error to {brandName} Support."@#@
+// @key: @#@"errorCode"@#@ @source: @#@"Internal error code: {errorCode}"@#@
+// @key: @#@"occurs"@#@ @source: @#@"Internal error occurs"@#@

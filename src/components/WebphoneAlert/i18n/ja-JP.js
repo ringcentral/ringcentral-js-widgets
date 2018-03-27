@@ -14,6 +14,9 @@ export default {
   [webphoneErrors.recordError]: '現在\u3001通話を録音できません\u3002エラーコード\uFF1A{errorCode}',
   [webphoneErrors.recordDisabled]: '申し訳ありません\u3002お使いのアカウントでは\u3001通話を録音する機能はサポートされていません\u3002アカウント管理者にお問い合わせください\u3002',
   [webphoneErrors.transferError]: '通話を転送できません\u3002後でもう一度やり直してください\u3002',
+  webphoneUnavailable: '{error}\u3002サーバーに再接続しています\u3002エラーが解決しない場合は\u3001このエラーを{brandName}サポートに報告してください\u3002',
+  errorCode: '内部エラーコード\uFF1A{errorCode}',
+  occurs: '内部エラーコード',
 };
 
 // @key: @#@"[webphoneErrors.connectFailed]"@#@ @source: @#@"Connect with web phone server failed."@#@
@@ -29,3 +32,6 @@ export default {
 // @key: @#@"[webphoneErrors.recordError]"@#@ @source: @#@"You cannot record the call at the moment. Error code: {errorCode}"@#@
 // @key: @#@"[webphoneErrors.recordDisabled]"@#@ @source: @#@"Sorry, your account does not have the feature to record a call. Please contact your account administrator."@#@
 // @key: @#@"[webphoneErrors.transferError]"@#@ @source: @#@"Cannot transfer the call. Please try again later."@#@
+// @key: @#@"webphoneUnavailable"@#@ @source: @#@"{error}. We are reconnecting to server. If the error persists, please report this error to {brandName} Support."@#@
+// @key: @#@"errorCode"@#@ @source: @#@"Internal error code: {errorCode}"@#@
+// @key: @#@"occurs"@#@ @source: @#@"Internal error occurs"@#@
