@@ -1,0 +1,29 @@
+{
+  "uri" : "https://platform.ringcentral.com/restapi/v1.0/number-parser/parse?nationalAsPriority=false&homeCountry=US",
+  "homeCountry" : {
+    "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/1",
+    "id" : "1",
+    "name" : "United States",
+    "isoCode" : "US",
+    "callingCode" : "1"
+  },
+  "phoneNumbers" : [ {
+    "originalString" : "+16505819954",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/1",
+      "id" : "1",
+      "name" : "United States",
+      "isoCode" : "US",
+      "callingCode" : "1"
+    },
+    "areaCode" : "650",
+    "subscriberNumber" : "5819954",
+    "formattedNational" : "(650) 581-9954",
+    "formattedInternational" : "+1 (650) 5819954",
+    "dialable" : "6505819954",
+    "e164" : "+16505819954",
+    "special" : false,
+    "normalized" : "16505819954",
+    "tollFree" : false
+  } ]
+}

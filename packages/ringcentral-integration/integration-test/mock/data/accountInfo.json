@@ -1,0 +1,73 @@
+{
+  "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004",
+  "id" : 208594004,
+  "serviceInfo" : {
+    "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/service-info",
+    "brand" : {
+      "id" : "3610",
+      "name" : "RingCentral",
+      "homeCountry" : {
+        "id" : "39",
+        "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/39",
+        "name" : "Canada",
+        "isoCode" : "CA",
+        "callingCode" : "1"
+      }
+    },
+    "servicePlan" : {
+      "id" : "3623",
+      "name" : "Office 8 Line",
+      "edition" : "Standard"
+    },
+    "billingPlan" : {
+      "id" : "1439",
+      "name" : "Monthly",
+      "durationUnit" : "Month",
+      "duration" : 1,
+      "type" : "Regular",
+      "includedPhoneLines" : 8
+    }
+  },
+  "operator" : {
+    "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004",
+    "id" : 208594004,
+    "extensionNumber" : "101"
+  },
+  "mainNumber" : "+18883495556",
+  "status" : "Confirmed",
+  "signupInfo" : {
+    "tosAccepted" : true,
+    "marketingAccepted" : false
+  },
+  "setupWizardState" : "Completed",
+  "regionalSettings" : {
+    "timezone" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/timezone/58",
+      "id" : "58",
+      "name" : "US/Pacific",
+      "description" : "Pacific Time (US & Canada)",
+      "bias" : "-480"
+    },
+    "homeCountry" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/39",
+      "id" : "39",
+      "name" : "Canada"
+    },
+    "language" : {
+      "id" : "1033",
+      "name" : "English (United States)",
+      "localeCode" : "en-US"
+    },
+    "greetingLanguage" : {
+      "id" : "1033",
+      "name" : "English (United States)",
+      "localeCode" : "en-US"
+    },
+    "formattingLocale" : {
+      "id" : "4105",
+      "name" : "English (Canadian)",
+      "localeCode" : "en-CA"
+    },
+    "timeFormat" : "12h"
+  }
+}

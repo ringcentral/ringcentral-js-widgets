@@ -22,6 +22,8 @@ coverage
 
 # Dependency directory
 node_modules
+*/**/node_modules
+*/**/package-lock.json
 
 # Optional npm cache directory
 .npm
@@ -47,3 +49,11 @@ alias.json
 
 #Webstorm
 .idea
+
+*/**/apiConfig.js
+*/**/testAccount.js
+
+*/**/.env
+*/**/*.log
+
+*/**//api-config.js

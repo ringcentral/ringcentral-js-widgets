@@ -1,0 +1,4 @@
+exclude_paths:
+  - '**/i18n/**'
+  - 'src/integration-test/**'
+  - '**/*.test.js'

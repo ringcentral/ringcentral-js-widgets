@@ -1,7 +1,6 @@
 import path from 'path';
 import autoprefixer from 'autoprefixer';
 import webpack from 'webpack';
-import aliasWebpackPlugin from 'alias-webpack-plugin';
 
 const base = {
   module: {
@@ -59,7 +58,11 @@ const base = {
           {
             loader: 'sass-loader',
             options: {
-              includePaths: [__dirname],
+              includePaths: [
+                __dirname,
+                path.resolve(__dirname, '../packages/ringcentral-widgets'),
+                path.resolve(__dirname, '../node_modules'),
+              ],
               outputStyle: 'expanded'
             }
           }
@@ -81,11 +84,11 @@ const base = {
   ],
   resolve: {
     alias: {
-      ...aliasWebpackPlugin(),
+      'ringcentral-integration': path.resolve(__dirname, '../packages/ringcentral-integration'),
+      'ringcentral-widgets': path.resolve(__dirname, '../packages/ringcentral-widgets')
     },
   },
 };
-
 
 const config = [{
   ...base,

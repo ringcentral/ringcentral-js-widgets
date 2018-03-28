@@ -1,0 +1,9 @@
+{
+  "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/37439510/extension/1514354020/ring-out/Y3MxNjg2MzAwMTIyMTAwMTM1OTM5QDEwLjEzLjIyLjI1Mg",
+  "id" : "Y3MxNjg2MzAwMTIyMTAwMTM1OTM5QDEwLjEzLjIyLjI1Mg",
+  "status" : {
+    "callStatus" : "InProgress",
+    "callerStatus" : "Success",
+    "calleeStatus" : "InProgress"
+  }
+}

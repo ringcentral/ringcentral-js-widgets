@@ -4,57 +4,77 @@ import webpack from 'webpack';
 
 const base = {
   module: {
-    preLoaders: [
+    rules: [
       {
+        enforce: 'pre',
         test: /\.js$/,
-        loader: 'source-map-loader',
+        use: 'source-map-loader'
       },
-    ],
-    loaders: [
       {
         test: /\.js$/,
-        loaders: [
-          'babel',
-          'locale',
+        use: [
+          'babel-loader',
+          'locale-loader',
         ],
         exclude: /node_modules/,
       },
       {
-        test: /\.json$/i,
-        loader: 'json',
-      },
-      {
         test: /\.css$/i,
-        loaders: [
-          'style',
-          'css',
+        use: [
+          'style-loader',
+          'css-loader',
         ],
       },
       {
         test: /\.woff|\.woff2|.eot|\.ttf/,
-        loader: 'url?limit=15000&publicPath=./&name=fonts/[name]_[hash].[ext]',
+        use: 'url-loader?limit=15000&publicPath=./&name=fonts/[name]_[hash].[ext]',
+      },
+      {
+        test: /\.svg/,
+        exclude: /node_modules|font/,
+        use: [
+          'babel-loader',
+          'react-svg-loader'
+        ],
       },
       {
         test: /\.png|\.jpg|\.gif|\.svg/,
-        loader: 'url?limit=20000&publicPath=./&name=images/[name]_[hash].[ext]',
+        use: 'url-loader?limit=20000&publicPath=./&name=images/[name]_[hash].[ext]',
+        exclude: [/assets(\/|\\)images(\/|\\).+\.svg/, /dev-server(\/|\\).+\.svg/]
       },
       {
         test: /\.sass|\.scss/,
-        loaders: [
-          'style',
-          'css?modules&localIdentName=[path]_[name]_[local]_[hash:base64:5]',
-          'postcss-loader',
-          'sass?outputStyle=expanded',
+        use: [
+          'style-loader',
+          'css-loader?modules&localIdentName=[path]_[name]_[local]_[hash:base64:5]',
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => [
+                autoprefixer
+              ]
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              includePaths: [
+                __dirname,
+                path.resolve(__dirname, '../packages/ringcentral-widgets'),
+                path.resolve(__dirname, '../node_modules'),
+              ],
+              outputStyle: 'expanded'
+            }
+          }
         ],
       },
       {
         test: /\.ogg$/,
-        loader: 'url?publicPath=./&name=audio/[name]_[hash].[ext]',
+        use: 'file-loader?publicPath=./&name=audio/[name]_[hash].[ext]',
       },
     ],
   },
   devtool: 'inline-source-map',
-  postcss: () => [autoprefixer],
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
@@ -66,8 +86,11 @@ const base = {
 
 const config = [{
   ...base,
-  sassLoader: {
-    includePaths: path.resolve(__dirname, '../dev-server'),
+  resolve: {
+    alias: {
+      'ringcentral-integration': path.resolve(__dirname, '../packages/ringcentral-integration'),
+      'ringcentral-widgets': path.resolve(__dirname, '../packages/ringcentral-widgets')
+    },
   },
   entry: {
     background: [

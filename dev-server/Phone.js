@@ -60,9 +60,9 @@ import Analytics from 'ringcentral-integration/modules/Analytics';
 import Feedback from 'ringcentral-integration/modules/Feedback';
 import UserGuide from 'ringcentral-integration/modules/UserGuide';
 import { ModuleFactory } from 'ringcentral-integration/lib/di';
-import RouterInteraction from '../src/modules/RouterInteraction';
-import DialerUI from '../src/modules/DialerUI';
-import ProxyFrameOAuth from '../src/modules/ProxyFrameOAuth';
+import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
+import DialerUI from 'ringcentral-widgets/modules/DialerUI';
+import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
 
 @ModuleFactory({
   providers: [
