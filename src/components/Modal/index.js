@@ -76,7 +76,7 @@ export default class Modal extends Component {
     if (!show) return null;
     const footer = !currentLocale || (
       !onCancel && !onConfirm
-    ) ? (
+    ) ? null : (
       <div className={styles.footer}>
         {onCancel ? (
           <FlatButton
@@ -95,7 +95,7 @@ export default class Modal extends Component {
           </FlatButton>
         ) : null}
       </div>
-      ) : null;
+      );
     return (
       <div className={classnames(styles.container, className)}>
         <div
