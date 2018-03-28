@@ -7,15 +7,28 @@ export default {
   internationalNumbersHeader: '国際ダイヤルイン番号の選択',
   search: '検索...',
   inviteWithText: 'テキストで招待',
-  inviteText: 'RingCentral会議に参加してください\u3002\n\nダイヤルイン番号\uFF1A{formattedDialInNumber} \n\n{additionalNumbersSection} \n参加者アクセス\uFF1A{participantCode} \n\n国際ダイヤルイン番号が必要な場合は\u3001http://www.ringcentral.com/conferencing\n\nにアクセスしてください\u3002この電話会議は\u3001RingCentral Conferencingによって提供されます\u3002',
+  inviteText: '{brandName}会議に参加してください\u3002\r\n\r\nダイヤルイン番号\uFF1A{formattedDialInNumber} \r\n{additionalNumbersSection} \r\n参加者のアクセス\uFF1A{participantCode} \r\n\r\n国際ダイヤルイン番号が必要な場合は\u3001次をご覧ください\uFF1A{dialInNumbersLinks} \r\n\r\nこの電話会議は\u3001{brandName} Conferencingを使用して開催されています\u3002',
+  hostAccess: 'ホストのアクセス',
+  participantsAccess: '参加者のアクセス',
+  addinalDialInNumbers: '追加のダイヤルイン番号',
+  selectNumbers: '番号の選択',
+  enableJoinBeforeHost: 'ホストより前の参加を可能にする',
+  conferenceCommands: '会議コマンド',
+  inviteWithGCalendar: 'Googleカレンダーを使用して招待',
+  joinAsHost: 'ホストとして参加',
+  internationalNumber: '国際ダイヤルイン番号\uFF1A',
 };
 
 // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@
 // @key: @#@"dialInNumber"@#@ @source: @#@"Dial-in Number"@#@
-// @key: @#@"host"@#@ @source: @#@"Host"@#@
-// @key: @#@"participants"@#@ @source: @#@"Participants"@#@
-// @key: @#@"internationalParticipants"@#@ @source: @#@"International participants"@#@
-// @key: @#@"internationalNumbersHeader"@#@ @source: @#@"Select International Dial-in Numbers"@#@
-// @key: @#@"search"@#@ @source: @#@"Search..."@#@
+// @key: @#@"hostAccess"@#@ @source: @#@"Host Access"@#@
+// @key: @#@"participantsAccess"@#@ @source: @#@"Participants Access"@#@
+// @key: @#@"addinalDialInNumbers"@#@ @source: @#@"Additional Dial-in Numbers"@#@
+// @key: @#@"selectNumbers"@#@ @source: @#@"Select Numbers"@#@
+// @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before Host"@#@
+// @key: @#@"conferenceCommands"@#@ @source: @#@"Conference Commands"@#@
+// @key: @#@"inviteWithGCalendar"@#@ @source: @#@"Invite with Google Calendar"@#@
 // @key: @#@"inviteWithText"@#@ @source: @#@"Invite with Text"@#@
-// @key: @#@"inviteText"@#@ @source: @#@"Please join the RingCentral conference.\n\nDial-In Numbers: {dialInNumber} \n\n{internationals} \nParticipant Access: {participantCode} \n\nNeed an international dial-in phone number? Please visit http://www.ringcentral.com/conferencing \n\nThis conference call is brought to you by RingCentral Conferencing."@#@
+// @key: @#@"joinAsHost"@#@ @source: @#@"Join as Host"@#@
+// @key: @#@"internationalNumber"@#@ @source: @#@"International Dial-in Numbers:"@#@
+// @key: @#@"inviteText"@#@ @source: @#@"Please join the {brandName} conference.\n\nDial-In Numbers: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nNeed an international dial-in phone number? Please visit {dialInNumbersLinks} \n\nThis conference call is brought to you by {brandName} Conferencing."@#@

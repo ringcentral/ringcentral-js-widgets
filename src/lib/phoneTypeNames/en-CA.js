@@ -2,20 +2,20 @@ import phoneTypes from '../../enums/phoneTypes';
 
 export default {
   [phoneTypes.business]: 'Business Phone',
-  [phoneTypes.extension]: 'Extension Phone',
-  [phoneTypes.home]: 'Home Phone',
+  [phoneTypes.extension]: 'Extension Number',
+  [phoneTypes.home]: 'Home Number',
   [phoneTypes.mobile]: 'Mobile Phone',
   [phoneTypes.phone]: 'Phone',
   [phoneTypes.unknown]: 'Unknown Phone Type',
-  [phoneTypes.company]: 'Company Phone',
-  [phoneTypes.direct]: 'Direct Phone',
+  [phoneTypes.company]: 'Company Number',
+  [phoneTypes.direct]: 'Direct Number',
 };
 
 // @key: @#@"[phoneTypes.business]"@#@ @source: @#@"Business Phone"@#@
-// @key: @#@"[phoneTypes.extension]"@#@ @source: @#@"Extension Phone"@#@
-// @key: @#@"[phoneTypes.home]"@#@ @source: @#@"Home Phone"@#@
+// @key: @#@"[phoneTypes.extension]"@#@ @source: @#@"Extension Number"@#@
+// @key: @#@"[phoneTypes.home]"@#@ @source: @#@"Home Number"@#@
 // @key: @#@"[phoneTypes.mobile]"@#@ @source: @#@"Mobile Phone"@#@
 // @key: @#@"[phoneTypes.phone]"@#@ @source: @#@"Phone"@#@
 // @key: @#@"[phoneTypes.unknown]"@#@ @source: @#@"Unknown Phone Type"@#@
-// @key: @#@"[phoneTypes.company]"@#@ @source: @#@"Company Phone"@#@
-// @key: @#@"[phoneTypes.direct]"@#@ @source: @#@"Direct Phone"@#@
+// @key: @#@"[phoneTypes.company]"@#@ @source: @#@"Company Number"@#@
+// @key: @#@"[phoneTypes.direct]"@#@ @source: @#@"Direct Number"@#@

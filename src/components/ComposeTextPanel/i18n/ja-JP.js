@@ -1,5 +1,5 @@
 export default {
-  from: '発信元',
+  from: '送信元',
   to: '宛先',
   enterNameOrNumber: '番号または名前の入力...',
   typeMessage: 'メッセージの入力...',

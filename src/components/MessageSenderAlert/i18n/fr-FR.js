@@ -18,7 +18,9 @@ export default {
   [messageSenderMessages.senderNumberInvalids]: 'Vous ne pouvez pas envoyer de SMS depuis votre numéro de téléphone. Veuillez contacter votre administrateur de compte.',
   [messageSenderMessages.internationalSMSNotSupported]: 'L\'envoi de SMS vers un numéro de téléphone international n\'est pas pris en charge.',
   areaCode: 'indicatif régional',
-  [messageSenderMessages.senderNumberInvalid]: 'Un numéro de téléphone valide est requis pour envoyer un texto à des destinataires en dehors de votre entreprise. Veuillez contacter votre administrateur pour ajouter un numéro direct à votre compte.',
+  [messageSenderMessages.senderNumberInvalid]: 'Vous n\'êtes pas autorisé à envoyer des messages à des destinataires extérieurs à votre entreprise. Veuillez contacter votre administrateur de compte RingCentral pour obtenir une mise à niveau.',
+  [messageSenderMessages.recipientNumberInvalids]: 'Veuillez saisir un numéro de téléphone valide.',
+  [messageSenderMessages.noInternalSMSPermission]: 'Vous n\'êtes pas autorisé à envoyer des messages. Veuillez contacter votre administrateur de compte RingCentral pour obtenir une mise à niveau.',
 };
 
 // @key: @#@"[messageSenderMessages.sendSuccess]"@#@ @source: @#@"Send Success."@#@
@@ -30,14 +32,15 @@ export default {
 // @key: @#@"[messageSenderMessages.noToNumber]"@#@ @source: @#@"Invalid phone number."@#@
 // @key: @#@"[messageSenderMessages.recipientsEmpty]"@#@ @source: @#@"Please enter a valid receiver number."@#@
 // @key: @#@"[messageSenderMessages.textTooLong]"@#@ @source: @#@"Text is too long, 1000 Limited"@#@
-// @key: @#@"[messageSenderMessages.recipientNumberInvalids]"@#@ @source: @#@"Recipient number is invalids"@#@
+// @key: @#@"[messageSenderMessages.recipientNumberInvalids]"@#@ @source: @#@"Please enter a valid phone number."@#@
 // @key: @#@"[messageSenderMessages.noAreaCode]"@#@ @source: @#@"Please set {areaCodeLink} to use 7-digit local phone numbers."@#@
 // @key: @#@"[messageSenderMessages.specialNumber]"@#@ @source: @#@"Dialing emergency or special service numbers is not supported."@#@
 // @key: @#@"[messageSenderMessages.connectFailed]"@#@ @source: @#@"Connection failed. Please try again later."@#@
 // @key: @#@"[messageSenderMessages.internalError]"@#@ @source: @#@"Cannot connect due to internal errors. Please try again later."@#@
 // @key: @#@"[messageSenderMessages.notAnExtension]"@#@ @source: @#@"The extension number does not exist."@#@
 // @key: @#@"[messageSenderMessages.networkError]"@#@ @source: @#@"Cannot connect due to network issues. Please try again later."@#@
-// @key: @#@"[messageSenderMessages.senderNumberInvalid]"@#@ @source: @#@"A valid Phone Number is required to send text message to recipients outside of your company. Please contact your Administrator to add a direct number to your account."@#@
+// @key: @#@"[messageSenderMessages.senderNumberInvalid]"@#@ @source: @#@"You don't have permission to send messages to recipients outside of your organization. Please contact your RingCentral account administrator for upgrade."@#@
 // @key: @#@"[messageSenderMessages.notSmsToExtension]"@#@ @source: @#@"Cannot send To a extension number with main phone number. If you want to sent to a extension Number, please just enter extension Number."@#@
 // @key: @#@"[messageSenderMessages.internationalSMSNotSupported]"@#@ @source: @#@"Sending SMS to international phone number is not supported."@#@
+// @key: @#@"[messageSenderMessages.noInternalSMSPermission]"@#@ @source: @#@"You don't have permission to send messages. Please contact your RingCentral account administrator for upgrade."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@

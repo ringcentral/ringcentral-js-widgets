@@ -4,18 +4,16 @@
 
 .root {
   position: relative;
-  width: calc(100% - 16px);
-  padding: 8px;
+  width: 100%;
+  padding: 9px 20px;
   background-color: #ffffff;
-  border-bottom: 1px solid #ffffff;
+  box-sizing: border-box;
   cursor: pointer;
 
   &:hover,
   &:focus {
     outline: 0;
-    opacity: 0.9;
-    background-color: #fafafa;
-    border-bottom: 1px solid #efefef;
+    background-color: #f9f9f9;
   }
 
   &.active {

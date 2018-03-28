@@ -49,7 +49,7 @@ class IncomingCallPage extends Component {
   toggleMinimized = () =>
     this.props.toggleMinimized(this.props.session.id);
   answerAndEnd = async () => {
-    this.props.hangup(this.props.activeSessionId);
+    await this.props.hangup(this.props.activeSessionId);
     await this.props.answer(this.props.session.id);
   };
   answerAndHold = async () => {
