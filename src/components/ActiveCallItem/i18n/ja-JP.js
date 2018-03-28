@@ -20,6 +20,9 @@ export default {
   outboundCall: '発信',
   from: '発信元',
   to: '宛先',
+  hangup: '通話を終了する',
+  accept: '同意する',
+  toVoicemail: 'ボイスメールへ転送',
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -43,3 +46,6 @@ export default {
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
 // @key: @#@"from"@#@ @source: @#@"From"@#@
 // @key: @#@"to"@#@ @source: @#@"To"@#@
+// @key: @#@"hangup"@#@ @source: @#@"Hangup"@#@
+// @key: @#@"accept"@#@ @source: @#@"Accept"@#@
+// @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@

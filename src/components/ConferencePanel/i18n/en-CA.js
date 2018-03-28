@@ -7,15 +7,28 @@ export default {
   internationalNumbersHeader: 'Select International Dial-in Numbers',
   search: 'Search...',
   inviteWithText: 'Invite with Text',
-  inviteText: 'Please join the RingCentral conference. \n\nDial-In Numbers: {formattedDialInNumber} \n\n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nNeed an international dial-in phone number? Please visit http://www.ringcentral.com/conferencing \n\nThis conference call is brought to you by RingCentral Conferencing.',
+  inviteText: 'Please join the {brandName} conference.\n\nDial-In Numbers: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nNeed an international dial-in phone number? Please visit {dialInNumbersLinks} \n\nThis conference call is brought to you by {brandName} Conferencing.',
+  hostAccess: 'Host Access',
+  participantsAccess: 'Participants Access',
+  addinalDialInNumbers: 'Additional Dial-in Numbers',
+  selectNumbers: 'Select Numbers',
+  enableJoinBeforeHost: 'Enable join before Host',
+  conferenceCommands: 'Conference Commands',
+  inviteWithGCalendar: 'Invite with Google Calendar',
+  joinAsHost: 'Join as Host',
+  internationalNumber: 'International Dial-in Numbers:',
 };
 
 // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@
 // @key: @#@"dialInNumber"@#@ @source: @#@"Dial-in Number"@#@
-// @key: @#@"host"@#@ @source: @#@"Host"@#@
-// @key: @#@"participants"@#@ @source: @#@"Participants"@#@
-// @key: @#@"internationalParticipants"@#@ @source: @#@"International participants"@#@
-// @key: @#@"internationalNumbersHeader"@#@ @source: @#@"Select International Dial-in Numbers"@#@
-// @key: @#@"search"@#@ @source: @#@"Search..."@#@
+// @key: @#@"hostAccess"@#@ @source: @#@"Host Access"@#@
+// @key: @#@"participantsAccess"@#@ @source: @#@"Participants Access"@#@
+// @key: @#@"addinalDialInNumbers"@#@ @source: @#@"Additional Dial-in Numbers"@#@
+// @key: @#@"selectNumbers"@#@ @source: @#@"Select Numbers"@#@
+// @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before Host"@#@
+// @key: @#@"conferenceCommands"@#@ @source: @#@"Conference Commands"@#@
+// @key: @#@"inviteWithGCalendar"@#@ @source: @#@"Invite with Google Calendar"@#@
 // @key: @#@"inviteWithText"@#@ @source: @#@"Invite with Text"@#@
-// @key: @#@"inviteText"@#@ @source: @#@"Please join the RingCentral conference.\n\nDial-In Numbers: {dialInNumber} \n\n{internationals} \nParticipant Access: {participantCode} \n\nNeed an international dial-in phone number? Please visit http://www.ringcentral.com/conferencing \n\nThis conference call is brought to you by RingCentral Conferencing."@#@
+// @key: @#@"joinAsHost"@#@ @source: @#@"Join as Host"@#@
+// @key: @#@"internationalNumber"@#@ @source: @#@"International Dial-in Numbers:"@#@
+// @key: @#@"inviteText"@#@ @source: @#@"Please join the {brandName} conference.\n\nDial-In Numbers: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nNeed an international dial-in phone number? Please visit {dialInNumbersLinks} \n\nThis conference call is brought to you by {brandName} Conferencing."@#@

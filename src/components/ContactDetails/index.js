@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import PresenceStatus from 'ringcentral-integration/modules/Presence/presenceStatus';
+import DndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
 import PresenceStatusIcon from '../PresenceStatusIcon';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import DefaultAvatar from '../../assets/images/DefaultAvatar.svg';
@@ -11,12 +11,11 @@ import i18n from './i18n';
 import styles from './styles.scss';
 
 export function getPresenceStatusName(presence, currentLocale) {
-  const { dndStatus, presenceStatus } = presence;
-  const userStatus = presenceStatus || presence.userStatus;
-  if (userStatus !== PresenceStatus.busy) {
-    return i18n.getString(userStatus, currentLocale);
+  const { userStatus, dndStatus } = presence;
+  if (dndStatus === DndStatus.doNotAcceptAnyCalls) {
+    return i18n.getString(dndStatus, currentLocale);
   }
-  return i18n.getString(userStatus + dndStatus, currentLocale);
+  return i18n.getString(userStatus, currentLocale);
 }
 
 function AvatarNode({ name, avatarUrl }) {

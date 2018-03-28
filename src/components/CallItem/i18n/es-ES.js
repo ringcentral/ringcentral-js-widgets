@@ -15,8 +15,8 @@ export default {
   text: 'Texto',
   call: 'Llamar',
   missedCall: 'Perdida',
-  inboundCall: 'Entrantes',
-  outboundCall: 'Salientes',
+  inboundCall: 'Entrante',
+  outboundCall: 'Saliente',
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@

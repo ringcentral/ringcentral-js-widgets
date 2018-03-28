@@ -17,6 +17,7 @@ import ConnectivityAlert from '../../components/ConnectivityAlert';
 import WebphoneAlert from '../../components/WebphoneAlert';
 import MessageStoreAlert from '../../components/MessageStoreAlert';
 import MeetingAlert from '../../components/MeetingAlert';
+import AudioSettingsAlert from '../../components/AudioSettingsAlert';
 import RolesAndPermissionsAlert from '../../components/RolesAndPermissionsAlert';
 import withPhone from '../../lib/withPhone';
 import ConferenceAlert from '../../components/ConferenceAlert/index';
@@ -113,7 +114,12 @@ function getDefaultRenderer({
     }
 
     if (WebphoneAlert.handleMessage(message)) {
-      return WebphoneAlert;
+      return props => (
+        <WebphoneAlert
+          {...props}
+          brand={brand}
+        />
+      );
     }
     if (MeetingAlert.handleMessage(message)) {
       return MeetingAlert;
@@ -129,6 +135,15 @@ function getDefaultRenderer({
 
     if (ConferenceAlert.handleMessage(message)) {
       return ConferenceAlert;
+    }
+
+    if (AudioSettingsAlert.handleMessage(message)) {
+      return props => (
+        <AudioSettingsAlert
+          {...props}
+          brand={brand}
+        />
+      );
     }
 
     return undefined;

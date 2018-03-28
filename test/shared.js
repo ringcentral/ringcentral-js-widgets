@@ -26,6 +26,7 @@ const getPhone = async () => {
     version,
   });
   jest.mock('pubnub');
+  jest.mock('ringcentral-web-phone');
   mock.mockClient(phone.client);
   mock.mockForLogin();
   const clientHistoryRequest = new ClientHistoryRequest(new Map(), phone.client);

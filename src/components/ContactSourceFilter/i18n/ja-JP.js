@@ -1,5 +1,5 @@
 export default {
-  all: 'すべての',
+  all: 'すべて',
   company: '会社',
   personal: '個人',
 };

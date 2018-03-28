@@ -1,5 +1,5 @@
 export default {
-  noContacts: '記録が見つかりません.',
+  noContacts: '記録が見つかりません\u3002',
 };
 
-// @key: @#@"noContacts"@#@ @source: @#@"No records found"@#@
+// @key: @#@"noContacts"@#@ @source: @#@"No records found."@#@

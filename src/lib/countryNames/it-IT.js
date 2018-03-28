@@ -1,4 +1,5 @@
 export default {
+  419: 'America Latina',
   AR: 'Argentina',
   AT: 'Austria',
   BH: 'Bahrain',

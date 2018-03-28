@@ -259,18 +259,25 @@ export default class MessageItem extends Component {
     }
   }
   onClickItem = (e) => {
-    if ((
+    if (
       this.contactDisplay &&
-      this.contactDisplay.contains(e.target))
+      this.contactDisplay.contains(e.target)
+    ) {
+      return;
+    }
+
+    this.toggleExtended();
+  }
+  onClickWrapper = (e) => {
+    if (
+      this.contactDisplay &&
+      this.contactDisplay.contains(e.target)
     ) {
       return;
     }
     if (messageIsTextMessage(this.props.conversation)) {
       this.props.showConversationDetail(this.props.conversation.conversationId);
-      return;
     }
-
-    this.toggleExtended();
   }
 
   onPlayVoicemail = () => {
@@ -400,6 +407,7 @@ export default class MessageItem extends Component {
             styles.wrapper,
             unreadCounts && styles.unread
           )}
+          onClick={this.onClickWrapper}
         >
           <ConversationIcon
             group={correspondents.length > 1}

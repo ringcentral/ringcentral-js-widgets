@@ -36,7 +36,7 @@ const base = {
         use: [
           'babel-loader',
           'react-svg-loader'
-        ],
+        ]
       },
       {
         test: /\.png|\.jpg|\.gif|\.svg/,

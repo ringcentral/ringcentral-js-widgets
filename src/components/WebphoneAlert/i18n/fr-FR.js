@@ -14,6 +14,9 @@ export default {
   [webphoneErrors.recordError]: 'Vous ne pouvez pas enregistrer l\'appel pour le moment. Code d\'erreur\xA0: {errorCode}',
   [webphoneErrors.recordDisabled]: 'Désolé, votre compte ne comprend pas la fonction permettant d\'enregistrer un appel. Veuillez contacter votre administrateur de compte.',
   [webphoneErrors.transferError]: 'Impossible de transférer l\'appel. Veuillez réessayer plus tard.',
+  webphoneUnavailable: '{error}. Nous nous reconnectons au serveur. Si le problème persiste, veuillez le signaler à l\'assistance de {brandName}.',
+  errorCode: 'Code d\'erreur interne\xA0: {errorCode}',
+  occurs: 'Une erreur interne se produit',
 };
 
 // @key: @#@"[webphoneErrors.connectFailed]"@#@ @source: @#@"Connect with web phone server failed."@#@
@@ -29,3 +32,6 @@ export default {
 // @key: @#@"[webphoneErrors.recordError]"@#@ @source: @#@"You cannot record the call at the moment. Error code: {errorCode}"@#@
 // @key: @#@"[webphoneErrors.recordDisabled]"@#@ @source: @#@"Sorry, your account does not have the feature to record a call. Please contact your account administrator."@#@
 // @key: @#@"[webphoneErrors.transferError]"@#@ @source: @#@"Cannot transfer the call. Please try again later."@#@
+// @key: @#@"webphoneUnavailable"@#@ @source: @#@"{error}. We are reconnecting to server. If the error persists, please report this error to {brandName} Support."@#@
+// @key: @#@"errorCode"@#@ @source: @#@"Internal error code: {errorCode}"@#@
+// @key: @#@"occurs"@#@ @source: @#@"Internal error occurs"@#@
