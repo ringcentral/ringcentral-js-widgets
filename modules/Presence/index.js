@@ -480,7 +480,7 @@ var Presence = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                if (!(this.presenceStatus === _presenceStatus2.default.available)) {
+                if (!(this.presenceStatus === _presenceStatus2.default.available && this.dndStatus !== _dndStatus2.default.doNotAcceptAnyCalls)) {
                   _context6.next = 2;
                   break;
                 }
@@ -550,7 +550,7 @@ var Presence = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
-                if (!(this.presenceStatus === _presenceStatus2.default.busy && this.dndStatus === _dndStatus2.default.doNotAcceptAnyCalls)) {
+                if (!(this.dndStatus === _dndStatus2.default.doNotAcceptAnyCalls)) {
                   _context8.next = 2;
                   break;
                 }
@@ -588,7 +588,7 @@ var Presence = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context9.prev = _context9.next) {
               case 0:
-                if (!(this.presenceStatus === _presenceStatus2.default.offline)) {
+                if (!(this.presenceStatus === _presenceStatus2.default.offline && this.dndStatus !== _dndStatus2.default.doNotAcceptAnyCalls)) {
                   _context9.next = 2;
                   break;
                 }

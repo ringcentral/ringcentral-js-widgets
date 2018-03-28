@@ -47,6 +47,7 @@ exports.default = new _HashMap2.default({
   suspended: 'Suspended',
   unknown: 'Unknown',
   voicemail: 'Voicemail',
-  wrongNumber: 'Wrong Number'
+  wrongNumber: 'Wrong Number',
+  faxReceipt: 'Fax Receipt'
 });
 //# sourceMappingURL=callResults.js.map

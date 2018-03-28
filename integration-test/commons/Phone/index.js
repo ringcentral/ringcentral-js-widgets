@@ -514,6 +514,7 @@ var Phone = function (_RcModule) {
       }
     })));
     _this.addModule('numberValidate', new _NumberValidate2.default((0, _extends3.default)({}, options, {
+      brand: _this.brand,
       client: _this.client,
       accountExtension: _this.accountExtension,
       regionSettings: _this.regionSettings,

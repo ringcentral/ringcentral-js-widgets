@@ -529,6 +529,9 @@ var Webphone = (_dec = (0, _di.Module)({
         });
       };
       var onRegistrationFailed = function onRegistrationFailed(response, cause) {
+        if (_this3.connectionStatus === _connectionStatus2.default.connectFailed) {
+          return;
+        }
         _this3._isFirstRegister = true;
         var errorCode = void 0;
         var needToReconnect = false;
@@ -548,19 +551,58 @@ var Webphone = (_dec = (0, _di.Module)({
         *   (But the WebRTC client must logout on receiving SIP/2.0 403 Forbidden error and in case of login -
         *   provision again via Platform API and receive new InstanceID)
         */
-        if (response && (response.status_code === 503 || response.status_code === 603)) {
-          errorCode = _webphoneErrors2.default.webphoneCountOverLimit;
-          _this3._alert.warning({
-            message: errorCode
-          });
-          needToReconnect = true;
+        var statusCode = response ? response.status_code : null;
+        switch (statusCode) {
+          // Webphone account overlimit
+          case 503:case 603:
+            {
+              errorCode = _webphoneErrors2.default.webphoneCountOverLimit;
+              needToReconnect = true;
+              break;
+            }
+          case 403:
+            {
+              errorCode = _webphoneErrors2.default.webphoneForbidden;
+              needToReconnect = true;
+              break;
+            }
+          // Request Timeout
+          case 408:
+            {
+              errorCode = _webphoneErrors2.default.requestTimeout;
+              needToReconnect = true;
+              break;
+            }
+          // Internal server error
+          case 500:
+            {
+              errorCode = _webphoneErrors2.default.internalServerError;
+              break;
+            }
+          // Timeout
+          case 504:
+            {
+              errorCode = _webphoneErrors2.default.serverTimeout;
+              needToReconnect = true;
+              break;
+            }
+          default:
+            {
+              errorCode = _webphoneErrors2.default.unknownError;
+              break;
+            }
         }
-        if (response && response.status_code === 403) {
-          needToReconnect = true;
-        }
+        _this3._alert.danger({
+          message: errorCode,
+          allowDuplicates: false,
+          payload: {
+            statusCode: statusCode
+          }
+        });
         _this3.store.dispatch({
           type: _this3.actionTypes.registrationFailed,
-          errorCode: errorCode
+          errorCode: errorCode,
+          statusCode: statusCode
         });
         if (cause === 'Request Timeout') {
           needToReconnect = true;
@@ -573,7 +615,7 @@ var Webphone = (_dec = (0, _di.Module)({
       this._webphone.userAgent.audioHelper.setVolume(this._audioSettings.ringtoneMuted ? 0 : this._audioSettings.ringtoneVolume);
       this._webphone.userAgent.on('registered', onRegistered);
       this._webphone.userAgent.on('unregistered', onUnregistered);
-      this._webphone.userAgent.once('registrationFailed', onRegistrationFailed);
+      this._webphone.userAgent.on('registrationFailed', onRegistrationFailed);
       this._webphone.userAgent.on('invite', function (session) {
         console.debug('UA invite');
         _this3._onInvite(session);
@@ -663,7 +705,7 @@ var Webphone = (_dec = (0, _di.Module)({
 
               case 23:
                 this._createWebphone(sipProvision);
-                _context4.next = 41;
+                _context4.next = 37;
                 break;
 
               case 26:
@@ -671,7 +713,7 @@ var Webphone = (_dec = (0, _di.Module)({
                 _context4.t0 = _context4['catch'](0);
 
                 console.error(_context4.t0);
-                this._alert.warning({
+                this._alert.danger({
                   message: _webphoneErrors2.default.connectFailed,
                   ttl: 0,
                   allowDuplicates: false
@@ -679,17 +721,13 @@ var Webphone = (_dec = (0, _di.Module)({
                 needToReconnect = true;
                 errorCode = void 0;
 
-                if (!(_context4.t0 && _context4.t0.message && _context4.t0.message.indexOf('Feature [WebPhone] is not available') > -1)) {
-                  _context4.next = 37;
-                  break;
+                if (_context4.t0 && _context4.t0.message && _context4.t0.message.indexOf('Feature [WebPhone] is not available') > -1) {
+                  this._rolesAndPermissions.refreshServiceFeatures();
+                  needToReconnect = false;
+                  errorCode = _webphoneErrors2.default.notWebphonePermission;
+                } else {
+                  errorCode = _webphoneErrors2.default.sipProvisionError;
                 }
-
-                this._rolesAndPermissions.refreshServiceFeatures();
-                needToReconnect = false;
-                errorCode = _webphoneErrors2.default.notWebphonePermission;
-                return _context4.abrupt('return');
-
-              case 37:
                 this.store.dispatch({
                   type: this.actionTypes.connectError,
                   errorCode: errorCode,
@@ -697,14 +735,14 @@ var Webphone = (_dec = (0, _di.Module)({
                 });
 
                 if (!needToReconnect) {
-                  _context4.next = 41;
+                  _context4.next = 37;
                   break;
                 }
 
-                _context4.next = 41;
+                _context4.next = 37;
                 return this._connect(needToReconnect);
 
-              case 41:
+              case 37:
               case 'end':
                 return _context4.stop();
             }
@@ -732,7 +770,7 @@ var Webphone = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                if (!(this._auth.loggedIn && this.enabled && this.connectionStatus === _connectionStatus2.default.disconnected)) {
+                if (!(this._auth.loggedIn && this.enabled && (this.connectionStatus === _connectionStatus2.default.disconnected || this.connectionStatus === _connectionStatus2.default.connectFailed))) {
                   _context5.next = 19;
                   break;
                 }
@@ -917,6 +955,9 @@ var Webphone = (_dec = (0, _di.Module)({
         session.callStatus = _sessionStatus2.default.connected;
         _this5._updateSessions();
       });
+      session.mediaHandler.on('userMediaFailed', function () {
+        _this5._audioSettings.onGetUserMediaError();
+      });
     }
   }, {
     key: '_onInvite',
@@ -976,7 +1017,8 @@ var Webphone = (_dec = (0, _di.Module)({
 
                 console.log('Accept failed');
                 console.error(_context7.t0);
-                this._removeSession(session);
+                // this._removeSession(session);
+                this._onCallEnd(session);
 
               case 17:
               case 'end':
@@ -1024,7 +1066,8 @@ var Webphone = (_dec = (0, _di.Module)({
                 _context8.t0 = _context8['catch'](3);
 
                 console.error(_context8.t0);
-                this._removeSession(session);
+                // this._removeSession(session);
+                this._onCallEnd(session);
 
               case 12:
               case 'end':
@@ -2224,6 +2267,50 @@ var Webphone = (_dec = (0, _di.Module)({
 
       return _retrySleep;
     }()
+
+    /**
+     * Inform user what is happening with webphone,
+     * this will be invoked when webphone itself run into error situation
+     */
+
+  }, {
+    key: 'showAlert',
+    value: function () {
+      var _ref32 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee30() {
+        return _regenerator2.default.wrap(function _callee30$(_context30) {
+          while (1) {
+            switch (_context30.prev = _context30.next) {
+              case 0:
+                if (this.errorCode) {
+                  _context30.next = 2;
+                  break;
+                }
+
+                return _context30.abrupt('return');
+
+              case 2:
+                this._alert.danger({
+                  message: this.errorCode,
+                  allowDuplicates: false,
+                  payload: {
+                    statusCode: this.statusCode
+                  }
+                });
+
+              case 3:
+              case 'end':
+                return _context30.stop();
+            }
+          }
+        }, _callee30, this);
+      }));
+
+      function showAlert() {
+        return _ref32.apply(this, arguments);
+      }
+
+      return showAlert;
+    }()
   }, {
     key: 'status',
     get: function get() {
@@ -2341,6 +2428,11 @@ var Webphone = (_dec = (0, _di.Module)({
       return this.state.errorCode;
     }
   }, {
+    key: 'statusCode',
+    get: function get() {
+      return this.state.statusCode;
+    }
+  }, {
     key: 'disconnecting',
     get: function get() {
       return this.connectionStatus === _connectionStatus2.default.disconnecting;
@@ -2362,6 +2454,6 @@ var Webphone = (_dec = (0, _di.Module)({
     }
   }]);
   return Webphone;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, '_sipProvision', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_sipProvision'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_connect', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_connect'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'connect', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'connect'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'disconnect', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'disconnect'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'answer', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'answer'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'reject', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'reject'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'resume', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'resume'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'forward', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'forward'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'mute', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'mute'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unmute', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unmute'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hold', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'hold'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unhold', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unhold'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'startRecord', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'startRecord'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'stopRecord', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'stopRecord'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'park', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'park'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'transfer', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'transfer'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'transferWarm', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'transferWarm'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'flip', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'flip'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'sendDTMF', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'sendDTMF'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hangup', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'hangup'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'toVoiceMail', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'toVoiceMail'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'replyWithMessage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'replyWithMessage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'makeCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'makeCall'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateSessionMatchedContact', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateSessionMatchedContact'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'toggleMinimized', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'toggleMinimized'), _class2.prototype)), _class2)) || _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, '_sipProvision', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_sipProvision'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_connect', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_connect'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'connect', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'connect'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'disconnect', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'disconnect'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'answer', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'answer'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'reject', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'reject'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'resume', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'resume'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'forward', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'forward'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'mute', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'mute'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unmute', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unmute'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hold', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'hold'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unhold', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unhold'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'startRecord', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'startRecord'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'stopRecord', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'stopRecord'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'park', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'park'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'transfer', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'transfer'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'transferWarm', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'transferWarm'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'flip', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'flip'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'sendDTMF', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'sendDTMF'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hangup', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'hangup'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'toVoiceMail', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'toVoiceMail'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'replyWithMessage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'replyWithMessage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'makeCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'makeCall'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateSessionMatchedContact', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateSessionMatchedContact'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'toggleMinimized', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'toggleMinimized'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'showAlert', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'showAlert'), _class2.prototype)), _class2)) || _class);
 exports.default = Webphone;
 //# sourceMappingURL=index.js.map

@@ -13,6 +13,10 @@ var _stringify = require('babel-runtime/core-js/json/stringify');
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
+var _keys = require('babel-runtime/core-js/object/keys');
+
+var _keys2 = _interopRequireDefault(_keys);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -100,17 +104,26 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
   return desc;
 }
 
+/**
+ * Support localization
+ */
+var SUPPORTED_LOCALES = {
+  'en-US': 'en-US',
+  'fr-CA': 'fr-CA'
+};
+
 var UserGuide = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Storage', 'Webphone', 'RolesAndPermissions', { dep: 'UserGuideOptions', optional: true }]
+  deps: ['Auth', 'Locale', 'Storage', 'Webphone', 'RolesAndPermissions', { dep: 'UserGuideOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(UserGuide, _RcModule);
 
   function UserGuide(_ref) {
     var auth = _ref.auth,
+        locale = _ref.locale,
         storage = _ref.storage,
         webphone = _ref.webphone,
         rolesAndPermissions = _ref.rolesAndPermissions,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'storage', 'webphone', 'rolesAndPermissions']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'locale', 'storage', 'webphone', 'rolesAndPermissions']);
     (0, _classCallCheck3.default)(this, UserGuide);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (UserGuide.__proto__ || (0, _getPrototypeOf2.default)(UserGuide)).call(this, (0, _extends3.default)({
@@ -118,6 +131,7 @@ var UserGuide = (_dec = (0, _di.Module)({
     }, options)));
 
     _this._auth = auth;
+    _this._locale = locale;
     _this._storage = storage;
     _this._webphone = webphone;
     _this._rolesAndPermissions = rolesAndPermissions;
@@ -151,7 +165,7 @@ var UserGuide = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(this.pending && this._auth.ready && this._storage.ready && this._rolesAndPermissions.ready && this._auth.loggedIn)) {
+                if (!(this.pending && this._auth.ready && this._locale.ready && this._storage.ready && this._rolesAndPermissions.ready && this._auth.loggedIn)) {
                   _context.next = 6;
                   break;
                 }
@@ -167,7 +181,7 @@ var UserGuide = (_dec = (0, _di.Module)({
                 break;
 
               case 6:
-                if (this.ready && (!this._auth.ready || !this._storage.ready || !this._rolesAndPermissions.ready)) {
+                if (this.ready && (!this._auth.ready || !this._locale.ready || !this._storage.ready || !this._rolesAndPermissions.ready)) {
                   this.store.dispatch({
                     type: this.actionTypes.resetSuccess
                   });
@@ -178,7 +192,7 @@ var UserGuide = (_dec = (0, _di.Module)({
                 // the guide should be dismissed
                 if (this._webphone.ready && this._webphone.ringSession && this._webphone.ringSession !== this._lastRingSession) {
                   this._lastRingSession = this._webphone.ringSession;
-                  this.updateCarousel({ curIdx: 0, entered: false, playing: false });
+                  this.dismiss();
                 }
 
               case 8:
@@ -199,6 +213,7 @@ var UserGuide = (_dec = (0, _di.Module)({
     /**
      * Using webpack `require.context` to load guides files.
      * Image files will be ordered by file name ascendingly.
+     * @return {Map<String, Array<URI>>}
      */
 
   }, {
@@ -207,11 +222,25 @@ var UserGuide = (_dec = (0, _di.Module)({
       var _this3 = this;
 
       if (this._context && typeof this._context === 'function') {
+        var locales = (0, _keys2.default)(SUPPORTED_LOCALES);
         return this._context.keys().sort().map(function (key) {
           return _this3._context(key);
-        });
+        }).reduce(function (prev, curr) {
+          locales.forEach(function (locale) {
+            if (!prev[locale]) prev[locale] = [];
+            if (curr.includes(locale)) {
+              prev[locale].push(curr);
+            }
+          });
+          return prev;
+        }, {});
       }
-      return [];
+      return {};
+    }
+  }, {
+    key: 'dismiss',
+    value: function dismiss() {
+      this.updateCarousel({ curIdx: 0, entered: false, playing: false });
     }
   }, {
     key: 'loadGuides',
@@ -292,7 +321,7 @@ var UserGuide = (_dec = (0, _di.Module)({
 
               case 2:
                 // eslint-disable-next-line
-                prevGuides = this.guides;
+                prevGuides = this.allGuides;
                 guides = this.resolveGuides();
                 // Determine if it needs to be displayed when first log in,
                 // the principles behind this is to use webpack's file hash,
@@ -360,10 +389,17 @@ var UserGuide = (_dec = (0, _di.Module)({
   }, {
     key: 'guides',
     get: function get() {
-      if (!this._storage.ready) return [];
-      var guides = this._storage.getItem(this._storageKey);
-      if (guides && Array.isArray(guides)) return guides;
+      if (!this._locale.ready) return [];
+      if (this.allGuides) {
+        return this.allGuides[this._locale.currentLocale] || this.allGuides[SUPPORTED_LOCALES['en-US']] || [];
+      }
       return [];
+    }
+  }, {
+    key: 'allGuides',
+    get: function get() {
+      if (!this._storage.ready) return [];
+      return this._storage.getItem(this._storageKey);
     }
   }, {
     key: 'carouselState',
@@ -382,6 +418,6 @@ var UserGuide = (_dec = (0, _di.Module)({
     }
   }]);
   return UserGuide;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'loadGuides', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'loadGuides'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateCarousel', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateCarousel'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'initUserGuide', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'initUserGuide'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'start', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'start'), _class2.prototype)), _class2)) || _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'dismiss', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'dismiss'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'loadGuides', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'loadGuides'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateCarousel', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateCarousel'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'initUserGuide', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'initUserGuide'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'start', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'start'), _class2.prototype)), _class2)) || _class);
 exports.default = UserGuide;
 //# sourceMappingURL=index.js.map

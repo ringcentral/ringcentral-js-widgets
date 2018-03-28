@@ -31,7 +31,7 @@ var _uuid2 = _interopRequireDefault(_uuid);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getTestPhone() {
-  var testPhone = new _Phone2.default((0, _extends3.default)({}, _apiConfig2.default, _brandConfig2.default, {
+  var testPhone = new _Phone2.default((0, _extends3.default)({}, _apiConfig2.default, (0, _brandConfig2.default)(), {
     prefix: _uuid2.default.v4()
   }));
   var store = (0, _redux.createStore)(testPhone.reducer);

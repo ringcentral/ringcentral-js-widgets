@@ -157,6 +157,7 @@ var ComposeText = (_dec = (0, _di.Module)({
     _this._numberValidate = numberValidate;
     _this._contactSearch = contactSearch;
     _this._lastContactSearchResult = [];
+    _this.senderNumbersList = [];
     storage.registerReducer({ key: _this._storageKey, reducer: _this._cacheReducer });
     return _this;
   }

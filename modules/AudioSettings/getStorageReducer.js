@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.getHasAutoPromptedReducer = getHasAutoPromptedReducer;
 exports.default = getStorageReducer;
 
 var _redux = require('redux');
@@ -137,6 +138,21 @@ function getCallVolumeReducer(types) {
   };
 }
 
+function getHasAutoPromptedReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var _ref8 = arguments[1];
+    var type = _ref8.type;
+
+    switch (type) {
+      case types.autoPrompted:
+        return true;
+      default:
+        return state;
+    }
+  };
+}
+
 function getStorageReducer(types) {
   return (0, _redux.combineReducers)({
     dialButtonVolume: getDialButtonVolumeReducer(types),
@@ -145,7 +161,8 @@ function getStorageReducer(types) {
     ringtoneMuted: getRingtoneMutedReducer(types),
     callVolume: getCallVolumeReducer(types),
     outputDeviceId: getOutputDeviceIdReducer(types),
-    inputDeviceId: getInputDeviceIdReducer(types)
+    inputDeviceId: getInputDeviceIdReducer(types),
+    hasAutoPrompted: getHasAutoPromptedReducer(types)
   });
 }
 //# sourceMappingURL=getStorageReducer.js.map

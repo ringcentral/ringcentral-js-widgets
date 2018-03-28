@@ -117,7 +117,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @description Validate number with number parser api
  */
 var NumberValidate = (_dec = (0, _di.Module)({
-  deps: ['Client', 'AccountExtension', 'RegionSettings', 'AccountInfo']
+  deps: ['Brand', 'Client', 'AccountExtension', 'RegionSettings', 'AccountInfo']
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(NumberValidate, _RcModule);
 
@@ -130,17 +130,19 @@ var NumberValidate = (_dec = (0, _di.Module)({
    * @param {AccountInfo} params.accountInfo - accountInfo module instance
    */
   function NumberValidate(_ref) {
-    var client = _ref.client,
+    var brand = _ref.brand,
+        client = _ref.client,
         accountExtension = _ref.accountExtension,
         regionSettings = _ref.regionSettings,
         accountInfo = _ref.accountInfo,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'accountExtension', 'regionSettings', 'accountInfo']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['brand', 'client', 'accountExtension', 'regionSettings', 'accountInfo']);
     (0, _classCallCheck3.default)(this, NumberValidate);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (NumberValidate.__proto__ || (0, _getPrototypeOf2.default)(NumberValidate)).call(this, (0, _extends3.default)({}, options, {
       actionTypes: _numberValidateActionTypes2.default
     })));
 
+    _this._brand = brand;
     _this._client = client;
     _this._accountExtension = accountExtension;
     _this._regionSettings = regionSettings;
@@ -170,7 +172,7 @@ var NumberValidate = (_dec = (0, _di.Module)({
   }, {
     key: '_shouldInit',
     value: function _shouldInit() {
-      return this._regionSettings.ready && this._accountExtension.ready && this._accountInfo.ready && !this.ready;
+      return this._brand.ready && this._regionSettings.ready && this._accountExtension.ready && this._accountInfo.ready && !this.ready;
     }
   }, {
     key: '_initModuleStatus',
@@ -182,7 +184,7 @@ var NumberValidate = (_dec = (0, _di.Module)({
   }, {
     key: '_shouldReset',
     value: function _shouldReset() {
-      return (!this._accountInfo.ready || !this._regionSettings.ready || !this._accountExtension.ready) && this.ready;
+      return (!this._brand.ready || !this._accountInfo.ready || !this._regionSettings.ready || !this._accountExtension.ready) && this.ready;
     }
   }, {
     key: '_resetModuleStatus',
@@ -219,7 +221,7 @@ var NumberValidate = (_dec = (0, _di.Module)({
           countryCode = _regionSettings.countryCode,
           areaCode = _regionSettings.areaCode;
 
-      if (!isServiceNumber && !hasPlus && number.length === 7 && (countryCode === 'CA' || countryCode === 'US') && areaCode === '') {
+      if (this._brand.id === '1210' && !isServiceNumber && !hasPlus && number.length === 7 && (countryCode === 'CA' || countryCode === 'US') && areaCode === '') {
         return true;
       }
       return false;

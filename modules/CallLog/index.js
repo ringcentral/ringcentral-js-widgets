@@ -353,7 +353,20 @@ var CallLog = (_dec = (0, _di.Module)({
             // [RCINT-3472] calls with result === 'stopped' seems to be useless
             call.result !== _callResults2.default.stopped &&
             // [RCINT-51111] calls with result === 'busy'
-            call.result !== _callResults2.default.busy
+            call.result !== _callResults2.default.busy &&
+            // [RCINT-6839]
+            // Call processing result is undefined
+            call.result !== _callResults2.default.unknown &&
+            // Outgoing fax sending has failed
+            call.result !== _callResults2.default.faxSendError &&
+            // Incoming fax has failed to be received
+            call.result !== _callResults2.default.faxReceiptError &&
+            // Outgoing fax has failed because of no answer
+            call.result !== _callResults2.default.callFailed &&
+            // Outgoing fax sending has been stopped
+            call.result !== _callResults2.default.stopped &&
+            // Error Internal error occurred when receiving fax
+            call.result !== _callResults2.default.faxReceipt
           );
         })))
       );
