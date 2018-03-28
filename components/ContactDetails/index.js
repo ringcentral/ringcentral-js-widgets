@@ -43,9 +43,9 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _presenceStatus = require('ringcentral-integration/modules/Presence/presenceStatus');
+var _dndStatus = require('ringcentral-integration/modules/Presence/dndStatus');
 
-var _presenceStatus2 = _interopRequireDefault(_presenceStatus);
+var _dndStatus2 = _interopRequireDefault(_dndStatus);
 
 var _PresenceStatusIcon = require('../PresenceStatusIcon');
 
@@ -71,14 +71,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // import FaxIcon from '../../assets/images/Fax.svg';
 function getPresenceStatusName(presence, currentLocale) {
-  var dndStatus = presence.dndStatus,
-      presenceStatus = presence.presenceStatus;
+  var userStatus = presence.userStatus,
+      dndStatus = presence.dndStatus;
 
-  var userStatus = presenceStatus || presence.userStatus;
-  if (userStatus !== _presenceStatus2.default.busy) {
-    return _i18n2.default.getString(userStatus, currentLocale);
+  if (dndStatus === _dndStatus2.default.doNotAcceptAnyCalls) {
+    return _i18n2.default.getString(dndStatus, currentLocale);
   }
-  return _i18n2.default.getString(userStatus + dndStatus, currentLocale);
+  return _i18n2.default.getString(userStatus, currentLocale);
 }
 
 function AvatarNode(_ref) {

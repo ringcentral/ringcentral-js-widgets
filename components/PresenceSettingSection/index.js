@@ -167,9 +167,10 @@ var PresenceSettingSection = function (_Component) {
           { className: _styles2.default.presenceList },
           _react2.default.createElement(_PresenceItem2.default, {
             userStatus: _presenceStatus2.default.available,
+            dndStatus: _dndStatus2.default.takeAllCalls,
             currentLocale: this.props.currentLocale,
             onClick: this.props.setAvailable,
-            selected: this.props.userStatus === _presenceStatus2.default.available
+            selected: this.props.userStatus === _presenceStatus2.default.available && this.props.dndStatus !== _dndStatus2.default.doNotAcceptAnyCalls
           }),
           _react2.default.createElement(_PresenceItem2.default, {
             userStatus: _presenceStatus2.default.busy,
@@ -183,13 +184,14 @@ var PresenceSettingSection = function (_Component) {
             dndStatus: _dndStatus2.default.doNotAcceptAnyCalls,
             currentLocale: this.props.currentLocale,
             onClick: this.props.setDoNotDisturb,
-            selected: this.props.userStatus === _presenceStatus2.default.busy && this.props.dndStatus === _dndStatus2.default.doNotAcceptAnyCalls
+            selected: this.props.dndStatus === _dndStatus2.default.doNotAcceptAnyCalls
           }),
           _react2.default.createElement(_PresenceItem2.default, {
             userStatus: _presenceStatus2.default.offline,
+            dndStatus: _dndStatus2.default.takeAllCalls,
             currentLocale: this.props.currentLocale,
             onClick: this.props.setInvisible,
-            selected: this.props.userStatus === _presenceStatus2.default.offline
+            selected: this.props.userStatus === _presenceStatus2.default.offline && this.props.dndStatus !== _dndStatus2.default.doNotAcceptAnyCalls
           })
         ),
         acceptQueueCalls

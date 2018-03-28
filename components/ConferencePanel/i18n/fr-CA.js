@@ -12,16 +12,29 @@ exports.default = {
   internationalNumbersHeader: 'Sélectionner les numéros internationaux à composer',
   search: 'Recherche...',
   inviteWithText: 'Inviter par texto',
-  inviteText: 'Veuillez joindre la téléconférence RingCentral. \n\nNuméros à composer : {formattedDialInNumber} \n\n{additionalNumbersSection} \nAccès du participant : {participantCode} \n\nBesoin d\'un numéro de téléphone international à composer ? Veuillez consulter le http://www.ringcentral.com/conferencing \n\nCette téléconférence vous est offerte par Téléconférence RingCentral.'
+  inviteText: 'Veuillez joindre la téléconférence {brandName}.\r\n\nNuméros à composer\xA0: {formattedDialInNumber} \r\n{additionalNumbersSection} \r\nCode du participant\xA0: {participantCode} \r\n\nVous avez besoin d\'un numéro d\'accès international? Veuillez visiter {dialInNumbersLinks} \r\n\nCette téléconférence est rendue possible grâce au service de conférences {brandName}.',
+  hostAccess: 'Accès de l\'animateur',
+  participantsAccess: 'Accès des participants',
+  addinalDialInNumbers: 'Autres numéros à composer',
+  selectNumbers: 'Sélect. numéros',
+  enableJoinBeforeHost: 'Activer l\'option permettant de joindre la réunion avant l\'animateur',
+  conferenceCommands: 'Commandes de téléconférence',
+  inviteWithGCalendar: 'Inviter avec Google Agenda',
+  joinAsHost: 'Joindre comme animateur',
+  internationalNumber: 'Numéros internationaux à composer\xA0:'
 };
 
 // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@
 // @key: @#@"dialInNumber"@#@ @source: @#@"Dial-in Number"@#@
-// @key: @#@"host"@#@ @source: @#@"Host"@#@
-// @key: @#@"participants"@#@ @source: @#@"Participants"@#@
-// @key: @#@"internationalParticipants"@#@ @source: @#@"International participants"@#@
-// @key: @#@"internationalNumbersHeader"@#@ @source: @#@"Select International Dial-in Numbers"@#@
-// @key: @#@"search"@#@ @source: @#@"Search..."@#@
+// @key: @#@"hostAccess"@#@ @source: @#@"Host Access"@#@
+// @key: @#@"participantsAccess"@#@ @source: @#@"Participants Access"@#@
+// @key: @#@"addinalDialInNumbers"@#@ @source: @#@"Additional Dial-in Numbers"@#@
+// @key: @#@"selectNumbers"@#@ @source: @#@"Select Numbers"@#@
+// @key: @#@"enableJoinBeforeHost"@#@ @source: @#@"Enable join before Host"@#@
+// @key: @#@"conferenceCommands"@#@ @source: @#@"Conference Commands"@#@
+// @key: @#@"inviteWithGCalendar"@#@ @source: @#@"Invite with Google Calendar"@#@
 // @key: @#@"inviteWithText"@#@ @source: @#@"Invite with Text"@#@
-// @key: @#@"inviteText"@#@ @source: @#@"Please join the RingCentral conference.\n\nDial-In Numbers: {dialInNumber} \n\n{internationals} \nParticipant Access: {participantCode} \n\nNeed an international dial-in phone number? Please visit http://www.ringcentral.com/conferencing \n\nThis conference call is brought to you by RingCentral Conferencing."@#@
+// @key: @#@"joinAsHost"@#@ @source: @#@"Join as Host"@#@
+// @key: @#@"internationalNumber"@#@ @source: @#@"International Dial-in Numbers:"@#@
+// @key: @#@"inviteText"@#@ @source: @#@"Please join the {brandName} conference.\n\nDial-In Numbers: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nNeed an international dial-in phone number? Please visit {dialInNumbersLinks} \n\nThis conference call is brought to you by {brandName} Conferencing."@#@
 //# sourceMappingURL=fr-CA.js.map

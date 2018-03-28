@@ -7,10 +7,10 @@ exports.default = {
   forward: 'Transférer',
   reply: 'Répondre',
   ignore: 'Ignorer',
-  toVoicemail: 'vers la\nmessagerie vocale',
+  toVoicemail: 'vers mess. voc.',
   answer: 'Répondre',
-  answerAndEnd: 'Répondre et\nraccrocher',
-  answerAndHold: 'Répondre et\nmettre en attente'
+  answerAndEnd: 'Rép et racc.',
+  answerAndHold: 'Rép. et attente'
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

@@ -18,9 +18,9 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _presenceStatus = require('ringcentral-integration/modules/Presence/presenceStatus');
+var _dndStatus = require('ringcentral-integration/modules/Presence/dndStatus');
 
-var _presenceStatus2 = _interopRequireDefault(_presenceStatus);
+var _dndStatus2 = _interopRequireDefault(_dndStatus);
 
 var _PresenceStatusIcon = require('../PresenceStatusIcon');
 
@@ -37,10 +37,10 @@ var _i18n2 = _interopRequireDefault(_i18n);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getPresenceStatusName(currentUserStatus, currentDndStatus, currentLocale) {
-  if (currentUserStatus !== _presenceStatus2.default.busy) {
-    return _i18n2.default.getString(currentUserStatus, currentLocale);
+  if (currentDndStatus === _dndStatus2.default.doNotAcceptAnyCalls) {
+    return _i18n2.default.getString(currentDndStatus, currentLocale);
   }
-  return _i18n2.default.getString(currentUserStatus + currentDndStatus, currentLocale);
+  return _i18n2.default.getString(currentUserStatus, currentLocale);
 }
 
 function PresenceItem(props) {

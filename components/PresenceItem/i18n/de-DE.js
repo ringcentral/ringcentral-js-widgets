@@ -20,11 +20,10 @@ var _dndStatus2 = _interopRequireDefault(_dndStatus);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (_presenceStatus$avail = {}, (0, _defineProperty3.default)(_presenceStatus$avail, _presenceStatus2.default.available, 'Verfügbar'), (0, _defineProperty3.default)(_presenceStatus$avail, _presenceStatus2.default.offline, 'Unsichtbar'), (0, _defineProperty3.default)(_presenceStatus$avail, _presenceStatus2.default.busy + _dndStatus2.default.takeAllCalls, 'Belegt'), (0, _defineProperty3.default)(_presenceStatus$avail, _presenceStatus2.default.busy + _dndStatus2.default.doNotAcceptDepartmentCalls, 'Belegt'), (0, _defineProperty3.default)(_presenceStatus$avail, _presenceStatus2.default.busy + _dndStatus2.default.doNotAcceptAnyCalls, 'Nicht stören'), _presenceStatus$avail);
+exports.default = (_presenceStatus$avail = {}, (0, _defineProperty3.default)(_presenceStatus$avail, _presenceStatus2.default.available, 'Verfügbar'), (0, _defineProperty3.default)(_presenceStatus$avail, _presenceStatus2.default.busy, 'Belegt'), (0, _defineProperty3.default)(_presenceStatus$avail, _presenceStatus2.default.offline, 'Unsichtbar'), (0, _defineProperty3.default)(_presenceStatus$avail, _dndStatus2.default.doNotAcceptAnyCalls, 'Nicht stören'), _presenceStatus$avail);
 
 // @key: @#@"[presenceStatus.available]"@#@ @source: @#@"Available"@#@
+// @key: @#@"[presenceStatus.busy]"@#@ @source: @#@"Busy"@#@
 // @key: @#@"[presenceStatus.offline]"@#@ @source: @#@"Invisible"@#@
-// @key: @#@"[presenceStatus.busy+dndStatus.takeAllCalls]"@#@ @source: @#@"Busy"@#@
-// @key: @#@"[presenceStatus.busy+dndStatus.doNotAcceptDepartmentCalls]"@#@ @source: @#@"Busy"@#@
-// @key: @#@"[presenceStatus.busy+dndStatus.doNotAcceptAnyCalls]"@#@ @source: @#@"Do not Disturb"@#@
+// @key: @#@"[dndStatus.doNotAcceptAnyCalls]"@#@ @source: @#@"Do not Disturb"@#@
 //# sourceMappingURL=de-DE.js.map

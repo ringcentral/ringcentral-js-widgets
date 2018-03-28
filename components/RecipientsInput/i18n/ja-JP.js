@@ -5,9 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   to: '宛先',
-  enterNameOrNumber: '番号または名前の入力...'
+  enterNameOrNumber: '名前または番号の入力'
 };
 
 // @key: @#@"to"@#@ @source: @#@"To"@#@
-// @key: @#@"enterNameOrNumber"@#@ @source: @#@"Enter Number or Name..."@#@
+// @key: @#@"enterNameOrNumber"@#@ @source: @#@"Enter Name or Number"@#@
 //# sourceMappingURL=ja-JP.js.map

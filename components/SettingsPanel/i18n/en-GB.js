@@ -15,7 +15,11 @@ exports.default = {
   clickToDialSMS: 'Click to Dial/SMS',
   autoCreateSMSLog: 'Auto-create SMS log',
   autoLogCalls: 'Auto log calls',
-  autoLogSMS: 'Auto log SMS'
+  autoLogSMS: 'Auto log SMS',
+  audio: 'Audio',
+  language: 'Language',
+  feedback: 'Feedback',
+  userGuide: 'What\'s New'
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -32,4 +36,6 @@ exports.default = {
 // @key: @#@"clickToDialSMS"@#@ @source: @#@"Click to Dial/SMS"@#@
 // @key: @#@"audio"@#@ @source: @#@"Audio"@#@
 // @key: @#@"language"@#@ @source: @#@"Language"@#@
+// @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
+// @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 //# sourceMappingURL=en-GB.js.map

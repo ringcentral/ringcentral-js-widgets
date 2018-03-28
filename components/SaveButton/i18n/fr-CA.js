@@ -6,4 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   save: 'Sauvegarder'
 };
+
+// @key: @#@"save"@#@ @source: @#@"Save"@#@
 //# sourceMappingURL=fr-CA.js.map

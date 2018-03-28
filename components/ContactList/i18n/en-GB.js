@@ -7,5 +7,5 @@ exports.default = {
   noContacts: 'No records found.'
 };
 
-// @key: @#@"noContacts"@#@ @source: @#@"No records found"@#@
+// @key: @#@"noContacts"@#@ @source: @#@"No records found."@#@
 //# sourceMappingURL=en-GB.js.map

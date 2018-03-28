@@ -5,9 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   unmute: 'Riattiva audio',
-  mute: 'Disattiva audio',
+  mute: 'No audio',
   keypad: 'Tastierino',
-  hold: 'Metti in attesa',
+  hold: 'Attesa',
   onHold: 'In attesa',
   park: 'Parcheggia',
   stopRecord: 'Interrompi',

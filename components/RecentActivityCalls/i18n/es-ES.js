@@ -5,8 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   noRecords: 'No se han encontrado registros.',
-  inBound: 'Entrantes',
-  outBound: 'Salientes',
+  inBound: 'Entrante',
+  outBound: 'Saliente',
   missed: 'Llamada perdida'
 };
 

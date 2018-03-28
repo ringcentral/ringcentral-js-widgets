@@ -12,10 +12,14 @@ exports.default = {
   clickToDial: 'Cliquer pour appeler',
   autoCreateLog: 'Créer automatiquement un journal des appels',
   clickToSMS: 'Cliquer pour envoyer un SMS',
-  clickToDialSMS: 'Cliquer pour composer/envoyer un SMS',
+  clickToDialSMS: 'Cliquer pour appeler ou envoyer un SMS',
   autoCreateSMSLog: 'Créer automatiquement un journal de SMS',
   autoLogCalls: 'Enregistrer automatiquement les appels',
-  autoLogSMS: 'Enregistrer automatiquement les SMS'
+  autoLogSMS: 'Enregistrer automatiquement les SMS',
+  audio: 'Audio',
+  language: 'Langue',
+  feedback: 'Commentaires',
+  userGuide: 'Nouveautés'
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -32,4 +36,6 @@ exports.default = {
 // @key: @#@"clickToDialSMS"@#@ @source: @#@"Click to Dial/SMS"@#@
 // @key: @#@"audio"@#@ @source: @#@"Audio"@#@
 // @key: @#@"language"@#@ @source: @#@"Language"@#@
+// @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
+// @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 //# sourceMappingURL=fr-FR.js.map

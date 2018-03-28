@@ -6,4 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   save: 'Speichern'
 };
+
+// @key: @#@"save"@#@ @source: @#@"Save"@#@
 //# sourceMappingURL=de-DE.js.map

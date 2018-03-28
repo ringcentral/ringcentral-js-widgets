@@ -172,6 +172,9 @@ var ContactsView = function (_Component) {
   }, {
     key: 'doSearchBySource',
     value: function doSearchBySource(searchSource) {
+      if (this.listElem && this.listElem.scrollTop) {
+        this.listElem.scrollTop = 0;
+      }
       this._applySearch({
         searchSource: searchSource,
         searchString: this.state.searchString,
@@ -215,6 +218,8 @@ var ContactsView = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this3 = this;
+
       var _props = this.props,
           currentLocale = _props.currentLocale,
           contactGroups = _props.contactGroups,
@@ -263,7 +268,10 @@ var ContactsView = function (_Component) {
             currentPage: currentPage,
             onNextPage: this.loadNextPage,
             onItemSelect: onItemSelect,
-            sourceNodeRenderer: sourceNodeRenderer
+            sourceNodeRenderer: sourceNodeRenderer,
+            listRef: function listRef(el) {
+              _this3.listElem = el;
+            }
           })
         ),
         showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, { className: _styles2.default.spinner }) : null,

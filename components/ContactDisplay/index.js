@@ -89,7 +89,7 @@ function ContactDisplayItem(_ref2) {
       SourceIcon = sourceIcons[entityType];
     }
   }
-  if (phoneNumber && entityName && SourceIcon) {
+  if (phoneNumber && entityName !== undefined && SourceIcon) {
     return _react2.default.createElement(
       'span',
       null,
@@ -100,7 +100,7 @@ function ContactDisplayItem(_ref2) {
         entityName
       )
     );
-  } else if (entityName && SourceIcon) {
+  } else if (entityName !== undefined && SourceIcon) {
     return _react2.default.createElement(
       'span',
       null,
@@ -111,7 +111,7 @@ function ContactDisplayItem(_ref2) {
         entityName
       )
     );
-  } else if (entityName) {
+  } else if (entityName !== undefined) {
     return _react2.default.createElement(
       'span',
       null,

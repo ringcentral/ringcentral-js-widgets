@@ -24,7 +24,10 @@ exports.default = {
   inboundCall: 'Eingehend',
   outboundCall: 'Ausgehend',
   from: 'Von',
-  to: 'An'
+  to: 'An',
+  hangup: 'Auflegen',
+  accept: 'Annehmen',
+  toVoicemail: 'An Voicemail weiterleiten'
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -48,4 +51,7 @@ exports.default = {
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
 // @key: @#@"from"@#@ @source: @#@"From"@#@
 // @key: @#@"to"@#@ @source: @#@"To"@#@
+// @key: @#@"hangup"@#@ @source: @#@"Hangup"@#@
+// @key: @#@"accept"@#@ @source: @#@"Accept"@#@
+// @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@
 //# sourceMappingURL=de-DE.js.map

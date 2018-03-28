@@ -9,8 +9,8 @@ exports.default = {
   ignore: 'Ignorar',
   toVoicemail: 'Para caixa postal',
   answer: 'Responder',
-  answerAndEnd: 'Responder e encerrar',
-  answerAndHold: 'Responder e colocar em espera'
+  answerAndEnd: 'Atender e enc.',
+  answerAndHold: 'Atender e em espera'
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

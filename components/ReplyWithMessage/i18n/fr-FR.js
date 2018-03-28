@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   cancel: 'Annuler',
   reply: 'Répondre',
-  onMyWay: 'En route',
+  onMyWay: 'Sur la route',
   customMessage: 'Message personnalisé',
   callMeBackIn: 'Rappelez-moi dans',
   willCallYouBackIn: 'Je vous rappelle dans',

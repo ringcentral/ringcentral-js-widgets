@@ -119,6 +119,7 @@ var ContactList = function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
+      this.rootElem = this.props.listRef;
       // wait for contact items rendering
       setTimeout(function () {
         // detect here for the case when there is no scroll bar
@@ -155,24 +156,21 @@ var ContactList = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
-
       var _props2 = this.props,
           currentLocale = _props2.currentLocale,
           contactGroups = _props2.contactGroups,
           getAvatarUrl = _props2.getAvatarUrl,
           getPresence = _props2.getPresence,
           onItemSelect = _props2.onItemSelect,
-          sourceNodeRenderer = _props2.sourceNodeRenderer;
+          sourceNodeRenderer = _props2.sourceNodeRenderer,
+          listRef = _props2.listRef;
 
       return _react2.default.createElement(
         'div',
         {
           className: _styles2.default.root,
           onScroll: this.onScroll,
-          ref: function ref(el) {
-            _this3.rootElem = el;
-          }
+          ref: listRef
         },
         contactGroups.length ? contactGroups.map(function (group) {
           return _react2.default.createElement(ContactGroup, {
@@ -208,13 +206,15 @@ ContactList.propTypes = {
   currentPage: _propTypes2.default.number,
   onNextPage: _propTypes2.default.func,
   onItemSelect: _propTypes2.default.func,
-  sourceNodeRenderer: _propTypes2.default.func
+  sourceNodeRenderer: _propTypes2.default.func,
+  listRef: _propTypes2.default.func
 };
 
 ContactList.defaultProps = {
   currentPage: undefined,
   onNextPage: undefined,
   onItemSelect: undefined,
-  sourceNodeRenderer: undefined
+  sourceNodeRenderer: undefined,
+  listRef: undefined
 };
 //# sourceMappingURL=index.js.map

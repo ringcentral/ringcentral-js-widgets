@@ -9,7 +9,8 @@ exports.default = {
   fr: 'Französisch',
   es: 'Spanisch',
   it: 'Italienisch',
-  pt: 'Portugiesisch'
+  pt: 'Portugiesisch',
+  en: 'Englisch'
 };
 
 // @key: @#@"en"@#@ @source: @#@"English"@#@

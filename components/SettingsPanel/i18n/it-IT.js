@@ -15,7 +15,11 @@ exports.default = {
   clickToDialSMS: 'Fai clic per comporre/inviare un SMS',
   autoCreateSMSLog: 'Crea automaticamente registro SMS',
   autoLogCalls: 'Registra automaticamente le chiamate',
-  autoLogSMS: 'Registra automaticamente gli SMS'
+  autoLogSMS: 'Registra automaticamente gli SMS',
+  audio: 'Audio',
+  language: 'Lingua',
+  feedback: 'Feedback',
+  userGuide: 'Novità'
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -32,4 +36,6 @@ exports.default = {
 // @key: @#@"clickToDialSMS"@#@ @source: @#@"Click to Dial/SMS"@#@
 // @key: @#@"audio"@#@ @source: @#@"Audio"@#@
 // @key: @#@"language"@#@ @source: @#@"Language"@#@
+// @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
+// @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
 //# sourceMappingURL=it-IT.js.map

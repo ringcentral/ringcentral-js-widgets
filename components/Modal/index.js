@@ -88,18 +88,19 @@ var Modal = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (Modal.__proto__ || (0, _getPrototypeOf2.default)(Modal)).call(this, props));
 
     _this._container = document.createElement('div');
+    _this.appendDOM = _this.props.appendDOM || document.body;
     return _this;
   }
 
   (0, _createClass3.default)(Modal, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      document.body.appendChild(this._container);
+      this.appendDOM.appendChild(this._container);
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      document.body.removeChild(this._container);
+      this.appendDOM.removeChild(this._container);
     }
   }, {
     key: 'renderDialog',
@@ -118,48 +119,53 @@ var Modal = function (_Component) {
           modalClassName = _props.modalClassName,
           cancelBtnClassName = _props.cancelBtnClassName,
           confirmBtnClassName = _props.confirmBtnClassName,
-          closeBtn = _props.closeBtn;
+          closeBtn = _props.closeBtn,
+          maskClassName = _props.maskClassName,
+          headerClassName = _props.headerClassName,
+          contentClassName = _props.contentClassName;
 
+      if (!show) return null;
+      var footer = !currentLocale || !onCancel && !onConfirm ? null : _react2.default.createElement(
+        'div',
+        { className: _styles2.default.footer },
+        onCancel ? _react2.default.createElement(
+          FlatButton,
+          {
+            className: (0, _classnames2.default)(_styles2.default.btn, cancelBtnClassName),
+            onClick: onCancel },
+          textCancel || _i18n2.default.getString('cancel', currentLocale)
+        ) : null,
+        onConfirm ? _react2.default.createElement(
+          FlatButton,
+          {
+            className: (0, _classnames2.default)(_styles2.default.btn, confirmBtnClassName),
+            onClick: onConfirm },
+          textConfirm || _i18n2.default.getString('confirm', currentLocale)
+        ) : null
+      );
       return _react2.default.createElement(
         'div',
-        { className: (0, _classnames2.default)(className, show ? _styles2.default.container : _styles2.default.containerHidden) },
+        { className: (0, _classnames2.default)(_styles2.default.container, className) },
+        _react2.default.createElement('div', {
+          className: (0, _classnames2.default)(_styles2.default.mask, maskClassName),
+          onClick: clickOutToClose ? onCancel : function () {}
+        }),
         _react2.default.createElement(
           'div',
-          { className: (0, _classnames2.default)(modalClassName, show ? _styles2.default.modal : _styles2.default.modalHidden) },
+          { className: (0, _classnames2.default)(_styles2.default.modal, modalClassName) },
           title ? _react2.default.createElement(
             'div',
-            { className: _styles2.default.header },
+            { className: (0, _classnames2.default)(_styles2.default.header, headerClassName) },
             title
           ) : null,
           closeBtn,
           _react2.default.createElement(
             'div',
-            { className: _styles2.default.content },
+            { className: (0, _classnames2.default)(_styles2.default.content, contentClassName) },
             children
           ),
-          _react2.default.createElement(
-            'div',
-            { className: _styles2.default.footer },
-            _react2.default.createElement(
-              FlatButton,
-              {
-                className: (0, _classnames2.default)(cancelBtnClassName, _styles2.default.btn),
-                onClick: onCancel },
-              textCancel || _i18n2.default.getString('cancel', currentLocale)
-            ),
-            _react2.default.createElement(
-              FlatButton,
-              {
-                className: (0, _classnames2.default)(confirmBtnClassName, _styles2.default.btn),
-                onClick: onConfirm },
-              textConfirm || _i18n2.default.getString('confirm', currentLocale)
-            )
-          )
-        ),
-        _react2.default.createElement('div', {
-          className: show ? _styles2.default.mask : _styles2.default.maskHidden,
-          onClick: clickOutToClose ? onCancel : function () {}
-        })
+          footer
+        )
       );
     }
   }, {
@@ -181,26 +187,37 @@ Modal.propTypes = {
   confirmBtnClassName: _propTypes2.default.string,
   children: _propTypes2.default.node,
   show: _propTypes2.default.bool,
-  onConfirm: _propTypes2.default.func.isRequired,
-  onCancel: _propTypes2.default.func.isRequired,
+  onConfirm: _propTypes2.default.func,
+  onCancel: _propTypes2.default.func,
   clickOutToClose: _propTypes2.default.bool,
   title: _propTypes2.default.string,
-  currentLocale: _propTypes2.default.string.isRequired,
+  currentLocale: _propTypes2.default.string,
   textConfirm: _propTypes2.default.string,
   textCancel: _propTypes2.default.string,
-  closeBtn: _propTypes2.default.node
+  closeBtn: _propTypes2.default.node,
+  appendDOM: _propTypes2.default.object,
+  maskClassName: _propTypes2.default.string,
+  headerClassName: _propTypes2.default.string,
+  contentClassName: _propTypes2.default.string
 };
 Modal.defaultProps = {
   className: '',
+  currentLocale: '',
   modalClassName: '',
   cancelBtnClassName: '',
   confirmBtnClassName: '',
   children: undefined,
   show: false,
+  onConfirm: undefined,
+  onCancel: undefined,
   clickOutToClose: false,
   title: undefined,
   textConfirm: '',
   textCancel: '',
-  closeBtn: undefined
+  closeBtn: undefined,
+  appendDOM: undefined,
+  maskClassName: undefined,
+  headerClassName: undefined,
+  contentClassName: undefined
 };
 //# sourceMappingURL=index.js.map

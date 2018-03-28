@@ -5,9 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   noActiveCalls: 'Nessuna chiamata attiva',
-  noRecords: 'Nessun record.'
+  noRecords: 'Nessun risultato trovato.'
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
-// @key: @#@"noRecords"@#@ @source: @#@"No results found"@#@
+// @key: @#@"noRecords"@#@ @source: @#@"No results found."@#@
 //# sourceMappingURL=it-IT.js.map

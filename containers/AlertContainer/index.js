@@ -70,6 +70,10 @@ var _MeetingAlert = require('../../components/MeetingAlert');
 
 var _MeetingAlert2 = _interopRequireDefault(_MeetingAlert);
 
+var _AudioSettingsAlert = require('../../components/AudioSettingsAlert');
+
+var _AudioSettingsAlert2 = _interopRequireDefault(_AudioSettingsAlert);
+
 var _RolesAndPermissionsAlert = require('../../components/RolesAndPermissionsAlert');
 
 var _RolesAndPermissionsAlert2 = _interopRequireDefault(_RolesAndPermissionsAlert);
@@ -172,7 +176,11 @@ function getDefaultRenderer(_ref2) {
     }
 
     if (_WebphoneAlert2.default.handleMessage(message)) {
-      return _WebphoneAlert2.default;
+      return function (props) {
+        return _react2.default.createElement(_WebphoneAlert2.default, (0, _extends3.default)({}, props, {
+          brand: brand
+        }));
+      };
     }
     if (_MeetingAlert2.default.handleMessage(message)) {
       return _MeetingAlert2.default;
@@ -187,6 +195,14 @@ function getDefaultRenderer(_ref2) {
 
     if (_index2.default.handleMessage(message)) {
       return _index2.default;
+    }
+
+    if (_AudioSettingsAlert2.default.handleMessage(message)) {
+      return function (props) {
+        return _react2.default.createElement(_AudioSettingsAlert2.default, (0, _extends3.default)({}, props, {
+          brand: brand
+        }));
+      };
     }
 
     return undefined;

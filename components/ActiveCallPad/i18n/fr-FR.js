@@ -4,10 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  unmute: 'Désactiver\nle mode muet',
-  mute: 'Activer\nle mode muet',
+  unmute: 'Désac. Muet',
+  mute: 'Activ. muet',
   keypad: 'Clavier',
-  hold: 'Mettre\nen attente',
+  hold: 'Attente',
   onHold: 'En attente',
   park: 'Parc',
   stopRecord: 'Arrêter',

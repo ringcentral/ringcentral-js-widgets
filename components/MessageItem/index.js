@@ -227,12 +227,17 @@ var MessageItem = function (_Component) {
       if (_this.contactDisplay && _this.contactDisplay.contains(e.target)) {
         return;
       }
-      if ((0, _messageHelper.messageIsTextMessage)(_this.props.conversation)) {
-        _this.props.showConversationDetail(_this.props.conversation.conversationId);
-        return;
-      }
 
       _this.toggleExtended();
+    };
+
+    _this.onClickWrapper = function (e) {
+      if (_this.contactDisplay && _this.contactDisplay.contains(e.target)) {
+        return;
+      }
+      if ((0, _messageHelper.messageIsTextMessage)(_this.props.conversation)) {
+        _this.props.showConversationDetail(_this.props.conversation.conversationId);
+      }
     };
 
     _this.onPlayVoicemail = function () {
@@ -540,7 +545,8 @@ var MessageItem = function (_Component) {
         _react2.default.createElement(
           'div',
           {
-            className: (0, _classnames2.default)(_styles2.default.wrapper, unreadCounts && _styles2.default.unread)
+            className: (0, _classnames2.default)(_styles2.default.wrapper, unreadCounts && _styles2.default.unread),
+            onClick: this.onClickWrapper
           },
           _react2.default.createElement(ConversationIcon, {
             group: correspondents.length > 1,

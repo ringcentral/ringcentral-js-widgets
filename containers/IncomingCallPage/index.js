@@ -99,11 +99,14 @@ var IncomingCallPage = function (_Component) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _this.props.hangup(_this.props.activeSessionId);
-              _context.next = 3;
+              _context.next = 2;
+              return _this.props.hangup(_this.props.activeSessionId);
+
+            case 2:
+              _context.next = 4;
               return _this.props.answer(_this.props.session.id);
 
-            case 3:
+            case 4:
             case 'end':
               return _context.stop();
           }

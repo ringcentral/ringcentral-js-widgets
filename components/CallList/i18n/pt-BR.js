@@ -9,5 +9,5 @@ exports.default = {
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
-// @key: @#@"noRecords"@#@ @source: @#@"No results found"@#@
+// @key: @#@"noRecords"@#@ @source: @#@"No results found."@#@
 //# sourceMappingURL=pt-BR.js.map

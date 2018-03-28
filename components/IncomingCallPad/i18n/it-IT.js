@@ -10,7 +10,7 @@ exports.default = {
   toVoicemail: 'Alla segreteria',
   answer: 'Rispondi',
   answerAndEnd: 'Rispondi e termina',
-  answerAndHold: 'Rispondi e metti in attesa'
+  answerAndHold: 'Rispondi e attesa'
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

@@ -40,17 +40,18 @@ function mapToProps(_, _ref) {
   var isWebphoneMode = callingSettings.callingMode === _callingModes2.default.webphone;
   var waitingWebphoneConnected = isWebphoneMode && webphone && webphone.connecting;
   var webphoneDisconnected = isWebphoneMode && webphone && !webphone.connected;
+  var audioNotEnabled = isWebphoneMode && !audioSettings.userMedia;
   return {
     currentLocale: locale.currentLocale,
     callingMode: callingSettings.callingMode,
     isWebphoneMode: isWebphoneMode,
-    callButtonDisabled: !call.isIdle || !connectivityMonitor.connectivity || rateLimiter.throttling || webphoneDisconnected,
+    callButtonDisabled: !call.isIdle || !connectivityMonitor.connectivity || rateLimiter.throttling || webphoneDisconnected || audioNotEnabled,
     toNumber: dialerUI.toNumberField,
     recipient: dialerUI.recipient,
     searchContactList: contactSearch ? contactSearch.sortedResult : [],
     fromNumbers: callingSettings.fromNumbers,
     fromNumber: callingSettings.fromNumber,
-    showSpinner: !(call.ready && callingSettings.ready && locale.ready && connectivityMonitor.ready && (!isWebphoneMode || !webphone || !waitingWebphoneConnected)),
+    showSpinner: !(call.ready && callingSettings.ready && locale.ready && connectivityMonitor.ready && audioSettings.ready && (!isWebphoneMode || !webphone || !waitingWebphoneConnected)),
     dialButtonVolume: audioSettings ? audioSettings.dialButtonVolume : 1,
     dialButtonMuted: audioSettings ? audioSettings.dialButtonMuted : 1
   };

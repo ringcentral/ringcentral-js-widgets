@@ -24,7 +24,10 @@ exports.default = {
   inboundCall: 'In entrata',
   outboundCall: 'In uscita',
   from: 'Da',
-  to: 'A'
+  to: 'A',
+  hangup: 'Riaggancia',
+  accept: 'Accetta',
+  toVoicemail: 'Invia alla segreteria telefonica'
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -48,4 +51,7 @@ exports.default = {
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
 // @key: @#@"from"@#@ @source: @#@"From"@#@
 // @key: @#@"to"@#@ @source: @#@"To"@#@
+// @key: @#@"hangup"@#@ @source: @#@"Hangup"@#@
+// @key: @#@"accept"@#@ @source: @#@"Accept"@#@
+// @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@
 //# sourceMappingURL=it-IT.js.map

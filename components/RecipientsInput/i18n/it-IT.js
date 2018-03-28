@@ -5,9 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   to: 'A',
-  enterNameOrNumber: 'Immetti il nome o il numero'
+  enterNameOrNumber: 'Inserisci il nome o il numero'
 };
 
 // @key: @#@"to"@#@ @source: @#@"To"@#@
-// @key: @#@"enterNameOrNumber"@#@ @source: @#@"Enter Number or Name..."@#@
+// @key: @#@"enterNameOrNumber"@#@ @source: @#@"Enter Name or Number"@#@
 //# sourceMappingURL=it-IT.js.map
