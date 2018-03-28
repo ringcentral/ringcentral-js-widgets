@@ -23,8 +23,8 @@ class ComposeTextPanel extends Component {
     };
 
     this.addToRecipients = (receiver, shouldClean = true) => {
-      this.props.addToNumber(receiver);
-      if (shouldClean) {
+      const isAdded = this.props.addToNumber(receiver);
+      if (isAdded && shouldClean) {
         this.props.cleanTypingToNumber();
       }
     };

@@ -134,11 +134,14 @@ export default class DialerUI extends RcModule {
   }
 
   @proxify
-  async setRecipient(recipient) {
+  async setRecipient(recipient, shouldClean = true) {
     this.store.dispatch({
       type: this.actionTypes.setRecipient,
       recipient,
     });
+    if (shouldClean) {
+      await this.clearToNumberField();
+    }
   }
   @proxify
   async clearRecipient() {
