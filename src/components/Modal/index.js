@@ -42,14 +42,15 @@ export default class Modal extends Component {
   constructor(props) {
     super(props);
     this._container = document.createElement('div');
+    this.appendDOM = this.props.appendDOM || document.body;
   }
 
   componentDidMount() {
-    document.body.appendChild(this._container);
+    this.appendDOM.appendChild(this._container);
   }
 
   componentWillUnmount() {
-    document.body.removeChild(this._container);
+    this.appendDOM.removeChild(this._container);
   }
 
   renderDialog() {
@@ -68,35 +69,48 @@ export default class Modal extends Component {
       cancelBtnClassName,
       confirmBtnClassName,
       closeBtn,
+      maskClassName,
+      headerClassName,
+      contentClassName,
     } = this.props;
+    if (!show) return null;
+    const footer = !currentLocale || (
+      !onCancel && !onConfirm
+    ) ? (
+      <div className={styles.footer}>
+        {onCancel ? (
+          <FlatButton
+            className={classnames(styles.btn, cancelBtnClassName)}
+            onClick={onCancel}>
+            {textCancel ||
+            i18n.getString('cancel', currentLocale)}
+          </FlatButton>
+        ) : null}
+        {onConfirm ? (
+          <FlatButton
+            className={classnames(styles.btn, confirmBtnClassName)}
+            onClick={onConfirm}>
+            {textConfirm ||
+            i18n.getString('confirm', currentLocale)}
+          </FlatButton>
+        ) : null}
+      </div>
+      ) : null;
     return (
-      <div className={classnames(className, show ? styles.container : styles.containerHidden)}>
-        <div className={classnames(modalClassName, show ? styles.modal : styles.modalHidden)}>
-          {title ?
-            <div className={styles.header}>{title}</div> : null}
-          {closeBtn}
-          <div className={styles.content}>
-            {children}
-          </div>
-          <div className={styles.footer}>
-            <FlatButton
-              className={classnames(cancelBtnClassName, styles.btn)}
-              onClick={onCancel}>
-              {textCancel ||
-                i18n.getString('cancel', currentLocale)}
-            </FlatButton>
-            <FlatButton
-              className={classnames(confirmBtnClassName, styles.btn)}
-              onClick={onConfirm}>
-              {textConfirm ||
-                i18n.getString('confirm', currentLocale)}
-            </FlatButton>
-          </div>
-        </div>
+      <div className={classnames(styles.container, className)}>
         <div
-          className={show ? styles.mask : styles.maskHidden}
+          className={classnames(styles.mask, maskClassName)}
           onClick={clickOutToClose ? onCancel : () => {}}
         />
+        <div className={classnames(styles.modal, modalClassName)}>
+          {title ?
+            <div className={classnames(styles.header, headerClassName)}>{title}</div> : null}
+          {closeBtn}
+          <div className={classnames(styles.content, contentClassName)}>
+            {children}
+          </div>
+          {footer}
+        </div>
       </div>
     );
   }
@@ -116,26 +130,37 @@ Modal.propTypes = {
   confirmBtnClassName: PropTypes.string,
   children: PropTypes.node,
   show: PropTypes.bool,
-  onConfirm: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
+  onConfirm: PropTypes.func,
+  onCancel: PropTypes.func,
   clickOutToClose: PropTypes.bool,
   title: PropTypes.string,
-  currentLocale: PropTypes.string.isRequired,
+  currentLocale: PropTypes.string,
   textConfirm: PropTypes.string,
   textCancel: PropTypes.string,
   closeBtn: PropTypes.node,
+  appendDOM: PropTypes.object,
+  maskClassName: PropTypes.string,
+  headerClassName: PropTypes.string,
+  contentClassName: PropTypes.string,
 };
 Modal.defaultProps = {
   className: '',
+  currentLocale: '',
   modalClassName: '',
   cancelBtnClassName: '',
   confirmBtnClassName: '',
   children: undefined,
   show: false,
+  onConfirm: undefined,
+  onCancel: undefined,
   clickOutToClose: false,
   title: undefined,
   textConfirm: '',
   textCancel: '',
   closeBtn: undefined,
+  appendDOM: undefined,
+  maskClassName: undefined,
+  headerClassName: undefined,
+  contentClassName: undefined,
 };
 
