@@ -123,7 +123,7 @@ export default withPhone(connect((state, {
     }
     if (webphone && webphone.ready) {
       // Trigger reconnect
-      webphone.connect();
+      // webphone.connect();
       webphone.showAlert();
     }
   },
