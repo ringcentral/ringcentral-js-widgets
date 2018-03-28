@@ -447,7 +447,7 @@ var Locale = (_dec = (0, _di.Module)({
   }, {
     key: 'currentLocale',
     get: function get() {
-      return this.proxyState && (this.proxyState.proxyLocale || this._defaultLocale) || this.state.currentLocale || this._defaultLocale;
+      return this._transport && this.proxyState && (this.proxyState.proxyLocale || this._defaultLocale) || this.state.currentLocale || this._defaultLocale;
     }
   }, {
     key: 'browserLocale',
