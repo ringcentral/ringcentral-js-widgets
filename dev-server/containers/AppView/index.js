@@ -122,6 +122,8 @@ export default withPhone(connect((state, {
       audioSettings.getUserMedia();
     }
     if (webphone && webphone.ready) {
+      // Trigger reconnect
+      webphone.connect();
       webphone.showAlert();
     }
   },
