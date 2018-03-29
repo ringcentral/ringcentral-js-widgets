@@ -19,8 +19,6 @@ import styles from './styles.scss';
 
 import i18n from './i18n';
 
-window.test_i18n = i18n;
-
 const callIconMap = {
   [callDirections.inbound]: dynamicsFont.inbound,
   [callDirections.outbound]: dynamicsFont.outbound,
