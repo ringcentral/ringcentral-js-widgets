@@ -286,6 +286,7 @@ var DialerUI = (_dec = (0, _di.Module)({
     key: 'setRecipient',
     value: function () {
       var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(recipient) {
+        var shouldClean = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
@@ -295,7 +296,15 @@ var DialerUI = (_dec = (0, _di.Module)({
                   recipient: recipient
                 });
 
-              case 1:
+                if (!shouldClean) {
+                  _context4.next = 4;
+                  break;
+                }
+
+                _context4.next = 4;
+                return this.clearToNumberField();
+
+              case 4:
               case 'end':
                 return _context4.stop();
             }
@@ -394,7 +403,7 @@ var DialerUI = (_dec = (0, _di.Module)({
         }, _callee6, this, [[3, 9]]);
       }));
 
-      function call(_x5) {
+      function call(_x6) {
         return _ref9.apply(this, arguments);
       }
 

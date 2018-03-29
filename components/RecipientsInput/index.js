@@ -300,9 +300,7 @@ var RecipientsInput = function (_Component) {
             name: _this.state.value.replace(',', ''),
             phoneNumber: _this.state.value.replace(',', '')
           });
-          _this.onClean();
         }
-        _this.onClean();
       }
     };
     return _this;

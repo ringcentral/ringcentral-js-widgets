@@ -4,6 +4,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _regenerator = require('babel-runtime/regenerator');
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -66,6 +74,8 @@ var ComposeTextPanel = function (_Component) {
   (0, _inherits3.default)(ComposeTextPanel, _Component);
 
   function ComposeTextPanel(props) {
+    var _this2 = this;
+
     (0, _classCallCheck3.default)(this, ComposeTextPanel);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ComposeTextPanel.__proto__ || (0, _getPrototypeOf2.default)(ComposeTextPanel)).call(this, props));
@@ -78,14 +88,36 @@ var ComposeTextPanel = function (_Component) {
       _this.props.cleanTypingToNumber();
     };
 
-    _this.addToRecipients = function (receiver) {
-      var shouldClean = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+    _this.addToRecipients = function () {
+      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(receiver) {
+        var shouldClean = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+        var isAdded;
+        return _regenerator2.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _this.props.addToNumber(receiver);
 
-      _this.props.addToNumber(receiver);
-      if (shouldClean) {
-        _this.props.cleanTypingToNumber();
-      }
-    };
+              case 2:
+                isAdded = _context.sent;
+
+                if (isAdded && shouldClean) {
+                  _this.props.cleanTypingToNumber();
+                }
+
+              case 4:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, _this2);
+      }));
+
+      return function (_x) {
+        return _ref.apply(this, arguments);
+      };
+    }();
 
     _this.removeFromRecipients = function (phoneNumber) {
       _this.props.removeToNumber({ phoneNumber: phoneNumber });
