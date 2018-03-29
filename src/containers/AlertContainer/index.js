@@ -141,7 +141,7 @@ function getDefaultRenderer({
       return props => (
         <AudioSettingsAlert
           {...props}
-          brand={brand}
+          application={brand.application}
         />
       );
     }
