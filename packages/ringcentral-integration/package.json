@@ -5,6 +5,7 @@
   "main": "build/rc-phone.js",
   "scripts": {
     "test": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js test",
+    "test:coverage": "yarn test --coverage",
     "quick-test": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js quick-test",
     "unit-test": "mocha --compilers js:babel-core/register",
     "prettier": "prettier --write '{src,dev-server}/**/*.js'",

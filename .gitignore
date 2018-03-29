@@ -53,7 +53,6 @@ alias.json
 */**/apiConfig.js
 */**/testAccount.js
 
+*/**/api-config.js
 */**/.env
 */**/*.log
-
-*/**//api-config.js

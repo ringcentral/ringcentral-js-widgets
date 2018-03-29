@@ -27,9 +27,6 @@ const config = {
       },
     }),
   ],
-  resolve: {
-    symlinks: false
-  },
   module: {
     rules: [
       {
@@ -40,7 +37,7 @@ const config = {
       {
         test: /\.js$/,
         use: 'babel-loader',
-        exclude: /node_modules\/(?!(ringcentral-integration|ringcentral-widgets)\/).*/,
+        exclude: /node_modules/,
       },
       {
         test: /\.js$/,
@@ -64,7 +61,7 @@ const config = {
       },
       {
         test: /\.svg/,
-        exclude: /node_modules(\/|\\)(?!(ringcentral-widgets))|font/,
+        exclude: /node_modules|font/,
         use: [
           'babel-loader',
           'react-svg-loader',
