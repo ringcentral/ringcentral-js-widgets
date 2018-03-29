@@ -893,6 +893,9 @@ var Webphone = (_dec = (0, _di.Module)({
       var _this5 = this;
 
       session.on('accepted', function () {
+        if (session.callStatus === _sessionStatus2.default.finished) {
+          return;
+        }
         console.log('accepted');
         session.callStatus = _sessionStatus2.default.connected;
         _this5._onCallStart(session);
