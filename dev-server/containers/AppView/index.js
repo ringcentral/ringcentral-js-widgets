@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
-import OfflineModeBadge from '../../../src/components/OfflineModeBadge';
-import WebphoneBadge from '../../../src/components/WebphoneBadge';
-import Environment from '../../../src/components/Environment';
-import withPhone from '../../../src/lib/withPhone';
+import OfflineModeBadge from 'ringcentral-widgets/components/OfflineModeBadge';
+import WebphoneBadge from 'ringcentral-widgets/components/WebphoneBadge';
+import Environment from 'ringcentral-widgets/components/Environment';
+import withPhone from 'ringcentral-widgets/lib/withPhone';
+
 import styles from './styles.scss';
 
 function AppView(props) {
