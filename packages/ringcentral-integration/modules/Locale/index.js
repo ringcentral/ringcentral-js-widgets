@@ -118,7 +118,7 @@ export default class Locale extends RcModule {
    * @property {String} currentLocale
    */
   get currentLocale() {
-    return (this.proxyState && (this.proxyState.proxyLocale || this._defaultLocale)) ||
+    return (this._transport && this.proxyState && (this.proxyState.proxyLocale || this._defaultLocale)) ||
       this.state.currentLocale ||
       this._defaultLocale;
   }
