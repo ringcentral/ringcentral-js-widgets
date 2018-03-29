@@ -425,6 +425,7 @@ var ComposeText = (_dec = (0, _di.Module)({
     value: function () {
       var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(recipient) {
         var shouldClean = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+        var isAdded;
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -433,15 +434,17 @@ var ComposeText = (_dec = (0, _di.Module)({
                 return this.addToNumber(recipient);
 
               case 2:
-                if (!shouldClean) {
-                  _context5.next = 5;
+                isAdded = _context5.sent;
+
+                if (!(isAdded && shouldClean)) {
+                  _context5.next = 6;
                   break;
                 }
 
-                _context5.next = 5;
+                _context5.next = 6;
                 return this.cleanTypingToNumber();
 
-              case 5:
+              case 6:
               case 'end':
                 return _context5.stop();
             }
@@ -494,7 +497,7 @@ var ComposeText = (_dec = (0, _di.Module)({
                   break;
                 }
 
-                return _context7.abrupt('return');
+                return _context7.abrupt('return', false);
 
               case 2:
                 if (this._validatePhoneNumber(number.phoneNumber)) {
@@ -502,15 +505,16 @@ var ComposeText = (_dec = (0, _di.Module)({
                   break;
                 }
 
-                return _context7.abrupt('return');
+                return _context7.abrupt('return', false);
 
               case 4:
                 this.store.dispatch({
                   type: this.actionTypes.addToNumber,
                   number: number
                 });
+                return _context7.abrupt('return', true);
 
-              case 5:
+              case 6:
               case 'end':
                 return _context7.stop();
             }
