@@ -151,17 +151,15 @@ function mapToFunctions(_, _ref2) {
                 if (routerInteraction) {
                   routerInteraction.push(composeTextRoute);
                 }
+                composeText.clean();
                 if (contact.name && contact.phoneNumber && isDummyContact) {
                   composeText.updateTypingToNumber(contact.name);
                   contactSearch.search({ searchString: contact.name });
                 } else {
-                  composeText.addToNumber(contact);
-                  if (composeText.typingToNumber === contact.phoneNumber) {
-                    composeText.cleanTypingToNumber();
-                  }
+                  composeText.addToRecipients(contact);
                 }
 
-              case 2:
+              case 3:
               case 'end':
                 return _context2.stop();
             }
