@@ -86,14 +86,12 @@ function mapToFunctions(_, {
         if (routerInteraction) {
           routerInteraction.push(composeTextRoute);
         }
+        composeText.clean();
         if (contact.name && contact.phoneNumber && isDummyContact) {
           composeText.updateTypingToNumber(contact.name);
           contactSearch.search({ searchString: contact.name });
         } else {
-          composeText.addToNumber(contact);
-          if (composeText.typingToNumber === contact.phoneNumber) {
-            composeText.cleanTypingToNumber();
-          }
+          composeText.addToRecipients(contact);
         }
       } :
       undefined,
