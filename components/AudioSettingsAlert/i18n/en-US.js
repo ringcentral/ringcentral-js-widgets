@@ -14,5 +14,5 @@ var _audioSettingsErrors2 = _interopRequireDefault(_audioSettingsErrors);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (0, _defineProperty3.default)({}, _audioSettingsErrors2.default.userMediaPermission, 'Please grant {brandName} for Google to access your audio.');
+exports.default = (0, _defineProperty3.default)({}, _audioSettingsErrors2.default.userMediaPermission, 'Please grant {application} to access your audio.');
 //# sourceMappingURL=en-US.js.map

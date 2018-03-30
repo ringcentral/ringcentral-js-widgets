@@ -28,13 +28,13 @@ var _i18n2 = _interopRequireDefault(_i18n);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function AudioSettingsAlert(_ref) {
-  var brand = _ref.brand,
+  var application = _ref.application,
       currentLocale = _ref.currentLocale,
       message = _ref.message;
 
   var view = _react2.default.createElement(_FormattedMessage2.default, {
     message: _i18n2.default.getString(message.message, currentLocale),
-    values: { brandName: brand.name }
+    values: { application: application }
   });
   return _react2.default.createElement(
     'span',
@@ -44,7 +44,7 @@ function AudioSettingsAlert(_ref) {
 }
 
 AudioSettingsAlert.propTypes = {
-  brand: _propTypes2.default.object.isRequired,
+  application: _propTypes2.default.string.isRequired,
   currentLocale: _propTypes2.default.string.isRequired,
   message: _propTypes2.default.shape({
     message: _propTypes2.default.string.isRequired
