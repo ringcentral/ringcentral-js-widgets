@@ -15,8 +15,8 @@ beforeEach(async () => {
   store = wrapper.props().phone.store;
   phone = wrapper.props().phone;
   phone.webphone._createWebphone();
-  phone.webphone._removeWebphone = () =>  {};
-  phone.webphone._connect = () => {};
+  phone.webphone._removeWebphone = () => { };
+  phone.webphone._connect = () => { };
 });
 
 describe('Webphone warning badge', () => {
@@ -99,7 +99,7 @@ describe('Webphone warning badge', () => {
       wrapper.update();
       assert({
         type: 'audio',
-        msg: 'Please grant RingCentral for Google to access your audio.'
+        msg: `Please grant ${phone.brand.application} to access your audio.`
       });
     });
   });

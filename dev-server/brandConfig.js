@@ -5,4 +5,5 @@ export default {
   name: 'RingCentral',
   appName: 'RingCentral Widgets',
   fullName: 'RingCentral',
+  application: 'RingCentral Widgets'
 };
