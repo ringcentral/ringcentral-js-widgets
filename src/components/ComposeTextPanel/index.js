@@ -88,7 +88,7 @@ class ComposeTextPanel extends Component {
             contactInfoRenderer={this.props.recipientsContactInfoRenderer}
             contactPhoneRenderer={this.props.recipientsContactPhoneRenderer}
             titleEnabled
-            autoFocus
+            autoFocus={this.props.autoFocus}
             multiple
           />
           <div className={styles.senderField}>
@@ -163,6 +163,7 @@ ComposeTextPanel.propTypes = {
   phoneTypeRenderer: PropTypes.func,
   recipientsContactInfoRenderer: PropTypes.func,
   recipientsContactPhoneRenderer: PropTypes.func,
+  autoFocus: PropTypes.bool,
 };
 
 ComposeTextPanel.defaultProps = {
@@ -176,6 +177,7 @@ ComposeTextPanel.defaultProps = {
   phoneTypeRenderer: undefined,
   recipientsContactInfoRenderer: undefined,
   recipientsContactPhoneRenderer: undefined,
+  autoFocus: false,
 };
 
 export default ComposeTextPanel;
