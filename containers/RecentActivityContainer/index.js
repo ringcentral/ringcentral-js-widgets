@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = exports.mapToProps = exports.getTabs = undefined;
 
 var _react = require('react');
 
@@ -188,5 +189,9 @@ function mapToProps(_, _ref2) {
   };
 }
 
-exports.default = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps)(_RecentActivityPanel2.default));
+var RecentActivityContainer = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps)(_RecentActivityPanel2.default));
+
+exports.getTabs = getTabs;
+exports.mapToProps = mapToProps;
+exports.default = RecentActivityContainer;
 //# sourceMappingURL=index.js.map
