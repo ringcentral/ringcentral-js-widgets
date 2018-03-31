@@ -48,16 +48,20 @@ describe('calling settings', () => {
     await saveButton.simulate('click');
 
     const messages = store.getState(wrapper).alert.messages;
-    expect(messages.length).toEqual(1);
-    let message = messages[0];
-    expect(message.level).toEqual('info');
-    expect(message.message).toMatch(/saveSuccess/);
+    expect(messages).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({        
+          level: 'info',
+          message: 'callingSettingsMessages-saveSuccess'
+        })
+      ])
+    );
 
     const firstItem = items.at(0); // Browser
     await firstItem.simulate('click');
     await saveButton.simulate('click');
 
-    message = store.getState(wrapper).alert.messages.find(item => /emergencyCallingNotAvailable/.test(item.message));
+    const message = store.getState(wrapper).alert.messages.find(item => /emergencyCallingNotAvailable/.test(item.message));
     expect(message).toBeTruthy();
     expect(message.level).toEqual('info');
   });

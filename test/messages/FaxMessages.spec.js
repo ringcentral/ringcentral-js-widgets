@@ -2,6 +2,7 @@ import messageTypes from 'ringcentral-integration/enums/messageTypes';
 import * as mock from 'ringcentral-integration/integration-test/mock';
 import ClientHistoryRequest from 'ringcentral-integration/integration-test/utils/ClientHistoryRequest';
 import messageSyncBody from 'ringcentral-integration/integration-test/mock/data/messageSync.json';
+import { ensureLogin, containsErrorMessage } from 'ringcentral-integration/integration-test/utils/HelpUtil';
 
 import { getWrapper, timeout } from '../shared';
 import NavigationBar from '../../src/components/NavigationBar';
@@ -16,33 +17,31 @@ let wrapper = null;
 let panel = null;
 let navigationBar = null;
 let phone = null;
-// jest.useFakeTimers();
 
-describe('messages', () => {
+describe('fax messages', () => {
   beforeEach(async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
   });
-  describe('messages list', () => {
-    beforeEach(async () => {
+  describe('fax messages list', () => {
+    test('initial state', async () => {
       wrapper = await getWrapper();
+      phone = wrapper.props().phone;
       navigationBar = wrapper.find(NavigationBar).first();
       await navigationBar.props().goTo('/messages');
       wrapper.update();
       panel = wrapper.find(MessagesPanel).first();
-      phone = wrapper.props().phone;
-    });
-    afterEach(() => {
-      localStorage.removeItem(`${phone.storage.storageKey}-messageStore`);
-    });
-    test('initial state', () => {
       expect(panel).toBeDefined();
       expect(panel.props()).toBeDefined();
     });
     test('when have no fax permission should not show fax sub tab', async () => {
+      wrapper = await getWrapper();
+      phone = wrapper.props().phone;
       Object.defineProperty(phone.rolesAndPermissions, 'readFaxPermissions', {
         value: false
       });
       wrapper.setProps({ phone });
+      navigationBar = wrapper.find(NavigationBar).first();
+      await navigationBar.props().goTo('/messages');
       wrapper.update();
       panel = wrapper.find(MessagesPanel).first();
       expect(panel.props().readFaxPermission).toEqual(false);
@@ -50,11 +49,15 @@ describe('messages', () => {
       expect(faxTabs.length).toEqual(0);
     });
     test('when have fax permission should show fax sub tab', async () => {
+      wrapper = await getWrapper();
       phone = wrapper.props().phone;
       Object.defineProperty(phone.rolesAndPermissions, 'readFaxPermissions', {
         value: true
       });
       wrapper.setProps({ phone });
+      wrapper.update();
+      navigationBar = wrapper.find(NavigationBar).first();
+      await navigationBar.props().goTo('/messages');
       wrapper.update();
       panel = wrapper.find(MessagesPanel).first();
       expect(panel.props().readFaxPermission).toEqual(true);
@@ -62,16 +65,10 @@ describe('messages', () => {
       expect(faxTabs.length).toEqual(1);
     });
     test('when fax message sent before today should display date', async () => {
+      wrapper = await getWrapper({ shouldMockForLogin: false});
       phone = wrapper.props().phone;
-      Object.defineProperty(phone.rolesAndPermissions, 'readFaxPermissions', {
-        value: true
-      });
-      Object.defineProperty(phone.tabManager, 'active', {
-        value: true
-      });
-      wrapper.setProps({ phone });
       mock.restore();
-      mock.subscription();
+      mock.mockForLogin({ mockMessageSync: false });
       const record = messageSyncBody.records[0];
       mock.messageSync({
         records: [{
@@ -81,28 +78,31 @@ describe('messages', () => {
           lastModifiedTime: ((new Date(Date.now() - 24 * 60 * 60 * 1000))).toISOString(),
         }]
       });
-      await phone.subscription.subscribe(['/account/~/extension/~/message-sync']);
-      await timeout(2500);
-      // jest.runTimersToTime(2500);
-      // jest.runOnlyPendingTimers();
-      await mockPubnub();
+      Object.defineProperty(phone.tabManager, 'active', {
+        value: true
+      });
+     await ensureLogin(phone.auth, {
+        username: 'test',
+        password: 'test'
+      });
 
+
+      wrapper.setProps({ phone });
+      wrapper.update();
+      navigationBar = wrapper.find(NavigationBar).first();
+      await navigationBar.props().goTo('/messages');
+      wrapper.update();
+      panel = wrapper.find(MessagesPanel).first();
       await panel.find(NavigationBar).props().goTo('Fax');
       wrapper.update();
       const messageItem = wrapper.find(MessagesPanel).find(MessageItem).at(0);
       expect(messageItem.find('.creationTime').text()).toMatch(/\d{1,2}\/\d{1,2}\/\d{4}/g);
     });
     test('when fax message sent in today should display time', async () => {
+      wrapper = await getWrapper({ shouldMockForLogin: false});
       phone = wrapper.props().phone;
-      Object.defineProperty(phone.rolesAndPermissions, 'readFaxPermissions', {
-        value: true
-      });
-      Object.defineProperty(phone.tabManager, 'active', {
-        value: true
-      });
-      wrapper.setProps({ phone });
       mock.restore();
-      mock.subscription();
+      mock.mockForLogin({ mockMessageSync: false });
       const record = messageSyncBody.records[0];
       mock.messageSync({
         records: [{
@@ -112,28 +112,30 @@ describe('messages', () => {
           lastModifiedTime: (new Date()).toISOString(),
         }]
       });
-      await phone.subscription.subscribe(['/account/~/extension/~/message-sync']);
-      await timeout(2500);
-      await mockPubnub();
-
+      Object.defineProperty(phone.tabManager, 'active', {
+        value: true
+      });
+      await ensureLogin(phone.auth, {
+        username: 'test',
+        password: 'test'
+      });
+      wrapper.setProps({ phone });
+      navigationBar = wrapper.find(NavigationBar).first();
+      await navigationBar.props().goTo('/messages');
+      wrapper.update();
+      panel = wrapper.find(MessagesPanel).first();
       await panel.find(NavigationBar).props().goTo('Fax');
       wrapper.update();
+      debugger;
       const messageItem = wrapper.find(MessagesPanel).find(MessageItem).at(0);
       expect(messageItem.find('.creationTime').text()).toMatch(/\d\d:\d\d/g);
     });
     test('when fax message is received should show received direction', async () => {
+      wrapper = await getWrapper({ shouldMockForLogin: false});
       phone = wrapper.props().phone;
-      Object.defineProperty(phone.rolesAndPermissions, 'readFaxPermissions', {
-        value: true
-      });
-      Object.defineProperty(phone.tabManager, 'active', {
-        value: true
-      });
-      wrapper.setProps({ phone });
       mock.restore();
-      mock.subscription();
+      mock.mockForLogin({ mockMessageSync: false });
       const record = messageSyncBody.records[0];
-
       mock.messageSync({
         records: [{
           ...record,
@@ -148,27 +150,28 @@ describe('messages', () => {
           lastModifiedTime: (new Date()).toISOString(),
         }]
       });
-      mock.subscription();
-      await phone.subscription.subscribe(['/account/~/extension/~/message-sync']);
-      await timeout(2500);
-      await mockPubnub();
-
+      Object.defineProperty(phone.tabManager, 'active', {
+        value: true
+      });
+      await ensureLogin(phone.auth, {
+        username: 'test',
+        password: 'test'
+      });
+      wrapper.setProps({ phone });
+      navigationBar = wrapper.find(NavigationBar).first();
+      await navigationBar.props().goTo('/messages');
+      wrapper.update();
+      panel = wrapper.find(MessagesPanel).first();
       await panel.find(NavigationBar).props().goTo('Fax');
       wrapper.update();
       const messageItem = wrapper.find(MessagesPanel).find(MessageItem).at(0);
       expect(messageItem.find('.details').text()).toMatch(/^Fax received/g);
     });
     test('when fax message is sent should show show sent direction', async () => {
+      wrapper = await getWrapper({ shouldMockForLogin: false});
       phone = wrapper.props().phone;
-      Object.defineProperty(phone.rolesAndPermissions, 'readFaxPermissions', {
-        value: true
-      });
-      Object.defineProperty(phone.tabManager, 'active', {
-        value: true
-      });
-      wrapper.setProps({ phone });
       mock.restore();
-      mock.subscription();
+      mock.mockForLogin({ mockMessageSync: false });
       const record = messageSyncBody.records[0];
       mock.messageSync({
         records: [{
@@ -184,20 +187,28 @@ describe('messages', () => {
           lastModifiedTime: (new Date()).toISOString(),
         }]
       });
-      await phone.subscription.subscribe(['/account/~/extension/~/message-sync']);
-      await timeout(2500);
-      await mockPubnub();
-
+      Object.defineProperty(phone.tabManager, 'active', {
+        value: true
+      });
+      await ensureLogin(phone.auth, {
+        username: 'test',
+        password: 'test'
+      });
+      wrapper.setProps({ phone });
+      navigationBar = wrapper.find(NavigationBar).first();
+      await navigationBar.props().goTo('/messages');
+      wrapper.update();
+      panel = wrapper.find(MessagesPanel).first();
       await panel.find(NavigationBar).props().goTo('Fax');
       wrapper.update();
       const messageItem = wrapper.find(MessagesPanel).find(MessageItem).at(0);
       expect(messageItem.find('.details').text()).toMatch(/^Fax sent/g);
     });
     test('when authorize should display google contact in fax list', async () => {
+      mock.restore();
+      // mock.subscription();
+      wrapper = await getWrapper({ shouldMockForLogin: false});
       phone = wrapper.props().phone;
-      Object.defineProperty(phone.rolesAndPermissions, 'readFaxPermissions', {
-        value: true
-      });
       Object.defineProperty(phone.tabManager, 'active', {
         value: true
       });
@@ -233,7 +244,7 @@ describe('messages', () => {
         }
       });
       mock.restore();
-      mock.subscription();
+      mock.mockForLogin({ mockMessageSync: false });
       const record = messageSyncBody.records[0];
       mock.messageSync({
         records: [{
@@ -249,60 +260,104 @@ describe('messages', () => {
           lastModifiedTime: (new Date()).toISOString(),
         }]
       });
-      await phone.subscription.subscribe(['/account/~/extension/~/message-sync']);
-      await timeout(2500);
-      await mockPubnub();
-
+      await ensureLogin(phone.auth, {
+        username: 'test',
+        password: 'test'
+      });
+      wrapper.setProps({ phone });
+      wrapper.update();
+      navigationBar = wrapper.find(NavigationBar).first();
+      await navigationBar.props().goTo('/messages');
+      wrapper.update();
+      panel = wrapper.find(MessagesPanel).first();
       await panel.find(NavigationBar).props().goTo('Fax');
       wrapper.update();
       const messageItem = wrapper.find(MessagesPanel).find(MessageItem).at(0);
-
       expect(messageItem.find(ContactDisplay).find('.currentName').at(0).text()).toMatch(/^test user$/g);
     });
   });
-  describe('messages unread count', async () => {
-    beforeEach(async () => {
-      wrapper = await getWrapper();
-      navigationBar = wrapper.find(NavigationBar).first();
+  describe('fax messages unread count', async () => {
+    test('should not show unread count displayed on fax tab when there are 0 unread fax', async () => {
+      debugger;
+      wrapper = await getWrapper({ shouldMockForLogin: false });
       phone = wrapper.props().phone;
-      Object.defineProperty(phone.rolesAndPermissions, 'readFaxPermissions', {
-        value: true
+      mock.restore();
+      mock.mockForLogin({ mockMessageSync: false });
+      mockGenerateMessageApi({
+        count: 1, messageType: 'Fax', readStatus: 'Read', direction: 'Inbound'
       });
       Object.defineProperty(phone.tabManager, 'active', {
         value: true
       });
-      mock.restore();
-      mock.subscription();
+      await ensureLogin(phone.auth, {
+        username: 'test',
+        password: 'test'
+      });
+
+      wrapper.setProps({ phone });
+      wrapper.update();
+      navigationBar = wrapper.find(NavigationBar).first();
       await navigationBar.props().goTo('/messages');
       wrapper.update();
       panel = wrapper.find(MessagesPanel);
       await panel.find(NavigationBar).props().goTo('Fax');
-      wrapper.update();
-    });
-    afterEach(() => {
-      localStorage.removeItem(`${phone.storage.storageKey}-messageStore`);
-    });
-    test('should not show unread count displayed on fax tab when there are 0 unread fax', async () => {
-      mockGenerateMessageApi({
-        count: 1, messageType: 'Fax', readStatus: 'Read', direction: 'Inbound'
-      });
-      await phone.subscription.subscribe(['/account/~/extension/~/message-sync']);
-      await timeout(2500);
-      await mockPubnub();
-
       wrapper.update();
       panel = wrapper.find(MessagesPanel);
       expect(phone.messageStore.faxUnreadCounts).toEqual(0);
       const notice = wrapper.find(MessagesPanel).find(NavigationBar).find('.active').find('.notice');
       expect(notice.length).toEqual(0);
     });
+    test('should show 3 unread count displayed on fax tab when there are 3 unread fax', async () => {
+      wrapper = await getWrapper({ shouldMockForLogin: false });
+      phone = wrapper.props().phone;
+      mock.restore();
+      mock.mockForLogin({ mockMessageSync: false });
+      mockGenerateMessageApi({
+        count: 3, messageType: 'Fax', readStatus: 'Unread', direction: 'Inbound'
+      });
+      Object.defineProperty(phone.tabManager, 'active', {
+        value: true
+      });
+      await ensureLogin(phone.auth, {
+        username: 'test',
+        password: 'test'
+      });
+
+      wrapper.setProps({ phone });
+      wrapper.update();
+      navigationBar = wrapper.find(NavigationBar).first();
+      await navigationBar.props().goTo('/messages');
+      wrapper.update();
+      panel = wrapper.find(MessagesPanel);
+      await panel.find(NavigationBar).props().goTo('Fax');
+      wrapper.update();
+      panel = wrapper.find(MessagesPanel);
+      const notice = panel.find(NavigationBar).find('.active').find('.notice').at(0);
+      expect(notice.text()).toEqual('3');
+    });
     test('should show 99 unread count displayed on fax tab when there are 99 unread fax', async () => {
+      wrapper = await getWrapper({ shouldMockForLogin: false });
+      phone = wrapper.props().phone;
+      mock.restore();
+      mock.mockForLogin({ mockMessageSync: false });
       mockGenerateMessageApi({
         count: 99, messageType: 'Fax', readStatus: 'Unread', direction: 'Inbound'
       });
-      await phone.subscription.subscribe(['/account/~/extension/~/message-sync']);
-      await timeout(2500);
-      await mockPubnub();
+      Object.defineProperty(phone.tabManager, 'active', {
+        value: true
+      });
+      await ensureLogin(phone.auth, {
+        username: 'test',
+        password: 'test'
+      });
+
+      wrapper.setProps({ phone });
+      wrapper.update();
+      navigationBar = wrapper.find(NavigationBar).first();
+      await navigationBar.props().goTo('/messages');
+      wrapper.update();
+      panel = wrapper.find(MessagesPanel);
+      await panel.find(NavigationBar).props().goTo('Fax');
 
       wrapper.update();
       panel = wrapper.find(MessagesPanel);
@@ -310,35 +365,36 @@ describe('messages', () => {
       const notice = panel.find(NavigationBar).find('.active').find('.notice').at(0);
       expect(notice.text()).toEqual('99');
     });
-    test('should show 3 unread count displayed on fax tab when there are 3 unread fax', async () => {
-      mockGenerateMessageApi({
-        count: 3, messageType: 'Fax', readStatus: 'Unread', direction: 'Inbound'
-      });
-      await phone.subscription.subscribe(['/account/~/extension/~/message-sync']);
-      await timeout(2500);
-      await mockPubnub();
-
-      wrapper.update();
-      panel = wrapper.find(MessagesPanel);
-      expect(phone.messageStore.faxUnreadCounts).toEqual(3);
-      const notice = panel.find(NavigationBar).find('.active').find('.notice').at(0);
-      expect(notice.text()).toEqual('3');
-    });
     test('should show 99+ unread count displayed on fax tab when there are 100 unread fax', async () => {
+      wrapper = await getWrapper();
+      phone = wrapper.props().phone;
+      mock.restore();
+      mock.mockForLogin({ mockMessageSync: false });
       mockGenerateMessageApi({
         count: 100, messageType: 'Fax', readStatus: 'Unread', direction: 'Inbound'
       });
-      await phone.subscription.subscribe(['/account/~/extension/~/message-sync']);
-      await timeout(2500);
-      await mockPubnub();
+      await ensureLogin(phone.auth, {
+        username: 'test',
+        password: 'test'
+      });
 
+      wrapper.setProps({ phone });
+      wrapper.update();
+      navigationBar = wrapper.find(NavigationBar).first();
+      await navigationBar.props().goTo('/messages');
       wrapper.update();
       panel = wrapper.find(MessagesPanel);
-      expect(phone.messageStore.faxUnreadCounts).toEqual(100);
+      await panel.find(NavigationBar).props().goTo('Fax');
+      wrapper.update();
+      panel = wrapper.find(MessagesPanel);
       const notice = panel.find(NavigationBar).find('.active').find('.notices').at(0);
       expect(notice.text()).toEqual('99+');
     });
     test('when click to view unread message the unread count displayed with fax tab should reduce from 1 to null', async () => {
+      wrapper = await getWrapper({ shouldMockForLogin: false });
+      phone = wrapper.props().phone;
+      mock.restore();
+      mock.mockForLogin({ mockMessageSync: false });
       mockGenerateMessageApi({
         count: 1, messageType: 'Fax', readStatus: 'Unread', direction: 'Inbound'
       });
@@ -347,10 +403,21 @@ describe('messages', () => {
         readStatus: 'Read',
         messageType: 'Fax',
       });
-      await phone.subscription.subscribe(['/account/~/extension/~/message-sync']);
-      await timeout(2500);
-      await mockPubnub();
+      Object.defineProperty(phone.tabManager, 'active', {
+        value: true
+      });
+      await ensureLogin(phone.auth, {
+        username: 'test',
+        password: 'test'
+      });
 
+      wrapper.setProps({ phone });
+      wrapper.update();
+      navigationBar = wrapper.find(NavigationBar).first();
+      await navigationBar.props().goTo('/messages');
+      wrapper.update();
+      panel = wrapper.find(MessagesPanel);
+      await panel.find(NavigationBar).props().goTo('Fax');
       wrapper.update();
       let notice = wrapper.find(MessagesPanel).find(NavigationBar).find('.active').find('.notice');
       expect(notice.at(0).text()).toEqual('1');
@@ -362,6 +429,10 @@ describe('messages', () => {
       expect(notice.length).toEqual(0);
     });
     test('when mark as unread the unread count displayed with fax tab should add from null to 1', async () => {
+      wrapper = await getWrapper({ shouldMockForLogin: false });
+      phone = wrapper.props().phone;
+      mock.restore();
+      mock.mockForLogin({ mockMessageSync: false });
       mockGenerateMessageApi({
         count: 1, messageType: 'Fax', readStatus: 'Read', direction: 'Inbound'
       });
@@ -370,12 +441,28 @@ describe('messages', () => {
         readStatus: 'Unread',
         messageType: 'Fax',
       });
-      await phone.subscription.subscribe(['/account/~/extension/~/message-sync']);
-      await timeout(2500);
-      await mockPubnub();
+      Object.defineProperty(phone.tabManager, 'active', {
+        value: true
+      });
+      Object.defineProperty(phone.rolesAndPermissions, 'readFaxPermissions', {
+        value: true
+      });
+      await ensureLogin(phone.auth, {
+        username: 'test',
+        password: 'test'
+      });
 
+      Object.defineProperty(phone.contactMatcher, 'ready', {
+        value: true
+      });
+      wrapper.setProps({ phone });
       wrapper.update();
-      expect(phone.messageStore.faxUnreadCounts).toEqual(0);
+      navigationBar = wrapper.find(NavigationBar).first();
+      await navigationBar.props().goTo('/messages');
+      wrapper.update();
+      panel = wrapper.find(MessagesPanel);
+      await panel.find(NavigationBar).props().goTo('Fax');
+      wrapper.update();
       let notice = wrapper.find(MessagesPanel).find(NavigationBar).find('.active').find('.notice');
       expect(notice.length).toEqual(0);
       const markButton = wrapper.find(MessagesPanel).find(MessageItem).find(MarkButton);
@@ -388,6 +475,10 @@ describe('messages', () => {
       expect(notice.at(0).text()).toEqual('1');
     });
     test('when mark as read unread message the unread count displayed with fax tab should reduce from 99+ to 99', async () => {
+      wrapper = await getWrapper({ shouldMockForLogin: false });
+      phone = wrapper.props().phone;
+      mock.restore();
+      mock.mockForLogin({ mockMessageSync: false });
       mockGenerateMessageApi({
         count: 100, messageType: 'Fax', readStatus: 'Unread', direction: 'Inbound'
       });
@@ -396,14 +487,25 @@ describe('messages', () => {
         readStatus: 'Read',
         messageType: 'Fax',
       });
-      await phone.subscription.subscribe(['/account/~/extension/~/message-sync']);
-      await timeout(2500);
-      await mockPubnub();
+      Object.defineProperty(phone.tabManager, 'active', {
+        value: true
+      });
+      await ensureLogin(phone.auth, {
+        username: 'test',
+        password: 'test'
+      });
 
+      wrapper.setProps({ phone });
       wrapper.update();
-      expect(phone.messageStore.faxUnreadCounts).toEqual(100);
-      let notice = wrapper.find(MessagesPanel).find(NavigationBar).find('.active').find('.notices');
-      expect(notice.at(0).text()).toEqual('99+');
+      navigationBar = wrapper.find(NavigationBar).first();
+      await navigationBar.props().goTo('/messages');
+      wrapper.update();
+      panel = wrapper.find(MessagesPanel);
+      await panel.find(NavigationBar).props().goTo('Fax');
+      wrapper.update();
+      panel = wrapper.find(MessagesPanel);
+      let notice = panel.find(NavigationBar).find('.active').find('.notices').at(0);
+      expect(notice.text()).toEqual('99+');
 
       const markButton = wrapper.find(MessagesPanel).find(MessageItem).at(0).find(MarkButton);
       expect(markButton).toBeDefined();
@@ -415,6 +517,10 @@ describe('messages', () => {
       expect(notice.at(0).text()).toEqual('99');
     });
     test('when mark as unread a read message the unread count displayed with fax tab should add from 99 to 99+', async () => {
+      wrapper = await getWrapper({ shouldMockForLogin: false });
+      phone = wrapper.props().phone;
+      mock.restore();
+      mock.mockForLogin({ mockMessageSync: false });
       mockGenerateMessageApi({
         count: 100, messageType: 'Fax', readStatus: 'Unread', direction: 'Inbound'
       });
@@ -423,39 +529,49 @@ describe('messages', () => {
         readStatus: 'Read',
         messageType: 'Fax',
       });
-      await phone.subscription.subscribe(['/account/~/extension/~/message-sync']);
-      await timeout(2500);
-      await mockPubnub();
-
+      Object.defineProperty(phone.tabManager, 'active', {
+        value: true
+      });
+      await ensureLogin(phone.auth, {
+        username: 'test',
+        password: 'test'
+      });
+      wrapper.setProps({ phone });
       wrapper.update();
-      expect(phone.messageStore.faxUnreadCounts).toEqual(100);
-      let notice = wrapper.find(MessagesPanel).find(NavigationBar).find('.active').find('.notices');
-      expect(notice.at(0).text()).toEqual('99+');
+      navigationBar = wrapper.find(NavigationBar).first();
+      await navigationBar.props().goTo('/messages');
+      wrapper.update();
+      panel = wrapper.find(MessagesPanel);
+      await panel.find(NavigationBar).props().goTo('Fax');
+      wrapper.update();
 
       let markButton = wrapper.find(MessagesPanel).find(MessageItem).at(0).find(MarkButton);
       expect(markButton).toBeDefined();
       await markButton.simulate('click');
       await timeout(1000);
       wrapper.update();
+      let notice = wrapper.find(MessagesPanel).find(NavigationBar).find('.active').find('.notice');
+      expect(notice.at(0).text()).toEqual('99');
 
-      mock.restore();
+      wrapper.update();
       mockUpdateMessageStatusApi({
         id: 0,
         readStatus: 'Unread',
-        messageType: 'Fax'
+        messageType: 'Fax',
       });
-      wrapper.update();
       markButton = wrapper.find(MessagesPanel).find(MessageItem).at(0).find(MarkButton);
       expect(markButton).toBeDefined();
       await markButton.simulate('click');
-      await timeout(2000);
+      await timeout(1000);
       wrapper.update();
+      phone = wrapper.props().phone;
       expect(phone.messageStore.faxUnreadCounts).toEqual(100);
       notice = wrapper.find(MessagesPanel).find(NavigationBar).find('.active').find('.notices');
+      debugger;
       expect(notice.at(0).text()).toEqual('99+');
     });
   });
-  describe('messages action', () => {
+  describe('fax messages action', () => {
     beforeEach(async () => {
       wrapper = await getWrapper();
       navigationBar = wrapper.find(NavigationBar).first();
@@ -465,17 +581,43 @@ describe('messages', () => {
       wrapper.update();
       panel = wrapper.find(MessagesPanel).first();
       phone = wrapper.props().phone;
-      Object.defineProperty(phone.rolesAndPermissions, 'readFaxPermissions', {
-        value: true
-      });
       Object.defineProperty(phone.tabManager, 'active', {
         value: true
       });
+      debugger;
       mock.restore();
       mock.subscription();
     });
-    afterEach(() => {
-      localStorage.removeItem(`${phone.storage.storageKey}-messageStore`);
+    test('should have preview btn', async () => {
+      mockGenerateMessageApi({
+        count: 1, messageType: 'Fax', readStatus: 'read', direction: 'Outbound'
+      });
+      await phone.subscription.subscribe(['/account/~/extension/~/message-sync']);
+      await timeout(4500);
+      await mockPubnub();
+
+      wrapper.update();
+      debugger;
+      const messageItem = wrapper.find(MessagesPanel).find(MessageItem).at(0);
+      debugger;
+      expect(messageItem.find(PreviewButton)).toBeDefined();
+      expect(messageItem.find(PreviewButton).props().title).toEqual('View');
+      expect(messageItem.find(PreviewButton).find('span').props().title).toEqual('View');
+    });
+    test('should have download btn', async () => {
+      Object.defineProperty(phone.tabManager, 'active', {
+        value: true
+      });
+      mockGenerateMessageApi({
+        count: 1, messageType: 'Fax', readStatus: 'read', direction: 'Outbound'
+      });
+      await phone.subscription.subscribe(['/account/~/extension/~/message-sync']);
+      await timeout(2500);
+      await mockPubnub();
+      wrapper.update();
+
+      const messageItem = wrapper.find(MessagesPanel).find(MessageItem).at(0);
+      expect(messageItem.find('a').props().title).toEqual('Download');
     });
     test('when fax message is received and read should show mark as unread btn and tooltip', async () => {
       mockGenerateMessageApi({
@@ -514,24 +656,9 @@ describe('messages', () => {
       expect(messageItem).toBeDefined();
       expect(messageItem.find(MarkButton).length).toEqual(0);
     });
-    test('should have preview btn and download btn', async () => {
-      mockGenerateMessageApi({
-        count: 1, messageType: 'Fax', readStatus: 'Unread', direction: 'Inbound'
-      });
-      await phone.subscription.subscribe(['/account/~/extension/~/message-sync']);
-      await timeout(2500);
-      await mockPubnub();
-      wrapper.update();
-
-      const messageItem = wrapper.find(MessagesPanel).find(MessageItem).at(0);
-      expect(messageItem.find(PreviewButton)).toBeDefined();
-      expect(messageItem.find(PreviewButton).props().title).toEqual('View');
-      expect(messageItem.find(PreviewButton).find('span').props().title).toEqual('View');
-      expect(messageItem.find('a').props().title).toEqual('Download');
-    });
     test('should have view contact detail btn when current number matches contact', async () => {
       mockGenerateMessageApi({
-        count: 1, messageType: 'Fax', readStatus: 'Unread', direction: 'Inbound'
+        count: 1, messageType: 'Fax', readStatus: 'read', direction: 'Outbound'
       });
       await phone.subscription.subscribe(['/account/~/extension/~/message-sync']);
       await timeout(2500);

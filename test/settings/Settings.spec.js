@@ -42,8 +42,7 @@ describe('settings panel', () => {
     const logoutLine = logoutLines.at(0);
     expect(store.getState().auth.loginStatus).toMatch(/-loggedIn$/);
     await logoutLine.props().onClick();
-    expect(store.getState().auth.loginStatus).toMatch(/-loggingOut$/);
-
+    expect(store.getState().auth.loginStatus).toMatch(/-notLoggedIn/);
     // need to login again, otherwise other tests will fail
     window.authData = null; // set it to null will trigger login
   });
