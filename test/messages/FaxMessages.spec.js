@@ -126,7 +126,6 @@ describe('fax messages', () => {
       panel = wrapper.find(MessagesPanel).first();
       await panel.find(NavigationBar).props().goTo('Fax');
       wrapper.update();
-      debugger;
       const messageItem = wrapper.find(MessagesPanel).find(MessageItem).at(0);
       expect(messageItem.find('.creationTime').text()).toMatch(/\d\d:\d\d/g);
     });
@@ -278,7 +277,6 @@ describe('fax messages', () => {
   });
   describe('fax messages unread count', async () => {
     test('should not show unread count displayed on fax tab when there are 0 unread fax', async () => {
-      debugger;
       wrapper = await getWrapper({ shouldMockForLogin: false });
       phone = wrapper.props().phone;
       mock.restore();
@@ -567,7 +565,6 @@ describe('fax messages', () => {
       phone = wrapper.props().phone;
       expect(phone.messageStore.faxUnreadCounts).toEqual(100);
       notice = wrapper.find(MessagesPanel).find(NavigationBar).find('.active').find('.notices');
-      debugger;
       expect(notice.at(0).text()).toEqual('99+');
     });
   });
@@ -584,7 +581,6 @@ describe('fax messages', () => {
       Object.defineProperty(phone.tabManager, 'active', {
         value: true
       });
-      debugger;
       mock.restore();
       mock.subscription();
     });
@@ -597,9 +593,7 @@ describe('fax messages', () => {
       await mockPubnub();
 
       wrapper.update();
-      debugger;
       const messageItem = wrapper.find(MessagesPanel).find(MessageItem).at(0);
-      debugger;
       expect(messageItem.find(PreviewButton)).toBeDefined();
       expect(messageItem.find(PreviewButton).props().title).toEqual('View');
       expect(messageItem.find(PreviewButton).find('span').props().title).toEqual('View');
