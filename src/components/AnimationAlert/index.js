@@ -8,7 +8,6 @@ import Message from '../Message';
 import AlertDisplay from '../AlertDisplay';
 
 const ANIMATION_DURATION = 500;
-const ANIMATION_DELAY = '0.3s';
 const ENTRANCE_ANIMATION = 'fadeInDown';
 const EXIT_ANIMATION = 'fadeOutUp';
 
@@ -18,8 +17,7 @@ function AnimationMessage({ animation, duration, ...props }) {
     <div
       className={classnames([animation, 'animated'])}
       style={{
-        animationDuration: `${second}s`,
-        animationDelay: ANIMATION_DELAY,
+        animationDuration: `${second}s`
       }}>
       <Message {...props} />
     </div>

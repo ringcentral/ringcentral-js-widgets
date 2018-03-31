@@ -10,7 +10,6 @@ export default {
   [messageSenderMessages.recipientsEmpty]: 'Please enter a valid receiver number.',
   [messageSenderMessages.textTooLong]: 'Text is too long, 1000 limit',
   [messageSenderMessages.noAreaCode]: 'Please set {areaCodeLink} to use 7-digit local phone numbers.',
-  [messageSenderMessages.specialNumber]: 'Dialling emergency or special service numbers is not supported.',
   [messageSenderMessages.connectFailed]: 'Connection failed. Please try again later.',
   [messageSenderMessages.internalError]: 'Cannot connect due to internal errors. Please try again later.',
   [messageSenderMessages.notAnExtension]: 'The extension number does not exist.',
@@ -19,7 +18,9 @@ export default {
   [messageSenderMessages.senderNumberInvalids]: 'You don\'t have valid phone number to send SMS from. Please contact your account administrator.',
   [messageSenderMessages.internationalSMSNotSupported]: 'Sending SMS to international phone numbers is not supported.',
   areaCode: 'area code',
-  [messageSenderMessages.senderNumberInvalid]: 'A valid Phone Number is required to send text messages to recipients outside of your company. Please contact your Administrator to add a direct number to your account.',
+  [messageSenderMessages.senderNumberInvalid]: 'You don\'t have permission to send messages to recipients outside your organisation. Please contact your RingCentral account administrator for upgrade.',
+  [messageSenderMessages.recipientNumberInvalids]: 'Please enter a valid phone number.',
+  [messageSenderMessages.noInternalSMSPermission]: 'You don\'t have permission to send messages. Please contact your RingCentral account administrator for upgrade.',
 };
 
 // @key: @#@"[messageSenderMessages.sendSuccess]"@#@ @source: @#@"Send Success."@#@
@@ -31,14 +32,15 @@ export default {
 // @key: @#@"[messageSenderMessages.noToNumber]"@#@ @source: @#@"Invalid phone number."@#@
 // @key: @#@"[messageSenderMessages.recipientsEmpty]"@#@ @source: @#@"Please enter a valid receiver number."@#@
 // @key: @#@"[messageSenderMessages.textTooLong]"@#@ @source: @#@"Text is too long, 1000 Limited"@#@
-// @key: @#@"[messageSenderMessages.recipientNumberInvalids]"@#@ @source: @#@"Recipient number is invalids"@#@
+// @key: @#@"[messageSenderMessages.recipientNumberInvalids]"@#@ @source: @#@"Please enter a valid phone number."@#@
 // @key: @#@"[messageSenderMessages.noAreaCode]"@#@ @source: @#@"Please set {areaCodeLink} to use 7-digit local phone numbers."@#@
 // @key: @#@"[messageSenderMessages.specialNumber]"@#@ @source: @#@"Dialing emergency or special service numbers is not supported."@#@
 // @key: @#@"[messageSenderMessages.connectFailed]"@#@ @source: @#@"Connection failed. Please try again later."@#@
 // @key: @#@"[messageSenderMessages.internalError]"@#@ @source: @#@"Cannot connect due to internal errors. Please try again later."@#@
 // @key: @#@"[messageSenderMessages.notAnExtension]"@#@ @source: @#@"The extension number does not exist."@#@
 // @key: @#@"[messageSenderMessages.networkError]"@#@ @source: @#@"Cannot connect due to network issues. Please try again later."@#@
-// @key: @#@"[messageSenderMessages.senderNumberInvalid]"@#@ @source: @#@"A valid Phone Number is required to send text message to recipients outside of your company. Please contact your Administrator to add a direct number to your account."@#@
+// @key: @#@"[messageSenderMessages.senderNumberInvalid]"@#@ @source: @#@"You don't have permission to send messages to recipients outside of your organization. Please contact your RingCentral account administrator for upgrade."@#@
 // @key: @#@"[messageSenderMessages.notSmsToExtension]"@#@ @source: @#@"Cannot send To a extension number with main phone number. If you want to sent to a extension Number, please just enter extension Number."@#@
 // @key: @#@"[messageSenderMessages.internationalSMSNotSupported]"@#@ @source: @#@"Sending SMS to international phone number is not supported."@#@
+// @key: @#@"[messageSenderMessages.noInternalSMSPermission]"@#@ @source: @#@"You don't have permission to send messages. Please contact your RingCentral account administrator for upgrade."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@

@@ -11,7 +11,7 @@ export default {
   makeCallsWith: '通話発信に使用する電話',
   ringoutHint: '最初に自分の場所で自身を呼び出した後\u3001通話相手に接続する',
   myLocationLabel: '自分の場所',
-  press1ToStartCallLabel: '通話接続前にユーザーに\u300C1\u300Dをダイヤルするように指示する',
+  press1ToStartCallLabel: '通話接続前に\u300C1\u300Dをダイヤルするように指示するメッセージを受け取る',
   [`${callingOptions.browser}Tooltip`]: '通話の発着信にコンピューターのマイクロフォンとスピーカーを使用するには\u3001このオプションを使用します\u3002',
   [`${callingOptions.softphone}Tooltip`]: '通話の発着信に{brand} for Desktopアプリを使用するには\u3001このオプションを使用します\u3002',
   [`${callingOptions.myphone}Tooltip`]: '{brand}電話を使用して電話をかけるには\u3001このオプションを使用します\u3002',

@@ -36,6 +36,7 @@ export default function SettingsPanel({
   showAutoLog,
   showAudio,
   autoLogEnabled,
+  disableAutoLogEnabled,
   onAutoLogChange,
   showAutoLogSMS,
   autoLogSMSEnabled,
@@ -57,6 +58,7 @@ export default function SettingsPanel({
   toggleAcceptCallQueueCalls,
   isCallQueueMember,
   showPresenceSettings,
+  openPresenceSettings,
   showFeedback,
   showUserGuide,
   additional,
@@ -115,7 +117,7 @@ export default function SettingsPanel({
       </LinkLine>
     )
     : null;
-  const presenceSetting = (dndStatus && userStatus) ?
+  const presenceSetting = (showPresenceSettings && dndStatus && userStatus) ?
     (
       <PresenceSettingSection
         currentLocale={currentLocale}
@@ -127,7 +129,7 @@ export default function SettingsPanel({
         setDoNotDisturb={setDoNotDisturb}
         setInvisible={setInvisible}
         toggleAcceptCallQueueCalls={toggleAcceptCallQueueCalls}
-        showPresenceSettings={showPresenceSettings}
+        showPresenceSettings={openPresenceSettings}
       />
     ) :
     null;
@@ -160,6 +162,7 @@ export default function SettingsPanel({
     <IconLine
       icon={
         <Switch
+          disable={disableAutoLogEnabled}
           checked={autoLogEnabled}
           onChange={onAutoLogChange}
         />
@@ -257,6 +260,7 @@ SettingsPanel.propTypes = {
   showAudio: PropTypes.bool,
   showAutoLog: PropTypes.bool,
   autoLogEnabled: PropTypes.bool,
+  disableAutoLogEnabled: PropTypes.bool,
   onAutoLogChange: PropTypes.func,
   showAutoLogSMS: PropTypes.bool,
   autoLogSMSEnabled: PropTypes.bool,
@@ -277,6 +281,7 @@ SettingsPanel.propTypes = {
   setDoNotDisturb: PropTypes.func,
   setInvisible: PropTypes.func,
   toggleAcceptCallQueueCalls: PropTypes.func,
+  openPresenceSettings: PropTypes.bool,
   showPresenceSettings: PropTypes.bool,
   showFeedback: PropTypes.bool,
   additional: PropTypes.node,
@@ -300,6 +305,7 @@ SettingsPanel.defaultProps = {
   showRegion: false,
   showUserGuide: false,
   autoLogEnabled: false,
+  disableAutoLogEnabled: false,
   onAutoLogChange: undefined,
   showAutoLogSMS: false,
   autoLogSMSEnabled: false,
@@ -316,7 +322,8 @@ SettingsPanel.defaultProps = {
   setDoNotDisturb: () => null,
   setInvisible: () => null,
   toggleAcceptCallQueueCalls: () => null,
-  showPresenceSettings: false,
+  openPresenceSettings: false,
+  showPresenceSettings: true,
   additional: null,
   supportedLocales: undefined,
   savedLocale: undefined,

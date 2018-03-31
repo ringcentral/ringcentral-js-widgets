@@ -6,7 +6,8 @@
     "id": "1210",
     "name": "RingCentral",
     "fullName": "RingCentral",
-    "code": "rc"
+    "code": "rc",
+    "application": "RingCentral Widgets"
   },
   "softphone": null,
   "locale": {

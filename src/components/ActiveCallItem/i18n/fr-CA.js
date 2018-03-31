@@ -20,6 +20,9 @@ export default {
   outboundCall: 'Sortant',
   from: 'De',
   to: 'À',
+  hangup: 'Raccrocher',
+  accept: 'Accepter',
+  toVoicemail: 'Envoyer vers la messagerie vocale',
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -43,3 +46,6 @@ export default {
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
 // @key: @#@"from"@#@ @source: @#@"From"@#@
 // @key: @#@"to"@#@ @source: @#@"To"@#@
+// @key: @#@"hangup"@#@ @source: @#@"Hangup"@#@
+// @key: @#@"accept"@#@ @source: @#@"Accept"@#@
+// @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@

@@ -11,6 +11,10 @@ export default {
   autoCreateSMSLog: 'Crear registro de mensajes automáticamente',
   autoLogCalls: 'Llamadas con registro automático',
   autoLogSMS: 'SMS con registro automático',
+  audio: 'Audio',
+  language: 'Idioma',
+  feedback: 'Comentarios',
+  userGuide: 'Novedades',
 };
 
 
@@ -28,3 +32,5 @@ export default {
 // @key: @#@"clickToDialSMS"@#@ @source: @#@"Click to Dial/SMS"@#@
 // @key: @#@"audio"@#@ @source: @#@"Audio"@#@
 // @key: @#@"language"@#@ @source: @#@"Language"@#@
+// @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
+// @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@

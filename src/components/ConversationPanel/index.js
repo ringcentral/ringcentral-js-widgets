@@ -14,36 +14,29 @@ class ConversationPanel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      textValue: '',
       selected: this.getInitialContactIndex(),
       isLogging: false,
     };
     this._userSelection = false;
     this.onTextChange = (e) => {
-      this.setState({
-        textValue: e.currentTarget.value,
-      });
+      this.props.updateMessageText(e.currentTarget.value);
     };
     this.handleSubmit = (e) => {
-      this.props.replyToReceivers(this.state.textValue);
-      this.setState({
-        textValue: '',
-      });
+      this.props.replyToReceivers(this.props.messageText);
       e.preventDefault();
     };
     this.onTextAreaKeyDown = (e) => {
       if (e.key === 'Enter') {
-        this.props.replyToReceivers(this.state.textValue);
-        this.setState({
-          textValue: '',
-        });
+        this.props.replyToReceivers(this.props.messageText);
         e.preventDefault();
       }
     };
   }
+
   componentDidMount() {
     this._mounted = true;
   }
+
   componentWillReceiveProps(nextProps) {
     if (
       !this._userSelection &&
@@ -59,9 +52,11 @@ class ConversationPanel extends Component {
       });
     }
   }
+
   componentWillUnmount() {
     this._mounted = false;
   }
+
   onSelectContact = (value, idx) => {
     const selected = this.showContactDisplayPlaceholder
       ? parseInt(idx, 10) - 1 : parseInt(idx, 10);
@@ -82,6 +77,7 @@ class ConversationPanel extends Component {
       (contactMatches.length === 1 && contactMatches[0]) ||
       null;
   }
+
   getInitialContactIndex(nextProps = this.props) {
     const {
       correspondentMatches,
@@ -95,11 +91,13 @@ class ConversationPanel extends Component {
     }
     return -1;
   }
+
   getPhoneNumber() {
     const correspondents = this.props.conversation.correspondents;
     return (correspondents.length === 1 &&
       (correspondents[0].phoneNumber || correspondents[0].extensionNumber)) || undefined;
   }
+
   getGroupPhoneNumbers() {
     const correspondents = this.props.conversation.correspondents;
     const groupNumbers = correspondents.length > 1 ?
@@ -109,15 +107,16 @@ class ConversationPanel extends Component {
       : null;
     return groupNumbers;
   }
+
   getFallbackContactName() {
     const correspondents = this.props.conversation.correspondents;
     return (correspondents.length === 1 &&
       (correspondents[0].name)) || undefined;
   }
+
   async logConversation({ redirect = true, selected, prefill = true }) {
     if (typeof this.props.onLogConversation === 'function' &&
-      this._mounted &&
-      !this.state.isLogging
+      this._mounted && !this.state.isLogging
     ) {
       this.setState({
         isLogging: true,
@@ -135,12 +134,13 @@ class ConversationPanel extends Component {
       }
     }
   }
+
   logConversation = this.logConversation.bind(this)
 
   render() {
     let conversationBody = null;
     const loading = this.props.showSpinner;
-    const recipients = this.props.recipients;
+    const { recipients, messageSubjectRenderer } = this.props;
     if (loading) {
       conversationBody = (
         <div className={styles.spinerContainer}>
@@ -154,6 +154,7 @@ class ConversationPanel extends Component {
           className={styles.conversationBody}
           dateTimeFormatter={this.props.dateTimeFormatter}
           showFrom={recipients && recipients.length > 1}
+          messageSubjectRenderer={messageSubjectRenderer}
         />
       );
     }
@@ -216,7 +217,7 @@ class ConversationPanel extends Component {
             <div className={styles.textField}>
               <textarea
                 placeholder={i18n.getString('typeMessage', this.props.currentLocale)}
-                value={this.state.textValue}
+                value={this.props.messageText}
                 maxLength="1000"
                 onChange={this.onTextChange}
                 onKeyPressCapture={this.onTextAreaKeyDown}
@@ -231,7 +232,7 @@ class ConversationPanel extends Component {
                   this.props.disableLinks ||
                   this.props.sendButtonDisabled ||
                   loading ||
-                  this.state.textValue.length === 0
+                  this.props.messageText.length === 0
                 }
               />
             </div>
@@ -246,6 +247,8 @@ ConversationPanel.propTypes = {
   brand: PropTypes.string.isRequired,
   replyToReceivers: PropTypes.func.isRequired,
   messages: ConversationMessageList.propTypes.messages,
+  updateMessageText: PropTypes.func,
+  messageText: PropTypes.string,
   recipients: PropTypes.arrayOf(PropTypes.shape({
     phoneNumber: PropTypes.string,
     extensionNumber: PropTypes.string,
@@ -266,6 +269,7 @@ ConversationPanel.propTypes = {
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
   showGroupNumberName: PropTypes.bool,
+  messageSubjectRenderer: PropTypes.func,
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
@@ -275,6 +279,9 @@ ConversationPanel.defaultProps = {
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
   showGroupNumberName: false,
+  messageText: '',
+  updateMessageText: () => { },
+  messageSubjectRenderer: undefined,
 };
 
 export default ConversationPanel;

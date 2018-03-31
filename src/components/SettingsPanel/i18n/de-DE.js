@@ -11,6 +11,10 @@ export default {
   autoCreateSMSLog: 'Automatisch SMS-Protokoll erstellen',
   autoLogCalls: 'Anrufe automatisch protokollieren',
   autoLogSMS: 'SMS automatisch protokollieren',
+  audio: 'Audio',
+  language: 'Sprache',
+  feedback: 'Feedback',
+  userGuide: 'Neuigkeiten',
 };
 
 
@@ -28,3 +32,5 @@ export default {
 // @key: @#@"clickToDialSMS"@#@ @source: @#@"Click to Dial/SMS"@#@
 // @key: @#@"audio"@#@ @source: @#@"Audio"@#@
 // @key: @#@"language"@#@ @source: @#@"Language"@#@
+// @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
+// @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@

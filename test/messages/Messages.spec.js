@@ -44,7 +44,7 @@ describe('messages', () => {
 
   test('click a message', async () => {
     const firstMessage = panel.find(MessageItem).first();
-    await firstMessage.find('div').first().simulate('click');
+    await firstMessage.find('.wrapper').first().simulate('click');
     const conversationPanel = wrapper.find(ConversationPanel);
     expect(conversationPanel.length > 0).toBe(true);
   });
@@ -79,7 +79,7 @@ describe('messages', () => {
 
   test('message log button', async () => {
     const firstMessage = panel.find(MessageItem).first();
-    await firstMessage.find('div').first().simulate('click');
+    await firstMessage.find('.wrapper').first().simulate('click');
     const conversationPanel = wrapper.find(ConversationPanel);
 
     const logButton = conversationPanel.find(LogButton).first().find(Button);
@@ -88,7 +88,7 @@ describe('messages', () => {
 
   test('message click log button', async () => {
     const firstMessage = panel.find(MessageItem).first();
-    await firstMessage.find('div').first().simulate('click');
+    await firstMessage.find('.wrapper').first().simulate('click');
     let conversationPanel = wrapper.find(ConversationPanel);
     let logButton = conversationPanel.find(LogButton).find(Button);
     logButton.simulate('click');

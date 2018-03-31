@@ -185,9 +185,7 @@ class RecipientsInput extends Component {
             name: this.state.value.replace(',', ''),
             phoneNumber: this.state.value.replace(',', ''),
           });
-          this.onClean();
         }
-        this.onClean();
       }
     };
   }

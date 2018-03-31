@@ -65,6 +65,7 @@ export default class ContactList extends Component {
   }
 
   componentDidMount() {
+    this.rootElem = this.props.listRef;
     // wait for contact items rendering
     setTimeout(() => {
       // detect here for the case when there is no scroll bar
@@ -102,12 +103,13 @@ export default class ContactList extends Component {
       getPresence,
       onItemSelect,
       sourceNodeRenderer,
+      listRef
     } = this.props;
     return (
       <div
         className={styles.root}
         onScroll={this.onScroll}
-        ref={(el) => { this.rootElem = el; }}
+        ref={listRef}
       >
         {
           contactGroups.length ?
@@ -144,6 +146,7 @@ ContactList.propTypes = {
   onNextPage: PropTypes.func,
   onItemSelect: PropTypes.func,
   sourceNodeRenderer: PropTypes.func,
+  listRef: PropTypes.func,
 };
 
 ContactList.defaultProps = {
@@ -151,4 +154,5 @@ ContactList.defaultProps = {
   onNextPage: undefined,
   onItemSelect: undefined,
   sourceNodeRenderer: undefined,
+  listRef: undefined,
 };

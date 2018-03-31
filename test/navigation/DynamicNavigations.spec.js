@@ -27,7 +27,7 @@ describe('dynamic navigationb bar', () => {
       hasComposeTextPermission: { value: true },
       permissions: {
         value: {
-          ...phone.rolesAndPermissions,
+          ...phone.rolesAndPermissions.permissions,
           ReadCallLog: true,
           OrganizeConference: true,
           Meetings: true
@@ -119,7 +119,7 @@ describe('dynamic navigationb bar', () => {
       hasComposeTextPermission: { value: false },
       permissions: {
         value: {
-          ...phone.rolesAndPermissions,
+          ...phone.rolesAndPermissions.permissions,
           ReadCallLog: false,
           OrganizeConference: true,
           Meetings: false
@@ -140,7 +140,7 @@ describe('dynamic navigationb bar', () => {
       hasComposeTextPermission: { value: false },
       permissions: {
         value: {
-          ...phone.rolesAndPermissions,
+          ...phone.rolesAndPermissions.permissions,
           ReadCallLog: false,
           OrganizeConference: false,
           Meetings: false

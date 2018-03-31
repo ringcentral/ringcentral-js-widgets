@@ -89,9 +89,10 @@ function formatPin(number) {
 }
 
 const dialInNumbersLinks = {
+  att: 'https://rcconf.net/1L06Hd5', // att reuse rc brand
+  bt: 'https://www.btcloudphone.bt.com/conferencing',
   rc: 'https://rcconf.net/1L06Hd5',
   telus: 'https://telus.com/BusinessConnect/ConferencingFrequentlyAskedQuestions',
-  bt: 'https://www.btcloudphone.bt.com/conferencing'
 };
 
 class ConferencePanel extends Component {
@@ -167,14 +168,13 @@ class ConferencePanel extends Component {
 
     // This conference call is brought to you by ${brand.name} Conferencing.`;
     // return i18n.getString('inviteText', this.props.currentLocale);
-    return formatMessage(i18n.getString('inviteText', this.props.currentLocale), {
+    return formatMessage(i18n.getString(`inviteText_${brand.code}`, this.props.currentLocale), {
       brandName: brand.name,
       formattedDialInNumber,
       additionalNumbersSection,
       participantCode: formatPin(participantCode),
-      dialInNumbersLinks: dialInNumbersLinks[brand.code]
-    }
-    );
+      dialInNumbersLinks: dialInNumbersLinks[brand.code],
+    });
   }
 
   inviteWithText = () => {
@@ -236,6 +236,7 @@ class ConferencePanel extends Component {
       showHelpCommands,
       disableTxtBtn,
       showJoinAsHost = true,
+      showEnableJoinBeforeHost = true,
       recipientsSection,
     } = this.props;
     const {
@@ -297,7 +298,11 @@ class ConferencePanel extends Component {
                 if (!option) {
                   console.warn(`Conference dial in number ${phoneNumber} is not found in the list.`);
                 }
-                return DialInNumberItem(option || dialInNumbers[0]);
+                const itemOptions = option || dialInNumbers[0];
+                if (itemOptions) {
+                  return DialInNumberItem(itemOptions);
+                }
+                return '';
               }}
               onToggle={this.onSelectToggle}
               options={dialInNumbers}
@@ -330,15 +335,18 @@ class ConferencePanel extends Component {
             </span>
             {additionalNumbersCtrl}
           </div>
-          <div className={styles.formGroup}>
-            <label>{i18n.getString('enableJoinBeforeHost', currentLocale)}</label>
-            <span className={styles.field}>
-              <Switch
-                checked={allowJoinBeforeHost}
-                onChange={onAllowJoinBeforeHostChange}
-              />
-            </span>
-          </div>
+          {
+            showEnableJoinBeforeHost &&
+            <div className={styles.formGroup}>
+              <label>{i18n.getString('enableJoinBeforeHost', currentLocale)}</label>
+              <span className={styles.field}>
+                <Switch
+                  checked={allowJoinBeforeHost}
+                  onChange={onAllowJoinBeforeHostChange}
+                />
+              </span>
+            </div>
+          }
 
           <Button
             onClick={showHelpCommands}
@@ -397,6 +405,7 @@ ConferencePanel.propTypes = {
   alert: PropTypes.func.isRequired,
   disableTxtBtn: PropTypes.bool.isRequired,
   showJoinAsHost: PropTypes.bool,
+  showEnableJoinBeforeHost: PropTypes.bool,
   brand: PropTypes.object.isRequired,
   recipientsSection: PropTypes.node,
 };
@@ -405,6 +414,7 @@ ConferencePanel.defaultProps = {
   additionalButtons: [],
   recipientsSection: undefined,
   showJoinAsHost: true,
+  showEnableJoinBeforeHost: true,
 };
 
 export default ConferencePanel;

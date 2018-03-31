@@ -11,6 +11,10 @@ export default {
   autoLogSMS: 'SMSの自動ログ記録',
   clickToSMS: 'クリックSMS',
   clickToDialSMS: 'クリックダイヤル/SMS',
+  audio: 'オーディオ',
+  language: '言語',
+  feedback: 'フィードバック',
+  userGuide: '新着情報',
 };
 
 
@@ -28,3 +32,5 @@ export default {
 // @key: @#@"clickToDialSMS"@#@ @source: @#@"Click to Dial/SMS"@#@
 // @key: @#@"audio"@#@ @source: @#@"Audio"@#@
 // @key: @#@"language"@#@ @source: @#@"Language"@#@
+// @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
+// @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@

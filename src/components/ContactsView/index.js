@@ -95,6 +95,9 @@ export default class ContactsView extends Component {
   }
 
   doSearchBySource(searchSource) {
+    if (this.listElem && this.listElem.scrollTop) {
+      this.listElem.scrollTop = 0;
+    }
     this._applySearch({
       searchSource,
       searchString: this.state.searchString,
@@ -175,6 +178,7 @@ export default class ContactsView extends Component {
             onNextPage={this.loadNextPage}
             onItemSelect={onItemSelect}
             sourceNodeRenderer={sourceNodeRenderer}
+            listRef={(el) => { this.listElem = el; }}
           />
         </Panel>
         {showSpinner ? (<SpinnerOverlay className={styles.spinner} />) : null}

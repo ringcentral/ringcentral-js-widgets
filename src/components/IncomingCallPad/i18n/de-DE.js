@@ -1,11 +1,11 @@
 export default {
-  forward: 'Vor',
+  forward: 'Weiterleiten',
   reply: 'Antworten',
   ignore: 'Ignorieren',
   toVoicemail: 'An Voicemail',
   answer: 'Antwort',
-  answerAndEnd: 'Antworten und beenden',
-  answerAndHold: 'Antworten und halten',
+  answerAndEnd: 'Antw. u. beenden',
+  answerAndHold: 'Antw. u. halten',
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

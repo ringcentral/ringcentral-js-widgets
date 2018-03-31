@@ -20,6 +20,7 @@ const apiConfig = {
 
 const getPhone = async (shouldMockForLogin = true) => {
   jest.mock('pubnub');
+  jest.mock('ringcentral-web-phone');
   localStorage.clear();
   const phone = createPhone({
     apiConfig,

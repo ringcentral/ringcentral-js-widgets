@@ -11,6 +11,10 @@ export default {
   autoLogSMS: 'Registrar SMS automaticamente',
   clickToSMS: 'Clicar para enviar mensagem de texto',
   clickToDialSMS: 'Clique para discar/enviar mensagem de texto',
+  audio: 'Áudio',
+  language: 'Idioma',
+  feedback: 'Comentários',
+  userGuide: 'Novidades',
 };
 
 
@@ -28,3 +32,5 @@ export default {
 // @key: @#@"clickToDialSMS"@#@ @source: @#@"Click to Dial/SMS"@#@
 // @key: @#@"audio"@#@ @source: @#@"Audio"@#@
 // @key: @#@"language"@#@ @source: @#@"Language"@#@
+// @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
+// @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@

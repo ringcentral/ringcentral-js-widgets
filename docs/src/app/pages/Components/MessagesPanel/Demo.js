@@ -5,16 +5,17 @@ import MessagesPanel from 'ringcentral-widgets/components/MessagesPanel';
 const props = {};
 props.currentLocale = 'en-US';
 props.goToComposeText = () => null;
-props.readVoicemail = () => null;
-props.unmarkVoicemail = () => null;
-props.markVoicemail = () => null;
+props.markMessage = () => null;
+props.readMessage = () => null;
+props.unmarkMessage = () => null;
 props.showConversationDetail = () => null;
 props.onClickToDial = () => null;
 props.onViewContact = () => null;
 props.onCreateContact = () => null;
 props.brand = 'RingCentral';
-props.textUnreadCounts = 0;
+props.textUnreadCounts = 1;
 props.voiceUnreadCounts = 0;
+props.faxUnreadCounts = 0;
 props.conversations = [{
   id: 1,
   conversationId: '1',

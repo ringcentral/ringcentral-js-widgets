@@ -9,6 +9,7 @@ export function Message({
   time,
   direction,
   sender,
+  subjectRenderer: SubjectRenderer,
 }) {
   return (
     <div className={styles.message}>
@@ -36,7 +37,9 @@ export function Message({
           direction === 'Outbound' ? styles.outbound : styles.inbound,
           (subject && subject.length > 500) && styles.big,
         )}>
-        {subject}
+        {
+          SubjectRenderer ? <SubjectRenderer subject={subject} /> : subject
+        }
       </div>
       <div className={styles.clear} />
     </div>
@@ -48,12 +51,14 @@ Message.propTypes = {
   subject: PropTypes.string,
   time: PropTypes.string,
   sender: PropTypes.string,
+  subjectRenderer: PropTypes.func,
 };
 
 Message.defaultProps = {
   subject: '',
   sender: undefined,
   time: undefined,
+  subjectRenderer: undefined,
 };
 
 class ConversationMessageList extends Component {
@@ -77,6 +82,7 @@ class ConversationMessageList extends Component {
       dateTimeFormatter,
       messages,
       showSender,
+      messageSubjectRenderer,
     } = this.props;
 
     let lastDate = 0;
@@ -99,6 +105,7 @@ class ConversationMessageList extends Component {
           time={time}
           direction={message.direction}
           subject={message.subject}
+          subjectRenderer={messageSubjectRenderer}
         />
       );
     });
@@ -123,11 +130,13 @@ ConversationMessageList.propTypes = {
   className: PropTypes.string,
   showSender: PropTypes.bool,
   dateTimeFormatter: PropTypes.func.isRequired,
+  messageSubjectRenderer: PropTypes.func,
 };
 
 ConversationMessageList.defaultProps = {
   className: null,
   showSender: false,
+  messageSubjectRenderer: undefined,
 };
 
 ConversationMessageList.contextTypes = {

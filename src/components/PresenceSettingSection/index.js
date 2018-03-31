@@ -92,9 +92,13 @@ export default class PresenceSettingSection extends Component {
         <Line className={styles.presenceList}>
           <PresenceItem
             userStatus={presenceStatus.available}
+            dndStatus={dndStatus.takeAllCalls}
             currentLocale={this.props.currentLocale}
             onClick={this.props.setAvailable}
-            selected={this.props.userStatus === presenceStatus.available}
+            selected={
+              this.props.userStatus === presenceStatus.available &&
+              this.props.dndStatus !== dndStatus.doNotAcceptAnyCalls
+            }
           />
           <PresenceItem
             userStatus={presenceStatus.busy}
@@ -112,15 +116,18 @@ export default class PresenceSettingSection extends Component {
             currentLocale={this.props.currentLocale}
             onClick={this.props.setDoNotDisturb}
             selected={
-              this.props.userStatus === presenceStatus.busy &&
               this.props.dndStatus === dndStatus.doNotAcceptAnyCalls
             }
           />
           <PresenceItem
             userStatus={presenceStatus.offline}
+            dndStatus={dndStatus.takeAllCalls}
             currentLocale={this.props.currentLocale}
             onClick={this.props.setInvisible}
-            selected={this.props.userStatus === presenceStatus.offline}
+            selected={
+              this.props.userStatus === presenceStatus.offline &&
+              this.props.dndStatus !== dndStatus.doNotAcceptAnyCalls
+            }
           />
         </Line>
         {acceptQueueCalls}

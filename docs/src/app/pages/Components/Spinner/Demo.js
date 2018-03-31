@@ -8,8 +8,14 @@ const props = {};
  * A example of `Spinner`
  */
 const SpinnerDemo = () => (
-  <Spinner
-    {...props}
-  />
+  <div style={{
+    position: 'relative',
+    height: '50px',
+    width: '50px',
+  }}>
+    <Spinner
+      {...props}
+    />
+  </div>
 );
 export default SpinnerDemo;
