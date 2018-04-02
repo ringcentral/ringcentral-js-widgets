@@ -65,8 +65,8 @@ var CallBadge = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallBadge.__proto__ || (0, _getPrototypeOf2.default)(CallBadge)).call(this, props));
 
     _this.state = {
-      badgeOffsetX: 0,
-      badgeOffsetY: 0
+      badgeOffsetX: props.defaultOffsetX || 0,
+      badgeOffsetY: props.defaultOffsetY || 0
     };
 
     _this.updatePositionOffset = function (x, y) {
@@ -138,7 +138,14 @@ CallBadge.propTypes = {
   currentLocale: _propTypes2.default.string.isRequired,
   toggleMinimized: _propTypes2.default.func.isRequired,
   goToCallCtrl: _propTypes2.default.func.isRequired,
-  hidden: _propTypes2.default.bool.isRequired
+  hidden: _propTypes2.default.bool.isRequired,
+  defaultOffsetX: _propTypes2.default.number,
+  defaultOffsetY: _propTypes2.default.number
+};
+
+CallBadge.defaultProps = {
+  defaultOffsetX: 0,
+  defaultOffsetY: 0
 };
 
 function mapToProps(_, _ref) {
@@ -146,14 +153,20 @@ function mapToProps(_, _ref) {
       webphone = _ref$phone.webphone,
       locale = _ref$phone.locale,
       hidden = _ref.hidden,
-      goToCallCtrl = _ref.goToCallCtrl;
+      goToCallCtrl = _ref.goToCallCtrl,
+      _ref$defaultOffsetX = _ref.defaultOffsetX,
+      defaultOffsetX = _ref$defaultOffsetX === undefined ? 0 : _ref$defaultOffsetX,
+      _ref$defaultOffsetY = _ref.defaultOffsetY,
+      defaultOffsetY = _ref$defaultOffsetY === undefined ? 0 : _ref$defaultOffsetY;
 
   var currentSession = webphone.activeSession || webphone.ringSession || {};
   return {
     currentLocale: locale.currentLocale,
     session: currentSession,
     hidden: hidden,
-    goToCallCtrl: goToCallCtrl
+    goToCallCtrl: goToCallCtrl,
+    defaultOffsetX: defaultOffsetX,
+    defaultOffsetY: defaultOffsetY
   };
 }
 

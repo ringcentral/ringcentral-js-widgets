@@ -44,7 +44,7 @@ function ActiveCallBadge(props) {
     _react2.default.createElement(
       _Badge2.default,
       {
-        className: _styles2.default.phoneBage,
+        className: _styles2.default.badge,
         name: props.title
       },
       _react2.default.createElement(
