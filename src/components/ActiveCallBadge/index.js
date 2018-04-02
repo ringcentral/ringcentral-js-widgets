@@ -17,7 +17,7 @@ export default function ActiveCallBadge(props) {
       updatePositionOffset={props.updatePositionOffset}
     >
       <Badge
-        className={styles.phoneBage}
+        className={styles.badge}
         name={props.title}
       >
         <span className={styles.activeIcon}>

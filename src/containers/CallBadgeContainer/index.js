@@ -14,8 +14,8 @@ class CallBadge extends Component {
     super(props);
 
     this.state = {
-      badgeOffsetX: 0,
-      badgeOffsetY: 0,
+      badgeOffsetX: props.defaultOffsetX || 0,
+      badgeOffsetY: props.defaultOffsetY || 0,
     };
 
     this.updatePositionOffset = (x, y) => {
@@ -87,6 +87,13 @@ CallBadge.propTypes = {
   toggleMinimized: PropTypes.func.isRequired,
   goToCallCtrl: PropTypes.func.isRequired,
   hidden: PropTypes.bool.isRequired,
+  defaultOffsetX: PropTypes.number,
+  defaultOffsetY: PropTypes.number,
+};
+
+CallBadge.defaultProps = {
+  defaultOffsetX: 0,
+  defaultOffsetY: 0,
 };
 
 function mapToProps(_, {
@@ -96,6 +103,8 @@ function mapToProps(_, {
   },
   hidden,
   goToCallCtrl,
+  defaultOffsetX = 0,
+  defaultOffsetY = 0,
 }) {
   const currentSession =
     webphone.activeSession || webphone.ringSession || {};
@@ -104,6 +113,8 @@ function mapToProps(_, {
     session: currentSession,
     hidden,
     goToCallCtrl,
+    defaultOffsetX,
+    defaultOffsetY,
   };
 }
 
