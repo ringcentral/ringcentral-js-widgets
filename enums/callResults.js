@@ -17,6 +17,7 @@ exports.default = new _HashMap2.default({
   blocked: 'Blocked',
   busy: 'Busy',
   callAccepted: 'Call accepted',
+  accepted: 'Accepted',
   callConnected: 'Call connected',
   callFailed: 'Call Failed',
   callFailure: 'Call Failure',
@@ -48,6 +49,8 @@ exports.default = new _HashMap2.default({
   unknown: 'Unknown',
   voicemail: 'Voicemail',
   wrongNumber: 'Wrong Number',
-  faxReceipt: 'Fax Receipt'
+  faxReceipt: 'Fax Receipt',
+  suspendedAccount: 'Suspended Account',
+  disconnected: 'Disconnected'
 });
 //# sourceMappingURL=callResults.js.map
