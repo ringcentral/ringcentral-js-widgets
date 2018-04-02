@@ -221,6 +221,7 @@ var DropdownSelect = function (_Component) {
       ) : null;
       var iconClassName = (0, _classnames2.default)(_styles2.default.icon, this.state.open ? _styles2.default.iconUp : null, this.props.iconClassName);
       var containerClassName = (0, _classnames2.default)(_styles2.default.root, this.props.className, this.props.disabled ? _styles2.default.disabled : null, this.state.open ? _styles2.default.open : null, this.props.noPadding ? _styles2.default.noPadding : null);
+      var buttonClassName = (0, _classnames2.default)(_styles2.default.button, this.props.disabled ? _styles2.default.disabled : null);
       var dropdownMenu = this.props.renderDropdownMenu ? null : this.renderDropdownMenu();
 
       var renderValue = this.renderValue(this.props.value);
@@ -237,7 +238,7 @@ var DropdownSelect = function (_Component) {
           'button',
           {
             type: 'button',
-            className: _styles2.default.button,
+            className: buttonClassName,
             onClick: this.toggleShowDropdown,
             title: this.renderTitle(this.props.options[this.props.value], renderValue) },
           label,
