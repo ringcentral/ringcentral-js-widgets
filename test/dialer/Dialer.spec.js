@@ -18,6 +18,9 @@ beforeEach(async () => {
   await navigationBar.props().goTo('/');
   wrapper.update();
   panel = wrapper.find(DialerPanel).first();
+  Object.defineProperties(wrapper.props().phone.audioSettings, {
+    userMedia: { value: true },
+  });
 });
 
 const clickButton = (button) => {

@@ -34,6 +34,10 @@ const getPhone = async (shouldMockForLogin = true) => {
   const clientHistoryRequest = new ClientHistoryRequest(new Map(), phone.client);
   clientHistoryRequest.debugHistoryRequest();
   global.clientHistoryRequest = clientHistoryRequest;
+  Object.defineProperties(phone.webphone, {
+    connected: { value: true },
+    connectionStatus: { value: "connectionStatus-connected" },
+  });
   if (shouldMockForLogin) {
     mock.restore();
     mock.mockForLogin()
@@ -42,10 +46,6 @@ const getPhone = async (shouldMockForLogin = true) => {
       password: 'test'
     });
   }
-  Object.defineProperties(phone.webphone, {
-    connected: { value: true },
-    connectionStatus: { value: "connectionStatus-connected" },
-  });
   return phone;
 };
 
