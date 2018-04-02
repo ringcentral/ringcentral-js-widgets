@@ -43,7 +43,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var authzProfileBody = require('../mock/data/authzProfile');
 
 exports.default = function (auth, client, rolesAndPermissions, account, alert) {
-  describe('AccountExtension:', function () {
+  describe('RolesAndPermissions:', function () {
     var _this = this;
 
     this.timeout(20000);

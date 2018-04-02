@@ -775,7 +775,7 @@ var Webphone = (_dec = (0, _di.Module)({
                   break;
                 }
 
-                if ((0, _webphoneHelper.isBrowerSupport)()) {
+                if ((0, _webphoneHelper.isBrowserSupport)()) {
                   _context5.next = 5;
                   break;
                 }
