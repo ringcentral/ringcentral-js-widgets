@@ -3,7 +3,6 @@
 @import '../../lib/commonStyles/no-select';
 @import '../../lib/commonStyles/colors';
 @import '../../lib/commonStyles/layout';
-
 .navigationButton {
   @include full-size;
   @include no-select;
@@ -51,18 +50,20 @@
 
 .notice {
   position: absolute;
-  bottom: 1.4em;
+  top: calc(54% - 1.4em);
   right: calc(50% - 2.3em);
   width: 1.4em;
   height: 1.4em;
   border-radius: 100%;
-  line-height: 1.4em;
-  text-align: center;
   font-size: 0.7em;
   background-color: #f65d60;
   overflow: hidden;
   color: #fff;
   font-family: Lato;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .notices {
