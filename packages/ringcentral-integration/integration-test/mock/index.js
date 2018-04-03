@@ -20,6 +20,11 @@ const numberParserBody = require('./data/numberParser.json');
 const smsBody = require('./data/sms.json');
 const ringOutBody = require('./data/ringOut.json');
 const messageStoreBody = require('./data/messageStore.json');
+const addressBookBody = require('./data/addressBook.json');
+const callLogBody = require('./data/callLog.json');
+const deviceBody = require('./data/device.json');
+const conferencingBody = require('./data/conferencing.json');
+const activeCallsBody = require('./data/activeCalls.json');
 
 const mockServer = 'http://whatever';
 export function createSDK(options = {}) {
@@ -72,7 +77,7 @@ export function mockApi({
     sendAsJson: false
   }, {
     method,
-    times: 1,
+    times: isOnce ? 1 : 20,
   });
 }
 
@@ -177,7 +182,8 @@ export function extensionInfo(mockResponse = {}) {
     body: {
       ...extensionBody,
       ...mockResponse,
-    }
+    },
+    isOnce: false,
   });
 }
 
@@ -290,10 +296,20 @@ export function subscription(mockResponse = {}) {
     body: {
       ...subscriptionBody,
       ...mockResponse,
-    }
+    },
+    isOnce: false
   });
   mockApi({
     method: 'PUT',
+    url: `begin:${mockServer}/restapi/v1.0/subscription`,
+    body: {
+      ...subscriptionBody,
+      ...mockResponse,
+    },
+    isOnce: false
+  });
+  mockApi({
+    method: 'DELETE',
     url: `begin:${mockServer}/restapi/v1.0/subscription`,
     body: {
       ...subscriptionBody,
@@ -324,38 +340,76 @@ export function sms(mockResponse = {}) {
     }
   });
 }
+export function addressBook(mockResponse = {}) {
+  mockApi({
+    url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/address-book-sync`,
+    body: {
+      ...addressBookBody,
+      ...{
+        syncInfo: {
+          syncType: addressBookBody.syncType,
+          syncToken: addressBookBody.syncToken,
+          syncTime: ((new Date(Date.now() + 24 * 60 * 60 * 1000))).toISOString()
+        }
+      },
+      ...mockResponse,
+    },
+    isOnce: false,
+  });
+}
+
+
+export function callLog(mockResponse = {}) {
+  mockApi({
+    url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/call-log-sync`,
+    body: {
+      ...callLogBody,
+      ...{
+        syncInfo: {
+          syncType: callLogBody.syncType,
+          syncToken: callLogBody.syncToken,
+          syncTime: ((new Date(Date.now() + 24 * 60 * 60 * 1000))).toISOString()
+        }
+      },
+      ...mockResponse,
+    },
+    isOnce: false,
+  });
+}
+
+export function device(mockResponse = {}) {
+  mockApi({
+    url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/device`,
+    body: {
+      ...deviceBody,
+      ...mockResponse,
+    }
+  });
+}
+
+export function conferencing(mockResponse = {}) {
+  mockApi({
+    path: '/restapi/v1.0/account/~/extension/~/conferencing',
+    body: {
+      ...conferencingBody,
+      ...mockResponse,
+    }
+  });
+}
+
+export function activeCalls(mockResponse = {}) {
+  mockApi({
+    method: 'GET',
+    url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/active-calls`,
+    body: {
+      ...activeCallsBody,
+      ...mockResponse,
+    }
+  });
+}
 
 export function restore() {
   fetchMock.restore();
-}
-
-export function mockForLogin({
-  mockAuthzProfile = true,
-  mockExtensionInfo = true,
-  mockForwardingNumber = true,
-} = {}) {
-  authentication();
-  logout();
-  tokenRefresh();
-  presence('~');
-  dialingPlan();
-  if (mockExtensionInfo) {
-    extensionInfo();
-  }
-  accountInfo();
-  apiInfo();
-  if (mockAuthzProfile) {
-    authzProfile();
-  }
-  extensionList();
-  accountPhoneNumber();
-  blockedNumber();
-  if (mockForwardingNumber) {
-    forwardingNumber();
-  }
-  messageSync();
-  phoneNumber();
-  subscription();
 }
 
 export function mockForbidden({
@@ -399,3 +453,48 @@ export function ringOutUpdate(mockResponse = {}) {
     }
   });
 }
+
+export function mockForLogin({
+  mockAuthzProfile = true,
+  mockExtensionInfo = true,
+  mockForwardingNumber = true,
+  mockMessageSync = true,
+  mockConferencing = true,
+  mockActiveCalls = true
+} = {}) {
+  authentication();
+  logout();
+  tokenRefresh();
+  presence('~');
+  dialingPlan();
+  if (mockExtensionInfo) {
+    extensionInfo();
+  }
+  accountInfo();
+  apiInfo();
+  if (mockAuthzProfile) {
+    authzProfile();
+  }
+  device();
+  extensionList();
+  accountPhoneNumber();
+  blockedNumber();
+  if (mockForwardingNumber) {
+    forwardingNumber();
+  }
+  if (mockMessageSync) {
+    messageSync();
+  }
+  phoneNumber();
+  subscription();
+  callLog();
+  addressBook();
+  if (mockConferencing) {
+    conferencing();
+  }
+  if (mockActiveCalls) {
+    activeCalls();
+  }
+}
+
+

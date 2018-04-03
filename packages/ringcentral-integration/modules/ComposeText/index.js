@@ -243,8 +243,8 @@ export default class ComposeText extends RcModule {
 
   @proxify
   async addToRecipients(recipient, shouldClean = true) {
-    await this.addToNumber(recipient);
-    if (shouldClean) {
+    const isAdded = await this.addToNumber(recipient);
+    if (isAdded && shouldClean) {
       await this.cleanTypingToNumber();
     }
   }
@@ -259,15 +259,16 @@ export default class ComposeText extends RcModule {
   @proxify
   async addToNumber(number) {
     if (isBlank(number.phoneNumber)) {
-      return;
+      return false;
     }
     if (!this._validatePhoneNumber(number.phoneNumber)) {
-      return;
+      return false;
     }
     this.store.dispatch({
       type: this.actionTypes.addToNumber,
       number,
     });
+    return true;
   }
 
   @proxify

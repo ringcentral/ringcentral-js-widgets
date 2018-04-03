@@ -551,6 +551,22 @@ describe('ComposeText Unit Test', () => {
       composeText.addToNumber({ phoneNumber: '1234' });
       expect(store.getState().toNumbers).to.not.deep.equal([{ phoneNumber: '1234' }]);
     });
+
+    it('should return true when try adding phone number successed', async () => {
+      sinon.stub(composeText, '_validatePhoneNumber').callsFake(
+        () => true
+      );
+      const isAdded = await composeText.addToNumber({ phoneNumber: '1234' });
+      expect(isAdded).to.equal(true);
+    });
+
+    it('should return false when try adding phone number failed', async () => {
+      sinon.stub(composeText, '_validatePhoneNumber').callsFake(
+        () => false
+      );
+      const isAdded = await composeText.addToNumber({ phoneNumber: '1234' });
+      expect(isAdded).to.equal(false);
+    });
   });
 
   describe('updateMessageText', () => {

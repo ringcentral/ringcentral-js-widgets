@@ -17,7 +17,7 @@ import callErrors from '../Call/callErrors';
 import ensureExist from '../../lib/ensureExist';
 import proxify from '../../lib/proxy/proxify';
 import {
-  isBrowerSupport,
+  isBrowserSupport,
   normalizeSession,
   isRing,
   isOnHold,
@@ -537,7 +537,7 @@ export default class Webphone extends RcModule {
         this.connectionStatus === connectionStatus.connectFailed
       )
     ) {
-      if (!isBrowerSupport()) {
+      if (!isBrowserSupport()) {
         this.store.dispatch({
           type: this.actionTypes.connectError,
           errorCode: webphoneErrors.browserNotSupported,
@@ -603,6 +603,9 @@ export default class Webphone extends RcModule {
 
   _onAccepted(session) {
     session.on('accepted', () => {
+      if (session.callStatus === sessionStatus.finished) {
+        return;
+      }
       console.log('accepted');
       session.callStatus = sessionStatus.connected;
       this._onCallStart(session);

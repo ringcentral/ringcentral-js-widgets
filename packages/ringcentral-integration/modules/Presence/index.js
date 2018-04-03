@@ -73,7 +73,7 @@ export default class Presence extends RcModule {
         reducer: getLastNotDisturbDndStatusReducer(this.actionTypes)
       });
     } else {
-      this._reducer = getPresenceReducer(this.actionTypes, {
+      this._reducer = getReducer(this.actionTypes, {
         lastNotDisturbDndStatus: getLastNotDisturbDndStatusReducer(this.actionTypes),
       });
     }

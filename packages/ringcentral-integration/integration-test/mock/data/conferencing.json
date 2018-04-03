@@ -1,0 +1,761 @@
+{
+  "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/~/extension/~/conferencing",
+  "phoneNumber" : "+1213252604000  ",
+  "hostCode" : "53145267232",
+  "participantCode" : "1252623422  ",
+  "allowJoinBeforeHost" : true,
+  "tapToJoinUri" : "http://rcconf.net/2lel53dZ",
+  "supportUri" : "https://rcconf.net/1L053Hd2",
+  "mode" : "RCC",
+  "phoneNumbers" : [ {
+    "phoneNumber" : "+1213252604000  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/1",
+      "id" : "1",
+      "name" : "United States",
+      "isoCode" : "US",
+      "callingCode" : "1"
+    },
+    "location" : "Philadelphia, PA",
+    "hasGreeting" : true,
+    "default" : true
+  }, {
+    "phoneNumber" : "+2453253442371  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/53",
+      "id" : "53",
+      "name" : "Argentina",
+      "isoCode" : "AR",
+      "callingCode" : "24"
+    },
+    "location" : "Buenos Aires",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+53145324205310  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/12",
+      "id" : "12",
+      "name" : "Australia",
+      "isoCode" : "AU",
+      "callingCode" : "531"
+    },
+    "location" : "Perth",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+5312431041353  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/12",
+      "id" : "12",
+      "name" : "Australia",
+      "isoCode" : "AU",
+      "callingCode" : "531"
+    },
+    "location" : "Sydney",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+43121322024  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/531",
+      "id" : "531",
+      "name" : "Austria",
+      "isoCode" : "AT",
+      "callingCode" : "43"
+    },
+    "location" : "Vienna",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+13235353534414  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/531",
+      "id" : "531",
+      "name" : "Bahrain",
+      "isoCode" : "BH",
+      "callingCode" : "1323"
+    },
+    "location" : "Manama",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+32240452621  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/23",
+      "id" : "23",
+      "name" : "Belgium",
+      "isoCode" : "BE",
+      "callingCode" : "32"
+    },
+    "location" : "Brussels",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+225353120534532  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/22",
+      "id" : "22",
+      "name" : "Benin",
+      "isoCode" : "BJ",
+      "callingCode" : "2253"
+    },
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+22531322001323  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/31",
+      "id" : "31",
+      "name" : "Brazil",
+      "isoCode" : "BR",
+      "callingCode" : "22"
+    },
+    "location" : "Brasilia",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+32532452624531  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/34",
+      "id" : "34",
+      "name" : "Bulgaria",
+      "isoCode" : "BG",
+      "callingCode" : "3253"
+    },
+    "location" : "Sofia",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+1214453535344  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/353",
+      "id" : "353",
+      "name" : "Canada",
+      "isoCode" : "CA",
+      "callingCode" : "1"
+    },
+    "location" : "Montreal, QC",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+1431400531453  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/353",
+      "id" : "353",
+      "name" : "Canada",
+      "isoCode" : "CA",
+      "callingCode" : "1"
+    },
+    "location" : "Winnipeg, MB",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+327420041453  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/353",
+      "id" : "353",
+      "name" : "Canada",
+      "isoCode" : "CA",
+      "callingCode" : "1"
+    },
+    "location" : "Vancouver, BC",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+12473123201  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/353",
+      "id" : "353",
+      "name" : "Canada",
+      "isoCode" : "CA",
+      "callingCode" : "1"
+    },
+    "location" : "Calgary, AB",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+130532001244  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/353",
+      "id" : "353",
+      "name" : "Canada",
+      "isoCode" : "CA",
+      "callingCode" : "1"
+    },
+    "location" : "Saskatoon, SK",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+143740005314  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/353",
+      "id" : "353",
+      "name" : "Canada",
+      "isoCode" : "CA",
+      "callingCode" : "1"
+    },
+    "location" : "Toronto, ON",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+25322526420453  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/42",
+      "id" : "42",
+      "name" : "Chile",
+      "isoCode" : "CL",
+      "callingCode" : "253"
+    },
+    "location" : "Santiago",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+453102741324532  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/453",
+      "id" : "453",
+      "name" : "China",
+      "isoCode" : "CN",
+      "callingCode" : "453"
+    },
+    "location" : "Beijing",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+27120453243  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/453",
+      "id" : "453",
+      "name" : "Colombia",
+      "isoCode" : "CO",
+      "callingCode" : "27"
+    },
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+3423277532253  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/24",
+      "id" : "24",
+      "name" : "Croatia",
+      "isoCode" : "HR",
+      "callingCode" : "342"
+    },
+    "location" : "Zagreb",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+327220222132  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/253",
+      "id" : "253",
+      "name" : "Cyprus",
+      "isoCode" : "CY",
+      "callingCode" : "327"
+    },
+    "location" : "Nicosia",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+420224441000  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/27",
+      "id" : "27",
+      "name" : "Czech Republic",
+      "isoCode" : "CZ",
+      "callingCode" : "420"
+    },
+    "location" : "Prague",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+42747526231  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/24",
+      "id" : "24",
+      "name" : "Denmark",
+      "isoCode" : "DK",
+      "callingCode" : "42"
+    },
+    "location" : "Denmark",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+14253532530014  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/532",
+      "id" : "532",
+      "name" : "Dominican Republic",
+      "isoCode" : "DO",
+      "callingCode" : "1"
+    },
+    "location" : "Santo Domingo",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+203213534214  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/5353",
+      "id" : "5353",
+      "name" : "El Salvador",
+      "isoCode" : "SV",
+      "callingCode" : "203"
+    },
+    "location" : "San Salvador",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+3725353413532  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/5353",
+      "id" : "5353",
+      "name" : "Estonia",
+      "isoCode" : "EE",
+      "callingCode" : "372"
+    },
+    "location" : "Tallinn",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+3245342704107  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/74",
+      "id" : "74",
+      "name" : "Finland",
+      "isoCode" : "FI",
+      "callingCode" : "324"
+    },
+    "location" : "Helsinki",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+26327535353413  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/72",
+      "id" : "72",
+      "name" : "France",
+      "isoCode" : "FR",
+      "callingCode" : "26"
+    },
+    "location" : "Paris",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+4534534435353237  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/43",
+      "id" : "43",
+      "name" : "Germany",
+      "isoCode" : "DE",
+      "callingCode" : "453"
+    },
+    "location" : "Munich",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+2262424253040  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/44",
+      "id" : "44",
+      "name" : "Ghana",
+      "isoCode" : "GH",
+      "callingCode" : "226"
+    },
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+302535314132453  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/453",
+      "id" : "453",
+      "name" : "Greece",
+      "isoCode" : "GR",
+      "callingCode" : "30"
+    },
+    "location" : "Athens",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+22453530710304  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/532",
+      "id" : "532",
+      "name" : "Guinea",
+      "isoCode" : "GN",
+      "callingCode" : "224"
+    },
+    "location" : "Gonackry",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+42224041421  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/100",
+      "id" : "100",
+      "name" : "Hong Kong",
+      "isoCode" : "HK",
+      "callingCode" : "422"
+    },
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+35314440262  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/101",
+      "id" : "101",
+      "name" : "Hungary",
+      "isoCode" : "HU",
+      "callingCode" : "353"
+    },
+    "location" : "Budapest",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+323121353074  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/107",
+      "id" : "107",
+      "name" : "Ireland",
+      "isoCode" : "IE",
+      "callingCode" : "323"
+    },
+    "location" : "Dublin",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+1322353121441  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/104",
+      "id" : "104",
+      "name" : "Israel",
+      "isoCode" : "IL",
+      "callingCode" : "1322"
+    },
+    "location" : "Tel Aviv",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+3530534531320127  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/1053",
+      "id" : "1053",
+      "name" : "Italy",
+      "isoCode" : "IT",
+      "callingCode" : "353"
+    },
+    "location" : "Rome",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+413424013224  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/532",
+      "id" : "532",
+      "name" : "Japan",
+      "isoCode" : "JP",
+      "callingCode" : "41"
+    },
+    "location" : "Tokyo",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+22420753025321  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/5353",
+      "id" : "5353",
+      "name" : "Kenya",
+      "isoCode" : "KE",
+      "callingCode" : "224"
+    },
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+375353535262353  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/121",
+      "id" : "121",
+      "name" : "Latvia",
+      "isoCode" : "LV",
+      "callingCode" : "371"
+    },
+    "location" : "Riga",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+370221400753  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/127",
+      "id" : "127",
+      "name" : "Lithuania",
+      "isoCode" : "LT",
+      "callingCode" : "370"
+    },
+    "location" : "Vilnius",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+322274532004  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/124",
+      "id" : "124",
+      "name" : "Luxembourg",
+      "isoCode" : "LU",
+      "callingCode" : "322"
+    },
+    "location" : "Luxembourg",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+22224531253041  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/143",
+      "id" : "143",
+      "name" : "Mexico",
+      "isoCode" : "MX",
+      "callingCode" : "22"
+    },
+    "location" : "Mexico City",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+312040453212  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/127",
+      "id" : "127",
+      "name" : "Netherlands",
+      "isoCode" : "NL",
+      "callingCode" : "31"
+    },
+    "location" : "Amsterdam",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+5343535344372  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/5310",
+      "id" : "5310",
+      "name" : "New Zealand",
+      "isoCode" : "NZ",
+      "callingCode" : "534"
+    },
+    "location" : "Dunedin",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+53442407242  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/5310",
+      "id" : "5310",
+      "name" : "New Zealand",
+      "isoCode" : "NZ",
+      "callingCode" : "534"
+    },
+    "location" : "Wellington",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+4725313532531  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/5262",
+      "id" : "5262",
+      "name" : "Norway",
+      "isoCode" : "NO",
+      "callingCode" : "47"
+    },
+    "location" : "Oslo",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+20742642531  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/321",
+      "id" : "321",
+      "name" : "Panama",
+      "isoCode" : "PA",
+      "callingCode" : "207"
+    },
+    "location" : "Panama City",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+213201325327  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/324",
+      "id" : "324",
+      "name" : "Peru",
+      "isoCode" : "PE",
+      "callingCode" : "21"
+    },
+    "location" : "Lima",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+4422535340353  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/3253",
+      "id" : "3253",
+      "name" : "Poland",
+      "isoCode" : "PL",
+      "callingCode" : "44"
+    },
+    "location" : "Warsaw",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+3213044001053  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/327",
+      "id" : "327",
+      "name" : "Portugal",
+      "isoCode" : "PT",
+      "callingCode" : "321"
+    },
+    "location" : "Lisbon",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+32475342053530  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/3253",
+      "id" : "3253",
+      "name" : "Puerto Rico",
+      "isoCode" : "PR",
+      "callingCode" : "1"
+    },
+    "location" : "San Juan",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+40377441044  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/142",
+      "id" : "142",
+      "name" : "Romania",
+      "isoCode" : "RO",
+      "callingCode" : "40"
+    },
+    "location" : "Bucharest",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+5323531305304  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/144",
+      "id" : "144",
+      "name" : "Singapore",
+      "isoCode" : "SG",
+      "callingCode" : "532"
+    },
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+4212263227053  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/1453",
+      "id" : "1453",
+      "name" : "Slovakia",
+      "isoCode" : "SK",
+      "callingCode" : "421"
+    },
+    "location" : "Bratislava",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+3453144440453  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/5310",
+      "id" : "5310",
+      "name" : "Slovenia",
+      "isoCode" : "SI",
+      "callingCode" : "3453"
+    },
+    "location" : "Ljubljana",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+273531412272  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/5313",
+      "id" : "5313",
+      "name" : "South Africa",
+      "isoCode" : "ZA",
+      "callingCode" : "27"
+    },
+    "location" : "Durban",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+42253453203532  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/5314",
+      "id" : "5314",
+      "name" : "South Korea",
+      "isoCode" : "KR",
+      "callingCode" : "42"
+    },
+    "location" : "Seoul",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+345353427403  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/5312",
+      "id" : "5312",
+      "name" : "Spain",
+      "isoCode" : "ES",
+      "callingCode" : "34"
+    },
+    "location" : "Madrid",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+4534222034353  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/202",
+      "id" : "202",
+      "name" : "Sweden",
+      "isoCode" : "SE",
+      "callingCode" : "453"
+    },
+    "location" : "Stockholm",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+413122040531  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/2053",
+      "id" : "2053",
+      "name" : "Switzerland",
+      "isoCode" : "CH",
+      "callingCode" : "41"
+    },
+    "location" : "Bern",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+5302125300353532  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/232",
+      "id" : "232",
+      "name" : "Turkey",
+      "isoCode" : "TR",
+      "callingCode" : "530"
+    },
+    "location" : "Ankara",
+    "hasGreeting" : false,
+    "default" : false
+  }, {
+    "phoneNumber" : "+44203405353434  ",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/224",
+      "id" : "224",
+      "name" : "United Kingdom",
+      "isoCode" : "GB",
+      "callingCode" : "44"
+    },
+    "location" : "London",
+    "hasGreeting" : false,
+    "default" : false
+  } ]
+}

@@ -49,7 +49,8 @@ function getTestSources() {
   }
 
   if (!src.size) {
-    src.add('./**/*.js');
+    src.add('./**/*.test.js');
+    src.add('!./node_modules{/**,}');
   }
 
   return [...src];
@@ -60,12 +61,12 @@ gulp.task('pre-coverage', () => {
   const testSources = getTestSources();
 
   return gulp.src([
-    './**/*.js',
+    'enums/**/*.js',
+    'lib/**/*.js',
+    'modules/**/*.js',
     '!./**/*.test.js',
-    '!./*.js',
-    '!./node_modules{/**,}',
   ]).pipe(istanbul({
-    includeUntested: testSources.length === 3 && testSources[0] === 'enums/**/*.test.js',
+    includeUntested: testSources.length === 2 && testSources[0] === './**/*.test.js',
     instrumenter: babelIstanbul.Instrumenter,
   })).pipe(istanbul.hookRequire());
 });

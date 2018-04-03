@@ -8,7 +8,7 @@ import permissionsMessages from '../../modules/RolesAndPermissions/permissionsMe
 const authzProfileBody = require('../mock/data/authzProfile');
 
 export default (auth, client, rolesAndPermissions, account, alert) => {
-  describe('AccountExtension:', function () {
+  describe('RolesAndPermissions:', function () {
     this.timeout(20000);
     mock.mockClient(client);
 

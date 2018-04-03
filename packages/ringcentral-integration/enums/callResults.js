@@ -7,6 +7,7 @@ export default new HashMap({
   blocked: 'Blocked',
   busy: 'Busy',
   callAccepted: 'Call accepted',
+  accepted: 'Accepted',
   callConnected: 'Call connected',
   callFailed: 'Call Failed',
   callFailure: 'Call Failure',
@@ -39,5 +40,7 @@ export default new HashMap({
   voicemail: 'Voicemail',
   wrongNumber: 'Wrong Number',
   faxReceipt: 'Fax Receipt',
+  suspendedAccount: 'Suspended Account',
+  disconnected: 'Disconnected'
 });
 

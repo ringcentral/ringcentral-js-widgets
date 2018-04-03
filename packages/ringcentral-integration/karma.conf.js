@@ -16,12 +16,14 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       // 'src/modules/**/*.js',
-      'src/integration-test/**/*spec.js',
+      'integration-test/**/*spec.js',
     ],
 
     // list of files to exclude
     exclude: [
-      'src/**/*.test.js'
+      'enums/**/*.test.js',
+      'lib/**/*.test.js',
+      'modules/**/*.test.js'
     ],
 
 
@@ -29,7 +31,7 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       // 'src/modules/**/*.js': ['webpack'],
-      'src/integration-test/**/*.js': ['webpack'],
+      'integration-test/**/*.js': ['webpack'],
     },
 
     // plugins: [

@@ -2,7 +2,7 @@ import recordStatus from './recordStatus';
 import sessionStatus from './sessionStatus';
 import callDirections from '../../enums/callDirections';
 
-export function isBrowerSupport() {
+export function isBrowserSupport() {
   const isChrome = !!(navigator.userAgent.match(/Chrom(e|ium)/));
   if (!isChrome) {
     return false;
