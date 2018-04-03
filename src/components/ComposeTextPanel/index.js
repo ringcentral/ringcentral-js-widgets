@@ -12,6 +12,9 @@ import FromField from '../FromField';
 class ComposeTextPanel extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      messageText: props.messageText,
+    };
 
     this.onSenderChange = (value) => {
       this.props.updateSenderNumber(value);
@@ -35,6 +38,9 @@ class ComposeTextPanel extends Component {
 
     this.onTextChange = (e) => {
       const value = e.currentTarget.value;
+      this.setState({
+        messageText: value,
+      });
       this.props.updateMessageText(value);
     };
 
@@ -50,6 +56,13 @@ class ComposeTextPanel extends Component {
       this.props.send();
       console.debug('send message ...');
     };
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.messageText !== this.state.messageText) {
+      this.setState({
+        messageText: nextProps.messageText,
+      });
+    }
   }
 
   hasSenderNumbers() {
@@ -106,7 +119,7 @@ class ComposeTextPanel extends Component {
             <div className={styles.textField}>
               <textarea
                 placeholder={i18n.getString('typeMessage', this.props.currentLocale)}
-                value={this.props.messageText}
+                value={this.state.messageText}
                 maxLength="1000"
                 onChange={this.onTextChange}
                 onKeyPressCapture={this.onTextAreaKeyDown}
