@@ -235,7 +235,7 @@ var Presence = (_dec = (0, _di.Module)({
         reducer: (0, _getPresenceReducer.getLastNotDisturbDndStatusReducer)(_this.actionTypes)
       });
     } else {
-      _this._reducer = (0, _getPresenceReducer2.default)(_this.actionTypes, {
+      _this._reducer = getReducer(_this.actionTypes, {
         lastNotDisturbDndStatus: (0, _getPresenceReducer.getLastNotDisturbDndStatusReducer)(_this.actionTypes)
       });
     }
