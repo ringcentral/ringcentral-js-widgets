@@ -49,6 +49,8 @@ export default function App({
               <AppView>
                 {routerProps.children}
                 <CallBadgeContainer
+                  defaultOffsetX={0}
+                  defaultOffsetY={45}
                   hidden={routerProps.location.pathname === '/calls/active'}
                   goToCallCtrl={() => {
                     phone.routerInteraction.push('/calls/active');
@@ -136,7 +138,7 @@ export default function App({
                   <ActiveCallsPage
                     onLogCall={async () => { await sleep(1000); }}
                     onCreateContact={() => { }}
-                    onCallsEmpty={() => {}}
+                    onCallsEmpty={() => { }}
                     sourceIcons={sourceIcons}
                   />
                 )} />
