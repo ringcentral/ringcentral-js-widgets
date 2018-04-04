@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/Softphone/actionTypes.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,gBADsB,EAEtB,iBAFsB,CAAT,EAGZ,WAHY,C","file":"actionTypes.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'startToConnect',\n  'connectComplete',\n], 'softphone');\n"]}

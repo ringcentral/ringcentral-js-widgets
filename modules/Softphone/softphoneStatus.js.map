@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/Softphone/softphoneStatus.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,MADsB,EAEtB,YAFsB,CAAT,EAGZ,WAHY,C","file":"softphoneStatus.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'idle',\n  'connecting',\n], 'softphone');\n"]}

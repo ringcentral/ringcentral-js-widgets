@@ -57,6 +57,14 @@ var _moduleStatuses = require('../../enums/moduleStatuses');
 
 var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
 
+var _actionTypes = require('./actionTypes');
+
+var _actionTypes2 = _interopRequireDefault(_actionTypes);
+
+var _getSoftphoneReducer = require('./getSoftphoneReducer');
+
+var _getSoftphoneReducer2 = _interopRequireDefault(_getSoftphoneReducer);
+
 var _sleep = require('../../lib/sleep');
 
 var _sleep2 = _interopRequireDefault(_sleep);
@@ -118,10 +126,13 @@ var Softphone = (_dec = (0, _di.Module)({
         options = (0, _objectWithoutProperties3.default)(_ref, ['brand', 'extensionMode']);
     (0, _classCallCheck3.default)(this, Softphone);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Softphone.__proto__ || (0, _getPrototypeOf2.default)(Softphone)).call(this, (0, _extends3.default)({}, options)));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Softphone.__proto__ || (0, _getPrototypeOf2.default)(Softphone)).call(this, (0, _extends3.default)({}, options, {
+      actionTypes: _actionTypes2.default
+    })));
 
     _this._brand = brand;
     _this._extensionMode = extensionMode;
+    _this._reducer = (0, _getSoftphoneReducer2.default)(_this.actionTypes);
     return _this;
   }
 
@@ -139,37 +150,45 @@ var Softphone = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                this.store.dispatch({
+                  type: this.actionTypes.startToConnect
+                });
                 // TODO use window.open in extension background, this method will crash chrome when
                 // executed in background page.
                 uri = this.protocol + '://call?number=' + encodeURIComponent(phoneNumber);
 
                 if (!this._extensionMode) {
-                  _context.next = 5;
+                  _context.next = 6;
                   break;
                 }
 
                 window.open(uri);
-                _context.next = 14;
+                _context.next = 15;
                 break;
 
-              case 5:
+              case 6:
                 frame = document.createElement('iframe');
 
                 frame.style.display = 'none';
 
                 document.body.appendChild(frame);
-                _context.next = 10;
+                _context.next = 11;
                 return (0, _sleep2.default)(100);
 
-              case 10:
+              case 11:
                 frame.contentWindow.location.href = uri;
-                _context.next = 13;
+                _context.next = 14;
                 return (0, _sleep2.default)(300);
 
-              case 13:
+              case 14:
                 document.body.removeChild(frame);
 
-              case 14:
+              case 15:
+                this.store.dispatch({
+                  type: this.actionTypes.connectComplete
+                });
+
+              case 16:
               case 'end':
                 return _context.stop();
             }
@@ -186,12 +205,6 @@ var Softphone = (_dec = (0, _di.Module)({
 
     // eslint-disable-next-line class-methods-use-this
 
-  }, {
-    key: '_actionTypes',
-    get: function get() {
-      /* no action types */
-      return null;
-    }
   }, {
     key: 'protocol',
     get: function get() {
@@ -213,6 +226,11 @@ var Softphone = (_dec = (0, _di.Module)({
     key: 'status',
     get: function get() {
       return _moduleStatuses2.default.ready;
+    }
+  }, {
+    key: 'softphoneStatus',
+    get: function get() {
+      return this.state.softphoneStatus;
     }
   }]);
   return Softphone;
