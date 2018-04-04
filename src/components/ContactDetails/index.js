@@ -11,11 +11,11 @@ import i18n from './i18n';
 import styles from './styles.scss';
 
 export function getPresenceStatusName(presence, currentLocale) {
-  const { userStatus, dndStatus } = presence;
+  const { presenceStatus, dndStatus } = presence;
   if (dndStatus === DndStatus.doNotAcceptAnyCalls) {
     return i18n.getString(dndStatus, currentLocale);
   }
-  return i18n.getString(userStatus, currentLocale);
+  return i18n.getString(presenceStatus, currentLocale);
 }
 
 function AvatarNode({ name, avatarUrl }) {
