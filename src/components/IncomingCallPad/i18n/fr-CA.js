@@ -4,8 +4,8 @@ export default {
   ignore: 'Ignorer',
   toVoicemail: 'Boîte vocale',
   answer: 'Réponse',
-  answerAndEnd: 'Répondre et\nterminer',
-  answerAndHold: 'Répondre et\nmettre en attente',
+  answerAndEnd: 'Rép. et term.',
+  answerAndHold: 'Rép. et mise en att.',
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
