@@ -9,6 +9,7 @@ export default {
   [messageSenderMessages.senderEmpty]: 'Zum Senden Nummer aus Ihren Telefonnummern auswählen',
   [messageSenderMessages.recipientsEmpty]: 'Geben Sie eine gültige Empfängernummer ein.',
   [messageSenderMessages.textTooLong]: 'Text ist zu lang, maximal 1000 Zeichen',
+  [messageSenderMessages.multipartTextTooLong]: 'Text ist zu lang, maximal 5000 Zeichen',
   [messageSenderMessages.noAreaCode]: 'Legen Sie für die {areaCodeLink} die Verwendung von 7-stelligen lokalen Telefonnummern fest.',
   [messageSenderMessages.connectFailed]: 'Verbindungsaufbau fehlgeschlagen. Versuchen Sie es später erneut.',
   [messageSenderMessages.internalError]: 'Herstellen der Verbindung aufgrund interner Fehler nicht möglich. Versuchen Sie es später erneut.',
@@ -32,6 +33,7 @@ export default {
 // @key: @#@"[messageSenderMessages.noToNumber]"@#@ @source: @#@"Invalid phone number."@#@
 // @key: @#@"[messageSenderMessages.recipientsEmpty]"@#@ @source: @#@"Please enter a valid receiver number."@#@
 // @key: @#@"[messageSenderMessages.textTooLong]"@#@ @source: @#@"Text is too long, 1000 Limited"@#@
+// @key: @#@"[messageSenderMessages.multipartTextTooLong]"@#@ @source: @#@"Text is too long, 5000 Limited"@#@
 // @key: @#@"[messageSenderMessages.recipientNumberInvalids]"@#@ @source: @#@"Please enter a valid phone number."@#@
 // @key: @#@"[messageSenderMessages.noAreaCode]"@#@ @source: @#@"Please set {areaCodeLink} to use 7-digit local phone numbers."@#@
 // @key: @#@"[messageSenderMessages.specialNumber]"@#@ @source: @#@"Dialing emergency or special service numbers is not supported."@#@
