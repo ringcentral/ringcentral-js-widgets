@@ -36,6 +36,7 @@ export default class AdapterCore {
 
     this._padding = defaultPadding;
     this._minTranslateX = 0;
+    this._minTranslateY = 0;
     this._translateX = 0;
     this._translateY = 0;
     this._appWidth = 0;
@@ -46,7 +47,8 @@ export default class AdapterCore {
     this._minimized = true;
     this._dragging = false;
     this._hover = false;
-    this._loading = false;
+    this._hoverHeader = false;
+    this._loading = true;
     this._userStatus = null;
     this._dndStatus = null;
     this._telephonyStatus = null;
@@ -80,8 +82,9 @@ export default class AdapterCore {
       }
     }
   }
-  _generateContentDOM() {
-    this._root.innerHTML = `
+
+  _getContentDOM(sanboxAttributeValue, allowAttributeValue) {
+    return `
       <header class="${this._styles.header}" draggable="false">
         <div class="${this._styles.presence} ${this._styles.NoPresence}">
           <div class="${this._styles.presenceBar}">
@@ -100,10 +103,13 @@ export default class AdapterCore {
         <img class="${this._styles.logo}" draggable="false"></img>
       </header>
       <div class="${this._styles.frameContainer}">
-        <iframe class="${this._styles.contentFrame}" sandbox="${SANDBOX_ATTRIBUTE_VALUE}" allow="${ALLOW_ATTRIBUTE_VALUE}" >
+        <iframe class="${this._styles.contentFrame}" sandbox="${sanboxAttributeValue}" allow="${allowAttributeValue}" >
         </iframe>
-      </div>
-    `;
+      </div>`;
+  }
+
+  _generateContentDOM() {
+    this._root.innerHTML = this._getContentDOM(SANDBOX_ATTRIBUTE_VALUE, ALLOW_ATTRIBUTE_VALUE);
     this._headerEl = this._root.querySelector(
       `.${this._styles.header}`
     );
@@ -120,7 +126,8 @@ export default class AdapterCore {
     this._toggleEl = this._root.querySelector(
       `.${this._styles.toggle}`
     );
-    this._toggleEl.addEventListener('click', () => {
+    this._toggleEl.addEventListener('click', (evt) => {
+      evt.stopPropagation();
       this.toggleMinimized();
     });
 
@@ -135,7 +142,8 @@ export default class AdapterCore {
     this._presenceEl = this._root.querySelector(
       `.${this._styles.presence}`
     );
-    this._presenceEl.addEventListener('click', () => {
+    this._presenceEl.addEventListener('click', (evt) => {
+      evt.stopPropagation();
       this._postMessage({
         type: this._messageTypes.presenceClicked,
       });
@@ -146,12 +154,14 @@ export default class AdapterCore {
 
     this._headerEl.addEventListener('mousedown', (e) => {
       this._dragging = true;
+      this._isClick = true;
       this._dragStartPosition = {
         x: e.clientX,
         y: e.clientY,
         translateX: this._translateX,
         translateY: this._translateY,
         minTranslateX: this._minTranslateX,
+        minTranslateY: this._minTranslateY,
       };
       this._renderMainClass();
     });
@@ -160,6 +170,22 @@ export default class AdapterCore {
       this._renderMainClass();
     });
     window.addEventListener('mousemove', this._onWindowMouseMove);
+
+    this._headerEl.addEventListener('mouseenter', () => {
+      if (!this._minimized) return;
+      this._hoverHeader = true;
+      this._renderMainClass();
+    });
+    this._headerEl.addEventListener('mouseleave', () => {
+      this._hoverHeader = false;
+      this._renderMainClass();
+    });
+
+    this._isClick = true;
+    this._headerEl.addEventListener('click', (evt) => {
+      if (!this._isClick) return;
+      this._onHeaderClicked(evt);
+    });
 
     this._resizeTimeout = null;
     this._resizeTick = null;
@@ -182,6 +208,9 @@ export default class AdapterCore {
       document.body.appendChild(this._container);
     }
 
+    if (typeof this._beforeRender === 'function') {
+      this._beforeRender();
+    }
     this._render();
   }
   _onWindowResize = () => {
@@ -207,10 +236,12 @@ export default class AdapterCore {
       };
       if (this._minimized) {
         this._minTranslateX = this._dragStartPosition.minTranslateX + delta.x * factor;
+        this._minTranslateY = this._dragStartPosition.minTranslateY + delta.y;
       } else {
         this._translateX = this._dragStartPosition.translateX + delta.x * factor;
         this._translateY = this._dragStartPosition.translateY + delta.y;
       }
+      if (delta.x !== 0 || delta.y !== 0) this._isClick = false;
       this._syncPosition();
       this._renderRestrictedPosition();
     }
@@ -336,6 +367,7 @@ export default class AdapterCore {
         translateX: this._translateX,
         translateY: this._translateY,
         minTranslateX: this._minTranslateX,
+        minTranslateY: this._minTranslateY,
       },
     });
   }
@@ -346,7 +378,7 @@ export default class AdapterCore {
     },
     minimized,
     closed,
-    position: { translateX, translateY, minTranslateX },
+    position: { translateX, translateY, minTranslateX, minTranslateY },
     dndStatus,
     userStatus,
     telephonyStatus,
@@ -357,6 +389,7 @@ export default class AdapterCore {
       this._translateX = translateX;
       this._translateY = translateY;
       this._minTranslateX = minTranslateX;
+      this._minTranslateY = minTranslateY;
     }
     this._appWidth = width;
     this._appHeight = height;
@@ -397,6 +430,10 @@ export default class AdapterCore {
       const newMinTranslateX = Math.max(Math.min(this._minTranslateX, maximumX), minimumX);
       if (newMinTranslateX !== this._minTranslateX) {
         this._minTranslateX = newMinTranslateX;
+      }
+      const newMinTranslateY = Math.max(Math.min(this._minTranslateY, -minimumY), -maximumY);
+      if (newMinTranslateY !== this._minTranslateY) {
+        this._minTranslateY = newMinTranslateY;
       }
     } else {
       const newTranslateX = Math.max(Math.min(this._translateX, maximumX), minimumX);
@@ -444,10 +481,10 @@ export default class AdapterCore {
     ));
   }
   _render() {
-    this._renderMainClass();
     this.renderPresence();
     this.renderAdapterSize();
     this._renderRestrictedPosition();
+    this._renderMainClass();
   }
 
   dispose() {
@@ -486,6 +523,9 @@ export default class AdapterCore {
   }
   get minTranslateX() {
     return this._minTranslateX;
+  }
+  get minTranslateY() {
+    return this._minTranslateY;
   }
   get translateX() {
     return this._translateX;
