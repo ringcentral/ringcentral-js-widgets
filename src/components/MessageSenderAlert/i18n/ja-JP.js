@@ -9,6 +9,7 @@ export default {
   [messageSenderMessages.senderEmpty]: 'お使いの電話番号から送信用の電話番号を選択してください\u3002',
   [messageSenderMessages.recipientsEmpty]: '有効な受信者番号を入力してください\u3002',
   [messageSenderMessages.textTooLong]: 'テキストが長すぎます\u3002上限は1,000文字です',
+  [messageSenderMessages.multipartTextTooLong]: 'テキストが長すぎます\u3002上限は5,000文字です',
   [messageSenderMessages.noAreaCode]: '7桁の国内電話番号を使用するには\u3001{areaCodeLink}を設定してください\u3002',
   [messageSenderMessages.connectFailed]: '接続に失敗しました\u3002後でもう一度やり直してください\u3002',
   [messageSenderMessages.internalError]: '内部エラーにより\u3001接続できません\u3002後でもう一度やり直してください\u3002',
@@ -31,6 +32,7 @@ export default {
 // @key: @#@"[messageSenderMessages.noToNumber]"@#@ @source: @#@"Invalid phone number."@#@
 // @key: @#@"[messageSenderMessages.recipientsEmpty]"@#@ @source: @#@"Please enter a valid receiver number."@#@
 // @key: @#@"[messageSenderMessages.textTooLong]"@#@ @source: @#@"Text is too long, 1000 Limited"@#@
+// @key: @#@"[messageSenderMessages.multipartTextTooLong]"@#@ @source: @#@"Text is too long, 5000 Limited"@#@
 // @key: @#@"[messageSenderMessages.recipientNumberInvalids]"@#@ @source: @#@"Please enter a valid phone number."@#@
 // @key: @#@"[messageSenderMessages.noAreaCode]"@#@ @source: @#@"Please set {areaCodeLink} to use 7-digit local phone numbers."@#@
 // @key: @#@"[messageSenderMessages.specialNumber]"@#@ @source: @#@"Dialing emergency or special service numbers is not supported."@#@
