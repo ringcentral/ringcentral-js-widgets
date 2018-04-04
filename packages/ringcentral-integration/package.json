@@ -13,7 +13,6 @@
     "build": "gulp build",
     "gulp": "gulp",
     "release": "gulp release",
-    "dev-server": "gulp dev-server",
     "karma": "karma start"
   },
   "repository": {

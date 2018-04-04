@@ -111,6 +111,10 @@ gulp.task('build', ['clean'], () => (
     './**/*.js',
     '!./**/*.test.js',
     '!./*.js',
+    '!./coverage{/**,}',
+    '!./docs{/**,}',
+    '!./karma{/**,}',
+    '!./junit{/**,}',
     '!./node_modules{/**,}',
   ]).pipe(sourcemaps.init())
     .pipe(babel())

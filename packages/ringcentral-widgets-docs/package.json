@@ -1,5 +1,5 @@
 {
-  "name": "ringcentral-js-widget-docs",
+  "name": "ringcentral-widgets-docs",
   "version": "0.0.1",
   "description": "Documentation site for RingCentral JS Widgets",
   "repository": {
@@ -46,6 +46,7 @@
     "react-svg-loader": "^1.1.1",
     "ringcentral-integration": "^0.7.46",
     "ringcentral-widgets": "^0.5.18",
+    "sass-loader": "^6.0.5",
     "source-map-loader": "^0.2.1",
     "style-loader": "^0.18.2",
     "url-loader": "^0.5.7",

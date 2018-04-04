@@ -58,8 +58,14 @@ gulp.task('clean', async () => (
 ));
 
 gulp.task('build', ['clean', 'copy'], () => (
-  gulp.src(['./**/*.js', '!./**/*.test.js', '!./test{/**,}', '!./node_modules{/**,}', '!gulpfile.js'])
-    .pipe(transformLocaleLoader())
+  gulp.src([
+    './**/*.js',
+    '!./**/*.test.js',
+    '!./test{/**,}',
+    '!./coverage{/**,}',
+    '!./node_modules{/**,}',
+    '!gulpfile.babel.js']
+  ).pipe(transformLocaleLoader())
     .pipe(sourcemaps.init())
     .pipe(babel())
     .pipe(sourcemaps.write('.'))
@@ -67,8 +73,14 @@ gulp.task('build', ['clean', 'copy'], () => (
 ));
 
 gulp.task('copy', ['clean'], () => (
-  gulp.src(['./**', '!./**/*.js', '!./test{/**,}', '!./node_modules{/**,}', '!package-lock.json'])
-    .pipe(gulp.dest(BUILD_PATH))
+  gulp.src([
+    './**',
+    '!./**/*.js',
+    '!./test{/**,}',
+    '!./coverage{/**,}',
+    '!./node_modules{/**,}',
+    '!package-lock.json'
+  ]).pipe(gulp.dest(BUILD_PATH))
 ));
 
 const RELEASE_PATH = path.resolve(__dirname, '../../release/ringcentral-widgets');

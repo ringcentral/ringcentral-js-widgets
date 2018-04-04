@@ -13,6 +13,7 @@ lib-cov
 
 # Coverage directory used by tools like istanbul
 coverage
+*/**/coverage
 
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
@@ -56,3 +57,5 @@ alias.json
 */**/api-config.js
 */**/.env
 */**/*.log
+
+*/**/gh-pages
