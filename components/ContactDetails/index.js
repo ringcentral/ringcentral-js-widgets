@@ -71,13 +71,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // import FaxIcon from '../../assets/images/Fax.svg';
 function getPresenceStatusName(presence, currentLocale) {
-  var userStatus = presence.userStatus,
+  var presenceStatus = presence.presenceStatus,
       dndStatus = presence.dndStatus;
 
   if (dndStatus === _dndStatus2.default.doNotAcceptAnyCalls) {
     return _i18n2.default.getString(dndStatus, currentLocale);
   }
-  return _i18n2.default.getString(userStatus, currentLocale);
+  return _i18n2.default.getString(presenceStatus, currentLocale);
 }
 
 function AvatarNode(_ref) {
