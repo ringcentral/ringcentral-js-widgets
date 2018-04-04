@@ -69,6 +69,7 @@ MessageSenderAlert.handleMessage = ({ message }) => (
   (message === messageSenderMessages.noToNumber) ||
   (message === messageSenderMessages.recipientsEmpty) ||
   (message === messageSenderMessages.textTooLong) ||
+  (message === messageSenderMessages.multipartTextTooLong) ||
   (message === messageSenderMessages.recipientNumberInvalids) ||
   (message === messageSenderMessages.noAreaCode) ||
   (message === messageSenderMessages.specialNumber) ||

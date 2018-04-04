@@ -10,6 +10,7 @@ export default {
   [messageSenderMessages.noToNumber]: 'Please enter a valid phone number.',
   [messageSenderMessages.recipientsEmpty]: 'Please enter a valid receiver number.',
   [messageSenderMessages.textTooLong]: 'Text is too long, 1000 Limited',
+  [messageSenderMessages.multipartTextTooLong]: 'Text is too long, 5000 Limited',
   [messageSenderMessages.recipientNumberInvalids]: 'Please enter a valid phone number.',
   [messageSenderMessages.noAreaCode]: 'Please set {areaCodeLink} to use 7-digit local phone numbers.',
   [messageSenderMessages.specialNumber]: 'Sending text to emergency/special service numbers is not supported.',
