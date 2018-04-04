@@ -12,8 +12,8 @@
   },
   "scripts": {
     "start": "npm run dev-server",
-    "dev-server": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js dev-server",
-    "build-extension": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js demo-extension"
+    "dev-server": "gulp dev-server",
+    "build-extension": "gulp demo-extension"
   },
   "dependencies": {
     "autoprefixer": "^7.1.1",

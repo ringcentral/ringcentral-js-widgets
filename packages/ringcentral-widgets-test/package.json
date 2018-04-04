@@ -77,7 +77,7 @@
       "<rootDir>/test/setup.js"
     ],
     "snapshotSerializers": [
-      "<rootDir>/node_modules/enzyme-to-json/serializer"
+      "<rootDir>/../../node_modules/enzyme-to-json/serializer"
     ],
     "coveragePathIgnorePatterns": [
       "../ringcentral-widgets/(?:components|containers)/RecentActivity.+",

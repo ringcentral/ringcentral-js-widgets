@@ -6,11 +6,12 @@ import * as mock from 'ringcentral-integration/integration-test/mock';
 import { ensureLogin, containsErrorMessage } from 'ringcentral-integration/integration-test/utils/HelpUtil';
 import ClientHistoryRequest from 'ringcentral-integration/integration-test/utils/ClientHistoryRequest';
 
-import { createPhone } from 'ringcentral-widgets-demo/dev-server/Phone';
+
 import App from 'ringcentral-widgets-demo/dev-server/containers/App';
 import brandConfig from 'ringcentral-widgets-demo/dev-server/brandConfig';
 import version from 'ringcentral-widgets-demo/dev-server/version';
 import prefix from 'ringcentral-widgets-demo/dev-server/prefix';
+import { createPhone } from 'ringcentral-widgets-demo/dev-server/Phone';
 
 const apiConfig = {
   appKey: 'testKey',

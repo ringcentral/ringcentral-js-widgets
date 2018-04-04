@@ -62,7 +62,7 @@ import UserGuide from 'ringcentral-integration/modules/UserGuide';
 import { ModuleFactory } from 'ringcentral-integration/lib/di';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 import DialerUI from 'ringcentral-widgets/modules/DialerUI';
-import OAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
+import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
 
 @ModuleFactory({
   providers: [
@@ -85,7 +85,8 @@ import OAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
     LocaleSettings,
     Environment,
     Auth,
-    { provide: 'OAuth', useClass: OAuth },
+    ProxyFrameOAuth,
+    { provide: 'OAuth', useExisting: 'ProxyFrameOAuth' },
     Ringout,
     ConnectivityMonitor,
     RateLimiter,
