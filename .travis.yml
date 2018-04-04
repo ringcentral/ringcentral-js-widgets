@@ -38,8 +38,8 @@ jobs:
         - cd ../../
       deploy:
         - provider: script
-        skip_cleanup: true
-        script: echo "deploy1:" && pwd
+          skip_cleanup: true
+          script: echo "deploy1:" && pwd
         - provider: script
           skip_cleanup: true
           script: echo "deploy2:" && pwd
