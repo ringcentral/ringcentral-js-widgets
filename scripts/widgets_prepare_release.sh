@@ -10,7 +10,6 @@ fi
 
 cd release
 if [ ! -d ringcentral-widgets ]; then
-  git clone git@github.com:embbnux/ringcentral-js-widget.git -b widgets-release ringcentral-widgets
   # git clone "https://$RELEASE_USER:$RELEASE_TOKEN@github.com/$REPO" -b widgets-release ringcentral-widgets &> /dev/null
 fi
 cd ../
