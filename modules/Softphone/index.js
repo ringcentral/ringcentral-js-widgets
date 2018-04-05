@@ -151,7 +151,8 @@ var Softphone = (_dec = (0, _di.Module)({
             switch (_context.prev = _context.next) {
               case 0:
                 this.store.dispatch({
-                  type: this.actionTypes.startToConnect
+                  type: this.actionTypes.startToConnect,
+                  phoneNumber: phoneNumber
                 });
                 // TODO use window.open in extension background, this method will crash chrome when
                 // executed in background page.
@@ -226,6 +227,11 @@ var Softphone = (_dec = (0, _di.Module)({
     key: 'status',
     get: function get() {
       return _moduleStatuses2.default.ready;
+    }
+  }, {
+    key: 'connectingPhoneNumber',
+    get: function get() {
+      return this.state.connectingPhoneNumber;
     }
   }, {
     key: 'softphoneStatus',

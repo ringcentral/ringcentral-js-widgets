@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getSoftphoneStatusReducer = getSoftphoneStatusReducer;
+exports.getConnectingPhoneNumberReducer = getConnectingPhoneNumberReducer;
 exports.default = getSoftphoneReducer;
 
 var _redux = require('redux');
@@ -33,9 +34,30 @@ function getSoftphoneStatusReducer(types) {
   };
 }
 
+function getConnectingPhoneNumberReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var _ref2 = arguments[1];
+    var type = _ref2.type,
+        phoneNumber = _ref2.phoneNumber;
+
+    switch (type) {
+      case types.startToConnect:
+        return phoneNumber;
+
+      case types.connectComplete:
+        return null;
+
+      default:
+        return state;
+    }
+  };
+}
+
 function getSoftphoneReducer(types) {
   return (0, _redux.combineReducers)({
-    softphoneStatus: getSoftphoneStatusReducer(types)
+    softphoneStatus: getSoftphoneStatusReducer(types),
+    connectingPhoneNumber: getConnectingPhoneNumberReducer(types)
   });
 }
 //# sourceMappingURL=getSoftphoneReducer.js.map
