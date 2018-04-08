@@ -11,7 +11,7 @@ fi
 cd release
 if [ ! -d ringcentral-widgets ]; then
   echo "Clone release branch..."
-  # git clone "https://$RELEASE_USER:$RELEASE_TOKEN@github.com/$REPO" -b widgets-release ringcentral-widgets &> /dev/null
+  git clone "https://$RELEASE_USER:$RELEASE_TOKEN@github.com/$REPO" -b widgets-release ringcentral-widgets &> /dev/null
 fi
 cd ../
 

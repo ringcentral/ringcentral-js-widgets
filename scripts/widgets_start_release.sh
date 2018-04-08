@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cd release/ringcentral-widgets
+# cd release/ringcentral-widgets
 
 if [[ $(git status -s) != '' ]]
   then
