@@ -27,7 +27,7 @@ const getPhone = async (shouldMockForLogin = true) => {
     brandConfig,
     prefix,
     version,
-  });  
+  });
   const store = createStore(phone.reducer);
   phone.setStore(store);
   mock.mockClient(phone.client);
@@ -36,11 +36,12 @@ const getPhone = async (shouldMockForLogin = true) => {
   global.clientHistoryRequest = clientHistoryRequest;
   Object.defineProperties(phone.webphone, {
     connected: { value: true },
-    connectionStatus: { value: "connectionStatus-connected" },
+    connectionStatus: { value: 'connectionStatus-connected' },
   });
   if (shouldMockForLogin) {
     mock.restore();
-    mock.mockForLogin()
+    mock.mockForLogin();
+    phone.connectivityMonitor._checkConnectionFunc = () => true;
     await ensureLogin(phone.auth, {
       username: 'test',
       password: 'test'
