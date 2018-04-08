@@ -115,7 +115,7 @@ var OAuth = (_dec = (0, _di.Module)({
   (0, _createClass3.default)(OAuth, [{
     key: 'setupOAuth',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         var _this2 = this;
 
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -148,7 +148,7 @@ var OAuth = (_dec = (0, _di.Module)({
   }, {
     key: 'destroyOAuth',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {

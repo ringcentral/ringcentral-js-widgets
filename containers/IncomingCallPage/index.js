@@ -94,7 +94,7 @@ var IncomingCallPage = function (_Component) {
       return _this.props.toggleMinimized(_this.props.session.id);
     };
 
-    _this.answerAndEnd = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+    _this.answerAndEnd = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
       return _regenerator2.default.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -113,7 +113,7 @@ var IncomingCallPage = function (_Component) {
         }
       }, _callee, _this2);
     }));
-    _this.answerAndHold = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+    _this.answerAndHold = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
       return _regenerator2.default.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {

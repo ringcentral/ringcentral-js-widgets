@@ -97,7 +97,7 @@ function mapToFunctions(_, _ref2) {
       }
     } : undefined,
     onClickToSMS: composeText ? function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(contact) {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(contact) {
         var isDummyContact = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {

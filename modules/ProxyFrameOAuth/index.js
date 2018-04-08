@@ -141,7 +141,7 @@ var ProxyFrameOAuth = (_dec = (0, _di.Module)({
     }, options)));
 
     _this._callbackHandler = function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(_ref3) {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref3) {
         var origin = _ref3.origin,
             data = _ref3.data;
         var callbackUri, proxyLoaded;
@@ -221,7 +221,7 @@ var ProxyFrameOAuth = (_dec = (0, _di.Module)({
   }, {
     key: '_handleCallbackUri',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(options) {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(options) {
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -270,7 +270,7 @@ var ProxyFrameOAuth = (_dec = (0, _di.Module)({
   }, {
     key: 'setupOAuth',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -299,7 +299,7 @@ var ProxyFrameOAuth = (_dec = (0, _di.Module)({
   }, {
     key: 'destroyOAuth',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {

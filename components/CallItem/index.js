@@ -248,7 +248,7 @@ var CallItem = function (_Component) {
     };
 
     _this.createSelectedContact = function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(entityType) {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(entityType) {
         var phoneNumber;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -452,7 +452,7 @@ var CallItem = function (_Component) {
   }, {
     key: 'logCall',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(_ref5) {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref5) {
         var _ref5$redirect = _ref5.redirect,
             redirect = _ref5$redirect === undefined ? true : _ref5$redirect,
             selected = _ref5.selected;

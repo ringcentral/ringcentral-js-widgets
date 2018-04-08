@@ -88,7 +88,7 @@ function mapToFunctions(_, _ref2) {
   return {
     dateTimeFormatter: dateTimeFormatter,
     onViewContact: onViewContact ? function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(_ref5) {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref5) {
         var phoneNumber = _ref5.phoneNumber,
             contact = _ref5.contact;
         var hasMatchNumber;
@@ -126,7 +126,7 @@ function mapToFunctions(_, _ref2) {
       };
     }() : undefined,
     onCreateContact: onCreateContact ? function () {
-      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(_ref7) {
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref7) {
         var phoneNumber = _ref7.phoneNumber,
             name = _ref7.name,
             entityType = _ref7.entityType;
@@ -170,7 +170,7 @@ function mapToFunctions(_, _ref2) {
     }() : undefined,
     isLoggedContact: isLoggedContact,
     onLogCall: onLogCall || callLogger && function () {
-      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(_ref9) {
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_ref9) {
         var call = _ref9.call,
             contact = _ref9.contact,
             _ref9$redirect = _ref9.redirect,
@@ -199,7 +199,7 @@ function mapToFunctions(_, _ref2) {
       };
     }(),
     onClickToSms: composeText ? function () {
-      var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(contact) {
+      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(contact) {
         var isDummyContact = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {

@@ -324,7 +324,7 @@ function mapToFunctions(_, _ref2) {
     getMatcherContactNameList: getMatcherContactNameList,
     isLoggedContact: isLoggedContact,
     onLogConversation: onLogConversation || conversationLogger && function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(_ref4) {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref4) {
         var _ref4$redirect = _ref4.redirect,
             redirect = _ref4$redirect === undefined ? true : _ref4$redirect,
             options = (0, _objectWithoutProperties3.default)(_ref4, ['redirect']);

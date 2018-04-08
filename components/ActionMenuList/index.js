@@ -418,7 +418,7 @@ var ActionMenuList = function (_Component) {
       marking: false
     };
 
-    _this.onMark = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+    _this.onMark = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
       var _this$props, marked, onUnmark, onMark, onClick;
 
       return _regenerator2.default.wrap(function _callee$(_context) {

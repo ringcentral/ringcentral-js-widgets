@@ -192,7 +192,7 @@ var DialerUI = (_dec = (0, _di.Module)({
   (0, _createClass3.default)(DialerUI, [{
     key: '_onStateChange',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -230,7 +230,7 @@ var DialerUI = (_dec = (0, _di.Module)({
   }, {
     key: 'clearToNumberField',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -256,7 +256,7 @@ var DialerUI = (_dec = (0, _di.Module)({
   }, {
     key: 'setToNumberField',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(phoneNumber) {
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(phoneNumber) {
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -285,7 +285,7 @@ var DialerUI = (_dec = (0, _di.Module)({
   }, {
     key: 'setRecipient',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(recipient) {
+      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(recipient) {
         var shouldClean = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
@@ -321,7 +321,7 @@ var DialerUI = (_dec = (0, _di.Module)({
   }, {
     key: 'clearRecipient',
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -347,7 +347,7 @@ var DialerUI = (_dec = (0, _di.Module)({
   }, {
     key: 'call',
     value: function () {
-      var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(_ref10) {
+      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(_ref10) {
         var _ref10$phoneNumber = _ref10.phoneNumber,
             phoneNumber = _ref10$phoneNumber === undefined ? '' : _ref10$phoneNumber,
             _ref10$recipient = _ref10.recipient,
@@ -412,7 +412,7 @@ var DialerUI = (_dec = (0, _di.Module)({
   }, {
     key: 'onCallButtonClick',
     value: function () {
-      var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
+      var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
         return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {

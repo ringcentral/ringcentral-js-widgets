@@ -148,7 +148,7 @@ var RouterInteraction = (_dec = (0, _di.Module)({
   }, {
     key: 'push',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         var _history;
 
         var _args = arguments;
@@ -175,7 +175,7 @@ var RouterInteraction = (_dec = (0, _di.Module)({
   }, {
     key: 'replace',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
         var _history2;
 
         var _args2 = arguments;
@@ -202,7 +202,7 @@ var RouterInteraction = (_dec = (0, _di.Module)({
   }, {
     key: 'goBack',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
         var _history3;
 
         var _args3 = arguments;

@@ -89,7 +89,7 @@ var ComposeTextPanel = function (_Component) {
     };
 
     _this.addToRecipients = function () {
-      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(receiver) {
+      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(receiver) {
         var shouldClean = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
         var isAdded;
         return _regenerator2.default.wrap(function _callee$(_context) {

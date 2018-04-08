@@ -128,7 +128,7 @@ function mapToFunctions(_, _ref2) {
       routerInteraction.push('/contacts/' + type + '/' + id + '?direct=true');
     } : null,
     onCreateContact: onCreateContact ? function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(_ref5) {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref5) {
         var phoneNumber = _ref5.phoneNumber,
             name = _ref5.name,
             entityType = _ref5.entityType;
@@ -199,7 +199,7 @@ function mapToFunctions(_, _ref2) {
     },
     isLoggedContact: isLoggedContact,
     onLogConversation: onLogConversation || conversationLogger && function () {
-      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(_ref7) {
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref7) {
         var _ref7$redirect = _ref7.redirect,
             redirect = _ref7$redirect === undefined ? true : _ref7$redirect,
             options = (0, _objectWithoutProperties3.default)(_ref7, ['redirect']);

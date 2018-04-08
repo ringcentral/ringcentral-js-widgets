@@ -51,7 +51,7 @@ function mapToFunctions(_, _ref2) {
 
   return {
     getAvatarUrl: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -71,7 +71,7 @@ function mapToFunctions(_, _ref2) {
       };
     }(),
     getPresence: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(contact) {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(contact) {
         var presence;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
@@ -97,7 +97,7 @@ function mapToFunctions(_, _ref2) {
       };
     }(),
     onItemSelect: onItemSelect || function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(_ref6) {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_ref6) {
         var type = _ref6.type,
             id = _ref6.id;
         return _regenerator2.default.wrap(function _callee3$(_context3) {

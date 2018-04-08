@@ -126,7 +126,7 @@ function mapToFunctions(_, _ref2) {
       return webphone && webphone.hangup.apply(webphone, arguments);
     },
     webphoneResume: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         var _args = arguments;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -161,7 +161,7 @@ function mapToFunctions(_, _ref2) {
       };
     }(),
     onCreateContact: onCreateContact ? function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(_ref6) {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref6) {
         var phoneNumber = _ref6.phoneNumber,
             name = _ref6.name,
             entityType = _ref6.entityType;
@@ -205,7 +205,7 @@ function mapToFunctions(_, _ref2) {
     }() : undefined,
     isLoggedContact: isLoggedContact,
     onLogCall: onLogCall || callLogger && function () {
-      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(_ref8) {
+      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_ref8) {
         var call = _ref8.call,
             contact = _ref8.contact,
             _ref8$redirect = _ref8.redirect,
@@ -250,7 +250,7 @@ function mapToFunctions(_, _ref2) {
       }
     } : undefined,
     onClickToSms: composeText ? function () {
-      var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(contact) {
+      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(contact) {
         var isDummyContact = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
