@@ -1,9 +1,10 @@
 import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErrors';
-import { getWrapper } from '../shared';
 import WebphoneBadge from 'ringcentral-widgets/components/WebphoneBadge';
 import CircleButton from 'ringcentral-widgets/components/CircleButton';
 import WebphoneAlert from 'ringcentral-widgets/components/WebphoneAlert';
 import AudioSettingsAlert from 'ringcentral-widgets/components/AudioSettingsAlert';
+
+import { getWrapper } from '../shared';
 
 /* global jasmine */
 let store = null;
@@ -15,8 +16,8 @@ beforeEach(async () => {
   store = wrapper.props().phone.store;
   phone = wrapper.props().phone;
   phone.webphone._createWebphone();
-  phone.webphone._removeWebphone = () =>  {};
-  phone.webphone._connect = () => {};
+  phone.webphone._removeWebphone = () => { };
+  phone.webphone._connect = () => { };
 });
 
 describe('Webphone warning badge', () => {
@@ -99,7 +100,7 @@ describe('Webphone warning badge', () => {
       wrapper.update();
       assert({
         type: 'audio',
-        msg: 'Please grant RingCentral for Google to access your audio.'
+        msg: `Please grant ${phone.brand.application} to access your audio.`
       });
     });
   });
