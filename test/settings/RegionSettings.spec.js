@@ -1,4 +1,4 @@
-import { getWrapper } from '../shared';
+import { getWrapper, timeout } from '../shared';
 import NavigationBar from '../../src/components/NavigationBar';
 import SettingsPanel from '../../src/components/SettingsPanel';
 import RegionSettings from '../../src/components/RegionSettingsPanel';
@@ -47,10 +47,14 @@ describe('region settings', async () => {
     await enterAreaCode('853');
     await saveButton.simulate('click');
     const messages = store.getState(wrapper).alert.messages;
-    expect(messages.length).toEqual(1);
-    const message = messages[0];
-    expect(message.level).toEqual('info');
-    expect(message.message).toMatch(/saveSuccess/);
+    expect(messages).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({        
+          level: 'info',
+          message: 'regionSettingsMessages-saveSuccess'
+        })
+      ])
+    );
   });
 
   test('invalid area code', async () => {
@@ -58,9 +62,13 @@ describe('region settings', async () => {
     await enterAreaCode('000');
     await saveButton.simulate('click');
     const messages = store.getState(wrapper).alert.messages;
-    expect(messages.length).toEqual(1);
-    const message = messages[0];
-    expect(message.level).toEqual('danger');
-    expect(message.message).toMatch(/areaCodeInvalid/);
+    expect(messages).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({        
+          level: 'danger',
+          message: 'regionSettingsMessages-areaCodeInvalid'
+        })
+      ])
+    );
   });
 });
