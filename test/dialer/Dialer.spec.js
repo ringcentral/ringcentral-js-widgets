@@ -18,6 +18,9 @@ beforeEach(async () => {
   await navigationBar.props().goTo('/');
   wrapper.update();
   panel = wrapper.find(DialerPanel).first();
+  Object.defineProperties(wrapper.props().phone.audioSettings, {
+    userMedia: { value: true },
+  });
 });
 
 const clickButton = (button) => {
@@ -105,10 +108,14 @@ describe('dialer panel', () => {
     await callButton.simulate('click');
     await timeout(200);
     const messages = store.getState(wrapper).alert.messages;
-    expect(messages.length).toEqual(1);
-    const message = messages[0];
-    expect(message.level).toEqual('warning');
-    expect(message.message).toEqual('callErrors-noToNumber');
+    expect(messages).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({        
+          level: 'warning',
+          message: 'callErrors-noToNumber'
+        })
+      ])
+    );
   });
 
   test('clear input', async () => {

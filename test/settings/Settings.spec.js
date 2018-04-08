@@ -43,8 +43,9 @@ describe('settings panel', () => {
     const store = wrapper.props().phone.store;
     expect(store.getState().auth.loginStatus).toMatch(/-loggedIn$/);
     await logoutLine.props().onClick();
-    expect(store.getState().auth.loginStatus).toMatch(/-loggingOut$/);
-    localStorage.store = JSON.parse(JSON.stringify(storage));
+    expect(store.getState().auth.loginStatus).toMatch(/-notLoggedIn/);
+    // need to login again, otherwise other tests will fail
+    window.authData = null; // set it to null will trigger login
   });
 
   test('change presence status', async () => {
