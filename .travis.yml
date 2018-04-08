@@ -10,7 +10,6 @@ before_script:
 script:
   - lerna run test:coverage --scope ringcentral-widgets-test --stream
   - lerna run test --scope ringcentral-integration --stream
-  - lerna run karma --scope ringcentral-integration --stream
 
 jobs:
   include:
