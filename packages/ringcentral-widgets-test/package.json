@@ -14,7 +14,8 @@
     "test": "yarn test:jest",
     "test:jest": "jest --no-cache --maxWorkers=5",
     "test:watch": "yarn test -- --watch",
-    "test:coverage": "yarn test --coverage"
+    "test:coverage": "yarn test --coverage && yarn test:showCoverage",
+    "test:showCoverage": "cat ./coverage/lcov.info | coveralls"
   },
   "dependencies": {
     "babel-cli": "^6.18.0",

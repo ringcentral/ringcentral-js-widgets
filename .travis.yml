@@ -10,12 +10,12 @@ before_script:
 script:
   - lerna run test:coverage --scope ringcentral-widgets-test --stream
   - lerna run test --scope ringcentral-integration --stream
-after_success:
-   - cat packages/ringcentral-widgets/coverage/lcov.info | ./node_modules/.bin/coveralls
+  - lerna run karma --scope ringcentral-integration --stream
 
 jobs:
   include:
     - stage: commons npm release
+      if: tag =~ ^[0-9]+.[0-9]+.[0-9]+
       node_js: "8"
       script: ./scripts/commons_prepare_release.sh
       before_deploy:
@@ -23,13 +23,23 @@ jobs:
       after_deploy:
         - cd ../../
       deploy:
-        - provider: script
-          skip_cleanup: true
-          script: echo "Script1:" && pwd
-        - provider: script
-          skip_cleanup: true
-          script: echo "Script2:" && pwd
+        provider: script
+        skip_cleanup: true
+        script: echo "Script1:" && pwd
+    - stage: commons script release
+      node_js: "8"
+      if: branch = master
+      script: ./scripts/commons_prepare_release.sh
+      before_deploy:
+        - cd release/ringcentral-integration
+      after_deploy:
+        - cd ../../
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script: echo "Script2:" && pwd
     - stage: widgets npm release
+      if: tag =~ ^[0-9]+.[0-9]+.[0-9]+
       node_js: "8"
       script: ./scripts/widgets_prepare_release.sh
       before_deploy:
@@ -37,13 +47,11 @@ jobs:
       after_deploy:
         - cd ../../
       deploy:
-        - provider: script
-          skip_cleanup: true
-          script: echo "deploy1:" && pwd
-        - provider: script
-          skip_cleanup: true
-          script: echo "deploy2:" && pwd
+        provider: script
+        skip_cleanup: true
+        script: echo "deploy1:" && pwd
     - stage: widgets script release
+      if: branch = master
       node_js: "8"
       script: ./scripts/widgets_prepare_release.sh
       before_deploy:
@@ -55,6 +63,7 @@ jobs:
         skip_cleanup: true
         script: echo "deploy2:" && pwd
     - stage: widgets docs build
+      if: tag =~ ^[0-9]+.[0-9]+.[0-9]+
       node_js: "8"
       before_deploy:
         - lerna run --scope ringcentral-widgets-docs build --stream
