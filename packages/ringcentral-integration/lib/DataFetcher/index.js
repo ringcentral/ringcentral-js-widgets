@@ -13,6 +13,13 @@ import ensureExist from '../ensureExist';
 const DEFAULT_TTL = 30 * 60 * 1000;
 const DEFAULT_RETRY = 62 * 1000;
 
+const RETRY_INTERVALS = [
+  2 * 1000,
+  5 * 1000,
+  10 * 1000,
+  30 * 1000,
+];
+
 @Library({
   deps: [
     'Auth',
@@ -59,8 +66,8 @@ export default class DataFetcher extends Pollable {
       ...options,
       actionTypes,
     });
-    this._auth = this::ensureExist(auth, 'auth');
-    this._client = this::ensureExist(client, 'client');
+    this._auth = this:: ensureExist(auth, 'auth');
+    this._client = this:: ensureExist(client, 'client');
     if (!disableCache) {
       this._storage = storage;
     }
@@ -229,7 +236,14 @@ export default class DataFetcher extends Pollable {
     return this._ttl;
   }
 
+  get retryCount() {
+    return this.state.retryCount;
+  }
+
   get timeToRetry() {
+    if (this.status === moduleStatuses.initializing) {
+      return RETRY_INTERVALS[this.retryCount] || this._timeToRetry;
+    }
     return this._timeToRetry;
   }
 
@@ -298,5 +312,25 @@ export default class DataFetcher extends Pollable {
       this._promise = this._fetchData();
     }
     return this._promise;
+  }
+
+  _retry(t = this.timeToRetry) {
+    this._clearTimeout();
+    this._timeoutId = setTimeout(() => {
+      if (this.status === moduleStatuses.initializing) {
+        this.store.dispatch({
+          type: this.actionTypes.retry,
+        });
+      }
+      this._timeoutId = null;
+      if (!this.timestamp || Date.now() - this.timestamp > this.ttl) {
+        if (!this._tabManager || this._tabManager.active) {
+          this.fetchData();
+        } else {
+          // continue retry checks in case tab becomes main tab
+          this._retry();
+        }
+      }
+    }, t);
   }
 }

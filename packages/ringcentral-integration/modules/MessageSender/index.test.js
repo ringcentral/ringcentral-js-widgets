@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { createStore } from 'redux';
-import MessageSender from './index';
+import MessageSender, { MessageMaxLength, MultipartMessageMaxLength } from './index';
 import getMessageSenderReducer from './getMessageSenderReducer';
 import actionTypes from './messageSenderActionTypes';
 import messageSenderMessages from './messageSenderMessages';
@@ -319,18 +319,34 @@ describe('MessageSender Unit Test', () => {
       expect(result).to.equal(false);
     });
 
-    it('should return false and warning textTooLong when text length is over 1000', () => {
+    it(`should return false and warning textTooLong when text length is over ${MessageMaxLength}`, () => {
       sinon.stub(messageSender, '_alertWarning');
-      const text = 'a'.repeat(1001);
+      const text = 'a'.repeat(MessageMaxLength + 1);
       const result = messageSender._validateText(text);
       sinon.assert.calledWith(messageSender._alertWarning, messageSenderMessages.textTooLong);
       expect(result).to.equal(false);
     });
 
-    it('should return true and not call warning when text length is 1000', () => {
+    it(`should return false and warning multipartTextTooLong when text length is over ${MultipartMessageMaxLength}`, () => {
       sinon.stub(messageSender, '_alertWarning');
-      const text = 'a'.repeat(1000);
+      const text = 'a'.repeat(MultipartMessageMaxLength + 1);
+      const result = messageSender._validateText(text, true);
+      sinon.assert.calledWith(messageSender._alertWarning, messageSenderMessages.multipartTextTooLong);
+      expect(result).to.equal(false);
+    });
+
+    it(`should return true and not call warning when text length is ${MessageMaxLength}`, () => {
+      sinon.stub(messageSender, '_alertWarning');
+      const text = 'a'.repeat(MessageMaxLength);
       const result = messageSender._validateText(text);
+      sinon.assert.notCalled(messageSender._alertWarning);
+      expect(result).to.equal(true);
+    });
+
+    it(`should return true and not call warning when multipart text length is ${MultipartMessageMaxLength}`, () => {
+      sinon.stub(messageSender, '_alertWarning');
+      const text = 'a'.repeat(MultipartMessageMaxLength);
+      const result = messageSender._validateText(text, true);
       sinon.assert.notCalled(messageSender._alertWarning);
       expect(result).to.equal(true);
     });
@@ -401,16 +417,16 @@ describe('MessageSender Unit Test', () => {
 
     it(`should return false and warning senderNumberInvalid
       when senderNumber is not included in senderNumbersList`, () => {
-      const senderNumber = '123456789';
-      sinon.stub(messageSender, '_alertWarning');
-      sinon.stub(messageSender, 'senderNumbersList', { get: () => [{ phoneNumber: '1234567891' }] });
-      const result = messageSender._validateSenderNumber(senderNumber);
-      sinon.assert.calledWith(
-        messageSender._alertWarning,
-        messageSenderMessages.senderNumberInvalid
-      );
-      expect(result).to.equal(false);
-    });
+        const senderNumber = '123456789';
+        sinon.stub(messageSender, '_alertWarning');
+        sinon.stub(messageSender, 'senderNumbersList', { get: () => [{ phoneNumber: '1234567891' }] });
+        const result = messageSender._validateSenderNumber(senderNumber);
+        sinon.assert.calledWith(
+          messageSender._alertWarning,
+          messageSenderMessages.senderNumberInvalid
+        );
+        expect(result).to.equal(false);
+      });
   });
 
   describe('_alertInvalidRecipientErrors', () => {
@@ -490,26 +506,26 @@ describe('MessageSender Unit Test', () => {
 
     it(`should return result false and _alertWarning notAnExtension
         if subAddress is not a extension number`, async () => {
-      sinon.stub(messageSender, '_alertWarning');
-      sinon.stub(messageSender, '_alertInvalidRecipientErrors');
-      const toNumbers = ['1234567890*999'];
-      messageSender._numberValidate = {
-        validateNumbers: () => ({
-          result: true,
-          numbers: [{
-            e164: '+1234567890',
-            subAddress: '999'
-          }]
-        }),
-        isCompanyExtension: () => false,
-      };
-      const result = await messageSender._validateToNumbers(toNumbers);
-      sinon.assert.calledWith(
-        messageSender._alertWarning,
-        messageSenderMessages.notAnExtension
-      );
-      expect(result.result).to.equal(false);
-    });
+        sinon.stub(messageSender, '_alertWarning');
+        sinon.stub(messageSender, '_alertInvalidRecipientErrors');
+        const toNumbers = ['1234567890*999'];
+        messageSender._numberValidate = {
+          validateNumbers: () => ({
+            result: true,
+            numbers: [{
+              e164: '+1234567890',
+              subAddress: '999'
+            }]
+          }),
+          isCompanyExtension: () => false,
+        };
+        const result = await messageSender._validateToNumbers(toNumbers);
+        sinon.assert.calledWith(
+          messageSender._alertWarning,
+          messageSenderMessages.notAnExtension
+        );
+        expect(result.result).to.equal(false);
+      });
 
     it('should return result true if subAddress is a included extension number', async () => {
       sinon.stub(messageSender, '_alertWarning');
@@ -591,7 +607,7 @@ describe('MessageSender Unit Test', () => {
       sinon.stub(messageSender, '_alertWarning');
       const toNumbers = ['+1234567890'];
       const fromNumber = '+11111';
-      const text = 'a'.repeat(1001);
+      const text = 'a'.repeat(MessageMaxLength + 1);
       const result = await messageSender.send({
         fromNumber,
         toNumbers,
@@ -600,6 +616,24 @@ describe('MessageSender Unit Test', () => {
       sinon.assert.calledWith(
         messageSender._alertWarning,
         messageSenderMessages.textTooLong
+      );
+      expect(result).to.equal(null);
+    });
+
+    it('should return null and warning multipartTextTooLong', async () => {
+      sinon.stub(messageSender, '_alertWarning');
+      const toNumbers = ['+1234567890'];
+      const fromNumber = '+11111';
+      const text = 'a'.repeat(MultipartMessageMaxLength + 1);
+      const result = await messageSender.send({
+        fromNumber,
+        toNumbers,
+        text,
+        multipart: true,
+      });
+      sinon.assert.calledWith(
+        messageSender._alertWarning,
+        messageSenderMessages.multipartTextTooLong,
       );
       expect(result).to.equal(null);
     });
@@ -644,7 +678,7 @@ describe('MessageSender Unit Test', () => {
           toNumbers,
           text,
         });
-      } catch (error) {}
+      } catch (error) { }
       sinon.assert.calledOnce(messageSender._sendSms);
       sinon.assert.calledOnce(messageSender._onSendError);
     });

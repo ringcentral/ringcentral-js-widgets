@@ -125,7 +125,7 @@ export default (auth, client, account, alert, regionSettings, composeText, messa
       });
 
       it('Should Send Pager Message Successfully', async () => {
-        console.log(composeText.addToNumber({ phoneNumber: '101' }));
+        composeText.addToNumber({ phoneNumber: '101' });
         composeText.updateMessageText('test 2');
         const responses = await composeText.send();
         expect(responses[0]).to.include.keys('id', 'conversation');

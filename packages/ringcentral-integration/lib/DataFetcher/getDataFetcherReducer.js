@@ -43,9 +43,26 @@ export function getDefaultTimestampReducer(types) {
   };
 }
 
+export function getRetryCountReducer(types) {
+  return (state = 0, { type }) => {
+    switch (type) {
+      case types.init:
+      case types.initSuccess:
+      case types.reset:
+      case types.resetSuccess:
+        return 0;
+      case types.retry:
+        return state + 1;
+      default:
+        return state;
+    }
+  };
+}
+
 export default function getDataFetcherReducer(types, reducers = {}) {
   return combineReducers({
     ...reducers,
     status: getModuleStatusReducer(types),
+    retryCount: getRetryCountReducer(types),
   });
 }

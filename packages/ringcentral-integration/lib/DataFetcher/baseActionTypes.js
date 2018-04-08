@@ -6,4 +6,5 @@ export default new Enum([
   'fetch',
   'fetchSuccess',
   'fetchError',
+  'retry',
 ]);

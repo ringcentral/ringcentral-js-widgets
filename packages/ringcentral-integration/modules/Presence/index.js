@@ -256,7 +256,7 @@ export default class Presence extends RcModule {
     return params;
   }
   async setAvailable() {
-    if (this.presenceStatus === presenceStatus.available &&
+    if (this.userStatus === presenceStatus.available &&
       this.dndStatus !== dndStatus.doNotAcceptAnyCalls) {
       return;
     }
@@ -265,7 +265,7 @@ export default class Presence extends RcModule {
   }
   async setBusy() {
     if (
-      this.presenceStatus === presenceStatus.busy &&
+      this.userStatus === presenceStatus.busy &&
       this.dndStatus !== dndStatus.doNotAcceptAnyCalls
     ) {
       return;
@@ -289,7 +289,7 @@ export default class Presence extends RcModule {
 
   async setInvisible() {
     if (
-      this.presenceStatus === presenceStatus.offline &&
+      this.userStatus === presenceStatus.offline &&
       this.dndStatus !== dndStatus.doNotAcceptAnyCalls
     ) {
       return;

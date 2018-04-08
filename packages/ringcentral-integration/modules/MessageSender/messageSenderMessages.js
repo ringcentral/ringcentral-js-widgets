@@ -6,6 +6,7 @@ export default new Enum([
   'numberValidateError',
   'textEmpty',
   'textTooLong',
+  'multipartTextTooLong',
   'noPermission',
   'senderEmpty',
   'noToNumber',

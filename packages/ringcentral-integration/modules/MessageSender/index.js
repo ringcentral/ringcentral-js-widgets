@@ -10,6 +10,10 @@ import getMessageSenderReducer from './getMessageSenderReducer';
 import messageSenderStatus from './messageSenderStatus';
 import messageSenderMessages from './messageSenderMessages';
 import proxify from '../../lib/proxy/proxify';
+import chunkMessage from '../../lib/chunkMessage';
+
+export const MessageMaxLength = 1000;
+export const MultipartMessageMaxLength = MessageMaxLength * 5;
 
 /**
  * @class
@@ -102,14 +106,19 @@ export default class MessageSender extends RcModule {
     return false;
   }
 
-  _validateText(text) {
+  _validateText(text, multipart) {
     if (isBlank(text)) {
       this._alertWarning(messageSenderMessages.textEmpty);
       return false;
     }
 
-    if (text.length > 1000) {
+    if (!multipart && text.length > MessageMaxLength) {
       this._alertWarning(messageSenderMessages.textTooLong);
+      return false;
+    }
+
+    if (multipart && text.length > MultipartMessageMaxLength) {
+      this._alertWarning(messageSenderMessages.multipartTextTooLong);
       return false;
     }
 
@@ -193,9 +202,9 @@ export default class MessageSender extends RcModule {
 
   @proxify
   async send({
-    fromNumber, toNumbers, text, replyOnMessageId
+    fromNumber, toNumbers, text, replyOnMessageId, multipart = false
   }) {
-    if (!this._validateText(text)) {
+    if (!this._validateText(text, multipart)) {
       return null;
     }
     try {
@@ -218,25 +227,38 @@ export default class MessageSender extends RcModule {
       this.store.dispatch({
         type: this.actionTypes.send,
       });
+
       const responses = [];
+      const chunks = multipart ? chunkMessage(text, MessageMaxLength) : [text];
+
       if (extensionNumbers.length > 0) {
-        const pagerResponse = await this._sendPager({
-          toNumbers: extensionNumbers,
-          text,
-          replyOnMessageId,
-        });
-        responses.push(pagerResponse);
+        for (const chunk of chunks) {
+          const pagerResponse = await this._sendPager({
+            toNumbers: extensionNumbers,
+            text: chunk,
+            replyOnMessageId,
+          });
+          responses.push(pagerResponse);
+        }
       }
 
       if (phoneNumbers.length > 0) {
         for (const phoneNumber of phoneNumbers) {
-          const smsResponse = await this._sendSms({ fromNumber, toNumber: phoneNumber, text });
-          responses.push(smsResponse);
+          for (const chunk of chunks) {
+            const smsResponse = await this._sendSms({
+              fromNumber,
+              toNumber: phoneNumber,
+              text: chunk,
+            });
+            responses.push(smsResponse);
+          }
         }
       }
+
       this.store.dispatch({
         type: this.actionTypes.sendOver,
       });
+
       return responses;
     } catch (error) {
       this.store.dispatch({
@@ -248,6 +270,7 @@ export default class MessageSender extends RcModule {
       throw error;
     }
   }
+
   @proxify
   async _sendSms({ fromNumber, toNumber, text }) {
     const toUsers = [{ phoneNumber: toNumber }];
@@ -258,6 +281,7 @@ export default class MessageSender extends RcModule {
     });
     return response;
   }
+
   @proxify
   async _sendPager({ toNumbers, text, replyOnMessageId }) {
     const from = { extensionNumber: this._extensionInfo.extensionNumber };
@@ -276,8 +300,8 @@ export default class MessageSender extends RcModule {
       errResp && errResp.response &&
       !errResp.response.ok
       && (errResp._json.errorCode === 'InvalidParameter'
-      || errResp._json.errorCode === 'InternationalProhibited'
-      || errResp._json.errorCode === 'CMN-408')
+        || errResp._json.errorCode === 'InternationalProhibited'
+        || errResp._json.errorCode === 'CMN-408')
     ) {
       errResp._json.errors.map((err) => {
         if (

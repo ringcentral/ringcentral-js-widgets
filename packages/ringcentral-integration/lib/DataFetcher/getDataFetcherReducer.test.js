@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import getDataFetcherReducer, {
   getDefaultDataReducer,
   getDefaultTimestampReducer,
+  getRetryCountReducer,
 } from './getDataFetcherReducer';
 import getModuleStatusReducer from '../getModuleStatusReducer';
 import actionTypes from './baseActionTypes';
@@ -110,8 +111,10 @@ describe('getDataFetcherReducer', () => {
   it('should return a combined reducer', () => {
     const reducer = getDataFetcherReducer(actionTypes);
     const statusReducer = getModuleStatusReducer(actionTypes);
+    const retryCountReducer = getRetryCountReducer(actionTypes);
     expect(reducer(undefined, {})).to.deep.equal({
       status: statusReducer(undefined, {}),
+      retryCount: retryCountReducer(undefined, {}),
     });
   });
 });
