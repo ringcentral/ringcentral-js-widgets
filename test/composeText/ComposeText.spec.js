@@ -73,7 +73,7 @@ describe('compose text panel', () => {
       subject: messageContent
     });
 
-    toNumber.instance().value = process.env.receiver;
+    toNumber.instance().value = '16505819954';
     await toNumber.simulate('change');
     textArea.instance().value = messageContent;
     await textArea.simulate('change');
