@@ -1,5 +1,4 @@
 import * as mock from 'ringcentral-integration/integration-test/mock';
-import { getWrapper, timeout } from '../shared';
 import SettingsPanel from 'ringcentral-widgets/components/SettingsPanel';
 import LinkLine from 'ringcentral-widgets/components/LinkLine';
 import IconLine from 'ringcentral-widgets/components/IconLine';
@@ -7,6 +6,8 @@ import PresenceSettingSection from 'ringcentral-widgets/components/PresenceSetti
 import PresenceItem from 'ringcentral-widgets/components/PresenceItem';
 import Eula from 'ringcentral-widgets/components/Eula';
 import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
+
+import { getWrapper, timeout } from '../shared';
 
 const setupWrapper = async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;

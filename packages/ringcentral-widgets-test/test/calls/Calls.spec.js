@@ -1,7 +1,6 @@
+import { getWrapper } from '../shared';
 import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
 import ActiveCallsPanel from 'ringcentral-widgets/components/ActiveCallsPanel';
-
-import { getWrapper } from '../shared';
 
 let wrapper = null;
 let panel = null;

@@ -1,12 +1,9 @@
-<<<<<<< HEAD:packages/ringcentral-widgets/test/navigation/DynamicNavigations.spec.js
 import * as mock from 'ringcentral-integration/integration-test/mock';
-=======
 import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
 import TabNavigationButton from 'ringcentral-widgets/components/TabNavigationButton';
 import DropdownNavigationView from 'ringcentral-widgets/components/DropdownNavigationView';
 import DropdownNavigationItem from 'ringcentral-widgets/components/DropdownNavigationItem';
 
->>>>>>> ringcentral-widgets-test and ringcentral-widgets-demo:packages/ringcentral-widgets-test/test/navigation/DynamicNavigations.spec.js
 import { getWrapper } from '../shared';
 
 let originalPhone = null;

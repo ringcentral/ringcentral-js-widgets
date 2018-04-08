@@ -84,7 +84,6 @@ describe('compose text panel', () => {
     await sendButton.simulate('click');
     await timeout(200);
     wrapper.update();
-    await timeout(10);
     const conversationPanel = wrapper.find(ConversationPanel);
     expect(conversationPanel.length > 0).toBe(true);
     const messages = conversationPanel.first().find(Message);

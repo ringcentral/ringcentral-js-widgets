@@ -1,9 +1,10 @@
-import { getWrapper } from '../shared';
 import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
 import SettingsPanel from 'ringcentral-widgets/components/SettingsPanel';
 import CallingSettings from 'ringcentral-widgets/components/CallingSettingsPanel';
 import LinkLine from 'ringcentral-widgets/components/LinkLine';
 import Button from 'ringcentral-widgets/components/Button';
+
+import { getWrapper } from '../shared';
 
 let wrapper = null;
 let panel = null;
@@ -50,7 +51,7 @@ describe('calling settings', () => {
     const messages = store.getState(wrapper).alert.messages;
     expect(messages).toEqual(
       expect.arrayContaining([
-        expect.objectContaining({        
+        expect.objectContaining({
           level: 'info',
           message: 'callingSettingsMessages-saveSuccess'
         })

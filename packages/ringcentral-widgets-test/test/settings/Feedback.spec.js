@@ -1,7 +1,6 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { wrap } from 'module';
-import { getWrapper, timeout } from '../shared';
 import FeedbackPanel from 'ringcentral-widgets/components/FeedbackPanel';
 import SettingsPanel from 'ringcentral-widgets/components/SettingsPanel';
 import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
@@ -9,6 +8,8 @@ import BackHeader from 'ringcentral-widgets/components/BackHeader';
 import TextInput from 'ringcentral-widgets/components/TextInput';
 import Select from 'ringcentral-widgets/components/DropdownSelect';
 import { HeaderButton } from 'ringcentral-widgets/components/Header';
+
+import { getWrapper, timeout } from '../shared';
 
 describe('<FeedbackPanel />', () => {
   let wrapper = null;

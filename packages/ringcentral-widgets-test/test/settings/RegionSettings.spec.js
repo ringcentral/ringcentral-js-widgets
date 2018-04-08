@@ -1,9 +1,10 @@
-import { getWrapper } from '../shared';
 import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
 import SettingsPanel from 'ringcentral-widgets/components/SettingsPanel';
 import RegionSettings from 'ringcentral-widgets/components/RegionSettingsPanel';
 import LinkLine from 'ringcentral-widgets/components/LinkLine';
 import Button from 'ringcentral-widgets/components/Button';
+
+import { getWrapper, timeout } from '../shared';
 
 let wrapper = null;
 let panel = null;
