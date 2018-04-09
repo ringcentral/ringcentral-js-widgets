@@ -10,7 +10,7 @@ exports.default = {
   onHoldCall: 'Call on Hold',
   otherDeviceCall: 'Ongoing calls on my other devices',
   noCalls: 'No results found.',
-  historyCalls: 'Last Calls'
+  historyCalls: 'Past Calls'
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
@@ -18,6 +18,6 @@ exports.default = {
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
 // @key: @#@"ringCall"@#@ @source: @#@"Ringing Call"@#@
 // @key: @#@"onHoldCall"@#@ @source: @#@"Call on Hold"@#@
-// @key: @#@"historyCalls"@#@ @source: @#@"Last Calls"@#@
+// @key: @#@"historyCalls"@#@ @source: @#@"Past Calls"@#@
 // @key: @#@"otherDeviceCall"@#@ @source: @#@"Ongoing calls on my other devices"@#@
 //# sourceMappingURL=en-GB.js.map

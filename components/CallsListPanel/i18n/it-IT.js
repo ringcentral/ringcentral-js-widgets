@@ -10,7 +10,7 @@ exports.default = {
   onHoldCall: 'Chiamata in attesa',
   otherDeviceCall: 'Chiamate in corso sugli altri miei dispositivi',
   noCalls: 'Nessun risultato trovato.',
-  historyCalls: 'Ultime chiamate'
+  historyCalls: 'Chiamate passate'
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
@@ -18,6 +18,6 @@ exports.default = {
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
 // @key: @#@"ringCall"@#@ @source: @#@"Ringing Call"@#@
 // @key: @#@"onHoldCall"@#@ @source: @#@"Call on Hold"@#@
-// @key: @#@"historyCalls"@#@ @source: @#@"Last Calls"@#@
+// @key: @#@"historyCalls"@#@ @source: @#@"Past Calls"@#@
 // @key: @#@"otherDeviceCall"@#@ @source: @#@"Ongoing calls on my other devices"@#@
 //# sourceMappingURL=it-IT.js.map
