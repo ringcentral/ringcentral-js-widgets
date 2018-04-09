@@ -44,3 +44,6 @@ node_modules
 
 alias.config.js
 alias.json
+
+#Webstorm
+.idea

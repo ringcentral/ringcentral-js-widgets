@@ -5,7 +5,7 @@ export default {
   onHoldCall: 'Anruf wird gehalten',
   otherDeviceCall: 'Aktuelle Gespräche auf meinen anderen Geräten',
   noCalls: 'Keine Treffer gefunden.',
-  historyCalls: 'Letzte Anrufe',
+  historyCalls: 'Vergangene Anrufe',
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
@@ -13,5 +13,5 @@ export default {
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
 // @key: @#@"ringCall"@#@ @source: @#@"Ringing Call"@#@
 // @key: @#@"onHoldCall"@#@ @source: @#@"Call on Hold"@#@
-// @key: @#@"historyCalls"@#@ @source: @#@"Last Calls"@#@
+// @key: @#@"historyCalls"@#@ @source: @#@"Past Calls"@#@
 // @key: @#@"otherDeviceCall"@#@ @source: @#@"Ongoing calls on my other devices"@#@
