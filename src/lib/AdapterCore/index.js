@@ -358,7 +358,7 @@ export default class AdapterCore {
     this._strings = strings;
   }
 
-  _debouncedPostMessage = debounce(this._postMessage, 200)
+  _debouncedPostMessage = debounce(this._postMessage, 100)
 
   _syncPosition() {
     this._debouncedPostMessage.call(this, {
