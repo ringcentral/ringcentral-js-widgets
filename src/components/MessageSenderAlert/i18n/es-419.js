@@ -20,10 +20,9 @@ export default {
   [messageSenderMessages.networkError]: 'No se puede conectar debido a errores de la red. Vuelva a intentarlo más tarde.',
   [messageSenderMessages.senderNumberInvalid]: 'Se necesita un número de teléfono válido para enviar mensajes de texto a destinatarios fuera de la compañía, póngase en contacto con el administrador para añadir un número directo a su cuenta.',
   [messageSenderMessages.notSmsToExtension]: 'No se puede enviar a un número de extensión desde un número de teléfono principal. Si quiere enviar un mensaje a un número de extensión, escriba solo dicho número.',
-  [messageSenderMessages.senderNumberInvalids]: 'Sie haben keine gültige Telefonnummer, um SMS zu versenden. Wenden Sie sich an Ihren Kontoadministrator.',
   [messageSenderMessages.internationalSMSNotSupported]: 'No es posible enviar SMS a números de teléfono internacionales.',
-  [messageSenderMessages.recipientNumberInvalids]: 'Ingrese un número de teléfono válido.',
   [messageSenderMessages.noInternalSMSPermission]: 'No tiene permisos para enviar mensajes. Comuníquese con el administrador de su cuenta de {brand} para conseguir una actualización.',
+  [messageSenderMessages.noSMSPermission]: 'No tiene permisos para enviar mensajes a destinatarios que no pertenecen a su organización. Comuníquese con el administrador de su cuenta de {brand} para conseguir una actualización.',
   areaCode: 'código de área',
 };
 
