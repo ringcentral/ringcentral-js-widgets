@@ -139,25 +139,35 @@ function mapToProps(_, {
   enableContactFallback = false,
   showGroupNumberName = false,
 }) {
+  const disableLinks = (
+    rateLimiter.isThrottling ||
+    !connectivityMonitor.connectivity
+  );
+  const showSpinner = !(
+    dateTimeFormat.ready &&
+    (!contactMatcher || contactMatcher.ready) &&
+    conversation.ready &&
+    regionSettings.ready &&
+    messages.ready &&
+    rateLimiter.ready &&
+    connectivityMonitor.ready &&
+    (!conversationLogger || conversationLogger.ready)
+  );
   return ({
     brand: brand.fullName,
     enableContactFallback,
     showGroupNumberName,
     currentLocale: locale.currentLocale,
     conversationId: params.conversationId,
-    sendButtonDisabled: conversation.pushing,
+    sendButtonDisabled: (
+      conversation.pushing ||
+      disableLinks ||
+      conversation.messageText.length === 0 ||
+      showSpinner
+    ),
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
-    showSpinner: !(
-      dateTimeFormat.ready &&
-      (!contactMatcher || contactMatcher.ready) &&
-      conversation.ready &&
-      regionSettings.ready &&
-      messages.ready &&
-      rateLimiter.ready &&
-      connectivityMonitor.ready &&
-      (!conversationLogger || conversationLogger.ready)
-    ),
+    showSpinner,
     recipients: conversation.recipients,
     messages: conversation.messages,
     messageText: conversation.messageText,
