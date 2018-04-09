@@ -427,7 +427,8 @@ var AudioSettings = (_dec = (0, _di.Module)({
                 if (!this.userMedia) {
                   this._alert.danger({
                     message: _audioSettingsErrors2.default.userMediaPermission,
-                    allowDuplicates: false
+                    allowDuplicates: false,
+                    ttl: 30 * 1000
                   });
                 }
 
