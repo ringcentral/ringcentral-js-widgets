@@ -14,7 +14,6 @@ function mapToProps(_, {
     rolesAndPermissions,
   },
   showContactDisplayPlaceholder = false,
-  enableContactFallback = false,
 }) {
   return {
     currentLocale: locale.currentLocale,
@@ -36,7 +35,6 @@ function mapToProps(_, {
     brand: brand.fullName,
     showContactDisplayPlaceholder,
     autoLog: !!(callLogger && callLogger.autoLog),
-    enableContactFallback,
   };
 }
 
