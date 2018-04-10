@@ -11,7 +11,7 @@ export default {
   [callErrors.noInternational]: "You don't have permissions to make international calls. Please contact your {brand} account administrator for an upgrade.",
   [callErrors.noRingoutEnable]: 'Your extension is allowed to make calls with desktop app.\n    If you wish to switch to other calling options,\n    please contact your account administrator for an upgrade.',
   areaCode: 'area code',
-  telus911: 'Emergency dialing is not supported.',
+  telus911: 'Emergency dialling is not supported.',
 };
 
 // @key: @#@"[callErrors.noToNumber]"@#@ @source: @#@"Please enter a valid phone number."@#@
