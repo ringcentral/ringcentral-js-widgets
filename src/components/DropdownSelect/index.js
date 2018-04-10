@@ -129,7 +129,7 @@ class DropdownSelect extends Component {
             const display = this.renderFunction(option, idx);
             return (
               <li
-                key={currentValue}
+                key={currentValue || idx}
                 className={classnames(className,
                   styles[this.props.dropdownAlign],
                   ellipsis && styles.ellipsis,
