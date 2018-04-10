@@ -258,7 +258,8 @@ var ForwardForm = function (_Component) {
           formatPhone = _props.formatPhone,
           searchContact = _props.searchContact,
           searchContactList = _props.searchContactList,
-          phoneTypeRenderer = _props.phoneTypeRenderer;
+          phoneTypeRenderer = _props.phoneTypeRenderer,
+          autoFocus = _props.autoFocus;
 
       var value = this.getValue();
       var disableButton = (0, _isBlank2.default)(value) || this.state.handling;
@@ -301,7 +302,7 @@ var ForwardForm = function (_Component) {
             formatContactPhone: formatPhone,
             currentLocale: currentLocale,
             titleEnabled: true,
-            autoFocus: true
+            autoFocus: autoFocus
           })
         ),
         _react2.default.createElement(
@@ -348,12 +349,14 @@ ForwardForm.propTypes = {
   onChange: _propTypes2.default.func,
   searchContactList: _propTypes2.default.array.isRequired,
   searchContact: _propTypes2.default.func.isRequired,
-  phoneTypeRenderer: _propTypes2.default.func
+  phoneTypeRenderer: _propTypes2.default.func,
+  autoFocus: _propTypes2.default.bool
 };
 
 ForwardForm.defaultProps = {
   className: null,
   onChange: undefined,
-  phoneTypeRenderer: undefined
+  phoneTypeRenderer: undefined,
+  autoFocus: true
 };
 //# sourceMappingURL=index.js.map

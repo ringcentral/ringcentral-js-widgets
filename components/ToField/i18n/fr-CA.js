@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  to: 'À',
+  to: 'À ',
   enterNameOrNumber: 'Saisir le numéro ou le nom'
 };
 

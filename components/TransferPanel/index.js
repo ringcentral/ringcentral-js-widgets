@@ -162,7 +162,7 @@ var TransferPanel = (_temp = _class = function (_PureComponent) {
           currentLocale: this.props.currentLocale,
           phoneTypeRenderer: this.props.phoneTypeRenderer,
           titleEnabled: true,
-          autoFocus: true
+          autoFocus: this.props.autoFocus
         }),
         _react2.default.createElement(
           'div',
@@ -198,10 +198,12 @@ var TransferPanel = (_temp = _class = function (_PureComponent) {
   searchContact: _propTypes2.default.func.isRequired,
   formatPhone: _propTypes2.default.func.isRequired,
   phoneTypeRenderer: _propTypes2.default.func,
-  isOnTransfer: _propTypes2.default.bool
+  isOnTransfer: _propTypes2.default.bool,
+  autoFocus: _propTypes2.default.bool
 }, _class.defaultProps = {
   phoneTypeRenderer: undefined,
-  isOnTransfer: false
+  isOnTransfer: false,
+  autoFocus: true
 }, _temp);
 exports.default = TransferPanel;
 //# sourceMappingURL=index.js.map

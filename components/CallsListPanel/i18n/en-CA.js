@@ -18,6 +18,6 @@ exports.default = {
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
 // @key: @#@"ringCall"@#@ @source: @#@"Ringing Call"@#@
 // @key: @#@"onHoldCall"@#@ @source: @#@"Call on Hold"@#@
-// @key: @#@"historyCalls"@#@ @source: @#@"Last Calls"@#@
+// @key: @#@"historyCalls"@#@ @source: @#@"Past Calls"@#@
 // @key: @#@"otherDeviceCall"@#@ @source: @#@"Ongoing calls on my other devices"@#@
 //# sourceMappingURL=en-CA.js.map

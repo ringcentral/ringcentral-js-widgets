@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  start: 'Faire une visite rapide',
+  start: 'Tour d\'horizon',
   skip: 'Sauter',
   next: 'Suivant',
   finish: 'Terminer'

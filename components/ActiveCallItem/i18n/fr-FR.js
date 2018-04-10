@@ -23,8 +23,8 @@ exports.default = {
   missedCall: 'Manqué',
   inboundCall: 'Entrant',
   outboundCall: 'Sortant',
-  from: 'De',
-  to: 'À',
+  from: 'De ',
+  to: 'À ',
   hangup: 'Raccrocher',
   accept: 'Accepter',
   toVoicemail: 'Envoyer vers la messagerie vocale'

@@ -80,6 +80,10 @@ var ComposeTextPanel = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ComposeTextPanel.__proto__ || (0, _getPrototypeOf2.default)(ComposeTextPanel)).call(this, props));
 
+    _this.state = {
+      messageText: props.messageText
+    };
+
     _this.onSenderChange = function (value) {
       _this.props.updateSenderNumber(value);
     };
@@ -125,6 +129,9 @@ var ComposeTextPanel = function (_Component) {
 
     _this.onTextChange = function (e) {
       var value = e.currentTarget.value;
+      _this.setState({
+        messageText: value
+      });
       _this.props.updateMessageText(value);
     };
 
@@ -144,6 +151,15 @@ var ComposeTextPanel = function (_Component) {
   }
 
   (0, _createClass3.default)(ComposeTextPanel, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      if (nextProps.messageText !== this.state.messageText) {
+        this.setState({
+          messageText: nextProps.messageText
+        });
+      }
+    }
+  }, {
     key: 'hasSenderNumbers',
     value: function hasSenderNumbers() {
       return this.props.senderNumbers.length > 0;
@@ -185,7 +201,7 @@ var ComposeTextPanel = function (_Component) {
             contactInfoRenderer: this.props.recipientsContactInfoRenderer,
             contactPhoneRenderer: this.props.recipientsContactPhoneRenderer,
             titleEnabled: true,
-            autoFocus: true,
+            autoFocus: this.props.autoFocus,
             multiple: true
           }),
           _react2.default.createElement(
@@ -209,7 +225,7 @@ var ComposeTextPanel = function (_Component) {
               { className: _styles2.default.textField },
               _react2.default.createElement('textarea', {
                 placeholder: _i18n2.default.getString('typeMessage', this.props.currentLocale),
-                value: this.props.messageText,
+                value: this.state.messageText,
                 maxLength: '1000',
                 onChange: this.onTextChange,
                 onKeyPressCapture: this.onTextAreaKeyDown
@@ -268,7 +284,8 @@ ComposeTextPanel.propTypes = {
   showSpinner: _propTypes2.default.bool,
   phoneTypeRenderer: _propTypes2.default.func,
   recipientsContactInfoRenderer: _propTypes2.default.func,
-  recipientsContactPhoneRenderer: _propTypes2.default.func
+  recipientsContactPhoneRenderer: _propTypes2.default.func,
+  autoFocus: _propTypes2.default.bool
 };
 
 ComposeTextPanel.defaultProps = {
@@ -281,7 +298,8 @@ ComposeTextPanel.defaultProps = {
   showSpinner: false,
   phoneTypeRenderer: undefined,
   recipientsContactInfoRenderer: undefined,
-  recipientsContactPhoneRenderer: undefined
+  recipientsContactPhoneRenderer: undefined,
+  autoFocus: false
 };
 
 exports.default = ComposeTextPanel;

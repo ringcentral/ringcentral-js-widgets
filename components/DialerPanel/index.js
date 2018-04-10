@@ -69,7 +69,8 @@ function DialerPanel(_ref) {
       clearRecipient = _ref.clearRecipient,
       phoneTypeRenderer = _ref.phoneTypeRenderer,
       recipientsContactInfoRenderer = _ref.recipientsContactInfoRenderer,
-      recipientsContactPhoneRenderer = _ref.recipientsContactPhoneRenderer;
+      recipientsContactPhoneRenderer = _ref.recipientsContactPhoneRenderer,
+      autoFocus = _ref.autoFocus;
 
   var onCallFunc = function onCallFunc() {
     if (!callButtonDisabled) {
@@ -95,7 +96,7 @@ function DialerPanel(_ref) {
       contactInfoRenderer: recipientsContactInfoRenderer,
       contactPhoneRenderer: recipientsContactPhoneRenderer,
       titleEnabled: true,
-      autoFocus: true
+      autoFocus: autoFocus
     }),
     _react2.default.createElement(
       'div',
@@ -173,7 +174,8 @@ DialerPanel.propTypes = {
   clearRecipient: _propTypes2.default.func.isRequired,
   phoneTypeRenderer: _propTypes2.default.func,
   recipientsContactInfoRenderer: _propTypes2.default.func,
-  recipientsContactPhoneRenderer: _propTypes2.default.func
+  recipientsContactPhoneRenderer: _propTypes2.default.func,
+  autoFocus: _propTypes2.default.bool
 };
 
 DialerPanel.defaultProps = {
@@ -198,7 +200,8 @@ DialerPanel.defaultProps = {
   recipient: [],
   phoneTypeRenderer: undefined,
   recipientsContactInfoRenderer: undefined,
-  recipientsContactPhoneRenderer: undefined
+  recipientsContactPhoneRenderer: undefined,
+  autoFocus: false
 };
 
 exports.default = DialerPanel;
