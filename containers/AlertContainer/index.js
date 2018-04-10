@@ -189,7 +189,7 @@ function getDefaultRenderer(_ref2) {
       return function (props) {
         return _react2.default.createElement(_RolesAndPermissionsAlert2.default, (0, _extends3.default)({}, props, {
           brand: brand.fullName,
-          application: brand.application }));
+          application: brand.appName }));
       };
     }
 
@@ -200,7 +200,7 @@ function getDefaultRenderer(_ref2) {
     if (_AudioSettingsAlert2.default.handleMessage(message)) {
       return function (props) {
         return _react2.default.createElement(_AudioSettingsAlert2.default, (0, _extends3.default)({}, props, {
-          application: brand.application
+          application: brand.appName
         }));
       };
     }
