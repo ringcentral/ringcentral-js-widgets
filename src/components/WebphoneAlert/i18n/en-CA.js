@@ -1,7 +1,6 @@
 import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErrors';
 
 export default {
-  [webphoneErrors.connectFailed]: 'Send Success.',
   [webphoneErrors.browserNotSupported]: 'Calling with browser is only supported on Chrome.',
   [webphoneErrors.webphoneCountOverLimit]: 'A maximum of 5 web phones could be registered.',
   [webphoneErrors.notOutboundCallWithoutDL]: 'Your extension is not allowed to make outbound calls with browser currently, please contact your account representative for an upgrade.',
@@ -16,7 +15,6 @@ export default {
   [webphoneErrors.transferError]: 'Cannot transfer the call. Please try again later.',
 };
 
-// @key: @#@"[webphoneErrors.connectFailed]"@#@ @source: @#@"Connect with web phone server failed."@#@
 // @key: @#@"[webphoneErrors.connected]"@#@ @source: @#@"Web phone registered."@#@
 // @key: @#@"[webphoneErrors.browserNotSupported]"@#@ @source: @#@"Calling with browser is only supported on Chrome."@#@
 // @key: @#@"[webphoneErrors.webphoneCountOverLimit]"@#@ @source: @#@"A maximum of 5 web phones could be registered."@#@
