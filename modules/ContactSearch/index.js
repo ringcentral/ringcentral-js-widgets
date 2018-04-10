@@ -165,7 +165,7 @@ var ContactSearch = (_dec = (0, _di.Module)({
       actionTypes: _actionTypes2.default
     })));
 
-    _this.debouncedSearch = (0, _debounce2.default)(_this.search, 800, true);
+    _this.debouncedSearch = (0, _debounce2.default)(_this.search, 800, false);
 
     _this._auth = auth;
     _this._storage = storage;

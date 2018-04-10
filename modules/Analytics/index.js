@@ -78,7 +78,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @description Analytics module.
  */
 var Analytics = (_dec = (0, _di.Module)({
-  deps: [{ dep: 'Auth', optional: true }, { dep: 'Call', optional: true }, { dep: 'Webphone', optional: true }, { dep: 'Contacts', optional: true }, { dep: 'MessageSender', optional: true }, { dep: 'MessageStore', optional: true }, { dep: 'ContactDetails', optional: true }, { dep: 'CallHistory', optional: true }, { dep: 'Conference', optional: true }, { dep: 'RouterInteraction', optional: true }, { dep: 'AnalyticsAdapter', optional: true }, { dep: 'AnalyticsOptions', optional: true }]
+  deps: [{ dep: 'Auth', optional: true }, { dep: 'Call', optional: true }, { dep: 'Webphone', optional: true }, { dep: 'Contacts', optional: true }, { dep: 'MessageSender', optional: true }, { dep: 'MessageStore', optional: true }, { dep: 'ContactDetails', optional: true }, { dep: 'CallHistory', optional: true }, { dep: 'Conference', optional: true }, { dep: 'RouterInteraction', optional: true }, { dep: 'AnalyticsAdapter', optional: true }, { dep: 'AnalyticsOptions', optional: true }, { dep: 'UserGuide', optional: true }]
 }), _dec(_class = function (_RcModule) {
   (0, _inherits3.default)(Analytics, _RcModule);
 
@@ -98,7 +98,8 @@ var Analytics = (_dec = (0, _di.Module)({
         contactDetails = _ref.contactDetails,
         callHistory = _ref.callHistory,
         conference = _ref.conference,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['analyticsKey', 'appName', 'appVersion', 'brandCode', 'auth', 'call', 'webphone', 'contacts', 'messageSender', 'adapter', 'routerInteraction', 'messageStore', 'contactDetails', 'callHistory', 'conference']);
+        userGuide = _ref.userGuide,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['analyticsKey', 'appName', 'appVersion', 'brandCode', 'auth', 'call', 'webphone', 'contacts', 'messageSender', 'adapter', 'routerInteraction', 'messageStore', 'contactDetails', 'callHistory', 'conference', 'userGuide']);
     (0, _classCallCheck3.default)(this, Analytics);
 
     // config
@@ -122,6 +123,7 @@ var Analytics = (_dec = (0, _di.Module)({
     _this._contactDetails = contactDetails;
     _this._callHistory = callHistory;
     _this._conference = conference;
+    _this._userGuide = userGuide;
     // init
     _this._reducer = (0, _getAnalyticsReducer2.default)(_this.actionTypes);
     _this._segment = (0, _Analytics.Segment)();
@@ -220,7 +222,7 @@ var Analytics = (_dec = (0, _di.Module)({
 
               case 3:
                 this.lastActions.forEach(function (action) {
-                  ['_authentication', '_logout', '_callAttempt', '_callConnected', '_webRTCRegistration', '_smsAttempt', '_smsSent', '_logCall', '_logSMS', '_clickToDial', '_clickToSMS', '_viewEntity', '_createEntity', '_editCallLog', '_editSMSLog', '_navigate', '_inboundCall', '_coldTransfer', '_textClickToDial', '_voicemailClickToDial', '_voicemailClickToSMS', '_voicemailDelete', '_voicemailFlag', '_contactDetailClickToDial', '_contactDetailClickToSMS', '_callHistoryClickToDial', '_callHistoryClickToSMS', '_conferenceInviteWithText', '_conferenceAddDialInNumber', '_conferenceJoinAsHost'].forEach(function (key) {
+                  ['_authentication', '_logout', '_callAttempt', '_callConnected', '_webRTCRegistration', '_smsAttempt', '_smsSent', '_logCall', '_logSMS', '_clickToDial', '_clickToSMS', '_viewEntity', '_createEntity', '_editCallLog', '_editSMSLog', '_navigate', '_inboundCall', '_coldTransfer', '_textClickToDial', '_voicemailClickToDial', '_voicemailClickToSMS', '_voicemailDelete', '_voicemailFlag', '_contactDetailClickToDial', '_contactDetailClickToSMS', '_callHistoryClickToDial', '_callHistoryClickToSMS', '_conferenceInviteWithText', '_conferenceAddDialInNumber', '_conferenceJoinAsHost', '_showWhatsNew'].forEach(function (key) {
                     _this3[key](action);
                   });
                 });
@@ -470,6 +472,13 @@ var Analytics = (_dec = (0, _di.Module)({
     value: function _conferenceJoinAsHost(action) {
       if (this._conference && this._conference.actionTypes.joinAsHost === action.type) {
         this.track('Join As Host (Conference)');
+      }
+    }
+  }, {
+    key: '_showWhatsNew',
+    value: function _showWhatsNew(action) {
+      if (this._userGuide && this._userGuide.actionTypes.updateCarousel === action.type && action.curIdx === 0 && action.playing) {
+        this.track('What\'s New');
       }
     }
   }, {
