@@ -5,7 +5,7 @@ export default {
   onHoldCall: '保留中の通話',
   otherDeviceCall: '他のデバイスで進行中の通話',
   noCalls: '結果が見つかりません\u3002',
-  historyCalls: '直近の通話',
+  historyCalls: '過去の通話',
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@

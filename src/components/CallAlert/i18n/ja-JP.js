@@ -8,6 +8,7 @@ export default {
   [callErrors.internalError]: '内部エラーにより\u3001接続できません\u3002後でもう一度やり直してください\u3002',
   [callErrors.notAnExtension]: 'この内線番号は存在しません\u3002',
   [callErrors.networkError]: 'ネットワークの問題により\u3001接続できません\u3002後でもう一度やり直してください\u3002',
+  [callErrors.noInternational]: "国際電話を発信するためのアクセス許可がありません。アップグレードについて{brand}アカウント管理者にお問い合わせください。",
   [callErrors.noRingoutEnable]: 'お使いの内線は\u3001デスクトップアプリを使用した通話発信が許可されています\u3002\n    他の通話オプションに切り替えたい場合は\u3001\n    アップグレードについてアカウント管理者にお問い合わせください\u3002',
   areaCode: '市外局番',
   telus911: '緊急ダイヤルはサポートされていません\u3002',

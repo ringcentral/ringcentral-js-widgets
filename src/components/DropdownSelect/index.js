@@ -68,7 +68,6 @@ class DropdownSelect extends Component {
       }
     }
   }
-
   componentWillUnmount() {
     this.mounted = false;
     window.removeEventListener('click', this._handleDocumentClick, false);
@@ -169,6 +168,10 @@ class DropdownSelect extends Component {
       this.state.open ? styles.open : null,
       this.props.noPadding ? styles.noPadding : null,
     );
+    const buttonClassName = classnames(
+      styles.button,
+      this.props.disabled ? styles.disabled : null,
+    );
     const dropdownMenu = this.props.renderDropdownMenu ?
       null :
       this.renderDropdownMenu();
@@ -184,7 +187,7 @@ class DropdownSelect extends Component {
       >
         <button
           type="button"
-          className={styles.button}
+          className={buttonClassName}
           onClick={this.toggleShowDropdown}
           title={this.renderTitle(this.props.options[this.props.value], renderValue)}>
           {label}

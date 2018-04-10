@@ -40,8 +40,8 @@ function getTabs({
       path: 'voicemails',
       isActive: path => path === 'voicemails',
       view: null,
-      getData: () => {},
-      cleanUp: () => {}
+      getData: () => { },
+      cleanUp: () => { }
     },
     {
       icon: <span className={dynamicsFont.composeText} />,
@@ -68,8 +68,8 @@ function getTabs({
       path: 'faxes',
       isActive: path => path === 'faxes',
       view: null,
-      getData: () => {},
-      cleanUp: () => {}
+      getData: () => { },
+      cleanUp: () => { }
     },
     {
       icon: <span className={dynamicsFont.active} />,
@@ -149,4 +149,13 @@ function mapToProps(_, {
   };
 }
 
-export default withPhone(connect(mapToProps)(RecentActivityPanel));
+const RecentActivityContainer = withPhone(connect(
+  mapToProps
+)(RecentActivityPanel));
+
+export {
+  getTabs,
+  mapToProps,
+  RecentActivityContainer as default,
+};
+

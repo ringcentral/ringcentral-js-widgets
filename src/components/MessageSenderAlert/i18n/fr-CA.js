@@ -7,20 +7,23 @@ export default {
   [messageSenderMessages.textEmpty]: 'Veuillez entrer le texte à envoyer.',
   [messageSenderMessages.noPermission]: 'Vous n\'êtes pas autorisé à envoyer des messages.',
   [messageSenderMessages.senderEmpty]: 'Vous devez sélectionner un numéro parmi les numéros de téléphone pour envoyer',
+  [messageSenderMessages.noToNumber]: 'Veuillez entrer un numéro de téléphone valide.',
   [messageSenderMessages.recipientsEmpty]: 'Veuillez entrer un numéro de destinataire valide.',
   [messageSenderMessages.textTooLong]: 'Le texte est trop long, limite\xA0: 1\xA0000',
+  [messageSenderMessages.multipartTextTooLong]: 'Le texte est trop long, limite\xA0: 5\xA0000',
+  [messageSenderMessages.recipientNumberInvalids]: 'Veuillez entrer un numéro de téléphone valide.',
   [messageSenderMessages.noAreaCode]: 'Veuillez configurer l\'{areaCodeLink} pour utiliser des numéros de téléphone locaux à 7\xA0chiffres.',
+  [messageSenderMessages.specialNumber]: 'L\'envoi de textos à des numéros d\'urgence ou à des numéros pour services spéciaux n\'est pas pris en charge.',
   [messageSenderMessages.connectFailed]: 'Échec de la connexion. Veuillez réessayer plus tard.',
   [messageSenderMessages.internalError]: 'Connexion impossible en raison d\'erreurs internes. Veuillez réessayer plus tard.',
   [messageSenderMessages.notAnExtension]: 'Le numéro de poste n\'existe pas.',
   [messageSenderMessages.networkError]: 'Connexion impossible en raison de problèmes de réseau. Veuillez réessayer plus tard.',
+  [messageSenderMessages.senderNumberInvalid]: 'Un numéro de téléphone valide est nécessaire pour envoyer des textos à des destinataires en dehors de votre entreprise. Veuillez communiquer avec votre administrateur afin qu\'il ajoute un numéro direct à votre compte.',
   [messageSenderMessages.notSmsToExtension]: 'Impossible d\'envoyer au numéro de poste avec le numéro de téléphone principal. Si vous souhaitez envoyer à un numéro de poste, veuillez simplement saisir ce numéro.',
-  [messageSenderMessages.senderNumberInvalids]: 'Vous ne possédez pas un numéro de téléphone valide à partir duquel envoyer des textos. Veuillez communiquer avec votre administrateur de compte.',
   [messageSenderMessages.internationalSMSNotSupported]: 'L\'envoi de textos vers un numéro de téléphone international n\'est pas pris en charge.',
+  [messageSenderMessages.noInternalSMSPermission]: 'Vous n\'êtes pas autorisé à envoyer des messages. Veuillez communiquer avec votre administrateur de compte {brand} pour une mise à niveau.',
+  [messageSenderMessages.noSMSPermission]: 'Vous n\'êtes pas autorisé à envoyer des messages à des destinataires qui ne font pas partie de votre entreprise. Veuillez communiquer avec votre administrateur de compte {brand} pour une mise à niveau.',
   areaCode: 'indicatif régional',
-  [messageSenderMessages.senderNumberInvalid]: 'Vous n\'êtes pas autorisé à envoyer des messages à des destinataires qui ne font pas partie de votre entreprise. Veuillez prendre contact avec l\'administrateur de votre compte RingCentral pour effectuer une mise à niveau.',
-  [messageSenderMessages.recipientNumberInvalids]: 'Veuillez entrer un numéro de téléphone valide.',
-  [messageSenderMessages.noInternalSMSPermission]: 'Vous n\'êtes pas autorisé à envoyer des messages. Veuillez prendre contact avec l\'administrateur de votre compte RingCentral pour effectuer une mise à niveau.',
 };
 
 // @key: @#@"[messageSenderMessages.sendSuccess]"@#@ @source: @#@"Send Success."@#@
@@ -32,6 +35,7 @@ export default {
 // @key: @#@"[messageSenderMessages.noToNumber]"@#@ @source: @#@"Please enter a valid phone number."@#@
 // @key: @#@"[messageSenderMessages.recipientsEmpty]"@#@ @source: @#@"Please enter a valid receiver number."@#@
 // @key: @#@"[messageSenderMessages.textTooLong]"@#@ @source: @#@"Text is too long, 1000 Limited"@#@
+// @key: @#@"[messageSenderMessages.multipartTextTooLong]"@#@ @source: @#@"Text is too long, 5000 Limited"@#@
 // @key: @#@"[messageSenderMessages.recipientNumberInvalids]"@#@ @source: @#@"Please enter a valid phone number."@#@
 // @key: @#@"[messageSenderMessages.noAreaCode]"@#@ @source: @#@"Please set {areaCodeLink} to use 7-digit local phone numbers."@#@
 // @key: @#@"[messageSenderMessages.specialNumber]"@#@ @source: @#@"Sending text to emergency/special service numbers is not supported."@#@

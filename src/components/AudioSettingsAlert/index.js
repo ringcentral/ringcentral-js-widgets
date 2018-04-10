@@ -4,11 +4,11 @@ import audioSettingsErrors from 'ringcentral-integration/modules/AudioSettings/a
 import FormattedMessage from '../FormattedMessage';
 import i18n from './i18n';
 
-export default function AudioSettingsAlert({ brand, currentLocale, message }) {
+export default function AudioSettingsAlert({ application, currentLocale, message }) {
   const view = (
     <FormattedMessage
       message={i18n.getString(message.message, currentLocale)}
-      values={{ brandName: brand.name }}
+      values={{ application }}
     />
   );
   return (
@@ -17,7 +17,7 @@ export default function AudioSettingsAlert({ brand, currentLocale, message }) {
 }
 
 AudioSettingsAlert.propTypes = {
-  brand: PropTypes.object.isRequired,
+  application: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
   message: PropTypes.shape({
     message: PropTypes.string.isRequired,

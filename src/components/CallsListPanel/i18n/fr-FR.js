@@ -5,7 +5,7 @@ export default {
   onHoldCall: 'Appel en attente',
   otherDeviceCall: 'Appels en cours sur mes autres appareils',
   noCalls: 'Aucun résultat.',
-  historyCalls: 'Derniers appels',
+  historyCalls: 'Appels émis dans le passé<',
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@

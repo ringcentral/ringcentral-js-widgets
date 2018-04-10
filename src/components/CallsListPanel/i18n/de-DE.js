@@ -5,7 +5,7 @@ export default {
   onHoldCall: 'Anruf wird gehalten',
   otherDeviceCall: 'Aktuelle Gespräche auf meinen anderen Geräten',
   noCalls: 'Keine Treffer gefunden.',
-  historyCalls: 'Letzte Anrufe',
+  historyCalls: 'Vergangene Anrufe',
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@

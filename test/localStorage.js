@@ -1,8 +1,6 @@
-import storage from './storage.json';
-
 export default class LocalStorage {
   constructor() {
-    this.store = JSON.parse(JSON.stringify(storage));
+    this.store = {};
   }
 
   clear() {

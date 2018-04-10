@@ -1,3 +1,4 @@
+import * as mock from 'ringcentral-integration/integration-test/mock';
 import { getWrapper } from '../shared';
 import NavigationBar from '../../src/components/NavigationBar';
 import TabNavigationButton from '../../src/components/TabNavigationButton';

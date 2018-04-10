@@ -8,6 +8,7 @@ export default {
   [callErrors.internalError]: 'Herstellen der Verbindung aufgrund interner Fehler nicht möglich. Versuchen Sie es später erneut.',
   [callErrors.notAnExtension]: 'Die Durchwahlnummer existiert nicht.',
   [callErrors.networkError]: 'Herstellen der Verbindung aufgrund von Netzwerkproblemen nicht möglich. Versuchen Sie es später erneut.',
+  [callErrors.noInternational]: 'Sie verfügen nicht über die Berechtigung, internationale Anrufe zu tätigen. Wenden Sie sich an Ihren {brand}-Kontoadministrator, um ein Upgrade zu erhalten.',
   [callErrors.noRingoutEnable]: 'Mit Ihrer Durchwahl können Anrufe mit Desktop-Apps getätigt werden.\n    Wenden Sie sich an Ihren Kontoadministrator für ein Upgrade,\n    wenn Sie zu anderen Anrufoptionen wechseln möchten.',
   areaCode: 'Vorwahl',
   telus911: 'Notrufe werden nicht unterstützt.',

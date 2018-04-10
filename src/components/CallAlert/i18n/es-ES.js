@@ -8,6 +8,7 @@ export default {
   [callErrors.internalError]: 'Se ha producido un fallo en la conexión. Vuelva a intentarlo más tarde.',
   [callErrors.notAnExtension]: 'El número de extensión no existe.',
   [callErrors.networkError]: 'No se puede conectar debido a errores de red. Vuelva a intentarlo más tarde.',
+  [callErrors.noInternational]: "No tiene permisos suficientes para hacer esta llamada. Póngase en contacto con el administrador de su cuenta de {brand} para conseguir una actualización.",
   [callErrors.noRingoutEnable]: 'Su extensión puede hacer llamadas con la app de escritorio.\n    Si desea acceder a otras opciones\n    póngase en contacto con el administrador de su cuenta para la actualización.',
   areaCode: 'código de área',
   telus911: 'No se pueden hacer llamadas de emergencia.',
