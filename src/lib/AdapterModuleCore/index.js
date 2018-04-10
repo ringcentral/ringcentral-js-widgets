@@ -220,7 +220,10 @@ export default class AdapterModuleCore extends RcModule {
         this._lastTelephonyStatus !== this._presence.telephonyStatus ||
         this._lastClosed !== this.closed ||
         this._lastMinimized !== this.minimized ||
-        this._lastPosition !== this.position
+        this._lastPosition.translateX !== this.position.translateX ||
+        this._lastPosition.translateY !== this.position.translateY ||
+        this._lastPosition.minTranslateX !== this.position.minTranslateX ||
+        this._lastPosition.minTranslateY !== this.position.minTranslateY
       )
     ) {
       this._lastDndStatus = this._presence.dndStatus;

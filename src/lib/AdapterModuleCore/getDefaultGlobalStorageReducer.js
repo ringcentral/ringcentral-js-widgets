@@ -47,6 +47,7 @@ export function getPositionReducer(types) {
       translateX: null,
       translateY: null,
       minTranslateX: null,
+      minTranslateY: null,
     },
     {
       type,
@@ -54,6 +55,7 @@ export function getPositionReducer(types) {
         translateX = state.translateX,
         translateY = state.translateY,
         minTranslateX = state.minTranslateX,
+        minTranslateY = state.minTranslateY,
       } = {},
     },
   ) => {
@@ -62,6 +64,7 @@ export function getPositionReducer(types) {
         translateX,
         translateY,
         minTranslateX,
+        minTranslateY,
       };
     }
     return state;
