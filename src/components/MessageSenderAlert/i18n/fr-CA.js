@@ -12,7 +12,7 @@ export default {
   [messageSenderMessages.textTooLong]: 'Le texte est trop long, limite\xA0: 1\xA0000',
   [messageSenderMessages.multipartTextTooLong]: 'Le texte est trop long, limite\xA0: 5\xA0000',
   [messageSenderMessages.recipientNumberInvalids]: 'Veuillez entrer un numéro de téléphone valide.',
-  [messageSenderMessages.noAreaCode]: 'Veuillez configurer {areaCodeLink} pour utiliser des numéros de téléphone locaux à 7\xA0chiffres.',
+  [messageSenderMessages.noAreaCode]: 'Veuillez configurer l\'{areaCodeLink} pour utiliser des numéros de téléphone locaux à 7\xA0chiffres.',
   [messageSenderMessages.specialNumber]: 'L\'envoi de textos à des numéros d\'urgence ou à des numéros pour services spéciaux n\'est pas pris en charge.',
   [messageSenderMessages.connectFailed]: 'Échec de la connexion. Veuillez réessayer plus tard.',
   [messageSenderMessages.internalError]: 'Connexion impossible en raison d\'erreurs internes. Veuillez réessayer plus tard.',

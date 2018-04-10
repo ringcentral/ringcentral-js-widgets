@@ -149,6 +149,7 @@ export default class ForwardForm extends Component {
       searchContact,
       searchContactList,
       phoneTypeRenderer,
+      autoFocus,
     } = this.props;
     const value = this.getValue();
     const disableButton = isBlank(value) || this.state.handling;
@@ -189,7 +190,7 @@ export default class ForwardForm extends Component {
             formatContactPhone={formatPhone}
             currentLocale={currentLocale}
             titleEnabled
-            autoFocus
+            autoFocus={autoFocus}
           />
         </div>
         <div className={styles.buttonGroup}>
@@ -227,10 +228,12 @@ ForwardForm.propTypes = {
   searchContactList: PropTypes.array.isRequired,
   searchContact: PropTypes.func.isRequired,
   phoneTypeRenderer: PropTypes.func,
+  autoFocus: PropTypes.bool,
 };
 
 ForwardForm.defaultProps = {
   className: null,
   onChange: undefined,
   phoneTypeRenderer: undefined,
+  autoFocus: true,
 };
