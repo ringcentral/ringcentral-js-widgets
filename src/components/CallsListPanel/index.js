@@ -37,6 +37,7 @@ function ActiveCallList({
   title,
   sourceIcons,
   disableLinks,
+  renderContactName,
 }) {
   if (calls.length === 0) {
     return null;
@@ -74,6 +75,7 @@ function ActiveCallList({
             autoLog={autoLog}
             sourceIcons={sourceIcons}
             disableLinks={disableLinks}
+            renderContactName={renderContactName}
           />
         ))
       }
@@ -108,6 +110,7 @@ ActiveCallList.propTypes = {
   autoLog: PropTypes.bool,
   sourceIcons: PropTypes.object,
   disableLinks: PropTypes.bool,
+  renderContactName: PropTypes.func,
 };
 
 ActiveCallList.defaultProps = {
@@ -131,6 +134,7 @@ ActiveCallList.defaultProps = {
   webphoneToVoicemail: undefined,
   sourceIcons: undefined,
   disableLinks: false,
+  renderContactName: undefined,
 };
 
 export default class CallsListPanel extends Component {
@@ -199,6 +203,7 @@ export default class CallsListPanel extends Component {
       dateTimeFormatter,
       calls,
       active,
+      renderContactName,
     } = this.props;
     if (showSpinner) {
       return (<SpinnerOverlay />);
@@ -239,6 +244,7 @@ export default class CallsListPanel extends Component {
         enableContactFallback={enableContactFallback}
         sourceIcons={sourceIcons}
         disableLinks={disableLinks}
+        renderContactName={renderContactName}
       />
     );
     const historyCall = showSpinner ?
@@ -275,6 +281,7 @@ export default class CallsListPanel extends Component {
             autoLog={autoLog}
             showContactDisplayPlaceholder={showContactDisplayPlaceholder}
             sourceIcons={sourceIcons}
+            renderContactName={renderContactName}
           />
         </div>
       );
@@ -327,6 +334,7 @@ CallsListPanel.propTypes = {
   disableClickToDial: PropTypes.bool,
   dateTimeFormatter: PropTypes.func.isRequired,
   active: PropTypes.bool,
+  renderContactName: PropTypes.func,
 };
 
 CallsListPanel.defaultProps = {
@@ -353,4 +361,5 @@ CallsListPanel.defaultProps = {
   onClickToDial: undefined,
   disableClickToDial: false,
   active: false,
+  renderContactName: undefined,
 };

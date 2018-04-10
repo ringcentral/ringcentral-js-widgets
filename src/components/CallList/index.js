@@ -44,6 +44,7 @@ function CallList({
   autoLog,
   showContactDisplayPlaceholder,
   sourceIcons,
+  renderContactName,
 }) {
   if (calls && calls.length) {
     return (
@@ -77,6 +78,7 @@ function CallList({
             autoLog={autoLog}
             showContactDisplayPlaceholder={showContactDisplayPlaceholder}
             sourceIcons={sourceIcons}
+            renderContactName={renderContactName}
           />
         ))}
       </div>
@@ -117,6 +119,7 @@ CallList.propTypes = {
   autoLog: PropTypes.bool,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
+  renderContactName: PropTypes.func,
 };
 CallList.defaultProps = {
   className: null,
@@ -140,6 +143,7 @@ CallList.defaultProps = {
   showContactDisplayPlaceholder: true,
   autoLog: false,
   sourceIcons: undefined,
+  renderContactName: undefined,
 };
 
 export default CallList;

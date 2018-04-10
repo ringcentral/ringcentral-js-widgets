@@ -100,9 +100,16 @@ export default function ContactDisplay({
   stopPropagation,
   sourceIcons = {},
   showGroupNumberName,
+  contactName,
 }) {
   let contentEl;
-  if (groupNumbers && showGroupNumberName) {
+  if (contactName) {
+    contentEl = (
+      <div title={contactName} className={styles.currentName}>
+        {contactName}
+      </div>
+    );
+  } else if (groupNumbers && showGroupNumberName) {
     const groupNames = groupNumbers.map((groupNumber) => {
       const groupContact = contactMatches.find(match => match.extensionNumber === groupNumber);
       return (groupContact && groupContact.name) || groupNumber;
@@ -234,6 +241,7 @@ ContactDisplay.propTypes = {
   stopPropagation: PropTypes.bool,
   sourceIcons: PropTypes.object,
   showGroupNumberName: PropTypes.bool,
+  contactName: PropTypes.string,
 };
 ContactDisplay.defaultProps = {
   reference: undefined,
@@ -250,4 +258,5 @@ ContactDisplay.defaultProps = {
   stopPropagation: true,
   sourceIcons: undefined,
   showGroupNumberName: false,
+  contactName: undefined,
 };
