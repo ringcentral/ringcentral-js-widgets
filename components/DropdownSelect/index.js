@@ -194,7 +194,7 @@ var DropdownSelect = function (_Component) {
           return _react2.default.createElement(
             'li',
             {
-              key: currentValue,
+              key: currentValue || idx,
               className: (0, _classnames2.default)(className, _styles2.default[_this2.props.dropdownAlign], ellipsis && _styles2.default.ellipsis, placeholder && _styles2.default.placeholder),
               value: currentValue,
               title: _this2.renderTitle(option, display),
