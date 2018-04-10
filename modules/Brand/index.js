@@ -64,10 +64,11 @@ var Brand = (_dec = (0, _di.Module)({
     var id = _ref.id,
         name = _ref.name,
         fullName = _ref.fullName,
+        appName = _ref.appName,
         application = _ref.application,
         code = _ref.code,
         brandConfig = _ref.brandConfig,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['id', 'name', 'fullName', 'application', 'code', 'brandConfig']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['id', 'name', 'fullName', 'appName', 'application', 'code', 'brandConfig']);
     (0, _classCallCheck3.default)(this, Brand);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Brand.__proto__ || (0, _getPrototypeOf2.default)(Brand)).call(this, options));
@@ -77,6 +78,7 @@ var Brand = (_dec = (0, _di.Module)({
         id: id,
         name: name,
         fullName: fullName,
+        appName: appName,
         application: application,
         code: code,
         brandConfig: brandConfig
@@ -115,6 +117,11 @@ var Brand = (_dec = (0, _di.Module)({
     key: 'application',
     get: function get() {
       return this.state.application;
+    }
+  }, {
+    key: 'appName',
+    get: function get() {
+      return this.state.appName;
     }
   }, {
     key: 'code',
