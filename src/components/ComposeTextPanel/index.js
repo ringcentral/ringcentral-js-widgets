@@ -79,18 +79,18 @@ class ComposeTextPanel extends Component {
           contactInfoRenderer={this.props.recipientsContactInfoRenderer}
           contactPhoneRenderer={this.props.recipientsContactPhoneRenderer}
           titleEnabled
-          autoFocus
+          autoFocus={this.props.autoFocus}
           multiple
         />
         <div className={styles.senderField}>
           <FromField
             currentLocale={this.props.currentLocale}
-            phoneTypeRenderer={this.props.phoneTypeRenderer}
-            contactInfoRenderer={this.props.recipientsContactInfoRenderer}
-            contactPhoneRenderer={this.props.recipientsContactPhoneRenderer}
-            titleEnabled
-            autoFocus={this.props.autoFocus}
-            multiple
+            fromNumber={this.props.senderNumber}
+            fromNumbers={this.props.senderNumbers}
+            formatPhone={this.props.formatPhone}
+            onChange={this.onSenderChange}
+            hidden={!this.hasSenderNumbers()}
+            showAnonymous={false}
           />
         </div>
         <MessageInput
