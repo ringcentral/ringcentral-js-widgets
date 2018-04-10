@@ -36,33 +36,50 @@ export default class MessageInput extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.state.value) {
-      this.setState({
-        value: nextProps.value,
-      });
+
+      // use setState(updater, callback) to recaculate height after value has been update to DOM
+      this.setState(
+        () => ({
+          value: nextProps.value,
+        }),
+        () => {
+          const newHeight = this.calculateNewHeight();
+          if (newHeight !== this.state.height) {
+            if (typeof this.props.onHeightChange === 'function') {
+              this.props.onHeightChange(newHeight);
+            }
+            this.setState({
+              height: newHeight,
+            });
+          }
+        }
+      );
     }
   }
-  onChange = (e) => {
-    // set textarea height = 0 to get accurate scrollHeight
-    e.currentTarget.style.height = 0;
-    const {
-      currentTarget: {
-        value,
-        scrollHeight,
-      }
-    } = e;
-    // set textarea height back to original value to avoid messing with react
-    e.currentTarget.style.height = `${this.state.height - UIHeightOffset}px`;
-
-    let newHeight = scrollHeight + 10 + UIHeightOffset;
+  calculateNewHeight() {
+    // temperarily set height to 0 to check scrollHeight
+    this.textArea.style.height = 0;
+    const newHeight = this.textArea.scrollHeight + 10 + UIHeightOffset;
+    // set height back to original to avoid messing with react
+    this.textArea.style.height = `${this.state.height - UIHeightOffset}px`;
     const {
       minHeight,
       maxHeight,
     } = this.props;
     if (newHeight < minHeight) {
-      newHeight = minHeight;
+      return minHeight;
     } else if (newHeight > maxHeight) {
-      newHeight = maxHeight;
+      return maxHeight;
     }
+    return newHeight;
+  }
+  onChange = (e) => {
+    const {
+      currentTarget: {
+        value,
+      },
+    } = e;
+    const newHeight = this.calculateNewHeight();
     if (newHeight !== this.state.height && typeof this.props.onHeightChange === 'function') {
       this.props.onHeightChange(newHeight);
     }
@@ -102,6 +119,7 @@ export default class MessageInput extends Component {
       <div className={styles.root}>
         <div className={styles.textField}>
           <textarea
+            ref={(target) => { this.textArea = target; }}
             placeholder={i18n.getString('typeMessage', currentLocale)}
             value={value}
             maxLength={maxLength}
