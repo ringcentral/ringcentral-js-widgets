@@ -8,7 +8,7 @@ class DropdownSelect extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false,
+      open: this.props.open,
     };
   }
   toggleShowDropdown = (e) => {
@@ -68,6 +68,14 @@ class DropdownSelect extends Component {
       }
     }
   }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.open !== undefined &&
+      nextProps.open !== this.state.open) {
+      this.setState({
+        open: nextProps.open,
+      });
+    }
+  }
   componentWillUnmount() {
     this.mounted = false;
     window.removeEventListener('click', this._handleDocumentClick, false);
@@ -102,7 +110,6 @@ class DropdownSelect extends Component {
     }
     return '';
   }
-
   renderDropdownMenu() {
     let options;
     const { placeholder, ellipsis } = this.props;
@@ -179,15 +186,19 @@ class DropdownSelect extends Component {
     const renderValue = this.renderValue(this.props.value);
     return (
       <div
-        className={containerClassName}
+        className={classnames(containerClassName,
+          this.props.wrapperStyle
+        )}
         ref={(ref) => {
           if (reference) reference(ref);
           this.wrapper = ref;
         }}
       >
-        <button
+        <div
           type="button"
-          className={buttonClassName}
+          className={classnames(buttonClassName,
+            this.props.buttonStyle
+          )}
           onClick={this.toggleShowDropdown}
           title={this.renderTitle(this.props.options[this.props.value], renderValue)}>
           {label}
@@ -201,7 +212,7 @@ class DropdownSelect extends Component {
           <span className={iconClassName}>
             <i className={dynamicsFont.arrow} />
           </span>
-        </button>
+        </div>
         {dropdownMenu}
       </div>
     );
@@ -228,7 +239,10 @@ DropdownSelect.propTypes = {
   placeholder: PropTypes.string,
   ellipsis: PropTypes.bool,
   noPadding: PropTypes.bool,
-  onToggle: PropTypes.func
+  onToggle: PropTypes.func,
+  open: PropTypes.bool,
+  wrapperStyle: PropTypes.string,
+  buttonStyle: PropTypes.string,
 };
 
 DropdownSelect.defaultProps = {
@@ -250,7 +264,10 @@ DropdownSelect.defaultProps = {
   placeholder: undefined,
   ellipsis: true,
   noPadding: false,
-  onToggle: () => {}
+  onToggle: () => {},
+  open: false,
+  wrapperStyle: '',
+  buttonStyle: ''
 };
 
 export default DropdownSelect;
