@@ -64,7 +64,10 @@ class TextInput extends Component {
           name={name}
           value={value || ''}
           defaultValue={defaultValue}
-          className={styles.input}
+          className={classnames(
+            styles.input,
+            this.props.inputClassName
+          )}
           onKeyDown={onKeyDown}
         />
       </div>
@@ -124,6 +127,7 @@ TextInput.propTypes = {
   onKeyDown: PropTypes.func,
   filter: PropTypes.func,
   autoFocus: PropTypes.bool,
+  inputClassName: PropTypes.string,
 };
 TextInput.defaultProps = {
   className: undefined,
@@ -139,7 +143,8 @@ TextInput.defaultProps = {
   invalid: false,
   onKeyDown: undefined,
   filter: undefined,
-  autoFocus: false
+  autoFocus: false,
+  inputClassName: undefined
 };
 
 export default TextInput;
