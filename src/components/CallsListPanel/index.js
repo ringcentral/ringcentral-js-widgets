@@ -38,6 +38,7 @@ function ActiveCallList({
   sourceIcons,
   disableLinks,
   renderContactName,
+  renderExtraButton,
 }) {
   if (calls.length === 0) {
     return null;
@@ -76,6 +77,7 @@ function ActiveCallList({
             sourceIcons={sourceIcons}
             disableLinks={disableLinks}
             renderContactName={renderContactName}
+            renderExtraButton={renderExtraButton}
           />
         ))
       }
@@ -111,6 +113,7 @@ ActiveCallList.propTypes = {
   sourceIcons: PropTypes.object,
   disableLinks: PropTypes.bool,
   renderContactName: PropTypes.func,
+  renderExtraButton: PropTypes.func,
 };
 
 ActiveCallList.defaultProps = {
@@ -135,6 +138,7 @@ ActiveCallList.defaultProps = {
   sourceIcons: undefined,
   disableLinks: false,
   renderContactName: undefined,
+  renderExtraButton: undefined,
 };
 
 export default class CallsListPanel extends Component {
@@ -204,6 +208,7 @@ export default class CallsListPanel extends Component {
       calls,
       active,
       renderContactName,
+      renderExtraButton,
     } = this.props;
     if (showSpinner) {
       return (<SpinnerOverlay />);
@@ -245,6 +250,7 @@ export default class CallsListPanel extends Component {
         sourceIcons={sourceIcons}
         disableLinks={disableLinks}
         renderContactName={renderContactName}
+        renderExtraButton={renderExtraButton}
       />
     );
     const historyCall = showSpinner ?
@@ -282,6 +288,7 @@ export default class CallsListPanel extends Component {
             showContactDisplayPlaceholder={showContactDisplayPlaceholder}
             sourceIcons={sourceIcons}
             renderContactName={renderContactName}
+            renderExtraButton={renderExtraButton}
           />
         </div>
       );
@@ -335,6 +342,7 @@ CallsListPanel.propTypes = {
   dateTimeFormatter: PropTypes.func.isRequired,
   active: PropTypes.bool,
   renderContactName: PropTypes.func,
+  renderExtraButton: PropTypes.func,
 };
 
 CallsListPanel.defaultProps = {
@@ -362,4 +370,5 @@ CallsListPanel.defaultProps = {
   disableClickToDial: false,
   active: false,
   renderContactName: undefined,
+  renderExtraButton: undefined,
 };

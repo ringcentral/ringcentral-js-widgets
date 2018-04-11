@@ -336,6 +336,7 @@ export default class CallItem extends Component {
       showContactDisplayPlaceholder,
       sourceIcons,
       renderContactName,
+      renderExtraButton,
     } = this.props;
     const phoneNumber = this.getPhoneNumber();
     const contactMatches = this.getContactMatches();
@@ -372,6 +373,9 @@ export default class CallItem extends Component {
     }
     const contactName = typeof renderContactName === 'function' ?
       renderContactName(this.props.call) :
+      undefined;
+    const extraButton = typeof renderExtraButton === 'function' ?
+      renderExtraButton(this.props.call) :
       undefined;
     return (
       <div className={styles.root} onClick={this.toggleExtended}>
@@ -415,6 +419,7 @@ export default class CallItem extends Component {
           <div className={styles.details} >
             {durationEl} | {dateEl}{statusEl}
           </div>
+          {extraButton}
         </div>
         <ActionMenu
           extended={this.state.extended}
@@ -490,6 +495,7 @@ CallItem.propTypes = {
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
   renderContactName: PropTypes.func,
+  renderExtraButton: PropTypes.func,
 };
 
 CallItem.defaultProps = {
@@ -509,4 +515,5 @@ CallItem.defaultProps = {
   autoLog: false,
   sourceIcons: undefined,
   renderContactName: undefined,
+  renderExtraButton: undefined,
 };
