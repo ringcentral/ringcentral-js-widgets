@@ -36,7 +36,6 @@ export default class MessageInput extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.state.value) {
-
       // use setState(updater, callback) to recaculate height after value has been update to DOM
       this.setState(
         () => ({
