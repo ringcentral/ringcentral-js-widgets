@@ -59,7 +59,7 @@ const base = {
           {
             loader: 'sass-loader',
             options: {
-              includePaths: [__dirname, 'node_modules'],
+              includePaths: [__dirname],
               outputStyle: 'expanded'
             }
           }
