@@ -70,7 +70,7 @@ class DropdownSelect extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.open !== undefined &&
-      nextProps.open !== this.state.open) {
+      nextProps.open !== this.props.open) {
       this.setState({
         open: nextProps.open,
       });
