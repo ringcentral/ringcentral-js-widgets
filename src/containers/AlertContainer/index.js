@@ -129,7 +129,7 @@ function getDefaultRenderer({
         <RolesAndPermissionsAlert
           {...props}
           brand={brand.fullName}
-          application={brand.application} />
+          application={brand.appName} />
       );
     }
 
@@ -141,7 +141,7 @@ function getDefaultRenderer({
       return props => (
         <AudioSettingsAlert
           {...props}
-          application={brand.application}
+          application={brand.appName}
         />
       );
     }

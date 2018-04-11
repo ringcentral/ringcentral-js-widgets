@@ -20,11 +20,13 @@ export default class TransferPanel extends PureComponent {
     formatPhone: PropTypes.func.isRequired,
     phoneTypeRenderer: PropTypes.func,
     isOnTransfer: PropTypes.bool,
+    autoFocus: PropTypes.bool,
   };
 
   static defaultProps = {
     phoneTypeRenderer: undefined,
     isOnTransfer: false,
+    autoFocus: true,
   };
 
   constructor(props) {
@@ -106,7 +108,7 @@ export default class TransferPanel extends PureComponent {
           currentLocale={this.props.currentLocale}
           phoneTypeRenderer={this.props.phoneTypeRenderer}
           titleEnabled
-          autoFocus
+          autoFocus={this.props.autoFocus}
         />
         <div className={styles.padContainer}>
           <DialPad

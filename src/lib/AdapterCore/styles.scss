@@ -42,10 +42,13 @@
   transition: opacity 0.1s 0s linear;
 }
 
-.root.closed,
-.root.loading {
+.root.closed {
   visibility: hidden;
   opacity: 0;
+}
+
+.root.loading {
+  display: none;
 }
 
 .header {

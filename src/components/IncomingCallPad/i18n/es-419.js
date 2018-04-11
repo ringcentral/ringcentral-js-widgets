@@ -5,7 +5,7 @@ export default {
   toVoicemail: 'A buzón de voz',
   answer: 'Responder',
   answerAndEnd: 'Resp. y finalizar',
-  answerAndHold: 'Resp. y poner en esp.',
+  answerAndHold: 'Resp. y en esp.',
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
