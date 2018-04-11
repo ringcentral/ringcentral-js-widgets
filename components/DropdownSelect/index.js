@@ -129,7 +129,7 @@ var DropdownSelect = function (_Component) {
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      if (nextProps.open !== undefined && nextProps.open !== this.state.open) {
+      if (nextProps.open !== undefined && nextProps.open !== this.props.open) {
         this.setState({
           open: nextProps.open
         });
