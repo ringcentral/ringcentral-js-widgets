@@ -532,7 +532,9 @@ var CallItem = function (_Component) {
           isLogging = _props.isLogging,
           enableContactFallback = _props.enableContactFallback,
           showContactDisplayPlaceholder = _props.showContactDisplayPlaceholder,
-          sourceIcons = _props.sourceIcons;
+          sourceIcons = _props.sourceIcons,
+          renderContactName = _props.renderContactName,
+          renderExtraButton = _props.renderExtraButton;
 
       var phoneNumber = this.getPhoneNumber();
       var contactMatches = this.getContactMatches();
@@ -557,6 +559,8 @@ var CallItem = function (_Component) {
       if (active) {
         statusEl = _i18n2.default.getString(result || telephonyStatus, currentLocale);
       }
+      var contactName = typeof renderContactName === 'function' ? renderContactName(this.props.call) : undefined;
+      var extraButton = typeof renderExtraButton === 'function' ? renderExtraButton(this.props.call) : undefined;
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.root, onClick: this.toggleExtended },
@@ -574,6 +578,7 @@ var CallItem = function (_Component) {
             type: type
           }),
           _react2.default.createElement(_ContactDisplay2.default, {
+            contactName: contactName,
             reference: function reference(ref) {
               _this5.contactDisplay = ref;
             },
@@ -603,7 +608,8 @@ var CallItem = function (_Component) {
             ' | ',
             dateEl,
             statusEl
-          )
+          ),
+          extraButton
         ),
         _react2.default.createElement(_ActionMenu2.default, {
           extended: this.state.extended,
@@ -679,7 +685,9 @@ CallItem.propTypes = {
   enableContactFallback: _propTypes2.default.bool,
   autoLog: _propTypes2.default.bool,
   showContactDisplayPlaceholder: _propTypes2.default.bool,
-  sourceIcons: _propTypes2.default.object
+  sourceIcons: _propTypes2.default.object,
+  renderContactName: _propTypes2.default.func,
+  renderExtraButton: _propTypes2.default.func
 };
 
 CallItem.defaultProps = {
@@ -699,6 +707,8 @@ CallItem.defaultProps = {
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
   autoLog: false,
-  sourceIcons: undefined
+  sourceIcons: undefined,
+  renderContactName: undefined,
+  renderExtraButton: undefined
 };
 //# sourceMappingURL=index.js.map

@@ -68,7 +68,9 @@ function CallList(_ref2) {
       enableContactFallback = _ref2.enableContactFallback,
       autoLog = _ref2.autoLog,
       showContactDisplayPlaceholder = _ref2.showContactDisplayPlaceholder,
-      sourceIcons = _ref2.sourceIcons;
+      sourceIcons = _ref2.sourceIcons,
+      renderContactName = _ref2.renderContactName,
+      renderExtraButton = _ref2.renderExtraButton;
 
   if (calls && calls.length) {
     return _react2.default.createElement(
@@ -102,7 +104,9 @@ function CallList(_ref2) {
           enableContactFallback: enableContactFallback,
           autoLog: autoLog,
           showContactDisplayPlaceholder: showContactDisplayPlaceholder,
-          sourceIcons: sourceIcons
+          sourceIcons: sourceIcons,
+          renderContactName: renderContactName,
+          renderExtraButton: renderExtraButton
         });
       })
     );
@@ -141,7 +145,9 @@ CallList.propTypes = {
   enableContactFallback: _propTypes2.default.bool,
   autoLog: _propTypes2.default.bool,
   showContactDisplayPlaceholder: _propTypes2.default.bool,
-  sourceIcons: _propTypes2.default.object
+  sourceIcons: _propTypes2.default.object,
+  renderContactName: _propTypes2.default.func,
+  renderExtraButton: _propTypes2.default.func
 };
 CallList.defaultProps = {
   className: null,
@@ -164,7 +170,9 @@ CallList.defaultProps = {
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
   autoLog: false,
-  sourceIcons: undefined
+  sourceIcons: undefined,
+  renderContactName: undefined,
+  renderExtraButton: undefined
 };
 
 exports.default = CallList;

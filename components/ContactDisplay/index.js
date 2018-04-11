@@ -156,10 +156,17 @@ function ContactDisplay(_ref3) {
       stopPropagation = _ref3.stopPropagation,
       _ref3$sourceIcons = _ref3.sourceIcons,
       sourceIcons = _ref3$sourceIcons === undefined ? {} : _ref3$sourceIcons,
-      showGroupNumberName = _ref3.showGroupNumberName;
+      showGroupNumberName = _ref3.showGroupNumberName,
+      contactName = _ref3.contactName;
 
   var contentEl = void 0;
-  if (groupNumbers && showGroupNumberName) {
+  if (contactName) {
+    contentEl = _react2.default.createElement(
+      'div',
+      { title: contactName, className: _styles2.default.currentName },
+      contactName
+    );
+  } else if (groupNumbers && showGroupNumberName) {
     var groupNames = groupNumbers.map(function (groupNumber) {
       var groupContact = contactMatches.find(function (match) {
         return match.extensionNumber === groupNumber;
@@ -282,7 +289,8 @@ ContactDisplay.propTypes = {
   brand: _propTypes2.default.string,
   stopPropagation: _propTypes2.default.bool,
   sourceIcons: _propTypes2.default.object,
-  showGroupNumberName: _propTypes2.default.bool
+  showGroupNumberName: _propTypes2.default.bool,
+  contactName: _propTypes2.default.string
 };
 ContactDisplay.defaultProps = {
   reference: undefined,
@@ -298,6 +306,7 @@ ContactDisplay.defaultProps = {
   brand: undefined,
   stopPropagation: true,
   sourceIcons: undefined,
-  showGroupNumberName: false
+  showGroupNumberName: false,
+  contactName: undefined
 };
 //# sourceMappingURL=index.js.map

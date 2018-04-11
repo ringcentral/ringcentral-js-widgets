@@ -499,7 +499,9 @@ var ActiveCallItem = function (_Component) {
           webphoneAnswer = _props2.webphoneAnswer,
           webphoneHangup = _props2.webphoneHangup,
           webphoneResume = _props2.webphoneResume,
-          sourceIcons = _props2.sourceIcons;
+          sourceIcons = _props2.sourceIcons,
+          renderContactName = _props2.renderContactName,
+          renderExtraButton = _props2.renderExtraButton;
 
       var phoneNumber = this.getPhoneNumber();
       var parsedInfo = (0, _parseNumber2.default)(phoneNumber);
@@ -509,7 +511,8 @@ var ActiveCallItem = function (_Component) {
       var fallbackContactName = this.getFallbackContactName();
       var ringing = (0, _callLogHelpers.isRinging)(this.props.call);
       var callDetail = this.getCallInfo();
-
+      var contactName = typeof renderContactName === 'function' ? renderContactName(this.props.call) : undefined;
+      var extraButton = typeof renderExtraButton === 'function' ? renderExtraButton(this.props.call) : undefined;
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.root, onClick: this.toggleExtended },
@@ -526,6 +529,7 @@ var ActiveCallItem = function (_Component) {
             missedTitle: _i18n2.default.getString('missedCall', currentLocale)
           }),
           _react2.default.createElement(_ContactDisplay2.default, {
+            contactName: contactName,
             className: _styles2.default.contactDisplay,
             contactMatches: contactMatches,
             selected: this.state.selected,
@@ -551,7 +555,8 @@ var ActiveCallItem = function (_Component) {
             webphoneReject: this.webphoneToVoicemail,
             webphoneHangup: webphoneHangup,
             webphoneResume: webphoneResume
-          })
+          }),
+          extraButton
         ),
         _react2.default.createElement(_ActionMenu2.default, {
           extended: this.state.extended,
@@ -625,7 +630,9 @@ ActiveCallItem.propTypes = {
   onCreateContact: _propTypes2.default.func,
   onLogCall: _propTypes2.default.func,
   onViewContact: _propTypes2.default.func,
-  sourceIcons: _propTypes2.default.object
+  sourceIcons: _propTypes2.default.object,
+  renderContactName: _propTypes2.default.func,
+  renderExtraButton: _propTypes2.default.func
 };
 
 ActiveCallItem.defaultProps = {
@@ -646,6 +653,8 @@ ActiveCallItem.defaultProps = {
   autoLog: false,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
-  sourceIcons: undefined
+  sourceIcons: undefined,
+  renderContactName: undefined,
+  renderExtraButton: undefined
 };
 //# sourceMappingURL=index.js.map

@@ -87,7 +87,9 @@ function ActiveCallList(_ref) {
       enableContactFallback = _ref.enableContactFallback,
       title = _ref.title,
       sourceIcons = _ref.sourceIcons,
-      disableLinks = _ref.disableLinks;
+      disableLinks = _ref.disableLinks,
+      renderContactName = _ref.renderContactName,
+      renderExtraButton = _ref.renderExtraButton;
 
   if (calls.length === 0) {
     return null;
@@ -126,7 +128,9 @@ function ActiveCallList(_ref) {
         enableContactFallback: enableContactFallback,
         autoLog: autoLog,
         sourceIcons: sourceIcons,
-        disableLinks: disableLinks
+        disableLinks: disableLinks,
+        renderContactName: renderContactName,
+        renderExtraButton: renderExtraButton
       });
     })
   );
@@ -158,7 +162,9 @@ ActiveCallList.propTypes = {
   enableContactFallback: _propTypes2.default.bool,
   autoLog: _propTypes2.default.bool,
   sourceIcons: _propTypes2.default.object,
-  disableLinks: _propTypes2.default.bool
+  disableLinks: _propTypes2.default.bool,
+  renderContactName: _propTypes2.default.func,
+  renderExtraButton: _propTypes2.default.func
 };
 
 ActiveCallList.defaultProps = {
@@ -181,7 +187,9 @@ ActiveCallList.defaultProps = {
   onViewContact: undefined,
   webphoneToVoicemail: undefined,
   sourceIcons: undefined,
-  disableLinks: false
+  disableLinks: false,
+  renderContactName: undefined,
+  renderExtraButton: undefined
 };
 
 var CallsListPanel = function (_Component) {
@@ -250,7 +258,9 @@ var CallsListPanel = function (_Component) {
           disableClickToDial = _props.disableClickToDial,
           dateTimeFormatter = _props.dateTimeFormatter,
           calls = _props.calls,
-          active = _props.active;
+          active = _props.active,
+          renderContactName = _props.renderContactName,
+          renderExtraButton = _props.renderExtraButton;
 
       if (showSpinner) {
         return _react2.default.createElement(_SpinnerOverlay2.default, null);
@@ -292,7 +302,9 @@ var CallsListPanel = function (_Component) {
           webphoneToVoicemail: webphoneToVoicemail,
           enableContactFallback: enableContactFallback,
           sourceIcons: sourceIcons,
-          disableLinks: disableLinks
+          disableLinks: disableLinks,
+          renderContactName: renderContactName,
+          renderExtraButton: renderExtraButton
         });
       };
       var historyCall = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : _react2.default.createElement(
@@ -329,7 +341,9 @@ var CallsListPanel = function (_Component) {
           enableContactFallback: enableContactFallback,
           autoLog: autoLog,
           showContactDisplayPlaceholder: showContactDisplayPlaceholder,
-          sourceIcons: sourceIcons
+          sourceIcons: sourceIcons,
+          renderContactName: renderContactName,
+          renderExtraButton: renderExtraButton
         })
       );
       return _react2.default.createElement(
@@ -384,7 +398,9 @@ CallsListPanel.propTypes = {
   disableLinks: _propTypes2.default.bool.isRequired,
   disableClickToDial: _propTypes2.default.bool,
   dateTimeFormatter: _propTypes2.default.func.isRequired,
-  active: _propTypes2.default.bool
+  active: _propTypes2.default.bool,
+  renderContactName: _propTypes2.default.func,
+  renderExtraButton: _propTypes2.default.func
 };
 
 CallsListPanel.defaultProps = {
@@ -410,6 +426,8 @@ CallsListPanel.defaultProps = {
   sourceIcons: undefined,
   onClickToDial: undefined,
   disableClickToDial: false,
-  active: false
+  active: false,
+  renderContactName: undefined,
+  renderExtraButton: undefined
 };
 //# sourceMappingURL=index.js.map
