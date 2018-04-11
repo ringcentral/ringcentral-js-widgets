@@ -137,6 +137,9 @@
 .disabled {
   color: #777;
   cursor: not-allowed;
+  .selectedValue {
+    color: #777;
+  }
 }
 
 .ellipsis {
