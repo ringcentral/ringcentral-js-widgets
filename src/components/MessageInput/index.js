@@ -55,6 +55,18 @@ export default class MessageInput extends Component {
       );
     }
   }
+  componentDidMount() {
+    // do a initial size check in case the component is mounted with multi line value
+    const newHeight = this.calculateNewHeight();
+    if (newHeight !== this.state.height) {
+      if (typeof this.props.onHeightChange === 'function') {
+        this.props.onHeightChange(newHeight);
+      }
+      this.setState({
+        height: newHeight,
+      });
+    }
+  }
   calculateNewHeight() {
     // temperarily set height to 0 to check scrollHeight
     this.textArea.style.height = 0;
@@ -92,9 +104,7 @@ export default class MessageInput extends Component {
   }
   onKeyDown = (e) => {
     if (e.key === 'Enter') {
-      if (e.shiftKey) {
-        /* ignore */
-      } else {
+      if (!e.shiftKey) {
         e.preventDefault();
         if (typeof this.props.onSend === 'function') {
           this.props.onSend();
