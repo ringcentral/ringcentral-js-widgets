@@ -165,12 +165,12 @@ describe('dialer panel', () => {
 
     panel = wrapper.find(DialerPanel).first();
     dropdownSelect = panel.find(DropdownSelect).first();
-    let selected = dropdownSelect.find('button.button').first().find('span.phoneNumber');
+    let selected = dropdownSelect.find('div.button').first().find('span.phoneNumber');
     expect(selected.children().find('span').first().text()).toEqual(secondNumber);
     await dropdownItems.at(0).simulate('click');
     panel = wrapper.find(DialerPanel).first();
     dropdownSelect = panel.find(DropdownSelect).first();
-    selected = dropdownSelect.find('button.button').first().find('span.phoneNumber');
+    selected = dropdownSelect.find('div.button').first().find('span.phoneNumber');
     expect(selected.children().find('span').first().text()).toEqual(firstNumber);
   });
 });
