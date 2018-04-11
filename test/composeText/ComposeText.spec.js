@@ -59,7 +59,7 @@ describe('compose text panel', () => {
     const secondNumber = dropdownItems.at(1).find('span').at(1).text();
     expect(firstNumber).not.toEqual(secondNumber);
 
-    const selected = dropdownSelect.find('button.button').first().find('span.selectedValue').first();
+    const selected = dropdownSelect.find('div.button').first().find('span.selectedValue').first();
     await dropdownItems.at(1).simulate('click');
     expect(selected.text()).toEqual(secondNumber);
     await dropdownItems.at(0).simulate('click');
