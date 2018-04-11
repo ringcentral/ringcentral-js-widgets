@@ -362,6 +362,8 @@ export default class ActiveCallItem extends Component {
       webphoneHangup,
       webphoneResume,
       sourceIcons,
+      renderContactName,
+      renderExtraButton,
     } = this.props;
     const phoneNumber = this.getPhoneNumber();
     const parsedInfo = parseNumber(phoneNumber);
@@ -379,7 +381,12 @@ export default class ActiveCallItem extends Component {
     const fallbackContactName = this.getFallbackContactName();
     const ringing = isRinging(this.props.call);
     const callDetail = this.getCallInfo();
-
+    const contactName = typeof renderContactName === 'function' ?
+      renderContactName(this.props.call) :
+      undefined;
+    const extraButton = typeof renderExtraButton === 'function' ?
+      renderExtraButton(this.props.call) :
+      undefined;
     return (
       <div className={styles.root} onClick={this.toggleExtended}>
         <div className={styles.callInfo}>
@@ -393,6 +400,7 @@ export default class ActiveCallItem extends Component {
             missedTitle={i18n.getString('missedCall', currentLocale)}
           />
           <ContactDisplay
+            contactName={contactName}
             className={styles.contactDisplay}
             contactMatches={contactMatches}
             selected={this.state.selected}
@@ -419,6 +427,7 @@ export default class ActiveCallItem extends Component {
             webphoneHangup={webphoneHangup}
             webphoneResume={webphoneResume}
           />
+          {extraButton}
         </div>
         <ActionMenu
           extended={this.state.extended}
@@ -491,6 +500,8 @@ ActiveCallItem.propTypes = {
   onLogCall: PropTypes.func,
   onViewContact: PropTypes.func,
   sourceIcons: PropTypes.object,
+  renderContactName: PropTypes.func,
+  renderExtraButton: PropTypes.func,
 };
 
 ActiveCallItem.defaultProps = {
@@ -512,4 +523,6 @@ ActiveCallItem.defaultProps = {
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
+  renderContactName: undefined,
+  renderExtraButton: undefined,
 };
