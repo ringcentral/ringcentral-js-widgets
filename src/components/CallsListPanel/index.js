@@ -37,6 +37,8 @@ function ActiveCallList({
   title,
   sourceIcons,
   disableLinks,
+  renderContactName,
+  renderExtraButton,
 }) {
   if (calls.length === 0) {
     return null;
@@ -74,6 +76,8 @@ function ActiveCallList({
             autoLog={autoLog}
             sourceIcons={sourceIcons}
             disableLinks={disableLinks}
+            renderContactName={renderContactName}
+            renderExtraButton={renderExtraButton}
           />
         ))
       }
@@ -108,6 +112,8 @@ ActiveCallList.propTypes = {
   autoLog: PropTypes.bool,
   sourceIcons: PropTypes.object,
   disableLinks: PropTypes.bool,
+  renderContactName: PropTypes.func,
+  renderExtraButton: PropTypes.func,
 };
 
 ActiveCallList.defaultProps = {
@@ -131,6 +137,8 @@ ActiveCallList.defaultProps = {
   webphoneToVoicemail: undefined,
   sourceIcons: undefined,
   disableLinks: false,
+  renderContactName: undefined,
+  renderExtraButton: undefined,
 };
 
 export default class CallsListPanel extends Component {
@@ -199,6 +207,8 @@ export default class CallsListPanel extends Component {
       dateTimeFormatter,
       calls,
       active,
+      renderContactName,
+      renderExtraButton,
     } = this.props;
     if (showSpinner) {
       return (<SpinnerOverlay />);
@@ -239,6 +249,8 @@ export default class CallsListPanel extends Component {
         enableContactFallback={enableContactFallback}
         sourceIcons={sourceIcons}
         disableLinks={disableLinks}
+        renderContactName={renderContactName}
+        renderExtraButton={renderExtraButton}
       />
     );
     const historyCall = showSpinner ?
@@ -275,6 +287,8 @@ export default class CallsListPanel extends Component {
             autoLog={autoLog}
             showContactDisplayPlaceholder={showContactDisplayPlaceholder}
             sourceIcons={sourceIcons}
+            renderContactName={renderContactName}
+            renderExtraButton={renderExtraButton}
           />
         </div>
       );
@@ -327,6 +341,8 @@ CallsListPanel.propTypes = {
   disableClickToDial: PropTypes.bool,
   dateTimeFormatter: PropTypes.func.isRequired,
   active: PropTypes.bool,
+  renderContactName: PropTypes.func,
+  renderExtraButton: PropTypes.func,
 };
 
 CallsListPanel.defaultProps = {
@@ -353,4 +369,6 @@ CallsListPanel.defaultProps = {
   onClickToDial: undefined,
   disableClickToDial: false,
   active: false,
+  renderContactName: undefined,
+  renderExtraButton: undefined,
 };
