@@ -105,7 +105,7 @@ var DropdownSelect = function (_Component) {
     };
 
     _this.state = {
-      open: false
+      open: _this.props.open
     };
     return _this;
   }
@@ -124,6 +124,15 @@ var DropdownSelect = function (_Component) {
           var buttomPosition = this.wrapper.getBoundingClientRect();
           this.props.renderDropdownMenu(menu, this.state.open, buttomPosition);
         }
+      }
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      if (nextProps.open !== undefined && nextProps.open !== this.state.open) {
+        this.setState({
+          open: nextProps.open
+        });
       }
     }
   }, {
@@ -228,17 +237,17 @@ var DropdownSelect = function (_Component) {
       return _react2.default.createElement(
         'div',
         {
-          className: containerClassName,
+          className: (0, _classnames2.default)(containerClassName, this.props.wrapperStyle),
           ref: function ref(_ref2) {
             if (reference) reference(_ref2);
             _this3.wrapper = _ref2;
           }
         },
         _react2.default.createElement(
-          'button',
+          'div',
           {
             type: 'button',
-            className: buttonClassName,
+            className: (0, _classnames2.default)(buttonClassName, this.props.buttonStyle),
             onClick: this.toggleShowDropdown,
             title: this.renderTitle(this.props.options[this.props.value], renderValue) },
           label,
@@ -281,7 +290,10 @@ DropdownSelect.propTypes = {
   placeholder: _propTypes2.default.string,
   ellipsis: _propTypes2.default.bool,
   noPadding: _propTypes2.default.bool,
-  onToggle: _propTypes2.default.func
+  onToggle: _propTypes2.default.func,
+  open: _propTypes2.default.bool,
+  wrapperStyle: _propTypes2.default.string,
+  buttonStyle: _propTypes2.default.string
 };
 
 DropdownSelect.defaultProps = {
@@ -309,7 +321,10 @@ DropdownSelect.defaultProps = {
   placeholder: undefined,
   ellipsis: true,
   noPadding: false,
-  onToggle: function onToggle() {}
+  onToggle: function onToggle() {},
+  open: false,
+  wrapperStyle: '',
+  buttonStyle: ''
 };
 
 exports.default = DropdownSelect;

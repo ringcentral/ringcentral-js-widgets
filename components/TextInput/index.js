@@ -114,7 +114,7 @@ var TextInput = function (_Component) {
           name: name,
           value: value || '',
           defaultValue: defaultValue,
-          className: _styles2.default.input,
+          className: (0, _classnames2.default)(_styles2.default.input, this.props.inputClassName),
           onKeyDown: onKeyDown
         })
       );
@@ -176,7 +176,8 @@ TextInput.propTypes = {
   invalid: _propTypes2.default.bool,
   onKeyDown: _propTypes2.default.func,
   filter: _propTypes2.default.func,
-  autoFocus: _propTypes2.default.bool
+  autoFocus: _propTypes2.default.bool,
+  inputClassName: _propTypes2.default.string
 };
 TextInput.defaultProps = {
   className: undefined,
@@ -192,7 +193,8 @@ TextInput.defaultProps = {
   invalid: false,
   onKeyDown: undefined,
   filter: undefined,
-  autoFocus: false
+  autoFocus: false,
+  inputClassName: undefined
 };
 
 exports.default = TextInput;
