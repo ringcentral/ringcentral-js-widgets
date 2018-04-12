@@ -46,6 +46,7 @@ function CallList({
   sourceIcons,
   renderContactName,
   renderExtraButton,
+  contactDisplayStyle,
 }) {
   if (calls && calls.length) {
     return (
@@ -81,6 +82,7 @@ function CallList({
             sourceIcons={sourceIcons}
             renderContactName={renderContactName}
             renderExtraButton={renderExtraButton}
+            contactDisplayStyle={contactDisplayStyle}
           />
         ))}
       </div>
@@ -123,6 +125,7 @@ CallList.propTypes = {
   sourceIcons: PropTypes.object,
   renderContactName: PropTypes.func,
   renderExtraButton: PropTypes.func,
+  contactDisplayStyle: PropTypes.string,
 };
 CallList.defaultProps = {
   className: null,
@@ -148,6 +151,7 @@ CallList.defaultProps = {
   sourceIcons: undefined,
   renderContactName: undefined,
   renderExtraButton: undefined,
+  contactDisplayStyle: undefined,
 };
 
 export default CallList;
