@@ -64,6 +64,8 @@
   top: 5px;
   left: 45px;
   line-height: 25px;
+  width: calc(100% - 44px);
+  text-align: left;
 
   button {
     font-size: 13px;
