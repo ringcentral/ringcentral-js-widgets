@@ -73,8 +73,9 @@
   position: absolute;
   top: 0px;
   left: 45px;
-	width: auto !important;
   line-height: 38px;
+  width: calc(100% - 40px) !important;
+  text-align: left;
 }
 
 .missed {

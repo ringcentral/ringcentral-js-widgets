@@ -534,7 +534,8 @@ var CallItem = function (_Component) {
           showContactDisplayPlaceholder = _props.showContactDisplayPlaceholder,
           sourceIcons = _props.sourceIcons,
           renderContactName = _props.renderContactName,
-          renderExtraButton = _props.renderExtraButton;
+          renderExtraButton = _props.renderExtraButton,
+          contactDisplayStyle = _props.contactDisplayStyle;
 
       var phoneNumber = this.getPhoneNumber();
       var contactMatches = this.getContactMatches();
@@ -582,7 +583,7 @@ var CallItem = function (_Component) {
             reference: function reference(ref) {
               _this5.contactDisplay = ref;
             },
-            className: (0, _classnames2.default)(_styles2.default.contactDisplay, missed && _styles2.default.missed, active && _styles2.default.active),
+            className: (0, _classnames2.default)(_styles2.default.contactDisplay, contactDisplayStyle, missed && _styles2.default.missed, active && _styles2.default.active),
             selectClassName: _styles2.default.dropdownSelect,
             brand: brand,
             sourceIcons: sourceIcons,
@@ -687,7 +688,8 @@ CallItem.propTypes = {
   showContactDisplayPlaceholder: _propTypes2.default.bool,
   sourceIcons: _propTypes2.default.object,
   renderContactName: _propTypes2.default.func,
-  renderExtraButton: _propTypes2.default.func
+  renderExtraButton: _propTypes2.default.func,
+  contactDisplayStyle: _propTypes2.default.string
 };
 
 CallItem.defaultProps = {
@@ -709,6 +711,7 @@ CallItem.defaultProps = {
   autoLog: false,
   sourceIcons: undefined,
   renderContactName: undefined,
-  renderExtraButton: undefined
+  renderExtraButton: undefined,
+  contactDisplayStyle: undefined
 };
 //# sourceMappingURL=index.js.map

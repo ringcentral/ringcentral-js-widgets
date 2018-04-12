@@ -89,7 +89,8 @@ function ActiveCallList(_ref) {
       sourceIcons = _ref.sourceIcons,
       disableLinks = _ref.disableLinks,
       renderContactName = _ref.renderContactName,
-      renderExtraButton = _ref.renderExtraButton;
+      renderExtraButton = _ref.renderExtraButton,
+      contactDisplayStyle = _ref.contactDisplayStyle;
 
   if (calls.length === 0) {
     return null;
@@ -130,7 +131,8 @@ function ActiveCallList(_ref) {
         sourceIcons: sourceIcons,
         disableLinks: disableLinks,
         renderContactName: renderContactName,
-        renderExtraButton: renderExtraButton
+        renderExtraButton: renderExtraButton,
+        contactDisplayStyle: contactDisplayStyle
       });
     })
   );
@@ -164,7 +166,8 @@ ActiveCallList.propTypes = {
   sourceIcons: _propTypes2.default.object,
   disableLinks: _propTypes2.default.bool,
   renderContactName: _propTypes2.default.func,
-  renderExtraButton: _propTypes2.default.func
+  renderExtraButton: _propTypes2.default.func,
+  contactDisplayStyle: _propTypes2.default.string
 };
 
 ActiveCallList.defaultProps = {
@@ -189,7 +192,8 @@ ActiveCallList.defaultProps = {
   sourceIcons: undefined,
   disableLinks: false,
   renderContactName: undefined,
-  renderExtraButton: undefined
+  renderExtraButton: undefined,
+  contactDisplayStyle: undefined
 };
 
 var CallsListPanel = function (_Component) {
@@ -260,7 +264,9 @@ var CallsListPanel = function (_Component) {
           calls = _props.calls,
           active = _props.active,
           renderContactName = _props.renderContactName,
-          renderExtraButton = _props.renderExtraButton;
+          renderExtraButton = _props.renderExtraButton,
+          contactDisplayStyle = _props.contactDisplayStyle,
+          activeContactDisplayStyle = _props.activeContactDisplayStyle;
 
       if (showSpinner) {
         return _react2.default.createElement(_SpinnerOverlay2.default, null);
@@ -304,7 +310,8 @@ var CallsListPanel = function (_Component) {
           sourceIcons: sourceIcons,
           disableLinks: disableLinks,
           renderContactName: renderContactName,
-          renderExtraButton: renderExtraButton
+          renderExtraButton: renderExtraButton,
+          contactDisplayStyle: activeContactDisplayStyle
         });
       };
       var historyCall = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : _react2.default.createElement(
@@ -343,7 +350,8 @@ var CallsListPanel = function (_Component) {
           showContactDisplayPlaceholder: showContactDisplayPlaceholder,
           sourceIcons: sourceIcons,
           renderContactName: renderContactName,
-          renderExtraButton: renderExtraButton
+          renderExtraButton: renderExtraButton,
+          contactDisplayStyle: contactDisplayStyle
         })
       );
       return _react2.default.createElement(
@@ -400,7 +408,9 @@ CallsListPanel.propTypes = {
   dateTimeFormatter: _propTypes2.default.func.isRequired,
   active: _propTypes2.default.bool,
   renderContactName: _propTypes2.default.func,
-  renderExtraButton: _propTypes2.default.func
+  renderExtraButton: _propTypes2.default.func,
+  contactDisplayStyle: _propTypes2.default.string,
+  activeContactDisplayStyle: _propTypes2.default.string
 };
 
 CallsListPanel.defaultProps = {
@@ -428,6 +438,8 @@ CallsListPanel.defaultProps = {
   disableClickToDial: false,
   active: false,
   renderContactName: undefined,
-  renderExtraButton: undefined
+  renderExtraButton: undefined,
+  contactDisplayStyle: undefined,
+  activeContactDisplayStyle: undefined
 };
 //# sourceMappingURL=index.js.map

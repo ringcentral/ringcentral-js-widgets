@@ -501,7 +501,8 @@ var ActiveCallItem = function (_Component) {
           webphoneResume = _props2.webphoneResume,
           sourceIcons = _props2.sourceIcons,
           renderContactName = _props2.renderContactName,
-          renderExtraButton = _props2.renderExtraButton;
+          renderExtraButton = _props2.renderExtraButton,
+          contactDisplayStyle = _props2.contactDisplayStyle;
 
       var phoneNumber = this.getPhoneNumber();
       var parsedInfo = (0, _parseNumber2.default)(phoneNumber);
@@ -530,7 +531,7 @@ var ActiveCallItem = function (_Component) {
           }),
           _react2.default.createElement(_ContactDisplay2.default, {
             contactName: contactName,
-            className: _styles2.default.contactDisplay,
+            className: (0, _classnames2.default)(_styles2.default.contactDisplay, contactDisplayStyle),
             contactMatches: contactMatches,
             selected: this.state.selected,
             onSelectContact: this.onSelectContact,
@@ -632,7 +633,8 @@ ActiveCallItem.propTypes = {
   onViewContact: _propTypes2.default.func,
   sourceIcons: _propTypes2.default.object,
   renderContactName: _propTypes2.default.func,
-  renderExtraButton: _propTypes2.default.func
+  renderExtraButton: _propTypes2.default.func,
+  contactDisplayStyle: _propTypes2.default.string
 };
 
 ActiveCallItem.defaultProps = {
@@ -655,6 +657,7 @@ ActiveCallItem.defaultProps = {
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
   renderContactName: undefined,
-  renderExtraButton: undefined
+  renderExtraButton: undefined,
+  contactDisplayStyle: undefined
 };
 //# sourceMappingURL=index.js.map
