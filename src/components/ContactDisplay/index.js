@@ -241,7 +241,7 @@ ContactDisplay.propTypes = {
   stopPropagation: PropTypes.bool,
   sourceIcons: PropTypes.object,
   showGroupNumberName: PropTypes.bool,
-  contactName: PropTypes.string,
+  contactName: PropTypes.any,
 };
 ContactDisplay.defaultProps = {
   reference: undefined,

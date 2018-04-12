@@ -364,6 +364,7 @@ export default class ActiveCallItem extends Component {
       sourceIcons,
       renderContactName,
       renderExtraButton,
+      contactDisplayStyle,
     } = this.props;
     const phoneNumber = this.getPhoneNumber();
     const parsedInfo = parseNumber(phoneNumber);
@@ -401,7 +402,7 @@ export default class ActiveCallItem extends Component {
           />
           <ContactDisplay
             contactName={contactName}
-            className={styles.contactDisplay}
+            className={classnames(styles.contactDisplay, contactDisplayStyle)}
             contactMatches={contactMatches}
             selected={this.state.selected}
             onSelectContact={this.onSelectContact}
@@ -502,6 +503,7 @@ ActiveCallItem.propTypes = {
   sourceIcons: PropTypes.object,
   renderContactName: PropTypes.func,
   renderExtraButton: PropTypes.func,
+  contactDisplayStyle: PropTypes.string,
 };
 
 ActiveCallItem.defaultProps = {
@@ -525,4 +527,5 @@ ActiveCallItem.defaultProps = {
   sourceIcons: undefined,
   renderContactName: undefined,
   renderExtraButton: undefined,
+  contactDisplayStyle: undefined,
 };

@@ -39,6 +39,7 @@ function ActiveCallList({
   disableLinks,
   renderContactName,
   renderExtraButton,
+  contactDisplayStyle,
 }) {
   if (calls.length === 0) {
     return null;
@@ -78,6 +79,7 @@ function ActiveCallList({
             disableLinks={disableLinks}
             renderContactName={renderContactName}
             renderExtraButton={renderExtraButton}
+            contactDisplayStyle={contactDisplayStyle}
           />
         ))
       }
@@ -114,6 +116,7 @@ ActiveCallList.propTypes = {
   disableLinks: PropTypes.bool,
   renderContactName: PropTypes.func,
   renderExtraButton: PropTypes.func,
+  contactDisplayStyle: PropTypes.string,
 };
 
 ActiveCallList.defaultProps = {
@@ -139,6 +142,7 @@ ActiveCallList.defaultProps = {
   disableLinks: false,
   renderContactName: undefined,
   renderExtraButton: undefined,
+  contactDisplayStyle: undefined,
 };
 
 export default class CallsListPanel extends Component {
@@ -209,6 +213,8 @@ export default class CallsListPanel extends Component {
       active,
       renderContactName,
       renderExtraButton,
+      contactDisplayStyle,
+      activeContactDisplayStyle,
     } = this.props;
     if (showSpinner) {
       return (<SpinnerOverlay />);
@@ -251,6 +257,7 @@ export default class CallsListPanel extends Component {
         disableLinks={disableLinks}
         renderContactName={renderContactName}
         renderExtraButton={renderExtraButton}
+        contactDisplayStyle={activeContactDisplayStyle}
       />
     );
     const historyCall = showSpinner ?
@@ -289,6 +296,7 @@ export default class CallsListPanel extends Component {
             sourceIcons={sourceIcons}
             renderContactName={renderContactName}
             renderExtraButton={renderExtraButton}
+            contactDisplayStyle={contactDisplayStyle}
           />
         </div>
       );
@@ -343,6 +351,8 @@ CallsListPanel.propTypes = {
   active: PropTypes.bool,
   renderContactName: PropTypes.func,
   renderExtraButton: PropTypes.func,
+  contactDisplayStyle: PropTypes.string,
+  activeContactDisplayStyle: PropTypes.string,
 };
 
 CallsListPanel.defaultProps = {
@@ -371,4 +381,6 @@ CallsListPanel.defaultProps = {
   active: false,
   renderContactName: undefined,
   renderExtraButton: undefined,
+  contactDisplayStyle: undefined,
+  activeContactDisplayStyle: undefined,
 };

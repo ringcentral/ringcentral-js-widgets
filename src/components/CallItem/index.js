@@ -337,6 +337,7 @@ export default class CallItem extends Component {
       sourceIcons,
       renderContactName,
       renderExtraButton,
+      contactDisplayStyle,
     } = this.props;
     const phoneNumber = this.getPhoneNumber();
     const contactMatches = this.getContactMatches();
@@ -395,6 +396,7 @@ export default class CallItem extends Component {
             reference={(ref) => { this.contactDisplay = ref; }}
             className={classnames(
               styles.contactDisplay,
+              contactDisplayStyle,
               missed && styles.missed,
               active && styles.active,
             )}
@@ -496,6 +498,7 @@ CallItem.propTypes = {
   sourceIcons: PropTypes.object,
   renderContactName: PropTypes.func,
   renderExtraButton: PropTypes.func,
+  contactDisplayStyle: PropTypes.string,
 };
 
 CallItem.defaultProps = {
@@ -516,4 +519,5 @@ CallItem.defaultProps = {
   sourceIcons: undefined,
   renderContactName: undefined,
   renderExtraButton: undefined,
+  contactDisplayStyle: undefined,
 };
