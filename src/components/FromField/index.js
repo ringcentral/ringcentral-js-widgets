@@ -20,10 +20,10 @@ function PhoneNumber({
     ) : null;
   return (
     <span className={styles.phoneNumber}>
+      {usageTypeDom}
       <span>
         {formatPhone(phoneNumber)}
       </span>
-      {usageTypeDom}
     </span>
   );
 }
