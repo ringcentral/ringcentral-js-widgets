@@ -48,12 +48,12 @@ function PhoneNumber(_ref) {
   return _react2.default.createElement(
     'span',
     { className: _styles2.default.phoneNumber },
+    usageTypeDom,
     _react2.default.createElement(
       'span',
       null,
       formatPhone(phoneNumber)
-    ),
-    usageTypeDom
+    )
   );
 }
 
