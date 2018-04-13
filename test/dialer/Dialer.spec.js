@@ -110,7 +110,7 @@ describe('dialer panel', () => {
     const messages = store.getState(wrapper).alert.messages;
     expect(messages).toEqual(
       expect.arrayContaining([
-        expect.objectContaining({        
+        expect.objectContaining({
           level: 'warning',
           message: 'callErrors-noToNumber'
         })
@@ -153,11 +153,11 @@ describe('dialer panel', () => {
 
     const firstNumber = dropdownItems.at(0).find('span.phoneNumber').first().children()
       .find('span')
-      .first()
+      .at(1)
       .text();
     const secondNumber = dropdownItems.at(1).find('span.phoneNumber').children()
       .find('span')
-      .first()
+      .at(1)
       .text();
     expect(firstNumber).not.toEqual(secondNumber);
 
