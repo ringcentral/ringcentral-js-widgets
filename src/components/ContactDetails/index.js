@@ -123,6 +123,14 @@ export default class ContactDetails extends PureComponent {
       <button title={i18n.getString('text', currentLocale)} onClick={() => this.onClickToSMS(contactItem, extensionNumber)}>
         <i className={dynamicsFont.composeText} />
       </button>) : null;
+    const callBtn = this.props.onClickToDial ? (
+      <button
+        title={i18n.getString('call', currentLocale)}
+        onClick={() => this.onClickToDial(contactItem, extensionNumber)}
+      >
+        <i className={dynamicsFont.call} />
+      </button>
+    ) : null;
     return (
       <div className={styles.item}>
         <div className={styles.label}>
@@ -134,9 +142,7 @@ export default class ContactDetails extends PureComponent {
               <span title={extensionNumber}>{extensionNumber}</span>
             </div>
             <div className={styles.menu}>
-              <button title={i18n.getString('call', currentLocale)} onClick={() => this.onClickToDial(contactItem, extensionNumber)}>
-                <i className={dynamicsFont.call} />
-              </button>
+              {callBtn}
               {textBtn}
             </div>
           </li>
@@ -155,15 +161,21 @@ export default class ContactDetails extends PureComponent {
         <button title={i18n.getString('text', currentLocale)} onClick={() => this.onClickToSMS(contactItem, phoneNumber)}>
           <i className={dynamicsFont.composeText} />
         </button>) : null;
+      const callBtn = this.props.onClickToDial ? (
+        <button
+          title={i18n.getString('call', currentLocale)}
+          onClick={() => this.onClickToDial(contactItem, phoneNumber)}
+        >
+          <i className={dynamicsFont.call} />
+        </button>
+      ) : null;
       return (
         <li key={index}>
           <div className={styles.number}>
             <span title={formattedPhoneNumber}>{formattedPhoneNumber}</span>
           </div>
           <div className={styles.menu}>
-            <button title={i18n.getString('call', currentLocale)} onClick={() => this.onClickToDial(contactItem, phoneNumber)}>
-              <i className={dynamicsFont.call} />
-            </button>
+            {callBtn}
             {textBtn}
             {
               // <button>
