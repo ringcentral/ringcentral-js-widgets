@@ -413,6 +413,7 @@ var ActiveCallItem = function (_Component) {
           formatPhone(myPhoneNumber)
         );
       }
+      var telephonyStatusInfo = _i18n2.default.getString(telephonyStatus, currentLocale);
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.callDetail },
@@ -422,7 +423,11 @@ var ActiveCallItem = function (_Component) {
           { className: _styles2.default.split },
           '|'
         ),
-        _i18n2.default.getString(telephonyStatus, currentLocale)
+        _react2.default.createElement(
+          'span',
+          { title: telephonyStatusInfo },
+          telephonyStatusInfo
+        )
       );
     }
   }, {
