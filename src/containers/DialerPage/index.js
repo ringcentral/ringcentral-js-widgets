@@ -21,7 +21,7 @@ function mapToProps(_, {
   const isWebphoneMode = (callingSettings.callingMode === callingModes.webphone);
   const waitingWebphoneConnected = (isWebphoneMode && webphone && webphone.connecting);
   const webphoneDisconnected = (isWebphoneMode && webphone && !webphone.connected);
-  const audioNotEnabled = isWebphoneMode && !audioSettings.userMedia;
+  const audioNotEnabled = isWebphoneMode && audioSettings && !audioSettings.userMedia;
   return {
     currentLocale: locale.currentLocale,
     callingMode: callingSettings.callingMode,
@@ -43,14 +43,13 @@ function mapToProps(_, {
       callingSettings.ready &&
       locale.ready &&
       connectivityMonitor.ready &&
-      audioSettings.ready &&
+      (!audioSettings || audioSettings.ready) &&
       (!isWebphoneMode || !webphone || !waitingWebphoneConnected)
     ),
     dialButtonVolume: audioSettings ? audioSettings.dialButtonVolume : 1,
-    dialButtonMuted: audioSettings ? audioSettings.dialButtonMuted : 1,
+    dialButtonMuted: audioSettings ? audioSettings.dialButtonMuted : false,
   };
 }
-
 function mapToFunctions(_, {
   phone: {
     callingSettings,
