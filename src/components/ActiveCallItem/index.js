@@ -249,6 +249,7 @@ export default class ActiveCallItem extends Component {
         </div>
       );
     }
+    const telephonyStatusInfo = i18n.getString(telephonyStatus, currentLocale);
     return (
       <div className={styles.callDetail}>
         {
@@ -257,7 +258,9 @@ export default class ActiveCallItem extends Component {
             <DurationCounter startTime={startTime} offset={offset} />
         }
         <span className={styles.split}>|</span>
-        { i18n.getString(telephonyStatus, currentLocale) }
+        <span title={telephonyStatusInfo}>
+          {telephonyStatusInfo}
+        </span>
       </div>
     );
   }
