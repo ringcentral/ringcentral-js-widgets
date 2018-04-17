@@ -49,6 +49,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function DialerPanel(_ref) {
   var callButtonDisabled = _ref.callButtonDisabled,
       className = _ref.className,
+      dialButtonsClassName = _ref.dialButtonsClassName,
       onToNumberChange = _ref.onToNumberChange,
       onCallButtonClick = _ref.onCallButtonClick,
       toNumber = _ref.toNumber,
@@ -112,7 +113,7 @@ function DialerPanel(_ref) {
     ),
     _react2.default.createElement(
       'div',
-      { className: _styles2.default.dialButtons },
+      { className: (0, _classnames2.default)(_styles2.default.dialButtons, dialButtonsClassName) },
       _react2.default.createElement(_DialPad2.default, {
         className: _styles2.default.dialPad,
         onButtonOutput: function onButtonOutput(key) {
@@ -142,6 +143,7 @@ function DialerPanel(_ref) {
 }
 DialerPanel.propTypes = {
   className: _propTypes2.default.string,
+  dialButtonsClassName: _propTypes2.default.string,
   onCallButtonClick: _propTypes2.default.func.isRequired,
   callButtonDisabled: _propTypes2.default.bool,
   isWebphoneMode: _propTypes2.default.bool,
@@ -180,6 +182,7 @@ DialerPanel.propTypes = {
 
 DialerPanel.defaultProps = {
   className: null,
+  dialButtonsClassName: null,
   fromNumber: null,
   callButtonDisabled: false,
   toNumber: '',

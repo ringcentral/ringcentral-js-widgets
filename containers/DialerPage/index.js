@@ -35,12 +35,14 @@ function mapToProps(_, _ref) {
       locale = _ref$phone.locale,
       rateLimiter = _ref$phone.rateLimiter,
       webphone = _ref$phone.webphone,
-      audioSettings = _ref$phone.audioSettings;
+      audioSettings = _ref$phone.audioSettings,
+      _ref$dialButtonMuted = _ref.dialButtonMuted,
+      dialButtonMuted = _ref$dialButtonMuted === undefined ? false : _ref$dialButtonMuted;
 
   var isWebphoneMode = callingSettings.callingMode === _callingModes2.default.webphone;
   var waitingWebphoneConnected = isWebphoneMode && webphone && webphone.connecting;
   var webphoneDisconnected = isWebphoneMode && webphone && !webphone.connected;
-  var audioNotEnabled = isWebphoneMode && !audioSettings.userMedia;
+  var audioNotEnabled = isWebphoneMode && audioSettings && !audioSettings.userMedia;
   return {
     currentLocale: locale.currentLocale,
     callingMode: callingSettings.callingMode,
@@ -51,12 +53,12 @@ function mapToProps(_, _ref) {
     searchContactList: contactSearch ? contactSearch.sortedResult : [],
     fromNumbers: callingSettings.fromNumbers,
     fromNumber: callingSettings.fromNumber,
-    showSpinner: !(call.ready && callingSettings.ready && locale.ready && connectivityMonitor.ready && audioSettings.ready && (!isWebphoneMode || !webphone || !waitingWebphoneConnected)),
+    showSpinner: !(call.ready && callingSettings.ready && locale.ready && connectivityMonitor.ready && (!audioSettings || audioSettings.ready) && (!isWebphoneMode || !webphone || !waitingWebphoneConnected)),
     dialButtonVolume: audioSettings ? audioSettings.dialButtonVolume : 1,
-    dialButtonMuted: audioSettings ? audioSettings.dialButtonMuted : 1
+    // If audioSettings is used, then use values from audioSettings module
+    dialButtonMuted: audioSettings ? audioSettings.dialButtonMuted : dialButtonMuted
   };
 }
-
 function mapToFunctions(_, _ref2) {
   var _ref2$phone = _ref2.phone,
       callingSettings = _ref2$phone.callingSettings,
