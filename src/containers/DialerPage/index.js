@@ -16,7 +16,8 @@ function mapToProps(_, {
     rateLimiter,
     webphone,
     audioSettings,
-  }
+  }, 
+  dialButtonMuted = false,
 }) {
   const isWebphoneMode = (callingSettings.callingMode === callingModes.webphone);
   const waitingWebphoneConnected = (isWebphoneMode && webphone && webphone.connecting);
@@ -47,7 +48,8 @@ function mapToProps(_, {
       (!isWebphoneMode || !webphone || !waitingWebphoneConnected)
     ),
     dialButtonVolume: audioSettings ? audioSettings.dialButtonVolume : 1,
-    dialButtonMuted: audioSettings ? audioSettings.dialButtonMuted : false,
+    // If audioSettings is used, then use values from audioSettings module
+    dialButtonMuted: audioSettings ? audioSettings.dialButtonMuted : dialButtonMuted,
   };
 }
 function mapToFunctions(_, {
