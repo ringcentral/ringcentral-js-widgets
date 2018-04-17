@@ -13,6 +13,7 @@ import styles from './styles.scss';
 function DialerPanel({
   callButtonDisabled,
   className,
+  dialButtonsClassName,
   onToNumberChange,
   onCallButtonClick,
   toNumber,
@@ -71,7 +72,7 @@ function DialerPanel({
           hidden={!isWebphoneMode}
         />
       </div>
-      <div className={styles.dialButtons}>
+      <div className={classnames(styles.dialButtons, dialButtonsClassName)}>
         <DialPad
           className={styles.dialPad}
           onButtonOutput={(key) => {
@@ -101,6 +102,7 @@ function DialerPanel({
 }
 DialerPanel.propTypes = {
   className: PropTypes.string,
+  dialButtonsClassName: PropTypes.string,
   onCallButtonClick: PropTypes.func.isRequired,
   callButtonDisabled: PropTypes.bool,
   isWebphoneMode: PropTypes.bool,
@@ -139,6 +141,7 @@ DialerPanel.propTypes = {
 
 DialerPanel.defaultProps = {
   className: null,
+  dialButtonsClassName: null,
   fromNumber: null,
   callButtonDisabled: false,
   toNumber: '',
