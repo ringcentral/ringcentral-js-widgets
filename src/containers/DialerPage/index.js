@@ -16,7 +16,7 @@ function mapToProps(_, {
     rateLimiter,
     webphone,
     audioSettings,
-  }, 
+  },
   dialButtonMuted = false,
 }) {
   const isWebphoneMode = (callingSettings.callingMode === callingModes.webphone);
