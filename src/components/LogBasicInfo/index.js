@@ -108,7 +108,8 @@ export default function LogBasicInfo(props) {
             title={formatNumber}>
             {formatNumber}
           </span>
-          <span className={styles.separator}>|</span>
+        </li>
+        <li>
           <span
             className={statusClassName}
             title={statusI18n}>
