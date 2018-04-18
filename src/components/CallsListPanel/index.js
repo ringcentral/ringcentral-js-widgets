@@ -155,7 +155,7 @@ export default class CallsListPanel extends Component {
     ) {
       this.props.onCallsEmpty();
     }
-    this.forceUpdate();
+    if (this.props.currentLog) this.forceUpdate();
   }
 
   componentWillReceiveProps(nextProps) {
