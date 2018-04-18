@@ -49,6 +49,14 @@ var _CallList = require('../CallList');
 
 var _CallList2 = _interopRequireDefault(_CallList);
 
+var _InsideModal = require('../InsideModal');
+
+var _InsideModal2 = _interopRequireDefault(_InsideModal);
+
+var _LogSection = require('../LogSection');
+
+var _LogSection2 = _interopRequireDefault(_LogSection);
+
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -228,6 +236,8 @@ var CallsListPanel = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var _props = this.props,
           activeRingCalls = _props.activeRingCalls,
           activeOnHoldCalls = _props.activeOnHoldCalls,
@@ -266,7 +276,12 @@ var CallsListPanel = function (_Component) {
           renderContactName = _props.renderContactName,
           renderExtraButton = _props.renderExtraButton,
           contactDisplayStyle = _props.contactDisplayStyle,
-          activeContactDisplayStyle = _props.activeContactDisplayStyle;
+          activeContactDisplayStyle = _props.activeContactDisplayStyle,
+          currentLog = _props.currentLog,
+          closeCurrentLog = _props.closeCurrentLog,
+          updateCurrentLog = _props.updateCurrentLog,
+          saveCurrentLog = _props.saveCurrentLog,
+          renderEditLogSection = _props.renderEditLogSection;
 
       if (showSpinner) {
         return _react2.default.createElement(_SpinnerOverlay2.default, null);
@@ -282,6 +297,25 @@ var CallsListPanel = function (_Component) {
           )
         );
       }
+      var appendDOM = currentLog ? _react2.default.createElement('div', { ref: function ref(_ref2) {
+          _this2.appendDOM = _ref2;
+        } }) : null;
+      var logSection = currentLog ? _react2.default.createElement(
+        _InsideModal2.default,
+        {
+          title: currentLog.title,
+          show: currentLog.showLog,
+          onClose: closeCurrentLog,
+          appendDOM: this.appendDOM },
+        _react2.default.createElement(_LogSection2.default, {
+          currentLocale: currentLocale,
+          currentLog: currentLog,
+          renderEditLogSection: renderEditLogSection,
+          formatPhone: formatPhone,
+          updateCurrentLog: updateCurrentLog,
+          saveCurrentLog: saveCurrentLog
+        })
+      ) : null;
       var getCallList = function getCallList(calls, title) {
         return _react2.default.createElement(ActiveCallList, {
           title: title,
@@ -356,12 +390,18 @@ var CallsListPanel = function (_Component) {
       );
       return _react2.default.createElement(
         'div',
-        { className: (0, _classnames2.default)(_styles2.default.root, className) },
-        getCallList(activeRingCalls, _i18n2.default.getString('ringCall', currentLocale)),
-        getCallList(activeCurrentCalls, _i18n2.default.getString('currentCall', currentLocale)),
-        getCallList(activeOnHoldCalls, _i18n2.default.getString('onHoldCall', currentLocale)),
-        getCallList(otherDeviceCalls, _i18n2.default.getString('otherDeviceCall', currentLocale)),
-        calls.length > 0 ? historyCall : null
+        { className: _styles2.default.container },
+        _react2.default.createElement(
+          'div',
+          { className: (0, _classnames2.default)(_styles2.default.root, className) },
+          getCallList(activeRingCalls, _i18n2.default.getString('ringCall', currentLocale)),
+          getCallList(activeCurrentCalls, _i18n2.default.getString('currentCall', currentLocale)),
+          getCallList(activeOnHoldCalls, _i18n2.default.getString('onHoldCall', currentLocale)),
+          getCallList(otherDeviceCalls, _i18n2.default.getString('otherDeviceCall', currentLocale)),
+          calls.length > 0 ? historyCall : null
+        ),
+        appendDOM,
+        logSection
       );
     }
   }]);
@@ -410,7 +450,12 @@ CallsListPanel.propTypes = {
   renderContactName: _propTypes2.default.func,
   renderExtraButton: _propTypes2.default.func,
   contactDisplayStyle: _propTypes2.default.string,
-  activeContactDisplayStyle: _propTypes2.default.string
+  activeContactDisplayStyle: _propTypes2.default.string,
+  currentLog: _propTypes2.default.object,
+  closeCurrentLog: _propTypes2.default.func,
+  updateCurrentLog: _propTypes2.default.func,
+  saveCurrentLog: _propTypes2.default.func,
+  renderEditLogSection: _propTypes2.default.func
 };
 
 CallsListPanel.defaultProps = {
@@ -439,7 +484,12 @@ CallsListPanel.defaultProps = {
   active: false,
   renderContactName: undefined,
   renderExtraButton: undefined,
-  contactDisplayStyle: undefined,
-  activeContactDisplayStyle: undefined
+  contactDisplayStyle: _styles2.default.contactDisplay,
+  activeContactDisplayStyle: _styles2.default.activeContactDisplay,
+  currentLog: undefined,
+  closeCurrentLog: undefined,
+  updateCurrentLog: undefined,
+  saveCurrentLog: undefined,
+  renderEditLogSection: undefined
 };
 //# sourceMappingURL=index.js.map

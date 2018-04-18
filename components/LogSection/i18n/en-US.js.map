@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/LogSection/i18n/en-US.js"],"names":["saveLog"],"mappings":";;;;;kBAAe;AACbA,WAAS;AADI,C","file":"en-US.js","sourcesContent":["export default {\n  saveLog: 'Save Log',\n};\n\n"]}
