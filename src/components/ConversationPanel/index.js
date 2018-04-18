@@ -153,7 +153,7 @@ class ConversationPanel extends Component {
           messages={this.props.messages}
           className={styles.conversationBody}
           dateTimeFormatter={this.props.dateTimeFormatter}
-          showFrom={recipients && recipients.length > 1}
+          showSender={recipients && recipients.length > 1}
           messageSubjectRenderer={messageSubjectRenderer}
         />
       );
