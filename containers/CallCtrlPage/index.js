@@ -232,7 +232,9 @@ var CallCtrlPage = function (_Component) {
           sourceIcons: this.props.sourceIcons,
           searchContactList: this.props.searchContactList,
           searchContact: this.props.searchContact,
-          phoneTypeRenderer: this.props.phoneTypeRenderer
+          phoneTypeRenderer: this.props.phoneTypeRenderer,
+          recipientsContactInfoRenderer: this.props.recipientsContactInfoRenderer,
+          recipientsContactPhoneRenderer: this.props.recipientsContactPhoneRenderer
         },
         this.props.children
       );
@@ -284,14 +286,18 @@ CallCtrlPage.propTypes = {
   sourceIcons: _propTypes2.default.object,
   searchContactList: _propTypes2.default.array.isRequired,
   searchContact: _propTypes2.default.func.isRequired,
-  phoneTypeRenderer: _propTypes2.default.func
+  phoneTypeRenderer: _propTypes2.default.func,
+  recipientsContactInfoRenderer: _propTypes2.default.func,
+  recipientsContactPhoneRenderer: _propTypes2.default.func
 };
 
 CallCtrlPage.defaultProps = {
   children: undefined,
   backButtonLabel: null,
   sourceIcons: undefined,
-  phoneTypeRenderer: undefined
+  phoneTypeRenderer: undefined,
+  recipientsContactInfoRenderer: undefined,
+  recipientsContactPhoneRenderer: undefined
 };
 
 function mapToProps(_, _ref) {
@@ -331,7 +337,9 @@ function mapToFunctions(_, _ref2) {
       getAvatarUrl = _ref2.getAvatarUrl,
       onBackButtonClick = _ref2.onBackButtonClick,
       onAdd = _ref2.onAdd,
-      phoneTypeRenderer = _ref2.phoneTypeRenderer;
+      phoneTypeRenderer = _ref2.phoneTypeRenderer,
+      recipientsContactInfoRenderer = _ref2.recipientsContactInfoRenderer,
+      recipientsContactPhoneRenderer = _ref2.recipientsContactPhoneRenderer;
 
   return {
     formatPhone: function formatPhone(phoneNumber) {
@@ -383,7 +391,9 @@ function mapToFunctions(_, _ref2) {
     searchContact: function searchContact(searchString) {
       return contactSearch.debouncedSearch({ searchString: searchString });
     },
-    phoneTypeRenderer: phoneTypeRenderer
+    phoneTypeRenderer: phoneTypeRenderer,
+    recipientsContactInfoRenderer: recipientsContactInfoRenderer,
+    recipientsContactPhoneRenderer: recipientsContactPhoneRenderer
   };
 }
 

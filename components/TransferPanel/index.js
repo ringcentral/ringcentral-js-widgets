@@ -161,6 +161,8 @@ var TransferPanel = (_temp = _class = function (_PureComponent) {
           formatContactPhone: this.props.formatPhone,
           currentLocale: this.props.currentLocale,
           phoneTypeRenderer: this.props.phoneTypeRenderer,
+          contactInfoRenderer: this.props.recipientsContactInfoRenderer,
+          contactPhoneRenderer: this.props.recipientsContactPhoneRenderer,
           titleEnabled: true,
           autoFocus: this.props.autoFocus
         }),
@@ -198,10 +200,14 @@ var TransferPanel = (_temp = _class = function (_PureComponent) {
   searchContact: _propTypes2.default.func.isRequired,
   formatPhone: _propTypes2.default.func.isRequired,
   phoneTypeRenderer: _propTypes2.default.func,
+  recipientsContactInfoRenderer: _propTypes2.default.func,
+  recipientsContactPhoneRenderer: _propTypes2.default.func,
   isOnTransfer: _propTypes2.default.bool,
   autoFocus: _propTypes2.default.bool
 }, _class.defaultProps = {
   phoneTypeRenderer: undefined,
+  recipientsContactInfoRenderer: undefined,
+  recipientsContactPhoneRenderer: undefined,
   isOnTransfer: false,
   autoFocus: true
 }, _temp);
