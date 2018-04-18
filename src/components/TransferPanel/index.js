@@ -19,12 +19,16 @@ export default class TransferPanel extends PureComponent {
     searchContact: PropTypes.func.isRequired,
     formatPhone: PropTypes.func.isRequired,
     phoneTypeRenderer: PropTypes.func,
+    recipientsContactInfoRenderer: PropTypes.func,
+    recipientsContactPhoneRenderer: PropTypes.func,
     isOnTransfer: PropTypes.bool,
     autoFocus: PropTypes.bool,
   };
 
   static defaultProps = {
     phoneTypeRenderer: undefined,
+    recipientsContactInfoRenderer: undefined,
+    recipientsContactPhoneRenderer: undefined,
     isOnTransfer: false,
     autoFocus: true,
   };
@@ -107,6 +111,8 @@ export default class TransferPanel extends PureComponent {
           formatContactPhone={this.props.formatPhone}
           currentLocale={this.props.currentLocale}
           phoneTypeRenderer={this.props.phoneTypeRenderer}
+          contactInfoRenderer={this.props.recipientsContactInfoRenderer}
+          contactPhoneRenderer={this.props.recipientsContactPhoneRenderer}
           titleEnabled
           autoFocus={this.props.autoFocus}
         />
