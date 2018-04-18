@@ -155,7 +155,6 @@ export default class CallsListPanel extends Component {
     ) {
       this.props.onCallsEmpty();
     }
-    if (this.props.currentLog) this.forceUpdate();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -229,7 +228,7 @@ export default class CallsListPanel extends Component {
     }
     if (!this.hasCalls()) {
       return (
-        <div className={classnames(styles.root, currentLog && currentLog.showLog ? styles.hiddenScroll : '', className)}>
+        <div className={classnames(styles.root, className)}>
           <p className={styles.noCalls}>
             {i18n.getString('noCalls', currentLocale)}
           </p>
@@ -239,7 +238,7 @@ export default class CallsListPanel extends Component {
     const appendDOM = currentLog ? (
       <div ref={(ref) => { this.appendDOM = ref; }} />
     ) : null;
-    const logSection = currentLog && this.appendDOM ? (
+    const logSection = currentLog ? (
       <InsideModal
         title={currentLog.title}
         show={currentLog.showLog}

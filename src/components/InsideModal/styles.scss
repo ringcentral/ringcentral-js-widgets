@@ -29,6 +29,16 @@
     padding: 0;
     height: calc(80% + 37px);
   }
+  .title {
+    color: #2f2f2f;
+    font-size: 13px;
+    font-weight: bold;
+    height: 36px;
+    background-color: #f9f9f9;
+    padding: 0 0 0 10px;
+    margin: 0;
+    line-height: 36px;
+  }
 }
 
 .closeBtn {
@@ -37,13 +47,4 @@
   top: 9px;
   cursor: pointer;
 }
-.title {
-  color: #2f2f2f !important;
-  font-size: 13px !important;
-  font-weight: bold;
-  height: 36px;
-  background-color: #f9f9f9;
-  padding: 0 0 0 10px !important;
-  margin: 0;
-  line-height: 36px;
-}
+

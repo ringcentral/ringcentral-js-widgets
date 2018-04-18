@@ -32,12 +32,8 @@
   height: 100%;
 }
 
-.hiddenScroll {
-  overflow: hidden!important;
-}
-
 .contactDisplay {
-  width: calc(100% - 40px) !important;
+  width: calc(100% - 40px);
 }
 
 .activeContactDisplay {
