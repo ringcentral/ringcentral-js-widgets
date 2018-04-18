@@ -247,7 +247,7 @@ var ConversationPanel = function (_Component) {
           messages: this.props.messages,
           className: _styles2.default.conversationBody,
           dateTimeFormatter: this.props.dateTimeFormatter,
-          showFrom: recipients && recipients.length > 1,
+          showSender: recipients && recipients.length > 1,
           messageSubjectRenderer: messageSubjectRenderer
         });
       }

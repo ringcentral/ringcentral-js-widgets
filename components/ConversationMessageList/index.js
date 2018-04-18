@@ -137,7 +137,7 @@ var ConversationMessageList = function (_Component) {
 
       var lastDate = 0;
       var messageList = messages.map(function (message) {
-        var sender = showSender ? messages.from.name || _this2.context.formatPhone(message.from.extensionNumber || message.from.phoneNumber) : null;
+        var sender = showSender ? message.from.name || _this2.context.formatPhone(message.from.extensionNumber || message.from.phoneNumber) : null;
         var date = new Date(message.creationTime);
         var time = date - lastDate < 60 * 60 * 1000 && date.getHours() === lastDate.getHours() ? null : dateTimeFormatter({ utcTimestamp: message.creationTime, type: 'long' });
         lastDate = date;
