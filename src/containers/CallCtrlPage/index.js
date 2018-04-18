@@ -162,6 +162,8 @@ class CallCtrlPage extends Component {
         searchContactList={this.props.searchContactList}
         searchContact={this.props.searchContact}
         phoneTypeRenderer={this.props.phoneTypeRenderer}
+        recipientsContactInfoRenderer={this.props.recipientsContactInfoRenderer}
+        recipientsContactPhoneRenderer={this.props.recipientsContactPhoneRenderer}
       >
         {this.props.children}
       </CallCtrlPanel>
@@ -213,6 +215,8 @@ CallCtrlPage.propTypes = {
   searchContactList: PropTypes.array.isRequired,
   searchContact: PropTypes.func.isRequired,
   phoneTypeRenderer: PropTypes.func,
+  recipientsContactInfoRenderer: PropTypes.func,
+  recipientsContactPhoneRenderer: PropTypes.func,
 };
 
 CallCtrlPage.defaultProps = {
@@ -220,6 +224,8 @@ CallCtrlPage.defaultProps = {
   backButtonLabel: null,
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
+  recipientsContactInfoRenderer: undefined,
+  recipientsContactPhoneRenderer: undefined,
 };
 
 function mapToProps(_, {
@@ -263,6 +269,8 @@ function mapToFunctions(_, {
   onBackButtonClick,
   onAdd,
   phoneTypeRenderer,
+  recipientsContactInfoRenderer,
+  recipientsContactPhoneRenderer,
 }) {
   return {
     formatPhone: phoneNumber => formatNumber({
@@ -290,6 +298,8 @@ function mapToFunctions(_, {
       contactSearch.debouncedSearch({ searchString })
     ),
     phoneTypeRenderer,
+    recipientsContactInfoRenderer,
+    recipientsContactPhoneRenderer,
   };
 }
 
