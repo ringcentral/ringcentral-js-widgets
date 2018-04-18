@@ -44,16 +44,21 @@ export default class LogSection extends Component {
       renderEditLogSection,
       currentLocale,
       updateCurrentLog,
+      currentLog,
     } = this.props;
     const {
       call,
       showSpinner,
       currentLogCall,
-    } = this.props.currentLog;
+    } = currentLog;
     if (showSpinner) {
       return (<SpinnerOverlay className={styles.spinner} />);
     }
-    const editLogSection = renderEditLogSection(this.props);
+    const editLogSection = renderEditLogSection({
+      currentLocale,
+      updateCurrentLog,
+      currentLog,
+    });
     const buttonPanelClassName = classnames(
       styles.buttonPanel,
       this.state.mainCtrlOverlapped && styles.overlapped

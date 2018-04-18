@@ -30,6 +30,7 @@ export default function InsideModal({
   title,
 }) {
   const closeBtn = (<CloseBtn onClick={onClose} />);
+  if (!appendDOM) return null;
   return (
     <Modal
       title={title}

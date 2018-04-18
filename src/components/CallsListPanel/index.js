@@ -239,7 +239,11 @@ export default class CallsListPanel extends Component {
     const appendDOM = currentLog ? (
       <div ref={(ref) => { this.appendDOM = ref; }} />
     ) : null;
+<<<<<<< HEAD
     const logSection = currentLog && this.appendDOM ? (
+=======
+    const logSection = currentLog ? (
+>>>>>>> upstream/master
       <InsideModal
         title={currentLog.title}
         show={currentLog.showLog}
