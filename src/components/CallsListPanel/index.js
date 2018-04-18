@@ -4,6 +4,8 @@ import classnames from 'classnames';
 import SpinnerOverlay from '../SpinnerOverlay';
 import ActiveCallItem from '../ActiveCallItem';
 import CallList from '../CallList';
+import InsideModal from '../InsideModal';
+import LogSection from '../LogSection';
 
 import styles from './styles.scss';
 import i18n from './i18n';
@@ -215,6 +217,11 @@ export default class CallsListPanel extends Component {
       renderExtraButton,
       contactDisplayStyle,
       activeContactDisplayStyle,
+      currentLog,
+      closeCurrentLog,
+      updateCurrentLog,
+      saveCurrentLog,
+      renderEditLogSection,
     } = this.props;
     if (showSpinner) {
       return (<SpinnerOverlay />);
@@ -228,6 +235,25 @@ export default class CallsListPanel extends Component {
         </div>
       );
     }
+    const appendDOM = currentLog ? (
+      <div ref={(ref) => { this.appendDOM = ref; }} />
+    ) : null;
+    const logSection = currentLog ? (
+      <InsideModal
+        title={currentLog.title}
+        show={currentLog.showLog}
+        onClose={closeCurrentLog}
+        appendDOM={this.appendDOM}>
+        <LogSection
+          currentLocale={currentLocale}
+          currentLog={currentLog}
+          renderEditLogSection={renderEditLogSection}
+          formatPhone={formatPhone}
+          updateCurrentLog={updateCurrentLog}
+          saveCurrentLog={saveCurrentLog}
+        />
+      </InsideModal>
+    ) : null;
     const getCallList = (calls, title) => (
       <ActiveCallList
         title={title}
@@ -301,12 +327,16 @@ export default class CallsListPanel extends Component {
         </div>
       );
     return (
-      <div className={classnames(styles.root, className)}>
-        {getCallList(activeRingCalls, i18n.getString('ringCall', currentLocale))}
-        {getCallList(activeCurrentCalls, i18n.getString('currentCall', currentLocale))}
-        {getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}
-        {getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale))}
-        { calls.length > 0 ? historyCall : null }
+      <div className={styles.container}>
+        <div className={classnames(styles.root, className)}>
+          {getCallList(activeRingCalls, i18n.getString('ringCall', currentLocale))}
+          {getCallList(activeCurrentCalls, i18n.getString('currentCall', currentLocale))}
+          {getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}
+          {getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale))}
+          { calls.length > 0 ? historyCall : null }
+        </div>
+        {appendDOM}
+        {logSection}
       </div>
     );
   }
@@ -353,6 +383,11 @@ CallsListPanel.propTypes = {
   renderExtraButton: PropTypes.func,
   contactDisplayStyle: PropTypes.string,
   activeContactDisplayStyle: PropTypes.string,
+  currentLog: PropTypes.object,
+  closeCurrentLog: PropTypes.func,
+  updateCurrentLog: PropTypes.func,
+  saveCurrentLog: PropTypes.func,
+  renderEditLogSection: PropTypes.func,
 };
 
 CallsListPanel.defaultProps = {
@@ -381,6 +416,11 @@ CallsListPanel.defaultProps = {
   active: false,
   renderContactName: undefined,
   renderExtraButton: undefined,
-  contactDisplayStyle: undefined,
-  activeContactDisplayStyle: undefined,
+  contactDisplayStyle: styles.contactDisplay,
+  activeContactDisplayStyle: styles.activeContactDisplay,
+  currentLog: undefined,
+  closeCurrentLog: undefined,
+  updateCurrentLog: undefined,
+  saveCurrentLog: undefined,
+  renderEditLogSection: undefined,
 };
