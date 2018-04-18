@@ -89,7 +89,7 @@ class ConversationMessageList extends Component {
     const messageList = messages.map((message) => {
       const sender = showSender ?
         (
-          messages.from.name ||
+          message.from.name ||
           this.context.formatPhone(message.from.extensionNumber || message.from.phoneNumber)
         ) :
         null;
