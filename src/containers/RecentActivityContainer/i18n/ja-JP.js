@@ -3,7 +3,7 @@ export default {
   text: 'テキスト',
   fax: 'FAX',
   voicemail: 'ボイスメール',
-  call: '通話',
+  call: '通話'
 };
 
 // @key: @#@"recentActivities"@#@ @source: @#@"Recent Activities"@#@

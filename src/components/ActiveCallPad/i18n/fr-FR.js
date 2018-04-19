@@ -1,6 +1,6 @@
 export default {
-  unmute: 'Désac. Muet',
-  mute: 'Activ. muet',
+  unmute: 'Désac. muet',
+  mute: 'Muet',
   keypad: 'Clavier',
   hold: 'Attente',
   onHold: 'En attente',

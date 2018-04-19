@@ -8,10 +8,10 @@ export default {
   [callErrors.internalError]: 'Se produjo un error en la conexión. Vuelva a intentarlo más tarde.',
   [callErrors.notAnExtension]: 'El número de extensión no existe.',
   [callErrors.networkError]: 'No se puede conectar debido a errores de la red. Vuelva a intentarlo más tarde.',
-  [callErrors.noInternational]: "No tiene permisos para hacer llamadas internacionales. Cominíquese con el administrador de su cuenta de {brand} para conseguir una actualización.",
+  [callErrors.noInternational]: 'No tiene permisos para hacer llamadas internacionales. Cominíquese con el administrador de su cuenta de {brand} para obtener permisos.',
   [callErrors.noRingoutEnable]: 'Su extensión puede hacer llamadas con la aplicación de escritorio.\n    Si desea acceder a otras opciones\n    comuníquese con el administrador de su cuenta para la actualización.',
   areaCode: 'código de área',
-  telus911: 'No se pueden hacer llamadas de emergencia.',
+  telus911: 'No se pueden hacer llamadas de emergencia.'
 };
 
 // @key: @#@"[callErrors.noToNumber]"@#@ @source: @#@"Please enter a valid phone number."@#@

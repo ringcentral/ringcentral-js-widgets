@@ -1,5 +1,5 @@
 export default {
-  start: 'Tour d\'horizon',
+  start: 'Faire une visite rapide',
   skip: 'Sauter',
   next: 'Suivant',
   finish: 'Terminer',

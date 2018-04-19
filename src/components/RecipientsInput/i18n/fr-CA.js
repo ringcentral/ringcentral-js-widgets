@@ -1,5 +1,5 @@
 export default {
-  to: 'À ',
+  to: 'À',
   enterNameOrNumber: 'Entrer le nom ou le numéro',
 };
 

@@ -1,8 +1,8 @@
 export default {
   noActiveCalls: 'No active calls',
-  currentCall: 'Current Call',
+  currentCall: 'Current call',
   ringCall: 'Ringing Call',
-  onHoldCall: 'Call on Hold',
+  onHoldCall: 'Call on hold',
   otherDeviceCall: 'Ongoing calls on my other devices',
 };
 

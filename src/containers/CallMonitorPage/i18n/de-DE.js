@@ -1,5 +1,5 @@
 export default {
-  title: 'Anrufe',
+  title: 'Anrufe'
 };
 
 // @key: @#@"title"@#@ @source: @#@"Calls"@#@

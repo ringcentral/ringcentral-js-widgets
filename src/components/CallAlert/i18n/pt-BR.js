@@ -11,7 +11,7 @@ export default {
   [callErrors.noInternational]: 'Você não tem permissão para fazer chamadas internacionais. Entre em contato com o administrador da sua conta {brand} para fazer um upgrade.',
   [callErrors.noRingoutEnable]: 'O ramal pode fazer chamadas com o aplicativo de desktop.\n    Se você deseja alternar para outras opções de chamada,\n    entre em contato com o administrador da conta para fazer um upgrade.',
   areaCode: 'código de área',
-  telus911: 'Não há suporte para a discagem de emergência.',
+  telus911: 'Não há suporte para a discagem de emergência.'
 };
 
 // @key: @#@"[callErrors.noToNumber]"@#@ @source: @#@"Please enter a valid phone number."@#@

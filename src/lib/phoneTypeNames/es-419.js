@@ -4,7 +4,7 @@ export default {
   [phoneTypes.business]: 'Teléfono del trabajo',
   [phoneTypes.extension]: 'Número de extensión',
   [phoneTypes.home]: 'Número particular',
-  [phoneTypes.mobile]: 'Teléfono celular',
+  [phoneTypes.mobile]: 'Teléfono móvil',
   [phoneTypes.phone]: 'Teléfono',
   [phoneTypes.unknown]: 'Tipo de teléfono desconocido',
   [phoneTypes.company]: 'Número de la empresa',

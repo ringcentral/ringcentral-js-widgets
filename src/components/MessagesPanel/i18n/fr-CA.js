@@ -8,7 +8,7 @@ export default {
   composeText: 'Rédiger texto',
   [messageTypes.all]: 'Tous',
   [messageTypes.voiceMail]: 'Appel',
-  [messageTypes.text]: 'Texte',
+  [messageTypes.text]: 'Texto',
   [messageTypes.fax]: 'Fax',
 };
 

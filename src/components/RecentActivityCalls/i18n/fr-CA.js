@@ -2,7 +2,7 @@ export default {
   noRecords: 'Aucun enregistrement récent trouvé.',
   inBound: 'Entrant',
   outBound: 'Sortant',
-  missed: 'Appel manqué',
+  missed: 'Appel manqué'
 };
 
 // @key: @#@"noRecords"@#@ @source: @#@"No recent records found."@#@
