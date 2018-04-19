@@ -8,10 +8,10 @@ export default {
   [callErrors.internalError]: 'Impossibile connettersi a causa di errori interni. Riprova più tardi.',
   [callErrors.notAnExtension]: 'Il numero interno non esiste.',
   [callErrors.networkError]: 'Impossibile connettersi a causa di problemi di rete. Riprova più tardi.',
-  [callErrors.noInternational]: "Non disponi delle autorizzazioni per effettuare chiamate internazionali. Contatta l'amministratore dell'account {brand} per effettuare un upgrade.",
+  [callErrors.noInternational]: 'Non disponi delle autorizzazioni per effettuare chiamate internazionali. Contatta l\'amministratore dell\'account {brand} per effettuare un upgrade.',
   [callErrors.noRingoutEnable]: 'Dal tuo interno è possibile effettuare chiamate con l\'app per il desktop.\n    Per passare ad altre opzioni di chiamata\n    contatta l\'amministratore dell\'account per un aggiornamento.',
   areaCode: 'prefisso',
-  telus911: 'Chiamate di emergenza non supportate.',
+  telus911: 'Chiamate di emergenza non supportate.'
 };
 
 // @key: @#@"[callErrors.noToNumber]"@#@ @source: @#@"Please enter a valid phone number."@#@

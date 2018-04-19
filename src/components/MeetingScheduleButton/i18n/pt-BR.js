@@ -1,6 +1,6 @@
 export default {
   schedule: 'Agendar',
-  prompt: 'Autorize a RingCentral a acessar as informações da sua conta.',
+  prompt: 'Autorize a RingCentral a acessar as informações da sua conta.'
 };
 
 // @key: @#@"schedule"@#@ @source: @#@"Schedule"@#@

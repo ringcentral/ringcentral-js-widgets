@@ -4,7 +4,7 @@ export default {
   editLog: 'Editar log',
   select: 'Selecionar um registro correspondente',
   OnHold: 'Em espera',
-  Ringing: 'Toque',
+  Ringing: 'Chamando',
   CallConnected: 'Chamada conectada',
   unknownUser: 'Usuário desconhecido',
   unknownNumber: 'Anônimo',

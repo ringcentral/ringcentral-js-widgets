@@ -12,17 +12,17 @@ export default {
   viewDetails: 'Afficher les détails',
   addEntity: 'Créer',
   addLog: 'Liste',
-  text: 'Texte',
+  text: 'Texto',
   call: 'Appeler',
   addContact: 'Ajouter un contact',
   missedCall: 'Manqué',
   inboundCall: 'Entrant',
   outboundCall: 'Sortant',
-  from: 'De ',
-  to: 'À ',
-  hangup: 'Raccrocher',
-  accept: 'Accepter',
-  toVoicemail: 'Envoyer vers la messagerie vocale',
+  from: 'De',
+  to: 'À',
+  hangup:'Raccrocher',
+  accept:'Accepter',
+  toVoicemail:'Envoyer vers la messagerie vocale',
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@

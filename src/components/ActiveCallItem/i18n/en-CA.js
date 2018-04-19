@@ -20,9 +20,9 @@ export default {
   outboundCall: 'Outbound',
   from: 'From',
   to: 'To',
-  hangup: 'Hangup',
-  accept: 'Accept',
-  toVoicemail: 'Send to Voicemail',
+  hangup:'Hangup',
+  accept:'Accept',
+  toVoicemail:'Send to Voicemail',
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@

@@ -4,7 +4,7 @@ export default {
   ignore: 'Ignorer',
   toVoicemail: 'Boîte vocale',
   answer: 'Réponse',
-  answerAndEnd: 'Rép. et term.',
+  answerAndEnd: 'Répondre et\nterminer',
   answerAndHold: 'Rép. et mise en att.',
 };
 

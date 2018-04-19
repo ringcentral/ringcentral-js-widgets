@@ -18,11 +18,11 @@ export default {
   missedCall: 'Manqué',
   inboundCall: 'Entrant',
   outboundCall: 'Sortant',
-  from: 'De ',
-  to: 'À ',
-  hangup: 'Raccrocher',
-  accept: 'Accepter',
-  toVoicemail: 'Envoyer vers la messagerie vocale',
+  from: 'De',
+  to: 'À',
+  hangup:'Raccrocher',
+  accept:'Accepter',
+  toVoicemail:'Envoyer vers la messagerie vocale',
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@

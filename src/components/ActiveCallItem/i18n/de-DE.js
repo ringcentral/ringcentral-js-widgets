@@ -12,7 +12,7 @@ export default {
   viewDetails: 'Details anzeigen',
   addEntity: 'Neu erstellen',
   addLog: 'Protokoll',
-  text: 'Textnachricht',
+  text: 'Textnachr.',
   call: 'Anrufen',
   addContact: 'Kontakt hinzufügen',
   missedCall: 'Verpasst',
@@ -20,9 +20,9 @@ export default {
   outboundCall: 'Ausgehend',
   from: 'Von',
   to: 'An',
-  hangup: 'Auflegen',
-  accept: 'Annehmen',
-  toVoicemail: 'An Voicemail weiterleiten',
+  hangup:'Auflegen',
+  accept:'Annehmen',
+  toVoicemail:'An Voicemail weiterleiten',
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@

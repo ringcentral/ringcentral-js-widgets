@@ -2,7 +2,7 @@ export default {
   forward: 'Transférer',
   reply: 'Répondre',
   ignore: 'Ignorer',
-  toVoicemail: 'vers mess. voc.',
+  toVoicemail: 'Vers mess. voc.',
   answer: 'Répondre',
   answerAndEnd: 'Rép et racc.',
   answerAndHold: 'Rép. et attente',

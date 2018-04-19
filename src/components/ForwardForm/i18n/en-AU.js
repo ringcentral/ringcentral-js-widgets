@@ -1,7 +1,7 @@
 export default {
   forward: 'Forward',
   cancel: 'Cancel',
-  customNumber: 'Custom number',
+  customNumber: 'Custom number'
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
