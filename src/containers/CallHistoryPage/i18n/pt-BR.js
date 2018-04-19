@@ -1,5 +1,5 @@
 export default {
-  title: 'Histórico',
+  title: 'Histórico'
 };
 
 // @key: @#@"title"@#@ @source: @#@"History"@#@

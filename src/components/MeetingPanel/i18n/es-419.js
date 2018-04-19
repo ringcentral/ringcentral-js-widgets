@@ -12,7 +12,7 @@ export default {
   voIPOnly: 'Solo VoIP',
   both: 'Ambos',
   meetingOptions: 'Opciones de reunión',
-  requirePassword: 'Es necesaria la contraseña de reunión',
+  requirePassword: 'Requerir contraseña de reunión',
   password: 'Contraseña',
   enableJoinBeforeHost: 'Permitir unirse antes que el host',
   telephonyOnly: 'Solo telefonía',

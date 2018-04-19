@@ -6,7 +6,6 @@ export default {
   country: 'Paese',
   areaCode: 'Prefisso',
   areaCodePlaceholder: 'Inserisci prefisso',
-  save: 'Salva',
 };
 
 // @key: @#@"title"@#@ @source: @#@"Region"@#@

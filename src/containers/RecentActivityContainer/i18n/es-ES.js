@@ -3,7 +3,7 @@ export default {
   text: 'Texto',
   fax: 'Fax',
   voicemail: 'Buzón de voz',
-  call: 'Llamar',
+  call: 'Llamar'
 };
 
 // @key: @#@"recentActivities"@#@ @source: @#@"Recent Activities"@#@

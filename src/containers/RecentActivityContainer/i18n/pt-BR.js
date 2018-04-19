@@ -3,7 +3,7 @@ export default {
   text: 'Texto',
   fax: 'Fax',
   voicemail: 'Caixa postal',
-  call: 'Chamada',
+  call: 'Chamada'
 };
 
 // @key: @#@"recentActivities"@#@ @source: @#@"Recent Activities"@#@

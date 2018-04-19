@@ -8,7 +8,7 @@ export default {
   call: 'Appeler',
   conversation: 'Conversation',
   groupConversation: 'Conversation de groupe',
-  text: 'Texte',
+  text: 'Texto',
   voiceMessage: 'Message vocal',
   [messageTypes.voiceMail]: 'Message vocal',
   mark: 'Marquer comme non lu',

@@ -10,7 +10,7 @@ export default {
   [presenceStatus.available]: 'Available',
   [presenceStatus.busy]: 'Busy',
   [presenceStatus.offline]: 'Invisible',
-  [dndStatus.doNotAcceptAnyCalls]: 'Do not Disturb',
+  [dndStatus.doNotAcceptAnyCalls]: 'Do not disturb'
 };
 
 // @key: @#@"extensionLabel"@#@ @source: @#@"Ext."@#@

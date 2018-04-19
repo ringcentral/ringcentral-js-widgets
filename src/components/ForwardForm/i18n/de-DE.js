@@ -1,7 +1,7 @@
 export default {
   forward: 'Weiterleiten',
   cancel: 'Abbrechen',
-  customNumber: 'Benutzerdefinierte Nummer',
+  customNumber: 'Benutzerdefinierte Nummer'
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

@@ -12,7 +12,7 @@ export default {
   viewDetails: 'Afficher les détails',
   addEntity: 'Créer',
   addLog: 'Liste',
-  text: 'Texte',
+  text: 'Texto',
   call: 'Appeler',
   missedCall: 'Manqué',
   inboundCall: 'Entrant',

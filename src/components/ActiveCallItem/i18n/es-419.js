@@ -20,9 +20,9 @@ export default {
   outboundCall: 'Saliente',
   from: 'De',
   to: 'Para',
-  hangup: 'Colgar',
-  accept: 'Aceptar',
-  toVoicemail: 'Enviar al buzón de voz',
+  hangup:'Colgar',
+  accept:'Aceptar',
+  toVoicemail:'Enviar al buzón de voz',
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@

@@ -1,7 +1,7 @@
 export default {
   forward: 'Inoltra',
   cancel: 'Annulla',
-  customNumber: 'Numero personalizzato',
+  customNumber: 'Numero personalizzato'
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

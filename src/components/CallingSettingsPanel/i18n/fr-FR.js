@@ -17,7 +17,7 @@ export default {
   [`${callingOptions.myphone}Tooltip`]: 'Utilisez cette option pour passer des appels à l\'aide de votre téléphone {brand}.',
   [`${callingOptions.myphone}Tooltip1`]: 'Pour l\'appel que vous passez, votre téléphone {brand} sonne d\'abord, suivi du groupe que vous avez appelé.',
   [`${callingOptions.otherphone}Tooltip`]: 'Utilisez cette option pour passer des appels à l\'aide de vos autres téléphones, tels que les téléphones personnels ou mobiles que vous avez ajoutés dans votre extension {brand}.',
-  [`${callingOptions.otherphone}Tooltip1`]: 'Pour l\'appel que vous passez, ce téléphone sonne d\'abord, suivi du groupe que vous avez appelé.',
+  [`${callingOptions.otherphone}Tooltip1`]: 'Pour l'appel que vous passez, ce téléphone sonne d'abord, suivi du groupe que vous avez appelé.',
   [`${callingOptions.customphone}Tooltip`]: 'Utilisez cette option pour passer des appels à l\'aide du téléphone de votre choix en saisissant un numéro de téléphone correct dans le champ situé ci-dessous.',
   [`${callingOptions.customphone}Tooltip1`]: 'Pour l\'appel que vous passez, ce téléphone sonne d\'abord, suivi du groupe que vous avez appelé.',
 };

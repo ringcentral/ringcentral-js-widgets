@@ -20,9 +20,9 @@ export default {
   outboundCall: 'In uscita',
   from: 'Da',
   to: 'A',
-  hangup: 'Riaggancia',
-  accept: 'Accetta',
-  toVoicemail: 'Invia alla segreteria telefonica',
+  hangup:'Riaggancia',
+  accept:'Accetta',
+  toVoicemail:'Invia alla segreteria telefonica',
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@

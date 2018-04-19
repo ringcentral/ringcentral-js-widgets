@@ -5,7 +5,7 @@ export default {
   toVoicemail: 'Para caixa postal',
   answer: 'Responder',
   answerAndEnd: 'Atender e enc.',
-  answerAndHold: 'Atender e espera',
+  answerAndHold: 'Atender e em espera',
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

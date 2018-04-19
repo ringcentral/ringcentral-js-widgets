@@ -6,7 +6,7 @@ export default {
   directLabel: 'Direkt',
   emailLabel: 'E-Mail',
   call: 'Anrufen',
-  text: 'Textnachricht',
+  text: 'Textnachr',
   [presenceStatus.available]: 'Verfügbar',
   [presenceStatus.busy]: 'Belegt',
   [presenceStatus.offline]: 'Unsichtbar',
