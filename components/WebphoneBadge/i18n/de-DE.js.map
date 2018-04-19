@@ -1,1 +1,0 @@
-{"version":3,"sources":["components/WebphoneBadge/i18n/de-DE.js"],"names":["webphoneUnavailable"],"mappings":";;;;;kBAAe;AACbA,uBAAqB;AADR,C;;AAIf","file":"de-DE.js","sourcesContent":["export default {\n  webphoneUnavailable: 'Webtelefon nicht verfügbar',\n};\n\n// @key: @#@\"webphoneUnavailable\"@#@ @source: @#@\"Web Phone Unavailable\"@#@\n"]}

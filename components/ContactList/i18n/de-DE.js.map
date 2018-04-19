@@ -1,1 +1,0 @@
-{"version":3,"sources":["components/ContactList/i18n/de-DE.js"],"names":["noContacts"],"mappings":";;;;;kBAAe;AACbA,cAAY;AADC,C;;AAIf","file":"de-DE.js","sourcesContent":["export default {\n  noContacts: 'Keine Datensätze gefunden.',\n};\n\n// @key: @#@\"noContacts\"@#@ @source: @#@\"No records found.\"@#@\n"]}
