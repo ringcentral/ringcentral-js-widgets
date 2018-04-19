@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ContactDetailsView/i18n/it-IT.js"],"names":["contactDetails"],"mappings":";;;;;kBAAe;AACbA,kBAAgB;AADH,C;;AAIf","file":"it-IT.js","sourcesContent":["export default {\n  contactDetails: 'Dettagli contatto',\n};\n\n// @key: @#@\"contactDetails\"@#@ @source: @#@\"Contact Details\"@#@\n"]}

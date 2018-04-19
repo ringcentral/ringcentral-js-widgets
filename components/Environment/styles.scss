@@ -1,0 +1,29 @@
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/layout.scss';
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/fonts.scss';
+@import '../../lib/commonStyles/buttons.scss';
+
+.root {
+  @include full-size;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  z-index: 30;
+}
+
+.content {
+  height: 94%;
+  max-height: calc(100% - 32px);
+}
+
+.saveButton {
+  display: block;
+  margin-top: 20px;
+  @include big-submit-button;
+
+  &.disabled {
+    @include big-submit-button-disabled
+  }
+}

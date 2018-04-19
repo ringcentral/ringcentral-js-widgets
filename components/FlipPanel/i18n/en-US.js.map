@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/FlipPanel/i18n/en-US.js"],"names":["flipHeader","flip","complete"],"mappings":";;;;;kBAAe;AACbA,cAAY,iBADC;AAEbC,QAAM,MAFO;AAGbC,YAAU;AAHG,C","file":"en-US.js","sourcesContent":["export default {\n  flipHeader: 'Flip Call to...',\n  flip: 'Flip',\n  complete: 'Complete Flip',\n};\n"]}

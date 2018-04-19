@@ -1,0 +1,90 @@
+@import 'theme';
+
+$marine: #0570A1 !default;
+$rc-blue: #0684bd !default;
+$sea: #389DCA !default;
+$water: #9BCEE5 !default;
+
+$rust: #D44E4E !default;
+$tomato: #F95B5C !default;
+$rouge: #FDCACA !default;
+
+$brass: #CC9922 !default;
+$gold: #FFBF2A !default;
+$sunny: #FFE5AA !default;
+
+$carmel: #D97400 !default;
+$orange: #FF8800 !default;
+$apricot: #FFCF99 !default;
+
+$envy: #4C944C !default;
+$leaf: #5FB95C !default;
+$mint: #BFE3BE !default;
+
+$night: #2F2F2F !default;
+$ash: #666666 !default;
+$coin: #999999 !default;
+$smoke: #C7C7C7 !default;
+$silver: #E2E2E2 !default;
+$egg: #F9F9F9 !default;
+$snow: #FFFFFF !default;
+
+$rc-blue-highlight: rgba(6, 132, 189, 0.4) !default;
+
+$rc-blue-highlight-solid: rgba(173, 210, 227, 1) !default;
+
+$rc-orange: #e07800 !default;
+
+$darkergray: #797979 !default;
+
+$darkgray: #808080 !default; //TODO: replace by darkergray? use in header buttom
+
+$gray: #eeeeee !default;
+
+$lightergray: #efefef !default;
+
+$lightgray: #fcfcfc !default;
+
+
+$grey-light: #797979 !default;
+$lightblack: $night !default;
+
+$missed: #D8232A !default;
+$active: #23B23D !default;
+
+
+//---- variable for theme ----//
+$primary-color: $rc-blue !default;
+$primary-color-highlight: $rc-blue-highlight !default;
+$primary-color-highlight-solid: $rc-blue-highlight-solid !default;
+
+$secondary-color: $rc-orange !default;
+
+$primary-neutral-color: $lightblack !default;
+
+$secondary-neutral-color: $darkergray !default;
+
+$border-color: $gray !default;
+$disabled-border-color: $silver !default;
+$disabled-background-color: $smoke !default;
+
+$app-background-color: $lightgray !default;
+
+$line-background-color: $snow !default;
+
+$line-panel-background-color: #f6f6f6 !default;
+
+$panel-background-color: $snow !default;
+
+// $dialer-btn-border-color: #8cc6e1;
+$dialer-btn-border-color: $primary-color-highlight !default;
+
+$call-btn-color: #5fb95c  !default;
+$call-btn-press-color: rgba(76,217,100,0.4) !default;
+
+$extension-background-color: #66d17b !default;
+$sms-bubble-background-color: #d5f3fd !default;
+
+$brand-font-color: $rc-blue !default;
+$brand-font-color-highlight: $rc-blue-highlight !default;
+

@@ -1,0 +1,61 @@
+@import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/fonts.scss';
+@import '../../lib/commonStyles/reset.scss';
+
+.contactSourceFilter {
+  position: relative;
+  display: inline-block;
+  margin-left: 4px;
+  width: 26px;
+  height: 28px;
+  vertical-align: middle;
+
+  .filterIconContainer {
+    padding: 6px;
+    cursor: pointer;
+
+    .filterIconNode {
+      path {
+        fill: $primary-color;
+        stroke: $primary-color;
+      }
+      @include reset;
+      width: 100%;
+      height: 100%;
+    }
+    .iconNoneFill {
+      path {
+        fill: none;
+        stroke: $primary-color;
+      }
+    }
+  }
+}
+
+.contactSourceList {
+  position: absolute;
+  top: 30px;
+  left: -55px;
+  width: 90px;
+  padding: 5px;
+  border-radius: 2px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
+  z-index: 3;
+
+  .contactSourceItem {
+    @include secondary-font;
+    padding: 4px;
+    cursor: pointer;
+    border-bottom: 1px solid #ffffff;
+
+    &.selected {
+      color: $primary-color;
+    }
+
+    &:hover {
+      background-color: #fafafa;
+      border-bottom: 1px solid #efefef;
+    }
+  }
+}

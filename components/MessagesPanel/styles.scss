@@ -1,0 +1,99 @@
+@import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/layout';
+@import '../../lib/commonStyles/fonts';
+
+$tabBar-height: 35px;
+
+.root {
+  @include full-size;
+  padding-bottom: 0px;
+}
+
+.content {
+  @include full-size;
+  box-sizing: border-box;
+  border-color: $border-color;
+  border-width: 0;
+  border-bottom-width: 1px;
+  border-style: solid;
+  height: calc(100% - #{$tabBar-height});
+}
+
+.contentWithHeader {
+  height: calc(100% - #{$header-height} - #{$tabBar-height});
+}
+
+.composeText{
+  display: inline-block;
+  height: 20px;
+  padding-right: 15px;
+  padding-top: 9px;
+  width: 20px;
+  path {
+    fill: $primary-color;
+  }
+}
+
+.tabBar {
+  height: 36px !important;
+  background: $snow !important;
+}
+
+.tabTitle {
+  @include secondary-font;
+  color: $night;
+}
+
+.searchContainer {
+  margin: 10px 20px;
+  position: relative;
+}
+
+.searchInput {
+  box-sizing: border-box;
+  margin-right: 35px;
+}
+
+.textIcon {
+  position: absolute;
+  top: 5px;
+  right: 0px;
+  cursor: pointer;
+
+  path {
+    fill: $primary-color;
+  }
+
+  .hoverTextSVGIcon {
+    display: none;
+  }
+
+  .textSVGIcon {
+    display: block;
+  }
+
+  &:hover {
+    .hoverTextSVGIcon {
+      display: block;
+    }
+
+    .textSVGIcon {
+      display: none;
+    }
+  }
+}
+
+.withoutTextIcon {
+  .searchInput {
+    margin-right: 0;
+  }
+
+  .textIcon {
+    display: none;
+  }
+}
+
+.contentWithSearch {
+  height: calc(100% - 51px);
+}

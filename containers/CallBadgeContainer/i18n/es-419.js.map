@@ -1,0 +1,1 @@
+{"version":3,"sources":["containers/CallBadgeContainer/i18n/es-419.js"],"names":["activeCall"],"mappings":";;;;;kBAAe;AACbA,cAAY;AADC,C;;AAIf","file":"es-419.js","sourcesContent":["export default {\n  activeCall: 'Llamada activa',\n};\n\n// @key: @#@\"activeCall\"@#@ @source: @#@\"Active Call\"@#@\n"]}

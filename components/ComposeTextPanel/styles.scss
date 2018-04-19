@@ -1,0 +1,98 @@
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/full-size';
+
+.root {
+  @include full-size;
+  font-family: Helvetica;
+  box-sizing: content-box;
+  background: #ffffff;
+  * {
+    box-sizing: content-box;
+  }
+
+  label {
+    font-weight: normal;
+    margin-bottom: 0;
+  }
+}
+
+.senderField {
+  margin: 0 0 5px 0;
+  padding: 0 20px 1px 20px;
+  border-bottom: #e3e3e3 1px solid;
+	transition: height 0.5s ease-in;
+  color: #797979;
+}
+.hiddenField {
+  height: 0px;
+}
+
+
+
+.buttomField {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 2px 2px 2px;
+  font-family: Helvetica;
+  border-top: 1px solid #e3e3e5;
+}
+
+.textField {
+  margin-right: 115px;
+
+  textarea {
+    background: transparent;
+    font-size: 13px;
+    line-height: 18px;
+    width: 100%;
+    margin: 10px 0 10px 10px;
+    resize: none;
+    border: none;
+    outline: medium none!important;
+    box-sizing: border-box!important;
+
+    &::placeholder {
+      color: #a9a9a9;
+    }
+  }
+}
+
+.submitField {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 115px;
+  margin-top: -18px;
+  margin-right: 2px;
+}
+
+.submitButton {
+  display: block;
+  margin: 0 auto;
+  width: 73px;
+  height: 36px;
+  box-sizing: border-box;
+  font-size: 13px;
+  line-height: 18px;
+  padding: 7px;
+  border-radius: 18px;
+  outline: medium none!important;
+  color: #fff;
+  background-color: $primary-color;
+  border-style: none;
+}
+
+.submitButton:hover {
+  background-color: $primary-color-highlight;
+  color: #fff;
+}
+
+.submitButton:disabled,
+.submitButton:disabled:hover {
+  background-color: #fff!important;
+  border: #c9c9c9 1px solid;
+  color: #a9a9a9;
+  cursor: not-allowed;
+}

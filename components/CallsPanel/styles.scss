@@ -1,0 +1,12 @@
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/layout';
+.root {
+  @include full-size;
+}
+.content {
+  @include full-size;
+  height: calc(100% - #{$header-height});
+  overflow-y: auto;
+  padding-top: 0;
+  padding-bottom: 0;
+}

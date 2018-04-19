@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/RateExceededAlert/i18n/en-US.js"],"names":["rateExceeded"],"mappings":";;;;;kBAAe;AACbA,gBAAc;AADD,C","file":"en-US.js","sourcesContent":["export default {\n  rateExceeded: 'Request limit exceeded. App will resume in {ttl} seconds.',\n};\n"]}

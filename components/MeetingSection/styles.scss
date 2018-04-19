@@ -1,0 +1,36 @@
+@import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/reset.scss';
+
+.section {
+  padding: 10px 0;
+  margin: 0 20px;
+  min-height: 16px;
+  border-top: 1px solid $silver;
+}
+
+.title {
+  font-size: 13px;
+  font-weight: bold;
+  color: $night;
+  align-items: center;
+  display: flex;
+}
+
+.dropDown {
+  transform: rotate(180deg);
+}
+
+.arrow {
+  color: $ash;
+  font-size: 13px;
+}
+
+.hiddenTopBorder {
+  border-top: none;
+}
+
+.spaceBetween {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

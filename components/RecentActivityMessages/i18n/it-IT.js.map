@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/RecentActivityMessages/i18n/it-IT.js"],"names":["noRecords"],"mappings":";;;;;kBAAe;AACbA,aAAW;AADE,C;;AAIf","file":"it-IT.js","sourcesContent":["export default {\n  noRecords: 'Nessun record corrispondente.',\n};\n\n// @key: @#@\"noRecords\"@#@ @source: @#@\"No recent records found.\"@#@\n"]}

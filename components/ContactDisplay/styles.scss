@@ -1,0 +1,62 @@
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/fonts';
+@import '../../lib/commonStyles/text-ellipsis';
+
+.root {
+  text-align: center;
+  color: #303030;
+  font-size: 14px;
+  line-height: 40px;
+}
+
+.content {
+  line-height: 40px;
+}
+
+.currentName {
+  @include text-ellipsis;
+}
+
+.select {
+  display: inline-block;
+  height: 25px;
+  border: 0px;
+  button {
+    margin: 0px;
+    font-size: 14px;
+  }
+  ul {
+    width: 180px;
+    left: 50%;
+    margin-left: -100px;
+    cursor: pointer;
+    li {
+      line-height: 19px;
+    }
+    li:first-child {
+      padding-top: 7px;
+    }
+    li:last-child {
+      padding-bottom: 7px;
+    }
+    li:hover {
+      background: #f9f9f9;
+    }
+  }
+}
+
+.select:after {
+  line-height: 20px;
+  color: #979797;
+}
+
+.typeIcon {
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.typeName {
+  vertical-align: middle;
+  @include secondary-font;
+  color: $lightblack;
+}

@@ -1,0 +1,82 @@
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/no-select';
+@import '../../lib/commonStyles/vertical-align';
+@import '../../lib/commonStyles/colors';
+
+$row_margin:50px;
+$dial_pad_width: calc(100% - #{$row_margin*2});
+$dial_input_height: 10%;
+
+.root {
+  @include full-size;
+  box-sizing: border-box;
+  background: #ffffff;
+}
+
+.inputFields {
+  margin: 0 0 5px 0;
+  padding: 0 20px 1px 20px;
+  border-bottom: #e3e3e3 1px solid;
+  color: #797979;
+}
+
+.dial_input {
+  width: 100%;
+  height: $dial_input_height;
+}
+
+.dialInput {
+  height: 100%;
+  text-align: center;
+  box-sizing: border-box;
+  border: 0px;
+  margin-bottom: 5px;
+  font-size: 1.2em;
+  color: dimgrey;
+}
+
+.dialButtons {
+  @include full-size;
+  height: calc(100% - 70px);
+  width: 80%;
+  padding-left: 10%;
+  padding-right: 10%;
+  box-sizing: content-box;
+}
+
+.dialPad {
+  height: 62%;
+  margin-top: 7%;
+}
+
+.callBtnRow {
+  height: 20%;
+  margin-top: 6%;
+  text-align: center;
+}
+
+.callBtn {
+  @include full-size;
+  display: inline-block;
+  width: 19%;
+  height: 100%;
+}
+
+.dialBtn {
+  g, path {
+    fill: #ffffff;
+  }
+
+  circle {
+    fill: $call-btn-color;
+  }
+
+  &.disabled {
+    circle {
+      fill: rgba(229, 229, 229, 1);
+    }
+    g {
+      cursor: not-allowed;
+    }
+  }
+}

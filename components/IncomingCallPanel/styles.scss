@@ -1,0 +1,164 @@
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/colors';
+
+$userInfoHight: 182px;
+
+.root {
+  @include full-size;
+  box-sizing: border-box;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-top: 30px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  background: #ffffff;
+}
+
+.backButton {
+  position: absolute;
+  top: 15px;
+  left: 20px;
+  font-size: 13px;
+  color: $grey-light;
+  transform: rotate(90deg);
+  cursor: pointer;
+}
+
+.userInfo {
+  margin-top: 0;
+  text-align: center;
+  font-size: 60px;
+  color: lightblack;
+  width: 100%;
+  height: $userInfoHight;
+}
+
+.callPad {
+  height: calc(100% - #{$userInfoHight});
+  padding-bottom: 30px;
+}
+
+.avatarContainer {
+  display: block;
+  margin-top: 25px;
+}
+
+.userNameContainer {
+  display: block;
+  height: 25px;
+}
+
+.userName {
+  font-size: 15px;
+  color: $lightblack;
+  display: inline-block;
+  vertical-align: top;
+  line-height: 25px;
+}
+
+.userPhoneNumber {
+  font-size: 12px;
+  color: $grey-light;
+  margin-top: 5px;
+}
+
+.avatarHolder {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+  color: $primary-color;
+}
+
+.ringOutside {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -50px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  opacity: 0.1;
+  border: solid 1px $primary-color;
+  z-index: 1;
+}
+
+.ringInner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -42px;
+  margin-left: -42px;
+  width: 84px;
+  height: 84px;
+  border-radius: 50px;
+  opacity: 0.29;
+  border: solid 1px $primary-color;
+  z-index: 2;
+}
+
+.avatar {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -32px;
+  margin-left: -31px;
+  width: 65px;
+  height: 65px;
+  border-radius: 33px;
+  z-index: 3;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+  }
+}
+
+.icon {
+  display: block;
+  font-size: 66px;
+  opacity: 0.3;
+}
+
+@keyframes ringingOutside {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.1;
+  }
+}
+
+@keyframes ringingInner {
+  0% {
+    opacity: 0.05;
+  }
+  100% {
+    opacity: 0.29;
+  }
+}
+
+.ringOutside.ringing {
+  animation-name: ringingOutside;
+  animation-direction: alternate;
+  animation-duration: 0.8s;
+  animation-iteration-count: infinite;
+}
+
+.ringInner.ringing {
+  animation-name: ringingInner;
+  animation-direction: alternate;
+  animation-duration: 0.7s;
+  animation-iteration-count: infinite;
+}
+
+.dropdown {
+  ul {
+    max-height: 90px;
+  }
+}

@@ -1,0 +1,196 @@
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/text-ellipsis';
+@import '../../lib/commonStyles/fonts';
+
+.root {
+  border-bottom: 1px solid $silver;
+  cursor: pointer;
+  background-color: $snow;
+  &:hover {
+    background-color: $egg;
+  }
+}
+
+.root:hover .extendIcon {
+  border-top-color: #fafafa;
+}
+
+.slideMenu {
+  background: $snow;
+  &:hover {
+    background: $snow;
+  }
+}
+
+.wrapper {
+  display: block;
+  position: relative;
+  height: 64px;
+  width: 100%;
+}
+
+.conversationIcon {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 11px;
+  width: 40px;
+  height: 66px;
+  line-height: 66px;
+  text-align: center;
+  color: $ash;
+}
+
+.icon {
+  path {
+    fill: $ash;
+  }
+}
+
+.details {
+  @include field-value-font;
+  position: absolute;
+  left: 50px;
+  bottom: 12px;
+  color: $ash;
+  @include text-ellipsis;
+  max-width: 140px;
+}
+
+.creationTime {
+  @include field-value-font;
+  position: absolute;
+  right: 20px;
+  top: 19px;
+  color: $ash;
+}
+
+.contactDisplay {
+  position: absolute;
+  top: 5px;
+  left: 50px;
+  @include secondary-font;
+  @include text-ellipsis;
+  overflow: inherit;
+  max-width: 140px;
+  color: $night;
+}
+
+.playContainer {
+  display: block!important;
+  width: 100%;
+}
+
+.player {
+  padding: 8px 20px 0 43px;
+  box-sizing: border-box;
+}
+
+.actionMenuList {
+  margin: 10px 20px 15px 43px;
+}
+
+// .messageLink {
+//   text-decoration: none;
+// }
+
+// .messageLink:hover {
+//   text-decoration: none;
+// }
+
+// .messageLink:focus {
+//   text-decoration: none;
+// }
+
+
+// .messageContent {
+//   padding: 15px 52px 15px 0;
+//   color: #797979;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+//   white-space: nowrap;
+//   font-size: 14px;
+//   border-bottom: 1px solid #efefef;
+//   min-height: 36px;
+// }
+
+// .messageFrom {
+//   color: #303030;
+//   font-size: 13px;
+//   line-height: 18px;
+//   display: block;
+//   min-height: 12px;
+//   white-space: nowrap;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+// }
+
+.unread {
+  .contactDisplay {
+    color: $primary-color;
+    button {
+      color: $primary-color;
+    }
+  }
+
+  .conversationIcon {
+    color: $primary-color;
+  }
+
+  .icon {
+    path {
+      fill: $primary-color;
+    }
+  }
+  // .messageFrom {
+  //   color: $primary-color;
+  // }
+
+  .details {
+    color: $primary-color;
+  }
+
+  .creationTime {
+    color: $primary-color;
+  }
+}
+
+.dropdownSelect {
+  ul {
+    left: 0;
+    margin-left: -5px;
+  }
+}
+
+// .messageInfo {
+//   position: absolute;
+//   top: 37px;
+//   right: 65px;
+//   color: #b3b3b3;
+//   max-width: 70px;
+//   text-align: right;
+// }
+
+// .contactInfo {
+//   color: #b3b3b3;
+//   font-size: 1em;
+//   position: absolute;
+//   top: 15px;
+//   right: 65px;
+//   line-height: 18px;
+//   width: 20px;
+//   text-align: right;
+//   cursor: pointer;
+//   &:hover {
+//     color: #333;
+//   }
+// }
+
+// .messageTime {
+//   font-size: 11px;
+//   width: 70px;
+//   text-overflow: ellipsis;
+//   overflow: hidden;
+//   white-space: nowrap;
+//   text-align: right;
+// }

@@ -1,0 +1,72 @@
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/fonts';
+
+:global {
+  .popover-content {
+    padding: 9px;
+    font-size: 12px;
+  }
+}
+
+.root {
+  @include full-size;
+}
+.content {
+  @include full-size;
+  overflow-y: auto;
+  box-sizing: border-box;
+  background-color: $line-panel-background-color;
+}
+.contentWithHeader {
+  height: calc(100% - $header-height);
+}
+
+.section {
+  padding-top: 8px;
+}
+.eula {
+  color: $brand-font-color;
+  text-decoration: none;
+  font-size: $primary-font-size;
+  outline: 0;
+}
+.eula:focus {
+  outline: 0;
+}
+.eula:hover {
+  text-decoration: underline;
+  color: $brand-font-color-highlight;
+}
+
+.loginNumber{
+  @include secondary-font;
+}
+.versionContainer{
+  @include secondary-font;
+  padding: 10px 20px;
+}
+
+.iconInfo {
+  top: 2px;
+  cursor: pointer;
+  margin-left: 6px;
+  margin-right: 6px;
+  position: relative;
+  color: $primary-color;
+  font-size: 16px !important;
+}
+
+.settingsSection {
+  padding: 7px 0;
+  .group {
+    margin-top: -8px;
+  }
+}
+
+.sectionTitle {
+  color: #666;
+  font-size: 12px;
+  padding: 0 10px;
+  margin-bottom: -2px;
+}

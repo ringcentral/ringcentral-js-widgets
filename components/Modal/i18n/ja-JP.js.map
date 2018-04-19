@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/Modal/i18n/ja-JP.js"],"names":["cancel","confirm"],"mappings":";;;;;kBAAe;AACbA,UAAQ,OADK;AAEbC,WAAS;AAFI,C;;AAKf;AACA","file":"ja-JP.js","sourcesContent":["export default {\n  cancel: 'キャンセル',\n  confirm: '確認',\n};\n\n// @key: @#@\"cancel\"@#@ @source: @#@\"Cancel\"@#@\n// @key: @#@\"confirm\"@#@ @source: @#@\"Confirm\"@#@\n"]}

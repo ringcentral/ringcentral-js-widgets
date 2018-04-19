@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/LocalePicker/i18n/index.js"],"names":[],"mappings":";;;;;;AAAA;;;;AACA;;;;;;kBAEe,wC","file":"index.js","sourcesContent":["import I18n from 'locale-loader/I18n';\r\nimport loadLocale from './loadLocale';\r\n\r\nexport default new I18n(loadLocale);\r\n"]}

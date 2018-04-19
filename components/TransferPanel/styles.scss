@@ -1,0 +1,76 @@
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/fonts';
+
+$input-height: 43px;
+
+.root {
+  @include full-size;
+  box-sizing: border-box;
+  background: $snow;
+}
+
+.dialInput {
+  height: $input-height;
+  border: 0px;
+  padding: 5px 0;
+  margin: 0 20px;
+  border-bottom: 1px solid $gray;
+  box-sizing: border-box;
+}
+
+.padContainer {
+  height: calc(100% - #{$input-height});
+  padding: 0 10px;
+}
+
+.dialPad {
+  height: 64%;
+  box-sizing: border-box;
+  padding-top: 8%;
+  padding-left: 7%;
+  padding-right: 7%;
+}
+
+.buttonRow {
+  text-align: center;
+  height: 20%;
+  width: 100%;
+}
+
+.button {
+  width: 16.1%;
+  height: 100%;
+  display: inline-block;
+}
+
+.backButton {
+  font-size: $primary-font-size;
+  color: $lightblack;
+  .backIcon {
+    display: inline-block;
+    position: absolute;
+    transform: rotate(90deg);
+    top: 5px;
+    left: 10px;
+  }
+  .backLabel {
+    display: inline-block;
+    width: 79px;
+  }
+}
+
+.disabled {
+  g {
+    cursor: not-allowed;
+  }
+
+  circle {
+    opacity: 1;
+    stroke: $disabled-background-color;
+  }
+
+  path {
+    fill: $disabled-background-color;
+  }
+}

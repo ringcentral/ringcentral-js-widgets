@@ -1,0 +1,31 @@
+@import '../../lib/commonStyles/vertical-align';
+@import '../../lib/commonStyles/no-select';
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/fonts';
+
+.root {
+  padding: 10px 0;
+}
+.label {
+  width: 100%;
+  display: inline-block;
+  position: relative;
+  vertical-align: top;
+  padding-bottom: 10px;
+  padding-left: 1px;
+  @include field-label-font;
+}
+.hint {
+  font-weight: normal;
+  font-size: 12px;
+}
+.inputHolder {
+  @include no-select;
+  @include field-value-font;
+  display: inline-block;
+  position: relative;
+  vertical-align: top;
+  width: 100%;
+  height: 30px;
+  text-align: center;
+}

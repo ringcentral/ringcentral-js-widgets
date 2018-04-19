@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/RateExceededAlert/i18n/ja-JP.js"],"names":["rateExceeded"],"mappings":";;;;;kBAAe;AACbA,gBAAc;AADD,C;;AAIf","file":"ja-JP.js","sourcesContent":["export default {\n  rateExceeded: '要求の上限を超えました\\u3002アプリは{ttl}秒後に再開します\\u3002',\n};\n\n// @key: @#@\"rateExceeded\"@#@ @source: @#@\"Request limit exceeded. App will resume in {ttl} seconds.\"@#@\n"]}

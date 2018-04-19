@@ -1,0 +1,1 @@
+{"version":3,"sources":["containers/CallBadgeContainer/i18n/it-IT.js"],"names":["activeCall"],"mappings":";;;;;kBAAe;AACbA,cAAY;AADC,C;;AAIf","file":"it-IT.js","sourcesContent":["export default {\n  activeCall: 'Chiamata attiva',\n};\n\n// @key: @#@\"activeCall\"@#@ @source: @#@\"Active Call\"@#@\n"]}

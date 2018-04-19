@@ -1,0 +1,121 @@
+@import '../../lib/commonStyles/fonts.scss';
+@import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/text-ellipsis';
+
+.root {
+  box-sizing: border-box;
+  width: 100%;
+  display: block;
+  padding: 0 0 10px 0;
+  background: #ffffff;
+  @include primary-font;
+}
+
+.buttonGroup {
+  @include primary-font;
+  display: block;
+  margin-top: 10px;
+  padding: 0 20px;
+  text-align: right;
+}
+
+.cancelButton {
+  font-size: 12px;
+  color: $primary-color;
+  display: inline-block;
+  width: 65px;
+  height: 28px;
+  border-radius: 100px;
+  border: solid 1px $primary-color-highlight;
+  line-height: 28px;
+  text-align: center;
+  margin-right: 10px;
+  opacity: 0.9;
+  &:hover {
+    color: $primary-color;
+  }
+}
+
+.forwardButton {
+  display: inline-block;
+  width: 65px;
+  height: 28px;
+  border-radius: 100px;
+  background: $primary-color;
+  border: solid 1px $primary-color;
+  font-size: 12px;
+  color: #ffffff;
+  line-height: 28px;
+  text-align: center;
+  &:hover {
+    color: #ffffff;
+  }
+  &.disabled {
+    background: #c7c7c7;
+    border: solid 1px #c7c7c7;
+    .buttonText {
+      color: #ffffff;
+    }
+  }
+}
+
+.customInput {
+  display: none;
+  border: solid 1px #e3e3e3;
+  margin: 10px 10px 0 10px;
+  input {
+    @include secondary-font;
+    padding: 0 10px;
+    font-size: 12px;
+  }
+}
+
+.custromNumber {
+  padding: 5px 20px 10px 20px;
+  .customLabel {
+    @include secondary-font;
+    line-height: 16px;
+    font-weight: 300;
+    cursor: pointer;
+  }
+  &.active {
+    .customLabel {
+      color: $primary-color;
+    }
+    .customInput {
+      display: block;
+    }
+  }
+}
+
+.active {
+  color: $primary-color;
+  background-color: #f9f9f9;
+}
+
+.numbers {
+  @include secondary-font;
+  font-weight: 300;
+  width: 100%;
+  line-height: 28px;
+  max-height: 84px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  .number {
+    box-sizing: border-box;
+    height: 28px;
+    padding: 0 0 0 20px;
+    cursor: pointer;
+    line-height: 28px;
+    span {
+      display: inline-block;
+      @include text-ellipsis;
+    }
+    .label {
+      width: 43px;
+    }
+    .colon {
+      padding-right: 5px;
+    }
+  }
+}

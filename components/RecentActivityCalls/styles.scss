@@ -1,0 +1,65 @@
+@import '../../lib/commonStyles/fonts.scss';
+@import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/text-ellipsis';
+
+
+.calls {
+  @include primary-font;
+}
+
+.callItem {
+  height: 30px;
+  line-height: 30px;
+  padding: 0 15px;
+}
+
+.iconWrapper {
+  display: inline-block;
+  width: 20px;
+}
+
+.callIcon {
+  font-size: 19px;
+}
+
+.dl {
+  margin: 0;
+}
+
+.status {
+  float: left;
+  width: 68%;
+  margin-right: 2%;
+  font-size: 14px;
+  color: $darkergray;
+  text-align: left;
+  @include text-ellipsis;
+}
+
+.duration {
+  margin-left: 10px;
+  font-size: 12px;
+  color: $grey-light;
+}
+.time {
+  text-align: right;
+  color: $grey-light;
+  @include text-ellipsis;
+}
+
+.noRecords {
+  color: $darkgray;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 30px;
+}
+.missedCall {
+  * {
+    color: #f95b5c;
+  }
+}
+.spinner {
+  width: 43px;
+  height: 43px;
+  margin: 30px auto;
+}

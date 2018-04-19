@@ -1,0 +1,22 @@
+@import '../../lib/commonStyles/full-size.scss';
+@import '../../lib/commonStyles/layout.scss';
+@import '../../lib/commonStyles/reset.scss';
+
+.root {
+  @include full-size;
+  position: absolute;
+  top: 0;
+  z-index: 2;
+}
+
+.content {
+  @include full-size;
+  height: calc(100% - 65px);
+  overflow-y: auto;
+  padding-top: 0;
+  padding-bottom: 30px;
+}
+
+.header {
+  background: #fff;
+}

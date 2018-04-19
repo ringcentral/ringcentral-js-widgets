@@ -1,0 +1,248 @@
+@import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/reset.scss';
+
+:global .rw-widget {
+  font-size: 0.857em;
+}
+
+:global .rw-datetime-picker input.rw-widget-input {
+  display: none;
+}
+
+:global [class*=styles_datePicker] .rw-datetime-picker input.rw-widget-input {
+  display: block;
+  position: absolute;
+  top: -9999px;
+}
+
+:global .rw-widget>.rw-widget-container,
+:global .rw-state-focus>.rw-widget-container,
+:global .rw-state-focus>.rw-widget-container:hover {
+  border: none;
+  box-shadow: none;
+}
+
+:global .rw-widget-picker {
+  height: 1.2em;
+}
+
+:global .rw-datetime-picker .rw-select,
+:global .rw-widget-input.rw-widget-picker.rw-widget-container .rw-select button
+{
+  display: none;
+}
+
+:global .rw-datetime-picker .rw-widget-input {
+  padding: 0;
+  box-shadow: none;
+}
+
+:global .rw-list-empty,
+:global .rw-list-option,
+:global .rw-list-optgroup {
+  padding-right: 0;
+  padding-left: 0;
+  text-align: center;
+}
+
+:global .rw-dropdown-list-input {
+  padding-left: 0;
+}
+:global .rw-cell.rw-state-selected, :global .rw-cell.rw-state-selected:hover {
+  background-color: $primary-color;
+  border: 1px solid $primary-color;
+}
+
+.meetingPanel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+
+.scroll {
+  overflow: hidden;
+  overflow-y: auto;
+  height: 100%;
+  background-color: $snow;
+  padding: 5px 0;
+}
+
+.section {
+  padding: 10px 0;
+  margin: 0 20px;
+  min-height: 16px;
+  border-top: 1px solid $silver;
+}
+
+.title {
+  font-size: 13px;
+  font-weight: bold;
+  color: $night;
+  align-items: center;
+  display: flex;
+}
+
+.fixTopMargin {
+  margin-top: 10px;
+}
+
+.spaceBetween {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inline{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  line-height: 16px;
+}
+
+.input {
+  outline:none;
+  margin-left: 10px;
+  flex-shrink: 1;
+  width: 100%;
+  height: 16px;
+  line-height: 16px;
+  font-size: 13px;
+  color: $ash;
+  border: none;
+}
+
+.label {
+  @extend .title;
+  flex-shrink: 0;
+}
+
+.labelLight {
+  @extend .label;
+  font-weight: normal;
+  color: $ash;
+}
+
+.hiddenTopBorder {
+  border-top: none;
+}
+
+.dropDown {
+  transform: rotate(180deg);
+}
+
+.passwordBox {
+  @extend .fixTopMargin;
+  flex-direction: column;
+}
+
+.password {
+  @extend .fixTopMargin;
+  width: 100%;
+  height: 28px;
+  border: 1px solid $silver;
+  font-size: 13px;
+  outline: none;
+  padding: 0;
+  color: $ash;
+}
+
+.arrow {
+  color: $ash;
+  font-size: 13px;
+}
+
+.icon {
+  path {
+    fill: $primary-color;
+  }
+  @include reset;
+  width: 100%;
+  height: 100%;
+}
+
+.datePicker {
+  width: 64px;
+}
+
+.timeText {
+  font-size: 13px;
+  position: relative;
+  margin-top: -18.7px;
+  height: 17px;
+  color: $ash;
+  display: flex;
+  background-color: transparent;
+}
+
+.dateText {
+  font-size: 13px;
+  position: absolute;
+  top: 5px;
+  height: 17px;
+  color: $ash;
+  display: flex;
+  background-color: transparent;
+}
+
+.timePicker {
+  width: 63px;
+  margin-left: -5px;
+}
+
+.timeInput {
+  display: inline-block;
+  width: 14px;
+  font-size: 13px;
+  color: $ash;
+  border: none;
+  outline: none;
+  padding: 0 5px;
+}
+.colon {
+  color: $ash;
+  font-size: 13px;
+}
+
+.dateIcon {
+  height: 17.4px;
+}
+
+.timeIcon {
+  height: 17.7px;
+  margin-left: -5px;
+  position: relative;
+}
+
+.dateTimeBox {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  height: 24px;
+}
+
+.duration {
+  margin-top: 10px;
+}
+
+.list {
+  display: flex;
+  width: 50%;
+  align-items: center;
+  position: relative;
+  height: 24px;
+}
+
+.hoursList {
+  width: 72px;
+}
+
+.minutesList {
+  width: 72px;
+}
+
+.recurringDescribe {
+  margin-top: 10px;
+  color: $primary-color;
+  font-size: 13px;
+}

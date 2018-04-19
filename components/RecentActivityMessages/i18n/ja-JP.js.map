@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/RecentActivityMessages/i18n/ja-JP.js"],"names":["noRecords"],"mappings":";;;;;kBAAe;AACbA,aAAW;AADE,C;;AAIf","file":"ja-JP.js","sourcesContent":["export default {\n  noRecords: '最近の記録が見つかりません\\u3002',\n};\n\n// @key: @#@\"noRecords\"@#@ @source: @#@\"No recent records found.\"@#@\n"]}

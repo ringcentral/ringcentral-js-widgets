@@ -1,0 +1,36 @@
+@import '../../lib/commonStyles/fonts.scss';
+
+.container {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  box-shadow: 0 -2px 2px 0 rgba(0, 0, 0, 0.1);
+}
+.header {
+  height: 27px;
+  min-height: 27px;
+  cursor: pointer;
+  border-color: #e3e3e3;
+  @include primary-font;
+  font-weight: 300;
+  font-size: 15px;
+}
+
+.arrowIcon {
+  position: relative;
+  margin-right: 15px;
+}
+.foldArrowIcon {
+  display: inline-block;
+  transform: rotate(180deg);
+}
+.expandable {
+  position: fixed;
+  box-sizing: border-box;
+  z-index: 99;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  transition: height 0.2s 0s ease-in-out;
+  transform: translateZ(0);
+}

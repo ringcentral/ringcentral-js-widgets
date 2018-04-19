@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/OfflineModeBadge/i18n/es-419.js"],"names":["offlineMode"],"mappings":";;;;;kBAAe;AACbA,eAAa;AADA,C;;AAIf","file":"es-419.js","sourcesContent":["export default {\n  offlineMode: 'Modo fuera de línea',\n};\n\n// @key: @#@\"offlineMode\"@#@ @source: @#@\"Offline Mode\"@#@\n"]}

@@ -1,0 +1,136 @@
+@import '../../lib/commonStyles/colors';
+
+.root {
+  position: relative;
+  display: block;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 354px;
+  padding: 0 15px;
+  background: #fff;
+}
+
+.message {
+  display: block;
+  width: 100%;
+  font-size: 12px;
+  color: #333333;
+
+  &:first-child {
+    margin-top: 10px;
+  }
+
+  &:last-child {
+    margin-bottom: 10px;
+  }
+}
+
+.time {
+  text-align: center;
+  font-size: 12px;
+  margin-bottom: 10px;
+  color: #a2a2a2;
+  clear: both;
+}
+
+.sender {
+  color: #a2a2a2;
+  clear: both;
+  margin-bottom: 1px;
+}
+
+.messageBody {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 10px;
+  min-width: 50%;
+  max-width: 60%;
+  text-align: left;
+  hyphens: auto;
+  padding: 10px 15px;
+  background: $sms-bubble-background-color;
+  border-radius: 16px;
+  min-height: 13px;
+  box-sizing: content-box;
+  /* For Firefox */
+  white-space: pre-wrap;
+  word-break: break-word;
+  /* For Chrome and IE */
+  word-wrap: break-word;
+}
+
+.messageBody.inbound {
+  border-bottom-left-radius: 10px;
+  background: #efefef;
+
+  &:before {
+    z-index: -1;
+    position: absolute;
+    content: "";
+    width: 33px;
+    height: 28px;
+    bottom: 0px;
+    left: -10px;
+    background: #efefef;
+    border-bottom-right-radius: 33px;
+    transform: rotate(-8deg);
+  }
+
+  &:after {
+    z-index: -1;
+    position: absolute;
+    content: "";
+    width: 30px;
+    height: 30px;
+    bottom: -1px;
+    left: -21px;
+    background: #fff;
+    border-bottom-right-radius: 30px;
+    transform: rotate(-27deg);
+  }
+}
+
+.messageBody.outbound  {
+  float: right;
+  clear: both;
+  border-bottom-right-radius: 10px;
+  &:before {
+    z-index: -1;
+    position: absolute;
+    content: "";
+    width: 29px;
+    height: 28px;
+    bottom: -2px;
+    right: -8px;
+    background: $sms-bubble-background-color;
+    border-bottom-left-radius: 33px;
+    transform: rotate(-6deg);
+  }
+
+  &:after {
+    z-index: -1;
+    position: absolute;
+    content: "";
+    width: 30px;
+    height: 30px;
+    bottom: 3px;
+    right: -21px;
+    background: #fff;
+    border-bottom-left-radius: 30px;
+    transform: rotate(41deg);
+  }
+}
+
+.messageBody.big {
+  width: 85%;
+  max-width: 85%;
+}
+
+.clear {
+  clear: both;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
+}

@@ -1,0 +1,36 @@
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/fonts';
+
+$header-height: 40px;
+.root {
+  @include full-size;
+}
+.conferenceCommands {
+  @include secondary-font;
+  height: calc(100% - #{$header-height});
+  padding: 0 20px;
+  font-size: 13px;
+  overflow: auto;
+}
+.title {
+  font-weight: bold;
+}
+.body {
+  color: $ash;
+}
+.button {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  line-height: 28px;
+  text-align: center;
+  display: inline-block;
+  border: 1px solid $primary-color;
+  margin-right: 10px;
+  background-color: $snow;
+}
+.section {
+  border-bottom: 1px solid $silver;
+  padding-top: 10px;
+}

@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/Modal/i18n/de-DE.js"],"names":["cancel","confirm"],"mappings":";;;;;kBAAe;AACbA,UAAQ,WADK;AAEbC,WAAS;AAFI,C;;AAKf;AACA","file":"de-DE.js","sourcesContent":["export default {\n  cancel: 'Abbrechen',\n  confirm: 'Bestätigen',\n};\n\n// @key: @#@\"cancel\"@#@ @source: @#@\"Cancel\"@#@\n// @key: @#@\"confirm\"@#@ @source: @#@\"Confirm\"@#@\n"]}

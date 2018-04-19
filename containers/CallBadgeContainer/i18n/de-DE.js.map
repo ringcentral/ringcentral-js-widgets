@@ -1,0 +1,1 @@
+{"version":3,"sources":["containers/CallBadgeContainer/i18n/de-DE.js"],"names":["activeCall"],"mappings":";;;;;kBAAe;AACbA,cAAY;AADC,C;;AAIf","file":"de-DE.js","sourcesContent":["export default {\n  activeCall: 'Aktiver Anruf',\n};\n\n// @key: @#@\"activeCall\"@#@ @source: @#@\"Active Call\"@#@\n"]}

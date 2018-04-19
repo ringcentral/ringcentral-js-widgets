@@ -1,0 +1,26 @@
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/no-select';
+@import '../../lib/commonStyles/vertical-align';
+@import '../../lib/commonStyles/colors.scss';
+
+$btn_scale: 75%;
+$btn_value_height: 55%;
+
+.root {
+  @include full-size;
+}
+
+.row {
+  @include full-size;
+  @include no-select;
+  height: 25%;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.btnPlaceholder {
+  @include full-size;
+  display: inline-block;
+  width: calc(100% / 3);
+  height: 100%;
+}

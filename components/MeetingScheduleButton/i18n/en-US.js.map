@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/MeetingScheduleButton/i18n/en-US.js"],"names":["schedule","prompt"],"mappings":";;;;;kBAAe;AACbA,YAAU,UADG;AAEbC,UAAQ;AAFK,C","file":"en-US.js","sourcesContent":["export default {\n  schedule: 'Schedule',\n  prompt: 'Please authorize RingCentral to access your account information.'\n};\n"]}

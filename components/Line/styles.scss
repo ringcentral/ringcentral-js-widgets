@@ -1,0 +1,29 @@
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/fonts';
+
+.root {
+  position: relative;
+  width: 100%;
+  padding: 15px 20px;
+  min-height: 30px;
+  box-sizing: border-box;
+  background-color: $line-background-color;
+  border-style: solid;
+  border-width: 0;
+  border-top-width: 1px;
+  border-bottom-width: 0px;
+  border-color: $border-color;
+  @include primary-font
+}
+
+.horizontal {
+  display: inline-flex;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.noborder {
+  border: none;
+}

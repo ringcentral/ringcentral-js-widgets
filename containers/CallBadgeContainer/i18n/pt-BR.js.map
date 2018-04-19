@@ -1,0 +1,1 @@
+{"version":3,"sources":["containers/CallBadgeContainer/i18n/pt-BR.js"],"names":["activeCall"],"mappings":";;;;;kBAAe;AACbA,cAAY;AADC,C;;AAIf","file":"pt-BR.js","sourcesContent":["export default {\n  activeCall: 'Chamada ativa',\n};\n\n// @key: @#@\"activeCall\"@#@ @source: @#@\"Active Call\"@#@\n"]}

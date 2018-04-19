@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ContactsView/i18n/es-ES.js"],"names":["searchPlaceholder"],"mappings":";;;;;kBAAe;AACbA,qBAAmB;AADN,C;;AAIf","file":"es-ES.js","sourcesContent":["export default {\n  searchPlaceholder: 'Buscar...',\n};\n\n// @key: @#@\"searchPlaceholder\"@#@ @source: @#@\"Search...\"@#@\n"]}

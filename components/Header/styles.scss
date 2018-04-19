@@ -1,0 +1,60 @@
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/vertical-align';
+@import '../../lib/commonStyles/no-select';
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/layout';
+@import '../../lib/commonStyles/fonts';
+
+.root {
+  @include full-size;
+  height: $header-height;
+  min-height: 32px;
+  box-sizing: border-box;
+  border-width: 0;
+  border-bottom-width: 1px;
+  border-style: solid;
+  border-color: $border-color;
+  text-align: center;
+}
+
+.label {
+  @include vertical-align(middle);
+  @include primary-font;
+  font-size: 0.9em;
+}
+
+.buttonGroup {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  padding-left: 5px;
+  white-space: nowrap;
+  max-width: 50%;
+}
+
+.leftButtons {
+  composes: buttonGroup;
+  left: 0;
+}
+.rightButtons {
+  composes: buttonGroup;
+  right: 0;
+}
+
+.button {
+  @include vertical-align(middle);
+  @include no-select;
+  cursor: pointer;
+  color: $darkgray;
+  padding: 3px;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+.button:hover {
+  color: $primary-color;
+}
+.disabled,
+.button.disabled:hover {
+  color: $gray;
+  cursor: not-allowed;
+}

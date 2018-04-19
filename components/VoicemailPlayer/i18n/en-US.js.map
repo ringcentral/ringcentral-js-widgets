@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/VoicemailPlayer/i18n/en-US.js"],"names":["download","play","pause"],"mappings":";;;;;kBAAe;AACbA,YAAU,UADG;AAEbC,QAAM,MAFO;AAGbC,SAAO;AAHM,C","file":"en-US.js","sourcesContent":["export default {\n  download: 'Download',\n  play: 'Play',\n  pause: 'Pause',\n};\n"]}

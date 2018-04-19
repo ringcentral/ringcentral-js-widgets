@@ -1,0 +1,1264 @@
+@font-face {
+    font-family: 'RCFont';
+    src:    url('./fonts/RCFont.eot?xgkkfe');
+    src:    url('./fonts/RCFont.eot?xgkkfe#iefix') format('embedded-opentype'),
+        url('./fonts/RCFont.ttf?xgkkfe') format('truetype'),
+        url('./fonts/RCFont.woff?xgkkfe') format('woff'),
+        url('./fonts/RCFont.svg?xgkkfe#RCFont') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.icon {
+  /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'RCFont' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.move-left {
+  composes: icon;
+}
+.move-left:before {
+    content: "\f074";
+}
+.move-right {
+  composes: icon;
+}
+.move-right:before {
+    content: "\f0a9";
+}
+.icon-transfer {
+  composes: icon;
+}
+.icon-transfer:before {
+    content: "\e931";
+}
+.icon-flip {
+  composes: icon;
+}
+.icon-flip:before {
+    content: "\e932";
+}
+.mail-envelope-open {
+  composes: icon;
+}
+.mail-envelope-open:before {
+    content: "\e930";
+}
+.uniA6 {
+  composes: icon;
+}
+.uniA6:before {
+    content: "\a6";
+}
+.uni21 {
+  composes: icon;
+}
+.uni21:before {
+    content: "\21";
+}
+.uni22 {
+  composes: icon;
+}
+.uni22:before {
+    content: "\22";
+}
+.uni23 {
+  composes: icon;
+}
+.uni23:before {
+    content: "\23";
+}
+.uni24 {
+  composes: icon;
+}
+.uni24:before {
+    content: "\24";
+}
+.uni25 {
+  composes: icon;
+}
+.uni25:before {
+    content: "\25";
+}
+.uni26 {
+  composes: icon;
+}
+.uni26:before {
+    content: "\26";
+}
+.uni27 {
+  composes: icon;
+}
+.uni27:before {
+    content: "\27";
+}
+.uni28 {
+  composes: icon;
+}
+.uni28:before {
+    content: "\28";
+}
+.uni29 {
+  composes: icon;
+}
+.uni29:before {
+    content: "\29";
+}
+.uni2A {
+  composes: icon;
+}
+.uni2A:before {
+    content: "\2a";
+}
+.uni2B {
+  composes: icon;
+}
+.uni2B:before {
+    content: "\2b";
+}
+.uni2C {
+  composes: icon;
+}
+.uni2C:before {
+    content: "\2c";
+}
+.uni2D {
+  composes: icon;
+}
+.uni2D:before {
+    content: "\2d";
+}
+.uni2E {
+  composes: icon;
+}
+.uni2E:before {
+    content: "\2e";
+}
+.uni2F {
+  composes: icon;
+}
+.uni2F:before {
+    content: "\2f";
+}
+.uni30 {
+  composes: icon;
+}
+.uni30:before {
+    content: "\30";
+}
+.uni31 {
+  composes: icon;
+}
+.uni31:before {
+    content: "\31";
+}
+.uni32 {
+  composes: icon;
+}
+.uni32:before {
+    content: "\32";
+}
+.uni33 {
+  composes: icon;
+}
+.uni33:before {
+    content: "\33";
+}
+.uni34 {
+  composes: icon;
+}
+.uni34:before {
+    content: "\34";
+}
+.uni35 {
+  composes: icon;
+}
+.uni35:before {
+    content: "\35";
+}
+.uni36 {
+  composes: icon;
+}
+.uni36:before {
+    content: "\36";
+}
+.uni37 {
+  composes: icon;
+}
+.uni37:before {
+    content: "\37";
+}
+.uni38 {
+  composes: icon;
+}
+.uni38:before {
+    content: "\38";
+}
+.uni39 {
+  composes: icon;
+}
+.uni39:before {
+    content: "\39";
+}
+.uni3A {
+  composes: icon;
+}
+.uni3A:before {
+    content: "\3a";
+}
+.uni3B {
+  composes: icon;
+}
+.uni3B:before {
+    content: "\3b";
+}
+.uni3C {
+  composes: icon;
+}
+.uni3C:before {
+    content: "\3c";
+}
+.uni3D {
+  composes: icon;
+}
+.uni3D:before {
+    content: "\3d";
+}
+.uni3E {
+  composes: icon;
+}
+.uni3E:before {
+    content: "\3e";
+}
+.uni3F {
+  composes: icon;
+}
+.uni3F:before {
+    content: "\3f";
+}
+.uni40 {
+  composes: icon;
+}
+.uni40:before {
+    content: "\40";
+}
+.uni41 {
+  composes: icon;
+}
+.uni41:before {
+    content: "\41";
+}
+.uni42 {
+  composes: icon;
+}
+.uni42:before {
+    content: "\42";
+}
+.uni43 {
+  composes: icon;
+}
+.uni43:before {
+    content: "\43";
+}
+.uni44 {
+  composes: icon;
+}
+.uni44:before {
+    content: "\44";
+}
+.uni45 {
+  composes: icon;
+}
+.uni45:before {
+    content: "\45";
+}
+.uni46 {
+  composes: icon;
+}
+.uni46:before {
+    content: "\46";
+}
+.uni47 {
+  composes: icon;
+}
+.uni47:before {
+    content: "\47";
+}
+.uni7A {
+  composes: icon;
+}
+.uni7A:before {
+    content: "\7a";
+}
+.uni7B {
+  composes: icon;
+}
+.uni7B:before {
+    content: "\7b";
+}
+.uni7C {
+  composes: icon;
+}
+.uni7C:before {
+    content: "\7c";
+}
+.uni7D {
+  composes: icon;
+}
+.uni7D:before {
+    content: "\7d";
+}
+.uniA3 {
+  composes: icon;
+}
+.uniA3:before {
+    content: "\a3";
+}
+.uniA4 {
+  composes: icon;
+}
+.uniA4:before {
+    content: "\a4";
+}
+.uniA5 {
+  composes: icon;
+}
+.uniA5:before {
+    content: "\a5";
+}
+.uniA6 {
+  composes: icon;
+}
+.uniA6:before {
+    content: "\a6";
+}
+.uniA7 {
+  composes: icon;
+}
+.uniA7:before {
+    content: "\a7";
+}
+.uniA8 {
+  composes: icon;
+}
+.uniA8:before {
+    content: "\a8";
+}
+.uniA9 {
+  composes: icon;
+}
+.uniA9:before {
+    content: "\a9";
+}
+.uniAA {
+  composes: icon;
+}
+.uniAA:before {
+    content: "\aa";
+}
+.uniAB {
+  composes: icon;
+}
+.uniAB:before {
+    content: "\ab";
+}
+.uniAC {
+  composes: icon;
+}
+.uniAC:before {
+    content: "\ac";
+}
+.uniAE {
+  composes: icon;
+}
+.uniAE:before {
+    content: "\ae";
+}
+.uniAF {
+  composes: icon;
+}
+.uniAF:before {
+    content: "\af";
+}
+.uniB0 {
+  composes: icon;
+}
+.uniB0:before {
+    content: "\b0";
+}
+.uniB1 {
+  composes: icon;
+}
+.uniB1:before {
+    content: "\b1";
+}
+.uniB2 {
+  composes: icon;
+}
+.uniB2:before {
+    content: "\b2";
+}
+.uniB3 {
+  composes: icon;
+}
+.uniB3:before {
+    content: "\b3";
+}
+.uniB4 {
+  composes: icon;
+}
+.uniB4:before {
+    content: "\b4";
+}
+.uniB5 {
+  composes: icon;
+}
+.uniB5:before {
+    content: "\b5";
+}
+.uniB6 {
+  composes: icon;
+}
+.uniB6:before {
+    content: "\b6";
+}
+.uniB8 {
+  composes: icon;
+}
+.uniB8:before {
+    content: "\b8";
+}
+.uniB9 {
+  composes: icon;
+}
+.uniB9:before {
+    content: "\b9";
+}
+.uniBA {
+  composes: icon;
+}
+.uniBA:before {
+    content: "\ba";
+}
+.uniBB {
+  composes: icon;
+}
+.uniBB:before {
+    content: "\bb";
+}
+.uniBC {
+  composes: icon;
+}
+.uniBC:before {
+    content: "\bc";
+}
+.uniBD {
+  composes: icon;
+}
+.uniBD:before {
+    content: "\bd";
+}
+.uniBE {
+  composes: icon;
+}
+.uniBE:before {
+    content: "\be";
+}
+.uniBF {
+  composes: icon;
+}
+.uniBF:before {
+    content: "\bf";
+}
+.uniC6 {
+  composes: icon;
+}
+.uniC6:before {
+    content: "\c6";
+}
+.uniC7 {
+  composes: icon;
+}
+.uniC7:before {
+    content: "\c7";
+}
+.uniCC {
+  composes: icon;
+}
+.uniCC:before {
+    content: "\cc";
+}
+.uniCE {
+  composes: icon;
+}
+.uniCE:before {
+    content: "\dc";
+}
+.uniCD {
+  composes: icon;
+}
+.uniCD:before {
+    content: "\dd";
+}
+.uniCB {
+  composes: icon;
+}
+.uniCB:before {
+    content: "\de";
+}
+.uniCA {
+  composes: icon;
+}
+.uniCA:before {
+    content: "\df";
+}
+.uniC9 {
+  composes: icon;
+}
+.uniC9:before {
+    content: "\e0";
+}
+.uniC8 {
+  composes: icon;
+}
+.uniC8:before {
+    content: "\e1";
+}
+.uniC5 {
+  composes: icon;
+}
+.uniC5:before {
+    content: "\e2";
+}
+.uniC4 {
+  composes: icon;
+}
+.uniC4:before {
+    content: "\e3";
+}
+.uniC3 {
+  composes: icon;
+}
+.uniC3:before {
+    content: "\e4";
+}
+.uniC2 {
+  composes: icon;
+}
+.uniC2:before {
+    content: "\e5";
+}
+.uniC1 {
+  composes: icon;
+}
+.uniC1:before {
+    content: "\e6";
+}
+.uniC0 {
+  composes: icon;
+}
+.uniC0:before {
+    content: "\e7";
+}
+.Switch {
+  composes: icon;
+}
+.Switch:before {
+    content: "\e8";
+}
+.RC_shapes_1-47 {
+  composes: icon;
+}
+.RC_shapes_1-47:before {
+    content: "\e9";
+}
+.Active_Call-33 {
+  composes: icon;
+}
+.Active_Call-33:before {
+    content: "\ea";
+}
+.RC_shapes_1-48 {
+  composes: icon;
+}
+.RC_shapes_1-48:before {
+    content: "\eb";
+}
+.RC_shapes_1-51 {
+  composes: icon;
+}
+.RC_shapes_1-51:before {
+    content: "\ec";
+}
+.RC_shapes_1-50 {
+  composes: icon;
+}
+.RC_shapes_1-50:before {
+    content: "\ed";
+}
+.RC_shapes_1-49 {
+  composes: icon;
+}
+.RC_shapes_1-49:before {
+    content: "\ee";
+}
+.loader-01 {
+  composes: icon;
+}
+.loader-01:before {
+    content: "\ef";
+}
+.RC_shapes_HD {
+  composes: icon;
+}
+.RC_shapes_HD:before {
+    content: "\f0";
+}
+.RC_shapes_1_30_pressed {
+  composes: icon;
+}
+.RC_shapes_1_30_pressed:before {
+    content: "\f1";
+}
+.RC_shapes_1_40_pressed {
+  composes: icon;
+}
+.RC_shapes_1_40_pressed:before {
+    content: "\f2";
+}
+.RC_shapes_2-30_pressed {
+  composes: icon;
+}
+.RC_shapes_2-30_pressed:before {
+    content: "\f3";
+}
+.RC_shapes_1-13_pressed {
+  composes: icon;
+}
+.RC_shapes_1-13_pressed:before {
+    content: "\f4";
+}
+.contact_info_pressed {
+  composes: icon;
+}
+.contact_info_pressed:before {
+    content: "\f5";
+}
+.RC_VoIPUnavailable {
+  composes: icon;
+}
+.RC_VoIPUnavailable:before {
+    content: "\f6";
+}
+.RC_Sms_pressed {
+  composes: icon;
+}
+.RC_Sms_pressed:before {
+    content: "\f7";
+}
+.RC_Meetings_pressed {
+  composes: icon;
+}
+.RC_Meetings_pressed:before {
+    content: "\f8";
+}
+.RC_Fax_pressed {
+  composes: icon;
+}
+.RC_Fax_pressed:before {
+    content: "\f9";
+}
+.RC_Conference_pressed {
+  composes: icon;
+}
+.RC_Conference_pressed:before {
+    content: "\fa";
+}
+.RC_close {
+  composes: icon;
+}
+.RC_close:before {
+    content: "\fb";
+}
+.RC_Logout {
+  composes: icon;
+}
+.RC_Logout:before {
+    content: "\fc";
+}
+.RC_status {
+  composes: icon;
+}
+.RC_status:before {
+    content: "\fd";
+    font-size: 15px;
+}
+.RC_close2 {
+  composes: icon;
+}
+.RC_close2:before {
+    content: "\fe";
+}
+.RC_VoIP {
+  composes: icon;
+}
+.RC_VoIP:before {
+    content: "\ff";
+}
+.ActionButtons_down {
+  composes: icon;
+}
+.ActionButtons_down:before {
+    content: "\2c0";
+}
+.ActionButtons_up {
+  composes: icon;
+}
+.ActionButtons_up:before {
+    content: "\2c1";
+}
+.ActionButtons_Checkbox {
+  composes: icon;
+}
+.ActionButtons_Checkbox:before {
+    content: "\2c2";
+}
+.ActionButtons_Filters {
+  composes: icon;
+}
+.ActionButtons_Filters:before {
+    content: "\2c4";
+}
+.ActionButtons_More {
+  composes: icon;
+}
+.ActionButtons_More:before {
+    content: "\2c5";
+}
+.ActionButtons_Add {
+  composes: icon;
+}
+.ActionButtons_Add:before {
+    content: "\2c6";
+}
+.uni2460 {
+  composes: icon;
+}
+.uni2460:before {
+    content: "\2460";
+}
+.uni2462 {
+  composes: icon;
+}
+.uni2462:before {
+    content: "\2462";
+}
+.uni2463 {
+  composes: icon;
+}
+.uni2463:before {
+    content: "\2463";
+}
+.uni2465 {
+  composes: icon;
+}
+.uni2465:before {
+    content: "\2465";
+}
+.uni2466 {
+  composes: icon;
+}
+.uni2466:before {
+    content: "\2466";
+}
+.uni2467 {
+  composes: icon;
+}
+.uni2467:before {
+    content: "\2467";
+}
+.uni2468 {
+  composes: icon;
+}
+.uni2468:before {
+    content: "\2468";
+}
+.uni2469 {
+  composes: icon;
+}
+.uni2469:before {
+    content: "\2469";
+}
+.uni2470 {
+  composes: icon;
+}
+.uni2470:before {
+    content: "\2470";
+}
+.uni2471 {
+  composes: icon;
+}
+.uni2471:before {
+    content: "\2471";
+}
+.uni2472 {
+  composes: icon;
+}
+.uni2472:before {
+    content: "\2472";
+}
+.uni2473 {
+  composes: icon;
+}
+.uni2473:before {
+    content: "\2473";
+}
+.uni2474 {
+  composes: icon;
+}
+.uni2474:before {
+    content: "\2474";
+}
+.uni2475 {
+  composes: icon;
+}
+.uni2475:before {
+    content: "\2475";
+}
+.uni2476 {
+  composes: icon;
+}
+.uni2476:before {
+    content: "\2476";
+}
+.uni2477 {
+  composes: icon;
+}
+.uni2477:before {
+    content: "\2477";
+    font-size: 15px;
+}
+.uni2478 {
+  composes: icon;
+}
+.uni2478:before {
+    content: "\2478";
+}
+.uni2479 {
+  composes: icon;
+}
+.uni2479:before {
+    content: "\2479";
+}
+.uni2480 {
+  composes: icon;
+}
+.uni2480:before {
+    content: "\2480";
+}
+.uni2481 {
+  composes: icon;
+}
+.uni2481:before {
+    content: "\2481";
+}
+.uni2482 {
+  composes: icon;
+}
+.uni2482:before {
+    content: "\2482";
+}
+.uni2483 {
+  composes: icon;
+}
+.uni2483:before {
+    content: "\2483";
+}
+.uni2484 {
+  composes: icon;
+}
+.uni2484:before {
+    content: "\2484";
+}
+.uni2485 {
+  composes: icon;
+}
+.uni2485:before {
+    content: "\2485";
+}
+.uni2487 {
+  composes: icon;
+}
+.uni2487:before {
+    content: "\2487";
+}
+.uni2488 {
+  composes: icon;
+}
+.uni2488:before {
+    content: "\2488";
+}
+.uni2489 {
+  composes: icon;
+}
+.uni2489:before {
+    content: "\2489";
+}
+.uni2490 {
+  composes: icon;
+}
+.uni2490:before {
+    content: "\2490";
+}
+.uni2496 {
+  composes: icon;
+}
+.uni2496:before {
+    content: "\2496";
+}
+.Photo2 {
+  composes: icon;
+}
+.Photo2:before {
+    content: "\e60c";
+}
+.Microphone {
+  composes: icon;
+}
+.Microphone:before {
+    content: "\e60d";
+}
+.Notification {
+  composes: icon;
+}
+.Notification:before {
+    content: "\e60e";
+}
+.Correct {
+  composes: icon;
+}
+.Correct:before {
+    content: "\e900";
+}
+.Edit {
+  composes: icon;
+}
+.Edit:before {
+    content: "\e901";
+}
+.UploadtoCloud {
+  composes: icon;
+}
+.UploadtoCloud:before {
+    content: "\e902";
+}
+.Lock1 {
+  composes: icon;
+}
+.Lock1:before {
+    content: "\e903";
+}
+.icon_radio_off {
+  composes: icon;
+}
+.icon_radio_off:before {
+    content: "\e904";
+}
+.icon_radio_on {
+  composes: icon;
+}
+.icon_radio_on:before {
+    content: "\e905";
+}
+.icon_arrow {
+  composes: icon;
+}
+.icon_arrow:before {
+    content: "\e906";
+}
+.icon_calendar {
+  composes: icon;
+}
+.icon_calendar:before {
+    content: "\e907";
+}
+.icon_dropbox {
+  composes: icon;
+}
+.icon_dropbox:before {
+    content: "\e908";
+}
+.icon_dropdown_arrow {
+  composes: icon;
+}
+.icon_dropdown_arrow:before {
+    content: "\e909";
+}
+.icon_i_btn {
+  composes: icon;
+}
+.icon_i_btn:before {
+    content: "\e90a";
+}
+.icon_logout {
+  composes: icon;
+}
+.icon_logout:before {
+    content: "\e90b";
+}
+.icon_switch_on {
+  composes: icon;
+}
+.icon_switch_on:before {
+    content: "\e90c";
+}
+.icon_swtich_off {
+  composes: icon;
+}
+.icon_swtich_off:before {
+    content: "\e90d";
+}
+.icon_collapse {
+  composes: icon;
+}
+.icon_collapse:before {
+    content: "\e90e";
+}
+.checkbox-selected {
+  composes: icon;
+}
+.checkbox-selected:before {
+    content: "\e90f";
+}
+.checkbox-unselected {
+  composes: icon;
+}
+.checkbox-unselected:before {
+    content: "\e910";
+}
+.icon_add {
+  composes: icon;
+}
+.icon_add:before {
+    content: "\e911";
+}
+.icon_arrow_right {
+  composes: icon;
+}
+.icon_arrow_right:before {
+    content: "\e912";
+}
+.icon_back {
+  composes: icon;
+}
+.icon_back:before {
+    content: "\e913";
+}
+.icon_call_log {
+  composes: icon;
+}
+.icon_call_log:before {
+    content: "\e914";
+}
+.icon_call {
+  composes: icon;
+}
+.icon_call:before {
+    content: "\e915";
+}
+.icon_check {
+  composes: icon;
+}
+.icon_check:before {
+    content: "\e916";
+    color: #72d175;
+    font-size: 15px;
+}
+
+.icon_composetext {
+  composes: icon;
+}
+.icon_composetext:before {
+    content: "\e917";
+}
+.icon_conference {
+  composes: icon;
+}
+.icon_conference:before {
+    content: "\e918";
+}
+.icon_contact {
+  composes: icon;
+}
+.icon_contact:before {
+    content: "\e919";
+}
+.icon_dial {
+  composes: icon;
+}
+.icon_dial:before {
+    content: "\e91a";
+}
+.icon_display {
+  composes: icon;
+}
+.icon_display:before {
+    content: "\e91b";
+}
+.icon_fax {
+  composes: icon;
+}
+.icon_fax:before {
+    content: "\e91c";
+}
+.icon_google {
+  composes: icon;
+}
+.icon_google:before {
+    content: "\e91d";
+}
+.icon_hangout {
+  composes: icon;
+}
+.icon_hangout:before {
+    content: "\e91e";
+}
+.icon_i_info {
+  composes: icon;
+}
+.icon_i_info:before {
+    content: "\e91f";
+}
+.icon_meeting {
+  composes: icon;
+}
+.icon_meeting:before {
+    content: "\e920";
+}
+.icon_message_all {
+  composes: icon;
+}
+.icon_message_all:before {
+    content: "\e921";
+}
+.icon_message {
+  composes: icon;
+}
+.icon_message:before {
+    content: "\e922";
+}
+.icon_return {
+  composes: icon;
+}
+.icon_return:before {
+    content: "\e923";
+}
+.icon_search {
+  composes: icon;
+}
+.icon_search:before {
+    content: "\e924";
+}
+.icon_setting {
+  composes: icon;
+}
+.icon_setting:before {
+    content: "\e925";
+}
+.icon_time {
+  composes: icon;
+}
+.icon_time:before {
+    content: "\e926";
+}
+.icon_voice {
+  composes: icon;
+}
+.icon_voice:before {
+    content: "\e927";
+}
+.icon_call_hang {
+  composes: icon;
+}
+.icon_call_hang:before {
+    content: "\e928";
+}
+.icon_callingcopy {
+  composes: icon;
+}
+.icon_callingcopy:before {
+    content: "\e929";
+}
+.icon_calling {
+  composes: icon;
+}
+.icon_calling:before {
+    content: "\e92a";
+}
+.icon_call_incoming {
+  composes: icon;
+}
+.icon_call_incoming:before {
+    content: "\e92b";
+    font-size: 20px;
+}
+.icon_call_miss {
+  composes: icon;
+}
+.icon_call_miss:before {
+    content: "\e92c";
+    font-size: 20px;
+}
+.icon_call_outgoing {
+  composes: icon;
+}
+.icon_call_outgoing:before {
+    content: "\e92d";
+    font-size: 20px;
+}
+.opera {
+  composes: icon;
+}
+.opera:before {
+    content: "\eade";
+}
+.checkbox-selected2 {
+  composes: icon;
+}
+.checkbox-selected2:before {
+    content: "\e92e";
+}
+.checkbox-unselected2 {
+  composes: icon;
+}
+.checkbox-unselected2:before {
+    content: "\e92f";
+}
+.download3 {
+  composes: icon;
+}
+.download3:before {
+    content: "\e9c7";
+}
+.icon_call-record {
+  composes: icon;
+}
+.icon_call-record:before {
+    content: "\e930";
+}
+.icon_call-stop-record {
+  composes: icon;
+}
+.icon_call-stop-record:before {
+    content: "\e931";
+}

@@ -1,0 +1,58 @@
+@import '../../lib/commonStyles/colors';
+
+$icon-width: 50%;
+$icon-min-width: 120px;
+
+.iconLine {
+  display: block;
+}
+
+.iconLine > [class*='content'] {
+  max-width: calc(100% - 38px);
+}
+
+.iconLine > [class*='iconHolder'] {
+  min-width: 38px;
+}
+
+.statusIcon {
+  display: inline-block;
+  position: relative;
+  margin-right: 5px;
+  top: 2px;
+}
+
+.title {
+  display: inline-block;
+  width: calc(100% - #{$icon-width});
+  max-width: calc(100% - #{$icon-min-width});
+}
+
+.subTitle {
+  display: inline-block;
+  width: $icon-width;
+  min-width: $icon-min-width;
+  text-align: right;
+}
+
+.dropdownIcon {
+  display: inline-block;
+}
+
+.presenceList {
+  display: none;
+  padding: 5px 25px;
+}
+
+.showDropdown {
+  .title {
+    color: $primary-color;
+  }
+  .presenceList {
+    display: block;
+  }
+  .dropdownIcon {
+    transform: rotate(180deg);
+    color: $primary-color;
+  }
+}

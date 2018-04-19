@@ -1,0 +1,32 @@
+@import '../../lib/commonStyles/vertical-align';
+@import '../../lib/commonStyles/no-select';
+@import '../../lib/commonStyles/colors';
+
+$icon-width: 10%;
+$icon-min-width: 58px;
+
+
+.content {
+  width: calc(100% - #{$icon-width});
+  max-width: calc(100% - #{$icon-min-width});
+  display: inline-block;
+  position: relative;
+  vertical-align: top;
+}
+
+.iconHolder {
+  @include no-select;
+  display: inline-block;
+  position: relative;
+  vertical-align: top;
+  width: $icon-width;
+  min-width: $icon-min-width;
+  text-align: right;
+}
+.icon {
+  @include vertical-align(middle);
+  @include no-select;
+  display: inline-block;
+  font-size: 14px;
+  color: $darkgray;
+}

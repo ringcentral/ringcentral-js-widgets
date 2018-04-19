@@ -1,0 +1,28 @@
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/fonts';
+.root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0px;
+  border: 1px solid rgb(166, 166, 166);
+  border-radius: 2px;
+  box-sizing: border-box;
+}
+.root input {
+  outline: 0;
+  height: 100%;
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  padding: 0px 10px;
+  box-sizing: border-box;
+  @include field-value-font;
+  color: $lightblack;
+}
+.input::-ms-clear {
+  display: none;
+}
+.invalid {
+  border-color: red;
+}

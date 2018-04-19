@@ -1,0 +1,63 @@
+@import '../../lib/commonStyles/fonts';
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/text-ellipsis';
+
+.root {
+  @include primary-font;
+  padding: 0 21px 0 20px;
+  min-width: 220px;
+}
+
+.radioOption {
+  width: 100%;
+  height: 17px;
+  line-height: 17px;
+  margin-top: 18px;
+
+  .radioBtn {
+    box-sizing: content-box;
+    display: inline-block;
+    position: relative;
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    background: #fff;
+    border: 1px solid #979797;
+    cursor: pointer;
+
+    &.active {
+      border: 1px solid $primary-color;
+    }
+
+    &.active:before{
+      content: '';
+      display: block;
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 5px;
+      height: 5px;
+      border: 1px solid $primary-color;
+      border-radius: 100%;
+      background: $primary-color;
+    }
+  }
+
+  .optionNumber {
+    display: inline-block;
+    margin-left: 15px;
+    height: 17px;
+    overflow: hidden;
+    width: calc(60% - 32px);
+  }
+
+  .optionLabel {
+    display: inline-block;
+    height: 16px;
+    width: 40%;
+    color: #666666;
+    font-weight: 300;
+    @include text-ellipsis;
+  }
+}
+

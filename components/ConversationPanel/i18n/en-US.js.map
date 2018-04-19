@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ConversationPanel/i18n/en-US.js"],"names":["typeMessage","send"],"mappings":";;;;;kBAAe;AACbA,eAAa,iBADA;AAEbC,QAAM;AAFO,C","file":"en-US.js","sourcesContent":["export default {\n  typeMessage: 'Type message...',\n  send: 'Send',\n};\n"]}

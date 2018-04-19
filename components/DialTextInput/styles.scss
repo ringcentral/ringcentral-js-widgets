@@ -1,0 +1,66 @@
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/fonts';
+
+.dialInput {
+  position: relative;
+  @include secondary-font;
+  width: 100%;
+  height: 35px;
+  line-height: 40px;
+}
+
+.dial_Input {
+  position: absolute;
+  top: 0;
+  left: 42px;
+  display: inline-block;
+  border: none;
+  width: calc(100% - 70px);
+
+  input {
+    font-size: 15px;
+    padding: 0;
+    color: $primary-neutral-color;
+
+    &::placeholder {
+      font-size: 13px;
+      font-weight: 300;
+      color: $disabled-background-color;
+    }
+  }
+}
+.to {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  width: 45px;
+  color: $primary-neutral-color;
+  font-size: 15px;
+}
+.delete {
+  cursor: pointer;
+  font-size: 18px;
+  position: absolute;
+  top: 11px;
+  right: -3px;
+  color: $grey-light;
+  &:hover {
+    color: $primary-color;
+  }
+}
+.input {
+  font-size: 13px;
+  border: none;
+  outline: 0;
+  height: 98%;
+  width: 100%;
+  background-color: transparent;
+}
+.invalid {
+  border-color: red;
+}
+.disappear {
+  display: none;
+}
+

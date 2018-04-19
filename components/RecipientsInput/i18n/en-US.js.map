@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/RecipientsInput/i18n/en-US.js"],"names":["to","enterNameOrNumber"],"mappings":";;;;;kBAAe;AACbA,MAAI,IADS;AAEbC,qBAAmB;AAFN,C","file":"en-US.js","sourcesContent":["export default {\n  to: 'To',\n  enterNameOrNumber: 'Enter Name or Number',\n};\n"]}

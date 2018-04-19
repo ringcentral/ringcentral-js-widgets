@@ -1,0 +1,1 @@
+{"version":3,"sources":["containers/CallHistoryPage/i18n/en-US.js"],"names":["title"],"mappings":";;;;;kBAAe;AACbA,SAAO;AADM,C","file":"en-US.js","sourcesContent":["export default {\n  title: 'History'\n};\n"]}
