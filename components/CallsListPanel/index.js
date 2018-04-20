@@ -236,8 +236,6 @@ var CallsListPanel = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
-
       var _props = this.props,
           activeRingCalls = _props.activeRingCalls,
           activeOnHoldCalls = _props.activeOnHoldCalls,
@@ -297,16 +295,12 @@ var CallsListPanel = function (_Component) {
           )
         );
       }
-      var appendDOM = currentLog ? _react2.default.createElement('div', { ref: function ref(_ref2) {
-          _this2.appendDOM = _ref2;
-        } }) : null;
       var logSection = currentLog ? _react2.default.createElement(
         _InsideModal2.default,
         {
           title: currentLog.title,
           show: currentLog.showLog,
-          onClose: closeCurrentLog,
-          appendDOM: this.appendDOM },
+          onClose: closeCurrentLog },
         _react2.default.createElement(_LogSection2.default, {
           currentLocale: currentLocale,
           currentLog: currentLog,
@@ -400,7 +394,6 @@ var CallsListPanel = function (_Component) {
           getCallList(otherDeviceCalls, _i18n2.default.getString('otherDeviceCall', currentLocale)),
           calls.length > 0 ? historyCall : null
         ),
-        appendDOM,
         logSection
       );
     }

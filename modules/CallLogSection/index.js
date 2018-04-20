@@ -5,25 +5,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _defineProperty2 = require('babel-runtime/core-js/object/define-property');
+var _defineProperty = require('babel-runtime/core-js/object/define-property');
 
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+var _defineProperty2 = _interopRequireDefault(_defineProperty);
 
-var _defineProperty4 = require('babel-runtime/helpers/defineProperty');
+var _regenerator = require('babel-runtime/regenerator');
 
-var _defineProperty5 = _interopRequireDefault(_defineProperty4);
+var _regenerator2 = _interopRequireDefault(_regenerator);
 
-var _assign = require('babel-runtime/core-js/object/assign');
+var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
-var _assign2 = _interopRequireDefault(_assign);
-
-var _entries = require('babel-runtime/core-js/object/entries');
-
-var _entries2 = _interopRequireDefault(_entries);
-
-var _slicedToArray2 = require('babel-runtime/helpers/slicedToArray');
-
-var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var _extends2 = require('babel-runtime/helpers/extends');
 
@@ -61,6 +53,10 @@ var _RcModule3 = _interopRequireDefault(_RcModule2);
 
 var _di = require('ringcentral-integration/lib/di');
 
+var _ensureExist = require('ringcentral-integration/lib/ensureExist');
+
+var _ensureExist2 = _interopRequireDefault(_ensureExist);
+
 var _getter = require('ringcentral-integration/lib/getter');
 
 var _getter2 = _interopRequireDefault(_getter);
@@ -83,7 +79,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _initDefineProp(target, property, descriptor, context) {
   if (!descriptor) return;
-  (0, _defineProperty3.default)(target, property, {
+  (0, _defineProperty2.default)(target, property, {
     enumerable: descriptor.enumerable,
     configurable: descriptor.configurable,
     writable: descriptor.writable,
@@ -125,7 +121,6 @@ function _initializerWarningHelper(descriptor, context) {
 }
 
 var CallLogSection = (_dec = (0, _di.Module)({
-  name: 'CallLogSection',
   deps: ['Storage']
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(CallLogSection, _RcModule);
@@ -155,74 +150,228 @@ var CallLogSection = (_dec = (0, _di.Module)({
 
   (0, _createClass3.default)(CallLogSection, [{
     key: '_onStateChange',
-    value: function _onStateChange() {
-      if (this._shouldInit()) {
-        this.store.dispatch({
-          type: this.actionTypes.initSuccess
-        });
-      } else if (this._shouldReset()) {
-        this.store.dispatch({
-          type: this.actionTypes.resetSuccess
-        });
+    value: function () {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+        return _regenerator2.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!this._shouldInit()) {
+                  _context.next = 8;
+                  break;
+                }
+
+                this.store.dispatch({
+                  type: this.actionTypes.init
+                });
+
+                if (!(typeof this._onInit === 'function')) {
+                  _context.next = 5;
+                  break;
+                }
+
+                _context.next = 5;
+                return this._onInit();
+
+              case 5:
+                this.store.dispatch({
+                  type: this.actionTypes.initSuccess
+                });
+                _context.next = 13;
+                break;
+
+              case 8:
+                if (!this._shouldReset()) {
+                  _context.next = 13;
+                  break;
+                }
+
+                if (!(typeof this._onReset === 'function')) {
+                  _context.next = 12;
+                  break;
+                }
+
+                _context.next = 12;
+                return this._onReset();
+
+              case 12:
+                this.store.dispatch({
+                  type: this.actionTypes.resetSuccess
+                });
+
+              case 13:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function _onStateChange() {
+        return _ref2.apply(this, arguments);
       }
-    }
+
+      return _onStateChange;
+    }()
   }, {
     key: '_shouldInit',
     value: function _shouldInit() {
-      return this._storage.ready && this.pending;
+      return this._storage.ready && this._readyCheckFunction() && this.pending;
     }
   }, {
     key: '_shouldReset',
     value: function _shouldReset() {
-      return !this._storage.ready && this.ready;
+      return (!this._storage.ready || !this._readyCheckFunction()) && this.ready;
     }
   }, {
-    key: '_showCallLogSection',
-    value: function _showCallLogSection() {
-      var _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [],
-          _ref3 = (0, _slicedToArray3.default)(_ref2, 1),
-          call = _ref3[0];
+    key: '_handleSuccess',
+    value: function _handleSuccess(identify) {
+      this.store.dispatch({
+        type: this.actionTypes.saveSuccess,
+        identify: identify
+      });
 
-      if (call && !this.show) {
-        this.showLogSection(call.sessionId);
+      for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
       }
+
+      if (typeof this._onSuccess === 'function') this._onSuccess.apply(this, [identify].concat(args));
     }
   }, {
-    key: 'updateCall',
-    value: function updateCall(_ref4, sessionId) {
-      var task = _ref4.task,
-          call = (0, _objectWithoutProperties3.default)(_ref4, ['task']);
-
+    key: '_handleError',
+    value: function _handleError(identify) {
       this.store.dispatch({
-        type: this.actionTypes.update,
-        call: call,
-        task: task,
-        sessionId: sessionId
+        type: this.actionTypes.saveError,
+        identify: identify
       });
+
+      for (var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+        args[_key2 - 1] = arguments[_key2];
+      }
+
+      if (typeof this._onError === 'function') this._onError.apply(this, [identify].concat(args));
     }
   }, {
-    key: 'logCall',
-    value: function logCall(_ref5) {
-      var sessionId = _ref5.sessionId;
+    key: 'addLogHandler',
+    value: function addLogHandler(_ref3) {
+      var logFunction = _ref3.logFunction,
+          readyCheckFunction = _ref3.readyCheckFunction,
+          onUpdate = _ref3.onUpdate,
+          onSuccess = _ref3.onSuccess,
+          onError = _ref3.onError;
 
-      var loggedCall = {
-        isSaved: true,
-        isLogged: true,
-        isSaving: false
-      };
-      this.store.dispatch({
-        type: this.actionTypes.update,
-        call: loggedCall,
-        sessionId: sessionId
-      });
+      this._logFunction = _ensureExist2.default.call(this, logFunction, 'logFunction');
+      this._readyCheckFunction = _ensureExist2.default.call(this, readyCheckFunction, 'readyCheckFunction');
+      this._onUpdate = _ensureExist2.default.call(this, onUpdate, 'onUpdate');
+      this._onSuccess = onSuccess;
+      this._onError = onError;
     }
+  }, {
+    key: 'updateCallLog',
+    value: function () {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(identify) {
+        for (var _len3 = arguments.length, args = Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
+          args[_key3 - 1] = arguments[_key3];
+        }
+
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                this.store.dispatch({
+                  type: this.actionTypes.update,
+                  identify: identify
+                });
+                _context2.next = 3;
+                return this._onUpdate.apply(this, [identify].concat(args));
+
+              case 3:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function updateCallLog(_x) {
+        return _ref4.apply(this, arguments);
+      }
+
+      return updateCallLog;
+    }()
+  }, {
+    key: 'saveCallLog',
+    value: function () {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(identify) {
+        var _len4,
+            args,
+            _key4,
+            result,
+            _args3 = arguments;
+
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                if (!identify) {
+                  _context3.next = 14;
+                  break;
+                }
+
+                this.store.dispatch({
+                  type: this.actionTypes.saving,
+                  identify: identify
+                });
+
+                for (_len4 = _args3.length, args = Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
+                  args[_key4 - 1] = _args3[_key4];
+                }
+
+                _context3.prev = 3;
+                _context3.next = 6;
+                return this._logFunction.apply(this, [identify].concat(args));
+
+              case 6:
+                result = _context3.sent;
+
+                if (result) {
+                  this._handleSuccess.apply(this, [identify].concat(args));
+                } else {
+                  this._handleError.apply(this, [identify].concat(args));
+                }
+                _context3.next = 14;
+                break;
+
+              case 10:
+                _context3.prev = 10;
+                _context3.t0 = _context3['catch'](3);
+
+                this._handleError.apply(this, [identify].concat(args));
+                console.warn(_context3.t0);
+
+              case 14:
+              case 'end':
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this, [[3, 10]]);
+      }));
+
+      function saveCallLog(_x2) {
+        return _ref5.apply(this, arguments);
+      }
+
+      return saveCallLog;
+    }()
   }, {
     key: 'showLogSection',
-    value: function showLogSection(sessionId) {
-      this.store.dispatch({
-        type: this.actionTypes.showLogSection,
-        sessionId: sessionId
-      });
+    value: function showLogSection(identify) {
+      if (!this.show) {
+        this.store.dispatch({
+          type: this.actionTypes.showLogSection,
+          identify: identify
+        });
+      }
     }
   }, {
     key: 'hideLogSection',
@@ -234,29 +383,29 @@ var CallLogSection = (_dec = (0, _di.Module)({
       }
     }
   }, {
-    key: 'status',
+    key: 'callsList',
     get: function get() {
-      return this.state.status;
+      return this._storage.getItem(this._storageKey).callsList;
     }
   }, {
     key: 'callsMapping',
     get: function get() {
-      return this._storage.getItem(this._storageKey).calls;
+      return this._storage.getItem(this._storageKey).callsMapping;
     }
   }, {
-    key: 'tasksMapping',
+    key: 'currentIdentify',
     get: function get() {
-      return this._storage.getItem(this._storageKey).tasks;
-    }
-  }, {
-    key: 'currentSessionId',
-    get: function get() {
-      return this._storage.getItem(this._storageKey).currentSessionId;
+      return this._storage.getItem(this._storageKey).currentIdentify;
     }
   }, {
     key: 'show',
     get: function get() {
-      return this._storage.getItem(this._storageKey).show;
+      return !!this._storage.getItem(this._storageKey).currentIdentify;
+    }
+  }, {
+    key: 'status',
+    get: function get() {
+      return this.state.status;
     }
   }]);
   return CallLogSection;
@@ -266,19 +415,13 @@ var CallLogSection = (_dec = (0, _di.Module)({
     var _this2 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this2.callsMapping;
+      return _this2.callsList;
     }, function () {
-      return _this2.tasksMapping;
-    }, function (callsMapping, tasksMapping) {
-      return (0, _entries2.default)(callsMapping).reduce(function (calls, _ref6) {
-        var _ref7 = (0, _slicedToArray3.default)(_ref6, 2),
-            sessionId = _ref7[0],
-            call = _ref7[1];
-
-        return (0, _assign2.default)(calls, (0, _defineProperty5.default)({}, sessionId, (0, _extends3.default)({}, call, {
-          task: tasksMapping[sessionId]
-        })));
-      }, {});
+      return _this2.callsMapping;
+    }, function (list, mapping) {
+      return list.map(function (identify) {
+        return mapping[identify];
+      });
     });
   }
 })), _class2)) || _class);

@@ -4,13 +4,25 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
+var _set = require('babel-runtime/core-js/set');
+
+var _set2 = _interopRequireDefault(_set);
+
+var _from = require('babel-runtime/core-js/array/from');
+
+var _from2 = _interopRequireDefault(_from);
+
 var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
 
 var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
-var _extends4 = require('babel-runtime/helpers/extends');
+var _extends6 = require('babel-runtime/helpers/extends');
 
-var _extends5 = _interopRequireDefault(_extends4);
+var _extends7 = _interopRequireDefault(_extends6);
 
 exports.default = getStorageReducer;
 
@@ -23,12 +35,27 @@ function getCallsMappingReducer(types) {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     var _ref = arguments[1];
     var type = _ref.type,
-        call = _ref.call,
-        sessionId = _ref.sessionId;
+        identify = _ref.identify;
 
     switch (type) {
       case types.update:
-        return (0, _extends5.default)({}, state, (0, _defineProperty3.default)({}, sessionId, (0, _extends5.default)({}, state[sessionId], call)));
+        return (0, _extends7.default)({}, state, (0, _defineProperty3.default)({}, identify, (0, _extends7.default)({}, state[identify], {
+          isEdited: true
+        })));
+      case types.saving:
+        return (0, _extends7.default)({}, state, (0, _defineProperty3.default)({}, identify, (0, _extends7.default)({}, state[identify], {
+          isSaving: true
+        })));
+      case types.saveSuccess:
+        return (0, _extends7.default)({}, state, (0, _defineProperty3.default)({}, identify, (0, _extends7.default)({}, state[identify], {
+          isEdited: false,
+          isSaving: false
+        })));
+      case types.saveError:
+        return (0, _extends7.default)({}, state, (0, _defineProperty3.default)({}, identify, (0, _extends7.default)({}, state[identify], {
+          isEdited: true,
+          isSaving: false
+        })));
       case types.cleanUp:
         return {};
       default:
@@ -37,52 +64,37 @@ function getCallsMappingReducer(types) {
   };
 }
 
-function getTasksMappingReducer(types) {
+function getCallsListReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
     var _ref2 = arguments[1];
     var type = _ref2.type,
-        task = _ref2.task,
-        sessionId = _ref2.sessionId;
+        identify = _ref2.identify;
 
     switch (type) {
       case types.update:
-        return (0, _extends5.default)({}, state, (0, _defineProperty3.default)({}, sessionId, (0, _extends5.default)({}, state[sessionId], task)));
+      case types.saving:
+      case types.saveSuccess:
+      case types.saveError:
+        return (0, _from2.default)(new _set2.default([].concat((0, _toConsumableArray3.default)(state), [identify])));
       case types.cleanUp:
-        return {};
+        return [];
       default:
         return state;
     }
   };
 }
 
-function getShowLogSectionReducer(types) {
-  return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-    var _ref3 = arguments[1];
-    var type = _ref3.type;
-
-    switch (type) {
-      case types.showLogSection:
-        return true;
-      case types.hideLogSection:
-        return false;
-      default:
-        return state;
-    }
-  };
-}
-
-function getCurrentSessionIdReducer(types) {
+function getCurrentIdentifyReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    var _ref4 = arguments[1];
-    var type = _ref4.type,
-        sessionId = _ref4.sessionId;
+    var _ref3 = arguments[1];
+    var type = _ref3.type,
+        identify = _ref3.identify;
 
     switch (type) {
       case types.showLogSection:
-        return sessionId;
+        return identify;
       case types.hideLogSection:
         return null;
       default:
@@ -93,10 +105,9 @@ function getCurrentSessionIdReducer(types) {
 
 function getStorageReducer(types) {
   return (0, _redux.combineReducers)({
-    calls: getCallsMappingReducer(types),
-    tasks: getTasksMappingReducer(types),
-    show: getShowLogSectionReducer(types),
-    currentSessionId: getCurrentSessionIdReducer(types)
+    callsList: getCallsListReducer(types),
+    callsMapping: getCallsMappingReducer(types),
+    currentIdentify: getCurrentIdentifyReducer(types)
   });
 }
 //# sourceMappingURL=getStorageReducer.js.map

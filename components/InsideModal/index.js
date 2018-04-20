@@ -3,8 +3,29 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = undefined;
+
+var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
 exports.CloseBtn = CloseBtn;
-exports.default = InsideModal;
 
 var _react = require('react');
 
@@ -48,35 +69,62 @@ CloseBtn.defaultProps = {
   onClick: undefined
 };
 
-function InsideModal(_ref2) {
-  var show = _ref2.show,
-      onClose = _ref2.onClose,
-      appendDOM = _ref2.appendDOM,
-      children = _ref2.children,
-      title = _ref2.title;
+var InsideModal = function (_Component) {
+  (0, _inherits3.default)(InsideModal, _Component);
 
-  var closeBtn = _react2.default.createElement(CloseBtn, { onClick: onClose });
-  if (!appendDOM) return null;
-  return _react2.default.createElement(
-    _Modal2.default,
-    {
-      title: title,
-      headerClassName: _styles2.default.title,
-      className: _styles2.default.container,
-      maskClassName: _styles2.default.mask,
-      modalClassName: _styles2.default.modal,
-      contentClassName: _styles2.default.content,
-      closeBtn: closeBtn,
-      show: show,
-      appendDOM: appendDOM },
-    children
-  );
-}
+  function InsideModal() {
+    (0, _classCallCheck3.default)(this, InsideModal);
+    return (0, _possibleConstructorReturn3.default)(this, (InsideModal.__proto__ || (0, _getPrototypeOf2.default)(InsideModal)).apply(this, arguments));
+  }
+
+  (0, _createClass3.default)(InsideModal, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.forceUpdate();
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var _props = this.props,
+          show = _props.show,
+          onClose = _props.onClose,
+          children = _props.children,
+          title = _props.title;
+
+      var closeBtn = _react2.default.createElement(CloseBtn, { onClick: onClose });
+      return _react2.default.createElement(
+        'div',
+        { ref: function ref(_ref2) {
+            _this2.appendDOM = _ref2;
+          } },
+        this.appendDOM ? _react2.default.createElement(
+          _Modal2.default,
+          {
+            title: title,
+            headerClassName: _styles2.default.title,
+            className: _styles2.default.container,
+            maskClassName: _styles2.default.mask,
+            modalClassName: _styles2.default.modal,
+            contentClassName: _styles2.default.content,
+            closeBtn: closeBtn,
+            show: show,
+            appendDOM: this.appendDOM },
+          children
+        ) : null
+      );
+    }
+  }]);
+  return InsideModal;
+}(_react.Component);
+
+exports.default = InsideModal;
+
 
 InsideModal.propTypes = {
   show: _propTypes2.default.bool,
   onClose: _propTypes2.default.func,
-  appendDOM: _propTypes2.default.object,
   children: _propTypes2.default.node,
   title: _propTypes2.default.string
 };
@@ -85,7 +133,6 @@ InsideModal.defaultProps = {
   title: null,
   show: undefined,
   onClose: undefined,
-  appendDOM: undefined,
   children: undefined
 };
 //# sourceMappingURL=index.js.map
