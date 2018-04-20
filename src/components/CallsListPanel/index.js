@@ -229,7 +229,7 @@ export default class CallsListPanel extends Component {
     }
     if (!this.hasCalls()) {
       return (
-        <div className={classnames(styles.root, currentLog && currentLog.showLog ? styles.hiddenScroll : '', className)}>
+        <div className={classnames(styles.root, className)}>
           <p className={styles.noCalls}>
             {i18n.getString('noCalls', currentLocale)}
           </p>
