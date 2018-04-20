@@ -58,31 +58,6 @@ export default class InsideModal extends Component {
   }
 }
 
-// export default function InsideModal({
-//   show,
-//   onClose,
-//   appendDOM,
-//   children,
-//   title,
-// }) {
-//   const closeBtn = (<CloseBtn onClick={onClose} />);
-//   if (!appendDOM) return null;
-//   return (
-//     <Modal
-//       title={title}
-//       headerClassName={styles.title}
-//       className={styles.container}
-//       maskClassName={styles.mask}
-//       modalClassName={styles.modal}
-//       contentClassName={styles.content}
-//       closeBtn={closeBtn}
-//       show={show}
-//       appendDOM={appendDOM}>
-//       {children}
-//     </Modal>
-//   );
-// }
-
 InsideModal.propTypes = {
   show: PropTypes.bool,
   onClose: PropTypes.func,
