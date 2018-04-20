@@ -80,7 +80,7 @@ function getCurrentIdentifyReducer(types) {
 export default function getStorageReducer(types) {
   return combineReducers({
     callsList: getCallsListReducer(types),
-    callMapping: getCallsMappingReducer(types),
+    callsMapping: getCallsMappingReducer(types),
     currentIdentify: getCurrentIdentifyReducer(types),
   });
 }
