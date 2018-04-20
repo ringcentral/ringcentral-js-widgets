@@ -1,15 +1,41 @@
 import { combineReducers } from 'redux';
 
 function getCallsMappingReducer(types) {
-  return (state = {}, { type, call, sessionId }) => {
+  return (state = {}, { type, identify }) => {
     switch (type) {
       case types.update:
         return {
           ...state,
-          [sessionId]: {
-            ...state[sessionId],
-            ...call
-          }
+          [identify]: {
+            ...state[identify],
+            isEdited: true,
+          },
+        };
+      case types.saving:
+        return {
+          ...state,
+          [identify]: {
+            ...state[identify],
+            isSaving: true
+          },
+        };
+      case types.saveSuccess:
+        return {
+          ...state,
+          [identify]: {
+            ...state[identify],
+            isEdited: false,
+            isSaving: false,
+          },
+        };
+      case types.saveError:
+        return {
+          ...state,
+          [identify]: {
+            ...state[identify],
+            isEdited: true,
+            isSaving: false,
+          },
         };
       case types.cleanUp:
         return {};
@@ -19,43 +45,30 @@ function getCallsMappingReducer(types) {
   };
 }
 
-function getTasksMappingReducer(types) {
-  return (state = {}, { type, task, sessionId }) => {
+function getCallsListReducer(types) {
+  return (state = [], { type, identify }) => {
     switch (type) {
       case types.update:
-        return {
+      case types.saving:
+      case types.saveSuccess:
+      case types.saveError:
+        return Array.from(new Set([
           ...state,
-          [sessionId]: {
-            ...state[sessionId],
-            ...task
-          }
-        };
+          identify
+        ]));
       case types.cleanUp:
-        return {};
+        return [];
       default:
         return state;
     }
   };
 }
 
-function getShowLogSectionReducer(types) {
-  return (state = false, { type }) => {
+function getCurrentIdentifyReducer(types) {
+  return (state = null, { type, identify }) => {
     switch (type) {
       case types.showLogSection:
-        return true;
-      case types.hideLogSection:
-        return false;
-      default:
-        return state;
-    }
-  };
-}
-
-function getCurrentSessionIdReducer(types) {
-  return (state = null, { type, sessionId }) => {
-    switch (type) {
-      case types.showLogSection:
-        return sessionId;
+        return identify;
       case types.hideLogSection:
         return null;
       default:
@@ -66,9 +79,8 @@ function getCurrentSessionIdReducer(types) {
 
 export default function getStorageReducer(types) {
   return combineReducers({
-    calls: getCallsMappingReducer(types),
-    tasks: getTasksMappingReducer(types),
-    show: getShowLogSectionReducer(types),
-    currentSessionId: getCurrentSessionIdReducer(types),
+    callsList: getCallsListReducer(types),
+    callMapping: getCallsMappingReducer(types),
+    currentIdentify: getCurrentIdentifyReducer(types),
   });
 }
