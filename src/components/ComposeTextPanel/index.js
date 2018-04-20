@@ -64,26 +64,18 @@ class ComposeTextPanel extends Component {
           hasSenderNumbers={this.hasSenderNumbers()}
           brand={this.props.brand}
         />
-        <RecipientsInput
-          value={this.props.typingToNumber}
-          onChange={this.props.updateTypingToNumber}
-          onClean={this.cleanReceiverValue}
-          recipients={this.props.toNumbers}
-          addToRecipients={this.addToRecipients}
-          removeFromRecipients={this.removeFromRecipients}
-          searchContact={this.props.searchContact}
-          searchContactList={this.props.searchContactList}
-          formatContactPhone={this.props.formatContactPhone}
-          currentLocale={this.props.currentLocale}
-          phoneTypeRenderer={this.props.phoneTypeRenderer}
-          contactInfoRenderer={this.props.recipientsContactInfoRenderer}
-          contactPhoneRenderer={this.props.recipientsContactPhoneRenderer}
-          titleEnabled
-          autoFocus={this.props.autoFocus}
-          multiple
-        />
-        <div className={styles.senderField}>
-          <FromField
+        <form onSubmit={this.handleSubmit}>
+          <RecipientsInput
+            value={this.props.typingToNumber}
+            recipientsClassName={styles.recipients}
+            onChange={this.props.updateTypingToNumber}
+            onClean={this.cleanReceiverValue}
+            recipients={this.props.toNumbers}
+            addToRecipients={this.addToRecipients}
+            removeFromRecipients={this.removeFromRecipients}
+            searchContact={this.props.searchContact}
+            searchContactList={this.props.searchContactList}
+            formatContactPhone={this.props.formatContactPhone}
             currentLocale={this.props.currentLocale}
             fromNumber={this.props.senderNumber}
             fromNumbers={this.props.senderNumbers}

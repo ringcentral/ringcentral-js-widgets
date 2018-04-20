@@ -63,7 +63,15 @@ function mapToFunctions(_, {
   recipientsContactPhoneRenderer,
 }) {
   return {
-    send: () =>
+    send: () => {
+      this.timeout = setTimeout(() => {
+        if (routerInteraction.currentPath === '/composeText') {
+          composeText.alertMessageSending();
+        }
+        if (this.timeout) {
+          clearTimeout(this.timeout);
+        }
+      }, 10000);
       composeText.send().then((responses) => {
         if (!responses || responses.length === 0) {
           return null;
@@ -79,9 +87,14 @@ function mapToFunctions(_, {
         } else {
           routerInteraction.push('/messages');
         }
+        if (this.timeout) {
+          clearTimeout(this.timeout);
+        }
         composeText.clean();
+        composeText.dismissMessageSending();
         return null;
-      }),
+      });
+    },
     formatPhone: formatContactPhone,
     formatContactPhone,
     searchContact: searchString => (
