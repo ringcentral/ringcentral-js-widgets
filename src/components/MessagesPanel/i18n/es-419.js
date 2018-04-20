@@ -6,7 +6,7 @@ export default {
   noMessages: 'Ningún mensaje',
   noSearchResults: 'No se encontraron registros que coincidan',
   composeText: 'Redactar mensaje',
-  [messageTypes.all]: 'Todas',
+  [messageTypes.all]: 'Todos',
   [messageTypes.voiceMail]: 'Voz',
   [messageTypes.text]: 'Texto',
   [messageTypes.fax]: 'Fax',

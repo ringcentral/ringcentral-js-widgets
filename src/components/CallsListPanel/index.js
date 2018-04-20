@@ -236,15 +236,11 @@ export default class CallsListPanel extends Component {
         </div>
       );
     }
-    const appendDOM = currentLog ? (
-      <div ref={(ref) => { this.appendDOM = ref; }} />
-    ) : null;
     const logSection = currentLog ? (
       <InsideModal
         title={currentLog.title}
         show={currentLog.showLog}
-        onClose={closeCurrentLog}
-        appendDOM={this.appendDOM}>
+        onClose={closeCurrentLog}>
         <LogSection
           currentLocale={currentLocale}
           currentLog={currentLog}
@@ -336,7 +332,6 @@ export default class CallsListPanel extends Component {
           {getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale))}
           { calls.length > 0 ? historyCall : null }
         </div>
-        {appendDOM}
         {logSection}
       </div>
     );

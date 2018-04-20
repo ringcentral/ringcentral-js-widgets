@@ -1,6 +1,6 @@
 export default {
   schedule: 'Zeitplan',
-  prompt: 'Bitte autorisieren Sie RingCentral für den Zugriff auf Ihre Kontoinformationen.',
+  prompt: 'Bitte autorisieren Sie RingCentral für den Zugriff auf Ihre Kontoinformationen.'
 };
 
 // @key: @#@"schedule"@#@ @source: @#@"Schedule"@#@

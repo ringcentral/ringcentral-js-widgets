@@ -9,7 +9,7 @@ export default {
   record: 'Grabar',
   add: 'Añadir',
   transfer: 'Transferir',
-  flip: 'Flip',
+  flip: 'Volteo',
 };
 
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@

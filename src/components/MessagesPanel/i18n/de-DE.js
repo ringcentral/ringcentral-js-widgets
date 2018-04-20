@@ -7,8 +7,8 @@ export default {
   noSearchResults: 'Kein übereinstimmender Datensatz gefunden',
   composeText: 'Text erstellen',
   [messageTypes.all]: 'Alle',
-  [messageTypes.voiceMail]: 'Sprachnachricht',
-  [messageTypes.text]: 'Textnachricht',
+  [messageTypes.voiceMail]: 'Sprachnachr.',
+  [messageTypes.text]: 'Textnachr.',
   [messageTypes.fax]: 'Fax',
 };
 

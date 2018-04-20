@@ -4,7 +4,7 @@ export default {
   [phoneTypes.business]: 'Business Phone',
   [phoneTypes.extension]: 'Extension number',
   [phoneTypes.home]: 'Home number',
-  [phoneTypes.mobile]: 'Mobile Phone',
+  [phoneTypes.mobile]: 'Mobile phone',
   [phoneTypes.phone]: 'Phone',
   [phoneTypes.unknown]: 'Unknown Phone Type',
   [phoneTypes.company]: 'Company number',

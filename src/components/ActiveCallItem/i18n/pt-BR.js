@@ -4,7 +4,7 @@ export default {
   editLog: 'Editar log',
   select: 'Selecionar um registro correspondente',
   OnHold: 'Em espera',
-  Ringing: 'Toque',
+  Ringing: 'Chamando',
   CallConnected: 'Chamada conectada',
   unknownUser: 'Usuário desconhecido',
   unknownNumber: 'Anônimo',
@@ -20,9 +20,9 @@ export default {
   outboundCall: 'Saída',
   from: 'De',
   to: 'Para',
-  hangup: 'Desligar',
-  accept: 'Aceitar',
-  toVoicemail: 'Enviar para caixa postal',
+  hangup:'Desligar',
+  accept:'Aceitar',
+  toVoicemail:'Enviar para caixa postal',
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@

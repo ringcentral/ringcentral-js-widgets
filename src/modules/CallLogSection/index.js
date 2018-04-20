@@ -1,13 +1,13 @@
 import RcModule from 'ringcentral-integration/lib/RcModule';
 import { Module } from 'ringcentral-integration/lib/di';
+import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import getter from 'ringcentral-integration/lib/getter';
 import { createSelector } from 'reselect';
-import getThirdPartyCallReducer from './getCallLogSectionReducer';
+import getCallLogSectionReducer from './getCallLogSectionReducer';
 import getStorageReducer from './getStorageReducer';
 import actionTypes from './actionTypes';
 
 @Module({
-  name: 'CallLogSection',
   deps: [
     'Storage',
   ]
@@ -33,15 +33,24 @@ export default class CallLogSection extends RcModule {
       key: this._storageKey,
       reducer: this._storageReducer,
     });
-    this._reducer = getThirdPartyCallReducer(this.actionTypes);
+    this._reducer = getCallLogSectionReducer(this.actionTypes);
   }
 
-  _onStateChange() {
+  async _onStateChange() {
     if (this._shouldInit()) {
+      this.store.dispatch({
+        type: this.actionTypes.init
+      });
+      if (typeof this._onInit === 'function') {
+        await this._onInit();
+      }
       this.store.dispatch({
         type: this.actionTypes.initSuccess
       });
     } else if (this._shouldReset()) {
+      if (typeof this._onReset === 'function') {
+        await this._onReset();
+      }
       this.store.dispatch({
         type: this.actionTypes.resetSuccess,
       });
@@ -51,6 +60,7 @@ export default class CallLogSection extends RcModule {
   _shouldInit() {
     return (
       this._storage.ready &&
+      this._readyCheckFunction() &&
       this.pending
     );
   }
@@ -58,44 +68,79 @@ export default class CallLogSection extends RcModule {
   _shouldReset() {
     return (
       (
-        !this._storage.ready
+        !this._storage.ready ||
+        !this._readyCheckFunction()
       ) && this.ready
     );
   }
 
-  _showCallLogSection([call] = []) {
-    if (call && !this.show) {
-      this.showLogSection(call.sessionId);
+  _handleSuccess(identify, ...args) {
+    this.store.dispatch({
+      type: this.actionTypes.saveSuccess,
+      identify,
+    });
+    if (typeof this._onSuccess === 'function') this._onSuccess(identify, ...args);
+  }
+
+  _handleError(identify, ...args) {
+    this.store.dispatch({
+      type: this.actionTypes.saveError,
+      identify,
+    });
+    if (typeof this._onError === 'function') this._onError(identify, ...args);
+  }
+
+  addLogHandler(
+    {
+      logFunction,
+      readyCheckFunction,
+      onUpdate,
+      onSuccess,
+      onError
+    }
+  ) {
+    this._logFunction = this::ensureExist(logFunction, 'logFunction');
+    this._readyCheckFunction = this::ensureExist(readyCheckFunction, 'readyCheckFunction');
+    this._onUpdate = this::ensureExist(onUpdate, 'onUpdate');
+    this._onSuccess = onSuccess;
+    this._onError = onError;
+  }
+
+  async updateCallLog(identify, ...args) {
+    this.store.dispatch({
+      type: this.actionTypes.update,
+      identify,
+    });
+    await this._onUpdate(identify, ...args);
+  }
+
+  async saveCallLog(identify, ...args) {
+    if (identify) {
+      this.store.dispatch({
+        type: this.actionTypes.saving,
+        identify,
+      });
+      try {
+        const result = await this._logFunction(identify, ...args);
+        if (result) {
+          this._handleSuccess(identify, ...args);
+        } else {
+          this._handleError(identify, ...args);
+        }
+      } catch (e) {
+        this._handleError(identify, ...args);
+        console.warn(e);
+      }
     }
   }
 
-  updateCall({ task, ...call }, sessionId) {
-    this.store.dispatch({
-      type: this.actionTypes.update,
-      call,
-      task,
-      sessionId,
-    });
-  }
-
-  logCall({ sessionId }) {
-    const loggedCall = {
-      isSaved: true,
-      isLogged: true,
-      isSaving: false
-    };
-    this.store.dispatch({
-      type: this.actionTypes.update,
-      call: loggedCall,
-      sessionId,
-    });
-  }
-
-  showLogSection(sessionId) {
-    this.store.dispatch({
-      type: this.actionTypes.showLogSection,
-      sessionId
-    });
+  showLogSection(identify) {
+    if (!this.show) {
+      this.store.dispatch({
+        type: this.actionTypes.showLogSection,
+        identify
+      });
+    }
   }
 
   hideLogSection() {
@@ -106,44 +151,30 @@ export default class CallLogSection extends RcModule {
     }
   }
 
-  get status() {
-    return this.state.status;
-  }
-
   @getter
   calls = createSelector(
+    () => this.callsList,
     () => this.callsMapping,
-    () => this.tasksMapping,
-    (callsMapping, tasksMapping) => Object
-      .entries(callsMapping)
-      .reduce(
-        (calls, [sessionId, call]) => Object
-          .assign(
-            calls,
-            {
-              [sessionId]: {
-                ...call,
-                task: tasksMapping[sessionId],
-              }
-            }
-          ),
-        {}
-      ),
+    (list, mapping) => list.map(identify => mapping[identify])
   );
 
+  get callsList() {
+    return this._storage.getItem(this._storageKey).callsList;
+  }
+
   get callsMapping() {
-    return this._storage.getItem(this._storageKey).calls;
+    return this._storage.getItem(this._storageKey).callsMapping;
   }
 
-  get tasksMapping() {
-    return this._storage.getItem(this._storageKey).tasks;
-  }
-
-  get currentSessionId() {
-    return this._storage.getItem(this._storageKey).currentSessionId;
+  get currentIdentify() {
+    return this._storage.getItem(this._storageKey).currentIdentify;
   }
 
   get show() {
-    return this._storage.getItem(this._storageKey).show;
+    return !!this._storage.getItem(this._storageKey).currentIdentify;
+  }
+
+  get status() {
+    return this.state.status;
   }
 }

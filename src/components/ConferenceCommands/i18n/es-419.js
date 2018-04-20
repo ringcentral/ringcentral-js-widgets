@@ -13,7 +13,7 @@ export default {
   starSharp7Title: 'Proteger la llamada',
   starSharp7Body: 'Presione una vez para BLOQUEAR a todas las personas que llaman.\r\nVuelva a pulsar para ABRIR la llamada.',
   starSharp8Title: 'Escuchar un sonido cuando alguien entre o salga de una llamada',
-  starSharp8Body: 'Presione 1 veces: Se DESACTIVA el sonido.\r\nPresione 2 veces: Se ACTIVA el tono de entrada y se DESACTIVA el tono de salida\r\nPresione 3 veces: Se DESACTIVA el tono de entrada y se ACTIVA el tono de salida\r\nPresione 4\xA0veces: El sonido está ACTIVADO.',
+  starSharp8Body: 'Presione 1 vez: Se DESACTIVA el sonido.\r\nPresione 2 veces: Se ACTIVA el tono de entrada y se DESACTIVA el tono de salida\r\nPresione 3 veces: Se DESACTIVA el tono de entrada y se ACTIVA el tono de salida\r\nPresione 4\xA0veces: ACTIVA el sonido.',
   star9Title: 'Grabar la conferencia',
   star9Body: 'Presione una vez para EMPEZAR a grabar.\r\nPresione una vez para DEJAR de grabar.',
 };

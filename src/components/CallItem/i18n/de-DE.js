@@ -12,7 +12,7 @@ export default {
   viewDetails: 'Details anzeigen',
   addEntity: 'Neu erstellen',
   addLog: 'Protokoll',
-  text: 'Textnachricht',
+  text: 'Textnachr.',
   call: 'Anrufen',
   missedCall: 'Verpasst',
   inboundCall: 'Eingehend',

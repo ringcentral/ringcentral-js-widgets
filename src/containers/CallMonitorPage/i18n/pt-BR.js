@@ -1,5 +1,5 @@
 export default {
-  title: 'Chamadas',
+  title: 'Chamadas'
 };
 
 // @key: @#@"title"@#@ @source: @#@"Calls"@#@

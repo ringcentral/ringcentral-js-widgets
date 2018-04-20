@@ -1,6 +1,6 @@
 export default {
   schedule: 'Programmazione',
-  prompt: 'Autorizza RingCentral ad accedere alle informazioni del tuo account.',
+  prompt: 'Autorizza RingCentral ad accedere alle informazioni del tuo account.'
 };
 
 // @key: @#@"schedule"@#@ @source: @#@"Schedule"@#@

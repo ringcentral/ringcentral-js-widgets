@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Modal from '../Modal';
 import styles from './styles.scss';
@@ -22,35 +22,45 @@ CloseBtn.defaultProps = {
   onClick: undefined,
 };
 
-export default function InsideModal({
-  show,
-  onClose,
-  appendDOM,
-  children,
-  title,
-}) {
-  const closeBtn = (<CloseBtn onClick={onClose} />);
-  if (!appendDOM) return null;
-  return (
-    <Modal
-      title={title}
-      headerClassName={styles.title}
-      className={styles.container}
-      maskClassName={styles.mask}
-      modalClassName={styles.modal}
-      contentClassName={styles.content}
-      closeBtn={closeBtn}
-      show={show}
-      appendDOM={appendDOM}>
-      {children}
-    </Modal>
-  );
+export default class InsideModal extends Component {
+  componentDidMount() {
+    this.forceUpdate();
+  }
+
+  render() {
+    const {
+      show,
+      onClose,
+      children,
+      title,
+    } = this.props;
+    const closeBtn = (<CloseBtn onClick={onClose} />);
+    return (
+      <div ref={(ref) => { this.appendDOM = ref; }}>
+        {
+          this.appendDOM ? (
+            <Modal
+              title={title}
+              headerClassName={styles.title}
+              className={styles.container}
+              maskClassName={styles.mask}
+              modalClassName={styles.modal}
+              contentClassName={styles.content}
+              closeBtn={closeBtn}
+              show={show}
+              appendDOM={this.appendDOM}>
+              {children}
+            </Modal>
+          ) : null
+        }
+      </div>
+    );
+  }
 }
 
 InsideModal.propTypes = {
   show: PropTypes.bool,
   onClose: PropTypes.func,
-  appendDOM: PropTypes.object,
   children: PropTypes.node,
   title: PropTypes.string,
 };
@@ -59,6 +69,5 @@ InsideModal.defaultProps = {
   title: null,
   show: undefined,
   onClose: undefined,
-  appendDOM: undefined,
   children: undefined,
 };

@@ -1,8 +1,8 @@
 export default {
-  from: 'De ',
-  to: 'À ',
+  from: 'De',
+  to: 'À',
   enterNameOrNumber: 'Saisir le numéro ou le nom',
-  typeMessage: 'Saisie du message...',
+  typeMessage: 'Saisir un message...',
   send: 'Envoyer',
 };
 

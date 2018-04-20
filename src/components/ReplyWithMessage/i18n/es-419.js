@@ -3,7 +3,7 @@ export default {
   reply: 'Responder',
   onMyWay: 'En camino',
   customMessage: 'Mensaje personalizado',
-  callMeBackIn: 'Devuélvame la llamada en',
+  callMeBackIn: 'Llámeme de nuevo en',
   willCallYouBackIn: 'Le regresaré la llamada en',
   min: 'minutos',
   hours: 'horas',
