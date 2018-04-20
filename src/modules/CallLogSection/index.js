@@ -74,60 +74,62 @@ export default class CallLogSection extends RcModule {
     );
   }
 
-  _handleSuccess(identify) {
+  _handleSuccess(identify, ...args) {
     this.store.dispatch({
       type: this.actionTypes.saveSuccess,
       identify,
     });
-    if (typeof this._onSuccess === 'function') this._onSuccess();
+    if (typeof this._onSuccess === 'function') this._onSuccess(identify, ...args);
   }
 
-  _handleError(identify) {
+  _handleError(identify, ...args) {
     this.store.dispatch({
       type: this.actionTypes.saveError,
       identify,
     });
-    if (typeof this._onError === 'function') this._onError();
+    if (typeof this._onError === 'function') this._onError(identify, ...args);
   }
 
   addLogHandler(
     {
       logFunction,
       readyCheckFunction,
+      onUpdate,
       onSuccess,
       onError
     }
   ) {
     this._logFunction = this::ensureExist(logFunction, 'logFunction');
     this._readyCheckFunction = this::ensureExist(readyCheckFunction, 'readyCheckFunction');
-    this._onUpdate = this::ensureExist(readyCheckFunction, 'onUpdate');
+    this._onUpdate = this::ensureExist(onUpdate, 'onUpdate');
     this._onSuccess = onSuccess;
     this._onError = onError;
   }
 
-  async updateCallLog(identify) {
+  async updateCallLog(identify, ...args) {
     this.store.dispatch({
       type: this.actionTypes.update,
       identify,
     });
-    await this._onUpdate();
+    await this._onUpdate(identify, ...args);
   }
 
-  async saveCallLog(identify) {
+  async saveCallLog(identify, ...args) {
     if (identify) {
       this.store.dispatch({
         type: this.actionTypes.saving,
         identify,
       });
       try {
-        const result = await this._logCall();
+        const result = await this._logFunction(identify, ...args);
         if (result) {
-          this._handleSuccess(identify);
+          this._handleSuccess(identify, ...args);
         } else {
-          this._handleError(identify);
+          this._handleError(identify, ...args);
         }
       } catch (e) {
-        this._handleError(identify);
+        this._handleError(identify, ...args);
+        console.warn(e);
       }
     }
   }
