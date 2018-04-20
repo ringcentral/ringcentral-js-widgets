@@ -77,11 +77,15 @@ export default class CallLogSection extends RcModule {
   addLogHandler(
     {
       logFunction,
-      readyCheckFunction
+      readyCheckFunction,
+      onSuccess,
+      onError
     }
   ) {
     this._logFunction = this::ensureExist(logFunction, 'logFunction');
     this._readyCheckFunction = this::ensureExist(readyCheckFunction, 'readyCheckFunction');
+    this._onSuccess = onSuccess;
+    this._onError = onError;
   }
 
   updateCallLog(identify) {
@@ -100,24 +104,30 @@ export default class CallLogSection extends RcModule {
       try {
         const result = await this._logCall();
         if (result) {
-          this.store.dispatch({
-            type: this.actionTypes.saveSuccess,
-            sessionId,
-          });
+          this._handleSuccess(identify);
         } else {
-          this._onError(sessionId);
+          this._handleError(identify);
         }
       } catch (e) {
-        this._onError(sessionId);
+        this._handleError(identify);
       }
     }
   }
 
-  _onError(identify) {
+  _handleSuccess(identify) {
+    this.store.dispatch({
+      type: this.actionTypes.saveSuccess,
+      identify,
+    });
+    if (typeof this._onSuccess === 'function') this._onSuccess();
+  }
+
+  _handleError(identify) {
     this.store.dispatch({
       type: this.actionTypes.saveError,
       identify,
     });
+    if (typeof this._onError === 'function') this._onError();
   }
 
   showLogSection(identify) {
