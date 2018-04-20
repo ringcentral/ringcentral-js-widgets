@@ -74,6 +74,22 @@ export default class CallLogSection extends RcModule {
     );
   }
 
+  _handleSuccess(identify) {
+    this.store.dispatch({
+      type: this.actionTypes.saveSuccess,
+      identify,
+    });
+    if (typeof this._onSuccess === 'function') this._onSuccess();
+  }
+
+  _handleError(identify) {
+    this.store.dispatch({
+      type: this.actionTypes.saveError,
+      identify,
+    });
+    if (typeof this._onError === 'function') this._onError();
+  }
+
   addLogHandler(
     {
       logFunction,
@@ -84,15 +100,17 @@ export default class CallLogSection extends RcModule {
   ) {
     this._logFunction = this::ensureExist(logFunction, 'logFunction');
     this._readyCheckFunction = this::ensureExist(readyCheckFunction, 'readyCheckFunction');
+    this._onUpdate = this::ensureExist(readyCheckFunction, 'onUpdate');
     this._onSuccess = onSuccess;
     this._onError = onError;
   }
 
-  updateCallLog(identify) {
+  async updateCallLog(identify) {
     this.store.dispatch({
       type: this.actionTypes.update,
       identify,
     });
+    await this._onUpdate();
   }
 
   async saveCallLog(identify) {
@@ -112,22 +130,6 @@ export default class CallLogSection extends RcModule {
         this._handleError(identify);
       }
     }
-  }
-
-  _handleSuccess(identify) {
-    this.store.dispatch({
-      type: this.actionTypes.saveSuccess,
-      identify,
-    });
-    if (typeof this._onSuccess === 'function') this._onSuccess();
-  }
-
-  _handleError(identify) {
-    this.store.dispatch({
-      type: this.actionTypes.saveError,
-      identify,
-    });
-    if (typeof this._onError === 'function') this._onError();
   }
 
   showLogSection(identify) {
