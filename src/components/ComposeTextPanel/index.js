@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import i18n from './i18n';
 import styles from './styles.scss';
 import RecipientsInput from '../RecipientsInput';
 import SpinnerOverlay from '../SpinnerOverlay';
 import NoSenderAlert from './NoSenderAlert';
 import FromField from '../FromField';
+import MessageInput from '../MessageInput';
 
 
 class ComposeTextPanel extends Component {
@@ -34,27 +34,6 @@ class ComposeTextPanel extends Component {
 
     this.removeFromRecipients = (phoneNumber) => {
       this.props.removeToNumber({ phoneNumber });
-    };
-
-    this.onTextChange = (e) => {
-      const value = e.currentTarget.value;
-      this.setState({
-        messageText: value,
-      });
-      this.props.updateMessageText(value);
-    };
-
-    this.onTextAreaKeyDown = (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        this.props.send();
-      }
-    };
-
-    this.handleSubmit = (e) => {
-      e.preventDefault();
-      this.props.send();
-      console.debug('send message ...');
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -85,56 +64,42 @@ class ComposeTextPanel extends Component {
           hasSenderNumbers={this.hasSenderNumbers()}
           brand={this.props.brand}
         />
-        <form onSubmit={this.handleSubmit}>
-          <RecipientsInput
-            value={this.props.typingToNumber}
-            onChange={this.props.updateTypingToNumber}
-            onClean={this.cleanReceiverValue}
-            recipients={this.props.toNumbers}
-            addToRecipients={this.addToRecipients}
-            removeFromRecipients={this.removeFromRecipients}
-            searchContact={this.props.searchContact}
-            searchContactList={this.props.searchContactList}
-            formatContactPhone={this.props.formatContactPhone}
+        <RecipientsInput
+          value={this.props.typingToNumber}
+          onChange={this.props.updateTypingToNumber}
+          onClean={this.cleanReceiverValue}
+          recipients={this.props.toNumbers}
+          addToRecipients={this.addToRecipients}
+          removeFromRecipients={this.removeFromRecipients}
+          searchContact={this.props.searchContact}
+          searchContactList={this.props.searchContactList}
+          formatContactPhone={this.props.formatContactPhone}
+          currentLocale={this.props.currentLocale}
+          phoneTypeRenderer={this.props.phoneTypeRenderer}
+          contactInfoRenderer={this.props.recipientsContactInfoRenderer}
+          contactPhoneRenderer={this.props.recipientsContactPhoneRenderer}
+          titleEnabled
+          autoFocus={this.props.autoFocus}
+          multiple
+        />
+        <div className={styles.senderField}>
+          <FromField
             currentLocale={this.props.currentLocale}
-            phoneTypeRenderer={this.props.phoneTypeRenderer}
-            contactInfoRenderer={this.props.recipientsContactInfoRenderer}
-            contactPhoneRenderer={this.props.recipientsContactPhoneRenderer}
-            titleEnabled
-            autoFocus={this.props.autoFocus}
-            multiple
+            fromNumber={this.props.senderNumber}
+            fromNumbers={this.props.senderNumbers}
+            formatPhone={this.props.formatPhone}
+            onChange={this.onSenderChange}
+            hidden={!this.hasSenderNumbers()}
+            showAnonymous={false}
           />
-          <div className={styles.senderField}>
-            <FromField
-              currentLocale={this.props.currentLocale}
-              fromNumber={this.props.senderNumber}
-              fromNumbers={this.props.senderNumbers}
-              formatPhone={this.props.formatPhone}
-              onChange={this.onSenderChange}
-              hidden={!this.hasSenderNumbers()}
-              showAnonymous={false}
-            />
-          </div>
-          <div className={styles.buttomField}>
-            <div className={styles.textField}>
-              <textarea
-                placeholder={i18n.getString('typeMessage', this.props.currentLocale)}
-                value={this.state.messageText}
-                maxLength="1000"
-                onChange={this.onTextChange}
-                onKeyPressCapture={this.onTextAreaKeyDown}
-              />
-            </div>
-            <div className={styles.submitField}>
-              <input
-                type="submit"
-                value={i18n.getString('send', this.props.currentLocale)}
-                className={styles.submitButton}
-                disabled={this.props.sendButtonDisabled}
-              />
-            </div>
-          </div>
-        </form>
+        </div>
+        <MessageInput
+          value={this.props.messageText}
+          onChange={this.props.updateMessageText}
+          disabled={this.props.sendButtonDisabled}
+          currentLocale={this.props.currentLocale}
+          onSend={this.props.send}
+        />
       </div>
     );
   }

@@ -10,7 +10,7 @@ import { Message } from '../../src/components/ConversationMessageList';
 
 let wrapper = null;
 let panel = null;
-let submitButton = null;
+let sendButton = null;
 let textArea = null;
 let toNumber = null;
 beforeEach(async () => {
@@ -20,7 +20,7 @@ beforeEach(async () => {
   await navigationBar.props().goTo('/composeText');
   wrapper.update();
   panel = wrapper.find(ComposeTextPanel).first();
-  submitButton = panel.find('.submitButton').first();
+  sendButton = panel.find('.sendButton').first();
   textArea = panel.find('.textField').first().find('textarea');
   toNumber = panel.find('.numberInput');
 });
@@ -29,13 +29,13 @@ describe('compose text panel', () => {
   test('initial state', () => {
     expect(panel).toBeDefined();
     expect(panel.props()).toBeDefined();
-    expect(submitButton.props()).toBeDefined();
+    expect(sendButton.props()).toBeDefined();
     expect(textArea.props()).toBeDefined();
     expect(toNumber.props()).toBeDefined();
   });
 
   test('send button status', async () => {
-    expect(submitButton.props().disabled).toBe(true);
+    expect(sendButton.props().disabled).toBe(true);
     textArea.instance().value = 'Hello world';
     await textArea.simulate('change');
     panel = wrapper.find(ComposeTextPanel).first();
@@ -45,9 +45,9 @@ describe('compose text panel', () => {
     await toNumber.simulate('change');
     panel = wrapper.find(ComposeTextPanel).first();
     toNumber = panel.find('.numberInput');
-    submitButton = panel.find('.submitButton').first();
+    sendButton = panel.find('.sendButton').first();
     expect(toNumber.props().value).toEqual('Hello world');
-    expect(submitButton.props().disabled).toBe(false);
+    expect(sendButton.props().disabled).toBe(false);
   });
 
   test('from dropdown', async () => {
@@ -78,10 +78,9 @@ describe('compose text panel', () => {
     textArea.instance().value = messageContent;
     await textArea.simulate('change');
     panel = wrapper.find(ComposeTextPanel).first();
-    submitButton = panel.find('.submitButton').first();
-    expect(submitButton.props().disabled).toBe(false);
-    const submitForm = submitButton.closest('form');
-    await submitForm.simulate('submit');
+    sendButton = panel.find('.sendButton').first();
+    expect(sendButton.props().disabled).toBe(false);
+    await sendButton.simulate('click');
     await timeout(200);
     wrapper.update();
     const conversationPanel = wrapper.find(ConversationPanel);
