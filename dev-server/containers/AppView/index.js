@@ -6,7 +6,6 @@ import OfflineModeBadge from '../../../src/components/OfflineModeBadge';
 import WebphoneBadge from '../../../src/components/WebphoneBadge';
 import Environment from '../../../src/components/Environment';
 import withPhone from '../../../src/lib/withPhone';
-
 import styles from './styles.scss';
 
 function AppView(props) {

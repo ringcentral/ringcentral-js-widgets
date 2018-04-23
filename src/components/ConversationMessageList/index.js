@@ -82,6 +82,7 @@ class ConversationMessageList extends Component {
       dateTimeFormatter,
       messages,
       showSender,
+      height,
       messageSubjectRenderer,
     } = this.props;
 
@@ -112,6 +113,7 @@ class ConversationMessageList extends Component {
     return (
       <div
         className={classnames(styles.root, className)}
+        style={{ height }}
         ref={(body) => { this.conversationBody = body; }}
       >
         {messageList}
@@ -131,12 +133,14 @@ ConversationMessageList.propTypes = {
   showSender: PropTypes.bool,
   dateTimeFormatter: PropTypes.func.isRequired,
   messageSubjectRenderer: PropTypes.func,
+  height: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 };
 
 ConversationMessageList.defaultProps = {
   className: null,
   showSender: false,
   messageSubjectRenderer: undefined,
+  height: '100%',
 };
 
 ConversationMessageList.contextTypes = {
