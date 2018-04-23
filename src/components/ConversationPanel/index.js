@@ -76,7 +76,7 @@ class ConversationPanel extends Component {
     }
   }
   getSelectedContact = (selected = this.state.selected) => {
-    if (this.props.conversation) {
+    if (!this.props.conversation) {
       return null;
     }
     const contactMatches = this.props.conversation.correspondentMatches;
@@ -100,7 +100,7 @@ class ConversationPanel extends Component {
   }
 
   getPhoneNumber() {
-    if (this.props.conversation) {
+    if (!this.props.conversation) {
       return null;
     }
     const correspondents = this.props.conversation.correspondents;
@@ -109,7 +109,7 @@ class ConversationPanel extends Component {
   }
 
   getGroupPhoneNumbers() {
-    if (this.props.conversation) {
+    if (!this.props.conversation) {
       return null;
     }
     const correspondents = this.props.conversation.correspondents;
@@ -122,7 +122,7 @@ class ConversationPanel extends Component {
   }
 
   getFallbackContactName() {
-    if (this.props.conversation) {
+    if (!this.props.conversation) {
       return null;
     }
     const correspondents = this.props.conversation.correspondents;
