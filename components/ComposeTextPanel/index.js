@@ -44,10 +44,6 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
-
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -67,6 +63,10 @@ var _NoSenderAlert2 = _interopRequireDefault(_NoSenderAlert);
 var _FromField = require('../FromField');
 
 var _FromField2 = _interopRequireDefault(_FromField);
+
+var _MessageInput = require('../MessageInput');
+
+var _MessageInput2 = _interopRequireDefault(_MessageInput);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -126,27 +126,6 @@ var ComposeTextPanel = function (_Component) {
     _this.removeFromRecipients = function (phoneNumber) {
       _this.props.removeToNumber({ phoneNumber: phoneNumber });
     };
-
-    _this.onTextChange = function (e) {
-      var value = e.currentTarget.value;
-      _this.setState({
-        messageText: value
-      });
-      _this.props.updateMessageText(value);
-    };
-
-    _this.onTextAreaKeyDown = function (e) {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        _this.props.send();
-      }
-    };
-
-    _this.handleSubmit = function (e) {
-      e.preventDefault();
-      _this.props.send();
-      console.debug('send message ...');
-    };
     return _this;
   }
 
@@ -183,66 +162,44 @@ var ComposeTextPanel = function (_Component) {
           hasSenderNumbers: this.hasSenderNumbers(),
           brand: this.props.brand
         }),
+        _react2.default.createElement(_RecipientsInput2.default, {
+          value: this.props.typingToNumber,
+          onChange: this.props.updateTypingToNumber,
+          onClean: this.cleanReceiverValue,
+          recipients: this.props.toNumbers,
+          addToRecipients: this.addToRecipients,
+          removeFromRecipients: this.removeFromRecipients,
+          searchContact: this.props.searchContact,
+          searchContactList: this.props.searchContactList,
+          formatContactPhone: this.props.formatContactPhone,
+          currentLocale: this.props.currentLocale,
+          phoneTypeRenderer: this.props.phoneTypeRenderer,
+          contactInfoRenderer: this.props.recipientsContactInfoRenderer,
+          contactPhoneRenderer: this.props.recipientsContactPhoneRenderer,
+          titleEnabled: true,
+          autoFocus: this.props.autoFocus,
+          multiple: true
+        }),
         _react2.default.createElement(
-          'form',
-          { onSubmit: this.handleSubmit },
-          _react2.default.createElement(_RecipientsInput2.default, {
-            value: this.props.typingToNumber,
-            onChange: this.props.updateTypingToNumber,
-            onClean: this.cleanReceiverValue,
-            recipients: this.props.toNumbers,
-            addToRecipients: this.addToRecipients,
-            removeFromRecipients: this.removeFromRecipients,
-            searchContact: this.props.searchContact,
-            searchContactList: this.props.searchContactList,
-            formatContactPhone: this.props.formatContactPhone,
+          'div',
+          { className: _styles2.default.senderField },
+          _react2.default.createElement(_FromField2.default, {
             currentLocale: this.props.currentLocale,
-            phoneTypeRenderer: this.props.phoneTypeRenderer,
-            contactInfoRenderer: this.props.recipientsContactInfoRenderer,
-            contactPhoneRenderer: this.props.recipientsContactPhoneRenderer,
-            titleEnabled: true,
-            autoFocus: this.props.autoFocus,
-            multiple: true
-          }),
-          _react2.default.createElement(
-            'div',
-            { className: _styles2.default.senderField },
-            _react2.default.createElement(_FromField2.default, {
-              currentLocale: this.props.currentLocale,
-              fromNumber: this.props.senderNumber,
-              fromNumbers: this.props.senderNumbers,
-              formatPhone: this.props.formatPhone,
-              onChange: this.onSenderChange,
-              hidden: !this.hasSenderNumbers(),
-              showAnonymous: false
-            })
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: _styles2.default.buttomField },
-            _react2.default.createElement(
-              'div',
-              { className: _styles2.default.textField },
-              _react2.default.createElement('textarea', {
-                placeholder: _i18n2.default.getString('typeMessage', this.props.currentLocale),
-                value: this.state.messageText,
-                maxLength: '1000',
-                onChange: this.onTextChange,
-                onKeyPressCapture: this.onTextAreaKeyDown
-              })
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: _styles2.default.submitField },
-              _react2.default.createElement('input', {
-                type: 'submit',
-                value: _i18n2.default.getString('send', this.props.currentLocale),
-                className: _styles2.default.submitButton,
-                disabled: this.props.sendButtonDisabled
-              })
-            )
-          )
-        )
+            fromNumber: this.props.senderNumber,
+            fromNumbers: this.props.senderNumbers,
+            formatPhone: this.props.formatPhone,
+            onChange: this.onSenderChange,
+            hidden: !this.hasSenderNumbers(),
+            showAnonymous: false
+          })
+        ),
+        _react2.default.createElement(_MessageInput2.default, {
+          value: this.props.messageText,
+          onChange: this.props.updateMessageText,
+          disabled: this.props.sendButtonDisabled,
+          currentLocale: this.props.currentLocale,
+          onSend: this.props.send
+        })
       );
     }
   }]);

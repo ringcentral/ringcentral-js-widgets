@@ -132,6 +132,7 @@ var ConversationMessageList = function (_Component) {
           dateTimeFormatter = _props.dateTimeFormatter,
           messages = _props.messages,
           showSender = _props.showSender,
+          height = _props.height,
           messageSubjectRenderer = _props.messageSubjectRenderer;
 
 
@@ -154,6 +155,7 @@ var ConversationMessageList = function (_Component) {
         'div',
         {
           className: (0, _classnames2.default)(_styles2.default.root, className),
+          style: { height: height },
           ref: function ref(body) {
             _this2.conversationBody = body;
           }
@@ -175,13 +177,15 @@ ConversationMessageList.propTypes = {
   className: _propTypes2.default.string,
   showSender: _propTypes2.default.bool,
   dateTimeFormatter: _propTypes2.default.func.isRequired,
-  messageSubjectRenderer: _propTypes2.default.func
+  messageSubjectRenderer: _propTypes2.default.func,
+  height: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string])
 };
 
 ConversationMessageList.defaultProps = {
   className: null,
   showSender: false,
-  messageSubjectRenderer: undefined
+  messageSubjectRenderer: undefined,
+  height: '100%'
 };
 
 ConversationMessageList.contextTypes = {

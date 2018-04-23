@@ -60,13 +60,13 @@ var _ContactDisplay = require('../ContactDisplay');
 
 var _ContactDisplay2 = _interopRequireDefault(_ContactDisplay);
 
+var _MessageInput = require('../MessageInput');
+
+var _MessageInput2 = _interopRequireDefault(_MessageInput);
+
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -77,6 +77,16 @@ var ConversationPanel = function (_Component) {
     (0, _classCallCheck3.default)(this, ConversationPanel);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ConversationPanel.__proto__ || (0, _getPrototypeOf2.default)(ConversationPanel)).call(this, props));
+
+    _this.onInputHeightChange = function (value) {
+      _this.setState({
+        inputHeight: value
+      });
+    };
+
+    _this.onSend = function () {
+      _this.props.replyToReceivers(_this.props.messageText);
+    };
 
     _this.onSelectContact = function (value, idx) {
       var selected = _this.showContactDisplayPlaceholder ? parseInt(idx, 10) - 1 : parseInt(idx, 10);
@@ -100,26 +110,20 @@ var ConversationPanel = function (_Component) {
 
     _this.state = {
       selected: _this.getInitialContactIndex(),
-      isLogging: false
+      isLogging: false,
+      inputHeight: 63
     };
     _this._userSelection = false;
-    _this.onTextChange = function (e) {
-      _this.props.updateMessageText(e.currentTarget.value);
-    };
-    _this.handleSubmit = function (e) {
-      _this.props.replyToReceivers(_this.props.messageText);
-      e.preventDefault();
-    };
-    _this.onTextAreaKeyDown = function (e) {
-      if (e.key === 'Enter') {
-        _this.props.replyToReceivers(_this.props.messageText);
-        e.preventDefault();
-      }
-    };
     return _this;
   }
 
   (0, _createClass3.default)(ConversationPanel, [{
+    key: 'getMessageListHeight',
+    value: function getMessageListHeight() {
+      var headerHeight = 41;
+      return 'calc(100% - ' + (this.state.inputHeight + headerHeight) + 'px)';
+    }
+  }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this._mounted = true;
@@ -158,12 +162,14 @@ var ConversationPanel = function (_Component) {
     key: 'getPhoneNumber',
     value: function getPhoneNumber() {
       var correspondents = this.props.conversation.correspondents;
+
       return correspondents.length === 1 && (correspondents[0].phoneNumber || correspondents[0].extensionNumber) || undefined;
     }
   }, {
     key: 'getGroupPhoneNumbers',
     value: function getGroupPhoneNumbers() {
       var correspondents = this.props.conversation.correspondents;
+
       var groupNumbers = correspondents.length > 1 ? correspondents.map(function (correspondent) {
         return correspondent.extensionNumber || correspondent.phoneNumber || undefined;
       }) : null;
@@ -173,6 +179,7 @@ var ConversationPanel = function (_Component) {
     key: 'getFallbackContactName',
     value: function getFallbackContactName() {
       var correspondents = this.props.conversation.correspondents;
+
       return correspondents.length === 1 && correspondents[0].name || undefined;
     }
   }, {
@@ -244,8 +251,8 @@ var ConversationPanel = function (_Component) {
         );
       } else {
         conversationBody = _react2.default.createElement(_ConversationMessageList2.default, {
+          height: this.getMessageListHeight(),
           messages: this.props.messages,
-          className: _styles2.default.conversationBody,
           dateTimeFormatter: this.props.dateTimeFormatter,
           showSender: recipients && recipients.length > 1,
           messageSubjectRenderer: messageSubjectRenderer
@@ -308,35 +315,14 @@ var ConversationPanel = function (_Component) {
           logButton
         ),
         conversationBody,
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.messageForm },
-          _react2.default.createElement(
-            'form',
-            { onSubmit: this.handleSubmit },
-            _react2.default.createElement(
-              'div',
-              { className: _styles2.default.textField },
-              _react2.default.createElement('textarea', {
-                placeholder: _i18n2.default.getString('typeMessage', this.props.currentLocale),
-                value: this.props.messageText,
-                maxLength: '1000',
-                onChange: this.onTextChange,
-                onKeyPressCapture: this.onTextAreaKeyDown
-              })
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: _styles2.default.submitField },
-              _react2.default.createElement('input', {
-                type: 'submit',
-                value: _i18n2.default.getString('send', this.props.currentLocale),
-                className: _styles2.default.submitButton,
-                disabled: this.props.disableLinks || this.props.sendButtonDisabled || loading || this.props.messageText.length === 0
-              })
-            )
-          )
-        )
+        _react2.default.createElement(_MessageInput2.default, {
+          value: this.props.messageText,
+          onChange: this.props.updateMessageText,
+          disabled: this.props.sendButtonDisabled,
+          currentLocale: this.props.currentLocale,
+          onSend: this.onSend,
+          onHeightChange: this.onInputHeightChange
+        })
       );
     }
   }]);

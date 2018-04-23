@@ -222,16 +222,18 @@ function mapToProps(_, _ref) {
       _ref$showGroupNumberN = _ref.showGroupNumberName,
       showGroupNumberName = _ref$showGroupNumberN === undefined ? false : _ref$showGroupNumberN;
 
+  var disableLinks = rateLimiter.isThrottling || !connectivityMonitor.connectivity;
+  var showSpinner = !(dateTimeFormat.ready && (!contactMatcher || contactMatcher.ready) && conversation.ready && regionSettings.ready && messages.ready && rateLimiter.ready && connectivityMonitor.ready && (!conversationLogger || conversationLogger.ready));
   return {
     brand: brand.fullName,
     enableContactFallback: enableContactFallback,
     showGroupNumberName: showGroupNumberName,
     currentLocale: locale.currentLocale,
     conversationId: params.conversationId,
-    sendButtonDisabled: conversation.pushing,
+    sendButtonDisabled: conversation.pushing || disableLinks || conversation.messageText.length === 0 || showSpinner,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
-    showSpinner: !(dateTimeFormat.ready && (!contactMatcher || contactMatcher.ready) && conversation.ready && regionSettings.ready && messages.ready && rateLimiter.ready && connectivityMonitor.ready && (!conversationLogger || conversationLogger.ready)),
+    showSpinner: showSpinner,
     recipients: conversation.recipients,
     messages: conversation.messages,
     messageText: conversation.messageText,
