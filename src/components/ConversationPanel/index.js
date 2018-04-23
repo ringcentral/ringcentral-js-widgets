@@ -100,19 +100,21 @@ class ConversationPanel extends Component {
   }
 
   getPhoneNumber() {
-    if (!this.props.conversation) {
-      return null;
-    }
-    const correspondents = this.props.conversation.correspondents;
+    const {
+      conversation: {
+        correspondents = [],
+      } = {},
+    } = this.props;
     return (correspondents.length === 1 &&
       (correspondents[0].phoneNumber || correspondents[0].extensionNumber)) || undefined;
   }
 
   getGroupPhoneNumbers() {
-    if (!this.props.conversation) {
-      return null;
-    }
-    const correspondents = this.props.conversation.correspondents;
+    const {
+      conversation: {
+        correspondents = [],
+      } = {},
+    } = this.props;
     const groupNumbers = correspondents.length > 1 ?
       correspondents.map(correspondent =>
         correspondent.extensionNumber || correspondent.phoneNumber || undefined
@@ -122,10 +124,11 @@ class ConversationPanel extends Component {
   }
 
   getFallbackContactName() {
-    if (!this.props.conversation) {
-      return null;
-    }
-    const correspondents = this.props.conversation.correspondents;
+    const {
+      conversation: {
+        correspondents = [],
+      } = {},
+    } = this.props;
     return (correspondents.length === 1 &&
       (correspondents[0].name)) || undefined;
   }
