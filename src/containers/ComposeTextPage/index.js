@@ -73,6 +73,10 @@ function mapToFunctions(_, {
         }
       }, 10000);
       composeText.send().then((responses) => {
+        if (this.timeout) {
+          clearTimeout(this.timeout);
+        }
+        composeText.dismissMessageSending();
         if (!responses || responses.length === 0) {
           return null;
         }
@@ -87,11 +91,7 @@ function mapToFunctions(_, {
         } else {
           routerInteraction.push('/messages');
         }
-        if (this.timeout) {
-          clearTimeout(this.timeout);
-        }
         composeText.clean();
-        composeText.dismissMessageSending();
         return null;
       });
     },
