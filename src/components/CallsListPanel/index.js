@@ -6,6 +6,7 @@ import ActiveCallItem from '../ActiveCallItem';
 import CallList from '../CallList';
 import InsideModal from '../InsideModal';
 import LogSection from '../LogSection';
+import LittleLogSection from '../LittleLogSection';
 
 import styles from './styles.scss';
 import i18n from './i18n';
@@ -219,10 +220,15 @@ export default class CallsListPanel extends Component {
       contactDisplayStyle,
       activeContactDisplayStyle,
       currentLog,
+      littleLog,
       closeCurrentLog,
       updateCurrentLog,
       saveCurrentLog,
       renderEditLogSection,
+      closeCurrentLittleLog,
+      onLittleSectionSave,
+      onLittleDiscard,
+      onLittleStay,
     } = this.props;
     if (showSpinner) {
       return (<SpinnerOverlay />);
@@ -237,19 +243,40 @@ export default class CallsListPanel extends Component {
       );
     }
     const logSection = currentLog ? (
-      <InsideModal
-        title={currentLog.title}
-        show={currentLog.showLog}
-        onClose={closeCurrentLog}>
-        <LogSection
-          currentLocale={currentLocale}
-          currentLog={currentLog}
-          renderEditLogSection={renderEditLogSection}
-          formatPhone={formatPhone}
-          updateCurrentLog={updateCurrentLog}
-          saveCurrentLog={saveCurrentLog}
-        />
-      </InsideModal>
+      <div>
+        <InsideModal
+          title={currentLog.title}
+          show={currentLog.showLog}
+          onClose={closeCurrentLog}>
+          <LogSection
+            currentLocale={currentLocale}
+            currentLog={currentLog}
+            renderEditLogSection={renderEditLogSection}
+            formatPhone={formatPhone}
+            updateCurrentLog={updateCurrentLog}
+            saveCurrentLog={saveCurrentLog}
+          />
+        </InsideModal>
+        {
+          littleLog ? (
+            <InsideModal
+              show={currentLog.showLittleLog}
+              containerStyles={styles.littleContainer}
+              modalStyles={styles.littleModal}
+              contentStyle={styles.littleContent}
+              onClose={closeCurrentLittleLog}>
+              <LittleLogSection
+                currentLocale={currentLocale}
+                formatPhone={formatPhone}
+                currentLog={littleLog}
+                onSave={onLittleSectionSave}
+                onDiscard={onLittleDiscard}
+                onStay={onLittleStay}
+              />
+            </InsideModal>
+          ) : null
+        }
+      </div>
     ) : null;
     const getCallList = (calls, title) => (
       <ActiveCallList
@@ -380,10 +407,15 @@ CallsListPanel.propTypes = {
   contactDisplayStyle: PropTypes.string,
   activeContactDisplayStyle: PropTypes.string,
   currentLog: PropTypes.object,
+  littleLog: PropTypes.object,
   closeCurrentLog: PropTypes.func,
   updateCurrentLog: PropTypes.func,
   saveCurrentLog: PropTypes.func,
   renderEditLogSection: PropTypes.func,
+  closeCurrentLittleLog: PropTypes.func,
+  onLittleSectionSave: PropTypes.func,
+  onLittleDiscard: PropTypes.func,
+  onLittleStay: PropTypes.func,
 };
 
 CallsListPanel.defaultProps = {
@@ -415,8 +447,13 @@ CallsListPanel.defaultProps = {
   contactDisplayStyle: styles.contactDisplay,
   activeContactDisplayStyle: styles.activeContactDisplay,
   currentLog: undefined,
+  littleLog: undefined,
   closeCurrentLog: undefined,
   updateCurrentLog: undefined,
   saveCurrentLog: undefined,
   renderEditLogSection: undefined,
+  closeCurrentLittleLog: undefined,
+  onLittleSectionSave: undefined,
+  onLittleDiscard: undefined,
+  onLittleStay: undefined,
 };

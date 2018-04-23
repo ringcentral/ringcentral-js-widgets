@@ -40,3 +40,15 @@
   width: calc(100% - 40px);
   text-align: left;
 }
+
+.littleContainer {
+  top: 35px;
+  height: 66px;
+  .littleModal {
+    margin: 0 20px;
+    height: 100%;
+    .littleContent {
+      height: 100%;
+    }
+  }
+}
