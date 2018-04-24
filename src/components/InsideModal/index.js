@@ -45,8 +45,7 @@ export default function InsideModal(
       modalClassName={classnames(styles.modal, modalStyles)}
       contentClassName={classnames(styles.content, contentStyle)}
       closeBtn={closeBtn}
-      show={show}
-      appendDOM={this.appendDOM}>
+      show={show}>
       {children}
     </Modal>
   );
