@@ -1,0 +1,76 @@
+@import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/vertical-align';
+
+@mixin defaultButton($buttonHeight) {
+  height: $buttonHeight;
+  line-height: $buttonHeight;
+  border-radius: $buttonHeight/2;
+  text-align: center;
+  font-size: 12px;
+}
+
+.container {
+  margin-top: 2px;
+}
+
+.basicInfo {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 10px;
+}
+
+.expandButton {
+  padding: 0 15px;
+  height: 26px;
+  line-height: 26px;
+  border: solid 1px $primary-color;
+  border-radius: 100px;
+  color: $primary-color;
+  margin-top: 22px;
+  font-size: 12px;
+}
+
+.expandDisableButton {
+  color: #c7c7c7;
+  border-color: #e2e2e2;
+}
+
+.confirmationContainer {
+  margin:  0 10px;
+}
+
+.confirmationInfo {
+  font-family: HelveticaNeue;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #2f2f2f;
+}
+
+.confirmationButtons {
+  padding-top: 5px;
+  margin-bottom: 10px;
+}
+
+.saveButton {
+  @include defaultButton(30px);
+  color: #ffffff;
+  background-color: $primary-color;
+  margin: 8px 0;
+  &:hover {
+    color: #fff;
+  }
+}
+
+.discardButton {
+  @include defaultButton(26px);
+}
+
+.stayButton {
+  @include defaultButton(26px);
+}

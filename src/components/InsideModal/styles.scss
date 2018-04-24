@@ -6,7 +6,7 @@ $section_margin_top: 81px;
   position: absolute;
   top: $section_margin_top;
   left: 0;
-  z-index: 10;
+  z-index: 9;
 }
 
 .mask {
@@ -45,7 +45,7 @@ $section_margin_top: 81px;
 .closeBtn {
   position: absolute;
   right: 9px;
-  top: 9px;
+  top: 7px;
   cursor: pointer;
 }
 

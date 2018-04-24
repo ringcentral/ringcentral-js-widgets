@@ -41,14 +41,14 @@
   text-align: left;
 }
 
-.littleContainer {
+.notificationContainer {
   top: 35px;
-  height: 66px;
-  .littleModal {
+  height: auto;
+  .notificationModal {
     margin: 0 20px;
-    height: 100%;
-    .littleContent {
-      height: 100%;
+    height: auto;
+    .notificationContent {
+      height: auto;
     }
   }
 }

@@ -6,7 +6,7 @@ import ActiveCallItem from '../ActiveCallItem';
 import CallList from '../CallList';
 import InsideModal from '../InsideModal';
 import LogSection from '../LogSection';
-import LittleLogSection from '../LittleLogSection';
+import LogNotification from '../LogNotification';
 
 import styles from './styles.scss';
 import i18n from './i18n';
@@ -220,15 +220,15 @@ export default class CallsListPanel extends Component {
       contactDisplayStyle,
       activeContactDisplayStyle,
       currentLog,
-      littleLog,
-      closeCurrentLog,
-      updateCurrentLog,
-      saveCurrentLog,
+      onCloseLogSection,
+      onUpdateCallLog,
+      onSaveCallLog,
       renderEditLogSection,
-      closeCurrentLittleLog,
-      onLittleSectionSave,
-      onLittleDiscard,
-      onLittleStay,
+      logNotification,
+      onCloseNotification,
+      onDiscardNotification,
+      onSaveNotification,
+      onExpandNotification,
     } = this.props;
     if (showSpinner) {
       return (<SpinnerOverlay />);
@@ -247,31 +247,34 @@ export default class CallsListPanel extends Component {
         <InsideModal
           title={currentLog.title}
           show={currentLog.showLog}
-          onClose={closeCurrentLog}>
+          onClose={onCloseLogSection}>
           <LogSection
             currentLocale={currentLocale}
             currentLog={currentLog}
+            isInnerMask={logNotification && logNotification.notificationIsExpand}
             renderEditLogSection={renderEditLogSection}
             formatPhone={formatPhone}
-            updateCurrentLog={updateCurrentLog}
-            saveCurrentLog={saveCurrentLog}
+            onUpdateCallLog={onUpdateCallLog}
+            onSaveCallLog={onSaveCallLog}
           />
         </InsideModal>
         {
-          littleLog ? (
+          logNotification ? (
             <InsideModal
-              show={currentLog.showLittleLog}
-              containerStyles={styles.littleContainer}
-              modalStyles={styles.littleModal}
-              contentStyle={styles.littleContent}
-              onClose={closeCurrentLittleLog}>
-              <LittleLogSection
+              show={logNotification.showNotification}
+              containerStyles={styles.notificationContainer}
+              modalStyles={styles.notificationModal}
+              contentStyle={styles.notificationContent}
+              onClose={onCloseNotification}>
+              <LogNotification
                 currentLocale={currentLocale}
                 formatPhone={formatPhone}
-                currentLog={littleLog}
-                onSave={onLittleSectionSave}
-                onDiscard={onLittleDiscard}
-                onStay={onLittleStay}
+                currentLog={logNotification}
+                isExpand={logNotification.notificationIsExpand}
+                onSave={onSaveNotification}
+                onExpand={onExpandNotification}
+                onDiscard={onDiscardNotification}
+                onStay={onCloseNotification}
               />
             </InsideModal>
           ) : null
@@ -407,15 +410,15 @@ CallsListPanel.propTypes = {
   contactDisplayStyle: PropTypes.string,
   activeContactDisplayStyle: PropTypes.string,
   currentLog: PropTypes.object,
-  littleLog: PropTypes.object,
-  closeCurrentLog: PropTypes.func,
-  updateCurrentLog: PropTypes.func,
-  saveCurrentLog: PropTypes.func,
+  onCloseLogSection: PropTypes.func,
+  onUpdateCallLog: PropTypes.func,
+  onSaveCallLog: PropTypes.func,
   renderEditLogSection: PropTypes.func,
-  closeCurrentLittleLog: PropTypes.func,
-  onLittleSectionSave: PropTypes.func,
-  onLittleDiscard: PropTypes.func,
-  onLittleStay: PropTypes.func,
+  logNotification: PropTypes.object,
+  onCloseNotification: PropTypes.func,
+  onDiscardNotification: PropTypes.func,
+  onSaveNotification: PropTypes.func,
+  onExpandNotification: PropTypes.func,
 };
 
 CallsListPanel.defaultProps = {
@@ -447,13 +450,13 @@ CallsListPanel.defaultProps = {
   contactDisplayStyle: styles.contactDisplay,
   activeContactDisplayStyle: styles.activeContactDisplay,
   currentLog: undefined,
-  littleLog: undefined,
-  closeCurrentLog: undefined,
-  updateCurrentLog: undefined,
-  saveCurrentLog: undefined,
+  onCloseLogSection: undefined,
+  onUpdateCallLog: undefined,
+  onSaveCallLog: undefined,
   renderEditLogSection: undefined,
-  closeCurrentLittleLog: undefined,
-  onLittleSectionSave: undefined,
-  onLittleDiscard: undefined,
-  onLittleStay: undefined,
+  logNotification: undefined,
+  onCloseNotification: undefined,
+  onDiscardNotification: undefined,
+  onSaveNotification: undefined,
+  onExpandNotification: undefined,
 };
