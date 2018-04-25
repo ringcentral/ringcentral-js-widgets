@@ -318,7 +318,7 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
   }, {
     key: 'voicemailPermissions',
     get: function get() {
-      return !!(this.callingEnabled && this.serviceFeatures && this.serviceFeatures.Voicemail && this.serviceFeatures.Voicemail.enabled);
+      return !!(this.permissions && this.permissions.Voicemail && this.serviceFeatures && this.serviceFeatures.Voicemail && this.serviceFeatures.Voicemail.enabled);
     }
   }, {
     key: 'readFaxPermissions',

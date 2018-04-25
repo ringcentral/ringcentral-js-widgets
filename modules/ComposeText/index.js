@@ -618,6 +618,64 @@ var ComposeText = (_dec = (0, _di.Module)({
       return clean;
     }()
   }, {
+    key: 'alertMessageSending',
+    value: function () {
+      var _ref13 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11() {
+        return _regenerator2.default.wrap(function _callee11$(_context11) {
+          while (1) {
+            switch (_context11.prev = _context11.next) {
+              case 0:
+                this._alert.warning({
+                  message: _messageSenderMessages2.default.sending,
+                  ttl: 0
+                });
+
+              case 1:
+              case 'end':
+                return _context11.stop();
+            }
+          }
+        }, _callee11, this);
+      }));
+
+      function alertMessageSending() {
+        return _ref13.apply(this, arguments);
+      }
+
+      return alertMessageSending;
+    }()
+  }, {
+    key: 'dismissMessageSending',
+    value: function () {
+      var _ref14 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12() {
+        var alertMessage;
+        return _regenerator2.default.wrap(function _callee12$(_context12) {
+          while (1) {
+            switch (_context12.prev = _context12.next) {
+              case 0:
+                alertMessage = this._alert.messages.find(function (m) {
+                  return m.message === _messageSenderMessages2.default.sending;
+                });
+
+                if (alertMessage && alertMessage.id) {
+                  this._alert.dismiss(alertMessage.id);
+                }
+
+              case 2:
+              case 'end':
+                return _context12.stop();
+            }
+          }
+        }, _callee12, this);
+      }));
+
+      function dismissMessageSending() {
+        return _ref14.apply(this, arguments);
+      }
+
+      return dismissMessageSending;
+    }()
+  }, {
     key: 'cache',
     get: function get() {
       return this._storage.getItem(this._storageKey);
@@ -659,6 +717,6 @@ var ComposeText = (_dec = (0, _di.Module)({
     }
   }]);
   return ComposeText;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'send', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'send'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateSenderNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateSenderNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateTypingToNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateTypingToNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onToNumberMatch', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onToNumberMatch'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'addToRecipients', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'addToRecipients'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'cleanTypingToNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'cleanTypingToNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'addToNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'addToNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'removeToNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'removeToNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateMessageText', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateMessageText'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'clean', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'clean'), _class2.prototype)), _class2)) || _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'send', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'send'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateSenderNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateSenderNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateTypingToNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateTypingToNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onToNumberMatch', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onToNumberMatch'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'addToRecipients', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'addToRecipients'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'cleanTypingToNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'cleanTypingToNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'addToNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'addToNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'removeToNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'removeToNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateMessageText', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateMessageText'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'clean', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'clean'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'alertMessageSending', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'alertMessageSending'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'dismissMessageSending', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'dismissMessageSending'), _class2.prototype)), _class2)) || _class);
 exports.default = ComposeText;
 //# sourceMappingURL=index.js.map
