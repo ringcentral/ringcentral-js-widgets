@@ -18,6 +18,7 @@
   display: flex;
   justify-content: space-between;
   padding-right: 10px;
+  padding-top: 10px;
 }
 
 .expandButton {
@@ -27,7 +28,7 @@
   border: solid 1px $primary-color;
   border-radius: 100px;
   color: $primary-color;
-  margin-top: 22px;
+  margin-top: 12px;
   font-size: 12px;
 }
 
