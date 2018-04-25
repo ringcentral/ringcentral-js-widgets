@@ -6,6 +6,7 @@ import ActiveCallItem from '../ActiveCallItem';
 import CallList from '../CallList';
 import InsideModal from '../InsideModal';
 import LogSection from '../LogSection';
+import LogNotification from '../LogNotification';
 
 import styles from './styles.scss';
 import i18n from './i18n';
@@ -155,6 +156,7 @@ export default class CallsListPanel extends Component {
     ) {
       this.props.onCallsEmpty();
     }
+    this.forceUpdate();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -218,17 +220,22 @@ export default class CallsListPanel extends Component {
       contactDisplayStyle,
       activeContactDisplayStyle,
       currentLog,
-      closeCurrentLog,
-      updateCurrentLog,
-      saveCurrentLog,
+      onCloseLogSection,
+      onUpdateCallLog,
+      onSaveCallLog,
       renderEditLogSection,
+      logNotification,
+      onCloseNotification,
+      onDiscardNotification,
+      onSaveNotification,
+      onExpandNotification,
     } = this.props;
     if (showSpinner) {
       return (<SpinnerOverlay />);
     }
     if (!this.hasCalls()) {
       return (
-        <div className={classnames(styles.root, className)}>
+        <div className={classnames(styles.root, currentLog && currentLog.showLog ? styles.hiddenScroll : '', className)}>
           <p className={styles.noCalls}>
             {i18n.getString('noCalls', currentLocale)}
           </p>
@@ -236,19 +243,43 @@ export default class CallsListPanel extends Component {
       );
     }
     const logSection = currentLog ? (
-      <InsideModal
-        title={currentLog.title}
-        show={currentLog.showLog}
-        onClose={closeCurrentLog}>
-        <LogSection
-          currentLocale={currentLocale}
-          currentLog={currentLog}
-          renderEditLogSection={renderEditLogSection}
-          formatPhone={formatPhone}
-          updateCurrentLog={updateCurrentLog}
-          saveCurrentLog={saveCurrentLog}
-        />
-      </InsideModal>
+      <div>
+        <InsideModal
+          title={currentLog.title}
+          show={currentLog.showLog}
+          onClose={onCloseLogSection}>
+          <LogSection
+            currentLocale={currentLocale}
+            currentLog={currentLog}
+            isInnerMask={logNotification && logNotification.notificationIsExpand}
+            renderEditLogSection={renderEditLogSection}
+            formatPhone={formatPhone}
+            onUpdateCallLog={onUpdateCallLog}
+            onSaveCallLog={onSaveCallLog}
+          />
+        </InsideModal>
+        {
+          logNotification ? (
+            <InsideModal
+              show={logNotification.showNotification}
+              containerStyles={styles.notificationContainer}
+              modalStyles={styles.notificationModal}
+              contentStyle={styles.notificationContent}
+              onClose={onCloseNotification}>
+              <LogNotification
+                currentLocale={currentLocale}
+                formatPhone={formatPhone}
+                currentLog={logNotification}
+                isExpand={logNotification.notificationIsExpand}
+                onSave={onSaveNotification}
+                onExpand={onExpandNotification}
+                onDiscard={onDiscardNotification}
+                onStay={onCloseNotification}
+              />
+            </InsideModal>
+          ) : null
+        }
+      </div>
     ) : null;
     const getCallList = (calls, title) => (
       <ActiveCallList
@@ -379,10 +410,15 @@ CallsListPanel.propTypes = {
   contactDisplayStyle: PropTypes.string,
   activeContactDisplayStyle: PropTypes.string,
   currentLog: PropTypes.object,
-  closeCurrentLog: PropTypes.func,
-  updateCurrentLog: PropTypes.func,
-  saveCurrentLog: PropTypes.func,
+  onCloseLogSection: PropTypes.func,
+  onUpdateCallLog: PropTypes.func,
+  onSaveCallLog: PropTypes.func,
   renderEditLogSection: PropTypes.func,
+  logNotification: PropTypes.object,
+  onCloseNotification: PropTypes.func,
+  onDiscardNotification: PropTypes.func,
+  onSaveNotification: PropTypes.func,
+  onExpandNotification: PropTypes.func,
 };
 
 CallsListPanel.defaultProps = {
@@ -414,8 +450,13 @@ CallsListPanel.defaultProps = {
   contactDisplayStyle: styles.contactDisplay,
   activeContactDisplayStyle: styles.activeContactDisplay,
   currentLog: undefined,
-  closeCurrentLog: undefined,
-  updateCurrentLog: undefined,
-  saveCurrentLog: undefined,
+  onCloseLogSection: undefined,
+  onUpdateCallLog: undefined,
+  onSaveCallLog: undefined,
   renderEditLogSection: undefined,
+  logNotification: undefined,
+  onCloseNotification: undefined,
+  onDiscardNotification: undefined,
+  onSaveNotification: undefined,
+  onExpandNotification: undefined,
 };

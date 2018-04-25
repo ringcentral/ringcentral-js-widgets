@@ -43,8 +43,9 @@ export default class LogSection extends Component {
     const {
       renderEditLogSection,
       currentLocale,
-      updateCurrentLog,
+      onUpdateCallLog,
       currentLog,
+      isInnerMask,
     } = this.props;
     const {
       call,
@@ -56,7 +57,7 @@ export default class LogSection extends Component {
     }
     const editLogSection = renderEditLogSection({
       currentLocale,
-      updateCurrentLog,
+      onUpdateCallLog,
       currentLog,
     });
     const buttonPanelClassName = classnames(
@@ -85,10 +86,15 @@ export default class LogSection extends Component {
           <Button
             disabled={currentLogCall.isSaving}
             className={buttonClassName}
-            onClick={() => this.props.saveCurrentLog(call)}>
+            onClick={() => this.props.onSaveCallLog(call)}>
             {i18n.getString('saveLog', currentLocale)}
           </Button>
         </div>
+        {
+          isInnerMask ? (
+            <div className={styles.innerMask} />
+          ) : null
+        }
       </div>);
   }
 }
@@ -97,15 +103,17 @@ LogSection.propTypes = {
   currentLog: PropTypes.object,
   currentLocale: PropTypes.string.isRequired,
   formatPhone: PropTypes.func,
-  updateCurrentLog: PropTypes.func,
-  saveCurrentLog: PropTypes.func,
+  onUpdateCallLog: PropTypes.func,
+  onSaveCallLog: PropTypes.func,
   renderEditLogSection: PropTypes.func,
+  isInnerMask: PropTypes.bool,
 };
 
 LogSection.defaultProps = {
   currentLog: {},
   formatPhone: undefined,
-  updateCurrentLog: undefined,
-  saveCurrentLog: undefined,
+  onUpdateCallLog: undefined,
+  onSaveCallLog: undefined,
   renderEditLogSection: undefined,
+  isInnerMask: undefined,
 };

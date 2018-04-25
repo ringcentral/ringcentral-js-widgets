@@ -40,3 +40,15 @@
   width: calc(100% - 40px);
   text-align: left;
 }
+
+.notificationContainer {
+  top: 35px;
+  height: auto;
+  .notificationModal {
+    margin: 0 20px;
+    height: auto;
+    .notificationContent {
+      height: auto;
+    }
+  }
+}

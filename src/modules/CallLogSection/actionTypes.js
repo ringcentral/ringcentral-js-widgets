@@ -9,5 +9,9 @@ export default new Enum([
   'saveError',
   'cleanUp',
   'showLogSection',
-  'hideLogSection',
+  'closeLogSection',
+  'showLogNotification',
+  'closeLogNotification',
+  'expandNotification',
+  'shrinkNotification',
 ], 'callLogSection');
