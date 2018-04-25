@@ -3,29 +3,8 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
-
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = require('babel-runtime/helpers/createClass');
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = require('babel-runtime/helpers/inherits');
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
 exports.CloseBtn = CloseBtn;
+exports.default = InsideModal;
 
 var _react = require('react');
 
@@ -34,6 +13,10 @@ var _react2 = _interopRequireDefault(_react);
 var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
 
 var _Modal = require('../Modal');
 
@@ -69,70 +52,51 @@ CloseBtn.defaultProps = {
   onClick: undefined
 };
 
-var InsideModal = function (_Component) {
-  (0, _inherits3.default)(InsideModal, _Component);
+function InsideModal(_ref2) {
+  var show = _ref2.show,
+      onClose = _ref2.onClose,
+      children = _ref2.children,
+      title = _ref2.title,
+      containerStyles = _ref2.containerStyles,
+      maskStyle = _ref2.maskStyle,
+      modalStyles = _ref2.modalStyles,
+      contentStyle = _ref2.contentStyle;
 
-  function InsideModal() {
-    (0, _classCallCheck3.default)(this, InsideModal);
-    return (0, _possibleConstructorReturn3.default)(this, (InsideModal.__proto__ || (0, _getPrototypeOf2.default)(InsideModal)).apply(this, arguments));
-  }
-
-  (0, _createClass3.default)(InsideModal, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.forceUpdate();
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      var _props = this.props,
-          show = _props.show,
-          onClose = _props.onClose,
-          children = _props.children,
-          title = _props.title;
-
-      var closeBtn = _react2.default.createElement(CloseBtn, { onClick: onClose });
-      return _react2.default.createElement(
-        'div',
-        { ref: function ref(_ref2) {
-            _this2.appendDOM = _ref2;
-          } },
-        this.appendDOM ? _react2.default.createElement(
-          _Modal2.default,
-          {
-            title: title,
-            headerClassName: _styles2.default.title,
-            className: _styles2.default.container,
-            maskClassName: _styles2.default.mask,
-            modalClassName: _styles2.default.modal,
-            contentClassName: _styles2.default.content,
-            closeBtn: closeBtn,
-            show: show,
-            appendDOM: this.appendDOM },
-          children
-        ) : null
-      );
-    }
-  }]);
-  return InsideModal;
-}(_react.Component);
-
-exports.default = InsideModal;
-
+  var closeBtn = _react2.default.createElement(CloseBtn, { onClick: onClose });
+  return _react2.default.createElement(
+    _Modal2.default,
+    {
+      title: title,
+      headerClassName: _styles2.default.title,
+      className: (0, _classnames2.default)(_styles2.default.container, containerStyles),
+      maskClassName: (0, _classnames2.default)(_styles2.default.mask, maskStyle),
+      modalClassName: (0, _classnames2.default)(_styles2.default.modal, modalStyles),
+      contentClassName: (0, _classnames2.default)(_styles2.default.content, contentStyle),
+      closeBtn: closeBtn,
+      show: show },
+    children
+  );
+}
 
 InsideModal.propTypes = {
   show: _propTypes2.default.bool,
   onClose: _propTypes2.default.func,
   children: _propTypes2.default.node,
-  title: _propTypes2.default.string
+  title: _propTypes2.default.string,
+  containerStyles: _propTypes2.default.string,
+  maskStyle: _propTypes2.default.string,
+  modalStyles: _propTypes2.default.string,
+  contentStyle: _propTypes2.default.string
 };
 
 InsideModal.defaultProps = {
   title: null,
   show: undefined,
   onClose: undefined,
-  children: undefined
+  children: undefined,
+  containerStyles: undefined,
+  maskStyle: undefined,
+  modalStyles: undefined,
+  contentStyle: undefined
 };
 //# sourceMappingURL=index.js.map

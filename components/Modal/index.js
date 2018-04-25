@@ -123,8 +123,8 @@ var Modal = function (_Component) {
           maskClassName = _props.maskClassName,
           headerClassName = _props.headerClassName,
           contentClassName = _props.contentClassName;
+      // if (!show) return null;
 
-      if (!show) return null;
       var footer = !currentLocale || !onCancel && !onConfirm ? null : _react2.default.createElement(
         'div',
         { className: _styles2.default.footer },
@@ -145,14 +145,14 @@ var Modal = function (_Component) {
       );
       return _react2.default.createElement(
         'div',
-        { className: (0, _classnames2.default)(_styles2.default.container, className) },
+        { className: show ? (0, _classnames2.default)(_styles2.default.container, className) : _styles2.default.containerHidden },
         _react2.default.createElement('div', {
-          className: (0, _classnames2.default)(_styles2.default.mask, maskClassName),
+          className: show ? (0, _classnames2.default)(_styles2.default.mask, maskClassName) : _styles2.default.maskHidden,
           onClick: clickOutToClose ? onCancel : function () {}
         }),
         _react2.default.createElement(
           'div',
-          { className: (0, _classnames2.default)(_styles2.default.modal, modalClassName) },
+          { className: show ? (0, _classnames2.default)(_styles2.default.modal, modalClassName) : _styles2.default.modalHidden },
           title ? _react2.default.createElement(
             'div',
             { className: (0, _classnames2.default)(_styles2.default.header, headerClassName) },

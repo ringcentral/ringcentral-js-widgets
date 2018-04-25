@@ -57,6 +57,10 @@ var _LogSection = require('../LogSection');
 
 var _LogSection2 = _interopRequireDefault(_LogSection);
 
+var _LogNotification = require('../LogNotification');
+
+var _LogNotification2 = _interopRequireDefault(_LogNotification);
+
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -218,6 +222,7 @@ var CallsListPanel = function (_Component) {
       if (!this.hasCalls(this.props) && typeof this.props.onCallsEmpty === 'function') {
         this.props.onCallsEmpty();
       }
+      this.forceUpdate();
     }
   }, {
     key: 'componentWillReceiveProps',
@@ -276,10 +281,15 @@ var CallsListPanel = function (_Component) {
           contactDisplayStyle = _props.contactDisplayStyle,
           activeContactDisplayStyle = _props.activeContactDisplayStyle,
           currentLog = _props.currentLog,
-          closeCurrentLog = _props.closeCurrentLog,
-          updateCurrentLog = _props.updateCurrentLog,
-          saveCurrentLog = _props.saveCurrentLog,
-          renderEditLogSection = _props.renderEditLogSection;
+          onCloseLogSection = _props.onCloseLogSection,
+          onUpdateCallLog = _props.onUpdateCallLog,
+          onSaveCallLog = _props.onSaveCallLog,
+          renderEditLogSection = _props.renderEditLogSection,
+          logNotification = _props.logNotification,
+          onCloseNotification = _props.onCloseNotification,
+          onDiscardNotification = _props.onDiscardNotification,
+          onSaveNotification = _props.onSaveNotification,
+          onExpandNotification = _props.onExpandNotification;
 
       if (showSpinner) {
         return _react2.default.createElement(_SpinnerOverlay2.default, null);
@@ -287,7 +297,7 @@ var CallsListPanel = function (_Component) {
       if (!this.hasCalls()) {
         return _react2.default.createElement(
           'div',
-          { className: (0, _classnames2.default)(_styles2.default.root, className) },
+          { className: (0, _classnames2.default)(_styles2.default.root, currentLog && currentLog.showLog ? _styles2.default.hiddenScroll : '', className) },
           _react2.default.createElement(
             'p',
             { className: _styles2.default.noCalls },
@@ -296,19 +306,43 @@ var CallsListPanel = function (_Component) {
         );
       }
       var logSection = currentLog ? _react2.default.createElement(
-        _InsideModal2.default,
-        {
-          title: currentLog.title,
-          show: currentLog.showLog,
-          onClose: closeCurrentLog },
-        _react2.default.createElement(_LogSection2.default, {
-          currentLocale: currentLocale,
-          currentLog: currentLog,
-          renderEditLogSection: renderEditLogSection,
-          formatPhone: formatPhone,
-          updateCurrentLog: updateCurrentLog,
-          saveCurrentLog: saveCurrentLog
-        })
+        'div',
+        null,
+        _react2.default.createElement(
+          _InsideModal2.default,
+          {
+            title: currentLog.title,
+            show: currentLog.showLog,
+            onClose: onCloseLogSection },
+          _react2.default.createElement(_LogSection2.default, {
+            currentLocale: currentLocale,
+            currentLog: currentLog,
+            isInnerMask: logNotification && logNotification.notificationIsExpand,
+            renderEditLogSection: renderEditLogSection,
+            formatPhone: formatPhone,
+            onUpdateCallLog: onUpdateCallLog,
+            onSaveCallLog: onSaveCallLog
+          })
+        ),
+        logNotification ? _react2.default.createElement(
+          _InsideModal2.default,
+          {
+            show: logNotification.showNotification,
+            containerStyles: _styles2.default.notificationContainer,
+            modalStyles: _styles2.default.notificationModal,
+            contentStyle: _styles2.default.notificationContent,
+            onClose: onCloseNotification },
+          _react2.default.createElement(_LogNotification2.default, {
+            currentLocale: currentLocale,
+            formatPhone: formatPhone,
+            currentLog: logNotification,
+            isExpand: logNotification.notificationIsExpand,
+            onSave: onSaveNotification,
+            onExpand: onExpandNotification,
+            onDiscard: onDiscardNotification,
+            onStay: onCloseNotification
+          })
+        ) : null
       ) : null;
       var getCallList = function getCallList(calls, title) {
         return _react2.default.createElement(ActiveCallList, {
@@ -445,10 +479,15 @@ CallsListPanel.propTypes = {
   contactDisplayStyle: _propTypes2.default.string,
   activeContactDisplayStyle: _propTypes2.default.string,
   currentLog: _propTypes2.default.object,
-  closeCurrentLog: _propTypes2.default.func,
-  updateCurrentLog: _propTypes2.default.func,
-  saveCurrentLog: _propTypes2.default.func,
-  renderEditLogSection: _propTypes2.default.func
+  onCloseLogSection: _propTypes2.default.func,
+  onUpdateCallLog: _propTypes2.default.func,
+  onSaveCallLog: _propTypes2.default.func,
+  renderEditLogSection: _propTypes2.default.func,
+  logNotification: _propTypes2.default.object,
+  onCloseNotification: _propTypes2.default.func,
+  onDiscardNotification: _propTypes2.default.func,
+  onSaveNotification: _propTypes2.default.func,
+  onExpandNotification: _propTypes2.default.func
 };
 
 CallsListPanel.defaultProps = {
@@ -480,9 +519,14 @@ CallsListPanel.defaultProps = {
   contactDisplayStyle: _styles2.default.contactDisplay,
   activeContactDisplayStyle: _styles2.default.activeContactDisplay,
   currentLog: undefined,
-  closeCurrentLog: undefined,
-  updateCurrentLog: undefined,
-  saveCurrentLog: undefined,
-  renderEditLogSection: undefined
+  onCloseLogSection: undefined,
+  onUpdateCallLog: undefined,
+  onSaveCallLog: undefined,
+  renderEditLogSection: undefined,
+  logNotification: undefined,
+  onCloseNotification: undefined,
+  onDiscardNotification: undefined,
+  onSaveNotification: undefined,
+  onExpandNotification: undefined
 };
 //# sourceMappingURL=index.js.map

@@ -108,8 +108,9 @@ var LogSection = function (_Component) {
       var _props = this.props,
           renderEditLogSection = _props.renderEditLogSection,
           currentLocale = _props.currentLocale,
-          updateCurrentLog = _props.updateCurrentLog,
-          currentLog = _props.currentLog;
+          onUpdateCallLog = _props.onUpdateCallLog,
+          currentLog = _props.currentLog,
+          isInnerMask = _props.isInnerMask;
       var call = currentLog.call,
           showSpinner = currentLog.showSpinner,
           currentLogCall = currentLog.currentLogCall;
@@ -119,7 +120,7 @@ var LogSection = function (_Component) {
       }
       var editLogSection = renderEditLogSection({
         currentLocale: currentLocale,
-        updateCurrentLog: updateCurrentLog,
+        onUpdateCallLog: onUpdateCallLog,
         currentLog: currentLog
       });
       var buttonPanelClassName = (0, _classnames2.default)(_styles2.default.buttonPanel, this.state.mainCtrlOverlapped && _styles2.default.overlapped);
@@ -154,11 +155,12 @@ var LogSection = function (_Component) {
               disabled: currentLogCall.isSaving,
               className: buttonClassName,
               onClick: function onClick() {
-                return _this2.props.saveCurrentLog(call);
+                return _this2.props.onSaveCallLog(call);
               } },
             _i18n2.default.getString('saveLog', currentLocale)
           )
-        )
+        ),
+        isInnerMask ? _react2.default.createElement('div', { className: _styles2.default.innerMask }) : null
       );
     }
   }]);
@@ -172,16 +174,18 @@ LogSection.propTypes = {
   currentLog: _propTypes2.default.object,
   currentLocale: _propTypes2.default.string.isRequired,
   formatPhone: _propTypes2.default.func,
-  updateCurrentLog: _propTypes2.default.func,
-  saveCurrentLog: _propTypes2.default.func,
-  renderEditLogSection: _propTypes2.default.func
+  onUpdateCallLog: _propTypes2.default.func,
+  onSaveCallLog: _propTypes2.default.func,
+  renderEditLogSection: _propTypes2.default.func,
+  isInnerMask: _propTypes2.default.bool
 };
 
 LogSection.defaultProps = {
   currentLog: {},
   formatPhone: undefined,
-  updateCurrentLog: undefined,
-  saveCurrentLog: undefined,
-  renderEditLogSection: undefined
+  onUpdateCallLog: undefined,
+  onSaveCallLog: undefined,
+  renderEditLogSection: undefined,
+  isInnerMask: undefined
 };
 //# sourceMappingURL=index.js.map

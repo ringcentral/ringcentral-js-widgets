@@ -5,6 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   logged: 'Logged',
-  unlogged: 'UnLogged'
+  unlogged: 'Unworked'
 };
 //# sourceMappingURL=en-US.js.map
