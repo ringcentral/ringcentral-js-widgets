@@ -40,6 +40,8 @@ class ConversationPanel extends Component {
   componentWillReceiveProps(nextProps) {
     if (
       !this._userSelection &&
+      this.props.conversation &&
+      nextProps.conversation &&
       (
         nextProps.conversation.conversationMatches !==
         this.props.conversation.conversationMatches ||
@@ -65,6 +67,8 @@ class ConversationPanel extends Component {
       selected,
     });
     if (
+      this.props.conversation &&
+      this.props.conversation.conversationMatches &&
       this.props.conversation.conversationMatches.length > 0 &&
       this.props.autoLog
     ) {
@@ -72,6 +76,9 @@ class ConversationPanel extends Component {
     }
   }
   getSelectedContact = (selected = this.state.selected) => {
+    if (!this.props.conversation) {
+      return null;
+    }
     const contactMatches = this.props.conversation.correspondentMatches;
     return (selected > -1 && contactMatches[selected]) ||
       (contactMatches.length === 1 && contactMatches[0]) ||
@@ -95,8 +102,8 @@ class ConversationPanel extends Component {
   getPhoneNumber() {
     const {
       conversation: {
-        correspondents,
-      },
+        correspondents = [],
+      } = {},
     } = this.props;
     return (correspondents.length === 1 &&
       (correspondents[0].phoneNumber || correspondents[0].extensionNumber)) || undefined;
@@ -105,8 +112,8 @@ class ConversationPanel extends Component {
   getGroupPhoneNumbers() {
     const {
       conversation: {
-        correspondents,
-      },
+        correspondents = [],
+      } = {},
     } = this.props;
     const groupNumbers = correspondents.length > 1 ?
       correspondents.map(correspondent =>
@@ -119,8 +126,8 @@ class ConversationPanel extends Component {
   getFallbackContactName() {
     const {
       conversation: {
-        correspondents,
-      },
+        correspondents = [],
+      } = {},
     } = this.props;
     return (correspondents.length === 1 &&
       (correspondents[0].name)) || undefined;
@@ -152,7 +159,11 @@ class ConversationPanel extends Component {
   render() {
     let conversationBody = null;
     const loading = this.props.showSpinner;
-    const { recipients, messageSubjectRenderer } = this.props;
+    const { recipients, messageSubjectRenderer, conversation } = this.props;
+    if (!conversation) {
+      this.props.goBack();
+      return null;
+    }
     if (loading) {
       conversationBody = (
         <div className={styles.spinerContainer}>

@@ -9,7 +9,7 @@ export default function WebphoneAlert(props) {
   let view = (<span>{i18n.getString(message, props.currentLocale)}</span>);
   // Handle call record error
   if (message === webphoneErrors.recordError) {
-    const { errorCode } = props.message.payload;
+    const { payload: { errorCode } = {} } = props.message;
     view = (
       <FormattedMessage
         message={i18n.getString(message, props.currentLocale)}
@@ -25,7 +25,7 @@ export default function WebphoneAlert(props) {
     message === webphoneErrors.webphoneForbidden ||
     message === webphoneErrors.unknownError
   ) {
-    const { statusCode } = props.message.payload;
+    const { payload: { statusCode } = {} } = props.message;
     // sipProvisionError does not have statusCode
     const stub = statusCode ? (
       <FormattedMessage

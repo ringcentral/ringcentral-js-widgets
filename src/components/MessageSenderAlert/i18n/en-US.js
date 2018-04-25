@@ -24,4 +24,5 @@ export default {
   [messageSenderMessages.noInternalSMSPermission]: 'You don\'t have permission to send messages. Please contact your {brand} account administrator for upgrade.',
   [messageSenderMessages.noSMSPermission]: 'You don\'t have permission to send messages to recipients outside of your organization. Please contact your {brand} account administrator for upgrade.',
   areaCode: 'area code',
+  [messageSenderMessages.sending]: 'Message being sent…It may take a couple of minutes to complete.'
 };
