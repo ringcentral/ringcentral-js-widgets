@@ -84,6 +84,7 @@ gulp.task('quick-test', () => (
   gulp.src(getTestSources())
     .pipe(mocha({
       timeout: TIMEOUT,
+      compilers: 'js:babel-core/register'
     }))
 ));
 

@@ -8,7 +8,7 @@
     "bootstrap": "lerna bootstrap",
     "test": "lerna run test --stream",
     "start": "lerna run start --scope ringcentral-widgets-demo --stream",
-    "release": "lerna run release --scope ringcentral-widgets ringcentral-integration",
+    "release": "lerna run release --scope ringcentral-widgets --scope ringcentral-integration",
     "commons-integration-test": "lerna run karma --scope ringcentral-integration --stream"
   },
   "devDependencies": {
