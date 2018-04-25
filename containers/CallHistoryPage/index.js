@@ -74,6 +74,7 @@ function mapToFunctions(_, _ref2) {
       routerInteraction = _ref2$phone.routerInteraction,
       contactSearch = _ref2$phone.contactSearch,
       callHistory = _ref2$phone.callHistory,
+      rolesAndPermissions = _ref2$phone.rolesAndPermissions,
       onCreateContact = _ref2.onCreateContact,
       _ref2$dateTimeFormatt = _ref2.dateTimeFormatter,
       dateTimeFormatter = _ref2$dateTimeFormatt === undefined ? function (_ref3) {
@@ -142,7 +143,7 @@ function mapToFunctions(_, _ref2) {
         return _ref5.apply(this, arguments);
       };
     }() : undefined,
-    onClickToDial: dialerUI ? function (recipient) {
+    onClickToDial: dialerUI && rolesAndPermissions.callingEnabled ? function (recipient) {
       if (call.isIdle) {
         routerInteraction.push(dialerRoute);
         dialerUI.call({ recipient: recipient });

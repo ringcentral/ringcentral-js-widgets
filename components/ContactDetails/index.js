@@ -213,6 +213,16 @@ var ContactDetails = function (_PureComponent) {
           } },
         _react2.default.createElement('i', { className: _DynamicsFont2.default.composeText })
       ) : null;
+      var callBtn = this.props.onClickToDial ? _react2.default.createElement(
+        'button',
+        {
+          title: _i18n2.default.getString('call', currentLocale),
+          onClick: function onClick() {
+            return _this2.onClickToDial(contactItem, extensionNumber);
+          }
+        },
+        _react2.default.createElement('i', { className: _DynamicsFont2.default.call })
+      ) : null;
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.item },
@@ -243,13 +253,7 @@ var ContactDetails = function (_PureComponent) {
             _react2.default.createElement(
               'div',
               { className: _styles2.default.menu },
-              _react2.default.createElement(
-                'button',
-                { title: _i18n2.default.getString('call', currentLocale), onClick: function onClick() {
-                    return _this2.onClickToDial(contactItem, extensionNumber);
-                  } },
-                _react2.default.createElement('i', { className: _DynamicsFont2.default.call })
-              ),
+              callBtn,
               textBtn
             )
           )
@@ -279,6 +283,16 @@ var ContactDetails = function (_PureComponent) {
             } },
           _react2.default.createElement('i', { className: _DynamicsFont2.default.composeText })
         ) : null;
+        var callBtn = _this3.props.onClickToDial ? _react2.default.createElement(
+          'button',
+          {
+            title: _i18n2.default.getString('call', currentLocale),
+            onClick: function onClick() {
+              return _this3.onClickToDial(contactItem, phoneNumber);
+            }
+          },
+          _react2.default.createElement('i', { className: _DynamicsFont2.default.call })
+        ) : null;
         return _react2.default.createElement(
           'li',
           { key: index },
@@ -294,13 +308,7 @@ var ContactDetails = function (_PureComponent) {
           _react2.default.createElement(
             'div',
             { className: _styles2.default.menu },
-            _react2.default.createElement(
-              'button',
-              { title: _i18n2.default.getString('call', currentLocale), onClick: function onClick() {
-                  return _this3.onClickToDial(contactItem, phoneNumber);
-                } },
-              _react2.default.createElement('i', { className: _DynamicsFont2.default.call })
-            ),
+            callBtn,
             textBtn
           )
         );

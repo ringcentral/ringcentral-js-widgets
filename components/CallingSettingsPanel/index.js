@@ -134,6 +134,14 @@ var CallingSettingsPanel = function (_Component) {
     };
 
     _this.onCallWithChange = function (callWith) {
+      if (callWith === _this.props.callWith) {
+        _this.setState({
+          callWith: callWith,
+          myLocation: _this.props.myLocation,
+          ringoutPrompt: _this.props.ringoutPrompt
+        });
+        return;
+      }
       _this.setState({
         callWith: callWith,
         myLocation: _this.props.availableNumbers[callWith] && _this.props.availableNumbers[callWith][0] || '',

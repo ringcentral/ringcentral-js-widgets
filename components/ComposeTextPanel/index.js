@@ -164,6 +164,7 @@ var ComposeTextPanel = function (_Component) {
         }),
         _react2.default.createElement(_RecipientsInput2.default, {
           value: this.props.typingToNumber,
+          recipientsClassName: _styles2.default.recipients,
           onChange: this.props.updateTypingToNumber,
           onClean: this.cleanReceiverValue,
           recipients: this.props.toNumbers,

@@ -37,7 +37,9 @@ function WebphoneAlert(props) {
   );
   // Handle call record error
   if (message === _webphoneErrors2.default.recordError) {
-    var errorCode = props.message.payload.errorCode;
+    var _props$message$payloa = props.message.payload;
+    _props$message$payloa = _props$message$payloa === undefined ? {} : _props$message$payloa;
+    var errorCode = _props$message$payloa.errorCode;
 
     view = _react2.default.createElement(_FormattedMessage2.default, {
       message: _i18n2.default.getString(message, props.currentLocale),
@@ -45,7 +47,9 @@ function WebphoneAlert(props) {
     });
   }
   if (message === _webphoneErrors2.default.requestTimeout || message === _webphoneErrors2.default.serverTimeout || message === _webphoneErrors2.default.internalServerError || message === _webphoneErrors2.default.sipProvisionError || message === _webphoneErrors2.default.webphoneForbidden || message === _webphoneErrors2.default.unknownError) {
-    var statusCode = props.message.payload.statusCode;
+    var _props$message$payloa2 = props.message.payload;
+    _props$message$payloa2 = _props$message$payloa2 === undefined ? {} : _props$message$payloa2;
+    var statusCode = _props$message$payloa2.statusCode;
     // sipProvisionError does not have statusCode
 
     var stub = statusCode ? _react2.default.createElement(_FormattedMessage2.default, {

@@ -97,12 +97,13 @@ function SelectedRecipients(_ref2) {
   var recipient = _ref2.recipient,
       recipients = _ref2.recipients,
       multiple = _ref2.multiple,
-      _onRemove = _ref2.onRemove;
+      _onRemove = _ref2.onRemove,
+      className = _ref2.className;
 
   if (multiple && recipients.length) {
     return _react2.default.createElement(
       'ul',
-      { className: _styles2.default.selectReceivers },
+      { className: (0, _classnames2.default)(className, _styles2.default.selectReceivers) },
       recipients.map(function (item) {
         return _react2.default.createElement(SelectedRecipientItem, {
           key: item.phoneNumber,
@@ -117,7 +118,7 @@ function SelectedRecipients(_ref2) {
   } else if (!multiple && recipient) {
     return _react2.default.createElement(
       'ul',
-      { className: _styles2.default.selectReceivers },
+      { className: (0, _classnames2.default)(className, _styles2.default.selectReceivers) },
       _react2.default.createElement(SelectedRecipientItem, {
         key: recipient.phoneNumber,
         name: recipient.name,
@@ -141,10 +142,12 @@ SelectedRecipients.propTypes = {
     phoneNumber: _propTypes2.default.string.isRequired,
     name: _propTypes2.default.string
   })).isRequired,
-  multiple: _propTypes2.default.bool.isRequired
+  multiple: _propTypes2.default.bool.isRequired,
+  className: _propTypes2.default.string
 };
 SelectedRecipients.defaultProps = {
-  recipient: null
+  recipient: null,
+  className: undefined
 };
 
 var RecipientsInput = function (_Component) {
@@ -386,7 +389,8 @@ var RecipientsInput = function (_Component) {
             recipient: this.props.recipient,
             recipients: this.props.recipients,
             multiple: this.props.multiple,
-            onRemove: this.props.removeFromRecipients
+            onRemove: this.props.removeFromRecipients,
+            className: this.props.recipientsClassName
           }),
           toNumberInput
         ),
@@ -414,6 +418,7 @@ var RecipientsInput = function (_Component) {
 
 RecipientsInput.propTypes = {
   className: _propTypes2.default.string,
+  recipientsClassName: _propTypes2.default.string,
   label: _propTypes2.default.string,
   placeholder: _propTypes2.default.string,
   searchContactList: _propTypes2.default.arrayOf(_propTypes2.default.shape({
@@ -449,6 +454,7 @@ RecipientsInput.propTypes = {
 
 RecipientsInput.defaultProps = {
   className: undefined,
+  recipientsClassName: undefined,
   label: undefined,
   placeholder: undefined,
   recipient: null,

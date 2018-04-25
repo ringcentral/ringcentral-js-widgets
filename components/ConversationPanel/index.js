@@ -94,7 +94,7 @@ var ConversationPanel = function (_Component) {
       _this.setState({
         selected: selected
       });
-      if (_this.props.conversation.conversationMatches.length > 0 && _this.props.autoLog) {
+      if (_this.props.conversation && _this.props.conversation.conversationMatches && _this.props.conversation.conversationMatches.length > 0 && _this.props.autoLog) {
         _this.logConversation({ redirect: false, selected: selected, prefill: false });
       }
     };
@@ -102,6 +102,9 @@ var ConversationPanel = function (_Component) {
     _this.getSelectedContact = function () {
       var selected = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _this.state.selected;
 
+      if (!_this.props.conversation) {
+        return null;
+      }
       var contactMatches = _this.props.conversation.correspondentMatches;
       return selected > -1 && contactMatches[selected] || contactMatches.length === 1 && contactMatches[0] || null;
     };
@@ -131,7 +134,7 @@ var ConversationPanel = function (_Component) {
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      if (!this._userSelection && (nextProps.conversation.conversationMatches !== this.props.conversation.conversationMatches || nextProps.conversation.correspondentMatches !== this.props.conversation.correspondentMatches)) {
+      if (!this._userSelection && this.props.conversation && nextProps.conversation && (nextProps.conversation.conversationMatches !== this.props.conversation.conversationMatches || nextProps.conversation.correspondentMatches !== this.props.conversation.correspondentMatches)) {
         this.setState({
           selected: this.getInitialContactIndex(nextProps)
         });
@@ -161,14 +164,20 @@ var ConversationPanel = function (_Component) {
   }, {
     key: 'getPhoneNumber',
     value: function getPhoneNumber() {
-      var correspondents = this.props.conversation.correspondents;
+      var _props$conversation = this.props.conversation;
+      _props$conversation = _props$conversation === undefined ? {} : _props$conversation;
+      var _props$conversation$c = _props$conversation.correspondents,
+          correspondents = _props$conversation$c === undefined ? [] : _props$conversation$c;
 
       return correspondents.length === 1 && (correspondents[0].phoneNumber || correspondents[0].extensionNumber) || undefined;
     }
   }, {
     key: 'getGroupPhoneNumbers',
     value: function getGroupPhoneNumbers() {
-      var correspondents = this.props.conversation.correspondents;
+      var _props$conversation2 = this.props.conversation;
+      _props$conversation2 = _props$conversation2 === undefined ? {} : _props$conversation2;
+      var _props$conversation2$ = _props$conversation2.correspondents,
+          correspondents = _props$conversation2$ === undefined ? [] : _props$conversation2$;
 
       var groupNumbers = correspondents.length > 1 ? correspondents.map(function (correspondent) {
         return correspondent.extensionNumber || correspondent.phoneNumber || undefined;
@@ -178,7 +187,10 @@ var ConversationPanel = function (_Component) {
   }, {
     key: 'getFallbackContactName',
     value: function getFallbackContactName() {
-      var correspondents = this.props.conversation.correspondents;
+      var _props$conversation3 = this.props.conversation;
+      _props$conversation3 = _props$conversation3 === undefined ? {} : _props$conversation3;
+      var _props$conversation3$ = _props$conversation3.correspondents,
+          correspondents = _props$conversation3$ === undefined ? [] : _props$conversation3$;
 
       return correspondents.length === 1 && correspondents[0].name || undefined;
     }
@@ -241,8 +253,13 @@ var ConversationPanel = function (_Component) {
       var loading = this.props.showSpinner;
       var _props = this.props,
           recipients = _props.recipients,
-          messageSubjectRenderer = _props.messageSubjectRenderer;
+          messageSubjectRenderer = _props.messageSubjectRenderer,
+          conversation = _props.conversation;
 
+      if (!conversation) {
+        this.props.goBack();
+        return null;
+      }
       if (loading) {
         conversationBody = _react2.default.createElement(
           'div',
@@ -258,10 +275,10 @@ var ConversationPanel = function (_Component) {
           messageSubjectRenderer: messageSubjectRenderer
         });
       }
-      var _props$conversation = this.props.conversation,
-          isLogging = _props$conversation.isLogging,
-          conversationMatches = _props$conversation.conversationMatches,
-          correspondentMatches = _props$conversation.correspondentMatches;
+      var _props$conversation4 = this.props.conversation,
+          isLogging = _props$conversation4.isLogging,
+          conversationMatches = _props$conversation4.conversationMatches,
+          correspondentMatches = _props$conversation4.correspondentMatches;
 
       var groupNumbers = this.getGroupPhoneNumbers();
       var phoneNumber = this.getPhoneNumber();

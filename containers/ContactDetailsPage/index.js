@@ -61,7 +61,8 @@ function mapToFunctions(_, _ref2) {
       call = _ref2$phone.call,
       dialerUI = _ref2$phone.dialerUI,
       composeText = _ref2$phone.composeText,
-      contactSearch = _ref2$phone.contactSearch;
+      contactSearch = _ref2$phone.contactSearch,
+      rolesAndPermissions = _ref2$phone.rolesAndPermissions;
 
   return {
     getContact: function getContact() {
@@ -89,7 +90,7 @@ function mapToFunctions(_, _ref2) {
     onBackClick: function onBackClick() {
       routerInteraction.goBack();
     },
-    onClickToDial: dialerUI ? function (recipient) {
+    onClickToDial: dialerUI && rolesAndPermissions.callingEnabled ? function (recipient) {
       if (call.isIdle) {
         routerInteraction.push(dialerRoute);
         dialerUI.call({ recipient: recipient });

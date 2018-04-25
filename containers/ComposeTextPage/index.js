@@ -48,6 +48,8 @@ function mapToProps(_, _ref) {
 }
 
 function mapToFunctions(_, _ref2) {
+  var _this = this;
+
   var _ref2$phone = _ref2.phone,
       composeText = _ref2$phone.composeText,
       contactSearch = _ref2$phone.contactSearch,
@@ -68,7 +70,19 @@ function mapToFunctions(_, _ref2) {
 
   return {
     send: function send() {
-      return composeText.send().then(function (responses) {
+      _this.timeout = setTimeout(function () {
+        if (routerInteraction.currentPath === '/composeText') {
+          composeText.alertMessageSending();
+        }
+        if (_this.timeout) {
+          clearTimeout(_this.timeout);
+        }
+      }, 10000);
+      composeText.send().then(function (responses) {
+        if (_this.timeout) {
+          clearTimeout(_this.timeout);
+        }
+        composeText.dismissMessageSending();
         if (!responses || responses.length === 0) {
           return null;
         }
