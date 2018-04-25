@@ -82,6 +82,7 @@ export default class AdapterCore {
       }
     }
   }
+
   _getContentDOM(sanboxAttributeValue, allowAttributeValue) {
     return `
       <header class="${this._styles.header}" draggable="false">
