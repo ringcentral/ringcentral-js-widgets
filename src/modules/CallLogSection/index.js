@@ -133,7 +133,9 @@ export default class CallLogSection extends RcModule {
   }
 
   async saveCallLog(identify, ...args) {
-    if (identify) {
+    if (identify && (
+        !this.callsMapping[identify] || !this.callsMapping[identify].isSaving
+      )) {
       this.store.dispatch({
         type: this.actionTypes.saving,
         identify,
@@ -179,9 +181,10 @@ export default class CallLogSection extends RcModule {
 
   async saveAndHandleNotification() {
     const currentNotificationIdentify = this.currentNotificationIdentify;
+    const currentIdentify = this.currentIdentify;
     this.closeLogNotification();
-    await this.saveCallLog(this.currentIdentify);
     this.closeLogSection();
+    await this.saveCallLog(currentIdentify);
     this._showLogSection(currentNotificationIdentify);
   }
 

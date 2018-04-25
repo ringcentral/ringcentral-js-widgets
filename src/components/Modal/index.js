@@ -73,7 +73,7 @@ export default class Modal extends Component {
       headerClassName,
       contentClassName,
     } = this.props;
-    if (!show) return null;
+    // if (!show) return null;
     const footer = !currentLocale || (
       !onCancel && !onConfirm
     ) ? null : (
@@ -97,12 +97,12 @@ export default class Modal extends Component {
       </div>
       );
     return (
-      <div className={classnames(styles.container, className)}>
+      <div className={show ? classnames(styles.container, className) : styles.containerHidden}>
         <div
-          className={classnames(styles.mask, maskClassName)}
+          className={show ? classnames(styles.mask, maskClassName) : styles.maskHidden}
           onClick={clickOutToClose ? onCancel : () => {}}
         />
-        <div className={classnames(styles.modal, modalClassName)}>
+        <div className={show ? classnames(styles.modal, modalClassName) : styles.modalHidden}>
           {title ?
             <div className={classnames(styles.header, headerClassName)}>{title}</div> : null}
           {closeBtn}
