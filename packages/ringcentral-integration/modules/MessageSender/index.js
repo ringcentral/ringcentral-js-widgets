@@ -11,9 +11,12 @@ import messageSenderStatus from './messageSenderStatus';
 import messageSenderMessages from './messageSenderMessages';
 import proxify from '../../lib/proxy/proxify';
 import chunkMessage from '../../lib/chunkMessage';
+import sleep from '../../lib/sleep';
 
 export const MessageMaxLength = 1000;
 export const MultipartMessageMaxLength = MessageMaxLength * 5;
+
+const SENDING_THRESHOLD = 30;
 
 /**
  * @class
@@ -230,9 +233,11 @@ export default class MessageSender extends RcModule {
 
       const responses = [];
       const chunks = multipart ? chunkMessage(text, MessageMaxLength) : [text];
-
+      const total = (phoneNumbers.length + 1) * chunks.length;
+      const shouldSleep = total > SENDING_THRESHOLD;
       if (extensionNumbers.length > 0) {
         for (const chunk of chunks) {
+          if (shouldSleep) await sleep(2000);
           const pagerResponse = await this._sendPager({
             toNumbers: extensionNumbers,
             text: chunk,
@@ -245,6 +250,7 @@ export default class MessageSender extends RcModule {
       if (phoneNumbers.length > 0) {
         for (const phoneNumber of phoneNumbers) {
           for (const chunk of chunks) {
+            if (shouldSleep) await sleep(2000);
             const smsResponse = await this._sendSms({
               fromNumber,
               toNumber: phoneNumber,

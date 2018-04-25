@@ -298,6 +298,24 @@ export default class ComposeText extends RcModule {
     });
   }
 
+  @proxify
+  async alertMessageSending() {
+    this._alert.warning({
+      message: messageSenderMessages.sending,
+      ttl: 0,
+    });
+  }
+
+  @proxify
+  async dismissMessageSending() {
+    const alertMessage = this._alert.messages.find(m => (
+      m.message === messageSenderMessages.sending
+    ));
+    if (alertMessage && alertMessage.id) {
+      this._alert.dismiss(alertMessage.id);
+    }
+  }
+
   get cache() {
     return this._storage.getItem(this._storageKey);
   }

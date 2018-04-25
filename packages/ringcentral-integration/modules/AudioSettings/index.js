@@ -200,6 +200,7 @@ export default class AudioSettings extends RcModule {
       this._alert.danger({
         message: audioSettingsErrors.userMediaPermission,
         allowDuplicates: false,
+        ttl: 30 * 1000,
       });
     }
   }

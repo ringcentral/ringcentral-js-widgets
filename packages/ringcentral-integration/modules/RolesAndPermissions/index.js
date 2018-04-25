@@ -212,7 +212,8 @@ export default class RolesAndPermissions extends DataFetcher {
 
   get voicemailPermissions() {
     return !!(
-      this.callingEnabled &&
+      this.permissions &&
+      this.permissions.Voicemail &&
       this.serviceFeatures && (
         this.serviceFeatures.Voicemail &&
         this.serviceFeatures.Voicemail.enabled

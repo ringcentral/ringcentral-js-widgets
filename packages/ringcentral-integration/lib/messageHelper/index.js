@@ -48,7 +48,7 @@ export function getMyNumberFromMessage({ message, myExtensionNumber }) {
     }
     return { extensionNumber: myExtensionNumber };
   }
-  return message.to[0];
+  return message.to && message.to.length >= 0 && message.to[0];
 }
 
 export function uniqueRecipients(recipients, filter = () => true) {

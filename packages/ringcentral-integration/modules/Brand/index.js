@@ -22,6 +22,7 @@ export default class Brand extends RcModule {
     id,
     name,
     fullName,
+    appName,
     application,
     code,
     brandConfig,
@@ -32,6 +33,7 @@ export default class Brand extends RcModule {
       id,
       name,
       fullName,
+      appName,
       application,
       code,
       brandConfig,
@@ -56,6 +58,10 @@ export default class Brand extends RcModule {
   }
   get application() {
     return this.state.application;
+  }
+
+  get appName() {
+    return this.state.appName;
   }
 
   get code() {

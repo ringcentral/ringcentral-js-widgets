@@ -91,11 +91,13 @@ describe('RolesAndPermissions Test', () => {
   });
 
   describe('voicemailPermissions', () => {
-    it('should not have voicemailPermission when calling is not enabled', () => {
+    it('should not have voicemailPermission when has no voicemail permission', () => {
       const s1 = sinon.stub(rolesAndPermissions, 'serviceFeatures').get(() => ({
         Voicemail: { enabled: true },
       }));
-      const s2 = sinon.stub(rolesAndPermissions, 'callingEnabled').get(() => false);
+      const s2 = sinon.stub(rolesAndPermissions, 'permissions').get(() => ({
+        Voicemail: false,
+      }));
       expect(rolesAndPermissions.voicemailPermissions).to.equal(false);
       s1.restore();
       s2.restore();

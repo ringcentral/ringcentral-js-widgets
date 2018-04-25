@@ -19,7 +19,7 @@ export default function debounce(func, threshold = 500, immediate = false) {
     const callNow = immediate && !timer;
     const later = () => {
       timer = null;
-      if (!callNow) func.apply(context, args);
+      if (!immediate) func.apply(context, args);
     };
     clearTimeout(timer);
     timer = setTimeout(later, threshold);

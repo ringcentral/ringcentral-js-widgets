@@ -26,6 +26,7 @@ import callingModes from '../CallingSettings/callingModes';
     { dep: 'RouterInteraction', optional: true },
     { dep: 'AnalyticsAdapter', optional: true },
     { dep: 'AnalyticsOptions', optional: true },
+    { dep: 'UserGuide', optional: true },
   ]
 })
 export default class Analytics extends RcModule {
@@ -47,6 +48,7 @@ export default class Analytics extends RcModule {
     contactDetails,
     callHistory,
     conference,
+    userGuide,
     ...options
   }) {
     super({
@@ -70,6 +72,7 @@ export default class Analytics extends RcModule {
     this._contactDetails = contactDetails;
     this._callHistory = callHistory;
     this._conference = conference;
+    this._userGuide = userGuide;
     // init
     this._reducer = getAnalyticsReducer(this.actionTypes);
     this._segment = Segment();
@@ -151,6 +154,7 @@ export default class Analytics extends RcModule {
           '_conferenceInviteWithText',
           '_conferenceAddDialInNumber',
           '_conferenceJoinAsHost',
+          '_showWhatsNew',
         ].forEach((key) => {
           this[key](action);
         });
@@ -377,6 +381,15 @@ export default class Analytics extends RcModule {
     if (this._conference
       && this._conference.actionTypes.joinAsHost === action.type) {
       this.track('Join As Host (Conference)');
+    }
+  }
+
+  _showWhatsNew(action) {
+    if (this._userGuide
+      && this._userGuide.actionTypes.updateCarousel === action.type
+      && action.curIdx === 0
+      && action.playing) {
+      this.track('What\'s New');
     }
   }
 

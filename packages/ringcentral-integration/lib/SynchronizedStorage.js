@@ -16,7 +16,11 @@ export default class SynchronizedStorage {
     this._id = uuid.v4();
     if (typeof localStorage !== 'undefined' && typeof window !== 'undefined') {
       this._storageHandler = (event) => {
-        if (event.key.substring(0, this._storageKey.length) === this._storageKey) {
+        if (
+          event.key !== null &&
+          typeof event.key !== 'undefined' &&
+          event.key.substring(0, this._storageKey.length) === this._storageKey
+        ) {
           try {
             const {
               setter,

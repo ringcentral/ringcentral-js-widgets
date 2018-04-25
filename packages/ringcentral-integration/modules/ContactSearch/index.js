@@ -150,7 +150,7 @@ export default class ContactSearch extends RcModule {
     this._searchSourcesCheck.set(sourceName, readyCheckFn);
   }
 
-  debouncedSearch = debounce(this.search, 800, true)
+  debouncedSearch = debounce(this.search, 800, false)
 
   @proxify
   async search({ searchString }) {
