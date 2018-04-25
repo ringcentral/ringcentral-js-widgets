@@ -171,7 +171,9 @@ function mapToProps(_, {
     callingSettings.ready &&
     callingSettings.callWith !== callingOptions.browser;
   const showHistory = rolesAndPermissions.ready && rolesAndPermissions.permissions.ReadCallLog;
-  const showContact = rolesAndPermissions.ready && rolesAndPermissions.callingEnabled;
+  const showContact = rolesAndPermissions.ready && (
+    rolesAndPermissions.callingEnabled || rolesAndPermissions.hasReadMessagesPermission
+  );
   const showComposeText = rolesAndPermissions.ready && rolesAndPermissions.hasComposeTextPermission;
   const showMessages = rolesAndPermissions.ready && rolesAndPermissions.hasReadMessagesPermission;
   const showConference = (

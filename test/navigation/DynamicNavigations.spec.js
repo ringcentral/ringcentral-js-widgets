@@ -165,15 +165,21 @@ describe('dynamic navigationb bar', () => {
     expect(navigationBar.find(TabNavigationButton).find({ label: 'History' })).toHaveLength(0);
   });
 
-  test('should hide contacts when no calling permsision', () => {
+  test('should hide contacts when no calling and read messages permsision', () => {
     const phone = wrapper.props().phone;
     Object.defineProperty(phone.rolesAndPermissions.permissions, 'ReadCallLog', {
       value: false,
+    });
+    Object.defineProperty(phone.rolesAndPermissions.permissions, 'hasReadMessagesPermission', {
+      value: true,
     });
     wrapper.setProps({ phone });
     wrapper.update();
     let navigationBar = wrapper.find(NavigationBar).first();
     expect(navigationBar.find(TabNavigationButton).find({ label: 'Contacts' })).toHaveLength(1);
+    Object.defineProperty(phone.rolesAndPermissions, 'hasReadMessagesPermission', {
+      value: false,
+    });
     Object.defineProperty(phone.rolesAndPermissions, 'callingEnabled', {
       value: false,
     });

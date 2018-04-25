@@ -74,6 +74,14 @@ export default class CallingSettingsPanel extends Component {
     });
   }
   onCallWithChange = (callWith) => {
+    if (callWith === this.props.callWith) {
+      this.setState({
+        callWith,
+        myLocation: this.props.myLocation,
+        ringoutPrompt: this.props.ringoutPrompt,
+      });
+      return;
+    }
     this.setState({
       callWith,
       myLocation: (this.props.availableNumbers[callWith] &&

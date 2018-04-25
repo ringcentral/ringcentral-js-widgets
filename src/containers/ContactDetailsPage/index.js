@@ -45,6 +45,7 @@ function mapToFunctions(_, {
     dialerUI,
     composeText,
     contactSearch,
+    rolesAndPermissions
   },
 }) {
   return {
@@ -67,7 +68,7 @@ function mapToFunctions(_, {
     onBackClick: () => {
       routerInteraction.goBack();
     },
-    onClickToDial: dialerUI ?
+    onClickToDial: dialerUI && rolesAndPermissions.callingEnabled ?
       (recipient) => {
         if (call.isIdle) {
           routerInteraction.push(dialerRoute);

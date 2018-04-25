@@ -81,5 +81,6 @@ MessageSenderAlert.handleMessage = ({ message }) => (
   (message === messageSenderMessages.senderNumberInvalid) ||
   (message === messageSenderMessages.internationalSMSNotSupported) ||
   (message === messageSenderMessages.noInternalSMSPermission) ||
-  (message === messageSenderMessages.noSMSPermission)
+  (message === messageSenderMessages.noSMSPermission) ||
+  (message === messageSenderMessages.sending)
 );

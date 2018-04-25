@@ -44,10 +44,11 @@ function SelectedRecipients({
   recipients,
   multiple,
   onRemove,
+  className
 }) {
   if (multiple && recipients.length) {
     return (
-      <ul className={styles.selectReceivers}>
+      <ul className={classnames(className, styles.selectReceivers)}>
         {
           recipients.map(item => (
             <SelectedRecipientItem
@@ -62,7 +63,7 @@ function SelectedRecipients({
     );
   } else if (!multiple && recipient) {
     return (
-      <ul className={styles.selectReceivers}>
+      <ul className={classnames(className, styles.selectReceivers)}>
         <SelectedRecipientItem
           key={recipient.phoneNumber}
           name={recipient.name}
@@ -86,9 +87,11 @@ SelectedRecipients.propTypes = {
     name: PropTypes.string,
   })).isRequired,
   multiple: PropTypes.bool.isRequired,
+  className: PropTypes.string,
 };
 SelectedRecipients.defaultProps = {
   recipient: null,
+  className: undefined,
 };
 
 class RecipientsInput extends Component {
@@ -326,6 +329,7 @@ class RecipientsInput extends Component {
             recipients={this.props.recipients}
             multiple={this.props.multiple}
             onRemove={this.props.removeFromRecipients}
+            className={this.props.recipientsClassName}
           />
           {toNumberInput}
         </div>
@@ -350,6 +354,7 @@ class RecipientsInput extends Component {
 
 RecipientsInput.propTypes = {
   className: PropTypes.string,
+  recipientsClassName: PropTypes.string,
   label: PropTypes.string,
   placeholder: PropTypes.string,
   searchContactList: PropTypes.arrayOf(PropTypes.shape({
@@ -385,6 +390,7 @@ RecipientsInput.propTypes = {
 
 RecipientsInput.defaultProps = {
   className: undefined,
+  recipientsClassName: undefined,
   label: undefined,
   placeholder: undefined,
   recipient: null,
