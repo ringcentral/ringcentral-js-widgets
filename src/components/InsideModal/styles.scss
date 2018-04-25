@@ -1,11 +1,12 @@
+$section_margin_top: 81px;
 .container {
-  height: 100%;
+  height: calc(100% - #{$section_margin_top});
   width: 100%;
   display: block;
   position: absolute;
-  top: 0;
+  top: $section_margin_top;
   left: 0;
-  z-index: 10;
+  z-index: 9;
 }
 
 .mask {
@@ -16,12 +17,12 @@
 
 .modal {
   width: calc(100% - 40px);
-  height: calc(100% - 30px);
-  margin: 15px 20px;
+  height: calc(100% - 44px);
+  margin: 24px 20px 20px;
   max-height: none;
   display: block;
   background-color: #ffffff;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
   border-radius: 0;
   z-index: 10;
   position: absolute;
@@ -44,7 +45,7 @@
 .closeBtn {
   position: absolute;
   right: 9px;
-  top: 9px;
+  top: 7px;
   cursor: pointer;
 }
 

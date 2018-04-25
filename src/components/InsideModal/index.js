@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import Modal from '../Modal';
 import styles from './styles.scss';
 import InsideModalClose from '../../assets/images/InsideModalClose.svg';
@@ -22,40 +23,32 @@ CloseBtn.defaultProps = {
   onClick: undefined,
 };
 
-export default class InsideModal extends Component {
-  componentDidMount() {
-    this.forceUpdate();
+export default function InsideModal(
+  {
+    show,
+    onClose,
+    children,
+    title,
+    containerStyles,
+    maskStyle,
+    modalStyles,
+    contentStyle,
   }
-
-  render() {
-    const {
-      show,
-      onClose,
-      children,
-      title,
-    } = this.props;
-    const closeBtn = (<CloseBtn onClick={onClose} />);
-    return (
-      <div ref={(ref) => { this.appendDOM = ref; }}>
-        {
-          this.appendDOM ? (
-            <Modal
-              title={title}
-              headerClassName={styles.title}
-              className={styles.container}
-              maskClassName={styles.mask}
-              modalClassName={styles.modal}
-              contentClassName={styles.content}
-              closeBtn={closeBtn}
-              show={show}
-              appendDOM={this.appendDOM}>
-              {children}
-            </Modal>
-          ) : null
-        }
-      </div>
-    );
-  }
+) {
+  const closeBtn = (<CloseBtn onClick={onClose} />);
+  return (
+    <Modal
+      title={title}
+      headerClassName={styles.title}
+      className={classnames(styles.container, containerStyles)}
+      maskClassName={classnames(styles.mask, maskStyle)}
+      modalClassName={classnames(styles.modal, modalStyles)}
+      contentClassName={classnames(styles.content, contentStyle)}
+      closeBtn={closeBtn}
+      show={show}>
+      {children}
+    </Modal>
+  );
 }
 
 InsideModal.propTypes = {
@@ -63,6 +56,10 @@ InsideModal.propTypes = {
   onClose: PropTypes.func,
   children: PropTypes.node,
   title: PropTypes.string,
+  containerStyles: PropTypes.string,
+  maskStyle: PropTypes.string,
+  modalStyles: PropTypes.string,
+  contentStyle: PropTypes.string,
 };
 
 InsideModal.defaultProps = {
@@ -70,4 +67,8 @@ InsideModal.defaultProps = {
   show: undefined,
   onClose: undefined,
   children: undefined,
+  containerStyles: undefined,
+  maskStyle: undefined,
+  modalStyles: undefined,
+  contentStyle: undefined,
 };

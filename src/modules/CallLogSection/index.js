@@ -90,6 +90,24 @@ export default class CallLogSection extends RcModule {
     if (typeof this._onError === 'function') this._onError(identify, ...args);
   }
 
+  _showLogSection(identify) {
+    if (!this.show || identify !== this.currentIdentify) {
+      this.store.dispatch({
+        type: this.actionTypes.showLogSection,
+        identify
+      });
+    }
+  }
+
+  _showLogNotification(identify) {
+    if (!this.showNotification || identify !== this.currentNotificationIdentify) {
+      this.store.dispatch({
+        type: this.actionTypes.showLogNotification,
+        identify
+      });
+    }
+  }
+
   addLogHandler(
     {
       logFunction,
@@ -115,7 +133,9 @@ export default class CallLogSection extends RcModule {
   }
 
   async saveCallLog(identify, ...args) {
-    if (identify) {
+    if (identify && (
+        !this.callsMapping[identify] || !this.callsMapping[identify].isSaving
+      )) {
       this.store.dispatch({
         type: this.actionTypes.saving,
         identify,
@@ -134,19 +154,52 @@ export default class CallLogSection extends RcModule {
     }
   }
 
-  showLogSection(identify) {
+  handleLogSection(identify) {
     if (!this.show) {
+      // Preferentially show call log section.
+      this._showLogSection(identify);
+    } else if (!this.notificationIsExpand) {
+      // Check it to show log notification when the call log notification isn't expanded.
+      this._showLogNotification(identify);
+    }
+  }
+
+  closeLogSection() {
+    if (this.show) {
       this.store.dispatch({
-        type: this.actionTypes.showLogSection,
-        identify
+        type: this.actionTypes.closeLogSection
       });
     }
   }
 
-  hideLogSection() {
-    if (this.show) {
+  discardAndHandleNotification() {
+    const currentNotificationIdentify = this.currentNotificationIdentify;
+    this.closeLogNotification();
+    this.closeLogSection();
+    this._showLogSection(currentNotificationIdentify);
+  }
+
+  async saveAndHandleNotification() {
+    const currentNotificationIdentify = this.currentNotificationIdentify;
+    const currentIdentify = this.currentIdentify;
+    this.closeLogNotification();
+    this.closeLogSection();
+    await this.saveCallLog(currentIdentify);
+    this._showLogSection(currentNotificationIdentify);
+  }
+
+  closeLogNotification() {
+    if (this.showNotification) {
       this.store.dispatch({
-        type: this.actionTypes.hideLogSection
+        type: this.actionTypes.closeLogNotification
+      });
+    }
+  }
+
+  expandLogNotification() {
+    if (!this.notificationIsExpand) {
+      this.store.dispatch({
+        type: this.actionTypes.expandNotification
       });
     }
   }
@@ -171,7 +224,19 @@ export default class CallLogSection extends RcModule {
   }
 
   get show() {
-    return !!this._storage.getItem(this._storageKey).currentIdentify;
+    return !!this.currentIdentify;
+  }
+
+  get currentNotificationIdentify() {
+    return this._storage.getItem(this._storageKey).currentNotificationIdentify;
+  }
+
+  get showNotification() {
+    return !!this.currentNotificationIdentify;
+  }
+
+  get notificationIsExpand() {
+    return this._storage.getItem(this._storageKey).notificationIsExpand;
   }
 
   get status() {
