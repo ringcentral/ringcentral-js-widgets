@@ -1,0 +1,11 @@
+
+#build
+build/**
+docs/**
+
+**/i18n/**
+**/*.test.js
+src/integration-test
+release/**
+coverage/**
+karma.conf.js

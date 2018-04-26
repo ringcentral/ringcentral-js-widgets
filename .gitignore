@@ -13,6 +13,7 @@ lib-cov
 
 # Coverage directory used by tools like istanbul
 coverage
+*/**/coverage
 
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
@@ -22,6 +23,8 @@ coverage
 
 # Dependency directory
 node_modules
+*/**/node_modules
+*/**/package-lock.json
 
 # Optional npm cache directory
 .npm
@@ -47,3 +50,12 @@ alias.json
 
 #Webstorm
 .idea
+
+*/**/apiConfig.js
+*/**/testAccount.js
+
+*/**/api-config.js
+*/**/.env
+*/**/*.log
+
+*/**/gh-pages

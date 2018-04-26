@@ -1,0 +1,42 @@
+{
+  "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/754224008/phone-number?usageType=DirectNumber&page=1&perPage=100",
+  "records" : [ {
+    "id" : 281162008,
+    "phoneNumber" : "+18559100010",
+    "paymentType" : "TollFree",
+    "type" : "VoiceFax",
+    "usageType" : "CompanyNumber",
+    "extension" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/754224008/extension/754226008",
+      "id" : 754226009,
+      "extensionNumber" : "101"
+    }
+  }, {
+    "id" : 284652008,
+    "phoneNumber" : "+18559103500",
+    "paymentType" : "TollFree",
+    "type" : "VoiceFax",
+    "usageType" : "DirectNumber",
+    "extension" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/754224008/extension/754226008",
+      "id" : 754226008,
+      "extensionNumber" : "102"
+    }
+  }],
+  "paging" : {
+      "page" : 1,
+      "totalPages" : 1,
+      "perPage" : 100,
+      "totalElements" : 2,
+      "pageStart" : 0,
+      "pageEnd" : 1
+    },
+    "navigation" : {
+      "firstPage" : {
+        "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/754224008/phone-number?usageType=DirectNumber&page=1&perPage=100"
+      },
+      "lastPage" : {
+        "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/754224008/phone-number?usageType=DirectNumber&page=1&perPage=100"
+      }
+    }
+}

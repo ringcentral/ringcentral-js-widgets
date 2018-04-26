@@ -1,0 +1,19 @@
+{
+    "manifest_version": 2,
+    "name": "RingCentral Integration Demo",
+    "description": "RingCentral Integration Demo",
+    "version": "0.1.0",
+    "background": {
+      "page": "background.html"
+    },
+    "permissions": [
+        "tabs",
+        "activeTab",
+        "background",
+        "notifications",
+        "tabCapture",
+        "https://api-rcapps.ringcentral.com/"
+    ],
+    "browser_action": {
+    }
+}
