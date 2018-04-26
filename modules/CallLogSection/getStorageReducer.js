@@ -95,8 +95,44 @@ function getCurrentIdentifyReducer(types) {
     switch (type) {
       case types.showLogSection:
         return identify;
-      case types.hideLogSection:
+      case types.closeLogSection:
         return null;
+      default:
+        return state;
+    }
+  };
+}
+
+function getCurrentNotificationIdentifyReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var _ref4 = arguments[1];
+    var type = _ref4.type,
+        identify = _ref4.identify;
+
+    switch (type) {
+      case types.showLogNotification:
+        return identify;
+      case types.closeLogNotification:
+        return null;
+      default:
+        return state;
+    }
+  };
+}
+
+function getNotificationIsExpandReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var _ref5 = arguments[1];
+    var type = _ref5.type;
+
+    switch (type) {
+      case types.expandNotification:
+        return true;
+      case types.shrinkNotification:
+      case types.closeLogNotification:
+        return false;
       default:
         return state;
     }
@@ -107,7 +143,9 @@ function getStorageReducer(types) {
   return (0, _redux.combineReducers)({
     callsList: getCallsListReducer(types),
     callsMapping: getCallsMappingReducer(types),
-    currentIdentify: getCurrentIdentifyReducer(types)
+    currentIdentify: getCurrentIdentifyReducer(types),
+    currentNotificationIdentify: getCurrentNotificationIdentifyReducer(types),
+    notificationIsExpand: getNotificationIsExpandReducer(types)
   });
 }
 //# sourceMappingURL=getStorageReducer.js.map

@@ -252,6 +252,26 @@ var CallLogSection = (_dec = (0, _di.Module)({
       if (typeof this._onError === 'function') this._onError.apply(this, [identify].concat(args));
     }
   }, {
+    key: '_showLogSection',
+    value: function _showLogSection(identify) {
+      if (!this.show || identify !== this.currentIdentify) {
+        this.store.dispatch({
+          type: this.actionTypes.showLogSection,
+          identify: identify
+        });
+      }
+    }
+  }, {
+    key: '_showLogNotification',
+    value: function _showLogNotification(identify) {
+      if (!this.showNotification || identify !== this.currentNotificationIdentify) {
+        this.store.dispatch({
+          type: this.actionTypes.showLogNotification,
+          identify: identify
+        });
+      }
+    }
+  }, {
     key: 'addLogHandler',
     value: function addLogHandler(_ref3) {
       var logFunction = _ref3.logFunction,
@@ -313,7 +333,7 @@ var CallLogSection = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                if (!identify) {
+                if (!(identify && (!this.callsMapping[identify] || !this.callsMapping[identify].isSaving))) {
                   _context3.next = 14;
                   break;
                 }
@@ -364,21 +384,82 @@ var CallLogSection = (_dec = (0, _di.Module)({
       return saveCallLog;
     }()
   }, {
-    key: 'showLogSection',
-    value: function showLogSection(identify) {
+    key: 'handleLogSection',
+    value: function handleLogSection(identify) {
       if (!this.show) {
+        // Preferentially show call log section.
+        this._showLogSection(identify);
+      } else if (!this.notificationIsExpand) {
+        // Check it to show log notification when the call log notification isn't expanded.
+        this._showLogNotification(identify);
+      }
+    }
+  }, {
+    key: 'closeLogSection',
+    value: function closeLogSection() {
+      if (this.show) {
         this.store.dispatch({
-          type: this.actionTypes.showLogSection,
-          identify: identify
+          type: this.actionTypes.closeLogSection
         });
       }
     }
   }, {
-    key: 'hideLogSection',
-    value: function hideLogSection() {
-      if (this.show) {
+    key: 'discardAndHandleNotification',
+    value: function discardAndHandleNotification() {
+      var currentNotificationIdentify = this.currentNotificationIdentify;
+      this.closeLogNotification();
+      this.closeLogSection();
+      this._showLogSection(currentNotificationIdentify);
+    }
+  }, {
+    key: 'saveAndHandleNotification',
+    value: function () {
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
+        var currentNotificationIdentify, currentIdentify;
+        return _regenerator2.default.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                currentNotificationIdentify = this.currentNotificationIdentify;
+                currentIdentify = this.currentIdentify;
+
+                this.closeLogNotification();
+                this.closeLogSection();
+                _context4.next = 6;
+                return this.saveCallLog(currentIdentify);
+
+              case 6:
+                this._showLogSection(currentNotificationIdentify);
+
+              case 7:
+              case 'end':
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      function saveAndHandleNotification() {
+        return _ref6.apply(this, arguments);
+      }
+
+      return saveAndHandleNotification;
+    }()
+  }, {
+    key: 'closeLogNotification',
+    value: function closeLogNotification() {
+      if (this.showNotification) {
         this.store.dispatch({
-          type: this.actionTypes.hideLogSection
+          type: this.actionTypes.closeLogNotification
+        });
+      }
+    }
+  }, {
+    key: 'expandLogNotification',
+    value: function expandLogNotification() {
+      if (!this.notificationIsExpand) {
+        this.store.dispatch({
+          type: this.actionTypes.expandNotification
         });
       }
     }
@@ -400,7 +481,22 @@ var CallLogSection = (_dec = (0, _di.Module)({
   }, {
     key: 'show',
     get: function get() {
-      return !!this._storage.getItem(this._storageKey).currentIdentify;
+      return !!this.currentIdentify;
+    }
+  }, {
+    key: 'currentNotificationIdentify',
+    get: function get() {
+      return this._storage.getItem(this._storageKey).currentNotificationIdentify;
+    }
+  }, {
+    key: 'showNotification',
+    get: function get() {
+      return !!this.currentNotificationIdentify;
+    }
+  }, {
+    key: 'notificationIsExpand',
+    get: function get() {
+      return this._storage.getItem(this._storageKey).notificationIsExpand;
     }
   }, {
     key: 'status',
