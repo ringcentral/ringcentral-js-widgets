@@ -49,7 +49,7 @@ exports.default = function (auth, client, accountPhoneNumber, account) {
     describe('when there is ReadCompanyPhoneNumbers permission:', function () {
       var _this = this;
 
-      before((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      before((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -75,7 +75,7 @@ exports.default = function (auth, client, accountPhoneNumber, account) {
         }, _callee, this);
       })));
 
-      after((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+      after((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -95,7 +95,7 @@ exports.default = function (auth, client, accountPhoneNumber, account) {
         }, _callee2, this);
       })));
 
-      it('Should load numbers', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+      it('Should load numbers', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -115,7 +115,7 @@ exports.default = function (auth, client, accountPhoneNumber, account) {
         }, _callee3, _this);
       })));
 
-      it('Should get extensionToPhoneNumberMap', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
+      it('Should get extensionToPhoneNumberMap', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
@@ -139,7 +139,7 @@ exports.default = function (auth, client, accountPhoneNumber, account) {
     describe("when there isn't ReadCompanyPhoneNumbers permission:", function () {
       var _this2 = this;
 
-      before((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
+      before((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -170,7 +170,7 @@ exports.default = function (auth, client, accountPhoneNumber, account) {
         }, _callee5, this);
       })));
 
-      after((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
+      after((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6() {
         return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
@@ -190,7 +190,7 @@ exports.default = function (auth, client, accountPhoneNumber, account) {
         }, _callee6, this);
       })));
 
-      it('Should not load numbers', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
+      it('Should not load numbers', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
         return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
@@ -210,7 +210,7 @@ exports.default = function (auth, client, accountPhoneNumber, account) {
         }, _callee7, _this2);
       })));
 
-      it('Should not get extensionToPhoneNumberMap', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8() {
+      it('Should not get extensionToPhoneNumberMap', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8() {
         return _regenerator2.default.wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {

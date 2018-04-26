@@ -172,7 +172,7 @@ var Locale = (_dec = (0, _di.Module)({
   (0, _createClass3.default)(Locale, [{
     key: 'initialize',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -205,7 +205,7 @@ var Locale = (_dec = (0, _di.Module)({
   }, {
     key: '_syncBrowserLocale',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
         var _this2 = this;
 
         return _regenerator2.default.wrap(function _callee2$(_context2) {
@@ -242,7 +242,7 @@ var Locale = (_dec = (0, _di.Module)({
   }, {
     key: 'initializeProxy',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
         var _this3 = this;
 
         return _regenerator2.default.wrap(function _callee4$(_context4) {
@@ -259,7 +259,7 @@ var Locale = (_dec = (0, _di.Module)({
                 this.store.dispatch({
                   type: this.actionTypes.proxyInitSuccess
                 });
-                this.store.subscribe((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+                this.store.subscribe((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
                   return _regenerator2.default.wrap(function _callee3$(_context3) {
                     while (1) {
                       switch (_context3.prev = _context3.next) {
@@ -308,7 +308,7 @@ var Locale = (_dec = (0, _di.Module)({
   }, {
     key: 'toggleDebugMode',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -338,7 +338,7 @@ var Locale = (_dec = (0, _di.Module)({
   }, {
     key: '_setLocale',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(locale) {
+      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(locale) {
         return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
@@ -378,7 +378,7 @@ var Locale = (_dec = (0, _di.Module)({
   }, {
     key: 'setLocale',
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(locale) {
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(locale) {
         return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {

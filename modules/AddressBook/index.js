@@ -261,7 +261,7 @@ var AddressBook = (_dec = (0, _di.Module)({
   }, {
     key: '_onStateChange',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -352,7 +352,7 @@ var AddressBook = (_dec = (0, _di.Module)({
   }, {
     key: '_initAddressBook',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -424,7 +424,7 @@ var AddressBook = (_dec = (0, _di.Module)({
   }, {
     key: 'sync',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
         var _this3 = this;
 
         return _regenerator2.default.wrap(function _callee4$(_context4) {
@@ -432,7 +432,7 @@ var AddressBook = (_dec = (0, _di.Module)({
             switch (_context4.prev = _context4.next) {
               case 0:
                 if (!this._promise) {
-                  this._promise = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+                  this._promise = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
                     var response;
                     return _regenerator2.default.wrap(function _callee3$(_context3) {
                       while (1) {
@@ -511,7 +511,7 @@ var AddressBook = (_dec = (0, _di.Module)({
   }, {
     key: '_sync',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(syncToken, pageId) {
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(syncToken, pageId) {
         var params, response, lastResponse;
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
@@ -562,7 +562,7 @@ var AddressBook = (_dec = (0, _di.Module)({
   }, {
     key: '_syncAddressBookApi',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(params) {
+      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(params) {
         var updateRequest;
         return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
@@ -640,7 +640,7 @@ var AddressBook = (_dec = (0, _di.Module)({
   }, {
     key: 'fetchData',
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
         return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {

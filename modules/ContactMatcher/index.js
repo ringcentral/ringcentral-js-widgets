@@ -111,7 +111,7 @@ var ContactMatcher = (_dec = (0, _di.Module)({
   (0, _createClass3.default)(ContactMatcher, [{
     key: 'hasMatchNumber',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(_ref3) {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref3) {
         var phoneNumber = _ref3.phoneNumber,
             _ref3$ignoreCache = _ref3.ignoreCache,
             ignoreCache = _ref3$ignoreCache === undefined ? false : _ref3$ignoreCache;
@@ -145,7 +145,7 @@ var ContactMatcher = (_dec = (0, _di.Module)({
   }, {
     key: 'forceMatchNumber',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(_ref5) {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref5) {
         var phoneNumber = _ref5.phoneNumber;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {

@@ -159,7 +159,7 @@ var Subscription = (_dec = (0, _di.Module)({
     value: function initialize() {
       var _this2 = this;
 
-      this.store.subscribe((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      this.store.subscribe((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -180,7 +180,7 @@ var Subscription = (_dec = (0, _di.Module)({
           }
         }, _callee, _this2);
       })));
-      this._auth.addBeforeLogoutHandler((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+      this._auth.addBeforeLogoutHandler((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -221,7 +221,7 @@ var Subscription = (_dec = (0, _di.Module)({
       var _this3 = this;
 
       var t = Date.now();
-      this._sleepTimeout = setTimeout((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+      this._sleepTimeout = setTimeout((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -346,7 +346,7 @@ var Subscription = (_dec = (0, _di.Module)({
   }, {
     key: 'subscribe',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
         var events = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
         var oldFilters;
         return _regenerator2.default.wrap(function _callee4$(_context4) {
@@ -390,7 +390,7 @@ var Subscription = (_dec = (0, _di.Module)({
   }, {
     key: 'unsubscribe',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
         var events = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
         var oldFilters;
         return _regenerator2.default.wrap(function _callee5$(_context5) {
@@ -428,7 +428,7 @@ var Subscription = (_dec = (0, _di.Module)({
   }, {
     key: '_stopRetry',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
+      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6() {
         return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
@@ -455,7 +455,7 @@ var Subscription = (_dec = (0, _di.Module)({
   }, {
     key: '_retry',
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
         var _this6 = this;
 
         var t = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this._timeToRetry;
@@ -487,7 +487,7 @@ var Subscription = (_dec = (0, _di.Module)({
   }, {
     key: '_remove',
     value: function () {
-      var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8() {
+      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8() {
         return _regenerator2.default.wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
@@ -538,7 +538,7 @@ var Subscription = (_dec = (0, _di.Module)({
   }, {
     key: 'remove',
     value: function () {
-      var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9() {
+      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9() {
         return _regenerator2.default.wrap(function _callee9$(_context9) {
           while (1) {
             switch (_context9.prev = _context9.next) {
@@ -565,7 +565,7 @@ var Subscription = (_dec = (0, _di.Module)({
   }, {
     key: '_reset',
     value: function () {
-      var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10() {
+      var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10() {
         return _regenerator2.default.wrap(function _callee10$(_context10) {
           while (1) {
             switch (_context10.prev = _context10.next) {
@@ -629,7 +629,7 @@ var Subscription = (_dec = (0, _di.Module)({
   }, {
     key: 'reset',
     value: function () {
-      var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11() {
+      var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11() {
         return _regenerator2.default.wrap(function _callee11$(_context11) {
           while (1) {
             switch (_context11.prev = _context11.next) {

@@ -206,7 +206,7 @@ var Environment = (_dec = (0, _di.Module)({
   }, {
     key: 'setData',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(_ref3) {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref3) {
         var server = _ref3.server,
             recordingHost = _ref3.recordingHost,
             enabled = _ref3.enabled;

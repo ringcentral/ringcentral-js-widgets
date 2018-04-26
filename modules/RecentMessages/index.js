@@ -230,7 +230,7 @@ var RecentMessages = (_dec = (0, _di.Module)({
   }, {
     key: 'getMessages',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(_ref3) {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref3) {
         var currentContact = _ref3.currentContact,
             _ref3$sessionId = _ref3.sessionId,
             sessionId = _ref3$sessionId === undefined ? null : _ref3$sessionId,
@@ -320,7 +320,7 @@ var RecentMessages = (_dec = (0, _di.Module)({
      * @private
      */
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(currentContact) {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(currentContact) {
         var messages = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
         var fromLocal = arguments[2];
         var daySpan = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 60;

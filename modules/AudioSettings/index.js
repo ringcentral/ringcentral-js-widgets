@@ -186,7 +186,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: 'markAutoPrompted',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -236,7 +236,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: '_onStateChange',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -292,7 +292,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: '_checkDevices',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
         var devices;
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
@@ -353,7 +353,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: '_onGetUserMediaSuccess',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
         var userMediaAlert;
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
@@ -388,7 +388,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: 'onGetUserMediaError',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(error) {
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(error) {
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -419,7 +419,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: 'showAlert',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
+      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6() {
         return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
@@ -449,7 +449,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: 'setData',
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(_ref9) {
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(_ref9) {
         var _ref9$dialButtonVolum = _ref9.dialButtonVolume,
             dialButtonVolume = _ref9$dialButtonVolum === undefined ? this.dialButtonVolume : _ref9$dialButtonVolum,
             _ref9$dialButtonMuted = _ref9.dialButtonMuted,

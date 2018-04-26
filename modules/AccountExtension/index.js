@@ -175,7 +175,7 @@ var AccountExtension = (_dec = (0, _di.Module)({
       getTimestampReducer: _getAccountExtensionReducer.getTimestampReducer,
       subscriptionFilters: [_subscriptionFilters2.default.accountExtension],
       subscriptionHandler: function () {
-        var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(message) {
+        var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(message) {
           return _regenerator2.default.wrap(function _callee$(_context) {
             while (1) {
               switch (_context.prev = _context.next) {
@@ -195,7 +195,7 @@ var AccountExtension = (_dec = (0, _di.Module)({
         };
       }(),
       fetchFunction: function () {
-        var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+        var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
           return _regenerator2.default.wrap(function _callee2$(_context2) {
             while (1) {
               switch (_context2.prev = _context2.next) {
@@ -236,7 +236,7 @@ var AccountExtension = (_dec = (0, _di.Module)({
   (0, _createClass3.default)(AccountExtension, [{
     key: '_subscriptionHandleFn',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(message) {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(message) {
         var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, item;
 
         return _regenerator2.default.wrap(function _callee3$(_context3) {
@@ -320,7 +320,7 @@ var AccountExtension = (_dec = (0, _di.Module)({
   }, {
     key: '_processExtension',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(item) {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(item) {
         var extensionId, eventType, id, extensionData;
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
@@ -410,7 +410,7 @@ var AccountExtension = (_dec = (0, _di.Module)({
   }, {
     key: '_fetchExtensionData',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(id) {
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(id) {
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {

@@ -295,7 +295,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: '_onStateChange',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -373,7 +373,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: '_init',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
         var defaultCallWith;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
@@ -436,7 +436,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: '_initFromNumber',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
         var fromNumber, fromNumberList;
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
@@ -470,7 +470,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: 'updateFromNumber',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(number) {
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(number) {
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
@@ -497,7 +497,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: '_setSoftPhoneToCallWith',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
+      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -525,7 +525,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: '_validateSettings',
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6() {
         return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
@@ -609,7 +609,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: '_warningEmergencyCallingNotAvailable',
     value: function () {
-      var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
+      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
         return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
@@ -638,7 +638,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: 'setData',
     value: function () {
-      var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(_ref11, withPrompt) {
+      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(_ref11, withPrompt) {
         var callWith = _ref11.callWith,
             myLocation = _ref11.myLocation,
             ringoutPrompt = _ref11.ringoutPrompt;

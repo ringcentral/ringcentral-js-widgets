@@ -320,7 +320,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
   (0, _createClass3.default)(CallMonitor, [{
     key: '_onStateChange',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         var _this2 = this;
 
         var uniqueNumbers, sessionIds, oldCalls, entities;

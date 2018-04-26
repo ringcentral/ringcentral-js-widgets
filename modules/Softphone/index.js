@@ -144,7 +144,7 @@ var Softphone = (_dec = (0, _di.Module)({
   }, {
     key: 'makeCall',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(phoneNumber) {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(phoneNumber) {
         var uri, frame;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {

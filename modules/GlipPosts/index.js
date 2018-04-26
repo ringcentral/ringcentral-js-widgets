@@ -119,7 +119,7 @@ var GlipPosts = (_dec = (0, _di.Module)({
   }, {
     key: '_onStateChange',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -193,7 +193,7 @@ var GlipPosts = (_dec = (0, _di.Module)({
   }, {
     key: 'loadPosts',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(groupId) {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(groupId) {
         var _this3 = this;
 
         var recordCount = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 20;
@@ -211,7 +211,7 @@ var GlipPosts = (_dec = (0, _di.Module)({
 
               case 2:
                 if (!this._fetchPromises[groupId]) {
-                  this._fetchPromises[groupId] = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+                  this._fetchPromises[groupId] = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
                     var response;
                     return _regenerator2.default.wrap(function _callee2$(_context2) {
                       while (1) {
@@ -276,7 +276,7 @@ var GlipPosts = (_dec = (0, _di.Module)({
   }, {
     key: 'create',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(_ref6) {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref6) {
         var groupId = _ref6.groupId;
         var text, fakeId, fakeRecord, record;
         return _regenerator2.default.wrap(function _callee4$(_context4) {
@@ -358,7 +358,7 @@ var GlipPosts = (_dec = (0, _di.Module)({
   }, {
     key: 'sendFile',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(_ref8) {
+      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_ref8) {
         var fileName = _ref8.fileName,
             groupId = _ref8.groupId,
             rawFile = _ref8.rawFile;

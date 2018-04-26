@@ -127,7 +127,7 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
       timeToRetry: timeToRetry,
       subscriptionFilters: [_subscriptionFilters2.default.extensionInfo],
       subscriptionHandler: function () {
-        var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(message) {
+        var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(message) {
           return _regenerator2.default.wrap(function _callee$(_context) {
             while (1) {
               switch (_context.prev = _context.next) {
@@ -149,7 +149,7 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
       }(),
       cleanOnReset: true,
       fetchFunction: function () {
-        var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+        var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
           return _regenerator2.default.wrap(function _callee2$(_context2) {
             while (1) {
               switch (_context2.prev = _context2.next) {
@@ -175,7 +175,7 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
         };
       }(),
       forbiddenHandler: function () {
-        var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+        var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
           return _regenerator2.default.wrap(function _callee3$(_context3) {
             while (1) {
               switch (_context3.prev = _context3.next) {
@@ -222,7 +222,7 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
   (0, _createClass3.default)(ExtensionInfo, [{
     key: '_subscriptionHandleFn',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(message) {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(message) {
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {

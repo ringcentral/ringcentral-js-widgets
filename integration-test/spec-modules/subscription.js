@@ -49,7 +49,7 @@ exports.default = function (auth, client, subscription, account) {
 
     var isLoginSuccess = void 0;
     var clientHistoryRequest = new _ClientHistoryRequest2.default(new _map2.default(), client);
-    beforeEach((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+    beforeEach((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
       return _regenerator2.default.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -63,7 +63,7 @@ exports.default = function (auth, client, subscription, account) {
         }
       }, _callee, _this);
     })));
-    afterEach((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+    afterEach((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
       return _regenerator2.default.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
@@ -87,7 +87,7 @@ exports.default = function (auth, client, subscription, account) {
         }
       }, _callee2, _this);
     })));
-    it('Should create subscription successfully', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+    it('Should create subscription successfully', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
       return _regenerator2.default.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
@@ -119,7 +119,7 @@ exports.default = function (auth, client, subscription, account) {
         }
       }, _callee3, _this);
     })));
-    it('Should reset cache subscription to null when subscribe error', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
+    it('Should reset cache subscription to null when subscribe error', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
       return _regenerator2.default.wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {

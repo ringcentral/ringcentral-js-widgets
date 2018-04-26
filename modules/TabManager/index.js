@@ -92,7 +92,7 @@ var TabManager = (_dec = (0, _di.Module)(), _dec(_class = function (_RcModule) {
   (0, _createClass3.default)(TabManager, [{
     key: 'initialize',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
         var _this2 = this;
 
         return _regenerator2.default.wrap(function _callee2$(_context2) {
@@ -115,7 +115,7 @@ var TabManager = (_dec = (0, _di.Module)(), _dec(_class = function (_RcModule) {
 
                 if (this._tabbie.enabled) {
                   this._tabbie.on('mainTabIdChanged', function () {
-                    var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(mainTabId) {
+                    var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(mainTabId) {
                       return _regenerator2.default.wrap(function _callee$(_context) {
                         while (1) {
                           switch (_context.prev = _context.next) {
@@ -189,7 +189,7 @@ var TabManager = (_dec = (0, _di.Module)(), _dec(_class = function (_RcModule) {
   }, {
     key: 'ensureActive',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {

@@ -489,7 +489,7 @@ var Contacts = (_dec = (0, _di.Module)({
   }, {
     key: 'getProfileImage',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(contact) {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(contact) {
         var useCache = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
         var source, result;
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -530,7 +530,7 @@ var Contacts = (_dec = (0, _di.Module)({
   }, {
     key: 'getPresence',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(contact) {
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(contact) {
         var useCache = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
         var source, result;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
@@ -571,7 +571,7 @@ var Contacts = (_dec = (0, _di.Module)({
   }, {
     key: 'sync',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
         var _iteratorNormalCompletion6, _didIteratorError6, _iteratorError6, _iterator6, _step6, sourceName, source;
 
         return _regenerator2.default.wrap(function _callee3$(_context3) {

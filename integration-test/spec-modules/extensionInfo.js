@@ -50,7 +50,7 @@ exports.default = function (auth, client, extensionInfo, account, alert) {
     var isLoginSuccess = void 0;
     var clientHistoryRequest = new _ClientHistoryRequest2.default(new _map2.default(), client);
 
-    afterEach((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+    afterEach((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
       return _regenerator2.default.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -75,7 +75,7 @@ exports.default = function (auth, client, extensionInfo, account, alert) {
       }, _callee, this);
     })));
 
-    it('Should load info successfully', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+    it('Should load info successfully', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
       return _regenerator2.default.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
@@ -107,7 +107,7 @@ exports.default = function (auth, client, extensionInfo, account, alert) {
       }, _callee2, _this);
     })));
 
-    it('Should show insufficientPrivilege when get 403', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+    it('Should show insufficientPrivilege when get 403', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
       return _regenerator2.default.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {

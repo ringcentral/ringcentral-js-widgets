@@ -299,7 +299,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
   }, {
     key: '_onStateChange',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -373,7 +373,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
   }, {
     key: '_subscriptionHandleFn',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(message) {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(message) {
         var _message$body, eventType, group;
 
         return _regenerator2.default.wrap(function _callee2$(_context2) {
@@ -435,7 +435,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
   }, {
     key: '_init',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -499,7 +499,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
   }, {
     key: '_preloadGroupPosts',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
         var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, group;
 
         return _regenerator2.default.wrap(function _callee4$(_context4) {
@@ -615,7 +615,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
   }, {
     key: '_fetchFunction',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
+      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
         var result;
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
@@ -645,7 +645,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
   }, {
     key: '_fetchData',
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6() {
         var ownerId, data;
         return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
@@ -714,7 +714,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
   }, {
     key: 'fetchData',
     value: function () {
-      var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
+      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
         return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
@@ -741,7 +741,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
   }, {
     key: 'startChat',
     value: function () {
-      var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(personId) {
+      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(personId) {
         var group;
         return _regenerator2.default.wrap(function _callee8$(_context8) {
           while (1) {

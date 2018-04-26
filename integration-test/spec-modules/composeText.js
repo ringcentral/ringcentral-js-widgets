@@ -43,7 +43,7 @@ var _ClientHistoryRequest2 = _interopRequireDefault(_ClientHistoryRequest);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (auth, client, account, alert, regionSettings, composeText, messageSender) {
-  describe('ComposeText', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee41() {
+  describe('ComposeText', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee41() {
     var _this = this;
 
     var conditionalDescribe, clientHistoryRequest;
@@ -56,7 +56,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
             clientHistoryRequest = new _ClientHistoryRequest2.default(new _map2.default(), client);
 
 
-            before((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+            before((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
               var isLoginSuccess;
               return _regenerator2.default.wrap(function _callee$(_context) {
                 while (1) {
@@ -105,7 +105,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                 expect(composeText.senderNumber).to.equals(messageSender.senderNumbersList[1].phoneNumber);
               });
 
-              it('Should Remember Sender Number After Logout', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+              it('Should Remember Sender Number After Logout', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
                 return _regenerator2.default.wrap(function _callee2$(_context2) {
                   while (1) {
                     switch (_context2.prev = _context2.next) {
@@ -202,7 +202,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                 composeText.clean();
               });
 
-              it('Should SMS Message Successfully', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+              it('Should SMS Message Successfully', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
                 var responses, rawRequest;
                 return _regenerator2.default.wrap(function _callee3$(_context3) {
                   while (1) {
@@ -231,7 +231,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                 }, _callee3, _this);
               })));
 
-              it('Should Send Pager Message Successfully', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
+              it('Should Send Pager Message Successfully', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
                 var responses, rawRequest;
                 return _regenerator2.default.wrap(function _callee4$(_context4) {
                   while (1) {
@@ -260,7 +260,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                 }, _callee4, _this);
               })));
 
-              it('Should Send SMS and Pager Message Together Successfully', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
+              it('Should Send SMS and Pager Message Together Successfully', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
                 var responses, smsRequest, pagerRequest;
                 return _regenerator2.default.wrap(function _callee5$(_context5) {
                   while (1) {
@@ -294,7 +294,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                 }, _callee5, _this);
               })));
 
-              it('Should Send Pager Message Successfully with Typing Number', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
+              it('Should Send Pager Message Successfully with Typing Number', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6() {
                 var responses, rawRequest;
                 return _regenerator2.default.wrap(function _callee6$(_context6) {
                   while (1) {
@@ -326,7 +326,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
 
             conditionalDescribe('Validation', function () {
               _this.timeout(20000);
-              beforeEach((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
+              beforeEach((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
                 var isAlertClear;
                 return _regenerator2.default.wrap(function _callee7$(_context7) {
                   while (1) {
@@ -356,7 +356,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
               })));
 
               conditionalDescribe('Text Validation', function () {
-                it('Should Alert of textEmpty When Text Is Empty', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8() {
+                it('Should Alert of textEmpty When Text Is Empty', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8() {
                   return _regenerator2.default.wrap(function _callee8$(_context8) {
                     while (1) {
                       switch (_context8.prev = _context8.next) {
@@ -384,7 +384,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                   expect(composeText.messageText).to.equals('');
                 });
 
-                it('Should Alert of textEmpty When Text Is Empty with Space', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9() {
+                it('Should Alert of textEmpty When Text Is Empty with Space', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9() {
                   var response;
                   return _regenerator2.default.wrap(function _callee9$(_context9) {
                     while (1) {
@@ -413,7 +413,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
 
               conditionalDescribe('Numbers Validation', function () {
                 conditionalDescribe('Basic Validation', function () {
-                  it('Should Alert of recipientsEmpty - Not Input Recepiant Number', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10() {
+                  it('Should Alert of recipientsEmpty - Not Input Recepiant Number', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10() {
                     return _regenerator2.default.wrap(function _callee10$(_context10) {
                       while (1) {
                         switch (_context10.prev = _context10.next) {
@@ -433,7 +433,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                     }, _callee10, _this);
                   })));
 
-                  it('Should Alert of noToNumber - Typing Number is not number', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11() {
+                  it('Should Alert of noToNumber - Typing Number is not number', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11() {
                     return _regenerator2.default.wrap(function _callee11$(_context11) {
                       while (1) {
                         switch (_context11.prev = _context11.next) {
@@ -457,7 +457,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                     }, _callee11, _this);
                   })));
 
-                  it('Should Alert of noToNumber - Valid Special Char but No Digital Number', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12() {
+                  it('Should Alert of noToNumber - Valid Special Char but No Digital Number', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee12() {
                     return _regenerator2.default.wrap(function _callee12$(_context12) {
                       while (1) {
                         switch (_context12.prev = _context12.next) {
@@ -488,7 +488,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                     expect(composeText.typingToNumber).to.equals('');
                   });
 
-                  it('Should Alert of noToNumber - Send With wrong Typing Number', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee13() {
+                  it('Should Alert of noToNumber - Send With wrong Typing Number', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee13() {
                     var response;
                     return _regenerator2.default.wrap(function _callee13$(_context13) {
                       while (1) {
@@ -513,7 +513,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                     }, _callee13, _this);
                   })));
 
-                  it('Should Alert of noToNumber - one of toNumber is not number', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee14() {
+                  it('Should Alert of noToNumber - one of toNumber is not number', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee14() {
                     return _regenerator2.default.wrap(function _callee14$(_context14) {
                       while (1) {
                         switch (_context14.prev = _context14.next) {
@@ -538,7 +538,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                     }, _callee14, _this);
                   })));
 
-                  it('Should Not Alert Anything - to Number in E.164 Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee15() {
+                  it('Should Not Alert Anything - to Number in E.164 Format', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee15() {
                     var response;
                     return _regenerator2.default.wrap(function _callee15$(_context15) {
                       while (1) {
@@ -571,7 +571,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                     regionSettings.setData({ countryCode: 'US', areaCode: '' });
                   });
 
-                  it('Should Not Alert Anything - To Number in (xxx)xxx-xxxx Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee16() {
+                  it('Should Not Alert Anything - To Number in (xxx)xxx-xxxx Format', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee16() {
                     var responses;
                     return _regenerator2.default.wrap(function _callee16$(_context16) {
                       while (1) {
@@ -600,7 +600,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                     }, _callee16, _this);
                   })));
 
-                  it('Should Not Alert Anything - to Number in (xxx) xxx-xxxx Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee17() {
+                  it('Should Not Alert Anything - to Number in (xxx) xxx-xxxx Format', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee17() {
                     var responses;
                     return _regenerator2.default.wrap(function _callee17$(_context17) {
                       while (1) {
@@ -629,7 +629,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                     }, _callee17, _this);
                   })));
 
-                  it('Should Not Alert Anything - to Number in (xxx)xxx-xxxx*xxx Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee18() {
+                  it('Should Not Alert Anything - to Number in (xxx)xxx-xxxx*xxx Format', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee18() {
                     var responses;
                     return _regenerator2.default.wrap(function _callee18$(_context18) {
                       while (1) {
@@ -658,7 +658,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                     }, _callee18, _this);
                   })));
 
-                  it('Should Not Alert Anything - to Number in (xxx) xxx-xxxx*xxx Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee19() {
+                  it('Should Not Alert Anything - to Number in (xxx) xxx-xxxx*xxx Format', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee19() {
                     var responses;
                     return _regenerator2.default.wrap(function _callee19$(_context19) {
                       while (1) {
@@ -687,7 +687,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                     }, _callee19, _this);
                   })));
 
-                  it('Should Not Alert Anything - to Number in xxx-xxx-xxxx Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee20() {
+                  it('Should Not Alert Anything - to Number in xxx-xxx-xxxx Format', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee20() {
                     var responses;
                     return _regenerator2.default.wrap(function _callee20$(_context20) {
                       while (1) {
@@ -716,7 +716,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                     }, _callee20, _this);
                   })));
 
-                  it('Should Not Alert Anything - to Number in xxx-xxx-xxxx*xxx Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee21() {
+                  it('Should Not Alert Anything - to Number in xxx-xxx-xxxx*xxx Format', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee21() {
                     var responses;
                     return _regenerator2.default.wrap(function _callee21$(_context21) {
                       while (1) {
@@ -747,7 +747,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                 });
 
                 conditionalDescribe('Validation with Region Setting', function () {
-                  it('Should Alert of noAreaCode - Typing Number length is 7 and no areaCode', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee22() {
+                  it('Should Alert of noAreaCode - Typing Number length is 7 and no areaCode', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee22() {
                     var response;
                     return _regenerator2.default.wrap(function _callee22$(_context22) {
                       while (1) {
@@ -773,7 +773,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                     }, _callee22, _this);
                   })));
 
-                  it('Should Alert of No AreaCode - toNumber is 7 Digital Number with US Dialing Plan without Area Code', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee23() {
+                  it('Should Alert of No AreaCode - toNumber is 7 Digital Number with US Dialing Plan without Area Code', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee23() {
                     return _regenerator2.default.wrap(function _callee23$(_context23) {
                       while (1) {
                         switch (_context23.prev = _context23.next) {
@@ -798,7 +798,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                     }, _callee23, _this);
                   })));
 
-                  it('Should Alert of No AreaCode - toNumber is 7 Digital Number with CA Dialing Plan without Area Code', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee24() {
+                  it('Should Alert of No AreaCode - toNumber is 7 Digital Number with CA Dialing Plan without Area Code', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee24() {
                     return _regenerator2.default.wrap(function _callee24$(_context24) {
                       while (1) {
                         switch (_context24.prev = _context24.next) {
@@ -823,7 +823,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                     }, _callee24, _this);
                   })));
 
-                  it('Should Not Alert of Anything - toNumber is 7 Digital Number with CA Dialing Plan with Area Code', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee25() {
+                  it('Should Not Alert of Anything - toNumber is 7 Digital Number with CA Dialing Plan with Area Code', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee25() {
                     var rawRequest;
                     return _regenerator2.default.wrap(function _callee25$(_context25) {
                       while (1) {
@@ -864,7 +864,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                     }, _callee25, _this, [[3, 8]]);
                   })));
 
-                  it('Should Not Alert of Anything - toNumber is 7 Digital Number with US Dialing Plan with Area Code', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee26() {
+                  it('Should Not Alert of Anything - toNumber is 7 Digital Number with US Dialing Plan with Area Code', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee26() {
                     var rawRequest;
                     return _regenerator2.default.wrap(function _callee26$(_context26) {
                       while (1) {
@@ -907,7 +907,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
 
                 conditionalDescribe('Extension/Special Validation', function () {
                   conditionalDescribe('Not Included In Extension List', function () {
-                    it('Should Alert of notAnExtension - Typing Number', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee27() {
+                    it('Should Alert of notAnExtension - Typing Number', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee27() {
                       return _regenerator2.default.wrap(function _callee27$(_context27) {
                         while (1) {
                           switch (_context27.prev = _context27.next) {
@@ -931,7 +931,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                       }, _callee27, _this);
                     })));
 
-                    it('Should Alert of notAnExtension - To Number', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee28() {
+                    it('Should Alert of notAnExtension - To Number', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee28() {
                       return _regenerator2.default.wrap(function _callee28$(_context28) {
                         while (1) {
                           switch (_context28.prev = _context28.next) {
@@ -955,7 +955,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                       }, _callee28, _this);
                     })));
 
-                    it('Should Alert of notAnExtension - To Number (xxx)xxx-xxxx*xxx Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee29() {
+                    it('Should Alert of notAnExtension - To Number (xxx)xxx-xxxx*xxx Format', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee29() {
                       return _regenerator2.default.wrap(function _callee29$(_context29) {
                         while (1) {
                           switch (_context29.prev = _context29.next) {
@@ -985,7 +985,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                       regionSettings.setData({ countryCode: 'GB', areaCode: '' });
                     });
 
-                    it('Should Alert Special Number - toNumber 101 (Existed Extension/Special Number)', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee30() {
+                    it('Should Alert Special Number - toNumber 101 (Existed Extension/Special Number)', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee30() {
                       return _regenerator2.default.wrap(function _callee30$(_context30) {
                         while (1) {
                           switch (_context30.prev = _context30.next) {
@@ -1009,7 +1009,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                       }, _callee30, _this);
                     })));
 
-                    it('Should Alert notAnExtension - toNumber 998 (No Extension)', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee31() {
+                    it('Should Alert notAnExtension - toNumber 998 (No Extension)', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee31() {
                       return _regenerator2.default.wrap(function _callee31$(_context31) {
                         while (1) {
                           switch (_context31.prev = _context31.next) {
@@ -1033,7 +1033,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                       }, _callee31, _this);
                     })));
 
-                    it('Should Alert Special Number - toNumber 999', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee32() {
+                    it('Should Alert Special Number - toNumber 999', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee32() {
                       return _regenerator2.default.wrap(function _callee32$(_context32) {
                         while (1) {
                           switch (_context32.prev = _context32.next) {
@@ -1057,7 +1057,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                       }, _callee32, _this);
                     })));
 
-                    it('Should Not Alert Special Number - toNumber 911', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee33() {
+                    it('Should Not Alert Special Number - toNumber 911', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee33() {
                       return _regenerator2.default.wrap(function _callee33$(_context33) {
                         while (1) {
                           switch (_context33.prev = _context33.next) {
@@ -1085,7 +1085,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                       regionSettings.setData({ countryCode: 'US', areaCode: '' });
                     });
 
-                    it('Should Alert notAnExtension - toNumber 102 (No Extension/Not Special Number) with US Dialing Plan', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee34() {
+                    it('Should Alert notAnExtension - toNumber 102 (No Extension/Not Special Number) with US Dialing Plan', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee34() {
                       return _regenerator2.default.wrap(function _callee34$(_context34) {
                         while (1) {
                           switch (_context34.prev = _context34.next) {
@@ -1109,7 +1109,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                       }, _callee34, _this);
                     })));
 
-                    it('Should Alert notAnExtension - toNumber 998 (No Extension)', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee35() {
+                    it('Should Alert notAnExtension - toNumber 998 (No Extension)', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee35() {
                       return _regenerator2.default.wrap(function _callee35$(_context35) {
                         while (1) {
                           switch (_context35.prev = _context35.next) {
@@ -1133,7 +1133,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                       }, _callee35, _this);
                     })));
 
-                    it('Should Alert Special Number - toNumber is 911', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee36() {
+                    it('Should Alert Special Number - toNumber is 911', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee36() {
                       return _regenerator2.default.wrap(function _callee36$(_context36) {
                         while (1) {
                           switch (_context36.prev = _context36.next) {
@@ -1157,7 +1157,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                       }, _callee36, _this);
                     })));
 
-                    it('Should Not Alert Special Number - toNumber 999', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee37() {
+                    it('Should Not Alert Special Number - toNumber 999', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee37() {
                       return _regenerator2.default.wrap(function _callee37$(_context37) {
                         while (1) {
                           switch (_context37.prev = _context37.next) {
@@ -1178,7 +1178,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                       }, _callee37, _this);
                     })));
 
-                    it('Should Not Alert Anything - toNumber 101 (Existed Extension/Not Special Number)', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee38() {
+                    it('Should Not Alert Anything - toNumber 101 (Existed Extension/Not Special Number)', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee38() {
                       var rawRequest;
                       return _regenerator2.default.wrap(function _callee38$(_context38) {
                         while (1) {
@@ -1222,7 +1222,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
               });
 
               conditionalDescribe('Validate after Send Api', function () {
-                it('Should Alert of recipientNumberInvalids - toNumber is invalid', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee39() {
+                it('Should Alert of recipientNumberInvalids - toNumber is invalid', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee39() {
                   return _regenerator2.default.wrap(function _callee39$(_context39) {
                     while (1) {
                       switch (_context39.prev = _context39.next) {
@@ -1257,7 +1257,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                     }
                   }, _callee39, _this, [[2, 7]]);
                 })));
-                it('Should Alert of internationalSMSNotSupported - select international phone number', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee40() {
+                it('Should Alert of internationalSMSNotSupported - select international phone number', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee40() {
                   return _regenerator2.default.wrap(function _callee40$(_context40) {
                     while (1) {
                       switch (_context40.prev = _context40.next) {

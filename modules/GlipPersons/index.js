@@ -171,7 +171,7 @@ var GlipPersons = (_dec = (0, _di.Module)({
   }, {
     key: '_onStateChange',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -233,7 +233,7 @@ var GlipPersons = (_dec = (0, _di.Module)({
   }, {
     key: 'loadMe',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -258,7 +258,7 @@ var GlipPersons = (_dec = (0, _di.Module)({
   }, {
     key: 'loadPerson',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(id) {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(id) {
         var person;
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
@@ -307,7 +307,7 @@ var GlipPersons = (_dec = (0, _di.Module)({
   }, {
     key: 'loadPersons',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(personIds) {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(personIds) {
         var _this3 = this;
 
         var ownerId, newPersonIds, ids, persons, lastIds;
@@ -425,7 +425,7 @@ var GlipPersons = (_dec = (0, _di.Module)({
   }, {
     key: '_batchGetPersons',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(personIds) {
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(personIds) {
         var response, ids, multipartResponse, responses;
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {

@@ -169,7 +169,7 @@ var Alert = (_dec = (0, _di.Module)({
      * @param {Number} options.ttl - optional, set ttl to 0 to disable auto dismiss
      */
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(_ref3) {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref3) {
         var message = _ref3.message,
             payload = _ref3.payload,
             _ref3$level = _ref3.level,
@@ -279,7 +279,7 @@ var Alert = (_dec = (0, _di.Module)({
   }, {
     key: 'dismiss',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(ids) {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(ids) {
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -311,7 +311,7 @@ var Alert = (_dec = (0, _di.Module)({
   }, {
     key: 'dismissAll',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {

@@ -250,7 +250,7 @@ var AccountContacts = (_dec = (0, _di.Module)({
   }, {
     key: 'getProfileImage',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(contact) {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(contact) {
         var useCache = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
         var imageId, image, imageUrl, response;
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -382,7 +382,7 @@ var AccountContacts = (_dec = (0, _di.Module)({
   }, {
     key: '_processQueryPresences',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(getPresenceContexts) {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(getPresenceContexts) {
         var contacts, responses, presenceMap;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
@@ -441,7 +441,7 @@ var AccountContacts = (_dec = (0, _di.Module)({
   }, {
     key: '_batchQueryPresences',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(contacts) {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(contacts) {
         var presenceSet, id, response, ids, multipartResponse, responses;
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {

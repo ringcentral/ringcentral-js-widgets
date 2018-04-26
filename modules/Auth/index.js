@@ -206,7 +206,7 @@ var Auth = (_dec = (0, _di.Module)({
       };
 
       var onLoginSuccess = function () {
-        var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+        var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
           var handlers, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _loop, _iterator, _step;
 
           return _regenerator2.default.wrap(function _callee2$(_context3) {
@@ -222,7 +222,7 @@ var Auth = (_dec = (0, _di.Module)({
                   _didIteratorError = false;
                   _iteratorError = undefined;
                   _context3.prev = 5;
-                  _loop = _regenerator2.default.mark(function _loop() {
+                  _loop = /*#__PURE__*/_regenerator2.default.mark(function _loop() {
                     var handler;
                     return _regenerator2.default.wrap(function _loop$(_context2) {
                       while (1) {
@@ -230,7 +230,7 @@ var Auth = (_dec = (0, _di.Module)({
                           case 0:
                             handler = _step.value;
                             _context2.next = 3;
-                            return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+                            return (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
                               return _regenerator2.default.wrap(function _callee$(_context) {
                                 while (1) {
                                   switch (_context.prev = _context.next) {
@@ -391,7 +391,7 @@ var Auth = (_dec = (0, _di.Module)({
       var _this3 = this;
 
       var loggedIn = void 0;
-      this.store.subscribe((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+      this.store.subscribe((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
         var platform;
         return _regenerator2.default.wrap(function _callee3$(_context4) {
           while (1) {
@@ -450,7 +450,7 @@ var Auth = (_dec = (0, _di.Module)({
   }, {
     key: 'login',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(_ref6) {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref6) {
         var username = _ref6.username,
             password = _ref6.password,
             extension = _ref6.extension,
@@ -560,7 +560,7 @@ var Auth = (_dec = (0, _di.Module)({
   }, {
     key: 'logout',
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6() {
         var _this4 = this;
 
         var handlers, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _loop2, _iterator2, _step2, _ret2;
@@ -579,7 +579,7 @@ var Auth = (_dec = (0, _di.Module)({
                 _didIteratorError2 = false;
                 _iteratorError2 = undefined;
                 _context8.prev = 7;
-                _loop2 = _regenerator2.default.mark(function _loop2() {
+                _loop2 = /*#__PURE__*/_regenerator2.default.mark(function _loop2() {
                   var handler, result;
                   return _regenerator2.default.wrap(function _loop2$(_context7) {
                     while (1) {
@@ -587,7 +587,7 @@ var Auth = (_dec = (0, _di.Module)({
                         case 0:
                           handler = _step2.value;
                           _context7.next = 3;
-                          return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
+                          return (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
                             return _regenerator2.default.wrap(function _callee5$(_context6) {
                               while (1) {
                                 switch (_context6.prev = _context6.next) {
@@ -770,7 +770,7 @@ var Auth = (_dec = (0, _di.Module)({
   }, {
     key: 'refreshImplicitToken',
     value: function () {
-      var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(_ref11) {
+      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(_ref11) {
         var tokenType = _ref11.tokenType,
             accessToken = _ref11.accessToken,
             expiresIn = _ref11.expiresIn,
@@ -833,7 +833,7 @@ var Auth = (_dec = (0, _di.Module)({
   }, {
     key: 'checkIsLoggedIn',
     value: function () {
-      var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8() {
+      var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8() {
         return _regenerator2.default.wrap(function _callee8$(_context10) {
           while (1) {
             switch (_context10.prev = _context10.next) {

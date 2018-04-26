@@ -108,7 +108,7 @@ var ActiveCalls = (_dec = (0, _di.Module)({
       getDataReducer: _getActiveCallsReducer.getDataReducer,
       subscriptionFilters: [_subscriptionFilters2.default.detailedPresenceWithSip],
       subscriptionHandler: function () {
-        var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(message) {
+        var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(message) {
           var ownerId;
           return _regenerator2.default.wrap(function _callee$(_context) {
             while (1) {
@@ -145,7 +145,7 @@ var ActiveCalls = (_dec = (0, _di.Module)({
         };
       }(),
       fetchFunction: function () {
-        var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+        var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
           return _regenerator2.default.wrap(function _callee2$(_context2) {
             while (1) {
               switch (_context2.prev = _context2.next) {

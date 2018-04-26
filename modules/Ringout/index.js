@@ -170,7 +170,7 @@ var Ringout = (_dec = (0, _di.Module)({
   }, {
     key: 'makeCall',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(_ref3) {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref3) {
         var fromNumber = _ref3.fromNumber,
             toNumber = _ref3.toNumber,
             prompt = _ref3.prompt;
@@ -244,7 +244,7 @@ var Ringout = (_dec = (0, _di.Module)({
   }, {
     key: '_monitorRingout',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(ringoutId, startTime) {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(ringoutId, startTime) {
         var callerStatus;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
@@ -307,7 +307,7 @@ var Ringout = (_dec = (0, _di.Module)({
   }, {
     key: '_fetchRingoutStatus',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(ringoutId) {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(ringoutId) {
         var resp, exception;
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {

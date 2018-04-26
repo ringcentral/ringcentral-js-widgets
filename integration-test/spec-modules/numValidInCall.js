@@ -23,14 +23,14 @@ var _WaitUtil = require('../utils/WaitUtil');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) {
-  describe('Number Validation when Making Phone Call', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee34() {
+  describe('Number Validation when Making Phone Call', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee34() {
     return _regenerator2.default.wrap(function _callee34$(_context34) {
       while (1) {
         switch (_context34.prev = _context34.next) {
           case 0:
             this.timeout(20000);
 
-            before((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+            before((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
               var isLoginSuccess;
               return _regenerator2.default.wrap(function _callee$(_context) {
                 while (1) {
@@ -62,7 +62,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
               }, _callee, this);
             })));
 
-            afterEach((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+            afterEach((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
               return _regenerator2.default.wrap(function _callee2$(_context2) {
                 while (1) {
                   switch (_context2.prev = _context2.next) {
@@ -81,7 +81,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
               var _this = this;
 
               this.timeout(10000);
-              beforeEach((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+              beforeEach((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
                 var isAlertClear;
                 return _regenerator2.default.wrap(function _callee3$(_context3) {
                   while (1) {
@@ -107,7 +107,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee3, this);
               })));
-              it('Should Alert Invalid Number - Invalid Char in ToNumber', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
+              it('Should Alert Invalid Number - Invalid Char in ToNumber', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
                 return _regenerator2.default.wrap(function _callee4$(_context4) {
                   while (1) {
                     switch (_context4.prev = _context4.next) {
@@ -139,7 +139,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee4, _this, [[0, 5]]);
               })));
-              it('Should Alert Invalid Number - Valid Special Char but No Digital Number', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
+              it('Should Alert Invalid Number - Valid Special Char but No Digital Number', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
                 return _regenerator2.default.wrap(function _callee5$(_context5) {
                   while (1) {
                     switch (_context5.prev = _context5.next) {
@@ -171,7 +171,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee5, _this, [[0, 5]]);
               })));
-              it('Should Not Alert Anything - Call Number in E.164 Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
+              it('Should Not Alert Anything - Call Number in E.164 Format', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6() {
                 return _regenerator2.default.wrap(function _callee6$(_context6) {
                   while (1) {
                     switch (_context6.prev = _context6.next) {
@@ -209,7 +209,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
               var _this2 = this;
 
               this.timeout(10000);
-              beforeEach((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
+              beforeEach((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
                 var isAlertClear;
                 return _regenerator2.default.wrap(function _callee7$(_context7) {
                   while (1) {
@@ -236,7 +236,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee7, this);
               })));
-              it('Should Not Alert Anything - Call Number in (xxx)xxx-xxxx Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8() {
+              it('Should Not Alert Anything - Call Number in (xxx)xxx-xxxx Format', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8() {
                 return _regenerator2.default.wrap(function _callee8$(_context8) {
                   while (1) {
                     switch (_context8.prev = _context8.next) {
@@ -269,7 +269,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee8, _this2, [[1, 6]]);
               })));
-              it('Should Not Alert Anything - Call Number in (xxx) xxx-xxxx Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9() {
+              it('Should Not Alert Anything - Call Number in (xxx) xxx-xxxx Format', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9() {
                 return _regenerator2.default.wrap(function _callee9$(_context9) {
                   while (1) {
                     switch (_context9.prev = _context9.next) {
@@ -302,7 +302,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee9, _this2, [[1, 6]]);
               })));
-              it('Should Not Alert Anything - Call Number in (xxx)xxx-xxxx*xxx Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10() {
+              it('Should Not Alert Anything - Call Number in (xxx)xxx-xxxx*xxx Format', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10() {
                 return _regenerator2.default.wrap(function _callee10$(_context10) {
                   while (1) {
                     switch (_context10.prev = _context10.next) {
@@ -335,7 +335,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee10, _this2, [[1, 6]]);
               })));
-              it('Should Not Alert Anything - Call Number in (xxx) xxx-xxxx Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11() {
+              it('Should Not Alert Anything - Call Number in (xxx) xxx-xxxx Format', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11() {
                 return _regenerator2.default.wrap(function _callee11$(_context11) {
                   while (1) {
                     switch (_context11.prev = _context11.next) {
@@ -368,7 +368,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee11, _this2, [[1, 6]]);
               })));
-              it('Should Not Alert Anything - Call Number in xxx-xxx-xxxx Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12() {
+              it('Should Not Alert Anything - Call Number in xxx-xxx-xxxx Format', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee12() {
                 return _regenerator2.default.wrap(function _callee12$(_context12) {
                   while (1) {
                     switch (_context12.prev = _context12.next) {
@@ -401,7 +401,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee12, _this2, [[1, 6]]);
               })));
-              it('Should Not Alert Anything - Call Number in xxx-xxx-xxxx*xxx Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee13() {
+              it('Should Not Alert Anything - Call Number in xxx-xxx-xxxx*xxx Format', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee13() {
                 return _regenerator2.default.wrap(function _callee13$(_context13) {
                   while (1) {
                     switch (_context13.prev = _context13.next) {
@@ -440,7 +440,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
               var _this3 = this;
 
               this.timeout(10000);
-              beforeEach((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee14() {
+              beforeEach((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee14() {
                 var isAlertClear;
                 return _regenerator2.default.wrap(function _callee14$(_context14) {
                   while (1) {
@@ -467,7 +467,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee14, this);
               })));
-              it('Should Alert No AreaCode - Call 7 Digital Number with US Dialing Plan without Area Code', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee15() {
+              it('Should Alert No AreaCode - Call 7 Digital Number with US Dialing Plan without Area Code', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee15() {
                 return _regenerator2.default.wrap(function _callee15$(_context15) {
                   while (1) {
                     switch (_context15.prev = _context15.next) {
@@ -500,7 +500,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee15, _this3, [[1, 6]]);
               })));
-              it('Should Alert No AreaCode - Call 7 Digital Number with CA Dialing Plan without Area Code', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee16() {
+              it('Should Alert No AreaCode - Call 7 Digital Number with CA Dialing Plan without Area Code', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee16() {
                 return _regenerator2.default.wrap(function _callee16$(_context16) {
                   while (1) {
                     switch (_context16.prev = _context16.next) {
@@ -533,7 +533,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee16, _this3, [[1, 6]]);
               })));
-              it('Should Not Alert Anything - Call 7 Digital Number with US Dialing Plan and Area Code', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee17() {
+              it('Should Not Alert Anything - Call 7 Digital Number with US Dialing Plan and Area Code', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee17() {
                 return _regenerator2.default.wrap(function _callee17$(_context17) {
                   while (1) {
                     switch (_context17.prev = _context17.next) {
@@ -567,7 +567,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee17, this, [[1, 6]]);
               })));
-              it('Should Not Alert Anything - Call 7 Digital Number with CA Dialing Plan and Area Code', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee18() {
+              it('Should Not Alert Anything - Call 7 Digital Number with CA Dialing Plan and Area Code', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee18() {
                 return _regenerator2.default.wrap(function _callee18$(_context18) {
                   while (1) {
                     switch (_context18.prev = _context18.next) {
@@ -601,7 +601,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee18, this, [[1, 6]]);
               })));
-              it('Should Not Alert Anything - Call 7 Digital Number with non US/CA Dialing Plan', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee19() {
+              it('Should Not Alert Anything - Call 7 Digital Number with non US/CA Dialing Plan', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee19() {
                 return _regenerator2.default.wrap(function _callee19$(_context19) {
                   while (1) {
                     switch (_context19.prev = _context19.next) {
@@ -635,7 +635,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee19, this, [[1, 6]]);
               })));
-              it('Should Not Alert Anything - Call greater than 7 Digital Number with US Dialing Plan and Area Code', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee20() {
+              it('Should Not Alert Anything - Call greater than 7 Digital Number with US Dialing Plan and Area Code', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee20() {
                 return _regenerator2.default.wrap(function _callee20$(_context20) {
                   while (1) {
                     switch (_context20.prev = _context20.next) {
@@ -669,7 +669,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee20, this, [[1, 6]]);
               })));
-              it('Should Alert noInternational - Call CA number with US Dialing Plan and Area Code', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee21() {
+              it('Should Alert noInternational - Call CA number with US Dialing Plan and Area Code', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee21() {
                 return _regenerator2.default.wrap(function _callee21$(_context21) {
                   while (1) {
                     switch (_context21.prev = _context21.next) {
@@ -703,7 +703,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee21, this, [[1, 6]]);
               })));
-              it('Should Not Alert Anything - Call greater than 7 Digital Number with CA Dialing Plan and Area Code', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee22() {
+              it('Should Not Alert Anything - Call greater than 7 Digital Number with CA Dialing Plan and Area Code', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee22() {
                 return _regenerator2.default.wrap(function _callee22$(_context22) {
                   while (1) {
                     switch (_context22.prev = _context22.next) {
@@ -737,7 +737,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee22, this, [[1, 6]]);
               })));
-              it('Should Alert noInternational - Call US number with CA Dialing Plan and Area Code', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee23() {
+              it('Should Alert noInternational - Call US number with CA Dialing Plan and Area Code', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee23() {
                 return _regenerator2.default.wrap(function _callee23$(_context23) {
                   while (1) {
                     switch (_context23.prev = _context23.next) {
@@ -771,7 +771,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee23, this, [[1, 6]]);
               })));
-              it('Should Not Alert Anything - Call greater than 7 Digital Number with non US/CA Dialing Plan', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee24() {
+              it('Should Not Alert Anything - Call greater than 7 Digital Number with non US/CA Dialing Plan', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee24() {
                 return _regenerator2.default.wrap(function _callee24$(_context24) {
                   while (1) {
                     switch (_context24.prev = _context24.next) {
@@ -805,7 +805,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee24, this, [[1, 6]]);
               })));
-              it('Should Alert Special Number - Call 911 with US Dialing Plan', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee25() {
+              it('Should Alert Special Number - Call 911 with US Dialing Plan', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee25() {
                 return _regenerator2.default.wrap(function _callee25$(_context25) {
                   while (1) {
                     switch (_context25.prev = _context25.next) {
@@ -838,7 +838,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee25, this, [[1, 6]]);
               })));
-              it('Should Alert Special Number - Call 999 with GB Dialing Plan', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee26() {
+              it('Should Alert Special Number - Call 999 with GB Dialing Plan', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee26() {
                 return _regenerator2.default.wrap(function _callee26$(_context26) {
                   while (1) {
                     switch (_context26.prev = _context26.next) {
@@ -871,7 +871,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee26, this, [[1, 6]]);
               })));
-              it('Should Not Alert Special Number - Call 999 with US Dialing Plan', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee27() {
+              it('Should Not Alert Special Number - Call 999 with US Dialing Plan', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee27() {
                 return _regenerator2.default.wrap(function _callee27$(_context27) {
                   while (1) {
                     switch (_context27.prev = _context27.next) {
@@ -901,7 +901,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee27, this, [[1, 6]]);
               })));
-              it('Should Not Alert Special Number - Call 911 with GB Dialing Plan', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee28() {
+              it('Should Not Alert Special Number - Call 911 with GB Dialing Plan', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee28() {
                 return _regenerator2.default.wrap(function _callee28$(_context28) {
                   while (1) {
                     switch (_context28.prev = _context28.next) {
@@ -931,7 +931,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee28, this, [[1, 6]]);
               })));
-              it('Should Not Alert Anything - Call 101(Existed Extension/Not Special Number) with US Dialing Plan', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee29() {
+              it('Should Not Alert Anything - Call 101(Existed Extension/Not Special Number) with US Dialing Plan', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee29() {
                 return _regenerator2.default.wrap(function _callee29$(_context29) {
                   while (1) {
                     switch (_context29.prev = _context29.next) {
@@ -964,7 +964,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee29, this, [[1, 6]]);
               })));
-              it('Should Alert Special Number - Call 101(Existed Extension/Speical Number) with GB Dialing Plan', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee30() {
+              it('Should Alert Special Number - Call 101(Existed Extension/Speical Number) with GB Dialing Plan', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee30() {
                 return _regenerator2.default.wrap(function _callee30$(_context30) {
                   while (1) {
                     switch (_context30.prev = _context30.next) {
@@ -997,7 +997,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee30, this, [[1, 6]]);
               })));
-              it('Should Not Alert Anything - Call 102(Existed Extension) with GB Dialing Plan', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee31() {
+              it('Should Not Alert Anything - Call 102(Existed Extension) with GB Dialing Plan', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee31() {
                 return _regenerator2.default.wrap(function _callee31$(_context31) {
                   while (1) {
                     switch (_context31.prev = _context31.next) {
@@ -1030,7 +1030,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee31, this, [[1, 6]]);
               })));
-              it('Should Alert Not An Extension - Call 998(Non Extension) with US Dialing Plan', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee32() {
+              it('Should Alert Not An Extension - Call 998(Non Extension) with US Dialing Plan', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee32() {
                 return _regenerator2.default.wrap(function _callee32$(_context32) {
                   while (1) {
                     switch (_context32.prev = _context32.next) {
@@ -1063,7 +1063,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee32, this, [[1, 6]]);
               })));
-              it('Should Alert Not An Extension - Call 998(Non Extension) with GB Dialing Plan', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee33() {
+              it('Should Alert Not An Extension - Call 998(Non Extension) with GB Dialing Plan', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee33() {
                 return _regenerator2.default.wrap(function _callee33$(_context33) {
                   while (1) {
                     switch (_context33.prev = _context33.next) {

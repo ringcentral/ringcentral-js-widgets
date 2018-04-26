@@ -258,7 +258,7 @@ var NumberValidate = (_dec = (0, _di.Module)({
   }, {
     key: 'validateNumbers',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(phoneNumbers) {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(phoneNumbers) {
         var validateResult, validatedNumbers;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -319,7 +319,7 @@ var NumberValidate = (_dec = (0, _di.Module)({
   }, {
     key: 'validateWithNumberParser',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(phoneNumbers) {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(phoneNumbers) {
         var _this4 = this;
 
         var pasedNumers, errors, validatedPhoneNumbers;
@@ -370,7 +370,7 @@ var NumberValidate = (_dec = (0, _di.Module)({
   }, {
     key: '_numberParser',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(phoneNumbers) {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(phoneNumbers) {
         var _regionSettings3, countryCode, areaCode, homeCountry, normalizedNumbers, response;
 
         return _regenerator2.default.wrap(function _callee3$(_context3) {
@@ -410,7 +410,7 @@ var NumberValidate = (_dec = (0, _di.Module)({
   }, {
     key: '_numberParserApi',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(originalStrings, homeCountry) {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(originalStrings, homeCountry) {
         var response;
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {

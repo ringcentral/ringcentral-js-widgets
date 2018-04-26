@@ -283,7 +283,7 @@ var Meeting = (_dec = (0, _di.Module)({
   }, {
     key: 'schedule',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(meeting) {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(meeting) {
         var _this3 = this;
 
         var _ref3 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},

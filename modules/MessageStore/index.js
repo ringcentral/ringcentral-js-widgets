@@ -328,7 +328,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: '_onStateChange',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -416,7 +416,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: '_initMessageStore',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -501,7 +501,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: '_messageSyncApi',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(params) {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(params) {
         var response;
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
@@ -531,7 +531,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: '_recursiveFSync',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(_ref6) {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref6) {
         var dateFrom = _ref6.dateFrom,
             _ref6$dateTo = _ref6.dateTo,
             dateTo = _ref6$dateTo === undefined ? null : _ref6$dateTo,
@@ -610,7 +610,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: '_updateMessagesFromSync',
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
         var response, oldSyncToken, params, _processResponseData, records, syncTimestamp, syncToken;
 
         return _regenerator2.default.wrap(function _callee5$(_context5) {
@@ -692,7 +692,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: '_updateConversationFromSync',
     value: function () {
-      var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(conversationId) {
+      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(conversationId) {
         var response, conversation, oldSyncToken, params, _processResponseData2, records, syncTimestamp, syncToken;
 
         return _regenerator2.default.wrap(function _callee6$(_context6) {
@@ -768,7 +768,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: '_syncMessages',
     value: function () {
-      var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8() {
+      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8() {
         var _this3 = this;
 
         return _regenerator2.default.wrap(function _callee8$(_context8) {
@@ -776,7 +776,7 @@ var MessageStore = (_dec = (0, _di.Module)({
             switch (_context8.prev = _context8.next) {
               case 0:
                 _context8.next = 2;
-                return this._sync((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
+                return this._sync((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
                   return _regenerator2.default.wrap(function _callee7$(_context7) {
                     while (1) {
                       switch (_context7.prev = _context7.next) {
@@ -809,7 +809,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: 'fetchData',
     value: function () {
-      var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9() {
+      var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9() {
         return _regenerator2.default.wrap(function _callee9$(_context9) {
           while (1) {
             switch (_context9.prev = _context9.next) {
@@ -834,7 +834,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: 'syncConversation',
     value: function () {
-      var _ref13 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11(id) {
+      var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(id) {
         var _this4 = this;
 
         return _regenerator2.default.wrap(function _callee11$(_context11) {
@@ -842,7 +842,7 @@ var MessageStore = (_dec = (0, _di.Module)({
             switch (_context11.prev = _context11.next) {
               case 0:
                 _context11.next = 2;
-                return this._sync((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10() {
+                return this._sync((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10() {
                   return _regenerator2.default.wrap(function _callee10$(_context10) {
                     while (1) {
                       switch (_context10.prev = _context10.next) {
@@ -875,7 +875,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: '_sync',
     value: function () {
-      var _ref15 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee13(syncFunction) {
+      var _ref15 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee13(syncFunction) {
         var _this5 = this;
 
         return _regenerator2.default.wrap(function _callee13$(_context13) {
@@ -883,7 +883,7 @@ var MessageStore = (_dec = (0, _di.Module)({
             switch (_context13.prev = _context13.next) {
               case 0:
                 if (!this._promise) {
-                  this._promise = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12() {
+                  this._promise = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee12() {
                     return _regenerator2.default.wrap(function _callee12$(_context12) {
                       while (1) {
                         switch (_context12.prev = _context12.next) {
@@ -940,7 +940,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: '_updateMessageApi',
     value: function () {
-      var _ref17 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee14(messageId, status) {
+      var _ref17 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee14(messageId, status) {
         var body, updateRequest;
         return _regenerator2.default.wrap(function _callee14$(_context14) {
           while (1) {
@@ -973,7 +973,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: '_deleteMessageApi',
     value: function () {
-      var _ref18 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee15(messageId) {
+      var _ref18 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee15(messageId) {
         return _regenerator2.default.wrap(function _callee15$(_context15) {
           while (1) {
             switch (_context15.prev = _context15.next) {
@@ -998,7 +998,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: '_batchUpdateMessagesApi',
     value: function () {
-      var _ref19 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee16(messageIds, body) {
+      var _ref19 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee16(messageIds, body) {
         var ids, platform, responses;
         return _regenerator2.default.wrap(function _callee16$(_context16) {
           while (1) {
@@ -1034,7 +1034,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: '_updateMessagesApi',
     value: function () {
-      var _ref20 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee17(messageIds, status) {
+      var _ref20 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee17(messageIds, status) {
         var result, UPDATE_MESSAGE_ONCE_COUNT, leftIds, rightIds, body, responses, results, rightResults;
         return _regenerator2.default.wrap(function _callee17$(_context17) {
           while (1) {
@@ -1107,7 +1107,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: 'readMessages',
     value: function () {
-      var _ref21 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee18(conversationId) {
+      var _ref21 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee18(conversationId) {
         var conversation, unreadMessageIds, updatedMessages;
         return _regenerator2.default.wrap(function _callee18$(_context18) {
           while (1) {
@@ -1176,7 +1176,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: 'unreadMessage',
     value: function () {
-      var _ref22 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee19(messageId) {
+      var _ref22 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee19(messageId) {
         var message;
         return _regenerator2.default.wrap(function _callee19$(_context19) {
           while (1) {
@@ -1229,7 +1229,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: 'onUnmarkMessages',
     value: function () {
-      var _ref23 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee20() {
+      var _ref23 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee20() {
         return _regenerator2.default.wrap(function _callee20$(_context20) {
           while (1) {
             switch (_context20.prev = _context20.next) {
@@ -1255,7 +1255,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: 'deleteMessage',
     value: function () {
-      var _ref24 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee21(messageId) {
+      var _ref24 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee21(messageId) {
         return _regenerator2.default.wrap(function _callee21$(_context21) {
           while (1) {
             switch (_context21.prev = _context21.next) {
@@ -1309,7 +1309,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: 'updateConversationRecipientList',
     value: function () {
-      var _ref25 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee22(conversationId, recipients) {
+      var _ref25 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee22(conversationId, recipients) {
         return _regenerator2.default.wrap(function _callee22$(_context22) {
           while (1) {
             switch (_context22.prev = _context22.next) {
@@ -1337,7 +1337,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: 'pushMessages',
     value: function () {
-      var _ref26 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee23(records) {
+      var _ref26 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee23(records) {
         return _regenerator2.default.wrap(function _callee23$(_context23) {
           while (1) {
             switch (_context23.prev = _context23.next) {

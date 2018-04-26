@@ -143,14 +143,14 @@ var DialingPlan = (_dec = (0, _di.Module)({
       client: client,
       polling: true,
       fetchFunction: function () {
-        var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+        var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
           return _regenerator2.default.wrap(function _callee2$(_context2) {
             while (1) {
               switch (_context2.prev = _context2.next) {
                 case 0:
                   _context2.next = 2;
                   return (0, _fetchList2.default)(function () {
-                    var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(params) {
+                    var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(params) {
                       var platform, response;
                       return _regenerator2.default.wrap(function _callee$(_context) {
                         while (1) {

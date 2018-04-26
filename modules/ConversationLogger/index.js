@@ -309,7 +309,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
   }, {
     key: '_processQueue',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         var _this2 = this;
 
         var ownerId;
@@ -402,7 +402,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
   }, {
     key: '_processConversationLog',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(_ref6) {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref6) {
         var conversation = _ref6.conversation;
         var addIfNotExist, numbers, numberMap, selfNumber, selfMatches, correspondentMatches, selfEntity, correspondentEntity;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
@@ -515,7 +515,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
   }, {
     key: '_onStateChange',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -543,7 +543,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
   }, {
     key: '_autoLogConversation',
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(_ref9) {
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref9) {
         var conversation = _ref9.conversation,
             selfEntity = _ref9.selfEntity,
             correspondentEntity = _ref9.correspondentEntity;
@@ -575,7 +575,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
   }, {
     key: 'log',
     value: function () {
-      var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(_ref11) {
+      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_ref11) {
         var conversation = _ref11.conversation,
             options = (0, _objectWithoutProperties3.default)(_ref11, ['conversation']);
         return _regenerator2.default.wrap(function _callee5$(_context5) {
@@ -601,7 +601,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
   }, {
     key: 'logConversation',
     value: function () {
-      var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(_ref13) {
+      var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(_ref13) {
         var _this6 = this;
 
         var conversationId = _ref13.conversationId,
@@ -651,7 +651,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
   }, {
     key: 'setAutoLog',
     value: function () {
-      var _ref14 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(autoLog) {
+      var _ref14 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(autoLog) {
         return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {

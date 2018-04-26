@@ -283,7 +283,7 @@ var ContactSearch = (_dec = (0, _di.Module)({
   }, {
     key: 'search',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(_ref4) {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref4) {
         var _this3 = this;
 
         var searchString = _ref4.searchString;
@@ -306,7 +306,7 @@ var ContactSearch = (_dec = (0, _di.Module)({
 
               case 3:
                 this._clearTimeout();
-                this._timeoutId = setTimeout((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+                this._timeoutId = setTimeout((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
                   var searching;
                   return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
@@ -414,7 +414,7 @@ var ContactSearch = (_dec = (0, _di.Module)({
   }, {
     key: '_searchSource',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(_ref7) {
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_ref7) {
         var searchOnSources = _ref7.searchOnSources,
             sourceName = _ref7.sourceName,
             searchString = _ref7.searchString;

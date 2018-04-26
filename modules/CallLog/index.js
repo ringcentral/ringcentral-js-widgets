@@ -213,7 +213,7 @@ var CallLog = (_dec = (0, _di.Module)({
     })));
 
     _this._subscriptionHandler = function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(message) {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(message) {
         var ownerId;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -246,7 +246,7 @@ var CallLog = (_dec = (0, _di.Module)({
       };
     }();
 
-    _this._onStateChange = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+    _this._onStateChange = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
       return _regenerator2.default.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
@@ -380,7 +380,7 @@ var CallLog = (_dec = (0, _di.Module)({
   (0, _createClass3.default)(CallLog, [{
     key: '_init',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -440,7 +440,7 @@ var CallLog = (_dec = (0, _di.Module)({
   }, {
     key: '_fetch',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(_ref6) {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref6) {
         var _this3 = this;
 
         var dateFrom = _ref6.dateFrom,
@@ -473,7 +473,7 @@ var CallLog = (_dec = (0, _di.Module)({
   }, {
     key: '_iSync',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
+      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
         var ownerId, data;
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
@@ -542,7 +542,7 @@ var CallLog = (_dec = (0, _di.Module)({
   }, {
     key: '_fSync',
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6() {
         var ownerId, dateFrom, data, supplementRecords, _processData, records, timestamp, syncToken;
 
         return _regenerator2.default.wrap(function _callee6$(_context6) {
@@ -644,7 +644,7 @@ var CallLog = (_dec = (0, _di.Module)({
   }, {
     key: '_sync',
     value: function () {
-      var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(syncType) {
+      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(syncType) {
         var ownerId, shouldFSync;
         return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
@@ -721,7 +721,7 @@ var CallLog = (_dec = (0, _di.Module)({
   }, {
     key: 'sync',
     value: function () {
-      var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10() {
+      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10() {
         var _this4 = this;
 
         var syncType = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.token ? _syncTypes2.default.iSync : _syncTypes2.default.fSync;
@@ -743,7 +743,7 @@ var CallLog = (_dec = (0, _di.Module)({
                   break;
                 }
 
-                this._queueSync = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9() {
+                this._queueSync = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9() {
                   return _regenerator2.default.wrap(function _callee9$(_context9) {
                     while (1) {
                       switch (_context9.prev = _context9.next) {
@@ -752,7 +752,7 @@ var CallLog = (_dec = (0, _di.Module)({
                           return _this4._promise;
 
                         case 2:
-                          _this4._promise = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8() {
+                          _this4._promise = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8() {
                             return _regenerator2.default.wrap(function _callee8$(_context8) {
                               while (1) {
                                 switch (_context8.prev = _context8.next) {

@@ -23,7 +23,7 @@ var _WaitUtil = require('../utils/WaitUtil');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (auth, alert, account, client, rateLimiter) {
-  describe('RateLimiter', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+  describe('RateLimiter', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
     var conditionalDescribe, isLoginSuccess;
     return _regenerator2.default.wrap(function _callee3$(_context3) {
       while (1) {
@@ -43,7 +43,7 @@ exports.default = function (auth, alert, account, client, rateLimiter) {
             }
             conditionalDescribe('Should Allow Alert', function () {
               this.timeout(20000);
-              beforeEach((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+              beforeEach((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
                 var isAlertClear;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                   while (1) {
@@ -71,7 +71,7 @@ exports.default = function (auth, alert, account, client, rateLimiter) {
                 }, _callee, this);
               })));
               describe('Should Prompt Alerts when rateLimiter occurs', function () {
-                it('Should Prompt Alert of rateLimiter', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+                it('Should Prompt Alert of rateLimiter', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
                   return _regenerator2.default.wrap(function _callee2$(_context2) {
                     while (1) {
                       switch (_context2.prev = _context2.next) {

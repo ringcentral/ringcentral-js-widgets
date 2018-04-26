@@ -190,7 +190,7 @@ var CallLogger = (_dec = (0, _di.Module)({
   }, {
     key: 'log',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(_ref3) {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref3) {
         var call = _ref3.call,
             options = (0, _objectWithoutProperties3.default)(_ref3, ['call']);
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -216,7 +216,7 @@ var CallLogger = (_dec = (0, _di.Module)({
   }, {
     key: '_ensureActive',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
         var isActive;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
@@ -256,7 +256,7 @@ var CallLogger = (_dec = (0, _di.Module)({
   }, {
     key: '_shouldLogNewCall',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(call) {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(call) {
         var isActive;
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
@@ -286,7 +286,7 @@ var CallLogger = (_dec = (0, _di.Module)({
   }, {
     key: 'logCall',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(_ref7) {
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref7) {
         var call = _ref7.call,
             contact = _ref7.contact,
             options = (0, _objectWithoutProperties3.default)(_ref7, ['call', 'contact']);
@@ -325,7 +325,7 @@ var CallLogger = (_dec = (0, _di.Module)({
   }, {
     key: '_autoLogCall',
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(_ref9) {
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_ref9) {
         var call = _ref9.call,
             fromEntity = _ref9.fromEntity,
             toEntity = _ref9.toEntity;
@@ -360,7 +360,7 @@ var CallLogger = (_dec = (0, _di.Module)({
   }, {
     key: '_onNewCall',
     value: function () {
-      var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(call) {
+      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(call) {
         var toNumberEntity, fromMatches, toMatches, fromEntity, toEntity;
         return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
@@ -435,7 +435,7 @@ var CallLogger = (_dec = (0, _di.Module)({
   }, {
     key: '_shouldLogUpdatedCall',
     value: function () {
-      var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(call) {
+      var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(call) {
         var isActive, activityMatches;
         return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
@@ -487,7 +487,7 @@ var CallLogger = (_dec = (0, _di.Module)({
   }, {
     key: '_onCallUpdated',
     value: function () {
-      var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(call) {
+      var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(call) {
         return _regenerator2.default.wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
@@ -571,7 +571,7 @@ var CallLogger = (_dec = (0, _di.Module)({
   }, {
     key: '_onStateChange',
     value: function () {
-      var _ref13 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9() {
+      var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9() {
         return _regenerator2.default.wrap(function _callee9$(_context9) {
           while (1) {
             switch (_context9.prev = _context9.next) {
@@ -599,7 +599,7 @@ var CallLogger = (_dec = (0, _di.Module)({
   }, {
     key: 'setAutoLog',
     value: function () {
-      var _ref14 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10(autoLog) {
+      var _ref14 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(autoLog) {
         return _regenerator2.default.wrap(function _callee10$(_context10) {
           while (1) {
             switch (_context10.prev = _context10.next) {
@@ -628,7 +628,7 @@ var CallLogger = (_dec = (0, _di.Module)({
   }, {
     key: 'setLogOnRinging',
     value: function () {
-      var _ref15 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11(logOnRinging) {
+      var _ref15 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(logOnRinging) {
         return _regenerator2.default.wrap(function _callee11$(_context11) {
           while (1) {
             switch (_context11.prev = _context11.next) {

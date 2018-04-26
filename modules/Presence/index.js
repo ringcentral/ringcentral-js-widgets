@@ -160,7 +160,7 @@ var Presence = (_dec = (0, _di.Module)({
       actionTypes: actionTypes
     })));
 
-    _this._onStateChange = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+    _this._onStateChange = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
       return _regenerator2.default.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -261,7 +261,7 @@ var Presence = (_dec = (0, _di.Module)({
   }, {
     key: '_init',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -318,7 +318,7 @@ var Presence = (_dec = (0, _di.Module)({
   }, {
     key: '_fetch',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
         var ownerId, data;
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
@@ -374,7 +374,7 @@ var Presence = (_dec = (0, _di.Module)({
   }, {
     key: 'fetch',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
@@ -401,7 +401,7 @@ var Presence = (_dec = (0, _di.Module)({
   }, {
     key: '_update',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(params) {
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(params) {
         var ownerId, platform, response, data;
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
@@ -474,7 +474,7 @@ var Presence = (_dec = (0, _di.Module)({
   }, {
     key: 'setAvailable',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
+      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6() {
         var params;
         return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
@@ -509,7 +509,7 @@ var Presence = (_dec = (0, _di.Module)({
   }, {
     key: 'setBusy',
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
         var params;
         return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
@@ -544,7 +544,7 @@ var Presence = (_dec = (0, _di.Module)({
   }, {
     key: 'setDoNotDisturb',
     value: function () {
-      var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8() {
+      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8() {
         var params;
         return _regenerator2.default.wrap(function _callee8$(_context8) {
           while (1) {
@@ -582,7 +582,7 @@ var Presence = (_dec = (0, _di.Module)({
   }, {
     key: 'setInvisible',
     value: function () {
-      var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9() {
+      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9() {
         var params;
         return _regenerator2.default.wrap(function _callee9$(_context9) {
           while (1) {
@@ -617,7 +617,7 @@ var Presence = (_dec = (0, _di.Module)({
   }, {
     key: 'toggleAcceptCallQueueCalls',
     value: function () {
-      var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10() {
+      var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10() {
         var params;
         return _regenerator2.default.wrap(function _callee10$(_context10) {
           while (1) {

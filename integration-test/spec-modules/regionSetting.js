@@ -41,7 +41,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (auth, client, regionSettings, account) {
-  describe('Region Settings:', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+  describe('Region Settings:', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
     var _this = this;
 
     var isLoginSuccess, clientHistoryRequest;
@@ -55,7 +55,7 @@ exports.default = function (auth, client, regionSettings, account) {
             clientHistoryRequest = new _ClientHistoryRequest2.default(new _map2.default(), client);
 
 
-            before((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+            before((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
               return _regenerator2.default.wrap(function _callee$(_context) {
                 while (1) {
                   switch (_context.prev = _context.next) {
@@ -80,7 +80,7 @@ exports.default = function (auth, client, regionSettings, account) {
               }, _callee, this);
             })));
 
-            it('should be ready in 2 seconds after login', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+            it('should be ready in 2 seconds after login', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
               return _regenerator2.default.wrap(function _callee2$(_context2) {
                 while (1) {
                   switch (_context2.prev = _context2.next) {

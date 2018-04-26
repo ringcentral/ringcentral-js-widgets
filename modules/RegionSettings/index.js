@@ -195,7 +195,7 @@ var RegionSettings = (_dec = (0, _di.Module)({
     value: function initialize() {
       var _this2 = this;
 
-      this.store.subscribe((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      this.store.subscribe((0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -272,7 +272,7 @@ var RegionSettings = (_dec = (0, _di.Module)({
   }, {
     key: 'checkRegionSettings',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
         var _this3 = this;
 
         var countryCode, country;
@@ -318,7 +318,7 @@ var RegionSettings = (_dec = (0, _di.Module)({
   }, {
     key: 'setData',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(_ref5) {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_ref5) {
         var areaCode = _ref5.areaCode,
             countryCode = _ref5.countryCode;
         return _regenerator2.default.wrap(function _callee3$(_context3) {

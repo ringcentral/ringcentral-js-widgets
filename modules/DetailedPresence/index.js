@@ -177,7 +177,7 @@ var DetailedPresence = (_dec = (0, _di.Module)({
   (0, _createClass3.default)(DetailedPresence, [{
     key: '_fetch',
     value: function () {
-      var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         var ownerId, _json, activeCalls, dndStatus, telephonyStatus, presenceStatus, userStatus, message;
 
         return _regenerator2.default.wrap(function _callee$(_context) {

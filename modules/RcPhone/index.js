@@ -320,7 +320,7 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
   }, {
     provide: 'ConnectivityMonitorOptions',
     useValue: { checkConnectionFunc: function () {
-        var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+        var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
           return _regenerator2.default.wrap(function _callee$(_context) {
             while (1) {
               switch (_context.prev = _context.next) {
@@ -345,7 +345,7 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
     provide: 'CallLoggerOptions',
     useValue: {
       logFunction: function () {
-        var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+        var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
           return _regenerator2.default.wrap(function _callee2$(_context2) {
             while (1) {
               switch (_context2.prev = _context2.next) {
@@ -374,7 +374,7 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
     provide: 'ConversationLoggerOptions',
     useValue: {
       logFunction: function () {
-        var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+        var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
           return _regenerator2.default.wrap(function _callee3$(_context3) {
             while (1) {
               switch (_context3.prev = _context3.next) {
@@ -471,7 +471,7 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
     contactMatcher.addSearchProvider({
       name: 'contacts',
       searchFn: function () {
-        var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(_ref9) {
+        var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref9) {
           var queries = _ref9.queries;
           return _regenerator2.default.wrap(function _callee4$(_context4) {
             while (1) {

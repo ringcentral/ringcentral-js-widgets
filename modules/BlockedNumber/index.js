@@ -138,7 +138,7 @@ var BlockedNumber = (_dec = (0, _di.Module)({
       name: 'blockedNumber',
       client: client,
       fetchFunction: function () {
-        var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+        var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
           return _regenerator2.default.wrap(function _callee$(_context) {
             while (1) {
               switch (_context.prev = _context.next) {

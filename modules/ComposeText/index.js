@@ -282,7 +282,7 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: 'send',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         var text, fromNumber, toNumbers, typingToNumber;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -332,7 +332,7 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: 'updateSenderNumber',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(number) {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(number) {
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -359,7 +359,7 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: 'updateTypingToNumber',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(number) {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(number) {
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -395,7 +395,7 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: 'onToNumberMatch',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(_ref6) {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref6) {
         var entityId = _ref6.entityId;
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
@@ -423,7 +423,7 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: 'addToRecipients',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(recipient) {
+      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(recipient) {
         var shouldClean = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
         var isAdded;
         return _regenerator2.default.wrap(function _callee5$(_context5) {
@@ -461,7 +461,7 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: 'cleanTypingToNumber',
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6() {
         return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
@@ -487,7 +487,7 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: 'addToNumber',
     value: function () {
-      var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(number) {
+      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(number) {
         return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
@@ -531,7 +531,7 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: 'removeToNumber',
     value: function () {
-      var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(number) {
+      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(number) {
         return _regenerator2.default.wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
@@ -558,7 +558,7 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: 'updateMessageText',
     value: function () {
-      var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9(text) {
+      var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(text) {
         return _regenerator2.default.wrap(function _callee9$(_context9) {
           while (1) {
             switch (_context9.prev = _context9.next) {
@@ -594,7 +594,7 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: 'clean',
     value: function () {
-      var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10() {
+      var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10() {
         return _regenerator2.default.wrap(function _callee10$(_context10) {
           while (1) {
             switch (_context10.prev = _context10.next) {
@@ -620,7 +620,7 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: 'alertMessageSending',
     value: function () {
-      var _ref13 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11() {
+      var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11() {
         return _regenerator2.default.wrap(function _callee11$(_context11) {
           while (1) {
             switch (_context11.prev = _context11.next) {
@@ -647,7 +647,7 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: 'dismissMessageSending',
     value: function () {
-      var _ref14 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12() {
+      var _ref14 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee12() {
         var alertMessage;
         return _regenerator2.default.wrap(function _callee12$(_context12) {
           while (1) {
