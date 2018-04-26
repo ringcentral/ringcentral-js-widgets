@@ -62,6 +62,7 @@ module.exports = {
     ],
     "react/no-array-index-key": 0,
     "react/require-default-props": 1,
-    "no-mixed-operators": 0
+    "no-mixed-operators": 0,
+    "react/no-did-mount-set-state": 0, // dom size detection after mount may require setState in didMount
   }
 };

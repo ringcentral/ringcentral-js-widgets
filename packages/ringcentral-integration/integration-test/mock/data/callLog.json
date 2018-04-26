@@ -1,0 +1,9 @@
+{
+  "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/~/extension/~/call-log-sync?syncType=FSync&recordCount=250&dateFrom=2018-03-25T16:00:00.000Z",
+  "records" : [],
+  "syncInfo" : {
+    "syncType" : "FSync",
+    "syncToken" : "FAMAAAFiXeNMAAQAAAFihr164ggAAAAASJ5Y_A0AAAAq1d03LA4AAAD4p-AswBEADwAxADUAMgAxADkAOQAzADYAMAAwADAAMAAwAF8AMBIAAAFihr164hQBFQAYAPaDHkI",
+    "syncTime" : "2018-04-02T14:23:07.495Z"
+  }
+}

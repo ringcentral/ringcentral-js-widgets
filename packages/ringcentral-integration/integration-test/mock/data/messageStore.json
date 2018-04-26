@@ -1,0 +1,26 @@
+{
+  "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/message-store/937441587020",
+  "id" : 5475922005,
+  "from" : {
+    "phoneNumber" : "+1234567890",
+    "name" : "Something1 New1",
+    "location" : "Orange, CA"
+  },
+  "type" : "Fax",
+  "creationTime" : "2018-02-12T05:20:02.000Z",
+  "readStatus" : "Read",
+  "priority" : "Normal",
+  "attachments" : [ {
+    "id" : 5475922005,
+    "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/message-store/937441587020/content/937441587020",
+    "type" : "RenderedDocument",
+    "contentType" : "application/pdf"
+  } ],
+  "direction" : "Inbound",
+  "availability" : "Alive",
+  "subject" : "+1234567890",
+  "messageStatus" : "Received",
+  "faxResolution" : "High",
+  "faxPageCount" : 3,
+  "lastModifiedTime" : "2018-02-12T15:15:35.758Z"
+}
