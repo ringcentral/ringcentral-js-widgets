@@ -137,8 +137,6 @@ var Presence = (_dec = (0, _di.Module)({
    * @param {Object} params.actionTypes - actionTypes enums
    */
   function Presence(_ref) {
-    var _this2 = this;
-
     var auth = _ref.auth,
         client = _ref.client,
         storage = _ref.storage,
@@ -159,61 +157,6 @@ var Presence = (_dec = (0, _di.Module)({
     var _this = (0, _possibleConstructorReturn3.default)(this, (Presence.__proto__ || (0, _getPrototypeOf2.default)(Presence)).call(this, (0, _extends3.default)({}, options, {
       actionTypes: actionTypes
     })));
-
-    _this._onStateChange = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-      return _regenerator2.default.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              if (!_this._shouldInit()) {
-                _context.next = 5;
-                break;
-              }
-
-              _context.next = 3;
-              return _this._init();
-
-            case 3:
-              _context.next = 6;
-              break;
-
-            case 5:
-              if (_this._shouldReset()) {
-                _this._reset();
-              } else if (_this.ready && _this._subscription.ready && _this._subscription.message && _this._subscription.message !== _this._lastMessage) {
-                _this._lastMessage = _this._subscription.message;
-                _this._subscriptionHandler(_this._lastMessage);
-              } else if (_this.ready && _this._connectivityMonitor && _this._connectivityMonitor.ready && _this._connectivity !== _this._connectivityMonitor.connectivity) {
-                _this._connectivity = _this._connectivityMonitor.connectivity;
-                // fetch data on regain connectivity
-                if (_this._connectivity) {
-                  if (_this._rolesAndPermissions.hasPresencePermission) {
-                    _this._fetch();
-                  }
-                }
-              }
-
-            case 6:
-            case 'end':
-              return _context.stop();
-          }
-        }
-      }, _callee, _this2);
-    }));
-
-    _this._subscriptionHandler = function (message) {
-      if (message && presenceEndPoint.test(message.event) && message.body) {
-        if (message.body.sequence) {
-          if (message.body.sequence <= _this._lastSequence) {
-            return;
-          }
-          _this._lastSequence = message.body.sequence;
-        }
-        _this.store.dispatch((0, _extends3.default)({
-          type: _this.actionTypes.notification
-        }, message.body));
-      }
-    };
 
     _this._auth = _ensureExist2.default.call(_this, auth, 'auth');
     _this._client = _ensureExist2.default.call(_this, client, 'client');
@@ -244,9 +187,78 @@ var Presence = (_dec = (0, _di.Module)({
   }
 
   (0, _createClass3.default)(Presence, [{
+    key: '_onStateChange',
+    value: function () {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+        return _regenerator2.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!this._shouldInit()) {
+                  _context.next = 5;
+                  break;
+                }
+
+                _context.next = 3;
+                return this._init();
+
+              case 3:
+                _context.next = 6;
+                break;
+
+              case 5:
+                if (this._shouldReset()) {
+                  this._reset();
+                } else if (this.ready && this._subscription.ready && this._subscription.message && this._subscription.message !== this._lastMessage) {
+                  this._lastMessage = this._subscription.message;
+                  this._subscriptionHandler(this._lastMessage);
+                } else if (this.ready && this._connectivityMonitor && this._connectivityMonitor.ready && this._connectivity !== this._connectivityMonitor.connectivity) {
+                  this._connectivity = this._connectivityMonitor.connectivity;
+                  // fetch data on regain connectivity
+                  if (this._connectivity) {
+                    if (this._rolesAndPermissions.hasPresencePermission) {
+                      this._fetch();
+                    }
+                  }
+                }
+
+              case 6:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function _onStateChange() {
+        return _ref2.apply(this, arguments);
+      }
+
+      return _onStateChange;
+    }()
+  }, {
+    key: '_subscriptionHandler',
+    value: function _subscriptionHandler(message) {
+      if (message && presenceEndPoint.test(message.event) && message.body) {
+        if (message.body.sequence) {
+          if (message.body.sequence <= this._lastSequence) {
+            return;
+          }
+          this._lastSequence = message.body.sequence;
+        }
+        this.store.dispatch((0, _extends3.default)({
+          type: this.actionTypes.notification
+        }, message.body));
+      }
+    }
+  }, {
     key: 'initialize',
     value: function initialize() {
-      this.store.subscribe(this._onStateChange);
+      var _this2 = this;
+
+      this.store.subscribe(function () {
+        return _this2._onStateChange();
+      });
     }
   }, {
     key: '_shouldInit',
