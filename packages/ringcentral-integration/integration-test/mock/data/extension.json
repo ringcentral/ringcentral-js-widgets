@@ -1,0 +1,50 @@
+{
+  "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension?page=1&perPage=max",
+  "records" : [ {
+    "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004",
+    "id" : 208594004,
+    "extensionNumber" : "101",
+    "contact" : {
+      "firstName" : "Something1",
+      "lastName" : "New1",
+      "company" : "RingCentral Inc.",
+      "email" : "email@email.com",
+      "businessPhone" : "+14186509302",
+      "emailAsLoginName" : true,
+      "pronouncedName" : {
+        "type" : "TextToSpeech",
+        "text" : "Something New"
+      }
+    },
+    "name" : "Something1 New1",
+    "type" : "User",
+    "status" : "Enabled",
+    "permissions" : {
+      "admin" : {
+        "enabled" : true
+      },
+      "internationalCalling" : {
+        "enabled" : true
+      }
+    },
+    "profileImage" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/profile-image"
+    }
+  } ],
+  "paging" : {
+    "page" : 1,
+    "totalPages" : 1,
+    "perPage" : 1000,
+    "totalElements" : 1,
+    "pageStart" : 0,
+    "pageEnd" : 0
+  },
+  "navigation" : {
+    "firstPage" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension?page=1&perPage=max"
+    },
+    "lastPage" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension?page=1&perPage=max"
+    }
+  }
+}

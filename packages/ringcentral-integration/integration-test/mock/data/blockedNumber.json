@@ -1,0 +1,23 @@
+{
+  "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/blocked-number?page=1&perPage=100",
+  "records" : [{
+    "uri" : "https://api.ringcentral.com/restapi/v1.0/account/403858014008/extension/403858014008/caller-blocking/phone-numbers/MTcxNzk2NjUwMDQ",
+    "id" : "MTcxNzk2NjUwMDQ",
+    "phoneNumber" : "+17179665004",
+    "status" : "Blocked"
+  }],
+  "paging" : {
+    "page" : 1,
+    "totalPages" : 1,
+    "perPage" : 100,
+    "totalElements" : 0
+  },
+  "navigation" : {
+    "firstPage" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/blocked-number?page=1&perPage=100"
+    },
+    "lastPage" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/blocked-number?page=1&perPage=100"
+    }
+  }
+}

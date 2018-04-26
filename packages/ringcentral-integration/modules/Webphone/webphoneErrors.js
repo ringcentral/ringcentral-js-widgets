@@ -1,0 +1,26 @@
+import Enum from '../../lib/Enum';
+
+export default new Enum([
+  'connectFailed',
+  'connected',
+  'browserNotSupported',
+  'webphoneCountOverLimit',
+  'webphoneForbidden',
+  'notOutboundCallWithoutDL',
+  'notWebphonePermission',
+  'getSipProvisionError',
+  'toVoiceMailError',
+  'checkDLError',
+  'forwardError',
+  'muteError',
+  'holdError',
+  'flipError',
+  'recordError',
+  'recordDisabled',
+  'transferError',
+  'requestTimeout',
+  'serverTimeout',
+  'internalServerError',
+  'sipProvisionError',
+  'unknownError',
+], 'webphone');

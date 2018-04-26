@@ -1,0 +1,22 @@
+{
+  "uuid": "1088719898803550582-8036702296129764",
+  "event": "/restapi/v1.0/account/~/extension/~/message-store",
+  "timestamp": "2017-02-11T11:21:07.074Z",
+  "subscriptionId": "24dcfdcf-e7d0-4930-9edb-555ec11843b9",
+  "body": {
+    "extensionId": 924428020,
+    "telephonyStatus": "Ringing",
+    "presenceStatus": "Available",
+    "userStatus": "Available",
+    "dndStatus": "TakeAllCalls",
+    "message": "custom",
+    "allowSeeMyPresence": true,
+    "ringOnMonitoredCall": false,
+    "pickUpCallsOnHold": false,
+    "changes": [{
+      "newCount": 0,
+      "type": "SMS",
+      "updatedCount": 1
+    }]
+  }
+}

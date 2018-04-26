@@ -1,0 +1,38 @@
+# TODO
+
+- [X] Implement injection mechanism
+- [X] Dependency Circular Dependency and Cross module factory dependency detection
+- [X] Support inheritance of ModuleFactory
+- [X] Support spread for value provider
+- [X] Limit the form of Class Provide
+- [X] Support Optional deps
+- [X] Support mergeOptions for value provider
+- [X] Create @Library decorator for libraries
+- [X] Support inheritance of Module
+- [X] Support inheritance of Lib
+- [X] Support shorthand deps for FactoryModule
+- [X] Avoid redundant inheritance computation for Module, Library and ModuleFactory
+- [X] Support inheritance: Module from Lib
+- [X] Injects reducer, proxyReducer, getState, getProxyState
+- [X] Make error messages more readble
+- [X] Support module lazy evaluation
+- [X] Solve injector scope issue (by using diffrent Injector instance)
+- [X] Hierarchical module factory
+    - [X] Implement basic hierarchical injection
+    - [X] Avoid circular dependency
+- [X] Support internal module provider (private)
+- [X] Ensure overwriting order
+- [X] Check value validation process in @Module and @ModuleFactory
+- [X] Implement loose naming strategy (use class reference as key instead of its name)
+- [X] Write Unit Test
+- [ ] Write markdown documents
+- [ ] Integrate with commons project
+      - [X] Add module dependency definitions
+      - [X] Add basic module factory
+      - [ ] Change defaultReducer and defaultProxyReducer to null
+      - [ ] Make sure all tests in commons still work
+      - [ ] Make sure all modules still work with decorators
+- [ ] Integrate with googlechrome
+-   - [ ] Needs to design Proxy Module Factory
+- [ ] Error handling - one failure of module injection in prod env should not affect other modules
+- [ ] [Maybe] Implement module initialization lifecycle

@@ -1,0 +1,33 @@
+{
+  "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/400618687004/extension/400618687004/active-calls?page=1&perPage=100",
+  "records" : [ {
+    "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/400618687004/extension/400618687004/call-log/IV5fj9D8vHjs8fw",
+    "id" : "IV5fj9D8vHjs8fw",
+    "sessionId" : "403402173004",
+    "startTime" : "2014-08-15T15:16:12.000Z",
+    "duration" : 0,
+    "type" : "Voice",
+    "direction" : "Outbound",
+    "action" : "RingOut Web",
+    "result" : "Call connected",
+    "to" : {
+      "phoneNumber" : "+18556620006",
+      "name" : "John Smith"
+    },
+    "from" : {
+      "name" : "Jane Smith"
+    }
+  } ],
+  "paging" : {
+    "page" : 1,
+    "perPage" : 100,
+    "pageStart" : 0,
+    "pageEnd" : 0
+  },
+  "navigation" : {
+    "firstPage" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/400618687004/extension/400618687004/active-calls?page=1&perPage=100"
+    }
+  }
+}
+ 

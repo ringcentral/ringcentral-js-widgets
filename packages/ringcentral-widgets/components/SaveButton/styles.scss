@@ -1,0 +1,13 @@
+@import '../../lib/commonStyles/layout.scss';
+@import '../../lib/commonStyles/fonts.scss';
+@import '../../lib/commonStyles/buttons.scss';
+
+.root {
+  display: block;
+  margin-top: 20px;
+  @include big-submit-button;
+
+  &.disabled {
+    @include big-submit-button-disabled
+  }
+}
