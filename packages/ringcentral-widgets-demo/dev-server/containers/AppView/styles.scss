@@ -1,0 +1,13 @@
+@import '~normalize-css/normalize.css';
+@import '~ringcentral-widgets/lib/commonStyles/full-size.scss';
+@import '~ringcentral-widgets/lib/commonStyles/colors.scss';
+
+:global div#viewport {
+  @include full-size;
+  position: absolute;
+}
+
+.root {
+  @include full-size;
+  background-color: $app-background-color;
+}

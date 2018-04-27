@@ -1,0 +1,89 @@
+{
+  "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/phone-number?page=1&perPage=100",
+  "records" : [ {
+    "id" : 299282004,
+    "phoneNumber" : "+12092075555",
+    "paymentType" : "Local",
+    "location" : "Galt, CA",
+    "type" : "VoiceFax",
+    "usageType" : "CompanyNumber",
+    "status" : "Normal",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/1",
+      "id" : "1",
+      "name" : "United States"
+    },
+    "features" : [ "SmsSender", "CallerId", "MmsSender" ]
+  }, {
+    "id" : 298904004,
+    "phoneNumber" : "+12098415555",
+    "paymentType" : "Local",
+    "location" : "Angels Camp, CA",
+    "type" : "VoiceFax",
+    "usageType" : "DirectNumber",
+    "status" : "Normal",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/1",
+      "id" : "1",
+      "name" : "United States"
+    },
+    "features" : [ "SmsSender", "CallerId", "MmsSender" ]
+  }, {
+    "id" : 299378004,
+    "phoneNumber" : "+12108195555",
+    "paymentType" : "Local",
+    "location" : "Babcock, TX",
+    "type" : "VoiceFax",
+    "usageType" : "DirectNumber",
+    "status" : "Normal",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/1",
+      "id" : "1",
+      "name" : "United States"
+    },
+    "features" : [ "SmsSender", "CallerId", "MmsSender" ]
+  }, {
+    "id" : 299581004,
+    "phoneNumber" : "+14036092222",
+    "paymentType" : "Local",
+    "location" : "Canmore, AB",
+    "type" : "VoiceFax",
+    "usageType" : "DirectNumber",
+    "status" : "Normal",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/39",
+      "id" : "39",
+      "name" : "Canada"
+    },
+    "features" : [ "SmsSender", "CallerId", "MmsSender" ]
+  }, {
+    "id" : 298297004,
+    "phoneNumber" : "+18883495556",
+    "paymentType" : "TollFree",
+    "type" : "VoiceFax",
+    "usageType" : "MainCompanyNumber",
+    "status" : "Normal",
+    "country" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/1",
+      "id" : "1",
+      "name" : "United States"
+    },
+    "features" : [ "SmsSender", "CallerId", "MmsSender" ]
+  } ],
+  "paging" : {
+    "page" : 1,
+    "totalPages" : 1,
+    "perPage" : 100,
+    "totalElements" : 5,
+    "pageStart" : 0,
+    "pageEnd" : 4
+  },
+  "navigation" : {
+    "firstPage" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/phone-number?page=1&perPage=100"
+    },
+    "lastPage" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/phone-number?page=1&perPage=100"
+    }
+  }
+}

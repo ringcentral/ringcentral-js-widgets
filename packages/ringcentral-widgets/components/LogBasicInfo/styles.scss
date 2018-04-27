@@ -1,0 +1,98 @@
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/text-ellipsis';
+
+.callInfo {
+  display: flex;
+  padding: 10px 0;
+  min-width: 0;
+}
+
+.callInfo::after {
+  content: " ";
+  display: block;
+  height: 0;
+  clear: both;
+}
+
+.callIcon {
+  min-width: 35px;
+}
+
+.callDisplay {
+  flex-grow: 1;
+  min-width: 105px;
+  margin: 0;
+  padding: 0;
+}
+
+.icon {
+  font-size: 20px;
+  margin: 6px 12px;
+  display: inline-block;
+}
+
+.callDisplay li {
+  list-style: none;
+  list-style-image: none;
+  width: 100%;
+  @include text-ellipsis;
+}
+
+@keyframes ringing {
+  0% {
+    box-shadow: 1px 1px 10px #2ce44d;
+  }
+  100% {
+    box-shadow: 1px 1px 10px $active;
+  }
+}
+
+.ringing {
+  font-size: 15px;
+  position: relative;
+  height: 26px;
+  width: 26px;
+  opacity: 0.7;
+  background: #5fb95c;
+  color: #ffffff;
+  border-radius: 100%;
+  animation-name: ringing;
+  animation-direction: alternate;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+}
+
+.ringing:before {
+    position: absolute;
+    top: 6px;
+    left: 5px;
+}
+
+.number, .status {
+  font-size: 12px;
+}
+
+.active {
+  color: $active;
+}
+
+.missed {
+  color: $missed;
+}
+
+.green {
+  color: $active;
+}
+
+.red {
+  color: $missed;
+}
+
+.orange {
+  color:$orange;
+}
+
+.separator {
+  margin: 0 3px;
+}

@@ -1,0 +1,241 @@
+{
+  "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004",
+  "id" : 208594004,
+  "extensionNumber" : "101",
+  "contact" : {
+    "firstName" : "Something1",
+    "lastName" : "New1",
+    "company" : "RingCentral Inc.",
+    "email" : "mm1+1489541856944-6039268@dins.ru",
+    "businessPhone" : "+14186509302",
+    "businessAddress" : {
+      "street" : "13 Elm Street",
+      "city" : "Foster City",
+      "zip" : "94404",
+      "country" : "Canada"
+    },
+    "emailAsLoginName" : true,
+    "pronouncedName" : {
+      "type" : "TextToSpeech",
+      "text" : "Something New"
+    }
+  },
+  "name" : "Something1 New1",
+  "type" : "User",
+  "status" : "Enabled",
+  "serviceFeatures" : [ {
+    "featureName" : "SMS",
+    "enabled" : true
+  }, {
+    "featureName" : "SMSReceiving",
+    "enabled" : true
+  }, {
+    "featureName" : "Pager",
+    "enabled" : true
+  }, {
+    "featureName" : "PagerReceiving",
+    "enabled" : true
+  }, {
+    "featureName" : "Voicemail",
+    "enabled" : true
+  }, {
+    "featureName" : "Fax",
+    "enabled" : true
+  }, {
+    "featureName" : "FaxReceiving",
+    "enabled" : true
+  }, {
+    "featureName" : "DND",
+    "enabled" : true
+  }, {
+    "featureName" : "RingOut",
+    "enabled" : true
+  }, {
+    "featureName" : "InternationalCalling",
+    "enabled" : false,
+    "reason" : "AccountLimitation"
+  }, {
+    "featureName" : "Presence",
+    "enabled" : true
+  }, {
+    "featureName" : "VideoConferencing",
+    "enabled" : false,
+    "reason" : "AccountLimitation"
+  }, {
+    "featureName" : "SalesForce",
+    "enabled" : true
+  }, {
+    "featureName" : "Intercom",
+    "enabled" : true
+  }, {
+    "featureName" : "Paging",
+    "enabled" : true
+  }, {
+    "featureName" : "Conferencing",
+    "enabled" : false,
+    "reason" : "AccountLimitation"
+  }, {
+    "featureName" : "VoipCalling",
+    "enabled" : true
+  }, {
+    "featureName" : "FreeSoftPhoneLines",
+    "enabled" : false,
+    "reason" : "ExtensionLimitation"
+  }, {
+    "featureName" : "HipaaCompliance",
+    "enabled" : false,
+    "reason" : "AccountTypeLimitation"
+  }, {
+    "featureName" : "CallPark",
+    "enabled" : true
+  }, {
+    "featureName" : "OnDemandCallRecording",
+    "enabled" : true
+  }, {
+    "featureName" : "Reports",
+    "enabled" : true
+  }, {
+    "featureName" : "CallForwarding",
+    "enabled" : true
+  }, {
+    "featureName" : "DeveloperPortal",
+    "enabled" : true
+  }, {
+    "featureName" : "EncryptionAtRest",
+    "enabled" : false,
+    "reason" : "AccountLimitation"
+  }, {
+    "featureName" : "BlockedMessageForwarding",
+    "enabled" : false,
+    "reason" : "AccountLimitation"
+  }, {
+    "featureName" : "EmergencyCalling",
+    "enabled" : true
+  }, {
+    "featureName" : "HDVoice",
+    "enabled" : true
+  }, {
+    "featureName" : "SingleExtensionUI",
+    "enabled" : false,
+    "reason" : "AccountLimitation"
+  }, {
+    "featureName" : "CallSupervision",
+    "enabled" : false,
+    "reason" : "AccountLimitation"
+  }, {
+    "featureName" : "VoicemailToText",
+    "enabled" : false,
+    "reason" : "AccountLimitation"
+  }, {
+    "featureName" : "WebPhone",
+    "enabled" : true
+  }, {
+    "featureName" : "RCTeams",
+    "enabled" : true
+  }, {
+    "featureName" : "UserManagement",
+    "enabled" : true
+  }, {
+    "featureName" : "Calendar",
+    "enabled" : true
+  }, {
+    "featureName" : "PasswordAuth",
+    "enabled" : true
+  }, {
+    "featureName" : "CallerIdControl",
+    "enabled" : false,
+    "reason" : "AccountLimitation"
+  }, {
+    "featureName" : "AutomaticInboundCallRecording",
+    "enabled" : false,
+    "reason" : "AccountLimitation"
+  }, {
+    "featureName" : "AutomaticOutboundCallRecording",
+    "enabled" : false,
+    "reason" : "AccountLimitation"
+  }, {
+    "featureName" : "AutomaticCallRecordingMute",
+    "enabled" : false,
+    "reason" : "AccountLimitation"
+  }, {
+    "featureName" : "SoftPhoneUpdate",
+    "enabled" : true
+  }, {
+    "featureName" : "LinkedSoftphoneLines",
+    "enabled" : false,
+    "reason" : "AccountTypeLimitation"
+  }, {
+    "featureName" : "CallQualitySurvey",
+    "enabled" : false,
+    "reason" : "AccountLimitation"
+  }, {
+    "featureName" : "AccountFederation",
+    "enabled" : false,
+    "reason" : "AccountLimitation"
+  }, {
+    "featureName" : "MMS",
+    "enabled" : true
+  }, {
+    "featureName" : "CallParkLocations",
+    "enabled" : true
+  }, {
+    "featureName" : "ExternalDirectoryIntegration",
+    "enabled" : false,
+    "reason" : "AccountTypeLimitation"
+  }, {
+    "featureName" : "CallSwitch",
+    "enabled" : false,
+    "reason" : "AccountLimitation"
+  }, {
+    "featureName" : "PromoMessage",
+    "enabled" : true
+  } ],
+  "regionalSettings" : {
+    "timezone" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/timezone/14",
+      "id" : "14",
+      "name" : "Europe/Moscow",
+      "description" : "Moscow, St. Petersburg, Volgograd",
+      "bias" : "180"
+    },
+    "homeCountry" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/39",
+      "id" : "39",
+      "name" : "Canada",
+      "isoCode" : "CA",
+      "callingCode" : "1"
+    },
+    "language" : {
+      "id" : "1033",
+      "name" : "English (United States)",
+      "localeCode" : "en-US"
+    },
+    "greetingLanguage" : {
+      "id" : "1033",
+      "name" : "English (United States)",
+      "localeCode" : "en-US"
+    },
+    "formattingLocale" : {
+      "id" : "4105",
+      "name" : "English (Canadian)",
+      "localeCode" : "en-CA"
+    },
+    "timeFormat" : "12h"
+  },
+  "setupWizardState" : "Completed",
+  "permissions" : {
+    "admin" : {
+      "enabled" : true
+    },
+    "internationalCalling" : {
+      "enabled" : true
+    }
+  },
+  "profileImage" : {
+    "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/profile-image"
+  },
+  "account" : {
+    "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004",
+    "id" : "208594004"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "uri" : "http://platform.ringcentral.com/restapi/v1.0/account/402439675008/paging-only-group/402439693008/devices?page=1&perPage=1",
+  "records" : [ {
+    "uri" : "http://platform.ringcentral.com/restapi/v1.0/account/402439675008/device/400342469008",
+    "id" : "400342469008",
+    "name" : "My Paging Device #1"
+  } ],
+  "paging" : {
+    "page" : 1,
+    "totalPages" : 1,
+    "perPage" : 1,
+    "totalElements" : 1,
+    "pageStart" : 0,
+    "pageEnd" : 0
+  },
+  "navigation" : {
+    "firstPage" : {
+      "uri" : "http://platform.ringcentral.com/restapi/v1.0/account/402439675008/paging-only-group/402439693008/devices?page=1&perPage=1"
+    },
+    "lastPage" : {
+      "uri" : "http://platform.ringcentral.com/restapi/v1.0/account/402439675008/paging-only-group/402439693008/devices?page=1&perPage=1"
+    }
+  }
+}

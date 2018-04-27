@@ -2,40 +2,90 @@ language: node_js
 node_js:
   - '8'
   - '9'
+cache: yarn
+before_install:
+  - yarn global add lerna
+before_script:
+  - lerna bootstrap
 script:
-  - yarn test:coverage
-after_success:
-   - cat ./coverage/lcov.info | ./node_modules/.bin/coveralls
-before_deploy:
-  - ./scripts/prepare_release.sh && cd release
-after_deploy:
-  - cd ../
-deploy:
-  - provider: npm
-    email: embbnux@embbnux.com
-    skip_cleanup: true
-    api_key:
-      secure: dEV+cBhn75/3ryLfLl4sVpuNIcl4nikmM2NqlbpODESznUFcVAHtcEWNMx/KShrgnl4AxoClAB459/WSCGqGy5jzQ7VlVbYU1mkPw17lQY7mpBIoR7Gm9Igsvk0Bx8jO3AINS+wsDi24vhv7zOGt1s1b0itUR2V8KCVKeMpionslTnkI2U3VgpCoVG5yA1sisMwiBX2fHzehwk7R84Q8dsc3xnQfMyE+nZiqud4CJOYsl/gsKEVyjzURK7v5zlroV+k6gV3w884G4LaFHZOup41+q5+zK1bN0y2X84BUDBRlMs4GxAMNm1SXJk/4TQRjgArRC8UsjyEeC+wEnNNjBtXPtt5Qy6EnNVZe6Wtw63C2BjpHZ4qI5u0wBgGPAcnWq3ZGvd48varFkIc+GtFh/7urpByPpRfoF3D6UvscPEd6WpHXdscfggoiIVyAMN55Mhb9qkOcgjatiZZg7QIJdlzyIazSBUm7bvyU3zsDMzIG/cighwRehm7+X2A/7NCUTOWnkGk8A76RZllWB4gx+bb0KeKUC0xBrQVwj7xkLw7l0fkEy8NrlEkShsGZGR1Dc86YtgWFO0m9Aa17u7PcLvnPyb5vPwNR/xsKEdOQwEe2t+qlI+abju5v5FIXmmRnHGZS3WpIjbVbJ021LOGYCsFVt03MppS9nR8ZoRLsHEs=
-    on:
-      node: '8'
-      tags: true
-      condition: "$TRAVIS_TAG =~ ^[0-9]+.[0-9]+.[0-9]+"
-  - provider: script
-    skip_cleanup: true
-    script: ../scripts/start_release.sh
-    on:
-      node: '8'
-      condition: "$TRAVIS_TAG == ''"
-      branches:
-        only:
-          - master
-  - provider: pages
-    skip_cleanup: true
-    github_token: $GITHUB_PAGES_TOKEN
-    local_dir: docs/gh-pages
-    email: 'integrations@ringcentral.com'
-    name: 'RingCentral Integrations Team'
-    on:
-      node: '8'
-      tags: true
-      condition: "$TRAVIS_TAG =~ ^[0-9]+.[0-9]+.[0-9]+"
+  - lerna run test:coverage --scope ringcentral-widgets-test --stream
+  - lerna run test --scope ringcentral-integration --stream
+
+jobs:
+  include:
+    - stage: commons npm release
+      if: tag =~ ^[0-9]+.[0-9]+.[0-9]+
+      node_js: "8"
+      script: ./scripts/commons_prepare_release.sh
+      before_deploy:
+        - cd release/ringcentral-integration
+      after_deploy:
+        - cd ../../
+      deploy:
+        provider: npm
+        email: embbnux@embbnux.com
+        skip_cleanup: true
+        api_key:
+          secure: dEV+cBhn75/3ryLfLl4sVpuNIcl4nikmM2NqlbpODESznUFcVAHtcEWNMx/KShrgnl4AxoClAB459/WSCGqGy5jzQ7VlVbYU1mkPw17lQY7mpBIoR7Gm9Igsvk0Bx8jO3AINS+wsDi24vhv7zOGt1s1b0itUR2V8KCVKeMpionslTnkI2U3VgpCoVG5yA1sisMwiBX2fHzehwk7R84Q8dsc3xnQfMyE+nZiqud4CJOYsl/gsKEVyjzURK7v5zlroV+k6gV3w884G4LaFHZOup41+q5+zK1bN0y2X84BUDBRlMs4GxAMNm1SXJk/4TQRjgArRC8UsjyEeC+wEnNNjBtXPtt5Qy6EnNVZe6Wtw63C2BjpHZ4qI5u0wBgGPAcnWq3ZGvd48varFkIc+GtFh/7urpByPpRfoF3D6UvscPEd6WpHXdscfggoiIVyAMN55Mhb9qkOcgjatiZZg7QIJdlzyIazSBUm7bvyU3zsDMzIG/cighwRehm7+X2A/7NCUTOWnkGk8A76RZllWB4gx+bb0KeKUC0xBrQVwj7xkLw7l0fkEy8NrlEkShsGZGR1Dc86YtgWFO0m9Aa17u7PcLvnPyb5vPwNR/xsKEdOQwEe2t+qlI+abju5v5FIXmmRnHGZS3WpIjbVbJ021LOGYCsFVt03MppS9nR8ZoRLsHEs=
+        on:
+          node: '8'
+          tags: true
+          condition: "$TRAVIS_TAG =~ ^[0-9]+.[0-9]+.[0-9]+"
+    - stage: commons script release
+      node_js: "8"
+      if: branch = master
+      script: ./scripts/commons_prepare_release.sh
+      before_deploy:
+        - cd release/ringcentral-integration
+      after_deploy:
+        - cd ../../
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script: ../../scripts/commons_start_release.sh
+    - stage: widgets npm release
+      if: tag =~ ^[0-9]+.[0-9]+.[0-9]+
+      node_js: "8"
+      script: ./scripts/widgets_prepare_release.sh
+      before_deploy:
+        - cd release/ringcentral-widgets
+      after_deploy:
+        - cd ../../
+      deploy:
+        provider: npm
+        email: embbnux@embbnux.com
+        skip_cleanup: true
+        api_key:
+          secure: dEV+cBhn75/3ryLfLl4sVpuNIcl4nikmM2NqlbpODESznUFcVAHtcEWNMx/KShrgnl4AxoClAB459/WSCGqGy5jzQ7VlVbYU1mkPw17lQY7mpBIoR7Gm9Igsvk0Bx8jO3AINS+wsDi24vhv7zOGt1s1b0itUR2V8KCVKeMpionslTnkI2U3VgpCoVG5yA1sisMwiBX2fHzehwk7R84Q8dsc3xnQfMyE+nZiqud4CJOYsl/gsKEVyjzURK7v5zlroV+k6gV3w884G4LaFHZOup41+q5+zK1bN0y2X84BUDBRlMs4GxAMNm1SXJk/4TQRjgArRC8UsjyEeC+wEnNNjBtXPtt5Qy6EnNVZe6Wtw63C2BjpHZ4qI5u0wBgGPAcnWq3ZGvd48varFkIc+GtFh/7urpByPpRfoF3D6UvscPEd6WpHXdscfggoiIVyAMN55Mhb9qkOcgjatiZZg7QIJdlzyIazSBUm7bvyU3zsDMzIG/cighwRehm7+X2A/7NCUTOWnkGk8A76RZllWB4gx+bb0KeKUC0xBrQVwj7xkLw7l0fkEy8NrlEkShsGZGR1Dc86YtgWFO0m9Aa17u7PcLvnPyb5vPwNR/xsKEdOQwEe2t+qlI+abju5v5FIXmmRnHGZS3WpIjbVbJ021LOGYCsFVt03MppS9nR8ZoRLsHEs=
+        on:
+          node: '8'
+          tags: true
+          condition: "$TRAVIS_TAG =~ ^[0-9]+.[0-9]+.[0-9]+"
+    - stage: widgets script release
+      if: branch = master
+      node_js: "8"
+      script: ./scripts/widgets_prepare_release.sh
+      before_deploy:
+        - cd release/ringcentral-widgets
+      after_deploy:
+        - cd ../../
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script: ../../scripts/widgets_start_release.sh
+    - stage: widgets docs build
+      if: tag =~ ^[0-9]+.[0-9]+.[0-9]+
+      node_js: "8"
+      before_deploy:
+        - lerna run --scope ringcentral-widgets-docs build --stream
+      deploy:
+        provider: pages
+        skip_cleanup: true
+        github_token: $GITHUB_PAGES_TOKEN
+        local_dir: packages/ringcentral-widgets-docs/gh-pages
+        email: 'integrations@ringcentral.com'
+        name: 'RingCentral Integrations Team'
+        on:
+          node: '8'
+          tags: true
+          condition: "$TRAVIS_TAG =~ ^[0-9]+.[0-9]+.[0-9]+"
