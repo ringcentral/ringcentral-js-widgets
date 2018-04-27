@@ -55,4 +55,55 @@ The development server is listening on port `8080` by default.
 Open up your browser and access http://localhost:8080 to see how it works.
 
 Note that the development server is using OAuth for authorization process.
+<<<<<<< HEAD
+Please make sure the app you specified in configuration above is setup with Redirect Uri `http://localhost:8191/redirect.html`.
+
+
+## Test
+
+Create `.env` file in `./test/` folder, with the following content:
+
+```ini
+appKey=your-appKey
+appSecret=your-appSecret
+server=sever-url
+username=your-phone-number
+extension=your-extension
+password=your-password
+receiver=testing-phone-number-to-receive-sms-fax-etc
+```
+
+Run:
+
+```bash
+$ yarn test
+```
+
+If you want to run it in watch mode:
+
+```bash
+$ brew install watchman
+$ yarn test:watch
+```
+
+### Update mock data
+
+Whenever there is major change to the design, you might need to update `test/state.json` and `test/storage.json`.
+
+Launch the dev-server and visit the app in chrome browser. In console:
+
+Run `JSON.stringify(phone.store.getState(), null, 2)` to generate content for `test/state.json`.
+
+Run `JSON.stringify(localStorage, null, 2)` to generate content for `test/storage.json`
+
+
+### About test coverage
+
+WebRTC code is excluded from test coverage report. Because we are unable to run WebRTC in node.js.
+
+We might need to do some mocking to cover this part in the future.
+
+test
+=======
 Please make sure the app you specified in configuration above is setup with Redirect Uri `http://localhost:8080/redirect.html`.
+>>>>>>> upstream/master
