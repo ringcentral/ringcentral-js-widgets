@@ -1,6 +1,7 @@
 @import '../../lib/commonStyles/colors.scss';
 @import '../../lib/commonStyles/full-size';
 @import '../../lib/commonStyles/vertical-align';
+@import '../../lib/commonStyles/text-ellipsis';
 
 @mixin defaultButton($buttonHeight) {
   height: $buttonHeight;
@@ -19,6 +20,7 @@
   justify-content: space-between;
   padding-right: 10px;
   padding-top: 14px;
+  @include text-ellipsis;
 }
 
 .expandButton {
@@ -42,13 +44,7 @@
 }
 
 .confirmationInfo {
-  font-family: HelveticaNeue;
   font-size: 12px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: normal;
-  letter-spacing: normal;
   text-align: left;
   color: #2f2f2f;
 }
