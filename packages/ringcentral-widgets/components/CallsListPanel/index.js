@@ -229,6 +229,7 @@ export default class CallsListPanel extends Component {
       onDiscardNotification,
       onSaveNotification,
       onExpandNotification,
+      buttonLabelName
     } = this.props;
     if (showSpinner) {
       return (<SpinnerOverlay />);
@@ -256,6 +257,7 @@ export default class CallsListPanel extends Component {
             formatPhone={formatPhone}
             onUpdateCallLog={onUpdateCallLog}
             onSaveCallLog={onSaveCallLog}
+            buttonLabelName={buttonLabelName}
           />
         </InsideModal>
         {
@@ -419,6 +421,7 @@ CallsListPanel.propTypes = {
   onDiscardNotification: PropTypes.func,
   onSaveNotification: PropTypes.func,
   onExpandNotification: PropTypes.func,
+  buttonLabelName: PropTypes.string,
 };
 
 CallsListPanel.defaultProps = {
@@ -459,4 +462,5 @@ CallsListPanel.defaultProps = {
   onDiscardNotification: undefined,
   onSaveNotification: undefined,
   onExpandNotification: undefined,
+  buttonLabelName: undefined,
 };

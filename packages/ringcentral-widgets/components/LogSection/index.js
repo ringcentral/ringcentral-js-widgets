@@ -46,6 +46,7 @@ export default class LogSection extends Component {
       onUpdateCallLog,
       currentLog,
       isInnerMask,
+      buttonLabelName,
     } = this.props;
     const {
       call,
@@ -87,7 +88,7 @@ export default class LogSection extends Component {
             disabled={currentLogCall.isSaving}
             className={buttonClassName}
             onClick={() => this.props.onSaveCallLog(call)}>
-            {i18n.getString('saveLog', currentLocale)}
+            {buttonLabelName || i18n.getString('saveLog', currentLocale)}
           </Button>
         </div>
         {
@@ -107,6 +108,7 @@ LogSection.propTypes = {
   onSaveCallLog: PropTypes.func,
   renderEditLogSection: PropTypes.func,
   isInnerMask: PropTypes.bool,
+  buttonLabelName: PropTypes.string,
 };
 
 LogSection.defaultProps = {
@@ -116,4 +118,5 @@ LogSection.defaultProps = {
   onSaveCallLog: undefined,
   renderEditLogSection: undefined,
   isInnerMask: undefined,
+  buttonLabelName: undefined
 };
