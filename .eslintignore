@@ -4,6 +4,9 @@ build/**
 docs/**
 
 **/i18n/**
-test/**
+**/*.test.js
+**/integration-test/**
+**/ringcentral-widgets-test/**
 release/**
 coverage/**
+**/karma.config.js
