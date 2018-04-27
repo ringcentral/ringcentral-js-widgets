@@ -1,3 +1,4 @@
+import { combineReducers } from 'redux';
 import { Module } from '../../lib/di';
 import Pollable from '../../lib/Pollable';
 import fetchList from '../../lib/fetchList';
@@ -108,28 +109,21 @@ export default class CallLog extends Pollable {
     this._subscription = subscription;
     this._rolesAndPermissions = rolesAndPermissions;
     this._tabManager = tabManager;
-    this._dataStorageKey = 'callLogData';
-    this._tokenStorageKey = 'callLogToken';
-    this._timestampStorageKey = 'callLogTimestamp';
+    this._callLogStorageKey = 'callLog';
     this._ttl = ttl;
     this._tokenExpiresIn = tokenExpiresIn;
     this._timeToRetry = timeToRetry;
     this._daySpan = daySpan;
     this._polling = polling;
-
     if (this._storage) {
       this._reducer = getCallLogReducer(this.actionTypes);
       this._storage.registerReducer({
-        key: this._dataStorageKey,
-        reducer: getDataReducer(this.actionTypes),
-      });
-      this._storage.registerReducer({
-        key: this._tokenStorageKey,
-        reducer: getTokenReducer(this.actionTypes),
-      });
-      this._storage.registerReducer({
-        key: this._timestampStorageKey,
-        reducer: getTimestampReducer(this.actionTypes),
+        key: this._callLogStorageKey,
+        reducer: combineReducers({
+          data: getDataReducer(this.actionTypes),
+          token: getTokenReducer(this.actionTypes),
+          timestamp: getTimestampReducer(this.actionTypes),
+        }),
       });
     } else {
       this._reducer = getCallLogReducer(this.actionTypes, {
@@ -274,7 +268,7 @@ export default class CallLog extends Pollable {
 
   get data() {
     if (this._storage) {
-      return this._storage.getItem(this._dataStorageKey);
+      return this._storage.getItem(this._callLogStorageKey).data;
     }
     return this.state.data;
   }
@@ -285,14 +279,14 @@ export default class CallLog extends Pollable {
 
   get token() {
     if (this._storage) {
-      return this._storage.getItem(this._tokenStorageKey);
+      return this._storage.getItem(this._callLogStorageKey).token;
     }
     return this.state.token;
   }
 
   get timestamp() {
     if (this._storage) {
-      return this._storage.getItem(this._timestampStorageKey);
+      return this._storage.getItem(this._callLogStorageKey).timestamp;
     }
     return this.state.timestamp;
   }

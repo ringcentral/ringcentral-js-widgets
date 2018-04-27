@@ -80,7 +80,7 @@ export default class Presence extends RcModule {
     this._lastSequence = 0;
   }
 
-  _onStateChange = async () => {
+  async _onStateChange() {
     if (this._shouldInit()) {
       await this._init();
     } else if (this._shouldReset()) {
@@ -109,7 +109,7 @@ export default class Presence extends RcModule {
     }
   }
 
-  _subscriptionHandler = (message) => {
+  _subscriptionHandler(message) {
     if (message && presenceEndPoint.test(message.event) && message.body) {
       if (message.body.sequence) {
         if (message.body.sequence <= this._lastSequence) {
@@ -125,7 +125,7 @@ export default class Presence extends RcModule {
   }
 
   initialize() {
-    this.store.subscribe(this._onStateChange);
+    this.store.subscribe(() => this._onStateChange());
   }
 
   _shouldInit() {
