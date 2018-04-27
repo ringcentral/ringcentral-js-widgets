@@ -1,10 +1,11 @@
-@import '~ringcentral-widgets/lib/commonStyles/colors';
-@import '~ringcentral-widgets/lib/commonStyles/full-size';
-@import '~ringcentral-widgets/lib/commonStyles/text-ellipsis';
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/text-ellipsis';
 
 .callInfo {
   display: flex;
   padding: 10px 0;
+  min-width: 0;
 }
 
 .callInfo::after {
