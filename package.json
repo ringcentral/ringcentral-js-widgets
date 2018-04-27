@@ -1,4 +1,5 @@
 {
+  "name": "ringcentral-widgets-packages",
   "private": true,
   "devEngines": {
     "node": "8.x || 9.x"
@@ -14,6 +15,12 @@
     "commons:integration-test": "lerna run karma --scope ringcentral-integration --stream"
   },
   "devDependencies": {
-    "lerna": "^2.9.0"
+    "lerna": "^2.9.0",
+    "eslint": "^4.12.0",
+    "babel-eslint": "^7.1.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.5.1"
   }
 }
