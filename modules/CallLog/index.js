@@ -51,6 +51,8 @@ exports.processData = processData;
 exports.getISODateFrom = getISODateFrom;
 exports.getISODateTo = getISODateTo;
 
+var _redux = require('redux');
+
 var _di = require('../../lib/di');
 
 var _Pollable2 = require('../../lib/Pollable');
@@ -312,28 +314,21 @@ var CallLog = (_dec = (0, _di.Module)({
     _this._subscription = subscription;
     _this._rolesAndPermissions = rolesAndPermissions;
     _this._tabManager = tabManager;
-    _this._dataStorageKey = 'callLogData';
-    _this._tokenStorageKey = 'callLogToken';
-    _this._timestampStorageKey = 'callLogTimestamp';
+    _this._callLogStorageKey = 'callLog';
     _this._ttl = ttl;
     _this._tokenExpiresIn = tokenExpiresIn;
     _this._timeToRetry = timeToRetry;
     _this._daySpan = daySpan;
     _this._polling = polling;
-
     if (_this._storage) {
       _this._reducer = (0, _getCallLogReducer2.default)(_this.actionTypes);
       _this._storage.registerReducer({
-        key: _this._dataStorageKey,
-        reducer: (0, _getCallLogReducer.getDataReducer)(_this.actionTypes)
-      });
-      _this._storage.registerReducer({
-        key: _this._tokenStorageKey,
-        reducer: (0, _getCallLogReducer.getTokenReducer)(_this.actionTypes)
-      });
-      _this._storage.registerReducer({
-        key: _this._timestampStorageKey,
-        reducer: (0, _getCallLogReducer.getTimestampReducer)(_this.actionTypes)
+        key: _this._callLogStorageKey,
+        reducer: (0, _redux.combineReducers)({
+          data: (0, _getCallLogReducer.getDataReducer)(_this.actionTypes),
+          token: (0, _getCallLogReducer.getTokenReducer)(_this.actionTypes),
+          timestamp: (0, _getCallLogReducer.getTimestampReducer)(_this.actionTypes)
+        })
       });
     } else {
       _this._reducer = (0, _getCallLogReducer2.default)(_this.actionTypes, {
@@ -818,7 +813,7 @@ var CallLog = (_dec = (0, _di.Module)({
     key: 'data',
     get: function get() {
       if (this._storage) {
-        return this._storage.getItem(this._dataStorageKey);
+        return this._storage.getItem(this._callLogStorageKey).data;
       }
       return this.state.data;
     }
@@ -831,7 +826,7 @@ var CallLog = (_dec = (0, _di.Module)({
     key: 'token',
     get: function get() {
       if (this._storage) {
-        return this._storage.getItem(this._tokenStorageKey);
+        return this._storage.getItem(this._callLogStorageKey).token;
       }
       return this.state.token;
     }
@@ -839,7 +834,7 @@ var CallLog = (_dec = (0, _di.Module)({
     key: 'timestamp',
     get: function get() {
       if (this._storage) {
-        return this._storage.getItem(this._timestampStorageKey);
+        return this._storage.getItem(this._callLogStorageKey).timestamp;
       }
       return this.state.timestamp;
     }
