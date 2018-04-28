@@ -2,7 +2,9 @@ import { combineReducers } from 'redux';
 import r from 'ramda';
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 
-function getEndedCallsReducer(types) {
+const DEFAULT_CLEAN_TIME = 24 * 60 * 60 * 1000; // 1day
+
+export function getEndedCallsReducer(types) {
   return (state = [], { type, endedCalls, timestamp }) => {
     switch (type) {
       case types.addEndedCalls: {
@@ -24,7 +26,10 @@ function getEndedCallsReducer(types) {
       }
       case types.removeEndedCalls:
         return state.filter(call => (
-          !endedCalls.find(shouldRemove => shouldRemove.sessionId === call.sessionId)
+          !endedCalls.find(shouldRemove => shouldRemove.sessionId === call.sessionId) || (
+            // clean current overdue ended call (default clean time: 1day).
+            (new Date()).getTime() - call.startTime > DEFAULT_CLEAN_TIME
+          )
         ));
       case types.resetSuccess:
         return [];
@@ -36,9 +41,9 @@ function getEndedCallsReducer(types) {
 
 
 /* istanbul ignore next: unnecessary to test getModuleStatusReducer */
-export default function getCallHistoryReducer(types) {
+export default function getCallHistoryReducer(types, reducers) {
   return combineReducers({
+    ...reducers,
     status: getModuleStatusReducer(types),
-    endedCalls: getEndedCallsReducer(types),
   });
 }
