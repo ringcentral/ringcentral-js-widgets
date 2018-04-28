@@ -252,6 +252,30 @@ export default class AddressBook extends Pollable {
       type: this.actionTypes.resetSuccess,
     });
   }
+
+  async _syncWithForbiddenCheck(syncToken) {
+    try {
+      const response = await this._sync(syncToken);
+      return response;
+    } catch (error) {
+      if (
+        error &&
+        error.apiResponse &&
+        error.apiResponse._response &&
+        error.apiResponse._response.status === 403
+      ) {
+        const result = {
+          records: [],
+          syncInfo: {
+            syncTime: (new Date()).toISOString()
+          }
+        };
+        return result;
+      }
+      throw error;
+    }
+  }
+
   @proxify
   async sync() {
     if (!this._promise) {
@@ -260,7 +284,7 @@ export default class AddressBook extends Pollable {
           this.store.dispatch({
             type: this.actionTypes.sync,
           });
-          const response = await this._sync(this.syncToken);
+          const response = await this._syncWithForbiddenCheck(this.syncToken);
           this.store.dispatch({
             type: this.actionTypes.syncSuccess,
             records: response.records,
@@ -277,6 +301,7 @@ export default class AddressBook extends Pollable {
           } else {
             this._retry();
           }
+          this._promise = null;
           throw error;
         }
         this._promise = null;
