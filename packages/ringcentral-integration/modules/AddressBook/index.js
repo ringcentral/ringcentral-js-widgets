@@ -220,7 +220,7 @@ export default class AddressBook extends Pollable {
     // only turns ready when data has been fetched
     // (could be from other tabs)
     return this.status === moduleStatuses.initializing &&
-      this.syncToken !== null;
+      this.syncTime !== null;
   }
 
   async _initAddressBook() {
