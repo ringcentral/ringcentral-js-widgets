@@ -1,0 +1,19 @@
+{
+  "name": "monorepo-tools",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Collection of tools",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ringcentral/ringcentral-js-widget.git"
+  },
+  "engines": {
+    "node": ">=8"
+  },
+  "scripts": {},
+  "dependencies": {
+    "@yarnpkg/lockfile": "^1.0.0",
+    "fs-extra": "^5.0.0",
+    "glob": "^7.1.2"
+  }
+}
