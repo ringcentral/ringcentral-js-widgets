@@ -2,7 +2,6 @@ import { parse } from '@yarnpkg/lockfile';
 import fs from 'fs-extra';
 import path from 'path';
 import glob from 'glob';
-import chalk from 'chalk';
 
 
 function readGlob(globString, options = {}) {
