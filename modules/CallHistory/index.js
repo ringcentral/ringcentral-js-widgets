@@ -143,7 +143,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @description Call history managing module
  */
 var CallHistory = (_dec = (0, _di.Module)({
-  deps: ['AccountInfo', 'CallLog', 'CallMonitor', { dep: 'ActivityMatcher', optional: true }, { dep: 'ContactMatcher', optional: true }, { dep: 'CallHistoryOptions', optional: true }]
+  deps: ['AccountInfo', 'CallLog', 'CallMonitor', { dep: 'Storage', optional: true }, { dep: 'ActivityMatcher', optional: true }, { dep: 'ContactMatcher', optional: true }, { dep: 'CallHistoryOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(CallHistory, _RcModule);
 
@@ -160,9 +160,10 @@ var CallHistory = (_dec = (0, _di.Module)({
     var accountInfo = _ref.accountInfo,
         callLog = _ref.callLog,
         callMonitor = _ref.callMonitor,
+        storage = _ref.storage,
         activityMatcher = _ref.activityMatcher,
         contactMatcher = _ref.contactMatcher,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['accountInfo', 'callLog', 'callMonitor', 'activityMatcher', 'contactMatcher']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['accountInfo', 'callLog', 'callMonitor', 'storage', 'activityMatcher', 'contactMatcher']);
     (0, _classCallCheck3.default)(this, CallHistory);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallHistory.__proto__ || (0, _getPrototypeOf2.default)(CallHistory)).call(this, (0, _extends3.default)({}, options)));
@@ -177,11 +178,22 @@ var CallHistory = (_dec = (0, _di.Module)({
 
     _this._accountInfo = _ensureExist2.default.call(_this, accountInfo, 'accountInfo');
     _this._callLog = _ensureExist2.default.call(_this, callLog, 'callLog');
+    _this._storage = storage;
     _this._activityMatcher = activityMatcher;
     _this._contactMatcher = contactMatcher;
     _this._callMonitor = callMonitor;
-    _this._reducer = (0, _getCallHistoryReducer2.default)(_this.actionTypes);
-
+    if (_this._storage) {
+      _this._reducer = (0, _getCallHistoryReducer2.default)(_this.actionTypes);
+      _this._endedCallsStorageKey = 'callHistoryEndedCalls';
+      _this._storage.registerReducer({
+        key: _this._endedCallsStorageKey,
+        reducer: (0, _getCallHistoryReducer.getEndedCallsReducer)(_this.actionTypes)
+      });
+    } else {
+      _this._reducer = (0, _getCallHistoryReducer2.default)(_this.actionTypes, {
+        endedCalls: (0, _getCallHistoryReducer.getEndedCallsReducer)(_this.actionTypes)
+      });
+    }
     if (_this._contactMatcher) {
       _this._contactMatcher.addQuerySource({
         getQueriesFn: function getQueriesFn() {
@@ -424,7 +436,11 @@ var CallHistory = (_dec = (0, _di.Module)({
   }, {
     key: 'recentlyEndedCalls',
     get: function get() {
-      return this.state.endedCalls;
+      if (this._storage) {
+        return this._storage.getItem(this._endedCallsStorageKey);
+      } else {
+        return this.state.endedCalls;
+      }
     }
   }]);
   return CallHistory;
@@ -468,7 +484,7 @@ var CallHistory = (_dec = (0, _di.Module)({
     return (0, _reselect.createSelector)(function () {
       return _this4.normalizedCalls;
     }, function () {
-      return _this4.state.endedCalls;
+      return _this4.recentlyEndedCalls;
     }, function () {
       return _this4._contactMatcher && _this4._contactMatcher.dataMapping;
     }, function () {
@@ -509,7 +525,7 @@ var CallHistory = (_dec = (0, _di.Module)({
     return (0, _reselect.createSelector)(function () {
       return _this5.normalizedCalls;
     }, function () {
-      return _this5.state.endedCalls;
+      return _this5.recentlyEndedCalls;
     }, function (normalizedCalls, endedCalls) {
       var output = [];
       var numberMap = {};
@@ -544,7 +560,7 @@ var CallHistory = (_dec = (0, _di.Module)({
     return (0, _reselect.createSelector)(function () {
       return _this6._callLog.calls;
     }, function () {
-      return _this6.state.endedCalls;
+      return _this6.recentlyEndedCalls;
     }, function (calls, endedCalls) {
       var sessionIds = {};
       return calls.map(function (call) {

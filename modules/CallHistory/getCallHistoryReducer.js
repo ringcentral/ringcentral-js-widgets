@@ -8,6 +8,7 @@ var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
 
+exports.getEndedCallsReducer = getEndedCallsReducer;
 exports.default = getCallHistoryReducer;
 
 var _redux = require('redux');
@@ -21,6 +22,8 @@ var _getModuleStatusReducer = require('../../lib/getModuleStatusReducer');
 var _getModuleStatusReducer2 = _interopRequireDefault(_getModuleStatusReducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var DEFAULT_CLEAN_TIME = 24 * 60 * 60 * 1000; // 1day
 
 function getEndedCallsReducer(types) {
   return function () {
@@ -54,7 +57,9 @@ function getEndedCallsReducer(types) {
         return state.filter(function (call) {
           return !endedCalls.find(function (shouldRemove) {
             return shouldRemove.sessionId === call.sessionId;
-          });
+          }) ||
+          // clean current overdue ended call (default clean time: 1day).
+          new Date().getTime() - call.startTime > DEFAULT_CLEAN_TIME;
         });
       case types.resetSuccess:
         return [];
@@ -65,10 +70,9 @@ function getEndedCallsReducer(types) {
 }
 
 /* istanbul ignore next: unnecessary to test getModuleStatusReducer */
-function getCallHistoryReducer(types) {
-  return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer2.default)(types),
-    endedCalls: getEndedCallsReducer(types)
-  });
+function getCallHistoryReducer(types, reducers) {
+  return (0, _redux.combineReducers)((0, _extends3.default)({}, reducers, {
+    status: (0, _getModuleStatusReducer2.default)(types)
+  }));
 }
 //# sourceMappingURL=getCallHistoryReducer.js.map
