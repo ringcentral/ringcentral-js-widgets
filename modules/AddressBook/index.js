@@ -347,7 +347,7 @@ var AddressBook = (_dec = (0, _di.Module)({
     value: function _isDataReady() {
       // only turns ready when data has been fetched
       // (could be from other tabs)
-      return this.status === _moduleStatuses2.default.initializing && this.syncToken !== null;
+      return this.status === _moduleStatuses2.default.initializing && this.syncTime !== null;
     }
   }, {
     key: '_initAddressBook',
@@ -422,32 +422,83 @@ var AddressBook = (_dec = (0, _di.Module)({
       });
     }
   }, {
+    key: '_syncWithForbiddenCheck',
+    value: function () {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(syncToken) {
+        var response, result;
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.prev = 0;
+                _context3.next = 3;
+                return this._sync(syncToken);
+
+              case 3:
+                response = _context3.sent;
+                return _context3.abrupt('return', response);
+
+              case 7:
+                _context3.prev = 7;
+                _context3.t0 = _context3['catch'](0);
+
+                if (!(_context3.t0 && _context3.t0.apiResponse && _context3.t0.apiResponse._response && _context3.t0.apiResponse._response.status === 403)) {
+                  _context3.next = 12;
+                  break;
+                }
+
+                result = {
+                  records: [],
+                  syncInfo: {
+                    syncTime: new Date().toISOString()
+                  }
+                };
+                return _context3.abrupt('return', result);
+
+              case 12:
+                throw _context3.t0;
+
+              case 13:
+              case 'end':
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this, [[0, 7]]);
+      }));
+
+      function _syncWithForbiddenCheck(_x) {
+        return _ref4.apply(this, arguments);
+      }
+
+      return _syncWithForbiddenCheck;
+    }()
+  }, {
     key: 'sync',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
         var _this3 = this;
 
-        return _regenerator2.default.wrap(function _callee4$(_context4) {
+        return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 if (!this._promise) {
-                  this._promise = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
+                  this._promise = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
                     var response;
-                    return _regenerator2.default.wrap(function _callee3$(_context3) {
+                    return _regenerator2.default.wrap(function _callee4$(_context4) {
                       while (1) {
-                        switch (_context3.prev = _context3.next) {
+                        switch (_context4.prev = _context4.next) {
                           case 0:
-                            _context3.prev = 0;
+                            _context4.prev = 0;
 
                             _this3.store.dispatch({
                               type: _this3.actionTypes.sync
                             });
-                            _context3.next = 4;
-                            return _this3._sync(_this3.syncToken);
+                            _context4.next = 4;
+                            return _this3._syncWithForbiddenCheck(_this3.syncToken);
 
                           case 4:
-                            response = _context3.sent;
+                            response = _context4.sent;
 
                             _this3.store.dispatch({
                               type: _this3.actionTypes.syncSuccess,
@@ -458,12 +509,12 @@ var AddressBook = (_dec = (0, _di.Module)({
                             if (_this3._polling) {
                               _this3._startPolling();
                             }
-                            _context3.next = 14;
+                            _context4.next = 15;
                             break;
 
                           case 9:
-                            _context3.prev = 9;
-                            _context3.t0 = _context3['catch'](0);
+                            _context4.prev = 9;
+                            _context4.t0 = _context4['catch'](0);
 
                             _this3._onSyncError();
                             if (_this3._polling) {
@@ -471,32 +522,33 @@ var AddressBook = (_dec = (0, _di.Module)({
                             } else {
                               _this3._retry();
                             }
-                            throw _context3.t0;
-
-                          case 14:
                             _this3._promise = null;
+                            throw _context4.t0;
 
                           case 15:
+                            _this3._promise = null;
+
+                          case 16:
                           case 'end':
-                            return _context3.stop();
+                            return _context4.stop();
                         }
                       }
-                    }, _callee3, _this3, [[0, 9]]);
+                    }, _callee4, _this3, [[0, 9]]);
                   }))();
                 }
-                _context4.next = 3;
+                _context5.next = 3;
                 return this._promise;
 
               case 3:
               case 'end':
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee5, this);
       }));
 
       function sync() {
-        return _ref4.apply(this, arguments);
+        return _ref5.apply(this, arguments);
       }
 
       return sync;
@@ -511,73 +563,41 @@ var AddressBook = (_dec = (0, _di.Module)({
   }, {
     key: '_sync',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(syncToken, pageId) {
+      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(syncToken, pageId) {
         var params, response, lastResponse;
-        return _regenerator2.default.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                params = getSyncParams(syncToken, pageId);
-                _context5.next = 3;
-                return this._syncAddressBookApi(params);
-
-              case 3:
-                response = _context5.sent;
-
-                if (response.nextPageId) {
-                  _context5.next = 6;
-                  break;
-                }
-
-                return _context5.abrupt('return', response);
-
-              case 6:
-                _context5.next = 8;
-                return (0, _sleep2.default)(1000);
-
-              case 8:
-                _context5.next = 10;
-                return this._sync(syncToken, response.nextPageId);
-
-              case 10:
-                lastResponse = _context5.sent;
-                return _context5.abrupt('return', (0, _extends3.default)({}, lastResponse, {
-                  records: response.records.concat(lastResponse.records)
-                }));
-
-              case 12:
-              case 'end':
-                return _context5.stop();
-            }
-          }
-        }, _callee5, this);
-      }));
-
-      function _sync(_x, _x2) {
-        return _ref6.apply(this, arguments);
-      }
-
-      return _sync;
-    }()
-  }, {
-    key: '_syncAddressBookApi',
-    value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(params) {
-        var updateRequest;
         return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                _context6.next = 2;
-                return this._client.account().extension().addressBookSync().list(params);
+                params = getSyncParams(syncToken, pageId);
+                _context6.next = 3;
+                return this._syncAddressBookApi(params);
 
-              case 2:
-                updateRequest = _context6.sent;
+              case 3:
+                response = _context6.sent;
 
-                this._decodeAddressBook(updateRequest);
-                return _context6.abrupt('return', updateRequest);
+                if (response.nextPageId) {
+                  _context6.next = 6;
+                  break;
+                }
 
-              case 5:
+                return _context6.abrupt('return', response);
+
+              case 6:
+                _context6.next = 8;
+                return (0, _sleep2.default)(1000);
+
+              case 8:
+                _context6.next = 10;
+                return this._sync(syncToken, response.nextPageId);
+
+              case 10:
+                lastResponse = _context6.sent;
+                return _context6.abrupt('return', (0, _extends3.default)({}, lastResponse, {
+                  records: response.records.concat(lastResponse.records)
+                }));
+
+              case 12:
               case 'end':
                 return _context6.stop();
             }
@@ -585,8 +605,40 @@ var AddressBook = (_dec = (0, _di.Module)({
         }, _callee6, this);
       }));
 
-      function _syncAddressBookApi(_x3) {
+      function _sync(_x2, _x3) {
         return _ref7.apply(this, arguments);
+      }
+
+      return _sync;
+    }()
+  }, {
+    key: '_syncAddressBookApi',
+    value: function () {
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(params) {
+        var updateRequest;
+        return _regenerator2.default.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                _context7.next = 2;
+                return this._client.account().extension().addressBookSync().list(params);
+
+              case 2:
+                updateRequest = _context7.sent;
+
+                this._decodeAddressBook(updateRequest);
+                return _context7.abrupt('return', updateRequest);
+
+              case 5:
+              case 'end':
+                return _context7.stop();
+            }
+          }
+        }, _callee7, this);
+      }));
+
+      function _syncAddressBookApi(_x4) {
+        return _ref8.apply(this, arguments);
       }
 
       return _syncAddressBookApi;
@@ -640,24 +692,24 @@ var AddressBook = (_dec = (0, _di.Module)({
   }, {
     key: 'fetchData',
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
-        return _regenerator2.default.wrap(function _callee7$(_context7) {
+      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8() {
+        return _regenerator2.default.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
-                _context7.next = 2;
+                _context8.next = 2;
                 return this.sync();
 
               case 2:
               case 'end':
-                return _context7.stop();
+                return _context8.stop();
             }
           }
-        }, _callee7, this);
+        }, _callee8, this);
       }));
 
       function fetchData() {
-        return _ref8.apply(this, arguments);
+        return _ref9.apply(this, arguments);
       }
 
       return fetchData;
