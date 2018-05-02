@@ -1,6 +1,6 @@
 import 'core-js/fn/array/find';
 import 'core-js/fn/array/find-index';
-import R from 'ramda';
+import { find, reduce } from 'ramda';
 import { combineReducers } from 'redux';
 import {
   getDndStatusReducer,
@@ -16,10 +16,10 @@ import {
 } from '../../lib/callLogHelpers';
 
 export function getDataReducer(types) {
-  const removeIntermediateCall = R.reduce((result, activeCall) => {
+  const removeIntermediateCall = reduce((result, activeCall) => {
     if (
       !isIntermediateCall(activeCall) &&
-      !R.find(
+      !find(
         item => (
           item.sessionId === activeCall.sessionId &&
           item.direction === activeCall.direction

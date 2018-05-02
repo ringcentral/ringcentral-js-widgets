@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import r from 'ramda';
+import { find } from 'ramda';
 
 function getOutputDeviceIdReducer(types) {
   return (state = 'default', { type, devices = [], outputDeviceId = state }) => {
@@ -9,7 +9,7 @@ function getOutputDeviceIdReducer(types) {
       case types.setAvailableDevices:
       case types.getUserMediaError:
         if (
-          r.find(device => (
+          find(device => (
             device.deviceId === state &&
             device.kind === 'audiooutput'
           ), devices)
@@ -30,7 +30,7 @@ function getInputDeviceIdReducer(types) {
       case types.setAvailableDevices:
       case types.getUserMediaError:
         if (
-          r.find(device => (
+          find(device => (
             device.deviceId === state &&
             device.kind === 'audioinput'
           ), devices)

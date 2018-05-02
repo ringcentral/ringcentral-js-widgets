@@ -1,4 +1,4 @@
-import r from 'ramda';
+import { find, filter } from 'ramda';
 import RcModule from '../../lib/RcModule';
 import proxify from '../../lib/proxy/proxify';
 import { Module } from '../../lib/di';
@@ -45,11 +45,11 @@ export default class AudioSettings extends RcModule {
 
     this.addSelector('availableOutputDevices',
       () => this.state.availableDevices,
-      devices => r.filter(device => device.kind === 'audiooutput', devices),
+      devices => filter(device => device.kind === 'audiooutput', devices),
     );
     this.addSelector('availableInputDevices',
       () => this.state.availableDevices,
-      devices => r.filter(device => device.kind === 'audioinput', devices),
+      devices => filter(device => device.kind === 'audioinput', devices),
     );
   }
 
@@ -169,7 +169,7 @@ export default class AudioSettings extends RcModule {
 
   @proxify
   async _onGetUserMediaSuccess() {
-    const userMediaAlert = r.find(
+    const userMediaAlert = find(
       item => item.message === audioSettingsErrors.userMediaPermission,
       this._alert.messages,
     );
@@ -231,7 +231,7 @@ export default class AudioSettings extends RcModule {
     return this._storage.getItem(this._storageKey).outputDeviceId;
   }
   get outputDevice() {
-    return r.find(device => (
+    return find(device => (
       device.kind === 'audiooutput' &&
       device.deviceId === this.outputDeviceId
     ), this.availableDevices);
@@ -240,7 +240,7 @@ export default class AudioSettings extends RcModule {
     return this._storage.getItem(this._storageKey).inputDeviceId;
   }
   get inputDevice() {
-    return r.find(device => (
+    return find(device => (
       device.kind === 'audioinput' &&
       device.deviceId === this.inputDeviceId
     ), this.availableDevices);
