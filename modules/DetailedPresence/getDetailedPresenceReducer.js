@@ -17,8 +17,6 @@ require('core-js/fn/array/find-index');
 
 var _ramda = require('ramda');
 
-var _ramda2 = _interopRequireDefault(_ramda);
-
 var _redux = require('redux');
 
 var _getPresenceReducer = require('../Presence/getPresenceReducer');
@@ -32,8 +30,8 @@ var _callLogHelpers = require('../../lib/callLogHelpers');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getDataReducer(types) {
-  var removeIntermediateCall = _ramda2.default.reduce(function (result, activeCall) {
-    if (!(0, _callLogHelpers.isIntermediateCall)(activeCall) && !_ramda2.default.find(function (item) {
+  var removeIntermediateCall = (0, _ramda.reduce)(function (result, activeCall) {
+    if (!(0, _callLogHelpers.isIntermediateCall)(activeCall) && !(0, _ramda.find)(function (item) {
       return item.sessionId === activeCall.sessionId && item.direction === activeCall.direction;
     }, result)) {
       result.push(activeCall);
@@ -52,7 +50,7 @@ function getDataReducer(types) {
       case types.fetchSuccess:
       case types.notification:
         {
-          return _ramda2.default.map(function (activeCall) {
+          return (0, _ramda.map)(function (activeCall) {
             var existingCall = state.find(function (call) {
               return call.sessionId === activeCall.sessionId;
             });

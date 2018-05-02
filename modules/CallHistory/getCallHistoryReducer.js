@@ -15,8 +15,6 @@ var _redux = require('redux');
 
 var _ramda = require('ramda');
 
-var _ramda2 = _interopRequireDefault(_ramda);
-
 var _getModuleStatusReducer = require('../../lib/getModuleStatusReducer');
 
 var _getModuleStatusReducer2 = _interopRequireDefault(_getModuleStatusReducer);
@@ -37,11 +35,11 @@ function getEndedCallsReducer(types) {
       case types.addEndedCalls:
         {
           var newState = state.slice();
-          _ramda2.default.forEach(function (call) {
+          (0, _ramda.forEach)(function (call) {
             var callWithDuration = (0, _extends3.default)({}, call, {
               duration: Math.floor((timestamp - call.startTime) / 1000)
             });
-            var idx = _ramda2.default.findIndex(function (item) {
+            var idx = (0, _ramda.findIndex)(function (item) {
               return item.sessionId === call.sessionId;
             }, newState);
             if (idx > -1) {

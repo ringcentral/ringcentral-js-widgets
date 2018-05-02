@@ -10,10 +10,6 @@ var _redux = require('redux');
 
 var _ramda = require('ramda');
 
-var _ramda2 = _interopRequireDefault(_ramda);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function getOutputDeviceIdReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'default';
@@ -29,7 +25,7 @@ function getOutputDeviceIdReducer(types) {
         return outputDeviceId;
       case types.setAvailableDevices:
       case types.getUserMediaError:
-        if (_ramda2.default.find(function (device) {
+        if ((0, _ramda.find)(function (device) {
           return device.deviceId === state && device.kind === 'audiooutput';
         }, devices)) {
           return state;
@@ -55,7 +51,7 @@ function getInputDeviceIdReducer(types) {
         return inputDeviceId;
       case types.setAvailableDevices:
       case types.getUserMediaError:
-        if (_ramda2.default.find(function (device) {
+        if ((0, _ramda.find)(function (device) {
           return device.deviceId === state && device.kind === 'audioinput';
         }, devices)) {
           return state;

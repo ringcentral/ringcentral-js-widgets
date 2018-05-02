@@ -53,8 +53,6 @@ var _dec, _class, _desc, _value, _class2;
 
 var _ramda = require('ramda');
 
-var _ramda2 = _interopRequireDefault(_ramda);
-
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
@@ -151,14 +149,14 @@ var AudioSettings = (_dec = (0, _di.Module)({
     _this.addSelector('availableOutputDevices', function () {
       return _this.state.availableDevices;
     }, function (devices) {
-      return _ramda2.default.filter(function (device) {
+      return (0, _ramda.filter)(function (device) {
         return device.kind === 'audiooutput';
       }, devices);
     });
     _this.addSelector('availableInputDevices', function () {
       return _this.state.availableDevices;
     }, function (devices) {
-      return _ramda2.default.filter(function (device) {
+      return (0, _ramda.filter)(function (device) {
         return device.kind === 'audioinput';
       }, devices);
     });
@@ -359,7 +357,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                userMediaAlert = _ramda2.default.find(function (item) {
+                userMediaAlert = (0, _ramda.find)(function (item) {
                   return item.message === _audioSettingsErrors2.default.userMediaPermission;
                 }, this._alert.messages);
 
@@ -503,7 +501,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
     get: function get() {
       var _this5 = this;
 
-      return _ramda2.default.find(function (device) {
+      return (0, _ramda.find)(function (device) {
         return device.kind === 'audiooutput' && device.deviceId === _this5.outputDeviceId;
       }, this.availableDevices);
     }
@@ -517,7 +515,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
     get: function get() {
       var _this6 = this;
 
-      return _ramda2.default.find(function (device) {
+      return (0, _ramda.find)(function (device) {
         return device.kind === 'audioinput' && device.deviceId === _this6.inputDeviceId;
       }, this.availableDevices);
     }
