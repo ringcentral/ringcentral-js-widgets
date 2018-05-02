@@ -4,7 +4,7 @@ $section_margin_top: 81px;
   width: 100%;
   display: block;
   position: absolute;
-  top: $section_margin_top;
+  top: $section_margin_top / 2;
   left: 0;
   z-index: 9;
 }
