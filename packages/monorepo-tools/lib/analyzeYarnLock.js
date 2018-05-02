@@ -22,12 +22,17 @@ async function collectPackages(cwd) {
   return packages;
 }
 
-async function compileModuleDependency(cwd) {
+async function compileModuleDependency({
+  cwd,
+  devDependencies,
+  peerDependencies,
+  dependencies,
+}) {
   // use glob to get all the relevant package.json
   const packages = await collectPackages(cwd);
   const contents = await Promise.all(packages.map(async f => JSON.parse(await fs.readFile(path.resolve(cwd, f), 'utf8'))));
   return contents.reduce((result, item) => {
-    if (item.dependencies) {
+    if (dependencies && item.dependencies) {
       Object.keys(item.dependencies).forEach((dep) => {
         const key = `${dep}@${item.dependencies[dep]}`;
         if (!result[key]) {
@@ -36,7 +41,7 @@ async function compileModuleDependency(cwd) {
         result[key].push([item.name, 'dependencies']);
       });
     }
-    if (item.peerDependencies) {
+    if (peerDependencies && item.peerDependencies) {
       Object.keys(item.peerDependencies).forEach((dep) => {
         const key = `${dep}@${item.peerDependencies[dep]}`;
         if (!result[key]) {
@@ -45,7 +50,7 @@ async function compileModuleDependency(cwd) {
         result[key].push([item.name, 'peerDependencies']);
       });
     }
-    if (item.devDependencies) {
+    if (devDependencies && item.devDependencies) {
       Object.keys(item.devDependencies).forEach((dep) => {
         const key = `${dep}@${item.devDependencies[dep]}`;
         if (!result[key]) {
@@ -90,8 +95,26 @@ function compileDependencyMap({ lock, moduleDependency, duplicateOnly = false })
   return fullMap;
 }
 
-export default async function analyzeYarnLock(cwd = process.cwd()) {
-  const moduleDependency = await compileModuleDependency(cwd);
+export default async function analyzeYarnLock({
+  cwd = process.cwd(),
+  duplicateOnly = true,
+  devDependencies = true,
+  peerDependencies = true,
+  dependencies = true,
+} = {}) {
+  const moduleDependency = await compileModuleDependency({
+    cwd,
+    devDependencies,
+    peerDependencies,
+    dependencies,
+  });
   const lock = await readYarnLock(cwd);
-  return compileDependencyMap({ lock, moduleDependency, duplicateOnly: true });
+  return compileDependencyMap({
+    lock,
+    moduleDependency,
+    duplicateOnly,
+    devDependencies,
+    peerDependencies,
+    dependencies,
+  });
 }

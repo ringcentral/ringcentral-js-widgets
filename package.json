@@ -13,7 +13,7 @@
     "commons:test": "lerna run test --scope ringcentral-integration --stream",
     "widgets:test": "lerna run test --scope ringcentral-widgets-test --stream",
     "commons:integration-test": "lerna run karma --scope ringcentral-integration --stream",
-    "analyze-yarn-lock": "babel-node packages/monorepo-tools/index.js"
+    "analyze-packages": "babel-node scripts/analyzePackages.js"
   },
   "devDependencies": {
     "lerna": "^2.9.0",
