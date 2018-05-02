@@ -4,7 +4,9 @@
   "devEngines": {
     "node": "8.x || 9.x"
   },
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "test": "lerna run test --stream",
@@ -16,12 +18,12 @@
     "analyze-packages": "babel-node scripts/analyzePackages.js"
   },
   "devDependencies": {
-    "lerna": "^2.9.0",
+    "babel-eslint": "^8.2.3",
     "eslint": "^4.12.0",
-    "babel-eslint": "^7.1.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-react": "^7.5.1"
+    "eslint-plugin-react": "^7.5.1",
+    "lerna": "^2.9.0"
   }
 }
