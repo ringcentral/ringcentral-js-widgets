@@ -1,6 +1,6 @@
 import 'core-js/fn/array/find';
 import 'core-js/fn/array/find-index';
-import { find, reduce } from 'ramda';
+import { find, reduce, map } from 'ramda';
 import { combineReducers } from 'redux';
 import {
   getDndStatusReducer,
@@ -35,7 +35,7 @@ export function getDataReducer(types) {
     switch (type) {
       case types.fetchSuccess:
       case types.notification: {
-        return R.map((activeCall) => {
+        return map((activeCall) => {
           const existingCall = state.find(call => (
             call.sessionId === activeCall.sessionId
           ));
