@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import r from 'ramda';
+import { forEach, findIndex } from 'ramda';
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 
 const DEFAULT_CLEAN_TIME = 24 * 60 * 60 * 1000; // 1day
@@ -9,12 +9,12 @@ export function getEndedCallsReducer(types) {
     switch (type) {
       case types.addEndedCalls: {
         const newState = state.slice();
-        r.forEach((call) => {
+        forEach((call) => {
           const callWithDuration = {
             ...call,
             duration: Math.floor((timestamp - call.startTime) / 1000),
           };
-          const idx = r.findIndex(item => item.sessionId === call.sessionId, newState);
+          const idx = findIndex(item => item.sessionId === call.sessionId, newState);
           if (idx > -1) {
             // replace old one if found
             newState[idx] = callWithDuration;
