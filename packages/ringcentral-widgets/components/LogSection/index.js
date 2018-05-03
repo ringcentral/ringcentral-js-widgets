@@ -59,6 +59,7 @@ export default class LogSection extends Component {
     }
     const editLogSection = renderEditLogSection({
       currentLocale,
+      onSaveCallLog,
       onUpdateCallLog,
       currentLog,
     });
