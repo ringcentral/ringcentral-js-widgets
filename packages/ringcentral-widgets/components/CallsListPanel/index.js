@@ -223,14 +223,12 @@ export default class CallsListPanel extends Component {
       onCloseLogSection,
       onUpdateCallLog,
       onSaveCallLog,
-      onSearchCallLog,
       renderEditLogSection,
       logNotification,
       onCloseNotification,
       onDiscardNotification,
       onSaveNotification,
       onExpandNotification,
-      buttonLabelName,
       showSaveLogBtn,
       sectionContainerStyles,
       sectionModalStyles,
@@ -263,8 +261,6 @@ export default class CallsListPanel extends Component {
             formatPhone={formatPhone}
             onUpdateCallLog={onUpdateCallLog}
             onSaveCallLog={onSaveCallLog}
-            onSearchCallLog={onSearchCallLog}
-            buttonLabelName={buttonLabelName}
             showSaveLogBtn={showSaveLogBtn}
           />
         </InsideModal>
@@ -422,14 +418,12 @@ CallsListPanel.propTypes = {
   onCloseLogSection: PropTypes.func,
   onUpdateCallLog: PropTypes.func,
   onSaveCallLog: PropTypes.func,
-  onSearchCallLog: PropTypes.func,
   renderEditLogSection: PropTypes.func,
   logNotification: PropTypes.object,
   onCloseNotification: PropTypes.func,
   onDiscardNotification: PropTypes.func,
   onSaveNotification: PropTypes.func,
   onExpandNotification: PropTypes.func,
-  buttonLabelName: PropTypes.string,
   showSaveLogBtn: PropTypes.bool,
   sectionContainerStyles: PropTypes.string,
   sectionModalStyles: PropTypes.string,
@@ -467,14 +461,12 @@ CallsListPanel.defaultProps = {
   onCloseLogSection: undefined,
   onUpdateCallLog: undefined,
   onSaveCallLog: undefined,
-  onSearchCallLog: undefined,
   renderEditLogSection: undefined,
   logNotification: undefined,
   onCloseNotification: undefined,
   onDiscardNotification: undefined,
   onSaveNotification: undefined,
   onExpandNotification: undefined,
-  buttonLabelName: undefined,
   showSaveLogBtn: true,
   sectionContainerStyles: undefined,
   sectionModalStyles: undefined,
