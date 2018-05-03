@@ -1,5 +1,5 @@
-import listExtensions from '../packages/monorepo-tools/lib/listExtensions';
+import listFileMatchers from '../packages/monorepo-tools/lib/listFileMatchers';
 
 (async () => {
-  console.log(JSON.stringify(await listExtensions(), null, 2));
+  console.log(JSON.stringify(await listFileMatchers(), null, 2));
 })();
