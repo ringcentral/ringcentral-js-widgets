@@ -119,7 +119,7 @@ export default class CallLogSection extends RcModule {
   ) {
     this._logFunction = this::ensureExist(logFunction, 'logFunction');
     this._readyCheckFunction = this::ensureExist(readyCheckFunction, 'readyCheckFunction');
-    this._onUpdate = this::ensureExist(onUpdate, 'onUpdate');
+    this._onUpdate = onUpdate;
     this._onSuccess = onSuccess;
     this._onError = onError;
   }

@@ -229,6 +229,9 @@ export default class CallsListPanel extends Component {
       onDiscardNotification,
       onSaveNotification,
       onExpandNotification,
+      showSaveLogBtn,
+      sectionContainerStyles,
+      sectionModalStyles,
     } = this.props;
     if (showSpinner) {
       return (<SpinnerOverlay />);
@@ -247,7 +250,9 @@ export default class CallsListPanel extends Component {
         <InsideModal
           title={currentLog.title}
           show={currentLog.showLog}
-          onClose={onCloseLogSection}>
+          onClose={onCloseLogSection}
+          containerStyles={sectionContainerStyles}
+          modalStyles={sectionModalStyles}>
           <LogSection
             currentLocale={currentLocale}
             currentLog={currentLog}
@@ -256,6 +261,7 @@ export default class CallsListPanel extends Component {
             formatPhone={formatPhone}
             onUpdateCallLog={onUpdateCallLog}
             onSaveCallLog={onSaveCallLog}
+            showSaveLogBtn={showSaveLogBtn}
           />
         </InsideModal>
         {
@@ -366,7 +372,6 @@ export default class CallsListPanel extends Component {
       </div>
     );
   }
-
 }
 
 CallsListPanel.propTypes = {
@@ -419,6 +424,9 @@ CallsListPanel.propTypes = {
   onDiscardNotification: PropTypes.func,
   onSaveNotification: PropTypes.func,
   onExpandNotification: PropTypes.func,
+  showSaveLogBtn: PropTypes.bool,
+  sectionContainerStyles: PropTypes.string,
+  sectionModalStyles: PropTypes.string,
 };
 
 CallsListPanel.defaultProps = {
@@ -459,4 +467,7 @@ CallsListPanel.defaultProps = {
   onDiscardNotification: undefined,
   onSaveNotification: undefined,
   onExpandNotification: undefined,
+  showSaveLogBtn: true,
+  sectionContainerStyles: undefined,
+  sectionModalStyles: undefined,
 };
