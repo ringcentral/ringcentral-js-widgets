@@ -110,7 +110,9 @@ var LogSection = function (_Component) {
           currentLocale = _props.currentLocale,
           onUpdateCallLog = _props.onUpdateCallLog,
           currentLog = _props.currentLog,
-          isInnerMask = _props.isInnerMask;
+          isInnerMask = _props.isInnerMask,
+          showSaveLogBtn = _props.showSaveLogBtn,
+          onSaveCallLog = _props.onSaveCallLog;
       var call = currentLog.call,
           showSpinner = currentLog.showSpinner,
           currentLogCall = currentLog.currentLogCall;
@@ -125,6 +127,16 @@ var LogSection = function (_Component) {
       });
       var buttonPanelClassName = (0, _classnames2.default)(_styles2.default.buttonPanel, this.state.mainCtrlOverlapped && _styles2.default.overlapped);
       var buttonClassName = (0, _classnames2.default)(_styles2.default.primaryButton, currentLogCall.isSaving && _styles2.default.disabled);
+      var saveLogBtn = showSaveLogBtn ? _react2.default.createElement(
+        _Button2.default,
+        {
+          disabled: currentLogCall.isSaving,
+          className: buttonClassName,
+          onClick: function onClick() {
+            return onSaveCallLog(call);
+          } },
+        _i18n2.default.getString('saveLog', currentLocale)
+      ) : null;
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.section },
@@ -149,16 +161,7 @@ var LogSection = function (_Component) {
           'div',
           {
             className: buttonPanelClassName },
-          _react2.default.createElement(
-            _Button2.default,
-            {
-              disabled: currentLogCall.isSaving,
-              className: buttonClassName,
-              onClick: function onClick() {
-                return _this2.props.onSaveCallLog(call);
-              } },
-            _i18n2.default.getString('saveLog', currentLocale)
-          )
+          saveLogBtn
         ),
         isInnerMask ? _react2.default.createElement('div', { className: _styles2.default.innerMask }) : null
       );
@@ -177,7 +180,8 @@ LogSection.propTypes = {
   onUpdateCallLog: _propTypes2.default.func,
   onSaveCallLog: _propTypes2.default.func,
   renderEditLogSection: _propTypes2.default.func,
-  isInnerMask: _propTypes2.default.bool
+  isInnerMask: _propTypes2.default.bool,
+  showSaveLogBtn: _propTypes2.default.bool
 };
 
 LogSection.defaultProps = {
@@ -186,6 +190,7 @@ LogSection.defaultProps = {
   onUpdateCallLog: undefined,
   onSaveCallLog: undefined,
   renderEditLogSection: undefined,
-  isInnerMask: undefined
+  isInnerMask: undefined,
+  showSaveLogBtn: true
 };
 //# sourceMappingURL=index.js.map

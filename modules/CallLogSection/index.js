@@ -282,7 +282,7 @@ var CallLogSection = (_dec = (0, _di.Module)({
 
       this._logFunction = _ensureExist2.default.call(this, logFunction, 'logFunction');
       this._readyCheckFunction = _ensureExist2.default.call(this, readyCheckFunction, 'readyCheckFunction');
-      this._onUpdate = _ensureExist2.default.call(this, onUpdate, 'onUpdate');
+      this._onUpdate = onUpdate;
       this._onSuccess = onSuccess;
       this._onError = onError;
     }

@@ -289,7 +289,10 @@ var CallsListPanel = function (_Component) {
           onCloseNotification = _props.onCloseNotification,
           onDiscardNotification = _props.onDiscardNotification,
           onSaveNotification = _props.onSaveNotification,
-          onExpandNotification = _props.onExpandNotification;
+          onExpandNotification = _props.onExpandNotification,
+          showSaveLogBtn = _props.showSaveLogBtn,
+          sectionContainerStyles = _props.sectionContainerStyles,
+          sectionModalStyles = _props.sectionModalStyles;
 
       if (showSpinner) {
         return _react2.default.createElement(_SpinnerOverlay2.default, null);
@@ -313,7 +316,9 @@ var CallsListPanel = function (_Component) {
           {
             title: currentLog.title,
             show: currentLog.showLog,
-            onClose: onCloseLogSection },
+            onClose: onCloseLogSection,
+            containerStyles: sectionContainerStyles,
+            modalStyles: sectionModalStyles },
           _react2.default.createElement(_LogSection2.default, {
             currentLocale: currentLocale,
             currentLog: currentLog,
@@ -321,7 +326,8 @@ var CallsListPanel = function (_Component) {
             renderEditLogSection: renderEditLogSection,
             formatPhone: formatPhone,
             onUpdateCallLog: onUpdateCallLog,
-            onSaveCallLog: onSaveCallLog
+            onSaveCallLog: onSaveCallLog,
+            showSaveLogBtn: showSaveLogBtn
           })
         ),
         logNotification ? _react2.default.createElement(
@@ -487,7 +493,10 @@ CallsListPanel.propTypes = {
   onCloseNotification: _propTypes2.default.func,
   onDiscardNotification: _propTypes2.default.func,
   onSaveNotification: _propTypes2.default.func,
-  onExpandNotification: _propTypes2.default.func
+  onExpandNotification: _propTypes2.default.func,
+  showSaveLogBtn: _propTypes2.default.bool,
+  sectionContainerStyles: _propTypes2.default.string,
+  sectionModalStyles: _propTypes2.default.string
 };
 
 CallsListPanel.defaultProps = {
@@ -527,6 +536,9 @@ CallsListPanel.defaultProps = {
   onCloseNotification: undefined,
   onDiscardNotification: undefined,
   onSaveNotification: undefined,
-  onExpandNotification: undefined
+  onExpandNotification: undefined,
+  showSaveLogBtn: true,
+  sectionContainerStyles: undefined,
+  sectionModalStyles: undefined
 };
 //# sourceMappingURL=index.js.map
