@@ -74,7 +74,7 @@ export default class LogSection extends Component {
       <Button
         disabled={currentLogCall.isSaving}
         className={buttonClassName}
-        onClick={() => this.props.onSaveCallLog(call)}>
+        onClick={() => onSaveCallLog(call)}>
         { i18n.getString('saveLog', currentLocale)}
       </Button>
     ) : null;
