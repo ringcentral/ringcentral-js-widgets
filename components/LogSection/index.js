@@ -122,6 +122,7 @@ var LogSection = function (_Component) {
       }
       var editLogSection = renderEditLogSection({
         currentLocale: currentLocale,
+        onSaveCallLog: onSaveCallLog,
         onUpdateCallLog: onUpdateCallLog,
         currentLog: currentLog
       });
