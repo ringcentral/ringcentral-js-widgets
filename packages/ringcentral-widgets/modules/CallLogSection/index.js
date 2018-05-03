@@ -158,7 +158,7 @@ export default class CallLogSection extends RcModule {
     if (!this.show) {
       // Preferentially show call log section.
       this._showLogSection(identify);
-    } else if (!this.notificationIsExpand) {
+    } else if (!this.notificationIsExpand && this.currentIdentify !== identify) {
       // Check it to show log notification when the call log notification isn't expanded.
       this._showLogNotification(identify);
     }
