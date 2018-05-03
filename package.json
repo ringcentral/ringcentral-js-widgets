@@ -15,7 +15,8 @@
     "commons:test": "lerna run test --scope ringcentral-integration --stream",
     "widgets:test": "lerna run test --scope ringcentral-widgets-test --stream",
     "commons:integration-test": "lerna run karma --scope ringcentral-integration --stream",
-    "analyze-packages": "babel-node scripts/analyzePackages.js"
+    "analyze-packages": "babel-node scripts/analyzePackages.js",
+    "list-file-matchers": "babel-node scripts/listFileMatchers.js"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.3",

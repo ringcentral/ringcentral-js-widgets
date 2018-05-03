@@ -1,20 +1,7 @@
 import { parse } from '@yarnpkg/lockfile';
 import fs from 'fs-extra';
 import path from 'path';
-import glob from 'glob';
-
-
-function readGlob(globString, options = {}) {
-  return new Promise((resolve, reject) => {
-    glob(globString, options, (err, files) => {
-      if (err) {
-        return reject(err);
-      }
-      return resolve(files);
-    });
-  });
-}
-
+import readGlob from './readGlob';
 
 async function collectPackages(cwd) {
   const globString = '{**/packages/*/package.json,package.json}';
