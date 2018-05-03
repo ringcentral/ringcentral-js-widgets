@@ -155,10 +155,12 @@ export default class CallLogSection extends RcModule {
   }
 
   handleLogSection(identify) {
+    // prevent `isSameCall` for repeat run more time.
+    const isSameCall = this.currentIdentify === identify;
     if (!this.show) {
       // Preferentially show call log section.
       this._showLogSection(identify);
-    } else if (!this.notificationIsExpand && this.currentIdentify !== identify) {
+    } else if (!this.notificationIsExpand && !isSameCall) {
       // Check it to show log notification when the call log notification isn't expanded.
       this._showLogNotification(identify);
     }
