@@ -10,12 +10,12 @@ const loaderContent = '/* loadLocale */';
 const loaderFiles = [
   'file1.js',
   'file2.js',
-  `dir${path.delimiter}file3.js`,
+  path.normalize('dir/file3.js'),
 ].sort();
 const otherFiles = [
   'dummy1.js',
   'dummy2.js',
-  `dir${path.delimiter}dummy3.js`,
+  path.normalize('dir/dummy3.js'),
 ].sort();
 
 describe('getLoaderFiles', () => {
