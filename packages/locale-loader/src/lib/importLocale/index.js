@@ -1,8 +1,6 @@
 import fs from 'fs-extra';
 import path from 'path';
 import xml from 'xml-js';
-import { parse } from 'babylon';
-import generate from 'babel-generator';
 import escodegen from 'escodegen';
 import chalk from 'chalk';
 
