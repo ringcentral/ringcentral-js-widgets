@@ -76,13 +76,13 @@ export default class RolesAndPermissions extends DataFetcher {
   }
 
   async _onStateChange() {
-    await super._onStateChange();
     // fire event handler when data is ready
     if (this._isDataReady()) {
       for (const handler of this._onDataReadyHandler) {
         handler();
       }
     }
+    await super._onStateChange();
     if (this.ready &&
       this._auth.loginStatus === loginStatus.loggedIn &&
       this._isCRM &&
