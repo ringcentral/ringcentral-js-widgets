@@ -1,0 +1,18 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+  "javascript.validate.enable": false,
+  "files.associations": {
+    "*.html.tmpl": "html"
+  },
+  "editor.rulers": [
+    100
+  ],
+  "editor.tabSize": 2,
+  "search.exclude": {
+    "coverage/**": true,
+    "build/**": true,
+    "localization/**": true,
+    "testData/**": true,
+    "release/**": true
+  }
+}

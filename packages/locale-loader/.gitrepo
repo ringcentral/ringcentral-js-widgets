@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = git@github.com:u9520107/locale-loader
+	branch = master
+	commit = f05c4e3e51507a2e696b7ddc269596eb5584bb14
+	parent = c5a27b9585915ff7384302384a880c28ba7b8e1f
+	cmdver = 0.3.1
