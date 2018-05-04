@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _getIterator2 = require('babel-runtime/core-js/get-iterator');
+
+var _getIterator3 = _interopRequireDefault(_getIterator2);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -177,6 +181,7 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
     _this._flag = flag || 'SalesForce';
     _this._alert = (0, _ensureExist2.default)(alert, 'alert');
     _this._extensionInfo = (0, _ensureExist2.default)(extensionInfo, 'extensionInfo');
+    _this._onDataReadyHandler = [];
     _this.addSelector('permissions', function () {
       return _this.data;
     }, function (data) {
@@ -189,49 +194,100 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
     key: '_onStateChange',
     value: function () {
       var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
+        var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, handler;
+
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _context3.next = 2;
-                return (0, _get3.default)(RolesAndPermissions.prototype.__proto__ || (0, _getPrototypeOf2.default)(RolesAndPermissions.prototype), '_onStateChange', this).call(this);
-
-              case 2:
-                if (!(this.ready && this._auth.loginStatus === _loginStatus2.default.loggedIn && this._isCRM && this.tierEnabled !== null && !this.tierEnabled)) {
-                  _context3.next = 6;
+                if (!this._isDataReady()) {
+                  _context3.next = 20;
                   break;
                 }
 
-                _context3.next = 5;
+                _iteratorNormalCompletion = true;
+                _didIteratorError = false;
+                _iteratorError = undefined;
+                _context3.prev = 4;
+
+                for (_iterator = (0, _getIterator3.default)(this._onDataReadyHandler); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                  handler = _step.value;
+
+                  handler();
+                }
+                _context3.next = 12;
+                break;
+
+              case 8:
+                _context3.prev = 8;
+                _context3.t0 = _context3['catch'](4);
+                _didIteratorError = true;
+                _iteratorError = _context3.t0;
+
+              case 12:
+                _context3.prev = 12;
+                _context3.prev = 13;
+
+                if (!_iteratorNormalCompletion && _iterator.return) {
+                  _iterator.return();
+                }
+
+              case 15:
+                _context3.prev = 15;
+
+                if (!_didIteratorError) {
+                  _context3.next = 18;
+                  break;
+                }
+
+                throw _iteratorError;
+
+              case 18:
+                return _context3.finish(15);
+
+              case 19:
+                return _context3.finish(12);
+
+              case 20:
+                _context3.next = 22;
+                return (0, _get3.default)(RolesAndPermissions.prototype.__proto__ || (0, _getPrototypeOf2.default)(RolesAndPermissions.prototype), '_onStateChange', this).call(this);
+
+              case 22:
+                if (!(this.ready && this._auth.loginStatus === _loginStatus2.default.loggedIn && this._isCRM && this.tierEnabled !== null && !this.tierEnabled)) {
+                  _context3.next = 26;
+                  break;
+                }
+
+                _context3.next = 25;
                 return this._auth.logout();
 
-              case 5:
+              case 25:
                 this._alert.danger({
                   message: _permissionsMessages2.default.invalidTier,
                   ttl: 0
                 });
 
-              case 6:
+              case 26:
                 if (!(this.ready && this._auth.loginStatus === _loginStatus2.default.loggedIn && !this.permissions.ReadUserInfo)) {
-                  _context3.next = 10;
+                  _context3.next = 30;
                   break;
                 }
 
-                _context3.next = 9;
+                _context3.next = 29;
                 return this._auth.logout();
 
-              case 9:
+              case 29:
                 this._alert.danger({
                   message: _permissionsMessages2.default.insufficientPrivilege,
                   ttl: 0
                 });
 
-              case 10:
+              case 30:
               case 'end':
                 return _context3.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee3, this, [[4, 8, 12, 20], [13,, 15, 19]]);
       }));
 
       function _onStateChange() {
@@ -240,6 +296,11 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
 
       return _onStateChange;
     }()
+  }, {
+    key: 'onDataReady',
+    value: function onDataReady(fn) {
+      this._onDataReadyHandler.push(fn);
+    }
   }, {
     key: 'refreshServiceFeatures',
     value: function refreshServiceFeatures() {
