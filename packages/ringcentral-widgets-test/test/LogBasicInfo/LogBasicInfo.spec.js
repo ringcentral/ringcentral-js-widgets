@@ -1147,5 +1147,43 @@ describe('Call Basic Info:', () => {
     const wrapper = setup(props);
     expect(wrapper.find('.status').text()).toBe('Fax Send Error');
   });
+  it('Phone number should be formatted as local number when format phone return local number format', () => {
+    const props = {
+      formatPhone: value => '(123)4567-890',
+      call: {
+        direction: callDirections.outbound,
+        to: {
+          phoneNumber: '111'
+        },
+        from: {
+          phoneNumber: '222'
+        },
+        duration: null,
+        result: callResults.faxSendError,
+        telephonyStatus: null,
+      }
+    };
+    const wrapper = setup(props);
+    expect(wrapper.find('.number').text()).toBe('(123)4567-890');
+  });
+  it('Phone number should be formatted as E164 when format phone return E164 number', () => {
+    const props = {
+      formatPhone: value => '+44123456789',
+      call: {
+        direction: callDirections.outbound,
+        to: {
+          phoneNumber: '111'
+        },
+        from: {
+          phoneNumber: '222'
+        },
+        duration: null,
+        result: callResults.faxSendError,
+        telephonyStatus: null,
+      }
+    };
+    const wrapper = setup(props);
+    expect(wrapper.find('.number').text()).toBe('+44123456789');
+  });
 });
 
