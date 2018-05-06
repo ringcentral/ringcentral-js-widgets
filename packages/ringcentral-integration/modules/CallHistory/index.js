@@ -340,9 +340,9 @@ export default class CallHistory extends RcModule {
         };
       });
       return [
-        ...endedCalls.filter(call => !sessionIds[call.sessionId]).sort(sortByStartTime),
+        ...endedCalls.filter(call => !sessionIds[call.sessionId]),
         ...calls
-      ];
+      ].sort(sortByStartTime);
     }
   )
 
