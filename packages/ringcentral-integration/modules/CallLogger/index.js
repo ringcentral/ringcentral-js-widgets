@@ -6,6 +6,7 @@ import {
   isInbound,
   removeDuplicateSelfCalls,
 } from '../../lib/callLogHelpers';
+import callLoggerTriggerTypes from '../../enums/callLoggerTriggerTYpes';
 import actionTypes from './actionTypes';
 import getDataReducer from './getDataReducer';
 import proxify from '../../lib/proxy/proxify';
@@ -150,7 +151,7 @@ export default class CallLogger extends LoggerBase {
       toEntity,
     });
   }
-  async _autoLogCall({ call, fromEntity, toEntity }) {
+  async _autoLogCall({ call, fromEntity, toEntity, triggerType }) {
     await this.log({
       call: {
         ...call,
@@ -161,9 +162,10 @@ export default class CallLogger extends LoggerBase {
       },
       fromEntity,
       toEntity,
+      triggerType
     });
   }
-  async _onNewCall(call) {
+  async _onNewCall(call, triggerType) {
     if (await this._shouldLogNewCall(call)) {
       // RCINT-3857 check activity in case instance was reloaded when call is still active
       await this._activityMatcher.triggerMatch();
@@ -201,10 +203,14 @@ export default class CallLogger extends LoggerBase {
           call,
           fromEntity,
           toEntity,
+          triggerType
         });
       } else {
         // only update call information if call has been logged
-        await this._autoLogCall({ call });
+        await this._autoLogCall({ 
+          call,  
+          triggerType
+        });
       }
     }
   }
@@ -218,9 +224,9 @@ export default class CallLogger extends LoggerBase {
     }
     return false;
   }
-  async _onCallUpdated(call) {
+  async _onCallUpdated(call, triggerType) {
     if (await this._shouldLogUpdatedCall(call)) {
-      await this._autoLogCall({ call });
+      await this._autoLogCall({ call, triggerType });
     }
   }
   _processCalls() {
@@ -236,17 +242,17 @@ export default class CallLogger extends LoggerBase {
           const oldCallIndex = oldCalls.findIndex(item => item.sessionId === call.sessionId);
 
           if (oldCallIndex === -1) {
-            this._onNewCall(call);
+            this._onNewCall(call, callLoggerTriggerTypes.presenceUpdate);
           } else {
             const oldCall = oldCalls[oldCallIndex];
             oldCalls.splice(oldCallIndex, 1);
             if (call.telephonyStatus !== oldCall.telephonyStatus) {
-              this._onCallUpdated(call);
+              this._onCallUpdated(call, callLoggerTriggerTypes.presenceUpdate);
             }
           }
         });
         oldCalls.forEach((call) => {
-          this._onCallUpdated(call);
+          this._onCallUpdated(call, callLoggerTriggerTypes.presenceUpdate);
         });
       }
       if (
@@ -268,7 +274,7 @@ export default class CallLogger extends LoggerBase {
             const callInfo = this._callHistory.calls
               .find(item => item.sessionId === call.sessionId);
             if (callInfo) {
-              this._onCallUpdated(callInfo);
+              this._onCallUpdated(callInfo, callLoggerTriggerTypes.callLogSync);
             }
           }
         });
