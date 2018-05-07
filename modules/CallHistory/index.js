@@ -514,7 +514,7 @@ var CallHistory = (_dec = (0, _di.Module)({
       });
       return [].concat((0, _toConsumableArray3.default)(endedCalls.filter(function (call) {
         return !sessionIds[call.sessionId];
-      }).sort(_callLogHelpers.sortByStartTime)), (0, _toConsumableArray3.default)(calls));
+      })), (0, _toConsumableArray3.default)(calls)).sort(_callLogHelpers.sortByStartTime);
     });
   }
 }), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'uniqueNumbers', [_getter2.default], {
