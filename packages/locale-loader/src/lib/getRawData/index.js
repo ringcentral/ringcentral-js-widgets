@@ -120,10 +120,11 @@ export async function getLocaleData({ folderPath, sourceLocale, supportedLocales
   await Promise.all(localeFiles.map(async (file) => {
     const locale = formatLocale(file.replace(/\.(js|json)$/i, ''));
     if (locale === sourceLocale || supportedLocales.indexOf(locale) > -1) {
+      const extractedData = await extractData(path.resolve(folderPath, file));
       localeData.files[locale] = {
         file,
         locale,
-        ...(await extractData(path.resolve(folderPath, file))),
+        ...extractedData,
       };
     }
   }));
