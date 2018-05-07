@@ -199,7 +199,10 @@ export default class CallLogSection extends RcModule {
   }
 
   expandLogNotification() {
-    if (!this.notificationIsExpand) {
+    if (!this.show) {
+      this._showLogSection(this.currentNotificationIdentify);
+      this.closeLogNotification()
+    } else if (!this.notificationIsExpand) {
       this.store.dispatch({
         type: this.actionTypes.expandNotification
       });
