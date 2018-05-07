@@ -459,7 +459,10 @@ var CallLogSection = (_dec = (0, _di.Module)({
   }, {
     key: 'expandLogNotification',
     value: function expandLogNotification() {
-      if (!this.notificationIsExpand) {
+      if (!this.show) {
+        this._showLogSection(this.currentNotificationIdentify);
+        this.closeLogNotification();
+      } else if (!this.notificationIsExpand) {
         this.store.dispatch({
           type: this.actionTypes.expandNotification
         });
