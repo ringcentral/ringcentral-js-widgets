@@ -1,0 +1,77 @@
+@import '~ringcentral-widgets/lib/commonStyles/colors.scss';
+@import '~ringcentral-widgets/lib/commonStyles/full-size';
+@import '~ringcentral-widgets/lib/commonStyles/vertical-align';
+
+:global .rw-datetime-picker input.rw-widget-input {
+  display: none;
+}
+
+:global [class*=styles_datePicker] .rw-datetime-picker input.rw-widget-input {
+  display: block;
+  position: absolute;
+  top: -9999px;
+}
+
+:global .rw-datetime-picker .rw-select,
+:global .rw-widget-input.rw-widget-picker.rw-widget-container .rw-select button
+{
+  display: none;
+}
+
+:global .rw-datetime-picker .rw-widget-input {
+  padding: 0;
+  box-shadow: none;
+}
+:global .rw-datetime-picker.rw-widget {
+  height: 30px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+:global .rw-widget-container,
+:global .rw-widget-container.rw-state-focus, 
+:global .rw-state-focus>.rw-widget-container, 
+:global .rw-widget-container.rw-state-focus:hover,
+:global .rw-state-focus>.rw-widget-container:hover
+:global .rw-widget-container
+{
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: none !important;
+}
+:global .rw-popup-container {
+  left: 0;
+  width: 100%;
+  position: absolute;
+  top: 0;
+}
+:global .rw-calendar-popup {
+  border: 1px solid #e2e2e2;
+  margin-bottom: 10px;
+  margin-top: 35px;
+  position: absolute;
+  top: 0;
+}
+:global .rw-widget>.rw-widget-container {
+  width: 100%;
+  margin: 0;
+  height: 0;
+}
+.datePicker {
+  position: relative;
+  margin-top: 10px;
+}
+.dateText {
+  font-size: 13px;
+  position: absolute;
+  top: 0;
+  height: 30px;
+  width: 100%;
+  color: $ash;
+  line-height: 30px;
+  background-color: transparent;
+  border-radius: 1px;
+  border: 1px solid #e2e2e2;
+  cursor: pointer;
+}
