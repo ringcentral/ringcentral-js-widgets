@@ -20,11 +20,9 @@
     "analyze-packages": "babel-node scripts/analyzePackages.js",
     "list-file-matchers": "babel-node scripts/listFileMatchers.js"
   },
-  "dependencies": {
-    "babel-settings": "0.0.1"
-  },
   "devDependencies": {
     "eslint-settings": "0.0.1",
+    "babel-settings": "0.0.1",
     "lerna": "^2.9.0"
   }
 }

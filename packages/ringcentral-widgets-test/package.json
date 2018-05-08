@@ -28,6 +28,7 @@
     "fs-promise": "^2.0.3",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^20.0.4",
+    "normalize-css": "^2.3.1",
     "pubnub": "^4.20.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
@@ -43,8 +44,7 @@
     "ringcentral-integration": "^0.7.46",
     "ringcentral-widgets": "^0.5.18",
     "ringcentral-widgets-demo": "^0.0.1",
-    "yargs": "^8.0.1",
-    "normalize-css": "^2.3.1"
+    "yargs": "^8.0.1"
   },
   "jest": {
     "moduleNameMapper": {
@@ -57,8 +57,8 @@
       "^.+\\.js$": "babel-jest"
     },
     "transformIgnorePatterns": [
-	  "/node_modules\/(?!(ringcentral-integration|ringcentral-widgets|ringcentral-widgets-demo)\/).*/"
-	],
+      "/node_modules/(?!(ringcentral-integration|ringcentral-widgets|ringcentral-widgets-demo)/).*/"
+    ],
     "setupFiles": [
       "<rootDir>/test/shim.js",
       "<rootDir>/test/setup.js"
@@ -80,5 +80,8 @@
       "../ringcentral-widgets/(?:components|containers)/CircleButton.+",
       "../ringcentral-widgets/(?:components|containers)/RadioBtnGroup.+"
     ]
+  },
+  "peerDependencies": {
+    "babel-runtime": "^6.26.0"
   }
 }

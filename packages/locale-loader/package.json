@@ -31,8 +31,7 @@
     "gulp-istanbul": "^1.1.2",
     "gulp-mocha": "3.0.1",
     "gulp-sourcemaps": "^2.4.1",
-    "yargs": "^8.0.2",
-    "babel-settings": "0.0.1"
+    "yargs": "^8.0.2"
   },
   "dependencies": {
     "babel-generator": "^6.26.0",
@@ -43,5 +42,8 @@
     "glob": "^7.1.1",
     "through2": "^2.0.3",
     "xml-js": "^1.0.2"
+  },
+  "peerDependencies": {
+    "babel-runtime": "^6.26.0"
   }
 }

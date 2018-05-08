@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
   "peerDependencies": {
+    "babel-runtime": "^6.26.0",
     "format-message": "^5.0.0",
     "isomorphic-fetch": "^2.2.1",
     "locale-loader": "^1.4.5",
