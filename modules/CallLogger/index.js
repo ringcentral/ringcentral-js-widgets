@@ -65,6 +65,10 @@ var _ensureExist2 = _interopRequireDefault(_ensureExist);
 
 var _callLogHelpers = require('../../lib/callLogHelpers');
 
+var _callLoggerTriggerTYpes = require('../../enums/callLoggerTriggerTYpes');
+
+var _callLoggerTriggerTYpes2 = _interopRequireDefault(_callLoggerTriggerTYpes);
+
 var _actionTypes = require('./actionTypes');
 
 var _actionTypes2 = _interopRequireDefault(_actionTypes);
@@ -328,7 +332,8 @@ var CallLogger = (_dec = (0, _di.Module)({
       var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_ref9) {
         var call = _ref9.call,
             fromEntity = _ref9.fromEntity,
-            toEntity = _ref9.toEntity;
+            toEntity = _ref9.toEntity,
+            triggerType = _ref9.triggerType;
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -340,7 +345,8 @@ var CallLogger = (_dec = (0, _di.Module)({
                     result: call.result || call.telephonyStatus
                   }),
                   fromEntity: fromEntity,
-                  toEntity: toEntity
+                  toEntity: toEntity,
+                  triggerType: triggerType
                 });
 
               case 2:
@@ -360,7 +366,7 @@ var CallLogger = (_dec = (0, _di.Module)({
   }, {
     key: '_onNewCall',
     value: function () {
-      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(call) {
+      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(call, triggerType) {
         var toNumberEntity, fromMatches, toMatches, fromEntity, toEntity;
         return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
@@ -407,7 +413,8 @@ var CallLogger = (_dec = (0, _di.Module)({
                 return this._autoLogCall({
                   call: call,
                   fromEntity: fromEntity,
-                  toEntity: toEntity
+                  toEntity: toEntity,
+                  triggerType: triggerType
                 });
 
               case 16:
@@ -416,7 +423,10 @@ var CallLogger = (_dec = (0, _di.Module)({
 
               case 18:
                 _context6.next = 20;
-                return this._autoLogCall({ call: call });
+                return this._autoLogCall({
+                  call: call,
+                  triggerType: triggerType
+                });
 
               case 20:
               case 'end':
@@ -426,7 +436,7 @@ var CallLogger = (_dec = (0, _di.Module)({
         }, _callee6, this);
       }));
 
-      function _onNewCall(_x5) {
+      function _onNewCall(_x5, _x6) {
         return _ref10.apply(this, arguments);
       }
 
@@ -478,7 +488,7 @@ var CallLogger = (_dec = (0, _di.Module)({
         }, _callee7, this);
       }));
 
-      function _shouldLogUpdatedCall(_x6) {
+      function _shouldLogUpdatedCall(_x7) {
         return _ref11.apply(this, arguments);
       }
 
@@ -487,7 +497,7 @@ var CallLogger = (_dec = (0, _di.Module)({
   }, {
     key: '_onCallUpdated',
     value: function () {
-      var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(call) {
+      var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(call, triggerType) {
         return _regenerator2.default.wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
@@ -502,7 +512,7 @@ var CallLogger = (_dec = (0, _di.Module)({
                 }
 
                 _context8.next = 5;
-                return this._autoLogCall({ call: call });
+                return this._autoLogCall({ call: call, triggerType: triggerType });
 
               case 5:
               case 'end':
@@ -512,7 +522,7 @@ var CallLogger = (_dec = (0, _di.Module)({
         }, _callee8, this);
       }));
 
-      function _onCallUpdated(_x7) {
+      function _onCallUpdated(_x8, _x9) {
         return _ref12.apply(this, arguments);
       }
 
@@ -534,17 +544,17 @@ var CallLogger = (_dec = (0, _di.Module)({
             });
 
             if (oldCallIndex === -1) {
-              _this2._onNewCall(call);
+              _this2._onNewCall(call, _callLoggerTriggerTYpes2.default.presenceUpdate);
             } else {
               var oldCall = oldCalls[oldCallIndex];
               oldCalls.splice(oldCallIndex, 1);
               if (call.telephonyStatus !== oldCall.telephonyStatus) {
-                _this2._onCallUpdated(call);
+                _this2._onCallUpdated(call, _callLoggerTriggerTYpes2.default.presenceUpdate);
               }
             }
           });
           oldCalls.forEach(function (call) {
-            _this2._onCallUpdated(call);
+            _this2._onCallUpdated(call, _callLoggerTriggerTYpes2.default.presenceUpdate);
           });
         }
         if (this._callHistory && this._lastProcessedEndedCalls !== this._callHistory.recentlyEndedCalls) {
@@ -561,7 +571,7 @@ var CallLogger = (_dec = (0, _di.Module)({
                 return item.sessionId === call.sessionId;
               });
               if (callInfo) {
-                _this2._onCallUpdated(callInfo);
+                _this2._onCallUpdated(callInfo, _callLoggerTriggerTYpes2.default.callLogSync);
               }
             }
           });
@@ -619,7 +629,7 @@ var CallLogger = (_dec = (0, _di.Module)({
         }, _callee10, this);
       }));
 
-      function setAutoLog(_x8) {
+      function setAutoLog(_x10) {
         return _ref14.apply(this, arguments);
       }
 
@@ -648,7 +658,7 @@ var CallLogger = (_dec = (0, _di.Module)({
         }, _callee11, this);
       }));
 
-      function setLogOnRinging(_x9) {
+      function setLogOnRinging(_x11) {
         return _ref15.apply(this, arguments);
       }
 
