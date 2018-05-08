@@ -150,7 +150,14 @@ export default class ContactSearch extends RcModule {
     this._searchSourcesCheck.set(sourceName, readyCheckFn);
   }
 
-  debouncedSearch = debounce(this.search, 800, false)
+  _debouncedSearch = debounce(this.search, 800, false);
+
+  debouncedSearch = (...args) => {
+    this.store.dispatch({
+      type: this.actionTypes.prepareSearch,
+    });
+    this._debouncedSearch(...args);
+  }
 
   @proxify
   async search({ searchString }) {
