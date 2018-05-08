@@ -141,6 +141,14 @@ describe('formatNumber', () => {
       phoneNumber: '20 7930 9114',
       countryCode: 'GB'
     })[0] !== '+').to.be.true;
+    expect(formatNumber({
+      phoneNumber: '+1-202-555-0139',
+      countryCode: 'US'
+    })).to.equal('(202) 555-0139');
+    expect(formatNumber({
+      phoneNumber: '+44 20 7930 9114',
+      countryCode: 'GB'
+    })).to.equal('020 7930 9114');
   });
   it ('should format to international format if options.international is set to true', () => {
     expect(formatNumber({
@@ -151,5 +159,15 @@ describe('formatNumber', () => {
       phoneNumber: '+1-202-555-0139',
       countryCode: 'GB',
     }));
+  });
+  it ('should format to international format if phoneNumber not match courtryCode', () => {
+    expect(formatNumber({
+      phoneNumber: '+1-202-555-0139',
+      countryCode: 'GB',
+    })).to.equal('+1 202-555-0139');
+    expect(formatNumber({
+      phoneNumber: '+44-202-555-0139',
+      countryCode: 'US',
+    })).to.equal('+44 20 2555 0139');
   });
 });

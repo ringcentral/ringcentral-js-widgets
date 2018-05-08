@@ -3,7 +3,7 @@ const path = require('path');
 const reactDocs = require('react-docgen');
 const ejs = require('ejs');
 
-const componentsDir = path.resolve(__dirname, '../src/components');
+const componentsDir = path.resolve(__dirname, '../ringcentral-widgets/components');
 const componentDocPagesDir = path.resolve(__dirname, 'src/app/pages/Components');
 const componentRoutesPath = path.resolve(__dirname, 'src/app/pages/ComponentRoutes.js');
 const templatesPath = path.resolve(__dirname, 'src/templates');

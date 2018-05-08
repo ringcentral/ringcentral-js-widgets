@@ -119,7 +119,7 @@ export default class CallLogSection extends RcModule {
   ) {
     this._logFunction = this::ensureExist(logFunction, 'logFunction');
     this._readyCheckFunction = this::ensureExist(readyCheckFunction, 'readyCheckFunction');
-    this._onUpdate = this::ensureExist(onUpdate, 'onUpdate');
+    this._onUpdate = onUpdate;
     this._onSuccess = onSuccess;
     this._onError = onError;
   }
@@ -155,10 +155,12 @@ export default class CallLogSection extends RcModule {
   }
 
   handleLogSection(identify) {
+    // prevent `isSameCall` for repeat run more time.
+    const isSameCall = this.currentIdentify === identify;
     if (!this.show) {
       // Preferentially show call log section.
       this._showLogSection(identify);
-    } else if (!this.notificationIsExpand) {
+    } else if (!this.notificationIsExpand && !isSameCall) {
       // Check it to show log notification when the call log notification isn't expanded.
       this._showLogNotification(identify);
     }
@@ -197,7 +199,10 @@ export default class CallLogSection extends RcModule {
   }
 
   expandLogNotification() {
-    if (!this.notificationIsExpand) {
+    if (!this.show) {
+      this._showLogSection(this.currentNotificationIdentify);
+      this.closeLogNotification()
+    } else if (!this.notificationIsExpand) {
       this.store.dispatch({
         type: this.actionTypes.expandNotification
       });

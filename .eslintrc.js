@@ -19,6 +19,7 @@ module.exports = {
         ignoreComments: true,
         ignoreStrings: true,
         ignoreTemplateLiterals: true,
+        ignoreRegExpLiterals: true,
       },
     ],
     "function-paren-newline": 0,

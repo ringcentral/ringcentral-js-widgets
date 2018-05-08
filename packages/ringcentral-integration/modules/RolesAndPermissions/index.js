@@ -67,6 +67,7 @@ export default class RolesAndPermissions extends DataFetcher {
     this._flag = flag || 'SalesForce';
     this._alert = ensureExist(alert, 'alert');
     this._extensionInfo = ensureExist(extensionInfo, 'extensionInfo');
+    this._onDataReadyHandler = [];
     this.addSelector(
       'permissions',
       () => this.data,
@@ -75,6 +76,12 @@ export default class RolesAndPermissions extends DataFetcher {
   }
 
   async _onStateChange() {
+    // fire event handler when data is ready
+    if (this._isDataReady()) {
+      for (const handler of this._onDataReadyHandler) {
+        handler();
+      }
+    }
     await super._onStateChange();
     if (this.ready &&
       this._auth.loginStatus === loginStatus.loggedIn &&
@@ -99,6 +106,10 @@ export default class RolesAndPermissions extends DataFetcher {
         ttl: 0,
       });
     }
+  }
+
+  onDataReady(fn) {
+    this._onDataReadyHandler.push(fn);
   }
 
   refreshServiceFeatures() {
