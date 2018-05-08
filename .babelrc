@@ -1,15 +1,3 @@
 {
-  "presets": [
-    "react",
-    "env"
-  ],
-  "plugins": [
-    "transform-object-rest-spread",
-    "transform-decorators-legacy",
-    "transform-runtime",
-    "transform-function-bind", // stage 0
-    "transform-export-extensions", // stage 1
-    "transform-class-properties" // stage 2
-  ],
-  "sourceMaps": true
+  "extends": "./packages/babel-settings/.babelrc"
 }
