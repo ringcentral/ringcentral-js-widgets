@@ -4,6 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  saveLog: 'Save'
+  copyToClipboard: 'Copy to Clipboard'
 };
 //# sourceMappingURL=en-US.js.map

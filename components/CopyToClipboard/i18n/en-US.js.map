@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/CopyToClipboard/i18n/en-US.js"],"names":["copyToClipboard"],"mappings":";;;;;kBAAe;AACbA,mBAAiB;AADJ,C","file":"en-US.js","sourcesContent":["export default {\n  copyToClipboard: 'Copy to Clipboard',\n};\n\n"]}
