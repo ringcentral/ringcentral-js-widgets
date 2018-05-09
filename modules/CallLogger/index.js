@@ -65,9 +65,9 @@ var _ensureExist2 = _interopRequireDefault(_ensureExist);
 
 var _callLogHelpers = require('../../lib/callLogHelpers');
 
-var _callLoggerTriggerTYpes = require('../../enums/callLoggerTriggerTYpes');
+var _callLoggerTriggerTypes = require('../../enums/callLoggerTriggerTypes');
 
-var _callLoggerTriggerTYpes2 = _interopRequireDefault(_callLoggerTriggerTYpes);
+var _callLoggerTriggerTypes2 = _interopRequireDefault(_callLoggerTriggerTypes);
 
 var _actionTypes = require('./actionTypes');
 
@@ -544,17 +544,17 @@ var CallLogger = (_dec = (0, _di.Module)({
             });
 
             if (oldCallIndex === -1) {
-              _this2._onNewCall(call, _callLoggerTriggerTYpes2.default.presenceUpdate);
+              _this2._onNewCall(call, _callLoggerTriggerTypes2.default.presenceUpdate);
             } else {
               var oldCall = oldCalls[oldCallIndex];
               oldCalls.splice(oldCallIndex, 1);
               if (call.telephonyStatus !== oldCall.telephonyStatus) {
-                _this2._onCallUpdated(call, _callLoggerTriggerTYpes2.default.presenceUpdate);
+                _this2._onCallUpdated(call, _callLoggerTriggerTypes2.default.presenceUpdate);
               }
             }
           });
           oldCalls.forEach(function (call) {
-            _this2._onCallUpdated(call, _callLoggerTriggerTYpes2.default.presenceUpdate);
+            _this2._onCallUpdated(call, _callLoggerTriggerTypes2.default.presenceUpdate);
           });
         }
         if (this._callHistory && this._lastProcessedEndedCalls !== this._callHistory.recentlyEndedCalls) {
@@ -571,7 +571,7 @@ var CallLogger = (_dec = (0, _di.Module)({
                 return item.sessionId === call.sessionId;
               });
               if (callInfo) {
-                _this2._onCallUpdated(callInfo, _callLoggerTriggerTYpes2.default.callLogSync);
+                _this2._onCallUpdated(callInfo, _callLoggerTriggerTypes2.default.callLogSync);
               }
             }
           });
