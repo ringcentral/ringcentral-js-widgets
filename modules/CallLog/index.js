@@ -97,6 +97,10 @@ var _callResults = require('../../enums/callResults');
 
 var _callResults2 = _interopRequireDefault(_callResults);
 
+var _callActions = require('../../enums/callActions');
+
+var _callActions2 = _interopRequireDefault(_callActions);
+
 var _proxify = require('../../lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
@@ -363,7 +367,20 @@ var CallLog = (_dec = (0, _di.Module)({
             // Error Internal error occurred when receiving fax
             call.result !== _callResults2.default.faxReceipt
           );
-        })))
+        }))).map(function (call) {
+          // [RCINT-7364] Call presence is incorrect when make ringout call from a DL number.
+          // When user use DL number set ringout, call log sync will response tow legs.
+          // But user use company plus extension number, call log sync will response only one leg.
+          // And the results about `to` and `from` in platform APIs call log sync response is opposite.
+          // This is a temporary solution.
+          if ((0, _callLogHelpers.isOutbound)(call) && (call.action === _callActions2.default.ringOutWeb || call.action === _callActions2.default.ringOutPC || call.action === _callActions2.default.ringOutMobile)) {
+            return (0, _extends3.default)({}, call, {
+              from: call.to,
+              to: call.from
+            });
+          }
+          return call;
+        })
       );
     });
 
