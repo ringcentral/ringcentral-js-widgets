@@ -64,9 +64,11 @@ function mapToFunctions(_, _ref2) {
         }, _callee, _this);
       }));
 
-      return function onLogoutButtonClick() {
+      function onLogoutButtonClick() {
         return _ref3.apply(this, arguments);
-      };
+      }
+
+      return onLogoutButtonClick;
     }(),
     onBackButtonClick: function onBackButtonClick() {
       routerInteraction.goBack();

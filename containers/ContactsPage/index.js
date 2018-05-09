@@ -66,9 +66,11 @@ function mapToFunctions(_, _ref2) {
         }, _callee, _this);
       }));
 
-      return function getAvatarUrl() {
+      function getAvatarUrl() {
         return _ref3.apply(this, arguments);
-      };
+      }
+
+      return getAvatarUrl;
     }(),
     getPresence: function () {
       var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(contact) {
@@ -92,14 +94,16 @@ function mapToFunctions(_, _ref2) {
         }, _callee2, _this);
       }));
 
-      return function getPresence(_x) {
+      function getPresence(_x) {
         return _ref4.apply(this, arguments);
-      };
+      }
+
+      return getPresence;
     }(),
     onItemSelect: onItemSelect || function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_ref6) {
-        var type = _ref6.type,
-            id = _ref6.id;
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_ref5) {
+        var type = _ref5.type,
+            id = _ref5.id;
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -115,7 +119,7 @@ function mapToFunctions(_, _ref2) {
       }));
 
       return function (_x2) {
-        return _ref5.apply(this, arguments);
+        return _ref6.apply(this, arguments);
       };
     }(),
     onSearchContact: function onSearchContact(_ref7) {

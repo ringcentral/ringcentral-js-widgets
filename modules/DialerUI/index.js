@@ -312,7 +312,7 @@ var DialerUI = (_dec = (0, _di.Module)({
         }, _callee4, this);
       }));
 
-      function setRecipient(_x4) {
+      function setRecipient(_x5) {
         return _ref7.apply(this, arguments);
       }
 
@@ -347,11 +347,11 @@ var DialerUI = (_dec = (0, _di.Module)({
   }, {
     key: 'call',
     value: function () {
-      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(_ref10) {
-        var _ref10$phoneNumber = _ref10.phoneNumber,
-            phoneNumber = _ref10$phoneNumber === undefined ? '' : _ref10$phoneNumber,
-            _ref10$recipient = _ref10.recipient,
-            recipient = _ref10$recipient === undefined ? null : _ref10$recipient;
+      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(_ref9) {
+        var _ref9$phoneNumber = _ref9.phoneNumber,
+            phoneNumber = _ref9$phoneNumber === undefined ? '' : _ref9$phoneNumber,
+            _ref9$recipient = _ref9.recipient,
+            recipient = _ref9$recipient === undefined ? null : _ref9$recipient;
         return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
@@ -404,7 +404,7 @@ var DialerUI = (_dec = (0, _di.Module)({
       }));
 
       function call(_x6) {
-        return _ref9.apply(this, arguments);
+        return _ref10.apply(this, arguments);
       }
 
       return call;

@@ -88,9 +88,9 @@ function mapToFunctions(_, _ref2) {
   return {
     dateTimeFormatter: dateTimeFormatter,
     onViewContact: onViewContact ? function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref5) {
-        var phoneNumber = _ref5.phoneNumber,
-            contact = _ref5.contact;
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref4) {
+        var phoneNumber = _ref4.phoneNumber,
+            contact = _ref4.contact;
         var hasMatchNumber;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -122,14 +122,14 @@ function mapToFunctions(_, _ref2) {
       }));
 
       return function (_x) {
-        return _ref4.apply(this, arguments);
+        return _ref5.apply(this, arguments);
       };
     }() : undefined,
     onCreateContact: onCreateContact ? function () {
-      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref7) {
-        var phoneNumber = _ref7.phoneNumber,
-            name = _ref7.name,
-            entityType = _ref7.entityType;
+      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref6) {
+        var phoneNumber = _ref6.phoneNumber,
+            name = _ref6.name,
+            entityType = _ref6.entityType;
         var hasMatchNumber;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
@@ -165,16 +165,16 @@ function mapToFunctions(_, _ref2) {
       }));
 
       return function (_x2) {
-        return _ref6.apply(this, arguments);
+        return _ref7.apply(this, arguments);
       };
     }() : undefined,
     isLoggedContact: isLoggedContact,
     onLogCall: onLogCall || callLogger && function () {
-      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_ref9) {
-        var call = _ref9.call,
-            contact = _ref9.contact,
-            _ref9$redirect = _ref9.redirect,
-            redirect = _ref9$redirect === undefined ? true : _ref9$redirect;
+      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_ref8) {
+        var call = _ref8.call,
+            contact = _ref8.contact,
+            _ref8$redirect = _ref8.redirect,
+            redirect = _ref8$redirect === undefined ? true : _ref8$redirect;
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -195,7 +195,7 @@ function mapToFunctions(_, _ref2) {
       }));
 
       return function (_x3) {
-        return _ref8.apply(this, arguments);
+        return _ref9.apply(this, arguments);
       };
     }(),
     onClickToSms: composeText ? function () {
@@ -226,7 +226,7 @@ function mapToFunctions(_, _ref2) {
         }, _callee4, _this);
       }));
 
-      return function (_x4) {
+      return function (_x5) {
         return _ref10.apply(this, arguments);
       };
     }() : undefined,

@@ -394,23 +394,24 @@ var ConferencePanel = function (_Component) {
         );
       }
       var additionalNumberObjs = [];
+
+      var _loop = function _loop(n) {
+        if (n !== dialInNumber) {
+          additionalNumberObjs.push(dialInNumbers.find(function (e) {
+            return e.phoneNumber === n;
+          }));
+        }
+      };
+
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
       var _iteratorError = undefined;
 
       try {
-        var _loop = function _loop() {
+        for (var _iterator = (0, _getIterator3.default)(additionalNumbers), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
           var n = _step.value;
 
-          if (n !== dialInNumber) {
-            additionalNumberObjs.push(dialInNumbers.find(function (e) {
-              return e.phoneNumber === n;
-            }));
-          }
-        };
-
-        for (var _iterator = (0, _getIterator3.default)(additionalNumbers), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          _loop();
+          _loop(n);
         }
       } catch (err) {
         _didIteratorError = true;

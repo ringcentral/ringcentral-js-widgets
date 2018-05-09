@@ -141,9 +141,9 @@ var ProxyFrameOAuth = (_dec = (0, _di.Module)({
     }, options)));
 
     _this._callbackHandler = function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref3) {
-        var origin = _ref3.origin,
-            data = _ref3.data;
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref2) {
+        var origin = _ref2.origin,
+            data = _ref2.data;
         var callbackUri, proxyLoaded;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -173,7 +173,7 @@ var ProxyFrameOAuth = (_dec = (0, _di.Module)({
       }));
 
       return function (_x) {
-        return _ref2.apply(this, arguments);
+        return _ref3.apply(this, arguments);
       };
     }();
 

@@ -128,7 +128,7 @@ function mapToFunctions(_, _ref2) {
         }, _callee, _this);
       }));
 
-      return function (_x) {
+      return function (_x2) {
         return _ref3.apply(this, arguments);
       };
     }() : undefined

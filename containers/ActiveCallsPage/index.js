@@ -130,9 +130,11 @@ function mapToFunctions(_, _ref2) {
         }, _callee, _this);
       }));
 
-      return function webphoneResume() {
+      function webphoneResume() {
         return _ref3.apply(this, arguments);
-      };
+      }
+
+      return webphoneResume;
     }(),
     onViewContact: showViewContact ? onViewContact || function (_ref4) {
       var contact = _ref4.contact;
@@ -167,15 +169,15 @@ function mapToFunctions(_, _ref2) {
         }, _callee2, _this);
       }));
 
-      return function (_x) {
+      return function (_x2) {
         return _ref5.apply(this, arguments);
       };
     }() : undefined,
     onCreateContact: onCreateContact ? function () {
-      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_ref7) {
-        var phoneNumber = _ref7.phoneNumber,
-            name = _ref7.name,
-            entityType = _ref7.entityType;
+      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_ref6) {
+        var phoneNumber = _ref6.phoneNumber,
+            name = _ref6.name,
+            entityType = _ref6.entityType;
         var hasMatchNumber;
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
@@ -211,16 +213,16 @@ function mapToFunctions(_, _ref2) {
       }));
 
       return function (_x3) {
-        return _ref6.apply(this, arguments);
+        return _ref7.apply(this, arguments);
       };
     }() : undefined,
     isLoggedContact: isLoggedContact,
     onLogCall: onLogCall || callLogger && function () {
-      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref9) {
-        var call = _ref9.call,
-            contact = _ref9.contact,
-            _ref9$redirect = _ref9.redirect,
-            redirect = _ref9$redirect === undefined ? true : _ref9$redirect;
+      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref8) {
+        var call = _ref8.call,
+            contact = _ref8.contact,
+            _ref8$redirect = _ref8.redirect,
+            redirect = _ref8$redirect === undefined ? true : _ref8$redirect;
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
@@ -241,7 +243,7 @@ function mapToFunctions(_, _ref2) {
       }));
 
       return function (_x4) {
-        return _ref8.apply(this, arguments);
+        return _ref9.apply(this, arguments);
       };
     }(),
     onCallsEmpty: onCallsEmpty

@@ -197,12 +197,12 @@ var ConversationPanel = function (_Component) {
   }, {
     key: 'logConversation',
     value: function () {
-      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref2) {
-        var _ref2$redirect = _ref2.redirect,
-            redirect = _ref2$redirect === undefined ? true : _ref2$redirect,
-            selected = _ref2.selected,
-            _ref2$prefill = _ref2.prefill,
-            prefill = _ref2$prefill === undefined ? true : _ref2$prefill;
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref) {
+        var _ref$redirect = _ref.redirect,
+            redirect = _ref$redirect === undefined ? true : _ref$redirect,
+            selected = _ref.selected,
+            _ref$prefill = _ref.prefill,
+            prefill = _ref$prefill === undefined ? true : _ref$prefill;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -239,7 +239,7 @@ var ConversationPanel = function (_Component) {
       }));
 
       function logConversation(_x3) {
-        return _ref.apply(this, arguments);
+        return _ref2.apply(this, arguments);
       }
 
       return logConversation;

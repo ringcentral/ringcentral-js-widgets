@@ -326,10 +326,10 @@ function mapToFunctions(_, _ref2) {
     getMatcherContactNameList: getMatcherContactNameList,
     isLoggedContact: isLoggedContact,
     onLogConversation: onLogConversation || conversationLogger && function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref4) {
-        var _ref4$redirect = _ref4.redirect,
-            redirect = _ref4$redirect === undefined ? true : _ref4$redirect,
-            options = (0, _objectWithoutProperties3.default)(_ref4, ['redirect']);
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref3) {
+        var _ref3$redirect = _ref3.redirect,
+            redirect = _ref3$redirect === undefined ? true : _ref3$redirect,
+            options = (0, _objectWithoutProperties3.default)(_ref3, ['redirect']);
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -348,7 +348,7 @@ function mapToFunctions(_, _ref2) {
       }));
 
       return function (_x) {
-        return _ref3.apply(this, arguments);
+        return _ref4.apply(this, arguments);
       };
     }(),
     goBack: function goBack() {

@@ -129,10 +129,10 @@ function mapToFunctions(_, _ref2) {
       routerInteraction.push('/contacts/' + type + '/' + id + '?direct=true');
     } : null,
     onCreateContact: onCreateContact ? function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref5) {
-        var phoneNumber = _ref5.phoneNumber,
-            name = _ref5.name,
-            entityType = _ref5.entityType;
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref4) {
+        var phoneNumber = _ref4.phoneNumber,
+            name = _ref4.name,
+            entityType = _ref4.entityType;
         var hasMatchNumber;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -168,7 +168,7 @@ function mapToFunctions(_, _ref2) {
       }));
 
       return function (_x) {
-        return _ref4.apply(this, arguments);
+        return _ref5.apply(this, arguments);
       };
     }() : undefined,
     onClickToDial: dialerUI && rolesAndPermissions.callingEnabled ? function (recipient) {
@@ -200,10 +200,10 @@ function mapToFunctions(_, _ref2) {
     },
     isLoggedContact: isLoggedContact,
     onLogConversation: onLogConversation || conversationLogger && function () {
-      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref7) {
-        var _ref7$redirect = _ref7.redirect,
-            redirect = _ref7$redirect === undefined ? true : _ref7$redirect,
-            options = (0, _objectWithoutProperties3.default)(_ref7, ['redirect']);
+      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref6) {
+        var _ref6$redirect = _ref6.redirect,
+            redirect = _ref6$redirect === undefined ? true : _ref6$redirect,
+            options = (0, _objectWithoutProperties3.default)(_ref6, ['redirect']);
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -222,7 +222,7 @@ function mapToFunctions(_, _ref2) {
       }));
 
       return function (_x3) {
-        return _ref6.apply(this, arguments);
+        return _ref7.apply(this, arguments);
       };
     }(),
     onSearchInputChange: function onSearchInputChange(e) {

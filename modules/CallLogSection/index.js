@@ -9,6 +9,10 @@ var _defineProperty = require('babel-runtime/core-js/object/define-property');
 
 var _defineProperty2 = _interopRequireDefault(_defineProperty);
 
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -303,7 +307,7 @@ var CallLogSection = (_dec = (0, _di.Module)({
                   identify: identify
                 });
                 _context2.next = 3;
-                return this._onUpdate.apply(this, [identify].concat(args));
+                return this._onUpdate.apply(this, [identify].concat((0, _toConsumableArray3.default)(args)));
 
               case 3:
               case 'end':
@@ -349,15 +353,15 @@ var CallLogSection = (_dec = (0, _di.Module)({
 
                 _context3.prev = 3;
                 _context3.next = 6;
-                return this._logFunction.apply(this, [identify].concat(args));
+                return this._logFunction.apply(this, [identify].concat((0, _toConsumableArray3.default)(args)));
 
               case 6:
                 result = _context3.sent;
 
                 if (result) {
-                  this._handleSuccess.apply(this, [identify].concat(args));
+                  this._handleSuccess.apply(this, [identify].concat((0, _toConsumableArray3.default)(args)));
                 } else {
-                  this._handleError.apply(this, [identify].concat(args));
+                  this._handleError.apply(this, [identify].concat((0, _toConsumableArray3.default)(args)));
                 }
                 _context3.next = 14;
                 break;
@@ -366,7 +370,7 @@ var CallLogSection = (_dec = (0, _di.Module)({
                 _context3.prev = 10;
                 _context3.t0 = _context3['catch'](3);
 
-                this._handleError.apply(this, [identify].concat(args));
+                this._handleError.apply(this, [identify].concat((0, _toConsumableArray3.default)(args)));
                 console.warn(_context3.t0);
 
               case 14:

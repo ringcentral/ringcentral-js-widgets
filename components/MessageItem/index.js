@@ -398,12 +398,12 @@ var MessageItem = function (_Component) {
   }, {
     key: 'logConversation',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref4) {
-        var _ref4$redirect = _ref4.redirect,
-            redirect = _ref4$redirect === undefined ? true : _ref4$redirect,
-            selected = _ref4.selected,
-            _ref4$prefill = _ref4.prefill,
-            prefill = _ref4$prefill === undefined ? true : _ref4$prefill;
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref3) {
+        var _ref3$redirect = _ref3.redirect,
+            redirect = _ref3$redirect === undefined ? true : _ref3$redirect,
+            selected = _ref3.selected,
+            _ref3$prefill = _ref3.prefill,
+            prefill = _ref3$prefill === undefined ? true : _ref3$prefill;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -440,7 +440,7 @@ var MessageItem = function (_Component) {
       }));
 
       function logConversation(_x4) {
-        return _ref3.apply(this, arguments);
+        return _ref4.apply(this, arguments);
       }
 
       return logConversation;

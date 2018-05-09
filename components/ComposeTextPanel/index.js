@@ -118,7 +118,7 @@ var ComposeTextPanel = function (_Component) {
         }, _callee, _this2);
       }));
 
-      return function (_x) {
+      return function (_x2) {
         return _ref.apply(this, arguments);
       };
     }();

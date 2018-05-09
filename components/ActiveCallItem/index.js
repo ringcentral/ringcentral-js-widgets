@@ -433,10 +433,10 @@ var ActiveCallItem = function (_Component) {
   }, {
     key: 'logCall',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref5) {
-        var _ref5$redirect = _ref5.redirect,
-            redirect = _ref5$redirect === undefined ? true : _ref5$redirect,
-            selected = _ref5.selected;
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref4) {
+        var _ref4$redirect = _ref4.redirect,
+            redirect = _ref4$redirect === undefined ? true : _ref4$redirect,
+            selected = _ref4.selected;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -472,7 +472,7 @@ var ActiveCallItem = function (_Component) {
       }));
 
       function logCall(_x4) {
-        return _ref4.apply(this, arguments);
+        return _ref5.apply(this, arguments);
       }
 
       return logCall;

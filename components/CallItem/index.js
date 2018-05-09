@@ -385,27 +385,28 @@ var CallItem = function (_Component) {
       var contactMatches = this.getContactMatches(nextProps);
       var activityMatches = nextProps.call.activityMatches;
       // console.log('getInitialContactIndex:', nextProps.call.toNumberEntity);
+
+      var _loop = function _loop(activity) {
+        var index = contactMatches.findIndex(function (contact) {
+          return (
+            // TODO find a better name or mechanism...
+            _this4.props.isLoggedContact(nextProps.call, activity, contact)
+          );
+        });
+        if (index > -1) return {
+            v: index
+          };
+      };
+
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
       var _iteratorError = undefined;
 
       try {
-        var _loop = function _loop() {
+        for (var _iterator = (0, _getIterator3.default)(activityMatches), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
           var activity = _step.value;
 
-          var index = contactMatches.findIndex(function (contact) {
-            return (
-              // TODO find a better name or mechanism...
-              _this4.props.isLoggedContact(nextProps.call, activity, contact)
-            );
-          });
-          if (index > -1) return {
-              v: index
-            };
-        };
-
-        for (var _iterator = (0, _getIterator3.default)(activityMatches), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var _ret = _loop();
+          var _ret = _loop(activity);
 
           if ((typeof _ret === 'undefined' ? 'undefined' : (0, _typeof3.default)(_ret)) === "object") return _ret.v;
         }
@@ -452,10 +453,10 @@ var CallItem = function (_Component) {
   }, {
     key: 'logCall',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref5) {
-        var _ref5$redirect = _ref5.redirect,
-            redirect = _ref5$redirect === undefined ? true : _ref5$redirect,
-            selected = _ref5.selected;
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref4) {
+        var _ref4$redirect = _ref4.redirect,
+            redirect = _ref4$redirect === undefined ? true : _ref4$redirect,
+            selected = _ref4.selected;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -491,7 +492,7 @@ var CallItem = function (_Component) {
       }));
 
       function logCall(_x5) {
-        return _ref4.apply(this, arguments);
+        return _ref5.apply(this, arguments);
       }
 
       return logCall;
