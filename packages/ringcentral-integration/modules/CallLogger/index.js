@@ -6,7 +6,7 @@ import {
   isInbound,
   removeDuplicateSelfCalls,
 } from '../../lib/callLogHelpers';
-import callLoggerTriggerTypes from '../../enums/callLoggerTriggerTYpes';
+import callLoggerTriggerTypes from '../../enums/callLoggerTriggerTypes';
 import actionTypes from './actionTypes';
 import getDataReducer from './getDataReducer';
 import proxify from '../../lib/proxy/proxify';
