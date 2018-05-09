@@ -531,13 +531,13 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: '_recursiveFSync',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref6) {
-        var dateFrom = _ref6.dateFrom,
-            _ref6$dateTo = _ref6.dateTo,
-            dateTo = _ref6$dateTo === undefined ? null : _ref6$dateTo,
-            syncToken = _ref6.syncToken,
-            _ref6$recordsLength = _ref6.recordsLength,
-            recordsLength = _ref6$recordsLength === undefined ? 0 : _ref6$recordsLength;
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref5) {
+        var dateFrom = _ref5.dateFrom,
+            _ref5$dateTo = _ref5.dateTo,
+            dateTo = _ref5$dateTo === undefined ? null : _ref5$dateTo,
+            syncToken = _ref5.syncToken,
+            _ref5$recordsLength = _ref5.recordsLength,
+            recordsLength = _ref5$recordsLength === undefined ? 0 : _ref5$recordsLength;
 
         var MAX_MSG_LENGTH, params, _ref7, records, syncInfo, _dateTo, lastResponse;
 
@@ -602,7 +602,7 @@ var MessageStore = (_dec = (0, _di.Module)({
       }));
 
       function _recursiveFSync(_x2) {
-        return _ref5.apply(this, arguments);
+        return _ref6.apply(this, arguments);
       }
 
       return _recursiveFSync;

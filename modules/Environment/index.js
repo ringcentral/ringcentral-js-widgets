@@ -206,10 +206,10 @@ var Environment = (_dec = (0, _di.Module)({
   }, {
     key: 'setData',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref3) {
-        var server = _ref3.server,
-            recordingHost = _ref3.recordingHost,
-            enabled = _ref3.enabled;
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref2) {
+        var server = _ref2.server,
+            recordingHost = _ref2.recordingHost,
+            enabled = _ref2.enabled;
         var environmentChanged;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -239,7 +239,7 @@ var Environment = (_dec = (0, _di.Module)({
       }));
 
       function setData(_x) {
-        return _ref2.apply(this, arguments);
+        return _ref3.apply(this, arguments);
       }
 
       return setData;

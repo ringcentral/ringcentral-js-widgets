@@ -170,10 +170,10 @@ var Ringout = (_dec = (0, _di.Module)({
   }, {
     key: 'makeCall',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref3) {
-        var fromNumber = _ref3.fromNumber,
-            toNumber = _ref3.toNumber,
-            prompt = _ref3.prompt;
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref2) {
+        var fromNumber = _ref2.fromNumber,
+            toNumber = _ref2.toNumber,
+            prompt = _ref2.prompt;
         var resp, startTime;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -236,7 +236,7 @@ var Ringout = (_dec = (0, _di.Module)({
       }));
 
       function makeCall(_x) {
-        return _ref2.apply(this, arguments);
+        return _ref3.apply(this, arguments);
       }
 
       return makeCall;

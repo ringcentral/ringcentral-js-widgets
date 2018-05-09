@@ -172,10 +172,10 @@ var RecentCalls = (_dec = (0, _di.Module)({
   }, {
     key: 'getCalls',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref3) {
-        var currentContact = _ref3.currentContact,
-            _ref3$sessionId = _ref3.sessionId,
-            sessionId = _ref3$sessionId === undefined ? null : _ref3$sessionId;
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref2) {
+        var currentContact = _ref2.currentContact,
+            _ref2$sessionId = _ref2.sessionId,
+            sessionId = _ref2$sessionId === undefined ? null : _ref2$sessionId;
         var contactId, calls;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -225,7 +225,7 @@ var RecentCalls = (_dec = (0, _di.Module)({
       }));
 
       function getCalls(_x) {
-        return _ref2.apply(this, arguments);
+        return _ref3.apply(this, arguments);
       }
 
       return getCalls;
@@ -297,7 +297,7 @@ var RecentCalls = (_dec = (0, _di.Module)({
         }, _callee2, this);
       }));
 
-      function _getRecentCalls(_x2) {
+      function _getRecentCalls(_x5) {
         return _ref5.apply(this, arguments);
       }
 

@@ -395,8 +395,8 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: 'onToNumberMatch',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref6) {
-        var entityId = _ref6.entityId;
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref5) {
+        var entityId = _ref5.entityId;
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
@@ -415,7 +415,7 @@ var ComposeText = (_dec = (0, _di.Module)({
       }));
 
       function onToNumberMatch(_x3) {
-        return _ref5.apply(this, arguments);
+        return _ref6.apply(this, arguments);
       }
 
       return onToNumberMatch;
@@ -452,7 +452,7 @@ var ComposeText = (_dec = (0, _di.Module)({
         }, _callee5, this);
       }));
 
-      function addToRecipients(_x4) {
+      function addToRecipients(_x5) {
         return _ref7.apply(this, arguments);
       }
 

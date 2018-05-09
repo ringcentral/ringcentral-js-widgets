@@ -267,7 +267,7 @@ var GlipPosts = (_dec = (0, _di.Module)({
         }, _callee3, this);
       }));
 
-      function loadPosts(_x) {
+      function loadPosts(_x2) {
         return _ref3.apply(this, arguments);
       }
 
@@ -276,8 +276,8 @@ var GlipPosts = (_dec = (0, _di.Module)({
   }, {
     key: 'create',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref6) {
-        var groupId = _ref6.groupId;
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref5) {
+        var groupId = _ref5.groupId;
         var text, fakeId, fakeRecord, record;
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
@@ -350,7 +350,7 @@ var GlipPosts = (_dec = (0, _di.Module)({
       }));
 
       function create(_x3) {
-        return _ref5.apply(this, arguments);
+        return _ref6.apply(this, arguments);
       }
 
       return create;
@@ -358,10 +358,10 @@ var GlipPosts = (_dec = (0, _di.Module)({
   }, {
     key: 'sendFile',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_ref8) {
-        var fileName = _ref8.fileName,
-            groupId = _ref8.groupId,
-            rawFile = _ref8.rawFile;
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_ref7) {
+        var fileName = _ref7.fileName,
+            groupId = _ref7.groupId,
+            rawFile = _ref7.rawFile;
         var platform, body, response;
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
@@ -399,7 +399,7 @@ var GlipPosts = (_dec = (0, _di.Module)({
       }));
 
       function sendFile(_x4) {
-        return _ref7.apply(this, arguments);
+        return _ref8.apply(this, arguments);
       }
 
       return sendFile;

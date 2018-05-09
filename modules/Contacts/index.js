@@ -193,8 +193,8 @@ var Contacts = (_dec = (0, _di.Module)({
         for (var _iterator2 = (0, _getIterator3.default)((0, _from2.default)(_this._contactSources.keys())), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
           var sourceName = _step2.value;
 
-          var source = _this._contactSources.get(sourceName);
-          if (source.sourceReady) {
+          var _source = _this._contactSources.get(sourceName);
+          if (_source.sourceReady) {
             names.push(sourceName);
           }
         }
@@ -228,9 +228,9 @@ var Contacts = (_dec = (0, _di.Module)({
         for (var _iterator3 = (0, _getIterator3.default)((0, _from2.default)(_this._contactSources.keys())), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
           var sourceName = _step3.value;
 
-          var source = _this._contactSources.get(sourceName);
-          if (source.sourceReady) {
-            contacts = contacts.concat(source.contacts);
+          var _source2 = _this._contactSources.get(sourceName);
+          if (_source2.sourceReady) {
+            contacts = contacts.concat(_source2.contacts);
           }
         }
       } catch (err) {
@@ -277,10 +277,10 @@ var Contacts = (_dec = (0, _di.Module)({
         return _this.allContacts;
       }
       if (sourceFilter !== _contactHelper.AllContactSourceName && !(0, _isBlank2.default)(sourceFilter)) {
-        var source = _this._contactSources.get(sourceFilter);
-        if (source && source.sourceReady) {
+        var _source3 = _this._contactSources.get(sourceFilter);
+        if (_source3 && _source3.sourceReady) {
           /* eslint { "prefer-destructuring": 0 } */
-          contacts = source.contacts;
+          contacts = _source3.contacts;
         } else {
           contacts = [];
         }
@@ -521,7 +521,7 @@ var Contacts = (_dec = (0, _di.Module)({
         }, _callee, this);
       }));
 
-      function getProfileImage(_x) {
+      function getProfileImage(_x2) {
         return _ref5.apply(this, arguments);
       }
 
@@ -562,7 +562,7 @@ var Contacts = (_dec = (0, _di.Module)({
         }, _callee2, this);
       }));
 
-      function getPresence(_x3) {
+      function getPresence(_x4) {
         return _ref6.apply(this, arguments);
       }
 

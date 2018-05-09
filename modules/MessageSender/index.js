@@ -429,13 +429,13 @@ var MessageSender = (_dec = (0, _di.Module)({
   }, {
     key: 'send',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref4) {
-        var fromNumber = _ref4.fromNumber,
-            toNumbers = _ref4.toNumbers,
-            text = _ref4.text,
-            replyOnMessageId = _ref4.replyOnMessageId,
-            _ref4$multipart = _ref4.multipart,
-            multipart = _ref4$multipart === undefined ? false : _ref4$multipart;
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref3) {
+        var fromNumber = _ref3.fromNumber,
+            toNumbers = _ref3.toNumbers,
+            text = _ref3.text,
+            replyOnMessageId = _ref3.replyOnMessageId,
+            _ref3$multipart = _ref3.multipart,
+            multipart = _ref3$multipart === undefined ? false : _ref3$multipart;
 
         var validateToNumberResult, recipientNumbers, extensionNumbers, phoneNumbers, responses, chunks, total, shouldSleep, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, chunk, pagerResponse, _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, phoneNumber, _iteratorNormalCompletion4, _didIteratorError4, _iteratorError4, _iterator4, _step4, _chunk, smsResponse;
 
@@ -739,7 +739,7 @@ var MessageSender = (_dec = (0, _di.Module)({
       }));
 
       function send(_x2) {
-        return _ref3.apply(this, arguments);
+        return _ref4.apply(this, arguments);
       }
 
       return send;
@@ -747,10 +747,10 @@ var MessageSender = (_dec = (0, _di.Module)({
   }, {
     key: '_sendSms',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_ref6) {
-        var fromNumber = _ref6.fromNumber,
-            toNumber = _ref6.toNumber,
-            text = _ref6.text;
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_ref5) {
+        var fromNumber = _ref5.fromNumber,
+            toNumber = _ref5.toNumber,
+            text = _ref5.text;
         var toUsers, response;
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
@@ -777,7 +777,7 @@ var MessageSender = (_dec = (0, _di.Module)({
       }));
 
       function _sendSms(_x3) {
-        return _ref5.apply(this, arguments);
+        return _ref6.apply(this, arguments);
       }
 
       return _sendSms;
@@ -785,10 +785,10 @@ var MessageSender = (_dec = (0, _di.Module)({
   }, {
     key: '_sendPager',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref8) {
-        var toNumbers = _ref8.toNumbers,
-            text = _ref8.text,
-            replyOnMessageId = _ref8.replyOnMessageId;
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref7) {
+        var toNumbers = _ref7.toNumbers,
+            text = _ref7.text,
+            replyOnMessageId = _ref7.replyOnMessageId;
         var from, toUsers, params, response;
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
@@ -819,7 +819,7 @@ var MessageSender = (_dec = (0, _di.Module)({
       }));
 
       function _sendPager(_x4) {
-        return _ref7.apply(this, arguments);
+        return _ref8.apply(this, arguments);
       }
 
       return _sendPager;

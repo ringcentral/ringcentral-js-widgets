@@ -169,15 +169,15 @@ var Alert = (_dec = (0, _di.Module)({
      * @param {Number} options.ttl - optional, set ttl to 0 to disable auto dismiss
      */
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref3) {
-        var message = _ref3.message,
-            payload = _ref3.payload,
-            _ref3$level = _ref3.level,
-            level = _ref3$level === undefined ? _alertLevels2.default.info : _ref3$level,
-            _ref3$ttl = _ref3.ttl,
-            ttl = _ref3$ttl === undefined ? this._ttl : _ref3$ttl,
-            _ref3$allowDuplicates = _ref3.allowDuplicates,
-            allowDuplicates = _ref3$allowDuplicates === undefined ? true : _ref3$allowDuplicates;
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref2) {
+        var message = _ref2.message,
+            payload = _ref2.payload,
+            _ref2$level = _ref2.level,
+            level = _ref2$level === undefined ? _alertLevels2.default.info : _ref2$level,
+            _ref2$ttl = _ref2.ttl,
+            ttl = _ref2$ttl === undefined ? this._ttl : _ref2$ttl,
+            _ref2$allowDuplicates = _ref2.allowDuplicates,
+            allowDuplicates = _ref2$allowDuplicates === undefined ? true : _ref2$allowDuplicates;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -205,7 +205,7 @@ var Alert = (_dec = (0, _di.Module)({
       }));
 
       function alert(_x) {
-        return _ref2.apply(this, arguments);
+        return _ref3.apply(this, arguments);
       }
 
       return alert;

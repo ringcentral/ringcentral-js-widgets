@@ -283,10 +283,10 @@ var ContactSearch = (_dec = (0, _di.Module)({
   }, {
     key: 'search',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref4) {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref3) {
         var _this3 = this;
 
-        var searchString = _ref4.searchString;
+        var searchString = _ref3.searchString;
 
         var searchOnSources, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, sourceName;
 
@@ -396,7 +396,7 @@ var ContactSearch = (_dec = (0, _di.Module)({
       }));
 
       function search(_x) {
-        return _ref3.apply(this, arguments);
+        return _ref4.apply(this, arguments);
       }
 
       return search;
@@ -414,10 +414,10 @@ var ContactSearch = (_dec = (0, _di.Module)({
   }, {
     key: '_searchSource',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_ref7) {
-        var searchOnSources = _ref7.searchOnSources,
-            sourceName = _ref7.sourceName,
-            searchString = _ref7.searchString;
+      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_ref6) {
+        var searchOnSources = _ref6.searchOnSources,
+            sourceName = _ref6.sourceName,
+            searchString = _ref6.searchString;
         var searchId, entities;
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
@@ -474,7 +474,7 @@ var ContactSearch = (_dec = (0, _di.Module)({
       }));
 
       function _searchSource(_x2) {
-        return _ref6.apply(this, arguments);
+        return _ref7.apply(this, arguments);
       }
 
       return _searchSource;

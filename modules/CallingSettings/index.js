@@ -638,10 +638,10 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: 'setData',
     value: function () {
-      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(_ref11, withPrompt) {
-        var callWith = _ref11.callWith,
-            myLocation = _ref11.myLocation,
-            ringoutPrompt = _ref11.ringoutPrompt;
+      var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(_ref10, withPrompt) {
+        var callWith = _ref10.callWith,
+            myLocation = _ref10.myLocation,
+            ringoutPrompt = _ref10.ringoutPrompt;
         return _regenerator2.default.wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
@@ -676,7 +676,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
       }));
 
       function setData(_x2, _x3) {
-        return _ref10.apply(this, arguments);
+        return _ref11.apply(this, arguments);
       }
 
       return setData;

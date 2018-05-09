@@ -317,7 +317,7 @@ var AccountContacts = (_dec = (0, _di.Module)({
         }, _callee, this, [[7, 19]]);
       }));
 
-      function getProfileImage(_x) {
+      function getProfileImage(_x2) {
         return _ref2.apply(this, arguments);
       }
 

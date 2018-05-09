@@ -9,21 +9,21 @@ var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-pr
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
-var _promise = require('babel-runtime/core-js/promise');
-
-var _promise2 = _interopRequireDefault(_promise);
-
 var _typeof2 = require('babel-runtime/helpers/typeof');
 
 var _typeof3 = _interopRequireDefault(_typeof2);
 
-var _regenerator = require('babel-runtime/regenerator');
+var _promise = require('babel-runtime/core-js/promise');
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
+var _promise2 = _interopRequireDefault(_promise);
 
 var _getIterator2 = require('babel-runtime/core-js/get-iterator');
 
 var _getIterator3 = _interopRequireDefault(_getIterator2);
+
+var _regenerator = require('babel-runtime/regenerator');
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
 
 var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
 
@@ -207,7 +207,7 @@ var Auth = (_dec = (0, _di.Module)({
 
       var onLoginSuccess = function () {
         var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
-          var handlers, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _loop, _iterator, _step;
+          var handlers, _loop, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, handler;
 
           return _regenerator2.default.wrap(function _callee2$(_context3) {
             while (1) {
@@ -218,18 +218,12 @@ var Auth = (_dec = (0, _di.Module)({
                     token: platform.auth().data()
                   });
                   handlers = [].concat((0, _toConsumableArray3.default)(_this2._afterLoggedInHandlers));
-                  _iteratorNormalCompletion = true;
-                  _didIteratorError = false;
-                  _iteratorError = undefined;
-                  _context3.prev = 5;
-                  _loop = /*#__PURE__*/_regenerator2.default.mark(function _loop() {
-                    var handler;
+                  _loop = /*#__PURE__*/_regenerator2.default.mark(function _loop(handler) {
                     return _regenerator2.default.wrap(function _loop$(_context2) {
                       while (1) {
                         switch (_context2.prev = _context2.next) {
                           case 0:
-                            handler = _step.value;
-                            _context2.next = 3;
+                            _context2.next = 2;
                             return (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
                               return _regenerator2.default.wrap(function _callee$(_context) {
                                 while (1) {
@@ -245,68 +239,73 @@ var Auth = (_dec = (0, _di.Module)({
                               }, _callee, _this2);
                             }))();
 
-                          case 3:
+                          case 2:
                           case 'end':
                             return _context2.stop();
                         }
                       }
                     }, _loop, _this2);
                   });
+                  _iteratorNormalCompletion = true;
+                  _didIteratorError = false;
+                  _iteratorError = undefined;
+                  _context3.prev = 6;
                   _iterator = (0, _getIterator3.default)(handlers);
 
                 case 8:
                   if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-                    _context3.next = 13;
+                    _context3.next = 14;
                     break;
                   }
 
-                  return _context3.delegateYield(_loop(), 't0', 10);
+                  handler = _step.value;
+                  return _context3.delegateYield(_loop(handler), 't0', 11);
 
-                case 10:
+                case 11:
                   _iteratorNormalCompletion = true;
                   _context3.next = 8;
                   break;
 
-                case 13:
-                  _context3.next = 19;
+                case 14:
+                  _context3.next = 20;
                   break;
 
-                case 15:
-                  _context3.prev = 15;
-                  _context3.t1 = _context3['catch'](5);
+                case 16:
+                  _context3.prev = 16;
+                  _context3.t1 = _context3['catch'](6);
                   _didIteratorError = true;
                   _iteratorError = _context3.t1;
 
-                case 19:
-                  _context3.prev = 19;
+                case 20:
                   _context3.prev = 20;
+                  _context3.prev = 21;
 
                   if (!_iteratorNormalCompletion && _iterator.return) {
                     _iterator.return();
                   }
 
-                case 22:
-                  _context3.prev = 22;
+                case 23:
+                  _context3.prev = 23;
 
                   if (!_didIteratorError) {
-                    _context3.next = 25;
+                    _context3.next = 26;
                     break;
                   }
 
                   throw _iteratorError;
 
-                case 25:
-                  return _context3.finish(22);
-
                 case 26:
-                  return _context3.finish(19);
+                  return _context3.finish(23);
 
                 case 27:
+                  return _context3.finish(20);
+
+                case 28:
                 case 'end':
                   return _context3.stop();
               }
             }
-          }, _callee2, _this2, [[5, 15, 19, 27], [20,, 22, 26]]);
+          }, _callee2, _this2, [[6, 16, 20, 28], [21,, 23, 27]]);
         }));
 
         return function onLoginSuccess() {
@@ -450,17 +449,17 @@ var Auth = (_dec = (0, _di.Module)({
   }, {
     key: 'login',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref6) {
-        var username = _ref6.username,
-            password = _ref6.password,
-            extension = _ref6.extension,
-            remember = _ref6.remember,
-            code = _ref6.code,
-            redirectUri = _ref6.redirectUri,
-            accessToken = _ref6.accessToken,
-            expiresIn = _ref6.expiresIn,
-            endpointId = _ref6.endpointId,
-            tokenType = _ref6.tokenType;
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref5) {
+        var username = _ref5.username,
+            password = _ref5.password,
+            extension = _ref5.extension,
+            remember = _ref5.remember,
+            code = _ref5.code,
+            redirectUri = _ref5.redirectUri,
+            accessToken = _ref5.accessToken,
+            expiresIn = _ref5.expiresIn,
+            endpointId = _ref5.endpointId,
+            tokenType = _ref5.tokenType;
         var ownerId, extensionData;
         return _regenerator2.default.wrap(function _callee4$(_context5) {
           while (1) {
@@ -514,7 +513,7 @@ var Auth = (_dec = (0, _di.Module)({
       }));
 
       function login(_x2) {
-        return _ref5.apply(this, arguments);
+        return _ref6.apply(this, arguments);
       }
 
       return login;
@@ -563,7 +562,7 @@ var Auth = (_dec = (0, _di.Module)({
       var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6() {
         var _this4 = this;
 
-        var handlers, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _loop2, _iterator2, _step2, _ret2;
+        var handlers, _loop2, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, handler, _ret2;
 
         return _regenerator2.default.wrap(function _callee6$(_context8) {
           while (1) {
@@ -575,18 +574,13 @@ var Auth = (_dec = (0, _di.Module)({
                 });
                 handlers = [].concat((0, _toConsumableArray3.default)(this._beforeLogoutHandlers));
                 _context8.prev = 3;
-                _iteratorNormalCompletion2 = true;
-                _didIteratorError2 = false;
-                _iteratorError2 = undefined;
-                _context8.prev = 7;
-                _loop2 = /*#__PURE__*/_regenerator2.default.mark(function _loop2() {
-                  var handler, result;
+                _loop2 = /*#__PURE__*/_regenerator2.default.mark(function _loop2(handler) {
+                  var result;
                   return _regenerator2.default.wrap(function _loop2$(_context7) {
                     while (1) {
                       switch (_context7.prev = _context7.next) {
                         case 0:
-                          handler = _step2.value;
-                          _context7.next = 3;
+                          _context7.next = 2;
                           return (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
                             return _regenerator2.default.wrap(function _callee5$(_context6) {
                               while (1) {
@@ -602,11 +596,11 @@ var Auth = (_dec = (0, _di.Module)({
                             }, _callee5, _this4);
                           }))();
 
-                        case 3:
+                        case 2:
                           result = _context7.sent;
 
                           if (!result) {
-                            _context7.next = 7;
+                            _context7.next = 6;
                             break;
                           }
 
@@ -617,78 +611,83 @@ var Auth = (_dec = (0, _di.Module)({
                             v: _promise2.default.reject(result)
                           });
 
-                        case 7:
+                        case 6:
                         case 'end':
                           return _context7.stop();
                       }
                     }
                   }, _loop2, _this4);
                 });
+                _iteratorNormalCompletion2 = true;
+                _didIteratorError2 = false;
+                _iteratorError2 = undefined;
+                _context8.prev = 8;
                 _iterator2 = (0, _getIterator3.default)(handlers);
 
               case 10:
                 if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
-                  _context8.next = 18;
+                  _context8.next = 19;
                   break;
                 }
 
-                return _context8.delegateYield(_loop2(), 't0', 12);
+                handler = _step2.value;
+                return _context8.delegateYield(_loop2(handler), 't0', 13);
 
-              case 12:
+              case 13:
                 _ret2 = _context8.t0;
 
                 if (!((typeof _ret2 === 'undefined' ? 'undefined' : (0, _typeof3.default)(_ret2)) === "object")) {
-                  _context8.next = 15;
+                  _context8.next = 16;
                   break;
                 }
 
                 return _context8.abrupt('return', _ret2.v);
 
-              case 15:
+              case 16:
                 _iteratorNormalCompletion2 = true;
                 _context8.next = 10;
                 break;
 
-              case 18:
-                _context8.next = 24;
+              case 19:
+                _context8.next = 25;
                 break;
 
-              case 20:
-                _context8.prev = 20;
-                _context8.t1 = _context8['catch'](7);
+              case 21:
+                _context8.prev = 21;
+                _context8.t1 = _context8['catch'](8);
                 _didIteratorError2 = true;
                 _iteratorError2 = _context8.t1;
 
-              case 24:
-                _context8.prev = 24;
+              case 25:
                 _context8.prev = 25;
+                _context8.prev = 26;
 
                 if (!_iteratorNormalCompletion2 && _iterator2.return) {
                   _iterator2.return();
                 }
 
-              case 27:
-                _context8.prev = 27;
+              case 28:
+                _context8.prev = 28;
 
                 if (!_didIteratorError2) {
-                  _context8.next = 30;
+                  _context8.next = 31;
                   break;
                 }
 
                 throw _iteratorError2;
 
-              case 30:
-                return _context8.finish(27);
-
               case 31:
-                return _context8.finish(24);
+                return _context8.finish(28);
 
               case 32:
-                _context8.next = 37;
+                return _context8.finish(25);
+
+              case 33:
+                _context8.next = 38;
                 break;
 
-              case 34:
-                _context8.prev = 34;
+              case 35:
+                _context8.prev = 35;
                 _context8.t2 = _context8['catch'](3);
 
                 this._alert.danger({
@@ -696,13 +695,13 @@ var Auth = (_dec = (0, _di.Module)({
                   payload: _context8.t2
                 });
 
-              case 37:
+              case 38:
                 this.store.dispatch({
                   type: this.actionTypes.logout
                 });
 
                 if (!this.isImplicit) {
-                  _context8.next = 42;
+                  _context8.next = 43;
                   break;
                 }
 
@@ -712,15 +711,15 @@ var Auth = (_dec = (0, _di.Module)({
                 });
                 return _context8.abrupt('return', null);
 
-              case 42:
+              case 43:
                 return _context8.abrupt('return', this._client.service.platform().logout());
 
-              case 43:
+              case 44:
               case 'end':
                 return _context8.stop();
             }
           }
-        }, _callee6, this, [[3, 34], [7, 20, 24, 32], [25,, 27, 31]]);
+        }, _callee6, this, [[3, 35], [8, 21, 25, 33], [26,, 28, 32]]);
       }));
 
       function logout() {
@@ -770,11 +769,11 @@ var Auth = (_dec = (0, _di.Module)({
   }, {
     key: 'refreshImplicitToken',
     value: function () {
-      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(_ref11) {
-        var tokenType = _ref11.tokenType,
-            accessToken = _ref11.accessToken,
-            expiresIn = _ref11.expiresIn,
-            endpointId = _ref11.endpointId;
+      var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(_ref10) {
+        var tokenType = _ref10.tokenType,
+            accessToken = _ref10.accessToken,
+            expiresIn = _ref10.expiresIn,
+            endpointId = _ref10.endpointId;
         var extensionData, ownerId, platform, newAuthData;
         return _regenerator2.default.wrap(function _callee7$(_context9) {
           while (1) {
@@ -825,7 +824,7 @@ var Auth = (_dec = (0, _di.Module)({
       }));
 
       function refreshImplicitToken(_x3) {
-        return _ref10.apply(this, arguments);
+        return _ref11.apply(this, arguments);
       }
 
       return refreshImplicitToken;

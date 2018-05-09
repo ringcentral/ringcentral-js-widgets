@@ -143,9 +143,11 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
           }, _callee, _this2);
         }));
 
-        return function subscriptionHandler(_x) {
+        function subscriptionHandler(_x) {
           return _ref2.apply(this, arguments);
-        };
+        }
+
+        return subscriptionHandler;
       }(),
       cleanOnReset: true,
       fetchFunction: function () {
@@ -170,9 +172,11 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
           }, _callee2, _this2);
         }));
 
-        return function fetchFunction() {
+        function fetchFunction() {
           return _ref3.apply(this, arguments);
-        };
+        }
+
+        return fetchFunction;
       }(),
       forbiddenHandler: function () {
         var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
@@ -200,9 +204,11 @@ var ExtensionInfo = (_dec = (0, _di.Module)({
           }, _callee3, _this2);
         }));
 
-        return function forbiddenHandler() {
+        function forbiddenHandler() {
           return _ref4.apply(this, arguments);
-        };
+        }
+
+        return forbiddenHandler;
       }()
     }, options)));
 

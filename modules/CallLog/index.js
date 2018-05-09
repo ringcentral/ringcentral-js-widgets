@@ -435,11 +435,11 @@ var CallLog = (_dec = (0, _di.Module)({
   }, {
     key: '_fetch',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref6) {
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref5) {
         var _this3 = this;
 
-        var dateFrom = _ref6.dateFrom,
-            dateTo = _ref6.dateTo;
+        var dateFrom = _ref5.dateFrom,
+            dateTo = _ref5.dateTo;
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
@@ -460,7 +460,7 @@ var CallLog = (_dec = (0, _di.Module)({
       }));
 
       function _fetch(_x2) {
-        return _ref5.apply(this, arguments);
+        return _ref6.apply(this, arguments);
       }
 
       return _fetch;

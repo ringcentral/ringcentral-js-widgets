@@ -274,10 +274,10 @@ var UserGuide = (_dec = (0, _di.Module)({
   }, {
     key: 'updateCarousel',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_ref5) {
-        var curIdx = _ref5.curIdx,
-            entered = _ref5.entered,
-            playing = _ref5.playing;
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_ref4) {
+        var curIdx = _ref4.curIdx,
+            entered = _ref4.entered,
+            playing = _ref4.playing;
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -298,7 +298,7 @@ var UserGuide = (_dec = (0, _di.Module)({
       }));
 
       function updateCarousel(_x2) {
-        return _ref4.apply(this, arguments);
+        return _ref5.apply(this, arguments);
       }
 
       return updateCarousel;

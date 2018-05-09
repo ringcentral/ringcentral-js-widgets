@@ -230,14 +230,14 @@ var RecentMessages = (_dec = (0, _di.Module)({
   }, {
     key: 'getMessages',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref3) {
-        var currentContact = _ref3.currentContact,
-            _ref3$sessionId = _ref3.sessionId,
-            sessionId = _ref3$sessionId === undefined ? null : _ref3$sessionId,
-            _ref3$fromLocal = _ref3.fromLocal,
-            fromLocal = _ref3$fromLocal === undefined ? false : _ref3$fromLocal,
-            _ref3$forceUpdate = _ref3.forceUpdate,
-            forceUpdate = _ref3$forceUpdate === undefined ? false : _ref3$forceUpdate;
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref2) {
+        var currentContact = _ref2.currentContact,
+            _ref2$sessionId = _ref2.sessionId,
+            sessionId = _ref2$sessionId === undefined ? null : _ref2$sessionId,
+            _ref2$fromLocal = _ref2.fromLocal,
+            fromLocal = _ref2$fromLocal === undefined ? false : _ref2$fromLocal,
+            _ref2$forceUpdate = _ref2.forceUpdate,
+            forceUpdate = _ref2$forceUpdate === undefined ? false : _ref2$forceUpdate;
         var contactId, messages;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -287,7 +287,7 @@ var RecentMessages = (_dec = (0, _di.Module)({
       }));
 
       function getMessages(_x) {
-        return _ref2.apply(this, arguments);
+        return _ref3.apply(this, arguments);
       }
 
       return getMessages;
@@ -366,7 +366,7 @@ var RecentMessages = (_dec = (0, _di.Module)({
         }, _callee2, this);
       }));
 
-      function _getRecentMessages(_x2) {
+      function _getRecentMessages(_x5) {
         return _ref5.apply(this, arguments);
       }
 

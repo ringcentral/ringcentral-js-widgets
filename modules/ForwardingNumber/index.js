@@ -161,9 +161,11 @@ var ForwardingNumber = (_dec = (0, _di.Module)({
           }, _callee, _this2);
         }));
 
-        return function fetchFunction() {
+        function fetchFunction() {
           return _ref2.apply(this, arguments);
-        };
+        }
+
+        return fetchFunction;
       }(),
       forbiddenHandler: function forbiddenHandler() {
         return [];

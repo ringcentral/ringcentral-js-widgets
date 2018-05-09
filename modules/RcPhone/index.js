@@ -336,9 +336,11 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
           }, _callee, undefined);
         }));
 
-        return function checkConnectionFunc() {
+        function checkConnectionFunc() {
           return _ref2.apply(this, arguments);
-        };
+        }
+
+        return checkConnectionFunc;
       }() },
     spread: true
   }, {
@@ -357,9 +359,11 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
           }, _callee2, undefined);
         }));
 
-        return function logFunction() {
+        function logFunction() {
           return _ref3.apply(this, arguments);
-        };
+        }
+
+        return logFunction;
       }(),
       readyCheckFunction: function readyCheckFunction() {
         return true;
@@ -386,9 +390,11 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
           }, _callee3, undefined);
         }));
 
-        return function logFunction() {
+        function logFunction() {
           return _ref4.apply(this, arguments);
-        };
+        }
+
+        return logFunction;
       }(),
       readyCheckFunction: function readyCheckFunction() {
         return true;
@@ -471,8 +477,8 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
     contactMatcher.addSearchProvider({
       name: 'contacts',
       searchFn: function () {
-        var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref9) {
-          var queries = _ref9.queries;
+        var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref8) {
+          var queries = _ref8.queries;
           return _regenerator2.default.wrap(function _callee4$(_context4) {
             while (1) {
               switch (_context4.prev = _context4.next) {
@@ -487,9 +493,11 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
           }, _callee4, _this2);
         }));
 
-        return function searchFn(_x) {
-          return _ref8.apply(this, arguments);
-        };
+        function searchFn(_x) {
+          return _ref9.apply(this, arguments);
+        }
+
+        return searchFn;
       }(),
       readyCheckFn: function readyCheckFn() {
         return _this.contacts.ready;

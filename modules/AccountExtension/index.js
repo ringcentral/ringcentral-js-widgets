@@ -190,9 +190,11 @@ var AccountExtension = (_dec = (0, _di.Module)({
           }, _callee, _this2);
         }));
 
-        return function subscriptionHandler(_x) {
+        function subscriptionHandler(_x) {
           return _ref2.apply(this, arguments);
-        };
+        }
+
+        return subscriptionHandler;
       }(),
       fetchFunction: function () {
         var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
@@ -218,9 +220,11 @@ var AccountExtension = (_dec = (0, _di.Module)({
           }, _callee2, _this2);
         }));
 
-        return function fetchFunction() {
+        function fetchFunction() {
           return _ref3.apply(this, arguments);
-        };
+        }
+
+        return fetchFunction;
       }(),
       readyCheckFn: function readyCheckFn() {
         return _this._rolesAndPermissions.ready;

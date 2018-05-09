@@ -194,9 +194,9 @@ var CallLogger = (_dec = (0, _di.Module)({
   }, {
     key: 'log',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref3) {
-        var call = _ref3.call,
-            options = (0, _objectWithoutProperties3.default)(_ref3, ['call']);
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref2) {
+        var call = _ref2.call,
+            options = (0, _objectWithoutProperties3.default)(_ref2, ['call']);
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -212,7 +212,7 @@ var CallLogger = (_dec = (0, _di.Module)({
       }));
 
       function log(_x) {
-        return _ref2.apply(this, arguments);
+        return _ref3.apply(this, arguments);
       }
 
       return log;
@@ -290,10 +290,10 @@ var CallLogger = (_dec = (0, _di.Module)({
   }, {
     key: 'logCall',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref7) {
-        var call = _ref7.call,
-            contact = _ref7.contact,
-            options = (0, _objectWithoutProperties3.default)(_ref7, ['call', 'contact']);
+      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref6) {
+        var call = _ref6.call,
+            contact = _ref6.contact,
+            options = (0, _objectWithoutProperties3.default)(_ref6, ['call', 'contact']);
         var inbound, fromEntity, toEntity;
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
@@ -321,7 +321,7 @@ var CallLogger = (_dec = (0, _di.Module)({
       }));
 
       function logCall(_x3) {
-        return _ref6.apply(this, arguments);
+        return _ref7.apply(this, arguments);
       }
 
       return logCall;
@@ -329,11 +329,11 @@ var CallLogger = (_dec = (0, _di.Module)({
   }, {
     key: '_autoLogCall',
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_ref9) {
-        var call = _ref9.call,
-            fromEntity = _ref9.fromEntity,
-            toEntity = _ref9.toEntity,
-            triggerType = _ref9.triggerType;
+      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_ref8) {
+        var call = _ref8.call,
+            fromEntity = _ref8.fromEntity,
+            toEntity = _ref8.toEntity,
+            triggerType = _ref8.triggerType;
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -358,7 +358,7 @@ var CallLogger = (_dec = (0, _di.Module)({
       }));
 
       function _autoLogCall(_x4) {
-        return _ref8.apply(this, arguments);
+        return _ref9.apply(this, arguments);
       }
 
       return _autoLogCall;

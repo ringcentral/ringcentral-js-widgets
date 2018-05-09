@@ -409,9 +409,9 @@ var Call = (_dec = (0, _di.Module)({
   }, {
     key: 'call',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_ref8) {
-        var phoneNumber = _ref8.phoneNumber,
-            recipient = _ref8.recipient;
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_ref7) {
+        var phoneNumber = _ref7.phoneNumber,
+            recipient = _ref7.recipient;
         var toNumber, validatedNumbers;
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
@@ -516,7 +516,7 @@ var Call = (_dec = (0, _di.Module)({
       }));
 
       function call(_x2) {
-        return _ref7.apply(this, arguments);
+        return _ref8.apply(this, arguments);
       }
 
       return call;
@@ -524,8 +524,8 @@ var Call = (_dec = (0, _di.Module)({
   }, {
     key: '_getValidatedNumbers',
     value: function () {
-      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(_ref10) {
-        var toNumber = _ref10.toNumber;
+      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(_ref9) {
+        var toNumber = _ref9.toNumber;
         var isWebphone, fromNumber, waitingValidateNumbers, validatedResult, parsedNumbers, parsedToNumber, error, parsedFromNumber;
         return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
@@ -609,7 +609,7 @@ var Call = (_dec = (0, _di.Module)({
       }));
 
       function _getValidatedNumbers(_x3) {
-        return _ref9.apply(this, arguments);
+        return _ref10.apply(this, arguments);
       }
 
       return _getValidatedNumbers;
@@ -617,13 +617,13 @@ var Call = (_dec = (0, _di.Module)({
   }, {
     key: '_makeCall',
     value: function () {
-      var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(_ref12) {
+      var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(_ref11) {
         var _this3 = this;
 
-        var toNumber = _ref12.toNumber,
-            fromNumber = _ref12.fromNumber,
-            _ref12$callingMode = _ref12.callingMode,
-            callingMode = _ref12$callingMode === undefined ? this._callingSettings.callingMode : _ref12$callingMode;
+        var toNumber = _ref11.toNumber,
+            fromNumber = _ref11.fromNumber,
+            _ref11$callingMode = _ref11.callingMode,
+            callingMode = _ref11$callingMode === undefined ? this._callingSettings.callingMode : _ref11$callingMode;
         var homeCountry, homeCountryId;
         return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
@@ -680,7 +680,7 @@ var Call = (_dec = (0, _di.Module)({
       }));
 
       function _makeCall(_x4) {
-        return _ref11.apply(this, arguments);
+        return _ref12.apply(this, arguments);
       }
 
       return _makeCall;

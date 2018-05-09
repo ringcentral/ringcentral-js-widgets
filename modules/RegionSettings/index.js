@@ -318,9 +318,9 @@ var RegionSettings = (_dec = (0, _di.Module)({
   }, {
     key: 'setData',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_ref5) {
-        var areaCode = _ref5.areaCode,
-            countryCode = _ref5.countryCode;
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_ref4) {
+        var areaCode = _ref4.areaCode,
+            countryCode = _ref4.countryCode;
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -354,7 +354,7 @@ var RegionSettings = (_dec = (0, _di.Module)({
       }));
 
       function setData(_x) {
-        return _ref4.apply(this, arguments);
+        return _ref5.apply(this, arguments);
       }
 
       return setData;

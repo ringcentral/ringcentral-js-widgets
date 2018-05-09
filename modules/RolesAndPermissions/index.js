@@ -139,9 +139,11 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
           }, _callee, _this2);
         }));
 
-        return function fetchFunction() {
+        function fetchFunction() {
           return _ref2.apply(this, arguments);
-        };
+        }
+
+        return fetchFunction;
       }(),
       readyCheckFn: function readyCheckFn() {
         return _this._extensionInfo.ready;
@@ -170,9 +172,11 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
           }, _callee2, _this2);
         }));
 
-        return function forbiddenHandler() {
+        function forbiddenHandler() {
           return _ref3.apply(this, arguments);
-        };
+        }
+
+        return forbiddenHandler;
       }(),
       cleanOnReset: true
     })));

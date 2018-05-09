@@ -111,10 +111,10 @@ var ContactMatcher = (_dec = (0, _di.Module)({
   (0, _createClass3.default)(ContactMatcher, [{
     key: 'hasMatchNumber',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref3) {
-        var phoneNumber = _ref3.phoneNumber,
-            _ref3$ignoreCache = _ref3.ignoreCache,
-            ignoreCache = _ref3$ignoreCache === undefined ? false : _ref3$ignoreCache;
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_ref2) {
+        var phoneNumber = _ref2.phoneNumber,
+            _ref2$ignoreCache = _ref2.ignoreCache,
+            ignoreCache = _ref2$ignoreCache === undefined ? false : _ref2$ignoreCache;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -137,7 +137,7 @@ var ContactMatcher = (_dec = (0, _di.Module)({
       }));
 
       function hasMatchNumber(_x) {
-        return _ref2.apply(this, arguments);
+        return _ref3.apply(this, arguments);
       }
 
       return hasMatchNumber;
@@ -145,8 +145,8 @@ var ContactMatcher = (_dec = (0, _di.Module)({
   }, {
     key: 'forceMatchNumber',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref5) {
-        var phoneNumber = _ref5.phoneNumber;
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref4) {
+        var phoneNumber = _ref4.phoneNumber;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -166,7 +166,7 @@ var ContactMatcher = (_dec = (0, _di.Module)({
       }));
 
       function forceMatchNumber(_x2) {
-        return _ref4.apply(this, arguments);
+        return _ref5.apply(this, arguments);
       }
 
       return forceMatchNumber;

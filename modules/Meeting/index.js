@@ -413,7 +413,7 @@ var Meeting = (_dec = (0, _di.Module)({
         }, _callee, this, [[3, 19], [26, 30, 34, 42], [35,, 37, 41]]);
       }));
 
-      function schedule(_x) {
+      function schedule(_x2) {
         return _ref2.apply(this, arguments);
       }
 

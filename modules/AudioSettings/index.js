@@ -447,21 +447,21 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: 'setData',
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(_ref9) {
-        var _ref9$dialButtonVolum = _ref9.dialButtonVolume,
-            dialButtonVolume = _ref9$dialButtonVolum === undefined ? this.dialButtonVolume : _ref9$dialButtonVolum,
-            _ref9$dialButtonMuted = _ref9.dialButtonMuted,
-            dialButtonMuted = _ref9$dialButtonMuted === undefined ? this.dialButtonMuted : _ref9$dialButtonMuted,
-            _ref9$ringtoneVolume = _ref9.ringtoneVolume,
-            ringtoneVolume = _ref9$ringtoneVolume === undefined ? this.ringtoneVolume : _ref9$ringtoneVolume,
-            _ref9$ringtoneMuted = _ref9.ringtoneMuted,
-            ringtoneMuted = _ref9$ringtoneMuted === undefined ? this.ringtoneMuted : _ref9$ringtoneMuted,
-            _ref9$callVolume = _ref9.callVolume,
-            callVolume = _ref9$callVolume === undefined ? this.callVolume : _ref9$callVolume,
-            _ref9$outputDeviceId = _ref9.outputDeviceId,
-            outputDeviceId = _ref9$outputDeviceId === undefined ? this.outputDeviceId : _ref9$outputDeviceId,
-            _ref9$inputDeviceId = _ref9.inputDeviceId,
-            inputDeviceId = _ref9$inputDeviceId === undefined ? this.inputDeviceId : _ref9$inputDeviceId;
+      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(_ref8) {
+        var _ref8$dialButtonVolum = _ref8.dialButtonVolume,
+            dialButtonVolume = _ref8$dialButtonVolum === undefined ? this.dialButtonVolume : _ref8$dialButtonVolum,
+            _ref8$dialButtonMuted = _ref8.dialButtonMuted,
+            dialButtonMuted = _ref8$dialButtonMuted === undefined ? this.dialButtonMuted : _ref8$dialButtonMuted,
+            _ref8$ringtoneVolume = _ref8.ringtoneVolume,
+            ringtoneVolume = _ref8$ringtoneVolume === undefined ? this.ringtoneVolume : _ref8$ringtoneVolume,
+            _ref8$ringtoneMuted = _ref8.ringtoneMuted,
+            ringtoneMuted = _ref8$ringtoneMuted === undefined ? this.ringtoneMuted : _ref8$ringtoneMuted,
+            _ref8$callVolume = _ref8.callVolume,
+            callVolume = _ref8$callVolume === undefined ? this.callVolume : _ref8$callVolume,
+            _ref8$outputDeviceId = _ref8.outputDeviceId,
+            outputDeviceId = _ref8$outputDeviceId === undefined ? this.outputDeviceId : _ref8$outputDeviceId,
+            _ref8$inputDeviceId = _ref8.inputDeviceId,
+            inputDeviceId = _ref8$inputDeviceId === undefined ? this.inputDeviceId : _ref8$inputDeviceId;
         return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
@@ -486,7 +486,7 @@ var AudioSettings = (_dec = (0, _di.Module)({
       }));
 
       function setData(_x2) {
-        return _ref8.apply(this, arguments);
+        return _ref9.apply(this, arguments);
       }
 
       return setData;
