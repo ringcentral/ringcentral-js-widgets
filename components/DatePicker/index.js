@@ -87,13 +87,14 @@ var DatePicker = function (_Component) {
       var currentLocale = this.props.currentLocale;
 
       var dueDate = new Date().toISOString();
+      var showDate = this.props.date ? (0, _moment2.default)(this.props.date).format('MM/DD/YY') : null;
       return _react2.default.createElement(
         'div',
         { className: (0, _classnames2.default)(_styles2.default.datePicker, this.props.datePickerClassName) },
         _react2.default.createElement(_DateTimePicker2.default, {
           culture: currentLocale,
           time: false,
-          value: new Date(this.props.date),
+          value: this.props.date,
           onChange: function onChange(currentStartTime) {
             if (currentStartTime) {
               var date = new Date(dueDate);
@@ -115,10 +116,10 @@ var DatePicker = function (_Component) {
             onClick: function onClick() {
               return _this2.onClickFunc();
             },
-            className: (0, _classnames2.default)(_styles2.default.dateTimeText, _styles2.default.dateText, this.props.dateTextClassName) },
+            className: (0, _classnames2.default)(_styles2.default.dateText, this.props.dateTextClassName) },
           this.props.label,
           ':',
-          (0, _moment2.default)(this.props.date).format('MM/DD/YY')
+          showDate
         )
       );
     }
@@ -139,7 +140,7 @@ DatePicker.propTypes = {
 DatePicker.defaultProps = {
   currentLocale: 'en-US',
   label: '',
-  date: new Date(),
+  date: null,
   onChange: undefined,
   datePickerClassName: '',
   dateTextClassName: ''
