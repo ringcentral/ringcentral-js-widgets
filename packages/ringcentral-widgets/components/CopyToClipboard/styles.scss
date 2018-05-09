@@ -1,0 +1,38 @@
+@import '../../lib/commonStyles/colors.scss';
+
+.container {
+  position: relative;
+  width: 100%;
+}
+
+.copyTextArea {
+  position: absolute;
+  top: -9999px;
+}
+
+.button {
+  line-height: 35px;
+  text-align: center;
+  border-radius: 100px;
+  border: solid 1px $primary-color-highlight;
+  background-color: $snow;
+  height: 35px;
+  margin: 30px 0 25px 0;
+  width: 100%;
+}
+
+.primaryButton {
+  @extend .button;
+  background-color: $primary-color;
+  color: $snow;
+  &:hover {
+    color: $snow;
+  }
+  &.disabled {
+    background-color: $silver;
+    border-color: $silver;
+    &:hover {
+      color: $snow;
+    }
+  }
+}
