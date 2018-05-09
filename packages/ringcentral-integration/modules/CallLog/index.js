@@ -158,7 +158,11 @@ export default class CallLog extends Pollable {
           // Error Internal error occurred when receiving fax
           call.result !== callResults.faxReceipt
         )))).map(call => {
-          // [RCINT-7364] Call presence is incorrect when make ringout call from a DL
+          // [RCINT-7364] Call presence is incorrect when make ringout call from a DL number.
+          // When user use DL number set ringout, call log sync will response tow legs.
+          // But user use company plus extension number, call log sync will response only one leg.
+          // And the results about `to` and `from` in platform APIs call log sync response is opposite.
+          // This is a temporary solution.
           if (
             isOutbound(call) && (
               call.action === callActions.ringOutWeb ||

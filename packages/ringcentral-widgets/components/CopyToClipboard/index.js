@@ -7,10 +7,27 @@ import i18n from './i18n';
 
 
 class CopyToClipboard extends Component {
+  executeCopy() {
+    this.copyTextArea.focus();
+    this.copyTextArea.select();
+    try {
+      const result = document.execCommand('copy');
+      if (result) {
+        this.copyTextArea.blur();
+        if (typeof this.props.handleSuccess === 'function') this.props.handleSuccess();
+      } else if (typeof this.props.handleFailure === 'function') {
+        this.props.handleFailure();
+      }
+    } catch (e) {
+      console.error(e);
+      if (typeof this.props.handleFailure === 'function') {
+        this.props.handleFailure();
+      }
+    }
+  }
+
   render() {
     const {
-      handleSuccess,
-      handleFailure,
       currentLocale,
       buttonClassName,
       disabled,
@@ -18,24 +35,6 @@ class CopyToClipboard extends Component {
       buttonText,
       button: CustomButton,
     } = this.props;
-    const executeCopy = () => {
-      this.copyTextArea.focus();
-      this.copyTextArea.select();
-      try {
-        const result = document.execCommand('copy');
-        if (result) {
-          this.copyTextArea.blur();
-          if (typeof handleSuccess === 'function') handleSuccess();
-        } else if (typeof handleFailure === 'function') {
-          handleFailure();
-        }
-      } catch (e) {
-        console.error(e);
-        if (typeof handleFailure === 'function') {
-          handleFailure();
-        }
-      }
-    };
     return (
       <div className={styles.container}>
         <textarea
@@ -49,7 +48,7 @@ class CopyToClipboard extends Component {
             <Button
               disabled={disabled}
               className={classnames(styles.primaryButton, buttonClassName)}
-              onClick={() => executeCopy()}>
+              onClick={() => this.executeCopy()}>
               { buttonText || i18n.getString('copyToClipboard', currentLocale)}
             </Button>
           )
