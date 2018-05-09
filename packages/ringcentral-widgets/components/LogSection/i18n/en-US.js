@@ -1,4 +1,4 @@
 export default {
-  saveLog: 'Save Log',
+  saveLog: 'Save',
 };
 

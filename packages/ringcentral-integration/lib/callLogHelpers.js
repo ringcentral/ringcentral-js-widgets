@@ -164,10 +164,10 @@ export function removeInboundRingOutLegs(calls) {
           outboundLeg: outbound,
           inboundLeg: inbound,
           from: {
-            ...inbound.to,
+            ...inbound.from,
           },
           to: {
-            ...inbound.from,
+            ...inbound.to,
           },
           result: inbound.result,
         };

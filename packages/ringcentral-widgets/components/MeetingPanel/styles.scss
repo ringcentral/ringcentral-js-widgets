@@ -47,6 +47,7 @@
 
 :global .rw-dropdown-list-input {
   padding-left: 0;
+  color: $primary-color;
 }
 :global .rw-cell.rw-state-selected, :global .rw-cell.rw-state-selected:hover {
   background-color: $primary-color;
@@ -170,7 +171,7 @@
   position: relative;
   margin-top: -18.7px;
   height: 17px;
-  color: $ash;
+  color: $primary-color;
   display: flex;
   background-color: transparent;
 }
@@ -180,7 +181,7 @@
   position: absolute;
   top: 5px;
   height: 17px;
-  color: $ash;
+  color: $primary-color;
   display: flex;
   background-color: transparent;
 }
@@ -194,13 +195,13 @@
   display: inline-block;
   width: 14px;
   font-size: 13px;
-  color: $ash;
   border: none;
   outline: none;
   padding: 0 5px;
+  color: $primary-color;
 }
 .colon {
-  color: $ash;
+  color: $primary-color;
   font-size: 13px;
 }
 

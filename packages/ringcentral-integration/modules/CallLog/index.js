@@ -19,7 +19,9 @@ import {
   removeInboundRingOutLegs,
 } from '../../lib/callLogHelpers';
 import callResults from '../../enums/callResults';
+import callActions from '../../enums/callActions';
 import proxify from '../../lib/proxy/proxify';
+import { isOutbound } from '../../lib/callLogHelpers';
 
 const DEFAULT_TTL = 5 * 60 * 1000;
 const DEFAULT_TOKEN_EXPIRES_IN = 60 * 60 * 1000;
@@ -155,7 +157,27 @@ export default class CallLog extends Pollable {
           call.result !== callResults.stopped &&
           // Error Internal error occurred when receiving fax
           call.result !== callResults.faxReceipt
-        ))))
+        )))).map(call => {
+          // [RCINT-7364] Call presence is incorrect when make ringout call from a DL number.
+          // When user use DL number set ringout, call log sync will response tow legs.
+          // But user use company plus extension number, call log sync will response only one leg.
+          // And the results about `to` and `from` in platform APIs call log sync response is opposite.
+          // This is a temporary solution.
+          if (
+            isOutbound(call) && (
+              call.action === callActions.ringOutWeb ||
+              call.action === callActions.ringOutPC ||
+              call.action === callActions.ringOutMobile
+            )
+          ) {
+            return {
+              ...call,
+              from: call.to,
+              to: call.from,
+            };
+          }
+          return call;
+        })
       ),
     );
 
