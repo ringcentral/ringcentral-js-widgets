@@ -61,6 +61,7 @@ const presenceRegExp = /\/presence\?detailedTelephonyState=true/;
   deps: [
     'Auth',
     'Client',
+    'ExtensionPhoneNumber',
     'Subscription',
     'RolesAndPermissions',
     { dep: 'TabManager', optional: true },
@@ -75,6 +76,7 @@ export default class CallLog extends Pollable {
    * @param {Auth} params.auth - auth module instance
    * @param {Client} params.client - client module instance
    * @param {Storage} params.storage - storage module instance
+   * @param {ExtensionPhoneNumber} params.extensionPhoneNumber - extensionPhoneNumber module instance
    * @param {Subscription} params.subscription - subscription module instance
    * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermissions module instance
    * @param {Number} params.ttl - local cache timestamp
@@ -88,6 +90,7 @@ export default class CallLog extends Pollable {
     auth,
     client,
     storage,
+    extensionPhoneNumber,
     subscription,
     rolesAndPermissions,
     tabManager,
@@ -108,6 +111,7 @@ export default class CallLog extends Pollable {
     if (!disableCache) {
       this._storage = storage;
     }
+    this._extensionPhoneNumber = extensionPhoneNumber;
     this._subscription = subscription;
     this._rolesAndPermissions = rolesAndPermissions;
     this._tabManager = tabManager;
@@ -157,18 +161,26 @@ export default class CallLog extends Pollable {
           call.result !== callResults.stopped &&
           // Error Internal error occurred when receiving fax
           call.result !== callResults.faxReceipt
-        )))).map(call => {
+        )))).map((call) => {
           // [RCINT-7364] Call presence is incorrect when make ringout call from a DL number.
-          // When user use DL number set ringout, call log sync will response tow legs.
+          // When user use DL number set ringout and the outBound from number must not a oneself company number
+          // Call log sync will response tow legs.
           // But user use company plus extension number, call log sync will response only one leg.
           // And the results about `to` and `from` in platform APIs call log sync response is opposite.
           // This is a temporary solution.
+          const isOutBoundCompanyNumber = (
+            call.from &&
+            call.from.phoneNumber &&
+            this.mainCompanyNumbers.indexOf(call.from.phoneNumber) > -1
+          );
           if (
-            isOutbound(call) && (
+            isOutbound(call) &&
+            (
               call.action === callActions.ringOutWeb ||
               call.action === callActions.ringOutPC ||
               call.action === callActions.ringOutMobile
-            )
+            ) &&
+            !isOutBoundCompanyNumber
           ) {
             return {
               ...call,
@@ -206,6 +218,7 @@ export default class CallLog extends Pollable {
       this._auth.loggedIn &&
       (!this._storage || this._storage.ready) &&
       (!this._subscription || this._subscription.ready) &&
+      (!this._extensionPhoneNumber || this._extensionPhoneNumber.ready) &&
       (!this._tabManager || this._tabManager.ready) &&
       this._rolesAndPermissions.ready &&
       this.status === moduleStatuses.pending
@@ -235,6 +248,7 @@ export default class CallLog extends Pollable {
       (
         !this._auth.loggedIn ||
         (!!this._storage && !this._storage.ready) ||
+        (this._extensionPhoneNumber && !this._extensionPhoneNumber.ready) ||
         (this._subscription && !this._subscription.ready) ||
         (this._tabManager && !this._tabManager.ready) ||
         !this._rolesAndPermissions.ready
@@ -464,5 +478,12 @@ export default class CallLog extends Pollable {
   @proxify
   fetchData() {
     return this.sync();
+  }
+
+  get mainCompanyNumbers() {
+    return this._extensionPhoneNumber
+      .numbers
+      .filter(({ usageType }) => usageType === 'MainCompanyNumber')
+      .map(({ phoneNumber }) => phoneNumber);
   }
 }
