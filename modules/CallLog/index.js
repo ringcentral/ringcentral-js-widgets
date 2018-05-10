@@ -171,7 +171,7 @@ var presenceRegExp = /\/presence\?detailedTelephonyState=true/;
  * @description Call log managing module
  */
 var CallLog = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Client', 'Subscription', 'RolesAndPermissions', { dep: 'TabManager', optional: true }, { dep: 'Storage', optional: true }, { dep: 'CallLogOptions', optional: true }]
+  deps: ['Auth', 'Client', 'ExtensionPhoneNumber', 'Subscription', 'RolesAndPermissions', { dep: 'TabManager', optional: true }, { dep: 'Storage', optional: true }, { dep: 'CallLogOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_Pollable) {
   (0, _inherits3.default)(CallLog, _Pollable);
 
@@ -181,6 +181,7 @@ var CallLog = (_dec = (0, _di.Module)({
    * @param {Auth} params.auth - auth module instance
    * @param {Client} params.client - client module instance
    * @param {Storage} params.storage - storage module instance
+   * @param {ExtensionPhoneNumber} params.extensionPhoneNumber - extensionPhoneNumber module instance
    * @param {Subscription} params.subscription - subscription module instance
    * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermissions module instance
    * @param {Number} params.ttl - local cache timestamp
@@ -196,6 +197,7 @@ var CallLog = (_dec = (0, _di.Module)({
     var auth = _ref.auth,
         client = _ref.client,
         storage = _ref.storage,
+        extensionPhoneNumber = _ref.extensionPhoneNumber,
         subscription = _ref.subscription,
         rolesAndPermissions = _ref.rolesAndPermissions,
         tabManager = _ref.tabManager,
@@ -211,7 +213,7 @@ var CallLog = (_dec = (0, _di.Module)({
         polling = _ref$polling === undefined ? true : _ref$polling,
         _ref$disableCache = _ref.disableCache,
         disableCache = _ref$disableCache === undefined ? false : _ref$disableCache,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'client', 'storage', 'subscription', 'rolesAndPermissions', 'tabManager', 'ttl', 'tokenExpiresIn', 'timeToRetry', 'daySpan', 'polling', 'disableCache']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'client', 'storage', 'extensionPhoneNumber', 'subscription', 'rolesAndPermissions', 'tabManager', 'ttl', 'tokenExpiresIn', 'timeToRetry', 'daySpan', 'polling', 'disableCache']);
     (0, _classCallCheck3.default)(this, CallLog);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallLog.__proto__ || (0, _getPrototypeOf2.default)(CallLog)).call(this, (0, _extends3.default)({}, options, {
@@ -257,7 +259,7 @@ var CallLog = (_dec = (0, _di.Module)({
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              if (!(_this._auth.loggedIn && (!_this._storage || _this._storage.ready) && (!_this._subscription || _this._subscription.ready) && (!_this._tabManager || _this._tabManager.ready) && _this._rolesAndPermissions.ready && _this.status === _moduleStatuses2.default.pending)) {
+              if (!(_this._auth.loggedIn && (!_this._storage || _this._storage.ready) && (!_this._subscription || _this._subscription.ready) && (!_this._extensionPhoneNumber || _this._extensionPhoneNumber.ready) && (!_this._tabManager || _this._tabManager.ready) && _this._rolesAndPermissions.ready && _this.status === _moduleStatuses2.default.pending)) {
                 _context2.next = 9;
                 break;
               }
@@ -288,7 +290,7 @@ var CallLog = (_dec = (0, _di.Module)({
               break;
 
             case 9:
-              if ((!_this._auth.loggedIn || !!_this._storage && !_this._storage.ready || _this._subscription && !_this._subscription.ready || _this._tabManager && !_this._tabManager.ready || !_this._rolesAndPermissions.ready) && _this.ready) {
+              if ((!_this._auth.loggedIn || !!_this._storage && !_this._storage.ready || _this._extensionPhoneNumber && !_this._extensionPhoneNumber.ready || _this._subscription && !_this._subscription.ready || _this._tabManager && !_this._tabManager.ready || !_this._rolesAndPermissions.ready) && _this.ready) {
                 _this.store.dispatch({
                   type: _this.actionTypes.reset
                 });
@@ -315,6 +317,7 @@ var CallLog = (_dec = (0, _di.Module)({
     if (!disableCache) {
       _this._storage = storage;
     }
+    _this._extensionPhoneNumber = extensionPhoneNumber;
     _this._subscription = subscription;
     _this._rolesAndPermissions = rolesAndPermissions;
     _this._tabManager = tabManager;
@@ -369,11 +372,13 @@ var CallLog = (_dec = (0, _di.Module)({
           );
         }))).map(function (call) {
           // [RCINT-7364] Call presence is incorrect when make ringout call from a DL number.
-          // When user use DL number set ringout, call log sync will response tow legs.
+          // When user use DL number set ringout and the outBound from number must not a oneself company number
+          // Call log sync will response tow legs.
           // But user use company plus extension number, call log sync will response only one leg.
           // And the results about `to` and `from` in platform APIs call log sync response is opposite.
           // This is a temporary solution.
-          if ((0, _callLogHelpers.isOutbound)(call) && (call.action === _callActions2.default.ringOutWeb || call.action === _callActions2.default.ringOutPC || call.action === _callActions2.default.ringOutMobile)) {
+          var isOutBoundCompanyNumber = call.from && call.from.phoneNumber && _this.mainCompanyNumbers.indexOf(call.from.phoneNumber) > -1;
+          if ((0, _callLogHelpers.isOutbound)(call) && (call.action === _callActions2.default.ringOutWeb || call.action === _callActions2.default.ringOutPC || call.action === _callActions2.default.ringOutMobile) && !isOutBoundCompanyNumber) {
             return (0, _extends3.default)({}, call, {
               from: call.to,
               to: call.from
@@ -874,6 +879,17 @@ var CallLog = (_dec = (0, _di.Module)({
     key: 'canReadPresence',
     get: function get() {
       return !!this._rolesAndPermissions.permissions.ReadPresenceStatus;
+    }
+  }, {
+    key: 'mainCompanyNumbers',
+    get: function get() {
+      return this._extensionPhoneNumber.numbers.filter(function (_ref13) {
+        var usageType = _ref13.usageType;
+        return usageType === 'MainCompanyNumber';
+      }).map(function (_ref14) {
+        var phoneNumber = _ref14.phoneNumber;
+        return phoneNumber;
+      });
     }
   }]);
   return CallLog;
