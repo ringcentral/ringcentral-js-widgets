@@ -122,3 +122,24 @@ exportLocale(config).then(() => {
 2. 'full': This will export everything.
 3. 'translated': This will only export translated entries.
 
+
+
+export locale
+import locale
+re-generate annotation
+
+export:
+1. find all locale files
+2. read all locale files
+3. read annotations
+4. Computer diff/full
+5. Generate .xlf
+
+import:
+1. find all locale files
+2. read all locale files
+3. read annotations
+4. read xlf
+5. merge translated data
+6. generate locale files
+7. generate annotation
