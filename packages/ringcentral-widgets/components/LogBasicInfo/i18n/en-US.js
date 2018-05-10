@@ -41,6 +41,7 @@ export default {
   [callResults.stopped]: 'Stopped',
   [callResults.suspendedAccount]: 'Suspended Account',
   [callResults.hangUp]: 'Hung up',
+  [callResults.HangUp]: 'Hung up',
   [callResults.abandoned]: 'Abandoned',
   [callResults.declined]: 'Declined',
   [callResults.faxReceipt]: 'Fax Receipt',

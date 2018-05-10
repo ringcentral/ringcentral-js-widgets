@@ -32,7 +32,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '+16509807433'
         },
         duration: 11,
-        result: callResults.callConnected,
+        result: 'Call connected',
         telephonyStatus: null,
       }
     };
@@ -52,7 +52,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '+16509807433'
         },
         duration: 11,
-        result: callResults.callConnected,
+        result: 'Call connected',
         telephonyStatus: null,
       }
     };
@@ -73,7 +73,7 @@ describe('Call Basic Info:', () => {
         },
         duration: null,
         result: null,
-        telephonyStatus: telephonyStatuses.callConnected,
+        telephonyStatus: 'CallConnected',
       }
     };
     const wrapper = setup(props);
@@ -93,7 +93,7 @@ describe('Call Basic Info:', () => {
         },
         duration: null,
         result: null,
-        telephonyStatus: telephonyStatuses.callConnected,
+        telephonyStatus: 'CallConnected',
       }
     };
     const wrapper = setup(props);
@@ -112,7 +112,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '+16509807433'
         },
         duration: 11,
-        result: callResults.missed,
+        result: 'Missed',
         telephonyStatus: null,
       }
     };
@@ -132,7 +132,7 @@ describe('Call Basic Info:', () => {
         },
         duration: null,
         result: null,
-        telephonyStatus: telephonyStatuses.ringing,
+        telephonyStatus: 'Ringing',
       }
     };
     const wrapper = setup(props);
@@ -151,7 +151,7 @@ describe('Call Basic Info:', () => {
         },
         duration: null,
         result: null,
-        telephonyStatus: telephonyStatuses.ringing,
+        telephonyStatus: 'Ringing',
       }
     };
     const wrapper = setup(props);
@@ -170,7 +170,7 @@ describe('Call Basic Info:', () => {
         },
         duration: null,
         result: null,
-        telephonyStatus: telephonyStatuses.ringing,
+        telephonyStatus: 'Ringing',
       }
     };
     const wrapper = setup(props);
@@ -189,7 +189,7 @@ describe('Call Basic Info:', () => {
         },
         duration: null,
         result: null,
-        telephonyStatus: telephonyStatuses.callConnected,
+        telephonyStatus: 'CallConnected',
       }
     };
     const wrapper = setup(props);
@@ -208,7 +208,7 @@ describe('Call Basic Info:', () => {
         },
         duration: null,
         result: null,
-        telephonyStatus: telephonyStatuses.callConnected,
+        telephonyStatus: 'CallConnected',
       }
     };
     const wrapper = setup(props);
@@ -226,7 +226,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.callConnected,
+        result: 'Call connected',
         telephonyStatus: null,
       }
     };
@@ -248,7 +248,7 @@ describe('Call Basic Info:', () => {
         },
         duration: null,
         result: null,
-        telephonyStatus: telephonyStatuses.callConnected,
+        telephonyStatus: 'CallConnected',
       }
     };
     const wrapper = setup(props);
@@ -267,7 +267,7 @@ describe('Call Basic Info:', () => {
         },
         duration: null,
         result: null,
-        telephonyStatus: telephonyStatuses.ringing,
+        telephonyStatus: 'Ringing',
       }
     };
     const wrapper = setup(props);
@@ -285,7 +285,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.callAccepted,
+        result: 'Call accepted',
         telephonyStatus: null,
       }
     };
@@ -304,7 +304,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.accepted,
+        result: 'Accepted',
         telephonyStatus: null,
       }
     };
@@ -323,7 +323,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.missed,
+        result: 'Missed',
         telephonyStatus: null,
       }
     };
@@ -342,7 +342,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.voicemail,
+        result: 'Voicemail',
         telephonyStatus: null,
       }
     };
@@ -361,7 +361,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.rejected,
+        result: 'Rejected',
         telephonyStatus: null,
       }
     };
@@ -380,7 +380,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.blocked,
+        result: 'Blocked',
         telephonyStatus: null,
       }
     };
@@ -399,7 +399,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.noAnswer,
+        result: 'No Answer',
         telephonyStatus: null,
       }
     };
@@ -418,7 +418,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.busy,
+        result: 'Busy',
         telephonyStatus: null,
       }
     };
@@ -437,7 +437,26 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.hangUp,
+        result: 'Hang up',
+        telephonyStatus: null,
+      }
+    };
+    const wrapper = setup(props);
+    expect(wrapper.find('.red').length).toBe(1);
+  });
+  it('When Call is hangUp, Call Status Color: Red', () => {
+    const props = {
+      formatPhone: value => value,
+      call: {
+        direction: callDirections.outbound,
+        to: {
+          phoneNumber: '111'
+        },
+        from: {
+          phoneNumber: '222'
+        },
+        duration: null,
+        result: 'Hang Up',
         telephonyStatus: null,
       }
     };
@@ -456,7 +475,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.declined,
+        result: 'Declined',
         telephonyStatus: null,
       }
     };
@@ -533,7 +552,7 @@ describe('Call Basic Info:', () => {
         },
         duration: null,
         result: null,
-        telephonyStatus: telephonyStatuses.callConnected,
+        telephonyStatus: 'CallConnected',
       }
     };
     const wrapper = setup(props);
@@ -589,7 +608,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.callAccepted,
+        result: 'Call accepted',
         telephonyStatus: null,
       }
     };
@@ -608,7 +627,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.rejected,
+        result: 'Rejected',
         telephonyStatus: null,
       }
     };
@@ -627,7 +646,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.callConnected,
+        result: 'Call connected',
         telephonyStatus: null,
       }
     };
@@ -646,7 +665,26 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.hangUp,
+        result: 'Hang up',
+        telephonyStatus: null,
+      }
+    };
+    const wrapper = setup(props);
+    expect(wrapper.find('.status').text()).toBe('Hung up');
+  });
+  it('When Call Status is Hang Up, Call Status Text: Hung up', () => {
+    const props = {
+      formatPhone: value => value,
+      call: {
+        direction: callDirections.outbound,
+        to: {
+          phoneNumber: '111'
+        },
+        from: {
+          phoneNumber: '222'
+        },
+        duration: null,
+        result: 'Hang Up',
         telephonyStatus: null,
       }
     };
@@ -666,7 +704,7 @@ describe('Call Basic Info:', () => {
         },
         duration: null,
         result: null,
-        telephonyStatus: telephonyStatuses.ringing,
+        telephonyStatus: 'Ringing',
       }
     };
     const wrapper = setup(props);
@@ -684,7 +722,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.unknown,
+        result: 'Unknown',
         telephonyStatus: null,
       }
     };
@@ -703,7 +741,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.missed,
+        result: 'Missed',
         telephonyStatus: null,
       }
     };
@@ -722,7 +760,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.voicemail,
+        result: 'Voicemail',
         telephonyStatus: null,
       }
     };
@@ -741,7 +779,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.reply,
+        result: 'Reply',
         telephonyStatus: null,
       }
     };
@@ -760,7 +798,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.received,
+        result: 'Received',
         telephonyStatus: null,
       }
     };
@@ -779,7 +817,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.faxReceiptError,
+        result: 'Fax Receipt Error',
         telephonyStatus: null,
       }
     };
@@ -798,7 +836,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.faxOnDemand,
+        result: 'Fax on Demand',
         telephonyStatus: null,
       }
     };
@@ -817,7 +855,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.partialReceive,
+        result: 'Partial Receive',
         telephonyStatus: null,
       }
     };
@@ -836,7 +874,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.blocked,
+        result: 'Blocked',
         telephonyStatus: null,
       }
     };
@@ -855,7 +893,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.noAnswer,
+        result: 'No Answer',
         telephonyStatus: null,
       }
     };
@@ -874,7 +912,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.internationalDisabled,
+        result: 'International Disabled',
         telephonyStatus: null,
       }
     };
@@ -893,7 +931,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.busy,
+        result: 'Busy',
         telephonyStatus: null,
       }
     };
@@ -912,7 +950,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.faxSendError,
+        result: 'Fax Send Error',
         telephonyStatus: null,
       }
     };
@@ -931,7 +969,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.sent,
+        result: 'Sent',
         telephonyStatus: null,
       }
     };
@@ -950,7 +988,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.callFailed,
+        result: 'Call Failed',
         telephonyStatus: null,
       }
     };
@@ -969,7 +1007,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.internalError,
+        result: 'Internal Error',
         telephonyStatus: null,
       }
     };
@@ -988,7 +1026,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.IPPhoneOffline,
+        result: 'IP Phone offline',
         telephonyStatus: null,
       }
     };
@@ -1007,7 +1045,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.restrictedNumber,
+        result: 'Restricted Number',
         telephonyStatus: null,
       }
     };
@@ -1026,7 +1064,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.wrongNumber,
+        result: 'Wrong Number',
         telephonyStatus: null,
       }
     };
@@ -1045,7 +1083,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.stopped,
+        result: 'Stopped',
         telephonyStatus: null,
       }
     };
@@ -1064,7 +1102,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.suspendedAccount,
+        result: 'Suspended Account',
         telephonyStatus: null,
       }
     };
@@ -1083,7 +1121,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.abandoned,
+        result: 'Abandoned',
         telephonyStatus: null,
       }
     };
@@ -1102,7 +1140,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.declined,
+        result: 'Declined',
         telephonyStatus: null,
       }
     };
@@ -1121,7 +1159,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.faxReceipt,
+        result: 'Fax Receipt',
         telephonyStatus: null,
       }
     };
@@ -1140,7 +1178,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.faxSendError,
+        result: 'Fax Send Error',
         telephonyStatus: null,
       }
     };
@@ -1159,7 +1197,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.faxSendError,
+        result: 'Fax Send Error',
         telephonyStatus: null,
       }
     };
@@ -1178,7 +1216,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: callResults.faxSendError,
+        result: 'Fax Send Error',
         telephonyStatus: null,
       }
     };

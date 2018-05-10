@@ -30,6 +30,7 @@ const colorStatusMap = {
     callResults.noAnswer,
     callResults.busy,
     callResults.hangUp,
+    callResults.HangUp,
     callResults.declined
   ],
   orange: [
