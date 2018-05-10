@@ -14,7 +14,7 @@ export default class DatePicker extends Component {
     momentLocalizer();
   }
   onClickFunc = () => {
-    const open = !!document.querySelector('.rw-open');
+    const open = !!document.querySelector('.dateTimePicker .rw-open');
     if (!open) {
       this.date.inner.toggle();
     } else {
@@ -30,7 +30,7 @@ export default class DatePicker extends Component {
     return (
       <div className={classnames(styles.datePicker, this.props.datePickerClassName)}>
         <DateTimePicker
-          className={classnames(styles.dateTimePicker)}
+          className="dateTimePicker"
           culture={currentLocale}
           time={false}
           value={this.props.date}
