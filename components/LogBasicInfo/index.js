@@ -55,7 +55,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var callIconMap = (_callIconMap = {}, (0, _defineProperty3.default)(_callIconMap, _callResults2.default.missed, _DynamicsFont2.default.missed), (0, _defineProperty3.default)(_callIconMap, _callDirections2.default.inbound, _DynamicsFont2.default.inbound), (0, _defineProperty3.default)(_callIconMap, _callDirections2.default.outbound, _DynamicsFont2.default.outbound), (0, _defineProperty3.default)(_callIconMap, _telephonyStatus2.default.ringing, _DynamicsFont2.default.callHover), _callIconMap);
 var colorStatusMap = {
   green: [_telephonyStatus2.default.callConnected, _telephonyStatus2.default.ringing, _callResults2.default.callAccepted, _callResults2.default.accepted],
-  red: [_callResults2.default.missed, _callResults2.default.voicemail, _callResults2.default.rejected, _callResults2.default.blocked, _callResults2.default.noAnswer, _callResults2.default.busy, _callResults2.default.hangUp, _callResults2.default.declined],
+  red: [_callResults2.default.missed, _callResults2.default.voicemail, _callResults2.default.rejected, _callResults2.default.blocked, _callResults2.default.noAnswer, _callResults2.default.busy, _callResults2.default.hangUp, _callResults2.default.HangUp, _callResults2.default.declined],
   orange: [_telephonyStatus2.default.onHold, _telephonyStatus2.default.parkedCall]
 };
 
