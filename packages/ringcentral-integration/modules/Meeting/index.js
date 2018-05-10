@@ -76,7 +76,10 @@ export default class Meeting extends RcModule {
     storage,
     ...options
   }) {
-    super({ ...options, actionTypes });
+    super({
+      ...options,
+      actionTypes: options.actionTypes || actionTypes,
+    });
     this._alert = alert;
     this._client = client;
     this._extensionInfo = extensionInfo;
@@ -197,6 +200,14 @@ export default class Meeting extends RcModule {
           _saved: meeting._saved
         }
       });
+      const result = {
+        meeting: resp,
+        serviceInfo,
+        extensionInfo: this.extensionInfo
+      };
+      if (typeof this.scheduledHook === 'function') {
+        await this.scheduledHook(result);
+      }
       // Reload meeting info
       this._initMeeting();
       // Notify user the meeting has been scheduled
@@ -207,11 +218,7 @@ export default class Meeting extends RcModule {
           });
         }, 50);
       }
-      return {
-        meeting: resp,
-        serviceInfo,
-        extensionInfo: this.extensionInfo
-      };
+      return result;
     } catch (errors) {
       this.store.dispatch({
         type: this.actionTypes.resetScheduling
