@@ -30,6 +30,7 @@ export default class DatePicker extends Component {
     return (
       <div className={classnames(styles.datePicker, this.props.datePickerClassName)}>
         <DateTimePicker
+          className={classnames(styles.dateTimePicker)}
           culture={currentLocale}
           time={false}
           value={this.props.date}
