@@ -1,0 +1,23 @@
+{
+  "name": "ringcentral-widgets-cli",
+  "version": "0.0.1",
+  "description": "CLI tool for RingCentral Widgets",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
+  },
+  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
+  "dependencies": {
+    "commander": "^2.15.1",
+    "ejs": "^2.6.1"
+  }
+}
