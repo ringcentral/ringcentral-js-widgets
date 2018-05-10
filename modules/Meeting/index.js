@@ -190,7 +190,9 @@ var Meeting = (_dec = (0, _di.Module)({
         options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'client', 'extensionInfo', 'storage']);
     (0, _classCallCheck3.default)(this, Meeting);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Meeting.__proto__ || (0, _getPrototypeOf2.default)(Meeting)).call(this, (0, _extends3.default)({}, options, { actionTypes: _actionTypes2.default })));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Meeting.__proto__ || (0, _getPrototypeOf2.default)(Meeting)).call(this, (0, _extends3.default)({}, options, {
+      actionTypes: options.actionTypes || _actionTypes2.default
+    })));
 
     _this._alert = alert;
     _this._client = client;
@@ -290,7 +292,7 @@ var Meeting = (_dec = (0, _di.Module)({
             _ref3$isAlertSuccess = _ref3.isAlertSuccess,
             isAlertSuccess = _ref3$isAlertSuccess === undefined ? true : _ref3$isAlertSuccess;
 
-        var formattedMeeting, resp, serviceInfo, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, error;
+        var formattedMeeting, resp, serviceInfo, result, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, error;
 
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -330,6 +332,21 @@ var Meeting = (_dec = (0, _di.Module)({
                     _saved: meeting._saved
                   })
                 });
+                result = {
+                  meeting: resp,
+                  serviceInfo: serviceInfo,
+                  extensionInfo: this.extensionInfo
+                };
+
+                if (!(typeof this.scheduledHook === 'function')) {
+                  _context.next = 18;
+                  break;
+                }
+
+                _context.next = 18;
+                return this.scheduledHook(result);
+
+              case 18:
                 // Reload meeting info
                 this._initMeeting();
                 // Notify user the meeting has been scheduled
@@ -340,14 +357,10 @@ var Meeting = (_dec = (0, _di.Module)({
                     });
                   }, 50);
                 }
-                return _context.abrupt('return', {
-                  meeting: resp,
-                  serviceInfo: serviceInfo,
-                  extensionInfo: this.extensionInfo
-                });
+                return _context.abrupt('return', result);
 
-              case 19:
-                _context.prev = 19;
+              case 23:
+                _context.prev = 23;
                 _context.t0 = _context['catch'](3);
 
                 this.store.dispatch({
@@ -355,62 +368,62 @@ var Meeting = (_dec = (0, _di.Module)({
                 });
 
                 if (!(_context.t0 instanceof MeetingErrors)) {
-                  _context.next = 42;
+                  _context.next = 46;
                   break;
                 }
 
                 _iteratorNormalCompletion = true;
                 _didIteratorError = false;
                 _iteratorError = undefined;
-                _context.prev = 26;
+                _context.prev = 30;
 
                 for (_iterator = (0, _getIterator3.default)(_context.t0.all); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                   error = _step.value;
 
                   this._alert.warning(error);
                 }
-                _context.next = 34;
+                _context.next = 38;
                 break;
-
-              case 30:
-                _context.prev = 30;
-                _context.t1 = _context['catch'](26);
-                _didIteratorError = true;
-                _iteratorError = _context.t1;
 
               case 34:
                 _context.prev = 34;
-                _context.prev = 35;
+                _context.t1 = _context['catch'](30);
+                _didIteratorError = true;
+                _iteratorError = _context.t1;
+
+              case 38:
+                _context.prev = 38;
+                _context.prev = 39;
 
                 if (!_iteratorNormalCompletion && _iterator.return) {
                   _iterator.return();
                 }
 
-              case 37:
-                _context.prev = 37;
+              case 41:
+                _context.prev = 41;
 
                 if (!_didIteratorError) {
-                  _context.next = 40;
+                  _context.next = 44;
                   break;
                 }
 
                 throw _iteratorError;
 
-              case 40:
-                return _context.finish(37);
+              case 44:
+                return _context.finish(41);
 
-              case 41:
-                return _context.finish(34);
+              case 45:
+                return _context.finish(38);
 
-              case 42:
+              case 46:
                 return _context.abrupt('return', null);
 
-              case 43:
+              case 47:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this, [[3, 19], [26, 30, 34, 42], [35,, 37, 41]]);
+        }, _callee, this, [[3, 23], [30, 34, 38, 46], [39,, 41, 45]]);
       }));
 
       function schedule(_x2) {
