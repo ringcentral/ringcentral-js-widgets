@@ -22,7 +22,7 @@ exports.generateProject = ({
   copyTemplate({
     templatePath: path.resolve(__dirname, '../templates/Project/package.json'),
     destinationPath: path.resolve(projectDir, 'package.json'),
-    params: { name: projectName }
+    params: { name: projectName.replace(/\s/g, '') }
   });
   copyFile({
     templatePath: path.resolve(__dirname, '../templates/Project/babelrc.default'),

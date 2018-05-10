@@ -17,7 +17,7 @@ import actionTypes from './actionTypes';
 export default class <%- name %> extends RcModule {
   constructor({
     <%_ dependences.forEach(function(dependence) { -%>
-    <%- `${dependence.toLowerCase()},` %>
+    <%- `${dependence.charAt(0).toLowerCase()}${dependence.slice(1)},` %>
     <%_ }) -%>
     ...options,
   }) {
@@ -27,7 +27,7 @@ export default class <%- name %> extends RcModule {
     });
 
     <%_ dependences.forEach(function(dependence) { -%>
-    <%- `this._${dependence.toLowerCase()} = ${dependence.toLowerCase()};` %>
+    <%- `this._${dependence.charAt(0).toLowerCase()}${dependence.slice(1)} = ${dependence.charAt(0).toLowerCase()}${dependence.slice(1)};` %>
     <%_ }) -%>
     <% if (dependences.length > 0) { %>
     this._reducer = getReducer(this.actionTypes);
@@ -52,7 +52,7 @@ export default class <%- name %> extends RcModule {
   _shouldInit() {
     return (
       <%_ dependences.forEach(function(dependence) { -%>
-      <%- `this._${dependence.toLowerCase()}.ready &&` %>
+      <%- `this._${dependence.charAt(0).toLowerCase()}${dependence.slice(1)}.ready &&` %>
       <%_ }) -%>
       this.pending
     );
@@ -61,8 +61,8 @@ export default class <%- name %> extends RcModule {
   _shouldReset() {
     return (
       (
-        <%_ dependences.forEach(function(dependence) { -%>
-        <%- `!this._${dependence.toLowerCase()}.ready ||` %>
+        <%_ dependences.forEach(function(dependence, index) { -%>
+        <%- `!this._${dependence.charAt(0).toLowerCase()}${dependence.slice(1)}.ready${index === (dependences.length - 1) ? '' : ' ||'}` %>
         <%_ }) -%>
       ) &&
       this.ready

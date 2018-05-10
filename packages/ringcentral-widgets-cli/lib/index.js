@@ -1,4 +1,5 @@
 const program = require('commander');
+const inquirer = require('inquirer');
 const { version } = require('../package');
 const { generateModule } = require('./module');
 const { generateProject } = require('./project');
@@ -30,9 +31,18 @@ program
   .command('new [projectName]')
   .description('Generate a new project')
   .action((name) => {
-    generateProject({
-      appName: 'Test',
-      name,
+    inquirer.prompt([
+      {
+        type: 'input',
+        name: 'appName',
+        message: 'Enter APP name:',
+        default: name || 'RingCentral Widget App'
+      },
+    ]).then((answers) => {
+      generateProject({
+        appName: answers.appName,
+        name,
+      });
     });
   });
 

@@ -42,7 +42,6 @@ import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
     { provide: 'Subscription', useClass: Subscription },
     { provide: 'DateTimeFormat', useClass: DateTimeFormat },
     { provide: 'RouterInteraction', useClass: RouterInteraction },
-    { provide: 'Auth', useClass: Auth },
     { provide: 'AccountInfo', useClass: AccountInfo },
     { provide: 'Environment', useClass: Environment },
     { provide: 'RegionSettings', useClass: RegionSettings },
