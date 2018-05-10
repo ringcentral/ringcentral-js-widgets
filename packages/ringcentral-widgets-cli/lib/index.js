@@ -1,6 +1,7 @@
 const program = require('commander');
 const { version } = require('../package');
 const { generateModule } = require('./module');
+const { generateProject } = require('./project');
 const { getModulesDistination } = require('./helper');
 
 program
@@ -10,16 +11,29 @@ program
 program
   .command('generate <resource> <name>')
   .alias('g')
+  .option('-d, --dependences [dependences]', 'dependences', (val, memo) => {
+    memo.push(val);
+    return memo;
+  }, [])
   .description('Generate a resource')
-  .action((resource, name) => {
+  .action((resource, name, options) => {
     if (resource === 'Module') {
       const distination = getModulesDistination();
-      console.log(distination);
       if (!distination) {
         throw Error('Modules folder not found');
       }
-      generateModule({ name, distination });
+      generateModule({ name, distination, dependences: options.dependences });
     }
+  });
+
+program
+  .command('new [projectName]')
+  .description('Generate a new project')
+  .action((name) => {
+    generateProject({
+      appName: 'Test',
+      name,
+    });
   });
 
 program.parse(process.argv);
