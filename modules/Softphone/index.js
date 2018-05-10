@@ -164,32 +164,43 @@ var Softphone = (_dec = (0, _di.Module)({
                 }
 
                 window.open(uri);
-                _context.next = 15;
+                _context.next = 19;
                 break;
 
               case 6:
+                if (!window.navigator.msLaunchUri) {
+                  _context.next = 10;
+                  break;
+                }
+
+                // to support ie to start the service
+                window.navigator.msLaunchUri(uri);
+                _context.next = 19;
+                break;
+
+              case 10:
                 frame = document.createElement('iframe');
 
                 frame.style.display = 'none';
 
                 document.body.appendChild(frame);
-                _context.next = 11;
+                _context.next = 15;
                 return (0, _sleep2.default)(100);
 
-              case 11:
+              case 15:
                 frame.contentWindow.location.href = uri;
-                _context.next = 14;
+                _context.next = 18;
                 return (0, _sleep2.default)(300);
 
-              case 14:
+              case 18:
                 document.body.removeChild(frame);
 
-              case 15:
+              case 19:
                 this.store.dispatch({
                   type: this.actionTypes.connectComplete
                 });
 
-              case 16:
+              case 20:
               case 'end':
                 return _context.stop();
             }
