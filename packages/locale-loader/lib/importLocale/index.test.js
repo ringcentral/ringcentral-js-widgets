@@ -1,8 +1,7 @@
-import { expect } from 'chai';
 import fs from 'fs-extra';
 import path from 'path';
 import { transform } from 'babel-core';
-import babelrc from 'babel-settings/lib/babelrc';
+import babelrc from 'babel-settings';
 import importLocale from './';
 import exportLocale from '../exportLocale';
 import defaultConfig from '../../defaultConfig';
@@ -12,16 +11,12 @@ const {
   sourceLocale,
 } = defaultConfig;
 
-
-/* global describe it before after beforeEach afterEach */
-/* eslint { no-eval: 0} */
-
-const testFolder = './testData';
-const localizationFolder = './localization';
+const sourceFolder = './testData-importLocale';
+const localizationFolder = './localization-importLocale';
 
 async function clean() {
-  await fs.emptyDir(testFolder);
-  await fs.emptyDir(localizationFolder);
+  await fs.remove(sourceFolder);
+  await fs.remove(localizationFolder);
 }
 
 function encodeValue(str) {
@@ -29,8 +24,9 @@ function encodeValue(str) {
 }
 
 async function generateSource() {
-  await fs.writeFile(path.resolve(testFolder, 'loadLocale.js'), '/* loadLocale */');
-  await fs.writeFile(path.resolve(testFolder, 'en-US.js'), `
+  await fs.ensureDir(sourceFolder);
+  await fs.writeFile(path.resolve(sourceFolder, 'loadLocale.js'), '/* loadLocale */');
+  await fs.writeFile(path.resolve(sourceFolder, 'en-US.js'), `
     const obj = {
       key: 'testKey',
     };
@@ -48,7 +44,8 @@ async function generateSource() {
 
 describe('importLocale', () => {
   const config = {
-    sourceFolder: testFolder,
+    localizationFolder,
+    sourceFolder,
     supportedLocales: ['en-US', 'en-GB']
   };
   beforeEach(async () => {
@@ -57,7 +54,7 @@ describe('importLocale', () => {
     await exportLocale(config);
   });
   afterEach(clean);
-  it('should import generated xlf files', async () => {
+  test('should import generated xlf files', async () => {
     const xlfPath = path.resolve(localizationFolder, 'en-GB.xlf');
     const xlfContent = await fs.readFile(xlfPath, 'utf8');
     await fs.writeFile(xlfPath, xlfContent.replace(
@@ -68,29 +65,29 @@ describe('importLocale', () => {
       '<target>testValueChanged</target>'
       ));
     await importLocale(config);
-    const filePath = path.resolve(testFolder, 'en-GB.js');
-    expect(await fs.exists(filePath)).to.equal(true);
+    const filePath = path.resolve(sourceFolder, 'en-GB.js');
+    expect(await fs.exists(filePath)).toBe(true);
     const content = await fs.readFile(filePath, 'utf8');
     let json;
     expect(() => {
       json = eval(transform(content, babelrc).code);
-    }).to.not.throw();
-    expect(json.modern).to.equal('rogue');
-    expect(json.whisky).to.equal('Changed');
-    expect(json.testKey).to.equal('testValueChanged');
+    }).not.toThrow();
+    expect(json.modern).toBe('rogue');
+    expect(json.whisky).toBe('Changed');
+    expect(json.testKey).toBe('testValueChanged');
   });
-  it('should generate annotations', async () => {
+  test('should generate annotations', async () => {
     await importLocale(config);
-    const filePath = path.resolve(testFolder, 'en-GB.js');
-    expect(await fs.exists(filePath)).to.equal(true);
+    const filePath = path.resolve(sourceFolder, 'en-GB.js');
+    expect(await fs.exists(filePath)).toBe(true);
     const content = await fs.readFile(filePath, 'utf8');
-    expect(content.indexOf(`// @key: ${encodeValue('modern')} @source: ${encodeValue('rogue')}`) > -1).to.equal(true);
-    expect(content.indexOf(`// @key: ${encodeValue('whisky')} @source: ${encodeValue('Vault')}`) > -1).to.equal(true);
-    expect(content.indexOf(`// @key: ${encodeValue('[obj.key]')} @source: ${encodeValue('testValue')}`) > -1).to.equal(true);
-    expect(content.indexOf(`// @key: ${encodeValue('newline')} @source: ${encodeValue('containes\nnewline')}`) > -1).to.equal(true);
+    expect(content.indexOf(`// @key: ${encodeValue('modern')} @source: ${encodeValue('rogue')}`) > -1).toBe(true);
+    expect(content.indexOf(`// @key: ${encodeValue('whisky')} @source: ${encodeValue('Vault')}`) > -1).toBe(true);
+    expect(content.indexOf(`// @key: ${encodeValue('[obj.key]')} @source: ${encodeValue('testValue')}`) > -1).toBe(true);
+    expect(content.indexOf(`// @key: ${encodeValue('newline')} @source: ${encodeValue('containes\nnewline')}`) > -1).toBe(true);
   });
-  it('should only import keys that exist in current source', async () => {
-    await fs.writeFile(path.resolve(testFolder, 'en-US.js'), `
+  test('should only import keys that exist in current source', async () => {
+    await fs.writeFile(path.resolve(sourceFolder, 'en-US.js'), `
       const obj = {
         key: 'testKey',
       };
@@ -100,18 +97,18 @@ describe('importLocale', () => {
       };
     `);
     await importLocale(config);
-    const filePath = path.resolve(testFolder, 'en-GB.js');
-    expect(await fs.exists(filePath)).to.equal(true);
+    const filePath = path.resolve(sourceFolder, 'en-GB.js');
+    expect(await fs.exists(filePath)).toBe(true);
     const content = await fs.readFile(filePath, 'utf8');
     let json;
     expect(() => {
       json = eval(transform(content, babelrc).code);
-    }).to.not.throw();
-    expect(json.modern).to.equal('rogue');
-    expect(json.whisky).to.equal(undefined);
-    expect(json.testKey).to.equal(undefined);
+    }).not.toThrow();
+    expect(json.modern).toBe('rogue');
+    expect(json.whisky).toBe(undefined);
+    expect(json.testKey).toBe(undefined);
   });
-  it('should only import keys where its source value is identical to current source', async () => {
+  test('should only import keys where its source value is identical to current source', async () => {
     const xlfPath = path.resolve(localizationFolder, 'en-GB.xlf');
     const xlfContent = await fs.readFile(xlfPath, 'utf8');
     await fs.writeFile(xlfPath, xlfContent.replace(
@@ -122,19 +119,19 @@ describe('importLocale', () => {
       '<source>testValueChanged</source>'
       ));
     await importLocale(config);
-    const filePath = path.resolve(testFolder, 'en-GB.js');
-    expect(await fs.exists(filePath)).to.equal(true);
+    const filePath = path.resolve(sourceFolder, 'en-GB.js');
+    expect(await fs.exists(filePath)).toBe(true);
     const content = await fs.readFile(filePath, 'utf8');
     let json;
     expect(() => {
       json = eval(transform(content, babelrc).code);
-    }).to.not.throw();
-    expect(json.modern).to.equal('rogue');
-    expect(json.whisky).to.equal(undefined);
-    expect(json.testKey).to.equal(undefined);
+    }).not.toThrow();
+    expect(json.modern).toBe('rogue');
+    expect(json.whisky).toBe(undefined);
+    expect(json.testKey).toBe(undefined);
   });
-  it('it should work for files without trailing comma', async () => {
-    await fs.writeFile(path.resolve(testFolder, 'en-US.js'), `
+  test('it should work for files without trailing comma', async () => {
+    await fs.writeFile(path.resolve(sourceFolder, 'en-US.js'), `
       const obj = {
         key: 'testKey',
       };
@@ -151,11 +148,11 @@ describe('importLocale', () => {
     `);
     await exportLocale(config);
     await importLocale(config);
-    const filePath = path.resolve(testFolder, 'en-GB.js');
-    expect(await fs.exists(filePath)).to.equal(true);
+    const filePath = path.resolve(sourceFolder, 'en-GB.js');
+    expect(await fs.exists(filePath)).toBe(true);
     const content = await fs.readFile(filePath, 'utf8');
     expect(() => {
       const json = eval(transform(content, babelrc).code);
-    }).to.not.throw();
+    }).not.toThrow();
   });
 });

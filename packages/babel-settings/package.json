@@ -2,6 +2,7 @@
   "name": "babel-settings",
   "version": "0.0.1",
   "private": true,
+  "main": "index.js",
   "description": "Shared babel settings",
   "repository": {
     "type": "git",
