@@ -17,7 +17,7 @@
     "babel-runtime": "^6.26.0",
     "format-message": "^5.0.0",
     "isomorphic-fetch": "^2.2.1",
-    "locale-loader": "^1.4.5",
+    "locale-loader": "^1.4.10",
     "moment": "^2.19.2",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",

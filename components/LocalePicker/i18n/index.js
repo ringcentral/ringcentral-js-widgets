@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _I18n = require('locale-loader/I18n');
+var _I18n = require('ringcentral-integration/lib/I18n');
 
 var _I18n2 = _interopRequireDefault(_I18n);
 
