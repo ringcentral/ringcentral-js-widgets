@@ -26,6 +26,7 @@ exports.default = new _HashMap2.default({
   faxReceiptError: 'Fax Receipt Error',
   faxSendError: 'Fax Send Error',
   hangUp: 'Hang up',
+  HangUp: 'Hang Up',
   internalError: 'Internal Error',
   internationalDisabled: 'International Disabled',
   internationalRestriction: 'International Restriction',
