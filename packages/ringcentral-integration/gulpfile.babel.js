@@ -5,7 +5,7 @@ import babelIstanbul from 'babel-istanbul';
 import yargs from 'yargs';
 import through from 'through2';
 import path from 'path';
-import fs from 'fs-promise';
+import fs from 'fs-extra';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import babel from 'gulp-babel';
