@@ -1,5 +1,7 @@
 import { expect } from 'chai';
 import { transform } from 'babel-core';
+import fs from 'fs-extra';
+import babelrc from 'babel-settings/lib/babelrc';
 import generateLoaderContent from './';
 import formatLocale from '../formatLocale';
 
@@ -11,13 +13,6 @@ const files = [
   'FR-FR.JS',
   'aa-AAAA-ZZ.JS',
 ];
-
-const babelOptions = {
-  presets: ['es2015', 'stage-0'],
-  plugins: [
-    'transform-runtime'
-  ],
-};
 
 describe('generateLoaderContent', () => {
   it('should generate string', () => {
@@ -42,7 +37,7 @@ describe('generateLoaderContent', () => {
     });
     it('should be valid js file content', () => {
       let code;
-      expect(() => { code = transform(content, babelOptions).code; }).to.not.throw();
+      expect(() => { code = transform(content, babelrc).code; }).to.not.throw();
       expect(() => { eval(code); }).to.not.throw();
       expect(eval(code)).to.be.a('Function');
     });

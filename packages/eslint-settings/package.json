@@ -1,0 +1,22 @@
+{
+  "name": "eslint-settings",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Shared eslint settings",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ringcentral/ringcentral-js-widget.git"
+  },
+  "engines": {
+    "node": ">=8"
+  },
+  "scripts": {},
+  "dependencies": {
+    "babel-eslint": "^8.2.3",
+    "eslint": "^4.12.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.5.1"
+  }
+}

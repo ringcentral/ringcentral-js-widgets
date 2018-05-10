@@ -32,7 +32,7 @@ export default class DatePicker extends Component {
         <DateTimePicker
           culture={currentLocale}
           time={false}
-          value={new Date(this.props.date)}
+          value={this.props.date}
           onChange={(currentStartTime) => {
             if (currentStartTime) {
               const date = new Date(dueDate);

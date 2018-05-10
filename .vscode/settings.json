@@ -2,7 +2,8 @@
 {
   "javascript.validate.enable": false,
   "files.associations": {
-    "*.html.tmpl": "html"
+    "*.html.tmpl": "html",
+    ".babelrc": "jsonc"
   },
   "editor.rulers": [
     100

@@ -3,6 +3,7 @@
 *.yml text=auto eol=lf
 .editorconfig text=auto eol=lf
 .eslintignore text=auto eol=lf
+.eslintrc text=auto eol=lf
 *.js text=auto eol=lf
 .gitattributes text=auto eol=lf
 .gitignore text=auto eol=lf

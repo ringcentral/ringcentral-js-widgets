@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import fs from 'fs-extra';
 import path from 'path';
 import { transform } from 'babel-core';
+import babelrc from 'babel-settings/lib/babelrc';
 import importLocale from './';
 import exportLocale from '../exportLocale';
 import defaultConfig from '../../defaultConfig';
@@ -11,12 +12,6 @@ const {
   sourceLocale,
 } = defaultConfig;
 
-const babelOptions = {
-  presets: ['es2015', 'stage-0'],
-  plugins: [
-    'transform-runtime'
-  ],
-};
 
 /* global describe it before after beforeEach afterEach */
 /* eslint { no-eval: 0} */
@@ -78,7 +73,7 @@ describe('importLocale', () => {
     const content = await fs.readFile(filePath, 'utf8');
     let json;
     expect(() => {
-      json = eval(transform(content, babelOptions).code);
+      json = eval(transform(content, babelrc).code);
     }).to.not.throw();
     expect(json.modern).to.equal('rogue');
     expect(json.whisky).to.equal('Changed');
@@ -110,7 +105,7 @@ describe('importLocale', () => {
     const content = await fs.readFile(filePath, 'utf8');
     let json;
     expect(() => {
-      json = eval(transform(content, babelOptions).code);
+      json = eval(transform(content, babelrc).code);
     }).to.not.throw();
     expect(json.modern).to.equal('rogue');
     expect(json.whisky).to.equal(undefined);
@@ -132,7 +127,7 @@ describe('importLocale', () => {
     const content = await fs.readFile(filePath, 'utf8');
     let json;
     expect(() => {
-      json = eval(transform(content, babelOptions).code);
+      json = eval(transform(content, babelrc).code);
     }).to.not.throw();
     expect(json.modern).to.equal('rogue');
     expect(json.whisky).to.equal(undefined);
@@ -160,7 +155,7 @@ describe('importLocale', () => {
     expect(await fs.exists(filePath)).to.equal(true);
     const content = await fs.readFile(filePath, 'utf8');
     expect(() => {
-      const json = eval(transform(content, babelOptions).code);
+      const json = eval(transform(content, babelrc).code);
     }).to.not.throw();
   });
 });
