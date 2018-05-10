@@ -26,13 +26,13 @@ export default class DatePicker extends Component {
       currentLocale,
     } = this.props;
     const dueDate = new Date().toISOString();
-    const showDate = this.props.date ? Moment(this.props.date).format('MM/DD/YY') : null;
+    const showDate = this.props.date ? `${this.props.label}:${Moment(this.props.date).format('MM/DD/YY')}` : `${this.props.label}`;
     return (
       <div className={classnames(styles.datePicker, this.props.datePickerClassName)}>
         <DateTimePicker
           culture={currentLocale}
           time={false}
-          value={this.props.date}
+          value={new Date(this.props.date)}
           onChange={(currentStartTime) => {
             if (currentStartTime) {
               const date = new Date(dueDate);
@@ -49,7 +49,7 @@ export default class DatePicker extends Component {
         <div
           onClick={() => this.onClickFunc()}
           className={classnames(styles.dateText, this.props.dateTextClassName)}>
-          {this.props.label}:{showDate}
+          {showDate}
         </div>
       </div>
     );
