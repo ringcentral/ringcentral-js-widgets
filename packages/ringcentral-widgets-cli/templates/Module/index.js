@@ -21,7 +21,7 @@ export default class <%- name %> extends RcModule {
     <%_ }) -%>
     ...options,
   }) {
-  	super({
+    super({
       actionTypes,
       ...options,
     });
@@ -33,7 +33,7 @@ export default class <%- name %> extends RcModule {
     this._reducer = getReducer(this.actionTypes);
     <% } %>
     // your codes here
-  };
+  }
   // your codes here
   <% if (dependences.length > 0) { %>
   // Codes on state change

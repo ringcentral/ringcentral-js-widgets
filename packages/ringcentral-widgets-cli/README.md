@@ -64,7 +64,7 @@ Visit on [http://localhost:8080](http://localhost:8080) in browser
 
 #### Build for production
 
-* Update `.env` file with production config, such as `API_SERVER` and `REDIRECT_URI`.
+* Update `.env` file with production config, such as `RINGCENTRAL_SERVER_URL` and `REDIRECT_URI`.
 * Build project
 
 ```
