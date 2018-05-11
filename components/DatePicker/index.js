@@ -66,7 +66,7 @@ var DatePicker = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (DatePicker.__proto__ || (0, _getPrototypeOf2.default)(DatePicker)).call(this, props));
 
     _this.onClickFunc = function () {
-      var open = !!document.querySelector('.rw-open');
+      var open = !!document.querySelector('.dateTimePicker .rw-open');
       if (!open) {
         _this.date.inner.toggle();
       } else {
@@ -92,6 +92,7 @@ var DatePicker = function (_Component) {
         'div',
         { className: (0, _classnames2.default)(_styles2.default.datePicker, this.props.datePickerClassName) },
         _react2.default.createElement(_DateTimePicker2.default, {
+          className: 'dateTimePicker',
           culture: currentLocale,
           time: false,
           value: this.props.date,
