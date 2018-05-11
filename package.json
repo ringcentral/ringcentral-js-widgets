@@ -23,6 +23,6 @@
   "devDependencies": {
     "eslint-settings": "0.0.1",
     "babel-settings": "0.0.1",
-    "lerna": "^2.9.0"
+    "lerna": "^2.11.0"
   }
 }
