@@ -3,58 +3,58 @@
 @import '../../lib/commonStyles/vertical-align';
 
 
-:global .rw-datetime-picker input.rw-widget-input {
+:global .dateTimePicker .rw-datetime-picker input.rw-widget-input {
   display: none;
 }
 
-:global [class*=styles_datePicker] .rw-datetime-picker input.rw-widget-input {
+:global .dateTimePicker [class*=styles_datePicker] .rw-datetime-picker input.rw-widget-input {
   display: block;
   position: absolute;
   top: -9999px;
 }
 
-:global .rw-datetime-picker .rw-select,
-:global .rw-widget-input.rw-widget-picker.rw-widget-container .rw-select button
+:global .dateTimePicker .rw-datetime-picker .rw-select,
+:global .dateTimePicker .rw-widget-input.rw-widget-picker.rw-widget-container .rw-select button
 {
   display: none;
 }
 
-:global .rw-datetime-picker .rw-widget-input {
+:global .dateTimePicker .rw-datetime-picker .rw-widget-input {
   padding: 0;
   box-shadow: none;
 }
-:global .rw-datetime-picker.rw-widget {
+:global .dateTimePicker .rw-datetime-picker.rw-widget {
   height: 30px;
   width: 100%;
   position: absolute;
   top: 0;
   left: 0;
 }
-:global .rw-widget-container,
-:global .rw-widget-container.rw-state-focus, 
-:global .rw-state-focus>.rw-widget-container, 
-:global .rw-widget-container.rw-state-focus:hover,
-:global .rw-state-focus>.rw-widget-container:hover
-:global .rw-widget-container
+:global .dateTimePicker .rw-widget-container,
+:global .dateTimePicker .rw-widget-container.rw-state-focus, 
+:global .dateTimePicker .rw-state-focus>.rw-widget-container, 
+:global .dateTimePicker .rw-widget-container.rw-state-focus:hover,
+:global .dateTimePicker .rw-state-focus>.rw-widget-container:hover
+:global .dateTimePicker .rw-widget-container
 {
   border: none !important;
   box-shadow: none !important;
   border-radius: none !important;
 }
-:global .rw-popup-container {
+:global .dateTimePicker .rw-popup-container {
   left: 0;
   width: 100%;
   position: absolute;
   top: 0;
 }
-:global .rw-calendar-popup {
+:global .dateTimePicker .rw-calendar-popup {
   border: 1px solid #e2e2e2;
   margin-bottom: 10px;
   margin-top: 35px;
   position: absolute;
   top: 0;
 }
-:global .rw-widget>.rw-widget-container {
+:global .dateTimePicker .rw-widget>.rw-widget-container {
   width: 100%;
   margin: 0;
   height: 0;
