@@ -4,7 +4,7 @@ import babelIstanbul from 'babel-istanbul';
 import yargs from 'yargs';
 import through from 'through2';
 import path from 'path';
-import fs from 'fs-promise';
+import fs from 'fs-extra';
 import babel from 'gulp-babel';
 import sourcemaps from 'gulp-sourcemaps';
 import cp from 'child_process';

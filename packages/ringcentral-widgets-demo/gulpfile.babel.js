@@ -1,6 +1,6 @@
 import gulp from 'gulp';
 import path from 'path';
-import fs from 'fs-promise';
+import fs from 'fs-extra';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import devServerConfig from './dev-server/webpack.config';

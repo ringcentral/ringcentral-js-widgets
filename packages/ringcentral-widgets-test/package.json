@@ -25,7 +25,7 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.0",
     "format-message": "^5.0.0",
-    "fs-promise": "^2.0.3",
+    "fs-extra": "^6.0.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^20.0.4",
     "locale-loader": "^1.4.10",
