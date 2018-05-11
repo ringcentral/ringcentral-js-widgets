@@ -12,14 +12,45 @@ export default class DatePicker extends Component {
     super(props);
     Moment.locale(this.props.currentLocale);
     momentLocalizer();
+    this.state = {
+      open: false
+    };
+  }
+  componentDidMount() {
+    this.mounted = true;
+  }
+  componentWillUnmount() {
+    this.mounted = false;
+    window.removeEventListener('click', this._handleDocumentClick, false);
+  }
+  _handleDocumentClick = (e) => {
+    if (!this.mounted) {
+      return;
+    }
+    if (this.date && this.date.contains(e.target)) {
+      return;
+    }
+    const open = false;
+    this.setState({
+      open
+    });
   }
   onClickFunc = () => {
-    const open = !!document.querySelector('.dateTimePicker .rw-open');
-    if (!open) {
-      this.date.inner.toggle();
+    const open = !!document.querySelector('.rw-open');
+    const openState = !open ? 'date' : false;
+    if (!this.state.open) {
+      window.addEventListener('click', this._handleDocumentClick, false);
     } else {
-      this.date.inner.close();
+      window.removeEventListener('click', this._handleDocumentClick, false);
     }
+    this.setState({
+      open: openState
+    });
+  }
+  collapseDatePicker = () => {
+    this.setState({
+      open: false
+    });
   }
   render() {
     const {
@@ -28,11 +59,15 @@ export default class DatePicker extends Component {
     const dueDate = new Date().toISOString();
     const showDate = this.props.date ? Moment(this.props.date).format('MM/DD/YY') : null;
     return (
-      <div className={classnames(styles.datePicker, this.props.datePickerClassName)}>
+      <div
+        className={classnames(styles.datePicker, this.props.datePickerClassName)}
+        ref={(ref) => { this.date = ref; }}
+      >
         <DateTimePicker
           className="dateTimePicker"
           culture={currentLocale}
           time={false}
+          open={this.state.open}
           value={this.props.date}
           onChange={(currentStartTime) => {
             if (currentStartTime) {
@@ -42,10 +77,11 @@ export default class DatePicker extends Component {
               date.setDate(currentStartTime.getDate());
               this.props.onChange(date);
             }
+            this.collapseDatePicker();
           }}
-          ref={(ref) => { this.date = ref; }}
           format="MM/DD/YY"
           min={new Date()}
+          onToggle={() => {}}
         />
         <div
           onClick={() => this.onClickFunc()}
