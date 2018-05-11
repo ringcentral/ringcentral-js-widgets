@@ -65,21 +65,58 @@ var DatePicker = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (DatePicker.__proto__ || (0, _getPrototypeOf2.default)(DatePicker)).call(this, props));
 
-    _this.onClickFunc = function () {
-      var open = !!document.querySelector('.dateTimePicker .rw-open');
-      if (!open) {
-        _this.date.inner.toggle();
-      } else {
-        _this.date.inner.close();
+    _this._handleDocumentClick = function (e) {
+      if (!_this.mounted) {
+        return;
       }
+      if (_this.date && _this.date.contains(e.target)) {
+        return;
+      }
+      var open = false;
+      _this.setState({
+        open: open
+      });
+    };
+
+    _this.onClickFunc = function () {
+      var open = !!document.querySelector('.rw-open');
+      var openState = !open ? 'date' : false;
+      if (!_this.state.open) {
+        window.addEventListener('click', _this._handleDocumentClick, false);
+      } else {
+        window.removeEventListener('click', _this._handleDocumentClick, false);
+      }
+      _this.setState({
+        open: openState
+      });
+    };
+
+    _this.collapseDatePicker = function () {
+      _this.setState({
+        open: false
+      });
     };
 
     _moment2.default.locale(_this.props.currentLocale);
     (0, _reactWidgetsMoment2.default)();
+    _this.state = {
+      open: false
+    };
     return _this;
   }
 
   (0, _createClass3.default)(DatePicker, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.mounted = true;
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.mounted = false;
+      window.removeEventListener('click', this._handleDocumentClick, false);
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -90,11 +127,17 @@ var DatePicker = function (_Component) {
       var showDate = this.props.date ? (0, _moment2.default)(this.props.date).format('MM/DD/YY') : null;
       return _react2.default.createElement(
         'div',
-        { className: (0, _classnames2.default)(_styles2.default.datePicker, this.props.datePickerClassName) },
+        {
+          className: (0, _classnames2.default)(_styles2.default.datePicker, this.props.datePickerClassName),
+          ref: function ref(_ref) {
+            _this2.date = _ref;
+          }
+        },
         _react2.default.createElement(_DateTimePicker2.default, {
           className: 'dateTimePicker',
           culture: currentLocale,
           time: false,
+          open: this.state.open,
           value: this.props.date,
           onChange: function onChange(currentStartTime) {
             if (currentStartTime) {
@@ -104,12 +147,11 @@ var DatePicker = function (_Component) {
               date.setDate(currentStartTime.getDate());
               _this2.props.onChange(date);
             }
-          },
-          ref: function ref(_ref) {
-            _this2.date = _ref;
+            _this2.collapseDatePicker();
           },
           format: 'MM/DD/YY',
-          min: new Date()
+          min: new Date(),
+          onToggle: function onToggle() {}
         }),
         _react2.default.createElement(
           'div',

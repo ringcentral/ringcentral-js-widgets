@@ -810,10 +810,10 @@ var MeetingPanel = function (_Component) {
         var isToggle = !_this4[type + 'Blur'];
         if (isToggle) {
           if (_this4[type]._values.open) {
-            _this4[type].inner.close();
+            _this4[type].refs.inner.close();
           } else {
             _this4[type].focus();
-            _this4[type].inner.toggle();
+            _this4[type].refs.inner.toggle();
           }
         }
       };
