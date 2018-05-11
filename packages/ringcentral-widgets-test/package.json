@@ -27,7 +27,7 @@
     "format-message": "^5.0.0",
     "fs-extra": "^6.0.0",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^20.0.4",
+    "jest": "^22.4.3",
     "locale-loader": "^1.4.10",
     "normalize-css": "^2.3.1",
     "pubnub": "^4.20.1",
@@ -45,7 +45,7 @@
     "ringcentral-integration": "^0.7.46",
     "ringcentral-widgets": "^0.5.18",
     "ringcentral-widgets-demo": "^0.0.1",
-    "yargs": "^8.0.1"
+    "yargs": "^11.1.0"
   },
   "jest": {
     "moduleNameMapper": {
@@ -58,14 +58,14 @@
       "^.+\\.js$": "babel-jest"
     },
     "transformIgnorePatterns": [
-      "/node_modules/(?!(ringcentral-integration|ringcentral-widgets|ringcentral-widgets-demo|locale-loader|babel-settings)/).*/"
+      ".*?/node_modules/(?!(ringcentral-integration|ringcentral-widgets|ringcentral-widgets-demo|locale-loader|babel-settings)/).*/"
     ],
     "setupFiles": [
       "<rootDir>/test/shim.js",
       "<rootDir>/test/setup.js"
     ],
     "snapshotSerializers": [
-      "<rootDir>/../../node_modules/enzyme-to-json/serializer"
+      "enzyme-to-json/serializer"
     ],
     "coveragePathIgnorePatterns": [
       "../ringcentral-widgets/(?:components|containers)/RecentActivity.+",
