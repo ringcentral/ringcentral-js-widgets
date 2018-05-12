@@ -7,4 +7,7 @@ export default {
   outputDevice: 'Output Device',
   inputDevice: 'Input Device',
   micPermission: 'Microphone Permission',
+  noDevice: 'No device',
+  checkMicPermission: 'Check Permission',
+  micNoPermissionMessage: 'The app does not have permission to use microphone',
 };
