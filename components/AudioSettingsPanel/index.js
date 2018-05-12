@@ -268,19 +268,18 @@ var AudioSettingsPanel = function (_Component) {
 
       var hasChanges = this.props.dialButtonVolume !== dialButtonVolume || this.props.dialButtonMuted !== dialButtonMuted || this.props.ringtoneVolume !== ringtoneVolume || this.props.ringtoneMuted !== ringtoneMuted || this.props.callVolume !== callVolume || this.props.inputDeviceId !== inputDeviceId || this.props.outputDeviceId !== outputDeviceId;
 
-      // TODO improve UI and add i18n support
-      var permission = userMedia && isWebRTC ? null : _react2.default.createElement(
+      // TODO: improve UI
+      var permission = !userMedia ? _react2.default.createElement(
         _IconLine2.default,
         {
           noBorder: true,
           icon: _react2.default.createElement(
             _Button2.default,
             { onClick: checkUserMedia },
-            'Check Permission'
-          )
-        },
-        'The app does not have permission to use microphone'
-      );
+            _i18n2.default.getString('checkMicPermission')
+          ) },
+        _i18n2.default.getString('micNoPermissionMessage')
+      ) : null;
 
       // const webphoneVolume = isWebRTC ?
       //   (
@@ -298,45 +297,42 @@ var AudioSettingsPanel = function (_Component) {
       //     </div>
       //   ) : null;
 
-      var devices = supportDevices && userMedia && isWebRTC ? _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          _InputField2.default,
-          {
-            label: _i18n2.default.getString('outputDevice', currentLocale),
-            noBorder: true
-          },
-          _react2.default.createElement(_DropdownSelect2.default, {
-            className: _styles2.default.select,
-            value: outputDeviceId,
-            onChange: this.onOutputDeviceIdChange,
-            options: availableOutputDevices,
-            dropdownAlign: 'left',
-            renderFunction: this.renderDeviceOption,
-            valueFunction: this.renderDeviceValue,
-            renderValue: this.renderOutputDevice,
-            titleEnabled: true
-          })
-        ),
-        _react2.default.createElement(
-          _InputField2.default,
-          {
-            label: _i18n2.default.getString('inputDevice', currentLocale),
-            noBorder: true
-          },
-          _react2.default.createElement(_DropdownSelect2.default, {
-            className: _styles2.default.select,
-            value: inputDeviceId,
-            onChange: this.onInputDeviceIdChange,
-            options: availableInputDevices,
-            dropdownAlign: 'left',
-            renderFunction: this.renderDeviceOption,
-            valueFunction: this.renderDeviceValue,
-            renderValue: this.renderInputDevice,
-            titleEnabled: true
-          })
-        )
+      var outputDevice = supportDevices ? _react2.default.createElement(
+        _InputField2.default,
+        {
+          label: _i18n2.default.getString('outputDevice', currentLocale),
+          noBorder: true },
+        _react2.default.createElement(_DropdownSelect2.default, {
+          className: _styles2.default.select,
+          disabled: !availableOutputDevices.length,
+          value: availableOutputDevices.length ? outputDeviceId : _i18n2.default.getString('noDevice', currentLocale),
+          onChange: this.onOutputDeviceIdChange,
+          options: availableOutputDevices,
+          dropdownAlign: 'left',
+          renderFunction: this.renderDeviceOption,
+          valueFunction: this.renderDeviceValue,
+          renderValue: this.renderOutputDevice,
+          titleEnabled: true
+        })
+      ) : null;
+
+      var inputDevice = supportDevices ? _react2.default.createElement(
+        _InputField2.default,
+        {
+          label: _i18n2.default.getString('inputDevice', currentLocale),
+          noBorder: true },
+        _react2.default.createElement(_DropdownSelect2.default, {
+          className: _styles2.default.select,
+          disabled: !availableInputDevices.length,
+          value: availableInputDevices.length ? inputDeviceId : _i18n2.default.getString('noDevice', currentLocale),
+          onChange: this.onInputDeviceIdChange,
+          options: availableInputDevices,
+          dropdownAlign: 'left',
+          renderFunction: this.renderDeviceOption,
+          valueFunction: this.renderDeviceValue,
+          renderValue: this.renderInputDevice,
+          titleEnabled: true
+        })
       ) : null;
 
       return _react2.default.createElement(
@@ -344,15 +340,14 @@ var AudioSettingsPanel = function (_Component) {
         { className: (0, _classnames2.default)(_styles2.default.root, className) },
         _react2.default.createElement(
           _BackHeader2.default,
-          {
-            onBackClick: onBackButtonClick
-          },
+          { onBackClick: onBackButtonClick },
           _i18n2.default.getString('title', currentLocale)
         ),
         _react2.default.createElement(
           _Panel2.default,
           { className: _styles2.default.content },
-          devices,
+          outputDevice,
+          inputDevice,
           permission,
           _react2.default.createElement(_SaveButton2.default, {
             currentLocale: currentLocale,
