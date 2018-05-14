@@ -35,7 +35,7 @@ export default class GlipPosts extends RcModule {
     auth,
     subscription,
     storage,
-    loadTtl: DEFAULT_LOAD_TTL,
+    loadTtl = DEFAULT_LOAD_TTL,
     ...options
   }) {
     super({

@@ -118,6 +118,7 @@ export default class GlipGroups extends Pollable {
     disableCache = false,
     perPage = DEFAULT_PER_PAGE,
     recordCountPerReq = DEFAULT_RECORD_COUNT_PER_REQ,
+    preloadPosts = true,
     ...options
   }) {
     super({
@@ -137,6 +138,8 @@ export default class GlipGroups extends Pollable {
     this._polling = polling;
     this._perPage = perPage;
     this._recordCountPerReq = recordCountPerReq;
+    this._preloadPosts = preloadPosts;
+    this._preloadedPosts = {};
 
     this._promise = null;
     this._lastMessage = null;
@@ -212,7 +215,10 @@ export default class GlipGroups extends Pollable {
         return;
       }
       await this.fetchData();
-      this._preloadGroupPosts(true);
+      if (this._preloadPosts) {
+        this._preloadedPosts = {};
+        this._preloadGroupPosts(true);
+      }
     }
   }
 
@@ -263,7 +269,10 @@ export default class GlipGroups extends Pollable {
     if (this.currentGroupId && !this.currentGroup.id) {
       this.updateCurrentGroupId(this.groups[0] && this.groups[0].id);
     }
-    this._preloadGroupPosts();
+    if (this._preloadPosts) {
+      this._preloadedPosts = {};
+      this._preloadGroupPosts();
+    }
   }
 
   async _subscriptionHandleFn(message) {
@@ -333,14 +342,19 @@ export default class GlipGroups extends Pollable {
 
   async _preloadGroupPosts(force) {
     for (const group of this.groups) {
-      if (this._glipPosts) {
-        if (!this._glipPosts.postsMap[group.id] || force) {
-          await sleep(300);
-          await this._glipPosts.fetchPosts(group.id);
-        }
-        if (!this._glipPosts.readTimeMap[group.id]) {
-          this._glipPosts.updateReadTime(group.id, (Date.now() - (1000 * 3600 * 2)));
-        }
+      if (!this._glipPosts) {
+        return;
+      }
+      if (this._preloadedPosts[group.id]) {
+        return;
+      }
+      if (!this._glipPosts.postsMap[group.id] || force) {
+        this._preloadedPosts[group.id] = true;
+        await sleep(300);
+        await this._glipPosts.fetchPosts(group.id);
+      }
+      if (!this._glipPosts.readTimeMap[group.id]) {
+        this._glipPosts.updateReadTime(group.id, (Date.now() - (1000 * 3600 * 2)));
       }
     }
   }
@@ -352,7 +366,9 @@ export default class GlipGroups extends Pollable {
       searchFilter,
       pageNumber,
     });
-    this._preloadGroupPosts();
+    if (this._preloadPosts) {
+      this._preloadGroupPosts();
+    }
   }
 
   @proxify
