@@ -107,7 +107,7 @@
   flex-shrink: 1;
   width: 100%;
   height: 16px;
-  line-height: 16px;
+  line-height: 15px;
   font-size: 13px;
   color: $ash;
   border: none;
@@ -169,8 +169,6 @@
 .timeText {
   font-size: 13px;
   position: relative;
-  margin-top: -18.7px;
-  height: 17px;
   color: $primary-color;
   display: flex;
   background-color: transparent;
