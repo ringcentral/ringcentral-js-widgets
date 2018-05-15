@@ -10,14 +10,6 @@ $baseSize: $circle + 2px;
   margin-top: 10px;
 }
 
-.disabled {
-  .checkButton {
-    &:before {
-      background-color: $lightergray;
-      border: 1px solid $gray;
-    }
-  }
-}
 
 .checkButton {
   height: $baseSize;
@@ -32,6 +24,18 @@ $baseSize: $circle + 2px;
     border-radius: $baseSize/2;
     position: absolute;
     content: ""
+  }
+}
+
+.disabled {
+  .checkButton {
+    &:before {
+      background-color: $gray;
+      border: 1px solid $gray;
+    }
+  }
+  .text {
+    color: $smoke;
   }
 }
 

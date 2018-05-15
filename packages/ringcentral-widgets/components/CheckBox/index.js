@@ -11,7 +11,6 @@ function CheckBox(
     valueField,
     textField,
     className,
-    renderExtraInfo,
     ...props
   }
 ) {
@@ -23,12 +22,14 @@ function CheckBox(
           const isSelected = selected === (isListObject ? item[valueField] : item);
           const checkStyle = isSelected ? styles.selectedCheckButton : null;
           const onClick = () => onSelect(item);
-          const extraInfo = typeof renderExtraInfo === 'function' && isSelected && item.shouldRenderExtraInfo ?
-            renderExtraInfo({ ...props }) :
+          const extraInfo = typeof item.renderExtraInfo === 'function' && isSelected ?
+            item.renderExtraInfo({ ...props }) :
             null;
           return (
             <div key={key}>
-              <div onClick={onClick} className={classnames(styles.item, item && item.disabled ? styles.disabled : null)}>
+              <div
+                onClick={onClick}
+                className={classnames(styles.item, item && item.disabled ? styles.disabled : null)}>
                 <div className={classnames(styles.checkButton, checkStyle)} />
                 <div className={styles.text}>
                   { isListObject ? item[textField] : item }
@@ -50,14 +51,12 @@ CheckBox.propTypes = {
   data: PropTypes.array.isRequired,
   onSelect: PropTypes.func.isRequired,
   className: PropTypes.string,
-  renderExtraInfo: PropTypes.func,
 };
 
 CheckBox.defaultProps = {
   textField: null,
   valueField: null,
   className: null,
-  renderExtraInfo: undefined,
 };
 
 export default CheckBox;
