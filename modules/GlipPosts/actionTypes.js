@@ -22,5 +22,5 @@ var _moduleActionTypes2 = _interopRequireDefault(_moduleActionTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)(_moduleActionTypes2.default)), ['fetch', 'fetchError', 'fetchSuccess', 'create', 'createSuccess', 'createError', 'updatePostInput']), 'glipPosts');
+exports.default = new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)(_moduleActionTypes2.default)), ['fetch', 'fetchError', 'fetchSuccess', 'create', 'createSuccess', 'createError', 'updatePostInput', 'updateReadTime']), 'glipPosts');
 //# sourceMappingURL=actionTypes.js.map

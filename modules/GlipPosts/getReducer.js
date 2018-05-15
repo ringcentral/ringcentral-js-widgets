@@ -16,6 +16,9 @@ exports.getGlipPostsStatusReducer = getGlipPostsStatusReducer;
 exports.getGlipPostsCreateStatusReducer = getGlipPostsCreateStatusReducer;
 exports.getGlipPostsStoreReducer = getGlipPostsStoreReducer;
 exports.getGlipPostsInputsReducer = getGlipPostsInputsReducer;
+exports.getGlipPostsReadTimeReducer = getGlipPostsReadTimeReducer;
+exports.getGlipPostsPageInfoReducer = getGlipPostsPageInfoReducer;
+exports.getGlipPostsFetchTimeReducer = getGlipPostsFetchTimeReducer;
 exports.default = getGlipPostsReducer;
 
 var _redux = require('redux');
@@ -75,7 +78,8 @@ function getGlipPostsStoreReducer(types) {
         records = _ref3.records,
         record = _ref3.record,
         oldRecordId = _ref3.oldRecordId,
-        isSendByMe = _ref3.isSendByMe;
+        isSendByMe = _ref3.isSendByMe,
+        lastPageToken = _ref3.lastPageToken;
 
     var newState = void 0;
     var newPosts = void 0;
@@ -83,7 +87,12 @@ function getGlipPostsStoreReducer(types) {
     switch (type) {
       case types.fetchSuccess:
         newState = (0, _extends3.default)({}, state);
-        newState[groupId] = records;
+        if (!lastPageToken) {
+          newState[groupId] = records;
+        } else {
+          var preRecords = newState[groupId];
+          newState[groupId] = [].concat(preRecords).concat(records);
+        }
         return newState;
       case types.create:
       case types.createSuccess:
@@ -103,10 +112,14 @@ function getGlipPostsStoreReducer(types) {
             return p.creatorId === record.creatorId && p.text === record.text && p.sendStatus === _status2.default.creating;
           });
           if (oldPostIndex === -1) {
-            newState[groupId] = [record].concat(newPosts);
+            newState[groupId] = [record].concat(newPosts.filter(function (p) {
+              return p.id !== record.id;
+            }));
           }
         } else {
-          newState[groupId] = [record].concat(newPosts);
+          newState[groupId] = [record].concat(newPosts.filter(function (p) {
+            return p.id !== record.id;
+          }));
         }
         return newState;
       case types.resetSuccess:
@@ -139,6 +152,72 @@ function getGlipPostsInputsReducer(types) {
   };
 }
 
+function getGlipPostsReadTimeReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var _ref5 = arguments[1];
+    var type = _ref5.type,
+        groupId = _ref5.groupId,
+        _ref5$time = _ref5.time,
+        time = _ref5$time === undefined ? Date.now() : _ref5$time;
+
+    var newState = void 0;
+    switch (type) {
+      case types.updateReadTime:
+        newState = (0, _extends3.default)({}, state);
+        newState[groupId] = time;
+        return newState;
+      case types.resetSuccess:
+        return {};
+      default:
+        return state;
+    }
+  };
+}
+
+function getGlipPostsPageInfoReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var _ref6 = arguments[1];
+    var type = _ref6.type,
+        groupId = _ref6.groupId,
+        navigation = _ref6.navigation;
+
+    var newState = void 0;
+    switch (type) {
+      case types.fetchSuccess:
+        newState = (0, _extends3.default)({}, state);
+        newState[groupId] = navigation;
+        return newState;
+      case types.resetSuccess:
+        return {};
+      default:
+        return state;
+    }
+  };
+}
+
+function getGlipPostsFetchTimeReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var _ref7 = arguments[1];
+    var type = _ref7.type,
+        groupId = _ref7.groupId;
+
+    var newState = void 0;
+    switch (type) {
+      case types.fetchSuccess:
+        newState = (0, _extends3.default)({}, state);
+        newState[groupId] = Date.now();
+        return newState;
+      case types.resetSuccess:
+        return {};
+      default:
+        return state;
+    }
+  };
+}
+
 function getGlipPostsReducer(types) {
   var reducers = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
@@ -147,7 +226,9 @@ function getGlipPostsReducer(types) {
     fetchStatus: getGlipPostsStatusReducer(types),
     glipPostsStore: getGlipPostsStoreReducer(types),
     createStatus: getGlipPostsCreateStatusReducer(types),
-    postInputs: getGlipPostsInputsReducer(types)
+    postInputs: getGlipPostsInputsReducer(types),
+    pageInfos: getGlipPostsPageInfoReducer(types),
+    fetchTimes: getGlipPostsFetchTimeReducer(types)
   }));
 }
 //# sourceMappingURL=getReducer.js.map
