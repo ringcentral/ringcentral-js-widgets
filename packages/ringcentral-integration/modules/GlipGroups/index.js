@@ -23,6 +23,7 @@ const DEFAULT_PER_PAGE = 20;
 const DEFAULT_TTL = 30 * 60 * 1000;
 const DEFAULT_RETRY = 62 * 1000;
 const DEFAULT_RECORD_COUNT_PER_REQ = 250;
+const DEFAULT_PRELOAD_POSTS_DELAY_TTL = 800;
 
 function formatGroup(group, personsMap, postsMap = {}, ownerId) {
   if (!group || !group.id) {
@@ -119,6 +120,7 @@ export default class GlipGroups extends Pollable {
     perPage = DEFAULT_PER_PAGE,
     recordCountPerReq = DEFAULT_RECORD_COUNT_PER_REQ,
     preloadPosts = true,
+    preloadPostsDelayTtl = DEFAULT_PRELOAD_POSTS_DELAY_TTL,
     ...options
   }) {
     super({
@@ -140,6 +142,7 @@ export default class GlipGroups extends Pollable {
     this._recordCountPerReq = recordCountPerReq;
     this._preloadPosts = preloadPosts;
     this._preloadedPosts = {};
+    this._preloadPostsDelayTtl = preloadPostsDelayTtl;
 
     this._promise = null;
     this._lastMessage = null;
@@ -343,15 +346,17 @@ export default class GlipGroups extends Pollable {
   async _preloadGroupPosts(force) {
     for (const group of this.groups) {
       if (!this._glipPosts) {
-        return;
+        break;
       }
       if (this._preloadedPosts[group.id]) {
-        return;
+        continue;
       }
+      this._preloadedPosts[group.id] = true;
       if (!this._glipPosts.postsMap[group.id] || force) {
-        this._preloadedPosts[group.id] = true;
-        await sleep(300);
-        await this._glipPosts.fetchPosts(group.id);
+        await sleep(this._preloadPostsDelayTtl);
+        if (!this._glipPosts.postsMap[group.id] || force) {
+          await this._glipPosts.fetchPosts(group.id);
+        }
       }
       if (!this._glipPosts.readTimeMap[group.id]) {
         this._glipPosts.updateReadTime(group.id, (Date.now() - (1000 * 3600 * 2)));
@@ -366,7 +371,7 @@ export default class GlipGroups extends Pollable {
       searchFilter,
       pageNumber,
     });
-    if (this._preloadPosts) {
+    if (this._preloadPosts && this.groups.length <= this._perPage * 2) {
       this._preloadGroupPosts();
     }
   }
