@@ -179,7 +179,7 @@ export default class CallLog extends Pollable {
           );
           const isOutBoundFromSelfExtNumber = (
             call.from &&
-            call.from.phoneNumber &&
+            call.from.extensionNumber &&
             call.from.extensionNumber === extensionInfo.data.extensionNumber
           );
           if (
