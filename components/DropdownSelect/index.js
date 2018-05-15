@@ -192,7 +192,7 @@ var DropdownSelect = function (_Component) {
       return _react2.default.createElement(
         'ul',
         {
-          className: (0, _classnames2.default)(_styles2.default.dropdown, placeholder && _styles2.default.placeholder),
+          className: (0, _classnames2.default)(_styles2.default.dropdown, this.props.dropdownClassName, placeholder && _styles2.default.placeholder),
           ref: function ref(_ref) {
             _this2.dropdownMenu = _ref;
           } },
@@ -273,8 +273,9 @@ var DropdownSelect = function (_Component) {
 DropdownSelect.propTypes = {
   reference: _propTypes2.default.func,
   className: _propTypes2.default.string,
+  dropdownClassName: _propTypes2.default.string,
   iconClassName: _propTypes2.default.string,
-  value: _propTypes2.default.string,
+  value: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object]),
   label: _propTypes2.default.string,
   onChange: _propTypes2.default.func,
   disabled: _propTypes2.default.bool,
@@ -299,6 +300,7 @@ DropdownSelect.propTypes = {
 DropdownSelect.defaultProps = {
   reference: undefined,
   className: null,
+  dropdownClassName: null,
   iconClassName: null,
   value: null,
   label: null,

@@ -4,6 +4,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
+var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+
+var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -28,7 +36,8 @@ function CheckBox(_ref) {
       onSelect = _ref.onSelect,
       valueField = _ref.valueField,
       textField = _ref.textField,
-      className = _ref.className;
+      className = _ref.className,
+      props = (0, _objectWithoutProperties3.default)(_ref, ['data', 'selected', 'onSelect', 'valueField', 'textField', 'className']);
 
   var isListObject = !!(textField && valueField);
   return _react2.default.createElement(
@@ -40,15 +49,23 @@ function CheckBox(_ref) {
       var onClick = function onClick() {
         return onSelect(item);
       };
+      var extraInfo = typeof item.renderExtraInfo === 'function' && isSelected ? item.renderExtraInfo((0, _extends3.default)({}, props)) : null;
       return _react2.default.createElement(
         'div',
-        { onClick: onClick, className: _styles2.default.item, key: key },
-        _react2.default.createElement('div', { className: (0, _classnames2.default)(_styles2.default.checkButton, checkStyle) }),
+        { key: key },
         _react2.default.createElement(
           'div',
-          { className: _styles2.default.text },
-          isListObject ? item[textField] : item
-        )
+          {
+            onClick: onClick,
+            className: (0, _classnames2.default)(_styles2.default.item, item && item.disabled ? _styles2.default.disabled : null) },
+          _react2.default.createElement('div', { className: (0, _classnames2.default)(_styles2.default.checkButton, checkStyle) }),
+          _react2.default.createElement(
+            'div',
+            { className: _styles2.default.text },
+            isListObject ? item[textField] : item
+          )
+        ),
+        extraInfo
       );
     })
   );

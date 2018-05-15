@@ -292,7 +292,8 @@ var CallsListPanel = function (_Component) {
           onExpandNotification = _props.onExpandNotification,
           showSaveLogBtn = _props.showSaveLogBtn,
           sectionContainerStyles = _props.sectionContainerStyles,
-          sectionModalStyles = _props.sectionModalStyles;
+          sectionModalStyles = _props.sectionModalStyles,
+          notificationContainerStyles = _props.notificationContainerStyles;
 
       if (showSpinner) {
         return _react2.default.createElement(_SpinnerOverlay2.default, null);
@@ -334,7 +335,7 @@ var CallsListPanel = function (_Component) {
           _InsideModal2.default,
           {
             show: logNotification.showNotification,
-            containerStyles: _styles2.default.notificationContainer,
+            containerStyles: (0, _classnames2.default)(_styles2.default.notificationContainer, notificationContainerStyles),
             modalStyles: _styles2.default.notificationModal,
             contentStyle: _styles2.default.notificationContent,
             onClose: onCloseNotification },
@@ -496,7 +497,8 @@ CallsListPanel.propTypes = {
   onExpandNotification: _propTypes2.default.func,
   showSaveLogBtn: _propTypes2.default.bool,
   sectionContainerStyles: _propTypes2.default.string,
-  sectionModalStyles: _propTypes2.default.string
+  sectionModalStyles: _propTypes2.default.string,
+  notificationContainerStyles: _propTypes2.default.string
 };
 
 CallsListPanel.defaultProps = {
@@ -539,6 +541,7 @@ CallsListPanel.defaultProps = {
   onExpandNotification: undefined,
   showSaveLogBtn: true,
   sectionContainerStyles: undefined,
-  sectionModalStyles: undefined
+  sectionModalStyles: undefined,
+  notificationContainerStyles: undefined
 };
 //# sourceMappingURL=index.js.map
