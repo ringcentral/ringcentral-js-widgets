@@ -12,7 +12,7 @@ program
 program
   .command('generate <resource> <name>')
   .alias('g')
-  .option('-d, --dependences [dependences]', 'dependences', (val, memo) => {
+  .option('-d, --dependencies [dependencies]', 'dependencies', (val, memo) => {
     memo.push(val);
     return memo;
   }, [])
@@ -23,7 +23,7 @@ program
       if (!distination) {
         throw Error('Modules folder not found');
       }
-      generateModule({ name, distination, dependences: options.dependences });
+      generateModule({ name, distination, dependencies: options.dependencies });
     }
   });
 

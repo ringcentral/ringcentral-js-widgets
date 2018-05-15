@@ -1,14 +1,14 @@
 import RcModule from 'ringcentral-integration/lib/RcModule';
 import { Module } from 'ringcentral-integration/lib/di';
 
-<% if (dependences.length > 0) { %>
+<% if (dependencies.length > 0) { %>
 import getReducer from './getReducer';
 import actionTypes from './actionTypes';
 <% } %>
 
 @Module({
   deps: [
-    <%_ dependences.forEach(function(dependence) { -%>
+    <%_ dependencies.forEach(function(dependence) { -%>
     <%- `{ dep: '${dependence}' },` %>
     <%_ }) -%>
     { dep: '<%- name %>Options', optional: true, spread: true },
@@ -16,7 +16,7 @@ import actionTypes from './actionTypes';
 })
 export default class <%- name %> extends RcModule {
   constructor({
-    <%_ dependences.forEach(function(dependence) { -%>
+    <%_ dependencies.forEach(function(dependence) { -%>
     <%- `${dependence.charAt(0).toLowerCase()}${dependence.slice(1)},` %>
     <%_ }) -%>
     ...options,
@@ -26,16 +26,16 @@ export default class <%- name %> extends RcModule {
       ...options,
     });
 
-    <%_ dependences.forEach(function(dependence) { -%>
+    <%_ dependencies.forEach(function(dependence) { -%>
     <%- `this._${dependence.charAt(0).toLowerCase()}${dependence.slice(1)} = ${dependence.charAt(0).toLowerCase()}${dependence.slice(1)};` %>
     <%_ }) -%>
-    <% if (dependences.length > 0) { %>
+    <% if (dependencies.length > 0) { %>
     this._reducer = getReducer(this.actionTypes);
     <% } %>
     // your codes here
   }
   // your codes here
-  <% if (dependences.length > 0) { %>
+  <% if (dependencies.length > 0) { %>
   // Codes on state change
   async _onStateChange() {
     if (this._shouldInit()) {
@@ -51,7 +51,7 @@ export default class <%- name %> extends RcModule {
 
   _shouldInit() {
     return (
-      <%_ dependences.forEach(function(dependence) { -%>
+      <%_ dependencies.forEach(function(dependence) { -%>
       <%- `this._${dependence.charAt(0).toLowerCase()}${dependence.slice(1)}.ready &&` %>
       <%_ }) -%>
       this.pending
@@ -61,8 +61,8 @@ export default class <%- name %> extends RcModule {
   _shouldReset() {
     return (
       (
-        <%_ dependences.forEach(function(dependence, index) { -%>
-        <%- `!this._${dependence.charAt(0).toLowerCase()}${dependence.slice(1)}.ready${index === (dependences.length - 1) ? '' : ' ||'}` %>
+        <%_ dependencies.forEach(function(dependence, index) { -%>
+        <%- `!this._${dependence.charAt(0).toLowerCase()}${dependence.slice(1)}.ready${index === (dependencies.length - 1) ? '' : ' ||'}` %>
         <%_ }) -%>
       ) &&
       this.ready
@@ -73,7 +73,7 @@ export default class <%- name %> extends RcModule {
     return this.state.status;
   }
   <% } %>
-  <% if (dependences.length === 0) { %>
+  <% if (dependencies.length === 0) { %>
   get ready() {
     return true;
   }

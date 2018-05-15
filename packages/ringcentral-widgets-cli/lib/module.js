@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const { copyTemplate } = require('./helper');
 
-exports.generateModule = ({ name, distination, dependences = [] }) => {
-  // console.log(dependences.length);
+exports.generateModule = ({ name, distination, dependencies = [] }) => {
+  // console.log(dependencies.length);
   // return;
   const destinationDir = path.resolve(distination, name);
   if (fs.existsSync(destinationDir)) {
@@ -13,9 +13,9 @@ exports.generateModule = ({ name, distination, dependences = [] }) => {
   copyTemplate({
     templatePath: path.resolve(__dirname, '../templates/Module/index.js'),
     destinationPath: path.resolve(destinationDir, 'index.js'),
-    params: { name, dependences }
+    params: { name, dependencies }
   });
-  if (dependences.length === 0) {
+  if (dependencies.length === 0) {
     return;
   }
   copyTemplate({
