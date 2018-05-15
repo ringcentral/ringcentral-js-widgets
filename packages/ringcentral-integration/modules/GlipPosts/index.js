@@ -5,17 +5,20 @@ import moduleStatuses from '../../enums/moduleStatuses';
 import isBlank from '../../lib/isBlank';
 
 import actionTypes from './actionTypes';
-import getReducer from './getReducer';
+import getReducer, { getGlipPostsReadTimeReducer } from './getReducer';
 import status from './status';
 
 const glipPostsRegExp = /glip\/posts$/;
 const subscriptionFilter = '/glip/posts';
+
+const DEFAULT_LOAD_TTL = 30 * 60 * 1000;
 
 @Module({
   deps: [
     'Client',
     'Auth',
     'Subscription',
+    'Storage',
     { dep: 'GlipPostsOptions', optional: true }
   ]
 })
@@ -31,6 +34,8 @@ export default class GlipPosts extends RcModule {
     client,
     auth,
     subscription,
+    storage,
+    loadTtl = DEFAULT_LOAD_TTL,
     ...options
   }) {
     super({
@@ -44,6 +49,21 @@ export default class GlipPosts extends RcModule {
     this._subscription = subscription;
     this._fetchPromises = {};
     this._lastMessage = null;
+    this._loadTtl = loadTtl;
+
+    this._storage = storage;
+    this._readTimeStorageKey = 'glipPostReadTime';
+    this._storage.registerReducer({
+      key: this._readTimeStorageKey,
+      reducer: getGlipPostsReadTimeReducer(this.actionTypes),
+    });
+    this._newPostListeners = [];
+  }
+
+  addNewPostListener(listen) {
+    if (typeof listen === 'function') {
+      this._newPostListeners.push(listen);
+    }
   }
 
   initialize() {
@@ -116,10 +136,26 @@ export default class GlipPosts extends RcModule {
         oldRecordId: post.id,
         isSendByMe: (post.creatorId === this._auth.ownerId && eventType === 'PostAdded')
       });
+      if (eventType === 'PostAdded' && post.creatorId !== this._auth.ownerId) {
+        this._newPostListeners.forEach((listen) => {
+          listen(post);
+        });
+      }
     }
   }
 
   async loadPosts(groupId, recordCount = 20) {
+    const lastPosts = this.postsMap[groupId];
+    const fetchTime = this.fetchTimeMap[groupId];
+    if (
+      lastPosts && fetchTime && Date.now() - fetchTime < this._loadTtl
+    ) {
+      return;
+    }
+    await this.fetchPosts(groupId, recordCount);
+  }
+
+  async fetchPosts(groupId, recordCount = 20, pageToken) {
     if (!groupId) {
       return;
     }
@@ -129,11 +165,17 @@ export default class GlipPosts extends RcModule {
           this.store.dispatch({
             type: this.actionTypes.fetch,
           });
-          const response = await this._client.glip().groups(groupId).posts().list({ recordCount });
+          const params = { recordCount };
+          if (pageToken) {
+            params.pageToken = pageToken;
+          }
+          const response = await this._client.glip().groups(groupId).posts().list(params);
           this.store.dispatch({
             type: this.actionTypes.fetchSuccess,
             groupId,
             records: response.records,
+            lastPageToken: pageToken,
+            navigation: response.navigation,
           });
         } catch (e) {
           this.store.dispatch({
@@ -145,6 +187,15 @@ export default class GlipPosts extends RcModule {
     }
     const promise = this._fetchPromises[groupId];
     await promise;
+  }
+
+  async loadNextPage(groupId, recordCount) {
+    const pageInfo = this.pageInfos[groupId];
+    const pageToken = pageInfo && pageInfo.prevPageToken;
+    if (!pageToken) {
+      return;
+    }
+    await this.fetchPosts(groupId, recordCount, pageToken);
   }
 
   async create({ groupId }) {
@@ -211,6 +262,14 @@ export default class GlipPosts extends RcModule {
     return null;
   }
 
+  updateReadTime(groupId, time) {
+    this.store.dispatch({
+      type: this.actionTypes.updateReadTime,
+      groupId,
+      time
+    });
+  }
+
   updatePostInput({ text, groupId }) {
     this.store.dispatch({
       type: this.actionTypes.updatePostInput,
@@ -233,5 +292,17 @@ export default class GlipPosts extends RcModule {
 
   get postInputs() {
     return this.state.postInputs;
+  }
+
+  get readTimeMap() {
+    return this._storage.getItem(this._readTimeStorageKey);
+  }
+
+  get pageInfos() {
+    return this.state.pageInfos;
+  }
+
+  get fetchTimeMap() {
+    return this.state.fetchTimes;
   }
 }
