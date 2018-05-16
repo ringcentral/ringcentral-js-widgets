@@ -169,6 +169,8 @@ export default class AudioSettingsPanel extends Component {
       userMedia,
       isWebRTC,
       checkUserMedia,
+      outputDeviceDisabled,
+      inputDeviceDisabled,
     } = this.props;
     const {
       dialButtonVolume,
@@ -224,7 +226,7 @@ export default class AudioSettingsPanel extends Component {
         noBorder>
         <Select
           className={styles.select}
-          disabled={!availableOutputDevices.length}
+          disabled={outputDeviceDisabled}
           value={
             availableOutputDevices.length ? outputDeviceId :
               i18n.getString('noDevice', currentLocale)
@@ -246,7 +248,7 @@ export default class AudioSettingsPanel extends Component {
         noBorder>
         <Select
           className={styles.select}
-          disabled={!availableInputDevices.length}
+          disabled={inputDeviceDisabled}
           value={
             availableInputDevices.length ? inputDeviceId :
               i18n.getString('noDevice', currentLocale)
@@ -313,8 +315,12 @@ AudioSettingsPanel.propTypes = {
   userMedia: PropTypes.bool.isRequired,
   isWebRTC: PropTypes.bool.isRequired,
   checkUserMedia: PropTypes.func.isRequired,
+  outputDeviceDisabled: PropTypes.bool,
+  inputDeviceDisabled: PropTypes.bool,
 };
 
 AudioSettingsPanel.defaultProps = {
   className: null,
+  outputDeviceDisabled: false,
+  inputDeviceDisabled: false,
 };
