@@ -64,17 +64,19 @@ function mapToFunctions(_, {
 }) {
   return {
     send: () => {
-      this.timeout = setTimeout(() => {
+      let timeout = setTimeout(() => {
         if (routerInteraction.currentPath === '/composeText') {
           composeText.alertMessageSending();
         }
-        if (this.timeout) {
-          clearTimeout(this.timeout);
+        if (timeout) {
+          clearTimeout(timeout);
+          timeout = null;
         }
       }, 10000);
       composeText.send().then((responses) => {
-        if (this.timeout) {
-          clearTimeout(this.timeout);
+        if (timeout) {
+          clearTimeout(timeout);
+          timeout = null;
         }
         composeText.dismissMessageSending();
         if (!responses || responses.length === 0) {
