@@ -36,7 +36,8 @@ function mapToProps(_, _ref) {
       supportDevices = _ref$phone$audioSetti.supportDevices,
       userMedia = _ref$phone$audioSetti.userMedia,
       currentLocale = _ref$phone.locale.currentLocale,
-      callWith = _ref$phone.callingSettings.callWith;
+      callWith = _ref$phone.callingSettings.callWith,
+      webphone = _ref$phone.webphone;
 
   return {
     currentLocale: currentLocale,
@@ -51,7 +52,9 @@ function mapToProps(_, _ref) {
     outputDeviceId: outputDeviceId,
     supportDevices: supportDevices,
     userMedia: userMedia,
-    isWebRTC: callWith === _callingOptions2.default.browser
+    isWebRTC: callWith === _callingOptions2.default.browser,
+    outputDeviceDisabled: !availableOutputDevices.length,
+    inputDeviceDisabled: !!(!availableInputDevices.length || webphone && webphone.sessions.length > 0)
   };
 }
 

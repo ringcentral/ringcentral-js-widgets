@@ -32,7 +32,7 @@ function mapToProps(_, _ref) {
     myLocation: callingSettings.myLocation,
     ringoutPrompt: callingSettings.ringoutPrompt,
     availableNumbers: callingSettings.availableNumbers,
-    disabled: webphone && webphone.sessions.length > 0
+    disabled: !!(webphone && webphone.sessions.length > 0)
   };
 }
 

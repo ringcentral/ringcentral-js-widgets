@@ -256,7 +256,9 @@ var AudioSettingsPanel = function (_Component) {
           supportDevices = _props.supportDevices,
           userMedia = _props.userMedia,
           isWebRTC = _props.isWebRTC,
-          checkUserMedia = _props.checkUserMedia;
+          checkUserMedia = _props.checkUserMedia,
+          outputDeviceDisabled = _props.outputDeviceDisabled,
+          inputDeviceDisabled = _props.inputDeviceDisabled;
       var _state = this.state,
           dialButtonVolume = _state.dialButtonVolume,
           dialButtonMuted = _state.dialButtonMuted,
@@ -304,7 +306,7 @@ var AudioSettingsPanel = function (_Component) {
           noBorder: true },
         _react2.default.createElement(_DropdownSelect2.default, {
           className: _styles2.default.select,
-          disabled: !availableOutputDevices.length,
+          disabled: outputDeviceDisabled,
           value: availableOutputDevices.length ? outputDeviceId : _i18n2.default.getString('noDevice', currentLocale),
           onChange: this.onOutputDeviceIdChange,
           options: availableOutputDevices,
@@ -323,7 +325,7 @@ var AudioSettingsPanel = function (_Component) {
           noBorder: true },
         _react2.default.createElement(_DropdownSelect2.default, {
           className: _styles2.default.select,
-          disabled: !availableInputDevices.length,
+          disabled: inputDeviceDisabled,
           value: availableInputDevices.length ? inputDeviceId : _i18n2.default.getString('noDevice', currentLocale),
           onChange: this.onInputDeviceIdChange,
           options: availableInputDevices,
@@ -386,10 +388,14 @@ AudioSettingsPanel.propTypes = {
   onSave: _propTypes2.default.func.isRequired,
   userMedia: _propTypes2.default.bool.isRequired,
   isWebRTC: _propTypes2.default.bool.isRequired,
-  checkUserMedia: _propTypes2.default.func.isRequired
+  checkUserMedia: _propTypes2.default.func.isRequired,
+  outputDeviceDisabled: _propTypes2.default.bool,
+  inputDeviceDisabled: _propTypes2.default.bool
 };
 
 AudioSettingsPanel.defaultProps = {
-  className: null
+  className: null,
+  outputDeviceDisabled: false,
+  inputDeviceDisabled: false
 };
 //# sourceMappingURL=index.js.map
