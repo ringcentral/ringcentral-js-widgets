@@ -1,0 +1,8 @@
+{
+  "name": "locale-settings",
+  "version": "0.0.1",
+  "description": "Default locale settings.",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true
+}

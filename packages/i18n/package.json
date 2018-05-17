@@ -1,0 +1,23 @@
+{
+  "name": "@ringcentral-integration/i18n",
+  "version": "2.0.0",
+  "description": "A simple I18n implementation used in RingCentral Integration projects.",
+  "main": "index.js",
+  "repository": "'https://github.com/ringcentral/ringcentral-js-widgets.git'",
+  "author": "RingCentral Integrations",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "faker": "^4.1.0",
+    "fs-extra": "^6.0.0",
+    "gulp-babel": "^7.0.1",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp": "^3.9.1",
+    "jest": "^22.4.3"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "gulp build",
+    "release": "gulp release"
+  }
+}

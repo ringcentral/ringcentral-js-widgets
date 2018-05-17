@@ -1,9 +1,7 @@
-import { forEach } from 'ramda';
 import { transform } from 'babel-core';
-import fs from 'fs-extra';
+import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
+import { babelrc } from 'babel-settings';
 import generateLoaderContent from './';
-import formatLocale from '../formatLocale';
-import babelrc from 'babel-settings';
 
 const files = [
   'en_us.js',

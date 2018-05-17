@@ -5,7 +5,7 @@ import isLocaleFile from '../isLocaleFile';
 import generateLoaderContent from '../generateLoaderContent';
 import isLoaderFile from '../isLoaderFile';
 
-export default function transformLocaleLoader({
+export default function transformLoader({
   noChunk = false,
 } = {}) {
   return through.obj(async function transform(file, enc, done) {
@@ -17,7 +17,7 @@ export default function transformLocaleLoader({
         files,
         noChunk: noChunk || isLoaderFile.noChunk(content),
       });
-      file.contents = new Buffer(loader, 'utf8');
+      file.contents = Buffer.from(loader, 'utf8');
     }
     this.push(file);
     done();

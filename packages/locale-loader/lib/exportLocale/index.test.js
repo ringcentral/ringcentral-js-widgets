@@ -1,22 +1,15 @@
 import fs from 'fs-extra';
 import path from 'path';
 import exportLocale from './';
-import defaultConfig from '../../defaultConfig';
 
-const {
-  supportedLocales,
-  sourceLocale,
-} = defaultConfig;
-
-
-/* global describe it before after beforeEach afterEach */
-
-const sourceFolder = './testData-exportLocale';
-const localizationFolder = './localization-exportLocale';
+const sourceFolder = './testData/exportLocale';
+const localizationFolder = './localization/exportLocale';
+const sourceLocale = 'en-US';
+const supportedLocales = ['en-GB', 'fr-FR'];
 
 async function clean() {
-  await fs.remove(sourceFolder);
-  await fs.remove(localizationFolder);
+  await fs.emptyDir(sourceFolder);
+  await fs.emptyDir(localizationFolder);
 }
 
 async function generateLoader() {
@@ -43,8 +36,13 @@ describe('exportLocale', () => {
         `);
     });
     afterEach(clean);
+    test('should throw when supportedLocales is not defined', () => {
+      expect(() => exportLocale()).toThrow('options.supportedLocales is missing');
+    });
     test('should have a .xlf for each supported locales except the src', async () => {
-      await exportLocale({
+      exportLocale({
+        sourceLocale,
+        supportedLocales,
         sourceFolder,
         localizationFolder,
       });
@@ -53,7 +51,9 @@ describe('exportLocale', () => {
         .toEqual(supportedLocales.filter(l => l !== sourceLocale).sort());
     });
     test('should contain all the key-value pairs in the exported file', async () => {
-      await exportLocale({
+      exportLocale({
+        sourceLocale,
+        supportedLocales,
         sourceFolder,
         localizationFolder,
       });
@@ -80,7 +80,8 @@ describe('exportLocale', () => {
           modern: 'rogue',
         };
       `);
-      await exportLocale({
+      exportLocale({
+        sourceLocale,
         sourceFolder,
         localizationFolder,
         supportedLocales: ['en-US', 'en-GB']
@@ -101,7 +102,8 @@ describe('exportLocale', () => {
           modern: 'rogue',
         };
       `);
-      await exportLocale({
+      exportLocale({
+        sourceLocale,
         sourceFolder,
         localizationFolder,
         supportedLocales: ['en-US', 'en-GB'],
@@ -124,7 +126,8 @@ describe('exportLocale', () => {
           newline: 'contains\\newline',
         };
       `);
-      await exportLocale({
+      exportLocale({
+        sourceLocale,
         sourceFolder,
         localizationFolder,
         supportedLocales: ['en-US', 'en-GB'],
@@ -150,7 +153,8 @@ describe('exportLocale', () => {
         // @key: @#@"whisky"@#@ @source: @#@"Wizard"@#@
         // @key: @#@"modern"@#@ @source: @#@"rogue"@#@
       `);
-      await exportLocale({
+      exportLocale({
+        sourceLocale,
         sourceFolder,
         localizationFolder,
         supportedLocales: ['en-US', 'en-GB']

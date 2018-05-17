@@ -1,4 +1,4 @@
-import toPseudoString from '../toPseudoString';
+import toPseudoString from './lib/toPseudoString';
 
 export const DEFAULT_LOCALE = 'en-US';
 export const PSEUDO_LOCALE = 'en-ZZ';

@@ -35,11 +35,11 @@ node_modules
 #Macos
 .DS_Store
 
-/release
-/build
+release
+build
 
-/dev-server/api-config.js
-/localization
+dev-server/api-config.js
+localization
 /demo-extension-build
 
 .env
