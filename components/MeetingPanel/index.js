@@ -886,7 +886,11 @@ var MeetingPanel = function (_Component) {
           hidden: hidden,
           disabled: disabled,
           meeting: meeting,
-          onClick: invite })
+          onClick: function onClick() {
+            return !disabled && setTimeout(function () {
+              return invite(_this4.props.meeting);
+            }, 100);
+          } })
       );
     }
   }]);
