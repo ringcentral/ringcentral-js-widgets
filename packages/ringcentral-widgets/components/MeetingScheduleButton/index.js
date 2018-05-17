@@ -3,7 +3,6 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import styles from './styles.scss';
 import i18n from './i18n';
-let nowMeeting;
 
 export default class MeetingScheduleButton extends PureComponent {
   static propTypes = {
@@ -40,7 +39,6 @@ export default class MeetingScheduleButton extends PureComponent {
       brand,
       currentLocale
     } = this.props;
-    nowMeeting = meeting;
     return (
       <div
         className={classnames(styles.inviteBox, !hidden ? styles.withShadow : styles.onlyButton)}>
@@ -52,7 +50,7 @@ export default class MeetingScheduleButton extends PureComponent {
           ) : null
         }
         <button
-          onClick={() => !disabled && setTimeout(() => onClick(nowMeeting), 100)}
+          onClick={onClick}
           disabled={disabled}
           className={classnames(styles.button, disabled ? styles.disabled : null)}>
           { this.getI18nButtonString() }

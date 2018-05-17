@@ -741,7 +741,7 @@ class MeetingPanel extends Component {
           hidden={hidden}
           disabled={disabled}
           meeting={meeting}
-          onClick={invite} />
+          onClick={() => !disabled && setTimeout(() => invite(this.props.meeting), 100)} />
       </div>
     );
   }
