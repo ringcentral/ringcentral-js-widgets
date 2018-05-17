@@ -25,6 +25,8 @@ describe('exportLocale', () => {
     beforeEach(async () => {
       await generateLoader();
       await fs.writeFile(path.resolve(sourceFolder, 'en-US.js'), `
+        const a = 'a';
+        const b = 'b';
         export default {
           modern: 'rogue',
           whisky: 'Vault',
@@ -32,6 +34,8 @@ describe('exportLocale', () => {
           newline: 'contains\\nnewline',
           'single-quote': 'Single Quote',
           "double-'quote'": 'Double Quote',
+          [a + b]: 'Odd Key',
+          4: 'number key',
         };
         `);
     });
@@ -71,6 +75,8 @@ describe('exportLocale', () => {
           expect(content.indexOf('contains\nnewline') > -1).toBe(true);
           expect(content.indexOf('single-quote') > -1).toBe(true);
           expect(content.indexOf("double-'quote'") > -1).toBe(true);
+          expect(content.indexOf('[a + b]') > -1).toBe(true);
+          expect(content.indexOf('Odd Key') > -1).toBe(true);
         })
       );
     });
