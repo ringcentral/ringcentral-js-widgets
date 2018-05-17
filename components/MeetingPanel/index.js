@@ -254,7 +254,7 @@ var When = function When(_ref4) {
     that.dateBlur = true;
     setTimeout(function () {
       if (!isFocus) {
-        document.querySelector('input').focus();
+        that.topic.focus();
       }
       that.dateBlur = false;
     }, 200);
