@@ -17,6 +17,7 @@
   },
   "private": true,
   "dependencies": {
+    "@ringcentral-integration/i18n": "^2.0.0",
     "autoprefixer": "^8.4.1",
     "babel-loader": "^7.0.0",
     "babel-polyfill": "^6.22.0",
@@ -28,7 +29,7 @@
     "file-loader": "^1.1.11",
     "highlight.js": "^9.11.0",
     "history": "^4.6.1",
-    "locale-loader": "^1.4.10",
+    "@ringcentral-integration/locale-loader": "^2.0.0",
     "marked": "^0.3.6",
     "node-sass": "^4.5.3",
     "postcss-loader": "^2.1.5",

@@ -16,6 +16,7 @@
     "build-extension": "gulp demo-extension"
   },
   "dependencies": {
+    "@ringcentral-integration/i18n": "^2.0.0",
     "autoprefixer": "^8.4.1",
     "babel-istanbul": "^0.12.1",
     "babel-loader": "^7.0.0",
@@ -30,7 +31,7 @@
     "gulp-sourcemaps": "^2.4.0",
     "identity-obj-proxy": "^3.0.0",
     "json-loader": "^0.5.4",
-    "locale-loader": "^1.4.10",
+    "@ringcentral-integration/locale-loader": "^2.0.0",
     "node-sass": "^4.5.3",
     "normalize-css": "^2.3.1",
     "postcss-loader": "^2.1.5",

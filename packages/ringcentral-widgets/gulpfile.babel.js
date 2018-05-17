@@ -8,10 +8,12 @@ import fs from 'fs-extra';
 import babel from 'gulp-babel';
 import sourcemaps from 'gulp-sourcemaps';
 import cp from 'child_process';
-import transformLocaleLoader from 'locale-loader/transformLocaleLoader';
+import transformLoader from '@ringcentral-integration/locale-loader/lib/transformLoader';
 import dedent from 'dedent';
-import exportLocale from 'locale-loader/exportLocale';
-import importLocale from 'locale-loader/importLocale';
+import exportLocale from '@ringcentral-integration/locale-loader/lib/exportLocale';
+import importLocale from '@ringcentral-integration/locale-loader/lib/importLocale';
+import consolidateLocale from '@ringcentral-integration/locale-loader/lib/consolidateLocale';
+import localeSettings from 'locale-settings';
 
 async function rm(filepath) {
   if (await fs.exists(filepath)) {
@@ -65,7 +67,9 @@ gulp.task('build', ['clean', 'copy'], () => (
     '!./coverage{/**,}',
     '!./node_modules{/**,}',
     '!gulpfile.babel.js']
-  ).pipe(transformLocaleLoader())
+  ).pipe(transformLoader({
+    ...localeSettings,
+  }))
     .pipe(sourcemaps.init())
     .pipe(babel())
     .pipe(sourcemaps.write('.'))
@@ -151,16 +155,19 @@ gulp.task('generate-font', async () => {
 });
 
 gulp.task('export-locale', () => exportLocale({
-  sourceFolder: './',
+  ...localeSettings,
 }));
 gulp.task('export-locale-full', () => exportLocale({
-  sourceFolder: './',
+  ...localeSettings,
   exportType: 'full'
 }));
 gulp.task('export-locale-translated', () => exportLocale({
-  sourceFolder: './',
+  ...localeSettings,
   exportType: 'translated'
 }));
 gulp.task('import-locale', () => importLocale({
-  sourceFolder: './',
+  ...localeSettings,
+}));
+gulp.task('consolidate-locale', () => consolidateLocale({
+  ...localeSettings,
 }));

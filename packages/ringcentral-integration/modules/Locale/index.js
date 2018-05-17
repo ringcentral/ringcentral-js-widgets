@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 import I18n, {
   DEFAULT_LOCALE,
   PSEUDO_LOCALE,
-} from 'locale-loader/lib/I18n';
+} from '@ringcentral-integration/i18n';
 import RcModule from '../../lib/RcModule';
 import proxify from '../../lib/proxy/proxify';
 import { Module } from '../../lib/di';

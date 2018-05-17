@@ -1,4 +1,4 @@
-import defaultConfig from 'locale-loader/defaultConfig';
+import { DEFAULT_LOCALE } from '@ringcentral-integration/i18n';
 import { createSelector } from 'reselect';
 import { combineReducers } from 'redux';
 import RcModule from '../../lib/RcModule';
@@ -9,9 +9,7 @@ import { Module } from '../../lib/di';
 import ensureExist from '../../lib/ensureExist';
 import getter from '../../lib/getter';
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
-import {
-  getSavedLocaleReducer,
-} from './reducers';
+import { getSavedLocaleReducer } from './reducers';
 
 /* eslint-disable global-require */
 
@@ -36,7 +34,7 @@ export default class LocaleSettings extends RcModule {
   constructor({
     globalStorage,
     locale,
-    supportedLocales = defaultConfig.supportedLocales,
+    supportedLocales = [DEFAULT_LOCALE],
     ...options
   } = {}) {
     super({

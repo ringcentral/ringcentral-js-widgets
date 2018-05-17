@@ -17,7 +17,7 @@ function getBaseConfig({
           test: /\.js$/,
           use: [
             'babel-loader',
-            'locale-loader',
+            '@ringcentral-integration/locale-loader',
           ],
           exclude: /node_modules/,
         },
