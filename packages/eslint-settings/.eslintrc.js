@@ -22,6 +22,13 @@ module.exports = {
         ignoreRegExpLiterals: true,
       },
     ],
+    "object-shorthand": [
+      2,
+      "always",
+      {
+        "avoidExplicitReturnArrows": true
+      }
+    ],
     "function-paren-newline": 0,
     "class-methods-use-this": 0,
     "comma-dangle": 0,
