@@ -652,10 +652,10 @@ class MeetingPanel extends Component {
       const isToggle = !this[`${type}Blur`];
       if (isToggle) {
         if (this[type]._values.open) {
-          this[type].refs.inner.close();
+          this[type].inner.close();
         } else {
           this[type].focus();
-          this[type].refs.inner.toggle();
+          this[type].inner.toggle();
         }
       }
     };
