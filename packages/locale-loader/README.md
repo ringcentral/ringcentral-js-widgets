@@ -1,6 +1,7 @@
 # Locale Loader
+<!-- TODO: Make this work in monorepo
 [![Build Status](https://travis-ci.org/u9520107/locale-loader.svg?branch=master)](https://travis-ci.org/u9520107/locale-loader)
-[![Coverage Status](https://coveralls.io/repos/github/u9520107/locale-loader/badge.svg?branch=master)](https://coveralls.io/github/u9520107/locale-loader?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/u9520107/locale-loader/badge.svg?branch=master)](https://coveralls.io/github/u9520107/locale-loader?branch=master) -->
 
 Simple locale loader for webpack.
 
@@ -12,14 +13,13 @@ Sample File Structure:
              |--en-US.js
              |--fr-FR.js
              |--localeLoader.js
-             |--index.js
 ```
 
 Locale files
 ---
 1. Must be ES6 module.
-2. No template literals (``).
-3. No nested structures.
+2. No nested structures.
+3. Do not support variables in template strings
 
 ```javascript
 import constants from './constants';
@@ -30,6 +30,10 @@ export default {
     icuCompliant: 'Greetings, {name}!',
     handleEscapedBraces: 'Escape braces with single quote: \'{foo}\'',
     'complex-keys': 'Support using quoted property names',
+    concat: 'support' + 'string' + 'concatenation',
+    template: `support
+    templateStrings`,
+    templateVariable: `this is ${not} supported`,
 };
 ```
 
@@ -48,16 +52,6 @@ If there is a need to not separate the bundles, the following comment can be use
 ```
 There must be a space after '/\*' and '\*/'.
 
-I18n class
----
-The ```index.js``` file in the sample structure can be used to export a I18n object.
-
-```javascript
-import I18n from 'locale-loader/lib/I18n';
-import loadLocale from './loadLocale';
-
-export default new I18n(loadLocale);
-```
 
 locale-loader
 ---
@@ -74,7 +68,7 @@ module.exports = {
             test: /\.js$/,
             use: [
                 'babel-loader',
-                'locale-loader',
+                '@ringcentral-integration/locale-loader',
             ],
             exclude: /node_modules/,
         },
@@ -100,7 +94,8 @@ Export to Xlf
 The exportLocale function can be used to generate xlf files.
 
 ```javascript
-import ExportLocale from 'locale-loader/exportLocale';
+import exportLocale from '@ringcentral-integration/locale-loader/lib/exportLocale';
+// or import { exportLocale } from '@ringcentral-integration/locale-laoder';
 
 const config = {
     sourceLocale: 'en-US', // the default locale with original strings
@@ -110,9 +105,8 @@ const config = {
     exportType: 'diff', // determines what is exported
 };
 
-exportLocale(config).then(() => {
-    console.log('.xlf generated to `cwd()/localization/`');
-});
+exportLocale(config);
+console.log('.xlf generated to `cwd()/localization/`');
 
 ```
 
@@ -122,24 +116,47 @@ exportLocale(config).then(() => {
 2. 'full': This will export everything.
 3. 'translated': This will only export translated entries.
 
+Import from Xlf
+---
+
+Place the translated Xlf files in to localization folder.
 
 
-export locale
-import locale
-re-generate annotation
+```javascript
+import importLocale from '@ringcentral-integration/locale-loader/lib/importLocale';
+// or import { importLocale } from '@ringcentral-integration/locale-laoder';
 
-export:
-1. find all locale files
-2. read all locale files
-3. read annotations
-4. Computer diff/full
-5. Generate .xlf
+const config = {
+    sourceLocale: 'en-US', // the default locale with original strings
+    supportedLocales: ['en-US', 'fr-FR', 'ja-JP'], // the array of locales to support
+    sourceFolder: 'src', // export locale will use 'src/**/*.js' glob to search for loaders
+    localizationFolder: 'localization', // exported files will be saved to here
+};
 
-import:
-1. find all locale files
-2. read all locale files
-3. read annotations
-4. read xlf
-5. merge translated data
-6. generate locale files
-7. generate annotation
+importLocale(config);
+console.log('.xlf imported');
+
+```
+
+Consolidate Locale Data
+---
+
+Consolidate locale will do the following:
+1. Delete values from translations if the source value has been modified, or if the source no longer contain that key.
+2. Re-generate the annotations.
+
+```javascript
+import consolidateLocale from '@ringcentral-integration/locale-loader/lib/consolidateLocale';
+// or import { consolidateLocale } from '@ringcentral-integration/locale-laoder';
+
+const config = {
+    sourceLocale: 'en-US', // the default locale with original strings
+    supportedLocales: ['en-US', 'fr-FR', 'ja-JP'], // the array of locales to support
+    sourceFolder: 'src', // export locale will use 'src/**/*.js' glob to search for loaders
+    localizationFolder: 'localization', // exported files will be saved to here
+};
+
+consolidateLocale(config);
+console.log('consolidate done');
+
+```

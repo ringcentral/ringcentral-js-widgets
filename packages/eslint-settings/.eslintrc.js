@@ -22,6 +22,13 @@ module.exports = {
         ignoreRegExpLiterals: true,
       },
     ],
+    "object-shorthand": [
+      2,
+      "always",
+      {
+        "avoidExplicitReturnArrows": true
+      }
+    ],
     "function-paren-newline": 0,
     "class-methods-use-this": 0,
     "comma-dangle": 0,
@@ -65,5 +72,22 @@ module.exports = {
     "react/require-default-props": 1,
     "no-mixed-operators": 0,
     "react/no-did-mount-set-state": 0, // dom size detection after mount may require setState in didMount
-  }
+  },
+  overrides: [
+    {
+      files: ['*.test.js'],
+      env: {
+        jest: true
+      },
+      rules: {
+        "no-eval": 0,
+      }
+    },
+    {
+      files: ['**/i18n/*.js'],
+      rules: {
+        "quotes": 0,
+      }
+    }
+  ]
 };

@@ -10,4 +10,5 @@ export default new Enum([
   'createSuccess',
   'createError',
   'updatePostInput',
+  'updateReadTime',
 ], 'glipPosts');

@@ -50,7 +50,7 @@ export default class MeetingScheduleButton extends PureComponent {
           ) : null
         }
         <button
-          onClick={() => !disabled && setTimeout(() => onClick(meeting), 100)}
+          onClick={onClick}
           disabled={disabled}
           className={classnames(styles.button, disabled ? styles.disabled : null)}>
           { this.getI18nButtonString() }

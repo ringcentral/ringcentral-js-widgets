@@ -177,7 +177,7 @@ const When = (
     that.dateBlur = true;
     setTimeout(() => {
       if (!isFocus) {
-        document.querySelector('input').focus();
+        that.topic.focus();
       }
       that.dateBlur = false;
     }, 200);
@@ -741,7 +741,7 @@ class MeetingPanel extends Component {
           hidden={hidden}
           disabled={disabled}
           meeting={meeting}
-          onClick={invite} />
+          onClick={() => !disabled && setTimeout(() => invite(this.props.meeting), 100)} />
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import dedent from 'dedent';
-import formatLocale from '../formatLocale';
+import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
 
 function byLocale(a, b) {
   const ta = formatLocale(a);

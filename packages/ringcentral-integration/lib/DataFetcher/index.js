@@ -158,7 +158,7 @@ export default class DataFetcher extends Pollable {
         (this._subscription && !this._subscription.ready) ||
         (this._tabManager && !this._tabManager.ready)
       ) &&
-      this.ready
+      !this.pending
     );
   }
   _shouldSubscribe() {

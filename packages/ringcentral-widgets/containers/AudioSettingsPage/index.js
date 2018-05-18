@@ -25,6 +25,7 @@ function mapToProps(_, {
     callingSettings: {
       callWith,
     },
+    webphone,
   },
 }) {
   return {
@@ -41,6 +42,11 @@ function mapToProps(_, {
     supportDevices,
     userMedia,
     isWebRTC: callWith === callingOptions.browser,
+    outputDeviceDisabled: !availableOutputDevices.length,
+    inputDeviceDisabled: !!(
+      !availableInputDevices.length ||
+      (webphone && webphone.sessions.length > 0)
+    ),
   };
 }
 
