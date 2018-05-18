@@ -1,8 +1,8 @@
 import path from 'path';
 import gulp from 'gulp';
 import fs from 'fs-extra';
+import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
 import transformLocaleLoader from './';
-import formatLocale from '../formatLocale';
 
 
 const sourceFolder = './testData-transformLocaleLoader';

@@ -14,6 +14,4 @@ export default {
     'pt-BR',
   ],
   sourceLocale: 'en-US',
-  sourceFolder: './',
-  localizationFolder: './localization',
 };

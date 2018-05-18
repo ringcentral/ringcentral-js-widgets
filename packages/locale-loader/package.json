@@ -1,11 +1,13 @@
 {
-  "name": "locale-loader",
-  "version": "1.4.10",
+  "name": "@ringcentral-integration/locale-loader",
+  "version": "2.0.0",
   "description": "Locale Loader for webpack",
   "main": "index.js",
   "scripts": {
-    "gulp": "gulp",
-    "test": "jest"
+    "build": "gulp build",
+    "release": "gulp release",
+    "test": "jest",
+    "watch": "jest --watch"
   },
   "repository": {
     "type": "git",
@@ -26,7 +28,10 @@
     "jest": "^22.4.3"
   },
   "dependencies": {
+    "@ringcentral-integration/i18n": "^2.0.0",
+    "babel-generator": "^6.26.1",
     "babylon": "^6.18.0",
+    "chalk": "^2.4.1",
     "dedent": "^0.7.0",
     "fs-extra": "^6.0.0",
     "glob": "^7.1.2",
@@ -34,6 +39,7 @@
     "gulp-babel": "^7.0.1",
     "gulp-sourcemaps": "^2.6.4",
     "ramda": "^0.25.0",
+    "through2": "^2.0.0",
     "xml-js": "^1.6.2"
   },
   "jest": {
@@ -42,6 +48,10 @@
     },
     "transformIgnorePatterns": [
       "/node_modules/(?!(babel-settings)/).*/"
+    ],
+    "watchPathIgnorePatterns": [
+      "localization/.*",
+      "testData/.*"
     ]
   }
 }

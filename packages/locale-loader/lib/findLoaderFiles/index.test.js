@@ -1,8 +1,8 @@
 import fs from 'fs-extra';
 import path from 'path';
-import getLoaderFiles from './';
+import findLoaderFiles from './';
 
-const sourceFolder = './testData-getLoaderFiles';
+const sourceFolder = './testData/getLoaderFiles';
 const loaderContent = '/* loadLocale */';
 const loaderFiles = [
   'file1.js',
@@ -15,7 +15,7 @@ const otherFiles = [
   path.normalize('dir/dummy3.js'),
 ].sort();
 
-describe('getLoaderFiles', () => {
+describe('findLoaderFiles', () => {
   beforeAll(async () => {
     await fs.remove(sourceFolder);
     await fs.ensureDir(path.resolve(sourceFolder, './dir'));
@@ -29,8 +29,8 @@ describe('getLoaderFiles', () => {
   afterAll(async () => {
     await fs.remove(sourceFolder);
   });
-  test('should get all the loader files', async () => {
-    const files = await getLoaderFiles(sourceFolder);
+  test('should find all the loader files', async () => {
+    const files = findLoaderFiles(sourceFolder);
     expect(files.map(file => path.relative(sourceFolder, file)).sort()).toEqual(loaderFiles);
   });
 });

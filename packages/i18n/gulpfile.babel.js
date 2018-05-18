@@ -5,22 +5,8 @@ import babel from 'gulp-babel';
 import sourcemaps from 'gulp-sourcemaps';
 import cp from 'child_process';
 
-async function rm(filepath) {
-  if (await fs.exists(filepath)) {
-    if ((await fs.stat(filepath)).isDirectory()) {
-      await Promise.all(
-        (await fs.readdir(filepath))
-          .map(item => rm(path.resolve(filepath, item)))
-      );
-      await fs.rmdir(filepath);
-    } else {
-      await fs.unlink(filepath);
-    }
-  }
-}
-
 gulp.task('clean', async () => (
-  rm(path.resolve(__dirname, 'build'))
+  fs.remove(path.resolve(__dirname, 'build'))
 ));
 
 gulp.task('build', ['clean'], () => (
@@ -69,7 +55,7 @@ gulp.task('release-clean', async () => {
   }
   const files = (await fs.readdir('release')).filter(file => !/^\./.test(file));
   for (const file of files) {
-    await rm(path.resolve(__dirname, 'release', file));
+    await fs.remove(path.resolve(__dirname, 'release', file));
   }
 });
 
@@ -82,7 +68,6 @@ gulp.task('release', ['release-copy'], async () => {
   const packageInfo = JSON.parse(await fs.readFile('package.json'));
   delete packageInfo.scripts;
   delete packageInfo.devDependencies;
-  delete packageInfo.jest;
   const version = await getVersionFromTag();
   if (version) {
     packageInfo.version = version;

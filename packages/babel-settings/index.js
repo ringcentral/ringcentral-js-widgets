@@ -1,7 +1,7 @@
-import fs from 'fs-extra';
-import path from 'path';
-import { parse } from 'jsonc-parser';
+import babelrc from './lib/babelrc';
+import transform from './lib/transform';
 
-const config = parse(fs.readFileSync(path.resolve(__dirname, '.babelrc'), 'utf8'));
-
-export default config;
+export {
+  babelrc,
+  transform,
+};

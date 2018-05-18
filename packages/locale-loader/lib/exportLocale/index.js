@@ -1,44 +1,48 @@
 import fs from 'fs-extra';
 import path from 'path';
-import getRawData from '../getRawData';
-import defaultConfig from '../../defaultConfig';
+import { forEach } from 'ramda';
+import compileLocaleData from '../compileLocaleData';
+import defaultConfig from '../defaultConfig';
 import generateXlfData from '../generateXlfData';
 
-async function writeXlf({
+export function writeXlf({
   localizationFolder,
   xlfData,
 }) {
-  await fs.ensureDir(localizationFolder);
-  await Promise.all(
-    Object.keys(xlfData)
-      .map(async (locale) => {
-        const fileName = path.resolve(localizationFolder, `${locale}.xlf`);
-        await fs.writeFile(fileName, xlfData[locale]);
-      })
+  fs.ensureDirSync(localizationFolder);
+  forEach(
+    (locale) => {
+      const fileName = path.resolve(localizationFolder, `${locale}.xlf`);
+      fs.writeFileSync(fileName, xlfData[locale]);
+    },
+    Object.keys(xlfData),
   );
 }
 
 
-export default async function exportLocale({
+export default function exportLocale({
   sourceFolder = defaultConfig.sourceFolder,
   localizationFolder = defaultConfig.localizationFolder,
   sourceLocale = defaultConfig.sourceLocale,
-  supportedLocales = defaultConfig.supportedLocales,
+  supportedLocales,
   exportType = 'diff',
 } = {}) {
-  const rawData = await getRawData({
+  if (!supportedLocales) {
+    throw new Error('options.supportedLocales is missing');
+  }
+  const localeData = compileLocaleData({
     sourceFolder,
     sourceLocale,
     supportedLocales,
   });
   const xlfData = generateXlfData({
-    rawData,
+    localeData,
     sourceFolder,
     sourceLocale,
     supportedLocales,
     exportType,
   });
-  await writeXlf({
+  writeXlf({
     xlfData,
     localizationFolder,
   });
