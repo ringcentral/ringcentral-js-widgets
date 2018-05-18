@@ -4,7 +4,8 @@
   "description": "Locale Loader for webpack",
   "main": "index.js",
   "scripts": {
-    "gulp": "gulp",
+    "build": "gulp build",
+    "release": "gulp release",
     "test": "jest",
     "watch": "jest --watch"
   },

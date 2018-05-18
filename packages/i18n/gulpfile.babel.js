@@ -67,6 +67,7 @@ gulp.task('release-copy', ['build', 'release-clean'], () => (
 gulp.task('release', ['release-copy'], async () => {
   const packageInfo = JSON.parse(await fs.readFile('package.json'));
   delete packageInfo.scripts;
+  delete packageInfo.devDependencies;
   const version = await getVersionFromTag();
   if (version) {
     packageInfo.version = version;
