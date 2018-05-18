@@ -25,6 +25,8 @@ const callLogBody = require('./data/callLog.json');
 const deviceBody = require('./data/device.json');
 const conferencingBody = require('./data/conferencing.json');
 const activeCallsBody = require('./data/activeCalls.json');
+const meetingBody = require('./data/meeting.json');
+const serviceInfoBody = require('./data/serviceInfo.json');
 
 const mockServer = 'http://whatever';
 export function createSDK(options = {}) {
@@ -449,6 +451,26 @@ export function ringOutUpdate(mockResponse = {}) {
     url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/ring-out/`,
     body: {
       ...ringOutBody,
+      ...mockResponse,
+    }
+  });
+}
+export function meeting(mockResponse = {}, meetingType = 'NoneRecurring') {
+  mockApi({
+    isOnce: false,
+    url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/meeting/`,
+    body: {
+      ...meetingBody[meetingType],
+      ...mockResponse,
+    }
+  });
+}
+export function serviceInfo(mockResponse = {}) {
+  mockApi({
+    isOnce: false,
+    url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/service-info/`,
+    body: {
+      ...serviceInfoBody,
       ...mockResponse,
     }
   });
