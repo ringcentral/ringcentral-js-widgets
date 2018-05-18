@@ -198,6 +198,13 @@
   padding: 0 5px;
   color: $primary-color;
 }
+
+@supports (-ms-ime-align:auto) {
+  .timeInput {
+    width: 16px;
+  }
+}
+
 .colon {
   color: $primary-color;
   font-size: 13px;
