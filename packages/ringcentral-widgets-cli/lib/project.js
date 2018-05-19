@@ -20,7 +20,7 @@ exports.generateProject = ({
     throw Error('project existed');
   }
   copyTemplate({
-    templatePath: path.resolve(__dirname, '../templates/Project/package.json'),
+    templatePath: path.resolve(__dirname, '../templates/Project/package-template.json'),
     destinationPath: path.resolve(projectDir, 'package.json'),
     params: { name: projectName.replace(/\s/g, '') }
   });

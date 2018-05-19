@@ -19,3 +19,5 @@ LICENSE text=auto eol=lf
 *.sh text=auto eol=lf
 *.ejs text=auto eol=lf
 *.lock text=auto eol=lf
+*.default text=auto eol=lf
+
