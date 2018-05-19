@@ -20,7 +20,7 @@
   "dependencies": {
     "babel-istanbul": "^0.12.1",
     "coveralls": "^2.11.15",
-    "dotenv": "^4.0.0",
+    "dotenv": "^5.0.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.0",
