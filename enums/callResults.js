@@ -26,7 +26,7 @@ exports.default = new _HashMap2.default({
   faxReceiptError: 'Fax Receipt Error',
   faxSendError: 'Fax Send Error',
   hangUp: 'Hang up',
-  HangUp: 'Hang Up',
+  HangUp: 'Hang Up', // The Platform not only returns 'Hang up' but alse 'Hang Up', So we add two Key
   internalError: 'Internal Error',
   internationalDisabled: 'International Disabled',
   internationalRestriction: 'International Restriction',

@@ -44,6 +44,8 @@ exports.mockForbidden = mockForbidden;
 exports.mockClient = mockClient;
 exports.ringOut = ringOut;
 exports.ringOutUpdate = ringOutUpdate;
+exports.meeting = meeting;
+exports.serviceInfo = serviceInfo;
 exports.mockForLogin = mockForLogin;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -75,6 +77,8 @@ var callLogBody = require('./data/callLog.json');
 var deviceBody = require('./data/device.json');
 var conferencingBody = require('./data/conferencing.json');
 var activeCallsBody = require('./data/activeCalls.json');
+var meetingBody = require('./data/meeting.json');
+var serviceInfoBody = require('./data/serviceInfo.json');
 
 var mockServer = 'http://whatever';
 function createSDK() {
@@ -478,6 +482,25 @@ function ringOutUpdate() {
     isOnce: false,
     url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/ring-out/',
     body: (0, _extends3.default)({}, ringOutBody, mockResponse)
+  });
+}
+function meeting() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var meetingType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'NoneRecurring';
+
+  mockApi({
+    isOnce: false,
+    url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/meeting/',
+    body: (0, _extends3.default)({}, meetingBody[meetingType], mockResponse)
+  });
+}
+function serviceInfo() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  mockApi({
+    isOnce: false,
+    url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/service-info/',
+    body: (0, _extends3.default)({}, serviceInfoBody, mockResponse)
   });
 }
 
