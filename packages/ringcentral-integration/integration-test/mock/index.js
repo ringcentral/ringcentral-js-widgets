@@ -457,6 +457,7 @@ export function ringOutUpdate(mockResponse = {}) {
 }
 export function meeting(mockResponse = {}, meetingType = 'NoneRecurring') {
   mockApi({
+    method: 'POST',
     isOnce: false,
     url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/meeting/`,
     body: {
@@ -467,7 +468,7 @@ export function meeting(mockResponse = {}, meetingType = 'NoneRecurring') {
 }
 export function serviceInfo(mockResponse = {}) {
   mockApi({
-    isOnce: false,
+    method: 'GET',
     url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/service-info/`,
     body: {
       ...serviceInfoBody,
