@@ -168,7 +168,9 @@ export default function SettingsPanel({
         />
       }
     >
-      {i18n.getString('autoLogCalls', currentLocale)}
+      <span className={classnames(disableAutoLogEnabled && styles.disableText)}>
+        {i18n.getString('autoLogCalls', currentLocale)}
+      </span>
     </IconLine>
   ) :
     null;
