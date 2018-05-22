@@ -1,49 +1,27 @@
 {
-  "NoneRecurring": {
-    "uri" : "https://api-rcapps.ringcentral.com/restapi/v1.0/account/37439510/extension/924728020/meeting/1481149615",
-    "id" : "1481149615",
-    "topic" : "Lucy Tu Tu's Meeting",
-    "meetingType" : "Scheduled",
-    "password" : "",
-    "status" : "NotStarted",
-    "links" : {
-      "startUri" : "https://meetings.ringcentral.com/s/1481149615?zpk=NplnCQ5aT7LZZ7eNTmdTjhPtiqTPtdmUOCVVxsen3Aw.BwcAAAFjcm266gAAHCAkNDAwZjg3MWItYTNmZi00MWEyLTg4MmQtMGE5YWQzODEwM2IyF2x1Y3kudHVAcmluZ2NlbnRyYWwuY29tFl9oeUxZT0R6U0txTGNVa1gwc0d0emcKTHVjeSBUdSBUdWIAfl9Db0lhMWQxWVpHVnkyYWxqS3gxZUxaSHdXakR5bHhoQ2dvS2lmZXBKOG8uRWdFQUFBRmpjbTI2NmdBQUhDQWdNMGxvVWpBMU9WaEljRlpzYkRKeFpXcE9lbWhCYVhwTWFuUmFjRVJsVmtnQURETkRRa0YxYjJsWlV6TnpQUQAACDM3NDM5NTEwAAIBAA",
-      "joinUri" : "https://meetings.ringcentral.com/j/1481149615"
-    },
-    "schedule" : {
-      "startTime" : "2018-05-18T07:27:31Z",
-      "durationInMinutes" : 60,
-      "timeZone" : {
-        "id" : "1"
-      }
-    },
-    "host" : {
-      "id" : "924728020",
-      "uri" : "https://api-rcapps.ringcentral.com/restapi/v1.0/account/37439510/extension/924728020"
-    },
-    "allowJoinBeforeHost" : false,
-    "startHostVideo" : false,
-    "startParticipantsVideo" : false,
-    "audioOptions" : [ "Phone", "ComputerAudio" ]
+  "uri" : "https://api-rcapps.ringcentral.com/restapi/v1.0/account/37439510/extension/924728020/meeting/1481149615",
+  "id" : "1481149615",
+  "topic" : "Lucy Tu Tu's Meeting",
+  "meetingType" : "Scheduled",
+  "password" : "",
+  "status" : "NotStarted",
+  "links" : {
+    "startUri" : "https://meetings.ringcentral.com/s/1481149615?zpk=NplnCQ5aT7LZZ7eNTmdTjhPtiqTPtdmUOCVVxsen3Aw.BwcAAAFjcm266gAAHCAkNDAwZjg3MWItYTNmZi00MWEyLTg4MmQtMGE5YWQzODEwM2IyF2x1Y3kudHVAcmluZ2NlbnRyYWwuY29tFl9oeUxZT0R6U0txTGNVa1gwc0d0emcKTHVjeSBUdSBUdWIAfl9Db0lhMWQxWVpHVnkyYWxqS3gxZUxaSHdXakR5bHhoQ2dvS2lmZXBKOG8uRWdFQUFBRmpjbTI2NmdBQUhDQWdNMGxvVWpBMU9WaEljRlpzYkRKeFpXcE9lbWhCYVhwTWFuUmFjRVJsVmtnQURETkRRa0YxYjJsWlV6TnpQUQAACDM3NDM5NTEwAAIBAA",
+    "joinUri" : "https://meetings.ringcentral.com/j/1481149615"
   },
-  "Recurring": {
-    "uri" : "https://api-rcapps.ringcentral.com/restapi/v1.0/account/37439510/extension/924728020/meeting/1487395250",
-    "id" : "1487395250",
-    "topic" : "Lucy Tu Tu's Meeting",
-    "meetingType" : "Recurring",
-    "password" : "",
-    "status" : "NotStarted",
-    "links" : {
-      "startUri" : "https://meetings.ringcentral.com/s/1487395250?zpk=Py6qlbD1ty-3BkQ-D4ryx3iMhx8sFCrm8H6SOk23utE.BwcAAAFjcm4BdAAAHCAkN2M4OTllMTQtYmM3My00NTllLTlmOWItMTgyYmM3YWNiYzY0F2x1Y3kudHVAcmluZ2NlbnRyYWwuY29tFl9oeUxZT0R6U0txTGNVa1gwc0d0emcKTHVjeSBUdSBUdWIAflNOajJ4Y2pzUXdBMXNTYkJxVFVrNWNWUm5oWmNUNGRVOF90dExpRHlpZUUuRWdFQUFBRmpjbTRCZEFBQUhDQWdNMGxvVWpBMU9WaEljRlpzYkRKeFpXcE9lbWhCYVhwTWFuUmFjRVJsVmtnQURETkRRa0YxYjJsWlV6TnpQUQAACDM3NDM5NTEwAAIBAA",
-      "joinUri" : "https://meetings.ringcentral.com/j/1487395250"
-    },
-    "host" : {
-      "id" : "924728020",
-      "uri" : "https://api-rcapps.ringcentral.com/restapi/v1.0/account/37439510/extension/924728020"
-    },
-    "allowJoinBeforeHost" : false,
-    "startHostVideo" : false,
-    "startParticipantsVideo" : false,
-    "audioOptions" : [ "Phone", "ComputerAudio" ]
-  }
+  "schedule" : {
+    "startTime" : "2018-05-18T07:27:31Z",
+    "durationInMinutes" : 60,
+    "timeZone" : {
+      "id" : "1"
+    }
+  },
+  "host" : {
+    "id" : "924728020",
+    "uri" : "https://api-rcapps.ringcentral.com/restapi/v1.0/account/37439510/extension/924728020"
+  },
+  "allowJoinBeforeHost" : false,
+  "startHostVideo" : false,
+  "startParticipantsVideo" : false,
+  "audioOptions" : [ "Phone", "ComputerAudio" ]
 }

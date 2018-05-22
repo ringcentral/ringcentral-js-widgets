@@ -77,8 +77,8 @@ var callLogBody = require('./data/callLog.json');
 var deviceBody = require('./data/device.json');
 var conferencingBody = require('./data/conferencing.json');
 var activeCallsBody = require('./data/activeCalls.json');
-var meetingBody = require('./data/meeting.json');
-var serviceInfoBody = require('./data/serviceInfo.json');
+var meetingBody = require('./data/meeting');
+var serviceInfoBody = require('./data/serviceInfo');
 
 var mockServer = 'http://whatever';
 function createSDK() {
@@ -486,13 +486,12 @@ function ringOutUpdate() {
 }
 function meeting() {
   var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var meetingType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'NoneRecurring';
 
   mockApi({
     method: 'POST',
-    isOnce: false,
-    url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/meeting/',
-    body: (0, _extends3.default)({}, meetingBody[meetingType], mockResponse)
+    url: mockServer + '/restapi/v1.0/account/~/extension/~/meeting',
+    body: (0, _extends3.default)({}, meetingBody, mockResponse),
+    isOnce: false
   });
 }
 function serviceInfo() {
@@ -500,8 +499,9 @@ function serviceInfo() {
 
   mockApi({
     method: 'GET',
-    url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/service-info/',
-    body: (0, _extends3.default)({}, serviceInfoBody, mockResponse)
+    url: mockServer + '/restapi/v1.0/account/~/extension/~/meeting/service-info',
+    body: (0, _extends3.default)({}, serviceInfoBody, mockResponse),
+    isOnce: false
   });
 }
 
