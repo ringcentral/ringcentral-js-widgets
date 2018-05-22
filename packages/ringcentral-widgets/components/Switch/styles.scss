@@ -12,6 +12,8 @@ $slider-size: #{$switch-height - 2 * $switch-padding};
   width: $switch-width;
   height: $switch-height;
   vertical-align: middle;
+  background-color: white;
+  border-radius: $switch-height;
 }
 
 /* Hide default HTML checkbox */
