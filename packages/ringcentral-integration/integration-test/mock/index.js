@@ -25,8 +25,8 @@ const callLogBody = require('./data/callLog.json');
 const deviceBody = require('./data/device.json');
 const conferencingBody = require('./data/conferencing.json');
 const activeCallsBody = require('./data/activeCalls.json');
-const meetingBody = require('./data/meeting.json');
-const serviceInfoBody = require('./data/serviceInfo.json');
+const meetingBody = require('./data/meeting');
+const serviceInfoBody = require('./data/serviceInfo');
 
 const mockServer = 'http://whatever';
 export function createSDK(options = {}) {
@@ -455,25 +455,26 @@ export function ringOutUpdate(mockResponse = {}) {
     }
   });
 }
-export function meeting(mockResponse = {}, meetingType = 'NoneRecurring') {
+export function meeting(mockResponse = {}) {
   mockApi({
     method: 'POST',
-    isOnce: false,
-    url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/meeting/`,
+    url: `${mockServer}/restapi/v1.0/account/~/extension/~/meeting`,
     body: {
-      ...meetingBody[meetingType],
+      ...meetingBody,
       ...mockResponse,
-    }
+    },
+    isOnce: false
   });
 }
 export function serviceInfo(mockResponse = {}) {
   mockApi({
     method: 'GET',
-    url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/service-info/`,
+    url: `${mockServer}/restapi/v1.0/account/~/extension/~/meeting/service-info`,
     body: {
       ...serviceInfoBody,
       ...mockResponse,
-    }
+    },
+    isOnce: false
   });
 }
 
