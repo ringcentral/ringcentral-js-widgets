@@ -40,19 +40,29 @@ function LogIcon(_ref) {
       id = _ref.id,
       viewTask = _ref.viewTask,
       isSaving = _ref.isSaving,
-      currentLocale = _ref.currentLocale;
+      currentLocale = _ref.currentLocale,
+      disabled = _ref.disabled,
+      isFax = _ref.isFax;
 
   var loggedIcon = _react2.default.createElement(_LoggedIcon2.default, { width: 23, className: _styles2.default.loggedIcon });
   var unLoggedIcon = _react2.default.createElement(_UnloggedIcon2.default, { width: 23, className: _styles2.default.unloggedIcon });
-  var tooltip = _i18n2.default.getString(id ? 'logged' : 'unlogged', currentLocale);
+  var tooltip = null;
+  if (isFax) {
+    tooltip = _i18n2.default.getString('faxNotSupported', currentLocale);
+  } else {
+    tooltip = _i18n2.default.getString(id ? 'logged' : 'unlogged', currentLocale);
+  }
   var onClick = function onClick(e) {
     e.stopPropagation();
+    if (disabled) {
+      return;
+    }
     viewTask({
       sessionId: sessionId,
       id: id
     });
   };
-  var logIconClassName = (0, _classnames2.default)(_styles2.default.logIcon, isSaving ? _styles2.default.isSaving : null);
+  var logIconClassName = (0, _classnames2.default)(_styles2.default.logIcon, isSaving ? _styles2.default.isSaving : null, disabled ? _styles2.default.disabled : null);
   return _react2.default.createElement(
     'div',
     {
@@ -68,13 +78,17 @@ LogIcon.propTypes = {
   sessionId: _propTypes2.default.string,
   id: _propTypes2.default.string,
   viewTask: _propTypes2.default.func,
-  isSaving: _propTypes2.default.bool
+  isSaving: _propTypes2.default.bool,
+  disabled: _propTypes2.default.bool,
+  isFax: _propTypes2.default.bool
 };
 
 LogIcon.defaultProps = {
   sessionId: undefined,
   id: undefined,
   viewTask: undefined,
-  isSaving: false
+  isSaving: false,
+  disabled: false,
+  isFax: false
 };
 //# sourceMappingURL=index.js.map

@@ -78,7 +78,7 @@ function LogNotification(_ref) {
       _react2.default.createElement(
         'div',
         { className: _styles2.default.confirmationButtons },
-        _react2.default.createElement(
+        onSave ? _react2.default.createElement(
           _Button2.default,
           {
             className: _styles2.default.saveButton,
@@ -86,8 +86,8 @@ function LogNotification(_ref) {
               return onSave();
             } },
           _i18n2.default.getString('save', currentLocale)
-        ),
-        _react2.default.createElement(
+        ) : null,
+        onDiscard ? _react2.default.createElement(
           _Button2.default,
           {
             className: _styles2.default.discardButton,
@@ -95,8 +95,8 @@ function LogNotification(_ref) {
               return onDiscard();
             } },
           _i18n2.default.getString('discard', currentLocale)
-        ),
-        _react2.default.createElement(
+        ) : null,
+        onStay ? _react2.default.createElement(
           _Button2.default,
           {
             className: _styles2.default.stayButton,
@@ -104,7 +104,7 @@ function LogNotification(_ref) {
               return onStay();
             } },
           _i18n2.default.getString('stay', currentLocale)
-        )
+        ) : null
       )
     ) : null
   );

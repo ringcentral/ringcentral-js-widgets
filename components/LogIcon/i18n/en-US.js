@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   logged: 'Logged',
-  unlogged: 'Unworked'
+  unlogged: 'Unworked',
+  faxNotSupported: 'To log fax is not supported.'
 };
 //# sourceMappingURL=en-US.js.map
