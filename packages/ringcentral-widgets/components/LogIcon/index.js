@@ -13,14 +13,24 @@ export default function LogIcon(
     id,
     viewTask,
     isSaving,
-    currentLocale
+    currentLocale,
+    disabled,
+    isFax
   }
 ) {
   const loggedIcon = <LoggedIcon width={23} className={styles.loggedIcon} />;
   const unLoggedIcon = <UnloggedIcon width={23} className={styles.unloggedIcon} />;
-  const tooltip = i18n.getString(id ? 'logged' : 'unlogged', currentLocale);
+  let tooltip = null;
+  if (isFax) {
+    tooltip = i18n.getString('faxNotSupported', currentLocale);
+  } else {
+    tooltip = i18n.getString(id ? 'logged' : 'unlogged', currentLocale);
+  }
   const onClick = (e) => {
     e.stopPropagation();
+    if (disabled) {
+      return;
+    }
     viewTask({
       sessionId,
       id
@@ -28,7 +38,8 @@ export default function LogIcon(
   };
   const logIconClassName = classnames(
     styles.logIcon,
-    isSaving ? styles.isSaving : null
+    isSaving ? styles.isSaving : null,
+    disabled ? styles.disabled : null,
   );
   return (
     <div
@@ -45,7 +56,9 @@ LogIcon.propTypes = {
   sessionId: PropTypes.string,
   id: PropTypes.string,
   viewTask: PropTypes.func,
-  isSaving: PropTypes.bool
+  isSaving: PropTypes.bool,
+  disabled: PropTypes.bool,
+  isFax: PropTypes.bool
 };
 
 LogIcon.defaultProps = {
@@ -53,4 +66,6 @@ LogIcon.defaultProps = {
   id: undefined,
   viewTask: undefined,
   isSaving: false,
+  disabled: false,
+  isFax: false
 };
