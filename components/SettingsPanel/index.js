@@ -196,6 +196,7 @@ function SettingsPanel(_ref) {
     },
     clickToDialText
   ) : null;
+  // if the Switch component is disabled then the text to describe it will be a disabled color.
   var autoLog = showAutoLog ? _react2.default.createElement(
     _IconLine2.default,
     {
@@ -205,7 +206,11 @@ function SettingsPanel(_ref) {
         onChange: onAutoLogChange
       })
     },
-    _i18n2.default.getString('autoLogCalls', currentLocale)
+    _react2.default.createElement(
+      'span',
+      { className: (0, _classnames2.default)(disableAutoLogEnabled && _styles2.default.disableText) },
+      _i18n2.default.getString('autoLogCalls', currentLocale)
+    )
   ) : null;
   var autoLogSMS = showAutoLogSMS ? _react2.default.createElement(
     _IconLine2.default,
