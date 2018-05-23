@@ -158,6 +158,7 @@ export default function SettingsPanel({
       </IconLine>
     ) :
     null;
+  // if the Switch component is disabled then the text to describe it will be a disabled color.
   const autoLog = showAutoLog ? (
     <IconLine
       icon={
@@ -168,7 +169,9 @@ export default function SettingsPanel({
         />
       }
     >
-      {i18n.getString('autoLogCalls', currentLocale)}
+      <span className={classnames(disableAutoLogEnabled && styles.disableText)}>
+        {i18n.getString('autoLogCalls', currentLocale)}
+      </span>
     </IconLine>
   ) :
     null;
