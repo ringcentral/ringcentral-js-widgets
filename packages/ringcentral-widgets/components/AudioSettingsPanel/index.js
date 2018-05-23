@@ -55,7 +55,7 @@ export default class AudioSettingsPanel extends Component {
       });
     }
     if (newProps.inputDeviceId !== this.props.inputDeviceId || !find(
-      x => x.deviceId === this.state.inputDeviceId,
+      device => device.deviceId === this.state.inputDeviceId,
       newProps.availableInputDevices
     )) {
       this.setState({
@@ -63,7 +63,7 @@ export default class AudioSettingsPanel extends Component {
       });
     }
     if (newProps.outputDeviceId !== this.props.outputDeviceId || !find(
-      x => x.deviceId === this.state.outputDeviceId,
+      device => device.deviceId === this.state.outputDeviceId,
       newProps.availableOutputDevices
     )) {
       this.setState({
@@ -155,13 +155,17 @@ export default class AudioSettingsPanel extends Component {
     return device.deviceId;
   }
   renderOutputDevice = (value) => {
-    const device = this.props.availableOutputDevices
-      .find(device => device.deviceId === value);
+    const device = find(
+      device => device.deviceId === value,
+      this.props.availableOutputDevices
+    );
     return device && device.label || value;
   }
   renderInputDevice = (value) => {
-    const device = this.props.availableInputDevices
-      .find(device => device.deviceId === value);
+    const device = find(
+      device => device.deviceId === value,
+      this.props.availableInputDevices
+    );
     return device && device.label || value;
   }
 
