@@ -14,6 +14,7 @@
 }
 
 .currentName {
+  padding-right: 55px;
   @include text-ellipsis;
 }
 

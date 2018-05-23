@@ -220,7 +220,7 @@ export default function SettingsPanel({
         {feedback}
         {userGuide}
         <section className={styles.section}>
-          <Line>
+          <Line noBorder>
             <EulaRenderer
               className={styles.eula}
               currentLocale={currentLocale}
@@ -229,6 +229,7 @@ export default function SettingsPanel({
         </section>
         <section className={styles.section}>
           <IconLine
+            noBorder
             onClick={onLogoutButtonClick}
             icon={
               <span className={dynamicsFont.logout} />
