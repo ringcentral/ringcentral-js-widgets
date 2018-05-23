@@ -1,4 +1,4 @@
-import { find } from 'ramda';
+import { any, find } from 'ramda';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -54,7 +54,7 @@ export default class AudioSettingsPanel extends Component {
         callVolume: newProps.callVolume,
       });
     }
-    if (newProps.inputDeviceId !== this.props.inputDeviceId || !find(
+    if (newProps.inputDeviceId !== this.props.inputDeviceId || !any(
       device => device.deviceId === this.state.inputDeviceId,
       newProps.availableInputDevices
     )) {
@@ -62,7 +62,7 @@ export default class AudioSettingsPanel extends Component {
         inputDeviceId: newProps.inputDeviceId,
       });
     }
-    if (newProps.outputDeviceId !== this.props.outputDeviceId || !find(
+    if (newProps.outputDeviceId !== this.props.outputDeviceId || !any(
       device => device.deviceId === this.state.outputDeviceId,
       newProps.availableOutputDevices
     )) {
