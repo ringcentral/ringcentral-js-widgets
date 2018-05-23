@@ -258,7 +258,7 @@ function SettingsPanel(_ref) {
         { className: _styles2.default.section },
         _react2.default.createElement(
           _Line2.default,
-          null,
+          { noBorder: true },
           _react2.default.createElement(EulaRenderer, {
             className: _styles2.default.eula,
             currentLocale: currentLocale,
@@ -271,6 +271,7 @@ function SettingsPanel(_ref) {
         _react2.default.createElement(
           _IconLine2.default,
           {
+            noBorder: true,
             onClick: onLogoutButtonClick,
             icon: _react2.default.createElement('span', { className: _DynamicsFont2.default.logout }) },
           _i18n2.default.getString('logout', currentLocale),
