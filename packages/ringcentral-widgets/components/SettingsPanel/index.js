@@ -158,7 +158,7 @@ export default function SettingsPanel({
       </IconLine>
     ) :
     null;
-  // if Switch is disabled the text to describe it will be a disabled color.
+  // if the Switch component is disabled then the text to describe it will be a disabled color.
   const autoLog = showAutoLog ? (
     <IconLine
       icon={
