@@ -1,4 +1,4 @@
-import { any, find } from 'ramda';
+import { all, find } from 'ramda';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -54,16 +54,16 @@ export default class AudioSettingsPanel extends Component {
         callVolume: newProps.callVolume,
       });
     }
-    if (newProps.inputDeviceId !== this.props.inputDeviceId || !any(
-      device => device.deviceId === this.state.inputDeviceId,
+    if (newProps.inputDeviceId !== this.props.inputDeviceId || all(
+      device => device.deviceId !== this.state.inputDeviceId,
       newProps.availableInputDevices
     )) {
       this.setState({
         inputDeviceId: newProps.inputDeviceId,
       });
     }
-    if (newProps.outputDeviceId !== this.props.outputDeviceId || !any(
-      device => device.deviceId === this.state.outputDeviceId,
+    if (newProps.outputDeviceId !== this.props.outputDeviceId || all(
+      device => device.deviceId !== this.state.outputDeviceId,
       newProps.availableOutputDevices
     )) {
       this.setState({
