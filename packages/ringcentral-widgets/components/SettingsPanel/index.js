@@ -232,7 +232,7 @@ export default function SettingsPanel({
             noBorder
             onClick={onLogoutButtonClick}
             icon={
-              <span className={dynamicsFont.logout} />
+              <span className={classnames(styles.logoutIcon, dynamicsFont.logout)} />
             } >
             {i18n.getString('logout', currentLocale)}
             <span className={styles.loginNumber}>
