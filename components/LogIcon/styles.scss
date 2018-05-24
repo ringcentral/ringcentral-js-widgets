@@ -34,8 +34,10 @@
 .logIcon {
   cursor: pointer;
   position: absolute;
-  top: 10px;
+  bottom: 25px;
   right: 20px;
+  height: 26px;
+  display: inline-block;
 
   &.disabled {
     cursor: not-allowed;
