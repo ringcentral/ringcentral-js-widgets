@@ -273,7 +273,7 @@ function SettingsPanel(_ref) {
           {
             noBorder: true,
             onClick: onLogoutButtonClick,
-            icon: _react2.default.createElement('span', { className: _DynamicsFont2.default.logout }) },
+            icon: _react2.default.createElement('span', { className: (0, _classnames2.default)(_styles2.default.logoutIcon, _DynamicsFont2.default.logout) }) },
           _i18n2.default.getString('logout', currentLocale),
           _react2.default.createElement(
             'span',
