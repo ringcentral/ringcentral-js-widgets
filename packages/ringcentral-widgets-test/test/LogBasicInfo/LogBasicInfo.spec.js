@@ -1026,7 +1026,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: 'IP Phone offline',
+        result: 'IP Phone Offline',
         telephonyStatus: null,
       }
     };
