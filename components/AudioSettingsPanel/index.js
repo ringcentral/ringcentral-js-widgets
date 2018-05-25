@@ -25,6 +25,8 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _ramda = require('ramda');
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -170,16 +172,16 @@ var AudioSettingsPanel = function (_Component) {
     };
 
     _this.renderOutputDevice = function (value) {
-      var device = _this.props.availableOutputDevices.find(function (device) {
+      var device = (0, _ramda.find)(function (device) {
         return device.deviceId === value;
-      });
+      }, _this.props.availableOutputDevices);
       return device && device.label || value;
     };
 
     _this.renderInputDevice = function (value) {
-      var device = _this.props.availableInputDevices.find(function (device) {
+      var device = (0, _ramda.find)(function (device) {
         return device.deviceId === value;
-      });
+      }, _this.props.availableInputDevices);
       return device && device.label || value;
     };
 
@@ -198,6 +200,8 @@ var AudioSettingsPanel = function (_Component) {
   (0, _createClass3.default)(AudioSettingsPanel, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(newProps) {
+      var _this2 = this;
+
       if (newProps.dialButtonVolume !== this.props.dialButtonVolume) {
         this.setState({
           dialButtonVolume: newProps.dialButtonVolume
@@ -223,12 +227,16 @@ var AudioSettingsPanel = function (_Component) {
           callVolume: newProps.callVolume
         });
       }
-      if (newProps.inputDeviceId !== this.props.inputDeviceId) {
+      if (newProps.inputDeviceId !== this.props.inputDeviceId || (0, _ramda.all)(function (device) {
+        return device.deviceId !== _this2.state.inputDeviceId;
+      }, newProps.availableInputDevices)) {
         this.setState({
           inputDeviceId: newProps.inputDeviceId
         });
       }
-      if (newProps.outputDeviceId !== this.props.outputDeviceId) {
+      if (newProps.outputDeviceId !== this.props.outputDeviceId || (0, _ramda.all)(function (device) {
+        return device.deviceId !== _this2.state.outputDeviceId;
+      }, newProps.availableOutputDevices)) {
         this.setState({
           outputDeviceId: newProps.outputDeviceId
         });
