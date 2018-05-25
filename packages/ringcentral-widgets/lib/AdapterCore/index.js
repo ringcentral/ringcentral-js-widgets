@@ -135,9 +135,12 @@ export default class AdapterCore {
     this._closeEl = this._root.querySelector(
       `.${this._styles.close}`
     );
-    this._closeEl.addEventListener('click', () => {
-      this.setClosed(true);
-    });
+
+    if (this._closeEl) {
+      this._closeEl.addEventListener('click', () => {
+        this.setClosed(true);
+      });
+    }
 
     this._presenceEl = this._root.querySelector(
       `.${this._styles.presence}`
