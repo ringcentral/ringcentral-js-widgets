@@ -15,7 +15,7 @@ export default {
   enableJoinBeforeHost: 'ホストより前の参加を可能にする',
   conferenceCommands: '会議コマンド',
   inviteWithGCalendar: 'Googleカレンダーを使用して招待',
-  joinAsHost: 'ホストとして参加',
+  joinAsHost: '会議を起動',
   internationalNumber: '国際ダイヤルイン番号\uFF1A',
 };
 
@@ -29,7 +29,7 @@ export default {
 // @key: @#@"conferenceCommands"@#@ @source: @#@"Conference Commands"@#@
 // @key: @#@"inviteWithGCalendar"@#@ @source: @#@"Invite with Google Calendar"@#@
 // @key: @#@"inviteWithText"@#@ @source: @#@"Invite with Text"@#@
-// @key: @#@"joinAsHost"@#@ @source: @#@"Join as Host"@#@
+// @key: @#@"joinAsHost"@#@ @source: @#@"Launch Conference"@#@
 // @key: @#@"internationalNumber"@#@ @source: @#@"International Dial-in Numbers:"@#@
 // @key: @#@"inviteText_att"@#@ @source: @#@"Please join the {brandName} conference.\n\nDial-In Number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nNeed an international dial-in phone number? Please visit {dialInNumbersLinks} \n\nThis conference call is brought to you by {brandName} Conferencing."@#@
 // @key: @#@"inviteText_bt"@#@ @source: @#@"Please join the {brandName} conference.\n\nDial-In Number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nAdditional dial-in numbers {dialInNumbersLinks}"@#@
