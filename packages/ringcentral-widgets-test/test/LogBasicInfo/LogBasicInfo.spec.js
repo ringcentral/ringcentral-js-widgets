@@ -456,7 +456,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: 'Hang Up',
+        result: 'Hang up',
         telephonyStatus: null,
       }
     };
@@ -684,7 +684,7 @@ describe('Call Basic Info:', () => {
           phoneNumber: '222'
         },
         duration: null,
-        result: 'Hang Up',
+        result: 'Hang up',
         telephonyStatus: null,
       }
     };
