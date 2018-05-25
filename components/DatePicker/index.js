@@ -160,9 +160,7 @@ var DatePicker = function (_Component) {
               return _this2.onClickFunc();
             },
             className: (0, _classnames2.default)(_styles2.default.dateText, this.props.dateTextClassName) },
-          this.props.label,
-          ':',
-          showDate
+          this.props.label + ': ' + showDate
         )
       );
     }
