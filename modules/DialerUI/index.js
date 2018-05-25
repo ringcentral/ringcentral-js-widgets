@@ -17,6 +17,10 @@ var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
+var _getIterator2 = require('babel-runtime/core-js/get-iterator');
+
+var _getIterator3 = _interopRequireDefault(_getIterator2);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -352,12 +356,15 @@ var DialerUI = (_dec = (0, _di.Module)({
             phoneNumber = _ref9$phoneNumber === undefined ? '' : _ref9$phoneNumber,
             _ref9$recipient = _ref9.recipient,
             recipient = _ref9$recipient === undefined ? null : _ref9$recipient;
+
+        var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, hook;
+
         return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
                 if (!(phoneNumber || recipient)) {
-                  _context6.next = 12;
+                  _context6.next = 37;
                   break;
                 }
 
@@ -366,41 +373,94 @@ var DialerUI = (_dec = (0, _di.Module)({
                   phoneNumber: phoneNumber,
                   recipient: recipient
                 });
-                this._callHooks.forEach(function (hook) {
-                  return hook({
-                    phoneNumber: phoneNumber,
-                    recipient: recipient
-                  });
+                _iteratorNormalCompletion = true;
+                _didIteratorError = false;
+                _iteratorError = undefined;
+                _context6.prev = 5;
+                _iterator = (0, _getIterator3.default)(this._callHooks);
+
+              case 7:
+                if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
+                  _context6.next = 14;
+                  break;
+                }
+
+                hook = _step.value;
+                _context6.next = 11;
+                return hook({
+                  phoneNumber: phoneNumber,
+                  recipient: recipient
                 });
-                _context6.prev = 3;
-                _context6.next = 6;
+
+              case 11:
+                _iteratorNormalCompletion = true;
+                _context6.next = 7;
+                break;
+
+              case 14:
+                _context6.next = 20;
+                break;
+
+              case 16:
+                _context6.prev = 16;
+                _context6.t0 = _context6['catch'](5);
+                _didIteratorError = true;
+                _iteratorError = _context6.t0;
+
+              case 20:
+                _context6.prev = 20;
+                _context6.prev = 21;
+
+                if (!_iteratorNormalCompletion && _iterator.return) {
+                  _iterator.return();
+                }
+
+              case 23:
+                _context6.prev = 23;
+
+                if (!_didIteratorError) {
+                  _context6.next = 26;
+                  break;
+                }
+
+                throw _iteratorError;
+
+              case 26:
+                return _context6.finish(23);
+
+              case 27:
+                return _context6.finish(20);
+
+              case 28:
+                _context6.prev = 28;
+                _context6.next = 31;
                 return this._call.call({
                   phoneNumber: this.toNumberField,
                   recipient: this.recipient
                 });
 
-              case 6:
+              case 31:
                 this.store.dispatch({
                   type: this.actionTypes.callSuccess
                 });
-                _context6.next = 12;
+                _context6.next = 37;
                 break;
 
-              case 9:
-                _context6.prev = 9;
-                _context6.t0 = _context6['catch'](3);
+              case 34:
+                _context6.prev = 34;
+                _context6.t1 = _context6['catch'](28);
 
                 this.store.dispatch({
                   type: this.actionTypes.callError,
-                  error: _context6.t0
+                  error: _context6.t1
                 });
 
-              case 12:
+              case 37:
               case 'end':
                 return _context6.stop();
             }
           }
-        }, _callee6, this, [[3, 9]]);
+        }, _callee6, this, [[5, 16, 20, 28], [21,, 23, 27], [28, 34]]);
       }));
 
       function call(_x6) {
