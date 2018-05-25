@@ -391,14 +391,16 @@ var UserGuide = (_dec = (0, _di.Module)({
     get: function get() {
       if (!this._locale.ready) return [];
       if (this.allGuides) {
-        return this.allGuides[this._locale.currentLocale] || this.allGuides[SUPPORTED_LOCALES['en-US']] || [];
+        var currentGuides = this.allGuides[this._locale.currentLocale];
+        if (currentGuides && currentGuides.length > 0) return currentGuides;
+        return this.allGuides[SUPPORTED_LOCALES['en-US']] || [];
       }
       return [];
     }
   }, {
     key: 'allGuides',
     get: function get() {
-      if (!this._storage.ready) return [];
+      if (!this._storage.ready) return null;
       return this._storage.getItem(this._storageKey);
     }
   }, {
