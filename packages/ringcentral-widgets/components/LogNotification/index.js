@@ -40,21 +40,33 @@ export default function LogNotification(
               {i18n.getString('confirmationInfo', currentLocale)}
             </div>
             <div className={styles.confirmationButtons}>
-              <Button
-                className={styles.saveButton}
-                onClick={() => onSave()}>
-                {i18n.getString('save', currentLocale)}
-              </Button>
-              <Button
-                className={styles.discardButton}
-                onClick={() => onDiscard()}>
-                {i18n.getString('discard', currentLocale)}
-              </Button>
-              <Button
-                className={styles.stayButton}
-                onClick={() => onStay()}>
-                {i18n.getString('stay', currentLocale)}
-              </Button>
+              {
+                onSave ? (
+                  <Button
+                    className={styles.saveButton}
+                    onClick={() => onSave()}>
+                    {i18n.getString('save', currentLocale)}
+                  </Button>
+                ) : null
+              }
+              {
+                onDiscard ? (
+                  <Button
+                    className={styles.discardButton}
+                    onClick={() => onDiscard()}>
+                    {i18n.getString('discard', currentLocale)}
+                  </Button>
+                ) : null
+              }
+              {
+                onStay ? (
+                  <Button
+                    className={styles.stayButton}
+                    onClick={() => onStay()}>
+                    {i18n.getString('stay', currentLocale)}
+                  </Button>
+                ) : null
+              }
             </div>
           </div>
         ) : null

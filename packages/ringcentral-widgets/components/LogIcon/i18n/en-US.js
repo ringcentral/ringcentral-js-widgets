@@ -1,4 +1,5 @@
 export default {
   logged: 'Logged',
-  unlogged: 'Unworked'
+  unlogged: 'Unworked',
+  faxNotSupported: 'To log fax is not supported.'
 };

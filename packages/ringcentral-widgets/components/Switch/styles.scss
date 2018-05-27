@@ -12,6 +12,8 @@ $slider-size: #{$switch-height - 2 * $switch-padding};
   width: $switch-width;
   height: $switch-height;
   vertical-align: middle;
+  background-color: white;
+  border-radius: $switch-height;
 }
 
 /* Hide default HTML checkbox */
@@ -46,8 +48,12 @@ $slider-size: #{$switch-height - 2 * $switch-padding};
 }
 
 .disable {
+  .slider {
+    opacity: 0.4;
+    background-color: $smoke;
+  }
   input:checked + .slider {
-    background-color: #ccc;
+    background-color: $rc-blue;
   }
   input:focus + .slider {
     box-shadow: 0 0 1px #ccc;

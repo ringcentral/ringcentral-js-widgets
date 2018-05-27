@@ -161,10 +161,12 @@ export default class DialerUI extends RcModule {
         phoneNumber,
         recipient,
       });
-      this._callHooks.forEach(hook => hook({
-        phoneNumber,
-        recipient,
-      }));
+      for (const hook of this._callHooks) {
+        await hook({
+          phoneNumber,
+          recipient,
+        });
+      }
       try {
         await this._call.call({
           phoneNumber: this.toNumberField,

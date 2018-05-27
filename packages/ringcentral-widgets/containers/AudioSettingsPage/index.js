@@ -57,13 +57,13 @@ function mapToFunctions(_, {
   },
 }) {
   return {
-    onBackButtonClick: () => {
+    onBackButtonClick() {
       routerInteraction.goBack();
     },
-    onSave: (data) => {
+    onSave(data) {
       audioSettings.setData(data);
     },
-    checkUserMedia: () => {
+    checkUserMedia() {
       audioSettings.getUserMedia();
     },
   };
