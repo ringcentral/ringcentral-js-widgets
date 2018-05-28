@@ -200,7 +200,7 @@ var Auth = (_dec = (0, _di.Module)({
       var platform = this._client.service.platform();
       var client = this._client.service._client;
       var onRequestError = function onRequestError(apiResponse) {
-        if (apiResponse instanceof Error && apiResponse.message === 'Roken revoked') {
+        if (apiResponse instanceof Error && apiResponse.message === 'Token revoked') {
           _this2.logout();
         }
       };
