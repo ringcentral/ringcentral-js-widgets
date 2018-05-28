@@ -32,6 +32,17 @@ export function messageIsAcceptable(message) {
   (!messageIsDeleted(message));
 }
 
+export function getMessageType(message) {
+  if (messageIsTextMessage(message)) {
+    return messageTypes.text;
+  } else if (messageIsVoicemail(message)) {
+    return messageTypes.voiceMail;
+  } else if (messageIsFax(message)) {
+    return messageTypes.fax;
+  }
+  return null;
+}
+
 export function getMyNumberFromMessage({ message, myExtensionNumber }) {
   if (!message) {
     return null;

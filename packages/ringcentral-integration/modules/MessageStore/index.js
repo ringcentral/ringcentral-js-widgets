@@ -211,6 +211,9 @@ export default class MessageStore extends Pollable {
             )
         )
     );
+
+    // setting up event handlers for message
+    this._newMessageNotificationHandlers = [];
   }
 
   initialize() {
@@ -324,7 +327,7 @@ export default class MessageStore extends Pollable {
       message.body.changes
     ) {
       this._lastSubscriptionMessage = this._subscription.message;
-      this._syncMessages();
+      this._syncMessages({ passive: true });
     }
   }
 
@@ -386,7 +389,7 @@ export default class MessageStore extends Pollable {
       syncInfo,
     };
   }
-  async _updateMessagesFromSync() {
+  async _updateMessagesFromSync({ passive = false } = {}) {
     let response;
     this.store.dispatch({
       type: this.actionTypes.sync,
@@ -409,6 +412,12 @@ export default class MessageStore extends Pollable {
         syncTimestamp,
         syncToken,
       } = processResponseData(response);
+
+      // this is only executed in passive sync mode (aka. invoked by subscription)
+      if (passive) {
+        this._dispatchMessageHandlers(records);
+      }
+
       this.store.dispatch({
         type: this.actionTypes.syncSuccess,
         records,
@@ -426,6 +435,47 @@ export default class MessageStore extends Pollable {
       }
       throw error;
     }
+  }
+
+  onNewInboundMessage(handler) {
+    if (typeof handler === 'function') {
+      this._newMessageNotificationHandlers.push(handler);
+    }
+  }
+
+  /**
+   * Dispatch events to different handlers
+   */
+  _dispatchMessageHandlers(records) {
+    // Sort all records by creation time
+    records = records.slice().sort((a, b) =>
+      (new Date(a.creationTime)).getTime() - (new Date(b.creationTime)).getTime()
+    );
+    for (const record of records) {
+      const {
+        direction,
+        availability,
+        messageStatus,
+        readStatus,
+      } = record || {};
+      // Notify when new message incoming
+      if (
+        direction === 'Inbound' &&
+        readStatus === 'Unread' &&
+        messageStatus === 'Received' &&
+        availability === 'Alive' &&
+        // Ensure new inbound message does not exsit locally
+        !this.messageExists(record)
+      ) {
+        this._newMessageNotificationHandlers.forEach(handler => handler(record));
+      }
+    }
+  }
+
+  messageExists(message) {
+    return this.messages.some(m => m.id === message.id) ||
+      this.voicemailMessages.some(m => m.id === message.id) ||
+      this.faxMessages.some(m => m.id === message.id);
   }
 
   async _updateConversationFromSync(conversationId) {
@@ -464,9 +514,9 @@ export default class MessageStore extends Pollable {
     });
   }
 
-  async _syncMessages() {
+  async _syncMessages({ passive = false } = {}) {
     await this._sync(async () => {
-      await this._updateMessagesFromSync();
+      await this._updateMessagesFromSync({ passive });
     });
   }
 
