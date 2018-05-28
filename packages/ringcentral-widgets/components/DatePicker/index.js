@@ -57,7 +57,7 @@ export default class DatePicker extends Component {
       currentLocale,
     } = this.props;
     const dueDate = new Date().toISOString();
-    const showDate = this.props.date ? Moment(this.props.date).format('MM/DD/YY') : null;
+    const showDate = this.props.date ? Moment(this.props.date).format('MM/DD/YY') : '';
     return (
       <div
         className={classnames(styles.datePicker, this.props.datePickerClassName)}
