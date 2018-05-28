@@ -124,7 +124,7 @@ var DatePicker = function (_Component) {
       var currentLocale = this.props.currentLocale;
 
       var dueDate = new Date().toISOString();
-      var showDate = this.props.date ? (0, _moment2.default)(this.props.date).format('MM/DD/YY') : null;
+      var showDate = this.props.date ? (0, _moment2.default)(this.props.date).format('MM/DD/YY') : '';
       return _react2.default.createElement(
         'div',
         {
