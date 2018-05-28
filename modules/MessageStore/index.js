@@ -13,6 +13,10 @@ var _keys = require('babel-runtime/core-js/object/keys');
 
 var _keys2 = _interopRequireDefault(_keys);
 
+var _getIterator2 = require('babel-runtime/core-js/get-iterator');
+
+var _getIterator3 = _interopRequireDefault(_getIterator2);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -313,6 +317,9 @@ var MessageStore = (_dec = (0, _di.Module)({
         return messageHelper.messageIsTextMessage(conversation) || messageHelper.messageIsVoicemail(conversation);
       });
     });
+
+    // setting up event handlers for message
+    _this._newMessageNotificationHandlers = [];
     return _this;
   }
 
@@ -485,7 +492,7 @@ var MessageStore = (_dec = (0, _di.Module)({
 
       if (message && message !== this._lastSubscriptionMessage && accountExtesionEndPoint.test(message.event) && message.body && message.body.changes) {
         this._lastSubscriptionMessage = this._subscription.message;
-        this._syncMessages();
+        this._syncMessages({ passive: true });
       }
     }
   }, {
@@ -611,6 +618,10 @@ var MessageStore = (_dec = (0, _di.Module)({
     key: '_updateMessagesFromSync',
     value: function () {
       var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
+        var _ref9 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+            _ref9$passive = _ref9.passive,
+            passive = _ref9$passive === undefined ? false : _ref9$passive;
+
         var response, oldSyncToken, params, _processResponseData, records, syncTimestamp, syncToken;
 
         return _regenerator2.default.wrap(function _callee5$(_context5) {
@@ -652,6 +663,12 @@ var MessageStore = (_dec = (0, _di.Module)({
               case 14:
                 _processResponseData = processResponseData(response), records = _processResponseData.records, syncTimestamp = _processResponseData.syncTimestamp, syncToken = _processResponseData.syncToken;
 
+                // this is only executed in passive sync mode (aka. invoked by subscription)
+
+                if (passive) {
+                  this._dispatchMessageHandlers(records);
+                }
+
                 this.store.dispatch({
                   type: this.actionTypes.syncSuccess,
                   records: records,
@@ -661,11 +678,11 @@ var MessageStore = (_dec = (0, _di.Module)({
                 if (this._polling) {
                   this._startPolling();
                 }
-                _context5.next = 23;
+                _context5.next = 24;
                 break;
 
-              case 19:
-                _context5.prev = 19;
+              case 20:
+                _context5.prev = 20;
                 _context5.t0 = _context5['catch'](2);
 
                 if (this._polling) {
@@ -675,12 +692,12 @@ var MessageStore = (_dec = (0, _di.Module)({
                 }
                 throw _context5.t0;
 
-              case 23:
+              case 24:
               case 'end':
                 return _context5.stop();
             }
           }
-        }, _callee5, this, [[2, 19]]);
+        }, _callee5, this, [[2, 20]]);
       }));
 
       function _updateMessagesFromSync() {
@@ -690,9 +707,85 @@ var MessageStore = (_dec = (0, _di.Module)({
       return _updateMessagesFromSync;
     }()
   }, {
+    key: 'onNewInboundMessage',
+    value: function onNewInboundMessage(handler) {
+      if (typeof handler === 'function') {
+        this._newMessageNotificationHandlers.push(handler);
+      }
+    }
+
+    /**
+     * Dispatch events to different handlers
+     */
+
+  }, {
+    key: '_dispatchMessageHandlers',
+    value: function _dispatchMessageHandlers(records) {
+      var _this3 = this;
+
+      // Sort all records by creation time
+      records = records.slice().sort(function (a, b) {
+        return new Date(a.creationTime).getTime() - new Date(b.creationTime).getTime();
+      });
+
+      var _loop = function _loop(record) {
+        var _ref10 = record || {},
+            direction = _ref10.direction,
+            availability = _ref10.availability,
+            messageStatus = _ref10.messageStatus,
+            readStatus = _ref10.readStatus;
+        // Notify when new message incoming
+
+
+        if (direction === 'Inbound' && readStatus === 'Unread' && messageStatus === 'Received' && availability === 'Alive' &&
+        // Ensure new inbound message does not exsit locally
+        !_this3.messageExists(record)) {
+          _this3._newMessageNotificationHandlers.forEach(function (handler) {
+            return handler(record);
+          });
+        }
+      };
+
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = (0, _getIterator3.default)(records), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var record = _step.value;
+
+          _loop(record);
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+    }
+  }, {
+    key: 'messageExists',
+    value: function messageExists(message) {
+      return this.messages.some(function (m) {
+        return m.id === message.id;
+      }) || this.voicemailMessages.some(function (m) {
+        return m.id === message.id;
+      }) || this.faxMessages.some(function (m) {
+        return m.id === message.id;
+      });
+    }
+  }, {
     key: '_updateConversationFromSync',
     value: function () {
-      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(conversationId) {
+      var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(conversationId) {
         var response, conversation, oldSyncToken, params, _processResponseData2, records, syncTimestamp, syncToken;
 
         return _regenerator2.default.wrap(function _callee6$(_context6) {
@@ -759,8 +852,8 @@ var MessageStore = (_dec = (0, _di.Module)({
         }, _callee6, this);
       }));
 
-      function _updateConversationFromSync(_x3) {
-        return _ref9.apply(this, arguments);
+      function _updateConversationFromSync(_x4) {
+        return _ref11.apply(this, arguments);
       }
 
       return _updateConversationFromSync;
@@ -768,8 +861,12 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: '_syncMessages',
     value: function () {
-      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8() {
-        var _this3 = this;
+      var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8() {
+        var _this4 = this;
+
+        var _ref13 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+            _ref13$passive = _ref13.passive,
+            passive = _ref13$passive === undefined ? false : _ref13$passive;
 
         return _regenerator2.default.wrap(function _callee8$(_context8) {
           while (1) {
@@ -782,14 +879,14 @@ var MessageStore = (_dec = (0, _di.Module)({
                       switch (_context7.prev = _context7.next) {
                         case 0:
                           _context7.next = 2;
-                          return _this3._updateMessagesFromSync();
+                          return _this4._updateMessagesFromSync({ passive: passive });
 
                         case 2:
                         case 'end':
                           return _context7.stop();
                       }
                     }
-                  }, _callee7, _this3);
+                  }, _callee7, _this4);
                 })));
 
               case 2:
@@ -801,7 +898,7 @@ var MessageStore = (_dec = (0, _di.Module)({
       }));
 
       function _syncMessages() {
-        return _ref10.apply(this, arguments);
+        return _ref12.apply(this, arguments);
       }
 
       return _syncMessages;
@@ -809,7 +906,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: 'fetchData',
     value: function () {
-      var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9() {
+      var _ref15 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9() {
         return _regenerator2.default.wrap(function _callee9$(_context9) {
           while (1) {
             switch (_context9.prev = _context9.next) {
@@ -826,7 +923,7 @@ var MessageStore = (_dec = (0, _di.Module)({
       }));
 
       function fetchData() {
-        return _ref12.apply(this, arguments);
+        return _ref15.apply(this, arguments);
       }
 
       return fetchData;
@@ -834,8 +931,8 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: 'syncConversation',
     value: function () {
-      var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(id) {
-        var _this4 = this;
+      var _ref16 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(id) {
+        var _this5 = this;
 
         return _regenerator2.default.wrap(function _callee11$(_context11) {
           while (1) {
@@ -848,14 +945,14 @@ var MessageStore = (_dec = (0, _di.Module)({
                       switch (_context10.prev = _context10.next) {
                         case 0:
                           _context10.next = 2;
-                          return _this4._updateConversationFromSync(id);
+                          return _this5._updateConversationFromSync(id);
 
                         case 2:
                         case 'end':
                           return _context10.stop();
                       }
                     }
-                  }, _callee10, _this4);
+                  }, _callee10, _this5);
                 })));
 
               case 2:
@@ -866,8 +963,8 @@ var MessageStore = (_dec = (0, _di.Module)({
         }, _callee11, this);
       }));
 
-      function syncConversation(_x4) {
-        return _ref13.apply(this, arguments);
+      function syncConversation(_x6) {
+        return _ref16.apply(this, arguments);
       }
 
       return syncConversation;
@@ -875,8 +972,8 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: '_sync',
     value: function () {
-      var _ref15 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee13(syncFunction) {
-        var _this5 = this;
+      var _ref18 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee13(syncFunction) {
+        var _this6 = this;
 
         return _regenerator2.default.wrap(function _callee13$(_context13) {
           while (1) {
@@ -893,7 +990,7 @@ var MessageStore = (_dec = (0, _di.Module)({
                             return syncFunction();
 
                           case 3:
-                            _this5._promise = null;
+                            _this6._promise = null;
                             _context12.next = 11;
                             break;
 
@@ -901,8 +998,8 @@ var MessageStore = (_dec = (0, _di.Module)({
                             _context12.prev = 6;
                             _context12.t0 = _context12['catch'](0);
 
-                            _this5._onSyncError();
-                            _this5._promise = null;
+                            _this6._onSyncError();
+                            _this6._promise = null;
                             throw _context12.t0;
 
                           case 11:
@@ -910,7 +1007,7 @@ var MessageStore = (_dec = (0, _di.Module)({
                             return _context12.stop();
                         }
                       }
-                    }, _callee12, _this5, [[0, 6]]);
+                    }, _callee12, _this6, [[0, 6]]);
                   }))();
                 }
                 _context13.next = 3;
@@ -924,8 +1021,8 @@ var MessageStore = (_dec = (0, _di.Module)({
         }, _callee13, this);
       }));
 
-      function _sync(_x5) {
-        return _ref15.apply(this, arguments);
+      function _sync(_x7) {
+        return _ref18.apply(this, arguments);
       }
 
       return _sync;
@@ -940,7 +1037,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: '_updateMessageApi',
     value: function () {
-      var _ref17 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee14(messageId, status) {
+      var _ref20 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee14(messageId, status) {
         var body, updateRequest;
         return _regenerator2.default.wrap(function _callee14$(_context14) {
           while (1) {
@@ -964,8 +1061,8 @@ var MessageStore = (_dec = (0, _di.Module)({
         }, _callee14, this);
       }));
 
-      function _updateMessageApi(_x6, _x7) {
-        return _ref17.apply(this, arguments);
+      function _updateMessageApi(_x8, _x9) {
+        return _ref20.apply(this, arguments);
       }
 
       return _updateMessageApi;
@@ -973,7 +1070,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: '_deleteMessageApi',
     value: function () {
-      var _ref18 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee15(messageId) {
+      var _ref21 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee15(messageId) {
         return _regenerator2.default.wrap(function _callee15$(_context15) {
           while (1) {
             switch (_context15.prev = _context15.next) {
@@ -989,8 +1086,8 @@ var MessageStore = (_dec = (0, _di.Module)({
         }, _callee15, this);
       }));
 
-      function _deleteMessageApi(_x8) {
-        return _ref18.apply(this, arguments);
+      function _deleteMessageApi(_x10) {
+        return _ref21.apply(this, arguments);
       }
 
       return _deleteMessageApi;
@@ -998,7 +1095,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: '_batchUpdateMessagesApi',
     value: function () {
-      var _ref19 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee16(messageIds, body) {
+      var _ref22 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee16(messageIds, body) {
         var ids, platform, responses;
         return _regenerator2.default.wrap(function _callee16$(_context16) {
           while (1) {
@@ -1025,8 +1122,8 @@ var MessageStore = (_dec = (0, _di.Module)({
         }, _callee16, this);
       }));
 
-      function _batchUpdateMessagesApi(_x9, _x10) {
-        return _ref19.apply(this, arguments);
+      function _batchUpdateMessagesApi(_x11, _x12) {
+        return _ref22.apply(this, arguments);
       }
 
       return _batchUpdateMessagesApi;
@@ -1034,7 +1131,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: '_updateMessagesApi',
     value: function () {
-      var _ref20 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee17(messageIds, status) {
+      var _ref23 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee17(messageIds, status) {
         var result, UPDATE_MESSAGE_ONCE_COUNT, leftIds, rightIds, body, responses, results, rightResults;
         return _regenerator2.default.wrap(function _callee17$(_context17) {
           while (1) {
@@ -1098,8 +1195,8 @@ var MessageStore = (_dec = (0, _di.Module)({
         }, _callee17, this);
       }));
 
-      function _updateMessagesApi(_x11, _x12) {
-        return _ref20.apply(this, arguments);
+      function _updateMessagesApi(_x13, _x14) {
+        return _ref23.apply(this, arguments);
       }
 
       return _updateMessagesApi;
@@ -1107,7 +1204,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: 'readMessages',
     value: function () {
-      var _ref21 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee18(conversationId) {
+      var _ref24 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee18(conversationId) {
         var conversation, unreadMessageIds, updatedMessages;
         return _regenerator2.default.wrap(function _callee18$(_context18) {
           while (1) {
@@ -1167,8 +1264,8 @@ var MessageStore = (_dec = (0, _di.Module)({
         }, _callee18, this, [[6, 13]]);
       }));
 
-      function readMessages(_x13) {
-        return _ref21.apply(this, arguments);
+      function readMessages(_x15) {
+        return _ref24.apply(this, arguments);
       }
 
       return readMessages;
@@ -1176,7 +1273,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: 'unreadMessage',
     value: function () {
-      var _ref22 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee19(messageId) {
+      var _ref25 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee19(messageId) {
         var message;
         return _regenerator2.default.wrap(function _callee19$(_context19) {
           while (1) {
@@ -1217,8 +1314,8 @@ var MessageStore = (_dec = (0, _di.Module)({
         }, _callee19, this, [[1, 8]]);
       }));
 
-      function unreadMessage(_x14) {
-        return _ref22.apply(this, arguments);
+      function unreadMessage(_x16) {
+        return _ref25.apply(this, arguments);
       }
 
       return unreadMessage;
@@ -1229,7 +1326,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: 'onUnmarkMessages',
     value: function () {
-      var _ref23 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee20() {
+      var _ref26 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee20() {
         return _regenerator2.default.wrap(function _callee20$(_context20) {
           while (1) {
             switch (_context20.prev = _context20.next) {
@@ -1247,7 +1344,7 @@ var MessageStore = (_dec = (0, _di.Module)({
       }));
 
       function onUnmarkMessages() {
-        return _ref23.apply(this, arguments);
+        return _ref26.apply(this, arguments);
       }
 
       return onUnmarkMessages;
@@ -1255,7 +1352,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: 'deleteMessage',
     value: function () {
-      var _ref24 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee21(messageId) {
+      var _ref27 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee21(messageId) {
         return _regenerator2.default.wrap(function _callee21$(_context21) {
           while (1) {
             switch (_context21.prev = _context21.next) {
@@ -1290,8 +1387,8 @@ var MessageStore = (_dec = (0, _di.Module)({
         }, _callee21, this, [[0, 6]]);
       }));
 
-      function deleteMessage(_x15) {
-        return _ref24.apply(this, arguments);
+      function deleteMessage(_x17) {
+        return _ref27.apply(this, arguments);
       }
 
       return deleteMessage;
@@ -1309,7 +1406,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: 'updateConversationRecipientList',
     value: function () {
-      var _ref25 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee22(conversationId, recipients) {
+      var _ref28 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee22(conversationId, recipients) {
         return _regenerator2.default.wrap(function _callee22$(_context22) {
           while (1) {
             switch (_context22.prev = _context22.next) {
@@ -1328,8 +1425,8 @@ var MessageStore = (_dec = (0, _di.Module)({
         }, _callee22, this);
       }));
 
-      function updateConversationRecipientList(_x16, _x17) {
-        return _ref25.apply(this, arguments);
+      function updateConversationRecipientList(_x18, _x19) {
+        return _ref28.apply(this, arguments);
       }
 
       return updateConversationRecipientList;
@@ -1337,7 +1434,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: 'pushMessages',
     value: function () {
-      var _ref26 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee23(records) {
+      var _ref29 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee23(records) {
         return _regenerator2.default.wrap(function _callee23$(_context23) {
           while (1) {
             switch (_context23.prev = _context23.next) {
@@ -1355,8 +1452,8 @@ var MessageStore = (_dec = (0, _di.Module)({
         }, _callee23, this);
       }));
 
-      function pushMessages(_x18) {
-        return _ref26.apply(this, arguments);
+      function pushMessages(_x20) {
+        return _ref29.apply(this, arguments);
       }
 
       return pushMessages;
@@ -1381,9 +1478,9 @@ var MessageStore = (_dec = (0, _di.Module)({
 
   }, {
     key: 'onClickToCall',
-    value: function onClickToCall(_ref27) {
-      var _ref27$fromType = _ref27.fromType,
-          fromType = _ref27$fromType === undefined ? '' : _ref27$fromType;
+    value: function onClickToCall(_ref30) {
+      var _ref30$fromType = _ref30.fromType,
+          fromType = _ref30$fromType === undefined ? '' : _ref30$fromType;
 
       this.store.dispatch({
         type: this.actionTypes.clickToCall,
