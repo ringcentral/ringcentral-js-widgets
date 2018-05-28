@@ -73,7 +73,7 @@ export default class Auth extends RcModule {
     const onRequestError = (apiResponse) => {
       if (
         apiResponse instanceof Error &&
-        apiResponse.message === 'Roken revoked'
+        apiResponse.message === 'Token revoked'
       ) {
         this.logout();
       }
