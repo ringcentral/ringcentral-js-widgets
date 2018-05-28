@@ -27,5 +27,11 @@
     "gulp-babel": "^7.0.1",
     "gulp-sourcemaps": "^2.6.4",
     "jest": "^22.4.4"
+  },
+  "scripts": {
+    "build": "gulp build",
+    "release": "gulp release",
+    "test": "jest",
+    "watch": "jest --watch"
   }
 }
