@@ -18,7 +18,8 @@
     "docs": "lerna run start --scope ringcentral-widgets-docs --stream",
     "docs:build": "lerna run build --scope ringcentral-widgets-docs --stream",
     "analyze-packages": "babel-node scripts/analyzePackages.js",
-    "list-file-matchers": "babel-node scripts/listFileMatchers.js"
+    "list-file-matchers": "babel-node scripts/listFileMatchers.js",
+    "commons:prepare-release": "node scripts/prepareRelease.js"
   },
   "devDependencies": {
     "eslint-settings": "0.0.1",
