@@ -51,7 +51,7 @@ class ComposeTextPanel extends Component {
   render() {
     return (
       <div className={classnames(styles.root, this.props.className)}>
-        {this.props.showSpinner && <SpinnerOverlay />}
+        {this.props.showSpinner ? <SpinnerOverlay /> : null}
         <NoSenderAlert
           currentLocale={this.props.currentLocale}
           outboundSMS={this.props.outboundSMS}
