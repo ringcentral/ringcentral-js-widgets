@@ -146,16 +146,10 @@ var ComposeTextPanel = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      if (this.props.showSpinner) {
-        return _react2.default.createElement(
-          'div',
-          { className: (0, _classnames2.default)(_styles2.default.root, this.props.className) },
-          _react2.default.createElement(_SpinnerOverlay2.default, null)
-        );
-      }
       return _react2.default.createElement(
         'div',
         { className: (0, _classnames2.default)(_styles2.default.root, this.props.className) },
+        this.props.showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : null,
         _react2.default.createElement(_NoSenderAlert2.default, {
           currentLocale: this.props.currentLocale,
           outboundSMS: this.props.outboundSMS,
