@@ -1,0 +1,1 @@
+{"version":3,"sources":["lib/defaultConfig.js"],"names":["sourceLocale","sourceFolder","localizationFolder"],"mappings":";;;;;kBAAe;AACbA,gBAAc,OADD;AAEbC,gBAAc,IAFD;AAGbC,sBAAoB;AAHP,C","file":"defaultConfig.js","sourcesContent":["export default {\n  sourceLocale: 'en-US',\n  sourceFolder: './',\n  localizationFolder: './localization',\n};\n"]}
