@@ -52,7 +52,7 @@ export default class ContactSourceFilter extends Component {
   }
 
   hideList = () => {
-    if (this._moutned) {
+    if (this._mounted) {
       this.setState(() => ({
         unfold: false
       }));
