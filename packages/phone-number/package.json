@@ -1,33 +1,31 @@
 {
-  "name": "@ringcentral-integration/i18n",
-  "version": "2.0.0",
-  "description": "A simple I18n implementation used in RingCentral Integration projects.",
+  "name": "@ringcentral-integration/phone-number",
+  "version": "1.0.0",
+  "description": "Wrapper around libphonenumber-js to provide RingCentral specific phone handling.",
   "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
   },
   "author": "RingCentral Integrations",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
   },
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
-  "license": "MIT",
   "private": false,
+  "dependencies": {
+    "libphonenumber-js": "^1.2.11",
+    "ramda": "^0.25.0"
+  },
   "peerDependencies": {
     "babel-runtime": "^6.26.0"
   },
   "devDependencies": {
-    "faker": "^4.1.0",
-    "fs-extra": "^6.0.0",
+    "fs-extra": "^6.0.1",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.1",
     "gulp-sourcemaps": "^2.6.4",
-    "jest": "^22.4.3"
-  },
-  "scripts": {
-    "test": "jest",
-    "build": "gulp build",
-    "release": "gulp release"
+    "jest": "^22.4.4"
   }
 }

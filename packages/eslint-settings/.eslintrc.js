@@ -32,6 +32,15 @@ module.exports = {
     "function-paren-newline": 0,
     "class-methods-use-this": 0,
     "comma-dangle": 0,
+    "prefer-destructuring": [
+      2,
+      {
+        "AssignmentExpression": {
+          "array": false,
+          "object": false,
+        },
+      }
+    ],
     "import/extensions": "off",
     "import/no-extraneous-dependencies": 1,
     "import/no-unresolved": 1,

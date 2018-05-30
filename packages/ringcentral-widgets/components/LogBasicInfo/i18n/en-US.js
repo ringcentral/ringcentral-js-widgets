@@ -45,5 +45,6 @@ export default {
   [callResults.abandoned]: 'Abandoned',
   [callResults.declined]: 'Declined',
   [callResults.faxReceipt]: 'Fax Receipt',
+  [callResults.disconnected]: 'Disconnected',
 };
 

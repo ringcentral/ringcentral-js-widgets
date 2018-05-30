@@ -39,13 +39,21 @@
 {
   border: none !important;
   box-shadow: none !important;
-  border-radius: none !important;
 }
 :global .dateTimePicker .rw-popup-container {
   left: 0;
   width: 100%;
   position: absolute;
   top: 0;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  box-shadow: 0 5px 6px rgba(0,0,0,0.2);
+  > .rw-popup-transition {
+    margin-bottom: 0;
+    padding: 0;
+  }
 }
 :global .dateTimePicker .rw-calendar-popup {
   border: 1px solid #e2e2e2;

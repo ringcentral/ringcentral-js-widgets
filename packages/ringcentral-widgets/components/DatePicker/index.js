@@ -86,7 +86,7 @@ export default class DatePicker extends Component {
         <div
           onClick={() => this.onClickFunc()}
           className={classnames(styles.dateText, this.props.dateTextClassName)}>
-          {this.props.label}:{showDate}
+          {`${this.props.label}: ${showDate}`}
         </div>
       </div>
     );
