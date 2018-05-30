@@ -74,6 +74,7 @@
     "rc-tooltip": "^3.4.6",
     "react-svg-loader": "^2.1.0",
     "react-transition-group": "^2.2.1",
+    "react-virtualized": "^9.19.1",
     "react-widgets": "^4.1.1",
     "react-widgets-moment": "^4.0.4",
     "reselect": "^2.5.4",
