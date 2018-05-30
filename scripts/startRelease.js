@@ -1,3 +1,5 @@
+const startRelease = require('../packages/monorepo-tools/lib/releasePackage').startRelease;
+
 const prepareRelease = require('../packages/monorepo-tools/lib/releasePackage').prepareRelease;
 
 const packageNames = ['ringcentral-integration', 'ringcentral-widgets'];
@@ -15,4 +17,4 @@ if (!releaseBranchNames.includes(releaseBranchName)) {
   return;
 }
 
-prepareRelease(packageName, releaseBranchName);
+startRelease(packageName, releaseBranchName);

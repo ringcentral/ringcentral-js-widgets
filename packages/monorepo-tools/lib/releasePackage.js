@@ -22,4 +22,31 @@ function prepareRelease(packageName, releaseBranchName) {
   });
 }
 
+function startRelease(packageName, releaseBranchName) {
+  const gitStatus = execa.shellSync('git status -s', {
+    cwd: `release/${packageName}`
+  });
+  if (gitStatus.stdout === '') {
+    return;
+  }
+  console.log(`start to push ${packageName} release to ${releaseBranchName}`);
+  execa.shellSync('git config user.email "integrations@ringcentral.com" &> /dev/null', {
+    cwd: `release/${packageName}`
+  });
+  execa.shellSync('git config user.name "RingCentral Integrations Team" &> /dev/null', {
+    cwd: `release/${packageName}`
+  });
+  execa.shellSync('git add --all . &> /dev/null', {
+    cwd: `release/${packageName}`
+  });
+  execa.shellSync('git commit -m "released at $(date), commit: $TRAVIS_COMMIT" &> /dev/null', {
+    cwd: `release/${packageName}`
+  });
+  execa.shellSync(`git push origin ${releaseBranchName} -f &> /dev/null`, {
+    cwd: `release/${packageName}`
+  });
+  console.log(`release to ${releaseBranchName} successfully.`);
+}
+
 exports.prepareRelease = prepareRelease;
+exports.startRelease = startRelease;
