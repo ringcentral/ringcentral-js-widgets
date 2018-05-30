@@ -198,7 +198,7 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
     key: '_onStateChange',
     value: function () {
       var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
-        var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, handler;
+        var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, handler, hasPermissions;
 
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
@@ -273,20 +273,23 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
 
               case 26:
                 if (!(this.ready && this._auth.loginStatus === _loginStatus2.default.loggedIn && !this.permissions.ReadUserInfo)) {
-                  _context3.next = 30;
+                  _context3.next = 31;
                   break;
                 }
 
-                _context3.next = 29;
+                hasPermissions = !!this.data;
+                _context3.next = 30;
                 return this._auth.logout();
 
-              case 29:
-                this._alert.danger({
-                  message: _permissionsMessages2.default.insufficientPrivilege,
-                  ttl: 0
-                });
-
               case 30:
+                if (hasPermissions) {
+                  this._alert.danger({
+                    message: _permissionsMessages2.default.insufficientPrivilege,
+                    ttl: 0
+                  });
+                }
+
+              case 31:
               case 'end':
                 return _context3.stop();
             }
