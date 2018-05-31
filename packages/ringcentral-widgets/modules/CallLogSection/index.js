@@ -222,7 +222,7 @@ export default class CallLogSection extends RcModule {
   }
 
   /**
-   * Merge isSaving properties from reducer to callsMapping
+   * Merge isSaving property from reducer to callsMapping
    */
   @getter
   callsMapping = createSelector(
@@ -232,7 +232,7 @@ export default class CallLogSection extends RcModule {
   )
 
   /**
-   * Private calls mapping relationship without isSaving properties
+   * Private calls mapping relationship without isSaving property
    */
   get _callsMapping() {
     return this._storage.getItem(this._storageKey).callsMapping;
