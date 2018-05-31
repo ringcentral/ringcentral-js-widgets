@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 
 import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
+import removeUri from '../../lib/removeUri';
 import DataFetcher from '../../lib/DataFetcher';
 import ensureExist from '../../lib/ensureExist';
 import getter from '../../lib/getter';
@@ -32,10 +33,14 @@ export default class ExtensionPhoneNumber extends DataFetcher {
     super({
       name: 'extensionPhoneNumber',
       client,
-      fetchFunction: () => (fetchList(params => (
+      fetchFunction: async () => (await fetchList(params => (
         client.account().extension().phoneNumber().list(params)
-      ))),
+      ))).map(number => ({
+        ...number,
+        country: removeUri(number.country),
+      })),
       readyCheckFn: () => this._rolesAndPermissions.ready,
+      cleanOnReset: true,
       ...options,
     });
 
