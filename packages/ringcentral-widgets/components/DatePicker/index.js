@@ -72,9 +72,7 @@ export default class DatePicker extends Component {
           onChange={(currentStartTime) => {
             if (currentStartTime) {
               const date = new Date(dueDate);
-              date.setFullYear(currentStartTime.getFullYear());
-              date.setMonth(currentStartTime.getMonth());
-              date.setDate(currentStartTime.getDate());
+              date.setFullYear(currentStartTime.getFullYear(), currentStartTime.getMonth(), currentStartTime.getDate());
               this.props.onChange(date);
             }
             this.collapseDatePicker();
