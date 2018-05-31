@@ -1,3 +1,4 @@
+import * as R from 'ramda';
 import RcModule from 'ringcentral-integration/lib/RcModule';
 import { Module } from 'ringcentral-integration/lib/di';
 import ensureExist from 'ringcentral-integration/lib/ensureExist';
@@ -220,8 +221,25 @@ export default class CallLogSection extends RcModule {
     return this._storage.getItem(this._storageKey).callsList;
   }
 
-  get callsMapping() {
+  /**
+   * Merge isSaving properties from reducer to callsMapping
+   */
+  @getter
+  callsMapping = createSelector(
+    () => this._callsMapping,
+    () => this._callsSavingStatus,
+    R.mergeWith(R.flip(R.assoc('isSaving'))),
+  )
+
+  /**
+   * Private calls mapping relationship without isSaving properties
+   */
+  get _callsMapping() {
     return this._storage.getItem(this._storageKey).callsMapping;
+  }
+
+  get _callsSavingStatus() {
+    return this.state.callsSavingStatus;
   }
 
   get currentIdentify() {
