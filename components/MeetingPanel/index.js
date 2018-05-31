@@ -279,9 +279,7 @@ var When = function When(_ref4) {
               preventReplay(false);
               if (currentStartTime) {
                 var date = new Date(meeting.schedule.startTime);
-                date.setFullYear(currentStartTime.getFullYear());
-                date.setMonth(currentStartTime.getMonth());
-                date.setDate(currentStartTime.getDate());
+                date.setFullYear(currentStartTime.getFullYear(), currentStartTime.getMonth(), currentStartTime.getDate());
                 var startTime = date.getTime();
                 var now = new Date().getTime();
                 if (startTime < now) {

@@ -142,9 +142,7 @@ var DatePicker = function (_Component) {
           onChange: function onChange(currentStartTime) {
             if (currentStartTime) {
               var date = new Date(dueDate);
-              date.setFullYear(currentStartTime.getFullYear());
-              date.setMonth(currentStartTime.getMonth());
-              date.setDate(currentStartTime.getDate());
+              date.setFullYear(currentStartTime.getFullYear(), currentStartTime.getMonth(), currentStartTime.getDate());
               _this2.props.onChange(date);
             }
             _this2.collapseDatePicker();
