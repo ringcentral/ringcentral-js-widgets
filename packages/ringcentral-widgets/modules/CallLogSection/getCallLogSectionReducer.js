@@ -5,7 +5,7 @@ import getModuleStatusReducer from 'ringcentral-integration/lib/getModuleStatusR
 function getCallsSavingStatusReducer(types) {
   return (state = {}, { type, identify }) => {
     switch (type) {
-      case types.update: case types.saving:
+      case types.saving:
         return R.assoc(identify, true, state);
       case types.saveSuccess: case types.saveError:
         return R.assoc(identify, false, state);
