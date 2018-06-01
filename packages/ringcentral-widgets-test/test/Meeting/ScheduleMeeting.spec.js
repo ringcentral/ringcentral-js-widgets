@@ -22,19 +22,18 @@ describe('Schedule Meeting', () => {
   const EXPECT_MINUTES = 15;
   test('<Topic />', async () => {
     const topic = app.find(MeetingSection).first();
-    /* <Topic /> */
     const maxInput = '#'.repeat(128);
     const exceedInput = `${maxInput}#`;
     topic.find('input').simulate('change', { target: { value: maxInput } });
-    // Debounce
-    await sleep(500);
+    // To fit the Debounce timeout on MeetingPanel
+    await sleep(10);
     expect(app.props().phone.meeting.meeting.topic).toBe(maxInput);
     // Exceed 128 chars length should failed and keep the origin
     topic.find('input').simulate('change', { target: { value: exceedInput } });
-    await sleep(500);
+    await sleep(10);
     expect(app.props().phone.meeting.meeting.topic).not.toBe(exceedInput);
     topic.find('input').simulate('change', { target: { value: 'aloha' } });
-    await sleep(500);
+    await sleep(10);
     expect(app.props().phone.meeting.meeting.topic).toBe('aloha');
   });
   test('<When />', async () => {
@@ -54,13 +53,13 @@ describe('Schedule Meeting', () => {
     const hourField = when.find('input').at(2);
     hourField.simulate('change', { target: { value: EXPECT_HOUR.toString() } });
     hourField.props().onBlur();
-    // Debounce
-    await sleep(500);
+    // To fit the Debounce timeout on MeetingPanel
+    await sleep(100);
     when = app.find(MeetingSection).at(1);
     const minuteField = when.find('input').at(3);
     minuteField.simulate('change', { target: { value: EXPECT_MINUTES.toString() } });
     minuteField.props().onBlur();
-    await sleep(500);
+    await sleep(100);
     const actualDate = moment(app.props().phone.meeting.meeting.schedule.startTime);
     expect(actualDate.diff(expectedDate, 'minutes')).toBeLessThan(1);
   });
@@ -104,7 +103,6 @@ describe('Schedule Meeting', () => {
     expect(app.props().phone.meeting.meeting.audioOptions).toEqual(['Phone', 'ComputerAudio']);
     const audioField = audio.find('CheckBox');
     audioField.find('.item').first().simulate('click');
-    // console.log(audio.find('CheckBox').first().childAt(0).childAt(0).html(), '===');
     expect(app.props().phone.meeting.meeting.audioOptions).toEqual(['Phone']);
     audioField.find('.item').at(1).simulate('click');
     expect(app.props().phone.meeting.meeting.audioOptions).toEqual(['ComputerAudio']);
