@@ -217,10 +217,6 @@ export default class CallLogSection extends RcModule {
     (list, mapping) => list.map(identify => mapping[identify])
   );
 
-  get callsList() {
-    return this._storage.getItem(this._storageKey).callsList;
-  }
-
   /**
    * Merge isSaving property from reducer to callsMapping
    */
@@ -228,8 +224,15 @@ export default class CallLogSection extends RcModule {
   callsMapping = createSelector(
     () => this._callsMapping,
     () => this._callsSavingStatus,
-    R.mergeWith(R.flip(R.assoc('isSaving'))),
+    R.converge(
+      R.mergeWith(R.flip(R.assoc('isSaving'))),
+      [R.identity, R.useWith(R.pick, [R.keys, R.identity])]
+    )
   )
+
+  get callsList() {
+    return this._storage.getItem(this._storageKey).callsList;
+  }
 
   /**
    * Private calls mapping relationship without isSaving property
