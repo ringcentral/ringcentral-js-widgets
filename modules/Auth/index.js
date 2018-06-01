@@ -350,8 +350,7 @@ var Auth = (_dec = (0, _di.Module)({
       };
       var onRefreshError = function onRefreshError(error) {
         // user is still considered logged in if the refreshToken is still valid
-
-        var refreshTokenValid = error.message === 'Failed to fetch' && platform.auth().refreshTokenValid();
+        var refreshTokenValid = (error.message === 'Failed to fetch' || error.message === 'The Internet connection appears to be offline.' || error.message === 'NetworkError when attempting to fetch resource.' || error.message === 'Network Error 0x2ee7, Could not complete the operation due to error 00002ee7.') && platform.auth().refreshTokenValid();
         _this2.store.dispatch({
           type: _this2.actionTypes.refreshError,
           error: error,
