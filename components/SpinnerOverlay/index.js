@@ -33,6 +33,7 @@ function SpinnerOverlay(_ref) {
   return _react2.default.createElement(
     'div',
     { className: (0, _classnames2.default)(_styles2.default.root, className) },
+    _react2.default.createElement('div', { className: _styles2.default.mask }),
     _react2.default.createElement(
       'div',
       { className: _styles2.default.container },
