@@ -49,7 +49,11 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _dec, _class, _desc, _value, _class2, _descriptor;
+var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2;
+
+var _ramda = require('ramda');
+
+var R = _interopRequireWildcard(_ramda);
 
 var _RcModule2 = require('ringcentral-integration/lib/RcModule');
 
@@ -78,6 +82,8 @@ var _getStorageReducer2 = _interopRequireDefault(_getStorageReducer);
 var _actionTypes = require('./actionTypes');
 
 var _actionTypes2 = _interopRequireDefault(_actionTypes);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -140,6 +146,8 @@ var CallLogSection = (_dec = (0, _di.Module)({
     }, options)));
 
     _initDefineProp(_this, 'calls', _descriptor, _this);
+
+    _initDefineProp(_this, 'callsMapping', _descriptor2, _this);
 
     _this._storage = storage;
     _this._storageReducer = (0, _getStorageReducer2.default)(_this.actionTypes);
@@ -472,15 +480,30 @@ var CallLogSection = (_dec = (0, _di.Module)({
         });
       }
     }
+
+    /**
+     * Merge isSaving property from reducer to callsMapping
+     */
+
   }, {
     key: 'callsList',
     get: function get() {
       return this._storage.getItem(this._storageKey).callsList;
     }
+
+    /**
+     * Private calls mapping relationship without isSaving property
+     */
+
   }, {
-    key: 'callsMapping',
+    key: '_callsMapping',
     get: function get() {
       return this._storage.getItem(this._storageKey).callsMapping;
+    }
+  }, {
+    key: '_callsSavingStatus',
+    get: function get() {
+      return this.state.callsSavingStatus;
     }
   }, {
     key: 'currentIdentify',
@@ -528,6 +551,17 @@ var CallLogSection = (_dec = (0, _di.Module)({
         return mapping[identify];
       });
     });
+  }
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'callsMapping', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this3 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this3._callsMapping;
+    }, function () {
+      return _this3._callsSavingStatus;
+    }, R.converge(R.mergeWith(R.flip(R.assoc('isSaving'))), [R.identity, R.useWith(R.pick, [R.keys, R.identity])]));
   }
 })), _class2)) || _class);
 exports.default = CallLogSection;
