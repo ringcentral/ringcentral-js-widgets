@@ -1,6 +1,5 @@
 const fs = require('fs-extra');
 const execa = require('execa');
-const path = require('path');
 
 function getPackageFolderName(packageName) {
   let packageFolder = packageName;
