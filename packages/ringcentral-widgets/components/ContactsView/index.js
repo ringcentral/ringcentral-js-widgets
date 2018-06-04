@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import debounce from 'ringcentral-integration/lib/debounce';
 import Panel from '../Panel';
 import SearchInput from '../SearchInput';
 import SpinnerOverlay from '../SpinnerOverlay';
@@ -43,27 +44,47 @@ export default class ContactsView extends Component {
     this.state = {
       searchString: props.searchString,
       unfold: false,
+      contentHeight: 0,
+      contentWidth: 0,
     };
-    this.doSearchByText = this.doSearchByText.bind(this);
-    this.doSearchBySource = this.doSearchBySource.bind(this);
-    this.loadNextPage = this.loadNextPage.bind(this);
+    this.contactList = React.createRef();
+    this.contentWrapper = React.createRef();
     this.onUnfoldChange = (unfold) => {
       this.setState({
         unfold,
       });
     };
   }
-
+  calculateContentSize = () => {
+    if (
+      this.contentWrapper &&
+      this.contentWrapper.current &&
+      this.contentWrapper.current.getBoundingClientRect
+    ) {
+      const rect = this.contentWrapper.current.getBoundingClientRect();
+      return {
+        contentHeight: rect.bottom - rect.top,
+        contentWidth: rect.right - rect.left,
+      };
+    }
+    return {
+      contentHeight: 0,
+      contentWidth: 0
+    };
+  }
   componentDidMount() {
-    // this._restSearch();
+    this._mounted = true;
     if (typeof this.props.onVisitPage === 'function') {
       this.props.onVisitPage();
     }
-    this._applySearch({
+    this.search({
       searchSource: this.props.searchSource,
       searchString: this.state.searchString,
-      pageNumber: 1,
     });
+    this.setState({
+      ...this.calculateContentSize(),
+    });
+    window.addEventListener('resize', this.onResize);
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -71,7 +92,7 @@ export default class ContactsView extends Component {
       nextState.searchString = nextProps.searchString;
     }
     if (!nextProps.contactSourceNames.includes(nextProps.searchSource)) {
-      this._applySearch({
+      this.search({
         searchSource: nextProps.contactSourceNames[0],
         searchString: this.state.searchString,
       });
@@ -79,59 +100,66 @@ export default class ContactsView extends Component {
   }
 
   componentWillUnmount() {
+    this._mounted = false;
+    window.removeEventListener('resize', this.onResize);
     clearTimeout(this._searchTimeoutId);
   }
 
-  doSearchByText(ev) {
-    const searchString = ev.target.value;
+  onSearchInputChange = ({ target: { value } }) => {
     this.setState({
-      searchString,
+      searchString: value,
     });
-    this._applySearchTimeout({
-      searchSource: this.props.searchSource,
-      searchString,
-      pageNumber: 1,
+    this.search({
+      searchString: value,
+      delay: 100,
     });
   }
 
-  doSearchBySource(searchSource) {
-    if (this.listElem && this.listElem.scrollTop) {
-      this.listElem.scrollTop = 0;
+  onSourceSelect = (searchSource) => {
+    if (
+      this.contactList &&
+      this.contactList.current &&
+      this.contactList.current.resetScrollTop
+    ) {
+      this.contactList.current.resetScrollTop();
     }
-    this._applySearch({
+    this.search({
       searchSource,
-      searchString: this.state.searchString,
-      pageNumber: 1,
     });
   }
+  onResize = debounce(() => {
+    if (this._mounted) {
+      this.setState({
+        ...this.calculateContentSize(),
+      });
+    }
+  }, 300)
 
-  loadNextPage(pageNumber) {
-    this._applySearch({
-      searchSource: this.props.searchSource,
-      searchString: this.state.searchString,
-      pageNumber,
-    });
-  }
-
-  _applySearch(args) {
-    const func = this.props.onSearchContact;
-    if (func) {
-      func(args);
+  search({
+    searchSource = this.props.searchSource,
+    searchString = this.state.searchString,
+    delay = 0,
+  }) {
+    if (this.props.onSearchContact) {
+      if (this._searchTimeoutId) {
+        clearTimeout(this._searchTimeoutId);
+      }
+      if (delay) {
+        this._searchTimeoutId = setTimeout(
+          () => this.props.onSearchContact({
+            searchSource,
+            searchString,
+          }),
+          delay,
+        );
+      } else {
+        this.props.onSearchContact({
+          searchSource,
+          searchString,
+        });
+      }
     }
   }
-
-  _applySearchTimeout(args) {
-    clearTimeout(this._searchTimeoutId);
-    this._searchTimeoutId = setTimeout(() => {
-      this._applySearch(args);
-    }, 100);
-  }
-
-  // _restSearch() {
-  //   if (this.props.onRestSearch) {
-  //     this.props.onRestSearch();
-  //   }
-  // }
 
   render() {
     const {
@@ -142,7 +170,6 @@ export default class ContactsView extends Component {
       showSpinner,
       getAvatarUrl,
       getPresence,
-      currentPage,
       onItemSelect,
       contactSourceFilterRenderer: Filter,
       sourceNodeRenderer,
@@ -155,31 +182,38 @@ export default class ContactsView extends Component {
           <SearchInput
             className={styles.searchInput}
             value={this.state.searchString || ''}
-            onChange={this.doSearchByText}
+            onChange={this.onSearchInputChange}
             placeholder={i18n.getString('searchPlaceholder', currentLocale)}
           />
           <Filter
             className={styles.actionButton}
             currentLocale={currentLocale}
             contactSourceNames={contactSourceNames}
-            onSourceSelect={this.doSearchBySource}
+            onSourceSelect={this.onSourceSelect}
             selectedSourceName={searchSource}
             unfold={this.state.unfold}
             onUnfoldChange={this.onUnfoldChange}
           />
         </div>
-        <Panel className={styles.content}>
-          <ContactList
-            currentLocale={currentLocale}
-            contactGroups={contactGroups}
-            getAvatarUrl={getAvatarUrl}
-            getPresence={getPresence}
-            currentPage={currentPage}
-            onNextPage={this.loadNextPage}
-            onItemSelect={onItemSelect}
-            sourceNodeRenderer={sourceNodeRenderer}
-            listRef={(el) => { this.listElem = el; }}
-          />
+        <Panel
+          className={styles.content}
+        >
+          <div
+            className={styles.contentWrapper}
+            ref={this.contentWrapper}
+          >
+            <ContactList
+              ref={this.contactList}
+              currentLocale={currentLocale}
+              contactGroups={contactGroups}
+              getAvatarUrl={getAvatarUrl}
+              getPresence={getPresence}
+              onItemSelect={onItemSelect}
+              sourceNodeRenderer={sourceNodeRenderer}
+              width={this.state.contentWidth}
+              height={this.state.contentHeight}
+            />
+          </div>
         </Panel>
         {showSpinner ? (<SpinnerOverlay className={styles.spinner} />) : null}
         {children}
@@ -201,25 +235,21 @@ ContactsView.propTypes = {
   showSpinner: PropTypes.bool.isRequired,
   searchSource: PropTypes.string,
   searchString: PropTypes.string,
-  currentPage: PropTypes.number,
   onItemSelect: PropTypes.func,
   onSearchContact: PropTypes.func,
   contactSourceFilterRenderer: PropTypes.func,
   sourceNodeRenderer: PropTypes.func,
   onVisitPage: PropTypes.func,
   children: PropTypes.node,
-  // onRestSearch: PropTypes.func,
 };
 
 ContactsView.defaultProps = {
   searchSource: undefined,
   searchString: undefined,
-  currentPage: undefined,
   onItemSelect: undefined,
   onSearchContact: undefined,
   contactSourceFilterRenderer: ContactSourceFilter,
   sourceNodeRenderer: undefined,
   onVisitPage: undefined,
   children: undefined,
-  // onRestSearch: undefined,
 };
