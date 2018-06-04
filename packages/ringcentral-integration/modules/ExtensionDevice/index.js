@@ -2,6 +2,7 @@ import 'core-js/fn/array/find';
 import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
 import DataFetcher from '../../lib/DataFetcher';
+import removeUri from '../../lib/removeUri';
 
 /**
  * @class
@@ -23,9 +24,13 @@ export default class ExtensionDevice extends DataFetcher {
     super({
       name: 'extensionDevice',
       client,
-      fetchFunction: () => (fetchList(params => (
+      fetchFunction: async () => (await fetchList(params => (
         client.account().extension().device().list(params)
-      ))),
+      ))).map(device => ({
+        ...removeUri(device),
+        extension: removeUri(device.extension),
+      })),
+      cleanOnReset: true,
       ...options,
     });
 
