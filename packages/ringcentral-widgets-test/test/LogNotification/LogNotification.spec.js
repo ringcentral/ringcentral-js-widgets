@@ -67,19 +67,6 @@ describe('Call Log Notification:', () => {
     expect(wrapper.find('.confirmationInfo').exists()).toEqual(true);
     expect(wrapper.find('.confirmationInfo').text()).toEqual('Your unsaved edits on the previous call will be lost, are you sure you want to work on the new call?');
   });
-  it('Should display confirmation info when props: isExpand is true', () => {
-    const props = {
-      formatPhone: value => value,
-      isExpand: true,
-      onStay: () => {},
-      onDiscard: () => {},
-      onSave: () => {},
-      onExpand: () => {},
-    };
-    const wrapper = setup(props);
-    expect(wrapper.find('.confirmationInfo').exists()).toEqual(true);
-    expect(wrapper.find('.confirmationInfo').text()).toEqual('Your unsaved edits on the previous call will be lost, are you sure you want to work on the new call?');
-  });
   it('Should display confirmation info when props: isExpand is false', () => {
     const props = {
       formatPhone: value => value,
