@@ -5,7 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getSearchFilterReducer = getSearchFilterReducer;
 exports.getSourceFilterReducer = getSourceFilterReducer;
-exports.getPageNumberReducer = getPageNumberReducer;
 exports.default = getContactsReducer;
 
 var _redux = require('redux');
@@ -60,33 +59,11 @@ function getSourceFilterReducer(types) {
   };
 }
 
-function getPageNumberReducer(types) {
-  return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-    var _ref3 = arguments[1];
-    var type = _ref3.type,
-        pageNumber = _ref3.pageNumber;
-
-    switch (type) {
-      case types.updateFilter:
-        if (pageNumber) {
-          return pageNumber;
-        }
-        return state;
-      case types.resetSuccess:
-        return 1;
-      default:
-        return state;
-    }
-  };
-}
-
 function getContactsReducer(types) {
   return (0, _redux.combineReducers)({
     status: (0, _getModuleStatusReducer2.default)(types),
     searchFilter: getSearchFilterReducer(types),
-    sourceFilter: getSourceFilterReducer(types),
-    pageNumber: getPageNumberReducer(types)
+    sourceFilter: getSourceFilterReducer(types)
   });
 }
 //# sourceMappingURL=getContactsReducer.js.map

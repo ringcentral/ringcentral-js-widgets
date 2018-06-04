@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = exports.DefaultContactListPageSize = undefined;
 
+var _defineProperty = require('babel-runtime/core-js/object/define-property');
+
+var _defineProperty2 = _interopRequireDefault(_defineProperty);
+
 var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
@@ -57,7 +61,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _dec, _class, _desc, _value, _class2;
+var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
+
+var _reselect = require('reselect');
+
+var _getter = require('../../lib/getter');
+
+var _getter2 = _interopRequireDefault(_getter);
 
 var _RcModule2 = require('../../lib/RcModule');
 
@@ -88,6 +98,20 @@ var _getContactsReducer = require('./getContactsReducer');
 var _getContactsReducer2 = _interopRequireDefault(_getContactsReducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _initDefineProp(target, property, descriptor, context) {
+  if (!descriptor) return;
+  (0, _defineProperty2.default)(target, property, {
+    enumerable: descriptor.enumerable,
+    configurable: descriptor.configurable,
+    writable: descriptor.writable,
+    value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+  });
+}
+
+function _initializerWarningHelper(descriptor, context) {
+  throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
+}
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
   var desc = {};
@@ -136,23 +160,28 @@ var Contacts = (_dec = (0, _di.Module)({
    */
   function Contacts(_ref) {
     var auth = _ref.auth,
-        _ref$listPageSize = _ref.listPageSize,
-        listPageSize = _ref$listPageSize === undefined ? DefaultContactListPageSize : _ref$listPageSize,
         _ref$contactSources = _ref.contactSources,
         contactSources = _ref$contactSources === undefined ? [] : _ref$contactSources,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'listPageSize', 'contactSources']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'contactSources']);
     (0, _classCallCheck3.default)(this, Contacts);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Contacts.__proto__ || (0, _getPrototypeOf2.default)(Contacts)).call(this, (0, _extends3.default)({}, options, {
       actionTypes: _actionTypes2.default
     })));
 
+    _initDefineProp(_this, 'sourceNames', _descriptor, _this);
+
+    _initDefineProp(_this, 'allContacts', _descriptor2, _this);
+
+    _initDefineProp(_this, 'contactGroups', _descriptor3, _this);
+
+    _initDefineProp(_this, 'filteredContacts', _descriptor4, _this);
+
     _this._auth = _ensureExist2.default.call(_this, auth, 'auth');
     _this._reducer = (0, _getContactsReducer2.default)(_this.actionTypes);
     _this._contactSources = new _map2.default();
     _this._sourcesLastStatus = new _map2.default();
     _this._sourcesUpdatedAt = Date.now();
-    _this._listPageSize = listPageSize;
 
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
@@ -179,119 +208,6 @@ var Contacts = (_dec = (0, _di.Module)({
       }
     }
 
-    _this.addSelector('sourceNames', function () {
-      return _this._contactSources.size;
-    }, function () {
-      return _this._checkSourceUpdated();
-    }, function () {
-      var names = [_contactHelper.AllContactSourceName];
-      var _iteratorNormalCompletion2 = true;
-      var _didIteratorError2 = false;
-      var _iteratorError2 = undefined;
-
-      try {
-        for (var _iterator2 = (0, _getIterator3.default)((0, _from2.default)(_this._contactSources.keys())), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-          var sourceName = _step2.value;
-
-          var _source = _this._contactSources.get(sourceName);
-          if (_source.sourceReady) {
-            names.push(sourceName);
-          }
-        }
-      } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion2 && _iterator2.return) {
-            _iterator2.return();
-          }
-        } finally {
-          if (_didIteratorError2) {
-            throw _iteratorError2;
-          }
-        }
-      }
-
-      return names;
-    });
-
-    _this.addSelector('allContacts', function () {
-      return _this._checkSourceUpdated();
-    }, function () {
-      var contacts = [];
-      var _iteratorNormalCompletion3 = true;
-      var _didIteratorError3 = false;
-      var _iteratorError3 = undefined;
-
-      try {
-        for (var _iterator3 = (0, _getIterator3.default)((0, _from2.default)(_this._contactSources.keys())), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-          var sourceName = _step3.value;
-
-          var _source2 = _this._contactSources.get(sourceName);
-          if (_source2.sourceReady) {
-            contacts = contacts.concat(_source2.contacts);
-          }
-        }
-      } catch (err) {
-        _didIteratorError3 = true;
-        _iteratorError3 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion3 && _iterator3.return) {
-            _iterator3.return();
-          }
-        } finally {
-          if (_didIteratorError3) {
-            throw _iteratorError3;
-          }
-        }
-      }
-
-      return contacts;
-    });
-
-    _this.addSelector('contactGroups', function () {
-      return _this.filteredContacts;
-    }, function () {
-      return _this.pageNumber;
-    }, function (filteredContacts, pageNumber) {
-      var pageSize = _this._listPageSize;
-      var count = pageNumber * pageSize;
-      var items = (0, _contactHelper.uniqueContactItems)(filteredContacts);
-      items = (0, _contactHelper.sortContactItemsByName)(items);
-      items = items.slice(0, count);
-      var groups = (0, _contactHelper.groupByFirstLetterOfName)(items);
-      return groups;
-    });
-
-    _this.addSelector('filteredContacts', function () {
-      return _this.searchFilter;
-    }, function () {
-      return _this.sourceFilter;
-    }, function () {
-      return _this._checkSourceUpdated();
-    }, function (searchFilter, sourceFilter) {
-      var contacts = void 0;
-      if ((0, _isBlank2.default)(searchFilter) && (sourceFilter === _contactHelper.AllContactSourceName || (0, _isBlank2.default)(sourceFilter))) {
-        return _this.allContacts;
-      }
-      if (sourceFilter !== _contactHelper.AllContactSourceName && !(0, _isBlank2.default)(sourceFilter)) {
-        var _source3 = _this._contactSources.get(sourceFilter);
-        if (_source3 && _source3.sourceReady) {
-          /* eslint { "prefer-destructuring": 0 } */
-          contacts = _source3.contacts;
-        } else {
-          contacts = [];
-        }
-      } else {
-        contacts = _this.allContacts;
-      }
-      if (!(0, _isBlank2.default)(searchFilter)) {
-        contacts = (0, _contactHelper.filterContacts)(contacts, searchFilter);
-      }
-      return contacts;
-    });
     return _this;
   }
 
@@ -336,14 +252,12 @@ var Contacts = (_dec = (0, _di.Module)({
     key: 'updateFilter',
     value: function updateFilter(_ref2) {
       var sourceFilter = _ref2.sourceFilter,
-          searchFilter = _ref2.searchFilter,
-          pageNumber = _ref2.pageNumber;
+          searchFilter = _ref2.searchFilter;
 
       this.store.dispatch({
         type: this.actionTypes.updateFilter,
         sourceFilter: sourceFilter,
-        searchFilter: searchFilter,
-        pageNumber: pageNumber
+        searchFilter: searchFilter
       });
     }
 
@@ -386,13 +300,13 @@ var Contacts = (_dec = (0, _di.Module)({
     key: '_checkSourceUpdated',
     value: function _checkSourceUpdated() {
       var updated = false;
-      var _iteratorNormalCompletion4 = true;
-      var _didIteratorError4 = false;
-      var _iteratorError4 = undefined;
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
 
       try {
-        for (var _iterator4 = (0, _getIterator3.default)((0, _from2.default)(this._contactSources.keys())), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-          var sourceName = _step4.value;
+        for (var _iterator2 = (0, _getIterator3.default)((0, _from2.default)(this._contactSources.keys())), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var sourceName = _step2.value;
 
           var source = this._contactSources.get(sourceName);
           var lastStatus = this._sourcesLastStatus.get(sourceName);
@@ -405,16 +319,16 @@ var Contacts = (_dec = (0, _di.Module)({
           }
         }
       } catch (err) {
-        _didIteratorError4 = true;
-        _iteratorError4 = err;
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion4 && _iterator4.return) {
-            _iterator4.return();
+          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+            _iterator2.return();
           }
         } finally {
-          if (_didIteratorError4) {
-            throw _iteratorError4;
+          if (_didIteratorError2) {
+            throw _iteratorError2;
           }
         }
       }
@@ -428,13 +342,13 @@ var Contacts = (_dec = (0, _di.Module)({
     key: 'matchPhoneNumber',
     value: function matchPhoneNumber(phoneNumber) {
       var result = [];
-      var _iteratorNormalCompletion5 = true;
-      var _didIteratorError5 = false;
-      var _iteratorError5 = undefined;
+      var _iteratorNormalCompletion3 = true;
+      var _didIteratorError3 = false;
+      var _iteratorError3 = undefined;
 
       try {
-        for (var _iterator5 = (0, _getIterator3.default)((0, _from2.default)(this._contactSources.keys())), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-          var sourceName = _step5.value;
+        for (var _iterator3 = (0, _getIterator3.default)((0, _from2.default)(this._contactSources.keys())), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+          var sourceName = _step3.value;
 
           var source = this._contactSources.get(sourceName);
           if (typeof source.matchPhoneNumber === 'function') {
@@ -442,16 +356,16 @@ var Contacts = (_dec = (0, _di.Module)({
           }
         }
       } catch (err) {
-        _didIteratorError5 = true;
-        _iteratorError5 = err;
+        _didIteratorError3 = true;
+        _iteratorError3 = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion5 && _iterator5.return) {
-            _iterator5.return();
+          if (!_iteratorNormalCompletion3 && _iterator3.return) {
+            _iterator3.return();
           }
         } finally {
-          if (_didIteratorError5) {
-            throw _iteratorError5;
+          if (_didIteratorError3) {
+            throw _iteratorError3;
           }
         }
       }
@@ -572,25 +486,25 @@ var Contacts = (_dec = (0, _di.Module)({
     key: 'sync',
     value: function () {
       var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
-        var _iteratorNormalCompletion6, _didIteratorError6, _iteratorError6, _iterator6, _step6, sourceName, source;
+        var _iteratorNormalCompletion4, _didIteratorError4, _iteratorError4, _iterator4, _step4, sourceName, source;
 
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _iteratorNormalCompletion6 = true;
-                _didIteratorError6 = false;
-                _iteratorError6 = undefined;
+                _iteratorNormalCompletion4 = true;
+                _didIteratorError4 = false;
+                _iteratorError4 = undefined;
                 _context3.prev = 3;
-                _iterator6 = (0, _getIterator3.default)((0, _from2.default)(this._contactSources.keys()));
+                _iterator4 = (0, _getIterator3.default)((0, _from2.default)(this._contactSources.keys()));
 
               case 5:
-                if (_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done) {
+                if (_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done) {
                   _context3.next = 14;
                   break;
                 }
 
-                sourceName = _step6.value;
+                sourceName = _step4.value;
                 source = this._contactSources.get(sourceName);
 
                 if (!(typeof source.sync === 'function')) {
@@ -602,7 +516,7 @@ var Contacts = (_dec = (0, _di.Module)({
                 return source.sync();
 
               case 11:
-                _iteratorNormalCompletion6 = true;
+                _iteratorNormalCompletion4 = true;
                 _context3.next = 5;
                 break;
 
@@ -613,26 +527,26 @@ var Contacts = (_dec = (0, _di.Module)({
               case 16:
                 _context3.prev = 16;
                 _context3.t0 = _context3['catch'](3);
-                _didIteratorError6 = true;
-                _iteratorError6 = _context3.t0;
+                _didIteratorError4 = true;
+                _iteratorError4 = _context3.t0;
 
               case 20:
                 _context3.prev = 20;
                 _context3.prev = 21;
 
-                if (!_iteratorNormalCompletion6 && _iterator6.return) {
-                  _iterator6.return();
+                if (!_iteratorNormalCompletion4 && _iterator4.return) {
+                  _iterator4.return();
                 }
 
               case 23:
                 _context3.prev = 23;
 
-                if (!_didIteratorError6) {
+                if (!_didIteratorError4) {
                   _context3.next = 26;
                   break;
                 }
 
-                throw _iteratorError6;
+                throw _iteratorError4;
 
               case 26:
                 return _context3.finish(23);
@@ -663,13 +577,13 @@ var Contacts = (_dec = (0, _di.Module)({
     key: 'sourceModuleReady',
     get: function get() {
       var ready = true;
-      var _iteratorNormalCompletion7 = true;
-      var _didIteratorError7 = false;
-      var _iteratorError7 = undefined;
+      var _iteratorNormalCompletion5 = true;
+      var _didIteratorError5 = false;
+      var _iteratorError5 = undefined;
 
       try {
-        for (var _iterator7 = (0, _getIterator3.default)((0, _from2.default)(this._contactSources.keys())), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
-          var sourceName = _step7.value;
+        for (var _iterator5 = (0, _getIterator3.default)((0, _from2.default)(this._contactSources.keys())), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+          var sourceName = _step5.value;
 
           var source = this._contactSources.get(sourceName);
           if (!source.ready) {
@@ -677,16 +591,16 @@ var Contacts = (_dec = (0, _di.Module)({
           }
         }
       } catch (err) {
-        _didIteratorError7 = true;
-        _iteratorError7 = err;
+        _didIteratorError5 = true;
+        _iteratorError5 = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion7 && _iterator7.return) {
-            _iterator7.return();
+          if (!_iteratorNormalCompletion5 && _iterator5.return) {
+            _iterator5.return();
           }
         } finally {
-          if (_didIteratorError7) {
-            throw _iteratorError7;
+          if (_didIteratorError5) {
+            throw _iteratorError5;
           }
         }
       }
@@ -721,33 +635,134 @@ var Contacts = (_dec = (0, _di.Module)({
     get: function get() {
       return this.state.sourceFilter;
     }
-  }, {
-    key: 'pageNumber',
-    get: function get() {
-      return this.state.pageNumber;
-    }
-  }, {
-    key: 'allContacts',
-    get: function get() {
-      return this._selectors.allContacts();
-    }
-  }, {
-    key: 'filteredContacts',
-    get: function get() {
-      return this._selectors.filteredContacts();
-    }
-  }, {
-    key: 'sourceNames',
-    get: function get() {
-      return this._selectors.sourceNames();
-    }
-  }, {
-    key: 'contactGroups',
-    get: function get() {
-      return this._selectors.contactGroups();
-    }
   }]);
   return Contacts;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'updateFilter', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateFilter'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProfileImage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getProfileImage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getPresence', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getPresence'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'sync', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'sync'), _class2.prototype)), _class2)) || _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'updateFilter', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateFilter'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProfileImage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getProfileImage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getPresence', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getPresence'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'sync', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'sync'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'sourceNames', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this4 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this4._contactSources.size;
+    }, function () {
+      return _this4._checkSourceUpdated();
+    }, function () {
+      var names = [_contactHelper.AllContactSourceName];
+      var _iteratorNormalCompletion6 = true;
+      var _didIteratorError6 = false;
+      var _iteratorError6 = undefined;
+
+      try {
+        for (var _iterator6 = (0, _getIterator3.default)((0, _from2.default)(_this4._contactSources.keys())), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+          var sourceName = _step6.value;
+
+          var source = _this4._contactSources.get(sourceName);
+          if (source.sourceReady) {
+            names.push(sourceName);
+          }
+        }
+      } catch (err) {
+        _didIteratorError6 = true;
+        _iteratorError6 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion6 && _iterator6.return) {
+            _iterator6.return();
+          }
+        } finally {
+          if (_didIteratorError6) {
+            throw _iteratorError6;
+          }
+        }
+      }
+
+      return names;
+    });
+  }
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'allContacts', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this5 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this5._checkSourceUpdated();
+    }, function () {
+      var contacts = [];
+      var _iteratorNormalCompletion7 = true;
+      var _didIteratorError7 = false;
+      var _iteratorError7 = undefined;
+
+      try {
+        for (var _iterator7 = (0, _getIterator3.default)((0, _from2.default)(_this5._contactSources.keys())), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+          var sourceName = _step7.value;
+
+          var source = _this5._contactSources.get(sourceName);
+          if (source.sourceReady) {
+            contacts = contacts.concat(source.contacts);
+          }
+        }
+      } catch (err) {
+        _didIteratorError7 = true;
+        _iteratorError7 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion7 && _iterator7.return) {
+            _iterator7.return();
+          }
+        } finally {
+          if (_didIteratorError7) {
+            throw _iteratorError7;
+          }
+        }
+      }
+
+      return contacts;
+    });
+  }
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'contactGroups', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this6 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this6.filteredContacts;
+    }, function (filteredContacts) {
+      return (0, _contactHelper.groupByFirstLetterOfName)((0, _contactHelper.sortContactItemsByName)((0, _contactHelper.uniqueContactItems)(filteredContacts)));
+    });
+  }
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'filteredContacts', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this7 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this7.searchFilter;
+    }, function () {
+      return _this7.sourceFilter;
+    }, function () {
+      return _this7._checkSourceUpdated();
+    }, function (searchFilter, sourceFilter) {
+      var contacts = void 0;
+      if ((0, _isBlank2.default)(searchFilter) && (sourceFilter === _contactHelper.AllContactSourceName || (0, _isBlank2.default)(sourceFilter))) {
+        return _this7.allContacts;
+      }
+      if (sourceFilter !== _contactHelper.AllContactSourceName && !(0, _isBlank2.default)(sourceFilter)) {
+        var source = _this7._contactSources.get(sourceFilter);
+        if (source && source.sourceReady) {
+          /* eslint { "prefer-destructuring": 0 } */
+          contacts = source.contacts;
+        } else {
+          contacts = [];
+        }
+      } else {
+        contacts = _this7.allContacts;
+      }
+      if (!(0, _isBlank2.default)(searchFilter)) {
+        contacts = (0, _contactHelper.filterContacts)(contacts, searchFilter);
+      }
+      return contacts;
+    });
+  }
+})), _class2)) || _class);
 exports.default = Contacts;
 //# sourceMappingURL=index.js.map
