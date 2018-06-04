@@ -18,7 +18,17 @@
     "docs": "lerna run start --scope ringcentral-widgets-docs --stream",
     "docs:build": "lerna run build --scope ringcentral-widgets-docs --stream",
     "analyze-packages": "babel-node scripts/analyzePackages.js",
-    "list-file-matchers": "babel-node scripts/listFileMatchers.js"
+    "list-file-matchers": "babel-node scripts/listFileMatchers.js",
+    "commons:prepare-release": "node scripts/prepareRelease.js ringcentral-integration commons-release",
+    "commons:start-release": "node scripts/startRelease.js ringcentral-integration commons-release",
+    "widgets:prepare-release": "node scripts/prepareRelease.js ringcentral-widgets widgets-release",
+    "widgets:start-release": "node scripts/startRelease.js ringcentral-widgets widgets-release",
+    "i18n:prepare-release": "node scripts/prepareRelease.js @ringcentral-integration/i18n i18n-release",
+    "i18n:start-release": "node scripts/startRelease.js @ringcentral-integration/i18n i18n-release",
+    "locale-loader:prepare-release": "node scripts/prepareRelease.js @ringcentral-integration/locale-loader locale-loader-release",
+    "locale-loader:start-release": "node scripts/startRelease.js @ringcentral-integration/locale-loader locale-loader-release",
+    "phone-number:prepare-release": "node scripts/prepareRelease.js @ringcentral-integration/phone-number phone-number-release",
+    "phone-number:start-release": "node scripts/startRelease.js @ringcentral-integration/phone-number phone-number-release"
   },
   "devDependencies": {
     "eslint-settings": "0.0.1",
