@@ -67,6 +67,10 @@ var _getter = require('../../lib/getter');
 
 var _getter2 = _interopRequireDefault(_getter);
 
+var _removeUri = require('../../lib/removeUri');
+
+var _removeUri2 = _interopRequireDefault(_removeUri);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _initDefineProp(target, property, descriptor, context) {
@@ -151,7 +155,9 @@ var ForwardingNumber = (_dec = (0, _di.Module)({
 
                 case 2:
                   lists = _context.sent;
-                  return _context.abrupt('return', lists);
+                  return _context.abrupt('return', lists.map(function (number) {
+                    return (0, _removeUri2.default)(number);
+                  }));
 
                 case 4:
                 case 'end':
