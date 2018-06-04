@@ -228,6 +228,8 @@ describe('GlipPosts :: getReducer', () => {
       glipPostsStore: glipPostsStoreReducer(undefined, {}),
       createStatus: glipPostsCreateStatusReducer(undefined, {}),
       postInputs: glipPostsInputsReducer(undefined, {}),
+      pageInfos: glipPostsInputsReducer(undefined, {}),
+      fetchTimes: glipPostsInputsReducer(undefined, {}),
     });
   });
 });
