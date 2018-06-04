@@ -90,13 +90,15 @@ var ContactSourceFilter = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (ContactSourceFilter.__proto__ || (0, _getPrototypeOf2.default)(ContactSourceFilter)).call(this, props));
 
     _this.hideList = function () {
-      _this.setState(function () {
-        return {
-          unfold: false
-        };
-      });
-      if (typeof _this.props.onUnfoldChange === 'function') {
-        _this.props.onUnfoldChange(false);
+      if (_this._mounted) {
+        _this.setState(function () {
+          return {
+            unfold: false
+          };
+        });
+        if (typeof _this.props.onUnfoldChange === 'function') {
+          _this.props.onUnfoldChange(false);
+        }
       }
       window.removeEventListener('click', _this.hideList);
     };
@@ -139,8 +141,14 @@ var ContactSourceFilter = function (_Component) {
   }
 
   (0, _createClass3.default)(ContactSourceFilter, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this._mounted = true;
+    }
+  }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
+      this._mounted = false;
       if (!this.state.unfold) {
         window.removeEventListener('click', this.hideList);
       }

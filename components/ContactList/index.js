@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -33,6 +37,10 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _reactVirtualized = require('react-virtualized');
+
+var _ramda = require('ramda');
+
 var _ContactItem = require('../ContactItem');
 
 var _ContactItem2 = _interopRequireDefault(_ContactItem);
@@ -47,6 +55,9 @@ var _i18n2 = _interopRequireDefault(_i18n);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var CAPTION_HEIGHT = 20;
+var ROW_HEIGHT = 50;
+
 function NoContacts(_ref) {
   var currentLocale = _ref.currentLocale;
 
@@ -60,47 +71,6 @@ NoContacts.propTypes = {
   currentLocale: _propTypes2.default.string.isRequired
 };
 
-function ContactGroup(_ref2) {
-  var caption = _ref2.caption,
-      contacts = _ref2.contacts,
-      getAvatarUrl = _ref2.getAvatarUrl,
-      getPresence = _ref2.getPresence,
-      onItemSelect = _ref2.onItemSelect,
-      sourceNodeRenderer = _ref2.sourceNodeRenderer;
-
-  return _react2.default.createElement(
-    'div',
-    { className: _styles2.default.contactGroup },
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.groupCaption },
-      caption
-    ),
-    contacts.map(function (contact) {
-      return _react2.default.createElement(_ContactItem2.default, {
-        key: '' + contact.type + contact.id,
-        contact: contact,
-        getAvatarUrl: getAvatarUrl,
-        getPresence: getPresence,
-        onSelect: onItemSelect,
-        sourceNodeRenderer: sourceNodeRenderer
-      });
-    })
-  );
-}
-ContactGroup.propTypes = {
-  onItemSelect: _propTypes2.default.func,
-  getAvatarUrl: _propTypes2.default.func.isRequired,
-  getPresence: _propTypes2.default.func.isRequired,
-  caption: _propTypes2.default.string.isRequired,
-  contacts: _propTypes2.default.arrayOf(_ContactItem2.default.propTypes.contact).isRequired,
-  sourceNodeRenderer: _propTypes2.default.func
-};
-ContactGroup.defaultProps = {
-  onItemSelect: undefined,
-  sourceNodeRenderer: undefined
-};
-
 var ContactList = function (_Component) {
   (0, _inherits3.default)(ContactList, _Component);
 
@@ -109,83 +79,212 @@ var ContactList = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ContactList.__proto__ || (0, _getPrototypeOf2.default)(ContactList)).call(this, props));
 
-    _this.downwards = true;
-    _this.onScroll = _this.onScroll.bind(_this);
-    return _this;
-  }
+    _this.calculateRowHeight = function (_ref2) {
+      var index = _ref2.index;
 
-  (0, _createClass3.default)(ContactList, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      this.rootElem = this.props.listRef;
-      // wait for contact items rendering
-      setTimeout(function () {
-        // detect here for the case when there is no scroll bar
-        _this2.detectNextPage(_this2.rootElem);
-      }, 0);
-    }
-  }, {
-    key: 'onScroll',
-    value: function onScroll(ev) {
-      this.detectNextPage(ev.target);
-    }
-  }, {
-    key: 'detectNextPage',
-    value: function detectNextPage(el) {
-      if (!el) {
-        return;
+      if (_this.state.captionRows[index]) {
+        return CAPTION_HEIGHT;
       }
-      if (this.downwards) {
-        if (el.scrollTop + el.clientHeight > el.scrollHeight - 20) {
-          this.downwards = false;
-          var _props = this.props,
-              currentPage = _props.currentPage,
-              onNextPage = _props.onNextPage;
+      return ROW_HEIGHT;
+    };
 
-          if (onNextPage) {
-            var curr = currentPage || 1;
-            onNextPage(curr + 1);
-          }
-        }
-      } else if (el.scrollTop + el.clientHeight < el.scrollHeight - 30) {
-        this.downwards = true;
+    _this.findGroup = function (_ref3) {
+      var index = _ref3.index;
+      return (0, _ramda.find)(function (item) {
+        return index >= item.startIndex && index < item.startIndex + item.contacts.length;
+      }, _this.state.groups);
+    };
+
+    _this.rowGetter = function (_ref4) {
+      var index = _ref4.index;
+
+      if (_this.state.captionRows[index]) {
+        return {
+          caption: _this.state.captionRows[index]
+        };
       }
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _props2 = this.props,
-          currentLocale = _props2.currentLocale,
-          contactGroups = _props2.contactGroups,
-          getAvatarUrl = _props2.getAvatarUrl,
-          getPresence = _props2.getPresence,
-          onItemSelect = _props2.onItemSelect,
-          sourceNodeRenderer = _props2.sourceNodeRenderer,
-          listRef = _props2.listRef;
+      var group = _this.findGroup({ index: index });
+      return group.contacts[index - group.startIndex];
+    };
+
+    _this.onScroll = function (_ref5) {
+      var scrollTop = _ref5.scrollTop;
+
+      if (scrollTop !== _this.state.scrollTop) {
+        _this.setState({
+          scrollTop: scrollTop
+        });
+      }
+    };
+
+    _this.cellRenderer = function (_ref6) {
+      var rowData = _ref6.rowData;
+
+      if (rowData.caption) {
+        return _react2.default.createElement(
+          'div',
+          {
+            className: _styles2.default.groupCaption
+          },
+          rowData.caption
+        );
+      }
+      var _this$props = _this.props,
+          getAvatarUrl = _this$props.getAvatarUrl,
+          getPresence = _this$props.getPresence,
+          onItemSelect = _this$props.onItemSelect,
+          sourceNodeRenderer = _this$props.sourceNodeRenderer;
 
       return _react2.default.createElement(
         'div',
         {
-          className: _styles2.default.root,
-          onScroll: this.onScroll,
-          ref: listRef
+          key: rowData.type + '-' + rowData.id
         },
-        contactGroups.length ? contactGroups.map(function (group) {
-          return _react2.default.createElement(ContactGroup, {
-            key: group.id,
-            caption: group.caption,
-            contacts: group.contacts,
-            getAvatarUrl: getAvatarUrl,
-            getPresence: getPresence,
-            onItemSelect: onItemSelect,
-            sourceNodeRenderer: sourceNodeRenderer
-          });
-        }) : _react2.default.createElement(NoContacts, {
-          currentLocale: currentLocale
+        _react2.default.createElement(_ContactItem2.default, {
+          contact: rowData,
+          getAvatarUrl: getAvatarUrl,
+          getPresence: getPresence,
+          onSelect: onItemSelect,
+          sourceNodeRenderer: sourceNodeRenderer
         })
       );
+    };
+
+    _this.onRowsRendered = function (_ref7) {
+      var startIndex = _ref7.startIndex;
+
+      // update header with the correct caption
+      if (_this.state.captionRows[startIndex]) {
+        var groupIndex = (0, _ramda.findIndex)(function (item) {
+          return item === _this.state.captionRows[startIndex];
+        }, _this.state.captions);
+        var previousCaption = _this.state.captions[groupIndex - 1];
+        if (previousCaption !== _this.state.currentCaption) {
+          _this.setState({
+            currentCaption: previousCaption
+          });
+        }
+      } else {
+        var group = _this.findGroup({ index: startIndex });
+        if (group.caption !== _this.state.currentCaption) {
+          _this.setState({
+            currentCaption: group.caption
+          });
+        }
+      }
+    };
+
+    _this.headerRenderer = function () {
+      return _react2.default.createElement(
+        'div',
+        {
+          className: _styles2.default.groupCaption
+        },
+        _this.state.currentCaption
+      );
+    };
+
+    _this.state = ContactList.getDerivedStateFromProps(props);
+    _this.list = _react2.default.createRef();
+    return _this;
+  }
+
+  (0, _createClass3.default)(ContactList, [{
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps) {
+      if (this.state.lastContactGroups !== prevProps.contactGroups) {
+        if (this.list && this.list.current && this.list.current.recomputeRowHeights) {
+          this.list.current.recomputeRowHeights(0);
+        }
+      }
+    }
+  }, {
+    key: 'resetScrollTop',
+    value: function resetScrollTop() {
+      this.setState({
+        scrollTop: 0
+      });
+    }
+  }, {
+    key: 'renderList',
+    value: function renderList() {
+      // use table instead of list to allow caption header
+      return _react2.default.createElement(
+        _reactVirtualized.Table,
+        {
+          ref: this.list,
+          headerHeight: CAPTION_HEIGHT,
+          width: this.props.width,
+          height: this.props.height,
+          rowCount: this.state.count,
+          rowHeight: this.calculateRowHeight,
+          rowGetter: this.rowGetter,
+          onRowsRendered: this.onRowsRendered,
+          onScroll: this.onScroll,
+          scrollTop: this.state.scrollTop
+        },
+        _react2.default.createElement(_reactVirtualized.Column, {
+          dataKey: 'caption',
+          disableSort: true,
+          flexGrow: 1,
+          width: this.props.width,
+          cellRenderer: this.cellRenderer,
+          headerRenderer: this.headerRenderer
+        })
+      );
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          currentLocale = _props.currentLocale,
+          contactGroups = _props.contactGroups,
+          width = _props.width,
+          height = _props.height;
+
+      var content = null;
+      if (width !== 0 && height !== 0) {
+        content = contactGroups.length ? this.renderList() : _react2.default.createElement(NoContacts, {
+          currentLocale: currentLocale
+        });
+      }
+      return _react2.default.createElement(
+        'div',
+        {
+          className: _styles2.default.root
+        },
+        content
+      );
+    }
+  }], [{
+    key: 'getDerivedStateFromProps',
+    value: function getDerivedStateFromProps(props) {
+      var state = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { scrollTop: 0, currentCaption: '' };
+
+      if (props.contactGroups !== state.lastContactGroups) {
+        return (0, _extends3.default)({}, (0, _ramda.reduce)(function (nextState, group) {
+          nextState.captions.push(group.caption);
+
+          // skip the caption row for the first group
+          var rowOffset = nextState.groups.length !== 0 ? 1 : 0;
+          if (rowOffset) {
+            nextState.captionRows[nextState.count] = group.caption;
+          }
+          nextState.groups.push((0, _extends3.default)({}, group, {
+            startIndex: nextState.count + rowOffset
+          }));
+          nextState.count += group.contacts.length + rowOffset; // with caption row
+          return nextState;
+        }, (0, _extends3.default)({}, state, {
+          groups: [],
+          captions: [],
+          captionRows: {},
+          count: 0
+        }), props.contactGroups), {
+          lastContactGroups: props.contactGroups
+        });
+      }
+      return state;
     }
   }]);
   return ContactList;
@@ -203,16 +302,13 @@ ContactList.propTypes = {
   })).isRequired,
   getAvatarUrl: _propTypes2.default.func.isRequired,
   getPresence: _propTypes2.default.func.isRequired,
-  currentPage: _propTypes2.default.number,
-  onNextPage: _propTypes2.default.func,
   onItemSelect: _propTypes2.default.func,
   sourceNodeRenderer: _propTypes2.default.func,
-  listRef: _propTypes2.default.func
+  width: _propTypes2.default.number.isRequired,
+  height: _propTypes2.default.number.isRequired
 };
 
 ContactList.defaultProps = {
-  currentPage: undefined,
-  onNextPage: undefined,
   onItemSelect: undefined,
   sourceNodeRenderer: undefined,
   listRef: undefined

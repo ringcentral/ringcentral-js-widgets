@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -36,6 +40,10 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
+
+var _debounce = require('ringcentral-integration/lib/debounce');
+
+var _debounce2 = _interopRequireDefault(_debounce);
 
 var _Panel = require('../Panel');
 
@@ -110,13 +118,55 @@ var ContactsView = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ContactsView.__proto__ || (0, _getPrototypeOf2.default)(ContactsView)).call(this, props));
 
+    _this.calculateContentSize = function () {
+      if (_this.contentWrapper && _this.contentWrapper.current && _this.contentWrapper.current.getBoundingClientRect) {
+        var rect = _this.contentWrapper.current.getBoundingClientRect();
+        return {
+          contentHeight: rect.bottom - rect.top,
+          contentWidth: rect.right - rect.left
+        };
+      }
+      return {
+        contentHeight: 0,
+        contentWidth: 0
+      };
+    };
+
+    _this.onSearchInputChange = function (_ref2) {
+      var value = _ref2.target.value;
+
+      _this.setState({
+        searchString: value
+      });
+      _this.search({
+        searchString: value,
+        delay: 100
+      });
+    };
+
+    _this.onSourceSelect = function (searchSource) {
+      if (_this.contactList && _this.contactList.current && _this.contactList.current.resetScrollTop) {
+        _this.contactList.current.resetScrollTop();
+      }
+      _this.search({
+        searchSource: searchSource
+      });
+    };
+
+    _this.onResize = (0, _debounce2.default)(function () {
+      if (_this._mounted) {
+        _this.setState((0, _extends3.default)({}, _this.calculateContentSize()));
+      }
+    }, 300);
+
     _this.state = {
       searchString: props.searchString,
-      unfold: false
+      unfold: false,
+      contentHeight: 0,
+      contentWidth: 0
     };
-    _this.doSearchByText = _this.doSearchByText.bind(_this);
-    _this.doSearchBySource = _this.doSearchBySource.bind(_this);
-    _this.loadNextPage = _this.loadNextPage.bind(_this);
+    _this.contactList = _react2.default.createRef();
+    _this.contentWrapper = _react2.default.createRef();
     _this.onUnfoldChange = function (unfold) {
       _this.setState({
         unfold: unfold
@@ -128,15 +178,16 @@ var ContactsView = function (_Component) {
   (0, _createClass3.default)(ContactsView, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      // this._restSearch();
+      this._mounted = true;
       if (typeof this.props.onVisitPage === 'function') {
         this.props.onVisitPage();
       }
-      this._applySearch({
+      this.search({
         searchSource: this.props.searchSource,
-        searchString: this.state.searchString,
-        pageNumber: 1
+        searchString: this.state.searchString
       });
+      this.setState((0, _extends3.default)({}, this.calculateContentSize()));
+      window.addEventListener('resize', this.onResize);
     }
   }, {
     key: 'componentWillUpdate',
@@ -145,7 +196,7 @@ var ContactsView = function (_Component) {
         nextState.searchString = nextProps.searchString;
       }
       if (!nextProps.contactSourceNames.includes(nextProps.searchSource)) {
-        this._applySearch({
+        this.search({
           searchSource: nextProps.contactSourceNames[0],
           searchString: this.state.searchString
         });
@@ -154,72 +205,44 @@ var ContactsView = function (_Component) {
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
+      this._mounted = false;
+      window.removeEventListener('resize', this.onResize);
       clearTimeout(this._searchTimeoutId);
     }
   }, {
-    key: 'doSearchByText',
-    value: function doSearchByText(ev) {
-      var searchString = ev.target.value;
-      this.setState({
-        searchString: searchString
-      });
-      this._applySearchTimeout({
-        searchSource: this.props.searchSource,
-        searchString: searchString,
-        pageNumber: 1
-      });
-    }
-  }, {
-    key: 'doSearchBySource',
-    value: function doSearchBySource(searchSource) {
-      if (this.listElem && this.listElem.scrollTop) {
-        this.listElem.scrollTop = 0;
-      }
-      this._applySearch({
-        searchSource: searchSource,
-        searchString: this.state.searchString,
-        pageNumber: 1
-      });
-    }
-  }, {
-    key: 'loadNextPage',
-    value: function loadNextPage(pageNumber) {
-      this._applySearch({
-        searchSource: this.props.searchSource,
-        searchString: this.state.searchString,
-        pageNumber: pageNumber
-      });
-    }
-  }, {
-    key: '_applySearch',
-    value: function _applySearch(args) {
-      var func = this.props.onSearchContact;
-      if (func) {
-        func(args);
-      }
-    }
-  }, {
-    key: '_applySearchTimeout',
-    value: function _applySearchTimeout(args) {
+    key: 'search',
+    value: function search(_ref3) {
       var _this2 = this;
 
-      clearTimeout(this._searchTimeoutId);
-      this._searchTimeoutId = setTimeout(function () {
-        _this2._applySearch(args);
-      }, 100);
+      var _ref3$searchSource = _ref3.searchSource,
+          searchSource = _ref3$searchSource === undefined ? this.props.searchSource : _ref3$searchSource,
+          _ref3$searchString = _ref3.searchString,
+          searchString = _ref3$searchString === undefined ? this.state.searchString : _ref3$searchString,
+          _ref3$delay = _ref3.delay,
+          delay = _ref3$delay === undefined ? 0 : _ref3$delay;
+
+      if (this.props.onSearchContact) {
+        if (this._searchTimeoutId) {
+          clearTimeout(this._searchTimeoutId);
+        }
+        if (delay) {
+          this._searchTimeoutId = setTimeout(function () {
+            return _this2.props.onSearchContact({
+              searchSource: searchSource,
+              searchString: searchString
+            });
+          }, delay);
+        } else {
+          this.props.onSearchContact({
+            searchSource: searchSource,
+            searchString: searchString
+          });
+        }
+      }
     }
-
-    // _restSearch() {
-    //   if (this.props.onRestSearch) {
-    //     this.props.onRestSearch();
-    //   }
-    // }
-
   }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
-
       var _props = this.props,
           currentLocale = _props.currentLocale,
           contactGroups = _props.contactGroups,
@@ -228,7 +251,6 @@ var ContactsView = function (_Component) {
           showSpinner = _props.showSpinner,
           getAvatarUrl = _props.getAvatarUrl,
           getPresence = _props.getPresence,
-          currentPage = _props.currentPage,
           onItemSelect = _props.onItemSelect,
           Filter = _props.contactSourceFilterRenderer,
           sourceNodeRenderer = _props.sourceNodeRenderer,
@@ -244,14 +266,14 @@ var ContactsView = function (_Component) {
           _react2.default.createElement(_SearchInput2.default, {
             className: _styles2.default.searchInput,
             value: this.state.searchString || '',
-            onChange: this.doSearchByText,
+            onChange: this.onSearchInputChange,
             placeholder: _i18n2.default.getString('searchPlaceholder', currentLocale)
           }),
           _react2.default.createElement(Filter, {
             className: _styles2.default.actionButton,
             currentLocale: currentLocale,
             contactSourceNames: contactSourceNames,
-            onSourceSelect: this.doSearchBySource,
+            onSourceSelect: this.onSourceSelect,
             selectedSourceName: searchSource,
             unfold: this.state.unfold,
             onUnfoldChange: this.onUnfoldChange
@@ -259,20 +281,27 @@ var ContactsView = function (_Component) {
         ),
         _react2.default.createElement(
           _Panel2.default,
-          { className: _styles2.default.content },
-          _react2.default.createElement(_ContactList2.default, {
-            currentLocale: currentLocale,
-            contactGroups: contactGroups,
-            getAvatarUrl: getAvatarUrl,
-            getPresence: getPresence,
-            currentPage: currentPage,
-            onNextPage: this.loadNextPage,
-            onItemSelect: onItemSelect,
-            sourceNodeRenderer: sourceNodeRenderer,
-            listRef: function listRef(el) {
-              _this3.listElem = el;
-            }
-          })
+          {
+            className: _styles2.default.content
+          },
+          _react2.default.createElement(
+            'div',
+            {
+              className: _styles2.default.contentWrapper,
+              ref: this.contentWrapper
+            },
+            _react2.default.createElement(_ContactList2.default, {
+              ref: this.contactList,
+              currentLocale: currentLocale,
+              contactGroups: contactGroups,
+              getAvatarUrl: getAvatarUrl,
+              getPresence: getPresence,
+              onItemSelect: onItemSelect,
+              sourceNodeRenderer: sourceNodeRenderer,
+              width: this.state.contentWidth,
+              height: this.state.contentHeight
+            })
+          )
         ),
         showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, { className: _styles2.default.spinner }) : null,
         children
@@ -298,26 +327,22 @@ ContactsView.propTypes = {
   showSpinner: _propTypes2.default.bool.isRequired,
   searchSource: _propTypes2.default.string,
   searchString: _propTypes2.default.string,
-  currentPage: _propTypes2.default.number,
   onItemSelect: _propTypes2.default.func,
   onSearchContact: _propTypes2.default.func,
   contactSourceFilterRenderer: _propTypes2.default.func,
   sourceNodeRenderer: _propTypes2.default.func,
   onVisitPage: _propTypes2.default.func,
   children: _propTypes2.default.node
-  // onRestSearch: PropTypes.func,
 };
 
 ContactsView.defaultProps = {
   searchSource: undefined,
   searchString: undefined,
-  currentPage: undefined,
   onItemSelect: undefined,
   onSearchContact: undefined,
   contactSourceFilterRenderer: _ContactSourceFilter2.default,
   sourceNodeRenderer: undefined,
   onVisitPage: undefined,
   children: undefined
-  // onRestSearch: undefined,
 };
 //# sourceMappingURL=index.js.map

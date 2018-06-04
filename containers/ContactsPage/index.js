@@ -35,7 +35,6 @@ function mapToProps(_, _ref) {
     contactGroups: contacts.contactGroups || [],
     searchSource: contacts.sourceFilter,
     searchString: contacts.searchFilter,
-    currentPage: contacts.pageNumber,
     showSpinner: !(locale.ready && contacts.ready)
   };
 }
@@ -50,43 +49,43 @@ function mapToFunctions(_, _ref2) {
       onVisitPage = _ref2.onVisitPage;
 
   return {
-    getAvatarUrl: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+    getAvatarUrl: function getAvatarUrl() {
+      return null;
+    },
+    getPresence: function () {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(contact) {
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                return _context.abrupt('return', null);
+                return _context.abrupt('return', contacts.getPresence(contact));
 
               case 1:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, _this);
+        }, _callee, this);
       }));
 
-      function getAvatarUrl() {
+      function getPresence(_x) {
         return _ref3.apply(this, arguments);
       }
 
-      return getAvatarUrl;
+      return getPresence;
     }(),
-    getPresence: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(contact) {
-        var presence;
+
+    onItemSelect: onItemSelect || function () {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref4) {
+        var type = _ref4.type,
+            id = _ref4.id;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.next = 2;
-                return contacts.getPresence(contact);
+                routerInteraction.push('/contacts/' + type + '/' + id);
 
-              case 2:
-                presence = _context2.sent;
-                return _context2.abrupt('return', presence);
-
-              case 4:
+              case 1:
               case 'end':
                 return _context2.stop();
             }
@@ -94,45 +93,20 @@ function mapToFunctions(_, _ref2) {
         }, _callee2, _this);
       }));
 
-      function getPresence(_x) {
-        return _ref4.apply(this, arguments);
-      }
-
-      return getPresence;
-    }(),
-    onItemSelect: onItemSelect || function () {
-      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_ref5) {
-        var type = _ref5.type,
-            id = _ref5.id;
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                routerInteraction.push('/contacts/' + type + '/' + id);
-
-              case 1:
-              case 'end':
-                return _context3.stop();
-            }
-          }
-        }, _callee3, _this);
-      }));
-
       return function (_x2) {
-        return _ref6.apply(this, arguments);
+        return _ref5.apply(this, arguments);
       };
     }(),
-    onSearchContact: function onSearchContact(_ref7) {
-      var searchSource = _ref7.searchSource,
-          searchString = _ref7.searchString,
-          pageNumber = _ref7.pageNumber;
+    onSearchContact: function onSearchContact(_ref6) {
+      var searchSource = _ref6.searchSource,
+          searchString = _ref6.searchString;
 
       contacts.updateFilter({
         sourceFilter: searchSource,
-        searchFilter: searchString,
-        pageNumber: pageNumber
+        searchFilter: searchString
       });
     },
+
     onVisitPage: onVisitPage
   };
 }

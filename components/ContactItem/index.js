@@ -100,8 +100,12 @@ var ContactItem = function (_PureComponent) {
           });
         }
       }, 3);
-      this.props.getAvatarUrl(this.props.contact);
-      this.props.getPresence(this.props.contact);
+      setTimeout(function () {
+        if (_this2._mounted) {
+          _this2.props.getAvatarUrl(_this2.props.contact);
+          _this2.props.getPresence(_this2.props.contact);
+        }
+      }, 500);
     }
   }, {
     key: 'componentWillUnmount',
