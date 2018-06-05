@@ -421,6 +421,7 @@ export default class MessageItem extends Component {
               styles.contactDisplay,
               unreadCounts && styles.unread
             )}
+            selectedClassName={styles.selectedValue}
             selectClassName={styles.dropdownSelect}
             brand={brand}
             contactMatches={correspondentMatches}
