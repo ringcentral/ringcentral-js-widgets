@@ -559,6 +559,7 @@ var MessageItem = function (_Component) {
               _this2.contactDisplay = ref;
             },
             className: (0, _classnames2.default)(_styles2.default.contactDisplay, unreadCounts && _styles2.default.unread),
+            selectedClassName: _styles2.default.selectedValue,
             selectClassName: _styles2.default.dropdownSelect,
             brand: brand,
             contactMatches: correspondentMatches,

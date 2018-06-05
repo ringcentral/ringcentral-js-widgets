@@ -254,7 +254,7 @@ var DropdownSelect = function (_Component) {
           _react2.default.createElement(
             'span',
             {
-              className: (0, _classnames2.default)(_styles2.default.selectedValue, ellipsis && _styles2.default.ellipsis) },
+              className: (0, _classnames2.default)(_styles2.default.selectedValue, ellipsis && _styles2.default.ellipsis, this.props.selectedClassName) },
             renderValue
           ),
           _react2.default.createElement(
@@ -273,6 +273,7 @@ var DropdownSelect = function (_Component) {
 DropdownSelect.propTypes = {
   reference: _propTypes2.default.func,
   className: _propTypes2.default.string,
+  selectedClassName: _propTypes2.default.string,
   dropdownClassName: _propTypes2.default.string,
   iconClassName: _propTypes2.default.string,
   value: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object]),
@@ -300,6 +301,7 @@ DropdownSelect.propTypes = {
 DropdownSelect.defaultProps = {
   reference: undefined,
   className: null,
+  selectedClassName: null,
   dropdownClassName: null,
   iconClassName: null,
   value: null,
