@@ -8,6 +8,7 @@ import proxify from '../../lib/proxy/proxify';
 
 import numberValidateActionTypes from './numberValidateActionTypes';
 import getNumberValidateReducer from './getNumberValidateReducer';
+import { normalize } from 'path';
 
 /**
  * @class
@@ -98,7 +99,11 @@ export default class NumberValidate extends RcModule {
     const {
       number,
       hasInvalidChars,
-    } = parseNumber(phoneNumber);
+    } = parseNumber({
+      phoneNumber,
+      countryCode: this._regionSettings.countryCode,
+      areaCode: this._regionSettings.areaCode,
+    });
     if (hasInvalidChars || number === '') {
       return true;
     }
@@ -110,7 +115,11 @@ export default class NumberValidate extends RcModule {
       hasPlus,
       number,
       isServiceNumber
-    } = parseNumber(phoneNumber);
+    } = parseNumber({
+      phoneNumber,
+      countryCode: this._regionSettings.countryCode,
+      areaCode: this._regionSettings.areaCode,
+    });
     const {
       countryCode,
       areaCode,
