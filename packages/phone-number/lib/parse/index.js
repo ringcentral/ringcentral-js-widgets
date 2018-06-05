@@ -19,7 +19,7 @@ export default function parse({ input, countryCode = 'US' }) {
     extension: null,
 
   };
-  const cleanInput = input.replace(cleanRegex, '');
+  const cleanInput = (input || '').replace(cleanRegex, '');
   const startWithPlus = cleanInput[0] === '+';
   const withoutPlus = cleanInput.replace(plusRegex, '');
   const startWithStar = withoutPlus[0] === '*';
