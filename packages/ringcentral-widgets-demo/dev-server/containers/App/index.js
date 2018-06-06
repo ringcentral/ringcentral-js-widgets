@@ -25,10 +25,12 @@ import CallBadgeContainer from 'ringcentral-widgets/containers/CallBadgeContaine
 import RecentActivityContainer from 'ringcentral-widgets/containers/RecentActivityContainer';
 import ContactsPage from 'ringcentral-widgets/containers/ContactsPage';
 import ContactDetailsPage from 'ringcentral-widgets/containers/ContactDetailsPage';
-import ContactSourceFilter from 'ringcentral-widgets/components/ContactSourceFilter';
-import MeetingScheduleButton from 'ringcentral-widgets/components/MeetingScheduleButton';
 import FeedbackPage from 'ringcentral-widgets/containers/FeedbackPage';
 import UserGuidePage from 'ringcentral-widgets/containers/UserGuidePage';
+import AddToConferencePage from 'ringcentral-widgets/containers/AddToConferencePage';
+
+import ContactSourceFilter from 'ringcentral-widgets/components/ContactSourceFilter';
+import MeetingScheduleButton from 'ringcentral-widgets/components/MeetingScheduleButton';
 import PhoneProvider from 'ringcentral-widgets/lib/PhoneProvider';
 
 import MainView from '../MainView';
@@ -109,9 +111,14 @@ export default function App({
                 </MainView>
               )} >
               <Route
-                path="dialer"
+                path="/dialer"
                 component={() => (
                   <DialerPage />
+                )} />
+              <Route
+                path="/addToConference"
+                component={() => (
+                  <AddToConferencePage />
                 )} />
               <Route
                 path="/settings"
