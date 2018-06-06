@@ -117,7 +117,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @description Compose text managing module
  */
 var ComposeText = (_dec = (0, _di.Module)({
-  deps: ['Alert', 'Auth', 'Storage', 'MessageSender', 'NumberValidate', 'ContactSearch', 'RolesAndPermissions', { dep: 'ComposeTextOptions', optional: true }]
+  deps: ['Alert', 'Auth', 'Storage', 'MessageSender', 'NumberValidate', 'RolesAndPermissions', { dep: 'ContactSearch', optional: true }, { dep: 'ComposeTextOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(ComposeText, _RcModule);
 
