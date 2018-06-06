@@ -13,13 +13,13 @@ import {
 import i18n from './i18n';
 
 function AddToConferencePanel({
-  onBackClick,
+  onBack,
   ...baseProps
 }) {
   return [
     <BackHeader
       key="header"
-      onBackClick={onBackClick}>
+      onBackClick={onBack}>
       {i18n.getString('addToConference')}
     </BackHeader>,
     <DialerPanel
@@ -31,7 +31,7 @@ function AddToConferencePanel({
 
 AddToConferencePanel.propTypes = {
   ...DialerPanel.propTypes,
-  onBackClick: PropTypes.func.isRequired,
+  onBack: PropTypes.func.isRequired,
 };
 
 AddToConferencePanel.defaultProps = {
@@ -51,18 +51,15 @@ function mapToProps(_, {
 }
 
 function mapToFunctions(_, {
-  phone,
+  onBack,
   ...props
 }) {
   const baseProps = mapToBaseFunctions(_, {
-    phone,
     ...props,
   });
   return {
     ...baseProps,
-    onBackClick() {
-      phone.routerInteraction.goBack();
-    },
+    onBack,
   };
 }
 

@@ -118,7 +118,10 @@ export default function App({
               <Route
                 path="/addToConference"
                 component={() => (
-                  <AddToConferencePage />
+                  <AddToConferencePage
+                    onBack={() => {
+                      phone.routerInteraction.goBack();
+                    }} />
                 )} />
               <Route
                 path="/settings"
