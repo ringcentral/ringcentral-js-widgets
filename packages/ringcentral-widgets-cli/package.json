@@ -6,9 +6,6 @@
   "bin": {
     "rc-widgets": "./bin/rc-widgets"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"

@@ -1,3 +1,5 @@
+import { createSelector } from 'reselect';
+import getter from '../../lib/getter';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import ensureExist from '../../lib/ensureExist';
@@ -34,101 +36,22 @@ export default class Contacts extends RcModule {
    */
   constructor({
     auth,
-    listPageSize = DefaultContactListPageSize,
     contactSources = [],
-    ...options,
+    ...options
   }) {
     super({
       ...options,
       actionTypes,
     });
-    this._auth = this::ensureExist(auth, 'auth');
+    this._auth = this:: ensureExist(auth, 'auth');
     this._reducer = getContactsReducer(this.actionTypes);
     this._contactSources = new Map();
     this._sourcesLastStatus = new Map();
     this._sourcesUpdatedAt = Date.now();
-    this._listPageSize = listPageSize;
 
     for (const source of contactSources) {
       this.addSource(source);
     }
-
-    this.addSelector(
-      'sourceNames',
-      () => this._contactSources.size,
-      () => this._checkSourceUpdated(),
-      () => {
-        const names = [AllContactSourceName];
-        for (const sourceName of Array.from(this._contactSources.keys())) {
-          const source = this._contactSources.get(sourceName);
-          if (source.sourceReady) {
-            names.push(sourceName);
-          }
-        }
-        return names;
-      }
-    );
-
-    this.addSelector(
-      'allContacts',
-      () => this._checkSourceUpdated(),
-      () => {
-        let contacts = [];
-        for (const sourceName of Array.from(this._contactSources.keys())) {
-          const source = this._contactSources.get(sourceName);
-          if (source.sourceReady) {
-            contacts = contacts.concat(source.contacts);
-          }
-        }
-        return contacts;
-      }
-    );
-
-    this.addSelector(
-      'contactGroups',
-      () => this.filteredContacts,
-      () => this.pageNumber,
-      (filteredContacts, pageNumber) => {
-        const pageSize = this._listPageSize;
-        const count = pageNumber * pageSize;
-        let items = uniqueContactItems(filteredContacts);
-        items = sortContactItemsByName(items);
-        items = items.slice(0, count);
-        const groups = groupByFirstLetterOfName(items);
-        return groups;
-      }
-    );
-
-    this.addSelector(
-      'filteredContacts',
-      () => this.searchFilter,
-      () => this.sourceFilter,
-      () => this._checkSourceUpdated(),
-      (searchFilter, sourceFilter) => {
-        let contacts;
-        if (
-          isBlank(searchFilter) &&
-          (sourceFilter === AllContactSourceName || isBlank(sourceFilter))
-        ) {
-          return this.allContacts;
-        }
-        if (sourceFilter !== AllContactSourceName && !isBlank(sourceFilter)) {
-          const source = this._contactSources.get(sourceFilter);
-          if (source && source.sourceReady) {
-            /* eslint { "prefer-destructuring": 0 } */
-            contacts = source.contacts;
-          } else {
-            contacts = [];
-          }
-        } else {
-          contacts = this.allContacts;
-        }
-        if (!isBlank(searchFilter)) {
-          contacts = filterContacts(contacts, searchFilter);
-        }
-        return contacts;
-      }
-    );
   }
 
   initialize() {
@@ -170,12 +93,14 @@ export default class Contacts extends RcModule {
   }
 
   @proxify
-  updateFilter({ sourceFilter, searchFilter, pageNumber }) {
+  updateFilter({
+    sourceFilter,
+    searchFilter,
+  }) {
     this.store.dispatch({
       type: this.actionTypes.updateFilter,
       sourceFilter,
       searchFilter,
-      pageNumber,
     });
   }
 
@@ -331,23 +256,75 @@ export default class Contacts extends RcModule {
     return this.state.sourceFilter;
   }
 
-  get pageNumber() {
-    return this.state.pageNumber;
-  }
+  @getter
+  sourceNames = createSelector(
+    () => this._contactSources.size,
+    () => this._checkSourceUpdated(),
+    () => {
+      const names = [AllContactSourceName];
+      for (const sourceName of Array.from(this._contactSources.keys())) {
+        const source = this._contactSources.get(sourceName);
+        if (source.sourceReady) {
+          names.push(sourceName);
+        }
+      }
+      return names;
+    }
+  )
 
-  get allContacts() {
-    return this._selectors.allContacts();
-  }
+  @getter
+  allContacts = createSelector(
+    () => this._checkSourceUpdated(),
+    () => {
+      let contacts = [];
+      for (const sourceName of Array.from(this._contactSources.keys())) {
+        const source = this._contactSources.get(sourceName);
+        if (source.sourceReady) {
+          contacts = contacts.concat(source.contacts);
+        }
+      }
+      return contacts;
+    }
+  )
 
-  get filteredContacts() {
-    return this._selectors.filteredContacts();
-  }
+  @getter
+  contactGroups = createSelector(
+    () => this.filteredContacts,
+    filteredContacts => groupByFirstLetterOfName(
+      sortContactItemsByName(
+        uniqueContactItems(filteredContacts)
+      )
+    )
+  )
 
-  get sourceNames() {
-    return this._selectors.sourceNames();
-  }
-
-  get contactGroups() {
-    return this._selectors.contactGroups();
-  }
+  @getter
+  filteredContacts = createSelector(
+    () => this.searchFilter,
+    () => this.sourceFilter,
+    () => this._checkSourceUpdated(),
+    (searchFilter, sourceFilter) => {
+      let contacts;
+      if (
+        isBlank(searchFilter) &&
+        (sourceFilter === AllContactSourceName || isBlank(sourceFilter))
+      ) {
+        return this.allContacts;
+      }
+      if (sourceFilter !== AllContactSourceName && !isBlank(sourceFilter)) {
+        const source = this._contactSources.get(sourceFilter);
+        if (source && source.sourceReady) {
+          /* eslint { "prefer-destructuring": 0 } */
+          contacts = source.contacts;
+        } else {
+          contacts = [];
+        }
+      } else {
+        contacts = this.allContacts;
+      }
+      if (!isBlank(searchFilter)) {
+        contacts = filterContacts(contacts, searchFilter);
+      }
+      return contacts;
+    }
+  )
 }

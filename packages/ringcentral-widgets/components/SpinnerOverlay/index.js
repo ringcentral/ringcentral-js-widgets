@@ -9,6 +9,7 @@ export default function SpinnerOverlay({
 }) {
   return (
     <div className={classnames(styles.root, className)} >
+      <div className={styles.mask} />
       <div className={styles.container} >
         <Spinner />
       </div>

@@ -6,6 +6,7 @@ $rowHeight: 50px;
 
 .root {
   display: block;
+  box-sizing: border-box;
   position: relative;
   background: #fff;
   height: $rowHeight;

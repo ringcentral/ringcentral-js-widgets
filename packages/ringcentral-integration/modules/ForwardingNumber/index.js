@@ -5,6 +5,7 @@ import DataFetcher from '../../lib/DataFetcher';
 import fetchList from '../../lib/fetchList';
 import ensureExist from '../../lib/ensureExist';
 import getter from '../../lib/getter';
+import removeUri from '../../lib/removeUri';
 
 /**
  * @class
@@ -35,7 +36,7 @@ export default class ForwardingNumber extends DataFetcher {
         const lists = await fetchList(params => (
           this._client.account().extension().forwardingNumber().list(params)
         ));
-        return lists;
+        return lists.map(number => removeUri(number));
       },
       forbiddenHandler: () => [],
       readyCheckFn: () => this._rolesAndPermissions.ready,

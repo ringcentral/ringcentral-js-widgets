@@ -125,7 +125,15 @@
 //   text-overflow: ellipsis;
 // }
 
+.selectedValue {
+  color: $ash;
+}
+
 .unread {
+  .selectedValue {
+    color: $primary-color;
+  }
+
   .contactDisplay {
     color: $primary-color;
     button {
