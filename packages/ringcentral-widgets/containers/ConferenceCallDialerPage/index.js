@@ -12,7 +12,7 @@ import {
 } from '../DialerPage';
 import i18n from './i18n';
 
-function AddToConferenceDialerPanel({
+function ConferenceCallDialerPanel({
   onBack,
   ...baseProps
 }) {
@@ -29,12 +29,12 @@ function AddToConferenceDialerPanel({
   ];
 }
 
-AddToConferenceDialerPanel.propTypes = {
+ConferenceCallDialerPanel.propTypes = {
   ...DialerPanel.propTypes,
   onBack: PropTypes.func.isRequired,
 };
 
-AddToConferenceDialerPanel.defaultProps = {
+ConferenceCallDialerPanel.defaultProps = {
   ...DialerPanel.defaultProps,
 };
 
@@ -63,13 +63,13 @@ function mapToFunctions(_, {
   };
 }
 
-const AddToConferenceDialerPage = withPhone(connect(
+const ConferenceCallDialerPage = withPhone(connect(
   mapToProps,
   mapToFunctions,
-)(AddToConferenceDialerPanel));
+)(ConferenceCallDialerPanel));
 
 export {
   mapToProps,
   mapToFunctions,
-  AddToConferenceDialerPage as default,
+  ConferenceCallDialerPage as default,
 };

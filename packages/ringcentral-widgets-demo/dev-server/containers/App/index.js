@@ -27,7 +27,7 @@ import ContactsPage from 'ringcentral-widgets/containers/ContactsPage';
 import ContactDetailsPage from 'ringcentral-widgets/containers/ContactDetailsPage';
 import FeedbackPage from 'ringcentral-widgets/containers/FeedbackPage';
 import UserGuidePage from 'ringcentral-widgets/containers/UserGuidePage';
-import AddToConferenceDialerPage from 'ringcentral-widgets/containers/AddToConferenceDialerPage';
+import ConferenceCallDialerPage from 'ringcentral-widgets/containers/ConferenceCallDialerPage';
 
 import ContactSourceFilter from 'ringcentral-widgets/components/ContactSourceFilter';
 import MeetingScheduleButton from 'ringcentral-widgets/components/MeetingScheduleButton';
@@ -114,14 +114,6 @@ export default function App({
                 path="/dialer"
                 component={() => (
                   <DialerPage />
-                )} />
-              <Route
-                path="/addToConferenceDialer"
-                component={() => (
-                  <AddToConferenceDialerPage
-                    onBack={() => {
-                      phone.routerInteraction.goBack();
-                    }} />
                 )} />
               <Route
                 path="/settings"
@@ -261,6 +253,14 @@ export default function App({
                   <MeetingPage scheduleButton={MeetingScheduleButton} />
                 )}
               />
+              <Route
+                path="/conferenceCall/dialer"
+                component={() => (
+                  <ConferenceCallDialerPage
+                    onBack={() => {
+                      phone.routerInteraction.goBack();
+                    }} />
+                )} />
             </Route>
           </Route>
         </Router>
