@@ -33,7 +33,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function LinkLine(_ref) {
   var _onClick = _ref.onClick,
       className = _ref.className,
-      children = _ref.children;
+      children = _ref.children,
+      hrefClassName = _ref.hrefClassName,
+      iconClassName = _ref.iconClassName;
 
   return _react2.default.createElement(
     'a',
@@ -42,13 +44,13 @@ function LinkLine(_ref) {
         e.preventDefault();
         _onClick();
       },
-      className: _styles2.default.link
+      className: (0, _classnames2.default)(_styles2.default.link, hrefClassName)
     },
     _react2.default.createElement(
       _IconLine2.default,
       {
         className: className,
-        icon: _react2.default.createElement('span', { className: (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.icon) })
+        icon: _react2.default.createElement('span', { className: (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.icon, iconClassName) })
       },
       children
     )
@@ -58,11 +60,15 @@ function LinkLine(_ref) {
 LinkLine.propTypes = {
   children: _propTypes2.default.node,
   className: _propTypes2.default.string,
+  hrefClassName: _propTypes2.default.string,
+  iconClassName: _propTypes2.default.string,
   onClick: _propTypes2.default.func.isRequired
 };
 LinkLine.defaultProps = {
   children: undefined,
-  className: undefined
+  className: undefined,
+  hrefClassName: undefined,
+  iconClassName: undefined
 };
 exports.default = LinkLine;
 //# sourceMappingURL=index.js.map
