@@ -1,6 +1,7 @@
 import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
 import MessageList from 'ringcentral-widgets/components/MessageList';
 import MessagesPanel from 'ringcentral-widgets/components/MessagesPanel';
+import ContactDisplay from 'ringcentral-widgets/components/ContactDisplay';
 import SearchInput from 'ringcentral-widgets/components/SearchInput';
 import MessageItem from 'ringcentral-widgets/components/MessageItem';
 import ConversationPanel from 'ringcentral-widgets/components/ConversationPanel';
@@ -39,6 +40,15 @@ describe('messages', () => {
   });
 
   test('message list', () => {
+    panel.find(MessageItem).forEach((item) => {
+      const { conversation }= item.props();
+      const { className } = item.find(ContactDisplay).first().props();
+      if (conversation.unreadCounts > 0) {
+        expect(className).toContain('unread');
+      } else {
+        expect(className).not.toContain('unread');
+      }
+    });
     const firstMessage = panel.find(MessageItem).first();
     expect(firstMessage.props()).toBeDefined();
   });
@@ -82,7 +92,6 @@ describe('messages', () => {
     const firstMessage = panel.find(MessageItem).first();
     await firstMessage.find('.wrapper').first().simulate('click');
     const conversationPanel = wrapper.find(ConversationPanel);
-
     const logButton = conversationPanel.find(LogButton).first().find(Button);
     expect(logButton.props().disabled).toBe(false);
   });
