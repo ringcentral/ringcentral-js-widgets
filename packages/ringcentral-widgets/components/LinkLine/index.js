@@ -8,7 +8,9 @@ import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 function LinkLine({
   onClick,
   className,
-  children
+  children,
+  hrefClassName,
+  iconClassName,
 }) {
   return (
     <a
@@ -16,11 +18,11 @@ function LinkLine({
         e.preventDefault();
         onClick();
       }}
-      className={styles.link}
+      className={classnames(styles.link, hrefClassName)}
     >
       <IconLine
         className={className}
-        icon={<span className={classnames(dynamicsFont.arrow, styles.icon)} />}
+        icon={<span className={classnames(dynamicsFont.arrow, styles.icon, iconClassName)} />}
       >
         {children}
       </IconLine>
@@ -31,10 +33,14 @@ function LinkLine({
 LinkLine.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  hrefClassName: PropTypes.string,
+  iconClassName: PropTypes.string,
   onClick: PropTypes.func.isRequired,
 };
 LinkLine.defaultProps = {
   children: undefined,
   className: undefined,
+  hrefClassName: undefined,
+  iconClassName: undefined,
 };
 export default LinkLine;
