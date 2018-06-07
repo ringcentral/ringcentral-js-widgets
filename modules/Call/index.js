@@ -411,7 +411,8 @@ var Call = (_dec = (0, _di.Module)({
     value: function () {
       var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_ref7) {
         var phoneNumber = _ref7.phoneNumber,
-            recipient = _ref7.recipient;
+            recipient = _ref7.recipient,
+            fromNumber = _ref7.fromNumber;
         var toNumber, validatedNumbers;
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
@@ -444,7 +445,10 @@ var Call = (_dec = (0, _di.Module)({
                 });
                 _context5.prev = 7;
                 _context5.next = 10;
-                return this._getValidatedNumbers({ toNumber: toNumber });
+                return this._getValidatedNumbers({
+                  toNumber: toNumber,
+                  fromNumber: fromNumber
+                });
 
               case 10:
                 validatedNumbers = _context5.sent;
@@ -525,16 +529,17 @@ var Call = (_dec = (0, _di.Module)({
     key: '_getValidatedNumbers',
     value: function () {
       var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(_ref9) {
-        var toNumber = _ref9.toNumber;
-        var isWebphone, fromNumber, waitingValidateNumbers, validatedResult, parsedNumbers, parsedToNumber, error, parsedFromNumber;
+        var toNumber = _ref9.toNumber,
+            fromNumber = _ref9.fromNumber;
+        var isWebphone, theFromNumber, waitingValidateNumbers, validatedResult, parsedNumbers, parsedToNumber, error, parsedFromNumber;
         return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
                 isWebphone = this._callingSettings.callingMode === _callingModes2.default.webphone;
-                fromNumber = isWebphone ? this._callingSettings.fromNumber : this._callingSettings.myLocation;
+                theFromNumber = fromNumber || (isWebphone ? this._callingSettings.fromNumber : this._callingSettings.myLocation);
 
-                if (!(isWebphone && (fromNumber === null || fromNumber === ''))) {
+                if (!(isWebphone && (theFromNumber === null || theFromNumber === ''))) {
                   _context6.next = 4;
                   break;
                 }
@@ -544,8 +549,8 @@ var Call = (_dec = (0, _di.Module)({
               case 4:
                 waitingValidateNumbers = [toNumber];
 
-                if (fromNumber && fromNumber.length > 0 && !(isWebphone && fromNumber === 'anonymous')) {
-                  waitingValidateNumbers.push(fromNumber);
+                if (theFromNumber && theFromNumber.length > 0 && !(isWebphone && theFromNumber === 'anonymous')) {
+                  waitingValidateNumbers.push(theFromNumber);
                 }
                 _context6.next = 8;
                 return this._numberValidate.validateNumbers(waitingValidateNumbers);
@@ -592,7 +597,7 @@ var Call = (_dec = (0, _di.Module)({
                 if (parsedFromNumber !== '') {
                   parsedFromNumber = parsedNumbers[1].subAddress ? [parsedNumbers[1].e164, parsedNumbers[1].subAddress].join('*') : parsedNumbers[1].e164;
                 }
-                if (isWebphone && fromNumber === 'anonymous') {
+                if (isWebphone && theFromNumber === 'anonymous') {
                   parsedFromNumber = 'anonymous';
                 }
                 return _context6.abrupt('return', {
