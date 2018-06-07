@@ -37,6 +37,7 @@ function DialerPanel({
   recipientsContactPhoneRenderer,
   autoFocus,
   showFromField = true,
+  children,
 }) {
   const onCallFunc = () => {
     if (!callButtonDisabled) {
@@ -102,6 +103,7 @@ function DialerPanel({
         </div>
       </div>
       {content}
+      {children}
     </div>
   );
 }
@@ -143,6 +145,7 @@ DialerPanel.propTypes = {
   recipientsContactPhoneRenderer: PropTypes.func,
   autoFocus: PropTypes.bool,
   showFromField: PropTypes.bool,
+  children: PropTypes.node,
 };
 
 DialerPanel.defaultProps = {
@@ -165,6 +168,7 @@ DialerPanel.defaultProps = {
   recipientsContactPhoneRenderer: undefined,
   autoFocus: false,
   showFromField: true,
+  children: undefined,
 };
 
 export default DialerPanel;
