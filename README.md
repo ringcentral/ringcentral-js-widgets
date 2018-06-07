@@ -31,7 +31,7 @@ yarn install
 
 [Update `.env` file in project root path](packages/ringcentral-widgets-cli/README.md#start-developement-server).
 
-#### Start development server
+### Start development server
 
 ```
 $ yarn start
@@ -40,7 +40,7 @@ Visit on [http://localhost:8080](http://localhost:8080) in browser.
 
 For production build and deploy, please get more information in [here](packages/ringcentral-widgets-cli/README.md).
 
-#### Tutorials
+### Tutorials
 
 This is a [demo](https://github.com/embbnux/ringcentral-widgets-demo) and [step-by-step tutorials](https://embbnux.github.io/ringcentral-widgets-demo/) show how to use this library.
 
