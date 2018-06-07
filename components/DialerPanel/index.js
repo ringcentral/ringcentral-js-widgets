@@ -71,7 +71,9 @@ function DialerPanel(_ref) {
       phoneTypeRenderer = _ref.phoneTypeRenderer,
       recipientsContactInfoRenderer = _ref.recipientsContactInfoRenderer,
       recipientsContactPhoneRenderer = _ref.recipientsContactPhoneRenderer,
-      autoFocus = _ref.autoFocus;
+      autoFocus = _ref.autoFocus,
+      _ref$showFromField = _ref.showFromField,
+      showFromField = _ref$showFromField === undefined ? true : _ref$showFromField;
 
   var onCallFunc = function onCallFunc() {
     if (!callButtonDisabled) {
@@ -97,11 +99,12 @@ function DialerPanel(_ref) {
       contactInfoRenderer: recipientsContactInfoRenderer,
       contactPhoneRenderer: recipientsContactPhoneRenderer,
       titleEnabled: true,
-      autoFocus: autoFocus
+      autoFocus: autoFocus,
+      className: !showFromField ? (0, _classnames2.default)(_styles2.default.inputField, _styles2.default.recipientsField) : null
     }),
-    _react2.default.createElement(
+    showFromField ? _react2.default.createElement(
       'div',
-      { className: _styles2.default.inputFields },
+      { className: _styles2.default.inputField },
       _react2.default.createElement(_FromField2.default, {
         fromNumber: fromNumber,
         fromNumbers: fromNumbers,
@@ -110,7 +113,7 @@ function DialerPanel(_ref) {
         currentLocale: currentLocale,
         hidden: !isWebphoneMode
       })
-    ),
+    ) : null,
     _react2.default.createElement(
       'div',
       { className: (0, _classnames2.default)(_styles2.default.dialButtons, dialButtonsClassName) },
@@ -177,7 +180,8 @@ DialerPanel.propTypes = {
   phoneTypeRenderer: _propTypes2.default.func,
   recipientsContactInfoRenderer: _propTypes2.default.func,
   recipientsContactPhoneRenderer: _propTypes2.default.func,
-  autoFocus: _propTypes2.default.bool
+  autoFocus: _propTypes2.default.bool,
+  showFromField: _propTypes2.default.bool
 };
 
 DialerPanel.defaultProps = {
@@ -204,7 +208,8 @@ DialerPanel.defaultProps = {
   phoneTypeRenderer: undefined,
   recipientsContactInfoRenderer: undefined,
   recipientsContactPhoneRenderer: undefined,
-  autoFocus: false
+  autoFocus: false,
+  showFromField: true
 };
 
 exports.default = DialerPanel;

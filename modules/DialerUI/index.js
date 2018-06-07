@@ -71,15 +71,9 @@ var _di = require('ringcentral-integration/lib/di');
 
 var _redux = require('redux');
 
-var _reselect = require('reselect');
-
 var _proxify = require('ringcentral-integration/lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
-
-var _getter = require('ringcentral-integration/lib/getter');
-
-var _getter2 = _interopRequireDefault(_getter);
 
 var _ensureExist = require('ringcentral-integration/lib/ensureExist');
 
@@ -150,6 +144,7 @@ function getToNumberFieldReducer(types) {
     }
   };
 }
+
 function getRecipientReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -355,7 +350,9 @@ var DialerUI = (_dec = (0, _di.Module)({
         var _ref9$phoneNumber = _ref9.phoneNumber,
             phoneNumber = _ref9$phoneNumber === undefined ? '' : _ref9$phoneNumber,
             _ref9$recipient = _ref9.recipient,
-            recipient = _ref9$recipient === undefined ? null : _ref9$recipient;
+            recipient = _ref9$recipient === undefined ? null : _ref9$recipient,
+            _ref9$fromNumber = _ref9.fromNumber,
+            fromNumber = _ref9$fromNumber === undefined ? null : _ref9$fromNumber;
 
         var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, hook;
 
@@ -389,7 +386,8 @@ var DialerUI = (_dec = (0, _di.Module)({
                 _context6.next = 11;
                 return hook({
                   phoneNumber: phoneNumber,
-                  recipient: recipient
+                  recipient: recipient,
+                  fromNumber: fromNumber
                 });
 
               case 11:
@@ -436,7 +434,8 @@ var DialerUI = (_dec = (0, _di.Module)({
                 _context6.next = 31;
                 return this._call.call({
                   phoneNumber: this.toNumberField,
-                  recipient: this.recipient
+                  recipient: this.recipient,
+                  fromNumber: fromNumber
                 });
 
               case 31:
@@ -473,6 +472,9 @@ var DialerUI = (_dec = (0, _di.Module)({
     key: 'onCallButtonClick',
     value: function () {
       var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
+        var _ref12 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+            fromNumber = _ref12.fromNumber;
+
         return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
@@ -500,7 +502,8 @@ var DialerUI = (_dec = (0, _di.Module)({
                 _context7.next = 6;
                 return this.call({
                   phoneNumber: this.toNumberField,
-                  recipient: this.recipient
+                  recipient: this.recipient,
+                  fromNumber: fromNumber
                 });
 
               case 6:

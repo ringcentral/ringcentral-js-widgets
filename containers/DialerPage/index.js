@@ -79,6 +79,7 @@ function mapToFunctions(_, _ref2) {
     onCallButtonClick: function onCallButtonClick() {
       dialerUI.onCallButtonClick();
     },
+
     changeFromNumber: function changeFromNumber() {
       return callingSettings.updateFromNumber.apply(callingSettings, arguments);
     },
@@ -101,6 +102,7 @@ function mapToFunctions(_, _ref2) {
       }
       contactSearch.debouncedSearch({ searchString: searchString });
     },
+
     phoneTypeRenderer: phoneTypeRenderer,
     recipientsContactInfoRenderer: recipientsContactInfoRenderer,
     recipientsContactPhoneRenderer: recipientsContactPhoneRenderer
