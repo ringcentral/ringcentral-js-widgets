@@ -20,5 +20,12 @@
   cursor: pointer;
   position: absolute;
   right: 10px;
-  color: $night;
+  path {
+    fill: $night;
+  }
+  &:hover {
+    path {
+      fill: $rc-blue;
+    }
+  }
 }
