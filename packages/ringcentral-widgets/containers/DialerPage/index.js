@@ -68,7 +68,7 @@ function mapToFunctions(_, {
       dialerUI.setToNumberField(value)
     ),
     clearToNumber: () => dialerUI.clearToNumberField(),
-    onCallButtonClick: () => {
+    onCallButtonClick() {
       dialerUI.onCallButtonClick();
     },
     changeFromNumber: (...args) => callingSettings.updateFromNumber(...args),
@@ -79,7 +79,7 @@ function mapToFunctions(_, {
     }),
     setRecipient: recipient => dialerUI.setRecipient(recipient),
     clearRecipient: () => dialerUI.clearRecipient(),
-    searchContact: (searchString) => {
+    searchContact(searchString) {
       if (!contactSearch) {
         return;
       }
