@@ -73,7 +73,8 @@ function DialerPanel(_ref) {
       recipientsContactPhoneRenderer = _ref.recipientsContactPhoneRenderer,
       autoFocus = _ref.autoFocus,
       _ref$showFromField = _ref.showFromField,
-      showFromField = _ref$showFromField === undefined ? true : _ref$showFromField;
+      showFromField = _ref$showFromField === undefined ? true : _ref$showFromField,
+      children = _ref.children;
 
   var onCallFunc = function onCallFunc() {
     if (!callButtonDisabled) {
@@ -141,7 +142,8 @@ function DialerPanel(_ref) {
         )
       )
     ),
-    content
+    content,
+    children
   );
 }
 DialerPanel.propTypes = {
@@ -181,7 +183,8 @@ DialerPanel.propTypes = {
   recipientsContactInfoRenderer: _propTypes2.default.func,
   recipientsContactPhoneRenderer: _propTypes2.default.func,
   autoFocus: _propTypes2.default.bool,
-  showFromField: _propTypes2.default.bool
+  showFromField: _propTypes2.default.bool,
+  children: _propTypes2.default.node
 };
 
 DialerPanel.defaultProps = {
@@ -209,7 +212,8 @@ DialerPanel.defaultProps = {
   recipientsContactInfoRenderer: undefined,
   recipientsContactPhoneRenderer: undefined,
   autoFocus: false,
-  showFromField: true
+  showFromField: true,
+  children: undefined
 };
 
 exports.default = DialerPanel;

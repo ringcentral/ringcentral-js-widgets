@@ -1,0 +1,31 @@
+@import '../../lib/commonStyles/colors';
+
+.container {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+  height: 35px;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+  background: #fff;
+  border-right: none;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s 0s ease-in-out;
+	cursor: pointer;
+}
+
+.closeBtn {
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  path {
+    fill: $night;
+  }
+  &:hover {
+    path {
+      fill: $rc-blue;
+    }
+  }
+}
