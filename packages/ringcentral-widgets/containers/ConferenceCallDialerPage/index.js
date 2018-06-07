@@ -51,15 +51,24 @@ function mapToProps(_, {
 }
 
 function mapToFunctions(_, {
+  params,
+  phone,
   onBack,
   ...props
 }) {
   const baseProps = mapToBaseFunctions(_, {
+    params,
+    phone,
     ...props,
   });
   return {
     ...baseProps,
     onBack,
+    onCallButtonClick() {
+      phone.dialerUI.onCallButtonClick({
+        fromNumber: params.fromNumber,
+      });
+    },
   };
 }
 

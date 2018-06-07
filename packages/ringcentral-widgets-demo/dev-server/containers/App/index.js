@@ -254,9 +254,10 @@ export default function App({
                 )}
               />
               <Route
-                path="/conferenceCall/dialer"
-                component={() => (
+                path="/conferenceCall/dialer/:fromNumber"
+                component={routerProps => (
                   <ConferenceCallDialerPage
+                    params={routerProps.params}
                     onBack={() => {
                       phone.routerInteraction.goBack();
                     }} />

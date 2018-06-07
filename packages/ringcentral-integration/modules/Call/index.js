@@ -189,7 +189,11 @@ export default class Call extends RcModule {
   }
 
   @proxify
-  async call({ phoneNumber, recipient }) {
+  async call({
+    phoneNumber,
+    recipient,
+    fromNumber,
+  }) {
     if (this.isIdle) {
       const toNumber = recipient && (recipient.phoneNumber || recipient.extension) || phoneNumber;
       if (!toNumber || `${toNumber}`.trim().length === 0) {
@@ -204,7 +208,10 @@ export default class Call extends RcModule {
           callSettingMode: this._callSettingMode // for Track
         });
         try {
-          const validatedNumbers = await this._getValidatedNumbers({ toNumber });
+          const validatedNumbers = await this._getValidatedNumbers({
+            toNumber,
+            fromNumber,
+          });
           if (validatedNumbers) {
             await this._makeCall(validatedNumbers);
             this.store.dispatch({
@@ -251,20 +258,28 @@ export default class Call extends RcModule {
   }
 
   @proxify
-  async _getValidatedNumbers({ toNumber }) {
+  async _getValidatedNumbers({
+    toNumber,
+    fromNumber,
+  }) {
     const isWebphone = (this._callingSettings.callingMode === callingModes.webphone);
-    const fromNumber = isWebphone ?
-      this._callingSettings.fromNumber :
-      this._callingSettings.myLocation;
-    if (isWebphone && (fromNumber === null || fromNumber === '')) return null;
+    const theFromNumber = fromNumber || (
+      isWebphone ?
+        this._callingSettings.fromNumber :
+        this._callingSettings.myLocation
+    );
+
+    if (isWebphone && (theFromNumber === null || theFromNumber === '')) {
+      return null;
+    }
 
     const waitingValidateNumbers = [toNumber];
     if (
-      fromNumber &&
-      fromNumber.length > 0 &&
-      !(isWebphone && fromNumber === 'anonymous')
+      theFromNumber &&
+      theFromNumber.length > 0 &&
+      !(isWebphone && theFromNumber === 'anonymous')
     ) {
-      waitingValidateNumbers.push(fromNumber);
+      waitingValidateNumbers.push(theFromNumber);
     }
     const validatedResult
       = await this._numberValidate.validateNumbers(waitingValidateNumbers);
@@ -301,7 +316,7 @@ export default class Call extends RcModule {
         [parsedNumbers[1].e164, parsedNumbers[1].subAddress].join('*') :
         parsedNumbers[1].e164;
     }
-    if (isWebphone && fromNumber === 'anonymous') {
+    if (isWebphone && theFromNumber === 'anonymous') {
       parsedFromNumber = 'anonymous';
     }
     return {
@@ -309,6 +324,7 @@ export default class Call extends RcModule {
       fromNumber: parsedFromNumber,
     };
   }
+
   @proxify
   async _makeCall({
     toNumber,
