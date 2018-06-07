@@ -30,6 +30,36 @@
     "profileImage" : {
       "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/profile-image"
     }
+  },{
+    "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594005/extension/208594005",
+    "id" : 208594005,
+    "extensionNumber" : "101",
+    "contact" : {
+      "firstName" : "Something2",
+      "lastName" : "New2",
+      "company" : "RingCentral Inc.",
+      "email" : "email1@email.com",
+      "businessPhone" : "+14186509302",
+      "emailAsLoginName" : true,
+      "pronouncedName" : {
+        "type" : "TextToSpeech",
+        "text" : "Something New"
+      }
+    },
+    "name" : "Something2 New2",
+    "type" : "User",
+    "status" : "Enabled",
+    "permissions" : {
+      "admin" : {
+        "enabled" : true
+      },
+      "internationalCalling" : {
+        "enabled" : true
+      }
+    },
+    "profileImage" : {
+      "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594005/extension/208594005/profile-image"
+    }
   } ],
   "paging" : {
     "page" : 1,
