@@ -1,3 +1,4 @@
+import { combineReducers } from 'redux';
 import Pollable from '../Pollable';
 import { Library } from '../di';
 import { prefixEnum } from '../Enum';
@@ -46,8 +47,6 @@ export default class DataFetcher extends Pollable {
     getReducer = getDataFetcherReducer,
     getDataReducer = getDefaultDataReducer,
     getTimestampReducer = getDefaultTimestampReducer,
-    dataStorageKey = `${name}Data`,
-    timestampStorageKey = `${name}Timestamp`,
     fetchFunction,
     forbiddenHandler,
     subscriptionFilters,
@@ -83,19 +82,16 @@ export default class DataFetcher extends Pollable {
     this._readyCheckFn = readyCheckFn;
     this._cleanOnReset = cleanOnReset;
 
-    this._dataStorageKey = dataStorageKey;
-    this._timestampStorageKey = timestampStorageKey;
+    this._storageKey = `${name}-data`; // differentiate from old key
 
     if (this._storage) {
       this._reducer = getReducer(this.actionTypes);
-
       this._storage.registerReducer({
-        key: this._dataStorageKey,
-        reducer: getDataReducer(this.actionTypes),
-      });
-      this._storage.registerReducer({
-        key: this._timestampStorageKey,
-        reducer: getTimestampReducer(this.actionTypes),
+        key: this._storageKey,
+        reducer: combineReducers({
+          data: getDataReducer(this.actionTypes),
+          timestamp: getTimestampReducer(this.actionTypes),
+        }),
       });
     } else {
       this._reducer = getReducer(this.actionTypes, {
@@ -210,13 +206,13 @@ export default class DataFetcher extends Pollable {
   }
   get data() {
     return this._storage ?
-      this._storage.getItem(this._dataStorageKey) :
+      this._storage.getItem(this._storageKey).data :
       this.state.data;
   }
 
   get timestamp() {
     return this._storage ?
-      this._storage.getItem(this._timestampStorageKey) :
+      this._storage.getItem(this._storageKey).timestamp :
       this.state.timestamp;
   }
 
