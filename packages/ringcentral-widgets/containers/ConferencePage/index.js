@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import { reduce, map } from 'ramda';
 import ConferencePanel from '../../components/ConferencePanel';
-import withPhone from '../../lib/withPhone';
 import countryNames from '../../lib/countryNames';
+import { withPhone } from '../../lib/phoneContext';
 
 function mapToProps(_, {
   phone: {

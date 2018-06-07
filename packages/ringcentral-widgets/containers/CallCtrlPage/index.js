@@ -8,9 +8,11 @@ import calleeTypes from 'ringcentral-integration/enums/calleeTypes';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
-import withPhone from '../../lib/withPhone';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
+
 import CallCtrlPanel from '../../components/CallCtrlPanel';
+import { withPhone } from '../../lib/phoneContext';
+
 import i18n from './i18n';
 
 class CallCtrlPage extends Component {

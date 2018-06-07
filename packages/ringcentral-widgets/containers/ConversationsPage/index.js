@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import withPhone from '../../lib/withPhone';
 import MessagesPanel from '../../components/ConversationsPanel';
+import { withPhone } from '../../lib/phoneContext';
 
 export function mapToProps(_, {
   phone: {
