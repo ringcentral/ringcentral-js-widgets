@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import withPhone from 'ringcentral-widgets/lib/withPhone';
+import { withPhone } from 'ringcentral-widgets/lib/phoneContext';
 import OfflineModeBadge from 'ringcentral-widgets/components/OfflineModeBadge';
 import Environment from 'ringcentral-widgets/components/Environment';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import withPhone from 'ringcentral-widgets/lib/withPhone';
+import { withPhone } from 'ringcentral-widgets/lib/phoneContext';
 
 import TabNavigationView from 'ringcentral-widgets/components/TabNavigationView';
 

@@ -28,7 +28,7 @@ import ContactNavIcon from 'ringcentral-widgets/assets/images/ContactsNavigation
 import MeetingNavIcon from 'ringcentral-widgets/assets/images/MeetingNavigation.svg';
 import ConferenceNavIcon from 'ringcentral-widgets/assets/images/ConferenceNavigation.svg';
 import SettingsNavIcon from 'ringcentral-widgets/assets/images/SettingsNavigation.svg';
-import withPhone from 'ringcentral-widgets/lib/withPhone';
+import { withPhone } from 'ringcentral-widgets/lib/phoneContext';
 
 import i18n from './i18n';
 

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import withPhone from '../../lib/withPhone';
+import { withPhone } from '../../lib/phoneContext';
 import MessagesPanel from '../../components/MessagesPanel';
 
 

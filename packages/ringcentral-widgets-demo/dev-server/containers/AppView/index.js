@@ -5,7 +5,7 @@ import callingModes from 'ringcentral-integration/modules/CallingSettings/callin
 import OfflineModeBadge from 'ringcentral-widgets/components/OfflineModeBadge';
 import WebphoneBadge from 'ringcentral-widgets/components/WebphoneBadge';
 import Environment from 'ringcentral-widgets/components/Environment';
-import withPhone from 'ringcentral-widgets/lib/withPhone';
+import { withPhone } from 'ringcentral-widgets/lib/phoneContext';
 
 import styles from './styles.scss';
 

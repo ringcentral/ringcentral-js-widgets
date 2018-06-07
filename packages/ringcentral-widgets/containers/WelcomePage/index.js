@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import loginStatus from 'ringcentral-integration/modules/Auth/loginStatus';
 import LoginPanel from '../../components/LoginPanel';
-import withPhone from '../../lib/withPhone';
+import { withPhone } from '../../lib/phoneContext';
 
 function mapToProps(_, {
   phone: {
