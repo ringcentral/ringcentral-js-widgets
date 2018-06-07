@@ -19,7 +19,7 @@ import MessageStoreAlert from '../../components/MessageStoreAlert';
 import MeetingAlert from '../../components/MeetingAlert';
 import AudioSettingsAlert from '../../components/AudioSettingsAlert';
 import RolesAndPermissionsAlert from '../../components/RolesAndPermissionsAlert';
-import withPhone from '../../lib/withPhone';
+import { withPhone } from '../../lib/phoneContext';
 import ConferenceAlert from '../../components/ConferenceAlert/index';
 
 

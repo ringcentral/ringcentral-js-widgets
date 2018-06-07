@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import ContactDetailsView from '../../components/ContactDetailsView';
-import withPhone from '../../lib/withPhone';
+import { withPhone } from '../../lib/phoneContext';
 
 function mapToProps(_, {
   params,

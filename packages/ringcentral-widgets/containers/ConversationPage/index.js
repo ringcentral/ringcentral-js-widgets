@@ -6,7 +6,7 @@ import messageTypes from 'ringcentral-integration/enums/messageTypes';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 
 import ConversationPanel from '../../components/ConversationPanel';
-import withPhone from '../../lib/withPhone';
+import { withPhone } from '../../lib/phoneContext';
 
 class ConversationPage extends Component {
   getChildContext() {

@@ -6,7 +6,7 @@ import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 
 import IncomingCallPanel from '../../components/IncomingCallPanel';
-import withPhone from '../../lib/withPhone';
+import { withPhone } from '../../lib/phoneContext';
 
 import i18n from './i18n';
 

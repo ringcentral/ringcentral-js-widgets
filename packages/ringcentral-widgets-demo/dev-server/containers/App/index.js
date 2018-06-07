@@ -29,7 +29,7 @@ import ContactSourceFilter from 'ringcentral-widgets/components/ContactSourceFil
 import MeetingScheduleButton from 'ringcentral-widgets/components/MeetingScheduleButton';
 import FeedbackPage from 'ringcentral-widgets/containers/FeedbackPage';
 import UserGuidePage from 'ringcentral-widgets/containers/UserGuidePage';
-import PhoneProvider from 'ringcentral-widgets/lib/PhoneProvider';
+import { PhoneProvider } from 'ringcentral-widgets/lib/phoneContext';
 
 import MainView from '../MainView';
 import AppView from '../AppView';

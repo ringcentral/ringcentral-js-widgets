@@ -3,7 +3,7 @@ import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 
 import DialerPanel from '../../components/DialerPanel';
-import withPhone from '../../lib/withPhone';
+import { withPhone } from '../../lib/phoneContext';
 
 function mapToProps(_, {
   phone: {
