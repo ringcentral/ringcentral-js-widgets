@@ -38,10 +38,6 @@ export default function format({
     return number;
   }
   const isUSCA = countryCode === 'CA' || countryCode === 'US';
-  const withAreaCode = (!hasPlus && isUSCA && countryCode && countryCode !== '') ?
-    `${areaCode}${number}` :
-    parsedNumber || number;
-
   let finalType;
   if (type === formatTypes.e164) {
     finalType = 'E.164';
@@ -58,11 +54,29 @@ export default function format({
       'National' :
       'International';
   }
-  const formattedNumber = formatNumber(
-    withAreaCode,
-    parsedCountry || countryCode,
-    finalType,
-  );
+
+  let formattedNumber;
+  if (!hasPlus && isUSCA && areaCode && areaCode !== '') {
+    formattedNumber = formatNumber(
+      `${areaCode}${number}`,
+      parsedCountry || countryCode,
+      finalType,
+    );
+  } else if (parsedNumber) {
+    formattedNumber = formatNumber(
+      parsedNumber,
+      parsedCountry || countryCode,
+      finalType,
+    );
+  } else if (!hasPlus) {
+    formattedNumber = formatNumber(
+      number,
+      countryCode,
+      finalType,
+    );
+  } else {
+    formattedNumber = number;
+  }
   return extension && !removeExtension ?
     `${formattedNumber}${extensionDelimeter}${extension}` :
     formattedNumber;

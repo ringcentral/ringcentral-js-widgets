@@ -8,7 +8,6 @@ import proxify from '../../lib/proxy/proxify';
 
 import numberValidateActionTypes from './numberValidateActionTypes';
 import getNumberValidateReducer from './getNumberValidateReducer';
-import { normalize } from 'path';
 
 /**
  * @class

@@ -506,26 +506,51 @@ describe('NumberValidate Unit Test', () => {
 
   describe('isNoToNumber', () => {
     it('should return true if phoneNumber is blank', () => {
+      numberValidate._regionSettings = {
+        ready: true,
+        countryCode: 'US',
+        areaCode: '',
+      };
       const result = numberValidate.isNoToNumber('');
       expect(result).to.equal(true);
     });
 
     it('should return true if cleanNumber is blank', () => {
+      numberValidate._regionSettings = {
+        ready: true,
+        countryCode: 'US',
+        areaCode: '',
+      };
       const result = numberValidate.isNoToNumber("iamn%@onedi!@$%^&()_=\\][';/.,~nu><.,,?/mber");
       expect(result).to.equal(true);
     });
 
     it('should return false if phoneNumber is extensionNumber', () => {
+      numberValidate._regionSettings = {
+        ready: true,
+        countryCode: 'US',
+        areaCode: '',
+      };
       const result = numberValidate.isNoToNumber('1234');
       expect(result).to.equal(false);
     });
 
     it('should return false if phoneNumber is valid', () => {
+      numberValidate._regionSettings = {
+        ready: true,
+        countryCode: 'US',
+        areaCode: '',
+      };
       const result = numberValidate.isNoToNumber('(999) 1234 567');
       expect(result).to.equal(false);
     });
 
     it('should return false if phoneNumber is e164 format', () => {
+      numberValidate._regionSettings = {
+        ready: true,
+        countryCode: 'US',
+        areaCode: '',
+      };
       const result = numberValidate.isNoToNumber('(+1234567890');
       expect(result).to.equal(false);
     });
