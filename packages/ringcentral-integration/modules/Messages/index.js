@@ -29,7 +29,8 @@ import messageTypes from '../../enums/messageTypes';
     'RolesAndPermissions',
     { dep: 'ContactMatcher', optional: true },
     { dep: 'ConversationLogger', optional: true },
-    { dep: 'MessagesOptions', optional: true }
+    { dep: 'MessagesOptions', optional: true },
+    { dep: 'TabManager', optional: true},
   ]
 })
 export default class Messages extends RcModule {
@@ -51,6 +52,7 @@ export default class Messages extends RcModule {
     contactMatcher,
     conversationLogger,
     rolesAndPermissions,
+    tabManager,
     ...options
   }) {
     super({
@@ -59,6 +61,7 @@ export default class Messages extends RcModule {
     });
     this._contactMatcher = contactMatcher;
     this._conversationLogger = conversationLogger;
+    this._tabManager = tabManager;
     this._auth = this::ensureExist(auth, 'auth');
     this._messageStore = this::ensureExist(messageStore, 'messageStore');
     this._extensionInfo = this::ensureExist(extensionInfo, 'extensionInfo');
@@ -288,7 +291,8 @@ export default class Messages extends RcModule {
       this._contactMatcher.addQuerySource({
         getQueriesFn: this._selectors.uniqueNumbers,
         readyCheckFn: () => (
-          this._messageStore.ready
+          this._messageStore.ready &&
+          (!this._tabManager || this._tabManager.ready)
         ),
       });
     }
@@ -307,7 +311,10 @@ export default class Messages extends RcModule {
       this._reset();
     } else if (this._lastProcessedNumbers !== this.uniqueNumbers) {
       this._lastProcessedNumbers = this.uniqueNumbers;
-      if (this._contactMatcher) {
+      if (
+        this._contactMatcher &&
+        (!this._tabManager || this._tabManager.active)
+      ) {
         this._contactMatcher.triggerMatch();
       }
     }
@@ -328,7 +335,10 @@ export default class Messages extends RcModule {
     this.store.dispatch({
       type: this.actionTypes.init,
     });
-    if (this._contactMatcher) {
+    if (
+      this._contactMatcher &&
+      (!this._tabManager || this._tabManager.active)
+    ) {
       this._contactMatcher.triggerMatch();
     }
     this.store.dispatch({
