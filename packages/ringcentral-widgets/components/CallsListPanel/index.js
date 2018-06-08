@@ -43,6 +43,8 @@ function ActiveCallList({
   renderContactName,
   renderExtraButton,
   contactDisplayStyle,
+  externalViewEntity,
+  externalHasEntity,
 }) {
   if (calls.length === 0) {
     return null;
@@ -83,6 +85,8 @@ function ActiveCallList({
             renderContactName={renderContactName}
             renderExtraButton={renderExtraButton}
             contactDisplayStyle={contactDisplayStyle}
+            externalViewEntity={externalViewEntity}
+            externalHasEntity={externalHasEntity}
           />
         ))
       }
@@ -120,6 +124,8 @@ ActiveCallList.propTypes = {
   renderContactName: PropTypes.func,
   renderExtraButton: PropTypes.func,
   contactDisplayStyle: PropTypes.string,
+  externalViewEntity: PropTypes.func,
+  externalHasEntity: PropTypes.func,
 };
 
 ActiveCallList.defaultProps = {
@@ -146,6 +152,8 @@ ActiveCallList.defaultProps = {
   renderContactName: undefined,
   renderExtraButton: undefined,
   contactDisplayStyle: undefined,
+  externalViewEntity: undefined,
+  externalHasEntity: undefined,
 };
 
 export default class CallsListPanel extends Component {
@@ -232,7 +240,9 @@ export default class CallsListPanel extends Component {
       showSaveLogBtn,
       sectionContainerStyles,
       sectionModalStyles,
-      notificationContainerStyles
+      notificationContainerStyles,
+      externalViewEntity,
+      externalHasEntity,
     } = this.props;
     if (showSpinner) {
       return (<SpinnerOverlay />);
@@ -320,6 +330,8 @@ export default class CallsListPanel extends Component {
         renderContactName={renderContactName}
         renderExtraButton={renderExtraButton}
         contactDisplayStyle={activeContactDisplayStyle}
+        externalViewEntity={externalViewEntity}
+        externalHasEntity={externalHasEntity}
       />
     );
     const historyCall = showSpinner ?
@@ -359,6 +371,8 @@ export default class CallsListPanel extends Component {
             renderContactName={renderContactName}
             renderExtraButton={renderExtraButton}
             contactDisplayStyle={contactDisplayStyle}
+            externalViewEntity={externalViewEntity}
+            externalHasEntity={externalHasEntity}
           />
         </div>
       );
@@ -431,6 +445,8 @@ CallsListPanel.propTypes = {
   sectionContainerStyles: PropTypes.string,
   sectionModalStyles: PropTypes.string,
   notificationContainerStyles: PropTypes.string,
+  externalViewEntity: PropTypes.func,
+  externalHasEntity: PropTypes.func,
 };
 
 CallsListPanel.defaultProps = {
@@ -475,4 +491,6 @@ CallsListPanel.defaultProps = {
   sectionContainerStyles: undefined,
   sectionModalStyles: undefined,
   notificationContainerStyles: undefined,
+  externalViewEntity: undefined,
+  externalHasEntity: undefined,
 };

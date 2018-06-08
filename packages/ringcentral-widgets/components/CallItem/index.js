@@ -338,6 +338,8 @@ export default class CallItem extends Component {
       renderContactName,
       renderExtraButton,
       contactDisplayStyle,
+      externalViewEntity,
+      externalHasEntity,
     } = this.props;
     const phoneNumber = this.getPhoneNumber();
     const contactMatches = this.getContactMatches();
@@ -449,6 +451,8 @@ export default class CallItem extends Component {
           callTitle={i18n.getString('call', currentLocale)}
           createEntityTitle={i18n.getString('addEntity', currentLocale)}
           viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
+          externalViewEntity={() => externalViewEntity && externalViewEntity(this.props.call)}
+          externalHasEntity={externalHasEntity && externalHasEntity(this.props.call)}
         />
       </div>
     );
@@ -499,6 +503,8 @@ CallItem.propTypes = {
   renderContactName: PropTypes.func,
   renderExtraButton: PropTypes.func,
   contactDisplayStyle: PropTypes.string,
+  externalViewEntity: PropTypes.func,
+  externalHasEntity: PropTypes.func,
 };
 
 CallItem.defaultProps = {
@@ -520,4 +526,6 @@ CallItem.defaultProps = {
   renderContactName: undefined,
   renderExtraButton: undefined,
   contactDisplayStyle: undefined,
+  externalViewEntity: undefined,
+  externalHasEntity: undefined,
 };

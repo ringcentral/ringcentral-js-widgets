@@ -47,6 +47,8 @@ function CallList({
   renderContactName,
   renderExtraButton,
   contactDisplayStyle,
+  externalViewEntity,
+  externalHasEntity,
 }) {
   if (calls && calls.length) {
     return (
@@ -83,6 +85,8 @@ function CallList({
             renderContactName={renderContactName}
             renderExtraButton={renderExtraButton}
             contactDisplayStyle={contactDisplayStyle}
+            externalViewEntity={externalViewEntity}
+            externalHasEntity={externalHasEntity}
           />
         ))}
       </div>
@@ -126,6 +130,8 @@ CallList.propTypes = {
   renderContactName: PropTypes.func,
   renderExtraButton: PropTypes.func,
   contactDisplayStyle: PropTypes.string,
+  externalViewEntity: PropTypes.func,
+  externalHasEntity: PropTypes.func,
 };
 CallList.defaultProps = {
   className: null,
@@ -152,6 +158,8 @@ CallList.defaultProps = {
   renderContactName: undefined,
   renderExtraButton: undefined,
   contactDisplayStyle: undefined,
+  externalViewEntity: undefined,
+  externalHasEntity: undefined,
 };
 
 export default CallList;

@@ -368,6 +368,8 @@ export default class ActiveCallItem extends Component {
       renderContactName,
       renderExtraButton,
       contactDisplayStyle,
+      externalViewEntity,
+      externalHasEntity,
     } = this.props;
     const phoneNumber = this.getPhoneNumber();
     const parsedInfo = parseNumber(phoneNumber);
@@ -456,6 +458,8 @@ export default class ActiveCallItem extends Component {
           editLogTitle={i18n.getString('editLog', currentLocale)}
           createEntityTitle={i18n.getString('addEntity', currentLocale)}
           viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
+          externalViewEntity={() => externalViewEntity && externalViewEntity(this.props.call)}
+          externalHasEntity={externalHasEntity && externalHasEntity(this.props.call)}
         />
       </div>
     );
@@ -507,6 +511,8 @@ ActiveCallItem.propTypes = {
   renderContactName: PropTypes.func,
   renderExtraButton: PropTypes.func,
   contactDisplayStyle: PropTypes.string,
+  externalViewEntity: PropTypes.func,
+  externalHasEntity: PropTypes.func,
 };
 
 ActiveCallItem.defaultProps = {
@@ -531,4 +537,6 @@ ActiveCallItem.defaultProps = {
   renderContactName: undefined,
   renderExtraButton: undefined,
   contactDisplayStyle: undefined,
+  externalViewEntity: undefined,
+  externalHasEntity: undefined,
 };
