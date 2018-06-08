@@ -357,6 +357,8 @@ export default class ActionMenuList extends Component {
       downloadTitle,
       onPreview,
       faxAttachment,
+      externalViewEntity,
+      externalHasEntity,
     } = this.props;
 
     const logButton = onLog ?
@@ -375,7 +377,15 @@ export default class ActionMenuList extends Component {
       null;
 
     let entityButton;
-    if (hasEntity && onViewEntity) {
+    if (externalViewEntity) {
+      entityButton = externalHasEntity ? (<EntityButton
+        className={styles.button}
+        onViewEntity={externalViewEntity}
+        hasEntity={externalHasEntity}
+        disableLinks={disableLinks}
+        viewEntityTitle={viewEntityTitle}
+      />) : null;
+    } else if (hasEntity && onViewEntity) {
       entityButton = (<EntityButton
         className={styles.button}
         onViewEntity={onViewEntity}
@@ -536,6 +546,8 @@ ActionMenuList.propTypes = {
   faxAttachment: PropTypes.shape({
     uri: PropTypes.string,
   }),
+  externalViewEntity: PropTypes.func,
+  externalHasEntity: PropTypes.bool,
 };
 ActionMenuList.defaultProps = {
   className: undefined,
@@ -568,4 +580,6 @@ ActionMenuList.defaultProps = {
   downloadTitle: undefined,
   onPreview: undefined,
   faxAttachment: undefined,
+  externalViewEntity: undefined,
+  externalHasEntity: undefined,
 };
