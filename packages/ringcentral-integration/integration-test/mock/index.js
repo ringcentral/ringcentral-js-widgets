@@ -414,6 +414,10 @@ export function restore() {
   fetchMock.restore();
 }
 
+export function reset() {
+  fetchMock.reset();
+}
+
 export function mockForbidden({
   method = 'GET',
   path,
