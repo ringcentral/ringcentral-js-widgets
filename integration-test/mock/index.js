@@ -40,6 +40,7 @@ exports.device = device;
 exports.conferencing = conferencing;
 exports.activeCalls = activeCalls;
 exports.restore = restore;
+exports.reset = reset;
 exports.mockForbidden = mockForbidden;
 exports.mockClient = mockClient;
 exports.ringOut = ringOut;
@@ -441,6 +442,10 @@ function activeCalls() {
 
 function restore() {
   fetchMock.restore();
+}
+
+function reset() {
+  fetchMock.reset();
 }
 
 function mockForbidden(_ref2) {
