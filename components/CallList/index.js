@@ -71,7 +71,9 @@ function CallList(_ref2) {
       sourceIcons = _ref2.sourceIcons,
       renderContactName = _ref2.renderContactName,
       renderExtraButton = _ref2.renderExtraButton,
-      contactDisplayStyle = _ref2.contactDisplayStyle;
+      contactDisplayStyle = _ref2.contactDisplayStyle,
+      externalViewEntity = _ref2.externalViewEntity,
+      externalHasEntity = _ref2.externalHasEntity;
 
   if (calls && calls.length) {
     return _react2.default.createElement(
@@ -108,7 +110,9 @@ function CallList(_ref2) {
           sourceIcons: sourceIcons,
           renderContactName: renderContactName,
           renderExtraButton: renderExtraButton,
-          contactDisplayStyle: contactDisplayStyle
+          contactDisplayStyle: contactDisplayStyle,
+          externalViewEntity: externalViewEntity,
+          externalHasEntity: externalHasEntity
         });
       })
     );
@@ -150,7 +154,9 @@ CallList.propTypes = {
   sourceIcons: _propTypes2.default.object,
   renderContactName: _propTypes2.default.func,
   renderExtraButton: _propTypes2.default.func,
-  contactDisplayStyle: _propTypes2.default.string
+  contactDisplayStyle: _propTypes2.default.string,
+  externalViewEntity: _propTypes2.default.func,
+  externalHasEntity: _propTypes2.default.func
 };
 CallList.defaultProps = {
   className: null,
@@ -176,7 +182,9 @@ CallList.defaultProps = {
   sourceIcons: undefined,
   renderContactName: undefined,
   renderExtraButton: undefined,
-  contactDisplayStyle: undefined
+  contactDisplayStyle: undefined,
+  externalViewEntity: undefined,
+  externalHasEntity: undefined
 };
 
 exports.default = CallList;

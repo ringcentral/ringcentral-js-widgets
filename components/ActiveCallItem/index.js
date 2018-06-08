@@ -507,7 +507,9 @@ var ActiveCallItem = function (_Component) {
           sourceIcons = _props2.sourceIcons,
           renderContactName = _props2.renderContactName,
           renderExtraButton = _props2.renderExtraButton,
-          contactDisplayStyle = _props2.contactDisplayStyle;
+          contactDisplayStyle = _props2.contactDisplayStyle,
+          _externalViewEntity = _props2.externalViewEntity,
+          externalHasEntity = _props2.externalHasEntity;
 
       var phoneNumber = this.getPhoneNumber();
       var parsedInfo = (0, _parseNumber2.default)(phoneNumber);
@@ -584,7 +586,11 @@ var ActiveCallItem = function (_Component) {
           addLogTitle: _i18n2.default.getString('addLog', currentLocale),
           editLogTitle: _i18n2.default.getString('editLog', currentLocale),
           createEntityTitle: _i18n2.default.getString('addEntity', currentLocale),
-          viewEntityTitle: _i18n2.default.getString('viewDetails', currentLocale)
+          viewEntityTitle: _i18n2.default.getString('viewDetails', currentLocale),
+          externalViewEntity: function externalViewEntity() {
+            return _externalViewEntity && _externalViewEntity(_this3.props.call);
+          },
+          externalHasEntity: externalHasEntity && externalHasEntity(this.props.call)
         })
       );
     }
@@ -639,7 +645,9 @@ ActiveCallItem.propTypes = {
   sourceIcons: _propTypes2.default.object,
   renderContactName: _propTypes2.default.func,
   renderExtraButton: _propTypes2.default.func,
-  contactDisplayStyle: _propTypes2.default.string
+  contactDisplayStyle: _propTypes2.default.string,
+  externalViewEntity: _propTypes2.default.func,
+  externalHasEntity: _propTypes2.default.func
 };
 
 ActiveCallItem.defaultProps = {
@@ -663,6 +671,8 @@ ActiveCallItem.defaultProps = {
   sourceIcons: undefined,
   renderContactName: undefined,
   renderExtraButton: undefined,
-  contactDisplayStyle: undefined
+  contactDisplayStyle: undefined,
+  externalViewEntity: undefined,
+  externalHasEntity: undefined
 };
 //# sourceMappingURL=index.js.map

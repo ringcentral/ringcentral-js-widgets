@@ -81,7 +81,9 @@ var ActionMenu = function (_Component) {
           onMark = _props.onMark,
           onUnmark = _props.onUnmark,
           marked = _props.marked,
-          markTitle = _props.markTitle;
+          markTitle = _props.markTitle,
+          externalViewEntity = _props.externalViewEntity,
+          externalHasEntity = _props.externalHasEntity;
 
       return _react2.default.createElement(
         'div',
@@ -121,7 +123,9 @@ var ActionMenu = function (_Component) {
             onMark: onMark,
             onUnmark: onUnmark,
             marked: marked,
-            markTitle: markTitle
+            markTitle: markTitle,
+            externalViewEntity: externalViewEntity,
+            externalHasEntity: externalHasEntity
           })
         )
       );
@@ -163,7 +167,9 @@ ActionMenu.propTypes = {
   onMark: _propTypes2.default.func,
   onUnmark: _propTypes2.default.func,
   marked: _propTypes2.default.bool,
-  markTitle: _propTypes2.default.string
+  markTitle: _propTypes2.default.string,
+  externalViewEntity: _propTypes2.default.func,
+  externalHasEntity: _propTypes2.default.bool
 };
 ActionMenu.defaultProps = {
   extended: undefined,
@@ -194,6 +200,8 @@ ActionMenu.defaultProps = {
   onMark: undefined,
   onUnmark: undefined,
   marked: false,
-  markTitle: undefined
+  markTitle: undefined,
+  externalViewEntity: undefined,
+  externalHasEntity: undefined
 };
 //# sourceMappingURL=index.js.map

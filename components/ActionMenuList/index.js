@@ -498,7 +498,9 @@ var ActionMenuList = function (_Component) {
           previewTitle = _props.previewTitle,
           downloadTitle = _props.downloadTitle,
           onPreview = _props.onPreview,
-          faxAttachment = _props.faxAttachment;
+          faxAttachment = _props.faxAttachment,
+          externalViewEntity = _props.externalViewEntity,
+          externalHasEntity = _props.externalHasEntity;
 
 
       var logButton = onLog ? _react2.default.createElement(_LogButton2.default, {
@@ -513,7 +515,15 @@ var ActionMenuList = function (_Component) {
       }) : null;
 
       var entityButton = void 0;
-      if (hasEntity && onViewEntity) {
+      if (externalViewEntity) {
+        entityButton = externalHasEntity ? _react2.default.createElement(_EntityButton2.default, {
+          className: _styles2.default.button,
+          onViewEntity: externalViewEntity,
+          hasEntity: externalHasEntity,
+          disableLinks: disableLinks,
+          viewEntityTitle: viewEntityTitle
+        }) : null;
+      } else if (hasEntity && onViewEntity) {
         entityButton = _react2.default.createElement(_EntityButton2.default, {
           className: _styles2.default.button,
           onViewEntity: onViewEntity,
@@ -652,7 +662,9 @@ ActionMenuList.propTypes = {
   onPreview: _propTypes2.default.func,
   faxAttachment: _propTypes2.default.shape({
     uri: _propTypes2.default.string
-  })
+  }),
+  externalViewEntity: _propTypes2.default.func,
+  externalHasEntity: _propTypes2.default.bool
 };
 ActionMenuList.defaultProps = {
   className: undefined,
@@ -684,6 +696,8 @@ ActionMenuList.defaultProps = {
   previewTitle: undefined,
   downloadTitle: undefined,
   onPreview: undefined,
-  faxAttachment: undefined
+  faxAttachment: undefined,
+  externalViewEntity: undefined,
+  externalHasEntity: undefined
 };
 //# sourceMappingURL=index.js.map

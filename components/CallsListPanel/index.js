@@ -102,7 +102,9 @@ function ActiveCallList(_ref) {
       disableLinks = _ref.disableLinks,
       renderContactName = _ref.renderContactName,
       renderExtraButton = _ref.renderExtraButton,
-      contactDisplayStyle = _ref.contactDisplayStyle;
+      contactDisplayStyle = _ref.contactDisplayStyle,
+      externalViewEntity = _ref.externalViewEntity,
+      externalHasEntity = _ref.externalHasEntity;
 
   if (calls.length === 0) {
     return null;
@@ -144,7 +146,9 @@ function ActiveCallList(_ref) {
         disableLinks: disableLinks,
         renderContactName: renderContactName,
         renderExtraButton: renderExtraButton,
-        contactDisplayStyle: contactDisplayStyle
+        contactDisplayStyle: contactDisplayStyle,
+        externalViewEntity: externalViewEntity,
+        externalHasEntity: externalHasEntity
       });
     })
   );
@@ -179,7 +183,9 @@ ActiveCallList.propTypes = {
   disableLinks: _propTypes2.default.bool,
   renderContactName: _propTypes2.default.func,
   renderExtraButton: _propTypes2.default.func,
-  contactDisplayStyle: _propTypes2.default.string
+  contactDisplayStyle: _propTypes2.default.string,
+  externalViewEntity: _propTypes2.default.func,
+  externalHasEntity: _propTypes2.default.func
 };
 
 ActiveCallList.defaultProps = {
@@ -205,7 +211,9 @@ ActiveCallList.defaultProps = {
   disableLinks: false,
   renderContactName: undefined,
   renderExtraButton: undefined,
-  contactDisplayStyle: undefined
+  contactDisplayStyle: undefined,
+  externalViewEntity: undefined,
+  externalHasEntity: undefined
 };
 
 var CallsListPanel = function (_Component) {
@@ -293,7 +301,9 @@ var CallsListPanel = function (_Component) {
           showSaveLogBtn = _props.showSaveLogBtn,
           sectionContainerStyles = _props.sectionContainerStyles,
           sectionModalStyles = _props.sectionModalStyles,
-          notificationContainerStyles = _props.notificationContainerStyles;
+          notificationContainerStyles = _props.notificationContainerStyles,
+          externalViewEntity = _props.externalViewEntity,
+          externalHasEntity = _props.externalHasEntity;
 
       if (showSpinner) {
         return _react2.default.createElement(_SpinnerOverlay2.default, null);
@@ -380,7 +390,9 @@ var CallsListPanel = function (_Component) {
           disableLinks: disableLinks,
           renderContactName: renderContactName,
           renderExtraButton: renderExtraButton,
-          contactDisplayStyle: activeContactDisplayStyle
+          contactDisplayStyle: activeContactDisplayStyle,
+          externalViewEntity: externalViewEntity,
+          externalHasEntity: externalHasEntity
         });
       };
       var historyCall = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : _react2.default.createElement(
@@ -420,7 +432,9 @@ var CallsListPanel = function (_Component) {
           sourceIcons: sourceIcons,
           renderContactName: renderContactName,
           renderExtraButton: renderExtraButton,
-          contactDisplayStyle: contactDisplayStyle
+          contactDisplayStyle: contactDisplayStyle,
+          externalViewEntity: externalViewEntity,
+          externalHasEntity: externalHasEntity
         })
       );
       return _react2.default.createElement(
@@ -498,7 +512,9 @@ CallsListPanel.propTypes = {
   showSaveLogBtn: _propTypes2.default.bool,
   sectionContainerStyles: _propTypes2.default.string,
   sectionModalStyles: _propTypes2.default.string,
-  notificationContainerStyles: _propTypes2.default.string
+  notificationContainerStyles: _propTypes2.default.string,
+  externalViewEntity: _propTypes2.default.func,
+  externalHasEntity: _propTypes2.default.func
 };
 
 CallsListPanel.defaultProps = {
@@ -542,6 +558,8 @@ CallsListPanel.defaultProps = {
   showSaveLogBtn: true,
   sectionContainerStyles: undefined,
   sectionModalStyles: undefined,
-  notificationContainerStyles: undefined
+  notificationContainerStyles: undefined,
+  externalViewEntity: undefined,
+  externalHasEntity: undefined
 };
 //# sourceMappingURL=index.js.map

@@ -536,7 +536,9 @@ var CallItem = function (_Component) {
           sourceIcons = _props.sourceIcons,
           renderContactName = _props.renderContactName,
           renderExtraButton = _props.renderExtraButton,
-          contactDisplayStyle = _props.contactDisplayStyle;
+          contactDisplayStyle = _props.contactDisplayStyle,
+          _externalViewEntity = _props.externalViewEntity,
+          externalHasEntity = _props.externalHasEntity;
 
       var phoneNumber = this.getPhoneNumber();
       var contactMatches = this.getContactMatches();
@@ -636,7 +638,11 @@ var CallItem = function (_Component) {
           textTitle: _i18n2.default.getString('text', currentLocale),
           callTitle: _i18n2.default.getString('call', currentLocale),
           createEntityTitle: _i18n2.default.getString('addEntity', currentLocale),
-          viewEntityTitle: _i18n2.default.getString('viewDetails', currentLocale)
+          viewEntityTitle: _i18n2.default.getString('viewDetails', currentLocale),
+          externalViewEntity: function externalViewEntity() {
+            return _externalViewEntity && _externalViewEntity(_this5.props.call);
+          },
+          externalHasEntity: externalHasEntity && externalHasEntity(this.props.call)
         })
       );
     }
@@ -690,7 +696,9 @@ CallItem.propTypes = {
   sourceIcons: _propTypes2.default.object,
   renderContactName: _propTypes2.default.func,
   renderExtraButton: _propTypes2.default.func,
-  contactDisplayStyle: _propTypes2.default.string
+  contactDisplayStyle: _propTypes2.default.string,
+  externalViewEntity: _propTypes2.default.func,
+  externalHasEntity: _propTypes2.default.func
 };
 
 CallItem.defaultProps = {
@@ -713,6 +721,8 @@ CallItem.defaultProps = {
   sourceIcons: undefined,
   renderContactName: undefined,
   renderExtraButton: undefined,
-  contactDisplayStyle: undefined
+  contactDisplayStyle: undefined,
+  externalViewEntity: undefined,
+  externalHasEntity: undefined
 };
 //# sourceMappingURL=index.js.map
