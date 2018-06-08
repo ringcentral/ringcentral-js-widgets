@@ -1,11 +1,8 @@
 import Enum from '../../lib/Enum';
-import moduleActionTypes from '../../enums/moduleActionTypes';
+import baseActionTypes from '../../lib/DataFetcher/baseActionTypes';
 
 export default new Enum([
-  ...Object.keys(moduleActionTypes),
-  'fetch',
-  'fetchSuccess',
-  'fetchError',
+  ...Object.keys(baseActionTypes),
   'updateDialInNumber',
   'updateAdditionalNumbers',
   'inviteWithText',
