@@ -87,35 +87,115 @@ function mapToFunctions(_, _ref2) {
         countryCode: regionSettings.countryCode
       });
     },
-    webphoneAnswer: function webphoneAnswer() {
-      return webphone && webphone.answer.apply(webphone, arguments);
-    },
-    webphoneToVoicemail: function webphoneToVoicemail() {
-      return webphone && webphone.toVoiceMail.apply(webphone, arguments);
-    },
-    webphoneReject: function webphoneReject() {
-      return webphone && webphone.reject.apply(webphone, arguments);
-    },
-    webphoneHangup: function webphoneHangup() {
-      return webphone && webphone.hangup.apply(webphone, arguments);
-    },
-    webphoneResume: function () {
+    webphoneAnswer: function () {
       var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         var _args = arguments;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                return _context.abrupt('return', webphone && webphone.answer.apply(webphone, _args));
+
+              case 1:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function webphoneAnswer() {
+        return _ref3.apply(this, arguments);
+      }
+
+      return webphoneAnswer;
+    }(),
+    webphoneToVoicemail: function () {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
+        var _args2 = arguments;
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                return _context2.abrupt('return', webphone && webphone.toVoiceMail.apply(webphone, _args2));
+
+              case 1:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function webphoneToVoicemail() {
+        return _ref4.apply(this, arguments);
+      }
+
+      return webphoneToVoicemail;
+    }(),
+    webphoneReject: function () {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
+        var _args3 = arguments;
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                return _context3.abrupt('return', webphone && webphone.reject.apply(webphone, _args3));
+
+              case 1:
+              case 'end':
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function webphoneReject() {
+        return _ref5.apply(this, arguments);
+      }
+
+      return webphoneReject;
+    }(),
+    webphoneHangup: function () {
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
+        var _args4 = arguments;
+        return _regenerator2.default.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                return _context4.abrupt('return', webphone && webphone.hangup.apply(webphone, _args4));
+
+              case 1:
+              case 'end':
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      function webphoneHangup() {
+        return _ref6.apply(this, arguments);
+      }
+
+      return webphoneHangup;
+    }(),
+    webphoneResume: function () {
+      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
+        var _args5 = arguments;
+        return _regenerator2.default.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
                 if (webphone) {
-                  _context.next = 2;
+                  _context5.next = 2;
                   break;
                 }
 
-                return _context.abrupt('return');
+                return _context5.abrupt('return');
 
               case 2:
-                _context.next = 4;
-                return webphone.resume.apply(webphone, _args);
+                _context5.next = 4;
+                return webphone.resume.apply(webphone, _args5);
 
               case 4:
                 if (routerInteraction.currentPath !== callCtrlRoute) {
@@ -124,31 +204,32 @@ function mapToFunctions(_, _ref2) {
 
               case 5:
               case 'end':
-                return _context.stop();
+                return _context5.stop();
             }
           }
-        }, _callee, _this);
+        }, _callee5, this);
       }));
 
       function webphoneResume() {
-        return _ref3.apply(this, arguments);
+        return _ref7.apply(this, arguments);
       }
 
       return webphoneResume;
     }(),
-    onViewContact: showViewContact ? onViewContact || function (_ref4) {
-      var contact = _ref4.contact;
+
+    onViewContact: showViewContact ? onViewContact || function (_ref8) {
+      var contact = _ref8.contact;
       var id = contact.id,
           type = contact.type;
 
       routerInteraction.push('/contacts/' + type + '/' + id + '?direct=true');
     } : null,
     onClickToSms: composeText ? function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(contact) {
+      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(contact) {
         var isDummyContact = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+        return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 if (routerInteraction) {
                   routerInteraction.push(composeTextRoute);
@@ -163,71 +244,71 @@ function mapToFunctions(_, _ref2) {
 
               case 3:
               case 'end':
-                return _context2.stop();
+                return _context6.stop();
             }
           }
-        }, _callee2, _this);
+        }, _callee6, _this);
       }));
 
       return function (_x2) {
-        return _ref5.apply(this, arguments);
+        return _ref9.apply(this, arguments);
       };
     }() : undefined,
     onCreateContact: onCreateContact ? function () {
-      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_ref6) {
-        var phoneNumber = _ref6.phoneNumber,
-            name = _ref6.name,
-            entityType = _ref6.entityType;
+      var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(_ref10) {
+        var phoneNumber = _ref10.phoneNumber,
+            name = _ref10.name,
+            entityType = _ref10.entityType;
         var hasMatchNumber;
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+        return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
-                _context3.next = 2;
+                _context7.next = 2;
                 return contactMatcher.hasMatchNumber({
                   phoneNumber: phoneNumber,
                   ignoreCache: true
                 });
 
               case 2:
-                hasMatchNumber = _context3.sent;
+                hasMatchNumber = _context7.sent;
 
                 if (hasMatchNumber) {
-                  _context3.next = 8;
+                  _context7.next = 8;
                   break;
                 }
 
-                _context3.next = 6;
+                _context7.next = 6;
                 return onCreateContact({ phoneNumber: phoneNumber, name: name, entityType: entityType });
 
               case 6:
-                _context3.next = 8;
+                _context7.next = 8;
                 return contactMatcher.forceMatchNumber({ phoneNumber: phoneNumber });
 
               case 8:
               case 'end':
-                return _context3.stop();
+                return _context7.stop();
             }
           }
-        }, _callee3, _this);
+        }, _callee7, _this);
       }));
 
       return function (_x3) {
-        return _ref7.apply(this, arguments);
+        return _ref11.apply(this, arguments);
       };
     }() : undefined,
     isLoggedContact: isLoggedContact,
     onLogCall: onLogCall || callLogger && function () {
-      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref8) {
-        var call = _ref8.call,
-            contact = _ref8.contact,
-            _ref8$redirect = _ref8.redirect,
-            redirect = _ref8$redirect === undefined ? true : _ref8$redirect;
-        return _regenerator2.default.wrap(function _callee4$(_context4) {
+      var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(_ref12) {
+        var call = _ref12.call,
+            contact = _ref12.contact,
+            _ref12$redirect = _ref12.redirect,
+            redirect = _ref12$redirect === undefined ? true : _ref12$redirect;
+        return _regenerator2.default.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
-                _context4.next = 2;
+                _context8.next = 2;
                 return callLogger.logCall({
                   call: call,
                   contact: contact,
@@ -236,14 +317,14 @@ function mapToFunctions(_, _ref2) {
 
               case 2:
               case 'end':
-                return _context4.stop();
+                return _context8.stop();
             }
           }
-        }, _callee4, _this);
+        }, _callee8, _this);
       }));
 
       return function (_x4) {
-        return _ref9.apply(this, arguments);
+        return _ref13.apply(this, arguments);
       };
     }(),
     onCallsEmpty: onCallsEmpty
