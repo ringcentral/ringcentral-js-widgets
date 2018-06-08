@@ -16,11 +16,11 @@ var _Enum = require('../../lib/Enum');
 
 var _Enum2 = _interopRequireDefault(_Enum);
 
-var _moduleActionTypes = require('../../enums/moduleActionTypes');
+var _baseActionTypes = require('../../lib/DataFetcher/baseActionTypes');
 
-var _moduleActionTypes2 = _interopRequireDefault(_moduleActionTypes);
+var _baseActionTypes2 = _interopRequireDefault(_baseActionTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)(_moduleActionTypes2.default)), ['fetch', 'fetchSuccess', 'fetchError', 'updateDialInNumber', 'updateAdditionalNumbers', 'inviteWithText', 'joinAsHost']), 'conference');
+exports.default = new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)(_baseActionTypes2.default)), ['updateDialInNumber', 'updateAdditionalNumbers', 'inviteWithText', 'joinAsHost']), 'conference');
 //# sourceMappingURL=actionTypes.js.map

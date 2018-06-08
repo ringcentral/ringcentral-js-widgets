@@ -85,7 +85,6 @@ var Storage = (_dec = (0, _di.Module)({
       var _this2 = this;
 
       var storedData = null;
-      var self = this;
       this.store.subscribe(function () {
         if (_this2._auth.loginStatus === _loginStatus2.default.loggedIn && !_this2.ready) {
           var storageKey = (_this2.prefix ? _this2.prefix + '-' : '') + 'storage-' + _this2._auth.ownerId;
