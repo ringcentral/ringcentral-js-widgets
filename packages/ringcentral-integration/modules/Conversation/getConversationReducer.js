@@ -44,7 +44,7 @@ export function getMessagesReducer(types) {
 }
 
 export function getSenderNumberReducer(types) {
-  return (state = null, { type, senderNumber }) => {
+  return (state = null, { type, senderNumber = null }) => {
     switch (type) {
       case types.load:
         return senderNumber;
