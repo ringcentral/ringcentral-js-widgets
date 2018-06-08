@@ -37,8 +37,11 @@ export default class ContactSourceFilter extends Component {
       unfold,
     };
   }
-
+  componentDidMount() {
+    this._mounted = true;
+  }
   componentWillUnmount() {
+    this._mounted = false;
     if (!this.state.unfold) {
       window.removeEventListener('click', this.hideList);
     }
@@ -49,11 +52,13 @@ export default class ContactSourceFilter extends Component {
   }
 
   hideList = () => {
-    this.setState(() => ({
-      unfold: false
-    }));
-    if (typeof this.props.onUnfoldChange === 'function') {
-      this.props.onUnfoldChange(false);
+    if (this._mounted) {
+      this.setState(() => ({
+        unfold: false
+      }));
+      if (typeof this.props.onUnfoldChange === 'function') {
+        this.props.onUnfoldChange(false);
+      }
     }
     window.removeEventListener('click', this.hideList);
   }
@@ -128,7 +133,7 @@ export default class ContactSourceFilter extends Component {
                 ))
               }
             </div>
-        )}
+          )}
       </div>
     );
   }

@@ -193,7 +193,7 @@ async function getVersionFromTag() {
 const RELEASE_PATH = path.resolve(__dirname, '../../release/ringcentral-integration');
 gulp.task('release-clean', async () => {
   if (!await fs.exists(RELEASE_PATH)) {
-    await exec(`mkdir -p ${RELEASE_PATH}`);
+    await fs.mkdirp(RELEASE_PATH);
   }
   const files = (await fs.readdir(RELEASE_PATH)).filter(file => !/^\./.test(file));
   for (const file of files) {

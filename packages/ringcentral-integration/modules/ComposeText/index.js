@@ -20,8 +20,8 @@ import proxify from '../../lib/proxy/proxify';
     'Storage',
     'MessageSender',
     'NumberValidate',
-    'ContactSearch',
     'RolesAndPermissions',
+    { dep: 'ContactSearch', optional: true },
     { dep: 'ComposeTextOptions', optional: true }
   ]
 })

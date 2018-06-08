@@ -19,8 +19,9 @@ async function rm(filepath) {
   }
 }
 
+const BUILD_PATH = path.resolve(__dirname, '../../build/locale-loader');
 gulp.task('clean', async () => (
-  rm(path.resolve(__dirname, 'build'))
+  rm(BUILD_PATH)
 ));
 
 gulp.task('build', ['clean'], () => (
@@ -35,7 +36,7 @@ gulp.task('build', ['clean'], () => (
     .pipe(sourcemaps.init())
     .pipe(babel())
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('build'))
+    .pipe(gulp.dest(BUILD_PATH))
 ));
 
 async function exec(command) {
@@ -63,23 +64,24 @@ async function getVersionFromTag() {
   }
 }
 
+const RELEASE_PATH = path.resolve(__dirname, '../../release/locale-loader');
 gulp.task('release-clean', async () => {
-  if (!await fs.exists('release')) {
-    await fs.mkdir('release');
+  if (!await fs.exists(RELEASE_PATH)) {
+    await fs.mkdirp(RELEASE_PATH);
   }
-  const files = (await fs.readdir('release')).filter(file => !/^\./.test(file));
+  const files = (await fs.readdir(RELEASE_PATH)).filter(file => !/^\./.test(file));
   for (const file of files) {
-    await rm(path.resolve(__dirname, 'release', file));
+    await rm(path.resolve(RELEASE_PATH, file));
   }
 });
 
 gulp.task('release-copy', ['build', 'release-clean'], () => (
-  gulp.src(['build/**', 'README.md', 'LICENSE'])
-    .pipe(gulp.dest('release'))
+  gulp.src([`${BUILD_PATH}/**`, `${__dirname}/README.md`, `${__dirname}/LICENSE`])
+    .pipe(gulp.dest(RELEASE_PATH))
 ));
 
 gulp.task('release', ['release-copy'], async () => {
-  const packageInfo = JSON.parse(await fs.readFile('package.json'));
+  const packageInfo = JSON.parse(await fs.readFile(path.resolve(__dirname, 'package.json')));
   delete packageInfo.scripts;
   delete packageInfo.devDependencies;
   delete packageInfo.jest;
@@ -87,5 +89,5 @@ gulp.task('release', ['release-copy'], async () => {
   if (version) {
     packageInfo.version = version;
   }
-  await fs.writeFile('release/package.json', JSON.stringify(packageInfo, null, 2));
+  await fs.writeFile(path.resolve(RELEASE_PATH, 'package.json'), JSON.stringify(packageInfo, null, 2));
 });

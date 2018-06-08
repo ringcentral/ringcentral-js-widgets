@@ -22,7 +22,7 @@ export default class StorageBase extends RcModule {
     name,
     actionTypes = prefixEnum({ enumMap: actionTypesBase, prefix: name }),
     StorageProvider = SynchronizedStorage,
-    ...options,
+    ...options
   }) {
     if (!name) {
       throw new Error('name must be defined');

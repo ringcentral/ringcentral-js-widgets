@@ -5,7 +5,6 @@
   position: absolute;
   top: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.7);
   z-index: 1;
 }
 
@@ -17,4 +16,9 @@
   margin-left: -20px;
   width: 40px;
   height: 40px;
+}
+
+.mask {
+  @include full-size;
+  background-color: rgba(0, 0, 0, 0.7);
 }

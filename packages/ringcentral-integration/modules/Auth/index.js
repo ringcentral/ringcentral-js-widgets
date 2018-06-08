@@ -127,8 +127,10 @@ export default class Auth extends RcModule {
     };
     const onRefreshError = (error) => {
       // user is still considered logged in if the refreshToken is still valid
-
-      const refreshTokenValid = error.message === 'Failed to fetch' && platform.auth().refreshTokenValid();
+      const refreshTokenValid = (error.message === 'Failed to fetch' ||
+      error.message === 'The Internet connection appears to be offline.' ||
+      error.message === 'NetworkError when attempting to fetch resource.' ||
+      error.message === 'Network Error 0x2ee7, Could not complete the operation due to error 00002ee7.') && platform.auth().refreshTokenValid();
       this.store.dispatch({
         type: this.actionTypes.refreshError,
         error,

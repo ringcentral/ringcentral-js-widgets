@@ -16,7 +16,7 @@ jobs:
     - stage: commons npm release
       if: tag =~ ^[0-9]+.[0-9]+.[0-9]+
       node_js: "8"
-      script: ./scripts/commons_prepare_release.sh
+      script: yarn commons:prepare-release
       before_deploy:
         - cd release/ringcentral-integration
       after_deploy:
@@ -34,19 +34,15 @@ jobs:
     - stage: commons script release
       node_js: "8"
       if: branch = master
-      script: ./scripts/commons_prepare_release.sh
-      before_deploy:
-        - cd release/ringcentral-integration
-      after_deploy:
-        - cd ../../
+      script: yarn commons:prepare-release
       deploy:
         provider: script
         skip_cleanup: true
-        script: ../../scripts/commons_start_release.sh
+        script: yarn commons:start-release
     - stage: widgets npm release
       if: tag =~ ^[0-9]+.[0-9]+.[0-9]+
       node_js: "8"
-      script: ./scripts/widgets_prepare_release.sh
+      script: yarn widgets:prepare-release
       before_deploy:
         - cd release/ringcentral-widgets
       after_deploy:
@@ -64,15 +60,11 @@ jobs:
     - stage: widgets script release
       if: branch = master
       node_js: "8"
-      script: ./scripts/widgets_prepare_release.sh
-      before_deploy:
-        - cd release/ringcentral-widgets
-      after_deploy:
-        - cd ../../
+      script: yarn widgets:prepare-release
       deploy:
         provider: script
         skip_cleanup: true
-        script: ../../scripts/widgets_start_release.sh
+        script: yarn widgets:start-release
     - stage: widgets docs build
       if: tag =~ ^[0-9]+.[0-9]+.[0-9]+
       node_js: "8"
@@ -89,3 +81,27 @@ jobs:
           node: '8'
           tags: true
           condition: "$TRAVIS_TAG =~ ^[0-9]+.[0-9]+.[0-9]+"
+    - stage: i18n script release
+      node_js: "8"
+      if: branch = master
+      script: yarn i18n:prepare-release
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script: yarn i18n:start-release
+    - stage: locale loader script release
+      node_js: "8"
+      if: branch = master
+      script: yarn locale-loader:prepare-release
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script: yarn locale-loader:start-release
+    - stage: phone number script release
+      node_js: "8"
+      if: branch = master
+      script: yarn phone-number:prepare-release
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script: yarn phone-number:start-release

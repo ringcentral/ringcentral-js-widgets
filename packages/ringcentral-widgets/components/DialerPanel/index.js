@@ -36,6 +36,8 @@ function DialerPanel({
   recipientsContactInfoRenderer,
   recipientsContactPhoneRenderer,
   autoFocus,
+  showFromField = true,
+  children,
 }) {
   const onCallFunc = () => {
     if (!callButtonDisabled) {
@@ -61,17 +63,21 @@ function DialerPanel({
         contactPhoneRenderer={recipientsContactPhoneRenderer}
         titleEnabled
         autoFocus={autoFocus}
+        className={!showFromField ? classnames(styles.inputField, styles.recipientsField) : null}
       />
-      <div className={styles.inputFields}>
-        <FromField
-          fromNumber={fromNumber}
-          fromNumbers={fromNumbers}
-          onChange={changeFromNumber}
-          formatPhone={formatPhone}
-          currentLocale={currentLocale}
-          hidden={!isWebphoneMode}
-        />
-      </div>
+      {
+        showFromField ?
+          <div className={styles.inputField}>
+            <FromField
+              fromNumber={fromNumber}
+              fromNumbers={fromNumbers}
+              onChange={changeFromNumber}
+              formatPhone={formatPhone}
+              currentLocale={currentLocale}
+              hidden={!isWebphoneMode}
+            />
+          </div> : null
+      }
       <div className={classnames(styles.dialButtons, dialButtonsClassName)}>
         <DialPad
           className={styles.dialPad}
@@ -97,6 +103,7 @@ function DialerPanel({
         </div>
       </div>
       {content}
+      {children}
     </div>
   );
 }
@@ -137,6 +144,8 @@ DialerPanel.propTypes = {
   recipientsContactInfoRenderer: PropTypes.func,
   recipientsContactPhoneRenderer: PropTypes.func,
   autoFocus: PropTypes.bool,
+  showFromField: PropTypes.bool,
+  children: PropTypes.node,
 };
 
 DialerPanel.defaultProps = {
@@ -158,6 +167,8 @@ DialerPanel.defaultProps = {
   recipientsContactInfoRenderer: undefined,
   recipientsContactPhoneRenderer: undefined,
   autoFocus: false,
+  showFromField: true,
+  children: undefined,
 };
 
 export default DialerPanel;

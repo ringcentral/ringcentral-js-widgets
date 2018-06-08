@@ -196,9 +196,7 @@ const When = (
                   preventReplay(false);
                   if (currentStartTime) {
                     const date = new Date(meeting.schedule.startTime);
-                    date.setFullYear(currentStartTime.getFullYear());
-                    date.setMonth(currentStartTime.getMonth());
-                    date.setDate(currentStartTime.getDate());
+                    date.setFullYear(currentStartTime.getFullYear(), currentStartTime.getMonth(), currentStartTime.getDate());
                     let startTime = date.getTime();
                     const now = (new Date()).getTime();
                     if (startTime < now) {
