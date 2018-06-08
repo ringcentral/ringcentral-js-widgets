@@ -38,6 +38,10 @@ var _CallAlert = require('../../components/CallAlert');
 
 var _CallAlert2 = _interopRequireDefault(_CallAlert);
 
+var _CallLogAlert = require('../../components/CallLogAlert');
+
+var _CallLogAlert2 = _interopRequireDefault(_CallLogAlert);
+
 var _CallingSettingsAlert = require('../../components/CallingSettingsAlert');
 
 var _CallingSettingsAlert2 = _interopRequireDefault(_CallingSettingsAlert);
@@ -202,6 +206,12 @@ function getDefaultRenderer(_ref2) {
         return _react2.default.createElement(_AudioSettingsAlert2.default, (0, _extends3.default)({}, props, {
           application: brand.appName
         }));
+      };
+    }
+
+    if (_CallLogAlert2.default.handleMessage(message)) {
+      return function (props) {
+        return _react2.default.createElement(_CallLogAlert2.default, props);
       };
     }
 

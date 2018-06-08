@@ -436,13 +436,12 @@ var CallLogSection = (_dec = (0, _di.Module)({
               case 0:
                 currentNotificationIdentify = this.currentNotificationIdentify;
                 currentIdentify = this.currentIdentify;
-
-                this.closeLogNotification();
-                this.closeLogSection();
-                _context4.next = 6;
+                _context4.next = 4;
                 return this.saveCallLog(currentIdentify);
 
-              case 6:
+              case 4:
+                this.closeLogNotification();
+                this.closeLogSection();
                 this._showLogSection(currentNotificationIdentify);
 
               case 7:

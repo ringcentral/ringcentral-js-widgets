@@ -81,7 +81,7 @@ function LogNotification(_ref) {
         onSave ? _react2.default.createElement(
           _Button2.default,
           {
-            className: _styles2.default.saveButton,
+            className: (0, _classnames2.default)(_styles2.default.saveButton, _styles2.default.selected),
             onClick: function onClick() {
               return onSave();
             } },
