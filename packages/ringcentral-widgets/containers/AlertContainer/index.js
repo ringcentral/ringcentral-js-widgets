@@ -9,6 +9,7 @@ import AnimationAlert from '../../components/AnimationAlert';
 
 import AuthAlert from '../../components/AuthAlert';
 import CallAlert from '../../components/CallAlert';
+import CallLogAlert from '../../components/CallLogAlert';
 import CallingSettingsAlert from '../../components/CallingSettingsAlert';
 import RegionSettingsAlert from '../../components/RegionSettingsAlert';
 import MessageSenderAlert from '../../components/MessageSenderAlert';
@@ -142,6 +143,14 @@ function getDefaultRenderer({
         <AudioSettingsAlert
           {...props}
           application={brand.appName}
+        />
+      );
+    }
+
+    if (CallLogAlert.handleMessage(message)) {
+      return props => (
+        <CallLogAlert
+          {...props}
         />
       );
     }
