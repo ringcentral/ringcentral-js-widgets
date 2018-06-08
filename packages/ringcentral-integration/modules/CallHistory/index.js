@@ -26,7 +26,8 @@ import proxify from '../../lib/proxy/proxify';
     { dep: 'Storage', optional: true },
     { dep: 'ActivityMatcher', optional: true },
     { dep: 'ContactMatcher', optional: true },
-    { dep: 'CallHistoryOptions', optional: true }
+    { dep: 'CallHistoryOptions', optional: true },
+    { dep: 'TabManager', optional: true },
   ]
 })
 export default class CallHistory extends RcModule {
@@ -46,6 +47,7 @@ export default class CallHistory extends RcModule {
     storage,
     activityMatcher,
     contactMatcher,
+    tabManager,
     ...options
   }) {
     super({
@@ -57,6 +59,8 @@ export default class CallHistory extends RcModule {
     this._activityMatcher = activityMatcher;
     this._contactMatcher = contactMatcher;
     this._callMonitor = callMonitor;
+    this._tabManager = tabManager;
+
     if (this._storage) {
       this._reducer = getCallHistoryReducer(this.actionTypes);
       this._endedCallsStorageKey = 'callHistoryEndedCalls';
@@ -74,6 +78,7 @@ export default class CallHistory extends RcModule {
         getQueriesFn: () => this.uniqueNumbers,
         readyCheckFn: () => (
           (!this._callMonitor || this._callMonitor.ready) &&
+          (!this._tabManager || this._tabManager.ready) &&
           this._callLog.ready &&
           this._accountInfo.ready
         ),
@@ -84,6 +89,7 @@ export default class CallHistory extends RcModule {
         getQueriesFn: () => this.sessionIds,
         readyCheckFn: () => (
           (!this._callMonitor || this._callMonitor.ready) &&
+          (!this._tabManager || this._tabManager.ready) &&
           this._callLog.ready
         ),
       });
@@ -117,6 +123,7 @@ export default class CallHistory extends RcModule {
       this._accountInfo.ready &&
       (!this._contactMatcher || this._contactMatcher.ready) &&
       (!this._activityMatcher || this._activityMatcher.ready) &&
+      (!this._tabManager || this._tabManager.ready) &&
       this.pending
     );
   }
@@ -127,6 +134,7 @@ export default class CallHistory extends RcModule {
         (this._callMonitor && !this._callMonitor.ready) ||
         !this._accountInfo.ready ||
         (this._contactMatcher && !this._contactMatcher.ready) ||
+        (this._tabManager && !this._tabManager.ready) ||
         (this._activityMatcher && !this._activityMatcher.ready)
       ) &&
       this.ready
@@ -134,7 +142,10 @@ export default class CallHistory extends RcModule {
   }
 
   _shouldTriggerContactMatch(uniqueNumbers) {
-    if (this._lastProcessedNumbers !== uniqueNumbers) {
+    if (
+      this._lastProcessedNumbers !== uniqueNumbers &&
+      (!this._tabManager || this._tabManager.active)
+    ) {
       this._lastProcessedNumbers = uniqueNumbers;
       if (this._contactMatcher && this._contactMatcher.ready) {
         return true;
@@ -144,7 +155,10 @@ export default class CallHistory extends RcModule {
   }
 
   _shouldTriggerActivityMatch(sessionIds) {
-    if (this._lastProcessedIds !== sessionIds) {
+    if (
+      this._lastProcessedIds !== sessionIds &&
+      (!this._tabManager || this._tabManager.active)
+    ) {
       this._lastProcessedIds = sessionIds;
       if (this._activityMatcher && this._activityMatcher.ready) {
         return true;
@@ -397,8 +411,7 @@ export default class CallHistory extends RcModule {
   get recentlyEndedCalls() {
     if (this._storage) {
       return this._storage.getItem(this._endedCallsStorageKey);
-    } else {
-      return this.state.endedCalls;
     }
+    return this.state.endedCalls;
   }
 }

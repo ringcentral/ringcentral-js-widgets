@@ -24,17 +24,25 @@ export default class SynchronizedStorage {
           try {
             const {
               setter,
+              value,
             } = JSON.parse(event.newValue);
             if (setter && setter !== this.id) {
               const key = event.key.substring(this._storageKey.length + 1);
+              // fire storage event directly from the native event
+              // may reduce the chance of failing to get updated data
+              // if there is heavy localStorage load
+              this.emit('storage', {
+                key,
+                value,
+              });
               // It seems that IE11 does not update the actual localStorage object
               // in the same event cycle...
-              setTimeout(() => {
-                this.emit('storage', {
-                  key,
-                  value: this.getItem(key),
-                });
-              }, 0);
+              // setTimeout(() => {
+              //   this.emit('storage', {
+              //     key,
+              //     value: this.getItem(key),
+              //   });
+              // }, 0);
             }
           } catch (error) {
             /* ignore error */

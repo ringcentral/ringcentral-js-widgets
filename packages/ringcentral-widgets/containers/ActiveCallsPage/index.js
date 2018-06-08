@@ -58,16 +58,26 @@ function mapToFunctions(_, {
   showViewContact = true,
 }) {
   return {
-    formatPhone: phoneNumber => formatNumber({
-      phoneNumber,
-      areaCode: regionSettings.areaCode,
-      countryCode: regionSettings.countryCode,
-    }),
-    webphoneAnswer: (...args) => (webphone && webphone.answer(...args)),
-    webphoneToVoicemail: (...args) => (webphone && webphone.toVoiceMail(...args)),
-    webphoneReject: (...args) => (webphone && webphone.reject(...args)),
-    webphoneHangup: (...args) => (webphone && webphone.hangup(...args)),
-    webphoneResume: async (...args) => {
+    formatPhone(phoneNumber) {
+      return formatNumber({
+        phoneNumber,
+        areaCode: regionSettings.areaCode,
+        countryCode: regionSettings.countryCode,
+      });
+    },
+    async webphoneAnswer(...args) {
+      return (webphone && webphone.answer(...args));
+    },
+    async webphoneToVoicemail(...args) {
+      return (webphone && webphone.toVoiceMail(...args));
+    },
+    async webphoneReject(...args) {
+      return (webphone && webphone.reject(...args));
+    },
+    async webphoneHangup(...args) {
+      return (webphone && webphone.hangup(...args));
+    },
+    async webphoneResume(...args) {
       if (!webphone) {
         return;
       }

@@ -19,7 +19,8 @@ export const DefaultMinimalSearchLength = 3;
   deps: [
     'Auth',
     'Storage',
-    { dep: 'ContactSearchOptions', optional: true }
+    { dep: 'ContactSearchOptions', optional: true },
+    { dep: 'TabManager', optional: true },
   ]
 })
 export default class ContactSearch extends RcModule {
@@ -38,7 +39,7 @@ export default class ContactSearch extends RcModule {
     storageKey = 'contactSearchCache',
     minimalSearchLength = DefaultMinimalSearchLength,
     ttl = 5 * 60 * 1000, // 5 minutes
-    ...options,
+    ...options
   }) {
     super({
       ...options,

@@ -149,7 +149,7 @@ export default class BasePhone extends RcModule {
     contactSearch,
     contacts,
     contactMatcher,
-    ...options,
+    ...options
   }) {
     super({
       ...options,
@@ -157,7 +157,7 @@ export default class BasePhone extends RcModule {
 
     contactSearch.addSearchSource({
       sourceName: 'contacts',
-      searchFn: ({ searchString }) => {
+      searchFn({ searchString }) {
         const items = contacts.allContacts;
         if (!searchString) {
           return items;

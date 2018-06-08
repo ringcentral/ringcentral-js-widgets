@@ -37,7 +37,7 @@ export default class DataMatcher extends RcModule {
     storageKey = `${name}Data`,
     getReducer = getDefaultReducer,
     getDataReducer = getDefaultDataReducer,
-    ...options,
+    ...options
   } = {}) {
     checkName(name);
     super({
