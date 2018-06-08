@@ -185,9 +185,9 @@ export default class CallLogSection extends RcModule {
   async saveAndHandleNotification() {
     const currentNotificationIdentify = this.currentNotificationIdentify;
     const currentIdentify = this.currentIdentify;
+    await this.saveCallLog(currentIdentify);
     this.closeLogNotification();
     this.closeLogSection();
-    await this.saveCallLog(currentIdentify);
     this._showLogSection(currentNotificationIdentify);
   }
 

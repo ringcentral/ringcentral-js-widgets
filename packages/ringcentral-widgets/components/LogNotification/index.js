@@ -43,7 +43,7 @@ export default function LogNotification(
               {
                 onSave ? (
                   <Button
-                    className={styles.saveButton}
+                    className={classnames(styles.saveButton, styles.selected)}
                     onClick={() => onSave()}>
                     {i18n.getString('save', currentLocale)}
                   </Button>
