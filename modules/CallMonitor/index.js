@@ -116,7 +116,7 @@ function matchWephoneSessionWithAcitveCall(sessions, callItem) {
  * @description active calls monitor module
  */
 var CallMonitor = (_dec = (0, _di.Module)({
-  deps: ['AccountInfo', 'Storage', 'DetailedPresence', { dep: 'ContactMatcher', optional: true }, { dep: 'Webphone', optional: true }, { dep: 'Call', optional: true }, { dep: 'ActivityMatcher', optional: true }, { dep: 'CallMonitorOptions', optional: true }]
+  deps: ['AccountInfo', 'Storage', 'DetailedPresence', { dep: 'ContactMatcher', optional: true }, { dep: 'Webphone', optional: true }, { dep: 'Call', optional: true }, { dep: 'ActivityMatcher', optional: true }, { dep: 'CallMonitorOptions', optional: true }, { dep: 'TabManager', optional: true }]
 }), _dec(_class = function (_RcModule) {
   (0, _inherits3.default)(CallMonitor, _RcModule);
 
@@ -141,13 +141,14 @@ var CallMonitor = (_dec = (0, _di.Module)({
         detailedPresence = _ref.detailedPresence,
         activityMatcher = _ref.activityMatcher,
         contactMatcher = _ref.contactMatcher,
+        tabManager = _ref.tabManager,
         webphone = _ref.webphone,
         onRinging = _ref.onRinging,
         onNewCall = _ref.onNewCall,
         onCallUpdated = _ref.onCallUpdated,
         onCallEnded = _ref.onCallEnded,
         storage = _ref.storage,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['call', 'accountInfo', 'detailedPresence', 'activityMatcher', 'contactMatcher', 'webphone', 'onRinging', 'onNewCall', 'onCallUpdated', 'onCallEnded', 'storage']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['call', 'accountInfo', 'detailedPresence', 'activityMatcher', 'contactMatcher', 'tabManager', 'webphone', 'onRinging', 'onNewCall', 'onCallUpdated', 'onCallEnded', 'storage']);
     (0, _classCallCheck3.default)(this, CallMonitor);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallMonitor.__proto__ || (0, _getPrototypeOf2.default)(CallMonitor)).call(this, (0, _extends3.default)({}, options, {
@@ -159,6 +160,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
     _this._detailedPresence = _ensureExist2.default.call(_this, detailedPresence, 'detailedPresence');
     _this._contactMatcher = contactMatcher;
     _this._activityMatcher = activityMatcher;
+    _this._tabManager = tabManager;
     _this._webphone = webphone;
     _this._onRinging = onRinging;
     _this._onNewCall = onNewCall;
@@ -328,14 +330,14 @@ var CallMonitor = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if ((!this._call || this._call.ready) && this._accountInfo.ready && this._detailedPresence.ready && (!this._contactMatcher || this._contactMatcher.ready) && (!this._activityMatcher || this._activityMatcher.ready) && this._storage.ready && this.pending) {
+                if ((!this._call || this._call.ready) && this._accountInfo.ready && this._detailedPresence.ready && (!this._contactMatcher || this._contactMatcher.ready) && (!this._activityMatcher || this._activityMatcher.ready) && (!this._tabManager || this._tabManager.ready) && this._storage.ready && this.pending) {
                   this.store.dispatch({
                     type: this.actionTypes.init
                   });
                   this.store.dispatch({
                     type: this.actionTypes.initSuccess
                   });
-                } else if ((this._call && !this._call.ready || !this._accountInfo.ready || !this._detailedPresence.ready || this._contactMatcher && !this._contactMatcher.ready || this._activityMatcher && !this._activityMatcher.ready || !this._storage.ready) && this.ready) {
+                } else if ((this._call && !this._call.ready || !this._accountInfo.ready || !this._detailedPresence.ready || this._contactMatcher && !this._contactMatcher.ready || this._activityMatcher && !this._activityMatcher.ready || this._tabManager && !this._tabManager.ready || !this._storage.ready) && this.ready) {
                   this.store.dispatch({
                     type: this.actionTypes.reset
                   });
@@ -348,7 +350,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
                 } else if (this.ready) {
                   uniqueNumbers = this._selectors.uniqueNumbers();
 
-                  if (this._lastProcessedNumbers !== uniqueNumbers) {
+                  if (this._lastProcessedNumbers !== uniqueNumbers && (!this._tabManager || this._tabManager.active)) {
                     this._lastProcessedNumbers = uniqueNumbers;
                     if (this._contactMatcher && this._contactMatcher.ready) {
                       this._contactMatcher.triggerMatch();
@@ -356,7 +358,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
                   }
                   sessionIds = this._selectors.sessionIds();
 
-                  if (this._lastProcessedIds !== sessionIds) {
+                  if (this._lastProcessedIds !== sessionIds && (!this._tabManager || this._tabManager.active)) {
                     this._lastProcessedIds = sessionIds;
                     if (this._activityMatcher && this._activityMatcher.ready) {
                       this._activityMatcher.triggerMatch();

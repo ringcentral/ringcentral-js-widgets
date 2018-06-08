@@ -136,7 +136,7 @@ var DefaultMinimalSearchLength = exports.DefaultMinimalSearchLength = 3;
  * @description Contact search module
  */
 var ContactSearch = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Storage', { dep: 'ContactSearchOptions', optional: true }]
+  deps: ['Auth', 'Storage', { dep: 'ContactSearchOptions', optional: true }, { dep: 'TabManager', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(ContactSearch, _RcModule);
 

@@ -2172,7 +2172,7 @@ var Webphone = (_dec = (0, _di.Module)({
         session: normalizedSession,
         sessions: this.sessions
       });
-      if (this._contactMatcher) {
+      if (this._contactMatcher && (!this._tabManager || this._tabManager.active)) {
         this._contactMatcher.triggerMatch();
       }
       if (typeof this._onCallStartFunc === 'function') {
@@ -2189,7 +2189,7 @@ var Webphone = (_dec = (0, _di.Module)({
         session: normalizedSession,
         sessions: this.sessions
       });
-      if (this._contactMatcher) {
+      if (this._contactMatcher && (!this._tabManager || this._tabManager.active)) {
         this._contactMatcher.triggerMatch();
       }
       if (this.activeSession && !(0, _webphoneHelper.isOnHold)(this.activeSession)) {

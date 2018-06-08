@@ -119,7 +119,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @description Conversation list managing module
  */
 var Messages = (_dec = (0, _di.Module)({
-  deps: ['MessageStore', 'ExtensionInfo', 'Auth', 'RolesAndPermissions', { dep: 'ContactMatcher', optional: true }, { dep: 'ConversationLogger', optional: true }, { dep: 'MessagesOptions', optional: true }]
+  deps: ['MessageStore', 'ExtensionInfo', 'Auth', 'RolesAndPermissions', { dep: 'ContactMatcher', optional: true }, { dep: 'ConversationLogger', optional: true }, { dep: 'MessagesOptions', optional: true }, { dep: 'TabManager', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(Messages, _RcModule);
 
@@ -142,7 +142,8 @@ var Messages = (_dec = (0, _di.Module)({
         contactMatcher = _ref.contactMatcher,
         conversationLogger = _ref.conversationLogger,
         rolesAndPermissions = _ref.rolesAndPermissions,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'messageStore', 'extensionInfo', 'defaultPerPage', 'contactMatcher', 'conversationLogger', 'rolesAndPermissions']);
+        tabManager = _ref.tabManager,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'messageStore', 'extensionInfo', 'defaultPerPage', 'contactMatcher', 'conversationLogger', 'rolesAndPermissions', 'tabManager']);
     (0, _classCallCheck3.default)(this, Messages);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Messages.__proto__ || (0, _getPrototypeOf2.default)(Messages)).call(this, (0, _extends3.default)({}, options, {
@@ -151,6 +152,7 @@ var Messages = (_dec = (0, _di.Module)({
 
     _this._contactMatcher = contactMatcher;
     _this._conversationLogger = conversationLogger;
+    _this._tabManager = tabManager;
     _this._auth = _ensureExist2.default.call(_this, auth, 'auth');
     _this._messageStore = _ensureExist2.default.call(_this, messageStore, 'messageStore');
     _this._extensionInfo = _ensureExist2.default.call(_this, extensionInfo, 'extensionInfo');
@@ -342,7 +344,7 @@ var Messages = (_dec = (0, _di.Module)({
       _this._contactMatcher.addQuerySource({
         getQueriesFn: _this._selectors.uniqueNumbers,
         readyCheckFn: function readyCheckFn() {
-          return _this._messageStore.ready;
+          return _this._messageStore.ready && (!_this._tabManager || _this._tabManager.ready);
         }
       });
     }
@@ -374,7 +376,7 @@ var Messages = (_dec = (0, _di.Module)({
                   this._reset();
                 } else if (this._lastProcessedNumbers !== this.uniqueNumbers) {
                   this._lastProcessedNumbers = this.uniqueNumbers;
-                  if (this._contactMatcher) {
+                  if (this._contactMatcher && (!this._tabManager || this._tabManager.active)) {
                     this._contactMatcher.triggerMatch();
                   }
                 }
@@ -404,7 +406,7 @@ var Messages = (_dec = (0, _di.Module)({
       this.store.dispatch({
         type: this.actionTypes.init
       });
-      if (this._contactMatcher) {
+      if (this._contactMatcher && (!this._tabManager || this._tabManager.active)) {
         this._contactMatcher.triggerMatch();
       }
       this.store.dispatch({

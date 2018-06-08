@@ -143,7 +143,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @description Call history managing module
  */
 var CallHistory = (_dec = (0, _di.Module)({
-  deps: ['AccountInfo', 'CallLog', 'CallMonitor', { dep: 'Storage', optional: true }, { dep: 'ActivityMatcher', optional: true }, { dep: 'ContactMatcher', optional: true }, { dep: 'CallHistoryOptions', optional: true }]
+  deps: ['AccountInfo', 'CallLog', 'CallMonitor', { dep: 'Storage', optional: true }, { dep: 'ActivityMatcher', optional: true }, { dep: 'ContactMatcher', optional: true }, { dep: 'CallHistoryOptions', optional: true }, { dep: 'TabManager', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(CallHistory, _RcModule);
 
@@ -163,7 +163,8 @@ var CallHistory = (_dec = (0, _di.Module)({
         storage = _ref.storage,
         activityMatcher = _ref.activityMatcher,
         contactMatcher = _ref.contactMatcher,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['accountInfo', 'callLog', 'callMonitor', 'storage', 'activityMatcher', 'contactMatcher']);
+        tabManager = _ref.tabManager,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['accountInfo', 'callLog', 'callMonitor', 'storage', 'activityMatcher', 'contactMatcher', 'tabManager']);
     (0, _classCallCheck3.default)(this, CallHistory);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallHistory.__proto__ || (0, _getPrototypeOf2.default)(CallHistory)).call(this, (0, _extends3.default)({}, options)));
@@ -182,6 +183,8 @@ var CallHistory = (_dec = (0, _di.Module)({
     _this._activityMatcher = activityMatcher;
     _this._contactMatcher = contactMatcher;
     _this._callMonitor = callMonitor;
+    _this._tabManager = tabManager;
+
     if (_this._storage) {
       _this._reducer = (0, _getCallHistoryReducer2.default)(_this.actionTypes);
       _this._endedCallsStorageKey = 'callHistoryEndedCalls';
@@ -200,7 +203,7 @@ var CallHistory = (_dec = (0, _di.Module)({
           return _this.uniqueNumbers;
         },
         readyCheckFn: function readyCheckFn() {
-          return (!_this._callMonitor || _this._callMonitor.ready) && _this._callLog.ready && _this._accountInfo.ready;
+          return (!_this._callMonitor || _this._callMonitor.ready) && (!_this._tabManager || _this._tabManager.ready) && _this._callLog.ready && _this._accountInfo.ready;
         }
       });
     }
@@ -210,7 +213,7 @@ var CallHistory = (_dec = (0, _di.Module)({
           return _this.sessionIds;
         },
         readyCheckFn: function readyCheckFn() {
-          return (!_this._callMonitor || _this._callMonitor.ready) && _this._callLog.ready;
+          return (!_this._callMonitor || _this._callMonitor.ready) && (!_this._tabManager || _this._tabManager.ready) && _this._callLog.ready;
         }
       });
     }
@@ -259,17 +262,17 @@ var CallHistory = (_dec = (0, _di.Module)({
   }, {
     key: '_shouldInit',
     value: function _shouldInit() {
-      return this._callLog.ready && (!this._callMonitor || this._callMonitor.ready) && this._accountInfo.ready && (!this._contactMatcher || this._contactMatcher.ready) && (!this._activityMatcher || this._activityMatcher.ready) && this.pending;
+      return this._callLog.ready && (!this._callMonitor || this._callMonitor.ready) && this._accountInfo.ready && (!this._contactMatcher || this._contactMatcher.ready) && (!this._activityMatcher || this._activityMatcher.ready) && (!this._tabManager || this._tabManager.ready) && this.pending;
     }
   }, {
     key: '_shouldReset',
     value: function _shouldReset() {
-      return (!this._callLog.ready || this._callMonitor && !this._callMonitor.ready || !this._accountInfo.ready || this._contactMatcher && !this._contactMatcher.ready || this._activityMatcher && !this._activityMatcher.ready) && this.ready;
+      return (!this._callLog.ready || this._callMonitor && !this._callMonitor.ready || !this._accountInfo.ready || this._contactMatcher && !this._contactMatcher.ready || this._tabManager && !this._tabManager.ready || this._activityMatcher && !this._activityMatcher.ready) && this.ready;
     }
   }, {
     key: '_shouldTriggerContactMatch',
     value: function _shouldTriggerContactMatch(uniqueNumbers) {
-      if (this._lastProcessedNumbers !== uniqueNumbers) {
+      if (this._lastProcessedNumbers !== uniqueNumbers && (!this._tabManager || this._tabManager.active)) {
         this._lastProcessedNumbers = uniqueNumbers;
         if (this._contactMatcher && this._contactMatcher.ready) {
           return true;
@@ -280,7 +283,7 @@ var CallHistory = (_dec = (0, _di.Module)({
   }, {
     key: '_shouldTriggerActivityMatch',
     value: function _shouldTriggerActivityMatch(sessionIds) {
-      if (this._lastProcessedIds !== sessionIds) {
+      if (this._lastProcessedIds !== sessionIds && (!this._tabManager || this._tabManager.active)) {
         this._lastProcessedIds = sessionIds;
         if (this._activityMatcher && this._activityMatcher.ready) {
           return true;
@@ -438,9 +441,8 @@ var CallHistory = (_dec = (0, _di.Module)({
     get: function get() {
       if (this._storage) {
         return this._storage.getItem(this._endedCallsStorageKey);
-      } else {
-        return this.state.endedCalls;
       }
+      return this.state.endedCalls;
     }
   }]);
   return CallHistory;
