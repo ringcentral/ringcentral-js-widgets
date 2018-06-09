@@ -89,7 +89,8 @@ function getSenderNumberReducer(types) {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var _ref4 = arguments[1];
     var type = _ref4.type,
-        senderNumber = _ref4.senderNumber;
+        _ref4$senderNumber = _ref4.senderNumber,
+        senderNumber = _ref4$senderNumber === undefined ? null : _ref4$senderNumber;
 
     switch (type) {
       case types.load:
