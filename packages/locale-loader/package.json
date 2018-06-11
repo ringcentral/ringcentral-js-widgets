@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
   "peerDependencies": {
+    "@ringcentral-integration/i18n": "^2.0.0",
     "babel-runtime": "^6.26.0"
   },
   "devDependencies": {
@@ -28,7 +29,6 @@
     "jest": "^22.4.3"
   },
   "dependencies": {
-    "@ringcentral-integration/i18n": "^2.0.0",
     "babel-generator": "^6.26.1",
     "babylon": "^6.18.0",
     "chalk": "^2.4.1",
