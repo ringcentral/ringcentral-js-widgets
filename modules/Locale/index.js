@@ -61,9 +61,9 @@ var _formatMessage2 = _interopRequireDefault(_formatMessage);
 
 var _redux = require('redux');
 
-var _I18n = require('locale-loader/lib/I18n');
+var _i18n = require('@ringcentral-integration/i18n');
 
-var _I18n2 = _interopRequireDefault(_I18n);
+var _i18n2 = _interopRequireDefault(_i18n);
 
 var _RcModule2 = require('../../lib/RcModule');
 
@@ -150,7 +150,7 @@ var Locale = (_dec = (0, _di.Module)({
     var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
     var _ref$defaultLocale = _ref.defaultLocale,
-        defaultLocale = _ref$defaultLocale === undefined ? _I18n.DEFAULT_LOCALE : _ref$defaultLocale,
+        defaultLocale = _ref$defaultLocale === undefined ? _i18n.DEFAULT_LOCALE : _ref$defaultLocale,
         _ref$detectBrowser = _ref.detectBrowser,
         detectBrowser = _ref$detectBrowser === undefined ? true : _ref$detectBrowser,
         _ref$polling = _ref.polling,
@@ -318,7 +318,7 @@ var Locale = (_dec = (0, _di.Module)({
                   debugMode: this.debugMode
                 });
                 if (this.debugMode) {
-                  this.setLocale(_I18n.PSEUDO_LOCALE);
+                  this.setLocale(_i18n.PSEUDO_LOCALE);
                 }
 
               case 2:
@@ -344,11 +344,11 @@ var Locale = (_dec = (0, _di.Module)({
             switch (_context6.prev = _context6.next) {
               case 0:
                 _context6.next = 2;
-                return _I18n2.default.setLocale(locale);
+                return _i18n2.default.setLocale(locale);
 
               case 2:
                 _formatMessage2.default.setup({
-                  locale: this.currentLocale === _I18n.PSEUDO_LOCALE ? _I18n.DEFAULT_LOCALE : this.currentLocale
+                  locale: this.currentLocale === _i18n.PSEUDO_LOCALE ? _i18n.DEFAULT_LOCALE : this.currentLocale
                 });
 
               case 3:

@@ -59,9 +59,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _dec, _class, _desc, _value, _class2, _descriptor;
 
-var _defaultConfig = require('locale-loader/defaultConfig');
-
-var _defaultConfig2 = _interopRequireDefault(_defaultConfig);
+var _i18n = require('@ringcentral-integration/i18n');
 
 var _reselect = require('reselect');
 
@@ -167,7 +165,7 @@ var LocaleSettings = (_dec = (0, _di.Module)({
     var globalStorage = _ref.globalStorage,
         locale = _ref.locale,
         _ref$supportedLocales = _ref.supportedLocales,
-        supportedLocales = _ref$supportedLocales === undefined ? _defaultConfig2.default.supportedLocales : _ref$supportedLocales,
+        supportedLocales = _ref$supportedLocales === undefined ? [_i18n.DEFAULT_LOCALE] : _ref$supportedLocales,
         options = (0, _objectWithoutProperties3.default)(_ref, ['globalStorage', 'locale', 'supportedLocales']);
     (0, _classCallCheck3.default)(this, LocaleSettings);
 
