@@ -35,7 +35,8 @@ function LinkLine(_ref) {
       className = _ref.className,
       children = _ref.children,
       hrefClassName = _ref.hrefClassName,
-      iconClassName = _ref.iconClassName;
+      iconClassName = _ref.iconClassName,
+      tooltip = _ref.tooltip;
 
   return _react2.default.createElement(
     'a',
@@ -44,6 +45,7 @@ function LinkLine(_ref) {
         e.preventDefault();
         _onClick();
       },
+      title: tooltip,
       className: (0, _classnames2.default)(_styles2.default.link, hrefClassName)
     },
     _react2.default.createElement(
@@ -62,13 +64,15 @@ LinkLine.propTypes = {
   className: _propTypes2.default.string,
   hrefClassName: _propTypes2.default.string,
   iconClassName: _propTypes2.default.string,
-  onClick: _propTypes2.default.func.isRequired
+  onClick: _propTypes2.default.func.isRequired,
+  tooltip: _propTypes2.default.string
 };
 LinkLine.defaultProps = {
   children: undefined,
   className: undefined,
   hrefClassName: undefined,
-  iconClassName: undefined
+  iconClassName: undefined,
+  tooltip: undefined
 };
 exports.default = LinkLine;
 //# sourceMappingURL=index.js.map
