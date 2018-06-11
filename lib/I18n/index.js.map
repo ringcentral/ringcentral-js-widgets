@@ -1,1 +1,0 @@
-{"version":3,"sources":["lib/I18n/index.js"],"names":["I18n"],"mappings":";;;;;;AAAA;;;;;;kBAEeA,c","file":"index.js","sourcesContent":["import I18n from 'locale-loader/lib/I18n';\n\nexport default I18n;\n"]}
