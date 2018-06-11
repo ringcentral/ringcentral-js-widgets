@@ -11,6 +11,7 @@ function LinkLine({
   children,
   hrefClassName,
   iconClassName,
+  tooltip,
 }) {
   return (
     <a
@@ -18,6 +19,7 @@ function LinkLine({
         e.preventDefault();
         onClick();
       }}
+      title={tooltip}
       className={classnames(styles.link, hrefClassName)}
     >
       <IconLine
@@ -36,11 +38,13 @@ LinkLine.propTypes = {
   hrefClassName: PropTypes.string,
   iconClassName: PropTypes.string,
   onClick: PropTypes.func.isRequired,
+  tooltip: PropTypes.string
 };
 LinkLine.defaultProps = {
   children: undefined,
   className: undefined,
   hrefClassName: undefined,
   iconClassName: undefined,
+  tooltip: undefined
 };
 export default LinkLine;
