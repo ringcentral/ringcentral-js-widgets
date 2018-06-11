@@ -18,6 +18,7 @@
     "test:showCoverage": "cat ./coverage/lcov.info | coveralls"
   },
   "dependencies": {
+    "@ringcentral-integration/i18n": "^2.0.0",
     "babel-istanbul": "^0.12.1",
     "coveralls": "^2.11.15",
     "dotenv": "^5.0.0",
@@ -28,7 +29,7 @@
     "fs-extra": "^6.0.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^22.4.3",
-    "locale-loader": "^1.4.10",
+    "@ringcentral-integration/locale-loader": "^2.0.0",
     "normalize-css": "^2.3.1",
     "pubnub": "^4.20.1",
     "moment": "^2.22.1",

@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 import I18n, {
   DEFAULT_LOCALE,
   PSEUDO_LOCALE,
-} from 'locale-loader/lib/I18n';
+} from '@ringcentral-integration/i18n';
 import RcModule from '../../lib/RcModule';
 import proxify from '../../lib/proxy/proxify';
 import { Module } from '../../lib/di';
@@ -118,9 +118,15 @@ export default class Locale extends RcModule {
    * @property {String} currentLocale
    */
   get currentLocale() {
-    return (this._transport && this.proxyState && (this.proxyState.proxyLocale || this._defaultLocale)) ||
+    return (
+      (
+        this._transport &&
+        this.proxyState &&
+        (this.proxyState.proxyLocale || this._defaultLocale)
+      ) ||
       this.state.currentLocale ||
-      this._defaultLocale;
+      this._defaultLocale
+    );
   }
 
   get browserLocale() {
