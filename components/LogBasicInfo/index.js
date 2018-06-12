@@ -119,11 +119,11 @@ function LogBasicInfo(props) {
             title: formatNumber },
           formatNumber
         ),
-        _react2.default.createElement(
+        formatNumber ? _react2.default.createElement(
           'span',
           { className: _styles2.default.separator },
           '|'
-        ),
+        ) : null,
         _react2.default.createElement(
           'span',
           {
