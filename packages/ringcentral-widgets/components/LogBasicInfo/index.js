@@ -108,8 +108,8 @@ export default function LogBasicInfo(props) {
             {formatNumber}
           </span>
           {
-          formatNumber ? (
-            <span className={styles.separator}>|</span>
+            formatNumber ? (
+              <span className={styles.separator}>|</span>
             ) : null
           }
           <span
