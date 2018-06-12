@@ -9,7 +9,11 @@ import moduleStatuses from '../../enums/moduleStatuses';
  *  Allows registeration of reducers so that persisted states can be computed with reducers.
  */
 @Module({
-  deps: ['Auth', { dep: 'StorageOptions', optional: true }]
+  deps: [
+    'Auth',
+    { dep: 'TabManager', optional: true },
+    { dep: 'StorageOptions', optional: true },
+  ]
 })
 export default class Storage extends StorageBase {
   /**
@@ -19,6 +23,7 @@ export default class Storage extends StorageBase {
    */
   constructor({
     auth,
+    tabManager,
     ...options
   }) {
     super({
@@ -26,6 +31,7 @@ export default class Storage extends StorageBase {
       ...options,
     });
     this._auth = auth;
+    this._tabManager = tabManager;
   }
   initialize() {
     let storedData = null;
@@ -81,7 +87,10 @@ export default class Storage extends StorageBase {
           type: this.actionTypes.resetSuccess,
         });
       }
-      if (this.status !== moduleStatuses.pending) {
+      if (
+        this.status !== moduleStatuses.pending &&
+        (!this._tabManager || this._tabManager.active)
+      ) {
         // save new data to storage when changed
         const currentData = this.data;
         for (const key in currentData) {
