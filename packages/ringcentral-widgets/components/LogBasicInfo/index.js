@@ -104,8 +104,7 @@ export default function LogBasicInfo(props) {
         <li>
           <span
             className={styles.number}
-            title={formatNumber}
-            key={formatNumber}>
+            title={formatNumber}>
             {formatNumber}
           </span>
           {
