@@ -3,6 +3,8 @@ import StorageBase from '../../lib/StorageBase';
 import loginStatus from '../Auth/loginStatus';
 import moduleStatuses from '../../enums/moduleStatuses';
 
+const DEFAULT_ALLOW_INACTIVE_TABS_WRITE = false;
+
 /**
  * @class
  * @description Alternative implementation of the Storage class.
@@ -19,9 +21,12 @@ export default class Storage extends StorageBase {
   /**
    * @constructor
    * @param {Object} params - params object
+   * @param {isAllowInactiveTabsWrite} params.isAllowInactiveTabsWrite - Allow Inactive Tabs Write
    * @param {Auth} params.auth - auth module instance
+   * @param {TabManager} params.tabManager - tabManager module instance
    */
   constructor({
+    isAllowInactiveTabsWrite = DEFAULT_ALLOW_INACTIVE_TABS_WRITE,
     auth,
     tabManager,
     ...options
@@ -30,6 +35,7 @@ export default class Storage extends StorageBase {
       name: 'storage',
       ...options,
     });
+    this._isAllowInactiveTabsWrite = isAllowInactiveTabsWrite;
     this._auth = auth;
     this._tabManager = tabManager;
   }
@@ -88,8 +94,11 @@ export default class Storage extends StorageBase {
         });
       }
       if (
-        this.status !== moduleStatuses.pending &&
-        (!this._tabManager || this._tabManager.active)
+        this.status === moduleStatuses.ready && (
+          !this._isAllowInactiveTabsWrite ||
+          !this._tabManager ||
+          this._tabManager.active
+        )
       ) {
         // save new data to storage when changed
         const currentData = this.data;
