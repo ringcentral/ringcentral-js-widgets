@@ -51,31 +51,40 @@ var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var DEFAULT_ALLOW_INACTIVE_TABS_WRITE = false;
+
 /**
  * @class
  * @description Alternative implementation of the Storage class.
  *  Allows registeration of reducers so that persisted states can be computed with reducers.
  */
 var Storage = (_dec = (0, _di.Module)({
-  deps: ['Auth', { dep: 'StorageOptions', optional: true }]
+  deps: ['Auth', { dep: 'TabManager', optional: true }, { dep: 'StorageOptions', optional: true }]
 }), _dec(_class = function (_StorageBase) {
   (0, _inherits3.default)(Storage, _StorageBase);
 
   /**
    * @constructor
    * @param {Object} params - params object
+   * @param {disableAllowInactiveTabsWrite} params.disableAllowInactiveTabsWrite - disable Allow Inactive Tabs Write
    * @param {Auth} params.auth - auth module instance
+   * @param {TabManager} params.tabManager - tabManager module instance
    */
   function Storage(_ref) {
-    var auth = _ref.auth,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['auth']);
+    var _ref$disableAllowInac = _ref.disableAllowInactiveTabsWrite,
+        disableAllowInactiveTabsWrite = _ref$disableAllowInac === undefined ? DEFAULT_ALLOW_INACTIVE_TABS_WRITE : _ref$disableAllowInac,
+        auth = _ref.auth,
+        tabManager = _ref.tabManager,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['disableAllowInactiveTabsWrite', 'auth', 'tabManager']);
     (0, _classCallCheck3.default)(this, Storage);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Storage.__proto__ || (0, _getPrototypeOf2.default)(Storage)).call(this, (0, _extends3.default)({
       name: 'storage'
     }, options)));
 
+    _this._disableAllowInactiveTabsWrite = disableAllowInactiveTabsWrite;
     _this._auth = auth;
+    _this._tabManager = tabManager;
     return _this;
   }
 
@@ -133,7 +142,7 @@ var Storage = (_dec = (0, _di.Module)({
             type: _this2.actionTypes.resetSuccess
           });
         }
-        if (_this2.status !== _moduleStatuses2.default.pending) {
+        if (_this2.status === _moduleStatuses2.default.ready && (!_this2._disableAllowInactiveTabsWrite || !_this2._tabManager || _this2._tabManager.active)) {
           // save new data to storage when changed
           var currentData = _this2.data;
           for (var _key in currentData) {
