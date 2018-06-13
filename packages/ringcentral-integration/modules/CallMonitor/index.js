@@ -132,8 +132,9 @@ export default class CallMonitor extends RcModule {
       () => this._detailedPresence.calls,
       () => this._accountInfo.countryCode,
       () => this._webphone && this._webphone.sessions,
-      (callsFromPresence, countryCode, sessions) => (
-        callsFromPresence.map((callItem) => {
+      (callsFromPresence, countryCode, sessions) => {
+        let sessionsCache = sessions;
+        return callsFromPresence.map((callItem) => {
           // use account countryCode to normalize number due to API issues [RCINT-3419]
           const fromNumber = normalizeNumber({
             phoneNumber: callItem.from && callItem.from.phoneNumber,
@@ -143,7 +144,8 @@ export default class CallMonitor extends RcModule {
             phoneNumber: callItem.to && callItem.to.phoneNumber,
             countryCode,
           });
-          const webphoneSession = matchWephoneSessionWithAcitveCall(sessions, callItem);
+          const webphoneSession = matchWephoneSessionWithAcitveCall(sessionsCache, callItem);
+          sessionsCache = sessionsCache.filter(x => x !== webphoneSession);
           return {
             ...callItem,
             from: {
@@ -158,8 +160,8 @@ export default class CallMonitor extends RcModule {
             ),
             webphoneSession,
           };
-        }).sort(sortByStartTime)
-      ),
+        }).sort(sortByStartTime);
+      },
     );
 
     this.addSelector('calls',
@@ -212,16 +214,20 @@ export default class CallMonitor extends RcModule {
     this.addSelector('otherDeviceCalls',
       this._selectors.calls,
       () => this._webphone && this._webphone.lastEndedSessions,
-      (calls, lastEndedSessions) => calls.filter((callItem) => {
-        if (callItem.webphoneSession) {
-          return false;
-        }
-        if (!lastEndedSessions) {
-          return true;
-        }
-        const endCall = matchWephoneSessionWithAcitveCall(lastEndedSessions, callItem);
-        return !endCall;
-      })
+      (calls, lastEndedSessions) => {
+        let sessionsCache = lastEndedSessions;
+        return calls.filter((callItem) => {
+          if (callItem.webphoneSession) {
+            return false;
+          }
+          if (!sessionsCache) {
+            return true;
+          }
+          const endCall = matchWephoneSessionWithAcitveCall(sessionsCache, callItem);
+          sessionsCache = sessionsCache.filter(x => x !== endCall);
+          return !endCall;
+        });
+      },
     );
 
     this.addSelector('uniqueNumbers',
