@@ -21,7 +21,8 @@ import proxify from '../../lib/proxy/proxify';
     'Locale',
     { dep: 'TabManager', optional: true },
     { dep: 'Environment', optional: true },
-    { dep: 'AuthOptions', optional: true }
+    { dep: 'AuthOptions', optional: true },
+    { dep: 'ConnectivityMonitor', optional: true },
   ]
 })
 export default class Auth extends RcModule {
@@ -34,6 +35,7 @@ export default class Auth extends RcModule {
    * @param {Locale} params.locale - locale module instance
    * @param {TabManager} params.tabManager - tabManager module instance
    * @param {environment} params.Environment - environment module instance
+   * @param {connectivityMonitor} params.connectivityMonitor - connectivityMonitor module instance
    * @param {String} params.redirectUri - redirect uri
    * @param {String} params.proxyUri - proxyUri module instance
    * @param {Number} params.defaultProxyRetry - default proxy retry time 5000
@@ -45,6 +47,7 @@ export default class Auth extends RcModule {
     locale,
     tabManager,
     environment,
+    connectivityMonitor,
     ...options
   } = {}) {
     super({
@@ -57,6 +60,7 @@ export default class Auth extends RcModule {
     this._locale = ensureExist(locale, 'locale');
     this._tabManager = tabManager;
     this._environment = environment;
+    this._connectivityMonitor = connectivityMonitor;
     this._reducer = getAuthReducer(this.actionTypes);
     this._beforeLogoutHandlers = new Set();
     this._afterLoggedInHandlers = new Set();
@@ -127,10 +131,17 @@ export default class Auth extends RcModule {
     };
     const onRefreshError = (error) => {
       // user is still considered logged in if the refreshToken is still valid
-      const refreshTokenValid = (error.message === 'Failed to fetch' ||
+      let isOffline = (error.message === 'Failed to fetch' ||
       error.message === 'The Internet connection appears to be offline.' ||
       error.message === 'NetworkError when attempting to fetch resource.' ||
-      error.message === 'Network Error 0x2ee7, Could not complete the operation due to error 00002ee7.') && platform.auth().refreshTokenValid();
+      error.message === 'Network Error 0x2ee7, Could not complete the operation due to error 00002ee7.');
+      if (
+        this._connectivityMonitor &&
+        this._connectivityMonitor.ready &&
+        this._connectivityMonitor.connectivity === false
+      ) { isOffline = true; }
+
+      const refreshTokenValid = isOffline && platform.auth().refreshTokenValid();
       this.store.dispatch({
         type: this.actionTypes.refreshError,
         error,
