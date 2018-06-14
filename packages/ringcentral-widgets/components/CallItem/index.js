@@ -393,35 +393,37 @@ export default class CallItem extends Component {
             missedTitle={i18n.getString('missedCall', currentLocale)}
             type={type}
           />
-          <ContactDisplay
-            contactName={contactName}
-            reference={(ref) => { this.contactDisplay = ref; }}
-            className={classnames(
-              styles.contactDisplay,
-              contactDisplayStyle,
-              missed && styles.missed,
-              active && styles.active,
-            )}
-            selectClassName={styles.dropdownSelect}
-            brand={brand}
-            sourceIcons={sourceIcons}
-            contactMatches={contactMatches}
-            selected={this.state.selected}
-            onSelectContact={this.onSelectContact}
-            disabled={disableLinks}
-            isLogging={isLogging || this.state.isLogging}
-            fallBackName={fallbackContactName}
-            enableContactFallback={enableContactFallback}
-            areaCode={areaCode}
-            countryCode={countryCode}
-            phoneNumber={phoneNumber}
-            currentLocale={currentLocale}
-            stopPropagation={false}
-            showType={false}
-            showPlaceholder={showContactDisplayPlaceholder}
-          />
-          <div className={styles.details} >
-            {durationEl} | {dateEl}{statusEl}
+          <div className={styles.infoWrapper}>
+            <ContactDisplay
+              contactName={contactName}
+              reference={(ref) => { this.contactDisplay = ref; }}
+              className={classnames(
+                styles.contactDisplay,
+                contactDisplayStyle,
+                missed && styles.missed,
+                active && styles.active,
+              )}
+              selectClassName={styles.dropdownSelect}
+              brand={brand}
+              sourceIcons={sourceIcons}
+              contactMatches={contactMatches}
+              selected={this.state.selected}
+              onSelectContact={this.onSelectContact}
+              disabled={disableLinks}
+              isLogging={isLogging || this.state.isLogging}
+              fallBackName={fallbackContactName}
+              enableContactFallback={enableContactFallback}
+              areaCode={areaCode}
+              countryCode={countryCode}
+              phoneNumber={phoneNumber}
+              currentLocale={currentLocale}
+              stopPropagation={false}
+              showType={false}
+              showPlaceholder={showContactDisplayPlaceholder}
+            />
+            <div className={styles.details} >
+              {durationEl} | {dateEl}{statusEl}
+            </div>
           </div>
           {extraButton}
         </div>

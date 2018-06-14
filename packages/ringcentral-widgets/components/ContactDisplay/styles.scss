@@ -3,27 +3,33 @@
 @import '../../lib/commonStyles/text-ellipsis';
 
 .root {
-  text-align: center;
   color: #303030;
-  font-size: 14px;
-  line-height: 40px;
+  font-size: 13px;
 }
 
-.content {
-  line-height: 40px;
-}
+// .content {
+//   line-height: 40px;
+// }
 
 .currentName {
   @include text-ellipsis;
 }
 
 .select {
-  display: inline-block;
-  height: 25px;
   border: 0px;
-  button {
+  .button {
     margin: 0px;
     font-size: 14px;
+    height: unset;
+    line-height: unset;
+    display: flex;
+  }
+  .icon {
+    position: unset;
+    right: unset;
+  }
+  .selectedValue {
+    margin-right: 10px;
   }
   ul {
     width: 180px;
