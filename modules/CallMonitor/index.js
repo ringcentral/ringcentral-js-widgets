@@ -183,7 +183,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
     }, function () {
       return _this._webphone && _this._webphone.sessions;
     }, function (callsFromPresence, countryCode, sessions) {
-      var sessionsCache = sessions;
+      var sessionsCache = sessions || [];
       return callsFromPresence.map(function (callItem) {
         // use account countryCode to normalize number due to API issues [RCINT-3419]
         var fromNumber = (0, _normalizeNumber2.default)({
