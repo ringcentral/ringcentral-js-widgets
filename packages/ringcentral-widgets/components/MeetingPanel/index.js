@@ -10,6 +10,7 @@ import DateIcon from '../../assets/images/Date.svg';
 import TimeIcon from '../../assets/images/Time.svg';
 
 import styles from './styles.scss';
+import Input from '../Input';
 import Switch from '../Switch';
 import CheckBox from '../CheckBox';
 import i18n from './i18n';
@@ -62,8 +63,8 @@ const Topic = (
       <span className={styles.label}>
         {i18n.getString('topic', currentLocale)}
       </span>
-      <input
-        ref={(ref) => { that.topic = ref; }}
+      <Input
+        inputRef={(ref) => { that.topic = ref; }}
         onPaste={(event) => {
           const topic = event.target.value;
           event.preventDefault();
@@ -259,9 +260,9 @@ const When = (
                 {...minTime}
               />
               <div className={styles.timeText}>
-                <input
+                <Input
                   flag={'timeInput'}
-                  ref={(ref) => { that.hours = ref; }}
+                  inputRef={(ref) => { that.hours = ref; }}
                   className={styles.timeInput}
                   defaultValue={Moment(meeting.schedule.startTime).format('HH')}
                   onChange={({ target }) => {
@@ -284,9 +285,9 @@ const When = (
                   maxLength={2}
                   type="text" />
                 <div className={styles.colon}>{':'}</div>
-                <input
+                <Input
                   flag={'timeInput'}
-                  ref={(ref) => { that.minutes = ref; }}
+                  inputRef={(ref) => { that.minutes = ref; }}
                   className={styles.timeInput}
                   defaultValue={Moment(meeting.schedule.startTime).format('mm')}
                   onKeyDown={(event) => {
@@ -555,10 +556,10 @@ const MeetingOptions = (
             <div className={styles.labelLight}>
               {i18n.getString('password', currentLocale)}
             </div>
-            <input
+            <Input
               type="text"
               className={styles.password}
-              ref={(ref) => { that.password = ref; }}
+              inputRef={(ref) => { that.password = ref; }}
               value={meeting.password || ''}
               onChange={({ target }) => {
                 if (PASSWORD_REGEX.test(target.value)) {

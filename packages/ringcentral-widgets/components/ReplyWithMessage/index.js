@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import isBlank from 'ringcentral-integration/lib/isBlank';
 
+import Input from '../Input';
 import Button from '../Button';
 
 import styles from './styles.scss';
@@ -23,11 +24,11 @@ function TimeInput(props) {
   return (
     <div className={styles.timeInput}>
       <span className={styles.timeValue}>
-        <input
+        <Input
           maxLength={2}
           value={props.timeValue}
           onChange={props.onTimeValueChange}
-          ref={props.inputRef}
+          inputRef={props.inputRef}
         />
       </span>
       <span

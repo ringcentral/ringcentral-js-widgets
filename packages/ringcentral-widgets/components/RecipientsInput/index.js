@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import styles from './styles.scss';
+import Input from '../Input';
 import RemoveButton from '../RemoveButton';
 import ContactDropdownList from '../ContactDropdownList';
 import i18n from './i18n';
@@ -290,8 +291,8 @@ class RecipientsInput extends Component {
       (
         <div className={styles.inputWrapper}>
           <div className={styles.inputField}>
-            <input
-              ref={this.setInputRef}
+            <Input
+              inputRef={this.setInputRef}
               name="receiver"
               value={this.state.value}
               onChange={this.onInputChange}

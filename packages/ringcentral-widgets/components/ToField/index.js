@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.scss';
+import Input from '../Input';
 import RemoveButton from '../RemoveButton';
 import ContactDropdownList from '../ContactDropdownList';
 import i18n from './i18n';
@@ -216,7 +217,7 @@ export default class ToField extends Component {
             removeFromRecipients={this.props.removeFromRecipients}
           />
           <div className={styles.inputField}>
-            <input
+            <Input
               name="receiver"
               value={this.state.currentValue}
               onChange={this.props.onChange}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import Input from '../Input';
 import DialPad from '../DialPad';
 import CircleButton from '../CircleButton';
 import BackHeader from '../BackHeader';
@@ -96,7 +97,7 @@ class ActiveCallDialPad extends Component {
           {i18n.getString('keypad', this.props.currentLocale)}
         </BackHeader>
         <div className={styles.dialInput}>
-          <input
+          <Input
             className={styles.input}
             value={this.state.value}
             onChange={this.onChange}

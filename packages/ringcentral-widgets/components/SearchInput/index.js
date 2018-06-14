@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import Input from '../Input';
 import styles from './styles.scss';
 
 import SearchIcon from '../../assets/images/Search.svg';
@@ -14,7 +15,7 @@ function SearchInput(props) {
       )}
       >
       <SearchIcon className={styles.icon} />
-      <input
+      <Input
         name="search"
         value={props.value}
         onChange={props.onChange}

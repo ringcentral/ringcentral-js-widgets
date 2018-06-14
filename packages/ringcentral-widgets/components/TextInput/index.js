@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import Input from '../Input';
 import styles from './styles.scss';
 
 class TextInput extends Component {
@@ -52,9 +53,9 @@ class TextInput extends Component {
           className,
           invalid && styles.invalid,
         )}>
-        <input
+        <Input
           autoFocus={autoFocus} // eslint-disable-line
-          ref={(input) => { this.input = input; }}
+          inputRef={(input) => { this.input = input; }}
           onChange={this.onInputChange}
           placeholder={placeholder}
           disabled={disabled}
