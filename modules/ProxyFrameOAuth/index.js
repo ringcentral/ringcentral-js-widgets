@@ -181,7 +181,10 @@ var ProxyFrameOAuth = (_dec = (0, _di.Module)({
       _this._proxyFrame = document.createElement('iframe');
       _this._proxyFrame.src = _this.proxyUri;
       _this._proxyFrame.style.display = 'none';
-      _this._proxyFrame.setAttribute('sandbox', ['allow-scripts', 'allow-popups', 'allow-same-origin', 'allow-forms'].join(' '));
+      var isEdge = window && window.navigator && window.navigator.userAgent.indexOf('Edge') > -1;
+      if (!isEdge) {
+        _this._proxyFrame.setAttribute('sandbox', ['allow-scripts', 'allow-popups', 'allow-same-origin', 'allow-forms'].join(' '));
+      }
       document.body.appendChild(_this._proxyFrame);
       window.addEventListener('message', _this._callbackHandler);
       _this._retryTimeoutId = setTimeout(function () {
