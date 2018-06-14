@@ -63,7 +63,10 @@ There are three kind of modules:
 3. Custom modules, when common modules can not fulfill your need, you develop one yourself.
 
 ### Root Module
+<<<<<<< HEAD
 
+=======
+>>>>>>> mod readme
 All needed common modules which are provided by `ringcentral-integration` can be listed here. And also other modules composed by you.
 ```javascript
 import Alert from 'ringcentral-integration/modules/Alert';
@@ -106,6 +109,7 @@ export default class BaseRoot extends RcModule {}
 There are two ways to custom modules:
 1. Extends `RcModule` and set dependencies by decorators
 2. Extends directly a build-in module
+<<<<<<< HEAD
 
 ##### Extends RcModule
 ```javascript
@@ -135,6 +139,37 @@ Two steps to set providers for root module.
 Step 1. Set common moduels
 ```javascript
 
+=======
+
+##### Extends RcModule
+```javascript
+@Module({
+  deps: [
+    'AccountExtension',
+    'GlipPersons',
+    { dep: 'GlipContactsOptions', optional: true }
+  ]
+})
+export default class GlipContacts extends RcModule {
+}
+```
+
+##### Extends Build-in Module
+```javascript
+@Module({
+  deps: []
+})
+export default class NewGlipGroups extends GlipGroups {
+}
+```
+
+#### Module Providers
+Two steps to set providers for root module.
+
+Step 1. Set common moduels
+```javascript
+
+>>>>>>> mod readme
 @ModuleFactory({
   providers: [
     { provide: 'Alert', useClass: Alert },
@@ -308,6 +343,106 @@ export default new Enum([
   'dismissAll',
 ], 'alert');
 ```
+<<<<<<< HEAD
+=======
+
+After initilized with `Enum`, it will be an `map`. It's key are just those *string*: `alert`, `dismiss` and `dismissAll`, but values are `alert-alert`, `alert-dismiss`, `alert-dismissAll`.
+All start with prefix *alert*.
+
+You can use it like:
+```javascript
+export function getMessagesReducer(types) {
+  return (state = [], type) => {
+    switch (type) {
+      case types.alert:
+        return [
+          ...state,
+          {
+            // ...
+          },
+        ];
+      case types.dismiss:
+        return // state
+      case types.dismissAll:
+        return [];
+      default:
+        return state;
+    }
+  };
+}
+```
+Please notice `getMessagesReducer` is a high order function. It will return a function which is the reducer you want.
+
+Every module has its needed actions defined within the module with `Enum`.
+
+### Enum
+This is simple, just take the code:
+```javascript
+// How it's called
+export default new Enum([
+  'alert',
+  'dismiss',
+  'dismissAll',
+], 'alert');
+
+// Enum defination
+export default class Enum extends HashMap {
+  constructor(values = [], prefix = '') {
+    const definition = {};
+    values.forEach((value) => {
+      definition[value] = prefix !== '' ? `${prefix}-${value}` : value;
+    });
+    super(definition);
+  }
+}
+```
+The array parameter values are key, and values are prefix (the second parameter) and values.
+```js
+values.forEach((value) => {
+  definition[value] = prefix !== '' ? `${prefix}-${value}` : value;
+});
+```
+Code is clear!
+
+### DI
+1. Module decorator ==> registerModule
+2. Lib decorator ==> registerModule
+3. ModuleFactory decorator ==> registerModuleFactory
+
+What's in common is that all these registered modules are stored in a map instance with the `Class` as key
+and `metadata` as the value.
+
+When does DI work is when **Root Module** called `create()` method. In the method, `Injector` class started to handle those `Module`, `Library` and `ModuleFactory` decorator and to make dependency injection by its `addModule` method
+.
+
+In the same time, modules' reducers and state are also initialized and set to module by the methods prefixed by **_**.
+
+#### Module
+When one module has dependencies on other modules.
+
+How to use:
+```javascript
+@Module({
+  deps: [{ dep: 'AlertOptions', optional: true }]
+})
+export default class Alert extends RcModule {
+  // ..
+}
+
+In the map, key is `Alert` class and value is `{ dep: 'AlertOptions', optional: true }.
+```
+
+#### Provider
+
+
+#### ModuleFactory
+This decorator can be used on any kind modules, no matter it's root module or not.
+
+
+## Play with Development Server
+
+A development server is delivered with source so that developers can use it to get familiar with the project or do further development. To get development server running
+>>>>>>> mod readme
 
 After initilized with `Enum`, it will be an `map`. It's key are just those *string*: `alert`, `dismiss` and `dismissAll`, but values are `alert-alert`, `alert-dismiss`, `alert-dismissAll`.
 All start with prefix *alert*.
