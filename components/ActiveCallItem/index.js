@@ -526,7 +526,7 @@ var ActiveCallItem = function (_Component) {
         { className: _styles2.default.root, onClick: this.toggleExtended },
         _react2.default.createElement(
           'div',
-          { className: _styles2.default.callInfo },
+          { className: _styles2.default.wrapper },
           _react2.default.createElement(CallIcon, {
             direction: direction,
             ringing: ringing,
@@ -536,27 +536,31 @@ var ActiveCallItem = function (_Component) {
             outboundTitle: _i18n2.default.getString('outboundCall', currentLocale),
             missedTitle: _i18n2.default.getString('missedCall', currentLocale)
           }),
-          _react2.default.createElement(_ContactDisplay2.default, {
-            contactName: contactName,
-            className: (0, _classnames2.default)(_styles2.default.contactDisplay, contactDisplayStyle),
-            contactMatches: contactMatches,
-            selected: this.state.selected,
-            onSelectContact: this.onSelectContact,
-            disabled: disableLinks,
-            isLogging: isLogging || this.state.isLogging,
-            fallBackName: fallbackContactName,
-            enableContactFallback: enableContactFallback,
-            areaCode: areaCode,
-            countryCode: countryCode,
-            phoneNumber: phoneNumber,
-            currentLocale: currentLocale,
-            brand: brand,
-            showPlaceholder: showContactDisplayPlaceholder,
-            showType: false,
-            sourceIcons: sourceIcons,
-            stopPropagation: true
-          }),
-          callDetail,
+          _react2.default.createElement(
+            'div',
+            { className: _styles2.default.infoWrapper },
+            _react2.default.createElement(_ContactDisplay2.default, {
+              contactName: contactName,
+              className: (0, _classnames2.default)(_styles2.default.contactDisplay, contactDisplayStyle),
+              contactMatches: contactMatches,
+              selected: this.state.selected,
+              onSelectContact: this.onSelectContact,
+              disabled: disableLinks,
+              isLogging: isLogging || this.state.isLogging,
+              fallBackName: fallbackContactName,
+              enableContactFallback: enableContactFallback,
+              areaCode: areaCode,
+              countryCode: countryCode,
+              phoneNumber: phoneNumber,
+              currentLocale: currentLocale,
+              brand: brand,
+              showPlaceholder: showContactDisplayPlaceholder,
+              showType: false,
+              sourceIcons: sourceIcons,
+              stopPropagation: true
+            }),
+            callDetail
+          ),
           _react2.default.createElement(WebphoneButtons, {
             session: webphoneSession,
             webphoneAnswer: webphoneAnswer,

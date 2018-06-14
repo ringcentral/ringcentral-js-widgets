@@ -581,37 +581,41 @@ var CallItem = function (_Component) {
             missedTitle: _i18n2.default.getString('missedCall', currentLocale),
             type: type
           }),
-          _react2.default.createElement(_ContactDisplay2.default, {
-            contactName: contactName,
-            reference: function reference(ref) {
-              _this5.contactDisplay = ref;
-            },
-            className: (0, _classnames2.default)(_styles2.default.contactDisplay, contactDisplayStyle, missed && _styles2.default.missed, active && _styles2.default.active),
-            selectClassName: _styles2.default.dropdownSelect,
-            brand: brand,
-            sourceIcons: sourceIcons,
-            contactMatches: contactMatches,
-            selected: this.state.selected,
-            onSelectContact: this.onSelectContact,
-            disabled: disableLinks,
-            isLogging: isLogging || this.state.isLogging,
-            fallBackName: fallbackContactName,
-            enableContactFallback: enableContactFallback,
-            areaCode: areaCode,
-            countryCode: countryCode,
-            phoneNumber: phoneNumber,
-            currentLocale: currentLocale,
-            stopPropagation: false,
-            showType: false,
-            showPlaceholder: showContactDisplayPlaceholder
-          }),
           _react2.default.createElement(
             'div',
-            { className: _styles2.default.details },
-            durationEl,
-            ' | ',
-            dateEl,
-            statusEl
+            { className: _styles2.default.infoWrapper },
+            _react2.default.createElement(_ContactDisplay2.default, {
+              contactName: contactName,
+              reference: function reference(ref) {
+                _this5.contactDisplay = ref;
+              },
+              className: (0, _classnames2.default)(_styles2.default.contactDisplay, contactDisplayStyle, missed && _styles2.default.missed, active && _styles2.default.active),
+              selectClassName: _styles2.default.dropdownSelect,
+              brand: brand,
+              sourceIcons: sourceIcons,
+              contactMatches: contactMatches,
+              selected: this.state.selected,
+              onSelectContact: this.onSelectContact,
+              disabled: disableLinks,
+              isLogging: isLogging || this.state.isLogging,
+              fallBackName: fallbackContactName,
+              enableContactFallback: enableContactFallback,
+              areaCode: areaCode,
+              countryCode: countryCode,
+              phoneNumber: phoneNumber,
+              currentLocale: currentLocale,
+              stopPropagation: false,
+              showType: false,
+              showPlaceholder: showContactDisplayPlaceholder
+            }),
+            _react2.default.createElement(
+              'div',
+              { className: _styles2.default.details },
+              durationEl,
+              ' | ',
+              dateEl,
+              statusEl
+            )
           ),
           extraButton
         ),

@@ -7,26 +7,38 @@
   border-bottom: 1px solid #e2e2e2;
   margin-bottom: 7px;
 }
+// .root:first-child {
+//   margin-top: -5px;
+// }
 
-.callInfo {
-  display: block;
+.wrapper {
   position: relative;
-  height: 60px;
+  padding: 13px 20px 18px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
   width: 100%;
   @include secondary-font;
 }
 
 .callIcon {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 7px;
-  width: 40px;
-  height: 53px;
-  line-height: 53px;
-  font-size: 18px;
-  text-align: center;
+  font-size: 22px;
   color: #666;
+}
+
+.infoWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  max-height: 31px;
+  max-width: calc(100% - 19px);
+  padding-left: 12px;
+  box-sizing: border-box;
+  // Add bellow style if you have calllog button on callitem
+  // margin-right: 33px;
+  // max-width: calc(100% - 33px - 19px);
 }
 
 .activeCall {
@@ -59,11 +71,7 @@
 }
 
 .contactDisplay {
-  position: absolute;
-  top: 5px;
-  left: 45px;
-  line-height: 25px;
-  max-width: 50%;
+  margin-bottom: 5px;
   button {
     font-size: 13px;
   }
@@ -114,13 +122,9 @@
 
 .callDetail {
   font-size: 12px;
-  position: absolute;
-  top: 30px;
-  left: 45px;
-  max-width: 50%;
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: #979797;
   .label {
     margin-right: 5px;
   }

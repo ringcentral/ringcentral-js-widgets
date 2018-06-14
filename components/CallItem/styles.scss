@@ -1,24 +1,26 @@
 @import '../../lib/commonStyles/colors';
 
 .root {
-  min-height: 70px;
+  // min-height: 70px;
   border-bottom: 1px solid #e2e2e2;
   margin-bottom: 6px;
 }
 
-.root:first-child {
-  margin-top: 6px;
-}
+// .root:first-child {
+//   margin-top: -5px;
+// }
 
 .root:last-child {
   margin-bottom: 15px;
 }
 
 .wrapper {
-  display: block;
+  display: flex;
+  align-items: center;
   position: relative;
-  height: 69px;
   width: 100%;
+  padding: 13px 20px 18px;
+  box-sizing: border-box;
   margin-bottom: 1px;
 
   // &:hover {
@@ -27,16 +29,24 @@
   // }
 }
 
+.infoWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  max-height: 31px;
+  max-width: calc(100% - 19px);
+  padding-left: 12px;
+  box-sizing: border-box;
+  // Add bellow style if you have calllog button on callitem
+  // margin-right: 33px;
+  // max-width: calc(100% - 33px - 19px);
+}
+
 .callIcon {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 6px;
-  width: 40px;
-  height: 66px;
-  line-height: 60px;
+  display: inline-flex;
   font-size: 22px;
-  text-align: center;
   color: #666;
 }
 .activeCall {
@@ -61,20 +71,12 @@
 }
 
 .details {
-  position: absolute;
-  left: 46px;
-  bottom: 15px;
   font-size: 12px;
   color: #979797;
 }
 
 .contactDisplay {
-  position: absolute;
-  top: 0px;
-  left: 45px;
-  line-height: 38px;
-  width: calc(100% - 40px) !important;
-  text-align: left;
+  margin-bottom: 5px;
 }
 
 .missed {

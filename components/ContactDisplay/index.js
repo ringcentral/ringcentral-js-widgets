@@ -225,7 +225,9 @@ function ContactDisplay(_ref3) {
     contentEl = _react2.default.createElement(_DropdownSelect2.default, {
       reference: reference,
       className: (0, _classnames2.default)(_styles2.default.select, selectClassName),
-      selectedClassName: selectedClassName,
+      selectedClassName: (0, _classnames2.default)(_styles2.default.selectedValue, selectedClassName),
+      buttonStyle: _styles2.default.button,
+      iconClassName: _styles2.default.icon,
       value: _selected,
       onChange: onSelectContact,
       disabled: disabled || isLogging,
