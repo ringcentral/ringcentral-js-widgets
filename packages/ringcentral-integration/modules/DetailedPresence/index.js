@@ -3,6 +3,7 @@ import Presence from '../Presence';
 import actionTypes from './actionTypes';
 import getDetailedPresenceReducer from './getDetailedPresenceReducer';
 import subscriptionFilters from '../../enums/subscriptionFilters';
+import throttle from '../../lib/throttle';
 import {
   isEnded,
   removeInboundRingOutLegs,
@@ -10,6 +11,7 @@ import {
 import proxify from '../../lib/proxy/proxify';
 
 const presenceRegExp = /.*\/presence\?detailedTelephonyState=true&sipData=true/;
+const FETCH_THRESHOLD = 2000;
 
 /**
  * @class
@@ -66,18 +68,28 @@ export default class DetailedPresence extends Presence {
         telephonyStatus,
         presenceStatus,
         userStatus,
+        totalActiveCalls,
       } = message.body;
-      this.store.dispatch({
-        type: this.actionTypes.notification,
-        activeCalls,
-        dndStatus,
-        telephonyStatus,
-        presenceStatus,
-        userStatus,
-        message: message.body.message,
-        lastDndStatus: this.dndStatus,
-        timestamp: Date.now(),
-      });
+
+      /**
+       * as pointed out by Igor in https://jira.ringcentral.com/browse/PLA-33391,
+       * when the real calls count larger than the active calls returned by the pubnub,
+       * we need to pulling the calls manually.
+       */
+      // eslint-disable-next-line no-unused-expressions
+      activeCalls.length < totalActiveCalls
+        ? this.fetchRemainingCalls()
+        : this.store.dispatch({
+          type: this.actionTypes.notification,
+          activeCalls,
+          dndStatus,
+          telephonyStatus,
+          presenceStatus,
+          userStatus,
+          message: message.body.message,
+          lastDndStatus: this.dndStatus,
+          timestamp: Date.now(),
+        });
     }
   }
 
@@ -135,5 +147,9 @@ export default class DetailedPresence extends Presence {
         this._promise = null;
       }
     }
+  }
+
+  async fetchRemainingCalls() {
+    return throttle(this::this._fetch(), FETCH_THRESHOLD);
   }
 }
