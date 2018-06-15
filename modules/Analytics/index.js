@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -73,6 +77,8 @@ var _callingModes2 = _interopRequireDefault(_callingModes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var INIT_TRACK_LIST = ['_authentication', '_logout', '_callAttempt', '_callConnected', '_webRTCRegistration', '_smsAttempt', '_smsSent', '_logCall', '_logSMS', '_clickToDial', '_clickToSMS', '_viewEntity', '_createEntity', '_editCallLog', '_editSMSLog', '_navigate', '_inboundCall', '_coldTransfer', '_textClickToDial', '_voicemailClickToDial', '_voicemailClickToSMS', '_voicemailDelete', '_voicemailFlag', '_contactDetailClickToDial', '_contactDetailClickToSMS', '_callHistoryClickToDial', '_callHistoryClickToSMS', '_conferenceInviteWithText', '_conferenceAddDialInNumber', '_conferenceJoinAsHost', '_showWhatsNew'];
+
 /**
  * @class
  * @description Analytics module.
@@ -127,6 +133,7 @@ var Analytics = (_dec = (0, _di.Module)({
     // init
     _this._reducer = (0, _getAnalyticsReducer2.default)(_this.actionTypes);
     _this._segment = (0, _Analytics.Segment)();
+    _this._trackList = INIT_TRACK_LIST;
     return _this;
   }
 
@@ -222,7 +229,7 @@ var Analytics = (_dec = (0, _di.Module)({
 
               case 3:
                 this.lastActions.forEach(function (action) {
-                  ['_authentication', '_logout', '_callAttempt', '_callConnected', '_webRTCRegistration', '_smsAttempt', '_smsSent', '_logCall', '_logSMS', '_clickToDial', '_clickToSMS', '_viewEntity', '_createEntity', '_editCallLog', '_editSMSLog', '_navigate', '_inboundCall', '_coldTransfer', '_textClickToDial', '_voicemailClickToDial', '_voicemailClickToSMS', '_voicemailDelete', '_voicemailFlag', '_contactDetailClickToDial', '_contactDetailClickToSMS', '_callHistoryClickToDial', '_callHistoryClickToSMS', '_conferenceInviteWithText', '_conferenceAddDialInNumber', '_conferenceJoinAsHost', '_showWhatsNew'].forEach(function (key) {
+                  _this3._trackList.forEach(function (key) {
                     _this3[key](action);
                   });
                 });
@@ -245,6 +252,21 @@ var Analytics = (_dec = (0, _di.Module)({
 
       return _processActions;
     }()
+
+    /**
+     * Append more action to track
+     * First, Inherit this class and declare channel specific method on it
+     * Then append more method name to track using this method
+     * @param {string[]} methodNames
+     */
+
+  }, {
+    key: 'appendTrackList',
+    value: function appendTrackList(methodNames) {
+      var _trackList;
+
+      (_trackList = this._trackList).push.apply(_trackList, (0, _toConsumableArray3.default)(methodNames));
+    }
   }, {
     key: '_authentication',
     value: function _authentication(action) {
@@ -503,6 +525,9 @@ var Analytics = (_dec = (0, _di.Module)({
         }, {
           eventPostfix: 'Call History',
           router: '/history'
+        }, {
+          eventPostfix: 'Call List',
+          router: '/calls'
         }, {
           eventPostfix: 'Settings',
           router: '/settings'
