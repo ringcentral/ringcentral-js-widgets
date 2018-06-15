@@ -141,7 +141,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @description Authentication module
  */
 var Auth = (_dec = (0, _di.Module)({
-  deps: ['Client', 'Alert', 'Brand', 'Locale', { dep: 'TabManager', optional: true }, { dep: 'Environment', optional: true }, { dep: 'AuthOptions', optional: true }]
+  deps: ['Client', 'Alert', 'Brand', 'Locale', { dep: 'TabManager', optional: true }, { dep: 'Environment', optional: true }, { dep: 'AuthOptions', optional: true }, { dep: 'ConnectivityMonitor', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(Auth, _RcModule);
 
@@ -154,6 +154,7 @@ var Auth = (_dec = (0, _di.Module)({
    * @param {Locale} params.locale - locale module instance
    * @param {TabManager} params.tabManager - tabManager module instance
    * @param {environment} params.Environment - environment module instance
+   * @param {connectivityMonitor} params.connectivityMonitor - connectivityMonitor module instance
    * @param {String} params.redirectUri - redirect uri
    * @param {String} params.proxyUri - proxyUri module instance
    * @param {Number} params.defaultProxyRetry - default proxy retry time 5000
@@ -167,7 +168,8 @@ var Auth = (_dec = (0, _di.Module)({
         locale = _ref.locale,
         tabManager = _ref.tabManager,
         environment = _ref.environment,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'alert', 'brand', 'locale', 'tabManager', 'environment']);
+        connectivityMonitor = _ref.connectivityMonitor,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'alert', 'brand', 'locale', 'tabManager', 'environment', 'connectivityMonitor']);
     (0, _classCallCheck3.default)(this, Auth);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Auth.__proto__ || (0, _getPrototypeOf2.default)(Auth)).call(this, (0, _extends3.default)({}, options, {
@@ -180,6 +182,7 @@ var Auth = (_dec = (0, _di.Module)({
     _this._locale = (0, _ensureExist2.default)(locale, 'locale');
     _this._tabManager = tabManager;
     _this._environment = environment;
+    _this._connectivityMonitor = connectivityMonitor;
     _this._reducer = (0, _getAuthReducer2.default)(_this.actionTypes);
     _this._beforeLogoutHandlers = new _set2.default();
     _this._afterLoggedInHandlers = new _set2.default();
@@ -350,7 +353,12 @@ var Auth = (_dec = (0, _di.Module)({
       };
       var onRefreshError = function onRefreshError(error) {
         // user is still considered logged in if the refreshToken is still valid
-        var refreshTokenValid = (error.message === 'Failed to fetch' || error.message === 'The Internet connection appears to be offline.' || error.message === 'NetworkError when attempting to fetch resource.' || error.message === 'Network Error 0x2ee7, Could not complete the operation due to error 00002ee7.') && platform.auth().refreshTokenValid();
+        var isOffline = error.message === 'Failed to fetch' || error.message === 'The Internet connection appears to be offline.' || error.message === 'NetworkError when attempting to fetch resource.' || error.message === 'Network Error 0x2ee7, Could not complete the operation due to error 00002ee7.';
+        if (_this2._connectivityMonitor && _this2._connectivityMonitor.ready && _this2._connectivityMonitor.connectivity === false) {
+          isOffline = true;
+        }
+
+        var refreshTokenValid = isOffline && platform.auth().refreshTokenValid();
         _this2.store.dispatch({
           type: _this2.actionTypes.refreshError,
           error: error,
