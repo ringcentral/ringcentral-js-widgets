@@ -282,7 +282,7 @@ export default class CallItem extends Component {
         this.props.onClickToSms({
           name: this.props.enableContactFallback ? this.getFallbackContactName() : formatted,
           phoneNumber,
-        }, true);
+        });
       }
     }
   }

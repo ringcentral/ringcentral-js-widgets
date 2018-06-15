@@ -71,6 +71,7 @@ function mapToFunctions(_, {
     utcTimestamp,
   }),
   onLogCall,
+  isDummyContact,
   isLoggedContact,
   dialerRoute = '/dialer',
   composeTextRoute = '/composeText',
@@ -104,12 +105,12 @@ function mapToFunctions(_, {
       } :
       undefined,
     onClickToSms: composeText ?
-      async (contact, isDummyContact = false) => {
+      async (contact) => {
         if (routerInteraction) {
           routerInteraction.push(composeTextRoute);
         }
         // if contact autocomplete, if no match fill the number only
-        if (contact.name && contact.phoneNumber && isDummyContact) {
+        if (contact.name && contact.phoneNumber && (isDummyContact || false)) {
           composeText.updateTypingToNumber(contact.name);
           contactSearch.search({ searchString: contact.name });
         } else {
