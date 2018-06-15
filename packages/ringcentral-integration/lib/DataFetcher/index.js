@@ -205,15 +205,23 @@ export default class DataFetcher extends Pollable {
     this._subscriptionHandler(this._lastMessage);
   }
   get data() {
-    return this._storage ?
-      this._storage.getItem(this._storageKey).data :
-      this.state.data;
+    if (this._storage) {
+      return (
+        this._storage.getItem(this._storageKey) &&
+        this._storage.getItem(this._storageKey).data
+      ) || null;
+    }
+    return this.state.data;
   }
 
   get timestamp() {
-    return this._storage ?
-      this._storage.getItem(this._storageKey).timestamp :
-      this.state.timestamp;
+    if (this._storage) {
+      return (
+        this._storage.getItem(this._storageKey) &&
+        this._storage.getItem(this._storageKey).timestamp
+      ) || null;
+    }
+    return this.state.timestamp;
   }
 
   get status() {
