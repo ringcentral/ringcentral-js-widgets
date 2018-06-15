@@ -12,7 +12,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = new _HashMap2.default({
   presence: '/account/~/extension/~/presence',
-  detailedPresence: '/account/~/extension/~/presence?detailedTelephonyState=true',
+  detailedPresence: '/account/~/extension/~/presence?detailedTelephonyState=true&totalActiveCalls',
   detailedPresenceWithSip: '/account/~/extension/~/presence?detailedTelephonyState=true&sipData=true',
   accountExtension: '/account/~/extension',
   extensionInfo: '/account/~/extension/~'

@@ -61,6 +61,10 @@ var _subscriptionFilters = require('../../enums/subscriptionFilters');
 
 var _subscriptionFilters2 = _interopRequireDefault(_subscriptionFilters);
 
+var _throttle = require('../../lib/throttle');
+
+var _throttle2 = _interopRequireDefault(_throttle);
+
 var _callLogHelpers = require('../../lib/callLogHelpers');
 
 var _proxify = require('../../lib/proxy/proxify');
@@ -99,6 +103,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 }
 
 var presenceRegExp = /.*\/presence\?detailedTelephonyState=true&sipData=true/;
+var FETCH_THRESHOLD = 2000;
 
 /**
  * @class
@@ -140,9 +145,17 @@ var DetailedPresence = (_dec = (0, _di.Module)({
             dndStatus = _message$body.dndStatus,
             telephonyStatus = _message$body.telephonyStatus,
             presenceStatus = _message$body.presenceStatus,
-            userStatus = _message$body.userStatus;
+            userStatus = _message$body.userStatus,
+            totalActiveCalls = _message$body.totalActiveCalls;
 
-        _this.store.dispatch({
+        /**
+         * as pointed out by Igor in https://jira.ringcentral.com/browse/PLA-33391,
+         * when the real calls count larger than the active calls returned by the pubnub,
+         * we need to pulling the calls manually.
+         */
+        // eslint-disable-next-line no-unused-expressions
+
+        activeCalls.length < totalActiveCalls ? _this.fetchRemainingCalls() : _this.store.dispatch({
           type: _this.actionTypes.notification,
           activeCalls: activeCalls,
           dndStatus: dndStatus,
@@ -242,6 +255,30 @@ var DetailedPresence = (_dec = (0, _di.Module)({
       }
 
       return _fetch;
+    }()
+  }, {
+    key: 'fetchRemainingCalls',
+    value: function () {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                return _context2.abrupt('return', (0, _throttle2.default)(this._fetch.call(this), FETCH_THRESHOLD));
+
+              case 1:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function fetchRemainingCalls() {
+        return _ref2.apply(this, arguments);
+      }
+
+      return fetchRemainingCalls;
     }()
   }, {
     key: 'data',
