@@ -22,7 +22,7 @@ export default class Input extends React.Component {
     onChange: undefined,
     onBlur: undefined,
     onFocus: undefined,
-    inputRef: undefined,
+    inputRef: noop,
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -64,15 +64,15 @@ export default class Input extends React.Component {
   }
 
   render() {
-    const props = R.omit(
-      ['inputRef', 'value', 'onFocus', 'onBlur', 'onChange'],
-      this.props
-    );
-    const ref = props.inputRef || noop;
+    // Use a props exclusion strategy to avoid iterating through all possible values
+    const exclusions = [
+      'ref', 'inputRef', 'value', 'onFocus', 'onBlur', 'onChange', 'defaultValue'
+    ];
+    const props = R.omit(exclusions, this.props);
     return (
       <input
         {...props}
-        ref={ref}
+        ref={props.inputRef}
         value={this.state.value}
         onFocus={this._onFocusss}
         onBlur={this._onBlur}
