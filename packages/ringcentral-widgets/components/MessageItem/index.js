@@ -415,35 +415,37 @@ export default class MessageItem extends Component {
             currentLocale={currentLocale}
             direction={direction}
           />
-          <ContactDisplay
-            reference={(ref) => { this.contactDisplay = ref; }}
-            className={classnames(
-              styles.contactDisplay,
-              unreadCounts && styles.unread
-            )}
-            selectedClassName={styles.selectedValue}
-            selectClassName={styles.dropdownSelect}
-            brand={brand}
-            contactMatches={correspondentMatches}
-            selected={this.state.selected}
-            onSelectContact={this.onSelectContact}
-            disabled={disableLinks}
-            isLogging={isLogging || this.state.isLogging}
-            fallBackName={fallbackName}
-            areaCode={areaCode}
-            countryCode={countryCode}
-            phoneNumber={phoneNumber}
-            groupNumbers={groupNumbers}
-            showGroupNumberName={showGroupNumberName}
-            currentLocale={currentLocale}
-            enableContactFallback={enableContactFallback}
-            stopPropagation={false}
-            showType={false}
-            showPlaceholder={showContactDisplayPlaceholder}
-            sourceIcons={sourceIcons}
-          />
-          <div className={styles.details}>
-            {detail}
+          <div className={styles.infoWrapper}>
+            <ContactDisplay
+              reference={(ref) => { this.contactDisplay = ref; }}
+              className={classnames(
+                styles.contactDisplay,
+                unreadCounts && styles.unread
+              )}
+              selectedClassName={styles.selectedValue}
+              selectClassName={styles.dropdownSelect}
+              brand={brand}
+              contactMatches={correspondentMatches}
+              selected={this.state.selected}
+              onSelectContact={this.onSelectContact}
+              disabled={disableLinks}
+              isLogging={isLogging || this.state.isLogging}
+              fallBackName={fallbackName}
+              areaCode={areaCode}
+              countryCode={countryCode}
+              phoneNumber={phoneNumber}
+              groupNumbers={groupNumbers}
+              showGroupNumberName={showGroupNumberName}
+              currentLocale={currentLocale}
+              enableContactFallback={enableContactFallback}
+              stopPropagation={false}
+              showType={false}
+              showPlaceholder={showContactDisplayPlaceholder}
+              sourceIcons={sourceIcons}
+            />
+            <div className={styles.details}>
+              {detail}
+            </div>
           </div>
           <div className={styles.creationTime}>
             {this.dateTimeFormatter(creationTime)}
