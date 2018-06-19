@@ -23,22 +23,32 @@
 }
 
 .wrapper {
-  display: block;
   position: relative;
-  height: 64px;
+  display: flex;
+  padding: 18px 20px 18px 13px;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
+  min-height: 67px;
+}
+
+.infoWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  max-height: 31px;
+  max-width: calc(100% - 76px);
+  padding-left: 12px;
+  box-sizing: border-box;
 }
 
 .conversationIcon {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 11px;
-  width: 40px;
-  height: 66px;
-  line-height: 66px;
-  text-align: center;
   color: $ash;
+  min-width: 23px;
+  text-align: center;
 }
 
 .icon {
@@ -49,31 +59,27 @@
 
 .details {
   @include field-value-font;
-  position: absolute;
-  left: 50px;
-  bottom: 12px;
   color: $ash;
   @include text-ellipsis;
-  max-width: 140px;
+  min-height: 14px;
 }
 
 .creationTime {
   @include field-value-font;
-  position: absolute;
-  right: 20px;
-  top: 19px;
   color: $ash;
+  align-self: flex-start;
+  // Yesterday, mm/dd/yy, 12:00
+  min-width: 53px;
+  text-align: right;
 }
 
 .contactDisplay {
-  position: absolute;
-  top: 5px;
-  left: 50px;
   @include secondary-font;
   @include text-ellipsis;
   overflow: inherit;
   max-width: 140px;
   color: $night;
+  margin-bottom: 5px;
 }
 
 .playContainer {
@@ -143,6 +149,8 @@
 
   .conversationIcon {
     color: $primary-color;
+    min-width: 23px;
+    text-align: center;
   }
 
   .icon {
