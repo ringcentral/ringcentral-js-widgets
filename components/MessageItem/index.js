@@ -554,36 +554,40 @@ var MessageItem = function (_Component) {
             currentLocale: currentLocale,
             direction: direction
           }),
-          _react2.default.createElement(_ContactDisplay2.default, {
-            reference: function reference(ref) {
-              _this2.contactDisplay = ref;
-            },
-            className: (0, _classnames2.default)(_styles2.default.contactDisplay, unreadCounts && _styles2.default.unread),
-            selectedClassName: _styles2.default.selectedValue,
-            selectClassName: _styles2.default.dropdownSelect,
-            brand: brand,
-            contactMatches: correspondentMatches,
-            selected: this.state.selected,
-            onSelectContact: this.onSelectContact,
-            disabled: disableLinks,
-            isLogging: isLogging || this.state.isLogging,
-            fallBackName: fallbackName,
-            areaCode: areaCode,
-            countryCode: countryCode,
-            phoneNumber: phoneNumber,
-            groupNumbers: groupNumbers,
-            showGroupNumberName: showGroupNumberName,
-            currentLocale: currentLocale,
-            enableContactFallback: enableContactFallback,
-            stopPropagation: false,
-            showType: false,
-            showPlaceholder: showContactDisplayPlaceholder,
-            sourceIcons: sourceIcons
-          }),
           _react2.default.createElement(
             'div',
-            { className: _styles2.default.details },
-            detail
+            { className: _styles2.default.infoWrapper },
+            _react2.default.createElement(_ContactDisplay2.default, {
+              reference: function reference(ref) {
+                _this2.contactDisplay = ref;
+              },
+              className: (0, _classnames2.default)(_styles2.default.contactDisplay, unreadCounts && _styles2.default.unread),
+              selectedClassName: _styles2.default.selectedValue,
+              selectClassName: _styles2.default.dropdownSelect,
+              brand: brand,
+              contactMatches: correspondentMatches,
+              selected: this.state.selected,
+              onSelectContact: this.onSelectContact,
+              disabled: disableLinks,
+              isLogging: isLogging || this.state.isLogging,
+              fallBackName: fallbackName,
+              areaCode: areaCode,
+              countryCode: countryCode,
+              phoneNumber: phoneNumber,
+              groupNumbers: groupNumbers,
+              showGroupNumberName: showGroupNumberName,
+              currentLocale: currentLocale,
+              enableContactFallback: enableContactFallback,
+              stopPropagation: false,
+              showType: false,
+              showPlaceholder: showContactDisplayPlaceholder,
+              sourceIcons: sourceIcons
+            }),
+            _react2.default.createElement(
+              'div',
+              { className: _styles2.default.details },
+              detail
+            )
           ),
           _react2.default.createElement(
             'div',
