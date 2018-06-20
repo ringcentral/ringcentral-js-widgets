@@ -5,11 +5,19 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = exports.mapToFunctions = exports.mapToProps = undefined;
 
+var _values = require('babel-runtime/core-js/object/values');
+
+var _values2 = _interopRequireDefault(_values);
+
 var _reactRedux = require('react-redux');
 
 var _formatNumber = require('ringcentral-integration/lib/formatNumber');
 
 var _formatNumber2 = _interopRequireDefault(_formatNumber);
+
+var _messageSenderMessages = require('ringcentral-integration/modules/MessageSender/messageSenderMessages');
+
+var _messageSenderMessages2 = _interopRequireDefault(_messageSenderMessages);
 
 var _ComposeTextPanel = require('../../components/ComposeTextPanel');
 
@@ -54,6 +62,7 @@ function mapToFunctions(_, _ref2) {
       messageStore = _ref2$phone.messageStore,
       regionSettings = _ref2$phone.regionSettings,
       routerInteraction = _ref2$phone.routerInteraction,
+      alert = _ref2$phone.alert,
       _ref2$formatContactPh = _ref2.formatContactPhone,
       formatContactPhone = _ref2$formatContactPh === undefined ? function (phoneNumber) {
     return (0, _formatNumber2.default)({
@@ -70,7 +79,12 @@ function mapToFunctions(_, _ref2) {
     send: function send() {
       var timeout = setTimeout(function () {
         if (routerInteraction.currentPath === '/composeText') {
-          composeText.alertMessageSending();
+          var hasAlertOtherMsg = alert.messages.filter(function (_ref3) {
+            var level = _ref3.level,
+                message = _ref3.message;
+            return level === 'warning' && (0, _values2.default)(_messageSenderMessages2.default).indexOf(message) > -1;
+          }).length > 0;
+          if (!hasAlertOtherMsg) composeText.alertMessageSending();
         }
         if (timeout) {
           clearTimeout(timeout);
@@ -105,8 +119,8 @@ function mapToFunctions(_, _ref2) {
     searchContact: function searchContact(searchString) {
       return contactSearch.debouncedSearch({ searchString: searchString });
     },
-    updateSenderNumber: function updateSenderNumber(_ref3) {
-      var phoneNumber = _ref3.phoneNumber;
+    updateSenderNumber: function updateSenderNumber(_ref4) {
+      var phoneNumber = _ref4.phoneNumber;
       return composeText.updateSenderNumber(phoneNumber);
     },
     updateTypingToNumber: function updateTypingToNumber() {
