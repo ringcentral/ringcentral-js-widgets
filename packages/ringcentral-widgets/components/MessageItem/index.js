@@ -443,7 +443,7 @@ export default class MessageItem extends Component {
               showPlaceholder={showContactDisplayPlaceholder}
               sourceIcons={sourceIcons}
             />
-            <div className={styles.details}>
+            <div className={styles.details} title={detail}>
               {detail}
             </div>
           </div>
