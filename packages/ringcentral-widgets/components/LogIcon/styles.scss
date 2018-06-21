@@ -32,11 +32,8 @@
   }
 }
 .logIcon {
+  display: flex;
   cursor: pointer;
-  position: absolute;
-  right: 20px;
-  height: 26px;
-  display: inline-block;
 
   &.disabled {
     cursor: not-allowed;

@@ -6,6 +6,7 @@
   width: 100%;
   border-bottom: 1px solid #e2e2e2;
   margin-bottom: 7px;
+  min-height: 62px;
 }
 // .root:first-child {
 //   margin-top: -5px;
@@ -18,7 +19,6 @@
   display: flex;
   align-items: center;
   width: 100%;
-  min-height: 62px;
   @include secondary-font;
 }
 
