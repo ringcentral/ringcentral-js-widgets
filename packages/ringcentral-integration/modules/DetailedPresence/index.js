@@ -71,25 +71,30 @@ export default class DetailedPresence extends Presence {
         totalActiveCalls,
       } = message.body;
 
+      this.store.dispatch({
+        type: this.actionTypes.notification,
+        activeCalls,
+        dndStatus,
+        telephonyStatus,
+        presenceStatus,
+        userStatus,
+        message: message.body.message,
+        lastDndStatus: this.dndStatus,
+        timestamp: Date.now(),
+      });
+
       /**
        * as pointed out by Igor in https://jira.ringcentral.com/browse/PLA-33391,
        * when the real calls count larger than the active calls returned by the pubnub,
        * we need to pulling the calls manually.
        */
-      // eslint-disable-next-line no-unused-expressions
-      activeCalls.length < totalActiveCalls
-        ? this.fetchRemainingCalls()
-        : this.store.dispatch({
-          type: this.actionTypes.notification,
-          activeCalls,
-          dndStatus,
-          telephonyStatus,
-          presenceStatus,
-          userStatus,
-          message: message.body.message,
-          lastDndStatus: this.dndStatus,
-          timestamp: Date.now(),
-        });
+      if (
+        activeCalls &&
+        Array.isArray(activeCalls) &&
+        activeCalls.length < totalActiveCalls
+      ) {
+        this.fetchRemainingCalls();
+      }
     }
   }
 
