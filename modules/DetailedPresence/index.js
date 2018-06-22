@@ -148,14 +148,8 @@ var DetailedPresence = (_dec = (0, _di.Module)({
             userStatus = _message$body.userStatus,
             totalActiveCalls = _message$body.totalActiveCalls;
 
-        /**
-         * as pointed out by Igor in https://jira.ringcentral.com/browse/PLA-33391,
-         * when the real calls count larger than the active calls returned by the pubnub,
-         * we need to pulling the calls manually.
-         */
-        // eslint-disable-next-line no-unused-expressions
 
-        activeCalls.length < totalActiveCalls ? _this.fetchRemainingCalls() : _this.store.dispatch({
+        _this.store.dispatch({
           type: _this.actionTypes.notification,
           activeCalls: activeCalls,
           dndStatus: dndStatus,
@@ -166,6 +160,15 @@ var DetailedPresence = (_dec = (0, _di.Module)({
           lastDndStatus: _this.dndStatus,
           timestamp: Date.now()
         });
+
+        /**
+         * as pointed out by Igor in https://jira.ringcentral.com/browse/PLA-33391,
+         * when the real calls count larger than the active calls returned by the pubnub,
+         * we need to pulling the calls manually.
+         */
+        if (activeCalls && Array.isArray(activeCalls) && activeCalls.length < totalActiveCalls) {
+          _this.fetchRemainingCalls();
+        }
       }
     };
 
