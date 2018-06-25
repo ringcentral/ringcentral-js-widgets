@@ -84,12 +84,14 @@ function ActiveCallPad(props) {
     onClick: props.onUnmute,
     className: _styles2.default.callButton,
     icon: _Mute2.default,
-    title: _i18n2.default.getString('unmute', props.currentLocale)
+    title: _i18n2.default.getString('unmute', props.currentLocale),
+    disabled: props.isOnHold
   }) : _react2.default.createElement(_ActiveCallButton2.default, {
     onClick: props.onMute,
     className: _styles2.default.callButton,
     title: _i18n2.default.getString('mute', props.currentLocale),
-    icon: _Unmute2.default
+    icon: _Unmute2.default,
+    disabled: props.isOnHold
   });
   var onHoldClicked = props.isOnHold ? props.onUnhold : props.onHold;
   var onRecordClicked = props.recordStatus === _recordStatus2.default.recording ? props.onStopRecord : props.onRecord;
