@@ -25,6 +25,7 @@ export default function ActiveCallPad(props) {
         className={styles.callButton}
         icon={MuteIcon}
         title={i18n.getString('unmute', props.currentLocale)}
+        disabled={props.isOnHold}
       />
     ) :
     (
@@ -33,6 +34,7 @@ export default function ActiveCallPad(props) {
         className={styles.callButton}
         title={i18n.getString('mute', props.currentLocale)}
         icon={UnmuteIcon}
+        disabled={props.isOnHold}
       />
     );
   const onHoldClicked = props.isOnHold ?
