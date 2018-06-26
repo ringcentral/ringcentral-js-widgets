@@ -103,7 +103,6 @@ const config = [{
   },
 }];
 
-// // TODO(Eric): remove it 2018/06/15
-config.port = '8888';
+config.port = '8080';
 
 export default config;

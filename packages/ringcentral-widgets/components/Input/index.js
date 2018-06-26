@@ -74,7 +74,7 @@ export default class Input extends React.Component {
         {...props}
         ref={props.inputRef}
         value={this.state.value}
-        onFocus={this._onFocusss}
+        onFocus={this._onFocus}
         onBlur={this._onBlur}
         onChange={this._onChange}
       />
