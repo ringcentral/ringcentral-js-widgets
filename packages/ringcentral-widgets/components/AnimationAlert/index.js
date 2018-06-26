@@ -95,6 +95,11 @@ class AnimationAlert extends Component {
       });
     })();
   }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState.messages !== this.state.messages;
+  }
+
   render() {
     return (
       <AlertDisplay {...this.props} component={AnimationMessage} messages={this.state.messages} />

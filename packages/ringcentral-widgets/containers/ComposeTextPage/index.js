@@ -66,12 +66,15 @@ function mapToFunctions(_, {
 }) {
   return {
     send: () => {
+      let hasAlertOtherMsg;
+      setTimeout(() => {
+        hasAlertOtherMsg = alert.messages.filter(({ level, message }) => (
+          level === 'warning' &&
+          Object.values(messageSenderMessages).indexOf(message) > -1
+        )).length > 0;
+      }, 500);
       let timeout = setTimeout(() => {
         if (routerInteraction.currentPath === '/composeText') {
-          const hasAlertOtherMsg = alert.messages.filter(({ level, message }) => (
-            level === 'warning' &&
-            Object.values(messageSenderMessages).indexOf(message) > -1
-          )).length > 0;
           if (!hasAlertOtherMsg) composeText.alertMessageSending();
         }
         if (timeout) {
