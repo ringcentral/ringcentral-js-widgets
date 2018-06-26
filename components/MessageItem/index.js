@@ -585,7 +585,7 @@ var MessageItem = function (_Component) {
             }),
             _react2.default.createElement(
               'div',
-              { className: _styles2.default.details },
+              { className: _styles2.default.details, title: detail },
               detail
             )
           ),

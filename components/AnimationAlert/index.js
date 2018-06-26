@@ -208,6 +208,11 @@ var AnimationAlert = function (_Component) {
       }))();
     }
   }, {
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps, nextState) {
+      return nextState.messages !== this.state.messages;
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(_AlertDisplay2.default, (0, _extends3.default)({}, this.props, { component: AnimationMessage, messages: this.state.messages }));

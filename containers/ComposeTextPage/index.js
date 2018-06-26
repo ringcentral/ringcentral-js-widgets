@@ -77,13 +77,16 @@ function mapToFunctions(_, _ref2) {
 
   return {
     send: function send() {
+      var hasAlertOtherMsg = void 0;
+      setTimeout(function () {
+        hasAlertOtherMsg = alert.messages.filter(function (_ref3) {
+          var level = _ref3.level,
+              message = _ref3.message;
+          return level === 'warning' && (0, _values2.default)(_messageSenderMessages2.default).indexOf(message) > -1;
+        }).length > 0;
+      }, 500);
       var timeout = setTimeout(function () {
         if (routerInteraction.currentPath === '/composeText') {
-          var hasAlertOtherMsg = alert.messages.filter(function (_ref3) {
-            var level = _ref3.level,
-                message = _ref3.message;
-            return level === 'warning' && (0, _values2.default)(_messageSenderMessages2.default).indexOf(message) > -1;
-          }).length > 0;
           if (!hasAlertOtherMsg) composeText.alertMessageSending();
         }
         if (timeout) {
