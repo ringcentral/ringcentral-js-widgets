@@ -180,7 +180,9 @@ var AnimationAlert = function (_Component) {
                   messages: messages
                 };
 
-                _this2.setState(stateWithAnimation);
+                if (messages.length > 0) {
+                  _this2.setState(stateWithAnimation);
+                }
                 _context.next = 13;
                 return (0, _sleep2.default)(duration);
 
@@ -210,7 +212,7 @@ var AnimationAlert = function (_Component) {
   }, {
     key: 'shouldComponentUpdate',
     value: function shouldComponentUpdate(nextProps, nextState) {
-      return nextState.messages !== this.state.messages;
+      return !(nextState.messages === this.state.messages || nextProps.messages === this.state.props);
     }
   }, {
     key: 'render',
