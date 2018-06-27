@@ -48,6 +48,7 @@ class AnimationAlert extends Component {
     this.mounted = false;
   }
   componentWillReceiveProps(nextProps) {
+    if (this.props.messages === nextProps.messages) return;
     (async () => {
       const {
         duration,
