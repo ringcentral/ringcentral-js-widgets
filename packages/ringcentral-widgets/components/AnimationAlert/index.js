@@ -84,11 +84,11 @@ class AnimationAlert extends Component {
       const stateWithAnimation = {
         messages,
       };
-      this.setState(stateWithAnimation);
+      if (messages.length > 0) {
+        this.setState(stateWithAnimation);
+      }
       await sleep(duration);
-
       if (!this.mounted) return;
-
       const isCurrentEmpty = currentMessagesIDs.length === 0;
       this.setState({
         messages: isCurrentEmpty ? messages : nextProps.messages,
@@ -97,7 +97,9 @@ class AnimationAlert extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return nextState.messages !== this.state.messages;
+    return !(
+      nextState.messages === this.state.messages || nextProps.messages === this.state.props
+    );
   }
 
   render() {
