@@ -135,6 +135,7 @@ var AnimationAlert = function (_Component) {
     value: function componentWillReceiveProps(nextProps) {
       var _this2 = this;
 
+      if (this.props.messages === nextProps.messages) return;
       (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         var _props, duration, entranceAnimation, exitAnimation, currentMessagesIDs, nextMessagesIDs, addedMessagesIDs, removedMessagesIDs, allMessagesIDs, allMessages, messages, stateWithAnimation, isCurrentEmpty;
 
