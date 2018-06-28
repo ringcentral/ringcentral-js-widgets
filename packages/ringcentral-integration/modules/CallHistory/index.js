@@ -2,13 +2,9 @@ import { createSelector } from 'reselect';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import moduleStatuses from '../../enums/moduleStatuses';
-import {
-  sortByStartTime,
-} from '../../lib/callLogHelpers';
+import { sortByStartTime } from '../../lib/callLogHelpers';
 import actionTypes from './actionTypes';
-import getCallHistoryReducer, {
-  getEndedCallsReducer
-} from './getCallHistoryReducer';
+import getCallHistoryReducer, { getEndedCallsReducer } from './getCallHistoryReducer';
 import ensureExist from '../../lib/ensureExist';
 import normalizeNumber from '../../lib/normalizeNumber';
 import getter from '../../lib/getter';
@@ -353,8 +349,17 @@ export default class CallHistory extends RcModule {
           toNumberEntity: matched,
         };
       });
+      const filteredEndedCalls = endedCalls
+        .filter(call => !sessionIds[call.sessionId])
+        .map((call) => {
+          const activityMatches = (activityMapping[call.sessionId]) || [];
+          return {
+            ...call,
+            activityMatches
+          };
+        });
       return [
-        ...endedCalls.filter(call => !sessionIds[call.sessionId]),
+        ...filteredEndedCalls,
         ...calls
       ].sort(sortByStartTime);
     }
