@@ -514,9 +514,15 @@ var CallHistory = (_dec = (0, _di.Module)({
           toNumberEntity: matched
         });
       });
-      return [].concat((0, _toConsumableArray3.default)(endedCalls.filter(function (call) {
+      var filteredEndedCalls = endedCalls.filter(function (call) {
         return !sessionIds[call.sessionId];
-      })), (0, _toConsumableArray3.default)(calls)).sort(_callLogHelpers.sortByStartTime);
+      }).map(function (call) {
+        var activityMatches = activityMapping[call.sessionId] || [];
+        return (0, _extends3.default)({}, call, {
+          activityMatches: activityMatches
+        });
+      });
+      return [].concat((0, _toConsumableArray3.default)(filteredEndedCalls), (0, _toConsumableArray3.default)(calls)).sort(_callLogHelpers.sortByStartTime);
     });
   }
 }), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'uniqueNumbers', [_getter2.default], {
