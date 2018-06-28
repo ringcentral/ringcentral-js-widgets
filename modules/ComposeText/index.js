@@ -272,8 +272,8 @@ var ComposeText = (_dec = (0, _di.Module)({
     }
   }, {
     key: '_validateIsOnlyPager',
-    value: function _validateIsOnlyPager(toNumbers) {
-      if (toNumbers.length >= 7 && this._rolesAndPermissions.onlyPagerPermission) {
+    value: function _validateIsOnlyPager(phoneNumber) {
+      if (phoneNumber.length >= 7 && this._rolesAndPermissions.onlyPagerPermission) {
         this._alertWarning(_messageSenderMessages2.default.noSMSPermission);
         return true;
       }
