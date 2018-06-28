@@ -39,6 +39,12 @@
     cursor: not-allowed;
     g {
       stroke: $coin;
+      path:nth-child(3):nth-last-child(4) {
+        fill: $coin;
+      }
+      path:nth-child(5):nth-last-child(2) {
+        stroke: #FEFEFE;
+      }
     }
     path {
       stroke: $coin;
