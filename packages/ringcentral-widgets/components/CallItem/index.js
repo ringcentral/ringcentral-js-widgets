@@ -41,12 +41,12 @@ function CallIcon({
   missedTitle,
   type,
 }) {
-  let icon = '';
+  let icon = null;
   switch (type) {
     case messageTypes.fax: {
       icon = direction === messageDirection.inbound ?
-        <span title={inboundTitle} ><FaxInboundIcon width={21} className={styles.icon} /></span> :
-        <span title={outboundTitle} ><FaxOutboundIcon width={21} className={styles.icon} /></span>;
+        <span title={inboundTitle} ><FaxInboundIcon width={21} /></span> :
+        <span title={outboundTitle} ><FaxOutboundIcon width={21} /></span>;
       break;
     }
     default: {
@@ -358,7 +358,7 @@ export default class CallItem extends Component {
       )
     );
 
-    let durationEl;
+    let durationEl = null;
     if (typeof duration === 'undefined') {
       durationEl = disableLinks ?
         i18n.getString('unavailable', currentLocale) :
@@ -366,11 +366,11 @@ export default class CallItem extends Component {
     } else {
       durationEl = formatDuration(duration);
     }
-    let dateEl;
+    let dateEl = '';
     if (!active) {
       dateEl = dateTimeFormatter({ utcTimestamp: startTime });
     }
-    let statusEl;
+    let statusEl = '';
     if (active) {
       statusEl = i18n.getString(result || telephonyStatus, currentLocale);
     }
@@ -422,7 +422,7 @@ export default class CallItem extends Component {
               showPlaceholder={showContactDisplayPlaceholder}
             />
             <div className={styles.details} >
-              {durationEl} | {dateEl}{statusEl}
+              {durationEl}{` | ${dateEl}${statusEl}`}
             </div>
           </div>
           {extraButton}
