@@ -1,5 +1,6 @@
 @import '../../lib/commonStyles/colors';
 @import '../../lib/commonStyles/fonts';
+$fixed-icon-width: 21px;
 .root {
   display: block;
   background: #fff;
@@ -23,8 +24,10 @@
 }
 
 .callIcon {
+  display: inline-flex;
   font-size: 22px;
   color: #666;
+  width: $fixed-icon-width;
 }
 
 .infoWrapper {
@@ -33,13 +36,13 @@
   justify-content: center;
   flex: 1;
   height: 100%;
-  max-height: 31px;
-  max-width: calc(100% - 19px);
-  padding-left: 12px;
+  max-width: calc(100% - #{$fixed-icon-width});
+  padding-left: 6px;
+  padding-right: 8px;
+  overflow: hidden;
   box-sizing: border-box;
   // Add bellow style if you have calllog button on callitem
-  // margin-right: 33px;
-  // max-width: calc(100% - 33px - 19px);
+  // max-width: calc(100% - 23px - 21px);
 }
 
 .activeCall {
@@ -61,14 +64,6 @@
   animation-direction: alternate;
   animation-duration: 0.5s;
   animation-iteration-count: infinite;
-}
-
-.details {
-  position: absolute;
-  left: 46px;
-  bottom: 12px;
-  font-size: 12px;
-  color: #979797;
 }
 
 .contactDisplay {
@@ -125,6 +120,7 @@
   font-size: 12px;
   text-overflow: ellipsis;
   white-space: nowrap;
+  overflow: hidden;
   color: #979797;
   .label {
     margin-right: 5px;

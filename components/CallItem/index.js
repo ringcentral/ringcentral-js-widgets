@@ -141,18 +141,18 @@ function CallIcon(_ref) {
       missedTitle = _ref.missedTitle,
       type = _ref.type;
 
-  var icon = '';
+  var icon = null;
   switch (type) {
     case _messageTypes2.default.fax:
       {
         icon = direction === _messageDirection2.default.inbound ? _react2.default.createElement(
           'span',
           { title: inboundTitle },
-          _react2.default.createElement(_FaxInbound2.default, { width: 21, className: _styles2.default.icon })
+          _react2.default.createElement(_FaxInbound2.default, { width: 21 })
         ) : _react2.default.createElement(
           'span',
           { title: outboundTitle },
-          _react2.default.createElement(_FaxOutbound2.default, { width: 21, className: _styles2.default.icon })
+          _react2.default.createElement(_FaxOutbound2.default, { width: 21 })
         );
         break;
       }
@@ -549,17 +549,17 @@ var CallItem = function (_Component) {
       var isExtension = !parsedInfo.hasPlus && parsedInfo.number.length <= 6;
       var showClickToSms = !!(onClickToSms && (isExtension ? internalSmsPermission : outboundSmsPermission));
 
-      var durationEl = void 0;
+      var durationEl = null;
       if (typeof duration === 'undefined') {
         durationEl = disableLinks ? _i18n2.default.getString('unavailable', currentLocale) : _react2.default.createElement(_DurationCounter2.default, { startTime: startTime, offset: offset });
       } else {
         durationEl = (0, _formatDuration2.default)(duration);
       }
-      var dateEl = void 0;
+      var dateEl = '';
       if (!active) {
         dateEl = dateTimeFormatter({ utcTimestamp: startTime });
       }
-      var statusEl = void 0;
+      var statusEl = '';
       if (active) {
         statusEl = _i18n2.default.getString(result || telephonyStatus, currentLocale);
       }
@@ -612,9 +612,7 @@ var CallItem = function (_Component) {
               'div',
               { className: _styles2.default.details },
               durationEl,
-              ' | ',
-              dateEl,
-              statusEl
+              ' | ' + dateEl + statusEl
             )
           ),
           extraButton

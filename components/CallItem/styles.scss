@@ -1,5 +1,5 @@
 @import '../../lib/commonStyles/colors';
-
+$fixed-icon-width: 21px;
 .root {
   min-height: 62px;
   border-bottom: 1px solid #e2e2e2;
@@ -34,19 +34,20 @@
   justify-content: center;
   flex: 1;
   height: 100%;
-  max-height: 31px;
-  max-width: calc(100% - 19px);
-  padding-left: 12px;
+  max-width: calc(100% - #{$fixed-icon-width});
+  padding-left: 6px;
+  padding-right: 8px;
+  overflow: hidden;
   box-sizing: border-box;
   // Add bellow style if you have calllog button on callitem
-  // margin-right: 33px;
-  // max-width: calc(100% - 33px - 19px);
+  // max-width: calc(100% - 23px - 21px);
 }
 
 .callIcon {
   display: inline-flex;
   font-size: 22px;
   color: #666;
+  width: $fixed-icon-width;
 }
 .activeCall {
   color: $active;
@@ -72,6 +73,9 @@
 .details {
   font-size: 12px;
   color: #979797;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .contactDisplay {
