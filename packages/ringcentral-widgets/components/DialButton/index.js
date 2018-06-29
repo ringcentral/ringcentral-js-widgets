@@ -19,7 +19,7 @@ export default class DialButton extends Component {
       this.audio.src = audios[props.btn.value];
     }
     this.onMouseDown = () => {
-      if (this.audio && this.audio.canPlayType('audio/mp3') !== '') {
+      if (this.audio && this.audio.canPlayType('audio/ogg') !== '') {
         this.audio.volume = this.props.volume;
         this.audio.muted = this.props.muted;
         this.audio.currentTime = 0;
