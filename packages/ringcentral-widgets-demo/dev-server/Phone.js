@@ -140,11 +140,15 @@ import LocalforageStorage from 'ringcentral-integration/lib/LocalforageStorage';
     { provide: 'DialerUI', useClass: DialerUI },
     { provide: 'Feedback', useClass: Feedback },
     { provide: 'UserGuide', useClass: UserGuide },
-    {
-      provide: 'StorageOptions',
-      useValue: { StorageProvider: LocalforageStorage },
-      spread: true
-    },
+    // IndexedDB
+    // {
+    //   provide: 'StorageOptions',
+    //   useValue: {
+    //     StorageProvider: LocalforageStorage,
+    //     disableAllowInactiveTabsWrite: false,
+    //   },
+    //   spread: true
+    // },
   ]
 })
 export default class BasePhone extends RcModule {
