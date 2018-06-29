@@ -3,7 +3,7 @@ import StorageBase from '../../lib/StorageBase';
 import loginStatus from '../Auth/loginStatus';
 import moduleStatuses from '../../enums/moduleStatuses';
 
-const DEFAULT_ALLOW_INACTIVE_TABS_WRITE = false;
+const DEFAULT_DISABLE_ALLOW_INACTIVE_TABS_WRITE = false;
 
 /**
  * @class
@@ -26,7 +26,7 @@ export default class Storage extends StorageBase {
    * @param {TabManager} params.tabManager - tabManager module instance
    */
   constructor({
-    disableAllowInactiveTabsWrite = DEFAULT_ALLOW_INACTIVE_TABS_WRITE,
+    disableAllowInactiveTabsWrite = DEFAULT_DISABLE_ALLOW_INACTIVE_TABS_WRITE,
     auth,
     tabManager,
     ...options

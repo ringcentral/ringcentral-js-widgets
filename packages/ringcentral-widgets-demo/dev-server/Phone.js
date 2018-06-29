@@ -63,7 +63,7 @@ import { ModuleFactory } from 'ringcentral-integration/lib/di';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 import DialerUI from 'ringcentral-widgets/modules/DialerUI';
 import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
-import LocalforageStorage from 'ringcentral-integration/lib/LocalforageStorage';
+import LocalForageStorage from 'ringcentral-integration/lib/LocalForageStorage';
 
 @ModuleFactory({
   providers: [
@@ -144,7 +144,7 @@ import LocalforageStorage from 'ringcentral-integration/lib/LocalforageStorage';
     // {
     //   provide: 'StorageOptions',
     //   useValue: {
-    //     StorageProvider: LocalforageStorage,
+    //     StorageProvider: LocalForageStorage,
     //     disableAllowInactiveTabsWrite: false,
     //   },
     //   spread: true
