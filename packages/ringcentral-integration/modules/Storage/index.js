@@ -41,7 +41,7 @@ export default class Storage extends StorageBase {
   }
   initialize() {
     let storedData = null;
-    this.store.subscribe(() => {
+    this.store.subscribe(async () => {
       if (
         this._auth.loginStatus === loginStatus.loggedIn &&
         !this.ready
@@ -51,11 +51,11 @@ export default class Storage extends StorageBase {
         this._storage = new this._StorageProvider({
           storageKey,
         });
-        storedData = this._storage.getData();
+        storedData = await this._storage.getData();
         for (const key in storedData) {
           if (!this._reducers[key]) {
             delete storedData[key];
-            this._storage.removeItem(key);
+            await this._storage.removeItem(key);
           }
         }
         this.store.dispatch({

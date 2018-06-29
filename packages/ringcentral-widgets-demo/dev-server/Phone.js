@@ -63,6 +63,7 @@ import { ModuleFactory } from 'ringcentral-integration/lib/di';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 import DialerUI from 'ringcentral-widgets/modules/DialerUI';
 import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
+import LocalforageStorage from 'ringcentral-integration/lib/LocalforageStorage';
 
 @ModuleFactory({
   providers: [
@@ -139,6 +140,11 @@ import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
     { provide: 'DialerUI', useClass: DialerUI },
     { provide: 'Feedback', useClass: Feedback },
     { provide: 'UserGuide', useClass: UserGuide },
+    {
+      provide: 'StorageOptions',
+      useValue: { StorageProvider: LocalforageStorage },
+      spread: true
+    },
   ]
 })
 export default class BasePhone extends RcModule {
