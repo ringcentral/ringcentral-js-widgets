@@ -2,15 +2,6 @@
 @import '../../lib/commonStyles/text-ellipsis';
 @import '../../lib/commonStyles/fonts';
 
-// For IE11
-// Bugs might happends when try to use space-between and max-width at the same time.
-// Use it when suffer from this issue.
-// Details: https://github.com/philipwalton/flexbugs#flexbug-17
-@mixin flex-shrink($max-size) {
-  flex: 0 1;
-  flex-basis: $max-size;
-}
-
 .root {
   border-bottom: 1px solid $silver;
   cursor: pointer;
@@ -48,7 +39,13 @@
   justify-content: center;
   height: 100%;
   max-height: 31px;
-  @include flex-shrink(calc(100% - 76px));
+  // For IE11
+  // When try to use space-between and max-width at the same time.
+  // IE will miss calculate the correct position.
+  // So need to let flex-basis help here.
+  // Details: https://github.com/philipwalton/flexbugs#flexbug-17
+  flex: 1;
+  flex-basis: calc(100% - 76px); 
   max-width: calc(100% - 76px);
   padding-left: 12px;
   box-sizing: border-box;
