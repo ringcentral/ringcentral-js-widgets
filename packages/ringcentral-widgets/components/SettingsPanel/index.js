@@ -32,6 +32,7 @@ export default function SettingsPanel({
   onAudioSettingsLinkClick,
   onFeedbackSettingsLinkClick,
   onUserGuideClick,
+  onAutoCreateTicketClick,
   showCalling,
   showAutoLog,
   showAudio,
@@ -61,6 +62,7 @@ export default function SettingsPanel({
   openPresenceSettings,
   showFeedback,
   showUserGuide,
+  showAutoCreateTicket,
   additional,
   supportedLocales,
   savedLocale,
@@ -199,6 +201,11 @@ export default function SettingsPanel({
       {i18n.getString('userGuide', currentLocale)}
     </LinkLine>
   ) : null;
+  const autoCreateTicket = showAutoCreateTicket ? (
+    <LinkLine onClick={onAutoCreateTicketClick}>
+      {i18n.getString('autoCreateTicket', currentLocale)}
+    </LinkLine>
+  ) : null;
   return (
     <div className={classnames(styles.root, className)}>
       {header}
@@ -216,6 +223,7 @@ export default function SettingsPanel({
         {autoLog}
         {autoLogSMS}
         {clickToDial}
+        {autoCreateTicket}
         {additional}
         {feedback}
         {userGuide}
@@ -294,7 +302,9 @@ SettingsPanel.propTypes = {
   saveLocale: PropTypes.func,
   onFeedbackSettingsLinkClick: PropTypes.func.isRequired,
   onUserGuideClick: PropTypes.func.isRequired,
-  showUserGuide: PropTypes.bool
+  onAutoCreateTicketClick: PropTypes.func.isRequired,
+  showUserGuide: PropTypes.bool,
+  showAutoCreateTicket: PropTypes.bool,
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -308,6 +318,7 @@ SettingsPanel.defaultProps = {
   showAutoLog: false,
   showRegion: false,
   showUserGuide: false,
+  showAutoCreateTicket: false,
   autoLogEnabled: false,
   disableAutoLogEnabled: false,
   onAutoLogChange: undefined,
