@@ -22,7 +22,9 @@ export default class <%- name %> extends RcModule {
     ...options,
   }) {
     super({
+      <% if (dependencies.length > 0) { %>
       actionTypes,
+      <% } %>
       ...options,
     });
 

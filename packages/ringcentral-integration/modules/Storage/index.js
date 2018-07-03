@@ -3,7 +3,7 @@ import StorageBase from '../../lib/StorageBase';
 import loginStatus from '../Auth/loginStatus';
 import moduleStatuses from '../../enums/moduleStatuses';
 
-const DEFAULT_ALLOW_INACTIVE_TABS_WRITE = false;
+const DEFAULT_DISABLE_ALLOW_INACTIVE_TABS_WRITE = false;
 
 /**
  * @class
@@ -26,7 +26,7 @@ export default class Storage extends StorageBase {
    * @param {TabManager} params.tabManager - tabManager module instance
    */
   constructor({
-    disableAllowInactiveTabsWrite = DEFAULT_ALLOW_INACTIVE_TABS_WRITE,
+    disableAllowInactiveTabsWrite = DEFAULT_DISABLE_ALLOW_INACTIVE_TABS_WRITE,
     auth,
     tabManager,
     ...options
@@ -41,7 +41,7 @@ export default class Storage extends StorageBase {
   }
   initialize() {
     let storedData = null;
-    this.store.subscribe(() => {
+    this.store.subscribe(async () => {
       if (
         this._auth.loginStatus === loginStatus.loggedIn &&
         !this.ready
@@ -51,11 +51,11 @@ export default class Storage extends StorageBase {
         this._storage = new this._StorageProvider({
           storageKey,
         });
-        storedData = this._storage.getData();
+        storedData = await this._storage.getData();
         for (const key in storedData) {
           if (!this._reducers[key]) {
             delete storedData[key];
-            this._storage.removeItem(key);
+            await this._storage.removeItem(key);
           }
         }
         this.store.dispatch({

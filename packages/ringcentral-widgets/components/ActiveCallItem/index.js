@@ -395,7 +395,7 @@ export default class ActiveCallItem extends Component {
       undefined;
     return (
       <div className={styles.root} onClick={this.toggleExtended}>
-        <div className={styles.callInfo}>
+        <div className={styles.wrapper}>
           <CallIcon
             direction={direction}
             ringing={ringing}
@@ -405,27 +405,29 @@ export default class ActiveCallItem extends Component {
             outboundTitle={i18n.getString('outboundCall', currentLocale)}
             missedTitle={i18n.getString('missedCall', currentLocale)}
           />
-          <ContactDisplay
-            contactName={contactName}
-            className={classnames(styles.contactDisplay, contactDisplayStyle)}
-            contactMatches={contactMatches}
-            selected={this.state.selected}
-            onSelectContact={this.onSelectContact}
-            disabled={disableLinks}
-            isLogging={isLogging || this.state.isLogging}
-            fallBackName={fallbackContactName}
-            enableContactFallback={enableContactFallback}
-            areaCode={areaCode}
-            countryCode={countryCode}
-            phoneNumber={phoneNumber}
-            currentLocale={currentLocale}
-            brand={brand}
-            showPlaceholder={showContactDisplayPlaceholder}
-            showType={false}
-            sourceIcons={sourceIcons}
-            stopPropagation
-          />
-          {callDetail}
+          <div className={styles.infoWrapper}>
+            <ContactDisplay
+              contactName={contactName}
+              className={classnames(styles.contactDisplay, contactDisplayStyle)}
+              contactMatches={contactMatches}
+              selected={this.state.selected}
+              onSelectContact={this.onSelectContact}
+              disabled={disableLinks}
+              isLogging={isLogging || this.state.isLogging}
+              fallBackName={fallbackContactName}
+              enableContactFallback={enableContactFallback}
+              areaCode={areaCode}
+              countryCode={countryCode}
+              phoneNumber={phoneNumber}
+              currentLocale={currentLocale}
+              brand={brand}
+              showPlaceholder={showContactDisplayPlaceholder}
+              showType={false}
+              sourceIcons={sourceIcons}
+              stopPropagation
+            />
+            {callDetail}
+          </div>
           <WebphoneButtons
             session={webphoneSession}
             webphoneAnswer={webphoneAnswer}

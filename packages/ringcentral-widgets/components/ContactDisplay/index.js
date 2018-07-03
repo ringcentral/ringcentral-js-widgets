@@ -172,7 +172,9 @@ export default function ContactDisplay({
       <DropdownSelect
         reference={reference}
         className={classnames(styles.select, selectClassName)}
-        selectedClassName={selectedClassName}
+        selectedClassName={classnames(styles.selectedValue, selectedClassName)}
+        buttonStyle={styles.button}
+        iconClassName={styles.icon}
         value={_selected}
         onChange={onSelectContact}
         disabled={disabled || isLogging}
