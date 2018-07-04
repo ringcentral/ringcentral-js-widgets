@@ -200,7 +200,11 @@ var NumberValidate = (_dec = (0, _di.Module)({
         return true;
       }
 
-      var _parseNumber = (0, _parseNumber4.default)(phoneNumber),
+      var _parseNumber = (0, _parseNumber4.default)({
+        phoneNumber: phoneNumber,
+        countryCode: this._regionSettings.countryCode,
+        areaCode: this._regionSettings.areaCode
+      }),
           number = _parseNumber.number,
           hasInvalidChars = _parseNumber.hasInvalidChars;
 
@@ -212,7 +216,11 @@ var NumberValidate = (_dec = (0, _di.Module)({
   }, {
     key: 'isNoAreaCode',
     value: function isNoAreaCode(phoneNumber) {
-      var _parseNumber2 = (0, _parseNumber4.default)(phoneNumber),
+      var _parseNumber2 = (0, _parseNumber4.default)({
+        phoneNumber: phoneNumber,
+        countryCode: this._regionSettings.countryCode,
+        areaCode: this._regionSettings.areaCode
+      }),
           hasPlus = _parseNumber2.hasPlus,
           number = _parseNumber2.number,
           isServiceNumber = _parseNumber2.isServiceNumber;
