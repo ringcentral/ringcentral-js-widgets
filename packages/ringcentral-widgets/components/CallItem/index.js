@@ -346,7 +346,11 @@ export default class CallItem extends Component {
     const fallbackContactName = this.getFallbackContactName();
     const ringing = isRinging(this.props.call);
     const missed = isInbound(this.props.call) && isMissed(this.props.call);
-    const parsedInfo = parseNumber(phoneNumber);
+    const parsedInfo = parseNumber({
+      phoneNumber,
+      countryCode,
+      areaCode,
+    });
     const isExtension = !parsedInfo.hasPlus &&
       parsedInfo.number.length <= 6;
     const showClickToSms = !!(

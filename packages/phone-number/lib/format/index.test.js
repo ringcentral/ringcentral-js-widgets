@@ -179,5 +179,120 @@ describe('format', () => {
       type: formatTypes.international,
     }));
   });
+
+
+  test('should normalize numbers into E164 format', () => {
+    [
+      '+1-613-555-0177',
+      '+1-613-555-0174',
+      '+1-613-555-0194',
+      '+1-613-555-0189',
+      '+1-613-555-0127',
+      '+1-613-555-0105',
+      '+1-202-555-0139',
+      '+1-202-555-0142',
+      '+1-202-555-0139',
+      '+1-202-555-0169',
+      '+1-202-555-0187',
+      '+1-202-555-0177',
+      '+44 20 7930 9114',
+      '+33 4 73 25 21 42',
+    ].forEach((phoneNumber) => {
+      expect(format({
+        phoneNumber,
+        type: formatTypes.e164,
+      })).toBe(phoneNumber.replace(/[- ]/g, ''));
+    });
+  });
+  test('should add country code', () => {
+    [
+      '613-555-0177',
+      '613-555-0174',
+      '613-555-0194',
+      '613-555-0189',
+      '613-555-0127',
+      '613-555-0105',
+    ].forEach((phoneNumber) => {
+      expect(format({
+        phoneNumber,
+        countryCode: 'US',
+        type: formatTypes.e164,
+      })).toBe(format({
+        phoneNumber: `+1${phoneNumber}`,
+        countryCode: 'US',
+        type: formatTypes.e164,
+      }));
+    });
+  });
+  test('should return empty string if number is invalid', () => {
+    [
+      'foo',
+      '+bar',
+    ].forEach((phoneNumber) => {
+      expect(format({
+        phoneNumber,
+        type: formatTypes.e164,
+      })).toBe('');
+    });
+  });
+  test('should return number as extension if number is shorter than 6 digits', () => {
+    [
+      '1',
+      '12',
+      '123',
+      '12345',
+      '12345*12345'
+    ].forEach((phoneNumber) => {
+      expect(format({
+        phoneNumber,
+        type: formatTypes.e164,
+      })).toBe(phoneNumber.split('*').pop());
+    });
+  });
+  test('should add areaCode if phoneNumber is 7 digits and countryCode is US or CA', () => {
+    const phoneNumber = '1234567';
+    const areaCode = '890';
+    expect(format({
+      phoneNumber,
+      areaCode,
+      countryCode: 'US',
+      type: formatTypes.e164,
+    })).toBe(format({
+      phoneNumber: `${areaCode}${phoneNumber}`,
+      countryCode: 'US',
+      type: formatTypes.e164,
+    }));
+    expect(format({
+      phoneNumber,
+      areaCode,
+      countryCode: 'CA',
+      type: formatTypes.e164,
+    })).toBe(format({
+      phoneNumber: `${areaCode}${phoneNumber}`,
+      countryCode: 'CA',
+      type: formatTypes.e164,
+    }));
+  });
+  test('should only remove extension number if params.removeExtension is true', () => {
+    const phoneNumber = '1234567890';
+    const extension = '123';
+    expect(format({
+      phoneNumber: `${phoneNumber}*${extension}`,
+      removeExtension: true,
+      type: formatTypes.e164,
+    })).toBe(format({
+      phoneNumber,
+      type: formatTypes.e164,
+    }));
+    expect(format({
+      phoneNumber: `${phoneNumber}*${extension}`,
+      removeExtension: false,
+      type: formatTypes.e164,
+    })).toBe(format({
+      phoneNumber: `${phoneNumber}*${extension}`,
+      type: formatTypes.e164,
+    }));
+  });
+
 });
 

@@ -20,7 +20,8 @@ export default function format({
   const {
     phoneNumber: number,
     extension,
-    country,
+    parsedCountry,
+    parsedNumber,
     isExtension,
     isServiceNumber,
     isValid,
@@ -37,10 +38,6 @@ export default function format({
     return number;
   }
   const isUSCA = countryCode === 'CA' || countryCode === 'US';
-  const withAreaCode = (!hasPlus && isUSCA && countryCode && countryCode !== '') ?
-    `${areaCode}${number}` :
-    number;
-
   let finalType;
   if (type === formatTypes.e164) {
     finalType = 'E.164';
@@ -49,20 +46,37 @@ export default function format({
   } else {
     finalType = (
       // assume local
-      !country ||
+      !parsedCountry ||
       // ignore US/CA difference
-      isUSCA && (country === 'US' || country === 'CA') ||
-      country === countryCode
+      isUSCA && (parsedCountry === 'US' || parsedCountry === 'CA') ||
+      parsedCountry === countryCode
     ) ?
       'National' :
       'International';
   }
 
-  const formattedNumber = formatNumber(
-    withAreaCode,
-    country || countryCode,
-    finalType,
-  );
+  let formattedNumber;
+  if (!hasPlus && isUSCA && areaCode && areaCode !== '') {
+    formattedNumber = formatNumber(
+      `${areaCode}${number}`,
+      parsedCountry || countryCode,
+      finalType,
+    );
+  } else if (parsedNumber) {
+    formattedNumber = formatNumber(
+      parsedNumber,
+      parsedCountry || countryCode,
+      finalType,
+    );
+  } else if (!hasPlus) {
+    formattedNumber = formatNumber(
+      number,
+      countryCode,
+      finalType,
+    );
+  } else {
+    formattedNumber = number;
+  }
   return extension && !removeExtension ?
     `${formattedNumber}${extensionDelimeter}${extension}` :
     formattedNumber;

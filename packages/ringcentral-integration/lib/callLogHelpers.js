@@ -1,14 +1,12 @@
 import 'core-js/fn/array/find';
-import {
-  isValidNumber,
-} from 'phoneformat.js';
+import { isValidNumber, isSameLocalNumber } from '@ringcentral-integration/phone-number';
+
 import HashMap from './HashMap';
 import callActions from '../enums/callActions';
 import callDirections from '../enums/callDirections';
 import callResults from '../enums/callResults';
 import telephonyStatuses from '../enums/telephonyStatuses';
 import terminationTypes from '../enums/terminationTypes';
-import isSameLocalNumber from './isSameLocalNumber';
 
 /* call direction helpers */
 export function isInbound(call = {}) {
