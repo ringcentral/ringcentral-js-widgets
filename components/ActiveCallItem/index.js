@@ -512,7 +512,11 @@ var ActiveCallItem = function (_Component) {
           externalHasEntity = _props2.externalHasEntity;
 
       var phoneNumber = this.getPhoneNumber();
-      var parsedInfo = (0, _parseNumber2.default)(phoneNumber);
+      var parsedInfo = (0, _parseNumber2.default)({
+        phoneNumber: phoneNumber,
+        countryCode: countryCode,
+        areaCode: areaCode
+      });
       var isExtension = !parsedInfo.hasPlus && parsedInfo.number.length <= 6;
       var showClickToSms = !!(onClickToSms && (isExtension ? internalSmsPermission : outboundSmsPermission));
       var contactMatches = this.getContactMatches();
