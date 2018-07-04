@@ -537,7 +537,7 @@ var CallItem = function (_Component) {
           renderContactName = _props.renderContactName,
           renderExtraButton = _props.renderExtraButton,
           contactDisplayStyle = _props.contactDisplayStyle,
-          _externalViewEntity = _props.externalViewEntity,
+          externalViewEntity = _props.externalViewEntity,
           externalHasEntity = _props.externalHasEntity;
 
       var phoneNumber = this.getPhoneNumber();
@@ -641,8 +641,8 @@ var CallItem = function (_Component) {
           callTitle: _i18n2.default.getString('call', currentLocale),
           createEntityTitle: _i18n2.default.getString('addEntity', currentLocale),
           viewEntityTitle: _i18n2.default.getString('viewDetails', currentLocale),
-          externalViewEntity: function externalViewEntity() {
-            return _externalViewEntity && _externalViewEntity(_this5.props.call);
+          externalViewEntity: externalViewEntity && function () {
+            return externalViewEntity(_this5.props.call);
           },
           externalHasEntity: externalHasEntity && externalHasEntity(this.props.call)
         })
