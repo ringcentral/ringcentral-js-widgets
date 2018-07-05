@@ -8,6 +8,10 @@ var _keys = require('babel-runtime/core-js/object/keys');
 
 var _keys2 = _interopRequireDefault(_keys);
 
+var _isNan = require('babel-runtime/core-js/number/is-nan');
+
+var _isNan2 = _interopRequireDefault(_isNan);
+
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -143,7 +147,9 @@ var VoicemailPlayer = function (_Component) {
       if (!_this.state.paused) {
         _this._audio.src = _this.props.uri;
         _this._audio.load(_this.props.uri);
-        _this._audio.currentTime = 0;
+        if (!(0, _isNan2.default)(_this._audio.duration)) {
+          _this._audio.currentTime = 0;
+        }
       }
       _this._pauseOtherAudios();
       _this._audio._playPromise = _this._audio.play();
@@ -197,7 +203,9 @@ var VoicemailPlayer = function (_Component) {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       this._mounted = false;
-      this._audio.currentTime = 0;
+      if (!(0, _isNan2.default)(this._audio.duration)) {
+        this._audio.currentTime = 0;
+      }
       this._audio.pause();
       delete audiosMap[this._id];
     }
