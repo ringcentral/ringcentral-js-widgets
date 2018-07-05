@@ -14,14 +14,21 @@ NoMessages.propTypes = {
   placeholder: PropTypes.string.isRequired,
 };
 
-export default class MessageList extends Component {
+export default class ConversationList extends Component {
   constructor(props) {
     super(props);
     this._scrollTop = 0;
-    this.state = {
-      page: 0,
-    };
   }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.typeFilter === prevProps.typeFilter) {
+      return;
+    }
+    if (this.messagesListBody) {
+      this.messagesListBody.scrollTop = 0;
+    }
+  }
+
   onScroll = () => {
     const totalScrollHeight = this.messagesListBody.scrollHeight;
     const { clientHeight } = this.messagesListBody;
@@ -31,9 +38,9 @@ export default class MessageList extends Component {
       (totalScrollHeight - this._scrollTop) > (clientHeight + 10) &&
       (totalScrollHeight - currentScrollTop) <= (clientHeight + 10)
     ) {
-      this.setState({
-        page: this.state.page + 1,
-      });
+      if (typeof this.props.loadNextPage === 'function') {
+        this.props.loadNextPage();
+      }
     }
     this._scrollTop = currentScrollTop;
   }
@@ -46,13 +53,12 @@ export default class MessageList extends Component {
       perPage,
       disableLinks,
       placeholder,
-      ...childProps,
+      loadingNextPage,
+      ...childProps
     } = this.props;
-
-    const lastIndex = ((this.state.page + 1) * perPage) - 1;
-
-    const content = (conversations && conversations.length) ?
-      conversations.slice(0, lastIndex).map(item => (
+    let content;
+    if (conversations && conversations.length) {
+      content = conversations.map(item => (
         <MessageItem
           {...childProps}
           conversation={item}
@@ -60,8 +66,15 @@ export default class MessageList extends Component {
           key={item.id}
           disableLinks={disableLinks}
         />
-      ))
-      : <NoMessages placeholder={placeholder} />;
+      ));
+    } else if (!loadingNextPage) {
+      content = (<NoMessages placeholder={placeholder} />);
+    }
+    const loading = loadingNextPage ? (
+      <div className={styles.loading}>
+        Loading...
+      </div>
+    ) : null;
     return (
       <div
         className={classnames(styles.root, className)}
@@ -69,12 +82,13 @@ export default class MessageList extends Component {
         ref={(list) => { this.messagesListBody = list; }}
         >
         {content}
+        {loading}
       </div>
     );
   }
 }
 
-MessageList.propTypes = {
+ConversationList.propTypes = {
   brand: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
   conversations: PropTypes.arrayOf(PropTypes.shape({
@@ -94,8 +108,11 @@ MessageList.propTypes = {
   sourceIcons: PropTypes.object,
   showGroupNumberName: PropTypes.bool,
   placeholder: PropTypes.string,
+  typeFilter: PropTypes.string,
+  loadNextPage: PropTypes.func,
+  loadingNextPage: PropTypes.bool,
 };
-MessageList.defaultProps = {
+ConversationList.defaultProps = {
   perPage: 20,
   className: undefined,
   disableLinks: false,
@@ -104,4 +121,7 @@ MessageList.defaultProps = {
   sourceIcons: undefined,
   showGroupNumberName: false,
   placeholder: undefined,
+  loadNextPage: undefined,
+  loadingNextPage: false,
+  typeFilter: undefined,
 };
