@@ -550,7 +550,7 @@ var CallItem = function (_Component) {
         countryCode: countryCode,
         areaCode: areaCode
       });
-      var isExtension = !parsedInfo.hasPlus && parsedInfo.number.length <= 6;
+      var isExtension = !parsedInfo.hasPlus && parsedInfo.number && parsedInfo.number.length <= 6;
       var showClickToSms = !!(onClickToSms && (isExtension ? internalSmsPermission : outboundSmsPermission));
 
       var durationEl = null;
