@@ -67,6 +67,7 @@ var DialButton = function (_Component) {
       pressed: false
     };
     _this.timeout = null;
+    _this.isEdge = window && window.navigator && window.navigator.userAgent.indexOf('Edge') > -1 || false;
     if (typeof document !== 'undefined' && document.createElement && _audios2.default[props.btn.value]) {
       _this.audio = document.createElement('audio');
       _this.audio.src = _audios2.default[props.btn.value];
@@ -76,6 +77,11 @@ var DialButton = function (_Component) {
         _this.audio.volume = _this.props.volume;
         _this.audio.muted = _this.props.muted;
         _this.audio.currentTime = 0;
+        // on Edge, audio.play() could only use at the first time
+        // so we reset the src of the audio when using audio.play()
+        if (_this.isEdge) {
+          _this.audio.src = _audios2.default[props.btn.value];
+        }
         _this.audio.play();
       }
       if (typeof _this.props.onPress === 'function') {
