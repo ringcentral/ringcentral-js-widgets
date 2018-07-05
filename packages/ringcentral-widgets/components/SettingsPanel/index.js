@@ -32,7 +32,6 @@ export default function SettingsPanel({
   onAudioSettingsLinkClick,
   onFeedbackSettingsLinkClick,
   onUserGuideClick,
-  onAutoCreateTicketClick,
   showCalling,
   showAutoLog,
   showAudio,
@@ -41,7 +40,9 @@ export default function SettingsPanel({
   onAutoLogChange,
   showAutoLogSMS,
   autoLogSMSEnabled,
+  autoCreateTicketEnabled,
   onAutoLogSMSChange,
+  onAutoCreateTicketChange,
   showClickToDial,
   clickToDialEnabled,
   onClickToDialChange,
@@ -67,6 +68,7 @@ export default function SettingsPanel({
   supportedLocales,
   savedLocale,
   saveLocale,
+  outerComps,
 }) {
   if (showSpinner) {
     return (
@@ -188,22 +190,28 @@ export default function SettingsPanel({
     >
       {i18n.getString('autoLogSMS', currentLocale)}
     </IconLine>
-  ) :
-    null;
+  ) : null;
+  const autoCreateTicket = showAutoCreateTicket ? (
+    <IconLine
+      icon={
+        <Switch
+          checked={autoCreateTicketEnabled}
+          onChange={onAutoCreateTicketChange}
+      />
+    }
+  >
+      {i18n.getString('autoLogSMS', currentLocale)}
+    </IconLine>
+  ) : null;
   const header = showHeader ? (
     <Header>
       {i18n.getString('settings', currentLocale)}
     </Header>
   ) : null;
-  const userGuide = showUserGuide ?  (
+  const userGuide = showUserGuide ? (
     <LinkLine
       onClick={onUserGuideClick} >
       {i18n.getString('userGuide', currentLocale)}
-    </LinkLine>
-  ) : null;
-  const autoCreateTicket = showAutoCreateTicket ? (
-    <LinkLine onClick={onAutoCreateTicketClick}>
-      {i18n.getString('autoCreateTicket', currentLocale)}
     </LinkLine>
   ) : null;
   return (
@@ -227,6 +235,17 @@ export default function SettingsPanel({
         {additional}
         {feedback}
         {userGuide}
+        {((comps) => {
+          if (!comps) {
+            return null;
+          }
+
+          if (Array.isArray(comps)) {
+            return (<>{...comps}</>);
+          }
+          return comps;
+        })(outerComps)
+      }
         <section className={styles.section}>
           <Line noBorder>
             <EulaRenderer
@@ -276,7 +295,9 @@ SettingsPanel.propTypes = {
   onAutoLogChange: PropTypes.func,
   showAutoLogSMS: PropTypes.bool,
   autoLogSMSEnabled: PropTypes.bool,
+  autoCreateTicketEnabled: PropTypes.bool,
   onAutoLogSMSChange: PropTypes.func,
+  onAutoCreateTicketChange: PropTypes.func,
   showClickToDial: PropTypes.bool,
   clickToDialEnabled: PropTypes.bool,
   onClickToDialChange: PropTypes.func,
@@ -302,7 +323,6 @@ SettingsPanel.propTypes = {
   saveLocale: PropTypes.func,
   onFeedbackSettingsLinkClick: PropTypes.func.isRequired,
   onUserGuideClick: PropTypes.func.isRequired,
-  onAutoCreateTicketClick: PropTypes.func.isRequired,
   showUserGuide: PropTypes.bool,
   showAutoCreateTicket: PropTypes.bool,
 };
@@ -324,7 +344,9 @@ SettingsPanel.defaultProps = {
   onAutoLogChange: undefined,
   showAutoLogSMS: false,
   autoLogSMSEnabled: false,
+  autoCreateTicketEnabled: false,
   onAutoLogSMSChange: undefined,
+  onAutoCreateTicketChange: undefined,
   showHeader: false,
   ringoutEnabled: false,
   outboundSMS: false,
