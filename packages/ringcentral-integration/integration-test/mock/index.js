@@ -19,7 +19,8 @@ const presenceBody = require('./data/presence.json');
 const numberParserBody = require('./data/numberParser.json');
 const smsBody = require('./data/sms.json');
 const ringOutBody = require('./data/ringOut.json');
-const messageStoreBody = require('./data/messageStore.json');
+const messageItemBody = require('./data/messageItem.json');
+const messageListBody = require('./data/messageList.json');
 const addressBookBody = require('./data/addressBook.json');
 const callLogBody = require('./data/callLog.json');
 const deviceBody = require('./data/device.json');
@@ -219,13 +220,25 @@ export function apiInfo(mockResponse = {}) {
   });
 }
 
-export function messageSync(mockResponse = {}) {
+export function messageSync(mockResponse = {}, isOnce = true) {
   mockApi({
     url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/message-sync`,
     body: {
       ...messageSyncBody,
       ...mockResponse,
-    }
+    },
+    isOnce
+  });
+}
+
+export function messageList(mockResponse = {}) {
+  mockApi({
+    url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/message-store`,
+    body: {
+      ...messageListBody,
+      ...mockResponse,
+    },
+    isOnce: false
   });
 }
 
@@ -234,7 +247,7 @@ export function updateMessageStatus(mockResponse = {}) {
     url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/message-store`,
     method: 'PUT',
     body: {
-      ...messageStoreBody,
+      ...messageItemBody,
       ...mockResponse,
     }
   });
@@ -510,6 +523,7 @@ export function mockForLogin({
   if (mockForwardingNumber) {
     forwardingNumber();
   }
+  messageList();
   if (mockMessageSync) {
     messageSync();
   }

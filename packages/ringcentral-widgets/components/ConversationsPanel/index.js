@@ -31,7 +31,7 @@ TabTitle.propTypes = {
   currentLocale: PropTypes.string.isRequired,
 };
 
-export default class MessagesPanel extends Component {
+export default class ConversationsPanel extends Component {
   constructor(props) {
     super(props);
 
@@ -238,7 +238,7 @@ export default class MessagesPanel extends Component {
   }
 }
 
-MessagesPanel.propTypes = {
+ConversationsPanel.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   showSpinner: PropTypes.bool,
   showTitle: PropTypes.bool,
@@ -284,7 +284,7 @@ MessagesPanel.propTypes = {
   onUnmount: PropTypes.func,
 };
 
-MessagesPanel.defaultProps = {
+ConversationsPanel.defaultProps = {
   showSpinner: false,
   showTitle: false,
   showContactDisplayPlaceholder: true,
