@@ -830,7 +830,7 @@ var MessageSender = (_dec = (0, _di.Module)({
       var _this4 = this;
 
       var errResp = error.apiResponse;
-      if (errResp && errResp.response && !errResp.response.ok && (errResp._json.errorCode === 'InvalidParameter' || errResp._json.errorCode === 'InternationalProhibited' || errResp._json.errorCode === 'CMN-408')) {
+      if (errResp && errResp.response && !errResp.response.ok && errResp._json && (errResp._json.errorCode === 'InvalidParameter' || errResp._json.errorCode === 'InternationalProhibited' || errResp._json.errorCode === 'CMN-408')) {
         errResp._json.errors.map(function (err) {
           if ((err.errorCode === 'CMN-101' || err.errorCode === 'CMN-102' || err.errorCode === 'CMN-414') && err.parameterName.startsWith('to')) {
             // 101 : "Parameter [to.extensionNumber] value is invalid"
