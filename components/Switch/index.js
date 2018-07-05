@@ -28,7 +28,10 @@ function Switch(props) {
   } : undefined;
   return _react2.default.createElement(
     'label',
-    { className: (0, _classnames2.default)(_styles2.default.switch, props.disable && _styles2.default.disable) },
+    {
+      title: props.title,
+      className: (0, _classnames2.default)(_styles2.default.switch, props.disable && _styles2.default.disable)
+    },
     _react2.default.createElement('input', {
       type: 'checkbox',
       checked: props.checked,
@@ -40,12 +43,14 @@ function Switch(props) {
 Switch.propTypes = {
   checked: _propTypes2.default.bool,
   disable: _propTypes2.default.bool,
+  title: _propTypes2.default.string,
   onChange: _propTypes2.default.func
 };
 Switch.defaultProps = {
   checked: false,
   disable: false,
-  onChange: undefined
+  onChange: undefined,
+  title: undefined
 };
 exports.default = Switch;
 //# sourceMappingURL=index.js.map
