@@ -378,7 +378,7 @@ export default class ActiveCallItem extends Component {
       areaCode,
     });
     const isExtension = !parsedInfo.hasPlus &&
-      parsedInfo.number.length <= 6;
+      parsedInfo.number && parsedInfo.number.length <= 6;
     const showClickToSms = !!(
       onClickToSms &&
       (
