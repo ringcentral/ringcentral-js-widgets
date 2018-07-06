@@ -51,7 +51,6 @@ export default class Softphone extends RcModule {
     }
   }
 
-
   @proxify
   async makeCall(phoneNumber) {
     this.store.dispatch({
