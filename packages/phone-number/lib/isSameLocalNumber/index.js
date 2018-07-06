@@ -4,7 +4,7 @@ import {
   parseNumber
 } from 'libphonenumber-js';
 
-export default function isSameLocalNumber(a, b) {
+export default function isSameLocalNumber(a = '', b = '') {
   if (a === b) {
     return true;
   }

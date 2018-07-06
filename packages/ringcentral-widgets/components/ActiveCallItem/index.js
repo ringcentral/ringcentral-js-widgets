@@ -370,6 +370,7 @@ export default class ActiveCallItem extends Component {
       contactDisplayStyle,
       externalViewEntity,
       externalHasEntity,
+      readTextPermission,
     } = this.props;
     const phoneNumber = this.getPhoneNumber();
     const parsedInfo = parseNumber({
@@ -379,7 +380,7 @@ export default class ActiveCallItem extends Component {
     });
     const isExtension = !parsedInfo.hasPlus &&
       parsedInfo.number && parsedInfo.number.length <= 6;
-    const showClickToSms = !!(
+    const disableClickToSms = !(
       onClickToSms &&
       (
         isExtension ?
@@ -448,7 +449,7 @@ export default class ActiveCallItem extends Component {
           disableLinks={disableLinks}
           phoneNumber={phoneNumber}
           onClickToSms={
-            showClickToSms ?
+            readTextPermission ?
               () => this.clickToSms({ countryCode, areaCode })
               : undefined
           }
@@ -466,6 +467,7 @@ export default class ActiveCallItem extends Component {
           viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
           externalViewEntity={() => externalViewEntity && externalViewEntity(this.props.call)}
           externalHasEntity={externalHasEntity && externalHasEntity(this.props.call)}
+          disableClickToSms={disableClickToSms}
         />
       </div>
     );
@@ -519,6 +521,7 @@ ActiveCallItem.propTypes = {
   contactDisplayStyle: PropTypes.string,
   externalViewEntity: PropTypes.func,
   externalHasEntity: PropTypes.func,
+  readTextPermission: PropTypes.bool,
 };
 
 ActiveCallItem.defaultProps = {
@@ -545,4 +548,5 @@ ActiveCallItem.defaultProps = {
   contactDisplayStyle: undefined,
   externalViewEntity: undefined,
   externalHasEntity: undefined,
+  readTextPermission: true,
 };

@@ -45,6 +45,7 @@ function ActiveCallList({
   contactDisplayStyle,
   externalViewEntity,
   externalHasEntity,
+  readTextPermission,
 }) {
   if (calls.length === 0) {
     return null;
@@ -87,6 +88,7 @@ function ActiveCallList({
             contactDisplayStyle={contactDisplayStyle}
             externalViewEntity={externalViewEntity}
             externalHasEntity={externalHasEntity}
+            readTextPermission={readTextPermission}
           />
         ))
       }
@@ -126,6 +128,7 @@ ActiveCallList.propTypes = {
   contactDisplayStyle: PropTypes.string,
   externalViewEntity: PropTypes.func,
   externalHasEntity: PropTypes.func,
+  readTextPermission: PropTypes.bool,
 };
 
 ActiveCallList.defaultProps = {
@@ -154,6 +157,7 @@ ActiveCallList.defaultProps = {
   contactDisplayStyle: undefined,
   externalViewEntity: undefined,
   externalHasEntity: undefined,
+  readTextPermission: true,
 };
 
 export default class CallsListPanel extends Component {
@@ -243,6 +247,7 @@ export default class CallsListPanel extends Component {
       notificationContainerStyles,
       externalViewEntity,
       externalHasEntity,
+      readTextPermission,
     } = this.props;
     if (showSpinner) {
       return (<SpinnerOverlay />);
@@ -332,6 +337,7 @@ export default class CallsListPanel extends Component {
         contactDisplayStyle={activeContactDisplayStyle}
         externalViewEntity={externalViewEntity}
         externalHasEntity={externalHasEntity}
+        readTextPermission={readTextPermission}
       />
     );
     const historyCall = showSpinner ?
@@ -373,6 +379,7 @@ export default class CallsListPanel extends Component {
             contactDisplayStyle={contactDisplayStyle}
             externalViewEntity={externalViewEntity}
             externalHasEntity={externalHasEntity}
+            readTextPermission={readTextPermission}
           />
         </div>
       );
@@ -447,6 +454,7 @@ CallsListPanel.propTypes = {
   notificationContainerStyles: PropTypes.string,
   externalViewEntity: PropTypes.func,
   externalHasEntity: PropTypes.func,
+  readTextPermission: PropTypes.bool,
 };
 
 CallsListPanel.defaultProps = {
@@ -493,4 +501,5 @@ CallsListPanel.defaultProps = {
   notificationContainerStyles: undefined,
   externalViewEntity: undefined,
   externalHasEntity: undefined,
+  readTextPermission: true,
 };
