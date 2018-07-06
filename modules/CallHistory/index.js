@@ -518,8 +518,14 @@ var CallHistory = (_dec = (0, _di.Module)({
         return !sessionIds[call.sessionId];
       }).map(function (call) {
         var activityMatches = activityMapping[call.sessionId] || [];
+        var fromNumber = call.from && (call.from.phoneNumber || call.from.extensionNumber);
+        var toNumber = call.to && (call.to.phoneNumber || call.to.extensionNumber);
+        var fromMatches = fromNumber && contactMapping[fromNumber] || [];
+        var toMatches = toNumber && contactMapping[toNumber] || [];
         return (0, _extends3.default)({}, call, {
-          activityMatches: activityMatches
+          activityMatches: activityMatches,
+          fromMatches: fromMatches,
+          toMatches: toMatches
         });
       });
       return [].concat((0, _toConsumableArray3.default)(filteredEndedCalls), (0, _toConsumableArray3.default)(calls)).sort(_callLogHelpers.sortByStartTime);
