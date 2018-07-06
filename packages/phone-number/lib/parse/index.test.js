@@ -12,6 +12,11 @@ describe('parse', () => {
     expect(parse({ input: '' }).isValid).toBe(false);
     expect(parse({ input: '+*234' }).isValid).toBe(false);
     expect(parse({ input: '+' }).isValid).toBe(false);
+    expect(parse({ input: '#' }).isValid).toBe(false);
+    expect(parse({ input: '-' }).isValid).toBe(false);
+    expect(parse({ input: '#-' }).isValid).toBe(false);
+    expect(parse({ input: '_' }).isValid).toBe(false);
+    expect(parse({ input: '_#' }).isValid).toBe(false);
   });
 
   test('parse correct number', () => {
