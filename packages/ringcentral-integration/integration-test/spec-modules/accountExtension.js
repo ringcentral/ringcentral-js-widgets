@@ -28,7 +28,7 @@ export default (auth, client, accountExtension, account) => {
       }
       this.retries(2);
       await waitInSeconds(1);
-      expect(accountExtension.availableExtensions.length).equal(1);
+      expect(accountExtension.availableExtensions.length).equal(2);
     });
 
     it("Should not load numbers when there isn't ReadExtensions permission", async () => {
