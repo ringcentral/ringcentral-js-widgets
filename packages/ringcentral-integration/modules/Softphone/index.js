@@ -66,7 +66,7 @@ export default class Softphone extends RcModule {
       // to support ie to start the service
       window.navigator.msLaunchUri(uri);
     } else if (window.ActiveXObject) {
-      // Open popup, change location, check wether we can access the location after the change (IE on Windows < 8）
+      // to support ie on Windows < 8
       popup = window.open('', 'launcher', 'width=0,height=0');
       popup.location.href = uri;
     } else {
