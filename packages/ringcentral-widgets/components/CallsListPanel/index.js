@@ -305,6 +305,7 @@ export default class CallsListPanel extends Component {
         }
       </div>
     ) : null;
+    const isShowMessageIcon = readTextPermission && !!onClickToSms;
     const getCallList = (calls, title) => (
       <ActiveCallList
         title={title}
@@ -337,7 +338,7 @@ export default class CallsListPanel extends Component {
         contactDisplayStyle={activeContactDisplayStyle}
         externalViewEntity={externalViewEntity}
         externalHasEntity={externalHasEntity}
-        readTextPermission={readTextPermission}
+        readTextPermission={isShowMessageIcon}
       />
     );
     const historyCall = showSpinner ?
@@ -379,7 +380,7 @@ export default class CallsListPanel extends Component {
             contactDisplayStyle={contactDisplayStyle}
             externalViewEntity={externalViewEntity}
             externalHasEntity={externalHasEntity}
-            readTextPermission={readTextPermission}
+            readTextPermission={isShowMessageIcon}
           />
         </div>
       );
