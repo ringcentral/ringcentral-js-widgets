@@ -73,7 +73,8 @@ function CallList(_ref2) {
       renderExtraButton = _ref2.renderExtraButton,
       contactDisplayStyle = _ref2.contactDisplayStyle,
       externalViewEntity = _ref2.externalViewEntity,
-      externalHasEntity = _ref2.externalHasEntity;
+      externalHasEntity = _ref2.externalHasEntity,
+      readTextPermission = _ref2.readTextPermission;
 
   if (calls && calls.length) {
     return _react2.default.createElement(
@@ -112,7 +113,8 @@ function CallList(_ref2) {
           renderExtraButton: renderExtraButton,
           contactDisplayStyle: contactDisplayStyle,
           externalViewEntity: externalViewEntity,
-          externalHasEntity: externalHasEntity
+          externalHasEntity: externalHasEntity,
+          readTextPermission: readTextPermission
         });
       })
     );
@@ -156,7 +158,8 @@ CallList.propTypes = {
   renderExtraButton: _propTypes2.default.func,
   contactDisplayStyle: _propTypes2.default.string,
   externalViewEntity: _propTypes2.default.func,
-  externalHasEntity: _propTypes2.default.func
+  externalHasEntity: _propTypes2.default.func,
+  readTextPermission: _propTypes2.default.bool
 };
 CallList.defaultProps = {
   className: null,
@@ -184,7 +187,8 @@ CallList.defaultProps = {
   renderExtraButton: undefined,
   contactDisplayStyle: undefined,
   externalViewEntity: undefined,
-  externalHasEntity: undefined
+  externalHasEntity: undefined,
+  readTextPermission: true
 };
 
 exports.default = CallList;

@@ -104,7 +104,8 @@ function ActiveCallList(_ref) {
       renderExtraButton = _ref.renderExtraButton,
       contactDisplayStyle = _ref.contactDisplayStyle,
       externalViewEntity = _ref.externalViewEntity,
-      externalHasEntity = _ref.externalHasEntity;
+      externalHasEntity = _ref.externalHasEntity,
+      readTextPermission = _ref.readTextPermission;
 
   if (calls.length === 0) {
     return null;
@@ -148,7 +149,8 @@ function ActiveCallList(_ref) {
         renderExtraButton: renderExtraButton,
         contactDisplayStyle: contactDisplayStyle,
         externalViewEntity: externalViewEntity,
-        externalHasEntity: externalHasEntity
+        externalHasEntity: externalHasEntity,
+        readTextPermission: readTextPermission
       });
     })
   );
@@ -185,7 +187,8 @@ ActiveCallList.propTypes = {
   renderExtraButton: _propTypes2.default.func,
   contactDisplayStyle: _propTypes2.default.string,
   externalViewEntity: _propTypes2.default.func,
-  externalHasEntity: _propTypes2.default.func
+  externalHasEntity: _propTypes2.default.func,
+  readTextPermission: _propTypes2.default.bool
 };
 
 ActiveCallList.defaultProps = {
@@ -213,7 +216,8 @@ ActiveCallList.defaultProps = {
   renderExtraButton: undefined,
   contactDisplayStyle: undefined,
   externalViewEntity: undefined,
-  externalHasEntity: undefined
+  externalHasEntity: undefined,
+  readTextPermission: true
 };
 
 var CallsListPanel = function (_Component) {
@@ -303,7 +307,8 @@ var CallsListPanel = function (_Component) {
           sectionModalStyles = _props.sectionModalStyles,
           notificationContainerStyles = _props.notificationContainerStyles,
           externalViewEntity = _props.externalViewEntity,
-          externalHasEntity = _props.externalHasEntity;
+          externalHasEntity = _props.externalHasEntity,
+          readTextPermission = _props.readTextPermission;
 
       if (showSpinner) {
         return _react2.default.createElement(_SpinnerOverlay2.default, null);
@@ -392,7 +397,8 @@ var CallsListPanel = function (_Component) {
           renderExtraButton: renderExtraButton,
           contactDisplayStyle: activeContactDisplayStyle,
           externalViewEntity: externalViewEntity,
-          externalHasEntity: externalHasEntity
+          externalHasEntity: externalHasEntity,
+          readTextPermission: readTextPermission
         });
       };
       var historyCall = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : _react2.default.createElement(
@@ -434,7 +440,8 @@ var CallsListPanel = function (_Component) {
           renderExtraButton: renderExtraButton,
           contactDisplayStyle: contactDisplayStyle,
           externalViewEntity: externalViewEntity,
-          externalHasEntity: externalHasEntity
+          externalHasEntity: externalHasEntity,
+          readTextPermission: readTextPermission
         })
       );
       return _react2.default.createElement(
@@ -514,7 +521,8 @@ CallsListPanel.propTypes = {
   sectionModalStyles: _propTypes2.default.string,
   notificationContainerStyles: _propTypes2.default.string,
   externalViewEntity: _propTypes2.default.func,
-  externalHasEntity: _propTypes2.default.func
+  externalHasEntity: _propTypes2.default.func,
+  readTextPermission: _propTypes2.default.bool
 };
 
 CallsListPanel.defaultProps = {
@@ -560,6 +568,7 @@ CallsListPanel.defaultProps = {
   sectionModalStyles: undefined,
   notificationContainerStyles: undefined,
   externalViewEntity: undefined,
-  externalHasEntity: undefined
+  externalHasEntity: undefined,
+  readTextPermission: true
 };
 //# sourceMappingURL=index.js.map

@@ -500,7 +500,8 @@ var ActionMenuList = function (_Component) {
           onPreview = _props.onPreview,
           faxAttachment = _props.faxAttachment,
           externalViewEntity = _props.externalViewEntity,
-          externalHasEntity = _props.externalHasEntity;
+          externalHasEntity = _props.externalHasEntity,
+          disableClickToSms = _props.disableClickToSms;
 
 
       var logButton = onLog ? _react2.default.createElement(_LogButton2.default, {
@@ -561,7 +562,7 @@ var ActionMenuList = function (_Component) {
       var clickToSmsButton = onClickToSms ? _react2.default.createElement(ClickToSmsButton, {
         onClickToSms: onClickToSms,
         phoneNumber: phoneNumber,
-        disableLinks: disableLinks,
+        disableLinks: disableLinks || disableClickToSms,
         currentLocale: currentLocale,
         title: textTitle
       }) : null;
@@ -664,7 +665,8 @@ ActionMenuList.propTypes = {
     uri: _propTypes2.default.string
   }),
   externalViewEntity: _propTypes2.default.func,
-  externalHasEntity: _propTypes2.default.bool
+  externalHasEntity: _propTypes2.default.bool,
+  disableClickToSms: _propTypes2.default.bool
 };
 ActionMenuList.defaultProps = {
   className: undefined,
@@ -698,6 +700,7 @@ ActionMenuList.defaultProps = {
   onPreview: undefined,
   faxAttachment: undefined,
   externalViewEntity: undefined,
-  externalHasEntity: undefined
+  externalHasEntity: undefined,
+  disableClickToSms: false
 };
 //# sourceMappingURL=index.js.map

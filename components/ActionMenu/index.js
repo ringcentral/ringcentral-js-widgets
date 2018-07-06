@@ -83,7 +83,8 @@ var ActionMenu = function (_Component) {
           marked = _props.marked,
           markTitle = _props.markTitle,
           externalViewEntity = _props.externalViewEntity,
-          externalHasEntity = _props.externalHasEntity;
+          externalHasEntity = _props.externalHasEntity,
+          disableClickToSms = _props.disableClickToSms;
 
       return _react2.default.createElement(
         'div',
@@ -125,7 +126,8 @@ var ActionMenu = function (_Component) {
             marked: marked,
             markTitle: markTitle,
             externalViewEntity: externalViewEntity,
-            externalHasEntity: externalHasEntity
+            externalHasEntity: externalHasEntity,
+            disableClickToSms: disableClickToSms
           })
         )
       );
@@ -169,7 +171,8 @@ ActionMenu.propTypes = {
   marked: _propTypes2.default.bool,
   markTitle: _propTypes2.default.string,
   externalViewEntity: _propTypes2.default.func,
-  externalHasEntity: _propTypes2.default.bool
+  externalHasEntity: _propTypes2.default.bool,
+  disableClickToSms: _propTypes2.default.bool
 };
 ActionMenu.defaultProps = {
   extended: undefined,
@@ -202,6 +205,7 @@ ActionMenu.defaultProps = {
   marked: false,
   markTitle: undefined,
   externalViewEntity: undefined,
-  externalHasEntity: undefined
+  externalHasEntity: undefined,
+  disableClickToSms: false
 };
 //# sourceMappingURL=index.js.map

@@ -68,7 +68,8 @@ function mapToProps(_, _ref) {
     disableLinks: !connectivityMonitor.connectivity || rateLimiter.throttling,
     disableClickToDial: !(call && call.isIdle),
     loggingMap: callLogger && callLogger.loggingMap,
-    showSpinner: !(callHistory.ready && locale.ready && regionSettings.ready && dateTimeFormat.ready && connectivityMonitor.ready && (!rolesAndPermissions || rolesAndPermissions.ready) && (!call || call.ready) && (!composeText || composeText.ready) && (!callLogger || callLogger.ready))
+    showSpinner: !(callHistory.ready && locale.ready && regionSettings.ready && dateTimeFormat.ready && connectivityMonitor.ready && (!rolesAndPermissions || rolesAndPermissions.ready) && (!call || call.ready) && (!composeText || composeText.ready) && (!callLogger || callLogger.ready)),
+    readTextPermission: rolesAndPermissions.readTextPermissions
   };
 }
 

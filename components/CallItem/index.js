@@ -538,7 +538,8 @@ var CallItem = function (_Component) {
           renderExtraButton = _props.renderExtraButton,
           contactDisplayStyle = _props.contactDisplayStyle,
           externalViewEntity = _props.externalViewEntity,
-          externalHasEntity = _props.externalHasEntity;
+          externalHasEntity = _props.externalHasEntity,
+          readTextPermission = _props.readTextPermission;
 
       var phoneNumber = this.getPhoneNumber();
       var contactMatches = this.getContactMatches();
@@ -551,7 +552,7 @@ var CallItem = function (_Component) {
         areaCode: areaCode
       });
       var isExtension = !parsedInfo.hasPlus && parsedInfo.number && parsedInfo.number.length <= 6;
-      var showClickToSms = !!(onClickToSms && (isExtension ? internalSmsPermission : outboundSmsPermission));
+      var disableClickToSms = !(onClickToSms && (isExtension ? internalSmsPermission : outboundSmsPermission));
 
       var durationEl = null;
       if (typeof duration === 'undefined') {
@@ -630,7 +631,7 @@ var CallItem = function (_Component) {
           onCreateEntity: onCreateContact && this.createSelectedContact,
           hasEntity: !!contactMatches.length,
           onClickToDial: onClickToDial && this.clickToDial,
-          onClickToSms: showClickToSms ? function () {
+          onClickToSms: readTextPermission ? function () {
             return _this5.clickToSms({ countryCode: countryCode, areaCode: areaCode });
           } : undefined,
           phoneNumber: phoneNumber,
@@ -648,7 +649,8 @@ var CallItem = function (_Component) {
           externalViewEntity: externalViewEntity && function () {
             return externalViewEntity(_this5.props.call);
           },
-          externalHasEntity: externalHasEntity && externalHasEntity(this.props.call)
+          externalHasEntity: externalHasEntity && externalHasEntity(this.props.call),
+          disableClickToSms: disableClickToSms
         })
       );
     }
@@ -704,7 +706,8 @@ CallItem.propTypes = {
   renderExtraButton: _propTypes2.default.func,
   contactDisplayStyle: _propTypes2.default.string,
   externalViewEntity: _propTypes2.default.func,
-  externalHasEntity: _propTypes2.default.func
+  externalHasEntity: _propTypes2.default.func,
+  readTextPermission: _propTypes2.default.bool
 };
 
 CallItem.defaultProps = {
@@ -729,6 +732,7 @@ CallItem.defaultProps = {
   renderExtraButton: undefined,
   contactDisplayStyle: undefined,
   externalViewEntity: undefined,
-  externalHasEntity: undefined
+  externalHasEntity: undefined,
+  readTextPermission: true
 };
 //# sourceMappingURL=index.js.map
