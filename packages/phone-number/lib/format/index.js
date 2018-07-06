@@ -56,7 +56,7 @@ export default function format({
   }
 
   let formattedNumber;
-  if (!hasPlus && isUSCA && areaCode && areaCode !== '') {
+  if (!hasPlus && isUSCA && areaCode && areaCode !== '' && number.length === 7) {
     formattedNumber = formatNumber(
       `${areaCode}${number}`,
       parsedCountry || countryCode,

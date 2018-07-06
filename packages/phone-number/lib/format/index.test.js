@@ -224,6 +224,27 @@ describe('format', () => {
       }));
     });
   });
+  test('should ignore areaCode if the number already contains areaCode', () => {
+    [
+      '613-555-0177',
+      '613-555-0174',
+      '613-555-0194',
+      '613-555-0189',
+      '613-555-0127',
+      '613-555-0105',
+    ].forEach((phoneNumber) => {
+      expect(format({
+        phoneNumber,
+        countryCode: 'US',
+        areaCode: '650',
+        type: formatTypes.e164,
+      })).toBe(format({
+        phoneNumber: `+1${phoneNumber}`,
+        countryCode: 'US',
+        type: formatTypes.e164,
+      }));
+    });
+  });
   test('should return empty string if number is invalid', () => {
     [
       'foo',
