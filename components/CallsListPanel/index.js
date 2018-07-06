@@ -366,6 +366,7 @@ var CallsListPanel = function (_Component) {
           })
         ) : null
       ) : null;
+      var isShowMessageIcon = readTextPermission && !!onClickToSms;
       var getCallList = function getCallList(calls, title) {
         return _react2.default.createElement(ActiveCallList, {
           title: title,
@@ -398,7 +399,7 @@ var CallsListPanel = function (_Component) {
           contactDisplayStyle: activeContactDisplayStyle,
           externalViewEntity: externalViewEntity,
           externalHasEntity: externalHasEntity,
-          readTextPermission: readTextPermission
+          readTextPermission: isShowMessageIcon
         });
       };
       var historyCall = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : _react2.default.createElement(
@@ -441,7 +442,7 @@ var CallsListPanel = function (_Component) {
           contactDisplayStyle: contactDisplayStyle,
           externalViewEntity: externalViewEntity,
           externalHasEntity: externalHasEntity,
-          readTextPermission: readTextPermission
+          readTextPermission: isShowMessageIcon
         })
       );
       return _react2.default.createElement(
