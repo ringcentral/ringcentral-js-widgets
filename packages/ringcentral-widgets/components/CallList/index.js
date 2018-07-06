@@ -49,6 +49,7 @@ function CallList({
   contactDisplayStyle,
   externalViewEntity,
   externalHasEntity,
+  readTextPermission,
 }) {
   if (calls && calls.length) {
     return (
@@ -87,6 +88,7 @@ function CallList({
             contactDisplayStyle={contactDisplayStyle}
             externalViewEntity={externalViewEntity}
             externalHasEntity={externalHasEntity}
+            readTextPermission={readTextPermission}
           />
         ))}
       </div>
@@ -132,6 +134,7 @@ CallList.propTypes = {
   contactDisplayStyle: PropTypes.string,
   externalViewEntity: PropTypes.func,
   externalHasEntity: PropTypes.func,
+  readTextPermission: PropTypes.bool,
 };
 CallList.defaultProps = {
   className: null,
@@ -160,6 +163,7 @@ CallList.defaultProps = {
   contactDisplayStyle: undefined,
   externalViewEntity: undefined,
   externalHasEntity: undefined,
+  readTextPermission: true,
 };
 
 export default CallList;
