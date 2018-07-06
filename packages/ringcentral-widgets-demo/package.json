@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@ringcentral-integration/i18n": "^2.0.0",
+    "@ringcentral-integration/phone-number": "*",
     "autoprefixer": "^8.4.1",
     "babel-istanbul": "^0.12.1",
     "babel-loader": "^7.0.0",

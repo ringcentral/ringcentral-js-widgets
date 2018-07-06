@@ -304,10 +304,11 @@ export default class MessageSender extends RcModule {
     const errResp = error.apiResponse;
     if (
       errResp && errResp.response &&
-      !errResp.response.ok
-      && (errResp._json.errorCode === 'InvalidParameter'
-        || errResp._json.errorCode === 'InternationalProhibited'
-        || errResp._json.errorCode === 'CMN-408')
+      !errResp.response.ok &&
+      errResp._json &&
+      (errResp._json.errorCode === 'InvalidParameter' ||
+      errResp._json.errorCode === 'InternationalProhibited' ||
+      errResp._json.errorCode === 'CMN-408')
     ) {
       errResp._json.errors.map((err) => {
         if (

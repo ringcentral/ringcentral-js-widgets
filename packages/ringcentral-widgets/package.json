@@ -21,6 +21,7 @@
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
   "peerDependencies": {
     "@ringcentral-integration/i18n": "^2.0.0",
+    "@ringcentral-integration/phone-number": "*",
     "babel-runtime": "^6.26.0",
     "format-message": "^5.0.0",
     "isomorphic-fetch": "^2.2.1",
@@ -36,6 +37,7 @@
   },
   "devDependencies": {
     "@ringcentral-integration/locale-loader": "^2.0.0",
+    "@ringcentral-integration/phone-number": "*",
     "autoprefixer": "^8.4.1",
     "babel-istanbul": "^0.12.1",
     "babel-loader": "^7.0.0",
