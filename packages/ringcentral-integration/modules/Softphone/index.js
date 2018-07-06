@@ -51,6 +51,7 @@ export default class Softphone extends RcModule {
     }
   }
 
+
   @proxify
   async makeCall(phoneNumber) {
     this.store.dispatch({
@@ -65,6 +66,10 @@ export default class Softphone extends RcModule {
     } else if (window.navigator.msLaunchUri) {
       // to support ie to start the service
       window.navigator.msLaunchUri(uri);
+    } else if ('ActiveXObject' in window) {
+      // Open popup, change location, check wether we can access the location after the change (IE on Windows < 8）
+      popup = window.open('', 'launcher', 'width=0,height=0');
+      popup.location.href = uri;
     } else {
       const frame = document.createElement('iframe');
       frame.style.display = 'none';
