@@ -47,6 +47,8 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _dec, _class, _desc, _value, _class2;
 
+var _phoneNumber = require('@ringcentral-integration/phone-number');
+
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
@@ -64,10 +66,6 @@ var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
 var _normalizeNumber = require('../../lib/normalizeNumber');
 
 var _normalizeNumber2 = _interopRequireDefault(_normalizeNumber);
-
-var _parseNumber3 = require('../../lib/parseNumber');
-
-var _parseNumber4 = _interopRequireDefault(_parseNumber3);
 
 var _proxify = require('../../lib/proxy/proxify');
 
@@ -195,41 +193,41 @@ var NumberValidate = (_dec = (0, _di.Module)({
     }
   }, {
     key: 'isNoToNumber',
-    value: function isNoToNumber(phoneNumber) {
-      if ((0, _isBlank2.default)(phoneNumber)) {
+    value: function isNoToNumber(input) {
+      if ((0, _isBlank2.default)(input)) {
         return true;
       }
 
-      var _parseNumber = (0, _parseNumber4.default)({
-        phoneNumber: phoneNumber,
+      var _parse = (0, _phoneNumber.parse)({
+        input: input,
         countryCode: this._regionSettings.countryCode,
         areaCode: this._regionSettings.areaCode
       }),
-          number = _parseNumber.number,
-          hasInvalidChars = _parseNumber.hasInvalidChars;
+          hasInvalidChars = _parse.hasInvalidChars,
+          isValid = _parse.isValid;
 
-      if (hasInvalidChars || number === '') {
+      if (hasInvalidChars || !isValid) {
         return true;
       }
       return false;
     }
   }, {
     key: 'isNoAreaCode',
-    value: function isNoAreaCode(phoneNumber) {
-      var _parseNumber2 = (0, _parseNumber4.default)({
-        phoneNumber: phoneNumber,
+    value: function isNoAreaCode(input) {
+      var _parse2 = (0, _phoneNumber.parse)({
+        input: input,
         countryCode: this._regionSettings.countryCode,
         areaCode: this._regionSettings.areaCode
       }),
-          hasPlus = _parseNumber2.hasPlus,
-          number = _parseNumber2.number,
-          isServiceNumber = _parseNumber2.isServiceNumber;
+          hasPlus = _parse2.hasPlus,
+          phoneNumber = _parse2.phoneNumber,
+          isServiceNumber = _parse2.isServiceNumber;
 
       var _regionSettings = this._regionSettings,
           countryCode = _regionSettings.countryCode,
           areaCode = _regionSettings.areaCode;
 
-      if (this._brand.id === '1210' && !isServiceNumber && !hasPlus && number.length === 7 && (countryCode === 'CA' || countryCode === 'US') && areaCode === '') {
+      if (this._brand.id === '1210' && !isServiceNumber && !hasPlus && phoneNumber.length === 7 && (countryCode === 'CA' || countryCode === 'US') && areaCode === '') {
         return true;
       }
       return false;
