@@ -359,6 +359,7 @@ export default class ActionMenuList extends Component {
       faxAttachment,
       externalViewEntity,
       externalHasEntity,
+      disableClickToSms,
     } = this.props;
 
     const logButton = onLog ?
@@ -432,7 +433,7 @@ export default class ActionMenuList extends Component {
         <ClickToSmsButton
           onClickToSms={onClickToSms}
           phoneNumber={phoneNumber}
-          disableLinks={disableLinks}
+          disableLinks={disableLinks || disableClickToSms}
           currentLocale={currentLocale}
           title={textTitle}
         />
@@ -548,6 +549,7 @@ ActionMenuList.propTypes = {
   }),
   externalViewEntity: PropTypes.func,
   externalHasEntity: PropTypes.bool,
+  disableClickToSms: PropTypes.bool,
 };
 ActionMenuList.defaultProps = {
   className: undefined,
@@ -582,4 +584,5 @@ ActionMenuList.defaultProps = {
   faxAttachment: undefined,
   externalViewEntity: undefined,
   externalHasEntity: undefined,
+  disableClickToSms: false,
 };

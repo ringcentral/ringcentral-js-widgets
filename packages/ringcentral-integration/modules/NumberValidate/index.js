@@ -1,9 +1,9 @@
+import { parse } from '@ringcentral-integration/phone-number';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import isBlank from '../../lib/isBlank';
 import moduleStatuses from '../../enums/moduleStatuses';
 import normalizeNumber from '../../lib/normalizeNumber';
-import parseNumber from '../../lib/parseNumber';
 import proxify from '../../lib/proxy/proxify';
 
 import numberValidateActionTypes from './numberValidateActionTypes';
@@ -91,26 +91,36 @@ export default class NumberValidate extends RcModule {
     });
   }
 
-  isNoToNumber(phoneNumber) {
-    if (isBlank(phoneNumber)) {
+  isNoToNumber(input) {
+    if (isBlank(input)) {
       return true;
     }
     const {
-      number,
       hasInvalidChars,
-    } = parseNumber(phoneNumber);
-    if (hasInvalidChars || number === '') {
+      isValid,
+    } = parse({
+      input,
+      countryCode: this._regionSettings.countryCode,
+      areaCode: this._regionSettings.areaCode,
+    });
+    if (
+      hasInvalidChars ||
+      !isValid) {
       return true;
     }
     return false;
   }
 
-  isNoAreaCode(phoneNumber) {
+  isNoAreaCode(input) {
     const {
       hasPlus,
-      number,
+      phoneNumber,
       isServiceNumber
-    } = parseNumber(phoneNumber);
+    } = parse({
+      input,
+      countryCode: this._regionSettings.countryCode,
+      areaCode: this._regionSettings.areaCode,
+    });
     const {
       countryCode,
       areaCode,
@@ -119,7 +129,7 @@ export default class NumberValidate extends RcModule {
       this._brand.id === '1210' &&
       !isServiceNumber &&
       !hasPlus &&
-      number.length === 7 &&
+      phoneNumber.length === 7 &&
       (countryCode === 'CA' || countryCode === 'US') &&
       areaCode === ''
     ) {

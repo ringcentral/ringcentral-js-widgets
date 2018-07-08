@@ -1,22 +1,26 @@
-import cleanNumber from '../cleanNumber';
+import { parse } from '@ringcentral-integration/phone-number';
 
-const invalidCharsRegExp = /[^\d*+#\-(). ]/;
-
-export default function parseNumber(phoneNumber) {
-  const cleaned = cleanNumber(`${phoneNumber}`);
-  const hasPlus = cleaned[0] === '+';
-  const withoutPlus = hasPlus ? cleaned.substring(1) : cleaned;
-  const isServiceNumber = withoutPlus[0] === '*';
-
-  const [
+export default function parseNumber({
+  phoneNumber,
+  countryCode,
+  areaCode,
+}) {
+  const {
+    hasPlus,
+    phoneNumber: number,
+    isServiceNumber,
+    extension,
+    hasInvalidChars,
+  } = parse({
+    input: phoneNumber,
+    countryCode,
+    areaCode,
+  });
+  return {
+    hasPlus,
     number,
     extension,
-  ] = withoutPlus.split('*');
-  return {
-    hasPlus: hasPlus && number !== '',
-    number: (isServiceNumber && extension) || number || '',
-    extension: (!isServiceNumber && extension) || '',
     isServiceNumber,
-    hasInvalidChars: invalidCharsRegExp.test(phoneNumber),
+    hasInvalidChars,
   };
 }

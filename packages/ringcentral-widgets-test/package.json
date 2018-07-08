@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@ringcentral-integration/i18n": "^2.0.0",
+    "@ringcentral-integration/phone-number": "*",
     "babel-istanbul": "^0.12.1",
     "coveralls": "^2.11.15",
     "dotenv": "^5.0.0",

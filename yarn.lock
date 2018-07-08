@@ -5121,6 +5121,10 @@ ignore@^3.3.3, ignore@^3.3.5:
   version "3.3.8"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.3.8.tgz#3f8e9c35d38708a3a7e0e9abb6c73e7ee7707b2b"
 
+immediate@~3.0.5:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/immediate/-/immediate-3.0.6.tgz#9db1dbd0faf8de6fbe0f5dd5e56bb606280de69b"
+
 import-local@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/import-local/-/import-local-1.0.0.tgz#5e4ffdc03f4fe6c009c6729beb29631c2f8227bc"
@@ -6365,6 +6369,12 @@ libphonenumber-js@^1.2.11:
     semver-compare "^1.0.0"
     xml2js "^0.4.17"
 
+lie@3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/lie/-/lie-3.1.1.tgz#9a436b2cc7746ca59de7a41fa469b3efb76bd87e"
+  dependencies:
+    immediate "~3.0.5"
+
 liftoff@^2.1.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/liftoff/-/liftoff-2.5.0.tgz#2009291bb31cea861bbf10a7c15a28caf75c31ec"
@@ -6430,6 +6440,12 @@ loader-utils@~0.2.2:
     emojis-list "^2.0.0"
     json5 "^0.5.0"
     object-assign "^4.0.1"
+
+localforage@^1.7.2:
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/localforage/-/localforage-1.7.2.tgz#fa4442602f806edd2bca6a54ab4e656f031f121c"
+  dependencies:
+    lie "3.1.1"
 
 locate-path@^2.0.0:
   version "2.0.0"
@@ -7906,10 +7922,6 @@ pbkdf2@^3.0.3:
 performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
-
-phoneformat.js@^1.0.3:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/phoneformat.js/-/phoneformat.js-1.0.6.tgz#11adc7672b590367d5ed268752124b37664c1a62"
 
 pify@^2.0.0, pify@^2.3.0:
   version "2.3.0"

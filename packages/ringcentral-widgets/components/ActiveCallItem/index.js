@@ -370,12 +370,17 @@ export default class ActiveCallItem extends Component {
       contactDisplayStyle,
       externalViewEntity,
       externalHasEntity,
+      readTextPermission,
     } = this.props;
     const phoneNumber = this.getPhoneNumber();
-    const parsedInfo = parseNumber(phoneNumber);
+    const parsedInfo = parseNumber({
+      phoneNumber,
+      countryCode,
+      areaCode,
+    });
     const isExtension = !parsedInfo.hasPlus &&
-      parsedInfo.number.length <= 6;
-    const showClickToSms = !!(
+      parsedInfo.number && parsedInfo.number.length <= 6;
+    const disableClickToSms = !(
       onClickToSms &&
       (
         isExtension ?
@@ -395,7 +400,7 @@ export default class ActiveCallItem extends Component {
       undefined;
     return (
       <div className={styles.root} onClick={this.toggleExtended}>
-        <div className={styles.callInfo}>
+        <div className={styles.wrapper}>
           <CallIcon
             direction={direction}
             ringing={ringing}
@@ -405,27 +410,29 @@ export default class ActiveCallItem extends Component {
             outboundTitle={i18n.getString('outboundCall', currentLocale)}
             missedTitle={i18n.getString('missedCall', currentLocale)}
           />
-          <ContactDisplay
-            contactName={contactName}
-            className={classnames(styles.contactDisplay, contactDisplayStyle)}
-            contactMatches={contactMatches}
-            selected={this.state.selected}
-            onSelectContact={this.onSelectContact}
-            disabled={disableLinks}
-            isLogging={isLogging || this.state.isLogging}
-            fallBackName={fallbackContactName}
-            enableContactFallback={enableContactFallback}
-            areaCode={areaCode}
-            countryCode={countryCode}
-            phoneNumber={phoneNumber}
-            currentLocale={currentLocale}
-            brand={brand}
-            showPlaceholder={showContactDisplayPlaceholder}
-            showType={false}
-            sourceIcons={sourceIcons}
-            stopPropagation
-          />
-          {callDetail}
+          <div className={styles.infoWrapper}>
+            <ContactDisplay
+              contactName={contactName}
+              className={classnames(styles.contactDisplay, contactDisplayStyle)}
+              contactMatches={contactMatches}
+              selected={this.state.selected}
+              onSelectContact={this.onSelectContact}
+              disabled={disableLinks}
+              isLogging={isLogging || this.state.isLogging}
+              fallBackName={fallbackContactName}
+              enableContactFallback={enableContactFallback}
+              areaCode={areaCode}
+              countryCode={countryCode}
+              phoneNumber={phoneNumber}
+              currentLocale={currentLocale}
+              brand={brand}
+              showPlaceholder={showContactDisplayPlaceholder}
+              showType={false}
+              sourceIcons={sourceIcons}
+              stopPropagation
+            />
+            {callDetail}
+          </div>
           <WebphoneButtons
             session={webphoneSession}
             webphoneAnswer={webphoneAnswer}
@@ -442,7 +449,7 @@ export default class ActiveCallItem extends Component {
           disableLinks={disableLinks}
           phoneNumber={phoneNumber}
           onClickToSms={
-            showClickToSms ?
+            readTextPermission ?
               () => this.clickToSms({ countryCode, areaCode })
               : undefined
           }
@@ -460,6 +467,7 @@ export default class ActiveCallItem extends Component {
           viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
           externalViewEntity={() => externalViewEntity && externalViewEntity(this.props.call)}
           externalHasEntity={externalHasEntity && externalHasEntity(this.props.call)}
+          disableClickToSms={disableClickToSms}
         />
       </div>
     );
@@ -513,6 +521,7 @@ ActiveCallItem.propTypes = {
   contactDisplayStyle: PropTypes.string,
   externalViewEntity: PropTypes.func,
   externalHasEntity: PropTypes.func,
+  readTextPermission: PropTypes.bool,
 };
 
 ActiveCallItem.defaultProps = {
@@ -539,4 +548,5 @@ ActiveCallItem.defaultProps = {
   contactDisplayStyle: undefined,
   externalViewEntity: undefined,
   externalHasEntity: undefined,
+  readTextPermission: true,
 };

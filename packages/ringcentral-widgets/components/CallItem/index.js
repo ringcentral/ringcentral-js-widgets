@@ -41,12 +41,12 @@ function CallIcon({
   missedTitle,
   type,
 }) {
-  let icon = '';
+  let icon = null;
   switch (type) {
     case messageTypes.fax: {
       icon = direction === messageDirection.inbound ?
-        <span title={inboundTitle} ><FaxInboundIcon width={21} className={styles.icon} /></span> :
-        <span title={outboundTitle} ><FaxOutboundIcon width={21} className={styles.icon} /></span>;
+        <span title={inboundTitle} ><FaxInboundIcon width={21} /></span> :
+        <span title={outboundTitle} ><FaxOutboundIcon width={21} /></span>;
       break;
     }
     default: {
@@ -340,16 +340,21 @@ export default class CallItem extends Component {
       contactDisplayStyle,
       externalViewEntity,
       externalHasEntity,
+      readTextPermission,
     } = this.props;
     const phoneNumber = this.getPhoneNumber();
     const contactMatches = this.getContactMatches();
     const fallbackContactName = this.getFallbackContactName();
     const ringing = isRinging(this.props.call);
     const missed = isInbound(this.props.call) && isMissed(this.props.call);
-    const parsedInfo = parseNumber(phoneNumber);
+    const parsedInfo = parseNumber({
+      phoneNumber,
+      countryCode,
+      areaCode,
+    });
     const isExtension = !parsedInfo.hasPlus &&
-      parsedInfo.number.length <= 6;
-    const showClickToSms = !!(
+      parsedInfo.number && parsedInfo.number.length <= 6;
+    const disableClickToSms = !(
       onClickToSms &&
       (
         isExtension ?
@@ -358,7 +363,7 @@ export default class CallItem extends Component {
       )
     );
 
-    let durationEl;
+    let durationEl = null;
     if (typeof duration === 'undefined') {
       durationEl = disableLinks ?
         i18n.getString('unavailable', currentLocale) :
@@ -366,11 +371,11 @@ export default class CallItem extends Component {
     } else {
       durationEl = formatDuration(duration);
     }
-    let dateEl;
+    let dateEl = '';
     if (!active) {
       dateEl = dateTimeFormatter({ utcTimestamp: startTime });
     }
-    let statusEl;
+    let statusEl = '';
     if (active) {
       statusEl = i18n.getString(result || telephonyStatus, currentLocale);
     }
@@ -393,35 +398,37 @@ export default class CallItem extends Component {
             missedTitle={i18n.getString('missedCall', currentLocale)}
             type={type}
           />
-          <ContactDisplay
-            contactName={contactName}
-            reference={(ref) => { this.contactDisplay = ref; }}
-            className={classnames(
-              styles.contactDisplay,
-              contactDisplayStyle,
-              missed && styles.missed,
-              active && styles.active,
-            )}
-            selectClassName={styles.dropdownSelect}
-            brand={brand}
-            sourceIcons={sourceIcons}
-            contactMatches={contactMatches}
-            selected={this.state.selected}
-            onSelectContact={this.onSelectContact}
-            disabled={disableLinks}
-            isLogging={isLogging || this.state.isLogging}
-            fallBackName={fallbackContactName}
-            enableContactFallback={enableContactFallback}
-            areaCode={areaCode}
-            countryCode={countryCode}
-            phoneNumber={phoneNumber}
-            currentLocale={currentLocale}
-            stopPropagation={false}
-            showType={false}
-            showPlaceholder={showContactDisplayPlaceholder}
-          />
-          <div className={styles.details} >
-            {durationEl} | {dateEl}{statusEl}
+          <div className={styles.infoWrapper}>
+            <ContactDisplay
+              contactName={contactName}
+              reference={(ref) => { this.contactDisplay = ref; }}
+              className={classnames(
+                styles.contactDisplay,
+                contactDisplayStyle,
+                missed && styles.missed,
+                active && styles.active,
+              )}
+              selectClassName={styles.dropdownSelect}
+              brand={brand}
+              sourceIcons={sourceIcons}
+              contactMatches={contactMatches}
+              selected={this.state.selected}
+              onSelectContact={this.onSelectContact}
+              disabled={disableLinks}
+              isLogging={isLogging || this.state.isLogging}
+              fallBackName={fallbackContactName}
+              enableContactFallback={enableContactFallback}
+              areaCode={areaCode}
+              countryCode={countryCode}
+              phoneNumber={phoneNumber}
+              currentLocale={currentLocale}
+              stopPropagation={false}
+              showType={false}
+              showPlaceholder={showContactDisplayPlaceholder}
+            />
+            <div className={styles.details} >
+              {durationEl}{` | ${dateEl}${statusEl}`}
+            </div>
           </div>
           {extraButton}
         </div>
@@ -435,7 +442,7 @@ export default class CallItem extends Component {
           hasEntity={!!contactMatches.length}
           onClickToDial={onClickToDial && this.clickToDial}
           onClickToSms={
-            showClickToSms ?
+            readTextPermission ?
               () => this.clickToSms({ countryCode, areaCode })
               : undefined
           }
@@ -451,8 +458,9 @@ export default class CallItem extends Component {
           callTitle={i18n.getString('call', currentLocale)}
           createEntityTitle={i18n.getString('addEntity', currentLocale)}
           viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
-          externalViewEntity={() => externalViewEntity && externalViewEntity(this.props.call)}
+          externalViewEntity={externalViewEntity && (() => externalViewEntity(this.props.call))}
           externalHasEntity={externalHasEntity && externalHasEntity(this.props.call)}
+          disableClickToSms={disableClickToSms}
         />
       </div>
     );
@@ -505,6 +513,7 @@ CallItem.propTypes = {
   contactDisplayStyle: PropTypes.string,
   externalViewEntity: PropTypes.func,
   externalHasEntity: PropTypes.func,
+  readTextPermission: PropTypes.bool,
 };
 
 CallItem.defaultProps = {
@@ -528,4 +537,5 @@ CallItem.defaultProps = {
   contactDisplayStyle: undefined,
   externalViewEntity: undefined,
   externalHasEntity: undefined,
+  readTextPermission: true,
 };

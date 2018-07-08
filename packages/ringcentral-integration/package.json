@@ -27,6 +27,7 @@
   "homepage": "https://github.com/ringcentral/ringcentral-js-integration-commons#readme",
   "devDependencies": {
     "@ringcentral-integration/locale-loader": "^2.0.0",
+    "@ringcentral-integration/phone-number": "*",
     "babel-istanbul": "^0.12.1",
     "babel-loader": "^7.0.0",
     "babelify": "^7.3.0",
@@ -72,6 +73,7 @@
   },
   "peerDependencies": {
     "@ringcentral-integration/i18n": "^2.0.0",
+    "@ringcentral-integration/phone-number": "*",
     "babel-runtime": "^6.26.0",
     "core-js": "^2.5.6",
     "format-message": "^5.0.0",
@@ -82,8 +84,8 @@
   "dependencies": {
     "file-loader": "^1.1.11",
     "json-mask": "^0.3.8",
+    "localforage": "^1.7.2",
     "moment": "^2.19.2",
-    "phoneformat.js": "^1.0.3",
     "prettier": "^1.7.0",
     "ramda": "^0.25.0",
     "redux": "^3.5.2",

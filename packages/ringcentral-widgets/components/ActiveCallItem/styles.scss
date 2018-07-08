@@ -1,32 +1,48 @@
 @import '../../lib/commonStyles/colors';
 @import '../../lib/commonStyles/fonts';
+$fixed-icon-width: 21px;
 .root {
   display: block;
   background: #fff;
   width: 100%;
   border-bottom: 1px solid #e2e2e2;
   margin-bottom: 7px;
+  min-height: 62px;
 }
+// .root:first-child {
+//   margin-top: -5px;
+// }
 
-.callInfo {
-  display: block;
+.wrapper {
   position: relative;
-  height: 60px;
+  padding: 13px 20px 18px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
   width: 100%;
   @include secondary-font;
 }
 
 .callIcon {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 7px;
-  width: 40px;
-  height: 53px;
-  line-height: 53px;
-  font-size: 18px;
-  text-align: center;
+  display: inline-flex;
+  font-size: 22px;
   color: #666;
+  width: $fixed-icon-width;
+}
+
+.infoWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  max-width: calc(100% - #{$fixed-icon-width});
+  padding-left: 6px;
+  padding-right: 8px;
+  overflow: hidden;
+  box-sizing: border-box;
+  // Add bellow style if you have calllog button on callitem
+  // max-width: calc(100% - 23px - 21px);
 }
 
 .activeCall {
@@ -50,20 +66,8 @@
   animation-iteration-count: infinite;
 }
 
-.details {
-  position: absolute;
-  left: 46px;
-  bottom: 12px;
-  font-size: 12px;
-  color: #979797;
-}
-
 .contactDisplay {
-  position: absolute;
-  top: 5px;
-  left: 45px;
-  line-height: 25px;
-  max-width: 50%;
+  margin-bottom: 5px;
   button {
     font-size: 13px;
   }
@@ -114,13 +118,10 @@
 
 .callDetail {
   font-size: 12px;
-  position: absolute;
-  top: 30px;
-  left: 45px;
-  max-width: 50%;
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  overflow: hidden;
+  color: #979797;
   .label {
     margin-right: 5px;
   }
