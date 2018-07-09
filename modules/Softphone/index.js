@@ -164,7 +164,7 @@ var Softphone = (_dec = (0, _di.Module)({
                 }
 
                 window.open(uri);
-                _context.next = 19;
+                _context.next = 23;
                 break;
 
               case 6:
@@ -175,32 +175,43 @@ var Softphone = (_dec = (0, _di.Module)({
 
                 // to support ie to start the service
                 window.navigator.msLaunchUri(uri);
-                _context.next = 19;
+                _context.next = 23;
                 break;
 
               case 10:
+                if (!window.ActiveXObject) {
+                  _context.next = 14;
+                  break;
+                }
+
+                // to support ie on Windows < 8
+                window.open(uri);
+                _context.next = 23;
+                break;
+
+              case 14:
                 frame = document.createElement('iframe');
 
                 frame.style.display = 'none';
 
                 document.body.appendChild(frame);
-                _context.next = 15;
+                _context.next = 19;
                 return (0, _sleep2.default)(100);
 
-              case 15:
+              case 19:
                 frame.contentWindow.location.href = uri;
-                _context.next = 18;
+                _context.next = 22;
                 return (0, _sleep2.default)(300);
 
-              case 18:
+              case 22:
                 document.body.removeChild(frame);
 
-              case 19:
+              case 23:
                 this.store.dispatch({
                   type: this.actionTypes.connectComplete
                 });
 
-              case 20:
+              case 24:
               case 'end':
                 return _context.stop();
             }
