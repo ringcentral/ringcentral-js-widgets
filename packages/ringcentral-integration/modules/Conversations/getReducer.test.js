@@ -16,7 +16,7 @@ import getReducer, {
 
 import actionTypes from './actionTypes';
 import status from './status';
-import messageTypes from '../../enums/messageTypes'
+import messageTypes from '../../enums/messageTypes';
 
 describe('Conversations :: getSearchInputReducer', () => {
   it('getSearchInputReducer should be a function', () => {
@@ -89,7 +89,7 @@ describe('Conversations :: getOldConversationsReducer', () => {
   });
   describe('oldConversationsReducer', () => {
     const reducer = getOldConversationsReducer(actionTypes);
-    const record = {
+    const record = JSON.parse(`{
       "uri": "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/message-store/5475922005",
       "id": 5475922005,
       "to": [
@@ -125,7 +125,7 @@ describe('Conversations :: getOldConversationsReducer', () => {
       },
       "lastModifiedTime": "2017-06-01T02:24:08.238Z",
       "pgToDepartment": false
-    };
+    }`);
     it('should have initial state of empty array', () => {
       expect(reducer(undefined, {})).to.deep.equal([]);
     });
@@ -286,7 +286,7 @@ describe('Conversations :: getOldMessagesReducer', () => {
   });
   describe('oldMessagesReducer', () => {
     const reducer = getOldMessagesReducer(actionTypes);
-    const record = {
+    const record = JSON.parse(`{
       "uri": "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/message-store/5475922005",
       "id": 5475922005,
       "to": [
@@ -322,7 +322,7 @@ describe('Conversations :: getOldMessagesReducer', () => {
       },
       "lastModifiedTime": "2017-06-01T02:24:08.238Z",
       "pgToDepartment": false
-    };
+    }`);
     it('should have initial state of empty array', () => {
       expect(reducer(undefined, {})).to.deep.equal([]);
     });
