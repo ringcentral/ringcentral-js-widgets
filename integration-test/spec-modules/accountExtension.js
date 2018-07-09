@@ -86,7 +86,7 @@ exports.default = function (auth, client, accountExtension, account) {
               return (0, _WaitUtil.waitInSeconds)(1);
 
             case 9:
-              expect(accountExtension.availableExtensions.length).equal(1);
+              expect(accountExtension.availableExtensions.length).equal(2);
 
             case 10:
             case 'end':

@@ -125,10 +125,13 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                         }, 'LoginStatus', _loginStatus2.default.loggedIn, 3);
 
                       case 7:
-                        (0, _WaitUtil.waitInSeconds)(2);
-                        expect(composeText.senderNumber).to.equals(messageSender.senderNumbersList[1].phoneNumber);
+                        _context2.next = 9;
+                        return (0, _WaitUtil.waitInSeconds)(2);
 
                       case 9:
+                        expect(composeText.senderNumber).to.equals(messageSender.senderNumbersList[1].phoneNumber);
+
+                      case 10:
                       case 'end':
                         return _context2.stop();
                     }
@@ -635,7 +638,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                       while (1) {
                         switch (_context18.prev = _context18.next) {
                           case 0:
-                            composeText.updateTypingToNumber('(888)349-5556*101');
+                            composeText.updateTypingToNumber('(866)211-8665*101');
                             composeText.updateMessageText('test');
                             _context18.next = 4;
                             return composeText.send();
@@ -664,7 +667,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                       while (1) {
                         switch (_context19.prev = _context19.next) {
                           case 0:
-                            composeText.updateTypingToNumber('(888) 349-5556*101');
+                            composeText.updateTypingToNumber('(866) 211-8665*101');
                             composeText.updateMessageText('test');
                             _context19.next = 4;
                             return composeText.send();
@@ -693,7 +696,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                       while (1) {
                         switch (_context20.prev = _context20.next) {
                           case 0:
-                            composeText.updateTypingToNumber('855-899-0011');
+                            composeText.updateTypingToNumber('866-211-8665');
                             composeText.updateMessageText('test');
                             _context20.next = 4;
                             return composeText.send();
@@ -722,7 +725,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                       while (1) {
                         switch (_context21.prev = _context21.next) {
                           case 0:
-                            composeText.updateTypingToNumber('888-349-5556*101');
+                            composeText.updateTypingToNumber('866-211-8665*101');
                             composeText.updateMessageText('test');
                             _context21.next = 4;
                             return composeText.send();
