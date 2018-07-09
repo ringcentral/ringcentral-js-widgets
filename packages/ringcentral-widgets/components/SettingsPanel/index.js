@@ -235,7 +235,6 @@ export default function SettingsPanel({
         {additional}
         {feedback}
         {userGuide}
-        {outerComps}
         <section className={styles.section}>
           <Line noBorder>
             <EulaRenderer
