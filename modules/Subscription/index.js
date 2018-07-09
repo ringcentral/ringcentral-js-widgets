@@ -280,10 +280,12 @@ var Subscription = (_dec = (0, _di.Module)({
         });
       });
       this._subscription.on(this._subscription.events.renewSuccess, function () {
-        _this4.store.dispatch({
-          type: _this4.actionTypes.renewSuccess,
-          subscription: _this4._subscription.subscription()
-        });
+        if (_this4._subscription) {
+          _this4.store.dispatch({
+            type: _this4.actionTypes.renewSuccess,
+            subscription: _this4._subscription.subscription()
+          });
+        }
       });
       this._subscription.on(this._subscription.events.renewError, function (error) {
         if (_this4._subscription) {
@@ -300,10 +302,12 @@ var Subscription = (_dec = (0, _di.Module)({
         }
       });
       this._subscription.on(this._subscription.events.subscribeSuccess, function () {
-        _this4.store.dispatch({
-          type: _this4.actionTypes.subscribeSuccess,
-          subscription: _this4._subscription.subscription()
-        });
+        if (_this4._subscription) {
+          _this4.store.dispatch({
+            type: _this4.actionTypes.subscribeSuccess,
+            subscription: _this4._subscription.subscription()
+          });
+        }
       });
       this._subscription.on(this._subscription.events.subscribeError, function (error) {
         _this4.store.dispatch({
