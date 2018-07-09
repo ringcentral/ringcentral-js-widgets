@@ -65,6 +65,9 @@ export default class Softphone extends RcModule {
     } else if (window.navigator.msLaunchUri) {
       // to support ie to start the service
       window.navigator.msLaunchUri(uri);
+    } else if (window.ActiveXObject) {
+      // to support ie on Windows < 8
+      window.open(uri);
     } else {
       const frame = document.createElement('iframe');
       frame.style.display = 'none';
