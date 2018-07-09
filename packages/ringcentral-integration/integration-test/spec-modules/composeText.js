@@ -42,7 +42,7 @@ export default (auth, client, account, alert, regionSettings, composeText, messa
           ...account
         });
         await waitUntilEqual(() => auth.loginStatus, 'LoginStatus', loginStatus.loggedIn, 3);
-        waitInSeconds(2);
+        await waitInSeconds(2);
         expect(composeText.senderNumber).to.equals(messageSender.senderNumbersList[1].phoneNumber);
       });
     });
