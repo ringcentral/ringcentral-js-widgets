@@ -44,10 +44,10 @@ describe('messageIsDeleted', () => {
     expect(result).to.equal(false);
   });
 
-  it('should return false when message is Purged', () => {
+  it('should return true when message is Purged', () => {
     const message = { availability: 'Purged' };
     const result = messageHelper.messageIsDeleted(message);
-    expect(result).to.equal(false);
+    expect(result).to.equal(true);
   });
 });
 

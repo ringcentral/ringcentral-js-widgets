@@ -139,6 +139,7 @@ export function getMessageTextsReducer(types) {
       case types.removeMessageText:
         return state.filter(msg => typeof msg === 'object' && msg.conversationId !== conversationId);
       case types.resetSuccess:
+        return [];
       default:
         return state;
     }
