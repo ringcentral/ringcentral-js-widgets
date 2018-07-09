@@ -235,17 +235,7 @@ export default function SettingsPanel({
         {additional}
         {feedback}
         {userGuide}
-        {((comps) => {
-          if (!comps) {
-            return null;
-          }
-
-          if (Array.isArray(comps)) {
-            return (<>{...comps}</>);
-          }
-          return comps;
-        })(outerComps)
-      }
+        {outerComps}
         <section className={styles.section}>
           <Line noBorder>
             <EulaRenderer
@@ -325,6 +315,7 @@ SettingsPanel.propTypes = {
   onUserGuideClick: PropTypes.func.isRequired,
   showUserGuide: PropTypes.bool,
   showAutoCreateTicket: PropTypes.bool,
+  outerComps: PropTypes.array,
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -366,4 +357,5 @@ SettingsPanel.defaultProps = {
   savedLocale: undefined,
   saveLocale: undefined,
   showFeedback: true,
+  outerComps: null,
 };
