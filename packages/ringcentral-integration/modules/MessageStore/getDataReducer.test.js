@@ -73,9 +73,7 @@ describe('MessageStore: getConversationListReducer', () => {
         records: [],
       })).to.deep.equal([]);
     });
-    it(`should return original state
-        when records is empty with conversationsISyncSuccess
-        and updateMessages`, () => {
+    it('should return original state when records is empty with conversationsISyncSuccess and updateMessages', () => {
       [
         actionTypes.conversationsISyncSuccess,
         actionTypes.updateMessages
@@ -112,8 +110,7 @@ describe('MessageStore: getConversationListReducer', () => {
         messageId: message.id,
       }]);
     });
-    it(`should return new conversation with new message
-        when conversationsISyncSuccess and updateMessages`, () => {
+    it('should return new conversation with new message when conversationsISyncSuccess and updateMessages', () => {
       [
         actionTypes.conversationsISyncSuccess,
         actionTypes.updateMessages
@@ -142,8 +139,7 @@ describe('MessageStore: getConversationListReducer', () => {
       });
     });
 
-    it(`should return original conversation
-        when conversationsISyncSuccess and updateMessages with old message`, () => {
+    it('should return original conversation when conversationsISyncSuccess and updateMessages with old message', () => {
       [
         actionTypes.conversationsISyncSuccess,
         actionTypes.updateMessages
@@ -166,9 +162,7 @@ describe('MessageStore: getConversationListReducer', () => {
       });
     });
 
-    it(`should delete conversation
-        when conversationsISyncSuccess and updateMessages
-        with current message deleted`, () => {
+    it('should delete conversation when conversationsISyncSuccess and updateMessages with current message deleted', () => {
       [
         actionTypes.conversationsISyncSuccess,
         actionTypes.updateMessages
@@ -267,8 +261,7 @@ describe('MessageStore: getConversationStoreReducer', () => {
       });
     });
 
-    it(`should return messages list in object with other conversation
-        in object when conversationsISyncSuccess and updateMessages`, () => {
+    it('should return messages list in object with other conversation in object when conversationsISyncSuccess and updateMessages', () => {
       const record = JSON.parse(recordTemplate);
       const message = normalizeRecord(record);
       [
@@ -285,8 +278,7 @@ describe('MessageStore: getConversationStoreReducer', () => {
       });
     });
 
-    it(`should update message when old message existed
-        when conversationsISyncSuccess and updateMessages`, () => {
+    it('should update message when old message existed when conversationsISyncSuccess and updateMessages', () => {
       [
         actionTypes.conversationsISyncSuccess,
         actionTypes.updateMessages,
@@ -307,8 +299,7 @@ describe('MessageStore: getConversationStoreReducer', () => {
       });
     });
 
-    it(`should push message to message list
-        when conversationsISyncSuccess and updateMessages`, () => {
+    it('should push message to message list when conversationsISyncSuccess and updateMessages', () => {
       [
         actionTypes.conversationsISyncSuccess,
         actionTypes.updateMessages,
@@ -328,8 +319,7 @@ describe('MessageStore: getConversationStoreReducer', () => {
       });
     });
 
-    it(`should delete message when record is deleted
-        on conversationsISyncSuccess and updateMessages`, () => {
+    it('should delete message when record is deleted on conversationsISyncSuccess and updateMessages', () => {
       [
         actionTypes.conversationsISyncSuccess,
         actionTypes.updateMessages,
