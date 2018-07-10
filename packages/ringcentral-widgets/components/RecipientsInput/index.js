@@ -6,6 +6,28 @@ import RemoveButton from '../RemoveButton';
 import ContactDropdownList from '../ContactDropdownList';
 import i18n from './i18n';
 
+const focusCampo = (inputField) => {
+  console.log('@@focusCampo', inputField);
+  inputField.blur();
+  if (inputField && inputField.value.length !== 0) {
+    if (inputField.createTextRange) {
+      const FieldRange = inputField.createTextRange();
+      FieldRange.moveStart('character', inputField.value.length);
+      FieldRange.collapse();
+      FieldRange.select();
+    } else if (inputField.selectionStart || inputField.selectionStart === 0) {
+      const elemLen = inputField.value.length;
+      console.log(elemLen);
+      inputField.selectionStart = elemLen;
+      inputField.selectionEnd = elemLen;
+      // inputField.setSelectionRange(elemLen, elemLen);
+      inputField.focus();
+    }
+  } else {
+    inputField.focus();
+  }
+};
+
 function SelectedRecipientItem({
   phoneNumber,
   name = phoneNumber,
@@ -208,8 +230,9 @@ class RecipientsInput extends Component {
 
   onInputChange = (e) => {
     const { value } = e.currentTarget;
-    this.setState({ value });
-    this.props.onChange(value);
+    this.setState({ value }, () => {
+      this.props.onChange(value);
+    });
     if (this.listRef) {
       this.listRef.scrollTop = 0;
     }
@@ -220,6 +243,19 @@ class RecipientsInput extends Component {
     this.props.onClean();
   }
 
+  _focusInput = () => {
+    if (this._focusTimeout) {
+      clearTimeout(this._focusTimeout);
+    }
+    this._focusTimeout = setTimeout(() => {
+      if (this.inputRef) {
+        // this.inputRef.focus();
+        focusCampo(this.inputRef);
+        this.onInputFocus();
+      }
+    }, 300);
+  }
+
   componentWillReceiveProps(nextProps) {
     if (
       nextProps.value !== undefined &&
@@ -227,6 +263,7 @@ class RecipientsInput extends Component {
       nextProps.value !== this.state.value
     ) {
       this.setState({ value: nextProps.value });
+      this._focusInput();
       this.props.searchContact(nextProps.value);
     }
   }
