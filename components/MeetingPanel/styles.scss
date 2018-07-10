@@ -212,12 +212,14 @@
 
 .dateIcon {
   height: 17.4px;
+  flex: 1;
 }
 
 .timeIcon {
   height: 17.7px;
   margin-left: -5px;
   position: relative;
+  flex: 1;
 }
 
 .dateTimeBox {
