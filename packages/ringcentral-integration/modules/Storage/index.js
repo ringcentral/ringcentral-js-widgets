@@ -81,7 +81,7 @@ export default class Storage extends StorageBase {
       } else if (
         (
           (!!this._tabManager && !this._tabManager.ready) ||
-          this._auth.loginStatus === loginStatus.notLoggedIn
+          this._auth.notLoggedIn
         ) && this.ready
       ) {
         this.store.dispatch({
