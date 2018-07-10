@@ -74,8 +74,8 @@ describe('MessageStore: getConversationListReducer', () => {
       })).to.deep.equal([]);
     });
     it(`should return original state
-      when records is empty with conversationsISyncSuccess
-      and updateMessages`, () => {
+        when records is empty with conversationsISyncSuccess
+        and updateMessages`, () => {
       [
         actionTypes.conversationsISyncSuccess,
         actionTypes.updateMessages
@@ -296,10 +296,12 @@ describe('MessageStore: getConversationStoreReducer', () => {
         const newRecord = JSON.parse(recordTemplate);
         newRecord.lastModifiedTime = '2017-06-02T02:24:08.238Z';
         const newMessage = normalizeRecord(newRecord);
-        expect(reducer({ [oldMessage.conversationId]: [oldMessage] }, {
-          type,
-          records: [newRecord],
-        })).to.deep.equal({
+        expect(
+          reducer({ [oldMessage.conversationId]: [oldMessage] }, {
+            type,
+            records: [newRecord],
+          })
+        ).to.deep.equal({
           [newMessage.conversationId]: [newMessage]
         });
       });
@@ -337,10 +339,12 @@ describe('MessageStore: getConversationStoreReducer', () => {
         const newRecord = JSON.parse(recordTemplate);
         newRecord.lastModifiedTime = '2017-06-02T02:24:08.238Z';
         newRecord.availability = 'Deleted';
-        expect(reducer({ [oldMessage.conversationId]: [oldMessage] }, {
-          type,
-          records: [newRecord],
-        })).to.deep.equal({});
+        expect(
+          reducer({ [oldMessage.conversationId]: [oldMessage] }, {
+            type,
+            records: [newRecord],
+          })
+        ).to.deep.equal({});
       });
     });
 
