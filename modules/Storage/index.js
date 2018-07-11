@@ -109,7 +109,7 @@ var Storage = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(_this2._auth.loginStatus === _loginStatus2.default.loggedIn && !_this2.ready)) {
+                if (!(_this2._auth.loginStatus === _loginStatus2.default.loggedIn && (!_this2._tabManager || _this2._tabManager.ready) && !_this2.ready)) {
                   _context.next = 20;
                   break;
                 }
@@ -151,7 +151,8 @@ var Storage = (_dec = (0, _di.Module)({
                 _this2.store.dispatch({
                   type: _this2.actionTypes.initSuccess,
                   storageKey: storageKey,
-                  data: storedData
+                  // To fix same reference in redux store with storedData
+                  data: (0, _extends3.default)({}, storedData)
                 });
                 _this2._storageHandler = function (_ref3) {
                   var key = _ref3.key,
@@ -171,7 +172,7 @@ var Storage = (_dec = (0, _di.Module)({
                 break;
 
               case 20:
-                if (_this2._auth.loginStatus === _loginStatus2.default.notLoggedIn && _this2.ready) {
+                if ((!!_this2._tabManager && !_this2._tabManager.ready || _this2._auth.notLoggedIn) && _this2.ready) {
                   _this2.store.dispatch({
                     type: _this2.actionTypes.reset
                   });
