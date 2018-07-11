@@ -7,7 +7,6 @@ import ContactDropdownList from '../ContactDropdownList';
 import i18n from './i18n';
 
 const focusCampo = (inputField) => {
-  console.log('@@focusCampo', inputField);
   inputField.blur();
   if (inputField && inputField.value.length !== 0) {
     if (inputField.createTextRange) {
@@ -19,11 +18,9 @@ const focusCampo = (inputField) => {
       const elemLen = inputField.value.length;
       inputField.selectionStart = elemLen;
       inputField.selectionEnd = elemLen;
-      inputField.focus();
     }
-  } else {
-    inputField.focus();
   }
+  inputField.focus();
 };
 
 function SelectedRecipientItem({
@@ -242,17 +239,10 @@ class RecipientsInput extends Component {
   }
 
   _focusInput = () => {
-    if (this._focusTimeout) {
-      clearTimeout(this._focusTimeout);
+    if (this.inputRef) {
+      focusCampo(this.inputRef);
+      this.onInputFocus();
     }
-    this._focusTimeout = setTimeout(() => {
-      this._focusTimeout = null;
-      if (this.inputRef) {
-        // this.inputRef.focus();
-        focusCampo(this.inputRef);
-        this.onInputFocus();
-      }
-    }, 300);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -261,8 +251,9 @@ class RecipientsInput extends Component {
       nextProps.value !== this.props.value &&
       nextProps.value !== this.state.value
     ) {
-      this.setState({ value: nextProps.value });
-      this._focusInput();
+      this.setState({ value: nextProps.value }, () => {
+        this._focusInput();
+      });
       this.props.searchContact(nextProps.value);
     }
   }
