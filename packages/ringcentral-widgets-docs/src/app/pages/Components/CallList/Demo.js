@@ -48,8 +48,8 @@ props.calls = [{
   toMatches: [],
   activityMatches: []
 }];
-props.areaCode = 'test string';
-props.countryCode = 'test string';
+props.areaCode = '650';
+props.countryCode = 'US';
 props.dateTimeFormatter = () => '12:00';
 props.brand = 'RingCentral';
 

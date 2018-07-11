@@ -11,8 +11,8 @@ props.availableCountries = [
   { id: '39', isoCode: 'CA', callingCode: '1' },
   { id: '75', isoCode: 'FR', callingCode: '33' },
 ];
-props.countryCode = 'test string';
-props.areaCode = 'test string';
+props.countryCode = 'US';
+props.areaCode = '650';
 
 /**
  * A example of `RegionSettingsPanel`

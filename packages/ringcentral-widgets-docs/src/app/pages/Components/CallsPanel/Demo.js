@@ -48,8 +48,8 @@ props.calls = [{
   toMatches: [],
   activityMatches: []
 }];
-props.areaCode = 'test string';
-props.countryCode = 'test string';
+props.areaCode = '650';
+props.countryCode = 'US';
 props.disableLinks = false;
 props.dateTimeFormatter = () => '12:00';
 props.title = 'Calls Example';
