@@ -17,10 +17,8 @@ const focusCampo = (inputField) => {
       FieldRange.select();
     } else if (inputField.selectionStart || inputField.selectionStart === 0) {
       const elemLen = inputField.value.length;
-      console.log(elemLen);
       inputField.selectionStart = elemLen;
       inputField.selectionEnd = elemLen;
-      // inputField.setSelectionRange(elemLen, elemLen);
       inputField.focus();
     }
   } else {
@@ -248,6 +246,7 @@ class RecipientsInput extends Component {
       clearTimeout(this._focusTimeout);
     }
     this._focusTimeout = setTimeout(() => {
+      this._focusTimeout = null;
       if (this.inputRef) {
         // this.inputRef.focus();
         focusCampo(this.inputRef);
