@@ -17,10 +17,10 @@ import getDataReducer from './getDataReducer';
 import messageStoreErrors from './errors';
 
 const DEFAULT_CONVERSATIONS_LOAD_LENGTH = 10;
-const DEFAULT_CONVERSATION_LOAD_LENGTH = 15;
+const DEFAULT_CONVERSATION_LOAD_LENGTH = 100;
 const DEFAULT_TTL = 30 * 60 * 1000;
 const DEFAULT_RETRY = 62 * 1000;
-const DEFAULT_DAYSPAN = 90;
+const DEFAULT_DAYSPAN = 7; // default to load 7 days's messages
 
 function getSyncParams({
   recordCount, conversationLoadLength, dateFrom, dateTo, syncToken
@@ -64,7 +64,7 @@ function getSyncParams({
     'RolesAndPermissions',
     { dep: 'TabManager', optional: true },
     { dep: 'Storage', optional: true },
-    { dep: 'ConversationsOptions', optional: true }
+    { dep: 'MessageStoreOptions', optional: true }
   ]
 })
 export default class MessageStore extends Pollable {
@@ -304,15 +304,34 @@ export default class MessageStore extends Pollable {
     try {
       const dateFrom = new Date();
       dateFrom.setDate(dateFrom.getDate() - this._daySpan);
-      const syncToken = dateTo ? null : this.syncInfo && this.syncInfo.syncToken;
+      let syncToken = dateTo ? null : this.syncInfo && this.syncInfo.syncToken;
       const recordCount = conversationsLoadLength * conversationLoadLength;
-      const data = await this._syncFunction({
-        recordCount,
-        conversationLoadLength,
-        dateFrom,
-        syncToken,
-        dateTo,
-      });
+      let data;
+      try {
+        data = await this._syncFunction({
+          recordCount,
+          conversationLoadLength,
+          dateFrom,
+          syncToken,
+          dateTo,
+        });
+      } catch (error) {
+        if (
+          error &&
+          error.message === 'Parameter [syncToken] value is invalid'
+        ) {
+          data = await this._syncFunction({
+            recordCount,
+            conversationLoadLength,
+            dateFrom,
+            syncToken: null,
+            dateTo,
+          });
+          syncToken = null;
+        } else {
+          throw error;
+        }
+      }
       if (this._auth.ownerId === ownerId) {
         const actionType = this.getSyncActionType({ dateTo, syncToken });
         this.store.dispatch({

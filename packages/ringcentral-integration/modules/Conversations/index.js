@@ -67,6 +67,7 @@ export default class Conversations extends RcModule {
     conversationLogger,
     perPage = DEFAULT_PER_PAGE,
     daySpan = DEFAULT_DAY_SPAN,
+    enableLoadOldMessages = false, // disable old message by default
     ...options
   }) {
     super({
@@ -92,6 +93,7 @@ export default class Conversations extends RcModule {
     this._daySpan = daySpan;
     this._olderDataExsited = true;
     this._olderMessagesExsited = true;
+    this._enableLoadOldMessages = enableLoadOldMessages;
 
     if (this._contactMatcher) {
       this._contactMatcher.addQuerySource({
@@ -191,8 +193,8 @@ export default class Conversations extends RcModule {
     });
     this._olderDataExsited = true;
     this._olderMessagesExsited = true;
-    if (this.typeFilteredConversations.length <= this._perPage) {
-      this.fetchOldConversations();
+    if (this.pagingConversations.length <= this._perPage) {
+      this.loadNextPage();
     }
   }
 
@@ -260,6 +262,9 @@ export default class Conversations extends RcModule {
     if (this.effectiveSearchString !== '') {
       return;
     }
+    if (!this._enableLoadOldMessages) {
+      return;
+    }
     await this.fetchOldConversations();
   }
 
@@ -292,6 +297,9 @@ export default class Conversations extends RcModule {
 
   @proxify
   async fetchOldMessages(perPage = this._perPage) {
+    if (!this._enableLoadOldMessages) {
+      return;
+    }
     if (!this._olderMessagesExsited) {
       return;
     }

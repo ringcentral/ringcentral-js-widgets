@@ -146,6 +146,22 @@ import LocalForageStorage from 'ringcentral-integration/lib/LocalForageStorage';
       },
       spread: true
     },
+    {
+      provide: 'MessageStoreOptions',
+      useValue: {
+        daySpan: 90,
+        conversationsLoadLength: 10,
+        conversationLoadLength: 15,
+      },
+      spread: true
+    },
+    {
+      provide: 'ConversationsOptions',
+      useValue: {
+        enableLoadOldMessages: true,
+      },
+      spread: true
+    }
   ]
 })
 export default class BasePhone extends RcModule {
