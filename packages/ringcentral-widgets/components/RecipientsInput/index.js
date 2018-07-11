@@ -6,6 +6,10 @@ import RemoveButton from '../RemoveButton';
 import ContactDropdownList from '../ContactDropdownList';
 import i18n from './i18n';
 
+/**
+ * Set mouse focus and move cursor to end of input
+ * @param {HTMLElement} inputField
+ */
 const focusCampo = (inputField) => {
   inputField.blur();
   if (inputField && inputField.value.length !== 0) {
