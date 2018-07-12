@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/locale-loader",
-  "version": "0.8.1",
+  "version": "2.0.0",
   "description": "Locale Loader for webpack",
   "main": "index.js",
   "repository": {
