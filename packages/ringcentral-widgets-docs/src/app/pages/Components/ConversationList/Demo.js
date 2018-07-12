@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import MessageList from 'ringcentral-widgets/components/MessageList';
+import ConversationList from 'ringcentral-widgets/components/ConversationList';
 
 const props = {};
 props.currentLocale = 'en-US';
@@ -44,18 +44,18 @@ props.onClickToDial = () => null;
 props.onCreateContact = () => null;
 
 /**
- * A example of `MessageList`
+ * A example of `ConversationList`
  */
-const MessageListDemo = () => (
+const ConversationListDemo = () => (
   <div style={{
     position: 'relative',
     height: '500px',
     width: '300px',
     border: '1px solid #f3f3f3',
   }}>
-    <MessageList
+    <ConversationList
       {...props}
     />
   </div>
 );
-export default MessageListDemo;
+export default ConversationListDemo;

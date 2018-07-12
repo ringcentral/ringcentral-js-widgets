@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import MessagesPanel from 'ringcentral-widgets/components/MessagesPanel';
+import ConversationsPanel from 'ringcentral-widgets/components/ConversationsPanel';
 
 const props = {};
 props.currentLocale = 'en-US';
@@ -49,18 +49,18 @@ props.dateTimeFormatter = ({ utcTimestamp }) => {
   return `${time.getMonth() + 1}/${time.getDate()}/${time.getFullYear()}`;
 };
 /**
- * A example of `MessagesPanel`
+ * A example of `ConversationsPanel`
  */
-const MessagesPanelDemo = () => (
+const ConversationsPanelDemo = () => (
   <div style={{
     position: 'relative',
     height: '500px',
     width: '300px',
     border: '1px solid #f3f3f3',
   }}>
-    <MessagesPanel
+    <ConversationsPanel
       {...props}
     />
   </div>
 );
-export default MessagesPanelDemo;
+export default ConversationsPanelDemo;
