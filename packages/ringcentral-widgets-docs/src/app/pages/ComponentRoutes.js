@@ -170,9 +170,9 @@ const Routes = () => (
     <Route path="/components/ContactItem" component={ContactItemPage} />
     <Route path="/components/ContactList" component={ContactListPage} />
     <Route path="/components/ContactsView" component={ContactsViewPage} />
+    <Route path="/components/ConversationList" component={ConversationListPage} />
     <Route path="/components/ConversationMessageList" component={ConversationMessageListPage} />
     <Route path="/components/ConversationPanel" component={ConversationPanelPage} />
-    <Route path="/components/ConversationList" component={ConversationListPage} />
     <Route path="/components/ConversationsPanel" component={ConversationsPanelPage} />
     <Route path="/components/CopyToClipboard" component={CopyToClipboardPage} />
     <Route path="/components/DatePicker" component={DatePickerPage} />

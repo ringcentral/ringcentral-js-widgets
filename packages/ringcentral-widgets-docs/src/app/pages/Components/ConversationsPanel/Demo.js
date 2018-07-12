@@ -12,6 +12,7 @@ props.showConversationDetail = () => null;
 props.onClickToDial = () => null;
 props.onViewContact = () => null;
 props.onCreateContact = () => null;
+props.loadNextPage = () => null;
 props.brand = 'RingCentral';
 props.textUnreadCounts = 1;
 props.voiceUnreadCounts = 0;
@@ -41,7 +42,7 @@ props.conversations = [{
   type: 'SMS',
   creationTime: '2018-01-16T08:59:02.000Z',
 }];
-props.countryCode = '1';
+props.countryCode = 'US';
 props.areaCode = '657';
 props.typeFilter = 'All';
 props.dateTimeFormatter = ({ utcTimestamp }) => {
