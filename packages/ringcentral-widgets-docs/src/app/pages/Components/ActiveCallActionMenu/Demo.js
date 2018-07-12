@@ -11,10 +11,10 @@ const ActiveCallActionMenuDemo = () => (
     disableLinks={false}
     hasEntity
     phoneNumber="12345678"
-    onViewEntity={() => alert("click 'onViewEntity'")}
-    onClickToDial={() => alert("click 'onClickToDial'")}
-    onClickToSms={() => alert("click 'onClickToSms'")}
-    onLog={() => alert("click 'onLog'")}
+    onViewEntity={() => console.log("click 'onViewEntity'")}
+    onClickToDial={() => console.log("click 'onClickToDial'")}
+    onClickToSms={() => console.log("click 'onClickToSms'")}
+    onLog={() => console.log("click 'onLog'")}
     extended
   />
 );
