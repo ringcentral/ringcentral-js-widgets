@@ -153,12 +153,13 @@ var RegionSettings = (_dec = (0, _di.Module)({
    * @param {TabManager} params.tabManager - tabManager module instance
    */
   function RegionSettings(_ref) {
-    var storage = _ref.storage,
+    var brand = _ref.brand,
+        storage = _ref.storage,
         extensionInfo = _ref.extensionInfo,
         dialingPlan = _ref.dialingPlan,
         alert = _ref.alert,
         tabManager = _ref.tabManager,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['storage', 'extensionInfo', 'dialingPlan', 'alert', 'tabManager']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['brand', 'storage', 'extensionInfo', 'dialingPlan', 'alert', 'tabManager']);
     (0, _classCallCheck3.default)(this, RegionSettings);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (RegionSettings.__proto__ || (0, _getPrototypeOf2.default)(RegionSettings)).call(this, (0, _extends3.default)({}, options, {
@@ -167,6 +168,7 @@ var RegionSettings = (_dec = (0, _di.Module)({
 
     _initDefineProp(_this, 'availableCountries', _descriptor, _this);
 
+    _this._brand = brand;
     _this._storage = storage;
     _this._alert = alert;
     _this._dialingPlan = dialingPlan;
@@ -286,7 +288,9 @@ var RegionSettings = (_dec = (0, _di.Module)({
                   return plan.isoCode === countryCode;
                 })) {
                   countryCode = null;
-                  this._alertSettingsChanged();
+                  if (this._brand.id === '1210') {
+                    this._alertSettingsChanged();
+                  }
                 }
                 if (!countryCode) {
                   country = this.availableCountries.find(function (plan) {
