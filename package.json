@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/i18n",
-  "version": "0.8.1",
+  "version": "2.0.0",
   "description": "A simple I18n implementation used in RingCentral Integration projects.",
   "main": "index.js",
   "repository": {
