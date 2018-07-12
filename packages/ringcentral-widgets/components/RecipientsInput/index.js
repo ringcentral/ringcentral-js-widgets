@@ -242,13 +242,6 @@ class RecipientsInput extends Component {
     this.props.onClean();
   }
 
-  _focusInput = () => {
-    if (this.inputRef) {
-      focusCampo(this.inputRef);
-      this.onInputFocus();
-    }
-  }
-
   componentWillReceiveProps(nextProps) {
     if (
       nextProps.value !== undefined &&
@@ -256,7 +249,9 @@ class RecipientsInput extends Component {
       nextProps.value !== this.state.value
     ) {
       this.setState({ value: nextProps.value }, () => {
-        this._focusInput();
+        if (this.inputRef) {
+          focusCampo(this.inputRef);
+        }
       });
       this.props.searchContact(nextProps.value);
     }
