@@ -10,11 +10,11 @@
 
 RingCentral integration widgets aim to provide reusable RingCentral service module and UI components to allow developers to integrate RingCentral unified communication service into third party processes or tools more easily.
 
-This project includes [RingCentral Integration Common Library](packages/ringcentral-integration/README.md) and [RingCentral Widgets Library](packages/ringcentral-widgets/README.md). The basic idea is to connect modules in RingCentral Integration Common Library with React components to provide ready to use UI widgets.
+This project includes [RingCentral Integration Common Library](https://github.com/ringcentral/ringcentral-js-widgets/blob/master/packages/ringcentral-integration/README.md) and [RingCentral Widgets Library](https://github.com/ringcentral/ringcentral-js-widgets/blob/master/packages/ringcentral-widgets/README.md). The basic idea is to connect modules in RingCentral Integration Common Library with React components to provide ready to use UI widgets.
 
 ## Get Started
 
-We use [RingCentral Widgets CLI](packages/ringcentral-widgets-cli/README.md) to startup a RingCentral Widgets based app.
+We use [RingCentral Widgets CLI](https://github.com/ringcentral/ringcentral-js-widgets/blob/master/packages/ringcentral-widgets-cli/README.md) to startup a RingCentral Widgets based app.
 
 ```bash
 $ npm install -g ringcentral-widgets-cli
@@ -29,7 +29,7 @@ $ cd your_project_name
 $ yarn
 ```
 
-[Update `.env` file in project root path](packages/ringcentral-widgets-cli/README.md#start-developement-server).
+[Update `.env` file in project root path](https://github.com/ringcentral/ringcentral-js-widgets/blob/master/packages/ringcentral-widgets-cli/README.md#start-developement-server).
 
 ### Start development server
 
@@ -39,7 +39,7 @@ $ yarn start
 
 Visit on [http://localhost:8080](http://localhost:8080) in browser.
 
-For production build and deploy, please get more information in [here](packages/ringcentral-widgets-cli/README.md).
+For production build and deploy, please get more information in [here](https://github.com/ringcentral/ringcentral-js-widgets/blob/master/packages/ringcentral-widgets-cli/README.md).
 
 ### Tutorials
 
