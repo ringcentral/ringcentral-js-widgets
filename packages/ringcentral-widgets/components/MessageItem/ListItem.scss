@@ -1,0 +1,154 @@
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/text-ellipsis';
+@import '../../lib/commonStyles/fonts';
+
+// ExtendSeal
+.extendWrapper {
+  position: relative;
+}
+.extendLocate {
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 0; right: 0;
+  margin: 0 auto;
+  margin-top: -8px;
+  background-color: #ffffff;
+  border: 1px solid #e2e2e2;
+  box-sizing: border-box;
+  border-radius: 8.5px;
+  width: 36px;
+  height: 17px;
+  cursor: pointer;  
+}
+.extendIcon {
+  position: absolute;
+  top: 2px;
+  left: 0; right: 0;
+  margin: 0 auto;
+  z-index: 1;
+  height: 7px;
+  width: 7px;
+  border-left: 1px solid #e2e2e2;
+  border-bottom: 1px solid #e2e2e2;
+  box-sizing: border-box;
+  transform: rotate(-45deg);
+  &.extended {
+    margin-top: 3.5px;
+    transform: rotate(135deg);
+  }
+}
+
+// ICON EXTEND
+.iconWrapper {
+  // background-color: lightblue;
+  display: inline-flex;
+  align-items: center;
+  font-size: 22px;
+  color: $ash;
+  width: 21px;
+  max-width: 21px;
+}
+.unread .icon > path {
+  fill: $primary-color;
+}
+.icon > path {
+  fill: $ash;
+}
+
+
+//Collapse
+.collapseWrapper {
+  overflow: hidden;
+  transition: max-height 0.15s 0s ease-in-out;
+}
+$icon-width: 21px;
+$icon-padding: 12px;
+.collapseContainer {
+  margin-left: $icon-width + $icon-padding;
+  overflow: hidden;
+}
+
+//ListItem
+.container {
+  border-bottom: 1px solid #e2e2e2;
+  box-sizing: border-box;
+  min-Height: 62px;
+  padding: 20px;
+  &:hover {
+    background-color: $egg;
+    .extendIcon {
+      border-top-color: #fafafa;
+    }
+  }
+  &.unread {
+    .iconWrapper {
+      color: $primary-color;
+    }
+    .icon > path {
+      fill: $primary-color;
+    }
+  
+    .details {
+      color: $primary-color;
+    }
+  
+    .creationTime {
+      color: $primary-color;
+    }
+  }
+}
+
+
+.root {
+  cursor: pointer;
+  // background-color: $snow;
+  display: flex;
+  justify-content: space-between;
+}
+
+.leftWrapper {
+  display: flex;
+  flex: 1;
+  // overflow: hidden;
+  max-width: calc(100% - 62px);
+  flex-basis: calc(100% - 62px);
+}
+
+.infoWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  flex: 1;
+  // overflow: hidden;
+  // For IE11
+  // When try to use max-width and flexbox at the same time.
+  // IE may miss calculate the correct position.
+  // So flex-basis is necessary here.
+  // Details: https://github.com/philipwalton/flexbugs#flexbug-17
+  max-width: calc(100% - 21px);
+  flex-basis: calc(100% - 21px); 
+  padding-left: 12px;
+  box-sizing: border-box;
+}
+
+.details {
+  @include field-value-font;
+  color: $ash;
+  @include text-ellipsis;
+  min-height: 14px;
+  max-width: 100%;
+}
+
+.creationTime {
+  @include field-value-font;
+  color: $ash;
+  align-self: flex-start;
+  // Yesterday, mm/dd/yy, 12:00
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 62px;
+  min-width: 50px;
+  text-align: right;
+}

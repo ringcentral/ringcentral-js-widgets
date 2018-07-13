@@ -2,82 +2,12 @@
 @import '../../lib/commonStyles/text-ellipsis';
 @import '../../lib/commonStyles/fonts';
 
-.root {
-  border-bottom: 1px solid $silver;
-  cursor: pointer;
-  background-color: $snow;
-  &:hover {
-    background-color: $egg;
-  }
-}
-
-.root:hover .extendIcon {
-  border-top-color: #fafafa;
-}
-
-.slideMenu {
-  background: $snow;
-  &:hover {
-    background: $snow;
-  }
-}
-
-.wrapper {
-  position: relative;
-  display: flex;
-  padding: 18px 20px 18px 13px;
-  box-sizing: border-box;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  min-height: 67px;
-}
-
-.infoWrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
-  max-height: 31px;
-  // For IE11
-  // When try to use space-between and max-width at the same time.
-  // IE will miss calculate the correct position.
-  // So need to let flex-basis help here.
-  // Details: https://github.com/philipwalton/flexbugs#flexbug-17
-  flex: 1;
-  flex-basis: calc(100% - 76px); 
-  max-width: calc(100% - 76px);
-  padding-left: 12px;
-  box-sizing: border-box;
-}
-
-.conversationIcon {
-  color: $ash;
-  min-width: 23px;
-  text-align: center;
-}
-
-.icon {
-  path {
-    fill: $ash;
-  }
-}
-
-.details {
-  @include field-value-font;
-  color: $ash;
-  @include text-ellipsis;
-  min-height: 14px;
-}
-
-.creationTime {
-  @include field-value-font;
-  color: $ash;
-  align-self: flex-start;
-  // Yesterday, mm/dd/yy, 12:00
-  min-width: 53px;
-  text-align: right;
-}
+// .slideMenu {
+//   background: $snow;
+//   &:hover {
+//     background: $snow;
+//   }
+// }
 
 .contactDisplay {
   @include secondary-font;
@@ -86,133 +16,37 @@
   max-width: 140px;
   color: $night;
   margin-bottom: 5px;
-}
-
-.playContainer {
-  display: block!important;
-  width: 100%;
-}
-
-.player {
-  padding: 8px 20px 0 43px;
   box-sizing: border-box;
-}
-
-.actionMenuList {
-  margin: 10px 20px 15px 43px;
-}
-
-// .messageLink {
-//   text-decoration: none;
-// }
-
-// .messageLink:hover {
-//   text-decoration: none;
-// }
-
-// .messageLink:focus {
-//   text-decoration: none;
-// }
-
-
-// .messageContent {
-//   padding: 15px 52px 15px 0;
-//   color: #797979;
-//   overflow: hidden;
-//   text-overflow: ellipsis;
-//   white-space: nowrap;
-//   font-size: 14px;
-//   border-bottom: 1px solid #efefef;
-//   min-height: 36px;
-// }
-
-// .messageFrom {
-//   color: #303030;
-//   font-size: 13px;
-//   line-height: 18px;
-//   display: block;
-//   min-height: 12px;
-//   white-space: nowrap;
-//   overflow: hidden;
-//   text-overflow: ellipsis;
-// }
-
-.selectedValue {
-  color: $ash;
-}
-
-.unread {
-  .selectedValue {
-    color: $primary-color;
-  }
-
-  .contactDisplay {
+  padding-right: 20px; 
+  max-width: 100%;
+  &.unread {
     color: $primary-color;
     button {
       color: $primary-color;
     }
-  }
-
-  .conversationIcon {
-    color: $primary-color;
-    min-width: 23px;
-    text-align: center;
-  }
-
-  .icon {
-    path {
-      fill: $primary-color;
+    .selectedValue {
+      color: $primary-color;
     }
   }
-  // .messageFrom {
-  //   color: $primary-color;
-  // }
-
-  .details {
-    color: $primary-color;
+  .dropdownSelect {
+    ul {
+      left: -6px;
+      margin-left: -5px;
+    }
   }
-
-  .creationTime {
-    color: $primary-color;
+  .selectedValue {
+    color: $ash;
   }
 }
 
-.dropdownSelect {
-  ul {
-    left: 0;
-    margin-left: -5px;
-  }
+.player {
+  box-sizing: border-box;
+  margin-top: 20px;
 }
 
-// .messageInfo {
-//   position: absolute;
-//   top: 37px;
-//   right: 65px;
-//   color: #b3b3b3;
-//   max-width: 70px;
-//   text-align: right;
-// }
+.actionMenuList {
+  margin: 0;
+  margin-top: 10px;
+}
 
-// .contactInfo {
-//   color: #b3b3b3;
-//   font-size: 1em;
-//   position: absolute;
-//   top: 15px;
-//   right: 65px;
-//   line-height: 18px;
-//   width: 20px;
-//   text-align: right;
-//   cursor: pointer;
-//   &:hover {
-//     color: #333;
-//   }
-// }
 
-// .messageTime {
-//   font-size: 11px;
-//   width: 70px;
-//   text-overflow: ellipsis;
-//   overflow: hidden;
-//   white-space: nowrap;
-//   text-align: right;
-// }

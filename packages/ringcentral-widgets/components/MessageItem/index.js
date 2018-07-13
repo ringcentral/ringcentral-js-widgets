@@ -9,70 +9,66 @@ import {
 } from 'ringcentral-integration/lib/messageHelper';
 
 import formatDuration from '../../lib/formatDuration';
-
 import ContactDisplay from '../ContactDisplay';
 import ActionMenuList from '../ActionMenuList';
 import VoicemailPlayer from '../VoicemailPlayer';
-import SlideMenu from '../SlideMenu';
-
-import VoicemailIcon from '../../assets/images/VoicemailIcon.svg';
-import FaxInboundIcon from '../../assets/images/FaxInbound.svg';
-import FaxOutboundIcon from '../../assets/images/FaxOutbound.svg';
-
-
-import ComposeTextIcon from '../../assets/images/ComposeText.svg';
-import GroupConversationIcon from '../../assets/images/GroupConversation.svg';
+import ListItem from './ListItem';
+// import VoicemailIcon from '../../assets/images/VoicemailIcon.svg';
+// import FaxInboundIcon from '../../assets/images/FaxInbound.svg';
+// import FaxOutboundIcon from '../../assets/images/FaxOutbound.svg';
+// import ComposeTextIcon from '../../assets/images/ComposeText.svg';
+// import GroupConversationIcon from '../../assets/images/GroupConversation.svg';
 
 import styles from './styles.scss';
 import i18n from './i18n';
 
-function ConversationIcon({
-  group,
-  type,
-  currentLocale,
-  direction,
-}) {
-  let title;
-  let icon;
-  switch (type) {
-    case messageTypes.voiceMail:
-      title = i18n.getString(messageTypes.voiceMail, currentLocale);
-      icon = <VoicemailIcon width={23} className={styles.icon} />;
-      break;
-    case messageTypes.fax:
-      title = i18n.getString(messageTypes.fax, currentLocale);
-      icon = direction === messageDirection.inbound ?
-        <FaxInboundIcon width={21} className={styles.icon} /> :
-        <FaxOutboundIcon width={21} className={styles.icon} />;
-      break;
-    default:
-      title = group ?
-        i18n.getString('groupConversation', currentLocale) :
-        i18n.getString('conversation', currentLocale);
-      icon = group ?
-        <GroupConversationIcon width={19} className={styles.icon} /> :
-        <ComposeTextIcon width={18} className={styles.icon} />;
-  }
-  return (
-    <div className={styles.conversationIcon}>
-      <span title={title}>
-        {icon}
-      </span>
-    </div>
-  );
-}
-ConversationIcon.propTypes = {
-  group: PropTypes.bool,
-  type: PropTypes.string,
-  currentLocale: PropTypes.string,
-  direction: PropTypes.string,
-};
-ConversationIcon.defaultProps = {
-  group: false,
-  type: undefined,
-  currentLocale: undefined,
-  direction: undefined,
-};
+// function ConversationIcon({
+//   group,
+//   type,
+//   currentLocale,
+//   direction,
+// }) {
+//   let title;
+//   let icon;
+//   switch (type) {
+//     case messageTypes.voiceMail:
+//       title = i18n.getString(messageTypes.voiceMail, currentLocale);
+//       icon = <VoicemailIcon width={23} className={styles.icon} />;
+//       break;
+//     case messageTypes.fax:
+//       title = i18n.getString(messageTypes.fax, currentLocale);
+//       icon = direction === messageDirection.inbound ?
+//         <FaxInboundIcon width={21} className={styles.icon} /> :
+//         <FaxOutboundIcon width={21} className={styles.icon} />;
+//       break;
+//     default:
+//       title = group ?
+//         i18n.getString('groupConversation', currentLocale) :
+//         i18n.getString('conversation', currentLocale);
+//       icon = group ?
+//         <GroupConversationIcon width={19} className={styles.icon} /> :
+//         <ComposeTextIcon width={18} className={styles.icon} />;
+//   }
+//   return (
+//     <div className={styles.conversationIcon}>
+//       <span title={title}>
+//         {icon}
+//       </span>
+//     </div>
+//   );
+// }
+// ConversationIcon.propTypes = {
+//   group: PropTypes.bool,
+//   type: PropTypes.string,
+//   currentLocale: PropTypes.string,
+//   direction: PropTypes.string,
+// };
+// ConversationIcon.defaultProps = {
+//   group: false,
+//   type: undefined,
+//   currentLocale: undefined,
+//   direction: undefined,
+// };
 
 export default class MessageItem extends Component {
   constructor(props) {
@@ -81,7 +77,7 @@ export default class MessageItem extends Component {
       selected: this.getInitialContactIndex(),
       isLogging: false,
       isCreating: false,
-      extended: false,
+      extended: false
     };
 
     this.toggleExtended = () => {
@@ -269,15 +265,15 @@ export default class MessageItem extends Component {
     this.toggleExtended();
   }
   onClickWrapper = (e) => {
-    if (
-      this.contactDisplay &&
-      this.contactDisplay.contains(e.target)
-    ) {
-      return;
-    }
-    if (messageIsTextMessage(this.props.conversation)) {
-      this.props.showConversationDetail(this.props.conversation.conversationId);
-    }
+    // if (
+    //   this.contactDisplay &&
+    //   this.contactDisplay.contains(e.target)
+    // ) {
+    //   return;
+    // }
+    // if (messageIsTextMessage(this.props.conversation)) {
+    this.props.showConversationDetail(this.props.conversation.conversationId);
+    // }
   }
 
   onPlayVoicemail = () => {
@@ -385,7 +381,7 @@ export default class MessageItem extends Component {
     const fallbackName = this.getFallbackContactName();
     const detail = this.getDetail();
     let player;
-    let slideMenuHeight = 60;
+    // let slideMenuHeight = 60;
     if (isVoicemail) {
       player = (
         <VoicemailPlayer
@@ -397,110 +393,192 @@ export default class MessageItem extends Component {
           currentLocale={currentLocale}
         />
       );
-      slideMenuHeight = 88;
+      // slideMenuHeight = 88;
     }
-
+    const isEnterable = messageIsTextMessage(this.props.conversation);
     return (
-      <div className={styles.root} onClick={this.onClickItem}>
-        <div
-          className={classnames(
-            styles.wrapper,
-            unreadCounts && styles.unread
-          )}
-          onClick={this.onClickWrapper}
-        >
-          <ConversationIcon
-            group={correspondents.length > 1}
-            type={type}
-            currentLocale={currentLocale}
-            direction={direction}
-          />
-          <div className={styles.infoWrapper}>
-            <ContactDisplay
-              reference={(ref) => { this.contactDisplay = ref; }}
-              className={classnames(
-                styles.contactDisplay,
-                unreadCounts && styles.unread
-              )}
-              selectedClassName={styles.selectedValue}
-              selectClassName={styles.dropdownSelect}
-              brand={brand}
-              contactMatches={correspondentMatches}
-              selected={this.state.selected}
-              onSelectContact={this.onSelectContact}
-              disabled={disableLinks}
-              isLogging={isLogging || this.state.isLogging}
-              fallBackName={fallbackName}
-              areaCode={areaCode}
-              countryCode={countryCode}
-              phoneNumber={phoneNumber}
-              groupNumbers={groupNumbers}
-              showGroupNumberName={showGroupNumberName}
-              currentLocale={currentLocale}
-              enableContactFallback={enableContactFallback}
-              stopPropagation={false}
-              showType={false}
-              showPlaceholder={showContactDisplayPlaceholder}
-              sourceIcons={sourceIcons}
-            />
-            <div className={styles.details} title={detail}>
-              {detail}
-            </div>
-          </div>
-          <div className={styles.creationTime}>
-            {this.dateTimeFormatter(creationTime)}
-          </div>
-        </div>
-        <SlideMenu
-          extended={this.state.extended}
-          onToggle={this.toggleExtended}
-          extendIconClassName={styles.extendIcon}
-          className={styles.slideMenu}
-          minHeight={0}
-          maxHeight={slideMenuHeight}
-        >
-          <div className={styles.playContainer} onClick={this.preventEventPropogation}>
-            {player}
-          </div>
-          <ActionMenuList
-            className={styles.actionMenuList}
-            currentLocale={currentLocale}
-            onLog={isVoicemail || isFax ? undefined : (onLogConversation && this.logConversation)}
-            onViewEntity={onViewContact && this.viewSelectedContact}
-            onCreateEntity={onCreateContact && this.createSelectedContact}
-            hasEntity={correspondents.length === 1 && !!correspondentMatches.length}
-            onClickToDial={!isFax ? (onClickToDial && this.clickToDial) : undefined}
-            onClickToSms={isVoicemail ? (onClickToSms && this.onClickToSms) : undefined}
-            phoneNumber={phoneNumber}
-            disableLinks={disableLinks}
-            disableClickToDial={disableClickToDial}
+      <ListItem
+        onClick={isEnterable ? this.onClickWrapper : undefined}
+        correspondents={correspondents}
+        type={type}
+        currentLocale={currentLocale}
+        direction={direction}
+        unreadCounts={unreadCounts}
+        contactDisplay={
+          <ContactDisplay
+            reference={(ref) => { this.contactDisplay = ref; }}
+            className={classnames(
+              styles.contactDisplay,
+              unreadCounts && styles.unread
+            )}
+            selectedClassName={styles.selectedValue}
+            selectClassName={styles.dropdownSelect}
+            brand={brand}
+            contactMatches={correspondentMatches}
+            selected={this.state.selected}
+            onSelectContact={this.onSelectContact}
+            disabled={disableLinks}
             isLogging={isLogging || this.state.isLogging}
-            isLogged={conversationMatches.length > 0}
-            isCreating={this.state.isCreating}
-            addLogTitle={i18n.getString('addLog', currentLocale)}
-            editLogTitle={i18n.getString('editLog', currentLocale)}
-            callTitle={i18n.getString('call', currentLocale)}
-            textTitle={i18n.getString('text', currentLocale)}
-            createEntityTitle={i18n.getString('addEntity', currentLocale)}
-            viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
-            stopPropagation={false}
-            onDelete={isVoicemail ? this.onDeleteMessage : undefined}
-            deleteTitle={i18n.getString('delete', currentLocale)}
-            marked={unreadCounts > 0}
-            onMark={(isVoicemail || (isFax && direction === messageDirection.inbound)) ?
-              this.onMarkMessage : undefined}
-            onUnmark={(isVoicemail || (isFax && direction === messageDirection.inbound)) ?
-              this.onUnmarkMessage : undefined}
-            onPreview={isFax ? this.onPreviewFax : undefined}
-            markTitle={i18n.getString('mark', currentLocale)}
-            unmarkTitle={i18n.getString('unmark', currentLocale)}
-            faxAttachment={faxAttachment}
-            previewTitle={i18n.getString('preview', currentLocale)}
-            downloadTitle={i18n.getString('download', currentLocale)}
+            fallBackName={fallbackName}
+            areaCode={areaCode}
+            countryCode={countryCode}
+            phoneNumber={phoneNumber}
+            groupNumbers={groupNumbers}
+            showGroupNumberName={showGroupNumberName}
+            currentLocale={currentLocale}
+            enableContactFallback={enableContactFallback}
+            stopPropagation
+            showType={false}
+            showPlaceholder={showContactDisplayPlaceholder}
+            sourceIcons={sourceIcons}
           />
-        </SlideMenu>
-      </div>
+        }
+        detail={detail}
+        timeText={this.dateTimeFormatter(creationTime)}
+      >
+        <div onClick={this.preventEventPropogation}>
+          {player}
+        </div>
+        <ActionMenuList
+          className={styles.actionMenuList}
+          currentLocale={currentLocale}
+          onLog={isVoicemail || isFax ? undefined : (onLogConversation && this.logConversation)}
+          onViewEntity={onViewContact && this.viewSelectedContact}
+          onCreateEntity={onCreateContact && this.createSelectedContact}
+          hasEntity={correspondents.length === 1 && !!correspondentMatches.length}
+          onClickToDial={!isFax ? (onClickToDial && this.clickToDial) : undefined}
+          onClickToSms={isVoicemail ? (onClickToSms && this.onClickToSms) : undefined}
+          phoneNumber={phoneNumber}
+          disableLinks={disableLinks}
+          disableClickToDial={disableClickToDial}
+          isLogging={isLogging || this.state.isLogging}
+          isLogged={conversationMatches.length > 0}
+          isCreating={this.state.isCreating}
+          addLogTitle={i18n.getString('addLog', currentLocale)}
+          editLogTitle={i18n.getString('editLog', currentLocale)}
+          callTitle={i18n.getString('call', currentLocale)}
+          textTitle={i18n.getString('text', currentLocale)}
+          createEntityTitle={i18n.getString('addEntity', currentLocale)}
+          viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
+          stopPropagation={false}
+          onDelete={isVoicemail ? this.onDeleteMessage : undefined}
+          deleteTitle={i18n.getString('delete', currentLocale)}
+          marked={unreadCounts > 0}
+          onMark={(isVoicemail || (isFax && direction === messageDirection.inbound)) ?
+            this.onMarkMessage : undefined}
+          onUnmark={(isVoicemail || (isFax && direction === messageDirection.inbound)) ?
+            this.onUnmarkMessage : undefined}
+          onPreview={isFax ? this.onPreviewFax : undefined}
+          markTitle={i18n.getString('mark', currentLocale)}
+          unmarkTitle={i18n.getString('unmark', currentLocale)}
+          faxAttachment={faxAttachment}
+          previewTitle={i18n.getString('preview', currentLocale)}
+          downloadTitle={i18n.getString('download', currentLocale)}
+        />
+      </ListItem>
     );
+
+    // return (
+    //   <div className={styles.root} onClick={this.onClickItem}>
+    //     <div
+    //       className={classnames(
+    //         styles.wrapper,
+    //         unreadCounts && styles.unread
+    //       )}
+    //       onClick={this.onClickWrapper}
+    //     >
+    //       <ConversationIcon
+    //         group={correspondents.length > 1}
+    //         type={type}
+    //         currentLocale={currentLocale}
+    //         direction={direction}
+    //       />
+    //       <div className={styles.infoWrapper}>
+    //         <ContactDisplay
+    //           reference={(ref) => { this.contactDisplay = ref; }}
+    //           className={classnames(
+    //             styles.contactDisplay,
+    //             unreadCounts && styles.unread
+    //           )}
+    //           selectedClassName={styles.selectedValue}
+    //           selectClassName={styles.dropdownSelect}
+    //           brand={brand}
+    //           contactMatches={correspondentMatches}
+    //           selected={this.state.selected}
+    //           onSelectContact={this.onSelectContact}
+    //           disabled={disableLinks}
+    //           isLogging={isLogging || this.state.isLogging}
+    //           fallBackName={fallbackName}
+    //           areaCode={areaCode}
+    //           countryCode={countryCode}
+    //           phoneNumber={phoneNumber}
+    //           groupNumbers={groupNumbers}
+    //           showGroupNumberName={showGroupNumberName}
+    //           currentLocale={currentLocale}
+    //           enableContactFallback={enableContactFallback}
+    //           stopPropagation={false}
+    //           showType={false}
+    //           showPlaceholder={showContactDisplayPlaceholder}
+    //           sourceIcons={sourceIcons}
+    //         />
+    //         <div className={styles.details} title={detail}>
+    //           {detail}
+    //         </div>
+    //       </div>
+    //       <div className={styles.creationTime}>
+    //         {this.dateTimeFormatter(creationTime)}
+    //       </div>
+    //     </div>
+    //     <SlideMenu
+    //       extended={this.state.extended}
+    //       onToggle={this.toggleExtended}
+    //       extendIconClassName={styles.extendIcon}
+    //       className={styles.slideMenu}
+    //       minHeight={0}
+    //       maxHeight={slideMenuHeight}
+    //     >
+    //       <div className={styles.playContainer} onClick={this.preventEventPropogation}>
+    //         {player}
+    //       </div>
+    //       <ActionMenuList
+    //         className={styles.actionMenuList}
+    //         currentLocale={currentLocale}
+    //         onLog={isVoicemail || isFax ? undefined : (onLogConversation && this.logConversation)}
+    //         onViewEntity={onViewContact && this.viewSelectedContact}
+    //         onCreateEntity={onCreateContact && this.createSelectedContact}
+    //         hasEntity={correspondents.length === 1 && !!correspondentMatches.length}
+    //         onClickToDial={!isFax ? (onClickToDial && this.clickToDial) : undefined}
+    //         onClickToSms={isVoicemail ? (onClickToSms && this.onClickToSms) : undefined}
+    //         phoneNumber={phoneNumber}
+    //         disableLinks={disableLinks}
+    //         disableClickToDial={disableClickToDial}
+    //         isLogging={isLogging || this.state.isLogging}
+    //         isLogged={conversationMatches.length > 0}
+    //         isCreating={this.state.isCreating}
+    //         addLogTitle={i18n.getString('addLog', currentLocale)}
+    //         editLogTitle={i18n.getString('editLog', currentLocale)}
+    //         callTitle={i18n.getString('call', currentLocale)}
+    //         textTitle={i18n.getString('text', currentLocale)}
+    //         createEntityTitle={i18n.getString('addEntity', currentLocale)}
+    //         viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
+    //         stopPropagation={false}
+    //         onDelete={isVoicemail ? this.onDeleteMessage : undefined}
+    //         deleteTitle={i18n.getString('delete', currentLocale)}
+    //         marked={unreadCounts > 0}
+    //         onMark={(isVoicemail || (isFax && direction === messageDirection.inbound)) ?
+    //           this.onMarkMessage : undefined}
+    //         onUnmark={(isVoicemail || (isFax && direction === messageDirection.inbound)) ?
+    //           this.onUnmarkMessage : undefined}
+    //         onPreview={isFax ? this.onPreviewFax : undefined}
+    //         markTitle={i18n.getString('mark', currentLocale)}
+    //         unmarkTitle={i18n.getString('unmark', currentLocale)}
+    //         faxAttachment={faxAttachment}
+    //         previewTitle={i18n.getString('preview', currentLocale)}
+    //         downloadTitle={i18n.getString('download', currentLocale)}
+    //       />
+    //     </SlideMenu>
+    //   </div>
+    // );
   }
 }
 

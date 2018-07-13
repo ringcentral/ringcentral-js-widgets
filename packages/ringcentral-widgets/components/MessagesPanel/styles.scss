@@ -18,6 +18,7 @@ $tabBar-height: 35px;
   border-bottom-width: 1px;
   border-style: solid;
   height: calc(100% - #{$tabBar-height});
+  background-color: $snow;
 }
 
 .contentWithHeader {
