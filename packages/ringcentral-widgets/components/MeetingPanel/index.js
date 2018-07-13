@@ -262,7 +262,7 @@ const When = (
               />
               <div className={styles.timeText}>
                 <input
-                  flag ="timeInput"
+                  flag="timeInput"
                   ref={(ref) => { that.hours = ref; }}
                   className={styles.timeInput}
                   defaultValue={Moment(meeting.schedule.startTime).format('HH')}
