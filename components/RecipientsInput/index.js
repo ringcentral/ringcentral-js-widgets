@@ -395,6 +395,7 @@ var RecipientsInput = function (_Component) {
           toNumberInput
         ),
         _react2.default.createElement(_ContactDropdownList2.default, {
+          currentLocale: this.props.currentLocale,
           listRef: function listRef(ref) {
             _this3.listRef = ref;
           },

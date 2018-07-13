@@ -130,7 +130,8 @@ ContactPhone.defaultProps = {
 };
 
 function ContactItem(_ref3) {
-  var active = _ref3.active,
+  var currentLocale = _ref3.currentLocale,
+      active = _ref3.active,
       onHover = _ref3.onHover,
       onClick = _ref3.onClick,
       name = _ref3.name,
@@ -157,6 +158,7 @@ function ContactItem(_ref3) {
       'div',
       { className: _styles2.default.clickable, onClick: onClick },
       _react2.default.createElement(ContactInfoRenderer, {
+        currentLocale: currentLocale,
         name: name,
         entityType: entityType,
         phoneType: phoneType,
@@ -166,6 +168,7 @@ function ContactItem(_ref3) {
         titleEnabled: titleEnabled
       }),
       _react2.default.createElement(ContactPhoneRenderer, {
+        currentLocale: currentLocale,
         name: name,
         entityType: entityType,
         phoneType: phoneType,
@@ -178,6 +181,7 @@ function ContactItem(_ref3) {
   );
 }
 ContactItem.propTypes = {
+  currentLocale: _propTypes2.default.string.isRequired,
   onClick: _propTypes2.default.func.isRequired,
   formatContactPhone: _propTypes2.default.func.isRequired,
   name: _propTypes2.default.string.isRequired,
@@ -235,6 +239,7 @@ var ContactDropdownList = function (_Component) {
       var _this2 = this;
 
       var _props = this.props,
+          currentLocale = _props.currentLocale,
           className = _props.className,
           listRef = _props.listRef,
           items = _props.items,
@@ -264,6 +269,7 @@ var ContactDropdownList = function (_Component) {
         },
         items.map(function (item, index) {
           return _react2.default.createElement(ContactItem, {
+            currentLocale: currentLocale,
             active: selectedIndex === index,
             name: item.name,
             entityType: item.entityType,
@@ -290,6 +296,7 @@ var ContactDropdownList = function (_Component) {
 }(_react.Component);
 
 ContactDropdownList.propTypes = {
+  currentLocale: _propTypes2.default.string.isRequired,
   scrollDirection: _propTypes2.default.string,
   visibility: _propTypes2.default.bool.isRequired,
   className: _propTypes2.default.string,

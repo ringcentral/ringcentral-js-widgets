@@ -306,6 +306,7 @@ var ToField = function (_Component) {
           })
         ),
         _react2.default.createElement(_ContactDropdownList2.default, {
+          currentLocale: this.props.currentLocale,
           scrollDirection: this.state.scrollDirection,
           selectedIndex: this.state.selectedContactIndex,
           setSelectedIndex: this.setSelectedIndex,
