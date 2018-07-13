@@ -1,3 +1,13 @@
+/**
+ * A decorator for making sure specific function being invoked serializely.
+ *
+ * Usage:
+ * class A {
+ *   @serialize
+ *   async foo() {}
+ * }
+ *
+ */
 export default function serialize(target, key, descriptor) {
   let prev = null;
   function serializeFunc(...args) {
