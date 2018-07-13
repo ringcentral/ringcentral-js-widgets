@@ -11,12 +11,12 @@
 export default function serialize(target, key, descriptor) {
   let prev = null;
   function serializeFunc(...args) {
-    const next = () => descriptor.value.apply(this, args);
-    if (prev) {
-      prev = prev.then(() => {
+    const next = () => descriptor.value.apply(this, args)
+      .then(() => {
         prev = null;
-        next();
       });
+    if (prev) {
+      prev = prev.then(next);
     } else {
       prev = next();
     }
