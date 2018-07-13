@@ -11,15 +11,12 @@
 export default function serialize(target, key, descriptor) {
   let prev = null;
   function serializeFunc(...args) {
-    const next = () => descriptor.value.apply(this, args)
-      .then(() => {
-        prev = null;
-      });
-    if (prev) {
-      prev = prev.then(next);
-    } else {
-      prev = next();
-    }
+    const next = () => Promise.resolve(
+      descriptor.value.apply(this, args)
+    ).then(() => {
+      prev = null;
+    });
+    prev = prev ? prev.then(next) : next();
     return prev;
   }
 
