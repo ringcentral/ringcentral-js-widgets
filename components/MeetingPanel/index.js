@@ -45,6 +45,8 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
+var _ramda = require('ramda');
+
 var _DateTimePicker = require('react-widgets/lib/DateTimePicker');
 
 var _DateTimePicker2 = _interopRequireDefault(_DateTimePicker);
@@ -100,27 +102,29 @@ var PASSWORD_REGEX = exports.PASSWORD_REGEX = /^[A-Za-z0-9]{0,10}$/;
 var NO_NUMBER_REGEX = /[^\d]/g;
 
 function getMinutesList(MINUTE_SCALE) {
-  return new Array(MINUTE_SCALE).fill(0).map(function (_, key) {
-    var value = 60 / MINUTE_SCALE * key;
+  return (0, _ramda.reduce)(function (result) {
+    var index = result.length;
+    var value = 60 / MINUTE_SCALE * index;
     var text = (value + '0').slice(0, 2) + ' m.';
-    return {
+    return result.concat({
       value: value,
       text: text
-    };
-  });
+    });
+  }, [], new Array(MINUTE_SCALE));
 }
 
 function getHoursList(HOUR_SCALE) {
   if (HOUR_SCALE > 23) {
     throw new Error('HOUR_SCALE must be less than 23.');
   }
-  return new Array(HOUR_SCALE).fill(0).map(function (_, value) {
+  return (0, _ramda.reduce)(function (result) {
+    var value = result.length;
     var text = ('0' + value + '0').slice(-3, -1) + ' h.';
-    return {
+    return result.concat({
       value: value,
       text: text
-    };
-  });
+    });
+  }, [], new Array(HOUR_SCALE));
 }
 
 var minutesList = getMinutesList(MINUTE_SCALE);
