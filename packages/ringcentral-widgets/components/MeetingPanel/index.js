@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { reduce } from 'ramda';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 import DropdownList from 'react-widgets/lib/DropdownList';
 import Moment from 'moment';
@@ -15,7 +16,6 @@ import CheckBox from '../CheckBox';
 import i18n from './i18n';
 import MeetingSection from '../MeetingSection';
 
-
 const MINUTE_SCALE = 4;
 const HOUR_SCALE = 13;
 const MAX_TOPIC_LENGTH = 128;
@@ -23,27 +23,29 @@ export const PASSWORD_REGEX = /^[A-Za-z0-9]{0,10}$/;
 const NO_NUMBER_REGEX = /[^\d]/g;
 
 function getMinutesList(MINUTE_SCALE) {
-  return new Array(MINUTE_SCALE).fill(0).map((_, key) => {
-    const value = 60 / MINUTE_SCALE * key;
+  return reduce((result) => {
+    const index = result.length;
+    const value = 60 / MINUTE_SCALE * index;
     const text = `${(`${value}0`).slice(0, 2)} m.`;
-    return {
+    return result.concat({
       value,
       text
-    };
-  });
+    });
+  }, [], new Array(MINUTE_SCALE));
 }
 
 function getHoursList(HOUR_SCALE) {
   if (HOUR_SCALE > 23) {
     throw new Error('HOUR_SCALE must be less than 23.');
   }
-  return new Array(HOUR_SCALE).fill(0).map((_, value) => {
+  return reduce((result) => {
+    const value = result.length;
     const text = `${(`0${value}0`).slice(-3, -1)} h.`;
-    return {
+    return result.concat({
       value,
       text
-    };
-  });
+    });
+  }, [], new Array(HOUR_SCALE));
 }
 
 const minutesList = getMinutesList(MINUTE_SCALE);
@@ -260,7 +262,7 @@ const When = (
               />
               <div className={styles.timeText}>
                 <input
-                  flag={'timeInput'}
+                  flag ="timeInput"
                   ref={(ref) => { that.hours = ref; }}
                   className={styles.timeInput}
                   defaultValue={Moment(meeting.schedule.startTime).format('HH')}
@@ -283,9 +285,9 @@ const When = (
                   onBlur={changeTime}
                   maxLength={2}
                   type="text" />
-                <div className={styles.colon}>{':'}</div>
+                <div className={styles.colon}>:</div>
                 <input
-                  flag={'timeInput'}
+                  flag="timeInput"
                   ref={(ref) => { that.minutes = ref; }}
                   className={styles.timeInput}
                   defaultValue={Moment(meeting.schedule.startTime).format('mm')}
