@@ -1,12 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 import DialPad from '../DialPad';
 import RecipientsInput from '../RecipientsInput';
-import BackButton from '../BackButton';
 import BackHeader from '../BackHeader';
 import CircleButton from '../CircleButton';
-import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import TransferIcon from '../../assets/images/Transfer.svg';
 import styles from './styles.scss';
 import i18n from './i18n';
@@ -90,9 +87,7 @@ export default class TransferPanel extends PureComponent {
     return (
       <div className={styles.root}>
         <BackHeader
-          onBackClick={this.props.toggleTransferPanel}
-          backButton={<BackButton />}
-        >
+          onBackClick={this.props.toggleTransferPanel}>
           {i18n.getString('transferTo', this.props.currentLocale)}
         </BackHeader>
         <RecipientsInput

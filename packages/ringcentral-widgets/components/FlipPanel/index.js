@@ -7,7 +7,6 @@ import RadioButtonGroup from '../RadioBtnGroup';
 import CircleButton from '../CircleButton';
 import FlipIcon from '../../assets/images/Flip.svg';
 import EndIcon from '../../assets/images/End.svg';
-import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
 import i18n from './i18n';
 
