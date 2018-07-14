@@ -17,6 +17,7 @@ export function HeaderButton(props) {
     </div>
   );
 }
+
 HeaderButton.propTypes = {
   onClick: PropTypes.func,
   label: PropTypes.node,
@@ -25,6 +26,9 @@ HeaderButton.propTypes = {
 };
 
 HeaderButton.defaultProps = {
+  onClick: undefined,
+  label: undefined,
+  disabled: false,
   title: undefined,
 };
 
@@ -37,11 +41,13 @@ function Header(props) {
       </div>
     );
   }
+
   const leftButtons = props.buttons
     .filter(b => b.placement !== 'right' && !b.hidden)
     .map((b, idx) => (
       <HeaderButton key={idx} {...b} />
     ));
+
   const rightButtons = props.buttons
     .filter(b => b.placement === 'right' && !b.hidden)
     .map((b, idx) => (
@@ -52,22 +58,22 @@ function Header(props) {
     <header className={classnames(styles.root, props.className)}>
       {label}
       {
-        leftButtons.length ?
-        (
-          <div className={styles.leftButtons}>
-            {leftButtons}
-          </div>
-        ) :
-        null
+        leftButtons.length
+          ? (
+            <div className={styles.leftButtons}>
+              {leftButtons}
+            </div>
+          )
+          : null
       }
       {
-        rightButtons.length ?
-        (
-          <div className={styles.rightButtons}>
-            {rightButtons}
-          </div>
-        ) :
-        null
+        rightButtons.length
+          ? (
+            <div className={styles.rightButtons}>
+              {rightButtons}
+            </div>
+          )
+          : null
       }
     </header>
   );
@@ -84,6 +90,8 @@ Header.propTypes = {
 };
 
 Header.defaultProps = {
+  className: '',
+  children: undefined,
   buttons: [],
 };
 
