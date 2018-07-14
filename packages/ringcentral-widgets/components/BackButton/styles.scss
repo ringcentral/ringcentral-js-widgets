@@ -1,0 +1,26 @@
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/fonts';
+
+.backButton {
+  color: $lightblack;
+  i {
+    font-size: $primary-font-size;
+  }
+  &:hover {
+    color: $lightblack;
+  }
+}
+
+.backIcon {
+  transform: rotate(90deg);
+  position: absolute;
+  top: 5px;
+  left: 10px;
+}
+
+.backLabel {
+  position: absolute;
+  top: 3px;
+  left: 34px;
+  font-size: 15px;
+}

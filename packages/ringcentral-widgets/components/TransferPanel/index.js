@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import DialPad from '../DialPad';
 import RecipientsInput from '../RecipientsInput';
+import BackButton from '../BackButton';
 import BackHeader from '../BackHeader';
 import CircleButton from '../CircleButton';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
@@ -90,11 +91,7 @@ export default class TransferPanel extends PureComponent {
       <div className={styles.root}>
         <BackHeader
           onBackClick={this.props.toggleTransferPanel}
-          backButton={(
-            <span className={styles.backButton}>
-              <i className={classnames(dynamicsFont.arrow, styles.backIcon)} />
-            </span>
-          )}
+          backButton={<BackButton />}
         >
           {i18n.getString('transferTo', this.props.currentLocale)}
         </BackHeader>

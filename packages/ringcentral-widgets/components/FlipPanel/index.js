@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
+import BackButton from '../BackButton';
 import BackHeader from '../BackHeader';
 import RadioButtonGroup from '../RadioBtnGroup';
 import CircleButton from '../CircleButton';
@@ -33,15 +34,8 @@ export default class FlipPanel extends Component {
     return (
       <div className={styles.root}>
         <BackHeader
-          onBackClick={this.props.isOnFlip ? () => {} : this.props.hideFlipPanel}
-          backButton={(
-            <span className={styles.backButton}>
-              {
-                this.props.isOnFlip ? null :
-                <i className={classnames(dynamicsFont.arrow, styles.backIcon)} />
-              }
-            </span>
-          )}
+          onBackClick={this.props.isOnFlip ? null : this.props.hideFlipPanel}
+          backButton={<BackButton showIcon={!this.props.isOnFlip} />}
         >
           <span className={styles.headerTitle}>
             {i18n.getString('flipHeader', this.props.currentLocale)}
