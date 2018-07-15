@@ -12,6 +12,11 @@ describe('parse', () => {
     expect(parse({ input: '' }).isValid).toBe(false);
     expect(parse({ input: '+*234' }).isValid).toBe(false);
     expect(parse({ input: '+' }).isValid).toBe(false);
+    expect(parse({ input: '#' }).isValid).toBe(false);
+    expect(parse({ input: '-' }).isValid).toBe(false);
+    expect(parse({ input: '#-' }).isValid).toBe(false);
+    expect(parse({ input: '_' }).isValid).toBe(false);
+    expect(parse({ input: '_#' }).isValid).toBe(false);
   });
 
   test('parse correct number', () => {
@@ -20,7 +25,8 @@ describe('parse', () => {
       isServiceNumber: false,
       hasInvalidChars: false,
       isExtension: false,
-      country: 'US',
+      parsedCountry: 'US',
+      parsedNumber: '6503618700',
       phoneNumber: '+16503618700',
       extension: null,
       isValid: true,
@@ -34,7 +40,8 @@ describe('parse', () => {
       isServiceNumber: false,
       hasInvalidChars: false,
       isExtension: false,
-      country: 'GB',
+      parsedCountry: 'GB',
+      parsedNumber: '1473748635',
       phoneNumber: '+441473748635',
       extension: null,
       isValid: true,
@@ -48,8 +55,9 @@ describe('parse', () => {
       isServiceNumber: false,
       hasInvalidChars: false,
       isExtension: false,
-      country: 'US',
+      parsedCountry: 'US',
       phoneNumber: '16503618700',
+      parsedNumber: '6503618700',
       extension: null,
       isValid: true,
       hasPlus: false,
@@ -62,8 +70,9 @@ describe('parse', () => {
       isServiceNumber: false,
       hasInvalidChars: false,
       isExtension: false,
-      country: 'US',
+      parsedCountry: 'US',
       phoneNumber: '6503618700',
+      parsedNumber: '6503618700',
       extension: null,
       isValid: true,
       hasPlus: false,
@@ -76,7 +85,8 @@ describe('parse', () => {
       isServiceNumber: false,
       hasInvalidChars: false,
       isExtension: false,
-      country: 'US',
+      parsedCountry: 'US',
+      parsedNumber: '6503618700',
       phoneNumber: '6503618700',
       extension: '123',
       isValid: true,
@@ -87,8 +97,9 @@ describe('parse', () => {
       isServiceNumber: false,
       hasInvalidChars: false,
       isExtension: false,
-      country: 'US',
+      parsedCountry: 'US',
       phoneNumber: '+16503618700',
+      parsedNumber: '6503618700',
       extension: '123',
       isValid: true,
       hasPlus: true,
@@ -101,7 +112,8 @@ describe('parse', () => {
       isServiceNumber: true,
       hasInvalidChars: false,
       isExtension: false,
-      country: null,
+      parsedCountry: null,
+      parsedNumber: null,
       phoneNumber: '*123',
       extension: null,
       isValid: true,
@@ -115,7 +127,8 @@ describe('parse', () => {
       isServiceNumber: false,
       hasInvalidChars: false,
       isExtension: true,
-      country: null,
+      parsedCountry: null,
+      parsedNumber: null,
       phoneNumber: '123456',
       extension: null,
       isValid: true,
@@ -128,7 +141,8 @@ describe('parse', () => {
       isServiceNumber: false,
       hasInvalidChars: false,
       isExtension: false,
-      country: null,
+      parsedCountry: null,
+      parsedNumber: null,
       phoneNumber: '+123456',
       extension: null,
       isValid: true,

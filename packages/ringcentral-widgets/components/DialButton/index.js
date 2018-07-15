@@ -13,6 +13,7 @@ export default class DialButton extends Component {
       pressed: false,
     };
     this.timeout = null;
+    this.isEdge = window && window.navigator && window.navigator.userAgent.indexOf('Edge') > -1 || false;
     if (typeof document !== 'undefined' && document.createElement && audios[props.btn.value]) {
       this.audio = document.createElement('audio');
       this.audio.src = audios[props.btn.value];
@@ -22,6 +23,11 @@ export default class DialButton extends Component {
         this.audio.volume = this.props.volume;
         this.audio.muted = this.props.muted;
         this.audio.currentTime = 0;
+        // on Edge, audio.play() could only use at the first time
+        // so we reset the src of the audio when using audio.play()
+        if (this.isEdge) {
+          this.audio.src = audios[props.btn.value];
+        }
         this.audio.play();
       }
       if (typeof this.props.onPress === 'function') {

@@ -334,6 +334,7 @@ class RecipientsInput extends Component {
           {toNumberInput}
         </div>
         <ContactDropdownList
+          currentLocale={this.props.currentLocale}
           listRef={(ref) => { this.listRef = ref; }}
           scrollDirection={this.state.scrollDirection}
           selectedIndex={this.state.selectedContactIndex}

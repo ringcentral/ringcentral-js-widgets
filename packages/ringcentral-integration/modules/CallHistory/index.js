@@ -353,9 +353,15 @@ export default class CallHistory extends RcModule {
         .filter(call => !sessionIds[call.sessionId])
         .map((call) => {
           const activityMatches = (activityMapping[call.sessionId]) || [];
+          const fromNumber = call.from && (call.from.phoneNumber || call.from.extensionNumber);
+          const toNumber = call.to && (call.to.phoneNumber || call.to.extensionNumber);
+          const fromMatches = (fromNumber && contactMapping[fromNumber]) || [];
+          const toMatches = (toNumber && contactMapping[toNumber]) || [];
           return {
             ...call,
-            activityMatches
+            activityMatches,
+            fromMatches,
+            toMatches,
           };
         });
       return [

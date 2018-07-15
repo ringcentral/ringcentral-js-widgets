@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import getContactsReducer, {
   getSearchFilterReducer,
   getSourceFilterReducer,
-  getPageNumberReducer,
 } from './getContactsReducer';
 
 import { AllContactSourceName } from '../../lib/contactHelper';
@@ -96,49 +95,6 @@ describe('Contacts :: getSourceFilterReducer', () => {
   });
 });
 
-describe('Contacts :: getPageNumberReducer', () => {
-  it('getPageNumberReducer should be a function', () => {
-    expect(getPageNumberReducer).to.be.a('function');
-  });
-  it('getPageNumberReducer should return a reducer', () => {
-    expect(getPageNumberReducer()).to.be.a('function');
-  });
-  describe('pageNumberReducer', () => {
-    const reducer = getPageNumberReducer(actionTypes);
-    it('should have initial state of one', () => {
-      expect(reducer(undefined, {})).to.equal(1);
-    });
-    it('should return original state of actionTypes is not recognized', () => {
-      const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
-    });
-    it('should return blank string on resetSuccess', () => {
-      expect(reducer(2, {
-        type: actionTypes.resetSuccess,
-      })).to.equal(1);
-    });
-    it('should return new pageNumber on updateFilter', () => {
-      expect(reducer(1, {
-        type: actionTypes.updateFilter,
-        pageNumber: 3,
-      })).to.equal(3);
-    });
-    it('should return original page when pageNumber is undefined on updateFilter', () => {
-      expect(reducer(5, {
-        type: actionTypes.updateFilter,
-        pageNumber: undefined,
-      })).to.equal(5);
-    });
-    it('should return original page when pageNumber is zero on updateFilter', () => {
-      expect(reducer(3, {
-        type: actionTypes.updateFilter,
-        searchFilter: 0,
-      })).to.equal(3);
-    });
-  });
-});
-
 describe('getContactsReducer', () => {
   it('should be a function', () => {
     expect(getContactsReducer).to.be.a('function');
@@ -151,12 +107,10 @@ describe('getContactsReducer', () => {
     const statusReducer = getModuleStatusReducer(actionTypes);
     const searchFilterReducer = getSearchFilterReducer(actionTypes);
     const sourceFilterReducer = getSourceFilterReducer(actionTypes);
-    const pageNumberReducer = getPageNumberReducer(actionTypes);
     expect(reducer(undefined, {})).to.deep.equal({
       status: statusReducer(undefined, {}),
       searchFilter: searchFilterReducer(undefined, {}),
       sourceFilter: sourceFilterReducer(undefined, {}),
-      pageNumber: pageNumberReducer(undefined, {}),
     });
   });
 });

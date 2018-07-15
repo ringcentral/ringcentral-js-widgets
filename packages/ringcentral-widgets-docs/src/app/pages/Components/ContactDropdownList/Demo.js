@@ -12,6 +12,7 @@ props.items = [{
   phoneType: 'Mobile',
   phoneNumber: '+123456789'
 }];
+props.currentLocale = 'en-US';
 props.formatContactPhone = value => value;
 props.addToRecipients = () => null;
 props.setSelectedIndex = () => null;
