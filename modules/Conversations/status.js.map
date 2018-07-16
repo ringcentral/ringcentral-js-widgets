@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/Conversations/status.js"],"names":["Enum"],"mappings":";;;;;;AAAA;;;;;;kBAEe,IAAIA,cAAJ,CAAS,CACtB,UADsB,EAEtB,MAFsB,EAGtB,SAHsB,CAAT,EAIZ,eAJY,C","file":"status.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'fetching',\n  'idle',\n  'pushing',\n], 'conversations');\n"]}

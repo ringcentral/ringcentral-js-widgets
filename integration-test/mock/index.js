@@ -25,6 +25,7 @@ exports.extensionList = extensionList;
 exports.accountInfo = accountInfo;
 exports.apiInfo = apiInfo;
 exports.messageSync = messageSync;
+exports.messageList = messageList;
 exports.updateMessageStatus = updateMessageStatus;
 exports.authzProfile = authzProfile;
 exports.blockedNumber = blockedNumber;
@@ -72,7 +73,8 @@ var presenceBody = require('./data/presence.json');
 var numberParserBody = require('./data/numberParser.json');
 var smsBody = require('./data/sms.json');
 var ringOutBody = require('./data/ringOut.json');
-var messageStoreBody = require('./data/messageStore.json');
+var messageItemBody = require('./data/messageItem.json');
+var messageListBody = require('./data/messageList.json');
 var addressBookBody = require('./data/addressBook.json');
 var callLogBody = require('./data/callLog.json');
 var deviceBody = require('./data/device.json');
@@ -275,10 +277,22 @@ function apiInfo() {
 
 function messageSync() {
   var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var isOnce = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
   mockApi({
     url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/message-sync',
-    body: (0, _extends3.default)({}, messageSyncBody, mockResponse)
+    body: (0, _extends3.default)({}, messageSyncBody, mockResponse),
+    isOnce: isOnce
+  });
+}
+
+function messageList() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  mockApi({
+    url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/message-store',
+    body: (0, _extends3.default)({}, messageListBody, mockResponse),
+    isOnce: false
   });
 }
 
@@ -288,7 +302,7 @@ function updateMessageStatus() {
   mockApi({
     url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/message-store',
     method: 'PUT',
-    body: (0, _extends3.default)({}, messageStoreBody, mockResponse)
+    body: (0, _extends3.default)({}, messageItemBody, mockResponse)
   });
 }
 
@@ -545,6 +559,7 @@ function mockForLogin() {
   if (mockForwardingNumber) {
     forwardingNumber();
   }
+  messageList();
   if (mockMessageSync) {
     messageSync();
   }

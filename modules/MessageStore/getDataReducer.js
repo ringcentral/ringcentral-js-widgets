@@ -4,127 +4,199 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _keys = require('babel-runtime/core-js/object/keys');
+
+var _keys2 = _interopRequireDefault(_keys);
+
 var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-exports.getMessageDataReducer = getMessageDataReducer;
-exports.getUpdatedTimestampReducer = getUpdatedTimestampReducer;
-exports.getSyncTokenReducer = getSyncTokenReducer;
-exports.getSyncTimestampReducer = getSyncTimestampReducer;
+exports.getConversationListReducer = getConversationListReducer;
+exports.getConversationStoreReducer = getConversationStoreReducer;
+exports.getTimestampReducer = getTimestampReducer;
+exports.getSyncInfoReducer = getSyncInfoReducer;
 exports.default = getDataReducer;
 
 var _redux = require('redux');
 
-var _messageStoreHelper = require('./messageStoreHelper');
+var _messageHelper = require('../../lib/messageHelper');
+
+var messageHelper = _interopRequireWildcard(_messageHelper);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var initialConversationsDataState = {
-  conversations: [],
-  conversationMap: {},
-  messages: []
-};
-function getMessageDataReducer(types) {
+function getConversationListReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialConversationsDataState;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
     var _ref = arguments[1];
     var type = _ref.type,
         records = _ref.records,
-        _ref$syncToken = _ref.syncToken,
-        syncToken = _ref$syncToken === undefined ? null : _ref$syncToken,
-        _ref$syncConversation = _ref.syncConversationId,
-        syncConversationId = _ref$syncConversation === undefined ? null : _ref$syncConversation,
-        _ref$conversationId = _ref.conversationId,
-        conversationId = _ref$conversationId === undefined ? null : _ref$conversationId,
-        _ref$messageId = _ref.messageId,
-        messageId = _ref$messageId === undefined ? null : _ref$messageId,
-        _ref$recipients = _ref.recipients,
-        recipients = _ref$recipients === undefined ? null : _ref$recipients;
+        conversationId = _ref.conversationId,
+        conversationStore = _ref.conversationStore;
 
+    var newState = [];
+    var stateMap = {};
     switch (type) {
-      case types.syncSuccess:
+      case types.conversationsISyncSuccess:
+      case types.conversationsFSyncSuccess:
       case types.updateMessages:
-        return (0, _messageStoreHelper.pushRecordsToMessageData)((0, _extends3.default)({}, state, {
-          records: records,
-          syncToken: syncToken
-        }));
-      case types.syncConversationSuccess:
-        return (0, _messageStoreHelper.pushRecordsToMessageData)((0, _extends3.default)({}, state, {
-          records: records,
-          syncToken: syncToken,
-          syncConversationId: syncConversationId
-        }));
-      case types.updateConversationRecipients:
-        return (0, _messageStoreHelper.updateConversationRecipients)((0, _extends3.default)({}, state, {
-          conversationId: conversationId,
-          recipients: recipients
-        }));
-      case types.removeMessage:
-        {
-          var newConversationMap = {};
-          var newConversations = [];
-          state.conversations.forEach(function (conversation) {
-            if (conversation && conversation.conversationId !== conversationId) {
-              newConversations.push((0, _extends3.default)({}, conversation));
-              if (state.conversationMap[conversation.conversationId]) {
-                newConversationMap[conversation.conversationId] = (0, _extends3.default)({}, state.conversationMap[conversation.conversationId], {
-                  index: newConversations.length - 1,
-                  unreadMessages: (0, _extends3.default)({}, state.conversationMap[conversation.conversationId].unreadMessages)
-                });
-              }
-            }
+        if (type !== types.conversationsFSyncSuccess) {
+          if (!records || records.length === 0) {
+            return state;
+          }
+          state.forEach(function (oldConversation) {
+            newState.push(oldConversation);
+            stateMap[oldConversation.id] = {
+              index: newState.length - 1
+            };
           });
-          return {
-            conversations: newConversations,
-            conversationMap: newConversationMap,
-            messages: state.messages.filter(function (message) {
-              return message.id !== messageId;
-            })
-          };
         }
-      case types.cleanUp:
+        records.forEach(function (record) {
+          var message = messageHelper.normalizeRecord(record);
+          var id = message.conversationId;
+          var newCreationTime = message.creationTime;
+          var isDeleted = messageHelper.messageIsDeleted(message);
+          if (stateMap[id]) {
+            var oldConversation = newState[stateMap[id].index];
+            var creationTime = oldConversation.creationTime;
+            if (creationTime < newCreationTime && !isDeleted) {
+              newState[stateMap[id].index] = {
+                id: id,
+                creationTime: newCreationTime,
+                type: message.type,
+                messageId: message.id
+              };
+            }
+            // when user deleted a coversation message
+            if (isDeleted && message.id === oldConversation.messageId) {
+              var oldMessageList = conversationStore[id] || [];
+              var exsitedMessageList = oldMessageList.filter(function (m) {
+                return m.id !== message.id;
+              });
+              if (exsitedMessageList.length > 0) {
+                newState[stateMap[id].index] = {
+                  id: id,
+                  creationTime: exsitedMessageList[0].creationTime,
+                  type: exsitedMessageList[0].type,
+                  messageId: exsitedMessageList[0].id
+                };
+                return;
+              }
+              // when user delete conversation
+              newState[stateMap[id].index] = null;
+              delete stateMap[id];
+            }
+            return;
+          }
+          if (isDeleted || !messageHelper.messageIsAcceptable(message)) {
+            return;
+          }
+          newState.push({
+            id: id,
+            creationTime: newCreationTime,
+            type: message.type,
+            messageId: message.id
+          });
+          stateMap[id] = {
+            index: newState.length - 1
+          };
+        });
+        return newState.filter(function (c) {
+          return !!c;
+        }).sort(messageHelper.sortByCreationTime);
+      case types.deleteConversation:
+        return state.filter(function (c) {
+          return c.id !== conversationId;
+        });
       case types.resetSuccess:
-        return initialConversationsDataState;
+        return [];
       default:
         return state;
     }
   };
 }
 
-function getUpdatedTimestampReducer(types) {
+function getConversationStoreReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     var _ref2 = arguments[1];
-    var type = _ref2.type;
+    var type = _ref2.type,
+        records = _ref2.records,
+        conversationId = _ref2.conversationId;
 
+    var newState = {};
+    var updatedConversations = {};
     switch (type) {
-      case types.syncSuccess:
-      case types.syncConversationSuccess:
-      case types.updateConversationRecipients:
+      case types.conversationsISyncSuccess:
+      case types.conversationsFSyncSuccess:
       case types.updateMessages:
-        return Date.now();
+        if (type !== types.conversationsFSyncSuccess) {
+          if (!records || records.length === 0) {
+            return state;
+          }
+          newState = (0, _extends3.default)({}, state);
+        }
+        records.forEach(function (record) {
+          var message = messageHelper.normalizeRecord(record);
+          var id = message.conversationId;
+          var newMessages = newState[id] ? [].concat(newState[id]) : [];
+          var oldMessageIndex = newMessages.findIndex(function (r) {
+            return r.id === record.id;
+          });
+          if (messageHelper.messageIsDeleted(message)) {
+            newState[id] = newMessages.filter(function (m) {
+              return m.id !== message.id;
+            });
+            if (newState[id].length === 0) {
+              delete newState[id];
+            }
+            return;
+          }
+          if (oldMessageIndex > -1) {
+            if (newMessages[oldMessageIndex].lastModifiedTime < message.lastModifiedTime) {
+              newMessages[oldMessageIndex] = message;
+            }
+          } else if (messageHelper.messageIsAcceptable(message)) {
+            newMessages.push(message);
+          }
+          updatedConversations[id] = 1;
+          newState[id] = newMessages;
+        });
+        (0, _keys2.default)(updatedConversations).forEach(function (id) {
+          var noSorted = newState[id];
+          newState[id] = noSorted.sort(messageHelper.sortByCreationTime);
+        });
+        return newState;
+      case types.deleteConversation:
+        if (!state[conversationId]) {
+          return state;
+        }
+        newState = (0, _extends3.default)({}, state);
+        delete newState[conversationId];
+        return newState;
       case types.resetSuccess:
-      case types.cleanUp:
-        return null;
+        return {};
       default:
         return state;
     }
   };
 }
 
-function getSyncTokenReducer(types) {
+function getTimestampReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var _ref3 = arguments[1];
     var type = _ref3.type,
-        syncToken = _ref3.syncToken;
+        timestamp = _ref3.timestamp;
 
     switch (type) {
-      case types.syncSuccess:
-        return syncToken;
+      case types.conversationsFSyncSuccess:
+      case types.conversationsISyncSuccess:
+        return timestamp;
       case types.resetSuccess:
-      case types.cleanUp:
         return null;
       default:
         return state;
@@ -132,18 +204,18 @@ function getSyncTokenReducer(types) {
   };
 }
 
-function getSyncTimestampReducer(types) {
+function getSyncInfoReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var _ref4 = arguments[1];
     var type = _ref4.type,
-        syncTimestamp = _ref4.syncTimestamp;
+        syncInfo = _ref4.syncInfo;
 
     switch (type) {
-      case types.syncSuccess:
-        return syncTimestamp;
+      case types.conversationsFSyncSuccess:
+      case types.conversationsISyncSuccess:
+        return syncInfo;
       case types.resetSuccess:
-      case types.cleanUp:
         return null;
       default:
         return state;
@@ -153,10 +225,10 @@ function getSyncTimestampReducer(types) {
 
 function getDataReducer(types) {
   return (0, _redux.combineReducers)({
-    data: getMessageDataReducer(types),
-    updatedTimestamp: getUpdatedTimestampReducer(types),
-    syncToken: getSyncTokenReducer(types),
-    syncTimestamp: getSyncTimestampReducer(types)
+    conversationList: getConversationListReducer(types),
+    conversationStore: getConversationStoreReducer(types),
+    syncInfo: getSyncInfoReducer(types),
+    timestamp: getTimestampReducer(types)
   });
 }
 //# sourceMappingURL=getDataReducer.js.map

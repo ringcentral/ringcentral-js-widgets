@@ -167,17 +167,13 @@ var _ContactSearch = require('../../../modules/ContactSearch');
 
 var _ContactSearch2 = _interopRequireDefault(_ContactSearch);
 
-var _Messages = require('../../../modules/Messages');
-
-var _Messages2 = _interopRequireDefault(_Messages);
-
 var _MessageStore = require('../../../modules/MessageStore');
 
 var _MessageStore2 = _interopRequireDefault(_MessageStore);
 
-var _Conversation = require('../../../modules/Conversation');
+var _Conversations = require('../../../modules/Conversations');
 
-var _Conversation2 = _interopRequireDefault(_Conversation);
+var _Conversations2 = _interopRequireDefault(_Conversations);
 
 var _ContactMatcher = require('../../../modules/ContactMatcher');
 
@@ -198,6 +194,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // import AutoLogger from '../AutoLogger';
 // import DataMatcher from '../DataMatcher';
 
+
+// import RouterInteraction from 'ringcentral-js-widget/modules/RouterInteraction';
 
 var Phone = function (_RcModule) {
   (0, _inherits3.default)(Phone, _RcModule);
@@ -610,23 +608,16 @@ var Phone = function (_RcModule) {
       }
     })));
 
-    _this.addModule('conversation', new _Conversation2.default((0, _extends3.default)({}, options, {
+    _this.addModule('conversations', new _Conversations2.default((0, _extends3.default)({}, options, {
+      alert: _this.alert,
       auth: _this.auth,
+      client: _this.client,
       messageSender: _this.messageSender,
-      extensionInfo: _this.extensionInfo,
-      messageStore: _this.messageStore,
-      getState: function getState() {
-        return _this.state.conversation;
-      }
-    })));
-
-    _this.addModule('messages', new _Messages2.default((0, _extends3.default)({}, options, {
-      auth: _this.auth,
       messageStore: _this.messageStore,
       extensionInfo: _this.extensionInfo,
       rolesAndPermissions: _this.rolesAndPermissions,
       getState: function getState() {
-        return _this.state.messages;
+        return _this.state.conversations;
       }
     })));
 
@@ -689,8 +680,7 @@ var Phone = function (_RcModule) {
       messageSender: _this.messageSender.reducer,
       composeText: _this.composeText.reducer,
       messageStore: _this.messageStore.reducer,
-      conversation: _this.conversation.reducer,
-      messages: _this.messages.reducer
+      conversations: _this.conversations.reducer
       // adapter: this.adapter.reducer,
     });
     return _this;
@@ -709,7 +699,6 @@ var Phone = function (_RcModule) {
   }]);
   return Phone;
 }(_RcModule3.default);
-// import RouterInteraction from 'ringcentral-js-widget/modules/RouterInteraction';
 
 exports.default = Phone;
 //# sourceMappingURL=index.js.map

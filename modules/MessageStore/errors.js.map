@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/MessageStore/errors.js"],"names":["Enum"],"mappings":";;;;;;AAAA;;;;;;kBAEe,IAAIA,cAAJ,CAAS,CACtB,cADsB,EAEtB,YAFsB,EAGtB,cAHsB,CAAT,EAIZ,cAJY,C","file":"errors.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'deleteFailed',\n  'readFailed',\n  'unreadFailed',\n], 'messageStore');\n"]}

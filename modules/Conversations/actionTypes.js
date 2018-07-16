@@ -22,5 +22,5 @@ var _moduleActionTypes2 = _interopRequireDefault(_moduleActionTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)(_moduleActionTypes2.default)), ['conversationsSync', 'conversationsFSyncSuccess', 'conversationsISyncSuccess', 'conversationsSyncError', 'conversationSync', 'conversationSyncError', 'updateMessages', 'markMessages', 'clickToSMS', 'clickToCall', 'deleteConversation']), 'newMessageStore');
+exports.default = new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)(_moduleActionTypes2.default)), ['updateCurrentConversationId', 'updateSearchInput', 'updateTypeFilter', 'fetchOldConverstaions', 'fetchOldConverstaionsSuccess', 'fetchOldConverstaionsError', 'fetchOldMessagesSuccess', 'fetchOldMessagesError', 'fetchOldMessages', 'updateMessageText', 'removeMessageText', 'reply', 'replySuccess', 'replyError', 'deleteConversation', 'increaseCurrentPage', 'resetCurrentPage']), 'conversations');
 //# sourceMappingURL=actionTypes.js.map
