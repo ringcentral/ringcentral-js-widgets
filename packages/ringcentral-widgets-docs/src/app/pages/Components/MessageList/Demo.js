@@ -35,8 +35,8 @@ props.dateTimeFormatter = ({ utcTimestamp }) => {
 };
 props.brand = 'RingCentral';
 props.showConversationDetail = () => null;
-props.countryCode = '+1';
-props.areaCode = '+1';
+props.countryCode = 'US';
+props.areaCode = '650';
 props.markMessage = () => null;
 props.readMessage = () => null;
 props.unmarkMessage = () => null;

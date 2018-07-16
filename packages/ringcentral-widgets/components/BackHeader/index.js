@@ -5,7 +5,7 @@ import styles from './styles.scss';
 import Header from '../Header';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 
-const BackHeader = (props) => {
+export default function BackHeader(props) {
   const buttons = props.buttons || [];
   const defaultBackButton =
     <i className={classnames(dynamicsFont.arrow, styles.iconRotate)} />;
@@ -19,9 +19,9 @@ const BackHeader = (props) => {
       buttons={buttons}
       className={props.className}>
       {props.children}
-    </Header>);
-};
-export default BackHeader;
+    </Header>
+  );
+}
 
 BackHeader.propTypes = {
   className: PropTypes.string,
@@ -37,6 +37,8 @@ BackHeader.propTypes = {
 
 BackHeader.defaultProps = {
   className: '',
+  children: undefined,
   buttons: undefined,
   backButton: undefined,
+  onBackClick: undefined,
 };
