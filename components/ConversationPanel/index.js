@@ -78,14 +78,14 @@ var ConversationPanel = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ConversationPanel.__proto__ || (0, _getPrototypeOf2.default)(ConversationPanel)).call(this, props));
 
+    _this.onSend = function () {
+      _this.props.replyToReceivers(_this.props.messageText);
+    };
+
     _this.onInputHeightChange = function (value) {
       _this.setState({
         inputHeight: value
       });
-    };
-
-    _this.onSend = function () {
-      _this.props.replyToReceivers(_this.props.messageText);
     };
 
     _this.onSelectContact = function (value, idx) {
@@ -114,21 +114,17 @@ var ConversationPanel = function (_Component) {
     _this.state = {
       selected: _this.getInitialContactIndex(),
       isLogging: false,
-      inputHeight: 63
+      inputHeight: 63,
+      loaded: false
     };
     _this._userSelection = false;
     return _this;
   }
 
   (0, _createClass3.default)(ConversationPanel, [{
-    key: 'getMessageListHeight',
-    value: function getMessageListHeight() {
-      var headerHeight = 41;
-      return 'calc(100% - ' + (this.state.inputHeight + headerHeight) + 'px)';
-    }
-  }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
+      this.loadConversation();
       this._mounted = true;
     }
   }, {
@@ -141,9 +137,28 @@ var ConversationPanel = function (_Component) {
       }
     }
   }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps, prevState) {
+      if (prevProps.messages !== this.props.messages) {
+        this.props.readMessages(this.props.conversationId);
+      }
+      if (prevState.loaded === false && this.state.loaded === true) {
+        if (this.props.messages.length < this.props.perPage) {
+          this.props.loadPreviousMessages();
+        }
+      }
+    }
+  }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       this._mounted = false;
+      this.props.unloadConversation();
+    }
+  }, {
+    key: 'getMessageListHeight',
+    value: function getMessageListHeight() {
+      var headerHeight = 41;
+      return 'calc(100% - ' + (this.state.inputHeight + headerHeight) + 'px)';
     }
   }, {
     key: 'getInitialContactIndex',
@@ -193,6 +208,12 @@ var ConversationPanel = function (_Component) {
           correspondents = _props$conversation3$ === undefined ? [] : _props$conversation3$;
 
       return correspondents.length === 1 && correspondents[0].name || undefined;
+    }
+  }, {
+    key: 'loadConversation',
+    value: function loadConversation() {
+      this.props.loadConversation(this.props.conversationId);
+      this.setState({ loaded: true });
     }
   }, {
     key: 'logConversation',
@@ -249,17 +270,15 @@ var ConversationPanel = function (_Component) {
     value: function render() {
       var _this2 = this;
 
+      if (!this.state.loaded) {
+        return null;
+      }
       var conversationBody = null;
       var loading = this.props.showSpinner;
       var _props = this.props,
           recipients = _props.recipients,
-          messageSubjectRenderer = _props.messageSubjectRenderer,
-          conversation = _props.conversation;
+          messageSubjectRenderer = _props.messageSubjectRenderer;
 
-      if (!conversation) {
-        this.props.goBack();
-        return null;
-      }
       if (loading) {
         conversationBody = _react2.default.createElement(
           'div',
@@ -270,9 +289,13 @@ var ConversationPanel = function (_Component) {
         conversationBody = _react2.default.createElement(_ConversationMessageList2.default, {
           height: this.getMessageListHeight(),
           messages: this.props.messages,
+          className: _styles2.default.conversationBody,
           dateTimeFormatter: this.props.dateTimeFormatter,
           showSender: recipients && recipients.length > 1,
-          messageSubjectRenderer: messageSubjectRenderer
+          messageSubjectRenderer: messageSubjectRenderer,
+          formatPhone: this.props.formatPhone,
+          loadingNextPage: this.props.loadingNextPage,
+          loadPreviousMessages: this.props.loadPreviousMessages
         });
       }
       var _props$conversation4 = this.props.conversation,
@@ -372,7 +395,15 @@ ConversationPanel.propTypes = {
   showContactDisplayPlaceholder: _propTypes2.default.bool,
   sourceIcons: _propTypes2.default.object,
   showGroupNumberName: _propTypes2.default.bool,
-  messageSubjectRenderer: _propTypes2.default.func
+  messageSubjectRenderer: _propTypes2.default.func,
+  formatPhone: _propTypes2.default.func.isRequired,
+  readMessages: _propTypes2.default.func.isRequired,
+  loadPreviousMessages: _propTypes2.default.func.isRequired,
+  unloadConversation: _propTypes2.default.func.isRequired,
+  perPage: _propTypes2.default.number,
+  conversationId: _propTypes2.default.string.isRequired,
+  loadConversation: _propTypes2.default.func,
+  loadingNextPage: _propTypes2.default.bool
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
@@ -383,8 +414,15 @@ ConversationPanel.defaultProps = {
   sourceIcons: undefined,
   showGroupNumberName: false,
   messageText: '',
-  updateMessageText: function updateMessageText() {},
-  messageSubjectRenderer: undefined
+  updateMessageText: function updateMessageText() {
+    return null;
+  },
+  messageSubjectRenderer: undefined,
+  perPage: undefined,
+  loadConversation: function loadConversation() {
+    return null;
+  },
+  loadingNextPage: false
 };
 
 exports.default = ConversationPanel;

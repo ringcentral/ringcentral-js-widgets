@@ -13,9 +13,9 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _messageStoreErrors = require('ringcentral-integration/modules/MessageStore/messageStoreErrors');
+var _errors = require('ringcentral-integration/modules/MessageStore/errors');
 
-var _messageStoreErrors2 = _interopRequireDefault(_messageStoreErrors);
+var _errors2 = _interopRequireDefault(_errors);
 
 var _FormattedMessage = require('../FormattedMessage');
 
@@ -36,7 +36,7 @@ function MessageStoreAlert(props) {
     _i18n2.default.getString(message, props.currentLocale)
   );
   // Handle call record error
-  if (message === _messageStoreErrors2.default.deleteFailed) {
+  if (message === _errors2.default.deleteFailed) {
     view = _react2.default.createElement(_FormattedMessage2.default, {
       message: _i18n2.default.getString(message, props.currentLocale)
     });
@@ -53,6 +53,6 @@ MessageStoreAlert.propTypes = {
 
 MessageStoreAlert.handleMessage = function (_ref) {
   var message = _ref.message;
-  return message === _messageStoreErrors2.default.deleteFailed;
+  return message === _errors2.default.deleteFailed;
 };
 //# sourceMappingURL=index.js.map

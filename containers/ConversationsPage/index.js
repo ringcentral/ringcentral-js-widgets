@@ -26,9 +26,9 @@ var _withPhone = require('../../lib/withPhone');
 
 var _withPhone2 = _interopRequireDefault(_withPhone);
 
-var _MessagesPanel = require('../../components/MessagesPanel');
+var _ConversationsPanel = require('../../components/ConversationsPanel');
 
-var _MessagesPanel2 = _interopRequireDefault(_MessagesPanel);
+var _ConversationsPanel2 = _interopRequireDefault(_ConversationsPanel);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -36,7 +36,7 @@ function mapToProps(_, _ref) {
   var _ref$phone = _ref.phone,
       brand = _ref$phone.brand,
       locale = _ref$phone.locale,
-      messages = _ref$phone.messages,
+      conversations = _ref$phone.conversations,
       contactMatcher = _ref$phone.contactMatcher,
       dateTimeFormat = _ref$phone.dateTimeFormat,
       regionSettings = _ref$phone.regionSettings,
@@ -64,7 +64,7 @@ function mapToProps(_, _ref) {
     showGroupNumberName: showGroupNumberName,
     brand: brand.fullName,
     currentLocale: locale.currentLocale,
-    conversations: messages.filteredConversations,
+    conversations: conversations.pagingConversations,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
     disableLinks: !connectivityMonitor.connectivity || rateLimiter.throttling,
@@ -73,16 +73,17 @@ function mapToProps(_, _ref) {
     internalSmsPermission: !!(permissions && permissions.InternalSMS),
     composeTextPermission: !!(serviceFeatures && (serviceFeatures.Pager && serviceFeatures.Pager.enabled || serviceFeatures.SMS && serviceFeatures.SMS.enabled)),
     loggingMap: conversationLogger && conversationLogger.loggingMap,
-    showSpinner: !(locale.ready && messages.ready && (!contactMatcher || contactMatcher.ready) && dateTimeFormat.ready && regionSettings.ready && rolesAndPermissions.ready && connectivityMonitor.ready && rateLimiter.ready && (!rolesAndPermissions || rolesAndPermissions.ready) && (!call || call.ready) && (!conversationLogger || conversationLogger.ready)),
-    searchInput: messages.searchInput,
+    showSpinner: !(locale.ready && conversations.ready && (!contactMatcher || contactMatcher.ready) && dateTimeFormat.ready && regionSettings.ready && rolesAndPermissions.ready && connectivityMonitor.ready && rateLimiter.ready && (!rolesAndPermissions || rolesAndPermissions.ready) && (!call || call.ready) && (!conversationLogger || conversationLogger.ready)),
+    searchInput: conversations.searchInput,
     autoLog: !!(conversationLogger && conversationLogger.autoLog),
-    typeFilter: messages.typeFilter,
+    typeFilter: conversations.typeFilter,
     textUnreadCounts: messageStore.textUnreadCounts,
     voiceUnreadCounts: messageStore.voiceUnreadCounts,
     faxUnreadCounts: messageStore.faxUnreadCounts,
     readTextPermission: readTextPermissions,
     readVoicemailPermission: voicemailPermissions,
-    readFaxPermission: readFaxPermissions
+    readFaxPermission: readFaxPermissions,
+    loadingNextPage: conversations.loadingOldConversations
   };
 }
 
@@ -91,7 +92,7 @@ function mapToFunctions(_, _ref2) {
 
   var _ref2$phone = _ref2.phone,
       dateTimeFormat = _ref2$phone.dateTimeFormat,
-      messages = _ref2$phone.messages,
+      conversations = _ref2$phone.conversations,
       messageStore = _ref2$phone.messageStore,
       conversationLogger = _ref2$phone.conversationLogger,
       contactMatcher = _ref2$phone.contactMatcher,
@@ -198,6 +199,7 @@ function mapToFunctions(_, _ref2) {
       // for track
       messageStore.onClickToSMS();
     },
+
     isLoggedContact: isLoggedContact,
     onLogConversation: onLogConversation || conversationLogger && function () {
       var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref6) {
@@ -226,29 +228,30 @@ function mapToFunctions(_, _ref2) {
       };
     }(),
     onSearchInputChange: function onSearchInputChange(e) {
-      messages.updateSearchInput(e.currentTarget.value);
+      conversations.updateSearchInput(e.currentTarget.value);
     },
     showConversationDetail: function showConversationDetail(conversationId) {
       routerInteraction.push(conversationDetailRoute.replace('{conversationId}', conversationId));
     },
     readMessage: function readMessage(conversationId) {
-      return messageStore.readMessages(conversationId);
+      messageStore.readMessages(conversationId);
     },
     markMessage: function markMessage(conversationId) {
-      return messageStore.unreadMessage(conversationId);
+      messageStore.unreadMessage(conversationId);
     },
     unmarkMessage: function unmarkMessage(conversationId) {
       messageStore.readMessages(conversationId);
       messageStore.onUnmarkMessages();
     },
+
     goToComposeText: function goToComposeText() {
       return routerInteraction.push(composeTextRoute);
     },
     updateTypeFilter: function updateTypeFilter(type) {
-      return messages.updateTypeFilter(type);
+      return conversations.updateTypeFilter(type);
     },
     deleteMessage: function deleteMessage(conversationId) {
-      messageStore.deleteMessage(conversationId);
+      conversations.deleteCoversation(conversationId);
     },
     previewFaxMessages: function previewFaxMessages(uri, conversationId) {
       if (!_previewFaxMessages) {
@@ -257,8 +260,36 @@ function mapToFunctions(_, _ref2) {
         _previewFaxMessages(uri);
       }
       messageStore.readMessages(conversationId);
+    },
+    loadNextPage: function () {
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return conversations.loadNextPage();
+
+              case 2:
+              case 'end':
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function loadNextPage() {
+        return _ref8.apply(this, arguments);
+      }
+
+      return loadNextPage;
+    }(),
+    onUnmount: function onUnmount() {
+      if (conversations.currentPage > 2) {
+        conversations.resetCurrentPage();
+      }
     }
   };
 }
-exports.default = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_MessagesPanel2.default));
+exports.default = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ConversationsPanel2.default));
 //# sourceMappingURL=index.js.map

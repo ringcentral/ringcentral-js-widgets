@@ -49,10 +49,6 @@ var _SpinnerOverlay = require('../SpinnerOverlay');
 
 var _SpinnerOverlay2 = _interopRequireDefault(_SpinnerOverlay);
 
-var _MessageList = require('../MessageList');
-
-var _MessageList2 = _interopRequireDefault(_MessageList);
-
 var _MessageTabButton = require('../MessageTabButton');
 
 var _MessageTabButton2 = _interopRequireDefault(_MessageTabButton);
@@ -76,6 +72,10 @@ var _NewComposeText2 = _interopRequireDefault(_NewComposeText);
 var _NewComposeTextHover = require('../../assets/images/NewComposeTextHover.svg');
 
 var _NewComposeTextHover2 = _interopRequireDefault(_NewComposeTextHover);
+
+var _ConversationList = require('../ConversationList');
+
+var _ConversationList2 = _interopRequireDefault(_ConversationList);
 
 var _styles = require('./styles.scss');
 
@@ -103,13 +103,13 @@ TabTitle.propTypes = {
   currentLocale: _propTypes2.default.string.isRequired
 };
 
-var MessagesPanel = function (_Component) {
-  (0, _inherits3.default)(MessagesPanel, _Component);
+var ConversationsPanel = function (_Component) {
+  (0, _inherits3.default)(ConversationsPanel, _Component);
 
-  function MessagesPanel(props) {
-    (0, _classCallCheck3.default)(this, MessagesPanel);
+  function ConversationsPanel(props) {
+    (0, _classCallCheck3.default)(this, ConversationsPanel);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (MessagesPanel.__proto__ || (0, _getPrototypeOf2.default)(MessagesPanel)).call(this, props));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (ConversationsPanel.__proto__ || (0, _getPrototypeOf2.default)(ConversationsPanel)).call(this, props));
 
     _this.onTabChanged = function (type) {
       if (typeof _this.props.updateTypeFilter === 'function') {
@@ -119,7 +119,14 @@ var MessagesPanel = function (_Component) {
     return _this;
   }
 
-  (0, _createClass3.default)(MessagesPanel, [{
+  (0, _createClass3.default)(ConversationsPanel, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      if (typeof this.props.onUnmount === 'function') {
+        this.props.onUnmount();
+      }
+    }
+  }, {
     key: 'renderTabs',
     value: function renderTabs() {
       var tabs = [{
@@ -199,7 +206,9 @@ var MessagesPanel = function (_Component) {
           typeFilter = _props.typeFilter,
           goToComposeText = _props.goToComposeText,
           composeTextPermission = _props.composeTextPermission,
-          previewFaxMessages = _props.previewFaxMessages;
+          previewFaxMessages = _props.previewFaxMessages,
+          loadNextPage = _props.loadNextPage,
+          loadingNextPage = _props.loadingNextPage;
 
       if (showSpinner) {
         return _react2.default.createElement(_SpinnerOverlay2.default, null);
@@ -231,9 +240,11 @@ var MessagesPanel = function (_Component) {
       var placeholder = onSearchInputChange && searchInput.length > 0 ? _i18n2.default.getString('noSearchResults', currentLocale) : _i18n2.default.getString('noMessages', currentLocale);
       return _react2.default.createElement(
         'div',
-        { className: (0, _classnames2.default)(_styles2.default.content, showTitle && _styles2.default.contentWithHeader) },
+        {
+          className: (0, _classnames2.default)(_styles2.default.content, showTitle && _styles2.default.contentWithHeader)
+        },
         search,
-        _react2.default.createElement(_MessageList2.default, {
+        _react2.default.createElement(_ConversationList2.default, {
           className: onSearchInputChange ? _styles2.default.contentWithSearch : null,
           currentLocale: currentLocale,
           perPage: perPage,
@@ -260,7 +271,10 @@ var MessagesPanel = function (_Component) {
           autoLog: autoLog,
           enableContactFallback: enableContactFallback,
           deleteMessage: deleteMessage,
-          previewFaxMessages: previewFaxMessages
+          previewFaxMessages: previewFaxMessages,
+          loadNextPage: loadNextPage,
+          loadingNextPage: loadingNextPage,
+          typeFilter: typeFilter
         })
       );
     }
@@ -297,13 +311,13 @@ var MessagesPanel = function (_Component) {
       );
     }
   }]);
-  return MessagesPanel;
+  return ConversationsPanel;
 }(_react.Component);
 
-exports.default = MessagesPanel;
+exports.default = ConversationsPanel;
 
 
-MessagesPanel.propTypes = {
+ConversationsPanel.propTypes = {
   currentLocale: _propTypes2.default.string.isRequired,
   showSpinner: _propTypes2.default.bool,
   showTitle: _propTypes2.default.bool,
@@ -343,10 +357,13 @@ MessagesPanel.propTypes = {
   enableContactFallback: _propTypes2.default.bool,
   deleteMessage: _propTypes2.default.func,
   composeTextPermission: _propTypes2.default.bool,
-  previewFaxMessages: _propTypes2.default.func
+  previewFaxMessages: _propTypes2.default.func,
+  loadNextPage: _propTypes2.default.func.isRequired,
+  loadingNextPage: _propTypes2.default.bool,
+  onUnmount: _propTypes2.default.func
 };
 
-MessagesPanel.defaultProps = {
+ConversationsPanel.defaultProps = {
   showSpinner: false,
   showTitle: false,
   showContactDisplayPlaceholder: true,
@@ -373,6 +390,8 @@ MessagesPanel.defaultProps = {
   enableContactFallback: undefined,
   deleteMessage: undefined,
   composeTextPermission: true,
-  previewFaxMessages: undefined
+  previewFaxMessages: undefined,
+  loadingNextPage: false,
+  onUnmount: undefined
 };
 //# sourceMappingURL=index.js.map

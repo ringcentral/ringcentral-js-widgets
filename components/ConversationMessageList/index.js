@@ -4,6 +4,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _regenerator = require('babel-runtime/regenerator');
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -93,7 +101,8 @@ var ConversationMessageList = function (_Component) {
   (0, _inherits3.default)(ConversationMessageList, _Component);
 
   function ConversationMessageList() {
-    var _ref2;
+    var _ref2,
+        _this2 = this;
 
     var _temp, _this, _ret;
 
@@ -103,9 +112,46 @@ var ConversationMessageList = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref2 = ConversationMessageList.__proto__ || (0, _getPrototypeOf2.default)(ConversationMessageList)).call.apply(_ref2, [this].concat(args))), _this), _this.scrollToLastMessage = function () {
-      if (_this.conversationBody) {
-        _this.conversationBody.scrollTop = _this.conversationBody.scrollHeight;
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref2 = ConversationMessageList.__proto__ || (0, _getPrototypeOf2.default)(ConversationMessageList)).call.apply(_ref2, [this].concat(args))), _this), _this.onScroll = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+      var currentScrollTop, clientHeight;
+      return _regenerator2.default.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              if (_this._listRef) {
+                _context.next = 2;
+                break;
+              }
+
+              return _context.abrupt('return');
+
+            case 2:
+              currentScrollTop = _this._listRef.scrollTop;
+
+              _this._scrollHeight = _this._listRef.scrollHeight;
+              clientHeight = _this._listRef.clientHeight;
+
+              if (currentScrollTop < _this._scrollTop) {
+                // user scroll up
+                _this._scrollUp = true;
+              } else if (currentScrollTop + clientHeight > _this._scrollHeight - 200) {
+                // user scroll down to bottom
+                _this._scrollUp = false;
+              }
+              if (currentScrollTop < 20 && _this._scrollTop >= 20) {
+                _this.props.loadPreviousMessages();
+              }
+              _this._scrollTop = currentScrollTop;
+
+            case 8:
+            case 'end':
+              return _context.stop();
+          }
+        }
+      }, _callee, _this2);
+    })), _this.scrollToLastMessage = function () {
+      if (_this._listRef) {
+        _this._listRef.scrollTop = _this._listRef.scrollHeight;
       }
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
@@ -118,14 +164,19 @@ var ConversationMessageList = function (_Component) {
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate(previousProps) {
-      if (previousProps.messages.length !== this.props.messages.length) {
+      if (previousProps.messages.length === this.props.messages.length) {
+        return;
+      }
+      if (!this._scrollUp) {
         this.scrollToLastMessage();
+      } else if (this._listRef && this._scrollHeight !== this._listRef.scrollHeight) {
+        this._listRef.scrollTop = this._listRef.scrollTop + (this._listRef.scrollHeight - this._scrollHeight);
       }
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       var _props = this.props,
           className = _props.className,
@@ -133,12 +184,14 @@ var ConversationMessageList = function (_Component) {
           messages = _props.messages,
           showSender = _props.showSender,
           height = _props.height,
-          messageSubjectRenderer = _props.messageSubjectRenderer;
+          messageSubjectRenderer = _props.messageSubjectRenderer,
+          formatPhone = _props.formatPhone,
+          loadingNextPage = _props.loadingNextPage;
 
 
       var lastDate = 0;
       var messageList = messages.map(function (message) {
-        var sender = showSender ? message.from.name || _this2.context.formatPhone(message.from.extensionNumber || message.from.phoneNumber) : null;
+        var sender = showSender ? message.from.name || formatPhone(message.from.extensionNumber || message.from.phoneNumber) : null;
         var date = new Date(message.creationTime);
         var time = date - lastDate < 60 * 60 * 1000 && date.getHours() === lastDate.getHours() ? null : dateTimeFormatter({ utcTimestamp: message.creationTime, type: 'long' });
         lastDate = date;
@@ -151,15 +204,22 @@ var ConversationMessageList = function (_Component) {
           subjectRenderer: messageSubjectRenderer
         });
       });
+      var loading = loadingNextPage ? _react2.default.createElement(
+        'div',
+        { className: _styles2.default.loading },
+        'Loading...'
+      ) : null;
       return _react2.default.createElement(
         'div',
         {
           className: (0, _classnames2.default)(_styles2.default.root, className),
           style: { height: height },
           ref: function ref(body) {
-            _this2.conversationBody = body;
-          }
+            _this3._listRef = body;
+          },
+          onScroll: this.onScroll
         },
+        loading,
         messageList
       );
     }
@@ -169,7 +229,7 @@ var ConversationMessageList = function (_Component) {
 
 ConversationMessageList.propTypes = {
   messages: _propTypes2.default.arrayOf(_propTypes2.default.shape({
-    creationTime: _propTypes2.default.string,
+    creationTime: _propTypes2.default.number,
     id: _propTypes2.default.number,
     direction: _propTypes2.default.string,
     subject: _propTypes2.default.string
@@ -178,6 +238,9 @@ ConversationMessageList.propTypes = {
   showSender: _propTypes2.default.bool,
   dateTimeFormatter: _propTypes2.default.func.isRequired,
   messageSubjectRenderer: _propTypes2.default.func,
+  formatPhone: _propTypes2.default.func.isRequired,
+  loadPreviousMessages: _propTypes2.default.func,
+  loadingNextPage: _propTypes2.default.bool,
   height: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string])
 };
 
@@ -185,11 +248,11 @@ ConversationMessageList.defaultProps = {
   className: null,
   showSender: false,
   messageSubjectRenderer: undefined,
-  height: '100%'
-};
-
-ConversationMessageList.contextTypes = {
-  formatPhone: _propTypes2.default.func.isRequired
+  height: '100%',
+  loadingNextPage: false,
+  loadPreviousMessages: function loadPreviousMessages() {
+    return null;
+  }
 };
 
 exports.default = ConversationMessageList;

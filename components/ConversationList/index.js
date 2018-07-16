@@ -67,13 +67,13 @@ NoMessages.propTypes = {
   placeholder: _propTypes2.default.string.isRequired
 };
 
-var MessageList = function (_Component) {
-  (0, _inherits3.default)(MessageList, _Component);
+var ConversationList = function (_Component) {
+  (0, _inherits3.default)(ConversationList, _Component);
 
-  function MessageList(props) {
-    (0, _classCallCheck3.default)(this, MessageList);
+  function ConversationList(props) {
+    (0, _classCallCheck3.default)(this, ConversationList);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (MessageList.__proto__ || (0, _getPrototypeOf2.default)(MessageList)).call(this, props));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (ConversationList.__proto__ || (0, _getPrototypeOf2.default)(ConversationList)).call(this, props));
 
     _this.onScroll = function () {
       var totalScrollHeight = _this.messagesListBody.scrollHeight;
@@ -82,21 +82,28 @@ var MessageList = function (_Component) {
       var currentScrollTop = _this.messagesListBody.scrollTop;
       // load next page if scroll near buttom
       if (totalScrollHeight - _this._scrollTop > clientHeight + 10 && totalScrollHeight - currentScrollTop <= clientHeight + 10) {
-        _this.setState({
-          page: _this.state.page + 1
-        });
+        if (typeof _this.props.loadNextPage === 'function') {
+          _this.props.loadNextPage();
+        }
       }
       _this._scrollTop = currentScrollTop;
     };
 
     _this._scrollTop = 0;
-    _this.state = {
-      page: 0
-    };
     return _this;
   }
 
-  (0, _createClass3.default)(MessageList, [{
+  (0, _createClass3.default)(ConversationList, [{
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps) {
+      if (this.props.typeFilter === prevProps.typeFilter) {
+        return;
+      }
+      if (this.messagesListBody) {
+        this.messagesListBody.scrollTop = 0;
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -108,19 +115,27 @@ var MessageList = function (_Component) {
           perPage = _props.perPage,
           disableLinks = _props.disableLinks,
           placeholder = _props.placeholder,
-          childProps = (0, _objectWithoutProperties3.default)(_props, ['className', 'currentLocale', 'conversations', 'perPage', 'disableLinks', 'placeholder']);
+          loadingNextPage = _props.loadingNextPage,
+          childProps = (0, _objectWithoutProperties3.default)(_props, ['className', 'currentLocale', 'conversations', 'perPage', 'disableLinks', 'placeholder', 'loadingNextPage']);
 
-
-      var lastIndex = (this.state.page + 1) * perPage - 1;
-
-      var content = conversations && conversations.length ? conversations.slice(0, lastIndex).map(function (item) {
-        return _react2.default.createElement(_MessageItem2.default, (0, _extends3.default)({}, childProps, {
-          conversation: item,
-          currentLocale: currentLocale,
-          key: item.id,
-          disableLinks: disableLinks
-        }));
-      }) : _react2.default.createElement(NoMessages, { placeholder: placeholder });
+      var content = void 0;
+      if (conversations && conversations.length) {
+        content = conversations.map(function (item) {
+          return _react2.default.createElement(_MessageItem2.default, (0, _extends3.default)({}, childProps, {
+            conversation: item,
+            currentLocale: currentLocale,
+            key: item.id,
+            disableLinks: disableLinks
+          }));
+        });
+      } else if (!loadingNextPage) {
+        content = _react2.default.createElement(NoMessages, { placeholder: placeholder });
+      }
+      var loading = loadingNextPage ? _react2.default.createElement(
+        'div',
+        { className: _styles2.default.loading },
+        'Loading...'
+      ) : null;
       return _react2.default.createElement(
         'div',
         {
@@ -130,17 +145,18 @@ var MessageList = function (_Component) {
             _this2.messagesListBody = list;
           }
         },
-        content
+        content,
+        loading
       );
     }
   }]);
-  return MessageList;
+  return ConversationList;
 }(_react.Component);
 
-exports.default = MessageList;
+exports.default = ConversationList;
 
 
-MessageList.propTypes = {
+ConversationList.propTypes = {
   brand: _propTypes2.default.string.isRequired,
   currentLocale: _propTypes2.default.string.isRequired,
   conversations: _propTypes2.default.arrayOf(_propTypes2.default.shape({
@@ -159,9 +175,12 @@ MessageList.propTypes = {
   showContactDisplayPlaceholder: _propTypes2.default.bool,
   sourceIcons: _propTypes2.default.object,
   showGroupNumberName: _propTypes2.default.bool,
-  placeholder: _propTypes2.default.string
+  placeholder: _propTypes2.default.string,
+  typeFilter: _propTypes2.default.string,
+  loadNextPage: _propTypes2.default.func,
+  loadingNextPage: _propTypes2.default.bool
 };
-MessageList.defaultProps = {
+ConversationList.defaultProps = {
   perPage: 20,
   className: undefined,
   disableLinks: false,
@@ -169,6 +188,9 @@ MessageList.defaultProps = {
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
   showGroupNumberName: false,
-  placeholder: undefined
+  placeholder: undefined,
+  loadNextPage: undefined,
+  loadingNextPage: false,
+  typeFilter: undefined
 };
 //# sourceMappingURL=index.js.map

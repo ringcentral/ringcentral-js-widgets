@@ -276,7 +276,7 @@ DropdownSelect.propTypes = {
   selectedClassName: _propTypes2.default.string,
   dropdownClassName: _propTypes2.default.string,
   iconClassName: _propTypes2.default.string,
-  value: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object]),
+  value: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object, _propTypes2.default.number]),
   label: _propTypes2.default.string,
   onChange: _propTypes2.default.func,
   disabled: _propTypes2.default.bool,
