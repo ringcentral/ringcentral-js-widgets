@@ -91,8 +91,7 @@ class ActiveCallDialPad extends Component {
     return (
       <div className={styles.root}>
         <BackHeader
-          onBackClick={this.props.hiddenDialPad}
-          >
+          onBackClick={this.props.hiddenDialPad}>
           {i18n.getString('keypad', this.props.currentLocale)}
         </BackHeader>
         <div className={styles.dialInput}>
