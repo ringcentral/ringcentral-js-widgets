@@ -39,8 +39,10 @@ import ContactDropdownListPage from './Components/ContactDropdownList';
 import ContactItemPage from './Components/ContactItem';
 import ContactListPage from './Components/ContactList';
 import ContactsViewPage from './Components/ContactsView';
+import ConversationListPage from './Components/ConversationList';
 import ConversationMessageListPage from './Components/ConversationMessageList';
 import ConversationPanelPage from './Components/ConversationPanel';
+import ConversationsPanelPage from './Components/ConversationsPanel';
 import CopyToClipboardPage from './Components/CopyToClipboard';
 import DatePickerPage from './Components/DatePicker';
 import DialButtonPage from './Components/DialButton';
@@ -85,11 +87,9 @@ import MeetingSectionPage from './Components/MeetingSection';
 import MessagePage from './Components/Message';
 import MessageInputPage from './Components/MessageInput';
 import MessageItemPage from './Components/MessageItem';
-import MessageListPage from './Components/MessageList';
 import MessageSenderAlertPage from './Components/MessageSenderAlert';
 import MessageStoreAlertPage from './Components/MessageStoreAlert';
 import MessageTabButtonPage from './Components/MessageTabButton';
-import MessagesPanelPage from './Components/MessagesPanel';
 import ModalPage from './Components/Modal';
 import MultiCallAnswerButtonPage from './Components/MultiCallAnswerButton';
 import NavigationBarPage from './Components/NavigationBar';
@@ -170,8 +170,10 @@ const Routes = () => (
     <Route path="/components/ContactItem" component={ContactItemPage} />
     <Route path="/components/ContactList" component={ContactListPage} />
     <Route path="/components/ContactsView" component={ContactsViewPage} />
+    <Route path="/components/ConversationList" component={ConversationListPage} />
     <Route path="/components/ConversationMessageList" component={ConversationMessageListPage} />
     <Route path="/components/ConversationPanel" component={ConversationPanelPage} />
+    <Route path="/components/ConversationsPanel" component={ConversationsPanelPage} />
     <Route path="/components/CopyToClipboard" component={CopyToClipboardPage} />
     <Route path="/components/DatePicker" component={DatePickerPage} />
     <Route path="/components/DialButton" component={DialButtonPage} />
@@ -216,11 +218,9 @@ const Routes = () => (
     <Route path="/components/Message" component={MessagePage} />
     <Route path="/components/MessageInput" component={MessageInputPage} />
     <Route path="/components/MessageItem" component={MessageItemPage} />
-    <Route path="/components/MessageList" component={MessageListPage} />
     <Route path="/components/MessageSenderAlert" component={MessageSenderAlertPage} />
     <Route path="/components/MessageStoreAlert" component={MessageStoreAlertPage} />
     <Route path="/components/MessageTabButton" component={MessageTabButtonPage} />
-    <Route path="/components/MessagesPanel" component={MessagesPanelPage} />
     <Route path="/components/Modal" component={ModalPage} />
     <Route path="/components/MultiCallAnswerButton" component={MultiCallAnswerButtonPage} />
     <Route path="/components/NavigationBar" component={NavigationBarPage} />

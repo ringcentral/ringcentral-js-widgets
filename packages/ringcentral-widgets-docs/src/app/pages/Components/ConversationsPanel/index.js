@@ -8,16 +8,16 @@ import Demo from './Demo';
 // eslint-disable-next-line
 import demoCode from '!raw-loader!./Demo';
 // eslint-disable-next-line
-import componentCode from '!raw-loader!ringcentral-widgets/components/MessageList';
+import componentCode from '!raw-loader!ringcentral-widgets/components/ConversationsPanel';
 
-const MessageListPage = () => {
+const MessagesPanelPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="MessageList" description={info.description} />
+      <ComponentHeader name="MessagesPanel" description={info.description} />
       <CodeExample
         code={demoCode}
-        title="MessageList Example"
+        title="MessagesPanel Example"
       >
         <Demo />
       </CodeExample>
@@ -26,4 +26,4 @@ const MessageListPage = () => {
   );
 };
 
-export default MessageListPage;
+export default MessagesPanelPage;

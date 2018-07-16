@@ -1,6 +1,7 @@
 import Enum from '../../lib/Enum';
 
 export default new Enum([
-  'syncing',
+  'fetching',
   'idle',
-], 'messageStore');
+  'pushing',
+], 'conversations');
