@@ -179,7 +179,7 @@ var Softphone = (_dec = (0, _di.Module)({
                 break;
 
               case 10:
-                if (!window.ActiveXObject) {
+                if (!(window.ActiveXObject || 'ActiveXObject' in window)) {
                   _context.next = 14;
                   break;
                 }
