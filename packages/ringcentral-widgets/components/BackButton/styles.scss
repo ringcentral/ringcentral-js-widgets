@@ -1,14 +1,5 @@
-@import '../../lib/commonStyles/colors';
-@import '../../lib/commonStyles/fonts';
-
 .backButton {
-  color: $lightblack;
-  i {
-    font-size: $primary-font-size;
-  }
-  &:hover {
-    color: $lightblack;
-  }
+  display: inline;
 }
 
 .backIcon {
@@ -20,7 +11,7 @@
 
 .backLabel {
   position: absolute;
-  top: 3px;
+  top: 4px;
   left: 34px;
   font-size: 15px;
 }
