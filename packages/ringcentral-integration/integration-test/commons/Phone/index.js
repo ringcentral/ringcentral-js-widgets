@@ -50,6 +50,7 @@ import ActivityMatcher from '../../../modules/ActivityMatcher';
 // import CallLog from '../CallLog';
 // import AutoLogger from '../AutoLogger';
 // import DataMatcher from '../DataMatcher';
+import ConferenceCall from '../../../modules/ConferenceCall';
 
 
 export default class Phone extends RcModule {
@@ -375,7 +376,9 @@ export default class Phone extends RcModule {
     }));
     this.contactSearch.addSearchSource({
       sourceName: 'test',
-      searchFn: ({ searchString }) => [{
+      searchFn: ({
+        searchString
+      }) => [{
         entityType: 'account',
         name: searchString,
         phoneNumber: '+1234567890',
@@ -444,6 +447,20 @@ export default class Phone extends RcModule {
     //   getState: () => this.state.adapter,
     // }));
 
+    this.addModule('conferenceCall', new ConferenceCall({
+      ...options,
+      auth: this.auth,
+      storage: this.storage,
+      client: this.client,
+      tabManager: this.tabManager,
+      alert: this.alert,
+      call: this.call,
+      callingSettings: this.callingSettings,
+      rolesAndPermissions: this.rolesAndPermissions,
+      pulling: false,
+      getState: () => this.state.conferenceCall,
+    }));
+
     this._reducer = combineReducers({
       app: (state = {
         name: appName,
@@ -488,6 +505,7 @@ export default class Phone extends RcModule {
       messageStore: this.messageStore.reducer,
       conversations: this.conversations.reducer,
       // adapter: this.adapter.reducer,
+      conferenceCall: this.conferenceCall.reducer,
     });
   }
 
