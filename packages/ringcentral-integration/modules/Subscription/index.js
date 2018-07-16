@@ -2,9 +2,7 @@ import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import loginStatus from '../Auth/loginStatus';
 import moduleStatuses from '../../enums/moduleStatuses';
-import getSubscriptionReducer, {
-  getCachedSubscriptionReducer,
-} from './getSubscriptionReducer';
+import getSubscriptionReducer, { getCachedSubscriptionReducer, } from './getSubscriptionReducer';
 import actionTypes from './actionTypes';
 import proxify from '../../lib/proxy/proxify';
 
@@ -154,10 +152,12 @@ export default class Subscription extends RcModule {
       });
     });
     this._subscription.on(this._subscription.events.renewSuccess, () => {
-      this.store.dispatch({
-        type: this.actionTypes.renewSuccess,
-        subscription: this._subscription.subscription(),
-      });
+      if (this._subscription) {
+        this.store.dispatch({
+          type: this.actionTypes.renewSuccess,
+          subscription: this._subscription.subscription(),
+        });
+      }
     });
     this._subscription.on(this._subscription.events.renewError, (error) => {
       if (this._subscription) {
@@ -177,10 +177,12 @@ export default class Subscription extends RcModule {
       }
     });
     this._subscription.on(this._subscription.events.subscribeSuccess, () => {
-      this.store.dispatch({
-        type: this.actionTypes.subscribeSuccess,
-        subscription: this._subscription.subscription(),
-      });
+      if (this._subscription) {
+        this.store.dispatch({
+          type: this.actionTypes.subscribeSuccess,
+          subscription: this._subscription.subscription(),
+        });
+      }
     });
     this._subscription.on(this._subscription.events.subscribeError, (error) => {
       this.store.dispatch({

@@ -7,6 +7,7 @@ export default function getDefaultDataReducer(actionTypes) {
     ttl,
     timestamp,
     queries,
+    shouldCleanUpAll = false,
   }) => {
     switch (type) {
       case actionTypes.matchSuccess: {
@@ -34,6 +35,9 @@ export default function getDefaultDataReducer(actionTypes) {
         return newState;
       }
       case actionTypes.cleanUp: {
+        if (shouldCleanUpAll) {
+          return {};
+        }
         const newState = {};
         let hasChanges = false;
 
