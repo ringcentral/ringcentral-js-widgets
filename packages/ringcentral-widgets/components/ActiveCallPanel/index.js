@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
+import BackButton from '../BackButton';
 import BackHeader from '../BackHeader';
 import Panel from '../Panel';
 import DurationCounter from '../DurationCounter';
@@ -122,12 +123,7 @@ function ActiveCallPanel({
   const backHeader = calls.length > 1 ? (
     <BackHeader
       onBackClick={onBackButtonClick}
-      backButton={(
-        <span className={styles.backButton}>
-          <i className={classnames(dynamicsFont.arrow, styles.backIcon)} />
-          <span className={styles.backLabel}>{backButtonLabel}</span>
-        </span>
-      )}
+      backButton={<BackButton label={backButtonLabel} />}
     />
   ) : <BackHeader className={styles.hidden} />;
   return (

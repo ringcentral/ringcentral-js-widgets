@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import withPhone from '../../lib/withPhone';
+import BackButton from '../../components/BackButton';
 import BackHeader from '../../components/BackHeader';
 import DialerPanel from '../../components/DialerPanel';
 
@@ -19,9 +20,9 @@ function ConferenceCallDialerPanel({
   return [
     <BackHeader
       key="header"
-      onBackClick={onBack}>
-      {i18n.getString('addToConference')}
-    </BackHeader>,
+      onBackClick={onBack}
+      backButton={<BackButton label={i18n.getString('activeCall')} />}
+    />,
     <DialerPanel
       key="dialer"
       {...baseProps}
