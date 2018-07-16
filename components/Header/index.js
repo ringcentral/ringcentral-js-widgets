@@ -39,6 +39,7 @@ function HeaderButton(props) {
     props.label
   );
 }
+
 HeaderButton.propTypes = {
   onClick: _propTypes2.default.func,
   label: _propTypes2.default.node,
@@ -47,6 +48,9 @@ HeaderButton.propTypes = {
 };
 
 HeaderButton.defaultProps = {
+  onClick: undefined,
+  label: undefined,
+  disabled: false,
   title: undefined
 };
 
@@ -59,11 +63,13 @@ function Header(props) {
       props.children
     );
   }
+
   var leftButtons = props.buttons.filter(function (b) {
     return b.placement !== 'right' && !b.hidden;
   }).map(function (b, idx) {
     return _react2.default.createElement(HeaderButton, (0, _extends3.default)({ key: idx }, b));
   });
+
   var rightButtons = props.buttons.filter(function (b) {
     return b.placement === 'right' && !b.hidden;
   }).map(function (b, idx) {
@@ -98,6 +104,8 @@ Header.propTypes = {
 };
 
 Header.defaultProps = {
+  className: '',
+  children: undefined,
   buttons: []
 };
 

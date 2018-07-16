@@ -24,10 +24,6 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _DynamicsFont = require('ringcentral-widgets/assets/DynamicsFont/DynamicsFont.scss');
-
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
-
 var _callDirections = require('ringcentral-integration/enums/callDirections');
 
 var _callDirections2 = _interopRequireDefault(_callDirections);
@@ -41,6 +37,10 @@ var _telephonyStatus = require('ringcentral-integration/enums/telephonyStatus');
 var _telephonyStatus2 = _interopRequireDefault(_telephonyStatus);
 
 var _callLogHelpers = require('ringcentral-integration/lib/callLogHelpers');
+
+var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
+
+var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
 
 var _i18n = require('./i18n');
 

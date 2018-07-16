@@ -35,10 +35,6 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
 var _DialPad = require('../DialPad');
 
 var _DialPad2 = _interopRequireDefault(_DialPad);
@@ -54,10 +50,6 @@ var _BackHeader2 = _interopRequireDefault(_BackHeader);
 var _CircleButton = require('../CircleButton');
 
 var _CircleButton2 = _interopRequireDefault(_CircleButton);
-
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
-
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
 
 var _Transfer = require('../../assets/images/Transfer.svg');
 
@@ -139,13 +131,7 @@ var TransferPanel = (_temp = _class = function (_PureComponent) {
         _react2.default.createElement(
           _BackHeader2.default,
           {
-            onBackClick: this.props.toggleTransferPanel,
-            backButton: _react2.default.createElement(
-              'span',
-              { className: _styles2.default.backButton },
-              _react2.default.createElement('i', { className: (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.backIcon) })
-            )
-          },
+            onBackClick: this.props.toggleTransferPanel },
           _i18n2.default.getString('transferTo', this.props.currentLocale)
         ),
         _react2.default.createElement(_RecipientsInput2.default, {

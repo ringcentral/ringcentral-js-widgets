@@ -16,6 +16,10 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
+var _BackButton = require('../BackButton');
+
+var _BackButton2 = _interopRequireDefault(_BackButton);
+
 var _BackHeader = require('../BackHeader');
 
 var _BackHeader2 = _interopRequireDefault(_BackHeader);
@@ -164,16 +168,7 @@ function ActiveCallPanel(_ref) {
   ) : null;
   var backHeader = calls.length > 1 ? _react2.default.createElement(_BackHeader2.default, {
     onBackClick: onBackButtonClick,
-    backButton: _react2.default.createElement(
-      'span',
-      { className: _styles2.default.backButton },
-      _react2.default.createElement('i', { className: (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.backIcon) }),
-      _react2.default.createElement(
-        'span',
-        { className: _styles2.default.backLabel },
-        backButtonLabel
-      )
-    )
+    backButton: _react2.default.createElement(_BackButton2.default, { label: backButtonLabel })
   }) : _react2.default.createElement(_BackHeader2.default, { className: _styles2.default.hidden });
   return _react2.default.createElement(
     'div',

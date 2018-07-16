@@ -156,8 +156,7 @@ var ActiveCallDialPad = function (_Component) {
         _react2.default.createElement(
           _BackHeader2.default,
           {
-            onBackClick: this.props.hiddenDialPad
-          },
+            onBackClick: this.props.hiddenDialPad },
           _i18n2.default.getString('keypad', this.props.currentLocale)
         ),
         _react2.default.createElement(

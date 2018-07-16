@@ -1,0 +1,17 @@
+.backButton {
+  display: inline;
+}
+
+.backIcon {
+  transform: rotate(90deg);
+  position: absolute;
+  top: 5px;
+  left: 10px;
+}
+
+.backLabel {
+  position: absolute;
+  top: 4px;
+  left: 34px;
+  font-size: 15px;
+}

@@ -27,6 +27,10 @@ var _withPhone = require('../../lib/withPhone');
 
 var _withPhone2 = _interopRequireDefault(_withPhone);
 
+var _BackButton = require('../../components/BackButton');
+
+var _BackButton2 = _interopRequireDefault(_BackButton);
+
 var _BackHeader = require('../../components/BackHeader');
 
 var _BackHeader2 = _interopRequireDefault(_BackHeader);
@@ -47,13 +51,11 @@ function ConferenceCallDialerPanel(_ref) {
   var onBack = _ref.onBack,
       baseProps = (0, _objectWithoutProperties3.default)(_ref, ['onBack']);
 
-  return [_react2.default.createElement(
-    _BackHeader2.default,
-    {
-      key: 'header',
-      onBackClick: onBack },
-    _i18n2.default.getString('addToConference')
-  ), _react2.default.createElement(_DialerPanel2.default, (0, _extends3.default)({
+  return [_react2.default.createElement(_BackHeader2.default, {
+    key: 'header',
+    onBackClick: onBack,
+    backButton: _react2.default.createElement(_BackButton2.default, { label: _i18n2.default.getString('activeCall') })
+  }), _react2.default.createElement(_DialerPanel2.default, (0, _extends3.default)({
     key: 'dialer'
   }, baseProps))];
 }

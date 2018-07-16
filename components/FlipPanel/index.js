@@ -37,6 +37,10 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _BackButton = require('../BackButton');
+
+var _BackButton2 = _interopRequireDefault(_BackButton);
+
 var _BackHeader = require('../BackHeader');
 
 var _BackHeader2 = _interopRequireDefault(_BackHeader);
@@ -56,10 +60,6 @@ var _Flip2 = _interopRequireDefault(_Flip);
 var _End = require('../../assets/images/End.svg');
 
 var _End2 = _interopRequireDefault(_End);
-
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
-
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
 
 var _styles = require('./styles.scss');
 
@@ -106,12 +106,8 @@ var FlipPanel = function (_Component) {
         _react2.default.createElement(
           _BackHeader2.default,
           {
-            onBackClick: this.props.isOnFlip ? function () {} : this.props.hideFlipPanel,
-            backButton: _react2.default.createElement(
-              'span',
-              { className: _styles2.default.backButton },
-              this.props.isOnFlip ? null : _react2.default.createElement('i', { className: (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.backIcon) })
-            )
+            onBackClick: this.props.isOnFlip ? null : this.props.hideFlipPanel,
+            backButton: _react2.default.createElement(_BackButton2.default, { showIcon: !this.props.isOnFlip })
           },
           _react2.default.createElement(
             'span',

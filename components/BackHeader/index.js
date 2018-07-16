@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = BackHeader;
 
 var _react = require('react');
 
@@ -30,7 +31,7 @@ var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var BackHeader = function BackHeader(props) {
+function BackHeader(props) {
   var buttons = props.buttons || [];
   var defaultBackButton = _react2.default.createElement('i', { className: (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.iconRotate) });
   buttons.push({
@@ -45,9 +46,7 @@ var BackHeader = function BackHeader(props) {
       className: props.className },
     props.children
   );
-};
-exports.default = BackHeader;
-
+}
 
 BackHeader.propTypes = {
   className: _propTypes2.default.string,
@@ -63,7 +62,9 @@ BackHeader.propTypes = {
 
 BackHeader.defaultProps = {
   className: '',
+  children: undefined,
   buttons: undefined,
-  backButton: undefined
+  backButton: undefined,
+  onBackClick: undefined
 };
 //# sourceMappingURL=index.js.map
