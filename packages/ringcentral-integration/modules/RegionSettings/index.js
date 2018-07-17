@@ -20,6 +20,7 @@ import getter from '../../lib/getter';
  */
 @Module({
   deps: [
+    'Brand',
     'Alert',
     'DialingPlan',
     'ExtensionInfo',
