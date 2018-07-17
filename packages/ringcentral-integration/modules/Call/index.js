@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import callingModes from '../CallingSettings/callingModes';
-import moduleStatuses from '../../enums/moduleStatuses';
 import proxify from '../../lib/proxy/proxify';
 import ensureExist from '../../lib/ensureExist';
 
@@ -280,46 +279,31 @@ export default class Call extends RcModule {
       return null;
     }
 
-    const waitingValidateNumbers = [];
+    const parsedNumbers = [];
 
     if (
       theFromNumber &&
       theFromNumber.length > 0 &&
       !(isWebphone && theFromNumber === 'anonymous')
     ) {
-      waitingValidateNumbers.push(theFromNumber);
+      parsedNumbers.push(await this._validateNumber(theFromNumber));
+    } else {
+      parsedNumbers.push(null);
     }
 
     if (!isConference) {
-      waitingValidateNumbers.push(toNumber);
-    }
-
-    let parsedNumbers = [];
-    if (waitingValidateNumbers.length) {
-      const validatedResult = await this._numberValidate.validateNumbers(waitingValidateNumbers);
-      if (!validatedResult.result) {
-        validatedResult.errors.forEach((error) => {
-          // this._alert.warning({
-          //   message: callErrors[error.type],
-          //   payload: {
-          //     phoneNumber: error.phoneNumber
-          //   }
-          // });
-          throw error;
-        });
-        return null;
-      }
-      parsedNumbers = validatedResult.numbers;
+      parsedNumbers.push(await this._validateNumber(toNumber));
+    } else {
+      parsedNumbers.push(null);
     }
 
     // using e164 in response to call
-    let parsedFromNumber =
-      parsedNumbers[0] ? parsedNumbers[0].e164 : '';
+    let parsedFromNumber = parsedNumbers[0] ? parsedNumbers[0].e164 : '';
     // add ext back if any
     if (parsedFromNumber) {
-      parsedFromNumber = (parsedNumbers[0].subAddress) ?
-        [parsedNumbers[0].e164, parsedNumbers[0].subAddress].join('*') :
-        parsedNumbers[0].e164;
+      parsedFromNumber = (parsedNumbers[0].subAddress)
+        ? [parsedNumbers[0].e164, parsedNumbers[0].subAddress].join('*')
+        : parsedNumbers[0].e164;
     }
     if (isWebphone && theFromNumber === 'anonymous') {
       parsedFromNumber = 'anonymous';
@@ -342,6 +326,23 @@ export default class Call extends RcModule {
       fromNumber: parsedFromNumber,
       toNumber: parsedToNumber ? parsedToNumber.e164 : toNumber,
     };
+  }
+
+  async _validateNumber(phoneNumber) {
+    const validatedResult = await this._numberValidate.validateNumbers([phoneNumber]);
+    if (!validatedResult.result) {
+      validatedResult.errors.forEach((error) => {
+        // this._alert.warning({
+        //   message: callErrors[error.type],
+        //   payload: {
+        //     phoneNumber: error.phoneNumber
+        //   }
+        // });
+        throw error;
+      });
+      return null;
+    }
+    return validatedResult.numbers[0];
   }
 
   @proxify
