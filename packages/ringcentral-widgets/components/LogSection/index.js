@@ -42,6 +42,7 @@ export default class LogSection extends Component {
   render() {
     const {
       renderEditLogSection,
+      renderSaveLogButton,
       currentLocale,
       onUpdateCallLog,
       currentLog,
@@ -71,7 +72,13 @@ export default class LogSection extends Component {
       styles.primaryButton,
       currentLogCall.isSaving && styles.disabled
     );
-    const saveLogBtn = showSaveLogBtn ? (
+    const saveLogBtn = showSaveLogBtn ? renderSaveLogButton && (
+      renderSaveLogButton({
+        currentLocale,
+        onSaveCallLog,
+        currentLog,
+      })
+    ) || (
       <Button
         disabled={currentLogCall.isSaving}
         className={buttonClassName}
@@ -112,6 +119,7 @@ LogSection.propTypes = {
   onUpdateCallLog: PropTypes.func,
   onSaveCallLog: PropTypes.func,
   renderEditLogSection: PropTypes.func,
+  renderSaveLogButton: PropTypes.func,
   isInnerMask: PropTypes.bool,
   showSaveLogBtn: PropTypes.bool,
 };
@@ -122,6 +130,7 @@ LogSection.defaultProps = {
   onUpdateCallLog: undefined,
   onSaveCallLog: undefined,
   renderEditLogSection: undefined,
+  renderSaveLogButton: undefined,
   isInnerMask: undefined,
   showSaveLogBtn: true,
 };
