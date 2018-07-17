@@ -18,7 +18,7 @@ export default class DialButton extends Component {
       this.audio = document.createElement('audio');
       this.audio.src = audios[props.btn.value];
     }
-    this.onMouseDown = () => {
+    this.onMouseDown = (e) => {
       if (this.audio && this.audio.canPlayType('audio/ogg') !== '') {
         this.audio.volume = this.props.volume;
         this.audio.muted = this.props.muted;
@@ -52,6 +52,7 @@ export default class DialButton extends Component {
       this.setState({
         pressed: true,
       });
+      e.preventDefault();
     };
     this.onMouseUp = () => {
       if (this.state.pressed) {
