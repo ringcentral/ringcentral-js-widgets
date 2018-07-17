@@ -54,6 +54,27 @@ var _i18n2 = _interopRequireDefault(_i18n);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Set mouse focus and move cursor to end of input
+ * @param {HTMLElement} inputField
+ */
+var focusCampo = function focusCampo(inputField) {
+  inputField.blur();
+  if (inputField && inputField.value.length !== 0) {
+    if (inputField.createTextRange) {
+      var FieldRange = inputField.createTextRange();
+      FieldRange.moveStart('character', inputField.value.length);
+      FieldRange.collapse();
+      FieldRange.select();
+    } else if (inputField.selectionStart || inputField.selectionStart === 0) {
+      var elemLen = inputField.value.length;
+      inputField.selectionStart = elemLen;
+      inputField.selectionEnd = elemLen;
+    }
+  }
+  inputField.focus();
+};
+
 function SelectedRecipientItem(_ref) {
   var phoneNumber = _ref.phoneNumber,
       _ref$name = _ref.name,
@@ -174,8 +195,9 @@ var RecipientsInput = function (_Component) {
     _this.onInputChange = function (e) {
       var value = e.currentTarget.value;
 
-      _this.setState({ value: value });
-      _this.props.onChange(value);
+      _this.setState({ value: value }, function () {
+        _this.props.onChange(value);
+      });
       if (_this.listRef) {
         _this.listRef.scrollTop = 0;
       }
@@ -312,22 +334,28 @@ var RecipientsInput = function (_Component) {
   (0, _createClass3.default)(RecipientsInput, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
+      var _this2 = this;
+
       if (nextProps.value !== undefined && nextProps.value !== this.props.value && nextProps.value !== this.state.value) {
-        this.setState({ value: nextProps.value });
+        this.setState({ value: nextProps.value }, function () {
+          if (_this2.inputRef) {
+            focusCampo(_this2.inputRef);
+          }
+        });
         this.props.searchContact(nextProps.value);
       }
     }
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.props.searchContact(this.props.value);
       window.addEventListener('click', this.clickHandler);
       if (this.props.autoFocus) {
         this._focusTimeout = setTimeout(function () {
-          if (_this2.inputRef) {
-            _this2.inputRef.focus();
+          if (_this3.inputRef) {
+            _this3.inputRef.focus();
           }
         }, 300);
       }
@@ -340,7 +368,7 @@ var RecipientsInput = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       // TODO a temporary fix for rendering slower search result.
       var relatedContactList = this.state.value.length >= 3 ? this.props.searchContactList.slice(0, 50) : [];
@@ -397,7 +425,7 @@ var RecipientsInput = function (_Component) {
         _react2.default.createElement(_ContactDropdownList2.default, {
           currentLocale: this.props.currentLocale,
           listRef: function listRef(ref) {
-            _this3.listRef = ref;
+            _this4.listRef = ref;
           },
           scrollDirection: this.state.scrollDirection,
           selectedIndex: this.state.selectedContactIndex,

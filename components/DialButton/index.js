@@ -72,7 +72,7 @@ var DialButton = function (_Component) {
       _this.audio = document.createElement('audio');
       _this.audio.src = _audios2.default[props.btn.value];
     }
-    _this.onMouseDown = function () {
+    _this.onMouseDown = function (e) {
       if (_this.audio && _this.audio.canPlayType('audio/ogg') !== '') {
         _this.audio.volume = _this.props.volume;
         _this.audio.muted = _this.props.muted;
@@ -106,6 +106,7 @@ var DialButton = function (_Component) {
       _this.setState({
         pressed: true
       });
+      e.preventDefault();
     };
     _this.onMouseUp = function () {
       if (_this.state.pressed) {
