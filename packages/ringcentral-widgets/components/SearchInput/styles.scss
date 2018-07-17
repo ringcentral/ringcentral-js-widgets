@@ -33,3 +33,7 @@
 .input::placeholder {
   color: $smoke;
 }
+
+.input::-ms-clear {
+  display: none;
+}

@@ -33,6 +33,8 @@ props.contactGroups = [{
 }];
 props.getAvatarUrl = async () => null;
 props.getPresence = async () => null;
+props.width = 300;
+props.height = 500;
 
 /**
  * A example of `ContactList`

@@ -234,6 +234,5 @@ ContactList.propTypes = {
 
 ContactList.defaultProps = {
   onItemSelect: undefined,
-  sourceNodeRenderer: undefined,
-  listRef: undefined,
+  sourceNodeRenderer: undefined
 };

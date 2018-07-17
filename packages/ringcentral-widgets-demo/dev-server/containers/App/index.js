@@ -15,7 +15,7 @@ import ConversationPage from 'ringcentral-widgets/containers/ConversationPage';
 import ConferencePage from 'ringcentral-widgets/containers/ConferencePage';
 import ConferenceCommands from 'ringcentral-widgets/components/ConferenceCommands';
 import MeetingPage from 'ringcentral-widgets/containers/MeetingPage';
-import MessagesPage from 'ringcentral-widgets/containers/MessagesPage';
+import ConversationsPage from 'ringcentral-widgets/containers/ConversationsPage';
 import SettingsPage from 'ringcentral-widgets/containers/SettingsPage';
 import ActiveCallsPage from 'ringcentral-widgets/containers/ActiveCallsPage';
 import CallHistoryPage from 'ringcentral-widgets/containers/CallHistoryPage';
@@ -208,7 +208,7 @@ export default function App({
               <Route
                 path="/messages"
                 component={() => (
-                  <MessagesPage
+                  <ConversationsPage
                     showContactDisplayPlaceholder={false}
                     onLogConversation={async () => { await sleep(1000); }}
                     onCreateContact={() => { }}

@@ -25,8 +25,8 @@ beforeEach(async () => {
 });
 
 const clickButton = (button) => {
-  button.find('g').first().props().onMouseDown();
-  button.find('g').first().props().onMouseUp();
+  button.find('g').first().simulate('mouseDown');
+  button.find('g').first().simulate('mouseUp');
   wrapper.update();
 };
 

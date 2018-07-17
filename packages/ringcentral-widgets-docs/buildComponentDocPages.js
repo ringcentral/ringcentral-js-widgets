@@ -119,6 +119,12 @@ function getComponentDocRenderData(componentData) {
   if (component.props.currentLocale) {
     component.props.currentLocale = "'en-US'";
   }
+  if (component.props.countryCode) {
+    component.props.countryCode = "'US'";
+  }
+  if (component.props.areaCode) {
+    component.props.areaCode = "'650'";
+  }
   component.name = componentData.name;
   component.description = componentData.description;
   return component;
