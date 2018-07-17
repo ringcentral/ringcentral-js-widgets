@@ -56,31 +56,13 @@
   fill: $ash;
 }
 
-
-//Collapse
-.collapseWrapper {
-  overflow: hidden;
-  transition: max-height 0.15s 0s ease-in-out;
-}
-$icon-width: 21px;
-$icon-padding: 12px;
-.collapseContainer {
-  margin-left: $icon-width + $icon-padding;
-  overflow: hidden;
-}
-
 //ListItem
 .container {
   border-bottom: 1px solid #e2e2e2;
   box-sizing: border-box;
   min-Height: 62px;
+  padding-bottom: 10px;
   padding: 20px;
-  &:hover {
-    background-color: $egg;
-    .extendIcon {
-      border-top-color: #fafafa;
-    }
-  }
   &.unread {
     .iconWrapper {
       color: $primary-color;
@@ -102,9 +84,14 @@ $icon-padding: 12px;
 
 .root {
   cursor: pointer;
-  // background-color: $snow;
   display: flex;
   justify-content: space-between;
+  // &:hover {
+  //   background-color: $egg;
+  //   .extendIcon {
+  //     border-top-color: #fafafa;
+  //   }
+  // }
 }
 
 .leftWrapper {

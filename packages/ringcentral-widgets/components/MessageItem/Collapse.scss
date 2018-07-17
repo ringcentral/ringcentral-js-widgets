@@ -1,0 +1,11 @@
+$icon-width: 21px;
+$icon-padding: 12px;
+
+.collapseWrapper {
+  overflow: hidden;
+  transition: max-height 0.15s 0s ease-in-out;
+}
+.collapseContainer {
+  overflow: hidden;
+  margin-left: $icon-width + $icon-padding;
+}

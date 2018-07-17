@@ -1,7 +1,9 @@
 import React, { Component } from 'React';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import messageTypes from 'ringcentral-integration/enums/messageTypes';
 import messageDirection from 'ringcentral-integration/enums/messageDirection';
+import Collapse from './Collapse';
 import VoicemailIcon from '../../assets/images/VoicemailIcon.svg';
 import FaxInboundIcon from '../../assets/images/FaxInbound.svg';
 import FaxOutboundIcon from '../../assets/images/FaxOutbound.svg';
@@ -10,25 +12,42 @@ import GroupConversationIcon from '../../assets/images/GroupConversation.svg';
 import styles from './ListItem.scss';
 import i18n from './i18n';
 
-const ExtendIcon = ({ open }) => {
-  return (
-    <div
-      className={classnames(styles.extendIcon, open && styles.extended)}
-    />
-  );
+const ExtendIcon = ({ open }) => (
+  <div className={classnames(styles.extendIcon, open && styles.extended)} />
+);
+
+ExtendIcon.propTypes = {
+  open: PropTypes.bool
 };
 
-const ExtendSeal = ({ open, onClick }) => {  
-  return (
-    <div className={styles.extendWrapper} onClick={onClick}>
-      <div className={styles.extendLocate}>
-        <ExtendIcon open={open} />
-      </div>
+ExtendIcon.defaultProps = {
+  open: false
+};
+
+const ExtendSeal = ({ open, onClick }) => (
+  <div className={styles.extendWrapper} onClick={onClick}>
+    <div className={styles.extendLocate}>
+      <ExtendIcon open={open} />
     </div>
-  );
+  </div>
+);
+
+ExtendSeal.propTypes = {
+  open: PropTypes.bool,
+  onClick: PropTypes.func
 };
 
-const renderIcon = ({ type, direction, currentLocale, group }) => {
+ExtendSeal.defaultProps = {
+  open: false,
+  onClick: null
+};
+
+const renderIcon = ({
+  type,
+  direction,
+  currentLocale,
+  group
+}) => {
   const { voiceMail, fax } = messageTypes;
   const { inbound } = messageDirection;
   if ((type === fax) && (direction === inbound)) {
@@ -67,38 +86,6 @@ const Icon = (props) => {
   );
 };
 
-const getMaxHeight = (ele) => {
-  if (ele == null) {
-    return 'auto';
-  }
-  // Preserve original height
-  const h1 = ele.getBoundingClientRect().height;
-  // Get nature height
-  ele.style.height = 'auto';
-  const h2 = ele.getBoundingClientRect().height;
-  // Switch back to original height
-  ele.style.height = `${h1}px`;
-  return h2;
-};
-
-class Collapse extends Component {
-  render() {
-    const { open, children } = this.props;
-    // open ? getMaxHeight(this.container) : 0;
-    return (
-      <div
-        className={styles.collapseWrapper}
-        style={{ maxHeight: open ? getMaxHeight(this.container) : 0 }}>
-        <div
-          ref={(ref) => { this.container = ref; }}
-          className={styles.collapseContainer}>
-          {children}
-        </div>
-      </div>
-    );
-  }
-};
-
 export default class ListItem extends Component {
   constructor() {
     super();
@@ -112,16 +99,22 @@ export default class ListItem extends Component {
   // canOpen
   render() {
     // const { Icon } = this.props;
-    const { correspondents, type, currentLocale, direction, detail, timeText, unreadCounts } = this.props;
+    const {
+      currentLocale,
+      correspondents,
+      type,
+      direction,
+      detail,
+      timeText,
+    } = this.props;
     const { contactDisplay } = this.props;
-    const { onClick } = this.props;
+    const { onClick, isUnread } = this.props;
     return (
       <div>
         <div
           onClick={onClick || this.toggle}
           className={classnames(
-            styles.container,
-            unreadCounts && styles.unread
+            styles.container, isUnread && styles.unread
           )}>
           <div className={styles.root}>
             <div className={styles.leftWrapper}>
@@ -144,10 +137,38 @@ export default class ListItem extends Component {
           </div>
           <Collapse open={this.state.open}>{this.props.children}</Collapse>
         </div>
-        {/* This should be placed here, 
+        {/* This should be placed here,
           cause we cannot use relative to prevent scrollbar been cover issue under Safari */}
-        <ExtendSeal open={this.state.open} onClick={this.toggle}/>
+        <ExtendSeal open={this.state.open} onClick={this.toggle} />
       </div>
     );
   }
 }
+
+ListItem.propTypes = {
+  currentLocale: PropTypes.string.isRequired,
+  correspondents: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    phoneNumber: PropTypes.string,
+    extensionNumber: PropTypes.string,
+  })),
+  type: PropTypes.string.isRequired,
+  direction: PropTypes.string,
+  detail: PropTypes.string,
+  timeText: PropTypes.string,
+  isUnread: PropTypes.bool,
+  contactDisplay: PropTypes.element.isRequired,
+  children: PropTypes.node,
+  onClick: PropTypes.func,
+};
+
+ListItem.defaultProps = {
+  correspondents: {},
+  type: PropTypes.string.isRequired,
+  direction: '',
+  detail: '',
+  timeText: '',
+  isUnread: false,
+  children: null,
+  onClick: null
+};
