@@ -124,13 +124,13 @@ var MeetingType = exports.MeetingType = {
 };
 
 // Basic default meeting type information
-var getDefaultMeetingSettings = exports.getDefaultMeetingSettings = function getDefaultMeetingSettings(extensionName) {
+var getDefaultMeetingSettings = exports.getDefaultMeetingSettings = function getDefaultMeetingSettings(extensionName, startTime) {
   return {
     topic: extensionName + '\'s Meeting',
     meetingType: MeetingType.SCHEDULED,
     password: null,
     schedule: {
-      startTime: new Date().getTime(),
+      startTime: startTime,
       durationInMinutes: 60,
       timeZone: {
         id: UTC_TIMEZONE_ID
@@ -269,9 +269,11 @@ var Meeting = (_dec = (0, _di.Module)({
     key: '_initMeeting',
     value: function _initMeeting() {
       var extensionName = this._extensionInfo.info.name || '';
+      var now = new Date();
+      var startTime = now.setHours(now.getHours() + 1, 0, 0);
       this.store.dispatch({
         type: this.actionTypes.updateMeeting,
-        meeting: (0, _extends3.default)({}, getDefaultMeetingSettings(extensionName), this.lastMeetingInfo)
+        meeting: (0, _extends3.default)({}, getDefaultMeetingSettings(extensionName, startTime), this.lastMeetingInfo)
       });
     }
   }, {
