@@ -34,10 +34,14 @@ export default function SettingsPanel({
   onUserGuideClick,
   showCalling,
   showAutoLog,
+  showAutoSave,
   showAudio,
   autoLogEnabled,
+  autoSaveEnabled,
   disableAutoLogEnabled,
+  disableAutoSaveEnabled,
   onAutoLogChange,
+  onAutoSaveChange,
   showAutoLogSMS,
   autoLogSMSEnabled,
   onAutoLogSMSChange,
@@ -175,6 +179,22 @@ export default function SettingsPanel({
     </IconLine>
   ) :
     null;
+  const autoSave = showAutoSave ? (
+    <IconLine
+      icon={
+        <Switch
+          disable={disableAutoSaveEnabled}
+          checked={autoSaveEnabled}
+          onChange={onAutoSaveChange}
+        />
+      }
+    >
+      <span className={classnames(disableAutoSaveEnabled && styles.disableText)}>
+        {i18n.getString('autoLogNotes', currentLocale)}
+      </span>
+    </IconLine>
+  ) :
+    null;
   const autoLogSMS = showAutoLogSMS ? (
     <IconLine
       icon={
@@ -193,7 +213,7 @@ export default function SettingsPanel({
       {i18n.getString('settings', currentLocale)}
     </Header>
   ) : null;
-  const userGuide = showUserGuide ?  (
+  const userGuide = showUserGuide ? (
     <LinkLine
       onClick={onUserGuideClick} >
       {i18n.getString('userGuide', currentLocale)}
@@ -214,6 +234,7 @@ export default function SettingsPanel({
         {presenceSetting}
         {children}
         {autoLog}
+        {autoSave}
         {autoLogSMS}
         {clickToDial}
         {additional}
@@ -263,9 +284,13 @@ SettingsPanel.propTypes = {
   showRegion: PropTypes.bool,
   showAudio: PropTypes.bool,
   showAutoLog: PropTypes.bool,
+  showAutoSave: PropTypes.bool,
   autoLogEnabled: PropTypes.bool,
+  autoSaveEnabled: PropTypes.bool,
   disableAutoLogEnabled: PropTypes.bool,
+  disableAutoSaveEnabled: PropTypes.bool,
   onAutoLogChange: PropTypes.func,
+  onAutoSaveChange: PropTypes.func,
   showAutoLogSMS: PropTypes.bool,
   autoLogSMSEnabled: PropTypes.bool,
   onAutoLogSMSChange: PropTypes.func,
@@ -306,11 +331,15 @@ SettingsPanel.defaultProps = {
   showCalling: false,
   showAudio: false,
   showAutoLog: false,
+  showAutoSave: false,
   showRegion: false,
   showUserGuide: false,
   autoLogEnabled: false,
+  autoSaveEnabled: false,
   disableAutoLogEnabled: false,
-  onAutoLogChange: undefined,
+  disableAutoSaveEnabled: false,
+  onAutoLogChange: () => null,
+  onAutoSaveChange: () => null,
   showAutoLogSMS: false,
   autoLogSMSEnabled: false,
   onAutoLogSMSChange: undefined,
