@@ -17,23 +17,13 @@ class ConversationPanel extends Component {
       selected: this.getInitialContactIndex(),
       isLogging: false,
       inputHeight: 63,
+      loaded: false,
     };
     this._userSelection = false;
   }
-  getMessageListHeight() {
-    const headerHeight = 41;
-    return `calc(100% - ${this.state.inputHeight + headerHeight}px)`;
-  }
-  onInputHeightChange = (value) => {
-    this.setState({
-      inputHeight: value,
-    });
-  }
-  onSend = () => {
-    this.props.replyToReceivers(this.props.messageText);
-  }
 
   componentDidMount() {
+    this.loadConversation();
     this._mounted = true;
   }
 
@@ -55,8 +45,30 @@ class ConversationPanel extends Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.messages !== this.props.messages) {
+      this.props.readMessages(this.props.conversationId);
+    }
+    if (prevState.loaded === false && this.state.loaded === true) {
+      if (this.props.messages.length < this.props.perPage) {
+        this.props.loadPreviousMessages();
+      }
+    }
+  }
+
   componentWillUnmount() {
     this._mounted = false;
+    this.props.unloadConversation();
+  }
+
+  onSend = () => {
+    this.props.replyToReceivers(this.props.messageText);
+  }
+
+  onInputHeightChange = (value) => {
+    this.setState({
+      inputHeight: value,
+    });
   }
 
   onSelectContact = (value, idx) => {
@@ -75,6 +87,12 @@ class ConversationPanel extends Component {
       this.logConversation({ redirect: false, selected, prefill: false });
     }
   }
+
+  getMessageListHeight() {
+    const headerHeight = 41;
+    return `calc(100% - ${this.state.inputHeight + headerHeight}px)`;
+  }
+
   getSelectedContact = (selected = this.state.selected) => {
     if (!this.props.conversation) {
       return null;
@@ -133,6 +151,11 @@ class ConversationPanel extends Component {
       (correspondents[0].name)) || undefined;
   }
 
+  loadConversation() {
+    this.props.loadConversation(this.props.conversationId);
+    this.setState({ loaded: true });
+  }
+
   async logConversation({ redirect = true, selected, prefill = true }) {
     if (typeof this.props.onLogConversation === 'function' &&
       this._mounted && !this.state.isLogging
@@ -157,13 +180,12 @@ class ConversationPanel extends Component {
   logConversation = this.logConversation.bind(this)
 
   render() {
-    let conversationBody = null;
-    const loading = this.props.showSpinner;
-    const { recipients, messageSubjectRenderer, conversation } = this.props;
-    if (!conversation) {
-      this.props.goBack();
+    if (!this.state.loaded) {
       return null;
     }
+    let conversationBody = null;
+    const loading = this.props.showSpinner;
+    const { recipients, messageSubjectRenderer } = this.props;
     if (loading) {
       conversationBody = (
         <div className={styles.spinerContainer}>
@@ -175,9 +197,13 @@ class ConversationPanel extends Component {
         <ConversationMessageList
           height={this.getMessageListHeight()}
           messages={this.props.messages}
+          className={styles.conversationBody}
           dateTimeFormatter={this.props.dateTimeFormatter}
           showSender={recipients && recipients.length > 1}
           messageSubjectRenderer={messageSubjectRenderer}
+          formatPhone={this.props.formatPhone}
+          loadingNextPage={this.props.loadingNextPage}
+          loadPreviousMessages={this.props.loadPreviousMessages}
         />
       );
     }
@@ -275,6 +301,14 @@ ConversationPanel.propTypes = {
   sourceIcons: PropTypes.object,
   showGroupNumberName: PropTypes.bool,
   messageSubjectRenderer: PropTypes.func,
+  formatPhone: PropTypes.func.isRequired,
+  readMessages: PropTypes.func.isRequired,
+  loadPreviousMessages: PropTypes.func.isRequired,
+  unloadConversation: PropTypes.func.isRequired,
+  perPage: PropTypes.number,
+  conversationId: PropTypes.string.isRequired,
+  loadConversation: PropTypes.func,
+  loadingNextPage: PropTypes.bool,
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
@@ -285,8 +319,11 @@ ConversationPanel.defaultProps = {
   sourceIcons: undefined,
   showGroupNumberName: false,
   messageText: '',
-  updateMessageText: () => { },
+  updateMessageText: () => null,
   messageSubjectRenderer: undefined,
+  perPage: undefined,
+  loadConversation: () => null,
+  loadingNextPage: false
 };
 
 export default ConversationPanel;

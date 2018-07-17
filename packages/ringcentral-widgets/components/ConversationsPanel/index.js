@@ -4,13 +4,14 @@ import classnames from 'classnames';
 import messageTypes from 'ringcentral-integration/enums/messageTypes';
 import Header from '../Header';
 import SpinnerOverlay from '../SpinnerOverlay';
-import MessageList from '../MessageList';
 import MessageTabButton from '../MessageTabButton';
 import NavigationBar from '../NavigationBar';
 import SearchInput from '../SearchInput';
 import ComposeText from '../../assets/images/ComposeText.svg';
 import NewComposeText from '../../assets/images/NewComposeText.svg';
 import NewComposeTextHover from '../../assets/images/NewComposeTextHover.svg';
+import ConversationList from '../ConversationList';
+
 import styles from './styles.scss';
 import i18n from './i18n';
 
@@ -30,7 +31,7 @@ TabTitle.propTypes = {
   currentLocale: PropTypes.string.isRequired,
 };
 
-export default class MessagesPanel extends Component {
+export default class ConversationsPanel extends Component {
   constructor(props) {
     super(props);
 
@@ -39,6 +40,12 @@ export default class MessagesPanel extends Component {
         this.props.updateTypeFilter(type);
       }
     };
+  }
+
+  componentWillUnmount() {
+    if (typeof this.props.onUnmount === 'function') {
+      this.props.onUnmount();
+    }
   }
 
   renderTabs() {
@@ -115,7 +122,9 @@ export default class MessagesPanel extends Component {
       typeFilter,
       goToComposeText,
       composeTextPermission,
-      previewFaxMessages
+      previewFaxMessages,
+      loadNextPage,
+      loadingNextPage,
     } = this.props;
     if (showSpinner) {
       return (<SpinnerOverlay />);
@@ -152,12 +161,14 @@ export default class MessagesPanel extends Component {
       i18n.getString('noSearchResults', currentLocale) :
       i18n.getString('noMessages', currentLocale);
     return (
-      <div className={classnames(
-        styles.content,
-        showTitle && styles.contentWithHeader
-      )}>
+      <div
+        className={classnames(
+          styles.content,
+          showTitle && styles.contentWithHeader
+        )}
+      >
         {search}
-        <MessageList
+        <ConversationList
           className={onSearchInputChange ? styles.contentWithSearch : null}
           currentLocale={currentLocale}
           perPage={perPage}
@@ -185,6 +196,9 @@ export default class MessagesPanel extends Component {
           enableContactFallback={enableContactFallback}
           deleteMessage={deleteMessage}
           previewFaxMessages={previewFaxMessages}
+          loadNextPage={loadNextPage}
+          loadingNextPage={loadingNextPage}
+          typeFilter={typeFilter}
         />
       </div>
     );
@@ -224,7 +238,7 @@ export default class MessagesPanel extends Component {
   }
 }
 
-MessagesPanel.propTypes = {
+ConversationsPanel.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   showSpinner: PropTypes.bool,
   showTitle: PropTypes.bool,
@@ -265,9 +279,12 @@ MessagesPanel.propTypes = {
   deleteMessage: PropTypes.func,
   composeTextPermission: PropTypes.bool,
   previewFaxMessages: PropTypes.func,
+  loadNextPage: PropTypes.func.isRequired,
+  loadingNextPage: PropTypes.bool,
+  onUnmount: PropTypes.func,
 };
 
-MessagesPanel.defaultProps = {
+ConversationsPanel.defaultProps = {
   showSpinner: false,
   showTitle: false,
   showContactDisplayPlaceholder: true,
@@ -295,4 +312,6 @@ MessagesPanel.defaultProps = {
   deleteMessage: undefined,
   composeTextPermission: true,
   previewFaxMessages: undefined,
+  loadingNextPage: false,
+  onUnmount: undefined,
 };

@@ -19,7 +19,11 @@ props.conversation = {
   correspondentMatches: [],
   correspondents: [],
 };
+props.conversationId = '1234';
 props.formatPhone = p => p;
+props.readMessages = () => null;
+props.loadPreviousMessages = () => null;
+props.unloadConversation = () => null;
 
 /**
  * A example of `ConversationPanel`

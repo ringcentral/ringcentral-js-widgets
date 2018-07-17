@@ -13,3 +13,4 @@ console.log = () => { };
 console.debug = () => { };
 
 window.authData = null;
+window.open = () => { };
