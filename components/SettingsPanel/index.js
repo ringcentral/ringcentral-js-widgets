@@ -91,10 +91,14 @@ function SettingsPanel(_ref) {
       onUserGuideClick = _ref.onUserGuideClick,
       showCalling = _ref.showCalling,
       showAutoLog = _ref.showAutoLog,
+      showAutoLogNotes = _ref.showAutoLogNotes,
       showAudio = _ref.showAudio,
       autoLogEnabled = _ref.autoLogEnabled,
+      autoLogNotesEnabled = _ref.autoLogNotesEnabled,
       disableAutoLogEnabled = _ref.disableAutoLogEnabled,
+      disableAutoLogNotesEnabled = _ref.disableAutoLogNotesEnabled,
       onAutoLogChange = _ref.onAutoLogChange,
+      onAutoLogNotesChange = _ref.onAutoLogNotesChange,
       showAutoLogSMS = _ref.showAutoLogSMS,
       autoLogSMSEnabled = _ref.autoLogSMSEnabled,
       onAutoLogSMSChange = _ref.onAutoLogSMSChange,
@@ -212,6 +216,21 @@ function SettingsPanel(_ref) {
       _i18n2.default.getString('autoLogCalls', currentLocale)
     )
   ) : null;
+  var autoLogNotes = showAutoLogNotes ? _react2.default.createElement(
+    _IconLine2.default,
+    {
+      icon: _react2.default.createElement(_Switch2.default, {
+        disable: disableAutoLogNotesEnabled,
+        checked: autoLogNotesEnabled,
+        onChange: onAutoLogNotesChange
+      })
+    },
+    _react2.default.createElement(
+      'span',
+      { className: (0, _classnames2.default)(disableAutoLogNotesEnabled && _styles2.default.disableText) },
+      _i18n2.default.getString('autoLogNotes', currentLocale)
+    )
+  ) : null;
   var autoLogSMS = showAutoLogSMS ? _react2.default.createElement(
     _IconLine2.default,
     {
@@ -248,6 +267,7 @@ function SettingsPanel(_ref) {
       presenceSetting,
       children,
       autoLog,
+      autoLogNotes,
       autoLogSMS,
       clickToDial,
       additional,
@@ -308,9 +328,13 @@ SettingsPanel.propTypes = {
   showRegion: _propTypes2.default.bool,
   showAudio: _propTypes2.default.bool,
   showAutoLog: _propTypes2.default.bool,
+  showAutoLogNotes: _propTypes2.default.bool,
   autoLogEnabled: _propTypes2.default.bool,
+  autoLogNotesEnabled: _propTypes2.default.bool,
   disableAutoLogEnabled: _propTypes2.default.bool,
+  disableAutoLogNotesEnabled: _propTypes2.default.bool,
   onAutoLogChange: _propTypes2.default.func,
+  onAutoLogNotesChange: _propTypes2.default.func,
   showAutoLogSMS: _propTypes2.default.bool,
   autoLogSMSEnabled: _propTypes2.default.bool,
   onAutoLogSMSChange: _propTypes2.default.func,
@@ -351,11 +375,19 @@ SettingsPanel.defaultProps = {
   showCalling: false,
   showAudio: false,
   showAutoLog: false,
+  showAutoLogNotes: false,
   showRegion: false,
   showUserGuide: false,
   autoLogEnabled: false,
+  autoLogNotesEnabled: false,
   disableAutoLogEnabled: false,
-  onAutoLogChange: undefined,
+  disableAutoLogNotesEnabled: false,
+  onAutoLogChange: function onAutoLogChange() {
+    return null;
+  },
+  onAutoLogNotesChange: function onAutoLogNotesChange() {
+    return null;
+  },
   showAutoLogSMS: false,
   autoLogSMSEnabled: false,
   onAutoLogSMSChange: undefined,

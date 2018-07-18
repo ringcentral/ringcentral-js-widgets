@@ -13,6 +13,7 @@ exports.default = {
   autoCreateLog: 'Auto-create Call Log',
   autoCreateSMSLog: 'Auto-create SMS Log',
   autoLogCalls: 'Auto log calls',
+  autoLogNotes: 'Auto log Notes',
   autoLogSMS: 'Auto log SMS',
   clickToSMS: 'Click to SMS',
   clickToDialSMS: 'Click to Dial/SMS',
