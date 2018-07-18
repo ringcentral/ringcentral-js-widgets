@@ -573,5 +573,6 @@ function mockForLogin() {
   if (mockActiveCalls) {
     activeCalls();
   }
+  numberParser();
 }
 //# sourceMappingURL=index.js.map

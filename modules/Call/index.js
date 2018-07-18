@@ -59,10 +59,6 @@ var _callingModes = require('../CallingSettings/callingModes');
 
 var _callingModes2 = _interopRequireDefault(_callingModes);
 
-var _moduleStatuses = require('../../enums/moduleStatuses');
-
-var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
-
 var _proxify = require('../../lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
@@ -412,75 +408,83 @@ var Call = (_dec = (0, _di.Module)({
       var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_ref7) {
         var phoneNumber = _ref7.phoneNumber,
             recipient = _ref7.recipient,
-            fromNumber = _ref7.fromNumber;
-        var toNumber, validatedNumbers;
+            fromNumber = _ref7.fromNumber,
+            _ref7$isConference = _ref7.isConference,
+            isConference = _ref7$isConference === undefined ? false : _ref7$isConference;
+        var session, toNumber, validatedNumbers;
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
+                session = null;
+
                 if (!this.isIdle) {
-                  _context5.next = 25;
+                  _context5.next = 27;
                   break;
                 }
 
                 toNumber = recipient && (recipient.phoneNumber || recipient.extension) || phoneNumber;
 
                 if (!(!toNumber || ('' + toNumber).trim().length === 0)) {
-                  _context5.next = 6;
+                  _context5.next = 7;
                   break;
                 }
 
                 this._alert.warning({
                   message: _callErrors2.default.noToNumber
                 });
-                _context5.next = 25;
+                _context5.next = 27;
                 break;
 
-              case 6:
+              case 7:
                 this.store.dispatch({
                   type: this.actionTypes.connect,
+                  isConference: isConference,
                   phoneNumber: phoneNumber,
                   recipient: recipient,
                   callSettingMode: this._callSettingMode // for Track
                 });
-                _context5.prev = 7;
-                _context5.next = 10;
+                _context5.prev = 8;
+                _context5.next = 11;
                 return this._getValidatedNumbers({
                   toNumber: toNumber,
-                  fromNumber: fromNumber
+                  fromNumber: fromNumber,
+                  isConference: isConference
                 });
 
-              case 10:
+              case 11:
                 validatedNumbers = _context5.sent;
 
                 if (!validatedNumbers) {
-                  _context5.next = 17;
+                  _context5.next = 19;
                   break;
                 }
 
-                _context5.next = 14;
+                _context5.next = 15;
                 return this._makeCall(validatedNumbers);
 
-              case 14:
+              case 15:
+                session = _context5.sent;
+
                 this.store.dispatch({
                   type: this.actionTypes.connectSuccess,
                   callSettingMode: this._callSettingMode // for Track
                 });
-                _context5.next = 18;
+                _context5.next = 20;
                 break;
 
-              case 17:
+              case 19:
                 this.store.dispatch({
                   type: this.actionTypes.connectError
                 });
 
-              case 18:
-                _context5.next = 25;
+              case 20:
+                _context5.next = 27;
                 break;
 
-              case 20:
-                _context5.prev = 20;
-                _context5.t0 = _context5['catch'](7);
+              case 22:
+                _context5.prev = 22;
+                _context5.t0 = _context5['catch'](8);
 
                 if (!_context5.t0.message && _context5.t0.type && _callErrors2.default[_context5.t0.type]) {
                   // validate format error
@@ -511,12 +515,15 @@ var Call = (_dec = (0, _di.Module)({
                 });
                 throw _context5.t0;
 
-              case 25:
+              case 27:
+                return _context5.abrupt('return', session);
+
+              case 28:
               case 'end':
                 return _context5.stop();
             }
           }
-        }, _callee5, this, [[7, 20]]);
+        }, _callee5, this, [[8, 22]]);
       }));
 
       function call(_x2) {
@@ -530,8 +537,9 @@ var Call = (_dec = (0, _di.Module)({
     value: function () {
       var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(_ref9) {
         var toNumber = _ref9.toNumber,
-            fromNumber = _ref9.fromNumber;
-        var isWebphone, theFromNumber, waitingValidateNumbers, validatedResult, parsedNumbers, parsedToNumber, error, parsedFromNumber;
+            fromNumber = _ref9.fromNumber,
+            isConference = _ref9.isConference;
+        var isWebphone, theFromNumber, waitingValidateNumbers, parsedToNumber, parsedFromNumber, numbers, validatedResult, toNumberIndex, fromNumberIndex, error, parsedFromNumberE164;
         return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
@@ -547,19 +555,42 @@ var Call = (_dec = (0, _di.Module)({
                 return _context6.abrupt('return', null);
 
               case 4:
-                waitingValidateNumbers = [toNumber];
+                waitingValidateNumbers = [];
+
+
+                if (!isConference) {
+                  waitingValidateNumbers.push({
+                    type: 'toNumber',
+                    number: toNumber
+                  });
+                }
 
                 if (theFromNumber && theFromNumber.length > 0 && !(isWebphone && theFromNumber === 'anonymous')) {
-                  waitingValidateNumbers.push(theFromNumber);
+                  waitingValidateNumbers.push({
+                    type: 'fromNumber',
+                    number: theFromNumber
+                  });
                 }
-                _context6.next = 8;
-                return this._numberValidate.validateNumbers(waitingValidateNumbers);
 
-              case 8:
+                parsedToNumber = void 0;
+                parsedFromNumber = void 0;
+
+                if (!waitingValidateNumbers.length) {
+                  _context6.next = 21;
+                  break;
+                }
+
+                numbers = waitingValidateNumbers.map(function (x) {
+                  return x.number;
+                });
+                _context6.next = 13;
+                return this._numberValidate.validateNumbers(numbers);
+
+              case 13:
                 validatedResult = _context6.sent;
 
                 if (validatedResult.result) {
-                  _context6.next = 12;
+                  _context6.next = 17;
                   break;
                 }
 
@@ -574,12 +605,20 @@ var Call = (_dec = (0, _di.Module)({
                 });
                 return _context6.abrupt('return', null);
 
-              case 12:
-                parsedNumbers = validatedResult.numbers;
-                parsedToNumber = parsedNumbers[0];
+              case 17:
+                toNumberIndex = waitingValidateNumbers.findIndex(function (x) {
+                  return x.type === 'toNumber';
+                });
+                fromNumberIndex = waitingValidateNumbers.findIndex(function (x) {
+                  return x.type === 'fromNumber';
+                });
 
-                if (!(parsedToNumber.international && !this._rolesAndPermissions.permissions.InternationalCalls)) {
-                  _context6.next = 17;
+                parsedToNumber = validatedResult.numbers[toNumberIndex];
+                parsedFromNumber = validatedResult.numbers[fromNumberIndex];
+
+              case 21:
+                if (!(parsedToNumber && parsedToNumber.international && !this._rolesAndPermissions.permissions.InternationalCalls)) {
+                  _context6.next = 24;
                   break;
                 }
 
@@ -589,23 +628,28 @@ var Call = (_dec = (0, _di.Module)({
                 };
                 throw error;
 
-              case 17:
-                // using e164 in response to call
-                parsedFromNumber = parsedNumbers[1] ? parsedNumbers[1].e164 : '';
-                // add ext back if any
+              case 24:
 
-                if (parsedFromNumber !== '') {
-                  parsedFromNumber = parsedNumbers[1].subAddress ? [parsedNumbers[1].e164, parsedNumbers[1].subAddress].join('*') : parsedNumbers[1].e164;
+                // using e164 in response to call
+                parsedFromNumberE164 = void 0;
+
+                if (parsedFromNumber) {
+                  parsedFromNumberE164 = parsedFromNumber.e164;
+                  // add ext back if any
+                  if (parsedFromNumber.e164 && parsedFromNumber.subAddress) {
+                    parsedFromNumberE164 = [parsedFromNumber.e164, parsedFromNumber.subAddress].join('*');
+                  }
                 }
                 if (isWebphone && theFromNumber === 'anonymous') {
-                  parsedFromNumber = 'anonymous';
+                  parsedFromNumberE164 = 'anonymous';
                 }
+
                 return _context6.abrupt('return', {
-                  toNumber: parsedToNumber.e164,
-                  fromNumber: parsedFromNumber
+                  toNumber: parsedToNumber ? parsedToNumber.e164 : toNumber,
+                  fromNumber: parsedFromNumberE164
                 });
 
-              case 21:
+              case 28:
               case 'end':
                 return _context6.stop();
             }
@@ -629,7 +673,7 @@ var Call = (_dec = (0, _di.Module)({
             fromNumber = _ref11.fromNumber,
             _ref11$callingMode = _ref11.callingMode,
             callingMode = _ref11$callingMode === undefined ? this._callingSettings.callingMode : _ref11$callingMode;
-        var homeCountry, homeCountryId;
+        var homeCountry, homeCountryId, session;
         return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
@@ -638,45 +682,53 @@ var Call = (_dec = (0, _di.Module)({
                   return country.isoCode === _this3._regionSettings.countryCode;
                 });
                 homeCountryId = homeCountry && homeCountry.callingCode || '1';
+                session = void 0;
                 _context7.t0 = callingMode;
-                _context7.next = _context7.t0 === _callingModes2.default.softphone ? 5 : _context7.t0 === _callingModes2.default.ringout ? 7 : _context7.t0 === _callingModes2.default.webphone ? 10 : 14;
+                _context7.next = _context7.t0 === _callingModes2.default.softphone ? 6 : _context7.t0 === _callingModes2.default.ringout ? 8 : _context7.t0 === _callingModes2.default.webphone ? 12 : 17;
                 break;
 
-              case 5:
-                this._softphone.makeCall(toNumber);
-                return _context7.abrupt('break', 15);
+              case 6:
+                session = this._softphone.makeCall(toNumber);
+                return _context7.abrupt('break', 18);
 
-              case 7:
-                _context7.next = 9;
+              case 8:
+                _context7.next = 10;
                 return this._ringout.makeCall({
                   fromNumber: fromNumber,
                   toNumber: toNumber,
                   prompt: this._callingSettings.ringoutPrompt
                 });
 
-              case 9:
-                return _context7.abrupt('break', 15);
-
               case 10:
+                session = _context7.sent;
+                return _context7.abrupt('break', 18);
+
+              case 12:
                 if (!this._webphone) {
-                  _context7.next = 13;
+                  _context7.next = 16;
                   break;
                 }
 
-                _context7.next = 13;
+                _context7.next = 15;
                 return this._webphone.makeCall({
                   fromNumber: fromNumber,
                   toNumber: toNumber,
                   homeCountryId: homeCountryId
                 });
 
-              case 13:
-                return _context7.abrupt('break', 15);
-
-              case 14:
-                return _context7.abrupt('break', 15);
-
               case 15:
+                session = _context7.sent;
+
+              case 16:
+                return _context7.abrupt('break', 18);
+
+              case 17:
+                return _context7.abrupt('break', 18);
+
+              case 18:
+                return _context7.abrupt('return', session);
+
+              case 19:
               case 'end':
                 return _context7.stop();
             }
