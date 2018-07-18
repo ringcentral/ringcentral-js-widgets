@@ -537,6 +537,7 @@ export function mockForLogin({
   if (mockActiveCalls) {
     activeCalls();
   }
+  numberParser();
 }
 
 
