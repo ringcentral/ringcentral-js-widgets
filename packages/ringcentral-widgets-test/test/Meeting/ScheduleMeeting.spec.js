@@ -41,7 +41,7 @@ describe('Schedule Meeting', () => {
     // Tolerance one minute range
     const now = moment(Date.now());
     expect(moment(app.props().phone.meeting.meeting.schedule.startTime)
-      .diff(now, 'minutes')).toBeLessThan(1);
+      .diff(now, 'minutes')).toBeLessThanOrEqual(60);
     // DATE
     const dateField = when.find('DateTimePicker').at(0);
     const expectedDate = now.add(1, 'days');

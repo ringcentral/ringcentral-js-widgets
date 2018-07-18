@@ -6,6 +6,27 @@ import RemoveButton from '../RemoveButton';
 import ContactDropdownList from '../ContactDropdownList';
 import i18n from './i18n';
 
+/**
+ * Set mouse focus and move cursor to end of input
+ * @param {HTMLElement} inputField
+ */
+const focusCampo = (inputField) => {
+  inputField.blur();
+  if (inputField && inputField.value.length !== 0) {
+    if (inputField.createTextRange) {
+      const FieldRange = inputField.createTextRange();
+      FieldRange.moveStart('character', inputField.value.length);
+      FieldRange.collapse();
+      FieldRange.select();
+    } else if (inputField.selectionStart || inputField.selectionStart === 0) {
+      const elemLen = inputField.value.length;
+      inputField.selectionStart = elemLen;
+      inputField.selectionEnd = elemLen;
+    }
+  }
+  inputField.focus();
+};
+
 function SelectedRecipientItem({
   phoneNumber,
   name = phoneNumber,
@@ -208,8 +229,9 @@ class RecipientsInput extends Component {
 
   onInputChange = (e) => {
     const { value } = e.currentTarget;
-    this.setState({ value });
-    this.props.onChange(value);
+    this.setState({ value }, () => {
+      this.props.onChange(value);
+    });
     if (this.listRef) {
       this.listRef.scrollTop = 0;
     }
@@ -226,7 +248,11 @@ class RecipientsInput extends Component {
       nextProps.value !== this.props.value &&
       nextProps.value !== this.state.value
     ) {
-      this.setState({ value: nextProps.value });
+      this.setState({ value: nextProps.value }, () => {
+        if (this.inputRef) {
+          focusCampo(this.inputRef);
+        }
+      });
       this.props.searchContact(nextProps.value);
     }
   }

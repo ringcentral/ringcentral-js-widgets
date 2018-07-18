@@ -1,6 +1,6 @@
 import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
-import MessageList from 'ringcentral-widgets/components/MessageList';
-import MessagesPanel from 'ringcentral-widgets/components/MessagesPanel';
+import ConversationList from 'ringcentral-widgets/components/ConversationList';
+import ConversationsPanel from 'ringcentral-widgets/components/ConversationsPanel';
 import ContactDisplay from 'ringcentral-widgets/components/ContactDisplay';
 import SearchInput from 'ringcentral-widgets/components/SearchInput';
 import MessageItem from 'ringcentral-widgets/components/MessageItem';
@@ -19,7 +19,7 @@ beforeEach(async () => {
   const navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/messages');
   wrapper.update();
-  panel = wrapper.find(MessagesPanel).first();
+  panel = wrapper.find(ConversationsPanel).first();
 });
 
 describe('messages', () => {
@@ -33,7 +33,7 @@ describe('messages', () => {
     const domInput = searchInput.find('input').first();
     domInput.instance().value = 'something-doesnt-exist';
     domInput.simulate('change');
-    panel = wrapper.find(MessagesPanel).first();
+    panel = wrapper.find(ConversationsPanel).first();
     searchInput = panel.find(SearchInput).first();
     expect(searchInput.props().value).toEqual('something-doesnt-exist');
     expect(panel.find('.noMessages').text().trim()).toEqual('No matching records found');
@@ -75,13 +75,13 @@ describe('messages', () => {
       const callItem = messageItems.at(messageItems.length - 1); // last item
       let logButton = callItem.find(LogButton).find(Button);
       logButton.simulate('click');
-      panel = wrapper.find(MessageList).first();
+      panel = wrapper.find(ConversationList).first();
       logButton = panel.find(MessageItem).at(messageItems.length - 1).find(LogButton).find(Button);
       expect(logButton.props().disabled).toBe(true);
       expect(logButton.find(Spinner).length).toBe(1);
       await timeout(2000);
       wrapper.update();
-      panel = wrapper.find(MessageList).first();
+      panel = wrapper.find(ConversationList).first();
       logButton = panel.find(MessageItem).at(messageItems.length - 1).find(LogButton).find(Button);
       expect(logButton.props().disabled).toBe(false);
       expect(logButton.find(Spinner).length).toBe(0);

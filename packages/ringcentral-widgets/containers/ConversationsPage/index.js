@@ -1,13 +1,12 @@
 import { connect } from 'react-redux';
 import withPhone from '../../lib/withPhone';
-import MessagesPanel from '../../components/MessagesPanel';
-
+import MessagesPanel from '../../components/ConversationsPanel';
 
 function mapToProps(_, {
   phone: {
     brand,
     locale,
-    messages,
+    conversations,
     contactMatcher,
     dateTimeFormat,
     regionSettings,
@@ -27,7 +26,7 @@ function mapToProps(_, {
     permissions,
     readTextPermissions,
     voicemailPermissions,
-    readFaxPermissions
+    readFaxPermissions,
   } = rolesAndPermissions;
   return ({
     showTitle,
@@ -35,7 +34,7 @@ function mapToProps(_, {
     showGroupNumberName,
     brand: brand.fullName,
     currentLocale: locale.currentLocale,
-    conversations: messages.filteredConversations,
+    conversations: conversations.pagingConversations,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
     disableLinks: (
@@ -61,7 +60,7 @@ function mapToProps(_, {
     loggingMap: (conversationLogger && conversationLogger.loggingMap),
     showSpinner: !(
       locale.ready &&
-      messages.ready &&
+      conversations.ready &&
       (!contactMatcher || contactMatcher.ready) &&
       dateTimeFormat.ready &&
       regionSettings.ready &&
@@ -72,22 +71,23 @@ function mapToProps(_, {
       (!call || call.ready) &&
       (!conversationLogger || conversationLogger.ready)
     ),
-    searchInput: messages.searchInput,
+    searchInput: conversations.searchInput,
     autoLog: !!(conversationLogger && conversationLogger.autoLog),
-    typeFilter: messages.typeFilter,
+    typeFilter: conversations.typeFilter,
     textUnreadCounts: messageStore.textUnreadCounts,
     voiceUnreadCounts: messageStore.voiceUnreadCounts,
     faxUnreadCounts: messageStore.faxUnreadCounts,
     readTextPermission: readTextPermissions,
     readVoicemailPermission: voicemailPermissions,
     readFaxPermission: readFaxPermissions,
+    loadingNextPage: conversations.loadingOldConversations,
   });
 }
 
 function mapToFunctions(_, {
   phone: {
     dateTimeFormat,
-    messages,
+    conversations,
     messageStore,
     conversationLogger,
     contactMatcher,
@@ -137,7 +137,7 @@ function mapToFunctions(_, {
         }
       } :
       undefined,
-    onClickToSms: (contact, isDummyContact = false) => {
+    onClickToSms(contact, isDummyContact = false) {
       if (routerInteraction) {
         routerInteraction.push(composeTextRoute);
       }
@@ -162,34 +162,44 @@ function mapToFunctions(_, {
         redirect,
       });
     })),
-    onSearchInputChange: (e) => {
-      messages.updateSearchInput(e.currentTarget.value);
+    onSearchInputChange(e) {
+      conversations.updateSearchInput(e.currentTarget.value);
     },
-    showConversationDetail: (conversationId) => {
+    showConversationDetail(conversationId) {
       routerInteraction.push(
         conversationDetailRoute.replace('{conversationId}', conversationId)
       );
     },
-    readMessage: conversationId =>
-      messageStore.readMessages(conversationId),
-    markMessage: conversationId =>
-      messageStore.unreadMessage(conversationId),
-    unmarkMessage: (conversationId) => {
+    readMessage(conversationId) {
+      messageStore.readMessages(conversationId);
+    },
+    markMessage(conversationId) {
+      messageStore.unreadMessage(conversationId);
+    },
+    unmarkMessage(conversationId) {
       messageStore.readMessages(conversationId);
       messageStore.onUnmarkMessages();
     },
     goToComposeText: () => routerInteraction.push(composeTextRoute),
-    updateTypeFilter: type => messages.updateTypeFilter(type),
-    deleteMessage: (conversationId) => {
-      messageStore.deleteMessage(conversationId);
+    updateTypeFilter: type => conversations.updateTypeFilter(type),
+    deleteMessage(conversationId) {
+      conversations.deleteCoversation(conversationId);
     },
-    previewFaxMessages: (uri, conversationId) => {
+    previewFaxMessages(uri, conversationId) {
       if (!previewFaxMessages) {
         window.open(uri);
       } else {
         previewFaxMessages(uri);
       }
       messageStore.readMessages(conversationId);
+    },
+    async loadNextPage() {
+      await conversations.loadNextPage();
+    },
+    onUnmount() {
+      if (conversations.currentPage > 2) {
+        conversations.resetCurrentPage();
+      }
     }
   };
 }
