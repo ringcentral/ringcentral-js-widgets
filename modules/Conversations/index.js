@@ -286,7 +286,7 @@ var Conversations = (_dec = (0, _di.Module)({
       this.store.dispatch({
         type: this.actionTypes.initSuccess
       });
-      if (this.allConversations.length <= this._perPage) {
+      if (this.allConversations.length <= this._perPage && this._enableLoadOldMessages && this._hasPermission) {
         this.fetchOldConversations();
       }
     }
@@ -490,7 +490,7 @@ var Conversations = (_dec = (0, _di.Module)({
                 return _context4.abrupt('return');
 
               case 6:
-                if (this._enableLoadOldMessages) {
+                if (!(!this._enableLoadOldMessages || !this._hasPermission)) {
                   _context4.next = 8;
                   break;
                 }
@@ -624,7 +624,7 @@ var Conversations = (_dec = (0, _di.Module)({
                 return _context8.abrupt('return');
 
               case 2:
-                if (this._olderMessagesExsited) {
+                if (this._hasPermission) {
                   _context8.next = 4;
                   break;
                 }
@@ -632,7 +632,7 @@ var Conversations = (_dec = (0, _di.Module)({
                 return _context8.abrupt('return');
 
               case 4:
-                if (!this.loadingOldMessages) {
+                if (this._olderMessagesExsited) {
                   _context8.next = 6;
                   break;
                 }
@@ -640,7 +640,7 @@ var Conversations = (_dec = (0, _di.Module)({
                 return _context8.abrupt('return');
 
               case 6:
-                if (this.currentConversationId) {
+                if (!this.loadingOldMessages) {
                   _context8.next = 8;
                   break;
                 }
@@ -648,6 +648,14 @@ var Conversations = (_dec = (0, _di.Module)({
                 return _context8.abrupt('return');
 
               case 8:
+                if (this.currentConversationId) {
+                  _context8.next = 10;
+                  break;
+                }
+
+                return _context8.abrupt('return');
+
+              case 10:
                 this.store.dispatch({
                   type: this.actionTypes.fetchOldMessages
                 });
@@ -667,11 +675,11 @@ var Conversations = (_dec = (0, _di.Module)({
                   dateFrom: dateFrom.toISOString(),
                   dateTo: dateTo.toISOString()
                 };
-                _context8.prev = 16;
-                _context8.next = 19;
+                _context8.prev = 18;
+                _context8.next = 21;
                 return this._client.account().extension().messageStore().list(params);
 
-              case 19:
+              case 21:
                 _ref11 = _context8.sent;
                 records = _ref11.records;
 
@@ -682,12 +690,12 @@ var Conversations = (_dec = (0, _di.Module)({
                     records: records
                   });
                 }
-                _context8.next = 28;
+                _context8.next = 30;
                 break;
 
-              case 25:
-                _context8.prev = 25;
-                _context8.t0 = _context8['catch'](16);
+              case 27:
+                _context8.prev = 27;
+                _context8.t0 = _context8['catch'](18);
 
                 if (conversationId === this.currentConversationId) {
                   this.store.dispatch({
@@ -695,12 +703,12 @@ var Conversations = (_dec = (0, _di.Module)({
                   });
                 }
 
-              case 28:
+              case 30:
               case 'end':
                 return _context8.stop();
             }
           }
-        }, _callee8, this, [[16, 25]]);
+        }, _callee8, this, [[18, 27]]);
       }));
 
       function fetchOldMessages() {
@@ -992,6 +1000,11 @@ var Conversations = (_dec = (0, _di.Module)({
     key: 'pushing',
     get: function get() {
       return this.state.conversationStatus === _status2.default.pushing;
+    }
+  }, {
+    key: '_hasPermission',
+    get: function get() {
+      return this._rolesAndPermissions.hasReadMessagesPermission;
     }
   }]);
   return Conversations;
