@@ -27,9 +27,19 @@ describe('Log Icon:', () => {
       viewTask: () => {},
     };
     const wrapper = setup(props);
-    debugger;
     expect(wrapper.find('div').props().children.props.className).toEqual('unloggedIcon');
     expect(wrapper.find('div').props().title).toEqual('Unworked');
+  });
+  it('Should display Disabled unloggedIcon Icon with tooltip: To log fax is not supported.', () => {
+    const props = {
+      sessionId: '123',
+      viewTask: () => {},
+      isFax: true,
+      disabled: true,
+    };
+    const wrapper = setup(props);
+    expect(wrapper.find('div').props().children.props.className).toEqual('unloggedIcon');
+    expect(wrapper.find('div').props().title).toEqual('To log fax is not supported.');
   });
 });
 
