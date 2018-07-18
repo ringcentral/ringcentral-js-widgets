@@ -876,11 +876,9 @@ export default class Webphone extends RcModule {
       }
       session.hold();
     });
-
     // update cached sessions
-    this.cachedSessions.forEach((cachedSession) => {
-      cachedSession.callStatus = sessionStatus.onHold;
-      cachedSession.isOnHold = true;
+    this.store.dispatch({
+      type: this.actionTypes.onholdCachedSession,
     });
   }
 

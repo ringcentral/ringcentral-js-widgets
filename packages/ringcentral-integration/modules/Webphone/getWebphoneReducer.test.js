@@ -56,7 +56,7 @@ describe('Webphone :: getConnectionStatusReducer', () => {
     it('should return original state when actionTypes is not recognized', () => {
       const originalState = {};
       expect(reducer(originalState, { type: 'foo' }))
-      .to.equal(originalState);
+        .to.equal(originalState);
     });
 
     it('should return connecting when actionTypes is connect or reconnect', () => {
@@ -115,7 +115,7 @@ describe('Webphone :: getConnectRetryCountsReducer', () => {
     it('should return original state when actionTypes is not recognized', () => {
       const originalState = {};
       expect(reducer(originalState, { type: 'foo' }))
-      .to.equal(originalState);
+        .to.equal(originalState);
     });
 
     it('should return original state + 1 when actionTypes is reconnect', () => {
@@ -153,7 +153,7 @@ describe('Webphone :: getActiveSessionIdReducer', () => {
     it('should return original state when actionTypes is not recognized', () => {
       const originalState = {};
       expect(reducer(originalState, { type: 'foo' }))
-      .to.equal(originalState);
+        .to.equal(originalState);
     });
 
     it('should return sessionId when actionTypes is callStart', () => {
@@ -166,34 +166,34 @@ describe('Webphone :: getActiveSessionIdReducer', () => {
 
     it(`should return original state when actionTypes is callEnd
         and sessionId is unequal original state`, () => {
-      const originalState = '111';
-      expect(reducer(originalState, {
-        type: actionTypes.callEnd,
-        session: { id: '222' },
-      })).to.equal('111');
-    });
+        const originalState = '111';
+        expect(reducer(originalState, {
+          type: actionTypes.callEnd,
+          session: { id: '222' },
+        })).to.equal('111');
+      });
 
     it(`should return null when actionTypes is callEnd
         and sessionId is equal original state`, () => {
-      const originalState = '111';
-      expect(reducer(originalState, {
-        type: actionTypes.callEnd,
-        session: { id: '111' },
-      })).to.equal(null);
-    });
+        const originalState = '111';
+        expect(reducer(originalState, {
+          type: actionTypes.callEnd,
+          session: { id: '111' },
+        })).to.equal(null);
+      });
 
     it(`should return onHoldSessionId when actionTypes is callEnd
         and sessionId is equal original state and there is one session on hold`, () => {
-      const originalState = '111';
-      expect(reducer(originalState, {
-        type: actionTypes.callEnd,
-        session: { id: '111' },
-        sessions: [{
-          id: '123',
-          callStatus: sessionStatus.onHold,
-        }]
-      })).to.equal('123');
-    });
+        const originalState = '111';
+        expect(reducer(originalState, {
+          type: actionTypes.callEnd,
+          session: { id: '111' },
+          sessions: [{
+            id: '123',
+            callStatus: sessionStatus.onHold,
+          }]
+        })).to.equal('123');
+      });
 
     it('should return null when actionTypes is disconnect', () => {
       const originalState = '111';
@@ -221,7 +221,7 @@ describe('Webphone :: getRingSessionIdReducer', () => {
     it('should return original state when actionTypes is not recognized', () => {
       const originalState = {};
       expect(reducer(originalState, { type: 'foo' }))
-      .to.equal(originalState);
+        .to.equal(originalState);
     });
 
     it('should return sessionId when actionTypes is callRing', () => {
@@ -234,50 +234,50 @@ describe('Webphone :: getRingSessionIdReducer', () => {
 
     it(`should return original state when actionTypes is callEnd and callStart
         and sessionId is unequal original state`, () => {
-      [
-        actionTypes.callStart,
-        actionTypes.callEnd,
-      ].forEach((type) => {
-        const originalState = '111';
-        expect(reducer(originalState, {
-          type,
-          session: { id: '222' },
-        })).to.equal('111');
+        [
+          actionTypes.callStart,
+          actionTypes.callEnd,
+        ].forEach((type) => {
+          const originalState = '111';
+          expect(reducer(originalState, {
+            type,
+            session: { id: '222' },
+          })).to.equal('111');
+        });
       });
-    });
 
     it(`should return null when actionTypes is callEnd and callStart
         and sessionId is equal original state`, () => {
-      [
-        actionTypes.callStart,
-        actionTypes.callEnd,
-      ].forEach((type) => {
-        const originalState = '111';
-        expect(reducer(originalState, {
-          type,
-          session: { id: '111' },
-        })).to.equal(null);
+        [
+          actionTypes.callStart,
+          actionTypes.callEnd,
+        ].forEach((type) => {
+          const originalState = '111';
+          expect(reducer(originalState, {
+            type,
+            session: { id: '111' },
+          })).to.equal(null);
+        });
       });
-    });
 
     it(`should return null when actionTypes is callEnd and callStart
         and sessionId is equal original state and there is another ring session`, () => {
-      [
-        actionTypes.callStart,
-        actionTypes.callEnd,
-      ].forEach((type) => {
-        const originalState = '111';
-        expect(reducer(originalState, {
-          type,
-          session: { id: '111' },
-          sessions: [{
-            id: '123',
-            direction: callDirections.inbound,
-            callStatus: sessionStatus.connecting,
-          }],
-        })).to.equal('123');
+        [
+          actionTypes.callStart,
+          actionTypes.callEnd,
+        ].forEach((type) => {
+          const originalState = '111';
+          expect(reducer(originalState, {
+            type,
+            session: { id: '111' },
+            sessions: [{
+              id: '123',
+              direction: callDirections.inbound,
+              callStatus: sessionStatus.connecting,
+            }],
+          })).to.equal('123');
+        });
       });
-    });
 
     it('should return null when actionTypes is disconnect', () => {
       const originalState = '111';
@@ -306,7 +306,7 @@ describe('Webphone :: getLastEndedSessionsReducer', () => {
     it('should return original state when actionTypes is not recognized', () => {
       const originalState = {};
       expect(reducer(originalState, { type: 'foo' }))
-      .to.equal(originalState);
+        .to.equal(originalState);
     });
 
     it('should return sessions include session when session has startTime on callEnd', () => {
@@ -367,32 +367,32 @@ describe('Webphone :: getLastEndedSessionsReducer', () => {
 
     it(`should not return sessions include session
         when session startTime is undefined on callEnd`, () => {
-      const originalState = [];
-      expect(reducer(originalState, {
-        type: actionTypes.callEnd,
-        session: {
-          id: '222',
-        },
-      })).to.deep.equal([]);
-    });
+        const originalState = [];
+        expect(reducer(originalState, {
+          type: actionTypes.callEnd,
+          session: {
+            id: '222',
+          },
+        })).to.deep.equal([]);
+      });
 
     it(`should not return sessions include duplicate sessions
         when session is included by originalState`, () => {
-      const originalState = [{
-        id: '222',
-        startTime: 1,
-      }];
-      expect(reducer(originalState, {
-        type: actionTypes.callEnd,
-        session: {
+        const originalState = [{
           id: '222',
           startTime: 1,
-        },
-      })).to.deep.equal([{
-        id: '222',
-        startTime: 1,
-      }]);
-    });
+        }];
+        expect(reducer(originalState, {
+          type: actionTypes.callEnd,
+          session: {
+            id: '222',
+            startTime: 1,
+          },
+        })).to.deep.equal([{
+          id: '222',
+          startTime: 1,
+        }]);
+      });
 
     it('should not return sessions that length is over 5', () => {
       const originalState = [{}, {}, {}, {}, {}];
@@ -494,6 +494,22 @@ describe('Webphone :: getSessionsReducer', () => {
       expect(reducer(originalState, {
         type: actionTypes.clearSessionCaching,
       })).to.deep.equal([]);
+    });
+    it('should remove onhold cached sessions when actionTypes is onholdCachedSession', () => {
+      const originalState = [{
+        id: '123',
+        cached: true,
+        isOnHold: false,
+        callStatus: sessionStatus.connected,
+      }];
+      expect(reducer(originalState, {
+        type: actionTypes.onholdCachedSession,
+      })).to.deep.equal([{
+        id: '123',
+        cached: true,
+        isOnHold: true,
+        callStatus: sessionStatus.onHold,
+      }]);
     });
   });
 });

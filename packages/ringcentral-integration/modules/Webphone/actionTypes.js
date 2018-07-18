@@ -25,4 +25,5 @@ export default new Enum([
   'getUserMediaError',
   'setSessionCaching',
   'clearSessionCaching',
+  'onholdCachedSession',
 ], 'webphone');

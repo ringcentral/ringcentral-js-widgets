@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 import connectionStatus from './connectionStatus';
+import sessionStatus from './sessionStatus';
 import { isRing, isOnHold, sortByLastHoldingTimeDesc } from './webphoneHelper';
 
 export function getVideoElementPreparedReducer(types) {
@@ -196,6 +197,17 @@ export function getSessionsReducer(types) {
           return state.filter(x => !x.cached && x.removed);
         }
         return state;
+      }
+      case types.onholdCachedSession: {
+        let needUpdate = false;
+        state.forEach((session) => {
+          if (session.cached) {
+            session.callStatus = sessionStatus.onHold;
+            session.isOnHold = true;
+            needUpdate = true;
+          }
+        });
+        return needUpdate ? [...state] : state;
       }
       case types.destroySessions:
         return [];
