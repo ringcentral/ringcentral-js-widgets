@@ -13,6 +13,7 @@ export default new Enum([
   'resetRetryCounts',
   'updateSessions',
   'destroySessions',
+  'beforeCallStart',
   'callStart',
   'callEnd',
   'callRing',
