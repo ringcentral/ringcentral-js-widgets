@@ -41,10 +41,6 @@ function ascendSortParties(parties) {
     'Client',
     'RolesAndPermissions',
     {
-      dep: 'Contacts',
-      optional: true
-    },
-    {
       dep: 'ContactMatcher',
       optional: true
     },
@@ -73,7 +69,6 @@ export default class ConferenceCall extends RcModule {
     callingSettings,
     client,
     rolesAndPermissions,
-    contacts,
     contactMatcher,
     webphone,
     connectivityMonitor,
@@ -90,7 +85,6 @@ export default class ConferenceCall extends RcModule {
       client,
       rolesAndPermissions,
       pulling,
-      contacts,
       contactMatcher,
       webphone,
       connectivityMonitor,
@@ -104,7 +98,6 @@ export default class ConferenceCall extends RcModule {
     this._client = this::ensureExist(client, 'client');
     // in order to run the integeration test, we need it to be optional
     this._webphone = webphone;
-    this._contacts = contacts;
     this._connectivityMonitor = connectivityMonitor;
     this._contactMatcher = contactMatcher;
     this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
@@ -730,7 +723,7 @@ export default class ConferenceCall extends RcModule {
     let avatarUrl;
     let rcId;
 
-    if (this._contacts && this._contactMatcher && this._contactMatcher.dataMapping) {
+    if (this._contactMatcher && this._contactMatcher.dataMapping) {
       const contactMapping = this._contactMatcher.dataMapping;
       let contact = contactMatch;
       const nameMatches = (contactMapping && contactMapping[to]) || [];
@@ -739,7 +732,7 @@ export default class ConferenceCall extends RcModule {
         contact = nameMatches && nameMatches[0];
       }
       if (contact) {
-        avatarUrl = await this._contacts.getProfileImage(contact);
+        avatarUrl = contact.profileImageUrl;
         toUserName = contact.name;
         rcId = contact.id;
       }
