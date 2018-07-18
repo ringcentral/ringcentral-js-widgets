@@ -245,6 +245,10 @@ export default class CallLogSection extends RcModule {
     return this.state.callsSavingStatus;
   }
 
+  get _callsSaveSuccessStatus() {
+    return this.state.callsSaveSuccessStatus;
+  }
+
   get currentIdentify() {
     return this._storage.getItem(this._storageKey).currentIdentify;
   }
