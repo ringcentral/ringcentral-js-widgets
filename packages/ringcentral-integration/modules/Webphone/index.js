@@ -24,7 +24,6 @@ import {
   isOnHold,
   isConferenceSession,
   sortByCreationTimeDesc,
-  sortByLastHoldingTimeDesc,
 } from './webphoneHelper';
 import getWebphoneReducer from './getWebphoneReducer';
 
@@ -759,7 +758,6 @@ export default class Webphone extends RcModule {
     } catch (e) {
       console.log('Accept failed');
       console.error(e);
-      // this._removeSession(session);
       this._onCallEnd(session);
     }
   }
@@ -774,7 +772,6 @@ export default class Webphone extends RcModule {
       await session.reject();
     } catch (e) {
       console.error(e);
-      // this._removeSession(session);
       this._onCallEnd(session);
     }
   }
@@ -1180,44 +1177,22 @@ export default class Webphone extends RcModule {
   }
 
   setSessionCaching(sessionIds) {
-    let needUpdate = false;
-    sessionIds.forEach((sessionId) => {
-      const session = this.sessions.find(x => x.id === sessionId);
-      if (session) {
-        session.cached = true;
-        needUpdate = true;
-      }
+    this.store.dispatch({
+      type: this.actionTypes.setSessionCaching,
+      cachingSessionIds: sessionIds,
     });
-    if (needUpdate) {
-      this._updateSessions();
-    }
   }
 
   clearSessionCaching() {
-    let needUpdate = false;
-    this.cachedSessions.forEach((session) => {
-      session.cached = false;
-      needUpdate = true;
+    this.store.dispatch({
+      type: this.actionTypes.clearSessionCaching,
     });
-    if (needUpdate) {
-      this._updateSessions();
-    }
   }
 
   _updateSessions() {
-    const newSessions = [...this._sessions.values()].map(normalizeSession);
-    const cachedSessions = this.sessions.filter(x => x.cached);
-    cachedSessions.forEach((cachedSession) => {
-      const session = newSessions.find(x => x.id === cachedSession.id);
-      if (session) {
-        session.cached = true;
-      } else {
-        newSessions.push(cachedSession);
-      }
-    });
     this.store.dispatch({
       type: this.actionTypes.updateSessions,
-      sessions: newSessions.sort(sortByLastHoldingTimeDesc),
+      sessions: [...this._sessions.values()].map(normalizeSession),
     });
   }
 

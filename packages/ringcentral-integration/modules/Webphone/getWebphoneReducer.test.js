@@ -460,6 +460,41 @@ describe('Webphone :: getSessionsReducer', () => {
       expect(reducer(originalState, { type: actionTypes.updateSessions, sessions }))
         .to.equal(sessions);
     });
+    it('should mark sessions cached=true when actionTypes is setSessionCaching', () => {
+      const originalState = [{
+        id: '123',
+        cached: false,
+      }];
+      expect(reducer(originalState, {
+        type: actionTypes.setSessionCaching,
+        cachingSessionIds: ['123'],
+      })).to.deep.equal([{
+        id: '123',
+        cached: true,
+      }]);
+    });
+    it('should mark sessions cached=false when actionTypes is clearSessionCaching', () => {
+      const originalState = [{
+        id: '123',
+        cached: true,
+      }];
+      expect(reducer(originalState, {
+        type: actionTypes.clearSessionCaching,
+      })).to.deep.equal([{
+        id: '123',
+        cached: false,
+      }]);
+    });
+    it('should remove [cached=true and removed=true] sessions when actionTypes is clearSessionCaching', () => {
+      const originalState = [{
+        id: '123',
+        cached: true,
+        removed: true,
+      }];
+      expect(reducer(originalState, {
+        type: actionTypes.clearSessionCaching,
+      })).to.deep.equal([]);
+    });
   });
 });
 

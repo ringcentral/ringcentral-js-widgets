@@ -23,4 +23,6 @@ export default new Enum([
   'videoElementPrepared',
   'getUserMediaSuccess',
   'getUserMediaError',
+  'setSessionCaching',
+  'clearSessionCaching',
 ], 'webphone');

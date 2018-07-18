@@ -40,6 +40,7 @@ export function normalizeSession(session) {
     data: session.data || null,
     lastHoldingTime: session.lastHoldingTime || 0,
     cached: false,
+    removed: false,
   };
 }
 
