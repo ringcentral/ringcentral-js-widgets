@@ -299,7 +299,8 @@ export default class Call extends RcModule {
       });
     }
 
-    let parsedNumbers;
+    let parsedToNumber;
+    let parsedFromNumber;
     if (waitingValidateNumbers.length) {
       const numbers = waitingValidateNumbers.map(x => x.number);
       const validatedResult = await this._numberValidate.validateNumbers(numbers);
@@ -317,13 +318,10 @@ export default class Call extends RcModule {
       }
       const toNumberIndex = waitingValidateNumbers.findIndex(x => x.type === 'toNumber');
       const fromNumberIndex = waitingValidateNumbers.findIndex(x => x.type === 'fromNumber');
-      parsedNumbers = [
-        validatedResult.numbers[toNumberIndex],
-        validatedResult.numbers[fromNumberIndex],
-      ];
+      parsedToNumber = validatedResult.numbers[toNumberIndex];
+      parsedFromNumber = validatedResult.numbers[fromNumberIndex];
     }
 
-    const parsedToNumber = parsedNumbers[0];
     if (
       parsedToNumber &&
       parsedToNumber.international &&
@@ -337,20 +335,21 @@ export default class Call extends RcModule {
     }
 
     // using e164 in response to call
-    let parsedFromNumber = parsedNumbers[1] ? parsedNumbers[1].e164 : '';
-    // add ext back if any
+    let parsedFromNumberE164;
     if (parsedFromNumber) {
-      parsedFromNumber = (parsedNumbers[1].subAddress)
-        ? [parsedNumbers[1].e164, parsedNumbers[1].subAddress].join('*')
-        : parsedNumbers[1].e164;
+      parsedFromNumberE164 = parsedFromNumber.e164;
+      // add ext back if any
+      if (parsedFromNumber.e164 && parsedFromNumber.subAddress) {
+        parsedFromNumberE164 = [parsedFromNumber.e164, parsedFromNumber.subAddress].join('*');
+      }
     }
     if (isWebphone && theFromNumber === 'anonymous') {
-      parsedFromNumber = 'anonymous';
+      parsedFromNumberE164 = 'anonymous';
     }
 
     return {
       toNumber: parsedToNumber ? parsedToNumber.e164 : toNumber,
-      fromNumber: parsedFromNumber,
+      fromNumber: parsedFromNumberE164,
     };
   }
 
