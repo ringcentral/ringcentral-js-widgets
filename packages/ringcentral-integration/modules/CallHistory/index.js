@@ -9,6 +9,7 @@ import ensureExist from '../../lib/ensureExist';
 import normalizeNumber from '../../lib/normalizeNumber';
 import getter from '../../lib/getter';
 import proxify from '../../lib/proxy/proxify';
+import cleanNumber from '../../lib/cleanNumber';
 
 /**
  * @class
@@ -272,6 +273,13 @@ export default class CallHistory extends RcModule {
     });
   }
 
+  @proxify
+  async updateSearchInput(input) {
+    this.store.dispatch({
+      type: this.actionTypes.updateSearchInput,
+      input,
+    });
+  }
 
   get status() {
     return this.state.status;
@@ -316,6 +324,15 @@ export default class CallHistory extends RcModule {
         };
       }).sort(sortByStartTime)
     ),
+  )
+
+  @getter
+  effectiveSearchString = createSelector(
+    () => this.state.searchInput,
+    (input) => {
+      if (input.length >= 3) return input;
+      return '';
+    }
   )
 
   @getter
@@ -366,6 +383,40 @@ export default class CallHistory extends RcModule {
   )
 
   @getter
+  filterCalls = createSelector(
+    () => this.calls,
+    () => this.effectiveSearchString,
+    (
+      calls,
+      effectiveSearchString
+    ) => {
+      if (effectiveSearchString !== '') {
+        const searchResults = [];
+        const cleanRegex = /[^\d*+#\s]/g;
+        const searchString = effectiveSearchString.toLowerCase();
+        const searchNumber = effectiveSearchString.replace(cleanRegex, '');
+        calls.forEach((call) => {
+          if (searchNumber === effectiveSearchString) {
+            const cleanedNumber = cleanNumber(effectiveSearchString);
+            if (
+              (call.direction === 'Inbound' && cleanNumber(call.from.phoneNumber || '').indexOf(cleanedNumber) > -1) ||
+              (call.direction === 'Outbound' && cleanNumber(call.to.phoneNumber || '').indexOf(cleanedNumber) > -1) 
+            ) {
+              // match by phoneNumber or extensionNumber
+              searchResults.push({
+                ...call,
+                matchOrder: 0,
+              });
+            }
+          }
+        });
+        return searchResults.sort(sortByStartTime);
+      }
+      return calls.sort(sortByStartTime);
+    }
+  )
+
+  @getter
   uniqueNumbers = createSelector(
     () => this.normalizedCalls,
     () => this.recentlyEndedCalls,
@@ -412,6 +463,10 @@ export default class CallHistory extends RcModule {
       );
     },
   )
+
+  get searchInput() {
+    return this.state.searchInput;
+  }
 
   get recentlyEndedCalls() {
     if (this._storage) {
