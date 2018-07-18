@@ -13,10 +13,12 @@ const setup = (props) => {
 describe('DropdownSelect:', () => {
   it('render correctly', () => {
     const props = {
-      value: 0,
-      options: [],
+      value: {id:1},
+      options: [{id:1}, {id:2}],
       renderFunction: ()=>{},
       valueFunction: ()=>{},
+      renderValue: ()=>{},
+      onChange: ()=>{},
     };
     const wrapper = setup(props);
     expect(wrapper).toMatchSnapshot();

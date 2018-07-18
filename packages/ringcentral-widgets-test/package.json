@@ -15,7 +15,8 @@
     "test:jest": "jest --no-cache --maxWorkers=5",
     "test:watch": "yarn test -- --watch",
     "test:coverage": "yarn test --coverage",
-    "test:showCoverage": "cat ./coverage/lcov.info | coveralls"
+    "test:showCoverage": "cat ./coverage/lcov.info | coveralls",
+    "test:updateSnapshot": "jest --updateSnapshot"
   },
   "dependencies": {
     "@ringcentral-integration/i18n": "^2.0.0",
@@ -39,7 +40,6 @@
     "react-redux": "^5.0.5",
     "react-router": "^3.0.0",
     "react-router-redux": "^4.0.7",
-    "react-test-renderer": "^16.0.0",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
