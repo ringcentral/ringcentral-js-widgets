@@ -77,14 +77,18 @@ export default class LogSection extends Component {
         currentLocale,
         onSaveCallLog,
         currentLog,
+        overlapped: this.state.mainCtrlOverlapped
       })
     ) || (
-      <Button
-        disabled={currentLogCall.isSaving}
-        className={buttonClassName}
-        onClick={() => onSaveCallLog(call)}>
-        { i18n.getString('saveLog', currentLocale)}
-      </Button>
+      <div
+        className={buttonPanelClassName}>
+        <Button
+          disabled={currentLogCall.isSaving}
+          className={buttonClassName}
+          onClick={() => onSaveCallLog(call)}>
+          { i18n.getString('saveLog', currentLocale)}
+        </Button>
+      </div>
     ) : null;
     return (
       <div className={styles.section}>
@@ -99,10 +103,7 @@ export default class LogSection extends Component {
           className={styles.editSection}>
           {editLogSection}
         </div>
-        <div
-          className={buttonPanelClassName}>
-          {saveLogBtn}
-        </div>
+        {saveLogBtn}
         {
           isInnerMask ? (
             <div className={styles.innerMask} />

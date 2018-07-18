@@ -17,26 +17,9 @@ function getCallsSavingStatusReducer(types) {
   };
 }
 
-function getCallsSaveSuccessStatusReducer(types) {
-  return (state = {}, { type, identify }) => {
-    switch (type) {
-      case types.saveSuccess:
-        return R.assoc(identify, true, state);
-      case types.saveError:
-        return R.assoc(identify, false, state);
-      case types.cleanUp:
-        return {};
-      default:
-        return state;
-    }
-  };
-}
-
-
 export default function getCallLogSectionReducer(types) {
   return combineReducers({
     status: getModuleStatusReducer(types),
     callsSavingStatus: getCallsSavingStatusReducer(types),
-    callsSaveSuccessStatus: getCallsSaveSuccessStatusReducer(types),
   });
 }
