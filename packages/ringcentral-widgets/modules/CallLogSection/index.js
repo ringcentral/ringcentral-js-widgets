@@ -148,6 +148,7 @@ export default class CallLogSection extends RcModule {
         } else {
           this._handleError(identify, ...args);
         }
+        return result;
       } catch (e) {
         this._handleError(identify, ...args);
         console.warn(e);
@@ -243,10 +244,6 @@ export default class CallLogSection extends RcModule {
 
   get _callsSavingStatus() {
     return this.state.callsSavingStatus;
-  }
-
-  get _callsSaveSuccessStatus() {
-    return this.state.callsSaveSuccessStatus;
   }
 
   get currentIdentify() {
