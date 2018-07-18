@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 import connectionStatus from './connectionStatus';
-import { isRing, isOnHold } from './webphoneHelper';
+import { isRing, isOnHold, sortByLastHoldingTimeDesc } from './webphoneHelper';
 
 export function getVideoElementPreparedReducer(types) {
   return (state = false, { type }) => {
@@ -77,6 +77,7 @@ export function getActiveSessionIdReducer(types) {
   return (state = null, { type, session = {}, sessions = [] }) => {
     let onHoldSessions;
     switch (type) {
+      case types.beforeCallStart:
       case types.callStart:
         return session.id;
       case types.callEnd:
@@ -85,10 +86,16 @@ export function getActiveSessionIdReducer(types) {
         }
         onHoldSessions =
           sessions.filter(sessionItem => isOnHold(sessionItem));
-        if (onHoldSessions && onHoldSessions[0]) {
+        if (onHoldSessions.length && onHoldSessions[0]) {
           return onHoldSessions[0].id;
         }
-        return null;
+        /**
+         * HACK: special scenario-when dialing two number that do not exisit and then we
+         * merge them togother, and the merge process would certainly failed.
+         * Because the numbers are invalid, so the server will hangup them for us.
+         * Noticing that the session will remain unhold during the merging.
+         */
+        return (sessions[0] && sessions[0].id) || null;
       case types.disconnect:
         return null;
       default:
@@ -103,6 +110,7 @@ export function getRingSessionIdReducer(types) {
     switch (type) {
       case types.callRing:
         return session.id;
+      case types.beforeCallStart:
       case types.callStart:
       case types.callEnd:
         if (session.id !== state) {
@@ -153,9 +161,24 @@ export function getSessionsReducer(types) {
   return (state = [], { type, sessions }) => {
     switch (type) {
       case types.updateSessions:
-        return sessions;
+        return sessions.sort(sortByLastHoldingTimeDesc);
       case types.destroySessions:
         return [];
+      default:
+        return state;
+    }
+  };
+}
+
+// HACK: for conference call merging
+export function getCachedSessionsReducer(types) {
+  return (state = null, { type, sessions }) => {
+    switch (type) {
+      case types.updateSessionCaching:
+        sessions.forEach((session) => { session.cached = true ;});
+        return sessions;
+      case types.clearSessionCaching:
+        return null;
       default:
         return state;
     }
@@ -174,5 +197,6 @@ export default function getWebphoneReducer(types) {
     ringSessionId: getRingSessionIdReducer(types),
     sessions: getSessionsReducer(types),
     lastEndedSessions: getLastEndedSessionsReducer(types),
+    cachedSessions: getCachedSessionsReducer(types),
   });
 }
