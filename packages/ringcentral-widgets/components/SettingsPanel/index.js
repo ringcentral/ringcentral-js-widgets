@@ -34,14 +34,14 @@ export default function SettingsPanel({
   onUserGuideClick,
   showCalling,
   showAutoLog,
-  showAutoSave,
+  showAutoLogNotes,
   showAudio,
   autoLogEnabled,
-  autoSaveEnabled,
+  autoLogNotesEnabled,
   disableAutoLogEnabled,
-  disableAutoSaveEnabled,
+  disableAutoLogNotesEnabled,
   onAutoLogChange,
-  onAutoSaveChange,
+  onAutoLogNotesChange,
   showAutoLogSMS,
   autoLogSMSEnabled,
   onAutoLogSMSChange,
@@ -179,17 +179,17 @@ export default function SettingsPanel({
     </IconLine>
   ) :
     null;
-  const autoSave = showAutoSave ? (
+  const autoLogNotes = showAutoLogNotes ? (
     <IconLine
       icon={
         <Switch
-          disable={disableAutoSaveEnabled}
-          checked={autoSaveEnabled}
-          onChange={onAutoSaveChange}
+          disable={disableAutoLogNotesEnabled}
+          checked={autoLogNotesEnabled}
+          onChange={onAutoLogNotesChange}
         />
       }
     >
-      <span className={classnames(disableAutoSaveEnabled && styles.disableText)}>
+      <span className={classnames(disableAutoLogNotesEnabled && styles.disableText)}>
         {i18n.getString('autoLogNotes', currentLocale)}
       </span>
     </IconLine>
@@ -234,7 +234,7 @@ export default function SettingsPanel({
         {presenceSetting}
         {children}
         {autoLog}
-        {autoSave}
+        {autoLogNotes}
         {autoLogSMS}
         {clickToDial}
         {additional}
@@ -284,13 +284,13 @@ SettingsPanel.propTypes = {
   showRegion: PropTypes.bool,
   showAudio: PropTypes.bool,
   showAutoLog: PropTypes.bool,
-  showAutoSave: PropTypes.bool,
+  showAutoLogNotes: PropTypes.bool,
   autoLogEnabled: PropTypes.bool,
-  autoSaveEnabled: PropTypes.bool,
+  autoLogNotesEnabled: PropTypes.bool,
   disableAutoLogEnabled: PropTypes.bool,
-  disableAutoSaveEnabled: PropTypes.bool,
+  disableAutoLogNotesEnabled: PropTypes.bool,
   onAutoLogChange: PropTypes.func,
-  onAutoSaveChange: PropTypes.func,
+  onAutoLogNotesChange: PropTypes.func,
   showAutoLogSMS: PropTypes.bool,
   autoLogSMSEnabled: PropTypes.bool,
   onAutoLogSMSChange: PropTypes.func,
@@ -331,15 +331,15 @@ SettingsPanel.defaultProps = {
   showCalling: false,
   showAudio: false,
   showAutoLog: false,
-  showAutoSave: false,
+  showAutoLogNotes: false,
   showRegion: false,
   showUserGuide: false,
   autoLogEnabled: false,
-  autoSaveEnabled: false,
+  autoLogNotesEnabled: false,
   disableAutoLogEnabled: false,
-  disableAutoSaveEnabled: false,
+  disableAutoLogNotesEnabled: false,
   onAutoLogChange: () => null,
-  onAutoSaveChange: () => null,
+  onAutoLogNotesChange: () => null,
   showAutoLogSMS: false,
   autoLogSMSEnabled: false,
   onAutoLogSMSChange: undefined,
