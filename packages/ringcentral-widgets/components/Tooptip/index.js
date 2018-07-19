@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { isFunction, isObject } from 'ringcentral-integration/lib/di/utils/is_type';
+import { isFunction } from 'ringcentral-integration/lib/di/utils/is_type';
 import Enum from 'ringcentral-integration/lib/Enum';
 
 import styles from './styles.scss';
@@ -89,11 +89,11 @@ const getRelativeOffset = (el) => {
 
 const TRANSITION_END_EVT_NAME = transitionEnd();
 
-class DropDown extends Component {
+class Tooltip extends Component {
   constructor(props) {
     super(props);
-    this.onResize = this::this.checkPosition;
-    this.onTransitionEnd = this::this.onTransitionEnd;
+    this.onResize = this:: this.checkPosition;
+    this.onTransitionEnd = this:: this.onTransitionEnd;
 
     this.state = {
       cachedPositioning: null,
@@ -145,13 +145,15 @@ class DropDown extends Component {
 
   recordPositioning(triggerElm = this.props.triggerElm) {
     if (triggerElm) {
-      const cachedPositioning = this.props.fixed ? {
-        elm: document.body,
-        position: window.getComputedStyle(document.body).position
-      } : {
-        elm: triggerElm,
-        position: window.getComputedStyle(triggerElm).position
-      };
+      const cachedPositioning = this.props.fixed
+        ? {
+          elm: document.body,
+          position: window.getComputedStyle(document.body).position
+        }
+        : {
+          elm: triggerElm,
+          position: window.getComputedStyle(triggerElm).position
+        };
       this.setState({
         cachedPositioning,
       });
@@ -184,7 +186,7 @@ class DropDown extends Component {
         ? offset && offset.top - currentDemension.height - TAIL_HEIGHT / 2
         : offset && (offset.top + demensionOfTrigger.height) + TAIL_HEIGHT / 2;
       const left = offset
-      && (offset.left + demensionOfTrigger.width / 2 - currentDemension.width / 2);
+        && (offset.left + demensionOfTrigger.width / 2 - currentDemension.width / 2);
 
       this.setState(preState => ({
         ...preState,
@@ -263,8 +265,8 @@ class DropDown extends Component {
         className={classnames(
           styles.dropdownContainer,
           open
-          ? styles.opened
-          : null,
+            ? styles.opened
+            : null,
           styles[direction],
         )}
         style={{
@@ -282,7 +284,7 @@ class DropDown extends Component {
   }
 }
 
-DropDown.propTypes = {
+Tooltip.propTypes = {
   triggerElm: PropTypes.object,
   fixed: PropTypes.bool,
   direction: PropTypes.string,
@@ -294,7 +296,7 @@ DropDown.propTypes = {
   children: PropTypes.node,
 };
 
-DropDown.defaultProps = {
+Tooltip.defaultProps = {
   triggerElm: null,
   fixed: false,
   direction: 'bottom',
@@ -306,4 +308,4 @@ DropDown.defaultProps = {
   onClose: i => i,
 };
 
-export default DropDown;
+export default Tooltip;
