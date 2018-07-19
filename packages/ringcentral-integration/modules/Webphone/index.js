@@ -145,7 +145,7 @@ export default class Webphone extends RcModule {
 
     this.addSelector('cachedSessions',
       () => this.sessions,
-      sessions => sessions.filter(x => x.cached),
+      sessions => sessions.filter(x => x.cached && !x.removed),
     );
 
     this.addSelector('activeSession',
