@@ -19,21 +19,10 @@
   &.disabled {
     cursor: not-allowed;
     g {
-      stroke: $coin;
+      fill: $coin;
     }
     path {
       stroke: $coin;
-    }
-    circle {
-      stroke: $coin;
-    }
-    .loggedIcon {
-      path:nth-child(3) {
-        fill: $coin;
-      }
-      path:nth-child(5) {
-        stroke: #FEFEFE;
-      }
     }
   }
 }
