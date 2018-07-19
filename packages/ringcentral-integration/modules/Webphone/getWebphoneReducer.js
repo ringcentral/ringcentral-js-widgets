@@ -162,7 +162,7 @@ export function getSessionsReducer(types) {
   return (state = [], { type, sessions, cachingSessionIds }) => {
     switch (type) {
       case types.updateSessions: {
-        const cachedSessions = state.filter(x => x.cached && !x.removed);
+        const cachedSessions = state.filter(x => x.cached);
         cachedSessions.forEach((cachedSession) => {
           const session = sessions.find(x => x.id === cachedSession.id);
           if (session) {
