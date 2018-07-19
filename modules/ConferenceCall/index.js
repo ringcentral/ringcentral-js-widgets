@@ -696,7 +696,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
         var _this3 = this;
 
         var webphoneSessions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-        var sipInstances, conferenceId, sessionDatas, pSips, conferenceState;
+        var sipInstances, conferenceId, sessionIds, pSips, conferenceState;
         return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
@@ -737,17 +737,16 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 sipInstances = webphoneSessions.map(function (webphoneSession) {
                   return _this3._webphone._sessions.get(webphoneSession.id);
                 });
-                sessionDatas = webphoneSessions.map(function (webphoneSession) {
-                  return _this3._webphone.sessions.find(function (session) {
-                    return session.id === webphoneSession.id;
-                  });
-                });
+
                 /**
                  * HACK: we need to preserve the merging session in prevent the glitch of
                  * the call control page.
                  */
+                sessionIds = webphoneSessions.map(function (x) {
+                  return x.id;
+                });
 
-                this._webphone.updateSessionCaching(sessionDatas);
+                this._webphone.setSessionCaching(sessionIds);
 
                 pSips = sipInstances.map(function (instance) {
                   var p = new _promise2.default(function (resolve) {
