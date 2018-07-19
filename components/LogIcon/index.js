@@ -44,8 +44,8 @@ function LogIcon(_ref) {
       disabled = _ref.disabled,
       isFax = _ref.isFax;
 
-  var loggedIcon = _react2.default.createElement(_LoggedIcon2.default, { width: 23, className: _styles2.default.loggedIcon });
-  var unLoggedIcon = _react2.default.createElement(_UnloggedIcon2.default, { width: 23, className: _styles2.default.unloggedIcon });
+  var loggedIcon = _react2.default.createElement(_LoggedIcon2.default, { width: 19, className: _styles2.default.loggedIcon });
+  var unLoggedIcon = _react2.default.createElement(_UnloggedIcon2.default, { width: 19, className: _styles2.default.unloggedIcon });
   var tooltip = null;
   if (isFax) {
     tooltip = _i18n2.default.getString('faxNotSupported', currentLocale);

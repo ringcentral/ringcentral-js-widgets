@@ -46,11 +46,13 @@ function getCallsMappingReducer(types) {
         return (0, _extends7.default)({}, state, (0, _defineProperty3.default)({}, identify, (0, _extends7.default)({}, state[identify])));
       case types.saveSuccess:
         return (0, _extends7.default)({}, state, (0, _defineProperty3.default)({}, identify, (0, _extends7.default)({}, state[identify], {
-          isEdited: false
+          isEdited: false,
+          isSucceed: true
         })));
       case types.saveError:
         return (0, _extends7.default)({}, state, (0, _defineProperty3.default)({}, identify, (0, _extends7.default)({}, state[identify], {
-          isEdited: true
+          isEdited: true,
+          isSucceed: false
         })));
       case types.cleanUp:
         return {};

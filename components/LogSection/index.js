@@ -107,6 +107,7 @@ var LogSection = function (_Component) {
 
       var _props = this.props,
           renderEditLogSection = _props.renderEditLogSection,
+          renderSaveLogButton = _props.renderSaveLogButton,
           currentLocale = _props.currentLocale,
           onUpdateCallLog = _props.onUpdateCallLog,
           currentLog = _props.currentLog,
@@ -128,15 +129,25 @@ var LogSection = function (_Component) {
       });
       var buttonPanelClassName = (0, _classnames2.default)(_styles2.default.buttonPanel, this.state.mainCtrlOverlapped && _styles2.default.overlapped);
       var buttonClassName = (0, _classnames2.default)(_styles2.default.primaryButton, currentLogCall.isSaving && _styles2.default.disabled);
-      var saveLogBtn = showSaveLogBtn ? _react2.default.createElement(
-        _Button2.default,
+      var saveLogBtn = showSaveLogBtn ? renderSaveLogButton && renderSaveLogButton({
+        currentLocale: currentLocale,
+        onSaveCallLog: onSaveCallLog,
+        currentLog: currentLog,
+        overlapped: this.state.mainCtrlOverlapped
+      }) || _react2.default.createElement(
+        'div',
         {
-          disabled: currentLogCall.isSaving,
-          className: buttonClassName,
-          onClick: function onClick() {
-            return onSaveCallLog(call);
-          } },
-        _i18n2.default.getString('saveLog', currentLocale)
+          className: buttonPanelClassName },
+        _react2.default.createElement(
+          _Button2.default,
+          {
+            disabled: currentLogCall.isSaving,
+            className: buttonClassName,
+            onClick: function onClick() {
+              return onSaveCallLog(call);
+            } },
+          _i18n2.default.getString('saveLog', currentLocale)
+        )
       ) : null;
       return _react2.default.createElement(
         'div',
@@ -158,12 +169,7 @@ var LogSection = function (_Component) {
             className: _styles2.default.editSection },
           editLogSection
         ),
-        _react2.default.createElement(
-          'div',
-          {
-            className: buttonPanelClassName },
-          saveLogBtn
-        ),
+        saveLogBtn,
         isInnerMask ? _react2.default.createElement('div', { className: _styles2.default.innerMask }) : null
       );
     }
@@ -181,6 +187,7 @@ LogSection.propTypes = {
   onUpdateCallLog: _propTypes2.default.func,
   onSaveCallLog: _propTypes2.default.func,
   renderEditLogSection: _propTypes2.default.func,
+  renderSaveLogButton: _propTypes2.default.func,
   isInnerMask: _propTypes2.default.bool,
   showSaveLogBtn: _propTypes2.default.bool
 };
@@ -191,6 +198,7 @@ LogSection.defaultProps = {
   onUpdateCallLog: undefined,
   onSaveCallLog: undefined,
   renderEditLogSection: undefined,
+  renderSaveLogButton: undefined,
   isInnerMask: undefined,
   showSaveLogBtn: true
 };

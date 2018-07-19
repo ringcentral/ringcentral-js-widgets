@@ -346,7 +346,7 @@ var CallLogSection = (_dec = (0, _di.Module)({
             switch (_context3.prev = _context3.next) {
               case 0:
                 if (!(identify && (!this.callsMapping[identify] || !this.callsMapping[identify].isSaving))) {
-                  _context3.next = 14;
+                  _context3.next = 15;
                   break;
                 }
 
@@ -371,22 +371,21 @@ var CallLogSection = (_dec = (0, _di.Module)({
                 } else {
                   this._handleError.apply(this, [identify].concat((0, _toConsumableArray3.default)(args)));
                 }
-                _context3.next = 14;
-                break;
+                return _context3.abrupt('return', result);
 
-              case 10:
-                _context3.prev = 10;
+              case 11:
+                _context3.prev = 11;
                 _context3.t0 = _context3['catch'](3);
 
                 this._handleError.apply(this, [identify].concat((0, _toConsumableArray3.default)(args)));
                 console.warn(_context3.t0);
 
-              case 14:
+              case 15:
               case 'end':
                 return _context3.stop();
             }
           }
-        }, _callee3, this, [[3, 10]]);
+        }, _callee3, this, [[3, 11]]);
       }));
 
       function saveCallLog(_x2) {
