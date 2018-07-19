@@ -79,12 +79,12 @@ $avatarMargin: 10px;
         width: 26px;
         circle {
           fill: $snow;
-          stroke: $rc-blue;
+          stroke: $primary-color;
           stroke-width: 15px;
         }
         g,
         path {
-          fill: $rc-blue;
+          fill: $primary-color;
         }
       }
     }
