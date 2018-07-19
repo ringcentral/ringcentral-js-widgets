@@ -37,6 +37,7 @@ function getCallMatchedReducer(types) {
     return state;
   };
 }
+
 /* istanbul ignore next: unnecessary to test getModuleStatusReducer */
 function getCallMonitorReducer(types) {
   return (0, _redux.combineReducers)({

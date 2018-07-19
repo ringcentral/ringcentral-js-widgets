@@ -13,6 +13,10 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
 var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
@@ -89,6 +93,16 @@ function matchWephoneSessionWithAcitveCall(sessions, callItem) {
     if (session.direction !== callItem.direction) {
       return false;
     }
+
+    /**
+     * Hack: for conference call, the `to` field is Conference,
+     * and the callItem's id won't change. According to `sip.js/src/session.js`
+     * the `InviteClientContext`'s id will always begin with callItem's id.
+     */
+    if (callItem.toName && callItem.toName.toLowerCase() === 'conference') {
+      return session.id.indexOf(callItem.id) === 0;
+    }
+
     if (session.direction === _callDirections2.default.inbound && callItem.sipData.remoteUri.indexOf(session.from) === -1) {
       return false;
     }
@@ -176,15 +190,39 @@ var CallMonitor = (_dec = (0, _di.Module)({
       reducer: (0, _getCallMonitorReducer.getCallMatchedReducer)(_this.actionTypes)
     });
 
+    var _normalizedCalls = void 0;
     _this.addSelector('normalizedCalls', function () {
       return _this._detailedPresence.calls;
     }, function () {
       return _this._accountInfo.countryCode;
     }, function () {
       return _this._webphone && _this._webphone.sessions;
-    }, function (callsFromPresence, countryCode, sessions) {
-      var sessionsCache = sessions || [];
-      return callsFromPresence.map(function (callItem) {
+    }, function () {
+      return _this._webphone && _this._webphone.cachedSessions;
+    }, function (callsFromPresence, countryCode, sessions, cachedSessions) {
+      // match cached calls
+      var cachedCalls = [];
+      if (_normalizedCalls && cachedSessions && cachedSessions.length) {
+        cachedCalls = _normalizedCalls.filter(function (x) {
+          return x.webphoneSession && cachedSessions.find(function (i) {
+            return i.id === x.webphoneSession.id;
+          });
+        });
+      }
+
+      // combine
+      var combinedCalls = [].concat((0, _toConsumableArray3.default)(callsFromPresence)); // clone
+      cachedCalls.forEach(function (cachedCall) {
+        if (!callsFromPresence.find(function (x) {
+          return x.id === cachedCall.id;
+        })) {
+          combinedCalls.push(cachedCall);
+        }
+      });
+
+      // mapping and sort
+      var theSessions = sessions || [];
+      _normalizedCalls = combinedCalls.map(function (callItem) {
         // use account countryCode to normalize number due to API issues [RCINT-3419]
         var fromNumber = (0, _normalizeNumber2.default)({
           phoneNumber: callItem.from && callItem.from.phoneNumber,
@@ -194,8 +232,8 @@ var CallMonitor = (_dec = (0, _di.Module)({
           phoneNumber: callItem.to && callItem.to.phoneNumber,
           countryCode: countryCode
         });
-        var webphoneSession = matchWephoneSessionWithAcitveCall(sessionsCache, callItem);
-        sessionsCache = sessionsCache.filter(function (x) {
+        var webphoneSession = matchWephoneSessionWithAcitveCall(theSessions, callItem);
+        theSessions = theSessions.filter(function (x) {
           return x !== webphoneSession;
         });
         return (0, _extends3.default)({}, callItem, {
@@ -208,7 +246,17 @@ var CallMonitor = (_dec = (0, _di.Module)({
           startTime: webphoneSession && webphoneSession.startTime || callItem.startTime,
           webphoneSession: webphoneSession
         });
-      }).sort(_callLogHelpers.sortByStartTime);
+      }).sort(function (l, r) {
+        return (0, _webphoneHelper.sortByLastHoldingTimeDesc)(l.webphoneSession, r.webphoneSession);
+      }).filter(function (callItem) {
+        // filtering out the conferece during merging
+        if (cachedCalls.length) {
+          return !(0, _webphoneHelper.isConferenceSession)(callItem.webphoneSession);
+        }
+        return true;
+      });
+
+      return _normalizedCalls;
     });
 
     _this.addSelector('calls', _this._selectors.normalizedCalls, function () {
@@ -244,16 +292,24 @@ var CallMonitor = (_dec = (0, _di.Module)({
       });
     });
 
-    _this.addSelector('activeOnHoldCalls', _this._selectors.calls, function (calls) {
+    _this.addSelector('_activeOnHoldCalls', _this._selectors.calls, function (calls) {
       return calls.filter(function (callItem) {
         return callItem.webphoneSession && (0, _webphoneHelper.isOnHold)(callItem.webphoneSession);
       });
     });
 
-    _this.addSelector('activeCurrentCalls', _this._selectors.calls, function (calls) {
+    _this.addSelector('_activeCurrentCalls', _this._selectors.calls, function (calls) {
       return calls.filter(function (callItem) {
         return callItem.webphoneSession && !(0, _webphoneHelper.isOnHold)(callItem.webphoneSession) && !(0, _webphoneHelper.isRing)(callItem.webphoneSession);
       });
+    });
+
+    _this.addSelector('activeOnHoldCalls', _this._selectors._activeOnHoldCalls, _this._selectors._activeCurrentCalls, function (_activeOnHoldCalls, _activeCurrentCalls) {
+      return _activeOnHoldCalls.length && !_activeCurrentCalls.length ? _activeOnHoldCalls.slice(1) : _activeOnHoldCalls;
+    });
+
+    _this.addSelector('activeCurrentCalls', _this._selectors._activeCurrentCalls, _this._selectors._activeOnHoldCalls, function (_activeCurrentCalls, _activeOnHoldCalls) {
+      return !_activeCurrentCalls.length && _activeOnHoldCalls.length ? _activeOnHoldCalls.slice(0, 1) : _activeCurrentCalls;
     });
 
     _this.addSelector('otherDeviceCalls', _this._selectors.calls, function () {

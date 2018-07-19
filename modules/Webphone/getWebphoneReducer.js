@@ -3,6 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
 exports.getVideoElementPreparedReducer = getVideoElementPreparedReducer;
 exports.getConnectionStatusReducer = getConnectionStatusReducer;
 exports.getErrorCodeReducer = getErrorCodeReducer;
@@ -23,6 +28,10 @@ var _getModuleStatusReducer2 = _interopRequireDefault(_getModuleStatusReducer);
 var _connectionStatus = require('./connectionStatus');
 
 var _connectionStatus2 = _interopRequireDefault(_connectionStatus);
+
+var _sessionStatus = require('./sessionStatus');
+
+var _sessionStatus2 = _interopRequireDefault(_sessionStatus);
 
 var _webphoneHelper = require('./webphoneHelper');
 
@@ -134,6 +143,7 @@ function getActiveSessionIdReducer(types) {
 
     var onHoldSessions = void 0;
     switch (type) {
+      case types.beforeCallStart:
       case types.callStart:
         return session.id;
       case types.callEnd:
@@ -143,10 +153,16 @@ function getActiveSessionIdReducer(types) {
         onHoldSessions = sessions.filter(function (sessionItem) {
           return (0, _webphoneHelper.isOnHold)(sessionItem);
         });
-        if (onHoldSessions && onHoldSessions[0]) {
+        if (onHoldSessions.length && onHoldSessions[0]) {
           return onHoldSessions[0].id;
         }
-        return null;
+        /**
+         * HACK: special scenario-when dialing two number that do not exisit and then we
+         * merge them togother, and the merge process would certainly failed.
+         * Because the numbers are invalid, so the server will hangup them for us.
+         * Noticing that the session will remain unhold during the merging.
+         */
+        return sessions[0] && sessions[0].id || null;
       case types.disconnect:
         return null;
       default:
@@ -169,6 +185,7 @@ function getRingSessionIdReducer(types) {
     switch (type) {
       case types.callRing:
         return session.id;
+      case types.beforeCallStart:
       case types.callStart:
       case types.callEnd:
         if (session.id !== state) {
@@ -223,11 +240,70 @@ function getSessionsReducer(types) {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
     var _ref9 = arguments[1];
     var type = _ref9.type,
-        sessions = _ref9.sessions;
+        sessions = _ref9.sessions,
+        cachingSessionIds = _ref9.cachingSessionIds;
 
     switch (type) {
       case types.updateSessions:
-        return sessions;
+        {
+          var cachedSessions = state.filter(function (x) {
+            return x.cached;
+          });
+          cachedSessions.forEach(function (cachedSession) {
+            var session = sessions.find(function (x) {
+              return x.id === cachedSession.id;
+            });
+            if (session) {
+              session.cached = true;
+            } else {
+              cachedSession.removed = true;
+              sessions.push(cachedSession);
+            }
+          });
+          return sessions.sort(_webphoneHelper.sortByLastHoldingTimeDesc);
+        }
+      case types.setSessionCaching:
+        {
+          var needUpdate = false;
+          cachingSessionIds.forEach(function (sessionId) {
+            var session = state.find(function (x) {
+              return x.id === sessionId;
+            });
+            if (session) {
+              session.cached = true;
+              needUpdate = true;
+            }
+          });
+          return needUpdate ? [].concat((0, _toConsumableArray3.default)(state)) : state;
+        }
+      case types.clearSessionCaching:
+        {
+          var _needUpdate = false;
+          state.forEach(function (session) {
+            if (session.cached) {
+              session.cached = false;
+              _needUpdate = true;
+            }
+          });
+          if (_needUpdate) {
+            return state.filter(function (x) {
+              return !x.cached && x.removed;
+            });
+          }
+          return state;
+        }
+      case types.onholdCachedSession:
+        {
+          var _needUpdate2 = false;
+          state.forEach(function (session) {
+            if (session.cached) {
+              session.callStatus = _sessionStatus2.default.onHold;
+              session.isOnHold = true;
+              _needUpdate2 = true;
+            }
+          });
+          return _needUpdate2 ? [].concat((0, _toConsumableArray3.default)(state)) : state;
+        }
       case types.destroySessions:
         return [];
       default:

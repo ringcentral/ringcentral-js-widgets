@@ -7,6 +7,9 @@ exports.isBrowserSupport = isBrowserSupport;
 exports.normalizeSession = normalizeSession;
 exports.isRing = isRing;
 exports.isOnHold = isOnHold;
+exports.sortByCreationTimeDesc = sortByCreationTimeDesc;
+exports.sortByLastHoldingTimeDesc = sortByLastHoldingTimeDesc;
+exports.isConferenceSession = isConferenceSession;
 
 var _recordStatus = require('./recordStatus');
 
@@ -42,6 +45,7 @@ function normalizeSession(session) {
     to: session.request.to.uri.user,
     toUserName: session.request.to.displayName,
     from: session.request.from.uri.user,
+    fromNumber: session.fromNumber,
     fromUserName: session.request.from.displayName,
     startTime: session.startTime && new Date(session.startTime).getTime(),
     creationTime: session.creationTime,
@@ -54,7 +58,11 @@ function normalizeSession(session) {
     isReplied: !!session.isForwarded,
     recordStatus: session.recordStatus || _recordStatus2.default.idle,
     contactMatch: session.contactMatch,
-    minimized: !!session.minimized
+    minimized: !!session.minimized,
+    data: session.data || null,
+    lastHoldingTime: session.lastHoldingTime || 0,
+    cached: false,
+    removed: false
   };
 }
 
@@ -64,5 +72,26 @@ function isRing(session) {
 
 function isOnHold(session) {
   return !!(session && session.callStatus === _sessionStatus2.default.onHold);
+}
+
+function sortByCreationTimeDesc(l, r) {
+  return r.startTime - l.startTime;
+}
+
+function sortByLastHoldingTimeDesc(l, r) {
+  if (!l || !r) {
+    return 0;
+  }
+  if (r.lastHoldingTime !== l.lastHoldingTime) {
+    return r.lastHoldingTime - l.lastHoldingTime;
+  }
+  return sortByCreationTimeDesc(l, r);
+}
+
+/**
+ * HACK: this function is not very reliable, only use it before the merging complete.
+ */
+function isConferenceSession(session) {
+  return session && session.to && session.to.indexOf('conf_') === 0;
 }
 //# sourceMappingURL=webphoneHelper.js.map
