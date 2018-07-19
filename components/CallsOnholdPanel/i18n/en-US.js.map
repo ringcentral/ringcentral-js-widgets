@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/CallsOnholdPanel/i18n/en-US.js"],"names":["add","noCallsOnhold","activeCall"],"mappings":";;;;;kBAAe;AACbA,OAAK,KADQ;AAEbC,iBAAe,kBAFF;AAGbC,cAAY;AAHC,C","file":"en-US.js","sourcesContent":["export default {\n  add: 'Add',\n  noCallsOnhold: 'No calls on hold',\n  activeCall: 'Active Call',\n};\n"]}

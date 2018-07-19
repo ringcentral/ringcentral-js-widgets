@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  activeCall: 'Active Call'
+  conferenceCall: 'Conference Call',
+  onHold: 'On Hold',
+  unknow: 'Unknown'
 };
 //# sourceMappingURL=en-US.js.map

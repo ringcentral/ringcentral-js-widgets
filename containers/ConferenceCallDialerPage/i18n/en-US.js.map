@@ -1,1 +1,1 @@
-{"version":3,"sources":["containers/ConferenceCallDialerPage/i18n/en-US.js"],"names":["addToConference"],"mappings":";;;;;kBAAe;AACbA,mBAAiB;AADJ,C","file":"en-US.js","sourcesContent":["export default {\n  addToConference: 'Add to Conference',\n};\n"]}
+{"version":3,"sources":["containers/ConferenceCallDialerPage/i18n/en-US.js"],"names":["activeCall"],"mappings":";;;;;kBAAe;AACbA,cAAY;AADC,C","file":"en-US.js","sourcesContent":["export default {\n  activeCall: 'Active Call',\n};\n"]}

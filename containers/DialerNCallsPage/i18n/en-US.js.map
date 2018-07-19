@@ -1,0 +1,1 @@
+{"version":3,"sources":["containers/DialerNCallsPage/i18n/en-US.js"],"names":["routerMap","allCalls","dialer"],"mappings":";;;;;;;;;;;;AAAA;;;;;;oGAGGA,oBAAUC,Q,EAAW,W,wDACrBD,oBAAUE,M,EAAS,U","file":"en-US.js","sourcesContent":["import routerMap from '../routerMap';\n\nexport default {\n  [routerMap.allCalls]: 'All Calls',\n  [routerMap.dialer]: 'Dial Pad',\n};\n"]}
