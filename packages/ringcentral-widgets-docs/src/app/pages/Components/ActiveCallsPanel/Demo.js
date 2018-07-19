@@ -107,8 +107,8 @@ props.otherDeviceCalls = [{
   activityMatches: []
 }];
 props.showSpinner = false;
-props.areaCode = 'test string';
-props.countryCode = 'test string';
+props.areaCode = '650';
+props.countryCode = 'US';
 props.formatPhone = () => null;
 props.onClickToSms = () => null;
 props.onCreateContact = () => null;

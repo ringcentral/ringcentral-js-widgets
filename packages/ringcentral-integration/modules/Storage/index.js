@@ -44,6 +44,7 @@ export default class Storage extends StorageBase {
     this.store.subscribe(async () => {
       if (
         this._auth.loginStatus === loginStatus.loggedIn &&
+        (!this._tabManager || this._tabManager.ready) &&
         !this.ready
       ) {
         const storageKey =
@@ -61,7 +62,10 @@ export default class Storage extends StorageBase {
         this.store.dispatch({
           type: this.actionTypes.initSuccess,
           storageKey,
-          data: storedData,
+          // To fix same reference in redux store with storedData
+          data: {
+            ...storedData,
+          },
         });
         this._storageHandler = ({ key, value }) => {
           if (this.ready) {
@@ -75,8 +79,10 @@ export default class Storage extends StorageBase {
         };
         this._storage.on('storage', this._storageHandler);
       } else if (
-        this._auth.loginStatus === loginStatus.notLoggedIn &&
-        this.ready
+        (
+          (!!this._tabManager && !this._tabManager.ready) ||
+          this._auth.notLoggedIn
+        ) && this.ready
       ) {
         this.store.dispatch({
           type: this.actionTypes.reset,

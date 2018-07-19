@@ -177,17 +177,21 @@ async function exec(command) {
 }
 
 async function getVersionFromTag() {
+  let tag = process.env.TRAVIS_TAG;
+  if (tag && /^\d+.\d+.\d+/.test(tag)) {
+    return tag;
+  }
   try {
-    let tag = await exec('git describe --exact-match --tags $(git rev-parse HEAD)');
+    tag = await exec('git describe --exact-match --tags $(git rev-parse HEAD)');
     console.log(tag);
     tag = tag.replace(/\r?\n|\r/g, '');
     if (/^\d+.\d+.\d+/.test(tag)) {
       return tag;
     }
-    return null;
   } catch (e) {
-    return null;
+    console.error(e);
   }
+  return null;
 }
 
 const RELEASE_PATH = path.resolve(__dirname, '../../release/ringcentral-integration');
@@ -211,7 +215,7 @@ gulp.task('release', ['release-copy'], async () => {
   delete packageInfo.scripts;
   packageInfo.main = 'rc-phone.js';
   const version = await getVersionFromTag();
-  console.log(version);
+  console.log('version:', version);
   if (version) {
     packageInfo.version = version;
   }

@@ -4,8 +4,8 @@ import ConferencePanel from 'ringcentral-widgets/components/ConferencePanel';
 
 const props = {};
 props.conferenceNumbers = {};
-props.countryCode = 'test string';
-props.areaCode = 'test string';
+props.countryCode = 'US';
+props.areaCode = '650';
 props.currentLocale = 'en-US';
 props.inviteWithText = () => null;
 props.formatPhone = () => null;
@@ -23,8 +23,8 @@ const ConferencePanelDemo = () => (
     border: '1px solid #f3f3f3',
   }}>
     <ConferencePanel
-      countryCode="1"
-      areaCode="1234"
+      countryCode="US"
+      areaCode="650"
       dialInNumber="+123456"
       dialInNumbers={[
         {

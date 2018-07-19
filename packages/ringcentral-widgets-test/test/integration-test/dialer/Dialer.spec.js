@@ -25,8 +25,8 @@ beforeEach(async () => {
 });
 
 const clickButton = (button) => {
-  button.find('g').first().props().onMouseDown();
-  button.find('g').first().props().onMouseUp();
+  button.find('g').first().simulate('mouseDown');
+  button.find('g').first().simulate('mouseUp');
   wrapper.update();
 };
 
@@ -134,12 +134,15 @@ describe('dialer panel', () => {
 
     let callButton = panel.find('.callBtnRow').find('.callBtn').find('.btnSvgGroup');
     await callButton.simulate('click');
+    await timeout(200);
     panel = wrapper.find(DialerPanel).first();
     const deleteButton = panel.find(RecipientsInput).find(RemoveButton);
     await deleteButton.simulate('click');
+    await timeout(200);
     expect(store.getState(wrapper).dialerUI.toNumberField).toEqual('');
     callButton = panel.find('.callBtnRow').find('.callBtn').find('.btnSvgGroup');
     await callButton.simulate('click');
+    await timeout(200);
     expect(store.getState(wrapper).dialerUI.toNumberField).toEqual('Hello world');
     panel = wrapper.find(DialerPanel).first();
     const textInput = panel.find(RecipientsInput).find('input');

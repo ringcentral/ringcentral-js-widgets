@@ -6,7 +6,6 @@ import DialPadIcon from 'ringcentral-widgets/assets/images/DialPadNav.svg';
 import CallsIcon from 'ringcentral-widgets/assets/images/Calls.svg';
 import HistoryIcon from 'ringcentral-widgets/assets/images/CallHistory.svg';
 import MessageIcon from 'ringcentral-widgets/assets/images/Messages.svg';
-import ComposeTextIcon from 'ringcentral-widgets/assets/images/ComposeText.svg';
 import MoreMenuIcon from 'ringcentral-widgets/assets/images/MoreMenu.svg';
 import ContactIcon from 'ringcentral-widgets/assets/images/Contact.svg';
 import MeetingIcon from 'ringcentral-widgets/assets/images/Meeting.svg';
@@ -17,7 +16,6 @@ import DialPadHoverIcon from 'ringcentral-widgets/assets/images/DialPadHover.svg
 import CallsHoverIcon from 'ringcentral-widgets/assets/images/CallsHover.svg';
 import HistoryHoverIcon from 'ringcentral-widgets/assets/images/CallHistoryHover.svg';
 import MessageHoverIcon from 'ringcentral-widgets/assets/images/MessagesHover.svg';
-import ComposeTextHoverIcon from 'ringcentral-widgets/assets/images/ComposeTextHover.svg';
 import MoreMenuHoverIcon from 'ringcentral-widgets/assets/images/MoreMenuHover.svg';
 import ContactHoverIcon from 'ringcentral-widgets/assets/images/ContactHover.svg';
 import MeetingHoverIcon from 'ringcentral-widgets/assets/images/MeetingHover.svg';
@@ -39,7 +37,6 @@ function getTabs({
   showCalls,
   showHistory,
   showMessages,
-  showComposeText,
   showContact,
   unreadCounts,
   showConference,
@@ -76,12 +73,6 @@ function getTabs({
       isActive: currentPath => (
         currentPath === '/messages' || currentPath.indexOf('/conversations/') !== -1
       ),
-    },
-    showComposeText && {
-      icon: ComposeTextIcon,
-      activeIcon: ComposeTextHoverIcon,
-      label: i18n.getString('composeTextLabel', currentLocale),
-      path: '/composeText',
     },
     showContact && {
       icon: ContactIcon,
@@ -174,7 +165,6 @@ function mapToProps(_, {
   const showContact = rolesAndPermissions.ready && (
     rolesAndPermissions.callingEnabled || rolesAndPermissions.hasReadMessagesPermission
   );
-  const showComposeText = rolesAndPermissions.ready && rolesAndPermissions.hasComposeTextPermission;
   const showMessages = rolesAndPermissions.ready && rolesAndPermissions.hasReadMessagesPermission;
   const showConference = (
     rolesAndPermissions.ready &&
@@ -192,7 +182,6 @@ function mapToProps(_, {
     showDialPad,
     showCalls,
     showHistory,
-    showComposeText,
     showMessages,
     showContact,
     showConference,
@@ -211,7 +200,7 @@ function mapToFunctions(_, {
   },
 }) {
   return {
-    goTo: (path) => {
+    goTo(path) {
       if (path) {
         routerInteraction.push(path);
       }
