@@ -1,4 +1,4 @@
-import messageStoreErrors from 'ringcentral-integration/modules/MessageStore/messageStoreErrors';
+import messageStoreErrors from 'ringcentral-integration/modules/MessageStore/errors';
 
 export default {
   [messageStoreErrors.deleteFailed]: '内部サーバーエラーが原因で\u3001ボイスメールを削除できません\u3002',

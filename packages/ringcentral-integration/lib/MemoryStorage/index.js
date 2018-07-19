@@ -22,4 +22,10 @@ export default class MemoryStorage {
   key(idx) {
     return [...this._data.keys()][idx];
   }
+  keys() {
+    return this._data.keys();
+  }
+  ready() {
+    return true;
+  }
 }

@@ -62,6 +62,12 @@ export default class Softphone extends RcModule {
     const uri = `${this.protocol}://call?number=${encodeURIComponent(phoneNumber)}`;
     if (this._extensionMode) {
       window.open(uri);
+    } else if (window.navigator.msLaunchUri) {
+      // to support ie to start the service
+      window.navigator.msLaunchUri(uri);
+    } else if (window.ActiveXObject || 'ActiveXObject' in window ) {
+      // to support ie on Windows < 8
+      window.open(uri);
     } else {
       const frame = document.createElement('iframe');
       frame.style.display = 'none';

@@ -5,7 +5,7 @@ import babelIstanbul from 'babel-istanbul';
 import yargs from 'yargs';
 import through from 'through2';
 import path from 'path';
-import fs from 'fs-promise';
+import fs from 'fs-extra';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import babel from 'gulp-babel';
@@ -177,23 +177,27 @@ async function exec(command) {
 }
 
 async function getVersionFromTag() {
+  let tag = process.env.TRAVIS_TAG;
+  if (tag && /^\d+.\d+.\d+/.test(tag)) {
+    return tag;
+  }
   try {
-    let tag = await exec('git describe --exact-match --tags $(git rev-parse HEAD)');
+    tag = await exec('git describe --exact-match --tags $(git rev-parse HEAD)');
     console.log(tag);
     tag = tag.replace(/\r?\n|\r/g, '');
     if (/^\d+.\d+.\d+/.test(tag)) {
       return tag;
     }
-    return null;
   } catch (e) {
-    return null;
+    console.error(e);
   }
+  return null;
 }
 
 const RELEASE_PATH = path.resolve(__dirname, '../../release/ringcentral-integration');
 gulp.task('release-clean', async () => {
   if (!await fs.exists(RELEASE_PATH)) {
-    await exec(`mkdir -p ${RELEASE_PATH}`);
+    await fs.mkdirp(RELEASE_PATH);
   }
   const files = (await fs.readdir(RELEASE_PATH)).filter(file => !/^\./.test(file));
   for (const file of files) {
@@ -211,7 +215,7 @@ gulp.task('release', ['release-copy'], async () => {
   delete packageInfo.scripts;
   packageInfo.main = 'rc-phone.js';
   const version = await getVersionFromTag();
-  console.log(version);
+  console.log('version:', version);
   if (version) {
     packageInfo.version = version;
   }

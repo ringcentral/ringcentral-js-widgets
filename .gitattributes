@@ -1,1 +1,23 @@
-* text=auto eol=lf
+.ackrc text=auto eol=lf
+.babelrc text=auto eol=lf
+*.yml text=auto eol=lf
+.editorconfig text=auto eol=lf
+.eslintignore text=auto eol=lf
+.eslintrc text=auto eol=lf
+*.js text=auto eol=lf
+.gitattributes text=auto eol=lf
+.gitignore text=auto eol=lf
+*.json text=auto eol=lf
+*.log text=auto eol=lf
+LICENSE text=auto eol=lf
+*.css text=auto eol=lf
+*.html text=auto eol=lf
+*.info text=auto eol=lf
+*.md text=auto eol=lf
+*.scss text=auto eol=lf
+*.svg text=auto eol=lf
+*.sh text=auto eol=lf
+*.ejs text=auto eol=lf
+*.lock text=auto eol=lf
+*.default text=auto eol=lf
+

@@ -3,6 +3,7 @@
 
 .root {
   @include full-size;
+  position: inherit;
   font-family: Helvetica;
   box-sizing: border-box;
   background: #ffffff;

@@ -2,11 +2,9 @@ import { createSelector } from 'reselect';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import moduleStatuses from '../../enums/moduleStatuses';
-import {
-  sortByStartTime,
-} from '../../lib/callLogHelpers';
+import { sortByStartTime } from '../../lib/callLogHelpers';
 import actionTypes from './actionTypes';
-import getCallHistoryReducer from './getCallHistoryReducer';
+import getCallHistoryReducer, { getEndedCallsReducer } from './getCallHistoryReducer';
 import ensureExist from '../../lib/ensureExist';
 import normalizeNumber from '../../lib/normalizeNumber';
 import getter from '../../lib/getter';
@@ -21,9 +19,11 @@ import proxify from '../../lib/proxy/proxify';
     'AccountInfo',
     'CallLog',
     'CallMonitor',
+    { dep: 'Storage', optional: true },
     { dep: 'ActivityMatcher', optional: true },
     { dep: 'ContactMatcher', optional: true },
-    { dep: 'CallHistoryOptions', optional: true }
+    { dep: 'CallHistoryOptions', optional: true },
+    { dep: 'TabManager', optional: true },
   ]
 })
 export default class CallHistory extends RcModule {
@@ -40,8 +40,10 @@ export default class CallHistory extends RcModule {
     accountInfo,
     callLog,
     callMonitor,
+    storage,
     activityMatcher,
     contactMatcher,
+    tabManager,
     ...options
   }) {
     super({
@@ -49,16 +51,30 @@ export default class CallHistory extends RcModule {
     });
     this._accountInfo = this::ensureExist(accountInfo, 'accountInfo');
     this._callLog = this::ensureExist(callLog, 'callLog');
+    this._storage = storage;
     this._activityMatcher = activityMatcher;
     this._contactMatcher = contactMatcher;
     this._callMonitor = callMonitor;
-    this._reducer = getCallHistoryReducer(this.actionTypes);
+    this._tabManager = tabManager;
 
+    if (this._storage) {
+      this._reducer = getCallHistoryReducer(this.actionTypes);
+      this._endedCallsStorageKey = 'callHistoryEndedCalls';
+      this._storage.registerReducer({
+        key: this._endedCallsStorageKey,
+        reducer: getEndedCallsReducer(this.actionTypes),
+      });
+    } else {
+      this._reducer = getCallHistoryReducer(this.actionTypes, {
+        endedCalls: getEndedCallsReducer(this.actionTypes),
+      });
+    }
     if (this._contactMatcher) {
       this._contactMatcher.addQuerySource({
         getQueriesFn: () => this.uniqueNumbers,
         readyCheckFn: () => (
           (!this._callMonitor || this._callMonitor.ready) &&
+          (!this._tabManager || this._tabManager.ready) &&
           this._callLog.ready &&
           this._accountInfo.ready
         ),
@@ -69,6 +85,7 @@ export default class CallHistory extends RcModule {
         getQueriesFn: () => this.sessionIds,
         readyCheckFn: () => (
           (!this._callMonitor || this._callMonitor.ready) &&
+          (!this._tabManager || this._tabManager.ready) &&
           this._callLog.ready
         ),
       });
@@ -102,6 +119,7 @@ export default class CallHistory extends RcModule {
       this._accountInfo.ready &&
       (!this._contactMatcher || this._contactMatcher.ready) &&
       (!this._activityMatcher || this._activityMatcher.ready) &&
+      (!this._tabManager || this._tabManager.ready) &&
       this.pending
     );
   }
@@ -112,6 +130,7 @@ export default class CallHistory extends RcModule {
         (this._callMonitor && !this._callMonitor.ready) ||
         !this._accountInfo.ready ||
         (this._contactMatcher && !this._contactMatcher.ready) ||
+        (this._tabManager && !this._tabManager.ready) ||
         (this._activityMatcher && !this._activityMatcher.ready)
       ) &&
       this.ready
@@ -119,7 +138,10 @@ export default class CallHistory extends RcModule {
   }
 
   _shouldTriggerContactMatch(uniqueNumbers) {
-    if (this._lastProcessedNumbers !== uniqueNumbers) {
+    if (
+      this._lastProcessedNumbers !== uniqueNumbers &&
+      (!this._tabManager || this._tabManager.active)
+    ) {
       this._lastProcessedNumbers = uniqueNumbers;
       if (this._contactMatcher && this._contactMatcher.ready) {
         return true;
@@ -129,7 +151,10 @@ export default class CallHistory extends RcModule {
   }
 
   _shouldTriggerActivityMatch(sessionIds) {
-    if (this._lastProcessedIds !== sessionIds) {
+    if (
+      this._lastProcessedIds !== sessionIds &&
+      (!this._tabManager || this._tabManager.active)
+    ) {
       this._lastProcessedIds = sessionIds;
       if (this._activityMatcher && this._activityMatcher.ready) {
         return true;
@@ -296,7 +321,7 @@ export default class CallHistory extends RcModule {
   @getter
   calls = createSelector(
     () => this.normalizedCalls,
-    () => this.state.endedCalls,
+    () => this.recentlyEndedCalls,
     () => (this._contactMatcher && this._contactMatcher.dataMapping),
     () => (this._activityMatcher && this._activityMatcher.dataMapping),
     () => (this._callMonitor && this._callMonitor.callMatched),
@@ -324,17 +349,32 @@ export default class CallHistory extends RcModule {
           toNumberEntity: matched,
         };
       });
+      const filteredEndedCalls = endedCalls
+        .filter(call => !sessionIds[call.sessionId])
+        .map((call) => {
+          const activityMatches = (activityMapping[call.sessionId]) || [];
+          const fromNumber = call.from && (call.from.phoneNumber || call.from.extensionNumber);
+          const toNumber = call.to && (call.to.phoneNumber || call.to.extensionNumber);
+          const fromMatches = (fromNumber && contactMapping[fromNumber]) || [];
+          const toMatches = (toNumber && contactMapping[toNumber]) || [];
+          return {
+            ...call,
+            activityMatches,
+            fromMatches,
+            toMatches,
+          };
+        });
       return [
-        ...endedCalls.filter(call => !sessionIds[call.sessionId]).sort(sortByStartTime),
+        ...filteredEndedCalls,
         ...calls
-      ];
+      ].sort(sortByStartTime);
     }
   )
 
   @getter
   uniqueNumbers = createSelector(
     () => this.normalizedCalls,
-    () => this.state.endedCalls,
+    () => this.recentlyEndedCalls,
     (normalizedCalls, endedCalls) => {
       const output = [];
       const numberMap = {};
@@ -365,7 +405,7 @@ export default class CallHistory extends RcModule {
   @getter
   sessionIds = createSelector(
     () => this._callLog.calls,
-    () => this.state.endedCalls,
+    () => this.recentlyEndedCalls,
     (calls, endedCalls) => {
       const sessionIds = {};
       return calls.map((call) => {
@@ -380,6 +420,9 @@ export default class CallHistory extends RcModule {
   )
 
   get recentlyEndedCalls() {
+    if (this._storage) {
+      return this._storage.getItem(this._endedCallsStorageKey);
+    }
     return this.state.endedCalls;
   }
 }

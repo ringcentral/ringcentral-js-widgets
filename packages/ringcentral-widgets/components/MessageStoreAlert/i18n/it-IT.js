@@ -1,4 +1,4 @@
-import messageStoreErrors from 'ringcentral-integration/modules/MessageStore/messageStoreErrors';
+import messageStoreErrors from 'ringcentral-integration/modules/MessageStore/errors';
 
 export default {
   [messageStoreErrors.deleteFailed]: 'Impossibile eliminare il messaggio vocale a causa di un errore del server.',

@@ -95,6 +95,7 @@ export default function ContactDisplay({
   groupNumbers,
   showType,
   selectClassName,
+  selectedClassName,
   showPlaceholder,
   brand,
   stopPropagation,
@@ -171,7 +172,10 @@ export default function ContactDisplay({
       <DropdownSelect
         reference={reference}
         className={classnames(styles.select, selectClassName)}
-        value={`${_selected}`}
+        selectedClassName={classnames(styles.selectedValue, selectedClassName)}
+        buttonStyle={styles.button}
+        iconClassName={styles.icon}
+        value={_selected}
         onChange={onSelectContact}
         disabled={disabled || isLogging}
         options={options}
@@ -236,6 +240,7 @@ ContactDisplay.propTypes = {
   groupNumbers: PropTypes.arrayOf(PropTypes.string),
   showType: PropTypes.bool,
   selectClassName: PropTypes.string,
+  selectedClassName: PropTypes.string,
   showPlaceholder: PropTypes.bool,
   brand: PropTypes.string,
   stopPropagation: PropTypes.bool,
@@ -253,6 +258,7 @@ ContactDisplay.defaultProps = {
   enableContactFallback: undefined,
   showType: true,
   selectClassName: undefined,
+  selectedClassName: undefined,
   showPlaceholder: true,
   brand: undefined,
   stopPropagation: true,

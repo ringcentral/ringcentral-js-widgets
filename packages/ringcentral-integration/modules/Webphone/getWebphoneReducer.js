@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 import connectionStatus from './connectionStatus';
-import { isRing, isOnHold } from './webphoneHelper';
+import sessionStatus from './sessionStatus';
+import { isRing, isOnHold, sortByLastHoldingTimeDesc } from './webphoneHelper';
 
 export function getVideoElementPreparedReducer(types) {
   return (state = false, { type }) => {
@@ -77,6 +78,7 @@ export function getActiveSessionIdReducer(types) {
   return (state = null, { type, session = {}, sessions = [] }) => {
     let onHoldSessions;
     switch (type) {
+      case types.beforeCallStart:
       case types.callStart:
         return session.id;
       case types.callEnd:
@@ -85,10 +87,16 @@ export function getActiveSessionIdReducer(types) {
         }
         onHoldSessions =
           sessions.filter(sessionItem => isOnHold(sessionItem));
-        if (onHoldSessions && onHoldSessions[0]) {
+        if (onHoldSessions.length && onHoldSessions[0]) {
           return onHoldSessions[0].id;
         }
-        return null;
+        /**
+         * HACK: special scenario-when dialing two number that do not exisit and then we
+         * merge them togother, and the merge process would certainly failed.
+         * Because the numbers are invalid, so the server will hangup them for us.
+         * Noticing that the session will remain unhold during the merging.
+         */
+        return (sessions[0] && sessions[0].id) || null;
       case types.disconnect:
         return null;
       default:
@@ -103,6 +111,7 @@ export function getRingSessionIdReducer(types) {
     switch (type) {
       case types.callRing:
         return session.id;
+      case types.beforeCallStart:
       case types.callStart:
       case types.callEnd:
         if (session.id !== state) {
@@ -150,10 +159,56 @@ export function getLastEndedSessionsReducer(types) {
 }
 
 export function getSessionsReducer(types) {
-  return (state = [], { type, sessions }) => {
+  return (state = [], { type, sessions, cachingSessionIds }) => {
     switch (type) {
-      case types.updateSessions:
-        return sessions;
+      case types.updateSessions: {
+        const cachedSessions = state.filter(x => x.cached);
+        cachedSessions.forEach((cachedSession) => {
+          const session = sessions.find(x => x.id === cachedSession.id);
+          if (session) {
+            session.cached = true;
+          } else {
+            cachedSession.removed = true;
+            sessions.push(cachedSession);
+          }
+        });
+        return sessions.sort(sortByLastHoldingTimeDesc);
+      }
+      case types.setSessionCaching: {
+        let needUpdate = false;
+        cachingSessionIds.forEach((sessionId) => {
+          const session = state.find(x => x.id === sessionId);
+          if (session) {
+            session.cached = true;
+            needUpdate = true;
+          }
+        });
+        return needUpdate ? [...state] : state;
+      }
+      case types.clearSessionCaching: {
+        let needUpdate = false;
+        state.forEach((session) => {
+          if (session.cached) {
+            session.cached = false;
+            needUpdate = true;
+          }
+        });
+        if (needUpdate) {
+          return state.filter(x => !x.cached && x.removed);
+        }
+        return state;
+      }
+      case types.onholdCachedSession: {
+        let needUpdate = false;
+        state.forEach((session) => {
+          if (session.cached) {
+            session.callStatus = sessionStatus.onHold;
+            session.isOnHold = true;
+            needUpdate = true;
+          }
+        });
+        return needUpdate ? [...state] : state;
+      }
       case types.destroySessions:
         return [];
       default:

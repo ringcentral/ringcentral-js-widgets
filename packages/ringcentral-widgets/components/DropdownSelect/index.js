@@ -124,6 +124,7 @@ class DropdownSelect extends Component {
     return (
       <ul
         className={classnames(styles.dropdown,
+          this.props.dropdownClassName,
           placeholder && styles.placeholder)}
         ref={(ref) => { this.dropdownMenu = ref; }}>
         {
@@ -205,7 +206,8 @@ class DropdownSelect extends Component {
           <span
             className={classnames(
               styles.selectedValue,
-              ellipsis && styles.ellipsis
+              ellipsis && styles.ellipsis,
+              this.props.selectedClassName,
             )}>
             {renderValue}
           </span>
@@ -222,8 +224,14 @@ class DropdownSelect extends Component {
 DropdownSelect.propTypes = {
   reference: PropTypes.func,
   className: PropTypes.string,
+  selectedClassName: PropTypes.string,
+  dropdownClassName: PropTypes.string,
   iconClassName: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.number,
+  ]),
   label: PropTypes.string,
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
@@ -248,6 +256,8 @@ DropdownSelect.propTypes = {
 DropdownSelect.defaultProps = {
   reference: undefined,
   className: null,
+  selectedClassName: null,
+  dropdownClassName: null,
   iconClassName: null,
   value: null,
   label: null,

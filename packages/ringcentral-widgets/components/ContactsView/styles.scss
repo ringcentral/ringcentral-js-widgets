@@ -17,6 +17,10 @@
   padding-bottom: 0;
 }
 
+.contentWrapper {
+  @include full-size;
+}
+
 .actionBar {
   padding: 10px 20px;
   border-bottom: 1px solid #e3e4e5;

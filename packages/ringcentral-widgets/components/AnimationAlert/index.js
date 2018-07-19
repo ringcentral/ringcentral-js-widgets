@@ -48,6 +48,7 @@ class AnimationAlert extends Component {
     this.mounted = false;
   }
   componentWillReceiveProps(nextProps) {
+    if (this.props.messages === nextProps.messages) return;
     (async () => {
       const {
         duration,
@@ -84,17 +85,24 @@ class AnimationAlert extends Component {
       const stateWithAnimation = {
         messages,
       };
-      this.setState(stateWithAnimation);
+      if (messages.length > 0) {
+        this.setState(stateWithAnimation);
+      }
       await sleep(duration);
-
       if (!this.mounted) return;
-
       const isCurrentEmpty = currentMessagesIDs.length === 0;
       this.setState({
         messages: isCurrentEmpty ? messages : nextProps.messages,
       });
     })();
   }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !(
+      nextState.messages === this.state.messages || nextProps.messages === this.state.props
+    );
+  }
+
   render() {
     return (
       <AlertDisplay {...this.props} component={AnimationMessage} messages={this.state.messages} />

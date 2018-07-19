@@ -1,29 +1,29 @@
-// import chai, { expect } from 'chai';
-// import chaiAsPromised from 'chai-as-promised';
-// import dirtyChai from 'dirty-chai';
-// import sinon from 'sinon';
-// import CallLogger, {
-//   callIdentityFunction,
-// } from './index';
-// import LoggerBase from '../../lib/LoggerBase';
-// import telephonyStatuses from '../../enums/telephonyStatuses';
-// import { isRinging } from '../../lib/callLogHelpers';
-// import sleep from '../../lib/sleep';
+import chai, { expect } from 'chai';
+import chaiAsPromised from 'chai-as-promised';
+import dirtyChai from 'dirty-chai';
+import sinon from 'sinon';
+import CallLogger, {
+  callIdentityFunction,
+} from './index';
+import LoggerBase from '../../lib/LoggerBase';
+import telephonyStatuses from '../../enums/telephonyStatuses';
+import { isRinging } from '../../lib/callLogHelpers';
+import sleep from '../../lib/sleep';
 
-// chai.use(chaiAsPromised);
-// chai.use(dirtyChai);
+chai.use(chaiAsPromised);
+chai.use(dirtyChai);
 
-// describe('callIdentityFunction', () => {
-//   it('should be a function', () => {
-//     expect(callIdentityFunction).to.be.a('function');
-//   });
-//   it('should return sessionId from call object', () => {
-//     const call = {
-//       sessionId: {},
-//     };
-//     expect(callIdentityFunction(call)).to.equal(call.sessionId);
-//   });
-// });
+describe('callIdentityFunction', () => {
+  it('should be a function', () => {
+    expect(callIdentityFunction).to.be.a('function');
+  });
+  it('should return sessionId from call object', () => {
+    const call = {
+      sessionId: {},
+    };
+    expect(callIdentityFunction(call)).to.equal(call.sessionId);
+  });
+});
 
 // describe('CallLogger', () => {
 //   describe('constructor', () => {

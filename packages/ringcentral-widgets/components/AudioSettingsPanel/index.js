@@ -1,3 +1,4 @@
+import { all, find } from 'ramda';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -53,12 +54,18 @@ export default class AudioSettingsPanel extends Component {
         callVolume: newProps.callVolume,
       });
     }
-    if (newProps.inputDeviceId !== this.props.inputDeviceId) {
+    if (newProps.inputDeviceId !== this.props.inputDeviceId || all(
+      device => device.deviceId !== this.state.inputDeviceId,
+      newProps.availableInputDevices
+    )) {
       this.setState({
         inputDeviceId: newProps.inputDeviceId,
       });
     }
-    if (newProps.outputDeviceId !== this.props.outputDeviceId) {
+    if (newProps.outputDeviceId !== this.props.outputDeviceId || all(
+      device => device.deviceId !== this.state.outputDeviceId,
+      newProps.availableOutputDevices
+    )) {
       this.setState({
         outputDeviceId: newProps.outputDeviceId,
       });
@@ -148,13 +155,17 @@ export default class AudioSettingsPanel extends Component {
     return device.deviceId;
   }
   renderOutputDevice = (value) => {
-    const device = this.props.availableOutputDevices
-      .find(device => device.deviceId === value);
+    const device = find(
+      device => device.deviceId === value,
+      this.props.availableOutputDevices
+    );
     return device && device.label || value;
   }
   renderInputDevice = (value) => {
-    const device = this.props.availableInputDevices
-      .find(device => device.deviceId === value);
+    const device = find(
+      device => device.deviceId === value,
+      this.props.availableInputDevices
+    );
     return device && device.label || value;
   }
 
@@ -169,6 +180,8 @@ export default class AudioSettingsPanel extends Component {
       userMedia,
       isWebRTC,
       checkUserMedia,
+      outputDeviceDisabled,
+      inputDeviceDisabled,
     } = this.props;
     const {
       dialButtonVolume,
@@ -189,17 +202,18 @@ export default class AudioSettingsPanel extends Component {
       this.props.outputDeviceId !== outputDeviceId
     );
 
-    // TODO improve UI and add i18n support
-    const permission = (userMedia && isWebRTC) ?
-      null :
-      (
-        <IconLine
-          noBorder
-          icon={<Button onClick={checkUserMedia}>Check Permission</Button>}
-      >
-        The app does not have permission to use microphone
-        </IconLine>
-      );
+    // TODO: improve UI
+    const permission = !userMedia ? (
+      <IconLine
+        noBorder
+        icon={
+          <Button onClick={checkUserMedia}>
+            {i18n.getString('checkMicPermission')}
+          </Button>
+        }>
+        {i18n.getString('micNoPermissionMessage')}
+      </IconLine>
+    ) : null;
 
     // const webphoneVolume = isWebRTC ?
     //   (
@@ -217,49 +231,53 @@ export default class AudioSettingsPanel extends Component {
     //     </div>
     //   ) : null;
 
-    const devices = (supportDevices && userMedia && isWebRTC) ?
-      (
-        <div>
-          <InputField
-            label={i18n.getString('outputDevice', currentLocale)}
-            noBorder
-        >
-            <Select
-              className={styles.select}
-              value={outputDeviceId}
-              onChange={this.onOutputDeviceIdChange}
-              options={availableOutputDevices}
-              dropdownAlign="left"
-              renderFunction={this.renderDeviceOption}
-              valueFunction={this.renderDeviceValue}
-              renderValue={this.renderOutputDevice}
-              titleEnabled
-          />
-          </InputField>
-          <InputField
-            label={i18n.getString('inputDevice', currentLocale)}
-            noBorder
-        >
-            <Select
-              className={styles.select}
-              value={inputDeviceId}
-              onChange={this.onInputDeviceIdChange}
-              options={availableInputDevices}
-              dropdownAlign="left"
-              renderFunction={this.renderDeviceOption}
-              valueFunction={this.renderDeviceValue}
-              renderValue={this.renderInputDevice}
-              titleEnabled
-          />
-          </InputField>
-        </div>
-      ) : null;
+    const outputDevice = supportDevices ? (
+      <InputField
+        label={i18n.getString('outputDevice', currentLocale)}
+        noBorder>
+        <Select
+          className={styles.select}
+          disabled={outputDeviceDisabled}
+          value={
+            availableOutputDevices.length ? outputDeviceId :
+              i18n.getString('noDevice', currentLocale)
+          }
+          onChange={this.onOutputDeviceIdChange}
+          options={availableOutputDevices}
+          dropdownAlign="left"
+          renderFunction={this.renderDeviceOption}
+          valueFunction={this.renderDeviceValue}
+          renderValue={this.renderOutputDevice}
+          titleEnabled
+        />
+      </InputField>
+    ) : null;
+
+    const inputDevice = supportDevices ? (
+      <InputField
+        label={i18n.getString('inputDevice', currentLocale)}
+        noBorder>
+        <Select
+          className={styles.select}
+          disabled={inputDeviceDisabled}
+          value={
+            availableInputDevices.length ? inputDeviceId :
+              i18n.getString('noDevice', currentLocale)
+          }
+          onChange={this.onInputDeviceIdChange}
+          options={availableInputDevices}
+          dropdownAlign="left"
+          renderFunction={this.renderDeviceOption}
+          valueFunction={this.renderDeviceValue}
+          renderValue={this.renderInputDevice}
+          titleEnabled
+        />
+      </InputField>
+    ) : null;
 
     return (
       <div className={classnames(styles.root, className)}>
-        <BackHeader
-          onBackClick={onBackButtonClick}
-          >
+        <BackHeader onBackClick={onBackButtonClick}>
           {i18n.getString('title', currentLocale)}
         </BackHeader>
         <Panel className={styles.content}>
@@ -271,7 +289,8 @@ export default class AudioSettingsPanel extends Component {
             // </InputField>
             // webphoneVolume
           }
-          {devices}
+          {outputDevice}
+          {inputDevice}
           {permission}
           <SaveButton
             currentLocale={currentLocale}
@@ -307,8 +326,12 @@ AudioSettingsPanel.propTypes = {
   userMedia: PropTypes.bool.isRequired,
   isWebRTC: PropTypes.bool.isRequired,
   checkUserMedia: PropTypes.func.isRequired,
+  outputDeviceDisabled: PropTypes.bool,
+  inputDeviceDisabled: PropTypes.bool,
 };
 
 AudioSettingsPanel.defaultProps = {
   className: null,
+  outputDeviceDisabled: false,
+  inputDeviceDisabled: false,
 };

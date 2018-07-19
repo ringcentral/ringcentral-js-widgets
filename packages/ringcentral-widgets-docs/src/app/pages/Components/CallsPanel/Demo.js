@@ -48,19 +48,26 @@ props.calls = [{
   toMatches: [],
   activityMatches: []
 }];
-props.areaCode = 'test string';
-props.countryCode = 'test string';
+props.areaCode = '650';
+props.countryCode = 'US';
 props.disableLinks = false;
 props.dateTimeFormatter = () => '12:00';
-props.title = 'Calls Example';
+props.title = 'Call Histrory';
 props.brand = 'RingCentral';
 
 /**
  * A example of `CallsPanel`
  */
 const CallsPanelDemo = () => (
-  <CallsPanel
-    {...props}
-  />
+  <div style={{
+    position: 'relative',
+    height: '500px',
+    width: '300px',
+    border: '1px solid #f3f3f3',
+  }}>
+    <CallsPanel
+      {...props}
+    />
+  </div>
 );
 export default CallsPanelDemo;

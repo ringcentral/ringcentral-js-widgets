@@ -1,0 +1,24 @@
+{
+  "uri" : "https://api-rcapps.ringcentral.com/restapi/v1.0/account/37439510/extension/924728020/meeting/service-info",
+  "supportUri" : "http://success.ringcentral.com",
+  "intlDialInNumbersUri" : "https://meetings.ringcentral.com/teleconference",
+  "externalUserInfo" : {
+    "userId" : "_hyLYODzSKqLcUkX0sGtzg",
+    "accountId" : "37439510",
+    "userType" : 2,
+    "userToken" : "lep1JsOzGskx00CUvV-ARdUqVogZjujsso4-Dq-xyiQ.CAIAAAFjcm4D2wAAAHgYb0Vya0xqN2FBZTdjSUVDNmlKaExldz09DDNDQkF1b2lZUzNzPQ",
+    "hostKey" : "558809"
+  },
+  "dialInNumbers" : [ {
+    "phoneNumber" : "+17732319226",
+    "formattedNumber" : "(773) 231-9226",
+    "country" : {
+      "uri" : "https://api-rcapps.ringcentral.com/restapi/v1.0/dictionary/country/1",
+      "id" : "1",
+      "name" : "United States",
+      "isoCode" : "US",
+      "callingCode" : "1"
+    }
+  } ],
+  "domain" : "ringcentral.zoom.us"
+}

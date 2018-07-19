@@ -1,0 +1,29 @@
+{
+  "uri": "http://api-xmnup.lab.nordigy.ru/restapi/v1.0/number-parser/parse?nationalAsPriority=false&homeCountry=US",
+  "homeCountry": {
+    "uri": "http://api-xmnup.lab.nordigy.ru/restapi/v1.0/dictionary/country/1",
+    "id": "1",
+    "name": "United States",
+    "isoCode": "US",
+    "callingCode": "1"
+  },
+  "phoneNumbers": [{
+    "originalString": "+12092313293",
+    "country": {
+      "uri": "http://api-xmnup.lab.nordigy.ru/restapi/v1.0/dictionary/country/1",
+      "id": "1",
+      "name": "United States",
+      "isoCode": "US",
+      "callingCode": "1"
+    },
+    "areaCode": "209",
+    "subscriberNumber": "2313293",
+    "formattedNational": "(209) 231-3293",
+    "formattedInternational": "+1 (209) 2313293",
+    "dialable": "2092313293",
+    "e164": "+12092313293",
+    "special": false,
+    "normalized": "12092313293",
+    "tollFree": false
+  }]
+}

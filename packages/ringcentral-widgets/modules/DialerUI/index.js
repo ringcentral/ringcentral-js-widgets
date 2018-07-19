@@ -2,9 +2,7 @@ import RcModule from 'ringcentral-integration/lib/RcModule';
 import Enum from 'ringcentral-integration/lib/Enum';
 import { Module } from 'ringcentral-integration/lib/di';
 import { combineReducers } from 'redux';
-import { createSelector } from 'reselect';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
-import getter from 'ringcentral-integration/lib/getter';
 import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import getModuleStatusReducer from 'ringcentral-integration/lib/getModuleStatusReducer';
 import moduleActionTypes from 'ringcentral-integration/enums/moduleActionTypes';
@@ -27,6 +25,7 @@ function getToNumberFieldReducer(types) {
     }
   };
 }
+
 function getRecipientReducer(types) {
   return (state = null, { type, recipient }) => {
     switch (type) {
@@ -154,6 +153,7 @@ export default class DialerUI extends RcModule {
   async call({
     phoneNumber = '',
     recipient = null,
+    fromNumber = null,
   }) {
     if (phoneNumber || recipient) {
       this.store.dispatch({
@@ -161,14 +161,18 @@ export default class DialerUI extends RcModule {
         phoneNumber,
         recipient,
       });
-      this._callHooks.forEach(hook => hook({
-        phoneNumber,
-        recipient,
-      }));
+      for (const hook of this._callHooks) {
+        await hook({
+          phoneNumber,
+          recipient,
+          fromNumber,
+        });
+      }
       try {
         await this._call.call({
           phoneNumber: this.toNumberField,
           recipient: this.recipient,
+          fromNumber,
         });
         this.store.dispatch({
           type: this.actionTypes.callSuccess,
@@ -183,7 +187,7 @@ export default class DialerUI extends RcModule {
   }
 
   @proxify
-  async onCallButtonClick() {
+  async onCallButtonClick({ fromNumber } = {}) {
     if (
       `${this.toNumberField}`.trim().length === 0 &&
       !this.recipient
@@ -203,6 +207,7 @@ export default class DialerUI extends RcModule {
       await this.call({
         phoneNumber: this.toNumberField,
         recipient: this.recipient,
+        fromNumber,
       });
     }
   }

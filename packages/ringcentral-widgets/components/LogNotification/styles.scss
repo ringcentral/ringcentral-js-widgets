@@ -56,6 +56,9 @@
 
 .saveButton {
   @include defaultButton(30px);
+}
+
+.selected {
   color: #ffffff;
   background-color: $primary-color;
   margin: 8px 0;

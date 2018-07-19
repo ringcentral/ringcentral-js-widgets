@@ -1,10 +1,12 @@
 {
-  "name": "ringcentral-widgets-packages",
+  "name": "ringcentral-js-widgets-packages",
   "private": true,
   "devEngines": {
     "node": "8.x || 9.x"
   },
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "test": "lerna run test --stream",
@@ -12,15 +14,25 @@
     "release": "lerna run release --scope ringcentral-widgets --scope ringcentral-integration",
     "commons:test": "lerna run test --scope ringcentral-integration --stream",
     "widgets:test": "lerna run test --scope ringcentral-widgets-test --stream",
-    "commons:integration-test": "lerna run karma --scope ringcentral-integration --stream"
+    "commons:integration-test": "lerna run karma --scope ringcentral-integration --stream",
+    "docs": "lerna run start --scope ringcentral-widgets-docs --stream",
+    "docs:build": "lerna run build --scope ringcentral-widgets-docs --stream",
+    "analyze-packages": "babel-node scripts/analyzePackages.js",
+    "list-file-matchers": "babel-node scripts/listFileMatchers.js",
+    "commons:prepare-release": "node scripts/prepareRelease.js ringcentral-integration commons-release",
+    "commons:start-release": "node scripts/startRelease.js ringcentral-integration commons-release",
+    "widgets:prepare-release": "node scripts/prepareRelease.js ringcentral-widgets widgets-release",
+    "widgets:start-release": "node scripts/startRelease.js ringcentral-widgets widgets-release",
+    "i18n:prepare-release": "node scripts/prepareRelease.js @ringcentral-integration/i18n i18n-release",
+    "i18n:start-release": "node scripts/startRelease.js @ringcentral-integration/i18n i18n-release",
+    "locale-loader:prepare-release": "node scripts/prepareRelease.js @ringcentral-integration/locale-loader locale-loader-release",
+    "locale-loader:start-release": "node scripts/startRelease.js @ringcentral-integration/locale-loader locale-loader-release",
+    "phone-number:prepare-release": "node scripts/prepareRelease.js @ringcentral-integration/phone-number phone-number-release",
+    "phone-number:start-release": "node scripts/startRelease.js @ringcentral-integration/phone-number phone-number-release"
   },
   "devDependencies": {
-    "lerna": "^2.9.0",
-    "eslint": "^4.12.0",
-    "babel-eslint": "^7.1.1",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-react": "^7.5.1"
+    "eslint-settings": "0.0.1",
+    "babel-settings": "0.0.1",
+    "lerna": "^2.11.0"
   }
 }

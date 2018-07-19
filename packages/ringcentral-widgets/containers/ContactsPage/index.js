@@ -14,7 +14,6 @@ function mapToProps(_, {
     contactGroups: contacts.contactGroups || [],
     searchSource: contacts.sourceFilter,
     searchString: contacts.searchFilter,
-    currentPage: contacts.pageNumber,
     showSpinner: !(
       locale.ready &&
       contacts.ready
@@ -31,19 +30,19 @@ function mapToFunctions(_, {
   onVisitPage,
 }) {
   return {
-    getAvatarUrl: async () => null,
-    getPresence: async (contact) => {
-      const presence = await contacts.getPresence(contact);
-      return presence;
+    getAvatarUrl() {
+      return null;
+    },
+    async getPresence(contact) {
+      return contacts.getPresence(contact);
     },
     onItemSelect: onItemSelect || (async ({ type, id }) => {
       routerInteraction.push(`/contacts/${type}/${id}`);
     }),
-    onSearchContact: ({ searchSource, searchString, pageNumber }) => {
+    onSearchContact({ searchSource, searchString }) {
       contacts.updateFilter({
         sourceFilter: searchSource,
         searchFilter: searchString,
-        pageNumber
       });
     },
     onVisitPage,

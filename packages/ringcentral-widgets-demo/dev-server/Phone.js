@@ -39,8 +39,7 @@ import NumberValidate from 'ringcentral-integration/modules/NumberValidate';
 import MessageSender from 'ringcentral-integration/modules/MessageSender';
 import ComposeText from 'ringcentral-integration/modules/ComposeText';
 import MessageStore from 'ringcentral-integration/modules/MessageStore';
-import Messages from 'ringcentral-integration/modules/Messages';
-import Conversation from 'ringcentral-integration/modules/Conversation';
+import Conversations from 'ringcentral-integration/modules/Conversations';
 import ContactSearch from 'ringcentral-integration/modules/ContactSearch';
 import DateTimeFormat from 'ringcentral-integration/modules/DateTimeFormat';
 import Conference from 'ringcentral-integration/modules/Conference';
@@ -63,6 +62,7 @@ import { ModuleFactory } from 'ringcentral-integration/lib/di';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 import DialerUI from 'ringcentral-widgets/modules/DialerUI';
 import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
+import LocalForageStorage from 'ringcentral-integration/lib/LocalForageStorage';
 
 @ModuleFactory({
   providers: [
@@ -75,50 +75,50 @@ import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
         { dep: 'SdkConfig', useParam: true, },
       ],
     },
-    Alert,
-    Brand,
-    Softphone,
-    Locale,
-    DateTimeFormat,
-    TabManager,
-    GlobalStorage,
-    LocaleSettings,
-    Environment,
-    Auth,
-    ProxyFrameOAuth,
+    { provide: 'Alert', useClass: Alert },
+    { provide: 'Brand', useClass: Brand },
+    { provide: 'Softphone', useClass: Softphone },
+    { provide: 'Locale', useClass: Locale },
+    { provide: 'DateTimeFormat', useClass: DateTimeFormat },
+    { provide: 'TabManager', useClass: TabManager },
+    { provide: 'GlobalStorage', useClass: GlobalStorage },
+    { provide: 'LocaleSettings', useClass: LocaleSettings },
+    { provide: 'Environment', useClass: Environment },
+    { provide: 'Auth', useClass: Auth },
+    { provide: 'ProxyFrameOAuth', useClass: ProxyFrameOAuth },
     { provide: 'OAuth', useExisting: 'ProxyFrameOAuth' },
-    Ringout,
-    ConnectivityMonitor,
-    RateLimiter,
-    Storage,
-    AudioSettings,
-    AccountExtension,
-    AccountInfo,
-    ExtensionDevice,
-    ExtensionInfo,
-    RolesAndPermissions,
-    DialingPlan,
-    ExtensionPhoneNumber,
-    ForwardingNumber,
-    RegionSettings,
-    NumberValidate,
-    CallingSettings,
-    Call,
-    Subscription,
-    ActiveCalls,
-    DetailedPresence,
-    MessageSender,
-    ComposeText,
-    MessageStore,
-    Conversation,
-    Conference,
-    RouterInteraction,
-    CallLog,
-    CallHistory,
-    AccountPhoneNumber,
-    AccountContacts,
-    AddressBook,
-    Contacts,
+    { provide: 'Ringout', useClass: Ringout },
+    { provide: 'ConnectivityMonitor', useClass: ConnectivityMonitor },
+    { provide: 'RateLimiter', useClass: RateLimiter },
+    { provide: 'Storage', useClass: Storage },
+    { provide: 'AudioSettings', useClass: AudioSettings },
+    { provide: 'AccountExtension', useClass: AccountExtension },
+    { provide: 'AccountInfo', useClass: AccountInfo },
+    { provide: 'ExtensionDevice', useClass: ExtensionDevice },
+    { provide: 'ExtensionInfo', useClass: ExtensionInfo },
+    { provide: 'RolesAndPermissions', useClass: RolesAndPermissions },
+    { provide: 'DialingPlan', useClass: DialingPlan },
+    { provide: 'ExtensionPhoneNumber', useClass: ExtensionPhoneNumber },
+    { provide: 'ForwardingNumber', useClass: ForwardingNumber },
+    { provide: 'RegionSettings', useClass: RegionSettings },
+    { provide: 'NumberValidate', useClass: NumberValidate },
+    { provide: 'CallingSettings', useClass: CallingSettings },
+    { provide: 'Call', useClass: Call },
+    { provide: 'Subscription', useClass: Subscription },
+    { provide: 'ActiveCalls', useClass: ActiveCalls },
+    { provide: 'DetailedPresence', useClass: DetailedPresence },
+    { provide: 'MessageSender', useClass: MessageSender },
+    { provide: 'ComposeText', useClass: ComposeText },
+    { provide: 'MessageStore', useClass: MessageStore },
+    { provide: 'Conversations', useClass: Conversations },
+    { provide: 'Conference', useClass: Conference },
+    { provide: 'RouterInteraction', useClass: RouterInteraction },
+    { provide: 'CallLog', useClass: CallLog },
+    { provide: 'CallHistory', useClass: CallHistory },
+    { provide: 'AccountPhoneNumber', useClass: AccountPhoneNumber },
+    { provide: 'AccountContacts', useClass: AccountContacts },
+    { provide: 'AddressBook', useClass: AddressBook },
+    { provide: 'Contacts', useClass: Contacts },
     {
       provide: 'ContactSources',
       deps: ['AddressBook', 'AccountContacts'],
@@ -127,18 +127,41 @@ import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
         accountContacts,
       ])
     },
-    ContactDetails,
-    ContactMatcher,
-    Messages,
-    RecentMessages,
-    RecentCalls,
-    Meeting,
-    Webphone,
-    ContactSearch,
-    CallMonitor,
-    DialerUI,
-    Feedback,
-    UserGuide,
+    { provide: 'ContactDetails', useClass: ContactDetails },
+    { provide: 'ContactMatcher', useClass: ContactMatcher },
+    { provide: 'RecentMessages', useClass: RecentMessages },
+    { provide: 'RecentCalls', useClass: RecentCalls },
+    { provide: 'Meeting', useClass: Meeting },
+    { provide: 'Webphone', useClass: Webphone },
+    { provide: 'ContactSearch', useClass: ContactSearch },
+    { provide: 'CallMonitor', useClass: CallMonitor },
+    { provide: 'DialerUI', useClass: DialerUI },
+    { provide: 'Feedback', useClass: Feedback },
+    { provide: 'UserGuide', useClass: UserGuide },
+    {
+      provide: 'StorageOptions',
+      useValue: {
+        // StorageProvider: LocalForageStorage, // IndexedDB
+        disableAllowInactiveTabsWrite: true,
+      },
+      spread: true
+    },
+    {
+      provide: 'MessageStoreOptions',
+      useValue: {
+        daySpan: 90,
+        conversationsLoadLength: 10,
+        conversationLoadLength: 15,
+      },
+      spread: true
+    },
+    {
+      provide: 'ConversationsOptions',
+      useValue: {
+        enableLoadOldMessages: true,
+      },
+      spread: true
+    }
   ]
 })
 export default class BasePhone extends RcModule {
@@ -149,7 +172,7 @@ export default class BasePhone extends RcModule {
     contactSearch,
     contacts,
     contactMatcher,
-    ...options,
+    ...options
   }) {
     super({
       ...options,
@@ -157,7 +180,7 @@ export default class BasePhone extends RcModule {
 
     contactSearch.addSearchSource({
       sourceName: 'contacts',
-      searchFn: ({ searchString }) => {
+      searchFn({ searchString }) {
         const items = contacts.allContacts;
         if (!searchString) {
           return items;

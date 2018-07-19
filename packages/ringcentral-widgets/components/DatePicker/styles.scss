@@ -1,0 +1,88 @@
+@import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/vertical-align';
+
+
+:global .dateTimePicker .rw-datetime-picker input.rw-widget-input {
+  display: none;
+}
+
+:global .dateTimePicker [class*=styles_datePicker] .rw-datetime-picker input.rw-widget-input {
+  display: block;
+  position: absolute;
+  top: -9999px;
+}
+
+:global .dateTimePicker .rw-datetime-picker .rw-select,
+:global .dateTimePicker .rw-widget-input.rw-widget-picker.rw-widget-container .rw-select button
+{
+  display: none;
+}
+
+:global .dateTimePicker .rw-datetime-picker .rw-widget-input {
+  padding: 0;
+  box-shadow: none;
+}
+:global .dateTimePicker .rw-datetime-picker.rw-widget {
+  height: 30px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+:global .dateTimePicker .rw-widget-container,
+:global .dateTimePicker .rw-widget-container.rw-state-focus, 
+:global .dateTimePicker .rw-state-focus>.rw-widget-container, 
+:global .dateTimePicker .rw-widget-container.rw-state-focus:hover,
+:global .dateTimePicker .rw-state-focus>.rw-widget-container:hover
+:global .dateTimePicker .rw-widget-container
+{
+  border: none !important;
+  box-shadow: none !important;
+}
+:global .dateTimePicker .rw-popup-container {
+  left: 0;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  box-shadow: 0 5px 6px rgba(0,0,0,0.2);
+  > .rw-popup-transition {
+    margin-bottom: 0;
+    padding: 0;
+  }
+}
+:global .dateTimePicker .rw-calendar-popup {
+  border: 1px solid #e2e2e2;
+  margin-bottom: 10px;
+  margin-top: 35px;
+  position: absolute;
+  top: 0;
+}
+:global .dateTimePicker .rw-widget>.rw-widget-container {
+  width: 100%;
+  margin: 0;
+  height: 0;
+}
+.datePicker {
+  position: relative;
+  margin-top: 10px;
+}
+.dateText {
+  font-size: 13px;
+  position: absolute;
+  top: 0;
+  height: 30px;
+  width: 100%;
+  color: $ash;
+  line-height: 30px;
+  background-color: transparent;
+  border-radius: 1px;
+  border: 1px solid #e2e2e2;
+  cursor: pointer;
+  text-indent: 5px;
+  color: black;
+}

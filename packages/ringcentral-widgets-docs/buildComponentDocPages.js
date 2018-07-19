@@ -3,7 +3,7 @@ const path = require('path');
 const reactDocs = require('react-docgen');
 const ejs = require('ejs');
 
-const componentsDir = path.resolve(__dirname, '../src/components');
+const componentsDir = path.resolve(__dirname, '../ringcentral-widgets/components');
 const componentDocPagesDir = path.resolve(__dirname, 'src/app/pages/Components');
 const componentRoutesPath = path.resolve(__dirname, 'src/app/pages/ComponentRoutes.js');
 const templatesPath = path.resolve(__dirname, 'src/templates');
@@ -118,6 +118,12 @@ function getComponentDocRenderData(componentData) {
   }
   if (component.props.currentLocale) {
     component.props.currentLocale = "'en-US'";
+  }
+  if (component.props.countryCode) {
+    component.props.countryCode = "'US'";
+  }
+  if (component.props.areaCode) {
+    component.props.areaCode = "'650'";
   }
   component.name = componentData.name;
   component.description = componentData.description;

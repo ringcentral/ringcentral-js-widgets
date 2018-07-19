@@ -8,6 +8,40 @@ import getAnalyticsReducer from './getAnalyticsReducer';
 import { Segment } from '../../lib/Analytics';
 import callingModes from '../CallingSettings/callingModes';
 
+const INIT_TRACK_LIST = [
+  '_authentication',
+  '_logout',
+  '_callAttempt',
+  '_callConnected',
+  '_webRTCRegistration',
+  '_smsAttempt',
+  '_smsSent',
+  '_logCall',
+  '_logSMS',
+  '_clickToDial',
+  '_clickToSMS',
+  '_viewEntity',
+  '_createEntity',
+  '_editCallLog',
+  '_editSMSLog',
+  '_navigate',
+  '_inboundCall',
+  '_coldTransfer',
+  '_textClickToDial',
+  '_voicemailClickToDial',
+  '_voicemailClickToSMS',
+  '_voicemailDelete',
+  '_voicemailFlag',
+  '_contactDetailClickToDial',
+  '_contactDetailClickToSMS',
+  '_callHistoryClickToDial',
+  '_callHistoryClickToSMS',
+  '_conferenceInviteWithText',
+  '_conferenceAddDialInNumber',
+  '_conferenceJoinAsHost',
+  '_showWhatsNew',
+];
+
 /**
  * @class
  * @description Analytics module.
@@ -76,6 +110,7 @@ export default class Analytics extends RcModule {
     // init
     this._reducer = getAnalyticsReducer(this.actionTypes);
     this._segment = Segment();
+    this._trackList = INIT_TRACK_LIST;
   }
 
   initialize() {
@@ -123,39 +158,7 @@ export default class Analytics extends RcModule {
     if (this.lastActions.length) {
       await sleep(300);
       this.lastActions.forEach((action) => {
-        [
-          '_authentication',
-          '_logout',
-          '_callAttempt',
-          '_callConnected',
-          '_webRTCRegistration',
-          '_smsAttempt',
-          '_smsSent',
-          '_logCall',
-          '_logSMS',
-          '_clickToDial',
-          '_clickToSMS',
-          '_viewEntity',
-          '_createEntity',
-          '_editCallLog',
-          '_editSMSLog',
-          '_navigate',
-          '_inboundCall',
-          '_coldTransfer',
-          '_textClickToDial',
-          '_voicemailClickToDial',
-          '_voicemailClickToSMS',
-          '_voicemailDelete',
-          '_voicemailFlag',
-          '_contactDetailClickToDial',
-          '_contactDetailClickToSMS',
-          '_callHistoryClickToDial',
-          '_callHistoryClickToSMS',
-          '_conferenceInviteWithText',
-          '_conferenceAddDialInNumber',
-          '_conferenceJoinAsHost',
-          '_showWhatsNew',
-        ].forEach((key) => {
+        this._trackList.forEach((key) => {
           this[key](action);
         });
       });
@@ -166,6 +169,15 @@ export default class Analytics extends RcModule {
     }
   }
 
+  /**
+   * Append more action to track
+   * First, Inherit this class and declare channel specific method on it
+   * Then append more method name to track using this method
+   * @param {string[]} methodNames
+   */
+  appendTrackList(methodNames) {
+    this._trackList.push(...methodNames);
+  }
 
   _authentication(action) {
     if (this._auth && this._auth.actionTypes.loginSuccess === action.type) {
@@ -414,6 +426,9 @@ export default class Analytics extends RcModule {
       }, {
         eventPostfix: 'Call History',
         router: '/history',
+      }, {
+        eventPostfix: 'Call List',
+        router: '/calls',
       }, {
         eventPostfix: 'Settings',
         router: '/settings',

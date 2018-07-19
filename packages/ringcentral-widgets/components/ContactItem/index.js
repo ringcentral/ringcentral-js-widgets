@@ -48,8 +48,12 @@ export default class ContactItem extends PureComponent {
         });
       }
     }, 3);
-    this.props.getAvatarUrl(this.props.contact);
-    this.props.getPresence(this.props.contact);
+    setTimeout(() => {
+      if (this._mounted) {
+        this.props.getAvatarUrl(this.props.contact);
+        this.props.getPresence(this.props.contact);
+      }
+    }, 500);
   }
 
   componentWillUnmount() {

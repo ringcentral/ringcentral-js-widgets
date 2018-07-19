@@ -173,14 +173,15 @@ export default class UserGuide extends RcModule {
   get guides() {
     if (!this._locale.ready) return [];
     if (this.allGuides) {
-      return this.allGuides[this._locale.currentLocale] ||
-        this.allGuides[SUPPORTED_LOCALES['en-US']] || [];
+      const currentGuides = this.allGuides[this._locale.currentLocale];
+      if (currentGuides && currentGuides.length > 0) return currentGuides;
+      return this.allGuides[SUPPORTED_LOCALES['en-US']] || [];
     }
     return [];
   }
 
   get allGuides() {
-    if (!this._storage.ready) return [];
+    if (!this._storage.ready) return null;
     return this._storage.getItem(this._storageKey);
   }
 

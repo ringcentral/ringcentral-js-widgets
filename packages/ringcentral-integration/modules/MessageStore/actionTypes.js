@@ -3,15 +3,15 @@ import moduleActionTypes from '../../enums/moduleActionTypes';
 
 export default new Enum([
   ...Object.keys(moduleActionTypes),
-  'sync',
-  'syncError',
-  'syncSuccess',
-  'syncConversationSuccess',
+  'conversationsSync',
+  'conversationsFSyncSuccess',
+  'conversationsISyncSuccess',
+  'conversationsSyncError',
+  'conversationSync',
+  'conversationSyncError',
   'updateMessages',
-  'updateConversationRecipients',
-  'cleanUp',
-  'removeMessage',
+  'markMessages',
   'clickToSMS',
   'clickToCall',
-  'markMessages',
-], 'messageStore');
+  'deleteConversation',
+], 'newMessageStore');

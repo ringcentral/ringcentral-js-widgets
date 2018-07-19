@@ -9,7 +9,10 @@ function Switch(props) {
     e => !props.disable && props.onChange(e.currentTarget.checked) :
     undefined;
   return (
-    <label className={classnames(styles.switch, props.disable && styles.disable)}>
+    <label
+      title={props.title}
+      className={classnames(styles.switch, props.disable && styles.disable)}
+    >
       <input
         type="checkbox"
         checked={props.checked}
@@ -22,11 +25,13 @@ function Switch(props) {
 Switch.propTypes = {
   checked: PropTypes.bool,
   disable: PropTypes.bool,
+  title: PropTypes.string,
   onChange: PropTypes.func,
 };
 Switch.defaultProps = {
   checked: false,
   disable: false,
   onChange: undefined,
+  title: undefined,
 };
 export default Switch;

@@ -16,12 +16,12 @@ export const MeetingType = {
 };
 
 // Basic default meeting type information
-export const getDefaultMeetingSettings = extensionName => ({
+export const getDefaultMeetingSettings = (extensionName, startTime) => ({
   topic: `${extensionName}'s Meeting`,
   meetingType: MeetingType.SCHEDULED,
   password: null,
   schedule: {
-    startTime: (new Date()).getTime(),
+    startTime,
     durationInMinutes: 60,
     timeZone: {
       id: UTC_TIMEZONE_ID
@@ -76,7 +76,10 @@ export default class Meeting extends RcModule {
     storage,
     ...options
   }) {
-    super({ ...options, actionTypes });
+    super({
+      ...options,
+      actionTypes: options.actionTypes || actionTypes,
+    });
     this._alert = alert;
     this._client = client;
     this._extensionInfo = extensionInfo;
@@ -149,10 +152,12 @@ export default class Meeting extends RcModule {
 
   _initMeeting() {
     const extensionName = this._extensionInfo.info.name || '';
+    const now = new Date();
+    const startTime = now.setHours(now.getHours() + 1, 0, 0);
     this.store.dispatch({
       type: this.actionTypes.updateMeeting,
       meeting: {
-        ...getDefaultMeetingSettings(extensionName),
+        ...getDefaultMeetingSettings(extensionName, startTime),
         // Load last meeting settings
         ...this.lastMeetingInfo
       }
@@ -197,6 +202,14 @@ export default class Meeting extends RcModule {
           _saved: meeting._saved
         }
       });
+      const result = {
+        meeting: resp,
+        serviceInfo,
+        extensionInfo: this.extensionInfo
+      };
+      if (typeof this.scheduledHook === 'function') {
+        await this.scheduledHook(result);
+      }
       // Reload meeting info
       this._initMeeting();
       // Notify user the meeting has been scheduled
@@ -207,11 +220,7 @@ export default class Meeting extends RcModule {
           });
         }, 50);
       }
-      return {
-        meeting: resp,
-        serviceInfo,
-        extensionInfo: this.extensionInfo
-      };
+      return result;
     } catch (errors) {
       this.store.dispatch({
         type: this.actionTypes.resetScheduling

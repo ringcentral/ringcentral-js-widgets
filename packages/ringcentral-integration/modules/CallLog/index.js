@@ -19,7 +19,9 @@ import {
   removeInboundRingOutLegs,
 } from '../../lib/callLogHelpers';
 import callResults from '../../enums/callResults';
+import callActions from '../../enums/callActions';
 import proxify from '../../lib/proxy/proxify';
+import { isOutbound } from '../../lib/callLogHelpers';
 
 const DEFAULT_TTL = 5 * 60 * 1000;
 const DEFAULT_TOKEN_EXPIRES_IN = 60 * 60 * 1000;
@@ -59,6 +61,8 @@ const presenceRegExp = /\/presence\?detailedTelephonyState=true/;
   deps: [
     'Auth',
     'Client',
+    'ExtensionPhoneNumber',
+    'ExtensionInfo',
     'Subscription',
     'RolesAndPermissions',
     { dep: 'TabManager', optional: true },
@@ -73,6 +77,8 @@ export default class CallLog extends Pollable {
    * @param {Auth} params.auth - auth module instance
    * @param {Client} params.client - client module instance
    * @param {Storage} params.storage - storage module instance
+   * @param {ExtensionPhoneNumber} params.extensionPhoneNumber - extensionPhoneNumber module instance
+   * @param {ExtensionInfo} params.extensionPhoneNumber - extensionPhoneNumber module instance
    * @param {Subscription} params.subscription - subscription module instance
    * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermissions module instance
    * @param {Number} params.ttl - local cache timestamp
@@ -86,6 +92,8 @@ export default class CallLog extends Pollable {
     auth,
     client,
     storage,
+    extensionPhoneNumber,
+    extensionInfo,
     subscription,
     rolesAndPermissions,
     tabManager,
@@ -106,6 +114,8 @@ export default class CallLog extends Pollable {
     if (!disableCache) {
       this._storage = storage;
     }
+    this._extensionPhoneNumber = extensionPhoneNumber;
+    this._extensionInfo = extensionInfo;
     this._subscription = subscription;
     this._rolesAndPermissions = rolesAndPermissions;
     this._tabManager = tabManager;
@@ -155,7 +165,41 @@ export default class CallLog extends Pollable {
           call.result !== callResults.stopped &&
           // Error Internal error occurred when receiving fax
           call.result !== callResults.faxReceipt
-        ))))
+        )))).map((call) => {
+          // [RCINT-7364] Call presence is incorrect when make ringout call from a DL number.
+          // When user use DL number set ringout and the outBound from number must not a oneself company/extension number
+          // Call log sync will response tow legs.
+          // But user use company plus extension number, call log sync will response only one leg.
+          // And the results about `to` and `from` in platform APIs call log sync response is opposite.
+          // This is a temporary solution.
+          const isOutBoundCompanyNumber = (
+            call.from &&
+            call.from.phoneNumber &&
+            this.mainCompanyNumbers.indexOf(call.from.phoneNumber) > -1
+          );
+          const isOutBoundFromSelfExtNumber = (
+            call.from &&
+            call.from.extensionNumber &&
+            call.from.extensionNumber === this._extensionInfo.data.extensionNumber
+          );
+          if (
+            isOutbound(call) &&
+            (
+              call.action === callActions.ringOutWeb ||
+              call.action === callActions.ringOutPC ||
+              call.action === callActions.ringOutMobile
+            ) &&
+            !isOutBoundCompanyNumber &&
+            !isOutBoundFromSelfExtNumber
+          ) {
+            return {
+              ...call,
+              from: call.to,
+              to: call.from,
+            };
+          }
+          return call;
+        })
       ),
     );
 
@@ -184,6 +228,8 @@ export default class CallLog extends Pollable {
       this._auth.loggedIn &&
       (!this._storage || this._storage.ready) &&
       (!this._subscription || this._subscription.ready) &&
+      (!this._extensionPhoneNumber || this._extensionPhoneNumber.ready) &&
+      (!this._extensionInfo || this._extensionInfo.ready) &&
       (!this._tabManager || this._tabManager.ready) &&
       this._rolesAndPermissions.ready &&
       this.status === moduleStatuses.pending
@@ -213,6 +259,8 @@ export default class CallLog extends Pollable {
       (
         !this._auth.loggedIn ||
         (!!this._storage && !this._storage.ready) ||
+        (this._extensionPhoneNumber && !this._extensionPhoneNumber.ready) ||
+        (this._extensionInfo && !this._extensionInfo.ready) ||
         (this._subscription && !this._subscription.ready) ||
         (this._tabManager && !this._tabManager.ready) ||
         !this._rolesAndPermissions.ready
@@ -442,5 +490,12 @@ export default class CallLog extends Pollable {
   @proxify
   fetchData() {
     return this.sync();
+  }
+
+  get mainCompanyNumbers() {
+    return this._extensionPhoneNumber
+      .numbers
+      .filter(({ usageType }) => usageType === 'MainCompanyNumber')
+      .map(({ phoneNumber }) => phoneNumber);
   }
 }

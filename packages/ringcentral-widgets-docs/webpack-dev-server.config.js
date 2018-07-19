@@ -41,7 +41,7 @@ const config = {
       },
       {
         test: /\.js$/,
-        use: 'locale-loader',
+        use: '@ringcentral-integration/locale-loader',
         include: /ringcentral-widgets/,
       },
       {

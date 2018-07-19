@@ -18,27 +18,24 @@
     "test:showCoverage": "cat ./coverage/lcov.info | coveralls"
   },
   "dependencies": {
-    "babel-cli": "^6.18.0",
-    "babel-core": "^6.21.0",
+    "@ringcentral-integration/i18n": "^2.0.0",
+    "@ringcentral-integration/phone-number": "*",
     "babel-istanbul": "^0.12.1",
-    "babel-plugin-transform-decorators-legacy": "^1.3.4",
-    "babel-plugin-transform-runtime": "^6.15.0",
-    "babel-preset-es2015": "^6.18.0",
-    "babel-preset-react": "^6.16.0",
-    "babel-preset-stage-0": "^6.16.0",
-    "babel-runtime": "^6.20.0",
     "coveralls": "^2.11.15",
-    "dotenv": "^4.0.0",
+    "dotenv": "^5.0.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.0",
     "format-message": "^5.0.0",
-    "fs-promise": "^2.0.3",
+    "fs-extra": "^6.0.0",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^20.0.4",
+    "jest": "^22.4.3",
+    "@ringcentral-integration/locale-loader": "^2.0.0",
+    "normalize-css": "^2.3.1",
     "pubnub": "^4.20.1",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
+    "moment": "^2.22.1",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
     "react-redux": "^5.0.5",
     "react-router": "^3.0.0",
     "react-router-redux": "^4.0.7",
@@ -51,8 +48,7 @@
     "ringcentral-integration": "^0.7.46",
     "ringcentral-widgets": "^0.5.18",
     "ringcentral-widgets-demo": "^0.0.1",
-    "yargs": "^8.0.1",
-    "normalize-css": "^2.3.1"
+    "yargs": "^11.1.0"
   },
   "jest": {
     "moduleNameMapper": {
@@ -65,14 +61,14 @@
       "^.+\\.js$": "babel-jest"
     },
     "transformIgnorePatterns": [
-	  "/node_modules\/(?!(ringcentral-integration|ringcentral-widgets|ringcentral-widgets-demo)\/).*/"
-	],
+      ".*?/node_modules/(?!(ringcentral-integration|ringcentral-widgets|ringcentral-widgets-demo|locale-loader|babel-settings)/).*/"
+    ],
     "setupFiles": [
       "<rootDir>/test/shim.js",
       "<rootDir>/test/setup.js"
     ],
     "snapshotSerializers": [
-      "<rootDir>/../../node_modules/enzyme-to-json/serializer"
+      "enzyme-to-json/serializer"
     ],
     "coveragePathIgnorePatterns": [
       "../ringcentral-widgets/(?:components|containers)/RecentActivity.+",
@@ -88,5 +84,8 @@
       "../ringcentral-widgets/(?:components|containers)/CircleButton.+",
       "../ringcentral-widgets/(?:components|containers)/RadioBtnGroup.+"
     ]
+  },
+  "peerDependencies": {
+    "babel-runtime": "^6.26.0"
   }
 }

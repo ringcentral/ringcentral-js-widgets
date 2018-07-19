@@ -5,7 +5,9 @@ import getReducer, {
   getGlipPostsStatusReducer,
   getGlipPostsCreateStatusReducer,
   getGlipPostsStoreReducer,
-  getGlipPostsInputsReducer
+  getGlipPostsInputsReducer,
+  getGlipPostsPageInfoReducer,
+  getGlipPostsFetchTimeReducer,
 } from './getReducer';
 
 import actionTypes from './actionTypes';
@@ -222,12 +224,16 @@ describe('GlipPosts :: getReducer', () => {
     const glipPostsStoreReducer = getGlipPostsStoreReducer(actionTypes);
     const glipPostsCreateStatusReducer = getGlipPostsCreateStatusReducer(actionTypes);
     const glipPostsInputsReducer = getGlipPostsInputsReducer(actionTypes);
+    const glipPostsPageInfoReducer = getGlipPostsPageInfoReducer(actionTypes);
+    const glipPostsFetchTimeReducer = getGlipPostsFetchTimeReducer(actionTypes);
     expect(reducer(undefined, {})).to.deep.equal({
       status: statusReducer(undefined, {}),
       fetchStatus: glipPostsStatusReducer(undefined, {}),
       glipPostsStore: glipPostsStoreReducer(undefined, {}),
       createStatus: glipPostsCreateStatusReducer(undefined, {}),
       postInputs: glipPostsInputsReducer(undefined, {}),
+      pageInfos: glipPostsPageInfoReducer(undefined, {}),
+      fetchTimes: glipPostsFetchTimeReducer(undefined, {}),
     });
   });
 });

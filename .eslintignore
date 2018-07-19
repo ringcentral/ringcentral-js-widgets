@@ -3,8 +3,6 @@
 build/**
 docs/**
 
-**/i18n/**
-**/*.test.js
 **/integration-test/**
 **/ringcentral-widgets-test/**
 release/**

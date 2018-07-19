@@ -1,3 +1,4 @@
+import * as R from 'ramda';
 import RcModule from 'ringcentral-integration/lib/RcModule';
 import { Module } from 'ringcentral-integration/lib/di';
 import ensureExist from 'ringcentral-integration/lib/ensureExist';
@@ -119,7 +120,7 @@ export default class CallLogSection extends RcModule {
   ) {
     this._logFunction = this::ensureExist(logFunction, 'logFunction');
     this._readyCheckFunction = this::ensureExist(readyCheckFunction, 'readyCheckFunction');
-    this._onUpdate = this::ensureExist(onUpdate, 'onUpdate');
+    this._onUpdate = onUpdate;
     this._onSuccess = onSuccess;
     this._onError = onError;
   }
@@ -147,6 +148,7 @@ export default class CallLogSection extends RcModule {
         } else {
           this._handleError(identify, ...args);
         }
+        return result;
       } catch (e) {
         this._handleError(identify, ...args);
         console.warn(e);
@@ -155,10 +157,12 @@ export default class CallLogSection extends RcModule {
   }
 
   handleLogSection(identify) {
+    // prevent `isSameCall` for repeat run more time.
+    const isSameCall = this.currentIdentify === identify;
     if (!this.show) {
       // Preferentially show call log section.
       this._showLogSection(identify);
-    } else if (!this.notificationIsExpand) {
+    } else if (!this.notificationIsExpand && !isSameCall) {
       // Check it to show log notification when the call log notification isn't expanded.
       this._showLogNotification(identify);
     }
@@ -182,9 +186,9 @@ export default class CallLogSection extends RcModule {
   async saveAndHandleNotification() {
     const currentNotificationIdentify = this.currentNotificationIdentify;
     const currentIdentify = this.currentIdentify;
+    await this.saveCallLog(currentIdentify);
     this.closeLogNotification();
     this.closeLogSection();
-    await this.saveCallLog(currentIdentify);
     this._showLogSection(currentNotificationIdentify);
   }
 
@@ -197,7 +201,10 @@ export default class CallLogSection extends RcModule {
   }
 
   expandLogNotification() {
-    if (!this.notificationIsExpand) {
+    if (!this.show) {
+      this._showLogSection(this.currentNotificationIdentify);
+      this.closeLogNotification()
+    } else if (!this.notificationIsExpand) {
       this.store.dispatch({
         type: this.actionTypes.expandNotification
       });
@@ -211,12 +218,32 @@ export default class CallLogSection extends RcModule {
     (list, mapping) => list.map(identify => mapping[identify])
   );
 
+  /**
+   * Merge isSaving property from reducer to callsMapping
+   */
+  @getter
+  callsMapping = createSelector(
+    () => this._callsMapping,
+    () => this._callsSavingStatus,
+    R.converge(
+      R.mergeWith(R.flip(R.assoc('isSaving'))),
+      [R.identity, R.useWith(R.pick, [R.keys, R.identity])]
+    )
+  )
+
   get callsList() {
     return this._storage.getItem(this._storageKey).callsList;
   }
 
-  get callsMapping() {
+  /**
+   * Private calls mapping relationship without isSaving property
+   */
+  get _callsMapping() {
     return this._storage.getItem(this._storageKey).callsMapping;
+  }
+
+  get _callsSavingStatus() {
+    return this.state.callsSavingStatus;
   }
 
   get currentIdentify() {

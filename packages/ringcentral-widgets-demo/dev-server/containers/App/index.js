@@ -15,7 +15,7 @@ import ConversationPage from 'ringcentral-widgets/containers/ConversationPage';
 import ConferencePage from 'ringcentral-widgets/containers/ConferencePage';
 import ConferenceCommands from 'ringcentral-widgets/components/ConferenceCommands';
 import MeetingPage from 'ringcentral-widgets/containers/MeetingPage';
-import MessagesPage from 'ringcentral-widgets/containers/MessagesPage';
+import ConversationsPage from 'ringcentral-widgets/containers/ConversationsPage';
 import SettingsPage from 'ringcentral-widgets/containers/SettingsPage';
 import ActiveCallsPage from 'ringcentral-widgets/containers/ActiveCallsPage';
 import CallHistoryPage from 'ringcentral-widgets/containers/CallHistoryPage';
@@ -25,10 +25,12 @@ import CallBadgeContainer from 'ringcentral-widgets/containers/CallBadgeContaine
 import RecentActivityContainer from 'ringcentral-widgets/containers/RecentActivityContainer';
 import ContactsPage from 'ringcentral-widgets/containers/ContactsPage';
 import ContactDetailsPage from 'ringcentral-widgets/containers/ContactDetailsPage';
-import ContactSourceFilter from 'ringcentral-widgets/components/ContactSourceFilter';
-import MeetingScheduleButton from 'ringcentral-widgets/components/MeetingScheduleButton';
 import FeedbackPage from 'ringcentral-widgets/containers/FeedbackPage';
 import UserGuidePage from 'ringcentral-widgets/containers/UserGuidePage';
+import ConferenceCallDialerPage from 'ringcentral-widgets/containers/ConferenceCallDialerPage';
+
+import ContactSourceFilter from 'ringcentral-widgets/components/ContactSourceFilter';
+import MeetingScheduleButton from 'ringcentral-widgets/components/MeetingScheduleButton';
 import PhoneProvider from 'ringcentral-widgets/lib/PhoneProvider';
 
 import MainView from '../MainView';
@@ -109,7 +111,7 @@ export default function App({
                 </MainView>
               )} >
               <Route
-                path="dialer"
+                path="/dialer"
                 component={() => (
                   <DialerPage />
                 )} />
@@ -206,7 +208,7 @@ export default function App({
               <Route
                 path="/messages"
                 component={() => (
-                  <MessagesPage
+                  <ConversationsPage
                     showContactDisplayPlaceholder={false}
                     onLogConversation={async () => { await sleep(1000); }}
                     onCreateContact={() => { }}
@@ -251,6 +253,15 @@ export default function App({
                   <MeetingPage scheduleButton={MeetingScheduleButton} />
                 )}
               />
+              <Route
+                path="/conferenceCall/dialer/:fromNumber"
+                component={routerProps => (
+                  <ConferenceCallDialerPage
+                    params={routerProps.params}
+                    onBack={() => {
+                      phone.routerInteraction.goBack();
+                    }} />
+                )} />
             </Route>
           </Route>
         </Router>

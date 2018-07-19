@@ -5,7 +5,7 @@ import messageSyncBody from 'ringcentral-integration/integration-test/mock/data/
 import { ensureLogin, containsErrorMessage } from 'ringcentral-integration/integration-test/utils/HelpUtil';
 
 import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
-import MessagesPanel from 'ringcentral-widgets/components/MessagesPanel';
+import ConversationsPanel from 'ringcentral-widgets/components/ConversationsPanel';
 import MessageItem from 'ringcentral-widgets/components/MessageItem';
 import ContactDisplay from 'ringcentral-widgets/components/ContactDisplay';
 import { MarkButton, PreviewButton } from 'ringcentral-widgets/components/ActionMenuList';
@@ -30,7 +30,7 @@ describe('fax messages', () => {
       navigationBar = wrapper.find(NavigationBar).first();
       await navigationBar.props().goTo('/messages');
       wrapper.update();
-      panel = wrapper.find(MessagesPanel).first();
+      panel = wrapper.find(ConversationsPanel).first();
       expect(panel).toBeDefined();
       expect(panel.props()).toBeDefined();
     });
@@ -44,7 +44,7 @@ describe('fax messages', () => {
       navigationBar = wrapper.find(NavigationBar).first();
       await navigationBar.props().goTo('/messages');
       wrapper.update();
-      panel = wrapper.find(MessagesPanel).first();
+      panel = wrapper.find(ConversationsPanel).first();
       expect(panel.props().readFaxPermission).toEqual(false);
       const faxTabs = panel.find(NavigationBar).props().tabs.filter(tab => tab.path === messageTypes.fax);
       expect(faxTabs.length).toEqual(0);
@@ -60,7 +60,7 @@ describe('fax messages', () => {
       navigationBar = wrapper.find(NavigationBar).first();
       await navigationBar.props().goTo('/messages');
       wrapper.update();
-      panel = wrapper.find(MessagesPanel).first();
+      panel = wrapper.find(ConversationsPanel).first();
       expect(panel.props().readFaxPermission).toEqual(true);
       const faxTabs = panel.find(NavigationBar).props().tabs.filter(tab => tab.path === messageTypes.fax);
       expect(faxTabs.length).toEqual(1);
@@ -93,10 +93,10 @@ describe('fax messages', () => {
       navigationBar = wrapper.find(NavigationBar).first();
       await navigationBar.props().goTo('/messages');
       wrapper.update();
-      panel = wrapper.find(MessagesPanel).first();
+      panel = wrapper.find(ConversationsPanel).first();
       await panel.find(NavigationBar).props().goTo('Fax');
       wrapper.update();
-      const messageItem = wrapper.find(MessagesPanel).find(MessageItem).at(0);
+      const messageItem = wrapper.find(ConversationsPanel).find(MessageItem).at(0);
       expect(messageItem.find('.creationTime').text()).toMatch(/\d{1,2}\/\d{1,2}\/\d{4}/g);
     });
     test('when fax message sent in today should display time', async () => {
@@ -124,10 +124,10 @@ describe('fax messages', () => {
       navigationBar = wrapper.find(NavigationBar).first();
       await navigationBar.props().goTo('/messages');
       wrapper.update();
-      panel = wrapper.find(MessagesPanel).first();
+      panel = wrapper.find(ConversationsPanel).first();
       await panel.find(NavigationBar).props().goTo('Fax');
       wrapper.update();
-      const messageItem = wrapper.find(MessagesPanel).find(MessageItem).at(0);
+      const messageItem = wrapper.find(ConversationsPanel).find(MessageItem).at(0);
       expect(messageItem.find('.creationTime').text()).toMatch(/\d\d:\d\d/g);
     });
     test('when fax message is received should show received direction', async () => {
@@ -161,10 +161,10 @@ describe('fax messages', () => {
       navigationBar = wrapper.find(NavigationBar).first();
       await navigationBar.props().goTo('/messages');
       wrapper.update();
-      panel = wrapper.find(MessagesPanel).first();
+      panel = wrapper.find(ConversationsPanel).first();
       await panel.find(NavigationBar).props().goTo('Fax');
       wrapper.update();
-      const messageItem = wrapper.find(MessagesPanel).find(MessageItem).at(0);
+      const messageItem = wrapper.find(ConversationsPanel).find(MessageItem).at(0);
       expect(messageItem.find('.details').text()).toMatch(/^Fax received/g);
     });
     test('when fax message is sent should show show sent direction', async () => {
@@ -198,10 +198,10 @@ describe('fax messages', () => {
       navigationBar = wrapper.find(NavigationBar).first();
       await navigationBar.props().goTo('/messages');
       wrapper.update();
-      panel = wrapper.find(MessagesPanel).first();
+      panel = wrapper.find(ConversationsPanel).first();
       await panel.find(NavigationBar).props().goTo('Fax');
       wrapper.update();
-      const messageItem = wrapper.find(MessagesPanel).find(MessageItem).at(0);
+      const messageItem = wrapper.find(ConversationsPanel).find(MessageItem).at(0);
       expect(messageItem.find('.details').text()).toMatch(/^Fax sent/g);
     });
     test('when authorize should display google contact in fax list', async () => {
@@ -269,10 +269,10 @@ describe('fax messages', () => {
       navigationBar = wrapper.find(NavigationBar).first();
       await navigationBar.props().goTo('/messages');
       wrapper.update();
-      panel = wrapper.find(MessagesPanel).first();
+      panel = wrapper.find(ConversationsPanel).first();
       await panel.find(NavigationBar).props().goTo('Fax');
       wrapper.update();
-      const messageItem = wrapper.find(MessagesPanel).find(MessageItem).at(0);
+      const messageItem = wrapper.find(ConversationsPanel).find(MessageItem).at(0);
       expect(messageItem.find(ContactDisplay).find('.currentName').at(0).text()).toMatch(/^test user$/g);
     });
   });
@@ -298,12 +298,12 @@ describe('fax messages', () => {
       navigationBar = wrapper.find(NavigationBar).first();
       await navigationBar.props().goTo('/messages');
       wrapper.update();
-      panel = wrapper.find(MessagesPanel);
+      panel = wrapper.find(ConversationsPanel);
       await panel.find(NavigationBar).props().goTo('Fax');
       wrapper.update();
-      panel = wrapper.find(MessagesPanel);
+      panel = wrapper.find(ConversationsPanel);
       expect(phone.messageStore.faxUnreadCounts).toEqual(0);
-      const notice = wrapper.find(MessagesPanel).find(NavigationBar).find('.active').find('.notice');
+      const notice = wrapper.find(ConversationsPanel).find(NavigationBar).find('.active').find('.notice');
       expect(notice.length).toEqual(0);
     });
     test('should show 3 unread count displayed on fax tab when there are 3 unread fax', async () => {
@@ -327,10 +327,10 @@ describe('fax messages', () => {
       navigationBar = wrapper.find(NavigationBar).first();
       await navigationBar.props().goTo('/messages');
       wrapper.update();
-      panel = wrapper.find(MessagesPanel);
+      panel = wrapper.find(ConversationsPanel);
       await panel.find(NavigationBar).props().goTo('Fax');
       wrapper.update();
-      panel = wrapper.find(MessagesPanel);
+      panel = wrapper.find(ConversationsPanel);
       const notice = panel.find(NavigationBar).find('.active').find('.notice').at(0);
       expect(notice.text()).toEqual('3');
     });
@@ -355,11 +355,11 @@ describe('fax messages', () => {
       navigationBar = wrapper.find(NavigationBar).first();
       await navigationBar.props().goTo('/messages');
       wrapper.update();
-      panel = wrapper.find(MessagesPanel);
+      panel = wrapper.find(ConversationsPanel);
       await panel.find(NavigationBar).props().goTo('Fax');
 
       wrapper.update();
-      panel = wrapper.find(MessagesPanel);
+      panel = wrapper.find(ConversationsPanel);
       expect(phone.messageStore.faxUnreadCounts).toEqual(99);
       const notice = panel.find(NavigationBar).find('.active').find('.notice').at(0);
       expect(notice.text()).toEqual('99');
@@ -382,10 +382,10 @@ describe('fax messages', () => {
       navigationBar = wrapper.find(NavigationBar).first();
       await navigationBar.props().goTo('/messages');
       wrapper.update();
-      panel = wrapper.find(MessagesPanel);
+      panel = wrapper.find(ConversationsPanel);
       await panel.find(NavigationBar).props().goTo('Fax');
       wrapper.update();
-      panel = wrapper.find(MessagesPanel);
+      panel = wrapper.find(ConversationsPanel);
       const notice = panel.find(NavigationBar).find('.active').find('.notices').at(0);
       expect(notice.text()).toEqual('99+');
     });
@@ -396,11 +396,6 @@ describe('fax messages', () => {
       mock.mockForLogin({ mockMessageSync: false });
       mockGenerateMessageApi({
         count: 1, messageType: 'Fax', readStatus: 'Unread', direction: 'Inbound'
-      });
-      mockUpdateMessageStatusApi({
-        id: 0,
-        readStatus: 'Read',
-        messageType: 'Fax',
       });
       Object.defineProperty(phone.tabManager, 'active', {
         value: true
@@ -415,16 +410,21 @@ describe('fax messages', () => {
       navigationBar = wrapper.find(NavigationBar).first();
       await navigationBar.props().goTo('/messages');
       wrapper.update();
-      panel = wrapper.find(MessagesPanel);
+      panel = wrapper.find(ConversationsPanel);
       await panel.find(NavigationBar).props().goTo('Fax');
       wrapper.update();
-      let notice = wrapper.find(MessagesPanel).find(NavigationBar).find('.active').find('.notice');
+      mockUpdateMessageStatusApi({
+        id: 0,
+        readStatus: 'Read',
+        messageType: 'Fax',
+      });
+      let notice = wrapper.find(ConversationsPanel).find(NavigationBar).find('.active').find('.notice');
       expect(notice.at(0).text()).toEqual('1');
-      const messageItem = wrapper.find(MessagesPanel).find(MessageItem);
+      const messageItem = wrapper.find(ConversationsPanel).find(MessageItem);
       await messageItem.find(PreviewButton).props().onClick();
       await timeout(1000);
       wrapper.update();
-      notice = wrapper.find(MessagesPanel).find(NavigationBar).find('.active').find('.notice');
+      notice = wrapper.find(ConversationsPanel).find(NavigationBar).find('.active').find('.notice');
       expect(notice.length).toEqual(0);
     });
     test('when mark as unread the unread count displayed with fax tab should add from null to 1', async () => {
@@ -434,11 +434,6 @@ describe('fax messages', () => {
       mock.mockForLogin({ mockMessageSync: false });
       mockGenerateMessageApi({
         count: 1, messageType: 'Fax', readStatus: 'Read', direction: 'Inbound'
-      });
-      mockUpdateMessageStatusApi({
-        id: 0,
-        readStatus: 'Unread',
-        messageType: 'Fax',
       });
       Object.defineProperty(phone.tabManager, 'active', {
         value: true
@@ -459,18 +454,23 @@ describe('fax messages', () => {
       navigationBar = wrapper.find(NavigationBar).first();
       await navigationBar.props().goTo('/messages');
       wrapper.update();
-      panel = wrapper.find(MessagesPanel);
+      panel = wrapper.find(ConversationsPanel);
       await panel.find(NavigationBar).props().goTo('Fax');
       wrapper.update();
-      let notice = wrapper.find(MessagesPanel).find(NavigationBar).find('.active').find('.notice');
+      mockUpdateMessageStatusApi({
+        id: 0,
+        readStatus: 'Unread',
+        messageType: 'Fax',
+      });
+      let notice = wrapper.find(ConversationsPanel).find(NavigationBar).find('.active').find('.notice');
       expect(notice.length).toEqual(0);
-      const markButton = wrapper.find(MessagesPanel).find(MessageItem).find(MarkButton);
+      const markButton = wrapper.find(ConversationsPanel).find(MessageItem).find(MarkButton);
       expect(markButton).toBeDefined();
       await markButton.simulate('click');
       await timeout(2000);
       wrapper.update();
       expect(phone.messageStore.faxUnreadCounts).toEqual(1);
-      notice = wrapper.find(MessagesPanel).find(NavigationBar).find('.active').find('.notice');
+      notice = wrapper.find(ConversationsPanel).find(NavigationBar).find('.active').find('.notice');
       expect(notice.at(0).text()).toEqual('1');
     });
     test('when mark as read unread message the unread count displayed with fax tab should reduce from 99+ to 99', async () => {
@@ -499,20 +499,20 @@ describe('fax messages', () => {
       navigationBar = wrapper.find(NavigationBar).first();
       await navigationBar.props().goTo('/messages');
       wrapper.update();
-      panel = wrapper.find(MessagesPanel);
+      panel = wrapper.find(ConversationsPanel);
       await panel.find(NavigationBar).props().goTo('Fax');
       wrapper.update();
-      panel = wrapper.find(MessagesPanel);
+      panel = wrapper.find(ConversationsPanel);
       let notice = panel.find(NavigationBar).find('.active').find('.notices').at(0);
       expect(notice.text()).toEqual('99+');
 
-      const markButton = wrapper.find(MessagesPanel).find(MessageItem).at(0).find(MarkButton);
+      const markButton = wrapper.find(ConversationsPanel).find(MessageItem).at(0).find(MarkButton);
       expect(markButton).toBeDefined();
       await markButton.simulate('click');
       await timeout(1000);
       wrapper.update();
       expect(phone.messageStore.faxUnreadCounts).toEqual(99);
-      notice = wrapper.find(MessagesPanel).find(NavigationBar).find('.active').find('.notice');
+      notice = wrapper.find(ConversationsPanel).find(NavigationBar).find('.active').find('.notice');
       expect(notice.at(0).text()).toEqual('99');
     });
     test('when mark as unread a read message the unread count displayed with fax tab should add from 99 to 99+', async () => {
@@ -540,16 +540,15 @@ describe('fax messages', () => {
       navigationBar = wrapper.find(NavigationBar).first();
       await navigationBar.props().goTo('/messages');
       wrapper.update();
-      panel = wrapper.find(MessagesPanel);
+      panel = wrapper.find(ConversationsPanel);
       await panel.find(NavigationBar).props().goTo('Fax');
       wrapper.update();
-
-      let markButton = wrapper.find(MessagesPanel).find(MessageItem).at(0).find(MarkButton);
+      let markButton = wrapper.find(ConversationsPanel).find(MessageItem).at(0).find(MarkButton);
       expect(markButton).toBeDefined();
       await markButton.simulate('click');
       await timeout(1000);
       wrapper.update();
-      let notice = wrapper.find(MessagesPanel).find(NavigationBar).find('.active').find('.notice');
+      let notice = wrapper.find(ConversationsPanel).find(NavigationBar).find('.active').find('.notice');
       expect(notice.at(0).text()).toEqual('99');
 
       wrapper.update();
@@ -558,14 +557,14 @@ describe('fax messages', () => {
         readStatus: 'Unread',
         messageType: 'Fax',
       });
-      markButton = wrapper.find(MessagesPanel).find(MessageItem).at(0).find(MarkButton);
+      markButton = wrapper.find(ConversationsPanel).find(MessageItem).at(0).find(MarkButton);
       expect(markButton).toBeDefined();
       await markButton.simulate('click');
       await timeout(1000);
       wrapper.update();
       phone = wrapper.props().phone;
       expect(phone.messageStore.faxUnreadCounts).toEqual(100);
-      notice = wrapper.find(MessagesPanel).find(NavigationBar).find('.active').find('.notices');
+      notice = wrapper.find(ConversationsPanel).find(NavigationBar).find('.active').find('.notices');
       expect(notice.at(0).text()).toEqual('99+');
     });
   });
@@ -577,7 +576,7 @@ describe('fax messages', () => {
       navigationBar = wrapper.find(NavigationBar).first();
       await navigationBar.props().goTo('Fax');
       wrapper.update();
-      panel = wrapper.find(MessagesPanel).first();
+      panel = wrapper.find(ConversationsPanel).first();
       phone = wrapper.props().phone;
       Object.defineProperty(phone.tabManager, 'active', {
         value: true
@@ -594,7 +593,7 @@ describe('fax messages', () => {
       await mockPubnub();
 
       wrapper.update();
-      const messageItem = wrapper.find(MessagesPanel).find(MessageItem).at(0);
+      const messageItem = wrapper.find(ConversationsPanel).find(MessageItem).at(0);
       expect(messageItem.find(PreviewButton)).toBeDefined();
       expect(messageItem.find(PreviewButton).props().title).toEqual('View');
       expect(messageItem.find(PreviewButton).find('span').props().title).toEqual('View');
@@ -611,7 +610,7 @@ describe('fax messages', () => {
       await mockPubnub();
       wrapper.update();
 
-      const messageItem = wrapper.find(MessagesPanel).find(MessageItem).at(0);
+      const messageItem = wrapper.find(ConversationsPanel).find(MessageItem).at(0);
       expect(messageItem.find('a').props().title).toEqual('Download');
     });
     test('when fax message is received and read should show mark as unread btn and tooltip', async () => {
@@ -623,7 +622,7 @@ describe('fax messages', () => {
       await mockPubnub();
 
       wrapper.update();
-      const messageItem = wrapper.find(MessagesPanel).find(MessageItem).at(0);
+      const messageItem = wrapper.find(ConversationsPanel).find(MessageItem).at(0);
       expect(messageItem.find(MarkButton).find('span').props().title).toEqual('Mark as Unread');
     });
     test('when fax message is received and unread should show mark as read btn and tooltip', async () => {
@@ -635,7 +634,7 @@ describe('fax messages', () => {
       await mockPubnub();
 
       wrapper.update();
-      const messageItem = wrapper.find(MessagesPanel).find(MessageItem).at(0);
+      const messageItem = wrapper.find(ConversationsPanel).find(MessageItem).at(0);
       expect(messageItem.find(MarkButton).find('span').props().title).toEqual('Mark as Read');
     });
     test('when fax message is sent should show not mark as read/unread btn', async () => {
@@ -647,7 +646,7 @@ describe('fax messages', () => {
       await mockPubnub();
 
       wrapper.update();
-      const messageItem = wrapper.find(MessagesPanel).find(MessageItem).at(0);
+      const messageItem = wrapper.find(ConversationsPanel).find(MessageItem).at(0);
       expect(messageItem).toBeDefined();
       expect(messageItem.find(MarkButton).length).toEqual(0);
     });
@@ -660,7 +659,7 @@ describe('fax messages', () => {
       await mockPubnub();
       wrapper.update();
 
-      const messageItem = wrapper.find(MessagesPanel).find(MessageItem).at(0);
+      const messageItem = wrapper.find(ConversationsPanel).find(MessageItem).at(0);
       expect(messageItem.find(EntityButton)).toBeDefined();
       expect(messageItem.find(EntityButton).find('span').props().title).toEqual('View Details');
     });

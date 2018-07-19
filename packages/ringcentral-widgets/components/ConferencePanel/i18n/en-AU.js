@@ -15,7 +15,7 @@ export default {
   enableJoinBeforeHost: 'Enable joining before Host',
   conferenceCommands: 'Conference commands',
   inviteWithGCalendar: 'Invite with Google Calendar',
-  joinAsHost: 'Join as host',
+  joinAsHost: 'Launch Conference',
   internationalNumber: 'International dial-in numbers:',
 };
 
@@ -29,6 +29,6 @@ export default {
 // @key: @#@"conferenceCommands"@#@ @source: @#@"Conference Commands"@#@
 // @key: @#@"inviteWithGCalendar"@#@ @source: @#@"Invite with Google Calendar"@#@
 // @key: @#@"inviteWithText"@#@ @source: @#@"Invite with Text"@#@
-// @key: @#@"joinAsHost"@#@ @source: @#@"Join as Host"@#@
+// @key: @#@"joinAsHost"@#@ @source: @#@"Launch Conference"@#@
 // @key: @#@"internationalNumber"@#@ @source: @#@"International Dial-in Numbers:"@#@
 // @key: @#@"inviteText"@#@ @source: @#@"Please join the {brandName} conference.\n\nDial-In Numbers: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nNeed an international dial-in phone number? Please visit {dialInNumbersLinks} \n\nThis conference call is brought to you by {brandName} Conferencing."@#@

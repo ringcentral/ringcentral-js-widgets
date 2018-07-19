@@ -34,10 +34,14 @@ export default function SettingsPanel({
   onUserGuideClick,
   showCalling,
   showAutoLog,
+  showAutoLogNotes,
   showAudio,
   autoLogEnabled,
+  autoLogNotesEnabled,
   disableAutoLogEnabled,
+  disableAutoLogNotesEnabled,
   onAutoLogChange,
+  onAutoLogNotesChange,
   showAutoLogSMS,
   autoLogSMSEnabled,
   onAutoLogSMSChange,
@@ -158,6 +162,7 @@ export default function SettingsPanel({
       </IconLine>
     ) :
     null;
+  // if the Switch component is disabled then the text to describe it will be a disabled color.
   const autoLog = showAutoLog ? (
     <IconLine
       icon={
@@ -168,7 +173,25 @@ export default function SettingsPanel({
         />
       }
     >
-      {i18n.getString('autoLogCalls', currentLocale)}
+      <span className={classnames(disableAutoLogEnabled && styles.disableText)}>
+        {i18n.getString('autoLogCalls', currentLocale)}
+      </span>
+    </IconLine>
+  ) :
+    null;
+  const autoLogNotes = showAutoLogNotes ? (
+    <IconLine
+      icon={
+        <Switch
+          disable={disableAutoLogNotesEnabled}
+          checked={autoLogNotesEnabled}
+          onChange={onAutoLogNotesChange}
+        />
+      }
+    >
+      <span className={classnames(disableAutoLogNotesEnabled && styles.disableText)}>
+        {i18n.getString('autoLogNotes', currentLocale)}
+      </span>
     </IconLine>
   ) :
     null;
@@ -190,7 +213,7 @@ export default function SettingsPanel({
       {i18n.getString('settings', currentLocale)}
     </Header>
   ) : null;
-  const userGuide = showUserGuide ?  (
+  const userGuide = showUserGuide ? (
     <LinkLine
       onClick={onUserGuideClick} >
       {i18n.getString('userGuide', currentLocale)}
@@ -211,13 +234,14 @@ export default function SettingsPanel({
         {presenceSetting}
         {children}
         {autoLog}
+        {autoLogNotes}
         {autoLogSMS}
         {clickToDial}
         {additional}
         {feedback}
         {userGuide}
         <section className={styles.section}>
-          <Line>
+          <Line noBorder>
             <EulaRenderer
               className={styles.eula}
               currentLocale={currentLocale}
@@ -226,9 +250,10 @@ export default function SettingsPanel({
         </section>
         <section className={styles.section}>
           <IconLine
+            noBorder
             onClick={onLogoutButtonClick}
             icon={
-              <span className={dynamicsFont.logout} />
+              <span className={classnames(styles.logoutIcon, dynamicsFont.logout)} />
             } >
             {i18n.getString('logout', currentLocale)}
             <span className={styles.loginNumber}>
@@ -259,9 +284,13 @@ SettingsPanel.propTypes = {
   showRegion: PropTypes.bool,
   showAudio: PropTypes.bool,
   showAutoLog: PropTypes.bool,
+  showAutoLogNotes: PropTypes.bool,
   autoLogEnabled: PropTypes.bool,
+  autoLogNotesEnabled: PropTypes.bool,
   disableAutoLogEnabled: PropTypes.bool,
+  disableAutoLogNotesEnabled: PropTypes.bool,
   onAutoLogChange: PropTypes.func,
+  onAutoLogNotesChange: PropTypes.func,
   showAutoLogSMS: PropTypes.bool,
   autoLogSMSEnabled: PropTypes.bool,
   onAutoLogSMSChange: PropTypes.func,
@@ -302,11 +331,15 @@ SettingsPanel.defaultProps = {
   showCalling: false,
   showAudio: false,
   showAutoLog: false,
+  showAutoLogNotes: false,
   showRegion: false,
   showUserGuide: false,
   autoLogEnabled: false,
+  autoLogNotesEnabled: false,
   disableAutoLogEnabled: false,
-  onAutoLogChange: undefined,
+  disableAutoLogNotesEnabled: false,
+  onAutoLogChange: () => null,
+  onAutoLogNotesChange: () => null,
   showAutoLogSMS: false,
   autoLogSMSEnabled: false,
   onAutoLogSMSChange: undefined,

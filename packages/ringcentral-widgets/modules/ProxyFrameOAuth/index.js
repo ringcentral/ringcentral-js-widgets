@@ -102,12 +102,15 @@ export default class ProxyFrameOAuth extends OAuthBase {
     this._proxyFrame = document.createElement('iframe');
     this._proxyFrame.src = this.proxyUri;
     this._proxyFrame.style.display = 'none';
-    this._proxyFrame.setAttribute('sandbox', [
-      'allow-scripts',
-      'allow-popups',
-      'allow-same-origin',
-      'allow-forms',
-    ].join(' '));
+    const isEdge = window && window.navigator && window.navigator.userAgent.indexOf('Edge') > -1;
+    if (!isEdge) {
+      this._proxyFrame.setAttribute('sandbox', [
+        'allow-scripts',
+        'allow-popups',
+        'allow-same-origin',
+        'allow-forms',
+      ].join(' '));
+    }
     document.body.appendChild(this._proxyFrame);
     window.addEventListener('message', this._callbackHandler);
     this._retryTimeoutId = setTimeout(() => {

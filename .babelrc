@@ -1,0 +1,3 @@
+{
+  "extends": "./packages/babel-settings/.babelrc"
+}
