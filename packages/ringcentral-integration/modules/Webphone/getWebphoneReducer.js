@@ -194,7 +194,7 @@ export function getSessionsReducer(types) {
           }
         });
         if (needUpdate) {
-          return state.filter(x => !x.cached && x.removed);
+          return state.filter(x => !x.removed);
         }
         return state;
       }
