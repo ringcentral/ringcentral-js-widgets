@@ -390,24 +390,19 @@ export default class CallHistory extends RcModule {
       calls,
       effectiveSearchString
     ) => {
+      
       if (effectiveSearchString !== '') {
         const searchResults = [];
-        const cleanRegex = /[^\d*+#\s]/g;
-        const searchString = effectiveSearchString.toLowerCase();
-        const searchNumber = effectiveSearchString.replace(cleanRegex, '');
+        const searchString = effectiveSearchString.toLowerCase().trim();
         calls.forEach((call) => {
-          if (searchNumber === effectiveSearchString) {
-            const cleanedNumber = cleanNumber(effectiveSearchString);
-            if (
-              (call.direction === 'Inbound' && cleanNumber(call.from.phoneNumber || '').indexOf(cleanedNumber) > -1) ||
-              (call.direction === 'Outbound' && cleanNumber(call.to.phoneNumber || '').indexOf(cleanedNumber) > -1) 
-            ) {
-              // match by phoneNumber or extensionNumber
-              searchResults.push({
-                ...call,
-                matchOrder: 0,
-              });
-            }
+          if (
+            (call.direction === 'Inbound' && call.fromMatches[0].name.toLowerCase().indexOf(searchString) > -1) ||
+            (call.direction === 'Outbound' && call.toMatches[0] && call.toMatches[0].name.toLowerCase().indexOf(searchString) > -1) 
+          ) {
+            searchResults.push({
+              ...call,
+              matchOrder: 0,
+            });
           }
         });
         return searchResults.sort(sortByStartTime);
