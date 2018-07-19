@@ -3,31 +3,12 @@
 @import '../../lib/commonStyles/text-ellipsis';
 
 .loggedIcon {
-  path:nth-child(1) {
-    stroke: $primary-color;
-  }
-  path:nth-child(2) {
-    stroke: $primary-color;
-  }
-  path:nth-child(3) {
-    fill: $primary-color;
-    stroke: none;
-  }
-  path:nth-child(4) {
-    stroke: $primary-color;
-  }
-  path:nth-child(5) {
-    stroke: #FEFEFE;
-  }
-  circle {
+  path {
     stroke: $primary-color;
   }
 }
 .unloggedIcon {
   path {
-    stroke: $primary-color;
-  }
-  circle {
     stroke: $primary-color;
   }
 }
@@ -37,22 +18,11 @@
 
   &.disabled {
     cursor: not-allowed;
-    g {
-      stroke: $coin;
+    rect {
+      fill: $coin;
     }
     path {
       stroke: $coin;
-    }
-    circle {
-      stroke: $coin;
-    }
-    .loggedIcon {
-      path:nth-child(3) {
-        fill: $coin;
-      }
-      path:nth-child(5) {
-        stroke: #FEFEFE;
-      }
     }
   }
 }

@@ -148,6 +148,7 @@ export default class CallLogSection extends RcModule {
         } else {
           this._handleError(identify, ...args);
         }
+        return result;
       } catch (e) {
         this._handleError(identify, ...args);
         console.warn(e);

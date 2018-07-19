@@ -42,6 +42,7 @@ export default class LogSection extends Component {
   render() {
     const {
       renderEditLogSection,
+      renderSaveLogButton,
       currentLocale,
       onUpdateCallLog,
       currentLog,
@@ -71,13 +72,23 @@ export default class LogSection extends Component {
       styles.primaryButton,
       currentLogCall.isSaving && styles.disabled
     );
-    const saveLogBtn = showSaveLogBtn ? (
-      <Button
-        disabled={currentLogCall.isSaving}
-        className={buttonClassName}
-        onClick={() => onSaveCallLog(call)}>
-        { i18n.getString('saveLog', currentLocale)}
-      </Button>
+    const saveLogBtn = showSaveLogBtn ? renderSaveLogButton && (
+      renderSaveLogButton({
+        currentLocale,
+        onSaveCallLog,
+        currentLog,
+        overlapped: this.state.mainCtrlOverlapped
+      })
+    ) || (
+      <div
+        className={buttonPanelClassName}>
+        <Button
+          disabled={currentLogCall.isSaving}
+          className={buttonClassName}
+          onClick={() => onSaveCallLog(call)}>
+          { i18n.getString('saveLog', currentLocale)}
+        </Button>
+      </div>
     ) : null;
     return (
       <div className={styles.section}>
@@ -92,10 +103,7 @@ export default class LogSection extends Component {
           className={styles.editSection}>
           {editLogSection}
         </div>
-        <div
-          className={buttonPanelClassName}>
-          {saveLogBtn}
-        </div>
+        {saveLogBtn}
         {
           isInnerMask ? (
             <div className={styles.innerMask} />
@@ -112,6 +120,7 @@ LogSection.propTypes = {
   onUpdateCallLog: PropTypes.func,
   onSaveCallLog: PropTypes.func,
   renderEditLogSection: PropTypes.func,
+  renderSaveLogButton: PropTypes.func,
   isInnerMask: PropTypes.bool,
   showSaveLogBtn: PropTypes.bool,
 };
@@ -122,6 +131,7 @@ LogSection.defaultProps = {
   onUpdateCallLog: undefined,
   onSaveCallLog: undefined,
   renderEditLogSection: undefined,
+  renderSaveLogButton: undefined,
   isInnerMask: undefined,
   showSaveLogBtn: true,
 };
