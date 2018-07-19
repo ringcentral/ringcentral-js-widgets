@@ -378,15 +378,13 @@ export default class ConferenceCall extends RcModule {
        */
       sipInstances = webphoneSessions
         .map(webphoneSession => this._webphone._sessions.get(webphoneSession.id));
-      const sessionDatas = webphoneSessions
-        .map(webphoneSession => this._webphone.sessions
-          .find(session => session.id === webphoneSession.id)
-        );
+
       /**
        * HACK: we need to preserve the merging session in prevent the glitch of
        * the call control page.
        */
-      this._webphone.updateSessionCaching(sessionDatas);
+      const sessionIds = webphoneSessions.map(x => x.id);
+      this._webphone.setSessionCaching(sessionIds);
 
       const pSips = sipInstances.map((instance) => {
         const p = new Promise((resolve) => {
