@@ -66,12 +66,14 @@ var _presence = require('../../spec-modules/presence');
 
 var _presence2 = _interopRequireDefault(_presence);
 
+var _conferenceCall = require('../../spec-modules/conferenceCall');
+
+var _conferenceCall2 = _interopRequireDefault(_conferenceCall);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var phone = (0, _TestPhoneFactory2.default)();
-
 // import runCallLogTests from '../../spec-modules/callLog';
-
+var phone = (0, _TestPhoneFactory2.default)();
 (0, _numValidInCall2.default)(phone.auth, phone.alert, phone.client, phone.regionSettings, phone.call, _testAccount.multiDialingPlanIncludingUSCAAccount);
 
 // phone = getTestPhone();
@@ -118,4 +120,7 @@ phone = (0, _TestPhoneFactory2.default)();
 
 phone = (0, _TestPhoneFactory2.default)();
 (0, _presence2.default)(phone.auth, phone.client, phone.presence, _testAccount.defaultAccount);
+
+phone = (0, _TestPhoneFactory2.default)();
+(0, _conferenceCall2.default)(phone.auth, phone.client, phone.conferenceCall, phone.alert, _testAccount.defaultAccount);
 //# sourceMappingURL=commons.spec.js.map

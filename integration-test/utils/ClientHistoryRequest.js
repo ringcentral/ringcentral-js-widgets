@@ -75,7 +75,8 @@ var ClientHistoryRequest = (_temp = _class = function () {
   dialingPlan: '/account/~/dialing-plan',
   token: '/restapi/oauth/token',
   companyPager: '/restapi/v1.0/account/~/extension/~/company-pager',
-  sms: '/restapi/v1.0/account/~/extension/~/sms'
+  sms: '/restapi/v1.0/account/~/extension/~/sms',
+  conferenceCall: '/restapi/v1.0/account/~/telephony/conference'
 }, _temp);
 exports.default = ClientHistoryRequest;
 //# sourceMappingURL=ClientHistoryRequest.js.map

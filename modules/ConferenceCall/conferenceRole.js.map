@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/ConferenceCall/conferenceRole.js"],"names":["Enum"],"mappings":";;;;;;AAAA;;;;;;kBAEe,IAAIA,cAAJ,CAAS,CACtB,MADsB,EAEtB,aAFsB,CAAT,C","file":"conferenceRole.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'host',\n  'participant',\n]);\n"]}

@@ -39,6 +39,8 @@ exports.addressBook = addressBook;
 exports.callLog = callLog;
 exports.device = device;
 exports.conferencing = conferencing;
+exports.numberParse = numberParse;
+exports.conferenceCall = conferenceCall;
 exports.activeCalls = activeCalls;
 exports.restore = restore;
 exports.reset = reset;
@@ -82,6 +84,8 @@ var conferencingBody = require('./data/conferencing.json');
 var activeCallsBody = require('./data/activeCalls.json');
 var meetingBody = require('./data/meeting');
 var serviceInfoBody = require('./data/serviceInfo');
+var conferenceCallBody = require('./data/conferenceCall');
+var numberParseBody = require('./data/numberParse');
 
 var mockServer = 'http://whatever';
 function createSDK() {
@@ -122,7 +126,9 @@ function mockApi(_ref) {
   var responseHeaders = void 0;
   var isJson = typeof body !== 'string';
   if (isJson && !headers) {
-    responseHeaders = { 'Content-Type': 'application/json' };
+    responseHeaders = {
+      'Content-Type': 'application/json'
+    };
   } else {
     responseHeaders = headers;
   }
@@ -441,6 +447,30 @@ function conferencing() {
   mockApi({
     path: '/restapi/v1.0/account/~/extension/~/conferencing',
     body: (0, _extends3.default)({}, conferencingBody, mockResponse)
+  });
+}
+
+function numberParse() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var homeCountry = arguments[1];
+
+  mockApi({
+    method: 'POST',
+    path: '/restapi/v1.0/number-parser/parse?homeCountry=' + homeCountry,
+    body: (0, _extends3.default)({}, numberParseBody, mockResponse),
+    isOnce: false
+  });
+}
+
+function conferenceCall() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  conferenceCallBody.session.on = function () {};
+  mockApi({
+    method: 'POST',
+    path: '/restapi/v1.0/account/~/telephony/conference',
+    body: (0, _extends3.default)({}, conferenceCallBody, mockResponse),
+    isOnce: false
   });
 }
 

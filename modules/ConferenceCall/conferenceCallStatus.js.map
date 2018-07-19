@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/ConferenceCall/conferenceCallStatus.js"],"names":["Enum"],"mappings":";;;;;;AAAA;;;;;;kBAEe,IAAIA,cAAJ,CAAS,CACtB,MADsB,EAEtB,YAFsB,CAAT,EAGZ,gBAHY,C","file":"conferenceCallStatus.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'idle',\n  'requesting',\n], 'conferenceCall');\n"]}

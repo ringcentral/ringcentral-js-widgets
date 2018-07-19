@@ -183,19 +183,11 @@ var _ActivityMatcher = require('../../../modules/ActivityMatcher');
 
 var _ActivityMatcher2 = _interopRequireDefault(_ActivityMatcher);
 
+var _ConferenceCall = require('../../../modules/ConferenceCall');
+
+var _ConferenceCall2 = _interopRequireDefault(_ConferenceCall);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// import DynamicsAdapter from '../../../modules/DynamicsInteraction';
-
-// import { callMonitorReducer } from '../CallMonitor/reducers';
-
-
-// import CallLog from '../CallLog';
-// import AutoLogger from '../AutoLogger';
-// import DataMatcher from '../DataMatcher';
-
-
-// import RouterInteraction from 'ringcentral-js-widget/modules/RouterInteraction';
 
 var Phone = function (_RcModule) {
   (0, _inherits3.default)(Phone, _RcModule);
@@ -635,6 +627,21 @@ var Phone = function (_RcModule) {
     //   getState: () => this.state.adapter,
     // }));
 
+    _this.addModule('conferenceCall', new _ConferenceCall2.default((0, _extends3.default)({}, options, {
+      auth: _this.auth,
+      storage: _this.storage,
+      client: _this.client,
+      tabManager: _this.tabManager,
+      alert: _this.alert,
+      call: _this.call,
+      callingSettings: _this.callingSettings,
+      rolesAndPermissions: _this.rolesAndPermissions,
+      pulling: false,
+      getState: function getState() {
+        return _this.state.conferenceCall;
+      }
+    })));
+
     _this._reducer = (0, _redux.combineReducers)({
       app: function app() {
         var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
@@ -680,8 +687,9 @@ var Phone = function (_RcModule) {
       messageSender: _this.messageSender.reducer,
       composeText: _this.composeText.reducer,
       messageStore: _this.messageStore.reducer,
-      conversations: _this.conversations.reducer
+      conversations: _this.conversations.reducer,
       // adapter: this.adapter.reducer,
+      conferenceCall: _this.conferenceCall.reducer
     });
     return _this;
   }
@@ -699,6 +707,17 @@ var Phone = function (_RcModule) {
   }]);
   return Phone;
 }(_RcModule3.default);
+
+// import DynamicsAdapter from '../../../modules/DynamicsInteraction';
+
+// import { callMonitorReducer } from '../CallMonitor/reducers';
+
+
+// import CallLog from '../CallLog';
+// import AutoLogger from '../AutoLogger';
+// import DataMatcher from '../DataMatcher';
+
+// import RouterInteraction from 'ringcentral-js-widget/modules/RouterInteraction';
 
 exports.default = Phone;
 //# sourceMappingURL=index.js.map
