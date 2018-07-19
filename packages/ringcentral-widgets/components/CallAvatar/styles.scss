@@ -1,0 +1,12 @@
+@import '../../lib/commonStyles/fonts';
+
+.callAvatar{
+  width: 100%;
+
+  &:not(:root){
+    overflow: visible;
+  }
+  text.portrait {
+    font-family: 'dynamics_icon' !important;
+  }
+}
