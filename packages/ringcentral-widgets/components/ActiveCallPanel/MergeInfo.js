@@ -19,7 +19,7 @@ function MergeInfo({
       <div className={styles.merge_item}>
         <div className={styles.callee_avatar}>
           {
-            lastTo.calleeType === calleeTypes.conference
+            (lastTo.calleeType === calleeTypes.conference)
               ? <CallAvatar
                 avatarUrl={lastTo.avatarUrl}
                 extraNum={lastTo.extraNum}
@@ -31,7 +31,11 @@ function MergeInfo({
           }
         </div>
         <div className={styles.callee_name}>
-          {lastTo.calleeType === calleeTypes.contacts ? lastTo.name : isConference}
+          {
+            (lastTo.calleeType === calleeTypes.contacts)
+              ? lastTo.name
+              : isConference
+          }
         </div>
         <div className={styles.callee_status}>
           {i18n.getString('onHold', currentLocale)}
@@ -39,15 +43,17 @@ function MergeInfo({
       </div>
       <div className={styles.merge_item_active}>
         <div className={styles.callee_avatar_active} >
-          {!currentCall.nameMatches.length || !currentCall.avatarUrl
-            ? <CallAvatar avatarUrl={null} />
-            : <CallAvatar avatarUrl={currentCall.avatarUrl} />
+          {
+            (!currentCall.nameMatches.length || !currentCall.avatarUrl)
+              ? <CallAvatar avatarUrl={null} />
+              : <CallAvatar avatarUrl={currentCall.avatarUrl} />
           }
         </div>
         <div className={styles.callee_name_active}>
-          {currentCall.nameMatches.length
-            ? currentCall.nameMatches[0].name
-            : currentCall.fallBackName
+          {
+            currentCall.nameMatches.length
+              ? currentCall.nameMatches[0].name
+              : currentCall.fallBackName
           }
         </div>
         <div className={styles.callee_status_active}>
