@@ -37,6 +37,8 @@ function ActiveCallButton(props) {
       line
     );
   });
+  var buttonSize = 383.8;
+
   return _react2.default.createElement(
     'svg',
     {
@@ -48,12 +50,12 @@ function ActiveCallButton(props) {
       y: props.y
     },
     _react2.default.createElement(_CircleButton2.default, {
-      width: '380',
-      height: '380',
-      x: 60,
+      width: buttonSize.toString(),
+      height: buttonSize.toString(),
+      x: 500 / 2 - buttonSize / 2,
       y: 0,
       className: buttonClassName,
-      onClick: props.disabled ? function () {} : props.onClick,
+      onClick: props.onClick,
       icon: props.icon,
       disabled: props.disabled,
       showBorder: props.showBorder,
@@ -79,7 +81,7 @@ function ActiveCallButton(props) {
 ActiveCallButton.propTypes = {
   className: _propTypes2.default.string,
   buttonClassName: _propTypes2.default.string,
-  onClick: _propTypes2.default.func.isRequired,
+  onClick: _propTypes2.default.func,
   disabled: _propTypes2.default.bool,
   active: _propTypes2.default.bool,
   title: _propTypes2.default.string.isRequired,
@@ -98,6 +100,7 @@ ActiveCallButton.propTypes = {
 ActiveCallButton.defaultProps = {
   className: undefined,
   buttonClassName: undefined,
+  onClick: undefined,
   disabled: false,
   active: false,
   icon: undefined,

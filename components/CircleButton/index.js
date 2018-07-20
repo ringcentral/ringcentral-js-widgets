@@ -38,10 +38,11 @@ function CircleButton(props) {
     });
   }
   var circleClass = (0, _classnames2.default)(_styles2.default.circle, props.showBorder ? null : _styles2.default.noBorder);
-  var onClick = props.disabled ? function () {} : props.onClick;
+  var onClick = props.disabled ? null : props.onClick;
   return _react2.default.createElement(
     'svg',
     {
+      xmlns: 'http://www.w3.org/2000/svg',
       className: (0, _classnames2.default)(_styles2.default.btnSvg, props.className),
       viewBox: '0 0 500 500',
       onClick: onClick,
@@ -50,6 +51,11 @@ function CircleButton(props) {
       x: props.x,
       y: props.y
     },
+    props.title ? _react2.default.createElement(
+      'title',
+      null,
+      props.title
+    ) : null,
     _react2.default.createElement(
       'g',
       {
@@ -80,7 +86,8 @@ CircleButton.propTypes = {
   iconWidth: _propTypes2.default.number,
   iconHeight: _propTypes2.default.number,
   iconX: _propTypes2.default.number,
-  iconY: _propTypes2.default.number
+  iconY: _propTypes2.default.number,
+  title: _propTypes2.default.string
 };
 
 CircleButton.defaultProps = {
@@ -89,9 +96,7 @@ CircleButton.defaultProps = {
   showBorder: true,
   iconClassName: undefined,
   disabled: false,
-  onClick: function onClick() {
-    return null;
-  },
+  onClick: null,
   width: '100%',
   height: '100%',
   x: 0,
@@ -99,7 +104,8 @@ CircleButton.defaultProps = {
   iconWidth: 200,
   iconHeight: 200,
   iconX: 150,
-  iconY: 150
+  iconY: 150,
+  title: null
 };
 
 exports.default = CircleButton;

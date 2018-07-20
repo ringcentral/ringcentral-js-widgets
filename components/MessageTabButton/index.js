@@ -28,7 +28,8 @@ function NavigationButton(_ref) {
       label = _ref.label,
       noticeCounts = _ref.noticeCounts,
       onClick = _ref.onClick,
-      width = _ref.width;
+      width = _ref.width,
+      fullSizeInk = _ref.fullSizeInk;
 
   var notice = null;
   if (noticeCounts && noticeCounts > 0) {
@@ -50,7 +51,7 @@ function NavigationButton(_ref) {
     'div',
     {
       onClick: onClick,
-      className: (0, _classnames2.default)(_styles2.default.navigationButton, active && _styles2.default.active),
+      className: (0, _classnames2.default)(_styles2.default.navigationButton, active && _styles2.default.active, fullSizeInk ? null : _styles2.default.linearBorder),
       style: {
         width: width
       }
@@ -73,13 +74,15 @@ NavigationButton.propTypes = {
   label: _propTypes2.default.string,
   noticeCounts: _propTypes2.default.number,
   width: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]).isRequired,
-  onClick: _propTypes2.default.func
+  onClick: _propTypes2.default.func,
+  fullSizeInk: _propTypes2.default.bool
 };
 NavigationButton.defaultProps = {
   active: false,
   label: undefined,
   noticeCounts: undefined,
-  onClick: undefined
+  onClick: undefined,
+  fullSizeInk: true
 };
 exports.default = NavigationButton;
 //# sourceMappingURL=index.js.map

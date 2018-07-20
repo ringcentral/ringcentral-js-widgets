@@ -14,6 +14,8 @@ exports.default = {
   record: 'Record',
   add: 'Add',
   transfer: 'Transfer',
-  flip: 'Flip'
+  flip: 'Flip',
+  more: 'Call Actions',
+  mergeToConference: 'Merge'
 };
 //# sourceMappingURL=en-US.js.map

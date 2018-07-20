@@ -4,14 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _regenerator = require('babel-runtime/regenerator');
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
-
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
 var _reactRedux = require('react-redux');
 
 var _react = require('react');
@@ -179,8 +171,8 @@ DialerNCallsPanel.propTypes = {
   sourceIcons: _propTypes2.default.object,
   goto: _propTypes2.default.func.isRequired,
   phoneTypeRenderer: _propTypes2.default.func,
-  recipientsContactInfoRenderer: _propTypes2.default.element,
-  recipientsContactPhoneRenderer: _propTypes2.default.element,
+  recipientsContactInfoRenderer: _propTypes2.default.func,
+  recipientsContactPhoneRenderer: _propTypes2.default.func,
   dialButtonMuted: _propTypes2.default.bool,
   showViewContact: _propTypes2.default.bool,
   showContactDisplayPlaceholder: _propTypes2.default.bool
@@ -188,35 +180,10 @@ DialerNCallsPanel.propTypes = {
 
 DialerNCallsPanel.defaultProps = {
   sourceIcons: null,
-  onLogCall: function () {
-    var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-      return _regenerator2.default.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _context.next = 2;
-              return (0, _sleep2.default)(1000);
-
-            case 2:
-            case 'end':
-              return _context.stop();
-          }
-        }
-      }, _callee, this);
-    }));
-
-    function onLogCall() {
-      return _ref3.apply(this, arguments);
-    }
-
-    return onLogCall;
-  }(),
-  onCreateContact: function onCreateContact() {},
-  onCallsEmpty: function onCallsEmpty() {},
-
-  phoneTypeRenderer: function phoneTypeRenderer(i) {
-    return i;
-  },
+  onLogCall: null,
+  onCreateContact: null,
+  onCallsEmpty: null,
+  phoneTypeRenderer: null,
   recipientsContactInfoRenderer: null,
   recipientsContactPhoneRenderer: null,
   dialButtonMuted: false,
@@ -224,16 +191,16 @@ DialerNCallsPanel.defaultProps = {
   showContactDisplayPlaceholder: false
 };
 
-function mapToProps(_, _ref4) {
-  var _ref4$phone = _ref4.phone,
-      locale = _ref4$phone.locale,
-      routerInteraction = _ref4$phone.routerInteraction,
-      webphone = _ref4$phone.webphone,
-      callingMode = _ref4$phone.callingSettings.callingMode,
-      sourceIcons = _ref4.sourceIcons,
-      phoneTypeRenderer = _ref4.phoneTypeRenderer,
-      recipientsContactInfoRenderer = _ref4.recipientsContactInfoRenderer,
-      recipientsContactPhoneRenderer = _ref4.recipientsContactPhoneRenderer;
+function mapToProps(_, _ref3) {
+  var _ref3$phone = _ref3.phone,
+      locale = _ref3$phone.locale,
+      routerInteraction = _ref3$phone.routerInteraction,
+      webphone = _ref3$phone.webphone,
+      callingMode = _ref3$phone.callingSettings.callingMode,
+      sourceIcons = _ref3.sourceIcons,
+      phoneTypeRenderer = _ref3.phoneTypeRenderer,
+      recipientsContactInfoRenderer = _ref3.recipientsContactInfoRenderer,
+      recipientsContactPhoneRenderer = _ref3.recipientsContactPhoneRenderer;
 
   return {
     currentPath: routerInteraction.currentPath,
@@ -246,12 +213,12 @@ function mapToProps(_, _ref4) {
   };
 }
 
-function mapToFunctions(_, _ref5) {
-  var routerInteraction = _ref5.phone.routerInteraction,
-      onLogCall = _ref5.onLogCall,
-      onCreateContact = _ref5.onCreateContact,
-      onCallsEmpty = _ref5.onCallsEmpty,
-      sourceIcons = _ref5.sourceIcons;
+function mapToFunctions(_, _ref4) {
+  var routerInteraction = _ref4.phone.routerInteraction,
+      onLogCall = _ref4.onLogCall,
+      onCreateContact = _ref4.onCreateContact,
+      onCallsEmpty = _ref4.onCallsEmpty,
+      sourceIcons = _ref4.sourceIcons;
 
   return {
     goto: function goto(path) {

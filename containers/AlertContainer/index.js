@@ -90,6 +90,10 @@ var _index = require('../../components/ConferenceAlert/index');
 
 var _index2 = _interopRequireDefault(_index);
 
+var _index3 = require('../../components/ConferenceCallAlert/index');
+
+var _index4 = _interopRequireDefault(_index3);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function mapToProps(_, _ref) {
@@ -199,6 +203,10 @@ function getDefaultRenderer(_ref2) {
 
     if (_index2.default.handleMessage(message)) {
       return _index2.default;
+    }
+
+    if (_index4.default.handleMessage(message)) {
+      return _index4.default;
     }
 
     if (_AudioSettingsAlert2.default.handleMessage(message)) {

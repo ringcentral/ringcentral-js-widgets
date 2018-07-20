@@ -91,10 +91,8 @@ var ContactSourceFilter = function (_Component) {
 
     _this.hideList = function () {
       if (_this._mounted) {
-        _this.setState(function () {
-          return {
-            unfold: false
-          };
+        _this.setState({
+          unfold: false
         });
         if (typeof _this.props.onUnfoldChange === 'function') {
           _this.props.onUnfoldChange(false);
@@ -104,10 +102,8 @@ var ContactSourceFilter = function (_Component) {
     };
 
     _this.showList = function () {
-      _this.setState(function () {
-        return {
-          unfold: true
-        };
+      _this.setState({
+        unfold: true
       });
       window.addEventListener('click', _this.hideList);
       if (typeof _this.props.onUnfoldChange === 'function') {

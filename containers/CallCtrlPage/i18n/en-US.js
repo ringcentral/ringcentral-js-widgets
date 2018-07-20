@@ -6,6 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   unknown: 'Unknown',
   anonymous: 'Anonymous',
-  activeCalls: 'Active Calls'
+  activeCalls: 'All Calls'
 };
 //# sourceMappingURL=en-US.js.map

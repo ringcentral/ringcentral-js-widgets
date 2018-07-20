@@ -3,6 +3,9 @@
 @import '../../lib/commonStyles/no-select';
 @import '../../lib/commonStyles/colors';
 @import '../../lib/commonStyles/layout';
+
+$blueWidth:110/150*100%;
+
 .navigationButton {
   @include full-size;
   @include no-select;
@@ -17,11 +20,33 @@
   color: $darkergray !important;
   text-decoration: none !important;
   box-sizing: border-box;
-  border-bottom: 1px solid #e3e3e3;
+  border-bottom: 1px solid $silver;
 }
 
 .navigationButton.active {
   border-bottom: 1px solid $primary-color;
+}
+
+.navigationButton.active.linearBorder{
+  border-bottom: none;
+  position: relative;
+  &::after{
+    content: '';
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    margin: auto;
+    z-index: 1;
+    background: linear-gradient(to right,
+      $silver 0,
+      $silver (100%-$blueWidth)/2,
+      $primary-color (100%-$blueWidth)/2,
+      $primary-color (100%-$blueWidth)/2+$blueWidth,
+      $silver (100%-$blueWidth)/2+$blueWidth,
+      $silver 0);
+    display: block;
+    position: absolute;
+  }
 }
 
 .iconHolder {

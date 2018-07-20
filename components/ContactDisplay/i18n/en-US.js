@@ -14,6 +14,7 @@ exports.default = {
   unknownUser: 'Unknown User',
   unknownNumber: 'Anonymous',
   unavailable: 'Unavailable',
-  viewDetails: 'View Details'
+  viewDetails: 'View Details',
+  conferenceCall: 'Conference Call'
 };
 //# sourceMappingURL=en-US.js.map

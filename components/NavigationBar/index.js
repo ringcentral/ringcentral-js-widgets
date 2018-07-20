@@ -56,6 +56,7 @@ var NavigationBar = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (NavigationBar.__proto__ || (0, _getPrototypeOf2.default)(NavigationBar)).call(this, props));
 
     _this.goTo = _this.goTo.bind(_this);
+    _this.mounted = false;
     _this.state = {
       currentVirtualPath: _this.props.currentVirtualPath
     };
@@ -63,13 +64,23 @@ var NavigationBar = function (_Component) {
   }
 
   (0, _createClass3.default)(NavigationBar, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.mounted = true;
+    }
+  }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      if (nextProps.currentVirtualPath) {
+      if (nextProps.currentVirtualPath && this.mounted) {
         this.setState({
           currentVirtualPath: nextProps.currentVirtualPath
         });
       }
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.mounted = false;
     }
   }, {
     key: 'goTo',
@@ -80,9 +91,11 @@ var NavigationBar = function (_Component) {
       // seems like the goTo is asynchronous
       // so here set timeout for resolving menu looks flash issue
       setTimeout(function () {
-        _this2.setState({
-          currentVirtualPath: tab.virtualPath
-        });
+        if (_this2.mounted) {
+          _this2.setState({
+            currentVirtualPath: tab.virtualPath
+          });
+        }
       }, 10);
     }
   }, {
@@ -96,7 +109,8 @@ var NavigationBar = function (_Component) {
           childNavigationView = _props.childNavigationView,
           currentPath = _props.currentPath,
           tabWidth = _props.tabWidth,
-          tabs = _props.tabs;
+          tabs = _props.tabs,
+          fullSizeInk = _props.fullSizeInk;
 
 
       var NavigationButton = button;
@@ -130,6 +144,7 @@ var NavigationBar = function (_Component) {
             activeIcon = tab.childTabs ? _react2.default.createElement(ActiveIcon, { currentPath: currentPath }) : _react2.default.createElement(ActiveIcon, null);
           }
           return _react2.default.createElement(NavigationButton, (0, _extends3.default)({}, tab, {
+            fullSizeInk: fullSizeInk,
             key: index,
             onClick: function onClick() {
               _this3.goTo(tab);
@@ -177,7 +192,8 @@ NavigationBar.propTypes = {
   goTo: _propTypes2.default.func.isRequired,
   currentPath: _propTypes2.default.string.isRequired,
   currentVirtualPath: _propTypes2.default.string,
-  tabWidth: _propTypes2.default.string
+  tabWidth: _propTypes2.default.string,
+  fullSizeInk: _propTypes2.default.bool
 };
 
 NavigationBar.defaultProps = {
@@ -185,6 +201,7 @@ NavigationBar.defaultProps = {
   childNavigationView: undefined,
   currentVirtualPath: undefined,
   tabWidth: undefined,
-  tabs: []
+  tabs: [],
+  fullSizeInk: true
 };
 //# sourceMappingURL=index.js.map

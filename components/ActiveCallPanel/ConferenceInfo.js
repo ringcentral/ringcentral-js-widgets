@@ -32,7 +32,8 @@ var _i18n2 = _interopRequireDefault(_i18n);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function ConferenceInfo(_ref) {
-  var displayedProfiles = _ref.displayedProfiles,
+  var currentLocale = _ref.currentLocale,
+      displayedProfiles = _ref.displayedProfiles,
       remains = _ref.remains,
       _onClick = _ref.onClick;
 
@@ -76,13 +77,14 @@ function ConferenceInfo(_ref) {
     _react2.default.createElement(
       'p',
       { className: _styles2.default.info },
-      _i18n2.default.getString('conferenceCall')
+      _i18n2.default.getString('conferenceCall', currentLocale)
     )
   );
 }
 
 exports.default = ConferenceInfo;
 ConferenceInfo.propTypes = {
+  currentLocale: _propTypes2.default.string.isRequired,
   displayedProfiles: _propTypes2.default.arrayOf(_propTypes2.default.shape({
     avatarUrl: _propTypes2.default.string,
     toUserName: _propTypes2.default.string
