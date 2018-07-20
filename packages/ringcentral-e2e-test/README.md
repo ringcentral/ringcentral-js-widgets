@@ -1,16 +1,16 @@
 # ringcentral-e2e-test
 
 ## Goal
-* More Easily Code/Read/Maintain E2E Test
+* More easily code/read/maintain E2E Test
 * High-quality reusable code
-* High-Performance
-* Appropriate Structure
+* High-performance
+* Appropriate structure
 
 ## Features
 * Steps controller
-* E2E Test Report
+* E2E test report
 * Support CLI
-* Compatible with Selenium-webdriver
+* Compatible with selenium-webdriver
 * Serial perform case
 * Auto-create test file with AC or test case
 * Auto-modify ticket status from Jira
