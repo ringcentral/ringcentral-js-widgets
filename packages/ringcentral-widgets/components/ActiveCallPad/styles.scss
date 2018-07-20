@@ -99,7 +99,7 @@ $stopButtonIconRatio:0.98;
 .buttonPopup{
   padding: 10px 10px;
   text-align:left;
-  
+
   .buttonItem{
     width: 100%;
     cursor: pointer;
@@ -112,7 +112,7 @@ $stopButtonIconRatio:0.98;
     flex-wrap: nowrap;
     justify-content: flex-start;
     align-items: center;
-    
+
     .buttonName{
       color: #666;
     }
@@ -138,7 +138,7 @@ $stopButtonIconRatio:0.98;
       }
       g {
         cursor: default;
-    
+
         &:hover {
           circle {
             stroke: $gray;
