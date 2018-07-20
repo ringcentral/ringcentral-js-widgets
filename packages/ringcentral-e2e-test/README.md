@@ -12,7 +12,7 @@
 * Support CLI
 * Compatible with Selenium-webdriver
 * Serial perform case
-* Auto-create test file with AC
+* Auto-create test file with AC or test case
 * Auto-modify ticket status from Jira
 
 ## Planning
