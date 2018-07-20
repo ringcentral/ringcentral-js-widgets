@@ -158,10 +158,18 @@ function ContactDisplay(_ref3) {
       _ref3$sourceIcons = _ref3.sourceIcons,
       sourceIcons = _ref3$sourceIcons === undefined ? {} : _ref3$sourceIcons,
       showGroupNumberName = _ref3.showGroupNumberName,
-      contactName = _ref3.contactName;
+      contactName = _ref3.contactName,
+      isOnConferenceCall = _ref3.isOnConferenceCall;
 
   var contentEl = void 0;
-  if (contactName) {
+  if (isOnConferenceCall) {
+    var confStr = _i18n2.default.getString('conferenceCall', currentLocale);
+    contentEl = _react2.default.createElement(
+      'div',
+      { title: confStr, className: _styles2.default.currentName },
+      confStr
+    );
+  } else if (contactName) {
     contentEl = _react2.default.createElement(
       'div',
       { title: contactName, className: _styles2.default.currentName },
@@ -273,6 +281,7 @@ function ContactDisplay(_ref3) {
   );
 }
 ContactDisplay.propTypes = {
+  isOnConferenceCall: _propTypes2.default.bool,
   reference: _propTypes2.default.func,
   className: _propTypes2.default.string,
   contactMatches: _propTypes2.default.arrayOf(_propTypes2.default.any).isRequired,
@@ -298,6 +307,7 @@ ContactDisplay.propTypes = {
   contactName: _propTypes2.default.any
 };
 ContactDisplay.defaultProps = {
+  isOnConferenceCall: false,
   reference: undefined,
   className: undefined,
   onSelectContact: undefined,

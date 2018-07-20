@@ -1,31 +1,42 @@
 @import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/layout.scss';
+
+$callBtnWidth: 1/3*100%;
+$conferenceCallBtnWidth: 50%;
+$conferenceCallBtnPaddingLeft: ($conferenceCallBtnWidth - $callBtnWidth)/2;
+$keypadHeight: 53%;
+$buttonAreaWidth:222;
+$totalWidth:300;
+$buttonWidth:45;
+$stopButtonIconRatio:0.98;
 
 .root {
-  max-width: 550px;
+  // max-width: 550px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 9%;
-  padding-right: 9%;
+  padding: 0 (1-$buttonAreaWidth/$totalWidth)/2*100%;
 }
 
 .callButton {
-  // width: 25%;
-  width: 33.33%;
   box-sizing: border-box;
   padding: 2px;
+  height: 50%;
+}
+
+.callButton{
+  width: $callBtnWidth;
 }
 
 .buttonRow {
   // text-align: left;
   text-align: center;
-  height: 50%;
+  height: 100%;
 }
 
 .button {
-  // width: 18.3%;
-  width: 33.33%;
+  width: $callBtnWidth;
   height: 100%;
-  border-radius: 63%;
+  border-radius: 100% - $callBtnWidth;
   margin-left: auto;
   margin-right: auto;
   overflow: hidden;
@@ -35,9 +46,18 @@
   }
 }
 
-.stopButton {
+.disabled,
+.disabled * {
   circle {
-    fill: #ff4646;
+    fill: #c7c7c7;
+  }
+  cursor: not-allowed;
+}
+
+.combineButton,
+.mergeButton {
+  circle {
+    fill: #5fb95c;
   }
   g, path {
     fill: #ffffff;
@@ -45,10 +65,114 @@
 }
 
 .callCtrlButtonGroup {
-  height: 66%;
+  height: $keypadHeight;
 }
 
 .stopButtonGroup {
-  height: 20%;
-  padding-top: 4%;
+  height: 100% - $keypadHeight;
+  display: block;
+  box-sizing: border-box;
+  padding-top: 10px;
+  // padding-bottom: $recent-activity-height;
+
+  .button{
+    display: inline-block;
+    box-sizing: border-box;
+    width: $buttonWidth/$buttonAreaWidth/$stopButtonIconRatio*100%;
+    max-width: 140px;
+  }
+
+  .stopButton {
+    circle {
+      fill: #ff4646;
+    }
+    g, path {
+      fill: #ffffff;
+    }
+  }
+}
+
+.relative{
+  position: relative;
+}
+
+.buttonPopup{
+  padding: 10px 10px;
+  text-align:left;
+
+  .buttonItem{
+    width: 100%;
+    cursor: pointer;
+    overflow:hidden;
+    font-size: 12px;
+    line-height: 12px;
+    padding:10px 20px 10px 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+
+    .buttonName{
+      color: #666;
+    }
+    .buttonIcon+.buttonName{
+      margin-left:5px;
+    }
+    .buttonActive {
+      circle {
+        fill: $primary-color;
+        stroke: $primary-color;
+      }
+      path {
+        fill: $primary-color;
+      }
+    }
+    .buttonDisabled {
+      circle {
+        fill: $lightgray;
+        stroke: $gray;
+      }
+      path {
+        fill: $silver;
+      }
+      g {
+        cursor: default;
+
+        &:hover {
+          circle {
+            stroke: $gray;
+          }
+        }
+      }
+    }
+  }
+  .buttonItem+.buttonItem{
+    border-top: .5px solid $silver;
+  }
+  .buttonItem.disabled{
+    cursor: not-allowed;
+
+    .buttonIcon{
+      color: $silver;
+    }
+  }
+  .buttonItem:first-of-type{
+    padding-top:0;
+  }
+  .buttonItem:last-of-type{
+    padding-bottom:0;
+  }
+}
+
+.moreButtonContainer{
+  display: inline-block;
+  width: 33.3333%;
+  height: 50%;
+  box-sizing: border-box;
+
+  .moreButton{
+    height: 100%;
+    width:100%;
+  }
 }

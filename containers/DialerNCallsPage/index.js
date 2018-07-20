@@ -14,10 +14,6 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _sleep = require('ringcentral-integration/lib/sleep');
-
-var _sleep2 = _interopRequireDefault(_sleep);
-
 var _callingModes = require('ringcentral-integration/modules/CallingSettings/callingModes');
 
 var _callingModes2 = _interopRequireDefault(_callingModes);

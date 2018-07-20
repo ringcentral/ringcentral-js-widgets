@@ -71,12 +71,18 @@ var CallAvatar = function (_Component) {
         var $img = document.createElement('img');
         $img.src = props.avatarUrl;
         $img.onload = function () {
-          return _this2.setState({
+          if (!_this2._mounted) {
+            return;
+          }
+          _this2.setState({
             avatarUrl: props.avatarUrl
           });
         };
         $img.onerror = function () {
-          return _this2.setState({
+          if (!_this2._mounted) {
+            return;
+          }
+          _this2.setState({
             avatarUrl: null
           });
         };
@@ -111,7 +117,6 @@ var CallAvatar = function (_Component) {
       var $snow = '#fff';
       var $gray = '#cee7f2';
       var $blue = '#0684bd';
-
       var res = void 0;
       var hash = _uuid2.default.v4();
       var textId = 'text-' + hash;
@@ -125,7 +130,8 @@ var CallAvatar = function (_Component) {
             style: avatarUrl ? avatarStyle : null,
             viewBox: '0 0 ' + initialSize + ' ' + initialSize,
             preserveAspectRatio: 'xMidYMid meet',
-            xmlns: 'http://www.w3.org/2000/svg' },
+            xmlns: 'http://www.w3.org/2000/svg'
+          },
           _react2.default.createElement(
             'defs',
             null,
@@ -154,7 +160,8 @@ var CallAvatar = function (_Component) {
             cx: avatarCircleRadius,
             cy: margin + avatarCircleRadius,
             r: avatarCircleRadius,
-            fill: $snow }),
+            fill: $snow
+          }),
           _react2.default.createElement(
             'g',
             null,
@@ -231,7 +238,8 @@ var CallAvatar = function (_Component) {
             cx: initialSize / 2,
             cy: initialSize / 2,
             r: initialSize / 2,
-            fill: $snow }),
+            fill: $snow
+          }),
           _react2.default.createElement(
             'g',
             null,

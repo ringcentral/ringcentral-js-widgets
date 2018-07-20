@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = exports.mapToFunctions = exports.mapToProps = undefined;
 
 var _regenerator = require('babel-runtime/regenerator');
 
@@ -12,11 +13,23 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
+var _values = require('babel-runtime/core-js/object/values');
+
+var _values2 = _interopRequireDefault(_values);
+
 var _reactRedux = require('react-redux');
 
 var _formatNumber = require('ringcentral-integration/lib/formatNumber');
 
 var _formatNumber2 = _interopRequireDefault(_formatNumber);
+
+var _sleep = require('ringcentral-integration/lib/sleep');
+
+var _sleep2 = _interopRequireDefault(_sleep);
+
+var _callingModes = require('ringcentral-integration/modules/CallingSettings/callingModes');
+
+var _callingModes2 = _interopRequireDefault(_callingModes);
 
 var _withPhone = require('../../lib/withPhone');
 
@@ -36,9 +49,24 @@ function mapToProps(_, _ref) {
       locale = _ref$phone.locale,
       regionSettings = _ref$phone.regionSettings,
       rolesAndPermissions = _ref$phone.rolesAndPermissions,
+      conferenceCall = _ref$phone.conferenceCall,
+      callingSettings = _ref$phone.callingSettings,
       _ref$showContactDispl = _ref.showContactDisplayPlaceholder,
       showContactDisplayPlaceholder = _ref$showContactDispl === undefined ? false : _ref$showContactDispl;
 
+  var isWebRTC = callingSettings.callingMode === _callingModes2.default.webphone;
+  var disableMerge = !isWebRTC;
+  var hasConferenceCall = false;
+  var conferenceData = null;
+  if (conferenceCall) {
+    var conferenceList = (0, _values2.default)(conferenceCall.conferences);
+    var conference = conferenceList.length ? conferenceList[0] : null;
+    conferenceData = (0, _values2.default)(conferenceCall.conferences)[0];
+    hasConferenceCall = !!conference;
+    if (conference) {
+      disableMerge = conferenceCall.isOverload(conference.conference.id);
+    }
+  }
   return {
     currentLocale: locale.currentLocale,
     activeRingCalls: callMonitor.activeRingCalls,
@@ -49,10 +77,17 @@ function mapToProps(_, _ref) {
     countryCode: regionSettings.countryCode,
     outboundSmsPermission: !!(rolesAndPermissions.permissions && rolesAndPermissions.permissions.OutboundSMS),
     internalSmsPermission: !!(rolesAndPermissions.permissions && rolesAndPermissions.permissions.InternalSMS),
-    showSpinner: false,
+    showSpinner: !!(conferenceCall && conferenceCall.isMerging),
     brand: brand.fullName,
     showContactDisplayPlaceholder: showContactDisplayPlaceholder,
-    autoLog: !!(callLogger && callLogger.autoLog)
+    autoLog: !!(callLogger && callLogger.autoLog),
+    isWebRTC: isWebRTC,
+    conferenceCallEquipped: !!conferenceCall,
+    hasConferenceCall: hasConferenceCall,
+    disableMerge: disableMerge,
+    conferencePartiesAvatarUrls: conferenceData && conferenceCall.getOnlinePartyProfiles(conferenceData.conference.id).map(function (profile) {
+      return profile.avatarUrl;
+    }) || []
   };
 }
 
@@ -67,6 +102,8 @@ function mapToFunctions(_, _ref2) {
       regionSettings = _ref2$phone.regionSettings,
       routerInteraction = _ref2$phone.routerInteraction,
       webphone = _ref2$phone.webphone,
+      callingSettings = _ref2$phone.callingSettings,
+      conferenceCall = _ref2$phone.conferenceCall,
       _ref2$composeTextRout = _ref2.composeTextRoute,
       composeTextRoute = _ref2$composeTextRout === undefined ? '/composeText' : _ref2$composeTextRout,
       _ref2$callCtrlRoute = _ref2.callCtrlRoute,
@@ -79,6 +116,7 @@ function mapToFunctions(_, _ref2) {
       _ref2$showViewContact = _ref2.showViewContact,
       showViewContact = _ref2$showViewContact === undefined ? true : _ref2$showViewContact;
 
+  var isWebRTC = callingSettings.callingMode === _callingModes2.default.webphone;
   return {
     formatPhone: function formatPhone(phoneNumber) {
       return (0, _formatNumber2.default)({
@@ -327,11 +365,64 @@ function mapToFunctions(_, _ref2) {
         return _ref13.apply(this, arguments);
       };
     }(),
-    onCallsEmpty: onCallsEmpty
+    onCallsEmpty: onCallsEmpty || function () {
+      if (isWebRTC && !webphone.sessions.length) {
+        routerInteraction.push('/dialer');
+      }
+    },
+    /**
+     * if there is a existing conference, merge into it
+     * else make one and merge into it;
+     * @param {[string]} sessionIds
+     */
+    mergeToConference: function () {
+      var _ref14 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9() {
+        var conferenceData,
+            _args9 = arguments;
+        return _regenerator2.default.wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                _context9.next = 2;
+                return conferenceCall.mergeToConference.apply(conferenceCall, _args9);
+
+              case 2:
+                conferenceData = (0, _values2.default)(conferenceCall.conferences)[0];
+
+                if (!(conferenceData && conferenceData.session.id === webphone.activeSessionId)) {
+                  _context9.next = 7;
+                  break;
+                }
+
+                _context9.next = 6;
+                return (0, _sleep2.default)(200);
+
+              case 6:
+                webphone.resume(conferenceData.session.id);
+
+              case 7:
+              case 'end':
+                return _context9.stop();
+            }
+          }
+        }, _callee9, this);
+      }));
+
+      function mergeToConference() {
+        return _ref14.apply(this, arguments);
+      }
+
+      return mergeToConference;
+    }(),
+    isSessionAConferenceCall: function isSessionAConferenceCall(sessionId) {
+      return !!(conferenceCall && conferenceCall.isConferenceSession(sessionId));
+    }
   };
 }
 
 var ActiveCallsPage = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ActiveCallsPanel2.default));
 
+exports.mapToProps = mapToProps;
+exports.mapToFunctions = mapToFunctions;
 exports.default = ActiveCallsPage;
 //# sourceMappingURL=index.js.map

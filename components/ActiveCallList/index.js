@@ -62,6 +62,7 @@ function ActiveCallList(_ref) {
       sourceIcons = _ref.sourceIcons,
       isWebRTC = _ref.isWebRTC,
       currentCall = _ref.currentCall,
+      conferenceCallEquipped = _ref.conferenceCallEquipped,
       hasConferenceCall = _ref.hasConferenceCall,
       disableMerge = _ref.disableMerge,
       mergeToConference = _ref.mergeToConference,
@@ -82,54 +83,57 @@ function ActiveCallList(_ref) {
     ),
     calls.map(function (call) {
       var showMergeCall = false;
-      var onMergeCall = void 0;
-      var isOnConferenceCall = call.webphoneSession ? isSessionAConferenceCall(call.webphoneSession.id) : isConferenceCall(call); // in case it's an other device call
-      var isCurrentCallAConf = currentCall ? isSessionAConferenceCall(currentCall.webphoneSession.id) : false;
+      var isOnConferenceCall = false;
+      var onMergeCall = null;
+      if (conferenceCallEquipped) {
+        isOnConferenceCall = call.webphoneSession ? isSessionAConferenceCall(call.webphoneSession.id) : isConferenceCall(call); // in case it's an other device call
+        var isCurrentCallAConf = currentCall ? isSessionAConferenceCall(currentCall.webphoneSession.id) : false;
 
-      if (!isWebRTC) {
-        showMergeCall = false;
-      } else if (currentCall) {
-        if (call === currentCall) {
+        if (!isWebRTC) {
           showMergeCall = false;
-        } else if (call.direction === _callDirections2.default.inbound) {
-          showMergeCall = false;
-        } else if (currentCall.direction === _callDirections2.default.outbound) {
-          if (hasConferenceCall) {
-            showMergeCall = true;
-            if (isOnConferenceCall) {
-              onMergeCall = function onMergeCall() {
-                return mergeToConference([currentCall.webphoneSession]);
-              };
-            } else if (isCurrentCallAConf) {
-              onMergeCall = function onMergeCall() {
-                return mergeToConference([call.webphoneSession]);
-              };
+        } else if (currentCall) {
+          if (call === currentCall) {
+            showMergeCall = false;
+          } else if (call.direction === _callDirections2.default.inbound) {
+            showMergeCall = false;
+          } else if (currentCall.direction === _callDirections2.default.outbound) {
+            if (hasConferenceCall) {
+              showMergeCall = true;
+              if (isOnConferenceCall) {
+                onMergeCall = function onMergeCall() {
+                  return mergeToConference([currentCall.webphoneSession]);
+                };
+              } else if (isCurrentCallAConf) {
+                onMergeCall = function onMergeCall() {
+                  return mergeToConference([call.webphoneSession]);
+                };
+              } else {
+                onMergeCall = function onMergeCall() {
+                  return onConfirmMergeCall(call);
+                };
+              }
             } else {
+              showMergeCall = true;
+              var partyCalls = [call.webphoneSession, currentCall.webphoneSession];
               onMergeCall = function onMergeCall() {
-                return onConfirmMergeCall(call);
+                return mergeToConference(partyCalls);
+              };
+            }
+          } else if (hasConferenceCall) {
+            if (isOnConferenceCall) {
+              showMergeCall = false;
+            } else {
+              showMergeCall = true;
+              onMergeCall = function onMergeCall() {
+                onConfirmMergeCall(call);
               };
             }
           } else {
-            showMergeCall = true;
-            var partyCalls = [call.webphoneSession, currentCall.webphoneSession];
-            onMergeCall = function onMergeCall() {
-              return mergeToConference(partyCalls);
-            };
-          }
-        } else if (hasConferenceCall) {
-          if (isOnConferenceCall) {
             showMergeCall = false;
-          } else {
-            showMergeCall = true;
-            onMergeCall = function onMergeCall() {
-              onConfirmMergeCall(call);
-            };
           }
         } else {
           showMergeCall = false;
         }
-      } else {
-        showMergeCall = false;
       }
 
       return _react2.default.createElement(_ActiveCallItem2.default, {
@@ -194,6 +198,7 @@ ActiveCallList.propTypes = {
   autoLog: _propTypes2.default.bool,
   sourceIcons: _propTypes2.default.object,
   isWebRTC: _propTypes2.default.bool.isRequired,
+  conferenceCallEquipped: _propTypes2.default.bool,
   hasConferenceCall: _propTypes2.default.bool,
   currentCall: _propTypes2.default.object,
   disableMerge: _propTypes2.default.bool,
@@ -222,6 +227,7 @@ ActiveCallList.defaultProps = {
   onViewContact: undefined,
   webphoneToVoicemail: undefined,
   sourceIcons: undefined,
+  conferenceCallEquipped: false,
   hasConferenceCall: false,
   currentCall: undefined,
   disableMerge: false,
