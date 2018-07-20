@@ -20,8 +20,8 @@
   .button {
     margin: 0px;
     font-size: 14px;
-    height: unset;
-    line-height: unset;
+    height: auto;
+    line-height: initial;
     display: flex;
     align-items: center;
   }
