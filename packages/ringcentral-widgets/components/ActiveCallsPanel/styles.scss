@@ -8,8 +8,8 @@
   overflow-y: auto;
 }
 
-.list {
-  display: block;
+.spinner {
+  z-index: 1;
 }
 
 .noCalls {
@@ -17,12 +17,4 @@
   font-size: 14px;
   text-align: center;
   line-height: 180px;
-}
-
-.listTitle {
-  @include secondary-font;
-  line-height: 16px;
-  font-weight: bold;
-  color: #2f2f2f;
-  padding: 14px 20px 0 20px;
 }
