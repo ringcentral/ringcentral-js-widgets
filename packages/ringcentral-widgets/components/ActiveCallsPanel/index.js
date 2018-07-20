@@ -2,131 +2,39 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import SpinnerOverlay from '../SpinnerOverlay';
-import ActiveCallItem from '../ActiveCallItem';
-
+import ActiveCallList from '../ActiveCallList';
+import ConfirmMergeModal from '../ConfirmMergeModal';
 import styles from './styles.scss';
 import i18n from './i18n';
 
-function ActiveCallList({
-  calls,
-  className,
-  currentLocale,
-  areaCode,
-  countryCode,
-  brand,
-  showContactDisplayPlaceholder,
-  formatPhone,
-  onClickToSms,
-  onCreateContact,
-  onViewContact,
-  outboundSmsPermission,
-  internalSmsPermission,
-  isLoggedContact,
-  onLogCall,
-  autoLog,
-  loggingMap,
-  webphoneAnswer,
-  webphoneReject,
-  webphoneHangup,
-  webphoneResume,
-  webphoneToVoicemail,
-  enableContactFallback,
-  title,
-  sourceIcons
-}) {
-  if (calls.length === 0) {
-    return null;
-  }
-  return (
-    <div className={classnames(styles.list, className)}>
-      <div className={styles.listTitle}>
-        {title}
-      </div>
-      {
-        calls.map(call => (
-          <ActiveCallItem
-            call={call}
-            key={call.id}
-            currentLocale={currentLocale}
-            areaCode={areaCode}
-            countryCode={countryCode}
-            brand={brand}
-            showContactDisplayPlaceholder={showContactDisplayPlaceholder}
-            formatPhone={formatPhone}
-            onClickToSms={onClickToSms}
-            internalSmsPermission={internalSmsPermission}
-            outboundSmsPermission={outboundSmsPermission}
-            isLoggedContact={isLoggedContact}
-            onLogCall={onLogCall}
-            onViewContact={onViewContact}
-            onCreateContact={onCreateContact}
-            loggingMap={loggingMap}
-            webphoneAnswer={webphoneAnswer}
-            webphoneReject={webphoneReject}
-            webphoneHangup={webphoneHangup}
-            webphoneResume={webphoneResume}
-            webphoneToVoicemail={webphoneToVoicemail}
-            enableContactFallback={enableContactFallback}
-            autoLog={autoLog}
-            sourceIcons={sourceIcons}
-          />
-        ))
-      }
-    </div>
-  );
-}
-
-ActiveCallList.propTypes = {
-  currentLocale: PropTypes.string.isRequired,
-  className: PropTypes.string,
-  title: PropTypes.string.isRequired,
-  calls: PropTypes.array.isRequired,
-  areaCode: PropTypes.string.isRequired,
-  countryCode: PropTypes.string.isRequired,
-  brand: PropTypes.string,
-  showContactDisplayPlaceholder: PropTypes.bool,
-  formatPhone: PropTypes.func.isRequired,
-  onClickToSms: PropTypes.func,
-  onCreateContact: PropTypes.func,
-  onViewContact: PropTypes.func,
-  outboundSmsPermission: PropTypes.bool,
-  internalSmsPermission: PropTypes.bool,
-  isLoggedContact: PropTypes.func,
-  onLogCall: PropTypes.func,
-  loggingMap: PropTypes.object,
-  webphoneAnswer: PropTypes.func,
-  webphoneReject: PropTypes.func,
-  webphoneHangup: PropTypes.func,
-  webphoneResume: PropTypes.func,
-  webphoneToVoicemail: PropTypes.func,
-  enableContactFallback: PropTypes.bool,
-  autoLog: PropTypes.bool,
-  sourceIcons: PropTypes.object,
-};
-
-ActiveCallList.defaultProps = {
-  className: undefined,
-  brand: 'RingCentral',
-  showContactDisplayPlaceholder: true,
-  onCreateContact: undefined,
-  onClickToSms: undefined,
-  outboundSmsPermission: true,
-  internalSmsPermission: true,
-  isLoggedContact: undefined,
-  onLogCall: undefined,
-  loggingMap: {},
-  webphoneAnswer: undefined,
-  webphoneReject: undefined,
-  webphoneHangup: undefined,
-  webphoneResume: undefined,
-  enableContactFallback: undefined,
-  autoLog: false,
-  onViewContact: undefined,
-  webphoneToVoicemail: undefined,
-  sourceIcons: undefined,
-};
-
 export default class ActiveCallsPanel extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isModalOpen: false,
+      callOfModal: null,
+    };
+
+    this.showConfirmMergeModal = (call) => {
+      this.setState({
+        isModalOpen: true,
+        callOfModal: call,
+      });
+    };
+
+    this.hideConfirmMergeModal = () => {
+      this.setState({
+        isModalOpen: false,
+        callOfModal: null,
+      });
+    };
+
+    this.confirmMergeCall = () => {
+      this.props.mergeToConference([this.state.callOfModal.webphoneSession]);
+      this.hideConfirmMergeModal();
+    };
+  }
+
   componentDidMount() {
     if (
       !this.hasCalls(this.props) &&
@@ -155,14 +63,8 @@ export default class ActiveCallsPanel extends Component {
     );
   }
 
-  render() {
+  getCallList(calls, title) {
     const {
-      activeRingCalls,
-      activeOnHoldCalls,
-      activeCurrentCalls,
-      otherDeviceCalls,
-      showSpinner,
-      className,
       currentLocale,
       areaCode,
       countryCode,
@@ -185,20 +87,16 @@ export default class ActiveCallsPanel extends Component {
       enableContactFallback,
       webphoneToVoicemail,
       sourceIcons,
+      activeCurrentCalls,
+      isWebRTC,
+      conferenceCallEquipped,
+      hasConferenceCall,
+      disableMerge,
+      mergeToConference,
+      isSessionAConferenceCall,
     } = this.props;
-    if (showSpinner) {
-      return (<SpinnerOverlay />);
-    }
-    if (!this.hasCalls()) {
-      return (
-        <div className={classnames(styles.root, className)}>
-          <p className={styles.noCalls}>
-            {i18n.getString('noActiveCalls', currentLocale)}
-          </p>
-        </div>
-      );
-    }
-    const getCallList = (calls, title) => (
+
+    return (
       <ActiveCallList
         title={title}
         calls={calls}
@@ -224,14 +122,59 @@ export default class ActiveCallsPanel extends Component {
         webphoneToVoicemail={webphoneToVoicemail}
         enableContactFallback={enableContactFallback}
         sourceIcons={sourceIcons}
+        isWebRTC={isWebRTC}
+        conferenceCallEquipped={conferenceCallEquipped}
+        hasConferenceCall={hasConferenceCall}
+        disableMerge={disableMerge}
+        currentCall={activeCurrentCalls[0]}
+        mergeToConference={mergeToConference}
+        isSessionAConferenceCall={isSessionAConferenceCall}
+        onConfirmMergeCall={this.showConfirmMergeModal}
       />
     );
+  }
+
+  render() {
+    const {
+      activeRingCalls,
+      activeOnHoldCalls,
+      activeCurrentCalls,
+      otherDeviceCalls,
+      className,
+      currentLocale,
+      showSpinner,
+      conferencePartiesAvatarUrls,
+    } = this.props;
+
+    if (!this.hasCalls()) {
+      return (
+        <div
+          className={classnames(styles.root, className)}
+        >
+          <p className={styles.noCalls}>{i18n.getString('noActiveCalls', currentLocale)}</p>
+          {showSpinner ? <SpinnerOverlay className={styles.spinner} /> : null}
+        </div>
+      );
+    }
     return (
-      <div className={classnames(styles.root, className)}>
-        {getCallList(activeRingCalls, i18n.getString('ringCall', currentLocale))}
-        {getCallList(activeCurrentCalls, i18n.getString('currentCall', currentLocale))}
-        {getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}
-        {getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale))}
+      <div className={styles.root}>
+        <div
+          className={classnames(styles.root, className)}
+          ref={(target) => { this.container = target; }}
+        >
+          {this.getCallList(activeRingCalls, i18n.getString('ringCall', currentLocale))}
+          {this.getCallList(activeCurrentCalls, i18n.getString('currentCall', currentLocale))}
+          {this.getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}
+          {this.getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale))}
+          <ConfirmMergeModal
+            currentLocale={currentLocale}
+            show={this.state.isModalOpen}
+            onMerge={this.confirmMergeCall}
+            onCancel={this.hideConfirmMergeModal}
+            avatarUrls={conferencePartiesAvatarUrls}
+          />
+        </div>
+        {showSpinner ? <SpinnerOverlay className={styles.spinner} /> : null}
       </div>
     );
   }
@@ -244,7 +187,6 @@ ActiveCallsPanel.propTypes = {
   activeOnHoldCalls: PropTypes.array.isRequired,
   activeCurrentCalls: PropTypes.array.isRequired,
   otherDeviceCalls: PropTypes.array.isRequired,
-  showSpinner: PropTypes.bool.isRequired,
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
   brand: PropTypes.string,
@@ -267,6 +209,14 @@ ActiveCallsPanel.propTypes = {
   loggingMap: PropTypes.object,
   onCallsEmpty: PropTypes.func,
   sourceIcons: PropTypes.object,
+  isWebRTC: PropTypes.bool.isRequired,
+  conferenceCallEquipped: PropTypes.bool,
+  hasConferenceCall: PropTypes.bool,
+  showSpinner: PropTypes.bool,
+  disableMerge: PropTypes.bool,
+  mergeToConference: PropTypes.func,
+  isSessionAConferenceCall: PropTypes.func,
+  conferencePartiesAvatarUrls: PropTypes.arrayOf(PropTypes.string),
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -290,4 +240,11 @@ ActiveCallsPanel.defaultProps = {
   autoLog: false,
   onCallsEmpty: undefined,
   sourceIcons: undefined,
+  conferenceCallEquipped: false,
+  hasConferenceCall: false,
+  showSpinner: false,
+  disableMerge: false,
+  mergeToConference: i => i,
+  isSessionAConferenceCall: () => false,
+  conferencePartiesAvatarUrls: []
 };
