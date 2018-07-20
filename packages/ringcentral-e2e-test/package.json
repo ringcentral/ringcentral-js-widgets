@@ -1,0 +1,14 @@
+{
+  "name": "ringcentral-e2e-test",
+  "version": "0.0.1",
+  "private": true,
+  "description": "E2E Tests for RingCentral Integration Apps",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ringcentral/ringcentral-js-widget.git"
+  },
+  "engines": {
+    "node": ">=8"
+  },
+  "scripts": {}
+}
