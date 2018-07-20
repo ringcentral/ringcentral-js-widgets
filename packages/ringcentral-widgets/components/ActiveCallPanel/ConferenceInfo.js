@@ -6,6 +6,7 @@ import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import i18n from './i18n';
 
 export default function ConferenceInfo({
+  currentLocale,
   displayedProfiles,
   remains,
   onClick,
@@ -50,13 +51,14 @@ export default function ConferenceInfo({
           )
       }
       <p className={styles.info}>
-        {i18n.getString('conferenceCall')}
+        {i18n.getString('conferenceCall', currentLocale)}
       </p>
     </a>
   );
 }
 
 ConferenceInfo.propTypes = {
+  currentLocale: PropTypes.string.isRequired,
   displayedProfiles: PropTypes.arrayOf(PropTypes.shape({
     avatarUrl: PropTypes.string,
     toUserName: PropTypes.string,
