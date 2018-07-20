@@ -42,7 +42,6 @@ const MAX_RETRIES_DELAY = 2 * 60 * 1000;
     'Alert',
     'Client',
     { dep: 'ContactMatcher', optional: true },
-    'ExtensionDevice',
     'NumberValidate',
     'RolesAndPermissions',
     'AudioSettings',
@@ -64,7 +63,6 @@ export default class Webphone extends RcModule {
    * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermissions module instance
    * @param {Storage} params.storage - storage module instance
    * @param {GlobalStorage} params.globalStorage - globalStorage module instance
-   * @param {ExtensionDevice} params.extensionDevice - extensionDevice module instance
    * @param {NumberValidate} params.numberValidate - numberValidate module instance
    * @param {ContactMatcher} params.contactMatcher - contactMatcher module instance, optional
    * @param {Function} params.onCallEnd - callback on a call end
@@ -81,7 +79,6 @@ export default class Webphone extends RcModule {
     rolesAndPermissions,
     webphoneLogLevel = 3,
     contactMatcher,
-    extensionDevice,
     numberValidate,
     audioSettings,
     tabManager,
@@ -102,7 +99,6 @@ export default class Webphone extends RcModule {
     this._auth = this::ensureExist(auth, 'auth');
     this._client = this::ensureExist(client, 'client');
     this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
-    this._extensionDevice = this::ensureExist(extensionDevice, 'extensionDevice');
     this._numberValidate = this::ensureExist(numberValidate, 'numberValidate');
     this._audioSettings = this::ensureExist(audioSettings, 'audioSettings');
     this._contactMatcher = contactMatcher;
@@ -303,7 +299,6 @@ export default class Webphone extends RcModule {
     return (
       this._auth.loggedIn &&
       this._rolesAndPermissions.ready &&
-      this._extensionDevice.ready &&
       this._numberValidate.ready &&
       this._audioSettings.ready &&
       (!this._tabManager || this._tabManager.ready) &&
@@ -317,7 +312,6 @@ export default class Webphone extends RcModule {
         !this._auth.loggedIn ||
         !this._rolesAndPermissions.ready ||
         !this._numberValidate.ready ||
-        !this._extensionDevice.ready ||
         (!!this._tabManager && !this._tabManager.ready) ||
         !this._audioSettings.ready
       ) &&
