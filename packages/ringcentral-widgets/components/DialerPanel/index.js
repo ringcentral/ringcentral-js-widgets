@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import DialerAndCallsTab from '../DialerAndCallsTab';
 import DialPad from '../DialPad';
 import RecipientsInput from '../RecipientsInput';
 import FromField from '../FromField';
@@ -11,6 +12,10 @@ import AnswerIcon from '../../assets/images/Answer.svg';
 import styles from './styles.scss';
 
 function DialerPanel({
+  currentLocale,
+  showTab,
+  currentPath,
+  goTo,
   callButtonDisabled,
   className,
   dialButtonsClassName,
@@ -22,7 +27,6 @@ function DialerPanel({
   changeFromNumber,
   formatPhone,
   isWebphoneMode,
-  currentLocale,
   showSpinner,
   dialButtonVolume,
   dialButtonMuted,
@@ -44,8 +48,8 @@ function DialerPanel({
       onCallButtonClick();
     }
   };
-  const content = showSpinner ? (<SpinnerOverlay />) : null;
-  return (
+
+  const content = (
     <div className={classnames(styles.root, className)}>
       <RecipientsInput
         value={toNumber}
@@ -102,13 +106,31 @@ function DialerPanel({
           </div>
         </div>
       </div>
-      {content}
+      {showSpinner ? <SpinnerOverlay /> : null}
       {children}
     </div>
   );
+
+  if (!showTab) {
+    return content;
+  }
+
+  return (
+    <DialerAndCallsTab
+      currentLocale={currentLocale}
+      currentPath={currentPath}
+      goTo={goTo}>
+      {content}
+    </DialerAndCallsTab>
+  );
 }
+
 DialerPanel.propTypes = {
+  currentLocale: PropTypes.string.isRequired,
   className: PropTypes.string,
+  showTab: PropTypes.bool.isRequired,
+  currentPath: PropTypes.string.isRequired,
+  goTo: PropTypes.func.isRequired,
   dialButtonsClassName: PropTypes.string,
   onCallButtonClick: PropTypes.func.isRequired,
   callButtonDisabled: PropTypes.bool,
@@ -116,7 +138,6 @@ DialerPanel.propTypes = {
   toNumber: PropTypes.string,
   onToNumberChange: PropTypes.func,
   fromNumber: PropTypes.string,
-  currentLocale: PropTypes.string.isRequired,
   fromNumbers: PropTypes.arrayOf(PropTypes.shape({
     phoneNumber: PropTypes.string,
     usageType: PropTypes.string,
