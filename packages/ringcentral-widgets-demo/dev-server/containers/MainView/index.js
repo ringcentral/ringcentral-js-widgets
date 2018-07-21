@@ -52,7 +52,7 @@ function getTabs({
       path: '/dialer',
       isActive: currentPath => (
         currentPath === '/dialer'
-        || (currentPath === '/calls' && conferenceCallEquipped && !showCalls)
+        || (currentPath === '/calls' && conferenceCallEquipped)
       ),
     },
     showCalls && {
