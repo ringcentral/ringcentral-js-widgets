@@ -42,6 +42,7 @@ function getTabs({
   unreadCounts,
   showConference,
   showMeeting,
+  conferenceCallEquipped,
 }) {
   let tabs = [
     showDialPad && {
@@ -49,6 +50,10 @@ function getTabs({
       activeIcon: DialPadHoverIcon,
       label: i18n.getString('dialpadLabel', currentLocale),
       path: '/dialer',
+      isActive: currentPath => (
+        currentPath === '/dialer'
+        || (currentPath === '/calls' && conferenceCallEquipped && !showCalls)
+      ),
     },
     showCalls && {
       icon: CallsIcon,
@@ -154,7 +159,8 @@ function mapToProps(_, {
     rolesAndPermissions,
     routerInteraction,
     callingSettings,
-    conference
+    conference,
+    conferenceCall,
   },
 }) {
   const unreadCounts = messageStore.unreadCounts || 0;
@@ -177,6 +183,7 @@ function mapToProps(_, {
     rolesAndPermissions.permissions.Meetings
   );
   const currentLocale = locale.currentLocale;
+  const conferenceCallEquipped = !!conferenceCall;
   const tabs = getTabs({
     currentLocale,
     unreadCounts,
@@ -187,6 +194,7 @@ function mapToProps(_, {
     showContact,
     showConference,
     showMeeting,
+    conferenceCallEquipped,
   });
   return {
     tabs,
