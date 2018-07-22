@@ -53,7 +53,7 @@ function mapToProps(_, {
     dialButtonVolume: audioSettings ? audioSettings.dialButtonVolume : 1,
     // If audioSettings is used, then use values from audioSettings module
     dialButtonMuted: audioSettings ? audioSettings.dialButtonMuted : dialButtonMuted,
-    showTab: !!(conferenceCallEquipped && isWebphoneMode && webphone.sessions.length),
+    showPageTab: !!(conferenceCallEquipped && isWebphoneMode && webphone.sessions.length),
     currentPath: routerInteraction.currentPath,
   };
 }

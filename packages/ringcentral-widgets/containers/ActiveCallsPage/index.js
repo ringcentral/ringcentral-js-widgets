@@ -63,7 +63,7 @@ function mapToProps(_, {
         .getOnlinePartyProfiles(conferenceData.conference.id)
         .map(profile => profile.avatarUrl)
     ) || [],
-    showTab: !!(conferenceCallEquipped && isWebRTC && webphone.sessions.length),
+    showPageTab: !!(conferenceCallEquipped && isWebRTC && webphone.sessions.length),
     currentPath: routerInteraction.currentPath,
   };
 }

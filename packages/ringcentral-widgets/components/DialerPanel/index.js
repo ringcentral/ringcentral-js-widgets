@@ -13,7 +13,7 @@ import styles from './styles.scss';
 
 function DialerPanel({
   currentLocale,
-  showTab,
+  showPageTab,
   currentPath,
   goTo,
   callButtonDisabled,
@@ -111,24 +111,24 @@ function DialerPanel({
     </div>
   );
 
-  if (!showTab) {
-    return content;
+  if (showPageTab) {
+    return (
+      <DialerAndCallsTab
+        currentLocale={currentLocale}
+        currentPath={currentPath}
+        goTo={goTo}>
+        {content}
+      </DialerAndCallsTab>
+    );
   }
 
-  return (
-    <DialerAndCallsTab
-      currentLocale={currentLocale}
-      currentPath={currentPath}
-      goTo={goTo}>
-      {content}
-    </DialerAndCallsTab>
-  );
+  return content;
 }
 
 DialerPanel.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   className: PropTypes.string,
-  showTab: PropTypes.bool.isRequired,
+  showPageTab: PropTypes.bool.isRequired,
   currentPath: PropTypes.string.isRequired,
   goTo: PropTypes.func.isRequired,
   dialButtonsClassName: PropTypes.string,

@@ -137,7 +137,7 @@ export default class ActiveCallsPanel extends Component {
 
   render() {
     const {
-      showTab,
+      showPageTab,
       currentPath,
       goTo,
       activeRingCalls,
@@ -183,25 +183,25 @@ export default class ActiveCallsPanel extends Component {
       );
     }
 
-    if (!showTab) {
-      return content;
+    if (showPageTab) {
+      return (
+        <DialerAndCallsTab
+          currentLocale={currentLocale}
+          currentPath={currentPath}
+          goTo={goTo}>
+          {content}
+        </DialerAndCallsTab>
+      );
     }
 
-    return (
-      <DialerAndCallsTab
-        currentLocale={currentLocale}
-        currentPath={currentPath}
-        goTo={goTo}>
-        {content}
-      </DialerAndCallsTab>
-    );
+    return content;
   }
 }
 
 ActiveCallsPanel.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   className: PropTypes.string,
-  showTab: PropTypes.bool.isRequired,
+  showPageTab: PropTypes.bool.isRequired,
   currentPath: PropTypes.string.isRequired,
   goTo: PropTypes.func.isRequired,
   activeRingCalls: PropTypes.array.isRequired,
