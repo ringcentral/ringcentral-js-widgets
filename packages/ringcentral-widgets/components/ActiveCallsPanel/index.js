@@ -201,9 +201,9 @@ export default class ActiveCallsPanel extends Component {
 ActiveCallsPanel.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   className: PropTypes.string,
-  showPageTab: PropTypes.bool.isRequired,
-  currentPath: PropTypes.string.isRequired,
-  goTo: PropTypes.func.isRequired,
+  showPageTab: PropTypes.bool,
+  currentPath: PropTypes.string,
+  goTo: PropTypes.func,
   activeRingCalls: PropTypes.array.isRequired,
   activeOnHoldCalls: PropTypes.array.isRequired,
   activeCurrentCalls: PropTypes.array.isRequired,
@@ -242,6 +242,9 @@ ActiveCallsPanel.propTypes = {
 
 ActiveCallsPanel.defaultProps = {
   className: undefined,
+  showPageTab: false,
+  currentPath: undefined,
+  goTo: undefined,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
   onCreateContact: undefined,
