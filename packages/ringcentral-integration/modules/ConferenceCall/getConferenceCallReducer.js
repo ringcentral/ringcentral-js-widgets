@@ -90,12 +90,12 @@ export function getMergingStatusReducer(types) {
 }
 
 export function getMergingPairReducer(types) {
-  return (state = {}, { type, from, to }) => {
+  return (state = {}, { type, fromSessionId, toSessionId }) => {
     switch (type) {
       case types.updateFromSession:
-        return { from };
+        return { fromSessionId };
       case types.updateToSession:
-        return { ...state, to };
+        return { ...state, toSessionId };
       case types.mergeSucceeded:
       case types.resetSuccess:
         return {};

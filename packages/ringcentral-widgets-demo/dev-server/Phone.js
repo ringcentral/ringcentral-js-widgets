@@ -1,6 +1,5 @@
 import SDK from 'ringcentral';
 import RingCentralClient from 'ringcentral-client';
-import { combineReducers } from 'redux';
 
 import RcModule from 'ringcentral-integration/lib/RcModule';
 
@@ -43,6 +42,7 @@ import Conversations from 'ringcentral-integration/modules/Conversations';
 import ContactSearch from 'ringcentral-integration/modules/ContactSearch';
 import DateTimeFormat from 'ringcentral-integration/modules/DateTimeFormat';
 import Conference from 'ringcentral-integration/modules/Conference';
+import ConferenceCall from 'ringcentral-integration/modules/ConferenceCall';
 
 import ActiveCalls from 'ringcentral-integration/modules/ActiveCalls';
 import DetailedPresence from 'ringcentral-integration/modules/DetailedPresence';
@@ -161,7 +161,15 @@ import LocalForageStorage from 'ringcentral-integration/lib/LocalForageStorage';
         enableLoadOldMessages: true,
       },
       spread: true
-    }
+    },
+    { provide: 'ConferenceCall', useClass: ConferenceCall },
+    // {
+    //   provide: 'ConferenceCallOptions',
+    //   useValue: {
+    //     pulling: false,
+    //   },
+    //   spread: true,
+    // },
   ]
 })
 export default class BasePhone extends RcModule {
@@ -172,6 +180,7 @@ export default class BasePhone extends RcModule {
     contactSearch,
     contacts,
     contactMatcher,
+    conferenceCall,
     ...options
   }) {
     super({
@@ -216,27 +225,71 @@ export default class BasePhone extends RcModule {
       readyCheckFn: () => contacts.ready,
     });
 
-
-    webphone._onCallEndFunc = (session) => {
-      if (routerInteraction.currentPath !== '/calls/active') {
-        return;
-      }
-      const currentSession = webphone.activeSession;
-      if (currentSession && session.id !== currentSession.id) {
-        return;
-      }
-      routerInteraction.goBack();
-    };
-    webphone._onCallStartFunc = () => {
-      if (routerInteraction.currentPath === '/calls/active') {
-        return;
-      }
-      routerInteraction.push('/calls/active');
-    };
-    webphone._onCallRingFunc = () => {
+    webphone._onCallEndFunc = (session, currentSession) => {
       if (
-        webphone.ringSessions.length > 1
+        routerInteraction.currentPath.indexOf('/conferenceCall/mergeCtrl') === 0 &&
+        webphone.cachedSessions.length && (
+          !currentSession ||
+          (webphone.cachedSessions.find(cachedSession => cachedSession.id === currentSession.id))
+        )
       ) {
+        return;
+      }
+
+      if (currentSession
+        && routerInteraction.currentPath.indexOf('/conferenceCall/mergeCtrl') === 0) {
+        const mergingPairFromId = conferenceCall.mergingPair.fromSessionId;
+        if (session.id !== mergingPairFromId) {
+          routerInteraction.push('/calls/active');
+          return;
+        }
+      }
+
+      if (
+        !![
+          '/conferenceCall/mergeCtrl',
+          '/conferenceCall/dialer/',
+          '/calls/active'
+        ].find(path => routerInteraction.currentPath.indexOf(path) !== -1) &&
+        (!currentSession || session.id === currentSession.id)
+      ) {
+        if (
+          routerInteraction.currentPath.indexOf('/conferenceCall/mergeCtrl') === 0 ||
+          routerInteraction.currentPath.indexOf('/conferenceCall/dialer/') === 0 ||
+          !currentSession
+        ) {
+          routerInteraction.push('/dialer');
+          return;
+        }
+        if (routerInteraction.currentPath.indexOf('/calls/active') !== 0) { // mean have params
+          routerInteraction.push('/calls/active');
+        }
+        routerInteraction.goBack();
+      }
+    };
+
+    webphone._onCallStartFunc = (session) => {
+      if (routerInteraction.currentPath.indexOf('/conferenceCall/dialer/') === 0) {
+        routerInteraction.push('/conferenceCall/mergeCtrl');
+        return;
+      }
+
+      const isConferenceCallSession = (
+        conferenceCall
+        && conferenceCall.isConferenceSession(session.id)
+      );
+
+      if (
+        routerInteraction.currentPath.indexOf('/calls/active') !== 0 &&
+        routerInteraction.currentPath.indexOf('/conferenceCall/mergeCtrl') !== 0 &&
+        !(isConferenceCallSession && routerInteraction.currentPath === '/calls')
+      ) {
+        routerInteraction.push('/calls/active');
+      }
+    };
+
+    webphone._onCallRingFunc = () => {
+      if (webphone.ringSessions.length > 1) {
         if (routerInteraction.currentPath !== '/calls') {
           routerInteraction.push('/calls');
         }
@@ -366,6 +419,6 @@ export function createPhone({
       },
     ]
   })
-  class Phone extends BasePhone {}
+  class Phone extends BasePhone { }
   return Phone.create();
 }

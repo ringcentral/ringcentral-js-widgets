@@ -3,7 +3,9 @@ import { Module } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
 import moduleStatuses from '../../enums/moduleStatuses';
 import actionTypes from './actionTypes';
+import calleeTypes from '../../enums/calleeTypes';
 import callDirections from '../../enums/callDirections';
+import sessionStatus from '../Webphone/sessionStatus';
 import getCallMonitorReducer, { getCallMatchedReducer } from './getCallMonitorReducer';
 import normalizeNumber from '../../lib/normalizeNumber';
 import {
@@ -74,6 +76,7 @@ function matchWephoneSessionWithAcitveCall(sessions, callItem) {
     { dep: 'ContactMatcher', optional: true },
     { dep: 'Webphone', optional: true },
     { dep: 'Call', optional: true },
+    { dep: 'ConferenceCall', optional: true },
     { dep: 'ActivityMatcher', optional: true },
     { dep: 'CallMonitorOptions', optional: true },
     { dep: 'TabManager', optional: true },
@@ -84,6 +87,7 @@ export default class CallMonitor extends RcModule {
    * @constructor
    * @param {Object} params - params object
    * @param {Call} params.call - call module instance
+   * @param {ConferenceCall} params.conferenceCall - conference call module instance
    * @param {AccountInfo} params.accountInfo - accountInfo module instance
    * @param {DetailedPresence} params.detailedPresence - detailedPresence module instance
    * @param {ActivityMatcher} params.activityMatcher - activityMatcher module instance
@@ -97,6 +101,7 @@ export default class CallMonitor extends RcModule {
    */
   constructor({
     call,
+    conferenceCall,
     accountInfo,
     detailedPresence,
     activityMatcher,
@@ -115,6 +120,7 @@ export default class CallMonitor extends RcModule {
       actionTypes,
     });
     this._call = call;
+    this._conferenceCall = conferenceCall;
     this._accountInfo = this::ensureExist(accountInfo, 'accountInfo');
     this._detailedPresence = this::ensureExist(detailedPresence, 'detailedPresence');
     this._contactMatcher = contactMatcher;
@@ -327,6 +333,60 @@ export default class CallMonitor extends RcModule {
       calls => calls.map(callItem => callItem.sessionId)
     );
 
+    let _lastCallInfo = {};
+    this.addSelector('lastCallInfo',
+      () => this.calls,
+      () => this._conferenceCall && this._conferenceCall.mergingPair.fromSessionId,
+      () => this._conferenceCall && this._conferenceCall.partyProfiles,
+      (calls, fromSessionId, partyProfiles) => {
+        const lastCall = calls.find(
+          call => call.webphoneSession && call.webphoneSession.id === fromSessionId
+        );
+
+        let lastCalleeType = null;
+        if (lastCall) {
+          if (lastCall.toMatches.length) {
+            lastCalleeType = calleeTypes.contacts;
+          } else if (isConferenceSession(lastCall.webphoneSession)) {
+            lastCalleeType = calleeTypes.conference;
+          } else {
+            lastCalleeType = calleeTypes.unknow;
+          }
+        } else if (_lastCallInfo.calleeType) {
+          _lastCallInfo = {
+            ..._lastCallInfo,
+            status: sessionStatus.finished,
+          };
+          return _lastCallInfo;
+        }
+
+        if (lastCalleeType === calleeTypes.conference) {
+          const partiesAvatarUrls = (partyProfiles || []).map(profile => profile.avatarUrl);
+          _lastCallInfo = {
+            calleeType: calleeTypes.conference,
+            avatarUrl: partiesAvatarUrls[0],
+            extraNum: partiesAvatarUrls.length - 1,
+          };
+        } else if (lastCalleeType === calleeTypes.contacts) {
+          _lastCallInfo = {
+            calleeType: calleeTypes.contacts,
+            avatarUrl: lastCall.toMatches[0].profileImageUrl,
+            name: lastCall.toName,
+            status: lastCall.webphoneSession.callStatus,
+          };
+        } else if (lastCalleeType === calleeTypes.unknow) {
+          _lastCallInfo = {
+            calleeType: calleeTypes.unknow,
+            avatarUrl: null,
+            name: lastCall.to.phoneNumber,
+            status: lastCall.webphoneSession ? lastCall.webphoneSession.callStatus : null,
+          };
+        }
+
+        return _lastCallInfo;
+      },
+    );
+
     if (this._activityMatcher) {
       this._activityMatcher.addQuerySource({
         getQueriesFn: this._selectors.sessionIds,
@@ -342,6 +402,7 @@ export default class CallMonitor extends RcModule {
   async _onStateChange() {
     if (
       (!this._call || this._call.ready) &&
+      (!this._conferenceCall || this._conferenceCall.ready) &&
       this._accountInfo.ready &&
       this._detailedPresence.ready &&
       (!this._contactMatcher || this._contactMatcher.ready) &&
@@ -359,6 +420,7 @@ export default class CallMonitor extends RcModule {
     } else if (
       (
         (this._call && !this._call.ready) ||
+        (this._conferenceCall && !this._conferenceCall.ready) ||
         !this._accountInfo.ready ||
         !this._detailedPresence.ready ||
         (this._contactMatcher && !this._contactMatcher.ready) ||
@@ -524,5 +586,9 @@ export default class CallMonitor extends RcModule {
 
   get otherDeviceCalls() {
     return this._selectors.otherDeviceCalls();
+  }
+
+  get lastCallInfo() {
+    return this._selectors.lastCallInfo();
   }
 }

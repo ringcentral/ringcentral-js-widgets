@@ -78,16 +78,6 @@ export default class ConferenceCall extends RcModule {
     ...options
   }) {
     super({
-      auth,
-      alert,
-      call,
-      callingSettings,
-      client,
-      rolesAndPermissions,
-      pulling,
-      contactMatcher,
-      webphone,
-      connectivityMonitor,
       ...options,
       actionTypes,
     });
@@ -108,6 +98,20 @@ export default class ConferenceCall extends RcModule {
     this._timers = {};
     this._pulling = pulling;
     this.capacity = capacity;
+
+    this.addSelector('partyProfiles',
+      () => (
+        Object.values(this.conferences)[0] &&
+        Object.values(this.conferences)[0].conference.parties
+      ),
+      () => {
+        const conferenceData = Object.values(this.conferences)[0];
+        if (!conferenceData) {
+          return [];
+        }
+        return this.getOnlinePartyProfiles(conferenceData.conference.id);
+      },
+    );
   }
 
   isConferenceSession(sessionId) {
@@ -354,7 +358,8 @@ export default class ConferenceCall extends RcModule {
    * to avoid `this._webphone` criterias to improve performance ahead of time
    */
   async mergeToConference(webphoneSessions = []) {
-    webphoneSessions = webphoneSessions.filter(session => Object.prototype.toString.call(session).toLowerCase() === '[object object]');
+    webphoneSessions = webphoneSessions.filter(session => !this.isConferenceSession(session.id))
+      .filter(session => Object.prototype.toString.call(session).toLowerCase() === '[object object]');
 
     if (!webphoneSessions.length) {
       this._alert.warning({
@@ -449,16 +454,16 @@ export default class ConferenceCall extends RcModule {
    * we need to record the merge destination when merge from the call control pages
    * @param {webphone.session} from
    */
-  setMergeParty({ from, to }) {
-    if (from) {
+  setMergeParty({ fromSessionId, toSessionId }) {
+    if (fromSessionId) {
       return this.store.dispatch({
         type: this.actionTypes.updateFromSession,
-        from,
+        fromSessionId,
       });
     }
     return this.store.dispatch({
       type: this.actionTypes.updateToSession,
-      to,
+      toSessionId,
     });
   }
 
@@ -547,6 +552,7 @@ export default class ConferenceCall extends RcModule {
     this._timout = timeout;
     return timeout;
   }
+
   _init() {
     this.store.dispatch({
       type: this.actionTypes.initSuccess
@@ -757,5 +763,13 @@ export default class ConferenceCall extends RcModule {
 
   get isMerging() {
     return this.state.isMerging;
+  }
+
+  get mergingPair() {
+    return this.state.mergingPair;
+  }
+
+  get partyProfiles() {
+    return this._selectors.partyProfiles();
   }
 }

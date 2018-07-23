@@ -110,7 +110,6 @@ export default class Webphone extends RcModule {
     this._remoteVideo = null;
     this._localVideo = null;
     this._sessions = new Map();
-
     this._reducer = getWebphoneReducer(this.actionTypes);
 
     this.addSelector('sessionPhoneNumbers',
