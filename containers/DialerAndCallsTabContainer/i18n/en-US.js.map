@@ -1,0 +1,1 @@
+{"version":3,"sources":["containers/DialerAndCallsTabContainer/i18n/en-US.js"],"names":["dialer","allCalls"],"mappings":";;;;;kBAAe;AACbA,UAAQ,UADK;AAEbC,YAAU;AAFG,C","file":"en-US.js","sourcesContent":["export default {\n  dialer: 'Dial Pad',\n  allCalls: 'All Calls',\n};\n"]}

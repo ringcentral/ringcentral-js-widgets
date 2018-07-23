@@ -203,9 +203,7 @@ var ActiveCallsPanel = function (_Component) {
       if (!this.hasCalls()) {
         return _react2.default.createElement(
           'div',
-          {
-            className: (0, _classnames2.default)(_styles2.default.root, className)
-          },
+          { className: (0, _classnames2.default)(_styles2.default.root, className) },
           _react2.default.createElement(
             'p',
             { className: _styles2.default.noCalls },
@@ -214,6 +212,7 @@ var ActiveCallsPanel = function (_Component) {
           showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, { className: _styles2.default.spinner }) : null
         );
       }
+
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.root },

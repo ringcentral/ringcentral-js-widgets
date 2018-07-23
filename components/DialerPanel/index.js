@@ -47,7 +47,8 @@ var _styles2 = _interopRequireDefault(_styles);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function DialerPanel(_ref) {
-  var callButtonDisabled = _ref.callButtonDisabled,
+  var currentLocale = _ref.currentLocale,
+      callButtonDisabled = _ref.callButtonDisabled,
       className = _ref.className,
       dialButtonsClassName = _ref.dialButtonsClassName,
       onToNumberChange = _ref.onToNumberChange,
@@ -58,7 +59,6 @@ function DialerPanel(_ref) {
       changeFromNumber = _ref.changeFromNumber,
       formatPhone = _ref.formatPhone,
       isWebphoneMode = _ref.isWebphoneMode,
-      currentLocale = _ref.currentLocale,
       showSpinner = _ref.showSpinner,
       dialButtonVolume = _ref.dialButtonVolume,
       dialButtonMuted = _ref.dialButtonMuted,
@@ -81,7 +81,7 @@ function DialerPanel(_ref) {
       onCallButtonClick();
     }
   };
-  var content = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : null;
+
   return _react2.default.createElement(
     'div',
     { className: (0, _classnames2.default)(_styles2.default.root, className) },
@@ -142,11 +142,13 @@ function DialerPanel(_ref) {
         )
       )
     ),
-    content,
+    showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : null,
     children
   );
 }
+
 DialerPanel.propTypes = {
+  currentLocale: _propTypes2.default.string.isRequired,
   className: _propTypes2.default.string,
   dialButtonsClassName: _propTypes2.default.string,
   onCallButtonClick: _propTypes2.default.func.isRequired,
@@ -155,7 +157,6 @@ DialerPanel.propTypes = {
   toNumber: _propTypes2.default.string,
   onToNumberChange: _propTypes2.default.func,
   fromNumber: _propTypes2.default.string,
-  currentLocale: _propTypes2.default.string.isRequired,
   fromNumbers: _propTypes2.default.arrayOf(_propTypes2.default.shape({
     phoneNumber: _propTypes2.default.string,
     usageType: _propTypes2.default.string

@@ -55,10 +55,11 @@ function mapToProps(_, _ref) {
       showContactDisplayPlaceholder = _ref$showContactDispl === undefined ? false : _ref$showContactDispl;
 
   var isWebRTC = callingSettings.callingMode === _callingModes2.default.webphone;
+  var conferenceCallEquipped = !!conferenceCall;
   var disableMerge = !isWebRTC;
   var hasConferenceCall = false;
   var conferenceData = null;
-  if (conferenceCall) {
+  if (conferenceCallEquipped) {
     var conferenceList = (0, _values2.default)(conferenceCall.conferences);
     var conference = conferenceList.length ? conferenceList[0] : null;
     conferenceData = (0, _values2.default)(conferenceCall.conferences)[0];
@@ -82,7 +83,7 @@ function mapToProps(_, _ref) {
     showContactDisplayPlaceholder: showContactDisplayPlaceholder,
     autoLog: !!(callLogger && callLogger.autoLog),
     isWebRTC: isWebRTC,
-    conferenceCallEquipped: !!conferenceCall,
+    conferenceCallEquipped: conferenceCallEquipped,
     hasConferenceCall: hasConferenceCall,
     disableMerge: disableMerge,
     conferencePartiesAvatarUrls: conferenceData && conferenceCall.getOnlinePartyProfiles(conferenceData.conference.id).map(function (profile) {
