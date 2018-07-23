@@ -44,7 +44,7 @@
   // So need to let flex-basis help here.
   // Details: https://github.com/philipwalton/flexbugs#flexbug-17
   flex: 1;
-  flex-basis: calc(100% - 76px); 
+  flex-basis: calc(100% - 76px);
   max-width: calc(100% - 76px);
   padding-left: 12px;
   box-sizing: border-box;
