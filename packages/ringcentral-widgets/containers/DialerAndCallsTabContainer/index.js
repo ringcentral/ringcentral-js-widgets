@@ -1,25 +1,49 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 import TabContentPanel from '../../components/TabContentPanel';
 import withPhone from '../../lib/withPhone';
 import i18n from './i18n';
 
-function getTabs({
-  currentLocale,
-  currentPath,
-}) {
-  return [
-    {
-      path: '/dialer',
-      label: i18n.getString('dialer', currentLocale),
-      isActive() { return currentPath === '/dialer'; },
-    },
-    {
-      path: '/calls',
-      label: i18n.getString('allCalls', currentLocale),
-      isActive() { return currentPath === '/calls'; }
-    },
-  ];
+class TabContentView extends Component {
+  constructor(props) {
+    super(props);
+
+    this.getTabs = createSelector(
+      () => this.props.currentLocale,
+      () => this.props.currentPath,
+      (currentLocale, currentPath) => ([
+        {
+          path: '/dialer',
+          label: i18n.getString('dialer', currentLocale),
+          isActive() { return currentPath === '/dialer'; },
+        },
+        {
+          path: '/calls',
+          label: i18n.getString('allCalls', currentLocale),
+          isActive() { return currentPath === '/calls'; }
+        },
+      ]),
+    );
+  }
+
+  static propTypes = {
+    applicable: PropTypes.bool.isRequired,
+    currentLocale: PropTypes.string.isRequired,
+    currentPath: PropTypes.string.isRequired,
+    goTo: PropTypes.func.isRequired,
+  };
+
+  render() {
+    return (
+      <TabContentPanel
+        {...this.props}
+        tabs={this.getTabs()}
+      />
+    );
+  }
 }
 
 function mapToProps(_, {
@@ -34,13 +58,10 @@ function mapToProps(_, {
   const conferenceCallEquipped = !!conferenceCall;
   const isWebphoneMode = (callingSettings.callingMode === callingModes.webphone);
   const applicable = !!(conferenceCallEquipped && isWebphoneMode && webphone.sessions.length);
-  const tabs = getTabs({
-    currentLocale: locale.currentLocale,
-    currentPath: routerInteraction.currentPath,
-  });
   return {
     applicable,
-    tabs,
+    currentLocale: locale.currentLocale,
+    currentPath: routerInteraction.currentPath,
   };
 }
 
@@ -59,10 +80,10 @@ function mapToFunctions(_, {
 const DialerAndCallsTabContainer = withPhone(connect(
   mapToProps,
   mapToFunctions,
-)(TabContentPanel));
+)(TabContentView));
 
 export {
-  getTabs,
   mapToProps,
+  mapToFunctions,
   DialerAndCallsTabContainer as default,
 };
