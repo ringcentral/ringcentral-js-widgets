@@ -8,6 +8,13 @@ import withPhone from '../../lib/withPhone';
 import i18n from './i18n';
 
 class TabContentView extends Component {
+  static propTypes = {
+    applicable: PropTypes.bool.isRequired,
+    currentLocale: PropTypes.string.isRequired,
+    currentPath: PropTypes.string.isRequired,
+    goTo: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
 
@@ -28,13 +35,6 @@ class TabContentView extends Component {
       ]),
     );
   }
-
-  static propTypes = {
-    applicable: PropTypes.bool.isRequired,
-    currentLocale: PropTypes.string.isRequired,
-    currentPath: PropTypes.string.isRequired,
-    goTo: PropTypes.func.isRequired,
-  };
 
   render() {
     return (
