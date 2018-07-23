@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 import TabContentPanel from '../../components/TabContentPanel';
 import withPhone from '../../lib/withPhone';
-import routerMap from './routerMap';
 import i18n from './i18n';
 
 function getTabs({
@@ -11,14 +10,14 @@ function getTabs({
 }) {
   return [
     {
-      path: routerMap.dialer,
-      label: i18n.getString(routerMap.dialer, currentLocale),
-      isActive() { return currentPath === routerMap.dialer; },
+      path: '/dialer',
+      label: i18n.getString('dialer', currentLocale),
+      isActive() { return currentPath === '/dialer'; },
     },
     {
-      path: routerMap.allCalls,
-      label: i18n.getString(routerMap.allCalls, currentLocale),
-      isActive() { return currentPath === routerMap.allCalls; }
+      path: '/calls',
+      label: i18n.getString('allCalls', currentLocale),
+      isActive() { return currentPath === '/calls'; }
     },
   ];
 }
