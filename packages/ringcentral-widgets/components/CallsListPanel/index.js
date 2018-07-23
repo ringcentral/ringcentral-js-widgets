@@ -392,7 +392,7 @@ export default class CallsListPanel extends Component {
     return (
       <div className={classnames(styles.container, onSearchInputChange?styles.containerWithSearch: null)}>
         {search}
-        <div className={classnames(styles.root, className)}>
+        <div className={classnames(styles.root, currentLog && currentLog.showLog ? styles.hiddenScroll : '', className)}>
           {getCallList(activeRingCalls, i18n.getString('ringCall', currentLocale))}
           {getCallList(activeCurrentCalls, i18n.getString('currentCall', currentLocale))}
           {getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}

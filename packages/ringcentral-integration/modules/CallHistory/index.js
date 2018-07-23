@@ -330,7 +330,7 @@ export default class CallHistory extends RcModule {
   effectiveSearchString = createSelector(
     () => this.state.searchInput,
     (input) => {
-      if (input.length >= 3) return input;
+      if (input && input.length >= 3) return input;
       return '';
     }
   )
@@ -390,7 +390,6 @@ export default class CallHistory extends RcModule {
       calls,
       effectiveSearchString
     ) => {
-      
       if (effectiveSearchString !== '') {
         const searchResults = [];
         const searchString = effectiveSearchString.toLowerCase().trim();
