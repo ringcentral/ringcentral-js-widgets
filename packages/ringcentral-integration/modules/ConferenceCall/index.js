@@ -9,10 +9,12 @@ import proxify from '../../lib/proxy/proxify';
 import permissionsMessages from '../RolesAndPermissions/permissionsMessages';
 import conferenceErrors from './conferenceCallErrors';
 import { isConferenceSession } from '../Webphone/webphoneHelper';
+import sessionStatus from '../Webphone/sessionStatus';
 // import webphoneErrors from '../Webphone/webphoneErrors';
 import ensureExist from '../../lib/ensureExist';
 // import sleep from '../../lib/sleep';
 import callingModes from '../CallingSettings/callingModes';
+import calleeTypes from '../../enums/calleeTypes';
 
 const DEFAULT_TIMEOUT = 30000;// time out for conferencing session being accepted.
 const DEFAULT_TTL = 5000;// timer to update the conference information
@@ -39,6 +41,7 @@ function ascendSortParties(parties) {
     },
     'CallingSettings',
     'Client',
+    'CallMonitor',
     'RolesAndPermissions',
     {
       dep: 'ContactMatcher',
@@ -71,6 +74,7 @@ export default class ConferenceCall extends RcModule {
     rolesAndPermissions,
     contactMatcher,
     webphone,
+    callMonitor,
     connectivityMonitor,
     pulling = true,
     capacity = MAXIMUM_CAPACITY,
@@ -78,16 +82,6 @@ export default class ConferenceCall extends RcModule {
     ...options
   }) {
     super({
-      auth,
-      alert,
-      call,
-      callingSettings,
-      client,
-      rolesAndPermissions,
-      pulling,
-      contactMatcher,
-      webphone,
-      connectivityMonitor,
       ...options,
       actionTypes,
     });
@@ -101,6 +95,7 @@ export default class ConferenceCall extends RcModule {
     this._connectivityMonitor = connectivityMonitor;
     this._contactMatcher = contactMatcher;
     this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._callMonitor = this::ensureExist(callMonitor, 'callMonitor');
     // we need the constructed actions
     this._reducer = getConferenceCallReducer(this.actionTypes);
     this._ttl = DEFAULT_TTL;
@@ -108,6 +103,74 @@ export default class ConferenceCall extends RcModule {
     this._timers = {};
     this._pulling = pulling;
     this.capacity = capacity;
+
+    this.addSelector('partyProfiles',
+      () => (
+        Object.values(this.conferences)[0] &&
+        Object.values(this.conferences)[0].conference.parties
+      ),
+      () => {
+        const conferenceData = Object.values(this.conferences)[0];
+        if (!conferenceData) {
+          return [];
+        }
+        return this.getOnlinePartyProfiles(conferenceData.conference.id);
+      },
+    );
+
+    let _lastCallInfo = {};
+    this.addSelector('lastCallInfo',
+      () => this._callMonitor.calls,
+      () => this.mergingPair.fromSessionId,
+      this._selectors.partyProfiles,
+      (calls, fromSessionId, partyProfiles) => {
+        const lastCall = calls.find(
+          call => call.webphoneSession && call.webphoneSession.id === fromSessionId
+        );
+
+        let lastCalleeType = null;
+        if (lastCall) {
+          if (lastCall.toMatches.length) {
+            lastCalleeType = calleeTypes.contacts;
+          } else if (isConferenceSession(lastCall.webphoneSession)) {
+            lastCalleeType = calleeTypes.conference;
+          } else {
+            lastCalleeType = calleeTypes.unknow;
+          }
+        } else if (_lastCallInfo.calleeType) {
+          _lastCallInfo = {
+            ..._lastCallInfo,
+            status: sessionStatus.finished,
+          };
+          return _lastCallInfo;
+        }
+
+        if (lastCalleeType === calleeTypes.conference) {
+          const partiesAvatarUrls = partyProfiles.map(profile => profile.avatarUrl);
+          _lastCallInfo = {
+            calleeType: calleeTypes.conference,
+            avatarUrl: partiesAvatarUrls[0],
+            extraNum: partiesAvatarUrls.length - 1,
+          };
+        } else if (lastCalleeType === calleeTypes.contacts) {
+          _lastCallInfo = {
+            calleeType: calleeTypes.contacts,
+            avatarUrl: lastCall.toMatches[0].profileImageUrl,
+            name: lastCall.toName,
+            status: lastCall.webphoneSession.callStatus,
+          };
+        } else if (lastCalleeType === calleeTypes.unknow) {
+          _lastCallInfo = {
+            calleeType: calleeTypes.unknow,
+            avatarUrl: null,
+            name: lastCall.to.phoneNumber,
+            status: lastCall.webphoneSession ? lastCall.webphoneSession.callStatus : null,
+          };
+        }
+
+        return _lastCallInfo;
+      },
+    );
   }
 
   isConferenceSession(sessionId) {
@@ -354,7 +417,8 @@ export default class ConferenceCall extends RcModule {
    * to avoid `this._webphone` criterias to improve performance ahead of time
    */
   async mergeToConference(webphoneSessions = []) {
-    webphoneSessions = webphoneSessions.filter(session => Object.prototype.toString.call(session).toLowerCase() === '[object object]');
+    webphoneSessions = webphoneSessions.filter(session => !this.isConferenceSession(session.id))
+      .filter(session => Object.prototype.toString.call(session).toLowerCase() === '[object object]');
 
     if (!webphoneSessions.length) {
       this._alert.warning({
@@ -449,16 +513,16 @@ export default class ConferenceCall extends RcModule {
    * we need to record the merge destination when merge from the call control pages
    * @param {webphone.session} from
    */
-  setMergeParty({ from, to }) {
-    if (from) {
+  setMergeParty({ fromSessionId, toSessionId }) {
+    if (fromSessionId) {
       return this.store.dispatch({
         type: this.actionTypes.updateFromSession,
-        from,
+        fromSessionId,
       });
     }
     return this.store.dispatch({
       type: this.actionTypes.updateToSession,
-      to,
+      toSessionId,
     });
   }
 
@@ -547,6 +611,7 @@ export default class ConferenceCall extends RcModule {
     this._timout = timeout;
     return timeout;
   }
+
   _init() {
     this.store.dispatch({
       type: this.actionTypes.initSuccess
@@ -757,5 +822,17 @@ export default class ConferenceCall extends RcModule {
 
   get isMerging() {
     return this.state.isMerging;
+  }
+
+  get mergingPair() {
+    return this.state.mergingPair;
+  }
+
+  get partyProfiles() {
+    return this._selectors.partyProfiles();
+  }
+
+  get lastCallInfo() {
+    return this._selectors.lastCallInfo();
   }
 }

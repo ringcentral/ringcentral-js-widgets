@@ -7,7 +7,6 @@ import styles from './styles.scss';
 
 export default function CallInfo(props) {
   let avatar;
-  // todo: conference avatars
   if (props.avatarUrl) {
     avatar = (<img src={props.avatarUrl} alt="avatar" />);
   } else {

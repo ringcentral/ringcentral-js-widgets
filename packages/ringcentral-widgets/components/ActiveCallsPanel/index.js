@@ -143,7 +143,8 @@ export default class ActiveCallsPanel extends Component {
       className,
       currentLocale,
       showSpinner,
-      conferencePartiesAvatarUrls,
+      conferenceCallEquipped,
+      conferenceCallParties,
     } = this.props;
 
     if (!this.hasCalls()) {
@@ -165,13 +166,16 @@ export default class ActiveCallsPanel extends Component {
           {this.getCallList(activeCurrentCalls, i18n.getString('currentCall', currentLocale))}
           {this.getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}
           {this.getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale))}
-          <ConfirmMergeModal
-            currentLocale={currentLocale}
-            show={this.state.isModalOpen}
-            onMerge={this.confirmMergeCall}
-            onCancel={this.hideConfirmMergeModal}
-            avatarUrls={conferencePartiesAvatarUrls}
-          />
+          {
+            conferenceCallEquipped
+              ? <ConfirmMergeModal
+                currentLocale={currentLocale}
+                show={this.state.isModalOpen}
+                onMerge={this.confirmMergeCall}
+                onCancel={this.hideConfirmMergeModal}
+                partyProfiles={conferenceCallParties} />
+              : null
+          }
         </div>
         {showSpinner ? <SpinnerOverlay className={styles.spinner} /> : null}
       </div>
@@ -215,7 +219,7 @@ ActiveCallsPanel.propTypes = {
   disableMerge: PropTypes.bool,
   mergeToConference: PropTypes.func,
   isSessionAConferenceCall: PropTypes.func,
-  conferencePartiesAvatarUrls: PropTypes.arrayOf(PropTypes.string),
+  conferenceCallParties: PropTypes.arrayOf(PropTypes.object),
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -245,5 +249,5 @@ ActiveCallsPanel.defaultProps = {
   disableMerge: false,
   mergeToConference: i => i,
   isSessionAConferenceCall: () => false,
-  conferencePartiesAvatarUrls: []
+  conferenceCallParties: [],
 };
