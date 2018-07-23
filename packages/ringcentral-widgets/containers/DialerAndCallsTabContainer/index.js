@@ -19,7 +19,7 @@ function getTabs({
       path: routerMap.allCalls,
       label: i18n.getString(routerMap.allCalls, currentLocale),
       isActive() { return currentPath === routerMap.allCalls; }
-    }
+    },
   ];
 }
 
@@ -31,7 +31,6 @@ function mapToProps(_, {
     conferenceCall,
     webphone,
   },
-  children,
 }) {
   const conferenceCallEquipped = !!conferenceCall;
   const isWebphoneMode = (callingSettings.callingMode === callingModes.webphone);
@@ -43,7 +42,6 @@ function mapToProps(_, {
   return {
     applicable,
     tabs,
-    children,
   };
 }
 
