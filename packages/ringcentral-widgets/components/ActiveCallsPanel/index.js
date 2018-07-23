@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import SpinnerOverlay from '../SpinnerOverlay';
-import DialerAndCallsTab from '../DialerAndCallsTab';
 import ActiveCallList from '../ActiveCallList';
 import ConfirmMergeModal from '../ConfirmMergeModal';
 import styles from './styles.scss';
@@ -137,9 +136,6 @@ export default class ActiveCallsPanel extends Component {
 
   render() {
     const {
-      showPageTab,
-      currentPath,
-      goTo,
       activeRingCalls,
       activeOnHoldCalls,
       activeCurrentCalls,
@@ -150,60 +146,42 @@ export default class ActiveCallsPanel extends Component {
       conferencePartiesAvatarUrls,
     } = this.props;
 
-    let content;
-
     if (!this.hasCalls()) {
-      content = (
+      return (
         <div className={classnames(styles.root, className)}>
           <p className={styles.noCalls}>{i18n.getString('noActiveCalls', currentLocale)}</p>
           {showSpinner ? <SpinnerOverlay className={styles.spinner} /> : null}
         </div>
       );
-    } else {
-      content = (
-        <div className={styles.root}>
-          <div
-            className={classnames(styles.root, className)}
-            ref={(target) => { this.container = target; }}
-          >
-            {this.getCallList(activeRingCalls, i18n.getString('ringCall', currentLocale))}
-            {this.getCallList(activeCurrentCalls, i18n.getString('currentCall', currentLocale))}
-            {this.getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}
-            {this.getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale))}
-            <ConfirmMergeModal
-              currentLocale={currentLocale}
-              show={this.state.isModalOpen}
-              onMerge={this.confirmMergeCall}
-              onCancel={this.hideConfirmMergeModal}
-              avatarUrls={conferencePartiesAvatarUrls}
-            />
-          </div>
-          {showSpinner ? <SpinnerOverlay className={styles.spinner} /> : null}
+    }
+
+    return (
+      <div className={styles.root}>
+        <div
+          className={classnames(styles.root, className)}
+          ref={(target) => { this.container = target; }}
+        >
+          {this.getCallList(activeRingCalls, i18n.getString('ringCall', currentLocale))}
+          {this.getCallList(activeCurrentCalls, i18n.getString('currentCall', currentLocale))}
+          {this.getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}
+          {this.getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale))}
+          <ConfirmMergeModal
+            currentLocale={currentLocale}
+            show={this.state.isModalOpen}
+            onMerge={this.confirmMergeCall}
+            onCancel={this.hideConfirmMergeModal}
+            avatarUrls={conferencePartiesAvatarUrls}
+          />
         </div>
-      );
-    }
-
-    if (showPageTab) {
-      return (
-        <DialerAndCallsTab
-          currentLocale={currentLocale}
-          currentPath={currentPath}
-          goTo={goTo}>
-          {content}
-        </DialerAndCallsTab>
-      );
-    }
-
-    return content;
+        {showSpinner ? <SpinnerOverlay className={styles.spinner} /> : null}
+      </div>
+    );
   }
 }
 
 ActiveCallsPanel.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   className: PropTypes.string,
-  showPageTab: PropTypes.bool,
-  currentPath: PropTypes.string,
-  goTo: PropTypes.func,
   activeRingCalls: PropTypes.array.isRequired,
   activeOnHoldCalls: PropTypes.array.isRequired,
   activeCurrentCalls: PropTypes.array.isRequired,
@@ -242,9 +220,6 @@ ActiveCallsPanel.propTypes = {
 
 ActiveCallsPanel.defaultProps = {
   className: undefined,
-  showPageTab: false,
-  currentPath: undefined,
-  goTo: undefined,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
   onCreateContact: undefined,

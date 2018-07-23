@@ -28,6 +28,7 @@ import ContactDetailsPage from 'ringcentral-widgets/containers/ContactDetailsPag
 import FeedbackPage from 'ringcentral-widgets/containers/FeedbackPage';
 import UserGuidePage from 'ringcentral-widgets/containers/UserGuidePage';
 import ConferenceCallDialerPage from 'ringcentral-widgets/containers/ConferenceCallDialerPage';
+import DialerAndCallsTabContainer from 'ringcentral-widgets/containers/DialerAndCallsTabContainer';
 
 import ContactSourceFilter from 'ringcentral-widgets/components/ContactSourceFilter';
 import MeetingScheduleButton from 'ringcentral-widgets/components/MeetingScheduleButton';
@@ -113,7 +114,9 @@ export default function App({
               <Route
                 path="/dialer"
                 component={() => (
-                  <DialerPage />
+                  <DialerAndCallsTabContainer>
+                    <DialerPage />
+                  </DialerAndCallsTabContainer>
                 )} />
               <Route
                 path="/settings"
@@ -138,12 +141,14 @@ export default function App({
               <Route
                 path="/calls"
                 component={() => (
-                  <ActiveCallsPage
-                    onLogCall={async () => { await sleep(1000); }}
-                    onCreateContact={() => { }}
-                    onCallsEmpty={() => { }}
-                    sourceIcons={sourceIcons}
-                  />
+                  <DialerAndCallsTabContainer>
+                    <ActiveCallsPage
+                      onLogCall={async () => { await sleep(1000); }}
+                      onCreateContact={() => { }}
+                      onCallsEmpty={() => { }}
+                      sourceIcons={sourceIcons}
+                    />
+                  </DialerAndCallsTabContainer>
                 )} />
               <Route
                 path="/calls/active"

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import DialerAndCallsTab from '../DialerAndCallsTab';
 import DialPad from '../DialPad';
 import RecipientsInput from '../RecipientsInput';
 import FromField from '../FromField';
@@ -13,9 +12,6 @@ import styles from './styles.scss';
 
 function DialerPanel({
   currentLocale,
-  showPageTab,
-  currentPath,
-  goTo,
   callButtonDisabled,
   className,
   dialButtonsClassName,
@@ -49,7 +45,7 @@ function DialerPanel({
     }
   };
 
-  const content = (
+  return (
     <div className={classnames(styles.root, className)}>
       <RecipientsInput
         value={toNumber}
@@ -110,27 +106,11 @@ function DialerPanel({
       {children}
     </div>
   );
-
-  if (showPageTab) {
-    return (
-      <DialerAndCallsTab
-        currentLocale={currentLocale}
-        currentPath={currentPath}
-        goTo={goTo}>
-        {content}
-      </DialerAndCallsTab>
-    );
-  }
-
-  return content;
 }
 
 DialerPanel.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   className: PropTypes.string,
-  showPageTab: PropTypes.bool,
-  currentPath: PropTypes.string,
-  goTo: PropTypes.func,
   dialButtonsClassName: PropTypes.string,
   onCallButtonClick: PropTypes.func.isRequired,
   callButtonDisabled: PropTypes.bool,
@@ -171,9 +151,6 @@ DialerPanel.propTypes = {
 
 DialerPanel.defaultProps = {
   className: null,
-  showPageTab: false,
-  currentPath: undefined,
-  goTo: undefined,
   dialButtonsClassName: null,
   fromNumber: null,
   callButtonDisabled: false,
