@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   conferenceCall: 'Conference Call',
   onHold: 'On Hold',
-  unknow: 'Unknown'
+  unknow: 'Unknown',
+  disconnected: 'Disconnected'
 };
 //# sourceMappingURL=en-US.js.map

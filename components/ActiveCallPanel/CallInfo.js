@@ -33,7 +33,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function CallInfo(props) {
   var avatar = void 0;
-  // todo: conference avatars
   if (props.avatarUrl) {
     avatar = _react2.default.createElement('img', { src: props.avatarUrl, alt: 'avatar' });
   } else {

@@ -3,7 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
 
 var _react = require('react');
 
@@ -17,13 +16,13 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
 var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
 
 var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
+
+var _styles = require('./styles.scss');
+
+var _styles2 = _interopRequireDefault(_styles);
 
 var _i18n = require('./i18n');
 
@@ -33,9 +32,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function ConferenceInfo(_ref) {
   var currentLocale = _ref.currentLocale,
-      displayedProfiles = _ref.displayedProfiles,
-      remains = _ref.remains,
+      partyProfiles = _ref.partyProfiles,
       _onClick = _ref.onClick;
+
+  var MAXIMUM_AVATARS = 4;
+  var profiles = partyProfiles || [];
+
+  var displayedProfiles = profiles.length >= MAXIMUM_AVATARS ? profiles.slice(0, MAXIMUM_AVATARS) : profiles;
+
+  var remains = profiles.length > MAXIMUM_AVATARS ? profiles.length - MAXIMUM_AVATARS : 0;
 
   return _react2.default.createElement(
     'a',
@@ -45,7 +50,7 @@ function ConferenceInfo(_ref) {
         e.preventDefault();_onClick();
       }
     },
-    Array.isArray(displayedProfiles) && displayedProfiles.length ? _react2.default.createElement(
+    displayedProfiles.length ? _react2.default.createElement(
       'div',
       { className: _styles2.default.avatarContainer },
       displayedProfiles.map(function (_ref2, idx) {
@@ -60,7 +65,7 @@ function ConferenceInfo(_ref) {
           avatarUrl ? null : _react2.default.createElement('i', { className: (0, _classnames2.default)(_DynamicsFont2.default.portrait, _styles2.default.icon) })
         );
       }),
-      remains ? _react2.default.createElement(
+      remains > 0 ? _react2.default.createElement(
         'div',
         { className: (0, _classnames2.default)(_styles2.default.avatar, _styles2.default.remains) },
         '+' + remains
@@ -82,21 +87,21 @@ function ConferenceInfo(_ref) {
   );
 }
 
-exports.default = ConferenceInfo;
 ConferenceInfo.propTypes = {
   currentLocale: _propTypes2.default.string.isRequired,
-  displayedProfiles: _propTypes2.default.arrayOf(_propTypes2.default.shape({
+  partyProfiles: _propTypes2.default.arrayOf(_propTypes2.default.shape({
     avatarUrl: _propTypes2.default.string,
     toUserName: _propTypes2.default.string
-  })).isRequired,
-  remains: _propTypes2.default.number,
+  })),
   onClick: _propTypes2.default.func
 };
 
 ConferenceInfo.defaultProps = {
-  remains: 0,
+  partyProfiles: null,
   onClick: function onClick(i) {
     return i;
   }
 };
+
+exports.default = ConferenceInfo;
 //# sourceMappingURL=ConferenceInfo.js.map

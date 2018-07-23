@@ -12,9 +12,17 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _classnames = require('classnames');
+var _CallInfo = require('./CallInfo');
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _CallInfo2 = _interopRequireDefault(_CallInfo);
+
+var _MergeInfo = require('./MergeInfo');
+
+var _MergeInfo2 = _interopRequireDefault(_MergeInfo);
+
+var _ConferenceInfo = require('./ConferenceInfo');
+
+var _ConferenceInfo2 = _interopRequireDefault(_ConferenceInfo);
 
 var _BackButton = require('../BackButton');
 
@@ -36,13 +44,9 @@ var _ActiveCallPad = require('../ActiveCallPad');
 
 var _ActiveCallPad2 = _interopRequireDefault(_ActiveCallPad);
 
-var _ContactDisplay = require('../ContactDisplay');
+var _callCtrlLayouts = require('../../enums/callCtrlLayouts');
 
-var _ContactDisplay2 = _interopRequireDefault(_ContactDisplay);
-
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
-
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
+var _callCtrlLayouts2 = _interopRequireDefault(_callCtrlLayouts);
 
 var _styles = require('./styles.scss');
 
@@ -50,83 +54,10 @@ var _styles2 = _interopRequireDefault(_styles);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function CallInfo(props) {
-  var avatar = void 0;
-  if (props.avatarUrl) {
-    avatar = _react2.default.createElement('img', { src: props.avatarUrl, alt: 'avatar' });
-  } else {
-    avatar = _react2.default.createElement('i', { className: (0, _classnames2.default)(_DynamicsFont2.default.portrait, _styles2.default.icon) });
-  }
-  return _react2.default.createElement(
-    'div',
-    { className: _styles2.default.userInfo },
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.avatarContainer },
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default.avatar },
-        avatar
-      )
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.userName },
-      _react2.default.createElement(_ContactDisplay2.default, {
-        className: _styles2.default.contactDisplay,
-        selectClassName: _styles2.default.dropdown,
-        contactMatches: props.nameMatches,
-        phoneNumber: props.phoneNumber,
-        fallBackName: props.fallBackName,
-        currentLocale: props.currentLocale,
-        areaCode: props.areaCode,
-        countryCode: props.countryCode,
-        showType: false,
-        disabled: false,
-        selected: props.selectedMatcherIndex,
-        onSelectContact: props.onSelectMatcherName,
-        isLogging: false,
-        enableContactFallback: true,
-        brand: props.brand,
-        showPlaceholder: props.showContactDisplayPlaceholder,
-        sourceIcons: props.sourceIcons
-      })
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.userPhoneNumber },
-      props.formatPhone(props.phoneNumber)
-    )
-  );
-}
-
-CallInfo.propTypes = {
-  phoneNumber: _propTypes2.default.string,
-  formatPhone: _propTypes2.default.func.isRequired,
-  nameMatches: _propTypes2.default.array.isRequired,
-  fallBackName: _propTypes2.default.string.isRequired,
-  areaCode: _propTypes2.default.string.isRequired,
-  countryCode: _propTypes2.default.string.isRequired,
-  currentLocale: _propTypes2.default.string.isRequired,
-  selectedMatcherIndex: _propTypes2.default.number.isRequired,
-  onSelectMatcherName: _propTypes2.default.func.isRequired,
-  avatarUrl: _propTypes2.default.string,
-  brand: _propTypes2.default.string,
-  showContactDisplayPlaceholder: _propTypes2.default.bool,
-  sourceIcons: _propTypes2.default.object
-};
-
-CallInfo.defaultProps = {
-  phoneNumber: null,
-  avatarUrl: null,
-  brand: 'RingCentral',
-  showContactDisplayPlaceholder: true,
-  sourceIcons: undefined
-};
-
 function ActiveCallPanel(_ref) {
-  var onBackButtonClick = _ref.onBackButtonClick,
+  var showBackButton = _ref.showBackButton,
       backButtonLabel = _ref.backButtonLabel,
+      onBackButtonClick = _ref.onBackButtonClick,
       currentLocale = _ref.currentLocale,
       nameMatches = _ref.nameMatches,
       fallBackName = _ref.fallBackName,
@@ -152,33 +83,66 @@ function ActiveCallPanel(_ref) {
       onHangup = _ref.onHangup,
       onPark = _ref.onPark,
       onAdd = _ref.onAdd,
+      onMerge = _ref.onMerge,
       onShowFlipPanel = _ref.onShowFlipPanel,
       onToggleTransferPanel = _ref.onToggleTransferPanel,
+      onOpenPartiesModal = _ref.onOpenPartiesModal,
       children = _ref.children,
       showContactDisplayPlaceholder = _ref.showContactDisplayPlaceholder,
       brand = _ref.brand,
       flipNumbers = _ref.flipNumbers,
-      calls = _ref.calls,
-      sourceIcons = _ref.sourceIcons;
+      sourceIcons = _ref.sourceIcons,
+      layout = _ref.layout,
+      direction = _ref.direction,
+      addDisabled = _ref.addDisabled,
+      mergeDisabled = _ref.mergeDisabled,
+      conferenceCallEquipped = _ref.conferenceCallEquipped,
+      hasConferenceCall = _ref.hasConferenceCall,
+      conferenceCallParties = _ref.conferenceCallParties,
+      lastCallInfo = _ref.lastCallInfo,
+      onLastCallEnded = _ref.onLastCallEnded;
 
-  var timeCounter = startTime ? _react2.default.createElement(
-    'span',
-    { className: _styles2.default.timeCounter },
-    _react2.default.createElement(_DurationCounter2.default, { startTime: startTime, offset: startTimeOffset })
-  ) : null;
-  var backHeader = calls.length > 1 ? _react2.default.createElement(_BackHeader2.default, {
+  var backHeader = showBackButton ? _react2.default.createElement(_BackHeader2.default, {
     onBackClick: onBackButtonClick,
     backButton: _react2.default.createElement(_BackButton2.default, { label: backButtonLabel })
-  }) : _react2.default.createElement(_BackHeader2.default, { className: _styles2.default.hidden });
-  return _react2.default.createElement(
+  }) : null;
+
+  var timeCounter = _react2.default.createElement(
     'div',
-    { className: _styles2.default.root },
-    backHeader,
-    _react2.default.createElement(
-      _Panel2.default,
-      { className: _styles2.default.panel },
-      timeCounter,
-      _react2.default.createElement(CallInfo, {
+    { className: _styles2.default.timeCounter },
+    startTime ? _react2.default.createElement(_DurationCounter2.default, { startTime: startTime, offset: startTimeOffset }) : _react2.default.createElement(
+      'span',
+      { 'aria-hidden': 'true' },
+      '\xA0'
+    )
+  );
+
+  var currentCallTitle = nameMatches.length ? nameMatches[0].name : phoneNumber;
+
+  var callInfo = void 0;
+
+  switch (layout) {
+    case _callCtrlLayouts2.default.mergeCtrl:
+      callInfo = _react2.default.createElement(_MergeInfo2.default, {
+        currentLocale: currentLocale,
+        timeCounter: timeCounter,
+        lastCallInfo: lastCallInfo,
+        onLastCallEnded: onLastCallEnded,
+        currentCallAvatarUrl: avatarUrl,
+        currentCallTitle: currentCallTitle || fallBackName
+      });
+      break;
+
+    case _callCtrlLayouts2.default.conferenceCtrl:
+      callInfo = _react2.default.createElement(_ConferenceInfo2.default, {
+        currentLocale: currentLocale,
+        partyProfiles: conferenceCallParties,
+        onClick: onOpenPartiesModal
+      });
+      break;
+
+    default:
+      callInfo = _react2.default.createElement(_CallInfo2.default, {
         currentLocale: currentLocale,
         nameMatches: nameMatches,
         fallBackName: fallBackName,
@@ -193,7 +157,19 @@ function ActiveCallPanel(_ref) {
         brand: brand,
         showContactDisplayPlaceholder: showContactDisplayPlaceholder,
         sourceIcons: sourceIcons
-      }),
+      });
+      break;
+  }
+
+  return _react2.default.createElement(
+    'div',
+    { className: _styles2.default.root },
+    backHeader,
+    _react2.default.createElement(
+      _Panel2.default,
+      { className: _styles2.default.panel },
+      layout !== _callCtrlLayouts2.default.mergeCtrl ? timeCounter : null,
+      callInfo,
       _react2.default.createElement(_ActiveCallPad2.default, {
         className: _styles2.default.callPad,
         currentLocale: currentLocale,
@@ -209,10 +185,17 @@ function ActiveCallPanel(_ref) {
         onShowKeyPad: onShowKeyPad,
         onHangup: onHangup,
         onAdd: onAdd,
+        onMerge: onMerge,
         onShowFlipPanel: onShowFlipPanel,
         onToggleTransferPanel: onToggleTransferPanel,
         flipNumbers: flipNumbers,
-        onPark: onPark
+        onPark: onPark,
+        layout: layout,
+        direction: direction,
+        addDisabled: addDisabled,
+        mergeDisabled: mergeDisabled,
+        conferenceCallEquipped: conferenceCallEquipped,
+        hasConferenceCall: hasConferenceCall
       }),
       children
     )
@@ -235,10 +218,13 @@ ActiveCallPanel.propTypes = {
   onUnhold: _propTypes2.default.func.isRequired,
   onRecord: _propTypes2.default.func.isRequired,
   onStopRecord: _propTypes2.default.func.isRequired,
-  onAdd: _propTypes2.default.func.isRequired,
+  onAdd: _propTypes2.default.func,
+  onMerge: _propTypes2.default.func,
   onHangup: _propTypes2.default.func.isRequired,
   onPark: _propTypes2.default.func.isRequired,
-  onBackButtonClick: _propTypes2.default.func.isRequired,
+  showBackButton: _propTypes2.default.bool,
+  backButtonLabel: _propTypes2.default.string,
+  onBackButtonClick: _propTypes2.default.func,
   onShowKeyPad: _propTypes2.default.func.isRequired,
   formatPhone: _propTypes2.default.func.isRequired,
   children: _propTypes2.default.node,
@@ -247,14 +233,22 @@ ActiveCallPanel.propTypes = {
   selectedMatcherIndex: _propTypes2.default.number.isRequired,
   onSelectMatcherName: _propTypes2.default.func.isRequired,
   avatarUrl: _propTypes2.default.string,
-  backButtonLabel: _propTypes2.default.string,
   brand: _propTypes2.default.string,
   showContactDisplayPlaceholder: _propTypes2.default.bool,
   onShowFlipPanel: _propTypes2.default.func,
   flipNumbers: _propTypes2.default.array,
-  calls: _propTypes2.default.array.isRequired,
   onToggleTransferPanel: _propTypes2.default.func,
-  sourceIcons: _propTypes2.default.object
+  onOpenPartiesModal: _propTypes2.default.func,
+  sourceIcons: _propTypes2.default.object,
+  layout: _propTypes2.default.string.isRequired,
+  direction: _propTypes2.default.string,
+  addDisabled: _propTypes2.default.bool,
+  mergeDisabled: _propTypes2.default.bool,
+  conferenceCallParties: _propTypes2.default.array,
+  conferenceCallEquipped: _propTypes2.default.bool,
+  hasConferenceCall: _propTypes2.default.bool,
+  lastCallInfo: _propTypes2.default.object,
+  onLastCallEnded: _propTypes2.default.func
 };
 
 ActiveCallPanel.defaultProps = {
@@ -265,17 +259,32 @@ ActiveCallPanel.defaultProps = {
   phoneNumber: null,
   children: undefined,
   avatarUrl: null,
+  showBackButton: false,
   backButtonLabel: 'Active Calls',
+  onBackButtonClick: null,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
   flipNumbers: [],
+  onAdd: undefined,
+  onMerge: undefined,
   onShowFlipPanel: function onShowFlipPanel() {
     return null;
   },
   onToggleTransferPanel: function onToggleTransferPanel() {
     return null;
   },
-  sourceIcons: undefined
+  onOpenPartiesModal: function onOpenPartiesModal() {
+    return null;
+  },
+  sourceIcons: undefined,
+  direction: null,
+  addDisabled: false,
+  mergeDisabled: false,
+  conferenceCallEquipped: false,
+  hasConferenceCall: false,
+  conferenceCallParties: undefined,
+  lastCallInfo: undefined,
+  onLastCallEnded: undefined
 };
 
 exports.default = ActiveCallPanel;

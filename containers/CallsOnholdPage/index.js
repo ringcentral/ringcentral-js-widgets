@@ -87,8 +87,8 @@ function mapToFunctions(_, _ref2) {
                 routerInteraction.replace('/calls/active');
                 session = webphone._sessions.get(sessionId);
 
-                conferenceCall.setMergeParty({ to: session });
-                sessionToMergeWith = conferenceCall.state.mergingPair.from;
+                conferenceCall.setMergeParty({ toSessionId: sessionId });
+                sessionToMergeWith = webphone._sessions.get(conferenceCall.mergingPair.fromSessionId);
                 webphoneSessions = sessionToMergeWith ? [sessionToMergeWith, session] : [session];
                 _context.next = 7;
                 return conferenceCall.mergeToConference(webphoneSessions);

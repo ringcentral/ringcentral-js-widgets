@@ -197,7 +197,8 @@ var ActiveCallsPanel = function (_Component) {
           className = _props2.className,
           currentLocale = _props2.currentLocale,
           showSpinner = _props2.showSpinner,
-          conferencePartiesAvatarUrls = _props2.conferencePartiesAvatarUrls;
+          conferenceCallEquipped = _props2.conferenceCallEquipped,
+          conferenceCallParties = _props2.conferenceCallParties;
 
 
       if (!this.hasCalls()) {
@@ -228,13 +229,12 @@ var ActiveCallsPanel = function (_Component) {
           this.getCallList(activeCurrentCalls, _i18n2.default.getString('currentCall', currentLocale)),
           this.getCallList(activeOnHoldCalls, _i18n2.default.getString('onHoldCall', currentLocale)),
           this.getCallList(otherDeviceCalls, _i18n2.default.getString('otherDeviceCall', currentLocale)),
-          _react2.default.createElement(_ConfirmMergeModal2.default, {
+          conferenceCallEquipped ? _react2.default.createElement(_ConfirmMergeModal2.default, {
             currentLocale: currentLocale,
             show: this.state.isModalOpen,
             onMerge: this.confirmMergeCall,
             onCancel: this.hideConfirmMergeModal,
-            avatarUrls: conferencePartiesAvatarUrls
-          })
+            partyProfiles: conferenceCallParties }) : null
         ),
         showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, { className: _styles2.default.spinner }) : null
       );
@@ -282,7 +282,7 @@ ActiveCallsPanel.propTypes = {
   disableMerge: _propTypes2.default.bool,
   mergeToConference: _propTypes2.default.func,
   isSessionAConferenceCall: _propTypes2.default.func,
-  conferencePartiesAvatarUrls: _propTypes2.default.arrayOf(_propTypes2.default.string)
+  conferenceCallParties: _propTypes2.default.arrayOf(_propTypes2.default.object)
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -316,6 +316,6 @@ ActiveCallsPanel.defaultProps = {
   isSessionAConferenceCall: function isSessionAConferenceCall() {
     return false;
   },
-  conferencePartiesAvatarUrls: []
+  conferenceCallParties: []
 };
 //# sourceMappingURL=index.js.map

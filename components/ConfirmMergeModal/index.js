@@ -52,8 +52,11 @@ function ConfirmMergeModal(_ref) {
       show = _ref.show,
       onMerge = _ref.onMerge,
       onCancel = _ref.onCancel,
-      avatarUrls = _ref.avatarUrls;
+      partyProfiles = _ref.partyProfiles;
 
+  var avatarUrls = partyProfiles.map(function (profile) {
+    return profile.avatarUrl;
+  });
   return _react2.default.createElement(
     _Modal2.default,
     {
@@ -122,13 +125,13 @@ ConfirmMergeModal.propTypes = {
   show: _propTypes2.default.bool.isRequired,
   onMerge: _propTypes2.default.func,
   onCancel: _propTypes2.default.func,
-  avatarUrls: _propTypes2.default.arrayOf(_propTypes2.default.string)
+  partyProfiles: _propTypes2.default.arrayOf(_propTypes2.default.object)
 };
 
 ConfirmMergeModal.defaultProps = {
   onMerge: function onMerge() {},
   onCancel: function onCancel() {},
 
-  avatarUrls: []
+  partyProfiles: []
 };
 //# sourceMappingURL=index.js.map

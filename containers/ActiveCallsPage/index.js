@@ -58,11 +58,9 @@ function mapToProps(_, _ref) {
   var conferenceCallEquipped = !!conferenceCall;
   var disableMerge = !isWebRTC;
   var hasConferenceCall = false;
-  var conferenceData = null;
   if (conferenceCallEquipped) {
     var conferenceList = (0, _values2.default)(conferenceCall.conferences);
     var conference = conferenceList.length ? conferenceList[0] : null;
-    conferenceData = (0, _values2.default)(conferenceCall.conferences)[0];
     hasConferenceCall = !!conference;
     if (conference) {
       disableMerge = conferenceCall.isOverload(conference.conference.id);
@@ -86,9 +84,7 @@ function mapToProps(_, _ref) {
     conferenceCallEquipped: conferenceCallEquipped,
     hasConferenceCall: hasConferenceCall,
     disableMerge: disableMerge,
-    conferencePartiesAvatarUrls: conferenceData && conferenceCall.getOnlinePartyProfiles(conferenceData.conference.id).map(function (profile) {
-      return profile.avatarUrl;
-    }) || []
+    conferenceCallParties: conferenceCall ? conferenceCall.partyProfiles : null
   };
 }
 

@@ -32,6 +32,10 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _callCtrlLayouts = require('../../enums/callCtrlLayouts');
+
+var _callCtrlLayouts2 = _interopRequireDefault(_callCtrlLayouts);
+
 var _ActiveCallDialPad = require('../ActiveCallDialPad');
 
 var _ActiveCallDialPad2 = _interopRequireDefault(_ActiveCallDialPad);
@@ -48,6 +52,14 @@ var _TransferPanel = require('../TransferPanel');
 
 var _TransferPanel2 = _interopRequireDefault(_TransferPanel);
 
+var _ConfirmMergeModal = require('../ConfirmMergeModal');
+
+var _ConfirmMergeModal2 = _interopRequireDefault(_ConfirmMergeModal);
+
+var _SpinnerOverlay = require('../SpinnerOverlay');
+
+var _SpinnerOverlay2 = _interopRequireDefault(_SpinnerOverlay);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var CallCtrlPanel = function (_Component) {
@@ -60,7 +72,8 @@ var CallCtrlPanel = function (_Component) {
 
     _this.state = {
       isShowKeyPad: false,
-      isShowFlipPanel: false
+      isShowFlipPanel: false,
+      isShowMergeConfirm: false
     };
 
     _this.hiddenKeyPad = function () {
@@ -94,10 +107,46 @@ var CallCtrlPanel = function (_Component) {
         };
       });
     };
+    _this.onMerge = function () {
+      if (_this.props.hasConferenceCall && _this.props.layout === _callCtrlLayouts2.default.normalCtrl) {
+        _this.showMergeConfirm();
+      } else if (_this.props.onMerge) {
+        _this.props.onMerge();
+      }
+    };
+    _this.showMergeConfirm = function () {
+      _this.setState({
+        isShowMergeConfirm: true
+      });
+    };
+
+    _this.hideMergeConfirm = function () {
+      _this.setState({
+        isShowMergeConfirm: false
+      });
+    };
+
+    _this.confirmMerge = function () {
+      _this.hideMergeConfirm();
+      if (_this.props.onMerge) {
+        _this.props.onMerge();
+      }
+    };
+
+    _this.onOpenPartiesModal = function () {
+      // TODO:
+    };
     return _this;
   }
 
   (0, _createClass3.default)(CallCtrlPanel, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      if (!nextProps.hasConferenceCall && this.state.isShowMergeConfirm) {
+        this.hideMergeConfirm();
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
       if (this.state.isShowKeyPad) {
@@ -136,7 +185,9 @@ var CallCtrlPanel = function (_Component) {
       return _react2.default.createElement(
         _ActiveCallPanel2.default,
         {
+          showBackButton: this.props.showBackButton,
           backButtonLabel: this.props.backButtonLabel,
+          onBackButtonClick: this.props.onBackButtonClick,
           currentLocale: this.props.currentLocale,
           formatPhone: this.props.formatPhone,
           phoneNumber: this.props.phoneNumber,
@@ -146,7 +197,6 @@ var CallCtrlPanel = function (_Component) {
           isOnMute: this.props.isOnMute,
           isOnHold: this.props.isOnHold,
           recordStatus: this.props.recordStatus,
-          onBackButtonClick: this.props.onBackButtonClick,
           onMute: this.props.onMute,
           onUnmute: this.props.onUnmute,
           onHold: this.props.onHold,
@@ -157,6 +207,7 @@ var CallCtrlPanel = function (_Component) {
           onHangup: this.props.onHangup,
           onPark: this.props.onPark,
           onAdd: this.props.onAdd,
+          onMerge: this.onMerge,
           nameMatches: this.props.nameMatches,
           fallBackName: this.props.fallBackName,
           areaCode: this.props.areaCode,
@@ -168,11 +219,28 @@ var CallCtrlPanel = function (_Component) {
           showContactDisplayPlaceholder: this.props.showContactDisplayPlaceholder,
           onShowFlipPanel: this.showFlipPanel,
           onToggleTransferPanel: this.toggleTransferPanel,
+          onOpenPartiesModal: this.onOpenPartiesModal,
           flipNumbers: this.props.flipNumbers,
-          calls: this.props.calls,
-          sourceIcons: this.props.sourceIcons
+          sourceIcons: this.props.sourceIcons,
+          layout: this.props.layout,
+          direction: this.props.direction,
+          addDisabled: this.props.addDisabled,
+          mergeDisabled: this.props.mergeDisabled,
+          conferenceCallEquipped: this.props.conferenceCallEquipped,
+          hasConferenceCall: this.props.hasConferenceCall,
+          conferenceCallParties: this.props.conferenceCallParties,
+          lastCallInfo: this.props.lastCallInfo,
+          onLastCallEnded: this.props.onLastCallEnded
         },
-        this.props.children
+        this.props.children,
+        this.props.showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : null,
+        this.props.layout === _callCtrlLayouts2.default.normalCtrl ? _react2.default.createElement(_ConfirmMergeModal2.default, {
+          currentLocale: this.props.currentLocale,
+          show: this.state.isShowMergeConfirm,
+          onMerge: this.confirmMerge,
+          onCancel: this.hideMergeConfirm,
+          partyProfiles: this.props.conferenceCallParties
+        }) : null
       );
     }
   }]);
@@ -192,7 +260,6 @@ CallCtrlPanel.propTypes = {
   isOnFlip: _propTypes2.default.bool,
   isOnTransfer: _propTypes2.default.bool,
   flipNumbers: _propTypes2.default.array,
-  calls: _propTypes2.default.array.isRequired,
   recordStatus: _propTypes2.default.string.isRequired,
   onMute: _propTypes2.default.func.isRequired,
   onUnmute: _propTypes2.default.func.isRequired,
@@ -200,12 +267,15 @@ CallCtrlPanel.propTypes = {
   onUnhold: _propTypes2.default.func.isRequired,
   onRecord: _propTypes2.default.func.isRequired,
   onStopRecord: _propTypes2.default.func.isRequired,
-  onAdd: _propTypes2.default.func.isRequired,
+  onAdd: _propTypes2.default.func,
+  onMerge: _propTypes2.default.func,
   onPark: _propTypes2.default.func.isRequired,
   onHangup: _propTypes2.default.func.isRequired,
   onFlip: _propTypes2.default.func.isRequired,
   onTransfer: _propTypes2.default.func.isRequired,
-  onBackButtonClick: _propTypes2.default.func.isRequired,
+  showBackButton: _propTypes2.default.bool,
+  backButtonLabel: _propTypes2.default.string,
+  onBackButtonClick: _propTypes2.default.func,
   onKeyPadChange: _propTypes2.default.func.isRequired,
   formatPhone: _propTypes2.default.func.isRequired,
   children: _propTypes2.default.node,
@@ -214,7 +284,6 @@ CallCtrlPanel.propTypes = {
   selectedMatcherIndex: _propTypes2.default.number.isRequired,
   onSelectMatcherName: _propTypes2.default.func.isRequired,
   avatarUrl: _propTypes2.default.string,
-  backButtonLabel: _propTypes2.default.string,
   brand: _propTypes2.default.string,
   showContactDisplayPlaceholder: _propTypes2.default.bool,
   sourceIcons: _propTypes2.default.object,
@@ -222,7 +291,17 @@ CallCtrlPanel.propTypes = {
   searchContact: _propTypes2.default.func.isRequired,
   phoneTypeRenderer: _propTypes2.default.func,
   recipientsContactInfoRenderer: _propTypes2.default.func,
-  recipientsContactPhoneRenderer: _propTypes2.default.func
+  recipientsContactPhoneRenderer: _propTypes2.default.func,
+  layout: _propTypes2.default.string.isRequired,
+  showSpinner: _propTypes2.default.bool,
+  direction: _propTypes2.default.string,
+  addDisabled: _propTypes2.default.bool,
+  mergeDisabled: _propTypes2.default.bool,
+  conferenceCallEquipped: _propTypes2.default.bool,
+  hasConferenceCall: _propTypes2.default.bool,
+  lastCallInfo: _propTypes2.default.object,
+  onLastCallEnded: _propTypes2.default.func,
+  conferenceCallParties: _propTypes2.default.array
 };
 
 CallCtrlPanel.defaultProps = {
@@ -235,7 +314,9 @@ CallCtrlPanel.defaultProps = {
   phoneNumber: null,
   children: undefined,
   avatarUrl: null,
+  showBackButton: false,
   backButtonLabel: 'Active Calls',
+  onBackButtonClick: null,
   sessionId: undefined,
   callStatus: null,
   brand: 'RingCentral',
@@ -243,7 +324,18 @@ CallCtrlPanel.defaultProps = {
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
   recipientsContactInfoRenderer: undefined,
-  recipientsContactPhoneRenderer: undefined
+  recipientsContactPhoneRenderer: undefined,
+  onAdd: undefined,
+  onMerge: undefined,
+  showSpinner: false,
+  direction: null,
+  addDisabled: false,
+  mergeDisabled: false,
+  conferenceCallEquipped: false,
+  hasConferenceCall: false,
+  conferenceCallParties: undefined,
+  lastCallInfo: undefined,
+  onLastCallEnded: undefined
 };
 
 exports.default = CallCtrlPanel;
