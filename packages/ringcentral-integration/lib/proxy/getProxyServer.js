@@ -3,17 +3,17 @@ import baseActionTypes from './baseActionTypes';
 import getProxyServerReducer from './getProxyServerReducer';
 import ensureExist from '../ensureExist';
 
-export default function getProxyServer(Target) {
+export default function getProxyServer(createTarget) {
   return class extends RcModule {
     constructor({ transport, ...options }) {
       super({
         ...options,
         actionTypes: baseActionTypes,
       });
-      this._target = new Target({
+      this._target = createTarget({
         ...options,
-        getState: () => this.state.target,
       });
+      this._target._getState = () => this.state.target;
 
       for (const subModule in this._target) {
         if (
