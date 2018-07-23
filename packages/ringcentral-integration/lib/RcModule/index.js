@@ -229,19 +229,20 @@ export default class RcModule {
   _onStateChange() {}
 
   _initModule() {
-    if (
-      !this._suppressInit &&
-      !this._initialized
-    ) {
-      this._initialized = true;
-      this.initialize();
-    }
-    for (const subModule in this) {
+    if (!this._suppressInit) {
       if (
-        this:: Object.prototype.hasOwnProperty(subModule) &&
-          this[subModule] instanceof RcModule
+        !this._initialized
       ) {
-        this[subModule]._initModule();
+        this._initialized = true;
+        this.initialize();
+      }
+      for (const subModule in this) {
+        if (
+          this:: Object.prototype.hasOwnProperty(subModule) &&
+          this[subModule] instanceof RcModule
+        ) {
+          this[subModule]._initModule();
+        }
       }
     }
   }

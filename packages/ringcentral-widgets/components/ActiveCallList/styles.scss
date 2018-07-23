@@ -1,0 +1,14 @@
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/fonts';
+
+.list {
+  display: block;
+}
+
+.listTitle {
+  @include secondary-font;
+  line-height: 16px;
+  font-weight: bold;
+  color: $night;
+  padding: 14px 20px 0 20px;
+}

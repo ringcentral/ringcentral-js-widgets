@@ -236,6 +236,7 @@ export default class CallsListPanel extends Component {
       onUpdateCallLog,
       onSaveCallLog,
       renderEditLogSection,
+      renderSaveLogButton,
       logNotification,
       onCloseNotification,
       onDiscardNotification,
@@ -274,6 +275,7 @@ export default class CallsListPanel extends Component {
             currentLog={currentLog}
             isInnerMask={logNotification && logNotification.notificationIsExpand}
             renderEditLogSection={renderEditLogSection}
+            renderSaveLogButton={renderSaveLogButton}
             formatPhone={formatPhone}
             onUpdateCallLog={onUpdateCallLog}
             onSaveCallLog={onSaveCallLog}
@@ -444,6 +446,7 @@ CallsListPanel.propTypes = {
   onUpdateCallLog: PropTypes.func,
   onSaveCallLog: PropTypes.func,
   renderEditLogSection: PropTypes.func,
+  renderSaveLogButton: PropTypes.func,
   logNotification: PropTypes.object,
   onCloseNotification: PropTypes.func,
   onDiscardNotification: PropTypes.func,
@@ -491,6 +494,7 @@ CallsListPanel.defaultProps = {
   onUpdateCallLog: undefined,
   onSaveCallLog: undefined,
   renderEditLogSection: undefined,
+  renderSaveLogButton: undefined,
   logNotification: undefined,
   onCloseNotification: undefined,
   onDiscardNotification: undefined,

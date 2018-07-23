@@ -1,6 +1,11 @@
 @import '../../lib/commonStyles/colors';
 @import '../../lib/commonStyles/fonts';
+
+// TODO: fix the whole style with flex
+$tmpWidth: calc(100% - 53px - 7px - 98px - 20px);
 $fixed-icon-width: 21px;
+$fixed-avatar-width:35px;
+
 .root {
   display: block;
   background: #fff;
@@ -14,6 +19,7 @@ $fixed-icon-width: 21px;
 // }
 
 .wrapper {
+  position: relative;
   padding: 13px 20px 18px;
   box-sizing: border-box;
   display: flex;
@@ -66,6 +72,8 @@ $fixed-icon-width: 21px;
 }
 
 .contactDisplay {
+  line-height: 25px;
+  // max-width: $tmpWidth;
   margin-bottom: 5px;
   button {
     font-size: 13px;
@@ -76,6 +84,11 @@ $fixed-icon-width: 21px;
   }
 }
 
+.conferenceContactDisplay{
+  // margin: auto;
+  line-height: 50px;
+}
+
 .missed {
   color: $missed;
   button {
@@ -84,25 +97,47 @@ $fixed-icon-width: 21px;
 }
 
 .webphoneButtons {
-  position: absolute;
-  right: 20px;
-  bottom: 15px;
+  .webphoneButton + .webphoneButton{
+    margin-left: 5px;
+  }
 }
 
-.rejectButton {
+.mergeButton,
+.rejectButton,
+.answerButton {
   width: 26px;
-  circle {
-    fill: #ff4646;
-  }
   g,
   path {
     fill: #ffffff;
   }
 }
 
+.mergeButton {
+  circle {
+    fill: $snow;
+    stroke: $primary-color;
+    stroke-width: 15px;
+  }
+  g,
+  path {
+    fill: $primary-color;
+  }
+}
+.disabled,
+.disabled * {
+  circle {
+    fill: #c7c7c7;
+  }
+  cursor: not-allowed;
+}
+
+.rejectButton {
+  circle {
+    fill: #ff4646;
+  }
+}
+
 .answerButton {
-  composes: rejectButton;
-  margin-left: 10px;
   circle {
     fill: $call-btn-color;
   }
@@ -117,9 +152,12 @@ $fixed-icon-width: 21px;
 
 .callDetail {
   font-size: 12px;
+  top: 30px;
+  left: 45px;
+  // max-width: $tmpWidth;
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
   color: #979797;
   .label {
     margin-right: 5px;
@@ -169,4 +207,23 @@ $fixed-icon-width: 21px;
   &.extended {
     height: 30px;
   }
+}
+
+.avatar {
+  width: $fixed-avatar-width;
+  height: $fixed-avatar-width;
+  border-radius: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  color: $primary-color;
+  overflow: hidden;
+
+  .icon {
+    display: block;
+    font-size: $fixed-avatar-width;
+    opacity: 0.3;
+  }
+}
+.avatar+.infoWrapper{
+  margin-left: 4px;
 }
