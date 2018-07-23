@@ -1,7 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
 import TabNavigationView from 'ringcentral-widgets/components/TabNavigationView';
+import withPhone from 'ringcentral-widgets/lib/withPhone';
+
 import DialPadIcon from 'ringcentral-widgets/assets/images/DialPadNav.svg';
 import CallsIcon from 'ringcentral-widgets/assets/images/Calls.svg';
 import HistoryIcon from 'ringcentral-widgets/assets/images/CallHistory.svg';
@@ -26,10 +29,8 @@ import ContactNavIcon from 'ringcentral-widgets/assets/images/ContactsNavigation
 import MeetingNavIcon from 'ringcentral-widgets/assets/images/MeetingNavigation.svg';
 import ConferenceNavIcon from 'ringcentral-widgets/assets/images/ConferenceNavigation.svg';
 import SettingsNavIcon from 'ringcentral-widgets/assets/images/SettingsNavigation.svg';
-import withPhone from 'ringcentral-widgets/lib/withPhone';
 
 import i18n from './i18n';
-
 
 function getTabs({
   currentLocale,
@@ -41,6 +42,7 @@ function getTabs({
   unreadCounts,
   showConference,
   showMeeting,
+  conferenceCallEquipped,
 }) {
   let tabs = [
     showDialPad && {
@@ -48,6 +50,10 @@ function getTabs({
       activeIcon: DialPadHoverIcon,
       label: i18n.getString('dialpadLabel', currentLocale),
       path: '/dialer',
+      isActive: currentPath => (
+        currentPath === '/dialer'
+        || (currentPath === '/calls' && conferenceCallEquipped)
+      ),
     },
     showCalls && {
       icon: CallsIcon,
@@ -113,10 +119,10 @@ function getTabs({
     const childTabs = tabs.slice(4, tabs.length);
     tabs = tabs.slice(0, 4);
     tabs.push({
-      icon: ({ currentPath }) => {
+      icon({ currentPath }) {
         const childTab = childTabs.filter(childTab => (
           (currentPath === childTab.path || currentPath.substr(0, 9) === childTab.path)
-            && childTab.moreMenuIcon
+          && childTab.moreMenuIcon
         ));
         if (childTab.length > 0) {
           const Icon = childTab[0].moreMenuIcon;
@@ -124,10 +130,10 @@ function getTabs({
         }
         return <MoreMenuIcon />;
       },
-      activeIcon: ({ currentPath }) => {
+      activeIcon({ currentPath }) {
         const childTab = childTabs.filter(childTab => (
           (currentPath === childTab.path || currentPath.substr(0, 9) === childTab.path)
-            && childTab.moreMenuIcon
+          && childTab.moreMenuIcon
         ));
         if (childTab.length > 0) {
           const Icon = childTab[0].moreMenuIcon;
@@ -153,7 +159,8 @@ function mapToProps(_, {
     rolesAndPermissions,
     routerInteraction,
     callingSettings,
-    conference
+    conference,
+    conferenceCall,
   },
 }) {
   const unreadCounts = messageStore.unreadCounts || 0;
@@ -176,6 +183,7 @@ function mapToProps(_, {
     rolesAndPermissions.permissions.Meetings
   );
   const currentLocale = locale.currentLocale;
+  const conferenceCallEquipped = !!conferenceCall;
   const tabs = getTabs({
     currentLocale,
     unreadCounts,
@@ -186,6 +194,7 @@ function mapToProps(_, {
     showContact,
     showConference,
     showMeeting,
+    conferenceCallEquipped,
   });
   return {
     tabs,
@@ -194,15 +203,29 @@ function mapToProps(_, {
     currentPath: routerInteraction.currentPath,
   };
 }
+
 function mapToFunctions(_, {
   phone: {
     routerInteraction,
+    callingSettings,
+    conferenceCall,
+    webphone,
   },
 }) {
+  const conferenceCallEquipped = !!conferenceCall;
   return {
     goTo(path) {
       if (path) {
-        routerInteraction.push(path);
+        if (
+          path === '/dialer'
+          && conferenceCallEquipped
+          && webphone.sessions.length
+          && callingSettings.callingMode === callingModes.webphone
+        ) {
+          routerInteraction.push('/calls');
+        } else {
+          routerInteraction.push(path);
+        }
       }
     },
   };
@@ -210,7 +233,7 @@ function mapToFunctions(_, {
 
 const MainView = withPhone(connect(
   mapToProps,
-  mapToFunctions
+  mapToFunctions,
 )(TabNavigationView));
 
 export default MainView;

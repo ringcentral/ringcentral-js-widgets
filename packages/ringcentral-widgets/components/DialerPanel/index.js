@@ -11,6 +11,7 @@ import AnswerIcon from '../../assets/images/Answer.svg';
 import styles from './styles.scss';
 
 function DialerPanel({
+  currentLocale,
   callButtonDisabled,
   className,
   dialButtonsClassName,
@@ -22,7 +23,6 @@ function DialerPanel({
   changeFromNumber,
   formatPhone,
   isWebphoneMode,
-  currentLocale,
   showSpinner,
   dialButtonVolume,
   dialButtonMuted,
@@ -44,7 +44,7 @@ function DialerPanel({
       onCallButtonClick();
     }
   };
-  const content = showSpinner ? (<SpinnerOverlay />) : null;
+
   return (
     <div className={classnames(styles.root, className)}>
       <RecipientsInput
@@ -102,12 +102,14 @@ function DialerPanel({
           </div>
         </div>
       </div>
-      {content}
+      {showSpinner ? <SpinnerOverlay /> : null}
       {children}
     </div>
   );
 }
+
 DialerPanel.propTypes = {
+  currentLocale: PropTypes.string.isRequired,
   className: PropTypes.string,
   dialButtonsClassName: PropTypes.string,
   onCallButtonClick: PropTypes.func.isRequired,
@@ -116,7 +118,6 @@ DialerPanel.propTypes = {
   toNumber: PropTypes.string,
   onToNumberChange: PropTypes.func,
   fromNumber: PropTypes.string,
-  currentLocale: PropTypes.string.isRequired,
   fromNumbers: PropTypes.arrayOf(PropTypes.shape({
     phoneNumber: PropTypes.string,
     usageType: PropTypes.string,

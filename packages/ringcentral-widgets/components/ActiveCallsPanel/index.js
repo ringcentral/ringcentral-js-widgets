@@ -148,14 +148,13 @@ export default class ActiveCallsPanel extends Component {
 
     if (!this.hasCalls()) {
       return (
-        <div
-          className={classnames(styles.root, className)}
-        >
+        <div className={classnames(styles.root, className)}>
           <p className={styles.noCalls}>{i18n.getString('noActiveCalls', currentLocale)}</p>
           {showSpinner ? <SpinnerOverlay className={styles.spinner} /> : null}
         </div>
       );
     }
+
     return (
       <div className={styles.root}>
         <div
