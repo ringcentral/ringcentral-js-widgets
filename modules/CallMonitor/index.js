@@ -63,9 +63,17 @@ var _actionTypes = require('./actionTypes');
 
 var _actionTypes2 = _interopRequireDefault(_actionTypes);
 
+var _calleeTypes = require('../../enums/calleeTypes');
+
+var _calleeTypes2 = _interopRequireDefault(_calleeTypes);
+
 var _callDirections = require('../../enums/callDirections');
 
 var _callDirections2 = _interopRequireDefault(_callDirections);
+
+var _sessionStatus = require('../Webphone/sessionStatus');
+
+var _sessionStatus2 = _interopRequireDefault(_sessionStatus);
 
 var _getCallMonitorReducer = require('./getCallMonitorReducer');
 
@@ -130,7 +138,7 @@ function matchWephoneSessionWithAcitveCall(sessions, callItem) {
  * @description active calls monitor module
  */
 var CallMonitor = (_dec = (0, _di.Module)({
-  deps: ['AccountInfo', 'Storage', 'DetailedPresence', { dep: 'ContactMatcher', optional: true }, { dep: 'Webphone', optional: true }, { dep: 'Call', optional: true }, { dep: 'ActivityMatcher', optional: true }, { dep: 'CallMonitorOptions', optional: true }, { dep: 'TabManager', optional: true }]
+  deps: ['AccountInfo', 'Storage', 'DetailedPresence', { dep: 'ContactMatcher', optional: true }, { dep: 'Webphone', optional: true }, { dep: 'Call', optional: true }, { dep: 'ConferenceCall', optional: true }, { dep: 'ActivityMatcher', optional: true }, { dep: 'CallMonitorOptions', optional: true }, { dep: 'TabManager', optional: true }]
 }), _dec(_class = function (_RcModule) {
   (0, _inherits3.default)(CallMonitor, _RcModule);
 
@@ -138,6 +146,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
    * @constructor
    * @param {Object} params - params object
    * @param {Call} params.call - call module instance
+   * @param {ConferenceCall} params.conferenceCall - conference call module instance
    * @param {AccountInfo} params.accountInfo - accountInfo module instance
    * @param {DetailedPresence} params.detailedPresence - detailedPresence module instance
    * @param {ActivityMatcher} params.activityMatcher - activityMatcher module instance
@@ -151,6 +160,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
    */
   function CallMonitor(_ref) {
     var call = _ref.call,
+        conferenceCall = _ref.conferenceCall,
         accountInfo = _ref.accountInfo,
         detailedPresence = _ref.detailedPresence,
         activityMatcher = _ref.activityMatcher,
@@ -162,7 +172,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
         onCallUpdated = _ref.onCallUpdated,
         onCallEnded = _ref.onCallEnded,
         storage = _ref.storage,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['call', 'accountInfo', 'detailedPresence', 'activityMatcher', 'contactMatcher', 'tabManager', 'webphone', 'onRinging', 'onNewCall', 'onCallUpdated', 'onCallEnded', 'storage']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['call', 'conferenceCall', 'accountInfo', 'detailedPresence', 'activityMatcher', 'contactMatcher', 'tabManager', 'webphone', 'onRinging', 'onNewCall', 'onCallUpdated', 'onCallEnded', 'storage']);
     (0, _classCallCheck3.default)(this, CallMonitor);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallMonitor.__proto__ || (0, _getPrototypeOf2.default)(CallMonitor)).call(this, (0, _extends3.default)({}, options, {
@@ -170,6 +180,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
     })));
 
     _this._call = call;
+    _this._conferenceCall = conferenceCall;
     _this._accountInfo = _ensureExist2.default.call(_this, accountInfo, 'accountInfo');
     _this._detailedPresence = _ensureExist2.default.call(_this, detailedPresence, 'detailedPresence');
     _this._contactMatcher = contactMatcher;
@@ -368,6 +379,62 @@ var CallMonitor = (_dec = (0, _di.Module)({
       });
     });
 
+    var _lastCallInfo = {};
+    _this.addSelector('lastCallInfo', function () {
+      return _this.calls;
+    }, function () {
+      return _this._conferenceCall && _this._conferenceCall.mergingPair.fromSessionId;
+    }, function () {
+      return _this._conferenceCall && _this._conferenceCall.partyProfiles;
+    }, function (calls, fromSessionId, partyProfiles) {
+      var lastCall = calls.find(function (call) {
+        return call.webphoneSession && call.webphoneSession.id === fromSessionId;
+      });
+
+      var lastCalleeType = null;
+      if (lastCall) {
+        if (lastCall.toMatches.length) {
+          lastCalleeType = _calleeTypes2.default.contacts;
+        } else if ((0, _webphoneHelper.isConferenceSession)(lastCall.webphoneSession)) {
+          lastCalleeType = _calleeTypes2.default.conference;
+        } else {
+          lastCalleeType = _calleeTypes2.default.unknow;
+        }
+      } else if (_lastCallInfo.calleeType) {
+        _lastCallInfo = (0, _extends3.default)({}, _lastCallInfo, {
+          status: _sessionStatus2.default.finished
+        });
+        return _lastCallInfo;
+      }
+
+      if (lastCalleeType === _calleeTypes2.default.conference) {
+        var partiesAvatarUrls = (partyProfiles || []).map(function (profile) {
+          return profile.avatarUrl;
+        });
+        _lastCallInfo = {
+          calleeType: _calleeTypes2.default.conference,
+          avatarUrl: partiesAvatarUrls[0],
+          extraNum: partiesAvatarUrls.length - 1
+        };
+      } else if (lastCalleeType === _calleeTypes2.default.contacts) {
+        _lastCallInfo = {
+          calleeType: _calleeTypes2.default.contacts,
+          avatarUrl: lastCall.toMatches[0].profileImageUrl,
+          name: lastCall.toName,
+          status: lastCall.webphoneSession.callStatus
+        };
+      } else if (lastCalleeType === _calleeTypes2.default.unknow) {
+        _lastCallInfo = {
+          calleeType: _calleeTypes2.default.unknow,
+          avatarUrl: null,
+          name: lastCall.to.phoneNumber,
+          status: lastCall.webphoneSession ? lastCall.webphoneSession.callStatus : null
+        };
+      }
+
+      return _lastCallInfo;
+    });
+
     if (_this._activityMatcher) {
       _this._activityMatcher.addQuerySource({
         getQueriesFn: _this._selectors.sessionIds,
@@ -394,14 +461,14 @@ var CallMonitor = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if ((!this._call || this._call.ready) && this._accountInfo.ready && this._detailedPresence.ready && (!this._contactMatcher || this._contactMatcher.ready) && (!this._activityMatcher || this._activityMatcher.ready) && (!this._tabManager || this._tabManager.ready) && this._storage.ready && this.pending) {
+                if ((!this._call || this._call.ready) && (!this._conferenceCall || this._conferenceCall.ready) && this._accountInfo.ready && this._detailedPresence.ready && (!this._contactMatcher || this._contactMatcher.ready) && (!this._activityMatcher || this._activityMatcher.ready) && (!this._tabManager || this._tabManager.ready) && this._storage.ready && this.pending) {
                   this.store.dispatch({
                     type: this.actionTypes.init
                   });
                   this.store.dispatch({
                     type: this.actionTypes.initSuccess
                   });
-                } else if ((this._call && !this._call.ready || !this._accountInfo.ready || !this._detailedPresence.ready || this._contactMatcher && !this._contactMatcher.ready || this._activityMatcher && !this._activityMatcher.ready || this._tabManager && !this._tabManager.ready || !this._storage.ready) && this.ready) {
+                } else if ((this._call && !this._call.ready || this._conferenceCall && !this._conferenceCall.ready || !this._accountInfo.ready || !this._detailedPresence.ready || this._contactMatcher && !this._contactMatcher.ready || this._activityMatcher && !this._activityMatcher.ready || this._tabManager && !this._tabManager.ready || !this._storage.ready) && this.ready) {
                   this.store.dispatch({
                     type: this.actionTypes.reset
                   });
@@ -573,6 +640,11 @@ var CallMonitor = (_dec = (0, _di.Module)({
     key: 'otherDeviceCalls',
     get: function get() {
       return this._selectors.otherDeviceCalls();
+    }
+  }, {
+    key: 'lastCallInfo',
+    get: function get() {
+      return this._selectors.lastCallInfo();
     }
   }]);
   return CallMonitor;

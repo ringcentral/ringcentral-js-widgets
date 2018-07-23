@@ -240,7 +240,6 @@ var Webphone = (_dec = (0, _di.Module)({
     _this._remoteVideo = null;
     _this._localVideo = null;
     _this._sessions = new _map2.default();
-
     _this._reducer = (0, _getWebphoneReducer2.default)(_this.actionTypes);
 
     _this.addSelector('sessionPhoneNumbers', function () {

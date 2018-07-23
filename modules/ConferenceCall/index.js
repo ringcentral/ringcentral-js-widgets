@@ -212,18 +212,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
         options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'alert', 'call', 'callingSettings', 'client', 'rolesAndPermissions', 'contactMatcher', 'webphone', 'connectivityMonitor', 'pulling', 'capacity', 'timeout']);
     (0, _classCallCheck3.default)(this, ConferenceCall);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (ConferenceCall.__proto__ || (0, _getPrototypeOf2.default)(ConferenceCall)).call(this, (0, _extends3.default)({
-      auth: auth,
-      alert: alert,
-      call: call,
-      callingSettings: callingSettings,
-      client: client,
-      rolesAndPermissions: rolesAndPermissions,
-      pulling: pulling,
-      contactMatcher: contactMatcher,
-      webphone: webphone,
-      connectivityMonitor: connectivityMonitor
-    }, options, {
+    var _this = (0, _possibleConstructorReturn3.default)(this, (ConferenceCall.__proto__ || (0, _getPrototypeOf2.default)(ConferenceCall)).call(this, (0, _extends3.default)({}, options, {
       actionTypes: _actionTypes2.default
     })));
 
@@ -244,6 +233,16 @@ var ConferenceCall = (_dec = (0, _di.Module)({
     _this._timers = {};
     _this._pulling = pulling;
     _this.capacity = capacity;
+
+    _this.addSelector('partyProfiles', function () {
+      return (0, _values2.default)(_this.conferences)[0] && (0, _values2.default)(_this.conferences)[0].conference.parties;
+    }, function () {
+      var conferenceData = (0, _values2.default)(_this.conferences)[0];
+      if (!conferenceData) {
+        return [];
+      }
+      return _this.getOnlinePartyProfiles(conferenceData.conference.id);
+    });
     return _this;
   }
 
@@ -702,6 +701,8 @@ var ConferenceCall = (_dec = (0, _di.Module)({
             switch (_context6.prev = _context6.next) {
               case 0:
                 webphoneSessions = webphoneSessions.filter(function (session) {
+                  return !_this3.isConferenceSession(session.id);
+                }).filter(function (session) {
                   return Object.prototype.toString.call(session).toLowerCase() === '[object object]';
                 });
 
@@ -844,18 +845,18 @@ var ConferenceCall = (_dec = (0, _di.Module)({
   }, {
     key: 'setMergeParty',
     value: function setMergeParty(_ref8) {
-      var from = _ref8.from,
-          to = _ref8.to;
+      var fromSessionId = _ref8.fromSessionId,
+          toSessionId = _ref8.toSessionId;
 
-      if (from) {
+      if (fromSessionId) {
         return this.store.dispatch({
           type: this.actionTypes.updateFromSession,
-          from: from
+          fromSessionId: fromSessionId
         });
       }
       return this.store.dispatch({
         type: this.actionTypes.updateToSession,
-        to: to
+        toSessionId: toSessionId
       });
     }
   }, {
@@ -1396,6 +1397,16 @@ var ConferenceCall = (_dec = (0, _di.Module)({
     key: 'isMerging',
     get: function get() {
       return this.state.isMerging;
+    }
+  }, {
+    key: 'mergingPair',
+    get: function get() {
+      return this.state.mergingPair;
+    }
+  }, {
+    key: 'partyProfiles',
+    get: function get() {
+      return this._selectors.partyProfiles();
     }
   }]);
   return ConferenceCall;

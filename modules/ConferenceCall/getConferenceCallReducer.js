@@ -127,14 +127,14 @@ function getMergingPairReducer(types) {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     var _ref4 = arguments[1];
     var type = _ref4.type,
-        from = _ref4.from,
-        to = _ref4.to;
+        fromSessionId = _ref4.fromSessionId,
+        toSessionId = _ref4.toSessionId;
 
     switch (type) {
       case types.updateFromSession:
-        return { from: from };
+        return { fromSessionId: fromSessionId };
       case types.updateToSession:
-        return (0, _extends3.default)({}, state, { to: to });
+        return (0, _extends3.default)({}, state, { toSessionId: toSessionId });
       case types.mergeSucceeded:
       case types.resetSuccess:
         return {};
