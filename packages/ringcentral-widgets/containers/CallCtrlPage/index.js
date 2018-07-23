@@ -290,6 +290,7 @@ function mapToProps(_, {
     contactSearch,
     conferenceCall,
     callingSettings,
+    callMonitor,
   },
   layout = callCtrlLayouts.normalCtrl,
 }) {
@@ -333,7 +334,7 @@ function mapToProps(_, {
 
     hasConferenceCall = !!conferenceData;
     conferenceCallParties = conferenceCall.partyProfiles;
-    lastCallInfo = conferenceCall.lastCallInfo;
+    lastCallInfo = callMonitor.lastCallInfo;
 
     if (
       layout === callCtrlLayouts.mergeCtrl
