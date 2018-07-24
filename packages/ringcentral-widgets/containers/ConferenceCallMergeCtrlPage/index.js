@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
-
+import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
+import sleep from 'ringcentral-integration/lib/sleep';
 import withPhone from '../../lib/withPhone';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 
@@ -14,6 +15,7 @@ function mapToProps(_, {
   phone: {
     webphone,
     conferenceCall,
+    callMonitor,
   },
   ...props
 }) {
@@ -25,15 +27,27 @@ function mapToProps(_, {
   const currentSession = webphone.activeSession || {};
   const isOnConference = conferenceCall.isConferenceSession(currentSession.id);
   const layout = isOnConference ? callCtrlLayouts.conferenceCtrl : callCtrlLayouts.mergeCtrl;
-
+  const lastCallInfo = callMonitor.lastCallInfo;
+  let mergeDisabled = !!baseProps.mergeDisabled;
+  if (
+    layout === callCtrlLayouts.mergeCtrl
+    && (!lastCallInfo || lastCallInfo.status === sessionStatus.finished)
+  ) {
+    mergeDisabled = true;
+  }
   return {
     ...baseProps,
     layout,
+    mergeDisabled,
+    lastCallInfo,
   };
 }
 
 function mapToFunctions(_, {
   phone,
+  phone: {
+    routerInteraction,
+  },
   ...props
 }) {
   const baseProps = mapToBaseFunctions(_, {
@@ -42,6 +56,12 @@ function mapToFunctions(_, {
   });
   return {
     ...baseProps,
+    async onLastCallEnded() {
+      await sleep(2000); 
+      if (routerInteraction.currentPath === '/conferenceCall/mergeCtrl') {
+        routerInteraction.push('/calls/active');
+      }
+  },
   };
 }
 

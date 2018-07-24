@@ -2,12 +2,10 @@ import { find } from 'ramda';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import sleep from 'ringcentral-integration/lib/sleep';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import calleeTypes from 'ringcentral-integration/enums/calleeTypes';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
-import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 import withPhone from '../../lib/withPhone';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import CallCtrlPanel from '../../components/CallCtrlPanel';
@@ -290,7 +288,6 @@ function mapToProps(_, {
     contactSearch,
     conferenceCall,
     callingSettings,
-    callMonitor,
   },
   layout = callCtrlLayouts.normalCtrl,
 }) {
@@ -309,7 +306,6 @@ function mapToProps(_, {
   let isOnConference = false;
   let hasConferenceCall = false;
   let isMerging = false;
-  let lastCallInfo;
   let conferenceCallParties;
 
   if (conferenceCall) {
@@ -334,14 +330,6 @@ function mapToProps(_, {
 
     hasConferenceCall = !!conferenceData;
     conferenceCallParties = conferenceCall.partyProfiles;
-    lastCallInfo = callMonitor.lastCallInfo;
-
-    if (
-      layout === callCtrlLayouts.mergeCtrl
-      && (!lastCallInfo || lastCallInfo.status === sessionStatus.finished)
-    ) {
-      mergeDisabled = true;
-    }
   }
 
   layout = isOnConference ? callCtrlLayouts.conferenceCtrl : layout;
@@ -362,7 +350,6 @@ function mapToProps(_, {
     conferenceCallEquipped: !!conferenceCall,
     hasConferenceCall,
     conferenceCallParties,
-    lastCallInfo,
   };
 }
 
@@ -453,10 +440,6 @@ function mapToFunctions(_, {
       }
     },
     onIncomingCallCaptured() {
-      routerInteraction.push('/calls/active');
-    },
-    async onLastCallEnded() {
-      await sleep(2000);
       routerInteraction.push('/calls/active');
     },
   };
