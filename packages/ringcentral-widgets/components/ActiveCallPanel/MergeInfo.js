@@ -19,7 +19,7 @@ function MergeInfo(props) {
   const isLastCallEnded = lastCallInfo && lastCallInfo.status === sessionStatus.finished;
   const statusClasses = classnames({
     [styles.callee_status]: true,
-    [styles.callee_status_disconnected]: isLastCallEnded,
+    [styles.callee_status_disconnected]: !!isLastCallEnded,
   });
 
   const isOnConferenCall = !!(
