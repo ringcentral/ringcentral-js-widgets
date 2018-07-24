@@ -255,7 +255,7 @@ export default class BasePhone extends RcModule {
       ) {
         if (
           routerInteraction.currentPath === '/conferenceCall/mergeCtrl' ||
-          routerInteraction.currentPath === '/conferenceCall/dialer/' ||
+          routerInteraction.currentPath.indexOf('/conferenceCall/dialer/') === 0 ||
           !currentSession
         ) {
           routerInteraction.push('/dialer');
