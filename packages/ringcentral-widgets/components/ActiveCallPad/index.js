@@ -174,7 +174,6 @@ class ActiveCallPad extends Component {
           title: i18n.getString('add', this.props.currentLocale),
           disabled: this.props.addDisabled,
           onClick: this.props.onAdd,
-          showRipple: !this.props.addDisabled,
         }
       );
     }
