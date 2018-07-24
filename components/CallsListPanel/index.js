@@ -461,11 +461,11 @@ var CallsListPanel = function (_Component) {
       return _react2.default.createElement(
         'div',
         { className: (0, _classnames2.default)(_styles2.default.container, onSearchInputChange ? _styles2.default.containerWithSearch : null) },
+        children,
         search,
         _react2.default.createElement(
           'div',
           { className: (0, _classnames2.default)(_styles2.default.root, currentLog && currentLog.showLog ? _styles2.default.hiddenScroll : '', className) },
-          children,
           getCallList(activeRingCalls, _i18n2.default.getString('ringCall', currentLocale)),
           getCallList(activeCurrentCalls, _i18n2.default.getString('currentCall', currentLocale)),
           getCallList(activeOnHoldCalls, _i18n2.default.getString('onHoldCall', currentLocale)),
