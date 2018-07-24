@@ -5,13 +5,17 @@ import { timeout } from '../shared';
 import pubnubPresence from './data/pubnubPresence';
 import * as MockedPubNub from '../../__mocks__/pubnub.js';
 
+let sequence = (pubnubPresence && pubnubPresence.body && pubnubPresence.body.sequence) || 368997;
+
 export async function mockPubnub({ activeCalls }) {
   const pubnub = MockedPubNub.getLastPubnub();
+  sequence += 1;
   const encrypted = pubnub._realPubnub.encrypt(
     JSON.stringify({
       ...pubnubPresence,
       body: {
         ...pubnubPresence.body,
+        sequence,
         activeCalls
       },
       timestamp: (new Date()).toISOString(),
@@ -92,7 +96,7 @@ export function generateActiveCallsData(sessions) {
     sessionId: session.id,
     startTime: (new Date()).getTime(),
     telephonyStatus: 'OnHold',
-    to: '101',
+    to: session.to || '101',
     toName: 'Something1 New1',
     sipData: {
       fromTag: '10.74.2.219-5070-09d1878acdfc44a',

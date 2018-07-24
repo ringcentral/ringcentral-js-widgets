@@ -1,6 +1,5 @@
 import { find } from 'ramda';
 import { createSelector } from 'reselect';
-
 import getter from '../../lib/getter';
 import { Module } from '../../lib/di';
 import callDirections from '../../enums/callDirections';
@@ -146,7 +145,7 @@ export default class ConferenceCall extends RcModule {
         sessionId,
       });
     } catch (e) {
-      // TODO: alert
+    // TODO: alert
       this.store.dispatch({
         type: this.actionTypes.updateConferenceFailed,
         conference: this.state.conferences[id],
@@ -246,10 +245,8 @@ export default class ConferenceCall extends RcModule {
 
     try {
       const partyProfile = await this._getProfile(webphoneSession.id);
-
       await this._client.service.platform()
         .post(`/account/~/telephony/sessions/${id}/parties/bring-in`, webphoneSession.partyData);
-
       const newConference = await this.updateConferenceStatus(id);
       conference = newConference.conference;
 
@@ -375,7 +372,6 @@ export default class ConferenceCall extends RcModule {
     this.store.dispatch({
       type: this.actionTypes.mergeStart,
     });
-
     let sipInstances;
     let conferenceId = null;
 
@@ -387,7 +383,6 @@ export default class ConferenceCall extends RcModule {
        */
       sipInstances = webphoneSessions
         .map(webphoneSession => this._webphone._sessions.get(webphoneSession.id));
-
       /**
        * HACK: we need to preserve the merging session in prevent the glitch of
        * the call control page.
@@ -411,6 +406,7 @@ export default class ConferenceCall extends RcModule {
           });
         }, () => {
           const conferenceState = Object.values(this.conferences)[0];
+
           /**
            * if create conference successfully but failed to bring-in,
            *  then terminate the conference.
@@ -660,7 +656,6 @@ export default class ConferenceCall extends RcModule {
   @proxify
   async _mergeToConference(webphoneSessions = []) {
     const conferenceState = Object.values(this.conferences)[0];
-
     if (conferenceState) {
       const conferenceId = conferenceState.conference.id;
       this.stopPollingConferenceStatus(conferenceId);
@@ -689,11 +684,11 @@ export default class ConferenceCall extends RcModule {
         sipSession.on('terminated', () => reject(new Error('conferecing terminated')));
       }),
       new Promise((resolve, reject) => {
-        setTimeout(() => (confereceAccepted ? resolve() : reject(new Error('conferecing timeout')))
+        setTimeout(() => (
+          confereceAccepted ? resolve() : reject(new Error('conferecing timeout')))
           , this._timout);
       })
     ]);
-
     await this._mergeToConference(webphoneSessions);
     return id;
   }
@@ -716,7 +711,6 @@ export default class ConferenceCall extends RcModule {
         phoneNumber,
         isConference: true,
       });
-
       if (typeof session === 'object' &&
         Object.prototype.toString.call(session.on).toLowerCase() === '[object function]') {
         this._hookConference(conference, session);
@@ -732,7 +726,6 @@ export default class ConferenceCall extends RcModule {
           type: this.actionTypes.makeConferenceFailed,
         });
       }
-
       return conference;
     } catch (e) {
       this.store.dispatch({
