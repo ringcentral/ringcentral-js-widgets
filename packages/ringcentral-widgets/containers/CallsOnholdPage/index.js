@@ -75,8 +75,7 @@ function mapToFunctions(_, {
   return {
     ...baseProps,
     async onMerge(sessionId) {
-      onBackButtonClick();
-      await conferenceCall.onMergeOnhold({ sessionId });
+      await conferenceCall.onMergeOnhold({ sessionId, callback: this::onBackButtonClick });
     },
     onBackButtonClick() {
       routerInteraction.goBack();
