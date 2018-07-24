@@ -263,7 +263,8 @@ var ActiveCallPad = function (_Component) {
           icon: _MergeIntoConferenceIcon2.default,
           title: _i18n2.default.getString('mergeToConference', this.props.currentLocale),
           disabled: this.props.mergeDisabled,
-          onClick: this.props.onMerge
+          onClick: this.props.onMerge,
+          showRipple: !this.props.mergeDisabled
         } : {
           icon: _Combine2.default,
           title: _i18n2.default.getString('add', this.props.currentLocale),

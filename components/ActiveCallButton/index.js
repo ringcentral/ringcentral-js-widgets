@@ -63,7 +63,8 @@ function ActiveCallButton(props) {
       iconWidth: props.iconWidth,
       iconHeight: props.iconHeight,
       iconX: props.iconX,
-      iconY: props.iconY
+      iconY: props.iconY,
+      showRipple: props.showRipple
     }),
     _react2.default.createElement(
       'text',
@@ -94,7 +95,8 @@ ActiveCallButton.propTypes = {
   iconWidth: _propTypes2.default.number,
   iconHeight: _propTypes2.default.number,
   iconX: _propTypes2.default.number,
-  iconY: _propTypes2.default.number
+  iconY: _propTypes2.default.number,
+  showRipple: _propTypes2.default.bool
 };
 
 ActiveCallButton.defaultProps = {
@@ -112,6 +114,7 @@ ActiveCallButton.defaultProps = {
   iconWidth: undefined,
   iconHeight: undefined,
   iconX: undefined,
-  iconY: undefined
+  iconY: undefined,
+  showRipple: false
 };
 //# sourceMappingURL=index.js.map

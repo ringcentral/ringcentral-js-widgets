@@ -67,7 +67,13 @@ function CircleButton(props) {
         cy: '250',
         r: '245'
       }),
-      icon
+      icon,
+      props.showRipple ? _react2.default.createElement('circle', {
+        className: _styles2.default.ripple,
+        cx: '250',
+        cy: '250',
+        r: '245'
+      }) : null
     )
   );
 }
@@ -87,7 +93,8 @@ CircleButton.propTypes = {
   iconHeight: _propTypes2.default.number,
   iconX: _propTypes2.default.number,
   iconY: _propTypes2.default.number,
-  title: _propTypes2.default.string
+  title: _propTypes2.default.string,
+  showRipple: _propTypes2.default.bool
 };
 
 CircleButton.defaultProps = {
@@ -105,7 +112,8 @@ CircleButton.defaultProps = {
   iconHeight: 200,
   iconX: 150,
   iconY: 150,
-  title: null
+  title: null,
+  showRipple: false
 };
 
 exports.default = CircleButton;
