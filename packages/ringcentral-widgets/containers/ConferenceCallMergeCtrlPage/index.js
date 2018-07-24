@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
+import sleep from 'ringcentral-integration/lib/sleep';
 import withPhone from '../../lib/withPhone';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 
@@ -38,11 +39,15 @@ function mapToProps(_, {
     ...baseProps,
     layout,
     mergeDisabled,
+    lastCallInfo,
   };
 }
 
 function mapToFunctions(_, {
   phone,
+  phone: {
+    routerInteraction,
+  },
   ...props
 }) {
   const baseProps = mapToBaseFunctions(_, {
@@ -51,6 +56,12 @@ function mapToFunctions(_, {
   });
   return {
     ...baseProps,
+    async onLastCallEnded() {
+      await sleep(2000); 
+      if (routerInteraction.currentPath === '/conferenceCall/mergeCtrl') {
+        routerInteraction.push('/calls/active');
+      }
+  },
   };
 }
 
