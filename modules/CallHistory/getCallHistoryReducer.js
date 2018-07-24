@@ -9,6 +9,7 @@ var _extends2 = require('babel-runtime/helpers/extends');
 var _extends3 = _interopRequireDefault(_extends2);
 
 exports.getEndedCallsReducer = getEndedCallsReducer;
+exports.getSearchInputReducer = getSearchInputReducer;
 exports.default = getCallHistoryReducer;
 
 var _redux = require('redux');
@@ -67,9 +68,29 @@ function getEndedCallsReducer(types) {
   };
 }
 
+function getSearchInputReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+    var _ref2 = arguments[1];
+    var type = _ref2.type,
+        _ref2$input = _ref2.input,
+        input = _ref2$input === undefined ? '' : _ref2$input;
+
+    switch (type) {
+      case types.updateSearchInput:
+        return input;
+      case types.resetSuccess:
+        return '';
+      default:
+        return state;
+    }
+  };
+}
+
 /* istanbul ignore next: unnecessary to test getModuleStatusReducer */
 function getCallHistoryReducer(types, reducers) {
   return (0, _redux.combineReducers)((0, _extends3.default)({}, reducers, {
+    searchInput: getSearchInputReducer(types),
     status: (0, _getModuleStatusReducer2.default)(types)
   }));
 }
