@@ -267,6 +267,7 @@ var RegionSettings = (_dec = (0, _di.Module)({
     key: '_alertSettingsChanged',
     value: function _alertSettingsChanged() {
       this._alert.warning({
+        allowDuplicates: false,
         message: _regionSettingsMessages2.default.dialingPlansChanged,
         ttl: 0
       });
