@@ -72,7 +72,7 @@ function getMakeConferenceCallReducer(types) {
     var _ref2 = arguments[1];
     var type = _ref2.type,
         conference = _ref2.conference,
-        session = _ref2.session,
+        sessionId = _ref2.sessionId,
         partyProfile = _ref2.partyProfile;
 
     var res = (0, _extends3.default)({}, state);
@@ -83,14 +83,14 @@ function getMakeConferenceCallReducer(types) {
       case types.updateConferenceSucceeded:
         res[conference.id] = {
           conference: conference,
-          session: session,
+          sessionId: sessionId,
           profiles: res[conference.id] && res[conference.id].profiles || []
         };
         return res;
       case types.bringInConferenceSucceeded:
         res[conference.id] = {
           conference: conference,
-          session: session,
+          sessionId: sessionId,
           profiles: [].concat((0, _toConsumableArray3.default)(res[conference.id].profiles), [partyProfile])
         };
         return res;
