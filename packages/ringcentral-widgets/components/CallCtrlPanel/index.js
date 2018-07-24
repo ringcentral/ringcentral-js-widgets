@@ -54,8 +54,12 @@ class CallCtrlPanel extends Component {
           this.props.layout === callCtrlLayouts.normalCtrl
         ) {
           this.showMergeConfirm();
+          // track user click merge
+          this.props.callControlClickMergeTrack();
         } else if (this.props.onMerge) {
           this.props.onMerge();
+          // track user click merge
+          this.props.callControlClickMergeTrack();
         }
       }
     };
@@ -66,16 +70,25 @@ class CallCtrlPanel extends Component {
     };
 
     this.hideMergeConfirm = () => {
+      this.hideMergeConfirmNoTrack();
+      // user action track
+      this.props.confirmMergeClickCloseTrack();
+    };
+
+    // hide merge confirm without track
+    this.hideMergeConfirmNoTrack = () => {
       this.setState({
-        isShowMergeConfirm: false,
+        isShowMergeConfirm: false
       });
     };
 
     this.confirmMerge = () => {
-      this.hideMergeConfirm();
+      this.hideMergeConfirmNoTrack();
       if (this.props.onMerge) {
         this.props.onMerge();
       }
+      // user action track
+      this.props.confirmMergeClickMergeTrack();
     };
 
     this.gotoParticipantsCtrl = () => {
@@ -85,7 +98,7 @@ class CallCtrlPanel extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.hasConferenceCall && this.state.isShowMergeConfirm) {
-      this.hideMergeConfirm();
+      this.hideMergeConfirmNoTrack();
     }
   }
 
@@ -252,6 +265,9 @@ CallCtrlPanel.propTypes = {
   conferenceCallParties: PropTypes.array,
   getAvatarUrl: PropTypes.func,
   gotoParticipantsCtrl: PropTypes.func,
+  confirmMergeClickCloseTrack: PropTypes.func,
+  confirmMergeClickMergeTrack: PropTypes.func,
+  callControlClickMergeTrack: PropTypes.func,
 };
 
 CallCtrlPanel.defaultProps = {
@@ -288,6 +304,9 @@ CallCtrlPanel.defaultProps = {
   lastCallInfo: undefined,
   getAvatarUrl: () => null,
   gotoParticipantsCtrl: i => i,
+  confirmMergeClickCloseTrack: () => null,
+  confirmMergeClickMergeTrack: () => null,
+  callControlClickMergeTrack: () => null,
 };
 
 export default CallCtrlPanel;
