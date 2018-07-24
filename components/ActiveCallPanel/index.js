@@ -99,8 +99,7 @@ function ActiveCallPanel(_ref) {
       conferenceCallEquipped = _ref.conferenceCallEquipped,
       hasConferenceCall = _ref.hasConferenceCall,
       conferenceCallParties = _ref.conferenceCallParties,
-      lastCallInfo = _ref.lastCallInfo,
-      onLastCallEnded = _ref.onLastCallEnded;
+      lastCallInfo = _ref.lastCallInfo;
 
   var backHeader = showBackButton ? _react2.default.createElement(_BackHeader2.default, {
     onBackClick: onBackButtonClick,
@@ -127,7 +126,6 @@ function ActiveCallPanel(_ref) {
         currentLocale: currentLocale,
         timeCounter: timeCounter,
         lastCallInfo: lastCallInfo,
-        onLastCallEnded: onLastCallEnded,
         currentCallAvatarUrl: avatarUrl,
         currentCallTitle: currentCallTitle || fallBackName
       });
@@ -247,8 +245,7 @@ ActiveCallPanel.propTypes = {
   conferenceCallParties: _propTypes2.default.array,
   conferenceCallEquipped: _propTypes2.default.bool,
   hasConferenceCall: _propTypes2.default.bool,
-  lastCallInfo: _propTypes2.default.object,
-  onLastCallEnded: _propTypes2.default.func
+  lastCallInfo: _propTypes2.default.object
 };
 
 ActiveCallPanel.defaultProps = {
@@ -283,8 +280,7 @@ ActiveCallPanel.defaultProps = {
   conferenceCallEquipped: false,
   hasConferenceCall: false,
   conferenceCallParties: undefined,
-  lastCallInfo: undefined,
-  onLastCallEnded: undefined
+  lastCallInfo: undefined
 };
 
 exports.default = ActiveCallPanel;

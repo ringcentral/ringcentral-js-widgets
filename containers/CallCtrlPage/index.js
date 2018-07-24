@@ -53,10 +53,6 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _sleep = require('ringcentral-integration/lib/sleep');
-
-var _sleep2 = _interopRequireDefault(_sleep);
-
 var _formatNumber = require('ringcentral-integration/lib/formatNumber');
 
 var _formatNumber2 = _interopRequireDefault(_formatNumber);
@@ -72,10 +68,6 @@ var _callDirections2 = _interopRequireDefault(_callDirections);
 var _callingModes = require('ringcentral-integration/modules/CallingSettings/callingModes');
 
 var _callingModes2 = _interopRequireDefault(_callingModes);
-
-var _sessionStatus = require('ringcentral-integration/modules/Webphone/sessionStatus');
-
-var _sessionStatus2 = _interopRequireDefault(_sessionStatus);
 
 var _withPhone = require('../../lib/withPhone');
 
@@ -294,8 +286,7 @@ var CallCtrlPage = function (_Component) {
           conferenceCallEquipped: this.props.conferenceCallEquipped,
           hasConferenceCall: this.props.hasConferenceCall,
           conferenceCallParties: this.props.conferenceCallParties,
-          lastCallInfo: this.props.lastCallInfo,
-          onLastCallEnded: this.props.onLastCallEnded
+          lastCallInfo: this.props.lastCallInfo
         },
         this.props.children
       );
@@ -359,7 +350,6 @@ CallCtrlPage.propTypes = {
   conferenceCallEquipped: _propTypes2.default.bool,
   hasConferenceCall: _propTypes2.default.bool,
   lastCallInfo: _propTypes2.default.object,
-  onLastCallEnded: _propTypes2.default.func,
   onIncomingCallCaptured: _propTypes2.default.func
 };
 
@@ -381,7 +371,6 @@ CallCtrlPage.defaultProps = {
   hasConferenceCall: false,
   conferenceCallParties: undefined,
   lastCallInfo: { calleeType: _calleeTypes2.default.unknow },
-  onLastCallEnded: undefined,
   onIncomingCallCaptured: function onIncomingCallCaptured(i) {
     return i;
   }
@@ -398,7 +387,6 @@ function mapToProps(_, _ref) {
       contactSearch = _ref$phone.contactSearch,
       conferenceCall = _ref$phone.conferenceCall,
       callingSettings = _ref$phone.callingSettings,
-      callMonitor = _ref$phone.callMonitor,
       _ref$layout = _ref.layout,
       layout = _ref$layout === undefined ? _callCtrlLayouts2.default.normalCtrl : _ref$layout;
 
@@ -415,7 +403,6 @@ function mapToProps(_, _ref) {
   var isOnConference = false;
   var hasConferenceCall = false;
   var isMerging = false;
-  var lastCallInfo = void 0;
   var conferenceCallParties = void 0;
 
   if (conferenceCall) {
@@ -437,11 +424,6 @@ function mapToProps(_, _ref) {
 
     hasConferenceCall = !!conferenceData;
     conferenceCallParties = conferenceCall.partyProfiles;
-    lastCallInfo = callMonitor.lastCallInfo;
-
-    if (layout === _callCtrlLayouts2.default.mergeCtrl && (!lastCallInfo || lastCallInfo.status === _sessionStatus2.default.finished)) {
-      mergeDisabled = true;
-    }
   }
 
   layout = isOnConference ? _callCtrlLayouts2.default.conferenceCtrl : layout;
@@ -461,8 +443,7 @@ function mapToProps(_, _ref) {
     mergeDisabled: mergeDisabled,
     conferenceCallEquipped: !!conferenceCall,
     hasConferenceCall: hasConferenceCall,
-    conferenceCallParties: conferenceCallParties,
-    lastCallInfo: lastCallInfo
+    conferenceCallParties: conferenceCallParties
   };
 }
 
@@ -610,33 +591,7 @@ function mapToFunctions(_, _ref2) {
     }(),
     onIncomingCallCaptured: function onIncomingCallCaptured() {
       routerInteraction.push('/calls/active');
-    },
-    onLastCallEnded: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return (0, _sleep2.default)(2000);
-
-              case 2:
-                routerInteraction.push('/calls/active');
-
-              case 3:
-              case 'end':
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function onLastCallEnded() {
-        return _ref4.apply(this, arguments);
-      }
-
-      return onLastCallEnded;
-    }()
+    }
   };
 }
 

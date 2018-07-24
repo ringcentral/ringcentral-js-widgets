@@ -229,8 +229,7 @@ var CallCtrlPanel = function (_Component) {
           conferenceCallEquipped: this.props.conferenceCallEquipped,
           hasConferenceCall: this.props.hasConferenceCall,
           conferenceCallParties: this.props.conferenceCallParties,
-          lastCallInfo: this.props.lastCallInfo,
-          onLastCallEnded: this.props.onLastCallEnded
+          lastCallInfo: this.props.lastCallInfo
         },
         this.props.children,
         this.props.showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : null,
@@ -300,7 +299,6 @@ CallCtrlPanel.propTypes = {
   conferenceCallEquipped: _propTypes2.default.bool,
   hasConferenceCall: _propTypes2.default.bool,
   lastCallInfo: _propTypes2.default.object,
-  onLastCallEnded: _propTypes2.default.func,
   conferenceCallParties: _propTypes2.default.array
 };
 
@@ -334,8 +332,7 @@ CallCtrlPanel.defaultProps = {
   conferenceCallEquipped: false,
   hasConferenceCall: false,
   conferenceCallParties: undefined,
-  lastCallInfo: undefined,
-  onLastCallEnded: undefined
+  lastCallInfo: undefined
 };
 
 exports.default = CallCtrlPanel;
