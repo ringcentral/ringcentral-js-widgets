@@ -14,7 +14,7 @@ function mapToProps(_, {
   phone: {
     webphone,
     conferenceCall,
-    callMonitor
+    callMonitor,
   },
   ...props
 }) {
@@ -37,7 +37,7 @@ function mapToProps(_, {
   return {
     ...baseProps,
     layout,
-    mergeDisabled
+    mergeDisabled,
   };
 }
 
