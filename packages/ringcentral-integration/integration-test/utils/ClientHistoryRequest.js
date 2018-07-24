@@ -6,6 +6,7 @@ export default class ClientHistoryRequest {
     token: '/restapi/oauth/token',
     companyPager: '/restapi/v1.0/account/~/extension/~/company-pager',
     sms: '/restapi/v1.0/account/~/extension/~/sms',
+    conferenceCall: '/restapi/v1.0/account/~/telephony/conference',
   }
 
   constructor(requestContainer, client) {

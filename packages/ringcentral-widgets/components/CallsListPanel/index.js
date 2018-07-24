@@ -45,6 +45,7 @@ function ActiveCallList({
   contactDisplayStyle,
   externalViewEntity,
   externalHasEntity,
+  readTextPermission,
 }) {
   if (calls.length === 0) {
     return null;
@@ -87,6 +88,7 @@ function ActiveCallList({
             contactDisplayStyle={contactDisplayStyle}
             externalViewEntity={externalViewEntity}
             externalHasEntity={externalHasEntity}
+            readTextPermission={readTextPermission}
           />
         ))
       }
@@ -126,6 +128,7 @@ ActiveCallList.propTypes = {
   contactDisplayStyle: PropTypes.string,
   externalViewEntity: PropTypes.func,
   externalHasEntity: PropTypes.func,
+  readTextPermission: PropTypes.bool,
 };
 
 ActiveCallList.defaultProps = {
@@ -154,6 +157,7 @@ ActiveCallList.defaultProps = {
   contactDisplayStyle: undefined,
   externalViewEntity: undefined,
   externalHasEntity: undefined,
+  readTextPermission: true,
 };
 
 export default class CallsListPanel extends Component {
@@ -234,6 +238,7 @@ export default class CallsListPanel extends Component {
       onUpdateCallLog,
       onSaveCallLog,
       renderEditLogSection,
+      renderSaveLogButton,
       logNotification,
       onCloseNotification,
       onDiscardNotification,
@@ -245,6 +250,8 @@ export default class CallsListPanel extends Component {
       notificationContainerStyles,
       externalViewEntity,
       externalHasEntity,
+      readTextPermission,
+      children,
     } = this.props;
     if (showSpinner) {
       return (<SpinnerOverlay />);
@@ -276,6 +283,7 @@ export default class CallsListPanel extends Component {
             currentLog={currentLog}
             isInnerMask={logNotification && logNotification.notificationIsExpand}
             renderEditLogSection={renderEditLogSection}
+            renderSaveLogButton={renderSaveLogButton}
             formatPhone={formatPhone}
             onUpdateCallLog={onUpdateCallLog}
             onSaveCallLog={onSaveCallLog}
@@ -307,6 +315,7 @@ export default class CallsListPanel extends Component {
         }
       </div>
     ) : null;
+    const isShowMessageIcon = readTextPermission && !!onClickToSms;
     const getCallList = (calls, title) => (
       <ActiveCallList
         title={title}
@@ -339,6 +348,7 @@ export default class CallsListPanel extends Component {
         contactDisplayStyle={activeContactDisplayStyle}
         externalViewEntity={externalViewEntity}
         externalHasEntity={externalHasEntity}
+        readTextPermission={isShowMessageIcon}
       />
     );
     
@@ -379,6 +389,7 @@ export default class CallsListPanel extends Component {
             contactDisplayStyle={contactDisplayStyle}
             externalViewEntity={externalViewEntity}
             externalHasEntity={externalHasEntity}
+            readTextPermission={isShowMessageIcon}
           />
         </div>
       );
@@ -393,6 +404,8 @@ export default class CallsListPanel extends Component {
       <div className={classnames(styles.container, onSearchInputChange?styles.containerWithSearch: null)}>
         {search}
         <div className={classnames(styles.root, currentLog && currentLog.showLog ? styles.hiddenScroll : '', className)}>
+          {children}
+
           {getCallList(activeRingCalls, i18n.getString('ringCall', currentLocale))}
           {getCallList(activeCurrentCalls, i18n.getString('currentCall', currentLocale))}
           {getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}
@@ -452,6 +465,7 @@ CallsListPanel.propTypes = {
   onUpdateCallLog: PropTypes.func,
   onSaveCallLog: PropTypes.func,
   renderEditLogSection: PropTypes.func,
+  renderSaveLogButton: PropTypes.func,
   logNotification: PropTypes.object,
   onCloseNotification: PropTypes.func,
   onDiscardNotification: PropTypes.func,
@@ -463,6 +477,8 @@ CallsListPanel.propTypes = {
   notificationContainerStyles: PropTypes.string,
   externalViewEntity: PropTypes.func,
   externalHasEntity: PropTypes.func,
+  readTextPermission: PropTypes.bool,
+  children: PropTypes.node,
 };
 
 CallsListPanel.defaultProps = {
@@ -500,6 +516,7 @@ CallsListPanel.defaultProps = {
   onUpdateCallLog: undefined,
   onSaveCallLog: undefined,
   renderEditLogSection: undefined,
+  renderSaveLogButton: undefined,
   logNotification: undefined,
   onCloseNotification: undefined,
   onDiscardNotification: undefined,
@@ -511,4 +528,6 @@ CallsListPanel.defaultProps = {
   notificationContainerStyles: undefined,
   externalViewEntity: undefined,
   externalHasEntity: undefined,
+  readTextPermission: true,
+  children: null,
 };

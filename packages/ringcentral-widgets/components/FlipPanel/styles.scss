@@ -11,22 +11,6 @@
   line-height: 40px;
 }
 
-.backButton {
-  font-size: $primary-font-size;
-  color: $lightblack;
-  .backIcon {
-    display: inline-block;
-    position: absolute;
-    transform: rotate(90deg);
-    top: 5px;
-    left: 10px;
-  }
-  .backLabel {
-    display: inline-block;
-    width: 79px;
-  }
-}
-
 .flipContainer {
   width: 100%;
   height: 100%;

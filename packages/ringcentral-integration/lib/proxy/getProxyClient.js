@@ -5,7 +5,7 @@ import baseActionTypes from './baseActionTypes';
 import ensureExist from '../ensureExist';
 
 
-export default function getProxyClient(Target) {
+export default function getProxyClient(createTarget) {
   return class extends RcModule {
     constructor({ transport, ...options }) {
       super({
@@ -13,11 +13,16 @@ export default function getProxyClient(Target) {
         actionTypes: baseActionTypes,
       });
       this._id = uuid.v4();
-      this._target = new Target({
+      this._target = createTarget({
         ...options,
-        getState: () => this.state.target,
-        getProxyState: () => this.state.proxy,
       });
+      this._target._getState = () => this.state.target;
+      this._target._getProxyState = () => this.state.proxy;
+      // this._target = new Target({
+      //   ...options,
+      //   getState: () => this.state.target,
+      //   getProxyState: () => this.state.proxy,
+      // });
       this._transport = this::ensureExist(transport, 'transport');
       this._setTransport(this._target);
       for (const subModule in this._target) {

@@ -1,6 +1,4 @@
-import { formatE164 } from 'phoneformat.js';
-import parseNumber from '../parseNumber';
-
+import { format, formatTypes } from '@ringcentral-integration/phone-number';
 /**
  * @function
  * @description Normalize phone numbers into E164 format
@@ -16,31 +14,11 @@ export default function normalizeNumber({
   countryCode = 'US',
   areaCode = '',
 }) {
-  const {
-    hasPlus,
-    number,
-    extension,
-    isServiceNumber,
-  } = parseNumber(phoneNumber);
-
-  // service number
-  if (isServiceNumber) return `*${number}`;
-  // extension or special number or empty string
-  if (number === '' || number.length <= 6) return number;
-
-  let normalizedNumber;
-  if (
-    !hasPlus &&
-    number.length === 7 &&
-    (countryCode === 'CA' || countryCode === 'US') &&
-    areaCode !== ''
-  ) {
-    normalizedNumber = formatE164(countryCode, `${areaCode + number}`);
-  } else {
-    normalizedNumber = formatE164(countryCode, `${hasPlus ? '+' : ''}${number}`);
-  }
-
-  return extension && !removeExtension ?
-    `${normalizedNumber}*${extension}` :
-    normalizedNumber;
+  return format({
+    phoneNumber,
+    removeExtension,
+    countryCode,
+    areaCode,
+    type: formatTypes.e164,
+  });
 }
