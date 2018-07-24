@@ -278,6 +278,9 @@ export default function App({
                     onBackButtonClick={() => {
                       phone.routerInteraction.push('/calls');
                     }}
+                    onLastCallEnded={() => {
+                      phone.routerInteraction.push('/calls/active');
+                    }}
                   />
                 )} />
               <Route

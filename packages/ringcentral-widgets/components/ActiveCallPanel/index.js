@@ -58,7 +58,6 @@ function ActiveCallPanel({
   hasConferenceCall,
   conferenceCallParties,
   lastCallInfo,
-  onLastCallEnded,
 }) {
   const backHeader = showBackButton ? (
     <BackHeader
@@ -89,7 +88,6 @@ function ActiveCallPanel({
         currentLocale={currentLocale}
         timeCounter={timeCounter}
         lastCallInfo={lastCallInfo}
-        onLastCallEnded={onLastCallEnded}
         currentCallAvatarUrl={avatarUrl}
         currentCallTitle={currentCallTitle || fallBackName}
       />);
@@ -208,7 +206,6 @@ ActiveCallPanel.propTypes = {
   conferenceCallEquipped: PropTypes.bool,
   hasConferenceCall: PropTypes.bool,
   lastCallInfo: PropTypes.object,
-  onLastCallEnded: PropTypes.func,
 };
 
 ActiveCallPanel.defaultProps = {
@@ -238,7 +235,6 @@ ActiveCallPanel.defaultProps = {
   hasConferenceCall: false,
   conferenceCallParties: undefined,
   lastCallInfo: undefined,
-  onLastCallEnded: undefined,
 };
 
 export default ActiveCallPanel;
