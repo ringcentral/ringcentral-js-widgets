@@ -104,6 +104,10 @@ export default class ConferenceCall extends RcModule {
         Object.values(this.conferences)[0] &&
         Object.values(this.conferences)[0].conference.parties
       ),
+      () => (
+        Object.values(this.conferences)[0] &&
+        Object.values(this.conferences)[0].profiles
+      ),
       () => {
         const conferenceData = Object.values(this.conferences)[0];
         if (!conferenceData) {
@@ -127,7 +131,7 @@ export default class ConferenceCall extends RcModule {
   }
 
   findConferenceWithSession(sessionId) {
-    return Object.values(this.conferences).find(c => c.session.id === sessionId);
+    return Object.values(this.conferences).find(c => c.sessionId === sessionId);
   }
 
   /**
@@ -148,12 +152,12 @@ export default class ConferenceCall extends RcModule {
       const conference = Object.assign({}, storedconference.conference);
       conference.parties = response.parties;
       const {
-        session
+        sessionId
       } = storedconference;
       this.store.dispatch({
         type: this.actionTypes.updateConferenceSucceeded,
         conference,
-        session
+        sessionId,
       });
     } catch (e) {
       // TODO: alert
@@ -185,7 +189,7 @@ export default class ConferenceCall extends RcModule {
     try {
       if (this._webphone) {
         if (conferenceData) {
-          this._webphone.hangup(conferenceData.session.id);
+          this._webphone.hangup(conferenceData.sessionId);
           // Help server to do the GC, and we don't care the whether it's successful or not
           this._client.service.platform()
             .delete(`/account/~/telephony/sessions/${id}`);
@@ -244,26 +248,33 @@ export default class ConferenceCall extends RcModule {
       });
       return null;
     }
-    const { conference, session } = conferenceState;
+    const { sessionId } = conferenceState;
+    let { conference } = conferenceState;
+
     this.store.dispatch({
       type: this.actionTypes.bringInConference,
       conference,
-      session,
+      sessionId,
     });
     const sessionData = webphoneSession.data;
+
     try {
       const partyProfile = await this._getProfile(webphoneSession);
       await this._client.service.platform()
         .post(`/account/~/telephony/sessions/${id}/parties/bring-in`, sessionData);
-      await this.updateConferenceStatus(id);
+
+      const newConference = await this.updateConferenceStatus(id);
       const conferenceState = this.state.conferences[id];
       const newParties = ascendSortParties(conferenceState.conference.parties);
+
+      conference = newConference.conference;
       partyProfile.id = newParties[newParties.length - 1].id;
+
       // let the contact match to do the matching of the parties.
       this.store.dispatch({
         type: this.actionTypes.bringInConferenceSucceeded,
         conference,
-        session,
+        sessionId,
         partyProfile,
       });
       return id;
@@ -343,8 +354,8 @@ export default class ConferenceCall extends RcModule {
 
       return null;
     }
-    const session = await this._makeConference(propagate);
-    return session;
+    const conference = await this._makeConference(propagate);
+    return conference;
   }
 
   initialize() {
@@ -508,6 +519,7 @@ export default class ConferenceCall extends RcModule {
     if (this._timers[id] || !this._pulling) {
       return;
     }
+
     await this.updateConferenceStatus(id);
     this._timers[id] = setTimeout(
       async () => {
@@ -648,7 +660,7 @@ export default class ConferenceCall extends RcModule {
     let confereceAccepted = false;
     await Promise.race([
       new Promise((resolve, reject) => {
-        const session = this.conferences[id].session;
+        const session = this._webphone._sessions.get(this.conferences[id].sessionId);
         session.on('accepted', () => {
           confereceAccepted = true;
           resolve();
@@ -693,7 +705,7 @@ export default class ConferenceCall extends RcModule {
         this.store.dispatch({
           type: this.actionTypes.makeConferenceSucceeded,
           conference,
-          session,
+          sessionId: session.id,
           parties: [],
         });
       } else {
@@ -722,15 +734,37 @@ export default class ConferenceCall extends RcModule {
 
   async _getProfile(sessionInstance) {
     const session = this._webphone.sessions.find(session => session.id === sessionInstance.id);
-    const { to, contactMatch } = session;
+    const {
+      to, contactMatch, from, fromNumber, direction
+    } = session;
+
     let { toUserName } = session;
     let avatarUrl;
     let rcId;
+    let partyNumber;
+
+    if (direction === callDirections.outbound) {
+      partyNumber = to;
+    } else {
+      partyNumber = fromNumber;
+    }
+
+    // HACK: refresh the cache
+    await this._contactMatcher.match({
+      queries: [partyNumber],
+      ignoreCache: true
+    });
 
     if (this._contactMatcher && this._contactMatcher.dataMapping) {
       const contactMapping = this._contactMatcher.dataMapping;
       let contact = contactMatch;
-      const nameMatches = (contactMapping && contactMapping[to]) || [];
+      let nameMatches;
+
+      if (direction === callDirections.outbound) {
+        nameMatches = (contactMapping && contactMapping[to]) || [];
+      } else {
+        nameMatches = (contactMapping && contactMapping[from]) || [];
+      }
 
       if (!contact) {
         contact = nameMatches && nameMatches[0];
@@ -741,10 +775,11 @@ export default class ConferenceCall extends RcModule {
         rcId = contact.id;
       }
     }
+
     return {
       avatarUrl,
       toUserName,
-      to,
+      partyNumber,
       rcId,
     };
   }

@@ -41,7 +41,7 @@ export function getMakeConferenceCallReducer(types) {
   return (state = {}, {
     type,
     conference, // platform conference session data
-    session, // SIP.inviteClientContext instance
+    sessionId, // session id of the conference
     partyProfile,
   }) => {
     const res = {
@@ -54,14 +54,14 @@ export function getMakeConferenceCallReducer(types) {
       case types.updateConferenceSucceeded:
         res[conference.id] = {
           conference,
-          session,
+          sessionId,
           profiles: (res[conference.id] && res[conference.id].profiles) || []
         };
         return res;
       case types.bringInConferenceSucceeded:
         res[conference.id] = {
           conference,
-          session,
+          sessionId,
           profiles: [...res[conference.id].profiles, partyProfile]
         };
         return res;

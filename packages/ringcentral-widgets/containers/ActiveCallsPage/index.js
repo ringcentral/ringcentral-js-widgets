@@ -162,9 +162,9 @@ function mapToFunctions(_, {
     async mergeToConference(...args) {
       await conferenceCall.mergeToConference(...args);
       const conferenceData = Object.values(conferenceCall.conferences)[0];
-      if (conferenceData && conferenceData.session.id === webphone.activeSessionId) {
+      if (conferenceData && conferenceData.sessionId === webphone.activeSessionId) {
         await sleep(200);
-        webphone.resume(conferenceData.session.id);
+        webphone.resume(conferenceData.sessionId);
       }
     },
     isSessionAConferenceCall(sessionId) {
