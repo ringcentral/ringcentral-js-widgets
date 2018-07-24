@@ -274,7 +274,7 @@ export default class CallHistory extends RcModule {
   }
 
   @proxify
-  async updateSearchInput(input) {
+  updateSearchInput(input) {
     this.store.dispatch({
       type: this.actionTypes.updateSearchInput,
       input,
@@ -395,8 +395,8 @@ export default class CallHistory extends RcModule {
         const searchString = effectiveSearchString.toLowerCase().trim();
         calls.forEach((call) => {
           if (
-            (call.direction === 'Inbound' && call.fromMatches[0].name.toLowerCase().indexOf(searchString) > -1) ||
-            (call.direction === 'Outbound' && call.toMatches[0] && call.toMatches[0].name.toLowerCase().indexOf(searchString) > -1) 
+            (call.direction === 'Inbound' && call.fromMatches[0] && call.fromMatches[0].name && call.fromMatches[0].name.toLowerCase().indexOf(searchString) > -1) ||
+            (call.direction === 'Outbound' && call.toMatches[0] && call.toMatches[0].name && call.toMatches[0].name.toLowerCase().indexOf(searchString) > -1) 
           ) {
             searchResults.push({
               ...call,
