@@ -1,1 +1,0 @@
-{"version":3,"sources":["enums/calleeTypes.js"],"names":["Enum"],"mappings":";;;;;;AAAA;;;;;;kBAEe,IAAIA,cAAJ,CAAS,CACtB,QADsB,EAEtB,UAFsB,EAGtB,YAHsB,CAAT,EAIZ,aAJY,C","file":"calleeTypes.js","sourcesContent":["import Enum from 'ringcentral-integration/lib/Enum';\n\nexport default new Enum([\n  'unknow',\n  'contacts',\n  'conference',\n], 'calleeTypes');\n"]}

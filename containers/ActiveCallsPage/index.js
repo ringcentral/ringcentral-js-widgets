@@ -386,7 +386,7 @@ function mapToFunctions(_, _ref2) {
               case 2:
                 conferenceData = (0, _values2.default)(conferenceCall.conferences)[0];
 
-                if (!(conferenceData && conferenceData.session.id === webphone.activeSessionId)) {
+                if (!(conferenceData && conferenceData.sessionId === webphone.activeSessionId)) {
                   _context9.next = 7;
                   break;
                 }
@@ -395,7 +395,7 @@ function mapToFunctions(_, _ref2) {
                 return (0, _sleep2.default)(200);
 
               case 6:
-                webphone.resume(conferenceData.session.id);
+                webphone.resume(conferenceData.sessionId);
 
               case 7:
               case 'end':

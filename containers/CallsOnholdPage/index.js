@@ -79,7 +79,7 @@ function mapToFunctions(_, _ref2) {
   return (0, _extends3.default)({}, baseProps, {
     onMerge: function () {
       var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(sessionId) {
-        var session, sessionToMergeWith, webphoneSessions, conferenceData;
+        var session, sessionToMergeWith, webphoneSessions, conferenceData, conferenceSession;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -95,16 +95,18 @@ function mapToFunctions(_, _ref2) {
 
               case 7:
                 conferenceData = (0, _values2.default)(conferenceCall.conferences)[0];
+                conferenceSession = webphone._sessions.get(conferenceData.sessionId);
 
-                if (conferenceData && conferenceData.session.isOnHold().local) {
+
+                if (conferenceData && conferenceSession.isOnHold().local) {
                   /**
                    * because session termination operation in conferenceCall._mergeToConference,
                    * need to wait for webphone.getActiveSessionIdReducer to update
                    */
-                  webphone.resume(conferenceData.session.id);
+                  webphone.resume(conferenceData.sessionId);
                 }
 
-              case 9:
+              case 10:
               case 'end':
                 return _context.stop();
             }
