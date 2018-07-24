@@ -64,7 +64,7 @@ function mapToProps(_, _ref) {
     showContactDisplayPlaceholder: showContactDisplayPlaceholder,
     autoLog: !!(callLogger && callLogger.autoLog),
     enableContactFallback: enableContactFallback,
-    calls: callHistory.calls,
+    calls: callHistory.filterCalls,
     disableLinks: !connectivityMonitor.connectivity || rateLimiter.throttling,
     disableClickToDial: !(call && call.isIdle),
     loggingMap: callLogger && callLogger.loggingMap,

@@ -61,6 +61,10 @@ var _LogNotification = require('../LogNotification');
 
 var _LogNotification2 = _interopRequireDefault(_LogNotification);
 
+var _SearchInput = require('../SearchInput');
+
+var _SearchInput2 = _interopRequireDefault(_SearchInput);
+
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -259,6 +263,8 @@ var CallsListPanel = function (_Component) {
           activeCurrentCalls = _props.activeCurrentCalls,
           otherDeviceCalls = _props.otherDeviceCalls,
           showSpinner = _props.showSpinner,
+          searchInput = _props.searchInput,
+          onSearchInputChange = _props.onSearchInputChange,
           className = _props.className,
           currentLocale = _props.currentLocale,
           areaCode = _props.areaCode,
@@ -315,17 +321,18 @@ var CallsListPanel = function (_Component) {
       if (showSpinner) {
         return _react2.default.createElement(_SpinnerOverlay2.default, null);
       }
-      if (!this.hasCalls()) {
-        return _react2.default.createElement(
-          'div',
-          { className: (0, _classnames2.default)(_styles2.default.root, currentLog && currentLog.showLog ? _styles2.default.hiddenScroll : '', className) },
-          _react2.default.createElement(
-            'p',
-            { className: _styles2.default.noCalls },
-            _i18n2.default.getString('noCalls', currentLocale)
-          )
-        );
-      }
+      var search = onSearchInputChange ? _react2.default.createElement(
+        'div',
+        { className: (0, _classnames2.default)(_styles2.default.searchContainer) },
+        _react2.default.createElement(_SearchInput2.default, { key: '100',
+          className: _styles2.default.searchInput,
+          value: searchInput,
+          onChange: onSearchInputChange,
+          placeholder: _i18n2.default.getString('search', currentLocale),
+          disabled: disableLinks
+        })
+      ) : null;
+
       var logSection = currentLog ? _react2.default.createElement(
         'div',
         null,
@@ -405,14 +412,10 @@ var CallsListPanel = function (_Component) {
           readTextPermission: isShowMessageIcon
         });
       };
+
       var historyCall = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : _react2.default.createElement(
         'div',
         { className: (0, _classnames2.default)(_styles2.default.list, className) },
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.listTitle },
-          _i18n2.default.getString('historyCalls', currentLocale)
-        ),
         _react2.default.createElement(_CallList2.default, {
           brand: brand,
           currentLocale: currentLocale,
@@ -448,18 +451,26 @@ var CallsListPanel = function (_Component) {
           readTextPermission: isShowMessageIcon
         })
       );
+
+      var noCalls = _react2.default.createElement(
+        'p',
+        { className: _styles2.default.noCalls },
+        _i18n2.default.getString('noCalls', currentLocale)
+      );
+
       return _react2.default.createElement(
         'div',
-        { className: _styles2.default.container },
+        { className: (0, _classnames2.default)(_styles2.default.container, onSearchInputChange ? _styles2.default.containerWithSearch : null) },
+        search,
         _react2.default.createElement(
           'div',
-          { className: (0, _classnames2.default)(_styles2.default.root, className) },
+          { className: (0, _classnames2.default)(_styles2.default.root, currentLog && currentLog.showLog ? _styles2.default.hiddenScroll : '', className) },
           children,
           getCallList(activeRingCalls, _i18n2.default.getString('ringCall', currentLocale)),
           getCallList(activeCurrentCalls, _i18n2.default.getString('currentCall', currentLocale)),
           getCallList(activeOnHoldCalls, _i18n2.default.getString('onHoldCall', currentLocale)),
           getCallList(otherDeviceCalls, _i18n2.default.getString('otherDeviceCall', currentLocale)),
-          calls.length > 0 ? historyCall : null
+          calls.length > 0 ? historyCall : noCalls
         ),
         logSection
       );
@@ -478,6 +489,8 @@ CallsListPanel.propTypes = {
   activeOnHoldCalls: _propTypes2.default.array.isRequired,
   activeCurrentCalls: _propTypes2.default.array.isRequired,
   otherDeviceCalls: _propTypes2.default.array.isRequired,
+  onSearchInputChange: _propTypes2.default.func,
+  searchInput: _propTypes2.default.string,
   showSpinner: _propTypes2.default.bool.isRequired,
   areaCode: _propTypes2.default.string.isRequired,
   countryCode: _propTypes2.default.string.isRequired,
@@ -541,6 +554,8 @@ CallsListPanel.defaultProps = {
   outboundSmsPermission: true,
   internalSmsPermission: true,
   isLoggedContact: undefined,
+  onSearchInputChange: undefined,
+  searchInput: '',
   onLogCall: undefined,
   onViewContact: undefined,
   webphoneAnswer: undefined,

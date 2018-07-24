@@ -49,7 +49,7 @@ function mapToProps(_, _ref) {
     brand: brand.fullName,
     title: _i18n2.default.getString('title', locale.currentLocale),
     currentLocale: locale.currentLocale,
-    calls: callHistory.calls,
+    calls: callHistory.filterCalls,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
     disableLinks: !connectivityMonitor.connectivity || rateLimiter.throttling,
