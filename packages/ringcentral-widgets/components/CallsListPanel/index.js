@@ -7,7 +7,7 @@ import CallList from '../CallList';
 import InsideModal from '../InsideModal';
 import LogSection from '../LogSection';
 import LogNotification from '../LogNotification';
-
+import SearchInput from '../SearchInput';
 import styles from './styles.scss';
 import i18n from './i18n';
 
@@ -198,6 +198,8 @@ export default class CallsListPanel extends Component {
       activeCurrentCalls,
       otherDeviceCalls,
       showSpinner,
+      searchInput,
+      onSearchInputChange,
       className,
       currentLocale,
       areaCode,
@@ -249,19 +251,25 @@ export default class CallsListPanel extends Component {
       externalViewEntity,
       externalHasEntity,
       readTextPermission,
+      children,
     } = this.props;
     if (showSpinner) {
       return (<SpinnerOverlay />);
     }
-    if (!this.hasCalls()) {
-      return (
-        <div className={classnames(styles.root, currentLog && currentLog.showLog ? styles.hiddenScroll : '', className)}>
-          <p className={styles.noCalls}>
-            {i18n.getString('noCalls', currentLocale)}
-          </p>
+    const search = onSearchInputChange ?
+      (
+        <div className={classnames(styles.searchContainer)}>
+          <SearchInput key="100"
+            className={styles.searchInput}
+            value={searchInput}
+            onChange={onSearchInputChange}
+            placeholder={i18n.getString('search', currentLocale)}
+            disabled={disableLinks}
+          />
         </div>
-      );
-    }
+      ) :
+      null;
+
     const logSection = currentLog ? (
       <div>
         <InsideModal
@@ -343,13 +351,12 @@ export default class CallsListPanel extends Component {
         readTextPermission={isShowMessageIcon}
       />
     );
+    
+
     const historyCall = showSpinner ?
       <SpinnerOverlay /> :
       (
         <div className={classnames(styles.list, className)}>
-          <div className={styles.listTitle}>
-            {i18n.getString('historyCalls', currentLocale)}
-          </div>
           <CallList
             brand={brand}
             currentLocale={currentLocale}
@@ -386,14 +393,24 @@ export default class CallsListPanel extends Component {
           />
         </div>
       );
+
+    const noCalls =  (
+      <p className={styles.noCalls}>
+        {i18n.getString('noCalls', currentLocale)}
+      </p>
+      );
+
     return (
-      <div className={styles.container}>
-        <div className={classnames(styles.root, className)}>
+      <div className={classnames(styles.container, onSearchInputChange?styles.containerWithSearch: null)}>
+        {search}
+        <div className={classnames(styles.root, currentLog && currentLog.showLog ? styles.hiddenScroll : '', className)}>
+          {children}
+
           {getCallList(activeRingCalls, i18n.getString('ringCall', currentLocale))}
           {getCallList(activeCurrentCalls, i18n.getString('currentCall', currentLocale))}
           {getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}
-          {getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale))}
-          { calls.length > 0 ? historyCall : null }
+          {getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale))}     
+          { calls.length > 0 ? historyCall : noCalls }
         </div>
         {logSection}
       </div>
@@ -408,6 +425,8 @@ CallsListPanel.propTypes = {
   activeOnHoldCalls: PropTypes.array.isRequired,
   activeCurrentCalls: PropTypes.array.isRequired,
   otherDeviceCalls: PropTypes.array.isRequired,
+  onSearchInputChange: PropTypes.func,
+  searchInput: PropTypes.string,
   showSpinner: PropTypes.bool.isRequired,
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
@@ -459,6 +478,7 @@ CallsListPanel.propTypes = {
   externalViewEntity: PropTypes.func,
   externalHasEntity: PropTypes.func,
   readTextPermission: PropTypes.bool,
+  children: PropTypes.node,
 };
 
 CallsListPanel.defaultProps = {
@@ -470,6 +490,8 @@ CallsListPanel.defaultProps = {
   outboundSmsPermission: true,
   internalSmsPermission: true,
   isLoggedContact: undefined,
+  onSearchInputChange: undefined,
+  searchInput: '',
   onLogCall: undefined,
   onViewContact: undefined,
   webphoneAnswer: undefined,
@@ -507,4 +529,5 @@ CallsListPanel.defaultProps = {
   externalViewEntity: undefined,
   externalHasEntity: undefined,
   readTextPermission: true,
+  children: null,
 };

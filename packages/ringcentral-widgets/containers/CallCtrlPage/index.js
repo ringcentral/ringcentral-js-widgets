@@ -427,17 +427,17 @@ function mapToFunctions(_, {
         : [session];
       await conferenceCall.mergeToConference(webphoneSessions);
       const conferenceData = Object.values(conferenceCall.conferences)[0];
-
+      const conferenceSession = webphone._sessions.get(conferenceData.sessionId);
       if (
         conferenceData
         && !isOnhold
-        && conferenceData.session.isOnHold().local
+        && conferenceSession.isOnHold().local
       ) {
         /**
          * because session termination operation in conferenceCall._mergeToConference,
          * need to wait for webphone.getActiveSessionIdReducer to update
          */
-        webphone.resume(conferenceData.session.id);
+        webphone.resume(conferenceData.sessionId);
         return;
       }
       if (!conferenceData) {
