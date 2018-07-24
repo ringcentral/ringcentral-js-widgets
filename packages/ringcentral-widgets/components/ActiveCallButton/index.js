@@ -44,6 +44,7 @@ export default function ActiveCallButton(props) {
         iconHeight={props.iconHeight}
         iconX={props.iconX}
         iconY={props.iconY}
+        showRipple={props.showRipple}
       />
       <text
         className={styles.buttonTitle}
@@ -74,6 +75,7 @@ ActiveCallButton.propTypes = {
   iconHeight: PropTypes.number,
   iconX: PropTypes.number,
   iconY: PropTypes.number,
+  showRipple: PropTypes.bool,
 };
 
 ActiveCallButton.defaultProps = {
@@ -92,4 +94,5 @@ ActiveCallButton.defaultProps = {
   iconHeight: undefined,
   iconX: undefined,
   iconY: undefined,
+  showRipple: false,
 };
