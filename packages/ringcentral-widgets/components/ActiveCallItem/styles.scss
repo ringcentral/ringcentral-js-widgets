@@ -1,32 +1,53 @@
 @import '../../lib/commonStyles/colors';
 @import '../../lib/commonStyles/fonts';
+
+// TODO: fix the whole style with flex
+$tmpWidth: calc(100% - 53px - 7px - 98px - 20px);
+$fixed-icon-width: 21px;
+$fixed-avatar-width:35px;
+
 .root {
   display: block;
   background: #fff;
   width: 100%;
   border-bottom: 1px solid #e2e2e2;
   margin-bottom: 7px;
+  min-height: 62px;
 }
+// .root:first-child {
+//   margin-top: -5px;
+// }
 
-.callInfo {
-  display: block;
+.wrapper {
   position: relative;
-  height: 60px;
+  padding: 13px 20px 18px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
   width: 100%;
   @include secondary-font;
 }
 
 .callIcon {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 7px;
-  width: 40px;
-  height: 53px;
-  line-height: 53px;
-  font-size: 18px;
-  text-align: center;
+  display: inline-flex;
+  font-size: 22px;
   color: #666;
+  width: $fixed-icon-width;
+}
+
+.infoWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  max-width: calc(100% - #{$fixed-icon-width});
+  padding-left: 6px;
+  padding-right: 8px;
+  overflow: hidden;
+  box-sizing: border-box;
+  // Add bellow style if you have calllog button on callitem
+  // max-width: calc(100% - 23px - 21px);
 }
 
 .activeCall {
@@ -50,20 +71,10 @@
   animation-iteration-count: infinite;
 }
 
-.details {
-  position: absolute;
-  left: 46px;
-  bottom: 12px;
-  font-size: 12px;
-  color: #979797;
-}
-
 .contactDisplay {
-  position: absolute;
-  top: 5px;
-  left: 45px;
   line-height: 25px;
-  max-width: 50%;
+  // max-width: $tmpWidth;
+  margin-bottom: 5px;
   button {
     font-size: 13px;
   }
@@ -71,6 +82,11 @@
     left: 0;
     margin-left: 0;
   }
+}
+
+.conferenceContactDisplay{
+  // margin: auto;
+  line-height: 50px;
 }
 
 .missed {
@@ -81,25 +97,47 @@
 }
 
 .webphoneButtons {
-  position: absolute;
-  right: 20px;
-  bottom: 15px;
+  .webphoneButton + .webphoneButton{
+    margin-left: 5px;
+  }
 }
 
-.rejectButton {
+.mergeButton,
+.rejectButton,
+.answerButton {
   width: 26px;
-  circle {
-    fill: #ff4646;
-  }
   g,
   path {
     fill: #ffffff;
   }
 }
 
+.mergeButton {
+  circle {
+    fill: $snow;
+    stroke: $primary-color;
+    stroke-width: 15px;
+  }
+  g,
+  path {
+    fill: $primary-color;
+  }
+}
+.disabled,
+.disabled * {
+  circle {
+    fill: #c7c7c7;
+  }
+  cursor: not-allowed;
+}
+
+.rejectButton {
+  circle {
+    fill: #ff4646;
+  }
+}
+
 .answerButton {
-  composes: rejectButton;
-  margin-left: 10px;
   circle {
     fill: $call-btn-color;
   }
@@ -114,13 +152,13 @@
 
 .callDetail {
   font-size: 12px;
-  position: absolute;
   top: 30px;
   left: 45px;
-  max-width: 50%;
+  // max-width: $tmpWidth;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: #979797;
   .label {
     margin-right: 5px;
   }
@@ -169,4 +207,23 @@
   &.extended {
     height: 30px;
   }
+}
+
+.avatar {
+  width: $fixed-avatar-width;
+  height: $fixed-avatar-width;
+  border-radius: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  color: $primary-color;
+  overflow: hidden;
+
+  .icon {
+    display: block;
+    font-size: $fixed-avatar-width;
+    opacity: 0.3;
+  }
+}
+.avatar+.infoWrapper{
+  margin-left: 4px;
 }

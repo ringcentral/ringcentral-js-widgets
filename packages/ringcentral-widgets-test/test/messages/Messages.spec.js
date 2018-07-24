@@ -1,6 +1,7 @@
 import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
-import MessageList from 'ringcentral-widgets/components/MessageList';
-import MessagesPanel from 'ringcentral-widgets/components/MessagesPanel';
+import ConversationList from 'ringcentral-widgets/components/ConversationList';
+import ConversationsPanel from 'ringcentral-widgets/components/ConversationsPanel';
+import ContactDisplay from 'ringcentral-widgets/components/ContactDisplay';
 import SearchInput from 'ringcentral-widgets/components/SearchInput';
 import MessageItem from 'ringcentral-widgets/components/MessageItem';
 import ConversationPanel from 'ringcentral-widgets/components/ConversationPanel';
@@ -18,7 +19,7 @@ beforeEach(async () => {
   const navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/messages');
   wrapper.update();
-  panel = wrapper.find(MessagesPanel).first();
+  panel = wrapper.find(ConversationsPanel).first();
 });
 
 describe('messages', () => {
@@ -32,13 +33,22 @@ describe('messages', () => {
     const domInput = searchInput.find('input').first();
     domInput.instance().value = 'something-doesnt-exist';
     domInput.simulate('change');
-    panel = wrapper.find(MessagesPanel).first();
+    panel = wrapper.find(ConversationsPanel).first();
     searchInput = panel.find(SearchInput).first();
     expect(searchInput.props().value).toEqual('something-doesnt-exist');
     expect(panel.find('.noMessages').text().trim()).toEqual('No matching records found');
   });
 
   test('message list', () => {
+    panel.find(MessageItem).forEach((item) => {
+      const { conversation }= item.props();
+      const { className } = item.find(ContactDisplay).first().props();
+      if (conversation.unreadCounts > 0) {
+        expect(className).toContain('unread');
+      } else {
+        expect(className).not.toContain('unread');
+      }
+    });
     const firstMessage = panel.find(MessageItem).first();
     expect(firstMessage.props()).toBeDefined();
   });
@@ -65,13 +75,13 @@ describe('messages', () => {
       const callItem = messageItems.at(messageItems.length - 1); // last item
       let logButton = callItem.find(LogButton).find(Button);
       logButton.simulate('click');
-      panel = wrapper.find(MessageList).first();
+      panel = wrapper.find(ConversationList).first();
       logButton = panel.find(MessageItem).at(messageItems.length - 1).find(LogButton).find(Button);
       expect(logButton.props().disabled).toBe(true);
       expect(logButton.find(Spinner).length).toBe(1);
       await timeout(2000);
       wrapper.update();
-      panel = wrapper.find(MessageList).first();
+      panel = wrapper.find(ConversationList).first();
       logButton = panel.find(MessageItem).at(messageItems.length - 1).find(LogButton).find(Button);
       expect(logButton.props().disabled).toBe(false);
       expect(logButton.find(Spinner).length).toBe(0);
@@ -82,7 +92,6 @@ describe('messages', () => {
     const firstMessage = panel.find(MessageItem).first();
     await firstMessage.find('.wrapper').first().simulate('click');
     const conversationPanel = wrapper.find(ConversationPanel);
-
     const logButton = conversationPanel.find(LogButton).first().find(Button);
     expect(logButton.props().disabled).toBe(false);
   });

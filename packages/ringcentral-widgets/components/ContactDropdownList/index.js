@@ -73,6 +73,7 @@ ContactPhone.defaultProps = {
 };
 
 function ContactItem({
+  currentLocale,
   active,
   onHover,
   onClick,
@@ -100,6 +101,7 @@ function ContactItem({
     <li className={className} onMouseOver={onHover}>
       <div className={styles.clickable} onClick={onClick}>
         <ContactInfoRenderer
+          currentLocale={currentLocale}
           name={name}
           entityType={entityType}
           phoneType={phoneType}
@@ -109,6 +111,7 @@ function ContactItem({
           titleEnabled={titleEnabled}
         />
         <ContactPhoneRenderer
+          currentLocale={currentLocale}
           name={name}
           entityType={entityType}
           phoneType={phoneType}
@@ -122,6 +125,7 @@ function ContactItem({
   );
 }
 ContactItem.propTypes = {
+  currentLocale: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   formatContactPhone: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
@@ -167,6 +171,7 @@ class ContactDropdownList extends Component {
 
   render() {
     const {
+      currentLocale,
       className,
       listRef,
       items,
@@ -196,6 +201,7 @@ class ContactDropdownList extends Component {
         {
           items.map((item, index) => (
             <ContactItem
+              currentLocale={currentLocale}
               active={selectedIndex === index}
               name={item.name}
               entityType={item.entityType}
@@ -218,6 +224,7 @@ class ContactDropdownList extends Component {
 }
 
 ContactDropdownList.propTypes = {
+  currentLocale: PropTypes.string.isRequired,
   scrollDirection: PropTypes.string,
   visibility: PropTypes.bool.isRequired,
   className: PropTypes.string,

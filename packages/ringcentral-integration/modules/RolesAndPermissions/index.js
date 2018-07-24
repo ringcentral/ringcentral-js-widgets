@@ -100,11 +100,14 @@ export default class RolesAndPermissions extends DataFetcher {
       this._auth.loginStatus === loginStatus.loggedIn &&
       !this.permissions.ReadUserInfo
     ) {
+      const hasPermissions = !!(this.data);
       await this._auth.logout();
-      this._alert.danger({
-        message: permissionsMessages.insufficientPrivilege,
-        ttl: 0,
-      });
+      if (hasPermissions) {
+        this._alert.danger({
+          message: permissionsMessages.insufficientPrivilege,
+          ttl: 0,
+        });
+      }
     }
   }
 

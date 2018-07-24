@@ -5,7 +5,7 @@ import createSimpleReducer from '../../lib/createSimpleReducer';
 import actionTypes from './actionTypes';
 import proxify from '../../lib/proxy/proxify';
 
-const DEFAULT_MASK = 'phoneNumber,hostCode,participantCode,phoneNumbers(country,phoneNumber,location),allowJoinBeforeHost';
+const DEFAULT_MASK = 'phoneNumber,hostCode,participantCode,phoneNumbers(country(callingCode,id,isoCode,name),phoneNumber,location),allowJoinBeforeHost';
 
 /**
  * @class

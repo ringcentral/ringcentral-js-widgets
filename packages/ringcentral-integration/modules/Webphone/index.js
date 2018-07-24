@@ -1,6 +1,7 @@
 import RingCentralWebphone from 'ringcentral-web-phone';
 import incomingAudio from 'ringcentral-web-phone/audio/incoming.ogg';
 import outgoingAudio from 'ringcentral-web-phone/audio/outgoing.ogg';
+import { camelize } from '../../lib/di/utils/utils';
 
 import { Module } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
@@ -21,6 +22,8 @@ import {
   normalizeSession,
   isRing,
   isOnHold,
+  isConferenceSession,
+  sortByCreationTimeDesc,
 } from './webphoneHelper';
 import getWebphoneReducer from './getWebphoneReducer';
 
@@ -39,7 +42,6 @@ const MAX_RETRIES_DELAY = 2 * 60 * 1000;
     'Alert',
     'Client',
     { dep: 'ContactMatcher', optional: true },
-    'ExtensionDevice',
     'NumberValidate',
     'RolesAndPermissions',
     'AudioSettings',
@@ -61,7 +63,6 @@ export default class Webphone extends RcModule {
    * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermissions module instance
    * @param {Storage} params.storage - storage module instance
    * @param {GlobalStorage} params.globalStorage - globalStorage module instance
-   * @param {ExtensionDevice} params.extensionDevice - extensionDevice module instance
    * @param {NumberValidate} params.numberValidate - numberValidate module instance
    * @param {ContactMatcher} params.contactMatcher - contactMatcher module instance, optional
    * @param {Function} params.onCallEnd - callback on a call end
@@ -78,7 +79,6 @@ export default class Webphone extends RcModule {
     rolesAndPermissions,
     webphoneLogLevel = 3,
     contactMatcher,
-    extensionDevice,
     numberValidate,
     audioSettings,
     tabManager,
@@ -99,7 +99,6 @@ export default class Webphone extends RcModule {
     this._auth = this::ensureExist(auth, 'auth');
     this._client = this::ensureExist(client, 'client');
     this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
-    this._extensionDevice = this::ensureExist(extensionDevice, 'extensionDevice');
     this._numberValidate = this::ensureExist(numberValidate, 'numberValidate');
     this._audioSettings = this::ensureExist(audioSettings, 'audioSettings');
     this._contactMatcher = contactMatcher;
@@ -110,9 +109,7 @@ export default class Webphone extends RcModule {
     this._webphone = null;
     this._remoteVideo = null;
     this._localVideo = null;
-
     this._sessions = new Map();
-
     this._reducer = getWebphoneReducer(this.actionTypes);
 
     this.addSelector('sessionPhoneNumbers',
@@ -141,17 +138,44 @@ export default class Webphone extends RcModule {
       }
     );
 
+    this.addSelector('cachedSessions',
+      () => this.sessions,
+      sessions => sessions.filter(x => x.cached),
+    );
+
     this.addSelector('activeSession',
       () => this.activeSessionId,
       () => this.sessions,
-      (activeSessionId, sessions) => {
+      () => this.cachedSessions,
+      (activeSessionId, sessions, cachedSessions) => {
         if (!activeSessionId) {
           return null;
         }
-        const activeSession = sessions.find(
+
+        const realActiveSession = sessions.find(
           session => session.id === activeSessionId
         );
-        return activeSession;
+
+        // NOT in conference merging process
+        if (!cachedSessions.length) {
+          return realActiveSession;
+        }
+
+        // realActiveSession is a conference
+        if (isConferenceSession(realActiveSession)) {
+          return realActiveSession;
+        }
+
+        // realActiveSession is cached
+        if (
+          !realActiveSession ||
+          (cachedSessions.find(cachedSession => cachedSession.id === realActiveSession.id))
+        ) {
+          return cachedSessions.sort(sortByCreationTimeDesc)[0];
+        }
+
+        // default rule
+        return [...cachedSessions, realActiveSession].sort(sortByCreationTimeDesc)[0];
       }
     );
 
@@ -274,7 +298,6 @@ export default class Webphone extends RcModule {
     return (
       this._auth.loggedIn &&
       this._rolesAndPermissions.ready &&
-      this._extensionDevice.ready &&
       this._numberValidate.ready &&
       this._audioSettings.ready &&
       (!this._tabManager || this._tabManager.ready) &&
@@ -288,7 +311,6 @@ export default class Webphone extends RcModule {
         !this._auth.loggedIn ||
         !this._rolesAndPermissions.ready ||
         !this._numberValidate.ready ||
-        !this._extensionDevice.ready ||
         (!!this._tabManager && !this._tabManager.ready) ||
         !this._audioSettings.ready
       ) &&
@@ -371,22 +393,23 @@ export default class Webphone extends RcModule {
       console.error('webphone register failed:', cause);
       // limit logic:
       /*
-      * Specialties of this flow are next:
-      *   6th WebRTC in another browser receives 6th ‘EndpointID’ and 1st ‘InstanceID’,
-      *   which has been given previously to the 1st ‘EndpointID’.
-      *   It successfully registers on WSX by moving 1st ‘EndpointID’ to a blacklist state.
-      *   When 1st WebRTC client re-registers on expiration timeout,
-      *   WSX defines that 1st ‘EndpointID’ is blacklisted and responds with ‘SIP/2.0 403 Forbidden,
-      *   instance id is intercepted by another registration’ and remove it from black list.
-      *   So if 1st WebRTC will send re-register again with the same ‘InstanceID’,
-      *   it will be accepted and 6th ‘EndpointID’ will be blacklisted.
-      *   (But the WebRTC client must logout on receiving SIP/2.0 403 Forbidden error and in case of login -
-      *   provision again via Platform API and receive new InstanceID)
-      */
+       * Specialties of this flow are next:
+       *   6th WebRTC in another browser receives 6th ‘EndpointID’ and 1st ‘InstanceID’,
+       *   which has been given previously to the 1st ‘EndpointID’.
+       *   It successfully registers on WSX by moving 1st ‘EndpointID’ to a blacklist state.
+       *   When 1st WebRTC client re-registers on expiration timeout,
+       *   WSX defines that 1st ‘EndpointID’ is blacklisted and responds with ‘SIP/2.0 403 Forbidden,
+       *   instance id is intercepted by another registration’ and remove it from black list.
+       *   So if 1st WebRTC will send re-register again with the same ‘InstanceID’,
+       *   it will be accepted and 6th ‘EndpointID’ will be blacklisted.
+       *   (But the WebRTC client must logout on receiving SIP/2.0 403 Forbidden error and in case of login -
+       *   provision again via Platform API and receive new InstanceID)
+       */
       const statusCode = response ? response.status_code : null;
       switch (statusCode) {
         // Webphone account overlimit
-        case 503: case 603: {
+        case 503:
+        case 603: {
           errorCode = webphoneErrors.webphoneCountOverLimit;
           needToReconnect = true;
           break;
@@ -430,7 +453,7 @@ export default class Webphone extends RcModule {
         errorCode,
         statusCode,
       });
-      if (cause === 'Request Timeout') {
+      if (['Request Timeout', 'Connection Error'].indexOf(cause) !== -1) {
         needToReconnect = true;
       }
       if (needToReconnect) {
@@ -602,12 +625,33 @@ export default class Webphone extends RcModule {
   }
 
   _onAccepted(session) {
-    session.on('accepted', () => {
+    session.on('accepted', (incomingResponse) => {
+      // todo: log the response
       if (session.callStatus === sessionStatus.finished) {
         return;
       }
       console.log('accepted');
       session.callStatus = sessionStatus.connected;
+      if (
+        incomingResponse &&
+        (typeof incomingResponse.headers).toLowerCase() === 'object' &&
+        Array.isArray(incomingResponse.headers['P-Rc-Api-Ids']) &&
+        incomingResponse.headers['P-Rc-Api-Ids'].length &&
+        (typeof incomingResponse.headers['P-Rc-Api-Ids'][0]).toLowerCase() === 'object' &&
+        (typeof incomingResponse.headers['P-Rc-Api-Ids'][0].raw).toLowerCase() === 'string'
+      ) {
+        /**
+         * interface SessionData{
+         *  "partyId": String,
+         *  "sessionId": String
+         * }
+         */
+        session.data = incomingResponse.headers['P-Rc-Api-Ids'][0].raw.split(';')
+          .map(sub => sub.split('=')).reduce((accum, [key, value]) => {
+            accum[camelize(key)] = value;
+            return accum;
+          }, {});
+      }
       this._onCallStart(session);
     });
     session.on('progress', () => {
@@ -661,6 +705,7 @@ export default class Webphone extends RcModule {
     session.on('hold', () => {
       console.log('Event: hold');
       session.callStatus = sessionStatus.onHold;
+      session.lastHoldingTime = +new Date();
       this._updateSessions();
     });
     session.on('unhold', () => {
@@ -697,6 +742,7 @@ export default class Webphone extends RcModule {
     try {
       this._holdOtherSession(session.id);
       this._onAccepted(session, 'inbound');
+      this._beforeCallStart(session);
       await session.accept(this.acceptOptions);
       this._onCallStart(session);
       this.store.dispatch({ // for track
@@ -705,7 +751,6 @@ export default class Webphone extends RcModule {
     } catch (e) {
       console.log('Accept failed');
       console.error(e);
-      // this._removeSession(session);
       this._onCallEnd(session);
     }
   }
@@ -720,7 +765,6 @@ export default class Webphone extends RcModule {
       await session.reject();
     } catch (e) {
       console.error(e);
-      // this._removeSession(session);
       this._onCallEnd(session);
     }
   }
@@ -824,6 +868,10 @@ export default class Webphone extends RcModule {
         return;
       }
       session.hold();
+    });
+    // update cached sessions
+    this.store.dispatch({
+      type: this.actionTypes.onholdCachedSession,
     });
   }
 
@@ -1078,7 +1126,11 @@ export default class Webphone extends RcModule {
    * @param {homeCountryId} homeCountry Id
    */
   @proxify
-  async makeCall({ toNumber, fromNumber, homeCountryId }) {
+  async makeCall({
+    toNumber,
+    fromNumber,
+    homeCountryId,
+  }) {
     if (!this._webphone) {
       this._alert.warning({
         message: this.errorCode,
@@ -1100,9 +1152,10 @@ export default class Webphone extends RcModule {
     session.direction = callDirections.outbound;
     session.callStatus = sessionStatus.connecting;
     session.creationTime = Date.now();
+    session.fromNumber = fromNumber;
     this._onAccepted(session);
     this._holdOtherSession(session.id);
-    this._onCallStart(session);
+    this._beforeCallStart(session);
     return session;
   }
 
@@ -1111,6 +1164,19 @@ export default class Webphone extends RcModule {
     this._sessionHandleWithId(sessionId, (session) => {
       session.contactMatch = contact;
       this._updateSessions();
+    });
+  }
+
+  setSessionCaching(sessionIds) {
+    this.store.dispatch({
+      type: this.actionTypes.setSessionCaching,
+      cachingSessionIds: sessionIds,
+    });
+  }
+
+  clearSessionCaching() {
+    this.store.dispatch({
+      type: this.actionTypes.clearSessionCaching,
     });
   }
 
@@ -1139,6 +1205,26 @@ export default class Webphone extends RcModule {
     });
   }
 
+  // for outbound call
+  _beforeCallStart(session) {
+    this._addSession(session);
+    const normalizedSession = normalizeSession(session);
+    this.store.dispatch({
+      type: this.actionTypes.beforeCallStart,
+      session: normalizedSession,
+      sessions: this.sessions,
+    });
+    if (
+      this._contactMatcher &&
+      (!this._tabManager || this._tabManager.active)
+    ) {
+      this._contactMatcher.triggerMatch();
+    }
+    if (typeof this._onCallStartFunc === 'function') {
+      this._onCallStartFunc(normalizedSession, this.activeSession);
+    }
+  }
+
   _onCallStart(session) {
     this._addSession(session);
     const normalizedSession = normalizeSession(session);
@@ -1150,9 +1236,6 @@ export default class Webphone extends RcModule {
     if (this._contactMatcher) {
       this._contactMatcher.triggerMatch();
     }
-    if (typeof this._onCallStartFunc === 'function') {
-      this._onCallStartFunc(normalizedSession, this.activeSession);
-    }
   }
 
   _onCallRing(session) {
@@ -1163,7 +1246,10 @@ export default class Webphone extends RcModule {
       session: normalizedSession,
       sessions: this.sessions,
     });
-    if (this._contactMatcher) {
+    if (
+      this._contactMatcher &&
+      (!this._tabManager || this._tabManager.active)
+    ) {
       this._contactMatcher.triggerMatch();
     }
     if (this.activeSession && !isOnHold(this.activeSession)) {
@@ -1270,6 +1356,10 @@ export default class Webphone extends RcModule {
 
   get lastEndedSessions() {
     return this.state.lastEndedSessions;
+  }
+
+  get cachedSessions() {
+    return this._selectors.cachedSessions();
   }
 
   get videoElementPrepared() {

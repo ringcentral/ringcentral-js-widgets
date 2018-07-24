@@ -17,7 +17,7 @@ export function checkName(name) {
   }
 }
 
-const DEFAULT_TTL = 30 * 1000;
+const DEFAULT_TTL = 30 * 60 * 1000;
 const DEFAULT_NO_MATCH_TTL = 30 * 1000;
 
 @Library({
@@ -37,7 +37,7 @@ export default class DataMatcher extends RcModule {
     storageKey = `${name}Data`,
     getReducer = getDefaultReducer,
     getDataReducer = getDefaultDataReducer,
-    ...options,
+    ...options
   } = {}) {
     checkName(name);
     super({

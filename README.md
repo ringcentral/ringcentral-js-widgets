@@ -12,7 +12,39 @@ RingCentral integration widgets aim to provide reusable RingCentral service modu
 
 This project includes [RingCentral Integration Common Library](packages/ringcentral-integration/README.md) and [RingCentral Widgets Library](packages/ringcentral-widgets/README.md). The basic idea is to connect modules in RingCentral Integration Common Library with React components to provide ready to use UI widgets.
 
-## Setup with development environment
+## Get Started
+
+We use [RingCentral Widgets CLI](packages/ringcentral-widgets-cli/README.md) to startup a RingCentral Widgets based app.
+
+```
+$ npm install -g ringcentral-widgets-cli
+$ rc-widgets -h
+```
+
+### Create a new project
+
+```
+rc-widgets new your_project_name
+cd your_project_name
+yarn install
+```
+
+[Update `.env` file in project root path](packages/ringcentral-widgets-cli/README.md#start-developement-server).
+
+### Start development server
+
+```
+$ yarn start
+```
+Visit on [http://localhost:8080](http://localhost:8080) in browser.
+
+For production build and deploy, please get more information in [here](packages/ringcentral-widgets-cli/README.md).
+
+### Tutorials
+
+This is a [demo](https://github.com/embbnux/ringcentral-widgets-demo) and [step-by-step tutorials](https://embbnux.github.io/ringcentral-widgets-demo/) show how to use this library.
+
+## Contribution and Development
 
 We use [Lerna.js](https://github.com/lerna/lerna) to manage packages source. And we require Node.js > 8.
 
@@ -56,3 +88,8 @@ Open up your browser and access http://localhost:8080 to see how it works.
 
 Note that the development server is using OAuth for authorization process.
 Please make sure the app you specified in configuration above is setup with Redirect Uri `http://localhost:8080/redirect.html`.
+
+## Projects which use this library
+
+- [RingCentral Embeddable Voice](https://github.com/ringcentral/ringcentral-embeddable-voice)
+- [RingCentral for Google Extension 4.0](https://chrome.google.com/webstore/detail/ringcentral-for-google/fddhonoimfhgiopglkiokmofecgdiedb)

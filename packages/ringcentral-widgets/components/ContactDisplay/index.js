@@ -95,15 +95,24 @@ export default function ContactDisplay({
   groupNumbers,
   showType,
   selectClassName,
+  selectedClassName,
   showPlaceholder,
   brand,
   stopPropagation,
   sourceIcons = {},
   showGroupNumberName,
   contactName,
+  isOnConferenceCall,
 }) {
   let contentEl;
-  if (contactName) {
+  if (isOnConferenceCall) {
+    const confStr = i18n.getString('conferenceCall', currentLocale);
+    contentEl = (
+      <div title={confStr} className={styles.currentName}>
+        {confStr}
+      </div>
+    );
+  } else if (contactName) {
     contentEl = (
       <div title={contactName} className={styles.currentName}>
         {contactName}
@@ -171,7 +180,10 @@ export default function ContactDisplay({
       <DropdownSelect
         reference={reference}
         className={classnames(styles.select, selectClassName)}
-        value={`${_selected}`}
+        selectedClassName={classnames(styles.selectedValue, selectedClassName)}
+        buttonStyle={styles.button}
+        iconClassName={styles.icon}
+        value={_selected}
         onChange={onSelectContact}
         disabled={disabled || isLogging}
         options={options}
@@ -220,6 +232,7 @@ export default function ContactDisplay({
   );
 }
 ContactDisplay.propTypes = {
+  isOnConferenceCall: PropTypes.bool,
   reference: PropTypes.func,
   className: PropTypes.string,
   contactMatches: PropTypes.arrayOf(PropTypes.any).isRequired,
@@ -236,6 +249,7 @@ ContactDisplay.propTypes = {
   groupNumbers: PropTypes.arrayOf(PropTypes.string),
   showType: PropTypes.bool,
   selectClassName: PropTypes.string,
+  selectedClassName: PropTypes.string,
   showPlaceholder: PropTypes.bool,
   brand: PropTypes.string,
   stopPropagation: PropTypes.bool,
@@ -244,6 +258,7 @@ ContactDisplay.propTypes = {
   contactName: PropTypes.any,
 };
 ContactDisplay.defaultProps = {
+  isOnConferenceCall: false,
   reference: undefined,
   className: undefined,
   onSelectContact: undefined,
@@ -253,6 +268,7 @@ ContactDisplay.defaultProps = {
   enableContactFallback: undefined,
   showType: true,
   selectClassName: undefined,
+  selectedClassName: undefined,
   showPlaceholder: true,
   brand: undefined,
   stopPropagation: true,

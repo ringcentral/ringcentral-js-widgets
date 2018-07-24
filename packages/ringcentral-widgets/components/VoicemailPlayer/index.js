@@ -80,7 +80,9 @@ class VoicemailPlayer extends Component {
       if (!this.state.paused) {
         this._audio.src = this.props.uri;
         this._audio.load(this.props.uri);
-        this._audio.currentTime = 0;
+        if (!Number.isNaN(this._audio.duration)) {
+          this._audio.currentTime = 0;
+        }
       }
       this._pauseOtherAudios();
       this._audio._playPromise = this._audio.play();
@@ -127,7 +129,9 @@ class VoicemailPlayer extends Component {
 
   componentWillUnmount() {
     this._mounted = false;
-    this._audio.currentTime = 0;
+    if (!Number.isNaN(this._audio.duration)) {
+      this._audio.currentTime = 0;
+    }
     this._audio.pause();
     delete audiosMap[this._id];
   }

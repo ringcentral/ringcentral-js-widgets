@@ -11,12 +11,14 @@
   },
   "scripts": {
     "start": "npm run dev-server",
-    "dev-server": "webpack-dev-server --config webpack-dev-server.config.js --progress --colors --inline",
-    "build": "NODE_ENV=production webpack --config webpack-production.config.js --progress --colors",
+    "dev-server": "babel-node ./node_modules/.bin/webpack-dev-server --config webpack-dev-server.config.js --progress --colors --inline",
+    "build": "NODE_ENV=production babel-node ./node_modules/.bin/webpack --config webpack-production.config.js --progress --colors",
     "pageGen": "node buildComponentDocPages.js"
   },
   "private": true,
   "dependencies": {
+    "@ringcentral-integration/i18n": "^2.0.0",
+    "@ringcentral-integration/phone-number": "*",
     "autoprefixer": "^8.4.1",
     "babel-loader": "^7.0.0",
     "babel-polyfill": "^6.22.0",
@@ -28,7 +30,7 @@
     "file-loader": "^1.1.11",
     "highlight.js": "^9.11.0",
     "history": "^4.6.1",
-    "locale-loader": "^1.4.10",
+    "@ringcentral-integration/locale-loader": "^2.0.0",
     "marked": "^0.3.6",
     "node-sass": "^4.5.3",
     "postcss-loader": "^2.1.5",

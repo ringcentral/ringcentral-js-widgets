@@ -9,7 +9,7 @@ export default {
   conferenceCommands: 'Conference Commands',
   inviteWithGCalendar: 'Invite with Google Calendar',
   inviteWithText: 'Invite with Text',
-  joinAsHost: 'Join as Host',
+  joinAsHost: 'Launch Conference',
   internationalNumber: 'International Dial-in Numbers:',
   inviteText_att: 'Please join the {brandName} conference.\n\nDial-In Number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nNeed an international dial-in phone number? Please visit {dialInNumbersLinks} \n\nThis conference call is brought to you by {brandName} Conferencing.',
   inviteText_bt: 'Please join the {brandName} conference.\n\nDial-In Number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nAdditional dial-in numbers {dialInNumbersLinks}',

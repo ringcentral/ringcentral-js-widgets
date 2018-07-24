@@ -10,4 +10,5 @@ export default {
   unknownNumber: 'Anonymous',
   unavailable: 'Unavailable',
   viewDetails: 'View Details',
+  conferenceCall: 'Conference Call',
 };

@@ -14,8 +14,8 @@ props.call = {
   },
   to: {},
 };
-props.areaCode = 'test string';
-props.countryCode = 'test string';
+props.areaCode = '650';
+props.countryCode = 'US';
 props.currentLocale = 'en-US';
 props.active = false;
 props.dateTimeFormatter = () => null;

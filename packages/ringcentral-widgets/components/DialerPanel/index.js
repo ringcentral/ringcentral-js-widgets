@@ -11,6 +11,7 @@ import AnswerIcon from '../../assets/images/Answer.svg';
 import styles from './styles.scss';
 
 function DialerPanel({
+  currentLocale,
   callButtonDisabled,
   className,
   dialButtonsClassName,
@@ -22,7 +23,6 @@ function DialerPanel({
   changeFromNumber,
   formatPhone,
   isWebphoneMode,
-  currentLocale,
   showSpinner,
   dialButtonVolume,
   dialButtonMuted,
@@ -36,13 +36,15 @@ function DialerPanel({
   recipientsContactInfoRenderer,
   recipientsContactPhoneRenderer,
   autoFocus,
+  showFromField = true,
+  children,
 }) {
   const onCallFunc = () => {
     if (!callButtonDisabled) {
       onCallButtonClick();
     }
   };
-  const content = showSpinner ? (<SpinnerOverlay />) : null;
+
   return (
     <div className={classnames(styles.root, className)}>
       <RecipientsInput
@@ -61,17 +63,21 @@ function DialerPanel({
         contactPhoneRenderer={recipientsContactPhoneRenderer}
         titleEnabled
         autoFocus={autoFocus}
+        className={!showFromField ? classnames(styles.inputField, styles.recipientsField) : null}
       />
-      <div className={styles.inputFields}>
-        <FromField
-          fromNumber={fromNumber}
-          fromNumbers={fromNumbers}
-          onChange={changeFromNumber}
-          formatPhone={formatPhone}
-          currentLocale={currentLocale}
-          hidden={!isWebphoneMode}
-        />
-      </div>
+      {
+        showFromField ?
+          <div className={styles.inputField}>
+            <FromField
+              fromNumber={fromNumber}
+              fromNumbers={fromNumbers}
+              onChange={changeFromNumber}
+              formatPhone={formatPhone}
+              currentLocale={currentLocale}
+              hidden={!isWebphoneMode}
+            />
+          </div> : null
+      }
       <div className={classnames(styles.dialButtons, dialButtonsClassName)}>
         <DialPad
           className={styles.dialPad}
@@ -96,11 +102,14 @@ function DialerPanel({
           </div>
         </div>
       </div>
-      {content}
+      {showSpinner ? <SpinnerOverlay /> : null}
+      {children}
     </div>
   );
 }
+
 DialerPanel.propTypes = {
+  currentLocale: PropTypes.string.isRequired,
   className: PropTypes.string,
   dialButtonsClassName: PropTypes.string,
   onCallButtonClick: PropTypes.func.isRequired,
@@ -109,7 +118,6 @@ DialerPanel.propTypes = {
   toNumber: PropTypes.string,
   onToNumberChange: PropTypes.func,
   fromNumber: PropTypes.string,
-  currentLocale: PropTypes.string.isRequired,
   fromNumbers: PropTypes.arrayOf(PropTypes.shape({
     phoneNumber: PropTypes.string,
     usageType: PropTypes.string,
@@ -137,6 +145,8 @@ DialerPanel.propTypes = {
   recipientsContactInfoRenderer: PropTypes.func,
   recipientsContactPhoneRenderer: PropTypes.func,
   autoFocus: PropTypes.bool,
+  showFromField: PropTypes.bool,
+  children: PropTypes.node,
 };
 
 DialerPanel.defaultProps = {
@@ -158,6 +168,8 @@ DialerPanel.defaultProps = {
   recipientsContactInfoRenderer: undefined,
   recipientsContactPhoneRenderer: undefined,
   autoFocus: false,
+  showFromField: true,
+  children: undefined,
 };
 
 export default DialerPanel;

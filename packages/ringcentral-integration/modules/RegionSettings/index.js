@@ -20,6 +20,7 @@ import getter from '../../lib/getter';
  */
 @Module({
   deps: [
+    'Brand',
     'Alert',
     'DialingPlan',
     'ExtensionInfo',
@@ -38,6 +39,7 @@ export default class RegionSettings extends RcModule {
    * @param {TabManager} params.tabManager - tabManager module instance
    */
   constructor({
+    brand,
     storage,
     extensionInfo,
     dialingPlan,
@@ -49,6 +51,7 @@ export default class RegionSettings extends RcModule {
       ...options,
       actionTypes,
     });
+    this._brand = brand;
     this._storage = storage;
     this._alert = alert;
     this._dialingPlan = dialingPlan;
@@ -144,7 +147,9 @@ export default class RegionSettings extends RcModule {
       ))
     ) {
       countryCode = null;
-      this._alertSettingsChanged();
+      if (this._brand.id === '1210') {
+        this._alertSettingsChanged();
+      }
     }
     if (!countryCode) {
       const country = this.availableCountries.find(plan => (

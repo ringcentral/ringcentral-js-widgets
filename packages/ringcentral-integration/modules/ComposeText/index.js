@@ -20,8 +20,8 @@ import proxify from '../../lib/proxy/proxify';
     'Storage',
     'MessageSender',
     'NumberValidate',
-    'ContactSearch',
     'RolesAndPermissions',
+    { dep: 'ContactSearch', optional: true },
     { dep: 'ComposeTextOptions', optional: true }
   ]
 })
@@ -186,9 +186,10 @@ export default class ComposeText extends RcModule {
     }
     return true;
   }
-  _validateIsOnlyPager(toNumbers) {
+
+  _validateIsOnlyPager(phoneNumber) {
     if (
-      toNumbers.length >= 7 &&
+      phoneNumber.length >= 7 &&
       this._rolesAndPermissions.onlyPagerPermission
     ) {
       this._alertWarning(messageSenderMessages.noSMSPermission);

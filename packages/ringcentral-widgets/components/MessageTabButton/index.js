@@ -10,6 +10,7 @@ function NavigationButton({
   noticeCounts,
   onClick,
   width,
+  fullSizeInk,
 }) {
   let notice = null;
   if (noticeCounts && noticeCounts > 0) {
@@ -24,7 +25,8 @@ function NavigationButton({
       onClick={onClick}
       className={classnames(
         styles.navigationButton,
-        active && styles.active
+        active && styles.active,
+        fullSizeInk ? null : styles.linearBorder
       )}
       style={{
         width,
@@ -49,11 +51,13 @@ NavigationButton.propTypes = {
     PropTypes.string,
   ]).isRequired,
   onClick: PropTypes.func,
+  fullSizeInk: PropTypes.bool,
 };
 NavigationButton.defaultProps = {
   active: false,
   label: undefined,
   noticeCounts: undefined,
   onClick: undefined,
+  fullSizeInk: true,
 };
 export default NavigationButton;

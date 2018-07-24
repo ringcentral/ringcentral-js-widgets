@@ -42,7 +42,7 @@ export default (auth, client, account, alert, regionSettings, composeText, messa
           ...account
         });
         await waitUntilEqual(() => auth.loginStatus, 'LoginStatus', loginStatus.loggedIn, 3);
-        waitInSeconds(2);
+        await waitInSeconds(2);
         expect(composeText.senderNumber).to.equals(messageSender.senderNumbersList[1].phoneNumber);
       });
     });
@@ -351,7 +351,7 @@ export default (auth, client, account, alert, regionSettings, composeText, messa
           });
 
           it('Should Not Alert Anything - to Number in (xxx)xxx-xxxx*xxx Format', async () => {
-            composeText.updateTypingToNumber('(888)349-5556*101');
+            composeText.updateTypingToNumber('(866)211-8665*101');
             composeText.updateMessageText('test');
             const responses = await composeText.send();
             expect(responses[0]).to.include.keys('id', 'conversation');
@@ -368,7 +368,7 @@ export default (auth, client, account, alert, regionSettings, composeText, messa
           });
 
           it('Should Not Alert Anything - to Number in (xxx) xxx-xxxx*xxx Format', async () => {
-            composeText.updateTypingToNumber('(888) 349-5556*101');
+            composeText.updateTypingToNumber('(866) 211-8665*101');
             composeText.updateMessageText('test');
             const responses = await composeText.send();
             expect(responses[0]).to.include.keys('id', 'conversation');
@@ -385,7 +385,7 @@ export default (auth, client, account, alert, regionSettings, composeText, messa
           });
 
           it('Should Not Alert Anything - to Number in xxx-xxx-xxxx Format', async () => {
-            composeText.updateTypingToNumber('855-899-0011');
+            composeText.updateTypingToNumber('866-211-8665');
             composeText.updateMessageText('test');
             const responses = await composeText.send();
             expect(responses[0]).to.include.keys('id', 'conversation');
@@ -402,7 +402,7 @@ export default (auth, client, account, alert, regionSettings, composeText, messa
           });
 
           it('Should Not Alert Anything - to Number in xxx-xxx-xxxx*xxx Format', async () => {
-            composeText.updateTypingToNumber('888-349-5556*101');
+            composeText.updateTypingToNumber('866-211-8665*101');
             composeText.updateMessageText('test');
             const responses = await composeText.send();
             expect(responses[0]).to.include.keys('id', 'conversation');

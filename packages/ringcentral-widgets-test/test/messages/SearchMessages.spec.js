@@ -4,7 +4,7 @@ import ClientHistoryRequest from 'ringcentral-integration/integration-test/utils
 import messageSyncBody from 'ringcentral-integration/integration-test/mock/data/messageSync.json';
 
 import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
-import MessagesPanel from 'ringcentral-widgets/components/MessagesPanel';
+import ConversationsPanel from 'ringcentral-widgets/components/ConversationsPanel';
 import SearchInput from 'ringcentral-widgets/components/SearchInput';
 import MessageItem from 'ringcentral-widgets/components/MessageItem';
 
@@ -21,7 +21,7 @@ beforeEach(async () => {
   navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/messages');
   wrapper.update();
-  panel = wrapper.find(MessagesPanel).first();
+  panel = wrapper.find(ConversationsPanel).first();
   const phone = wrapper.props().phone;
   Object.defineProperty(phone.rolesAndPermissions, 'readFaxPermissions', {
     value: true
@@ -57,6 +57,7 @@ beforeEach(async () => {
       lastModifiedTime: (new Date()).toISOString(),
     }],
   });
+  mock.messageList();
   await phone.subscription.subscribe(['/account/~/extension/~/message-sync']);
   await timeout(2500);
 
@@ -65,7 +66,7 @@ beforeEach(async () => {
   await navigationBar.props().goTo('/messages');
   await panel.find(NavigationBar).props().goTo('Fax');
   wrapper.update();
-  panel = wrapper.find(MessagesPanel).at(0);
+  panel = wrapper.find(ConversationsPanel).at(0);
 });
 describe('messages', () => {
   test('search will not start when input less than two letters or two numbers', async () => {
@@ -74,31 +75,35 @@ describe('messages', () => {
     const domInput = searchInput.find('input').first();
     domInput.instance().value = 'o';
     domInput.simulate('change');
-    panel = wrapper.find(MessagesPanel).first();
+    panel = wrapper.find(ConversationsPanel).first();
     searchInput = panel.find(SearchInput).first();
     expect(searchInput.props().value).toEqual('o');
     expect(panel.find(MessageItem).length).toEqual(2);
 
     domInput.instance().value = '34';
     domInput.simulate('change');
-    panel = wrapper.find(MessagesPanel).first();
+    panel = wrapper.find(ConversationsPanel).first();
     searchInput = panel.find(SearchInput).first();
     expect(searchInput.props().value).toEqual('34');
     expect(panel.find(MessageItem).length).toEqual(2);
   });
-  test('search but no match', () => {
+  test('search but no match', async () => {
     let searchInput = panel.find(SearchInput).first();
     const domInput = searchInput.find('input').first();
     domInput.instance().value = 'olia';
     domInput.simulate('change');
-    panel = wrapper.find(MessagesPanel).first();
+    wrapper.update();
+    panel = wrapper.find(ConversationsPanel).first();
     searchInput = panel.find(SearchInput).first();
     expect(searchInput.props().value).toEqual('olia');
+    await timeout(200);
+    wrapper.update();
+    panel = wrapper.find(ConversationsPanel).first();
     expect(panel.find('.noMessages').text().trim()).toEqual('No matching records found');
 
     domInput.instance().value = '12344444';
     domInput.simulate('change');
-    panel = wrapper.find(MessagesPanel).first();
+    panel = wrapper.find(ConversationsPanel).first();
     searchInput = panel.find(SearchInput).first();
     expect(searchInput.props().value).toEqual('12344444');
     expect(panel.find('.noMessages').text().trim()).toEqual('No matching records found');
@@ -109,7 +114,7 @@ describe('messages', () => {
     const domInput = searchInput.find('input').first();
     domInput.instance().value = '23456';
     domInput.simulate('change');
-    panel = wrapper.find(MessagesPanel).first();
+    panel = wrapper.find(ConversationsPanel).first();
     searchInput = panel.find(SearchInput).first();
     expect(searchInput.props().value).toEqual('23456');
     expect(panel.find(MessageItem).length).toEqual(1);
@@ -120,7 +125,7 @@ describe('messages', () => {
     const domInput = searchInput.find('input').first();
     domInput.instance().value = 'oli';
     domInput.simulate('change');
-    panel = wrapper.find(MessagesPanel).first();
+    panel = wrapper.find(ConversationsPanel).first();
     searchInput = panel.find(SearchInput).first();
     expect(searchInput.props().value).toEqual('oli');
     expect(panel.find(MessageItem).length).toEqual(1);

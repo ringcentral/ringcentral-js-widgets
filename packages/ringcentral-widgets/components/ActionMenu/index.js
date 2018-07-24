@@ -33,6 +33,9 @@ export default class ActionMenu extends Component {
       onUnmark,
       marked,
       markTitle,
+      externalViewEntity,
+      externalHasEntity,
+      disableClickToSms,
     } = this.props;
     return (
       <div ref={reference}>
@@ -70,6 +73,9 @@ export default class ActionMenu extends Component {
             onUnmark={onUnmark}
             marked={marked}
             markTitle={markTitle}
+            externalViewEntity={externalViewEntity}
+            externalHasEntity={externalHasEntity}
+            disableClickToSms={disableClickToSms}
           />
         </SlideMenu>
       </div>
@@ -108,6 +114,9 @@ ActionMenu.propTypes = {
   onUnmark: PropTypes.func,
   marked: PropTypes.bool,
   markTitle: PropTypes.string,
+  externalViewEntity: PropTypes.func,
+  externalHasEntity: PropTypes.bool,
+  disableClickToSms: PropTypes.bool,
 };
 ActionMenu.defaultProps = {
   extended: undefined,
@@ -139,4 +148,7 @@ ActionMenu.defaultProps = {
   onUnmark: undefined,
   marked: false,
   markTitle: undefined,
+  externalViewEntity: undefined,
+  externalHasEntity: undefined,
+  disableClickToSms: false,
 };

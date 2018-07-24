@@ -45,8 +45,7 @@ describe('Date Picker', () => {
     const futureDate = dateWidget.find('[role="row"]').last().find('.rw-cell').last();
     futureDate.simulate('click');
     showDate = new Date( dateWidget.find('input').props().value );
-    expect(showDate.getMonth()).not.toBe(today.getMonth());
-    expect(showDate.getDate()).not.toBe(today.getDate());
+    expect(showDate.getTime()).not.toBe(today.getTime());
     expect(dateWidget.find('.rw-calendar-header').length).toBe(0);
   });
   it('User Can Not Select A Last Day', () => {

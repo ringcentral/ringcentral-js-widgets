@@ -1,13 +1,10 @@
 {
   "name": "ringcentral-widgets-cli",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "CLI tool for RingCentral Widgets",
   "main": "lib/index.js",
   "bin": {
     "rc-widgets": "./bin/rc-widgets"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",

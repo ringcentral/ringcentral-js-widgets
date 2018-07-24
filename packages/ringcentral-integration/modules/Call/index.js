@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import callingModes from '../CallingSettings/callingModes';
-import moduleStatuses from '../../enums/moduleStatuses';
 import proxify from '../../lib/proxy/proxify';
 import ensureExist from '../../lib/ensureExist';
 
@@ -189,7 +188,13 @@ export default class Call extends RcModule {
   }
 
   @proxify
-  async call({ phoneNumber, recipient }) {
+  async call({
+    phoneNumber,
+    recipient,
+    fromNumber,
+    isConference = false,
+  }) {
+    let session = null;
     if (this.isIdle) {
       const toNumber = recipient && (recipient.phoneNumber || recipient.extension) || phoneNumber;
       if (!toNumber || `${toNumber}`.trim().length === 0) {
@@ -199,14 +204,20 @@ export default class Call extends RcModule {
       } else {
         this.store.dispatch({
           type: this.actionTypes.connect,
+          isConference,
           phoneNumber,
           recipient,
-          callSettingMode: this._callSettingMode // for Track
+          callSettingMode: this._callSettingMode, // for Track
         });
         try {
-          const validatedNumbers = await this._getValidatedNumbers({ toNumber });
+          const validatedNumbers = await this._getValidatedNumbers({
+            toNumber,
+            fromNumber,
+            isConference,
+          });
+
           if (validatedNumbers) {
-            await this._makeCall(validatedNumbers);
+            session = await this._makeCall(validatedNumbers);
             this.store.dispatch({
               type: this.actionTypes.connectSuccess,
               callSettingMode: this._callSettingMode // for Track
@@ -248,41 +259,71 @@ export default class Call extends RcModule {
         }
       }
     }
+    return session;
   }
 
   @proxify
-  async _getValidatedNumbers({ toNumber }) {
+  async _getValidatedNumbers({
+    toNumber,
+    fromNumber,
+    isConference,
+  }) {
     const isWebphone = (this._callingSettings.callingMode === callingModes.webphone);
-    const fromNumber = isWebphone ?
-      this._callingSettings.fromNumber :
-      this._callingSettings.myLocation;
-    if (isWebphone && (fromNumber === null || fromNumber === '')) return null;
+    const theFromNumber = fromNumber || (
+      isWebphone ?
+        this._callingSettings.fromNumber :
+        this._callingSettings.myLocation
+    );
 
-    const waitingValidateNumbers = [toNumber];
-    if (
-      fromNumber &&
-      fromNumber.length > 0 &&
-      !(isWebphone && fromNumber === 'anonymous')
-    ) {
-      waitingValidateNumbers.push(fromNumber);
-    }
-    const validatedResult
-      = await this._numberValidate.validateNumbers(waitingValidateNumbers);
-    if (!validatedResult.result) {
-      validatedResult.errors.forEach((error) => {
-        // this._alert.warning({
-        //   message: callErrors[error.type],
-        //   payload: {
-        //     phoneNumber: error.phoneNumber
-        //   }
-        // });
-        throw error;
-      });
+    if (isWebphone && (theFromNumber === null || theFromNumber === '')) {
       return null;
     }
-    const parsedNumbers = validatedResult.numbers;
-    const parsedToNumber = parsedNumbers[0];
+
+    const waitingValidateNumbers = [];
+
+    if (!isConference) {
+      waitingValidateNumbers.push({
+        type: 'toNumber',
+        number: toNumber,
+      });
+    }
+
     if (
+      theFromNumber &&
+      theFromNumber.length > 0 &&
+      !(isWebphone && theFromNumber === 'anonymous')
+    ) {
+      waitingValidateNumbers.push({
+        type: 'fromNumber',
+        number: theFromNumber,
+      });
+    }
+
+    let parsedToNumber;
+    let parsedFromNumber;
+    if (waitingValidateNumbers.length) {
+      const numbers = waitingValidateNumbers.map(x => x.number);
+      const validatedResult = await this._numberValidate.validateNumbers(numbers);
+      if (!validatedResult.result) {
+        validatedResult.errors.forEach((error) => {
+          // this._alert.warning({
+          //   message: callErrors[error.type],
+          //   payload: {
+          //     phoneNumber: error.phoneNumber
+          //   }
+          // });
+          throw error;
+        });
+        return null;
+      }
+      const toNumberIndex = waitingValidateNumbers.findIndex(x => x.type === 'toNumber');
+      const fromNumberIndex = waitingValidateNumbers.findIndex(x => x.type === 'fromNumber');
+      parsedToNumber = validatedResult.numbers[toNumberIndex];
+      parsedFromNumber = validatedResult.numbers[fromNumberIndex];
+    }
+
+    if (
+      parsedToNumber &&
       parsedToNumber.international &&
       !this._rolesAndPermissions.permissions.InternationalCalls
     ) {
@@ -292,23 +333,26 @@ export default class Call extends RcModule {
       };
       throw error;
     }
+
     // using e164 in response to call
-    let parsedFromNumber =
-      parsedNumbers[1] ? parsedNumbers[1].e164 : '';
-    // add ext back if any
-    if (parsedFromNumber !== '') {
-      parsedFromNumber = (parsedNumbers[1].subAddress) ?
-        [parsedNumbers[1].e164, parsedNumbers[1].subAddress].join('*') :
-        parsedNumbers[1].e164;
+    let parsedFromNumberE164;
+    if (parsedFromNumber) {
+      parsedFromNumberE164 = parsedFromNumber.e164;
+      // add ext back if any
+      if (parsedFromNumber.e164 && parsedFromNumber.subAddress) {
+        parsedFromNumberE164 = [parsedFromNumber.e164, parsedFromNumber.subAddress].join('*');
+      }
     }
-    if (isWebphone && fromNumber === 'anonymous') {
-      parsedFromNumber = 'anonymous';
+    if (isWebphone && theFromNumber === 'anonymous') {
+      parsedFromNumberE164 = 'anonymous';
     }
+
     return {
-      toNumber: parsedToNumber.e164,
-      fromNumber: parsedFromNumber,
+      toNumber: parsedToNumber ? parsedToNumber.e164 : toNumber,
+      fromNumber: parsedFromNumberE164,
     };
   }
+
   @proxify
   async _makeCall({
     toNumber,
@@ -319,12 +363,13 @@ export default class Call extends RcModule {
       country => country.isoCode === this._regionSettings.countryCode
     );
     const homeCountryId = (homeCountry && homeCountry.callingCode) || '1';
+    let session;
     switch (callingMode) {
       case callingModes.softphone:
-        this._softphone.makeCall(toNumber);
+        session = this._softphone.makeCall(toNumber);
         break;
       case callingModes.ringout:
-        await this._ringout.makeCall({
+        session = await this._ringout.makeCall({
           fromNumber,
           toNumber,
           prompt: this._callingSettings.ringoutPrompt,
@@ -332,7 +377,7 @@ export default class Call extends RcModule {
         break;
       case callingModes.webphone:
         if (this._webphone) {
-          await this._webphone.makeCall({
+          session = await this._webphone.makeCall({
             fromNumber,
             toNumber,
             homeCountryId,
@@ -342,6 +387,7 @@ export default class Call extends RcModule {
       default:
         break;
     }
+    return session;
   }
 
 

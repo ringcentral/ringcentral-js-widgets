@@ -1,12 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
 import TabNavigationView from 'ringcentral-widgets/components/TabNavigationView';
+import withPhone from 'ringcentral-widgets/lib/withPhone';
+
 import DialPadIcon from 'ringcentral-widgets/assets/images/DialPadNav.svg';
 import CallsIcon from 'ringcentral-widgets/assets/images/Calls.svg';
 import HistoryIcon from 'ringcentral-widgets/assets/images/CallHistory.svg';
 import MessageIcon from 'ringcentral-widgets/assets/images/Messages.svg';
-import ComposeTextIcon from 'ringcentral-widgets/assets/images/ComposeText.svg';
 import MoreMenuIcon from 'ringcentral-widgets/assets/images/MoreMenu.svg';
 import ContactIcon from 'ringcentral-widgets/assets/images/Contact.svg';
 import MeetingIcon from 'ringcentral-widgets/assets/images/Meeting.svg';
@@ -17,7 +19,6 @@ import DialPadHoverIcon from 'ringcentral-widgets/assets/images/DialPadHover.svg
 import CallsHoverIcon from 'ringcentral-widgets/assets/images/CallsHover.svg';
 import HistoryHoverIcon from 'ringcentral-widgets/assets/images/CallHistoryHover.svg';
 import MessageHoverIcon from 'ringcentral-widgets/assets/images/MessagesHover.svg';
-import ComposeTextHoverIcon from 'ringcentral-widgets/assets/images/ComposeTextHover.svg';
 import MoreMenuHoverIcon from 'ringcentral-widgets/assets/images/MoreMenuHover.svg';
 import ContactHoverIcon from 'ringcentral-widgets/assets/images/ContactHover.svg';
 import MeetingHoverIcon from 'ringcentral-widgets/assets/images/MeetingHover.svg';
@@ -28,10 +29,8 @@ import ContactNavIcon from 'ringcentral-widgets/assets/images/ContactsNavigation
 import MeetingNavIcon from 'ringcentral-widgets/assets/images/MeetingNavigation.svg';
 import ConferenceNavIcon from 'ringcentral-widgets/assets/images/ConferenceNavigation.svg';
 import SettingsNavIcon from 'ringcentral-widgets/assets/images/SettingsNavigation.svg';
-import withPhone from 'ringcentral-widgets/lib/withPhone';
 
 import i18n from './i18n';
-
 
 function getTabs({
   currentLocale,
@@ -39,11 +38,11 @@ function getTabs({
   showCalls,
   showHistory,
   showMessages,
-  showComposeText,
   showContact,
   unreadCounts,
   showConference,
   showMeeting,
+  conferenceCallEquipped,
 }) {
   let tabs = [
     showDialPad && {
@@ -51,6 +50,10 @@ function getTabs({
       activeIcon: DialPadHoverIcon,
       label: i18n.getString('dialpadLabel', currentLocale),
       path: '/dialer',
+      isActive: currentPath => (
+        currentPath === '/dialer'
+        || (currentPath === '/calls' && conferenceCallEquipped)
+      ),
     },
     showCalls && {
       icon: CallsIcon,
@@ -76,12 +79,6 @@ function getTabs({
       isActive: currentPath => (
         currentPath === '/messages' || currentPath.indexOf('/conversations/') !== -1
       ),
-    },
-    showComposeText && {
-      icon: ComposeTextIcon,
-      activeIcon: ComposeTextHoverIcon,
-      label: i18n.getString('composeTextLabel', currentLocale),
-      path: '/composeText',
     },
     showContact && {
       icon: ContactIcon,
@@ -122,10 +119,10 @@ function getTabs({
     const childTabs = tabs.slice(4, tabs.length);
     tabs = tabs.slice(0, 4);
     tabs.push({
-      icon: ({ currentPath }) => {
+      icon({ currentPath }) {
         const childTab = childTabs.filter(childTab => (
           (currentPath === childTab.path || currentPath.substr(0, 9) === childTab.path)
-            && childTab.moreMenuIcon
+          && childTab.moreMenuIcon
         ));
         if (childTab.length > 0) {
           const Icon = childTab[0].moreMenuIcon;
@@ -133,10 +130,10 @@ function getTabs({
         }
         return <MoreMenuIcon />;
       },
-      activeIcon: ({ currentPath }) => {
+      activeIcon({ currentPath }) {
         const childTab = childTabs.filter(childTab => (
           (currentPath === childTab.path || currentPath.substr(0, 9) === childTab.path)
-            && childTab.moreMenuIcon
+          && childTab.moreMenuIcon
         ));
         if (childTab.length > 0) {
           const Icon = childTab[0].moreMenuIcon;
@@ -162,7 +159,8 @@ function mapToProps(_, {
     rolesAndPermissions,
     routerInteraction,
     callingSettings,
-    conference
+    conference,
+    conferenceCall,
   },
 }) {
   const unreadCounts = messageStore.unreadCounts || 0;
@@ -174,7 +172,6 @@ function mapToProps(_, {
   const showContact = rolesAndPermissions.ready && (
     rolesAndPermissions.callingEnabled || rolesAndPermissions.hasReadMessagesPermission
   );
-  const showComposeText = rolesAndPermissions.ready && rolesAndPermissions.hasComposeTextPermission;
   const showMessages = rolesAndPermissions.ready && rolesAndPermissions.hasReadMessagesPermission;
   const showConference = (
     rolesAndPermissions.ready &&
@@ -186,17 +183,18 @@ function mapToProps(_, {
     rolesAndPermissions.permissions.Meetings
   );
   const currentLocale = locale.currentLocale;
+  const conferenceCallEquipped = !!conferenceCall;
   const tabs = getTabs({
     currentLocale,
     unreadCounts,
     showDialPad,
     showCalls,
     showHistory,
-    showComposeText,
     showMessages,
     showContact,
     showConference,
     showMeeting,
+    conferenceCallEquipped,
   });
   return {
     tabs,
@@ -205,15 +203,29 @@ function mapToProps(_, {
     currentPath: routerInteraction.currentPath,
   };
 }
+
 function mapToFunctions(_, {
   phone: {
     routerInteraction,
+    callingSettings,
+    conferenceCall,
+    webphone,
   },
 }) {
+  const conferenceCallEquipped = !!conferenceCall;
   return {
-    goTo: (path) => {
+    goTo(path) {
       if (path) {
-        routerInteraction.push(path);
+        if (
+          path === '/dialer'
+          && conferenceCallEquipped
+          && webphone.sessions.length
+          && callingSettings.callingMode === callingModes.webphone
+        ) {
+          routerInteraction.push('/calls');
+        } else {
+          routerInteraction.push(path);
+        }
       }
     },
   };
@@ -221,7 +233,7 @@ function mapToFunctions(_, {
 
 const MainView = withPhone(connect(
   mapToProps,
-  mapToFunctions
+  mapToFunctions,
 )(TabNavigationView));
 
 export default MainView;

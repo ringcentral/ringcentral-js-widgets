@@ -44,22 +44,6 @@ $input-height: 43px;
   display: inline-block;
 }
 
-.backButton {
-  font-size: $primary-font-size;
-  color: $lightblack;
-  .backIcon {
-    display: inline-block;
-    position: absolute;
-    transform: rotate(90deg);
-    top: 5px;
-    left: 10px;
-  }
-  .backLabel {
-    display: inline-block;
-    width: 79px;
-  }
-}
-
 .disabled {
   g {
     cursor: not-allowed;

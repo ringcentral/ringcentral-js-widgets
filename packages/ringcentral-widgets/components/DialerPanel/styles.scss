@@ -13,11 +13,17 @@ $dial_input_height: 10%;
   background: #ffffff;
 }
 
-.inputFields {
+.inputField {
   margin: 0 0 5px 0;
   padding: 0 20px 1px 20px;
-  border-bottom: #e3e3e3 1px solid;
   color: #797979;
+  border-bottom: #e3e3e3 1px solid;
+}
+
+.recipientsField {
+  margin: 10px 20px 5px 20px;
+  padding: 0 0 0 0;
+  color: inherit;
 }
 
 .dial_input {

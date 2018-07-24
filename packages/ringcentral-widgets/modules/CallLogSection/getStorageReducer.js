@@ -16,7 +16,6 @@ function getCallsMappingReducer(types) {
           ...state,
           [identify]: {
             ...state[identify],
-            isSaving: true
           },
         };
       case types.saveSuccess:
@@ -25,7 +24,7 @@ function getCallsMappingReducer(types) {
           [identify]: {
             ...state[identify],
             isEdited: false,
-            isSaving: false,
+            isSucceed: true,
           },
         };
       case types.saveError:
@@ -34,7 +33,7 @@ function getCallsMappingReducer(types) {
           [identify]: {
             ...state[identify],
             isEdited: true,
-            isSaving: false,
+            isSucceed: false,
           },
         };
       case types.cleanUp:

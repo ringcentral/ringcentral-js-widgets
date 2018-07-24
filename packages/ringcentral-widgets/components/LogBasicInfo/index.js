@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import dynamicsFont from 'ringcentral-widgets/assets/DynamicsFont/DynamicsFont.scss';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 import callResults from 'ringcentral-integration/enums/callResults';
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
 import { isMissed } from 'ringcentral-integration/lib/callLogHelpers';
+import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -107,7 +107,11 @@ export default function LogBasicInfo(props) {
             title={formatNumber}>
             {formatNumber}
           </span>
-          <span className={styles.separator}>|</span>
+          {
+            formatNumber ? (
+              <span className={styles.separator}>|</span>
+            ) : null
+          }
           <span
             className={statusClassName}
             title={statusI18n}>

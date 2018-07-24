@@ -9,6 +9,7 @@ import AnimationAlert from '../../components/AnimationAlert';
 
 import AuthAlert from '../../components/AuthAlert';
 import CallAlert from '../../components/CallAlert';
+import CallLogAlert from '../../components/CallLogAlert';
 import CallingSettingsAlert from '../../components/CallingSettingsAlert';
 import RegionSettingsAlert from '../../components/RegionSettingsAlert';
 import MessageSenderAlert from '../../components/MessageSenderAlert';
@@ -21,6 +22,7 @@ import AudioSettingsAlert from '../../components/AudioSettingsAlert';
 import RolesAndPermissionsAlert from '../../components/RolesAndPermissionsAlert';
 import withPhone from '../../lib/withPhone';
 import ConferenceAlert from '../../components/ConferenceAlert/index';
+import ConferenceCallAlert from '../../components/ConferenceCallAlert/index';
 
 
 function mapToProps(_, {
@@ -137,11 +139,23 @@ function getDefaultRenderer({
       return ConferenceAlert;
     }
 
+    if (ConferenceCallAlert.handleMessage(message)) {
+      return ConferenceCallAlert;
+    }
+
     if (AudioSettingsAlert.handleMessage(message)) {
       return props => (
         <AudioSettingsAlert
           {...props}
           application={brand.appName}
+        />
+      );
+    }
+
+    if (CallLogAlert.handleMessage(message)) {
+      return props => (
+        <CallLogAlert
+          {...props}
         />
       );
     }
@@ -171,14 +185,14 @@ function mapToFunctions(_, {
 }) {
   const additionalRenderer = getAdditionalRenderer && getAdditionalRenderer();
   return {
-    getRenderer: (message) => {
+    getRenderer(message) {
       if (additionalRenderer) {
         const renderer = additionalRenderer(message);
         if (renderer) return renderer;
       }
       return getRenderer(message);
     },
-    dismiss: (id) => {
+    dismiss(id) {
       alert.dismiss(id);
     },
   };

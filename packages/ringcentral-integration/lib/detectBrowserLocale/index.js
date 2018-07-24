@@ -1,6 +1,5 @@
-import formatLocale from 'locale-loader/lib/formatLocale';
-
-const DEFAULT_LOCALE = 'en-US';
+import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
+import { DEFAULT_LOCALE } from '@ringcentral-integration/i18n';
 
 /**
  * @function

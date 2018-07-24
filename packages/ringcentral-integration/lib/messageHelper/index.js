@@ -1,4 +1,5 @@
 import messageTypes from '../../enums/messageTypes';
+import removeUri from '../../lib/removeUri';
 
 export function filterNumbers(numbers, filterNumber) {
   return numbers.filter((number) => {
@@ -10,7 +11,7 @@ export function filterNumbers(numbers, filterNumber) {
 }
 
 export function messageIsDeleted(message) {
-  return message.availability === 'Deleted';
+  return message.availability === 'Deleted' || message.availability === 'Purged';
 }
 
 export function messageIsTextMessage(message) {
@@ -30,6 +31,17 @@ export function messageIsAcceptable(message) {
   // do not show deleted messages
   return (message.type !== messageTypes.fax || (message.messageStatus !== 'Queued' && message.messageStatus !== 'SendingFailed')) &&
   (!messageIsDeleted(message));
+}
+
+export function getMessageType(message) {
+  if (messageIsTextMessage(message)) {
+    return messageTypes.text;
+  } else if (messageIsVoicemail(message)) {
+    return messageTypes.voiceMail;
+  } else if (messageIsFax(message)) {
+    return messageTypes.fax;
+  }
+  return null;
 }
 
 export function getMyNumberFromMessage({ message, myExtensionNumber }) {
@@ -171,3 +183,32 @@ export function getFaxAttachment(message, accessToken) {
   };
 }
 
+export function getConversationId(record) {
+  const conversationId = (record.conversation && record.conversation.id) || record.id;
+  return conversationId.toString();
+}
+
+export function sortByCreationTime(a, b) {
+  if (a.creationTime === b.creationTime) return 0;
+  return (a.creationTime > b.creationTime ? -1 : 1);
+}
+
+export function normalizeRecord(record) {
+  const newRecord = removeUri(record);
+  const conversationId = getConversationId(record);
+  delete newRecord.conversation;
+  return {
+    ...newRecord,
+    creationTime: (new Date(record.creationTime)).getTime(),
+    lastModifiedTime: (new Date(record.lastModifiedTime)).getTime(),
+    conversationId,
+  };
+}
+
+export function messageIsUnread(message) {
+  return (
+    message.direction === 'Inbound' &&
+    message.readStatus !== 'Read' &&
+    !messageIsDeleted(message)
+  );
+}

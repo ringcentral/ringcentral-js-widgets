@@ -3,23 +3,7 @@
 @import '../../lib/commonStyles/text-ellipsis';
 
 .loggedIcon {
-  path:nth-child(1) {
-    stroke: $primary-color;
-  }
-  path:nth-child(2) {
-    stroke: $primary-color;
-  }
-  path:nth-child(3) {
-    fill: $primary-color;
-    stroke: none;
-  }
-  path:nth-child(4) {
-    stroke: $primary-color;
-  }
-  path:nth-child(5) {
-    stroke: #FEFEFE;
-  }
-  circle {
+  path {
     stroke: $primary-color;
   }
 }
@@ -27,27 +11,17 @@
   path {
     stroke: $primary-color;
   }
-  circle {
-    stroke: $primary-color;
-  }
 }
 .logIcon {
+  display: flex;
   cursor: pointer;
-  position: absolute;
-  bottom: 25px;
-  right: 20px;
-  height: 26px;
-  display: inline-block;
 
   &.disabled {
     cursor: not-allowed;
-    g {
-      stroke: $coin;
+    rect {
+      fill: $coin;
     }
     path {
-      stroke: $coin;
-    }
-    circle {
       stroke: $coin;
     }
   }

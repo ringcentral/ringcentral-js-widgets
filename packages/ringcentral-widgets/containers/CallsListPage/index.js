@@ -61,6 +61,7 @@ function mapToProps(_, {
       (!composeText || composeText.ready) &&
       (!callLogger || callLogger.ready)
     ),
+    readTextPermission: rolesAndPermissions.readTextPermissions,
   };
 }
 

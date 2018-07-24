@@ -57,7 +57,7 @@ export default class DatePicker extends Component {
       currentLocale,
     } = this.props;
     const dueDate = new Date().toISOString();
-    const showDate = this.props.date ? Moment(this.props.date).format('MM/DD/YY') : null;
+    const showDate = this.props.date ? Moment(this.props.date).format('MM/DD/YY') : '';
     return (
       <div
         className={classnames(styles.datePicker, this.props.datePickerClassName)}
@@ -72,9 +72,7 @@ export default class DatePicker extends Component {
           onChange={(currentStartTime) => {
             if (currentStartTime) {
               const date = new Date(dueDate);
-              date.setFullYear(currentStartTime.getFullYear());
-              date.setMonth(currentStartTime.getMonth());
-              date.setDate(currentStartTime.getDate());
+              date.setFullYear(currentStartTime.getFullYear(), currentStartTime.getMonth(), currentStartTime.getDate());
               this.props.onChange(date);
             }
             this.collapseDatePicker();
