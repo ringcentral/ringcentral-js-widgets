@@ -309,7 +309,8 @@ var CallsListPanel = function (_Component) {
           notificationContainerStyles = _props.notificationContainerStyles,
           externalViewEntity = _props.externalViewEntity,
           externalHasEntity = _props.externalHasEntity,
-          readTextPermission = _props.readTextPermission;
+          readTextPermission = _props.readTextPermission,
+          children = _props.children;
 
       if (showSpinner) {
         return _react2.default.createElement(_SpinnerOverlay2.default, null);
@@ -453,6 +454,7 @@ var CallsListPanel = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: (0, _classnames2.default)(_styles2.default.root, className) },
+          children,
           getCallList(activeRingCalls, _i18n2.default.getString('ringCall', currentLocale)),
           getCallList(activeCurrentCalls, _i18n2.default.getString('currentCall', currentLocale)),
           getCallList(activeOnHoldCalls, _i18n2.default.getString('onHoldCall', currentLocale)),
@@ -526,7 +528,8 @@ CallsListPanel.propTypes = {
   notificationContainerStyles: _propTypes2.default.string,
   externalViewEntity: _propTypes2.default.func,
   externalHasEntity: _propTypes2.default.func,
-  readTextPermission: _propTypes2.default.bool
+  readTextPermission: _propTypes2.default.bool,
+  children: _propTypes2.default.node
 };
 
 CallsListPanel.defaultProps = {
@@ -574,6 +577,7 @@ CallsListPanel.defaultProps = {
   notificationContainerStyles: undefined,
   externalViewEntity: undefined,
   externalHasEntity: undefined,
-  readTextPermission: true
+  readTextPermission: true,
+  children: null
 };
 //# sourceMappingURL=index.js.map
