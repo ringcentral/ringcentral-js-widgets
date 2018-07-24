@@ -249,6 +249,7 @@ export default class CallsListPanel extends Component {
       externalViewEntity,
       externalHasEntity,
       readTextPermission,
+      children,
     } = this.props;
     if (showSpinner) {
       return (<SpinnerOverlay />);
@@ -389,6 +390,7 @@ export default class CallsListPanel extends Component {
     return (
       <div className={styles.container}>
         <div className={classnames(styles.root, className)}>
+          {children}
           {getCallList(activeRingCalls, i18n.getString('ringCall', currentLocale))}
           {getCallList(activeCurrentCalls, i18n.getString('currentCall', currentLocale))}
           {getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}
@@ -459,6 +461,7 @@ CallsListPanel.propTypes = {
   externalViewEntity: PropTypes.func,
   externalHasEntity: PropTypes.func,
   readTextPermission: PropTypes.bool,
+  children: PropTypes.node,
 };
 
 CallsListPanel.defaultProps = {
@@ -507,4 +510,5 @@ CallsListPanel.defaultProps = {
   externalViewEntity: undefined,
   externalHasEntity: undefined,
   readTextPermission: true,
+  children: null,
 };
