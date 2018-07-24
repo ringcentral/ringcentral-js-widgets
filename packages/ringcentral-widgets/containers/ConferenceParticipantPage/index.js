@@ -82,7 +82,6 @@ function mapToFunctions(_, {
     },
     async removeFunc(id) {
       const confId = conferenceCall.conferences && Object.keys(conferenceCall.conferences)[0];
-
       try {
         await conferenceCall.removeFromConference(confId, id);
         return true;
@@ -103,4 +102,9 @@ const ConferenceParticipantPage = withPhone(connect(
   mapToFunctions,
 )(ConferenceParticipantContainer));
 
-export default ConferenceParticipantPage;
+export {
+  mapToProps,
+  mapToFunctions,
+  ConferenceParticipantContainer,
+  ConferenceParticipantPage as default,
+};

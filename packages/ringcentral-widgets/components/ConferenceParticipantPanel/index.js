@@ -35,6 +35,7 @@ class ParticipantsContainer extends Component {
       detail: participant,
       showModal: true,
     }));
+    this.props.afterOnRemoveBtnClick();
   }
 
   onCancel() {
@@ -42,6 +43,7 @@ class ParticipantsContainer extends Component {
       showModal: false,
       detail: null,
     });
+    this.props.afterOnCancel();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -50,7 +52,10 @@ class ParticipantsContainer extends Component {
       && !nextProps.participants.find(
         participant => participant.id === this.state.detail.id
       )) {
-      this.onCancel();
+      this.setState({
+        showModal: false,
+        detail: null,
+      });
     }
   }
 
@@ -117,7 +122,10 @@ class ParticipantsContainer extends Component {
           onCancel={this.onCancel}
           currentLocale={currentLocale}
           onRemove={
-            () => removeFunc(detail && detail.id).then(this.onCancel)
+            () => removeFunc(detail && detail.id).then(this.setState({
+              showModal: false,
+              detail: null,
+            }))
           } />
       </div>
     );
@@ -131,12 +139,22 @@ ParticipantsContainer.propTypes = {
   participants: PropTypes.arrayOf(PropTypes.object).isRequired,
   onBackButtonClick: PropTypes.func,
   formatPhone: PropTypes.func,
+  removeParticipantClickRemoveTrack: PropTypes.func,
+  removeParticipantClickCancelTrack: PropTypes.func,
+  participantListClickHangupTrack: PropTypes.func,
+  afterOnCancel: PropTypes.func,
+  afterOnRemoveBtnClick: PropTypes.func,
 };
 
 ParticipantsContainer.defaultProps = {
   removeFunc: i => i,
   onBackButtonClick: i => i,
   formatPhone: i => i,
+  removeParticipantClickRemoveTrack: i => i,
+  participantListClickHangupTrack: i => i,
+  removeParticipantClickCancelTrack: i => i,
+  afterOnCancel: i => i,
+  afterOnRemoveBtnClick: i => i,
 };
 
 export default ParticipantsContainer;
