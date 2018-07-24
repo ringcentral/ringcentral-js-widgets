@@ -59,6 +59,7 @@ function mapToFunctions(_, {
     webphone,
     callingSettings,
     conferenceCall,
+    callMonitor,
   },
   composeTextRoute = '/composeText',
   callCtrlRoute = '/calls/active',
@@ -89,6 +90,8 @@ function mapToFunctions(_, {
       return (webphone && webphone.reject(...args));
     },
     async webphoneHangup(...args) {
+      // user action track
+      callMonitor.allCallsClickHangupTrack();
       return (webphone && webphone.hangup(...args));
     },
     async webphoneResume(...args) {
@@ -101,6 +104,8 @@ function mapToFunctions(_, {
       }
     },
     async webphoneHold(...args) {
+      // user action track
+      callMonitor.allCallsClickHoldTrack();
       return (webphone && webphone.hold(...args));
     },
     onViewContact: showViewContact ?
@@ -167,6 +172,8 @@ function mapToFunctions(_, {
         return;
       }
       if (call.webphoneSession && call.webphoneSession.id) {
+        // to track the call item be clicked.
+        callMonitor.callItemClickTrack();
         routerInteraction.push(`${callCtrlRoute}/${call.webphoneSession.id}`);
       }
     },

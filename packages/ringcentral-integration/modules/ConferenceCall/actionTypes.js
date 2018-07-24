@@ -36,4 +36,8 @@ export default new Enum([
   'closeMergingPair',
   // for reselect
   'updateCurrentConferenceId',
+  // user action track
+  'participantListClickHangupTrack',
+  'removeParticipantClickCancelTrack',
+  'removeParticipantClickRemoveTrack',
 ], 'conferenceCall');
