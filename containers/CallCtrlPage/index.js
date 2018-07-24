@@ -557,22 +557,21 @@ function mapToFunctions(_, _ref2) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                routerInteraction.replace(routerInteraction.currentPath + '/' + sessionId);
                 session = webphone._sessions.get(sessionId);
                 isOnhold = session.isOnHold().local;
 
                 conferenceCall.setMergeParty({ toSessionId: sessionId });
                 sessionToMergeWith = webphone._sessions.get(conferenceCall.mergingPair.fromSessionId);
                 webphoneSessions = sessionToMergeWith ? [sessionToMergeWith, session] : [session];
-                _context.next = 8;
+                _context.next = 7;
                 return conferenceCall.mergeToConference(webphoneSessions);
 
-              case 8:
+              case 7:
                 conferenceData = (0, _values2.default)(conferenceCall.conferences)[0];
                 conferenceSession = webphone._sessions.get(conferenceData.sessionId);
 
                 if (!(conferenceData && !isOnhold && conferenceSession.isOnHold().local)) {
-                  _context.next = 13;
+                  _context.next = 12;
                   break;
                 }
 
@@ -583,19 +582,19 @@ function mapToFunctions(_, _ref2) {
                 webphone.resume(conferenceData.sessionId);
                 return _context.abrupt('return');
 
-              case 13:
+              case 12:
                 if (conferenceData) {
-                  _context.next = 17;
+                  _context.next = 16;
                   break;
                 }
 
-                _context.next = 16;
+                _context.next = 15;
                 return webphone.resume(session.id);
 
-              case 16:
+              case 15:
                 routerInteraction.push('/conferenceCall/mergeCtrl');
 
-              case 17:
+              case 16:
               case 'end':
                 return _context.stop();
             }
