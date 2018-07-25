@@ -195,19 +195,13 @@ export default class CallMonitor extends RcModule {
           };
         }).sort((l, r) => (
           sortByLastHoldingTimeDesc(l.webphoneSession, r.webphoneSession)
-        )).filter((callItem) => {
-          // filtering out the conferece during merging
-          if (cachedCalls.length) {
-            return !isConferenceSession(callItem.webphoneSession);
-          }
-          return true;
-        });
+        ));
 
         return _normalizedCalls;
       },
     );
 
-    this.addSelector('calls',
+    this.addSelector('allCalls',
       this._selectors.normalizedCalls,
       () => (this._contactMatcher && this._contactMatcher.dataMapping),
       () => (this._activityMatcher && this._activityMatcher.dataMapping),
@@ -230,6 +224,21 @@ export default class CallMonitor extends RcModule {
         return calls;
       }
     );
+
+    this.addSelector('calls',
+      this._selectors.allCalls,
+      () => this._webphone && this._webphone.cachedSessions,
+      (calls, cachedSessions) => (
+        calls.filter((callItem) => {
+          // filtering out the conferece during merging
+          if (cachedSessions.length) {
+            return !isConferenceSession(callItem.webphoneSession);
+          }
+          return true;
+        })
+      ),
+    );
+
 
     this.addSelector('activeRingCalls',
       this._selectors.calls,
@@ -335,7 +344,7 @@ export default class CallMonitor extends RcModule {
 
     let _lastCallInfo = {};
     this.addSelector('lastCallInfo',
-      () => this.calls,
+      this._selectors.allCalls,
       () => this._conferenceCall && this._conferenceCall.mergingPair.fromSessionId,
       () => this._conferenceCall && this._conferenceCall.partyProfiles,
       (calls, fromSessionId, partyProfiles) => {
