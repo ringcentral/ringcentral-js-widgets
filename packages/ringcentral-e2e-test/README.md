@@ -1,12 +1,12 @@
 # ringcentral-e2e-test
 
 # Pros
-Support Multiple browser testing
-Support test Label on DOM's node
+* Support Multiple browser testing
+* Support test Label on DOM's node
 
 # Cons
-Script The low degree of abstraction
-Production contain test code
+* Script The low degree of abstraction
+* Production contain test code
 
 
 ## Goal
