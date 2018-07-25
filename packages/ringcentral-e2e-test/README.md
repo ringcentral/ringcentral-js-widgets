@@ -8,7 +8,7 @@
 * Progressive enhancement/plug-in modular
 
 ## Features
-* Steps controller
+* Steps controller(Control process/Enhance steps)
 * E2E test report
 * Support CLI
 * Compatible with selenium-webdriver
