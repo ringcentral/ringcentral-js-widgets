@@ -6,7 +6,11 @@ import ActiveCallItem from '../ActiveCallItem';
 import styles from './styles.scss';
 
 function isConferenceCall(normalizedCall) {
-  return normalizedCall.to.phoneNumber.length === 0 && normalizedCall.toName === 'Conference';
+  return normalizedCall
+    && normalizedCall.to
+    && Array.isArray(normalizedCall.to.phoneNumber)
+    && normalizedCall.to.phoneNumber.length === 0
+    && normalizedCall.toName === 'Conference';
 }
 
 function ActiveCallList({
