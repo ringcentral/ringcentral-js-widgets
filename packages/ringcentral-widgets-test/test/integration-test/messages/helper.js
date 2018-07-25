@@ -3,7 +3,7 @@ import subscriptionBody from 'ringcentral-integration/integration-test/mock/data
 import pubnubMsg from 'ringcentral-integration/integration-test/mock/data/pubnub.json';
 import * as mock from 'ringcentral-integration/integration-test/mock';
 import { timeout } from '../shared';
-import * as MockedPubNub from '../__mocks__/pubnub.js';
+import * as MockedPubNub from '../../__mocks__/pubnub.js';
 
 export async function mockPubnub() {
   const pubnub = MockedPubNub.getLastPubnub();
