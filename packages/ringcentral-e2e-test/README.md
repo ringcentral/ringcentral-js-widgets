@@ -11,7 +11,7 @@
 * Steps controller(Control process/Enhance steps)
 * E2E test report
 * Support CLI
-* Compatible with selenium-webdriver
+* Compatible with selenium-webdriver(Maybe WebdriverIO)
 ----
 * Serial perform case
 * Auto-create test file with AC or test case
