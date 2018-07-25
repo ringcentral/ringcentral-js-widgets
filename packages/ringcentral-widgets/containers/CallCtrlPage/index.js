@@ -409,30 +409,8 @@ function mapToFunctions(_, {
       }
     },
     async onMerge(sessionId) {
-      const session = webphone._sessions.get(sessionId);
-      const isOnhold = session.isOnHold().local;
-      conferenceCall.setMergeParty({ toSessionId: sessionId });
-      const sessionToMergeWith = webphone._sessions.get(conferenceCall.mergingPair.fromSessionId);
-      const webphoneSessions = sessionToMergeWith
-        ? [sessionToMergeWith, session]
-        : [session];
-      await conferenceCall.mergeToConference(webphoneSessions);
-      const conferenceData = Object.values(conferenceCall.conferences)[0];
-      const conferenceSession = webphone._sessions.get(conferenceData.sessionId);
-      if (
-        conferenceData
-        && !isOnhold
-        && conferenceSession.isOnHold().local
-      ) {
-        /**
-         * because session termination operation in conferenceCall._mergeToConference,
-         * need to wait for webphone.getActiveSessionIdReducer to update
-         */
-        webphone.resume(conferenceData.sessionId);
-        return;
-      }
+      const conferenceData = await conferenceCall.onMerge({ sessionId });
       if (!conferenceData) {
-        await webphone.resume(session.id);
         routerInteraction.push('/conferenceCall/mergeCtrl');
       }
     },
