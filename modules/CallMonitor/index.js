@@ -259,18 +259,12 @@ var CallMonitor = (_dec = (0, _di.Module)({
         });
       }).sort(function (l, r) {
         return (0, _webphoneHelper.sortByLastHoldingTimeDesc)(l.webphoneSession, r.webphoneSession);
-      }).filter(function (callItem) {
-        // filtering out the conferece during merging
-        if (cachedCalls.length) {
-          return !(0, _webphoneHelper.isConferenceSession)(callItem.webphoneSession);
-        }
-        return true;
       });
 
       return _normalizedCalls;
     });
 
-    _this.addSelector('calls', _this._selectors.normalizedCalls, function () {
+    _this.addSelector('allCalls', _this._selectors.normalizedCalls, function () {
       return _this._contactMatcher && _this._contactMatcher.dataMapping;
     }, function () {
       return _this._activityMatcher && _this._activityMatcher.dataMapping;
@@ -295,6 +289,18 @@ var CallMonitor = (_dec = (0, _di.Module)({
         });
       });
       return calls;
+    });
+
+    _this.addSelector('calls', _this._selectors.allCalls, function () {
+      return _this._conferenceCall && _this._conferenceCall.isMerging;
+    }, function (calls, isMerging) {
+      return calls.filter(function (callItem) {
+        // filtering out the conferece during merging
+        if (isMerging) {
+          return !(0, _webphoneHelper.isConferenceSession)(callItem.webphoneSession);
+        }
+        return true;
+      });
     });
 
     _this.addSelector('activeRingCalls', _this._selectors.calls, function (calls) {
@@ -380,9 +386,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
     });
 
     var _lastCallInfo = {};
-    _this.addSelector('lastCallInfo', function () {
-      return _this.calls;
-    }, function () {
+    _this.addSelector('lastCallInfo', _this._selectors.allCalls, function () {
       return _this._conferenceCall && _this._conferenceCall.mergingPair.fromSessionId;
     }, function () {
       return _this._conferenceCall && _this._conferenceCall.partyProfiles;
@@ -420,7 +424,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
         _lastCallInfo = {
           calleeType: _calleeTypes2.default.contacts,
           avatarUrl: lastCall.toMatches[0].profileImageUrl,
-          name: lastCall.toName,
+          name: lastCall.toMatches[0].name,
           status: lastCall.webphoneSession.callStatus
         };
       } else if (lastCalleeType === _calleeTypes2.default.unknow) {
