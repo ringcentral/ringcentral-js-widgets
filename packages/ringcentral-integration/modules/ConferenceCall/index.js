@@ -368,6 +368,7 @@ export default class ConferenceCall extends RcModule {
    * FIXME: dynamically construct this function during the construction
    * to avoid `this._webphone` criterias to improve performance ahead of time
    */
+  @proxify
   async mergeToConference(webphoneSessions = []) {
     webphoneSessions = webphoneSessions.filter(session => !this.isConferenceSession(session.id))
       .filter(session => Object.prototype.toString.call(session).toLowerCase() === '[object object]');
@@ -515,6 +516,7 @@ export default class ConferenceCall extends RcModule {
     return this.countOnlineParties(id) >= this.capacity;
   }
 
+  @proxify
   async startPollingConferenceStatus(id) {
     if (this._timers[id] || !this._pulling) {
       return;
@@ -640,6 +642,7 @@ export default class ConferenceCall extends RcModule {
     );
   }
 
+  @proxify
   async _mergeToConference(webphoneSessions = []) {
     const conferenceState = Object.values(this.conferences)[0];
 
@@ -680,6 +683,7 @@ export default class ConferenceCall extends RcModule {
     return id;
   }
 
+  @proxify
   async _makeConference(propagate = false) {
     try {
       this.store.dispatch({
@@ -732,6 +736,7 @@ export default class ConferenceCall extends RcModule {
     }
   }
 
+  @proxify
   async _getProfile(sessionInstance) {
     const session = this._webphone.sessions.find(session => session.id === sessionInstance.id);
     const {
