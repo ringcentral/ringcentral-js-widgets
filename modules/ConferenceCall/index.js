@@ -174,11 +174,8 @@ var ConferenceCall = (_dec = (0, _di.Module)({
   deps: ['Auth', 'Alert', {
     dep: 'Call',
     optional: true
-  }, 'CallingSettings', 'Client', 'RolesAndPermissions', {
+  }, 'CallingSettings', 'Client', 'Webphone', 'RolesAndPermissions', {
     dep: 'ContactMatcher',
-    optional: true
-  }, {
-    dep: 'Webphone',
     optional: true
   }, { dep: 'ConnectivityMonitor', optional: true }, {
     dep: 'ConferenceCallOptions',
@@ -1410,6 +1407,67 @@ var ConferenceCall = (_dec = (0, _di.Module)({
       return _getProfile;
     }()
   }, {
+    key: 'onMerge',
+    value: function () {
+      var _ref18 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee13(_ref17) {
+        var sessionId = _ref17.sessionId;
+        var session, isOnhold, sessionToMergeWith, webphoneSessions, conferenceData, conferenceSession;
+        return _regenerator2.default.wrap(function _callee13$(_context13) {
+          while (1) {
+            switch (_context13.prev = _context13.next) {
+              case 0:
+                session = this._webphone._sessions.get(sessionId);
+                isOnhold = session.isOnHold().local;
+
+                this.setMergeParty({ toSessionId: sessionId });
+                sessionToMergeWith = this._webphone._sessions.get(this.mergingPair.fromSessionId);
+                webphoneSessions = sessionToMergeWith ? [sessionToMergeWith, session] : [session];
+                _context13.next = 7;
+                return this.mergeToConference(webphoneSessions);
+
+              case 7:
+                conferenceData = (0, _values2.default)(this.conferences)[0];
+                conferenceSession = this._webphone._sessions.get(conferenceData.sessionId);
+
+                if (!(conferenceData && !isOnhold && conferenceSession.isOnHold().local)) {
+                  _context13.next = 12;
+                  break;
+                }
+
+                /**
+                 * because session termination operation in conferenceCall._mergeToConference,
+                 * need to wait for webphone.getActiveSessionIdReducer to update
+                 */
+                this._webphone.resume(conferenceData.sessionId);
+                return _context13.abrupt('return', conferenceData);
+
+              case 12:
+                if (conferenceData) {
+                  _context13.next = 15;
+                  break;
+                }
+
+                _context13.next = 15;
+                return this._webphone.resume(session.id);
+
+              case 15:
+                return _context13.abrupt('return', null);
+
+              case 16:
+              case 'end':
+                return _context13.stop();
+            }
+          }
+        }, _callee13, this);
+      }));
+
+      function onMerge(_x16) {
+        return _ref18.apply(this, arguments);
+      }
+
+      return onMerge;
+    }()
+  }, {
     key: 'status',
     get: function get() {
       return this.state.status;
@@ -1441,6 +1499,6 @@ var ConferenceCall = (_dec = (0, _di.Module)({
     }
   }]);
   return ConferenceCall;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'updateConferenceStatus', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateConferenceStatus'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'terminateConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'terminateConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'bringInToConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'bringInToConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'removeFromConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'removeFromConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'makeConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'makeConference'), _class2.prototype)), _class2)) || _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'updateConferenceStatus', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateConferenceStatus'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'terminateConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'terminateConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'bringInToConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'bringInToConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'removeFromConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'removeFromConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'makeConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'makeConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'mergeToConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'mergeToConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setMergeParty', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setMergeParty'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'startPollingConferenceStatus', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'startPollingConferenceStatus'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_hookConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_hookConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_mergeToConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_mergeToConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_makeConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_makeConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_getProfile', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_getProfile'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onMerge', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onMerge'), _class2.prototype)), _class2)) || _class);
 exports.default = ConferenceCall;
 //# sourceMappingURL=index.js.map
