@@ -1,11 +1,11 @@
 # ringcentral-e2e-test
 
 ## Goal
-* More easily code/read/maintain E2E Test
+* More easily code/read/maintain E2E testing
 * High-quality reusable code
 * High-performance
 * Appropriate structure
-* Progressive enhancement/Pluggable
+* Progressive enhancement/plug-in modular
 
 ## Features
 * Steps controller
