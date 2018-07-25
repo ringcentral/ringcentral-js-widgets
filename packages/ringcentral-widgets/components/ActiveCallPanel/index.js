@@ -78,7 +78,7 @@ function ActiveCallPanel({
 
   const currentCallTitle = nameMatches.length
     ? nameMatches[0].name
-    : phoneNumber;
+    : formatPhone(phoneNumber);
 
   let callInfo;
 
@@ -90,6 +90,7 @@ function ActiveCallPanel({
         lastCallInfo={lastCallInfo}
         currentCallAvatarUrl={avatarUrl}
         currentCallTitle={currentCallTitle || fallBackName}
+        formatPhone={formatPhone}
       />);
       break;
 

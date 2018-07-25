@@ -387,8 +387,9 @@ export default class CallMonitor extends RcModule {
           _lastCallInfo = {
             calleeType: calleeTypes.unknow,
             avatarUrl: null,
-            name: lastCall.to.phoneNumber,
+            name: null,
             status: lastCall.webphoneSession ? lastCall.webphoneSession.callStatus : null,
+            phoneNumber: lastCall.to.phoneNumber
           };
         }
 
