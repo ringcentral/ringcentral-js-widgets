@@ -35,6 +35,7 @@ function ascendSortParties(parties) {
     'Alert',
     'Call',
     'CallingSettings',
+    'ConnectivityMonitor',
     'Client',
     'Webphone',
     'RolesAndPermissions',
@@ -42,7 +43,14 @@ function ascendSortParties(parties) {
       dep: 'ContactMatcher',
       optional: true
     },
+<<<<<<< HEAD
     { dep: 'ConnectivityMonitor', optional: true },
+=======
+    {
+      dep: 'Webphone',
+      optional: true
+    },
+>>>>>>> refactor(ConnectivityMonitor): make ConnectivityMonitor as necessary dependency
     {
       dep: 'ConferenceCallOptions',
       optional: true
