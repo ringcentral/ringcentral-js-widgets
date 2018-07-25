@@ -7,8 +7,6 @@ exports.default = getCallLogSectionReducer;
 
 var _ramda = require('ramda');
 
-var R = _interopRequireWildcard(_ramda);
-
 var _redux = require('redux');
 
 var _getModuleStatusReducer = require('ringcentral-integration/lib/getModuleStatusReducer');
@@ -16,8 +14,6 @@ var _getModuleStatusReducer = require('ringcentral-integration/lib/getModuleStat
 var _getModuleStatusReducer2 = _interopRequireDefault(_getModuleStatusReducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function getCallsSavingStatusReducer(types) {
   return function () {
@@ -28,9 +24,9 @@ function getCallsSavingStatusReducer(types) {
 
     switch (type) {
       case types.saving:
-        return R.assoc(identify, true, state);
+        return (0, _ramda.assoc)(identify, true, state);
       case types.saveSuccess:case types.saveError:
-        return R.assoc(identify, false, state);
+        return (0, _ramda.assoc)(identify, false, state);
       case types.cleanUp:
         return {};
       default:

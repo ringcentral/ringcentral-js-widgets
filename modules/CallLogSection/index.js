@@ -53,8 +53,6 @@ var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2;
 
 var _ramda = require('ramda');
 
-var R = _interopRequireWildcard(_ramda);
-
 var _RcModule2 = require('ringcentral-integration/lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
@@ -82,8 +80,6 @@ var _getStorageReducer2 = _interopRequireDefault(_getStorageReducer);
 var _actionTypes = require('./actionTypes');
 
 var _actionTypes2 = _interopRequireDefault(_actionTypes);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -381,6 +377,9 @@ var CallLogSection = (_dec = (0, _di.Module)({
                 console.warn(_context3.t0);
 
               case 15:
+                return _context3.abrupt('return', null);
+
+              case 16:
               case 'end':
                 return _context3.stop();
             }
@@ -559,7 +558,7 @@ var CallLogSection = (_dec = (0, _di.Module)({
       return _this3._callsMapping;
     }, function () {
       return _this3._callsSavingStatus;
-    }, R.converge(R.mergeWith(R.flip(R.assoc('isSaving'))), [R.identity, R.useWith(R.pick, [R.keys, R.identity])]));
+    }, (0, _ramda.converge)((0, _ramda.mergeWith)((0, _ramda.flip)((0, _ramda.assoc)('isSaving'))), [_ramda.identity, (0, _ramda.useWith)(_ramda.pick, [_ramda.keys, _ramda.identity])]));
   }
 })), _class2)) || _class);
 exports.default = CallLogSection;
