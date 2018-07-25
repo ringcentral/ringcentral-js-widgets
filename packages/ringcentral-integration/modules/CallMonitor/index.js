@@ -227,11 +227,11 @@ export default class CallMonitor extends RcModule {
 
     this.addSelector('calls',
       this._selectors.allCalls,
-      () => this._webphone && this._webphone.cachedSessions,
-      (calls, cachedSessions) => (
+      () => this._conferenceCall && this._conferenceCall.isMerging,
+      (calls, isMerging) => (
         calls.filter((callItem) => {
           // filtering out the conferece during merging
-          if (cachedSessions.length) {
+          if (isMerging) {
             return !isConferenceSession(callItem.webphoneSession);
           }
           return true;
