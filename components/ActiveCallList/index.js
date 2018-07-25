@@ -31,7 +31,7 @@ var _styles2 = _interopRequireDefault(_styles);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function isConferenceCall(normalizedCall) {
-  return normalizedCall.to.phoneNumber.length === 0 && normalizedCall.toName === 'Conference';
+  return normalizedCall && normalizedCall.to && Array.isArray(normalizedCall.to.phoneNumber) && normalizedCall.to.phoneNumber.length === 0 && normalizedCall.toName === 'Conference';
 }
 
 function ActiveCallList(_ref) {
