@@ -371,7 +371,7 @@ export default class CallMonitor extends RcModule {
           _lastCallInfo = {
             calleeType: calleeTypes.contacts,
             avatarUrl: lastCall.toMatches[0].profileImageUrl,
-            name: lastCall.toName,
+            name: lastCall.toMatches[0].name,
             status: lastCall.webphoneSession.callStatus,
           };
         } else if (lastCalleeType === calleeTypes.unknow) {
