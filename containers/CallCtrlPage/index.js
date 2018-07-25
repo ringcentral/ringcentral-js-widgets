@@ -533,49 +533,22 @@ function mapToFunctions(_, _ref2) {
     },
     onMerge: function () {
       var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(sessionId) {
-        var session, isOnhold, sessionToMergeWith, webphoneSessions, conferenceData, conferenceSession;
+        var conferenceData;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                session = webphone._sessions.get(sessionId);
-                isOnhold = session.isOnHold().local;
+                _context.next = 2;
+                return conferenceCall.onMerge({ sessionId: sessionId });
 
-                conferenceCall.setMergeParty({ toSessionId: sessionId });
-                sessionToMergeWith = webphone._sessions.get(conferenceCall.mergingPair.fromSessionId);
-                webphoneSessions = sessionToMergeWith ? [sessionToMergeWith, session] : [session];
-                _context.next = 7;
-                return conferenceCall.mergeToConference(webphoneSessions);
+              case 2:
+                conferenceData = _context.sent;
 
-              case 7:
-                conferenceData = (0, _values2.default)(conferenceCall.conferences)[0];
-                conferenceSession = webphone._sessions.get(conferenceData.sessionId);
-
-                if (!(conferenceData && !isOnhold && conferenceSession.isOnHold().local)) {
-                  _context.next = 12;
-                  break;
+                if (!conferenceData) {
+                  routerInteraction.push('/conferenceCall/mergeCtrl');
                 }
 
-                /**
-                 * because session termination operation in conferenceCall._mergeToConference,
-                 * need to wait for webphone.getActiveSessionIdReducer to update
-                 */
-                webphone.resume(conferenceData.sessionId);
-                return _context.abrupt('return');
-
-              case 12:
-                if (conferenceData) {
-                  _context.next = 16;
-                  break;
-                }
-
-                _context.next = 15;
-                return webphone.resume(session.id);
-
-              case 15:
-                routerInteraction.push('/conferenceCall/mergeCtrl');
-
-              case 16:
+              case 4:
               case 'end':
                 return _context.stop();
             }
