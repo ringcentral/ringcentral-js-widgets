@@ -39,13 +39,10 @@ function ascendSortParties(parties) {
     },
     'CallingSettings',
     'Client',
+    'Webphone',
     'RolesAndPermissions',
     {
       dep: 'ContactMatcher',
-      optional: true
-    },
-    {
-      dep: 'Webphone',
       optional: true
     },
     { dep: 'ConnectivityMonitor', optional: true },
@@ -368,6 +365,7 @@ export default class ConferenceCall extends RcModule {
    * FIXME: dynamically construct this function during the construction
    * to avoid `this._webphone` criterias to improve performance ahead of time
    */
+  @proxify
   async mergeToConference(webphoneSessions = []) {
     webphoneSessions = webphoneSessions.filter(session => !this.isConferenceSession(session.id))
       .filter(session => Object.prototype.toString.call(session).toLowerCase() === '[object object]');
@@ -465,6 +463,7 @@ export default class ConferenceCall extends RcModule {
    * we need to record the merge destination when merge from the call control pages
    * @param {webphone.session} from
    */
+  @proxify
   setMergeParty({ fromSessionId, toSessionId }) {
     if (fromSessionId) {
       return this.store.dispatch({
@@ -515,6 +514,7 @@ export default class ConferenceCall extends RcModule {
     return this.countOnlineParties(id) >= this.capacity;
   }
 
+  @proxify
   async startPollingConferenceStatus(id) {
     if (this._timers[id] || !this._pulling) {
       return;
@@ -622,6 +622,7 @@ export default class ConferenceCall extends RcModule {
     return true;
   }
 
+  @proxify
   _hookConference(conference, session) {
     ['accepted'].forEach(
       evt => session.on(
@@ -640,6 +641,7 @@ export default class ConferenceCall extends RcModule {
     );
   }
 
+  @proxify
   async _mergeToConference(webphoneSessions = []) {
     const conferenceState = Object.values(this.conferences)[0];
 
@@ -680,6 +682,7 @@ export default class ConferenceCall extends RcModule {
     return id;
   }
 
+  @proxify
   async _makeConference(propagate = false) {
     try {
       this.store.dispatch({
@@ -732,6 +735,7 @@ export default class ConferenceCall extends RcModule {
     }
   }
 
+  @proxify
   async _getProfile(sessionInstance) {
     const session = this._webphone.sessions.find(session => session.id === sessionInstance.id);
     const {
@@ -782,6 +786,36 @@ export default class ConferenceCall extends RcModule {
       partyNumber,
       rcId,
     };
+  }
+
+  @proxify
+  async onMerge({ sessionId }) {
+    const session = this._webphone._sessions.get(sessionId);
+    const isOnhold = session.isOnHold().local;
+    this.setMergeParty({ toSessionId: sessionId });
+    const sessionToMergeWith = this._webphone._sessions.get(this.mergingPair.fromSessionId);
+    const webphoneSessions = sessionToMergeWith
+      ? [sessionToMergeWith, session]
+      : [session];
+    await this.mergeToConference(webphoneSessions);
+    const conferenceData = Object.values(this.conferences)[0];
+    const conferenceSession = this._webphone._sessions.get(conferenceData.sessionId);
+    if (
+      conferenceData
+      && !isOnhold
+      && conferenceSession.isOnHold().local
+    ) {
+      /**
+       * because session termination operation in conferenceCall._mergeToConference,
+       * need to wait for webphone.getActiveSessionIdReducer to update
+       */
+      this._webphone.resume(conferenceData.sessionId);
+      return conferenceData;
+    }
+    if (!conferenceData) {
+      await this._webphone.resume(session.id);
+    }
+    return null;
   }
 
   get status() {
