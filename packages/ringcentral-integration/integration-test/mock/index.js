@@ -28,6 +28,8 @@ const conferencingBody = require('./data/conferencing.json');
 const activeCallsBody = require('./data/activeCalls.json');
 const meetingBody = require('./data/meeting');
 const serviceInfoBody = require('./data/serviceInfo');
+const conferenceCallBody = require('./data/conferenceCall');
+const numberParseBody = require('./data/numberParse');
 
 const mockServer = 'http://whatever';
 export function createSDK(options = {}) {
@@ -61,7 +63,9 @@ export function mockApi({
   let responseHeaders;
   const isJson = typeof body !== 'string';
   if (isJson && !headers) {
-    responseHeaders = { 'Content-Type': 'application/json' };
+    responseHeaders = {
+      'Content-Type': 'application/json'
+    };
   } else {
     responseHeaders = headers;
   }
@@ -412,6 +416,31 @@ export function conferencing(mockResponse = {}) {
   });
 }
 
+export function numberParse(mockResponse = {}, homeCountry) {
+  mockApi({
+    method: 'POST',
+    path: `/restapi/v1.0/number-parser/parse?homeCountry=${homeCountry}`,
+    body: {
+      ...numberParseBody,
+      ...mockResponse,
+    },
+    isOnce: false
+  });
+}
+
+export function conferenceCall(mockResponse = {}) {
+  conferenceCallBody.session.on = () => {};
+  mockApi({
+    method: 'POST',
+    path: '/restapi/v1.0/account/~/telephony/conference',
+    body: {
+      ...conferenceCallBody,
+      ...mockResponse,
+    },
+    isOnce: false
+  });
+}
+
 export function activeCalls(mockResponse = {}) {
   mockApi({
     method: 'GET',
@@ -539,5 +568,3 @@ export function mockForLogin({
   }
   numberParser();
 }
-
-

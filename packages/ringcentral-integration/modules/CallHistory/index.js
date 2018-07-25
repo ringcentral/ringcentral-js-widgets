@@ -9,6 +9,7 @@ import ensureExist from '../../lib/ensureExist';
 import normalizeNumber from '../../lib/normalizeNumber';
 import getter from '../../lib/getter';
 import proxify from '../../lib/proxy/proxify';
+import cleanNumber from '../../lib/cleanNumber';
 
 /**
  * @class
@@ -272,6 +273,13 @@ export default class CallHistory extends RcModule {
     });
   }
 
+  @proxify
+  updateSearchInput(input) {
+    this.store.dispatch({
+      type: this.actionTypes.updateSearchInput,
+      input,
+    });
+  }
 
   get status() {
     return this.state.status;
@@ -316,6 +324,15 @@ export default class CallHistory extends RcModule {
         };
       }).sort(sortByStartTime)
     ),
+  )
+
+  @getter
+  effectiveSearchString = createSelector(
+    () => this.state.searchInput,
+    (input) => {
+      if (input && input.length >= 3) return input;
+      return '';
+    }
   )
 
   @getter
@@ -372,6 +389,34 @@ export default class CallHistory extends RcModule {
   )
 
   @getter
+  filterCalls = createSelector(
+    () => this.calls,
+    () => this.effectiveSearchString,
+    (
+      calls,
+      effectiveSearchString
+    ) => {
+      if (effectiveSearchString !== '') {
+        const searchResults = [];
+        const searchString = effectiveSearchString.toLowerCase().trim();
+        calls.forEach((call) => {
+          if (
+            (call.direction === 'Inbound' && call.fromMatches[0] && call.fromMatches[0].name && call.fromMatches[0].name.toLowerCase().indexOf(searchString) > -1) ||
+            (call.direction === 'Outbound' && call.toMatches[0] && call.toMatches[0].name && call.toMatches[0].name.toLowerCase().indexOf(searchString) > -1) 
+          ) {
+            searchResults.push({
+              ...call,
+              matchOrder: 0,
+            });
+          }
+        });
+        return searchResults.sort(sortByStartTime);
+      }
+      return calls.sort(sortByStartTime);
+    }
+  )
+
+  @getter
   uniqueNumbers = createSelector(
     () => this.normalizedCalls,
     () => this.recentlyEndedCalls,
@@ -418,6 +463,10 @@ export default class CallHistory extends RcModule {
       );
     },
   )
+
+  get searchInput() {
+    return this.state.searchInput;
+  }
 
   get recentlyEndedCalls() {
     if (this._storage) {

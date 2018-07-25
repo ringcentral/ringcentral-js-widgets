@@ -20,7 +20,9 @@ export default {
   outboundCall: 'Outbound',
   from: 'From',
   to: 'To',
-  hangup:'Hangup',
-  accept:'Accept',
-  toVoicemail:'Send to Voicemail',
+  hangup: 'Hangup',
+  accept: 'Accept',
+  toVoicemail: 'Send to Voicemail',
+  anonymous: 'Anonymous',
+  mergeToConference: 'Merge',
 };

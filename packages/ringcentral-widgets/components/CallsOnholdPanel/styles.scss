@@ -1,0 +1,69 @@
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/fonts';
+@import '../../lib/commonStyles/layout';
+
+$btnContainerHeight:127 / 442*100%;
+$panelHeight:100% - $btnContainerHeight;
+
+.root {
+  @include full-size;
+  background: #ffffff;
+  overflow-y: auto;
+  padding-top: $header-height;
+  overflow: hidden;
+
+  &, & *{
+    box-sizing: border-box;
+  }
+  .header {
+    margin-top: -$header-height;
+  }
+
+  .callList {
+    height: $panelHeight;
+    overflow-y: auto;
+    // padding: 10px;
+  }
+
+  .addBtnContainer {
+    height: $btnContainerHeight;
+    text-align: center;
+  }
+
+  .addBtn {
+    @include full-size;
+    display: inline-block;
+    width: 45/300*100%;
+    height: 100%;
+    .webphoneButton{
+      display: block;
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .addBtnIcon {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      margin: auto;
+
+      g, path {
+        fill: #ffffff;
+      }
+
+      circle {
+        fill: $primary-color;
+      }
+    }
+  }
+}
+
+.noCalls {
+  color: $darkgray;
+  font-size: 14px;
+  text-align: center;
+  line-height: 180px;
+}

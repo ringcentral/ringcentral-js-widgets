@@ -3,10 +3,10 @@ import { Module } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
 import moduleStatuses from '../../enums/moduleStatuses';
 import actionTypes from './actionTypes';
+import calleeTypes from '../../enums/calleeTypes';
 import callDirections from '../../enums/callDirections';
-import getCallMonitorReducer, {
-  getCallMatchedReducer
-} from './getCallMonitorReducer';
+import sessionStatus from '../Webphone/sessionStatus';
+import getCallMonitorReducer, { getCallMatchedReducer } from './getCallMonitorReducer';
 import normalizeNumber from '../../lib/normalizeNumber';
 import {
   isRinging,
@@ -14,7 +14,7 @@ import {
   sortByStartTime,
 } from '../../lib/callLogHelpers';
 import ensureExist from '../../lib/ensureExist';
-import { isRing, isOnHold } from '../Webphone/webphoneHelper';
+import { isRing, isOnHold, sortByLastHoldingTimeDesc, isConferenceSession } from '../Webphone/webphoneHelper';
 
 function matchWephoneSessionWithAcitveCall(sessions, callItem) {
   if (!sessions || !callItem.sipData) {
@@ -24,6 +24,16 @@ function matchWephoneSessionWithAcitveCall(sessions, callItem) {
     if (session.direction !== callItem.direction) {
       return false;
     }
+
+    /**
+     * Hack: for conference call, the `to` field is Conference,
+     * and the callItem's id won't change. According to `sip.js/src/session.js`
+     * the `InviteClientContext`'s id will always begin with callItem's id.
+     */
+    if (callItem.toName && callItem.toName.toLowerCase() === 'conference') {
+      return session.id.indexOf(callItem.id) === 0;
+    }
+
     if (
       session.direction === callDirections.inbound &&
       callItem.sipData.remoteUri.indexOf(session.from) === -1
@@ -66,6 +76,7 @@ function matchWephoneSessionWithAcitveCall(sessions, callItem) {
     { dep: 'ContactMatcher', optional: true },
     { dep: 'Webphone', optional: true },
     { dep: 'Call', optional: true },
+    { dep: 'ConferenceCall', optional: true },
     { dep: 'ActivityMatcher', optional: true },
     { dep: 'CallMonitorOptions', optional: true },
     { dep: 'TabManager', optional: true },
@@ -76,6 +87,7 @@ export default class CallMonitor extends RcModule {
    * @constructor
    * @param {Object} params - params object
    * @param {Call} params.call - call module instance
+   * @param {ConferenceCall} params.conferenceCall - conference call module instance
    * @param {AccountInfo} params.accountInfo - accountInfo module instance
    * @param {DetailedPresence} params.detailedPresence - detailedPresence module instance
    * @param {ActivityMatcher} params.activityMatcher - activityMatcher module instance
@@ -89,6 +101,7 @@ export default class CallMonitor extends RcModule {
    */
   constructor({
     call,
+    conferenceCall,
     accountInfo,
     detailedPresence,
     activityMatcher,
@@ -107,6 +120,7 @@ export default class CallMonitor extends RcModule {
       actionTypes,
     });
     this._call = call;
+    this._conferenceCall = conferenceCall;
     this._accountInfo = this::ensureExist(accountInfo, 'accountInfo');
     this._detailedPresence = this::ensureExist(detailedPresence, 'detailedPresence');
     this._contactMatcher = contactMatcher;
@@ -127,14 +141,33 @@ export default class CallMonitor extends RcModule {
       reducer: getCallMatchedReducer(this.actionTypes),
     });
 
-
+    let _normalizedCalls;
     this.addSelector('normalizedCalls',
       () => this._detailedPresence.calls,
       () => this._accountInfo.countryCode,
       () => this._webphone && this._webphone.sessions,
-      (callsFromPresence, countryCode, sessions) => {
-        let sessionsCache = sessions || [];
-        return callsFromPresence.map((callItem) => {
+      () => this._webphone && this._webphone.cachedSessions,
+      (callsFromPresence, countryCode, sessions, cachedSessions) => {
+        // match cached calls
+        let cachedCalls = [];
+        if (_normalizedCalls && cachedSessions && cachedSessions.length) {
+          cachedCalls = _normalizedCalls.filter(x =>
+            x.webphoneSession &&
+            cachedSessions.find(i => i.id === x.webphoneSession.id)
+          );
+        }
+
+        // combine
+        const combinedCalls = [...callsFromPresence]; // clone
+        cachedCalls.forEach((cachedCall) => {
+          if (!callsFromPresence.find(x => x.id === cachedCall.id)) {
+            combinedCalls.push(cachedCall);
+          }
+        });
+
+        // mapping and sort
+        let theSessions = sessions || [];
+        _normalizedCalls = combinedCalls.map((callItem) => {
           // use account countryCode to normalize number due to API issues [RCINT-3419]
           const fromNumber = normalizeNumber({
             phoneNumber: callItem.from && callItem.from.phoneNumber,
@@ -144,8 +177,8 @@ export default class CallMonitor extends RcModule {
             phoneNumber: callItem.to && callItem.to.phoneNumber,
             countryCode,
           });
-          const webphoneSession = matchWephoneSessionWithAcitveCall(sessionsCache, callItem);
-          sessionsCache = sessionsCache.filter(x => x !== webphoneSession);
+          const webphoneSession = matchWephoneSessionWithAcitveCall(theSessions, callItem);
+          theSessions = theSessions.filter(x => x !== webphoneSession);
           return {
             ...callItem,
             from: {
@@ -160,11 +193,15 @@ export default class CallMonitor extends RcModule {
             ),
             webphoneSession,
           };
-        }).sort(sortByStartTime);
+        }).sort((l, r) => (
+          sortByLastHoldingTimeDesc(l.webphoneSession, r.webphoneSession)
+        ));
+
+        return _normalizedCalls;
       },
     );
 
-    this.addSelector('calls',
+    this.addSelector('allCalls',
       this._selectors.normalizedCalls,
       () => (this._contactMatcher && this._contactMatcher.dataMapping),
       () => (this._activityMatcher && this._activityMatcher.dataMapping),
@@ -188,26 +225,63 @@ export default class CallMonitor extends RcModule {
       }
     );
 
+    this.addSelector('calls',
+      this._selectors.allCalls,
+      () => this._conferenceCall && this._conferenceCall.isMerging,
+      (calls, isMerging) => (
+        calls.filter((callItem) => {
+          // filtering out the conferece during merging
+          if (isMerging) {
+            return !isConferenceSession(callItem.webphoneSession);
+          }
+          return true;
+        })
+      ),
+    );
+
+
     this.addSelector('activeRingCalls',
       this._selectors.calls,
       calls => calls.filter(callItem =>
-        callItem.webphoneSession && isRing(callItem.webphoneSession)
+        callItem.webphoneSession &&
+        isRing(callItem.webphoneSession)
       )
     );
 
-    this.addSelector('activeOnHoldCalls',
+    this.addSelector('_activeOnHoldCalls',
       this._selectors.calls,
       calls => calls.filter(callItem =>
-        callItem.webphoneSession && isOnHold(callItem.webphoneSession)
+        callItem.webphoneSession &&
+        isOnHold(callItem.webphoneSession)
       )
     );
 
-    this.addSelector('activeCurrentCalls',
+    this.addSelector('_activeCurrentCalls',
       this._selectors.calls,
       calls => calls.filter(callItem =>
         callItem.webphoneSession &&
         !isOnHold(callItem.webphoneSession) &&
         !isRing(callItem.webphoneSession)
+      )
+    );
+
+    this.addSelector('activeOnHoldCalls',
+      this._selectors._activeOnHoldCalls,
+      this._selectors._activeCurrentCalls,
+      (_activeOnHoldCalls, _activeCurrentCalls) => (
+        (_activeOnHoldCalls.length && !_activeCurrentCalls.length) ?
+          _activeOnHoldCalls.slice(1) :
+          _activeOnHoldCalls
+      ),
+    );
+
+    this.addSelector('activeCurrentCalls',
+      this._selectors._activeCurrentCalls,
+      this._selectors._activeOnHoldCalls,
+      (_activeCurrentCalls, _activeOnHoldCalls) => (
+        (!_activeCurrentCalls.length && _activeOnHoldCalls.length) ?
+          _activeOnHoldCalls.slice(0, 1) :
+          _activeCurrentCalls
       )
     );
 
@@ -268,6 +342,60 @@ export default class CallMonitor extends RcModule {
       calls => calls.map(callItem => callItem.sessionId)
     );
 
+    let _lastCallInfo = {};
+    this.addSelector('lastCallInfo',
+      this._selectors.allCalls,
+      () => this._conferenceCall && this._conferenceCall.mergingPair.fromSessionId,
+      () => this._conferenceCall && this._conferenceCall.partyProfiles,
+      (calls, fromSessionId, partyProfiles) => {
+        const lastCall = calls.find(
+          call => call.webphoneSession && call.webphoneSession.id === fromSessionId
+        );
+
+        let lastCalleeType = null;
+        if (lastCall) {
+          if (lastCall.toMatches.length) {
+            lastCalleeType = calleeTypes.contacts;
+          } else if (isConferenceSession(lastCall.webphoneSession)) {
+            lastCalleeType = calleeTypes.conference;
+          } else {
+            lastCalleeType = calleeTypes.unknow;
+          }
+        } else if (_lastCallInfo.calleeType) {
+          _lastCallInfo = {
+            ..._lastCallInfo,
+            status: sessionStatus.finished,
+          };
+          return _lastCallInfo;
+        }
+
+        if (lastCalleeType === calleeTypes.conference) {
+          const partiesAvatarUrls = (partyProfiles || []).map(profile => profile.avatarUrl);
+          _lastCallInfo = {
+            calleeType: calleeTypes.conference,
+            avatarUrl: partiesAvatarUrls[0],
+            extraNum: partiesAvatarUrls.length - 1,
+          };
+        } else if (lastCalleeType === calleeTypes.contacts) {
+          _lastCallInfo = {
+            calleeType: calleeTypes.contacts,
+            avatarUrl: lastCall.toMatches[0].profileImageUrl,
+            name: lastCall.toMatches[0].name,
+            status: lastCall.webphoneSession.callStatus,
+          };
+        } else if (lastCalleeType === calleeTypes.unknow) {
+          _lastCallInfo = {
+            calleeType: calleeTypes.unknow,
+            avatarUrl: null,
+            name: lastCall.to.phoneNumber,
+            status: lastCall.webphoneSession ? lastCall.webphoneSession.callStatus : null,
+          };
+        }
+
+        return _lastCallInfo;
+      },
+    );
+
     if (this._activityMatcher) {
       this._activityMatcher.addQuerySource({
         getQueriesFn: this._selectors.sessionIds,
@@ -283,6 +411,7 @@ export default class CallMonitor extends RcModule {
   async _onStateChange() {
     if (
       (!this._call || this._call.ready) &&
+      (!this._conferenceCall || this._conferenceCall.ready) &&
       this._accountInfo.ready &&
       this._detailedPresence.ready &&
       (!this._contactMatcher || this._contactMatcher.ready) &&
@@ -300,6 +429,7 @@ export default class CallMonitor extends RcModule {
     } else if (
       (
         (this._call && !this._call.ready) ||
+        (this._conferenceCall && !this._conferenceCall.ready) ||
         !this._accountInfo.ready ||
         !this._detailedPresence.ready ||
         (this._contactMatcher && !this._contactMatcher.ready) ||
@@ -353,11 +483,13 @@ export default class CallMonitor extends RcModule {
         this._lastProcessedCalls = this.calls;
 
         // no ringing calls
-        if (this._call &&
-            oldCalls.length !== 0 &&
-            this.calls.length === 0 &&
-            this._call.toNumberEntities &&
-            this._call.toNumberEntities.length !== 0) {
+        if (
+          this._call &&
+          oldCalls.length !== 0 &&
+          this.calls.length === 0 &&
+          this._call.toNumberEntities &&
+          this._call.toNumberEntities.length !== 0
+        ) {
           // console.log('no calls clean to number:');
           this._call.cleanToNumberEntities();
         }
@@ -463,5 +595,9 @@ export default class CallMonitor extends RcModule {
 
   get otherDeviceCalls() {
     return this._selectors.otherDeviceCalls();
+  }
+
+  get lastCallInfo() {
+    return this._selectors.lastCallInfo();
   }
 }

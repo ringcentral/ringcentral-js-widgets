@@ -31,8 +31,8 @@
     "phone-number:start-release": "node scripts/startRelease.js @ringcentral-integration/phone-number phone-number-release"
   },
   "devDependencies": {
-    "eslint-settings": "0.0.1",
-    "babel-settings": "0.0.1",
+    "eslint-settings": "*",
+    "babel-settings": "*",
     "lerna": "^2.11.0"
   }
 }

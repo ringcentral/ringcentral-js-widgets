@@ -10,4 +10,6 @@ export default {
   add: 'Add',
   transfer: 'Transfer',
   flip: 'Flip',
+  more: 'Call Actions',
+  mergeToConference: 'Merge',
 };
