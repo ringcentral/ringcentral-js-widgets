@@ -43,9 +43,9 @@
 - Easily find UI DOM  node [v]
 - Feature Code mix test code [x]
 - remove attribute on production phase
- * babel-plugin-react-remove-properties
- * babel-plugin-remove-attribute
- * babel-plugin-remove-object-properties
+  * babel-plugin-react-remove-properties
+  * babel-plugin-remove-attribute
+  * babel-plugin-remove-object-properties
 
 
 
