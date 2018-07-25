@@ -8,8 +8,8 @@ props.recipients = [{}];
 props.sendButtonDisabled = false;
 props.currentLocale = 'en-US';
 props.showSpinner = false;
-props.areaCode = 'test string';
-props.countryCode = 'test string';
+props.areaCode = '650';
+props.countryCode = 'US';
 props.dateTimeFormatter = () => null;
 props.goBack = () => null;
 props.messages = [];
@@ -19,7 +19,11 @@ props.conversation = {
   correspondentMatches: [],
   correspondents: [],
 };
+props.conversationId = '1234';
 props.formatPhone = p => p;
+props.readMessages = () => null;
+props.loadPreviousMessages = () => null;
+props.unloadConversation = () => null;
 
 /**
  * A example of `ConversationPanel`

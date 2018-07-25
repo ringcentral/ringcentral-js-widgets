@@ -36,9 +36,8 @@ import MessageSender from '../../../modules/MessageSender';
 import ComposeText from '../../../modules/ComposeText';
 import ContactSearch from '../../../modules/ContactSearch';
 
-import Messages from '../../../modules/Messages';
 import MessageStore from '../../../modules/MessageStore';
-import Conversation from '../../../modules/Conversation';
+import Conversations from '../../../modules/Conversations';
 
 import ContactMatcher from '../../../modules/ContactMatcher';
 import ActivityMatcher from '../../../modules/ActivityMatcher';
@@ -51,6 +50,7 @@ import ActivityMatcher from '../../../modules/ActivityMatcher';
 // import CallLog from '../CallLog';
 // import AutoLogger from '../AutoLogger';
 // import DataMatcher from '../DataMatcher';
+import ConferenceCall from '../../../modules/ConferenceCall';
 
 
 export default class Phone extends RcModule {
@@ -376,7 +376,9 @@ export default class Phone extends RcModule {
     }));
     this.contactSearch.addSearchSource({
       sourceName: 'test',
-      searchFn: ({ searchString }) => [{
+      searchFn: ({
+        searchString
+      }) => [{
         entityType: 'account',
         name: searchString,
         phoneNumber: '+1234567890',
@@ -419,22 +421,16 @@ export default class Phone extends RcModule {
       getState: () => this.state.messageStore,
     }));
 
-    this.addModule('conversation', new Conversation({
+    this.addModule('conversations', new Conversations({
       ...options,
+      alert: this.alert,
       auth: this.auth,
+      client: this.client,
       messageSender: this.messageSender,
-      extensionInfo: this.extensionInfo,
-      messageStore: this.messageStore,
-      getState: () => this.state.conversation,
-    }));
-
-    this.addModule('messages', new Messages({
-      ...options,
-      auth: this.auth,
       messageStore: this.messageStore,
       extensionInfo: this.extensionInfo,
       rolesAndPermissions: this.rolesAndPermissions,
-      getState: () => this.state.messages,
+      getState: () => this.state.conversations,
     }));
 
     // this.addModule('adapter', new DynamicsAdapter({
@@ -450,6 +446,20 @@ export default class Phone extends RcModule {
     //   regionSettings: this.regionSettings,
     //   getState: () => this.state.adapter,
     // }));
+
+    this.addModule('conferenceCall', new ConferenceCall({
+      ...options,
+      auth: this.auth,
+      storage: this.storage,
+      client: this.client,
+      tabManager: this.tabManager,
+      alert: this.alert,
+      call: this.call,
+      callingSettings: this.callingSettings,
+      rolesAndPermissions: this.rolesAndPermissions,
+      pulling: false,
+      getState: () => this.state.conferenceCall,
+    }));
 
     this._reducer = combineReducers({
       app: (state = {
@@ -493,9 +503,9 @@ export default class Phone extends RcModule {
       messageSender: this.messageSender.reducer,
       composeText: this.composeText.reducer,
       messageStore: this.messageStore.reducer,
-      conversation: this.conversation.reducer,
-      messages: this.messages.reducer,
+      conversations: this.conversations.reducer,
       // adapter: this.adapter.reducer,
+      conferenceCall: this.conferenceCall.reducer,
     });
   }
 

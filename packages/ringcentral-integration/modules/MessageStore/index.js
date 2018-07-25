@@ -1,35 +1,58 @@
+import { createSelector } from 'reselect';
+
 import { Module } from '../../lib/di';
 import Pollable from '../../lib/Pollable';
-import moduleStatuses from '../../enums/moduleStatuses';
-
-import { batchPutApi } from '../../lib/batchApiHelper';
-
-import * as messageHelper from '../../lib/messageHelper';
-import * as messageStoreHelper from './messageStoreHelper';
-
 import ensureExist from '../../lib/ensureExist';
-import actionTypes from './actionTypes';
-import getMessageStoreReducer from './getMessageStoreReducer';
-import getDataReducer from './getDataReducer';
-import messageStoreErrors from './messageStoreErrors';
+import getter from '../../lib/getter';
 import sleep from '../../lib/sleep';
 import proxify from '../../lib/proxy/proxify';
+import moduleStatuses from '../../enums/moduleStatuses';
+import syncTypes from '../../enums/syncTypes';
+import * as messageHelper from '../../lib/messageHelper';
+import { batchPutApi } from '../../lib/batchApiHelper';
 
-export function processResponseData(data) {
-  const records = data.records.slice();
-  return {
-    records: records.reverse(),
-    syncTimestamp: (new Date(data.syncInfo.syncTime)).getTime(),
-    syncToken: data.syncInfo.syncToken,
-  };
-}
+import actionTypes from './actionTypes';
+import getReducer from './getReducer';
+import getDataReducer from './getDataReducer';
+import messageStoreErrors from './errors';
+
+const DEFAULT_CONVERSATIONS_LOAD_LENGTH = 10;
+const DEFAULT_CONVERSATION_LOAD_LENGTH = 100;
 const DEFAULT_TTL = 30 * 60 * 1000;
-const DEFAULT_TIME_TO_RETRY = 62 * 1000;
-const DEFAULT_DAY_SPAN = 7;
+const DEFAULT_RETRY = 62 * 1000;
+const DEFAULT_DAYSPAN = 7; // default to load 7 days's messages
+
+function getSyncParams({
+  recordCount, conversationLoadLength, dateFrom, dateTo, syncToken
+}) {
+  if (syncToken) {
+    return {
+      syncToken,
+      syncType: syncTypes.iSync,
+    };
+  }
+  const params = {
+    recordCountPerConversation: conversationLoadLength,
+    syncType: syncTypes.fSync,
+  };
+  if (recordCount) {
+    params.recordCount = recordCount;
+  }
+  if (dateFrom) {
+    params.dateFrom = dateFrom.toISOString();
+  }
+  if (dateTo) {
+    params.dateTo = dateTo.toISOString();
+  }
+  return params;
+}
 
 /**
  * @class
- * @description Messages data manageing module
+
+ * @description Messages data managing module
+ * fetch conversations
+ * handle new message subscription
  */
 @Module({
   deps: [
@@ -45,175 +68,69 @@ const DEFAULT_DAY_SPAN = 7;
   ]
 })
 export default class MessageStore extends Pollable {
-  /**
-   * @constructor
-   * @param {Object} params - params object
-   * @param {Alert} params.alert - alert module instance
-   * @param {Auth} params.auth - auth module instance
-   * @param {Client} params.client - client module instance
-   * @param {Storage} params.storage - storage module instance
-   * @param {TabManager} params.tabManage - TabManager module instance
-   * @param {subscription} params.subscription - subscription module instance
-   * @param {connectivityMonitor} params.connectivityMonitor - connectivityMonitor module instance
-   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermissions module instance
-   * @param {Number} params.ttl - local cache timestamp
-   * @param {Number} params.timeToRetry - waiting time to retry
-   * @param {Number} params.daySpan - day span of call log
-   * @param {Bool} params.polling - polling flag, default false
-   */
   constructor({
+    auth,
     alert,
     client,
-    auth,
-    ttl = DEFAULT_TTL,
-    timeToRetry = DEFAULT_TIME_TO_RETRY,
-    daySpan = DEFAULT_DAY_SPAN,
-    storage,
     subscription,
-    connectivityMonitor,
-    rolesAndPermissions,
+    storage,
     tabManager,
+    rolesAndPermissions,
+    connectivityMonitor,
+    ttl = DEFAULT_TTL,
     polling = false,
     disableCache = false,
+    timeToRetry = DEFAULT_RETRY,
+    daySpan = DEFAULT_DAYSPAN,
+    conversationsLoadLength = DEFAULT_CONVERSATIONS_LOAD_LENGTH,
+    conversationLoadLength = DEFAULT_CONVERSATION_LOAD_LENGTH,
     ...options
   }) {
     super({
       ...options,
       actionTypes,
     });
+    this._auth = this::ensureExist(auth, 'auth');
     this._alert = this::ensureExist(alert, 'alert');
-    this._client = client;
+    this._client = this::ensureExist(client, 'client');
+    this._subscription = this::ensureExist(subscription, 'subscription');
+    this._rolesAndPermissions =
+      this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+
     if (!disableCache) {
       this._storage = storage;
     }
-    this._subscription = this::ensureExist(subscription, 'subscription');
-    this._connectivityMonitor = this::ensureExist(connectivityMonitor, 'connectivityMonitor');
-    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+
+    this._dataStorageKey = 'messageStoreData';
+
     this._tabManager = tabManager;
+    this._connectivityMonitor = connectivityMonitor;
     this._ttl = ttl;
     this._timeToRetry = timeToRetry;
-    this._daySpan = daySpan;
-    this._auth = this::ensureExist(auth, 'auth');
-    this._promise = null;
-    this._lastSubscriptionMessage = null;
-    this._storageKey = 'messageStore';
     this._polling = polling;
+    this._conversationsLoadLength = conversationsLoadLength;
+    this._conversationLoadLength = conversationLoadLength;
+
+    this._daySpan = daySpan;
+
     if (this._storage) {
-      this._reducer = getMessageStoreReducer(this.actionTypes);
+      this._reducer = getReducer(this.actionTypes);
       this._storage.registerReducer({
-        key: this._storageKey,
+        key: this._dataStorageKey,
         reducer: getDataReducer(this.actionTypes),
       });
     } else {
-      this._reducer = getMessageStoreReducer(this.actionTypes, {
-        data: getDataReducer(this.actionTypes),
+      this._reducer = getReducer(this.actionTypes, {
+        data: getDataReducer(this.actionTypes, false),
       });
     }
 
-    this.addSelector(
-      'textUnreadCounts',
-      () => this.allConversations,
-      (conversations) => {
-        let unreadCounts = 0;
-        conversations.forEach((conversation) => {
-          if (messageHelper.messageIsTextMessage(conversation)) {
-            unreadCounts += conversation.unreadCounts;
-          }
-        });
-        return unreadCounts;
-      }
-    );
-
-    this.addSelector(
-      'voiceUnreadCounts',
-      () => this.allConversations,
-      (conversations) => {
-        let unreadCounts = 0;
-        conversations.forEach((conversation) => {
-          if (messageHelper.messageIsVoicemail(conversation)) {
-            unreadCounts += conversation.unreadCounts;
-          }
-        });
-        return unreadCounts;
-      }
-    );
-
-    this.addSelector(
-      'faxUnreadCounts',
-      () => this.allConversations,
-      (conversations) => {
-        let unreadCounts = 0;
-        conversations.forEach((conversation) => {
-          if (messageHelper.messageIsFax(conversation)) {
-            unreadCounts += conversation.unreadCounts;
-          }
-        });
-        return unreadCounts;
-      }
-    );
-
-    this.addSelector(
-      'unreadCounts',
-      () => this.voiceUnreadCounts,
-      () => this.textUnreadCounts,
-      () => this.faxUnreadCounts,
-      (voiceUnreadCounts, textUnreadCounts, faxUnreadCounts) => {
-        let unreadCounts = 0;
-        if (this._rolesAndPermissions.readTextPermissions) {
-          unreadCounts += textUnreadCounts;
-        }
-        if (this._rolesAndPermissions.voicemailPermissions) {
-          unreadCounts += voiceUnreadCounts;
-        }
-        if (this._rolesAndPermissions.readFaxPermissions) {
-          unreadCounts += faxUnreadCounts;
-        }
-        return unreadCounts;
-      },
-    );
-
-    this.addSelector(
-      'textConversations',
-      () => this.allConversations,
-      conversations =>
-        conversations.filter(
-          conversation => messageHelper.messageIsTextMessage(conversation)
-        )
-    );
-
-    this.addSelector(
-      'faxMessages',
-      () => this.allConversations,
-      conversations =>
-        conversations.filter(
-          conversation => messageHelper.messageIsFax(conversation)
-        )
-    );
-
-    this.addSelector(
-      'voicemailMessages',
-      () => this.allConversations,
-      conversations =>
-        conversations.filter(
-          conversation => messageHelper.messageIsVoicemail(conversation)
-        )
-    );
-
-    this.addSelector(
-      'textAndVoicemailMessages',
-      () => this.allConversations,
-      conversations =>
-        conversations.filter(
-          conversation =>
-            (
-              messageHelper.messageIsTextMessage(conversation) ||
-              messageHelper.messageIsVoicemail(conversation)
-            )
-        )
-    );
-
+    this._promise = null;
+    this._lastSubscriptionMessage = null;
     // setting up event handlers for message
-    this._newMessageNotificationHandlers = [];
+    this._newInboundMessageNotificationHandlers = [];
+    this._messageUpdatedHandlers = [];
+    this._dispatchedMessageIds = [];
   }
 
   initialize() {
@@ -225,92 +142,79 @@ export default class MessageStore extends Pollable {
       this.store.dispatch({
         type: this.actionTypes.init,
       });
-      if (this._shouleCleanCache()) {
-        this._cleanUpCache();
-      }
       if (this._connectivityMonitor) {
         this._connectivity = this._connectivityMonitor.connectivity;
       }
-      await this._initMessageStore();
+      await this._init();
+    } else if (this._isDataReady()) {
       this.store.dispatch({
         type: this.actionTypes.initSuccess,
       });
+      //
     } else if (this._shouldReset()) {
-      this._resetModuleStatus();
-    } else if (
-      this.ready
-    ) {
+      this._clearTimeout();
+      this._promise = null;
+      this.store.dispatch({
+        type: this.actionTypes.resetSuccess,
+      });
+    } else if (this.ready) {
       this._subscriptionHandler();
       this._checkConnectivity();
     }
   }
 
   _shouldInit() {
-    return (
+    return !!(
       this._auth.loggedIn &&
       (!this._storage || this._storage.ready) &&
-      this._subscription.ready &&
-      (!this._connectivityMonitor || this._connectivityMonitor.ready) &&
       (!this._tabManager || this._tabManager.ready) &&
+      (!this._connectivityMonitor || this._connectivityMonitor.ready) &&
+      this._subscription.ready &&
       this._rolesAndPermissions.ready &&
       this.pending
     );
   }
 
   _shouldReset() {
-    return (
+    return !!(
       (
         !this._auth.loggedIn ||
-        (!!this._storage && !this._storage.ready) ||
+        (this._storage && !this._storage.ready) ||
         !this._subscription.ready ||
-        (!!this._tabManager && !this._tabManager.ready) ||
         (!!this._connectivityMonitor && !this._connectivityMonitor.ready) ||
-        !this._rolesAndPermissions.ready
+        !this._rolesAndPermissions.ready ||
+        (this._tabManager && !this._tabManager.ready)
       ) &&
       this.ready
     );
   }
 
-  _shouleCleanCache() {
-    return (
-      this._auth.isFreshLogin ||
-      !this.updatedTimestamp ||
-      (Date.now() - this.updatedTimestamp) > this.ttl
-    );
+  _isDataReady() {
+    return this.status === moduleStatuses.initializing &&
+      this.syncInfo !== null;
   }
 
-  _resetModuleStatus() {
-    this.store.dispatch({
-      type: this.actionTypes.resetSuccess,
-    });
-  }
-
-  _cleanUpCache() {
-    this.store.dispatch({
-      type: this.actionTypes.cleanUp,
-    });
-  }
-
-  findConversationById(id) {
-    return this.conversationMap[id.toString()];
-  }
-
-  get _hasPermission() {
-    return this._rolesAndPermissions.hasReadMessagesPermission;
-  }
-
-  async _initMessageStore() {
+  async _init() {
     if (!this._hasPermission) return;
-    if (!this._storage || !this._tabManager || this._tabManager.active) {
+    if (this._shouldFetch()) {
       try {
-        await this._syncMessages();
+        await this.fetchData();
       } catch (e) {
-        console.error(e);
+        console.error('fetchData error:', e);
+        this._retry();
       }
     } else if (this._polling) {
       this._startPolling();
+    } else {
+      this._retry();
     }
     this._subscription.subscribe('/account/~/extension/~/message-store');
+  }
+
+  _shouldFetch() {
+    return (
+      !this._tabManager || this._tabManager.active
+    );
   }
 
   _subscriptionHandler() {
@@ -327,7 +231,7 @@ export default class MessageStore extends Pollable {
       message.body.changes
     ) {
       this._lastSubscriptionMessage = this._subscription.message;
-      this._syncMessages({ passive: true });
+      this.fetchData({ passive: true });
     }
   }
 
@@ -339,95 +243,141 @@ export default class MessageStore extends Pollable {
     ) {
       this._connectivity = this._connectivityMonitor.connectivity;
       if (this._connectivity) {
-        this._syncMessages();
+        this.fetchData();
       }
     }
   }
 
-  async _messageSyncApi(params) {
-    const response = await this._client
-      .account()
-      .extension()
-      .messageSync()
-      .list(params);
-    return response;
-  }
-  async _recursiveFSync({
+  async _syncFunction({
+    recordCount,
+    conversationLoadLength,
     dateFrom,
-    dateTo = null,
+    dateTo,
     syncToken,
-    recordsLength = 0,
+    receivedRecordsLength = 0
   }) {
-    const MAX_MSG_LENGTH = 500;
-    const params = messageStoreHelper.getMessageSyncParams({
+    const params = getSyncParams({
+      recordCount,
+      conversationLoadLength,
       dateFrom,
       dateTo,
       syncToken,
-      daySpan: this._daySpan,
     });
     const {
       records,
       syncInfo,
-    } = await this._messageSyncApi(params);
-    recordsLength += records.length;
-    if (recordsLength > MAX_MSG_LENGTH || !syncInfo.olderRecordsExist) {
-      return {
-        records,
-        syncInfo,
-      };
+    } = await this._client.account().extension().messageSync().list(params);
+    receivedRecordsLength += records.length;
+    if (!syncInfo.olderRecordsExist || receivedRecordsLength >= recordCount) {
+      return { records, syncInfo };
     }
-    await sleep(1000);
-    const _dateTo = new Date(records[records.length - 1].creationTime);
-    const lastResponse = await this._recursiveFSync({
+    await sleep(500);
+    const olderDateTo = new Date(records[records.length - 1].creationTime);
+    const olderRecordResult = await this._syncFunction({
+      conversationLoadLength,
       dateFrom,
-      dateTo: _dateTo,
-      syncToken,
-      recordsLength,
+      dateTo: olderDateTo,
     });
     return {
-      records: records.concat(lastResponse.records),
+      records: records.concat(olderRecordResult.records),
       syncInfo,
     };
   }
-  async _updateMessagesFromSync({ passive = false } = {}) {
-    let response;
+
+  getSyncActionType({ dateTo, syncToken }) {
+    if (syncToken) {
+      return this.actionTypes.conversationsISyncSuccess;
+    }
+    return this.actionTypes.conversationsFSyncSuccess;
+  }
+
+  async _syncData({
+    dateTo,
+    conversationsLoadLength = this._conversationsLoadLength,
+    conversationLoadLength = this._conversationLoadLength,
+    passive = false,
+  } = {}) {
     this.store.dispatch({
-      type: this.actionTypes.sync,
+      type: this.actionTypes.conversationsSync,
     });
+    const { ownerId } = this._auth;
     try {
-      const oldSyncToken = this.syncToken;
-      const params = messageStoreHelper.getMessageSyncParams({
-        syncToken: oldSyncToken,
-        daySpan: this._daySpan,
-      });
-      if (!oldSyncToken) {
-        response = await this._recursiveFSync({
-          ...params,
+      const dateFrom = new Date();
+      dateFrom.setDate(dateFrom.getDate() - this._daySpan);
+      let syncToken = dateTo ? null : this.syncInfo && this.syncInfo.syncToken;
+      const recordCount = conversationsLoadLength * conversationLoadLength;
+      let data;
+      try {
+        data = await this._syncFunction({
+          recordCount,
+          conversationLoadLength,
+          dateFrom,
+          syncToken,
+          dateTo,
         });
-      } else {
-        response = await this._messageSyncApi(params);
+      } catch (error) {
+        if (
+          error &&
+          error.message === 'Parameter [syncToken] value is invalid'
+        ) {
+          data = await this._syncFunction({
+            recordCount,
+            conversationLoadLength,
+            dateFrom,
+            syncToken: null,
+            dateTo,
+          });
+          syncToken = null;
+        } else {
+          throw error;
+        }
       }
-      const {
-        records,
-        syncTimestamp,
-        syncToken,
-      } = processResponseData(response);
-
-      // this is only executed in passive sync mode (aka. invoked by subscription)
-      if (passive) {
-        this._dispatchMessageHandlers(records);
+      if (this._auth.ownerId === ownerId) {
+        const actionType = this.getSyncActionType({ dateTo, syncToken });
+        this.store.dispatch({
+          type: actionType,
+          recordCount,
+          records: data.records,
+          syncInfo: data.syncInfo,
+          timestamp: Date.now(),
+          conversationStore: this.conversationStore,
+        });
+        // this is only executed in passive sync mode (aka. invoked by subscription)
+        if (passive) {
+          this._dispatchMessageHandlers(data.records);
+        }
       }
+    } catch (error) {
+      if (this._auth.ownerId === ownerId) {
+        console.error(error);
+        this.store.dispatch({
+          type: this.actionTypes.conversationsSyncError,
+          error,
+        });
+        throw error;
+      }
+    }
+  }
 
-      this.store.dispatch({
-        type: this.actionTypes.syncSuccess,
-        records,
-        syncTimestamp,
-        syncToken,
+  async _fetchData({
+    dateTo,
+    conversationsLoadLength,
+    conversationLoadLength,
+    passive = false,
+  } = {}) {
+    try {
+      await this._syncData({
+        dateTo,
+        conversationsLoadLength,
+        conversationLoadLength,
+        passive,
       });
       if (this._polling) {
         this._startPolling();
       }
+      this._promise = null;
     } catch (error) {
+      this._promise = null;
       if (this._polling) {
         this._startPolling(this.timeToRetry);
       } else {
@@ -437,9 +387,41 @@ export default class MessageStore extends Pollable {
     }
   }
 
+  _startPolling(t = (this.timestamp + this.ttl + 10) - Date.now()) {
+    this._clearTimeout();
+    this._timeoutId = setTimeout(() => {
+      this._timeoutId = null;
+      if ((!this._tabManager || this._tabManager.active) && this.pageNumber === 1) {
+        if (!this.timestamp || Date.now() - this.timestamp > this.ttl) {
+          this.fetchData();
+        } else {
+          this._startPolling();
+        }
+      } else if (this.timestamp && Date.now() - this.timestamp < this.ttl) {
+        this._startPolling();
+      } else {
+        this._startPolling(this.timeToRetry);
+      }
+    }, t);
+  }
+
+  @proxify
+  async fetchData({ passive = false } = {}) {
+    if (!this._promise) {
+      this._promise = this._fetchData({ passive });
+    }
+    await this._promise;
+  }
+
   onNewInboundMessage(handler) {
     if (typeof handler === 'function') {
-      this._newMessageNotificationHandlers.push(handler);
+      this._newInboundMessageNotificationHandlers.push(handler);
+    }
+  }
+
+  onMessageUpdated(handler) {
+    if (typeof handler === 'function') {
+      this._messageUpdatedHandlers.push(handler);
     }
   }
 
@@ -453,105 +435,52 @@ export default class MessageStore extends Pollable {
     );
     for (const record of records) {
       const {
+        id,
         direction,
         availability,
         messageStatus,
         readStatus,
+        lastModifiedTime,
+        creationTime,
       } = record || {};
       // Notify when new message incoming
+      if (this._messageDispatched(record)) {
+        return;
+      }
+      // Mark last 10 messages that dispatched
+      // To present dispatching same record twice
+      this._dispatchedMessageIds =
+        [{ id, lastModifiedTime }].concat(this._dispatchedMessageIds).slice(0, 20);
+      this._messageUpdatedHandlers.forEach(handler => handler(record));
+      // For new inbound message notification
       if (
         direction === 'Inbound' &&
         readStatus === 'Unread' &&
         messageStatus === 'Received' &&
         availability === 'Alive' &&
-        // Ensure new inbound message does not exsit locally
-        !this.messageExists(record)
+        (new Date(creationTime)).getTime() > (new Date(lastModifiedTime)).getTime() - (600 * 1000)
       ) {
-        this._newMessageNotificationHandlers.forEach(handler => handler(record));
+        this._newInboundMessageNotificationHandlers.forEach(handler => handler(record));
       }
     }
   }
 
-  messageExists(message) {
-    return this.messages.some(m => m.id === message.id) ||
-      this.voicemailMessages.some(m => m.id === message.id) ||
-      this.faxMessages.some(m => m.id === message.id);
-  }
-
-  async _updateConversationFromSync(conversationId) {
-    let response;
-    const conversation = this.conversationMap[conversationId.toString()];
-    if (!conversation) {
-      return;
-    }
-    this.store.dispatch({
-      type: this.actionTypes.sync,
-    });
-    const oldSyncToken = conversation.syncToken;
-    const params = messageStoreHelper.getMessageSyncParams({
-      syncToken: oldSyncToken,
-      conversationId: conversation.id,
-      daySpan: this._daySpan,
-    });
-    if (!oldSyncToken) {
-      response = await this._recursiveFSync({
-        ...params,
-      });
-    } else {
-      response = await this._messageSyncApi(params);
-    }
-    const {
-      records,
-      syncTimestamp,
-      syncToken,
-    } = processResponseData(response);
-    this.store.dispatch({
-      type: this.actionTypes.syncConversationSuccess,
-      records,
-      syncTimestamp,
-      syncToken,
-      syncConversationId: conversation.id,
-    });
-  }
-
-  async _syncMessages({ passive = false } = {}) {
-    await this._sync(async () => {
-      await this._updateMessagesFromSync({ passive });
-    });
+  _messageDispatched(message) {
+    return this._dispatchedMessageIds.some(
+      m => m.id === message.id && m.lastModifiedTime === message.lastModifiedTime
+    );
   }
 
   @proxify
-  async fetchData() {
-    await this._syncMessages();
-  }
-
-  @proxify
-  async syncConversation(id) {
-    await this._sync(async () => {
-      await this._updateConversationFromSync(id);
-    });
-  }
-
-  async _sync(syncFunction) {
-    if (!this._promise) {
-      this._promise = (async () => {
-        try {
-          await syncFunction();
-          this._promise = null;
-        } catch (error) {
-          this._onSyncError();
-          this._promise = null;
-          throw error;
-        }
-      })();
-    }
-    await this._promise;
-  }
-
-  _onSyncError() {
+  async pushMessages(records) {
     this.store.dispatch({
-      type: this.actionTypes.syncError,
+      type: this.actionTypes.updateMessages,
+      records,
     });
+  }
+
+  pushMessage(record) {
+    this.pushMessages([record]);
   }
 
   async _updateMessageApi(messageId, status) {
@@ -565,11 +494,12 @@ export default class MessageStore extends Pollable {
     return updateRequest;
   }
 
-  async _deleteMessageApi(messageId) {
-    await this._client.account()
+  async deleteMessageApi(messageId) {
+    const response = await this._client.account()
       .extension()
       .messageStore(messageId)
       .delete();
+    return response;
   }
 
   async _batchUpdateMessagesApi(messageIds, body) {
@@ -612,11 +542,11 @@ export default class MessageStore extends Pollable {
 
   @proxify
   async readMessages(conversationId) {
-    const conversation = this.conversationMap[conversationId];
-    if (!conversation) {
+    const messageList = this.conversationStore[conversationId];
+    if (!messageList || messageList.length === 0) {
       return null;
     }
-    const unreadMessageIds = Object.keys(conversation.unreadMessages);
+    const unreadMessageIds = messageList.filter(messageHelper.messageIsUnread).map(m => m.id);
     if (unreadMessageIds.length === 0) {
       return null;
     }
@@ -655,7 +585,6 @@ export default class MessageStore extends Pollable {
     }
   }
 
-  // for track mark message
   @proxify
   async onUnmarkMessages() {
     this.store.dispatch({
@@ -664,13 +593,20 @@ export default class MessageStore extends Pollable {
   }
 
   @proxify
-  async deleteMessage(messageId) {
+  async deleteConversationMessages(conversationId) {
+    if (!conversationId) {
+      return;
+    }
+    const messageList = this.conversationStore[conversationId];
+    if (!messageList || messageList.length === 0) {
+      return;
+    }
+    const messageId = messageList.map(m => m.id).join(',');
     try {
-      await this._deleteMessageApi(messageId);
+      await this.deleteMessageApi(messageId);
       this.store.dispatch({
-        type: this.actionTypes.removeMessage,
-        conversationId: messageId,
-        messageId,
+        type: this.actionTypes.deleteConversation,
+        conversationId,
       });
     } catch (error) {
       console.error(error);
@@ -680,37 +616,28 @@ export default class MessageStore extends Pollable {
     }
   }
 
-  searchMessagesText(searchText) {
-    return this.messages.filter((message) => {
-      if (
-        message.subject &&
-        message.subject.toLowerCase().indexOf(searchText) >= 0
-      ) {
-        return true;
-      }
-      return false;
-    });
-  }
-
   @proxify
-  async updateConversationRecipientList(conversationId, recipients) {
-    this.store.dispatch({
-      type: this.actionTypes.updateConversationRecipients,
-      conversationId,
-      recipients,
-    });
-  }
-
-  @proxify
-  async pushMessages(records) {
-    this.store.dispatch({
-      type: this.actionTypes.updateMessages,
-      records,
-    });
-  }
-
-  pushMessage(record) {
-    this.pushMessages([record]);
+  async deleteConversation(conversationId) {
+    if (!conversationId) {
+      return;
+    }
+    try {
+      await this._client.account()
+        .extension()
+        .messageStore()
+        .delete({
+          conversationId
+        });
+      this.store.dispatch({
+        type: this.actionTypes.deleteConversation,
+        conversationId,
+      });
+    } catch (error) {
+      console.error(error);
+      this._alert.warning({
+        message: messageStoreErrors.deleteFailed,
+      });
+    }
   }
 
   // for track click to sms in message list
@@ -730,94 +657,121 @@ export default class MessageStore extends Pollable {
     });
   }
 
-
-  get cache() {
-    if (this._storage) {
-      return this._storage.getItem(this._storageKey);
-    }
-    return this.state.data;
-  }
-
-  get messages() {
-    return this.cache.data.messages;
-  }
-
-  get allConversations() {
-    return (this.cache && this.cache.data.conversations) || [];
-  }
-
-  get voicemailMessages() {
-    return this._selectors.voicemailMessages();
-  }
-
-  get faxMessages() {
-    return this._selectors.faxMessages();
-  }
-
-  get textConversations() {
-    return this._selectors.textConversations();
-  }
-
-  get conversations() {
-    return this.allConversations;
-  }
-
-  get conversationMap() {
-    return this.cache.data.conversationMap;
-  }
-
-  get updatedTimestamp() {
-    return this.cache.updatedTimestamp;
-  }
-
-  get syncTimestamp() {
-    return this.cache.data.syncTimestamp;
-  }
-
-  get syncToken() {
-    return this.cache.syncToken;
-  }
-
   get status() {
     return this.state.status;
   }
 
-  get unreadCounts() {
-    return this._selectors.unreadCounts();
+  get data() {
+    return this._storage ?
+      this._storage.getItem(this._dataStorageKey) :
+      this.state.data;
   }
 
-  get textUnreadCounts() {
-    return this._selectors.textUnreadCounts();
-  }
-
-  get voiceUnreadCounts() {
-    return this._selectors.voiceUnreadCounts();
-  }
-
-  get faxUnreadCounts() {
-    return this._selectors.faxUnreadCounts();
-  }
-  get messageStoreStatus() {
-    return this.state.messageStoreStatus;
-  }
-
-  get ready() {
-    return this.status === moduleStatuses.ready;
-  }
-
-  get pending() {
-    return this.status === moduleStatuses.pending;
-  }
-
-  get ttl() {
-    return this._ttl;
+  get timestamp() {
+    return this.data && this.data.timestamp;
   }
 
   get timeToRetry() {
     return this._timeToRetry;
   }
 
-  get timestamp() {
-    return this.syncTimestamp;
+  get ttl() {
+    return this._ttl;
   }
+
+  get syncInfo() {
+    return this.data && this.data.syncInfo;
+  }
+
+  get conversationStore() {
+    return this.data && this.data.conversationStore;
+  }
+
+  get _hasPermission() {
+    return this._rolesAndPermissions.hasReadMessagesPermission;
+  }
+
+  @getter
+  allConversations = createSelector(
+    () => this.data && this.data.conversationList,
+    () => this.conversationStore,
+    (conversationList = [], conversationStore) =>
+      conversationList.map(
+        (conversationItem) => {
+          const messageList = conversationStore[conversationItem.id] || [];
+          return {
+            ...messageList[0],
+            unreadCounts: messageList.filter(messageHelper.messageIsUnread).length,
+          };
+        }
+      )
+  )
+
+  @getter
+  textConversations = createSelector(
+    () => this.allConversations,
+    conversations =>
+      conversations.filter(
+        conversation => messageHelper.messageIsTextMessage(conversation)
+      )
+  )
+
+  @getter
+  textUnreadCounts = createSelector(
+    () => this.textConversations,
+    conversations =>
+      conversations.reduce((a, b) => a + b.unreadCounts, 0)
+  )
+
+  @getter
+  faxMessages = createSelector(
+    () => this.allConversations,
+    conversations =>
+      conversations.filter(
+        conversation => messageHelper.messageIsFax(conversation)
+      )
+  )
+
+  @getter
+  faxUnreadCounts = createSelector(
+    () => this.faxMessages,
+    conversations =>
+      conversations.reduce((a, b) => a + b.unreadCounts, 0)
+  )
+
+  @getter
+  voicemailMessages = createSelector(
+    () => this.allConversations,
+    conversations =>
+      conversations.filter(
+        conversation => messageHelper.messageIsVoicemail(conversation)
+      )
+  )
+
+  @getter
+  voiceUnreadCounts = createSelector(
+    () => this.voicemailMessages,
+    conversations =>
+      conversations.reduce((a, b) => a + b.unreadCounts, 0)
+  )
+
+  @getter
+  unreadCounts = createSelector(
+    () => this.voiceUnreadCounts,
+    () => this.textUnreadCounts,
+    () => this.faxUnreadCounts,
+    (voiceUnreadCounts, textUnreadCounts, faxUnreadCounts) => {
+      let unreadCounts = 0;
+      if (this._rolesAndPermissions.readTextPermissions) {
+        unreadCounts += textUnreadCounts;
+      }
+      if (this._rolesAndPermissions.voicemailPermissions) {
+        unreadCounts += voiceUnreadCounts;
+      }
+      if (this._rolesAndPermissions.readFaxPermissions) {
+        unreadCounts += faxUnreadCounts;
+      }
+      return unreadCounts;
+    }
+  )
 }

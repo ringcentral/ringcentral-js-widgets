@@ -243,6 +243,7 @@ export default class ToField extends Component {
           />
         </div>
         <ContactDropdownList
+          currentLocale={this.props.currentLocale}
           scrollDirection={this.state.scrollDirection}
           selectedIndex={this.state.selectedContactIndex}
           setSelectedIndex={this.setSelectedIndex}

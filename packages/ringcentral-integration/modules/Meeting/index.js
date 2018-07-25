@@ -16,12 +16,12 @@ export const MeetingType = {
 };
 
 // Basic default meeting type information
-export const getDefaultMeetingSettings = extensionName => ({
+export const getDefaultMeetingSettings = (extensionName, startTime) => ({
   topic: `${extensionName}'s Meeting`,
   meetingType: MeetingType.SCHEDULED,
   password: null,
   schedule: {
-    startTime: (new Date()).getTime(),
+    startTime,
     durationInMinutes: 60,
     timeZone: {
       id: UTC_TIMEZONE_ID
@@ -152,10 +152,12 @@ export default class Meeting extends RcModule {
 
   _initMeeting() {
     const extensionName = this._extensionInfo.info.name || '';
+    const now = new Date();
+    const startTime = now.setHours(now.getHours() + 1, 0, 0);
     this.store.dispatch({
       type: this.actionTypes.updateMeeting,
       meeting: {
-        ...getDefaultMeetingSettings(extensionName),
+        ...getDefaultMeetingSettings(extensionName, startTime),
         // Load last meeting settings
         ...this.lastMeetingInfo
       }

@@ -3,7 +3,7 @@ import { prefixEnum } from 'ringcentral-integration/lib/Enum';
 import { Module } from 'ringcentral-integration/lib/di';
 import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
-
+import authMessages from 'ringcentral-integration/modules/Auth/authMessages';
 import required from 'ringcentral-integration/lib/required';
 import qs from 'qs';
 import url from 'url';
@@ -91,12 +91,12 @@ export default class OAuthBase extends RcModule {
         case 'access_denied':
         case 'unsupported_response_type':
         case 'invalid_scope':
-          message = oAuthMessages.accessDenied;
+          message = authMessages.accessDenied;
           break;
         case 'server_error':
         case 'temporarily_unavailable':
         default:
-          message = oAuthMessages.internalError;
+          message = authMessages.internalError;
           break;
       }
       this._alert.danger({

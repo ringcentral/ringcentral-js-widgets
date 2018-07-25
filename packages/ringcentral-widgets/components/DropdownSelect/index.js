@@ -229,7 +229,8 @@ DropdownSelect.propTypes = {
   iconClassName: PropTypes.string,
   value: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.object
+    PropTypes.object,
+    PropTypes.number,
   ]),
   label: PropTypes.string,
   onChange: PropTypes.func,

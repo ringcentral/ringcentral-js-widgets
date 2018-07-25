@@ -15,8 +15,8 @@ props.conversation = {
   unreadCounts: 0,
   type: 'SMS',
 };
-props.areaCode = 'test string';
-props.countryCode = 'test string';
+props.areaCode = '650';
+props.countryCode = 'US';
 props.currentLocale = 'en-US';
 props.dateTimeFormatter = () => null;
 props.showConversationDetail = () => null;
