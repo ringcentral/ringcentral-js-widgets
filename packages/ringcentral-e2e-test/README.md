@@ -1,14 +1,5 @@
 # ringcentral-e2e-test
 
-# Pros
-* Support Multiple browser testing
-* Support test Label on DOM's node
-
-# Cons
-* Script The low degree of abstraction
-* Production contain test code
-
-
 ## Goal
 * More easily code/read/maintain E2E Test
 * High-quality reusable code
