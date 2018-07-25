@@ -330,8 +330,9 @@ export default class CallHistory extends RcModule {
   effectiveSearchString = createSelector(
     () => this.state.searchInput,
     (input) => {
-      if (input && input.length >= 3) return input;
-      return '';
+      // if (input && input.length >= 2) return input;
+      // return '';
+      return input;
     }
   )
 
@@ -393,10 +394,13 @@ export default class CallHistory extends RcModule {
       if (effectiveSearchString !== '') {
         const searchResults = [];
         const searchString = effectiveSearchString.toLowerCase().trim();
+        
         calls.forEach((call) => {
           if (
             (call.direction === 'Inbound' && call.fromMatches[0] && call.fromMatches[0].name && call.fromMatches[0].name.toLowerCase().indexOf(searchString) > -1) ||
-            (call.direction === 'Outbound' && call.toMatches[0] && call.toMatches[0].name && call.toMatches[0].name.toLowerCase().indexOf(searchString) > -1) 
+            (call.direction === 'Inbound' && call.fromMatches[0] && call.fromMatches[0].number && call.fromMatches[0].number.indexOf(searchString) > -1) ||
+            (call.direction === 'Outbound' && call.toMatches[0] && call.toMatches[0].name && call.toMatches[0].name.toLowerCase().indexOf(searchString) > -1) ||
+            (call.direction === 'Outbound' && call.toMatches[0] && call.toMatches[0].number && call.toMatches[0].number.indexOf(searchString) > -1) 
           ) {
             searchResults.push({
               ...call,

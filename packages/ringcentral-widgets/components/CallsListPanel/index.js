@@ -256,7 +256,7 @@ export default class CallsListPanel extends Component {
             className={styles.searchInput}
             value={searchInput}
             onChange={onSearchInputChange}
-            placeholder={i18n.getString('search', currentLocale)}
+            placeholder={i18n.getString('Search...', currentLocale)}
             disabled={disableLinks}
           />
         </div>
@@ -347,6 +347,9 @@ export default class CallsListPanel extends Component {
       <SpinnerOverlay /> :
       (
         <div className={classnames(styles.list, className)}>
+          <div className={styles.listTitle}>
+            {i18n.getString('historyCalls', currentLocale)}
+          </div>
           <CallList
             brand={brand}
             currentLocale={currentLocale}
