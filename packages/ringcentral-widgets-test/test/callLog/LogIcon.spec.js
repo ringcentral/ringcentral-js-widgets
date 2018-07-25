@@ -39,6 +39,7 @@ describe('Log Icon:', () => {
     };
     const wrapper = setup(props);
     expect(wrapper.find('div').props().children.props.className).toEqual('unloggedIcon');
+    expect(wrapper.props().className).toMatch(/disabled/);
     expect(wrapper.find('div').props().title).toEqual('To log fax is not supported.');
   });
 });
