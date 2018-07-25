@@ -33,10 +33,7 @@ function ascendSortParties(parties) {
   deps: [
     'Auth',
     'Alert',
-    {
-      dep: 'Call',
-      optional: true
-    },
+    'Call',
     'CallingSettings',
     'Client',
     'Webphone',
@@ -256,24 +253,40 @@ export default class ConferenceCall extends RcModule {
     const sessionData = webphoneSession.data;
 
     try {
-      const partyProfile = await this._getProfile(webphoneSession);
+      if (this._contactMatcher) {
+        const partyProfile = await this._getProfile(webphoneSession);
+        await this._client.service.platform()
+          .post(`/account/~/telephony/sessions/${id}/parties/bring-in`, sessionData);
+
+        const newConference = await this.updateConferenceStatus(id);
+        const conferenceState = this.state.conferences[id];
+        const newParties = ascendSortParties(conferenceState.conference.parties);
+
+        conference = newConference.conference;
+        partyProfile.id = newParties[newParties.length - 1].id;
+
+        // let the contact match to do the matching of the parties.
+        this.store.dispatch({
+          type: this.actionTypes.bringInConferenceSucceeded,
+          conference,
+          sessionId,
+          partyProfile,
+        });
+        return id;
+      }
+
       await this._client.service.platform()
         .post(`/account/~/telephony/sessions/${id}/parties/bring-in`, sessionData);
 
-      const newConference = await this.updateConferenceStatus(id);
-      const conferenceState = this.state.conferences[id];
-      const newParties = ascendSortParties(conferenceState.conference.parties);
+      conference = await this.updateConferenceStatus(id);
 
-      conference = newConference.conference;
-      partyProfile.id = newParties[newParties.length - 1].id;
-
-      // let the contact match to do the matching of the parties.
       this.store.dispatch({
         type: this.actionTypes.bringInConferenceSucceeded,
         conference,
         sessionId,
-        partyProfile,
+        partyProfile: null,
       });
+
       return id;
     } catch (e) {
       this.store.dispatch({
@@ -737,6 +750,9 @@ export default class ConferenceCall extends RcModule {
 
   @proxify
   async _getProfile(sessionInstance) {
+    if (!this._contactMatcher) {
+      return null;
+    }
     const session = this._webphone.sessions.find(session => session.id === sessionInstance.id);
     const {
       to, contactMatch, from, fromNumber, direction
