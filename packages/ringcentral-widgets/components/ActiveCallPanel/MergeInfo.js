@@ -42,10 +42,10 @@ function MergeInfo(props) {
         </div>
         <div className={styles.callee_name}>
           {
-              (lastCallInfo.calleeType === calleeTypes.conference)
-                ? i18n.getString('conferenceCall', currentLocale)
-                : calleeName
-            }
+            isOnConferenCall
+            ? i18n.getString('conferenceCall', currentLocale)
+            : calleeName
+          }
         </div>
         <div className={statusClasses}>
           {lastCallInfo.status === sessionStatus.finished
