@@ -343,7 +343,7 @@ export default class CallMonitor extends RcModule {
     );
 
     let _fromSessionId;
-    let _lastCallInfo = {};
+    let _lastCallInfo;
     this.addSelector('lastCallInfo',
       this._selectors.allCalls,
       () => this._conferenceCall && this._conferenceCall.mergingPair.fromSessionId,
@@ -369,7 +369,7 @@ export default class CallMonitor extends RcModule {
           }
         } else if (
           _fromSessionId === fromSessionId
-          && _lastCallInfo.calleeType
+          && _lastCallInfo && _lastCallInfo.calleeType
         ) {
           _lastCallInfo = {
             ..._lastCallInfo,
