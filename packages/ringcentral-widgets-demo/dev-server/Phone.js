@@ -236,10 +236,9 @@ export default class BasePhone extends RcModule {
         return;
       }
 
-      if (currentSession
-        && routerInteraction.currentPath === '/conferenceCall/mergeCtrl') {
-        const mergingPairFromId = conferenceCall.mergingPair.fromSessionId;
-        if (session.id !== mergingPairFromId) {
+      if (currentSession && routerInteraction.currentPath === '/conferenceCall/mergeCtrl') {
+        const { fromSessionId } = conferenceCall.mergingPair;
+        if (session.id !== fromSessionId) {
           routerInteraction.push('/calls/active');
           return;
         }
@@ -261,10 +260,12 @@ export default class BasePhone extends RcModule {
           routerInteraction.push('/dialer');
           return;
         }
-        if (routerInteraction.currentPath !== '/calls/active') { // mean have params
+        if (routerInteraction.currentPath !== '/calls/active') {
           routerInteraction.push('/calls/active');
+          return;
         }
         routerInteraction.goBack();
+        return;
       }
     };
 
