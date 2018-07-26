@@ -58,6 +58,7 @@ function ActiveCallPanel({
   hasConferenceCall,
   conferenceCallParties,
   lastCallInfo,
+  lastCallAvatar,
 }) {
   const backHeader = showBackButton ? (
     <BackHeader
@@ -91,6 +92,7 @@ function ActiveCallPanel({
         currentCallAvatarUrl={avatarUrl}
         currentCallTitle={currentCallTitle || fallBackName}
         formatPhone={formatPhone}
+        lastCallAvatar={lastCallAvatar}
       />);
       break;
 
@@ -207,6 +209,7 @@ ActiveCallPanel.propTypes = {
   conferenceCallEquipped: PropTypes.bool,
   hasConferenceCall: PropTypes.bool,
   lastCallInfo: PropTypes.object,
+  lastCallAvatar: PropTypes.string,
 };
 
 ActiveCallPanel.defaultProps = {
@@ -236,6 +239,7 @@ ActiveCallPanel.defaultProps = {
   hasConferenceCall: false,
   conferenceCallParties: undefined,
   lastCallInfo: undefined,
+  lastCallAvatar: undefined,
 };
 
 export default ActiveCallPanel;

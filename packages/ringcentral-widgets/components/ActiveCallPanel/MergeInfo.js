@@ -15,8 +15,8 @@ function MergeInfo(props) {
     currentCallTitle,
     currentCallAvatarUrl,
     formatPhone,
+    lastCallAvatar
   } = props;
-
   const isLastCallEnded = lastCallInfo && lastCallInfo.status === sessionStatus.finished;
   const statusClasses = classnames({
     [styles.callee_status]: true,
@@ -35,7 +35,7 @@ function MergeInfo(props) {
       <div className={styles.merge_item}>
         <div className={styles.callee_avatar}>
           <CallAvatar
-            avatarUrl={lastCallInfo.avatarUrl}
+            avatarUrl={isContacts ? lastCallAvatar : lastCallInfo.avatarUrl}
             extraNum={isOnConferenCall ? lastCallInfo.extraNum : 0}
             isOnConferenceCall={isOnConferenCall}
             />
@@ -79,6 +79,7 @@ MergeInfo.propTypes = {
   currentCallTitle: PropTypes.string,
   currentCallAvatarUrl: PropTypes.string,
   formatPhone: PropTypes.func,
+  lastCallAvatar: PropTypes.string
 };
 
 MergeInfo.defaultProps = {
@@ -86,6 +87,7 @@ MergeInfo.defaultProps = {
   currentCallTitle: undefined,
   currentCallAvatarUrl: undefined,
   formatPhone: () => null,
+  lastCallAvatar: undefined
 };
 
 export default MergeInfo;

@@ -404,7 +404,7 @@ export default class CallMonitor extends RcModule {
               avatarUrl: lastCall.toMatches[0].profileImageUrl,
               name: lastCall.toMatches[0].name,
               status: lastCall.webphoneSession.callStatus,
-              phoneNumber: null,
+              phoneNumber: lastCall.to.phoneNumber,
               extraNum: 0,
             };
             break;
