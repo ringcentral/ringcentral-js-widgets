@@ -396,6 +396,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
       });
 
       var lastCalleeType = null;
+      var partiesAvatarUrls = null;
       if (lastCall) {
         if (lastCall.toMatches.length) {
           lastCalleeType = _calleeTypes2.default.contacts;
@@ -412,28 +413,40 @@ var CallMonitor = (_dec = (0, _di.Module)({
       }
 
       if (lastCalleeType === _calleeTypes2.default.conference) {
-        var partiesAvatarUrls = (partyProfiles || []).map(function (profile) {
+        partiesAvatarUrls = (partyProfiles || []).map(function (profile) {
           return profile.avatarUrl;
         });
-        _lastCallInfo = {
-          calleeType: _calleeTypes2.default.conference,
-          avatarUrl: partiesAvatarUrls[0],
-          extraNum: partiesAvatarUrls.length - 1
-        };
-      } else if (lastCalleeType === _calleeTypes2.default.contacts) {
-        _lastCallInfo = {
-          calleeType: _calleeTypes2.default.contacts,
-          avatarUrl: lastCall.toMatches[0].profileImageUrl,
-          name: lastCall.toMatches[0].name,
-          status: lastCall.webphoneSession.callStatus
-        };
-      } else if (lastCalleeType === _calleeTypes2.default.unknow) {
-        _lastCallInfo = {
-          calleeType: _calleeTypes2.default.unknow,
-          avatarUrl: null,
-          name: lastCall.to.phoneNumber,
-          status: lastCall.webphoneSession ? lastCall.webphoneSession.callStatus : null
-        };
+      }
+      switch (lastCalleeType) {
+        case _calleeTypes2.default.conference:
+          _lastCallInfo = {
+            calleeType: _calleeTypes2.default.conference,
+            avatarUrl: partiesAvatarUrls[0],
+            extraNum: partiesAvatarUrls.length - 1,
+            name: null,
+            phoneNumber: null,
+            status: lastCall.webphoneSession.callStatus
+          };
+          break;
+        case _calleeTypes2.default.contacts:
+          _lastCallInfo = {
+            calleeType: _calleeTypes2.default.contacts,
+            avatarUrl: lastCall.toMatches[0].profileImageUrl,
+            name: lastCall.toMatches[0].name,
+            status: lastCall.webphoneSession.callStatus,
+            phoneNumber: null,
+            extraNum: 0
+          };
+          break;
+        default:
+          _lastCallInfo = {
+            calleeType: _calleeTypes2.default.unknow,
+            avatarUrl: null,
+            name: null,
+            status: lastCall.webphoneSession ? lastCall.webphoneSession.callStatus : null,
+            phoneNumber: lastCall.to.phoneNumber,
+            extraNum: 0
+          };
       }
 
       return _lastCallInfo;
