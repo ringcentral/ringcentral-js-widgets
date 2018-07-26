@@ -309,7 +309,7 @@ export class Injector {
       }
       if (module._proxyReducer) {
         Object.defineProperty(module, PROXY_STATE_FUNC_LITERAL, {
-          value: () => rootClassInstance.state[name]
+          value: () => rootClassInstance.proxyState[name]
         });
         Object.defineProperty(rootClassInstance, PROXY_REDUCER_LITERAL, {
           value: combineReducers({

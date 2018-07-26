@@ -1,0 +1,96 @@
+@import '../../lib/commonStyles/colors.scss';
+
+$avatarWidth: 38px;
+$avatarMargin: 10px;
+
+.confirmMergeModal {
+  min-width: 190px;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  margin: auto;
+
+  .header{
+    text-align: center;
+    background-color: $egg;
+    font-size: 13px;
+    padding: 8px 0;
+  }
+
+  .contentText {
+    font-weight: bold;
+
+    span{
+      font-weight: normal;
+    }
+  }
+
+  .cancelBtn {
+    display: none;
+  }
+
+  .confirmBtn {
+    display: none;
+  }
+
+  .closeBtn {
+    position: absolute;
+    top: 8px;
+    right: 11px;
+  }
+
+  .content{
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 5px 0;
+
+    .avatar{
+      width: $avatarWidth;
+      margin-right: $avatarMargin;
+    }
+    .contentText{
+      flex-grow: 1;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      align-items: center;
+      overflow: hidden;
+  
+      svg{
+        width: 100%;
+      }
+
+      span{
+        font-weight: normal;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: calc(100% - 39px);
+      }
+    }
+
+    .webphoneButton{
+      .mergeButton {
+        width: 26px;
+        circle {
+          fill: $snow;
+          stroke: $primary-color;
+          stroke-width: 15px;
+        }
+        g,
+        path {
+          fill: $primary-color;
+        }
+      }
+    }
+
+    &::after{
+      clear: both;
+    }
+  }
+}

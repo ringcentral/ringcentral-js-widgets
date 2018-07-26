@@ -19,7 +19,8 @@ const presenceBody = require('./data/presence.json');
 const numberParserBody = require('./data/numberParser.json');
 const smsBody = require('./data/sms.json');
 const ringOutBody = require('./data/ringOut.json');
-const messageStoreBody = require('./data/messageStore.json');
+const messageItemBody = require('./data/messageItem.json');
+const messageListBody = require('./data/messageList.json');
 const addressBookBody = require('./data/addressBook.json');
 const callLogBody = require('./data/callLog.json');
 const deviceBody = require('./data/device.json');
@@ -27,6 +28,8 @@ const conferencingBody = require('./data/conferencing.json');
 const activeCallsBody = require('./data/activeCalls.json');
 const meetingBody = require('./data/meeting');
 const serviceInfoBody = require('./data/serviceInfo');
+const conferenceCallBody = require('./data/conferenceCall');
+const numberParseBody = require('./data/numberParse');
 
 const mockServer = 'http://whatever';
 export function createSDK(options = {}) {
@@ -60,7 +63,9 @@ export function mockApi({
   let responseHeaders;
   const isJson = typeof body !== 'string';
   if (isJson && !headers) {
-    responseHeaders = { 'Content-Type': 'application/json' };
+    responseHeaders = {
+      'Content-Type': 'application/json'
+    };
   } else {
     responseHeaders = headers;
   }
@@ -219,13 +224,25 @@ export function apiInfo(mockResponse = {}) {
   });
 }
 
-export function messageSync(mockResponse = {}) {
+export function messageSync(mockResponse = {}, isOnce = true) {
   mockApi({
     url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/message-sync`,
     body: {
       ...messageSyncBody,
       ...mockResponse,
-    }
+    },
+    isOnce
+  });
+}
+
+export function messageList(mockResponse = {}) {
+  mockApi({
+    url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/message-store`,
+    body: {
+      ...messageListBody,
+      ...mockResponse,
+    },
+    isOnce: false
   });
 }
 
@@ -234,7 +251,7 @@ export function updateMessageStatus(mockResponse = {}) {
     url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/message-store`,
     method: 'PUT',
     body: {
-      ...messageStoreBody,
+      ...messageItemBody,
       ...mockResponse,
     }
   });
@@ -399,6 +416,31 @@ export function conferencing(mockResponse = {}) {
   });
 }
 
+export function numberParse(mockResponse = {}, homeCountry) {
+  mockApi({
+    method: 'POST',
+    path: `/restapi/v1.0/number-parser/parse?homeCountry=${homeCountry}`,
+    body: {
+      ...numberParseBody,
+      ...mockResponse,
+    },
+    isOnce: false
+  });
+}
+
+export function conferenceCall(mockResponse = {}) {
+  conferenceCallBody.session.on = () => {};
+  mockApi({
+    method: 'POST',
+    path: '/restapi/v1.0/account/~/telephony/conference',
+    body: {
+      ...conferenceCallBody,
+      ...mockResponse,
+    },
+    isOnce: false
+  });
+}
+
 export function activeCalls(mockResponse = {}) {
   mockApi({
     method: 'GET',
@@ -510,6 +552,7 @@ export function mockForLogin({
   if (mockForwardingNumber) {
     forwardingNumber();
   }
+  messageList();
   if (mockMessageSync) {
     messageSync();
   }
@@ -523,6 +566,5 @@ export function mockForLogin({
   if (mockActiveCalls) {
     activeCalls();
   }
+  numberParser();
 }
-
-

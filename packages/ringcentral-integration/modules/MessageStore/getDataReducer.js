@@ -1,89 +1,151 @@
 import { combineReducers } from 'redux';
-import {
-  pushRecordsToMessageData,
-  updateConversationRecipients,
-} from './messageStoreHelper';
+import * as messageHelper from '../../lib/messageHelper';
 
-const initialConversationsDataState = {
-  conversations: [],
-  conversationMap: {},
-  messages: [],
-};
-export function getMessageDataReducer(types) {
-  return (state = initialConversationsDataState, {
-    type,
-    records,
-    syncToken = null,
-    syncConversationId = null,
-    conversationId = null,
-    messageId = null,
-    recipients = null,
+export function getConversationListReducer(types) {
+  return (state = [], {
+    type, records, conversationId, conversationStore
   }) => {
+    const newState = [];
+    const stateMap = {};
     switch (type) {
-      case types.syncSuccess:
+      case types.conversationsISyncSuccess:
+      case types.conversationsFSyncSuccess:
       case types.updateMessages:
-        return pushRecordsToMessageData({
-          ...state,
-          records,
-          syncToken,
-        });
-      case types.syncConversationSuccess:
-        return pushRecordsToMessageData({
-          ...state,
-          records,
-          syncToken,
-          syncConversationId,
-        });
-      case types.updateConversationRecipients:
-        return updateConversationRecipients({
-          ...state,
-          conversationId,
-          recipients,
-        });
-      case types.removeMessage: {
-        const newConversationMap = {};
-        const newConversations = [];
-        state.conversations.forEach((conversation) => {
-          if (conversation && conversation.conversationId !== conversationId) {
-            newConversations.push({ ...conversation });
-            if (state.conversationMap[conversation.conversationId]) {
-              newConversationMap[conversation.conversationId] = {
-                ...state.conversationMap[conversation.conversationId],
-                index: (newConversations.length - 1),
-                unreadMessages: {
-                  ...state.conversationMap[conversation.conversationId].unreadMessages,
-                },
+        if (type !== types.conversationsFSyncSuccess) {
+          if (!records || records.length === 0) {
+            return state;
+          }
+          state.forEach((oldConversation) => {
+            newState.push(oldConversation);
+            stateMap[oldConversation.id] = {
+              index: newState.length - 1
+            };
+          });
+        }
+        records.forEach((record) => {
+          const message = messageHelper.normalizeRecord(record);
+          const id = message.conversationId;
+          const newCreationTime = message.creationTime;
+          const isDeleted = messageHelper.messageIsDeleted(message);
+          if (stateMap[id]) {
+            const oldConversation = newState[stateMap[id].index];
+            const creationTime = oldConversation.creationTime;
+            if (creationTime < newCreationTime && !isDeleted) {
+              newState[stateMap[id].index] = {
+                id,
+                creationTime: newCreationTime,
+                type: message.type,
+                messageId: message.id,
               };
             }
+            // when user deleted a coversation message
+            if (isDeleted && message.id === oldConversation.messageId) {
+              const oldMessageList = conversationStore[id] || [];
+              const exsitedMessageList = oldMessageList.filter(m => m.id !== message.id);
+              if (exsitedMessageList.length > 0) {
+                newState[stateMap[id].index] = {
+                  id,
+                  creationTime: exsitedMessageList[0].creationTime,
+                  type: exsitedMessageList[0].type,
+                  messageId: exsitedMessageList[0].id,
+                };
+                return;
+              }
+              // when user delete conversation
+              newState[stateMap[id].index] = null;
+              delete stateMap[id];
+            }
+            return;
           }
+          if (isDeleted || !messageHelper.messageIsAcceptable(message)) {
+            return;
+          }
+          newState.push({
+            id,
+            creationTime: newCreationTime,
+            type: message.type,
+            messageId: message.id,
+          });
+          stateMap[id] = {
+            index: newState.length - 1
+          };
         });
-        return {
-          conversations: newConversations,
-          conversationMap: newConversationMap,
-          messages: state.messages.filter(
-            message => message.id !== messageId
-          ),
-        };
-      }
-      case types.cleanUp:
+        return newState.filter(c => !!c).sort(messageHelper.sortByCreationTime);
+      case types.deleteConversation:
+        return state.filter(c => c.id !== conversationId);
       case types.resetSuccess:
-        return initialConversationsDataState;
+        return [];
       default:
         return state;
     }
   };
 }
 
-export function getUpdatedTimestampReducer(types) {
-  return (state = null, { type }) => {
+export function getConversationStoreReducer(types) {
+  return (state = {}, { type, records, conversationId }) => {
+    let newState = {};
+    const updatedConversations = {};
     switch (type) {
-      case types.syncSuccess:
-      case types.syncConversationSuccess:
-      case types.updateConversationRecipients:
+      case types.conversationsISyncSuccess:
+      case types.conversationsFSyncSuccess:
       case types.updateMessages:
-        return Date.now();
+        if (type !== types.conversationsFSyncSuccess) {
+          if (!records || records.length === 0) {
+            return state;
+          }
+          newState = {
+            ...state,
+          };
+        }
+        records.forEach((record) => {
+          const message = messageHelper.normalizeRecord(record);
+          const id = message.conversationId;
+          const newMessages = newState[id] ? [].concat(newState[id]) : [];
+          const oldMessageIndex = newMessages.findIndex(r => r.id === record.id);
+          if (messageHelper.messageIsDeleted(message)) {
+            newState[id] = newMessages.filter(m => m.id !== message.id);
+            if (newState[id].length === 0) {
+              delete newState[id];
+            }
+            return;
+          }
+          if (oldMessageIndex > -1) {
+            if (newMessages[oldMessageIndex].lastModifiedTime < message.lastModifiedTime) {
+              newMessages[oldMessageIndex] = message;
+            }
+          } else if (messageHelper.messageIsAcceptable(message)) {
+            newMessages.push(message);
+          }
+          updatedConversations[id] = 1;
+          newState[id] = newMessages;
+        });
+        Object.keys(updatedConversations).forEach((id) => {
+          const noSorted = newState[id];
+          newState[id] = noSorted.sort(messageHelper.sortByCreationTime);
+        });
+        return newState;
+      case types.deleteConversation:
+        if (!state[conversationId]) {
+          return state;
+        }
+        newState = { ...state };
+        delete newState[conversationId];
+        return newState;
       case types.resetSuccess:
-      case types.cleanUp:
+        return {};
+      default:
+        return state;
+    }
+  };
+}
+
+export function getTimestampReducer(types) {
+  return (state = null, { type, timestamp }) => {
+    switch (type) {
+      case types.conversationsFSyncSuccess:
+      case types.conversationsISyncSuccess:
+        return timestamp;
+      case types.resetSuccess:
         return null;
       default:
         return state;
@@ -91,27 +153,13 @@ export function getUpdatedTimestampReducer(types) {
   };
 }
 
-export function getSyncTokenReducer(types) {
-  return (state = null, { type, syncToken }) => {
+export function getSyncInfoReducer(types) {
+  return (state = null, { type, syncInfo }) => {
     switch (type) {
-      case types.syncSuccess:
-        return syncToken;
+      case types.conversationsFSyncSuccess:
+      case types.conversationsISyncSuccess:
+        return syncInfo;
       case types.resetSuccess:
-      case types.cleanUp:
-        return null;
-      default:
-        return state;
-    }
-  };
-}
-
-export function getSyncTimestampReducer(types) {
-  return (state = null, { type, syncTimestamp }) => {
-    switch (type) {
-      case types.syncSuccess:
-        return syncTimestamp;
-      case types.resetSuccess:
-      case types.cleanUp:
         return null;
       default:
         return state;
@@ -121,9 +169,9 @@ export function getSyncTimestampReducer(types) {
 
 export default function getDataReducer(types) {
   return combineReducers({
-    data: getMessageDataReducer(types),
-    updatedTimestamp: getUpdatedTimestampReducer(types),
-    syncToken: getSyncTokenReducer(types),
-    syncTimestamp: getSyncTimestampReducer(types),
+    conversationList: getConversationListReducer(types),
+    conversationStore: getConversationStoreReducer(types),
+    syncInfo: getSyncInfoReducer(types),
+    timestamp: getTimestampReducer(types),
   });
 }

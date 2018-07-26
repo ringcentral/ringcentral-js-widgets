@@ -1,0 +1,23 @@
+{
+  "uri" : "https.../restapi/v1.0/account/400371259008/extension/400371259008/message-store?availability=Alive&dateFrom=2015-11-17T14:40:00.000Z&distinctConversations=true&page=1&perPage=3",
+  "records" : [],
+  "paging" : {
+    "page" : 1,
+    "totalPages" : 1,
+    "perPage" : 20,
+    "totalElements" : 0,
+    "pageStart" : 0,
+    "pageEnd" : 0
+  },
+  "navigation" : {
+    "nextPage" : {
+      "uri" : "https.../restapi/v1.0/account/400371259008/extension/400371259008/message-store?availability=Alive&dateFrom=2015-11-17T14:40:00.000Z&distinctConversations=true&page=2&perPage=3"
+    },
+    "firstPage" : {
+      "uri" : "https.../restapi/v1.0/account/400371259008/extension/400371259008/message-store?availability=Alive&dateFrom=2015-11-17T14:40:00.000Z&distinctConversations=true&page=1&perPage=3"
+    },
+    "lastPage" : {
+      "uri" : "https.../restapi/v1.0/account/400371259008/extension/400371259008/message-store?availability=Alive&dateFrom=2015-11-17T14:40:00.000Z&distinctConversations=true&page=3&perPage=3"
+    }
+  }
+}
