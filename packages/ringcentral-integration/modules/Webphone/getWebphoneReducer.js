@@ -97,6 +97,19 @@ export function getActiveSessionIdReducer(types) {
          * Noticing that the session will remain unhold during the merging.
          */
         return (sessions[0] && sessions[0].id) || null;
+      case types.clearSessionCaching:
+        onHoldSessions =
+          sessions.filter(sessionItem => isOnHold(sessionItem));
+        if (onHoldSessions.length && onHoldSessions[0]) {
+          return onHoldSessions[0].id;
+        }
+        /**
+         * HACK: special scenario-when dialing two number that do not exisit and then we
+         * merge them togother, and the merge process would certainly failed.
+         * Because the numbers are invalid, so the server will hangup them for us.
+         * Noticing that the session will remain unhold during the merging.
+         */
+        return (sessions[0] && sessions[0].id) || state;
       case types.disconnect:
         return null;
       default:
