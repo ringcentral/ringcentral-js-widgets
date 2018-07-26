@@ -385,18 +385,23 @@ var CallMonitor = (_dec = (0, _di.Module)({
       });
     });
 
-    var _lastCallInfo = {};
+    var _fromSessionId = void 0;
+    var _lastCallInfo = void 0;
     _this.addSelector('lastCallInfo', _this._selectors.allCalls, function () {
       return _this._conferenceCall && _this._conferenceCall.mergingPair.fromSessionId;
     }, function () {
       return _this._conferenceCall && _this._conferenceCall.partyProfiles;
     }, function (calls, fromSessionId, partyProfiles) {
+      if (!fromSessionId) {
+        _lastCallInfo = null;
+        return _lastCallInfo;
+      }
+
       var lastCall = calls.find(function (call) {
         return call.webphoneSession && call.webphoneSession.id === fromSessionId;
       });
 
-      var lastCalleeType = null;
-      var partiesAvatarUrls = null;
+      var lastCalleeType = void 0;
       if (lastCall) {
         if (lastCall.toMatches.length) {
           lastCalleeType = _calleeTypes2.default.contacts;
@@ -405,18 +410,24 @@ var CallMonitor = (_dec = (0, _di.Module)({
         } else {
           lastCalleeType = _calleeTypes2.default.unknow;
         }
-      } else if (_lastCallInfo.calleeType) {
+      } else if (_fromSessionId === fromSessionId && _lastCallInfo && _lastCallInfo.calleeType) {
         _lastCallInfo = (0, _extends3.default)({}, _lastCallInfo, {
           status: _sessionStatus2.default.finished
         });
         return _lastCallInfo;
+      } else {
+        return {
+          calleeType: _calleeTypes2.default.unknow
+        };
       }
 
+      var partiesAvatarUrls = null;
       if (lastCalleeType === _calleeTypes2.default.conference) {
         partiesAvatarUrls = (partyProfiles || []).map(function (profile) {
           return profile.avatarUrl;
         });
       }
+
       switch (lastCalleeType) {
         case _calleeTypes2.default.conference:
           _lastCallInfo = {
@@ -449,6 +460,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
           };
       }
 
+      _fromSessionId = fromSessionId;
       return _lastCallInfo;
     });
 
