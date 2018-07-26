@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { isArray } from 'ringcentral-integration/lib/di/utils/is_type';
 import CallInfo from './CallInfo';
 import MergeInfo from './MergeInfo';
 import ConferenceInfo from './ConferenceInfo';
@@ -58,7 +58,6 @@ function ActiveCallPanel({
   hasConferenceCall,
   conferenceCallParties,
   lastCallInfo,
-  onLastCallEnded,
 }) {
   const backHeader = showBackButton ? (
     <BackHeader
@@ -77,9 +76,9 @@ function ActiveCallPanel({
     </div>
   );
 
-  const currentCallTitle = nameMatches.length
+  const currentCallTitle = (isArray(nameMatches) && nameMatches.length)
     ? nameMatches[0].name
-    : phoneNumber;
+    : formatPhone(phoneNumber);
 
   let callInfo;
 
@@ -89,9 +88,9 @@ function ActiveCallPanel({
         currentLocale={currentLocale}
         timeCounter={timeCounter}
         lastCallInfo={lastCallInfo}
-        onLastCallEnded={onLastCallEnded}
         currentCallAvatarUrl={avatarUrl}
         currentCallTitle={currentCallTitle || fallBackName}
+        formatPhone={formatPhone}
       />);
       break;
 
@@ -164,7 +163,7 @@ function ActiveCallPanel({
 
 ActiveCallPanel.propTypes = {
   phoneNumber: PropTypes.string,
-  nameMatches: PropTypes.array.isRequired,
+  nameMatches: PropTypes.arrayOf(PropTypes.object).isRequired,
   fallBackName: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
   startTime: PropTypes.number,
@@ -208,7 +207,6 @@ ActiveCallPanel.propTypes = {
   conferenceCallEquipped: PropTypes.bool,
   hasConferenceCall: PropTypes.bool,
   lastCallInfo: PropTypes.object,
-  onLastCallEnded: PropTypes.func,
 };
 
 ActiveCallPanel.defaultProps = {
@@ -238,7 +236,6 @@ ActiveCallPanel.defaultProps = {
   hasConferenceCall: false,
   conferenceCallParties: undefined,
   lastCallInfo: undefined,
-  onLastCallEnded: undefined,
 };
 
 export default ActiveCallPanel;

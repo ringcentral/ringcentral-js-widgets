@@ -227,7 +227,7 @@ export default class BasePhone extends RcModule {
 
     webphone._onCallEndFunc = (session, currentSession) => {
       if (
-        routerInteraction.currentPath.indexOf('/conferenceCall/mergeCtrl') === 0 &&
+        routerInteraction.currentPath === '/conferenceCall/mergeCtrl' &&
         webphone.cachedSessions.length && (
           !currentSession ||
           (webphone.cachedSessions.find(cachedSession => cachedSession.id === currentSession.id))
@@ -236,10 +236,9 @@ export default class BasePhone extends RcModule {
         return;
       }
 
-      if (currentSession
-        && routerInteraction.currentPath.indexOf('/conferenceCall/mergeCtrl') === 0) {
-        const mergingPairFromId = conferenceCall.mergingPair.fromSessionId;
-        if (session.id !== mergingPairFromId) {
+      if (currentSession && routerInteraction.currentPath === '/conferenceCall/mergeCtrl') {
+        const { fromSessionId } = conferenceCall.mergingPair;
+        if (session.id !== fromSessionId) {
           routerInteraction.push('/calls/active');
           return;
         }
@@ -254,17 +253,19 @@ export default class BasePhone extends RcModule {
         (!currentSession || session.id === currentSession.id)
       ) {
         if (
-          routerInteraction.currentPath.indexOf('/conferenceCall/mergeCtrl') === 0 ||
+          routerInteraction.currentPath === '/conferenceCall/mergeCtrl' ||
           routerInteraction.currentPath.indexOf('/conferenceCall/dialer/') === 0 ||
           !currentSession
         ) {
           routerInteraction.push('/dialer');
           return;
         }
-        if (routerInteraction.currentPath.indexOf('/calls/active') !== 0) { // mean have params
+        if (routerInteraction.currentPath !== '/calls/active') {
           routerInteraction.push('/calls/active');
+          return;
         }
         routerInteraction.goBack();
+        return;
       }
     };
 
@@ -280,8 +281,8 @@ export default class BasePhone extends RcModule {
       );
 
       if (
-        routerInteraction.currentPath.indexOf('/calls/active') !== 0 &&
-        routerInteraction.currentPath.indexOf('/conferenceCall/mergeCtrl') !== 0 &&
+        routerInteraction.currentPath !== '/calls/active' &&
+        routerInteraction.currentPath !== '/conferenceCall/mergeCtrl' &&
         !(isConferenceCallSession && routerInteraction.currentPath === '/calls')
       ) {
         routerInteraction.push('/calls/active');

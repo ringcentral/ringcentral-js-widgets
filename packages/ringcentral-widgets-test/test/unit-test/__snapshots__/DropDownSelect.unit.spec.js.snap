@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DropdownSelect: render correctly 1`] = `
+<div
+  className="root"
+>
+  <div
+    className="button"
+    onClick={[Function]}
+    title=""
+    type="button"
+  >
+    <span
+      className="selectedValue ellipsis"
+    />
+    <span
+      className="icon"
+    >
+      <i
+        className="arrow"
+      />
+    </span>
+  </div>
+  <ul
+    className="dropdown"
+  >
+    <li
+      className="dropdownItem center ellipsis"
+      onClick={[Function]}
+      title=""
+      value={undefined}
+    />
+    <li
+      className="dropdownItem center ellipsis"
+      onClick={[Function]}
+      title=""
+      value={undefined}
+    />
+  </ul>
+</div>
+`;

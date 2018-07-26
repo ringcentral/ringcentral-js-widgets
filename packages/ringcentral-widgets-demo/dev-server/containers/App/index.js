@@ -157,7 +157,7 @@ export default function App({
                   </DialerAndCallsTabContainer>
                 )} />
               <Route
-                path="/calls/active(/:sessionId)"
+                path="/calls/active"
                 component={() => (
                   <CallCtrlPage
                     showContactDisplayPlaceholder={false}
@@ -269,7 +269,7 @@ export default function App({
                     }} />
                 )} />
               <Route
-                path="/conferenceCall/mergeCtrl(/:sessionId)"
+                path="/conferenceCall/mergeCtrl"
                 component={() => (
                   <ConferenceCallMergeCtrlPage
                     showContactDisplayPlaceholder={false}
@@ -277,6 +277,9 @@ export default function App({
                     getAvatarUrl={getAvatarUrl}
                     onBackButtonClick={() => {
                       phone.routerInteraction.push('/calls');
+                    }}
+                    onLastCallEnded={() => {
+                      phone.routerInteraction.push('/calls/active');
                     }}
                   />
                 )} />

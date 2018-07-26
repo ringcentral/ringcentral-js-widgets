@@ -188,7 +188,6 @@ class CallCtrlPage extends Component {
         hasConferenceCall={this.props.hasConferenceCall}
         conferenceCallParties={this.props.conferenceCallParties}
         lastCallInfo={this.props.lastCallInfo}
-        onLastCallEnded={this.props.onLastCallEnded}
       >
         {this.props.children}
       </CallCtrlPanel>
@@ -251,7 +250,6 @@ CallCtrlPage.propTypes = {
   conferenceCallEquipped: PropTypes.bool,
   hasConferenceCall: PropTypes.bool,
   lastCallInfo: PropTypes.object,
-  onLastCallEnded: PropTypes.func,
   onIncomingCallCaptured: PropTypes.func,
 };
 
@@ -273,7 +271,6 @@ CallCtrlPage.defaultProps = {
   hasConferenceCall: false,
   conferenceCallParties: undefined,
   lastCallInfo: { calleeType: calleeTypes.unknow },
-  onLastCallEnded: undefined,
   onIncomingCallCaptured: i => i,
 };
 
@@ -412,31 +409,8 @@ function mapToFunctions(_, {
       }
     },
     async onMerge(sessionId) {
-      routerInteraction.replace(`${routerInteraction.currentPath}/${sessionId}`);
-      const session = webphone._sessions.get(sessionId);
-      const isOnhold = session.isOnHold().local;
-      conferenceCall.setMergeParty({ toSessionId: sessionId });
-      const sessionToMergeWith = webphone._sessions.get(conferenceCall.mergingPair.fromSessionId);
-      const webphoneSessions = sessionToMergeWith
-        ? [sessionToMergeWith, session]
-        : [session];
-      await conferenceCall.mergeToConference(webphoneSessions);
-      const conferenceData = Object.values(conferenceCall.conferences)[0];
-      const conferenceSession = webphone._sessions.get(conferenceData.sessionId);
-      if (
-        conferenceData
-        && !isOnhold
-        && conferenceSession.isOnHold().local
-      ) {
-        /**
-         * because session termination operation in conferenceCall._mergeToConference,
-         * need to wait for webphone.getActiveSessionIdReducer to update
-         */
-        webphone.resume(conferenceData.sessionId);
-        return;
-      }
+      const conferenceData = await conferenceCall.onMerge({ sessionId });
       if (!conferenceData) {
-        await webphone.resume(session.id);
         routerInteraction.push('/conferenceCall/mergeCtrl');
       }
     },

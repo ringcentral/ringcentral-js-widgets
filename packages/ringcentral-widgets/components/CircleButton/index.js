@@ -47,6 +47,16 @@ function CircleButton(props) {
           r="245"
         />
         {icon}
+        {
+          props.showRipple
+          ? <circle
+            className={styles.ripple}
+            cx="250"
+            cy="250"
+            r="245"
+            />
+          : null
+        }
       </g>
     </svg>
   );
@@ -68,6 +78,7 @@ CircleButton.propTypes = {
   iconX: PropTypes.number,
   iconY: PropTypes.number,
   title: PropTypes.string,
+  showRipple: PropTypes.bool,
 };
 
 CircleButton.defaultProps = {
@@ -86,6 +97,7 @@ CircleButton.defaultProps = {
   iconX: 150,
   iconY: 150,
   title: null,
+  showRipple: false,
 };
 
 export default CircleButton;

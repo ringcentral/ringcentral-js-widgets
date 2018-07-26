@@ -167,6 +167,7 @@ class ActiveCallPad extends Component {
           title: i18n.getString('mergeToConference', this.props.currentLocale),
           disabled: this.props.mergeDisabled,
           onClick: this.props.onMerge,
+          showRipple: !this.props.mergeDisabled,
         }
         : {
           icon: CombineIcon,
