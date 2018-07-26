@@ -49,6 +49,10 @@ class CallAvatar extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this._mounted = false;
+  }
+
   render() {
     const { extraNum, isOnConferenceCall } = this.props;
     const { avatarUrl } = this.state;
