@@ -33,11 +33,9 @@ function ascendSortParties(parties) {
   deps: [
     'Auth',
     'Alert',
-    {
-      dep: 'Call',
-      optional: true
-    },
+    'Call',
     'CallingSettings',
+    'ConnectivityMonitor',
     'Client',
     'Webphone',
     'RolesAndPermissions',
@@ -45,7 +43,10 @@ function ascendSortParties(parties) {
       dep: 'ContactMatcher',
       optional: true
     },
-    { dep: 'ConnectivityMonitor', optional: true },
+    {
+      dep: 'Webphone',
+      optional: true
+    },
     {
       dep: 'ConferenceCallOptions',
       optional: true
@@ -257,23 +258,26 @@ export default class ConferenceCall extends RcModule {
 
     try {
       const partyProfile = await this._getProfile(webphoneSession);
+
       await this._client.service.platform()
         .post(`/account/~/telephony/sessions/${id}/parties/bring-in`, sessionData);
 
       const newConference = await this.updateConferenceStatus(id);
-      const conferenceState = this.state.conferences[id];
-      const newParties = ascendSortParties(conferenceState.conference.parties);
-
       conference = newConference.conference;
-      partyProfile.id = newParties[newParties.length - 1].id;
 
-      // let the contact match to do the matching of the parties.
+      if (partyProfile) {
+        const conferenceState = this.state.conferences[id];
+        const newParties = ascendSortParties(conferenceState.conference.parties);
+        partyProfile.id = newParties[newParties.length - 1].id;
+      }
+
       this.store.dispatch({
         type: this.actionTypes.bringInConferenceSucceeded,
         conference,
         sessionId,
         partyProfile,
       });
+
       return id;
     } catch (e) {
       this.store.dispatch({
@@ -737,6 +741,9 @@ export default class ConferenceCall extends RcModule {
 
   @proxify
   async _getProfile(sessionInstance) {
+    if (!this._contactMatcher) {
+      return null;
+    }
     const session = this._webphone.sessions.find(session => session.id === sessionInstance.id);
     const {
       to, contactMatch, from, fromNumber, direction
