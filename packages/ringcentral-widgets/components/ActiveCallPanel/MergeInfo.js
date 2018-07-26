@@ -42,9 +42,12 @@ function MergeInfo(props) {
         </div>
         <div className={styles.callee_name}>
           {
+            // eslint-disable-next-line no-nested-ternary
             isOnConferenCall
             ? i18n.getString('conferenceCall', currentLocale)
-            : isContacts ? lastCallInfo.name : formatPhone(lastCallInfo.phoneNumber)
+            : isContacts
+              ? lastCallInfo.name
+              : formatPhone(lastCallInfo.phoneNumber)
           }
         </div>
         <div className={statusClasses}>
