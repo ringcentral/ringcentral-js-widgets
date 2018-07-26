@@ -342,18 +342,23 @@ export default class CallMonitor extends RcModule {
       calls => calls.map(callItem => callItem.sessionId)
     );
 
+    let _fromSessionId;
     let _lastCallInfo = {};
     this.addSelector('lastCallInfo',
       this._selectors.allCalls,
       () => this._conferenceCall && this._conferenceCall.mergingPair.fromSessionId,
       () => this._conferenceCall && this._conferenceCall.partyProfiles,
       (calls, fromSessionId, partyProfiles) => {
+        if (!fromSessionId) {
+          _lastCallInfo = null;
+          return _lastCallInfo;
+        }
+
         const lastCall = calls.find(
           call => call.webphoneSession && call.webphoneSession.id === fromSessionId
         );
 
-        let lastCalleeType = null;
-        let partiesAvatarUrls = null;
+        let lastCalleeType;
         if (lastCall) {
           if (lastCall.toMatches.length) {
             lastCalleeType = calleeTypes.contacts;
@@ -362,17 +367,26 @@ export default class CallMonitor extends RcModule {
           } else {
             lastCalleeType = calleeTypes.unknow;
           }
-        } else if (_lastCallInfo.calleeType) {
+        } else if (
+          _fromSessionId === fromSessionId
+          && _lastCallInfo.calleeType
+        ) {
           _lastCallInfo = {
             ..._lastCallInfo,
             status: sessionStatus.finished,
           };
           return _lastCallInfo;
+        } else {
+          return {
+            calleeType: calleeTypes.unknow,
+          };
         }
 
+        let partiesAvatarUrls = null;
         if (lastCalleeType === calleeTypes.conference) {
           partiesAvatarUrls = (partyProfiles || []).map(profile => profile.avatarUrl);
         }
+
         switch (lastCalleeType) {
           case calleeTypes.conference:
             _lastCallInfo = {
@@ -405,6 +419,7 @@ export default class CallMonitor extends RcModule {
             };
         }
 
+        _fromSessionId = fromSessionId;
         return _lastCallInfo;
       },
     );
