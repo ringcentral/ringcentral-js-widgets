@@ -171,13 +171,13 @@ function ascendSortParties(parties) {
  * @description ConferenceCall managing module
  */
 var ConferenceCall = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Alert', {
-    dep: 'Call',
-    optional: true
-  }, 'CallingSettings', 'Client', 'Webphone', 'RolesAndPermissions', {
+  deps: ['Auth', 'Alert', 'Call', 'CallingSettings', 'ConnectivityMonitor', 'Client', 'Webphone', 'RolesAndPermissions', {
     dep: 'ContactMatcher',
     optional: true
-  }, { dep: 'ConnectivityMonitor', optional: true }, {
+  }, {
+    dep: 'Webphone',
+    optional: true
+  }, {
     dep: 'ConferenceCallOptions',
     optional: true
   }]
@@ -485,24 +485,27 @@ var ConferenceCall = (_dec = (0, _di.Module)({
 
               case 16:
                 newConference = _context3.sent;
-                _conferenceState = this.state.conferences[id];
-                newParties = ascendSortParties(_conferenceState.conference.parties);
-
 
                 conference = newConference.conference;
-                partyProfile.id = newParties[newParties.length - 1].id;
 
-                // let the contact match to do the matching of the parties.
+                if (partyProfile) {
+                  _conferenceState = this.state.conferences[id];
+                  newParties = ascendSortParties(_conferenceState.conference.parties);
+
+                  partyProfile.id = newParties[newParties.length - 1].id;
+                }
+
                 this.store.dispatch({
                   type: this.actionTypes.bringInConferenceSucceeded,
                   conference: conference,
                   sessionId: sessionId,
                   partyProfile: partyProfile
                 });
+
                 return _context3.abrupt('return', id);
 
-              case 25:
-                _context3.prev = 25;
+              case 23:
+                _context3.prev = 23;
                 _context3.t0 = _context3['catch'](8);
 
                 this.store.dispatch({
@@ -511,21 +514,21 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 });
 
                 if (propagete) {
-                  _context3.next = 30;
+                  _context3.next = 28;
                   break;
                 }
 
                 return _context3.abrupt('return', null);
 
-              case 30:
+              case 28:
                 throw _context3.t0;
 
-              case 31:
+              case 29:
               case 'end':
                 return _context3.stop();
             }
           }
-        }, _callee3, this, [[8, 25]]);
+        }, _callee3, this, [[8, 23]]);
       }));
 
       function bringInToConference(_x4, _x5) {
@@ -1338,6 +1341,14 @@ var ConferenceCall = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context12.prev = _context12.next) {
               case 0:
+                if (this._contactMatcher) {
+                  _context12.next = 2;
+                  break;
+                }
+
+                return _context12.abrupt('return', null);
+
+              case 2:
                 session = this._webphone.sessions.find(function (session) {
                   return session.id === sessionInstance.id;
                 });
@@ -1355,13 +1366,13 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 }
 
                 // HACK: refresh the cache
-                _context12.next = 9;
+                _context12.next = 11;
                 return this._contactMatcher.match({
                   queries: [partyNumber],
                   ignoreCache: true
                 });
 
-              case 9:
+              case 11:
 
                 if (this._contactMatcher && this._contactMatcher.dataMapping) {
                   contactMapping = this._contactMatcher.dataMapping;
@@ -1392,7 +1403,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   rcId: rcId
                 });
 
-              case 11:
+              case 13:
               case 'end':
                 return _context12.stop();
             }
