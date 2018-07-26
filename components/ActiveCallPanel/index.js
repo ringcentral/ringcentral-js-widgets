@@ -12,6 +12,8 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _is_type = require('ringcentral-integration/lib/di/utils/is_type');
+
 var _CallInfo = require('./CallInfo');
 
 var _CallInfo2 = _interopRequireDefault(_CallInfo);
@@ -116,7 +118,7 @@ function ActiveCallPanel(_ref) {
     )
   );
 
-  var currentCallTitle = nameMatches.length ? nameMatches[0].name : phoneNumber;
+  var currentCallTitle = (0, _is_type.isArray)(nameMatches) && nameMatches.length ? nameMatches[0].name : formatPhone(phoneNumber);
 
   var callInfo = void 0;
 
@@ -127,7 +129,8 @@ function ActiveCallPanel(_ref) {
         timeCounter: timeCounter,
         lastCallInfo: lastCallInfo,
         currentCallAvatarUrl: avatarUrl,
-        currentCallTitle: currentCallTitle || fallBackName
+        currentCallTitle: currentCallTitle || fallBackName,
+        formatPhone: formatPhone
       });
       break;
 
@@ -202,7 +205,7 @@ function ActiveCallPanel(_ref) {
 
 ActiveCallPanel.propTypes = {
   phoneNumber: _propTypes2.default.string,
-  nameMatches: _propTypes2.default.array.isRequired,
+  nameMatches: _propTypes2.default.arrayOf(_propTypes2.default.object).isRequired,
   fallBackName: _propTypes2.default.string.isRequired,
   currentLocale: _propTypes2.default.string.isRequired,
   startTime: _propTypes2.default.number,

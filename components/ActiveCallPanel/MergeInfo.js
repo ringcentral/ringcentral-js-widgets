@@ -49,14 +49,16 @@ function MergeInfo(props) {
       timeCounter = props.timeCounter,
       lastCallInfo = props.lastCallInfo,
       currentCallTitle = props.currentCallTitle,
-      currentCallAvatarUrl = props.currentCallAvatarUrl;
+      currentCallAvatarUrl = props.currentCallAvatarUrl,
+      formatPhone = props.formatPhone;
 
 
   var isLastCallEnded = lastCallInfo && lastCallInfo.status === _sessionStatus2.default.finished;
   var statusClasses = (0, _classnames3.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, _styles2.default.callee_status, true), (0, _defineProperty3.default)(_classnames, _styles2.default.callee_status_disconnected, !!isLastCallEnded), _classnames));
 
   var isOnConferenCall = !!(lastCallInfo && lastCallInfo.calleeType === _calleeTypes2.default.conference);
-
+  var isContacts = !!(lastCallInfo && lastCallInfo.calleeType === _calleeTypes2.default.contacts);
+  var calleeName = isContacts ? lastCallInfo.name : formatPhone(lastCallInfo.phoneNumber);
   return lastCallInfo ? _react2.default.createElement(
     'div',
     { className: _styles2.default.mergeInfo },
@@ -75,7 +77,7 @@ function MergeInfo(props) {
       _react2.default.createElement(
         'div',
         { className: _styles2.default.callee_name },
-        lastCallInfo.calleeType === _calleeTypes2.default.conference ? _i18n2.default.getString('conferenceCall', currentLocale) : lastCallInfo.name
+        isOnConferenCall ? _i18n2.default.getString('conferenceCall', currentLocale) : calleeName
       ),
       _react2.default.createElement(
         'div',
@@ -110,13 +112,17 @@ MergeInfo.propTypes = {
   timeCounter: _propTypes2.default.element.isRequired,
   lastCallInfo: _propTypes2.default.object,
   currentCallTitle: _propTypes2.default.string,
-  currentCallAvatarUrl: _propTypes2.default.string
+  currentCallAvatarUrl: _propTypes2.default.string,
+  formatPhone: _propTypes2.default.func
 };
 
 MergeInfo.defaultProps = {
   lastCallInfo: { calleeType: _calleeTypes2.default.unknow },
   currentCallTitle: undefined,
-  currentCallAvatarUrl: undefined
+  currentCallAvatarUrl: undefined,
+  formatPhone: function formatPhone() {
+    return null;
+  }
 };
 
 exports.default = MergeInfo;
