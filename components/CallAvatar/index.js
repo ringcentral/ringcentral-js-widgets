@@ -102,6 +102,11 @@ var CallAvatar = function (_Component) {
       }
     }
   }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this._mounted = false;
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _props = this.props,
