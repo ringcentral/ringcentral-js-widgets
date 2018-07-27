@@ -189,7 +189,6 @@ class CallCtrlPage extends Component {
         conferenceCallParties={this.props.conferenceCallParties}
         lastCallInfo={this.props.lastCallInfo}
         getAvatarUrl={this.props.getAvatarUrl}
-        lastCallContact={this.props.lastCallContact}
       >
         {this.props.children}
       </CallCtrlPanel>

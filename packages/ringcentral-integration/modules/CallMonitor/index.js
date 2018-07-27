@@ -386,7 +386,6 @@ export default class CallMonitor extends RcModule {
         if (lastCalleeType === calleeTypes.conference) {
           partiesAvatarUrls = (partyProfiles || []).map(profile => profile.avatarUrl);
         }
-
         switch (lastCalleeType) {
           case calleeTypes.conference:
             _lastCallInfo = {
@@ -396,6 +395,7 @@ export default class CallMonitor extends RcModule {
               name: null,
               phoneNumber: null,
               status: lastCall.webphoneSession.callStatus,
+              lastCallContact: null,
             };
             break;
           case calleeTypes.contacts:
@@ -406,6 +406,7 @@ export default class CallMonitor extends RcModule {
               status: lastCall.webphoneSession.callStatus,
               phoneNumber: lastCall.to.phoneNumber,
               extraNum: 0,
+              lastCallContact: lastCall.toMatches[0],
             };
             break;
           default:
@@ -416,6 +417,7 @@ export default class CallMonitor extends RcModule {
               status: lastCall.webphoneSession ? lastCall.webphoneSession.callStatus : null,
               phoneNumber: lastCall.to.phoneNumber,
               extraNum: 0,
+              lastCallContact: null,
             };
         }
 

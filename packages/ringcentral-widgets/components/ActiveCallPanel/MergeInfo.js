@@ -20,9 +20,9 @@ class MergeInfo extends Component {
   }
   componentDidMount() {
     this.mounted = true;
-    const { lastCallInfo, getAvatarUrl, lastCallContact } = this.props;
-    if (lastCallInfo && !lastCallInfo.avatarUrl && lastCallContact) {
-      getAvatarUrl(lastCallContact).then((lastCallAvatar) => {
+    const { lastCallInfo, getAvatarUrl } = this.props;
+    if (lastCallInfo && !lastCallInfo.avatarUrl && lastCallInfo.lastCallContact) {
+      getAvatarUrl(lastCallInfo.lastCallContact).then((lastCallAvatar) => {
         if (this.mounted) {
           this.setState({
             lastCallAvatar
@@ -107,7 +107,6 @@ MergeInfo.propTypes = {
   currentCallAvatarUrl: PropTypes.string,
   formatPhone: PropTypes.func,
   getAvatarUrl: PropTypes.func,
-  lastCallContact: PropTypes.object
 };
 
 MergeInfo.defaultProps = {
@@ -116,7 +115,6 @@ MergeInfo.defaultProps = {
   currentCallAvatarUrl: undefined,
   formatPhone: () => null,
   getAvatarUrl: () => null,
-  lastCallContact: null,
 };
 
 export default MergeInfo;
