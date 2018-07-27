@@ -114,6 +114,10 @@ var MergeInfo = function (_Component) {
           currentCallTitle = _props2.currentCallTitle,
           currentCallAvatarUrl = _props2.currentCallAvatarUrl,
           formatPhone = _props2.formatPhone;
+
+      if (!lastCallInfo) {
+        return null;
+      }
       var lastCallAvatar = this.state.lastCallAvatar;
 
       var isLastCallEnded = lastCallInfo && lastCallInfo.status === _sessionStatus2.default.finished;
