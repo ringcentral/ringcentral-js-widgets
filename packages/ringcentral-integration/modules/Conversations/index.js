@@ -7,6 +7,7 @@ import ensureExist from '../../lib/ensureExist';
 import proxify from '../../lib/proxy/proxify';
 import messageTypes from '../../enums/messageTypes';
 import cleanNumber from '../../lib/cleanNumber';
+import isBlank from '../../lib/isBlank';
 import messageSenderMessages from '../MessageSender/messageSenderMessages';
 
 import {
@@ -16,6 +17,7 @@ import {
   messageIsVoicemail,
   getVoicemailAttachment,
   getFaxAttachment,
+  getImageAttachment,
   messageIsFax,
   getMyNumberFromMessage,
   getRecipientNumbersFromMessage,
@@ -607,6 +609,10 @@ export default class Conversations extends RcModule {
         if (typeof unreadCounts === 'undefined') {
           unreadCounts = messageIsUnread(message) ? 1 : 0;
         }
+        let imageAttachment = null;
+        if (messageIsTextMessage(message) && isBlank(message.subject)) {
+          imageAttachment = getImageAttachment(message);
+        }
         return {
           ...message,
           unreadCounts,
@@ -619,6 +625,7 @@ export default class Conversations extends RcModule {
           conversationMatches,
           voicemailAttachment,
           faxAttachment,
+          imageAttachment,
           lastMatchedCorrespondentEntity: (
             this._conversationLogger &&
               this._conversationLogger.getLastMatchedCorrespondentEntity(message)
@@ -728,7 +735,8 @@ export default class Conversations extends RcModule {
     () => this.oldMessages,
     () => this._messageStore.conversationStore,
     () => this.formatedConversations,
-    (conversationId, oldMessages, conversationStore, conversations) => {
+    () => this._auth.accessToken,
+    (conversationId, oldMessages, conversationStore, conversations, accessToken) => {
       const conversation = conversations.find(
         c => c.conversationId === conversationId
       );
@@ -736,7 +744,13 @@ export default class Conversations extends RcModule {
       const currentConversation = {
         ...conversation
       };
-      const allMessages = messages.concat(oldMessages).slice();
+      const allMessages = (messages.concat(oldMessages)).map((m) => {
+        const imageAttactment = getImageAttachment(m, accessToken);
+        return {
+          ...m,
+          imageAttactment
+        };
+      });
       currentConversation.messages = allMessages.reverse();
       currentConversation.senderNumber = getMyNumberFromMessage({
         message: conversation,
