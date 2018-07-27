@@ -427,7 +427,6 @@ var CallMonitor = (_dec = (0, _di.Module)({
           return profile.avatarUrl;
         });
       }
-
       switch (lastCalleeType) {
         case _calleeTypes2.default.conference:
           _lastCallInfo = {
@@ -436,7 +435,8 @@ var CallMonitor = (_dec = (0, _di.Module)({
             extraNum: partiesAvatarUrls.length - 1,
             name: null,
             phoneNumber: null,
-            status: lastCall.webphoneSession.callStatus
+            status: lastCall.webphoneSession.callStatus,
+            lastCallContact: null
           };
           break;
         case _calleeTypes2.default.contacts:
@@ -445,8 +445,9 @@ var CallMonitor = (_dec = (0, _di.Module)({
             avatarUrl: lastCall.toMatches[0].profileImageUrl,
             name: lastCall.toMatches[0].name,
             status: lastCall.webphoneSession.callStatus,
-            phoneNumber: null,
-            extraNum: 0
+            phoneNumber: lastCall.to.phoneNumber,
+            extraNum: 0,
+            lastCallContact: lastCall.toMatches[0]
           };
           break;
         default:
@@ -456,7 +457,8 @@ var CallMonitor = (_dec = (0, _di.Module)({
             name: null,
             status: lastCall.webphoneSession ? lastCall.webphoneSession.callStatus : null,
             phoneNumber: lastCall.to.phoneNumber,
-            extraNum: 0
+            extraNum: 0,
+            lastCallContact: null
           };
       }
 
