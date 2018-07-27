@@ -10,6 +10,7 @@ import normalizeNumber from '../../lib/normalizeNumber';
 import getter from '../../lib/getter';
 import proxify from '../../lib/proxy/proxify';
 import cleanNumber from '../../lib/cleanNumber';
+import debounce from '../../lib/debounce';
 
 /**
  * @class
@@ -272,7 +273,7 @@ export default class CallHistory extends RcModule {
       type: this.actionTypes.clickToCall,
     });
   }
-
+  debouncedSearch = debounce(this.updateSearchInput, 800, false)
   @proxify
   updateSearchInput(input) {
     this.store.dispatch({
@@ -330,8 +331,6 @@ export default class CallHistory extends RcModule {
   effectiveSearchString = createSelector(
     () => this.state.searchInput,
     (input) => {
-      // if (input && input.length >= 2) return input;
-      // return '';
       return input;
     }
   )
@@ -397,26 +396,31 @@ export default class CallHistory extends RcModule {
       calls,
       effectiveSearchString
     ) => {
-      if (effectiveSearchString !== '') {
-        const searchResults = [];
-        const searchString = effectiveSearchString.toLowerCase().trim();
-        
-        calls.forEach((call) => {
-          if (
-            (call.direction === 'Inbound' && call.fromMatches[0] && call.fromMatches[0].name && call.fromMatches[0].name.toLowerCase().indexOf(searchString) > -1) ||
-            (call.direction === 'Inbound' && call.fromMatches[0] && call.fromMatches[0].number && call.fromMatches[0].number.indexOf(searchString) > -1) ||
-            (call.direction === 'Outbound' && call.toMatches[0] && call.toMatches[0].name && call.toMatches[0].name.toLowerCase().indexOf(searchString) > -1) ||
-            (call.direction === 'Outbound' && call.toMatches[0] && call.toMatches[0].number && call.toMatches[0].number.indexOf(searchString) > -1) 
-          ) {
-            searchResults.push({
-              ...call,
-              matchOrder: 0,
-            });
-          }
-        });
-        return searchResults.sort(sortByStartTime);
+      if(effectiveSearchString ==='') {
+        return calls.sort(sortByStartTime);
       }
-      return calls.sort(sortByStartTime);
+
+      const searchString = effectiveSearchString.toLowerCase().trim();
+      let matchFilter = function(call, searchStr){
+        let {from, fromMatches} = call;
+        if(call.direction === 'Outbound' ){ 
+            from = call.to;
+            fromMatches = call.toMatches;
+        }
+        if(fromMatches.length>0){
+          if(fromMatches[0].phone.indexOf(searchStr)>-1 || fromMatches[0].name.toLowerCase().indexOf(searchStr)>-1){
+            return true;
+          }
+        }else{
+          from.phoneNumber = from.phoneNumber? from.phoneNumber : 'anonymous';
+          if(from.phoneNumber.indexOf(searchStr)>-1){
+            return true;
+          }
+        }
+        return false;
+      };
+
+      return calls.filter(x=> matchFilter(x, searchString)).sort(sortByStartTime);
     }
   )
 
