@@ -58,7 +58,7 @@ function MergeInfo(props) {
 
   var isOnConferenCall = !!(lastCallInfo && lastCallInfo.calleeType === _calleeTypes2.default.conference);
   var isContacts = !!(lastCallInfo && lastCallInfo.calleeType === _calleeTypes2.default.contacts);
-  var calleeName = isContacts ? lastCallInfo.name : formatPhone(lastCallInfo.phoneNumber);
+
   return lastCallInfo ? _react2.default.createElement(
     'div',
     { className: _styles2.default.mergeInfo },
@@ -77,7 +77,9 @@ function MergeInfo(props) {
       _react2.default.createElement(
         'div',
         { className: _styles2.default.callee_name },
-        isOnConferenCall ? _i18n2.default.getString('conferenceCall', currentLocale) : calleeName
+
+        // eslint-disable-next-line no-nested-ternary
+        isOnConferenCall ? _i18n2.default.getString('conferenceCall', currentLocale) : isContacts ? lastCallInfo.name : formatPhone(lastCallInfo.phoneNumber)
       ),
       _react2.default.createElement(
         'div',
