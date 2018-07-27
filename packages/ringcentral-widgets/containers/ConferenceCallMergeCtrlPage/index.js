@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
-import calleeTypes from 'ringcentral-integration/enums/calleeTypes';
 import sleep from 'ringcentral-integration/lib/sleep';
 import withPhone from '../../lib/withPhone';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';

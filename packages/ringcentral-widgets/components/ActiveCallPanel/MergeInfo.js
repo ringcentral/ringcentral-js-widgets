@@ -25,7 +25,7 @@ class MergeInfo extends Component {
       getAvatarUrl(lastCallInfo.lastCallContact).then((lastCallAvatar) => {
         if (this.mounted) {
           this.setState({
-            lastCallAvatar
+            lastCallAvatar,
           });
         }
       });

@@ -348,7 +348,6 @@ function mapToProps(_, {
     conferenceCallEquipped: !!conferenceCall,
     hasConferenceCall,
     conferenceCallParties,
-    contactMapping
   };
 }
 
