@@ -98,8 +98,9 @@ export function getActiveSessionIdReducer(types) {
          */
         return (sessions[0] && sessions[0].id) || null;
       case types.clearSessionCaching:
-        onHoldSessions =
-          sessions.filter(sessionItem => isOnHold(sessionItem));
+        onHoldSessions = sessions
+          .filter(sessionItem => !sessionItem.cached)
+          .filter(sessionItem => isOnHold(sessionItem));
         /**
          * Even though we clear session caching after the make the conference call which means
          * there will alway be a outbound call, but need to careful since we it's a hidden
