@@ -122,7 +122,7 @@ class CallCtrlPage extends Component {
       lastCallInfo,
       getAvatarUrl
     } = props;
-    if (layout === callCtrlLayouts.mergeCtrl && lastCallInfo.calleeType === calleeTypes.contacts) {
+    if (layout === callCtrlLayouts.mergeCtrl && lastCallInfo.calleeType === calleeTypes.contacts && !lastCallInfo.avatarUrl) {
       const contact = (contactMapping && contactMapping[lastCallInfo.phoneNumber][0]) || null;
       if (contact) {
         getAvatarUrl(contact).then((lastCallAvatar) => {

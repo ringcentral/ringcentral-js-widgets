@@ -35,7 +35,7 @@ function MergeInfo(props) {
       <div className={styles.merge_item}>
         <div className={styles.callee_avatar}>
           <CallAvatar
-            avatarUrl={isContacts ? lastCallAvatar : lastCallInfo.avatarUrl}
+            avatarUrl={isContacts && !lastCallInfo.avatarUrl ? lastCallAvatar : lastCallInfo.avatarUrl}
             extraNum={isOnConferenCall ? lastCallInfo.extraNum : 0}
             isOnConferenceCall={isOnConferenCall}
             />
