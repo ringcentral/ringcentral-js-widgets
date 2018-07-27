@@ -1177,6 +1177,7 @@ export default class Webphone extends RcModule {
   clearSessionCaching() {
     this.store.dispatch({
       type: this.actionTypes.clearSessionCaching,
+      sessions: [...this._sessions.values()].map(normalizeSession),
     });
   }
 
