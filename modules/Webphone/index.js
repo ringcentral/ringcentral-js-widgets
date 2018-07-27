@@ -2185,7 +2185,8 @@ var Webphone = (_dec = (0, _di.Module)({
     key: 'clearSessionCaching',
     value: function clearSessionCaching() {
       this.store.dispatch({
-        type: this.actionTypes.clearSessionCaching
+        type: this.actionTypes.clearSessionCaching,
+        sessions: [].concat((0, _toConsumableArray3.default)(this._sessions.values())).map(_webphoneHelper.normalizeSession)
       });
     }
   }, {
