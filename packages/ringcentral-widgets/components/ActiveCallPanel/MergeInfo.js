@@ -29,7 +29,7 @@ function MergeInfo(props) {
   const isContacts = !!(
     lastCallInfo && lastCallInfo.calleeType === calleeTypes.contacts
   );
-  const calleeName = isContacts ? lastCallInfo.name : formatPhone(lastCallInfo.phoneNumber);
+
   return lastCallInfo ? (
     <div className={styles.mergeInfo}>
       <div className={styles.merge_item}>
@@ -42,9 +42,12 @@ function MergeInfo(props) {
         </div>
         <div className={styles.callee_name}>
           {
+            // eslint-disable-next-line no-nested-ternary
             isOnConferenCall
             ? i18n.getString('conferenceCall', currentLocale)
-            : calleeName
+            : isContacts
+              ? lastCallInfo.name
+              : formatPhone(lastCallInfo.phoneNumber)
           }
         </div>
         <div className={statusClasses}>
