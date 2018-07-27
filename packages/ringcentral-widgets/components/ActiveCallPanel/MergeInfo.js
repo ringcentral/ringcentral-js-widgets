@@ -40,6 +40,9 @@ class MergeInfo extends Component {
       currentCallAvatarUrl,
       formatPhone,
     } = this.props;
+    if (!lastCallInfo) {
+      return null;
+    }
     const { lastCallAvatar } = this.state;
     const isLastCallEnded = lastCallInfo && lastCallInfo.status === sessionStatus.finished;
     const statusClasses = classnames({
