@@ -17,7 +17,6 @@ class CallCtrlPage extends Component {
     this.state = {
       selectedMatcherIndex: 0,
       avatarUrl: null,
-      lastCallAvatar: null,
     };
 
     this.onSelectMatcherName = (option) => {
@@ -72,7 +71,6 @@ class CallCtrlPage extends Component {
   componentDidMount() {
     this._mounted = true;
     this._updateAvatarAndMatchIndex(this.props);
-    this._updateLastCallInfoAvatar(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -112,26 +110,6 @@ class CallCtrlPage extends Component {
         }
         this.setState({ avatarUrl });
       });
-    }
-  }
-  _updateLastCallInfoAvatar(props) {
-    // to aviod the last call avatar is null or url is unvalid. ^c^
-    const {
-      layout,
-      contactMapping,
-      lastCallInfo,
-      getAvatarUrl
-    } = props;
-    if (layout === callCtrlLayouts.mergeCtrl && lastCallInfo.calleeType === calleeTypes.contacts && !lastCallInfo.avatarUrl) {
-      const contact = (contactMapping && contactMapping[lastCallInfo.phoneNumber][0]) || null;
-      if (contact) {
-        getAvatarUrl(contact).then((lastCallAvatar) => {
-          if (!this._mounted) {
-            return;
-          }
-          this.setState({ lastCallAvatar });
-        });
-      }
     }
   }
 
@@ -210,7 +188,8 @@ class CallCtrlPage extends Component {
         hasConferenceCall={this.props.hasConferenceCall}
         conferenceCallParties={this.props.conferenceCallParties}
         lastCallInfo={this.props.lastCallInfo}
-        lastCallAvatar={this.state.lastCallAvatar}
+        getAvatarUrl={this.props.getAvatarUrl}
+        lastCallContact={this.props.lastCallContact}
       >
         {this.props.children}
       </CallCtrlPanel>

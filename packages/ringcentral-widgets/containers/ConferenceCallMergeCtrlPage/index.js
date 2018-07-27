@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
+import calleeTypes from 'ringcentral-integration/enums/calleeTypes';
 import sleep from 'ringcentral-integration/lib/sleep';
 import withPhone from '../../lib/withPhone';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
@@ -31,6 +32,10 @@ function mapToProps(_, {
   const layout = isOnConference ? callCtrlLayouts.conferenceCtrl : callCtrlLayouts.mergeCtrl;
   const lastCallInfo = callMonitor.lastCallInfo;
   let mergeDisabled = !!baseProps.mergeDisabled;
+  let lastCallContact = null;
+  if (lastCallInfo && lastCallInfo.calleeType === calleeTypes.contacts) {
+    lastCallContact = (baseProps.contactMapping[lastCallInfo.phoneNumber])[0] || null;
+  }
   if (
     layout === callCtrlLayouts.mergeCtrl
     && (!lastCallInfo || lastCallInfo.status === sessionStatus.finished)
@@ -42,6 +47,7 @@ function mapToProps(_, {
     layout,
     mergeDisabled,
     lastCallInfo,
+    lastCallContact
   };
 }
 
