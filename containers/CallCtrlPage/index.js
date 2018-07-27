@@ -286,7 +286,8 @@ var CallCtrlPage = function (_Component) {
           conferenceCallEquipped: this.props.conferenceCallEquipped,
           hasConferenceCall: this.props.hasConferenceCall,
           conferenceCallParties: this.props.conferenceCallParties,
-          lastCallInfo: this.props.lastCallInfo
+          lastCallInfo: this.props.lastCallInfo,
+          getAvatarUrl: this.props.getAvatarUrl
         },
         this.props.children
       );
