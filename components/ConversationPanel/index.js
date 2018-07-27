@@ -325,7 +325,7 @@ var ConversationPanel = function (_Component) {
             brand: this.props.brand,
             className: _styles2.default.contactDisplay,
             selectClassName: _styles2.default.contactDisplaySelect,
-            contactMatches: correspondentMatches,
+            contactMatches: correspondentMatches || [],
             selected: this.state.selected,
             onSelectContact: this.onSelectContact,
             disabled: this.props.disableLinks,
