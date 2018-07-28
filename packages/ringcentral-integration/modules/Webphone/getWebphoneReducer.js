@@ -97,6 +97,20 @@ export function getActiveSessionIdReducer(types) {
          * Noticing that the session will remain unhold during the merging.
          */
         return (sessions[0] && sessions[0].id) || null;
+      case types.clearSessionCaching:
+        onHoldSessions = sessions
+          .filter(sessionItem => !sessionItem.cached)
+          .filter(sessionItem => isOnHold(sessionItem));
+        /**
+         * Even though we clear session caching after the make the conference call which means
+         * there will alway be a outbound call, but need to careful since we it's a hidden
+         * precondition.
+         */
+        if (onHoldSessions.length && onHoldSessions[0]) {
+          return onHoldSessions[0].id;
+        }
+        // fall back
+        return (sessions[0] && sessions[0].id) || null;
       case types.disconnect:
         return null;
       default:
