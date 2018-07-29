@@ -1,7 +1,7 @@
 {
-  "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129836006/extension/129836006/call-log-sync?syncType=FSync&recordCount=250&dateFrom=2018-07-21T16:00:00.000Z",
+  "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/~/extension/~/call-log-sync?syncType=FSync&recordCount=250&dateFrom=2018-07-21T16:00:00.000Z",
   "records" : [ {
-    "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129836006/extension/129836006/call-log/QwVrCHkfAA9NQA?view=Simple",
+    "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/~/extension/~/call-log/QwVrCHkfAA9NQA?view=Simple",
     "id" : "QwVrCHkfAA9NQA",
     "sessionId" : "3164985006",
     "startTime" : "2018-07-27T09:29:26.141Z",
@@ -11,17 +11,17 @@
     "action" : "VoIP Call",
     "result" : "Call connected",
     "to" : {
-      "phoneNumber" : "+18442085446",
+      "phoneNumber" : "+1812345678",
       "name" : "Something1 New1"
     },
     "from" : {
-      "phoneNumber" : "+12092312743",
+      "phoneNumber" : "+987654321",
       "name" : "ac New1"
     }
   }, {
-    "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129836006/extension/129836006/call-log/QwSjMWVqYm9NQA?view=Simple",
+    "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/~/extension/~/call-log/QwSjMWVqYm9NQA?view=Simple",
     "id" : "QwSjMWVqYm9NQA",
-    "sessionId" : "3164841006",
+    "sessionId" : "2932189471",
     "startTime" : "2018-07-27T09:07:09.675Z",
     "duration" : 80,
     "type" : "Voice",
@@ -29,7 +29,7 @@
     "action" : "VoIP Call",
     "result" : "No Answer",
     "to" : {
-      "phoneNumber" : "+12093120924",
+      "phoneNumber" : "+123456778",
       "name" : "ac New1"
     },
     "from" : {

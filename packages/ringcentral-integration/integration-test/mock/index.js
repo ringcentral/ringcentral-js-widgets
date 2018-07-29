@@ -369,9 +369,9 @@ export function addressBook(mockResponse = {}) {
       ...addressBookBody,
       ...{
         syncInfo: {
-          syncType: addressBookBody.syncType,
-          syncToken: addressBookBody.syncToken,
-          syncTime: ((new Date(Date.now() + 24 * 60 * 60 * 1000))).toISOString()
+          syncType: addressBookBody.syncInfo.syncType,
+          syncToken: addressBookBody.syncInfo.syncToken,
+          syncTime: ((new Date(Date.now()))).toISOString()
         }
       },
       ...mockResponse,
@@ -388,9 +388,9 @@ export function callLog(mockResponse = {}) {
       ...callLogBody,
       ...{
         syncInfo: {
-          syncType: callLogBody.syncType,
-          syncToken: callLogBody.syncToken,
-          syncTime: ((new Date(Date.now() + 24 * 60 * 60 * 1000))).toISOString()
+          syncType: callLogBody.syncInfo.syncType,
+          syncToken: callLogBody.syncInfo.syncToken,
+          syncTime: ((new Date(Date.now()))).toISOString()
         }
       },
       ...mockResponse,
