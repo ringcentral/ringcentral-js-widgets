@@ -1,3 +1,6 @@
+import AccountPhoneNumber from '../../../../node_modules/ringcentral-integration/modules/AccountPhoneNumber';
+import DialingPlan from '../../../../node_modules/ringcentral-integration/modules/DialingPlan';
+
 require('es6-promise').polyfill();
 // require('./pubnub');
 const RingCentral = require('ringcentral');
@@ -530,41 +533,42 @@ export function mockForLogin({
   mockForwardingNumber = true,
   mockMessageSync = true,
   mockConferencing = true,
-  mockActiveCalls = true
+  mockActiveCalls = true,
+  ...params,
 } = {}) {
   authentication();
   logout();
   tokenRefresh();
   presence('~');
-  dialingPlan();
+  dialingPlan(params.dialingPlanData);
   if (mockExtensionInfo) {
-    extensionInfo();
+    extensionInfo(params.extensionInfoData);
   }
-  accountInfo();
-  apiInfo();
+  accountInfo(params.accountInfoData);
+  apiInfo(params.apiInfoData);
   if (mockAuthzProfile) {
-    authzProfile();
+    authzProfile(params.authzProfileData);
   }
-  device();
-  extensionList();
-  accountPhoneNumber();
-  blockedNumber();
+  device(params.deviceData);
+  extensionList(params.extensionListData);
+  accountPhoneNumber(params.accountPhoneNumberData);
+  blockedNumber(params.blockedNumberData);
   if (mockForwardingNumber) {
-    forwardingNumber();
+    forwardingNumber(params.forwardingNumberData);
   }
-  messageList();
+  messageList(params.messageListData);
   if (mockMessageSync) {
-    messageSync();
+    messageSync(params.messageSyncData);
   }
-  phoneNumber();
-  subscription();
-  callLog();
-  addressBook();
+  phoneNumber(params.phoneNumberData);
+  subscription(params.subscriptionData);
+  callLog(params.callLogData);
+  addressBook(params.addressBookData);
   if (mockConferencing) {
-    conferencing();
+    conferencing(params.conferencingData);
   }
   if (mockActiveCalls) {
-    activeCalls();
+    activeCalls(params.activeCallsData);
   }
-  numberParser();
+  numberParser(params.numberParseData);
 }
