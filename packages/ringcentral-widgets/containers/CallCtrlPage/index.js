@@ -189,6 +189,7 @@ class CallCtrlPage extends Component {
         conferenceCallParties={this.props.conferenceCallParties}
         lastCallInfo={this.props.lastCallInfo}
         getAvatarUrl={this.props.getAvatarUrl}
+        gotoParticipantsCtrl={this.props.gotoParticipantsCtrl}
       >
         {this.props.children}
       </CallCtrlPanel>
@@ -418,6 +419,9 @@ function mapToFunctions(_, {
     onIncomingCallCaptured() {
       routerInteraction.push('/calls/active');
     },
+    gotoParticipantsCtrl() {
+      routerInteraction.push('/conferenceCall/participants');
+    }
   };
 }
 
