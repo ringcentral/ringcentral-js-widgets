@@ -159,6 +159,7 @@ import LocalForageStorage from 'ringcentral-integration/lib/LocalForageStorage';
       provide: 'ConversationsOptions',
       useValue: {
         enableLoadOldMessages: true,
+        showMMSAttachment: true,
       },
       spread: true
     },

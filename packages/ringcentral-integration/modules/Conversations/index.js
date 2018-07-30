@@ -70,6 +70,7 @@ export default class Conversations extends RcModule {
     perPage = DEFAULT_PER_PAGE,
     daySpan = DEFAULT_DAY_SPAN,
     enableLoadOldMessages = false, // disable old message by default
+    showMMSAttachment = false,
     ...options
   }) {
     super({
@@ -96,6 +97,7 @@ export default class Conversations extends RcModule {
     this._olderDataExsited = true;
     this._olderMessagesExsited = true;
     this._enableLoadOldMessages = enableLoadOldMessages;
+    this._showMMSAttachment = showMMSAttachment;
 
     if (this._contactMatcher) {
       this._contactMatcher.addQuerySource({
@@ -610,7 +612,7 @@ export default class Conversations extends RcModule {
           unreadCounts = messageIsUnread(message) ? 1 : 0;
         }
         let mmsAttachment = null;
-        if (messageIsTextMessage(message) && isBlank(message.subject)) {
+        if (messageIsTextMessage(message) && isBlank(message.subject) && this._showMMSAttachment) {
           mmsAttachment = getMMSAttachment(message);
         }
         return {
@@ -745,6 +747,9 @@ export default class Conversations extends RcModule {
         ...conversation
       };
       const allMessages = (messages.concat(oldMessages)).map((m) => {
+        if (!this._showMMSAttachment) {
+          return m;
+        }
         const mmsAttachment = getMMSAttachment(m, accessToken);
         return {
           ...m,
