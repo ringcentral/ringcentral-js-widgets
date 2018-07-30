@@ -59,6 +59,10 @@ var _i18n = require('./i18n');
 
 var _i18n2 = _interopRequireDefault(_i18n);
 
+var _styles = require('./styles.scss');
+
+var _styles2 = _interopRequireDefault(_styles);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var TabContentView = (_temp = _class = function (_Component) {
@@ -95,7 +99,9 @@ var TabContentView = (_temp = _class = function (_Component) {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(_TabContentPanel2.default, (0, _extends3.default)({}, this.props, {
-        tabs: this.getTabs()
+        tabs: this.getTabs(),
+        navClassName: _styles2.default.nav,
+        tabContentClassName: _styles2.default.content
       }));
     }
   }]);
