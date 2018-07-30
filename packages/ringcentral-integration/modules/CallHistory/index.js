@@ -45,8 +45,6 @@ export default class CallHistory extends RcModule {
     activityMatcher,
     contactMatcher,
     tabManager,
-    debThreshold,
-    debImmediate,
     ...options
   }) {
     super({
