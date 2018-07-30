@@ -1,3 +1,6 @@
+import AccountPhoneNumber from '../../../../node_modules/ringcentral-integration/modules/AccountPhoneNumber';
+import DialingPlan from '../../../../node_modules/ringcentral-integration/modules/DialingPlan';
+
 require('es6-promise').polyfill();
 // require('./pubnub');
 const RingCentral = require('ringcentral');
@@ -366,9 +369,9 @@ export function addressBook(mockResponse = {}) {
       ...addressBookBody,
       ...{
         syncInfo: {
-          syncType: addressBookBody.syncType,
-          syncToken: addressBookBody.syncToken,
-          syncTime: ((new Date(Date.now() + 24 * 60 * 60 * 1000))).toISOString()
+          syncType: addressBookBody.syncInfo.syncType,
+          syncToken: addressBookBody.syncInfo.syncToken,
+          syncTime: ((new Date(Date.now()))).toISOString()
         }
       },
       ...mockResponse,
@@ -385,9 +388,9 @@ export function callLog(mockResponse = {}) {
       ...callLogBody,
       ...{
         syncInfo: {
-          syncType: callLogBody.syncType,
-          syncToken: callLogBody.syncToken,
-          syncTime: ((new Date(Date.now() + 24 * 60 * 60 * 1000))).toISOString()
+          syncType: callLogBody.syncInfo.syncType,
+          syncToken: callLogBody.syncInfo.syncToken,
+          syncTime: ((new Date(Date.now()))).toISOString()
         }
       },
       ...mockResponse,
@@ -530,41 +533,42 @@ export function mockForLogin({
   mockForwardingNumber = true,
   mockMessageSync = true,
   mockConferencing = true,
-  mockActiveCalls = true
+  mockActiveCalls = true,
+  ...params,
 } = {}) {
   authentication();
   logout();
   tokenRefresh();
   presence('~');
-  dialingPlan();
+  dialingPlan(params.dialingPlanData);
   if (mockExtensionInfo) {
-    extensionInfo();
+    extensionInfo(params.extensionInfoData);
   }
-  accountInfo();
-  apiInfo();
+  accountInfo(params.accountInfoData);
+  apiInfo(params.apiInfoData);
   if (mockAuthzProfile) {
-    authzProfile();
+    authzProfile(params.authzProfileData);
   }
-  device();
-  extensionList();
-  accountPhoneNumber();
-  blockedNumber();
+  device(params.deviceData);
+  extensionList(params.extensionListData);
+  accountPhoneNumber(params.accountPhoneNumberData);
+  blockedNumber(params.blockedNumberData);
   if (mockForwardingNumber) {
-    forwardingNumber();
+    forwardingNumber(params.forwardingNumberData);
   }
-  messageList();
+  messageList(params.messageListData);
   if (mockMessageSync) {
-    messageSync();
+    messageSync(params.messageSyncData);
   }
-  phoneNumber();
-  subscription();
-  callLog();
-  addressBook();
+  phoneNumber(params.phoneNumberData);
+  subscription(params.subscriptionData);
+  callLog(params.callLogData);
+  addressBook(params.addressBookData);
   if (mockConferencing) {
-    conferencing();
+    conferencing(params.conferencingData);
   }
   if (mockActiveCalls) {
-    activeCalls();
+    activeCalls(params.activeCallsData);
   }
-  numberParser();
+  numberParser(params.numberParseData);
 }

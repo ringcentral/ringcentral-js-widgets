@@ -1,9 +1,44 @@
 {
-  "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/~/extension/~/call-log-sync?syncType=FSync&recordCount=250&dateFrom=2018-03-25T16:00:00.000Z",
-  "records" : [],
+  "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/~/extension/~/call-log-sync?syncType=FSync&recordCount=250&dateFrom=2018-07-21T16:00:00.000Z",
+  "records" : [ {
+    "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/~/extension/~/call-log/QwVrCHkfAA9NQA?view=Simple",
+    "id" : "QwVrCHkfAA9NQA",
+    "sessionId" : "3164985006",
+    "startTime" : "2018-07-27T09:29:26.141Z",
+    "duration" : 59,
+    "type" : "Voice",
+    "direction" : "Outbound",
+    "action" : "VoIP Call",
+    "result" : "Call connected",
+    "to" : {
+      "phoneNumber" : "+1812345678",
+      "name" : "Something1 New1"
+    },
+    "from" : {
+      "phoneNumber" : "+987654321",
+      "name" : "ac New1"
+    }
+  }, {
+    "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/~/extension/~/call-log/QwSjMWVqYm9NQA?view=Simple",
+    "id" : "QwSjMWVqYm9NQA",
+    "sessionId" : "2932189471",
+    "startTime" : "2018-07-27T09:07:09.675Z",
+    "duration" : 80,
+    "type" : "Voice",
+    "direction" : "Inbound",
+    "action" : "VoIP Call",
+    "result" : "No Answer",
+    "to" : {
+      "phoneNumber" : "+123456778",
+      "name" : "ac New1"
+    },
+    "from" : {
+      "extensionNumber" : "102"
+    }
+  }],
   "syncInfo" : {
     "syncType" : "FSync",
-    "syncToken" : "FAMAAAFiXeNMAAQAAAFihr164ggAAAAASJ5Y_A0AAAAq1d03LA4AAAD4p-AswBEADwAxADUAMgAxADkAOQAzADYAMAAwADAAMAAwAF8AMBIAAAFihr164hQBFQAYAPaDHkI",
-    "syncTime" : "2018-04-02T14:23:07.495Z"
+    "syncToken" : "FAMAAAFkvZG0AAQAAAFk5Bj8vAgAAAAAB70j5g0AAAAAu3xKzg4AAAFkq_7BiBEADwAxADUAMwAyADEAOAA4ADgAMAAwADAAMAAwAF8AMBIAAAFk5Bj8vBQBFQAYAHnAaw8",
+    "syncTime" : "2018-07-29T03:33:20.190Z"
   }
 }
