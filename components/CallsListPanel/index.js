@@ -328,7 +328,7 @@ var CallsListPanel = function (_Component) {
           className: _styles2.default.searchInput,
           value: searchInput,
           onChange: onSearchInputChange,
-          placeholder: _i18n2.default.getString('search', currentLocale),
+          placeholder: _i18n2.default.getString('Search...', currentLocale),
           disabled: disableLinks
         })
       ) : null;
