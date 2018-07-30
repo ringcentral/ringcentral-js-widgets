@@ -342,18 +342,23 @@ export default class CallMonitor extends RcModule {
       calls => calls.map(callItem => callItem.sessionId)
     );
 
-    let _lastCallInfo = {};
+    let _fromSessionId;
+    let _lastCallInfo;
     this.addSelector('lastCallInfo',
       this._selectors.allCalls,
       () => this._conferenceCall && this._conferenceCall.mergingPair.fromSessionId,
       () => this._conferenceCall && this._conferenceCall.partyProfiles,
       (calls, fromSessionId, partyProfiles) => {
+        if (!fromSessionId) {
+          _lastCallInfo = null;
+          return _lastCallInfo;
+        }
+
         const lastCall = calls.find(
           call => call.webphoneSession && call.webphoneSession.id === fromSessionId
         );
 
-        let lastCalleeType = null;
-        let partiesAvatarUrls = null;
+        let lastCalleeType;
         if (lastCall) {
           if (lastCall.toMatches.length) {
             lastCalleeType = calleeTypes.contacts;
@@ -362,14 +367,22 @@ export default class CallMonitor extends RcModule {
           } else {
             lastCalleeType = calleeTypes.unknow;
           }
-        } else if (_lastCallInfo.calleeType) {
+        } else if (
+          _fromSessionId === fromSessionId
+          && _lastCallInfo && _lastCallInfo.calleeType
+        ) {
           _lastCallInfo = {
             ..._lastCallInfo,
             status: sessionStatus.finished,
           };
           return _lastCallInfo;
+        } else {
+          return {
+            calleeType: calleeTypes.unknow,
+          };
         }
 
+        let partiesAvatarUrls = null;
         if (lastCalleeType === calleeTypes.conference) {
           partiesAvatarUrls = (partyProfiles || []).map(profile => profile.avatarUrl);
         }
@@ -382,6 +395,7 @@ export default class CallMonitor extends RcModule {
               name: null,
               phoneNumber: null,
               status: lastCall.webphoneSession.callStatus,
+              lastCallContact: null,
             };
             break;
           case calleeTypes.contacts:
@@ -390,8 +404,9 @@ export default class CallMonitor extends RcModule {
               avatarUrl: lastCall.toMatches[0].profileImageUrl,
               name: lastCall.toMatches[0].name,
               status: lastCall.webphoneSession.callStatus,
-              phoneNumber: null,
+              phoneNumber: lastCall.to.phoneNumber,
               extraNum: 0,
+              lastCallContact: lastCall.toMatches[0],
             };
             break;
           default:
@@ -402,9 +417,11 @@ export default class CallMonitor extends RcModule {
               status: lastCall.webphoneSession ? lastCall.webphoneSession.callStatus : null,
               phoneNumber: lastCall.to.phoneNumber,
               extraNum: 0,
+              lastCallContact: null,
             };
         }
 
+        _fromSessionId = fromSessionId;
         return _lastCallInfo;
       },
     );
