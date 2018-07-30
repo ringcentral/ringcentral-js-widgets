@@ -24,6 +24,8 @@ TabTitle.propTypes = {
 
 function TabContentPanel({
   applicable,
+  navClassName,
+  tabContentClassName,
   tabs,
   goTo,
   children,
@@ -48,13 +50,19 @@ function TabContentPanel({
     <div className={styles.root}>
       <NavigationBar
         button={MessageTabButton}
-        className={styles.tabBar}
+        className={classnames({
+          [styles.tabBar]: true,
+          [navClassName]: !!navClassName
+        })}
         currentPath=""
         goTo={goTo}
         tabs={formattedTabs}
         fullSizeInk={false}
       />
-      <div className={styles.content}>
+      <div className={classnames({
+        [styles.content]: true,
+        [tabContentClassName]: !!tabContentClassName,
+      })}>
         {children}
       </div>
     </div>
@@ -70,10 +78,14 @@ TabContentPanel.propTypes = {
   })).isRequired,
   goTo: PropTypes.func.isRequired,
   children: PropTypes.node,
+  navClassName: PropTypes.string,
+  tabContentClassName: PropTypes.string,
 };
 
 TabContentPanel.defaultProps = {
   children: null,
+  navClassName: null,
+  tabContentClassName: null,
 };
 
 export default TabContentPanel;
