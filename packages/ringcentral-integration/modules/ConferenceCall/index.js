@@ -781,12 +781,13 @@ export default class ConferenceCall extends RcModule {
 
       if (!contact) {
         contact = nameMatches && nameMatches[0];
-        calleeType = calleeTypes.unknow;
       }
       if (contact) {
         avatarUrl = contact.profileImageUrl;
         toUserName = contact.name;
         rcId = contact.id;
+      } else {
+        calleeType = calleeTypes.unknow;
       }
     }
 
