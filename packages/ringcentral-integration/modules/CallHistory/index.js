@@ -9,7 +9,7 @@ import ensureExist from '../../lib/ensureExist';
 import normalizeNumber from '../../lib/normalizeNumber';
 import getter from '../../lib/getter';
 import proxify from '../../lib/proxy/proxify';
-import cleanNumber from '../../lib/cleanNumber';
+
 
 /**
  * @class
@@ -45,6 +45,8 @@ export default class CallHistory extends RcModule {
     activityMatcher,
     contactMatcher,
     tabManager,
+    debThreshold,
+    debImmediate,
     ...options
   }) {
     super({
@@ -272,7 +274,7 @@ export default class CallHistory extends RcModule {
       type: this.actionTypes.clickToCall,
     });
   }
-
+ 
   @proxify
   updateSearchInput(input) {
     this.store.dispatch({
@@ -327,15 +329,6 @@ export default class CallHistory extends RcModule {
   )
 
   @getter
-  effectiveSearchString = createSelector(
-    () => this.state.searchInput,
-    (input) => {
-      if (input && input.length >= 3) return input;
-      return '';
-    }
-  )
-
-  @getter
   calls = createSelector(
     () => this.normalizedCalls,
     () => this.recentlyEndedCalls,
@@ -385,34 +378,6 @@ export default class CallHistory extends RcModule {
         ...filteredEndedCalls,
         ...calls
       ].sort(sortByStartTime);
-    }
-  )
-
-  @getter
-  filterCalls = createSelector(
-    () => this.calls,
-    () => this.effectiveSearchString,
-    (
-      calls,
-      effectiveSearchString
-    ) => {
-      if (effectiveSearchString !== '') {
-        const searchResults = [];
-        const searchString = effectiveSearchString.toLowerCase().trim();
-        calls.forEach((call) => {
-          if (
-            (call.direction === 'Inbound' && call.fromMatches[0] && call.fromMatches[0].name && call.fromMatches[0].name.toLowerCase().indexOf(searchString) > -1) ||
-            (call.direction === 'Outbound' && call.toMatches[0] && call.toMatches[0].name && call.toMatches[0].name.toLowerCase().indexOf(searchString) > -1) 
-          ) {
-            searchResults.push({
-              ...call,
-              matchOrder: 0,
-            });
-          }
-        });
-        return searchResults.sort(sortByStartTime);
-      }
-      return calls.sort(sortByStartTime);
     }
   )
 

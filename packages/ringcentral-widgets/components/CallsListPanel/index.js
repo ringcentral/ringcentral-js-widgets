@@ -263,7 +263,7 @@ export default class CallsListPanel extends Component {
             className={styles.searchInput}
             value={searchInput}
             onChange={onSearchInputChange}
-            placeholder={i18n.getString('search', currentLocale)}
+            placeholder={i18n.getString('Search...', currentLocale)}
             disabled={disableLinks}
           />
         </div>
@@ -401,6 +401,7 @@ export default class CallsListPanel extends Component {
       );
 
     return (
+
       <div className={classnames(styles.container, onSearchInputChange ? styles.containerWithSearch : null)}>
         {children}
         {search}
