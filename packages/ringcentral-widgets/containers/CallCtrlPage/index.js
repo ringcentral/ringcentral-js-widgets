@@ -359,6 +359,7 @@ function mapToFunctions(_, {
     conferenceCall,
     routerInteraction,
     callMonitor,
+    alert,
   },
   getAvatarUrl,
   onBackButtonClick,
@@ -395,6 +396,7 @@ function mapToFunctions(_, {
     recipientsContactInfoRenderer,
     recipientsContactPhoneRenderer,
     onAdd(sessionId) {
+      alert.warning({ message: 'test alert', allowDuplicates: true });
       const sessionData = find(x => x.id === sessionId, webphone.sessions);
       if (sessionData) {
         conferenceCall.setMergeParty({ fromSessionId: sessionId });
