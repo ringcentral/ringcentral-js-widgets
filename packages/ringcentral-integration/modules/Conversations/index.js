@@ -17,7 +17,7 @@ import {
   messageIsVoicemail,
   getVoicemailAttachment,
   getFaxAttachment,
-  getImageAttachment,
+  getMMSAttachment,
   messageIsFax,
   getMyNumberFromMessage,
   getRecipientNumbersFromMessage,
@@ -609,9 +609,9 @@ export default class Conversations extends RcModule {
         if (typeof unreadCounts === 'undefined') {
           unreadCounts = messageIsUnread(message) ? 1 : 0;
         }
-        let imageAttachment = null;
+        let mmsAttachment = null;
         if (messageIsTextMessage(message) && isBlank(message.subject)) {
-          imageAttachment = getImageAttachment(message);
+          mmsAttachment = getMMSAttachment(message);
         }
         return {
           ...message,
@@ -625,7 +625,7 @@ export default class Conversations extends RcModule {
           conversationMatches,
           voicemailAttachment,
           faxAttachment,
-          imageAttachment,
+          mmsAttachment,
           lastMatchedCorrespondentEntity: (
             this._conversationLogger &&
               this._conversationLogger.getLastMatchedCorrespondentEntity(message)
@@ -745,10 +745,10 @@ export default class Conversations extends RcModule {
         ...conversation
       };
       const allMessages = (messages.concat(oldMessages)).map((m) => {
-        const imageAttactment = getImageAttachment(m, accessToken);
+        const mmsAttachment = getMMSAttachment(m, accessToken);
         return {
           ...m,
-          imageAttactment
+          mmsAttachment,
         };
       });
       currentConversation.messages = allMessages.reverse();

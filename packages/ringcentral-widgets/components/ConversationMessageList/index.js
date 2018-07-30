@@ -11,13 +11,13 @@ export function Message({
   direction,
   sender,
   subjectRenderer: SubjectRenderer,
-  imageAttactment,
+  mmsAttachment,
 }) {
   let content;
   if (subject && !isBlank(subject)) {
     content = SubjectRenderer ? <SubjectRenderer subject={subject} /> : subject;
-  } else if (imageAttactment) {
-    content = (<img src={imageAttactment.uri} alt="attactment" className={styles.picture} />);
+  } else if (mmsAttachment && mmsAttachment.contentType.indexOf('image') > -1) {
+    content = (<img src={mmsAttachment.uri} alt="attactment" className={styles.picture} />);
   }
   return (
     <div className={styles.message}>
@@ -58,7 +58,7 @@ Message.propTypes = {
   time: PropTypes.string,
   sender: PropTypes.string,
   subjectRenderer: PropTypes.func,
-  imageAttactment: PropTypes.object,
+  mmsAttachment: PropTypes.object,
 };
 
 Message.defaultProps = {
@@ -66,7 +66,7 @@ Message.defaultProps = {
   sender: undefined,
   time: undefined,
   subjectRenderer: undefined,
-  imageAttactment: null,
+  mmsAttachment: null,
 };
 
 class ConversationMessageList extends Component {
@@ -153,7 +153,7 @@ class ConversationMessageList extends Component {
           direction={message.direction}
           subject={message.subject}
           subjectRenderer={messageSubjectRenderer}
-          imageAttactment={message.imageAttactment}
+          mmsAttachment={message.mmsAttachment}
         />
       );
     });
@@ -182,7 +182,7 @@ ConversationMessageList.propTypes = {
     id: PropTypes.number,
     direction: PropTypes.string,
     subject: PropTypes.string,
-    imageAttactment: PropTypes.object,
+    mmsAttachment: PropTypes.object,
   })).isRequired,
   className: PropTypes.string,
   showSender: PropTypes.bool,
