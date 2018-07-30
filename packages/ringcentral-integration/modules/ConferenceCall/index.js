@@ -13,6 +13,7 @@ import { isConferenceSession } from '../Webphone/webphoneHelper';
 import ensureExist from '../../lib/ensureExist';
 // import sleep from '../../lib/sleep';
 import callingModes from '../CallingSettings/callingModes';
+import calleeTypes from '../../enums/calleeTypes';
 
 const DEFAULT_TIMEOUT = 30000;// time out for conferencing session being accepted.
 const DEFAULT_TTL = 5000;// timer to update the conference information
@@ -753,6 +754,7 @@ export default class ConferenceCall extends RcModule {
     let avatarUrl;
     let rcId;
     let partyNumber;
+    let calleeType = calleeTypes.contacts;
 
     if (direction === callDirections.outbound) {
       partyNumber = to;
@@ -779,6 +781,7 @@ export default class ConferenceCall extends RcModule {
 
       if (!contact) {
         contact = nameMatches && nameMatches[0];
+        calleeType = calleeTypes.unknow;
       }
       if (contact) {
         avatarUrl = contact.profileImageUrl;
@@ -792,6 +795,7 @@ export default class ConferenceCall extends RcModule {
       toUserName,
       partyNumber,
       rcId,
+      calleeType,
     };
   }
 
@@ -821,7 +825,7 @@ export default class ConferenceCall extends RcModule {
 
     if (isConferenceOnhold) {
       /**
-       * because session termination operation in conferenceCall._mergeToConference,
+       * Because session termination operation in conferenceCall._mergeToConference,
        * need to wait for webphone.getActiveSessionIdReducer to update
        */
       this._webphone.resume(conferenceData.sessionId);
