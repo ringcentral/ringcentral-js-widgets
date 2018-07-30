@@ -233,9 +233,20 @@ var Webphone = (_dec = (0, _di.Module)({
     _this._audioSettings = _ensureExist2.default.call(_this, audioSettings, 'audioSettings');
     _this._contactMatcher = contactMatcher;
     _this._tabManager = tabManager;
-    _this._onCallEndFunc = onCallEnd;
-    _this._onCallRingFunc = onCallRing;
-    _this._onCallStartFunc = onCallStart;
+
+    _this._onCallEndFunctions = [];
+    if (typeof onCallEnd === 'function') {
+      _this._onCallEndFunctions.push(onCallEnd);
+    }
+    _this._onCallRingFunctions = [];
+    if (typeof onCallRing === 'function') {
+      _this._onCallRingFunctions.push(onCallRing);
+    }
+    _this._onCallStartFunctions = [];
+    if (typeof onCallStart === 'function') {
+      _this._onCallStartFunctions.push(onCallStart);
+    }
+
     _this._webphone = null;
     _this._remoteVideo = null;
     _this._localVideo = null;
@@ -2244,6 +2255,8 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: '_beforeCallStart',
     value: function _beforeCallStart(session) {
+      var _this14 = this;
+
       this._addSession(session);
       var normalizedSession = (0, _webphoneHelper.normalizeSession)(session);
       this.store.dispatch({
@@ -2257,6 +2270,9 @@ var Webphone = (_dec = (0, _di.Module)({
       if (typeof this._onCallStartFunc === 'function') {
         this._onCallStartFunc(normalizedSession, this.activeSession);
       }
+      this._onCallStartFunctions.forEach(function (handler) {
+        return handler(normalizedSession, _this14.activeSession);
+      });
     }
   }, {
     key: '_onCallStart',
@@ -2275,6 +2291,8 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: '_onCallRing',
     value: function _onCallRing(session) {
+      var _this15 = this;
+
       this._addSession(session);
       var normalizedSession = (0, _webphoneHelper.normalizeSession)(session);
       this.store.dispatch({
@@ -2291,10 +2309,15 @@ var Webphone = (_dec = (0, _di.Module)({
       if (typeof this._onCallRingFunc === 'function') {
         this._onCallRingFunc(normalizedSession, this.ringSession);
       }
+      this._onCallRingFunctions.forEach(function (handler) {
+        return handler(normalizedSession, _this15.ringSession);
+      });
     }
   }, {
     key: '_onCallEnd',
     value: function _onCallEnd(session) {
+      var _this16 = this;
+
       this._removeSession(session);
       var normalizedSession = (0, _webphoneHelper.normalizeSession)(session);
       this.store.dispatch({
@@ -2305,6 +2328,9 @@ var Webphone = (_dec = (0, _di.Module)({
       if (typeof this._onCallEndFunc === 'function') {
         this._onCallEndFunc(normalizedSession, this.activeSession);
       }
+      this._onCallEndFunctions.forEach(function (handler) {
+        return handler(normalizedSession, _this16.activeSession);
+      });
     }
   }, {
     key: '_retrySleep',
@@ -2407,6 +2433,27 @@ var Webphone = (_dec = (0, _di.Module)({
 
       return showAlert;
     }()
+  }, {
+    key: 'onCallStart',
+    value: function onCallStart(handler) {
+      if (typeof handler === 'function') {
+        this._onCallStartFunctions.push(handler);
+      }
+    }
+  }, {
+    key: 'onCallRing',
+    value: function onCallRing(handler) {
+      if (typeof handler === 'function') {
+        this._onCallRingFunctions.push(handler);
+      }
+    }
+  }, {
+    key: 'onCallEnd',
+    value: function onCallEnd(handler) {
+      if (typeof handler === 'function') {
+        this._onCallEndFunctions.push(handler);
+      }
+    }
   }, {
     key: 'status',
     get: function get() {
