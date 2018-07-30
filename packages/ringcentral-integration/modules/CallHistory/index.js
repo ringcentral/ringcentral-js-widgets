@@ -9,11 +9,7 @@ import ensureExist from '../../lib/ensureExist';
 import normalizeNumber from '../../lib/normalizeNumber';
 import getter from '../../lib/getter';
 import proxify from '../../lib/proxy/proxify';
-import cleanNumber from '../../lib/cleanNumber';
-import debounce from '../../lib/debounce';
 
-const DEBOUNDCE_THRESHOLD = 800;
-const DEBOUNDCE_IMMEDIATE = false;
 
 /**
  * @class
@@ -63,8 +59,7 @@ export default class CallHistory extends RcModule {
     this._contactMatcher = contactMatcher;
     this._callMonitor = callMonitor;
     this._tabManager = tabManager;
-    this._debouncedSearch = debounce(this.updateSearchInput, debImmediate = DEBOUNDCE_THRESHOLD, debImmediate = DEBOUNDCE_IMMEDIATE)
-    
+
     if (this._storage) {
       this._reducer = getCallHistoryReducer(this.actionTypes);
       this._endedCallsStorageKey = 'callHistoryEndedCalls';
@@ -279,10 +274,7 @@ export default class CallHistory extends RcModule {
       type: this.actionTypes.clickToCall,
     });
   }
-  @proxify
-  debouncedSearch(...args){
-    return this._debouncedSearch.apply(this, args);;
-  } 
+ 
   @proxify
   updateSearchInput(input) {
     this.store.dispatch({
@@ -336,14 +328,6 @@ export default class CallHistory extends RcModule {
     ),
   )
 
-  // @getter
-  // effectiveSearchString = createSelector(
-  //   () => this.state.searchInput,
-  //   (input) => {
-  //     return input;
-  //   }
-  // )
-
   @getter
   calls = createSelector(
     () => this.normalizedCalls,
@@ -396,42 +380,6 @@ export default class CallHistory extends RcModule {
       ].sort(sortByStartTime);
     }
   )
-
-  // @getter
-  // filterCalls = createSelector(
-  //   () => this.calls,
-  //   () => this.effectiveSearchString,
-  //   (
-  //     calls,
-  //     effectiveSearchString
-  //   ) => {
-  //     if(effectiveSearchString ==='') {
-  //       return calls.sort(sortByStartTime);
-  //     }
-
-  //     const searchString = effectiveSearchString.toLowerCase().trim();
-  //     let matchFilter = function(call, searchStr){
-  //       let {from, fromMatches} = call;
-  //       if(call.direction === 'Outbound' ){ 
-  //           from = call.to;
-  //           fromMatches = call.toMatches;
-  //       }
-  //       if(fromMatches.length>0){
-  //         if(fromMatches[0].phone.indexOf(searchStr)>-1 || fromMatches[0].name.toLowerCase().indexOf(searchStr)>-1){
-  //           return true;
-  //         }
-  //       }else{
-  //         from.phoneNumber = from.phoneNumber? from.phoneNumber : 'anonymous';
-  //         if(from.phoneNumber.indexOf(searchStr)>-1){
-  //           return true;
-  //         }
-  //       }
-  //       return false;
-  //     };
-
-  //     return calls.filter(x=> matchFilter(x, searchString)).sort(sortByStartTime);
-  //   }
-  // )
 
   @getter
   uniqueNumbers = createSelector(
