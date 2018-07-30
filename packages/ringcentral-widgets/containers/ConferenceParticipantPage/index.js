@@ -14,9 +14,28 @@ class ConferenceParticipantContainer extends Component {
     onBackButtonClick: PropTypes.func.isRequired,
   }
 
+  constructor(props) {
+    super(props);
+    this.mounted = false;
+  }
+
   componentDidMount() {
+    this.mounted = true;
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.mounted) {
+      return;
+    }
+
     const { participants, onBackButtonClick } = this.props;
-    if (!participants.length) {
+
+    if (!nextProps.participants.length
+      && nextProps.participants.length !== participants.length) {
       sleep(500).then(onBackButtonClick);
     }
   }
@@ -52,7 +71,7 @@ function mapToFunctions(_, {
     routerInteraction,
   },
 }) {
-  const confId = conferenceCall.conferences && Object.keys(conferenceCall)[0];
+  const confId = conferenceCall.conferences && Object.keys(conferenceCall.conferences)[0];
 
   return {
     onBackButtonClick: () => routerInteraction.push('/calls/active'),
