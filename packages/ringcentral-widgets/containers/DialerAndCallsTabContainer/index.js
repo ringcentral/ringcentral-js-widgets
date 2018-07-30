@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
+
 import TabContentPanel from '../../components/TabContentPanel';
 import withPhone from '../../lib/withPhone';
 import i18n from './i18n';
+import styles from './styles.scss';
 
 class TabContentView extends Component {
   static propTypes = {
@@ -41,6 +43,8 @@ class TabContentView extends Component {
       <TabContentPanel
         {...this.props}
         tabs={this.getTabs()}
+        navClassName={styles.nav}
+        tabContentClassName={styles.content}
       />
     );
   }
