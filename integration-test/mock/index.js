@@ -4,6 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+
+var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+
 var _stringify = require('babel-runtime/core-js/json/stringify');
 
 var _stringify2 = _interopRequireDefault(_stringify);
@@ -51,6 +55,14 @@ exports.ringOutUpdate = ringOutUpdate;
 exports.meeting = meeting;
 exports.serviceInfo = serviceInfo;
 exports.mockForLogin = mockForLogin;
+
+var _AccountPhoneNumber = require('../../../../node_modules/ringcentral-integration/modules/AccountPhoneNumber');
+
+var _AccountPhoneNumber2 = _interopRequireDefault(_AccountPhoneNumber);
+
+var _DialingPlan = require('../../../../node_modules/ringcentral-integration/modules/DialingPlan');
+
+var _DialingPlan2 = _interopRequireDefault(_DialingPlan);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -407,9 +419,9 @@ function addressBook() {
     url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/address-book-sync',
     body: (0, _extends3.default)({}, addressBookBody, {
       syncInfo: {
-        syncType: addressBookBody.syncType,
-        syncToken: addressBookBody.syncToken,
-        syncTime: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+        syncType: addressBookBody.syncInfo.syncType,
+        syncToken: addressBookBody.syncInfo.syncToken,
+        syncTime: new Date(Date.now()).toISOString()
       }
     }, mockResponse),
     isOnce: false
@@ -423,9 +435,9 @@ function callLog() {
     url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/call-log-sync',
     body: (0, _extends3.default)({}, callLogBody, {
       syncInfo: {
-        syncType: callLogBody.syncType,
-        syncToken: callLogBody.syncToken,
-        syncTime: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+        syncType: callLogBody.syncInfo.syncType,
+        syncToken: callLogBody.syncInfo.syncToken,
+        syncTime: new Date(Date.now()).toISOString()
       }
     }, mockResponse),
     isOnce: false
@@ -555,8 +567,9 @@ function serviceInfo() {
 }
 
 function mockForLogin() {
-  var _ref3 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      _ref3$mockAuthzProfil = _ref3.mockAuthzProfile,
+  var _ref3 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  var _ref3$mockAuthzProfil = _ref3.mockAuthzProfile,
       mockAuthzProfile = _ref3$mockAuthzProfil === undefined ? true : _ref3$mockAuthzProfil,
       _ref3$mockExtensionIn = _ref3.mockExtensionInfo,
       mockExtensionInfo = _ref3$mockExtensionIn === undefined ? true : _ref3$mockExtensionIn,
@@ -567,42 +580,43 @@ function mockForLogin() {
       _ref3$mockConferencin = _ref3.mockConferencing,
       mockConferencing = _ref3$mockConferencin === undefined ? true : _ref3$mockConferencin,
       _ref3$mockActiveCalls = _ref3.mockActiveCalls,
-      mockActiveCalls = _ref3$mockActiveCalls === undefined ? true : _ref3$mockActiveCalls;
+      mockActiveCalls = _ref3$mockActiveCalls === undefined ? true : _ref3$mockActiveCalls,
+      params = (0, _objectWithoutProperties3.default)(_ref3, ['mockAuthzProfile', 'mockExtensionInfo', 'mockForwardingNumber', 'mockMessageSync', 'mockConferencing', 'mockActiveCalls']);
 
   authentication();
   logout();
   tokenRefresh();
   presence('~');
-  dialingPlan();
+  dialingPlan(params.dialingPlanData);
   if (mockExtensionInfo) {
-    extensionInfo();
+    extensionInfo(params.extensionInfoData);
   }
-  accountInfo();
-  apiInfo();
+  accountInfo(params.accountInfoData);
+  apiInfo(params.apiInfoData);
   if (mockAuthzProfile) {
-    authzProfile();
+    authzProfile(params.authzProfileData);
   }
-  device();
-  extensionList();
-  accountPhoneNumber();
-  blockedNumber();
+  device(params.deviceData);
+  extensionList(params.extensionListData);
+  accountPhoneNumber(params.accountPhoneNumberData);
+  blockedNumber(params.blockedNumberData);
   if (mockForwardingNumber) {
-    forwardingNumber();
+    forwardingNumber(params.forwardingNumberData);
   }
-  messageList();
+  messageList(params.messageListData);
   if (mockMessageSync) {
-    messageSync();
+    messageSync(params.messageSyncData);
   }
-  phoneNumber();
-  subscription();
-  callLog();
-  addressBook();
+  phoneNumber(params.phoneNumberData);
+  subscription(params.subscriptionData);
+  callLog(params.callLogData);
+  addressBook(params.addressBookData);
   if (mockConferencing) {
-    conferencing();
+    conferencing(params.conferencingData);
   }
   if (mockActiveCalls) {
-    activeCalls();
+    activeCalls(params.activeCallsData);
   }
-  numberParser();
+  numberParser(params.numberParseData);
 }
 //# sourceMappingURL=index.js.map
