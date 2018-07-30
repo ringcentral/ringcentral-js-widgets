@@ -1,0 +1,1 @@
+{"version":3,"sources":["lib/i18n/en-US.js"],"names":["nameUnknown","nameMultiple","anonymous"],"mappings":";;;;;kBAAe;AACbA,eAAa,SADA;AAEbC,gBAAc,UAFD;AAGbC,aAAW;AAHE,C","file":"en-US.js","sourcesContent":["export default {\n  nameUnknown: 'Unknown',\n  nameMultiple: 'Multiple',\n  anonymous: 'Anonymous',\n};\n"]}

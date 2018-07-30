@@ -10,6 +10,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.getEndedCallsReducer = getEndedCallsReducer;
 exports.getSearchInputReducer = getSearchInputReducer;
+exports.getCallsFilterReducer = getCallsFilterReducer;
 exports.default = getCallHistoryReducer;
 
 var _redux = require('redux');
@@ -87,10 +88,28 @@ function getSearchInputReducer(types) {
   };
 }
 
+function getCallsFilterReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var _ref3 = arguments[1];
+    var type = _ref3.type,
+        _ref3$data = _ref3.data,
+        data = _ref3$data === undefined ? [] : _ref3$data;
+
+    switch (type) {
+      case types.filterSuccess:
+        return data;
+      default:
+        return state;
+    }
+  };
+}
+
 /* istanbul ignore next: unnecessary to test getModuleStatusReducer */
 function getCallHistoryReducer(types, reducers) {
   return (0, _redux.combineReducers)((0, _extends3.default)({}, reducers, {
     searchInput: getSearchInputReducer(types),
+    filterCalls: getCallsFilterReducer(types),
     status: (0, _getModuleStatusReducer2.default)(types)
   }));
 }

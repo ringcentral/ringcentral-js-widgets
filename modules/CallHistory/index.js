@@ -53,7 +53,7 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6;
+var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
 
 var _reselect = require('reselect');
 
@@ -93,9 +93,9 @@ var _proxify = require('../../lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
 
-var _cleanNumber = require('../../lib/cleanNumber');
+var _debounce = require('../../lib/debounce');
 
-var _cleanNumber2 = _interopRequireDefault(_cleanNumber);
+var _debounce2 = _interopRequireDefault(_debounce);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -142,12 +142,15 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
   return desc;
 }
 
+// const DEBOUNDCE_THRESHOLD = 800;
+// const DEBOUNDCE_IMMEDIATE = false;
+
 /**
  * @class
  * @description Call history managing module
  */
 var CallHistory = (_dec = (0, _di.Module)({
-  deps: ['AccountInfo', 'CallLog', 'CallMonitor', { dep: 'Storage', optional: true }, { dep: 'ActivityMatcher', optional: true }, { dep: 'ContactMatcher', optional: true }, { dep: 'CallHistoryOptions', optional: true }, { dep: 'TabManager', optional: true }]
+  deps: ['AccountInfo', 'CallLog', 'CallMonitor', 'Locale', { dep: 'Storage', optional: true }, { dep: 'ActivityMatcher', optional: true }, { dep: 'ContactMatcher', optional: true }, { dep: 'CallHistoryOptions', optional: true }, { dep: 'TabManager', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(CallHistory, _RcModule);
 
@@ -164,26 +167,23 @@ var CallHistory = (_dec = (0, _di.Module)({
     var accountInfo = _ref.accountInfo,
         callLog = _ref.callLog,
         callMonitor = _ref.callMonitor,
+        locale = _ref.locale,
         storage = _ref.storage,
         activityMatcher = _ref.activityMatcher,
         contactMatcher = _ref.contactMatcher,
         tabManager = _ref.tabManager,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['accountInfo', 'callLog', 'callMonitor', 'storage', 'activityMatcher', 'contactMatcher', 'tabManager']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['accountInfo', 'callLog', 'callMonitor', 'locale', 'storage', 'activityMatcher', 'contactMatcher', 'tabManager']);
     (0, _classCallCheck3.default)(this, CallHistory);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallHistory.__proto__ || (0, _getPrototypeOf2.default)(CallHistory)).call(this, (0, _extends3.default)({}, options)));
 
     _initDefineProp(_this, 'normalizedCalls', _descriptor, _this);
 
-    _initDefineProp(_this, 'effectiveSearchString', _descriptor2, _this);
+    _initDefineProp(_this, 'calls', _descriptor2, _this);
 
-    _initDefineProp(_this, 'calls', _descriptor3, _this);
+    _initDefineProp(_this, 'uniqueNumbers', _descriptor3, _this);
 
-    _initDefineProp(_this, 'filterCalls', _descriptor4, _this);
-
-    _initDefineProp(_this, 'uniqueNumbers', _descriptor5, _this);
-
-    _initDefineProp(_this, 'sessionIds', _descriptor6, _this);
+    _initDefineProp(_this, 'sessionIds', _descriptor4, _this);
 
     _this._accountInfo = _ensureExist2.default.call(_this, accountInfo, 'accountInfo');
     _this._callLog = _ensureExist2.default.call(_this, callLog, 'callLog');
@@ -192,6 +192,8 @@ var CallHistory = (_dec = (0, _di.Module)({
     _this._contactMatcher = contactMatcher;
     _this._callMonitor = callMonitor;
     _this._tabManager = tabManager;
+    _this._locale = locale;
+    _this._debouncedSearch = (0, _debounce2.default)(_this.callsSearch, 230, false);
 
     if (_this._storage) {
       _this._reducer = (0, _getCallHistoryReducer2.default)(_this.actionTypes);
@@ -433,6 +435,70 @@ var CallHistory = (_dec = (0, _di.Module)({
       });
     }
   }, {
+    key: 'debouncedSearch',
+    value: function debouncedSearch() {
+      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      this._debouncedSearch.apply(this, args);;
+    }
+    // debouncedSearch = debounce(this.searchCalls, 800, false)
+    // @getter
+    // filterCalls = createSelector(
+    //   () => this.calls,
+    //   () => this.searchInput,
+    //   (calls, searchInput) => {
+    //       return calls.filter(call => {
+    //         if(searchInput === '') return true;
+    //         let effectSearchStr = searchInput.toLowerCase().trim();
+    //         let display = renderContactName(call, this._locale.currentLocale);
+    //         const { phoneNumber } = getPhoneNumberMatches(call);
+
+    //         if(display.toLowerCase().indexOf(effectSearchStr) > -1 || (phoneNumber && phoneNumber.indexOf(effectSearchStr) > -1)) return true;
+    //         return false;
+    //       }).sort(sortByStartTime)
+    //     }
+    //  }
+    // )
+
+  }, {
+    key: 'callsSearch',
+    value: function callsSearch() {
+      var _this3 = this;
+
+      var calls = this.calls;
+      var searchInput = this.searchInput;
+      var data = [];
+      if (searchInput === "") {
+        return;
+      }
+      data = calls.filter(function (call) {
+        if (searchInput === '') return true;
+        var effectSearchStr = searchInput.toLowerCase().trim();
+        var display = (0, _callLogHelpers.renderContactName)(call, _this3._locale.currentLocale);
+
+        var _getPhoneNumberMatche = (0, _callLogHelpers.getPhoneNumberMatches)(call),
+            phoneNumber = _getPhoneNumberMatche.phoneNumber;
+
+        if (display.toLowerCase().indexOf(effectSearchStr) > -1 || phoneNumber && phoneNumber.indexOf(effectSearchStr) > -1) return true;
+        return false;
+      }).sort(_callLogHelpers.sortByStartTime);
+
+      this.store.dispatch({
+        type: this.actionTypes.filterSuccess,
+        data: data
+      });
+    }
+  }, {
+    key: 'updateSearchInput',
+    value: function updateSearchInput(input) {
+      this.store.dispatch({
+        type: this.actionTypes.updateSearchInput,
+        input: input
+      });
+    }
+  }, {
     key: '_actionTypes',
     get: function get() {
       return _actionTypes2.default;
@@ -453,6 +519,14 @@ var CallHistory = (_dec = (0, _di.Module)({
       return this.state.status === _moduleStatuses2.default.pending;
     }
   }, {
+    key: 'filterCalls',
+    get: function get() {
+      if (this.searchInput === "") {
+        return this.calls;
+      }
+      return this.state.filterCalls;
+    }
+  }, {
     key: 'searchInput',
     get: function get() {
       return this.state.searchInput;
@@ -470,12 +544,12 @@ var CallHistory = (_dec = (0, _di.Module)({
 }(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'onClickToSMS', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onClickToSMS'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onClickToCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onClickToCall'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateSearchInput', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateSearchInput'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'normalizedCalls', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this3 = this;
+    var _this4 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this3._callLog.calls;
+      return _this4._callLog.calls;
     }, function () {
-      return _this3._accountInfo.countryCode;
+      return _this4._accountInfo.countryCode;
     }, function (calls, countryCode) {
       return calls.map(function (call) {
         var callFrom = (0, _extends3.default)({}, call.from);
@@ -499,19 +573,7 @@ var CallHistory = (_dec = (0, _di.Module)({
       }).sort(_callLogHelpers.sortByStartTime);
     });
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'effectiveSearchString', [_getter2.default], {
-  enumerable: true,
-  initializer: function initializer() {
-    var _this4 = this;
-
-    return (0, _reselect.createSelector)(function () {
-      return _this4.state.searchInput;
-    }, function (input) {
-      if (input && input.length >= 3) return input;
-      return '';
-    });
-  }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'calls', [_getter2.default], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'calls', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
     var _this5 = this;
@@ -564,40 +626,15 @@ var CallHistory = (_dec = (0, _di.Module)({
       return [].concat((0, _toConsumableArray3.default)(filteredEndedCalls), (0, _toConsumableArray3.default)(calls)).sort(_callLogHelpers.sortByStartTime);
     });
   }
-}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'filterCalls', [_getter2.default], {
+}), _applyDecoratedDescriptor(_class2.prototype, 'debouncedSearch', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'debouncedSearch'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'callsSearch', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'callsSearch'), _class2.prototype), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'uniqueNumbers', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
     var _this6 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this6.calls;
+      return _this6.normalizedCalls;
     }, function () {
-      return _this6.effectiveSearchString;
-    }, function (calls, effectiveSearchString) {
-      if (effectiveSearchString !== '') {
-        var searchResults = [];
-        var searchString = effectiveSearchString.toLowerCase().trim();
-        calls.forEach(function (call) {
-          if (call.direction === 'Inbound' && call.fromMatches[0] && call.fromMatches[0].name && call.fromMatches[0].name.toLowerCase().indexOf(searchString) > -1 || call.direction === 'Outbound' && call.toMatches[0] && call.toMatches[0].name && call.toMatches[0].name.toLowerCase().indexOf(searchString) > -1) {
-            searchResults.push((0, _extends3.default)({}, call, {
-              matchOrder: 0
-            }));
-          }
-        });
-        return searchResults.sort(_callLogHelpers.sortByStartTime);
-      }
-      return calls.sort(_callLogHelpers.sortByStartTime);
-    });
-  }
-}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'uniqueNumbers', [_getter2.default], {
-  enumerable: true,
-  initializer: function initializer() {
-    var _this7 = this;
-
-    return (0, _reselect.createSelector)(function () {
-      return _this7.normalizedCalls;
-    }, function () {
-      return _this7.recentlyEndedCalls;
+      return _this6.recentlyEndedCalls;
     }, function (normalizedCalls, endedCalls) {
       var output = [];
       var numberMap = {};
@@ -624,15 +661,15 @@ var CallHistory = (_dec = (0, _di.Module)({
       return output;
     });
   }
-}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, 'sessionIds', [_getter2.default], {
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'sessionIds', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this8 = this;
+    var _this7 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this8._callLog.calls;
+      return _this7._callLog.calls;
     }, function () {
-      return _this8.recentlyEndedCalls;
+      return _this7.recentlyEndedCalls;
     }, function (calls, endedCalls) {
       var sessionIds = {};
       return calls.map(function (call) {
@@ -645,6 +682,6 @@ var CallHistory = (_dec = (0, _di.Module)({
       }));
     });
   }
-})), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, 'updateSearchInput', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateSearchInput'), _class2.prototype)), _class2)) || _class);
 exports.default = CallHistory;
 //# sourceMappingURL=index.js.map
