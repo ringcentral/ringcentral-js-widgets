@@ -416,11 +416,12 @@ function mapToFunctions(_, {
       }
     },
     async onMerge(sessionId) {
-      if (!conferenceCall.isRecording()) {
-        const conferenceData = await conferenceCall.onMerge({ sessionId });
-        if (!conferenceData) {
-          routerInteraction.push('/conferenceCall/mergeCtrl');
-        }
+      if (conferenceCall.isRecording()) {
+        return;
+      }
+      const conferenceData = await conferenceCall.onMerge({ sessionId });
+      if (!conferenceData) {
+        routerInteraction.push('/conferenceCall/mergeCtrl');
       }
     },
     onIncomingCallCaptured() {

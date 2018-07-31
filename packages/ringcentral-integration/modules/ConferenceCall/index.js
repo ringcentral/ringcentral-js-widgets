@@ -825,11 +825,15 @@ export default class ConferenceCall extends RcModule {
     }
     return null;
   }
-  isRecording() {
+  isRecording(session) {
     const isRecordStart = status => (
       status === recordStatus.pending ||
       status === recordStatus.recording
     );
+    if (session && isRecordStart(session.recordStatus)) {
+      this._alert.warning({ message: recordStatus.recording });
+      return true;
+    }
     if (isRecordStart(this._webphone.activeSession.recordStatus)) {
       this._alert.warning({ message: recordStatus.recording });
       return true;

@@ -49,8 +49,11 @@ function mapToFunctions(_, {
   return {
     ...baseProps,
     async onMerge(sessionId) {
-      routerInteraction.replace('/calls/active');
       const session = webphone._sessions.get(sessionId);
+      if (conferenceCall.isRecording(session)) {
+        return;
+      }
+      routerInteraction.replace('/calls/active');
       conferenceCall.setMergeParty({ toSessionId: sessionId });
       const sessionToMergeWith = webphone._sessions.get(conferenceCall.mergingPair.fromSessionId);
       const webphoneSessions = sessionToMergeWith
