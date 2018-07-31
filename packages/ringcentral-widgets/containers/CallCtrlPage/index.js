@@ -418,7 +418,6 @@ function mapToFunctions(_, {
     async onMerge(sessionId) {
       if (!conferenceCall.isRecording()) {
         const conferenceData = await conferenceCall.onMerge({ sessionId });
-        console.log(conferenceData);
         if (!conferenceData) {
           routerInteraction.push('/conferenceCall/mergeCtrl');
         }
