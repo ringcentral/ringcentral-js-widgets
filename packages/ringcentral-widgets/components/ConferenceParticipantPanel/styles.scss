@@ -10,7 +10,7 @@ $button-size:24px;
 
 .root {
   @include full-size;
-  background: #ffffff;
+  background: $snow;
   padding-top: $header-height;
   overflow: hidden;
   font-size: 13px;
