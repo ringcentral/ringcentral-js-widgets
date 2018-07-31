@@ -88,7 +88,7 @@ function ActiveCallPanel(_ref) {
       onMerge = _ref.onMerge,
       onShowFlipPanel = _ref.onShowFlipPanel,
       onToggleTransferPanel = _ref.onToggleTransferPanel,
-      onOpenPartiesModal = _ref.onOpenPartiesModal,
+      gotoParticipantsCtrl = _ref.gotoParticipantsCtrl,
       children = _ref.children,
       showContactDisplayPlaceholder = _ref.showContactDisplayPlaceholder,
       brand = _ref.brand,
@@ -140,7 +140,7 @@ function ActiveCallPanel(_ref) {
       callInfo = _react2.default.createElement(_ConferenceInfo2.default, {
         currentLocale: currentLocale,
         partyProfiles: conferenceCallParties,
-        onClick: onOpenPartiesModal
+        onClick: gotoParticipantsCtrl
       });
       break;
 
@@ -241,7 +241,7 @@ ActiveCallPanel.propTypes = {
   onShowFlipPanel: _propTypes2.default.func,
   flipNumbers: _propTypes2.default.array,
   onToggleTransferPanel: _propTypes2.default.func,
-  onOpenPartiesModal: _propTypes2.default.func,
+  gotoParticipantsCtrl: _propTypes2.default.func,
   sourceIcons: _propTypes2.default.object,
   layout: _propTypes2.default.string.isRequired,
   direction: _propTypes2.default.string,
@@ -276,7 +276,7 @@ ActiveCallPanel.defaultProps = {
   onToggleTransferPanel: function onToggleTransferPanel() {
     return null;
   },
-  onOpenPartiesModal: function onOpenPartiesModal() {
+  gotoParticipantsCtrl: function gotoParticipantsCtrl() {
     return null;
   },
   sourceIcons: undefined,

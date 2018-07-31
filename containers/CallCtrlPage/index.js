@@ -168,6 +168,9 @@ var CallCtrlPage = function (_Component) {
     value: function componentDidMount() {
       this._mounted = true;
       this._updateAvatarAndMatchIndex(this.props);
+      if (this.props.conferenceCallId && this.props.layout === _callCtrlLayouts2.default.conferenceCtrl) {
+        this.props.loadConference(this.props.conferenceCallId);
+      }
     }
   }, {
     key: 'componentWillReceiveProps',
@@ -287,7 +290,8 @@ var CallCtrlPage = function (_Component) {
           hasConferenceCall: this.props.hasConferenceCall,
           conferenceCallParties: this.props.conferenceCallParties,
           lastCallInfo: this.props.lastCallInfo,
-          getAvatarUrl: this.props.getAvatarUrl
+          getAvatarUrl: this.props.getAvatarUrl,
+          gotoParticipantsCtrl: this.props.gotoParticipantsCtrl
         },
         this.props.children
       );
@@ -351,7 +355,10 @@ CallCtrlPage.propTypes = {
   conferenceCallEquipped: _propTypes2.default.bool,
   hasConferenceCall: _propTypes2.default.bool,
   lastCallInfo: _propTypes2.default.object,
-  onIncomingCallCaptured: _propTypes2.default.func
+  onIncomingCallCaptured: _propTypes2.default.func,
+  conferenceCallId: _propTypes2.default.string,
+  gotoParticipantsCtrl: _propTypes2.default.func,
+  loadConference: _propTypes2.default.func
 };
 
 CallCtrlPage.defaultProps = {
@@ -373,6 +380,13 @@ CallCtrlPage.defaultProps = {
   conferenceCallParties: undefined,
   lastCallInfo: { calleeType: _calleeTypes2.default.unknow },
   onIncomingCallCaptured: function onIncomingCallCaptured(i) {
+    return i;
+  },
+  conferenceCallId: null,
+  gotoParticipantsCtrl: function gotoParticipantsCtrl(i) {
+    return i;
+  },
+  loadConference: function loadConference(i) {
     return i;
   }
 };
@@ -405,6 +419,7 @@ function mapToProps(_, _ref) {
   var hasConferenceCall = false;
   var isMerging = false;
   var conferenceCallParties = void 0;
+  var conferenceCallId = null;
 
   if (conferenceCall) {
     isOnConference = conferenceCall.isConferenceSession(currentSession.id);
@@ -415,7 +430,9 @@ function mapToProps(_, _ref) {
     }) || isOnConference);
 
     if (conferenceData && isWebRTC) {
-      var newVal = conferenceCall.isOverload(conferenceData.conference.id)
+      conferenceCallId = conferenceData.conference.id;
+
+      var newVal = conferenceCall.isOverload(conferenceCallId)
       // in case webphone.activeSession has not been updated yet
       || !(currentSession.data && (0, _keys2.default)(currentSession.data).length);
       // update
@@ -444,7 +461,8 @@ function mapToProps(_, _ref) {
     mergeDisabled: mergeDisabled,
     conferenceCallEquipped: !!conferenceCall,
     hasConferenceCall: hasConferenceCall,
-    conferenceCallParties: conferenceCallParties
+    conferenceCallParties: conferenceCallParties,
+    conferenceCallId: conferenceCallId
   };
 }
 
@@ -565,6 +583,12 @@ function mapToFunctions(_, _ref2) {
     }(),
     onIncomingCallCaptured: function onIncomingCallCaptured() {
       routerInteraction.push('/calls/active');
+    },
+    gotoParticipantsCtrl: function gotoParticipantsCtrl() {
+      routerInteraction.push('/conferenceCall/participants');
+    },
+    loadConference: function loadConference(confId) {
+      conferenceCall.loadConference(confId);
     }
   };
 }

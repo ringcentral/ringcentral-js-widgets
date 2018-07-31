@@ -75,6 +75,7 @@ var CallItem = function (_React$Component) {
     _this.state = {
       avatarUrl: null
     };
+    _this.mounted = false;
     return _this;
   }
 
@@ -90,12 +91,22 @@ var CallItem = function (_React$Component) {
 
       var nameMatches = contactMapping && contactMapping[call.webphoneSession.to] || [];
       var contact = call.webphoneSession.contactMatch;
+
+      this.mounted = true;
+
       if (!contact) {
         contact = nameMatches && nameMatches[0];
       }
       getAvatarUrl(contact).then(function (avatarUrl) {
-        _this2.setState({ avatarUrl: avatarUrl });
+        if (_this2.mounted) {
+          _this2.setState({ avatarUrl: avatarUrl });
+        }
       });
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.mounted = false;
     }
   }, {
     key: 'render',

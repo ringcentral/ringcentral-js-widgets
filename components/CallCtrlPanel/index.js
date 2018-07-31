@@ -133,8 +133,8 @@ var CallCtrlPanel = function (_Component) {
       }
     };
 
-    _this.onOpenPartiesModal = function () {
-      // TODO:
+    _this.gotoParticipantsCtrl = function () {
+      _this.props.gotoParticipantsCtrl();
     };
     return _this;
   }
@@ -219,7 +219,7 @@ var CallCtrlPanel = function (_Component) {
           showContactDisplayPlaceholder: this.props.showContactDisplayPlaceholder,
           onShowFlipPanel: this.showFlipPanel,
           onToggleTransferPanel: this.toggleTransferPanel,
-          onOpenPartiesModal: this.onOpenPartiesModal,
+          gotoParticipantsCtrl: this.gotoParticipantsCtrl,
           flipNumbers: this.props.flipNumbers,
           sourceIcons: this.props.sourceIcons,
           layout: this.props.layout,
@@ -301,7 +301,8 @@ CallCtrlPanel.propTypes = {
   hasConferenceCall: _propTypes2.default.bool,
   lastCallInfo: _propTypes2.default.object,
   conferenceCallParties: _propTypes2.default.array,
-  getAvatarUrl: _propTypes2.default.func
+  getAvatarUrl: _propTypes2.default.func,
+  gotoParticipantsCtrl: _propTypes2.default.func
 };
 
 CallCtrlPanel.defaultProps = {
@@ -337,6 +338,9 @@ CallCtrlPanel.defaultProps = {
   lastCallInfo: undefined,
   getAvatarUrl: function getAvatarUrl() {
     return null;
+  },
+  gotoParticipantsCtrl: function gotoParticipantsCtrl(i) {
+    return i;
   }
 };
 

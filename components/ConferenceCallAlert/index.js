@@ -41,6 +41,6 @@ ConferenceAlert.propTypes = {
 
 ConferenceAlert.handleMessage = function (_ref) {
   var message = _ref.message;
-  return [_conferenceCallErrors2.default.bringInFailed, _conferenceCallErrors2.default.makeConferenceFailed].includes(message);
+  return [_conferenceCallErrors2.default.bringInFailed, _conferenceCallErrors2.default.makeConferenceFailed, _conferenceCallErrors2.default.terminateConferenceFailed, _conferenceCallErrors2.default.removeFromConferenceFailed].includes(message);
 };
 //# sourceMappingURL=index.js.map
