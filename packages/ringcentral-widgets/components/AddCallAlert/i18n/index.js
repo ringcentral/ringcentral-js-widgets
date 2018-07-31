@@ -1,5 +1,4 @@
-import enUS from './en-US';
+import I18n from '@ringcentral-integration/i18n';
+import loadLocale from './loadLocale';
 
-export default {
-  'es-US': enUS,
-};
+export default new I18n(loadLocale);

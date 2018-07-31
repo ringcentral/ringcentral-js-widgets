@@ -13,6 +13,7 @@ import { isConferenceSession } from '../Webphone/webphoneHelper';
 import ensureExist from '../../lib/ensureExist';
 // import sleep from '../../lib/sleep';
 import callingModes from '../CallingSettings/callingModes';
+import recordStatus from '../Webphone/recordStatus';
 
 const DEFAULT_TIMEOUT = 30000;// time out for conferencing session being accepted.
 const DEFAULT_TTL = 5000;// timer to update the conference information
@@ -824,7 +825,25 @@ export default class ConferenceCall extends RcModule {
     }
     return null;
   }
-
+  isRecording() {
+    const isRecordStart = status => (
+      status === recordStatus.pending ||
+      status === recordStatus.recording
+    );
+    if (isRecordStart(this._webphone.activeSession.recordStatus)) {
+      this._alert.warning({ message: recordStatus.recording });
+      return true;
+    }
+    const conferenceData = Object.values(this.conferences)[0];
+    if (conferenceData) {
+      const conferenceSession = this._webphone._sessions.get(conferenceData.sessionId);
+      if (isRecordStart(conferenceSession.recordStatus)) {
+        this._alert.warning({ message: recordStatus.recording });
+        return true;
+      }
+    }
+    return false;
+  }
   get status() {
     return this.state.status;
   }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import recordStatus from 'ringcentral-integration/modules/Webphone/recordStatus';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import ActiveCallDialPad from '../ActiveCallDialPad';
 import ActiveCallPanel from '../ActiveCallPanel';
@@ -48,13 +48,15 @@ class CallCtrlPanel extends Component {
       }));
     };
     this.onMerge = () => {
-      if (
-        this.props.hasConferenceCall &&
-        this.props.layout === callCtrlLayouts.normalCtrl
-      ) {
-        this.showMergeConfirm();
-      } else if (this.props.onMerge) {
-        this.props.onMerge();
+      if (!this.props.isRecording()) {
+        if (
+          this.props.hasConferenceCall &&
+          this.props.layout === callCtrlLayouts.normalCtrl
+        ) {
+          this.showMergeConfirm();
+        } else if (this.props.onMerge) {
+          this.props.onMerge();
+        }
       }
     };
     this.showMergeConfirm = () => {
@@ -248,6 +250,7 @@ CallCtrlPanel.propTypes = {
   lastCallInfo: PropTypes.object,
   conferenceCallParties: PropTypes.array,
   getAvatarUrl: PropTypes.func,
+  isRecording: PropTypes.func,
 };
 
 CallCtrlPanel.defaultProps = {
@@ -282,6 +285,7 @@ CallCtrlPanel.defaultProps = {
   conferenceCallParties: undefined,
   lastCallInfo: undefined,
   getAvatarUrl: () => null,
+  isRecording: () => null,
 };
 
 export default CallCtrlPanel;

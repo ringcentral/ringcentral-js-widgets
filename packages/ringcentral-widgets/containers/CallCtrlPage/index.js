@@ -6,6 +6,7 @@ import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import calleeTypes from 'ringcentral-integration/enums/calleeTypes';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
+import recordStatus from 'ringcentral-integration/modules/Webphone/recordStatus';
 import withPhone from '../../lib/withPhone';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import CallCtrlPanel from '../../components/CallCtrlPanel';
@@ -189,6 +190,7 @@ class CallCtrlPage extends Component {
         conferenceCallParties={this.props.conferenceCallParties}
         lastCallInfo={this.props.lastCallInfo}
         getAvatarUrl={this.props.getAvatarUrl}
+        isRecording={this.props.isRecording}
       >
         {this.props.children}
       </CallCtrlPanel>
@@ -252,6 +254,7 @@ CallCtrlPage.propTypes = {
   hasConferenceCall: PropTypes.bool,
   lastCallInfo: PropTypes.object,
   onIncomingCallCaptured: PropTypes.func,
+  isRecording: PropTypes.func,
 };
 
 CallCtrlPage.defaultProps = {
@@ -273,6 +276,7 @@ CallCtrlPage.defaultProps = {
   conferenceCallParties: undefined,
   lastCallInfo: { calleeType: calleeTypes.unknow },
   onIncomingCallCaptured: i => i,
+  isRecording: i => i,
 };
 
 function mapToProps(_, {
@@ -359,7 +363,6 @@ function mapToFunctions(_, {
     conferenceCall,
     routerInteraction,
     callMonitor,
-    alert,
   },
   getAvatarUrl,
   onBackButtonClick,
@@ -396,30 +399,35 @@ function mapToFunctions(_, {
     recipientsContactInfoRenderer,
     recipientsContactPhoneRenderer,
     onAdd(sessionId) {
-      alert.warning({ message: 'test alert', allowDuplicates: true });
-      const sessionData = find(x => x.id === sessionId, webphone.sessions);
-      if (sessionData) {
-        conferenceCall.setMergeParty({ fromSessionId: sessionId });
-        const outBoundOnholdCalls = callMonitor.activeOnHoldCalls
-          .filter(call => call.direction === callDirections.outbound);
-        if (outBoundOnholdCalls.length) {
-          // goto 'calls on hold' page
-          routerInteraction
-            .push(`/conferenceCall/callsOnhold/${sessionData.fromNumber}/${sessionData.id}`);
-        } else { // goto dialer directly
-          routerInteraction.push(`/conferenceCall/dialer/${sessionData.fromNumber}`);
+      if (!conferenceCall.isRecording()) {
+        const sessionData = find(x => x.id === sessionId, webphone.sessions);
+        if (sessionData) {
+          conferenceCall.setMergeParty({ fromSessionId: sessionId });
+          const outBoundOnholdCalls = callMonitor.activeOnHoldCalls
+            .filter(call => call.direction === callDirections.outbound);
+          if (outBoundOnholdCalls.length) {
+            // goto 'calls on hold' page
+            routerInteraction
+              .push(`/conferenceCall/callsOnhold/${sessionData.fromNumber}/${sessionData.id}`);
+          } else { // goto dialer directly
+            routerInteraction.push(`/conferenceCall/dialer/${sessionData.fromNumber}`);
+          }
         }
       }
     },
     async onMerge(sessionId) {
-      const conferenceData = await conferenceCall.onMerge({ sessionId });
-      if (!conferenceData) {
-        routerInteraction.push('/conferenceCall/mergeCtrl');
+      if (!conferenceCall.isRecording()) {
+        const conferenceData = await conferenceCall.onMerge({ sessionId });
+        console.log(conferenceData);
+        if (!conferenceData) {
+          routerInteraction.push('/conferenceCall/mergeCtrl');
+        }
       }
     },
     onIncomingCallCaptured() {
       routerInteraction.push('/calls/active');
     },
+    isRecording: () => conferenceCall.isRecording(),
   };
 }
 
