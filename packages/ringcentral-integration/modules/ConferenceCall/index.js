@@ -807,6 +807,7 @@ export default class ConferenceCall extends RcModule {
     await this.mergeToConference(webphoneSessions);
     const conferenceData = Object.values(this.conferences)[0];
     const conferenceSession = this._webphone._sessions.get(conferenceData.sessionId);
+    console.log(conferenceData, isOnhold, conferenceSession.isOnHold().local);
     if (
       conferenceData
       && !isOnhold
