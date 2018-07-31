@@ -33,6 +33,8 @@ const meetingBody = require('./data/meeting');
 const serviceInfoBody = require('./data/serviceInfo');
 const conferenceCallBody = require('./data/conferenceCall');
 const numberParseBody = require('./data/numberParse');
+const telephonySessionsBody = require('./data/telephonySessions');
+const telephonySessionsBringInBody = require('./data/telephonySessionsBringIn');
 
 const mockServer = 'http://whatever';
 export function createSDK(options = {}) {
@@ -191,6 +193,38 @@ export function extensionInfo(mockResponse = {}) {
     path: '/restapi/v1.0/account/~/extension/~',
     body: {
       ...extensionBody,
+      ...mockResponse,
+    },
+    isOnce: false,
+  });
+}
+
+export function telephonySessions(id, mockResponse = {}) {
+  mockApi({
+    path: `/restapi/v1.0/account/~/telephony/sessions/${id}`,
+    body: {
+      ...telephonySessionsBody,
+      ...mockResponse,
+    },
+    isOnce: false,
+  });
+  mockApi({
+    method: 'DELETE',
+    path: `/restapi/v1.0/account/~/telephony/sessions/${id}`,
+    body: {
+      ...telephonySessionsBody,
+      ...mockResponse,
+    },
+    isOnce: false,
+  });
+}
+
+export function telephonySessionsBringIn(id, mockResponse = {}) {
+  mockApi({
+    method: 'POST',
+    path: `/restapi/v1.0/account/~/telephony/sessions/${id}/parties/bring-in`,
+    body: {
+      ...telephonySessionsBringInBody,
       ...mockResponse,
     },
     isOnce: false,
