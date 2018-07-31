@@ -83,6 +83,10 @@ var _cleanNumber = require('../../lib/cleanNumber');
 
 var _cleanNumber2 = _interopRequireDefault(_cleanNumber);
 
+var _isBlank = require('../../lib/isBlank');
+
+var _isBlank2 = _interopRequireDefault(_isBlank);
+
 var _messageSenderMessages = require('../MessageSender/messageSenderMessages');
 
 var _messageSenderMessages2 = _interopRequireDefault(_messageSenderMessages);
@@ -181,7 +185,9 @@ var Conversations = (_dec = (0, _di.Module)({
         daySpan = _ref$daySpan === undefined ? DEFAULT_DAY_SPAN : _ref$daySpan,
         _ref$enableLoadOldMes = _ref.enableLoadOldMessages,
         enableLoadOldMessages = _ref$enableLoadOldMes === undefined ? false : _ref$enableLoadOldMes,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'auth', 'client', 'messageSender', 'extensionInfo', 'messageStore', 'rolesAndPermissions', 'contactMatcher', 'conversationLogger', 'perPage', 'daySpan', 'enableLoadOldMessages']);
+        _ref$showMMSAttachmen = _ref.showMMSAttachment,
+        showMMSAttachment = _ref$showMMSAttachmen === undefined ? false : _ref$showMMSAttachmen,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'auth', 'client', 'messageSender', 'extensionInfo', 'messageStore', 'rolesAndPermissions', 'contactMatcher', 'conversationLogger', 'perPage', 'daySpan', 'enableLoadOldMessages', 'showMMSAttachment']);
     (0, _classCallCheck3.default)(this, Conversations);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Conversations.__proto__ || (0, _getPrototypeOf2.default)(Conversations)).call(this, (0, _extends3.default)({}, options, {
@@ -227,6 +233,7 @@ var Conversations = (_dec = (0, _di.Module)({
     _this._olderDataExsited = true;
     _this._olderMessagesExsited = true;
     _this._enableLoadOldMessages = enableLoadOldMessages;
+    _this._showMMSAttachment = showMMSAttachment;
 
     if (_this._contactMatcher) {
       _this._contactMatcher.addQuerySource({
@@ -402,7 +409,7 @@ var Conversations = (_dec = (0, _di.Module)({
                 dateTo = new Date(this.earliestTime);
 
                 if (dateTo.getTime() < dateFrom.getTime()) {
-                  dateFrom.setDate(dateFrom.getDate() - 1);
+                  dateFrom = new Date(dateTo.getTime() - 1000 * 3600 * 24);
                 }
                 typeFilter = this.typeFilter;
                 currentPage = this.currentPage;
@@ -1150,6 +1157,10 @@ var Conversations = (_dec = (0, _di.Module)({
         if (typeof unreadCounts === 'undefined') {
           unreadCounts = (0, _messageHelper.messageIsUnread)(message) ? 1 : 0;
         }
+        var mmsAttachment = null;
+        if ((0, _messageHelper.messageIsTextMessage)(message) && (0, _isBlank2.default)(message.subject) && _this7._showMMSAttachment) {
+          mmsAttachment = (0, _messageHelper.getMMSAttachment)(message);
+        }
         return (0, _extends3.default)({}, message, {
           unreadCounts: unreadCounts,
           self: self,
@@ -1161,6 +1172,7 @@ var Conversations = (_dec = (0, _di.Module)({
           conversationMatches: conversationMatches,
           voicemailAttachment: voicemailAttachment,
           faxAttachment: faxAttachment,
+          mmsAttachment: mmsAttachment,
           lastMatchedCorrespondentEntity: _this7._conversationLogger && _this7._conversationLogger.getLastMatchedCorrespondentEntity(message) || null
         });
       });
@@ -1272,13 +1284,23 @@ var Conversations = (_dec = (0, _di.Module)({
       return _this11._messageStore.conversationStore;
     }, function () {
       return _this11.formatedConversations;
-    }, function (conversationId, oldMessages, conversationStore, conversations) {
+    }, function () {
+      return _this11._auth.accessToken;
+    }, function (conversationId, oldMessages, conversationStore, conversations, accessToken) {
       var conversation = conversations.find(function (c) {
         return c.conversationId === conversationId;
       });
       var messages = [].concat(conversationStore[conversationId] || []);
       var currentConversation = (0, _extends3.default)({}, conversation);
-      var allMessages = messages.concat(oldMessages).slice();
+      var allMessages = messages.concat(oldMessages).map(function (m) {
+        if (!_this11._showMMSAttachment) {
+          return m;
+        }
+        var mmsAttachment = (0, _messageHelper.getMMSAttachment)(m, accessToken);
+        return (0, _extends3.default)({}, m, {
+          mmsAttachment: mmsAttachment
+        });
+      });
       currentConversation.messages = allMessages.reverse();
       currentConversation.senderNumber = (0, _messageHelper.getMyNumberFromMessage)({
         message: conversation,
