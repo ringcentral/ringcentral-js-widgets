@@ -1,0 +1,143 @@
+@import '~normalize-css/normalize.css';
+
+@import '../../lib/commonStyles/full-size.scss';
+@import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/layout';
+
+$participant-count-height: 42px;
+$avatar-size:35px;
+$button-size:24px;
+
+.root {
+  @include full-size;
+  background: $snow;
+  padding-top: $header-height;
+  overflow: hidden;
+  font-size: 13px;
+
+  &, & *{
+    box-sizing: border-box;
+  }
+
+  .header {
+    margin-top: -$header-height;
+  }
+
+  .participantsListContainer{
+    @include full-size;
+    padding: $participant-count-height 20px 0;
+    color: $night;
+
+    .participantsCount{
+      width: 100%;
+      padding: ($participant-count-height - 11px)/2 0;
+      margin-top: -$participant-count-height;
+      font-size: 11px;
+      color: $coin;
+    }
+
+    .participantsList{
+      @include full-size;
+      overflow: auto;
+
+      .participantItem {
+        padding: 0;
+        display: flex;
+        overflow: hidden;
+        width: 100%;
+        box-sizing: border-box;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: flex-start;
+      
+        .avatar{
+          width: $avatar-size;
+          height: $avatar-size;
+          flex-shrink: 0;
+        }
+      
+        .detail{
+          flex-grow: 1;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          margin-left: 10px;
+        }
+      
+        .webphoneButton{
+          width: $button-size;
+          height: $button-size;
+          flex-shrink: 0;
+        }
+      
+        .rejectButton {
+          width: $button-size;
+          g,
+          path {
+            fill: #ffffff;
+          }
+          circle {
+            fill: #ff4646;
+          }
+        }
+      }
+
+      .participantItem+.participantItem{
+        margin-top:25px;
+      }
+    }
+  }
+}
+
+.ConfirmRemoveModal {
+  min-width: 190px;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  margin: auto;
+
+  .header{
+    text-align: center;
+    background-color: $egg;
+    font-size: 13px;
+    padding: 8px 0;
+  }
+
+  .contentText {
+    font-weight: bold;
+    padding: 5px 10px 0;
+    p{
+      font-weight: normal;
+      span{
+        font-weight: bold;
+      }
+    }
+  }
+
+  .closeBtn {
+    position: absolute;
+    top: 8px;
+    right: 11px;
+  }
+
+  .btn{
+    font-size: 12px;
+    border-radius: 25px;
+    border: 1px solid $primary-color;
+  }
+  .btn+.btn{
+    margin-left:10px;
+  }
+
+  .cancelBtn{
+    color: $primary-color;
+    background: $snow;
+  }
+
+  .confirmBtn{
+    color: $snow;
+    background: $primary-color;
+  }
+}

@@ -14,18 +14,28 @@ class CallItem extends React.Component {
     this.state = {
       avatarUrl: null,
     };
+    this.mounted = false;
   }
 
   componentDidMount() {
     const { getAvatarUrl, contactMapping, call } = this.props;
     const nameMatches = (contactMapping && contactMapping[call.webphoneSession.to]) || [];
     let contact = call.webphoneSession.contactMatch;
+
+    this.mounted = true;
+
     if (!contact) {
       contact = nameMatches && nameMatches[0];
     }
     getAvatarUrl(contact).then((avatarUrl) => {
-      this.setState({ avatarUrl });
+      if (this.mounted) {
+        this.setState({ avatarUrl });
+      }
     });
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   render() {
