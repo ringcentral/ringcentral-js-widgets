@@ -1,3 +1,6 @@
+import { createSelector } from 'reselect';
+
+import getter from '../../lib/getter';
 import { Module } from '../../lib/di';
 import callDirections from '../../enums/callDirections';
 import RcModule from '../../lib/RcModule';
@@ -97,18 +100,6 @@ export default class ConferenceCall extends RcModule {
     this._timers = {};
     this._pulling = pulling;
     this.capacity = capacity;
-
-    this.addSelector('partyProfiles',
-      () => this.currentConferenceId,
-      () => this.conferences,
-      (currentConferenceId, conferences) => {
-        const conferenceData = conferences && conferences[currentConferenceId];
-        if (!conferenceData) {
-          return [];
-        }
-        return this.getOnlinePartyProfiles(currentConferenceId);
-      },
-    );
   }
 
   isConferenceSession(sessionId) {
@@ -598,7 +589,7 @@ export default class ConferenceCall extends RcModule {
     return null;
   }
 
-  readConference(conferenceId) {
+  loadConference(conferenceId) {
     return this.store.dispatch({
       type: this.actionTypes.updateCurrentConferenceId,
       conferenceId,
@@ -855,11 +846,20 @@ export default class ConferenceCall extends RcModule {
     return this.state.mergingPair;
   }
 
-  get partyProfiles() {
-    return this._selectors.partyProfiles();
-  }
-
   get currentConferenceId() {
     return this.state.currentConferenceId;
   }
+
+  @getter
+  partyProfiles = createSelector(
+    () => this.currentConferenceId,
+    () => this.conferences,
+    (currentConferenceId, conferences) => {
+      const conferenceData = conferences && conferences[currentConferenceId];
+      if (!conferenceData) {
+        return [];
+      }
+      return this.getOnlinePartyProfiles(currentConferenceId);
+    },
+  )
 }

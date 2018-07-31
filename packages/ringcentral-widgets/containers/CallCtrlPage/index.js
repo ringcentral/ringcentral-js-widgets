@@ -75,7 +75,7 @@ class CallCtrlPage extends Component {
       this.props.conferenceCallId
       && this.props.layout === callCtrlLayouts.conferenceCtrl
     ) {
-      this.props.readConference(this.props.conferenceCallId);
+      this.props.loadConference(this.props.conferenceCallId);
     }
   }
 
@@ -261,7 +261,7 @@ CallCtrlPage.propTypes = {
   onIncomingCallCaptured: PropTypes.func,
   conferenceCallId: PropTypes.string,
   gotoParticipantsCtrl: PropTypes.func,
-  readConference: PropTypes.func,
+  loadConference: PropTypes.func,
 };
 
 CallCtrlPage.defaultProps = {
@@ -285,7 +285,7 @@ CallCtrlPage.defaultProps = {
   onIncomingCallCaptured: i => i,
   conferenceCallId: null,
   gotoParticipantsCtrl: i => i,
-  readConference: i => i,
+  loadConference: i => i,
 };
 
 function mapToProps(_, {
@@ -438,8 +438,8 @@ function mapToFunctions(_, {
     gotoParticipantsCtrl() {
       routerInteraction.push('/conferenceCall/participants');
     },
-    readConference(confId) {
-      conferenceCall.readConference(confId);
+    loadConference(confId) {
+      conferenceCall.loadConference(confId);
     }
   };
 }
