@@ -46,6 +46,10 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
+var _isBlank = require('ringcentral-integration/lib/isBlank');
+
+var _isBlank2 = _interopRequireDefault(_isBlank);
+
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -57,8 +61,15 @@ function Message(_ref) {
       time = _ref.time,
       direction = _ref.direction,
       sender = _ref.sender,
-      SubjectRenderer = _ref.subjectRenderer;
+      SubjectRenderer = _ref.subjectRenderer,
+      mmsAttachment = _ref.mmsAttachment;
 
+  var content = void 0;
+  if (subject && !(0, _isBlank2.default)(subject)) {
+    content = SubjectRenderer ? _react2.default.createElement(SubjectRenderer, { subject: subject }) : subject;
+  } else if (mmsAttachment && mmsAttachment.contentType.indexOf('image') > -1) {
+    content = _react2.default.createElement('img', { src: mmsAttachment.uri, alt: 'attactment', className: _styles2.default.picture });
+  }
   return _react2.default.createElement(
     'div',
     { className: _styles2.default.message },
@@ -76,7 +87,7 @@ function Message(_ref) {
       'div',
       {
         className: (0, _classnames2.default)(_styles2.default.messageBody, direction === 'Outbound' ? _styles2.default.outbound : _styles2.default.inbound, subject && subject.length > 500 && _styles2.default.big) },
-      SubjectRenderer ? _react2.default.createElement(SubjectRenderer, { subject: subject }) : subject
+      content
     ),
     _react2.default.createElement('div', { className: _styles2.default.clear })
   );
@@ -87,14 +98,16 @@ Message.propTypes = {
   subject: _propTypes2.default.string,
   time: _propTypes2.default.string,
   sender: _propTypes2.default.string,
-  subjectRenderer: _propTypes2.default.func
+  subjectRenderer: _propTypes2.default.func,
+  mmsAttachment: _propTypes2.default.object
 };
 
 Message.defaultProps = {
   subject: '',
   sender: undefined,
   time: undefined,
-  subjectRenderer: undefined
+  subjectRenderer: undefined,
+  mmsAttachment: null
 };
 
 var ConversationMessageList = function (_Component) {
@@ -201,7 +214,8 @@ var ConversationMessageList = function (_Component) {
           time: time,
           direction: message.direction,
           subject: message.subject,
-          subjectRenderer: messageSubjectRenderer
+          subjectRenderer: messageSubjectRenderer,
+          mmsAttachment: message.mmsAttachment
         });
       });
       var loading = loadingNextPage ? _react2.default.createElement(
@@ -232,7 +246,8 @@ ConversationMessageList.propTypes = {
     creationTime: _propTypes2.default.number,
     id: _propTypes2.default.number,
     direction: _propTypes2.default.string,
-    subject: _propTypes2.default.string
+    subject: _propTypes2.default.string,
+    mmsAttachment: _propTypes2.default.object
   })).isRequired,
   className: _propTypes2.default.string,
   showSender: _propTypes2.default.bool,

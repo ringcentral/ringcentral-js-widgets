@@ -453,6 +453,9 @@ var MessageItem = function (_Component) {
           currentLocale = _props.currentLocale;
 
       if ((0, _messageHelper.messageIsTextMessage)(conversation)) {
+        if (conversation.mmsAttachment && conversation.mmsAttachment.contentType.indexOf('image') > -1) {
+          return _i18n2.default.getString('imageAttachment', currentLocale);
+        }
         return conversation.subject;
       }
       if (conversation.voicemailAttachment) {
