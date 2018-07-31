@@ -398,19 +398,20 @@ function mapToFunctions(_, {
     recipientsContactInfoRenderer,
     recipientsContactPhoneRenderer,
     onAdd(sessionId) {
-      if (!conferenceCall.isRecording()) {
-        const sessionData = find(x => x.id === sessionId, webphone.sessions);
-        if (sessionData) {
-          conferenceCall.setMergeParty({ fromSessionId: sessionId });
-          const outBoundOnholdCalls = callMonitor.activeOnHoldCalls
-            .filter(call => call.direction === callDirections.outbound);
-          if (outBoundOnholdCalls.length) {
-            // goto 'calls on hold' page
-            routerInteraction
-              .push(`/conferenceCall/callsOnhold/${sessionData.fromNumber}/${sessionData.id}`);
-          } else { // goto dialer directly
-            routerInteraction.push(`/conferenceCall/dialer/${sessionData.fromNumber}`);
-          }
+      if (conferenceCall.isRecording()) {
+        return;
+      }
+      const sessionData = find(x => x.id === sessionId, webphone.sessions);
+      if (sessionData) {
+        conferenceCall.setMergeParty({ fromSessionId: sessionId });
+        const outBoundOnholdCalls = callMonitor.activeOnHoldCalls
+          .filter(call => call.direction === callDirections.outbound);
+        if (outBoundOnholdCalls.length) {
+          // goto 'calls on hold' page
+          routerInteraction
+            .push(`/conferenceCall/callsOnhold/${sessionData.fromNumber}/${sessionData.id}`);
+        } else { // goto dialer directly
+          routerInteraction.push(`/conferenceCall/dialer/${sessionData.fromNumber}`);
         }
       }
     },

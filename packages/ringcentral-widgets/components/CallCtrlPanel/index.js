@@ -47,15 +47,16 @@ class CallCtrlPanel extends Component {
       }));
     };
     this.onMerge = () => {
-      if (!this.props.isRecording()) {
-        if (
-          this.props.hasConferenceCall &&
-          this.props.layout === callCtrlLayouts.normalCtrl
-        ) {
-          this.showMergeConfirm();
-        } else if (this.props.onMerge) {
-          this.props.onMerge();
-        }
+      if (this.props.isRecording()) {
+        return;
+      }
+      if (
+        this.props.hasConferenceCall &&
+        this.props.layout === callCtrlLayouts.normalCtrl
+      ) {
+        this.showMergeConfirm();
+      } else if (this.props.onMerge) {
+        this.props.onMerge();
       }
     };
     this.showMergeConfirm = () => {
