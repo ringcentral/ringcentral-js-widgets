@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _defineProperty = require('babel-runtime/core-js/object/define-property');
+
+var _defineProperty2 = _interopRequireDefault(_defineProperty);
+
 var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
@@ -69,11 +73,17 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _dec, _class, _desc, _value, _class2;
+var _dec, _class, _desc, _value, _class2, _descriptor;
 // import webphoneErrors from '../Webphone/webphoneErrors';
 
 // import sleep from '../../lib/sleep';
 
+
+var _reselect = require('reselect');
+
+var _getter = require('../../lib/getter');
+
+var _getter2 = _interopRequireDefault(_getter);
 
 var _di = require('../../lib/di');
 
@@ -123,7 +133,25 @@ var _callingModes = require('../CallingSettings/callingModes');
 
 var _callingModes2 = _interopRequireDefault(_callingModes);
 
+var _calleeTypes = require('../../enums/calleeTypes');
+
+var _calleeTypes2 = _interopRequireDefault(_calleeTypes);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _initDefineProp(target, property, descriptor, context) {
+  if (!descriptor) return;
+  (0, _defineProperty2.default)(target, property, {
+    enumerable: descriptor.enumerable,
+    configurable: descriptor.configurable,
+    writable: descriptor.writable,
+    value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+  });
+}
+
+function _initializerWarningHelper(descriptor, context) {
+  throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
+}
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
   var desc = {};
@@ -213,6 +241,8 @@ var ConferenceCall = (_dec = (0, _di.Module)({
       actionTypes: _actionTypes2.default
     })));
 
+    _initDefineProp(_this, 'partyProfiles', _descriptor, _this);
+
     _this._auth = _ensureExist2.default.call(_this, auth, 'auth');
     _this._alert = _ensureExist2.default.call(_this, alert, 'alert');
     _this._call = _ensureExist2.default.call(_this, call, 'call');
@@ -230,18 +260,6 @@ var ConferenceCall = (_dec = (0, _di.Module)({
     _this._timers = {};
     _this._pulling = pulling;
     _this.capacity = capacity;
-
-    _this.addSelector('partyProfiles', function () {
-      return (0, _values2.default)(_this.conferences)[0] && (0, _values2.default)(_this.conferences)[0].conference.parties;
-    }, function () {
-      return (0, _values2.default)(_this.conferences)[0] && (0, _values2.default)(_this.conferences)[0].profiles;
-    }, function () {
-      var conferenceData = (0, _values2.default)(_this.conferences)[0];
-      if (!conferenceData) {
-        return [];
-      }
-      return _this.getOnlinePartyProfiles(conferenceData.conference.id);
-    });
     return _this;
   }
 
@@ -392,29 +410,31 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 });
 
               case 10:
-                _context2.next = 15;
+                _context2.next = 16;
                 break;
 
               case 12:
                 _context2.prev = 12;
                 _context2.t0 = _context2['catch'](2);
 
-                // TODO:this._alert.warning
+                this._alert.warning({
+                  message: _conferenceCallErrors2.default.terminateConferenceFailed
+                });
                 this.store.dispatch({
                   type: this.actionTypes.terminateConferenceFailed,
                   message: _context2.t0.toString()
                 });
 
-              case 15:
-                _context2.prev = 15;
+              case 16:
+                _context2.prev = 16;
                 return _context2.abrupt('return', conferenceData);
 
-              case 18:
+              case 19:
               case 'end':
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[2, 12, 15, 18]]);
+        }, _callee2, this, [[2, 12, 16, 19]]);
       }));
 
       function terminateConference(_x2) {
@@ -570,29 +590,31 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   type: this.actionTypes.removeFromConferenceSucceeded,
                   conference: this.state.conferences[id]
                 });
-                _context4.next = 12;
+                _context4.next = 13;
                 break;
 
               case 9:
                 _context4.prev = 9;
                 _context4.t0 = _context4['catch'](1);
 
-                // TODO:this._alert.warning
+                this._alert.warning({
+                  message: _conferenceCallErrors2.default.removeFromConferenceFailed
+                });
                 this.store.dispatch({
                   type: this.actionTypes.removeFromConferenceFailed,
                   message: _context4.t0.toString()
                 });
 
-              case 12:
-                _context4.prev = 12;
+              case 13:
+                _context4.prev = 13;
                 return _context4.abrupt('return', this.state.conferences[id]);
 
-              case 15:
+              case 16:
               case 'end':
                 return _context4.stop();
             }
           }
-        }, _callee4, this, [[1, 9, 12, 15]]);
+        }, _callee4, this, [[1, 9, 13, 16]]);
       }));
 
       function removeFromConference(_x6, _x7) {
@@ -1013,6 +1035,75 @@ var ConferenceCall = (_dec = (0, _di.Module)({
       return timeout;
     }
   }, {
+    key: 'onMerge',
+    value: function () {
+      var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(_ref12) {
+        var sessionId = _ref12.sessionId;
+        var session, isOnhold, sessionToMergeWith, webphoneSessions, conferenceData, conferenceSession;
+        return _regenerator2.default.wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                session = this._webphone._sessions.get(sessionId);
+                isOnhold = session.isOnHold().local;
+
+                this.setMergeParty({ toSessionId: sessionId });
+                sessionToMergeWith = this._webphone._sessions.get(this.mergingPair.fromSessionId);
+                webphoneSessions = sessionToMergeWith ? [sessionToMergeWith, session] : [session];
+                _context9.next = 7;
+                return this.mergeToConference(webphoneSessions);
+
+              case 7:
+                conferenceData = (0, _values2.default)(this.conferences)[0];
+                conferenceSession = this._webphone._sessions.get(conferenceData.sessionId);
+
+                if (!(conferenceData && !isOnhold && conferenceSession.isOnHold().local)) {
+                  _context9.next = 12;
+                  break;
+                }
+
+                /**
+                 * Because session termination operation in conferenceCall._mergeToConference,
+                 * need to wait for webphone.getActiveSessionIdReducer to update
+                 */
+                this._webphone.resume(conferenceData.sessionId);
+                return _context9.abrupt('return', conferenceData);
+
+              case 12:
+                if (conferenceData) {
+                  _context9.next = 15;
+                  break;
+                }
+
+                _context9.next = 15;
+                return this._webphone.resume(session.id);
+
+              case 15:
+                return _context9.abrupt('return', null);
+
+              case 16:
+              case 'end':
+                return _context9.stop();
+            }
+          }
+        }, _callee9, this);
+      }));
+
+      function onMerge(_x13) {
+        return _ref13.apply(this, arguments);
+      }
+
+      return onMerge;
+    }()
+  }, {
+    key: 'loadConference',
+    value: function loadConference(conferenceId) {
+      return this.store.dispatch({
+        type: this.actionTypes.updateCurrentConferenceId,
+        conferenceId: conferenceId
+      });
+    }
+  }, {
     key: '_init',
     value: function _init() {
       this.store.dispatch({
@@ -1022,10 +1113,10 @@ var ConferenceCall = (_dec = (0, _di.Module)({
   }, {
     key: '_onStateChange',
     value: function () {
-      var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9() {
-        return _regenerator2.default.wrap(function _callee9$(_context9) {
+      var _ref14 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10() {
+        return _regenerator2.default.wrap(function _callee10$(_context10) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
                 if (this._shouldInit()) {
                   this._init();
@@ -1035,14 +1126,14 @@ var ConferenceCall = (_dec = (0, _di.Module)({
 
               case 1:
               case 'end':
-                return _context9.stop();
+                return _context10.stop();
             }
           }
-        }, _callee9, this);
+        }, _callee10, this);
       }));
 
       function _onStateChange() {
-        return _ref12.apply(this, arguments);
+        return _ref14.apply(this, arguments);
       }
 
       return _onStateChange;
@@ -1099,21 +1190,21 @@ var ConferenceCall = (_dec = (0, _di.Module)({
   }, {
     key: '_mergeToConference',
     value: function () {
-      var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10() {
+      var _ref15 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11() {
         var _this6 = this;
 
         var webphoneSessions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
-        var conferenceState, conferenceId, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, webphoneSession, _ref14, id, confereceAccepted;
+        var conferenceState, conferenceId, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, webphoneSession, _ref16, id, confereceAccepted;
 
-        return _regenerator2.default.wrap(function _callee10$(_context10) {
+        return _regenerator2.default.wrap(function _callee11$(_context11) {
           while (1) {
-            switch (_context10.prev = _context10.next) {
+            switch (_context11.prev = _context11.next) {
               case 0:
                 conferenceState = (0, _values2.default)(this.conferences)[0];
 
                 if (!conferenceState) {
-                  _context10.next = 34;
+                  _context11.next = 34;
                   break;
                 }
 
@@ -1124,61 +1215,61 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 _iteratorNormalCompletion = true;
                 _didIteratorError = false;
                 _iteratorError = undefined;
-                _context10.prev = 7;
+                _context11.prev = 7;
                 _iterator = (0, _getIterator3.default)(webphoneSessions);
 
               case 9:
                 if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-                  _context10.next = 16;
+                  _context11.next = 16;
                   break;
                 }
 
                 webphoneSession = _step.value;
-                _context10.next = 13;
+                _context11.next = 13;
                 return this.bringInToConference(conferenceId, webphoneSession, true);
 
               case 13:
                 _iteratorNormalCompletion = true;
-                _context10.next = 9;
+                _context11.next = 9;
                 break;
 
               case 16:
-                _context10.next = 22;
+                _context11.next = 22;
                 break;
 
               case 18:
-                _context10.prev = 18;
-                _context10.t0 = _context10['catch'](7);
+                _context11.prev = 18;
+                _context11.t0 = _context11['catch'](7);
                 _didIteratorError = true;
-                _iteratorError = _context10.t0;
+                _iteratorError = _context11.t0;
 
               case 22:
-                _context10.prev = 22;
-                _context10.prev = 23;
+                _context11.prev = 22;
+                _context11.prev = 23;
 
                 if (!_iteratorNormalCompletion && _iterator.return) {
                   _iterator.return();
                 }
 
               case 25:
-                _context10.prev = 25;
+                _context11.prev = 25;
 
                 if (!_didIteratorError) {
-                  _context10.next = 28;
+                  _context11.next = 28;
                   break;
                 }
 
                 throw _iteratorError;
 
               case 28:
-                return _context10.finish(25);
+                return _context11.finish(25);
 
               case 29:
-                return _context10.finish(22);
+                return _context11.finish(22);
 
               case 30:
                 if (this.conferences[conferenceId].profiles.length) {
-                  _context10.next = 32;
+                  _context11.next = 32;
                   break;
                 }
 
@@ -1186,17 +1277,17 @@ var ConferenceCall = (_dec = (0, _di.Module)({
 
               case 32:
                 this.startPollingConferenceStatus(conferenceId);
-                return _context10.abrupt('return', conferenceId);
+                return _context11.abrupt('return', conferenceId);
 
               case 34:
-                _context10.next = 36;
+                _context11.next = 36;
                 return this.makeConference(true);
 
               case 36:
-                _ref14 = _context10.sent;
-                id = _ref14.id;
+                _ref16 = _context11.sent;
+                id = _ref16.id;
                 confereceAccepted = false;
-                _context10.next = 41;
+                _context11.next = 41;
                 return _promise2.default.race([new _promise2.default(function (resolve, reject) {
                   var session = _this6._webphone._sessions.get(_this6.conferences[id].sessionId);
                   session.on('accepted', function () {
@@ -1222,22 +1313,22 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 })]);
 
               case 41:
-                _context10.next = 43;
+                _context11.next = 43;
                 return this._mergeToConference(webphoneSessions);
 
               case 43:
-                return _context10.abrupt('return', id);
+                return _context11.abrupt('return', id);
 
               case 44:
               case 'end':
-                return _context10.stop();
+                return _context11.stop();
             }
           }
-        }, _callee10, this, [[7, 18, 22, 30], [23,, 25, 29]]);
+        }, _callee11, this, [[7, 18, 22, 30], [23,, 25, 29]]);
       }));
 
       function _mergeToConference() {
-        return _ref13.apply(this, arguments);
+        return _ref15.apply(this, arguments);
       }
 
       return _mergeToConference;
@@ -1245,38 +1336,38 @@ var ConferenceCall = (_dec = (0, _di.Module)({
   }, {
     key: '_makeConference',
     value: function () {
-      var _ref15 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11() {
+      var _ref17 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee12() {
         var propagate = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
         var rawResponse, response, conference, phoneNumber, session;
-        return _regenerator2.default.wrap(function _callee11$(_context11) {
+        return _regenerator2.default.wrap(function _callee12$(_context12) {
           while (1) {
-            switch (_context11.prev = _context11.next) {
+            switch (_context12.prev = _context12.next) {
               case 0:
-                _context11.prev = 0;
+                _context12.prev = 0;
 
                 this.store.dispatch({
                   type: this.actionTypes.makeConference
                 });
 
                 // TODO: replace with SDK function chaining calls
-                _context11.next = 4;
+                _context12.next = 4;
                 return this._client.service.platform().post('/account/~/telephony/conference', {});
 
               case 4:
-                rawResponse = _context11.sent;
+                rawResponse = _context12.sent;
                 response = rawResponse.json();
                 conference = response.session;
                 phoneNumber = conference.voiceCallToken;
                 // whether to mutate the session to mark the conference?
 
-                _context11.next = 10;
+                _context12.next = 10;
                 return this._call.call({
                   phoneNumber: phoneNumber,
                   isConference: true
                 });
 
               case 10:
-                session = _context11.sent;
+                session = _context12.sent;
 
 
                 if ((typeof session === 'undefined' ? 'undefined' : (0, _typeof3.default)(session)) === 'object' && Object.prototype.toString.call(session.on).toLowerCase() === '[object function]') {
@@ -1294,40 +1385,40 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   });
                 }
 
-                return _context11.abrupt('return', conference);
+                return _context12.abrupt('return', conference);
 
               case 15:
-                _context11.prev = 15;
-                _context11.t0 = _context11['catch'](0);
+                _context12.prev = 15;
+                _context12.t0 = _context12['catch'](0);
 
                 this.store.dispatch({
                   type: this.actionTypes.makeConferenceFailed,
-                  message: _context11.t0.toString()
+                  message: _context12.t0.toString()
                 });
 
                 if (propagate) {
-                  _context11.next = 21;
+                  _context12.next = 21;
                   break;
                 }
 
                 this._alert.warning({
                   message: _conferenceCallErrors2.default.makeConferenceFailed
                 });
-                return _context11.abrupt('return', null);
+                return _context12.abrupt('return', null);
 
               case 21:
-                throw _context11.t0;
+                throw _context12.t0;
 
               case 22:
               case 'end':
-                return _context11.stop();
+                return _context12.stop();
             }
           }
-        }, _callee11, this, [[0, 15]]);
+        }, _callee12, this, [[0, 15]]);
       }));
 
       function _makeConference() {
-        return _ref15.apply(this, arguments);
+        return _ref17.apply(this, arguments);
       }
 
       return _makeConference;
@@ -1335,18 +1426,18 @@ var ConferenceCall = (_dec = (0, _di.Module)({
   }, {
     key: '_getProfile',
     value: function () {
-      var _ref16 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee12(sessionInstance) {
-        var session, to, contactMatch, from, fromNumber, direction, toUserName, avatarUrl, rcId, partyNumber, contactMapping, contact, nameMatches;
-        return _regenerator2.default.wrap(function _callee12$(_context12) {
+      var _ref18 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee13(sessionInstance) {
+        var session, to, contactMatch, from, fromNumber, direction, toUserName, avatarUrl, rcId, partyNumber, calleeType, contactMapping, contact, nameMatches;
+        return _regenerator2.default.wrap(function _callee13$(_context13) {
           while (1) {
-            switch (_context12.prev = _context12.next) {
+            switch (_context13.prev = _context13.next) {
               case 0:
                 if (this._contactMatcher) {
-                  _context12.next = 2;
+                  _context13.next = 2;
                   break;
                 }
 
-                return _context12.abrupt('return', null);
+                return _context13.abrupt('return', null);
 
               case 2:
                 session = this._webphone.sessions.find(function (session) {
@@ -1357,6 +1448,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 avatarUrl = void 0;
                 rcId = void 0;
                 partyNumber = void 0;
+                calleeType = _calleeTypes2.default.contacts;
 
 
                 if (direction === _callDirections2.default.outbound) {
@@ -1366,13 +1458,13 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 }
 
                 // HACK: refresh the cache
-                _context12.next = 11;
+                _context13.next = 12;
                 return this._contactMatcher.match({
                   queries: [partyNumber],
                   ignoreCache: true
                 });
 
-              case 11:
+              case 12:
 
                 if (this._contactMatcher && this._contactMatcher.dataMapping) {
                   contactMapping = this._contactMatcher.dataMapping;
@@ -1393,91 +1485,20 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                     avatarUrl = contact.profileImageUrl;
                     toUserName = contact.name;
                     rcId = contact.id;
+                  } else {
+                    calleeType = _calleeTypes2.default.unknow;
                   }
                 }
 
-                return _context12.abrupt('return', {
+                return _context13.abrupt('return', {
                   avatarUrl: avatarUrl,
                   toUserName: toUserName,
                   partyNumber: partyNumber,
-                  rcId: rcId
+                  rcId: rcId,
+                  calleeType: calleeType
                 });
 
-              case 13:
-              case 'end':
-                return _context12.stop();
-            }
-          }
-        }, _callee12, this);
-      }));
-
-      function _getProfile(_x15) {
-        return _ref16.apply(this, arguments);
-      }
-
-      return _getProfile;
-    }()
-  }, {
-    key: 'onMerge',
-    value: function () {
-      var _ref18 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee13(_ref17) {
-        var sessionId = _ref17.sessionId;
-        var session, isSessionOnhold, sessionToMergeWith, webphoneSessions, conferenceData, conferenceSession, isConferenceOnhold;
-        return _regenerator2.default.wrap(function _callee13$(_context13) {
-          while (1) {
-            switch (_context13.prev = _context13.next) {
-              case 0:
-                session = this._webphone._sessions.get(sessionId);
-                isSessionOnhold = session.isOnHold().local;
-
-                this.setMergeParty({ toSessionId: sessionId });
-                sessionToMergeWith = this._webphone._sessions.get(this.mergingPair.fromSessionId);
-                webphoneSessions = sessionToMergeWith ? [sessionToMergeWith, session] : [session];
-                _context13.next = 7;
-                return this.mergeToConference(webphoneSessions);
-
-              case 7:
-                conferenceData = (0, _values2.default)(this.conferences)[0];
-                conferenceSession = this._webphone._sessions.get(conferenceData.sessionId);
-                isConferenceOnhold = conferenceSession.isOnHold().local;
-
-                if (conferenceData) {
-                  _context13.next = 14;
-                  break;
-                }
-
-                _context13.next = 13;
-                return this._webphone.resume(session.id);
-
-              case 13:
-                return _context13.abrupt('return', null);
-
               case 14:
-                if (!isSessionOnhold) {
-                  _context13.next = 17;
-                  break;
-                }
-
-                this._webphone.hold(conferenceData.sessionId);
-                return _context13.abrupt('return', conferenceData);
-
-              case 17:
-                if (!isConferenceOnhold) {
-                  _context13.next = 20;
-                  break;
-                }
-
-                /**
-                 * because session termination operation in conferenceCall._mergeToConference,
-                 * need to wait for webphone.getActiveSessionIdReducer to update
-                 */
-                this._webphone.resume(conferenceData.sessionId);
-                return _context13.abrupt('return', conferenceData);
-
-              case 20:
-                return _context13.abrupt('return', null);
-
-              case 21:
               case 'end':
                 return _context13.stop();
             }
@@ -1485,11 +1506,11 @@ var ConferenceCall = (_dec = (0, _di.Module)({
         }, _callee13, this);
       }));
 
-      function onMerge(_x16) {
+      function _getProfile(_x16) {
         return _ref18.apply(this, arguments);
       }
 
-      return onMerge;
+      return _getProfile;
     }()
   }, {
     key: 'status',
@@ -1517,12 +1538,29 @@ var ConferenceCall = (_dec = (0, _di.Module)({
       return this.state.mergingPair;
     }
   }, {
-    key: 'partyProfiles',
+    key: 'currentConferenceId',
     get: function get() {
-      return this._selectors.partyProfiles();
+      return this.state.currentConferenceId;
     }
   }]);
   return ConferenceCall;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'updateConferenceStatus', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateConferenceStatus'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'terminateConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'terminateConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'bringInToConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'bringInToConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'removeFromConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'removeFromConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'makeConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'makeConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'mergeToConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'mergeToConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setMergeParty', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setMergeParty'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'startPollingConferenceStatus', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'startPollingConferenceStatus'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_hookConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_hookConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_mergeToConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_mergeToConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_makeConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_makeConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_getProfile', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_getProfile'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onMerge', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onMerge'), _class2.prototype)), _class2)) || _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'updateConferenceStatus', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateConferenceStatus'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'terminateConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'terminateConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'bringInToConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'bringInToConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'removeFromConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'removeFromConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'makeConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'makeConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'mergeToConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'mergeToConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setMergeParty', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setMergeParty'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'startPollingConferenceStatus', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'startPollingConferenceStatus'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onMerge', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onMerge'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_hookConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_hookConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_mergeToConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_mergeToConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_makeConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_makeConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_getProfile', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_getProfile'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'partyProfiles', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this7 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this7.currentConferenceId;
+    }, function () {
+      return _this7.conferences;
+    }, function (currentConferenceId, conferences) {
+      var conferenceData = conferences && conferences[currentConferenceId];
+      if (!conferenceData) {
+        return [];
+      }
+      return _this7.getOnlinePartyProfiles(currentConferenceId);
+    });
+  }
+})), _class2)) || _class);
 exports.default = ConferenceCall;
 //# sourceMappingURL=index.js.map

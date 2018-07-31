@@ -36,5 +36,7 @@ exports.default = new _Enum2.default([].concat((0, _toConsumableArray3.default)(
 // remove
 'removeFromConference', 'removeFromConferenceSucceeded', 'removeFromConferenceFailed',
 // update merge pairs
-'updateFromSession', 'updateToSession']), 'conferenceCall');
+'updateFromSession', 'updateToSession',
+// for reselect
+'updateCurrentConferenceId']), 'conferenceCall');
 //# sourceMappingURL=actionTypes.js.map

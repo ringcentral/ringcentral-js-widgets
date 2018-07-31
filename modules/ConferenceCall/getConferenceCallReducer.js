@@ -16,6 +16,7 @@ exports.getConferenceCallStatusReducer = getConferenceCallStatusReducer;
 exports.getMakeConferenceCallReducer = getMakeConferenceCallReducer;
 exports.getMergingStatusReducer = getMergingStatusReducer;
 exports.getMergingPairReducer = getMergingPairReducer;
+exports.getCurrentConferenceIdReducer = getCurrentConferenceIdReducer;
 exports.default = getConferenceCallReducer;
 
 var _redux = require('redux');
@@ -145,13 +146,33 @@ function getMergingPairReducer(types) {
   };
 }
 
+function getCurrentConferenceIdReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var _ref5 = arguments[1];
+    var type = _ref5.type,
+        conferenceId = _ref5.conferenceId;
+
+    switch (type) {
+      case types.updateCurrentConferenceId:
+        return conferenceId;
+      case types.initSuccess:
+      case types.resetSuccess:
+        return null;
+      default:
+        return state;
+    }
+  };
+}
+
 function getConferenceCallReducer(types) {
   return (0, _redux.combineReducers)({
     status: (0, _getModuleStatusReducer2.default)(types),
     conferences: getMakeConferenceCallReducer(types),
     conferenceCallStatus: getConferenceCallStatusReducer(types),
     isMerging: getMergingStatusReducer(types),
-    mergingPair: getMergingPairReducer(types)
+    mergingPair: getMergingPairReducer(types),
+    currentConferenceId: getCurrentConferenceIdReducer(types)
   });
 }
 //# sourceMappingURL=getConferenceCallReducer.js.map
