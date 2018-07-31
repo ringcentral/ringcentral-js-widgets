@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import * as R from 'ramda';
 import SpinnerOverlay from '../SpinnerOverlay';
 import ActiveCallItem from '../ActiveCallItem';
 import CallList from '../CallList';
@@ -391,7 +392,7 @@ export default class CallsListPanel extends Component {
           {getCallList(activeCurrentCalls, i18n.getString('currentCall', currentLocale))}
           {getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}
           {getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale))}
-          { calls.length > 0 ? historyCall : null }
+          {R.pathOr(0, ['length'], calls) > 0 ? historyCall : null }
         </div>
         {logSection}
       </div>
