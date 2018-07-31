@@ -8,6 +8,7 @@ export default function Button({
   disabled,
   onClick,
   children,
+  tooltip,
 }) {
   return (
     <div
@@ -16,13 +17,15 @@ export default function Button({
         styles.root,
         disabled && styles.disabled,
       )}
-      onClick={disabled ? null : onClick} >
+      onClick={disabled ? null : onClick}
+      title={tooltip}>
       {children}
     </div>
   );
 }
 Button.propTypes = {
   className: PropTypes.string,
+  tooltip: PropTypes.string,
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
   children: PropTypes.node,
@@ -30,6 +33,7 @@ Button.propTypes = {
 
 Button.defaultProps = {
   className: undefined,
+  tooltip: '',
   disabled: false,
   onClick: undefined,
   children: undefined,
