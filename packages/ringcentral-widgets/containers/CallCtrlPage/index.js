@@ -6,7 +6,6 @@ import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import calleeTypes from 'ringcentral-integration/enums/calleeTypes';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
-import recordStatus from 'ringcentral-integration/modules/Webphone/recordStatus';
 import withPhone from '../../lib/withPhone';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import CallCtrlPanel from '../../components/CallCtrlPanel';
