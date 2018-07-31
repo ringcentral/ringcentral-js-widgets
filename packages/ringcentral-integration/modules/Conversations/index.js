@@ -213,11 +213,11 @@ export default class Conversations extends RcModule {
     this.store.dispatch({
       type: this.actionTypes.fetchOldConverstaions,
     });
-    const dateFrom = new Date();
+    let dateFrom = new Date();
     dateFrom.setDate(dateFrom.getDate() - this._daySpan);
     const dateTo = new Date(this.earliestTime);
     if (dateTo.getTime() < dateFrom.getTime()) {
-      dateFrom.setDate(dateFrom.getDate() - 1);
+      dateFrom = new Date(dateTo.getTime() - 1000 * 3600 * 24);
     }
     const typeFilter = this.typeFilter;
     const currentPage = this.currentPage;
