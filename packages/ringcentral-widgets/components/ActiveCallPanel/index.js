@@ -44,7 +44,7 @@ function ActiveCallPanel({
   onMerge,
   onShowFlipPanel,
   onToggleTransferPanel,
-  onOpenPartiesModal,
+  gotoParticipantsCtrl,
   children,
   showContactDisplayPlaceholder,
   brand,
@@ -100,7 +100,7 @@ function ActiveCallPanel({
       callInfo = (<ConferenceInfo
         currentLocale={currentLocale}
         partyProfiles={conferenceCallParties}
-        onClick={onOpenPartiesModal}
+        onClick={gotoParticipantsCtrl}
       />);
       break;
 
@@ -199,7 +199,7 @@ ActiveCallPanel.propTypes = {
   onShowFlipPanel: PropTypes.func,
   flipNumbers: PropTypes.array,
   onToggleTransferPanel: PropTypes.func,
-  onOpenPartiesModal: PropTypes.func,
+  gotoParticipantsCtrl: PropTypes.func,
   sourceIcons: PropTypes.object,
   layout: PropTypes.string.isRequired,
   direction: PropTypes.string,
@@ -230,7 +230,7 @@ ActiveCallPanel.defaultProps = {
   onMerge: undefined,
   onShowFlipPanel: () => null,
   onToggleTransferPanel: () => null,
-  onOpenPartiesModal: () => null,
+  gotoParticipantsCtrl: () => null,
   sourceIcons: undefined,
   direction: null,
   addDisabled: false,

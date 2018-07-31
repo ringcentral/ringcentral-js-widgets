@@ -78,8 +78,8 @@ class CallCtrlPanel extends Component {
       }
     };
 
-    this.onOpenPartiesModal = () => {
-      // TODO:
+    this.gotoParticipantsCtrl = () => {
+      this.props.gotoParticipantsCtrl();
     };
   }
 
@@ -165,7 +165,7 @@ class CallCtrlPanel extends Component {
         showContactDisplayPlaceholder={this.props.showContactDisplayPlaceholder}
         onShowFlipPanel={this.showFlipPanel}
         onToggleTransferPanel={this.toggleTransferPanel}
-        onOpenPartiesModal={this.onOpenPartiesModal}
+        gotoParticipantsCtrl={this.gotoParticipantsCtrl}
         flipNumbers={this.props.flipNumbers}
         sourceIcons={this.props.sourceIcons}
         layout={this.props.layout}
@@ -251,6 +251,7 @@ CallCtrlPanel.propTypes = {
   conferenceCallParties: PropTypes.array,
   getAvatarUrl: PropTypes.func,
   isRecording: PropTypes.func,
+  gotoParticipantsCtrl: PropTypes.func,
 };
 
 CallCtrlPanel.defaultProps = {
@@ -286,6 +287,7 @@ CallCtrlPanel.defaultProps = {
   lastCallInfo: undefined,
   getAvatarUrl: () => null,
   isRecording: () => null,
+  gotoParticipantsCtrl: i => i,
 };
 
 export default CallCtrlPanel;
