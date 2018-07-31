@@ -799,7 +799,7 @@ export default class ConferenceCall extends RcModule {
   @proxify
   async onMerge({ sessionId }) {
     const session = this._webphone._sessions.get(sessionId);
-    const isOnhold = session.isOnHold().local;
+    const isSessionOnhold = session.isOnHold().local;
     this.setMergeParty({ toSessionId: sessionId });
     const sessionToMergeWith = this._webphone._sessions.get(this.mergingPair.fromSessionId);
     const webphoneSessions = sessionToMergeWith
@@ -808,20 +808,25 @@ export default class ConferenceCall extends RcModule {
     await this.mergeToConference(webphoneSessions);
     const conferenceData = Object.values(this.conferences)[0];
     const conferenceSession = this._webphone._sessions.get(conferenceData.sessionId);
-    if (
-      conferenceData
-      && !isOnhold
-      && conferenceSession.isOnHold().local
-    ) {
+    const isConferenceOnhold = conferenceSession.isOnHold().local;
+
+    if (!conferenceData) {
+      await this._webphone.resume(session.id);
+      return null;
+    }
+
+    if (isSessionOnhold) {
+      this._webphone.hold(conferenceData.sessionId);
+      return conferenceData;
+    }
+
+    if (isConferenceOnhold) {
       /**
        * because session termination operation in conferenceCall._mergeToConference,
        * need to wait for webphone.getActiveSessionIdReducer to update
        */
       this._webphone.resume(conferenceData.sessionId);
       return conferenceData;
-    }
-    if (!conferenceData) {
-      await this._webphone.resume(session.id);
     }
     return null;
   }
