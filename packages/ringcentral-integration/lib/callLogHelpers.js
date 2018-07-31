@@ -249,12 +249,15 @@ export function getName({
   currentLocale,
   normalizeNumber,
   anonymous = false,
-} = {}, selectFieldNames) {
-  // const selectFieldNames = {
-  //   anonymous: i18n.getString('anonymous', currentLocale),
-  //   nameUnknown: i18n.getString('nameUnknown', currentLocale),
-  //   nameMultiple: i18n.getString('nameMultiple', currentLocale),
-  // };
+} = {}) {
+  const selectFieldNames = {
+    // anonymous: i18n.getString('anonymous', currentLocale),
+    // nameUnknown: i18n.getString('nameUnknown', currentLocale),
+    // nameMultiple: i18n.getString('nameMultiple', currentLocale),
+    anonymous: 'anonymous',
+    nameUnknown: 'nameUnknown',
+    nameMultiple: 'nameMultiple',
+  };
   if (anonymous) {
     return selectFieldNames.anonymous;
   }
