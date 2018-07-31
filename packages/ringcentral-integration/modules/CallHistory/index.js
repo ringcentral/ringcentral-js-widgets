@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import moduleStatuses from '../../enums/moduleStatuses';
-import { sortByStartTime, getPhoneNumberMatches, renderContactName } from '../../lib/callLogHelpers';
+import { sortByStartTime, getPhoneNumberMatches } from '../../lib/callLogHelpers';
 import actionTypes from './actionTypes';
 import getCallHistoryReducer, { getEndedCallsReducer } from './getCallHistoryReducer';
 import ensureExist from '../../lib/ensureExist';
@@ -405,10 +405,12 @@ export default class CallHistory extends RcModule {
     const effectSearchStr = searchInput.toLowerCase().trim();
 
     data = calls.filter((call) => {
-      display = renderContactName(call, this._locale.currentLocale);
-      const { phoneNumber } = getPhoneNumberMatches(call);
-      if (display.toLowerCase().indexOf(effectSearchStr) > -1 ||
-      (phoneNumber && phoneNumber.indexOf(effectSearchStr) > -1)) {
+      const { phoneNumber, matches } = getPhoneNumberMatches(call);
+      const nameMatches = matches.filter(entities => entities && entities.id);
+      if (nameMatches.length === 1 && nameMatches[0].name && nameMatches[0].name.toLowerCase().indexOf(effectSearchStr) > -1) {
+        return true;
+      }
+      if (phoneNumber && phoneNumber.indexOf(effectSearchStr) > -1) {
         return true;
       }
       return false;

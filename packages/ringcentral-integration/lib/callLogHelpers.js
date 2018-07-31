@@ -243,32 +243,6 @@ export function removeDuplicateSelfCalls(calls) {
   });
   return resultCalls;
 }
-// from zendesk
-export function getNameForSearch({
-  nameEntities = [],
-  currentLocale,
-  normalizeNumber,
-  anonymous = false,
-} = {}) {
-  if (anonymous) {
-    return '';
-  }
-  const unknownDisplayText = typeof normalizeNumber === 'undefined' ?
-    '' :
-    normalizeNumber;
-
-  if (!nameEntities) {
-    return unknownDisplayText;
-  }
-  const nameValidEntities = nameEntities.filter(entities => entities && entities.id);
-  if (nameValidEntities.length === 0) {
-    return unknownDisplayText;
-  }
-  const isMultiple = nameValidEntities.length > 1;
-  return (
-    isMultiple ? (normalizeNumber || '') : nameValidEntities[0].name
-  );
-}
 
 // Get phone number and matches.
 export function getPhoneNumberMatches(call = {}) {
@@ -300,14 +274,4 @@ export function getPhoneNumberMatches(call = {}) {
     phoneNumber,
     matches
   };
-}
-// Currently for zendesk call-log contact show
-export function renderContactName(call, currentLocale) {
-  const { phoneNumber, matches } = getPhoneNumberMatches(call);
-  return getNameForSearch({
-    nameEntities: matches,
-    currentLocale,
-    normalizeNumber: phoneNumber,
-    anonymous: !phoneNumber
-  });
 }
