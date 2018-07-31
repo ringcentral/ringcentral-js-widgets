@@ -79,7 +79,7 @@ function mapToFunctions(_, _ref2) {
   return (0, _extends3.default)({}, baseProps, {
     onMerge: function () {
       var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(sessionId) {
-        var session, sessionToMergeWith, webphoneSessions, conferenceData, conferenceSession;
+        var session, sessionToMergeWith, isCurrentOnhold, webphoneSessions, conferenceData, conferenceSession, isConferenceOnhold;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -89,16 +89,27 @@ function mapToFunctions(_, _ref2) {
 
                 conferenceCall.setMergeParty({ toSessionId: sessionId });
                 sessionToMergeWith = webphone._sessions.get(conferenceCall.mergingPair.fromSessionId);
+                isCurrentOnhold = sessionToMergeWith && sessionToMergeWith.isOnHold().local;
                 webphoneSessions = sessionToMergeWith ? [sessionToMergeWith, session] : [session];
-                _context.next = 7;
+                _context.next = 8;
                 return conferenceCall.mergeToConference(webphoneSessions);
 
-              case 7:
+              case 8:
                 conferenceData = (0, _values2.default)(conferenceCall.conferences)[0];
                 conferenceSession = webphone._sessions.get(conferenceData.sessionId);
+                isConferenceOnhold = conferenceSession.isOnHold().local;
 
+                if (!(conferenceData && isCurrentOnhold)) {
+                  _context.next = 14;
+                  break;
+                }
 
-                if (conferenceData && conferenceSession.isOnHold().local) {
+                webphone.hold(conferenceData.sessionId);
+                return _context.abrupt('return');
+
+              case 14:
+
+                if (conferenceData && isConferenceOnhold) {
                   /**
                    * because session termination operation in conferenceCall._mergeToConference,
                    * need to wait for webphone.getActiveSessionIdReducer to update
@@ -106,7 +117,7 @@ function mapToFunctions(_, _ref2) {
                   webphone.resume(conferenceData.sessionId);
                 }
 
-              case 10:
+              case 15:
               case 'end':
                 return _context.stop();
             }
