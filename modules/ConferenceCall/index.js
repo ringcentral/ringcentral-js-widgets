@@ -1422,13 +1422,13 @@ var ConferenceCall = (_dec = (0, _di.Module)({
     value: function () {
       var _ref18 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee13(_ref17) {
         var sessionId = _ref17.sessionId;
-        var session, isOnhold, sessionToMergeWith, webphoneSessions, conferenceData, conferenceSession;
+        var session, isSessionOnhold, sessionToMergeWith, webphoneSessions, conferenceData, conferenceSession, isConferenceOnhold;
         return _regenerator2.default.wrap(function _callee13$(_context13) {
           while (1) {
             switch (_context13.prev = _context13.next) {
               case 0:
                 session = this._webphone._sessions.get(sessionId);
-                isOnhold = session.isOnHold().local;
+                isSessionOnhold = session.isOnHold().local;
 
                 this.setMergeParty({ toSessionId: sessionId });
                 sessionToMergeWith = this._webphone._sessions.get(this.mergingPair.fromSessionId);
@@ -1439,9 +1439,31 @@ var ConferenceCall = (_dec = (0, _di.Module)({
               case 7:
                 conferenceData = (0, _values2.default)(this.conferences)[0];
                 conferenceSession = this._webphone._sessions.get(conferenceData.sessionId);
+                isConferenceOnhold = conferenceSession.isOnHold().local;
 
-                if (!(conferenceData && !isOnhold && conferenceSession.isOnHold().local)) {
-                  _context13.next = 12;
+                if (conferenceData) {
+                  _context13.next = 14;
+                  break;
+                }
+
+                _context13.next = 13;
+                return this._webphone.resume(session.id);
+
+              case 13:
+                return _context13.abrupt('return', null);
+
+              case 14:
+                if (!isSessionOnhold) {
+                  _context13.next = 17;
+                  break;
+                }
+
+                this._webphone.hold(conferenceData.sessionId);
+                return _context13.abrupt('return', conferenceData);
+
+              case 17:
+                if (!isConferenceOnhold) {
+                  _context13.next = 20;
                   break;
                 }
 
@@ -1452,19 +1474,10 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 this._webphone.resume(conferenceData.sessionId);
                 return _context13.abrupt('return', conferenceData);
 
-              case 12:
-                if (conferenceData) {
-                  _context13.next = 15;
-                  break;
-                }
-
-                _context13.next = 15;
-                return this._webphone.resume(session.id);
-
-              case 15:
+              case 20:
                 return _context13.abrupt('return', null);
 
-              case 16:
+              case 21:
               case 'end':
                 return _context13.stop();
             }
