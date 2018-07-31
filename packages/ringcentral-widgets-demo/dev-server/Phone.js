@@ -158,6 +158,7 @@ import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
       provide: 'ConversationsOptions',
       useValue: {
         enableLoadOldMessages: true,
+        showMMSAttachment: true,
       },
       spread: true
     },
