@@ -1,85 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
-
+import { isArray } from 'ringcentral-integration/lib/di/utils/is_type';
+import CallInfo from './CallInfo';
+import MergeInfo from './MergeInfo';
+import ConferenceInfo from './ConferenceInfo';
 import BackButton from '../BackButton';
 import BackHeader from '../BackHeader';
 import Panel from '../Panel';
 import DurationCounter from '../DurationCounter';
 import ActiveCallPad from '../ActiveCallPad';
-import ContactDisplay from '../ContactDisplay';
-import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
+import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import styles from './styles.scss';
 
-function CallInfo(props) {
-  let avatar;
-  if (props.avatarUrl) {
-    avatar = (<img src={props.avatarUrl} alt="avatar" />);
-  } else {
-    avatar = (<i className={classnames(dynamicsFont.portrait, styles.icon)} />);
-  }
-  return (
-    <div className={styles.userInfo}>
-      <div className={styles.avatarContainer}>
-        <div className={styles.avatar}>
-          {avatar}
-        </div>
-      </div>
-      <div className={styles.userName}>
-        <ContactDisplay
-          className={styles.contactDisplay}
-          selectClassName={styles.dropdown}
-          contactMatches={props.nameMatches}
-          phoneNumber={props.phoneNumber}
-          fallBackName={props.fallBackName}
-          currentLocale={props.currentLocale}
-          areaCode={props.areaCode}
-          countryCode={props.countryCode}
-          showType={false}
-          disabled={false}
-          selected={props.selectedMatcherIndex}
-          onSelectContact={props.onSelectMatcherName}
-          isLogging={false}
-          enableContactFallback
-          brand={props.brand}
-          showPlaceholder={props.showContactDisplayPlaceholder}
-          sourceIcons={props.sourceIcons}
-        />
-      </div>
-      <div className={styles.userPhoneNumber}>
-        {props.formatPhone(props.phoneNumber)}
-      </div>
-    </div>
-  );
-}
-
-CallInfo.propTypes = {
-  phoneNumber: PropTypes.string,
-  formatPhone: PropTypes.func.isRequired,
-  nameMatches: PropTypes.array.isRequired,
-  fallBackName: PropTypes.string.isRequired,
-  areaCode: PropTypes.string.isRequired,
-  countryCode: PropTypes.string.isRequired,
-  currentLocale: PropTypes.string.isRequired,
-  selectedMatcherIndex: PropTypes.number.isRequired,
-  onSelectMatcherName: PropTypes.func.isRequired,
-  avatarUrl: PropTypes.string,
-  brand: PropTypes.string,
-  showContactDisplayPlaceholder: PropTypes.bool,
-  sourceIcons: PropTypes.object,
-};
-
-CallInfo.defaultProps = {
-  phoneNumber: null,
-  avatarUrl: null,
-  brand: 'RingCentral',
-  showContactDisplayPlaceholder: true,
-  sourceIcons: undefined,
-};
-
 function ActiveCallPanel({
-  onBackButtonClick,
+  showBackButton,
   backButtonLabel,
+  onBackButtonClick,
   currentLocale,
   nameMatches,
   fallBackName,
@@ -105,48 +41,95 @@ function ActiveCallPanel({
   onHangup,
   onPark,
   onAdd,
+  onMerge,
   onShowFlipPanel,
   onToggleTransferPanel,
+  onOpenPartiesModal,
   children,
   showContactDisplayPlaceholder,
   brand,
   flipNumbers,
-  calls,
   sourceIcons,
+  layout,
+  direction,
+  addDisabled,
+  mergeDisabled,
+  conferenceCallEquipped,
+  hasConferenceCall,
+  conferenceCallParties,
+  lastCallInfo,
+  getAvatarUrl,
 }) {
-  const timeCounter = startTime ?
-    (
-      <span className={styles.timeCounter}>
-        <DurationCounter startTime={startTime} offset={startTimeOffset} />
-      </span>
-    ) : null;
-  const backHeader = calls.length > 1 ? (
+  const backHeader = showBackButton ? (
     <BackHeader
       onBackClick={onBackButtonClick}
       backButton={<BackButton label={backButtonLabel} />}
     />
-  ) : <BackHeader className={styles.hidden} />;
+  ) : null;
+
+  const timeCounter = (
+    <div className={styles.timeCounter}>
+      {
+        startTime
+          ? <DurationCounter startTime={startTime} offset={startTimeOffset} />
+          : <span aria-hidden="true">&nbsp;</span>
+      }
+    </div>
+  );
+
+  const currentCallTitle = (isArray(nameMatches) && nameMatches.length)
+    ? nameMatches[0].name
+    : formatPhone(phoneNumber);
+
+  let callInfo;
+
+  switch (layout) {
+    case callCtrlLayouts.mergeCtrl:
+      callInfo = (<MergeInfo
+        currentLocale={currentLocale}
+        timeCounter={timeCounter}
+        lastCallInfo={lastCallInfo}
+        currentCallAvatarUrl={avatarUrl}
+        currentCallTitle={currentCallTitle || fallBackName}
+        formatPhone={formatPhone}
+        getAvatarUrl={getAvatarUrl}
+      />);
+      break;
+
+    case callCtrlLayouts.conferenceCtrl:
+      callInfo = (<ConferenceInfo
+        currentLocale={currentLocale}
+        partyProfiles={conferenceCallParties}
+        onClick={onOpenPartiesModal}
+      />);
+      break;
+
+    default:
+      callInfo = (<CallInfo
+        currentLocale={currentLocale}
+        nameMatches={nameMatches}
+        fallBackName={fallBackName}
+        phoneNumber={phoneNumber}
+        formatPhone={formatPhone}
+        startTime={startTime}
+        areaCode={areaCode}
+        countryCode={countryCode}
+        selectedMatcherIndex={selectedMatcherIndex}
+        onSelectMatcherName={onSelectMatcherName}
+        avatarUrl={avatarUrl}
+        brand={brand}
+        showContactDisplayPlaceholder={showContactDisplayPlaceholder}
+        sourceIcons={sourceIcons}
+      />);
+      break;
+  }
+
   return (
     <div className={styles.root}>
       {backHeader}
       <Panel className={styles.panel}>
-        {timeCounter}
-        <CallInfo
-          currentLocale={currentLocale}
-          nameMatches={nameMatches}
-          fallBackName={fallBackName}
-          phoneNumber={phoneNumber}
-          formatPhone={formatPhone}
-          startTime={startTime}
-          areaCode={areaCode}
-          countryCode={countryCode}
-          selectedMatcherIndex={selectedMatcherIndex}
-          onSelectMatcherName={onSelectMatcherName}
-          avatarUrl={avatarUrl}
-          brand={brand}
-          showContactDisplayPlaceholder={showContactDisplayPlaceholder}
-          sourceIcons={sourceIcons}
-        />
+        {layout !== callCtrlLayouts.mergeCtrl ? timeCounter : null}
+        {callInfo}
         <ActiveCallPad
           className={styles.callPad}
           currentLocale={currentLocale}
@@ -162,10 +145,17 @@ function ActiveCallPanel({
           onShowKeyPad={onShowKeyPad}
           onHangup={onHangup}
           onAdd={onAdd}
+          onMerge={onMerge}
           onShowFlipPanel={onShowFlipPanel}
           onToggleTransferPanel={onToggleTransferPanel}
           flipNumbers={flipNumbers}
           onPark={onPark}
+          layout={layout}
+          direction={direction}
+          addDisabled={addDisabled}
+          mergeDisabled={mergeDisabled}
+          conferenceCallEquipped={conferenceCallEquipped}
+          hasConferenceCall={hasConferenceCall}
         />
         {children}
       </Panel>
@@ -175,7 +165,7 @@ function ActiveCallPanel({
 
 ActiveCallPanel.propTypes = {
   phoneNumber: PropTypes.string,
-  nameMatches: PropTypes.array.isRequired,
+  nameMatches: PropTypes.arrayOf(PropTypes.object).isRequired,
   fallBackName: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
   startTime: PropTypes.number,
@@ -189,10 +179,13 @@ ActiveCallPanel.propTypes = {
   onUnhold: PropTypes.func.isRequired,
   onRecord: PropTypes.func.isRequired,
   onStopRecord: PropTypes.func.isRequired,
-  onAdd: PropTypes.func.isRequired,
+  onAdd: PropTypes.func,
+  onMerge: PropTypes.func,
   onHangup: PropTypes.func.isRequired,
   onPark: PropTypes.func.isRequired,
-  onBackButtonClick: PropTypes.func.isRequired,
+  showBackButton: PropTypes.bool,
+  backButtonLabel: PropTypes.string,
+  onBackButtonClick: PropTypes.func,
   onShowKeyPad: PropTypes.func.isRequired,
   formatPhone: PropTypes.func.isRequired,
   children: PropTypes.node,
@@ -201,14 +194,22 @@ ActiveCallPanel.propTypes = {
   selectedMatcherIndex: PropTypes.number.isRequired,
   onSelectMatcherName: PropTypes.func.isRequired,
   avatarUrl: PropTypes.string,
-  backButtonLabel: PropTypes.string,
   brand: PropTypes.string,
   showContactDisplayPlaceholder: PropTypes.bool,
   onShowFlipPanel: PropTypes.func,
   flipNumbers: PropTypes.array,
-  calls: PropTypes.array.isRequired,
   onToggleTransferPanel: PropTypes.func,
+  onOpenPartiesModal: PropTypes.func,
   sourceIcons: PropTypes.object,
+  layout: PropTypes.string.isRequired,
+  direction: PropTypes.string,
+  addDisabled: PropTypes.bool,
+  mergeDisabled: PropTypes.bool,
+  conferenceCallParties: PropTypes.array,
+  conferenceCallEquipped: PropTypes.bool,
+  hasConferenceCall: PropTypes.bool,
+  lastCallInfo: PropTypes.object,
+  getAvatarUrl: PropTypes.func,
 };
 
 ActiveCallPanel.defaultProps = {
@@ -219,13 +220,26 @@ ActiveCallPanel.defaultProps = {
   phoneNumber: null,
   children: undefined,
   avatarUrl: null,
+  showBackButton: false,
   backButtonLabel: 'Active Calls',
+  onBackButtonClick: null,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
   flipNumbers: [],
+  onAdd: undefined,
+  onMerge: undefined,
   onShowFlipPanel: () => null,
   onToggleTransferPanel: () => null,
+  onOpenPartiesModal: () => null,
   sourceIcons: undefined,
+  direction: null,
+  addDisabled: false,
+  mergeDisabled: false,
+  conferenceCallEquipped: false,
+  hasConferenceCall: false,
+  conferenceCallParties: undefined,
+  lastCallInfo: undefined,
+  getAvatarUrl: () => null,
 };
 
 export default ActiveCallPanel;

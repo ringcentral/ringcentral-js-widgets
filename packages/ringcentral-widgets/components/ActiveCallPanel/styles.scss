@@ -1,9 +1,15 @@
 @import '../../lib/commonStyles/full-size';
 @import '../../lib/commonStyles/colors.scss';
 @import '../../lib/commonStyles/fonts.scss';
+@import '../../lib/commonStyles/layout';
 
-$userInfoHeight: 140px;
-
+$userInfoHeight: 134px;
+$conferenceAvatarSize: 51px;
+$timeCounterMarginTop:10px;
+$timeCounterHeight: 14px;
+$calleeAvatarSize: 30px;
+$calleeAvatarActiveSize: 45px;
+$calleeAvatarMarginL: ($calleeAvatarActiveSize - $calleeAvatarSize)/2;
 .root {
   @include full-size;
   box-sizing: border-box;
@@ -17,6 +23,7 @@ $userInfoHeight: 140px;
 
 .panel {
   position: relative;
+  height: calc(100% - #{$header-height});
 }
 
 .userInfo {
@@ -24,7 +31,6 @@ $userInfoHeight: 140px;
   text-align: center;
   color: $lightblack;
   padding-bottom: 15px;
-  padding-top: 20px;
   margin-left: auto;
   margin-right: auto;
   box-sizing: border-box;
@@ -76,17 +82,17 @@ $userInfoHeight: 140px;
 }
 
 .timeCounter {
-  position: absolute;
-  top: 20px;
-  right: 20px;
   color: $grey-light;
   font-size: 12px;
   font-weight: 300;
+  text-align: right;
+  padding: 0 24px;
+  margin-top: $timeCounterMarginTop;
 }
 
 .callPad {
   box-sizing: border-box;
-  height: calc(100% - #{$userInfoHeight});
+  height: calc(100% - #{$userInfoHeight} - 10px);
   padding-bottom: 50px;
 }
 
@@ -98,4 +104,176 @@ $userInfoHeight: 140px;
 
 .hidden {
   visibility: hidden;
+}
+
+.conferenceCallInfoContainer{
+  display: block;
+  overflow:hidden;
+  text-align:center;
+  line-height:1.5;
+  font-family: sans-serif;
+  height: $userInfoHeight;
+  box-sizing: border-box;
+  .info{
+    font-size: 15px;
+  }
+
+  .avatarContainer{
+    padding: 0 15px;
+    text-align: center;
+    font-size: 0;
+    .avatar{
+      display:inline-block;
+      height:$conferenceAvatarSize;
+      line-height: $conferenceAvatarSize;
+      width:$conferenceAvatarSize;
+      border-radius:100%;
+      background-color: #666;
+      vertical-align: middle;
+      padding: 0;
+      margin: 0;
+      border: 2px solid #fff;
+      font-size: 20px;
+      text-align: center;
+      // fall back
+      background-size: 100%;
+      background-size: cover;
+      background-origin: content-box;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-clip: content-box;
+      position: relative;
+      color: #0684bd;
+
+      .icon {
+        display: block;
+        font-size: $conferenceAvatarSize;
+        opacity: 0.3;
+      }
+    }
+
+    .remains{
+      color: #fff;
+    }
+    .avatar+.avatar{
+      margin-left:-20px;
+    }
+  }
+}
+.mergeInfo {
+  min-height: 115px;
+  overflow: hidden;
+  height: $timeCounterHeight + $timeCounterMarginTop + $userInfoHeight;
+  .merge_item {
+    height: 30px;
+    opacity: 0.8;
+    .callee_avatar {
+      width: $calleeAvatarSize;
+      height: $calleeAvatarSize;
+      float: left;
+      margin-right: 35px - $calleeAvatarMarginL;
+      margin-left: $calleeAvatarMarginL;
+      border-radius: 100%;
+      @media only screen and (min-width: 150px) and (max-width: 265px) {
+        margin-right: 11%;
+      }
+    }
+    .callee_name {
+      font-size: 15px;
+      letter-spacing: normal;
+      color: #666666;
+      float: left;
+      line-height: 30px;
+      max-width: 43%;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      @media only screen and (max-width: 150px) {
+        display: none;
+      }
+      @media only screen and (min-width: 150px) and (max-width: 265px) {
+       max-width: 23%;
+      }
+    }
+    .callee_status {
+      font-size: 12px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      color: #666666;
+      float: right;
+      line-height: 30px;
+    }
+    .callee_status_disconnected {
+      color: $tomato;
+    }
+  }
+  .merge_item_active {
+    height: 45px;
+    .callee_avatar_active {
+      width: $calleeAvatarActiveSize;
+      height: $calleeAvatarActiveSize;
+      border-radius: 100%;
+      float: left;
+      margin-right: 20px;
+      @media only screen and (min-width: 150px) and (max-width: 265px) {
+        margin-right: 6%;
+      }
+    }
+    .callee_name_active {
+      font-size: 18px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 45px;
+      letter-spacing: normal;
+      color: #303030;
+      float: left;
+      max-width: 58%;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      @media only screen and (max-width: 150px) {
+        display: none;
+      }
+      @media only screen and (min-width: 150px) and (max-width: 265px) {
+        max-width: 23%;
+      }
+    }
+    .callee_status_active {
+      float: right;
+      .timeCounter {
+        font-size: 12px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 45px;
+        letter-spacing: normal;
+        color: #2f2f2f;
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+  .callee_avatar,.callee_status,.callee_name {
+    // display: inline-block;
+  }
+  .callee_avatar,.callee_avatar_active {
+    border-radius: 100%;
+  }
+  .merge_item,.merge_item_active {
+    padding: 0 17px 0 20px;
+    &:after {
+      content: " ";
+      display: block;
+      height: 0;
+      clear: both;
+      overflow: hidden;
+    }
+  }
+  >div {
+    margin-top: 20px;
+  }
 }

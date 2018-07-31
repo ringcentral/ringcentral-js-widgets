@@ -15,10 +15,12 @@
     "test:jest": "jest --no-cache --maxWorkers=5",
     "test:watch": "yarn test -- --watch",
     "test:coverage": "yarn test --coverage",
-    "test:showCoverage": "cat ./coverage/lcov.info | coveralls"
+    "test:showCoverage": "cat ./coverage/lcov.info | coveralls",
+    "test:updateSnapshot": "jest --updateSnapshot"
   },
   "dependencies": {
     "@ringcentral-integration/i18n": "^2.0.0",
+    "@ringcentral-integration/locale-loader": "^2.0.0",
     "@ringcentral-integration/phone-number": "*",
     "babel-istanbul": "^0.12.1",
     "coveralls": "^2.11.15",
@@ -30,16 +32,14 @@
     "fs-extra": "^6.0.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^22.4.3",
-    "@ringcentral-integration/locale-loader": "^2.0.0",
+    "moment": "^2.22.1",
     "normalize-css": "^2.3.1",
     "pubnub": "^4.20.1",
-    "moment": "^2.22.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-redux": "^5.0.5",
     "react-router": "^3.0.0",
     "react-router-redux": "^4.0.7",
-    "react-test-renderer": "^16.0.0",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
@@ -64,8 +64,8 @@
       ".*?/node_modules/(?!(ringcentral-integration|ringcentral-widgets|ringcentral-widgets-demo|locale-loader|babel-settings)/).*/"
     ],
     "setupFiles": [
-      "<rootDir>/test/shim.js",
-      "<rootDir>/test/setup.js"
+      "<rootDir>/test/support/shim.js",
+      "<rootDir>/test/support/setup.js"
     ],
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
@@ -87,5 +87,8 @@
   },
   "peerDependencies": {
     "babel-runtime": "^6.26.0"
+  },
+  "devDependencies": {
+    "react-test-renderer": "^16.4.1"
   }
 }

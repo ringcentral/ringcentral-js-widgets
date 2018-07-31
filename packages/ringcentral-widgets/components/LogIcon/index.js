@@ -18,8 +18,8 @@ export default function LogIcon(
     isFax
   }
 ) {
-  const loggedIcon = <LoggedIcon width={23} className={styles.loggedIcon} />;
-  const unLoggedIcon = <UnloggedIcon width={23} className={styles.unloggedIcon} />;
+  const loggedIcon = <LoggedIcon width={19} className={styles.loggedIcon} />;
+  const unLoggedIcon = <UnloggedIcon width={19} className={styles.unloggedIcon} />;
   let tooltip = null;
   if (isFax) {
     tooltip = i18n.getString('faxNotSupported', currentLocale);

@@ -13,6 +13,7 @@ export default new Enum([
   'resetRetryCounts',
   'updateSessions',
   'destroySessions',
+  'beforeCallStart',
   'callStart',
   'callEnd',
   'callRing',
@@ -22,4 +23,7 @@ export default new Enum([
   'videoElementPrepared',
   'getUserMediaSuccess',
   'getUserMediaError',
+  'setSessionCaching',
+  'clearSessionCaching',
+  'onholdCachedSession',
 ], 'webphone');

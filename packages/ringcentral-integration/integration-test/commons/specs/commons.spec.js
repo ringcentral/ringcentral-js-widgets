@@ -25,6 +25,7 @@ import runDialingPlanTests from '../../spec-modules/dialingPlan';
 import runRolesAndPermissionsTests from '../../spec-modules/rolesAndPermissions';
 import runExtensionPhoneNumberTests from '../../spec-modules/extensionPhoneNumber';
 import runPresenceTests from '../../spec-modules/presence';
+import runConferenceCallTests from '../../spec-modules/conferenceCall';
 
 let phone = getTestPhone();
 runNumValidInCallTests(phone.auth, phone.alert, phone.client, phone.regionSettings, phone.call,
@@ -148,5 +149,14 @@ runPresenceTests(
   phone.auth,
   phone.client,
   phone.presence,
+  defaultAccount,
+);
+
+phone = getTestPhone();
+runConferenceCallTests(
+  phone.auth,
+  phone.client,
+  phone.conferenceCall,
+  phone.alert,
   defaultAccount,
 );

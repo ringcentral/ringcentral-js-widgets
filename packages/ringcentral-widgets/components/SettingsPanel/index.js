@@ -34,10 +34,14 @@ export default function SettingsPanel({
   onUserGuideClick,
   showCalling,
   showAutoLog,
+  showAutoLogNotes,
   showAudio,
   autoLogEnabled,
+  autoLogNotesEnabled,
   disableAutoLogEnabled,
+  disableAutoLogNotesEnabled,
   onAutoLogChange,
+  onAutoLogNotesChange,
   showAutoLogSMS,
   autoLogSMSEnabled,
   autoCreateTicketEnabled,
@@ -179,6 +183,22 @@ export default function SettingsPanel({
     </IconLine>
   ) :
     null;
+  const autoLogNotes = showAutoLogNotes ? (
+    <IconLine
+      icon={
+        <Switch
+          disable={disableAutoLogNotesEnabled}
+          checked={autoLogNotesEnabled}
+          onChange={onAutoLogNotesChange}
+        />
+      }
+    >
+      <span className={classnames(disableAutoLogNotesEnabled && styles.disableText)}>
+        {i18n.getString('autoLogNotes', currentLocale)}
+      </span>
+    </IconLine>
+  ) :
+    null;
   const autoLogSMS = showAutoLogSMS ? (
     <IconLine
       icon={
@@ -229,6 +249,7 @@ export default function SettingsPanel({
         {presenceSetting}
         {children}
         {autoLog}
+        {autoLogNotes}
         {autoLogSMS}
         {clickToDial}
         {autoCreateTicket}
@@ -279,9 +300,13 @@ SettingsPanel.propTypes = {
   showRegion: PropTypes.bool,
   showAudio: PropTypes.bool,
   showAutoLog: PropTypes.bool,
+  showAutoLogNotes: PropTypes.bool,
   autoLogEnabled: PropTypes.bool,
+  autoLogNotesEnabled: PropTypes.bool,
   disableAutoLogEnabled: PropTypes.bool,
+  disableAutoLogNotesEnabled: PropTypes.bool,
   onAutoLogChange: PropTypes.func,
+  onAutoLogNotesChange: PropTypes.func,
   showAutoLogSMS: PropTypes.bool,
   autoLogSMSEnabled: PropTypes.bool,
   autoCreateTicketEnabled: PropTypes.bool,
@@ -326,12 +351,16 @@ SettingsPanel.defaultProps = {
   showCalling: false,
   showAudio: false,
   showAutoLog: false,
+  showAutoLogNotes: false,
   showRegion: false,
   showUserGuide: false,
   showAutoCreateTicket: false,
   autoLogEnabled: false,
+  autoLogNotesEnabled: false,
   disableAutoLogEnabled: false,
-  onAutoLogChange: undefined,
+  disableAutoLogNotesEnabled: false,
+  onAutoLogChange: () => null,
+  onAutoLogNotesChange: () => null,
   showAutoLogSMS: false,
   autoLogSMSEnabled: false,
   autoCreateTicketEnabled: false,

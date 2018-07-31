@@ -160,7 +160,11 @@ export default class Conversations extends RcModule {
     this.store.dispatch({
       type: this.actionTypes.initSuccess,
     });
-    if (this.allConversations.length <= this._perPage) {
+    if (
+      this.allConversations.length <= this._perPage &&
+      this._enableLoadOldMessages &&
+      this._hasPermission
+    ) {
       this.fetchOldConversations();
     }
   }
@@ -262,7 +266,7 @@ export default class Conversations extends RcModule {
     if (this.effectiveSearchString !== '') {
       return;
     }
-    if (!this._enableLoadOldMessages) {
+    if (!this._enableLoadOldMessages || !this._hasPermission) {
       return;
     }
     await this.fetchOldConversations();
@@ -298,6 +302,9 @@ export default class Conversations extends RcModule {
   @proxify
   async fetchOldMessages(perPage = this._perPage) {
     if (!this._enableLoadOldMessages) {
+      return;
+    }
+    if (!this._hasPermission) {
       return;
     }
     if (!this._olderMessagesExsited) {
@@ -801,5 +808,9 @@ export default class Conversations extends RcModule {
 
   get pushing() {
     return this.state.conversationStatus === status.pushing;
+  }
+
+  get _hasPermission() {
+    return this._rolesAndPermissions.hasReadMessagesPermission;
   }
 }

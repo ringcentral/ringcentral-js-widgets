@@ -1,4 +1,5 @@
 import 'core-js/fn/array/find';
+import * as R from 'ramda';
 import { isValidNumber, isSameLocalNumber } from '@ringcentral-integration/phone-number';
 
 import HashMap from './HashMap';
@@ -7,6 +8,7 @@ import callDirections from '../enums/callDirections';
 import callResults from '../enums/callResults';
 import telephonyStatuses from '../enums/telephonyStatuses';
 import terminationTypes from '../enums/terminationTypes';
+// import i18n from './i18n';
 
 /* call direction helpers */
 export function isInbound(call = {}) {
@@ -240,4 +242,79 @@ export function removeDuplicateSelfCalls(calls) {
     }
   });
   return resultCalls;
+}
+// from zendesk
+export function getName({
+  nameEntities = [],
+  currentLocale,
+  normalizeNumber,
+  anonymous = false,
+} = {}) {
+  const selectFieldNames = {
+    // anonymous: i18n.getString('anonymous', currentLocale),
+    // nameUnknown: i18n.getString('nameUnknown', currentLocale),
+    // nameMultiple: i18n.getString('nameMultiple', currentLocale),
+    anonymous: 'anonymous',
+    nameUnknown: 'nameUnknown',
+    nameMultiple: 'nameMultiple',
+  };
+  if (anonymous) {
+    return selectFieldNames.anonymous;
+  }
+  const unknownDisplayText = typeof normalizeNumber === 'undefined' ?
+    selectFieldNames.nameUnknown :
+    normalizeNumber;
+
+  if (!nameEntities) {
+    return unknownDisplayText;
+  }
+  const nameValidEntities = nameEntities.filter(entities => entities && entities.id);
+  if (nameValidEntities.length === 0) {
+    return unknownDisplayText;
+  }
+  const isMultiple = nameValidEntities.length > 1;
+  return (
+    isMultiple ? (normalizeNumber || selectFieldNames.nameMultiple) : nameValidEntities[0].name
+  );
+}
+// Get phone number and matches.
+export function getPhoneNumberMatches(call = {}) {
+  const {
+    to = {},
+    from = {},
+    sessionId,
+    toMatches,
+    fromMatches
+  } = call;
+  if (R.isEmpty(call)) {
+    return {};
+  }
+  const isOutboundCall = isOutbound(call);
+  const isInboundCall = isInbound(call);
+  let phoneNumber = null;
+  let matches = null;
+  if (isOutboundCall) {
+    phoneNumber = to.phoneNumber || to.extensionNumber;
+    matches = toMatches;
+  } else if (isInboundCall) {
+    phoneNumber = from.phoneNumber || from.extensionNumber;
+    matches = fromMatches;
+  }
+  // if (!phoneNumber || !matches) {
+  //   console.warn(`Call sessionId: ${sessionId} is abnormal data.`);
+  // }
+  return {
+    phoneNumber,
+    matches
+  };
+}
+// Currently for zendesk call-log contact show
+export function renderContactName (call, currentLocale) {
+  const { phoneNumber, matches } = getPhoneNumberMatches(call);
+  return getName({
+    nameEntities: matches,
+    currentLocale: currentLocale,
+    normalizeNumber: phoneNumber,
+    anonymous: !phoneNumber
+  });
 }

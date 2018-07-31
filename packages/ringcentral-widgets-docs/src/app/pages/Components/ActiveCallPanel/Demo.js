@@ -1,6 +1,7 @@
 import React from 'react';
 // eslint-disable-next-line
 import ActiveCallPanel from 'ringcentral-widgets/components/ActiveCallPanel';
+import callCtrlLayouts from 'ringcentral-widgets/enums/callCtrlLayouts';
 
 const props = {};
 props.currentLocale = 'en-US';
@@ -11,8 +12,10 @@ props.onUnhold = () => null;
 props.onRecord = () => null;
 props.onStopRecord = () => null;
 props.onAdd = () => null;
+props.onMerge = () => null;
 props.onHangup = () => null;
 props.onPark = () => null;
+props.showBackButton = true;
 props.onBackButtonClick = () => null;
 props.onKeyPadChange = () => null;
 props.formatPhone = phone => phone;
@@ -27,7 +30,8 @@ props.fallBackName = 'Unknown';
 props.flipNumbers = [];
 props.recordStatus = 'recordStatus-idle';
 props.onShowKeyPad = () => null;
-props.calls = [{}, {}];
+props.layout = callCtrlLayouts.normalCtrl;
+
 /**
  * A example of `ActiveCallPanel`
  */

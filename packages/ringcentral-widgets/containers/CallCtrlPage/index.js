@@ -1,12 +1,14 @@
+import { find } from 'ramda';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
+import calleeTypes from 'ringcentral-integration/enums/calleeTypes';
 import callDirections from 'ringcentral-integration/enums/callDirections';
-
-import CallCtrlPanel from '../../components/CallCtrlPanel';
+import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 import withPhone from '../../lib/withPhone';
-
+import callCtrlLayouts from '../../enums/callCtrlLayouts';
+import CallCtrlPanel from '../../components/CallCtrlPanel';
 import i18n from './i18n';
 
 class CallCtrlPage extends Component {
@@ -60,6 +62,10 @@ class CallCtrlPage extends Component {
       this.props.onTransfer(value, this.props.session.id);
     this.onPark = () =>
       this.props.onPark(this.props.session.id);
+    this.onAdd = () =>
+      this.props.onAdd(this.props.session.id);
+    this.onMerge = () =>
+      this.props.onMerge(this.props.session.id);
   }
 
   componentDidMount() {
@@ -68,6 +74,12 @@ class CallCtrlPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.layout === callCtrlLayouts.mergeCtrl &&
+      nextProps.session.direction === callDirections.inbound
+    ) {
+      nextProps.onIncomingCallCaptured();
+    }
     if (this.props.session.id !== nextProps.session.id) {
       this._updateAvatarAndMatchIndex(nextProps);
     }
@@ -106,8 +118,10 @@ class CallCtrlPage extends Component {
     if (!session.id) {
       return null;
     }
+
     const phoneNumber = session.direction === callDirections.outbound ?
       session.to : session.from;
+
     let fallbackUserName;
     if (session.direction === callDirections.inbound && session.from === 'anonymous') {
       fallbackUserName = i18n.getString('anonymous', this.props.currentLocale);
@@ -115,14 +129,13 @@ class CallCtrlPage extends Component {
     if (!fallbackUserName) {
       fallbackUserName = i18n.getString('unknown', this.props.currentLocale);
     }
-    // The label of back button is customizable
-    // the property `backButtonLabel` should be internationalizational
+
     const backButtonLabel = this.props.backButtonLabel
       ? this.props.backButtonLabel
       : i18n.getString('activeCalls', this.props.currentLocale);
+
     return (
       <CallCtrlPanel
-        backButtonLabel={backButtonLabel}
         currentLocale={this.props.currentLocale}
         formatPhone={this.props.formatPhone}
         phoneNumber={phoneNumber}
@@ -134,6 +147,8 @@ class CallCtrlPage extends Component {
         isOnFlip={session.isOnFlip}
         isOnTransfer={session.isOnTransfer}
         recordStatus={session.recordStatus}
+        showBackButton={this.props.showBackButton}
+        backButtonLabel={backButtonLabel}
         onBackButtonClick={this.props.onBackButtonClick}
         onMute={this.onMute}
         onUnmute={this.onUnmute}
@@ -143,7 +158,8 @@ class CallCtrlPage extends Component {
         onStopRecord={this.onStopRecord}
         onKeyPadChange={this.onKeyPadChange}
         onHangup={this.onHangup}
-        onAdd={this.props.onAdd}
+        onAdd={this.onAdd}
+        onMerge={this.onMerge}
         onFlip={this.onFlip}
         onTransfer={this.onTransfer}
         onPark={this.onPark}
@@ -157,13 +173,22 @@ class CallCtrlPage extends Component {
         brand={this.props.brand}
         showContactDisplayPlaceholder={this.props.showContactDisplayPlaceholder}
         flipNumbers={this.props.flipNumbers}
-        calls={this.props.calls}
         sourceIcons={this.props.sourceIcons}
         searchContactList={this.props.searchContactList}
         searchContact={this.props.searchContact}
         phoneTypeRenderer={this.props.phoneTypeRenderer}
         recipientsContactInfoRenderer={this.props.recipientsContactInfoRenderer}
         recipientsContactPhoneRenderer={this.props.recipientsContactPhoneRenderer}
+        layout={this.props.layout}
+        showSpinner={this.props.showSpinner}
+        direction={session.direction}
+        addDisabled={this.props.addDisabled}
+        mergeDisabled={this.props.mergeDisabled}
+        conferenceCallEquipped={this.props.conferenceCallEquipped}
+        hasConferenceCall={this.props.hasConferenceCall}
+        conferenceCallParties={this.props.conferenceCallParties}
+        lastCallInfo={this.props.lastCallInfo}
+        getAvatarUrl={this.props.getAvatarUrl}
       >
         {this.props.children}
       </CallCtrlPanel>
@@ -195,7 +220,8 @@ CallCtrlPage.propTypes = {
   onHangup: PropTypes.func.isRequired,
   sendDTMF: PropTypes.func.isRequired,
   formatPhone: PropTypes.func.isRequired,
-  onAdd: PropTypes.func.isRequired,
+  onAdd: PropTypes.func,
+  onMerge: PropTypes.func,
   onFlip: PropTypes.func.isRequired,
   onPark: PropTypes.func.isRequired,
   onTransfer: PropTypes.func.isRequired,
@@ -204,28 +230,49 @@ CallCtrlPage.propTypes = {
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
   getAvatarUrl: PropTypes.func.isRequired,
-  onBackButtonClick: PropTypes.func.isRequired,
   updateSessionMatchedContact: PropTypes.func.isRequired,
+  showBackButton: PropTypes.bool,
   backButtonLabel: PropTypes.string,
+  onBackButtonClick: PropTypes.func,
   brand: PropTypes.string.isRequired,
   showContactDisplayPlaceholder: PropTypes.bool.isRequired,
   flipNumbers: PropTypes.array.isRequired,
-  calls: PropTypes.array.isRequired,
   sourceIcons: PropTypes.object,
   searchContactList: PropTypes.array.isRequired,
   searchContact: PropTypes.func.isRequired,
   phoneTypeRenderer: PropTypes.func,
   recipientsContactInfoRenderer: PropTypes.func,
   recipientsContactPhoneRenderer: PropTypes.func,
+  layout: PropTypes.string.isRequired,
+  showSpinner: PropTypes.bool,
+  addDisabled: PropTypes.bool,
+  mergeDisabled: PropTypes.bool,
+  conferenceCallParties: PropTypes.array,
+  conferenceCallEquipped: PropTypes.bool,
+  hasConferenceCall: PropTypes.bool,
+  lastCallInfo: PropTypes.object,
+  onIncomingCallCaptured: PropTypes.func,
 };
 
 CallCtrlPage.defaultProps = {
   children: undefined,
+  showBackButton: false,
   backButtonLabel: null,
+  onBackButtonClick: null,
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
   recipientsContactInfoRenderer: undefined,
   recipientsContactPhoneRenderer: undefined,
+  onAdd: undefined,
+  onMerge: undefined,
+  showSpinner: false,
+  addDisabled: false,
+  mergeDisabled: false,
+  conferenceCallEquipped: false,
+  hasConferenceCall: false,
+  conferenceCallParties: undefined,
+  lastCallInfo: { calleeType: calleeTypes.unknow },
+  onIncomingCallCaptured: i => i,
 };
 
 function mapToProps(_, {
@@ -236,9 +283,11 @@ function mapToProps(_, {
     regionSettings,
     brand,
     forwardingNumber,
-    callMonitor,
     contactSearch,
+    conferenceCall,
+    callingSettings,
   },
+  layout = callCtrlLayouts.normalCtrl,
 }) {
   const currentSession = webphone.activeSession || {};
   const contactMapping = contactMatcher && contactMatcher.dataMapping;
@@ -246,6 +295,42 @@ function mapToProps(_, {
   const toMatches = (contactMapping && contactMapping[currentSession.to]) || [];
   const nameMatches =
     currentSession.direction === callDirections.outbound ? toMatches : fromMatches;
+
+  const isWebRTC = callingSettings.callingMode === callingModes.webphone;
+  let mergeDisabled = !(currentSession.data && Object.keys(currentSession.data).length)
+    || !isWebRTC;
+  let addDisabled = !isWebRTC || currentSession.direction === callDirections.inbound;
+
+  let isOnConference = false;
+  let hasConferenceCall = false;
+  let isMerging = false;
+  let conferenceCallParties;
+
+  if (conferenceCall) {
+    isOnConference = conferenceCall.isConferenceSession(currentSession.id);
+    const conferenceData = Object.values(conferenceCall.conferences)[0];
+
+    isMerging = conferenceCall.isMerging && !!(
+      Object
+        .values(conferenceCall.mergingPair)
+        .find(id => id === currentSession.id)
+      || (isOnConference)
+    );
+
+    if (conferenceData && isWebRTC) {
+      const newVal = conferenceCall.isOverload(conferenceData.conference.id)
+        // in case webphone.activeSession has not been updated yet
+        || !(currentSession.data && Object.keys(currentSession.data).length);
+      // update
+      mergeDisabled = newVal || !(currentSession.data && Object.keys(currentSession.data).length);
+      addDisabled = newVal;
+    }
+
+    hasConferenceCall = !!conferenceData;
+    conferenceCallParties = conferenceCall.partyProfiles;
+  }
+
+  layout = isOnConference ? callCtrlLayouts.conferenceCtrl : layout;
   return {
     brand: brand.fullName,
     nameMatches,
@@ -254,8 +339,15 @@ function mapToProps(_, {
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
     flipNumbers: forwardingNumber.flipNumbers,
-    calls: callMonitor.calls,
+    showBackButton: true, // callMonitor.calls.length > 0,
     searchContactList: contactSearch.sortedResult,
+    layout,
+    showSpinner: isMerging,
+    addDisabled,
+    mergeDisabled,
+    conferenceCallEquipped: !!conferenceCall,
+    hasConferenceCall,
+    conferenceCallParties,
   };
 }
 
@@ -264,10 +356,12 @@ function mapToFunctions(_, {
     webphone,
     regionSettings,
     contactSearch,
+    conferenceCall,
+    routerInteraction,
+    callMonitor,
   },
   getAvatarUrl,
   onBackButtonClick,
-  onAdd,
   phoneTypeRenderer,
   recipientsContactInfoRenderer,
   recipientsContactPhoneRenderer,
@@ -286,11 +380,11 @@ function mapToFunctions(_, {
     onRecord: sessionId => webphone.startRecord(sessionId),
     onStopRecord: sessionId => webphone.stopRecord(sessionId),
     sendDTMF: (value, sessionId) => webphone.sendDTMF(value, sessionId),
-    updateSessionMatchedContact: (sessionId, contact) =>
-      webphone.updateSessionMatchedContact(sessionId, contact),
+    updateSessionMatchedContact: (sessionId, contact) => (
+      webphone.updateSessionMatchedContact(sessionId, contact)
+    ),
     getAvatarUrl,
     onBackButtonClick,
-    onAdd,
     onFlip: (flipNumber, sessionId) => webphone.flip(flipNumber, sessionId),
     onTransfer: (transferNumber, sessionId) => webphone.transfer(transferNumber, sessionId),
     onPark: sessionId => webphone.park(sessionId),
@@ -300,6 +394,30 @@ function mapToFunctions(_, {
     phoneTypeRenderer,
     recipientsContactInfoRenderer,
     recipientsContactPhoneRenderer,
+    onAdd(sessionId) {
+      const sessionData = find(x => x.id === sessionId, webphone.sessions);
+      if (sessionData) {
+        conferenceCall.setMergeParty({ fromSessionId: sessionId });
+        const outBoundOnholdCalls = callMonitor.activeOnHoldCalls
+          .filter(call => call.direction === callDirections.outbound);
+        if (outBoundOnholdCalls.length) {
+          // goto 'calls on hold' page
+          routerInteraction
+            .push(`/conferenceCall/callsOnhold/${sessionData.fromNumber}/${sessionData.id}`);
+        } else { // goto dialer directly
+          routerInteraction.push(`/conferenceCall/dialer/${sessionData.fromNumber}`);
+        }
+      }
+    },
+    async onMerge(sessionId) {
+      const conferenceData = await conferenceCall.onMerge({ sessionId });
+      if (!conferenceData) {
+        routerInteraction.push('/conferenceCall/mergeCtrl');
+      }
+    },
+    onIncomingCallCaptured() {
+      routerInteraction.push('/calls/active');
+    },
   };
 }
 
@@ -325,4 +443,9 @@ CallCtrlContainer.defaultProps = {
   sourceIcons: undefined,
 };
 
-export default CallCtrlContainer;
+export {
+  mapToProps,
+  mapToFunctions,
+  CallCtrlPage,
+  CallCtrlContainer as default,
+};

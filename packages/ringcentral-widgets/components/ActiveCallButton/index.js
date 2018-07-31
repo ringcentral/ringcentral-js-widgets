@@ -18,6 +18,8 @@ export default function ActiveCallButton(props) {
       {line}
     </tspan>
   ));
+  const buttonSize = 383.8;
+
   return (
     <svg
       className={className}
@@ -28,12 +30,12 @@ export default function ActiveCallButton(props) {
       y={props.y}
     >
       <CircleButton
-        width="380"
-        height="380"
-        x={60}
+        width={buttonSize.toString()}
+        height={buttonSize.toString()}
+        x={500 / 2 - buttonSize / 2}
         y={0}
         className={buttonClassName}
-        onClick={props.disabled ? () => {} : props.onClick}
+        onClick={props.onClick}
         icon={props.icon}
         disabled={props.disabled}
         showBorder={props.showBorder}
@@ -42,6 +44,7 @@ export default function ActiveCallButton(props) {
         iconHeight={props.iconHeight}
         iconX={props.iconX}
         iconY={props.iconY}
+        showRipple={props.showRipple}
       />
       <text
         className={styles.buttonTitle}
@@ -58,7 +61,7 @@ export default function ActiveCallButton(props) {
 ActiveCallButton.propTypes = {
   className: PropTypes.string,
   buttonClassName: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   disabled: PropTypes.bool,
   active: PropTypes.bool,
   title: PropTypes.string.isRequired,
@@ -72,11 +75,13 @@ ActiveCallButton.propTypes = {
   iconHeight: PropTypes.number,
   iconX: PropTypes.number,
   iconY: PropTypes.number,
+  showRipple: PropTypes.bool,
 };
 
 ActiveCallButton.defaultProps = {
   className: undefined,
   buttonClassName: undefined,
+  onClick: undefined,
   disabled: false,
   active: false,
   icon: undefined,
@@ -89,4 +94,5 @@ ActiveCallButton.defaultProps = {
   iconHeight: undefined,
   iconX: undefined,
   iconY: undefined,
+  showRipple: false,
 };

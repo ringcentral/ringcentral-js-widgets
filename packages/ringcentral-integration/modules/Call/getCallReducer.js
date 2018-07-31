@@ -33,20 +33,20 @@ export function getToNumberEntitiesReducer(types) {
 }
 
 export function getLastPhoneNumberReducer(types) {
-  return (state = null, { type, phoneNumber = null }) => {
+  return (state = null, { type, isConference, phoneNumber = null }) => {
     switch (type) {
       case types.connect:
-        return phoneNumber;
+        return isConference ? state : phoneNumber;
       default:
         return state;
     }
   };
 }
 export function getLastRecipientReducer(types) {
-  return (state = null, { type, recipient = null }) => {
+  return (state = null, { type, isConference, recipient = null }) => {
     switch (type) {
       case types.connect:
-        return recipient;
+        return isConference ? state : recipient;
       default:
         return state;
     }

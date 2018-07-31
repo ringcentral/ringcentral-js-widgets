@@ -1,4 +1,4 @@
-import * as R from 'ramda';
+import { assoc } from 'ramda';
 import { combineReducers } from 'redux';
 import getModuleStatusReducer from 'ringcentral-integration/lib/getModuleStatusReducer';
 
@@ -6,9 +6,9 @@ function getCallsSavingStatusReducer(types) {
   return (state = {}, { type, identify }) => {
     switch (type) {
       case types.saving:
-        return R.assoc(identify, true, state);
+        return assoc(identify, true, state);
       case types.saveSuccess: case types.saveError:
-        return R.assoc(identify, false, state);
+        return assoc(identify, false, state);
       case types.cleanUp:
         return {};
       default:
