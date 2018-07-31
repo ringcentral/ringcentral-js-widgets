@@ -85,9 +85,9 @@ function mapToFunctions(_, {
   };
 }
 
-const CallsOnholdPage = withPhone(connect(
+const ConferenceParticipantPage = withPhone(connect(
   mapToProps,
   mapToFunctions,
 )(ConferenceParticipantContainer));
 
-export default CallsOnholdPage;
+export default ConferenceParticipantPage;
