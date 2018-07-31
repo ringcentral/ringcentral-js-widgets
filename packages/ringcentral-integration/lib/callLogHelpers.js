@@ -8,7 +8,7 @@ import callDirections from '../enums/callDirections';
 import callResults from '../enums/callResults';
 import telephonyStatuses from '../enums/telephonyStatuses';
 import terminationTypes from '../enums/terminationTypes';
-import i18n from './i18n';
+// import i18n from './i18n';
 
 /* call direction helpers */
 export function isInbound(call = {}) {
@@ -251,9 +251,12 @@ export function getName({
   anonymous = false,
 } = {}) {
   const selectFieldNames = {
-    anonymous: i18n.getString('anonymous', currentLocale),
-    nameUnknown: i18n.getString('nameUnknown', currentLocale),
-    nameMultiple: i18n.getString('nameMultiple', currentLocale),
+    // anonymous: i18n.getString('anonymous', currentLocale),
+    // nameUnknown: i18n.getString('nameUnknown', currentLocale),
+    // nameMultiple: i18n.getString('nameMultiple', currentLocale),
+    anonymous: 'anonymous',
+    nameUnknown: 'nameUnknown',
+    nameMultiple: 'nameMultiple',
   };
   if (anonymous) {
     return selectFieldNames.anonymous;
