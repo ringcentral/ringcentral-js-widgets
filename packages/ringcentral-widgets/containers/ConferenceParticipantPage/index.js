@@ -56,12 +56,7 @@ function mapToProps(_, {
     conferenceCall,
   },
 }) {
-  const confId = conferenceCall.conferences && Object.keys(conferenceCall.conferences)[0];
-  let participants = [];
-
-  if (confId) {
-    participants = conferenceCall.getOnlinePartyProfiles(confId);
-  }
+  const participants = conferenceCall.partyProfiles;
 
   return {
     currentLocale: locale.currentLocale,
