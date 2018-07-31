@@ -38,7 +38,7 @@ class ConferenceParticipantContainer extends Component {
       && nextProps.participants.length !== participants.length) {
       sleep(500).then(() => {
         if (this.mounted) {
-          onBackButtonClick()
+          onBackButtonClick();
         }
       });
     }

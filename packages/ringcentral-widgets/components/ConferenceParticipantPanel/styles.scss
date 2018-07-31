@@ -90,7 +90,7 @@ $button-size:24px;
   }
 }
 
-.confirmMergeModal {
+.ConfirmRemoveModal {
   min-width: 190px;
   top:0;
   bottom:0;
@@ -107,9 +107,12 @@ $button-size:24px;
 
   .contentText {
     font-weight: bold;
-
-    span{
+    padding: 5px 10px 0;
+    p{
       font-weight: normal;
+      span{
+        font-weight: bold;
+      }
     }
   }
 
@@ -119,23 +122,22 @@ $button-size:24px;
     right: 11px;
   }
 
-  .content{
-    overflow: hidden;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    align-items: center;
-    margin: 5px 0;
+  .btn{
+    font-size: 12px;
+    border-radius: 25px;
+    border: 1px solid $primary-color;
+  }
+  .btn+.btn{
+    margin-left:10px;
+  }
 
-    .contentText{
-      flex-grow: 1;
-      display: flex;
-      flex-direction: row;
-      flex-wrap: nowrap;
-      justify-content: flex-start;
-      align-items: center;
-      overflow: hidden;
-    }
+  .cancelBtn{
+    color: $primary-color;
+    background: $snow;
+  }
+
+  .confirmBtn{
+    color: $snow;
+    background: $primary-color;
   }
 }

@@ -210,7 +210,9 @@ export default class ConferenceCall extends RcModule {
         });
       }
     } catch (e) {
-      // TODO:this._alert.warning
+      this._alert.warning({
+        message: conferenceErrors.terminateConferenceFailed,
+      });
       this.store.dispatch({
         type: this.actionTypes.terminateConferenceFailed,
         message: e.toString()
@@ -313,7 +315,9 @@ export default class ConferenceCall extends RcModule {
         conference: this.state.conferences[id],
       });
     } catch (e) {
-      // TODO:this._alert.warning
+      this._alert.warning({
+        message: conferenceErrors.removeFromConferenceFailed,
+      });
       this.store.dispatch({
         type: this.actionTypes.removeFromConferenceFailed,
         message: e.toString()
