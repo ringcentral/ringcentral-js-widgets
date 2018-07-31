@@ -51,7 +51,7 @@ function mapToFunctions(_, {
     async onMerge(sessionId) {
       routerInteraction.replace('/calls/active');
       const session = webphone._sessions.get(sessionId);
-      const isOnhold = session.isOnHold().local;
+      const sessionIsOnhold = session.isOnHold().local;
       conferenceCall.setMergeParty({ toSessionId: sessionId });
       const sessionToMergeWith = webphone._sessions.get(conferenceCall.mergingPair.fromSessionId);
       const webphoneSessions = sessionToMergeWith
@@ -60,12 +60,13 @@ function mapToFunctions(_, {
       await conferenceCall.mergeToConference(webphoneSessions);
       const conferenceData = Object.values(conferenceCall.conferences)[0];
       const conferenceSession = webphone._sessions.get(conferenceData.sessionId);
+      const conferenceIsOnhold = conferenceSession.isOnHold().local;
 
-      if (conferenceData && isOnhold) {
+      if (conferenceData && !conferenceIsOnhold && sessionIsOnhold) {
         webphone.hold(conferenceData.sessionId);
         return;
       }
-      if (conferenceData && conferenceSession.isOnHold().local) {
+      if (conferenceData && conferenceIsOnhold) {
         /**
          * because session termination operation in conferenceCall._mergeToConference,
          * need to wait for webphone.getActiveSessionIdReducer to update
