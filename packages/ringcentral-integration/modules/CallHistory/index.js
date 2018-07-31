@@ -401,13 +401,18 @@ export default class CallHistory extends RcModule {
     const calls = this.calls;
     const searchInput = this.searchInput;
     let data = [];
-    let display = '';
     const effectSearchStr = searchInput.toLowerCase().trim();
 
     data = calls.filter((call) => {
       const { phoneNumber, matches } = getPhoneNumberMatches(call);
-      const nameMatches = matches.filter(entities => entities && entities.id);
-      if (nameMatches.length === 1 && nameMatches[0].name && nameMatches[0].name.toLowerCase().indexOf(effectSearchStr) > -1) {
+      const matchesMatched = matches.some((entities) => {
+        if (!entities || !entities.id) return false;
+        if (entities.name && entities.name.toLowerCase().indexOf(effectSearchStr) > -1) return true;
+        if (entities.phone && entities.phone.indexOf(effectSearchStr) > -1) return true;
+        return false;
+      });
+
+      if (matchesMatched) {
         return true;
       }
       if (phoneNumber && phoneNumber.indexOf(effectSearchStr) > -1) {
