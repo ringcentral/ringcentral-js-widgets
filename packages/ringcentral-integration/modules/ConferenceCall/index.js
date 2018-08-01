@@ -809,7 +809,6 @@ export default class ConferenceCall extends RcModule {
     const conferenceData = Object.values(this.conferences)[0];
     const conferenceSession = this._webphone._sessions.get(conferenceData.sessionId);
     const isConferenceOnhold = conferenceSession.isOnHold().local;
-
     if (!conferenceData) {
       await this._webphone.resume(session.id);
       return null;
@@ -821,12 +820,6 @@ export default class ConferenceCall extends RcModule {
     }
 
     if (isConferenceOnhold) {
-    console.log(conferenceData, isOnhold, conferenceSession.isOnHold().local);
-    if (
-      conferenceData
-      && !isOnhold
-      && conferenceSession.isOnHold().local
-    ) {
       /**
        * because session termination operation in conferenceCall._mergeToConference,
        * need to wait for webphone.getActiveSessionIdReducer to update
@@ -834,7 +827,7 @@ export default class ConferenceCall extends RcModule {
       this._webphone.resume(conferenceData.sessionId);
       return conferenceData;
     }
-    return null;
+    return conferenceData;
   }
 
   get status() {
