@@ -38,6 +38,7 @@ function DialerPanel({
   autoFocus,
   showFromField = true,
   children,
+  callBtnClassName,
 }) {
   const onCallFunc = () => {
     if (!callButtonDisabled) {
@@ -87,7 +88,7 @@ function DialerPanel({
           dialButtonVolume={dialButtonVolume}
           dialButtonMuted={dialButtonMuted}
         />
-        <div className={classnames(styles.callBtnRow)}>
+        <div className={classnames(styles.callBtnRow, callBtnClassName)}>
           <div className={styles.callBtn}>
             <CircleButton
               className={classnames(
@@ -147,6 +148,7 @@ DialerPanel.propTypes = {
   autoFocus: PropTypes.bool,
   showFromField: PropTypes.bool,
   children: PropTypes.node,
+  callBtnClassName: PropTypes.string,
 };
 
 DialerPanel.defaultProps = {
@@ -170,6 +172,7 @@ DialerPanel.defaultProps = {
   autoFocus: false,
   showFromField: true,
   children: undefined,
+  callBtnClassName: undefined,
 };
 
 export default DialerPanel;
