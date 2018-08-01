@@ -821,6 +821,12 @@ export default class ConferenceCall extends RcModule {
     }
 
     if (isConferenceOnhold) {
+    console.log(conferenceData, isOnhold, conferenceSession.isOnHold().local);
+    if (
+      conferenceData
+      && !isOnhold
+      && conferenceSession.isOnHold().local
+    ) {
       /**
        * because session termination operation in conferenceCall._mergeToConference,
        * need to wait for webphone.getActiveSessionIdReducer to update
