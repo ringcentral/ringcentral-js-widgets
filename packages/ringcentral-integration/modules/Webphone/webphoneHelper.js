@@ -38,7 +38,7 @@ export function normalizeSession(session) {
     contactMatch: session.contactMatch,
     minimized: !!session.minimized,
     data: session.data || null,
-    lastHoldingTime: session.lastHoldingTime || +new Date(),
+    lastActiveTime: session.lastActiveTime || +new Date(),
     cached: false,
     removed: false,
   };
@@ -60,12 +60,12 @@ export function sortByCreationTimeDesc(l, r) {
   return r.startTime - l.startTime;
 }
 
-export function sortByLastHoldingTimeDesc(l, r) {
+export function sortByLastActiveTimeDesc(l, r) {
   if (!l || !r) {
     return 0;
   }
-  if (r.lastHoldingTime !== l.lastHoldingTime) {
-    return r.lastHoldingTime - l.lastHoldingTime;
+  if (r.lastActiveTime !== l.lastActiveTime) {
+    return r.lastActiveTime - l.lastActiveTime;
   }
   return sortByCreationTimeDesc(l, r);
 }

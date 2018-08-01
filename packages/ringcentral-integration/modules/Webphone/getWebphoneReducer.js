@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 import connectionStatus from './connectionStatus';
 import sessionStatus from './sessionStatus';
-import { isRing, sortByLastHoldingTimeDesc } from './webphoneHelper';
+import { isRing, sortByLastActiveTimeDesc } from './webphoneHelper';
 
 export function getVideoElementPreparedReducer(types) {
   return (state = false, { type }) => {
@@ -88,7 +88,7 @@ export function getActiveSessionIdReducer(types) {
       }
       case types.clearSessionCaching: {
         const activeSessions = sessions.filter(x => !x.cached);
-        activeSessions.sort(sortByLastHoldingTimeDesc);
+        activeSessions.sort(sortByLastActiveTimeDesc);
         return (activeSessions[0] && activeSessions[0].id) || null;
       }
       case types.disconnect:
@@ -166,7 +166,7 @@ export function getSessionsReducer(types) {
             sessions.push(cachedSession);
           }
         });
-        return sessions.sort(sortByLastHoldingTimeDesc);
+        return sessions.sort(sortByLastActiveTimeDesc);
       }
       case types.setSessionCaching: {
         let needUpdate = false;

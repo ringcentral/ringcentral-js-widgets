@@ -18,7 +18,7 @@ import {
   isRing,
   isOnHold,
   isConferenceSession,
-  sortByLastHoldingTimeDesc,
+  sortByLastActiveTimeDesc,
 } from '../Webphone/webphoneHelper';
 
 function matchWephoneSessionWithAcitveCall(sessions, callItem) {
@@ -199,7 +199,7 @@ export default class CallMonitor extends RcModule {
             webphoneSession,
           };
         }).sort((l, r) => (
-          sortByLastHoldingTimeDesc(l.webphoneSession, r.webphoneSession)
+          sortByLastActiveTimeDesc(l.webphoneSession, r.webphoneSession)
         ));
 
         return _normalizedCalls;
