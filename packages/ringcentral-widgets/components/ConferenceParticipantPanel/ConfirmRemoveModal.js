@@ -38,24 +38,12 @@ export default function ConfirmRemoveModal({
       clickOutToClose
       contentClassName={styles.contentText}
       textConfirm={i18n.getString('remove', currentLocale)}
-      confirmBtnClassName={classnames(styles.btn, styles.confirmBtn)}
-      cancelBtnClassName={classnames(styles.btn, styles.cancelBtn)}
-      closeBtn={
-        <Button
-          className={styles.closeBtn}
-          onClick={onCancel}
-        >
-          <CloseIcon />
-        </Button>
-      }
     >
-      <div className={styles.contentText}>
-        <p>
-          {i18n.getString('confirmStr1', currentLocale)}
-          <span>{` ${detail} `}</span>
-          {i18n.getString('confirmStr2', currentLocale)}
-        </p>
-      </div>
+      <p>
+        {i18n.getString('confirmStr1', currentLocale)}
+        <span>{` ${detail} `}</span>
+        {i18n.getString('confirmStr2', currentLocale)}
+      </p>
     </Modal>
   );
 }

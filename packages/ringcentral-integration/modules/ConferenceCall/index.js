@@ -809,7 +809,6 @@ export default class ConferenceCall extends RcModule {
     const conferenceData = Object.values(this.conferences)[0];
     const conferenceSession = this._webphone._sessions.get(conferenceData.sessionId);
     const isConferenceOnhold = conferenceSession.isOnHold().local;
-
     if (!conferenceData) {
       await this._webphone.resume(session.id);
       return null;
@@ -828,7 +827,7 @@ export default class ConferenceCall extends RcModule {
       this._webphone.resume(conferenceData.sessionId);
       return conferenceData;
     }
-    return null;
+    return conferenceData;
   }
 
   get status() {

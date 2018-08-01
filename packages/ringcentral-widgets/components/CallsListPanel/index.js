@@ -234,6 +234,7 @@ export default class CallsListPanel extends Component {
       contactDisplayStyle,
       activeContactDisplayStyle,
       currentLog,
+      additionalInfo,
       onCloseLogSection,
       onUpdateCallLog,
       onSaveCallLog,
@@ -259,7 +260,8 @@ export default class CallsListPanel extends Component {
     const search = onSearchInputChange ?
       (
         <div className={classnames(styles.searchContainer)}>
-          <SearchInput key="100"
+          <SearchInput
+            key="100"
             className={styles.searchInput}
             value={searchInput}
             onChange={onSearchInputChange}
@@ -281,6 +283,7 @@ export default class CallsListPanel extends Component {
           <LogSection
             currentLocale={currentLocale}
             currentLog={currentLog}
+            additionalInfo={additionalInfo}
             isInnerMask={logNotification && logNotification.notificationIsExpand}
             renderEditLogSection={renderEditLogSection}
             renderSaveLogButton={renderSaveLogButton}
@@ -351,7 +354,7 @@ export default class CallsListPanel extends Component {
         readTextPermission={isShowMessageIcon}
       />
     );
-    
+
 
     const historyCall = showSpinner ?
       <SpinnerOverlay /> :
@@ -394,11 +397,11 @@ export default class CallsListPanel extends Component {
         </div>
       );
 
-    const noCalls =  (
+    const noCalls = (
       <p className={styles.noCalls}>
         {i18n.getString('noCalls', currentLocale)}
       </p>
-      );
+    );
 
     return (
 
@@ -409,7 +412,7 @@ export default class CallsListPanel extends Component {
           {getCallList(activeRingCalls, i18n.getString('ringCall', currentLocale))}
           {getCallList(activeCurrentCalls, i18n.getString('currentCall', currentLocale))}
           {getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}
-          {getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale))}   
+          {getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale))}
           { calls.length > 0 ? historyCall : noCalls }
         </div>
         {logSection}
@@ -461,6 +464,7 @@ CallsListPanel.propTypes = {
   contactDisplayStyle: PropTypes.string,
   activeContactDisplayStyle: PropTypes.string,
   currentLog: PropTypes.object,
+  additionalInfo: PropTypes.object,
   onCloseLogSection: PropTypes.func,
   onUpdateCallLog: PropTypes.func,
   onSaveCallLog: PropTypes.func,
@@ -512,6 +516,7 @@ CallsListPanel.defaultProps = {
   contactDisplayStyle: styles.contactDisplay,
   activeContactDisplayStyle: styles.activeContactDisplay,
   currentLog: undefined,
+  additionalInfo: undefined,
   onCloseLogSection: undefined,
   onUpdateCallLog: undefined,
   onSaveCallLog: undefined,
