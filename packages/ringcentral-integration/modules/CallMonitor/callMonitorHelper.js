@@ -16,7 +16,7 @@ export function matchWephoneSessionWithAcitveCall(sessions, callItem) {
   }
   const matches = sessions.filter((session) => {
     if (session.callId === callItem.id) {
-      // return true;
+      return true;
     }
 
     if (session.direction !== callItem.direction) {
