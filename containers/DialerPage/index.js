@@ -23,6 +23,10 @@ var _withPhone = require('../../lib/withPhone');
 
 var _withPhone2 = _interopRequireDefault(_withPhone);
 
+var _styles = require('./styles.scss');
+
+var _styles2 = _interopRequireDefault(_styles);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function mapToProps(_, _ref) {
@@ -36,6 +40,7 @@ function mapToProps(_, _ref) {
       rateLimiter = _ref$phone.rateLimiter,
       webphone = _ref$phone.webphone,
       audioSettings = _ref$phone.audioSettings,
+      conferenceCall = _ref$phone.conferenceCall,
       _ref$dialButtonMuted = _ref.dialButtonMuted,
       dialButtonMuted = _ref$dialButtonMuted === undefined ? false : _ref$dialButtonMuted;
 
@@ -43,6 +48,9 @@ function mapToProps(_, _ref) {
   var waitingWebphoneConnected = isWebphoneMode && webphone && webphone.connecting;
   var webphoneDisconnected = isWebphoneMode && webphone && !webphone.connected;
   var audioNotEnabled = isWebphoneMode && audioSettings && !audioSettings.userMedia;
+  var conferenceCallEquipped = !!conferenceCall;
+  var withTab = !!(conferenceCallEquipped && isWebphoneMode && webphone.sessions.length);
+
   return {
     currentLocale: locale.currentLocale,
     callingMode: callingSettings.callingMode,
@@ -56,7 +64,8 @@ function mapToProps(_, _ref) {
     showSpinner: !(call.ready && callingSettings.ready && locale.ready && connectivityMonitor.ready && (!audioSettings || audioSettings.ready) && (!isWebphoneMode || !webphone || !waitingWebphoneConnected)),
     dialButtonVolume: audioSettings ? audioSettings.dialButtonVolume : 1,
     // If audioSettings is used, then use values from audioSettings module
-    dialButtonMuted: audioSettings ? audioSettings.dialButtonMuted : dialButtonMuted
+    dialButtonMuted: audioSettings ? audioSettings.dialButtonMuted : dialButtonMuted,
+    callBtnClassName: withTab ? null : _styles2.default.callBtn
   };
 }
 function mapToFunctions(_, _ref2) {

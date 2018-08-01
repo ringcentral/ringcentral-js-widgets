@@ -74,7 +74,8 @@ function DialerPanel(_ref) {
       autoFocus = _ref.autoFocus,
       _ref$showFromField = _ref.showFromField,
       showFromField = _ref$showFromField === undefined ? true : _ref$showFromField,
-      children = _ref.children;
+      children = _ref.children,
+      callBtnClassName = _ref.callBtnClassName;
 
   var onCallFunc = function onCallFunc() {
     if (!callButtonDisabled) {
@@ -128,7 +129,7 @@ function DialerPanel(_ref) {
       }),
       _react2.default.createElement(
         'div',
-        { className: (0, _classnames2.default)(_styles2.default.callBtnRow) },
+        { className: (0, _classnames2.default)(_styles2.default.callBtnRow, callBtnClassName) },
         _react2.default.createElement(
           'div',
           { className: _styles2.default.callBtn },
@@ -185,7 +186,8 @@ DialerPanel.propTypes = {
   recipientsContactPhoneRenderer: _propTypes2.default.func,
   autoFocus: _propTypes2.default.bool,
   showFromField: _propTypes2.default.bool,
-  children: _propTypes2.default.node
+  children: _propTypes2.default.node,
+  callBtnClassName: _propTypes2.default.string
 };
 
 DialerPanel.defaultProps = {
@@ -214,7 +216,8 @@ DialerPanel.defaultProps = {
   recipientsContactPhoneRenderer: undefined,
   autoFocus: false,
   showFromField: true,
-  children: undefined
+  children: undefined,
+  callBtnClassName: undefined
 };
 
 exports.default = DialerPanel;
