@@ -452,7 +452,6 @@ var CallHistory = (_dec = (0, _di.Module)({
       var calls = this.calls;
       var searchInput = this.searchInput;
       var data = [];
-      var display = '';
       var effectSearchStr = searchInput.toLowerCase().trim();
 
       data = calls.filter(function (call) {
@@ -460,10 +459,14 @@ var CallHistory = (_dec = (0, _di.Module)({
             phoneNumber = _getPhoneNumberMatche.phoneNumber,
             matches = _getPhoneNumberMatche.matches;
 
-        var nameMatches = matches.filter(function (entities) {
-          return entities && entities.id;
+        var matchesMatched = matches.some(function (entities) {
+          if (!entities || !entities.id) return false;
+          if (entities.name && entities.name.toLowerCase().indexOf(effectSearchStr) > -1) return true;
+          if (entities.phone && entities.phone.indexOf(effectSearchStr) > -1) return true;
+          return false;
         });
-        if (nameMatches.length === 1 && nameMatches[0].name && nameMatches[0].name.toLowerCase().indexOf(effectSearchStr) > -1) {
+
+        if (matchesMatched) {
           return true;
         }
         if (phoneNumber && phoneNumber.indexOf(effectSearchStr) > -1) {
