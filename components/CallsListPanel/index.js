@@ -299,6 +299,7 @@ var CallsListPanel = function (_Component) {
           contactDisplayStyle = _props.contactDisplayStyle,
           activeContactDisplayStyle = _props.activeContactDisplayStyle,
           currentLog = _props.currentLog,
+          additionalInfo = _props.additionalInfo,
           onCloseLogSection = _props.onCloseLogSection,
           onUpdateCallLog = _props.onUpdateCallLog,
           onSaveCallLog = _props.onSaveCallLog,
@@ -324,7 +325,8 @@ var CallsListPanel = function (_Component) {
       var search = onSearchInputChange ? _react2.default.createElement(
         'div',
         { className: (0, _classnames2.default)(_styles2.default.searchContainer) },
-        _react2.default.createElement(_SearchInput2.default, { key: '100',
+        _react2.default.createElement(_SearchInput2.default, {
+          key: '100',
           className: _styles2.default.searchInput,
           value: searchInput,
           onChange: onSearchInputChange,
@@ -347,6 +349,7 @@ var CallsListPanel = function (_Component) {
           _react2.default.createElement(_LogSection2.default, {
             currentLocale: currentLocale,
             currentLog: currentLog,
+            additionalInfo: additionalInfo,
             isInnerMask: logNotification && logNotification.notificationIsExpand,
             renderEditLogSection: renderEditLogSection,
             renderSaveLogButton: renderSaveLogButton,
@@ -525,6 +528,7 @@ CallsListPanel.propTypes = {
   contactDisplayStyle: _propTypes2.default.string,
   activeContactDisplayStyle: _propTypes2.default.string,
   currentLog: _propTypes2.default.object,
+  additionalInfo: _propTypes2.default.object,
   onCloseLogSection: _propTypes2.default.func,
   onUpdateCallLog: _propTypes2.default.func,
   onSaveCallLog: _propTypes2.default.func,
@@ -576,6 +580,7 @@ CallsListPanel.defaultProps = {
   contactDisplayStyle: _styles2.default.contactDisplay,
   activeContactDisplayStyle: _styles2.default.activeContactDisplay,
   currentLog: undefined,
+  additionalInfo: undefined,
   onCloseLogSection: undefined,
   onUpdateCallLog: undefined,
   onSaveCallLog: undefined,

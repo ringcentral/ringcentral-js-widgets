@@ -113,7 +113,8 @@ var LogSection = function (_Component) {
           currentLog = _props.currentLog,
           isInnerMask = _props.isInnerMask,
           showSaveLogBtn = _props.showSaveLogBtn,
-          onSaveCallLog = _props.onSaveCallLog;
+          onSaveCallLog = _props.onSaveCallLog,
+          additionalInfo = _props.additionalInfo;
       var call = currentLog.call,
           showSpinner = currentLog.showSpinner,
           currentLogCall = currentLog.currentLogCall;
@@ -125,7 +126,8 @@ var LogSection = function (_Component) {
         currentLocale: currentLocale,
         onSaveCallLog: onSaveCallLog,
         onUpdateCallLog: onUpdateCallLog,
-        currentLog: currentLog
+        currentLog: currentLog,
+        additionalInfo: additionalInfo
       });
       var buttonPanelClassName = (0, _classnames2.default)(_styles2.default.buttonPanel, this.state.mainCtrlOverlapped && _styles2.default.overlapped);
       var buttonClassName = (0, _classnames2.default)(_styles2.default.primaryButton, currentLogCall.isSaving && _styles2.default.disabled);
@@ -182,6 +184,7 @@ exports.default = LogSection;
 
 LogSection.propTypes = {
   currentLog: _propTypes2.default.object,
+  additionalInfo: _propTypes2.default.object,
   currentLocale: _propTypes2.default.string.isRequired,
   formatPhone: _propTypes2.default.func,
   onUpdateCallLog: _propTypes2.default.func,
@@ -194,6 +197,7 @@ LogSection.propTypes = {
 
 LogSection.defaultProps = {
   currentLog: {},
+  additionalInfo: undefined,
   formatPhone: undefined,
   onUpdateCallLog: undefined,
   onSaveCallLog: undefined,

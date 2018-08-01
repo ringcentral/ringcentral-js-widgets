@@ -96,8 +96,6 @@ function mapToProps(_, _ref) {
 }
 
 function mapToFunctions(_, _ref2) {
-  var _this = this;
-
   var _ref2$phone = _ref2.phone,
       auth = _ref2$phone.auth,
       detailedPresence = _ref2$phone.detailedPresence,
@@ -128,7 +126,7 @@ function mapToFunctions(_, _ref2) {
                 return _context.stop();
             }
           }
-        }, _callee, _this);
+        }, _callee, this);
       }));
 
       function onLogoutButtonClick() {
@@ -152,6 +150,7 @@ function mapToFunctions(_, _ref2) {
     onUserGuideClick: function onUserGuideClick() {
       userGuide.start();
     },
+
     setAvailable: function setAvailable() {
       return detailedPresence && detailedPresence.setAvailable.apply(detailedPresence, arguments);
     },

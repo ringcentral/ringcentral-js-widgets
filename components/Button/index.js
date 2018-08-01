@@ -27,18 +27,21 @@ function Button(_ref) {
   var className = _ref.className,
       disabled = _ref.disabled,
       onClick = _ref.onClick,
-      children = _ref.children;
+      children = _ref.children,
+      tooltip = _ref.tooltip;
 
   return _react2.default.createElement(
     'div',
     {
       className: (0, _classnames2.default)(className, _styles2.default.root, disabled && _styles2.default.disabled),
-      onClick: disabled ? null : onClick },
+      onClick: disabled ? null : onClick,
+      title: tooltip },
     children
   );
 }
 Button.propTypes = {
   className: _propTypes2.default.string,
+  tooltip: _propTypes2.default.string,
   disabled: _propTypes2.default.bool,
   onClick: _propTypes2.default.func,
   children: _propTypes2.default.node
@@ -46,6 +49,7 @@ Button.propTypes = {
 
 Button.defaultProps = {
   className: undefined,
+  tooltip: '',
   disabled: false,
   onClick: undefined,
   children: undefined
