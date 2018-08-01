@@ -16,7 +16,6 @@ import { isConferenceSession } from '../Webphone/webphoneHelper';
 import ensureExist from '../../lib/ensureExist';
 // import sleep from '../../lib/sleep';
 import callingModes from '../CallingSettings/callingModes';
-import recordStatus from '../Webphone/recordStatus';
 import calleeTypes from '../../enums/calleeTypes';
 
 const DEFAULT_TIMEOUT = 30000;// time out for conferencing session being accepted.

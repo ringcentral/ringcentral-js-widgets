@@ -374,7 +374,6 @@ function mapToProps(_, {
     hasConferenceCall,
     conferenceCallParties,
     conferenceCallId,
-    conferenceCall,
     conferenceRecordStatus,
   };
 }
