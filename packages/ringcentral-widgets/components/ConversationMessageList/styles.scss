@@ -64,29 +64,29 @@
   background: #efefef;
 
   &:before {
-    z-index: -1;
+    z-index: 0;
     position: absolute;
     content: "";
-    width: 33px;
-    height: 28px;
+    width: 25px;
+    height: 25px;
     bottom: 0px;
     left: -10px;
     background: #efefef;
     border-bottom-right-radius: 33px;
-    transform: rotate(-8deg);
+    transform: rotate(-3deg);
   }
 
   &:after {
-    z-index: -1;
+    z-index: 0;
     position: absolute;
     content: "";
     width: 30px;
     height: 30px;
     bottom: -1px;
-    left: -21px;
+    left: -24px;
     background: #fff;
     border-bottom-right-radius: 30px;
-    transform: rotate(-27deg);
+    transform: rotate(-24deg);
   }
 }
 
@@ -95,29 +95,29 @@
   clear: both;
   border-bottom-right-radius: 10px;
   &:before {
-    z-index: -1;
+    z-index: 0;
     position: absolute;
     content: "";
-    width: 29px;
-    height: 28px;
+    width: 25px;
+    height: 25px;
     bottom: -2px;
-    right: -8px;
+    right: -11px;
     background: $sms-bubble-background-color;
     border-bottom-left-radius: 33px;
     transform: rotate(-6deg);
   }
 
   &:after {
-    z-index: -1;
+    z-index: 0;
     position: absolute;
     content: "";
     width: 30px;
     height: 30px;
     bottom: 3px;
-    right: -21px;
+    right: -23px;
     background: #fff;
     border-bottom-left-radius: 30px;
-    transform: rotate(41deg);
+    transform: rotate(43deg);
   }
 }
 
@@ -139,4 +139,8 @@
   text-align: center;
   line-height: 40px;
   font-size: 14px;
+}
+
+.picture {
+  width: 100%;
 }

@@ -33,4 +33,6 @@ export default new Enum([
   // update merge pairs
   'updateFromSession',
   'updateToSession',
+  // for reselect
+  'updateCurrentConferenceId',
 ], 'conferenceCall');

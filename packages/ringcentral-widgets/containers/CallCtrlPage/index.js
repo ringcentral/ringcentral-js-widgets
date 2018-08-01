@@ -71,6 +71,12 @@ class CallCtrlPage extends Component {
   componentDidMount() {
     this._mounted = true;
     this._updateAvatarAndMatchIndex(this.props);
+    if (
+      this.props.conferenceCallId
+      && this.props.layout === callCtrlLayouts.conferenceCtrl
+    ) {
+      this.props.loadConference(this.props.conferenceCallId);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -189,6 +195,7 @@ class CallCtrlPage extends Component {
         conferenceCallParties={this.props.conferenceCallParties}
         lastCallInfo={this.props.lastCallInfo}
         getAvatarUrl={this.props.getAvatarUrl}
+        gotoParticipantsCtrl={this.props.gotoParticipantsCtrl}
       >
         {this.props.children}
       </CallCtrlPanel>
@@ -252,6 +259,9 @@ CallCtrlPage.propTypes = {
   hasConferenceCall: PropTypes.bool,
   lastCallInfo: PropTypes.object,
   onIncomingCallCaptured: PropTypes.func,
+  conferenceCallId: PropTypes.string,
+  gotoParticipantsCtrl: PropTypes.func,
+  loadConference: PropTypes.func,
 };
 
 CallCtrlPage.defaultProps = {
@@ -273,6 +283,9 @@ CallCtrlPage.defaultProps = {
   conferenceCallParties: undefined,
   lastCallInfo: { calleeType: calleeTypes.unknow },
   onIncomingCallCaptured: i => i,
+  conferenceCallId: null,
+  gotoParticipantsCtrl: i => i,
+  loadConference: i => i,
 };
 
 function mapToProps(_, {
@@ -305,6 +318,7 @@ function mapToProps(_, {
   let hasConferenceCall = false;
   let isMerging = false;
   let conferenceCallParties;
+  let conferenceCallId = null;
 
   if (conferenceCall) {
     isOnConference = conferenceCall.isConferenceSession(currentSession.id);
@@ -318,7 +332,9 @@ function mapToProps(_, {
     );
 
     if (conferenceData && isWebRTC) {
-      const newVal = conferenceCall.isOverload(conferenceData.conference.id)
+      conferenceCallId = conferenceData.conference.id;
+
+      const newVal = conferenceCall.isOverload(conferenceCallId)
         // in case webphone.activeSession has not been updated yet
         || !(currentSession.data && Object.keys(currentSession.data).length);
       // update
@@ -348,6 +364,7 @@ function mapToProps(_, {
     conferenceCallEquipped: !!conferenceCall,
     hasConferenceCall,
     conferenceCallParties,
+    conferenceCallId,
   };
 }
 
@@ -418,6 +435,12 @@ function mapToFunctions(_, {
     onIncomingCallCaptured() {
       routerInteraction.push('/calls/active');
     },
+    gotoParticipantsCtrl() {
+      routerInteraction.push('/conferenceCall/participants');
+    },
+    loadConference(confId) {
+      conferenceCall.loadConference(confId);
+    }
   };
 }
 
