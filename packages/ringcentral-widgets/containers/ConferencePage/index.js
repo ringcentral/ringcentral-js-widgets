@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
+import { reduce, map } from 'ramda';
 import ConferencePanel from '../../components/ConferencePanel';
 import withPhone from '../../lib/withPhone';
-import i18n from './i18n';
+import countryNames from '../../lib/countryNames';
 
 function mapToProps(_, {
   phone: {
@@ -22,16 +23,24 @@ function mapToProps(_, {
     allowJoinBeforeHost = false,
     phoneNumbers = [],
   } = conference.data || {};
-  const dialInNumbers = phoneNumbers.map((p) => {
-    const _region = i18n.getString(`conference_${p.country.isoCode}`, currentLocale);
+  const countryCounter = reduce((acc, item) => {
+    if (!acc[item.country.isoCode]) {
+      acc[item.country.isoCode] = 1;
+    } else {
+      acc[item.country.isoCode] += 1;
+    }
+    return acc;
+  }, {}, phoneNumbers);
+  const dialInNumbers = map((item) => {
+    const countryName = countryNames.getString(item.country.isoCode, currentLocale);
     // only show the provinces of canada
     return {
-      region: p.location && p.country.isoCode === 'CA'
-        ? `${_region}, ${p.location}`
-        : _region,
-      phoneNumber: p.phoneNumber
+      region: countryCounter[item.country.isoCode] > 1 ?
+        `${countryName}, ${item.location}` :
+        countryName,
+      phoneNumber: item.phoneNumber
     };
-  });
+  }, phoneNumbers);
   const disableTxtBtn = (
     (!serviceFeatures.SMS || !serviceFeatures.SMS.enabled) &&
     (!serviceFeatures.Pager || !serviceFeatures.Pager.enabled)
@@ -70,31 +79,31 @@ function mapToFunctions(_, {
   },
 }) {
   return {
-    alert: (msg) => {
+    alert(msg) {
       alert.warning({ message: msg });
     },
-    updateDialInNumber: (dialInNumber) => {
+    updateDialInNumber(dialInNumber) {
       conference.updateDialInNumber(dialInNumber);
     },
-    updateAdditionalNumbers: (additionalDialInNumbers) => {
+    updateAdditionalNumbers(additionalDialInNumbers) {
       conference.updateAdditionalNumbers(additionalDialInNumbers);
     },
-    inviteWithText: (text) => {
+    inviteWithText(text) {
       composeText.updateMessageText(text);
       // for track
       conference.onInviteWithText();
       routerInteraction.push('/composeText');
     },
-    joinAsHost: (phoneNumber) => {
+    joinAsHost(phoneNumber) {
       // for track
       conference.onJoinAsHost();
       routerInteraction.history.push('/dialer');
       call.call({ phoneNumber });
     },
-    onAllowJoinBeforeHostChange: (allowJoinBeforeHost) => {
+    onAllowJoinBeforeHostChange(allowJoinBeforeHost) {
       conference.updateEnableJoinBeforeHost(allowJoinBeforeHost);
     },
-    showHelpCommands: () => {
+    showHelpCommands() {
       routerInteraction.push('/conference/commands');
     }
   };

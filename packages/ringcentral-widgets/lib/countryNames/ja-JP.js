@@ -1,135 +1,137 @@
 export default {
-  419: 'ラテンアメリカ',
-  AR: 'アルゼンチン',
-  AT: 'オーストリア',
-  BH: 'バーレーン',
-  BR: 'ブラジル',
-  BG: 'ブルガリア',
-  CA: 'カナダ',
-  CL: 'チリ',
-  CN: '中国',
-  HR: 'クロアチア',
-  CY: 'キプロス',
-  CZ: 'チェコ共和国',
-  DK: 'デンマーク',
-  DO: 'ドミニカ共和国',
-  EE: 'エストニア',
-  FI: 'フィンランド',
-  FR: 'フランス',
-  DE: 'ドイツ',
-  HK: '香港',
-  HU: 'ハンガリー',
-  IE: 'アイルランド',
-  IL: 'イスラエル',
-  IN: 'インド',
-  IT: 'イタリア',
-  JP: '日本',
-  LV: 'ラトビア',
-  LT: 'リトアニア',
-  LU: 'ルクセンブルク',
-  MY: 'マレーシア',
-  MX: 'メキシコ',
-  NL: 'オランダ',
-  NO: 'ノルウェー',
-  PA: 'パナマ',
-  PH: 'フィリピン',
-  PL: 'ポーランド',
-  PT: 'ポルトガル',
-  RO: 'ルーマニア',
-  SK: 'スロバキア',
-  SI: 'スロベニア',
-  ES: 'スペイン',
-  SE: 'スウェーデン',
-  CH: 'スイス',
-  TR: 'トルコ',
-  GB: '英国',
-  AU: 'オーストラリア',
-  GE: 'ジョージア',
-  ID: 'インドネシア',
-  KE: 'ケニア',
-  NG: 'ナイジェリア',
-  PK: 'パキスタン',
-  ZA: '南アフリカ',
-  KR: '韓国',
-  SG: 'シンガポール',
-  TW: '台湾',
-  UA: 'ウクライナ',
-  US: '米国',
-  VN: 'ベトナム',
-  BE: 'ベルギー',
-  BJ: 'ベナン',
-  SV: 'エルサルバドル',
-  GH: 'ガーナ',
-  GR: 'ギリシャ',
-  GN: 'ギニア',
-  NZ: 'ニュージーランド',
-  PE: 'ペルー',
-  PR: 'プエルトリコ',
+  419: "ラテンアメリカ",
+  AR: "アルゼンチン",
+  AT: "オーストリア",
+  AU: "オーストラリア",
+  BE: "ベルギー",
+  BG: "ブルガリア",
+  BH: "バーレーン",
+  BJ: "ベナン",
+  BR: "ブラジル",
+  CA: "カナダ",
+  CH: "スイス",
+  CL: "チリ",
+  CN: "中国",
+  CO: "コロンビア",
+  CY: "キプロス",
+  CZ: "チェコ共和国",
+  DE: "ドイツ",
+  DK: "デンマーク",
+  DO: "ドミニカ共和国",
+  EE: "エストニア",
+  ES: "スペイン",
+  FI: "フィンランド",
+  FR: "フランス",
+  GB: "英国",
+  GE: "ジョージア",
+  GH: "ガーナ",
+  GN: "ギニア",
+  GR: "ギリシャ",
+  HK: "香港",
+  HR: "クロアチア",
+  HU: "ハンガリー",
+  ID: "インドネシア",
+  IE: "アイルランド",
+  IL: "イスラエル",
+  IN: "インド",
+  IT: "イタリア",
+  JP: "日本",
+  KE: "ケニア",
+  KR: "韓国",
+  LT: "リトアニア",
+  LU: "ルクセンブルク",
+  LV: "ラトビア",
+  MX: "メキシコ",
+  MY: "マレーシア",
+  NG: "ナイジェリア",
+  NL: "オランダ",
+  NO: "ノルウェー",
+  NZ: "ニュージーランド",
+  PA: "パナマ",
+  PE: "ペルー",
+  PH: "フィリピン",
+  PK: "パキスタン",
+  PL: "ポーランド",
+  PR: "プエルトリコ",
+  PT: "ポルトガル",
+  RO: "ルーマニア",
+  SE: "スウェーデン",
+  SG: "シンガポール",
+  SI: "スロベニア",
+  SK: "スロバキア",
+  SV: "エルサルバドル",
+  TR: "トルコ",
+  TW: "台湾",
+  UA: "ウクライナ",
+  US: "米国",
+  VN: "ベトナム",
+  ZA: "南アフリカ"
 };
 
 // @key: @#@"419"@#@ @source: @#@"Latin America"@#@
 // @key: @#@"AR"@#@ @source: @#@"Argentina"@#@
 // @key: @#@"AT"@#@ @source: @#@"Austria"@#@
-// @key: @#@"BH"@#@ @source: @#@"Bahrain"@#@
-// @key: @#@"BR"@#@ @source: @#@"Brazil"@#@
+// @key: @#@"AU"@#@ @source: @#@"Australia"@#@
+// @key: @#@"BE"@#@ @source: @#@"Belgium"@#@
 // @key: @#@"BG"@#@ @source: @#@"Bulgaria"@#@
+// @key: @#@"BH"@#@ @source: @#@"Bahrain"@#@
+// @key: @#@"BJ"@#@ @source: @#@"Benin"@#@
+// @key: @#@"BR"@#@ @source: @#@"Brazil"@#@
 // @key: @#@"CA"@#@ @source: @#@"Canada"@#@
+// @key: @#@"CH"@#@ @source: @#@"Switzerland"@#@
 // @key: @#@"CL"@#@ @source: @#@"Chile"@#@
 // @key: @#@"CN"@#@ @source: @#@"China"@#@
-// @key: @#@"HR"@#@ @source: @#@"Croatia"@#@
+// @key: @#@"CO"@#@ @source: @#@"Colombia"@#@
 // @key: @#@"CY"@#@ @source: @#@"Cyprus"@#@
 // @key: @#@"CZ"@#@ @source: @#@"Czech Republic"@#@
+// @key: @#@"DE"@#@ @source: @#@"Germany"@#@
 // @key: @#@"DK"@#@ @source: @#@"Denmark"@#@
 // @key: @#@"DO"@#@ @source: @#@"Dominican Republic"@#@
 // @key: @#@"EE"@#@ @source: @#@"Estonia"@#@
+// @key: @#@"ES"@#@ @source: @#@"Spain"@#@
 // @key: @#@"FI"@#@ @source: @#@"Finland"@#@
 // @key: @#@"FR"@#@ @source: @#@"France"@#@
-// @key: @#@"DE"@#@ @source: @#@"Germany"@#@
+// @key: @#@"GB"@#@ @source: @#@"United Kingdom"@#@
+// @key: @#@"GE"@#@ @source: @#@"Georgia"@#@
+// @key: @#@"GH"@#@ @source: @#@"Ghana"@#@
+// @key: @#@"GN"@#@ @source: @#@"Guinea"@#@
+// @key: @#@"GR"@#@ @source: @#@"Greece"@#@
 // @key: @#@"HK"@#@ @source: @#@"Hong Kong"@#@
+// @key: @#@"HR"@#@ @source: @#@"Croatia"@#@
 // @key: @#@"HU"@#@ @source: @#@"Hungary"@#@
+// @key: @#@"ID"@#@ @source: @#@"Indonesia"@#@
 // @key: @#@"IE"@#@ @source: @#@"Ireland"@#@
 // @key: @#@"IL"@#@ @source: @#@"Israel"@#@
 // @key: @#@"IN"@#@ @source: @#@"India"@#@
 // @key: @#@"IT"@#@ @source: @#@"Italy"@#@
 // @key: @#@"JP"@#@ @source: @#@"Japan"@#@
-// @key: @#@"LV"@#@ @source: @#@"Latvia"@#@
+// @key: @#@"KE"@#@ @source: @#@"Kenya"@#@
+// @key: @#@"KR"@#@ @source: @#@"South Korea"@#@
 // @key: @#@"LT"@#@ @source: @#@"Lithuania"@#@
 // @key: @#@"LU"@#@ @source: @#@"Luxembourg"@#@
-// @key: @#@"MY"@#@ @source: @#@"Malaysia"@#@
+// @key: @#@"LV"@#@ @source: @#@"Latvia"@#@
 // @key: @#@"MX"@#@ @source: @#@"Mexico"@#@
+// @key: @#@"MY"@#@ @source: @#@"Malaysia"@#@
+// @key: @#@"NG"@#@ @source: @#@"Nigeria"@#@
 // @key: @#@"NL"@#@ @source: @#@"Netherlands"@#@
 // @key: @#@"NO"@#@ @source: @#@"Norway"@#@
+// @key: @#@"NZ"@#@ @source: @#@"New Zealand"@#@
 // @key: @#@"PA"@#@ @source: @#@"Panama"@#@
+// @key: @#@"PE"@#@ @source: @#@"Peru"@#@
 // @key: @#@"PH"@#@ @source: @#@"Philippines"@#@
+// @key: @#@"PK"@#@ @source: @#@"Pakistan"@#@
 // @key: @#@"PL"@#@ @source: @#@"Poland"@#@
+// @key: @#@"PR"@#@ @source: @#@"Puerto Rico"@#@
 // @key: @#@"PT"@#@ @source: @#@"Portugal"@#@
 // @key: @#@"RO"@#@ @source: @#@"Romania"@#@
-// @key: @#@"SK"@#@ @source: @#@"Slovakia"@#@
-// @key: @#@"SI"@#@ @source: @#@"Slovenia"@#@
-// @key: @#@"ES"@#@ @source: @#@"Spain"@#@
 // @key: @#@"SE"@#@ @source: @#@"Sweden"@#@
-// @key: @#@"CH"@#@ @source: @#@"Switzerland"@#@
-// @key: @#@"TR"@#@ @source: @#@"Turkey"@#@
-// @key: @#@"GB"@#@ @source: @#@"United Kingdom"@#@
-// @key: @#@"AU"@#@ @source: @#@"Australia"@#@
-// @key: @#@"GE"@#@ @source: @#@"Georgia"@#@
-// @key: @#@"ID"@#@ @source: @#@"Indonesia"@#@
-// @key: @#@"KE"@#@ @source: @#@"Kenya"@#@
-// @key: @#@"NG"@#@ @source: @#@"Nigeria"@#@
-// @key: @#@"PK"@#@ @source: @#@"Pakistan"@#@
-// @key: @#@"ZA"@#@ @source: @#@"South Africa"@#@
-// @key: @#@"KR"@#@ @source: @#@"South Korea"@#@
 // @key: @#@"SG"@#@ @source: @#@"Singapore"@#@
+// @key: @#@"SI"@#@ @source: @#@"Slovenia"@#@
+// @key: @#@"SK"@#@ @source: @#@"Slovakia"@#@
+// @key: @#@"SV"@#@ @source: @#@"El Salvador"@#@
+// @key: @#@"TR"@#@ @source: @#@"Turkey"@#@
 // @key: @#@"TW"@#@ @source: @#@"Taiwan"@#@
 // @key: @#@"UA"@#@ @source: @#@"Ukraine"@#@
 // @key: @#@"US"@#@ @source: @#@"United States"@#@
 // @key: @#@"VN"@#@ @source: @#@"Vietnam"@#@
-// @key: @#@"BE"@#@ @source: @#@"Belgium"@#@
-// @key: @#@"BJ"@#@ @source: @#@"Benin"@#@
-// @key: @#@"SV"@#@ @source: @#@"El Salvador"@#@
-// @key: @#@"GH"@#@ @source: @#@"Ghana"@#@
-// @key: @#@"GR"@#@ @source: @#@"Greece"@#@
-// @key: @#@"GN"@#@ @source: @#@"Guinea"@#@
-// @key: @#@"NZ"@#@ @source: @#@"New Zealand"@#@
-// @key: @#@"PE"@#@ @source: @#@"Peru"@#@
-// @key: @#@"PR"@#@ @source: @#@"Puerto Rico"@#@
+// @key: @#@"ZA"@#@ @source: @#@"South Africa"@#@
