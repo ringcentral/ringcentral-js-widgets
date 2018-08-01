@@ -103,9 +103,20 @@ export default class Webphone extends RcModule {
     this._audioSettings = this::ensureExist(audioSettings, 'audioSettings');
     this._contactMatcher = contactMatcher;
     this._tabManager = tabManager;
-    this._onCallEndFunc = onCallEnd;
-    this._onCallRingFunc = onCallRing;
-    this._onCallStartFunc = onCallStart;
+
+    this._onCallEndFunctions = [];
+    if (typeof onCallEnd === 'function') {
+      this._onCallEndFunctions.push(onCallEnd);
+    }
+    this._onCallRingFunctions = [];
+    if (typeof onCallRing === 'function') {
+      this._onCallRingFunctions.push(onCallRing);
+    }
+    this._onCallStartFunctions = [];
+    if (typeof onCallStart === 'function') {
+      this._onCallStartFunctions.push(onCallStart);
+    }
+
     this._webphone = null;
     this._remoteVideo = null;
     this._localVideo = null;
@@ -1224,6 +1235,9 @@ export default class Webphone extends RcModule {
     if (typeof this._onCallStartFunc === 'function') {
       this._onCallStartFunc(normalizedSession, this.activeSession);
     }
+    this._onCallStartFunctions.forEach(
+      handler => handler(normalizedSession, this.activeSession)
+    );
   }
 
   _onCallStart(session) {
@@ -1259,6 +1273,9 @@ export default class Webphone extends RcModule {
     if (typeof this._onCallRingFunc === 'function') {
       this._onCallRingFunc(normalizedSession, this.ringSession);
     }
+    this._onCallRingFunctions.forEach(
+      handler => handler(normalizedSession, this.ringSession)
+    );
   }
 
   _onCallEnd(session) {
@@ -1272,6 +1289,9 @@ export default class Webphone extends RcModule {
     if (typeof this._onCallEndFunc === 'function') {
       this._onCallEndFunc(normalizedSession, this.activeSession);
     }
+    this._onCallEndFunctions.forEach(
+      handler => handler(normalizedSession, this.activeSession)
+    );
   }
 
   async _retrySleep() {
@@ -1303,6 +1323,24 @@ export default class Webphone extends RcModule {
         statusCode: this.statusCode
       },
     });
+  }
+
+  onCallStart(handler) {
+    if (typeof handler === 'function') {
+      this._onCallStartFunctions.push(handler);
+    }
+  }
+
+  onCallRing(handler) {
+    if (typeof handler === 'function') {
+      this._onCallRingFunctions.push(handler);
+    }
+  }
+
+  onCallEnd(handler) {
+    if (typeof handler === 'function') {
+      this._onCallEndFunctions.push(handler);
+    }
   }
 
   get status() {

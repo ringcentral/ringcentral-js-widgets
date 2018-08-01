@@ -182,6 +182,22 @@ export function getFaxAttachment(message, accessToken) {
     uri
   };
 }
+export function getMMSAttachment(message, accessToken) {
+  if (!message.attachments || message.attachments.length === 0) {
+    return null;
+  }
+  const attachment = message.attachments.find(
+    a => a.type === 'MmsAttachment'
+  );
+  if (!attachment) {
+    return null;
+  }
+  const uri = `${attachment.uri}?access_token=${decodeURIComponent(accessToken)}`;
+  return {
+    ...attachment,
+    uri
+  };
+}
 
 export function getConversationId(record) {
   const conversationId = (record.conversation && record.conversation.id) || record.id;

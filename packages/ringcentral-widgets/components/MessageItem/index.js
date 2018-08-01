@@ -312,6 +312,9 @@ export default class MessageItem extends Component {
       currentLocale,
     } = this.props;
     if (messageIsTextMessage(conversation)) {
+      if (conversation.mmsAttachment && conversation.mmsAttachment.contentType.indexOf('image') > -1) {
+        return i18n.getString('imageAttachment', currentLocale);
+      }
       return conversation.subject;
     }
     if (conversation.voicemailAttachment) {
