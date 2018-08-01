@@ -89,20 +89,12 @@ $button-size:24px;
 }
 
 .ConfirmRemoveModal {
-  min-width: 190px;
   top:0;
   bottom:0;
   left:0;
   right:0;
   margin: auto;
-
-  .header{
-    text-align: center;
-    background-color: $egg;
-    font-size: 13px;
-    padding: 8px 0;
-  }
-
+  
   .contentText {
     font-weight: bold;
     padding: 5px 10px 0;
@@ -112,30 +104,5 @@ $button-size:24px;
         font-weight: bold;
       }
     }
-  }
-
-  .closeBtn {
-    position: absolute;
-    top: 8px;
-    right: 11px;
-  }
-
-  .btn{
-    font-size: 12px;
-    border-radius: 25px;
-    border: 1px solid $primary-color;
-  }
-  .btn+.btn{
-    margin-left:10px;
-  }
-
-  .cancelBtn{
-    color: $primary-color;
-    background: $snow;
-  }
-
-  .confirmBtn{
-    color: $snow;
-    background: $primary-color;
   }
 }
