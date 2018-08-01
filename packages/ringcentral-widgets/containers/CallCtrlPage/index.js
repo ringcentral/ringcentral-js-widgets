@@ -197,6 +197,7 @@ class CallCtrlPage extends Component {
         getAvatarUrl={this.props.getAvatarUrl}
         isRecording={this.props.isRecording}
         gotoParticipantsCtrl={this.props.gotoParticipantsCtrl}
+        conferenceRecordStatus={this.props.conferenceRecordStatus}
       >
         {this.props.children}
       </CallCtrlPanel>
@@ -264,6 +265,7 @@ CallCtrlPage.propTypes = {
   conferenceCallId: PropTypes.string,
   gotoParticipantsCtrl: PropTypes.func,
   loadConference: PropTypes.func,
+  conferenceRecordStatus: PropTypes.string,
 };
 
 CallCtrlPage.defaultProps = {
@@ -289,6 +291,7 @@ CallCtrlPage.defaultProps = {
   conferenceCallId: null,
   gotoParticipantsCtrl: i => i,
   loadConference: i => i,
+  conferenceRecordStatus: null,
 };
 
 function mapToProps(_, {
@@ -322,7 +325,7 @@ function mapToProps(_, {
   let isMerging = false;
   let conferenceCallParties;
   let conferenceCallId = null;
-
+  let conferenceRecordStatus = null;
   if (conferenceCall) {
     isOnConference = conferenceCall.isConferenceSession(currentSession.id);
     const conferenceData = Object.values(conferenceCall.conferences)[0];
@@ -343,6 +346,9 @@ function mapToProps(_, {
       // update
       mergeDisabled = newVal || !(currentSession.data && Object.keys(currentSession.data).length);
       addDisabled = newVal;
+      conferenceRecordStatus = conferenceData.sessionId;
+      const conferenceSession = webphone._sessions.get(conferenceData.sessionId);
+      conferenceRecordStatus = conferenceSession.recordStatus;
     }
 
     hasConferenceCall = !!conferenceData;
@@ -368,6 +374,8 @@ function mapToProps(_, {
     hasConferenceCall,
     conferenceCallParties,
     conferenceCallId,
+    conferenceCall,
+    conferenceRecordStatus,
   };
 }
 
@@ -415,7 +423,7 @@ function mapToFunctions(_, {
     recipientsContactInfoRenderer,
     recipientsContactPhoneRenderer,
     onAdd(sessionId) {
-      if (conferenceCall.isRecording()) {
+      if (webphone.isRecording(webphone.activeSession.recordStatus)) {
         return;
       }
       const sessionData = find(x => x.id === sessionId, webphone.sessions);
@@ -433,9 +441,6 @@ function mapToFunctions(_, {
       }
     },
     async onMerge(sessionId) {
-      if (conferenceCall.isRecording()) {
-        return;
-      }
       const conferenceData = await conferenceCall.onMerge({ sessionId });
       if (!conferenceData) {
         routerInteraction.push('/conferenceCall/mergeCtrl');
@@ -444,7 +449,7 @@ function mapToFunctions(_, {
     onIncomingCallCaptured() {
       routerInteraction.push('/calls/active');
     },
-    isRecording: () => conferenceCall.isRecording(),
+    isRecording: (...args) => webphone.isRecording(...args),
     gotoParticipantsCtrl() {
       routerInteraction.push('/conferenceCall/participants');
     },

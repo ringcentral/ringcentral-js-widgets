@@ -50,7 +50,7 @@ function mapToFunctions(_, {
     ...baseProps,
     async onMerge(sessionId) {
       const session = webphone._sessions.get(sessionId);
-      if (conferenceCall.isRecording(session)) {
+      if (webphone.isRecording(session.recordStatus)) {
         return;
       }
       routerInteraction.replace('/calls/active');

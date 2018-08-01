@@ -1343,6 +1343,14 @@ export default class Webphone extends RcModule {
     }
   }
 
+  isRecording(status) {
+    if (status !== recordStatus.idle) {
+      this._alert.warning({ message: recordStatus.recording });
+      return true;
+    }
+    return false;
+  }
+
   get status() {
     return this.state.status;
   }

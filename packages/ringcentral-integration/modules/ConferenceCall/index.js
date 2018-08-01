@@ -797,30 +797,6 @@ export default class ConferenceCall extends RcModule {
     };
   }
 
-  isRecording(session) {
-    const isRecordStart = status => (
-      status === recordStatus.pending ||
-      status === recordStatus.recording
-    );
-    if (session && isRecordStart(session.recordStatus)) {
-      this._alert.warning({ message: recordStatus.recording });
-      return true;
-    }
-    if (isRecordStart(this._webphone.activeSession.recordStatus)) {
-      this._alert.warning({ message: recordStatus.recording });
-      return true;
-    }
-    const conferenceData = Object.values(this.conferences)[0];
-    if (conferenceData) {
-      const conferenceSession = this._webphone._sessions.get(conferenceData.sessionId);
-      if (isRecordStart(conferenceSession.recordStatus)) {
-        this._alert.warning({ message: recordStatus.recording });
-        return true;
-      }
-    }
-    return false;
-  }
-
   @proxify
   async onMerge({ sessionId }) {
     const session = this._webphone._sessions.get(sessionId);
