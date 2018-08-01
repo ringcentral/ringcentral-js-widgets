@@ -71,10 +71,10 @@ class MergeInfo extends Component {
           </div>
           <div className={styles.callee_name}>
             {
-              isOnConferenCall
-              ? i18n.getString('conferenceCall', currentLocale)
-              : calleeName
-            }
+                isOnConferenCall
+                ? <span title={i18n.getString('conferenceCall', currentLocale)}>{i18n.getString('conferenceCall', currentLocale)} </span>
+                : <span title={calleeName}>{calleeName}</span>
+              }
           </div>
           <div className={statusClasses}>
             {lastCallInfo.status === sessionStatus.finished
@@ -91,7 +91,7 @@ class MergeInfo extends Component {
               }
           </div>
           <div className={styles.callee_name_active}>
-            {currentCallTitle}
+            <span title={currentCallTitle}>{currentCallTitle}</span>
           </div>
           <div className={styles.callee_status_active}>
             {timeCounter}
