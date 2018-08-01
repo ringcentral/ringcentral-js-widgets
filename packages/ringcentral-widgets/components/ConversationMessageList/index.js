@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import isBlank from 'ringcentral-integration/lib/isBlank';
 
 import styles from './styles.scss';
 
@@ -10,7 +11,14 @@ export function Message({
   direction,
   sender,
   subjectRenderer: SubjectRenderer,
+  mmsAttachment,
 }) {
+  let content;
+  if (subject && !isBlank(subject)) {
+    content = SubjectRenderer ? <SubjectRenderer subject={subject} /> : subject;
+  } else if (mmsAttachment && mmsAttachment.contentType.indexOf('image') > -1) {
+    content = (<img src={mmsAttachment.uri} alt="attactment" className={styles.picture} />);
+  }
   return (
     <div className={styles.message}>
       {
@@ -37,9 +45,7 @@ export function Message({
           direction === 'Outbound' ? styles.outbound : styles.inbound,
           (subject && subject.length > 500) && styles.big,
         )}>
-        {
-          SubjectRenderer ? <SubjectRenderer subject={subject} /> : subject
-        }
+        { content }
       </div>
       <div className={styles.clear} />
     </div>
@@ -52,6 +58,7 @@ Message.propTypes = {
   time: PropTypes.string,
   sender: PropTypes.string,
   subjectRenderer: PropTypes.func,
+  mmsAttachment: PropTypes.object,
 };
 
 Message.defaultProps = {
@@ -59,6 +66,7 @@ Message.defaultProps = {
   sender: undefined,
   time: undefined,
   subjectRenderer: undefined,
+  mmsAttachment: null,
 };
 
 class ConversationMessageList extends Component {
@@ -145,6 +153,7 @@ class ConversationMessageList extends Component {
           direction={message.direction}
           subject={message.subject}
           subjectRenderer={messageSubjectRenderer}
+          mmsAttachment={message.mmsAttachment}
         />
       );
     });
@@ -173,6 +182,7 @@ ConversationMessageList.propTypes = {
     id: PropTypes.number,
     direction: PropTypes.string,
     subject: PropTypes.string,
+    mmsAttachment: PropTypes.object,
   })).isRequired,
   className: PropTypes.string,
   showSender: PropTypes.bool,
