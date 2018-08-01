@@ -1509,7 +1509,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 return _context13.abrupt('return', conferenceData);
 
               case 20:
-                return _context13.abrupt('return', null);
+                return _context13.abrupt('return', conferenceData);
 
               case 21:
               case 'end':
