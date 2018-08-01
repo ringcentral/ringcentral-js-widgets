@@ -26,6 +26,10 @@ function matchWephoneSessionWithAcitveCall(sessions, callItem) {
     return undefined;
   }
   return sessions.find((session) => {
+    if (session.callId === callItem.id) {
+      return true;
+    }
+
     if (session.direction !== callItem.direction) {
       return false;
     }

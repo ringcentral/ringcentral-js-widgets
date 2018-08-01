@@ -643,13 +643,13 @@ export default class Webphone extends RcModule {
       }
       console.log('accepted');
       session.callStatus = sessionStatus.connected;
+
       if (
-        incomingResponse &&
-        (typeof incomingResponse.headers).toLowerCase() === 'object' &&
-        Array.isArray(incomingResponse.headers['P-Rc-Api-Ids']) &&
-        incomingResponse.headers['P-Rc-Api-Ids'].length &&
-        (typeof incomingResponse.headers['P-Rc-Api-Ids'][0]).toLowerCase() === 'object' &&
-        (typeof incomingResponse.headers['P-Rc-Api-Ids'][0].raw).toLowerCase() === 'string'
+        incomingResponse
+        && incomingResponse.headers
+        && incomingResponse.headers['P-Rc-Api-Ids']
+        && incomingResponse.headers['P-Rc-Api-Ids'][0]
+        && incomingResponse.headers['P-Rc-Api-Ids'][0].raw
       ) {
         /**
          * interface SessionData{
@@ -657,12 +657,25 @@ export default class Webphone extends RcModule {
          *  "sessionId": String
          * }
          */
-        session.data = incomingResponse.headers['P-Rc-Api-Ids'][0].raw.split(';')
-          .map(sub => sub.split('=')).reduce((accum, [key, value]) => {
+        session.data = incomingResponse.headers['P-Rc-Api-Ids'][0].raw
+          .split(';')
+          .map(sub => sub.split('='))
+          .reduce((accum, [key, value]) => {
             accum[camelize(key)] = value;
             return accum;
           }, {});
       }
+
+      if (
+        incomingResponse
+        && incomingResponse.headers
+        && incomingResponse.headers['Call-ID']
+        && incomingResponse.headers['Call-ID'][0]
+        && incomingResponse.headers['Call-ID'][0].raw
+      ) {
+        session.callId = incomingResponse.headers['Call-ID'][0].raw;
+      }
+
       this._onCallStart(session);
     });
     session.on('progress', () => {

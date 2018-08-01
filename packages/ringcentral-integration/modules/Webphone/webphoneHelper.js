@@ -18,6 +18,7 @@ export function isBrowserSupport() {
 export function normalizeSession(session) {
   return {
     id: session.id,
+    callId: session.callId,
     direction: session.direction,
     callStatus: session.callStatus,
     to: session.request.to.uri.user,
