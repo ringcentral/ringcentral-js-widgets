@@ -144,7 +144,16 @@ var MergeInfo = function (_Component) {
           _react2.default.createElement(
             'div',
             { className: _styles2.default.callee_name },
-            isOnConferenCall ? _i18n2.default.getString('conferenceCall', currentLocale) : calleeName
+            isOnConferenCall ? _react2.default.createElement(
+              'span',
+              { title: _i18n2.default.getString('conferenceCall', currentLocale) },
+              _i18n2.default.getString('conferenceCall', currentLocale),
+              ' '
+            ) : _react2.default.createElement(
+              'span',
+              { title: calleeName },
+              calleeName
+            )
           ),
           _react2.default.createElement(
             'div',
@@ -163,7 +172,11 @@ var MergeInfo = function (_Component) {
           _react2.default.createElement(
             'div',
             { className: _styles2.default.callee_name_active },
-            currentCallTitle
+            _react2.default.createElement(
+              'span',
+              { title: currentCallTitle },
+              currentCallTitle
+            )
           ),
           _react2.default.createElement(
             'div',
