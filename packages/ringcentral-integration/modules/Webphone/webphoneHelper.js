@@ -38,7 +38,7 @@ export function normalizeSession(session) {
     contactMatch: session.contactMatch,
     minimized: !!session.minimized,
     data: session.data || null,
-    lastHoldingTime: session.lastHoldingTime || 0,
+    lastHoldingTime: session.lastHoldingTime || +new Date(),
     cached: false,
     removed: false,
   };
