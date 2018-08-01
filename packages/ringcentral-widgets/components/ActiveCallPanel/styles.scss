@@ -10,6 +10,7 @@ $timeCounterHeight: 14px;
 $calleeAvatarSize: 30px;
 $calleeAvatarActiveSize: 42px;
 $calleeAvatarMarginL: ($calleeAvatarActiveSize - $calleeAvatarSize)/2;
+$avatarMarginR: 10px;
 
 .root {
   @include full-size;
@@ -172,7 +173,7 @@ $calleeAvatarMarginL: ($calleeAvatarActiveSize - $calleeAvatarSize)/2;
       width: $calleeAvatarSize;
       height: $calleeAvatarSize;
       float: left;
-      margin-right: $calleeAvatarMarginL + 10px;
+      margin-right: $calleeAvatarMarginL + $avatarMarginR;
       margin-left: $calleeAvatarMarginL;
       border-radius: 100%;
       @media only screen and (min-width: 150px) and (max-width: 265px) {
@@ -218,7 +219,7 @@ $calleeAvatarMarginL: ($calleeAvatarActiveSize - $calleeAvatarSize)/2;
       height: $calleeAvatarActiveSize;
       border-radius: 100%;
       float: left;
-      margin-right: 10px;
+      margin-right: $avatarMarginR;
       @media only screen and (min-width: 150px) and (max-width: 265px) {
         margin-right: 6%;
       }
