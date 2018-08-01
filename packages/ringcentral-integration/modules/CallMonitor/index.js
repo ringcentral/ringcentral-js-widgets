@@ -7,14 +7,19 @@ import calleeTypes from '../../enums/calleeTypes';
 import callDirections from '../../enums/callDirections';
 import sessionStatus from '../Webphone/sessionStatus';
 import getCallMonitorReducer, { getCallMatchedReducer } from './getCallMonitorReducer';
+import ensureExist from '../../lib/ensureExist';
 import normalizeNumber from '../../lib/normalizeNumber';
 import {
   isRinging,
   hasRingingCalls,
   sortByStartTime,
 } from '../../lib/callLogHelpers';
-import ensureExist from '../../lib/ensureExist';
-import { isRing, isOnHold, sortByLastHoldingTimeDesc, isConferenceSession } from '../Webphone/webphoneHelper';
+import {
+  isRing,
+  isOnHold,
+  isConferenceSession,
+  sortByLastHoldingTimeDesc,
+} from '../Webphone/webphoneHelper';
 
 function matchWephoneSessionWithAcitveCall(sessions, callItem) {
   if (!sessions || !callItem.sipData) {
