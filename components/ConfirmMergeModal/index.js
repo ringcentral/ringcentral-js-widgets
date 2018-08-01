@@ -68,14 +68,8 @@ function ConfirmMergeModal(_ref) {
       cancelBtnClassName: _styles2.default.cancelBtn,
       confirmBtnClassName: _styles2.default.confirmBtn,
       title: _i18n2.default.getString('confirmation', currentLocale),
-      closeBtn: _react2.default.createElement(
-        _Button2.default,
-        {
-          className: _styles2.default.closeBtn,
-          onClick: onCancel
-        },
-        _react2.default.createElement(_CloseIcon2.default, null)
-      )
+      onCancel: onCancel,
+      footerClassName: _styles2.default.footer
     },
     _react2.default.createElement(
       'div',

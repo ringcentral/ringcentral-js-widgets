@@ -122,19 +122,7 @@ function ConfirmDeleteModal(_ref) {
       show: show,
       currentLocale: currentLocale,
       onConfirm: onDelete,
-      onCancel: onCancel,
-      className: _styles2.default.confirmDeleteModal,
-      modalClassName: _styles2.default.confirmDeleteModal,
-      cancelBtnClassName: _styles2.default.cancelBtn,
-      confirmBtnClassName: _styles2.default.confirmBtn,
-      closeBtn: _react2.default.createElement(
-        _Button2.default,
-        {
-          className: _styles2.default.closeBtn,
-          onClick: onCancel
-        },
-        _react2.default.createElement(_CloseIcon2.default, null)
-      )
+      onCancel: onCancel
     },
     _react2.default.createElement(
       'div',

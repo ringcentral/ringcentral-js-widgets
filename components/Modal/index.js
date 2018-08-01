@@ -49,6 +49,14 @@ var _i18n = require('./i18n');
 
 var _i18n2 = _interopRequireDefault(_i18n);
 
+var _Button = require('../Button');
+
+var _Button2 = _interopRequireDefault(_Button);
+
+var _CloseIcon = require('../../assets/images/CloseIcon.svg');
+
+var _CloseIcon2 = _interopRequireDefault(_CloseIcon);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function FlatButton(_ref) {
@@ -119,26 +127,27 @@ var Modal = function (_Component) {
           modalClassName = _props.modalClassName,
           cancelBtnClassName = _props.cancelBtnClassName,
           confirmBtnClassName = _props.confirmBtnClassName,
-          closeBtn = _props.closeBtn,
+          showCloseBtn = _props.showCloseBtn,
           maskClassName = _props.maskClassName,
           headerClassName = _props.headerClassName,
-          contentClassName = _props.contentClassName;
+          contentClassName = _props.contentClassName,
+          footerClassName = _props.footerClassName;
       // if (!show) return null;
 
       var footer = !currentLocale || !onCancel && !onConfirm ? null : _react2.default.createElement(
         'div',
-        { className: _styles2.default.footer },
+        { className: (0, _classnames2.default)(_styles2.default.footer, footerClassName) },
         onCancel ? _react2.default.createElement(
           FlatButton,
           {
-            className: (0, _classnames2.default)(_styles2.default.btn, cancelBtnClassName),
+            className: (0, _classnames2.default)(_styles2.default.btn, _styles2.default.cancelBtn, cancelBtnClassName),
             onClick: onCancel },
           textCancel || _i18n2.default.getString('cancel', currentLocale)
         ) : null,
         onConfirm ? _react2.default.createElement(
           FlatButton,
           {
-            className: (0, _classnames2.default)(_styles2.default.btn, confirmBtnClassName),
+            className: (0, _classnames2.default)(_styles2.default.btn, _styles2.default.confirmBtn, confirmBtnClassName),
             onClick: onConfirm },
           textConfirm || _i18n2.default.getString('confirm', currentLocale)
         ) : null
@@ -153,12 +162,19 @@ var Modal = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: show ? (0, _classnames2.default)(_styles2.default.modal, modalClassName) : _styles2.default.modalHidden },
-          title ? _react2.default.createElement(
+          _react2.default.createElement(
             'div',
             { className: (0, _classnames2.default)(_styles2.default.header, headerClassName) },
-            title
+            '' + title || null
+          ),
+          showCloseBtn ? _react2.default.createElement(
+            _Button2.default,
+            {
+              className: _styles2.default.closeBtn,
+              onClick: onCancel
+            },
+            _react2.default.createElement(_CloseIcon2.default, null)
           ) : null,
-          closeBtn,
           _react2.default.createElement(
             'div',
             { className: (0, _classnames2.default)(_styles2.default.content, contentClassName) },
@@ -194,11 +210,12 @@ Modal.propTypes = {
   currentLocale: _propTypes2.default.string,
   textConfirm: _propTypes2.default.string,
   textCancel: _propTypes2.default.string,
-  closeBtn: _propTypes2.default.node,
+  showCloseBtn: _propTypes2.default.bool,
   appendDOM: _propTypes2.default.object,
   maskClassName: _propTypes2.default.string,
   headerClassName: _propTypes2.default.string,
-  contentClassName: _propTypes2.default.string
+  contentClassName: _propTypes2.default.string,
+  footerClassName: _propTypes2.default.string
 };
 Modal.defaultProps = {
   className: '',
@@ -211,13 +228,14 @@ Modal.defaultProps = {
   onConfirm: undefined,
   onCancel: undefined,
   clickOutToClose: false,
-  title: undefined,
+  title: '',
   textConfirm: '',
   textCancel: '',
-  closeBtn: undefined,
+  showCloseBtn: true,
   appendDOM: undefined,
   maskClassName: undefined,
   headerClassName: undefined,
-  contentClassName: undefined
+  contentClassName: undefined,
+  footerClassName: undefined
 };
 //# sourceMappingURL=index.js.map

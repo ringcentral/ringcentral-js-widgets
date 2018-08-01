@@ -75,32 +75,18 @@ function ConfirmRemoveModal(_ref) {
       onCancel: onCancel,
       clickOutToClose: true,
       contentClassName: _styles2.default.contentText,
-      textConfirm: _i18n2.default.getString('remove', currentLocale),
-      confirmBtnClassName: (0, _classnames2.default)(_styles2.default.btn, _styles2.default.confirmBtn),
-      cancelBtnClassName: (0, _classnames2.default)(_styles2.default.btn, _styles2.default.cancelBtn),
-      closeBtn: _react2.default.createElement(
-        _Button2.default,
-        {
-          className: _styles2.default.closeBtn,
-          onClick: onCancel
-        },
-        _react2.default.createElement(_CloseIcon2.default, null)
-      )
+      textConfirm: _i18n2.default.getString('remove', currentLocale)
     },
     _react2.default.createElement(
-      'div',
-      { className: _styles2.default.contentText },
+      'p',
+      null,
+      _i18n2.default.getString('confirmStr1', currentLocale),
       _react2.default.createElement(
-        'p',
+        'span',
         null,
-        _i18n2.default.getString('confirmStr1', currentLocale),
-        _react2.default.createElement(
-          'span',
-          null,
-          ' ' + detail + ' '
-        ),
-        _i18n2.default.getString('confirmStr2', currentLocale)
-      )
+        ' ' + detail + ' '
+      ),
+      _i18n2.default.getString('confirmStr2', currentLocale)
     )
   );
 }
