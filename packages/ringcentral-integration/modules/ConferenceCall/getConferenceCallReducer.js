@@ -106,6 +106,20 @@ export function getMergingPairReducer(types) {
   };
 }
 
+export function getCurrentConferenceIdReducer(types) {
+  return (state = null, { type, conferenceId }) => {
+    switch (type) {
+      case types.updateCurrentConferenceId:
+        return conferenceId;
+      case types.initSuccess:
+      case types.resetSuccess:
+        return null;
+      default:
+        return state;
+    }
+  };
+}
+
 export default function getConferenceCallReducer(types) {
   return combineReducers({
     status: getModuleStatusReducer(types),
@@ -113,5 +127,6 @@ export default function getConferenceCallReducer(types) {
     conferenceCallStatus: getConferenceCallStatusReducer(types),
     isMerging: getMergingStatusReducer(types),
     mergingPair: getMergingPairReducer(types),
+    currentConferenceId: getCurrentConferenceIdReducer(types),
   });
 }

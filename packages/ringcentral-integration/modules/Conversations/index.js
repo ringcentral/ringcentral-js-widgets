@@ -7,6 +7,7 @@ import ensureExist from '../../lib/ensureExist';
 import proxify from '../../lib/proxy/proxify';
 import messageTypes from '../../enums/messageTypes';
 import cleanNumber from '../../lib/cleanNumber';
+import isBlank from '../../lib/isBlank';
 import messageSenderMessages from '../MessageSender/messageSenderMessages';
 
 import {
@@ -16,6 +17,7 @@ import {
   messageIsVoicemail,
   getVoicemailAttachment,
   getFaxAttachment,
+  getMMSAttachment,
   messageIsFax,
   getMyNumberFromMessage,
   getRecipientNumbersFromMessage,
@@ -68,6 +70,7 @@ export default class Conversations extends RcModule {
     perPage = DEFAULT_PER_PAGE,
     daySpan = DEFAULT_DAY_SPAN,
     enableLoadOldMessages = false, // disable old message by default
+    showMMSAttachment = false,
     ...options
   }) {
     super({
@@ -94,6 +97,7 @@ export default class Conversations extends RcModule {
     this._olderDataExsited = true;
     this._olderMessagesExsited = true;
     this._enableLoadOldMessages = enableLoadOldMessages;
+    this._showMMSAttachment = showMMSAttachment;
 
     if (this._contactMatcher) {
       this._contactMatcher.addQuerySource({
@@ -213,11 +217,11 @@ export default class Conversations extends RcModule {
     this.store.dispatch({
       type: this.actionTypes.fetchOldConverstaions,
     });
-    const dateFrom = new Date();
+    let dateFrom = new Date();
     dateFrom.setDate(dateFrom.getDate() - this._daySpan);
     const dateTo = new Date(this.earliestTime);
     if (dateTo.getTime() < dateFrom.getTime()) {
-      dateFrom.setDate(dateFrom.getDate() - 1);
+      dateFrom = new Date(dateTo.getTime() - 1000 * 3600 * 24);
     }
     const typeFilter = this.typeFilter;
     const currentPage = this.currentPage;
@@ -607,6 +611,10 @@ export default class Conversations extends RcModule {
         if (typeof unreadCounts === 'undefined') {
           unreadCounts = messageIsUnread(message) ? 1 : 0;
         }
+        let mmsAttachment = null;
+        if (messageIsTextMessage(message) && isBlank(message.subject) && this._showMMSAttachment) {
+          mmsAttachment = getMMSAttachment(message);
+        }
         return {
           ...message,
           unreadCounts,
@@ -619,6 +627,7 @@ export default class Conversations extends RcModule {
           conversationMatches,
           voicemailAttachment,
           faxAttachment,
+          mmsAttachment,
           lastMatchedCorrespondentEntity: (
             this._conversationLogger &&
               this._conversationLogger.getLastMatchedCorrespondentEntity(message)
@@ -728,7 +737,8 @@ export default class Conversations extends RcModule {
     () => this.oldMessages,
     () => this._messageStore.conversationStore,
     () => this.formatedConversations,
-    (conversationId, oldMessages, conversationStore, conversations) => {
+    () => this._auth.accessToken,
+    (conversationId, oldMessages, conversationStore, conversations, accessToken) => {
       const conversation = conversations.find(
         c => c.conversationId === conversationId
       );
@@ -736,7 +746,16 @@ export default class Conversations extends RcModule {
       const currentConversation = {
         ...conversation
       };
-      const allMessages = messages.concat(oldMessages).slice();
+      const allMessages = (messages.concat(oldMessages)).map((m) => {
+        if (!this._showMMSAttachment) {
+          return m;
+        }
+        const mmsAttachment = getMMSAttachment(m, accessToken);
+        return {
+          ...m,
+          mmsAttachment,
+        };
+      });
       currentConversation.messages = allMessages.reverse();
       currentConversation.senderNumber = getMyNumberFromMessage({
         message: conversation,
