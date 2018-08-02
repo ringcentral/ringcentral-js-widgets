@@ -266,7 +266,7 @@ CallCtrlPage.propTypes = {
   conferenceCallId: PropTypes.string,
   gotoParticipantsCtrl: PropTypes.func,
   loadConference: PropTypes.func,
-  conferenceSession: PropTypes.string,
+  conferenceSession: PropTypes.object,
 };
 
 CallCtrlPage.defaultProps = {
