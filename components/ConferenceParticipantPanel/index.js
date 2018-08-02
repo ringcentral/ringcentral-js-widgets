@@ -74,13 +74,26 @@ var ParticipantsContainer = function (_Component) {
       showModal: false,
       detail: null
     };
-
+    _this.formatPrticipants(props);
     _this.onRemoveBtnClick = _this.onRemoveBtnClick.bind(_this);
     _this.onCancel = _this.onCancel.bind(_this);
     return _this;
   }
 
   (0, _createClass3.default)(ParticipantsContainer, [{
+    key: 'formatPrticipants',
+    value: function formatPrticipants() {
+      var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
+      var participants = props.participants,
+          formatPhone = props.formatPhone;
+
+
+      participants.map(function (participant) {
+        participant.partyNumber = formatPhone(participant.partyNumber);
+        return participant;
+      });
+    }
+  }, {
     key: 'onRemoveBtnClick',
     value: function onRemoveBtnClick(participant) {
       this.setState(function () {
@@ -97,6 +110,11 @@ var ParticipantsContainer = function (_Component) {
         showModal: false,
         detail: null
       });
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      this.formatPrticipants(nextProps);
     }
   }, {
     key: 'render',
@@ -178,7 +196,8 @@ ParticipantsContainer.propTypes = {
   currentLocale: _propTypes2.default.string.isRequired,
   removeFunc: _propTypes2.default.func,
   participants: _propTypes2.default.arrayOf(_propTypes2.default.object).isRequired,
-  onBackButtonClick: _propTypes2.default.func
+  onBackButtonClick: _propTypes2.default.func,
+  formatPhone: _propTypes2.default.func
 };
 
 ParticipantsContainer.defaultProps = {
@@ -186,6 +205,9 @@ ParticipantsContainer.defaultProps = {
     return i;
   },
   onBackButtonClick: function onBackButtonClick(i) {
+    return i;
+  },
+  formatPhone: function formatPhone(i) {
     return i;
   }
 };

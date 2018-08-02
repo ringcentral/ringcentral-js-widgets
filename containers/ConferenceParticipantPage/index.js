@@ -52,6 +52,10 @@ var _sleep = require('ringcentral-integration/lib/sleep');
 
 var _sleep2 = _interopRequireDefault(_sleep);
 
+var _formatNumber = require('ringcentral-integration/lib/formatNumber');
+
+var _formatNumber2 = _interopRequireDefault(_formatNumber);
+
 var _withPhone = require('../../lib/withPhone');
 
 var _withPhone2 = _interopRequireDefault(_withPhone);
@@ -135,7 +139,8 @@ function mapToProps(_, _ref) {
 function mapToFunctions(_, _ref2) {
   var _ref2$phone = _ref2.phone,
       conferenceCall = _ref2$phone.conferenceCall,
-      routerInteraction = _ref2$phone.routerInteraction;
+      routerInteraction = _ref2$phone.routerInteraction,
+      regionSettings = _ref2$phone.regionSettings;
 
   var confId = conferenceCall.conferences && (0, _keys2.default)(conferenceCall.conferences)[0];
 
@@ -174,7 +179,15 @@ function mapToFunctions(_, _ref2) {
       }
 
       return removeFunc;
-    }()
+    }(),
+
+    formatPhone: function formatPhone(phoneNumber) {
+      return (0, _formatNumber2.default)({
+        phoneNumber: phoneNumber,
+        areaCode: regionSettings.areaCode,
+        countryCode: regionSettings.countryCode
+      });
+    }
   };
 }
 
