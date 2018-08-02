@@ -35,6 +35,7 @@ async function generateSource() {
       concat: 'item1' + 'item2',
       template: \`hello
       world\`,
+      419: 'number as key',
     };
   `);
 }
@@ -78,6 +79,7 @@ describe('importLocale', () => {
     expect(json.concat).toBe('item1item2');
     expect(json.template).toBe(`hello
       world`);
+    expect(json[419]).toBe('number as key');
   });
   test('should generate annotations', async () => {
     importLocale(config);
