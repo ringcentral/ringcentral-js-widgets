@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
+    <g fill="#666666">
+        <path d="M6 0a.75.75 0 0 0-.75.75v1.5a.75.75 0 0 0 1.5 0V.75A.75.75 0 0 0 6 0z" fill1="olive">
+            <animate attributeName="opacity" begin="-0.875s" dur="1s" keyTimes="0;1" repeatCount="indefinite" values="1;0"/>
+        </path>
+        <path d="M9.181 3.879l1.061-1.061a.75.75 0 1 0-1.06-1.06L8.12 2.817a.75.75 0 1 0 1.06 1.061z" fill1="green">
+            <animate attributeName="opacity" begin="-0.75s" dur="1s" keyTimes="0;1" repeatCount="indefinite" values="1;0"/>
+        </path>
+        <path d="M11.25 5.25h-1.5a.75.75 0 1 0 0 1.5h1.5a.75.75 0 1 0 0-1.5z" fill1="orange">
+            <animate attributeName="opacity" begin="-0.625s" dur="1s" keyTimes="0;1" repeatCount="indefinite" values="1;0"/>
+        </path>
+        <path d="M9.181 8.121a.75.75 0 1 0-1.06 1.06l1.06 1.061a.75.75 0 1 0 1.061-1.06L9.182 8.12z" fill1="yellow">
+            <animate attributeName="opacity" begin="-0.5s" dur="1s" keyTimes="0;1" repeatCount="indefinite" values="1;0"/>
+        </path>
+        <path d="M6 9a.75.75 0 0 0-.75.75v1.5a.75.75 0 1 0 1.5 0v-1.5A.75.75 0 0 0 6 9z" fill1="salmon">
+            <animate attributeName="opacity" begin="-0.375s" dur="1s" keyTimes="0;1" repeatCount="indefinite" values="1;0"/>
+        </path>
+        <path d="M2.818 8.121l-1.06 1.06a.75.75 0 1 0 1.06 1.061l1.06-1.06a.75.75 0 1 0-1.06-1.061z" fill1="black">
+            <animate attributeName="opacity" begin="-0.25s" dur="1s" keyTimes="0;1" repeatCount="indefinite" values="1;0"/>
+        </path>
+        <path d="M3 6a.75.75 0 0 0-.75-.75H.75a.75.75 0 0 0 0 1.5h1.5A.75.75 0 0 0 3 6z" fill1="red">
+            <animate attributeName="opacity" begin="-0.125s" dur="1s" keyTimes="0;1" repeatCount="indefinite" values="1;0"/>
+        </path>
+        <path d="M2.818 1.757a.75.75 0 1 0-1.06 1.06l1.06 1.062a.75.75 0 0 0 1.06-1.061l-1.06-1.06z" fill1="blue">
+            <animate attributeName="opacity" begin="0" dur="1s" keyTimes="0;1" repeatCount="indefinite" values="1;0"/>
+        </path>
+    </g>
+</svg>

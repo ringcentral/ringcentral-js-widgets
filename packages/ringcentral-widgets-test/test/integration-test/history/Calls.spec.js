@@ -50,6 +50,7 @@ describe('history', () => {
       const callItem = callItems.at(callItems.length - 1); // last item
       let logButton = callItem.find(LogButton).find(Button);
       logButton.simulate('click');
+      await timeout(100);
       panel = wrapper.find(CallsPanel).first();
       logButton = panel.find(CallItem).at(callItems.length - 1).find(LogButton).find(Button);
       expect(logButton.props().disabled).toBe(true);

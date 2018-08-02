@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import ActiveCallDialPad from '../ActiveCallDialPad';
 import ActiveCallPanel from '../ActiveCallPanel';
@@ -48,13 +47,16 @@ class CallCtrlPanel extends Component {
       }));
     };
     this.onMerge = () => {
-      if (
-        this.props.hasConferenceCall &&
-        this.props.layout === callCtrlLayouts.normalCtrl
-      ) {
-        this.showMergeConfirm();
-      } else if (this.props.onMerge) {
-        this.props.onMerge();
+      const { onBeforeMerge } = this.props;
+      if (!onBeforeMerge || onBeforeMerge()) {
+        if (
+          this.props.hasConferenceCall &&
+          this.props.layout === callCtrlLayouts.normalCtrl
+        ) {
+          this.showMergeConfirm();
+        } else if (this.props.onMerge) {
+          this.props.onMerge();
+        }
       }
     };
     this.showMergeConfirm = () => {
@@ -215,6 +217,7 @@ CallCtrlPanel.propTypes = {
   onStopRecord: PropTypes.func.isRequired,
   onAdd: PropTypes.func,
   onMerge: PropTypes.func,
+  onBeforeMerge: PropTypes.func,
   onPark: PropTypes.func.isRequired,
   onHangup: PropTypes.func.isRequired,
   onFlip: PropTypes.func.isRequired,
@@ -274,6 +277,7 @@ CallCtrlPanel.defaultProps = {
   recipientsContactPhoneRenderer: undefined,
   onAdd: undefined,
   onMerge: undefined,
+  onBeforeMerge: undefined,
   showSpinner: false,
   direction: null,
   addDisabled: false,

@@ -49,6 +49,7 @@ export default class LogSection extends Component {
       isInnerMask,
       showSaveLogBtn,
       onSaveCallLog,
+      additionalInfo,
     } = this.props;
     const {
       call,
@@ -63,6 +64,7 @@ export default class LogSection extends Component {
       onSaveCallLog,
       onUpdateCallLog,
       currentLog,
+      additionalInfo,
     });
     const buttonPanelClassName = classnames(
       styles.buttonPanel,
@@ -115,6 +117,7 @@ export default class LogSection extends Component {
 
 LogSection.propTypes = {
   currentLog: PropTypes.object,
+  additionalInfo: PropTypes.object,
   currentLocale: PropTypes.string.isRequired,
   formatPhone: PropTypes.func,
   onUpdateCallLog: PropTypes.func,
@@ -127,6 +130,7 @@ LogSection.propTypes = {
 
 LogSection.defaultProps = {
   currentLog: {},
+  additionalInfo: undefined,
   formatPhone: undefined,
   onUpdateCallLog: undefined,
   onSaveCallLog: undefined,

@@ -99,22 +99,22 @@ function mapToFunctions(_, {
   feedbackSettingsUrl = '/settings/feedback',
 }) {
   return {
-    onLogoutButtonClick: async () => {
+    async onLogoutButtonClick() {
       await auth.logout();
     },
-    onRegionSettingsLinkClick: () => {
+    onRegionSettingsLinkClick() {
       routerInteraction.push(regionSettingsUrl);
     },
-    onCallingSettingsLinkClick: () => {
+    onCallingSettingsLinkClick() {
       routerInteraction.push(callingSettingsUrl);
     },
-    onAudioSettingsLinkClick: () => {
+    onAudioSettingsLinkClick() {
       routerInteraction.push(audioSettingsUrl);
     },
-    onFeedbackSettingsLinkClick: () => {
+    onFeedbackSettingsLinkClick() {
       routerInteraction.push(feedbackSettingsUrl);
     },
-    onUserGuideClick: () => {
+    onUserGuideClick() {
       userGuide.start();
     },
     setAvailable: (...args) => (detailedPresence && detailedPresence.setAvailable(...args)),

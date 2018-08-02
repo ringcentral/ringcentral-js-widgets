@@ -66,6 +66,8 @@ class CallCtrlPage extends Component {
       this.props.onAdd(this.props.session.id);
     this.onMerge = () =>
       this.props.onMerge(this.props.session.id);
+    this.onBeforeMerge = () =>
+      this.props.onBeforeMerge(this.props.session.id);
   }
 
   componentDidMount() {
@@ -166,6 +168,7 @@ class CallCtrlPage extends Component {
         onHangup={this.onHangup}
         onAdd={this.onAdd}
         onMerge={this.onMerge}
+        onBeforeMerge={this.onBeforeMerge}
         onFlip={this.onFlip}
         onTransfer={this.onTransfer}
         onPark={this.onPark}
@@ -229,6 +232,7 @@ CallCtrlPage.propTypes = {
   formatPhone: PropTypes.func.isRequired,
   onAdd: PropTypes.func,
   onMerge: PropTypes.func,
+  onBeforeMerge: PropTypes.func,
   onFlip: PropTypes.func.isRequired,
   onPark: PropTypes.func.isRequired,
   onTransfer: PropTypes.func.isRequired,
@@ -275,6 +279,7 @@ CallCtrlPage.defaultProps = {
   recipientsContactPhoneRenderer: undefined,
   onAdd: undefined,
   onMerge: undefined,
+  onBeforeMerge: undefined,
   showSpinner: false,
   addDisabled: false,
   mergeDisabled: false,
@@ -310,8 +315,7 @@ function mapToProps(_, {
     currentSession.direction === callDirections.outbound ? toMatches : fromMatches;
 
   const isWebRTC = callingSettings.callingMode === callingModes.webphone;
-  let mergeDisabled = !(currentSession.data && Object.keys(currentSession.data).length)
-    || !isWebRTC;
+  let mergeDisabled = !(currentSession.partyData) || !isWebRTC;
   let addDisabled = !isWebRTC || currentSession.direction === callDirections.inbound;
 
   let isOnConference = false;
@@ -319,7 +323,6 @@ function mapToProps(_, {
   let isMerging = false;
   let conferenceCallParties;
   let conferenceCallId = null;
-
   if (conferenceCall) {
     isOnConference = conferenceCall.isConferenceSession(currentSession.id);
     const conferenceData = Object.values(conferenceCall.conferences)[0];
@@ -336,9 +339,9 @@ function mapToProps(_, {
 
       const newVal = conferenceCall.isOverload(conferenceCallId)
         // in case webphone.activeSession has not been updated yet
-        || !(currentSession.data && Object.keys(currentSession.data).length);
+        || !(currentSession.partyData);
       // update
-      mergeDisabled = newVal || !(currentSession.data && Object.keys(currentSession.data).length);
+      mergeDisabled = newVal || !(currentSession.partyData);
       addDisabled = newVal;
     }
 
@@ -383,6 +386,14 @@ function mapToFunctions(_, {
   recipientsContactInfoRenderer,
   recipientsContactPhoneRenderer,
 }) {
+  const currentSession = webphone.activeSession || {};
+  let currentConferenceSession;
+  if (conferenceCall) {
+    const conferenceData = Object.values(conferenceCall.conferences)[0];
+    if (conferenceData) {
+      currentConferenceSession = webphone._sessions.get(conferenceData.sessionId);
+    }
+  }
   return {
     formatPhone: phoneNumber => formatNumber({
       phoneNumber,
@@ -412,6 +423,9 @@ function mapToFunctions(_, {
     recipientsContactInfoRenderer,
     recipientsContactPhoneRenderer,
     onAdd(sessionId) {
+      if (!currentSession || webphone.isCallRecording(currentSession)) {
+        return;
+      }
       const sessionData = find(x => x.id === sessionId, webphone.sessions);
       if (sessionData) {
         conferenceCall.setMergeParty({ fromSessionId: sessionId });
@@ -425,6 +439,15 @@ function mapToFunctions(_, {
           routerInteraction.push(`/conferenceCall/dialer/${sessionData.fromNumber}`);
         }
       }
+    },
+    onBeforeMerge() {
+      if (!currentSession || webphone.isCallRecording(currentSession)) {
+        return false;
+      }
+      if (currentConferenceSession && webphone.isCallRecording(currentConferenceSession)) {
+        return false;
+      }
+      return true;
     },
     async onMerge(sessionId) {
       const conferenceData = await conferenceCall.onMerge({ sessionId });
@@ -440,7 +463,7 @@ function mapToFunctions(_, {
     },
     loadConference(confId) {
       conferenceCall.loadConference(confId);
-    }
+    },
   };
 }
 
