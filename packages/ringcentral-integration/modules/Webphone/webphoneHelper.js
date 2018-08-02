@@ -29,13 +29,17 @@ export function extractHeadersData(session, headers) {
      *  "sessionId": String
      * }
      */
-    session.data = headers['P-Rc-Api-Ids'][0].raw
+    const data = headers['P-Rc-Api-Ids'][0].raw
       .split(';')
       .map(sub => sub.split('='))
       .reduce((accum, [key, value]) => {
         accum[camelize(key)] = value;
         return accum;
       }, {});
+
+    if (Object.keys(data).length) {
+      session.partyData = data;
+    }
   }
 
   if (
@@ -44,14 +48,14 @@ export function extractHeadersData(session, headers) {
     && headers['Call-ID'][0]
     && headers['Call-ID'][0].raw
   ) {
-    session.callId = headers['Call-ID'][0].raw;
+    session._header_callId = headers['Call-ID'][0].raw;
   }
 }
 
 export function normalizeSession(session) {
   return {
     id: session.id,
-    callId: session.callId,
+    callId: session._header_callId,
     direction: session.direction,
     callStatus: session.callStatus,
     to: session.request.to.uri.user,
@@ -71,7 +75,7 @@ export function normalizeSession(session) {
     recordStatus: session.recordStatus || recordStatus.idle,
     contactMatch: session.contactMatch,
     minimized: !!session.minimized,
-    data: session.data || null,
+    partyData: session.partyData || null,
     lastActiveTime: session.lastActiveTime || +new Date(),
     cached: false,
     removed: false,

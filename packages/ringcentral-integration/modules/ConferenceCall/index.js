@@ -242,13 +242,12 @@ export default class ConferenceCall extends RcModule {
       conference,
       sessionId,
     });
-    const sessionData = webphoneSession.data;
 
     try {
-      const partyProfile = await this._getProfile(webphoneSession);
+      const partyProfile = await this._getProfile(webphoneSession.id);
 
       await this._client.service.platform()
-        .post(`/account/~/telephony/sessions/${id}/parties/bring-in`, sessionData);
+        .post(`/account/~/telephony/sessions/${id}/parties/bring-in`, webphoneSession.partyData);
 
       const newConference = await this.updateConferenceStatus(id);
       conference = newConference.conference;
@@ -737,11 +736,11 @@ export default class ConferenceCall extends RcModule {
   }
 
   @proxify
-  async _getProfile(sessionInstance) {
+  async _getProfile(sessionId) {
     if (!this._contactMatcher) {
       return null;
     }
-    const session = this._webphone.sessions.find(session => session.id === sessionInstance.id);
+    const session = this._webphone.sessions.find(session => session.id === sessionId);
     const {
       to, contactMatch, from, fromNumber, direction
     } = session;
