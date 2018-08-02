@@ -5,11 +5,13 @@
 
 $userInfoHeight: 134px;
 $conferenceAvatarSize: 51px;
-$timeCounterMarginTop:10px;
+$timeCounterMarginTop: 10px;
 $timeCounterHeight: 14px;
 $calleeAvatarSize: 30px;
-$calleeAvatarActiveSize: 45px;
+$calleeAvatarActiveSize: 42px;
 $calleeAvatarMarginL: ($calleeAvatarActiveSize - $calleeAvatarSize)/2;
+$avatarMarginR: 10px;
+
 .root {
   @include full-size;
   box-sizing: border-box;
@@ -173,7 +175,7 @@ $calleeAvatarMarginL: ($calleeAvatarActiveSize - $calleeAvatarSize)/2;
       width: $calleeAvatarSize;
       height: $calleeAvatarSize;
       float: left;
-      margin-right: 35px - $calleeAvatarMarginL;
+      margin-right: $calleeAvatarMarginL + $avatarMarginR;
       margin-left: $calleeAvatarMarginL;
       border-radius: 100%;
       @media only screen and (min-width: 150px) and (max-width: 265px) {
@@ -186,7 +188,7 @@ $calleeAvatarMarginL: ($calleeAvatarActiveSize - $calleeAvatarSize)/2;
       color: #666666;
       float: left;
       line-height: 30px;
-      max-width: 43%;
+      max-width: 58%;
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
@@ -194,7 +196,7 @@ $calleeAvatarMarginL: ($calleeAvatarActiveSize - $calleeAvatarSize)/2;
         display: none;
       }
       @media only screen and (min-width: 150px) and (max-width: 265px) {
-       max-width: 23%;
+       max-width: 40%;
       }
     }
     .callee_status {
@@ -219,13 +221,13 @@ $calleeAvatarMarginL: ($calleeAvatarActiveSize - $calleeAvatarSize)/2;
       height: $calleeAvatarActiveSize;
       border-radius: 100%;
       float: left;
-      margin-right: 20px;
+      margin-right: $avatarMarginR;
       @media only screen and (min-width: 150px) and (max-width: 265px) {
         margin-right: 6%;
       }
     }
     .callee_name_active {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: normal;
       font-style: normal;
       font-stretch: normal;
@@ -241,7 +243,7 @@ $calleeAvatarMarginL: ($calleeAvatarActiveSize - $calleeAvatarSize)/2;
         display: none;
       }
       @media only screen and (min-width: 150px) and (max-width: 265px) {
-        max-width: 23%;
+        max-width: 40%;
       }
     }
     .callee_status_active {
