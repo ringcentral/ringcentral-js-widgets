@@ -330,7 +330,7 @@ var CallsListPanel = function (_Component) {
           className: _styles2.default.searchInput,
           value: searchInput,
           onChange: onSearchInputChange,
-          placeholder: _i18n2.default.getString('Search...', currentLocale),
+          placeholder: _i18n2.default.getString('searchPlaceholder', currentLocale),
           disabled: disableLinks
         })
       ) : null;
@@ -419,6 +419,11 @@ var CallsListPanel = function (_Component) {
       var historyCall = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : _react2.default.createElement(
         'div',
         { className: (0, _classnames2.default)(_styles2.default.list, className) },
+        _react2.default.createElement(
+          'div',
+          { className: _styles2.default.listTitle },
+          _i18n2.default.getString('historyCalls', currentLocale)
+        ),
         _react2.default.createElement(_CallList2.default, {
           brand: brand,
           currentLocale: currentLocale,

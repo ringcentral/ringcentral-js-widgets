@@ -10,6 +10,7 @@ exports.default = {
   ringCall: 'Ringing Call',
   onHoldCall: 'Call on Hold',
   historyCalls: 'Past Calls',
-  otherDeviceCall: 'Ongoing calls on my other devices'
+  otherDeviceCall: 'Ongoing calls on my other devices',
+  searchPlaceholder: 'Search...'
 };
 //# sourceMappingURL=en-US.js.map

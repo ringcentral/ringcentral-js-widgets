@@ -10,7 +10,8 @@ exports.default = {
   onHoldCall: 'Chamada em espera',
   otherDeviceCall: 'Chamadas em andamento nos meus outros dispositivos',
   noCalls: 'Nenhum resultado encontrado.',
-  historyCalls: 'Chamadas anteriores'
+  historyCalls: 'Chamadas anteriores',
+  searchPlaceholder: 'Pesquisar...'
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@

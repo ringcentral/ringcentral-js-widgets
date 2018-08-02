@@ -10,7 +10,8 @@ exports.default = {
   onHoldCall: 'Call on Hold',
   otherDeviceCall: 'Ongoing calls on my other devices',
   noCalls: 'No results found.',
-  historyCalls: 'Past Calls'
+  historyCalls: 'Past Calls',
+  searchPlaceholder: 'Search...'
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@

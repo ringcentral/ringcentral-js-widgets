@@ -10,7 +10,8 @@ exports.default = {
   onHoldCall: 'Anruf wird gehalten',
   otherDeviceCall: 'Aktuelle Gespräche auf meinen anderen Geräten',
   noCalls: 'Keine Treffer gefunden.',
-  historyCalls: 'Vergangene Anrufe'
+  historyCalls: 'Vergangene Anrufe',
+  searchPlaceholder: 'Suchen ...'
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
