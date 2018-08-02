@@ -1,43 +1,37 @@
 @import '../../lib/commonStyles/full-size.scss';
 @import '../../lib/commonStyles/colors.scss';
 @import '../../lib/commonStyles/layout';
-
 $participant-count-height: 42px;
 $avatar-size:35px;
 $button-size:24px;
-
+$marginBetweenItems:25px;
 .root {
   @include full-size;
   background: $snow;
   padding-top: $header-height;
   overflow: hidden;
   font-size: 13px;
-
-  &, & *{
+  &,
+  & * {
     box-sizing: border-box;
   }
-
   .header {
     margin-top: -$header-height;
   }
-
-  .participantsListContainer{
+  .participantsListContainer {
     @include full-size;
     padding: $participant-count-height 20px 0;
     color: $night;
-
-    .participantsCount{
+    .participantsCount {
       width: 100%;
       padding: ($participant-count-height - 11px)/2 0;
       margin-top: -$participant-count-height;
       font-size: 11px;
       color: $coin;
     }
-
-    .participantsList{
+    .participantsList {
       @include full-size;
       overflow: auto;
-
       .participantItem {
         padding: 0;
         display: flex;
@@ -48,27 +42,23 @@ $button-size:24px;
         flex-wrap: nowrap;
         align-items: center;
         justify-content: flex-start;
-      
-        .avatar{
+        .avatar {
           width: $avatar-size;
           height: $avatar-size;
           flex-shrink: 0;
         }
-      
-        .detail{
+        .detail {
           flex-grow: 1;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
           margin-left: 10px;
         }
-      
-        .webphoneButton{
+        .webphoneButton {
           width: $button-size;
           height: $button-size;
           flex-shrink: 0;
         }
-      
         .rejectButton {
           width: $button-size;
           g,
@@ -80,27 +70,28 @@ $button-size:24px;
           }
         }
       }
-
-      .participantItem+.participantItem{
-        margin-top:25px;
+      .participantItem+.participantItem {
+        margin-top: $marginBetweenItems;
+      }
+      .participantItem:last-of-type {
+        margin-bottom: $marginBetweenItems;
       }
     }
   }
 }
 
 .ConfirmRemoveModal {
-  top:0;
-  bottom:0;
-  left:0;
-  right:0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   margin: auto;
-  
   .contentText {
     font-weight: bold;
     padding: 5px 10px 0;
-    p{
+    p {
       font-weight: normal;
-      span{
+      span {
         font-weight: bold;
       }
     }
