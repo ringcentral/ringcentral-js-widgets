@@ -2455,6 +2455,15 @@ var Webphone = (_dec = (0, _di.Module)({
       }
     }
   }, {
+    key: 'isCallRecording',
+    value: function isCallRecording(session) {
+      if ((0, _webphoneHelper.isRecording)(session)) {
+        this._alert.warning({ message: _recordStatus2.default.recording });
+        return true;
+      }
+      return false;
+    }
+  }, {
     key: 'status',
     get: function get() {
       return this.state.status;

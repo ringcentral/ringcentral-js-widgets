@@ -10,6 +10,7 @@ exports.isOnHold = isOnHold;
 exports.sortByCreationTimeDesc = sortByCreationTimeDesc;
 exports.sortByLastHoldingTimeDesc = sortByLastHoldingTimeDesc;
 exports.isConferenceSession = isConferenceSession;
+exports.isRecording = isRecording;
 
 var _recordStatus = require('./recordStatus');
 
@@ -93,5 +94,9 @@ function sortByLastHoldingTimeDesc(l, r) {
  */
 function isConferenceSession(session) {
   return session && session.to && session.to.indexOf('conf_') === 0;
+}
+
+function isRecording(session) {
+  return !!(session && session.recordStatus !== _recordStatus2.default.idle);
 }
 //# sourceMappingURL=webphoneHelper.js.map
