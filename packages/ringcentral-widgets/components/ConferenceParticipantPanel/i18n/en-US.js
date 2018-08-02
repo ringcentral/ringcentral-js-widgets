@@ -5,5 +5,6 @@ export default {
   remove: 'Remove',
   cancel: 'Cancel',
   participants: 'Participants',
+  participant: 'Participant',
   conferenceCall: 'Conference Call',
 };

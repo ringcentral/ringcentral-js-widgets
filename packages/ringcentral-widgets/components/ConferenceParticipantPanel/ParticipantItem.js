@@ -24,7 +24,7 @@ function ParticipantItem({
         <CallAvatar isOnConferenceCall={false} avatarUrl={avatarUrl} />
       </div>
       <div className={styles.detail}>{detail}</div>
-      <span title={i18n.getString('remove', currentLocale)} className={styles.webphoneButton}>
+      <span title={i18n.getString('removeParticipant', currentLocale)} className={styles.webphoneButton}>
         <CircleButton
           className={styles.rejectButton}
           onClick={(e) => {

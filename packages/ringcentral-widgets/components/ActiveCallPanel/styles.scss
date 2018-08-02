@@ -114,6 +114,8 @@ $calleeAvatarMarginL: ($calleeAvatarActiveSize - $calleeAvatarSize)/2;
   font-family: sans-serif;
   height: $userInfoHeight;
   box-sizing: border-box;
+  cursor: pointer;
+
   .info{
     font-size: 15px;
   }
