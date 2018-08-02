@@ -558,6 +558,7 @@ export default class ConferenceCall extends RcModule {
     return timeout;
   }
 
+  @proxify
   loadConference(conferenceId) {
     return this.store.dispatch({
       type: this.actionTypes.updateCurrentConferenceId,
