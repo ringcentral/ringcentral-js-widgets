@@ -1,9 +1,7 @@
 @import '../../lib/commonStyles/fonts';
-
-.callAvatar{
+.callAvatar {
   width: 100%;
-
-  &:not(:root){
+  &:not(:root) {
     overflow: visible;
   }
   text.portrait {

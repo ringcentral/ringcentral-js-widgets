@@ -2777,6 +2777,30 @@
     },
     "name": "Button"
   },
+
+  {
+    "description": "",
+    "displayName": "CallAvatar",
+    "methods": [],
+    "props": {
+      "isOnConferenceCall": {
+        "type": {
+          "name": "bool"
+        }
+      },
+      "avatarUrl": {
+        "type": {
+          "name": "string"
+        }
+      },
+      "extraNum": {
+        "type": {
+          "name": "number"
+        }
+      }
+    },
+    "name": "CallAvatar"
+  },
   {
     "description": "",
     "displayName": "CallAlert",
