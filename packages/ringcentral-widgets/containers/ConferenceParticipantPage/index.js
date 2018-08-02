@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import sleep from 'ringcentral-integration/lib/sleep';
+import formatNumber from 'ringcentral-integration/lib/formatNumber';
 
 import withPhone from '../../lib/withPhone';
 import ConferenceParticipantPanel from '../../components/ConferenceParticipantPanel';
@@ -68,6 +69,7 @@ function mapToFunctions(_, {
   phone: {
     conferenceCall,
     routerInteraction,
+    regionSettings,
   },
 }) {
   const confId = conferenceCall.conferences && Object.keys(conferenceCall.conferences)[0];
@@ -81,7 +83,12 @@ function mapToFunctions(_, {
       } catch (e) {
         return false;
       }
-    }
+    },
+    formatPhone: phoneNumber => formatNumber({
+      phoneNumber,
+      areaCode: regionSettings.areaCode,
+      countryCode: regionSettings.countryCode,
+    }),
   };
 }
 

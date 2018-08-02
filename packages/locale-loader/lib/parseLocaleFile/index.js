@@ -18,12 +18,17 @@ export default function parseLocaleFile(rawContent) {
       // get raw key from source content
       let key = content.substring(prop.key.start, prop.key.end);
       // wrap key in [] if needed
-      if (prop.key.type !== 'StringLiteral' && prop.key.type !== 'Identifier') {
+      if (
+        prop.key.type !== 'StringLiteral' &&
+        prop.key.type !== 'Identifier' &&
+        prop.key.type !== 'NumericLiteral'
+      ) {
         key = `[${key}]`;
       }
       // evaluate value to convert template literals or string concats into single string literal
       const value = eval(generate(prop.value).code);
       const source = annotations.get(key);
+
       data.set(
         key,
         {
