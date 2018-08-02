@@ -160,7 +160,7 @@ function mapToFunctions(_, {
      * @param {[string]} sessionIds
      */
     async mergeToConference(...args) {
-      if (webphone.isRecording(webphone.activeSession.recordStatus)) {
+      if (webphone.isCallRecording(webphone.activeSession)) {
         return;
       }
       await conferenceCall.mergeToConference(...args);

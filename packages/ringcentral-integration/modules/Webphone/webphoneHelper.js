@@ -77,3 +77,9 @@ export function isConferenceSession(session) {
   return session && session.to &&
     session.to.indexOf('conf_') === 0;
 }
+
+export function isRecording(session) {
+  return !!(
+    session && session.recordStatus !== recordStatus.idle
+  );
+}

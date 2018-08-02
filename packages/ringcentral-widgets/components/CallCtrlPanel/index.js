@@ -47,15 +47,15 @@ class CallCtrlPanel extends Component {
       }));
     };
     this.onMerge = () => {
-      const { isRecording, recordStatus, conferenceRecordStatus } = this.props;
-      if (isRecording(recordStatus)) {
+      const { isCallRecording, currentSession, currentConferenceSession } = this.props;
+      if (isCallRecording(currentSession)) {
         return;
       }
       if (
         this.props.hasConferenceCall &&
         this.props.layout === callCtrlLayouts.normalCtrl
       ) {
-        if (isRecording(conferenceRecordStatus)) {
+        if (isCallRecording(currentConferenceSession)) {
           return;
         }
         this.showMergeConfirm();
@@ -254,9 +254,10 @@ CallCtrlPanel.propTypes = {
   lastCallInfo: PropTypes.object,
   conferenceCallParties: PropTypes.array,
   getAvatarUrl: PropTypes.func,
-  isRecording: PropTypes.func,
+  isCallRecording: PropTypes.func,
   gotoParticipantsCtrl: PropTypes.func,
-  conferenceRecordStatus: PropTypes.string,
+  currentConferenceSession: PropTypes.object,
+  currentSession: PropTypes.object,
 };
 
 CallCtrlPanel.defaultProps = {
@@ -291,9 +292,10 @@ CallCtrlPanel.defaultProps = {
   conferenceCallParties: undefined,
   lastCallInfo: undefined,
   getAvatarUrl: () => null,
-  isRecording: () => null,
+  isCallRecording: () => null,
   gotoParticipantsCtrl: i => i,
-  conferenceRecordStatus: null,
+  currentSession: null,
+  currentConferenceSession: null,
 };
 
 export default CallCtrlPanel;

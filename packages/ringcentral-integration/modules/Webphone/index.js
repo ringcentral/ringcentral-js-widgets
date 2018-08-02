@@ -24,6 +24,7 @@ import {
   isOnHold,
   isConferenceSession,
   sortByCreationTimeDesc,
+  isRecording,
 } from './webphoneHelper';
 import getWebphoneReducer from './getWebphoneReducer';
 
@@ -1343,8 +1344,8 @@ export default class Webphone extends RcModule {
     }
   }
 
-  isRecording(status) {
-    if (status !== recordStatus.idle) {
+  isCallRecording(session) {
+    if (isRecording(session)) {
       this._alert.warning({ message: recordStatus.recording });
       return true;
     }
