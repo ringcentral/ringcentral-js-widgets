@@ -42,7 +42,7 @@ InsideModal.propTypes = {
   containerStyles: PropTypes.string,
   maskStyle: PropTypes.string,
   modalStyles: PropTypes.string,
-  contentStyle: PropTypes.string
+  contentStyle: PropTypes.string,
 };
 
 InsideModal.defaultProps = {
@@ -54,5 +54,5 @@ InsideModal.defaultProps = {
   containerStyles: undefined,
   maskStyle: undefined,
   modalStyles: undefined,
-  contentStyle: undefined
+  contentStyle: undefined,
 };
