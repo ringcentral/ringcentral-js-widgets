@@ -5,22 +5,6 @@ import Modal from '../Modal';
 import styles from './styles.scss';
 import InsideModalClose from '../../assets/images/InsideModalClose.svg';
 
-// export function CloseBtn({ onClick }) {
-//   return (
-//     <div className={styles.closeBtn} onClick={onClick}>
-//       <InsideModalClose />
-//     </div>
-//   );
-// }
-
-// CloseBtn.propTypes = {
-//   onClick: PropTypes.func
-// };
-
-// CloseBtn.defaultProps = {
-//   onClick: undefined
-// };
-
 export default function InsideModal({
   show,
   onClose,
