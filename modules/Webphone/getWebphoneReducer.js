@@ -141,44 +141,25 @@ function getActiveSessionIdReducer(types) {
         _ref6$sessions = _ref6.sessions,
         sessions = _ref6$sessions === undefined ? [] : _ref6$sessions;
 
-    var onHoldSessions = void 0;
     switch (type) {
       case types.beforeCallStart:
       case types.callStart:
         return session.id;
       case types.callEnd:
-        if (session.id !== state) {
-          return state;
+        {
+          if (session.id !== state) {
+            return state;
+          }
+          return sessions[0] && sessions[0].id || null;
         }
-        onHoldSessions = sessions.filter(function (sessionItem) {
-          return (0, _webphoneHelper.isOnHold)(sessionItem);
-        });
-        if (onHoldSessions.length && onHoldSessions[0]) {
-          return onHoldSessions[0].id;
-        }
-        /**
-         * HACK: special scenario-when dialing two number that do not exisit and then we
-         * merge them togother, and the merge process would certainly failed.
-         * Because the numbers are invalid, so the server will hangup them for us.
-         * Noticing that the session will remain unhold during the merging.
-         */
-        return sessions[0] && sessions[0].id || null;
       case types.clearSessionCaching:
-        onHoldSessions = sessions.filter(function (sessionItem) {
-          return !sessionItem.cached;
-        }).filter(function (sessionItem) {
-          return (0, _webphoneHelper.isOnHold)(sessionItem);
-        });
-        /**
-         * Even though we clear session caching after the make the conference call which means
-         * there will alway be a outbound call, but need to careful since we it's a hidden
-         * precondition.
-         */
-        if (onHoldSessions.length && onHoldSessions[0]) {
-          return onHoldSessions[0].id;
+        {
+          var activeSessions = sessions.filter(function (x) {
+            return !x.cached;
+          });
+          activeSessions.sort(_webphoneHelper.sortByLastActiveTimeDesc);
+          return activeSessions[0] && activeSessions[0].id || null;
         }
-        // fall back
-        return sessions[0] && sessions[0].id || null;
       case types.disconnect:
         return null;
       default:
@@ -276,7 +257,7 @@ function getSessionsReducer(types) {
               sessions.push(cachedSession);
             }
           });
-          return sessions.sort(_webphoneHelper.sortByLastHoldingTimeDesc);
+          return sessions.sort(_webphoneHelper.sortByLastActiveTimeDesc);
         }
       case types.setSessionCaching:
         {

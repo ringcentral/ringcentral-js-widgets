@@ -9,14 +9,6 @@ var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-pr
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
-var _slicedToArray2 = require('babel-runtime/helpers/slicedToArray');
-
-var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
-
-var _typeof2 = require('babel-runtime/helpers/typeof');
-
-var _typeof3 = _interopRequireDefault(_typeof2);
-
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -74,8 +66,6 @@ var _incoming2 = _interopRequireDefault(_incoming);
 var _outgoing = require('ringcentral-web-phone/audio/outgoing.ogg');
 
 var _outgoing2 = _interopRequireDefault(_outgoing);
-
-var _utils = require('../../lib/di/utils/utils');
 
 var _di = require('../../lib/di');
 
@@ -664,7 +654,8 @@ var Webphone = (_dec = (0, _di.Module)({
       this._webphone.userAgent.on('unregistered', onUnregistered);
       this._webphone.userAgent.on('registrationFailed', onRegistrationFailed);
       this._webphone.userAgent.on('invite', function (session) {
-        console.debug('UA invite');
+        console.log('UA invite');
+        (0, _webphoneHelper.extractHeadersData)(session, session.request.headers);
         _this3._onInvite(session);
       });
     }
@@ -940,30 +931,12 @@ var Webphone = (_dec = (0, _di.Module)({
       var _this5 = this;
 
       session.on('accepted', function (incomingResponse) {
-        // todo: log the response
         if (session.callStatus === _sessionStatus2.default.finished) {
           return;
         }
         console.log('accepted');
         session.callStatus = _sessionStatus2.default.connected;
-        if (incomingResponse && (0, _typeof3.default)(incomingResponse.headers).toLowerCase() === 'object' && Array.isArray(incomingResponse.headers['P-Rc-Api-Ids']) && incomingResponse.headers['P-Rc-Api-Ids'].length && (0, _typeof3.default)(incomingResponse.headers['P-Rc-Api-Ids'][0]).toLowerCase() === 'object' && (0, _typeof3.default)(incomingResponse.headers['P-Rc-Api-Ids'][0].raw).toLowerCase() === 'string') {
-          /**
-           * interface SessionData{
-           *  "partyId": String,
-           *  "sessionId": String
-           * }
-           */
-          session.data = incomingResponse.headers['P-Rc-Api-Ids'][0].raw.split(';').map(function (sub) {
-            return sub.split('=');
-          }).reduce(function (accum, _ref8) {
-            var _ref9 = (0, _slicedToArray3.default)(_ref8, 2),
-                key = _ref9[0],
-                value = _ref9[1];
-
-            accum[(0, _utils.camelize)(key)] = value;
-            return accum;
-          }, {});
-        }
+        (0, _webphoneHelper.extractHeadersData)(session, incomingResponse.headers);
         _this5._onCallStart(session);
       });
       session.on('progress', function () {
@@ -1017,12 +990,12 @@ var Webphone = (_dec = (0, _di.Module)({
       session.on('hold', function () {
         console.log('Event: hold');
         session.callStatus = _sessionStatus2.default.onHold;
-        session.lastHoldingTime = +new Date();
         _this5._updateSessions();
       });
       session.on('unhold', function () {
         console.log('Event: unhold');
         session.callStatus = _sessionStatus2.default.connected;
+        session.lastActiveTime = +new Date();
         _this5._updateSessions();
       });
       session.mediaHandler.on('userMediaFailed', function () {
@@ -1050,7 +1023,7 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: 'answer',
     value: function () {
-      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(sessionId) {
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(sessionId) {
         var session;
         return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
@@ -1099,7 +1072,7 @@ var Webphone = (_dec = (0, _di.Module)({
       }));
 
       function answer(_x2) {
-        return _ref10.apply(this, arguments);
+        return _ref8.apply(this, arguments);
       }
 
       return answer;
@@ -1107,7 +1080,7 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: 'reject',
     value: function () {
-      var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(sessionId) {
+      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(sessionId) {
         var session;
         return _regenerator2.default.wrap(function _callee8$(_context8) {
           while (1) {
@@ -1147,7 +1120,7 @@ var Webphone = (_dec = (0, _di.Module)({
       }));
 
       function reject(_x3) {
-        return _ref11.apply(this, arguments);
+        return _ref9.apply(this, arguments);
       }
 
       return reject;
@@ -1155,7 +1128,7 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: 'resume',
     value: function () {
-      var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(sessionId) {
+      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(sessionId) {
         return _regenerator2.default.wrap(function _callee9$(_context9) {
           while (1) {
             switch (_context9.prev = _context9.next) {
@@ -1172,7 +1145,7 @@ var Webphone = (_dec = (0, _di.Module)({
       }));
 
       function resume(_x4) {
-        return _ref12.apply(this, arguments);
+        return _ref10.apply(this, arguments);
       }
 
       return resume;
@@ -1180,7 +1153,7 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: 'forward',
     value: function () {
-      var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(sessionId, forwardNumber) {
+      var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(sessionId, forwardNumber) {
         var _this7 = this;
 
         var session, validatedResult, validPhoneNumber;
@@ -1251,7 +1224,7 @@ var Webphone = (_dec = (0, _di.Module)({
       }));
 
       function forward(_x5, _x6) {
-        return _ref13.apply(this, arguments);
+        return _ref11.apply(this, arguments);
       }
 
       return forward;
@@ -1259,7 +1232,7 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: 'mute',
     value: function () {
-      var _ref14 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(sessionId) {
+      var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(sessionId) {
         var _this8 = this;
 
         return _regenerator2.default.wrap(function _callee11$(_context11) {
@@ -1294,7 +1267,7 @@ var Webphone = (_dec = (0, _di.Module)({
       }));
 
       function mute(_x7) {
-        return _ref14.apply(this, arguments);
+        return _ref12.apply(this, arguments);
       }
 
       return mute;
@@ -1302,7 +1275,7 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: 'unmute',
     value: function () {
-      var _ref15 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee12(sessionId) {
+      var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee12(sessionId) {
         var _this9 = this;
 
         return _regenerator2.default.wrap(function _callee12$(_context12) {
@@ -1324,7 +1297,7 @@ var Webphone = (_dec = (0, _di.Module)({
       }));
 
       function unmute(_x8) {
-        return _ref15.apply(this, arguments);
+        return _ref13.apply(this, arguments);
       }
 
       return unmute;
@@ -1332,7 +1305,7 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: 'hold',
     value: function () {
-      var _ref16 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee13(sessionId) {
+      var _ref14 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee13(sessionId) {
         var session;
         return _regenerator2.default.wrap(function _callee13$(_context13) {
           while (1) {
@@ -1383,7 +1356,7 @@ var Webphone = (_dec = (0, _di.Module)({
       }));
 
       function hold(_x9) {
-        return _ref16.apply(this, arguments);
+        return _ref14.apply(this, arguments);
       }
 
       return hold;
@@ -1408,7 +1381,7 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: 'unhold',
     value: function () {
-      var _ref17 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee14(sessionId) {
+      var _ref15 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee14(sessionId) {
         var session;
         return _regenerator2.default.wrap(function _callee14$(_context14) {
           while (1) {
@@ -1457,7 +1430,7 @@ var Webphone = (_dec = (0, _di.Module)({
       }));
 
       function unhold(_x10) {
-        return _ref17.apply(this, arguments);
+        return _ref15.apply(this, arguments);
       }
 
       return unhold;
@@ -1465,7 +1438,7 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: 'startRecord',
     value: function () {
-      var _ref18 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee15(sessionId) {
+      var _ref16 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee15(sessionId) {
         var session;
         return _regenerator2.default.wrap(function _callee15$(_context15) {
           while (1) {
@@ -1541,7 +1514,7 @@ var Webphone = (_dec = (0, _di.Module)({
       }));
 
       function startRecord(_x11) {
-        return _ref18.apply(this, arguments);
+        return _ref16.apply(this, arguments);
       }
 
       return startRecord;
@@ -1549,7 +1522,7 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: 'stopRecord',
     value: function () {
-      var _ref19 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee16(sessionId) {
+      var _ref17 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee16(sessionId) {
         var session;
         return _regenerator2.default.wrap(function _callee16$(_context16) {
           while (1) {
@@ -1595,7 +1568,7 @@ var Webphone = (_dec = (0, _di.Module)({
       }));
 
       function stopRecord(_x12) {
-        return _ref19.apply(this, arguments);
+        return _ref17.apply(this, arguments);
       }
 
       return stopRecord;
@@ -1603,7 +1576,7 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: 'park',
     value: function () {
-      var _ref20 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee17(sessionId) {
+      var _ref18 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee17(sessionId) {
         var session;
         return _regenerator2.default.wrap(function _callee17$(_context17) {
           while (1) {
@@ -1643,7 +1616,7 @@ var Webphone = (_dec = (0, _di.Module)({
       }));
 
       function park(_x13) {
-        return _ref20.apply(this, arguments);
+        return _ref18.apply(this, arguments);
       }
 
       return park;
@@ -1651,7 +1624,7 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: 'transfer',
     value: function () {
-      var _ref21 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee18(transferNumber, sessionId) {
+      var _ref19 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee18(transferNumber, sessionId) {
         var _this10 = this;
 
         var session, validatedResult, validPhoneNumber;
@@ -1728,7 +1701,7 @@ var Webphone = (_dec = (0, _di.Module)({
       }));
 
       function transfer(_x14, _x15) {
-        return _ref21.apply(this, arguments);
+        return _ref19.apply(this, arguments);
       }
 
       return transfer;
@@ -1736,7 +1709,7 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: 'transferWarm',
     value: function () {
-      var _ref22 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee20(transferNumber, sessionId) {
+      var _ref20 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee20(transferNumber, sessionId) {
         var _this11 = this;
 
         var session, newSession;
@@ -1809,7 +1782,7 @@ var Webphone = (_dec = (0, _di.Module)({
       }));
 
       function transferWarm(_x16, _x17) {
-        return _ref22.apply(this, arguments);
+        return _ref20.apply(this, arguments);
       }
 
       return transferWarm;
@@ -1817,7 +1790,7 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: 'flip',
     value: function () {
-      var _ref24 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee21(flipValue, sessionId) {
+      var _ref22 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee21(flipValue, sessionId) {
         var session;
         return _regenerator2.default.wrap(function _callee21$(_context21) {
           while (1) {
@@ -1866,7 +1839,7 @@ var Webphone = (_dec = (0, _di.Module)({
       }));
 
       function flip(_x18, _x19) {
-        return _ref24.apply(this, arguments);
+        return _ref22.apply(this, arguments);
       }
 
       return flip;
@@ -1874,7 +1847,7 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: 'sendDTMF',
     value: function () {
-      var _ref25 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee22(dtmfValue, sessionId) {
+      var _ref23 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee22(dtmfValue, sessionId) {
         var session;
         return _regenerator2.default.wrap(function _callee22$(_context22) {
           while (1) {
@@ -1913,7 +1886,7 @@ var Webphone = (_dec = (0, _di.Module)({
       }));
 
       function sendDTMF(_x20, _x21) {
-        return _ref25.apply(this, arguments);
+        return _ref23.apply(this, arguments);
       }
 
       return sendDTMF;
@@ -1921,7 +1894,7 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: 'hangup',
     value: function () {
-      var _ref26 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee23(sessionId) {
+      var _ref24 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee23(sessionId) {
         var session;
         return _regenerator2.default.wrap(function _callee23$(_context23) {
           while (1) {
@@ -1961,7 +1934,7 @@ var Webphone = (_dec = (0, _di.Module)({
       }));
 
       function hangup(_x22) {
-        return _ref26.apply(this, arguments);
+        return _ref24.apply(this, arguments);
       }
 
       return hangup;
@@ -1969,7 +1942,7 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: 'toVoiceMail',
     value: function () {
-      var _ref27 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee24(sessionId) {
+      var _ref25 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee24(sessionId) {
         var session;
         return _regenerator2.default.wrap(function _callee24$(_context24) {
           while (1) {
@@ -2014,7 +1987,7 @@ var Webphone = (_dec = (0, _di.Module)({
       }));
 
       function toVoiceMail(_x23) {
-        return _ref27.apply(this, arguments);
+        return _ref25.apply(this, arguments);
       }
 
       return toVoiceMail;
@@ -2022,7 +1995,7 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: 'replyWithMessage',
     value: function () {
-      var _ref28 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee25(sessionId, replyOptions) {
+      var _ref26 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee25(sessionId, replyOptions) {
         var session;
         return _regenerator2.default.wrap(function _callee25$(_context25) {
           while (1) {
@@ -2064,7 +2037,7 @@ var Webphone = (_dec = (0, _di.Module)({
       }));
 
       function replyWithMessage(_x24, _x25) {
-        return _ref28.apply(this, arguments);
+        return _ref26.apply(this, arguments);
       }
 
       return replyWithMessage;
@@ -2089,10 +2062,10 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: 'makeCall',
     value: function () {
-      var _ref30 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee26(_ref29) {
-        var toNumber = _ref29.toNumber,
-            fromNumber = _ref29.fromNumber,
-            homeCountryId = _ref29.homeCountryId;
+      var _ref28 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee26(_ref27) {
+        var toNumber = _ref27.toNumber,
+            fromNumber = _ref27.fromNumber,
+            homeCountryId = _ref27.homeCountryId;
         var phoneLines, session;
         return _regenerator2.default.wrap(function _callee26$(_context26) {
           while (1) {
@@ -2150,7 +2123,7 @@ var Webphone = (_dec = (0, _di.Module)({
       }));
 
       function makeCall(_x26) {
-        return _ref30.apply(this, arguments);
+        return _ref28.apply(this, arguments);
       }
 
       return makeCall;
@@ -2158,7 +2131,7 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: 'updateSessionMatchedContact',
     value: function () {
-      var _ref31 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee27(sessionId, contact) {
+      var _ref29 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee27(sessionId, contact) {
         var _this12 = this;
 
         return _regenerator2.default.wrap(function _callee27$(_context27) {
@@ -2179,7 +2152,7 @@ var Webphone = (_dec = (0, _di.Module)({
       }));
 
       function updateSessionMatchedContact(_x27, _x28) {
-        return _ref31.apply(this, arguments);
+        return _ref29.apply(this, arguments);
       }
 
       return updateSessionMatchedContact;
@@ -2223,7 +2196,7 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: 'toggleMinimized',
     value: function () {
-      var _ref32 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee28(sessionId) {
+      var _ref30 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee28(sessionId) {
         var _this13 = this;
 
         return _regenerator2.default.wrap(function _callee28$(_context28) {
@@ -2244,7 +2217,7 @@ var Webphone = (_dec = (0, _di.Module)({
       }));
 
       function toggleMinimized(_x29) {
-        return _ref32.apply(this, arguments);
+        return _ref30.apply(this, arguments);
       }
 
       return toggleMinimized;
@@ -2335,7 +2308,7 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: '_retrySleep',
     value: function () {
-      var _ref33 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee29() {
+      var _ref31 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee29() {
         return _regenerator2.default.wrap(function _callee29$(_context29) {
           while (1) {
             switch (_context29.prev = _context29.next) {
@@ -2384,7 +2357,7 @@ var Webphone = (_dec = (0, _di.Module)({
       }));
 
       function _retrySleep() {
-        return _ref33.apply(this, arguments);
+        return _ref31.apply(this, arguments);
       }
 
       return _retrySleep;
@@ -2398,7 +2371,7 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: 'showAlert',
     value: function () {
-      var _ref34 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee30() {
+      var _ref32 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee30() {
         return _regenerator2.default.wrap(function _callee30$(_context30) {
           while (1) {
             switch (_context30.prev = _context30.next) {
@@ -2428,7 +2401,7 @@ var Webphone = (_dec = (0, _di.Module)({
       }));
 
       function showAlert() {
-        return _ref34.apply(this, arguments);
+        return _ref32.apply(this, arguments);
       }
 
       return showAlert;

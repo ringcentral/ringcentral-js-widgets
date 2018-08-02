@@ -460,7 +460,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
       var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(id, webphoneSession) {
         var propagete = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
-        var conferenceState, sessionId, conference, sessionData, partyProfile, newConference, _conferenceState, newParties;
+        var conferenceState, sessionId, conference, partyProfile, newConference, _conferenceState, newParties;
 
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
@@ -489,21 +489,21 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   conference: conference,
                   sessionId: sessionId
                 });
-                sessionData = webphoneSession.data;
-                _context3.prev = 8;
-                _context3.next = 11;
-                return this._getProfile(webphoneSession);
 
-              case 11:
+                _context3.prev = 7;
+                _context3.next = 10;
+                return this._getProfile(webphoneSession.id);
+
+              case 10:
                 partyProfile = _context3.sent;
-                _context3.next = 14;
-                return this._client.service.platform().post('/account/~/telephony/sessions/' + id + '/parties/bring-in', sessionData);
+                _context3.next = 13;
+                return this._client.service.platform().post('/account/~/telephony/sessions/' + id + '/parties/bring-in', webphoneSession.partyData);
 
-              case 14:
-                _context3.next = 16;
+              case 13:
+                _context3.next = 15;
                 return this.updateConferenceStatus(id);
 
-              case 16:
+              case 15:
                 newConference = _context3.sent;
 
                 conference = newConference.conference;
@@ -524,9 +524,9 @@ var ConferenceCall = (_dec = (0, _di.Module)({
 
                 return _context3.abrupt('return', id);
 
-              case 23:
-                _context3.prev = 23;
-                _context3.t0 = _context3['catch'](8);
+              case 22:
+                _context3.prev = 22;
+                _context3.t0 = _context3['catch'](7);
 
                 this.store.dispatch({
                   type: this.actionTypes.bringInConferenceFailed,
@@ -534,21 +534,21 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 });
 
                 if (propagete) {
-                  _context3.next = 28;
+                  _context3.next = 27;
                   break;
                 }
 
                 return _context3.abrupt('return', null);
 
-              case 28:
+              case 27:
                 throw _context3.t0;
 
-              case 29:
+              case 28:
               case 'end':
                 return _context3.stop();
             }
           }
-        }, _callee3, this, [[8, 23]]);
+        }, _callee3, this, [[7, 22]]);
       }));
 
       function bringInToConference(_x4, _x5) {
@@ -1365,7 +1365,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
   }, {
     key: '_getProfile',
     value: function () {
-      var _ref16 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee12(sessionInstance) {
+      var _ref16 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee12(sessionId) {
         var session, to, contactMatch, from, fromNumber, direction, toUserName, avatarUrl, rcId, partyNumber, calleeType, contactMapping, contact, nameMatches;
         return _regenerator2.default.wrap(function _callee12$(_context12) {
           while (1) {
@@ -1380,7 +1380,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
 
               case 2:
                 session = this._webphone.sessions.find(function (session) {
-                  return session.id === sessionInstance.id;
+                  return session.id === sessionId;
                 });
                 to = session.to, contactMatch = session.contactMatch, from = session.from, fromNumber = session.fromNumber, direction = session.direction;
                 toUserName = session.toUserName;

@@ -67,10 +67,6 @@ var _calleeTypes = require('../../enums/calleeTypes');
 
 var _calleeTypes2 = _interopRequireDefault(_calleeTypes);
 
-var _callDirections = require('../../enums/callDirections');
-
-var _callDirections2 = _interopRequireDefault(_callDirections);
-
 var _sessionStatus = require('../Webphone/sessionStatus');
 
 var _sessionStatus2 = _interopRequireDefault(_sessionStatus);
@@ -79,59 +75,21 @@ var _getCallMonitorReducer = require('./getCallMonitorReducer');
 
 var _getCallMonitorReducer2 = _interopRequireDefault(_getCallMonitorReducer);
 
-var _normalizeNumber = require('../../lib/normalizeNumber');
-
-var _normalizeNumber2 = _interopRequireDefault(_normalizeNumber);
-
-var _callLogHelpers = require('../../lib/callLogHelpers');
-
 var _ensureExist = require('../../lib/ensureExist');
 
 var _ensureExist2 = _interopRequireDefault(_ensureExist);
 
+var _normalizeNumber = require('../../lib/normalizeNumber');
+
+var _normalizeNumber2 = _interopRequireDefault(_normalizeNumber);
+
+var _callMonitorHelper = require('./callMonitorHelper');
+
+var _callLogHelpers = require('../../lib/callLogHelpers');
+
 var _webphoneHelper = require('../Webphone/webphoneHelper');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function matchWephoneSessionWithAcitveCall(sessions, callItem) {
-  if (!sessions || !callItem.sipData) {
-    return undefined;
-  }
-  return sessions.find(function (session) {
-    if (session.direction !== callItem.direction) {
-      return false;
-    }
-
-    /**
-     * Hack: for conference call, the `to` field is Conference,
-     * and the callItem's id won't change. According to `sip.js/src/session.js`
-     * the `InviteClientContext`'s id will always begin with callItem's id.
-     */
-    if (callItem.toName && callItem.toName.toLowerCase() === 'conference') {
-      return session.id.indexOf(callItem.id) === 0;
-    }
-
-    if (session.direction === _callDirections2.default.inbound && callItem.sipData.remoteUri.indexOf(session.from) === -1) {
-      return false;
-    }
-    if (session.direction === _callDirections2.default.outbound && callItem.sipData.remoteUri.indexOf(session.to) === -1) {
-      return false;
-    }
-    var webphoneStartTime = void 0;
-    if (session.direction === _callDirections2.default.inbound) {
-      webphoneStartTime = session.creationTime;
-    } else {
-      webphoneStartTime = session.startTime || session.creationTime;
-    }
-    // 16000 is from experience in test.
-    // there is delay bettween active call created and webphone session created
-    // for example, the time delay is decided by when webphone get invite info
-    if (Math.abs(callItem.startTime - webphoneStartTime) > 16000) {
-      return false;
-    }
-    return true;
-  });
-}
 
 /**
  * @class
@@ -243,7 +201,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
           phoneNumber: callItem.to && callItem.to.phoneNumber,
           countryCode: countryCode
         });
-        var webphoneSession = matchWephoneSessionWithAcitveCall(theSessions, callItem);
+        var webphoneSession = (0, _callMonitorHelper.matchWephoneSessionWithAcitveCall)(theSessions, callItem);
         theSessions = theSessions.filter(function (x) {
           return x !== webphoneSession;
         });
@@ -258,7 +216,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
           webphoneSession: webphoneSession
         });
       }).sort(function (l, r) {
-        return (0, _webphoneHelper.sortByLastHoldingTimeDesc)(l.webphoneSession, r.webphoneSession);
+        return (0, _webphoneHelper.sortByLastActiveTimeDesc)(l.webphoneSession, r.webphoneSession);
       });
 
       return _normalizedCalls;
@@ -340,7 +298,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
         if (!sessionsCache) {
           return true;
         }
-        var endCall = matchWephoneSessionWithAcitveCall(sessionsCache, callItem);
+        var endCall = (0, _callMonitorHelper.matchWephoneSessionWithAcitveCall)(sessionsCache, callItem);
         sessionsCache = sessionsCache.filter(function (x) {
           return x !== endCall;
         });
