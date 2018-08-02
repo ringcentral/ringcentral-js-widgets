@@ -47,20 +47,16 @@ class CallCtrlPanel extends Component {
       }));
     };
     this.onMerge = () => {
-      const { isCallRecording, currentSession, currentConferenceSession } = this.props;
-      if (isCallRecording(currentSession)) {
-        return;
-      }
-      if (
-        this.props.hasConferenceCall &&
-        this.props.layout === callCtrlLayouts.normalCtrl
-      ) {
-        if (isCallRecording(currentConferenceSession)) {
-          return;
+      const { onBeforeMerge } = this.props;
+      if (onBeforeMerge()) {
+        if (
+          this.props.hasConferenceCall &&
+          this.props.layout === callCtrlLayouts.normalCtrl
+        ) {
+          this.showMergeConfirm();
+        } else if (this.props.onMerge) {
+          this.props.onMerge();
         }
-        this.showMergeConfirm();
-      } else if (this.props.onMerge) {
-        this.props.onMerge();
       }
     };
     this.showMergeConfirm = () => {
@@ -221,6 +217,7 @@ CallCtrlPanel.propTypes = {
   onStopRecord: PropTypes.func.isRequired,
   onAdd: PropTypes.func,
   onMerge: PropTypes.func,
+  onBeforeMerge: PropTypes.func,
   onPark: PropTypes.func.isRequired,
   onHangup: PropTypes.func.isRequired,
   onFlip: PropTypes.func.isRequired,
@@ -254,10 +251,7 @@ CallCtrlPanel.propTypes = {
   lastCallInfo: PropTypes.object,
   conferenceCallParties: PropTypes.array,
   getAvatarUrl: PropTypes.func,
-  isCallRecording: PropTypes.func,
   gotoParticipantsCtrl: PropTypes.func,
-  currentConferenceSession: PropTypes.object,
-  currentSession: PropTypes.object,
 };
 
 CallCtrlPanel.defaultProps = {
@@ -283,6 +277,7 @@ CallCtrlPanel.defaultProps = {
   recipientsContactPhoneRenderer: undefined,
   onAdd: undefined,
   onMerge: undefined,
+  onBeforeMerge: undefined,
   showSpinner: false,
   direction: null,
   addDisabled: false,
@@ -292,10 +287,7 @@ CallCtrlPanel.defaultProps = {
   conferenceCallParties: undefined,
   lastCallInfo: undefined,
   getAvatarUrl: () => null,
-  isCallRecording: () => null,
   gotoParticipantsCtrl: i => i,
-  currentSession: null,
-  currentConferenceSession: null,
 };
 
 export default CallCtrlPanel;
