@@ -10,6 +10,7 @@ export default function InsideModal({
   children,
   title,
   showCloseBtn,
+  clickOutToClose,
   containerStyles,
   maskStyle,
   modalStyles,
@@ -25,6 +26,7 @@ export default function InsideModal({
       contentClassName={classnames(styles.content, contentStyle)}
       show={show}
       showCloseBtn={showCloseBtn}
+      clickOutToClose={clickOutToClose}
       onCancel={onClose}
     >
       {children}
@@ -38,6 +40,7 @@ InsideModal.propTypes = {
   children: PropTypes.node,
   title: PropTypes.string,
   showCloseBtn: PropTypes.bool,
+  clickOutToClose: PropTypes.bool,
   containerStyles: PropTypes.string,
   maskStyle: PropTypes.string,
   modalStyles: PropTypes.string,
@@ -47,6 +50,7 @@ InsideModal.propTypes = {
 InsideModal.defaultProps = {
   title: null,
   showCloseBtn: true,
+  clickOutToClose: true,
   show: undefined,
   onClose: undefined,
   children: undefined,
