@@ -17,10 +17,6 @@ var _values = require('babel-runtime/core-js/object/values');
 
 var _values2 = _interopRequireDefault(_values);
 
-var _keys = require('babel-runtime/core-js/object/keys');
-
-var _keys2 = _interopRequireDefault(_keys);
-
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -363,7 +359,7 @@ CallCtrlPage.propTypes = {
   conferenceCallId: _propTypes2.default.string,
   gotoParticipantsCtrl: _propTypes2.default.func,
   loadConference: _propTypes2.default.func,
-  conferenceSession: _propTypes2.default.string
+  conferenceSession: _propTypes2.default.object
 };
 
 CallCtrlPage.defaultProps = {
@@ -421,7 +417,7 @@ function mapToProps(_, _ref) {
   var nameMatches = currentSession.direction === _callDirections2.default.outbound ? toMatches : fromMatches;
 
   var isWebRTC = callingSettings.callingMode === _callingModes2.default.webphone;
-  var mergeDisabled = !(currentSession.data && (0, _keys2.default)(currentSession.data).length) || !isWebRTC;
+  var mergeDisabled = !currentSession.partyData || !isWebRTC;
   var addDisabled = !isWebRTC || currentSession.direction === _callDirections2.default.inbound;
 
   var isOnConference = false;
@@ -443,9 +439,9 @@ function mapToProps(_, _ref) {
 
       var newVal = conferenceCall.isOverload(conferenceCallId)
       // in case webphone.activeSession has not been updated yet
-      || !(currentSession.data && (0, _keys2.default)(currentSession.data).length);
+      || !currentSession.partyData;
       // update
-      mergeDisabled = newVal || !(currentSession.data && (0, _keys2.default)(currentSession.data).length);
+      mergeDisabled = newVal || !currentSession.partyData;
       addDisabled = newVal;
       conferenceSession = webphone._sessions.get(conferenceData.sessionId);
     }
