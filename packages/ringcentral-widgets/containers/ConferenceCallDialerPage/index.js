@@ -12,6 +12,7 @@ import {
   mapToFunctions as mapToBaseFunctions,
 } from '../DialerPage';
 import i18n from './i18n';
+import styles from './styles.scss';
 
 function ConferenceCallDialerPanel({
   onBack,
@@ -70,6 +71,7 @@ function mapToFunctions(_, {
         fromNumber: params.fromNumber,
       });
     },
+    callBtnClassName: styles.callBtn,
   };
 }
 
