@@ -479,7 +479,8 @@ export default class Webphone extends RcModule {
     this._webphone.userAgent.on('unregistered', onUnregistered);
     this._webphone.userAgent.on('registrationFailed', onRegistrationFailed);
     this._webphone.userAgent.on('invite', (session) => {
-      console.debug('UA invite');
+      console.log('UA invite');
+      this._extractHeadersData(session, session.request.headers);
       this._onInvite(session);
     });
   }
@@ -635,47 +636,46 @@ export default class Webphone extends RcModule {
     this._disconnect();
   }
 
+  _extractHeadersData(session, headers) {
+    if (
+      headers
+      && headers['P-Rc-Api-Ids']
+      && headers['P-Rc-Api-Ids'][0]
+      && headers['P-Rc-Api-Ids'][0].raw
+    ) {
+      /**
+       * interface SessionData{
+       *  "partyId": String,
+       *  "sessionId": String
+       * }
+       */
+      session.data = headers['P-Rc-Api-Ids'][0].raw
+        .split(';')
+        .map(sub => sub.split('='))
+        .reduce((accum, [key, value]) => {
+          accum[camelize(key)] = value;
+          return accum;
+        }, {});
+    }
+
+    if (
+      headers
+      && headers['Call-ID']
+      && headers['Call-ID'][0]
+      && headers['Call-ID'][0].raw
+    ) {
+      session.callId = headers['Call-ID'][0].raw;
+    }
+  }
+
   _onAccepted(session) {
     session.on('accepted', (incomingResponse) => {
-      // todo: log the response
       if (session.callStatus === sessionStatus.finished) {
         return;
       }
       console.log('accepted');
       session.callStatus = sessionStatus.connected;
-
-      if (
-        incomingResponse
-        && incomingResponse.headers
-        && incomingResponse.headers['P-Rc-Api-Ids']
-        && incomingResponse.headers['P-Rc-Api-Ids'][0]
-        && incomingResponse.headers['P-Rc-Api-Ids'][0].raw
-      ) {
-        /**
-         * interface SessionData{
-         *  "partyId": String,
-         *  "sessionId": String
-         * }
-         */
-        session.data = incomingResponse.headers['P-Rc-Api-Ids'][0].raw
-          .split(';')
-          .map(sub => sub.split('='))
-          .reduce((accum, [key, value]) => {
-            accum[camelize(key)] = value;
-            return accum;
-          }, {});
-      }
-
-      if (
-        incomingResponse
-        && incomingResponse.headers
-        && incomingResponse.headers['Call-ID']
-        && incomingResponse.headers['Call-ID'][0]
-        && incomingResponse.headers['Call-ID'][0].raw
-      ) {
-        session.callId = incomingResponse.headers['Call-ID'][0].raw;
-      }
-
+      this._extractHeadersData(session, incomingResponse.headers);
       this._onCallStart(session);
     });
     session.on('progress', () => {
@@ -1444,6 +1444,7 @@ export default class Webphone extends RcModule {
       }
     };
   }
+
   get isOnTransfer() {
     return this.activeSession && this.activeSession.isOnTransfer;
   }
