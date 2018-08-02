@@ -99,12 +99,13 @@ var ConferenceParticipantContainer = (_temp = _class = function (_Component) {
 
       var _props = this.props,
           participants = _props.participants,
-          onBackButtonClick = _props.onBackButtonClick;
+          onBackButtonClick = _props.onBackButtonClick,
+          sessionCount = _props.sessionCount;
 
 
       if (!nextProps.participants.length && nextProps.participants.length !== participants.length) {
         (0, _sleep2.default)(500).then(function () {
-          if (_this2.mounted) {
+          if (_this2.mounted && sessionCount) {
             onBackButtonClick();
           }
         });
@@ -119,20 +120,24 @@ var ConferenceParticipantContainer = (_temp = _class = function (_Component) {
   return ConferenceParticipantContainer;
 }(_react.Component), _class.propTypes = {
   participants: _propTypes2.default.array.isRequired,
-  onBackButtonClick: _propTypes2.default.func.isRequired
+  onBackButtonClick: _propTypes2.default.func.isRequired,
+  sessionCount: _propTypes2.default.number.isRequired
 }, _temp);
 
 
 function mapToProps(_, _ref) {
   var _ref$phone = _ref.phone,
       locale = _ref$phone.locale,
-      conferenceCall = _ref$phone.conferenceCall;
+      conferenceCall = _ref$phone.conferenceCall,
+      webphone = _ref$phone.webphone;
 
   var participants = conferenceCall.partyProfiles;
+  var sessionCount = webphone.sessions && webphone.sessions.length || 0;
 
   return {
     currentLocale: locale.currentLocale,
-    participants: participants
+    participants: participants,
+    sessionCount: sessionCount
   };
 }
 

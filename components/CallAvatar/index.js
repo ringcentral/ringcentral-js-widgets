@@ -40,6 +40,10 @@ var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
 
+var _Spinner = require('../../assets/images/Spinner.svg');
+
+var _Spinner2 = _interopRequireDefault(_Spinner);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var CallAvatar = function (_Component) {
@@ -51,7 +55,8 @@ var CallAvatar = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallAvatar.__proto__ || (0, _getPrototypeOf2.default)(CallAvatar)).call(this, props));
 
     _this.state = {
-      avatarUrl: null
+      avatarUrl: null,
+      avatarUrlLoadFailed: false
     };
     _this._mounted = false;
     return _this;
@@ -83,7 +88,8 @@ var CallAvatar = function (_Component) {
             return;
           }
           _this2.setState({
-            avatarUrl: null
+            avatarUrl: null,
+            avatarUrlLoadFailed: true
           });
         };
       }
@@ -112,6 +118,8 @@ var CallAvatar = function (_Component) {
       var _props = this.props,
           extraNum = _props.extraNum,
           isOnConferenceCall = _props.isOnConferenceCall;
+
+      var avatarUrlSource = this.props.avatarUrl;
       var avatarUrl = this.state.avatarUrl;
 
       var initialSize = 38;
@@ -120,14 +128,26 @@ var CallAvatar = function (_Component) {
       var extraNumCircleRadius = 8.5;
       var extraNumCircleBorder = 1;
       var $snow = '#fff';
-      var $gray = '#cee7f2';
+      var $blueLight = '#cee7f2';
       var $blue = '#0684bd';
+      var $dark = '#e2e2e2';
+      var $transparency = '0.8';
       var res = void 0;
       var hash = _uuid2.default.v4();
       var textId = 'text-' + hash;
       var clipId = 'circleClip-' + hash;
-      var avatarStyle = { stroke: '#e2e2e2', strokeWidth: '1px' };
-      if (isOnConferenceCall && extraNum > 0) {
+      var avatarStyle = { stroke: $dark, strokeWidth: '1px' };
+      var avatarUrlLoadFailed = this.state.avatarUrlLoadFailed;
+      var avatarNotReady = avatarUrlSource && !this.state.avatarUrl && !avatarUrlLoadFailed;
+
+      // spinner sizing
+      var spinnerId = 'spinner-' + hash;
+      var spinnerScaleSize = 1.5;
+      var spinnerSize = 12;
+      var spinnerTranslateTo = (initialSize - spinnerSize * spinnerScaleSize) / 2;
+      var isOnConferenceCallWithExtraNum = isOnConferenceCall && extraNum > 0;
+      var spinnerTransform = 'translate(' + (spinnerTranslateTo - (isOnConferenceCallWithExtraNum ? margin : 0)) + ',' + spinnerTranslateTo + ') scale(' + spinnerScaleSize + ', ' + spinnerScaleSize + ')';
+      if (isOnConferenceCallWithExtraNum) {
         res = _react2.default.createElement(
           'svg',
           {
@@ -159,13 +179,16 @@ var CallAvatar = function (_Component) {
                 },
                 '\uE904'
               )
-            )
+            ),
+            _react2.default.createElement(_Spinner2.default, { id: spinnerId })
           ),
           _react2.default.createElement('circle', {
             cx: avatarCircleRadius,
             cy: margin + avatarCircleRadius,
             r: avatarCircleRadius,
-            fill: $snow
+            fill: $snow,
+            stroke: avatarNotReady ? $dark : 'inherit',
+            strokeOpacity: avatarNotReady ? $transparency : '1'
           }),
           _react2.default.createElement(
             'g',
@@ -180,7 +203,12 @@ var CallAvatar = function (_Component) {
                 fill: $snow })
             )
           ),
-          avatarUrl ? _react2.default.createElement('image', { clipPath: 'url(#' + clipId + ')', height: '100%', width: '100%', xlinkHref: avatarUrl }) : _react2.default.createElement('use', { xlinkHref: '#' + textId, clipPath: 'url(#' + clipId + ')' }),
+          avatarNotReady ? _react2.default.createElement(
+            'g',
+            { transform: spinnerTransform },
+            _react2.default.createElement('use', { xlinkHref: '#' + spinnerId })
+          ) : _react2.default.createElement('image', { clipPath: 'url(#' + clipId + ')', height: '100%', width: '100%', xlinkHref: avatarUrl }),
+          (!avatarUrlSource || avatarUrlLoadFailed) && _react2.default.createElement('use', { xlinkHref: '#' + textId, clipPath: 'url(#' + clipId + ')' }),
           _react2.default.createElement('circle', {
             cx: initialSize - extraNumCircleRadius,
             cy: extraNumCircleRadius,
@@ -190,7 +218,7 @@ var CallAvatar = function (_Component) {
             cx: initialSize - extraNumCircleRadius,
             cy: extraNumCircleRadius,
             r: extraNumCircleRadius - extraNumCircleBorder,
-            fill: $gray }),
+            fill: $blueLight }),
           _react2.default.createElement(
             'text',
             {
@@ -237,13 +265,16 @@ var CallAvatar = function (_Component) {
                   className: _styles2.default.portrait },
                 '\uE904'
               )
-            )
+            ),
+            _react2.default.createElement(_Spinner2.default, { id: spinnerId })
           ),
           _react2.default.createElement('circle', {
             cx: initialSize / 2,
             cy: initialSize / 2,
             r: initialSize / 2,
-            fill: $snow
+            fill: $snow,
+            stroke: avatarNotReady ? $dark : 'inherit',
+            strokeOpacity: avatarNotReady ? $transparency : '1'
           }),
           _react2.default.createElement(
             'g',
@@ -258,12 +289,17 @@ var CallAvatar = function (_Component) {
               })
             )
           ),
-          avatarUrl ? _react2.default.createElement('image', {
+          avatarNotReady ? _react2.default.createElement(
+            'g',
+            { transform: spinnerTransform },
+            _react2.default.createElement('use', { xlinkHref: '#' + spinnerId })
+          ) : _react2.default.createElement('image', {
             clipPath: 'url(#' + clipId + ')',
             height: '100%',
             width: '100%',
             xlinkHref: avatarUrl,
-            preserveAspectRatio: 'xMinYMin slice' }) : _react2.default.createElement('use', { xlinkHref: '#' + textId, clipPath: 'url(#' + clipId + ')' })
+            preserveAspectRatio: 'xMinYMin slice' }),
+          (!avatarUrlSource || avatarUrlLoadFailed) && _react2.default.createElement('use', { xlinkHref: '#' + textId, clipPath: 'url(#' + clipId + ')' })
         );
       }
       return res;
