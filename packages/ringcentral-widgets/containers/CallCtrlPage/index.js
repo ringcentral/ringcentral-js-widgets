@@ -195,7 +195,10 @@ class CallCtrlPage extends Component {
         conferenceCallParties={this.props.conferenceCallParties}
         lastCallInfo={this.props.lastCallInfo}
         getAvatarUrl={this.props.getAvatarUrl}
+        isCallRecording={this.props.isCallRecording}
         gotoParticipantsCtrl={this.props.gotoParticipantsCtrl}
+        currentSession={session}
+        currentConferenceSession={this.props.conferenceSession}
       >
         {this.props.children}
       </CallCtrlPanel>
@@ -259,9 +262,11 @@ CallCtrlPage.propTypes = {
   hasConferenceCall: PropTypes.bool,
   lastCallInfo: PropTypes.object,
   onIncomingCallCaptured: PropTypes.func,
+  isCallRecording: PropTypes.func,
   conferenceCallId: PropTypes.string,
   gotoParticipantsCtrl: PropTypes.func,
   loadConference: PropTypes.func,
+  conferenceSession: PropTypes.string,
 };
 
 CallCtrlPage.defaultProps = {
@@ -283,9 +288,11 @@ CallCtrlPage.defaultProps = {
   conferenceCallParties: undefined,
   lastCallInfo: { calleeType: calleeTypes.unknow },
   onIncomingCallCaptured: i => i,
+  isCallRecording: i => i,
   conferenceCallId: null,
   gotoParticipantsCtrl: i => i,
   loadConference: i => i,
+  conferenceSession: null,
 };
 
 function mapToProps(_, {
@@ -319,7 +326,7 @@ function mapToProps(_, {
   let isMerging = false;
   let conferenceCallParties;
   let conferenceCallId = null;
-
+  let conferenceSession = null;
   if (conferenceCall) {
     isOnConference = conferenceCall.isConferenceSession(currentSession.id);
     const conferenceData = Object.values(conferenceCall.conferences)[0];
@@ -340,6 +347,7 @@ function mapToProps(_, {
       // update
       mergeDisabled = newVal || !(currentSession.data && Object.keys(currentSession.data).length);
       addDisabled = newVal;
+      conferenceSession = webphone._sessions.get(conferenceData.sessionId);
     }
 
     hasConferenceCall = !!conferenceData;
@@ -365,6 +373,7 @@ function mapToProps(_, {
     hasConferenceCall,
     conferenceCallParties,
     conferenceCallId,
+    conferenceSession,
   };
 }
 
@@ -412,6 +421,9 @@ function mapToFunctions(_, {
     recipientsContactInfoRenderer,
     recipientsContactPhoneRenderer,
     onAdd(sessionId) {
+      if (webphone.isCallRecording(webphone.activeSession)) {
+        return;
+      }
       const sessionData = find(x => x.id === sessionId, webphone.sessions);
       if (sessionData) {
         conferenceCall.setMergeParty({ fromSessionId: sessionId });
@@ -435,6 +447,7 @@ function mapToFunctions(_, {
     onIncomingCallCaptured() {
       routerInteraction.push('/calls/active');
     },
+    isCallRecording: (...args) => webphone.isCallRecording(...args),
     gotoParticipantsCtrl() {
       routerInteraction.push('/conferenceCall/participants');
     },

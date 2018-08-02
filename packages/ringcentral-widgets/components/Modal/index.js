@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+
 import styles from './styles.scss';
 import i18n from './i18n';
+import Button from '../Button';
+import CloseIcon from '../../assets/images/CloseIcon.svg';
 
 function FlatButton({
   className,
@@ -68,19 +71,20 @@ export default class Modal extends Component {
       modalClassName,
       cancelBtnClassName,
       confirmBtnClassName,
-      closeBtn,
+      showCloseBtn,
       maskClassName,
       headerClassName,
       contentClassName,
+      footerClassName,
     } = this.props;
     // if (!show) return null;
     const footer = !currentLocale || (
       !onCancel && !onConfirm
     ) ? null : (
-      <div className={styles.footer}>
+      <div className={classnames(styles.footer, footerClassName)}>
         {onCancel ? (
           <FlatButton
-            className={classnames(styles.btn, cancelBtnClassName)}
+            className={classnames(styles.btn, styles.cancelBtn, cancelBtnClassName)}
             onClick={onCancel}>
             {textCancel ||
             i18n.getString('cancel', currentLocale)}
@@ -88,7 +92,7 @@ export default class Modal extends Component {
         ) : null}
         {onConfirm ? (
           <FlatButton
-            className={classnames(styles.btn, confirmBtnClassName)}
+            className={classnames(styles.btn, styles.confirmBtn, confirmBtnClassName)}
             onClick={onConfirm}>
             {textConfirm ||
             i18n.getString('confirm', currentLocale)}
@@ -103,9 +107,19 @@ export default class Modal extends Component {
           onClick={clickOutToClose ? onCancel : () => {}}
         />
         <div className={show ? classnames(styles.modal, modalClassName) : styles.modalHidden}>
-          {title ?
-            <div className={classnames(styles.header, headerClassName)}>{title}</div> : null}
-          {closeBtn}
+          <div className={classnames(styles.header, headerClassName)}>
+            {`${title}` || null}
+          </div>
+          {
+            showCloseBtn ?
+              <Button
+                className={styles.closeBtn}
+                onClick={onCancel}
+              >
+                <CloseIcon />
+              </Button>
+          : null
+          }
           <div className={classnames(styles.content, contentClassName)}>
             {children}
           </div>
@@ -137,11 +151,12 @@ Modal.propTypes = {
   currentLocale: PropTypes.string,
   textConfirm: PropTypes.string,
   textCancel: PropTypes.string,
-  closeBtn: PropTypes.node,
+  showCloseBtn: PropTypes.bool,
   appendDOM: PropTypes.object,
   maskClassName: PropTypes.string,
   headerClassName: PropTypes.string,
   contentClassName: PropTypes.string,
+  footerClassName: PropTypes.string,
 };
 Modal.defaultProps = {
   className: '',
@@ -154,13 +169,14 @@ Modal.defaultProps = {
   onConfirm: undefined,
   onCancel: undefined,
   clickOutToClose: false,
-  title: undefined,
+  title: '',
   textConfirm: '',
   textCancel: '',
-  closeBtn: undefined,
+  showCloseBtn: true,
   appendDOM: undefined,
   maskClassName: undefined,
   headerClassName: undefined,
   contentClassName: undefined,
+  footerClassName: undefined,
 };
 

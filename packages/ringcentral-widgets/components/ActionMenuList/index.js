@@ -30,18 +30,6 @@ export function ConfirmDeleteModal({
       currentLocale={currentLocale}
       onConfirm={onDelete}
       onCancel={onCancel}
-      className={styles.confirmDeleteModal}
-      modalClassName={styles.confirmDeleteModal}
-      cancelBtnClassName={styles.cancelBtn}
-      confirmBtnClassName={styles.confirmBtn}
-      closeBtn={
-        <Button
-          className={styles.closeBtn}
-          onClick={onCancel}
-        >
-          <CloseIcon />
-        </Button>
-      }
     >
       <div className={styles.contentText}>
         {i18n.getString('sureToDeleteVoiceMail', currentLocale)}
@@ -57,8 +45,8 @@ ConfirmDeleteModal.propTypes = {
 };
 
 ConfirmDeleteModal.defaultProps = {
-  onDelete: () => {},
-  onCancel: () => {}
+  onDelete() {},
+  onCancel() {}
 };
 
 export function ClickToDialButton({
@@ -162,7 +150,7 @@ DeleteButton.propTypes = {
 DeleteButton.defaultProps = {
   className: undefined,
   title: undefined,
-  openDeleteModal: () => {},
+  openDeleteModal() {},
 };
 
 export function MarkButton({

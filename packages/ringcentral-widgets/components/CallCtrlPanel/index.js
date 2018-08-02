@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import ActiveCallDialPad from '../ActiveCallDialPad';
 import ActiveCallPanel from '../ActiveCallPanel';
@@ -48,10 +47,17 @@ class CallCtrlPanel extends Component {
       }));
     };
     this.onMerge = () => {
+      const { isCallRecording, currentSession, currentConferenceSession } = this.props;
+      if (isCallRecording(currentSession)) {
+        return;
+      }
       if (
         this.props.hasConferenceCall &&
         this.props.layout === callCtrlLayouts.normalCtrl
       ) {
+        if (isCallRecording(currentConferenceSession)) {
+          return;
+        }
         this.showMergeConfirm();
       } else if (this.props.onMerge) {
         this.props.onMerge();
@@ -248,7 +254,10 @@ CallCtrlPanel.propTypes = {
   lastCallInfo: PropTypes.object,
   conferenceCallParties: PropTypes.array,
   getAvatarUrl: PropTypes.func,
+  isCallRecording: PropTypes.func,
   gotoParticipantsCtrl: PropTypes.func,
+  currentConferenceSession: PropTypes.object,
+  currentSession: PropTypes.object,
 };
 
 CallCtrlPanel.defaultProps = {
@@ -283,7 +292,10 @@ CallCtrlPanel.defaultProps = {
   conferenceCallParties: undefined,
   lastCallInfo: undefined,
   getAvatarUrl: () => null,
+  isCallRecording: () => null,
   gotoParticipantsCtrl: i => i,
+  currentSession: null,
+  currentConferenceSession: null,
 };
 
 export default CallCtrlPanel;

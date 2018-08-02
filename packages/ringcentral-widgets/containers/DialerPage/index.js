@@ -4,6 +4,7 @@ import callingModes from 'ringcentral-integration/modules/CallingSettings/callin
 
 import DialerPanel from '../../components/DialerPanel';
 import withPhone from '../../lib/withPhone';
+import styles from './styles.scss';
 
 function mapToProps(_, {
   phone: {
@@ -16,6 +17,7 @@ function mapToProps(_, {
     rateLimiter,
     webphone,
     audioSettings,
+    conferenceCall,
   },
   dialButtonMuted = false,
 }) {
@@ -23,6 +25,9 @@ function mapToProps(_, {
   const waitingWebphoneConnected = (isWebphoneMode && webphone && webphone.connecting);
   const webphoneDisconnected = (isWebphoneMode && webphone && !webphone.connected);
   const audioNotEnabled = isWebphoneMode && audioSettings && !audioSettings.userMedia;
+  const conferenceCallEquipped = !!conferenceCall;
+  const withTab = !!(conferenceCallEquipped && isWebphoneMode && webphone.sessions.length);
+
   return {
     currentLocale: locale.currentLocale,
     callingMode: callingSettings.callingMode,
@@ -50,6 +55,7 @@ function mapToProps(_, {
     dialButtonVolume: audioSettings ? audioSettings.dialButtonVolume : 1,
     // If audioSettings is used, then use values from audioSettings module
     dialButtonMuted: audioSettings ? audioSettings.dialButtonMuted : dialButtonMuted,
+    callBtnClassName: withTab ? null : styles.callBtn,
   };
 }
 function mapToFunctions(_, {

@@ -23,6 +23,7 @@ import RolesAndPermissionsAlert from '../../components/RolesAndPermissionsAlert'
 import withPhone from '../../lib/withPhone';
 import ConferenceAlert from '../../components/ConferenceAlert/index';
 import ConferenceCallAlert from '../../components/ConferenceCallAlert/index';
+import AddCallAlert from '../../components/AddCallAlert/';
 
 
 function mapToProps(_, {
@@ -155,6 +156,13 @@ function getDefaultRenderer({
     if (CallLogAlert.handleMessage(message)) {
       return props => (
         <CallLogAlert
+          {...props}
+        />
+      );
+    }
+    if (AddCallAlert.handleMessage(message)) {
+      return props => (
+        <AddCallAlert
           {...props}
         />
       );
