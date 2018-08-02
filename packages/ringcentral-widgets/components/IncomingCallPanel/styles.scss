@@ -1,8 +1,7 @@
 @import '../../lib/commonStyles/full-size';
 @import '../../lib/commonStyles/colors';
-
+@import '../../lib/commonStyles/layout';
 $userInfoHight: 182px;
-
 .root {
   @include full-size;
   box-sizing: border-box;
@@ -12,7 +11,7 @@ $userInfoHight: 182px;
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 20;
+  z-index: $maximum-zIndex; // always put the incomming call panel in the top most
   background: #ffffff;
 }
 
@@ -113,7 +112,6 @@ $userInfoHight: 182px;
   border-radius: 33px;
   z-index: 3;
   overflow: hidden;
-
   img {
     width: 100%;
   }
