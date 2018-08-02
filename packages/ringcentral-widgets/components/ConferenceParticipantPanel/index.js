@@ -46,6 +46,12 @@ class ParticipantsContainer extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.formatPrticipants(nextProps);
+    if (this.state.showModal
+      && !nextProps.participants.find(
+        participant => participant.id === this.state.detail.id
+      )) {
+      this.onCancel();
+    }
   }
 
   render() {
