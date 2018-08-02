@@ -10,6 +10,7 @@ exports.default = {
   remove: 'Remove',
   cancel: 'Cancel',
   participants: 'Participants',
+  participant: 'Participant',
   conferenceCall: 'Conference Call'
 };
 //# sourceMappingURL=en-US.js.map

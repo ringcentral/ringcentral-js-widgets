@@ -60,7 +60,7 @@ function ParticipantItem(_ref) {
     ),
     _react2.default.createElement(
       'span',
-      { title: _i18n2.default.getString('remove', currentLocale), className: _styles2.default.webphoneButton },
+      { title: _i18n2.default.getString('removeParticipant', currentLocale), className: _styles2.default.webphoneButton },
       _react2.default.createElement(_CircleButton2.default, {
         className: _styles2.default.rejectButton,
         onClick: function onClick(e) {
