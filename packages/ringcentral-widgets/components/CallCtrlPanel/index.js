@@ -48,7 +48,7 @@ class CallCtrlPanel extends Component {
     };
     this.onMerge = () => {
       const { onBeforeMerge } = this.props;
-      if (onBeforeMerge()) {
+      if (!onBeforeMerge || onBeforeMerge()) {
         if (
           this.props.hasConferenceCall &&
           this.props.layout === callCtrlLayouts.normalCtrl
