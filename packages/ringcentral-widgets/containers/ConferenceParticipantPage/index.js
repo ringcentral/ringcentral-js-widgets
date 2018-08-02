@@ -13,6 +13,7 @@ class ConferenceParticipantContainer extends Component {
   static propTypes={
     participants: PropTypes.array.isRequired,
     onBackButtonClick: PropTypes.func.isRequired,
+    sessionCount: PropTypes.number.isRequired,
   }
 
   constructor(props) {
@@ -33,12 +34,12 @@ class ConferenceParticipantContainer extends Component {
       return;
     }
 
-    const { participants, onBackButtonClick } = this.props;
+    const { participants, onBackButtonClick, sessionCount } = this.props;
 
     if (!nextProps.participants.length
       && nextProps.participants.length !== participants.length) {
       sleep(500).then(() => {
-        if (this.mounted) {
+        if (this.mounted && sessionCount) {
           onBackButtonClick();
         }
       });
@@ -55,13 +56,16 @@ function mapToProps(_, {
   phone: {
     locale,
     conferenceCall,
+    webphone,
   },
 }) {
   const participants = conferenceCall.partyProfiles;
+  const sessionCount = (webphone.sessions && webphone.sessions.length) || 0;
 
   return {
     currentLocale: locale.currentLocale,
     participants,
+    sessionCount,
   };
 }
 
