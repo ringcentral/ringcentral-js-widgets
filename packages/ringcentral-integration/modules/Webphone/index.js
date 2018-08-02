@@ -1,7 +1,6 @@
 import RingCentralWebphone from 'ringcentral-web-phone';
 import incomingAudio from 'ringcentral-web-phone/audio/incoming.ogg';
 import outgoingAudio from 'ringcentral-web-phone/audio/outgoing.ogg';
-import { camelize } from '../../lib/di/utils/utils';
 
 import { Module } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
@@ -24,6 +23,7 @@ import {
   isOnHold,
   isConferenceSession,
   sortByCreationTimeDesc,
+  extractHeadersData,
 } from './webphoneHelper';
 import getWebphoneReducer from './getWebphoneReducer';
 
@@ -480,7 +480,7 @@ export default class Webphone extends RcModule {
     this._webphone.userAgent.on('registrationFailed', onRegistrationFailed);
     this._webphone.userAgent.on('invite', (session) => {
       console.log('UA invite');
-      this._extractHeadersData(session, session.request.headers);
+      extractHeadersData(session, session.request.headers);
       this._onInvite(session);
     });
   }
@@ -636,38 +636,6 @@ export default class Webphone extends RcModule {
     this._disconnect();
   }
 
-  _extractHeadersData(session, headers) {
-    if (
-      headers
-      && headers['P-Rc-Api-Ids']
-      && headers['P-Rc-Api-Ids'][0]
-      && headers['P-Rc-Api-Ids'][0].raw
-    ) {
-      /**
-       * interface SessionData{
-       *  "partyId": String,
-       *  "sessionId": String
-       * }
-       */
-      session.data = headers['P-Rc-Api-Ids'][0].raw
-        .split(';')
-        .map(sub => sub.split('='))
-        .reduce((accum, [key, value]) => {
-          accum[camelize(key)] = value;
-          return accum;
-        }, {});
-    }
-
-    if (
-      headers
-      && headers['Call-ID']
-      && headers['Call-ID'][0]
-      && headers['Call-ID'][0].raw
-    ) {
-      session.callId = headers['Call-ID'][0].raw;
-    }
-  }
-
   _onAccepted(session) {
     session.on('accepted', (incomingResponse) => {
       if (session.callStatus === sessionStatus.finished) {
@@ -675,7 +643,7 @@ export default class Webphone extends RcModule {
       }
       console.log('accepted');
       session.callStatus = sessionStatus.connected;
-      this._extractHeadersData(session, incomingResponse.headers);
+      extractHeadersData(session, incomingResponse.headers);
       this._onCallStart(session);
     });
     session.on('progress', () => {
