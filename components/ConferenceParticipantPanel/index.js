@@ -114,12 +114,19 @@ var ParticipantsContainer = function (_Component) {
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
+      var _this2 = this;
+
       this.formatPrticipants(nextProps);
+      if (this.state.showModal && !nextProps.participants.find(function (participant) {
+        return participant.id === _this2.state.detail.id;
+      })) {
+        this.onCancel();
+      }
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       var _props = this.props,
           participants = _props.participants,
@@ -172,7 +179,7 @@ var ParticipantsContainer = function (_Component) {
                 detail: detail,
                 currentLocale: currentLocale,
                 onRemove: function onRemove() {
-                  return _this2.onRemoveBtnClick(participant);
+                  return _this3.onRemoveBtnClick(participant);
                 }
               });
             })
@@ -184,7 +191,7 @@ var ParticipantsContainer = function (_Component) {
           onCancel: this.onCancel,
           currentLocale: currentLocale,
           onRemove: function onRemove() {
-            return removeFunc(detail && detail.id).then(_this2.onCancel);
+            return removeFunc(detail && detail.id).then(_this3.onCancel);
           } })
       );
     }
