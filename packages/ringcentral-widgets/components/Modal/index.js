@@ -76,6 +76,7 @@ export default class Modal extends Component {
       headerClassName,
       contentClassName,
       footerClassName,
+      headerTextName,
     } = this.props;
     // if (!show) return null;
     const footer = !currentLocale || (
@@ -107,18 +108,23 @@ export default class Modal extends Component {
           onClick={clickOutToClose ? onCancel : () => {}}
         />
         <div className={show ? classnames(styles.modal, modalClassName) : styles.modalHidden}>
-          <div className={classnames(styles.header, headerClassName)}>
-            {`${title}` || null}
-          </div>
           {
-            showCloseBtn ?
-              <Button
-                className={styles.closeBtn}
-                onClick={onCancel}
-              >
-                <CloseIcon />
-              </Button>
-          : null
+            showCloseBtn || (title !== null || title !== undefined)
+            ? (
+              <div className={classnames(styles.header, headerClassName)}>
+                <header className={classnames(styles.headerText, headerTextName)}>{`${title}` || null}</header>
+                {
+                  showCloseBtn ?
+                    <Button
+                      className={styles.closeBtn}
+                      onClick={onCancel}
+                    >
+                      <CloseIcon />
+                    </Button>
+                  : null
+                }
+              </div>
+            ) : null
           }
           <div className={classnames(styles.content, contentClassName)}>
             {children}
@@ -157,6 +163,7 @@ Modal.propTypes = {
   headerClassName: PropTypes.string,
   contentClassName: PropTypes.string,
   footerClassName: PropTypes.string,
+  headerTextName: PropTypes.string,
 };
 Modal.defaultProps = {
   className: '',
@@ -168,7 +175,7 @@ Modal.defaultProps = {
   show: false,
   onConfirm: undefined,
   onCancel: undefined,
-  clickOutToClose: false,
+  clickOutToClose: true,
   title: '',
   textConfirm: '',
   textCancel: '',
@@ -178,5 +185,7 @@ Modal.defaultProps = {
   headerClassName: undefined,
   contentClassName: undefined,
   footerClassName: undefined,
+  headerTextName: undefined,
+
 };
 
