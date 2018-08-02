@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Modal from '../Modal';
 import styles from './styles.scss';
-import InsideModalClose from '../../assets/images/InsideModalClose.svg';
 
 export default function InsideModal({
   show,
