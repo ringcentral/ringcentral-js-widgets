@@ -156,6 +156,9 @@ var CallCtrlPage = function (_Component) {
     _this.onMerge = function () {
       return _this.props.onMerge(_this.props.session.id);
     };
+    _this.onBeforeMerge = function () {
+      return _this.props.onBeforeMerge(_this.props.session.id);
+    };
     return _this;
   }
 
@@ -258,6 +261,7 @@ var CallCtrlPage = function (_Component) {
           onHangup: this.onHangup,
           onAdd: this.onAdd,
           onMerge: this.onMerge,
+          onBeforeMerge: this.onBeforeMerge,
           onFlip: this.onFlip,
           onTransfer: this.onTransfer,
           onPark: this.onPark,
@@ -287,10 +291,7 @@ var CallCtrlPage = function (_Component) {
           conferenceCallParties: this.props.conferenceCallParties,
           lastCallInfo: this.props.lastCallInfo,
           getAvatarUrl: this.props.getAvatarUrl,
-          isCallRecording: this.props.isCallRecording,
-          gotoParticipantsCtrl: this.props.gotoParticipantsCtrl,
-          currentSession: session,
-          currentConferenceSession: this.props.conferenceSession
+          gotoParticipantsCtrl: this.props.gotoParticipantsCtrl
         },
         this.props.children
       );
@@ -325,6 +326,7 @@ CallCtrlPage.propTypes = {
   formatPhone: _propTypes2.default.func.isRequired,
   onAdd: _propTypes2.default.func,
   onMerge: _propTypes2.default.func,
+  onBeforeMerge: _propTypes2.default.func,
   onFlip: _propTypes2.default.func.isRequired,
   onPark: _propTypes2.default.func.isRequired,
   onTransfer: _propTypes2.default.func.isRequired,
@@ -355,11 +357,9 @@ CallCtrlPage.propTypes = {
   hasConferenceCall: _propTypes2.default.bool,
   lastCallInfo: _propTypes2.default.object,
   onIncomingCallCaptured: _propTypes2.default.func,
-  isCallRecording: _propTypes2.default.func,
   conferenceCallId: _propTypes2.default.string,
   gotoParticipantsCtrl: _propTypes2.default.func,
-  loadConference: _propTypes2.default.func,
-  conferenceSession: _propTypes2.default.object
+  loadConference: _propTypes2.default.func
 };
 
 CallCtrlPage.defaultProps = {
@@ -373,6 +373,7 @@ CallCtrlPage.defaultProps = {
   recipientsContactPhoneRenderer: undefined,
   onAdd: undefined,
   onMerge: undefined,
+  onBeforeMerge: undefined,
   showSpinner: false,
   addDisabled: false,
   mergeDisabled: false,
@@ -383,17 +384,13 @@ CallCtrlPage.defaultProps = {
   onIncomingCallCaptured: function onIncomingCallCaptured(i) {
     return i;
   },
-  isCallRecording: function isCallRecording(i) {
-    return i;
-  },
   conferenceCallId: null,
   gotoParticipantsCtrl: function gotoParticipantsCtrl(i) {
     return i;
   },
   loadConference: function loadConference(i) {
     return i;
-  },
-  conferenceSession: null
+  }
 };
 
 function mapToProps(_, _ref) {
@@ -425,7 +422,6 @@ function mapToProps(_, _ref) {
   var isMerging = false;
   var conferenceCallParties = void 0;
   var conferenceCallId = null;
-  var conferenceSession = null;
   if (conferenceCall) {
     isOnConference = conferenceCall.isConferenceSession(currentSession.id);
     var conferenceData = (0, _values2.default)(conferenceCall.conferences)[0];
@@ -443,7 +439,6 @@ function mapToProps(_, _ref) {
       // update
       mergeDisabled = newVal || !currentSession.partyData;
       addDisabled = newVal;
-      conferenceSession = webphone._sessions.get(conferenceData.sessionId);
     }
 
     hasConferenceCall = !!conferenceData;
@@ -468,8 +463,7 @@ function mapToProps(_, _ref) {
     conferenceCallEquipped: !!conferenceCall,
     hasConferenceCall: hasConferenceCall,
     conferenceCallParties: conferenceCallParties,
-    conferenceCallId: conferenceCallId,
-    conferenceSession: conferenceSession
+    conferenceCallId: conferenceCallId
   };
 }
 
@@ -487,6 +481,14 @@ function mapToFunctions(_, _ref2) {
       recipientsContactInfoRenderer = _ref2.recipientsContactInfoRenderer,
       recipientsContactPhoneRenderer = _ref2.recipientsContactPhoneRenderer;
 
+  var currentSession = webphone.activeSession || {};
+  var currentConferenceSession = void 0;
+  if (conferenceCall) {
+    var conferenceData = (0, _values2.default)(conferenceCall.conferences)[0];
+    if (conferenceData) {
+      currentConferenceSession = webphone._sessions.get(conferenceData.sessionId);
+    }
+  }
   return {
     formatPhone: function formatPhone(phoneNumber) {
       return (0, _formatNumber2.default)({
@@ -540,7 +542,7 @@ function mapToFunctions(_, _ref2) {
     recipientsContactInfoRenderer: recipientsContactInfoRenderer,
     recipientsContactPhoneRenderer: recipientsContactPhoneRenderer,
     onAdd: function onAdd(sessionId) {
-      if (webphone.isCallRecording(webphone.activeSession)) {
+      if (!currentSession || webphone.isCallRecording(currentSession)) {
         return;
       }
       var sessionData = (0, _ramda.find)(function (x) {
@@ -559,6 +561,15 @@ function mapToFunctions(_, _ref2) {
           routerInteraction.push('/conferenceCall/dialer/' + sessionData.fromNumber);
         }
       }
+    },
+    onBeforeMerge: function onBeforeMerge() {
+      if (!currentSession || webphone.isCallRecording(currentSession)) {
+        return false;
+      }
+      if (currentConferenceSession && webphone.isCallRecording(currentConferenceSession)) {
+        return false;
+      }
+      return true;
     },
     onMerge: function () {
       var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(sessionId) {
@@ -593,10 +604,6 @@ function mapToFunctions(_, _ref2) {
     }(),
     onIncomingCallCaptured: function onIncomingCallCaptured() {
       routerInteraction.push('/calls/active');
-    },
-
-    isCallRecording: function isCallRecording() {
-      return webphone.isCallRecording.apply(webphone, arguments);
     },
     gotoParticipantsCtrl: function gotoParticipantsCtrl() {
       routerInteraction.push('/conferenceCall/participants');

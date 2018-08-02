@@ -108,21 +108,14 @@ var CallCtrlPanel = function (_Component) {
       });
     };
     _this.onMerge = function () {
-      var _this$props = _this.props,
-          isCallRecording = _this$props.isCallRecording,
-          currentSession = _this$props.currentSession,
-          currentConferenceSession = _this$props.currentConferenceSession;
+      var onBeforeMerge = _this.props.onBeforeMerge;
 
-      if (isCallRecording(currentSession)) {
-        return;
-      }
-      if (_this.props.hasConferenceCall && _this.props.layout === _callCtrlLayouts2.default.normalCtrl) {
-        if (isCallRecording(currentConferenceSession)) {
-          return;
+      if (!onBeforeMerge || onBeforeMerge()) {
+        if (_this.props.hasConferenceCall && _this.props.layout === _callCtrlLayouts2.default.normalCtrl) {
+          _this.showMergeConfirm();
+        } else if (_this.props.onMerge) {
+          _this.props.onMerge();
         }
-        _this.showMergeConfirm();
-      } else if (_this.props.onMerge) {
-        _this.props.onMerge();
       }
     };
     _this.showMergeConfirm = function () {
@@ -280,6 +273,7 @@ CallCtrlPanel.propTypes = {
   onStopRecord: _propTypes2.default.func.isRequired,
   onAdd: _propTypes2.default.func,
   onMerge: _propTypes2.default.func,
+  onBeforeMerge: _propTypes2.default.func,
   onPark: _propTypes2.default.func.isRequired,
   onHangup: _propTypes2.default.func.isRequired,
   onFlip: _propTypes2.default.func.isRequired,
@@ -313,10 +307,7 @@ CallCtrlPanel.propTypes = {
   lastCallInfo: _propTypes2.default.object,
   conferenceCallParties: _propTypes2.default.array,
   getAvatarUrl: _propTypes2.default.func,
-  isCallRecording: _propTypes2.default.func,
-  gotoParticipantsCtrl: _propTypes2.default.func,
-  currentConferenceSession: _propTypes2.default.object,
-  currentSession: _propTypes2.default.object
+  gotoParticipantsCtrl: _propTypes2.default.func
 };
 
 CallCtrlPanel.defaultProps = {
@@ -342,6 +333,7 @@ CallCtrlPanel.defaultProps = {
   recipientsContactPhoneRenderer: undefined,
   onAdd: undefined,
   onMerge: undefined,
+  onBeforeMerge: undefined,
   showSpinner: false,
   direction: null,
   addDisabled: false,
@@ -353,14 +345,9 @@ CallCtrlPanel.defaultProps = {
   getAvatarUrl: function getAvatarUrl() {
     return null;
   },
-  isCallRecording: function isCallRecording() {
-    return null;
-  },
   gotoParticipantsCtrl: function gotoParticipantsCtrl(i) {
     return i;
-  },
-  currentSession: null,
-  currentConferenceSession: null
+  }
 };
 
 exports.default = CallCtrlPanel;
