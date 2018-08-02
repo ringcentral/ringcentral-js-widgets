@@ -31,6 +31,7 @@ import ConferenceCallDialerPage from 'ringcentral-widgets/containers/ConferenceC
 import ConferenceCallMergeCtrlPage from 'ringcentral-widgets/containers/ConferenceCallMergeCtrlPage';
 import CallsOnholdPage from 'ringcentral-widgets/containers/CallsOnholdPage';
 import DialerAndCallsTabContainer from 'ringcentral-widgets/containers/DialerAndCallsTabContainer';
+import ConferenceParticipantPage from 'ringcentral-widgets/containers/ConferenceParticipantPage';
 
 import ContactSourceFilter from 'ringcentral-widgets/components/ContactSourceFilter';
 import MeetingScheduleButton from 'ringcentral-widgets/components/MeetingScheduleButton';
@@ -65,7 +66,8 @@ export default function App({
                     routerProps.location.pathname === '/calls/active' ||
                     routerProps.location.pathname === '/conferenceCall/mergeCtrl' ||
                     routerProps.location.pathname.indexOf('/conferenceCall/callsOnhold') === 0 ||
-                    routerProps.location.pathname.indexOf('/conferenceCall/dialer') === 0
+                    routerProps.location.pathname.indexOf('/conferenceCall/dialer') === 0 ||
+                    routerProps.location.pathname === '/conferenceCall/participants'
                   )}
                   goToCallCtrl={() => {
                     phone.routerInteraction.push('/calls/active');
@@ -282,6 +284,11 @@ export default function App({
                       phone.routerInteraction.push('/calls/active');
                     }}
                   />
+                )} />
+              <Route
+                path="/conferenceCall/participants"
+                component={() => (
+                  <ConferenceParticipantPage />
                 )} />
               <Route
                 path="/conferenceCall/callsOnhold/:fromNumber/:fromSessionId"

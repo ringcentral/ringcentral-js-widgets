@@ -160,6 +160,9 @@ function mapToFunctions(_, {
      * @param {[string]} sessionIds
      */
     async mergeToConference(...args) {
+      if (webphone.isCallRecording(webphone.activeSession)) {
+        return;
+      }
       await conferenceCall.mergeToConference(...args);
       const conferenceData = Object.values(conferenceCall.conferences)[0];
       if (conferenceData && conferenceData.sessionId === webphone.activeSessionId) {

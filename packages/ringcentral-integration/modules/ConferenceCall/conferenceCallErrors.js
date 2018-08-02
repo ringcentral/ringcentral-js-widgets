@@ -9,4 +9,6 @@ export default new Enum([
   'modeError',
   'makeConferenceFailed',
   'bringInFailed',
+  'removeFromConferenceFailed',
+  'terminateConferenceFailed',
 ], 'conferenceCall');

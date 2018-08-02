@@ -6,6 +6,7 @@ export default {
   otherDeviceCall: 'Ongoing calls on my other devices',
   noCalls: 'No results found.',
   historyCalls: 'Last Calls',
+  searchPlaceholder: 'Search...',
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
