@@ -380,24 +380,32 @@ function mapToFunctions(_, _ref2) {
           while (1) {
             switch (_context9.prev = _context9.next) {
               case 0:
-                _context9.next = 2;
-                return conferenceCall.mergeToConference.apply(conferenceCall, _args9);
-
-              case 2:
-                conferenceData = (0, _values2.default)(conferenceCall.conferences)[0];
-
-                if (!(conferenceData && conferenceData.sessionId === webphone.activeSessionId)) {
-                  _context9.next = 7;
+                if (!webphone.isCallRecording(webphone.activeSession)) {
+                  _context9.next = 2;
                   break;
                 }
 
-                _context9.next = 6;
+                return _context9.abrupt('return');
+
+              case 2:
+                _context9.next = 4;
+                return conferenceCall.mergeToConference.apply(conferenceCall, _args9);
+
+              case 4:
+                conferenceData = (0, _values2.default)(conferenceCall.conferences)[0];
+
+                if (!(conferenceData && conferenceData.sessionId === webphone.activeSessionId)) {
+                  _context9.next = 9;
+                  break;
+                }
+
+                _context9.next = 8;
                 return (0, _sleep2.default)(200);
 
-              case 6:
+              case 8:
                 webphone.resume(conferenceData.sessionId);
 
-              case 7:
+              case 9:
               case 'end':
                 return _context9.stop();
             }

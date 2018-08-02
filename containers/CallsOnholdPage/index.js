@@ -84,30 +84,38 @@ function mapToFunctions(_, _ref2) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                routerInteraction.replace('/calls/active');
                 session = webphone._sessions.get(sessionId);
 
+                if (!webphone.isCallRecording(session)) {
+                  _context.next = 3;
+                  break;
+                }
+
+                return _context.abrupt('return');
+
+              case 3:
+                routerInteraction.replace('/calls/active');
                 conferenceCall.setMergeParty({ toSessionId: sessionId });
                 sessionToMergeWith = webphone._sessions.get(conferenceCall.mergingPair.fromSessionId);
                 isCurrentOnhold = sessionToMergeWith && sessionToMergeWith.isOnHold().local;
                 webphoneSessions = sessionToMergeWith ? [sessionToMergeWith, session] : [session];
-                _context.next = 8;
+                _context.next = 10;
                 return conferenceCall.mergeToConference(webphoneSessions);
 
-              case 8:
+              case 10:
                 conferenceData = (0, _values2.default)(conferenceCall.conferences)[0];
                 conferenceSession = webphone._sessions.get(conferenceData.sessionId);
                 isConferenceOnhold = conferenceSession.isOnHold().local;
 
                 if (!(conferenceData && isCurrentOnhold)) {
-                  _context.next = 14;
+                  _context.next = 16;
                   break;
                 }
 
                 webphone.hold(conferenceData.sessionId);
                 return _context.abrupt('return');
 
-              case 14:
+              case 16:
 
                 if (conferenceData && isConferenceOnhold) {
                   /**
@@ -117,7 +125,7 @@ function mapToFunctions(_, _ref2) {
                   webphone.resume(conferenceData.sessionId);
                 }
 
-              case 15:
+              case 17:
               case 'end':
                 return _context.stop();
             }

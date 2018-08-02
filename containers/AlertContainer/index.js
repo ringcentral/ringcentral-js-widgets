@@ -94,6 +94,10 @@ var _index3 = require('../../components/ConferenceCallAlert/index');
 
 var _index4 = _interopRequireDefault(_index3);
 
+var _AddCallAlert = require('../../components/AddCallAlert/');
+
+var _AddCallAlert2 = _interopRequireDefault(_AddCallAlert);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function mapToProps(_, _ref) {
@@ -220,6 +224,11 @@ function getDefaultRenderer(_ref2) {
     if (_CallLogAlert2.default.handleMessage(message)) {
       return function (props) {
         return _react2.default.createElement(_CallLogAlert2.default, props);
+      };
+    }
+    if (_AddCallAlert2.default.handleMessage(message)) {
+      return function (props) {
+        return _react2.default.createElement(_AddCallAlert2.default, props);
       };
     }
 
