@@ -57,7 +57,7 @@ class CallAvatar extends Component {
   }
 
   render() {
-    const { extraNum, isOnConferenceCall } = this.props;
+    const { extraNum, isOnConferenceCall, isLoading } = this.props;
     const avatarUrlSource = this.props.avatarUrl;
     const { avatarUrl } = this.state;
     const initialSize = 38;
@@ -77,6 +77,7 @@ class CallAvatar extends Component {
     const avatarStyle = { stroke: $dark, strokeWidth: '1px' };
     const avatarUrlLoadFailed = this.state.avatarUrlLoadFailed;
     const avatarNotReady = (avatarUrlSource && !this.state.avatarUrl) && !avatarUrlLoadFailed;
+    const showSpinner = isLoading || avatarNotReady;
 
     // spinner sizing
     const spinnerId = `spinner-${hash}`;
@@ -118,8 +119,8 @@ class CallAvatar extends Component {
             cy={margin + avatarCircleRadius}
             r={avatarCircleRadius}
             fill={$snow}
-            stroke={avatarNotReady ? $dark : 'inherit'}
-            strokeOpacity={avatarNotReady ? $transparency : '1'}
+            stroke={showSpinner ? $dark : 'inherit'}
+            strokeOpacity={showSpinner ? $transparency : '1'}
           />
           <g>
             <clipPath id={clipId}>
@@ -131,14 +132,14 @@ class CallAvatar extends Component {
             </clipPath>
           </g>
           {
-            avatarNotReady ? (
+            showSpinner ? (
               <g transform={spinnerTransform}>
                 <use xlinkHref={`#${spinnerId}`} />
               </g>
             ) : <image clipPath={`url(#${clipId})`} height="100%" width="100%" xlinkHref={avatarUrl} />
           }
           {
-            (!avatarUrlSource || avatarUrlLoadFailed) && <use xlinkHref={`#${textId}`} clipPath={`url(#${clipId})`} />
+            (!showSpinner && (!avatarUrlSource || avatarUrlLoadFailed)) && <use xlinkHref={`#${textId}`} clipPath={`url(#${clipId})`} />
           }
           <circle
             cx={initialSize - extraNumCircleRadius}
@@ -197,8 +198,8 @@ class CallAvatar extends Component {
             cy={initialSize / 2}
             r={initialSize / 2}
             fill={$snow}
-            stroke={avatarNotReady ? $dark : 'inherit'}
-            strokeOpacity={avatarNotReady ? $transparency : '1'}
+            stroke={showSpinner ? $dark : 'inherit'}
+            strokeOpacity={showSpinner ? $transparency : '1'}
           />
           <g>
             <clipPath id={clipId}>
@@ -210,7 +211,7 @@ class CallAvatar extends Component {
             </clipPath>
           </g>
           {
-            avatarNotReady ? (
+            showSpinner ? (
               <g transform={spinnerTransform} >
                 <use xlinkHref={`#${spinnerId}`} />
               </g>
@@ -222,7 +223,7 @@ class CallAvatar extends Component {
               preserveAspectRatio="xMinYMin slice" />
           }
           {
-            (!avatarUrlSource || avatarUrlLoadFailed) && <use xlinkHref={`#${textId}`} clipPath={`url(#${clipId})`} />
+            (!showSpinner && (!avatarUrlSource || avatarUrlLoadFailed)) && <use xlinkHref={`#${textId}`} clipPath={`url(#${clipId})`} />
           }
         </svg>
       );
@@ -236,12 +237,14 @@ CallAvatar.propTypes = {
   isOnConferenceCall: PropTypes.bool,
   avatarUrl: PropTypes.string,
   extraNum: PropTypes.number,
+  isLoading: PropTypes.bool,
 };
 
 CallAvatar.defaultProps = {
   isOnConferenceCall: false,
   avatarUrl: null,
   extraNum: 0,
+  isLoading: false,
 };
 
 
