@@ -60,6 +60,7 @@ export default class ConversationLogger extends LoggerBase {
     storage,
     tabManager,
     isLoggedContact = () => false,
+    isAutoUpdate = true,
     formatDateTime = (...args) => dateTimeFormat.formatDateTime(...args),
     ...options
   }) {
@@ -80,6 +81,7 @@ export default class ConversationLogger extends LoggerBase {
     this._tabManager = tabManager;
     this._isLoggedContact = isLoggedContact;
     this._formatDateTime = formatDateTime;
+    this._isAutoUpdate = isAutoUpdate;
     this._storageKey = `${this._name}Data`;
     this._storage.registerReducer({
       key: this._storageKey,
@@ -87,7 +89,9 @@ export default class ConversationLogger extends LoggerBase {
     });
 
     this.addSelector('conversationLogMap',
-      () => this._messageStore.messages,
+      () => Object
+        .values(this._messageStore.conversationStore)
+        .reduce((allMessages, messages) => [...allMessages, ...messages], []),
       () => this._extensionInfo.extensionNumber,
       () => this._conversationMatcher.dataMapping,
       (messages, extensionNumber, conversationLogMapping = {}) => {
@@ -274,6 +278,7 @@ export default class ConversationLogger extends LoggerBase {
     // await this._conversationMatcher.triggerMatch();
     await this._conversationMatcher.match({ queries: [conversation.conversationLogId] });
     if (
+      this._isAutoUpdate &&
       this._conversationMatcher.dataMapping[conversation.conversationLogId] &&
       this._conversationMatcher.dataMapping[conversation.conversationLogId].length
     ) {
