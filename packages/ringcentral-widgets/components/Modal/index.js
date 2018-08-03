@@ -71,6 +71,7 @@ export default class Modal extends Component {
       modalClassName,
       cancelBtnClassName,
       confirmBtnClassName,
+      showTitle,
       showCloseBtn,
       maskClassName,
       headerClassName,
@@ -107,9 +108,13 @@ export default class Modal extends Component {
           onClick={clickOutToClose ? onCancel : () => {}}
         />
         <div className={show ? classnames(styles.modal, modalClassName) : styles.modalHidden}>
-          <div className={classnames(styles.header, headerClassName)}>
-            {`${title}` || null}
-          </div>
+          {
+            showTitle ?
+              <div className={classnames(styles.header, headerClassName)}>
+                {`${title}` || null}
+              </div>
+            : null
+          }
           {
             showCloseBtn ?
               <Button
@@ -152,6 +157,7 @@ Modal.propTypes = {
   textConfirm: PropTypes.string,
   textCancel: PropTypes.string,
   showCloseBtn: PropTypes.bool,
+  showTitle: PropTypes.bool,
   appendDOM: PropTypes.object,
   maskClassName: PropTypes.string,
   headerClassName: PropTypes.string,
@@ -173,6 +179,7 @@ Modal.defaultProps = {
   textConfirm: '',
   textCancel: '',
   showCloseBtn: true,
+  showTitle: true,
   appendDOM: undefined,
   maskClassName: undefined,
   headerClassName: undefined,
