@@ -48,7 +48,7 @@ InsideModal.propTypes = {
 };
 
 InsideModal.defaultProps = {
-  title: null,
+  title: '',
   showCloseBtn: true,
   clickOutToClose: true,
   show: undefined,
