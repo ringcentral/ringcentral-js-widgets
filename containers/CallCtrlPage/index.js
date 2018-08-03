@@ -481,14 +481,6 @@ function mapToFunctions(_, _ref2) {
       recipientsContactInfoRenderer = _ref2.recipientsContactInfoRenderer,
       recipientsContactPhoneRenderer = _ref2.recipientsContactPhoneRenderer;
 
-  var currentSession = webphone.activeSession || {};
-  var currentConferenceSession = void 0;
-  if (conferenceCall) {
-    var conferenceData = (0, _values2.default)(conferenceCall.conferences)[0];
-    if (conferenceData) {
-      currentConferenceSession = webphone._sessions.get(conferenceData.sessionId);
-    }
-  }
   return {
     formatPhone: function formatPhone(phoneNumber) {
       return (0, _formatNumber2.default)({
@@ -542,6 +534,7 @@ function mapToFunctions(_, _ref2) {
     recipientsContactInfoRenderer: recipientsContactInfoRenderer,
     recipientsContactPhoneRenderer: recipientsContactPhoneRenderer,
     onAdd: function onAdd(sessionId) {
+      var currentSession = webphone.activeSession;
       if (!currentSession || webphone.isCallRecording(currentSession)) {
         return;
       }
@@ -563,6 +556,14 @@ function mapToFunctions(_, _ref2) {
       }
     },
     onBeforeMerge: function onBeforeMerge() {
+      var currentSession = webphone.activeSession;
+      var currentConferenceSession = void 0;
+      if (conferenceCall) {
+        var conferenceData = (0, _values2.default)(conferenceCall.conferences)[0];
+        if (conferenceData) {
+          currentConferenceSession = webphone._sessions.get(conferenceData.sessionId);
+        }
+      }
       if (!currentSession || webphone.isCallRecording(currentSession)) {
         return false;
       }
