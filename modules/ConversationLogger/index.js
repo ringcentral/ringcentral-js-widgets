@@ -25,6 +25,14 @@ var _keys = require('babel-runtime/core-js/object/keys');
 
 var _keys2 = _interopRequireDefault(_keys);
 
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
+var _values = require('babel-runtime/core-js/object/values');
+
+var _values2 = _interopRequireDefault(_values);
+
 var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
@@ -173,11 +181,13 @@ var ConversationLogger = (_dec = (0, _di.Module)({
         isLoggedContact = _ref2$isLoggedContact === undefined ? function () {
       return false;
     } : _ref2$isLoggedContact,
+        _ref2$isAutoUpdate = _ref2.isAutoUpdate,
+        isAutoUpdate = _ref2$isAutoUpdate === undefined ? true : _ref2$isAutoUpdate,
         _ref2$formatDateTime = _ref2.formatDateTime,
         formatDateTime = _ref2$formatDateTime === undefined ? function () {
       return dateTimeFormat.formatDateTime.apply(dateTimeFormat, arguments);
     } : _ref2$formatDateTime,
-        options = (0, _objectWithoutProperties3.default)(_ref2, ['auth', 'contactMatcher', 'conversationMatcher', 'dateTimeFormat', 'extensionInfo', 'messageStore', 'rolesAndPermissions', 'storage', 'tabManager', 'isLoggedContact', 'formatDateTime']);
+        options = (0, _objectWithoutProperties3.default)(_ref2, ['auth', 'contactMatcher', 'conversationMatcher', 'dateTimeFormat', 'extensionInfo', 'messageStore', 'rolesAndPermissions', 'storage', 'tabManager', 'isLoggedContact', 'isAutoUpdate', 'formatDateTime']);
     (0, _classCallCheck3.default)(this, ConversationLogger);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ConversationLogger.__proto__ || (0, _getPrototypeOf2.default)(ConversationLogger)).call(this, (0, _extends3.default)({}, options, {
@@ -197,6 +207,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
     _this._tabManager = tabManager;
     _this._isLoggedContact = isLoggedContact;
     _this._formatDateTime = formatDateTime;
+    _this._isAutoUpdate = isAutoUpdate;
     _this._storageKey = _this._name + 'Data';
     _this._storage.registerReducer({
       key: _this._storageKey,
@@ -204,14 +215,17 @@ var ConversationLogger = (_dec = (0, _di.Module)({
     });
 
     _this.addSelector('conversationLogMap', function () {
-      return _this._messageStore.messages;
+      return _this._messageStore.conversationStore;
     }, function () {
       return _this._extensionInfo.extensionNumber;
     }, function () {
       return _this._conversationMatcher.dataMapping;
-    }, function (messages, extensionNumber) {
+    }, function (conversationStore, extensionNumber) {
       var conversationLogMapping = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
+      var messages = (0, _values2.default)(conversationStore).reduce(function (allMessages, messages) {
+        return [].concat((0, _toConsumableArray3.default)(allMessages), (0, _toConsumableArray3.default)(messages));
+      }, []);
       var mapping = {};
       messages.slice().sort(_messageHelper.sortByDate).forEach(function (message) {
         var conversationId = message.conversationId;
@@ -413,7 +427,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
                 return this._conversationMatcher.match({ queries: [conversation.conversationLogId] });
 
               case 2:
-                if (!(this._conversationMatcher.dataMapping[conversation.conversationLogId] && this._conversationMatcher.dataMapping[conversation.conversationLogId].length)) {
+                if (!(this._isAutoUpdate && this._conversationMatcher.dataMapping[conversation.conversationLogId] && this._conversationMatcher.dataMapping[conversation.conversationLogId].length)) {
                   _context2.next = 7;
                   break;
                 }

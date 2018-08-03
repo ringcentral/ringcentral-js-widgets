@@ -266,7 +266,7 @@ var RecentMessages = (_dec = (0, _di.Module)({
                   type: this.actionTypes.initLoad
                 });
                 _context.next = 9;
-                return this._getRecentMessages(currentContact, this._messageStore.messages, fromLocal);
+                return this._getRecentMessages(currentContact, this._messageStore.allConversations, fromLocal);
 
               case 9:
                 messages = _context.sent;
