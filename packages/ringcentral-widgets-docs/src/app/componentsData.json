@@ -2797,6 +2797,12 @@
         "type": {
           "name": "number"
         }
+      },
+      "isLoading": {
+        "description": "Set to true to make it always show the loading spinner.",
+        "type": {
+          "name": "bool"
+        }
       }
     },
     "name": "CallAvatar"
