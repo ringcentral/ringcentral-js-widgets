@@ -29,14 +29,18 @@ var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
 
+var _CallAvatar = require('../CallAvatar');
+
+var _CallAvatar2 = _interopRequireDefault(_CallAvatar);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function CallInfo(props) {
   var avatar = void 0;
   if (props.avatarUrl) {
-    avatar = _react2.default.createElement('img', { src: props.avatarUrl, alt: 'avatar' });
+    avatar = _react2.default.createElement(_CallAvatar2.default, { avatarUrl: props.avatarUrl });
   } else {
-    avatar = _react2.default.createElement('i', { className: (0, _classnames2.default)(_DynamicsFont2.default.portrait, _styles2.default.icon) });
+    avatar = _react2.default.createElement(_CallAvatar2.default, { avatarUrl: null });
   }
   return _react2.default.createElement(
     'div',
