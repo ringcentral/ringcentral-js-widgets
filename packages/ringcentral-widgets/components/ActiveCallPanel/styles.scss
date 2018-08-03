@@ -43,7 +43,8 @@ $fontSize:15px;
 
 .avatar {
   width: 65px;
-  height: 65px; // border-radius: 33px;
+  height: 65px;
+  border-radius: 33px;
   margin-left: auto;
   margin-right: auto;
   color: $primary-color;
@@ -121,17 +122,25 @@ $fontSize:15px;
     font-size: 0;
     .avatar {
       display: inline-block;
-      width: $conferenceAvatarSize;
       height: $conferenceAvatarSize;
       line-height: $conferenceAvatarSize;
+      width: $conferenceAvatarSize;
       border-radius: 100%;
+      background-color: $smoke;
       vertical-align: middle;
       padding: 0;
       margin: 0;
       border: 2px solid $snow;
       font-size: $fontSize;
       text-align: center;
+      background-size: 100%; // fall back
+      background-size: cover;
+      background-origin: content-box;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-clip: content-box;
       position: relative;
+      color: $primary-color;
       .icon {
         display: block;
         font-size: $conferenceAvatarSize;
@@ -140,7 +149,6 @@ $fontSize:15px;
     }
     .remains {
       color: $snow;
-      background-color: $smoke;
     }
     .avatar+.avatar {
       margin-left: -20px;

@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import CallAvatar from '../CallAvatar';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
 import i18n from './i18n';
@@ -37,8 +36,14 @@ function ConferenceInfo({
                 displayedProfiles.map(({ avatarUrl, toUserName }, idx) => (
                   <div
                     key={`${toUserName}_${idx}`}
-                    className={styles.avatar}>
-                    <CallAvatar avatarUrl={avatarUrl} />
+                    className={styles.avatar}
+                    style={avatarUrl
+                      ? { backgroundImage: `url(${avatarUrl})` }
+                      : { backgroundColor: '#fff' }
+                    }>
+                    {avatarUrl
+                      ? null
+                      : <i className={classnames(dynamicsFont.portrait, styles.icon)} />}
                   </div>
                 )
                 )
