@@ -44,6 +44,7 @@ class MergeInfo extends Component {
       return null;
     }
     const { lastCallAvatar } = this.state;
+    const isLastCallInfoReady = !!lastCallInfo && (!!lastCallInfo.name || !!lastCallInfo.phoneNumber);
     const isLastCallEnded = lastCallInfo && lastCallInfo.status === sessionStatus.finished;
     const statusClasses = classnames({
       [styles.callee_status]: true,
@@ -57,6 +58,7 @@ class MergeInfo extends Component {
       lastCallInfo && lastCallInfo.calleeType === calleeTypes.contacts
     );
     const calleeName = isContacts ? lastCallInfo.name : formatPhone(lastCallInfo.phoneNumber);
+    const loadingText = i18n.getString('loading');
     return (
       <div className={styles.mergeInfo}>
         <div className={styles.merge_item}>
@@ -70,18 +72,35 @@ class MergeInfo extends Component {
               isLoading={!lastCallInfo || (!lastCallInfo.name && !lastCallInfo.phoneNumber)}
               />
           </div>
-          <div className={styles.callee_name}>
-            {
-                isOnConferenCall
-                ? <span title={i18n.getString('conferenceCall', currentLocale)}>{i18n.getString('conferenceCall', currentLocale)} </span>
-                : <span title={calleeName}>{calleeName}</span>
-              }
-          </div>
-          <div className={statusClasses}>
-            {lastCallInfo.status === sessionStatus.finished
+          {
+            isLastCallInfoReady && (
+              <div className={styles.callee_name}>
+                {
+                  isOnConferenCall
+                  ? <span title={i18n.getString('conferenceCall', currentLocale)}>{i18n.getString('conferenceCall', currentLocale)} </span>
+                  : <span title={calleeName}>{calleeName}</span>
+                }
+              </div>
+            )
+          }
+          {
+            !isLastCallInfoReady && (
+              <div className={styles.callee_name}>
+                <span title={loadingText}>{loadingText}</span>
+              </div>
+            )
+          }
+
+          {
+            isLastCallInfoReady && (
+              <div className={statusClasses}>
+                {lastCallInfo.status === sessionStatus.finished
                 ? i18n.getString('disconnected', currentLocale)
                 : i18n.getString('onHold', currentLocale)}
-          </div>
+              </div>
+            )
+          }
+
         </div>
         <div className={styles.merge_item_active}>
           <div className={styles.callee_avatar_active} >
