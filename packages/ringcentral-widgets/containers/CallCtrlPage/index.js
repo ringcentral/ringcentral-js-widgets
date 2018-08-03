@@ -66,6 +66,8 @@ class CallCtrlPage extends Component {
       this.props.onAdd(this.props.session.id);
     this.onMerge = () =>
       this.props.onMerge(this.props.session.id);
+    this.onBeforeMerge = () =>
+      this.props.onBeforeMerge(this.props.session.id);
   }
 
   componentDidMount() {
@@ -166,6 +168,7 @@ class CallCtrlPage extends Component {
         onHangup={this.onHangup}
         onAdd={this.onAdd}
         onMerge={this.onMerge}
+        onBeforeMerge={this.onBeforeMerge}
         onFlip={this.onFlip}
         onTransfer={this.onTransfer}
         onPark={this.onPark}
@@ -195,10 +198,7 @@ class CallCtrlPage extends Component {
         conferenceCallParties={this.props.conferenceCallParties}
         lastCallInfo={this.props.lastCallInfo}
         getAvatarUrl={this.props.getAvatarUrl}
-        isCallRecording={this.props.isCallRecording}
         gotoParticipantsCtrl={this.props.gotoParticipantsCtrl}
-        currentSession={session}
-        currentConferenceSession={this.props.conferenceSession}
       >
         {this.props.children}
       </CallCtrlPanel>
@@ -232,6 +232,7 @@ CallCtrlPage.propTypes = {
   formatPhone: PropTypes.func.isRequired,
   onAdd: PropTypes.func,
   onMerge: PropTypes.func,
+  onBeforeMerge: PropTypes.func,
   onFlip: PropTypes.func.isRequired,
   onPark: PropTypes.func.isRequired,
   onTransfer: PropTypes.func.isRequired,
@@ -262,11 +263,9 @@ CallCtrlPage.propTypes = {
   hasConferenceCall: PropTypes.bool,
   lastCallInfo: PropTypes.object,
   onIncomingCallCaptured: PropTypes.func,
-  isCallRecording: PropTypes.func,
   conferenceCallId: PropTypes.string,
   gotoParticipantsCtrl: PropTypes.func,
   loadConference: PropTypes.func,
-  conferenceSession: PropTypes.object,
 };
 
 CallCtrlPage.defaultProps = {
@@ -280,6 +279,7 @@ CallCtrlPage.defaultProps = {
   recipientsContactPhoneRenderer: undefined,
   onAdd: undefined,
   onMerge: undefined,
+  onBeforeMerge: undefined,
   showSpinner: false,
   addDisabled: false,
   mergeDisabled: false,
@@ -288,11 +288,9 @@ CallCtrlPage.defaultProps = {
   conferenceCallParties: undefined,
   lastCallInfo: { calleeType: calleeTypes.unknow },
   onIncomingCallCaptured: i => i,
-  isCallRecording: i => i,
   conferenceCallId: null,
   gotoParticipantsCtrl: i => i,
   loadConference: i => i,
-  conferenceSession: null,
 };
 
 function mapToProps(_, {
@@ -325,7 +323,6 @@ function mapToProps(_, {
   let isMerging = false;
   let conferenceCallParties;
   let conferenceCallId = null;
-  let conferenceSession = null;
   if (conferenceCall) {
     isOnConference = conferenceCall.isConferenceSession(currentSession.id);
     const conferenceData = Object.values(conferenceCall.conferences)[0];
@@ -346,7 +343,6 @@ function mapToProps(_, {
       // update
       mergeDisabled = newVal || !(currentSession.partyData);
       addDisabled = newVal;
-      conferenceSession = webphone._sessions.get(conferenceData.sessionId);
     }
 
     hasConferenceCall = !!conferenceData;
@@ -372,7 +368,6 @@ function mapToProps(_, {
     hasConferenceCall,
     conferenceCallParties,
     conferenceCallId,
-    conferenceSession,
   };
 }
 
@@ -391,6 +386,14 @@ function mapToFunctions(_, {
   recipientsContactInfoRenderer,
   recipientsContactPhoneRenderer,
 }) {
+  const currentSession = webphone.activeSession || {};
+  let currentConferenceSession;
+  if (conferenceCall) {
+    const conferenceData = Object.values(conferenceCall.conferences)[0];
+    if (conferenceData) {
+      currentConferenceSession = webphone._sessions.get(conferenceData.sessionId);
+    }
+  }
   return {
     formatPhone: phoneNumber => formatNumber({
       phoneNumber,
@@ -420,7 +423,7 @@ function mapToFunctions(_, {
     recipientsContactInfoRenderer,
     recipientsContactPhoneRenderer,
     onAdd(sessionId) {
-      if (webphone.isCallRecording(webphone.activeSession)) {
+      if (!currentSession || webphone.isCallRecording(currentSession)) {
         return;
       }
       const sessionData = find(x => x.id === sessionId, webphone.sessions);
@@ -437,6 +440,15 @@ function mapToFunctions(_, {
         }
       }
     },
+    onBeforeMerge() {
+      if (!currentSession || webphone.isCallRecording(currentSession)) {
+        return false;
+      }
+      if (currentConferenceSession && webphone.isCallRecording(currentConferenceSession)) {
+        return false;
+      }
+      return true;
+    },
     async onMerge(sessionId) {
       const conferenceData = await conferenceCall.onMerge({ sessionId });
       if (!conferenceData) {
@@ -446,13 +458,12 @@ function mapToFunctions(_, {
     onIncomingCallCaptured() {
       routerInteraction.push('/calls/active');
     },
-    isCallRecording: (...args) => webphone.isCallRecording(...args),
     gotoParticipantsCtrl() {
       routerInteraction.push('/conferenceCall/participants');
     },
     loadConference(confId) {
       conferenceCall.loadConference(confId);
-    }
+    },
   };
 }
 
