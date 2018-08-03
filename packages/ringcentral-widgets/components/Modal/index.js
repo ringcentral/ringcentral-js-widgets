@@ -76,7 +76,6 @@ export default class Modal extends Component {
       headerClassName,
       contentClassName,
       footerClassName,
-      headerTextName,
     } = this.props;
     // if (!show) return null;
     const footer = !currentLocale || (
@@ -109,10 +108,10 @@ export default class Modal extends Component {
         />
         <div className={show ? classnames(styles.modal, modalClassName) : styles.modalHidden}>
           {
-            showCloseBtn || (title !== null || title !== undefined)
+            showCloseBtn || title
             ? (
               <div className={classnames(styles.header, headerClassName)}>
-                <header className={classnames(styles.headerText, headerTextName)}>{`${title}` || null}</header>
+                {`${title}` || null}
                 {
                   showCloseBtn ?
                     <Button
@@ -163,7 +162,6 @@ Modal.propTypes = {
   headerClassName: PropTypes.string,
   contentClassName: PropTypes.string,
   footerClassName: PropTypes.string,
-  headerTextName: PropTypes.string,
 };
 Modal.defaultProps = {
   className: '',
@@ -185,7 +183,5 @@ Modal.defaultProps = {
   headerClassName: undefined,
   contentClassName: undefined,
   footerClassName: undefined,
-  headerTextName: undefined,
-
 };
 
