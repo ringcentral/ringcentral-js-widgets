@@ -69,7 +69,7 @@ class MergeInfo extends Component {
                 : lastCallInfo.avatarUrl}
               extraNum={isOnConferenCall ? lastCallInfo.extraNum : 0}
               isOnConferenceCall={isOnConferenCall}
-              isLoading={!lastCallInfo || (!lastCallInfo.name && !lastCallInfo.phoneNumber)}
+              spinnerMode={!isLastCallInfoReady}
               />
           </div>
           {

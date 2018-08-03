@@ -57,7 +57,7 @@ class CallAvatar extends Component {
   }
 
   render() {
-    const { extraNum, isOnConferenceCall, isLoading } = this.props;
+    const { extraNum, isOnConferenceCall, spinnerMode } = this.props;
     const avatarUrlSource = this.props.avatarUrl;
     const { avatarUrl } = this.state;
     const initialSize = 38;
@@ -76,8 +76,7 @@ class CallAvatar extends Component {
     const clipId = `circleClip-${hash}`;
     const avatarStyle = { stroke: $dark, strokeWidth: '1px' };
     const avatarUrlLoadFailed = this.state.avatarUrlLoadFailed;
-    const avatarNotReady = (avatarUrlSource && !this.state.avatarUrl) && !avatarUrlLoadFailed;
-    const showSpinner = isLoading || avatarNotReady;
+    const showSpinner = spinnerMode;
 
     // spinner sizing
     const spinnerId = `spinner-${hash}`;
@@ -139,7 +138,7 @@ class CallAvatar extends Component {
             ) : <image clipPath={`url(#${clipId})`} height="100%" width="100%" xlinkHref={avatarUrl} />
           }
           {
-            (!showSpinner && (!avatarUrlSource || avatarUrlLoadFailed)) && <use xlinkHref={`#${textId}`} clipPath={`url(#${clipId})`} />
+            (!showSpinner && (!avatarUrlSource || !avatarUrl || avatarUrlLoadFailed)) && <use xlinkHref={`#${textId}`} clipPath={`url(#${clipId})`} />
           }
           <circle
             cx={initialSize - extraNumCircleRadius}
@@ -223,7 +222,7 @@ class CallAvatar extends Component {
               preserveAspectRatio="xMinYMin slice" />
           }
           {
-            (!showSpinner && (!avatarUrlSource || avatarUrlLoadFailed)) && <use xlinkHref={`#${textId}`} clipPath={`url(#${clipId})`} />
+            (!showSpinner && (!avatarUrlSource || !avatarUrl || avatarUrlLoadFailed)) && <use xlinkHref={`#${textId}`} clipPath={`url(#${clipId})`} />
           }
         </svg>
       );
@@ -237,14 +236,14 @@ CallAvatar.propTypes = {
   isOnConferenceCall: PropTypes.bool,
   avatarUrl: PropTypes.string,
   extraNum: PropTypes.number,
-  isLoading: PropTypes.bool,
+  spinnerMode: PropTypes.bool,
 };
 
 CallAvatar.defaultProps = {
   isOnConferenceCall: false,
   avatarUrl: null,
   extraNum: 0,
-  isLoading: false,
+  spinnerMode: false,
 };
 
 

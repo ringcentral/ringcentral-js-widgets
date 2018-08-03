@@ -2798,7 +2798,7 @@
           "name": "number"
         }
       },
-      "isLoading": {
+      "spinnerMode": {
         "description": "Set to true to make it always show the loading spinner.",
         "type": {
           "name": "bool"
