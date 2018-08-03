@@ -47,8 +47,14 @@
     text-align: center;
     background-color: $egg;
     font-size: 13px;
-    padding: 8px 0;
+    padding: 8px 23px;
     min-height: 15px;
+    .headerText {
+      width: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
   .content {
     padding: 15px 10px 0;
