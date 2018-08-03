@@ -44,7 +44,9 @@ export default function SettingsPanel({
   onAutoLogNotesChange,
   showAutoLogSMS,
   autoLogSMSEnabled,
+  autoCreateTicketEnabled,
   onAutoLogSMSChange,
+  onAutoCreateTicketChange,
   showClickToDial,
   clickToDialEnabled,
   onClickToDialChange,
@@ -65,10 +67,12 @@ export default function SettingsPanel({
   openPresenceSettings,
   showFeedback,
   showUserGuide,
+  showAutoCreateTicket,
   additional,
   supportedLocales,
   savedLocale,
   saveLocale,
+  outerComps,
 }) {
   if (showSpinner) {
     return (
@@ -206,8 +210,19 @@ export default function SettingsPanel({
     >
       {i18n.getString('autoLogSMS', currentLocale)}
     </IconLine>
-  ) :
-    null;
+  ) : null;
+  const autoCreateTicket = showAutoCreateTicket ? (
+    <IconLine
+      icon={
+        <Switch
+          checked={autoCreateTicketEnabled}
+          onChange={onAutoCreateTicketChange}
+      />
+    }
+  >
+      {i18n.getString('autoLogSMS', currentLocale)}
+    </IconLine>
+  ) : null;
   const header = showHeader ? (
     <Header>
       {i18n.getString('settings', currentLocale)}
@@ -237,6 +252,7 @@ export default function SettingsPanel({
         {autoLogNotes}
         {autoLogSMS}
         {clickToDial}
+        {autoCreateTicket}
         {additional}
         {feedback}
         {userGuide}
@@ -293,7 +309,9 @@ SettingsPanel.propTypes = {
   onAutoLogNotesChange: PropTypes.func,
   showAutoLogSMS: PropTypes.bool,
   autoLogSMSEnabled: PropTypes.bool,
+  autoCreateTicketEnabled: PropTypes.bool,
   onAutoLogSMSChange: PropTypes.func,
+  onAutoCreateTicketChange: PropTypes.func,
   showClickToDial: PropTypes.bool,
   clickToDialEnabled: PropTypes.bool,
   onClickToDialChange: PropTypes.func,
@@ -319,7 +337,9 @@ SettingsPanel.propTypes = {
   saveLocale: PropTypes.func,
   onFeedbackSettingsLinkClick: PropTypes.func.isRequired,
   onUserGuideClick: PropTypes.func.isRequired,
-  showUserGuide: PropTypes.bool
+  showUserGuide: PropTypes.bool,
+  showAutoCreateTicket: PropTypes.bool,
+  outerComps: PropTypes.array,
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -334,6 +354,7 @@ SettingsPanel.defaultProps = {
   showAutoLogNotes: false,
   showRegion: false,
   showUserGuide: false,
+  showAutoCreateTicket: false,
   autoLogEnabled: false,
   autoLogNotesEnabled: false,
   disableAutoLogEnabled: false,
@@ -342,7 +363,9 @@ SettingsPanel.defaultProps = {
   onAutoLogNotesChange: () => null,
   showAutoLogSMS: false,
   autoLogSMSEnabled: false,
+  autoCreateTicketEnabled: false,
   onAutoLogSMSChange: undefined,
+  onAutoCreateTicketChange: undefined,
   showHeader: false,
   ringoutEnabled: false,
   outboundSMS: false,
@@ -362,4 +385,5 @@ SettingsPanel.defaultProps = {
   savedLocale: undefined,
   saveLocale: undefined,
   showFeedback: true,
+  outerComps: null,
 };

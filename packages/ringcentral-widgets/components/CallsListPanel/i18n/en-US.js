@@ -7,4 +7,5 @@ export default {
   historyCalls: 'Past Calls',
   otherDeviceCall: 'Ongoing calls on my other devices',
   searchPlaceholder: 'Search...',
+  logNotificationTitle: 'Log Notification',
 };

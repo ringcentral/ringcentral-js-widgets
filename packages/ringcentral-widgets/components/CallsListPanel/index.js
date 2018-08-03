@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import * as R from 'ramda';
 import SpinnerOverlay from '../SpinnerOverlay';
 import ActiveCallItem from '../ActiveCallItem';
 import CallList from '../CallList';
@@ -296,6 +297,7 @@ export default class CallsListPanel extends Component {
         {
           logNotification ? (
             <InsideModal
+              title={i18n.getString('logNotificationTitle', currentLocale)}
               show={logNotification.showNotification}
               containerStyles={classnames(
                 styles.notificationContainer, notificationContainerStyles
