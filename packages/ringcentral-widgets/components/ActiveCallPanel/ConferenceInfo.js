@@ -31,13 +31,15 @@ function ConferenceInfo({
       {
         displayedProfiles.length
           ? (
-            <div className={styles.avatarContainer}>
+            <div
+              className={classnames(styles.avatarContainer, styles.clickable)}
+              onClick={(e) => { e.preventDefault(); onClick(); }}
+            >
               {
                 displayedProfiles.map(({ avatarUrl, toUserName }, idx) => (
                   <div
                     key={`${toUserName}_${idx}`}
-                    onClick={(e) => { e.preventDefault(); onClick(); }}
-                    className={classnames(styles.avatar, styles.clickable)}>
+                    className={styles.avatar}>
                     <CallAvatar avatarUrl={avatarUrl} />
                   </div>
                 )
@@ -46,9 +48,7 @@ function ConferenceInfo({
                 remains > 0
                   ? (
                     <div
-                      className={classnames(styles.avatar, styles.remains, styles.clickable)}
-                      onClick={(e) => { e.preventDefault(); onClick(); }}
-
+                      className={classnames(styles.avatar, styles.remains)}
                     >
                       {`+${remains}`}
                     </div>
