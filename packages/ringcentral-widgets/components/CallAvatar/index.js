@@ -215,16 +215,27 @@ class CallAvatar extends Component {
             </clipPath>
           </g>
           {
-            showSpinner ? (
+            showSpinner && (
               <g transform={spinnerTransform} >
                 <use xlinkHref={`#${spinnerId}`} />
               </g>
-            ) : <image
+            )
+          }
+          {
+            showSpinner && (
+              <g transform={spinnerTransform} >
+                <use xlinkHref={`#${spinnerId}`} />
+              </g>
+            )
+          }
+          {
+            avatarUrl && (<image
               clipPath={`url(#${clipId})`}
               height="100%"
               width="100%"
               xlinkHref={avatarUrl}
               preserveAspectRatio="xMinYMin slice" />
+            )
           }
           {
             (!showSpinner && (!avatarUrlSource || !avatarUrl || avatarUrlLoadFailed)) && <use xlinkHref={`#${textId}`} clipPath={`url(#${clipId})`} />
