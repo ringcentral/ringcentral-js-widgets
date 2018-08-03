@@ -128,7 +128,6 @@ $fontSize:15px;
       vertical-align: middle;
       padding: 0;
       margin: 0;
-      border: 2px solid $snow;
       font-size: $fontSize;
       text-align: center;
       position: relative;
@@ -141,6 +140,7 @@ $fontSize:15px;
     .remains {
       color: $snow;
       background-color: $smoke;
+      border: 2px solid $snow;
     }
     .avatar+.avatar {
       margin-left: -20px;
