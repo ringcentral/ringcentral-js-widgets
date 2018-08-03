@@ -6,6 +6,7 @@ export default {
   otherDeviceCall: 'Aktuelle Gespräche auf meinen anderen Geräten',
   noCalls: 'Keine Treffer gefunden.',
   historyCalls: 'Vergangene Anrufe',
+  searchPlaceholder: 'Suchen ...',
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@

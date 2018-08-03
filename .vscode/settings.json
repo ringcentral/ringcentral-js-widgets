@@ -22,5 +22,15 @@
     "coverage/**": true,
     "docs/**": true
   },
-  "files.eol": "\n"
+  "files.eol": "\n",
+  // Disable default VSCode formatting for JavaScript
+  "[javascript]": {
+    "editor.formatOnSave": false
+  },
+     
+  // Allow formatting for other languages
+  "editor.formatOnSave": true,
+  
+  // Enable ESLint (with Prettier plugin) to format code on save
+  "eslint.autoFixOnSave": true,
 }

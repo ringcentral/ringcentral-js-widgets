@@ -50,6 +50,7 @@ alias.json
 
 #Webstorm
 .idea
+.vscode
 
 */**/apiConfig.js
 */**/testAccount.js

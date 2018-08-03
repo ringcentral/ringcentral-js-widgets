@@ -1,7 +1,6 @@
 import RingCentralWebphone from 'ringcentral-web-phone';
 import incomingAudio from 'ringcentral-web-phone/audio/incoming.ogg';
 import outgoingAudio from 'ringcentral-web-phone/audio/outgoing.ogg';
-import { camelize } from '../../lib/di/utils/utils';
 
 import { Module } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
@@ -22,8 +21,10 @@ import {
   normalizeSession,
   isRing,
   isOnHold,
+  isRecording,
   isConferenceSession,
   sortByCreationTimeDesc,
+  extractHeadersData,
 } from './webphoneHelper';
 import getWebphoneReducer from './getWebphoneReducer';
 
@@ -479,7 +480,8 @@ export default class Webphone extends RcModule {
     this._webphone.userAgent.on('unregistered', onUnregistered);
     this._webphone.userAgent.on('registrationFailed', onRegistrationFailed);
     this._webphone.userAgent.on('invite', (session) => {
-      console.debug('UA invite');
+      console.log('UA invite');
+      extractHeadersData(session, session.request.headers);
       this._onInvite(session);
     });
   }
@@ -637,32 +639,12 @@ export default class Webphone extends RcModule {
 
   _onAccepted(session) {
     session.on('accepted', (incomingResponse) => {
-      // todo: log the response
       if (session.callStatus === sessionStatus.finished) {
         return;
       }
       console.log('accepted');
       session.callStatus = sessionStatus.connected;
-      if (
-        incomingResponse &&
-        (typeof incomingResponse.headers).toLowerCase() === 'object' &&
-        Array.isArray(incomingResponse.headers['P-Rc-Api-Ids']) &&
-        incomingResponse.headers['P-Rc-Api-Ids'].length &&
-        (typeof incomingResponse.headers['P-Rc-Api-Ids'][0]).toLowerCase() === 'object' &&
-        (typeof incomingResponse.headers['P-Rc-Api-Ids'][0].raw).toLowerCase() === 'string'
-      ) {
-        /**
-         * interface SessionData{
-         *  "partyId": String,
-         *  "sessionId": String
-         * }
-         */
-        session.data = incomingResponse.headers['P-Rc-Api-Ids'][0].raw.split(';')
-          .map(sub => sub.split('=')).reduce((accum, [key, value]) => {
-            accum[camelize(key)] = value;
-            return accum;
-          }, {});
-      }
+      extractHeadersData(session, incomingResponse.headers);
       this._onCallStart(session);
     });
     session.on('progress', () => {
@@ -716,12 +698,12 @@ export default class Webphone extends RcModule {
     session.on('hold', () => {
       console.log('Event: hold');
       session.callStatus = sessionStatus.onHold;
-      session.lastHoldingTime = +new Date();
       this._updateSessions();
     });
     session.on('unhold', () => {
       console.log('Event: unhold');
       session.callStatus = sessionStatus.connected;
+      session.lastActiveTime = +new Date();
       this._updateSessions();
     });
     session.mediaHandler.on('userMediaFailed', () => {
@@ -1343,6 +1325,14 @@ export default class Webphone extends RcModule {
     }
   }
 
+  isCallRecording(session) {
+    if (isRecording(session)) {
+      this._alert.warning({ message: recordStatus.recording });
+      return true;
+    }
+    return false;
+  }
+
   get status() {
     return this.state.status;
   }
@@ -1431,6 +1421,7 @@ export default class Webphone extends RcModule {
       }
     };
   }
+
   get isOnTransfer() {
     return this.activeSession && this.activeSession.isOnTransfer;
   }

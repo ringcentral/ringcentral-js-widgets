@@ -27,14 +27,8 @@ export default function ConfirmMergeModal({
       cancelBtnClassName={styles.cancelBtn}
       confirmBtnClassName={styles.confirmBtn}
       title={i18n.getString('confirmation', currentLocale)}
-      closeBtn={
-        <Button
-          className={styles.closeBtn}
-          onClick={onCancel}
-        >
-          <CloseIcon />
-        </Button>
-      }
+      onCancel={onCancel}
+      footerClassName={styles.footer}
     >
       <div className={styles.contentText}>
         {i18n.getString('confirmMergeToConference', currentLocale)}

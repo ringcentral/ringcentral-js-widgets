@@ -47,8 +47,8 @@ describe('parseLocaleFile', () => {
       expect(parsedData.data.get('[keyMap.index]').key).toBe('[keyMap.index]');
       expect(parsedData.data.get('[keyMap.index]').value).toBe('pointing');
       expect(parsedData.data.get('[a + b]').value).toBe('binary expression');
-      expect(parsedData.data.get('[3]').value).toBe('numeric literal');
-      expect(parsedData.data.get('[4]').value).toBe('different numeric literal');
+      expect(parsedData.data.get('3').value).toBe('numeric literal');
+      expect(parsedData.data.get('4').value).toBe('different numeric literal');
       expect(parsedData.data.get('[keyMap.index]').source).toBe(undefined);
     });
     test('should contain annotations', () => {

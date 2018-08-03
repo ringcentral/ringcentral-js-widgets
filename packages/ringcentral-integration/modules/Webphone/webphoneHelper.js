@@ -1,5 +1,6 @@
 import recordStatus from './recordStatus';
 import sessionStatus from './sessionStatus';
+import { camelize } from '../../lib/di/utils/utils';
 import callDirections from '../../enums/callDirections';
 
 export function isBrowserSupport() {
@@ -15,9 +16,46 @@ export function isBrowserSupport() {
   return false;
 }
 
+export function extractHeadersData(session, headers) {
+  if (
+    headers
+    && headers['P-Rc-Api-Ids']
+    && headers['P-Rc-Api-Ids'][0]
+    && headers['P-Rc-Api-Ids'][0].raw
+  ) {
+    /**
+     * interface SessionData{
+     *  "partyId": String,
+     *  "sessionId": String
+     * }
+     */
+    const data = headers['P-Rc-Api-Ids'][0].raw
+      .split(';')
+      .map(sub => sub.split('='))
+      .reduce((accum, [key, value]) => {
+        accum[camelize(key)] = value;
+        return accum;
+      }, {});
+
+    if (Object.keys(data).length) {
+      session.partyData = data;
+    }
+  }
+
+  if (
+    headers
+    && headers['Call-ID']
+    && headers['Call-ID'][0]
+    && headers['Call-ID'][0].raw
+  ) {
+    session._header_callId = headers['Call-ID'][0].raw;
+  }
+}
+
 export function normalizeSession(session) {
   return {
     id: session.id,
+    callId: session._header_callId,
     direction: session.direction,
     callStatus: session.callStatus,
     to: session.request.to.uri.user,
@@ -37,8 +75,8 @@ export function normalizeSession(session) {
     recordStatus: session.recordStatus || recordStatus.idle,
     contactMatch: session.contactMatch,
     minimized: !!session.minimized,
-    data: session.data || null,
-    lastHoldingTime: session.lastHoldingTime || 0,
+    partyData: session.partyData || null,
+    lastActiveTime: session.lastActiveTime || +new Date(),
     cached: false,
     removed: false,
   };
@@ -60,12 +98,12 @@ export function sortByCreationTimeDesc(l, r) {
   return r.startTime - l.startTime;
 }
 
-export function sortByLastHoldingTimeDesc(l, r) {
+export function sortByLastActiveTimeDesc(l, r) {
   if (!l || !r) {
     return 0;
   }
-  if (r.lastHoldingTime !== l.lastHoldingTime) {
-    return r.lastHoldingTime - l.lastHoldingTime;
+  if (r.lastActiveTime !== l.lastActiveTime) {
+    return r.lastActiveTime - l.lastActiveTime;
   }
   return sortByCreationTimeDesc(l, r);
 }
@@ -76,4 +114,10 @@ export function sortByLastHoldingTimeDesc(l, r) {
 export function isConferenceSession(session) {
   return session && session.to &&
     session.to.indexOf('conf_') === 0;
+}
+
+export function isRecording(session) {
+  return !!(
+    session && session.recordStatus && session.recordStatus !== recordStatus.idle
+  );
 }
