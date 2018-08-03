@@ -16,6 +16,10 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
+var _CallAvatar = require('../CallAvatar');
+
+var _CallAvatar2 = _interopRequireDefault(_CallAvatar);
+
 var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
 
 var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
@@ -60,9 +64,8 @@ function ConferenceInfo(_ref) {
           'div',
           {
             key: toUserName + '_' + idx,
-            className: _styles2.default.avatar,
-            style: avatarUrl ? { backgroundImage: 'url(' + avatarUrl + ')' } : { backgroundColor: '#fff' } },
-          avatarUrl ? null : _react2.default.createElement('i', { className: (0, _classnames2.default)(_DynamicsFont2.default.portrait, _styles2.default.icon) })
+            className: _styles2.default.avatar },
+          _react2.default.createElement(_CallAvatar2.default, { avatarUrl: avatarUrl })
         );
       }),
       remains > 0 ? _react2.default.createElement(
