@@ -415,7 +415,7 @@ function mapToFunctions(_, {
     recipientsContactInfoRenderer,
     recipientsContactPhoneRenderer,
     onAdd(sessionId) {
-      const currentSession = webphone.activeSession || {};
+      const currentSession = webphone.activeSession;
       if (!currentSession || webphone.isCallRecording(currentSession)) {
         return;
       }
@@ -434,7 +434,7 @@ function mapToFunctions(_, {
       }
     },
     onBeforeMerge() {
-      const currentSession = webphone.activeSession || {};
+      const currentSession = webphone.activeSession;
       let currentConferenceSession;
       if (conferenceCall) {
         const conferenceData = Object.values(conferenceCall.conferences)[0];
