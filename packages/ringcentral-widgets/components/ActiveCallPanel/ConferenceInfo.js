@@ -25,9 +25,8 @@ function ConferenceInfo({
     : 0;
 
   return (
-    <a
+    <div
       className={styles.conferenceCallInfoContainer}
-      onClick={(e) => { e.preventDefault(); onClick(); }}
     >
       {
         displayedProfiles.length
@@ -37,14 +36,23 @@ function ConferenceInfo({
                 displayedProfiles.map(({ avatarUrl, toUserName }, idx) => (
                   <div
                     key={`${toUserName}_${idx}`}
-                    className={styles.avatar}>
+                    onClick={(e) => { e.preventDefault(); onClick(); }}
+                    className={classnames(styles.avatar, styles.clickable)}>
                     <CallAvatar avatarUrl={avatarUrl} />
                   </div>
                 )
                 )
               }{
                 remains > 0
-                  ? (<div className={classnames(styles.avatar, styles.remains)}>{`+${remains}`}</div>)
+                  ? (
+                    <div
+                      className={classnames(styles.avatar, styles.remains, styles.clickable)}
+                      onClick={(e) => { e.preventDefault(); onClick(); }}
+
+                    >
+                      {`+${remains}`}
+                    </div>
+                  )
                   : null
               }
             </div>
@@ -60,7 +68,7 @@ function ConferenceInfo({
       <p className={styles.info}>
         {i18n.getString('conferenceCall', currentLocale)}
       </p>
-    </a>
+    </div>
   );
 }
 
