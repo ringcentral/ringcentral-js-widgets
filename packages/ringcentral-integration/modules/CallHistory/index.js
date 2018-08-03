@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import moduleStatuses from '../../enums/moduleStatuses';
-import { sortByStartTime, getPhoneNumberMatches, renderContactName} from '../../lib/callLogHelpers';
+import { sortByStartTime, getPhoneNumberMatches } from '../../lib/callLogHelpers';
 import actionTypes from './actionTypes';
 import getCallHistoryReducer, { getEndedCallsReducer } from './getCallHistoryReducer';
 import ensureExist from '../../lib/ensureExist';
@@ -57,8 +57,8 @@ export default class CallHistory extends RcModule {
     super({
       ...options,
     });
-    this._accountInfo = this::ensureExist(accountInfo, 'accountInfo');
-    this._callLog = this::ensureExist(callLog, 'callLog');
+    this._accountInfo = this:: ensureExist(accountInfo, 'accountInfo');
+    this._callLog = this:: ensureExist(callLog, 'callLog');
     this._storage = storage;
     this._activityMatcher = activityMatcher;
     this._contactMatcher = contactMatcher;
@@ -281,7 +281,7 @@ export default class CallHistory extends RcModule {
       type: this.actionTypes.clickToCall,
     });
   }
- 
+
   @proxify
   updateSearchInput(input) {
     this.store.dispatch({
@@ -387,47 +387,40 @@ export default class CallHistory extends RcModule {
       ].sort(sortByStartTime);
     }
   )
+
   @proxify
-  debouncedSearch(...args){
-    this._debouncedSearch.apply(this, args);;
-  } 
-  // debouncedSearch = debounce(this.searchCalls, 800, false)
-  // @getter
-  // filterCalls = createSelector(
-  //   () => this.calls,
-  //   () => this.searchInput,
-  //   (calls, searchInput) => {
-  //       return calls.filter(call => {
-  //         if(searchInput === '') return true;
-  //         let effectSearchStr = searchInput.toLowerCase().trim();
-  //         let display = renderContactName(call, this._locale.currentLocale);
-  //         const { phoneNumber } = getPhoneNumberMatches(call);
-  
-  //         if(display.toLowerCase().indexOf(effectSearchStr) > -1 || (phoneNumber && phoneNumber.indexOf(effectSearchStr) > -1)) return true;
-  //         return false;
-  //       }).sort(sortByStartTime)
-  //     }
-  //  }
-  // )
+  debouncedSearch(...args) {
+    this._debouncedSearch.apply( this, args);
+  }
 
   @proxify
   callsSearch() {
-    let calls = this.calls;
-    let searchInput = this.searchInput;
-    let data = [];
-    if(searchInput === ""){
+    if (this.searchInput === '') {
       return;
     }
-    data = calls.filter(call => {
-      if(searchInput === '') return true;
-      let effectSearchStr = searchInput.toLowerCase().trim();
-      let display = renderContactName(call, this._locale.currentLocale);
-      const { phoneNumber } = getPhoneNumberMatches(call);
+    const calls = this.calls;
+    const searchInput = this.searchInput;
+    let data = [];
+    const effectSearchStr = searchInput.toLowerCase().trim();
 
-      if(display.toLowerCase().indexOf(effectSearchStr) > -1 || (phoneNumber && phoneNumber.indexOf(effectSearchStr) > -1)) return true;
+    data = calls.filter((call) => {
+      const { phoneNumber, matches } = getPhoneNumberMatches(call);
+      const matchesMatched = matches.some((entities) => {
+        if (!entities || !entities.id) return false;
+        if (entities.name && entities.name.toLowerCase().indexOf(effectSearchStr) > -1) return true;
+        if (entities.phone && entities.phone.indexOf(effectSearchStr) > -1) return true;
+        return false;
+      });
+
+      if (matchesMatched) {
+        return true;
+      }
+      if (phoneNumber && phoneNumber.indexOf(effectSearchStr) > -1) {
+        return true;
+      }
       return false;
     }).sort(sortByStartTime);
-    
+
     this.store.dispatch({
       type: this.actionTypes.filterSuccess,
       data
@@ -481,16 +474,9 @@ export default class CallHistory extends RcModule {
       );
     },
   )
-  @proxify
-  updateSearchInput(input) {
-    this.store.dispatch({
-      type: this.actionTypes.updateSearchInput,
-      input,
-    });
-  }
 
   get filterCalls() {
-    if(this.searchInput === ""){
+    if (this.searchInput === '') {
       return this.calls;
     }
     return this.state.filterCalls;

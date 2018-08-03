@@ -6,4 +6,5 @@ export default {
   onHoldCall: 'Call on Hold',
   historyCalls: 'Past Calls',
   otherDeviceCall: 'Ongoing calls on my other devices',
+  searchPlaceholder: 'Search...',
 };

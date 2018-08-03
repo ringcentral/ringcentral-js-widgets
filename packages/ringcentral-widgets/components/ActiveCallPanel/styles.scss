@@ -2,7 +2,6 @@
 @import '../../lib/commonStyles/colors.scss';
 @import '../../lib/commonStyles/fonts.scss';
 @import '../../lib/commonStyles/layout';
-
 $userInfoHeight: 134px;
 $conferenceAvatarSize: 51px;
 $timeCounterMarginTop:10px;
@@ -10,6 +9,7 @@ $timeCounterHeight: 14px;
 $calleeAvatarSize: 30px;
 $calleeAvatarActiveSize: 45px;
 $calleeAvatarMarginL: ($calleeAvatarActiveSize - $calleeAvatarSize)/2;
+$fontSize:15px;
 .root {
   @include full-size;
   box-sizing: border-box;
@@ -17,7 +17,7 @@ $calleeAvatarMarginL: ($calleeAvatarActiveSize - $calleeAvatarSize)/2;
   top: 0;
   left: 0;
   z-index: 10;
-  background: #ffffff;
+  background: $snow;
   text-align: center;
 }
 
@@ -43,20 +43,17 @@ $calleeAvatarMarginL: ($calleeAvatarActiveSize - $calleeAvatarSize)/2;
 
 .avatar {
   width: 65px;
-  height: 65px;
-  border-radius: 33px;
+  height: 65px; // border-radius: 33px;
   margin-left: auto;
   margin-right: auto;
   color: $primary-color;
   margin-bottom: 5px;
   overflow: hidden;
-
   .icon {
     display: block;
     font-size: 65px;
     opacity: 0.3;
   }
-
   img {
     width: 100%;
     height: 100%;
@@ -64,7 +61,7 @@ $calleeAvatarMarginL: ($calleeAvatarActiveSize - $calleeAvatarSize)/2;
 }
 
 .userName {
-  font-size: 15px;
+  font-size: $fontSize;
   color: $lightblack;
 }
 
@@ -106,60 +103,51 @@ $calleeAvatarMarginL: ($calleeAvatarActiveSize - $calleeAvatarSize)/2;
   visibility: hidden;
 }
 
-.conferenceCallInfoContainer{
+.conferenceCallInfoContainer {
   display: block;
-  overflow:hidden;
-  text-align:center;
-  line-height:1.5;
+  overflow: hidden;
+  text-align: center;
+  line-height: 1.5;
   font-family: sans-serif;
   height: $userInfoHeight;
   box-sizing: border-box;
-  .info{
-    font-size: 15px;
+  cursor: pointer;
+  .info {
+    font-size: $fontSize;
   }
-
-  .avatarContainer{
-    padding: 0 15px;
+  .avatarContainer {
+    padding: 0 $fontSize;
     text-align: center;
     font-size: 0;
-    .avatar{
-      display:inline-block;
-      height:$conferenceAvatarSize;
+    .avatar {
+      display: inline-block;
+      width: $conferenceAvatarSize;
+      height: $conferenceAvatarSize;
       line-height: $conferenceAvatarSize;
-      width:$conferenceAvatarSize;
-      border-radius:100%;
-      background-color: #666;
+      border-radius: 100%;
       vertical-align: middle;
       padding: 0;
       margin: 0;
-      border: 2px solid #fff;
-      font-size: 20px;
+      border: 2px solid $snow;
+      font-size: $fontSize;
       text-align: center;
-      // fall back
-      background-size: 100%;
-      background-size: cover;
-      background-origin: content-box;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-clip: content-box;
       position: relative;
-      color: #0684bd;
-
       .icon {
         display: block;
         font-size: $conferenceAvatarSize;
         opacity: 0.3;
       }
     }
-
-    .remains{
-      color: #fff;
+    .remains {
+      color: $snow;
+      background-color: $smoke;
     }
-    .avatar+.avatar{
-      margin-left:-20px;
+    .avatar+.avatar {
+      margin-left: -20px;
     }
   }
 }
+
 .mergeInfo {
   min-height: 115px;
   overflow: hidden;
@@ -181,7 +169,7 @@ $calleeAvatarMarginL: ($calleeAvatarActiveSize - $calleeAvatarSize)/2;
     .callee_name {
       font-size: 15px;
       letter-spacing: normal;
-      color: #666666;
+      color: $ash;
       float: left;
       line-height: 30px;
       max-width: 43%;
@@ -192,7 +180,7 @@ $calleeAvatarMarginL: ($calleeAvatarActiveSize - $calleeAvatarSize)/2;
         display: none;
       }
       @media only screen and (min-width: 150px) and (max-width: 265px) {
-       max-width: 23%;
+        max-width: 23%;
       }
     }
     .callee_status {
@@ -202,7 +190,7 @@ $calleeAvatarMarginL: ($calleeAvatarActiveSize - $calleeAvatarSize)/2;
       font-stretch: normal;
       line-height: normal;
       letter-spacing: normal;
-      color: #666666;
+      color: $ash;
       float: right;
       line-height: 30px;
     }
@@ -251,19 +239,23 @@ $calleeAvatarMarginL: ($calleeAvatarActiveSize - $calleeAvatarSize)/2;
         font-stretch: normal;
         line-height: 45px;
         letter-spacing: normal;
-        color: #2f2f2f;
+        color: $night;
         margin: 0;
         padding: 0;
       }
     }
   }
-  .callee_avatar,.callee_status,.callee_name {
+  .callee_avatar,
+  .callee_status,
+  .callee_name {
     // display: inline-block;
   }
-  .callee_avatar,.callee_avatar_active {
+  .callee_avatar,
+  .callee_avatar_active {
     border-radius: 100%;
   }
-  .merge_item,.merge_item_active {
+  .merge_item,
+  .merge_item_active {
     padding: 0 17px 0 20px;
     &:after {
       content: " ";

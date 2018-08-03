@@ -18,5 +18,6 @@ export default {
   faxReceived: 'Fax received',
   pages: 'pages',
   preview: 'View',
-  download: 'Download'
+  download: 'Download',
+  imageAttachment: 'Attachment: 1 image',
 };

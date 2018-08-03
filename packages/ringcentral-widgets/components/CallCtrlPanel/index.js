@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import ActiveCallDialPad from '../ActiveCallDialPad';
 import ActiveCallPanel from '../ActiveCallPanel';
@@ -48,13 +47,16 @@ class CallCtrlPanel extends Component {
       }));
     };
     this.onMerge = () => {
-      if (
-        this.props.hasConferenceCall &&
-        this.props.layout === callCtrlLayouts.normalCtrl
-      ) {
-        this.showMergeConfirm();
-      } else if (this.props.onMerge) {
-        this.props.onMerge();
+      const { onBeforeMerge } = this.props;
+      if (!onBeforeMerge || onBeforeMerge()) {
+        if (
+          this.props.hasConferenceCall &&
+          this.props.layout === callCtrlLayouts.normalCtrl
+        ) {
+          this.showMergeConfirm();
+        } else if (this.props.onMerge) {
+          this.props.onMerge();
+        }
       }
     };
     this.showMergeConfirm = () => {
@@ -76,8 +78,8 @@ class CallCtrlPanel extends Component {
       }
     };
 
-    this.onOpenPartiesModal = () => {
-      // TODO:
+    this.gotoParticipantsCtrl = () => {
+      this.props.gotoParticipantsCtrl();
     };
   }
 
@@ -163,7 +165,7 @@ class CallCtrlPanel extends Component {
         showContactDisplayPlaceholder={this.props.showContactDisplayPlaceholder}
         onShowFlipPanel={this.showFlipPanel}
         onToggleTransferPanel={this.toggleTransferPanel}
-        onOpenPartiesModal={this.onOpenPartiesModal}
+        gotoParticipantsCtrl={this.gotoParticipantsCtrl}
         flipNumbers={this.props.flipNumbers}
         sourceIcons={this.props.sourceIcons}
         layout={this.props.layout}
@@ -215,6 +217,7 @@ CallCtrlPanel.propTypes = {
   onStopRecord: PropTypes.func.isRequired,
   onAdd: PropTypes.func,
   onMerge: PropTypes.func,
+  onBeforeMerge: PropTypes.func,
   onPark: PropTypes.func.isRequired,
   onHangup: PropTypes.func.isRequired,
   onFlip: PropTypes.func.isRequired,
@@ -248,6 +251,7 @@ CallCtrlPanel.propTypes = {
   lastCallInfo: PropTypes.object,
   conferenceCallParties: PropTypes.array,
   getAvatarUrl: PropTypes.func,
+  gotoParticipantsCtrl: PropTypes.func,
 };
 
 CallCtrlPanel.defaultProps = {
@@ -273,6 +277,7 @@ CallCtrlPanel.defaultProps = {
   recipientsContactPhoneRenderer: undefined,
   onAdd: undefined,
   onMerge: undefined,
+  onBeforeMerge: undefined,
   showSpinner: false,
   direction: null,
   addDisabled: false,
@@ -282,6 +287,7 @@ CallCtrlPanel.defaultProps = {
   conferenceCallParties: undefined,
   lastCallInfo: undefined,
   getAvatarUrl: () => null,
+  gotoParticipantsCtrl: i => i,
 };
 
 export default CallCtrlPanel;

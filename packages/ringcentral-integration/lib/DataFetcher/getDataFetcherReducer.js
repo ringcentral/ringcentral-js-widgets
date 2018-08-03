@@ -31,7 +31,7 @@ export function getDefaultTimestampReducer(types) {
   return (state = null, { type, timestamp, cleanOnReset }) => {
     switch (type) {
       case types.fetchSuccess:
-        return timestamp;
+        return timestamp || state;
       case types.resetSuccess:
         if (cleanOnReset) {
           return null;

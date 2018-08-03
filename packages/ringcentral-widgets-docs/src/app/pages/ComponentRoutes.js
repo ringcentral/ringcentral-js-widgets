@@ -19,6 +19,7 @@ import BackHeaderPage from './Components/BackHeader';
 import BadgePage from './Components/Badge';
 import ButtonPage from './Components/Button';
 import CallAlertPage from './Components/CallAlert';
+import CallAvatarPage from './Components/CallAvatar';
 import CallCtrlPanelPage from './Components/CallCtrlPanel';
 import CallItemPage from './Components/CallItem';
 import CallListPage from './Components/CallList';
@@ -150,6 +151,7 @@ const Routes = () => (
     <Route path="/components/Badge" component={BadgePage} />
     <Route path="/components/Button" component={ButtonPage} />
     <Route path="/components/CallAlert" component={CallAlertPage} />
+    <Route path="/components/CallAvatar" component={CallAvatarPage} />
     <Route path="/components/CallCtrlPanel" component={CallCtrlPanelPage} />
     <Route path="/components/CallItem" component={CallItemPage} />
     <Route path="/components/CallList" component={CallListPage} />

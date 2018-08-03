@@ -243,40 +243,7 @@ export function removeDuplicateSelfCalls(calls) {
   });
   return resultCalls;
 }
-// from zendesk
-export function getName({
-  nameEntities = [],
-  currentLocale,
-  normalizeNumber,
-  anonymous = false,
-} = {}) {
-  const selectFieldNames = {
-    // anonymous: i18n.getString('anonymous', currentLocale),
-    // nameUnknown: i18n.getString('nameUnknown', currentLocale),
-    // nameMultiple: i18n.getString('nameMultiple', currentLocale),
-    anonymous: 'anonymous',
-    nameUnknown: 'nameUnknown',
-    nameMultiple: 'nameMultiple',
-  };
-  if (anonymous) {
-    return selectFieldNames.anonymous;
-  }
-  const unknownDisplayText = typeof normalizeNumber === 'undefined' ?
-    selectFieldNames.nameUnknown :
-    normalizeNumber;
 
-  if (!nameEntities) {
-    return unknownDisplayText;
-  }
-  const nameValidEntities = nameEntities.filter(entities => entities && entities.id);
-  if (nameValidEntities.length === 0) {
-    return unknownDisplayText;
-  }
-  const isMultiple = nameValidEntities.length > 1;
-  return (
-    isMultiple ? (normalizeNumber || selectFieldNames.nameMultiple) : nameValidEntities[0].name
-  );
-}
 // Get phone number and matches.
 export function getPhoneNumberMatches(call = {}) {
   const {
@@ -307,14 +274,4 @@ export function getPhoneNumberMatches(call = {}) {
     phoneNumber,
     matches
   };
-}
-// Currently for zendesk call-log contact show
-export function renderContactName (call, currentLocale) {
-  const { phoneNumber, matches } = getPhoneNumberMatches(call);
-  return getName({
-    nameEntities: matches,
-    currentLocale: currentLocale,
-    normalizeNumber: phoneNumber,
-    anonymous: !phoneNumber
-  });
 }
