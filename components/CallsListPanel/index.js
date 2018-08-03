@@ -363,6 +363,7 @@ var CallsListPanel = function (_Component) {
           _InsideModal2.default,
           {
             show: logNotification.showNotification,
+            showTitle: false,
             containerStyles: (0, _classnames2.default)(_styles2.default.notificationContainer, notificationContainerStyles),
             modalStyles: _styles2.default.notificationModal,
             contentStyle: _styles2.default.notificationContent,

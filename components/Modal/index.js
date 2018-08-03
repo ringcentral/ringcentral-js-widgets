@@ -127,6 +127,7 @@ var Modal = function (_Component) {
           modalClassName = _props.modalClassName,
           cancelBtnClassName = _props.cancelBtnClassName,
           confirmBtnClassName = _props.confirmBtnClassName,
+          showTitle = _props.showTitle,
           showCloseBtn = _props.showCloseBtn,
           maskClassName = _props.maskClassName,
           headerClassName = _props.headerClassName,
@@ -162,11 +163,11 @@ var Modal = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: show ? (0, _classnames2.default)(_styles2.default.modal, modalClassName) : _styles2.default.modalHidden },
-          _react2.default.createElement(
+          showTitle ? _react2.default.createElement(
             'div',
             { className: (0, _classnames2.default)(_styles2.default.header, headerClassName) },
             '' + title || null
-          ),
+          ) : null,
           showCloseBtn ? _react2.default.createElement(
             _Button2.default,
             {
@@ -211,6 +212,7 @@ Modal.propTypes = {
   textConfirm: _propTypes2.default.string,
   textCancel: _propTypes2.default.string,
   showCloseBtn: _propTypes2.default.bool,
+  showTitle: _propTypes2.default.bool,
   appendDOM: _propTypes2.default.object,
   maskClassName: _propTypes2.default.string,
   headerClassName: _propTypes2.default.string,
@@ -232,6 +234,7 @@ Modal.defaultProps = {
   textConfirm: '',
   textCancel: '',
   showCloseBtn: true,
+  showTitle: true,
   appendDOM: undefined,
   maskClassName: undefined,
   headerClassName: undefined,

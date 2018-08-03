@@ -32,6 +32,7 @@ function InsideModal(_ref) {
       onClose = _ref.onClose,
       children = _ref.children,
       title = _ref.title,
+      showTitle = _ref.showTitle,
       showCloseBtn = _ref.showCloseBtn,
       clickOutToClose = _ref.clickOutToClose,
       containerStyles = _ref.containerStyles,
@@ -49,6 +50,7 @@ function InsideModal(_ref) {
       modalClassName: (0, _classnames2.default)(_styles2.default.modal, modalStyles),
       contentClassName: (0, _classnames2.default)(_styles2.default.content, contentStyle),
       show: show,
+      showTitle: showTitle,
       showCloseBtn: showCloseBtn,
       clickOutToClose: clickOutToClose,
       onCancel: onClose
@@ -62,6 +64,7 @@ InsideModal.propTypes = {
   onClose: _propTypes2.default.func,
   children: _propTypes2.default.node,
   title: _propTypes2.default.string,
+  showTitle: _propTypes2.default.bool,
   showCloseBtn: _propTypes2.default.bool,
   clickOutToClose: _propTypes2.default.bool,
   containerStyles: _propTypes2.default.string,
@@ -71,7 +74,8 @@ InsideModal.propTypes = {
 };
 
 InsideModal.defaultProps = {
-  title: null,
+  title: '',
+  showTitle: true,
   showCloseBtn: true,
   clickOutToClose: true,
   show: undefined,
