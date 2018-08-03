@@ -265,7 +265,7 @@ export default class CallsListPanel extends Component {
             className={styles.searchInput}
             value={searchInput}
             onChange={onSearchInputChange}
-            placeholder={i18n.getString('Search...', currentLocale)}
+            placeholder={i18n.getString('searchPlaceholder', currentLocale)}
             disabled={disableLinks}
           />
         </div>
@@ -360,6 +360,9 @@ export default class CallsListPanel extends Component {
       <SpinnerOverlay /> :
       (
         <div className={classnames(styles.list, className)}>
+          <div className={styles.listTitle}>
+            {i18n.getString('historyCalls', currentLocale)}
+          </div>
           <CallList
             brand={brand}
             currentLocale={currentLocale}
@@ -404,8 +407,8 @@ export default class CallsListPanel extends Component {
     );
 
     return (
-
-      <div className={classnames(styles.container, onSearchInputChange ? styles.containerWithSearch : null)}>
+      <div className={classnames(styles.container, onSearchInputChange ?
+        styles.containerWithSearch : null)}>
         {children}
         {search}
         <div className={classnames(styles.root, currentLog && currentLog.showLog ? styles.hiddenScroll : '', className)}>
@@ -413,7 +416,7 @@ export default class CallsListPanel extends Component {
           {getCallList(activeCurrentCalls, i18n.getString('currentCall', currentLocale))}
           {getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}
           {getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale))}
-          { calls.length > 0 ? historyCall : noCalls }
+          {calls.length > 0 ? historyCall : noCalls}
         </div>
         {logSection}
       </div>

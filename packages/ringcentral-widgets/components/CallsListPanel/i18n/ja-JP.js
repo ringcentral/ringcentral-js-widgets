@@ -6,6 +6,7 @@ export default {
   otherDeviceCall: '他のデバイスで進行中の通話',
   noCalls: '結果が見つかりません\u3002',
   historyCalls: '過去の通話',
+  searchPlaceholder: '検索...',
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@

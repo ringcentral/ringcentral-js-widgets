@@ -16,9 +16,18 @@ class ParticipantsContainer extends Component {
       showModal: false,
       detail: null,
     };
-
+    this.formatPrticipants(props);
     this.onRemoveBtnClick = this::this.onRemoveBtnClick;
     this.onCancel = this::this.onCancel;
+  }
+
+  formatPrticipants(props = this.props) {
+    const { participants, formatPhone } = props;
+
+    participants.map((participant) => {
+      participant.partyNumber = formatPhone(participant.partyNumber);
+      return participant;
+    });
   }
 
   onRemoveBtnClick(participant) {
@@ -33,6 +42,16 @@ class ParticipantsContainer extends Component {
       showModal: false,
       detail: null,
     });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.formatPrticipants(nextProps);
+    if (this.state.showModal
+      && !nextProps.participants.find(
+        participant => participant.id === this.state.detail.id
+      )) {
+      this.onCancel();
+    }
   }
 
   render() {
@@ -111,11 +130,13 @@ ParticipantsContainer.propTypes = {
   removeFunc: PropTypes.func,
   participants: PropTypes.arrayOf(PropTypes.object).isRequired,
   onBackButtonClick: PropTypes.func,
+  formatPhone: PropTypes.func,
 };
 
 ParticipantsContainer.defaultProps = {
   removeFunc: i => i,
   onBackButtonClick: i => i,
+  formatPhone: i => i,
 };
 
 export default ParticipantsContainer;

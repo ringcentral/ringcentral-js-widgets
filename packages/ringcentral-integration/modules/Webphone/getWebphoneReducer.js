@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 import connectionStatus from './connectionStatus';
 import sessionStatus from './sessionStatus';
-import { isRing, isOnHold, sortByLastHoldingTimeDesc } from './webphoneHelper';
+import { isRing, sortByLastActiveTimeDesc } from './webphoneHelper';
 
 export function getVideoElementPreparedReducer(types) {
   return (state = false, { type }) => {
@@ -76,41 +76,21 @@ export function getConnectRetryCountsReducer(types) {
 
 export function getActiveSessionIdReducer(types) {
   return (state = null, { type, session = {}, sessions = [] }) => {
-    let onHoldSessions;
     switch (type) {
       case types.beforeCallStart:
       case types.callStart:
         return session.id;
-      case types.callEnd:
+      case types.callEnd: {
         if (session.id !== state) {
           return state;
         }
-        onHoldSessions =
-          sessions.filter(sessionItem => isOnHold(sessionItem));
-        if (onHoldSessions.length && onHoldSessions[0]) {
-          return onHoldSessions[0].id;
-        }
-        /**
-         * HACK: special scenario-when dialing two number that do not exisit and then we
-         * merge them togother, and the merge process would certainly failed.
-         * Because the numbers are invalid, so the server will hangup them for us.
-         * Noticing that the session will remain unhold during the merging.
-         */
         return (sessions[0] && sessions[0].id) || null;
-      case types.clearSessionCaching:
-        onHoldSessions = sessions
-          .filter(sessionItem => !sessionItem.cached)
-          .filter(sessionItem => isOnHold(sessionItem));
-        /**
-         * Even though we clear session caching after the make the conference call which means
-         * there will alway be a outbound call, but need to careful since we it's a hidden
-         * precondition.
-         */
-        if (onHoldSessions.length && onHoldSessions[0]) {
-          return onHoldSessions[0].id;
-        }
-        // fall back
-        return (sessions[0] && sessions[0].id) || null;
+      }
+      case types.clearSessionCaching: {
+        const activeSessions = sessions.filter(x => !x.cached);
+        activeSessions.sort(sortByLastActiveTimeDesc);
+        return (activeSessions[0] && activeSessions[0].id) || null;
+      }
       case types.disconnect:
         return null;
       default:
@@ -186,7 +166,7 @@ export function getSessionsReducer(types) {
             sessions.push(cachedSession);
           }
         });
-        return sessions.sort(sortByLastHoldingTimeDesc);
+        return sessions.sort(sortByLastActiveTimeDesc);
       }
       case types.setSessionCaching: {
         let needUpdate = false;
