@@ -139,6 +139,6 @@ function isConferenceSession(session) {
 }
 
 function isRecording(session) {
-  return !!(session && session.recordStatus !== _recordStatus2.default.idle);
+  return !!(session && session.recordStatus && session.recordStatus !== _recordStatus2.default.idle);
 }
 //# sourceMappingURL=webphoneHelper.js.map
