@@ -296,6 +296,7 @@ export default class CallsListPanel extends Component {
         {
           logNotification ? (
             <InsideModal
+              title={i18n.getString('logNotification', currentLocale)}
               show={logNotification.showNotification}
               containerStyles={classnames(
                 styles.notificationContainer, notificationContainerStyles
