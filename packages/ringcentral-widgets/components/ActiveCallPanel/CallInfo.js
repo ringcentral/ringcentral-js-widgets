@@ -4,13 +4,14 @@ import classnames from 'classnames';
 import ContactDisplay from '../ContactDisplay';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
+import CallAvatar from '../CallAvatar';
 
 export default function CallInfo(props) {
   let avatar;
   if (props.avatarUrl) {
-    avatar = (<img src={props.avatarUrl} alt="avatar" />);
+    avatar = (<CallAvatar avatarUrl={props.avatarUrl} />);
   } else {
-    avatar = (<i className={classnames(dynamicsFont.portrait, styles.icon)} />);
+    avatar = (<CallAvatar avatarUrl={null} />);
   }
   return (
     <div className={styles.userInfo}>
