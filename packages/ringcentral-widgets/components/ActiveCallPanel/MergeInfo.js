@@ -12,6 +12,7 @@ class MergeInfo extends Component {
     super(props);
     this.state = {
       lastCallAvatar: null,
+      lastCallInfoTimeout: false
     };
     this.mounted = false;
   }
@@ -29,6 +30,12 @@ class MergeInfo extends Component {
           });
         }
       });
+    } else {
+      setTimeout(() => {
+        this.setState({
+          lastCallInfoTimeout: true
+        });
+      }, this.props.checkLastCallInfoTimeout);
     }
   }
   render() {
@@ -43,8 +50,10 @@ class MergeInfo extends Component {
     if (!lastCallInfo) {
       return null;
     }
-    const { lastCallAvatar } = this.state;
-    const isLastCallInfoReady = !!lastCallInfo && (!!lastCallInfo.name || !!lastCallInfo.phoneNumber);
+    const { lastCallAvatar, lastCallInfoTimeout } = this.state;
+    const isLastCallInfoReady = lastCallInfoTimeout || (
+      !!lastCallInfo && (!!lastCallInfo.name || !!lastCallInfo.phoneNumber)
+    );
     const isLastCallEnded = lastCallInfo && lastCallInfo.status === sessionStatus.finished;
     const statusClasses = classnames({
       [styles.callee_status]: true,
@@ -130,6 +139,7 @@ MergeInfo.propTypes = {
   currentCallAvatarUrl: PropTypes.string,
   formatPhone: PropTypes.func,
   getAvatarUrl: PropTypes.func,
+  checkLastCallInfoTimeout: PropTypes.number,
 };
 
 MergeInfo.defaultProps = {
@@ -138,6 +148,11 @@ MergeInfo.defaultProps = {
   currentCallAvatarUrl: undefined,
   formatPhone: () => null,
   getAvatarUrl: () => null,
+
+  /**
+   * The timeout seconds to check if the last call info is received.
+   */
+  checkLastCallInfoTimeout: 30 * 1000,
 };
 
 export default MergeInfo;

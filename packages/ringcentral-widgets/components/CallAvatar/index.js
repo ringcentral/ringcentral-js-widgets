@@ -131,11 +131,16 @@ class CallAvatar extends Component {
             </clipPath>
           </g>
           {
-            showSpinner ? (
+            showSpinner && (
               <g transform={spinnerTransform}>
                 <use xlinkHref={`#${spinnerId}`} />
               </g>
-            ) : <image clipPath={`url(#${clipId})`} height="100%" width="100%" xlinkHref={avatarUrl} />
+            )
+          }
+          {
+            avatarUrl && (
+              <image clipPath={`url(#${clipId})`} height="100%" width="100%" xlinkHref={avatarUrl} />
+            )
           }
           {
             (!showSpinner && (!avatarUrlSource || !avatarUrl || avatarUrlLoadFailed)) && <use xlinkHref={`#${textId}`} clipPath={`url(#${clipId})`} />
@@ -236,6 +241,9 @@ CallAvatar.propTypes = {
   isOnConferenceCall: PropTypes.bool,
   avatarUrl: PropTypes.string,
   extraNum: PropTypes.number,
+  /**
+   * Set to true to make it always show the loading spinner.
+   */
   spinnerMode: PropTypes.bool,
 };
 
