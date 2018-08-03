@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.mapToFunctions = undefined;
 
 var _extends2 = require('babel-runtime/helpers/extends');
 
@@ -19,6 +20,8 @@ var _regenerator2 = _interopRequireDefault(_regenerator);
 var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+exports.mapToProps = mapToProps;
 
 var _reactRedux = require('react-redux');
 
@@ -291,5 +294,6 @@ function mapToFunctions(_, _ref2) {
     }
   };
 }
+exports.mapToFunctions = mapToFunctions;
 exports.default = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ConversationsPanel2.default));
 //# sourceMappingURL=index.js.map

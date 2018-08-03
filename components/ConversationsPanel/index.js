@@ -208,7 +208,8 @@ var ConversationsPanel = function (_Component) {
           composeTextPermission = _props.composeTextPermission,
           previewFaxMessages = _props.previewFaxMessages,
           loadNextPage = _props.loadNextPage,
-          loadingNextPage = _props.loadingNextPage;
+          loadingNextPage = _props.loadingNextPage,
+          renderExtraButton = _props.renderExtraButton;
 
       if (showSpinner) {
         return _react2.default.createElement(_SpinnerOverlay2.default, null);
@@ -274,7 +275,8 @@ var ConversationsPanel = function (_Component) {
           previewFaxMessages: previewFaxMessages,
           loadNextPage: loadNextPage,
           loadingNextPage: loadingNextPage,
-          typeFilter: typeFilter
+          typeFilter: typeFilter,
+          renderExtraButton: renderExtraButton
         })
       );
     }
@@ -360,7 +362,8 @@ ConversationsPanel.propTypes = {
   previewFaxMessages: _propTypes2.default.func,
   loadNextPage: _propTypes2.default.func.isRequired,
   loadingNextPage: _propTypes2.default.bool,
-  onUnmount: _propTypes2.default.func
+  onUnmount: _propTypes2.default.func,
+  renderExtraButton: _propTypes2.default.func
 };
 
 ConversationsPanel.defaultProps = {
@@ -392,6 +395,7 @@ ConversationsPanel.defaultProps = {
   composeTextPermission: true,
   previewFaxMessages: undefined,
   loadingNextPage: false,
-  onUnmount: undefined
+  onUnmount: undefined,
+  renderExtraButton: undefined
 };
 //# sourceMappingURL=index.js.map

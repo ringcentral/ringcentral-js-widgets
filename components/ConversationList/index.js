@@ -178,7 +178,8 @@ ConversationList.propTypes = {
   placeholder: _propTypes2.default.string,
   typeFilter: _propTypes2.default.string,
   loadNextPage: _propTypes2.default.func,
-  loadingNextPage: _propTypes2.default.bool
+  loadingNextPage: _propTypes2.default.bool,
+  renderExtraButton: _propTypes2.default.func
 };
 ConversationList.defaultProps = {
   perPage: 20,
@@ -191,6 +192,7 @@ ConversationList.defaultProps = {
   placeholder: undefined,
   loadNextPage: undefined,
   loadingNextPage: false,
-  typeFilter: undefined
+  typeFilter: undefined,
+  renderExtraButton: undefined
 };
 //# sourceMappingURL=index.js.map

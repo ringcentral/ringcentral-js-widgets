@@ -20,6 +20,9 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
+exports.mapToProps = mapToProps;
+exports.mapToFunctions = mapToFunctions;
+
 var _reactRedux = require('react-redux');
 
 var _formatNumber = require('ringcentral-integration/lib/formatNumber');

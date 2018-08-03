@@ -398,12 +398,14 @@ var MessageItem = function (_Component) {
   }, {
     key: 'logConversation',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref3) {
-        var _ref3$redirect = _ref3.redirect,
-            redirect = _ref3$redirect === undefined ? true : _ref3$redirect,
-            selected = _ref3.selected,
-            _ref3$prefill = _ref3.prefill,
-            prefill = _ref3$prefill === undefined ? true : _ref3$prefill;
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
+        var _ref4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+            _ref4$redirect = _ref4.redirect,
+            redirect = _ref4$redirect === undefined ? true : _ref4$redirect,
+            selected = _ref4.selected,
+            _ref4$prefill = _ref4.prefill,
+            prefill = _ref4$prefill === undefined ? true : _ref4$prefill;
+
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -439,8 +441,8 @@ var MessageItem = function (_Component) {
         }, _callee2, this);
       }));
 
-      function logConversation(_x4) {
-        return _ref4.apply(this, arguments);
+      function logConversation() {
+        return _ref3.apply(this, arguments);
       }
 
       return logConversation;
@@ -513,7 +515,8 @@ var MessageItem = function (_Component) {
           enableContactFallback = _props2.enableContactFallback,
           showContactDisplayPlaceholder = _props2.showContactDisplayPlaceholder,
           sourceIcons = _props2.sourceIcons,
-          showGroupNumberName = _props2.showGroupNumberName;
+          showGroupNumberName = _props2.showGroupNumberName,
+          renderExtraButton = _props2.renderExtraButton;
 
       var disableLinks = parentDisableLinks;
       var isVoicemail = type === _messageTypes2.default.voiceMail;
@@ -541,7 +544,10 @@ var MessageItem = function (_Component) {
         });
         slideMenuHeight = 88;
       }
-
+      var extraButton = renderExtraButton ? renderExtraButton(this.props.conversation, {
+        logConversation: this.logConversation,
+        isLogging: isLogging || this.state.isLogging
+      }) : null;
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.root, onClick: this.onClickItem },
@@ -559,7 +565,7 @@ var MessageItem = function (_Component) {
           }),
           _react2.default.createElement(
             'div',
-            { className: _styles2.default.infoWrapper },
+            { className: (0, _classnames2.default)(_styles2.default.infoWrapper, !extraButton && _styles2.default.embellishInfoWrapper) },
             _react2.default.createElement(_ContactDisplay2.default, {
               reference: function reference(ref) {
                 _this2.contactDisplay = ref;
@@ -588,15 +594,25 @@ var MessageItem = function (_Component) {
             }),
             _react2.default.createElement(
               'div',
-              { className: _styles2.default.details, title: detail },
-              detail
+              { className: _styles2.default.detailsWithTime },
+              _react2.default.createElement(
+                'div',
+                { className: _styles2.default.details, title: detail },
+                detail
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: _styles2.default.separatrix },
+                '|'
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: _styles2.default.creationTime },
+                this.dateTimeFormatter(creationTime)
+              )
             )
           ),
-          _react2.default.createElement(
-            'div',
-            { className: _styles2.default.creationTime },
-            this.dateTimeFormatter(creationTime)
-          )
+          extraButton
         ),
         _react2.default.createElement(
           _SlideMenu2.default,
@@ -616,7 +632,7 @@ var MessageItem = function (_Component) {
           _react2.default.createElement(_ActionMenuList2.default, {
             className: _styles2.default.actionMenuList,
             currentLocale: currentLocale,
-            onLog: isVoicemail || isFax ? undefined : onLogConversation && this.logConversation,
+            onLog: isVoicemail || isFax || extraButton ? undefined : onLogConversation && this.logConversation,
             onViewEntity: onViewContact && this.viewSelectedContact,
             onCreateEntity: onCreateContact && this.createSelectedContact,
             hasEntity: correspondents.length === 1 && !!correspondentMatches.length,
@@ -699,7 +715,8 @@ MessageItem.propTypes = {
   sourceIcons: _propTypes2.default.object,
   showGroupNumberName: _propTypes2.default.bool,
   deleteMessage: _propTypes2.default.func,
-  previewFaxMessages: _propTypes2.default.func
+  previewFaxMessages: _propTypes2.default.func,
+  renderExtraButton: _propTypes2.default.func
 };
 
 MessageItem.defaultProps = {
@@ -716,6 +733,7 @@ MessageItem.defaultProps = {
   sourceIcons: undefined,
   showGroupNumberName: false,
   deleteMessage: function deleteMessage() {},
-  previewFaxMessages: undefined
+  previewFaxMessages: undefined,
+  renderExtraButton: undefined
 };
 //# sourceMappingURL=index.js.map
