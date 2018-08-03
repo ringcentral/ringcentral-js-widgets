@@ -89,12 +89,12 @@ export default class ConversationLogger extends LoggerBase {
     });
 
     this.addSelector('conversationLogMap',
-      () => Object
-        .values(this._messageStore.conversationStore)
-        .reduce((allMessages, messages) => [...allMessages, ...messages], []),
+      () => this._messageStore.conversationStore,
       () => this._extensionInfo.extensionNumber,
       () => this._conversationMatcher.dataMapping,
-      (messages, extensionNumber, conversationLogMapping = {}) => {
+      (conversationStore, extensionNumber, conversationLogMapping = {}) => {
+        const messages = Object.values(conversationStore)
+          .reduce((allMessages, messages) => [...allMessages, ...messages], []);
         const mapping = {};
         messages.slice().sort(sortByDate)
           .forEach((message) => {
