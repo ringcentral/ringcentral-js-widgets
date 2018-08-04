@@ -47,16 +47,18 @@ function ConferenceInfo(_ref) {
   var remains = profiles.length > MAXIMUM_AVATARS ? profiles.length - MAXIMUM_AVATARS : 0;
 
   return _react2.default.createElement(
-    'a',
+    'div',
     {
-      className: _styles2.default.conferenceCallInfoContainer,
-      onClick: function onClick(e) {
-        e.preventDefault();_onClick();
-      }
+      className: _styles2.default.conferenceCallInfoContainer
     },
     displayedProfiles.length ? _react2.default.createElement(
       'div',
-      { className: _styles2.default.avatarContainer },
+      {
+        className: (0, _classnames2.default)(_styles2.default.avatarContainer, _styles2.default.clickable),
+        onClick: function onClick(e) {
+          e.preventDefault();_onClick();
+        }
+      },
       displayedProfiles.map(function (_ref2, idx) {
         var avatarUrl = _ref2.avatarUrl,
             toUserName = _ref2.toUserName;
@@ -70,7 +72,9 @@ function ConferenceInfo(_ref) {
       }),
       remains > 0 ? _react2.default.createElement(
         'div',
-        { className: (0, _classnames2.default)(_styles2.default.avatar, _styles2.default.remains) },
+        {
+          className: (0, _classnames2.default)(_styles2.default.avatar, _styles2.default.remains)
+        },
         '+' + remains
       ) : null
     ) : _react2.default.createElement(
