@@ -468,7 +468,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
               case 0:
                 conferenceState = this.state.conferences[id];
 
-                if (!(!conferenceState || !this.ready || !webphoneSession || webphoneSession.direction !== _callDirections2.default.outbound || this.isOverload(id) || !this._connectivityMonitor.connectivity)) {
+                if (!(!conferenceState || !this.ready || !webphoneSession || this.isOverload(id) || !this._connectivityMonitor.connectivity)) {
                   _context3.next = 4;
                   break;
                 }
