@@ -1,29 +1,29 @@
 class MediaHandler {
   constructor() {
-    this._events = {}
+    this._events = {};
   }
 
   on(event, cb) {
-    this._events[event] = cb
+    this._events[event] = cb;
   }
 
   trigger(event, ...args) {
-    this._events[event](...args)
+    this._events[event](...args);
   }
 }
 
 export default class Session {
-  constructor({ id, direction, to  }) {
+  constructor({ id, direction, to }) {
     this.id = id;
     this.to = to;
     this.direction = direction;
     this.callStatus = 'webphone-session-connecting';
     this.request = { to: { uri: { } }, from: { uri: { } } };
-    this.creationTime =1532076632960;
-    this.isToVoicemail =true;
-    this.data ={};
-    this.fromNumber =undefined;
-    this.startTime =new Date();
+    this.creationTime = 1532076632960;
+    this.isToVoicemail = true;
+    this.data = {};
+    this.fromNumber = undefined;
+    this.startTime = new Date();
     this.isOnMute = undefined;
     this.isOnFlip = undefined;
     this.isOnTransfer = undefined;
@@ -45,7 +45,7 @@ export default class Session {
   isOnHold() {
     return {
       local: this.callStatus === 'webphone-session-onHold'
-    }
+    };
   }
 
   trigger(event, ...args) {
@@ -85,6 +85,6 @@ export default class Session {
 }
 
 export const inboundSession = new Session({
-  id: "111",
-  direction: "Inbound"
-})
+  id: '111',
+  direction: 'Inbound'
+});

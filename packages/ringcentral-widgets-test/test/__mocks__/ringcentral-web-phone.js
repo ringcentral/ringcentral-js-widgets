@@ -1,24 +1,24 @@
-import Session  from '../support/session'
+import Session from '../support/session';
 
 class UserAgent {
   constructor() {
     this._events = {};
   }
 
-  on (event, cb) {
+  on(event, cb) {
     this._events[event] = cb;
   }
 
-  trigger (event, ...args) {
+  trigger(event, ...args) {
     this._events[event](...args);
   }
 
   invite(toNumber, options) {
     return new Session({
-      id: Math.round(Math.random(1)*1000000000).toString(),
-      direction: "Outbound",
+      id: Math.round(Math.random() * 1000000000).toString(),
+      direction: 'Outbound',
       to: toNumber
-    })
+    });
   }
 
   stop() {}
