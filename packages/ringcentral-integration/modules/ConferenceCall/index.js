@@ -830,6 +830,40 @@ export default class ConferenceCall extends RcModule {
     return conferenceData;
   }
 
+  @proxify
+  async onMergeOnhold({ sessionId, beforeMerge }) {
+    const session = this._webphone._sessions.get(sessionId);
+    if (this._webphone.isCallRecording(session)) {
+      return;
+    }
+    if (typeof beforeMerge === 'function') beforeMerge.apply(this);
+    this.setMergeParty({ toSessionId: sessionId });
+    const sessionToMergeWith = this._webphone._sessions.get(
+      this.mergingPair.fromSessionId
+    );
+    const isCurrentOnhold = sessionToMergeWith && sessionToMergeWith.isOnHold().local;
+    const webphoneSessions = sessionToMergeWith
+      ? [sessionToMergeWith, session]
+      : [session];
+    await this.mergeToConference(webphoneSessions);
+    const conferenceData = Object.values(this.conferences)[0];
+    const conferenceSession = this._webphone._sessions.get(conferenceData.sessionId);
+    const isConferenceOnhold = conferenceSession.isOnHold().local;
+
+    if (conferenceData && isCurrentOnhold) {
+      this._webphone.hold(conferenceData.sessionId);
+      return;
+    }
+
+    if (conferenceData && isConferenceOnhold) {
+      /**
+       * because session termination operation in conferenceCall._mergeToConference,
+       * need to wait for webphone.getActiveSessionIdReducer to update
+       */
+      this._webphone.resume(conferenceData.sessionId);
+    }
+  }
+
   get status() {
     return this.state.status;
   }
