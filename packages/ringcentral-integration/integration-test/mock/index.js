@@ -385,9 +385,7 @@ export function callLog(mockResponse = {}) {
   mockApi({
     url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/call-log-sync`,
     body: {
-      ...{
-        records: callLogBody.records.map(x => { x.startTime = ((new Date(Date.now()))).toISOString(); return x })
-      },
+      records: callLogBody.records.map(x => { x.startTime = ((new Date(Date.now()))).toISOString(); return x }),
       ...{
         syncInfo: {
           syncType: callLogBody.syncInfo.syncType,
