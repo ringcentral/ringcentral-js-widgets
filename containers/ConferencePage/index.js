@@ -7,6 +7,8 @@ exports.default = exports.mapToProps = exports.mapToFunctions = undefined;
 
 var _reactRedux = require('react-redux');
 
+var _ramda = require('ramda');
+
 var _ConferencePanel = require('../../components/ConferencePanel');
 
 var _ConferencePanel2 = _interopRequireDefault(_ConferencePanel);
@@ -15,9 +17,9 @@ var _withPhone = require('../../lib/withPhone');
 
 var _withPhone2 = _interopRequireDefault(_withPhone);
 
-var _i18n = require('./i18n');
+var _countryNames = require('../../lib/countryNames');
 
-var _i18n2 = _interopRequireDefault(_i18n);
+var _countryNames2 = _interopRequireDefault(_countryNames);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42,14 +44,22 @@ function mapToProps(_, _ref) {
       _ref2$phoneNumbers = _ref2.phoneNumbers,
       phoneNumbers = _ref2$phoneNumbers === undefined ? [] : _ref2$phoneNumbers;
 
-  var dialInNumbers = phoneNumbers.map(function (p) {
-    var _region = _i18n2.default.getString('conference_' + p.country.isoCode, currentLocale);
+  var countryCounter = (0, _ramda.reduce)(function (acc, item) {
+    if (!acc[item.country.isoCode]) {
+      acc[item.country.isoCode] = 1;
+    } else {
+      acc[item.country.isoCode] += 1;
+    }
+    return acc;
+  }, {}, phoneNumbers);
+  var dialInNumbers = (0, _ramda.map)(function (item) {
+    var countryName = _countryNames2.default.getString(item.country.isoCode, currentLocale);
     // only show the provinces of canada
     return {
-      region: p.location && p.country.isoCode === 'CA' ? _region + ', ' + p.location : _region,
-      phoneNumber: p.phoneNumber
+      region: countryCounter[item.country.isoCode] > 1 ? countryName + ', ' + item.location : countryName,
+      phoneNumber: item.phoneNumber
     };
-  });
+  }, phoneNumbers);
   var disableTxtBtn = (!serviceFeatures.SMS || !serviceFeatures.SMS.enabled) && (!serviceFeatures.Pager || !serviceFeatures.Pager.enabled);
   return {
     dialInNumbers: dialInNumbers,
