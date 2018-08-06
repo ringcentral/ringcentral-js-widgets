@@ -831,12 +831,11 @@ export default class ConferenceCall extends RcModule {
   }
 
   @proxify
-  async onMergeOnhold({ sessionId, beforeMerge }) {
+  async onMergeOnhold({ sessionId }) {
     const session = this._webphone._sessions.get(sessionId);
     if (this._webphone.isCallRecording(session)) {
       return;
     }
-    if (typeof beforeMerge === 'function') beforeMerge.apply(this);
     this.setMergeParty({ toSessionId: sessionId });
     const sessionToMergeWith = this._webphone._sessions.get(
       this.mergingPair.fromSessionId

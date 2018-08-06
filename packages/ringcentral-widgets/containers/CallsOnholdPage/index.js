@@ -49,12 +49,7 @@ function mapToFunctions(_, {
   return {
     ...baseProps,
     async onMerge(sessionId) {
-      await conferenceCall.onMergeOnhold({
-        sessionId,
-        beforeMerge() {
-          routerInteraction.replace('/calls/active');
-        }
-      });
+      await conferenceCall.onMergeOnhold({ sessionId });
     },
     onBackButtonClick() {
       routerInteraction.goBack();
