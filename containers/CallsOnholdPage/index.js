@@ -8,10 +8,6 @@ var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
 
-var _values = require('babel-runtime/core-js/object/values');
-
-var _values2 = _interopRequireDefault(_values);
-
 var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
@@ -79,53 +75,14 @@ function mapToFunctions(_, _ref2) {
   return (0, _extends3.default)({}, baseProps, {
     onMerge: function () {
       var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(sessionId) {
-        var session, sessionToMergeWith, isCurrentOnhold, webphoneSessions, conferenceData, conferenceSession, isConferenceOnhold;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                session = webphone._sessions.get(sessionId);
+                _context.next = 2;
+                return conferenceCall.onMergeOnhold({ sessionId: sessionId });
 
-                if (!webphone.isCallRecording(session)) {
-                  _context.next = 3;
-                  break;
-                }
-
-                return _context.abrupt('return');
-
-              case 3:
-                routerInteraction.replace('/calls/active');
-                conferenceCall.setMergeParty({ toSessionId: sessionId });
-                sessionToMergeWith = webphone._sessions.get(conferenceCall.mergingPair.fromSessionId);
-                isCurrentOnhold = sessionToMergeWith && sessionToMergeWith.isOnHold().local;
-                webphoneSessions = sessionToMergeWith ? [sessionToMergeWith, session] : [session];
-                _context.next = 10;
-                return conferenceCall.mergeToConference(webphoneSessions);
-
-              case 10:
-                conferenceData = (0, _values2.default)(conferenceCall.conferences)[0];
-                conferenceSession = webphone._sessions.get(conferenceData.sessionId);
-                isConferenceOnhold = conferenceSession.isOnHold().local;
-
-                if (!(conferenceData && isCurrentOnhold)) {
-                  _context.next = 16;
-                  break;
-                }
-
-                webphone.hold(conferenceData.sessionId);
-                return _context.abrupt('return');
-
-              case 16:
-
-                if (conferenceData && isConferenceOnhold) {
-                  /**
-                   * because session termination operation in conferenceCall._mergeToConference,
-                   * need to wait for webphone.getActiveSessionIdReducer to update
-                   */
-                  webphone.resume(conferenceData.sessionId);
-                }
-
-              case 17:
+              case 2:
               case 'end':
                 return _context.stop();
             }
