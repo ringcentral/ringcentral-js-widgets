@@ -414,8 +414,9 @@ function mapToProps(_, _ref) {
   var nameMatches = currentSession.direction === _callDirections2.default.outbound ? toMatches : fromMatches;
 
   var isWebRTC = callingSettings.callingMode === _callingModes2.default.webphone;
-  var mergeDisabled = !currentSession.partyData || !isWebRTC;
-  var addDisabled = !isWebRTC || currentSession.direction === _callDirections2.default.inbound;
+  var isInoundCall = currentSession.direction === _callDirections2.default.inbound;
+  var mergeDisabled = !isWebRTC || isInoundCall || !currentSession.partyData;
+  var addDisabled = !isWebRTC || isInoundCall;
 
   var isOnConference = false;
   var hasConferenceCall = false;
@@ -432,13 +433,11 @@ function mapToProps(_, _ref) {
 
     if (conferenceData && isWebRTC) {
       conferenceCallId = conferenceData.conference.id;
-
-      var newVal = conferenceCall.isOverload(conferenceCallId)
-      // in case webphone.activeSession has not been updated yet
-      || !currentSession.partyData;
-      // update
-      mergeDisabled = newVal || !currentSession.partyData;
-      addDisabled = newVal;
+      var overload = conferenceCall.isOverload(conferenceCallId);
+      if (overload) {
+        mergeDisabled = true;
+        addDisabled = true;
+      }
     }
 
     hasConferenceCall = !!conferenceData;
