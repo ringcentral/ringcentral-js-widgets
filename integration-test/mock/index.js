@@ -434,6 +434,12 @@ function callLog() {
   mockApi({
     url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/call-log-sync',
     body: (0, _extends3.default)({}, callLogBody, {
+      records: [(0, _extends3.default)({}, callLogBody.records[0], {
+        startTime: new Date(Date.now()).toISOString()
+      }), (0, _extends3.default)({}, callLogBody.records[1], {
+        startTime: new Date(Date.now()).toISOString()
+      })]
+    }, {
       syncInfo: {
         syncType: callLogBody.syncInfo.syncType,
         syncToken: callLogBody.syncInfo.syncToken,
