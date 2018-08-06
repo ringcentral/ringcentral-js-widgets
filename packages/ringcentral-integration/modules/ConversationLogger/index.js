@@ -142,7 +142,7 @@ export default class ConversationLogger extends LoggerBase {
       (conversationLogMap) => {
         const output = [];
         const numberMap = {};
-        function addIfNotExist(contact) {
+        function addIfNotExist(contact = {}) {
           const number = contact.phoneNumber || contact.extensionNumber;
           if (number && !numberMap[number]) {
             output.push(number);
