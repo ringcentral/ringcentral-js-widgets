@@ -1,7 +1,7 @@
 import importLocale from '../importLocale';
 import defaultConfig from '../defaultConfig';
 
-export default function consolidateLocale({
+export default async function consolidateLocale({
   sourceFolder = defaultConfig.sourceFolder,
   sourceLocale = defaultConfig.sourceLocale,
   supportedLocales = defaultConfig.supportedLocales,

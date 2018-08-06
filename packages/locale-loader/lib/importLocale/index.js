@@ -5,10 +5,15 @@ import { reduce, filter, forEach, find } from 'ramda';
 import { parse } from 'babylon';
 import generate from 'babel-generator';
 import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
+import inquirer from 'inquirer';
 
 import compileLocaleData from '../compileLocaleData';
 import defaultConfig from '../defaultConfig';
 import readXlfData from '../readXlfData';
+import asyncReduce from '../asyncReduce';
+import asyncForEach from '../asyncForEach';
+
+const prompt = inquirer.createPromptModule();
 
 function writeFiles({
   localeData,
@@ -44,17 +49,28 @@ function writeFiles({
   );
 }
 
-function mergeTranslationData({
+function formatReason({
+  reason,
+  key,
+  fileName,
+  type,
+}) {
+  return `[locale] ${chalk.red(`{${type}}`)} Key: '${key}', File: '${fileName}', Reason: ${reason}.`;
+}
+
+async function mergeTranslationData({
   localeData,
   translations = {},
   sourceFolder,
   sourceLocale,
+  interactive = false,
+  silent = false,
 }) {
   // clean up original Data
-  forEach(
-    (folderPath) => {
-      forEach(
-        (locale) => {
+  await asyncForEach(
+    async (folderPath) => {
+      await asyncForEach(
+        async (locale) => {
           if (locale !== sourceLocale) {
             const targetData = localeData[folderPath].files[locale];
             const sourceData = localeData[folderPath].files[sourceLocale];
@@ -62,16 +78,48 @@ function mergeTranslationData({
               sourceFolder,
               path.resolve(folderPath, targetData.file),
             );
-            targetData.data = reduce(
-              (newData, [key, value]) => {
+            targetData.data = await asyncReduce(
+              async (newData, [key, value]) => {
+                const type = 'Delete';
+                let shouldDelete = false;
+                let message;
                 if (sourceData.data.has(key)) {
-                  if (sourceData.data.get(key).value === value.source) {
-                    newData.set(key, value);
-                  } else {
-                    console.log(`[locale] ${chalk.red('{Delete}')} Key: '${key}', File: '${relativePath}', Reason: Source value changed.`);
+                  if (sourceData.data.get(key).value !== value.source) {
+                    message = formatReason({
+                      type,
+                      reason: 'Source value changed',
+                      key,
+                      fileName: relativePath,
+                    });
+                    shouldDelete = interactive ?
+                      await prompt({
+                        name: 'result',
+                        type: 'confirm',
+                        message,
+                      }).result :
+                      true;
                   }
                 } else {
-                  console.log(`[locale] ${chalk.red('{Delete}')} Key: '${key}', File: '${relativePath}', Reason: Source no longer exist.`);
+                  message = formatReason({
+                    type,
+                    reason: 'Source no longer exists',
+                    key,
+                    fileName: relativePath,
+                  });
+                  shouldDelete = interactive ?
+                    await prompt({
+                      name: 'result',
+                      type: 'confirm',
+                      message,
+                    }).result :
+                    true;
+                }
+                if (shouldDelete) {
+                  if (!interactive && !silent) {
+                    console.log(message);
+                  }
+                } else {
+                  newData.set(key, value);
                 }
                 return newData;
               },
@@ -87,10 +135,10 @@ function mergeTranslationData({
   );
 
   // merge in translations
-  forEach(
-    (locale) => {
-      forEach(
-        (fileName) => {
+  await asyncForEach(
+    async (locale) => {
+      await asyncForEach(
+        async (fileName) => {
           const filePath = path.resolve(sourceFolder, fileName);
           const folderPath = path.dirname(filePath);
 
@@ -106,20 +154,51 @@ function mergeTranslationData({
             }
             const originalData = localeData[folderPath].files[locale].data;
             const translatedData = translations[locale][fileName];
-            forEach(
-              (key) => {
+            await asyncForEach(
+              async (key) => {
+                const type = 'Skip';
+                let shouldSkip = false;
+                let message;
                 if (!sourceData.has(key)) {
-                  console.log(`[locale] ${chalk.red('{Skip}')} Key: '[${key}]', File: '${fileName}', Reason: Source no longer exist.`);
-                  return;
+                  message = formatReason({
+                    type,
+                    reason: 'Source no longer exists',
+                    key,
+                    fileName,
+                  });
+                  shouldSkip = interactive ?
+                    await prompt({
+                      type: 'confirm',
+                      name: 'result',
+                      message,
+                    }).result :
+                    true;
+                } else if (sourceData.get(key).value !== translatedData[key].source) {
+                  message = formatReason({
+                    type,
+                    reason: 'Source value changed',
+                    key,
+                    fileName,
+                  });
+                  shouldSkip = interactive ?
+                    await prompt({
+                      type: 'confirm',
+                      name: 'result',
+                      message,
+                    }).result :
+                    true;
                 }
-                if (sourceData.get(key).value !== translatedData[key].source) {
-                  console.log(`[locale] ${chalk.red('{Skip}')} Key: '[${key}]', File: '${fileName}', Reason: Source value changed.`);
-                  return;
+
+                if (shouldSkip) {
+                  if (!interactive && !silent) {
+                    console.log(message);
+                  }
+                } else {
+                  originalData.set(key, {
+                    ...translatedData[key],
+                    key,
+                  });
                 }
-                originalData.set(key, {
-                  ...translatedData[key],
-                  key,
-                });
               },
               Object.keys(translatedData),
             );
@@ -180,11 +259,13 @@ function mergeTranslationData({
   return localeData;
 }
 
-export default function importLocale({
+export default async function importLocale({
   sourceFolder = defaultConfig.sourceFolder,
   localizationFolder = defaultConfig.localizationFolder,
   sourceLocale = defaultConfig.sourceLocale,
   supportedLocales,
+  interactive = false,
+  silent = false,
 } = {}) {
   if (!supportedLocales) {
     throw new Error('options.supportedLocales is missing');
@@ -198,11 +279,13 @@ export default function importLocale({
     localizationFolder,
     supportedLocales,
   });
-  const mergedData = mergeTranslationData({
+  const mergedData = await mergeTranslationData({
     localeData,
     translations,
     sourceFolder,
     sourceLocale,
+    interactive,
+    silent,
   });
   writeFiles({
     localeData: mergedData,

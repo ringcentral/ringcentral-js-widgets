@@ -44,7 +44,8 @@ describe('importLocale', () => {
   const config = {
     localizationFolder,
     sourceFolder,
-    supportedLocales: ['en-US', 'en-GB']
+    supportedLocales: ['en-US', 'en-GB'],
+    silent: false,
   };
   beforeEach(async () => {
     await clean();
@@ -52,8 +53,15 @@ describe('importLocale', () => {
     exportLocale(config);
   });
   afterEach(clean);
-  test('should throw when supportedLocales is not defined', () => {
-    expect(() => importLocale()).toThrow('options.supportedLocales is missing');
+  test('should throw when supportedLocales is not defined', async () => {
+    let error;
+    try {
+      await importLocale();
+    } catch (e) {
+      error = e;
+    }
+
+    expect(() => { throw error; }).toThrow('options.supportedLocales is missing');
   });
   test('should import generated xlf files', async () => {
     const xlfPath = path.resolve(localizationFolder, 'en-GB.xlf');
@@ -65,7 +73,7 @@ describe('importLocale', () => {
       '<target>testValue</target',
       '<target>testValueChanged</target>'
     ));
-    importLocale(config);
+    await importLocale(config);
     const filePath = path.resolve(sourceFolder, 'en-GB.js');
     expect(await fs.exists(filePath)).toBe(true);
     const content = await fs.readFile(filePath, 'utf8');
@@ -82,7 +90,7 @@ describe('importLocale', () => {
     expect(json[419]).toBe('number as key');
   });
   test('should generate annotations', async () => {
-    importLocale(config);
+    await importLocale(config);
     const filePath = path.resolve(sourceFolder, 'en-GB.js');
     expect(await fs.exists(filePath)).toBe(true);
     const content = await fs.readFile(filePath, 'utf8');
@@ -102,7 +110,7 @@ describe('importLocale', () => {
       '<source>testValue</source',
       '<source>testValueChanged</source>'
     ));
-    importLocale(config);
+    await importLocale(config);
     const filePath = path.resolve(sourceFolder, 'en-GB.js');
     expect(await fs.exists(filePath)).toBe(true);
     const content = await fs.readFile(filePath, 'utf8');
@@ -110,6 +118,7 @@ describe('importLocale', () => {
     expect(() => {
       json = eval(transform(content, babelrc).code);
     }).not.toThrow();
+    console.log(json);
     expect(json.modern).toBe('rogue');
     expect(json.whisky).toBe(undefined);
     expect(json.testKey).toBe(undefined);
@@ -125,7 +134,7 @@ describe('importLocale', () => {
       '<source>testValue</source',
       '<source>testValueChanged</source>'
     ));
-    importLocale(config);
+    await importLocale(config);
     const filePath = path.resolve(sourceFolder, 'en-GB.js');
     expect(await fs.exists(filePath)).toBe(true);
     const content = await fs.readFile(filePath, 'utf8');
@@ -139,7 +148,7 @@ describe('importLocale', () => {
   });
 
   test('should remove keys that no longer exist in source', async () => {
-    importLocale(config);
+    await importLocale(config);
     const xlfPath = path.resolve(localizationFolder, 'en-GB.xlf');
     await fs.remove(xlfPath);
     await fs.writeFile(path.resolve(sourceFolder, 'en-US.js'), `
@@ -154,7 +163,7 @@ describe('importLocale', () => {
         "double-'quote'": "Double Quote",
       };
     `);
-    importLocale(config);
+    await importLocale(config);
 
     const filePath = path.resolve(sourceFolder, 'en-GB.js');
     expect(await fs.exists(filePath)).toBe(true);
@@ -163,12 +172,14 @@ describe('importLocale', () => {
     expect(() => {
       json = eval(transform(content, babelrc).code);
     }).not.toThrow();
+
+    expect(json.whisky).toBe('Vault');
     expect(json.modern).toBe(undefined);
     expect(json.newline).toBe(undefined);
   });
 
   test('should remove keys that the source value has changed', async () => {
-    importLocale(config);
+    await importLocale(config);
     const xlfPath = path.resolve(localizationFolder, 'en-GB.xlf');
     await fs.remove(xlfPath);
     await fs.writeFile(path.resolve(sourceFolder, 'en-US.js'), `
@@ -188,7 +199,7 @@ describe('importLocale', () => {
         world\`,
       };
     `);
-    importLocale(config);
+    await importLocale(config);
 
     const filePath = path.resolve(sourceFolder, 'en-GB.js');
     expect(await fs.exists(filePath)).toBe(true);
@@ -218,7 +229,7 @@ describe('importLocale', () => {
       };
     `);
     exportLocale(config);
-    importLocale(config);
+    await importLocale(config);
     const filePath = path.resolve(sourceFolder, 'en-GB.js');
     expect(await fs.exists(filePath)).toBe(true);
     const content = await fs.readFile(filePath, 'utf8');
