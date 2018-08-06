@@ -266,7 +266,9 @@ var ConversationLogger = (_dec = (0, _di.Module)({
     _this.addSelector('uniqueNumbers', _this._selectors.conversationLogMap, function (conversationLogMap) {
       var output = [];
       var numberMap = {};
-      function addIfNotExist(contact) {
+      function addIfNotExist() {
+        var contact = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
         var number = contact.phoneNumber || contact.extensionNumber;
         if (number && !numberMap[number]) {
           output.push(number);
@@ -489,7 +491,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
         }, _callee2, this);
       }));
 
-      function _processConversationLog(_x2) {
+      function _processConversationLog(_x3) {
         return _ref6.apply(this, arguments);
       }
 
@@ -580,7 +582,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
         }, _callee4, this);
       }));
 
-      function _autoLogConversation(_x3) {
+      function _autoLogConversation(_x4) {
         return _ref9.apply(this, arguments);
       }
 
@@ -606,7 +608,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
         }, _callee5, this);
       }));
 
-      function log(_x4) {
+      function log(_x5) {
         return _ref11.apply(this, arguments);
       }
 
@@ -656,7 +658,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
         }, _callee6, this);
       }));
 
-      function logConversation(_x5) {
+      function logConversation(_x6) {
         return _ref13.apply(this, arguments);
       }
 
@@ -685,7 +687,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
         }, _callee7, this);
       }));
 
-      function setAutoLog(_x6) {
+      function setAutoLog(_x7) {
         return _ref14.apply(this, arguments);
       }
 
