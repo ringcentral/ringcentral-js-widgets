@@ -585,11 +585,18 @@ function mapToFunctions(_, _ref2) {
               case 2:
                 conferenceData = _context.sent;
 
-                if (!conferenceData) {
-                  routerInteraction.push('/conferenceCall/mergeCtrl');
+                if (conferenceData) {
+                  _context.next = 6;
+                  break;
                 }
 
-              case 4:
+                routerInteraction.push('/conferenceCall/mergeCtrl');
+                return _context.abrupt('return');
+
+              case 6:
+                routerInteraction.push('/calls/active');
+
+              case 7:
               case 'end':
                 return _context.stop();
             }
