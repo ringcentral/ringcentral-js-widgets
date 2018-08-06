@@ -1,0 +1,19 @@
+{
+  "uuid": "1088719898803550582-8036702296129764",
+  "event": "/restapi/v1.0/account/160746006/extension/160751006/presence?detailedTelephonyState=true&sipData=true",
+  "timestamp": "2017-02-11T11:21:07.074Z",
+  "subscriptionId": "24dcfdcf-e7d0-4930-9edb-555ec11843b9",
+  "body": {
+    "allowSeeMyPresence": true,
+    "dndStatus": "TakeAllCalls",
+    "extensionId": 160751006,
+    "meetingsStatus": "Disconnected",
+    "pickUpCallsOnHold": false,
+    "presenceStatus": "Busy",
+    "ringOnMonitoredCall": false,
+    "sequence": 368997,
+    "telephonyStatus": "OnHold",
+    "totalActiveCalls": 2,
+    "userStatus": "Available"
+  }
+}

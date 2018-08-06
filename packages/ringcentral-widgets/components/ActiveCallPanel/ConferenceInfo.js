@@ -25,14 +25,16 @@ function ConferenceInfo({
     : 0;
 
   return (
-    <a
+    <div
       className={styles.conferenceCallInfoContainer}
-      onClick={(e) => { e.preventDefault(); onClick(); }}
     >
       {
         displayedProfiles.length
           ? (
-            <div className={styles.avatarContainer}>
+            <div
+              className={classnames(styles.avatarContainer, styles.clickable)}
+              onClick={(e) => { e.preventDefault(); onClick(); }}
+            >
               {
                 displayedProfiles.map(({ avatarUrl, toUserName }, idx) => (
                   <div
@@ -44,7 +46,13 @@ function ConferenceInfo({
                 )
               }{
                 remains > 0
-                  ? (<div className={classnames(styles.avatar, styles.remains)}>{`+${remains}`}</div>)
+                  ? (
+                    <div
+                      className={classnames(styles.avatar, styles.remains)}
+                    >
+                      {`+${remains}`}
+                    </div>
+                  )
                   : null
               }
             </div>
@@ -60,7 +68,7 @@ function ConferenceInfo({
       <p className={styles.info}>
         {i18n.getString('conferenceCall', currentLocale)}
       </p>
-    </a>
+    </div>
   );
 }
 

@@ -11,6 +11,7 @@
     "node": ">=8"
   },
   "scripts": {
+    "debug": "node --inspect-brk ./node_modules/.bin/jest -i",
     "test": "yarn test:jest",
     "test:jest": "jest --no-cache --maxWorkers=5",
     "test:watch": "yarn test -- --watch",

@@ -386,14 +386,6 @@ function mapToFunctions(_, {
   recipientsContactInfoRenderer,
   recipientsContactPhoneRenderer,
 }) {
-  const currentSession = webphone.activeSession || {};
-  let currentConferenceSession;
-  if (conferenceCall) {
-    const conferenceData = Object.values(conferenceCall.conferences)[0];
-    if (conferenceData) {
-      currentConferenceSession = webphone._sessions.get(conferenceData.sessionId);
-    }
-  }
   return {
     formatPhone: phoneNumber => formatNumber({
       phoneNumber,
@@ -423,6 +415,7 @@ function mapToFunctions(_, {
     recipientsContactInfoRenderer,
     recipientsContactPhoneRenderer,
     onAdd(sessionId) {
+      const currentSession = webphone.activeSession;
       if (!currentSession || webphone.isCallRecording(currentSession)) {
         return;
       }
@@ -441,6 +434,14 @@ function mapToFunctions(_, {
       }
     },
     onBeforeMerge() {
+      const currentSession = webphone.activeSession;
+      let currentConferenceSession;
+      if (conferenceCall) {
+        const conferenceData = Object.values(conferenceCall.conferences)[0];
+        if (conferenceData) {
+          currentConferenceSession = webphone._sessions.get(conferenceData.sessionId);
+        }
+      }
       if (!currentSession || webphone.isCallRecording(currentSession)) {
         return false;
       }
@@ -453,7 +454,9 @@ function mapToFunctions(_, {
       const conferenceData = await conferenceCall.onMerge({ sessionId });
       if (!conferenceData) {
         routerInteraction.push('/conferenceCall/mergeCtrl');
+        return;
       }
+      routerInteraction.push('/calls/active');
     },
     onIncomingCallCaptured() {
       routerInteraction.push('/calls/active');

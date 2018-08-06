@@ -38,7 +38,7 @@ $fontSize:15px;
 }
 
 .avatarContainer {
-  display: block;
+  display: inline-block;
 }
 
 .avatar {
@@ -111,7 +111,6 @@ $fontSize:15px;
   font-family: sans-serif;
   height: $userInfoHeight;
   box-sizing: border-box;
-  cursor: pointer;
   .info {
     font-size: $fontSize;
   }
@@ -268,4 +267,8 @@ $fontSize:15px;
   >div {
     margin-top: 20px;
   }
+}
+
+.clickable {
+  cursor: pointer;
 }

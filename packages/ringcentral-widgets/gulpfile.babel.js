@@ -145,4 +145,5 @@ gulp.task('import-locale', () => importLocale({
 }));
 gulp.task('consolidate-locale', () => consolidateLocale({
   ...localeSettings,
+  sourceFolder: path.resolve(__dirname, 'lib/countryNames'),
 }));

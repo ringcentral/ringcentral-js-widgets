@@ -111,6 +111,7 @@ ConversationList.propTypes = {
   typeFilter: PropTypes.string,
   loadNextPage: PropTypes.func,
   loadingNextPage: PropTypes.bool,
+  renderExtraButton: PropTypes.func,
 };
 ConversationList.defaultProps = {
   perPage: 20,
@@ -124,4 +125,5 @@ ConversationList.defaultProps = {
   loadNextPage: undefined,
   loadingNextPage: false,
   typeFilter: undefined,
+  renderExtraButton: undefined,
 };
