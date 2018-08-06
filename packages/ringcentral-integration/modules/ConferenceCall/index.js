@@ -224,7 +224,6 @@ export default class ConferenceCall extends RcModule {
       !conferenceState
       || !this.ready
       || !webphoneSession
-      || webphoneSession.direction !== callDirections.outbound
       || this.isOverload(id)
       || !this._connectivityMonitor.connectivity
     ) {
