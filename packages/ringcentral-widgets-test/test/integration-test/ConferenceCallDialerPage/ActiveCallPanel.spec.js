@@ -87,7 +87,7 @@ describe('RCI-1071: simplified call control page', () => {
   let contactA = null;
   let contactB = null;
 
-  test('Simplified Call control page: merge two outbound calls'
+  test('#1 Check the Simplified Call control page'
     , async () => {
       // Prepare: Contacts has a internal contact with avatar and a external contact without avatar
       await mockContacts();

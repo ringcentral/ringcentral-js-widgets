@@ -25,7 +25,7 @@ beforeEach(async () => {
 });
 
 async function call(phoneNumber = '102') {
-  mock.device(deviceBody(phoneNumber));
+  mock.device(deviceBody);
   if (phone.webphone.sessions.length > 0) {
     const lastSession = phone.webphone._sessions.get(phone.webphone.sessions[0].id);
     await lastSession.hold();
