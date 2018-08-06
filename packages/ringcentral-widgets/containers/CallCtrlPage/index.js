@@ -70,15 +70,6 @@ class CallCtrlPage extends Component {
       this.props.onBeforeMerge(this.props.session.id);
   }
 
-  _updateCurrentConferenceCall(props) {
-    if (
-      props.layout === callCtrlLayouts.conferenceCtrl
-      && props.loadConference
-    ) {
-      props.loadConference(props.conferenceCallId);
-    }
-  }
-
   componentDidMount() {
     this._mounted = true;
     this._updateAvatarAndMatchIndex(this.props);
@@ -125,6 +116,15 @@ class CallCtrlPage extends Component {
         }
         this.setState({ avatarUrl });
       });
+    }
+  }
+
+  _updateCurrentConferenceCall(props) {
+    if (
+      props.layout === callCtrlLayouts.conferenceCtrl
+      && props.loadConference
+    ) {
+      props.loadConference(props.conferenceCallId);
     }
   }
 
