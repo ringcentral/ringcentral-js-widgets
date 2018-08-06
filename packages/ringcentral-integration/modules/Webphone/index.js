@@ -1160,6 +1160,7 @@ export default class Webphone extends RcModule {
     });
   }
 
+  @proxify
   setSessionCaching(sessionIds) {
     this.store.dispatch({
       type: this.actionTypes.setSessionCaching,
@@ -1167,6 +1168,7 @@ export default class Webphone extends RcModule {
     });
   }
 
+  @proxify
   clearSessionCaching() {
     this.store.dispatch({
       type: this.actionTypes.clearSessionCaching,

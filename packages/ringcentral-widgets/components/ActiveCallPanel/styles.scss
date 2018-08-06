@@ -38,7 +38,7 @@ $fontSize:15px;
 }
 
 .avatarContainer {
-  display: block;
+  display: inline-block;
 }
 
 .avatar {
@@ -111,7 +111,6 @@ $fontSize:15px;
   font-family: sans-serif;
   height: $userInfoHeight;
   box-sizing: border-box;
-  cursor: pointer;
   .info {
     font-size: $fontSize;
   }
@@ -128,7 +127,6 @@ $fontSize:15px;
       vertical-align: middle;
       padding: 0;
       margin: 0;
-      border: 2px solid $snow;
       font-size: $fontSize;
       text-align: center;
       position: relative;
@@ -141,6 +139,7 @@ $fontSize:15px;
     .remains {
       color: $snow;
       background-color: $smoke;
+      border: 2px solid $snow;
     }
     .avatar+.avatar {
       margin-left: -20px;
@@ -268,4 +267,8 @@ $fontSize:15px;
   >div {
     margin-top: 20px;
   }
+}
+
+.clickable {
+  cursor: pointer;
 }
