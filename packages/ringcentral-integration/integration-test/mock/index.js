@@ -86,9 +86,9 @@ export function mockApi({
     headers: responseHeaders,
     sendAsJson: false
   }, {
-    method,
-    times: isOnce ? 1 : 20,
-  });
+      method,
+      times: isOnce ? 1 : 20,
+    });
 }
 
 export function authentication() {
@@ -386,6 +386,16 @@ export function callLog(mockResponse = {}) {
     url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/call-log-sync`,
     body: {
       ...callLogBody,
+      records: [
+        {
+          ...callLogBody.records[0],
+          startTime: ((new Date(Date.now()))).toISOString(),
+        },
+        {
+          ...callLogBody.records[1],
+          startTime: ((new Date(Date.now()))).toISOString(),
+        }
+      ],
       ...{
         syncInfo: {
           syncType: callLogBody.syncInfo.syncType,
@@ -432,7 +442,7 @@ export function numberParse(mockResponse = {}, homeCountry) {
 }
 
 export function conferenceCall(mockResponse = {}) {
-  conferenceCallBody.session.on = () => {};
+  conferenceCallBody.session.on = () => { };
   mockApi({
     method: 'POST',
     path: '/restapi/v1.0/account/~/telephony/conference',
