@@ -454,7 +454,9 @@ function mapToFunctions(_, {
       const conferenceData = await conferenceCall.onMerge({ sessionId });
       if (!conferenceData) {
         routerInteraction.push('/conferenceCall/mergeCtrl');
+        return;
       }
+      routerInteraction.push('/calls/active');
     },
     onIncomingCallCaptured() {
       routerInteraction.push('/calls/active');

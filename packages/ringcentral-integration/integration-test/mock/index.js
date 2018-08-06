@@ -33,6 +33,7 @@ const meetingBody = require('./data/meeting');
 const serviceInfoBody = require('./data/serviceInfo');
 const conferenceCallBody = require('./data/conferenceCall');
 const numberParseBody = require('./data/numberParse');
+const conferenceCallBringInBody = require('./data/conferenceCallBringIn');
 
 const mockServer = 'http://whatever';
 export function createSDK(options = {}) {
@@ -145,7 +146,7 @@ export function tokenRefresh(failure) {
   }
 }
 
-export function presence(id) {
+export function presence(id, mockResponse = {}) {
   mockApi({
     url: `begin:${mockServer}/restapi/v1.0/account/~/extension/${id}/presence`,
     body: {
@@ -160,7 +161,8 @@ export function presence(id) {
       telephonyStatus: 'Ringing',
       userStatus: 'Available',
       dndStatus: 'TakeAllCalls',
-      extensionId: id
+      extensionId: id,
+      ...mockResponse
     }
   });
 }
@@ -191,6 +193,18 @@ export function extensionInfo(mockResponse = {}) {
     path: '/restapi/v1.0/account/~/extension/~',
     body: {
       ...extensionBody,
+      ...mockResponse,
+    },
+    isOnce: false,
+  });
+}
+
+export function conferenceCallBringIn(id, mockResponse = {}) {
+  mockApi({
+    method: 'POST',
+    path: `/restapi/v1.0/account/~/telephony/sessions/${id}/parties/bring-in`,
+    body: {
+      ...conferenceCallBringInBody,
       ...mockResponse,
     },
     isOnce: false,
@@ -409,13 +423,14 @@ export function callLog(mockResponse = {}) {
   });
 }
 
-export function device(mockResponse = {}) {
+export function device(mockResponse = {}, isOnce = true) {
   mockApi({
     url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/device`,
     body: {
       ...deviceBody,
       ...mockResponse,
-    }
+    },
+    isOnce
   });
 }
 
@@ -451,6 +466,27 @@ export function conferenceCall(mockResponse = {}) {
       ...mockResponse,
     },
     isOnce: false
+  });
+}
+
+export function updateConferenceCall(id, mockResponse = {}) {
+  mockApi({
+    path: `/restapi/v1.0/account/~/telephony/sessions/${id}`,
+    body: {
+      ...conferenceCallBody,
+      ...mockResponse,
+    }
+  });
+}
+
+export function terminateConferenceCall(id, mockResponse = {}) {
+  mockApi({
+    method: 'DELETE',
+    path: `/restapi/v1.0/account/~/telephony/sessions/${id}`,
+    body: {
+      ...conferenceCallBody,
+      ...mockResponse,
+    }
   });
 }
 
