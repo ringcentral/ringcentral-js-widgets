@@ -25,6 +25,7 @@ exports.presence = presence;
 exports.presenceUpdate = presenceUpdate;
 exports.dialingPlan = dialingPlan;
 exports.extensionInfo = extensionInfo;
+exports.conferenceCallBringIn = conferenceCallBringIn;
 exports.extensionList = extensionList;
 exports.accountInfo = accountInfo;
 exports.apiInfo = apiInfo;
@@ -45,6 +46,8 @@ exports.device = device;
 exports.conferencing = conferencing;
 exports.numberParse = numberParse;
 exports.conferenceCall = conferenceCall;
+exports.updateConferenceCall = updateConferenceCall;
+exports.terminateConferenceCall = terminateConferenceCall;
 exports.activeCalls = activeCalls;
 exports.restore = restore;
 exports.reset = reset;
@@ -98,6 +101,7 @@ var meetingBody = require('./data/meeting');
 var serviceInfoBody = require('./data/serviceInfo');
 var conferenceCallBody = require('./data/conferenceCall');
 var numberParseBody = require('./data/numberParse');
+var conferenceCallBringInBody = require('./data/conferenceCallBringIn');
 
 var mockServer = 'http://whatever';
 function createSDK() {
@@ -218,9 +222,11 @@ function tokenRefresh(failure) {
 }
 
 function presence(id) {
+  var mockResponse = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
   mockApi({
     url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/' + id + '/presence',
-    body: {
+    body: (0, _extends3.default)({
       uri: 'https://platform.ringcentral.com/restapi/v1.0/account/123/extension/' + id + '/presence',
       extension: {
         uri: 'https://platform.ringcentral.com/restapi/v1.0/account/123/extension/' + id,
@@ -233,7 +239,7 @@ function presence(id) {
       userStatus: 'Available',
       dndStatus: 'TakeAllCalls',
       extensionId: id
-    }
+    }, mockResponse)
   });
 }
 
@@ -262,6 +268,17 @@ function extensionInfo() {
   mockApi({
     path: '/restapi/v1.0/account/~/extension/~',
     body: (0, _extends3.default)({}, extensionBody, mockResponse),
+    isOnce: false
+  });
+}
+
+function conferenceCallBringIn(id) {
+  var mockResponse = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  mockApi({
+    method: 'POST',
+    path: '/restapi/v1.0/account/~/telephony/sessions/' + id + '/parties/bring-in',
+    body: (0, _extends3.default)({}, conferenceCallBringInBody, mockResponse),
     isOnce: false
   });
 }
@@ -452,10 +469,12 @@ function callLog() {
 
 function device() {
   var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var isOnce = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
   mockApi({
     url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/device',
-    body: (0, _extends3.default)({}, deviceBody, mockResponse)
+    body: (0, _extends3.default)({}, deviceBody, mockResponse),
+    isOnce: isOnce
   });
 }
 
@@ -489,6 +508,25 @@ function conferenceCall() {
     path: '/restapi/v1.0/account/~/telephony/conference',
     body: (0, _extends3.default)({}, conferenceCallBody, mockResponse),
     isOnce: false
+  });
+}
+
+function updateConferenceCall(id) {
+  var mockResponse = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  mockApi({
+    path: '/restapi/v1.0/account/~/telephony/sessions/' + id,
+    body: (0, _extends3.default)({}, conferenceCallBody, mockResponse)
+  });
+}
+
+function terminateConferenceCall(id) {
+  var mockResponse = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  mockApi({
+    method: 'DELETE',
+    path: '/restapi/v1.0/account/~/telephony/sessions/' + id,
+    body: (0, _extends3.default)({}, conferenceCallBody, mockResponse)
   });
 }
 
