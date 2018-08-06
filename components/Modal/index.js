@@ -25,6 +25,8 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _class, _temp;
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -87,7 +89,7 @@ FlatButton.defaultProps = {
   children: undefined
 };
 
-var Modal = function (_Component) {
+var Modal = (_temp = _class = function (_Component) {
   (0, _inherits3.default)(Modal, _Component);
 
   function Modal(props) {
@@ -101,6 +103,15 @@ var Modal = function (_Component) {
   }
 
   (0, _createClass3.default)(Modal, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      if (!this.props.appendDOM && this.context.modalRoot && this.context.modalRoot.current) {
+        // FIXME: because we using the `this.appendDOM`, it's not easy to use provider and consumer
+        // type of the context.
+        this.appendDOM = this.context.modalRoot.current;
+      }
+    }
+  }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.appendDOM.appendChild(this._container);
@@ -192,8 +203,9 @@ var Modal = function (_Component) {
     }
   }]);
   return Modal;
-}(_react.Component);
-
+}(_react.Component), _class.contextTypes = {
+  modalRoot: _propTypes2.default.object
+}, _temp);
 exports.default = Modal;
 
 
