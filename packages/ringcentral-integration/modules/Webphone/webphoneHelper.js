@@ -76,7 +76,7 @@ export function normalizeSession(session) {
     contactMatch: session.contactMatch,
     minimized: !!session.minimized,
     partyData: session.partyData || null,
-    lastActiveTime: session.lastActiveTime || +new Date(),
+    lastActiveTime: session.lastActiveTime,
     cached: false,
     removed: false,
   };

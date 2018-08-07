@@ -481,7 +481,6 @@ export default class Webphone extends RcModule {
     this._webphone.userAgent.on('registrationFailed', onRegistrationFailed);
     this._webphone.userAgent.on('invite', (session) => {
       console.log('UA invite');
-      extractHeadersData(session, session.request.headers);
       this._onInvite(session);
     });
   }
@@ -703,7 +702,7 @@ export default class Webphone extends RcModule {
     session.on('unhold', () => {
       console.log('Event: unhold');
       session.callStatus = sessionStatus.connected;
-      session.lastActiveTime = +new Date();
+      session.lastActiveTime = Date.now();
       this._updateSessions();
     });
     session.mediaHandler.on('userMediaFailed', () => {
@@ -713,8 +712,10 @@ export default class Webphone extends RcModule {
 
   _onInvite(session) {
     session.creationTime = Date.now();
+    session.lastActiveTime = Date.now();
     session.direction = callDirections.inbound;
     session.callStatus = sessionStatus.connecting;
+    extractHeadersData(session, session.request.headers);
     session.on('rejected', () => {
       console.log('Event: Rejected');
       this._onCallEnd(session);
@@ -1145,6 +1146,7 @@ export default class Webphone extends RcModule {
     session.direction = callDirections.outbound;
     session.callStatus = sessionStatus.connecting;
     session.creationTime = Date.now();
+    session.lastActiveTime = Date.now();
     session.fromNumber = fromNumber;
     this._onAccepted(session);
     this._holdOtherSession(session.id);
