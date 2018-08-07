@@ -5,8 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   unknown: 'Inconnu',
-  anonymous: 'Anonyme',
-  activeCalls: 'Appels en cours'
+  anonymous: 'Anonyme'
 };
 
 // @key: @#@"unknown"@#@ @source: @#@"Unknown"@#@
