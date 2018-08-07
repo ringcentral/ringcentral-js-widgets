@@ -3,7 +3,6 @@ import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 
 import getReducer, {
   getDataReducer,
-  getPageNumberReducer,
   getSearchFilterReducer,
   getCurrentGroupIdReducer,
   getTimestampReducer,
@@ -61,41 +60,6 @@ describe('GlipGroups :: getDataReducer', () => {
     });
   });
 });
-
-describe('GlipGroups :: getPageNumberReducer', () => {
-  it('getPageNumberReducer should be a function', () => {
-    expect(getPageNumberReducer).to.be.a('function');
-  });
-  it('getPageNumberReducer should return a reducer', () => {
-    expect(getPageNumberReducer()).to.be.a('function');
-  });
-  describe('pageNumberReducer', () => {
-    const reducer = getPageNumberReducer(actionTypes);
-    it('should have initial state of 1', () => {
-      expect(reducer(undefined, {})).to.equal(1);
-    });
-
-    it('should return original state of actionTypes is not recognized', () => {
-      const originalState = {};
-      expect(reducer(originalState, { type: 'foo' }))
-        .to.equal(originalState);
-    });
-
-    it('should return pageNumber on updateFilter', () => {
-      expect(reducer(1, {
-        type: actionTypes.updateFilter,
-        pageNumber: 2,
-      })).to.equal(2);
-    });
-
-    it('should original state when pageNumber is undefined  on updateFilter', () => {
-      expect(reducer(1, {
-        type: actionTypes.updateFilter,
-      })).to.equal(1);
-    });
-  });
-});
-
 
 describe('GlipGroups :: getSearchFilterReducer', () => {
   it('getSearchFilterReducer should be a function', () => {
@@ -204,11 +168,11 @@ describe('GlipGroups :: getReducer', () => {
     const reducer = getReducer(actionTypes);
     const statusReducer = getModuleStatusReducer(actionTypes);
     const searchFilterReducer = getSearchFilterReducer(actionTypes);
-    const pageNumberReducer = getPageNumberReducer(actionTypes);
+    const currentGroupIdReducer = getCurrentGroupIdReducer(actionTypes);
     expect(reducer(undefined, {})).to.deep.equal({
       status: statusReducer(undefined, {}),
       searchFilter: searchFilterReducer(undefined, {}),
-      pageNumber: pageNumberReducer(undefined, {}),
+      currentGroupId: currentGroupIdReducer(undefined, {}),
     });
   });
 });
