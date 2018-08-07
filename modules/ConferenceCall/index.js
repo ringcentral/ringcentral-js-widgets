@@ -1472,30 +1472,31 @@ var ConferenceCall = (_dec = (0, _di.Module)({
 
               case 7:
                 conferenceData = (0, _values2.default)(this.conferences)[0];
-                conferenceSession = this._webphone._sessions.get(conferenceData.sessionId);
-                isConferenceOnhold = conferenceSession.isOnHold().local;
 
                 if (conferenceData) {
-                  _context13.next = 14;
+                  _context13.next = 12;
                   break;
                 }
 
-                _context13.next = 13;
+                _context13.next = 11;
                 return this._webphone.resume(session.id);
 
-              case 13:
+              case 11:
                 return _context13.abrupt('return', null);
 
-              case 14:
+              case 12:
                 if (!isSessionOnhold) {
-                  _context13.next = 17;
+                  _context13.next = 15;
                   break;
                 }
 
                 this._webphone.hold(conferenceData.sessionId);
                 return _context13.abrupt('return', conferenceData);
 
-              case 17:
+              case 15:
+                conferenceSession = this._webphone._sessions.get(conferenceData.sessionId);
+                isConferenceOnhold = conferenceSession.isOnHold().local;
+
                 if (!isConferenceOnhold) {
                   _context13.next = 20;
                   break;
@@ -1554,9 +1555,15 @@ var ConferenceCall = (_dec = (0, _di.Module)({
 
               case 9:
                 conferenceData = (0, _values2.default)(this.conferences)[0];
-                conferenceSession = this._webphone._sessions.get(conferenceData.sessionId);
-                isConferenceOnhold = conferenceSession.isOnHold().local;
 
+                if (conferenceData) {
+                  _context14.next = 12;
+                  break;
+                }
+
+                return _context14.abrupt('return');
+
+              case 12:
                 if (!(conferenceData && isCurrentOnhold)) {
                   _context14.next = 15;
                   break;
@@ -1566,6 +1573,8 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 return _context14.abrupt('return');
 
               case 15:
+                conferenceSession = this._webphone._sessions.get(conferenceData.sessionId);
+                isConferenceOnhold = conferenceSession.isOnHold().local;
 
                 if (conferenceData && isConferenceOnhold) {
                   /**
@@ -1575,7 +1584,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   this._webphone.resume(conferenceData.sessionId);
                 }
 
-              case 16:
+              case 18:
               case 'end':
                 return _context14.stop();
             }
