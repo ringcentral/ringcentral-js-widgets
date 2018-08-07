@@ -293,7 +293,6 @@ var GlipGroups = (_dec = (0, _di.Module)({
 
     _this._dataStorageKey = 'glipGroupsData';
     _this._timestampStorageKey = 'glipGroupsTimestamp';
-    _this._currentGroupIdStorageKey = 'glipGroupsCurrentGroupId';
 
     if (_this._storage) {
       _this._reducer = (0, _getReducer2.default)(_this.actionTypes);
@@ -306,15 +305,10 @@ var GlipGroups = (_dec = (0, _di.Module)({
         key: _this._timestampStorageKey,
         reducer: (0, _getReducer.getTimestampReducer)(_this.actionTypes)
       });
-      _this._storage.registerReducer({
-        key: _this._currentGroupIdStorageKey,
-        reducer: (0, _getReducer.getCurrentGroupIdReducer)(_this.actionTypes)
-      });
     } else {
       _this._reducer = (0, _getReducer2.default)(_this.actionTypes, {
         timestamp: (0, _getReducer.getTimestampReducer)(_this.actionTypes),
-        data: (0, _getReducer.getDataReducer)(_this.actionTypes),
-        currentGroupId: (0, _getReducer.getCurrentGroupIdReducer)(_this.actionTypes)
+        data: (0, _getReducer.getDataReducer)(_this.actionTypes)
       });
     }
 
@@ -455,9 +449,6 @@ var GlipGroups = (_dec = (0, _di.Module)({
       if (this._glipPersons) {
         this._glipPersons.loadPersons(this.groupMemberIds);
       }
-      if (this.currentGroupId && !this.currentGroup.id) {
-        this.updateCurrentGroupId(this.groups[0] && this.groups[0].id);
-      }
       if (this._preloadPosts) {
         this._preloadedPosts = {};
         this._preloadGroupPosts();
@@ -596,111 +587,112 @@ var GlipGroups = (_dec = (0, _di.Module)({
     key: '_preloadGroupPosts',
     value: function () {
       var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(force) {
-        var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, group;
+        var groups, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, group;
 
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
+                groups = this.groups.slice(0, 20);
                 _iteratorNormalCompletion = true;
                 _didIteratorError = false;
                 _iteratorError = undefined;
-                _context4.prev = 3;
-                _iterator = (0, _getIterator3.default)(this.groups);
+                _context4.prev = 4;
+                _iterator = (0, _getIterator3.default)(groups);
 
-              case 5:
+              case 6:
                 if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-                  _context4.next = 22;
+                  _context4.next = 23;
                   break;
                 }
 
                 group = _step.value;
 
                 if (this._glipPosts) {
-                  _context4.next = 9;
+                  _context4.next = 10;
                   break;
                 }
 
-                return _context4.abrupt('break', 22);
+                return _context4.abrupt('break', 23);
 
-              case 9:
+              case 10:
                 if (!this._preloadedPosts[group.id]) {
-                  _context4.next = 11;
+                  _context4.next = 12;
                   break;
                 }
 
-                return _context4.abrupt('continue', 19);
+                return _context4.abrupt('continue', 20);
 
-              case 11:
+              case 12:
                 this._preloadedPosts[group.id] = true;
 
                 if (!(!this._glipPosts.postsMap[group.id] || force)) {
-                  _context4.next = 18;
+                  _context4.next = 19;
                   break;
                 }
 
-                _context4.next = 15;
+                _context4.next = 16;
                 return (0, _sleep2.default)(this._preloadPostsDelayTtl);
 
-              case 15:
+              case 16:
                 if (!(!this._glipPosts.postsMap[group.id] || force)) {
-                  _context4.next = 18;
+                  _context4.next = 19;
                   break;
                 }
 
-                _context4.next = 18;
+                _context4.next = 19;
                 return this._glipPosts.fetchPosts(group.id);
 
-              case 18:
+              case 19:
                 if (!this._glipPosts.readTimeMap[group.id]) {
                   this._glipPosts.updateReadTime(group.id, Date.now() - 1000 * 3600 * 2);
                 }
 
-              case 19:
+              case 20:
                 _iteratorNormalCompletion = true;
-                _context4.next = 5;
+                _context4.next = 6;
                 break;
 
-              case 22:
-                _context4.next = 28;
+              case 23:
+                _context4.next = 29;
                 break;
 
-              case 24:
-                _context4.prev = 24;
-                _context4.t0 = _context4['catch'](3);
+              case 25:
+                _context4.prev = 25;
+                _context4.t0 = _context4['catch'](4);
                 _didIteratorError = true;
                 _iteratorError = _context4.t0;
 
-              case 28:
-                _context4.prev = 28;
+              case 29:
                 _context4.prev = 29;
+                _context4.prev = 30;
 
                 if (!_iteratorNormalCompletion && _iterator.return) {
                   _iterator.return();
                 }
 
-              case 31:
-                _context4.prev = 31;
+              case 32:
+                _context4.prev = 32;
 
                 if (!_didIteratorError) {
-                  _context4.next = 34;
+                  _context4.next = 35;
                   break;
                 }
 
                 throw _iteratorError;
 
-              case 34:
-                return _context4.finish(31);
-
               case 35:
-                return _context4.finish(28);
+                return _context4.finish(32);
 
               case 36:
+                return _context4.finish(29);
+
+              case 37:
               case 'end':
                 return _context4.stop();
             }
           }
-        }, _callee4, this, [[3, 24, 28, 36], [29,, 31, 35]]);
+        }, _callee4, this, [[4, 25, 29, 37], [30,, 32, 36]]);
       }));
 
       function _preloadGroupPosts(_x3) {
@@ -937,14 +929,46 @@ var GlipGroups = (_dec = (0, _di.Module)({
       }
     }
   }, {
+    key: 'createTeam',
+    value: function () {
+      var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(name, members) {
+        var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'Team';
+        var group;
+        return _regenerator2.default.wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                _context9.next = 2;
+                return this._client.glip().groups().post({
+                  type: type,
+                  name: name,
+                  members: members,
+                  isPublic: true,
+                  description: ''
+                });
+
+              case 2:
+                group = _context9.sent;
+                return _context9.abrupt('return', group.id);
+
+              case 4:
+              case 'end':
+                return _context9.stop();
+            }
+          }
+        }, _callee9, this);
+      }));
+
+      function createTeam(_x6, _x7) {
+        return _ref11.apply(this, arguments);
+      }
+
+      return createTeam;
+    }()
+  }, {
     key: 'searchFilter',
     get: function get() {
       return this.state.searchFilter;
-    }
-  }, {
-    key: 'pageNumber',
-    get: function get() {
-      return this.state.pageNumber;
     }
   }, {
     key: 'data',
@@ -959,7 +983,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
   }, {
     key: 'currentGroupId',
     get: function get() {
-      return this._storage ? this._storage.getItem(this._currentGroupIdStorageKey) : this.state.currentGroupId;
+      return this.state.currentGroupId;
     }
   }, {
     key: 'status',
@@ -1045,15 +1069,12 @@ var GlipGroups = (_dec = (0, _di.Module)({
 
     return (0, _reselect.createSelector)(function () {
       return _this5.filteredGroups;
-    }, function () {
-      return _this5.pageNumber;
-    }, function (filteredGroups, pageNumber) {
-      var count = pageNumber * _this5._perPage;
+    }, function (filteredGroups) {
       var sortedGroups = filteredGroups.sort(function (a, b) {
         if (a.updatedTime === b.updatedTime) return 0;
         return a.updatedTime > b.updatedTime ? -1 : 1;
       });
-      return sortedGroups.slice(0, count);
+      return sortedGroups;
     });
   }
 }), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'uniqueMemberIds', [_getter2.default], {

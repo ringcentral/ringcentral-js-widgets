@@ -9,7 +9,6 @@ var _extends2 = require('babel-runtime/helpers/extends');
 var _extends3 = _interopRequireDefault(_extends2);
 
 exports.getDataReducer = getDataReducer;
-exports.getPageNumberReducer = getPageNumberReducer;
 exports.getSearchFilterReducer = getSearchFilterReducer;
 exports.getCurrentGroupIdReducer = getCurrentGroupIdReducer;
 exports.getTimestampReducer = getTimestampReducer;
@@ -50,31 +49,12 @@ function getDataReducer(types) {
   };
 }
 
-function getPageNumberReducer(types) {
-  return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-    var _ref2 = arguments[1];
-    var type = _ref2.type,
-        pageNumber = _ref2.pageNumber;
-
-    switch (type) {
-      case types.updateFilter:
-        if (pageNumber) {
-          return pageNumber;
-        }
-        return state;
-      default:
-        return state;
-    }
-  };
-}
-
 function getSearchFilterReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-    var _ref3 = arguments[1];
-    var type = _ref3.type,
-        searchFilter = _ref3.searchFilter;
+    var _ref2 = arguments[1];
+    var type = _ref2.type,
+        searchFilter = _ref2.searchFilter;
 
     switch (type) {
       case types.updateFilter:
@@ -91,9 +71,9 @@ function getSearchFilterReducer(types) {
 function getCurrentGroupIdReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    var _ref4 = arguments[1];
-    var type = _ref4.type,
-        groupId = _ref4.groupId;
+    var _ref3 = arguments[1];
+    var type = _ref3.type,
+        groupId = _ref3.groupId;
 
     switch (type) {
       case types.updateCurrentGroupId:
@@ -107,9 +87,9 @@ function getCurrentGroupIdReducer(types) {
 function getTimestampReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    var _ref5 = arguments[1];
-    var type = _ref5.type,
-        timestamp = _ref5.timestamp;
+    var _ref4 = arguments[1];
+    var type = _ref4.type,
+        timestamp = _ref4.timestamp;
 
     switch (type) {
       case types.fetchSuccess:
@@ -128,7 +108,7 @@ function getReducer(types) {
   return (0, _redux.combineReducers)((0, _extends3.default)({}, reducers, {
     status: (0, _getModuleStatusReducer2.default)(types),
     searchFilter: getSearchFilterReducer(types),
-    pageNumber: getPageNumberReducer(types)
+    currentGroupId: getCurrentGroupIdReducer(types)
   }));
 }
 //# sourceMappingURL=getReducer.js.map

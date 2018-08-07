@@ -103,6 +103,10 @@ function getGlipPostsStoreReducer(types) {
           oldPostIndex = newPosts.findIndex(function (p) {
             return p.id === oldRecordId;
           });
+        } else {
+          oldPostIndex = newPosts.findIndex(function (p) {
+            return p.id === record.id;
+          });
         }
         if (oldPostIndex > -1) {
           newPosts.splice(oldPostIndex, 1, record);
@@ -136,14 +140,16 @@ function getGlipPostsInputsReducer(types) {
     var _ref4 = arguments[1];
     var type = _ref4.type,
         groupId = _ref4.groupId,
-        textValue = _ref4.textValue;
+        textValue = _ref4.textValue,
+        mentions = _ref4.mentions;
 
     var newState = void 0;
     switch (type) {
       case types.updatePostInput:
         newState = (0, _extends3.default)({}, state);
         newState[groupId] = {
-          text: textValue
+          text: textValue,
+          mentions: mentions
         };
         return newState;
       default:

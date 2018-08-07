@@ -387,21 +387,30 @@ var GlipPosts = (_dec = (0, _di.Module)({
     value: function () {
       var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(_ref7) {
         var groupId = _ref7.groupId;
-        var text, fakeId, fakeRecord, record;
+        var text, mentions, fakeId, fakeRecord, record;
         return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
                 text = this.postInputs[groupId] && this.postInputs[groupId].text;
+                mentions = this.postInputs[groupId] && this.postInputs[groupId].mentions;
 
                 if (!((0, _isBlank2.default)(text) || !groupId)) {
-                  _context6.next = 3;
+                  _context6.next = 4;
                   break;
                 }
 
                 return _context6.abrupt('return');
 
-              case 3:
+              case 4:
+                if (mentions && mentions.length > 0) {
+                  mentions.forEach(function (mention) {
+                    if (!mention.matcherId) {
+                      return;
+                    }
+                    text = text.replace(mention.mention, '![:Person](' + mention.matcherId + ')');
+                  });
+                }
                 fakeId = '' + Date.now();
                 fakeRecord = {
                   id: fakeId,
@@ -412,20 +421,20 @@ var GlipPosts = (_dec = (0, _di.Module)({
                   text: text,
                   type: 'TextMessage'
                 };
-                _context6.prev = 5;
+                _context6.prev = 7;
 
                 this.store.dispatch({
                   type: this.actionTypes.create,
                   groupId: groupId,
                   record: fakeRecord
                 });
-                this.updatePostInput({ text: '', groupId: groupId });
-                _context6.next = 10;
+                this.updatePostInput({ text: '', groupId: groupId, mentions: [] });
+                _context6.next = 12;
                 return this._client.glip().groups(groupId).posts().post({
                   text: text
                 });
 
-              case 10:
+              case 12:
                 record = _context6.sent;
 
                 this.store.dispatch({
@@ -434,12 +443,12 @@ var GlipPosts = (_dec = (0, _di.Module)({
                   record: record,
                   oldRecordId: fakeId
                 });
-                _context6.next = 19;
+                _context6.next = 21;
                 break;
 
-              case 14:
-                _context6.prev = 14;
-                _context6.t0 = _context6['catch'](5);
+              case 16:
+                _context6.prev = 16;
+                _context6.t0 = _context6['catch'](7);
 
                 fakeRecord.sendStatus = _status2.default.createError;
                 this.store.dispatch({
@@ -448,14 +457,14 @@ var GlipPosts = (_dec = (0, _di.Module)({
                   groupId: groupId,
                   oldRecordId: fakeId
                 });
-                this.updatePostInput({ text: text, groupId: groupId });
+                this.updatePostInput({ text: text, groupId: groupId, mentions: mentions });
 
-              case 19:
+              case 21:
               case 'end':
                 return _context6.stop();
             }
           }
-        }, _callee6, this, [[5, 14]]);
+        }, _callee6, this, [[7, 16]]);
       }));
 
       function create(_x7) {
@@ -526,11 +535,13 @@ var GlipPosts = (_dec = (0, _di.Module)({
     key: 'updatePostInput',
     value: function updatePostInput(_ref11) {
       var text = _ref11.text,
-          groupId = _ref11.groupId;
+          groupId = _ref11.groupId,
+          mentions = _ref11.mentions;
 
       this.store.dispatch({
         type: this.actionTypes.updatePostInput,
         groupId: groupId,
+        mentions: mentions,
         textValue: text
       });
     }
