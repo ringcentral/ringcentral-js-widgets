@@ -1,4 +1,5 @@
 export default {
+  interactive: true,
   supportedLocales: [
     'en-US',
     'en-GB',
