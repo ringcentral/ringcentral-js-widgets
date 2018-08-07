@@ -1,0 +1,36 @@
+@import 'ringcentral-widgets/lib/commonStyles/full-size';
+@import 'ringcentral-widgets/lib/commonStyles/colors.scss';
+
+.root {
+  @include full-size;
+  padding-top: 0;
+  padding-bottom: 0;
+  background: $egg;
+}
+
+.header {
+  padding: 15px 20px;
+  line-height: 20px;
+  border-bottom: solid 1px $silver;
+  box-sizing: border-box;
+}
+
+.backIcon {
+  display: block;
+  float: left;
+  height: 18px;
+  width: auto;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.content {
+  padding: 0 0 0 20px;
+  background: $snow;
+  border-bottom: solid 1px $silver;
+}
+
+.inputArea {
+  box-sizing: border-box;
+  padding: 0 20px;
+}
