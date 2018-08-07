@@ -2,6 +2,7 @@ import * as mock from 'ringcentral-integration/integration-test/mock';
 import { CallCtrlPage } from 'ringcentral-widgets/containers/CallCtrlPage';
 import MergeInfo from 'ringcentral-widgets/components/ActiveCallPanel/MergeInfo';
 import CallAvatar from 'ringcentral-widgets/components/CallAvatar';
+import DurationCounter from 'ringcentral-widgets/components/DurationCounter';
 import deviceBody from './data/device';
 import activeCallsBody from './data/activeCalls';
 import extensionListBody from './data/extension';
@@ -53,7 +54,7 @@ async function mockAddCall(contactA, contactB) {
   await call({
     phoneNumber: contactA.phoneNumbers[0].phoneNumber
   });
-  const sessionA = phone.webphone._sessions.values().next().value;
+  const sessionA = phone.webphone.sessions[0];
   await phone.webphone.hold(sessionA.id);
   const callCtrlPage = wrapper.find(CallCtrlPage);
   await callCtrlPage.props().onAdd(sessionA.id);
@@ -97,20 +98,42 @@ describe('RCI-1071: simplified call control page', () => {
       await mockAddCall(contactA, contactB);
       expect(phone.routerInteraction.currentPath).toEqual('/conferenceCall/mergeCtrl');
 
-      const callinfo = wrapper.find(MergeInfo);
-      expect(callinfo).toHaveLength(1);
+      const mergeInfo = wrapper.find(MergeInfo);
+      expect(mergeInfo).toHaveLength(1);
 
-      const {
-        currentCallAvatarUrl,
-        currentCallTitle,
-        lastCallInfo
-      } = callinfo.props();
-
-      expect(lastCallInfo.calleeType).toEqual('calleeTypes-contacts');
+      const callAvatarA = mergeInfo.find(CallAvatar).at(0);
+      const callAvatarB = mergeInfo.find(CallAvatar).at(1);
       // TODO: mock contacts avatar
-      // const callAvatar = callinfo.find(CallAvatar).first();
       // expect(callAvatar.props().avatarUrl).toEqual('avatarUrl');
-      expect(currentCallAvatarUrl).toBeNull();
-      expect(currentCallTitle).toEqual('Unknown');
+      expect(mergeInfo.find('.callee_name').text()).toEqual(contactA.name);
+      expect(mergeInfo.find('.callee_status').text()).toEqual('On Hold');
+      expect(callAvatarB.props().avatarUrl).toBeNull();
+      expect(mergeInfo.find('.callee_name_active').text()).toEqual('Unknown');
+      expect(mergeInfo.find(DurationCounter)).toHaveLength(1);
     });
+  test('#2 Contact A hangs up the call', async () => {
+    await mockContacts();
+    contactA = phone.contacts.allContacts.find(item => item.type === 'company' && item.hasProfileImage);
+    contactB = phone.contacts.allContacts.find(item => item.type === 'personal' && !item.hasProfileImage);
+    await mockAddCall(contactA, contactB);
+    const sessionId = phone.webphone.sessions[1].id;
+    const sessionA = phone.webphone._sessions.get(sessionId);
+    sessionA.terminate();
+    wrapper.update();
+
+    const mergeInfo = wrapper.find(MergeInfo);
+    expect(mergeInfo).toHaveLength(1);
+
+    const callAvatarA = mergeInfo.find(CallAvatar).at(0);
+    const callAvatarB = mergeInfo.find(CallAvatar).at(1);
+    const domCalleeStatus = mergeInfo.find('.callee_status');
+    // TODO: mock contacts avatar
+    // expect(callAvatarA.props().avatarUrl).toEqual('');
+    expect(mergeInfo.find('.callee_name').text()).toEqual(contactA.name);
+    expect(domCalleeStatus.text()).toEqual('Disconnected');
+    expect(domCalleeStatus.props().className).toContain('callee_status_disconnected');
+    expect(callAvatarB.props().avatarUrl).toBeNull();
+    expect(mergeInfo.find('.callee_name_active').text()).toEqual('Unknown');
+    expect(mergeInfo.find(DurationCounter)).toHaveLength(1);
+  })
 });

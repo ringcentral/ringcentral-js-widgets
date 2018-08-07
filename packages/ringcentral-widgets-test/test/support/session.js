@@ -61,6 +61,7 @@ export default class Session {
   reject() {
     this.trigger('rejected');
   }
+
   terminate() {
     this.trigger('terminated');
   }
