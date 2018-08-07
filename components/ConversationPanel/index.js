@@ -89,7 +89,7 @@ var ConversationPanel = function (_Component) {
     };
 
     _this.onSelectContact = function (value, idx) {
-      var selected = _this.showContactDisplayPlaceholder ? parseInt(idx, 10) - 1 : parseInt(idx, 10);
+      var selected = _this.props.showContactDisplayPlaceholder ? parseInt(idx, 10) - 1 : parseInt(idx, 10);
       _this._userSelection = true;
       _this.setState({
         selected: selected
