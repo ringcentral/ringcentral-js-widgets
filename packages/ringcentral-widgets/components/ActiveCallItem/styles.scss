@@ -1,11 +1,9 @@
 @import '../../lib/commonStyles/colors';
 @import '../../lib/commonStyles/fonts';
-
 // TODO: fix the whole style with flex
 $tmpWidth: calc(100% - 53px - 7px - 98px - 20px);
 $fixed-icon-width: 21px;
 $fixed-avatar-width:35px;
-
 .root {
   display: block;
   background: #fff;
@@ -14,10 +12,10 @@ $fixed-avatar-width:35px;
   margin-bottom: 7px;
   min-height: 62px;
 }
+
 // .root:first-child {
 //   margin-top: -5px;
 // }
-
 .wrapper {
   position: relative;
   padding: 13px 20px 18px;
@@ -44,8 +42,7 @@ $fixed-avatar-width:35px;
   max-width: calc(100% - #{$fixed-icon-width});
   padding-left: 6px;
   padding-right: 8px;
-  box-sizing: border-box;
-  // Add bellow style if you have calllog button on callitem
+  box-sizing: border-box; // Add bellow style if you have calllog button on callitem
   // max-width: calc(100% - 23px - 21px);
 }
 
@@ -71,8 +68,7 @@ $fixed-avatar-width:35px;
 }
 
 .contactDisplay {
-  line-height: 25px;
-  // max-width: $tmpWidth;
+  line-height: 25px; // max-width: $tmpWidth;
   margin-bottom: 5px;
   button {
     font-size: 13px;
@@ -83,7 +79,7 @@ $fixed-avatar-width:35px;
   }
 }
 
-.conferenceContactDisplay{
+.conferenceContactDisplay {
   // margin: auto;
   line-height: 50px;
 }
@@ -96,7 +92,8 @@ $fixed-avatar-width:35px;
 }
 
 .webphoneButtons {
-  .webphoneButton + .webphoneButton{
+  text-align: right;
+  .webphoneButton+.webphoneButton {
     margin-left: 5px;
   }
 }
@@ -122,6 +119,7 @@ $fixed-avatar-width:35px;
     fill: $primary-color;
   }
 }
+
 .disabled,
 .disabled * {
   circle {
@@ -152,8 +150,7 @@ $fixed-avatar-width:35px;
 .callDetail {
   font-size: 12px;
   top: 30px;
-  left: 45px;
-  // max-width: $tmpWidth;
+  left: 45px; // max-width: $tmpWidth;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -216,13 +213,13 @@ $fixed-avatar-width:35px;
   margin-right: auto;
   color: $primary-color;
   overflow: hidden;
-
   .icon {
     display: block;
     font-size: $fixed-avatar-width;
     opacity: 0.3;
   }
 }
-.avatar+.infoWrapper{
+
+.avatar+.infoWrapper {
   margin-left: 4px;
 }
