@@ -93,6 +93,7 @@ $fixed-avatar-width:35px;
 
 .webphoneButtons {
   text-align: right;
+  white-space: nowrap;
   .webphoneButton+.webphoneButton {
     margin-left: 5px;
   }
