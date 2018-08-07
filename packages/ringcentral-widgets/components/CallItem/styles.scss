@@ -1,5 +1,5 @@
 @import '../../lib/commonStyles/colors';
-$fixed-icon-width: 73px; // temporary fix the issue, waiting for refacotring
+$fixed-icon-width: 21px;
 .root {
   min-height: 62px;
   border-bottom: 1px solid #e2e2e2;
@@ -31,7 +31,7 @@ $fixed-icon-width: 73px; // temporary fix the issue, waiting for refacotring
   justify-content: center;
   flex: 1;
   height: 100%;
-  max-width: calc(100% - #{$fixed-icon-width});
+  max-width: calc(100% - #{$fixed-icon-width}); // temporary fix the issue, waiting for refacotring
   padding-left: 6px;
   padding-right: 8px;
   box-sizing: border-box; // Add bellow style if you have calllog button on callitem
