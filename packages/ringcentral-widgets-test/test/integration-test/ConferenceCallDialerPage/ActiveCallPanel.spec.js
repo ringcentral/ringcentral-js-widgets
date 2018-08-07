@@ -104,7 +104,6 @@ describe('RCI-1071: simplified call control page', () => {
       const callAvatarA = mergeInfo.find(CallAvatar).at(0);
       const callAvatarB = mergeInfo.find(CallAvatar).at(1);
       // TODO: mock contacts avatar
-      // const callAvatar = mergeInfo.find(CallAvatar).first();
       // expect(callAvatar.props().avatarUrl).toEqual('avatarUrl');
       expect(mergeInfo.find('.callee_name').text()).toEqual(contactA.name);
       expect(mergeInfo.find('.callee_status').text()).toEqual('On Hold');
@@ -125,10 +124,10 @@ describe('RCI-1071: simplified call control page', () => {
     const mergeInfo = wrapper.find(MergeInfo);
     expect(mergeInfo).toHaveLength(1);
 
-    // TODO: mock contacts avatar
     const callAvatarA = mergeInfo.find(CallAvatar).at(0);
     const callAvatarB = mergeInfo.find(CallAvatar).at(1);
     const domCalleeStatus = mergeInfo.find('.callee_status');
+    // TODO: mock contacts avatar
     // expect(callAvatarA.props().avatarUrl).toEqual('');
     expect(mergeInfo.find('.callee_name').text()).toEqual(contactA.name);
     expect(domCalleeStatus.text()).toEqual('Disconnected');
