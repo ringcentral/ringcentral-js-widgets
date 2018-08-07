@@ -655,7 +655,6 @@ var Webphone = (_dec = (0, _di.Module)({
       this._webphone.userAgent.on('registrationFailed', onRegistrationFailed);
       this._webphone.userAgent.on('invite', function (session) {
         console.log('UA invite');
-        (0, _webphoneHelper.extractHeadersData)(session, session.request.headers);
         _this3._onInvite(session);
       });
     }
@@ -995,7 +994,7 @@ var Webphone = (_dec = (0, _di.Module)({
       session.on('unhold', function () {
         console.log('Event: unhold');
         session.callStatus = _sessionStatus2.default.connected;
-        session.lastActiveTime = +new Date();
+        session.lastActiveTime = Date.now();
         _this5._updateSessions();
       });
       session.mediaHandler.on('userMediaFailed', function () {
@@ -1008,8 +1007,10 @@ var Webphone = (_dec = (0, _di.Module)({
       var _this6 = this;
 
       session.creationTime = Date.now();
+      session.lastActiveTime = Date.now();
       session.direction = _callDirections2.default.inbound;
       session.callStatus = _sessionStatus2.default.connecting;
+      (0, _webphoneHelper.extractHeadersData)(session, session.request.headers);
       session.on('rejected', function () {
         console.log('Event: Rejected');
         _this6._onCallEnd(session);
@@ -2108,13 +2109,14 @@ var Webphone = (_dec = (0, _di.Module)({
                 session.direction = _callDirections2.default.outbound;
                 session.callStatus = _sessionStatus2.default.connecting;
                 session.creationTime = Date.now();
+                session.lastActiveTime = Date.now();
                 session.fromNumber = fromNumber;
                 this._onAccepted(session);
                 this._holdOtherSession(session.id);
                 this._beforeCallStart(session);
                 return _context26.abrupt('return', session);
 
-              case 18:
+              case 19:
               case 'end':
                 return _context26.stop();
             }
