@@ -806,9 +806,6 @@ export default class ConferenceCall extends RcModule {
       : [session];
     await this.mergeToConference(webphoneSessions);
     const conferenceData = Object.values(this.conferences)[0];
-    const conferenceSession = this._webphone._sessions.get(conferenceData.sessionId);
-    const isConferenceOnhold = conferenceSession.isOnHold().local;
-
     if (!conferenceData) {
       await this._webphone.resume(session.id);
       return null;
@@ -819,6 +816,8 @@ export default class ConferenceCall extends RcModule {
       return conferenceData;
     }
 
+    const conferenceSession = this._webphone._sessions.get(conferenceData.sessionId);
+    const isConferenceOnhold = conferenceSession.isOnHold().local;
     if (isConferenceOnhold) {
       /**
        * because session termination operation in conferenceCall._mergeToConference,
@@ -846,14 +845,15 @@ export default class ConferenceCall extends RcModule {
       : [session];
     await this.mergeToConference(webphoneSessions);
     const conferenceData = Object.values(this.conferences)[0];
-    const conferenceSession = this._webphone._sessions.get(conferenceData.sessionId);
-    const isConferenceOnhold = conferenceSession.isOnHold().local;
-
+    if (!conferenceData) {
+      return;
+    }
     if (conferenceData && isCurrentOnhold) {
       this._webphone.hold(conferenceData.sessionId);
       return;
     }
-
+    const conferenceSession = this._webphone._sessions.get(conferenceData.sessionId);
+    const isConferenceOnhold = conferenceSession.isOnHold().local;
     if (conferenceData && isConferenceOnhold) {
       /**
        * because session termination operation in conferenceCall._mergeToConference,
