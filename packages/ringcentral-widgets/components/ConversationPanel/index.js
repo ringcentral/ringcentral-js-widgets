@@ -72,7 +72,7 @@ class ConversationPanel extends Component {
   }
 
   onSelectContact = (value, idx) => {
-    const selected = this.showContactDisplayPlaceholder
+    const selected = this.props.showContactDisplayPlaceholder
       ? parseInt(idx, 10) - 1 : parseInt(idx, 10);
     this._userSelection = true;
     this.setState({
