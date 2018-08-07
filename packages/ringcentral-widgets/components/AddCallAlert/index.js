@@ -18,5 +18,5 @@ AddCallAlert.propTypes = {
   }).isRequired,
 };
 AddCallAlert.handleMessage = ({ message }) => (
-  message !== recordStatus.idle
+  message === recordStatus.idle
 );
