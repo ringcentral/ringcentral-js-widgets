@@ -71,7 +71,8 @@ var MergeInfo = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (MergeInfo.__proto__ || (0, _getPrototypeOf2.default)(MergeInfo)).call(this, props));
 
     _this.state = {
-      lastCallAvatar: null
+      lastCallAvatar: null,
+      lastCallInfoTimeout: false
     };
     _this.mounted = false;
     return _this;
@@ -100,6 +101,12 @@ var MergeInfo = function (_Component) {
             });
           }
         });
+      } else {
+        setTimeout(function () {
+          _this2.setState({
+            lastCallInfoTimeout: true
+          });
+        }, this.props.checkLastCallInfoTimeout);
       }
     }
   }, {
@@ -118,14 +125,18 @@ var MergeInfo = function (_Component) {
       if (!lastCallInfo) {
         return null;
       }
-      var lastCallAvatar = this.state.lastCallAvatar;
+      var _state = this.state,
+          lastCallAvatar = _state.lastCallAvatar,
+          lastCallInfoTimeout = _state.lastCallInfoTimeout;
 
+      var isLastCallInfoReady = lastCallInfoTimeout || !!lastCallInfo && (!!lastCallInfo.name || !!lastCallInfo.phoneNumber);
       var isLastCallEnded = lastCallInfo && lastCallInfo.status === _sessionStatus2.default.finished;
       var statusClasses = (0, _classnames3.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, _styles2.default.callee_status, true), (0, _defineProperty3.default)(_classnames, _styles2.default.callee_status_disconnected, !!isLastCallEnded), _classnames));
 
       var isOnConferenCall = !!(lastCallInfo && lastCallInfo.calleeType === _calleeTypes2.default.conference);
       var isContacts = !!(lastCallInfo && lastCallInfo.calleeType === _calleeTypes2.default.contacts);
       var calleeName = isContacts ? lastCallInfo.name : formatPhone(lastCallInfo.phoneNumber);
+      var loadingText = _i18n2.default.getString('loading');
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.mergeInfo },
@@ -138,10 +149,11 @@ var MergeInfo = function (_Component) {
             _react2.default.createElement(_CallAvatar2.default, {
               avatarUrl: isContacts && !lastCallInfo.avatarUrl ? lastCallAvatar : lastCallInfo.avatarUrl,
               extraNum: isOnConferenCall ? lastCallInfo.extraNum : 0,
-              isOnConferenceCall: isOnConferenCall
+              isOnConferenceCall: isOnConferenCall,
+              spinnerMode: !isLastCallInfoReady
             })
           ),
-          _react2.default.createElement(
+          isLastCallInfoReady && _react2.default.createElement(
             'div',
             { className: _styles2.default.callee_name },
             isOnConferenCall ? _react2.default.createElement(
@@ -155,7 +167,16 @@ var MergeInfo = function (_Component) {
               calleeName
             )
           ),
-          _react2.default.createElement(
+          !isLastCallInfoReady && _react2.default.createElement(
+            'div',
+            { className: _styles2.default.callee_name },
+            _react2.default.createElement(
+              'span',
+              { title: loadingText },
+              loadingText
+            )
+          ),
+          isLastCallInfoReady && _react2.default.createElement(
             'div',
             { className: statusClasses },
             lastCallInfo.status === _sessionStatus2.default.finished ? _i18n2.default.getString('disconnected', currentLocale) : _i18n2.default.getString('onHold', currentLocale)
@@ -197,7 +218,8 @@ MergeInfo.propTypes = {
   currentCallTitle: _propTypes2.default.string,
   currentCallAvatarUrl: _propTypes2.default.string,
   formatPhone: _propTypes2.default.func,
-  getAvatarUrl: _propTypes2.default.func
+  getAvatarUrl: _propTypes2.default.func,
+  checkLastCallInfoTimeout: _propTypes2.default.number
 };
 
 MergeInfo.defaultProps = {
@@ -209,7 +231,12 @@ MergeInfo.defaultProps = {
   },
   getAvatarUrl: function getAvatarUrl() {
     return null;
-  }
+  },
+
+  /**
+   * The timeout seconds to check if the last call info is received.
+   */
+  checkLastCallInfoTimeout: 30 * 1000
 };
 
 exports.default = MergeInfo;

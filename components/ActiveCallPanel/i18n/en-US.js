@@ -7,6 +7,7 @@ exports.default = {
   conferenceCall: 'Conference Call',
   onHold: 'On Hold',
   unknow: 'Unknown',
-  disconnected: 'Disconnected'
+  disconnected: 'Disconnected',
+  loading: 'Loading ...'
 };
 //# sourceMappingURL=en-US.js.map
