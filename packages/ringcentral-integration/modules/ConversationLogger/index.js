@@ -381,6 +381,7 @@ export default class ConversationLogger extends LoggerBase {
   async logConversation({
     conversationId, correspondentEntity, redirect, ...options
   }) {
+    this.store.dispatch({ type: this.actionTypes.logConversation });
     if (this.conversationLogMap[conversationId]) {
       await Promise.all(Object.keys(this.conversationLogMap[conversationId])
         .map(date => this.conversationLogMap[conversationId][date])
