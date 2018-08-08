@@ -801,7 +801,7 @@ export default class ConferenceCall extends RcModule {
   }
 
   @proxify
-  async mergeSession({ sessionId }) {
+  async mergeSession(sessionId) {
     this.setMergeParty({
       toSessionId: sessionId,
     });

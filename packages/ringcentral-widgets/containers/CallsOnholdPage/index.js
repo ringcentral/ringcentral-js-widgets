@@ -53,7 +53,7 @@ function mapToFunctions(_, {
     onBackButtonClick,
     async onMerge(sessionId) {
       onBackButtonClick();
-      await conferenceCall.mergeSession({ sessionId });
+      await conferenceCall.mergeSession(sessionId);
     },
     onAdd() {
       routerInteraction.push(`/conferenceCall/dialer/${params.fromNumber}`);
