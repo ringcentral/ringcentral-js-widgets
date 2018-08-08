@@ -334,7 +334,7 @@ ConversationPanel.defaultProps = {
   messageSubjectRenderer: undefined,
   perPage: undefined,
   loadConversation: () => null,
-  renderExtraButton: () => null,
+  renderExtraButton: undefined,
   loadingNextPage: false
 };
 
