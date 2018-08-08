@@ -278,7 +278,7 @@ var ActiveCallPad = function (_Component) {
         icon: _Record2.default,
         title: this.props.recordStatus === _recordStatus2.default.recording ? _i18n2.default.getString('stopRecord', this.props.currentLocale) : _i18n2.default.getString('record', this.props.currentLocale),
         active: this.props.recordStatus === _recordStatus2.default.recording,
-        disabled: this.props.isOnHold || this.props.recordStatus === _recordStatus2.default.pending || this.props.layout === _callCtrlLayouts2.default.mergeCtrl,
+        disabled: this.props.isOnHold || this.props.recordStatus === _recordStatus2.default.pending || this.props.layout === _callCtrlLayouts2.default.mergeCtrl || this.props.recordStatus === _recordStatus2.default.noAccess,
         onClick: this.props.recordStatus === _recordStatus2.default.recording ? this.props.onStopRecord : this.props.onRecord
       });
 
