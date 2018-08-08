@@ -1494,7 +1494,7 @@ var Webphone = (_dec = (0, _di.Module)({
                   message: _webphoneErrors2.default.recordDisabled
                 });
                 // Disabled phone recording
-                session.recordStatus = _recordStatus2.default.pending;
+                session.recordStatus = _recordStatus2.default.noAccess;
                 this._updateSessions();
                 return _context15.abrupt('return');
 
