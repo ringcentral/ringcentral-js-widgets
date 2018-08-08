@@ -34,7 +34,6 @@ function mapToFunctions(_, {
   params,
   phone,
   phone: {
-    webphone,
     conferenceCall,
     routerInteraction,
   },
@@ -51,12 +50,10 @@ function mapToFunctions(_, {
   };
   return {
     ...baseProps,
+    onBackButtonClick,
     async onMerge(sessionId) {
       onBackButtonClick();
-      await conferenceCall.onMergeOnhold({ sessionId });
-    },
-    onBackButtonClick() {
-      routerInteraction.goBack();
+      await conferenceCall.mergeSession({ sessionId });
     },
     onAdd() {
       routerInteraction.push(`/conferenceCall/dialer/${params.fromNumber}`);
