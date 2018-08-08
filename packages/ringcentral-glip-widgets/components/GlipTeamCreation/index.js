@@ -81,7 +81,7 @@ export default class GlipTeamCreationModal extends Component {
         error: null
       });
       const oldIndex = this.state.selectedContacts
-                           .findIndex(c => c.email === contact.email);
+        .findIndex(c => c.email === contact.email);
       if (oldIndex > -1) {
         return;
       }
@@ -124,13 +124,13 @@ export default class GlipTeamCreationModal extends Component {
           className={styles.teamName}
           value={this.state.teamName}
           onChange={this.updateTeamName}
-          placeholder={'Team name'}
+          placeholder="Team name"
         />
         <SearchInput
           className={styles.searchInput}
           value={this.props.searchFilter}
           onChange={this.updateSeachString}
-          placeholder={'Search and add people..'}
+          placeholder="Search and add people.."
         />
         <div className={styles.selectedContacts}>
           {

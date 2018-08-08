@@ -30,6 +30,8 @@
     "ringcentral-widgets": "^0.8.3"
   },
   "devDependencies": {
+    "@ringcentral-integration/locale-loader": "^2.0.0",
+    "locale-settings": "0.0.1",
     "autoprefixer": "^8.4.1",
     "execa": "^0.10.0",
     "fs-extra": "^6.0.0",
@@ -47,8 +49,6 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "core-js": "^2.5.6",
-    "dedent": "^0.7.0",
-    "normalize-css": "^2.3.1",
     "prop-types": "^15.5.10",
     "ramda": "^0.25.0",
     "react-virtualized": "^9.19.1"
