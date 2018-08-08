@@ -8,8 +8,8 @@ const packageNames = [
   '@ringcentral-integration/phone-number'
 ];
 const releaseBranchNames = [
-  'commons-release',
-  'widgets-release',
+  'zendesk-commons-release',
+  'zendesk-widgets-release',
   'i18n-release',
   'locale-loader-release',
   'phone-number-release'
