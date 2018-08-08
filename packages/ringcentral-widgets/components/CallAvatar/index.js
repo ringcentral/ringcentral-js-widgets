@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import isBase64 from 'is-base64';
 import PropTypes from 'prop-types';
 import uuid from 'uuid';
 import styles from './styles.scss';
@@ -23,10 +22,12 @@ class CallAvatar extends Component {
 
   loadImg(props = this.props) {
     const { avatarUrl } = props;
-    if (isBase64(avatarUrl) || isBlobURL(avatarUrl)) {
+
+    if (isBlobURL(avatarUrl)) {
       this.setState({
         avatarUrl
       });
+      return;
     }
 
     // means we have to load it
@@ -57,11 +58,7 @@ class CallAvatar extends Component {
   }
 
   componentWillMount() {
-    const { avatarUrl } = this.props;
-
-    if (isBase64(avatarUrl) || isBlobURL(avatarUrl)) {
-      this.loadImg();
-    }
+    this.loadImg();
   }
 
   componentDidMount() {
