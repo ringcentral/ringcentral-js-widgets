@@ -49,7 +49,7 @@ class MergeInfo extends Component {
     if (
       lastCallInfo && lastCallInfo.calleeType !== calleeTypes.conference
     ) {
-      const isSimplifiedCallAndLastCallInfoNotReady = !lastCallInfo || (
+      const isSimplifiedCallAndLastCallInfoNotReady = (
         !lastCallInfo.name || !lastCallInfo.phoneNumber
       );
 
