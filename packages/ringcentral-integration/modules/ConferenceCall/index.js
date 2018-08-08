@@ -827,17 +827,13 @@ export default class ConferenceCall extends RcModule {
       return null;
     }
 
-    if (session.isOnHold) {
-      this._webphone.hold(conferenceData.sessionId);
-      return conferenceData;
-    }
-
-    const conferenceSession = find(
-      x => x.id === conferenceData.sessionId,
-      this._webphone.sessions
-    );
-    if (conferenceSession.isOnHold) {
-      this._webphone.resume(conferenceData.sessionId);
+    const currentSession = this._webphone.activeSession;
+    if (currentSession) {
+      if (currentSession.isOnHold) {
+        this._webphone.hold(conferenceData.sessionId);
+      } else {
+        this._webphone.resume(conferenceData.sessionId);
+      }
     }
 
     return conferenceData;
