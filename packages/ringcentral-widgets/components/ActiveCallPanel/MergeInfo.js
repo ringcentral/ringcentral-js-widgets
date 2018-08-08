@@ -19,6 +19,9 @@ class MergeInfo extends Component {
 
   componentWillUnmount() {
     this.mounted = false;
+    if (this.timeout_clock) {
+      clearTimeout(this.timeout_clock);
+    }
   }
 
   componentDidMount() {
@@ -32,6 +35,7 @@ class MergeInfo extends Component {
           });
         }
       });
+<<<<<<< HEAD
     } else {
       setTimeout(() => {
         if (this.mounted) {
@@ -40,6 +44,27 @@ class MergeInfo extends Component {
           });
         }
       }, this.props.checkLastCallInfoTimeout);
+=======
+    }
+    if (
+      lastCallInfo && lastCallInfo.calleeType !== calleeTypes.conference
+    ) {
+      const isSimplifiedCallAndLastCallInfoNotReady = !lastCallInfo || (
+        !lastCallInfo.name || !lastCallInfo.phoneNumber
+      );
+
+      if (isSimplifiedCallAndLastCallInfoNotReady) {
+        this.timeout_clock = setTimeout(() => {
+          if (this.mounted) {
+            this.setState({
+              lastCallInfoTimeout: true
+            });
+          }
+        }, this.props.checkLastCallInfoTimeout);
+      } else if (this.timeout_clock) {
+        clearTimeout(this.timeout_clock);
+      }
+>>>>>>> fix(RCINT-8274): fix the loading text is displaying when it is on conference call in simplified call control page
     }
   }
 
@@ -87,7 +112,7 @@ class MergeInfo extends Component {
             />
           </div>
           {
-            isLastCallInfoReady && (
+            (isLastCallInfoReady || (!isLastCallInfoReady && isOnConferenCall)) && (
               <div className={styles.callee_name}>
                 {
                   isOnConferenCall
@@ -104,7 +129,7 @@ class MergeInfo extends Component {
             )
           }
           {
-            !isLastCallInfoReady && (
+            (!isLastCallInfoReady && !isOnConferenCall) && (
               <div className={styles.callee_name}>
                 <span title={loadingText}>{loadingText}</span>
               </div>
@@ -112,7 +137,7 @@ class MergeInfo extends Component {
           }
 
           {
-            isLastCallInfoReady && (
+            (isLastCallInfoReady || (!isLastCallInfoReady && isOnConferenCall)) && (
               <div className={statusClasses}>
                 {
                   lastCallInfo.status === sessionStatus.finished
