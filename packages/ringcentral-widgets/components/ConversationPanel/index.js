@@ -223,7 +223,7 @@ class ConversationPanel extends Component {
           isLogging: isLogging || this.state.isLogging,
         }
       ) : null;
-    const logButton = this.props.onLogConversation && !extraButton ?
+    const logButton = this.props.onLogConversation && !this.props.renderExtraButton ?
       (
         <LogButton
           className={styles.logButton}
