@@ -46,6 +46,12 @@ var _Spinner2 = _interopRequireDefault(_Spinner);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var REGEXP_BLOB_URL = /^blob:.+\/[\w-]{36,}(?:#.+)?$/;
+
+function isBlobURL(value) {
+  return REGEXP_BLOB_URL.test(value);
+}
+
 var CallAvatar = function (_Component) {
   (0, _inherits3.default)(CallAvatar, _Component);
 
@@ -68,19 +74,29 @@ var CallAvatar = function (_Component) {
       var _this2 = this;
 
       var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
+      var avatarUrl = props.avatarUrl;
 
+
+      if (isBlobURL(avatarUrl)) {
+        this.setState({
+          avatarUrl: avatarUrl
+        });
+        return;
+      }
+
+      // means we have to load it
       if (!this._mounted) {
         return;
       }
-      if (props.avatarUrl) {
+      if (avatarUrl) {
         var $img = document.createElement('img');
-        $img.src = props.avatarUrl;
+        $img.src = avatarUrl;
         $img.onload = function () {
           if (!_this2._mounted) {
             return;
           }
           _this2.setState({
-            avatarUrl: props.avatarUrl
+            avatarUrl: avatarUrl
           });
         };
         $img.onerror = function () {
@@ -95,16 +111,23 @@ var CallAvatar = function (_Component) {
       }
     }
   }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this._mounted = true;
+    key: 'componentWillMount',
+    value: function componentWillMount() {
       this.loadImg();
     }
   }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this._mounted = true;
+      if (!this.state.avatarUrl) {
+        this.loadImg();
+      }
+    }
+  }, {
     key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProp) {
-      if (nextProp.avatarUrl !== this.props.avatarUrl) {
-        this.loadImg(nextProp);
+    value: function componentWillReceiveProps(nextProps) {
+      if (nextProps.avatarUrl !== this.props.avatarUrl) {
+        this.loadImg(nextProps);
       }
     }
   }, {
