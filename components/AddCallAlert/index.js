@@ -41,6 +41,6 @@ AddCallAlert.propTypes = {
 };
 AddCallAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
-  return message !== _recordStatus2.default.idle;
+  return message === _recordStatus2.default.pending || message === _recordStatus2.default.recording;
 };
 //# sourceMappingURL=index.js.map
