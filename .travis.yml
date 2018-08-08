@@ -113,6 +113,8 @@ jobs:
         provider: script
         skip_cleanup: true
         script: yarn commons:start-release
+        on: 
+          branch: zendesk-GA-regression
     - stage: zendesk regression widgets script release
       if: branch = zendesk-GA-regression
       node_js: "8"
@@ -121,3 +123,5 @@ jobs:
         provider: script
         skip_cleanup: true
         script: yarn widgets:start-release
+        on: 
+          branch: zendesk-GA-regression
