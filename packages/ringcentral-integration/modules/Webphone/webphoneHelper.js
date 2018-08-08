@@ -118,6 +118,7 @@ export function isConferenceSession(session) {
 
 export function isRecording(session) {
   return !!(
-    session && session.recordStatus && session.recordStatus !== recordStatus.idle
+    session && session.recordStatus === recordStatus.pending ||
+    session && session.recordStatus === recordStatus.recording
   );
 }

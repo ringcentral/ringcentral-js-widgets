@@ -190,6 +190,7 @@ class ActiveCallPad extends Component {
           this.props.isOnHold
           || this.props.recordStatus === recordStatus.pending
           || this.props.layout === callCtrlLayouts.mergeCtrl
+          || this.props.recordStatus === recordStatus.noAccess
         ),
         onClick: this.props.recordStatus === recordStatus.recording
           ? this.props.onStopRecord
