@@ -1301,12 +1301,14 @@ export default class Webphone extends RcModule {
    */
   @proxify
   async showAlert() {
-    if (!this.errorCode) return;
+    if (!this.errorCode) {
+      return;
+    }
     this._alert.danger({
       message: this.errorCode,
       allowDuplicates: false,
       payload: {
-        statusCode: this.statusCode
+        statusCode: this.statusCode,
       },
     });
   }
@@ -1329,9 +1331,11 @@ export default class Webphone extends RcModule {
     }
   }
 
-  isCallRecording(session) {
-    if (isRecording(session)) {
-      this._alert.warning({ message: recordStatus.recording });
+  isCallRecording({ session, showAlert = true }) {
+    if (isRecording(session) && showAlert) {
+      this._alert.warning({
+        message: recordStatus.recording,
+      });
       return true;
     }
     return false;

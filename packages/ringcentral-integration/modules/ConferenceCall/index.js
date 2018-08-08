@@ -360,14 +360,21 @@ export default class ConferenceCall extends RcModule {
    */
   @proxify
   async mergeToConference(webphoneSessions = []) {
-    webphoneSessions = webphoneSessions.filter(session => !this.isConferenceSession(session.id))
-      .filter(session => Object.prototype.toString.call(session).toLowerCase() === '[object object]');
+    webphoneSessions = webphoneSessions
+      .filter(session => !!session)
+      .filter(session => !this.isConferenceSession(session.id));
 
     if (!webphoneSessions.length) {
       this._alert.warning({
         message: conferenceErrors.bringInFailed,
       });
       return;
+    }
+
+    for (const session of webphoneSessions) {
+      if (this._webphone.isCallRecording({ session })) {
+        return;
+      }
     }
 
     this.store.dispatch({
@@ -795,23 +802,20 @@ export default class ConferenceCall extends RcModule {
 
   @proxify
   async mergeSession({ sessionId }) {
+    this.setMergeParty({
+      toSessionId: sessionId,
+    });
+
     const session = find(
       x => x.id === sessionId,
       this._webphone.sessions
     );
 
-    if (this._webphone.isCallRecording(session)) {
-      return null;
-    }
-
-    this.setMergeParty({
-      toSessionId: sessionId,
-    });
-
     const sessionToMergeWith = find(
       x => x.id === this.mergingPair.fromSessionId,
       this._webphone.sessions
     );
+
     const webphoneSessions = sessionToMergeWith
       ? [sessionToMergeWith, session]
       : [session];
