@@ -91,13 +91,15 @@ async function mergeTranslationData({
                       key,
                       fileName: relativePath,
                     });
-                    shouldDelete = interactive ?
-                      await prompt({
+                    if (interactive) {
+                      shouldDelete = (await prompt({
                         name: 'result',
                         type: 'confirm',
                         message,
-                      }).result :
-                      true;
+                      })).result;
+                    } else {
+                      shouldDelete = true;
+                    }
                   }
                 } else {
                   message = formatReason({
@@ -106,13 +108,15 @@ async function mergeTranslationData({
                     key,
                     fileName: relativePath,
                   });
-                  shouldDelete = interactive ?
-                    await prompt({
+                  if (interactive) {
+                    shouldDelete = (await prompt({
                       name: 'result',
                       type: 'confirm',
                       message,
-                    }).result :
-                    true;
+                    })).result;
+                  } else {
+                    shouldDelete = true;
+                  }
                 }
                 if (shouldDelete) {
                   if (!interactive && !silent) {
@@ -121,6 +125,7 @@ async function mergeTranslationData({
                 } else {
                   newData.set(key, value);
                 }
+
                 return newData;
               },
               new Map(),
@@ -166,13 +171,15 @@ async function mergeTranslationData({
                     key,
                     fileName,
                   });
-                  shouldSkip = interactive ?
-                    await prompt({
-                      type: 'confirm',
+                  if (interactive) {
+                    shouldSkip = (await prompt({
                       name: 'result',
+                      type: 'confirm',
                       message,
-                    }).result :
-                    true;
+                    })).result;
+                  } else {
+                    shouldSkip = true;
+                  }
                 } else if (sourceData.get(key).value !== translatedData[key].source) {
                   message = formatReason({
                     type,
@@ -180,13 +187,15 @@ async function mergeTranslationData({
                     key,
                     fileName,
                   });
-                  shouldSkip = interactive ?
-                    await prompt({
-                      type: 'confirm',
+                  if (interactive) {
+                    shouldSkip = (await prompt({
                       name: 'result',
+                      type: 'confirm',
                       message,
-                    }).result :
-                    true;
+                    })).result;
+                  } else {
+                    shouldSkip = true;
+                  }
                 }
 
                 if (shouldSkip) {
@@ -264,7 +273,7 @@ export default async function importLocale({
   localizationFolder = defaultConfig.localizationFolder,
   sourceLocale = defaultConfig.sourceLocale,
   supportedLocales,
-  interactive = false,
+  interactive = true,
   silent = false,
 } = {}) {
   if (!supportedLocales) {

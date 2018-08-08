@@ -45,7 +45,8 @@ describe('importLocale', () => {
     localizationFolder,
     sourceFolder,
     supportedLocales: ['en-US', 'en-GB'],
-    silent: false,
+    silent: true,
+    interactive: false,
   };
   beforeEach(async () => {
     await clean();
@@ -118,7 +119,6 @@ describe('importLocale', () => {
     expect(() => {
       json = eval(transform(content, babelrc).code);
     }).not.toThrow();
-    console.log(json);
     expect(json.modern).toBe('rogue');
     expect(json.whisky).toBe(undefined);
     expect(json.testKey).toBe(undefined);
@@ -163,7 +163,9 @@ describe('importLocale', () => {
         "double-'quote'": "Double Quote",
       };
     `);
-    await importLocale(config);
+    await importLocale({
+      ...config,
+    });
 
     const filePath = path.resolve(sourceFolder, 'en-GB.js');
     expect(await fs.exists(filePath)).toBe(true);

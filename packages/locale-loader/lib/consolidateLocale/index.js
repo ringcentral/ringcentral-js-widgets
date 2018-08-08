@@ -5,7 +5,7 @@ export default async function consolidateLocale({
   sourceFolder = defaultConfig.sourceFolder,
   sourceLocale = defaultConfig.sourceLocale,
   supportedLocales = defaultConfig.supportedLocales,
-  interactive = false,
+  interactive = true,
   silent = false,
 }) {
   return importLocale({
