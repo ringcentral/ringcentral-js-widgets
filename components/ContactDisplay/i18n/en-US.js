@@ -7,7 +7,7 @@ exports.default = {
   logging: 'Logging...',
   logCall: 'Log Call',
   editLog: 'Edit Log',
-  select: 'Select a matching record',
+  select: 'Select matching',
   OnHold: 'On Hold',
   Ringing: 'Ringing',
   CallConnected: 'Call Connected',

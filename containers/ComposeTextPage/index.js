@@ -5,10 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = exports.mapToFunctions = exports.mapToProps = undefined;
 
-var _values = require('babel-runtime/core-js/object/values');
-
-var _values2 = _interopRequireDefault(_values);
-
 var _reactRedux = require('react-redux');
 
 var _formatNumber = require('ringcentral-integration/lib/formatNumber');
@@ -77,17 +73,9 @@ function mapToFunctions(_, _ref2) {
 
   return {
     send: function send() {
-      var hasAlertOtherMsg = void 0;
-      setTimeout(function () {
-        hasAlertOtherMsg = alert.messages.filter(function (_ref3) {
-          var level = _ref3.level,
-              message = _ref3.message;
-          return level === 'warning' && (0, _values2.default)(_messageSenderMessages2.default).indexOf(message) > -1;
-        }).length > 0;
-      }, 500);
       var timeout = setTimeout(function () {
         if (routerInteraction.currentPath === '/composeText') {
-          if (!hasAlertOtherMsg) composeText.alertMessageSending();
+          composeText.alertMessageSending();
         }
         if (timeout) {
           clearTimeout(timeout);
@@ -115,15 +103,21 @@ function mapToFunctions(_, _ref2) {
         }
         composeText.clean();
         return null;
+      }, function () {
+        if (timeout) {
+          clearTimeout(timeout);
+          timeout = null;
+        }
       });
     },
+
     formatPhone: formatContactPhone,
     formatContactPhone: formatContactPhone,
     searchContact: function searchContact(searchString) {
       return contactSearch.debouncedSearch({ searchString: searchString });
     },
-    updateSenderNumber: function updateSenderNumber(_ref4) {
-      var phoneNumber = _ref4.phoneNumber;
+    updateSenderNumber: function updateSenderNumber(_ref3) {
+      var phoneNumber = _ref3.phoneNumber;
       return composeText.updateSenderNumber(phoneNumber);
     },
     updateTypingToNumber: function updateTypingToNumber() {
