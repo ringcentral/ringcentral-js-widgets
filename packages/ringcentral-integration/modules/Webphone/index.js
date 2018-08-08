@@ -638,71 +638,71 @@ export default class Webphone extends RcModule {
 
   _onAccepted(session) {
     session.on('accepted', (incomingResponse) => {
-      if (session.callStatus === sessionStatus.finished) {
+      if (session.__rc_callStatus === sessionStatus.finished) {
         return;
       }
       console.log('accepted');
-      session.callStatus = sessionStatus.connected;
+      session.__rc_callStatus = sessionStatus.connected;
       extractHeadersData(session, incomingResponse.headers);
       this._onCallStart(session);
     });
     session.on('progress', () => {
       console.log('progress...');
-      session.callStatus = sessionStatus.connecting;
+      session.__rc_callStatus = sessionStatus.connecting;
       this._updateSessions();
     });
     session.on('rejected', () => {
       console.log('rejected');
-      session.callStatus = sessionStatus.finished;
+      session.__rc_callStatus = sessionStatus.finished;
       this._onCallEnd(session);
     });
     session.on('failed', (response, cause) => {
       console.log('Event: Failed');
       console.log(cause);
-      session.callStatus = sessionStatus.finished;
+      session.__rc_callStatus = sessionStatus.finished;
       this._onCallEnd(session);
     });
     session.on('terminated', () => {
       console.log('Event: Terminated');
-      session.callStatus = sessionStatus.finished;
+      session.__rc_callStatus = sessionStatus.finished;
       this._onCallEnd(session);
     });
     session.on('cancel', () => {
       console.log('Event: Cancel');
-      session.callStatus = sessionStatus.finished;
+      session.__rc_callStatus = sessionStatus.finished;
       this._onCallEnd(session);
     });
     session.on('refer', () => {
       console.log('Event: Refer');
     });
     session.on('replaced', (newSession) => {
-      session.callStatus = sessionStatus.replaced;
-      newSession.callStatus = sessionStatus.connected;
-      newSession.direction = callDirections.inbound;
+      session.__rc_callStatus = sessionStatus.replaced;
+      newSession.__rc_callStatus = sessionStatus.connected;
+      newSession.__rc_direction = callDirections.inbound;
       this._addSession(newSession);
       this._onAccepted(newSession);
     });
     session.on('muted', () => {
       console.log('Event: Muted');
-      session.isOnMute = true;
-      session.callStatus = sessionStatus.onMute;
+      session.__rc_isOnMute = true;
+      session.__rc_callStatus = sessionStatus.onMute;
       this._updateSessions();
     });
     session.on('unmuted', () => {
       console.log('Event: Unmuted');
-      session.isOnMute = false;
-      session.callStatus = sessionStatus.connected;
+      session.__rc_isOnMute = false;
+      session.__rc_callStatus = sessionStatus.connected;
       this._updateSessions();
     });
     session.on('hold', () => {
       console.log('Event: hold');
-      session.callStatus = sessionStatus.onHold;
+      session.__rc_callStatus = sessionStatus.onHold;
       this._updateSessions();
     });
     session.on('unhold', () => {
       console.log('Event: unhold');
-      session.callStatus = sessionStatus.connected;
-      session.lastActiveTime = Date.now();
+      session.__rc_callStatus = sessionStatus.connected;
+      session.__rc_lastActiveTime = Date.now();
       this._updateSessions();
     });
     session.mediaHandler.on('userMediaFailed', () => {
@@ -711,10 +711,10 @@ export default class Webphone extends RcModule {
   }
 
   _onInvite(session) {
-    session.creationTime = Date.now();
-    session.lastActiveTime = Date.now();
-    session.direction = callDirections.inbound;
-    session.callStatus = sessionStatus.connecting;
+    session.__rc_creationTime = Date.now();
+    session.__rc_lastActiveTime = Date.now();
+    session.__rc_direction = callDirections.inbound;
+    session.__rc_callStatus = sessionStatus.connecting;
     extractHeadersData(session, session.request.headers);
     session.on('rejected', () => {
       console.log('Event: Rejected');
@@ -790,7 +790,7 @@ export default class Webphone extends RcModule {
       }
       const validPhoneNumber =
         validatedResult.numbers[0] && validatedResult.numbers[0].e164;
-      session.isForwarded = true;
+      session.__rc_isForwarded = true;
       await session.forward(validPhoneNumber, this.acceptOptions);
       console.log('Forwarded');
       this._onCallEnd(session);
@@ -808,7 +808,7 @@ export default class Webphone extends RcModule {
   async mute(sessionId) {
     try {
       this._sessionHandleWithId(sessionId, (session) => {
-        session.isOnMute = true;
+        session.__rc_isOnMute = true;
         session.mute();
         this._updateSessions();
       });
@@ -825,7 +825,7 @@ export default class Webphone extends RcModule {
   @proxify
   async unmute(sessionId) {
     this._sessionHandleWithId(sessionId, (session) => {
-      session.isOnMute = false;
+      session.__rc_isOnMute = false;
       session.unmute();
       this._updateSessions();
     });
@@ -894,18 +894,18 @@ export default class Webphone extends RcModule {
     }
     // If the status of current session is not connected,
     // the recording process can not be started.
-    if (session.callStatus === sessionStatus.connecting) {
+    if (session.__rc_callStatus === sessionStatus.connecting) {
       return;
     }
     try {
-      session.recordStatus = recordStatus.pending;
+      session.__rc_recordStatus = recordStatus.pending;
       this._updateSessions();
       await session.startRecord();
-      session.recordStatus = recordStatus.recording;
+      session.__rc_recordStatus = recordStatus.recording;
       this._updateSessions();
     } catch (e) {
       console.error(e);
-      session.recordStatus = recordStatus.idle;
+      session.__rc_recordStatus = recordStatus.idle;
       this._updateSessions();
       // Recording has been disabled
       if (e && e.code === -5) {
@@ -913,7 +913,7 @@ export default class Webphone extends RcModule {
           message: webphoneErrors.recordDisabled
         });
         // Disabled phone recording
-        session.recordStatus = recordStatus.noAccess;
+        session.__rc_recordStatus = recordStatus.noAccess;
         this._updateSessions();
         return;
       }
@@ -933,14 +933,14 @@ export default class Webphone extends RcModule {
       return;
     }
     try {
-      session.recordStatus = recordStatus.pending;
+      session.__rc_recordStatus = recordStatus.pending;
       this._updateSessions();
       await session.stopRecord();
-      session.recordStatus = recordStatus.idle;
+      session.__rc_recordStatus = recordStatus.idle;
       this._updateSessions();
     } catch (e) {
       console.error(e);
-      session.recordStatus = recordStatus.recording;
+      session.__rc_recordStatus = recordStatus.recording;
       this._updateSessions();
     }
   }
@@ -966,7 +966,7 @@ export default class Webphone extends RcModule {
       return;
     }
     try {
-      session.isOnTransfer = true;
+      session.__rc_isOnTransfer = true;
       this._updateSessions();
       const validatedResult
         = await this._numberValidate.validateNumbers([transferNumber]);
@@ -979,19 +979,19 @@ export default class Webphone extends RcModule {
             }
           });
         });
-        session.isOnTransfer = false;
+        session.__rc_isOnTransfer = false;
         this._updateSessions();
         return;
       }
       const validPhoneNumber =
         validatedResult.numbers[0] && validatedResult.numbers[0].e164;
       await session.transfer(validPhoneNumber);
-      session.isOnTransfer = false;
+      session.__rc_isOnTransfer = false;
       this._updateSessions();
       this._onCallEnd(session);
     } catch (e) {
       console.error(e);
-      session.isOnTransfer = false;
+      session.__rc_isOnTransfer = false;
       this._updateSessions();
       this._alert.danger({
         message: webphoneErrors.transferError
@@ -1033,10 +1033,10 @@ export default class Webphone extends RcModule {
     try {
       await session.flip(flipValue);
       // this._onCallEnd(session);
-      session.isOnFlip = true;
+      session.__rc_isOnFlip = true;
       console.log('Flipped');
     } catch (e) {
-      session.isOnFlip = false;
+      session.__rc_isOnFlip = false;
       this._alert.warning({
         message: webphoneErrors.flipError
       });
@@ -1079,7 +1079,7 @@ export default class Webphone extends RcModule {
       return;
     }
     try {
-      session.isToVoicemail = true;
+      session.__rc_isToVoicemail = true;
       await session.toVoicemail();
     } catch (e) {
       console.error(e);
@@ -1097,7 +1097,7 @@ export default class Webphone extends RcModule {
       return;
     }
     try {
-      session.isReplied = true;
+      session.__rc_isReplied = true;
       await session.replyWithMessage(replyOptions);
     } catch (e) {
       console.error(e);
@@ -1143,11 +1143,11 @@ export default class Webphone extends RcModule {
       fromNumber,
       homeCountryId,
     });
-    session.direction = callDirections.outbound;
-    session.callStatus = sessionStatus.connecting;
-    session.creationTime = Date.now();
-    session.lastActiveTime = Date.now();
-    session.fromNumber = fromNumber;
+    session.__rc_direction = callDirections.outbound;
+    session.__rc_callStatus = sessionStatus.connecting;
+    session.__rc_creationTime = Date.now();
+    session.__rc_lastActiveTime = Date.now();
+    session.__rc_fromNumber = fromNumber;
     this._onAccepted(session);
     this._holdOtherSession(session.id);
     this._beforeCallStart(session);
@@ -1157,7 +1157,7 @@ export default class Webphone extends RcModule {
   @proxify
   async updateSessionMatchedContact(sessionId, contact) {
     this._sessionHandleWithId(sessionId, (session) => {
-      session.contactMatch = contact;
+      session.__rc_contactMatch = contact;
       this._updateSessions();
     });
   }
@@ -1198,7 +1198,7 @@ export default class Webphone extends RcModule {
   @proxify
   async toggleMinimized(sessionId) {
     this._sessionHandleWithId(sessionId, (session) => {
-      session.minimized = !session.minimized;
+      session.__rc_minimized = !session.__rc_minimized;
       this._updateSessions();
     });
   }
