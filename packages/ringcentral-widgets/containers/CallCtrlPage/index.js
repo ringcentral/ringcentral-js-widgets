@@ -1,4 +1,4 @@
-import { find } from 'ramda';
+import { find, filter } from 'ramda';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -421,38 +421,36 @@ function mapToFunctions(_, {
     recipientsContactInfoRenderer,
     recipientsContactPhoneRenderer,
     onAdd(sessionId) {
-      const currentSession = webphone.activeSession;
-      if (!currentSession || webphone.isCallRecording(currentSession)) {
+      const session = find(x => x.id === sessionId, webphone.sessions);
+      if (!session || webphone.isCallRecording(session)) {
         return;
       }
-      const sessionData = find(x => x.id === sessionId, webphone.sessions);
-      if (sessionData) {
-        conferenceCall.setMergeParty({ fromSessionId: sessionId });
-        const outBoundOnholdCalls = callMonitor.activeOnHoldCalls
-          .filter(call => call.direction === callDirections.outbound);
-        if (outBoundOnholdCalls.length) {
-          // goto 'calls on hold' page
-          routerInteraction
-            .push(`/conferenceCall/callsOnhold/${sessionData.fromNumber}/${sessionData.id}`);
-        } else { // goto dialer directly
-          routerInteraction.push(`/conferenceCall/dialer/${sessionData.fromNumber}`);
-        }
+      conferenceCall.setMergeParty({ fromSessionId: sessionId });
+      const outBoundOnholdCalls = filter(
+        call => call.direction === callDirections.outbound,
+        callMonitor.activeOnHoldCalls
+      );
+      if (outBoundOnholdCalls.length) {
+        // goto 'calls on hold' page
+        routerInteraction.push(`/conferenceCall/callsOnhold/${session.fromNumber}/${session.id}`);
+      } else {
+        // goto dialer directly
+        routerInteraction.push(`/conferenceCall/dialer/${session.fromNumber}`);
       }
     },
-    onBeforeMerge() {
-      const currentSession = webphone.activeSession;
-      let currentConferenceSession;
+    onBeforeMerge(sessionId) {
+      const session = find(x => x.id === sessionId, webphone.sessions);
+      if (!session || webphone.isCallRecording(session)) {
+        return false;
+      }
       if (conferenceCall) {
         const conferenceData = Object.values(conferenceCall.conferences)[0];
         if (conferenceData) {
-          currentConferenceSession = webphone._sessions.get(conferenceData.sessionId);
+          const conferenceSession = find(x => x.id === conferenceData.sessionId, webphone.sessions);
+          if (conferenceSession && webphone.isCallRecording(conferenceSession)) {
+            return false;
+          }
         }
-      }
-      if (!currentSession || webphone.isCallRecording(currentSession)) {
-        return false;
-      }
-      if (currentConferenceSession && webphone.isCallRecording(currentConferenceSession)) {
-        return false;
       }
       return true;
     },
