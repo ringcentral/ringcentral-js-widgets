@@ -913,7 +913,7 @@ export default class Webphone extends RcModule {
           message: webphoneErrors.recordDisabled
         });
         // Disabled phone recording
-        session.recordStatus = recordStatus.pending;
+        session.recordStatus = recordStatus.noAccess;
         this._updateSessions();
         return;
       }
