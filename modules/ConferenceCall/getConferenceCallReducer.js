@@ -123,6 +123,12 @@ function getMergingStatusReducer(types) {
   };
 }
 
+/**
+ * interface MergingPairState = {fromSessionId:string, toSessionId:string}
+ *
+ * The `from` and `to` is relative to the [adding call](https://app.zeplin.io/project/59df2e4346294d03f96d15a9/screen/5b2c64f7db2860b90ddd5939) flow
+ * which is in [RCINT-7378](https://jira.ringcentral.com/browse/RCINT-7378)
+ */
 function getMergingPairReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
