@@ -312,7 +312,7 @@ var ConversationPanel = function (_Component) {
         logConversation: this.logConversation,
         isLogging: isLogging || this.state.isLogging
       }) : null;
-      var logButton = this.props.onLogConversation && !extraButton ? _react2.default.createElement(_LogButton2.default, {
+      var logButton = this.props.onLogConversation && !this.props.renderExtraButton ? _react2.default.createElement(_LogButton2.default, {
         className: _styles2.default.logButton,
         onLog: this.logConversation,
         disableLinks: this.props.disableLinks,
@@ -433,9 +433,7 @@ ConversationPanel.defaultProps = {
   loadConversation: function loadConversation() {
     return null;
   },
-  renderExtraButton: function renderExtraButton() {
-    return null;
-  },
+  renderExtraButton: undefined,
   loadingNextPage: false
 };
 

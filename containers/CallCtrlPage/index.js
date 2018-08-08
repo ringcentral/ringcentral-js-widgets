@@ -541,41 +541,41 @@ function mapToFunctions(_, _ref2) {
     recipientsContactInfoRenderer: recipientsContactInfoRenderer,
     recipientsContactPhoneRenderer: recipientsContactPhoneRenderer,
     onAdd: function onAdd(sessionId) {
-      var currentSession = webphone.activeSession;
-      if (!currentSession || webphone.isCallRecording(currentSession)) {
-        return;
-      }
-      var sessionData = (0, _ramda.find)(function (x) {
+      var session = (0, _ramda.find)(function (x) {
         return x.id === sessionId;
       }, webphone.sessions);
-      if (sessionData) {
-        conferenceCall.setMergeParty({ fromSessionId: sessionId });
-        var outBoundOnholdCalls = callMonitor.activeOnHoldCalls.filter(function (call) {
-          return call.direction === _callDirections2.default.outbound;
-        });
-        if (outBoundOnholdCalls.length) {
-          // goto 'calls on hold' page
-          routerInteraction.push('/conferenceCall/callsOnhold/' + sessionData.fromNumber + '/' + sessionData.id);
-        } else {
-          // goto dialer directly
-          routerInteraction.push('/conferenceCall/dialer/' + sessionData.fromNumber);
-        }
+      if (!session || webphone.isCallRecording(session)) {
+        return;
+      }
+      conferenceCall.setMergeParty({ fromSessionId: sessionId });
+      var outBoundOnholdCalls = (0, _ramda.filter)(function (call) {
+        return call.direction === _callDirections2.default.outbound;
+      }, callMonitor.activeOnHoldCalls);
+      if (outBoundOnholdCalls.length) {
+        // goto 'calls on hold' page
+        routerInteraction.push('/conferenceCall/callsOnhold/' + session.fromNumber + '/' + session.id);
+      } else {
+        // goto dialer directly
+        routerInteraction.push('/conferenceCall/dialer/' + session.fromNumber);
       }
     },
-    onBeforeMerge: function onBeforeMerge() {
-      var currentSession = webphone.activeSession;
-      var currentConferenceSession = void 0;
+    onBeforeMerge: function onBeforeMerge(sessionId) {
+      var session = (0, _ramda.find)(function (x) {
+        return x.id === sessionId;
+      }, webphone.sessions);
+      if (!session || webphone.isCallRecording(session)) {
+        return false;
+      }
       if (conferenceCall) {
         var conferenceData = (0, _values2.default)(conferenceCall.conferences)[0];
         if (conferenceData) {
-          currentConferenceSession = webphone._sessions.get(conferenceData.sessionId);
+          var conferenceSession = (0, _ramda.find)(function (x) {
+            return x.id === conferenceData.sessionId;
+          }, webphone.sessions);
+          if (conferenceSession && webphone.isCallRecording(conferenceSession)) {
+            return false;
+          }
         }
-      }
-      if (!currentSession || webphone.isCallRecording(currentSession)) {
-        return false;
-      }
-      if (currentConferenceSession && webphone.isCallRecording(currentConferenceSession)) {
-        return false;
       }
       return true;
     },

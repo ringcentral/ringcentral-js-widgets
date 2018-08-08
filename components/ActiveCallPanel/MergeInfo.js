@@ -103,9 +103,11 @@ var MergeInfo = function (_Component) {
         });
       } else {
         setTimeout(function () {
-          _this2.setState({
-            lastCallInfoTimeout: true
-          });
+          if (_this2.mounted) {
+            _this2.setState({
+              lastCallInfoTimeout: true
+            });
+          }
         }, this.props.checkLastCallInfoTimeout);
       }
     }
@@ -159,8 +161,7 @@ var MergeInfo = function (_Component) {
             isOnConferenCall ? _react2.default.createElement(
               'span',
               { title: _i18n2.default.getString('conferenceCall', currentLocale) },
-              _i18n2.default.getString('conferenceCall', currentLocale),
-              ' '
+              _i18n2.default.getString('conferenceCall', currentLocale)
             ) : _react2.default.createElement(
               'span',
               { title: calleeName },
