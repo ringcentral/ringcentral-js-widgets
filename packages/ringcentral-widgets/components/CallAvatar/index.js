@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
+import isBase64 from 'is-base64';
 import PropTypes from 'prop-types';
 import uuid from 'uuid';
 import styles from './styles.scss';
 import SpinnerIcon from '../../assets/images/Spinner.svg';
+
+const REGEXP_BLOB_URL = /^blob:.+\/[\w-]{36,}(?:#.+)?$/;
+
+function isBlobURL(value) {
+  return REGEXP_BLOB_URL.test(value);
+}
 
 class CallAvatar extends Component {
   constructor(props) {
@@ -15,18 +22,26 @@ class CallAvatar extends Component {
   }
 
   loadImg(props = this.props) {
+    const { avatarUrl } = props;
+    if (isBase64(avatarUrl) || isBlobURL(avatarUrl)) {
+      this.setState({
+        avatarUrl
+      });
+    }
+
+    // means we have to load it
     if (!this._mounted) {
       return;
     }
-    if (props.avatarUrl) {
+    if (avatarUrl) {
       const $img = document.createElement('img');
-      $img.src = props.avatarUrl;
+      $img.src = avatarUrl;
       $img.onload = () => {
         if (!this._mounted) {
           return;
         }
         this.setState({
-          avatarUrl: props.avatarUrl
+          avatarUrl
         });
       };
       $img.onerror = () => {
@@ -41,14 +56,24 @@ class CallAvatar extends Component {
     }
   }
 
-  componentDidMount() {
-    this._mounted = true;
-    this.loadImg();
+  componentWillMount() {
+    const { avatarUrl } = this.props;
+
+    if (isBase64(avatarUrl) || isBlobURL(avatarUrl)) {
+      this.loadImg();
+    }
   }
 
-  componentWillReceiveProps(nextProp) {
-    if (nextProp.avatarUrl !== this.props.avatarUrl) {
-      this.loadImg(nextProp);
+  componentDidMount() {
+    this._mounted = true;
+    if (!this.state.avatarUrl) {
+      this.loadImg();
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.avatarUrl !== this.props.avatarUrl) {
+      this.loadImg(nextProps);
     }
   }
 
