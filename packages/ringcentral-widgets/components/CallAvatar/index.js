@@ -5,9 +5,14 @@ import styles from './styles.scss';
 import SpinnerIcon from '../../assets/images/Spinner.svg';
 
 const REGEXP_BLOB_URL = /^blob:.+\/[\w-]{36,}(?:#.+)?$/;
+const REGEXP_BASE64_URL = /^(data:\w+\/[a-zA-Z\+\-\.]+;base64,)?(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/gi;
 
 function isBlobURL(value) {
   return REGEXP_BLOB_URL.test(value);
+}
+
+function isBase64(value) {
+  return REGEXP_BASE64_URL.test(value);
 }
 
 class CallAvatar extends Component {
@@ -23,7 +28,7 @@ class CallAvatar extends Component {
   loadImg(props = this.props) {
     const { avatarUrl } = props;
 
-    if (isBlobURL(avatarUrl)) {
+    if (isBlobURL(avatarUrl) || isBase64(avatarUrl)) {
       this.setState({
         avatarUrl
       });
