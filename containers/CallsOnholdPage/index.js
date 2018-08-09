@@ -139,11 +139,10 @@ function mapToFunctions(_, _ref2) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                onBackButtonClick();
-                _context.next = 3;
-                return conferenceCall.onMergeOnhold({ sessionId: sessionId });
+                _context.next = 2;
+                return conferenceCall.onMergeOnhold({ sessionId: sessionId, callback: onBackButtonClick.bind(this) });
 
-              case 3:
+              case 2:
               case 'end':
                 return _context.stop();
             }
