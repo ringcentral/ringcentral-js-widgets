@@ -34,8 +34,10 @@ function mapToFunctions(_, {
     dateTimeFormat.formatDateTime({ utcTimestamp: time }),
   onViewPersonProfile,
   onViewGroup,
+  mobile = true,
 }) {
   return {
+    mobile,
     loadGroup(groupId) {
       glipGroups.updateCurrentGroupId(groupId);
     },

@@ -50,7 +50,7 @@ export default class GlipChatPage extends Component {
     } = this.props;
     const spinner = showSpinner ? (<SpinnerOverlay />) : null;
     const backIcon =
-      mobile ? (
+      onBackClick ? (
         <img src={leftArrow} alt="Back" className={styles.backIcon} onClick={onBackClick} />
       ) : null;
     return (
@@ -66,7 +66,7 @@ export default class GlipChatPage extends Component {
         </div>
         <div
           className={styles.content}
-          style={{ height: `calc(100% - ${this.state.inputHeight + HEADER_HEIGHT}px)`}}
+          style={{ height: `calc(100% - ${this.state.inputHeight + HEADER_HEIGHT}px)` }}
         >
           <GlipPostList
             posts={posts}
