@@ -27,7 +27,7 @@ async function getVersionFromTag() {
   return null;
 }
 
-const BUILD_PATH = path.resolve(__dirname, '../../build/ringcentral-glip-widgets');
+const BUILD_PATH = path.resolve(__dirname, '../../build/glip-widgets');
 gulp.task('clean', async () => (
   fs.remove(BUILD_PATH)
 ));
@@ -59,7 +59,7 @@ gulp.task('copy', ['clean'], () => (
   ]).pipe(gulp.dest(BUILD_PATH))
 ));
 
-const RELEASE_PATH = path.resolve(__dirname, '../../release/ringcentral-glip-widgets');
+const RELEASE_PATH = path.resolve(__dirname, '../../release/glip-widgets');
 gulp.task('release-clean', async () => {
   if (!await fs.exists(RELEASE_PATH)) {
     await execa.shell(`mkdir -p ${RELEASE_PATH}`);
