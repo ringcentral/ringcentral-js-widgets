@@ -9,6 +9,10 @@ var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-pr
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -16,10 +20,6 @@ var _regenerator2 = _interopRequireDefault(_regenerator);
 var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
-var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
 var _map = require('babel-runtime/core-js/map');
 
@@ -280,36 +280,14 @@ var Webphone = (_dec = (0, _di.Module)({
       return _this.activeSessionId;
     }, function () {
       return _this.sessions;
-    }, function () {
-      return _this.cachedSessions;
-    }, function (activeSessionId, sessions, cachedSessions) {
+    }, function (activeSessionId, sessions) {
       if (!activeSessionId) {
         return null;
       }
-
-      var realActiveSession = sessions.find(function (session) {
+      var activeSession = sessions.find(function (session) {
         return session.id === activeSessionId;
       });
-
-      // NOT in conference merging process
-      if (!cachedSessions.length) {
-        return realActiveSession;
-      }
-
-      // realActiveSession is a conference
-      if ((0, _webphoneHelper.isConferenceSession)(realActiveSession)) {
-        return realActiveSession;
-      }
-
-      // realActiveSession is cached
-      if (!realActiveSession || cachedSessions.find(function (cachedSession) {
-        return cachedSession.id === realActiveSession.id;
-      })) {
-        return cachedSessions.sort(_webphoneHelper.sortByCreationTimeDesc)[0];
-      }
-
-      // default rule
-      return [].concat((0, _toConsumableArray3.default)(cachedSessions), [realActiveSession]).sort(_webphoneHelper.sortByCreationTimeDesc)[0];
+      return activeSession;
     });
 
     _this.addSelector('ringSessions', function () {
