@@ -162,6 +162,12 @@ var ConferenceCallMergeContainer = function (_Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.mounted = true;
+      /**
+       * if the last has already been terminated after rendering, need to trigger the callback at the point
+       */
+      if (ConferenceCallMergeContainer.isLastCallEnded(this.props)) {
+        this.onLastCallEnded();
+      }
     }
   }, {
     key: 'componentWillUnmount',
