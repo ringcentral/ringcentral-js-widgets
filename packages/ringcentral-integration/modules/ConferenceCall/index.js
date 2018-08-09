@@ -806,11 +806,9 @@ export default class ConferenceCall extends RcModule {
       toSessionId: sessionId,
     });
 
-    // should retrieve this before merging
-    const isActiveSessionOnhold = (
-      this._webphone.activeSession
-      && this._webphone.activeSession.isOnHold
-    );
+    // should retrieve active session state before merging
+    const hasActiveSession = !!this._webphone.activeSession;
+    const isActiveSessionOnhold = hasActiveSession && this._webphone.activeSession.isOnHold;
 
     const session = find(
       x => x.id === sessionId,
@@ -833,10 +831,12 @@ export default class ConferenceCall extends RcModule {
       return null;
     }
 
-    if (isActiveSessionOnhold) {
-      this._webphone.hold(conferenceData.sessionId);
-    } else {
-      this._webphone.resume(conferenceData.sessionId);
+    if (hasActiveSession) {
+      if (isActiveSessionOnhold) {
+        this._webphone.hold(conferenceData.sessionId);
+      } else {
+        this._webphone.resume(conferenceData.sessionId);
+      }
     }
 
     return conferenceData;
