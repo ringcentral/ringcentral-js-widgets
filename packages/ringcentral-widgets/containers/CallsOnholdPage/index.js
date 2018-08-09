@@ -1,5 +1,9 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import callDirections from 'ringcentral-integration/enums/callDirections';
+import { createSelector } from 'reselect';
+import { filter } from 'ramda';
 
 import withPhone from '../../lib/withPhone';
 import CallsOnholdPanel from '../../components/CallsOnholdPanel';
@@ -9,11 +13,33 @@ import {
   mapToFunctions as mapToBaseFunctions,
 } from '../ActiveCallsPage';
 
+
+class CallsOnholdContainer extends Component {
+  static propTypes = {
+    activeOnHoldCalls: PropTypes.arrayOf(PropTypes.object).isRequired,
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.getCalls = createSelector(
+      () => this.props.activeOnHoldCalls,
+      activeOnHoldCalls => filter(
+        call => call.direction !== callDirections.inbound,
+        activeOnHoldCalls
+      ),
+    );
+  }
+
+  render() {
+    return <CallsOnholdPanel {...this.props} calls={this.getCalls()} />;
+  }
+}
+
 function mapToProps(_, {
   phone,
   phone: {
     callMonitor,
-    contactMatcher,
   },
   ...props
 }) {
@@ -21,12 +47,10 @@ function mapToProps(_, {
     phone,
     ...props,
   });
-  const contactMapping = contactMatcher && contactMatcher.dataMapping;
 
   return {
     ...baseProps,
-    calls: callMonitor.activeOnHoldCalls.filter(call => call.direction !== callDirections.inbound),
-    contactMapping,
+    activeOnHoldCalls: callMonitor.activeOnHoldCalls,
   };
 }
 
@@ -65,6 +89,6 @@ function mapToFunctions(_, {
 const CallsOnholdPage = withPhone(connect(
   mapToProps,
   mapToFunctions,
-)(CallsOnholdPanel));
+)(CallsOnholdContainer));
 
 export default CallsOnholdPage;
