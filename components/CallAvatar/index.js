@@ -47,9 +47,14 @@ var _Spinner2 = _interopRequireDefault(_Spinner);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var REGEXP_BLOB_URL = /^blob:.+\/[\w-]{36,}(?:#.+)?$/;
+var REGEXP_BASE64_URL = /^(data:\w+\/[a-zA-Z\+\-\.]+;base64,)?(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/gi;
 
 function isBlobURL(value) {
   return REGEXP_BLOB_URL.test(value);
+}
+
+function isBase64(value) {
+  return REGEXP_BASE64_URL.test(value);
 }
 
 var CallAvatar = function (_Component) {
@@ -77,7 +82,7 @@ var CallAvatar = function (_Component) {
       var avatarUrl = props.avatarUrl;
 
 
-      if (isBlobURL(avatarUrl)) {
+      if (isBlobURL(avatarUrl) || isBase64(avatarUrl)) {
         this.setState({
           avatarUrl: avatarUrl
         });
