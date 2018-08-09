@@ -17,6 +17,7 @@ import ensureExist from '../../lib/ensureExist';
 // import sleep from '../../lib/sleep';
 import callingModes from '../CallingSettings/callingModes';
 import calleeTypes from '../../enums/calleeTypes';
+import { isFunction } from '../../lib/di/utils/is_type';
 
 const DEFAULT_TIMEOUT = 30000;// time out for conferencing session being accepted.
 const DEFAULT_TTL = 5000;// timer to update the conference information
@@ -224,7 +225,6 @@ export default class ConferenceCall extends RcModule {
       !conferenceState
       || !this.ready
       || !webphoneSession
-      || webphoneSession.direction !== callDirections.outbound
       || this.isOverload(id)
       || !this._connectivityMonitor.connectivity
     ) {
@@ -807,9 +807,6 @@ export default class ConferenceCall extends RcModule {
       : [session];
     await this.mergeToConference(webphoneSessions);
     const conferenceData = Object.values(this.conferences)[0];
-    const conferenceSession = this._webphone._sessions.get(conferenceData.sessionId);
-    const isConferenceOnhold = conferenceSession.isOnHold().local;
-
     if (!conferenceData) {
       await this._webphone.resume(session.id);
       return null;
@@ -820,6 +817,8 @@ export default class ConferenceCall extends RcModule {
       return conferenceData;
     }
 
+    const conferenceSession = this._webphone._sessions.get(conferenceData.sessionId);
+    const isConferenceOnhold = conferenceSession.isOnHold().local;
     if (isConferenceOnhold) {
       /**
        * because session termination operation in conferenceCall._mergeToConference,
@@ -829,6 +828,43 @@ export default class ConferenceCall extends RcModule {
       return conferenceData;
     }
     return conferenceData;
+  }
+
+  @proxify
+  async onMergeOnhold({ sessionId, callback }) {
+    const session = this._webphone._sessions.get(sessionId);
+    if (this._webphone.isCallRecording(session)) {
+      return;
+    }
+    if (callback && isFunction(callback)) {
+      callback();
+    }
+    this.setMergeParty({ toSessionId: sessionId });
+    const sessionToMergeWith = this._webphone._sessions.get(
+      this.mergingPair.fromSessionId
+    );
+    const isCurrentOnhold = sessionToMergeWith && sessionToMergeWith.isOnHold().local;
+    const webphoneSessions = sessionToMergeWith
+      ? [sessionToMergeWith, session]
+      : [session];
+    await this.mergeToConference(webphoneSessions);
+    const conferenceData = Object.values(this.conferences)[0];
+    if (!conferenceData) {
+      return;
+    }
+    if (conferenceData && isCurrentOnhold) {
+      this._webphone.hold(conferenceData.sessionId);
+      return;
+    }
+    const conferenceSession = this._webphone._sessions.get(conferenceData.sessionId);
+    const isConferenceOnhold = conferenceSession.isOnHold().local;
+    if (conferenceData && isConferenceOnhold) {
+      /**
+       * because session termination operation in conferenceCall._mergeToConference,
+       * need to wait for webphone.getActiveSessionIdReducer to update
+       */
+      this._webphone.resume(conferenceData.sessionId);
+    }
   }
 
   get status() {

@@ -76,7 +76,7 @@ export function normalizeSession(session) {
     contactMatch: session.contactMatch,
     minimized: !!session.minimized,
     partyData: session.partyData || null,
-    lastActiveTime: session.lastActiveTime || +new Date(),
+    lastActiveTime: session.lastActiveTime,
     cached: false,
     removed: false,
   };
@@ -118,6 +118,10 @@ export function isConferenceSession(session) {
 
 export function isRecording(session) {
   return !!(
-    session && session.recordStatus && session.recordStatus !== recordStatus.idle
+    session &&
+    (
+      session.recordStatus === recordStatus.pending ||
+      session.recordStatus === recordStatus.recording
+    )
   );
 }

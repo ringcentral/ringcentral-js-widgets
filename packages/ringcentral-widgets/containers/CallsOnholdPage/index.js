@@ -1,5 +1,9 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import callDirections from 'ringcentral-integration/enums/callDirections';
+import { createSelector } from 'reselect';
+import { filter } from 'ramda';
 
 import withPhone from '../../lib/withPhone';
 import CallsOnholdPanel from '../../components/CallsOnholdPanel';
@@ -9,11 +13,33 @@ import {
   mapToFunctions as mapToBaseFunctions,
 } from '../ActiveCallsPage';
 
+
+class CallsOnholdContainer extends Component {
+  static propTypes = {
+    activeOnHoldCalls: PropTypes.arrayOf(PropTypes.object).isRequired,
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.getCalls = createSelector(
+      () => this.props.activeOnHoldCalls,
+      activeOnHoldCalls => filter(
+        call => call.direction !== callDirections.inbound,
+        activeOnHoldCalls
+      ),
+    );
+  }
+
+  render() {
+    return <CallsOnholdPanel {...this.props} calls={this.getCalls()} />;
+  }
+}
+
 function mapToProps(_, {
   phone,
   phone: {
     callMonitor,
-    contactMatcher,
   },
   ...props
 }) {
@@ -21,12 +47,10 @@ function mapToProps(_, {
     phone,
     ...props,
   });
-  const contactMapping = contactMatcher && contactMatcher.dataMapping;
 
   return {
     ...baseProps,
-    calls: callMonitor.activeOnHoldCalls.filter(call => call.direction !== callDirections.inbound),
-    contactMapping,
+    activeOnHoldCalls: callMonitor.activeOnHoldCalls,
   };
 }
 
@@ -34,7 +58,6 @@ function mapToFunctions(_, {
   params,
   phone,
   phone: {
-    webphone,
     conferenceCall,
     routerInteraction,
   },
@@ -46,37 +69,13 @@ function mapToFunctions(_, {
     phone,
     ...props,
   });
+  const onBackButtonClick = () => {
+    routerInteraction.goBack();
+  };
   return {
     ...baseProps,
     async onMerge(sessionId) {
-      const session = webphone._sessions.get(sessionId);
-      if (webphone.isCallRecording(session)) {
-        return;
-      }
-      routerInteraction.replace('/calls/active');
-      conferenceCall.setMergeParty({ toSessionId: sessionId });
-      const sessionToMergeWith = webphone._sessions.get(conferenceCall.mergingPair.fromSessionId);
-      const isCurrentOnhold = sessionToMergeWith && sessionToMergeWith.isOnHold().local;
-      const webphoneSessions = sessionToMergeWith
-        ? [sessionToMergeWith, session]
-        : [session];
-      await conferenceCall.mergeToConference(webphoneSessions);
-      const conferenceData = Object.values(conferenceCall.conferences)[0];
-      const conferenceSession = webphone._sessions.get(conferenceData.sessionId);
-      const isConferenceOnhold = conferenceSession.isOnHold().local;
-
-      if (conferenceData && isCurrentOnhold) {
-        webphone.hold(conferenceData.sessionId);
-        return;
-      }
-
-      if (conferenceData && isConferenceOnhold) {
-        /**
-         * because session termination operation in conferenceCall._mergeToConference,
-         * need to wait for webphone.getActiveSessionIdReducer to update
-         */
-        webphone.resume(conferenceData.sessionId);
-      }
+      await conferenceCall.onMergeOnhold({ sessionId, callback: this::onBackButtonClick });
     },
     onBackButtonClick() {
       routerInteraction.goBack();
@@ -91,6 +90,6 @@ function mapToFunctions(_, {
 const CallsOnholdPage = withPhone(connect(
   mapToProps,
   mapToFunctions,
-)(CallsOnholdPanel));
+)(CallsOnholdContainer));
 
 export default CallsOnholdPage;

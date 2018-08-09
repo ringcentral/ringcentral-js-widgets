@@ -47,6 +47,21 @@ export default class Modal extends Component {
     this._container = document.createElement('div');
     this.appendDOM = this.props.appendDOM || document.body;
   }
+  static contextTypes = {
+    modalRoot: PropTypes.object
+  };
+
+  componentWillMount() {
+    if (
+      !this.props.appendDOM
+      && this.context.modalRoot
+      && this.context.modalRoot.current
+    ) {
+      // FIXME: because we using the `this.appendDOM`, it's not easy to use provider and consumer
+      // type of the context.
+      this.appendDOM = this.context.modalRoot.current;
+    }
+  }
 
   componentDidMount() {
     this.appendDOM.appendChild(this._container);

@@ -158,36 +158,14 @@ export default class Webphone extends RcModule {
     this.addSelector('activeSession',
       () => this.activeSessionId,
       () => this.sessions,
-      () => this.cachedSessions,
-      (activeSessionId, sessions, cachedSessions) => {
+      (activeSessionId, sessions) => {
         if (!activeSessionId) {
           return null;
         }
-
-        const realActiveSession = sessions.find(
+        const activeSession = sessions.find(
           session => session.id === activeSessionId
         );
-
-        // NOT in conference merging process
-        if (!cachedSessions.length) {
-          return realActiveSession;
-        }
-
-        // realActiveSession is a conference
-        if (isConferenceSession(realActiveSession)) {
-          return realActiveSession;
-        }
-
-        // realActiveSession is cached
-        if (
-          !realActiveSession ||
-          (cachedSessions.find(cachedSession => cachedSession.id === realActiveSession.id))
-        ) {
-          return cachedSessions.sort(sortByCreationTimeDesc)[0];
-        }
-
-        // default rule
-        return [...cachedSessions, realActiveSession].sort(sortByCreationTimeDesc)[0];
+        return activeSession;
       }
     );
 
@@ -481,7 +459,6 @@ export default class Webphone extends RcModule {
     this._webphone.userAgent.on('registrationFailed', onRegistrationFailed);
     this._webphone.userAgent.on('invite', (session) => {
       console.log('UA invite');
-      extractHeadersData(session, session.request.headers);
       this._onInvite(session);
     });
   }
@@ -703,7 +680,7 @@ export default class Webphone extends RcModule {
     session.on('unhold', () => {
       console.log('Event: unhold');
       session.callStatus = sessionStatus.connected;
-      session.lastActiveTime = +new Date();
+      session.lastActiveTime = Date.now();
       this._updateSessions();
     });
     session.mediaHandler.on('userMediaFailed', () => {
@@ -713,8 +690,10 @@ export default class Webphone extends RcModule {
 
   _onInvite(session) {
     session.creationTime = Date.now();
+    session.lastActiveTime = Date.now();
     session.direction = callDirections.inbound;
     session.callStatus = sessionStatus.connecting;
+    extractHeadersData(session, session.request.headers);
     session.on('rejected', () => {
       console.log('Event: Rejected');
       this._onCallEnd(session);
@@ -912,7 +891,7 @@ export default class Webphone extends RcModule {
           message: webphoneErrors.recordDisabled
         });
         // Disabled phone recording
-        session.recordStatus = recordStatus.pending;
+        session.recordStatus = recordStatus.noAccess;
         this._updateSessions();
         return;
       }
@@ -1145,6 +1124,7 @@ export default class Webphone extends RcModule {
     session.direction = callDirections.outbound;
     session.callStatus = sessionStatus.connecting;
     session.creationTime = Date.now();
+    session.lastActiveTime = Date.now();
     session.fromNumber = fromNumber;
     this._onAccepted(session);
     this._holdOtherSession(session.id);

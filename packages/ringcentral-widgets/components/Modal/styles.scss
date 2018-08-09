@@ -119,10 +119,6 @@
   }
 }
 
-.flatBtn:hover {
-  background-color: #e8e8ea;
-}
-
 .flatBtn+.flatBtn {
   margin-left: 10px;
 }
@@ -130,9 +126,16 @@
 .confirmBtn {
   background-color: $primary-color;
   color: $snow;
+  &:hover {
+    opacity: .7;
+  }
 }
 
 .cancelBtn {
   color: $primary-color;
   background: $snow;
+  &:hover {
+    background-color: $primary-color;
+    color: $snow;
+  }
 }

@@ -491,7 +491,7 @@ export default class MessageItem extends Component {
             onViewEntity={onViewContact && this.viewSelectedContact}
             onCreateEntity={onCreateContact && this.createSelectedContact}
             hasEntity={correspondents.length === 1 && !!correspondentMatches.length &&
-              this.state.selected >= 0}
+              (correspondentMatches.length === 1 || this.state.selected >= 0)}
             onClickToDial={!isFax ? (onClickToDial && this.clickToDial) : undefined}
             onClickToSms={isVoicemail ? (onClickToSms && this.onClickToSms) : undefined}
             phoneNumber={phoneNumber}
