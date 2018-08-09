@@ -86,15 +86,14 @@ var CallItem = function (_React$Component) {
 
       var _props = this.props,
           getAvatarUrl = _props.getAvatarUrl,
-          contactMapping = _props.contactMapping,
           call = _props.call;
 
-      var nameMatches = contactMapping && contactMapping[call.webphoneSession.to] || [];
       var contact = call.webphoneSession.contactMatch;
 
       this.mounted = true;
 
       if (!contact) {
+        var nameMatches = call.toMatches || [];
         contact = nameMatches && nameMatches[0];
       }
       getAvatarUrl(contact).then(function (avatarUrl) {
@@ -203,7 +202,6 @@ CallItem.propTypes = {
   disableMerge: _propTypes2.default.bool,
   getAvatarUrl: _propTypes2.default.func,
   onMergeCall: _propTypes2.default.func,
-  contactMapping: _propTypes2.default.object,
   call: _propTypes2.default.object
 };
 
@@ -233,7 +231,6 @@ CallItem.defaultProps = {
   getAvatarUrl: function getAvatarUrl(i) {
     return i;
   },
-  contactMapping: {},
   call: {}
 };
 
@@ -265,7 +262,6 @@ function CallsOnholdContainer(_ref) {
       onBackButtonClick = _ref.onBackButtonClick,
       onMerge = _ref.onMerge,
       onAdd = _ref.onAdd,
-      contactMapping = _ref.contactMapping,
       getAvatarUrl = _ref.getAvatarUrl;
 
   var backHeader = _react2.default.createElement(_BackHeader2.default, {
@@ -314,8 +310,7 @@ function CallsOnholdContainer(_ref) {
           disableMerge: disableMerge,
           hasActionMenu: false,
           showAnswer: false,
-          getAvatarUrl: getAvatarUrl,
-          contactMapping: contactMapping
+          getAvatarUrl: getAvatarUrl
         });
       }) : _react2.default.createElement(
         'div',
@@ -372,8 +367,7 @@ CallsOnholdContainer.propTypes = {
   onCreateContact: _propTypes2.default.func,
   disableMerge: _propTypes2.default.bool,
   onAdd: _propTypes2.default.func,
-  getAvatarUrl: _propTypes2.default.func,
-  contactMapping: _propTypes2.default.object
+  getAvatarUrl: _propTypes2.default.func
 };
 
 CallsOnholdContainer.defaultProps = {
@@ -401,7 +395,6 @@ CallsOnholdContainer.defaultProps = {
   disableMerge: false,
   getAvatarUrl: function getAvatarUrl(i) {
     return i;
-  },
-  contactMapping: {}
+  }
 };
 //# sourceMappingURL=index.js.map
