@@ -82,6 +82,9 @@ var MergeInfo = function (_Component) {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       this.mounted = false;
+      if (this.timeout_clock) {
+        clearTimeout(this.timeout_clock);
+      }
     }
   }, {
     key: 'componentDidMount',
@@ -101,14 +104,21 @@ var MergeInfo = function (_Component) {
             });
           }
         });
-      } else {
-        setTimeout(function () {
-          if (_this2.mounted) {
-            _this2.setState({
-              lastCallInfoTimeout: true
-            });
-          }
-        }, this.props.checkLastCallInfoTimeout);
+      }
+      if (lastCallInfo && lastCallInfo.calleeType !== _calleeTypes2.default.conference) {
+        var isSimplifiedCallAndLastCallInfoNotReady = !lastCallInfo.name || !lastCallInfo.phoneNumber;
+
+        if (isSimplifiedCallAndLastCallInfoNotReady) {
+          this.timeout_clock = setTimeout(function () {
+            if (_this2.mounted) {
+              _this2.setState({
+                lastCallInfoTimeout: true
+              });
+            }
+          }, this.props.checkLastCallInfoTimeout);
+        } else if (this.timeout_clock) {
+          clearTimeout(this.timeout_clock);
+        }
       }
     }
   }, {
@@ -155,7 +165,7 @@ var MergeInfo = function (_Component) {
               spinnerMode: !isLastCallInfoReady
             })
           ),
-          isLastCallInfoReady && _react2.default.createElement(
+          (isLastCallInfoReady || !isLastCallInfoReady && isOnConferenCall) && _react2.default.createElement(
             'div',
             { className: _styles2.default.callee_name },
             isOnConferenCall ? _react2.default.createElement(
@@ -168,7 +178,7 @@ var MergeInfo = function (_Component) {
               calleeName
             )
           ),
-          !isLastCallInfoReady && _react2.default.createElement(
+          !isLastCallInfoReady && !isOnConferenCall && _react2.default.createElement(
             'div',
             { className: _styles2.default.callee_name },
             _react2.default.createElement(
@@ -177,7 +187,7 @@ var MergeInfo = function (_Component) {
               loadingText
             )
           ),
-          isLastCallInfoReady && _react2.default.createElement(
+          (isLastCallInfoReady || !isLastCallInfoReady && isOnConferenCall) && _react2.default.createElement(
             'div',
             { className: statusClasses },
             lastCallInfo.status === _sessionStatus2.default.finished ? _i18n2.default.getString('disconnected', currentLocale) : _i18n2.default.getString('onHold', currentLocale)
