@@ -4,6 +4,12 @@ import uuid from 'uuid';
 import styles from './styles.scss';
 import SpinnerIcon from '../../assets/images/Spinner.svg';
 
+const REGEXP_BLOB_URL = /^blob:.+\/[\w-]{36,}(?:#.+)?$/;
+
+function isBlobURL(value) {
+  return REGEXP_BLOB_URL.test(value);
+}
+
 class CallAvatar extends Component {
   constructor(props) {
     super(props);
@@ -15,18 +21,28 @@ class CallAvatar extends Component {
   }
 
   loadImg(props = this.props) {
+    const { avatarUrl } = props;
+
+    if (isBlobURL(avatarUrl)) {
+      this.setState({
+        avatarUrl
+      });
+      return;
+    }
+
+    // means we have to load it
     if (!this._mounted) {
       return;
     }
-    if (props.avatarUrl) {
+    if (avatarUrl) {
       const $img = document.createElement('img');
-      $img.src = props.avatarUrl;
+      $img.src = avatarUrl;
       $img.onload = () => {
         if (!this._mounted) {
           return;
         }
         this.setState({
-          avatarUrl: props.avatarUrl
+          avatarUrl
         });
       };
       $img.onerror = () => {
@@ -41,14 +57,20 @@ class CallAvatar extends Component {
     }
   }
 
-  componentDidMount() {
-    this._mounted = true;
+  componentWillMount() {
     this.loadImg();
   }
 
-  componentWillReceiveProps(nextProp) {
-    if (nextProp.avatarUrl !== this.props.avatarUrl) {
-      this.loadImg(nextProp);
+  componentDidMount() {
+    this._mounted = true;
+    if (!this.state.avatarUrl) {
+      this.loadImg();
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.avatarUrl !== this.props.avatarUrl) {
+      this.loadImg(nextProps);
     }
   }
 
