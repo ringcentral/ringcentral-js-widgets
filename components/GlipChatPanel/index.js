@@ -111,7 +111,7 @@ var GlipChatPage = function (_Component) {
           mobile = _props.mobile;
 
       var spinner = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : null;
-      var backIcon = mobile ? _react2.default.createElement('img', { src: _left_arrow2.default, alt: 'Back', className: _styles2.default.backIcon, onClick: onBackClick }) : null;
+      var backIcon = onBackClick ? _react2.default.createElement('img', { src: _left_arrow2.default, alt: 'Back', className: _styles2.default.backIcon, onClick: onBackClick }) : null;
       return _react2.default.createElement(
         'div',
         {

@@ -53,9 +53,12 @@ function mapToFunctions(_, _ref2) {
     return dateTimeFormat.formatDateTime({ utcTimestamp: time });
   } : _ref2$dateTimeFormatt,
       onViewPersonProfile = _ref2.onViewPersonProfile,
-      onViewGroup = _ref2.onViewGroup;
+      onViewGroup = _ref2.onViewGroup,
+      _ref2$mobile = _ref2.mobile,
+      mobile = _ref2$mobile === undefined ? true : _ref2$mobile;
 
   return {
+    mobile: mobile,
     loadGroup: function loadGroup(groupId) {
       glipGroups.updateCurrentGroupId(groupId);
     },
