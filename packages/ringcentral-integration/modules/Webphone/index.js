@@ -1310,10 +1310,12 @@ export default class Webphone extends RcModule {
   }
 
   isCallRecording({ session, showAlert = true }) {
-    if (isRecording(session) && showAlert) {
-      this._alert.warning({
-        message: recordStatus.recording,
-      });
+    if (isRecording(session)) {
+      if (showAlert) {
+        this._alert.warning({
+          message: recordStatus.recording,
+        });
+      }
       return true;
     }
     return false;
