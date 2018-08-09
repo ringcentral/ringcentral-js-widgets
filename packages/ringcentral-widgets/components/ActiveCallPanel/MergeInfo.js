@@ -35,16 +35,6 @@ class MergeInfo extends Component {
           });
         }
       });
-<<<<<<< HEAD
-    } else {
-      setTimeout(() => {
-        if (this.mounted) {
-          this.setState({
-            lastCallInfoTimeout: true
-          });
-        }
-      }, this.props.checkLastCallInfoTimeout);
-=======
     }
     if (
       lastCallInfo && lastCallInfo.calleeType !== calleeTypes.conference
@@ -64,7 +54,6 @@ class MergeInfo extends Component {
       } else if (this.timeout_clock) {
         clearTimeout(this.timeout_clock);
       }
->>>>>>> fix(RCINT-8274): fix the loading text is displaying when it is on conference call in simplified call control page
     }
   }
 
