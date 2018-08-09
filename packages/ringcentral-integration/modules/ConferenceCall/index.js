@@ -17,6 +17,7 @@ import ensureExist from '../../lib/ensureExist';
 // import sleep from '../../lib/sleep';
 import callingModes from '../CallingSettings/callingModes';
 import calleeTypes from '../../enums/calleeTypes';
+import { isFunction } from '../../lib/di/utils/is_type';
 
 const DEFAULT_TIMEOUT = 30000;// time out for conferencing session being accepted.
 const DEFAULT_TTL = 5000;// timer to update the conference information
@@ -830,10 +831,13 @@ export default class ConferenceCall extends RcModule {
   }
 
   @proxify
-  async onMergeOnhold({ sessionId }) {
+  async onMergeOnhold({ sessionId, callback }) {
     const session = this._webphone._sessions.get(sessionId);
     if (this._webphone.isCallRecording(session)) {
       return;
+    }
+    if (callback && isFunction(callback)) {
+      callback();
     }
     this.setMergeParty({ toSessionId: sessionId });
     const sessionToMergeWith = this._webphone._sessions.get(
