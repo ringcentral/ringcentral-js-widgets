@@ -97,13 +97,14 @@ describe('RCI-1071: simplified call control page', () => {
 
       await mockAddCall(contactA, contactB);
       expect(phone.routerInteraction.currentPath).toEqual('/conferenceCall/mergeCtrl');
+      await timeout(3000);
 
       const mergeInfo = wrapper.find(MergeInfo);
       expect(mergeInfo).toHaveLength(1);
 
       const callAvatarA = mergeInfo.find(CallAvatar).at(0);
       const callAvatarB = mergeInfo.find(CallAvatar).at(1);
-      // TODO: mock contacts avatar
+      // TODO: mock contactsA's data
       // expect(callAvatar.props().avatarUrl).toEqual('avatarUrl');
       expect(mergeInfo.find('.callee_name').text()).toEqual(contactA.name);
       expect(mergeInfo.find('.callee_status').text()).toEqual('On Hold');
@@ -120,6 +121,7 @@ describe('RCI-1071: simplified call control page', () => {
     const sessionA = phone.webphone._sessions.get(sessionId);
     sessionA.terminate();
     wrapper.update();
+    await timeout(3000);
 
     const mergeInfo = wrapper.find(MergeInfo);
     expect(mergeInfo).toHaveLength(1);
@@ -127,7 +129,7 @@ describe('RCI-1071: simplified call control page', () => {
     const callAvatarA = mergeInfo.find(CallAvatar).at(0);
     const callAvatarB = mergeInfo.find(CallAvatar).at(1);
     const domCalleeStatus = mergeInfo.find('.callee_status');
-    // TODO: mock contacts avatar
+    // TODO: mock contactsA's data
     // expect(callAvatarA.props().avatarUrl).toEqual('');
     expect(mergeInfo.find('.callee_name').text()).toEqual(contactA.name);
     expect(domCalleeStatus.text()).toEqual('Disconnected');
@@ -135,5 +137,5 @@ describe('RCI-1071: simplified call control page', () => {
     expect(callAvatarB.props().avatarUrl).toBeNull();
     expect(mergeInfo.find('.callee_name_active').text()).toEqual('Unknown');
     expect(mergeInfo.find(DurationCounter)).toHaveLength(1);
-  })
+  });
 });
