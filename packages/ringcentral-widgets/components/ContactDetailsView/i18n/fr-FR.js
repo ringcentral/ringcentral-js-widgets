@@ -1,5 +1,5 @@
 export default {
-  contactDetails: 'Coordonnées',
+  contactDetails: "Coordonnées"
 };
 
 // @key: @#@"contactDetails"@#@ @source: @#@"Contact Details"@#@
