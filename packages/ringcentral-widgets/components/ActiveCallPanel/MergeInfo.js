@@ -79,7 +79,7 @@ class MergeInfo extends Component {
       [styles.callee_status_disconnected]: !!isLastCallEnded,
     });
 
-    const isOnConferenCall = !!(
+    const isOnConferenceCall = !!(
       lastCallInfo && lastCallInfo.calleeType === calleeTypes.conference
     );
     const isContacts = !!(
@@ -95,16 +95,16 @@ class MergeInfo extends Component {
               avatarUrl={isContacts && !lastCallInfo.avatarUrl
                 ? lastCallAvatar
                 : lastCallInfo.avatarUrl}
-              extraNum={isOnConferenCall ? lastCallInfo.extraNum : 0}
-              isOnConferenceCall={isOnConferenCall}
-              spinnerMode={!isLastCallInfoReady}
+              extraNum={isOnConferenceCall ? lastCallInfo.extraNum : 0}
+              isOnConferenceCall={isOnConferenceCall}
+              spinnerMode={!isLastCallInfoReady && !isOnConferenceCall}
             />
           </div>
           {
-            (isLastCallInfoReady || (!isLastCallInfoReady && isOnConferenCall)) && (
+            (isLastCallInfoReady || (!isLastCallInfoReady && isOnConferenceCall)) && (
               <div className={styles.callee_name}>
                 {
-                  isOnConferenCall
+                  isOnConferenceCall
                     ? (
                       <span title={i18n.getString('conferenceCall', currentLocale)}>
                         {i18n.getString('conferenceCall', currentLocale)}
@@ -118,7 +118,7 @@ class MergeInfo extends Component {
             )
           }
           {
-            (!isLastCallInfoReady && !isOnConferenCall) && (
+            (!isLastCallInfoReady && !isOnConferenceCall) && (
               <div className={styles.callee_name}>
                 <span title={loadingText}>{loadingText}</span>
               </div>
@@ -126,7 +126,7 @@ class MergeInfo extends Component {
           }
 
           {
-            (isLastCallInfoReady || (!isLastCallInfoReady && isOnConferenCall)) && (
+            (isLastCallInfoReady || (!isLastCallInfoReady && isOnConferenceCall)) && (
               <div className={statusClasses}>
                 {
                   lastCallInfo.status === sessionStatus.finished
