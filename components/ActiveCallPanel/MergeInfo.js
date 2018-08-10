@@ -145,7 +145,7 @@ var MergeInfo = function (_Component) {
       var isLastCallEnded = lastCallInfo && lastCallInfo.status === _sessionStatus2.default.finished;
       var statusClasses = (0, _classnames3.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, _styles2.default.callee_status, true), (0, _defineProperty3.default)(_classnames, _styles2.default.callee_status_disconnected, !!isLastCallEnded), _classnames));
 
-      var isOnConferenCall = !!(lastCallInfo && lastCallInfo.calleeType === _calleeTypes2.default.conference);
+      var isOnConferenceCall = !!(lastCallInfo && lastCallInfo.calleeType === _calleeTypes2.default.conference);
       var isContacts = !!(lastCallInfo && lastCallInfo.calleeType === _calleeTypes2.default.contacts);
       var calleeName = isContacts ? lastCallInfo.name : formatPhone(lastCallInfo.phoneNumber);
       var loadingText = _i18n2.default.getString('loading');
@@ -160,15 +160,15 @@ var MergeInfo = function (_Component) {
             { className: _styles2.default.callee_avatar },
             _react2.default.createElement(_CallAvatar2.default, {
               avatarUrl: isContacts && !lastCallInfo.avatarUrl ? lastCallAvatar : lastCallInfo.avatarUrl,
-              extraNum: isOnConferenCall ? lastCallInfo.extraNum : 0,
-              isOnConferenceCall: isOnConferenCall,
-              spinnerMode: !isLastCallInfoReady
+              extraNum: isOnConferenceCall ? lastCallInfo.extraNum : 0,
+              isOnConferenceCall: isOnConferenceCall,
+              spinnerMode: !isLastCallInfoReady && !isOnConferenceCall
             })
           ),
-          (isLastCallInfoReady || !isLastCallInfoReady && isOnConferenCall) && _react2.default.createElement(
+          (isLastCallInfoReady || !isLastCallInfoReady && isOnConferenceCall) && _react2.default.createElement(
             'div',
             { className: _styles2.default.callee_name },
-            isOnConferenCall ? _react2.default.createElement(
+            isOnConferenceCall ? _react2.default.createElement(
               'span',
               { title: _i18n2.default.getString('conferenceCall', currentLocale) },
               _i18n2.default.getString('conferenceCall', currentLocale)
@@ -178,7 +178,7 @@ var MergeInfo = function (_Component) {
               calleeName
             )
           ),
-          !isLastCallInfoReady && !isOnConferenCall && _react2.default.createElement(
+          !isLastCallInfoReady && !isOnConferenceCall && _react2.default.createElement(
             'div',
             { className: _styles2.default.callee_name },
             _react2.default.createElement(
@@ -187,7 +187,7 @@ var MergeInfo = function (_Component) {
               loadingText
             )
           ),
-          (isLastCallInfoReady || !isLastCallInfoReady && isOnConferenCall) && _react2.default.createElement(
+          (isLastCallInfoReady || !isLastCallInfoReady && isOnConferenceCall) && _react2.default.createElement(
             'div',
             { className: statusClasses },
             lastCallInfo.status === _sessionStatus2.default.finished ? _i18n2.default.getString('disconnected', currentLocale) : _i18n2.default.getString('onHold', currentLocale)
