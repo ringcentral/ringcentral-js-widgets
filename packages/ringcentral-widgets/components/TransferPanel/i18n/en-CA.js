@@ -2,7 +2,7 @@ export default {
   to: 'To:',
   transferTo: 'Transfer to',
   blindTransfer: 'Transfer',
-  enterNameOrNumber: 'Enter Number',
+  enterNameOrNumber: 'Enter Number'
 };
 
 // @key: @#@"to"@#@ @source: @#@"To:"@#@

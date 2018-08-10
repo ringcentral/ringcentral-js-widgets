@@ -1,13 +1,13 @@
 import callingSettingsMessages from 'ringcentral-integration/modules/CallingSettings/callingSettingsMessages';
 
 export default {
-  [callingSettingsMessages.saveSuccess]: "Les paramètres ont été enregistrés.",
-  [callingSettingsMessages.saveSuccessWithSoftphone]: "Les paramètres ont été sauvegardés. Veuillez vous assurer que {brand} pour ordinateur de bureau est installé sur votre machine.",
-  [callingSettingsMessages.permissionChanged]: "Vos autorisations ont été modifiées récemment. Veuillez vous rendre dans {link} pour vérifier vos options d'appel.",
-  [callingSettingsMessages.phoneNumberChanged]: "Les informations de votre téléphone mobile ont été modifiées récemment. Veuillez vous rendre dans {link} pour vérifier vos options d'appel.",
-  link: "Paramètres > Appel",
-  [callingSettingsMessages.webphonePermissionRemoved]: "Vos permissions ont été modifiées et vous ne pouvez pas passer d'appel avec un navigateur. Pour plus de détails, veuillez contacter votre administrateur de compte.",
-  [callingSettingsMessages.emergencyCallingNotAvailable]: "Numéro d'urgence ou service spécial non pris en charge. En cas d'urgence, veuillez utiliser un téléphone fixe ou mobile traditionnel pour contacter les services compétents."
+  [callingSettingsMessages.saveSuccess]: 'Les paramètres ont été enregistrés.',
+  [callingSettingsMessages.saveSuccessWithSoftphone]: 'Les paramètres ont été sauvegardés. Veuillez vous assurer que {brand} pour ordinateur de bureau est installé sur votre machine.',
+  [callingSettingsMessages.permissionChanged]: 'Vos autorisations ont été modifiées récemment. Veuillez vous rendre dans {link} pour vérifier vos options d'appel.',
+  [callingSettingsMessages.phoneNumberChanged]: 'Les informations de votre téléphone mobile ont été modifiées récemment. Veuillez vous rendre dans {link} pour vérifier vos options d'appel.',
+  link: 'Paramètres > Appel',
+  [callingSettingsMessages.webphonePermissionRemoved]: 'Vos permissions ont été modifiées et vous ne pouvez pas passer d'appel avec un navigateur. Pour plus de détails, veuillez contacter votre administrateur de compte.',
+  [callingSettingsMessages.emergencyCallingNotAvailable]: 'Numéro d'urgence ou service spécial non pris en charge. En cas d'urgence, veuillez utiliser un téléphone fixe ou mobile traditionnel pour contacter les services compétents.'
 };
 
 // @key: @#@"[callingSettingsMessages.saveSuccess]"@#@ @source: @#@"Settings saved successfully."@#@

@@ -1,16 +1,16 @@
 export default {
-  logging: "Protokollierung ...",
-  logCall: "Anruf protokollieren",
-  editLog: "Protokoll bearbeiten",
+  logging: 'Protokollierung ...',
+  logCall: 'Anruf protokollieren',
+  editLog: 'Protokoll bearbeiten',
 
-  OnHold: "Wird gehalten",
-  Ringing: "Es wird angerufen",
-  CallConnected: "Anruf verbunden",
-  unknownUser: "Unbekannter Benutzer",
-  unknownNumber: "Anonym",
-  unavailable: "Nicht verfügbar",
-  viewDetails: "Details anzeigen",
-  conferenceCall: "Telefonkonferenz"
+  OnHold: 'Wird gehalten',
+  Ringing: 'Es wird angerufen',
+  CallConnected: 'Anruf verbunden',
+  unknownUser: 'Unbekannter Benutzer',
+  unknownNumber: 'Anonym',
+  unavailable: 'Nicht verfügbar',
+  viewDetails: 'Details anzeigen',
+  conferenceCall: 'Telefonkonferenz'
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@

@@ -1,6 +1,6 @@
 export default {
-  schedule: "Schedule meeting",
-  prompt: "Please authorise RingCentral to access your account information."
+  schedule: 'Schedule meeting',
+  prompt: 'Please authorise RingCentral to access your account information.'
 };
 
 // @key: @#@"schedule"@#@ @source: @#@"Schedule Meeting"@#@

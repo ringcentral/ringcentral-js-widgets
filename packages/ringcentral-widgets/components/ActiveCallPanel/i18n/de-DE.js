@@ -1,8 +1,8 @@
 export default {
-  conferenceCall: "Telefonkonferenz",
-  onHold: "Wird gehalten",
-  unknow: "Unbekannt",
-  disconnected: "Getrennt"
+  conferenceCall: 'Telefonkonferenz',
+  onHold: 'Wird gehalten',
+  unknow: 'Unbekannt',
+  disconnected: 'Getrennt'
 };
 
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@

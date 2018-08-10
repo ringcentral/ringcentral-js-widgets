@@ -1,16 +1,16 @@
 export default {
-  logging: "Connexion en cours...",
-  logCall: "Journal des appels",
-  editLog: "Éditer le journal",
+  logging: 'Connexion en cours...',
+  logCall: 'Journal des appels',
+  editLog: 'Éditer le journal',
 
-  OnHold: "En attente",
-  Ringing: "Sonnerie en cours",
-  CallConnected: "Appel établi",
-  unknownUser: "Utilisateur inconnu",
-  unknownNumber: "Anonyme",
-  unavailable: "Non disponible",
-  viewDetails: "Afficher les détails",
-  conferenceCall: "Conférence téléphonique"
+  OnHold: 'En attente',
+  Ringing: 'Sonnerie en cours',
+  CallConnected: 'Appel établi',
+  unknownUser: 'Utilisateur inconnu',
+  unknownNumber: 'Anonyme',
+  unavailable: 'Non disponible',
+  viewDetails: 'Afficher les détails',
+  conferenceCall: 'Conférence téléphonique'
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@

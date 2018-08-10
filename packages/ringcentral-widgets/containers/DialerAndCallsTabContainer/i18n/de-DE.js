@@ -1,6 +1,6 @@
 export default {
-  dialer: "Ziffernblock",
-  allCalls: "Alle Anrufe"
+  dialer: 'Ziffernblock',
+  allCalls: 'Alle Anrufe'
 };
 
 // @key: @#@"dialer"@#@ @source: @#@"Dial Pad"@#@

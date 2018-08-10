@@ -1,6 +1,6 @@
 export default {
-  dialer: "ダイヤルパッド",
-  allCalls: "すべての通話"
+  dialer: 'ダイヤルパッド',
+  allCalls: 'すべての通話'
 };
 
 // @key: @#@"dialer"@#@ @source: @#@"Dial Pad"@#@

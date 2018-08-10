@@ -1,9 +1,9 @@
 import meetingStatus from 'ringcentral-integration/modules/Meeting/meetingStatus';
 
 export default {
-  [meetingStatus.emptyTopic]: "Veuillez saisir la rubrique de la réunion.",
-  [meetingStatus.noPassword]: "Veuillez fournir le mot de passe de la réunion.",
-  [meetingStatus.scheduledSuccess]: "La réunion est planifiée."
+  [meetingStatus.emptyTopic]: 'Veuillez saisir la rubrique de la réunion.',
+  [meetingStatus.noPassword]: 'Veuillez fournir le mot de passe de la réunion.',
+  [meetingStatus.scheduledSuccess]: 'La réunion est planifiée.'
 };
 
 // @key: @#@"[meetingStatus.emptyTopic]"@#@ @source: @#@"Please enter meeting topic."@#@

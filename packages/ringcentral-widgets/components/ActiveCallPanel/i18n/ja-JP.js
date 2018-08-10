@@ -1,8 +1,8 @@
 export default {
-  conferenceCall: "電話会議",
-  onHold: "保留中",
-  unknow: "不明",
-  disconnected: "切断済み"
+  conferenceCall: '電話会議',
+  onHold: '保留中',
+  unknow: '不明',
+  disconnected: '切断済み'
 };
 
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@

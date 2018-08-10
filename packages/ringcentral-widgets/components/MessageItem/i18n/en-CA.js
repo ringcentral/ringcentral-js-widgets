@@ -6,9 +6,9 @@ export default {
   viewDetails: 'View Details',
   addEntity: 'Create New',
   call: 'Call',
+  text: 'Text',
   conversation: 'Conversation',
   groupConversation: 'Group Conversation',
-  text: 'Text',
   voiceMessage: 'Voice message',
   [messageTypes.voiceMail]: 'Voice Mail',
   mark: 'Mark as Unread',
@@ -18,7 +18,7 @@ export default {
   faxReceived: 'Fax received',
   pages: 'pages',
   preview: 'View',
-  download: 'Download',
+  download: 'Download'
 };
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@

@@ -1,25 +1,25 @@
 import messageTypes from 'ringcentral-integration/enums/messageTypes';
 
 export default {
-  addLog: "Log",
-  editLog: "Edit Log",
-  viewDetails: "View Details",
-  addEntity: "Create New",
-  call: "Call",
-  text: "Text",
-  conversation: "Conversation",
-  groupConversation: "Group Conversation",
-  voiceMessage: "Voice message",
-  [messageTypes.voiceMail]: "Voicemail",
-  mark: "Mark as unread",
-  unmark: "Mark as read",
-  delete: "Delete",
-  faxSent: "Fax sent",
-  faxReceived: "Fax received",
-  pages: "pages",
-  preview: "View",
-  download: "Download",
-  imageAttachment: "Attachment: 1 image"
+  addLog: 'Log',
+  editLog: 'Edit Log',
+  viewDetails: 'View Details',
+  addEntity: 'Create New',
+  call: 'Call',
+  text: 'Text',
+  conversation: 'Conversation',
+  groupConversation: 'Group Conversation',
+  voiceMessage: 'Voice message',
+  [messageTypes.voiceMail]: 'Voicemail',
+  mark: 'Mark as unread',
+  unmark: 'Mark as read',
+  delete: 'Delete',
+  faxSent: 'Fax sent',
+  faxReceived: 'Fax received',
+  pages: 'pages',
+  preview: 'View',
+  download: 'Download',
+  imageAttachment: 'Attachment: 1 image'
 };
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@

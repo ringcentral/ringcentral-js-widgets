@@ -1,5 +1,5 @@
 export default {
-  offlineMode: "Modo offline"
+  offlineMode: 'Modo offline'
 };
 
 // @key: @#@"offlineMode"@#@ @source: @#@"Offline Mode"@#@

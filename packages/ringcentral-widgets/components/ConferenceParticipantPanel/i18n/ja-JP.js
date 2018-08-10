@@ -1,12 +1,12 @@
 export default {
-  removeParticipant: "参加者の削除",
-  confirmStr1: "この通話から",
-  confirmStr2: "を削除してもよろしいですか？",
-  remove: "削除",
-  cancel: "キャンセル",
-  participants: "参加者",
-  participant: "参加者",
-  conferenceCall: "電話会議"
+  removeParticipant: '参加者の削除',
+  confirmStr1: 'この通話から',
+  confirmStr2: 'を削除してもよろしいですか？',
+  remove: '削除',
+  cancel: 'キャンセル',
+  participants: '参加者',
+  participant: '参加者',
+  conferenceCall: '電話会議'
 };
 
 // @key: @#@"removeParticipant"@#@ @source: @#@"Remove Participant"@#@

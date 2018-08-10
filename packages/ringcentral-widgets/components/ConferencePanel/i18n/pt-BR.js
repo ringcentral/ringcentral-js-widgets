@@ -1,20 +1,20 @@
 export default {
-  newConference: "Nova conferência",
-  dialInNumber: "Número de discagem",
-  hostAccess: "Acesso do organizador",
-  participantsAccess: "Acesso de participante",
-  addinalDialInNumbers: "Números de discagem adicionais",
-  selectNumbers: "Selecionar números",
-  enableJoinBeforeHost: "Ativar participação antes de organizar",
-  conferenceCommands: "Comandos de conferência",
-  inviteWithGCalendar: "Convidar com o Google Calendar",
-  inviteWithText: "Convidar com texto",
-  joinAsHost: "Iniciar conferência",
-  internationalNumber: "Números de discagem internacional:",
-  inviteText_att: "Participe da conferência de {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nPrecisa de um número de discagem internacional? Visite {dialInNumbersLinks} \n\nEsta chamada em conferência é possibilitada pelo Sistema de conferência {brandName}.",
-  inviteText_bt: "Participe da conferência {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nNúmeros de discagem adicionais {dialInNumbersLinks}",
-  inviteText_rc: "Participe da conferência de {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nPrecisa de um número de discagem internacional? Visite {dialInNumbersLinks} \n\nEsta chamada em conferência é possibilitada pelo Sistema de conferência {brandName}.",
-  inviteText_telus: "Participe da conferência {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nNúmeros de discagem adicionais {dialInNumbersLinks}"
+  newConference: 'Nova conferência',
+  dialInNumber: 'Número de discagem',
+  hostAccess: 'Acesso do organizador',
+  participantsAccess: 'Acesso de participante',
+  addinalDialInNumbers: 'Números de discagem adicionais',
+  selectNumbers: 'Selecionar números',
+  enableJoinBeforeHost: 'Ativar participação antes de organizar',
+  conferenceCommands: 'Comandos de conferência',
+  inviteWithGCalendar: 'Convidar com o Google Calendar',
+  inviteWithText: 'Convidar com texto',
+  joinAsHost: 'Iniciar conferência',
+  internationalNumber: 'Números de discagem internacional:',
+  inviteText_att: 'Participe da conferência de {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nPrecisa de um número de discagem internacional? Visite {dialInNumbersLinks} \n\nEsta chamada em conferência é possibilitada pelo Sistema de conferência {brandName}.',
+  inviteText_bt: 'Participe da conferência {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nNúmeros de discagem adicionais {dialInNumbersLinks}',
+  inviteText_rc: 'Participe da conferência de {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nPrecisa de um número de discagem internacional? Visite {dialInNumbersLinks} \n\nEsta chamada em conferência é possibilitada pelo Sistema de conferência {brandName}.',
+  inviteText_telus: 'Participe da conferência {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nNúmeros de discagem adicionais {dialInNumbersLinks}'
 };
 
 // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@

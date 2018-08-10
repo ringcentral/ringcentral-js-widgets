@@ -1,20 +1,20 @@
 export default {
-  newConference: "Nueva conferencia",
-  dialInNumber: "Número de marcación",
-  hostAccess: "Acceso de host",
-  participantsAccess: "Acceso de participantes",
-  addinalDialInNumbers: "Números de marcación adicionales",
-  selectNumbers: "Seleccionar números",
-  enableJoinBeforeHost: "Permitir unirse antes que el host",
-  conferenceCommands: "Comandos de conferencia",
-  inviteWithGCalendar: "Invitar con Google Calendar",
-  inviteWithText: "Invitar con mensaje",
-  joinAsHost: "Iniciar conferencia",
-  internationalNumber: "Números de marcación internacionales:",
-  inviteText_att: "Únase a la conferencia de {brandName}.\n\nNúmero de marcación: {formattedDialInNumber} \n{additionalNumbersSection} \nAcceso de participante: {participantCode} \n\n¿Necesita un número de marcación internacional? Visite {dialInNumbersLinks} \n\nEsta llamada de conferencia es posible gracias a {brandName} Conferencing.",
-  inviteText_bt: "Únase a la conferencia de {brandName}.\n\nNúmero de marcación: {formattedDialInNumber} \n{additionalNumbersSection} \nAcceso de participante: {participantCode} \n\nNúmeros de marcación adicionales {dialInNumbersLinks}",
-  inviteText_rc: "Únase a la conferencia de {brandName}.\n\nNúmero de marcación: {formattedDialInNumber} \n{additionalNumbersSection} \nAcceso de participante: {participantCode} \n\n¿Necesita un número de marcación internacional? Visite {dialInNumbersLinks} \n\nEsta llamada de conferencia es posible gracias a {brandName} Conferencing.",
-  inviteText_telus: "Únase a la conferencia de {brandName}.\n\nNúmero de marcación: {formattedDialInNumber} \n{additionalNumbersSection} \nAcceso de participante: {participantCode} \n\nNúmeros de marcación adicionales {dialInNumbersLinks}"
+  newConference: 'Nueva conferencia',
+  dialInNumber: 'Número de marcación',
+  hostAccess: 'Acceso de host',
+  participantsAccess: 'Acceso de participantes',
+  addinalDialInNumbers: 'Números de marcación adicionales',
+  selectNumbers: 'Seleccionar números',
+  enableJoinBeforeHost: 'Permitir unirse antes que el host',
+  conferenceCommands: 'Comandos de conferencia',
+  inviteWithGCalendar: 'Invitar con Google Calendar',
+  inviteWithText: 'Invitar con mensaje',
+  joinAsHost: 'Iniciar conferencia',
+  internationalNumber: 'Números de marcación internacionales:',
+  inviteText_att: 'Únase a la conferencia de {brandName}.\n\nNúmero de marcación: {formattedDialInNumber} \n{additionalNumbersSection} \nAcceso de participante: {participantCode} \n\n¿Necesita un número de marcación internacional? Visite {dialInNumbersLinks} \n\nEsta llamada de conferencia es posible gracias a {brandName} Conferencing.',
+  inviteText_bt: 'Únase a la conferencia de {brandName}.\n\nNúmero de marcación: {formattedDialInNumber} \n{additionalNumbersSection} \nAcceso de participante: {participantCode} \n\nNúmeros de marcación adicionales {dialInNumbersLinks}',
+  inviteText_rc: 'Únase a la conferencia de {brandName}.\n\nNúmero de marcación: {formattedDialInNumber} \n{additionalNumbersSection} \nAcceso de participante: {participantCode} \n\n¿Necesita un número de marcación internacional? Visite {dialInNumbersLinks} \n\nEsta llamada de conferencia es posible gracias a {brandName} Conferencing.',
+  inviteText_telus: 'Únase a la conferencia de {brandName}.\n\nNúmero de marcación: {formattedDialInNumber} \n{additionalNumbersSection} \nAcceso de participante: {participantCode} \n\nNúmeros de marcación adicionales {dialInNumbersLinks}'
 };
 
 // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@

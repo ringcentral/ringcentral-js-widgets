@@ -1,14 +1,14 @@
 import phoneTypes from '../../enums/phoneTypes';
 
 export default {
-  [phoneTypes.business]: "勤務先電話",
-  [phoneTypes.extension]: "内線番号",
-  [phoneTypes.home]: "自宅の番号",
-  [phoneTypes.mobile]: "携帯電話",
-  [phoneTypes.phone]: "電話",
-  [phoneTypes.unknown]: "電話タイプが不明",
-  [phoneTypes.company]: "会社の代表番号",
-  [phoneTypes.direct]: "ダイレクトナンバー"
+  [phoneTypes.business]: '勤務先電話',
+  [phoneTypes.extension]: '内線番号',
+  [phoneTypes.home]: '自宅の番号',
+  [phoneTypes.mobile]: '携帯電話',
+  [phoneTypes.phone]: '電話',
+  [phoneTypes.unknown]: '電話タイプが不明',
+  [phoneTypes.company]: '会社の代表番号',
+  [phoneTypes.direct]: 'ダイレクトナンバー'
 };
 
 // @key: @#@"[phoneTypes.business]"@#@ @source: @#@"Business Phone"@#@

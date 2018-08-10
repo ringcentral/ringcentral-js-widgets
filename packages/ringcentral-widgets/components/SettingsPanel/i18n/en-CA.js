@@ -8,15 +8,15 @@ export default {
   autoCreateLog: 'Auto-create Call Log',
   autoCreateSMSLog: 'Auto-create SMS Log',
   autoLogCalls: 'Auto log calls',
+
   autoLogSMS: 'Auto log SMS',
   clickToSMS: 'Click to SMS',
   clickToDialSMS: 'Click to Dial/SMS',
   audio: 'Audio',
   language: 'Language',
   feedback: 'Feedback',
-  userGuide: 'What\'s New',
+  userGuide: 'What's New'
 };
-
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@

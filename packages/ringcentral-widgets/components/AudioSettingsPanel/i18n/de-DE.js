@@ -1,15 +1,15 @@
 export default {
-  title: "Audio",
-  dialButtonVolume: "Lautstärke Wahltaste",
-  ringtoneVolume: "Lautstärke Klingelton",
-  callVolume: "Anruflautstärke",
-  muteCalls: "Anrufe stummschalten",
-  outputDevice: "Ausgabegerät",
-  inputDevice: "Eingabegerät",
-  micPermission: "Mikrofonberechtigung",
-  noDevice: "Kein Gerät",
-  checkMicPermission: "Berechtigung überprüfen",
-  micNoPermissionMessage: "Die App ist nicht berechtigt, ein Mikrofon zu verwenden"
+  title: 'Audio',
+  dialButtonVolume: 'Lautstärke Wahltaste',
+  ringtoneVolume: 'Lautstärke Klingelton',
+  callVolume: 'Anruflautstärke',
+  muteCalls: 'Anrufe stummschalten',
+  outputDevice: 'Ausgabegerät',
+  inputDevice: 'Eingabegerät',
+  micPermission: 'Mikrofonberechtigung',
+  noDevice: 'Kein Gerät',
+  checkMicPermission: 'Berechtigung überprüfen',
+  micNoPermissionMessage: 'Die App ist nicht berechtigt, ein Mikrofon zu verwenden'
 };
 
 // @key: @#@"title"@#@ @source: @#@"Audio"@#@

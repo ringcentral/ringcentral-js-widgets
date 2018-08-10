@@ -1,20 +1,20 @@
 export default {
-  newConference: "Neue Konferenz",
-  dialInNumber: "Einwahlnummer",
-  hostAccess: "Hostzugang",
-  participantsAccess: "Teilnehmerzugang",
-  addinalDialInNumbers: "Zusätzliche Einwahlnummern",
-  selectNumbers: "Nummern auswählen",
-  enableJoinBeforeHost: "Beitritt vor Host ermöglichen",
-  conferenceCommands: "Konferenzbefehle",
-  inviteWithGCalendar: "Über Google Kalender einladen",
-  inviteWithText: "Mit Textnachricht einladen",
-  joinAsHost: "Konferenz beginnen",
-  internationalNumber: "Internationale Einwahlnummern:",
-  inviteText_att: "Treten Sie bitte der {brandName} Konferenz bei.\n\nEinwahlnummer: {formattedDialInNumber} \n{additionalNumbersSection} \nTeilnehmerzugriff: {participantCode} \n\nBenötigen Sie eine internationale Einwahlnummer? Besuchen Sie bitte {dialInNumbersLinks} \n\nDiese Telefonkonferenz wird Ihnen {brandName} Conferencing bereitgestellt.",
-  inviteText_bt: "Treten Sie bitte der {brandName} Konferenz bei.\n\nEinwahlnummern: {formattedDialInNumber} \n{additionalNumbersSection} \nTeilnehmerzugriff: {participantCode} \n\nZusätzliche Einwahlnummern {dialInNumbersLinks}",
-  inviteText_rc: "Treten Sie bitte der {brandName} Konferenz bei.\n\nEinwahlnummer: {formattedDialInNumber} \n{additionalNumbersSection} \nTeilnehmerzugriff: {participantCode} \n\nBenötigen Sie eine internationale Einwahlnummer? Besuchen Sie bitte {dialInNumbersLinks} \n\nDiese Telefonkonferenz wird Ihnen {brandName} Conferencing bereitgestellt.",
-  inviteText_telus: "Treten Sie bitte der {brandName} Konferenz bei.\n\nEinwahlnummern: {formattedDialInNumber} \n{additionalNumbersSection} \nTeilnehmerzugriff: {participantCode} \n\nZusätzliche Einwahlnummern {dialInNumbersLinks}"
+  newConference: 'Neue Konferenz',
+  dialInNumber: 'Einwahlnummer',
+  hostAccess: 'Hostzugang',
+  participantsAccess: 'Teilnehmerzugang',
+  addinalDialInNumbers: 'Zusätzliche Einwahlnummern',
+  selectNumbers: 'Nummern auswählen',
+  enableJoinBeforeHost: 'Beitritt vor Host ermöglichen',
+  conferenceCommands: 'Konferenzbefehle',
+  inviteWithGCalendar: 'Über Google Kalender einladen',
+  inviteWithText: 'Mit Textnachricht einladen',
+  joinAsHost: 'Konferenz beginnen',
+  internationalNumber: 'Internationale Einwahlnummern:',
+  inviteText_att: 'Treten Sie bitte der {brandName} Konferenz bei.\n\nEinwahlnummer: {formattedDialInNumber} \n{additionalNumbersSection} \nTeilnehmerzugriff: {participantCode} \n\nBenötigen Sie eine internationale Einwahlnummer? Besuchen Sie bitte {dialInNumbersLinks} \n\nDiese Telefonkonferenz wird Ihnen {brandName} Conferencing bereitgestellt.',
+  inviteText_bt: 'Treten Sie bitte der {brandName} Konferenz bei.\n\nEinwahlnummern: {formattedDialInNumber} \n{additionalNumbersSection} \nTeilnehmerzugriff: {participantCode} \n\nZusätzliche Einwahlnummern {dialInNumbersLinks}',
+  inviteText_rc: 'Treten Sie bitte der {brandName} Konferenz bei.\n\nEinwahlnummer: {formattedDialInNumber} \n{additionalNumbersSection} \nTeilnehmerzugriff: {participantCode} \n\nBenötigen Sie eine internationale Einwahlnummer? Besuchen Sie bitte {dialInNumbersLinks} \n\nDiese Telefonkonferenz wird Ihnen {brandName} Conferencing bereitgestellt.',
+  inviteText_telus: 'Treten Sie bitte der {brandName} Konferenz bei.\n\nEinwahlnummern: {formattedDialInNumber} \n{additionalNumbersSection} \nTeilnehmerzugriff: {participantCode} \n\nZusätzliche Einwahlnummern {dialInNumbersLinks}'
 };
 
 // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@

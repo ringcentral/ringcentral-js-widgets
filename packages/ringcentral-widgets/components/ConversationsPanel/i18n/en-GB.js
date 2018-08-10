@@ -1,15 +1,15 @@
 import messageTypes from 'ringcentral-integration/enums/messageTypes';
 
 export default {
-  title: "Messages",
-  search: "Search...",
-  composeText: "Compose text",
-  noMessages: "No messages",
-  noSearchResults: "No matching records found",
-  [messageTypes.all]: "All",
-  [messageTypes.voiceMail]: "Voice",
-  [messageTypes.text]: "Text",
-  [messageTypes.fax]: "Fax"
+  title: 'Messages',
+  search: 'Search...',
+  composeText: 'Compose text',
+  noMessages: 'No messages',
+  noSearchResults: 'No matching records found',
+  [messageTypes.all]: 'All',
+  [messageTypes.voiceMail]: 'Voice',
+  [messageTypes.text]: 'Text',
+  [messageTypes.fax]: 'Fax'
 };
 
 // @key: @#@"title"@#@ @source: @#@"Messages"@#@

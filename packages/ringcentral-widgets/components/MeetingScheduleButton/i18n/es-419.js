@@ -1,6 +1,6 @@
 export default {
-  schedule: "Programar una reunión",
-  prompt: "Autorice a RingCentral a acceder a la información de la cuenta."
+  schedule: 'Programar una reunión',
+  prompt: 'Autorice a RingCentral a acceder a la información de la cuenta.'
 };
 
 // @key: @#@"schedule"@#@ @source: @#@"Schedule Meeting"@#@

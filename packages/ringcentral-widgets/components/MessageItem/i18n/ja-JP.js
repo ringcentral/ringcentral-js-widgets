@@ -1,25 +1,25 @@
 import messageTypes from 'ringcentral-integration/enums/messageTypes';
 
 export default {
-  addLog: "ログ",
-  editLog: "ログの編集",
-  viewDetails: "詳細の表示",
-  addEntity: "新規作成",
-  call: "通話",
-  text: "テキスト",
-  conversation: "会話",
-  groupConversation: "グループ会話",
-  voiceMessage: "ボイスメッセージ",
-  [messageTypes.voiceMail]: "ボイスメール",
-  mark: "未読にする",
-  unmark: "既読にする",
-  delete: "削除",
-  faxSent: "FAX送信済み",
-  faxReceived: "FAX受信済み",
-  pages: "ポケットベル",
-  preview: "表示",
-  download: "ダウンロード",
-  imageAttachment: "添付ファイル：1個の画像"
+  addLog: 'ログ',
+  editLog: 'ログの編集',
+  viewDetails: '詳細の表示',
+  addEntity: '新規作成',
+  call: '通話',
+  text: 'テキスト',
+  conversation: '会話',
+  groupConversation: 'グループ会話',
+  voiceMessage: 'ボイスメッセージ',
+  [messageTypes.voiceMail]: 'ボイスメール',
+  mark: '未読にする',
+  unmark: '既読にする',
+  delete: '削除',
+  faxSent: 'FAX送信済み',
+  faxReceived: 'FAX受信済み',
+  pages: 'ポケットベル',
+  preview: '表示',
+  download: 'ダウンロード',
+  imageAttachment: '添付ファイル：1個の画像'
 };
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@

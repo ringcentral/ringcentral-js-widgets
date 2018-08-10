@@ -1,5 +1,5 @@
 export default {
-  activeCall: "Chamada ativa"
+  activeCall: 'Chamada ativa'
 };
 
 // @key: @#@"activeCall"@#@ @source: @#@"Active Call"@#@

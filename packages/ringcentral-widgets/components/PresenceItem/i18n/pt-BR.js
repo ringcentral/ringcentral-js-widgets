@@ -2,10 +2,10 @@ import presenceStatus from 'ringcentral-integration/modules/Presence/presenceSta
 import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
 
 export default {
-  [presenceStatus.available]: "Disponível",
-  [presenceStatus.busy]: "Ocupado",
-  [presenceStatus.offline]: "Invisível",
-  [dndStatus.doNotAcceptAnyCalls]: "Não perturbe"
+  [presenceStatus.available]: 'Disponível',
+  [presenceStatus.busy]: 'Ocupado',
+  [presenceStatus.offline]: 'Invisível',
+  [dndStatus.doNotAcceptAnyCalls]: 'Não perturbe'
 };
 
 // @key: @#@"[presenceStatus.available]"@#@ @source: @#@"Available"@#@

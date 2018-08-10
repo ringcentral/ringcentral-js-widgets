@@ -2,15 +2,15 @@ import presenceStatus from 'ringcentral-integration/modules/Presence/presenceSta
 import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
 
 export default {
-  extensionLabel: "Ext.",
-  directLabel: "Directo",
-  emailLabel: "Correo electrónico",
-  call: "Llamar",
-  text: "Texto",
-  [presenceStatus.available]: "Disponible",
-  [presenceStatus.offline]: "Invisible",
-  [presenceStatus.busy]: "Ocupado",
-  [dndStatus.doNotAcceptAnyCalls]: "No molestar"
+  extensionLabel: 'Ext.',
+  directLabel: 'Directo',
+  emailLabel: 'Correo electrónico',
+  call: 'Llamar',
+  text: 'Texto',
+  [presenceStatus.available]: 'Disponible',
+  [presenceStatus.offline]: 'Invisible',
+  [presenceStatus.busy]: 'Ocupado',
+  [dndStatus.doNotAcceptAnyCalls]: 'No molestar'
 };
 
 // @key: @#@"extensionLabel"@#@ @source: @#@"Ext."@#@

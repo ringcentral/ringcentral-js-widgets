@@ -1,8 +1,8 @@
 export default {
-  start: "Realizar una visita rápida",
-  skip: "Saltar",
-  next: "Siguiente",
-  finish: "Finalizar"
+  start: 'Realizar una visita rápida',
+  skip: 'Saltar',
+  next: 'Siguiente',
+  finish: 'Finalizar'
 };
 
 // @key: @#@"start"@#@ @source: @#@"Take a Quick Tour"@#@

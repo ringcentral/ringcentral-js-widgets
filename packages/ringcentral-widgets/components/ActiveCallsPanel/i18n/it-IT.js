@@ -1,13 +1,13 @@
 export default {
-  noActiveCalls: "Nessuna chiamata attiva",
-  currentCall: "Chiamata corrente",
-  ringCall: "Squillo chiamata",
-  onHoldCall: "Chiamata in attesa",
-  otherDeviceCall: "Chiamate in corso sugli altri miei dispositivi",
-  confirmation: "Conferma",
-  confirmMergeToConference: "Aggiungere alla conferenza telefonica?",
-  mergeToConference: "Unisci",
-  conferenceCall: "Conferenza telefonica"
+  noActiveCalls: 'Nessuna chiamata attiva',
+  currentCall: 'Chiamata corrente',
+  ringCall: 'Squillo chiamata',
+  onHoldCall: 'Chiamata in attesa',
+  otherDeviceCall: 'Chiamate in corso sugli altri miei dispositivi',
+  confirmation: 'Conferma',
+  confirmMergeToConference: 'Aggiungere alla conferenza telefonica?',
+  mergeToConference: 'Unisci',
+  conferenceCall: 'Conferenza telefonica'
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@

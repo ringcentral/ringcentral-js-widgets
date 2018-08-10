@@ -1,13 +1,13 @@
 export default {
-  cancel: "Cancelar",
-  reply: "Responder",
-  onMyWay: "En camino",
-  customMessage: "Mensaje personalizado",
-  callMeBackIn: "Devuélvame la llamada en",
-  willCallYouBackIn: "Le devolveré la llamada en",
-  min: "minutos",
-  hours: "horas",
-  days: "días"
+  cancel: 'Cancelar',
+  reply: 'Responder',
+  onMyWay: 'En camino',
+  customMessage: 'Mensaje personalizado',
+  callMeBackIn: 'Devuélvame la llamada en',
+  willCallYouBackIn: 'Le devolveré la llamada en',
+  min: 'minutos',
+  hours: 'horas',
+  days: 'días'
 };
 
 // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@

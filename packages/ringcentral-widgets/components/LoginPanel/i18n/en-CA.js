@@ -1,6 +1,6 @@
 export default {
   loginButton: 'Sign In',
-  version: 'Version',
+  version: 'Version'
 };
 
 // @key: @#@"loginButton"@#@ @source: @#@"Sign In"@#@

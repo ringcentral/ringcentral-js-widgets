@@ -1,22 +1,22 @@
 import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErrors';
 
 export default {
-  [webphoneErrors.connectFailed]: "ウェブ電話サーバーとの接続が失敗しました。",
-  [webphoneErrors.connected]: "ウェブ電話は登録されています。",
-  [webphoneErrors.browserNotSupported]: "ブラウザーを使用した通話は、Chromeのみでサポートされています。",
-  [webphoneErrors.webphoneCountOverLimit]: "登録できるウェブ電話は最大5台です。",
-  [webphoneErrors.notOutboundCallWithoutDL]: "お使いの内線は、現在、ブラウザーを使用した通話発信を許可されていません。アップグレードについてアカウント担当者にお問い合わせください。",
-  [webphoneErrors.getSipProvisionError]: "メッセージを送信するためのアクセス許可がありません。",
-  [webphoneErrors.toVoiceMailError]: "内部エラーにより、通話をボイスメールに送信できません",
-  [webphoneErrors.muteError]: "現在、通話をミュートできません。",
-  [webphoneErrors.holdError]: "現在、通話を保留できません。",
-  [webphoneErrors.flipError]: "通話をフリップできません。後でもう一度やり直してください。",
-  [webphoneErrors.recordError]: "現在、通話を録音できません。エラーコード：{errorCode}",
-  [webphoneErrors.recordDisabled]: "申し訳ありません。お使いのアカウントでは、通話を録音する機能はサポートされていません。アカウント管理者にお問い合わせください。",
-  [webphoneErrors.transferError]: "通話を転送できません。後でもう一度やり直してください。",
-  webphoneUnavailable: "{error}。サーバーに再接続しています。エラーが解決しない場合は、このエラーを{brandName}サポートに報告してください。",
-  errorCode: "内部エラーコード：{errorCode}",
-  occurs: "内部エラーコード"
+  [webphoneErrors.connectFailed]: 'ウェブ電話サーバーとの接続が失敗しました。',
+  [webphoneErrors.connected]: 'ウェブ電話は登録されています。',
+  [webphoneErrors.browserNotSupported]: 'ブラウザーを使用した通話は、Chromeのみでサポートされています。',
+  [webphoneErrors.webphoneCountOverLimit]: '登録できるウェブ電話は最大5台です。',
+  [webphoneErrors.notOutboundCallWithoutDL]: 'お使いの内線は、現在、ブラウザーを使用した通話発信を許可されていません。アップグレードについてアカウント担当者にお問い合わせください。',
+  [webphoneErrors.getSipProvisionError]: 'メッセージを送信するためのアクセス許可がありません。',
+  [webphoneErrors.toVoiceMailError]: '内部エラーにより、通話をボイスメールに送信できません',
+  [webphoneErrors.muteError]: '現在、通話をミュートできません。',
+  [webphoneErrors.holdError]: '現在、通話を保留できません。',
+  [webphoneErrors.flipError]: '通話をフリップできません。後でもう一度やり直してください。',
+  [webphoneErrors.recordError]: '現在、通話を録音できません。エラーコード：{errorCode}',
+  [webphoneErrors.recordDisabled]: '申し訳ありません。お使いのアカウントでは、通話を録音する機能はサポートされていません。アカウント管理者にお問い合わせください。',
+  [webphoneErrors.transferError]: '通話を転送できません。後でもう一度やり直してください。',
+  webphoneUnavailable: '{error}。サーバーに再接続しています。エラーが解決しない場合は、このエラーを{brandName}サポートに報告してください。',
+  errorCode: '内部エラーコード：{errorCode}',
+  occurs: '内部エラーコード'
 };
 
 // @key: @#@"[webphoneErrors.connectFailed]"@#@ @source: @#@"Connect with web phone server failed."@#@

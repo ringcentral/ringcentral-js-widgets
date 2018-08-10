@@ -1,25 +1,25 @@
 import messageTypes from 'ringcentral-integration/enums/messageTypes';
 
 export default {
-  addLog: "Protokoll",
-  editLog: "Protokoll bearbeiten",
-  viewDetails: "Details anzeigen",
-  addEntity: "Neu erstellen",
-  call: "Anrufen",
-  text: "Textnachr",
-  conversation: "Gespräch",
-  groupConversation: "Gruppengespräch",
-  voiceMessage: "Sprachnachr",
-  [messageTypes.voiceMail]: "Voicemail",
-  mark: "Als ungelesen markieren",
-  unmark: "Als gelesen markieren",
-  delete: "Löschen",
-  faxSent: "Fax gesendet",
-  faxReceived: "Fax erhalten",
-  pages: "Seiten",
-  preview: "Anzeigen",
-  download: "Herunterladen",
-  imageAttachment: "Anhang: 1 Bild"
+  addLog: 'Protokoll',
+  editLog: 'Protokoll bearbeiten',
+  viewDetails: 'Details anzeigen',
+  addEntity: 'Neu erstellen',
+  call: 'Anrufen',
+  text: 'Textnachr',
+  conversation: 'Gespräch',
+  groupConversation: 'Gruppengespräch',
+  voiceMessage: 'Sprachnachr',
+  [messageTypes.voiceMail]: 'Voicemail',
+  mark: 'Als ungelesen markieren',
+  unmark: 'Als gelesen markieren',
+  delete: 'Löschen',
+  faxSent: 'Fax gesendet',
+  faxReceived: 'Fax erhalten',
+  pages: 'Seiten',
+  preview: 'Anzeigen',
+  download: 'Herunterladen',
+  imageAttachment: 'Anhang: 1 Bild'
 };
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@

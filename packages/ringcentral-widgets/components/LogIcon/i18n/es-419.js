@@ -1,7 +1,7 @@
 export default {
-  logged: "Registrada",
-  unlogged: "No trabajado",
-  faxNotSupported: "No se pueden registrar mensajes por fax."
+  logged: 'Registrada',
+  unlogged: 'No trabajado',
+  faxNotSupported: 'No se pueden registrar mensajes por fax.'
 };
 
 // @key: @#@"logged"@#@ @source: @#@"Logged"@#@

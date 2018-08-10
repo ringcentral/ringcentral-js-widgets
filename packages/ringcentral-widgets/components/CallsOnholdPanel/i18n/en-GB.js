@@ -1,7 +1,7 @@
 export default {
-  add: "Add",
-  noCallsOnhold: "No calls on hold",
-  activeCall: "Active call"
+  add: 'Add',
+  noCallsOnhold: 'No calls on hold',
+  activeCall: 'Active call'
 };
 
 // @key: @#@"add"@#@ @source: @#@"Add"@#@

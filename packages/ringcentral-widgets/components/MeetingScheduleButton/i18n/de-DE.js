@@ -1,6 +1,6 @@
 export default {
-  schedule: "Besprechung planen",
-  prompt: "Bitte autorisieren Sie RingCentral für den Zugriff auf Ihre Kontoinformationen."
+  schedule: 'Besprechung planen',
+  prompt: 'Bitte autorisieren Sie RingCentral für den Zugriff auf Ihre Kontoinformationen.'
 };
 
 // @key: @#@"schedule"@#@ @source: @#@"Schedule Meeting"@#@

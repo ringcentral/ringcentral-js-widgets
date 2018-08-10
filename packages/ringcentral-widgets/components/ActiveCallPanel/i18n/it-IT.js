@@ -1,8 +1,8 @@
 export default {
-  conferenceCall: "Conferenza telefonica",
-  onHold: "Messa in attesa",
-  unknow: "Sconosciuto",
-  disconnected: "Disconnessa"
+  conferenceCall: 'Conferenza telefonica',
+  onHold: 'Messa in attesa',
+  unknow: 'Sconosciuto',
+  disconnected: 'Disconnessa'
 };
 
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@

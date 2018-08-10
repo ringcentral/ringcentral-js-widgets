@@ -1,7 +1,7 @@
 export default {
-  add: "Hinzufügen",
-  noCallsOnhold: "Keine Anrufe werden gehalten",
-  activeCall: "Aktiver Anruf"
+  add: 'Hinzufügen',
+  noCallsOnhold: 'Keine Anrufe werden gehalten',
+  activeCall: 'Aktiver Anruf'
 };
 
 // @key: @#@"add"@#@ @source: @#@"Add"@#@

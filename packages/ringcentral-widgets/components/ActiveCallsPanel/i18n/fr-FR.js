@@ -1,13 +1,13 @@
 export default {
-  noActiveCalls: "Aucun appel actif",
-  currentCall: "Appel actuel",
-  ringCall: "Sonnerie en cours",
-  onHoldCall: "Appel en attente",
-  otherDeviceCall: "Appels en cours sur mes autres appareils",
-  confirmation: "Confirmation",
-  confirmMergeToConference: "Ajouter à la conférence téléphonique ?",
-  mergeToConference: "Fusionner",
-  conferenceCall: "Conférence téléphonique"
+  noActiveCalls: 'Aucun appel actif',
+  currentCall: 'Appel actuel',
+  ringCall: 'Sonnerie en cours',
+  onHoldCall: 'Appel en attente',
+  otherDeviceCall: 'Appels en cours sur mes autres appareils',
+  confirmation: 'Confirmation',
+  confirmMergeToConference: 'Ajouter à la conférence téléphonique ?',
+  mergeToConference: 'Fusionner',
+  conferenceCall: 'Conférence téléphonique'
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@

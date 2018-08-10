@@ -1,7 +1,7 @@
 export default {
-  flipHeader: "通話のフリップ先...",
-  flip: "フリップ",
-  complete: "フリップの完了"
+  flipHeader: '通話のフリップ先...',
+  flip: 'フリップ',
+  complete: 'フリップの完了'
 };
 
 // @key: @#@"flipHeader"@#@ @source: @#@"Flip Call to..."@#@

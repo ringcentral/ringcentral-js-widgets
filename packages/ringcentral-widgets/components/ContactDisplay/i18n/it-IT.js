@@ -1,16 +1,16 @@
 export default {
-  logging: "Connessione...",
-  logCall: "Registra chiamata",
-  editLog: "Modifica registro",
+  logging: 'Connessione...',
+  logCall: 'Registra chiamata',
+  editLog: 'Modifica registro',
 
-  OnHold: "In attesa",
-  Ringing: "Chiamata in corso",
-  CallConnected: "Chiamata connessa",
-  unknownUser: "Utente sconosciuto",
-  unknownNumber: "Anonimo",
-  unavailable: "Non disponibile",
-  viewDetails: "Visualizza dettagli",
-  conferenceCall: "Conferenza telefonica"
+  OnHold: 'In attesa',
+  Ringing: 'Chiamata in corso',
+  CallConnected: 'Chiamata connessa',
+  unknownUser: 'Utente sconosciuto',
+  unknownNumber: 'Anonimo',
+  unavailable: 'Non disponibile',
+  viewDetails: 'Visualizza dettagli',
+  conferenceCall: 'Conferenza telefonica'
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@

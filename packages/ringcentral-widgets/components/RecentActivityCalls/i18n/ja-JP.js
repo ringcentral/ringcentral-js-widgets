@@ -1,8 +1,8 @@
 export default {
-  noRecords: "最近の記録が見つかりません。",
-  inBound: "着信",
-  outBound: "発信",
-  missed: "不在着信"
+  noRecords: '最近の記録が見つかりません。',
+  inBound: '着信',
+  outBound: '発信',
+  missed: '不在着信'
 };
 
 // @key: @#@"noRecords"@#@ @source: @#@"No recent records found."@#@

@@ -1,8 +1,8 @@
 export default {
-  conferenceCall: "Conference Call",
-  onHold: "On Hold",
-  unknow: "Unknown",
-  disconnected: "Disconnected"
+  conferenceCall: 'Conference Call',
+  onHold: 'On Hold',
+  unknow: 'Unknown',
+  disconnected: 'Disconnected'
 };
 
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@

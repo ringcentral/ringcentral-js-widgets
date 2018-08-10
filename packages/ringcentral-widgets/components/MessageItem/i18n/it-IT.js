@@ -1,25 +1,25 @@
 import messageTypes from 'ringcentral-integration/enums/messageTypes';
 
 export default {
-  addLog: "Registro",
-  editLog: "Modifica registro",
-  viewDetails: "Visualizza dettagli",
-  addEntity: "Crea nuovo",
-  call: "Chiama",
-  text: "SMS",
-  conversation: "Conversazione",
-  groupConversation: "Conversazione di gruppo",
-  voiceMessage: "Messaggio vocale",
-  [messageTypes.voiceMail]: "Segreteria telefonica",
-  mark: "Contrassegna come non letto",
-  unmark: "Contrassegna come letto",
-  delete: "Elimina",
-  faxSent: "Fax inviato",
-  faxReceived: "Fax ricevuto",
-  pages: "pagine",
-  preview: "Visualizza",
-  download: "Scarica",
-  imageAttachment: "Allegato: 1 immagine"
+  addLog: 'Registro',
+  editLog: 'Modifica registro',
+  viewDetails: 'Visualizza dettagli',
+  addEntity: 'Crea nuovo',
+  call: 'Chiama',
+  text: 'SMS',
+  conversation: 'Conversazione',
+  groupConversation: 'Conversazione di gruppo',
+  voiceMessage: 'Messaggio vocale',
+  [messageTypes.voiceMail]: 'Segreteria telefonica',
+  mark: 'Contrassegna come non letto',
+  unmark: 'Contrassegna come letto',
+  delete: 'Elimina',
+  faxSent: 'Fax inviato',
+  faxReceived: 'Fax ricevuto',
+  pages: 'pagine',
+  preview: 'Visualizza',
+  download: 'Scarica',
+  imageAttachment: 'Allegato: 1 immagine'
 };
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@

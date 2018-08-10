@@ -1,17 +1,17 @@
 export default {
-  unmute: "Riattiva audio",
-  mute: "No audio",
-  keypad: "Tastierino",
-  hold: "Attesa",
-  onHold: "In attesa",
-  park: "Parcheggia",
-  stopRecord: "Interrompi",
-  record: "Registra",
-  add: "Aggiungi",
-  transfer: "Trasferisci",
-  flip: "Commuta",
-  more: "Azioni chiamata",
-  mergeToConference: "Unisci"
+  unmute: 'Riattiva audio',
+  mute: 'No audio',
+  keypad: 'Tastierino',
+  hold: 'Attesa',
+  onHold: 'In attesa',
+  park: 'Parcheggia',
+  stopRecord: 'Interrompi',
+  record: 'Registra',
+  add: 'Aggiungi',
+  transfer: 'Trasferisci',
+  flip: 'Commuta',
+  more: 'Azioni chiamata',
+  mergeToConference: 'Unisci'
 };
 
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@

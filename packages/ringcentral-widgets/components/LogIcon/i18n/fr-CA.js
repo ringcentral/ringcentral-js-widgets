@@ -1,7 +1,7 @@
 export default {
-  logged: "Connecté",
-  unlogged: "Non traité",
-  faxNotSupported: "L'enregistrement du fax n'est pas pris en charge."
+  logged: 'Connecté',
+  unlogged: 'Non traité',
+  faxNotSupported: 'L'enregistrement du fax n'est pas pris en charge.'
 };
 
 // @key: @#@"logged"@#@ @source: @#@"Logged"@#@

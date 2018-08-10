@@ -1,15 +1,15 @@
 export default {
-  title: "Audio",
-  dialButtonVolume: "Volumen del botón \"Marcar\"",
-  ringtoneVolume: "Volumen del tono de llamada",
-  callVolume: "Volumen de llamadas",
-  muteCalls: "Silenciar llamadas",
-  outputDevice: "Dispositivo de salida",
-  inputDevice: "Dispositivo de entrada",
-  micPermission: "Permiso para el micrófono",
-  noDevice: "No hay dispositivo",
-  checkMicPermission: "Comprobar permiso",
-  micNoPermissionMessage: "La aplicación no tiene permiso para utilizar el micrófono"
+  title: 'Audio',
+  dialButtonVolume: 'Volumen del botón \'Marcar\'',
+  ringtoneVolume: 'Volumen del tono de llamada',
+  callVolume: 'Volumen de llamadas',
+  muteCalls: 'Silenciar llamadas',
+  outputDevice: 'Dispositivo de salida',
+  inputDevice: 'Dispositivo de entrada',
+  micPermission: 'Permiso para el micrófono',
+  noDevice: 'No hay dispositivo',
+  checkMicPermission: 'Comprobar permiso',
+  micNoPermissionMessage: 'La aplicación no tiene permiso para utilizar el micrófono'
 };
 
 // @key: @#@"title"@#@ @source: @#@"Audio"@#@

@@ -1,5 +1,5 @@
 export default {
-  saveLog: "保存"
+  saveLog: '保存'
 };
 
 // @key: @#@"saveLog"@#@ @source: @#@"Save"@#@

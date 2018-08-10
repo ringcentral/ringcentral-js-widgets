@@ -1,7 +1,7 @@
 export default {
-  add: "追加",
-  noCallsOnhold: "保留中の通話はありません",
-  activeCall: "アクティブな通話"
+  add: '追加',
+  noCallsOnhold: '保留中の通話はありません',
+  activeCall: 'アクティブな通話'
 };
 
 // @key: @#@"add"@#@ @source: @#@"Add"@#@

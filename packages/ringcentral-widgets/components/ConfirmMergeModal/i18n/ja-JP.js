@@ -1,8 +1,8 @@
 export default {
-  confirmation: "確認",
-  confirmMergeToConference: "電話会議に追加しますか?",
-  mergeToConference: "マージ",
-  conferenceCall: "電話会議"
+  confirmation: '確認',
+  confirmMergeToConference: '電話会議に追加しますか?',
+  mergeToConference: 'マージ',
+  conferenceCall: '電話会議'
 };
 
 // @key: @#@"confirmation"@#@ @source: @#@"Confirmation"@#@

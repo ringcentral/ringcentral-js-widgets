@@ -1,21 +1,21 @@
 export default {
-  region: "Région",
-  calling: "Appel",
-  logout: "Déconnexion",
-  version: "Version",
-  settings: "Paramètres",
-  clickToDial: "Cliquer pour appeler",
-  autoCreateLog: "Créer automatiquement un journal des appels",
-  autoCreateSMSLog: "Créer automatiquement un journal de SMS",
-  autoLogCalls: "Enregistrer automatiquement les appels",
-  autoLogNotes: "Enregistrer automatiquement les remarques",
-  autoLogSMS: "Enregistrer automatiquement les SMS",
-  clickToSMS: "Cliquer pour envoyer un SMS",
-  clickToDialSMS: "Cliquer pour appeler ou envoyer un SMS",
-  audio: "Audio",
-  language: "Langue",
-  feedback: "Commentaires",
-  userGuide: "Nouveautés"
+  region: 'Région',
+  calling: 'Appel',
+  logout: 'Déconnexion',
+  version: 'Version',
+  settings: 'Paramètres',
+  clickToDial: 'Cliquer pour appeler',
+  autoCreateLog: 'Créer automatiquement un journal des appels',
+  autoCreateSMSLog: 'Créer automatiquement un journal de SMS',
+  autoLogCalls: 'Enregistrer automatiquement les appels',
+  autoLogNotes: 'Enregistrer automatiquement les remarques',
+  autoLogSMS: 'Enregistrer automatiquement les SMS',
+  clickToSMS: 'Cliquer pour envoyer un SMS',
+  clickToDialSMS: 'Cliquer pour appeler ou envoyer un SMS',
+  audio: 'Audio',
+  language: 'Langue',
+  feedback: 'Commentaires',
+  userGuide: 'Nouveautés'
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@

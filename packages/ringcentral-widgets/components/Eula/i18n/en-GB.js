@@ -1,6 +1,6 @@
 export default {
-  eula: "End User Licence Agreement",
-  serviceTerms: "Service Terms"
+  eula: 'End User Licence Agreement',
+  serviceTerms: 'Service Terms'
 };
 
 // @key: @#@"eula"@#@ @source: @#@"End User License Agreement"@#@

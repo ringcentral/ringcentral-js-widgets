@@ -1,15 +1,15 @@
 export default {
-  title: "オーディオ",
-  dialButtonVolume: "ダイヤルボタンの音量",
-  ringtoneVolume: "着信音の音量",
-  callVolume: "通話の音量",
-  muteCalls: "通話をミュート",
-  outputDevice: "出力デバイス",
-  inputDevice: "入力デバイス",
-  micPermission: "マイクロフォンのアクセス許可",
-  noDevice: "デバイスがありません",
-  checkMicPermission: "アクセス許可の確認",
-  micNoPermissionMessage: "このアプリには、マイクロフォンを使用するためのアクセス許可がありません"
+  title: 'オーディオ',
+  dialButtonVolume: 'ダイヤルボタンの音量',
+  ringtoneVolume: '着信音の音量',
+  callVolume: '通話の音量',
+  muteCalls: '通話をミュート',
+  outputDevice: '出力デバイス',
+  inputDevice: '入力デバイス',
+  micPermission: 'マイクロフォンのアクセス許可',
+  noDevice: 'デバイスがありません',
+  checkMicPermission: 'アクセス許可の確認',
+  micNoPermissionMessage: 'このアプリには、マイクロフォンを使用するためのアクセス許可がありません'
 };
 
 // @key: @#@"title"@#@ @source: @#@"Audio"@#@

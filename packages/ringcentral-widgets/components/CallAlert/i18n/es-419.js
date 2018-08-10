@@ -1,17 +1,17 @@
 import callErrors from 'ringcentral-integration/modules/Call/callErrors';
 
 export default {
-  [callErrors.noToNumber]: "Ingrese un número de teléfono válido.",
-  [callErrors.noAreaCode]: "Defina el {areaCodeLink} para utilizar números de teléfono locales de 7 dígitos.",
-  [callErrors.specialNumber]: "No es posible llamar a emergencias o a números de servicios especiales.",
-  [callErrors.connectFailed]: "Error de conexión. Vuelva a intentarlo más tarde.",
-  [callErrors.internalError]: "Se produjo un error en la conexión. Vuelva a intentarlo más tarde.",
-  [callErrors.notAnExtension]: "El número de extensión no existe.",
-  [callErrors.networkError]: "No se puede conectar debido a errores de la red. Vuelva a intentarlo más tarde.",
-  [callErrors.noInternational]: "No tiene permisos para hacer llamadas internacionales. Cominíquese con el administrador de su cuenta de {brand} para obtener permisos.",
-  [callErrors.noRingoutEnable]: "Su extensión puede hacer llamadas con la aplicación de escritorio.\n    Si desea acceder a otras opciones\n    comuníquese con el administrador de su cuenta para la actualización.",
-  areaCode: "código de área",
-  telus911: "No se pueden hacer llamadas de emergencia."
+  [callErrors.noToNumber]: 'Ingrese un número de teléfono válido.',
+  [callErrors.noAreaCode]: 'Defina el {areaCodeLink} para utilizar números de teléfono locales de 7 dígitos.',
+  [callErrors.specialNumber]: 'No es posible llamar a emergencias o a números de servicios especiales.',
+  [callErrors.connectFailed]: 'Error de conexión. Vuelva a intentarlo más tarde.',
+  [callErrors.internalError]: 'Se produjo un error en la conexión. Vuelva a intentarlo más tarde.',
+  [callErrors.notAnExtension]: 'El número de extensión no existe.',
+  [callErrors.networkError]: 'No se puede conectar debido a errores de la red. Vuelva a intentarlo más tarde.',
+  [callErrors.noInternational]: 'No tiene permisos para hacer llamadas internacionales. Cominíquese con el administrador de su cuenta de {brand} para obtener permisos.',
+  [callErrors.noRingoutEnable]: 'Su extensión puede hacer llamadas con la aplicación de escritorio.\n    Si desea acceder a otras opciones\n    comuníquese con el administrador de su cuenta para la actualización.',
+  areaCode: 'código de área',
+  telus911: 'No se pueden hacer llamadas de emergencia.'
 };
 
 // @key: @#@"[callErrors.noToNumber]"@#@ @source: @#@"Please enter a valid phone number."@#@

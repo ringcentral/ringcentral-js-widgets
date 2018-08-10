@@ -1,17 +1,17 @@
 export default {
-  unmute: "Désac. muet",
-  mute: "Muet",
-  keypad: "Clavier",
-  hold: "Attente",
-  onHold: "En attente",
-  park: "Parc",
-  stopRecord: "Arrêter",
-  record: "Enregistrer",
-  add: "Ajouter",
-  transfer: "Transférer",
-  flip: "Renvoi\ninstantané",
-  more: "Actions d'appel",
-  mergeToConference: "Fusionner"
+  unmute: 'Désac. muet',
+  mute: 'Muet',
+  keypad: 'Clavier',
+  hold: 'Attente',
+  onHold: 'En attente',
+  park: 'Parc',
+  stopRecord: 'Arrêter',
+  record: 'Enregistrer',
+  add: 'Ajouter',
+  transfer: 'Transférer',
+  flip: 'Renvoi\ninstantané',
+  more: 'Actions d'appel',
+  mergeToConference: 'Fusionner'
 };
 
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@

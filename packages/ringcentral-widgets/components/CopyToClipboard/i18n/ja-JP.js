@@ -1,5 +1,5 @@
 export default {
-  copyToClipboard: "クリップボードにコピー"
+  copyToClipboard: 'クリップボードにコピー'
 };
 
 // @key: @#@"copyToClipboard"@#@ @source: @#@"Copy to Clipboard"@#@

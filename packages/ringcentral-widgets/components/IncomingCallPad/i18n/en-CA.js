@@ -5,7 +5,7 @@ export default {
   toVoicemail: 'To Voicemail',
   answer: 'Answer',
   answerAndEnd: 'Answer & End',
-  answerAndHold: 'Answer & Hold',
+  answerAndHold: 'Answer & Hold'
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

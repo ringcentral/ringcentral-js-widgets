@@ -1,15 +1,15 @@
 export default {
-  title: "Audio",
-  dialButtonVolume: "Volume du bouton pour composer un numéro",
-  ringtoneVolume: "Volume de la sonnerie",
-  callVolume: "Volume de l'appel",
-  muteCalls: "Couper le son d'un appel",
-  outputDevice: "Périphérique de sortie",
-  inputDevice: "Périphérique d'entrée",
-  micPermission: "Autorisation de l'usage du microphone",
-  noDevice: "Aucun appareil",
-  checkMicPermission: "Vérifiez votre permission",
-  micNoPermissionMessage: "L'application ne possède pas la permission d'utiliser le microphone"
+  title: 'Audio',
+  dialButtonVolume: 'Volume du bouton pour composer un numéro',
+  ringtoneVolume: 'Volume de la sonnerie',
+  callVolume: 'Volume de l'appel',
+  muteCalls: 'Couper le son d'un appel',
+  outputDevice: 'Périphérique de sortie',
+  inputDevice: 'Périphérique d'entrée',
+  micPermission: 'Autorisation de l'usage du microphone',
+  noDevice: 'Aucun appareil',
+  checkMicPermission: 'Vérifiez votre permission',
+  micNoPermissionMessage: 'L'application ne possède pas la permission d'utiliser le microphone'
 };
 
 // @key: @#@"title"@#@ @source: @#@"Audio"@#@

@@ -1,13 +1,13 @@
 export default {
-  noActiveCalls: "Keine aktiven Anrufe",
-  currentCall: "Aktueller Anruf",
-  ringCall: "Anruf wird getätigt",
-  onHoldCall: "Anruf wird gehalten",
-  otherDeviceCall: "Aktuelle Gespräche auf meinen anderen Geräten",
-  confirmation: "Bestätigung",
-  confirmMergeToConference: "Zur Telefonkonferenz hinzufügen?",
-  mergeToConference: "Zusammenfügen",
-  conferenceCall: "Telefonkonferenz"
+  noActiveCalls: 'Keine aktiven Anrufe',
+  currentCall: 'Aktueller Anruf',
+  ringCall: 'Anruf wird getätigt',
+  onHoldCall: 'Anruf wird gehalten',
+  otherDeviceCall: 'Aktuelle Gespräche auf meinen anderen Geräten',
+  confirmation: 'Bestätigung',
+  confirmMergeToConference: 'Zur Telefonkonferenz hinzufügen?',
+  mergeToConference: 'Zusammenfügen',
+  conferenceCall: 'Telefonkonferenz'
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@

@@ -1,7 +1,7 @@
 export default {
-  logged: "Connesso",
-  unlogged: "Non elaborato",
-  faxNotSupported: "Registro fax non supportato."
+  logged: 'Connesso',
+  unlogged: 'Non elaborato',
+  faxNotSupported: 'Registro fax non supportato.'
 };
 
 // @key: @#@"logged"@#@ @source: @#@"Logged"@#@

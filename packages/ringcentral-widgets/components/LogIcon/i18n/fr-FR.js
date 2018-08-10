@@ -1,7 +1,7 @@
 export default {
-  logged: "Connecté",
-  unlogged: "Non traité",
-  faxNotSupported: "L'option permettant de journaliser un fax n'est pas prise en charge."
+  logged: 'Connecté',
+  unlogged: 'Non traité',
+  faxNotSupported: 'L'option permettant de journaliser un fax n'est pas prise en charge.'
 };
 
 // @key: @#@"logged"@#@ @source: @#@"Logged"@#@

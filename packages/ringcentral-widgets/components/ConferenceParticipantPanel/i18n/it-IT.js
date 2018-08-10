@@ -1,12 +1,12 @@
 export default {
-  removeParticipant: "Rimuovi partecipante",
-  confirmStr1: "Vuoi veramente rimuovere",
-  confirmStr2: "da questa chiamata?",
-  remove: "Rimuovi",
-  cancel: "Annulla",
-  participants: "Partecipanti",
-  participant: "Partecipante",
-  conferenceCall: "Conferenza telefonica"
+  removeParticipant: 'Rimuovi partecipante',
+  confirmStr1: 'Vuoi veramente rimuovere',
+  confirmStr2: 'da questa chiamata?',
+  remove: 'Rimuovi',
+  cancel: 'Annulla',
+  participants: 'Partecipanti',
+  participant: 'Partecipante',
+  conferenceCall: 'Conferenza telefonica'
 };
 
 // @key: @#@"removeParticipant"@#@ @source: @#@"Remove Participant"@#@

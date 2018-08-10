@@ -1,8 +1,8 @@
 export default {
-  start: "Découverte rapide",
-  skip: "Passer",
-  next: "Suivant",
-  finish: "Terminer"
+  start: 'Découverte rapide',
+  skip: 'Passer',
+  next: 'Suivant',
+  finish: 'Terminer'
 };
 
 // @key: @#@"start"@#@ @source: @#@"Take a Quick Tour"@#@

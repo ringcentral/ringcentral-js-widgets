@@ -9,7 +9,7 @@ export default {
   record: 'Record',
   add: 'Add',
   transfer: 'Transfer',
-  flip: 'Flip',
+  flip: 'Flip'
 };
 
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@

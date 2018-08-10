@@ -1,7 +1,7 @@
 export default {
   hide: 'Hide',
   end: 'End',
-  keypad: 'Keypad',
+  keypad: 'Keypad'
 };
 
 // @key: @#@"hide"@#@ @source: @#@"Hide"@#@

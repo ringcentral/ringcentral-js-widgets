@@ -1,15 +1,15 @@
 export default {
-  title: "Audio",
-  dialButtonVolume: "Volume pulsante di chiamata",
-  ringtoneVolume: "Volume suoneria",
-  callVolume: "Volume chiamata",
-  muteCalls: "Disattiva audio chiamate",
-  outputDevice: "Dispositivo di uscita",
-  inputDevice: "Dispositivo di ingresso",
-  micPermission: "Autorizzazione microfono",
-  noDevice: "Nessun dispositivo",
-  checkMicPermission: "Controlla autorizzazione",
-  micNoPermissionMessage: "L'app non è autorizzata a usare il microfono"
+  title: 'Audio',
+  dialButtonVolume: 'Volume pulsante di chiamata',
+  ringtoneVolume: 'Volume suoneria',
+  callVolume: 'Volume chiamata',
+  muteCalls: 'Disattiva audio chiamate',
+  outputDevice: 'Dispositivo di uscita',
+  inputDevice: 'Dispositivo di ingresso',
+  micPermission: 'Autorizzazione microfono',
+  noDevice: 'Nessun dispositivo',
+  checkMicPermission: 'Controlla autorizzazione',
+  micNoPermissionMessage: 'L'app non è autorizzata a usare il microfono'
 };
 
 // @key: @#@"title"@#@ @source: @#@"Audio"@#@

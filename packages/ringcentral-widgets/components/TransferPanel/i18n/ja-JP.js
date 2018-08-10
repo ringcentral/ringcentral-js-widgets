@@ -1,8 +1,8 @@
 export default {
-  to: "宛先：",
-  transferTo: "転送先",
-  blindTransfer: "転送",
-  enterNameOrNumber: "番号の入力"
+  to: '宛先：',
+  transferTo: '転送先',
+  blindTransfer: '転送',
+  enterNameOrNumber: '番号の入力'
 };
 
 // @key: @#@"to"@#@ @source: @#@"To:"@#@

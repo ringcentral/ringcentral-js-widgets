@@ -1,16 +1,16 @@
 export default {
-  logging: "Iniciando sesión...",
-  logCall: "Registrar llamada",
-  editLog: "Editar registro",
+  logging: 'Iniciando sesión...',
+  logCall: 'Registrar llamada',
+  editLog: 'Editar registro',
 
-  OnHold: "En espera",
-  Ringing: "Llamando",
-  CallConnected: "Llamada conectada",
-  unknownUser: "Usuario desconocido",
-  unknownNumber: "Anónimo",
-  unavailable: "No disponible",
-  viewDetails: "Ver detalles",
-  conferenceCall: "Conferencia telefónica"
+  OnHold: 'En espera',
+  Ringing: 'Llamando',
+  CallConnected: 'Llamada conectada',
+  unknownUser: 'Usuario desconocido',
+  unknownNumber: 'Anónimo',
+  unavailable: 'No disponible',
+  viewDetails: 'Ver detalles',
+  conferenceCall: 'Conferencia telefónica'
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@

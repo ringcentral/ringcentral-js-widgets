@@ -1,8 +1,8 @@
 export default {
-  confirmation: "Confirmation",
-  confirmMergeToConference: "Ajouter à la conférence téléphonique ?",
-  mergeToConference: "Fusionner",
-  conferenceCall: "Conférence téléphonique"
+  confirmation: 'Confirmation',
+  confirmMergeToConference: 'Ajouter à la conférence téléphonique ?',
+  mergeToConference: 'Fusionner',
+  conferenceCall: 'Conférence téléphonique'
 };
 
 // @key: @#@"confirmation"@#@ @source: @#@"Confirmation"@#@

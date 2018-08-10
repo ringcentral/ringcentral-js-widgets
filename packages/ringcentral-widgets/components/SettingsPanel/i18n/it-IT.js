@@ -1,21 +1,21 @@
 export default {
-  region: "Regione",
-  calling: "Chiamata",
-  logout: "Esci",
-  version: "Versione",
-  settings: "Impostazioni",
-  clickToDial: "Fai clic per comporre",
-  autoCreateLog: "Crea automaticamente registro chiamate",
-  autoCreateSMSLog: "Crea automaticamente registro SMS",
-  autoLogCalls: "Registra automaticamente le chiamate",
-  autoLogNotes: "Registra automaticamente le note",
-  autoLogSMS: "Registra automaticamente gli SMS",
-  clickToSMS: "Fai clic per inviare un SMS",
-  clickToDialSMS: "Fai clic per comporre/inviare un SMS",
-  audio: "Audio",
-  language: "Lingua",
-  feedback: "Feedback",
-  userGuide: "Novità"
+  region: 'Regione',
+  calling: 'Chiamata',
+  logout: 'Esci',
+  version: 'Versione',
+  settings: 'Impostazioni',
+  clickToDial: 'Fai clic per comporre',
+  autoCreateLog: 'Crea automaticamente registro chiamate',
+  autoCreateSMSLog: 'Crea automaticamente registro SMS',
+  autoLogCalls: 'Registra automaticamente le chiamate',
+  autoLogNotes: 'Registra automaticamente le note',
+  autoLogSMS: 'Registra automaticamente gli SMS',
+  clickToSMS: 'Fai clic per inviare un SMS',
+  clickToDialSMS: 'Fai clic per comporre/inviare un SMS',
+  audio: 'Audio',
+  language: 'Lingua',
+  feedback: 'Feedback',
+  userGuide: 'Novità'
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@

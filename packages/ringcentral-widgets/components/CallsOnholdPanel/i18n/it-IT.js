@@ -1,7 +1,7 @@
 export default {
-  add: "Aggiungi",
-  noCallsOnhold: "Nessuna chiamata in attesa",
-  activeCall: "Chiamata attiva"
+  add: 'Aggiungi',
+  noCallsOnhold: 'Nessuna chiamata in attesa',
+  activeCall: 'Chiamata attiva'
 };
 
 // @key: @#@"add"@#@ @source: @#@"Add"@#@

@@ -1,7 +1,7 @@
 export default {
-  logged: "Registrados",
-  unlogged: "Sem funcionamento",
-  faxNotSupported: "A opção de registro de fax não é suportada."
+  logged: 'Registrados',
+  unlogged: 'Sem funcionamento',
+  faxNotSupported: 'A opção de registro de fax não é suportada.'
 };
 
 // @key: @#@"logged"@#@ @source: @#@"Logged"@#@

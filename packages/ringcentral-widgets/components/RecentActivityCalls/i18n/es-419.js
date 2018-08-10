@@ -1,8 +1,8 @@
 export default {
-  noRecords: "No se encontraron registros recientes.",
-  inBound: "Entrante",
-  outBound: "Saliente",
-  missed: "Llamada perdida"
+  noRecords: 'No se encontraron registros recientes.',
+  inBound: 'Entrante',
+  outBound: 'Saliente',
+  missed: 'Llamada perdida'
 };
 
 // @key: @#@"noRecords"@#@ @source: @#@"No recent records found."@#@

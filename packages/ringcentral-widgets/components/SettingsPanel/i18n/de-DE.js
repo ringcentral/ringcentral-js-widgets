@@ -1,21 +1,21 @@
 export default {
-  region: "Region",
-  calling: "Anrufen",
-  logout: "Abmelden",
-  version: "Version",
-  settings: "Einstellungen",
-  clickToDial: "Zum Wählen klicken",
-  autoCreateLog: "Automatisch Anrufliste erstellen",
-  autoCreateSMSLog: "Automatisch SMS-Protokoll erstellen",
-  autoLogCalls: "Anrufe automatisch protokollieren",
-  autoLogNotes: "Anmerkungen automatisch protokollieren",
-  autoLogSMS: "SMS automatisch protokollieren",
-  clickToSMS: "Zum SMS senden klicken",
-  clickToDialSMS: "Zum Wählen/SMS senden klicken",
-  audio: "Audio",
-  language: "Sprache",
-  feedback: "Feedback",
-  userGuide: "Neuigkeiten"
+  region: 'Region',
+  calling: 'Anrufen',
+  logout: 'Abmelden',
+  version: 'Version',
+  settings: 'Einstellungen',
+  clickToDial: 'Zum Wählen klicken',
+  autoCreateLog: 'Automatisch Anrufliste erstellen',
+  autoCreateSMSLog: 'Automatisch SMS-Protokoll erstellen',
+  autoLogCalls: 'Anrufe automatisch protokollieren',
+  autoLogNotes: 'Anmerkungen automatisch protokollieren',
+  autoLogSMS: 'SMS automatisch protokollieren',
+  clickToSMS: 'Zum SMS senden klicken',
+  clickToDialSMS: 'Zum Wählen/SMS senden klicken',
+  audio: 'Audio',
+  language: 'Sprache',
+  feedback: 'Feedback',
+  userGuide: 'Neuigkeiten'
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@

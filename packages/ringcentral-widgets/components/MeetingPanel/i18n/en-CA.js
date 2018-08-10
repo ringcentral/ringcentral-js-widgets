@@ -15,7 +15,7 @@ export default {
   requirePassword: 'Require meeting password',
   password: 'Password',
   enableJoinBeforeHost: 'Enable join before host',
-  telephonyOnly: 'Telephony Only',
+  telephonyOnly: 'Telephony Only'
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@

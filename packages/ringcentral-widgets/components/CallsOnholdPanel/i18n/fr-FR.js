@@ -1,7 +1,7 @@
 export default {
-  add: "Ajouter",
-  noCallsOnhold: "Aucun appel en attente",
-  activeCall: "Appel en cours"
+  add: 'Ajouter',
+  noCallsOnhold: 'Aucun appel en attente',
+  activeCall: 'Appel en cours'
 };
 
 // @key: @#@"add"@#@ @source: @#@"Add"@#@

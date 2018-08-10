@@ -1,17 +1,17 @@
 export default {
-  unmute: "Désac. mode disc.",
-  mute: "Act. mode disc.",
-  keypad: "Clavier",
-  hold: "Mettre\nen attente",
-  onHold: "En attente",
-  park: "Mise\nen garde",
-  stopRecord: "Arrêter",
-  record: "Enregistrer",
-  add: "Ajouter",
-  transfer: "Transfert",
-  flip: "Renvoi\ninstantané",
-  more: "Actions d'appel",
-  mergeToConference: "Fusionner"
+  unmute: 'Désac. mode disc.',
+  mute: 'Act. mode disc.',
+  keypad: 'Clavier',
+  hold: 'Mettre\nen attente',
+  onHold: 'En attente',
+  park: 'Mise\nen garde',
+  stopRecord: 'Arrêter',
+  record: 'Enregistrer',
+  add: 'Ajouter',
+  transfer: 'Transfert',
+  flip: 'Renvoi\ninstantané',
+  more: 'Actions d'appel',
+  mergeToConference: 'Fusionner'
 };
 
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@

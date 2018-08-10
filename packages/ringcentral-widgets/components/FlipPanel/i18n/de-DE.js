@@ -1,7 +1,7 @@
 export default {
-  flipHeader: "Anruf umlegen zu ...",
-  flip: "Umlegen",
-  complete: "Umlegen abschließen"
+  flipHeader: 'Anruf umlegen zu ...',
+  flip: 'Umlegen',
+  complete: 'Umlegen abschließen'
 };
 
 // @key: @#@"flipHeader"@#@ @source: @#@"Flip Call to..."@#@

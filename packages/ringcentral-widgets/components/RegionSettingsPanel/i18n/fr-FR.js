@@ -1,11 +1,11 @@
 export default {
-  title: "Région",
-  NAOnlyMessage: "Veuillez saisir votre l'indicatif régional. Il sera utilisé pour la composition des numéros locaux.",
-  MultiWithNAMessage: "Veuillez saisir le pays ainsi que votre indicateur régional. Il sera utilisé pour la composition des numéros locaux et le formatage des numéros de téléphone.",
-  MultiWithoutNAMessage: "Veuillez sélectionner le pays correspondant à votre emplacement. Il sera utilisé pour la composition des numéros locaux et pour le formatage des numéros de téléphone.",
-  country: "Pays",
-  areaCode: "Indicatif régional",
-  areaCodePlaceholder: "Saisir l'indicatif régional"
+  title: 'Région',
+  NAOnlyMessage: 'Veuillez saisir votre l'indicatif régional. Il sera utilisé pour la composition des numéros locaux.',
+  MultiWithNAMessage: 'Veuillez saisir le pays ainsi que votre indicateur régional. Il sera utilisé pour la composition des numéros locaux et le formatage des numéros de téléphone.',
+  MultiWithoutNAMessage: 'Veuillez sélectionner le pays correspondant à votre emplacement. Il sera utilisé pour la composition des numéros locaux et pour le formatage des numéros de téléphone.',
+  country: 'Pays',
+  areaCode: 'Indicatif régional',
+  areaCodePlaceholder: 'Saisir l'indicatif régional'
 };
 
 // @key: @#@"title"@#@ @source: @#@"Region"@#@

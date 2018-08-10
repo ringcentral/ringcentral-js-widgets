@@ -1,7 +1,7 @@
 export default {
-  flipHeader: "Renvoi instantané vers...",
-  flip: "Renvoi instantané",
-  complete: "Terminer le renvoi instantané"
+  flipHeader: 'Renvoi instantané vers...',
+  flip: 'Renvoi instantané',
+  complete: 'Terminer le renvoi instantané'
 };
 
 // @key: @#@"flipHeader"@#@ @source: @#@"Flip Call to..."@#@

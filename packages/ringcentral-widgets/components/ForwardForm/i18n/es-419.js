@@ -1,7 +1,7 @@
 export default {
-  forward: "Reenviar",
-  cancel: "Cancelar",
-  customNumber: "Número personalizado"
+  forward: 'Reenviar',
+  cancel: 'Cancelar',
+  customNumber: 'Número personalizado'
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
