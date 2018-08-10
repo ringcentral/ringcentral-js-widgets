@@ -1,28 +1,28 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  feedbackHeader: 'Feedback senden',
-  back: 'Zurück',
-  revert: 'Zurücksetzen',
-  instruction: 'Ihr Feedback ist uns wichtig. Wenn Sie Probleme bei der Verwendung der App haben, eine Funktion anfordern oder einen Fehler melden möchten, helfen wir Ihnen gerne weiter.',
-  fillForm: 'Bitte füllen Sie das unten stehende Formular aus und klicken Sie auf ',
-  useMailBox: ' oder nutzen Sie direkt Ihr Postfach und senden Sie Ihre Anfrage an ',
-  email: 'Ihre E-Mail-Adresse',
-  reply: '(damit wir Ihnen antworten können)',
-  emailPlaceHolder: 'ronald.app@ringcentral.com',
-  feedbackTopic: 'Feedbackthema',
-  topicPlaceHolder: 'Wählen Sie eine Option aus',
-  bugReport: 'Fehlerbericht',
-  featureRequest: 'Anfrage von Funktionen',
-  others: 'Sonstiges',
-  subject: 'Betreff',
-  subjectPlaceHolder: 'Teilen Sie uns mit, wie wir Ihnen helfen können.',
-  description: 'Vollständige Beschreibung',
-  descriptionPlaceHolder: 'Bitte geben Sie so viele Informationen wie möglich an.',
-  send: 'Senden Sie Ihr Feedback'
+  feedbackHeader: "Feedback senden",
+  back: "Zurück",
+  revert: "Zurücksetzen",
+  instruction: "Ihr Feedback ist uns wichtig. Wenn Sie Probleme bei der Verwendung der App haben, eine Funktion anfordern oder einen Fehler melden möchten, helfen wir Ihnen gerne weiter.",
+  fillForm: "Bitte füllen Sie das unten stehende Formular aus und klicken Sie auf ",
+  useMailBox: " oder nutzen Sie direkt Ihr Postfach und senden Sie Ihre Anfrage an ",
+  email: "Ihre E-Mail-Adresse",
+  reply: "(damit wir Ihnen antworten können)",
+  emailPlaceHolder: "ronald.app@ringcentral.com",
+  feedbackTopic: "Feedbackthema",
+  topicPlaceHolder: "Wählen Sie eine Option aus",
+  bugReport: "Fehlerbericht",
+  featureRequest: "Anfrage von Funktionen",
+  others: "Sonstiges",
+  subject: "Betreff",
+  subjectPlaceHolder: "Teilen Sie uns mit, wie wir Ihnen helfen können.",
+  description: "Vollständige Beschreibung",
+  descriptionPlaceHolder: "Bitte geben Sie so viele Informationen wie möglich an.",
+  send: "Senden Sie Ihr Feedback"
 };
 
 // @key: @#@"feedbackHeader"@#@ @source: @#@"Submit Feedback"@#@

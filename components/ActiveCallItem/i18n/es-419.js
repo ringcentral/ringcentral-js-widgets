@@ -1,33 +1,35 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  logging: 'Iniciando sesión...',
-  logCall: 'Registrar llamada',
-  editLog: 'Editar registro',
-  select: 'Seleccionar una grabación que coincida',
-  OnHold: 'En espera',
-  Ringing: 'Llamando',
-  CallConnected: 'Llamada conectada',
-  unknownUser: 'Usuario desconocido',
-  unknownNumber: 'Anónimo',
-  unavailable: 'No disponible',
-  viewDetails: 'Ver detalles',
-  addEntity: 'Crear nuevo',
-  addLog: 'Registro',
-  text: 'Texto',
-  call: 'Llamar',
-  addContact: 'Añadir contacto',
-  missedCall: 'Perdida',
-  inboundCall: 'Entrante',
-  outboundCall: 'Saliente',
-  from: 'De',
-  to: 'Para',
-  hangup: 'Colgar',
-  accept: 'Aceptar',
-  toVoicemail: 'Enviar al buzón de voz'
+  logging: "Iniciando sesión...",
+  logCall: "Registrar llamada",
+  editLog: "Editar registro",
+  select: "Seleccionar una grabación que coincida",
+  OnHold: "En espera",
+  Ringing: "Llamando",
+  CallConnected: "Llamada conectada",
+  unknownUser: "Usuario desconocido",
+  unknownNumber: "Anónimo",
+  unavailable: "No disponible",
+  viewDetails: "Ver detalles",
+  addEntity: "Crear nuevo",
+  addLog: "Registro",
+  text: "Texto",
+  call: "Llamar",
+  addContact: "Añadir contacto",
+  missedCall: "Perdida",
+  inboundCall: "Entrante",
+  outboundCall: "Saliente",
+  from: "De",
+  to: "Para",
+  hangup: "Colgar",
+  accept: "Aceptar",
+  toVoicemail: "Enviar al buzón de voz",
+  anonymous: "Anónimo",
+  mergeToConference: "Combinar"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -54,4 +56,6 @@ exports.default = {
 // @key: @#@"hangup"@#@ @source: @#@"Hangup"@#@
 // @key: @#@"accept"@#@ @source: @#@"Accept"@#@
 // @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@
+// @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 //# sourceMappingURL=es-419.js.map

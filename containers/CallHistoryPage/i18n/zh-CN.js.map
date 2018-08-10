@@ -1,0 +1,1 @@
+{"version":3,"sources":["containers/CallHistoryPage/i18n/zh-CN.js"],"names":["title"],"mappings":";;;;;kBAAe;AACbA,SAAO;AADM,C;;AAIf","file":"zh-CN.js","sourcesContent":["export default {\n  title: \"历史记录\"\n};\n\n// @key: @#@\"title\"@#@ @source: @#@\"History\"@#@\n"]}

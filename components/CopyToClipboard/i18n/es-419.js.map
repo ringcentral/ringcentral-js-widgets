@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/CopyToClipboard/i18n/es-419.js"],"names":["copyToClipboard"],"mappings":";;;;;kBAAe;AACbA,mBAAiB;AADJ,C;;AAIf","file":"es-419.js","sourcesContent":["export default {\n  copyToClipboard: \"Copiar al portapapeles\"\n};\n\n// @key: @#@\"copyToClipboard\"@#@ @source: @#@\"Copy to Clipboard\"@#@\n"]}

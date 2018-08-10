@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/SaveButton/i18n/fr-CA.js"],"names":["save"],"mappings":";;;;;kBAAe;AACbA,QAAM;AADO,C;;AAIf","file":"fr-CA.js","sourcesContent":["export default {\n  save: 'Sauvegarder',\n};\n\n// @key: @#@\"save\"@#@ @source: @#@\"Save\"@#@\n"]}
+{"version":3,"sources":["components/SaveButton/i18n/fr-CA.js"],"names":["save"],"mappings":";;;;;kBAAe;AACbA,QAAM;AADO,C;;AAIf","file":"fr-CA.js","sourcesContent":["export default {\n  save: \"Sauvegarder\"\n};\n\n// @key: @#@\"save\"@#@ @source: @#@\"Save\"@#@\n"]}

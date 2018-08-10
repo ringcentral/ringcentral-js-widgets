@@ -1,22 +1,22 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+var _defineProperty2 = require("babel-runtime/helpers/defineProperty");
 
 var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
 var _callErrors$noToNumbe;
 
-var _callErrors = require('ringcentral-integration/modules/Call/callErrors');
+var _callErrors = require("ringcentral-integration/modules/Call/callErrors");
 
 var _callErrors2 = _interopRequireDefault(_callErrors);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (_callErrors$noToNumbe = {}, (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.noToNumber, 'Ingrese un número de teléfono válido.'), (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.noAreaCode, 'Defina el {areaCodeLink} para utilizar números de teléfono locales de 7 dígitos.'), (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.specialNumber, 'No es posible llamar a emergencias o a números de servicios especiales.'), (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.connectFailed, 'Error de conexión. Vuelva a intentarlo más tarde.'), (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.internalError, 'Se produjo un error en la conexión. Vuelva a intentarlo más tarde.'), (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.notAnExtension, 'El número de extensión no existe.'), (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.networkError, 'No se puede conectar debido a errores de la red. Vuelva a intentarlo más tarde.'), (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.noInternational, 'No tiene permisos para hacer llamadas internacionales. Cominíquese con el administrador de su cuenta de {brand} para obtener permisos.'), (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.noRingoutEnable, 'Su extensión puede hacer llamadas con la aplicación de escritorio.\n    Si desea acceder a otras opciones\n    comuníquese con el administrador de su cuenta para la actualización.'), (0, _defineProperty3.default)(_callErrors$noToNumbe, 'areaCode', 'código de área'), (0, _defineProperty3.default)(_callErrors$noToNumbe, 'telus911', 'No se pueden hacer llamadas de emergencia.'), _callErrors$noToNumbe);
+exports.default = (_callErrors$noToNumbe = {}, (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.noToNumber, "Ingrese un número de teléfono válido."), (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.noAreaCode, "Defina el {areaCodeLink} para utilizar números de teléfono locales de 7 dígitos."), (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.specialNumber, "No es posible llamar a emergencias o a números de servicios especiales."), (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.connectFailed, "Error de conexión. Vuelva a intentarlo más tarde."), (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.internalError, "Se produjo un error en la conexión. Vuelva a intentarlo más tarde."), (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.notAnExtension, "El número de extensión no existe."), (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.networkError, "No se puede conectar debido a errores de la red. Vuelva a intentarlo más tarde."), (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.noInternational, "No tiene permisos para hacer llamadas internacionales. Cominíquese con el administrador de su cuenta de {brand} para obtener permisos."), (0, _defineProperty3.default)(_callErrors$noToNumbe, _callErrors2.default.noRingoutEnable, "Su extensión puede hacer llamadas con la aplicación de escritorio.\n    Si desea acceder a otras opciones\n    comuníquese con el administrador de su cuenta para la actualización."), (0, _defineProperty3.default)(_callErrors$noToNumbe, "areaCode", "código de área"), (0, _defineProperty3.default)(_callErrors$noToNumbe, "telus911", "No se pueden hacer llamadas de emergencia."), _callErrors$noToNumbe);
 
 // @key: @#@"[callErrors.noToNumber]"@#@ @source: @#@"Please enter a valid phone number."@#@
 // @key: @#@"[callErrors.noAreaCode]"@#@ @source: @#@"Please set {areaCodeLink} to use 7-digit local phone numbers."@#@

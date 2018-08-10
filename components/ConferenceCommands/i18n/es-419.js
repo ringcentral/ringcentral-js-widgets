@@ -1,26 +1,26 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  title: 'Comandos de conferencia',
-  starSharp2Title: 'Recuento de personas que llaman',
-  starSharp2Body: 'Lleve un control del número de personas que hay en una llamada.',
-  starSharp3Title: 'Abandonar conferencia',
-  starSharp3Body: 'Permite al host colgar y finalizar la llamada.',
-  starSharp4Title: 'Menú',
-  starSharp4Body: 'Escuche la lista de comando de tonos de marcado.',
-  starSharp5Title: 'Establecer modos de escucha',
-  starSharp5Body: 'Presione 1\xA0veces: Silenciar a las personas que llaman - Estas personas pueden desactivar el silencio con * # 6\r\nPresione 2 veces: Silenciar a las personas que llaman - Solo podrán escuchar. No existe opción de reactivación.\r\nPresione 3 veces: Desactivar silencio de las personas que llaman - La línea vuelve a estar abierta',
-  starSharp6Title: 'Silenciar línea de host',
-  starSharp6Body: 'Presione una vez para SILENCIAR.\r\nVuelva a presionar para DESACTIVAR SILENCIO.',
-  starSharp7Title: 'Proteger la llamada',
-  starSharp7Body: 'Presione una vez para BLOQUEAR a todas las personas que llaman.\r\nVuelva a pulsar para ABRIR la llamada.',
-  starSharp8Title: 'Escuchar un sonido cuando alguien entre o salga de una llamada',
-  starSharp8Body: 'Presione 1 vez: Se DESACTIVA el sonido.\r\nPresione 2 veces: Se ACTIVA el tono de entrada y se DESACTIVA el tono de salida\r\nPresione 3 veces: Se DESACTIVA el tono de entrada y se ACTIVA el tono de salida\r\nPresione 4\xA0veces: ACTIVA el sonido.',
-  star9Title: 'Grabar la conferencia',
-  star9Body: 'Presione una vez para EMPEZAR a grabar.\r\nPresione una vez para DEJAR de grabar.'
+  title: "Comandos de conferencia",
+  starSharp2Title: "Recuento de personas que llaman",
+  starSharp2Body: "Lleve un control del número de personas que hay en una llamada.",
+  starSharp3Title: "Abandonar conferencia",
+  starSharp3Body: "Permite al host colgar y finalizar la llamada.",
+  starSharp4Title: "Menú",
+  starSharp4Body: "Escuche la lista de comando de tonos de marcado.",
+  starSharp5Title: "Establecer modos de escucha",
+  starSharp5Body: "Presione 1 veces: Silenciar a las personas que llaman - Estas personas pueden desactivar el silencio con * # 6\r\nPresione 2 veces: Silenciar a las personas que llaman - Solo podrán escuchar. No existe opción de reactivación.\r\nPresione 3 veces: Desactivar silencio de las personas que llaman - La línea vuelve a estar abierta",
+  starSharp6Title: "Silenciar línea de host",
+  starSharp6Body: "Presione una vez para SILENCIAR.\r\nVuelva a presionar para DESACTIVAR SILENCIO.",
+  starSharp7Title: "Proteger la llamada",
+  starSharp7Body: "Presione una vez para BLOQUEAR a todas las personas que llaman.\r\nVuelva a pulsar para ABRIR la llamada.",
+  starSharp8Title: "Escuchar un sonido cuando alguien entre o salga de una llamada",
+  starSharp8Body: "Presione 1 vez: Se DESACTIVA el sonido.\r\nPresione 2 veces: Se ACTIVA el tono de entrada y se DESACTIVA el tono de salida\r\nPresione 3 veces: Se DESACTIVA el tono de entrada y se ACTIVA el tono de salida\r\nPresione 4 veces: ACTIVA el sonido.",
+  star9Title: "Grabar la conferencia",
+  star9Body: "Presione una vez para EMPEZAR a grabar.\r\nPresione una vez para DEJAR de grabar."
 };
 
 // @key: @#@"title"@#@ @source: @#@"Conference Commands"@#@

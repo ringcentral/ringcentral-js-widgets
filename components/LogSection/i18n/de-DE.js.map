@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/LogSection/i18n/de-DE.js"],"names":["saveLog"],"mappings":";;;;;kBAAe;AACbA,WAAS;AADI,C;;AAIf","file":"de-DE.js","sourcesContent":["export default {\n  saveLog: \"Speichern\"\n};\n\n// @key: @#@\"saveLog\"@#@ @source: @#@\"Save\"@#@\n"]}

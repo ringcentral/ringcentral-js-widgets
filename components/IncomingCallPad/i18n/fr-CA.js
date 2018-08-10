@@ -1,16 +1,16 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  forward: 'Renvoi',
-  reply: 'Répondre',
-  ignore: 'Ignorer',
-  toVoicemail: 'Boîte vocale',
-  answer: 'Réponse',
-  answerAndEnd: 'Répondre et\nterminer',
-  answerAndHold: 'Rép. et mise en att.'
+  forward: "Renvoi",
+  reply: "Répondre",
+  ignore: "Ignorer",
+  toVoicemail: "Boîte vocale",
+  answer: "Réponse",
+  answerAndEnd: "Répondre et\nterminer",
+  answerAndHold: "Rép. et mise en att."
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

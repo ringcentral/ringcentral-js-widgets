@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/LogSection/i18n/zh-TW.js"],"names":["saveLog"],"mappings":";;;;;kBAAe;AACbA,WAAS;AADI,C;;AAIf","file":"zh-TW.js","sourcesContent":["export default {\n  saveLog: \"儲存\"\n};\n\n// @key: @#@\"saveLog\"@#@ @source: @#@\"Save\"@#@\n"]}

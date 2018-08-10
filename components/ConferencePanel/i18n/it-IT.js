@@ -1,27 +1,25 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  newConference: 'Nuova conferenza',
-  dialInNumber: 'Numero con accesso esterno',
-  host: 'Moderatore',
-  participants: 'Partecipanti',
-  internationalParticipants: 'Partecipanti internazionali',
-  internationalNumbersHeader: 'Seleziona numeri con accesso esterno internazionali',
-  search: 'Cerca...',
-  inviteWithText: 'Invita con testo',
-  inviteText: 'Accedi alla conferenza {brandName}.\r\n\nNumeri di accesso: {formattedDialInNumber} \r\n{additionalNumbersSection} \r\nAccesso partecipante: {participantCode} \r\n\nServe un numero di accesso internazionale? Visita {dialInNumbersLinks} \r\n\nQuesta conferenza telefonica è offerta dal servizio di conferenza {brandName}.',
-  hostAccess: 'Accesso moderatore',
-  participantsAccess: 'Accesso partecipanti',
-  addinalDialInNumbers: 'Numeri di accesso aggiuntivi',
-  selectNumbers: 'Seleziona numeri',
-  enableJoinBeforeHost: 'Consenti ingresso prima del moderatore',
-  conferenceCommands: 'Comandi conferenza',
-  inviteWithGCalendar: 'Invita con Google Calendar',
-  joinAsHost: 'Avvia conferenza',
-  internationalNumber: 'Numeri di accesso internazionali:'
+  newConference: "Nuova conferenza",
+  dialInNumber: "Numero con accesso esterno",
+  hostAccess: "Accesso moderatore",
+  participantsAccess: "Accesso partecipanti",
+  addinalDialInNumbers: "Numeri di accesso aggiuntivi",
+  selectNumbers: "Seleziona numeri",
+  enableJoinBeforeHost: "Consenti ingresso prima del moderatore",
+  conferenceCommands: "Comandi conferenza",
+  inviteWithGCalendar: "Invita con Google Calendar",
+  inviteWithText: "Invita con testo",
+  joinAsHost: "Avvia conferenza",
+  internationalNumber: "Numeri di accesso internazionali:",
+  inviteText_att: "Accedi alla conferenza {brandName}.\n\nNumero di accesso: {formattedDialInNumber} \n{additionalNumbersSection} \nAccesso partecipanti: {participantCode} \n\nTi serve un numero di accesso internazionale? Visita {dialInNumbersLinks} \n\nQuesta conferenza telefonica è fornita dal servizio di conferenza {brandName}.",
+  inviteText_bt: "Accedi alla conferenza {brandName}.\n\nNumero di accesso: {formattedDialInNumber} \n{additionalNumbersSection} \nAccesso partecipanti: {participantCode} \n\nNumeri di accesso aggiuntivi {dialInNumbersLinks}",
+  inviteText_rc: "Accedi alla conferenza {brandName}.\n\nNumero di accesso: {formattedDialInNumber} \n{additionalNumbersSection} \nAccesso partecipanti: {participantCode} \n\nTi serve un numero di accesso internazionale? Visita {dialInNumbersLinks} \n\nQuesta conferenza telefonica è fornita dal servizio di conferenza {brandName}.",
+  inviteText_telus: "Accedi alla conferenza {brandName}.\n\nNumero di accesso: {formattedDialInNumber} \n{additionalNumbersSection} \nAccesso partecipanti: {participantCode} \n\nNumeri di accesso aggiuntivi {dialInNumbersLinks}"
 };
 
 // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@

@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  cancel: 'Cancelar',
-  confirm: 'Confirmar'
+  cancel: "Cancelar",
+  confirm: "Confirmar"
 };
 
 // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@

@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  loginButton: 'Entrar',
-  version: 'Versão'
+  loginButton: "Entrar",
+  version: "Versão"
 };
 
 // @key: @#@"loginButton"@#@ @source: @#@"Sign In"@#@

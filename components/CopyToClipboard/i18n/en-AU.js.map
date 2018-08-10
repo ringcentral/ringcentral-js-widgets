@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/CopyToClipboard/i18n/en-AU.js"],"names":["copyToClipboard"],"mappings":";;;;;kBAAe;AACbA,mBAAiB;AADJ,C;;AAIf","file":"en-AU.js","sourcesContent":["export default {\n  copyToClipboard: \"Copy to clipboard\"\n};\n\n// @key: @#@\"copyToClipboard\"@#@ @source: @#@\"Copy to Clipboard\"@#@\n"]}

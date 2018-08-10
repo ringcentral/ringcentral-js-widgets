@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  hide: 'Ocultar',
-  end: 'Fim',
-  keypad: 'Teclado numérico'
+  hide: "Ocultar",
+  end: "Fim",
+  keypad: "Teclado numérico"
 };
 
 // @key: @#@"hide"@#@ @source: @#@"Hide"@#@

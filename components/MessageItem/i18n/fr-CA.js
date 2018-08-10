@@ -1,32 +1,32 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+var _defineProperty2 = require("babel-runtime/helpers/defineProperty");
 
 var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
 var _addLog$editLog$viewD;
 
-var _messageTypes = require('ringcentral-integration/enums/messageTypes');
+var _messageTypes = require("ringcentral-integration/enums/messageTypes");
 
 var _messageTypes2 = _interopRequireDefault(_messageTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = (_addLog$editLog$viewD = {
-  addLog: 'Liste',
-  editLog: 'Modifier le journal',
-  viewDetails: 'Afficher les détails',
-  addEntity: 'Créer',
-  call: 'Appeler',
-  conversation: 'Conversation',
-  groupConversation: 'Conversation de groupe',
-  text: 'Texto',
-  voiceMessage: 'Message vocal'
-}, (0, _defineProperty3.default)(_addLog$editLog$viewD, _messageTypes2.default.voiceMail, 'Message vocal'), (0, _defineProperty3.default)(_addLog$editLog$viewD, 'mark', 'Marquer comme non lu'), (0, _defineProperty3.default)(_addLog$editLog$viewD, 'unmark', 'Marquer comme lu'), (0, _defineProperty3.default)(_addLog$editLog$viewD, 'delete', 'Supprimer'), (0, _defineProperty3.default)(_addLog$editLog$viewD, 'faxSent', 'Fax envoyé'), (0, _defineProperty3.default)(_addLog$editLog$viewD, 'faxReceived', 'Fax reçu'), (0, _defineProperty3.default)(_addLog$editLog$viewD, 'pages', 'pages'), (0, _defineProperty3.default)(_addLog$editLog$viewD, 'preview', 'Afficher'), (0, _defineProperty3.default)(_addLog$editLog$viewD, 'download', 'Télécharger'), _addLog$editLog$viewD);
+  addLog: "Liste",
+  editLog: "Modifier le journal",
+  viewDetails: "Afficher les détails",
+  addEntity: "Créer",
+  call: "Appeler",
+  text: "Texto",
+  conversation: "Conversation",
+  groupConversation: "Conversation de groupe",
+  voiceMessage: "Message vocal"
+}, (0, _defineProperty3.default)(_addLog$editLog$viewD, _messageTypes2.default.voiceMail, "Message vocal"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "mark", "Marquer comme non lu"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "unmark", "Marquer comme lu"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "delete", "Supprimer"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "faxSent", "Fax envoyé"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "faxReceived", "Fax reçu"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "pages", "pages"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "preview", "Afficher"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "download", "Télécharger"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "imageAttachment", "Pièce jointe : 1 image"), _addLog$editLog$viewD);
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -46,4 +46,5 @@ exports.default = (_addLog$editLog$viewD = {
 // @key: @#@"pages"@#@ @source: @#@"pages"@#@
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
+// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: 1 image"@#@
 //# sourceMappingURL=fr-CA.js.map

@@ -1,13 +1,13 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  start: 'Faça um rápido tour',
-  skip: 'Ignorar',
-  next: 'Próximo',
-  finish: 'Finalizar'
+  start: "Faça um rápido tour",
+  skip: "Ignorar",
+  next: "Próximo",
+  finish: "Finalizar"
 };
 
 // @key: @#@"start"@#@ @source: @#@"Take a Quick Tour"@#@

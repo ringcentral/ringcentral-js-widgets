@@ -1,17 +1,16 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  noActiveCalls: 'Nessuna chiamata attiva',
-  currentCall: 'Chiamata corrente',
-  ringCall: 'Squillo chiamata',
-  onHoldCall: 'Chiamata in attesa',
-  otherDeviceCall: 'Chiamate in corso sugli altri miei dispositivi',
-  noCalls: 'Nessun risultato trovato.',
-  historyCalls: 'Chiamate passate',
-  searchPlaceholder: 'Cerca...'
+  noActiveCalls: "Nessuna chiamata attiva",
+  noCalls: "Nessun risultato trovato.",
+  currentCall: "Chiamata corrente",
+  ringCall: "Squillo chiamata",
+  onHoldCall: "Chiamata in attesa",
+  historyCalls: "Chiamate passate",
+  otherDeviceCall: "Chiamate in corso sugli altri miei dispositivi"
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@

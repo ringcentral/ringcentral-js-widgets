@@ -1,13 +1,13 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  start: 'Visita guidata rapida',
-  skip: 'Salta',
-  next: 'Avanti',
-  finish: 'Termina'
+  start: "Visita guidata rapida",
+  skip: "Salta",
+  next: "Avanti",
+  finish: "Termina"
 };
 
 // @key: @#@"start"@#@ @source: @#@"Take a Quick Tour"@#@

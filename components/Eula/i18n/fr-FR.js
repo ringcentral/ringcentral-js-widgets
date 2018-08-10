@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  eula: 'Contrat de licence d\'utilisateur final',
-  serviceTerms: 'Modalités de service'
+  eula: "Contrat de licence d'utilisateur final",
+  serviceTerms: "Modalités de service"
 };
 
 // @key: @#@"eula"@#@ @source: @#@"End User License Agreement"@#@

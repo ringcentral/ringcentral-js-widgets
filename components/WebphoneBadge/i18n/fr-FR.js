@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  webphoneUnavailable: 'Web Phone indisponible.'
+  webphoneUnavailable: "Web Phone indisponible."
 };
 
 // @key: @#@"webphoneUnavailable"@#@ @source: @#@"Web Phone Unavailable"@#@

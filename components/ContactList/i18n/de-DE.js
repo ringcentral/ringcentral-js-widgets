@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  noContacts: 'Keine Datensätze gefunden.'
+  noContacts: "Keine Datensätze gefunden."
 };
 
 // @key: @#@"noContacts"@#@ @source: @#@"No records found."@#@

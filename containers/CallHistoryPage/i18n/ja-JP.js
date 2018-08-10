@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  title: '履歴'
+  title: "履歴"
 };
 
 // @key: @#@"title"@#@ @source: @#@"History"@#@

@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/RecentActivityMessages/i18n/zh-TW.js"],"names":["noRecords"],"mappings":";;;;;kBAAe;AACbA,aAAW;AADE,C;;AAIf","file":"zh-TW.js","sourcesContent":["export default {\n  noRecords: \"找不到最近的記錄。\"\n};\n\n// @key: @#@\"noRecords\"@#@ @source: @#@\"No recent records found.\"@#@\n"]}

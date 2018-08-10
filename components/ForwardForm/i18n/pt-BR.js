@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  forward: 'Encaminhar',
-  cancel: 'Cancelar',
-  customNumber: 'Número personalizado'
+  forward: "Encaminhar",
+  cancel: "Cancelar",
+  customNumber: "Número personalizado"
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

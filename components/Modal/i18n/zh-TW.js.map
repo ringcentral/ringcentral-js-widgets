@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/Modal/i18n/zh-TW.js"],"names":["cancel","confirm"],"mappings":";;;;;kBAAe;AACbA,UAAQ,IADK;AAEbC,WAAS;AAFI,C;;AAKf;AACA","file":"zh-TW.js","sourcesContent":["export default {\n  cancel: \"取消\",\n  confirm: \"確認\"\n};\n\n// @key: @#@\"cancel\"@#@ @source: @#@\"Cancel\"@#@\n// @key: @#@\"confirm\"@#@ @source: @#@\"Confirm\"@#@\n"]}

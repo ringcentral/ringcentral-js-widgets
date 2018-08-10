@@ -1,16 +1,16 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  de: 'Deutsch',
-  ja: 'Japanisch',
-  fr: 'Französisch',
-  es: 'Spanisch',
-  it: 'Italienisch',
-  pt: 'Portugiesisch',
-  en: 'Englisch'
+  en: "Englisch",
+  ja: "Japanisch",
+  fr: "Französisch",
+  de: "Deutsch",
+  es: "Spanisch",
+  it: "Italienisch",
+  pt: "Portugiesisch"
 };
 
 // @key: @#@"en"@#@ @source: @#@"English"@#@

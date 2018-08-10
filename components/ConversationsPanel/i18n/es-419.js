@@ -1,28 +1,28 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+var _defineProperty2 = require("babel-runtime/helpers/defineProperty");
 
 var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
-var _title$search$noMessa;
+var _title$search$compose;
 
-var _messageTypes = require('ringcentral-integration/enums/messageTypes');
+var _messageTypes = require("ringcentral-integration/enums/messageTypes");
 
 var _messageTypes2 = _interopRequireDefault(_messageTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (_title$search$noMessa = {
-  title: 'Mensajes',
-  search: 'Buscar...',
-  noMessages: 'Ningún mensaje',
-  noSearchResults: 'No se encontraron registros que coincidan',
-  composeText: 'Redactar mensaje'
-}, (0, _defineProperty3.default)(_title$search$noMessa, _messageTypes2.default.all, 'Todos'), (0, _defineProperty3.default)(_title$search$noMessa, _messageTypes2.default.voiceMail, 'Voz'), (0, _defineProperty3.default)(_title$search$noMessa, _messageTypes2.default.text, 'Texto'), (0, _defineProperty3.default)(_title$search$noMessa, _messageTypes2.default.fax, 'Fax'), _title$search$noMessa);
+exports.default = (_title$search$compose = {
+  title: "Mensajes",
+  search: "Buscar...",
+  composeText: "Redactar mensaje",
+  noMessages: "Ningún mensaje",
+  noSearchResults: "No se encontraron registros que coincidan"
+}, (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.all, "Todos"), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.voiceMail, "Voz"), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.text, "Texto"), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.fax, "Fax"), _title$search$compose);
 
 // @key: @#@"title"@#@ @source: @#@"Messages"@#@
 // @key: @#@"search"@#@ @source: @#@"Search..."@#@

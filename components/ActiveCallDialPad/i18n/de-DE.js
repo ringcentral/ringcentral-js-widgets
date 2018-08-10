@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  hide: 'Ausblenden',
-  end: 'Beenden',
-  keypad: 'Wählfeld'
+  hide: "Ausblenden",
+  end: "Beenden",
+  keypad: "Wählfeld"
 };
 
 // @key: @#@"hide"@#@ @source: @#@"Hide"@#@

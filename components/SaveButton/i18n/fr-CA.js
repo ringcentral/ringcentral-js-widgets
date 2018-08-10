@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  save: 'Sauvegarder'
+  save: "Sauvegarder"
 };
 
 // @key: @#@"save"@#@ @source: @#@"Save"@#@

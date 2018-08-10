@@ -1,26 +1,26 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  topic: 'Thema',
-  when: 'Wann',
-  duration: 'Dauer',
-  recurringMeeting: 'Regelmäßig stattfindendes Meeting',
-  recurringDescribe: 'Aktivieren Sie in der Kalendereinladung für die Teilnehmer die Option für Serien oder Wiederholungen.',
-  video: 'Video',
-  videoDescribe: 'Beim Beitritt zu einem Meeting',
-  host: 'Host',
-  participants: 'Teilnehmer',
-  audioOptions: 'Audio-Optionen',
-  voIPOnly: 'Nur VoIP',
-  both: 'Beides',
-  meetingOptions: 'Meetingoptionen',
-  requirePassword: 'Meetingkennwort erforderlich',
-  password: 'Kennwort',
-  enableJoinBeforeHost: 'Beitritt vor Host ermöglichen',
-  telephonyOnly: 'Nur Telefonie'
+  topic: "Thema",
+  when: "Wann",
+  duration: "Dauer",
+  recurringMeeting: "Regelmäßig stattfindendes Meeting",
+  recurringDescribe: "Aktivieren Sie in der Kalendereinladung für die Teilnehmer die Option für Serien oder Wiederholungen.",
+  video: "Video",
+  videoDescribe: "Beim Beitritt zu einem Meeting",
+  host: "Host",
+  participants: "Teilnehmer",
+  audioOptions: "Audio-Optionen",
+  voIPOnly: "Nur VoIP",
+  both: "Beides",
+  meetingOptions: "Meetingoptionen",
+  requirePassword: "Meetingkennwort erforderlich",
+  password: "Kennwort",
+  enableJoinBeforeHost: "Beitritt vor Host ermöglichen",
+  telephonyOnly: "Nur Telefonie"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@

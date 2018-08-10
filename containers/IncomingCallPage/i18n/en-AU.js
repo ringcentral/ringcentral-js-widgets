@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  unknown: 'Unknown',
-  anonymous: 'Anonymous',
-  activeCall: 'Active call'
+  unknown: "Unknown",
+  anonymous: "Anonymous",
+  activeCall: "Active call"
 };
 
 // @key: @#@"unknown"@#@ @source: @#@"Unknown"@#@

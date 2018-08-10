@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ContactList/i18n/zh-TW.js"],"names":["noContacts"],"mappings":";;;;;kBAAe;AACbA,cAAY;AADC,C;;AAIf","file":"zh-TW.js","sourcesContent":["export default {\n  noContacts: \"找不到記錄。\"\n};\n\n// @key: @#@\"noContacts\"@#@ @source: @#@\"No records found.\"@#@\n"]}

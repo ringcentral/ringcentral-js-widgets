@@ -1,13 +1,13 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  noRecords: 'No se han encontrado registros.',
-  inBound: 'Entrante',
-  outBound: 'Saliente',
-  missed: 'Llamada perdida'
+  noRecords: "No se han encontrado registros.",
+  inBound: "Entrante",
+  outBound: "Saliente",
+  missed: "Llamada perdida"
 };
 
 // @key: @#@"noRecords"@#@ @source: @#@"No recent records found."@#@

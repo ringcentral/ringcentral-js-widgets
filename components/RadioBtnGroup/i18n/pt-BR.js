@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  Home: 'Página principal',
-  Mobile: 'Dispositivo móvel',
-  Work: 'Trabalho'
+  Home: "Página principal",
+  Mobile: "Dispositivo móvel",
+  Work: "Trabalho"
 };
 
 // @key: @#@"Home"@#@ @source: @#@"Home"@#@

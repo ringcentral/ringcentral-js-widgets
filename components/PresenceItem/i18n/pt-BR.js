@@ -20,7 +20,7 @@ var _dndStatus2 = _interopRequireDefault(_dndStatus);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (_presenceStatus$avail = {}, (0, _defineProperty3.default)(_presenceStatus$avail, _presenceStatus2.default.available, 'Disponível'), (0, _defineProperty3.default)(_presenceStatus$avail, _presenceStatus2.default.busy, 'Ocupado'), (0, _defineProperty3.default)(_presenceStatus$avail, _presenceStatus2.default.offline, 'Invisível'), (0, _defineProperty3.default)(_presenceStatus$avail, _dndStatus2.default.doNotAcceptAnyCalls, 'Não perturbe'), _presenceStatus$avail);
+exports.default = (_presenceStatus$avail = {}, (0, _defineProperty3.default)(_presenceStatus$avail, _presenceStatus2.default.available, "Disponível"), (0, _defineProperty3.default)(_presenceStatus$avail, _presenceStatus2.default.busy, "Ocupado"), (0, _defineProperty3.default)(_presenceStatus$avail, _presenceStatus2.default.offline, "Invisível"), (0, _defineProperty3.default)(_presenceStatus$avail, _dndStatus2.default.doNotAcceptAnyCalls, "Não perturbe"), _presenceStatus$avail);
 
 // @key: @#@"[presenceStatus.available]"@#@ @source: @#@"Available"@#@
 // @key: @#@"[presenceStatus.busy]"@#@ @source: @#@"Busy"@#@

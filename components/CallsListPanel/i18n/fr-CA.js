@@ -1,17 +1,16 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  noActiveCalls: 'Aucun appel actif',
-  currentCall: 'Appel en cours',
-  ringCall: 'Acheminer un appel',
-  onHoldCall: 'Appel en attente',
-  otherDeviceCall: 'Appels en cours sur mes autres appareils',
-  noCalls: 'Aucun résultat trouvé.',
-  historyCalls: 'Appels passés',
-  searchPlaceholder: 'Recherche...'
+  noActiveCalls: "Aucun appel actif",
+  noCalls: "Aucun résultat trouvé.",
+  currentCall: "Appel en cours",
+  ringCall: "Acheminer un appel",
+  onHoldCall: "Appel en attente",
+  historyCalls: "Appels passés",
+  otherDeviceCall: "Appels en cours sur mes autres appareils"
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@

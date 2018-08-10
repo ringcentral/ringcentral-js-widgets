@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  noActiveCalls: 'Aucun appel actif',
-  noRecords: 'Aucun résultat.'
+  noActiveCalls: "Aucun appel actif",
+  noRecords: "Aucun résultat."
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@

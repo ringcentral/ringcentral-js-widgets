@@ -1,1 +1,1 @@
-{"version":3,"sources":["containers/CallMonitorPage/i18n/it-IT.js"],"names":["title"],"mappings":";;;;;kBAAe;AACbA,SAAO;AADM,C;;AAIf","file":"it-IT.js","sourcesContent":["export default {\n  title: 'Chiamate'\n};\n\n// @key: @#@\"title\"@#@ @source: @#@\"Calls\"@#@\n"]}
+{"version":3,"sources":["containers/CallMonitorPage/i18n/it-IT.js"],"names":["title"],"mappings":";;;;;kBAAe;AACbA,SAAO;AADM,C;;AAIf","file":"it-IT.js","sourcesContent":["export default {\n  title: \"Chiamate\"\n};\n\n// @key: @#@\"title\"@#@ @source: @#@\"Calls\"@#@\n"]}

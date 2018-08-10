@@ -1,20 +1,22 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  unmute: 'Unmute',
-  mute: 'Mute',
-  keypad: 'Keypad',
-  hold: 'Hold',
-  onHold: 'On Hold',
-  park: 'Park',
-  stopRecord: 'Stop',
-  record: 'Record',
-  add: 'Add',
-  transfer: 'Transfer',
-  flip: 'Flip'
+  unmute: "Unmute",
+  mute: "Mute",
+  keypad: "Keypad",
+  hold: "Hold",
+  onHold: "On Hold",
+  park: "Park",
+  stopRecord: "Stop",
+  record: "Record",
+  add: "Add",
+  transfer: "Transfer",
+  flip: "Flip",
+  more: "Call Actions",
+  mergeToConference: "Merge"
 };
 
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
@@ -28,4 +30,6 @@ exports.default = {
 // @key: @#@"add"@#@ @source: @#@"Add"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"flip"@#@ @source: @#@"Flip"@#@
+// @key: @#@"more"@#@ @source: @#@"Call Actions"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 //# sourceMappingURL=en-GB.js.map

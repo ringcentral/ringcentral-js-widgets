@@ -185,6 +185,34 @@ function loadLocale(locale) {
           }
           break;
         }
+      case 'zh':
+
+      case 'zh-CN':
+        {
+          if (typeof require.ensure === 'function') {
+            require.ensure(['./zh-CN'], function (require) {
+              var data = require('./zh-CN');
+              resolve(data.__esModule === true ? data.default : data);
+            }, 'zh-CN');
+          } else {
+            var _data12 = require('./zh-CN');
+            resolve(_data12.__esModule === true ? _data12.default : _data12);
+          }
+          break;
+        }
+      case 'zh-TW':
+        {
+          if (typeof require.ensure === 'function') {
+            require.ensure(['./zh-TW'], function (require) {
+              var data = require('./zh-TW');
+              resolve(data.__esModule === true ? data.default : data);
+            }, 'zh-TW');
+          } else {
+            var _data13 = require('./zh-TW');
+            resolve(_data13.__esModule === true ? _data13.default : _data13);
+          }
+          break;
+        }
       default:
         resolve({});
         break;

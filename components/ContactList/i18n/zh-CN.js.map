@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ContactList/i18n/zh-CN.js"],"names":["noContacts"],"mappings":";;;;;kBAAe;AACbA,cAAY;AADC,C;;AAIf","file":"zh-CN.js","sourcesContent":["export default {\n  noContacts: \"未找到记录。\"\n};\n\n// @key: @#@\"noContacts\"@#@ @source: @#@\"No records found.\"@#@\n"]}

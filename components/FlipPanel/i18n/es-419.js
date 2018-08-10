@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  flipHeader: 'Voltear llamada a...',
-  flip: 'Volteo',
-  complete: 'Completar Flip'
+  flipHeader: "Voltear llamada a...",
+  flip: "Volteo",
+  complete: "Completar Flip"
 };
 
 // @key: @#@"flipHeader"@#@ @source: @#@"Flip Call to..."@#@

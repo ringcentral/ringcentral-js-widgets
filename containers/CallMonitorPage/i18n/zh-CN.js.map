@@ -1,0 +1,1 @@
+{"version":3,"sources":["containers/CallMonitorPage/i18n/zh-CN.js"],"names":["title"],"mappings":";;;;;kBAAe;AACbA,SAAO;AADM,C;;AAIf","file":"zh-CN.js","sourcesContent":["export default {\n  title: \"通话\"\n};\n\n// @key: @#@\"title\"@#@ @source: @#@\"Calls\"@#@\n"]}

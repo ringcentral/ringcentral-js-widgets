@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  download: 'ダウンロード',
-  play: '再生',
-  pause: '一時停止'
+  download: "ダウンロード",
+  play: "再生",
+  pause: "一時停止"
 };
 
 // @key: @#@"download"@#@ @source: @#@"Download"@#@

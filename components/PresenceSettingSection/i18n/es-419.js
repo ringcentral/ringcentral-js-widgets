@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  status: 'Estado',
-  acceptQueueCalls: 'Aceptar las llamadas en lista de espera'
+  status: "Estado",
+  acceptQueueCalls: "Aceptar las llamadas en lista de espera"
 };
 
 // @key: @#@"status"@#@ @source: @#@"Status"@#@

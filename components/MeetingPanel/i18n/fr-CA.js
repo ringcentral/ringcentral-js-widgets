@@ -1,26 +1,26 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  topic: 'Sujet',
-  when: 'Quand',
-  duration: 'Durée',
-  recurringMeeting: 'Réunion périodique',
-  recurringDescribe: 'N\'oubliez pas de vérifier la périodicité ou la répétition dans l\'invitation envoyée à vos participants.',
-  video: 'Vidéo',
-  videoDescribe: 'Au moment de joindre une réunion',
-  host: 'Animateur',
-  participants: 'Participant',
-  audioOptions: 'Options audio',
-  voIPOnly: 'VoIP seulement',
-  both: 'Les deux',
-  meetingOptions: 'Options de réunion',
-  requirePassword: 'Exiger un mot de passe de réunion',
-  password: 'Mot de passe',
-  enableJoinBeforeHost: 'Activer l\'option permettant de joindre la réunion avant l\'animateur',
-  telephonyOnly: 'Téléphonie seulement'
+  topic: "Sujet",
+  when: "Quand",
+  duration: "Durée",
+  recurringMeeting: "Réunion périodique",
+  recurringDescribe: "N'oubliez pas de vérifier la périodicité ou la répétition dans l'invitation envoyée à vos participants.",
+  video: "Vidéo",
+  videoDescribe: "Au moment de joindre une réunion",
+  host: "Animateur",
+  participants: "Participant",
+  audioOptions: "Options audio",
+  voIPOnly: "VoIP seulement",
+  both: "Les deux",
+  meetingOptions: "Options de réunion",
+  requirePassword: "Exiger un mot de passe de réunion",
+  password: "Mot de passe",
+  enableJoinBeforeHost: "Activer l'option permettant de joindre la réunion avant l'animateur",
+  telephonyOnly: "Téléphonie seulement"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@

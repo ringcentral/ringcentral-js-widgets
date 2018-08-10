@@ -1,13 +1,13 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  noRecords: 'Nenhum registro recente encontrado.',
-  inBound: 'Entrada',
-  outBound: 'Saída',
-  missed: 'Chamada perdida'
+  noRecords: "Nenhum registro recente encontrado.",
+  inBound: "Entrada",
+  outBound: "Saída",
+  missed: "Chamada perdida"
 };
 
 // @key: @#@"noRecords"@#@ @source: @#@"No recent records found."@#@

@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  offlineMode: 'Mode hors ligne'
+  offlineMode: "Mode hors ligne"
 };
 
 // @key: @#@"offlineMode"@#@ @source: @#@"Offline Mode"@#@

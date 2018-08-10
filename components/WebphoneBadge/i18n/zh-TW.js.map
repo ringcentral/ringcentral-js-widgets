@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/WebphoneBadge/i18n/zh-TW.js"],"names":["webphoneUnavailable"],"mappings":";;;;;kBAAe;AACbA,uBAAqB;AADR,C;;AAIf","file":"zh-TW.js","sourcesContent":["export default {\n  webphoneUnavailable: \"網路電話無法使用\"\n};\n\n// @key: @#@\"webphoneUnavailable\"@#@ @source: @#@\"Web Phone Unavailable\"@#@\n"]}

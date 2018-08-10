@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/CopyToClipboard/i18n/de-DE.js"],"names":["copyToClipboard"],"mappings":";;;;;kBAAe;AACbA,mBAAiB;AADJ,C;;AAIf","file":"de-DE.js","sourcesContent":["export default {\n  copyToClipboard: \"In Zwischenablage kopieren\"\n};\n\n// @key: @#@\"copyToClipboard\"@#@ @source: @#@\"Copy to Clipboard\"@#@\n"]}

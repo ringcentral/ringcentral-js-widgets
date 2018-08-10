@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  title: 'Anrufe'
+  title: "Anrufe"
 };
 
 // @key: @#@"title"@#@ @source: @#@"Calls"@#@

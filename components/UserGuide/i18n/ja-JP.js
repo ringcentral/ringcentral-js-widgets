@@ -1,13 +1,13 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  start: 'クイックツアーに参加',
-  skip: 'スキップ',
-  next: '次へ',
-  finish: '完了'
+  start: "クイックツアーに参加",
+  skip: "スキップ",
+  next: "次へ",
+  finish: "完了"
 };
 
 // @key: @#@"start"@#@ @source: @#@"Take a Quick Tour"@#@

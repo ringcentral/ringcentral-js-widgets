@@ -1,20 +1,22 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  unmute: 'ミュート解除',
-  mute: 'ミュート',
-  keypad: 'キーパッド',
-  hold: '保留',
-  onHold: '保留中',
-  park: 'パーク',
-  stopRecord: '停止',
-  record: '録音',
-  add: '追加',
-  transfer: '転送',
-  flip: 'フリップ'
+  unmute: "ミュート解除",
+  mute: "ミュート",
+  keypad: "キーパッド",
+  hold: "保留",
+  onHold: "保留中",
+  park: "パーク",
+  stopRecord: "停止",
+  record: "録音",
+  add: "追加",
+  transfer: "転送",
+  flip: "フリップ",
+  more: "通話アクション",
+  mergeToConference: "マージ"
 };
 
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
@@ -28,4 +30,6 @@ exports.default = {
 // @key: @#@"add"@#@ @source: @#@"Add"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"flip"@#@ @source: @#@"Flip"@#@
+// @key: @#@"more"@#@ @source: @#@"Call Actions"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 //# sourceMappingURL=ja-JP.js.map

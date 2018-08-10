@@ -1,14 +1,14 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  recentActivities: 'Kürzliche Aktivitäten',
-  text: 'Textnachr.',
-  fax: 'Fax',
-  voicemail: 'Voicemail',
-  call: 'Anrufen'
+  recentActivities: "Kürzliche Aktivitäten",
+  text: "Textnachr.",
+  fax: "Fax",
+  voicemail: "Voicemail",
+  call: "Anrufen"
 };
 
 // @key: @#@"recentActivities"@#@ @source: @#@"Recent Activities"@#@

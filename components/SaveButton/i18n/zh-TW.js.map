@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/SaveButton/i18n/zh-TW.js"],"names":["save"],"mappings":";;;;;kBAAe;AACbA,QAAM;AADO,C;;AAIf","file":"zh-TW.js","sourcesContent":["export default {\n  save: \"儲存\"\n};\n\n// @key: @#@\"save\"@#@ @source: @#@\"Save\"@#@\n"]}

@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/CopyToClipboard/i18n/ja-JP.js"],"names":["copyToClipboard"],"mappings":";;;;;kBAAe;AACbA,mBAAiB;AADJ,C;;AAIf","file":"ja-JP.js","sourcesContent":["export default {\n  copyToClipboard: \"クリップボードにコピー\"\n};\n\n// @key: @#@\"copyToClipboard\"@#@ @source: @#@\"Copy to Clipboard\"@#@\n"]}

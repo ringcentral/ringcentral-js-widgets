@@ -1,1 +1,1 @@
-{"version":3,"sources":["containers/CallMonitorPage/i18n/fr-FR.js"],"names":["title"],"mappings":";;;;;kBAAe;AACbA,SAAO;AADM,C;;AAIf","file":"fr-FR.js","sourcesContent":["export default {\n  title: 'Appels'\n};\n\n// @key: @#@\"title\"@#@ @source: @#@\"Calls\"@#@\n"]}
+{"version":3,"sources":["containers/CallMonitorPage/i18n/fr-FR.js"],"names":["title"],"mappings":";;;;;kBAAe;AACbA,SAAO;AADM,C;;AAIf","file":"fr-FR.js","sourcesContent":["export default {\n  title: \"Appels\"\n};\n\n// @key: @#@\"title\"@#@ @source: @#@\"Calls\"@#@\n"]}

@@ -1,17 +1,16 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  noActiveCalls: 'アクティブな通話はありません',
-  currentCall: '現在の通話',
-  ringCall: '呼び出し中の通話',
-  onHoldCall: '保留中の通話',
-  otherDeviceCall: '他のデバイスで進行中の通話',
-  noCalls: '\u7D50\u679C\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093\u3002',
-  historyCalls: '過去の通話',
-  searchPlaceholder: '検索...'
+  noActiveCalls: "アクティブな通話はありません",
+  noCalls: "結果が見つかりません。",
+  currentCall: "現在の通話",
+  ringCall: "呼び出し中の通話",
+  onHoldCall: "保留中の通話",
+  historyCalls: "過去の通話",
+  otherDeviceCall: "他のデバイスで進行中の通話"
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@

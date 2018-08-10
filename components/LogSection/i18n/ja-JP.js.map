@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/LogSection/i18n/ja-JP.js"],"names":["saveLog"],"mappings":";;;;;kBAAe;AACbA,WAAS;AADI,C;;AAIf","file":"ja-JP.js","sourcesContent":["export default {\n  saveLog: \"保存\"\n};\n\n// @key: @#@\"saveLog\"@#@ @source: @#@\"Save\"@#@\n"]}

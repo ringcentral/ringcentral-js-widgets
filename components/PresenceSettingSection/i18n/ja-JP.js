@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  status: 'ステータス',
-  acceptQueueCalls: '通話キューの通話を承諾する'
+  status: "ステータス",
+  acceptQueueCalls: "通話キューの通話を承諾する"
 };
 
 // @key: @#@"status"@#@ @source: @#@"Status"@#@

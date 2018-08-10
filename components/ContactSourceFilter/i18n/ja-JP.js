@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  all: 'すべて',
-  company: '会社',
-  personal: '個人'
+  all: "すべて",
+  company: "会社",
+  personal: "個人"
 };
 
 // @key: @#@"all"@#@ @source: @#@"All"@#@

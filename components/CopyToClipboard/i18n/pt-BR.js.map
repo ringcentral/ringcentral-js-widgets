@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/CopyToClipboard/i18n/pt-BR.js"],"names":["copyToClipboard"],"mappings":";;;;;kBAAe;AACbA,mBAAiB;AADJ,C;;AAIf","file":"pt-BR.js","sourcesContent":["export default {\n  copyToClipboard: \"Copiar para área de transferência\"\n};\n\n// @key: @#@\"copyToClipboard\"@#@ @source: @#@\"Copy to Clipboard\"@#@\n"]}

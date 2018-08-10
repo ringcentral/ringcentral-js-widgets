@@ -1,26 +1,26 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  title: 'Konferenzbefehle',
-  starSharp2Title: 'Anzahl der Anrufer',
-  starSharp2Body: 'Verfolgen Sie nach, wie viele Personen am Anruf teilnehmen',
-  starSharp3Title: 'Konferenz verlassen',
-  starSharp3Body: 'Der Host legt auf und beendet den Anruf',
-  starSharp4Title: 'Menü',
-  starSharp4Body: 'Hören Sie sich die Liste der Tonwahlbefehle an',
-  starSharp5Title: 'Hörmodi einstellen',
-  starSharp5Body: 'Einmal dr\xFCcken: Anrufer stummschalten \u2013 Anrufer k\xF6nnen mit *, #, 6 die Stummschaltung aufheben\r\nZweimal dr\xFCcken: Anrufer stummschalten \u2013 nur Zuh\xF6ren m\xF6glich, keine Option zum Aufheben der Stummschaltung\r\nDreimal dr\xFCcken: Stummschaltung aufheben \u2013 \xF6ffnet die Leitung wieder',
-  starSharp6Title: 'Host-Leitung stummschalten',
-  starSharp6Body: 'Einmal drücken zum STUMMSCH.\r\nErneut drücken zum STUMMSCH. AUFH.',
-  starSharp7Title: 'Anruf sichern',
-  starSharp7Body: 'Einmal drücken, um alle Anrufer zu BLOCKIEREN\r\nErneut drücken, um den Anruf zu ÖFFNEN',
-  starSharp8Title: 'Ton ausgeben, wenn Personen dem Anruf beitreten oder ihn verlassen',
-  starSharp8Body: 'Einmal drücken: Schaltet den Ton AUS\r\nZweimal drücken: Ton für Beitritt ist EINGESCHALTET, Ton für Verlassen ist AUSGESCHALTET\r\nDreimal drücken: Ton für Beitritt ist AUSGESCHALTET, Ton für Verlassen ist EINGESCHALTET\r\nViermal drücken: Schaltet den Ton EIN',
-  star9Title: 'Konferenz aufzeichnen',
-  star9Body: 'Einmal drücken, um Aufzeichnung zu STARTEN\r\nErneut drücken, um Aufzeichnung zu BEENDEN'
+  title: "Konferenzbefehle",
+  starSharp2Title: "Anzahl der Anrufer",
+  starSharp2Body: "Verfolgen Sie nach, wie viele Personen am Anruf teilnehmen",
+  starSharp3Title: "Konferenz verlassen",
+  starSharp3Body: "Der Host legt auf und beendet den Anruf",
+  starSharp4Title: "Menü",
+  starSharp4Body: "Hören Sie sich die Liste der Tonwahlbefehle an",
+  starSharp5Title: "Hörmodi einstellen",
+  starSharp5Body: "Einmal drücken: Anrufer stummschalten – Anrufer können mit *, #, 6 die Stummschaltung aufheben\r\nZweimal drücken: Anrufer stummschalten – nur Zuhören möglich, keine Option zum Aufheben der Stummschaltung\r\nDreimal drücken: Stummschaltung aufheben – öffnet die Leitung wieder",
+  starSharp6Title: "Host-Leitung stummschalten",
+  starSharp6Body: "Einmal drücken zum STUMMSCH.\r\nErneut drücken zum STUMMSCH. AUFH.",
+  starSharp7Title: "Anruf sichern",
+  starSharp7Body: "Einmal drücken, um alle Anrufer zu BLOCKIEREN\r\nErneut drücken, um den Anruf zu ÖFFNEN",
+  starSharp8Title: "Ton ausgeben, wenn Personen dem Anruf beitreten oder ihn verlassen",
+  starSharp8Body: "Einmal drücken: Schaltet den Ton AUS\r\nZweimal drücken: Ton für Beitritt ist EINGESCHALTET, Ton für Verlassen ist AUSGESCHALTET\r\nDreimal drücken: Ton für Beitritt ist AUSGESCHALTET, Ton für Verlassen ist EINGESCHALTET\r\nViermal drücken: Schaltet den Ton EIN",
+  star9Title: "Konferenz aufzeichnen",
+  star9Body: "Einmal drücken, um Aufzeichnung zu STARTEN\r\nErneut drücken, um Aufzeichnung zu BEENDEN"
 };
 
 // @key: @#@"title"@#@ @source: @#@"Conference Commands"@#@

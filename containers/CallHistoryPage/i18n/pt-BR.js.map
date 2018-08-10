@@ -1,1 +1,1 @@
-{"version":3,"sources":["containers/CallHistoryPage/i18n/pt-BR.js"],"names":["title"],"mappings":";;;;;kBAAe;AACbA,SAAO;AADM,C;;AAIf","file":"pt-BR.js","sourcesContent":["export default {\n  title: 'Histórico'\n};\n\n// @key: @#@\"title\"@#@ @source: @#@\"History\"@#@\n"]}
+{"version":3,"sources":["containers/CallHistoryPage/i18n/pt-BR.js"],"names":["title"],"mappings":";;;;;kBAAe;AACbA,SAAO;AADM,C;;AAIf","file":"pt-BR.js","sourcesContent":["export default {\n  title: \"Histórico\"\n};\n\n// @key: @#@\"title\"@#@ @source: @#@\"History\"@#@\n"]}

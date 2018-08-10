@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/SaveButton/i18n/zh-CN.js"],"names":["save"],"mappings":";;;;;kBAAe;AACbA,QAAM;AADO,C;;AAIf","file":"zh-CN.js","sourcesContent":["export default {\n  save: \"保存\"\n};\n\n// @key: @#@\"save\"@#@ @source: @#@\"Save\"@#@\n"]}

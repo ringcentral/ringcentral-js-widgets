@@ -1,27 +1,25 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  newConference: 'Nouvelle conférence',
-  dialInNumber: 'Numéro à composer',
-  host: 'Animateur',
-  participants: 'Participants',
-  internationalParticipants: 'Participants internationaux',
-  internationalNumbersHeader: 'Sélectionner un numéro international à composer',
-  search: 'Recherche...',
-  inviteWithText: 'Envoyer une invitation par SMS',
-  inviteText: 'Veuillez joindre la téléconférence {brandName}.\r\n\nNuméros à composer\xA0: {formattedDialInNumber} \r\n{additionalNumbersSection} \r\nAccès des participants\xA0: {participantCode} \r\n\nVous avez besoin d\'un numéro d\'accès international\xA0? Veuillez visiter {dialInNumbersLinks} \r\n\nCette conférence téléphonique est rendue possible grâce au service de conférences {brandName}.',
-  hostAccess: 'Accès de l\'animateur',
-  participantsAccess: 'Accès des participants',
-  addinalDialInNumbers: 'Numéros à composer additionnels',
-  selectNumbers: 'Sélect. numéros',
-  enableJoinBeforeHost: 'Activer l\'option permettant de rejoindre la conférence avant l\'hôte',
-  conferenceCommands: 'Commandes pour la conférence',
-  inviteWithGCalendar: 'Inviter avec Google Agenda',
-  joinAsHost: 'Lancer la conférence',
-  internationalNumber: 'Numéros internationaux à composer\xA0:'
+  newConference: "Nouvelle conférence",
+  dialInNumber: "Numéro à composer",
+  hostAccess: "Accès de l'animateur",
+  participantsAccess: "Accès des participants",
+  addinalDialInNumbers: "Numéros à composer additionnels",
+  selectNumbers: "Sélect. numéros",
+  enableJoinBeforeHost: "Activer l'option permettant de rejoindre la conférence avant l'hôte",
+  conferenceCommands: "Commandes pour la conférence",
+  inviteWithGCalendar: "Inviter avec Google Agenda",
+  inviteWithText: "Envoyer une invitation par SMS",
+  joinAsHost: "Lancer la conférence",
+  internationalNumber: "Numéros internationaux à composer :",
+  inviteText_att: "Veuillez rejoindre la conférence {brandName}.\n\nNuméro d'accès : {formattedDialInNumber} \n{additionalNumbersSection} \nAccès du participant : {participantCode} \n\nVous avez besoin d'un numéro d'accès international ? Veuillez visiter la page {dialInNumbersLinks} \n\nCette conférence vous est offerte par le service de conférences {brandName}.",
+  inviteText_bt: "Veuillez rejoindre la conférence {brandName}.\n\nNuméro d'accès : {formattedDialInNumber} \n{additionalNumbersSection} \nAccès du participant : {participantCode} \n\nNuméros d'accès supplémentaires {dialInNumbersLinks}",
+  inviteText_rc: "Veuillez rejoindre la conférence {brandName}.\n\nNuméro d'accès : {formattedDialInNumber} \n{additionalNumbersSection} \nAccès du participant : {participantCode} \n\nVous avez besoin d'un numéro d'accès international ? Veuillez visiter la page {dialInNumbersLinks} \n\nCette conférence vous est offerte par le service de conférences {brandName}.",
+  inviteText_telus: "Veuillez rejoindre la conférence {brandName}.\n\nNuméro d'accès : {formattedDialInNumber} \n{additionalNumbersSection} \nAccès du participant : {participantCode} \n\nNuméros d'accès supplémentaires {dialInNumbersLinks}"
 };
 
 // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@

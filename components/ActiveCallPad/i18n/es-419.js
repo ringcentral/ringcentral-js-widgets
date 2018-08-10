@@ -1,20 +1,22 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  unmute: 'Reactivar',
-  mute: 'Silenciar',
-  keypad: 'Teclado',
-  hold: 'Retener',
-  onHold: 'En espera',
-  park: 'Estacionar',
-  stopRecord: 'Parar',
-  record: 'Grabar',
-  add: 'Añadir',
-  transfer: 'Transferir',
-  flip: 'Volteo'
+  unmute: "Reactivar",
+  mute: "Silenciar",
+  keypad: "Teclado",
+  hold: "Retener",
+  onHold: "En espera",
+  park: "Estacionar",
+  stopRecord: "Parar",
+  record: "Grabar",
+  add: "Añadir",
+  transfer: "Transferir",
+  flip: "Volteo",
+  more: "Acciones de llamada",
+  mergeToConference: "Combinar"
 };
 
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
@@ -28,4 +30,6 @@ exports.default = {
 // @key: @#@"add"@#@ @source: @#@"Add"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"flip"@#@ @source: @#@"Flip"@#@
+// @key: @#@"more"@#@ @source: @#@"Call Actions"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 //# sourceMappingURL=es-419.js.map

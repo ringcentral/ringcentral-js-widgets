@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/CopyToClipboard/i18n/zh-TW.js"],"names":["copyToClipboard"],"mappings":";;;;;kBAAe;AACbA,mBAAiB;AADJ,C;;AAIf","file":"zh-TW.js","sourcesContent":["export default {\n  copyToClipboard: \"複製到剪貼簿\"\n};\n\n// @key: @#@\"copyToClipboard\"@#@ @source: @#@\"Copy to Clipboard\"@#@\n"]}

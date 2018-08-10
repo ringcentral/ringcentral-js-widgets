@@ -1,28 +1,28 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  feedbackHeader: 'Enviar comentários',
-  back: 'Voltar',
-  revert: 'Reverter',
-  instruction: 'Seus comentários são importantes para nós. Se estiver com dificuldades para usar o aplicativo, quiser solicitar um recurso ou comunicar um problema, ficaremos felizes em ajudá-lo.',
-  fillForm: 'Preencha o formulário abaixo e clique ',
-  useMailBox: ' ou use sua caixa de correio e envie sua solicitação para ',
-  email: 'Seu endereço de email',
-  reply: '(para que possamos respondê-lo)',
-  emailPlaceHolder: 'ronald.app@ringcentral.com',
-  feedbackTopic: 'Tópico do comentário',
-  topicPlaceHolder: 'Selecione uma opção',
-  bugReport: 'Relatório de problemas',
-  featureRequest: 'Solicitação de recurso',
-  others: 'Outros',
-  subject: 'Assunto',
-  subjectPlaceHolder: 'Diga como podemos ajudá-lo',
-  description: 'Descrição completa',
-  descriptionPlaceHolder: 'Inclua o máximo de informação possível',
-  send: 'Envie seus comentários'
+  feedbackHeader: "Enviar comentários",
+  back: "Voltar",
+  revert: "Reverter",
+  instruction: "Seus comentários são importantes para nós. Se estiver com dificuldades para usar o aplicativo, quiser solicitar um recurso ou comunicar um problema, ficaremos felizes em ajudá-lo.",
+  fillForm: "Preencha o formulário abaixo e clique ",
+  useMailBox: " ou use sua caixa de correio e envie sua solicitação para ",
+  email: "Seu endereço de email",
+  reply: "(para que possamos respondê-lo)",
+  emailPlaceHolder: "ronald.app@ringcentral.com",
+  feedbackTopic: "Tópico do comentário",
+  topicPlaceHolder: "Selecione uma opção",
+  bugReport: "Relatório de problemas",
+  featureRequest: "Solicitação de recurso",
+  others: "Outros",
+  subject: "Assunto",
+  subjectPlaceHolder: "Diga como podemos ajudá-lo",
+  description: "Descrição completa",
+  descriptionPlaceHolder: "Inclua o máximo de informação possível",
+  send: "Envie seus comentários"
 };
 
 // @key: @#@"feedbackHeader"@#@ @source: @#@"Submit Feedback"@#@

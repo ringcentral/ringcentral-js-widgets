@@ -1,26 +1,26 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  title: 'Comandos de conferencia',
-  starSharp2Title: 'Recuento de personas que llaman',
-  starSharp2Body: 'Lleve un control del número de personas que hay en una llamada.',
-  starSharp3Title: 'Abandonar conferencia',
-  starSharp3Body: 'Permite al host colgar y finalizar la llamada.',
-  starSharp4Title: 'Menú',
-  starSharp4Body: 'Escuche la lista de comandos de tonos de marcado',
-  starSharp5Title: 'Establecer modos de escucha',
-  starSharp5Body: 'Pulse 1\xA0vez: Silenciar a las personas que llaman - Estas personas pueden reactivar el audio con * # 6\r\nPulse 2\xA0veces: Silenciar a las personas que llaman - Solo podrán escuchar. No existe opción de activación del audio.\r\nPulse 3\xA0veces: Reactivar audio de personas que llaman - La línea vuelve a estar abierta',
-  starSharp6Title: 'Silenciar línea de host',
-  starSharp6Body: 'Pulse una vez para SILENCIAR.\r\nVuelva a pulsar para REACTIVAR AUDIO.',
-  starSharp7Title: 'Proteger la llamada',
-  starSharp7Body: 'Pulse una vez para BLOQUEAR a todas las personas que llaman.\r\nVuelva a pulsar para ABRIR la llamada.',
-  starSharp8Title: 'Escuchar un sonido cuando alguien entre o salga de una llamada',
-  starSharp8Body: 'Pulse 1\xA0vez: Se DESACTIVA el sonido.\r\nPulse 2\xA0veces: Se ACTIVA el tono de entrada y se DESACTIVA el tono de salida\r\nPulse 3\xA0veces: Se DESACTIVA el tono de entrada y se ACTIVA el tono de salida\r\nPulse 4\xA0veces: el sonido está ACTIVADO.',
-  star9Title: 'Grabar la conferencia',
-  star9Body: 'Pulse una vez para EMPEZAR a grabar.\r\nPulse nuevamente para DEJAR de grabar.'
+  title: "Comandos de conferencia",
+  starSharp2Title: "Recuento de personas que llaman",
+  starSharp2Body: "Lleve un control del número de personas que hay en una llamada.",
+  starSharp3Title: "Abandonar conferencia",
+  starSharp3Body: "Permite al host colgar y finalizar la llamada.",
+  starSharp4Title: "Menú",
+  starSharp4Body: "Escuche la lista de comandos de tonos de marcado",
+  starSharp5Title: "Establecer modos de escucha",
+  starSharp5Body: "Pulse 1 vez: Silenciar a las personas que llaman - Estas personas pueden reactivar el audio con * # 6\r\nPulse 2 veces: Silenciar a las personas que llaman - Solo podrán escuchar. No existe opción de activación del audio.\r\nPulse 3 veces: Reactivar audio de personas que llaman - La línea vuelve a estar abierta",
+  starSharp6Title: "Silenciar línea de host",
+  starSharp6Body: "Pulse una vez para SILENCIAR.\r\nVuelva a pulsar para REACTIVAR AUDIO.",
+  starSharp7Title: "Proteger la llamada",
+  starSharp7Body: "Pulse una vez para BLOQUEAR a todas las personas que llaman.\r\nVuelva a pulsar para ABRIR la llamada.",
+  starSharp8Title: "Escuchar un sonido cuando alguien entre o salga de una llamada",
+  starSharp8Body: "Pulse 1 vez: Se DESACTIVA el sonido.\r\nPulse 2 veces: Se ACTIVA el tono de entrada y se DESACTIVA el tono de salida\r\nPulse 3 veces: Se DESACTIVA el tono de entrada y se ACTIVA el tono de salida\r\nPulse 4 veces: el sonido está ACTIVADO.",
+  star9Title: "Grabar la conferencia",
+  star9Body: "Pulse una vez para EMPEZAR a grabar.\r\nPulse nuevamente para DEJAR de grabar."
 };
 
 // @key: @#@"title"@#@ @source: @#@"Conference Commands"@#@

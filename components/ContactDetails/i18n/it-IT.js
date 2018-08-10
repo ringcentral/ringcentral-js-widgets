@@ -21,12 +21,12 @@ var _dndStatus2 = _interopRequireDefault(_dndStatus);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = (_extensionLabel$direc = {
-  extensionLabel: 'Int.',
-  directLabel: 'Diretto',
-  emailLabel: 'E-mail',
-  call: 'Chiamata',
-  text: 'SMS'
-}, (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.available, 'Disponibile'), (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.busy, 'Occupato'), (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.offline, 'Invisibile'), (0, _defineProperty3.default)(_extensionLabel$direc, _dndStatus2.default.doNotAcceptAnyCalls, 'Non disturbare'), _extensionLabel$direc);
+  extensionLabel: "Int.",
+  directLabel: "Diretto",
+  emailLabel: "E-mail",
+  call: "Chiamata",
+  text: "SMS"
+}, (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.available, "Disponibile"), (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.offline, "Invisibile"), (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.busy, "Occupato"), (0, _defineProperty3.default)(_extensionLabel$direc, _dndStatus2.default.doNotAcceptAnyCalls, "Non disturbare"), _extensionLabel$direc);
 
 // @key: @#@"extensionLabel"@#@ @source: @#@"Ext."@#@
 // @key: @#@"directLabel"@#@ @source: @#@"Direct"@#@

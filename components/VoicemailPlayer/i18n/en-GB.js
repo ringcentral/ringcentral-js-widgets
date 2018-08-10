@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  download: 'Download',
-  play: 'Play',
-  pause: 'Pause'
+  download: "Download",
+  play: "Play",
+  pause: "Pause"
 };
 
 // @key: @#@"download"@#@ @source: @#@"Download"@#@

@@ -1,13 +1,13 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  to: 'Para:',
-  transferTo: 'Transferir a',
-  blindTransfer: 'Transferir',
-  enterNameOrNumber: 'Ingresar número'
+  to: "Para:",
+  transferTo: "Transferir a",
+  blindTransfer: "Transferir",
+  enterNameOrNumber: "Ingresar número"
 };
 
 // @key: @#@"to"@#@ @source: @#@"To:"@#@

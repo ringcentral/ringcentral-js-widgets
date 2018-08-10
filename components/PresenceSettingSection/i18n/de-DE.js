@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  status: 'Status',
-  acceptQueueCalls: 'Warteschlangenanrufe annehmen'
+  status: "Status",
+  acceptQueueCalls: "Warteschlangenanrufe annehmen"
 };
 
 // @key: @#@"status"@#@ @source: @#@"Status"@#@

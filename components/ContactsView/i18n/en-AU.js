@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  searchPlaceholder: 'Search...'
+  searchPlaceholder: "Search..."
 };
 
 // @key: @#@"searchPlaceholder"@#@ @source: @#@"Search..."@#@

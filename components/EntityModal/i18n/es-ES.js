@@ -1,14 +1,14 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  account: 'Cuenta',
-  contact: 'Contacto',
-  lead: 'Posible cliente',
-  chooseEntity: 'Seleccione un tipo de entidad',
-  create: 'Crear'
+  account: "Cuenta",
+  contact: "Contacto",
+  lead: "Posible cliente",
+  chooseEntity: "Seleccione un tipo de entidad",
+  create: "Crear"
 };
 
 // @key: @#@"account"@#@ @source: @#@"Account"@#@

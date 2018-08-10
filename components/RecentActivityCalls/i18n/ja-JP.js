@@ -1,13 +1,13 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  noRecords: '\u6700\u8FD1\u306E\u8A18\u9332\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093\u3002',
-  inBound: '着信',
-  outBound: '発信',
-  missed: '不在着信'
+  noRecords: "最近の記録が見つかりません。",
+  inBound: "着信",
+  outBound: "発信",
+  missed: "不在着信"
 };
 
 // @key: @#@"noRecords"@#@ @source: @#@"No recent records found."@#@

@@ -1,26 +1,26 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  topic: 'Topic',
-  when: 'When',
-  duration: 'Duration',
-  recurringMeeting: 'Recurring meeting',
-  recurringDescribe: 'Please remember to check recurrence or repeat in your calendar invitation to your attendees.',
-  video: 'Video',
-  videoDescribe: 'When joining a meeting',
-  host: 'Host',
-  participants: 'Participant',
-  audioOptions: 'Audio options',
-  voIPOnly: 'VoIP only',
-  both: 'Both',
-  meetingOptions: 'Meeting options',
-  requirePassword: 'Require meeting password',
-  password: 'Password',
-  enableJoinBeforeHost: 'Enable joining before host',
-  telephonyOnly: 'Telephony only'
+  topic: "Topic",
+  when: "When",
+  duration: "Duration",
+  recurringMeeting: "Recurring meeting",
+  recurringDescribe: "Please remember to check recurrence or repeat in your calendar invitation to your attendees.",
+  video: "Video",
+  videoDescribe: "When joining a meeting",
+  host: "Host",
+  participants: "Participant",
+  audioOptions: "Audio options",
+  voIPOnly: "VoIP only",
+  both: "Both",
+  meetingOptions: "Meeting options",
+  requirePassword: "Require meeting password",
+  password: "Password",
+  enableJoinBeforeHost: "Enable joining before host",
+  telephonyOnly: "Telephony only"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@

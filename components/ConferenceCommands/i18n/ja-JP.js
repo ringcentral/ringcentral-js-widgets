@@ -1,26 +1,26 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  title: '会議コマンド',
-  starSharp2Title: '発信者数',
-  starSharp2Body: '通話中の人数を記録します',
-  starSharp3Title: '会議を終了',
-  starSharp3Body: 'ホストが電話を切って通話を終了する際に使用できます',
-  starSharp4Title: 'メニュー',
-  starSharp4Body: 'タッチトーンコマンドのリストを再生します',
-  starSharp5Title: 'リスニングモードを設定',
-  starSharp5Body: '1\u56DE\u62BC\u3057\u305F\u5834\u5408\uFF1A\u767A\u4FE1\u8005\u3092\u30DF\u30E5\u30FC\u30C8 - \u767A\u4FE1\u8005\u306F\u300C*\u3001#\u30016\u300D\u3092\u62BC\u3057\u3066\u30DF\u30E5\u30FC\u30C8\u3092\u89E3\u9664\u3067\u304D\u307E\u3059\r\n2\u56DE\u62BC\u3057\u305F\u5834\u5408\uFF1A\u767A\u4FE1\u8005\u3092\u30DF\u30E5\u30FC\u30C8 - \u805E\u304D\u53D6\u308A\u306E\u307F\u306B\u306A\u308A\u307E\u3059\u3002\u30DF\u30E5\u30FC\u30C8\u3092\u89E3\u9664\u3059\u308B\u30AA\u30D7\u30B7\u30E7\u30F3\u306F\u3042\u308A\u307E\u305B\u3093\r\n3\u56DE\u62BC\u3057\u305F\u5834\u5408\uFF1A\u767A\u4FE1\u8005\u3092\u30DF\u30E5\u30FC\u30C8\u89E3\u9664 - \u3082\u3046\u4E00\u5EA6\u56DE\u7DDA\u3092\u958B\u304D\u307E\u3059',
-  starSharp6Title: 'ホスト回線をミュート',
-  starSharp6Body: '1回押すとミュートします\r\nもう1回押すとミュート解除します',
-  starSharp7Title: '通話の安全確保',
-  starSharp7Body: '1回押すとすべての発信者をブロックします\r\nもう1回押すと通話のブロックを解除します',
-  starSharp8Title: '参加と退席をサウンドで通知',
-  starSharp8Body: '1\u56DE\u62BC\u3057\u305F\u5834\u5408\uFF1A\u30B5\u30A6\u30F3\u30C9\u3092\u30AA\u30D5\u306B\u3057\u307E\u3059\r\n2\u56DE\u62BC\u3057\u305F\u5834\u5408\uFF1A\u53C2\u52A0\u6642\u306E\u97F3\u3092\u30AA\u30F3\u3001\u9000\u5E2D\u6642\u306E\u97F3\u3092\u30AA\u30D5\u306B\u3057\u307E\u3059\r\n3\u56DE\u62BC\u3057\u305F\u5834\u5408\uFF1A\u53C2\u52A0\u6642\u306E\u97F3\u3092\u30AA\u30D5\u3001\u9000\u5E2D\u6642\u306E\u97F3\u3092\u30AA\u30F3\u306B\u3057\u307E\u3059\r\n4\u56DE\u62BC\u3057\u305F\u5834\u5408\uFF1A\u30B5\u30A6\u30F3\u30C9\u3092\u30AA\u30F3\u306B\u3057\u307E\u3059',
-  star9Title: '会議を録音',
-  star9Body: '1回押すと録音を開始します\r\nもう1回押すと録音を停止します'
+  title: "会議コマンド",
+  starSharp2Title: "発信者数",
+  starSharp2Body: "通話中の人数を記録します",
+  starSharp3Title: "会議を終了",
+  starSharp3Body: "ホストが電話を切って通話を終了する際に使用できます",
+  starSharp4Title: "メニュー",
+  starSharp4Body: "タッチトーンコマンドのリストを再生します",
+  starSharp5Title: "リスニングモードを設定",
+  starSharp5Body: "1回押した場合：発信者をミュート - 発信者は「*、#、6」を押してミュートを解除できます\r\n2回押した場合：発信者をミュート - 聞き取りのみになります。ミュートを解除するオプションはありません\r\n3回押した場合：発信者をミュート解除 - もう一度回線を開きます",
+  starSharp6Title: "ホスト回線をミュート",
+  starSharp6Body: "1回押すとミュートします\r\nもう1回押すとミュート解除します",
+  starSharp7Title: "通話の安全確保",
+  starSharp7Body: "1回押すとすべての発信者をブロックします\r\nもう1回押すと通話のブロックを解除します",
+  starSharp8Title: "参加と退席をサウンドで通知",
+  starSharp8Body: "1回押した場合：サウンドをオフにします\r\n2回押した場合：参加時の音をオン、退席時の音をオフにします\r\n3回押した場合：参加時の音をオフ、退席時の音をオンにします\r\n4回押した場合：サウンドをオンにします",
+  star9Title: "会議を録音",
+  star9Body: "1回押すと録音を開始します\r\nもう1回押すと録音を停止します"
 };
 
 // @key: @#@"title"@#@ @source: @#@"Conference Commands"@#@

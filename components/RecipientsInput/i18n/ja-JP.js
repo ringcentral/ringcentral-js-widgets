@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  to: '宛先',
-  enterNameOrNumber: '名前または番号の入力'
+  to: "宛先",
+  enterNameOrNumber: "名前または番号の入力"
 };
 
 // @key: @#@"to"@#@ @source: @#@"To"@#@

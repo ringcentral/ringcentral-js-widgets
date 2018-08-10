@@ -1,0 +1,1 @@
+{"version":3,"sources":["containers/ConferenceCallDialerPage/i18n/zh-CN.js"],"names":["activeCall"],"mappings":";;;;;kBAAe;AACbA,cAAY;AADC,C;;AAIf","file":"zh-CN.js","sourcesContent":["export default {\n  activeCall: \"主动呼叫\"\n};\n\n// @key: @#@\"activeCall\"@#@ @source: @#@\"Active Call\"@#@\n"]}

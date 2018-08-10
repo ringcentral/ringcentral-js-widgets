@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  noRecords: 'No se encontraron registros recientes.'
+  noRecords: "No se encontraron registros recientes."
 };
 
 // @key: @#@"noRecords"@#@ @source: @#@"No recent records found."@#@

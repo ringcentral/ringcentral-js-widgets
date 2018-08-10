@@ -1,14 +1,14 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  from: 'From',
-  to: 'To',
-  enterNameOrNumber: 'Enter Number or Name',
-  typeMessage: 'Type message...',
-  send: 'Send'
+  from: "From",
+  to: "To",
+  enterNameOrNumber: "Enter Number or Name",
+  typeMessage: "Type message...",
+  send: "Send"
 };
 
 // @key: @#@"from"@#@ @source: @#@"From"@#@

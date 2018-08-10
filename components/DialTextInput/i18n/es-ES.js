@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  to: 'A:',
-  enterNameOrPhoneNumber: 'Introducir número'
+  to: "A:",
+  enterNameOrPhoneNumber: "Introducir número"
 };
 
 // @key: @#@"to"@#@ @source: @#@"To:"@#@

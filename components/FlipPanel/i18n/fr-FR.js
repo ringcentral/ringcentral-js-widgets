@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  flipHeader: 'Renvoyer l\'appel vers...',
-  flip: 'Renvoi',
-  complete: 'Terminer le renvoi'
+  flipHeader: "Renvoyer l'appel vers...",
+  flip: "Renvoi",
+  complete: "Terminer le renvoi"
 };
 
 // @key: @#@"flipHeader"@#@ @source: @#@"Flip Call to..."@#@

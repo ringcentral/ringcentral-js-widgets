@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  sureToDeleteVoiceMail: 'Eliminare questo messaggio vocale?',
-  doNotAskAgain: 'Non chiedermelo più'
+  sureToDeleteVoiceMail: "Eliminare questo messaggio vocale?",
+  doNotAskAgain: "Non chiedermelo più"
 };
 
 // @key: @#@"sureToDeleteVoiceMail"@#@ @source: @#@"Are you sure you want to delete this voicemail?"@#@

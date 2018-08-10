@@ -1,27 +1,25 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  newConference: 'Nueva conferencia',
-  dialInNumber: 'Número de marcación',
-  host: 'Organizador',
-  participants: 'Participantes',
-  internationalParticipants: 'Participantes internacionales',
-  internationalNumbersHeader: 'Seleccionar números de marcación internacionales',
-  search: 'Buscar...',
-  inviteWithText: 'Invitar con mensaje',
-  inviteText: 'Únase a la conferencia de {brandName}.\r\n\nNúmeros de marcación: {formattedDialInNumber} \r\n{additionalNumbersSection} \r\nAcceso de participante: {participantCode} \r\n\n\xBFNecesita un número de marcación internacional? Visite {dialInNumbersLinks} \r\n\nEsta llamada de conferencia es posible gracias a Conferencias de {brandName}.',
-  hostAccess: 'Acceso de host',
-  participantsAccess: 'Acceso de participantes',
-  addinalDialInNumbers: 'Números de marcación adicionales',
-  selectNumbers: 'Seleccionar números',
-  enableJoinBeforeHost: 'Permitir unirse antes que el host',
-  conferenceCommands: 'Comandos de conferencia',
-  inviteWithGCalendar: 'Invitar con Google Calendar',
-  joinAsHost: 'Iniciar conferencia',
-  internationalNumber: 'Números de marcación internacionales:'
+  newConference: "Nueva conferencia",
+  dialInNumber: "Número de marcación",
+  hostAccess: "Acceso de host",
+  participantsAccess: "Acceso de participantes",
+  addinalDialInNumbers: "Números de marcación adicionales",
+  selectNumbers: "Seleccionar números",
+  enableJoinBeforeHost: "Permitir unirse antes que el host",
+  conferenceCommands: "Comandos de conferencia",
+  inviteWithGCalendar: "Invitar con Google Calendar",
+  inviteWithText: "Invitar con mensaje",
+  joinAsHost: "Iniciar conferencia",
+  internationalNumber: "Números de marcación internacionales:",
+  inviteText_att: "Únase a la conferencia de {brandName}.\n\nNúmero de marcación: {formattedDialInNumber} \n{additionalNumbersSection} \nAcceso de participante: {participantCode} \n\n¿Necesita un número de marcación internacional? Visite {dialInNumbersLinks} \n\nEsta llamada de conferencia es posible gracias a {brandName} Conferencing.",
+  inviteText_bt: "Únase a la conferencia de {brandName}.\n\nNúmero de marcación: {formattedDialInNumber} \n{additionalNumbersSection} \nAcceso de participante: {participantCode} \n\nNúmeros de marcación adicionales {dialInNumbersLinks}",
+  inviteText_rc: "Únase a la conferencia de {brandName}.\n\nNúmero de marcación: {formattedDialInNumber} \n{additionalNumbersSection} \nAcceso de participante: {participantCode} \n\n¿Necesita un número de marcación internacional? Visite {dialInNumbersLinks} \n\nEsta llamada de conferencia es posible gracias a {brandName} Conferencing.",
+  inviteText_telus: "Únase a la conferencia de {brandName}.\n\nNúmero de marcación: {formattedDialInNumber} \n{additionalNumbersSection} \nAcceso de participante: {participantCode} \n\nNúmeros de marcación adicionales {dialInNumbersLinks}"
 };
 
 // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@

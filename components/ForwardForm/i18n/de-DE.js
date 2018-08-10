@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  forward: 'Weiterleiten',
-  cancel: 'Abbrechen',
-  customNumber: 'Benutzerdefinierte Nummer'
+  forward: "Weiterleiten",
+  cancel: "Abbrechen",
+  customNumber: "Benutzerdefinierte Nummer"
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

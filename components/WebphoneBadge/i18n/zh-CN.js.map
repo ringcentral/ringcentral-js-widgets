@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/WebphoneBadge/i18n/zh-CN.js"],"names":["webphoneUnavailable"],"mappings":";;;;;kBAAe;AACbA,uBAAqB;AADR,C;;AAIf","file":"zh-CN.js","sourcesContent":["export default {\n  webphoneUnavailable: \"网络电话不可用\"\n};\n\n// @key: @#@\"webphoneUnavailable\"@#@ @source: @#@\"Web Phone Unavailable\"@#@\n"]}

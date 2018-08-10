@@ -1,25 +1,26 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  region: 'Region',
-  calling: 'Anrufen',
-  logout: 'Abmelden',
-  version: 'Version',
-  settings: 'Einstellungen',
-  clickToDial: 'Zum Wählen klicken',
-  autoCreateLog: 'Automatisch Anrufliste erstellen',
-  clickToSMS: 'Zum SMS senden klicken',
-  clickToDialSMS: 'Zum Wählen/SMS senden klicken',
-  autoCreateSMSLog: 'Automatisch SMS-Protokoll erstellen',
-  autoLogCalls: 'Anrufe automatisch protokollieren',
-  autoLogSMS: 'SMS automatisch protokollieren',
-  audio: 'Audio',
-  language: 'Sprache',
-  feedback: 'Feedback',
-  userGuide: 'Neuigkeiten'
+  region: "Region",
+  calling: "Anrufen",
+  logout: "Abmelden",
+  version: "Version",
+  settings: "Einstellungen",
+  clickToDial: "Zum Wählen klicken",
+  autoCreateLog: "Automatisch Anrufliste erstellen",
+  autoCreateSMSLog: "Automatisch SMS-Protokoll erstellen",
+  autoLogCalls: "Anrufe automatisch protokollieren",
+  autoLogNotes: "Anmerkungen automatisch protokollieren",
+  autoLogSMS: "SMS automatisch protokollieren",
+  clickToSMS: "Zum SMS senden klicken",
+  clickToDialSMS: "Zum Wählen/SMS senden klicken",
+  audio: "Audio",
+  language: "Sprache",
+  feedback: "Feedback",
+  userGuide: "Neuigkeiten"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -31,6 +32,7 @@ exports.default = {
 // @key: @#@"autoCreateLog"@#@ @source: @#@"Auto-create Call Log"@#@
 // @key: @#@"autoCreateSMSLog"@#@ @source: @#@"Auto-create SMS Log"@#@
 // @key: @#@"autoLogCalls"@#@ @source: @#@"Auto log calls"@#@
+// @key: @#@"autoLogNotes"@#@ @source: @#@"Auto log notes"@#@
 // @key: @#@"autoLogSMS"@#@ @source: @#@"Auto log SMS"@#@
 // @key: @#@"clickToSMS"@#@ @source: @#@"Click to SMS"@#@
 // @key: @#@"clickToDialSMS"@#@ @source: @#@"Click to Dial/SMS"@#@

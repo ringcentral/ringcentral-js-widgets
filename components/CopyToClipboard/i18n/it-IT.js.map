@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/CopyToClipboard/i18n/it-IT.js"],"names":["copyToClipboard"],"mappings":";;;;;kBAAe;AACbA,mBAAiB;AADJ,C;;AAIf","file":"it-IT.js","sourcesContent":["export default {\n  copyToClipboard: \"Copia negli Appunti\"\n};\n\n// @key: @#@\"copyToClipboard\"@#@ @source: @#@\"Copy to Clipboard\"@#@\n"]}

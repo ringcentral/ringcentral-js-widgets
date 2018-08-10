@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  contactDetails: 'Dettagli contatto'
+  contactDetails: "Dettagli contatto"
 };
 
 // @key: @#@"contactDetails"@#@ @source: @#@"Contact Details"@#@

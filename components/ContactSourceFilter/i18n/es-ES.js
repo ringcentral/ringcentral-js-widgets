@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  all: 'Todos',
-  company: 'Compañía',
-  personal: 'Personal'
+  all: "Todos",
+  company: "Compañía",
+  personal: "Personal"
 };
 
 // @key: @#@"all"@#@ @source: @#@"All"@#@

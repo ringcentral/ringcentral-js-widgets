@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  noActiveCalls: 'Nessuna chiamata attiva',
-  noRecords: 'Nessun risultato trovato.'
+  noActiveCalls: "Nessuna chiamata attiva",
+  noRecords: "Nessun risultato trovato."
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@

@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/OfflineModeBadge/i18n/zh-TW.js"],"names":["offlineMode"],"mappings":";;;;;kBAAe;AACbA,eAAa;AADA,C;;AAIf","file":"zh-TW.js","sourcesContent":["export default {\n  offlineMode: \"離線模式\"\n};\n\n// @key: @#@\"offlineMode\"@#@ @source: @#@\"Offline Mode\"@#@\n"]}

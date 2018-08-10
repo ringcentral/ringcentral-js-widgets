@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  flipHeader: 'Anruf umlegen zu\xA0...',
-  flip: 'Umlegen',
-  complete: 'Umlegen abschließen'
+  flipHeader: "Anruf umlegen zu ...",
+  flip: "Umlegen",
+  complete: "Umlegen abschließen"
 };
 
 // @key: @#@"flipHeader"@#@ @source: @#@"Flip Call to..."@#@

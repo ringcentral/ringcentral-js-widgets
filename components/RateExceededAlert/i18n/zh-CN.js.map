@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/RateExceededAlert/i18n/zh-CN.js"],"names":["rateExceeded"],"mappings":";;;;;kBAAe;AACbA,gBAAc;AADD,C;;AAIf","file":"zh-CN.js","sourcesContent":["export default {\n  rateExceeded: \"已超出请求限制。应用将在 {ttl} 秒后恢复。\"\n};\n\n// @key: @#@\"rateExceeded\"@#@ @source: @#@\"Request limit exceeded. App will resume in {ttl} seconds.\"@#@\n"]}
