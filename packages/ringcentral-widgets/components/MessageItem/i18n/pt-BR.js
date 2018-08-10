@@ -1,24 +1,25 @@
 import messageTypes from 'ringcentral-integration/enums/messageTypes';
 
 export default {
-  addLog: 'Log',
-  editLog: 'Editar log',
-  viewDetails: 'Exibir detalhes',
-  addEntity: 'Criar novo',
-  call: 'Chamada',
-  conversation: 'Conversa',
-  groupConversation: 'Conversa em grupo',
-  text: 'Texto',
-  voiceMessage: 'Mensagens de voz',
-  [messageTypes.voiceMail]: 'Correio de voz',
-  mark: 'Marcar como não lido',
-  unmark: 'Marcar como lido',
-  delete: 'Excluir',
-  faxSent: 'Fax enviado',
-  faxReceived: 'Fax recebido',
-  pages: 'páginas',
-  preview: 'Exibir',
-  download: 'Baixar',
+  addLog: "Log",
+  editLog: "Editar log",
+  viewDetails: "Exibir detalhes",
+  addEntity: "Criar novo",
+  call: "Chamada",
+  text: "Texto",
+  conversation: "Conversa",
+  groupConversation: "Conversa em grupo",
+  voiceMessage: "Mensagens de voz",
+  [messageTypes.voiceMail]: "Correio de voz",
+  mark: "Marcar como não lido",
+  unmark: "Marcar como lido",
+  delete: "Excluir",
+  faxSent: "Fax enviado",
+  faxReceived: "Fax recebido",
+  pages: "páginas",
+  preview: "Exibir",
+  download: "Baixar",
+  imageAttachment: "Anexo: 1 imagem"
 };
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
@@ -39,3 +40,4 @@ export default {
 // @key: @#@"pages"@#@ @source: @#@"pages"@#@
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
+// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: 1 image"@#@

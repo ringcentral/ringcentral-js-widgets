@@ -1,7 +1,7 @@
 export default {
-  download: 'Download',
-  play: 'Play',
-  pause: 'Pause',
+  download: "Download",
+  play: "Play",
+  pause: "Pause"
 };
 
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
