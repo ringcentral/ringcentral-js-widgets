@@ -83,7 +83,7 @@ function mapToFunctions(_, {
         routerInteraction.goBack();
         return;
       }
-      phone.routerInteraction._history.go(-2);
+      phone.routerInteraction.go(-2);
     },
     onAdd() {
       routerInteraction.push(`/conferenceCall/dialer/${params.fromNumber}`);
