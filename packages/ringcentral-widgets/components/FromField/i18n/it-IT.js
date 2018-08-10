@@ -1,12 +1,12 @@
 export default {
-  DirectNumber: 'Diretto',
-  MainCompanyNumber: 'Principale',
-  CompanyNumber: 'Società',
-  CompanyFaxNumber: 'Fax',
-  Blocked: 'Bloccato',
-  from: 'Da',
-  AdditionalCompanyNumber: 'Azienda',
-  ForwardedCompanyNumber: 'Inoltrato',
+  DirectNumber: "Diretto",
+  MainCompanyNumber: "Principale",
+  CompanyNumber: "Società",
+  CompanyFaxNumber: "Fax",
+  Blocked: "Bloccato",
+  AdditionalCompanyNumber: "Azienda",
+  ForwardedCompanyNumber: "Inoltrato",
+  from: "Da"
 };
 
 // @key: @#@"DirectNumber"@#@ @source: @#@"Direct"@#@

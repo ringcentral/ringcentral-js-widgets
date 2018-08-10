@@ -1,7 +1,7 @@
 export default {
-  all: 'All',
-  company: 'Company',
-  personal: 'Personal',
+  all: "All",
+  company: "Company",
+  personal: "Personal"
 };
 
 // @key: @#@"all"@#@ @source: @#@"All"@#@
