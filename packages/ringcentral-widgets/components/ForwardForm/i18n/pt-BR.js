@@ -1,7 +1,7 @@
 export default {
-  forward: 'Encaminhar',
-  cancel: 'Cancelar',
-  customNumber: 'Número personalizado'
+  forward: "Encaminhar",
+  cancel: "Cancelar",
+  customNumber: "Número personalizado"
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

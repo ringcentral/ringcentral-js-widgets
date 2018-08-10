@@ -1,14 +1,14 @@
 import phoneTypes from '../../enums/phoneTypes';
 
 export default {
-  [phoneTypes.business]: 'Telefon (geschäftlich)',
-  [phoneTypes.extension]: 'Durchwahlnummer',
-  [phoneTypes.home]: 'Privatnummer',
-  [phoneTypes.mobile]: 'Mobiltelefon',
-  [phoneTypes.phone]: 'Telefon',
-  [phoneTypes.unknown]: 'Unbekannter Telefontyp',
-  [phoneTypes.company]: 'Firmennummer',
-  [phoneTypes.direct]: 'Durchwahlnummer',
+  [phoneTypes.business]: "Telefon (geschäftlich)",
+  [phoneTypes.extension]: "Durchwahlnummer",
+  [phoneTypes.home]: "Privatnummer",
+  [phoneTypes.mobile]: "Mobiltelefon",
+  [phoneTypes.phone]: "Telefon",
+  [phoneTypes.unknown]: "Unbekannter Telefontyp",
+  [phoneTypes.company]: "Firmennummer",
+  [phoneTypes.direct]: "Durchwahlnummer"
 };
 
 // @key: @#@"[phoneTypes.business]"@#@ @source: @#@"Business Phone"@#@

@@ -1,5 +1,5 @@
 export default {
-  419: 'Latinoamérica',
+  419: "Latinoamérica",
   AR: "Argentina",
   AT: "Austria",
   AU: "Australia",

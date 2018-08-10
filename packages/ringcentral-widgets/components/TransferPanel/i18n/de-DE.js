@@ -1,8 +1,8 @@
 export default {
-  to: 'An:',
-  transferTo: 'Weiterleiten an',
-  blindTransfer: 'Weiterleitung',
-  enterNameOrNumber: 'Nummer eingeben',
+  to: "An:",
+  transferTo: "Weiterleiten an",
+  blindTransfer: "Weiterleitung",
+  enterNameOrNumber: "Nummer eingeben"
 };
 
 // @key: @#@"to"@#@ @source: @#@"To:"@#@
