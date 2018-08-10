@@ -1,5 +1,5 @@
 export default {
-  activeCall: 'Appel en cours',
+  activeCall: "Appel en cours"
 };
 
 // @key: @#@"activeCall"@#@ @source: @#@"Active Call"@#@

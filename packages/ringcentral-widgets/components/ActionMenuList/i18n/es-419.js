@@ -1,6 +1,6 @@
 export default {
-  sureToDeleteVoiceMail: '\xBFSeguro que desea eliminar este mensaje de voz?',
-  doNotAskAgain: 'No preguntar de nuevo',
+  sureToDeleteVoiceMail: "¿Seguro que desea eliminar este mensaje de voz?",
+  doNotAskAgain: "No preguntar de nuevo"
 };
 
 // @key: @#@"sureToDeleteVoiceMail"@#@ @source: @#@"Are you sure you want to delete this voicemail?"@#@
