@@ -120,6 +120,7 @@ function mapToFunctions(_, _ref2) {
   var params = _ref2.params,
       phone = _ref2.phone,
       _ref2$phone = _ref2.phone,
+      webphone = _ref2$phone.webphone,
       conferenceCall = _ref2$phone.conferenceCall,
       routerInteraction = _ref2$phone.routerInteraction,
       getAvatarUrl = _ref2.getAvatarUrl,
@@ -157,7 +158,11 @@ function mapToFunctions(_, _ref2) {
       return onMerge;
     }(),
     onBackButtonClick: function onBackButtonClick() {
-      routerInteraction.goBack();
+      if (webphone.sessions.length) {
+        routerInteraction.goBack();
+        return;
+      }
+      phone.routerInteraction.go(-2);
     },
     onAdd: function onAdd() {
       routerInteraction.push('/conferenceCall/dialer/' + params.fromNumber);

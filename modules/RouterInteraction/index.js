@@ -227,6 +227,33 @@ var RouterInteraction = (_dec = (0, _di.Module)({
       return goBack;
     }()
   }, {
+    key: 'go',
+    value: function () {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
+        var _history4;
+
+        var _args4 = arguments;
+        return _regenerator2.default.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                (_history4 = this._history).go.apply(_history4, _args4);
+
+              case 1:
+              case 'end':
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      function go() {
+        return _ref5.apply(this, arguments);
+      }
+
+      return go;
+    }()
+  }, {
     key: '_actionTypes',
     get: function get() {
       /* no action types */
@@ -256,6 +283,6 @@ var RouterInteraction = (_dec = (0, _di.Module)({
     }
   }]);
   return RouterInteraction;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'push', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'push'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'replace', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'replace'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'goBack', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'goBack'), _class2.prototype)), _class2)) || _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'push', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'push'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'replace', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'replace'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'goBack', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'goBack'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'go', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'go'), _class2.prototype)), _class2)) || _class);
 exports.default = RouterInteraction;
 //# sourceMappingURL=index.js.map
