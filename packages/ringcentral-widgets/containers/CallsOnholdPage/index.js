@@ -58,6 +58,7 @@ function mapToFunctions(_, {
   params,
   phone,
   phone: {
+    webphone,
     conferenceCall,
     routerInteraction,
   },
@@ -78,7 +79,11 @@ function mapToFunctions(_, {
       await conferenceCall.onMergeOnhold({ sessionId, callback: this::onBackButtonClick });
     },
     onBackButtonClick() {
-      routerInteraction.goBack();
+      if (webphone.sessions.length) {
+        routerInteraction.goBack();
+        return;
+      }
+      routerInteraction.push('/dialer');
     },
     onAdd() {
       routerInteraction.push(`/conferenceCall/dialer/${params.fromNumber}`);
