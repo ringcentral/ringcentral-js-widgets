@@ -5,7 +5,7 @@ export default {
   MultiWithoutNAMessage: 'Seleccioné el país en el cual se encuentra. Esto se utilizará para la marcación local y el formato de número de teléfono.',
   country: 'País',
   areaCode: 'Código de área',
-  areaCodePlaceholder: 'Ingresar código de área',
+  areaCodePlaceholder: 'Ingresar código de área'
 };
 
 // @key: @#@"title"@#@ @source: @#@"Region"@#@

@@ -5,7 +5,7 @@ export default {
   MultiWithoutNAMessage: 'Wählen Sie das Land aus, in dem Sie sich befinden. Dies wird für Ortsgespräche und die Telefonnummernformatierung verwendet.',
   country: 'Land',
   areaCode: 'Vorwahl',
-  areaCodePlaceholder: 'Vorwahl eingeben',
+  areaCodePlaceholder: 'Vorwahl eingeben'
 };
 
 // @key: @#@"title"@#@ @source: @#@"Region"@#@

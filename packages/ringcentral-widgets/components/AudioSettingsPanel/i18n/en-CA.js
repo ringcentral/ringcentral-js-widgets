@@ -6,7 +6,7 @@ export default {
   muteCalls: 'Mute Calls',
   outputDevice: 'Output Device',
   inputDevice: 'Input Device',
-  micPermission: 'Microphone Permission',
+  micPermission: 'Microphone Permission'
 };
 
 // @key: @#@"title"@#@ @source: @#@"Audio"@#@

@@ -8,8 +8,8 @@ export default {
   call: 'Call',
   text: 'Text',
   [presenceStatus.available]: 'Available',
-  [presenceStatus.busy]: 'Busy',
   [presenceStatus.offline]: 'Invisible',
+  [presenceStatus.busy]: 'Busy',
   [dndStatus.doNotAcceptAnyCalls]: 'Do not disturb'
 };
 

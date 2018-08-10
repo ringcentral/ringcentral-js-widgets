@@ -16,7 +16,7 @@ export default {
   call: 'Chiama',
   missedCall: 'Perse',
   inboundCall: 'In entrata',
-  outboundCall: 'In uscita',
+  outboundCall: 'In uscita'
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@

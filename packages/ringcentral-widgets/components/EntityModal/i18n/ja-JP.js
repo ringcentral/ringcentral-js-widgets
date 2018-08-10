@@ -3,7 +3,7 @@ export default {
   contact: '連絡先',
   lead: 'リード',
   chooseEntity: 'エンティティタイプを選択してください',
-  create: '作成',
+  create: '作成'
 };
 
 // @key: @#@"account"@#@ @source: @#@"Account"@#@

@@ -17,9 +17,8 @@ export default {
   subjectPlaceHolder: 'Diga como podemos ajudá-lo',
   description: 'Descrição completa',
   descriptionPlaceHolder: 'Inclua o máximo de informação possível',
-  send: 'Envie seus comentários',
+  send: 'Envie seus comentários'
 };
-
 
 // @key: @#@"feedbackHeader"@#@ @source: @#@"Submit Feedback"@#@
 // @key: @#@"back"@#@ @source: @#@"Back"@#@

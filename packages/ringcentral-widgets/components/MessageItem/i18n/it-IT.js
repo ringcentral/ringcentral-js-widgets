@@ -6,9 +6,9 @@ export default {
   viewDetails: 'Visualizza dettagli',
   addEntity: 'Crea nuovo',
   call: 'Chiama',
+  text: 'SMS',
   conversation: 'Conversazione',
   groupConversation: 'Conversazione di gruppo',
-  text: 'SMS',
   voiceMessage: 'Messaggio vocale',
   [messageTypes.voiceMail]: 'Segreteria telefonica',
   mark: 'Contrassegna come non letto',
@@ -19,6 +19,7 @@ export default {
   pages: 'pagine',
   preview: 'Visualizza',
   download: 'Scarica',
+  imageAttachment: 'Allegato: 1 immagine'
 };
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
@@ -39,3 +40,4 @@ export default {
 // @key: @#@"pages"@#@ @source: @#@"pages"@#@
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
+// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: 1 image"@#@

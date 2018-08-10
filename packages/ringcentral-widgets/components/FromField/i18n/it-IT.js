@@ -4,9 +4,9 @@ export default {
   CompanyNumber: 'Società',
   CompanyFaxNumber: 'Fax',
   Blocked: 'Bloccato',
-  from: 'Da',
   AdditionalCompanyNumber: 'Azienda',
   ForwardedCompanyNumber: 'Inoltrato',
+  from: 'Da'
 };
 
 // @key: @#@"DirectNumber"@#@ @source: @#@"Direct"@#@

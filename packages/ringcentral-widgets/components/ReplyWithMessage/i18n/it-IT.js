@@ -7,7 +7,7 @@ export default {
   willCallYouBackIn: 'Ti richiamo tra',
   min: 'min.',
   hours: 'ore',
-  days: 'giorni',
+  days: 'giorni'
 };
 
 // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@

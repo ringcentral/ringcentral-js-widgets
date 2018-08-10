@@ -5,7 +5,7 @@ export default {
   MultiWithoutNAMessage: 'Please select the country you locate in. This will be used for local dialing and phone number formatting.',
   country: 'Country',
   areaCode: 'Area Code',
-  areaCodePlaceholder: 'Enter Area Code',
+  areaCodePlaceholder: 'Enter Area Code'
 };
 
 // @key: @#@"title"@#@ @source: @#@"Region"@#@

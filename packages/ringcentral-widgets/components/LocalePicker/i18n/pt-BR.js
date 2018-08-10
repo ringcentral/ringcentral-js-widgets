@@ -5,7 +5,7 @@ export default {
   de: 'Deutsch',
   es: 'Espanhol',
   it: 'Italiano',
-  pt: 'Português',
+  pt: 'Português'
 };
 
 // @key: @#@"en"@#@ @source: @#@"English"@#@

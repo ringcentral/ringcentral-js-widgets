@@ -3,9 +3,9 @@ export default {
   when: 'Date',
   duration: 'Durée',
   recurringMeeting: 'Réunion périodique',
-  recurringDescribe: 'N\'oubliez pas de vérifier la récurrence ou de renouveler votre invitation aux participants.',
+  recurringDescribe: 'N'oubliez pas de vérifier la récurrence ou de renouveler votre invitation aux participants.',
   video: 'Vidéo',
-  videoDescribe: 'Dès le début d\'une réunion',
+  videoDescribe: 'Dès le début d'une réunion',
   host: 'Hôte',
   participants: 'Participant',
   audioOptions: 'Options audio',
@@ -14,8 +14,8 @@ export default {
   meetingOptions: 'Options de réunion',
   requirePassword: 'Exiger un MDP pour la réunion',
   password: 'Mot de passe',
-  enableJoinBeforeHost: 'Activer l\'option permettant de rejoindre la conférence avant l\'hôte',
-  telephonyOnly: 'Téléphonie seulement',
+  enableJoinBeforeHost: 'Activer l'option permettant de rejoindre la conférence avant l'hôte',
+  telephonyOnly: 'Téléphonie seulement'
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@

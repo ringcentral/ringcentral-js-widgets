@@ -8,9 +8,9 @@ export default {
   call: 'Anrufen',
   text: 'Textnachr',
   [presenceStatus.available]: 'Verfügbar',
-  [presenceStatus.busy]: 'Belegt',
   [presenceStatus.offline]: 'Unsichtbar',
-  [dndStatus.doNotAcceptAnyCalls]: 'Nicht stören',
+  [presenceStatus.busy]: 'Belegt',
+  [dndStatus.doNotAcceptAnyCalls]: 'Nicht stören'
 };
 
 // @key: @#@"extensionLabel"@#@ @source: @#@"Ext."@#@

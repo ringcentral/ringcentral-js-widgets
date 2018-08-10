@@ -3,7 +3,7 @@ export default {
   when: 'Quand',
   duration: 'Durée',
   recurringMeeting: 'Réunion périodique',
-  recurringDescribe: 'N\'oubliez pas de vérifier la périodicité ou la répétition dans l\'invitation envoyée à vos participants.',
+  recurringDescribe: 'N'oubliez pas de vérifier la périodicité ou la répétition dans l'invitation envoyée à vos participants.',
   video: 'Vidéo',
   videoDescribe: 'Au moment de joindre une réunion',
   host: 'Animateur',
@@ -14,8 +14,8 @@ export default {
   meetingOptions: 'Options de réunion',
   requirePassword: 'Exiger un mot de passe de réunion',
   password: 'Mot de passe',
-  enableJoinBeforeHost: 'Activer l\'option permettant de joindre la réunion avant l\'animateur',
-  telephonyOnly: 'Téléphonie seulement',
+  enableJoinBeforeHost: 'Activer l'option permettant de joindre la réunion avant l'animateur',
+  telephonyOnly: 'Téléphonie seulement'
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@

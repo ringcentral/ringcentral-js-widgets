@@ -2,14 +2,14 @@ export default {
   feedbackHeader: 'Invia feedback',
   back: 'Indietro',
   revert: 'Annulla',
-  instruction: 'Il tuo feedback è importante per noi. Se incontri problemi nell\'uso dell\'app, desideri richiedere una nuova funzione o vuoi segnalare un bug, siamo a tua disposizione.',
+  instruction: 'Il tuo feedback è importante per noi. Se incontri problemi nell'uso dell'app, desideri richiedere una nuova funzione o vuoi segnalare un bug, siamo a tua disposizione.',
   fillForm: 'Compila il modulo seguente e fai clic su ',
   useMailBox: ' oppure usa direttamente la tua casella di posta e invia la richiesta a ',
   email: 'Il tuo indirizzo e-mail',
   reply: '(così possiamo risponderti)',
   emailPlaceHolder: 'ronald.app@ringcentral.com',
   feedbackTopic: 'Argomento feedback',
-  topicPlaceHolder: 'Seleziona un\'opzione',
+  topicPlaceHolder: 'Seleziona un'opzione',
   bugReport: 'Segnalazione di bug',
   featureRequest: 'Richiesta di funzione',
   others: 'Altri',
@@ -17,9 +17,8 @@ export default {
   subjectPlaceHolder: 'Facci sapere come possiamo aiutarti',
   description: 'Descrizione completa',
   descriptionPlaceHolder: 'Includi tutte le informazioni che puoi',
-  send: 'Invia il tuo feedback',
+  send: 'Invia il tuo feedback'
 };
-
 
 // @key: @#@"feedbackHeader"@#@ @source: @#@"Submit Feedback"@#@
 // @key: @#@"back"@#@ @source: @#@"Back"@#@

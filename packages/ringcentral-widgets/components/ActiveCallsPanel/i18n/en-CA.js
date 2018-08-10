@@ -3,7 +3,7 @@ export default {
   currentCall: 'Current Call',
   ringCall: 'Ringing Call',
   onHoldCall: 'Call on Hold',
-  otherDeviceCall: 'Ongoing calls on my other devices',
+  otherDeviceCall: 'Ongoing calls on my other devices'
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@

@@ -10,6 +10,8 @@ export default {
   add: 'Añadir',
   transfer: 'Transferir',
   flip: 'Volteo',
+  more: 'Acciones de llamada',
+  mergeToConference: 'Combinar'
 };
 
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
@@ -23,3 +25,5 @@ export default {
 // @key: @#@"add"@#@ @source: @#@"Add"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"flip"@#@ @source: @#@"Flip"@#@
+// @key: @#@"more"@#@ @source: @#@"Call Actions"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@

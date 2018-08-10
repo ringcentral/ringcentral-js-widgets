@@ -1,12 +1,11 @@
 export default {
   noActiveCalls: 'Keine aktiven Anrufe',
+  noCalls: 'Keine Treffer gefunden.',
   currentCall: 'Aktueller Anruf',
   ringCall: 'Anruf wird getätigt',
   onHoldCall: 'Anruf wird gehalten',
-  otherDeviceCall: 'Aktuelle Gespräche auf meinen anderen Geräten',
-  noCalls: 'Keine Treffer gefunden.',
   historyCalls: 'Vergangene Anrufe',
-  searchPlaceholder: 'Suchen ...',
+  otherDeviceCall: 'Aktuelle Gespräche auf meinen anderen Geräten'
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@

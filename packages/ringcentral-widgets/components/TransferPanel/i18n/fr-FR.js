@@ -1,8 +1,8 @@
 export default {
-  to: 'À\xA0:',
+  to: 'À :',
   transferTo: 'Transférer à',
   blindTransfer: 'Transférer',
-  enterNameOrNumber: 'Entrer le numéro',
+  enterNameOrNumber: 'Entrer le numéro'
 };
 
 // @key: @#@"to"@#@ @source: @#@"To:"@#@

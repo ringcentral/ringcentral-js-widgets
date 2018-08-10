@@ -1,7 +1,7 @@
 export default {
   unknown: '不明',
   anonymous: '匿名',
-  activeCall: 'アクティブな通話',
+  activeCall: 'アクティブな通話'
 };
 
 // @key: @#@"unknown"@#@ @source: @#@"Unknown"@#@

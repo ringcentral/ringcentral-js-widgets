@@ -22,8 +22,9 @@ export default {
   [messageSenderMessages.notSmsToExtension]: 'Não é possível enviar para um número de ramal com o número de telefone principal. Se você deseja enviar para um Número de ramal, insira um Número de ramal.',
   [messageSenderMessages.internationalSMSNotSupported]: 'Não há suporte para o envio de SMS para um número de telefone internacional.',
   [messageSenderMessages.noInternalSMSPermission]: 'Você não tem permissão para enviar mensagens. Entre em contato com o administrador da sua conta {brand} para fazer um upgrade.',
-  [messageSenderMessages.noSMSPermission]: 'Você não tem permissão para enviar mensagens para destinatários de fora da sua organização. Entre em contato com o administrador da sua conta {brand} para fazer um upgrade.',
+  [messageSenderMessages.noSMSPermission]: 'Você não tem permissão para enviar mensagens para destinatários de fora da sua organização.',
   areaCode: 'código de área',
+  [messageSenderMessages.sending]: 'Enviando mensagem... O processo pode levar alguns minutos para ser concluído.'
 };
 
 // @key: @#@"[messageSenderMessages.sendSuccess]"@#@ @source: @#@"Send Success."@#@
@@ -47,5 +48,6 @@ export default {
 // @key: @#@"[messageSenderMessages.notSmsToExtension]"@#@ @source: @#@"Cannot send To a extension number with main phone number. If you want to sent to a extension Number, please just enter extension Number."@#@
 // @key: @#@"[messageSenderMessages.internationalSMSNotSupported]"@#@ @source: @#@"Sending SMS to international phone number is not supported."@#@
 // @key: @#@"[messageSenderMessages.noInternalSMSPermission]"@#@ @source: @#@"You don't have permission to send messages. Please contact your {brand} account administrator for upgrade."@#@
-// @key: @#@"[messageSenderMessages.noSMSPermission]"@#@ @source: @#@"You don't have permission to send messages to recipients outside of your organization. Please contact your {brand} account administrator for upgrade."@#@
+// @key: @#@"[messageSenderMessages.noSMSPermission]"@#@ @source: @#@"You don't have permission to send messages to recipients outside of your organization."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
+// @key: @#@"[messageSenderMessages.sending]"@#@ @source: @#@"Message being sent…It may take a couple of minutes to complete."@#@

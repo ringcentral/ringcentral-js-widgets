@@ -8,9 +8,9 @@ export default {
   call: 'Chiamata',
   text: 'SMS',
   [presenceStatus.available]: 'Disponibile',
-  [presenceStatus.busy]: 'Occupato',
   [presenceStatus.offline]: 'Invisibile',
-  [dndStatus.doNotAcceptAnyCalls]: 'Non disturbare',
+  [presenceStatus.busy]: 'Occupato',
+  [dndStatus.doNotAcceptAnyCalls]: 'Non disturbare'
 };
 
 // @key: @#@"extensionLabel"@#@ @source: @#@"Ext."@#@

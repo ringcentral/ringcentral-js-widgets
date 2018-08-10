@@ -3,7 +3,7 @@ export default {
   contact: 'Contatto',
   lead: 'Lead',
   chooseEntity: 'Seleziona il tipo di entità',
-  create: 'Crea',
+  create: 'Crea'
 };
 
 // @key: @#@"account"@#@ @source: @#@"Account"@#@

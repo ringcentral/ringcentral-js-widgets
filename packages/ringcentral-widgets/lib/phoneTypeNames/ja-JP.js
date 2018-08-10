@@ -8,7 +8,7 @@ export default {
   [phoneTypes.phone]: '電話',
   [phoneTypes.unknown]: '電話タイプが不明',
   [phoneTypes.company]: '会社の代表番号',
-  [phoneTypes.direct]: 'ダイレクトナンバー',
+  [phoneTypes.direct]: 'ダイレクトナンバー'
 };
 
 // @key: @#@"[phoneTypes.business]"@#@ @source: @#@"Business Phone"@#@

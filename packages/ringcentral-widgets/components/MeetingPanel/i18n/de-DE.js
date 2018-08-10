@@ -15,7 +15,7 @@ export default {
   requirePassword: 'Meetingkennwort erforderlich',
   password: 'Kennwort',
   enableJoinBeforeHost: 'Beitritt vor Host ermöglichen',
-  telephonyOnly: 'Nur Telefonie',
+  telephonyOnly: 'Nur Telefonie'
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@

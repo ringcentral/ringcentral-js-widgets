@@ -2,7 +2,7 @@ export default {
   to: 'An:',
   transferTo: 'Weiterleiten an',
   blindTransfer: 'Weiterleitung',
-  enterNameOrNumber: 'Nummer eingeben',
+  enterNameOrNumber: 'Nummer eingeben'
 };
 
 // @key: @#@"to"@#@ @source: @#@"To:"@#@

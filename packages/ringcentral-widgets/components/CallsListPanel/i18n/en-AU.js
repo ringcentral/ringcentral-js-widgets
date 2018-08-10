@@ -1,12 +1,11 @@
 export default {
   noActiveCalls: 'No active calls',
+  noCalls: 'No results found.',
   currentCall: 'Current call',
   ringCall: 'Ringing Call',
   onHoldCall: 'Call on hold',
-  otherDeviceCall: 'Ongoing calls on my other devices',
-  noCalls: 'No results found.',
   historyCalls: 'Past Calls',
-  searchPlaceholder: 'Search...',
+  otherDeviceCall: 'Ongoing calls on my other devices'
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@

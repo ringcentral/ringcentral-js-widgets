@@ -8,9 +8,9 @@ export default {
   call: '通話',
   text: 'テキスト',
   [presenceStatus.available]: '利用可能',
-  [presenceStatus.busy]: '取り込み中',
   [presenceStatus.offline]: '非表示',
-  [dndStatus.doNotAcceptAnyCalls]: '応答不可',
+  [presenceStatus.busy]: '取り込み中',
+  [dndStatus.doNotAcceptAnyCalls]: '応答不可'
 };
 
 // @key: @#@"extensionLabel"@#@ @source: @#@"Ext."@#@

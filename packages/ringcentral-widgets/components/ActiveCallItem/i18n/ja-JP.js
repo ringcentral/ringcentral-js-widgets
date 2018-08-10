@@ -20,9 +20,11 @@ export default {
   outboundCall: '発信',
   from: '発信元',
   to: '宛先',
-  hangup:'通話を終了する',
-  accept:'同意する',
-  toVoicemail:'ボイスメールへ転送',
+  hangup: '通話を終了する',
+  accept: '同意する',
+  toVoicemail: 'ボイスメールへ転送',
+  anonymous: '匿名',
+  mergeToConference: 'マージ'
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -49,3 +51,5 @@ export default {
 // @key: @#@"hangup"@#@ @source: @#@"Hangup"@#@
 // @key: @#@"accept"@#@ @source: @#@"Accept"@#@
 // @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@
+// @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@

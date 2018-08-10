@@ -7,8 +7,8 @@ export default {
   [phoneTypes.mobile]: 'Téléphone mobile',
   [phoneTypes.phone]: 'Téléphone',
   [phoneTypes.unknown]: 'Type de téléphone inconnu',
-  [phoneTypes.company]: 'Numéro de l\'entreprise',
-  [phoneTypes.direct]: 'Numéro direct',
+  [phoneTypes.company]: 'Numéro de l'entreprise',
+  [phoneTypes.direct]: 'Numéro direct'
 };
 
 // @key: @#@"[phoneTypes.business]"@#@ @source: @#@"Business Phone"@#@

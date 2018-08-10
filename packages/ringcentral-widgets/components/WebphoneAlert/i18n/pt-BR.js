@@ -16,7 +16,7 @@ export default {
   [webphoneErrors.transferError]: 'Não é possível transferir a chamada. Tente novamente mais tarde.',
   webphoneUnavailable: '{error}. Estamos nos reconectando ao servidor. Se o erro continuar, reporte esse erro ao Suporte de {brandName}.',
   errorCode: 'Código de erro interno: {errorCode}',
-  occurs: 'Há um erro interno',
+  occurs: 'Há um erro interno'
 };
 
 // @key: @#@"[webphoneErrors.connectFailed]"@#@ @source: @#@"Connect with web phone server failed."@#@

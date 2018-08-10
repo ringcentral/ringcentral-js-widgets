@@ -6,9 +6,9 @@ export default {
   viewDetails: 'View Details',
   addEntity: 'Create New',
   call: 'Call',
+  text: 'Text',
   conversation: 'Conversation',
   groupConversation: 'Group Conversation',
-  text: 'Text',
   voiceMessage: 'Voice message',
   [messageTypes.voiceMail]: 'Voicemail',
   mark: 'Mark as unread',
@@ -19,6 +19,7 @@ export default {
   pages: 'pages',
   preview: 'View',
   download: 'Download',
+  imageAttachment: 'Attachment: 1 image'
 };
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
@@ -39,3 +40,4 @@ export default {
 // @key: @#@"pages"@#@ @source: @#@"pages"@#@
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
+// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: 1 image"@#@

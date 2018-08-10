@@ -3,7 +3,7 @@ export default {
   to: 'To',
   enterNameOrNumber: 'Enter Number or Name',
   typeMessage: 'Type message...',
-  send: 'Send',
+  send: 'Send'
 };
 
 // @key: @#@"from"@#@ @source: @#@"From"@#@

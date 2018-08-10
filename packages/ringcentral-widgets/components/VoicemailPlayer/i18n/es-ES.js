@@ -1,7 +1,7 @@
 export default {
   download: 'Descargar',
   play: 'Reproducir',
-  pause: 'Pausar',
+  pause: 'Pausar'
 };
 
 // @key: @#@"download"@#@ @source: @#@"Download"@#@

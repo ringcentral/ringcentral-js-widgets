@@ -6,9 +6,9 @@ export default {
   viewDetails: 'Ver detalles',
   addEntity: 'Crear nuevo',
   call: 'Llamar',
+  text: 'Texto',
   conversation: 'Conversación',
   groupConversation: 'Conversación grupal',
-  text: 'Texto',
   voiceMessage: 'Mensaje de voz',
   [messageTypes.voiceMail]: 'Mensaje de buzón de voz',
   mark: 'Marcar como no leído',
@@ -19,6 +19,7 @@ export default {
   pages: 'páginas',
   preview: 'Ver',
   download: 'Descargar',
+  imageAttachment: 'Adjunto: 1 imagen'
 };
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
@@ -39,3 +40,4 @@ export default {
 // @key: @#@"pages"@#@ @source: @#@"pages"@#@
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
+// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: 1 image"@#@

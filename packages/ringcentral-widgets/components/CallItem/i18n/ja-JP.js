@@ -16,7 +16,7 @@ export default {
   call: '通話',
   missedCall: '不在',
   inboundCall: '着信',
-  outboundCall: '発信',
+  outboundCall: '発信'
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@

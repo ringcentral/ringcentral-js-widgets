@@ -2,7 +2,7 @@ export default {
   feedbackHeader: 'Submit Feedback',
   back: 'Back',
   revert: 'Revert',
-  instruction: 'Your feedback is valuable to us. If you have problems using the app, want to request a feature or report a bug, we\'re more than happy to help.',
+  instruction: 'Your feedback is valuable to us. If you have problems using the app, want to request a feature or report a bug, we're more than happy to help.',
   fillForm: 'Please fill in the form below and click ',
   useMailBox: ' or directly use your mailbox and send your request to ',
   email: 'Your email address',
@@ -17,9 +17,8 @@ export default {
   subjectPlaceHolder: 'Let us know how we can help you',
   description: 'Full description',
   descriptionPlaceHolder: 'Please include as much information as possible',
-  send: 'Send Your Feedback',
+  send: 'Send Your Feedback'
 };
-
 
 // @key: @#@"feedbackHeader"@#@ @source: @#@"Submit Feedback"@#@
 // @key: @#@"back"@#@ @source: @#@"Back"@#@

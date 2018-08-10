@@ -15,7 +15,7 @@ export default {
   starSharp8Title: 'Hear sound when people Enter or Exit call',
   starSharp8Body: 'Press 1x: Turns OFF sound\nPress 2x: Enter tone is ON Exit tone is OFF\nPress 3x: Enter tone is OFF Exit tone is ON\nPress 4x: Turns ON sound',
   star9Title: 'Record your conference',
-  star9Body: 'Press once to START recording\nPress again to STOP recording',
+  star9Body: 'Press once to START recording\nPress again to STOP recording'
 };
 
 // @key: @#@"title"@#@ @source: @#@"Conference Commands"@#@

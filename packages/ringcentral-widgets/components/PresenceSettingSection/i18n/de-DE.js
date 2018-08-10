@@ -1,6 +1,6 @@
 export default {
   status: 'Status',
-  acceptQueueCalls: 'Warteschlangenanrufe annehmen',
+  acceptQueueCalls: 'Warteschlangenanrufe annehmen'
 };
 
 // @key: @#@"status"@#@ @source: @#@"Status"@#@

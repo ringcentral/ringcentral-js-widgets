@@ -7,7 +7,7 @@ export default {
   starSharp4Title: 'Menü',
   starSharp4Body: 'Hören Sie sich die Liste der Tonwahlbefehle an',
   starSharp5Title: 'Hörmodi einstellen',
-  starSharp5Body: 'Einmal drücken: Anrufer stummschalten \u2013 Anrufer können mit *, #, 6 die Stummschaltung aufheben\r\nZweimal drücken: Anrufer stummschalten \u2013 nur Zuhören möglich, keine Option zum Aufheben der Stummschaltung\r\nDreimal drücken: Stummschaltung aufheben \u2013 öffnet die Leitung wieder',
+  starSharp5Body: 'Einmal drücken: Anrufer stummschalten – Anrufer können mit *, #, 6 die Stummschaltung aufheben\r\nZweimal drücken: Anrufer stummschalten – nur Zuhören möglich, keine Option zum Aufheben der Stummschaltung\r\nDreimal drücken: Stummschaltung aufheben – öffnet die Leitung wieder',
   starSharp6Title: 'Host-Leitung stummschalten',
   starSharp6Body: 'Einmal drücken zum STUMMSCH.\r\nErneut drücken zum STUMMSCH. AUFH.',
   starSharp7Title: 'Anruf sichern',
@@ -15,7 +15,7 @@ export default {
   starSharp8Title: 'Ton ausgeben, wenn Personen dem Anruf beitreten oder ihn verlassen',
   starSharp8Body: 'Einmal drücken: Schaltet den Ton AUS\r\nZweimal drücken: Ton für Beitritt ist EINGESCHALTET, Ton für Verlassen ist AUSGESCHALTET\r\nDreimal drücken: Ton für Beitritt ist AUSGESCHALTET, Ton für Verlassen ist EINGESCHALTET\r\nViermal drücken: Schaltet den Ton EIN',
   star9Title: 'Konferenz aufzeichnen',
-  star9Body: 'Einmal drücken, um Aufzeichnung zu STARTEN\r\nErneut drücken, um Aufzeichnung zu BEENDEN',
+  star9Body: 'Einmal drücken, um Aufzeichnung zu STARTEN\r\nErneut drücken, um Aufzeichnung zu BEENDEN'
 };
 
 // @key: @#@"title"@#@ @source: @#@"Conference Commands"@#@

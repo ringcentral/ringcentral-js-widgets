@@ -3,7 +3,7 @@ export default {
   to: 'Para',
   enterNameOrNumber: 'Insira o número ou o nome...',
   typeMessage: 'Digite a mensagem...',
-  send: 'Enviar',
+  send: 'Enviar'
 };
 
 // @key: @#@"from"@#@ @source: @#@"From"@#@

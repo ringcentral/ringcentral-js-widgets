@@ -13,8 +13,8 @@ export default {
   [messageSenderMessages.multipartTextTooLong]: 'El mensaje es demasiado largo. El número máximo de caracteres permitidos es 5000',
   [messageSenderMessages.recipientNumberInvalids]: 'Introduzca un número de teléfono válido.',
   [messageSenderMessages.noAreaCode]: 'Defina el {areaCodeLink} para utilizar números de teléfono locales de 7 dígitos.',
-  [messageSenderMessages.connectFailed]: 'Error de conexión. Vuelva a intentarlo más tarde.',
   [messageSenderMessages.specialNumber]: 'No se admite el envío de mensajes de texto a números de servicios de emergencia o especiales.',
+  [messageSenderMessages.connectFailed]: 'Error de conexión. Vuelva a intentarlo más tarde.',
   [messageSenderMessages.internalError]: 'Se ha producido un fallo en la conexión. Vuelva a intentarlo más tarde.',
   [messageSenderMessages.notAnExtension]: 'El número de extensión no existe.',
   [messageSenderMessages.networkError]: 'No se puede conectar debido a errores de red. Vuelva a intentarlo más tarde.',
@@ -22,8 +22,9 @@ export default {
   [messageSenderMessages.notSmsToExtension]: 'No se puede enviar a un número de extensión desde un número de teléfono principal. Si quiere enviar un mensaje a un número de extensión, escriba solo dicho número.',
   [messageSenderMessages.internationalSMSNotSupported]: 'No es posible enviar SMS a números de teléfono internacionales.',
   [messageSenderMessages.noInternalSMSPermission]: 'No tiene permiso para enviar mensajes. Póngase en contacto con el administrador de su cuenta de {brand} para conseguir una actualización.',
-  [messageSenderMessages.noSMSPermission]: 'No tiene permiso para enviar mensajes a destinatarios que no pertenecen a su organización. Póngase en contacto con el administrador de su cuenta de {brand} para conseguir una actualización.',
+  [messageSenderMessages.noSMSPermission]: 'No tiene permiso para enviar mensajes a destinatarios que no pertenecen a su organización.',
   areaCode: 'código de área',
+  [messageSenderMessages.sending]: 'Enviando mensaje... Esta acción puede tardar algunos minutos.'
 };
 
 // @key: @#@"[messageSenderMessages.sendSuccess]"@#@ @source: @#@"Send Success."@#@
@@ -47,5 +48,6 @@ export default {
 // @key: @#@"[messageSenderMessages.notSmsToExtension]"@#@ @source: @#@"Cannot send To a extension number with main phone number. If you want to sent to a extension Number, please just enter extension Number."@#@
 // @key: @#@"[messageSenderMessages.internationalSMSNotSupported]"@#@ @source: @#@"Sending SMS to international phone number is not supported."@#@
 // @key: @#@"[messageSenderMessages.noInternalSMSPermission]"@#@ @source: @#@"You don't have permission to send messages. Please contact your {brand} account administrator for upgrade."@#@
-// @key: @#@"[messageSenderMessages.noSMSPermission]"@#@ @source: @#@"You don't have permission to send messages to recipients outside of your organization. Please contact your {brand} account administrator for upgrade."@#@
+// @key: @#@"[messageSenderMessages.noSMSPermission]"@#@ @source: @#@"You don't have permission to send messages to recipients outside of your organization."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
+// @key: @#@"[messageSenderMessages.sending]"@#@ @source: @#@"Message being sent…It may take a couple of minutes to complete."@#@

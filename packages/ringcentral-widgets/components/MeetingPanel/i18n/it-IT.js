@@ -3,7 +3,7 @@ export default {
   when: 'Quando',
   duration: 'Durata',
   recurringMeeting: 'Riunione ricorrente',
-  recurringDescribe: 'Ricorda di verificare la ricorrenza o la ripetizione dell\'invito sul calendario ai tuoi partecipanti.',
+  recurringDescribe: 'Ricorda di verificare la ricorrenza o la ripetizione dell'invito sul calendario ai tuoi partecipanti.',
   video: 'Video',
   videoDescribe: 'Quando si accede a una riunione',
   host: 'Moderatore',
@@ -15,7 +15,7 @@ export default {
   requirePassword: 'Richiedi password riunione',
   password: 'Password',
   enableJoinBeforeHost: 'Consenti ingresso prima del moderatore',
-  telephonyOnly: 'Solo telefonia',
+  telephonyOnly: 'Solo telefonia'
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@

@@ -1,6 +1,6 @@
 export default {
   cancel: 'Abbrechen',
-  confirm: 'Bestätigen',
+  confirm: 'Bestätigen'
 };
 
 // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@

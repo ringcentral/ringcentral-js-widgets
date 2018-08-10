@@ -6,17 +6,17 @@ export default {
   settings: 'Paramètres',
   clickToDial: 'Cliquer pour composer',
   autoCreateLog: 'Créer automatiquement un journal des appels',
+  autoCreateSMSLog: 'Créer automatiquement une liste de textos',
+  autoLogCalls: 'Liste d'appels automatique',
+  autoLogNotes: 'Liste des remarques automatique',
+  autoLogSMS: 'Liste de textos automatique',
   clickToSMS: 'Cliquez pour envoyer un texto',
   clickToDialSMS: 'Cliquer pour composer ou envoyer un texto',
-  autoCreateSMSLog: 'Créer automatiquement une liste de textos',
-  autoLogCalls: 'Liste d\'appels automatique',
-  autoLogSMS: 'Liste de textos automatique',
   audio: 'Audio',
   language: 'Langue',
   feedback: 'Commentaires',
-  userGuide: 'Nouveautés',
+  userGuide: 'Nouveautés'
 };
-
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
@@ -27,6 +27,7 @@ export default {
 // @key: @#@"autoCreateLog"@#@ @source: @#@"Auto-create Call Log"@#@
 // @key: @#@"autoCreateSMSLog"@#@ @source: @#@"Auto-create SMS Log"@#@
 // @key: @#@"autoLogCalls"@#@ @source: @#@"Auto log calls"@#@
+// @key: @#@"autoLogNotes"@#@ @source: @#@"Auto log notes"@#@
 // @key: @#@"autoLogSMS"@#@ @source: @#@"Auto log SMS"@#@
 // @key: @#@"clickToSMS"@#@ @source: @#@"Click to SMS"@#@
 // @key: @#@"clickToDialSMS"@#@ @source: @#@"Click to Dial/SMS"@#@

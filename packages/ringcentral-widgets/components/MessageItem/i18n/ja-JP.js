@@ -6,9 +6,9 @@ export default {
   viewDetails: '詳細の表示',
   addEntity: '新規作成',
   call: '通話',
+  text: 'テキスト',
   conversation: '会話',
   groupConversation: 'グループ会話',
-  text: 'テキスト',
   voiceMessage: 'ボイスメッセージ',
   [messageTypes.voiceMail]: 'ボイスメール',
   mark: '未読にする',
@@ -19,6 +19,7 @@ export default {
   pages: 'ポケットベル',
   preview: '表示',
   download: 'ダウンロード',
+  imageAttachment: '添付ファイル：1個の画像'
 };
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
@@ -39,3 +40,4 @@ export default {
 // @key: @#@"pages"@#@ @source: @#@"pages"@#@
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
+// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: 1 image"@#@

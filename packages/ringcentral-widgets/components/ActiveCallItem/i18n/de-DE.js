@@ -4,7 +4,7 @@ export default {
   editLog: 'Protokoll bearbeiten',
   select: 'Übereinstimmenden Datensatz auswählen',
   OnHold: 'Wird gehalten',
-  Ringing: 'Es wird angerufen\xA0...',
+  Ringing: 'Es wird angerufen ...',
   CallConnected: 'Anruf verbunden',
   unknownUser: 'Unbekannter Benutzer',
   unknownNumber: 'Anonym',
@@ -20,9 +20,11 @@ export default {
   outboundCall: 'Ausgehend',
   from: 'Von',
   to: 'An',
-  hangup:'Auflegen',
-  accept:'Annehmen',
-  toVoicemail:'An Voicemail weiterleiten',
+  hangup: 'Auflegen',
+  accept: 'Annehmen',
+  toVoicemail: 'An Voicemail weiterleiten',
+  anonymous: 'Anonym',
+  mergeToConference: 'Zusammenfügen'
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -49,3 +51,5 @@ export default {
 // @key: @#@"hangup"@#@ @source: @#@"Hangup"@#@
 // @key: @#@"accept"@#@ @source: @#@"Accept"@#@
 // @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@
+// @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@

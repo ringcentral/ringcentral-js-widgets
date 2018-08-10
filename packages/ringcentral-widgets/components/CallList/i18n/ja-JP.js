@@ -1,6 +1,6 @@
 export default {
   noActiveCalls: 'アクティブな通話はありません',
-  noRecords: '結果が見つかりません\u3002',
+  noRecords: '結果が見つかりません。'
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@

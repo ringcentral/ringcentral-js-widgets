@@ -1,7 +1,7 @@
 export default {
   Home: 'Abitazione',
   Mobile: 'Cellulare',
-  Work: 'Lavoro',
+  Work: 'Lavoro'
 };
 
 // @key: @#@"Home"@#@ @source: @#@"Home"@#@

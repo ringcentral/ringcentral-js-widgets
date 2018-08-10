@@ -2,11 +2,11 @@ export default {
   feedbackHeader: 'フィードバックを送信',
   back: '戻る',
   revert: '元に戻す',
-  instruction: 'お客様のフィードバックは重要です\u3002アプリの使用に関する問題\u3001機能のリクエストやバグの報告など\u3001いつでも喜んでサポートいたします\u3002',
-  fillForm: '以下のフォームに記入し\u3001次をクリックしてください ',
-  useMailBox: ' またはメールボックスを利用して\u3001次にリクエストをお寄せください ',
+  instruction: 'お客様のフィードバックは重要です。アプリの使用に関する問題、機能のリクエストやバグの報告など、いつでも喜んでサポートいたします。',
+  fillForm: '以下のフォームに記入し、次をクリックしてください ',
+  useMailBox: ' またはメールボックスを利用して、次にリクエストをお寄せください ',
   email: 'メールアドレス',
-  reply: '\uFF08返信先\uFF09',
+  reply: '（返信先）',
   emailPlaceHolder: 'ronald.app@ringcentral.com',
   feedbackTopic: 'フィードバックのトピック',
   topicPlaceHolder: 'いずれかを選択してください',
@@ -17,9 +17,8 @@ export default {
   subjectPlaceHolder: 'どんなサポートが必要ですか',
   description: '詳細',
   descriptionPlaceHolder: 'できるだけ詳しくご記入ください',
-  send: 'フィードバックを送信',
+  send: 'フィードバックを送信'
 };
-
 
 // @key: @#@"feedbackHeader"@#@ @source: @#@"Submit Feedback"@#@
 // @key: @#@"back"@#@ @source: @#@"Back"@#@

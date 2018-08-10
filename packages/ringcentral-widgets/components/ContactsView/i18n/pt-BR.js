@@ -1,5 +1,5 @@
 export default {
-  searchPlaceholder: 'Pesquisar...',
+  searchPlaceholder: 'Pesquisar...'
 };
 
 // @key: @#@"searchPlaceholder"@#@ @source: @#@"Search..."@#@

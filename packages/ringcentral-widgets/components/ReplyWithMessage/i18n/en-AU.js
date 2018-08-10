@@ -7,7 +7,7 @@ export default {
   willCallYouBackIn: 'Will call you back in',
   min: 'minutes',
   hours: 'hours',
-  days: 'days',
+  days: 'days'
 };
 
 // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@

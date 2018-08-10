@@ -6,9 +6,9 @@ export default {
   viewDetails: 'Details anzeigen',
   addEntity: 'Neu erstellen',
   call: 'Anrufen',
+  text: 'Textnachr',
   conversation: 'Gespräch',
   groupConversation: 'Gruppengespräch',
-  text: 'Textnachr',
   voiceMessage: 'Sprachnachr',
   [messageTypes.voiceMail]: 'Voicemail',
   mark: 'Als ungelesen markieren',
@@ -19,6 +19,7 @@ export default {
   pages: 'Seiten',
   preview: 'Anzeigen',
   download: 'Herunterladen',
+  imageAttachment: 'Anhang: 1 Bild'
 };
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
@@ -39,3 +40,4 @@ export default {
 // @key: @#@"pages"@#@ @source: @#@"pages"@#@
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
+// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: 1 image"@#@

@@ -1,6 +1,6 @@
 export default {
   status: 'Estado',
-  acceptQueueCalls: 'Aceptar llamadas en cola',
+  acceptQueueCalls: 'Aceptar llamadas en cola'
 };
 
 // @key: @#@"status"@#@ @source: @#@"Status"@#@

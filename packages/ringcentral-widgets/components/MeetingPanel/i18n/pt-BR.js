@@ -15,7 +15,7 @@ export default {
   requirePassword: 'Exigir senha da reunião',
   password: 'Senha',
   enableJoinBeforeHost: 'Ativar participação antes de organizar',
-  telephonyOnly: 'Somente telefonia',
+  telephonyOnly: 'Somente telefonia'
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@

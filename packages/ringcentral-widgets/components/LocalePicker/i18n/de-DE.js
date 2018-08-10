@@ -1,11 +1,11 @@
 export default {
-  de: 'Deutsch',
+  en: 'Englisch',
   ja: 'Japanisch',
   fr: 'Französisch',
+  de: 'Deutsch',
   es: 'Spanisch',
   it: 'Italienisch',
-  pt: 'Portugiesisch',
-  en: 'Englisch',
+  pt: 'Portugiesisch'
 };
 
 // @key: @#@"en"@#@ @source: @#@"English"@#@

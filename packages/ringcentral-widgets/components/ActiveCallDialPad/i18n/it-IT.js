@@ -1,7 +1,7 @@
 export default {
   hide: 'Nascondi',
   end: 'Fine',
-  keypad: 'Tastierino',
+  keypad: 'Tastierino'
 };
 
 // @key: @#@"hide"@#@ @source: @#@"Hide"@#@

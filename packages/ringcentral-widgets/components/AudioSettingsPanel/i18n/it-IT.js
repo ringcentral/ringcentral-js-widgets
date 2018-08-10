@@ -7,6 +7,9 @@ export default {
   outputDevice: 'Dispositivo di uscita',
   inputDevice: 'Dispositivo di ingresso',
   micPermission: 'Autorizzazione microfono',
+  noDevice: 'Nessun dispositivo',
+  checkMicPermission: 'Controlla autorizzazione',
+  micNoPermissionMessage: 'L'app non è autorizzata a usare il microfono'
 };
 
 // @key: @#@"title"@#@ @source: @#@"Audio"@#@
@@ -17,3 +20,6 @@ export default {
 // @key: @#@"outputDevice"@#@ @source: @#@"Output Device"@#@
 // @key: @#@"inputDevice"@#@ @source: @#@"Input Device"@#@
 // @key: @#@"micPermission"@#@ @source: @#@"Microphone Permission"@#@
+// @key: @#@"noDevice"@#@ @source: @#@"No device"@#@
+// @key: @#@"checkMicPermission"@#@ @source: @#@"Check Permission"@#@
+// @key: @#@"micNoPermissionMessage"@#@ @source: @#@"The app does not have permission to use microphone"@#@

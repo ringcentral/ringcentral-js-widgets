@@ -6,7 +6,7 @@ export default {
   Blocked: 'ブロック済み',
   AdditionalCompanyNumber: '会社',
   ForwardedCompanyNumber: '転送元',
-  from: '発信元',
+  from: '発信元'
 };
 
 // @key: @#@"DirectNumber"@#@ @source: @#@"Direct"@#@

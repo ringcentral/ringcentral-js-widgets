@@ -1,7 +1,7 @@
 export default {
   hide: '非表示',
   end: '終了',
-  keypad: 'キーパッド',
+  keypad: 'キーパッド'
 };
 
 // @key: @#@"hide"@#@ @source: @#@"Hide"@#@

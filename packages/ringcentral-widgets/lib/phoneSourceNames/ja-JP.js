@@ -6,7 +6,7 @@ export default {
   [phoneSources.rcContact]: '{brand}',
   [phoneSources.lead]: 'リード',
   [phoneSources.opportunity]: '営業案件',
-  [phoneSources.systemUser]: 'システムユーザー',
+  [phoneSources.systemUser]: 'システムユーザー'
 };
 
 // @key: @#@"[phoneSources.account]"@#@ @source: @#@"Account"@#@

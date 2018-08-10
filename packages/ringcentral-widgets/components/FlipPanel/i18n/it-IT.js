@@ -1,7 +1,7 @@
 export default {
   flipHeader: 'Commuta chiamata su...',
   flip: 'Commuta',
-  complete: 'Completa commutazione',
+  complete: 'Completa commutazione'
 };
 
 // @key: @#@"flipHeader"@#@ @source: @#@"Flip Call to..."@#@

@@ -15,7 +15,7 @@ export default {
   starSharp8Title: 'Ouvir um som quando alguém Entrar ou Sair da chamada',
   starSharp8Body: 'Pressione 1x: DESATIVA o som\r\nPressione 2x: Inserir tom está ATIVADO Sair do tom está DESATIVADO\r\nPressione 3x: Inserir tom está DESATIVADO Sair do tom está ATIVADO\r\nPressione 4x: ATIVA o som',
   star9Title: 'Gravar sua conferência',
-  star9Body: 'Pressione uma vez para COMEÇAR a gravação\r\nPressione novamente para PARAR a gravação',
+  star9Body: 'Pressione uma vez para COMEÇAR a gravação\r\nPressione novamente para PARAR a gravação'
 };
 
 // @key: @#@"title"@#@ @source: @#@"Conference Commands"@#@

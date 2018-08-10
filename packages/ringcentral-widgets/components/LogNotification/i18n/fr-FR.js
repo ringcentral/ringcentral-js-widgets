@@ -1,0 +1,13 @@
+export default {
+  confirmationInfo: 'Vos modifications non sauvegardées de l'appel précédent seront perdues, voulez-vous vraiment travailler sur le nouvel appel ?',
+  log: 'Journal',
+  save: 'Enregistrer et travailler sur le nouvel appel',
+  discard: 'Annuler et travailler sur le nouvel appel',
+  stay: 'Rester sur le travail précédent'
+};
+
+// @key: @#@"confirmationInfo"@#@ @source: @#@"Your unsaved edits on the previous call will be lost, are you sure you want to work on the new call?"@#@
+// @key: @#@"log"@#@ @source: @#@"Log"@#@
+// @key: @#@"save"@#@ @source: @#@"Save & Work on New"@#@
+// @key: @#@"discard"@#@ @source: @#@"Discard & Work on New"@#@
+// @key: @#@"stay"@#@ @source: @#@"Stay on Previous Work"@#@

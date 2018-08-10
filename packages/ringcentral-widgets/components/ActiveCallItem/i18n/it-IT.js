@@ -20,9 +20,11 @@ export default {
   outboundCall: 'In uscita',
   from: 'Da',
   to: 'A',
-  hangup:'Riaggancia',
-  accept:'Accetta',
-  toVoicemail:'Invia alla segreteria telefonica',
+  hangup: 'Riaggancia',
+  accept: 'Accetta',
+  toVoicemail: 'Invia alla segreteria telefonica',
+  anonymous: 'Anonimo',
+  mergeToConference: 'Unisci'
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -49,3 +51,5 @@ export default {
 // @key: @#@"hangup"@#@ @source: @#@"Hangup"@#@
 // @key: @#@"accept"@#@ @source: @#@"Accept"@#@
 // @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@
+// @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@

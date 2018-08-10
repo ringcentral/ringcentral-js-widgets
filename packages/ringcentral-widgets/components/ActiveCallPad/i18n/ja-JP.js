@@ -10,6 +10,8 @@ export default {
   add: '追加',
   transfer: '転送',
   flip: 'フリップ',
+  more: '通話アクション',
+  mergeToConference: 'マージ'
 };
 
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
@@ -23,3 +25,5 @@ export default {
 // @key: @#@"add"@#@ @source: @#@"Add"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"flip"@#@ @source: @#@"Flip"@#@
+// @key: @#@"more"@#@ @source: @#@"Call Actions"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@

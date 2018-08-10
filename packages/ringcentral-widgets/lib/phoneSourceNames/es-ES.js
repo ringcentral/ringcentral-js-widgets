@@ -3,10 +3,10 @@ import phoneSources from '../../enums/phoneSources';
 export default {
   [phoneSources.account]: 'Cuenta',
   [phoneSources.contact]: 'Contacto',
+  [phoneSources.rcContact]: '{brand}',
   [phoneSources.lead]: 'Posible cliente',
   [phoneSources.opportunity]: 'Candidato a posible cliente',
-  [phoneSources.systemUser]: 'Usuario del sistema',
-  [phoneSources.rcContact]: '{brand}',
+  [phoneSources.systemUser]: 'Usuario del sistema'
 };
 
 // @key: @#@"[phoneSources.account]"@#@ @source: @#@"Account"@#@

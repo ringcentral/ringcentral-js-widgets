@@ -1,7 +1,7 @@
 export default {
   unknown: 'Desconocido',
   anonymous: 'Anónimo',
-  activeCall: 'Llamada activa',
+  activeCall: 'Llamada activa'
 };
 
 // @key: @#@"unknown"@#@ @source: @#@"Unknown"@#@

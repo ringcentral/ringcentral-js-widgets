@@ -6,7 +6,7 @@ export default {
   Blocked: 'Bloqueado',
   AdditionalCompanyNumber: 'Empresa',
   ForwardedCompanyNumber: 'Encaminhado',
-  from: 'De',
+  from: 'De'
 };
 
 // @key: @#@"DirectNumber"@#@ @source: @#@"Direct"@#@

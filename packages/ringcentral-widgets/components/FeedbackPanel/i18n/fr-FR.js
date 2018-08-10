@@ -2,7 +2,7 @@ export default {
   feedbackHeader: 'Envoyer un commentaire',
   back: 'Retour',
   revert: 'Rétablir',
-  instruction: 'Nous accordons beaucoup d\'importance à vos commentaires. N\'hésitez pas à nous contacter si vous rencontrez des problèmes avec l\'application, si vous souhaitez obtenir une fonctionnalité ou pour signaler un bogue.',
+  instruction: 'Nous accordons beaucoup d'importance à vos commentaires. N'hésitez pas à nous contacter si vous rencontrez des problèmes avec l'application, si vous souhaitez obtenir une fonctionnalité ou pour signaler un bogue.',
   fillForm: 'Veuillez remplir le formulaire ci-dessous et cliquer ',
   useMailBox: ' ou utilisez votre boîte mail et envoyez une demande à ',
   email: 'Votre adresse e-mail',
@@ -14,12 +14,11 @@ export default {
   featureRequest: 'Demande de fonctionnalité',
   others: 'Autres',
   subject: 'Objet',
-  subjectPlaceHolder: 'Que pouvons-nous faire pour vous aider\xA0?',
+  subjectPlaceHolder: 'Que pouvons-nous faire pour vous aider ?',
   description: 'Description complète',
   descriptionPlaceHolder: 'Veuillez saisir autant de détails que possible',
-  send: 'Envoyez votre commentaire',
+  send: 'Envoyez votre commentaire'
 };
-
 
 // @key: @#@"feedbackHeader"@#@ @source: @#@"Submit Feedback"@#@
 // @key: @#@"back"@#@ @source: @#@"Back"@#@

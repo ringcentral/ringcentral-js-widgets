@@ -1,5 +1,5 @@
 export default {
-  save: '保存',
+  save: '保存'
 };
 
 // @key: @#@"save"@#@ @source: @#@"Save"@#@

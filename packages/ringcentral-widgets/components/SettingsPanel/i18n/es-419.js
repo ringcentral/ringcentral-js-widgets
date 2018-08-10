@@ -6,17 +6,17 @@ export default {
   settings: 'Configuración',
   clickToDial: 'Haga clic para marcar',
   autoCreateLog: 'Crear registro de llamadas automáticamente',
-  clickToSMS: 'Haga clic para enviar SMS',
-  clickToDialSMS: 'Haga clic para marcar/enviar SMS',
   autoCreateSMSLog: 'Crear registro de mensajes automáticamente',
   autoLogCalls: 'Llamadas con registro automático',
+  autoLogNotes: 'Registrar notas automáticamente',
   autoLogSMS: 'SMS con registro automático',
+  clickToSMS: 'Haga clic para enviar SMS',
+  clickToDialSMS: 'Haga clic para marcar/enviar SMS',
   audio: 'Audio',
   language: 'Idioma',
   feedback: 'Comentarios',
-  userGuide: 'Novedades',
+  userGuide: 'Novedades'
 };
-
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
@@ -27,6 +27,7 @@ export default {
 // @key: @#@"autoCreateLog"@#@ @source: @#@"Auto-create Call Log"@#@
 // @key: @#@"autoCreateSMSLog"@#@ @source: @#@"Auto-create SMS Log"@#@
 // @key: @#@"autoLogCalls"@#@ @source: @#@"Auto log calls"@#@
+// @key: @#@"autoLogNotes"@#@ @source: @#@"Auto log notes"@#@
 // @key: @#@"autoLogSMS"@#@ @source: @#@"Auto log SMS"@#@
 // @key: @#@"clickToSMS"@#@ @source: @#@"Click to SMS"@#@
 // @key: @#@"clickToDialSMS"@#@ @source: @#@"Click to Dial/SMS"@#@

@@ -8,9 +8,9 @@ export default {
   call: 'Llamar',
   text: 'Texto',
   [presenceStatus.available]: 'Disponible',
-  [presenceStatus.busy]: 'Ocupado',
   [presenceStatus.offline]: 'Invisible',
-  [dndStatus.doNotAcceptAnyCalls]: 'No molestar',
+  [presenceStatus.busy]: 'Ocupado',
+  [dndStatus.doNotAcceptAnyCalls]: 'No molestar'
 };
 
 // @key: @#@"extensionLabel"@#@ @source: @#@"Ext."@#@

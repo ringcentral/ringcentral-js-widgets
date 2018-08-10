@@ -1,6 +1,6 @@
 export default {
   loginButton: 'Iniciar sesión',
-  version: 'Versión',
+  version: 'Versión'
 };
 
 // @key: @#@"loginButton"@#@ @source: @#@"Sign In"@#@

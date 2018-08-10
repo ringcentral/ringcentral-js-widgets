@@ -8,9 +8,9 @@ export default {
   call: 'Chamada',
   text: 'Texto',
   [presenceStatus.available]: 'Disponível',
-  [presenceStatus.busy]: 'Ocupado',
   [presenceStatus.offline]: 'Invisível',
-  [dndStatus.doNotAcceptAnyCalls]: 'Não perturbe',
+  [presenceStatus.busy]: 'Ocupado',
+  [dndStatus.doNotAcceptAnyCalls]: 'Não perturbe'
 };
 
 // @key: @#@"extensionLabel"@#@ @source: @#@"Ext."@#@

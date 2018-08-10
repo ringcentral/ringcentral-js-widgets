@@ -21,9 +21,10 @@ export default {
   [messageSenderMessages.senderNumberInvalid]: 'A valid Phone Number is required to send text message to recipients outside your company. Please contact your Administrator to add a direct number to your account.',
   [messageSenderMessages.notSmsToExtension]: 'Cannot send to an extension number with main phone number. If you want to sent to a extension number, please just enter the extension number.',
   [messageSenderMessages.internationalSMSNotSupported]: 'Sending SMS to international phone number is not supported.',
-  [messageSenderMessages.noInternalSMSPermission]: 'You don\'t have permission to send messages. Please contact your {brand} account administrator for upgrade.',
-  [messageSenderMessages.noSMSPermission]: 'You don\'t have permission to send messages to recipients outside your organisation. Please contact your {brand} account administrator for upgrade.',
+  [messageSenderMessages.noInternalSMSPermission]: 'You don't have permission to send messages. Please contact your {brand} account administrator for upgrade.',
+  [messageSenderMessages.noSMSPermission]: 'You don't have permission to send messages to recipients outside your organisation.',
   areaCode: 'area code',
+  [messageSenderMessages.sending]: 'Message being sent… It may take a couple of minutes to complete.'
 };
 
 // @key: @#@"[messageSenderMessages.sendSuccess]"@#@ @source: @#@"Send Success."@#@
@@ -47,5 +48,6 @@ export default {
 // @key: @#@"[messageSenderMessages.notSmsToExtension]"@#@ @source: @#@"Cannot send To a extension number with main phone number. If you want to sent to a extension Number, please just enter extension Number."@#@
 // @key: @#@"[messageSenderMessages.internationalSMSNotSupported]"@#@ @source: @#@"Sending SMS to international phone number is not supported."@#@
 // @key: @#@"[messageSenderMessages.noInternalSMSPermission]"@#@ @source: @#@"You don't have permission to send messages. Please contact your {brand} account administrator for upgrade."@#@
-// @key: @#@"[messageSenderMessages.noSMSPermission]"@#@ @source: @#@"You don't have permission to send messages to recipients outside of your organization. Please contact your {brand} account administrator for upgrade."@#@
+// @key: @#@"[messageSenderMessages.noSMSPermission]"@#@ @source: @#@"You don't have permission to send messages to recipients outside of your organization."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
+// @key: @#@"[messageSenderMessages.sending]"@#@ @source: @#@"Message being sent…It may take a couple of minutes to complete."@#@

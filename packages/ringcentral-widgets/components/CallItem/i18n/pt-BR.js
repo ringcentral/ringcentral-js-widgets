@@ -16,7 +16,7 @@ export default {
   call: 'Chamada',
   missedCall: 'Perdidas',
   inboundCall: 'Entrada',
-  outboundCall: 'Saída',
+  outboundCall: 'Saída'
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@

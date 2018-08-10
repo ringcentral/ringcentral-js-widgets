@@ -1,7 +1,7 @@
 export default {
   Home: '自宅',
   Mobile: 'モバイル',
-  Work: '職場',
+  Work: '職場'
 };
 
 // @key: @#@"Home"@#@ @source: @#@"Home"@#@

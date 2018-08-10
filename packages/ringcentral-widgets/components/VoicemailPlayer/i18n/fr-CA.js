@@ -1,7 +1,7 @@
 export default {
   download: 'Télécharger',
   play: 'Écouter',
-  pause: 'Mettre en pause',
+  pause: 'Mettre en pause'
 };
 
 // @key: @#@"download"@#@ @source: @#@"Download"@#@

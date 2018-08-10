@@ -1,6 +1,6 @@
 export default {
   status: 'Status',
-  acceptQueueCalls: 'Accept call queue calls',
+  acceptQueueCalls: 'Accept call queue calls'
 };
 
 // @key: @#@"status"@#@ @source: @#@"Status"@#@

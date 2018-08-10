@@ -7,7 +7,7 @@ export default {
   willCallYouBackIn: 'Você pode ligar de novo em',
   min: 'min.',
   hours: 'horas',
-  days: 'dias',
+  days: 'dias'
 };
 
 // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@

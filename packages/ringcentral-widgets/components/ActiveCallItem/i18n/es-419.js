@@ -20,9 +20,11 @@ export default {
   outboundCall: 'Saliente',
   from: 'De',
   to: 'Para',
-  hangup:'Colgar',
-  accept:'Aceptar',
-  toVoicemail:'Enviar al buzón de voz',
+  hangup: 'Colgar',
+  accept: 'Aceptar',
+  toVoicemail: 'Enviar al buzón de voz',
+  anonymous: 'Anónimo',
+  mergeToConference: 'Combinar'
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -49,3 +51,5 @@ export default {
 // @key: @#@"hangup"@#@ @source: @#@"Hangup"@#@
 // @key: @#@"accept"@#@ @source: @#@"Accept"@#@
 // @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@
+// @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@

@@ -22,8 +22,9 @@ export default {
   [messageSenderMessages.notSmsToExtension]: 'No se puede enviar a un número de extensión desde un número de teléfono principal. Si quiere enviar un mensaje a un número de extensión, escriba solo dicho número.',
   [messageSenderMessages.internationalSMSNotSupported]: 'No es posible enviar SMS a números de teléfono internacionales.',
   [messageSenderMessages.noInternalSMSPermission]: 'No tiene permisos para enviar mensajes. Comuníquese con el administrador de su cuenta de {brand} para obtener permisos.',
-  [messageSenderMessages.noSMSPermission]: 'No tiene permisos para enviar mensajes a destinatarios que no pertenecen a su organización. Comuníquese con el administrador de su cuenta de {brand} para obtener permisos.',
+  [messageSenderMessages.noSMSPermission]: 'No tiene permiso para enviar mensajes a destinatarios que no pertenecen a su organización.',
   areaCode: 'código de área',
+  [messageSenderMessages.sending]: 'Enviando mensaje... Esta acción puede tardar algunos minutos.'
 };
 
 // @key: @#@"[messageSenderMessages.sendSuccess]"@#@ @source: @#@"Send Success."@#@
@@ -47,5 +48,6 @@ export default {
 // @key: @#@"[messageSenderMessages.notSmsToExtension]"@#@ @source: @#@"Cannot send To a extension number with main phone number. If you want to sent to a extension Number, please just enter extension Number."@#@
 // @key: @#@"[messageSenderMessages.internationalSMSNotSupported]"@#@ @source: @#@"Sending SMS to international phone number is not supported."@#@
 // @key: @#@"[messageSenderMessages.noInternalSMSPermission]"@#@ @source: @#@"You don't have permission to send messages. Please contact your {brand} account administrator for upgrade."@#@
-// @key: @#@"[messageSenderMessages.noSMSPermission]"@#@ @source: @#@"You don't have permission to send messages to recipients outside of your organization. Please contact your {brand} account administrator for upgrade."@#@
+// @key: @#@"[messageSenderMessages.noSMSPermission]"@#@ @source: @#@"You don't have permission to send messages to recipients outside of your organization."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
+// @key: @#@"[messageSenderMessages.sending]"@#@ @source: @#@"Message being sent…It may take a couple of minutes to complete."@#@

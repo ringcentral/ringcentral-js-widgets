@@ -1,6 +1,6 @@
 export default {
   status: 'ステータス',
-  acceptQueueCalls: '通話キューの通話を承諾する',
+  acceptQueueCalls: '通話キューの通話を承諾する'
 };
 
 // @key: @#@"status"@#@ @source: @#@"Status"@#@

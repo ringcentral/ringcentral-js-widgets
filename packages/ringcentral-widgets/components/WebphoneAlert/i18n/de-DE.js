@@ -1,12 +1,11 @@
 import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErrors';
 
 export default {
-  [webphoneErrors.connectFailed]: 'Verbindung mit Webtelefonserver fehlgeschlagen.',
+  [webphoneErrors.connected]: 'Das Webtelefon wurde registriert.',
   [webphoneErrors.browserNotSupported]: 'Das Tätigen von Anrufen über den Browser wird nur in Chrome unterstützt.',
   [webphoneErrors.webphoneCountOverLimit]: 'Maximal fünf Webtelefone können registriert werden.',
   [webphoneErrors.notOutboundCallWithoutDL]: 'Ihre Durchwahl ist aktuell nicht dazu berechtigt, ausgehende Anrufe über den Browser zu tätigen. Wenden Sie sich bitte an Ihren Kontoadministrator, um ein Upgrade zu erhalten.',
   [webphoneErrors.getSipProvisionError]: 'Sie verfügen über keine Berechtigung zum Senden von Nachrichten.',
-  [webphoneErrors.connected]: 'Das Webtelefon wurde registriert.',
   [webphoneErrors.toVoiceMailError]: 'Der Anruf konnte wegen eines internen Fehlers nicht an die Voicemail geleitet werden.',
   [webphoneErrors.muteError]: 'Der Anruf kann im Moment nicht stummgeschaltet werden.',
   [webphoneErrors.holdError]: 'Der Anruf kann im Moment nicht gehalten werden.',
@@ -16,7 +15,7 @@ export default {
   [webphoneErrors.transferError]: 'Der Anruf kann nicht weitergeleitet werden. Versuchen Sie es später erneut.',
   webphoneUnavailable: '{error}. Wir stellen erneut eine Verbindung zum Server her. Sollte der Fehler weiterhin bestehen, melden Sie ihn an den {brandName}-Support.',
   errorCode: 'Interner Fehlercode: {errorCode}',
-  occurs: 'Ein interner Fehler tritt auf.',
+  occurs: 'Ein interner Fehler tritt auf.'
 };
 
 // @key: @#@"[webphoneErrors.connected]"@#@ @source: @#@"Web phone registered."@#@

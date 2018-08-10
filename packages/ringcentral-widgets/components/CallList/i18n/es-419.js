@@ -1,6 +1,6 @@
 export default {
   noActiveCalls: 'No hay llamadas activas',
-  noRecords: 'No hay resultados.',
+  noRecords: 'No hay resultados.'
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@

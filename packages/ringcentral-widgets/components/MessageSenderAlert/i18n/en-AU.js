@@ -22,8 +22,9 @@ export default {
   [messageSenderMessages.notSmsToExtension]: 'Cannot send To a extension number with main phone number. If you want to sent to a extension Number, please just enter extension Number.',
   [messageSenderMessages.internationalSMSNotSupported]: 'Sending SMS to international phone numbers is not supported.',
   [messageSenderMessages.noInternalSMSPermission]: 'You do not have permission to send messages. Please contact your {brand} account administrator for an upgrade.',
-  [messageSenderMessages.noSMSPermission]: 'You do not have permission to send messages to recipients outside of your organisation. Please contact your {brand} account administrator for an upgrade.',
+  [messageSenderMessages.noSMSPermission]: 'You don't have permission to send messages to recipients outside your organisation.',
   areaCode: 'area code',
+  [messageSenderMessages.sending]: 'Message being sent… It may take a couple of minutes to complete.'
 };
 
 // @key: @#@"[messageSenderMessages.sendSuccess]"@#@ @source: @#@"Send Success."@#@
@@ -47,5 +48,6 @@ export default {
 // @key: @#@"[messageSenderMessages.notSmsToExtension]"@#@ @source: @#@"Cannot send To a extension number with main phone number. If you want to sent to a extension Number, please just enter extension Number."@#@
 // @key: @#@"[messageSenderMessages.internationalSMSNotSupported]"@#@ @source: @#@"Sending SMS to international phone number is not supported."@#@
 // @key: @#@"[messageSenderMessages.noInternalSMSPermission]"@#@ @source: @#@"You don't have permission to send messages. Please contact your {brand} account administrator for upgrade."@#@
-// @key: @#@"[messageSenderMessages.noSMSPermission]"@#@ @source: @#@"You don't have permission to send messages to recipients outside of your organization. Please contact your {brand} account administrator for upgrade."@#@
+// @key: @#@"[messageSenderMessages.noSMSPermission]"@#@ @source: @#@"You don't have permission to send messages to recipients outside of your organization."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
+// @key: @#@"[messageSenderMessages.sending]"@#@ @source: @#@"Message being sent…It may take a couple of minutes to complete."@#@
