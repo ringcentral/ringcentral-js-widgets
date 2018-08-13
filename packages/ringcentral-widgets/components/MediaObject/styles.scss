@@ -7,6 +7,38 @@
   }
 }
 
+.media.flex {
+  padding: 0;
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  padding-right: $container-padding-left/2;
+  .mediaBody {
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .mediaRight,
+  .mediaLeft {
+    flex-shrink: 0;
+  }
+  .mediaTop {
+    align-self: flex-start;
+  }
+  .mediaMiddle {
+    align-self: center;
+  }
+  .mediaBottom {
+    align-self: flex-end;
+  }
+}
+
 .media,
 .mediaBody {
   zoom: 1;

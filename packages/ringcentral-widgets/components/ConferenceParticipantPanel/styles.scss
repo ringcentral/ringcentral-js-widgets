@@ -37,26 +37,13 @@ $padding-horizontal:20px;
       @include full-size;
       overflow: auto;
       .participantItem {
-        padding: 0;
-        display: flex;
-        overflow: hidden;
-        width: 100%;
-        box-sizing: border-box;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        align-items: center;
-        justify-content: flex-start;
-        padding-right: $padding-horizontal/2;
         .avatar {
           width: $avatar-size;
           height: $avatar-size;
           flex-shrink: 0;
         }
         .detail {
-          flex-grow: 1;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
+          align-self: center;
         }
         .webphoneButton {
           width: $button-size;

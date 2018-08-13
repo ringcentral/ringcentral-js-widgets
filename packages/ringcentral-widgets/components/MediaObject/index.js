@@ -19,12 +19,17 @@ function MediaObject({
   headingCls,
   leftAlignment,
   rightAlignment,
+  flexible, // Using flex layout or not
 }) {
   const leftAlignmentClassName = styles[`media${capitalize(leftAlignment)}`];
   const rightAlignmentClassName = styles[`media${capitalize(rightAlignment)}`];
 
   return (
-    <div className={classnames(styles.media, containerCls)}>
+    <div className={classnames({
+      [styles.media]: true,
+      [styles.flex]: !!flexible,
+      [containerCls]: !!containerCls
+      })}>
       {
         mediaLeft ? (
           <div className={classnames(styles.mediaLeft, leftAlignmentClassName, leftCls)}>
@@ -70,6 +75,7 @@ MediaObject.propTypes = {
   headingCls: PropTypes.string,
   leftAlignment: PropTypes.oneOf(['top', 'middle', 'bottom']),
   rightAlignment: PropTypes.oneOf(['top', 'middle', 'bottom']),
+  flexible: PropTypes.bool,
 };
 
 
@@ -85,6 +91,7 @@ MediaObject.defaultProps = {
   headingCls: null,
   leftAlignment: 'top',
   rightAlignment: 'top',
+  flexible: true,
 };
 
 
