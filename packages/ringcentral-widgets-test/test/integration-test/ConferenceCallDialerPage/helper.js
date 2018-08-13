@@ -2,7 +2,7 @@ import subscriptionBody from 'ringcentral-integration/integration-test/mock/data
 import * as mock from 'ringcentral-integration/integration-test/mock';
 
 import { timeout } from '../shared';
-import pubnubPresence from './data/pubnubPresence.json';
+import pubnubPresence from './data/pubnubPresence';
 import * as MockedPubNub from '../../__mocks__/pubnub.js';
 
 export async function mockPubnub({ activeCalls }) {

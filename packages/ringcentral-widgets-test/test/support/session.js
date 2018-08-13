@@ -13,8 +13,11 @@ class MediaHandler {
 }
 
 export default class Session {
-  constructor({ id, direction, to }) {
+  constructor({
+    id, direction, to, fromNumber, _header_callId
+  }) {
     this.id = id;
+    this._header_callId = _header_callId; // call id
     this.to = to;
     this.direction = direction;
     this.callStatus = 'webphone-session-connecting';
@@ -22,7 +25,7 @@ export default class Session {
     this.creationTime = 1532076632960;
     this.isToVoicemail = true;
     this.data = {};
-    this.fromNumber = undefined;
+    this.fromNumber = fromNumber;
     this.startTime = new Date();
     this.isOnMute = undefined;
     this.isOnFlip = undefined;
@@ -39,8 +42,6 @@ export default class Session {
   on(event, cb) {
     this._events[event] = cb;
   }
-
-  toVoicemail() {}
 
   isOnHold() {
     return {
@@ -59,8 +60,15 @@ export default class Session {
   }
 
   reject() {
+    console.info('session rejected');
     this.trigger('rejected');
   }
+
+  toVoicemail() {
+    console.info('session toVoicemail');
+    this.trigger('rejected');
+  }
+
   terminate() {
     this.trigger('terminated');
   }

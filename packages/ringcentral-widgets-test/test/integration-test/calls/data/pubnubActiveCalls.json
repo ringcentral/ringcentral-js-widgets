@@ -1,0 +1,65 @@
+[{
+  "id": "bc058ebaca724694bef13d92ddba7f91",
+  "direction": "Inbound",
+  "fromName": "FirstName 104 LastName",
+  "from": "104",
+  "toName": "FirstName 105 LastName",
+  "to": "105",
+  "telephonyStatus": "OnHold",
+  "sipData": {
+    "toTag": "pgrneavq66",
+    "fromTag": "10.74.2.218-5070-2a0553bd67c3401",
+    "remoteUri": "sip:104@ringcentral.com",
+    "localUri": "sip:105@ringcentral.com"
+  },
+  "sessionId": "3217838006",
+  "startTime": "2018-08-07T09:20:09.405Z"
+}, {
+  "id": "Y3MxNzI2MjI1NTUyODM2MTMzNzg2QDEwLjc0LjIuMjE5",
+  "direction": "Inbound",
+  "fromName": "FirstName 104 LastName",
+  "from": "104",
+  "toName": "FirstName 105 LastName",
+  "to": "105",
+  "telephonyStatus": "Ringing",
+  "sipData": {
+    "toTag": "blf",
+    "fromTag": "cs1726225552836133786-2",
+    "remoteUri": "sip:104@ringcentral.com",
+    "localUri": "sip:105@ringcentral.com"
+  },
+  "sessionId": "3217841006",
+  "startTime": "2018-08-07T09:20:59.077Z"
+}, {
+  "id": "kc2g44hp263oh816tjjl",
+  "direction": "Outbound",
+  "fromName": "FirstName 105 LastName",
+  "from": "+14804483316",
+  "toName": "Something1 New1",
+  "to": "101",
+  "telephonyStatus": "CallConnected",
+  "sipData": {
+    "toTag": "srjtbqv29l",
+    "fromTag": "10.74.2.219-5070-2a224ee6421749c",
+    "remoteUri": "sip:101@ringcentral.com",
+    "localUri": "sip:+14804483316@ringcentral.com"
+  },
+  "sessionId": "3217839006",
+  "startTime": "2018-08-07T09:20:19.867Z"
+}, {
+  "id": "ea98890386444ce4a19289f3b4c655eb",
+  "direction": "Inbound",
+  "fromName": "FirstName 104 LastName",
+  "from": "104",
+  "toName": "FirstName 105 LastName",
+  "to": "105",
+  "telephonyStatus": "CallConnected",
+  "sipData": {
+    "toTag": "5s02sj8rhl",
+    "fromTag": "10.74.2.218-5070-576d0c13caa3431",
+    "remoteUri": "sip:104@ringcentral.com",
+    "localUri": "sip:105@ringcentral.com"
+  },
+  "sessionId": "3217840006",
+  "startTime": "2018-08-07T09:20:31.124Z"
+}]
