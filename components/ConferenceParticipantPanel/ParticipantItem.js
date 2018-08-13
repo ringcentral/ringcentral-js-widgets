@@ -24,6 +24,10 @@ var _CallAvatar = require('../CallAvatar');
 
 var _CallAvatar2 = _interopRequireDefault(_CallAvatar);
 
+var _MediaObject = require('../MediaObject');
+
+var _MediaObject2 = _interopRequireDefault(_MediaObject);
+
 var _CircleButton = require('../CircleButton');
 
 var _CircleButton2 = _interopRequireDefault(_CircleButton);
@@ -45,20 +49,18 @@ function ParticipantItem(_ref) {
       onRemove = _ref.onRemove,
       currentLocale = _ref.currentLocale;
 
-  return _react2.default.createElement(
-    'div',
-    { className: _styles2.default.participantItem },
-    _react2.default.createElement(
+  return _react2.default.createElement(_MediaObject2.default, {
+    leftAlignment: 'middle',
+    containerCls: _styles2.default.participantItem,
+    mediaLeft: _react2.default.createElement(
       'div',
       { className: _styles2.default.avatar },
       _react2.default.createElement(_CallAvatar2.default, { isOnConferenceCall: false, avatarUrl: avatarUrl })
     ),
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.detail },
-      detail
-    ),
-    _react2.default.createElement(
+    mediaBody: detail,
+    bodyCls: _styles2.default.detail,
+    rightAlignment: 'middle',
+    mediaRight: _react2.default.createElement(
       'span',
       { title: _i18n2.default.getString('removeParticipant', currentLocale), className: _styles2.default.webphoneButton },
       _react2.default.createElement(_CircleButton2.default, {
@@ -73,7 +75,7 @@ function ParticipantItem(_ref) {
         showBorder: false
       })
     )
-  );
+  });
 }
 
 ParticipantItem.propTypes = {
