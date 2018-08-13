@@ -142,8 +142,7 @@ describe('GlipPosts :: getGlipPostsStoreReducer', () => {
       });
     });
 
-    it(`should do nothing when is created by me and existing
-        when create or createSuccess or createError`, () => {
+    it('should do nothing when sent by me and exist on create/createSuccess/createError', () => {
       [
         actionTypes.create,
         actionTypes.createSuccess,
