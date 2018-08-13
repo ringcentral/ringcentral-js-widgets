@@ -8,6 +8,7 @@ exports.default = {
   onHold: 'On Hold',
   unknow: 'Unknown',
   disconnected: 'Disconnected',
-  loading: 'Loading ...'
+  loading: 'Loading ...',
+  loadingTimeout: 'Loading timeout.'
 };
 //# sourceMappingURL=en-US.js.map

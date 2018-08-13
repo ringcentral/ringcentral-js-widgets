@@ -141,7 +141,7 @@ var MergeInfo = function (_Component) {
           lastCallAvatar = _state.lastCallAvatar,
           lastCallInfoTimeout = _state.lastCallInfoTimeout;
 
-      var isLastCallInfoReady = lastCallInfoTimeout || !!lastCallInfo && (!!lastCallInfo.name || !!lastCallInfo.phoneNumber);
+      var isLastCallInfoReady = !!lastCallInfo && (!!lastCallInfo.name || !!lastCallInfo.phoneNumber);
       var isLastCallEnded = lastCallInfo && lastCallInfo.status === _sessionStatus2.default.finished;
       var statusClasses = (0, _classnames3.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, _styles2.default.callee_status, true), (0, _defineProperty3.default)(_classnames, _styles2.default.callee_status_disconnected, !!isLastCallEnded), _classnames));
 
@@ -149,6 +149,8 @@ var MergeInfo = function (_Component) {
       var isContacts = !!(lastCallInfo && lastCallInfo.calleeType === _calleeTypes2.default.contacts);
       var calleeName = isContacts ? lastCallInfo.name : formatPhone(lastCallInfo.phoneNumber);
       var loadingText = _i18n2.default.getString('loading');
+      var loadingTimeoutText = _i18n2.default.getString('loadingTimeout');
+      var showSpinner = !lastCallInfoTimeout && !isLastCallInfoReady && !isOnConferenceCall;
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.mergeInfo },
@@ -162,7 +164,7 @@ var MergeInfo = function (_Component) {
               avatarUrl: isContacts && !lastCallInfo.avatarUrl ? lastCallAvatar : lastCallInfo.avatarUrl,
               extraNum: isOnConferenceCall ? lastCallInfo.extraNum : 0,
               isOnConferenceCall: isOnConferenceCall,
-              spinnerMode: !isLastCallInfoReady && !isOnConferenceCall
+              spinnerMode: showSpinner
             })
           ),
           (isLastCallInfoReady || !isLastCallInfoReady && isOnConferenceCall) && _react2.default.createElement(
@@ -178,7 +180,15 @@ var MergeInfo = function (_Component) {
               calleeName
             )
           ),
-          !isLastCallInfoReady && !isOnConferenceCall && _react2.default.createElement(
+          !isLastCallInfoReady && !isOnConferenceCall && (lastCallInfoTimeout ? _react2.default.createElement(
+            'div',
+            { className: _styles2.default.last_call_info_load_timeout },
+            _react2.default.createElement(
+              'span',
+              { title: loadingTimeoutText },
+              loadingTimeoutText
+            )
+          ) : _react2.default.createElement(
             'div',
             { className: _styles2.default.callee_name },
             _react2.default.createElement(
@@ -186,7 +196,7 @@ var MergeInfo = function (_Component) {
               { title: loadingText },
               loadingText
             )
-          ),
+          )),
           (isLastCallInfoReady || !isLastCallInfoReady && isOnConferenceCall) && _react2.default.createElement(
             'div',
             { className: statusClasses },
