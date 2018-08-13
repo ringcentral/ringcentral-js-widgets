@@ -144,29 +144,29 @@ describe('GlipPosts :: getGlipPostsStoreReducer', () => {
 
     it(`should do nothing when is created by me and existing
         when create or createSuccess or createError`, () => {
-        [
-          actionTypes.create,
-          actionTypes.createSuccess,
-          actionTypes.createError,
-        ].forEach((type) => {
-          expect(reducer({
-            1234: [{
-              id: '2', creatorId: '123', text: '111', sendStatus: status.creating
-            }]
-          }, {
-            type,
-            record: {
-              id: '2', creatorId: '123', text: '111', sendStatus: status.creating
-            },
-            groupId: '1234',
-            isSendByMe: true,
-          })).to.deep.equal({
-            1234: [{
-              id: '2', creatorId: '123', text: '111', sendStatus: status.creating
-            }]
-          });
+      [
+        actionTypes.create,
+        actionTypes.createSuccess,
+        actionTypes.createError,
+      ].forEach((type) => {
+        expect(reducer({
+          1234: [{
+            id: '2', creatorId: '123', text: '111', sendStatus: status.creating
+          }]
+        }, {
+          type,
+          record: {
+            id: '2', creatorId: '123', text: '111', sendStatus: status.creating
+          },
+          groupId: '1234',
+          isSendByMe: true,
+        })).to.deep.equal({
+          1234: [{
+            id: '2', creatorId: '123', text: '111', sendStatus: status.creating
+          }]
         });
       });
+    });
   });
 });
 
@@ -186,18 +186,22 @@ describe('GlipPosts :: getGlipPostsInputsReducer', () => {
     it('should return new input map on updatePostInput', () => {
       expect(reducer({
         1234: {
-          text: 'aaa'
+          text: 'aaa',
+          mentions: []
         }
       }, {
         type: actionTypes.updatePostInput,
         groupId: '2222',
-        textValue: 'xxx'
+        textValue: 'xxx',
+        mentions: []
       })).to.deep.equal({
         1234: {
-          text: 'aaa'
+          text: 'aaa',
+          mentions: []
         },
         2222: {
-          text: 'xxx'
+          text: 'xxx',
+          mentions: []
         }
       });
     });
