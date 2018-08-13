@@ -101,13 +101,10 @@ function mapToFunctions(_, {
       return (webphone && webphone.hangup(...args));
     },
     async webphoneResume(...args) {
-      if (!webphone) {
-        return;
-      }
-      await webphone.resume(...args);
-      if (routerInteraction.currentPath !== callCtrlRoute) {
-        routerInteraction.push(callCtrlRoute);
-      }
+      return (webphone && webphone.resume(...args));
+    },
+    async webphoneHold(...args) {
+      return (webphone && webphone.answer(...args));
     },
     onViewContact: showViewContact ?
       (onViewContact || (({ contact }) => {
@@ -154,22 +151,6 @@ function mapToFunctions(_, {
         routerInteraction.push('/dialer');
       }
     }),
-    /**
-     * if there is a existing conference, merge into it
-     * else make one and merge into it;
-     * @param {[string]} sessionIds
-     */
-    async mergeToConference(...args) {
-      if (webphone.isCallRecording(webphone.activeSession)) {
-        return;
-      }
-      await conferenceCall.mergeToConference(...args);
-      const conferenceData = Object.values(conferenceCall.conferences)[0];
-      if (conferenceData && conferenceData.sessionId === webphone.activeSessionId) {
-        await sleep(200);
-        webphone.resume(conferenceData.sessionId);
-      }
-    },
     isSessionAConferenceCall(sessionId) {
       return !!(
         conferenceCall
