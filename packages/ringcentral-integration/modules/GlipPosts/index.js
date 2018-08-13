@@ -1,7 +1,7 @@
 import { Module } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
 import moduleStatuses from '../../enums/moduleStatuses';
-
+import ensureExist from '../../lib/ensureExist';
 import isBlank from '../../lib/isBlank';
 
 import actionTypes from './actionTypes';
@@ -19,6 +19,7 @@ const DEFAULT_LOAD_TTL = 30 * 60 * 1000;
     'Auth',
     'Subscription',
     'Storage',
+    'RolesAndPermissions',
     { dep: 'GlipPostsOptions', optional: true }
   ]
 })
@@ -28,6 +29,7 @@ export default class GlipPosts extends RcModule {
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
    * @param {Auth} params.auth - auth module instance
+   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermission module instance
    * @param {Subscription} params.subscription - subscription module instance
    */
   constructor({
@@ -35,6 +37,7 @@ export default class GlipPosts extends RcModule {
     auth,
     subscription,
     storage,
+    rolesAndPermissions,
     loadTtl = DEFAULT_LOAD_TTL,
     ...options
   }) {
@@ -44,9 +47,10 @@ export default class GlipPosts extends RcModule {
     });
     this._reducer = getReducer(this.actionTypes);
 
-    this._client = client;
-    this._auth = auth;
-    this._subscription = subscription;
+    this._client = this::ensureExist(client, 'client');
+    this._auth = this::ensureExist(auth, 'auth');
+    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._subscription = this::ensureExist(subscription, 'subscription');
     this._fetchPromises = {};
     this._lastMessage = null;
     this._loadTtl = loadTtl;
@@ -73,6 +77,10 @@ export default class GlipPosts extends RcModule {
   async _onStateChange() {
     if (this._shouldInit()) {
       this.store.dispatch({
+        type: this.actionTypes.init,
+      });
+      if (!this._hasPermission) return;
+      this.store.dispatch({
         type: this.actionTypes.initSuccess,
       });
       this._subscription.subscribe(subscriptionFilter);
@@ -90,6 +98,7 @@ export default class GlipPosts extends RcModule {
     return (
       this._auth.loggedIn &&
       this._subscription.ready &&
+      this._rolesAndPermissions.ready &&
       this.pending
     );
   }
@@ -98,6 +107,7 @@ export default class GlipPosts extends RcModule {
     return (
       (
         !this._auth.loggedIn ||
+        !this._rolesAndPermissions.ready ||
         !this._subscription.ready
       ) &&
       this.ready
@@ -124,7 +134,7 @@ export default class GlipPosts extends RcModule {
     ) {
       const {
         eventType,
-        ...post,
+        ...post
       } = message.body;
       if (eventType === 'PostRemoved') {
         return;
@@ -314,5 +324,9 @@ export default class GlipPosts extends RcModule {
 
   get fetchTimeMap() {
     return this.state.fetchTimes;
+  }
+
+  get _hasPermission() {
+    return this._rolesAndPermissions.hasGlipPermission;
   }
 }
