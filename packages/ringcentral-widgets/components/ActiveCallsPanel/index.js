@@ -62,7 +62,6 @@ export default class ActiveCallsPanel extends Component {
       activeCurrentCalls,
       isWebRTC,
       conferenceCallEquipped,
-      hasConferenceCall,
       isSessionAConferenceCall,
     } = this.props;
 
@@ -94,7 +93,6 @@ export default class ActiveCallsPanel extends Component {
         sourceIcons={sourceIcons}
         isWebRTC={isWebRTC}
         conferenceCallEquipped={conferenceCallEquipped}
-        hasConferenceCall={hasConferenceCall}
         currentCall={activeCurrentCalls[0]}
         isSessionAConferenceCall={isSessionAConferenceCall}
       />
@@ -169,7 +167,6 @@ ActiveCallsPanel.propTypes = {
   sourceIcons: PropTypes.object,
   isWebRTC: PropTypes.bool.isRequired,
   conferenceCallEquipped: PropTypes.bool,
-  hasConferenceCall: PropTypes.bool,
   showSpinner: PropTypes.bool,
   isSessionAConferenceCall: PropTypes.func,
 };
@@ -196,7 +193,6 @@ ActiveCallsPanel.defaultProps = {
   onCallsEmpty: undefined,
   sourceIcons: undefined,
   conferenceCallEquipped: false,
-  hasConferenceCall: false,
   showSpinner: false,
   isSessionAConferenceCall: () => false,
 };

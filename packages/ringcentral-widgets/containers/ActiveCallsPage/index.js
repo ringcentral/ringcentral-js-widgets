@@ -21,11 +21,9 @@ function mapToProps(_, {
   const isWebRTC = callingSettings.callingMode === callingModes.webphone;
   const conferenceCallEquipped = !!conferenceCall;
   let disableMerge = !isWebRTC;
-  let hasConferenceCall = false;
   if (conferenceCallEquipped) {
     const conferenceList = Object.values(conferenceCall.conferences);
     const conference = conferenceList.length ? conferenceList[0] : null;
-    hasConferenceCall = !!conference;
     if (conference) {
       disableMerge = conferenceCall.isOverload(conference.conference.id);
     }
@@ -52,7 +50,6 @@ function mapToProps(_, {
     autoLog: !!(callLogger && callLogger.autoLog),
     isWebRTC,
     conferenceCallEquipped,
-    hasConferenceCall,
     disableMerge,
     conferenceCallParties: conferenceCall ? conferenceCall.partyProfiles : null,
   };
