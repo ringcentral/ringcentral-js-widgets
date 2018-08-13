@@ -10,7 +10,16 @@ export default {
   makeCallsWith: "通过以下方式拨打电话",
   ringoutHint: "先在我的位置响铃，然后连接被叫方",
   myLocationLabel: "我的位置",
-  press1ToStartCallLabel: "连接通话前提示我拨 1"
+  press1ToStartCallLabel: "连接通话前提示我拨 1",
+  save: '保存',
+  [`${callingOptions.browser}Tooltip`]: '使用此选项通过计算机的麦克风和扬声器拨打和接听电话。',
+  [`${callingOptions.softphone}Tooltip`]: '使用此选项通过桌面版 {brand} 应用拨打和接听电话。',
+  [`${callingOptions.myphone}Tooltip`]: '使用此选项通过您的 {brand} 电话拨打电话。',
+  [`${callingOptions.myphone}Tooltip1`]: '对于您拨出的通话，您的 {brand} 电话会先响铃，然后您呼叫的对方电话再响铃。',
+  [`${callingOptions.otherphone}Tooltip`]: '使用此选项通过您的其他电话拨打电话，例如，您在 {brand} 分机中添加的家庭电话或手机。',
+  [`${callingOptions.otherphone}Tooltip1`]: '对于您拨出的通话，此电话会先响铃，然后您呼叫的对方电话再响铃。',
+  [`${callingOptions.customphone}Tooltip`]: '使用此选项通过在下面的字段中输入有效的电话号码，使用您选择的任意电话拨打电话。',
+  [`${callingOptions.customphone}Tooltip1`]: '对于您拨出的通话，此电话会先响铃，然后您呼叫的对方电话再响铃。',
 };
 
 // @key: @#@"title"@#@ @source: @#@"Calling"@#@
