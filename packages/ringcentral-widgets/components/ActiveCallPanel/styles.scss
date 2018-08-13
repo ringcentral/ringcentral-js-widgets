@@ -165,7 +165,8 @@ $fontSize:15px;
         margin-right: 11%;
       }
     }
-    .callee_name {
+    .callee_name,
+    .last_call_info_load_timeout {
       font-size: 15px;
       letter-spacing: normal;
       color: $ash;
@@ -271,4 +272,9 @@ $fontSize:15px;
 
 .clickable {
   cursor: pointer;
+}
+
+.last_call_info_load_timeout {
+  color: #797979;
+  font-style: italic;
 }

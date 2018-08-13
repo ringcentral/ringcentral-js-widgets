@@ -70,7 +70,7 @@ class MergeInfo extends Component {
       return null;
     }
     const { lastCallAvatar, lastCallInfoTimeout } = this.state;
-    const isLastCallInfoReady = lastCallInfoTimeout || (
+    const isLastCallInfoReady = (
       !!lastCallInfo && (!!lastCallInfo.name || !!lastCallInfo.phoneNumber)
     );
     const isLastCallEnded = lastCallInfo && lastCallInfo.status === sessionStatus.finished;
@@ -87,6 +87,8 @@ class MergeInfo extends Component {
     );
     const calleeName = isContacts ? lastCallInfo.name : formatPhone(lastCallInfo.phoneNumber);
     const loadingText = i18n.getString('loading');
+    const loadingTimeoutText = i18n.getString('loadingTimeout');
+    const showSpinner = !lastCallInfoTimeout && !isLastCallInfoReady && !isOnConferenceCall;
     return (
       <div className={styles.mergeInfo}>
         <div className={styles.merge_item}>
@@ -97,7 +99,7 @@ class MergeInfo extends Component {
                 : lastCallInfo.avatarUrl}
               extraNum={isOnConferenceCall ? lastCallInfo.extraNum : 0}
               isOnConferenceCall={isOnConferenceCall}
-              spinnerMode={!isLastCallInfoReady && !isOnConferenceCall}
+              spinnerMode={showSpinner}
             />
           </div>
           {
@@ -119,9 +121,15 @@ class MergeInfo extends Component {
           }
           {
             (!isLastCallInfoReady && !isOnConferenceCall) && (
-              <div className={styles.callee_name}>
-                <span title={loadingText}>{loadingText}</span>
-              </div>
+              lastCallInfoTimeout ? (
+                <div className={styles.last_call_info_load_timeout}>
+                  <span title={loadingTimeoutText}>{loadingTimeoutText}</span>
+                </div>
+              ) : (
+                <div className={styles.callee_name}>
+                  <span title={loadingText}>{loadingText}</span>
+                </div>
+              )
             )
           }
 
