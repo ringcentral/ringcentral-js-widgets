@@ -62,7 +62,6 @@ export default class ActiveCallsPanel extends Component {
       activeCurrentCalls,
       isWebRTC,
       conferenceCallEquipped,
-      hasConferenceCall,
       isSessionAConferenceCall,
     } = this.props;
 
@@ -94,7 +93,6 @@ export default class ActiveCallsPanel extends Component {
         sourceIcons={sourceIcons}
         isWebRTC={isWebRTC}
         conferenceCallEquipped={conferenceCallEquipped}
-        hasConferenceCall={hasConferenceCall}
         currentCall={activeCurrentCalls[0]}
         isSessionAConferenceCall={isSessionAConferenceCall}
       />
