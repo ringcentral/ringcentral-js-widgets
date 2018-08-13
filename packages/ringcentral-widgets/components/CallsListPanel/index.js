@@ -247,6 +247,7 @@ export default class CallsListPanel extends Component {
       onSaveNotification,
       onExpandNotification,
       showSaveLogBtn,
+      showNotiLogButton,
       sectionContainerStyles,
       sectionModalStyles,
       notificationContainerStyles,
@@ -306,6 +307,7 @@ export default class CallsListPanel extends Component {
               contentStyle={styles.notificationContent}
               onClose={onCloseNotification}>
               <LogNotification
+                showLogButton={showNotiLogButton}
                 currentLocale={currentLocale}
                 formatPhone={formatPhone}
                 currentLog={logNotification}
@@ -481,6 +483,7 @@ CallsListPanel.propTypes = {
   onSaveNotification: PropTypes.func,
   onExpandNotification: PropTypes.func,
   showSaveLogBtn: PropTypes.bool,
+  showNotiLogButton: PropTypes.bool,
   sectionContainerStyles: PropTypes.string,
   sectionModalStyles: PropTypes.string,
   notificationContainerStyles: PropTypes.string,
@@ -533,6 +536,7 @@ CallsListPanel.defaultProps = {
   onSaveNotification: undefined,
   onExpandNotification: undefined,
   showSaveLogBtn: true,
+  showNotiLogButton: undefined,
   sectionContainerStyles: undefined,
   sectionModalStyles: undefined,
   notificationContainerStyles: undefined,

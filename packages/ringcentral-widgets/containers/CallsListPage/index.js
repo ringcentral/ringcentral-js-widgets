@@ -100,7 +100,7 @@ function mapToFunctions(_, {
     webphoneToVoicemail: (...args) => (webphone && webphone.toVoiceMail(...args)),
     webphoneReject: (...args) => (webphone && webphone.reject(...args)),
     webphoneHangup: (...args) => (webphone && webphone.hangup(...args)),
-    webphoneResume: async (...args) => {
+    async webphoneResume(...args) {
       if (!webphone) {
         return;
       }
