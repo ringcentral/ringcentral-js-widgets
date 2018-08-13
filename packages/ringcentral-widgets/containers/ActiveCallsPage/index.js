@@ -101,10 +101,13 @@ function mapToFunctions(_, {
       return (webphone && webphone.hangup(...args));
     },
     async webphoneResume(...args) {
-      return (webphone && webphone.resume(...args));
-    },
-    async webphoneHold(...args) {
-      return (webphone && webphone.answer(...args));
+      if (!webphone) {
+        return;
+      }
+      await webphone.resume(...args);
+      if (routerInteraction.currentPath !== callCtrlRoute) {
+        routerInteraction.push(callCtrlRoute);
+      }
     },
     onViewContact: showViewContact ?
       (onViewContact || (({ contact }) => {
