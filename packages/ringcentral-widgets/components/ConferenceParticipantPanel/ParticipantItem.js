@@ -23,7 +23,11 @@ function ParticipantItem({
     <MediaObject
       leftAlignment="middle"
       containerCls={styles.participantItem}
-      mediaLeft={<div className={styles.avatar}><CallAvatar isOnConferenceCall={false} avatarUrl={avatarUrl} /></div>}
+      mediaLeft={
+        <div className={styles.avatar}>
+          <CallAvatar isOnConferenceCall={false} avatarUrl={avatarUrl} />
+        </div>
+      }
       mediaBody={detail}
       bodyCls={styles.detail}
       rightAlignment="middle"
