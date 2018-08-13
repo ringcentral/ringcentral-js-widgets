@@ -1,0 +1,62 @@
+@import '../../lib/commonStyles/layout.scss';
+.media {
+  // Proper spacing between instances of .media
+  margin-top: 15px;
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.media,
+.mediaBody {
+  zoom: 1;
+  overflow: hidden;
+}
+
+.mediaBody {
+  width: 10000px;
+}
+
+.mediaObject {
+  display: block; // Fix collapse in webkit from max-width: 100% and display: table-cell.
+  &.img-thumbnail {
+    max-width: none;
+  }
+}
+
+.mediaRight {
+  padding-left: $container-padding-left/2;
+}
+
+.mediaLeft {
+  padding-right: $container-padding-right/2;
+}
+
+.mediaLeft,
+.mediaRight,
+.mediaBody {
+  display: table-cell;
+  vertical-align: top;
+}
+
+.mediaMiddle {
+  vertical-align: middle;
+}
+
+.mediaBottom {
+  vertical-align: bottom;
+}
+
+// Reset margins on headings for tighter default spacing
+.mediaHeading {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+// Media list variation
+//
+// Undo default ul/ol styles
+.mediaList {
+  padding-left: 0;
+  list-style: none;
+}
