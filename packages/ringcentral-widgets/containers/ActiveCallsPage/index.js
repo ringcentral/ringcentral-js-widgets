@@ -21,11 +21,9 @@ function mapToProps(_, {
   const isWebRTC = callingSettings.callingMode === callingModes.webphone;
   const conferenceCallEquipped = !!conferenceCall;
   let disableMerge = !isWebRTC;
-  let hasConferenceCall = false;
   if (conferenceCallEquipped) {
     const conferenceList = Object.values(conferenceCall.conferences);
     const conference = conferenceList.length ? conferenceList[0] : null;
-    hasConferenceCall = !!conference;
     if (conference) {
       disableMerge = conferenceCall.isOverload(conference.conference.id);
     }
@@ -52,7 +50,6 @@ function mapToProps(_, {
     autoLog: !!(callLogger && callLogger.autoLog),
     isWebRTC,
     conferenceCallEquipped,
-    hasConferenceCall,
     disableMerge,
     conferenceCallParties: conferenceCall ? conferenceCall.partyProfiles : null,
   };
@@ -154,22 +151,6 @@ function mapToFunctions(_, {
         routerInteraction.push('/dialer');
       }
     }),
-    /**
-     * if there is a existing conference, merge into it
-     * else make one and merge into it;
-     * @param {[string]} sessionIds
-     */
-    async mergeToConference(...args) {
-      if (webphone.isCallRecording(webphone.activeSession)) {
-        return;
-      }
-      await conferenceCall.mergeToConference(...args);
-      const conferenceData = Object.values(conferenceCall.conferences)[0];
-      if (conferenceData && conferenceData.sessionId === webphone.activeSessionId) {
-        await sleep(200);
-        webphone.resume(conferenceData.sessionId);
-      }
-    },
     isSessionAConferenceCall(sessionId) {
       return !!(
         conferenceCall
