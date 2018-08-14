@@ -145,8 +145,10 @@ function mapToFunctions(_, {
       );
     },
     onCallItemClick(call) {
-      webphone.changeSessionToView(call.webphoneSession.id);
-      routerInteraction.push(callCtrlRoute);
+      if (call.webphoneSession && call.webphoneSession.id) {
+        webphone.changeSessionToView(call.webphoneSession.id);
+        routerInteraction.push(callCtrlRoute);
+      }
     },
     getAvatarUrl,
   };
