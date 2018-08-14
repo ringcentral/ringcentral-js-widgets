@@ -44,6 +44,7 @@ function ActiveCallList({
   getAvatarUrl,
   conferenceCallParties,
   useV2, // TODO: For compatibility, after replacing all ActiveCallItem with ActiveCallItemV2, we should remove this.
+  webphoneHold,
 }) {
   if (!calls.length) {
     return null;
@@ -97,6 +98,7 @@ function ActiveCallList({
               onClick={() => onCallItemClick(call)}
               getAvatarUrl={getAvatarUrl}
               conferenceCallParties={conferenceCallParties}
+              webphoneHold={webphoneHold}
             />
           );
         })
@@ -135,7 +137,8 @@ ActiveCallList.propTypes = {
   useV2: PropTypes.bool,
   onCallItemClick: PropTypes.func,
   getAvatarUrl: PropTypes.func,
-  conferenceCallParties: PropTypes.arrayOf(PropTypes.object)
+  conferenceCallParties: PropTypes.arrayOf(PropTypes.object),
+  webphoneHold: PropTypes.func,
 };
 
 ActiveCallList.defaultProps = {
@@ -162,7 +165,8 @@ ActiveCallList.defaultProps = {
   useV2: false,
   onCallItemClick: i => i,
   getAvatarUrl: i => i,
-  conferenceCallParties: []
+  conferenceCallParties: [],
+  webphoneHold: i => i,
 };
 
 export default ActiveCallList;

@@ -65,6 +65,7 @@ export default class ActiveCallsPanel extends Component {
       onCallItemClick,
       getAvatarUrl,
       conferenceCallParties,
+      webphoneHold,
     } = this.props;
 
     return (
@@ -100,6 +101,7 @@ export default class ActiveCallsPanel extends Component {
         onCallItemClick={onCallItemClick}
         getAvatarUrl={getAvatarUrl}
         conferenceCallParties={conferenceCallParties}
+        webphoneHold={webphoneHold}
       />
     );
   }
@@ -175,7 +177,8 @@ ActiveCallsPanel.propTypes = {
   isSessionAConferenceCall: PropTypes.func,
   onCallItemClick: PropTypes.func,
   getAvatarUrl: PropTypes.func,
-  conferenceCallParties: PropTypes.arrayOf(PropTypes.object)
+  conferenceCallParties: PropTypes.arrayOf(PropTypes.object),
+  webphoneHold: PropTypes.func,
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -203,5 +206,6 @@ ActiveCallsPanel.defaultProps = {
   isSessionAConferenceCall: () => false,
   onCallItemClick: false,
   getAvatarUrl: i => i,
-  conferenceCallParties: []
+  conferenceCallParties: [],
+  webphoneHold: i => i,
 };

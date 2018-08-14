@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
-import { isInbound, isOnHold } from 'ringcentral-integration/lib/callLogHelpers';
+import { isInbound } from 'ringcentral-integration/lib/callLogHelpers';
+import { isOnHold } from 'ringcentral-integration/modules/Webphone/webphoneHelper';
 
 import CallAvatar from '../CallAvatar';
 import ContactDisplay from '../ContactDisplay';
@@ -427,6 +428,7 @@ ActiveCallItem.propTypes = {
   showMergeCall: PropTypes.bool,
   showHold: PropTypes.bool,
   disableMerge: PropTypes.bool,
+  onMergeCall: PropTypes.func,
 };
 
 ActiveCallItem.defaultProps = {
@@ -453,4 +455,5 @@ ActiveCallItem.defaultProps = {
   showMergeCall: false,
   showHold: true,
   disableMerge: false,
+  onMergeCall: i => i,
 };
