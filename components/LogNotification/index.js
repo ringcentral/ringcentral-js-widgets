@@ -39,6 +39,7 @@ function LogNotification(_ref) {
   var formatPhone = _ref.formatPhone,
       currentLog = _ref.currentLog,
       currentLocale = _ref.currentLocale,
+      showLogButton = _ref.showLogButton,
       isExpand = _ref.isExpand,
       onStay = _ref.onStay,
       onDiscard = _ref.onDiscard,
@@ -56,7 +57,7 @@ function LogNotification(_ref) {
         currentLocale: currentLocale,
         formatPhone: formatPhone
       }),
-      _react2.default.createElement(
+      showLogButton ? _react2.default.createElement(
         _Button2.default,
         {
           disabled: isExpand,
@@ -65,7 +66,7 @@ function LogNotification(_ref) {
             return onExpand();
           } },
         _i18n2.default.getString('log', currentLocale)
-      )
+      ) : null
     ),
     isExpand ? _react2.default.createElement(
       'div',
@@ -112,6 +113,7 @@ function LogNotification(_ref) {
 
 LogNotification.propTypes = {
   currentLocale: _propTypes2.default.string.isRequired,
+  showLogButton: _propTypes2.default.bool,
   currentLog: _propTypes2.default.object,
   formatPhone: _propTypes2.default.func,
   isExpand: _propTypes2.default.bool,
@@ -122,6 +124,7 @@ LogNotification.propTypes = {
 };
 
 LogNotification.defaultProps = {
+  showLogButton: true,
   currentLog: {},
   formatPhone: undefined,
   isExpand: undefined,

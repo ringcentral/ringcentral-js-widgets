@@ -154,7 +154,7 @@ function mapToFunctions(_, _ref2) {
                 return _context.stop();
             }
           }
-        }, _callee, _this);
+        }, _callee, this);
       }));
 
       function webphoneResume() {
@@ -163,6 +163,7 @@ function mapToFunctions(_, _ref2) {
 
       return webphoneResume;
     }(),
+
     onCreateContact: onCreateContact ? function () {
       var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref5) {
         var phoneNumber = _ref5.phoneNumber,
