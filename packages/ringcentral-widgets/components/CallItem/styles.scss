@@ -1,5 +1,5 @@
 @import '../../lib/commonStyles/colors';
-$fixed-icon-width: 21px;
+
 .root {
   min-height: 62px;
   border-bottom: 1px solid #e2e2e2;
@@ -9,7 +9,6 @@ $fixed-icon-width: 21px;
 // .root:first-child {
 //   margin-top: -5px;
 // }
-
 .root:last-child {
   margin-bottom: 15px;
 }
@@ -20,8 +19,7 @@ $fixed-icon-width: 21px;
   width: 100%;
   padding: 13px 20px 18px;
   box-sizing: border-box;
-  margin-bottom: 1px;
-  // &:hover {
+  margin-bottom: 1px; // &:hover {
   //   background-color: #fafafa;
   //   border-bottom: 1px solid #efefef;
   // }
@@ -33,12 +31,10 @@ $fixed-icon-width: 21px;
   justify-content: center;
   flex: 1;
   height: 100%;
-  max-width: calc(100% - #{$fixed-icon-width});
+  max-width: calc(100% - 21px); // temporary fix the issue, waiting for refacotring
   padding-left: 6px;
   padding-right: 8px;
-  overflow: hidden;
-  box-sizing: border-box;
-  // Add bellow style if you have calllog button on callitem
+  box-sizing: border-box; // Add bellow style if you have calllog button on callitem
   // max-width: calc(100% - 23px - 21px);
 }
 
@@ -46,8 +42,9 @@ $fixed-icon-width: 21px;
   display: inline-flex;
   font-size: 22px;
   color: #666;
-  width: $fixed-icon-width;
+  width: 21px;
 }
+
 .activeCall {
   color: $active;
 }

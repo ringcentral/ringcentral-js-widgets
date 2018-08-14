@@ -45,7 +45,7 @@ function mapToProps(_, {
     showContactDisplayPlaceholder,
     autoLog: !!(callLogger && callLogger.autoLog),
     enableContactFallback,
-    calls: callHistory.calls,
+    calls: callHistory.filterCalls,
     disableLinks: !connectivityMonitor.connectivity ||
     rateLimiter.throttling,
     disableClickToDial: !(call && call.isIdle),
@@ -100,7 +100,7 @@ function mapToFunctions(_, {
     webphoneToVoicemail: (...args) => (webphone && webphone.toVoiceMail(...args)),
     webphoneReject: (...args) => (webphone && webphone.reject(...args)),
     webphoneHangup: (...args) => (webphone && webphone.hangup(...args)),
-    webphoneResume: async (...args) => {
+    async webphoneResume(...args) {
       if (!webphone) {
         return;
       }

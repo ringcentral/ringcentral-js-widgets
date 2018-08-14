@@ -21,6 +21,7 @@ exports.generateModule = ({ name, distination, dependencies = [] }) => {
   copyTemplate({
     templatePath: path.resolve(__dirname, '../templates/Module/actionTypes.js'),
     destinationPath: path.resolve(destinationDir, 'actionTypes.js'),
+    params: { name }
   });
   copyTemplate({
     templatePath: path.resolve(__dirname, '../templates/Module/getReducer.js'),

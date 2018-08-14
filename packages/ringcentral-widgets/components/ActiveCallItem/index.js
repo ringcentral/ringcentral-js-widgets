@@ -8,15 +8,16 @@ import parseNumber from 'ringcentral-integration/lib/parseNumber';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import DurationCounter from '../DurationCounter';
+import CallAvatar from '../CallAvatar';
 import ContactDisplay from '../ContactDisplay';
 import ActionMenu from '../ActionMenu';
 import CircleButton from '../CircleButton';
 import EndIcon from '../../assets/images/End.svg';
 import AnswerIcon from '../../assets/images/Answer.svg';
 import VoicemailIcon from '../../assets/images/Voicemail.svg';
+import ConferenceCallIcon from '../../assets/images/ConferenceCallIcon.svg';
 
 import styles from './styles.scss';
-
 import i18n from './i18n';
 
 const callIconMap = {
@@ -29,41 +30,69 @@ function CallIcon({
   ringing,
   inboundTitle,
   outboundTitle,
+  isOnConferenceCall,
+  showAvatar,
+  avatarUrl,
+  extraNum = 0,
 }) {
   const title = (direction === callDirections.inbound) ? inboundTitle : outboundTitle;
-  return (
-    <div className={styles.callIcon}>
-      <span
-        className={classnames(
-          callIconMap[direction],
-          styles.activeCall,
-          ringing && styles.ringing,
-        )}
-        title={title}
-      />
-    </div>
-  );
+  let symbol;
+  if (showAvatar) {
+    symbol = (
+      <div className={classnames(styles.callIcon, styles.avatar)}>
+        <CallAvatar
+          isOnConferenceCall={isOnConferenceCall}
+          avatarUrl={avatarUrl}
+          extraNum={extraNum} />
+      </div>
+    );
+  } else {
+    symbol = (
+      <div className={styles.callIcon}>
+        {isOnConferenceCall
+          ? <ConferenceCallIcon />
+          : <span
+            className={classnames(
+              callIconMap[direction],
+              styles.activeCall,
+              ringing && styles.ringing,
+            )}
+            title={title}
+          />
+        }
+      </div>
+    );
+  }
+  return symbol;
 }
 
 CallIcon.propTypes = {
   direction: PropTypes.string.isRequired,
   ringing: PropTypes.bool,
+  isOnConferenceCall: PropTypes.bool,
   inboundTitle: PropTypes.string,
   outboundTitle: PropTypes.string,
+  showAvatar: PropTypes.bool,
+  avatarUrl: PropTypes.string
 };
 
 CallIcon.defaultProps = {
   ringing: false,
+  isOnConferenceCall: false,
   inboundTitle: undefined,
   outboundTitle: undefined,
+  showAvatar: false,
+  avatarUrl: null,
 };
 
 function WebphoneButtons({
+  currentLocale,
   session,
   webphoneAnswer,
   webphoneReject,
   webphoneHangup,
   webphoneResume,
+  showAnswer,
 }) {
   if (!session || !webphoneAnswer || !webphoneHangup) {
     return null;
@@ -71,8 +100,8 @@ function WebphoneButtons({
   let hangupFunc = webphoneHangup;
   let resumeFunc = webphoneResume;
   let endIcon = EndIcon;
-  let rejectTitle = i18n.getString('hangup');
-  const acceptTitle = i18n.getString('accept');
+  let rejectTitle = i18n.getString('hangup', currentLocale);
+  const acceptTitle = i18n.getString('accept', currentLocale);
   if (
     session.direction === callDirections.inbound &&
     session.callStatus === sessionStatus.connecting
@@ -80,11 +109,11 @@ function WebphoneButtons({
     hangupFunc = webphoneReject;
     resumeFunc = webphoneAnswer;
     endIcon = VoicemailIcon;
-    rejectTitle = i18n.getString('toVoicemail');
+    rejectTitle = i18n.getString('toVoicemail', currentLocale);
   }
   return (
     <div className={styles.webphoneButtons}>
-      <span title={rejectTitle}>
+      <span title={rejectTitle} className={styles.webphoneButton}>
         <CircleButton
           className={styles.rejectButton}
           onClick={(e) => {
@@ -97,27 +126,33 @@ function WebphoneButtons({
           showBorder={false}
         />
       </span>
-      <span title={acceptTitle}>
-        <CircleButton
-          className={styles.answerButton}
-          onClick={(e) => {
-            e.stopPropagation();
-            resumeFunc(session.id);
-          }}
-          icon={AnswerIcon}
-          showBorder={false}
-      />
-      </span>
+      {
+        showAnswer ?
+          <span title={acceptTitle} className={styles.webphoneButton}>
+            <CircleButton
+              className={styles.answerButton}
+              onClick={(e) => {
+                e.stopPropagation();
+                resumeFunc(session.id);
+              }}
+              icon={AnswerIcon}
+              showBorder={false}
+            />
+          </span>
+          : null
+      }
     </div>
   );
 }
 
 WebphoneButtons.propTypes = {
+  currentLocale: PropTypes.string.isRequired,
   session: PropTypes.object,
   webphoneAnswer: PropTypes.func,
   webphoneReject: PropTypes.func,
   webphoneHangup: PropTypes.func,
   webphoneResume: PropTypes.func,
+  showAnswer: PropTypes.bool,
 };
 
 WebphoneButtons.defaultProps = {
@@ -126,6 +161,7 @@ WebphoneButtons.defaultProps = {
   webphoneReject: undefined,
   webphoneHangup: undefined,
   webphoneResume: undefined,
+  showAnswer: true,
 };
 
 export default class ActiveCallItem extends Component {
@@ -138,8 +174,12 @@ export default class ActiveCallItem extends Component {
       isCreating: false,
     };
     this._userSelection = false;
+    this.contactDisplay = null;
 
     this.toggleExtended = (e) => {
+      if (this.props.isOnConferenceCall) {
+        return;
+      }
       if ((
         this.contactDisplay &&
         this.contactDisplay.contains(e.target))
@@ -233,8 +273,14 @@ export default class ActiveCallItem extends Component {
       disableLinks,
       currentLocale,
       formatPhone,
+      showCallDetail,
     } = this.props;
+
+    if (!showCallDetail) {
+      return null;
+    }
     const myPhoneNumber = this.getMyPhoneNumber();
+
     if (webphoneSession) {
       return (
         <div className={styles.callDetail}>
@@ -245,7 +291,11 @@ export default class ActiveCallItem extends Component {
                 i18n.getString('from', currentLocale)
             }:
           </span>
-          {formatPhone(myPhoneNumber)}
+          {
+            myPhoneNumber
+              ? formatPhone(myPhoneNumber)
+              : i18n.getString('anonymous', currentLocale)
+          }
         </div>
       );
     }
@@ -338,6 +388,7 @@ export default class ActiveCallItem extends Component {
       }
     }
   }
+
   logCall = this.logCall.bind(this)
 
   render() {
@@ -371,6 +422,11 @@ export default class ActiveCallItem extends Component {
       externalViewEntity,
       externalHasEntity,
       readTextPermission,
+      isOnConferenceCall,
+      hasActionMenu,
+      showAnswer,
+      avatarUrl,
+      showAvatar,
     } = this.props;
     const phoneNumber = this.getPhoneNumber();
     const parsedInfo = parseNumber({
@@ -398,6 +454,7 @@ export default class ActiveCallItem extends Component {
     const extraButton = typeof renderExtraButton === 'function' ?
       renderExtraButton(this.props.call) :
       undefined;
+
     return (
       <div className={styles.root} onClick={this.toggleExtended}>
         <div className={styles.wrapper}>
@@ -409,11 +466,19 @@ export default class ActiveCallItem extends Component {
             inboundTitle={i18n.getString('inboundCall', currentLocale)}
             outboundTitle={i18n.getString('outboundCall', currentLocale)}
             missedTitle={i18n.getString('missedCall', currentLocale)}
+            isOnConferenceCall={isOnConferenceCall}
+            showAvatar={showAvatar}
+            avatarUrl={avatarUrl}
           />
           <div className={styles.infoWrapper}>
             <ContactDisplay
+              isOnConferenceCall={isOnConferenceCall}
               contactName={contactName}
-              className={classnames(styles.contactDisplay, contactDisplayStyle)}
+              className={
+                isOnConferenceCall
+                  ? classnames(styles.conferenceContactDisplay)
+                  : classnames(styles.contactDisplay, contactDisplayStyle)
+              }
               contactMatches={contactMatches}
               selected={this.state.selected}
               onSelectContact={this.onSelectContact}
@@ -431,7 +496,7 @@ export default class ActiveCallItem extends Component {
               sourceIcons={sourceIcons}
               stopPropagation
             />
-            {callDetail}
+            {isOnConferenceCall ? null : callDetail}
           </div>
           <WebphoneButtons
             session={webphoneSession}
@@ -439,36 +504,42 @@ export default class ActiveCallItem extends Component {
             webphoneReject={this.webphoneToVoicemail}
             webphoneHangup={webphoneHangup}
             webphoneResume={webphoneResume}
+            currentLocale={currentLocale}
+            showAnswer={showAnswer}
           />
           {extraButton}
         </div>
-        <ActionMenu
-          extended={this.state.extended}
-          onToggle={this.toggleExtended}
-          currentLocale={currentLocale}
-          disableLinks={disableLinks}
-          phoneNumber={phoneNumber}
-          onClickToSms={
-            readTextPermission ?
-              () => this.clickToSms({ countryCode, areaCode })
-              : undefined
-          }
-          hasEntity={!!contactMatches.length}
-          onViewEntity={onViewContact && this.viewSelectedContact}
-          onCreateEntity={onCreateContact && this.createSelectedContact}
-          textTitle={i18n.getString('text', currentLocale)}
-          onLog={onLogCall}
-          isLogging={isLogging || this.state.isLogging}
-          isLogged={activityMatches.length > 0}
-          isCreating={this.state.isCreating}
-          addLogTitle={i18n.getString('addLog', currentLocale)}
-          editLogTitle={i18n.getString('editLog', currentLocale)}
-          createEntityTitle={i18n.getString('addEntity', currentLocale)}
-          viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
-          externalViewEntity={() => externalViewEntity && externalViewEntity(this.props.call)}
-          externalHasEntity={externalHasEntity && externalHasEntity(this.props.call)}
-          disableClickToSms={disableClickToSms}
-        />
+        {
+          hasActionMenu
+            ? <ActionMenu
+              extended={this.state.extended}
+              onToggle={this.toggleExtended}
+              currentLocale={currentLocale}
+              disableLinks={disableLinks}
+              phoneNumber={phoneNumber}
+              onClickToSms={
+                readTextPermission ?
+                  () => this.clickToSms({ countryCode, areaCode })
+                  : undefined
+              }
+              hasEntity={!!contactMatches.length}
+              onViewEntity={onViewContact && this.viewSelectedContact}
+              onCreateEntity={onCreateContact && this.createSelectedContact}
+              textTitle={i18n.getString('text', currentLocale)}
+              onLog={onLogCall}
+              isLogging={isLogging || this.state.isLogging}
+              isLogged={activityMatches.length > 0}
+              isCreating={this.state.isCreating}
+              addLogTitle={i18n.getString('addLog', currentLocale)}
+              editLogTitle={i18n.getString('editLog', currentLocale)}
+              createEntityTitle={i18n.getString('addEntity', currentLocale)}
+              viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
+              externalViewEntity={() => externalViewEntity && externalViewEntity(this.props.call)}
+              externalHasEntity={externalHasEntity && externalHasEntity(this.props.call)}
+              disableClickToSms={disableClickToSms}
+            />
+            : null
+        }
       </div>
     );
   }
@@ -522,6 +593,12 @@ ActiveCallItem.propTypes = {
   externalViewEntity: PropTypes.func,
   externalHasEntity: PropTypes.func,
   readTextPermission: PropTypes.bool,
+  isOnConferenceCall: PropTypes.bool,
+  hasActionMenu: PropTypes.bool,
+  showAnswer: PropTypes.bool,
+  avatarUrl: PropTypes.string,
+  showAvatar: PropTypes.bool,
+  showCallDetail: PropTypes.bool,
 };
 
 ActiveCallItem.defaultProps = {
@@ -549,4 +626,10 @@ ActiveCallItem.defaultProps = {
   externalViewEntity: undefined,
   externalHasEntity: undefined,
   readTextPermission: true,
+  isOnConferenceCall: false,
+  hasActionMenu: true,
+  showAnswer: true,
+  avatarUrl: null,
+  showAvatar: false,
+  showCallDetail: true,
 };

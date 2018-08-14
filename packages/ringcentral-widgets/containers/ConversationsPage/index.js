@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import withPhone from '../../lib/withPhone';
 import MessagesPanel from '../../components/ConversationsPanel';
 
-function mapToProps(_, {
+export function mapToProps(_, {
   phone: {
     brand,
     locale,
@@ -84,7 +84,7 @@ function mapToProps(_, {
   });
 }
 
-function mapToFunctions(_, {
+export function mapToFunctions(_, {
   phone: {
     dateTimeFormat,
     conversations,

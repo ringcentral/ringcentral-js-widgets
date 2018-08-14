@@ -1,9 +1,9 @@
 import meetingStatus from 'ringcentral-integration/modules/Meeting/meetingStatus';
 
 export default {
-  [meetingStatus.emptyTopic]: 'Please enter meeting topic.',
-  [meetingStatus.noPassword]: 'Please provide meeting password.',
-  [meetingStatus.scheduledSuccess]: 'Meeting is scheduled.',
+  [meetingStatus.emptyTopic]: "Please enter meeting topic.",
+  [meetingStatus.noPassword]: "Please provide meeting password.",
+  [meetingStatus.scheduledSuccess]: "Meeting is scheduled."
 };
 
 // @key: @#@"[meetingStatus.emptyTopic]"@#@ @source: @#@"Please enter meeting topic."@#@

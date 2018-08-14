@@ -9,7 +9,7 @@ export function isArray(x) {
 }
 
 export function isObject(x) {
-  return typeof x === 'object' && !isArray(x);
+  return Object.prototype.toString.call(x).toLowerCase() === '[object object]';
 }
 
 export function isFunction(x) {

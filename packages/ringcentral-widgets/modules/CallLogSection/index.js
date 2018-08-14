@@ -1,4 +1,13 @@
-import * as R from 'ramda';
+import {
+  assoc,
+  converge,
+  flip,
+  identity,
+  keys,
+  mergeWith,
+  pick,
+  useWith,
+} from 'ramda';
 import RcModule from 'ringcentral-integration/lib/RcModule';
 import { Module } from 'ringcentral-integration/lib/di';
 import ensureExist from 'ringcentral-integration/lib/ensureExist';
@@ -17,7 +26,7 @@ export default class CallLogSection extends RcModule {
   constructor(
     {
       storage,
-      ...options,
+      ...options
     }
   ) {
     super(
@@ -118,8 +127,8 @@ export default class CallLogSection extends RcModule {
       onError
     }
   ) {
-    this._logFunction = this::ensureExist(logFunction, 'logFunction');
-    this._readyCheckFunction = this::ensureExist(readyCheckFunction, 'readyCheckFunction');
+    this._logFunction = this:: ensureExist(logFunction, 'logFunction');
+    this._readyCheckFunction = this:: ensureExist(readyCheckFunction, 'readyCheckFunction');
     this._onUpdate = onUpdate;
     this._onSuccess = onSuccess;
     this._onError = onError;
@@ -135,8 +144,8 @@ export default class CallLogSection extends RcModule {
 
   async saveCallLog(identify, ...args) {
     if (identify && (
-        !this.callsMapping[identify] || !this.callsMapping[identify].isSaving
-      )) {
+      !this.callsMapping[identify] || !this.callsMapping[identify].isSaving
+    )) {
       this.store.dispatch({
         type: this.actionTypes.saving,
         identify,
@@ -154,6 +163,7 @@ export default class CallLogSection extends RcModule {
         console.warn(e);
       }
     }
+    return null;
   }
 
   handleLogSection(identify) {
@@ -203,7 +213,7 @@ export default class CallLogSection extends RcModule {
   expandLogNotification() {
     if (!this.show) {
       this._showLogSection(this.currentNotificationIdentify);
-      this.closeLogNotification()
+      this.closeLogNotification();
     } else if (!this.notificationIsExpand) {
       this.store.dispatch({
         type: this.actionTypes.expandNotification
@@ -225,9 +235,9 @@ export default class CallLogSection extends RcModule {
   callsMapping = createSelector(
     () => this._callsMapping,
     () => this._callsSavingStatus,
-    R.converge(
-      R.mergeWith(R.flip(R.assoc('isSaving'))),
-      [R.identity, R.useWith(R.pick, [R.keys, R.identity])]
+    converge(
+      mergeWith(flip(assoc('isSaving'))),
+      [identity, useWith(pick, [keys, identity])]
     )
   )
 

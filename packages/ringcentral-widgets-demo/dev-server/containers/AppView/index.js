@@ -38,7 +38,7 @@ function AppView(props) {
         server={props.server}
         enabled={props.enabled}
         onSetData={props.onSetData}
-        recordingHost={''}
+        recordingHost=""
       />
     </div>
   );
@@ -105,14 +105,14 @@ export default withPhone(connect((state, {
     callingSettings,
   },
 }) => ({
-  onSetData: (options) => {
+  onSetData(options) {
     environment.setData(options);
   },
-  showOfflineAlert: () => {
+  showOfflineAlert() {
     rateLimiter.showAlert();
     connectivityMonitor.showAlert();
   },
-  onWebphoneBadgeClicked: () => {
+  onWebphoneBadgeClicked() {
     // Only works for webphone mode
     if (callingSettings.callingMode !== callingModes.webphone) {
       return;

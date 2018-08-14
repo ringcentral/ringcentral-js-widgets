@@ -208,7 +208,7 @@ export default class MessageItem extends Component {
   }
   createSelectedContact = this.createSelectedContact.bind(this);
 
-  async logConversation({ redirect = true, selected, prefill = true }) {
+  async logConversation({ redirect = true, selected, prefill = true } = {}) {
     if (typeof this.props.onLogConversation === 'function' &&
       this._mounted &&
       !this.state.isLogging
@@ -312,6 +312,9 @@ export default class MessageItem extends Component {
       currentLocale,
     } = this.props;
     if (messageIsTextMessage(conversation)) {
+      if (conversation.mmsAttachment && conversation.mmsAttachment.contentType.indexOf('image') > -1) {
+        return i18n.getString('imageAttachment', currentLocale);
+      }
       return conversation.subject;
     }
     if (conversation.voicemailAttachment) {
@@ -370,6 +373,7 @@ export default class MessageItem extends Component {
       showContactDisplayPlaceholder,
       sourceIcons,
       showGroupNumberName,
+      renderExtraButton,
     } = this.props;
     let disableLinks = parentDisableLinks;
     const isVoicemail = type === messageTypes.voiceMail;
@@ -399,7 +403,15 @@ export default class MessageItem extends Component {
       );
       slideMenuHeight = 88;
     }
-
+    const extraButton = renderExtraButton ?
+      renderExtraButton(
+        this.props.conversation,
+        {
+          logConversation: this.logConversation,
+          isLogging: isLogging || this.state.isLogging,
+        }
+      )
+      : null;
     return (
       <div className={styles.root} onClick={this.onClickItem}>
         <div
@@ -415,7 +427,10 @@ export default class MessageItem extends Component {
             currentLocale={currentLocale}
             direction={direction}
           />
-          <div className={styles.infoWrapper}>
+          <div className={classnames(
+              styles.infoWrapper,
+              !extraButton && styles.embellishInfoWrapper
+          )}>
             <ContactDisplay
               reference={(ref) => { this.contactDisplay = ref; }}
               className={classnames(
@@ -443,13 +458,17 @@ export default class MessageItem extends Component {
               showPlaceholder={showContactDisplayPlaceholder}
               sourceIcons={sourceIcons}
             />
-            <div className={styles.details} title={detail}>
-              {detail}
+            <div className={styles.detailsWithTime}>
+              <div className={styles.details} title={detail}>
+                {detail}
+              </div>
+              <div className={styles.separatrix}>|</div>
+              <div className={styles.creationTime}>
+                {this.dateTimeFormatter(creationTime)}
+              </div>
             </div>
           </div>
-          <div className={styles.creationTime}>
-            {this.dateTimeFormatter(creationTime)}
-          </div>
+          {extraButton}
         </div>
         <SlideMenu
           extended={this.state.extended}
@@ -465,10 +484,14 @@ export default class MessageItem extends Component {
           <ActionMenuList
             className={styles.actionMenuList}
             currentLocale={currentLocale}
-            onLog={isVoicemail || isFax ? undefined : (onLogConversation && this.logConversation)}
+            onLog={
+              isVoicemail || isFax || extraButton ?
+                undefined : (onLogConversation && this.logConversation)
+            }
             onViewEntity={onViewContact && this.viewSelectedContact}
             onCreateEntity={onCreateContact && this.createSelectedContact}
-            hasEntity={correspondents.length === 1 && !!correspondentMatches.length}
+            hasEntity={correspondents.length === 1 && !!correspondentMatches.length &&
+              (correspondentMatches.length === 1 || this.state.selected >= 0)}
             onClickToDial={!isFax ? (onClickToDial && this.clickToDial) : undefined}
             onClickToSms={isVoicemail ? (onClickToSms && this.onClickToSms) : undefined}
             phoneNumber={phoneNumber}
@@ -547,6 +570,7 @@ MessageItem.propTypes = {
   showGroupNumberName: PropTypes.bool,
   deleteMessage: PropTypes.func,
   previewFaxMessages: PropTypes.func,
+  renderExtraButton: PropTypes.func,
 };
 
 MessageItem.defaultProps = {
@@ -564,4 +588,5 @@ MessageItem.defaultProps = {
   showGroupNumberName: false,
   deleteMessage: () => {},
   previewFaxMessages: undefined,
+  renderExtraButton: undefined,
 };

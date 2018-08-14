@@ -4,7 +4,7 @@ import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import ConversationPanel from '../../components/ConversationPanel';
 import withPhone from '../../lib/withPhone';
 
-function mapToProps(_, {
+export function mapToProps(_, {
   phone: {
     brand,
     locale,
@@ -61,7 +61,7 @@ function mapToProps(_, {
   });
 }
 
-function mapToFunctions(_, {
+export function mapToFunctions(_, {
   phone: {
     contactMatcher,
     dateTimeFormat,

@@ -2,13 +2,17 @@ import { createSelector } from 'reselect';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import moduleStatuses from '../../enums/moduleStatuses';
-import { sortByStartTime } from '../../lib/callLogHelpers';
+import { sortByStartTime, getPhoneNumberMatches } from '../../lib/callLogHelpers';
 import actionTypes from './actionTypes';
 import getCallHistoryReducer, { getEndedCallsReducer } from './getCallHistoryReducer';
 import ensureExist from '../../lib/ensureExist';
 import normalizeNumber from '../../lib/normalizeNumber';
 import getter from '../../lib/getter';
 import proxify from '../../lib/proxy/proxify';
+import debounce from '../../lib/debounce';
+
+// const DEBOUNDCE_THRESHOLD = 800;
+// const DEBOUNDCE_IMMEDIATE = false;
 
 /**
  * @class
@@ -19,6 +23,7 @@ import proxify from '../../lib/proxy/proxify';
     'AccountInfo',
     'CallLog',
     'CallMonitor',
+    'Locale',
     { dep: 'Storage', optional: true },
     { dep: 'ActivityMatcher', optional: true },
     { dep: 'ContactMatcher', optional: true },
@@ -40,22 +45,27 @@ export default class CallHistory extends RcModule {
     accountInfo,
     callLog,
     callMonitor,
+    locale,
     storage,
     activityMatcher,
     contactMatcher,
     tabManager,
+    // debThreshold,
+    // debImmediate,
     ...options
   }) {
     super({
       ...options,
     });
-    this._accountInfo = this::ensureExist(accountInfo, 'accountInfo');
-    this._callLog = this::ensureExist(callLog, 'callLog');
+    this._accountInfo = this:: ensureExist(accountInfo, 'accountInfo');
+    this._callLog = this:: ensureExist(callLog, 'callLog');
     this._storage = storage;
     this._activityMatcher = activityMatcher;
     this._contactMatcher = contactMatcher;
     this._callMonitor = callMonitor;
     this._tabManager = tabManager;
+    this._locale = locale;
+    this._debouncedSearch = debounce(this.callsSearch, 230, false)
 
     if (this._storage) {
       this._reducer = getCallHistoryReducer(this.actionTypes);
@@ -272,6 +282,13 @@ export default class CallHistory extends RcModule {
     });
   }
 
+  @proxify
+  updateSearchInput(input) {
+    this.store.dispatch({
+      type: this.actionTypes.updateSearchInput,
+      input,
+    });
+  }
 
   get status() {
     return this.state.status;
@@ -371,6 +388,45 @@ export default class CallHistory extends RcModule {
     }
   )
 
+  @proxify
+  debouncedSearch(...args) {
+    this._debouncedSearch.apply( this, args);
+  }
+
+  @proxify
+  callsSearch() {
+    if (this.searchInput === '') {
+      return;
+    }
+    const calls = this.calls;
+    const searchInput = this.searchInput;
+    let data = [];
+    const effectSearchStr = searchInput.toLowerCase().trim();
+
+    data = calls.filter((call) => {
+      const { phoneNumber, matches } = getPhoneNumberMatches(call);
+      const matchesMatched = matches.some((entities) => {
+        if (!entities || !entities.id) return false;
+        if (entities.name && entities.name.toLowerCase().indexOf(effectSearchStr) > -1) return true;
+        if (entities.phone && entities.phone.indexOf(effectSearchStr) > -1) return true;
+        return false;
+      });
+
+      if (matchesMatched) {
+        return true;
+      }
+      if (phoneNumber && phoneNumber.indexOf(effectSearchStr) > -1) {
+        return true;
+      }
+      return false;
+    }).sort(sortByStartTime);
+
+    this.store.dispatch({
+      type: this.actionTypes.filterSuccess,
+      data
+    });
+  }
+
   @getter
   uniqueNumbers = createSelector(
     () => this.normalizedCalls,
@@ -418,6 +474,17 @@ export default class CallHistory extends RcModule {
       );
     },
   )
+
+  get filterCalls() {
+    if (this.searchInput === '') {
+      return this.calls;
+    }
+    return this.state.filterCalls;
+  }
+
+  get searchInput() {
+    return this.state.searchInput;
+  }
 
   get recentlyEndedCalls() {
     if (this._storage) {

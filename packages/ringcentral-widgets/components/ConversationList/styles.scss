@@ -11,6 +11,11 @@
   @include full-size;
   overflow-y: auto;
   overflow-x: hidden;
+  // For Safari scrollbar may appears behind element.
+  // The reason for this seems that child element set the position property(eg relative/absolute), 
+  // then the property z-index for the element is 1 but the scrollbar seems is 0 in Safari.
+  // It seems like a solution to add translateZ to make child element's property z-index invalid.
+  transform: translateZ(0);
 }
 
 .loading {

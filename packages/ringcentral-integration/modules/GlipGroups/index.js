@@ -11,7 +11,6 @@ import proxify from '../../lib/proxy/proxify';
 
 import getReducer, {
   getDataReducer,
-  getCurrentGroupIdReducer,
   getTimestampReducer,
 } from './getReducer';
 import actionTypes from './actionTypes';
@@ -154,7 +153,6 @@ export default class GlipGroups extends Pollable {
 
     this._dataStorageKey = 'glipGroupsData';
     this._timestampStorageKey = 'glipGroupsTimestamp';
-    this._currentGroupIdStorageKey = 'glipGroupsCurrentGroupId';
 
     if (this._storage) {
       this._reducer = getReducer(this.actionTypes);
@@ -167,15 +165,10 @@ export default class GlipGroups extends Pollable {
         key: this._timestampStorageKey,
         reducer: getTimestampReducer(this.actionTypes),
       });
-      this._storage.registerReducer({
-        key: this._currentGroupIdStorageKey,
-        reducer: getCurrentGroupIdReducer(this.actionTypes),
-      });
     } else {
       this._reducer = getReducer(this.actionTypes, {
         timestamp: getTimestampReducer(this.actionTypes),
         data: getDataReducer(this.actionTypes),
-        currentGroupId: getCurrentGroupIdReducer(this.actionTypes),
       });
     }
 
@@ -198,7 +191,7 @@ export default class GlipGroups extends Pollable {
       this.store.dispatch({
         type: this.actionTypes.initSuccess,
       });
-      this._onDataReady()
+      this._onDataReady();
     } else if (this._shouldReset()) {
       this._clearTimeout();
       this._promise = null;
@@ -268,9 +261,6 @@ export default class GlipGroups extends Pollable {
   _onDataReady() {
     if (this._glipPersons) {
       this._glipPersons.loadPersons(this.groupMemberIds);
-    }
-    if (this.currentGroupId && !this.currentGroup.id) {
-      this.updateCurrentGroupId(this.groups[0] && this.groups[0].id);
     }
     if (this._preloadPosts) {
       this._preloadedPosts = {};
@@ -344,7 +334,8 @@ export default class GlipGroups extends Pollable {
   }
 
   async _preloadGroupPosts(force) {
-    for (const group of this.groups) {
+    const groups = this.groups.slice(0, 20);
+    for (const group of groups) {
       if (!this._glipPosts) {
         break;
       }
@@ -481,17 +472,26 @@ export default class GlipGroups extends Pollable {
     }
   }
 
+  async createTeam(name, members, type = 'Team') {
+    const group = await this._client.glip().groups().post({
+      type,
+      name,
+      members,
+      isPublic: true,
+      description: ''
+    });
+    return group.id;
+  }
+
   @getter
   allGroups = createSelector(
     () => this.data,
     () => (this._glipPersons && this._glipPersons.personsMap) || {},
     () => (this._glipPosts && this._glipPosts.postsMap) || {},
     () => this._auth.ownerId,
-    (data, personsMap, postsMap, ownerId) => {
-      return (data || []).map(
-        group => formatGroup(group, personsMap, postsMap, ownerId)
-      );
-    },
+    (data, personsMap, postsMap, ownerId) => (data || []).map(
+      group => formatGroup(group, personsMap, postsMap, ownerId)
+    ),
   )
 
   @getter
@@ -525,9 +525,7 @@ export default class GlipGroups extends Pollable {
   @getter
   groups = createSelector(
     () => this.filteredGroups,
-    () => this.pageNumber,
-    (filteredGroups, pageNumber) => {
-      const count = pageNumber * this._perPage;
+    (filteredGroups) => {
       const sortedGroups =
         filteredGroups.sort((a, b) => {
           if (a.updatedTime === b.updatedTime) return 0;
@@ -535,7 +533,7 @@ export default class GlipGroups extends Pollable {
             -1 :
             1;
         });
-      return sortedGroups.slice(0, count);
+      return sortedGroups;
     },
   )
 
@@ -609,10 +607,6 @@ export default class GlipGroups extends Pollable {
     return this.state.searchFilter;
   }
 
-  get pageNumber() {
-    return this.state.pageNumber;
-  }
-
   get data() {
     return this._storage ?
       this._storage.getItem(this._dataStorageKey) :
@@ -626,9 +620,7 @@ export default class GlipGroups extends Pollable {
   }
 
   get currentGroupId() {
-    return this._storage ?
-      this._storage.getItem(this._currentGroupIdStorageKey) :
-      this.state.currentGroupId;
+    return this.state.currentGroupId;
   }
 
   get status() {

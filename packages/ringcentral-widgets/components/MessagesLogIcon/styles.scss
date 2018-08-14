@@ -1,0 +1,19 @@
+@import '../../lib/commonStyles/colors';
+
+.messageLog {
+  cursor: pointer;
+}
+
+.disabledMessageLog {
+  cursor: not-allowed;
+  .logIcon {
+    path {
+      stroke: $coin;
+    }
+  }
+}
+.logIcon {
+  path {
+    stroke: $primary-color;
+  }
+}

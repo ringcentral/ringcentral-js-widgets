@@ -132,6 +132,7 @@ export default class RegionSettings extends RcModule {
 
   _alertSettingsChanged() {
     this._alert.warning({
+      allowDuplicates: false,
       message: regionSettingsMessages.dialingPlansChanged,
       ttl: 0
     });

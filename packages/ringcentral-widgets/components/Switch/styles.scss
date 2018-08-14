@@ -53,7 +53,7 @@ $slider-size: #{$switch-height - 2 * $switch-padding};
     background-color: $smoke;
   }
   input:checked + .slider {
-    background-color: $rc-blue;
+    background-color: $primary-color;
   }
   input:focus + .slider {
     box-shadow: 0 0 1px #ccc;

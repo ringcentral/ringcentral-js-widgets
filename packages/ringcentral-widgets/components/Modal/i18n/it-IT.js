@@ -1,6 +1,6 @@
 export default {
-  cancel: 'Annulla',
-  confirm: 'Conferma',
+  cancel: "Annulla",
+  confirm: "Conferma"
 };
 
 // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@

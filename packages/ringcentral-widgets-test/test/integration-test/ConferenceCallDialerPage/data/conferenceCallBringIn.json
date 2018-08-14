@@ -1,0 +1,18 @@
+{
+  "id" : "cs1726225542272106109-3",
+  "conferenceRole" : "Participant",
+  "direction" : "Inbound",
+  "from" : {
+     "extensionId" : "160751006",
+     "phoneNumber" : "+12812923232"
+  },
+  "muted" : false,
+  "standAlone" : false,
+  "status" : {
+     "code" : "Setup"
+  },
+  "to" : {
+     "name" : "Conference",
+     "phoneNumber" : "conference"
+  }
+}
