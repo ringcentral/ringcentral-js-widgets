@@ -63,6 +63,8 @@ export default class ActiveCallsPanel extends Component {
       isWebRTC,
       isSessionAConferenceCall,
       onCallItemClick,
+      getAvatarUrl,
+      conferenceCallParties,
     } = this.props;
 
     return (
@@ -96,6 +98,8 @@ export default class ActiveCallsPanel extends Component {
         isSessionAConferenceCall={isSessionAConferenceCall}
         useV2={isWebRTC}// TODO: Maybe we should make all the call item consistent
         onCallItemClick={onCallItemClick}
+        getAvatarUrl={getAvatarUrl}
+        conferenceCallParties={conferenceCallParties}
       />
     );
   }
@@ -170,6 +174,8 @@ ActiveCallsPanel.propTypes = {
   showSpinner: PropTypes.bool,
   isSessionAConferenceCall: PropTypes.func,
   onCallItemClick: PropTypes.func,
+  getAvatarUrl: PropTypes.func,
+  conferenceCallParties: PropTypes.arrayOf(PropTypes.object)
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -196,4 +202,6 @@ ActiveCallsPanel.defaultProps = {
   showSpinner: false,
   isSessionAConferenceCall: () => false,
   onCallItemClick: false,
+  getAvatarUrl: i => i,
+  conferenceCallParties: []
 };

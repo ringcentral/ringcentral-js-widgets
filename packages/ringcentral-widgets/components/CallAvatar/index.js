@@ -92,6 +92,7 @@ class CallAvatar extends Component {
     const avatarCircleRadius = 15;
     const extraNumCircleRadius = 8.5;
     const extraNumCircleBorder = 1;
+    const circleBorder = 1;
     const $snow = '#fff';
     const $blueLight = '#cee7f2';
     const $blue = '#0684bd';
@@ -101,7 +102,7 @@ class CallAvatar extends Component {
     const hash = uuid.v4();
     const textId = `text-${hash}`;
     const clipId = `circleClip-${hash}`;
-    const avatarStyle = { stroke: $dark, strokeWidth: '1px' };
+    const avatarStyle = { stroke: $dark, strokeWidth: `${circleBorder}px` };
     const avatarUrlLoadFailed = this.state.avatarUrlLoadFailed;
     const showSpinner = spinnerMode;
 
@@ -227,7 +228,7 @@ class CallAvatar extends Component {
           <circle
             cx={initialSize / 2}
             cy={initialSize / 2}
-            r={initialSize / 2}
+            r={initialSize / 2 - circleBorder}
             fill={$snow}
             stroke={showSpinner ? $dark : 'inherit'}
             strokeOpacity={showSpinner ? $transparency : '1'}

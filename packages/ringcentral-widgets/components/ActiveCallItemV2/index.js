@@ -10,6 +10,7 @@ import CircleButton from '../CircleButton';
 import EndIcon from '../../assets/images/End.svg';
 import HoldIcon from '../../assets/images/Hold.svg';
 import VoicemailIcon from '../../assets/images/Voicemail.svg';
+import MergeIntoConferenceIcon from '../../assets/images/MergeIntoConferenceIcon.svg';
 import MediaObject from '../MediaObject';
 
 import styles from './styles.scss';
@@ -23,6 +24,10 @@ function WebphoneButtons({
   webphoneHangup,
   webphoneResume,
   webphoneHold,
+  showMergeCall,
+  showHold,
+  disableMerge,
+  onMergeCall,
 }) {
   if (!session || !webphoneAnswer || !webphoneHangup) {
     return null;
@@ -44,35 +49,65 @@ function WebphoneButtons({
   }
 
   let holdBtn;
-  if (isOnHold(session)) {
-    holdBtn = (
-      <span title={unholdTitle} className={styles.webphoneButton}>
+  let mergeBtn;
+
+  if (showHold) {
+    if (isOnHold(session)) {
+      holdBtn = (
+        <span title={unholdTitle} className={styles.webphoneButton}>
+          <CircleButton
+            className={classnames(styles.holdButton, styles.active)}
+            onClick={(e) => {
+              e.stopPropagation();
+              webphoneResume(session.id);
+            }}
+            iconWidth={260}
+            iconX={120}
+            icon={HoldIcon}
+            showBorder
+          />
+        </span>
+      );
+    } else {
+      holdBtn = (
+        <span title={holdTitle} className={styles.webphoneButton}>
+          <CircleButton
+            className={styles.holdButton}
+            onClick={(e) => {
+              e.stopPropagation();
+              webphoneHold(session.id);
+            }}
+            iconWidth={260}
+            iconX={120}
+            icon={HoldIcon}
+            showBorder
+          />
+        </span>
+      );
+    }
+  }
+
+  if (showMergeCall) {
+    const mergeTitle = i18n.getString('mergeToConference', currentLocale);
+
+    mergeBtn = (
+      <span title={mergeTitle} className={styles.webphoneButton}>
         <CircleButton
-          className={classnames(styles.holdButton, styles.active)}
+          className={
+            classnames({
+              [styles.mergeButton]: true,
+              [styles.disabled]: disableMerge
+            })
+          }
           onClick={(e) => {
             e.stopPropagation();
-            webphoneResume(session.id);
+            onMergeCall(session.id);
           }}
           iconWidth={260}
           iconX={120}
-          icon={HoldIcon}
+          icon={MergeIntoConferenceIcon}
           showBorder
-        />
-      </span>
-    );
-  } else {
-    holdBtn = (
-      <span title={holdTitle} className={styles.webphoneButton}>
-        <CircleButton
-          className={styles.holdButton}
-          onClick={(e) => {
-            e.stopPropagation();
-            webphoneHold(session.id);
-          }}
-          iconWidth={260}
-          iconX={120}
-          icon={HoldIcon}
-          showBorder
+          disabled={disableMerge}
         />
       </span>
     );
@@ -80,6 +115,7 @@ function WebphoneButtons({
 
   return (
     <div className={styles.webphoneButtons}>
+      {mergeBtn}
       {holdBtn}
       <span title={rejectTitle} className={styles.webphoneButton}>
         <CircleButton
@@ -106,6 +142,10 @@ WebphoneButtons.propTypes = {
   webphoneHangup: PropTypes.func,
   webphoneResume: PropTypes.func,
   webphoneHold: PropTypes.func,
+  showMergeCall: PropTypes.bool,
+  showHold: PropTypes.bool,
+  disableMerge: PropTypes.bool,
+  onMergeCall: PropTypes.func,
 };
 
 WebphoneButtons.defaultProps = {
@@ -115,6 +155,10 @@ WebphoneButtons.defaultProps = {
   webphoneHangup: undefined,
   webphoneResume: undefined,
   webphoneHold: undefined,
+  showMergeCall: false,
+  showHold: true,
+  disableMerge: true,
+  onMergeCall: i => i,
 };
 
 /**
@@ -126,6 +170,8 @@ export default class ActiveCallItem extends Component {
     this.state = {
       selected: 0,
       isLogging: false,
+      avatarUrl: null,
+      extraNum: 0
     };
     this._userSelection = false;
     this.contactDisplay = null;
@@ -158,6 +204,29 @@ export default class ActiveCallItem extends Component {
 
   componentDidMount() {
     this._mounted = true;
+    const {
+      getAvatarUrl, call, isOnConferenceCall, conferenceCallParties
+    } = this.props;
+    let contact = call.webphoneSession.contactMatch;
+
+    this.mounted = true;
+
+    if (!contact) {
+      const nameMatches = call.toMatches || [];
+      contact = nameMatches && nameMatches[0];
+    }
+    if (!isOnConferenceCall) {
+      getAvatarUrl(contact).then((avatarUrl) => {
+        if (this.mounted) {
+          this.setState({ avatarUrl });
+        }
+      });
+    } else {
+      this.setState({
+        avatarUrl: conferenceCallParties.map(profile => profile.avatarUrl)[0],
+        extraNum: conferenceCallParties.length > 0 ? conferenceCallParties.length - 1 : 0
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -232,10 +301,14 @@ export default class ActiveCallItem extends Component {
       contactDisplayStyle,
       isOnConferenceCall,
       webphoneHold,
-      avatarUrl,
-      extraNum,
       onClick,
+      showMergeCall,
+      showHold,
+      disableMerge,
+      onMergeCall,
     } = this.props;
+
+    const { avatarUrl, extraNum } = this.state;
     const phoneNumber = this.getPhoneNumber();
     const contactMatches = this.getContactMatches();
     const fallbackContactName = this.getFallbackContactName();
@@ -294,6 +367,10 @@ export default class ActiveCallItem extends Component {
                 webphoneResume={webphoneResume}
                 webphoneHold={webphoneHold}
                 currentLocale={currentLocale}
+                showMergeCall={showMergeCall}
+                showHold={showHold}
+                disableMerge={disableMerge}
+                onMergeCall={onMergeCall}
             />
               {extraButton}
             </div>
@@ -344,9 +421,12 @@ ActiveCallItem.propTypes = {
   renderExtraButton: PropTypes.func,
   contactDisplayStyle: PropTypes.string,
   isOnConferenceCall: PropTypes.bool,
-  avatarUrl: PropTypes.string,
-  extraNum: PropTypes.number,
   onClick: PropTypes.func,
+  getAvatarUrl: PropTypes.func,
+  conferenceCallParties: PropTypes.arrayOf(PropTypes.object),
+  showMergeCall: PropTypes.bool,
+  showHold: PropTypes.bool,
+  disableMerge: PropTypes.bool,
 };
 
 ActiveCallItem.defaultProps = {
@@ -367,7 +447,10 @@ ActiveCallItem.defaultProps = {
   renderExtraButton: undefined,
   contactDisplayStyle: undefined,
   isOnConferenceCall: false,
-  avatarUrl: null,
-  extraNum: 0,
   onClick: undefined,
+  getAvatarUrl: i => i,
+  conferenceCallParties: [],
+  showMergeCall: false,
+  showHold: true,
+  disableMerge: false,
 };

@@ -41,6 +41,8 @@ function ActiveCallList({
   sourceIcons,
   isSessionAConferenceCall,
   onCallItemClick,
+  getAvatarUrl,
+  conferenceCallParties,
   useV2, // TODO: For compatibility, after replacing all ActiveCallItem with ActiveCallItemV2, we should remove this.
 }) {
   if (!calls.length) {
@@ -50,7 +52,12 @@ function ActiveCallList({
 
   return (
     <div className={classnames(styles.list, className)}>
-      <div className={styles.listTitle}>
+      <div
+        className={styles.listTitle}
+        style={{
+          marginBottom: useV2 && title ? '-5px' : null
+        }}
+      >
         {title}
       </div>
       {
@@ -88,6 +95,8 @@ function ActiveCallList({
               sourceIcons={sourceIcons}
               hasActionMenu={!isOnConferenceCall}
               onClick={() => onCallItemClick(call)}
+              getAvatarUrl={getAvatarUrl}
+              conferenceCallParties={conferenceCallParties}
             />
           );
         })
@@ -125,6 +134,8 @@ ActiveCallList.propTypes = {
   isSessionAConferenceCall: PropTypes.func,
   useV2: PropTypes.bool,
   onCallItemClick: PropTypes.func,
+  getAvatarUrl: PropTypes.func,
+  conferenceCallParties: PropTypes.arrayOf(PropTypes.object)
 };
 
 ActiveCallList.defaultProps = {
@@ -150,6 +161,8 @@ ActiveCallList.defaultProps = {
   isSessionAConferenceCall: () => false,
   useV2: false,
   onCallItemClick: i => i,
+  getAvatarUrl: i => i,
+  conferenceCallParties: []
 };
 
 export default ActiveCallList;
