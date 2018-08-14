@@ -45,10 +45,6 @@ var _ActiveCallList = require('../ActiveCallList');
 
 var _ActiveCallList2 = _interopRequireDefault(_ActiveCallList);
 
-var _ConfirmMergeModal = require('../ConfirmMergeModal');
-
-var _ConfirmMergeModal2 = _interopRequireDefault(_ConfirmMergeModal);
-
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -62,35 +58,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var ActiveCallsPanel = function (_Component) {
   (0, _inherits3.default)(ActiveCallsPanel, _Component);
 
-  function ActiveCallsPanel(props) {
+  function ActiveCallsPanel() {
     (0, _classCallCheck3.default)(this, ActiveCallsPanel);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (ActiveCallsPanel.__proto__ || (0, _getPrototypeOf2.default)(ActiveCallsPanel)).call(this, props));
-
-    _this.state = {
-      isModalOpen: false,
-      callOfModal: null
-    };
-
-    _this.showConfirmMergeModal = function (call) {
-      _this.setState({
-        isModalOpen: true,
-        callOfModal: call
-      });
-    };
-
-    _this.hideConfirmMergeModal = function () {
-      _this.setState({
-        isModalOpen: false,
-        callOfModal: null
-      });
-    };
-
-    _this.confirmMergeCall = function () {
-      _this.props.mergeToConference([_this.state.callOfModal.webphoneSession]);
-      _this.hideConfirmMergeModal();
-    };
-    return _this;
+    return (0, _possibleConstructorReturn3.default)(this, (ActiveCallsPanel.__proto__ || (0, _getPrototypeOf2.default)(ActiveCallsPanel)).apply(this, arguments));
   }
 
   (0, _createClass3.default)(ActiveCallsPanel, [{
@@ -143,9 +113,6 @@ var ActiveCallsPanel = function (_Component) {
           activeCurrentCalls = _props.activeCurrentCalls,
           isWebRTC = _props.isWebRTC,
           conferenceCallEquipped = _props.conferenceCallEquipped,
-          hasConferenceCall = _props.hasConferenceCall,
-          disableMerge = _props.disableMerge,
-          mergeToConference = _props.mergeToConference,
           isSessionAConferenceCall = _props.isSessionAConferenceCall;
 
 
@@ -176,12 +143,8 @@ var ActiveCallsPanel = function (_Component) {
         sourceIcons: sourceIcons,
         isWebRTC: isWebRTC,
         conferenceCallEquipped: conferenceCallEquipped,
-        hasConferenceCall: hasConferenceCall,
-        disableMerge: disableMerge,
         currentCall: activeCurrentCalls[0],
-        mergeToConference: mergeToConference,
-        isSessionAConferenceCall: isSessionAConferenceCall,
-        onConfirmMergeCall: this.showConfirmMergeModal
+        isSessionAConferenceCall: isSessionAConferenceCall
       });
     }
   }, {
@@ -196,9 +159,7 @@ var ActiveCallsPanel = function (_Component) {
           otherDeviceCalls = _props2.otherDeviceCalls,
           className = _props2.className,
           currentLocale = _props2.currentLocale,
-          showSpinner = _props2.showSpinner,
-          conferenceCallEquipped = _props2.conferenceCallEquipped,
-          conferenceCallParties = _props2.conferenceCallParties;
+          showSpinner = _props2.showSpinner;
 
 
       if (!this.hasCalls()) {
@@ -228,13 +189,7 @@ var ActiveCallsPanel = function (_Component) {
           this.getCallList(activeRingCalls, _i18n2.default.getString('ringCall', currentLocale)),
           this.getCallList(activeCurrentCalls, _i18n2.default.getString('currentCall', currentLocale)),
           this.getCallList(activeOnHoldCalls, _i18n2.default.getString('onHoldCall', currentLocale)),
-          this.getCallList(otherDeviceCalls, _i18n2.default.getString('otherDeviceCall', currentLocale)),
-          conferenceCallEquipped ? _react2.default.createElement(_ConfirmMergeModal2.default, {
-            currentLocale: currentLocale,
-            show: this.state.isModalOpen,
-            onMerge: this.confirmMergeCall,
-            onCancel: this.hideConfirmMergeModal,
-            partyProfiles: conferenceCallParties }) : null
+          this.getCallList(otherDeviceCalls, _i18n2.default.getString('otherDeviceCall', currentLocale))
         ),
         showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, { className: _styles2.default.spinner }) : null
       );
@@ -277,12 +232,8 @@ ActiveCallsPanel.propTypes = {
   sourceIcons: _propTypes2.default.object,
   isWebRTC: _propTypes2.default.bool.isRequired,
   conferenceCallEquipped: _propTypes2.default.bool,
-  hasConferenceCall: _propTypes2.default.bool,
   showSpinner: _propTypes2.default.bool,
-  disableMerge: _propTypes2.default.bool,
-  mergeToConference: _propTypes2.default.func,
-  isSessionAConferenceCall: _propTypes2.default.func,
-  conferenceCallParties: _propTypes2.default.arrayOf(_propTypes2.default.object)
+  isSessionAConferenceCall: _propTypes2.default.func
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -307,15 +258,9 @@ ActiveCallsPanel.defaultProps = {
   onCallsEmpty: undefined,
   sourceIcons: undefined,
   conferenceCallEquipped: false,
-  hasConferenceCall: false,
   showSpinner: false,
-  disableMerge: false,
-  mergeToConference: function mergeToConference(i) {
-    return i;
-  },
   isSessionAConferenceCall: function isSessionAConferenceCall() {
     return false;
-  },
-  conferenceCallParties: []
+  }
 };
 //# sourceMappingURL=index.js.map

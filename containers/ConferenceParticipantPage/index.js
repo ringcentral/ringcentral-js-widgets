@@ -104,7 +104,7 @@ var ConferenceParticipantContainer = (_temp = _class = function (_Component) {
 
 
       if (!nextProps.participants.length && nextProps.participants.length !== participants.length) {
-        (0, _sleep2.default)(500).then(function () {
+        (0, _sleep2.default)(750).then(function () {
           if (_this2.mounted && sessionCount) {
             onBackButtonClick();
           }

@@ -57,11 +57,9 @@ function mapToProps(_, _ref) {
   var isWebRTC = callingSettings.callingMode === _callingModes2.default.webphone;
   var conferenceCallEquipped = !!conferenceCall;
   var disableMerge = !isWebRTC;
-  var hasConferenceCall = false;
   if (conferenceCallEquipped) {
     var conferenceList = (0, _values2.default)(conferenceCall.conferences);
     var conference = conferenceList.length ? conferenceList[0] : null;
-    hasConferenceCall = !!conference;
     if (conference) {
       disableMerge = conferenceCall.isOverload(conference.conference.id);
     }
@@ -82,7 +80,6 @@ function mapToProps(_, _ref) {
     autoLog: !!(callLogger && callLogger.autoLog),
     isWebRTC: isWebRTC,
     conferenceCallEquipped: conferenceCallEquipped,
-    hasConferenceCall: hasConferenceCall,
     disableMerge: disableMerge,
     conferenceCallParties: conferenceCall ? conferenceCall.partyProfiles : null
   };
@@ -367,58 +364,6 @@ function mapToFunctions(_, _ref2) {
         routerInteraction.push('/dialer');
       }
     },
-    /**
-     * if there is a existing conference, merge into it
-     * else make one and merge into it;
-     * @param {[string]} sessionIds
-     */
-    mergeToConference: function () {
-      var _ref14 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9() {
-        var conferenceData,
-            _args9 = arguments;
-        return _regenerator2.default.wrap(function _callee9$(_context9) {
-          while (1) {
-            switch (_context9.prev = _context9.next) {
-              case 0:
-                if (!webphone.isCallRecording(webphone.activeSession)) {
-                  _context9.next = 2;
-                  break;
-                }
-
-                return _context9.abrupt('return');
-
-              case 2:
-                _context9.next = 4;
-                return conferenceCall.mergeToConference.apply(conferenceCall, _args9);
-
-              case 4:
-                conferenceData = (0, _values2.default)(conferenceCall.conferences)[0];
-
-                if (!(conferenceData && conferenceData.sessionId === webphone.activeSessionId)) {
-                  _context9.next = 9;
-                  break;
-                }
-
-                _context9.next = 8;
-                return (0, _sleep2.default)(200);
-
-              case 8:
-                webphone.resume(conferenceData.sessionId);
-
-              case 9:
-              case 'end':
-                return _context9.stop();
-            }
-          }
-        }, _callee9, this);
-      }));
-
-      function mergeToConference() {
-        return _ref14.apply(this, arguments);
-      }
-
-      return mergeToConference;
-    }(),
     isSessionAConferenceCall: function isSessionAConferenceCall(sessionId) {
       return !!(conferenceCall && conferenceCall.isConferenceSession(sessionId));
     }

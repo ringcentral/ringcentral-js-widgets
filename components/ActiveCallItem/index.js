@@ -109,10 +109,6 @@ var _ConferenceCallIcon = require('../../assets/images/ConferenceCallIcon.svg');
 
 var _ConferenceCallIcon2 = _interopRequireDefault(_ConferenceCallIcon);
 
-var _MergeIntoConferenceIcon = require('../../assets/images/MergeIntoConferenceIcon.svg');
-
-var _MergeIntoConferenceIcon2 = _interopRequireDefault(_MergeIntoConferenceIcon);
-
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -186,10 +182,7 @@ function WebphoneButtons(_ref2) {
       webphoneReject = _ref2.webphoneReject,
       webphoneHangup = _ref2.webphoneHangup,
       webphoneResume = _ref2.webphoneResume,
-      showAnswer = _ref2.showAnswer,
-      showMergeCall = _ref2.showMergeCall,
-      disableMerge = _ref2.disableMerge,
-      onMergeCall = _ref2.onMergeCall;
+      showAnswer = _ref2.showAnswer;
 
   if (!session || !webphoneAnswer || !webphoneHangup) {
     return null;
@@ -197,10 +190,8 @@ function WebphoneButtons(_ref2) {
   var hangupFunc = webphoneHangup;
   var resumeFunc = webphoneResume;
   var endIcon = _End2.default;
-  var mergeIcon = _MergeIntoConferenceIcon2.default;
   var rejectTitle = _i18n2.default.getString('hangup', currentLocale);
   var acceptTitle = _i18n2.default.getString('accept', currentLocale);
-  var mergeTitle = _i18n2.default.getString('mergeToConference', currentLocale);
   if (session.direction === _callDirections2.default.inbound && session.callStatus === _sessionStatus2.default.connecting) {
     hangupFunc = webphoneReject;
     resumeFunc = webphoneAnswer;
@@ -210,22 +201,6 @@ function WebphoneButtons(_ref2) {
   return _react2.default.createElement(
     'div',
     { className: _styles2.default.webphoneButtons },
-    showMergeCall ? _react2.default.createElement(
-      'span',
-      { title: mergeTitle, className: _styles2.default.webphoneButton },
-      _react2.default.createElement(_CircleButton2.default, {
-        className: disableMerge ? (0, _classnames2.default)(_styles2.default.mergeButton, _styles2.default.disabled) : _styles2.default.mergeButton,
-        onClick: function onClick(e) {
-          e.stopPropagation();
-          onMergeCall();
-        },
-        iconWidth: 260,
-        iconX: 120,
-        icon: mergeIcon,
-        showBorder: true,
-        disabled: disableMerge
-      })
-    ) : null,
     _react2.default.createElement(
       'span',
       { title: rejectTitle, className: _styles2.default.webphoneButton },
@@ -264,10 +239,7 @@ WebphoneButtons.propTypes = {
   webphoneReject: _propTypes2.default.func,
   webphoneHangup: _propTypes2.default.func,
   webphoneResume: _propTypes2.default.func,
-  showAnswer: _propTypes2.default.bool,
-  disableMerge: _propTypes2.default.bool,
-  showMergeCall: _propTypes2.default.bool,
-  onMergeCall: _propTypes2.default.func
+  showAnswer: _propTypes2.default.bool
 };
 
 WebphoneButtons.defaultProps = {
@@ -276,10 +248,7 @@ WebphoneButtons.defaultProps = {
   webphoneReject: undefined,
   webphoneHangup: undefined,
   webphoneResume: undefined,
-  showAnswer: true,
-  disableMerge: false,
-  showMergeCall: false,
-  onMergeCall: undefined
+  showAnswer: true
 };
 
 var ActiveCallItem = function (_Component) {
@@ -590,9 +559,6 @@ var ActiveCallItem = function (_Component) {
           externalHasEntity = _props2.externalHasEntity,
           readTextPermission = _props2.readTextPermission,
           isOnConferenceCall = _props2.isOnConferenceCall,
-          showMergeCall = _props2.showMergeCall,
-          onMergeCall = _props2.onMergeCall,
-          disableMerge = _props2.disableMerge,
           hasActionMenu = _props2.hasActionMenu,
           showAnswer = _props2.showAnswer,
           avatarUrl = _props2.avatarUrl,
@@ -663,9 +629,6 @@ var ActiveCallItem = function (_Component) {
             webphoneReject: this.webphoneToVoicemail,
             webphoneHangup: webphoneHangup,
             webphoneResume: webphoneResume,
-            showMergeCall: showMergeCall,
-            onMergeCall: onMergeCall,
-            disableMerge: disableMerge,
             currentLocale: currentLocale,
             showAnswer: showAnswer
           }),
@@ -756,14 +719,11 @@ ActiveCallItem.propTypes = {
   externalHasEntity: _propTypes2.default.func,
   readTextPermission: _propTypes2.default.bool,
   isOnConferenceCall: _propTypes2.default.bool,
-  disableMerge: _propTypes2.default.bool,
   hasActionMenu: _propTypes2.default.bool,
   showAnswer: _propTypes2.default.bool,
   avatarUrl: _propTypes2.default.string,
   showAvatar: _propTypes2.default.bool,
-  showCallDetail: _propTypes2.default.bool,
-  showMergeCall: _propTypes2.default.bool,
-  onMergeCall: _propTypes2.default.func
+  showCallDetail: _propTypes2.default.bool
 };
 
 ActiveCallItem.defaultProps = {
@@ -792,13 +752,10 @@ ActiveCallItem.defaultProps = {
   externalHasEntity: undefined,
   readTextPermission: true,
   isOnConferenceCall: false,
-  disableMerge: false,
   hasActionMenu: true,
   showAnswer: true,
   avatarUrl: null,
   showAvatar: false,
-  showCallDetail: true,
-  showMergeCall: false,
-  onMergeCall: undefined
+  showCallDetail: true
 };
 //# sourceMappingURL=index.js.map
