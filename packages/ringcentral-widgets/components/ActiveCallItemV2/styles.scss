@@ -46,7 +46,7 @@ $padding-horizontal:20px;
     .disabled,
     .disabled * {
       circle {
-        fill: #c7c7c7;
+        fill: $smoke;
       }
       cursor: not-allowed;
     }
@@ -75,6 +75,21 @@ $padding-horizontal:20px;
         fill: $snow;
       }
     }
+  }
+}
+
+.callDetail {
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 5px;
+  color: #979797;
+  .label {
+    margin-right: 5px;
+  }
+  .split {
+    margin: 0 5px;
   }
 }
 

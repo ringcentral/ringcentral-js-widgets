@@ -35,7 +35,7 @@ export default class ActiveCallsPanel extends Component {
     );
   }
 
-  getCallList(calls, title) {
+  getCallList(calls, title, showCallDetail = false) {
     const {
       currentLocale,
       areaCode,
@@ -102,6 +102,7 @@ export default class ActiveCallsPanel extends Component {
         getAvatarUrl={getAvatarUrl}
         conferenceCallParties={conferenceCallParties}
         webphoneHold={webphoneHold}
+        showCallDetail={showCallDetail}
       />
     );
   }
@@ -135,7 +136,7 @@ export default class ActiveCallsPanel extends Component {
           {this.getCallList(activeRingCalls, i18n.getString('ringCall', currentLocale))}
           {this.getCallList(activeCurrentCalls, i18n.getString('currentCall', currentLocale))}
           {this.getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}
-          {this.getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale))}
+          {this.getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale), true)}
         </div>
         {showSpinner ? <SpinnerOverlay className={styles.spinner} /> : null}
       </div>

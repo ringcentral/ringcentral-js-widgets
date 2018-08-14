@@ -144,8 +144,9 @@ function mapToFunctions(_, {
         && conferenceCall.isConferenceSession(sessionId)
       );
     },
-    onCallItemClick() {
-      console.log('blabla');
+    onCallItemClick(call) {
+      webphone.changeSessionToView(call.webphoneSession.id);
+      routerInteraction.push(callCtrlRoute);
     },
     getAvatarUrl,
   };

@@ -13,6 +13,7 @@ import HoldIcon from '../../assets/images/Hold.svg';
 import VoicemailIcon from '../../assets/images/Voicemail.svg';
 import MergeIntoConferenceIcon from '../../assets/images/MergeIntoConferenceIcon.svg';
 import MediaObject from '../MediaObject';
+import DurationCounter from '../DurationCounter';
 
 import styles from './styles.scss';
 import i18n from '../ActiveCallItem/i18n';// Reuse the exsisting translations
@@ -20,7 +21,6 @@ import i18n from '../ActiveCallItem/i18n';// Reuse the exsisting translations
 function WebphoneButtons({
   currentLocale,
   session,
-  webphoneAnswer,
   webphoneReject,
   webphoneHangup,
   webphoneResume,
@@ -30,7 +30,7 @@ function WebphoneButtons({
   disableMerge,
   onMergeCall,
 }) {
-  if (!session || !webphoneAnswer || !webphoneHangup) {
+  if (!session) {
     return null;
   }
   let hangupFunc = webphoneHangup;
@@ -138,7 +138,6 @@ function WebphoneButtons({
 WebphoneButtons.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   session: PropTypes.object,
-  webphoneAnswer: PropTypes.func,
   webphoneReject: PropTypes.func,
   webphoneHangup: PropTypes.func,
   webphoneResume: PropTypes.func,
@@ -151,7 +150,6 @@ WebphoneButtons.propTypes = {
 
 WebphoneButtons.defaultProps = {
   session: undefined,
-  webphoneAnswer: undefined,
   webphoneReject: undefined,
   webphoneHangup: undefined,
   webphoneResume: undefined,
@@ -188,14 +186,31 @@ export default class ActiveCallItem extends Component {
     };
   }
 
-  componentDidMount() {
-    this._mounted = true;
+  setAvatar() {
     const {
       getAvatarUrl, call, isOnConferenceCall, conferenceCallParties
     } = this.props;
-    let contact = call.webphoneSession.contactMatch;
 
-    this.mounted = true;
+    if (isOnConferenceCall) {
+      this.setState({
+        avatarUrl: conferenceCallParties.map(profile => profile.avatarUrl)[0],
+        extraNum: conferenceCallParties.length > 0 ? conferenceCallParties.length - 1 : 0
+      });
+      return;
+    }
+
+    if (!call.webphoneSession) {
+      const nameMatches = call.toMatches || [];
+      const contact = nameMatches && nameMatches[0];
+      getAvatarUrl(contact).then((avatarUrl) => {
+        if (this._mounted) {
+          this.setState({ avatarUrl });
+        }
+      });
+      return;
+    }
+
+    let contact = call.webphoneSession.contactMatch;
 
     if (!contact) {
       const nameMatches = call.toMatches || [];
@@ -203,16 +218,16 @@ export default class ActiveCallItem extends Component {
     }
     if (!isOnConferenceCall) {
       getAvatarUrl(contact).then((avatarUrl) => {
-        if (this.mounted) {
+        if (this._mounted) {
           this.setState({ avatarUrl });
         }
       });
-    } else {
-      this.setState({
-        avatarUrl: conferenceCallParties.map(profile => profile.avatarUrl)[0],
-        extraNum: conferenceCallParties.length > 0 ? conferenceCallParties.length - 1 : 0
-      });
     }
+  }
+
+  componentDidMount() {
+    this._mounted = true;
+    this.setAvatar();
   }
 
   componentWillUnmount() {
@@ -221,6 +236,38 @@ export default class ActiveCallItem extends Component {
       clearTimeout(this.toVoicemailTimeout);
       this.toVoicemailTimeout = null;
     }
+  }
+
+  getCallInfo() {
+    const {
+      call: {
+        telephonyStatus,
+        startTime,
+        offset,
+      },
+      disableLinks,
+      currentLocale,
+      showCallDetail,
+    } = this.props;
+
+    if (!showCallDetail) {
+      return null;
+    }
+
+    const telephonyStatusInfo = i18n.getString(telephonyStatus, currentLocale);
+    return (
+      <div className={styles.callDetail}>
+        {
+          disableLinks ?
+            i18n.getString('unavailable', currentLocale) :
+            <DurationCounter startTime={startTime} offset={offset} />
+        }
+        <span className={styles.split}>|</span>
+        <span title={telephonyStatusInfo}>
+          {telephonyStatusInfo}
+        </span>
+      </div>
+    );
   }
 
   getFallbackContactName() {
@@ -278,7 +325,6 @@ export default class ActiveCallItem extends Component {
       isLogging,
       brand,
       showContactDisplayPlaceholder,
-      webphoneAnswer,
       webphoneHangup,
       webphoneResume,
       sourceIcons,
@@ -292,6 +338,7 @@ export default class ActiveCallItem extends Component {
       showHold,
       disableMerge,
       onMergeCall,
+      showCallDetail,
     } = this.props;
 
     const { avatarUrl, extraNum } = this.state;
@@ -317,37 +364,39 @@ export default class ActiveCallItem extends Component {
             </div>
         }
           mediaBody={
-            <ContactDisplay
-              isOnConferenceCall={isOnConferenceCall}
-              contactName={contactName}
-              className={
+            <div>
+              <ContactDisplay
+                isOnConferenceCall={isOnConferenceCall}
+                contactName={contactName}
+                className={
                 isOnConferenceCall
                   ? classnames(styles.conferenceContactDisplay)
                   : classnames(styles.contactDisplay, contactDisplayStyle)
               }
-              contactMatches={contactMatches}
-              selected={this.state.selected}
-              onSelectContact={this.onSelectContact}
-              disabled={disableLinks}
-              isLogging={isLogging || this.state.isLogging}
-              fallBackName={fallbackContactName}
-              enableContactFallback={enableContactFallback}
-              areaCode={areaCode}
-              countryCode={countryCode}
-              phoneNumber={phoneNumber}
-              currentLocale={currentLocale}
-              brand={brand}
-              showPlaceholder={showContactDisplayPlaceholder}
-              showType={false}
-              sourceIcons={sourceIcons}
-              stopPropagation
-          />
+                contactMatches={contactMatches}
+                selected={this.state.selected}
+                onSelectContact={this.onSelectContact}
+                disabled={disableLinks}
+                isLogging={isLogging || this.state.isLogging}
+                fallBackName={fallbackContactName}
+                enableContactFallback={enableContactFallback}
+                areaCode={areaCode}
+                countryCode={countryCode}
+                phoneNumber={phoneNumber}
+                currentLocale={currentLocale}
+                brand={brand}
+                showPlaceholder={showContactDisplayPlaceholder}
+                showType={false}
+                sourceIcons={sourceIcons}
+                stopPropagation
+              />
+              {showCallDetail ? this.getCallInfo() : null}
+            </div>
         }
           mediaRight={
             <div>
               <WebphoneButtons
                 session={webphoneSession}
-                webphoneAnswer={webphoneAnswer}
                 webphoneReject={this.webphoneToVoicemail}
                 webphoneHangup={webphoneHangup}
                 webphoneResume={webphoneResume}
@@ -392,7 +441,6 @@ ActiveCallItem.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   disableLinks: PropTypes.bool,
   isLogging: PropTypes.bool,
-  webphoneAnswer: PropTypes.func,
   webphoneReject: PropTypes.func,
   webphoneHangup: PropTypes.func,
   webphoneResume: PropTypes.func,
@@ -414,12 +462,12 @@ ActiveCallItem.propTypes = {
   showHold: PropTypes.bool,
   disableMerge: PropTypes.bool,
   onMergeCall: PropTypes.func,
+  showCallDetail: PropTypes.bool,
 };
 
 ActiveCallItem.defaultProps = {
   isLogging: false,
   disableLinks: false,
-  webphoneAnswer: undefined,
   webphoneReject: undefined,
   webphoneHangup: undefined,
   webphoneResume: undefined,
@@ -441,4 +489,5 @@ ActiveCallItem.defaultProps = {
   showHold: true,
   disableMerge: false,
   onMergeCall: i => i,
+  showCallDetail: false,
 };

@@ -211,6 +211,17 @@ export function getSessionsReducer(types) {
   };
 }
 
+function getSessionIdToViewReducer(types) {
+  return (state = null, { type, sessionId }) => {
+    switch (type) {
+      case types.changeSessionToView:
+        return sessionId;
+      default:
+        return state;
+    }
+  };
+}
+
 export default function getWebphoneReducer(types) {
   return combineReducers({
     status: getModuleStatusReducer(types),
@@ -223,5 +234,6 @@ export default function getWebphoneReducer(types) {
     ringSessionId: getRingSessionIdReducer(types),
     sessions: getSessionsReducer(types),
     lastEndedSessions: getLastEndedSessionsReducer(types),
+    sessionIdToView: getSessionIdToViewReducer(types),
   });
 }

@@ -169,6 +169,20 @@ export default class Webphone extends RcModule {
       }
     );
 
+    this.addSelector('sessionToView',
+      () => this.sessionIdToView,
+      () => this.sessions,
+      (sessionIdToView, sessions) => {
+        if (!sessionIdToView) {
+          return null;
+        }
+        const sessionToView = sessions.find(
+          session => session.id === sessionIdToView
+        );
+        return sessionToView;
+      }
+    );
+
     this.addSelector('ringSessions',
       () => this.sessions,
       sessions => sessions.filter(session => isRing(session))
@@ -1315,6 +1329,20 @@ export default class Webphone extends RcModule {
     return false;
   }
 
+  /**
+   * FIXME: This method is for viewing the call control page not only the active call,
+   * of course the best practice is to get this by router like RESTful deisgn-exposing this
+   * method to the router, let router decide the call to view, but for the sake of compatibility,
+   * exposing this method to pages.
+   * @param {object} session
+   */
+  changeSessionToView(sessionId) {
+    this.store.dispatch({
+      type: this.actionTypes.changeSessionToView,
+      sessionId,
+    });
+  }
+
   get status() {
     return this.state.status;
   }
@@ -1339,11 +1367,19 @@ export default class Webphone extends RcModule {
     return this.state.activeSessionId;
   }
 
+  get sessionIdToView() {
+    return this.state.sessionIdToView;
+  }
+
   /**
    * Current active session(Outbound and InBound that answered)
    */
   get activeSession() {
     return this._selectors.activeSession();
+  }
+
+  get sessionToView() {
+    return this._selectors.sessionToView();
   }
 
   /**

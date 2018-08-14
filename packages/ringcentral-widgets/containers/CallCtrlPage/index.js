@@ -314,7 +314,7 @@ function mapToProps(_, {
   },
   layout = callCtrlLayouts.normalCtrl,
 }) {
-  const currentSession = webphone.activeSession || {};
+  const currentSession = webphone.sessionToView || webphone.activeSession || {};
   const contactMapping = contactMatcher && contactMatcher.dataMapping;
   const fromMatches = (contactMapping && contactMapping[currentSession.from]) || [];
   const toMatches = (contactMapping && contactMapping[currentSession.to]) || [];
