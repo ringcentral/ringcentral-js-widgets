@@ -206,8 +206,7 @@ export default function SettingsPanel({
     >
       {i18n.getString('autoLogSMS', currentLocale)}
     </IconLine>
-  ) :
-    null;
+  ) : null;
   const header = showHeader ? (
     <Header>
       {i18n.getString('settings', currentLocale)}
@@ -319,7 +318,7 @@ SettingsPanel.propTypes = {
   saveLocale: PropTypes.func,
   onFeedbackSettingsLinkClick: PropTypes.func.isRequired,
   onUserGuideClick: PropTypes.func.isRequired,
-  showUserGuide: PropTypes.bool
+  showUserGuide: PropTypes.bool,
 };
 SettingsPanel.defaultProps = {
   className: null,
