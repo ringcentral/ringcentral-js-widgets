@@ -535,7 +535,7 @@ CallsListPanel.defaultProps = {
   onSaveNotification: undefined,
   onExpandNotification: undefined,
   showSaveLogBtn: true,
-  showNotiLogButton: undefined,
+  showNotiLogButton: true,
   sectionContainerStyles: undefined,
   sectionModalStyles: undefined,
   notificationContainerStyles: undefined,
