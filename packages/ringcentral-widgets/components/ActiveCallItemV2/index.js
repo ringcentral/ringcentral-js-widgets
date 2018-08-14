@@ -177,21 +177,6 @@ export default class ActiveCallItem extends Component {
     this._userSelection = false;
     this.contactDisplay = null;
 
-    this.toggleExtended = (e) => {
-      if (this.props.isOnConferenceCall) {
-        return;
-      }
-      if ((
-        this.contactDisplay &&
-        this.contactDisplay.contains(e.target))
-      ) {
-        return;
-      }
-      this.setState(preState => ({
-        extended: !preState.extended,
-      }));
-    };
-
     this.webphoneToVoicemail = (sessionId) => {
       if (typeof this.props.webphoneToVoicemail !== 'function') {
         return;
