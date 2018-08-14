@@ -10,6 +10,11 @@ $calleeAvatarSize: 30px;
 $calleeAvatarActiveSize: 45px;
 $calleeAvatarMarginL: ($calleeAvatarActiveSize - $calleeAvatarSize)/2;
 $fontSize:15px;
+$borderWidth:2px;
+* {
+  box-sizing: border-box;
+}
+
 .root {
   @include full-size;
   box-sizing: border-box;
@@ -122,7 +127,7 @@ $fontSize:15px;
       display: inline-block;
       width: $conferenceAvatarSize;
       height: $conferenceAvatarSize;
-      line-height: $conferenceAvatarSize;
+      line-height: $conferenceAvatarSize - $borderWidth*2;
       border-radius: 100%;
       vertical-align: middle;
       padding: 0;
@@ -139,7 +144,7 @@ $fontSize:15px;
     .remains {
       color: $snow;
       background-color: $smoke;
-      border: 2px solid $snow;
+      border: $borderWidth solid $snow;
     }
     .avatar+.avatar {
       margin-left: -20px;
