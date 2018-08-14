@@ -16,6 +16,5 @@ export default {
   language: 'Language',
   feedback: 'Feedback',
   userGuide: "What\'s New",
-  autoCreateTicket: "Auto Create ticket",
 };
 
