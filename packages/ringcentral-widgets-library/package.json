@@ -5,14 +5,18 @@
   "license": "MIT",
   "description": "RingCentral Integration UI Component Library",
   "devDependencies": {
-    "@storybook/react": "^3.4.8",
-    "babel-core": "^6.26.3",
-    "webpack": "^4.16.1",
-    "yargs": "^11.1.0",
     "@storybook/addon-actions": "^3.4.8",
+    "@storybook/addon-info": "^3.4.10",
     "@storybook/addon-links": "^3.4.8",
     "@storybook/addons": "^3.4.8",
-    "babel-runtime": "^6.26.0"
+    "@storybook/react": "^3.4.8",
+    "babel-core": "^6.26.3",
+    "babel-runtime": "^6.26.0",
+    "css-loader": "^1.0.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.22.1",
+    "webpack": "^4.16.1",
+    "yargs": "^11.1.0"
   },
   "scripts": {
     "eslint": "eslint --quiet .",
@@ -20,6 +24,8 @@
     "start": "start-storybook -p 6006 -c ./app/.storybook"
   },
   "dependencies": {
+    "classnames": "^2.2.6",
+    "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1"
   }
