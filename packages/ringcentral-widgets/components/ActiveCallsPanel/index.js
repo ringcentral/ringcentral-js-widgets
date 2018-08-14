@@ -61,8 +61,8 @@ export default class ActiveCallsPanel extends Component {
       sourceIcons,
       activeCurrentCalls,
       isWebRTC,
-      conferenceCallEquipped,
       isSessionAConferenceCall,
+      onCallItemClick,
     } = this.props;
 
     return (
@@ -92,9 +92,10 @@ export default class ActiveCallsPanel extends Component {
         enableContactFallback={enableContactFallback}
         sourceIcons={sourceIcons}
         isWebRTC={isWebRTC}
-        conferenceCallEquipped={conferenceCallEquipped}
         currentCall={activeCurrentCalls[0]}
         isSessionAConferenceCall={isSessionAConferenceCall}
+        useV2={isWebRTC}// TODO: Maybe we should make all the call item consistent
+        onCallItemClick={onCallItemClick}
       />
     );
   }
@@ -166,9 +167,9 @@ ActiveCallsPanel.propTypes = {
   onCallsEmpty: PropTypes.func,
   sourceIcons: PropTypes.object,
   isWebRTC: PropTypes.bool.isRequired,
-  conferenceCallEquipped: PropTypes.bool,
   showSpinner: PropTypes.bool,
   isSessionAConferenceCall: PropTypes.func,
+  onCallItemClick: PropTypes.func,
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -192,7 +193,7 @@ ActiveCallsPanel.defaultProps = {
   autoLog: false,
   onCallsEmpty: undefined,
   sourceIcons: undefined,
-  conferenceCallEquipped: false,
   showSpinner: false,
   isSessionAConferenceCall: () => false,
+  onCallItemClick: false,
 };

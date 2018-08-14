@@ -49,7 +49,6 @@ function mapToProps(_, {
     showContactDisplayPlaceholder,
     autoLog: !!(callLogger && callLogger.autoLog),
     isWebRTC,
-    conferenceCallEquipped,
     disableMerge,
     conferenceCallParties: conferenceCall ? conferenceCall.partyProfiles : null,
   };
@@ -157,6 +156,9 @@ function mapToFunctions(_, {
         && conferenceCall.isConferenceSession(sessionId)
       );
     },
+    onCallItemClick() {
+      console.log('blabla');
+    }
   };
 }
 

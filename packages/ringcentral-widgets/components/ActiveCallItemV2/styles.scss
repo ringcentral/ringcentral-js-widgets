@@ -1,0 +1,71 @@
+@import '../../lib/commonStyles/colors';
+$fixed-avatar-width:35px;
+$padding-horizontal:20px;
+.callItemContainer {
+  padding: $padding-horizontal/2 $padding-horizontal $padding-horizontal*3/4;
+  .avatar {
+    width: $fixed-avatar-width;
+    height: $fixed-avatar-width;
+    border-radius: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    color: $primary-color;
+    overflow: hidden;
+    .icon {
+      display: block;
+      font-size: $fixed-avatar-width;
+      opacity: 0.3;
+    }
+  }
+  .webphoneButton {
+    &:not(:last-of-type) {
+      margin-right: $padding-horizontal/2;
+    }
+    .holdButton,
+    .rejectButton {
+      width: 24px;
+    }
+    .rejectButton {
+      g,
+      path {
+        fill: $snow;
+      }
+    }
+    .disabled,
+    .disabled * {
+      circle {
+        fill: #c7c7c7;
+      }
+      cursor: not-allowed;
+    }
+    .rejectButton {
+      circle {
+        fill: #ff4646;
+      }
+    }
+    .holdButton {
+      circle {
+        fill: $snow;
+        stroke: $primary-color;
+        stroke-width: 15px;
+      }
+      g,
+      path {
+        fill: $primary-color;
+      }
+    }
+    .holdButton.active {
+      circle {
+        fill: $primary-color;
+      }
+      g,
+      path {
+        fill: $snow;
+      }
+    }
+  }
+}
+
+.pointer {
+  cursor: pointer;
+}
