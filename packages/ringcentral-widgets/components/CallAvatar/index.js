@@ -127,7 +127,7 @@ class CallAvatar extends Component {
               <text
                 x="0"
                 y="0"
-                dy="29px"
+                dy={`${initialSize - 10}px`}
                 style={{
                       fontSize: `${avatarCircleRadius * 2}px`,
                       fill: $blue,
@@ -212,7 +212,7 @@ class CallAvatar extends Component {
               <text
                 x="0"
                 y="0"
-                dy="29px"
+                dy={`${initialSize - 10}px`}
                 dx="2"
                 style={{
                       fontSize: `${(initialSize / 2 - 2) * 2}px`,
