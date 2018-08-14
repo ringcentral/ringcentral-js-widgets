@@ -1,4 +1,5 @@
 import RcModule from 'ringcentral-integration/lib/RcModule';
+import { Module } from 'ringcentral-integration/lib/di';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
 import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import moduleStatuses from 'ringcentral-integration/enums/moduleStatuses';
@@ -9,19 +10,29 @@ import baseActionTypes from './baseActionTypes';
 import getDefaultGlobalStorageReducer from './getDefaultGlobalStorageReducer';
 import IframeMessageTransport from '../IframeMessageTransport';
 
-
+@Module({
+  deps: [
+    'CallingSettings',
+    'GlobalStorage',
+    'Locale',
+    'Presence',
+    'RouterInteraction',
+    'Storage',
+    'Webphone',
+  ]
+})
 export default class AdapterModuleCore extends RcModule {
   constructor({
     prefix,
     storageKey = 'adapterCore',
     messageTypes = baseMessageTypes,
     actionTypes = baseActionTypes,
-    webphone,
-    presence,
-    locale,
     callingSettings,
-    routerInteraction,
     globalStorage,
+    locale,
+    presence,
+    routerInteraction,
+    webphone,
     getGlobalStorageReducer = getDefaultGlobalStorageReducer,
     messageTransport = new IframeMessageTransport({
       targetWindow: window.parent,

@@ -39,11 +39,36 @@ export function getEndedCallsReducer(types) {
   };
 }
 
+export function getSearchInputReducer(types) {
+  return (state = '', { type, input = '' }) => {
+    switch (type) {
+      case types.updateSearchInput:
+        return input;
+      case types.resetSuccess:
+        return '';
+      default:
+        return state;
+    }
+  };
+}
+
+export function getCallsFilterReducer(types) {
+  return (state = [], { type, data = [] }) => {
+    switch (type) {
+      case types.filterSuccess:
+        return data;
+      default:
+        return state;
+    }
+  };
+}
 
 /* istanbul ignore next: unnecessary to test getModuleStatusReducer */
 export default function getCallHistoryReducer(types, reducers) {
   return combineReducers({
     ...reducers,
+    searchInput: getSearchInputReducer(types),
+    filterCalls: getCallsFilterReducer(types),
     status: getModuleStatusReducer(types),
   });
 }

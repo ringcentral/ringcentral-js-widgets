@@ -1,15 +1,17 @@
 export default {
-  unmute: 'Stummsch. aufh.',
-  mute: 'Stummsch.',
-  keypad: 'Wählfeld',
-  hold: 'Halten',
-  onHold: 'Wird gehalten',
-  park: 'Parken',
-  stopRecord: 'Stoppen',
-  record: 'Aufzeichnen',
-  add: 'Hinzufügen',
-  transfer: 'Weiterleitung',
-  flip: 'Umlegen',
+  unmute: "Stummsch. aufh.",
+  mute: "Stummsch.",
+  keypad: "Wählfeld",
+  hold: "Halten",
+  onHold: "Wird gehalten",
+  park: "Parken",
+  stopRecord: "Stoppen",
+  record: "Aufzeichnen",
+  add: "Hinzufügen",
+  transfer: "Weiterleitung",
+  flip: "Umlegen",
+  more: "Anrufaktionen",
+  mergeToConference: "Zusammenfügen"
 };
 
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
@@ -23,3 +25,5 @@ export default {
 // @key: @#@"add"@#@ @source: @#@"Add"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"flip"@#@ @source: @#@"Flip"@#@
+// @key: @#@"more"@#@ @source: @#@"Call Actions"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@

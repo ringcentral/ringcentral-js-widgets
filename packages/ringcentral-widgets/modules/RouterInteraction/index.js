@@ -69,6 +69,11 @@ export default class RouterInteraction extends RcModule {
     this._history.goBack(...args);
   }
 
+  @proxify
+  async go(...args) {
+    this._history.go(...args);
+  }
+
   get actionTypes() {
     return {
       locationChange: LOCATION_CHANGE

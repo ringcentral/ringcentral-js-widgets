@@ -125,6 +125,7 @@ export default class ConversationsPanel extends Component {
       previewFaxMessages,
       loadNextPage,
       loadingNextPage,
+      renderExtraButton,
     } = this.props;
     if (showSpinner) {
       return (<SpinnerOverlay />);
@@ -199,6 +200,7 @@ export default class ConversationsPanel extends Component {
           loadNextPage={loadNextPage}
           loadingNextPage={loadingNextPage}
           typeFilter={typeFilter}
+          renderExtraButton={renderExtraButton}
         />
       </div>
     );
@@ -282,6 +284,7 @@ ConversationsPanel.propTypes = {
   loadNextPage: PropTypes.func.isRequired,
   loadingNextPage: PropTypes.bool,
   onUnmount: PropTypes.func,
+  renderExtraButton: PropTypes.func,
 };
 
 ConversationsPanel.defaultProps = {
@@ -314,4 +317,5 @@ ConversationsPanel.defaultProps = {
   previewFaxMessages: undefined,
   loadingNextPage: false,
   onUnmount: undefined,
+  renderExtraButton: undefined,
 };

@@ -3,64 +3,23 @@ import { Module } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
 import moduleStatuses from '../../enums/moduleStatuses';
 import actionTypes from './actionTypes';
-import callDirections from '../../enums/callDirections';
+import calleeTypes from '../../enums/calleeTypes';
+import sessionStatus from '../Webphone/sessionStatus';
 import getCallMonitorReducer, { getCallMatchedReducer } from './getCallMonitorReducer';
+import ensureExist from '../../lib/ensureExist';
 import normalizeNumber from '../../lib/normalizeNumber';
+import { matchWephoneSessionWithAcitveCall } from './callMonitorHelper';
 import {
   isRinging,
   hasRingingCalls,
   sortByStartTime,
 } from '../../lib/callLogHelpers';
-import ensureExist from '../../lib/ensureExist';
-import { isRing, isOnHold, sortByLastHoldingTimeDesc, isConferenceSession } from '../Webphone/webphoneHelper';
-
-function matchWephoneSessionWithAcitveCall(sessions, callItem) {
-  if (!sessions || !callItem.sipData) {
-    return undefined;
-  }
-  return sessions.find((session) => {
-    if (session.direction !== callItem.direction) {
-      return false;
-    }
-
-    /**
-     * Hack: for conference call, the `to` field is Conference,
-     * and the callItem's id won't change. According to `sip.js/src/session.js`
-     * the `InviteClientContext`'s id will always begin with callItem's id.
-     */
-    if (callItem.toName && callItem.toName.toLowerCase() === 'conference') {
-      return session.id.indexOf(callItem.id) === 0;
-    }
-
-    if (
-      session.direction === callDirections.inbound &&
-      callItem.sipData.remoteUri.indexOf(session.from) === -1
-    ) {
-      return false;
-    }
-    if (
-      session.direction === callDirections.outbound &&
-      callItem.sipData.remoteUri.indexOf(session.to) === -1
-    ) {
-      return false;
-    }
-    let webphoneStartTime;
-    if (session.direction === callDirections.inbound) {
-      webphoneStartTime = session.creationTime;
-    } else {
-      webphoneStartTime = session.startTime || session.creationTime;
-    }
-    // 16000 is from experience in test.
-    // there is delay bettween active call created and webphone session created
-    // for example, the time delay is decided by when webphone get invite info
-    if (
-      Math.abs(callItem.startTime - webphoneStartTime) > 16000
-    ) {
-      return false;
-    }
-    return true;
-  });
-}
+import {
+  isRing,
+  isOnHold,
+  isConferenceSession,
+  sortByLastActiveTimeDesc,
+} from '../Webphone/webphoneHelper';
 
 /**
  * @class
@@ -74,6 +33,7 @@ function matchWephoneSessionWithAcitveCall(sessions, callItem) {
     { dep: 'ContactMatcher', optional: true },
     { dep: 'Webphone', optional: true },
     { dep: 'Call', optional: true },
+    { dep: 'ConferenceCall', optional: true },
     { dep: 'ActivityMatcher', optional: true },
     { dep: 'CallMonitorOptions', optional: true },
     { dep: 'TabManager', optional: true },
@@ -84,6 +44,7 @@ export default class CallMonitor extends RcModule {
    * @constructor
    * @param {Object} params - params object
    * @param {Call} params.call - call module instance
+   * @param {ConferenceCall} params.conferenceCall - conference call module instance
    * @param {AccountInfo} params.accountInfo - accountInfo module instance
    * @param {DetailedPresence} params.detailedPresence - detailedPresence module instance
    * @param {ActivityMatcher} params.activityMatcher - activityMatcher module instance
@@ -97,6 +58,7 @@ export default class CallMonitor extends RcModule {
    */
   constructor({
     call,
+    conferenceCall,
     accountInfo,
     detailedPresence,
     activityMatcher,
@@ -115,6 +77,7 @@ export default class CallMonitor extends RcModule {
       actionTypes,
     });
     this._call = call;
+    this._conferenceCall = conferenceCall;
     this._accountInfo = this::ensureExist(accountInfo, 'accountInfo');
     this._detailedPresence = this::ensureExist(detailedPresence, 'detailedPresence');
     this._contactMatcher = contactMatcher;
@@ -188,20 +151,14 @@ export default class CallMonitor extends RcModule {
             webphoneSession,
           };
         }).sort((l, r) => (
-          sortByLastHoldingTimeDesc(l.webphoneSession, r.webphoneSession)
-        )).filter((callItem) => {
-          // filtering out the conferece during merging
-          if (cachedCalls.length) {
-            return !isConferenceSession(callItem.webphoneSession);
-          }
-          return true;
-        });
+          sortByLastActiveTimeDesc(l.webphoneSession, r.webphoneSession)
+        ));
 
         return _normalizedCalls;
       },
     );
 
-    this.addSelector('calls',
+    this.addSelector('allCalls',
       this._selectors.normalizedCalls,
       () => (this._contactMatcher && this._contactMatcher.dataMapping),
       () => (this._activityMatcher && this._activityMatcher.dataMapping),
@@ -224,6 +181,21 @@ export default class CallMonitor extends RcModule {
         return calls;
       }
     );
+
+    this.addSelector('calls',
+      this._selectors.allCalls,
+      () => this._conferenceCall && this._conferenceCall.isMerging,
+      (calls, isMerging) => (
+        calls.filter((callItem) => {
+          // filtering out the conferece during merging
+          if (isMerging) {
+            return !isConferenceSession(callItem.webphoneSession);
+          }
+          return true;
+        })
+      ),
+    );
+
 
     this.addSelector('activeRingCalls',
       this._selectors.calls,
@@ -327,6 +299,90 @@ export default class CallMonitor extends RcModule {
       calls => calls.map(callItem => callItem.sessionId)
     );
 
+    let _fromSessionId;
+    let _lastCallInfo;
+    this.addSelector('lastCallInfo',
+      this._selectors.allCalls,
+      () => this._conferenceCall && this._conferenceCall.mergingPair.fromSessionId,
+      () => this._conferenceCall && this._conferenceCall.partyProfiles,
+      (calls, fromSessionId, partyProfiles) => {
+        if (!fromSessionId) {
+          _lastCallInfo = null;
+          return _lastCallInfo;
+        }
+
+        const lastCall = calls.find(
+          call => call.webphoneSession && call.webphoneSession.id === fromSessionId
+        );
+
+        let lastCalleeType;
+        if (lastCall) {
+          if (lastCall.toMatches.length) {
+            lastCalleeType = calleeTypes.contacts;
+          } else if (isConferenceSession(lastCall.webphoneSession)) {
+            lastCalleeType = calleeTypes.conference;
+          } else {
+            lastCalleeType = calleeTypes.unknow;
+          }
+        } else if (
+          _fromSessionId === fromSessionId
+          && _lastCallInfo && _lastCallInfo.calleeType
+        ) {
+          _lastCallInfo = {
+            ..._lastCallInfo,
+            status: sessionStatus.finished,
+          };
+          return _lastCallInfo;
+        } else {
+          return {
+            calleeType: calleeTypes.unknow,
+          };
+        }
+
+        let partiesAvatarUrls = null;
+        if (lastCalleeType === calleeTypes.conference) {
+          partiesAvatarUrls = (partyProfiles || []).map(profile => profile.avatarUrl);
+        }
+        switch (lastCalleeType) {
+          case calleeTypes.conference:
+            _lastCallInfo = {
+              calleeType: calleeTypes.conference,
+              avatarUrl: partiesAvatarUrls[0],
+              extraNum: partiesAvatarUrls.length - 1,
+              name: null,
+              phoneNumber: null,
+              status: lastCall.webphoneSession.callStatus,
+              lastCallContact: null,
+            };
+            break;
+          case calleeTypes.contacts:
+            _lastCallInfo = {
+              calleeType: calleeTypes.contacts,
+              avatarUrl: lastCall.toMatches[0].profileImageUrl,
+              name: lastCall.toMatches[0].name,
+              status: lastCall.webphoneSession.callStatus,
+              phoneNumber: lastCall.to.phoneNumber,
+              extraNum: 0,
+              lastCallContact: lastCall.toMatches[0],
+            };
+            break;
+          default:
+            _lastCallInfo = {
+              calleeType: calleeTypes.unknow,
+              avatarUrl: null,
+              name: null,
+              status: lastCall.webphoneSession ? lastCall.webphoneSession.callStatus : null,
+              phoneNumber: lastCall.to.phoneNumber,
+              extraNum: 0,
+              lastCallContact: null,
+            };
+        }
+
+        _fromSessionId = fromSessionId;
+        return _lastCallInfo;
+      },
+    );
+
     if (this._activityMatcher) {
       this._activityMatcher.addQuerySource({
         getQueriesFn: this._selectors.sessionIds,
@@ -342,6 +398,7 @@ export default class CallMonitor extends RcModule {
   async _onStateChange() {
     if (
       (!this._call || this._call.ready) &&
+      (!this._conferenceCall || this._conferenceCall.ready) &&
       this._accountInfo.ready &&
       this._detailedPresence.ready &&
       (!this._contactMatcher || this._contactMatcher.ready) &&
@@ -359,6 +416,7 @@ export default class CallMonitor extends RcModule {
     } else if (
       (
         (this._call && !this._call.ready) ||
+        (this._conferenceCall && !this._conferenceCall.ready) ||
         !this._accountInfo.ready ||
         !this._detailedPresence.ready ||
         (this._contactMatcher && !this._contactMatcher.ready) ||
@@ -524,5 +582,9 @@ export default class CallMonitor extends RcModule {
 
   get otherDeviceCalls() {
     return this._selectors.otherDeviceCalls();
+  }
+
+  get lastCallInfo() {
+    return this._selectors.lastCallInfo();
   }
 }

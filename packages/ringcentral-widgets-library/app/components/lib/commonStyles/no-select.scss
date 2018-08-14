@@ -1,0 +1,4 @@
+@mixin no-select {
+  user-select: none;
+  user-drag: none;
+}

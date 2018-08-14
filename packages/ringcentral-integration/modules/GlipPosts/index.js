@@ -199,9 +199,18 @@ export default class GlipPosts extends RcModule {
   }
 
   async create({ groupId }) {
-    const text = this.postInputs[groupId] && this.postInputs[groupId].text;
+    let text = this.postInputs[groupId] && this.postInputs[groupId].text;
+    const mentions = this.postInputs[groupId] && this.postInputs[groupId].mentions;
     if (isBlank(text) || !groupId) {
       return;
+    }
+    if (mentions && mentions.length > 0) {
+      mentions.forEach((mention) => {
+        if (!mention.matcherId) {
+          return;
+        }
+        text = text.replace(mention.mention, `![:Person](${mention.matcherId})`);
+      });
     }
     const fakeId = `${Date.now()}`;
     const fakeRecord = {
@@ -219,7 +228,7 @@ export default class GlipPosts extends RcModule {
         groupId,
         record: fakeRecord,
       });
-      this.updatePostInput({ text: '', groupId });
+      this.updatePostInput({ text: '', groupId, mentions: [] });
       const record = await this._client.glip().groups(groupId).posts().post({
         text,
       });
@@ -237,7 +246,7 @@ export default class GlipPosts extends RcModule {
         groupId,
         oldRecordId: fakeId,
       });
-      this.updatePostInput({ text, groupId });
+      this.updatePostInput({ text, groupId, mentions });
     }
   }
 
@@ -270,10 +279,11 @@ export default class GlipPosts extends RcModule {
     });
   }
 
-  updatePostInput({ text, groupId }) {
+  updatePostInput({ text, groupId, mentions }) {
     this.store.dispatch({
       type: this.actionTypes.updatePostInput,
       groupId,
+      mentions,
       textValue: text,
     });
   }

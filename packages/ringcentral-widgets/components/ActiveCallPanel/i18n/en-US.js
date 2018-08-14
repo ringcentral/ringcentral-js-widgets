@@ -1,5 +1,8 @@
 export default {
   conferenceCall: 'Conference Call',
   onHold: 'On Hold',
-  unknow: 'Unknown'
+  unknow: 'Unknown',
+  disconnected: 'Disconnected',
+  loading: 'Loading ...',
+  loadingTimeout: 'Loading timeout.'
 };

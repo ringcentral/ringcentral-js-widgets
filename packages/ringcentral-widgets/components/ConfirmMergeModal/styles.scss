@@ -4,19 +4,11 @@ $avatarWidth: 38px;
 $avatarMargin: 10px;
 
 .confirmMergeModal {
-  min-width: 190px;
   top:0;
   bottom:0;
   left:0;
   right:0;
   margin: auto;
-
-  .header{
-    text-align: center;
-    background-color: $egg;
-    font-size: 13px;
-    padding: 8px 0;
-  }
 
   .contentText {
     font-weight: bold;
@@ -26,18 +18,13 @@ $avatarMargin: 10px;
     }
   }
 
-  .cancelBtn {
+  .footer{
     display: none;
-  }
 
-  .confirmBtn {
-    display: none;
-  }
-
-  .closeBtn {
-    position: absolute;
-    top: 8px;
-    right: 11px;
+    .cancelBtn,
+    .confirmBtn {
+      display: none;
+    }
   }
 
   .content{

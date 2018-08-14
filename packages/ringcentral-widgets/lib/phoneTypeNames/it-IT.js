@@ -1,14 +1,14 @@
 import phoneTypes from '../../enums/phoneTypes';
 
 export default {
-  [phoneTypes.business]: 'Telefono azienda',
-  [phoneTypes.extension]: 'Interno',
-  [phoneTypes.home]: 'Numero casa',
-  [phoneTypes.mobile]: 'Telefono cellulare',
-  [phoneTypes.phone]: 'Telefono',
-  [phoneTypes.unknown]: 'Tipo di telefono sconosciuto',
-  [phoneTypes.company]: 'Numero aziendale',
-  [phoneTypes.direct]: 'Numero diretto',
+  [phoneTypes.business]: "Telefono azienda",
+  [phoneTypes.extension]: "Interno",
+  [phoneTypes.home]: "Numero casa",
+  [phoneTypes.mobile]: "Telefono cellulare",
+  [phoneTypes.phone]: "Telefono",
+  [phoneTypes.unknown]: "Tipo di telefono sconosciuto",
+  [phoneTypes.company]: "Numero aziendale",
+  [phoneTypes.direct]: "Numero diretto"
 };
 
 // @key: @#@"[phoneTypes.business]"@#@ @source: @#@"Business Phone"@#@

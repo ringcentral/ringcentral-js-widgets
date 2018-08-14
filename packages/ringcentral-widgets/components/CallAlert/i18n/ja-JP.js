@@ -1,17 +1,17 @@
 import callErrors from 'ringcentral-integration/modules/Call/callErrors';
 
 export default {
-  [callErrors.noToNumber]: '有効な電話番号を入力してください\u3002',
-  [callErrors.noAreaCode]: '7桁の国内電話番号を使用するには\u3001{areaCodeLink}を設定してください\u3002',
-  [callErrors.specialNumber]: '緊急サービスまたは特別なサービスの番号へのダイヤルはサポートされていません\u3002',
-  [callErrors.connectFailed]: '接続に失敗しました\u3002後でもう一度やり直してください\u3002',
-  [callErrors.internalError]: '内部エラーにより\u3001接続できません\u3002後でもう一度やり直してください\u3002',
-  [callErrors.notAnExtension]: 'この内線番号は存在しません\u3002',
-  [callErrors.networkError]: 'ネットワークの問題により\u3001接続できません\u3002後でもう一度やり直してください\u3002',
-  [callErrors.noInternational]: '国際電話を発信するためのアクセス許可がありません\u3002アップグレードについて{brand}アカウント管理者にお問い合わせください\u3002',
-  [callErrors.noRingoutEnable]: 'お使いの内線は\u3001デスクトップアプリを使用した通話発信が許可されています\u3002\n    他の通話オプションに切り替えたい場合は\u3001\n    アップグレードについてアカウント管理者にお問い合わせください\u3002',
-  areaCode: '市外局番',
-  telus911: '緊急ダイヤルはサポートされていません\u3002'
+  [callErrors.noToNumber]: "有効な電話番号を入力してください。",
+  [callErrors.noAreaCode]: "7桁の国内電話番号を使用するには、{areaCodeLink}を設定してください。",
+  [callErrors.specialNumber]: "緊急サービスまたは特別なサービスの番号へのダイヤルはサポートされていません。",
+  [callErrors.connectFailed]: "接続に失敗しました。後でもう一度やり直してください。",
+  [callErrors.internalError]: "内部エラーにより、接続できません。後でもう一度やり直してください。",
+  [callErrors.notAnExtension]: "この内線番号は存在しません。",
+  [callErrors.networkError]: "ネットワークの問題により、接続できません。後でもう一度やり直してください。",
+  [callErrors.noInternational]: "国際電話を発信するためのアクセス許可がありません。アップグレードについて{brand}アカウント管理者にお問い合わせください。",
+  [callErrors.noRingoutEnable]: "お使いの内線は、デスクトップアプリを使用した通話発信が許可されています。\n    他の通話オプションに切り替えたい場合は、\n    アップグレードについてアカウント管理者にお問い合わせください。",
+  areaCode: "市外局番",
+  telus911: "緊急ダイヤルはサポートされていません。"
 };
 
 // @key: @#@"[callErrors.noToNumber]"@#@ @source: @#@"Please enter a valid phone number."@#@

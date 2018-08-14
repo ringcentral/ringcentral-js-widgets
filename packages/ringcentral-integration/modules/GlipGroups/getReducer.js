@@ -18,20 +18,6 @@ export function getDataReducer(types) {
   };
 }
 
-export function getPageNumberReducer(types) {
-  return (state = 1, { type, pageNumber }) => {
-    switch (type) {
-      case types.updateFilter:
-        if (pageNumber) {
-          return pageNumber;
-        }
-        return state;
-      default:
-        return state;
-    }
-  };
-}
-
 export function getSearchFilterReducer(types) {
   return (state = '', { type, searchFilter }) => {
     switch (type) {
@@ -75,6 +61,6 @@ export default function getReducer(types, reducers = {}) {
     ...reducers,
     status: getModuleStatusReducer(types),
     searchFilter: getSearchFilterReducer(types),
-    pageNumber: getPageNumberReducer(types),
+    currentGroupId: getCurrentGroupIdReducer(types),
   });
 }

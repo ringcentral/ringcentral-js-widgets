@@ -125,7 +125,7 @@ export default class RecentMessages extends RcModule {
     });
     const messages = await this._getRecentMessages(
       currentContact,
-      this._messageStore.messages,
+      this._messageStore.allConversations,
       fromLocal
     );
     this.store.dispatch({

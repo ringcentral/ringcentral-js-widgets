@@ -15,24 +15,16 @@
 
 .confirmDeleteModal {
   min-width: 260px;
-  height: 133px;
+  // height: 133px;
 
   .contentText {
     margin-top: 5px;
   }
   .cancelBtn {
     width: 70px;
-    height: 28px;
+    // height: 28px;
     border-radius: 100px;
     border: solid 1px $primary-color;
-  }
-  .confirmBtn {
-    width: 70px;
-    height: 28px;
-    border-radius: 100px;
-    background-color: $primary-color;
-    color: #fff;
-    margin-left: 10px;
   }
 }
 .button {

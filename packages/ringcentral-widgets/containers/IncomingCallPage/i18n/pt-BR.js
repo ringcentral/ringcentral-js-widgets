@@ -1,7 +1,7 @@
 export default {
-  unknown: 'Desconhecido',
-  anonymous: 'Anônimo',
-  activeCall: 'Chamada ativa',
+  unknown: "Desconhecido",
+  anonymous: "Anônimo",
+  activeCall: "Chamada ativa"
 };
 
 // @key: @#@"unknown"@#@ @source: @#@"Unknown"@#@

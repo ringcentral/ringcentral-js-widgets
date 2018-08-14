@@ -14,18 +14,28 @@ class CallItem extends React.Component {
     this.state = {
       avatarUrl: null,
     };
+    this.mounted = false;
   }
 
   componentDidMount() {
-    const { getAvatarUrl, contactMapping, call } = this.props;
-    const nameMatches = (contactMapping && contactMapping[call.webphoneSession.to]) || [];
+    const { getAvatarUrl, call } = this.props;
     let contact = call.webphoneSession.contactMatch;
+
+    this.mounted = true;
+
     if (!contact) {
+      const nameMatches = call.toMatches || [];
       contact = nameMatches && nameMatches[0];
     }
     getAvatarUrl(contact).then((avatarUrl) => {
-      this.setState({ avatarUrl });
+      if (this.mounted) {
+        this.setState({ avatarUrl });
+      }
     });
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   render() {
@@ -121,7 +131,6 @@ CallItem.propTypes = {
   disableMerge: PropTypes.bool,
   getAvatarUrl: PropTypes.func,
   onMergeCall: PropTypes.func,
-  contactMapping: PropTypes.object,
   call: PropTypes.object,
 };
 
@@ -147,7 +156,6 @@ CallItem.defaultProps = {
   disableMerge: false,
   onMergeCall: i => i,
   getAvatarUrl: i => i,
-  contactMapping: {},
   call: {},
 };
 
@@ -179,7 +187,6 @@ export default function CallsOnholdContainer({
   onBackButtonClick,
   onMerge,
   onAdd,
-  contactMapping,
   getAvatarUrl,
 }) {
   const backHeader = (<BackHeader
@@ -226,7 +233,6 @@ export default function CallsOnholdContainer({
                 hasActionMenu={false}
                 showAnswer={false}
                 getAvatarUrl={getAvatarUrl}
-                contactMapping={contactMapping}
               />
             ))
             : <div className={styles.noCalls}>{i18n.getString('noCallsOnhold', currentLocale)}</div>
@@ -278,7 +284,6 @@ CallsOnholdContainer.propTypes = {
   disableMerge: PropTypes.bool,
   onAdd: PropTypes.func,
   getAvatarUrl: PropTypes.func,
-  contactMapping: PropTypes.object,
 };
 
 CallsOnholdContainer.defaultProps = {
@@ -305,5 +310,4 @@ CallsOnholdContainer.defaultProps = {
   onCreateContact: undefined,
   disableMerge: false,
   getAvatarUrl: i => i,
-  contactMapping: {},
 };

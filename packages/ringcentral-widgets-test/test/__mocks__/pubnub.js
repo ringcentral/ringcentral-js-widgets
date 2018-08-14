@@ -52,6 +52,19 @@ export default class MockedPubNub {
     };
     this._listeners.forEach(l => l.message(pubnubMsg));
   }
+
+  mockPresence(msg) {
+    const pubnubMsg = {
+      channel: this._channels[0],
+      subscription: undefined,
+      actualChannel: null,
+      subscribedChannel: this._channels[0],
+      timetoken: '14933652238078468',
+      publisher: undefined,
+      message: msg
+    };
+    this._listeners.forEach(l => l.message(pubnubMsg));
+  }
 }
 
 MockedPubNub.OPERATIONS = RealPubnub.OPERATIONS;

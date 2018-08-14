@@ -14,8 +14,9 @@ export default function ConfirmMergeModal({
   show,
   onMerge,
   onCancel,
-  avatarUrls,
+  partyProfiles,
 }) {
+  const avatarUrls = partyProfiles.map(profile => profile.avatarUrl);
   return (
     <Modal
       show={show}
@@ -26,14 +27,8 @@ export default function ConfirmMergeModal({
       cancelBtnClassName={styles.cancelBtn}
       confirmBtnClassName={styles.confirmBtn}
       title={i18n.getString('confirmation', currentLocale)}
-      closeBtn={
-        <Button
-          className={styles.closeBtn}
-          onClick={onCancel}
-        >
-          <CloseIcon />
-        </Button>
-      }
+      onCancel={onCancel}
+      footerClassName={styles.footer}
     >
       <div className={styles.contentText}>
         {i18n.getString('confirmMergeToConference', currentLocale)}
@@ -52,8 +47,8 @@ export default function ConfirmMergeModal({
           <CircleButton
             className={styles.mergeButton}
             onClick={(e) => {
-                e.stopPropagation();
-                onMerge();
+              e.stopPropagation();
+              onMerge();
             }}
             iconWidth={260}
             iconX={120}
@@ -70,11 +65,11 @@ ConfirmMergeModal.propTypes = {
   show: PropTypes.bool.isRequired,
   onMerge: PropTypes.func,
   onCancel: PropTypes.func,
-  avatarUrls: PropTypes.arrayOf(PropTypes.string),
+  partyProfiles: PropTypes.arrayOf(PropTypes.object),
 };
 
 ConfirmMergeModal.defaultProps = {
-  onMerge() {},
-  onCancel() {},
-  avatarUrls: [],
+  onMerge() { },
+  onCancel() { },
+  partyProfiles: [],
 };
