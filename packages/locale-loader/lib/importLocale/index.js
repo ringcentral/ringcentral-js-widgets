@@ -63,7 +63,7 @@ async function mergeTranslationData({
   translations = {},
   sourceFolder,
   sourceLocale,
-  interactive = false,
+  interactive = true,
   silent = false,
 }) {
   // clean up original Data
@@ -273,8 +273,8 @@ export default async function importLocale({
   localizationFolder = defaultConfig.localizationFolder,
   sourceLocale = defaultConfig.sourceLocale,
   supportedLocales,
-  interactive = true,
-  silent = false,
+  interactive = defaultConfig.interactive,
+  silent = defaultConfig.silent,
 } = {}) {
   if (!supportedLocales) {
     throw new Error('options.supportedLocales is missing');
