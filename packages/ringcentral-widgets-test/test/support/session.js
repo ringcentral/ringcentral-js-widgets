@@ -79,6 +79,7 @@ export default class Session {
   }
 
   reject() {
+    console.info('session rejected');
     this.trigger('rejected');
     return rejectFn(this.id);
   }
@@ -120,13 +121,11 @@ export default class Session {
 
   replyWithMessage(replyOptions) {
     this.reject();
-    // this.trigger('terminated');
     replyFn(replyOptions);
   }
 
   forward(validPhoneNumber, acceptOptions) {
     this.reject();
-    // this.trigger('terminated');
     forwardFn(validPhoneNumber, acceptOptions);
   }
 }
