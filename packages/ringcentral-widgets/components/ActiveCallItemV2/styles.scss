@@ -96,3 +96,8 @@ $padding-horizontal:20px;
 .pointer {
   cursor: pointer;
 }
+
+.content {
+  max-width: calc(100% - 120px);
+  overflow: visible;
+}

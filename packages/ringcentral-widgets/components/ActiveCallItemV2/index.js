@@ -362,7 +362,8 @@ export default class ActiveCallItem extends Component {
                 avatarUrl={avatarUrl}
                 extraNum={extraNum} />
             </div>
-        }
+          }
+          bodyCls={styles.content}
           mediaBody={
             <div>
               <ContactDisplay

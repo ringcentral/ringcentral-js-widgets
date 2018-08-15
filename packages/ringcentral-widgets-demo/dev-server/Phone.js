@@ -266,7 +266,13 @@ export default class BasePhone extends RcModule {
           routerInteraction.push('/calls/active');
           return;
         }
+
         routerInteraction.goBack();
+        return;
+      }
+
+      if (routerInteraction.currentPath.indexOf('/calls/active') === 0 && currentSession) {
+        routerInteraction.push('/calls/active');
       }
     });
 
