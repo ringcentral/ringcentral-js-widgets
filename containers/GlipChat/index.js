@@ -33,8 +33,8 @@ var _GlipChatPanel2 = _interopRequireDefault(_GlipChatPanel);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getAtRender(_ref) {
-  var groups = _ref.groups,
-      personsMap = _ref.personsMap,
+  var glipGroups = _ref.glipGroups,
+      glipPersons = _ref.glipPersons,
       onViewPersonProfile = _ref.onViewPersonProfile,
       onViewGroup = _ref.onViewGroup;
 
@@ -44,12 +44,12 @@ function getAtRender(_ref) {
 
     var name = id;
     if (type === 'Team') {
-      var group = groups.find(function (g) {
+      var group = glipGroups.allGroups.find(function (g) {
         return g.id === id;
       });
       name = group && group.name;
     } else {
-      var person = personsMap[id];
+      var person = glipPersons.personsMap[id];
       name = person && '' + person.firstName + (person.lastName ? ' ' + person.lastName : '') || id;
     }
     var onClickAtLink = function onClickAtLink(e) {
@@ -172,8 +172,8 @@ function mapToFunctions(_, _ref4) {
       });
     },
     atRender: getAtRender({
-      groups: glipGroups.allGroups,
-      personsMap: glipPersons.personsMap,
+      glipGroups: glipGroups,
+      glipPersons: glipPersons,
       onViewPersonProfile: onViewPersonProfile,
       onViewGroup: onViewGroup
     }),
