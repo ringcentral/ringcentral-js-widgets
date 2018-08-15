@@ -444,6 +444,7 @@ export function conferencing(mockResponse = {}) {
   });
 }
 
+// TODO: replace it with numberParser
 export function numberParse(mockResponse = {}, homeCountry) {
   mockApi({
     method: 'POST',
