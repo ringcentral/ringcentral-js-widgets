@@ -33,6 +33,7 @@ export default {
     concat: 'support' + 'string' + 'concatenation',
     template: `support
     templateStrings`,
+    123: 'numeric key supported',
     templateVariable: `this is ${not} supported`,
 };
 ```
@@ -130,11 +131,15 @@ const config = {
     sourceLocale: 'en-US', // the default locale with original strings
     supportedLocales: ['en-US', 'fr-FR', 'ja-JP'], // the array of locales to support
     sourceFolder: 'src', // export locale will use 'src/**/*.js' glob to search for loaders
-    localizationFolder: 'localization', // exported files will be saved to here
+    localizationFolder: 'localization', // exported files will be saved to here,
+    interactive: true, // will prompt for confirmation on deleting/skipping changed keys
+    silent: false, // will not output deletion/skip to console
 };
 
-importLocale(config);
-console.log('.xlf imported');
+importLocale(config)
+.then(() => {
+    console.log('.xlf imported');
+});
 
 ```
 
@@ -154,9 +159,12 @@ const config = {
     supportedLocales: ['en-US', 'fr-FR', 'ja-JP'], // the array of locales to support
     sourceFolder: 'src', // export locale will use 'src/**/*.js' glob to search for loaders
     localizationFolder: 'localization', // exported files will be saved to here
+    interactive: true, // will prompt for confirmation on deleting/skipping changed keys
+    silent: false, // will not output deletion/skip to console
 };
 
-consolidateLocale(config);
-console.log('consolidate done');
+consolidateLocale(config).then(() => {
+    console.log('consolidate done');
+});
 
 ```
