@@ -1,3 +1,6 @@
+import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatuses';
+import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
+
 class MediaHandler {
   constructor() {
     this._events = {};
@@ -12,15 +15,26 @@ class MediaHandler {
   }
 }
 
+export const forwardFn = jest.fn();
+export const replyFn = jest.fn();
+export const toVoicemailFn = jest.fn();
+export const holdFn = jest.fn();
+export const unholdFn = jest.fn();
+export const muteFn = jest.fn();
+export const unmuteFn = jest.fn();
+export const acceptFn = jest.fn();
+export const terminateFn = jest.fn();
+export const rejectFn = jest.fn();
+
 export default class Session {
   constructor({
-    id, direction, to, fromNumber, _header_callId
+    id, direction, to, fromNumber, _header_callId, telephonyStatus
   }) {
     this.id = id;
     this._header_callId = _header_callId; // call id
     this.to = to;
     this.direction = direction;
-    this.callStatus = 'webphone-session-connecting';
+    this.callStatus = sessionStatus.connecting;
     this.request = { to: { uri: { } }, from: { uri: { } } };
     this.creationTime = 1532076632960;
     this.isToVoicemail = true;
@@ -35,6 +49,7 @@ export default class Session {
     this.recordStatus = undefined;
     this.minimized = undefined;
     this.lastHoldingTime = undefined;
+    this.telephonyStatus = telephonyStatus || telephonyStatuses.onHold;
     this._events = {};
     this.mediaHandler = new MediaHandler();
   }
@@ -45,7 +60,7 @@ export default class Session {
 
   isOnHold() {
     return {
-      local: this.callStatus === 'webphone-session-onHold'
+      local: this.callStatus === sessionStatus.onHold
     };
   }
 
@@ -54,41 +69,65 @@ export default class Session {
   }
 
   // Change Session Id
-  accept(...args) {
-    this.trigger('accepted', args);
-    this.callStatus = 'webphone-session-connected';
+  accept(acceptOptions) {
+    acceptFn.mockReturnValueOnce({
+      sessionId: this.id
+    });
+    this.callStatus = sessionStatus.connected;
+    this.trigger('accepted', acceptOptions);
+    return acceptFn(this.id);
   }
 
   reject() {
-    console.info('session rejected');
     this.trigger('rejected');
+    return rejectFn(this.id);
   }
 
   toVoicemail() {
-    console.info('session toVoicemail');
-    this.trigger('rejected');
+    this.reject();
+    this.callStatus = sessionStatus.finished;
+    return toVoicemailFn(this.id);
   }
 
   terminate() {
     this.trigger('terminated');
+    return terminateFn(this.id);
   }
 
   mute() {
     this.trigger('muted');
+    this.callStatus = sessionStatus.onMute;
+    return muteFn(this.id);
   }
 
   unmute() {
     this.trigger('unmuted');
+    this.callStatus = sessionStatus.connected;
+    return unmuteFn(this.id);
   }
 
   hold() {
     this.trigger('hold');
-    this.callStatus = 'webphone-session-onHold';
+    this.callStatus = sessionStatus.onHold;
+    return holdFn(this.id);
   }
 
   unhold() {
     this.trigger('unhold');
-    this.callStatus = 'webphone-session-connected';
+    this.callStatus = sessionStatus.connected;
+    return unholdFn(this.id);
+  }
+
+  replyWithMessage(replyOptions) {
+    this.reject();
+    // this.trigger('terminated');
+    replyFn(replyOptions);
+  }
+
+  forward(validPhoneNumber, acceptOptions) {
+    this.reject();
+    // this.trigger('terminated');
+    forwardFn(validPhoneNumber, acceptOptions);
   }
 }
 
