@@ -133,47 +133,6 @@ describe('RCI-1038: There is no Add button', () => {
       const button = multiButtons.at(index);
       expect(button.find('.buttonTitle').text()).not.toEqual('Add');
     }
-  );
-});
-
-describe('Test Call Pad Buttons:', () => {
-  test('Forward Button', async () => {
-    await getInboundCall();
-    const buttons = wrapper.find(IncomingCallPad).find(ActiveCallButton);
-    const buttonForward = buttons.at(0);
-    buttonForward.find(CircleButton).simulate('click');
-    wrapper.update();
-    expect(wrapper.find(ForwardForm)).toHaveLength(1);
-  });
-  test('Reply Button', async () => {
-    await getInboundCall();
-    const buttons = wrapper.find(IncomingCallPad).find(ActiveCallButton);
-    const buttonReply = buttons.at(1);
-    buttonReply.find(CircleButton).simulate('click');
-    wrapper.update();
-    expect(wrapper.find(ReplyWithMessage)).toHaveLength(1);
-  });
-  test('Ignore Button', async () => {
-    await getInboundCall();
-    const buttons = wrapper.find(IncomingCallPad).find(ActiveCallButton);
-    const buttonIgnore = buttons.at(2);
-    buttonIgnore.find(CircleButton).simulate('click');
-    expect(phone.webphone.sessions.length).toEqual(0);
-  });
-  test('To Voicemail Button', async () => {
-    await getInboundCall();
-    const buttons = wrapper.find(IncomingCallPad).find(ActiveCallButton);
-    const buttonToVoicemail = buttons.at(3);
-    buttonToVoicemail.find(CircleButton).simulate('click');
-    wrapper.update();
-    expect(phone.webphone.sessions.length).toEqual(0);
-  });
-  test('Answer Button', async () => {
-    await getInboundCall();
-    const buttons = wrapper.find(IncomingCallPad).find(ActiveCallButton);
-    const buttonAnswer = buttons.at(4);
-    buttonAnswer.find(CircleButton).simulate('click');
-    expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
   });
 });
 
