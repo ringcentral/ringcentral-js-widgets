@@ -70,6 +70,7 @@ export default function App({
                     routerProps.location.pathname === '/conferenceCall/participants'
                   )}
                   goToCallCtrl={() => {
+                    phone.webphone.changeSessionToView();
                     phone.routerInteraction.push('/calls/active');
                   }}
                 />

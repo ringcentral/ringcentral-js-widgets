@@ -1336,7 +1336,7 @@ export default class Webphone extends RcModule {
    * exposing this method to pages.
    * @param {object} session
    */
-  changeSessionToView(sessionId) {
+  changeSessionToView(sessionId = this.activeSessionId) {
     this.store.dispatch({
       type: this.actionTypes.changeSessionToView,
       sessionId,
