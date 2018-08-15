@@ -156,6 +156,7 @@ export default function App({
                       onCallsEmpty={() => { }}
                       sourceIcons={sourceIcons}
                       getAvatarUrl={getAvatarUrl}
+                      useV2
                     />
                   </DialerAndCallsTabContainer>
                 )} />

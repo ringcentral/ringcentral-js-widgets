@@ -66,6 +66,7 @@ export default class ActiveCallsPanel extends Component {
       getAvatarUrl,
       conferenceCallParties,
       webphoneHold,
+      useV2,
     } = this.props;
 
     return (
@@ -97,7 +98,7 @@ export default class ActiveCallsPanel extends Component {
         isWebRTC={isWebRTC}
         currentCall={activeCurrentCalls[0]}
         isSessionAConferenceCall={isSessionAConferenceCall}
-        useV2={isWebRTC}// TODO: Maybe we should make all the call item consistent
+        useV2={useV2}// TODO: Maybe we should make all the call item consistent
         onCallItemClick={onCallItemClick}
         getAvatarUrl={getAvatarUrl}
         conferenceCallParties={conferenceCallParties}
@@ -180,6 +181,7 @@ ActiveCallsPanel.propTypes = {
   getAvatarUrl: PropTypes.func,
   conferenceCallParties: PropTypes.arrayOf(PropTypes.object),
   webphoneHold: PropTypes.func,
+  useV2: PropTypes.bool,
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -209,4 +211,5 @@ ActiveCallsPanel.defaultProps = {
   getAvatarUrl: i => i,
   conferenceCallParties: [],
   webphoneHold: i => i,
+  useV2: false,
 };
