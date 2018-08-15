@@ -1,8 +1,50 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import withPhone from 'ringcentral-widgets/lib/withPhone';
 
 import GlipChatPanel from '../../components/GlipChatPanel';
+
+function getAtRender({
+  groups, personsMap, onViewPersonProfile, onViewGroup
+}) {
+  return (
+    class AtRender extends PureComponent {
+      static propTypes = {
+        id: PropTypes.number.isRequired,
+        type: PropTypes.string.isRequired,
+      }
+
+      render() {
+        const {
+          id, type
+        } = this.props;
+        let name = id;
+        if (type === 'Team') {
+          const group = groups.find(g => g.id === id);
+          name = group && group.name;
+        } else {
+          const person = personsMap[id];
+          name = (
+            person &&
+            `${person.firstName}${person.lastName ? ` ${person.lastName}` : ''}`
+          ) || id;
+        }
+        const onClickAtLink = (e) => {
+          e.preventDefault();
+          if (type === 'Person') {
+            onViewPersonProfile(id);
+          } else if (type === 'Team') {
+            onViewGroup(id);
+          }
+        };
+        return (
+          <a href={`#${id}`} onClick={onClickAtLink}>@{name}</a>
+        );
+      }
+    }
+  );
+}
 
 function mapToProps(_, {
   params,
@@ -61,30 +103,12 @@ function mapToFunctions(_, {
       rawFile,
       groupId: glipGroups.currentGroupId,
     }),
-    atRender({ id, type }) {
-      let name = id;
-      if (type === 'Team') {
-        const group = glipGroups.allGroups.find(g => g.id === id);
-        name = group && group.name;
-      } else {
-        const person = glipPersons.personsMap[id];
-        name = (
-          person &&
-          `${person.firstName}${person.lastName ? ` ${person.lastName}` : ''}`
-        ) || id;
-      }
-      const onClickAtLink = (e) => {
-        e.preventDefault();
-        if (type === 'Person') {
-          onViewPersonProfile(id);
-        } else if (type === 'Team') {
-          onViewGroup(id);
-        }
-      };
-      return (
-        <a href={`#${id}`} onClick={onClickAtLink}>@{name}</a>
-      );
-    },
+    atRender: getAtRender({
+      groups: glipGroups.allGroups,
+      personsMap: glipPersons.personsMap,
+      onViewPersonProfile,
+      onViewGroup,
+    }),
     viewProfile(personId) {
       if (personId) {
         onViewPersonProfile(personId);

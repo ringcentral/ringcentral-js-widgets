@@ -160,10 +160,11 @@ export default class GlipChatForm extends Component {
 
   _getSuggestions(suggestions) {
     return suggestions.map(
-      suggestion =>
+      suggestion => (
         <Nav style={{ height: 34 }} value={`[${suggestion.email}]`} key={suggestion.id} >
           <span>{suggestion.firstName} {suggestion.lastName}</span>
         </Nav>
+      )
     );
   }
 

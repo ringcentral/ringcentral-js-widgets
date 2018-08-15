@@ -7,8 +7,8 @@ import styles from './styles.scss';
 function GroupAvatar({ persons, className, unread }) {
   let image;
   if (persons.length <= 2) {
-    let noMes = persons.filter(p => !p.isMe);
-    const person = noMes && noMes[0];
+    const personsWithoutMe = persons.filter(p => !p.isMe);
+    const person = personsWithoutMe && personsWithoutMe[0];
     image =
       (
         <img
@@ -22,13 +22,14 @@ function GroupAvatar({ persons, className, unread }) {
       <div className={styles.images}>
         {
           persons.slice(0, 9).map(
-            person =>
+            person => (
               <img
                 key={person.id}
                 className={styles.small}
                 src={(person && person.avatar) || defaultAvatar}
                 alt={person && person.id}
               />
+            )
           )
         }
       </div>

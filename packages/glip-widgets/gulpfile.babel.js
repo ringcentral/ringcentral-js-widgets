@@ -91,14 +91,6 @@ gulp.task('release', ['release-copy'], async () => {
   await fs.writeFile(path.resolve(RELEASE_PATH, 'package.json'), JSON.stringify(packageInfo, null, 2));
 });
 
-function normalizeName(str) {
-  return str.split(/[-_]/g)
-    .map((token, idx) => (
-      `${idx > 0 ? token[0].toUpperCase() : token[0].toLowerCase()}${token.toLowerCase().substr(1)}`
-    ))
-    .join('');
-}
-
 gulp.task('export-locale', () => exportLocale({
   ...localeSettings,
 }));
