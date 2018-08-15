@@ -11,13 +11,12 @@ import GlipPostList from '../GlipPostList';
 import GlipChatForm from '../GlipChatForm';
 import GlipGroupName from '../GlipGroupName';
 
-const HEADER_HEIGHT = 50;
-
 export default class GlipChatPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputHeight: props.mobile ? 100 : 110,
+      inputHeight: props.mobile ? 80 : 110,
+      headerHeight: props.mobile ? 38 : 50,
     };
   }
 
@@ -60,13 +59,19 @@ export default class GlipChatPage extends Component {
           className,
         )}
       >
-        <div className={styles.header} style={{ height: HEADER_HEIGHT }}>
+        <div
+          className={styles.header}
+          style={{
+            height: this.state.headerHeight,
+            lineHeight: `${this.state.headerHeight}px`
+          }}
+        >
           {backIcon}
           <GlipGroupName group={group} showNumber />
         </div>
         <div
           className={styles.content}
-          style={{ height: `calc(100% - ${this.state.inputHeight + HEADER_HEIGHT}px)` }}
+          style={{ height: `calc(100% - ${this.state.inputHeight + this.state.headerHeight}px)` }}
         >
           <GlipPostList
             posts={posts}
