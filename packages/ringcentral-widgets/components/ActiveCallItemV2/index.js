@@ -355,6 +355,7 @@ export default class ActiveCallItem extends Component {
     return (
       <div onClick={onClick} className={classnames(styles.callItemContainer, styles.pointer)}>
         <MediaObject
+          containerCls={styles.wrapper}
           mediaLeft={
             <div className={classnames(styles.callIcon, styles.avatar)}>
               <CallAvatar
