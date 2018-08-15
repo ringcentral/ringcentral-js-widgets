@@ -403,6 +403,11 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
     get: function get() {
       return !!(this.serviceFeatures && this.serviceFeatures.Conferencing && this.serviceFeatures.Conferencing.enabled);
     }
+  }, {
+    key: 'hasGlipPermission',
+    get: function get() {
+      return !!(this.permissions && this.permissions.Glip);
+    }
   }]);
   return RolesAndPermissions;
 }(_DataFetcher3.default)) || _class);

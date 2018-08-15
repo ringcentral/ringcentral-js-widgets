@@ -203,7 +203,7 @@ function getUniqueMemberIds(groups) {
  * @description Accound info managing module.
  */
 var GlipGroups = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Client', 'Subscription', { dep: 'ConnectivityMonitor', optional: true }, { dep: 'Storage', optional: true }, { dep: 'TabManager', optional: true }, { dep: 'GlipPersons', optional: true }, { dep: 'GlipPosts', optional: true }, { dep: 'GLipGroupsOptions', optional: true }]
+  deps: ['Auth', 'Client', 'Subscription', 'RolesAndPermissions', { dep: 'ConnectivityMonitor', optional: true }, { dep: 'Storage', optional: true }, { dep: 'TabManager', optional: true }, { dep: 'GlipPersons', optional: true }, { dep: 'GlipPosts', optional: true }, { dep: 'GLipGroupsOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_Pollable) {
   (0, _inherits3.default)(GlipGroups, _Pollable);
 
@@ -212,6 +212,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
    * @param {Auth} params.auth - auth module instance
+   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermission module instance
    * @param {Subscription} params.subscription - subscription module instance
    * @param {TabManager} params.tabManager - tabManager module instance
    * @param {GlipPersons} params.glipPersons - glipPersons module instance
@@ -226,6 +227,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
         glipPersons = _ref.glipPersons,
         glipPosts = _ref.glipPosts,
         storage = _ref.storage,
+        rolesAndPermissions = _ref.rolesAndPermissions,
         connectivityMonitor = _ref.connectivityMonitor,
         _ref$timeToRetry = _ref.timeToRetry,
         timeToRetry = _ref$timeToRetry === undefined ? DEFAULT_RETRY : _ref$timeToRetry,
@@ -243,7 +245,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
         preloadPosts = _ref$preloadPosts === undefined ? true : _ref$preloadPosts,
         _ref$preloadPostsDela = _ref.preloadPostsDelayTtl,
         preloadPostsDelayTtl = _ref$preloadPostsDela === undefined ? DEFAULT_PRELOAD_POSTS_DELAY_TTL : _ref$preloadPostsDela,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'subscription', 'client', 'tabManager', 'glipPersons', 'glipPosts', 'storage', 'connectivityMonitor', 'timeToRetry', 'ttl', 'polling', 'disableCache', 'perPage', 'recordCountPerReq', 'preloadPosts', 'preloadPostsDelayTtl']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'subscription', 'client', 'tabManager', 'glipPersons', 'glipPosts', 'storage', 'rolesAndPermissions', 'connectivityMonitor', 'timeToRetry', 'ttl', 'polling', 'disableCache', 'perPage', 'recordCountPerReq', 'preloadPosts', 'preloadPostsDelayTtl']);
     (0, _classCallCheck3.default)(this, GlipGroups);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (GlipGroups.__proto__ || (0, _getPrototypeOf2.default)(GlipGroups)).call(this, (0, _extends3.default)({}, options, {
@@ -269,6 +271,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
     _this._auth = _ensureExist2.default.call(_this, auth, 'auth');
     _this._client = _ensureExist2.default.call(_this, client, 'client');
     _this._subscription = _ensureExist2.default.call(_this, subscription, 'subscription');
+    _this._rolesAndPermissions = _ensureExist2.default.call(_this, rolesAndPermissions, 'rolesAndPermissions');
     _this._connectivityMonitor = connectivityMonitor;
     _this._glipPersons = glipPersons;
     _this._glipPosts = glipPosts;
@@ -431,12 +434,12 @@ var GlipGroups = (_dec = (0, _di.Module)({
   }, {
     key: '_shouldInit',
     value: function _shouldInit() {
-      return !!(this._auth.loggedIn && (!this._connectivityMonitor || this._connectivityMonitor.ready) && (!this._storage || this._storage.ready) && (!this._readyCheckFn || this._readyCheckFn()) && (!this._subscription || this._subscription.ready) && (!this._glipPosts || this._glipPosts.ready) && (!this._glipPersons || this._glipPersons.ready) && (!this._tabManager || this._tabManager.ready) && this.pending);
+      return !!(this._auth.loggedIn && this._rolesAndPermissions.ready && (!this._connectivityMonitor || this._connectivityMonitor.ready) && (!this._storage || this._storage.ready) && (!this._readyCheckFn || this._readyCheckFn()) && (!this._subscription || this._subscription.ready) && (!this._glipPosts || this._glipPosts.ready) && (!this._glipPersons || this._glipPersons.ready) && (!this._tabManager || this._tabManager.ready) && this.pending);
     }
   }, {
     key: '_shouldReset',
     value: function _shouldReset() {
-      return !!((!this._auth.loggedIn || this._storage && !this._storage.ready || this._readyCheckFn && !this._readyCheckFn() || this._subscription && !this._subscription.ready || this._glipPosts && !this._glipPosts.ready || this._glipPersons && !this._glipPersons.ready || this._connectivityMonitor && !this._connectivityMonitor.ready || this._tabManager && !this._tabManager.ready) && this.ready);
+      return !!((!this._auth.loggedIn || !this._rolesAndPermissions.ready || this._storage && !this._storage.ready || this._readyCheckFn && !this._readyCheckFn() || this._subscription && !this._subscription.ready || this._glipPosts && !this._glipPosts.ready || this._glipPersons && !this._glipPersons.ready || this._connectivityMonitor && !this._connectivityMonitor.ready || this._tabManager && !this._tabManager.ready) && this.ready);
     }
   }, {
     key: '_shouldSubscribe',
@@ -524,38 +527,46 @@ var GlipGroups = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                if (!this._shouldFetch()) {
-                  _context3.next = 12;
+                if (this._hasPermission) {
+                  _context3.next = 2;
                   break;
                 }
 
-                _context3.prev = 1;
-                _context3.next = 4;
+                return _context3.abrupt('return');
+
+              case 2:
+                if (!this._shouldFetch()) {
+                  _context3.next = 14;
+                  break;
+                }
+
+                _context3.prev = 3;
+                _context3.next = 6;
                 return this.fetchData();
 
-              case 4:
-                _context3.next = 10;
+              case 6:
+                _context3.next = 12;
                 break;
 
-              case 6:
-                _context3.prev = 6;
-                _context3.t0 = _context3['catch'](1);
+              case 8:
+                _context3.prev = 8;
+                _context3.t0 = _context3['catch'](3);
 
                 console.error('fetchData error:', _context3.t0);
                 this._retry();
 
-              case 10:
-                _context3.next = 13;
+              case 12:
+                _context3.next = 15;
                 break;
 
-              case 12:
+              case 14:
                 if (this._polling) {
                   this._startPolling();
                 } else {
                   this._retry();
                 }
 
-              case 13:
+              case 15:
                 if (this._subscription && this._subscriptionFilters) {
                   this._subscription.subscribe(this._subscriptionFilters);
                 }
@@ -563,12 +574,12 @@ var GlipGroups = (_dec = (0, _di.Module)({
                   this._connectivity = this._connectivityMonitor.connectivity;
                 }
 
-              case 15:
+              case 17:
               case 'end':
                 return _context3.stop();
             }
           }
-        }, _callee3, this, [[1, 6]]);
+        }, _callee3, this, [[3, 8]]);
       }));
 
       function _init() {
@@ -1009,6 +1020,11 @@ var GlipGroups = (_dec = (0, _di.Module)({
     key: 'timeToRetry',
     get: function get() {
       return this._timeToRetry;
+    }
+  }, {
+    key: '_hasPermission',
+    get: function get() {
+      return !!this._rolesAndPermissions.hasGlipPermission;
     }
   }]);
   return GlipGroups;

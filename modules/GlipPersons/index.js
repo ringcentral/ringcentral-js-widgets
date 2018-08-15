@@ -67,6 +67,10 @@ var _proxify = require('../../lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
 
+var _ensureExist = require('../../lib/ensureExist');
+
+var _ensureExist2 = _interopRequireDefault(_ensureExist);
+
 var _actionTypes = require('./actionTypes');
 
 var _actionTypes2 = _interopRequireDefault(_actionTypes);
@@ -110,7 +114,7 @@ var MaximumBatchGetPersons = 30;
 var DEFAULT_BATCH_FETCH_DELAY = 500;
 
 var GlipPersons = (_dec = (0, _di.Module)({
-  deps: ['Client', 'Auth', { dep: 'Storage', optional: true }, { dep: 'TabManager', optional: true }, { dep: 'GlipPersonsOptions', optional: true }]
+  deps: ['Client', 'Auth', 'RolesAndPermissions', { dep: 'Storage', optional: true }, { dep: 'TabManager', optional: true }, { dep: 'GlipPersonsOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(GlipPersons, _RcModule);
 
@@ -119,6 +123,7 @@ var GlipPersons = (_dec = (0, _di.Module)({
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
    * @param {Auth} params.auth - auth module instance
+   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermission module instance
    * @param {Storage} params.storage - storage module instance
    * @param {TabManager} params.tabManager - tabManager module instance
    */
@@ -127,17 +132,19 @@ var GlipPersons = (_dec = (0, _di.Module)({
         auth = _ref.auth,
         storage = _ref.storage,
         tabManager = _ref.tabManager,
+        rolesAndPermissions = _ref.rolesAndPermissions,
         _ref$batchFetchDelay = _ref.batchFetchDelay,
         batchFetchDelay = _ref$batchFetchDelay === undefined ? DEFAULT_BATCH_FETCH_DELAY : _ref$batchFetchDelay,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'auth', 'storage', 'tabManager', 'batchFetchDelay']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'auth', 'storage', 'tabManager', 'rolesAndPermissions', 'batchFetchDelay']);
     (0, _classCallCheck3.default)(this, GlipPersons);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (GlipPersons.__proto__ || (0, _getPrototypeOf2.default)(GlipPersons)).call(this, (0, _extends3.default)({}, options, {
       actionTypes: _actionTypes2.default
     })));
 
-    _this._client = client;
-    _this._auth = auth;
+    _this._rolesAndPermissions = _ensureExist2.default.call(_this, rolesAndPermissions, 'rolesAndPermissions');
+    _this._client = _ensureExist2.default.call(_this, client, 'client');
+    _this._auth = _ensureExist2.default.call(_this, auth, 'auth');
     _this._tabManager = tabManager;
     _this._storage = storage;
 
@@ -177,7 +184,7 @@ var GlipPersons = (_dec = (0, _di.Module)({
             switch (_context.prev = _context.next) {
               case 0:
                 if (!this._shouldInit()) {
-                  _context.next = 8;
+                  _context.next = 10;
                   break;
                 }
 
@@ -189,24 +196,33 @@ var GlipPersons = (_dec = (0, _di.Module)({
                     type: this.actionTypes.cleanUp
                   });
                 }
-                _context.next = 5;
-                return this.loadMe();
+
+                if (this._hasPermission) {
+                  _context.next = 5;
+                  break;
+                }
+
+                return _context.abrupt('return');
 
               case 5:
+                _context.next = 7;
+                return this.loadMe();
+
+              case 7:
                 this.store.dispatch({
                   type: this.actionTypes.initSuccess
                 });
-                _context.next = 9;
+                _context.next = 11;
                 break;
 
-              case 8:
+              case 10:
                 if (this._shouldReset()) {
                   this.store.dispatch({
                     type: this.actionTypes.resetSuccess
                   });
                 }
 
-              case 9:
+              case 11:
               case 'end':
                 return _context.stop();
             }
@@ -223,12 +239,12 @@ var GlipPersons = (_dec = (0, _di.Module)({
   }, {
     key: '_shouldInit',
     value: function _shouldInit() {
-      return this._auth.loggedIn && (!this._storage || this._storage.ready) && (!this._tabManager || this._tabManager.ready) && this.pending;
+      return this._auth.loggedIn && this._rolesAndPermissions.ready && (!this._storage || this._storage.ready) && (!this._tabManager || this._tabManager.ready) && this.pending;
     }
   }, {
     key: '_shouldReset',
     value: function _shouldReset() {
-      return (this._storage && !this._storage.ready || this._tabManager && !this._tabManager.ready || !this._auth.loggedIn) && this.ready;
+      return (this._storage && !this._storage.ready || this._tabManager && !this._tabManager.ready || !this._rolesAndPermissions.ready || !this._auth.loggedIn) && this.ready;
     }
   }, {
     key: 'loadMe',
@@ -509,6 +525,11 @@ var GlipPersons = (_dec = (0, _di.Module)({
     key: 'me',
     get: function get() {
       return this.personsMap[this._auth.ownerId];
+    }
+  }, {
+    key: '_hasPermission',
+    get: function get() {
+      return this._rolesAndPermissions.hasGlipPermission;
     }
   }]);
   return GlipPersons;

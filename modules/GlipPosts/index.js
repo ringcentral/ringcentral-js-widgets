@@ -53,6 +53,10 @@ var _moduleStatuses = require('../../enums/moduleStatuses');
 
 var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
 
+var _ensureExist = require('../../lib/ensureExist');
+
+var _ensureExist2 = _interopRequireDefault(_ensureExist);
+
 var _isBlank = require('../../lib/isBlank');
 
 var _isBlank2 = _interopRequireDefault(_isBlank);
@@ -77,7 +81,7 @@ var subscriptionFilter = '/glip/posts';
 var DEFAULT_LOAD_TTL = 30 * 60 * 1000;
 
 var GlipPosts = (_dec = (0, _di.Module)({
-  deps: ['Client', 'Auth', 'Subscription', 'Storage', { dep: 'GlipPostsOptions', optional: true }]
+  deps: ['Client', 'Auth', 'Subscription', 'Storage', 'RolesAndPermissions', { dep: 'GlipPostsOptions', optional: true }]
 }), _dec(_class = function (_RcModule) {
   (0, _inherits3.default)(GlipPosts, _RcModule);
 
@@ -86,6 +90,7 @@ var GlipPosts = (_dec = (0, _di.Module)({
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
    * @param {Auth} params.auth - auth module instance
+   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermission module instance
    * @param {Subscription} params.subscription - subscription module instance
    */
   function GlipPosts(_ref) {
@@ -93,9 +98,10 @@ var GlipPosts = (_dec = (0, _di.Module)({
         auth = _ref.auth,
         subscription = _ref.subscription,
         storage = _ref.storage,
+        rolesAndPermissions = _ref.rolesAndPermissions,
         _ref$loadTtl = _ref.loadTtl,
         loadTtl = _ref$loadTtl === undefined ? DEFAULT_LOAD_TTL : _ref$loadTtl,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'auth', 'subscription', 'storage', 'loadTtl']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'auth', 'subscription', 'storage', 'rolesAndPermissions', 'loadTtl']);
     (0, _classCallCheck3.default)(this, GlipPosts);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (GlipPosts.__proto__ || (0, _getPrototypeOf2.default)(GlipPosts)).call(this, (0, _extends3.default)({}, options, {
@@ -104,9 +110,10 @@ var GlipPosts = (_dec = (0, _di.Module)({
 
     _this._reducer = (0, _getReducer2.default)(_this.actionTypes);
 
-    _this._client = client;
-    _this._auth = auth;
-    _this._subscription = subscription;
+    _this._client = _ensureExist2.default.call(_this, client, 'client');
+    _this._auth = _ensureExist2.default.call(_this, auth, 'auth');
+    _this._rolesAndPermissions = _ensureExist2.default.call(_this, rolesAndPermissions, 'rolesAndPermissions');
+    _this._subscription = _ensureExist2.default.call(_this, subscription, 'subscription');
     _this._fetchPromises = {};
     _this._lastMessage = null;
     _this._loadTtl = loadTtl;
@@ -145,12 +152,32 @@ var GlipPosts = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (this._shouldInit()) {
-                  this.store.dispatch({
-                    type: this.actionTypes.initSuccess
-                  });
-                  this._subscription.subscribe(subscriptionFilter);
-                } else if (this._shouldReset()) {
+                if (!this._shouldInit()) {
+                  _context.next = 8;
+                  break;
+                }
+
+                this.store.dispatch({
+                  type: this.actionTypes.init
+                });
+
+                if (this._hasPermission) {
+                  _context.next = 4;
+                  break;
+                }
+
+                return _context.abrupt('return');
+
+              case 4:
+                this.store.dispatch({
+                  type: this.actionTypes.initSuccess
+                });
+                this._subscription.subscribe(subscriptionFilter);
+                _context.next = 9;
+                break;
+
+              case 8:
+                if (this._shouldReset()) {
                   this.store.dispatch({
                     type: this.actionTypes.resetSuccess
                   });
@@ -159,7 +186,7 @@ var GlipPosts = (_dec = (0, _di.Module)({
                   this._processSubscription();
                 }
 
-              case 1:
+              case 9:
               case 'end':
                 return _context.stop();
             }
@@ -176,12 +203,12 @@ var GlipPosts = (_dec = (0, _di.Module)({
   }, {
     key: '_shouldInit',
     value: function _shouldInit() {
-      return this._auth.loggedIn && this._subscription.ready && this.pending;
+      return this._auth.loggedIn && this._subscription.ready && this._rolesAndPermissions.ready && this.pending;
     }
   }, {
     key: '_shouldReset',
     value: function _shouldReset() {
-      return (!this._auth.loggedIn || !this._subscription.ready) && this.ready;
+      return (!this._auth.loggedIn || !this._rolesAndPermissions.ready || !this._subscription.ready) && this.ready;
     }
   }, {
     key: '_shouldSubscribe',
@@ -579,6 +606,11 @@ var GlipPosts = (_dec = (0, _di.Module)({
     key: 'fetchTimeMap',
     get: function get() {
       return this.state.fetchTimes;
+    }
+  }, {
+    key: '_hasPermission',
+    get: function get() {
+      return this._rolesAndPermissions.hasGlipPermission;
     }
   }]);
   return GlipPosts;

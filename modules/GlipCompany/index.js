@@ -59,6 +59,10 @@ var _getter = require('../../lib/getter');
 
 var _getter2 = _interopRequireDefault(_getter);
 
+var _ensureExist = require('../../lib/ensureExist');
+
+var _ensureExist2 = _interopRequireDefault(_ensureExist);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _initDefineProp(target, property, descriptor, context) {
@@ -109,7 +113,7 @@ function _initializerWarningHelper(descriptor, context) {
  * @description Glip Company managing module.
  */
 var GlipCompany = (_dec = (0, _di.Module)({
-  deps: ['Client', { dep: 'GLipCompanyOptions', optional: true }]
+  deps: ['Client', 'RolesAndPermissions', { dep: 'GLipCompanyOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_DataFetcher) {
   (0, _inherits3.default)(GlipCompany, _DataFetcher);
 
@@ -122,7 +126,8 @@ var GlipCompany = (_dec = (0, _di.Module)({
     var _this2 = this;
 
     var client = _ref.client,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client']);
+        rolesAndPermissions = _ref.rolesAndPermissions,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'rolesAndPermissions']);
     (0, _classCallCheck3.default)(this, GlipCompany);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (GlipCompany.__proto__ || (0, _getPrototypeOf2.default)(GlipCompany)).call(this, (0, _extends3.default)({
@@ -136,7 +141,7 @@ var GlipCompany = (_dec = (0, _di.Module)({
               switch (_context.prev = _context.next) {
                 case 0:
                   _context.next = 2;
-                  return client.glip().companies('~').get();
+                  return _this._client.glip().companies('~').get();
 
                 case 2:
                   response = _context.sent;
@@ -155,11 +160,16 @@ var GlipCompany = (_dec = (0, _di.Module)({
         }
 
         return fetchFunction;
-      }()
+      }(),
+      readyCheckFn: function readyCheckFn() {
+        return _this._rolesAndPermissions.ready;
+      },
+      cleanOnReset: true
     }, options)));
 
     _initDefineProp(_this, 'info', _descriptor, _this);
 
+    _this._rolesAndPermissions = _ensureExist2.default.call(_this, rolesAndPermissions, 'rolesAndPermissions');
     return _this;
   }
 
@@ -177,6 +187,11 @@ var GlipCompany = (_dec = (0, _di.Module)({
     key: 'id',
     get: function get() {
       return this.info.id;
+    }
+  }, {
+    key: '_hasPermission',
+    get: function get() {
+      return !!this._rolesAndPermissions.hasGlipPermission;
     }
   }]);
   return GlipCompany;
