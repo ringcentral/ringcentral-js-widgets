@@ -26,5 +26,4 @@ export default new Enum([
   'setSessionCaching',
   'clearSessionCaching',
   'onholdCachedSession',
-  'changeSessionToView',
 ], 'webphone');

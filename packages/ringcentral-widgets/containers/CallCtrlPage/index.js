@@ -313,8 +313,17 @@ function mapToProps(_, {
     callingSettings,
   },
   layout = callCtrlLayouts.normalCtrl,
+  params,
 }) {
-  const currentSession = webphone.sessionToView || webphone.activeSession || {};
+  const sessionId = params && params.sessionId;
+  let currentSession;
+
+  if (sessionId) {
+    currentSession = webphone.sessions.find(session => session.id === sessionId) || {};
+  } else {
+    currentSession = webphone.activeSession || {};
+  }
+
   const contactMapping = contactMatcher && contactMatcher.dataMapping;
   const fromMatches = (contactMapping && contactMapping[currentSession.from]) || [];
   const toMatches = (contactMapping && contactMapping[currentSession.to]) || [];

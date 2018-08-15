@@ -254,14 +254,15 @@ export default class BasePhone extends RcModule {
       ) {
         if (
           routerInteraction.currentPath === '/conferenceCall/mergeCtrl' ||
-          routerInteraction.currentPath === '/calls/active' ||
+          routerInteraction.currentPath.indexOf('/calls/active') === 0 ||
           routerInteraction.currentPath.indexOf('/conferenceCall/dialer/') === 0 ||
           !currentSession
         ) {
           routerInteraction.push('/dialer');
           return;
         }
-        if (routerInteraction.currentPath !== '/calls/active') {
+
+        if (routerInteraction.currentPath.indexOf('/calls/active') === -1) {
           routerInteraction.push('/calls/active');
           return;
         }

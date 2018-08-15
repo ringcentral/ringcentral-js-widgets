@@ -67,7 +67,7 @@ export default function CallsOnholdContainer({
                 showHold={false}
               />
             ))
-            : <div className={styles.noCalls}>{i18n.getString('noCallsOnhold', currentLocale)}</div>
+            : <div className={styles.noCalls}>{i18n.getString('noCalls', currentLocale)}</div>
         }
       </div>
       <div className={styles.addBtnContainer}>
