@@ -1,6 +1,8 @@
 @import '../../lib/commonStyles/colors';
 $fixed-avatar-width:35px;
 $padding-horizontal:20px;
+$avatar-basis:45.5px;
+$button-basis:68.5px;
 .callItemContainer {
   padding: $padding-horizontal*3/4 $padding-horizontal;
   border-bottom: 1px solid #e2e2e2;
@@ -11,6 +13,7 @@ $padding-horizontal:20px;
     margin-right: auto;
     color: $primary-color;
     overflow: hidden;
+    flex-basis: $avatar-basis;
     .icon {
       display: block;
       font-size: $fixed-avatar-width;
@@ -18,10 +21,12 @@ $padding-horizontal:20px;
     }
   }
   .content {
-    max-width: calc(100% - 120px);
-    overflow: visible;
+    max-width: calc(100% - #{$avatar-basis+$button-basis});
+    overflow: visible !important;
+    flex-shrink: 1;
   }
   .webphoneButton {
+    flex-basis: $button-basis;
     &:not(:last-of-type) {
       margin-right: $padding-horizontal/2;
     }
