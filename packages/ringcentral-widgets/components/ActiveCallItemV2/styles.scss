@@ -17,6 +17,10 @@ $padding-horizontal:20px;
       opacity: 0.3;
     }
   }
+  .content {
+    max-width: calc(100% - 120px);
+    overflow: visible;
+  }
   .webphoneButton {
     &:not(:last-of-type) {
       margin-right: $padding-horizontal/2;
@@ -95,9 +99,4 @@ $padding-horizontal:20px;
 
 .pointer {
   cursor: pointer;
-}
-
-.content {
-  max-width: calc(100% - 120px);
-  overflow: visible;
 }
