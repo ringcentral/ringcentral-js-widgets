@@ -12,10 +12,6 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
 var _reactRedux = require('react-redux');
 
 var _withPhone = require('ringcentral-widgets/lib/withPhone');

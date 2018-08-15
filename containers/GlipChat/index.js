@@ -16,6 +16,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _reactRedux = require('react-redux');
 
 var _withPhone = require('ringcentral-widgets/lib/withPhone');
@@ -28,11 +32,53 @@ var _GlipChatPanel2 = _interopRequireDefault(_GlipChatPanel);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function mapToProps(_, _ref) {
-  var params = _ref.params,
-      _ref$phone = _ref.phone,
-      glipGroups = _ref$phone.glipGroups,
-      glipPosts = _ref$phone.glipPosts;
+function getAtRender(_ref) {
+  var groups = _ref.groups,
+      personsMap = _ref.personsMap,
+      onViewPersonProfile = _ref.onViewPersonProfile,
+      onViewGroup = _ref.onViewGroup;
+
+  var AtRender = function AtRender(_ref2) {
+    var id = _ref2.id,
+        type = _ref2.type;
+
+    var name = id;
+    if (type === 'Team') {
+      var group = groups.find(function (g) {
+        return g.id === id;
+      });
+      name = group && group.name;
+    } else {
+      var person = personsMap[id];
+      name = person && '' + person.firstName + (person.lastName ? ' ' + person.lastName : '') || id;
+    }
+    var onClickAtLink = function onClickAtLink(e) {
+      e.preventDefault();
+      if (type === 'Person') {
+        onViewPersonProfile(id);
+      } else if (type === 'Team') {
+        onViewGroup(id);
+      }
+    };
+    return _react2.default.createElement(
+      'a',
+      { href: '#' + id, onClick: onClickAtLink },
+      '@',
+      name
+    );
+  };
+  AtRender.propTypes = {
+    id: _propTypes2.default.number.isRequired,
+    type: _propTypes2.default.string.isRequired
+  };
+  return AtRender;
+}
+
+function mapToProps(_, _ref3) {
+  var params = _ref3.params,
+      _ref3$phone = _ref3.phone,
+      glipGroups = _ref3$phone.glipGroups,
+      glipPosts = _ref3$phone.glipPosts;
 
   return {
     groupId: params.groupId,
@@ -42,20 +88,20 @@ function mapToProps(_, _ref) {
   };
 }
 
-function mapToFunctions(_, _ref2) {
-  var _ref2$phone = _ref2.phone,
-      glipGroups = _ref2$phone.glipGroups,
-      glipPosts = _ref2$phone.glipPosts,
-      glipPersons = _ref2$phone.glipPersons,
-      dateTimeFormat = _ref2$phone.dateTimeFormat,
-      _ref2$dateTimeFormatt = _ref2.dateTimeFormatter,
-      dateTimeFormatter = _ref2$dateTimeFormatt === undefined ? function (time) {
+function mapToFunctions(_, _ref4) {
+  var _ref4$phone = _ref4.phone,
+      glipGroups = _ref4$phone.glipGroups,
+      glipPosts = _ref4$phone.glipPosts,
+      glipPersons = _ref4$phone.glipPersons,
+      dateTimeFormat = _ref4$phone.dateTimeFormat,
+      _ref4$dateTimeFormatt = _ref4.dateTimeFormatter,
+      dateTimeFormatter = _ref4$dateTimeFormatt === undefined ? function (time) {
     return dateTimeFormat.formatDateTime({ utcTimestamp: time });
-  } : _ref2$dateTimeFormatt,
-      onViewPersonProfile = _ref2.onViewPersonProfile,
-      onViewGroup = _ref2.onViewGroup,
-      _ref2$mobile = _ref2.mobile,
-      mobile = _ref2$mobile === undefined ? true : _ref2$mobile;
+  } : _ref4$dateTimeFormatt,
+      onViewPersonProfile = _ref4.onViewPersonProfile,
+      onViewGroup = _ref4.onViewGroup,
+      _ref4$mobile = _ref4.mobile,
+      mobile = _ref4$mobile === undefined ? true : _ref4$mobile;
 
   return {
     mobile: mobile,
@@ -63,7 +109,7 @@ function mapToFunctions(_, _ref2) {
       glipGroups.updateCurrentGroupId(groupId);
     },
     loadNextPage: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -80,13 +126,13 @@ function mapToFunctions(_, _ref2) {
       }));
 
       function loadNextPage() {
-        return _ref3.apply(this, arguments);
+        return _ref5.apply(this, arguments);
       }
 
       return loadNextPage;
     }(),
     createPost: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -105,7 +151,7 @@ function mapToFunctions(_, _ref2) {
       }));
 
       function createPost() {
-        return _ref4.apply(this, arguments);
+        return _ref6.apply(this, arguments);
       }
 
       return createPost;
@@ -125,35 +171,12 @@ function mapToFunctions(_, _ref2) {
         groupId: glipGroups.currentGroupId
       });
     },
-    atRender: function atRender(_ref5) {
-      var id = _ref5.id,
-          type = _ref5.type;
-
-      var name = id;
-      if (type === 'Team') {
-        var group = glipGroups.allGroups.find(function (g) {
-          return g.id === id;
-        });
-        name = group && group.name;
-      } else {
-        var person = glipPersons.personsMap[id];
-        name = person && '' + person.firstName + (person.lastName ? ' ' + person.lastName : '') || id;
-      }
-      var onClickAtLink = function onClickAtLink(e) {
-        e.preventDefault();
-        if (type === 'Person') {
-          onViewPersonProfile(id);
-        } else if (type === 'Team') {
-          onViewGroup(id);
-        }
-      };
-      return _react2.default.createElement(
-        'a',
-        { href: '#' + id, onClick: onClickAtLink },
-        '@',
-        name
-      );
-    },
+    atRender: getAtRender({
+      groups: glipGroups.allGroups,
+      personsMap: glipPersons.personsMap,
+      onViewPersonProfile: onViewPersonProfile,
+      onViewGroup: onViewGroup
+    }),
     viewProfile: function viewProfile(personId) {
       if (personId) {
         onViewPersonProfile(personId);

@@ -33,10 +33,10 @@ function GroupAvatar(_ref) {
 
   var image = void 0;
   if (persons.length <= 2) {
-    var noMes = persons.filter(function (p) {
+    var personsWithoutMe = persons.filter(function (p) {
       return !p.isMe;
     });
-    var person = noMes && noMes[0];
+    var person = personsWithoutMe && personsWithoutMe[0];
     image = _react2.default.createElement('img', {
       className: _styles2.default.big,
       src: person && person.avatar || _default_avatar2.default,

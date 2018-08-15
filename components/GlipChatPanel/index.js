@@ -63,8 +63,6 @@ var _GlipGroupName2 = _interopRequireDefault(_GlipGroupName);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var HEADER_HEIGHT = 50;
-
 var GlipChatPage = function (_Component) {
   (0, _inherits3.default)(GlipChatPage, _Component);
 
@@ -74,7 +72,8 @@ var GlipChatPage = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (GlipChatPage.__proto__ || (0, _getPrototypeOf2.default)(GlipChatPage)).call(this, props));
 
     _this.state = {
-      inputHeight: props.mobile ? 100 : 110
+      inputHeight: props.mobile ? 80 : 110,
+      headerHeight: props.mobile ? 38 : 50
     };
     return _this;
   }
@@ -119,7 +118,13 @@ var GlipChatPage = function (_Component) {
         },
         _react2.default.createElement(
           'div',
-          { className: _styles2.default.header, style: { height: HEADER_HEIGHT } },
+          {
+            className: _styles2.default.header,
+            style: {
+              height: this.state.headerHeight,
+              lineHeight: this.state.headerHeight + 'px'
+            }
+          },
           backIcon,
           _react2.default.createElement(_GlipGroupName2.default, { group: group, showNumber: true })
         ),
@@ -127,7 +132,7 @@ var GlipChatPage = function (_Component) {
           'div',
           {
             className: _styles2.default.content,
-            style: { height: 'calc(100% - ' + (this.state.inputHeight + HEADER_HEIGHT) + 'px)' }
+            style: { height: 'calc(100% - ' + (this.state.inputHeight + this.state.headerHeight) + 'px)' }
           },
           _react2.default.createElement(_GlipPostList2.default, {
             posts: posts,
