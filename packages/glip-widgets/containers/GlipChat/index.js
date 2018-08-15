@@ -6,15 +6,15 @@ import withPhone from 'ringcentral-widgets/lib/withPhone';
 import GlipChatPanel from '../../components/GlipChatPanel';
 
 function getAtRender({
-  groups, personsMap, onViewPersonProfile, onViewGroup
+  glipGroups, glipPersons, onViewPersonProfile, onViewGroup
 }) {
   const AtRender = ({ id, type }) => {
     let name = id;
     if (type === 'Team') {
-      const group = groups.find(g => g.id === id);
+      const group = glipGroups.allGroups.find(g => g.id === id);
       name = group && group.name;
     } else {
-      const person = personsMap[id];
+      const person = glipPersons.personsMap[id];
       name = (
         person &&
         `${person.firstName}${person.lastName ? ` ${person.lastName}` : ''}`
@@ -97,8 +97,8 @@ function mapToFunctions(_, {
       groupId: glipGroups.currentGroupId,
     }),
     atRender: getAtRender({
-      groups: glipGroups.allGroups,
-      personsMap: glipPersons.personsMap,
+      glipGroups,
+      glipPersons,
       onViewPersonProfile,
       onViewGroup,
     }),
