@@ -36,6 +36,7 @@ async function generateSource() {
       template: \`hello
       world\`,
       419: 'number as key',
+      [\`\${obj.key}-copy\`]: 'template as key',
     };
   `);
 }
@@ -89,6 +90,7 @@ describe('importLocale', () => {
     expect(json.template).toBe(`hello
       world`);
     expect(json[419]).toBe('number as key');
+    expect(json['testKey-copy']).toBe('template as key');
   });
   test('should generate annotations', async () => {
     await importLocale(config);

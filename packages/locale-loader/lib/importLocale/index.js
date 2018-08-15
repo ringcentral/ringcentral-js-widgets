@@ -236,7 +236,11 @@ async function mergeTranslationData({
             );
             const properties = filter(
               (prop) => {
-                const key = prop.key.type === 'MemberExpression' ?
+                const wrapInBracket = (
+                  prop.key.type === 'MemberExpression' ||
+                  prop.key.type === 'TemplateLiteral'
+                );
+                const key = wrapInBracket ?
                   `[${generate(prop.key).code}]` :
                   generate(prop.key).code;
                 const entry = targetData.data.get(key);

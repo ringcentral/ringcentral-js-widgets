@@ -36,6 +36,7 @@ describe('exportLocale', () => {
           "double-'quote'": 'Double Quote',
           [a + b]: 'Odd Key',
           4: 'number key',
+          [\`\${a}key\`]: 'template in key',
         };
         `);
     });
@@ -77,6 +78,8 @@ describe('exportLocale', () => {
           expect(content.indexOf("double-'quote'") > -1).toBe(true);
           expect(content.indexOf('[a + b]') > -1).toBe(true);
           expect(content.indexOf('Odd Key') > -1).toBe(true);
+          /* eslint-disable-next-line */
+          expect(content.indexOf('[[`${a}key`]]') > -1).toBe(true);
         })
       );
     });
