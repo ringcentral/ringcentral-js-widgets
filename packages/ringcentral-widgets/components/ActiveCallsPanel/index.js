@@ -35,7 +35,7 @@ export default class ActiveCallsPanel extends Component {
     );
   }
 
-  getCallList(calls, title) {
+  getCallList(calls, title, showCallDetail = false) {
     const {
       currentLocale,
       areaCode,
@@ -61,8 +61,13 @@ export default class ActiveCallsPanel extends Component {
       sourceIcons,
       activeCurrentCalls,
       isWebRTC,
-      conferenceCallEquipped,
       isSessionAConferenceCall,
+      onCallItemClick,
+      getAvatarUrl,
+      conferenceCallParties,
+      webphoneHold,
+      useV2,
+      updateSessionMatchedContact,
     } = this.props;
 
     return (
@@ -92,9 +97,15 @@ export default class ActiveCallsPanel extends Component {
         enableContactFallback={enableContactFallback}
         sourceIcons={sourceIcons}
         isWebRTC={isWebRTC}
-        conferenceCallEquipped={conferenceCallEquipped}
         currentCall={activeCurrentCalls[0]}
         isSessionAConferenceCall={isSessionAConferenceCall}
+        useV2={useV2}// TODO: Maybe we should make all the call item consistent
+        onCallItemClick={onCallItemClick}
+        getAvatarUrl={getAvatarUrl}
+        conferenceCallParties={conferenceCallParties}
+        webphoneHold={webphoneHold}
+        showCallDetail={showCallDetail}
+        updateSessionMatchedContact={updateSessionMatchedContact}
       />
     );
   }
@@ -128,7 +139,7 @@ export default class ActiveCallsPanel extends Component {
           {this.getCallList(activeRingCalls, i18n.getString('ringCall', currentLocale))}
           {this.getCallList(activeCurrentCalls, i18n.getString('currentCall', currentLocale))}
           {this.getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}
-          {this.getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale))}
+          {this.getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale), true)}
         </div>
         {showSpinner ? <SpinnerOverlay className={styles.spinner} /> : null}
       </div>
@@ -166,9 +177,14 @@ ActiveCallsPanel.propTypes = {
   onCallsEmpty: PropTypes.func,
   sourceIcons: PropTypes.object,
   isWebRTC: PropTypes.bool.isRequired,
-  conferenceCallEquipped: PropTypes.bool,
   showSpinner: PropTypes.bool,
   isSessionAConferenceCall: PropTypes.func,
+  onCallItemClick: PropTypes.func,
+  getAvatarUrl: PropTypes.func,
+  conferenceCallParties: PropTypes.arrayOf(PropTypes.object),
+  webphoneHold: PropTypes.func,
+  useV2: PropTypes.bool,
+  updateSessionMatchedContact: PropTypes.func,
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -192,7 +208,12 @@ ActiveCallsPanel.defaultProps = {
   autoLog: false,
   onCallsEmpty: undefined,
   sourceIcons: undefined,
-  conferenceCallEquipped: false,
   showSpinner: false,
   isSessionAConferenceCall: () => false,
+  onCallItemClick: false,
+  getAvatarUrl: i => i,
+  conferenceCallParties: [],
+  webphoneHold: i => i,
+  useV2: false,
+  updateSessionMatchedContact: i => i,
 };

@@ -63,7 +63,7 @@ export default function App({
                   defaultOffsetX={0}
                   defaultOffsetY={73}
                   hidden={(
-                    routerProps.location.pathname === '/calls/active' ||
+                    routerProps.location.pathname.indexOf('/calls/active') === 0 ||
                     routerProps.location.pathname === '/conferenceCall/mergeCtrl' ||
                     routerProps.location.pathname.indexOf('/conferenceCall/callsOnhold') === 0 ||
                     routerProps.location.pathname.indexOf('/conferenceCall/dialer') === 0 ||
@@ -155,16 +155,19 @@ export default function App({
                       onCreateContact={() => { }}
                       onCallsEmpty={() => { }}
                       sourceIcons={sourceIcons}
+                      getAvatarUrl={getAvatarUrl}
+                      useV2
                     />
                   </DialerAndCallsTabContainer>
                 )} />
               <Route
-                path="/calls/active"
-                component={() => (
+                path="/calls/active(/:sessionId)"
+                component={routerProps => (
                   <CallCtrlPage
                     showContactDisplayPlaceholder={false}
                     sourceIcons={sourceIcons}
                     getAvatarUrl={getAvatarUrl}
+                    params={routerProps.params}
                     onAdd={() => {
                       phone.routerInteraction.push('/dialer');
                     }}

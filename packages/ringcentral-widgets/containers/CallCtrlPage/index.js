@@ -313,8 +313,17 @@ function mapToProps(_, {
     callingSettings,
   },
   layout = callCtrlLayouts.normalCtrl,
+  params,
 }) {
-  const currentSession = webphone.activeSession || {};
+  const sessionId = params && params.sessionId;
+  let currentSession;
+
+  if (sessionId) {
+    currentSession = webphone.sessions.find(session => session.id === sessionId) || {};
+  } else {
+    currentSession = webphone.activeSession || {};
+  }
+
   const contactMapping = contactMatcher && contactMatcher.dataMapping;
   const fromMatches = (contactMapping && contactMapping[currentSession.from]) || [];
   const toMatches = (contactMapping && contactMapping[currentSession.to]) || [];
@@ -324,7 +333,7 @@ function mapToProps(_, {
   const isWebRTC = callingSettings.callingMode === callingModes.webphone;
   const isInoundCall = currentSession.direction === callDirections.inbound;
   let mergeDisabled = !isWebRTC || isInoundCall || !currentSession.partyData;
-  let addDisabled = !isWebRTC || isInoundCall;
+  let addDisabled = !isWebRTC || isInoundCall || !currentSession.partyData;
 
   let isOnConference = false;
   let hasConferenceCall = false;
@@ -460,7 +469,7 @@ function mapToFunctions(_, {
         routerInteraction.push('/conferenceCall/mergeCtrl');
         return;
       }
-      routerInteraction.push('/calls/active');
+      routerInteraction.push(`/calls/active/${conferenceData.sessionId}`);
     },
     onIncomingCallCaptured() {
       routerInteraction.push('/calls/active');

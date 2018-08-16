@@ -16,17 +16,25 @@ import {
 
 class CallsOnholdContainer extends Component {
   static propTypes = {
-    activeOnHoldCalls: PropTypes.arrayOf(PropTypes.object).isRequired,
+    calls: PropTypes.arrayOf(PropTypes.object).isRequired,
+    fromSessionId: PropTypes.string.isRequired,
+    isConferenceSession: PropTypes.func.isRequired,
   }
 
   constructor(props) {
     super(props);
 
     this.getCalls = createSelector(
-      () => this.props.activeOnHoldCalls,
-      activeOnHoldCalls => filter(
-        call => call.direction !== callDirections.inbound,
-        activeOnHoldCalls
+      () => this.props.calls,
+      () => this.props.fromSessionId,
+      (calls, fromSessionId) => filter(
+        call => (
+          call.webphoneSession &&
+          call.direction !== callDirections.inbound
+          && !this.props.isConferenceSession(call.webphoneSession)
+          && call.webphoneSession.id !== fromSessionId
+        ),
+        calls
       ),
     );
   }
@@ -41,8 +49,10 @@ function mapToProps(_, {
   phone: {
     callMonitor,
   },
+  params,
   ...props
 }) {
+  const { fromSessionId } = params;
   const baseProps = mapToBaseProps(_, {
     phone,
     ...props,
@@ -50,7 +60,8 @@ function mapToProps(_, {
 
   return {
     ...baseProps,
-    activeOnHoldCalls: callMonitor.activeOnHoldCalls,
+    calls: callMonitor.calls,
+    fromSessionId,
   };
 }
 
@@ -89,6 +100,7 @@ function mapToFunctions(_, {
       routerInteraction.push(`/conferenceCall/dialer/${params.fromNumber}`);
     },
     getAvatarUrl,
+    isConferenceSession: (...args) => conferenceCall.isConferenceSession(...args),
   };
 }
 

@@ -21,7 +21,6 @@ function ParticipantItem({
 }) {
   return (
     <MediaObject
-      leftAlignment="middle"
       containerCls={styles.participantItem}
       mediaLeft={
         <div className={styles.avatar}>
@@ -30,7 +29,6 @@ function ParticipantItem({
       }
       mediaBody={detail}
       bodyCls={styles.detail}
-      rightAlignment="middle"
       mediaRight={
         <span title={i18n.getString('removeParticipant', currentLocale)} className={styles.webphoneButton}>
           <CircleButton
