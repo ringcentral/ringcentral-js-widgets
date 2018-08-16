@@ -487,6 +487,7 @@ function conferencing() {
   });
 }
 
+// TODO: replace it with numberParser
 function numberParse() {
   var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var homeCountry = arguments[1];
