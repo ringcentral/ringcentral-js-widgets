@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  forward: 'Forward',
-  cancel: 'Cancel',
-  customNumber: 'Custom number'
+  forward: "Forward",
+  cancel: "Cancel",
+  customNumber: "Custom number"
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

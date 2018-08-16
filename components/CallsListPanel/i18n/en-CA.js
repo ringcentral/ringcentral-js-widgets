@@ -1,17 +1,16 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  noActiveCalls: 'No active calls',
-  currentCall: 'Current Call',
-  ringCall: 'Ringing Call',
-  onHoldCall: 'Call on Hold',
-  otherDeviceCall: 'Ongoing calls on my other devices',
-  noCalls: 'No results found.',
-  historyCalls: 'Last Calls',
-  searchPlaceholder: 'Search...'
+  noActiveCalls: "No active calls",
+  noCalls: "No results found.",
+  currentCall: "Current Call",
+  ringCall: "Ringing Call",
+  onHoldCall: "Call on Hold",
+  historyCalls: "Last Calls",
+  otherDeviceCall: "Ongoing calls on my other devices"
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@

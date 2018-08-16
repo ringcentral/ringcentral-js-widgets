@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   region: "地区",
-  calling: "正在呼叫",
+  calling: "呼叫",
   logout: "注销",
   version: "版本",
   settings: "设置",

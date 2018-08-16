@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   title: "地区",
-  NAOnlyMessage: "请设置区号。区号将用于本地拨号。",
+  NAOnlyMessage: "请设置您的区号。此信息将用于本地拨号。",
   MultiWithNAMessage: "请为您的地区设置国家代码和区号。此信息将用于本地拨号和电话号码格式。",
   MultiWithoutNAMessage: "请选择您所在的国家/地区。此信息将用于本地拨号和电话号码格式。",
   country: "国家/地区",
