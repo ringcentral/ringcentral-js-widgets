@@ -413,9 +413,20 @@ function mapToProps(_, _ref) {
       conferenceCall = _ref$phone.conferenceCall,
       callingSettings = _ref$phone.callingSettings,
       _ref$layout = _ref.layout,
-      layout = _ref$layout === undefined ? _callCtrlLayouts2.default.normalCtrl : _ref$layout;
+      layout = _ref$layout === undefined ? _callCtrlLayouts2.default.normalCtrl : _ref$layout,
+      params = _ref.params;
 
-  var currentSession = webphone.activeSession || {};
+  var sessionId = params && params.sessionId;
+  var currentSession = void 0;
+
+  if (sessionId) {
+    currentSession = webphone.sessions.find(function (session) {
+      return session.id === sessionId;
+    }) || {};
+  } else {
+    currentSession = webphone.activeSession || {};
+  }
+
   var contactMapping = contactMatcher && contactMatcher.dataMapping;
   var fromMatches = contactMapping && contactMapping[currentSession.from] || [];
   var toMatches = contactMapping && contactMapping[currentSession.to] || [];
@@ -424,7 +435,7 @@ function mapToProps(_, _ref) {
   var isWebRTC = callingSettings.callingMode === _callingModes2.default.webphone;
   var isInoundCall = currentSession.direction === _callDirections2.default.inbound;
   var mergeDisabled = !isWebRTC || isInoundCall || !currentSession.partyData;
-  var addDisabled = !isWebRTC || isInoundCall;
+  var addDisabled = !isWebRTC || isInoundCall || !currentSession.partyData;
 
   var isOnConference = false;
   var hasConferenceCall = false;
@@ -601,7 +612,7 @@ function mapToFunctions(_, _ref2) {
                 return _context.abrupt('return');
 
               case 6:
-                routerInteraction.push('/calls/active');
+                routerInteraction.push('/calls/active/' + conferenceData.sessionId);
 
               case 7:
               case 'end':

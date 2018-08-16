@@ -20,6 +20,10 @@ var _ActiveCallItem = require('../ActiveCallItem');
 
 var _ActiveCallItem2 = _interopRequireDefault(_ActiveCallItem);
 
+var _ActiveCallItemV = require('../ActiveCallItemV2');
+
+var _ActiveCallItemV2 = _interopRequireDefault(_ActiveCallItemV);
+
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -56,28 +60,37 @@ function ActiveCallList(_ref) {
       enableContactFallback = _ref.enableContactFallback,
       title = _ref.title,
       sourceIcons = _ref.sourceIcons,
-      conferenceCallEquipped = _ref.conferenceCallEquipped,
-      isSessionAConferenceCall = _ref.isSessionAConferenceCall;
+      isSessionAConferenceCall = _ref.isSessionAConferenceCall,
+      onCallItemClick = _ref.onCallItemClick,
+      getAvatarUrl = _ref.getAvatarUrl,
+      conferenceCallParties = _ref.conferenceCallParties,
+      useV2 = _ref.useV2,
+      webphoneHold = _ref.webphoneHold,
+      showCallDetail = _ref.showCallDetail,
+      updateSessionMatchedContact = _ref.updateSessionMatchedContact;
 
   if (!calls.length) {
     return null;
   }
+  var Component = useV2 ? _ActiveCallItemV2.default : _ActiveCallItem2.default;
 
   return _react2.default.createElement(
     'div',
     { className: (0, _classnames2.default)(_styles2.default.list, className) },
     _react2.default.createElement(
       'div',
-      { className: _styles2.default.listTitle },
+      {
+        className: _styles2.default.listTitle,
+        style: {
+          marginBottom: useV2 && title ? '-5px' : null
+        }
+      },
       title
     ),
     calls.map(function (call) {
-      var isOnConferenceCall = false;
-      if (conferenceCallEquipped) {
-        isOnConferenceCall = call.webphoneSession ? isSessionAConferenceCall(call.webphoneSession.id) : isConferenceCall(call); // in case it's an other device call
-      }
+      var isOnConferenceCall = call.webphoneSession ? isSessionAConferenceCall(call.webphoneSession.id) : isConferenceCall(call); // in case it's an other device call
 
-      return _react2.default.createElement(_ActiveCallItem2.default, {
+      return _react2.default.createElement(Component, {
         call: call,
         key: call.id,
         isOnConferenceCall: isOnConferenceCall,
@@ -103,7 +116,15 @@ function ActiveCallList(_ref) {
         enableContactFallback: enableContactFallback,
         autoLog: autoLog,
         sourceIcons: sourceIcons,
-        hasActionMenu: !isOnConferenceCall
+        hasActionMenu: !isOnConferenceCall,
+        onClick: function onClick() {
+          return onCallItemClick(call);
+        },
+        getAvatarUrl: getAvatarUrl,
+        conferenceCallParties: conferenceCallParties,
+        webphoneHold: webphoneHold,
+        showCallDetail: showCallDetail,
+        updateSessionMatchedContact: updateSessionMatchedContact
       });
     })
   );
@@ -135,8 +156,14 @@ ActiveCallList.propTypes = {
   enableContactFallback: _propTypes2.default.bool,
   autoLog: _propTypes2.default.bool,
   sourceIcons: _propTypes2.default.object,
-  conferenceCallEquipped: _propTypes2.default.bool,
-  isSessionAConferenceCall: _propTypes2.default.func
+  isSessionAConferenceCall: _propTypes2.default.func,
+  useV2: _propTypes2.default.bool,
+  onCallItemClick: _propTypes2.default.func,
+  getAvatarUrl: _propTypes2.default.func,
+  conferenceCallParties: _propTypes2.default.arrayOf(_propTypes2.default.object),
+  webphoneHold: _propTypes2.default.func,
+  showCallDetail: _propTypes2.default.bool,
+  updateSessionMatchedContact: _propTypes2.default.func
 };
 
 ActiveCallList.defaultProps = {
@@ -159,9 +186,23 @@ ActiveCallList.defaultProps = {
   onViewContact: undefined,
   webphoneToVoicemail: undefined,
   sourceIcons: undefined,
-  conferenceCallEquipped: false,
   isSessionAConferenceCall: function isSessionAConferenceCall() {
     return false;
+  },
+  useV2: false,
+  onCallItemClick: function onCallItemClick(i) {
+    return i;
+  },
+  getAvatarUrl: function getAvatarUrl(i) {
+    return i;
+  },
+  conferenceCallParties: [],
+  webphoneHold: function webphoneHold(i) {
+    return i;
+  },
+  showCallDetail: false,
+  updateSessionMatchedContact: function updateSessionMatchedContact(i) {
+    return i;
   }
 };
 

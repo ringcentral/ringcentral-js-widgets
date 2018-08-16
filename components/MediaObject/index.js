@@ -30,6 +30,10 @@ function capitalize(str) {
   return str[0].toUpperCase() + str.slice(1);
 }
 
+function getMeidaCls(str) {
+  return _styles2.default['media' + capitalize(str)];
+}
+
 function MediaObject(_ref) {
   var _classnames;
 
@@ -43,11 +47,13 @@ function MediaObject(_ref) {
       mediaHeading = _ref.mediaHeading,
       headingCls = _ref.headingCls,
       leftAlignment = _ref.leftAlignment,
+      bodyAlignment = _ref.bodyAlignment,
       rightAlignment = _ref.rightAlignment,
       flexible = _ref.flexible;
 
-  var leftAlignmentClassName = _styles2.default['media' + capitalize(leftAlignment)];
-  var rightAlignmentClassName = _styles2.default['media' + capitalize(rightAlignment)];
+  var leftAlignmentClassName = getMeidaCls(leftAlignment);
+  var rightAlignmentClassName = getMeidaCls(rightAlignment);
+  var bodyAlignmentClassName = getMeidaCls(bodyAlignment);
 
   return _react2.default.createElement(
     'div',
@@ -63,7 +69,7 @@ function MediaObject(_ref) {
     ) : null,
     _react2.default.createElement(
       'div',
-      { className: (0, _classnames3.default)(_styles2.default.mediaBody, bodyCls) },
+      { className: (0, _classnames3.default)(_styles2.default.mediaBody, bodyAlignmentClassName, bodyCls) },
       mediaHeading ? _react2.default.createElement(
         'h4',
         { className: (0, _classnames3.default)(_styles2.default.mediaHeading, headingCls) },
@@ -94,6 +100,7 @@ MediaObject.propTypes = {
   rightCls: _propTypes2.default.string,
   headingCls: _propTypes2.default.string,
   leftAlignment: _propTypes2.default.oneOf(['top', 'middle', 'bottom']),
+  bodyAlignment: _propTypes2.default.oneOf(['top', 'middle', 'bottom']),
   rightAlignment: _propTypes2.default.oneOf(['top', 'middle', 'bottom']),
   flexible: _propTypes2.default.bool
 };
@@ -108,8 +115,9 @@ MediaObject.defaultProps = {
   bodyCls: null,
   rightCls: null,
   headingCls: null,
-  leftAlignment: 'top',
-  rightAlignment: 'top',
+  leftAlignment: 'middle',
+  bodyAlignment: 'middle',
+  rightAlignment: 'middle',
   flexible: true
 };
 

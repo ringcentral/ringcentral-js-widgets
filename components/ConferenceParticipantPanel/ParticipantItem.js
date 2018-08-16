@@ -50,7 +50,6 @@ function ParticipantItem(_ref) {
       currentLocale = _ref.currentLocale;
 
   return _react2.default.createElement(_MediaObject2.default, {
-    leftAlignment: 'middle',
     containerCls: _styles2.default.participantItem,
     mediaLeft: _react2.default.createElement(
       'div',
@@ -59,7 +58,6 @@ function ParticipantItem(_ref) {
     ),
     mediaBody: detail,
     bodyCls: _styles2.default.detail,
-    rightAlignment: 'middle',
     mediaRight: _react2.default.createElement(
       'span',
       { title: _i18n2.default.getString('removeParticipant', currentLocale), className: _styles2.default.webphoneButton },

@@ -29,6 +29,8 @@ exports.default = {
   accept: 'Accept',
   toVoicemail: 'Send to Voicemail',
   anonymous: 'Anonymous',
-  mergeToConference: 'Merge'
+  mergeToConference: 'Merge',
+  hold: 'Hold',
+  unhold: 'Unhold'
 };
 //# sourceMappingURL=en-US.js.map

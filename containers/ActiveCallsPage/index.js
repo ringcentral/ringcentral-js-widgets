@@ -13,19 +13,11 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
-var _values = require('babel-runtime/core-js/object/values');
-
-var _values2 = _interopRequireDefault(_values);
-
 var _reactRedux = require('react-redux');
 
 var _formatNumber = require('ringcentral-integration/lib/formatNumber');
 
 var _formatNumber2 = _interopRequireDefault(_formatNumber);
-
-var _sleep = require('ringcentral-integration/lib/sleep');
-
-var _sleep2 = _interopRequireDefault(_sleep);
 
 var _callingModes = require('ringcentral-integration/modules/CallingSettings/callingModes');
 
@@ -52,18 +44,11 @@ function mapToProps(_, _ref) {
       conferenceCall = _ref$phone.conferenceCall,
       callingSettings = _ref$phone.callingSettings,
       _ref$showContactDispl = _ref.showContactDisplayPlaceholder,
-      showContactDisplayPlaceholder = _ref$showContactDispl === undefined ? false : _ref$showContactDispl;
+      showContactDisplayPlaceholder = _ref$showContactDispl === undefined ? false : _ref$showContactDispl,
+      useV2 = _ref.useV2;
 
   var isWebRTC = callingSettings.callingMode === _callingModes2.default.webphone;
-  var conferenceCallEquipped = !!conferenceCall;
-  var disableMerge = !isWebRTC;
-  if (conferenceCallEquipped) {
-    var conferenceList = (0, _values2.default)(conferenceCall.conferences);
-    var conference = conferenceList.length ? conferenceList[0] : null;
-    if (conference) {
-      disableMerge = conferenceCall.isOverload(conference.conference.id);
-    }
-  }
+
   return {
     currentLocale: locale.currentLocale,
     activeRingCalls: callMonitor.activeRingCalls,
@@ -79,9 +64,8 @@ function mapToProps(_, _ref) {
     showContactDisplayPlaceholder: showContactDisplayPlaceholder,
     autoLog: !!(callLogger && callLogger.autoLog),
     isWebRTC: isWebRTC,
-    conferenceCallEquipped: conferenceCallEquipped,
-    disableMerge: disableMerge,
-    conferenceCallParties: conferenceCall ? conferenceCall.partyProfiles : null
+    conferenceCallParties: conferenceCall ? conferenceCall.partyProfiles : null,
+    useV2: useV2
   };
 }
 
@@ -108,9 +92,9 @@ function mapToFunctions(_, _ref2) {
       onCallsEmpty = _ref2.onCallsEmpty,
       onViewContact = _ref2.onViewContact,
       _ref2$showViewContact = _ref2.showViewContact,
-      showViewContact = _ref2$showViewContact === undefined ? true : _ref2$showViewContact;
+      showViewContact = _ref2$showViewContact === undefined ? true : _ref2$showViewContact,
+      getAvatarUrl = _ref2.getAvatarUrl;
 
-  var isWebRTC = callingSettings.callingMode === _callingModes2.default.webphone;
   return {
     formatPhone: function formatPhone(phoneNumber) {
       return (0, _formatNumber2.default)({
@@ -218,23 +202,9 @@ function mapToFunctions(_, _ref2) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                if (webphone) {
-                  _context5.next = 2;
-                  break;
-                }
+                return _context5.abrupt('return', webphone && webphone.resume.apply(webphone, _args5));
 
-                return _context5.abrupt('return');
-
-              case 2:
-                _context5.next = 4;
-                return webphone.resume.apply(webphone, _args5);
-
-              case 4:
-                if (routerInteraction.currentPath !== callCtrlRoute) {
-                  routerInteraction.push(callCtrlRoute);
-                }
-
-              case 5:
+              case 1:
               case 'end':
                 return _context5.stop();
             }
@@ -248,20 +218,43 @@ function mapToFunctions(_, _ref2) {
 
       return webphoneResume;
     }(),
+    webphoneHold: function () {
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6() {
+        var _args6 = arguments;
+        return _regenerator2.default.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                return _context6.abrupt('return', webphone && webphone.hold.apply(webphone, _args6));
 
-    onViewContact: showViewContact ? onViewContact || function (_ref8) {
-      var contact = _ref8.contact;
+              case 1:
+              case 'end':
+                return _context6.stop();
+            }
+          }
+        }, _callee6, this);
+      }));
+
+      function webphoneHold() {
+        return _ref8.apply(this, arguments);
+      }
+
+      return webphoneHold;
+    }(),
+
+    onViewContact: showViewContact ? onViewContact || function (_ref9) {
+      var contact = _ref9.contact;
       var id = contact.id,
           type = contact.type;
 
       routerInteraction.push('/contacts/' + type + '/' + id + '?direct=true');
     } : null,
     onClickToSms: composeText ? function () {
-      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(contact) {
+      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(contact) {
         var isDummyContact = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-        return _regenerator2.default.wrap(function _callee6$(_context6) {
+        return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 if (routerInteraction) {
                   routerInteraction.push(composeTextRoute);
@@ -276,71 +269,71 @@ function mapToFunctions(_, _ref2) {
 
               case 3:
               case 'end':
-                return _context6.stop();
-            }
-          }
-        }, _callee6, _this);
-      }));
-
-      return function (_x2) {
-        return _ref9.apply(this, arguments);
-      };
-    }() : undefined,
-    onCreateContact: onCreateContact ? function () {
-      var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(_ref10) {
-        var phoneNumber = _ref10.phoneNumber,
-            name = _ref10.name,
-            entityType = _ref10.entityType;
-        var hasMatchNumber;
-        return _regenerator2.default.wrap(function _callee7$(_context7) {
-          while (1) {
-            switch (_context7.prev = _context7.next) {
-              case 0:
-                _context7.next = 2;
-                return contactMatcher.hasMatchNumber({
-                  phoneNumber: phoneNumber,
-                  ignoreCache: true
-                });
-
-              case 2:
-                hasMatchNumber = _context7.sent;
-
-                if (hasMatchNumber) {
-                  _context7.next = 8;
-                  break;
-                }
-
-                _context7.next = 6;
-                return onCreateContact({ phoneNumber: phoneNumber, name: name, entityType: entityType });
-
-              case 6:
-                _context7.next = 8;
-                return contactMatcher.forceMatchNumber({ phoneNumber: phoneNumber });
-
-              case 8:
-              case 'end':
                 return _context7.stop();
             }
           }
         }, _callee7, _this);
       }));
 
-      return function (_x3) {
-        return _ref11.apply(this, arguments);
+      return function (_x2) {
+        return _ref10.apply(this, arguments);
       };
     }() : undefined,
-    isLoggedContact: isLoggedContact,
-    onLogCall: onLogCall || callLogger && function () {
-      var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(_ref12) {
-        var call = _ref12.call,
-            contact = _ref12.contact,
-            _ref12$redirect = _ref12.redirect,
-            redirect = _ref12$redirect === undefined ? true : _ref12$redirect;
+    onCreateContact: onCreateContact ? function () {
+      var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(_ref11) {
+        var phoneNumber = _ref11.phoneNumber,
+            name = _ref11.name,
+            entityType = _ref11.entityType;
+        var hasMatchNumber;
         return _regenerator2.default.wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
                 _context8.next = 2;
+                return contactMatcher.hasMatchNumber({
+                  phoneNumber: phoneNumber,
+                  ignoreCache: true
+                });
+
+              case 2:
+                hasMatchNumber = _context8.sent;
+
+                if (hasMatchNumber) {
+                  _context8.next = 8;
+                  break;
+                }
+
+                _context8.next = 6;
+                return onCreateContact({ phoneNumber: phoneNumber, name: name, entityType: entityType });
+
+              case 6:
+                _context8.next = 8;
+                return contactMatcher.forceMatchNumber({ phoneNumber: phoneNumber });
+
+              case 8:
+              case 'end':
+                return _context8.stop();
+            }
+          }
+        }, _callee8, _this);
+      }));
+
+      return function (_x3) {
+        return _ref12.apply(this, arguments);
+      };
+    }() : undefined,
+    isLoggedContact: isLoggedContact,
+    onLogCall: onLogCall || callLogger && function () {
+      var _ref14 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(_ref13) {
+        var call = _ref13.call,
+            contact = _ref13.contact,
+            _ref13$redirect = _ref13.redirect,
+            redirect = _ref13$redirect === undefined ? true : _ref13$redirect;
+        return _regenerator2.default.wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                _context9.next = 2;
                 return callLogger.logCall({
                   call: call,
                   contact: contact,
@@ -349,23 +342,35 @@ function mapToFunctions(_, _ref2) {
 
               case 2:
               case 'end':
-                return _context8.stop();
+                return _context9.stop();
             }
           }
-        }, _callee8, _this);
+        }, _callee9, _this);
       }));
 
       return function (_x4) {
-        return _ref13.apply(this, arguments);
+        return _ref14.apply(this, arguments);
       };
     }(),
     onCallsEmpty: onCallsEmpty || function () {
+      var isWebRTC = callingSettings.callingMode === _callingModes2.default.webphone;
+
       if (isWebRTC && !webphone.sessions.length) {
         routerInteraction.push('/dialer');
       }
     },
     isSessionAConferenceCall: function isSessionAConferenceCall(sessionId) {
       return !!(conferenceCall && conferenceCall.isConferenceSession(sessionId));
+    },
+    onCallItemClick: function onCallItemClick(call) {
+      if (call.webphoneSession && call.webphoneSession.id) {
+        routerInteraction.push(callCtrlRoute + '/' + call.webphoneSession.id);
+      }
+    },
+
+    getAvatarUrl: getAvatarUrl,
+    updateSessionMatchedContact: function updateSessionMatchedContact(sessionId, contact) {
+      return webphone.updateSessionMatchedContact(sessionId, contact);
     }
   };
 }

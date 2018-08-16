@@ -156,6 +156,7 @@ var CallAvatar = function (_Component) {
       var avatarCircleRadius = 15;
       var extraNumCircleRadius = 8.5;
       var extraNumCircleBorder = 1;
+      var circleBorder = 1;
       var $snow = '#fff';
       var $blueLight = '#cee7f2';
       var $blue = '#0684bd';
@@ -165,7 +166,7 @@ var CallAvatar = function (_Component) {
       var hash = _uuid2.default.v4();
       var textId = 'text-' + hash;
       var clipId = 'circleClip-' + hash;
-      var avatarStyle = { stroke: $dark, strokeWidth: '1px' };
+      var avatarStyle = { stroke: $dark, strokeWidth: circleBorder + 'px' };
       var avatarUrlLoadFailed = this.state.avatarUrlLoadFailed;
       var showSpinner = spinnerMode;
 
@@ -197,7 +198,7 @@ var CallAvatar = function (_Component) {
                 {
                   x: '0',
                   y: '0',
-                  dy: '29px',
+                  dy: initialSize - 10 + 'px',
                   style: {
                     fontSize: avatarCircleRadius * 2 + 'px',
                     fill: $blue,
@@ -285,7 +286,7 @@ var CallAvatar = function (_Component) {
                 {
                   x: '0',
                   y: '0',
-                  dy: '29px',
+                  dy: initialSize - 10 + 'px',
                   dx: '2',
                   style: {
                     fontSize: (initialSize / 2 - 2) * 2 + 'px',
@@ -301,7 +302,7 @@ var CallAvatar = function (_Component) {
           _react2.default.createElement('circle', {
             cx: initialSize / 2,
             cy: initialSize / 2,
-            r: initialSize / 2,
+            r: initialSize / 2 - circleBorder,
             fill: $snow,
             stroke: showSpinner ? $dark : 'inherit',
             strokeOpacity: showSpinner ? $transparency : '1'

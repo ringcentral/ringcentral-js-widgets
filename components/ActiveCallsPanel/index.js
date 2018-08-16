@@ -87,6 +87,7 @@ var ActiveCallsPanel = function (_Component) {
   }, {
     key: 'getCallList',
     value: function getCallList(calls, title) {
+      var showCallDetail = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
       var _props = this.props,
           currentLocale = _props.currentLocale,
           areaCode = _props.areaCode,
@@ -112,8 +113,13 @@ var ActiveCallsPanel = function (_Component) {
           sourceIcons = _props.sourceIcons,
           activeCurrentCalls = _props.activeCurrentCalls,
           isWebRTC = _props.isWebRTC,
-          conferenceCallEquipped = _props.conferenceCallEquipped,
-          isSessionAConferenceCall = _props.isSessionAConferenceCall;
+          isSessionAConferenceCall = _props.isSessionAConferenceCall,
+          onCallItemClick = _props.onCallItemClick,
+          getAvatarUrl = _props.getAvatarUrl,
+          conferenceCallParties = _props.conferenceCallParties,
+          webphoneHold = _props.webphoneHold,
+          useV2 = _props.useV2,
+          updateSessionMatchedContact = _props.updateSessionMatchedContact;
 
 
       return _react2.default.createElement(_ActiveCallList2.default, {
@@ -142,9 +148,15 @@ var ActiveCallsPanel = function (_Component) {
         enableContactFallback: enableContactFallback,
         sourceIcons: sourceIcons,
         isWebRTC: isWebRTC,
-        conferenceCallEquipped: conferenceCallEquipped,
         currentCall: activeCurrentCalls[0],
-        isSessionAConferenceCall: isSessionAConferenceCall
+        isSessionAConferenceCall: isSessionAConferenceCall,
+        useV2: useV2 // TODO: Maybe we should make all the call item consistent
+        , onCallItemClick: onCallItemClick,
+        getAvatarUrl: getAvatarUrl,
+        conferenceCallParties: conferenceCallParties,
+        webphoneHold: webphoneHold,
+        showCallDetail: showCallDetail,
+        updateSessionMatchedContact: updateSessionMatchedContact
       });
     }
   }, {
@@ -189,7 +201,7 @@ var ActiveCallsPanel = function (_Component) {
           this.getCallList(activeRingCalls, _i18n2.default.getString('ringCall', currentLocale)),
           this.getCallList(activeCurrentCalls, _i18n2.default.getString('currentCall', currentLocale)),
           this.getCallList(activeOnHoldCalls, _i18n2.default.getString('onHoldCall', currentLocale)),
-          this.getCallList(otherDeviceCalls, _i18n2.default.getString('otherDeviceCall', currentLocale))
+          this.getCallList(otherDeviceCalls, _i18n2.default.getString('otherDeviceCall', currentLocale), true)
         ),
         showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, { className: _styles2.default.spinner }) : null
       );
@@ -231,9 +243,14 @@ ActiveCallsPanel.propTypes = {
   onCallsEmpty: _propTypes2.default.func,
   sourceIcons: _propTypes2.default.object,
   isWebRTC: _propTypes2.default.bool.isRequired,
-  conferenceCallEquipped: _propTypes2.default.bool,
   showSpinner: _propTypes2.default.bool,
-  isSessionAConferenceCall: _propTypes2.default.func
+  isSessionAConferenceCall: _propTypes2.default.func,
+  onCallItemClick: _propTypes2.default.func,
+  getAvatarUrl: _propTypes2.default.func,
+  conferenceCallParties: _propTypes2.default.arrayOf(_propTypes2.default.object),
+  webphoneHold: _propTypes2.default.func,
+  useV2: _propTypes2.default.bool,
+  updateSessionMatchedContact: _propTypes2.default.func
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -257,10 +274,21 @@ ActiveCallsPanel.defaultProps = {
   autoLog: false,
   onCallsEmpty: undefined,
   sourceIcons: undefined,
-  conferenceCallEquipped: false,
   showSpinner: false,
   isSessionAConferenceCall: function isSessionAConferenceCall() {
     return false;
+  },
+  onCallItemClick: false,
+  getAvatarUrl: function getAvatarUrl(i) {
+    return i;
+  },
+  conferenceCallParties: [],
+  webphoneHold: function webphoneHold(i) {
+    return i;
+  },
+  useV2: false,
+  updateSessionMatchedContact: function updateSessionMatchedContact(i) {
+    return i;
   }
 };
 //# sourceMappingURL=index.js.map

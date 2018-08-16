@@ -81,11 +81,13 @@ var CallsOnholdContainer = (_temp = _class = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallsOnholdContainer.__proto__ || (0, _getPrototypeOf2.default)(CallsOnholdContainer)).call(this, props));
 
     _this.getCalls = (0, _reselect.createSelector)(function () {
-      return _this.props.activeOnHoldCalls;
-    }, function (activeOnHoldCalls) {
+      return _this.props.calls;
+    }, function () {
+      return _this.props.fromSessionId;
+    }, function (calls, fromSessionId) {
       return (0, _ramda.filter)(function (call) {
-        return call.direction !== _callDirections2.default.inbound;
-      }, activeOnHoldCalls);
+        return call.webphoneSession && call.direction !== _callDirections2.default.inbound && !_this.props.isConferenceSession(call.webphoneSession) && call.webphoneSession.id !== fromSessionId;
+      }, calls);
     });
     return _this;
   }
@@ -98,21 +100,26 @@ var CallsOnholdContainer = (_temp = _class = function (_Component) {
   }]);
   return CallsOnholdContainer;
 }(_react.Component), _class.propTypes = {
-  activeOnHoldCalls: _propTypes2.default.arrayOf(_propTypes2.default.object).isRequired
+  calls: _propTypes2.default.arrayOf(_propTypes2.default.object).isRequired,
+  fromSessionId: _propTypes2.default.string.isRequired,
+  isConferenceSession: _propTypes2.default.func.isRequired
 }, _temp);
 
 
 function mapToProps(_, _ref) {
   var phone = _ref.phone,
       callMonitor = _ref.phone.callMonitor,
-      props = (0, _objectWithoutProperties3.default)(_ref, ['phone', 'phone']);
+      params = _ref.params,
+      props = (0, _objectWithoutProperties3.default)(_ref, ['phone', 'phone', 'params']);
+  var fromSessionId = params.fromSessionId;
 
   var baseProps = (0, _ActiveCallsPage.mapToProps)(_, (0, _extends3.default)({
     phone: phone
   }, props));
 
   return (0, _extends3.default)({}, baseProps, {
-    activeOnHoldCalls: callMonitor.activeOnHoldCalls
+    calls: callMonitor.calls,
+    fromSessionId: fromSessionId
   });
 }
 
@@ -168,7 +175,10 @@ function mapToFunctions(_, _ref2) {
       routerInteraction.push('/conferenceCall/dialer/' + params.fromNumber);
     },
 
-    getAvatarUrl: getAvatarUrl
+    getAvatarUrl: getAvatarUrl,
+    isConferenceSession: function isConferenceSession() {
+      return conferenceCall.isConferenceSession.apply(conferenceCall, arguments);
+    }
   });
 }
 
