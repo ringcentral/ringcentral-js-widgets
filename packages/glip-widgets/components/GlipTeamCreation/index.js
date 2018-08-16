@@ -80,8 +80,9 @@ export default class GlipTeamCreationModal extends Component {
       this.setState({
         error: null
       });
+      const email = contact.email || (contact.emails && contact.emails[0]);
       const oldIndex = this.state.selectedContacts
-        .findIndex(c => c.email === contact.email);
+        .findIndex(c => c.email === email);
       if (oldIndex > -1) {
         return;
       }
@@ -89,7 +90,7 @@ export default class GlipTeamCreationModal extends Component {
       this.setState({
         selectedContacts: [{
           name: contact.name,
-          email: contact.email
+          email
         }].concat(this.state.selectedContacts)
       });
       this.props.updateFilter('');
@@ -101,7 +102,7 @@ export default class GlipTeamCreationModal extends Component {
     if (this.props.searchFilter.length < 3) {
       contacts = [];
     } else {
-      contacts = this.props.filteredContacts.slice(0, 10);
+      contacts = this.props.filteredContacts.filter(c => c.emails.length).slice(0, 10);
     }
     return (
       <Modal
@@ -155,11 +156,16 @@ export default class GlipTeamCreationModal extends Component {
             contacts.map(contact => (
               <div
                 className={styles.contactItem}
-                key={contact.email}
+                key={contact.email || contact.emails && contact.emails[0]}
                 onClick={() => this.addContact(contact)}
               >
                 <div className={styles.contactName} title={contact.name}>{contact.name}</div>
-                <div className={styles.contactEmail} title={contact.email}>{contact.email}</div>
+                <div
+                  className={styles.contactEmail}
+                  title={contact.email || contact.emails && contact.emails[0]
+                }>
+                  {contact.email || contact.emails && contact.emails[0]}
+                </div>
               </div>
             ))
           }
