@@ -10,5 +10,20 @@
   "engines": {
     "node": ">=8"
   },
-  "scripts": {}
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-settings": "0.0.1",
+    "jest": "^22.4.3"
+  },
+  "e2e": {
+    "runner": "./src/bin/runner.js",
+    "caseServices": [{
+      "name": "Einstein",
+      "url": "http://www.einstein.com"
+    }],
+    "tester": "jest"
+  }
 }
