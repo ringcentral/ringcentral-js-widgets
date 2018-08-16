@@ -617,7 +617,7 @@ export default class GlipGroups extends Pollable {
     () => this.groupsWithUnread,
     groups =>
       groups.reduce((a, b) => a + b.unread, 0)
-  );
+  )
 
   get searchFilter() {
     return this.state.searchFilter;
