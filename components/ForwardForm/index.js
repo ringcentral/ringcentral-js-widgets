@@ -53,10 +53,6 @@ var _RecipientsInput = require('../RecipientsInput');
 
 var _RecipientsInput2 = _interopRequireDefault(_RecipientsInput);
 
-var _TextInput = require('../TextInput');
-
-var _TextInput2 = _interopRequireDefault(_TextInput);
-
 var _Button = require('../Button');
 
 var _Button2 = _interopRequireDefault(_Button);
