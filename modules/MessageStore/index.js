@@ -605,7 +605,7 @@ var MessageStore = (_dec = (0, _di.Module)({
                 _context4.prev = 14;
                 _context4.t0 = _context4['catch'](8);
 
-                if (!(_context4.t0 && _context4.t0.message === 'Parameter [syncToken] value is invalid')) {
+                if (!(_context4.t0 && (_context4.t0.message === 'Parameter [syncToken] value is invalid' || _context4.t0.message === 'Parameter [syncToken] is invalid'))) {
                   _context4.next = 23;
                   break;
                 }
