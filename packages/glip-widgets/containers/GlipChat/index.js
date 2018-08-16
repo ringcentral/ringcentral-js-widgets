@@ -33,7 +33,7 @@ function getAtRender({
     );
   };
   AtRender.propTypes = {
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
   };
   return AtRender;
