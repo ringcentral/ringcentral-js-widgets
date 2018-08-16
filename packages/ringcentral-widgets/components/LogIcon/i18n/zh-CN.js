@@ -1,6 +1,6 @@
 export default {
   logged: "已记录",
-  unlogged: "未工作",
+  unlogged: "未处理",
   faxNotSupported: "不支持记录传真。"
 };
 

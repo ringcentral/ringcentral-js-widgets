@@ -12,6 +12,8 @@ export default {
     'es-419',
     'ja-JP',
     'pt-BR',
+    'zh-CN',
+    'zh-TW',
   ],
   sourceLocale: 'en-US',
 };
