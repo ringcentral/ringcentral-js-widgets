@@ -81,6 +81,7 @@ export default {
 // @key: @#@"CH"@#@ @source: @#@"Switzerland"@#@
 // @key: @#@"CL"@#@ @source: @#@"Chile"@#@
 // @key: @#@"CN"@#@ @source: @#@"China"@#@
+// @key: @#@"CO"@#@ @source: @#@"Colombia"@#@
 // @key: @#@"CY"@#@ @source: @#@"Cyprus"@#@
 // @key: @#@"CZ"@#@ @source: @#@"Czech Republic"@#@
 // @key: @#@"DE"@#@ @source: @#@"Germany"@#@
