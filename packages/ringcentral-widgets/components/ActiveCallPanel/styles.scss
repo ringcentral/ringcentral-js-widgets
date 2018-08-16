@@ -11,10 +11,6 @@ $calleeAvatarActiveSize: 45px;
 $calleeAvatarMarginL: ($calleeAvatarActiveSize - $calleeAvatarSize)/2;
 $fontSize:15px;
 $borderWidth:1px;
-* {
-  box-sizing: border-box;
-}
-
 .root {
   @include full-size;
   box-sizing: border-box;
