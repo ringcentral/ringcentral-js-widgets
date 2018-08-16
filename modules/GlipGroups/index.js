@@ -53,7 +53,7 @@ var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8;
+var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9;
 
 var _reselect = require('reselect');
 
@@ -267,6 +267,8 @@ var GlipGroups = (_dec = (0, _di.Module)({
     _initDefineProp(_this, 'currentGroupPosts', _descriptor7, _this);
 
     _initDefineProp(_this, 'groupsWithUnread', _descriptor8, _this);
+
+    _initDefineProp(_this, 'unreadCounts', _descriptor9, _this);
 
     _this._auth = _ensureExist2.default.call(_this, auth, 'auth');
     _this._client = _ensureExist2.default.call(_this, client, 'client');
@@ -1177,6 +1179,19 @@ var GlipGroups = (_dec = (0, _di.Module)({
           }).length
         });
       });
+    });
+  }
+}), _descriptor9 = _applyDecoratedDescriptor(_class2.prototype, 'unreadCounts', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this11 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this11.groupsWithUnread;
+    }, function (groups) {
+      return groups.reduce(function (a, b) {
+        return a + b.unread;
+      }, 0);
     });
   }
 })), _class2)) || _class);
