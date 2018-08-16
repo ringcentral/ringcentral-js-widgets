@@ -469,7 +469,7 @@ function mapToFunctions(_, {
         routerInteraction.push('/conferenceCall/mergeCtrl');
         return;
       }
-      routerInteraction.push('/calls/active');
+      routerInteraction.push(`/calls/active/${conferenceData.sessionId}`);
     },
     onIncomingCallCaptured() {
       routerInteraction.push('/calls/active');
