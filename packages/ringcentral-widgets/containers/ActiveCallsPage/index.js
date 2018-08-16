@@ -68,7 +68,6 @@ function mapToFunctions(_, {
   showViewContact = true,
   getAvatarUrl,
 }) {
-  const isWebRTC = callingSettings.callingMode === callingModes.webphone;
   return {
     formatPhone(phoneNumber) {
       return formatNumber({
@@ -136,6 +135,8 @@ function mapToFunctions(_, {
         });
       })),
     onCallsEmpty: onCallsEmpty || (() => {
+      const isWebRTC = callingSettings.callingMode === callingModes.webphone;
+
       if (isWebRTC && !webphone.sessions.length) {
         routerInteraction.push('/dialer');
       }
