@@ -67,6 +67,7 @@ export default class ActiveCallsPanel extends Component {
       conferenceCallParties,
       webphoneHold,
       useV2,
+      updateSessionMatchedContact,
     } = this.props;
 
     return (
@@ -104,6 +105,7 @@ export default class ActiveCallsPanel extends Component {
         conferenceCallParties={conferenceCallParties}
         webphoneHold={webphoneHold}
         showCallDetail={showCallDetail}
+        updateSessionMatchedContact={updateSessionMatchedContact}
       />
     );
   }
@@ -182,6 +184,7 @@ ActiveCallsPanel.propTypes = {
   conferenceCallParties: PropTypes.arrayOf(PropTypes.object),
   webphoneHold: PropTypes.func,
   useV2: PropTypes.bool,
+  updateSessionMatchedContact: PropTypes.func,
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -212,4 +215,5 @@ ActiveCallsPanel.defaultProps = {
   conferenceCallParties: [],
   webphoneHold: i => i,
   useV2: false,
+  updateSessionMatchedContact: i => i,
 };

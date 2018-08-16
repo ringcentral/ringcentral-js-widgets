@@ -153,6 +153,9 @@ function mapToFunctions(_, {
       }
     },
     getAvatarUrl,
+    updateSessionMatchedContact: (sessionId, contact) => (
+      webphone.updateSessionMatchedContact(sessionId, contact)
+    ),
   };
 }
 

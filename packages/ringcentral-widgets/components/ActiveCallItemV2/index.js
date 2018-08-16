@@ -186,9 +186,9 @@ export default class ActiveCallItem extends Component {
     };
   }
 
-  setAvatar() {
+  setContact() {
     const {
-      getAvatarUrl, call, isOnConferenceCall, conferenceCallParties
+      isOnConferenceCall, conferenceCallParties
     } = this.props;
 
     if (isOnConferenceCall) {
@@ -199,35 +199,12 @@ export default class ActiveCallItem extends Component {
       return;
     }
 
-    if (!call.webphoneSession) {
-      const nameMatches = call.toMatches || [];
-      const contact = nameMatches && nameMatches[0];
-      getAvatarUrl(contact).then((avatarUrl) => {
-        if (this._mounted) {
-          this.setState({ avatarUrl });
-        }
-      });
-      return;
-    }
-
-    let contact = call.webphoneSession.contactMatch;
-
-    if (!contact) {
-      const nameMatches = call.toMatches || [];
-      contact = nameMatches && nameMatches[0];
-    }
-    if (!isOnConferenceCall) {
-      getAvatarUrl(contact).then((avatarUrl) => {
-        if (this._mounted) {
-          this.setState({ avatarUrl });
-        }
-      });
-    }
+    this.onSelectContact(this.getSelectedContact());
   }
 
   componentDidMount() {
     this._mounted = true;
-    this.setAvatar();
+    this.setContact();
   }
 
   componentWillUnmount() {
@@ -278,18 +255,22 @@ export default class ActiveCallItem extends Component {
 
   onSelectContact = (value) => {
     const nameMatches = this.getContactMatches();
-    const selected = nameMatches.findIndex(
+    let selectedMatcherIndex = nameMatches.findIndex(
       match => match.id === value.id
     );
+    if (selectedMatcherIndex < 0) {
+      selectedMatcherIndex = 0;
+    }
     this._userSelection = true;
     this.setState({
-      selected,
+      selected: selectedMatcherIndex,
     });
-    if (
-      this.props.call.activityMatches.length > 0 &&
-      this.props.autoLog
-    ) {
-      this.logCall({ redirect: false, selected });
+    const contact = nameMatches[selectedMatcherIndex];
+    if (contact) {
+      this.props.updateSessionMatchedContact(this.props.call.webphoneSession.id, contact);
+      this.props.getAvatarUrl(contact).then((avatarUrl) => {
+        this.setState({ avatarUrl });
+      });
     }
   }
 
@@ -449,7 +430,6 @@ ActiveCallItem.propTypes = {
   webphoneToVoicemail: PropTypes.func,
   webphoneHold: PropTypes.func,
   enableContactFallback: PropTypes.bool,
-  autoLog: PropTypes.bool,
   brand: PropTypes.string,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
@@ -465,6 +445,7 @@ ActiveCallItem.propTypes = {
   disableMerge: PropTypes.bool,
   onMergeCall: PropTypes.func,
   showCallDetail: PropTypes.bool,
+  updateSessionMatchedContact: PropTypes.func,
 };
 
 ActiveCallItem.defaultProps = {
@@ -476,7 +457,6 @@ ActiveCallItem.defaultProps = {
   webphoneToVoicemail: undefined,
   webphoneHold: undefined,
   enableContactFallback: undefined,
-  autoLog: false,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
@@ -492,4 +472,5 @@ ActiveCallItem.defaultProps = {
   disableMerge: false,
   onMergeCall: i => i,
   showCallDetail: false,
+  updateSessionMatchedContact: i => i,
 };
