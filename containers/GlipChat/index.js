@@ -68,7 +68,7 @@ function getAtRender(_ref) {
     );
   };
   AtRender.propTypes = {
-    id: _propTypes2.default.number.isRequired,
+    id: _propTypes2.default.string.isRequired,
     type: _propTypes2.default.string.isRequired
   };
   return AtRender;
