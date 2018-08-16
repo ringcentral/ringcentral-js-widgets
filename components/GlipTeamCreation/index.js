@@ -177,8 +177,9 @@ var GlipTeamCreationModal = function (_Component) {
       _this.setState({
         error: null
       });
+      var email = contact.email || contact.emails && contact.emails[0];
       var oldIndex = _this.state.selectedContacts.findIndex(function (c) {
-        return c.email === contact.email;
+        return c.email === email;
       });
       if (oldIndex > -1) {
         return;
@@ -187,7 +188,7 @@ var GlipTeamCreationModal = function (_Component) {
       _this.setState({
         selectedContacts: [{
           name: contact.name,
-          email: contact.email
+          email: email
         }].concat(_this.state.selectedContacts)
       });
       _this.props.updateFilter('');
@@ -204,7 +205,9 @@ var GlipTeamCreationModal = function (_Component) {
       if (this.props.searchFilter.length < 3) {
         contacts = [];
       } else {
-        contacts = this.props.filteredContacts.slice(0, 10);
+        contacts = this.props.filteredContacts.filter(function (c) {
+          return c.emails.length;
+        }).slice(0, 10);
       }
       return _react2.default.createElement(
         _Modal2.default,
@@ -266,7 +269,7 @@ var GlipTeamCreationModal = function (_Component) {
               'div',
               {
                 className: _styles2.default.contactItem,
-                key: contact.email,
+                key: contact.email || contact.emails && contact.emails[0],
                 onClick: function onClick() {
                   return _this3.addContact(contact);
                 }
@@ -278,8 +281,10 @@ var GlipTeamCreationModal = function (_Component) {
               ),
               _react2.default.createElement(
                 'div',
-                { className: _styles2.default.contactEmail, title: contact.email },
-                contact.email
+                {
+                  className: _styles2.default.contactEmail,
+                  title: contact.email || contact.emails && contact.emails[0] },
+                contact.email || contact.emails && contact.emails[0]
               )
             );
           })
