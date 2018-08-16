@@ -333,7 +333,7 @@ function mapToProps(_, {
   const isWebRTC = callingSettings.callingMode === callingModes.webphone;
   const isInoundCall = currentSession.direction === callDirections.inbound;
   let mergeDisabled = !isWebRTC || isInoundCall || !currentSession.partyData;
-  let addDisabled = !isWebRTC || isInoundCall;
+  let addDisabled = !isWebRTC || isInoundCall || !currentSession.partyData;
 
   let isOnConference = false;
   let hasConferenceCall = false;
