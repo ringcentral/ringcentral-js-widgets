@@ -267,10 +267,12 @@ export default class ActiveCallItem extends Component {
     });
     const contact = nameMatches[selectedMatcherIndex];
     if (contact) {
-      this.props.updateSessionMatchedContact(this.props.call.webphoneSession.id, contact);
       this.props.getAvatarUrl(contact).then((avatarUrl) => {
         this.setState({ avatarUrl });
       });
+      if (this.props.call.webphoneSession) {
+        this.props.updateSessionMatchedContact(this.props.call.webphoneSession.id, contact);
+      }
     }
   }
 
