@@ -85,16 +85,16 @@ export default class ConferenceCall extends RcModule {
       ...options,
       actionTypes,
     });
-    this._auth = this::ensureExist(auth, 'auth');
-    this._alert = this::ensureExist(alert, 'alert');
-    this._call = this::ensureExist(call, 'call');
-    this._callingSettings = this::ensureExist(callingSettings, 'callingSettings');
-    this._client = this::ensureExist(client, 'client');
+    this._auth = this:: ensureExist(auth, 'auth');
+    this._alert = this:: ensureExist(alert, 'alert');
+    this._call = this:: ensureExist(call, 'call');
+    this._callingSettings = this:: ensureExist(callingSettings, 'callingSettings');
+    this._client = this:: ensureExist(client, 'client');
     // in order to run the integeration test, we need it to be optional
     this._webphone = webphone;
     this._connectivityMonitor = connectivityMonitor;
     this._contactMatcher = contactMatcher;
-    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
     // we need the constructed actions
     this._reducer = getConferenceCallReducer(this.actionTypes);
     this._ttl = DEFAULT_TTL;
@@ -813,7 +813,7 @@ export default class ConferenceCall extends RcModule {
 
     for (const session of webphoneSessions) {
       if (this._webphone.isCallRecording({ session })) {
-        return;
+        return null;
       }
     }
 
