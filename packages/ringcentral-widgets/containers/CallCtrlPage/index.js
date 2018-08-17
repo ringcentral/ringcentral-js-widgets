@@ -6,6 +6,7 @@ import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import calleeTypes from 'ringcentral-integration/enums/calleeTypes';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
+import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 import withPhone from '../../lib/withPhone';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import CallCtrlPanel from '../../components/CallCtrlPanel';
@@ -311,9 +312,11 @@ function mapToProps(_, {
     contactSearch,
     conferenceCall,
     callingSettings,
+    callMonitor,
   },
   layout = callCtrlLayouts.normalCtrl,
   params,
+  children
 }) {
   const sessionId = params && params.sessionId;
   let currentSession;
@@ -340,6 +343,7 @@ function mapToProps(_, {
   let isMerging = false;
   let conferenceCallParties;
   let conferenceCallId = null;
+  let lastCallInfo = callMonitor.lastCallInfo;
   if (conferenceCall) {
     isOnConference = conferenceCall.isConferenceSession(currentSession.id);
     const conferenceData = Object.values(conferenceCall.conferences)[0];
@@ -362,9 +366,29 @@ function mapToProps(_, {
 
     hasConferenceCall = !!conferenceData;
     conferenceCallParties = conferenceCall.partyProfiles;
+
+    layout = isOnConference ? callCtrlLayouts.conferenceCtrl : layout;
+
+    lastCallInfo = isOnConference ? null : lastCallInfo;
+
+    const { fromSessionId } = conferenceCall.mergingPair;
+    if (
+      !isInoundCall &&
+      (
+        fromSessionId &&
+        fromSessionId !== currentSession.id &&
+        lastCallInfo &&
+        lastCallInfo.status !== sessionStatus.finished
+      )
+    ) {
+      // enter merge ctrl page.
+      layout = callCtrlLayouts.mergeCtrl;
+
+      // for mergeCtrl page, we don't show any children (container) component.
+      children = null;
+    }
   }
 
-  layout = isOnConference ? callCtrlLayouts.conferenceCtrl : layout;
   return {
     brand: brand.fullName,
     nameMatches,
@@ -383,6 +407,8 @@ function mapToProps(_, {
     hasConferenceCall,
     conferenceCallParties,
     conferenceCallId,
+    lastCallInfo,
+    children,
   };
 }
 
@@ -407,7 +433,11 @@ function mapToFunctions(_, {
       areaCode: regionSettings.areaCode,
       countryCode: regionSettings.countryCode,
     }),
-    onHangup: sessionId => webphone.hangup(sessionId),
+    onHangup(sessionId) {
+      // close the MergingPair if any.
+      conferenceCall.closeMergingPair();
+      webphone.hangup(sessionId);
+    },
     onMute: sessionId => webphone.mute(sessionId),
     onUnmute: sessionId => webphone.unmute(sessionId),
     onHold: sessionId => webphone.hold(sessionId),
