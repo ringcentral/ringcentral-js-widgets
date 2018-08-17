@@ -5,6 +5,7 @@ $participant-count-height: 42px;
 $avatar-size:35px;
 $button-size:24px;
 $marginBetweenItems:25px;
+$padding-horizontal:20px;
 .root {
   @include full-size;
   background: $snow;
@@ -20,7 +21,10 @@ $marginBetweenItems:25px;
   }
   .participantsListContainer {
     @include full-size;
-    padding: $participant-count-height 20px 0;
+    /*
+    * Deviding the with of the padding-right for the sake of reserving space of the scroll bar
+    */
+    padding: $participant-count-height $padding-horizontal/2 0 $padding-horizontal;
     color: $night;
     .participantsCount {
       width: 100%;
@@ -32,27 +36,15 @@ $marginBetweenItems:25px;
     .participantsList {
       @include full-size;
       overflow: auto;
+      padding-right: 10px;
       .participantItem {
-        padding: 0;
-        display: flex;
-        overflow: hidden;
-        width: 100%;
-        box-sizing: border-box;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        align-items: center;
-        justify-content: flex-start;
         .avatar {
           width: $avatar-size;
           height: $avatar-size;
           flex-shrink: 0;
         }
         .detail {
-          flex-grow: 1;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          margin-left: 10px;
+          align-self: center;
         }
         .webphoneButton {
           width: $button-size;

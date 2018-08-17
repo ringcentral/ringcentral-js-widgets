@@ -1,3 +1,4 @@
+import { find } from 'ramda';
 import { createSelector } from 'reselect';
 
 import getter from '../../lib/getter';
@@ -17,6 +18,7 @@ import ensureExist from '../../lib/ensureExist';
 // import sleep from '../../lib/sleep';
 import callingModes from '../CallingSettings/callingModes';
 import calleeTypes from '../../enums/calleeTypes';
+import { isFunction } from '../../lib/di/utils/is_type';
 
 const DEFAULT_TIMEOUT = 30000;// time out for conferencing session being accepted.
 const DEFAULT_TTL = 5000;// timer to update the conference information
@@ -359,8 +361,9 @@ export default class ConferenceCall extends RcModule {
    */
   @proxify
   async mergeToConference(webphoneSessions = []) {
-    webphoneSessions = webphoneSessions.filter(session => !this.isConferenceSession(session.id))
-      .filter(session => Object.prototype.toString.call(session).toLowerCase() === '[object object]');
+    webphoneSessions = webphoneSessions
+      .filter(session => !!session)
+      .filter(session => !this.isConferenceSession(session.id));
 
     if (!webphoneSessions.length) {
       this._alert.warning({
@@ -451,22 +454,35 @@ export default class ConferenceCall extends RcModule {
     }
   }
 
-  /**
-   * we need to record the merge destination when merge from the call control pages
-   * @param {webphone.session} from
-   */
   @proxify
   setMergeParty({ fromSessionId, toSessionId }) {
     if (fromSessionId) {
-      return this.store.dispatch({
+      this.store.dispatch({
         type: this.actionTypes.updateFromSession,
         fromSessionId,
       });
+      return;
     }
-    return this.store.dispatch({
+    this.store.dispatch({
       type: this.actionTypes.updateToSession,
       toSessionId,
     });
+  }
+
+  /**
+   * we need to remove the fromSessionId in mergingPair when the outbound call is hang-up
+   */
+  @proxify
+  closeMergingPair() {
+    const { activeSession } = this._webphone;
+    if (this.mergingPair.fromSessionId && activeSession && activeSession.direction !== 'Inbound') {
+      // when Incoming call hang-up, users can still see the previous calls in simplified ctrl view
+      return this.store.dispatch({
+        type: this.actionTypes.closeMergingPair,
+      });
+    }
+
+    return null;
   }
 
   getOnlinePartyProfiles(id) {
@@ -662,15 +678,15 @@ export default class ConferenceCall extends RcModule {
     let confereceAccepted = false;
     await Promise.race([
       new Promise((resolve, reject) => {
-        const session = this._webphone._sessions.get(this.conferences[id].sessionId);
-        session.on('accepted', () => {
+        const sipSession = this._webphone._sessions.get(this.conferences[id].sessionId);
+        sipSession.on('accepted', () => {
           confereceAccepted = true;
           resolve();
         });
-        session.on('cancel', () => reject(new Error('conferecing cancel')));
-        session.on('failed', () => reject(new Error('conferecing failed')));
-        session.on('rejected', () => reject(new Error('conferecing rejected')));
-        session.on('terminated', () => reject(new Error('conferecing terminated')));
+        sipSession.on('cancel', () => reject(new Error('conferecing cancel')));
+        sipSession.on('failed', () => reject(new Error('conferecing failed')));
+        sipSession.on('rejected', () => reject(new Error('conferecing rejected')));
+        sipSession.on('terminated', () => reject(new Error('conferecing terminated')));
       }),
       new Promise((resolve, reject) => {
         setTimeout(() => (confereceAccepted ? resolve() : reject(new Error('conferecing timeout')))
@@ -796,71 +812,70 @@ export default class ConferenceCall extends RcModule {
   }
 
   @proxify
-  async onMerge({ sessionId }) {
-    const session = this._webphone._sessions.get(sessionId);
-    const isSessionOnhold = session.isOnHold().local;
-    this.setMergeParty({ toSessionId: sessionId });
-    const sessionToMergeWith = this._webphone._sessions.get(this.mergingPair.fromSessionId);
+  async mergeSession({ sessionId, onReadyToMerge }) {
+    const session = find(
+      x => x.id === sessionId,
+      this._webphone.sessions
+    );
+
+    const sessionToMergeWith = find(
+      x => x.id === this.mergingPair.fromSessionId,
+      this._webphone.sessions
+    );
+
     const webphoneSessions = sessionToMergeWith
       ? [sessionToMergeWith, session]
       : [session];
+
+    for (const session of webphoneSessions) {
+      if (this._webphone.isCallRecording({ session })) {
+        return null;
+      }
+    }
+
+    const conferenceState = Object.values(this.conferences)[0];
+    if (conferenceState) {
+      const conferenceSession = find(
+        x => x.id === conferenceState.sessionId,
+        this._webphone.sessions
+      );
+      if (this._webphone.isCallRecording({ session: conferenceSession })) {
+        return null;
+      }
+    }
+
+    if (
+      onReadyToMerge
+      && isFunction(onReadyToMerge)
+    ) {
+      onReadyToMerge();
+    }
+
+    this.setMergeParty({
+      toSessionId: sessionId,
+    });
+
+    // should retrieve active session state before merging
+    const hasActiveSession = !!this._webphone.activeSession;
+    const isActiveSessionOnhold = hasActiveSession && this._webphone.activeSession.isOnHold;
+
     await this.mergeToConference(webphoneSessions);
+
     const conferenceData = Object.values(this.conferences)[0];
     if (!conferenceData) {
       await this._webphone.resume(session.id);
       return null;
     }
 
-    if (isSessionOnhold) {
-      this._webphone.hold(conferenceData.sessionId);
-      return conferenceData;
+    if (hasActiveSession) {
+      if (isActiveSessionOnhold) {
+        this._webphone.hold(conferenceData.sessionId);
+      } else {
+        this._webphone.resume(conferenceData.sessionId);
+      }
     }
 
-    const conferenceSession = this._webphone._sessions.get(conferenceData.sessionId);
-    const isConferenceOnhold = conferenceSession.isOnHold().local;
-    if (isConferenceOnhold) {
-      /**
-       * because session termination operation in conferenceCall._mergeToConference,
-       * need to wait for webphone.getActiveSessionIdReducer to update
-       */
-      this._webphone.resume(conferenceData.sessionId);
-      return conferenceData;
-    }
     return conferenceData;
-  }
-
-  @proxify
-  async onMergeOnhold({ sessionId }) {
-    const session = this._webphone._sessions.get(sessionId);
-    if (this._webphone.isCallRecording(session)) {
-      return;
-    }
-    this.setMergeParty({ toSessionId: sessionId });
-    const sessionToMergeWith = this._webphone._sessions.get(
-      this.mergingPair.fromSessionId
-    );
-    const isCurrentOnhold = sessionToMergeWith && sessionToMergeWith.isOnHold().local;
-    const webphoneSessions = sessionToMergeWith
-      ? [sessionToMergeWith, session]
-      : [session];
-    await this.mergeToConference(webphoneSessions);
-    const conferenceData = Object.values(this.conferences)[0];
-    if (!conferenceData) {
-      return;
-    }
-    if (conferenceData && isCurrentOnhold) {
-      this._webphone.hold(conferenceData.sessionId);
-      return;
-    }
-    const conferenceSession = this._webphone._sessions.get(conferenceData.sessionId);
-    const isConferenceOnhold = conferenceSession.isOnHold().local;
-    if (conferenceData && isConferenceOnhold) {
-      /**
-       * because session termination operation in conferenceCall._mergeToConference,
-       * need to wait for webphone.getActiveSessionIdReducer to update
-       */
-      this._webphone.resume(conferenceData.sessionId);
-    }
   }
 
   get status() {

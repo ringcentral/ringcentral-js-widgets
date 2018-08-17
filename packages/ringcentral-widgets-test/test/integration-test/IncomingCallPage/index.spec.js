@@ -5,7 +5,7 @@ import { inboundSession } from '../../support/session';
 import { getWrapper, timeout } from '../shared';
 
 let wrapper = null;
-let panel = null;
+const panel = null;
 let phone = null;
 let store = null;
 
@@ -29,9 +29,8 @@ async function getInboundCall(session = inboundSession) {
 }
 
 describe('Incoming Call Interaction', () => {
-  it('When user has an incoming call, page should display Incoming Call Page', async () => {
+  test('When user has an incoming call, page should display Incoming Call Page', async () => {
     await getInboundCall();
-    const page = wrapper.find(IncomingCallPad);
-    expect(page.length).toEqual(1);
-  })
-})
+    expect(wrapper.find(IncomingCallPad)).toHaveLength(1);
+  });
+});

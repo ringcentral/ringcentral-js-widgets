@@ -4,6 +4,17 @@ import uuid from 'uuid';
 import styles from './styles.scss';
 import SpinnerIcon from '../../assets/images/Spinner.svg';
 
+const REGEXP_BLOB_URL = /^blob:.+\/[\w-]{36,}(?:#.+)?$/;
+const REGEXP_BASE64_URL = /^(data:\w+\/[a-zA-Z\+\-\.]+;base64,)?(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/gi;
+
+function isBlobURL(value) {
+  return REGEXP_BLOB_URL.test(value);
+}
+
+function isBase64(value) {
+  return REGEXP_BASE64_URL.test(value);
+}
+
 class CallAvatar extends Component {
   constructor(props) {
     super(props);
@@ -15,18 +26,28 @@ class CallAvatar extends Component {
   }
 
   loadImg(props = this.props) {
+    const { avatarUrl } = props;
+
+    if (isBlobURL(avatarUrl) || isBase64(avatarUrl)) {
+      this.setState({
+        avatarUrl
+      });
+      return;
+    }
+
+    // means we have to load it
     if (!this._mounted) {
       return;
     }
-    if (props.avatarUrl) {
+    if (avatarUrl) {
       const $img = document.createElement('img');
-      $img.src = props.avatarUrl;
+      $img.src = avatarUrl;
       $img.onload = () => {
         if (!this._mounted) {
           return;
         }
         this.setState({
-          avatarUrl: props.avatarUrl
+          avatarUrl
         });
       };
       $img.onerror = () => {
@@ -41,14 +62,20 @@ class CallAvatar extends Component {
     }
   }
 
-  componentDidMount() {
-    this._mounted = true;
+  componentWillMount() {
     this.loadImg();
   }
 
-  componentWillReceiveProps(nextProp) {
-    if (nextProp.avatarUrl !== this.props.avatarUrl) {
-      this.loadImg(nextProp);
+  componentDidMount() {
+    this._mounted = true;
+    if (!this.state.avatarUrl) {
+      this.loadImg();
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.avatarUrl !== this.props.avatarUrl) {
+      this.loadImg(nextProps);
     }
   }
 
@@ -65,6 +92,7 @@ class CallAvatar extends Component {
     const avatarCircleRadius = 15;
     const extraNumCircleRadius = 8.5;
     const extraNumCircleBorder = 1;
+    const circleBorder = 1;
     const $snow = '#fff';
     const $blueLight = '#cee7f2';
     const $blue = '#0684bd';
@@ -74,7 +102,7 @@ class CallAvatar extends Component {
     const hash = uuid.v4();
     const textId = `text-${hash}`;
     const clipId = `circleClip-${hash}`;
-    const avatarStyle = { stroke: $dark, strokeWidth: '1px' };
+    const avatarStyle = { stroke: $dark, strokeWidth: `${circleBorder}px` };
     const avatarUrlLoadFailed = this.state.avatarUrlLoadFailed;
     const showSpinner = spinnerMode;
 
@@ -99,7 +127,7 @@ class CallAvatar extends Component {
               <text
                 x="0"
                 y="0"
-                dy="29px"
+                dy={`${initialSize - 10}px`}
                 style={{
                       fontSize: `${avatarCircleRadius * 2}px`,
                       fill: $blue,
@@ -184,7 +212,7 @@ class CallAvatar extends Component {
               <text
                 x="0"
                 y="0"
-                dy="29px"
+                dy={`${initialSize - 10}px`}
                 dx="2"
                 style={{
                       fontSize: `${(initialSize / 2 - 2) * 2}px`,
@@ -200,7 +228,7 @@ class CallAvatar extends Component {
           <circle
             cx={initialSize / 2}
             cy={initialSize / 2}
-            r={initialSize / 2}
+            r={initialSize / 2 - circleBorder}
             fill={$snow}
             stroke={showSpinner ? $dark : 'inherit'}
             strokeOpacity={showSpinner ? $transparency : '1'}

@@ -16,9 +16,14 @@ class MergeInfo extends Component {
     };
     this.mounted = false;
   }
+
   componentWillUnmount() {
     this.mounted = false;
+    if (this.timeout_clock) {
+      clearTimeout(this.timeout_clock);
+    }
   }
+
   componentDidMount() {
     this.mounted = true;
     const { lastCallInfo, getAvatarUrl } = this.props;
@@ -30,14 +35,28 @@ class MergeInfo extends Component {
           });
         }
       });
-    } else {
-      setTimeout(() => {
-        this.setState({
-          lastCallInfoTimeout: true
-        });
-      }, this.props.checkLastCallInfoTimeout);
+    }
+    if (
+      lastCallInfo && lastCallInfo.calleeType !== calleeTypes.conference
+    ) {
+      const isSimplifiedCallAndLastCallInfoNotReady = (
+        !lastCallInfo.name || !lastCallInfo.phoneNumber
+      );
+
+      if (isSimplifiedCallAndLastCallInfoNotReady) {
+        this.timeout_clock = setTimeout(() => {
+          if (this.mounted) {
+            this.setState({
+              lastCallInfoTimeout: true
+            });
+          }
+        }, this.props.checkLastCallInfoTimeout);
+      } else if (this.timeout_clock) {
+        clearTimeout(this.timeout_clock);
+      }
     }
   }
+
   render() {
     const {
       currentLocale,
@@ -51,7 +70,7 @@ class MergeInfo extends Component {
       return null;
     }
     const { lastCallAvatar, lastCallInfoTimeout } = this.state;
-    const isLastCallInfoReady = lastCallInfoTimeout || (
+    const isLastCallInfoReady = (
       !!lastCallInfo && (!!lastCallInfo.name || !!lastCallInfo.phoneNumber)
     );
     const isLastCallEnded = lastCallInfo && lastCallInfo.status === sessionStatus.finished;
@@ -60,7 +79,7 @@ class MergeInfo extends Component {
       [styles.callee_status_disconnected]: !!isLastCallEnded,
     });
 
-    const isOnConferenCall = !!(
+    const isOnConferenceCall = !!(
       lastCallInfo && lastCallInfo.calleeType === calleeTypes.conference
     );
     const isContacts = !!(
@@ -68,6 +87,8 @@ class MergeInfo extends Component {
     );
     const calleeName = isContacts ? lastCallInfo.name : formatPhone(lastCallInfo.phoneNumber);
     const loadingText = i18n.getString('loading');
+    const loadingTimeoutText = i18n.getString('loadingTimeout');
+    const showSpinner = !lastCallInfoTimeout && !isLastCallInfoReady && !isOnConferenceCall;
     return (
       <div className={styles.mergeInfo}>
         <div className={styles.merge_item}>
@@ -76,36 +97,50 @@ class MergeInfo extends Component {
               avatarUrl={isContacts && !lastCallInfo.avatarUrl
                 ? lastCallAvatar
                 : lastCallInfo.avatarUrl}
-              extraNum={isOnConferenCall ? lastCallInfo.extraNum : 0}
-              isOnConferenceCall={isOnConferenCall}
-              spinnerMode={!isLastCallInfoReady}
-              />
+              extraNum={isOnConferenceCall ? lastCallInfo.extraNum : 0}
+              isOnConferenceCall={isOnConferenceCall}
+              spinnerMode={showSpinner}
+            />
           </div>
           {
-            isLastCallInfoReady && (
+            (isLastCallInfoReady || (!isLastCallInfoReady && isOnConferenceCall)) && (
               <div className={styles.callee_name}>
                 {
-                  isOnConferenCall
-                  ? <span title={i18n.getString('conferenceCall', currentLocale)}>{i18n.getString('conferenceCall', currentLocale)} </span>
-                  : <span title={calleeName}>{calleeName}</span>
+                  isOnConferenceCall
+                    ? (
+                      <span title={i18n.getString('conferenceCall', currentLocale)}>
+                        {i18n.getString('conferenceCall', currentLocale)}
+                      </span>
+                    )
+                    : (
+                      <span title={calleeName}>{calleeName}</span>
+                    )
                 }
               </div>
             )
           }
           {
-            !isLastCallInfoReady && (
-              <div className={styles.callee_name}>
-                <span title={loadingText}>{loadingText}</span>
-              </div>
+            (!isLastCallInfoReady && !isOnConferenceCall) && (
+              lastCallInfoTimeout ? (
+                <div className={styles.last_call_info_load_timeout}>
+                  <span title={loadingTimeoutText}>{loadingTimeoutText}</span>
+                </div>
+              ) : (
+                <div className={styles.callee_name}>
+                  <span title={loadingText}>{loadingText}</span>
+                </div>
+              )
             )
           }
 
           {
-            isLastCallInfoReady && (
+            (isLastCallInfoReady || (!isLastCallInfoReady && isOnConferenceCall)) && (
               <div className={statusClasses}>
-                {lastCallInfo.status === sessionStatus.finished
-                ? i18n.getString('disconnected', currentLocale)
-                : i18n.getString('onHold', currentLocale)}
+                {
+                  lastCallInfo.status === sessionStatus.finished
+                    ? i18n.getString('disconnected', currentLocale)
+                    : i18n.getString('onHold', currentLocale)
+                }
               </div>
             )
           }
@@ -114,10 +149,10 @@ class MergeInfo extends Component {
         <div className={styles.merge_item_active}>
           <div className={styles.callee_avatar_active} >
             {
-                currentCallAvatarUrl
-                  ? <CallAvatar avatarUrl={currentCallAvatarUrl} />
-                  : <CallAvatar avatarUrl={null} />
-              }
+              currentCallAvatarUrl
+                ? <CallAvatar avatarUrl={currentCallAvatarUrl} />
+                : <CallAvatar avatarUrl={null} />
+            }
           </div>
           <div className={styles.callee_name_active}>
             <span title={currentCallTitle}>{currentCallTitle}</span>

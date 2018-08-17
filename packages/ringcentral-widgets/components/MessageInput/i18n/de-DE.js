@@ -1,9 +1,9 @@
 export default {
-  from: 'Von',
-  to: 'An',
-  enterNameOrNumber: 'Nummer oder Name eingeben ...',
-  typeMessage: 'Nachricht eingeben ...',
-  send: 'Senden',
+  from: "Von",
+  to: "An",
+  enterNameOrNumber: "Nummer oder Name eingeben ...",
+  typeMessage: "Nachricht eingeben ...",
+  send: "Senden"
 };
 
 // @key: @#@"from"@#@ @source: @#@"From"@#@

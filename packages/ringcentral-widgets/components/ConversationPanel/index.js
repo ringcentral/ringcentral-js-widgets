@@ -223,7 +223,7 @@ class ConversationPanel extends Component {
           isLogging: isLogging || this.state.isLogging,
         }
       ) : null;
-    const logButton = this.props.onLogConversation && !extraButton ?
+    const logButton = this.props.onLogConversation && !this.props.renderExtraButton ?
       (
         <LogButton
           className={styles.logButton}
@@ -334,7 +334,7 @@ ConversationPanel.defaultProps = {
   messageSubjectRenderer: undefined,
   perPage: undefined,
   loadConversation: () => null,
-  renderExtraButton: () => null,
+  renderExtraButton: undefined,
   loadingNextPage: false
 };
 

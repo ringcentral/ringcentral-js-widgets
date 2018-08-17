@@ -3,38 +3,10 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import SpinnerOverlay from '../SpinnerOverlay';
 import ActiveCallList from '../ActiveCallList';
-import ConfirmMergeModal from '../ConfirmMergeModal';
 import styles from './styles.scss';
 import i18n from './i18n';
 
 export default class ActiveCallsPanel extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isModalOpen: false,
-      callOfModal: null,
-    };
-
-    this.showConfirmMergeModal = (call) => {
-      this.setState({
-        isModalOpen: true,
-        callOfModal: call,
-      });
-    };
-
-    this.hideConfirmMergeModal = () => {
-      this.setState({
-        isModalOpen: false,
-        callOfModal: null,
-      });
-    };
-
-    this.confirmMergeCall = () => {
-      this.props.mergeToConference([this.state.callOfModal.webphoneSession]);
-      this.hideConfirmMergeModal();
-    };
-  }
-
   componentDidMount() {
     if (
       !this.hasCalls(this.props) &&
@@ -63,7 +35,7 @@ export default class ActiveCallsPanel extends Component {
     );
   }
 
-  getCallList(calls, title) {
+  getCallList(calls, title, showCallDetail = false) {
     const {
       currentLocale,
       areaCode,
@@ -89,11 +61,13 @@ export default class ActiveCallsPanel extends Component {
       sourceIcons,
       activeCurrentCalls,
       isWebRTC,
-      conferenceCallEquipped,
-      hasConferenceCall,
-      disableMerge,
-      mergeToConference,
       isSessionAConferenceCall,
+      onCallItemClick,
+      getAvatarUrl,
+      conferenceCallParties,
+      webphoneHold,
+      useV2,
+      updateSessionMatchedContact,
     } = this.props;
 
     return (
@@ -123,13 +97,15 @@ export default class ActiveCallsPanel extends Component {
         enableContactFallback={enableContactFallback}
         sourceIcons={sourceIcons}
         isWebRTC={isWebRTC}
-        conferenceCallEquipped={conferenceCallEquipped}
-        hasConferenceCall={hasConferenceCall}
-        disableMerge={disableMerge}
         currentCall={activeCurrentCalls[0]}
-        mergeToConference={mergeToConference}
         isSessionAConferenceCall={isSessionAConferenceCall}
-        onConfirmMergeCall={this.showConfirmMergeModal}
+        useV2={useV2}// TODO: Maybe we should make all the call item consistent
+        onCallItemClick={onCallItemClick}
+        getAvatarUrl={getAvatarUrl}
+        conferenceCallParties={conferenceCallParties}
+        webphoneHold={webphoneHold}
+        showCallDetail={showCallDetail}
+        updateSessionMatchedContact={updateSessionMatchedContact}
       />
     );
   }
@@ -143,8 +119,6 @@ export default class ActiveCallsPanel extends Component {
       className,
       currentLocale,
       showSpinner,
-      conferenceCallEquipped,
-      conferenceCallParties,
     } = this.props;
 
     if (!this.hasCalls()) {
@@ -165,17 +139,7 @@ export default class ActiveCallsPanel extends Component {
           {this.getCallList(activeRingCalls, i18n.getString('ringCall', currentLocale))}
           {this.getCallList(activeCurrentCalls, i18n.getString('currentCall', currentLocale))}
           {this.getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}
-          {this.getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale))}
-          {
-            conferenceCallEquipped
-              ? <ConfirmMergeModal
-                currentLocale={currentLocale}
-                show={this.state.isModalOpen}
-                onMerge={this.confirmMergeCall}
-                onCancel={this.hideConfirmMergeModal}
-                partyProfiles={conferenceCallParties} />
-              : null
-          }
+          {this.getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale), true)}
         </div>
         {showSpinner ? <SpinnerOverlay className={styles.spinner} /> : null}
       </div>
@@ -213,13 +177,14 @@ ActiveCallsPanel.propTypes = {
   onCallsEmpty: PropTypes.func,
   sourceIcons: PropTypes.object,
   isWebRTC: PropTypes.bool.isRequired,
-  conferenceCallEquipped: PropTypes.bool,
-  hasConferenceCall: PropTypes.bool,
   showSpinner: PropTypes.bool,
-  disableMerge: PropTypes.bool,
-  mergeToConference: PropTypes.func,
   isSessionAConferenceCall: PropTypes.func,
+  onCallItemClick: PropTypes.func,
+  getAvatarUrl: PropTypes.func,
   conferenceCallParties: PropTypes.arrayOf(PropTypes.object),
+  webphoneHold: PropTypes.func,
+  useV2: PropTypes.bool,
+  updateSessionMatchedContact: PropTypes.func,
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -243,11 +208,12 @@ ActiveCallsPanel.defaultProps = {
   autoLog: false,
   onCallsEmpty: undefined,
   sourceIcons: undefined,
-  conferenceCallEquipped: false,
-  hasConferenceCall: false,
   showSpinner: false,
-  disableMerge: false,
-  mergeToConference: i => i,
   isSessionAConferenceCall: () => false,
+  onCallItemClick: false,
+  getAvatarUrl: i => i,
   conferenceCallParties: [],
+  webphoneHold: i => i,
+  useV2: false,
+  updateSessionMatchedContact: i => i,
 };

@@ -16,7 +16,6 @@ import EndIcon from '../../assets/images/End.svg';
 import AnswerIcon from '../../assets/images/Answer.svg';
 import VoicemailIcon from '../../assets/images/Voicemail.svg';
 import ConferenceCallIcon from '../../assets/images/ConferenceCallIcon.svg';
-import MergeIntoConferenceIcon from '../../assets/images/MergeIntoConferenceIcon.svg';
 
 import styles from './styles.scss';
 import i18n from './i18n';
@@ -94,9 +93,6 @@ function WebphoneButtons({
   webphoneHangup,
   webphoneResume,
   showAnswer,
-  showMergeCall,
-  disableMerge,
-  onMergeCall,
 }) {
   if (!session || !webphoneAnswer || !webphoneHangup) {
     return null;
@@ -104,10 +100,8 @@ function WebphoneButtons({
   let hangupFunc = webphoneHangup;
   let resumeFunc = webphoneResume;
   let endIcon = EndIcon;
-  const mergeIcon = MergeIntoConferenceIcon;
   let rejectTitle = i18n.getString('hangup', currentLocale);
   const acceptTitle = i18n.getString('accept', currentLocale);
-  const mergeTitle = i18n.getString('mergeToConference', currentLocale);
   if (
     session.direction === callDirections.inbound &&
     session.callStatus === sessionStatus.connecting
@@ -119,26 +113,6 @@ function WebphoneButtons({
   }
   return (
     <div className={styles.webphoneButtons}>
-      {
-        showMergeCall ?
-          <span title={mergeTitle} className={styles.webphoneButton}>
-            <CircleButton
-              className={disableMerge
-                ? classnames(styles.mergeButton, styles.disabled)
-                : styles.mergeButton}
-              onClick={(e) => {
-                e.stopPropagation();
-                onMergeCall();
-              }}
-              iconWidth={260}
-              iconX={120}
-              icon={mergeIcon}
-              showBorder
-              disabled={disableMerge}
-            />
-          </span>
-          : null
-      }
       <span title={rejectTitle} className={styles.webphoneButton}>
         <CircleButton
           className={styles.rejectButton}
@@ -179,9 +153,6 @@ WebphoneButtons.propTypes = {
   webphoneHangup: PropTypes.func,
   webphoneResume: PropTypes.func,
   showAnswer: PropTypes.bool,
-  disableMerge: PropTypes.bool,
-  showMergeCall: PropTypes.bool,
-  onMergeCall: PropTypes.func,
 };
 
 WebphoneButtons.defaultProps = {
@@ -191,9 +162,6 @@ WebphoneButtons.defaultProps = {
   webphoneHangup: undefined,
   webphoneResume: undefined,
   showAnswer: true,
-  disableMerge: false,
-  showMergeCall: false,
-  onMergeCall: undefined,
 };
 
 export default class ActiveCallItem extends Component {
@@ -455,9 +423,6 @@ export default class ActiveCallItem extends Component {
       externalHasEntity,
       readTextPermission,
       isOnConferenceCall,
-      showMergeCall,
-      onMergeCall,
-      disableMerge,
       hasActionMenu,
       showAnswer,
       avatarUrl,
@@ -539,9 +504,6 @@ export default class ActiveCallItem extends Component {
             webphoneReject={this.webphoneToVoicemail}
             webphoneHangup={webphoneHangup}
             webphoneResume={webphoneResume}
-            showMergeCall={showMergeCall}
-            onMergeCall={onMergeCall}
-            disableMerge={disableMerge}
             currentLocale={currentLocale}
             showAnswer={showAnswer}
           />
@@ -632,14 +594,11 @@ ActiveCallItem.propTypes = {
   externalHasEntity: PropTypes.func,
   readTextPermission: PropTypes.bool,
   isOnConferenceCall: PropTypes.bool,
-  disableMerge: PropTypes.bool,
   hasActionMenu: PropTypes.bool,
   showAnswer: PropTypes.bool,
   avatarUrl: PropTypes.string,
   showAvatar: PropTypes.bool,
   showCallDetail: PropTypes.bool,
-  showMergeCall: PropTypes.bool,
-  onMergeCall: PropTypes.func,
 };
 
 ActiveCallItem.defaultProps = {
@@ -668,12 +627,9 @@ ActiveCallItem.defaultProps = {
   externalHasEntity: undefined,
   readTextPermission: true,
   isOnConferenceCall: false,
-  disableMerge: false,
   hasActionMenu: true,
   showAnswer: true,
   avatarUrl: null,
   showAvatar: false,
   showCallDetail: true,
-  showMergeCall: false,
-  onMergeCall: undefined,
 };

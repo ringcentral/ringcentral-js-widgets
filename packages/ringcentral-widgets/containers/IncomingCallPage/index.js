@@ -41,7 +41,7 @@ class IncomingCallPage extends Component {
     };
   }
 
-  answer = () => this.props.answer(this.props.session.id)
+  answer = () => this.props.answer(this.props.session.id);
   reject = () => this.props.reject(this.props.session.id);
   toVoiceMail = () => this.props.toVoiceMail(this.props.session.id);
   replyWithMessage = message =>

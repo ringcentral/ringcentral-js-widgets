@@ -1,4 +1,4 @@
-import { find } from 'ramda';
+import { find, filter } from 'ramda';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -6,6 +6,7 @@ import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import calleeTypes from 'ringcentral-integration/enums/calleeTypes';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
+import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 import withPhone from '../../lib/withPhone';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import CallCtrlPanel from '../../components/CallCtrlPanel';
@@ -311,10 +312,21 @@ function mapToProps(_, {
     contactSearch,
     conferenceCall,
     callingSettings,
+    callMonitor,
   },
   layout = callCtrlLayouts.normalCtrl,
+  params,
+  children
 }) {
-  const currentSession = webphone.activeSession || {};
+  const sessionId = params && params.sessionId;
+  let currentSession;
+
+  if (sessionId) {
+    currentSession = webphone.sessions.find(session => session.id === sessionId) || {};
+  } else {
+    currentSession = webphone.activeSession || {};
+  }
+
   const contactMapping = contactMatcher && contactMatcher.dataMapping;
   const fromMatches = (contactMapping && contactMapping[currentSession.from]) || [];
   const toMatches = (contactMapping && contactMapping[currentSession.to]) || [];
@@ -324,13 +336,14 @@ function mapToProps(_, {
   const isWebRTC = callingSettings.callingMode === callingModes.webphone;
   const isInoundCall = currentSession.direction === callDirections.inbound;
   let mergeDisabled = !isWebRTC || isInoundCall || !currentSession.partyData;
-  let addDisabled = !isWebRTC || isInoundCall;
+  let addDisabled = !isWebRTC || isInoundCall || !currentSession.partyData;
 
   let isOnConference = false;
   let hasConferenceCall = false;
   let isMerging = false;
   let conferenceCallParties;
   let conferenceCallId = null;
+  let lastCallInfo = callMonitor.lastCallInfo;
   if (conferenceCall) {
     isOnConference = conferenceCall.isConferenceSession(currentSession.id);
     const conferenceData = Object.values(conferenceCall.conferences)[0];
@@ -353,9 +366,29 @@ function mapToProps(_, {
 
     hasConferenceCall = !!conferenceData;
     conferenceCallParties = conferenceCall.partyProfiles;
+
+    layout = isOnConference ? callCtrlLayouts.conferenceCtrl : layout;
+
+    lastCallInfo = isOnConference ? null : lastCallInfo;
+
+    const { fromSessionId } = conferenceCall.mergingPair;
+    if (
+      !isInoundCall &&
+      (
+        fromSessionId &&
+        fromSessionId !== currentSession.id &&
+        lastCallInfo &&
+        lastCallInfo.status !== sessionStatus.finished
+      )
+    ) {
+      // enter merge ctrl page.
+      layout = callCtrlLayouts.mergeCtrl;
+
+      // for mergeCtrl page, we don't show any children (container) component.
+      children = null;
+    }
   }
 
-  layout = isOnConference ? callCtrlLayouts.conferenceCtrl : layout;
   return {
     brand: brand.fullName,
     nameMatches,
@@ -374,6 +407,8 @@ function mapToProps(_, {
     hasConferenceCall,
     conferenceCallParties,
     conferenceCallId,
+    lastCallInfo,
+    children,
   };
 }
 
@@ -398,7 +433,11 @@ function mapToFunctions(_, {
       areaCode: regionSettings.areaCode,
       countryCode: regionSettings.countryCode,
     }),
-    onHangup: sessionId => webphone.hangup(sessionId),
+    onHangup(sessionId) {
+      // close the MergingPair if any.
+      conferenceCall.closeMergingPair();
+      webphone.hangup(sessionId);
+    },
     onMute: sessionId => webphone.mute(sessionId),
     onUnmute: sessionId => webphone.unmute(sessionId),
     onHold: sessionId => webphone.hold(sessionId),
@@ -421,48 +460,46 @@ function mapToFunctions(_, {
     recipientsContactInfoRenderer,
     recipientsContactPhoneRenderer,
     onAdd(sessionId) {
-      const currentSession = webphone.activeSession;
-      if (!currentSession || webphone.isCallRecording(currentSession)) {
+      const session = find(x => x.id === sessionId, webphone.sessions);
+      if (!session || webphone.isCallRecording({ session })) {
         return;
       }
-      const sessionData = find(x => x.id === sessionId, webphone.sessions);
-      if (sessionData) {
-        conferenceCall.setMergeParty({ fromSessionId: sessionId });
-        const outBoundOnholdCalls = callMonitor.activeOnHoldCalls
-          .filter(call => call.direction === callDirections.outbound);
-        if (outBoundOnholdCalls.length) {
-          // goto 'calls on hold' page
-          routerInteraction
-            .push(`/conferenceCall/callsOnhold/${sessionData.fromNumber}/${sessionData.id}`);
-        } else { // goto dialer directly
-          routerInteraction.push(`/conferenceCall/dialer/${sessionData.fromNumber}`);
-        }
+      conferenceCall.setMergeParty({ fromSessionId: sessionId });
+      const outBoundOnholdCalls = filter(
+        call => call.direction === callDirections.outbound,
+        callMonitor.activeOnHoldCalls
+      );
+      if (outBoundOnholdCalls.length) {
+        // goto 'calls on hold' page
+        routerInteraction.push(`/conferenceCall/callsOnhold/${session.fromNumber}/${session.id}`);
+      } else {
+        // goto dialer directly
+        routerInteraction.push(`/conferenceCall/dialer/${session.fromNumber}`);
       }
     },
-    onBeforeMerge() {
-      const currentSession = webphone.activeSession;
-      let currentConferenceSession;
+    onBeforeMerge(sessionId) {
+      const session = find(x => x.id === sessionId, webphone.sessions);
+      if (!session || webphone.isCallRecording({ session })) {
+        return false;
+      }
       if (conferenceCall) {
         const conferenceData = Object.values(conferenceCall.conferences)[0];
         if (conferenceData) {
-          currentConferenceSession = webphone._sessions.get(conferenceData.sessionId);
+          const conferenceSession = find(x => x.id === conferenceData.sessionId, webphone.sessions);
+          if (conferenceSession && webphone.isCallRecording({ session: conferenceSession })) {
+            return false;
+          }
         }
-      }
-      if (!currentSession || webphone.isCallRecording(currentSession)) {
-        return false;
-      }
-      if (currentConferenceSession && webphone.isCallRecording(currentConferenceSession)) {
-        return false;
       }
       return true;
     },
     async onMerge(sessionId) {
-      const conferenceData = await conferenceCall.onMerge({ sessionId });
+      const conferenceData = await conferenceCall.mergeSession({ sessionId });
       if (!conferenceData) {
         routerInteraction.push('/conferenceCall/mergeCtrl');
         return;
       }
-      routerInteraction.push('/calls/active');
+      routerInteraction.push(`/calls/active/${conferenceData.sessionId}`);
     },
     onIncomingCallCaptured() {
       routerInteraction.push('/calls/active');

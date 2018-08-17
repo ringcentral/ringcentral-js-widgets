@@ -317,8 +317,10 @@ export default class MessageStore extends Pollable {
         });
       } catch (error) {
         if (
-          error &&
-          error.message === 'Parameter [syncToken] value is invalid'
+          error && (
+            error.message === 'Parameter [syncToken] value is invalid' ||
+            error.message === 'Parameter [syncToken] is invalid'
+          )
         ) {
           data = await this._syncFunction({
             recordCount,
