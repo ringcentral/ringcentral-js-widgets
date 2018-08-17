@@ -55,6 +55,8 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _dec, _class, _desc, _value, _class2;
 
+var _ramda = require('ramda');
+
 var _ringcentralWebPhone = require('ringcentral-web-phone');
 
 var _ringcentralWebPhone2 = _interopRequireDefault(_ringcentralWebPhone);
@@ -262,18 +264,18 @@ var Webphone = (_dec = (0, _di.Module)({
       if (!ringSessionId) {
         return null;
       }
-      var ringSession = sessions.find(function (session) {
+      var ringSession = (0, _ramda.find)(function (session) {
         return session.id === ringSessionId;
-      });
+      }, sessions);
       return ringSession;
     });
 
     _this.addSelector('cachedSessions', function () {
       return _this.sessions;
     }, function (sessions) {
-      return sessions.filter(function (x) {
-        return x.cached;
-      });
+      return (0, _ramda.filter)(function (session) {
+        return session.cached;
+      }, sessions);
     });
 
     _this.addSelector('activeSession', function () {
@@ -284,26 +286,26 @@ var Webphone = (_dec = (0, _di.Module)({
       if (!activeSessionId) {
         return null;
       }
-      var activeSession = sessions.find(function (session) {
+      var activeSession = (0, _ramda.find)(function (session) {
         return session.id === activeSessionId;
-      });
+      }, sessions);
       return activeSession;
     });
 
     _this.addSelector('ringSessions', function () {
       return _this.sessions;
     }, function (sessions) {
-      return sessions.filter(function (session) {
+      return (0, _ramda.filter)(function (session) {
         return (0, _webphoneHelper.isRing)(session);
-      });
+      }, sessions);
     });
 
     _this.addSelector('onHoldSessions', function () {
       return _this.sessions;
     }, function (sessions) {
-      return sessions.filter(function (session) {
+      return (0, _ramda.filter)(function (session) {
         return (0, _webphoneHelper.isOnHold)(session);
-      });
+      }, sessions);
     });
 
     if (_this._contactMatcher) {
@@ -2409,9 +2411,17 @@ var Webphone = (_dec = (0, _di.Module)({
     }
   }, {
     key: 'isCallRecording',
-    value: function isCallRecording(session) {
+    value: function isCallRecording(_ref33) {
+      var session = _ref33.session,
+          _ref33$showAlert = _ref33.showAlert,
+          showAlert = _ref33$showAlert === undefined ? true : _ref33$showAlert;
+
       if ((0, _webphoneHelper.isRecording)(session)) {
-        this._alert.warning({ message: _recordStatus2.default.recording });
+        if (showAlert) {
+          this._alert.warning({
+            message: _recordStatus2.default.recording
+          });
+        }
         return true;
       }
       return false;

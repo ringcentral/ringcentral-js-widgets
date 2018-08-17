@@ -187,6 +187,8 @@ var DetailedPresence = (_dec = (0, _di.Module)({
         return !(0, _callLogHelpers.isEnded)(call);
       });
     });
+
+    _this.fetchRemainingCalls = (0, _throttle2.default)(_this._fetch.bind(_this), FETCH_THRESHOLD);
     return _this;
   }
 
@@ -258,30 +260,6 @@ var DetailedPresence = (_dec = (0, _di.Module)({
       }
 
       return _fetch;
-    }()
-  }, {
-    key: 'fetchRemainingCalls',
-    value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                return _context2.abrupt('return', (0, _throttle2.default)(this._fetch.bind(this), FETCH_THRESHOLD));
-
-              case 1:
-              case 'end':
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function fetchRemainingCalls() {
-        return _ref2.apply(this, arguments);
-      }
-
-      return fetchRemainingCalls;
     }()
   }, {
     key: 'data',
