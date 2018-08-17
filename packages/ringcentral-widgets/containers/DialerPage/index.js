@@ -64,6 +64,8 @@ function mapToFunctions(_, {
     regionSettings,
     contactSearch,
     dialerUI,
+    conferenceCall,
+    webphone,
   },
   phoneTypeRenderer,
   recipientsContactInfoRenderer,
@@ -75,6 +77,12 @@ function mapToFunctions(_, {
     ),
     clearToNumber: () => dialerUI.clearToNumberField(),
     onCallButtonClick() {
+      /**
+       * Clear the mergingPair if it is from mergeCallCtrl (RCINT-7716)
+       */
+      if (conferenceCall) {
+        conferenceCall.closeMergingPair(webphone.activeSession);
+      }
       dialerUI.onCallButtonClick();
     },
     changeFromNumber: (...args) => callingSettings.updateFromNumber(...args),

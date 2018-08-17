@@ -470,6 +470,20 @@ export default class ConferenceCall extends RcModule {
     });
   }
 
+  /**
+   * we need to remove the fromSessionId in mergingPair when the outbound call is hang-up
+   */
+  @proxify
+  closeMergingPair(currentSession) {
+    if (this.mergingPair.fromSessionId && currentSession && currentSession.direction !== 'Inbound') {
+      return this.store.dispatch({
+        type: this.actionTypes.closeMergingPair,
+      });
+    }
+
+    return null;
+  }
+
   getOnlinePartyProfiles(id) {
     const conferenceData = this.conferences[id];
 
