@@ -18,6 +18,7 @@ import ensureExist from '../../lib/ensureExist';
 // import sleep from '../../lib/sleep';
 import callingModes from '../CallingSettings/callingModes';
 import calleeTypes from '../../enums/calleeTypes';
+import { isFunction } from '../../lib/di/utils/is_type';
 
 const DEFAULT_TIMEOUT = 30000;// time out for conferencing session being accepted.
 const DEFAULT_TTL = 5000;// timer to update the conference information
@@ -369,12 +370,6 @@ export default class ConferenceCall extends RcModule {
         message: conferenceErrors.bringInFailed,
       });
       return;
-    }
-
-    for (const session of webphoneSessions) {
-      if (this._webphone.isCallRecording({ session })) {
-        return;
-      }
     }
 
     this.store.dispatch({
@@ -801,15 +796,7 @@ export default class ConferenceCall extends RcModule {
   }
 
   @proxify
-  async mergeSession(sessionId) {
-    this.setMergeParty({
-      toSessionId: sessionId,
-    });
-
-    // should retrieve active session state before merging
-    const hasActiveSession = !!this._webphone.activeSession;
-    const isActiveSessionOnhold = hasActiveSession && this._webphone.activeSession.isOnHold;
-
+  async mergeSession({ sessionId, onReadyToMerge }) {
     const session = find(
       x => x.id === sessionId,
       this._webphone.sessions
@@ -823,6 +810,28 @@ export default class ConferenceCall extends RcModule {
     const webphoneSessions = sessionToMergeWith
       ? [sessionToMergeWith, session]
       : [session];
+
+    for (const session of webphoneSessions) {
+      if (this._webphone.isCallRecording({ session })) {
+        return;
+      }
+    }
+
+    if (
+      onReadyToMerge
+      && isFunction(onReadyToMerge)
+    ) {
+      onReadyToMerge();
+    }
+
+    this.setMergeParty({
+      toSessionId: sessionId,
+    });
+
+    // should retrieve active session state before merging
+    const hasActiveSession = !!this._webphone.activeSession;
+    const isActiveSessionOnhold = hasActiveSession && this._webphone.activeSession.isOnHold;
+
     await this.mergeToConference(webphoneSessions);
 
     const conferenceData = Object.values(this.conferences)[0];

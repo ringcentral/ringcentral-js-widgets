@@ -1,7 +1,7 @@
 export default {
-  hide: 'Masquer',
-  end: 'Terminer',
-  keypad: 'Clavier',
+  hide: "Masquer",
+  end: "Terminer",
+  keypad: "Clavier"
 };
 
 // @key: @#@"hide"@#@ @source: @#@"Hide"@#@

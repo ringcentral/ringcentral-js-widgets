@@ -1,8 +1,8 @@
 import React from 'react';
-import callDirections from 'ringcentral-integration/enums/callDirections';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import ActiveCallItem from '../ActiveCallItem';
+import ActiveCallItemV2 from '../ActiveCallItemV2';
 import styles from './styles.scss';
 
 function isConferenceCall(normalizedCall) {
@@ -39,84 +39,40 @@ function ActiveCallList({
   enableContactFallback,
   title,
   sourceIcons,
-  isWebRTC,
-  currentCall,
-  conferenceCallEquipped,
-  hasConferenceCall,
-  disableMerge,
-  mergeToConference,
   isSessionAConferenceCall,
-  onConfirmMergeCall,
+  onCallItemClick,
+  getAvatarUrl,
+  conferenceCallParties,
+  useV2, // TODO: For compatibility, after replacing all ActiveCallItem with ActiveCallItemV2, we should remove this.
+  webphoneHold,
+  showCallDetail,
+  updateSessionMatchedContact,
 }) {
   if (!calls.length) {
     return null;
   }
+  const Component = useV2 ? ActiveCallItemV2 : ActiveCallItem;
 
   return (
     <div className={classnames(styles.list, className)}>
-      <div className={styles.listTitle}>
+      <div
+        className={styles.listTitle}
+        style={{
+          marginBottom: useV2 && title ? '-5px' : null
+        }}
+      >
         {title}
       </div>
       {
         calls.map((call) => {
-          let showMergeCall = false;
-          let isOnConferenceCall = false;
-          let onMergeCall = null;
-          if (conferenceCallEquipped) {
-            isOnConferenceCall = call.webphoneSession
-              ? isSessionAConferenceCall(call.webphoneSession.id)
-              : isConferenceCall(call);// in case it's an other device call
-            const isCurrentCallAConf = currentCall
-              ? isSessionAConferenceCall(currentCall.webphoneSession.id)
-              : false;
-
-            if (!isWebRTC) {
-              showMergeCall = false;
-            } else if (currentCall) {
-              if (call === currentCall) {
-                showMergeCall = false;
-              } else if (call.direction === callDirections.inbound) {
-                showMergeCall = false;
-              } else if (currentCall.direction === callDirections.outbound) {
-                if (hasConferenceCall) {
-                  showMergeCall = true;
-                  if (isOnConferenceCall) {
-                    onMergeCall = () => mergeToConference([currentCall.webphoneSession]);
-                  } else if (isCurrentCallAConf) {
-                    onMergeCall = () => mergeToConference([call.webphoneSession]);
-                  } else {
-                    onMergeCall = () => onConfirmMergeCall(call);
-                  }
-                } else {
-                  showMergeCall = true;
-                  const partyCalls = [
-                    call.webphoneSession,
-                    currentCall.webphoneSession
-                  ];
-                  onMergeCall = () => mergeToConference(partyCalls);
-                }
-              } else if (hasConferenceCall) {
-                if (isOnConferenceCall) {
-                  showMergeCall = false;
-                } else {
-                  showMergeCall = true;
-                  onMergeCall = () => {
-                    onConfirmMergeCall(call);
-                  };
-                }
-              } else {
-                showMergeCall = false;
-              }
-            } else {
-              showMergeCall = false;
-            }
-          }
+          const isOnConferenceCall = call.webphoneSession
+          ? isSessionAConferenceCall(call.webphoneSession.id)
+          : isConferenceCall(call);// in case it's an other device call
 
           return (
-            <ActiveCallItem
+            <Component
               call={call}
               key={call.id}
-              showMergeCall={showMergeCall}
               isOnConferenceCall={isOnConferenceCall}
               currentLocale={currentLocale}
               areaCode={areaCode}
@@ -131,7 +87,6 @@ function ActiveCallList({
               onLogCall={onLogCall}
               onViewContact={onViewContact}
               onCreateContact={onCreateContact}
-              onMergeCall={onMergeCall}
               loggingMap={loggingMap}
               webphoneAnswer={webphoneAnswer}
               webphoneReject={webphoneReject}
@@ -141,8 +96,13 @@ function ActiveCallList({
               enableContactFallback={enableContactFallback}
               autoLog={autoLog}
               sourceIcons={sourceIcons}
-              disableMerge={disableMerge}
               hasActionMenu={!isOnConferenceCall}
+              onClick={() => onCallItemClick(call)}
+              getAvatarUrl={getAvatarUrl}
+              conferenceCallParties={conferenceCallParties}
+              webphoneHold={webphoneHold}
+              showCallDetail={showCallDetail}
+              updateSessionMatchedContact={updateSessionMatchedContact}
             />
           );
         })
@@ -177,14 +137,14 @@ ActiveCallList.propTypes = {
   enableContactFallback: PropTypes.bool,
   autoLog: PropTypes.bool,
   sourceIcons: PropTypes.object,
-  isWebRTC: PropTypes.bool.isRequired,
-  conferenceCallEquipped: PropTypes.bool,
-  hasConferenceCall: PropTypes.bool,
-  currentCall: PropTypes.object,
-  disableMerge: PropTypes.bool,
-  mergeToConference: PropTypes.func,
   isSessionAConferenceCall: PropTypes.func,
-  onConfirmMergeCall: PropTypes.func,
+  useV2: PropTypes.bool,
+  onCallItemClick: PropTypes.func,
+  getAvatarUrl: PropTypes.func,
+  conferenceCallParties: PropTypes.arrayOf(PropTypes.object),
+  webphoneHold: PropTypes.func,
+  showCallDetail: PropTypes.bool,
+  updateSessionMatchedContact: PropTypes.func,
 };
 
 ActiveCallList.defaultProps = {
@@ -207,13 +167,14 @@ ActiveCallList.defaultProps = {
   onViewContact: undefined,
   webphoneToVoicemail: undefined,
   sourceIcons: undefined,
-  conferenceCallEquipped: false,
-  hasConferenceCall: false,
-  currentCall: undefined,
-  disableMerge: false,
-  mergeToConference: i => i,
   isSessionAConferenceCall: () => false,
-  onConfirmMergeCall: i => i,
+  useV2: false,
+  onCallItemClick: i => i,
+  getAvatarUrl: i => i,
+  conferenceCallParties: [],
+  webphoneHold: i => i,
+  showCallDetail: false,
+  updateSessionMatchedContact: i => i,
 };
 
 export default ActiveCallList;

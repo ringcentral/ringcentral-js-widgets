@@ -1,29 +1,30 @@
 import messageSenderMessages from 'ringcentral-integration/modules/MessageSender/messageSenderMessages';
 
 export default {
-  [messageSenderMessages.sendSuccess]: 'Enviar éxito.',
-  [messageSenderMessages.sendError]: 'Ha ocurrido un error al enviar el mensaje.',
-  [messageSenderMessages.numberValidateError]: 'Error al validar el número de teléfono.',
-  [messageSenderMessages.textEmpty]: 'Escriba el mensaje que desea enviar.',
-  [messageSenderMessages.noPermission]: 'No tiene permiso para enviar este mensaje.',
-  [messageSenderMessages.senderEmpty]: 'Debe seleccionar un número desde su teléfono para enviar el mensaje',
-  [messageSenderMessages.noToNumber]: 'Ingrese un número de teléfono válido.',
-  [messageSenderMessages.recipientsEmpty]: 'Ingrese un número válido de destinatario.',
-  [messageSenderMessages.textTooLong]: 'El mensaje es demasiado largo. El número máximo de caracteres permitidos es 1000',
-  [messageSenderMessages.multipartTextTooLong]: 'El mensaje es demasiado largo. El número máximo de caracteres permitidos es 5000',
-  [messageSenderMessages.recipientNumberInvalids]: 'Please enter a valid phone number.',
-  [messageSenderMessages.noAreaCode]: 'Defina el {areaCodeLink} para utilizar números de teléfono locales de 7 dígitos.',
-  [messageSenderMessages.specialNumber]: 'No se admite el envío de mensajes de texto a números de servicios de emergencia o especiales.',
-  [messageSenderMessages.connectFailed]: 'Error de conexión. Vuelva a intentarlo más tarde.',
-  [messageSenderMessages.internalError]: 'Se produjo un error en la conexión. Vuelva a intentarlo más tarde.',
-  [messageSenderMessages.notAnExtension]: 'El número de extensión no existe.',
-  [messageSenderMessages.networkError]: 'No se puede conectar debido a errores de la red. Vuelva a intentarlo más tarde.',
-  [messageSenderMessages.senderNumberInvalid]: 'Se necesita un número de teléfono válido para enviar mensajes de texto a destinatarios fuera de la compañía, póngase en contacto con el administrador para añadir un número directo a su cuenta.',
-  [messageSenderMessages.notSmsToExtension]: 'No se puede enviar a un número de extensión desde un número de teléfono principal. Si quiere enviar un mensaje a un número de extensión, escriba solo dicho número.',
-  [messageSenderMessages.internationalSMSNotSupported]: 'No es posible enviar SMS a números de teléfono internacionales.',
-  [messageSenderMessages.noInternalSMSPermission]: 'No tiene permisos para enviar mensajes. Comuníquese con el administrador de su cuenta de {brand} para obtener permisos.',
-  [messageSenderMessages.noSMSPermission]: 'No tiene permisos para enviar mensajes a destinatarios que no pertenecen a su organización. Comuníquese con el administrador de su cuenta de {brand} para obtener permisos.',
-  areaCode: 'código de área',
+  [messageSenderMessages.sendSuccess]: "Enviar éxito.",
+  [messageSenderMessages.sendError]: "Ha ocurrido un error al enviar el mensaje.",
+  [messageSenderMessages.numberValidateError]: "Error al validar el número de teléfono.",
+  [messageSenderMessages.textEmpty]: "Escriba el mensaje que desea enviar.",
+  [messageSenderMessages.noPermission]: "No tiene permiso para enviar este mensaje.",
+  [messageSenderMessages.senderEmpty]: "Debe seleccionar un número desde su teléfono para enviar el mensaje",
+  [messageSenderMessages.noToNumber]: "Ingrese un número de teléfono válido.",
+  [messageSenderMessages.recipientsEmpty]: "Ingrese un número válido de destinatario.",
+  [messageSenderMessages.textTooLong]: "El mensaje es demasiado largo. El número máximo de caracteres permitidos es 1000",
+  [messageSenderMessages.multipartTextTooLong]: "El mensaje es demasiado largo. El número máximo de caracteres permitidos es 5000",
+  [messageSenderMessages.recipientNumberInvalids]: "Please enter a valid phone number.",
+  [messageSenderMessages.noAreaCode]: "Defina el {areaCodeLink} para utilizar números de teléfono locales de 7 dígitos.",
+  [messageSenderMessages.specialNumber]: "No se admite el envío de mensajes de texto a números de servicios de emergencia o especiales.",
+  [messageSenderMessages.connectFailed]: "Error de conexión. Vuelva a intentarlo más tarde.",
+  [messageSenderMessages.internalError]: "Se produjo un error en la conexión. Vuelva a intentarlo más tarde.",
+  [messageSenderMessages.notAnExtension]: "El número de extensión no existe.",
+  [messageSenderMessages.networkError]: "No se puede conectar debido a errores de la red. Vuelva a intentarlo más tarde.",
+  [messageSenderMessages.senderNumberInvalid]: "Se necesita un número de teléfono válido para enviar mensajes de texto a destinatarios fuera de la compañía, póngase en contacto con el administrador para añadir un número directo a su cuenta.",
+  [messageSenderMessages.notSmsToExtension]: "No se puede enviar a un número de extensión desde un número de teléfono principal. Si quiere enviar un mensaje a un número de extensión, escriba solo dicho número.",
+  [messageSenderMessages.internationalSMSNotSupported]: "No es posible enviar SMS a números de teléfono internacionales.",
+  [messageSenderMessages.noInternalSMSPermission]: "No tiene permisos para enviar mensajes. Comuníquese con el administrador de su cuenta de {brand} para obtener permisos.",
+  [messageSenderMessages.noSMSPermission]: "No tiene permiso para enviar mensajes a destinatarios que no pertenecen a su organización.",
+  areaCode: "código de área",
+  [messageSenderMessages.sending]: "Enviando mensaje... Esta acción puede tardar algunos minutos."
 };
 
 // @key: @#@"[messageSenderMessages.sendSuccess]"@#@ @source: @#@"Send Success."@#@
@@ -47,5 +48,6 @@ export default {
 // @key: @#@"[messageSenderMessages.notSmsToExtension]"@#@ @source: @#@"Cannot send To a extension number with main phone number. If you want to sent to a extension Number, please just enter extension Number."@#@
 // @key: @#@"[messageSenderMessages.internationalSMSNotSupported]"@#@ @source: @#@"Sending SMS to international phone number is not supported."@#@
 // @key: @#@"[messageSenderMessages.noInternalSMSPermission]"@#@ @source: @#@"You don't have permission to send messages. Please contact your {brand} account administrator for upgrade."@#@
-// @key: @#@"[messageSenderMessages.noSMSPermission]"@#@ @source: @#@"You don't have permission to send messages to recipients outside of your organization. Please contact your {brand} account administrator for upgrade."@#@
+// @key: @#@"[messageSenderMessages.noSMSPermission]"@#@ @source: @#@"You don't have permission to send messages to recipients outside of your organization."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
+// @key: @#@"[messageSenderMessages.sending]"@#@ @source: @#@"Message being sent…It may take a couple of minutes to complete."@#@

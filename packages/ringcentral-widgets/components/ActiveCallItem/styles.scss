@@ -99,25 +99,12 @@ $fixed-avatar-width:35px;
   }
 }
 
-.mergeButton,
 .rejectButton,
 .answerButton {
   width: 26px;
   g,
   path {
     fill: #ffffff;
-  }
-}
-
-.mergeButton {
-  circle {
-    fill: $snow;
-    stroke: $primary-color;
-    stroke-width: 15px;
-  }
-  g,
-  path {
-    fill: $primary-color;
   }
 }
 
