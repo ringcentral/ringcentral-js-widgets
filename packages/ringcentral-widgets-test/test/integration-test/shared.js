@@ -1,9 +1,8 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { createStore } from 'redux';
-import getIntlDateTimeFormatter from 'ringcentral-integration/lib/getIntlDateTimeFormatter';
 import * as mock from 'ringcentral-integration/integration-test/mock';
-import { ensureLogin, containsErrorMessage } from 'ringcentral-integration/integration-test/utils/HelpUtil';
+import { ensureLogin } from 'ringcentral-integration/integration-test/utils/HelpUtil';
 import ClientHistoryRequest from 'ringcentral-integration/integration-test/utils/ClientHistoryRequest';
 
 import { createPhone } from 'ringcentral-widgets-demo/dev-server/Phone';

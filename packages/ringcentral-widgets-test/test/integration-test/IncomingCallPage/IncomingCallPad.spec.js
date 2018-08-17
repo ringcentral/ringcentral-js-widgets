@@ -20,8 +20,6 @@ import {
   toVoicemailFn,
   holdFn,
   unholdFn,
-  muteFn,
-  unmuteFn,
   acceptFn,
   terminateFn,
   rejectFn,
@@ -90,8 +88,6 @@ afterEach(() => {
   toVoicemailFn.mockClear();
   holdFn.mockClear();
   unholdFn.mockClear();
-  muteFn.mockClear();
-  unmuteFn.mockClear();
   acceptFn.mockClear();
   terminateFn.mockClear();
   rejectFn.mockClear();

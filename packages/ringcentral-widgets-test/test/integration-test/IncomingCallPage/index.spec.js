@@ -1,13 +1,9 @@
-import React from 'react';
-import { mount } from 'enzyme';
 import IncomingCallPad from 'ringcentral-widgets/components/IncomingCallPad';
 import { inboundSession } from '../../support/session';
-import { getWrapper, timeout } from '../shared';
+import { getWrapper } from '../shared';
 
 let wrapper = null;
-const panel = null;
 let phone = null;
-let store = null;
 
 beforeEach(async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
@@ -16,7 +12,6 @@ beforeEach(async () => {
   phone.webphone._createWebphone();
   phone.webphone._removeWebphone = () => { };
   phone.webphone._connect = () => { };
-  store = wrapper.props().phone.store;
 
   Object.defineProperties(wrapper.props().phone.audioSettings, {
     userMedia: { value: true },
