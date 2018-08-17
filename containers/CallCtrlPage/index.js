@@ -65,6 +65,10 @@ var _callingModes = require('ringcentral-integration/modules/CallingSettings/cal
 
 var _callingModes2 = _interopRequireDefault(_callingModes);
 
+var _sessionStatus = require('ringcentral-integration/modules/Webphone/sessionStatus');
+
+var _sessionStatus2 = _interopRequireDefault(_sessionStatus);
+
 var _withPhone = require('../../lib/withPhone');
 
 var _withPhone2 = _interopRequireDefault(_withPhone);
@@ -412,9 +416,11 @@ function mapToProps(_, _ref) {
       contactSearch = _ref$phone.contactSearch,
       conferenceCall = _ref$phone.conferenceCall,
       callingSettings = _ref$phone.callingSettings,
+      callMonitor = _ref$phone.callMonitor,
       _ref$layout = _ref.layout,
       layout = _ref$layout === undefined ? _callCtrlLayouts2.default.normalCtrl : _ref$layout,
-      params = _ref.params;
+      params = _ref.params,
+      children = _ref.children;
 
   var sessionId = params && params.sessionId;
   var currentSession = void 0;
@@ -442,6 +448,7 @@ function mapToProps(_, _ref) {
   var isMerging = false;
   var conferenceCallParties = void 0;
   var conferenceCallId = null;
+  var lastCallInfo = callMonitor.lastCallInfo;
   if (conferenceCall) {
     isOnConference = conferenceCall.isConferenceSession(currentSession.id);
     var conferenceData = (0, _values2.default)(conferenceCall.conferences)[0];
@@ -461,9 +468,22 @@ function mapToProps(_, _ref) {
 
     hasConferenceCall = !!conferenceData;
     conferenceCallParties = conferenceCall.partyProfiles;
+
+    layout = isOnConference ? _callCtrlLayouts2.default.conferenceCtrl : layout;
+
+    lastCallInfo = isOnConference ? null : lastCallInfo;
+
+    var fromSessionId = conferenceCall.mergingPair.fromSessionId;
+
+    if (!isInoundCall && fromSessionId && fromSessionId !== currentSession.id && lastCallInfo && lastCallInfo.status !== _sessionStatus2.default.finished) {
+      // enter merge ctrl page.
+      layout = _callCtrlLayouts2.default.mergeCtrl;
+
+      // for mergeCtrl page, we don't show any children (container) component.
+      children = null;
+    }
   }
 
-  layout = isOnConference ? _callCtrlLayouts2.default.conferenceCtrl : layout;
   return {
     brand: brand.fullName,
     nameMatches: nameMatches,
@@ -481,7 +501,9 @@ function mapToProps(_, _ref) {
     conferenceCallEquipped: !!conferenceCall,
     hasConferenceCall: hasConferenceCall,
     conferenceCallParties: conferenceCallParties,
-    conferenceCallId: conferenceCallId
+    conferenceCallId: conferenceCallId,
+    lastCallInfo: lastCallInfo,
+    children: children
   };
 }
 
@@ -508,8 +530,11 @@ function mapToFunctions(_, _ref2) {
       });
     },
     onHangup: function onHangup(sessionId) {
-      return webphone.hangup(sessionId);
+      // close the MergingPair if any.
+      conferenceCall.closeMergingPair();
+      webphone.hangup(sessionId);
     },
+
     onMute: function onMute(sessionId) {
       return webphone.mute(sessionId);
     },

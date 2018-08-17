@@ -74,6 +74,7 @@ function mapToFunctions(_, _ref2) {
       regionSettings = _ref2$phone.regionSettings,
       contactSearch = _ref2$phone.contactSearch,
       dialerUI = _ref2$phone.dialerUI,
+      conferenceCall = _ref2$phone.conferenceCall,
       phoneTypeRenderer = _ref2.phoneTypeRenderer,
       recipientsContactInfoRenderer = _ref2.recipientsContactInfoRenderer,
       recipientsContactPhoneRenderer = _ref2.recipientsContactPhoneRenderer;
@@ -86,6 +87,12 @@ function mapToFunctions(_, _ref2) {
       return dialerUI.clearToNumberField();
     },
     onCallButtonClick: function onCallButtonClick() {
+      /**
+       * Clear the mergingPair if it is from mergeCallCtrl (RCINT-7716)
+       */
+      if (conferenceCall) {
+        conferenceCall.closeMergingPair();
+      }
       dialerUI.onCallButtonClick();
     },
 
