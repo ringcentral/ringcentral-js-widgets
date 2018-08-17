@@ -48,6 +48,7 @@ describe('importLocale', () => {
     supportedLocales: ['en-US', 'en-GB'],
     silent: true,
     interactive: false,
+    fillEmptyWithSource: true,
   };
   beforeEach(async () => {
     await clean();
