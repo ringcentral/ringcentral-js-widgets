@@ -316,7 +316,6 @@ function mapToProps(_, {
   },
   layout = callCtrlLayouts.normalCtrl,
   params,
-  enableMergeCtrlFlow,
   children
 }) {
   const sessionId = params && params.sessionId;
