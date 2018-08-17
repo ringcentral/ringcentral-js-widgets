@@ -366,14 +366,14 @@ export default class ActionMenuList extends Component {
       null;
 
     let entityButton;
-    if (externalViewEntity) {
-      entityButton = externalHasEntity ? (<EntityButton
+    if (externalViewEntity && externalHasEntity) {
+      entityButton = (<EntityButton
         className={styles.button}
         onViewEntity={externalViewEntity}
         hasEntity={externalHasEntity}
         disableLinks={disableLinks}
         viewEntityTitle={viewEntityTitle}
-      />) : null;
+      />);
     } else if (hasEntity && onViewEntity) {
       entityButton = (<EntityButton
         className={styles.button}
