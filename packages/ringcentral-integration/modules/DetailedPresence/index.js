@@ -155,6 +155,6 @@ export default class DetailedPresence extends Presence {
   }
 
   async fetchRemainingCalls() {
-    return throttle(this::this._fetch(), FETCH_THRESHOLD);
+    return throttle(this::this._fetch, FETCH_THRESHOLD);
   }
 }
