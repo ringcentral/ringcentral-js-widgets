@@ -267,7 +267,7 @@ var DetailedPresence = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                return _context2.abrupt('return', (0, _throttle2.default)(this._fetch.call(this), FETCH_THRESHOLD));
+                return _context2.abrupt('return', (0, _throttle2.default)(this._fetch.bind(this), FETCH_THRESHOLD));
 
               case 1:
               case 'end':
