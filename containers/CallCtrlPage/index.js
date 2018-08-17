@@ -580,7 +580,7 @@ function mapToFunctions(_, _ref2) {
       var session = (0, _ramda.find)(function (x) {
         return x.id === sessionId;
       }, webphone.sessions);
-      if (!session || webphone.isCallRecording(session)) {
+      if (!session || webphone.isCallRecording({ session: session })) {
         return;
       }
       conferenceCall.setMergeParty({ fromSessionId: sessionId });
@@ -599,7 +599,7 @@ function mapToFunctions(_, _ref2) {
       var session = (0, _ramda.find)(function (x) {
         return x.id === sessionId;
       }, webphone.sessions);
-      if (!session || webphone.isCallRecording(session)) {
+      if (!session || webphone.isCallRecording({ session: session })) {
         return false;
       }
       if (conferenceCall) {
@@ -608,7 +608,7 @@ function mapToFunctions(_, _ref2) {
           var conferenceSession = (0, _ramda.find)(function (x) {
             return x.id === conferenceData.sessionId;
           }, webphone.sessions);
-          if (conferenceSession && webphone.isCallRecording(conferenceSession)) {
+          if (conferenceSession && webphone.isCallRecording({ session: conferenceSession })) {
             return false;
           }
         }
@@ -623,7 +623,7 @@ function mapToFunctions(_, _ref2) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return conferenceCall.onMerge({ sessionId: sessionId });
+                return conferenceCall.mergeSession({ sessionId: sessionId });
 
               case 2:
                 conferenceData = _context.sent;

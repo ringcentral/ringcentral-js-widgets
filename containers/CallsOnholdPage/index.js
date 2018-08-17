@@ -137,9 +137,6 @@ function mapToFunctions(_, _ref2) {
     params: params,
     phone: phone
   }, props));
-  var onBackButtonClick = function onBackButtonClick() {
-    routerInteraction.goBack();
-  };
   return (0, _extends3.default)({}, baseProps, {
     onMerge: function () {
       var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(sessionId) {
@@ -148,7 +145,12 @@ function mapToFunctions(_, _ref2) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return conferenceCall.onMergeOnhold({ sessionId: sessionId, callback: onBackButtonClick.bind(this) });
+                return conferenceCall.mergeSession({
+                  sessionId: sessionId,
+                  onReadyToMerge: function onReadyToMerge() {
+                    routerInteraction.goBack();
+                  }
+                });
 
               case 2:
               case 'end':
