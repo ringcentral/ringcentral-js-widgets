@@ -1,35 +1,15 @@
-import subscriptionBody from 'ringcentral-integration/integration-test/mock/data/subscription.json';
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatuses';
 import * as mock from 'ringcentral-integration/integration-test/mock';
 
 import deviceBody from './data/device';
-import mockActiveCalls from './data/activeCalls';
-import pubnubPresenceBody from './data/pubnubPresence';
 
 import { timeout } from '../shared';
-import * as MockedPubNub from '../../__mocks__/pubnub.js';
-import { getInboundCall, makeCall } from '../../support/callHelper';
-
-export async function mockPubnub(activeCallsBody) {
-  const pubnub = MockedPubNub.getLastPubnub();
-  const encrypted = pubnub._realPubnub.encrypt(
-    JSON.stringify({
-      ...pubnubPresenceBody,
-      body: {
-        ...pubnubPresenceBody.body,
-        activeCalls: activeCallsBody
-      },
-      timestamp: (new Date()).toISOString(),
-    }),
-    subscriptionBody.deliveryMode.encryptionKey, {
-      encryptKey: false,
-      keyEncoding: 'base64',
-      keyLength: 128,
-      mode: 'ecb'
-    });
-  pubnub.mockMessage(encrypted);
-  await timeout(2000);
-}
+import {
+  makeCall,
+  getInboundCall,
+  mockActiveCalls,
+  mockDetailedPresencePubnub,
+} from '../../support/callHelper';
 
 export async function mockMultiActiveCalls(phone) {
   mock.device(deviceBody, false);
@@ -56,8 +36,30 @@ export async function mockMultiActiveCalls(phone) {
     _header_callId: 'call-222',
     telephonyStatus: telephonyStatuses.ringing
   });
-  const activeCallsBody = mockActiveCalls([inboundSession, outboundSession, incomingSession], true);
+  // other device calls
+  const mockOtherDeivce = [{
+    id: 'call-4444',
+    sessionId: '4444',
+    fromName: 'FirstName 104 LastName',
+    from: '104',
+    toName: 'FirstName 105 LastName',
+    to: '105',
+    direction: 'Inbound',
+    telephonyStatus: 'CallConnected',
+    sipData: {
+      toTag: 'pgrneavq66',
+      fromTag: '10.74.2.218-5070-2a0553bd67c3401',
+      remoteUri: 'sip:104@ringcentral.com',
+      localUri: 'sip:105@ringcentral.com'
+    },
+    startTime: '2018-08-07T09:20:09.405Z',
+  }];
+  const activeCallsBody = mockActiveCalls(
+    [inboundSession, outboundSession, incomingSession],
+    mockOtherDeivce
+  );
   mock.activeCalls(activeCallsBody);
-  await mockPubnub(activeCallsBody);
-  await timeout(2000);
+  await phone.subscription.subscribe(['/account/~/extension/~/presence']);
+  await timeout(2500);
+  await mockDetailedPresencePubnub(activeCallsBody);
 }

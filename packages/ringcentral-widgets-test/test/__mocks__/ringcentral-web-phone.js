@@ -13,9 +13,9 @@ class UserAgent {
     this._events[event](...args);
   }
 
-  invite(toNumber, options) {
+  invite(toNumber) {
     return new Session({
-      id: Math.round(Math.random() * 1000000000).toString(),
+      id: `${toNumber}-${Math.round(Math.random() * 1000000000).toString()}`,
       direction: 'Outbound',
       to: toNumber
     });
