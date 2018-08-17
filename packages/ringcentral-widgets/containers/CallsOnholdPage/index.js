@@ -81,13 +81,15 @@ function mapToFunctions(_, {
     phone,
     ...props,
   });
-  const onBackButtonClick = () => {
-    routerInteraction.goBack();
-  };
   return {
     ...baseProps,
     async onMerge(sessionId) {
-      await conferenceCall.onMergeOnhold({ sessionId, callback: this::onBackButtonClick });
+      await conferenceCall.mergeSession({
+        sessionId,
+        onReadyToMerge() {
+          routerInteraction.goBack();
+        },
+      });
     },
     onBackButtonClick() {
       if (webphone.sessions.length) {

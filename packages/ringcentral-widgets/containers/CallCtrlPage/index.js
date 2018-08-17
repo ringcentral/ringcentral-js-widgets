@@ -461,7 +461,7 @@ function mapToFunctions(_, {
     recipientsContactPhoneRenderer,
     onAdd(sessionId) {
       const session = find(x => x.id === sessionId, webphone.sessions);
-      if (!session || webphone.isCallRecording(session)) {
+      if (!session || webphone.isCallRecording({ session })) {
         return;
       }
       conferenceCall.setMergeParty({ fromSessionId: sessionId });
@@ -479,14 +479,14 @@ function mapToFunctions(_, {
     },
     onBeforeMerge(sessionId) {
       const session = find(x => x.id === sessionId, webphone.sessions);
-      if (!session || webphone.isCallRecording(session)) {
+      if (!session || webphone.isCallRecording({ session })) {
         return false;
       }
       if (conferenceCall) {
         const conferenceData = Object.values(conferenceCall.conferences)[0];
         if (conferenceData) {
           const conferenceSession = find(x => x.id === conferenceData.sessionId, webphone.sessions);
-          if (conferenceSession && webphone.isCallRecording(conferenceSession)) {
+          if (conferenceSession && webphone.isCallRecording({ session: conferenceSession })) {
             return false;
           }
         }
@@ -494,7 +494,7 @@ function mapToFunctions(_, {
       return true;
     },
     async onMerge(sessionId) {
-      const conferenceData = await conferenceCall.onMerge({ sessionId });
+      const conferenceData = await conferenceCall.mergeSession({ sessionId });
       if (!conferenceData) {
         routerInteraction.push('/conferenceCall/mergeCtrl');
         return;

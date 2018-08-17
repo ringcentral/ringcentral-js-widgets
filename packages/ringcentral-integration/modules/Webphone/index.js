@@ -1,3 +1,4 @@
+import { find, filter } from 'ramda';
 import RingCentralWebphone from 'ringcentral-web-phone';
 import incomingAudio from 'ringcentral-web-phone/audio/incoming.ogg';
 import outgoingAudio from 'ringcentral-web-phone/audio/outgoing.ogg';
@@ -22,8 +23,6 @@ import {
   isRing,
   isOnHold,
   isRecording,
-  isConferenceSession,
-  sortByCreationTimeDesc,
   extractHeadersData,
 } from './webphoneHelper';
 import getWebphoneReducer from './getWebphoneReducer';
@@ -143,8 +142,9 @@ export default class Webphone extends RcModule {
         if (!ringSessionId) {
           return null;
         }
-        const ringSession = sessions.find(
-          session => session.id === ringSessionId
+        const ringSession = find(
+          session => session.id === ringSessionId,
+          sessions
         );
         return ringSession;
       }
@@ -152,7 +152,7 @@ export default class Webphone extends RcModule {
 
     this.addSelector('cachedSessions',
       () => this.sessions,
-      sessions => sessions.filter(x => x.cached),
+      sessions => filter(session => session.cached, sessions)
     );
 
     this.addSelector('activeSession',
@@ -162,8 +162,9 @@ export default class Webphone extends RcModule {
         if (!activeSessionId) {
           return null;
         }
-        const activeSession = sessions.find(
-          session => session.id === activeSessionId
+        const activeSession = find(
+          session => session.id === activeSessionId,
+          sessions
         );
         return activeSession;
       }
@@ -171,12 +172,12 @@ export default class Webphone extends RcModule {
 
     this.addSelector('ringSessions',
       () => this.sessions,
-      sessions => sessions.filter(session => isRing(session))
+      sessions => filter(session => isRing(session), sessions)
     );
 
     this.addSelector('onHoldSessions',
       () => this.sessions,
-      sessions => sessions.filter(session => isOnHold(session))
+      sessions => filter(session => isOnHold(session), sessions)
     );
 
     if (this._contactMatcher) {
@@ -1279,12 +1280,14 @@ export default class Webphone extends RcModule {
    */
   @proxify
   async showAlert() {
-    if (!this.errorCode) return;
+    if (!this.errorCode) {
+      return;
+    }
     this._alert.danger({
       message: this.errorCode,
       allowDuplicates: false,
       payload: {
-        statusCode: this.statusCode
+        statusCode: this.statusCode,
       },
     });
   }
@@ -1307,9 +1310,13 @@ export default class Webphone extends RcModule {
     }
   }
 
-  isCallRecording(session) {
+  isCallRecording({ session, showAlert = true }) {
     if (isRecording(session)) {
-      this._alert.warning({ message: recordStatus.recording });
+      if (showAlert) {
+        this._alert.warning({
+          message: recordStatus.recording,
+        });
+      }
       return true;
     }
     return false;
