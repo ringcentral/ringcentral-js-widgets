@@ -817,6 +817,17 @@ export default class ConferenceCall extends RcModule {
       }
     }
 
+    const conferenceState = Object.values(this.conferences)[0];
+    if (conferenceState) {
+      const conferenceSession = find(
+        x => x.id === conferenceState.sessionId,
+        this._webphone.sessions
+      );
+      if (this._webphone.isCallRecording({ session: conferenceSession })) {
+        return null;
+      }
+    }
+
     if (
       onReadyToMerge
       && isFunction(onReadyToMerge)
