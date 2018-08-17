@@ -434,10 +434,8 @@ function mapToFunctions(_, {
       countryCode: regionSettings.countryCode,
     }),
     onHangup(sessionId) {
-      const { currentSession } = webphone;
-
       // close the MergingPair if any.
-      conferenceCall.closeMergingPair(currentSession);
+      conferenceCall.closeMergingPair();
       webphone.hangup(sessionId);
     },
     onMute: sessionId => webphone.mute(sessionId),

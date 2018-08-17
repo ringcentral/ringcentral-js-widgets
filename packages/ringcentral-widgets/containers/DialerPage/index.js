@@ -65,7 +65,6 @@ function mapToFunctions(_, {
     contactSearch,
     dialerUI,
     conferenceCall,
-    webphone,
   },
   phoneTypeRenderer,
   recipientsContactInfoRenderer,
@@ -81,7 +80,7 @@ function mapToFunctions(_, {
        * Clear the mergingPair if it is from mergeCallCtrl (RCINT-7716)
        */
       if (conferenceCall) {
-        conferenceCall.closeMergingPair(webphone.activeSession);
+        conferenceCall.closeMergingPair();
       }
       dialerUI.onCallButtonClick();
     },

@@ -474,8 +474,10 @@ export default class ConferenceCall extends RcModule {
    * we need to remove the fromSessionId in mergingPair when the outbound call is hang-up
    */
   @proxify
-  closeMergingPair(currentSession) {
-    if (this.mergingPair.fromSessionId && currentSession && currentSession.direction !== 'Inbound') {
+  closeMergingPair() {
+    const { activeSession } = this._webphone;
+    if (this.mergingPair.fromSessionId && activeSession && activeSession.direction !== 'Inbound') {
+      // when Incoming call hang-up, users can still see the previous calls in simplified ctrl view
       return this.store.dispatch({
         type: this.actionTypes.closeMergingPair,
       });
