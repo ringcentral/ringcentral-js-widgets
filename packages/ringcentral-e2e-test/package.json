@@ -20,10 +20,25 @@
   },
   "e2e": {
     "runner": "./src/bin/runner.js",
-    "caseServices": [{
-      "name": "Einstein",
-      "url": "http://www.einstein.com"
-    }],
-    "tester": "jest"
+    "caseServices": [
+      {
+        "name": "Einstein",
+        "url": "http://www.einstein.com"
+      }
+    ],
+    "tester": "jest",
+    "defaultExec": {
+      "driver": "puppeteer",
+      "level": [
+        "p0",
+        "p1"
+      ],
+      "brand": [
+        "rc"
+      ]
+    }
+  },
+  "dependencies": {
+    "puppeteer": "^1.7.0"
   }
 }

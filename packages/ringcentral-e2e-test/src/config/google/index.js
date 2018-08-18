@@ -1,4 +1,13 @@
 export default {
   type: 'extension',
-  location: 'http://localhost:8080/',
+  params: {
+    brands: {
+      rc: {
+        location: '../../../resources/google/rc',
+      },
+      att: {
+        location: '../../../resources/google/att',
+      }
+    }
+  }
 };

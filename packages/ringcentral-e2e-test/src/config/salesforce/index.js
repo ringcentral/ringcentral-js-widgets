@@ -1,4 +1,16 @@
 export default {
   type: 'uri',
-  location: 'https://login.salesforce.com/',
+  params: {
+    modes: [
+      'lightning',
+      'classic'
+    ],
+    brands: {
+      rc: {
+        username: '',
+        password: '',
+        location: 'https://login.salesforce.com/',
+      }
+    },
+  }
 };
