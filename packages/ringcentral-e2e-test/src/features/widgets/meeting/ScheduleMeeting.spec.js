@@ -8,14 +8,15 @@ describe('test: =====>', () => {
     level: 'p1',
     options: [
       { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
+      { selector: '[data-sign="loginButton"]', expected: 'Sign1 In' },
     ],
   }, async ({
     option, context, tag, level
   }) => {
     await context.launch();
-    const text = await context.page.$eval(option.selector, node => node.innerText);
+    const text = await context.text(option.selector);
     expect(text).toBe(option.expected);
-    await context.browser.close();
+    await context.close();
   });
 });
 

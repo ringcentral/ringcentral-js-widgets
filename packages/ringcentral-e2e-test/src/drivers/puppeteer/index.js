@@ -36,6 +36,11 @@ class Driver {
     return element;
   }
 
+  async text(selector) {
+    const innerText = await this.page.$eval(selector, node => node.innerText);
+    return innerText;
+  }
+
   async $$(selector) {
     const elements = await this._context.$$(selector);
     return elements;
