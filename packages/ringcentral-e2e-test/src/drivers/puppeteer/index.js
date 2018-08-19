@@ -8,14 +8,27 @@ const puppeteerSetting = {
   ]
 };
 
-export default {
-  program: puppeteer,
-  setting: puppeteerSetting,
-};
+class Driver {
+  constructor(options = {}, program = puppeteer) {
+    this._options = options;
+    this._program = program;
+  }
 
-class API {
-  constructor(context) {
-    this._context = context;
+  get program() {
+    return this._program;
+  }
+
+  async launch() {
+    this.browser = await this._program.launch({
+      ...this._options.global.driverSetting,
+      ...this._options.driver.setting,
+    });
+    this.page = await this.browser.newPage();
+    await this.page.goto(this._options.driver.config.location);
+  }
+
+  async close() {
+    await this.browser.close();
   }
 
   async $(selector) {
@@ -37,13 +50,9 @@ class API {
     const handle = await this._context.type(selector, value);
     return handle;
   }
-
-  setContext(context) {
-    this._context = context;
-    return this;
-  }
 }
 
-const api = new API();
-
-export const $ = context => api.setContext(context);
+export default {
+  Driver,
+  setting: puppeteerSetting,
+};

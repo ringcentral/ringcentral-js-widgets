@@ -1,12 +1,4 @@
-// beforeAll(() => {
-//   console.log('beforeAll=====');
-// });
 
-// beforeEach(() => {
-//   console.log('beforeEach=====');
-// });
-
-// console.log(it, process.env, process.argv);
 describe('test: =====>', () => {
   test({
     title: 'Login button ${selector} text is ${expected}',

@@ -1,5 +1,5 @@
 import config, { getDriverConfig } from '../config';
-import drivers, { Driver } from '../drivers';
+import drivers from '../drivers';
 import {
   isNil,
   isPlainobject
@@ -61,7 +61,7 @@ function setup({
     tag,
     level
   }) => {
-    const { program, setting, } = drivers[global.execDriver];
+    const { Driver, setting, } = drivers[global.execDriver];
     const config = getDriverConfig({
       projects: global.execGlobal.params.projects,
       tag,
@@ -78,7 +78,7 @@ function setup({
       },
     };
     // TODO setup plugins
-    return new Driver(options, program);
+    return new Driver(options);
   };
 }
 
