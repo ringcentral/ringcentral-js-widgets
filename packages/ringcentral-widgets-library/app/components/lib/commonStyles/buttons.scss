@@ -1,0 +1,19 @@
+@import 'colors';
+
+@mixin big-submit-button {
+  @include secondary-font;
+  width: 100%;
+  height: 36px;
+  border-radius: 100px;
+  background: $primary-color;
+  line-height: 36px;
+  color: #ffffff!important;
+  text-align: center;
+}
+
+@mixin big-submit-button-disabled {
+  @include big-submit-button;
+  background: #ffffff;
+  border: solid 1px $disabled-border-color;
+  color: $grey-light!important;
+}

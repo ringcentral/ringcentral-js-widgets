@@ -16,10 +16,6 @@
   flex-wrap: nowrap;
   align-items: center;
   justify-content: flex-start;
-  .mediaBody {
-    flex-grow: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
   }
   .mediaRight,
