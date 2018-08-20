@@ -21,6 +21,7 @@ export default class LoginPanel extends Component {
       version,
       showSpinner,
       children,
+      showSignup,
     } = this.props;
     const spinner = showSpinner ?
       <SpinnerOverlay /> :
@@ -40,6 +41,7 @@ export default class LoginPanel extends Component {
           disabled={disabled} >
           {i18n.getString('loginButton', currentLocale)}
         </button>
+        {showSignup && <button>{i18n.getString('signupButton', currentLocale)}</button>}
         {versionDisplay}
         {spinner}
         {children}
@@ -58,6 +60,7 @@ LoginPanel.propTypes = {
   version: PropTypes.string,
   showSpinner: PropTypes.bool,
   children: PropTypes.node,
+  showSignup: PropTypes.bool,
 };
 
 LoginPanel.defaultProps = {
@@ -66,4 +69,5 @@ LoginPanel.defaultProps = {
   version: undefined,
   showSpinner: false,
   children: undefined,
+  showSignup: false,
 };
