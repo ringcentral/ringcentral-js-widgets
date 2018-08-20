@@ -66,6 +66,6 @@ EntityModal.propTypes = {
 };
 EntityModal.defaultProps = {
   show: false,
-  entities: ['account', 'lead', 'contact', 'opportunity'],
+  entities: ['account', 'lead', 'contact'],
 };
 

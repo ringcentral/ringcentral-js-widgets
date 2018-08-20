@@ -323,6 +323,7 @@ export default class ActionMenuList extends Component {
       isCreating,
       onViewEntity,
       onCreateEntity,
+      createEntityTypes,
       hasEntity,
       onClickToDial,
       onClickToSms,
@@ -397,6 +398,7 @@ export default class ActionMenuList extends Component {
     const entityModal = (!hasEntity && phoneNumber) ?
       (<EntityModal
         currentLocale={currentLocale}
+        entities={createEntityTypes}
         show={this.state.entityModalVisible}
         onCreate={this.onCreateEnityModal}
         onCancel={this.onCancelEntityModal}
@@ -510,6 +512,7 @@ ActionMenuList.propTypes = {
   isCreating: PropTypes.bool,
   onViewEntity: PropTypes.func,
   onCreateEntity: PropTypes.func,
+  createEntityTypes: PropTypes.array,
   hasEntity: PropTypes.bool,
   onClickToDial: PropTypes.func,
   onClickToSms: PropTypes.func,
@@ -547,6 +550,7 @@ ActionMenuList.defaultProps = {
   isCreating: false,
   onViewEntity: undefined,
   onCreateEntity: undefined,
+  createEntityTypes: undefined,
   hasEntity: false,
   onClickToDial: undefined,
   onClickToSms: undefined,
