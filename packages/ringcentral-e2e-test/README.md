@@ -59,9 +59,13 @@
 ------
 
 ## Usage
+
 ```shell
 git clone https://github.com/unadlib/ringcentral-js-widget.git
 cd ringcentral-js-widget && git checkout e2e-test && yarn install && yarn bootstrap
 cd packages/ringcentral-widgets-demo && yarn dev-server
+```
+
+```shell
 npx babel-node ./packages/ringcentral-e2e-test/temp.js
 ```
