@@ -29,6 +29,8 @@ var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
 
 var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
+var _class, _temp, _initialiseProps;
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -73,6 +75,10 @@ var _Voicemail = require('../../assets/images/Voicemail.svg');
 
 var _Voicemail2 = _interopRequireDefault(_Voicemail);
 
+var _Answer = require('../../assets/images/Answer.svg');
+
+var _Answer2 = _interopRequireDefault(_Answer);
+
 var _MergeIntoConferenceIcon = require('../../assets/images/MergeIntoConferenceIcon.svg');
 
 var _MergeIntoConferenceIcon2 = _interopRequireDefault(_MergeIntoConferenceIcon);
@@ -103,6 +109,7 @@ function WebphoneButtons(_ref) {
       webphoneReject = _ref.webphoneReject,
       webphoneHangup = _ref.webphoneHangup,
       webphoneResume = _ref.webphoneResume,
+      webphoneAnswer = _ref.webphoneAnswer,
       webphoneHold = _ref.webphoneHold,
       showMergeCall = _ref.showMergeCall,
       showHold = _ref.showHold,
@@ -113,8 +120,9 @@ function WebphoneButtons(_ref) {
     return null;
   }
   var hangupFunc = webphoneHangup;
-
   var endIcon = _End2.default;
+  var answerBtn = null;
+
   var rejectTitle = _i18n2.default.getString('hangup', currentLocale);
   var holdTitle = _i18n2.default.getString('hold', currentLocale);
   var unholdTitle = _i18n2.default.getString('unhold', currentLocale);
@@ -123,6 +131,20 @@ function WebphoneButtons(_ref) {
     hangupFunc = webphoneReject;
     endIcon = _Voicemail2.default;
     rejectTitle = _i18n2.default.getString('toVoicemail', currentLocale);
+    showHold = false;
+    answerBtn = _react2.default.createElement(
+      'span',
+      { title: _i18n2.default.getString('accept', currentLocale), className: _styles2.default.webphoneButton },
+      _react2.default.createElement(_CircleButton2.default, {
+        className: _styles2.default.answerButton,
+        onClick: function onClick(e) {
+          e.stopPropagation();
+          webphoneAnswer(session.id);
+        },
+        icon: _Answer2.default,
+        showBorder: false
+      })
+    );
   }
 
   var holdBtn = void 0;
@@ -206,7 +228,8 @@ function WebphoneButtons(_ref) {
         icon: endIcon,
         showBorder: false
       })
-    )
+    ),
+    answerBtn
   );
 }
 
@@ -220,7 +243,8 @@ WebphoneButtons.propTypes = {
   showMergeCall: _propTypes2.default.bool,
   showHold: _propTypes2.default.bool,
   disableMerge: _propTypes2.default.bool,
-  onMergeCall: _propTypes2.default.func
+  onMergeCall: _propTypes2.default.func,
+  webphoneAnswer: _propTypes2.default.func
 };
 
 WebphoneButtons.defaultProps = {
@@ -234,14 +258,16 @@ WebphoneButtons.defaultProps = {
   disableMerge: true,
   onMergeCall: function onMergeCall(i) {
     return i;
+  },
+  webphoneAnswer: function webphoneAnswer(i) {
+    return i;
   }
 };
 
 /**
  * TODO: Gradually replace <ActiveCallItem/> with this component
  */
-
-var ActiveCallItem = function (_Component) {
+var ActiveCallItem = (_temp = _class = function (_Component) {
   (0, _inherits3.default)(ActiveCallItem, _Component);
 
   function ActiveCallItem(props) {
@@ -249,35 +275,7 @@ var ActiveCallItem = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ActiveCallItem.__proto__ || (0, _getPrototypeOf2.default)(ActiveCallItem)).call(this, props));
 
-    _this.onSelectContact = function (value) {
-      var nameMatches = _this.getContactMatches();
-      var selectedMatcherIndex = nameMatches.findIndex(function (match) {
-        return match.id === value.id;
-      });
-      if (selectedMatcherIndex < 0) {
-        selectedMatcherIndex = 0;
-      }
-      _this._userSelection = true;
-      _this.setState({
-        selected: selectedMatcherIndex
-      });
-      var contact = nameMatches[selectedMatcherIndex];
-      if (contact) {
-        _this.props.getAvatarUrl(contact).then(function (avatarUrl) {
-          _this.setState({ avatarUrl: avatarUrl });
-        });
-        if (_this.props.call.webphoneSession) {
-          _this.props.updateSessionMatchedContact(_this.props.call.webphoneSession.id, contact);
-        }
-      }
-    };
-
-    _this.getSelectedContact = function () {
-      var selected = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _this.state.selected;
-
-      var contactMatches = _this.getContactMatches();
-      return selected > -1 && contactMatches[selected] || contactMatches.length === 1 && contactMatches[0] || null;
-    };
+    _initialiseProps.call(_this);
 
     _this.state = {
       selected: 0,
@@ -303,9 +301,9 @@ var ActiveCallItem = function (_Component) {
   (0, _createClass3.default)(ActiveCallItem, [{
     key: 'setContact',
     value: function setContact() {
-      var _props = this.props,
-          isOnConferenceCall = _props.isOnConferenceCall,
-          conferenceCallParties = _props.conferenceCallParties;
+      var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
+      var isOnConferenceCall = props.isOnConferenceCall,
+          conferenceCallParties = props.conferenceCallParties;
 
 
       if (isOnConferenceCall) {
@@ -318,13 +316,20 @@ var ActiveCallItem = function (_Component) {
         return;
       }
 
-      this.onSelectContact(this.getSelectedContact());
+      this.onSelectContact(this.getSelectedContact(props));
     }
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this._mounted = true;
       this.setContact();
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      if (this.getContactMatches(nextProps) !== this.getContactMatches()) {
+        this.setContact(nextProps);
+      }
     }
   }, {
     key: 'componentWillUnmount',
@@ -338,14 +343,14 @@ var ActiveCallItem = function (_Component) {
   }, {
     key: 'getCallInfo',
     value: function getCallInfo() {
-      var _props2 = this.props,
-          _props2$call = _props2.call,
-          telephonyStatus = _props2$call.telephonyStatus,
-          startTime = _props2$call.startTime,
-          offset = _props2$call.offset,
-          disableLinks = _props2.disableLinks,
-          currentLocale = _props2.currentLocale,
-          showCallDetail = _props2.showCallDetail;
+      var _props = this.props,
+          _props$call = _props.call,
+          telephonyStatus = _props$call.telephonyStatus,
+          startTime = _props$call.startTime,
+          offset = _props$call.offset,
+          disableLinks = _props.disableLinks,
+          currentLocale = _props.currentLocale,
+          showCallDetail = _props.showCallDetail;
 
 
       if (!showCallDetail) {
@@ -389,30 +394,31 @@ var ActiveCallItem = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _props3 = this.props,
-          webphoneSession = _props3.call.webphoneSession,
-          disableLinks = _props3.disableLinks,
-          currentLocale = _props3.currentLocale,
-          areaCode = _props3.areaCode,
-          countryCode = _props3.countryCode,
-          enableContactFallback = _props3.enableContactFallback,
-          isLogging = _props3.isLogging,
-          brand = _props3.brand,
-          showContactDisplayPlaceholder = _props3.showContactDisplayPlaceholder,
-          webphoneHangup = _props3.webphoneHangup,
-          webphoneResume = _props3.webphoneResume,
-          sourceIcons = _props3.sourceIcons,
-          renderContactName = _props3.renderContactName,
-          renderExtraButton = _props3.renderExtraButton,
-          contactDisplayStyle = _props3.contactDisplayStyle,
-          isOnConferenceCall = _props3.isOnConferenceCall,
-          webphoneHold = _props3.webphoneHold,
-          onClick = _props3.onClick,
-          showMergeCall = _props3.showMergeCall,
-          showHold = _props3.showHold,
-          disableMerge = _props3.disableMerge,
-          onMergeCall = _props3.onMergeCall,
-          showCallDetail = _props3.showCallDetail;
+      var _props2 = this.props,
+          webphoneSession = _props2.call.webphoneSession,
+          disableLinks = _props2.disableLinks,
+          currentLocale = _props2.currentLocale,
+          areaCode = _props2.areaCode,
+          countryCode = _props2.countryCode,
+          enableContactFallback = _props2.enableContactFallback,
+          isLogging = _props2.isLogging,
+          brand = _props2.brand,
+          showContactDisplayPlaceholder = _props2.showContactDisplayPlaceholder,
+          webphoneHangup = _props2.webphoneHangup,
+          webphoneResume = _props2.webphoneResume,
+          sourceIcons = _props2.sourceIcons,
+          renderContactName = _props2.renderContactName,
+          renderExtraButton = _props2.renderExtraButton,
+          contactDisplayStyle = _props2.contactDisplayStyle,
+          isOnConferenceCall = _props2.isOnConferenceCall,
+          webphoneHold = _props2.webphoneHold,
+          onClick = _props2.onClick,
+          showMergeCall = _props2.showMergeCall,
+          showHold = _props2.showHold,
+          disableMerge = _props2.disableMerge,
+          onMergeCall = _props2.onMergeCall,
+          showCallDetail = _props2.showCallDetail,
+          webphoneAnswer = _props2.webphoneAnswer;
       var _state = this.state,
           avatarUrl = _state.avatarUrl,
           extraNum = _state.extraNum;
@@ -476,7 +482,8 @@ var ActiveCallItem = function (_Component) {
               showMergeCall: showMergeCall,
               showHold: showHold,
               disableMerge: disableMerge,
-              onMergeCall: onMergeCall
+              onMergeCall: onMergeCall,
+              webphoneAnswer: webphoneAnswer
             }),
             extraButton
           )
@@ -485,8 +492,58 @@ var ActiveCallItem = function (_Component) {
     }
   }]);
   return ActiveCallItem;
-}(_react.Component);
+}(_react.Component), _initialiseProps = function _initialiseProps() {
+  var _this2 = this;
 
+  this.onSelectContact = function (value) {
+    if (!value) {
+      return;
+    }
+    var nameMatches = _this2.getContactMatches();
+    var selectedMatcherIndex = nameMatches.findIndex(function (match) {
+      return match.id === value.id;
+    });
+    if (selectedMatcherIndex < 0) {
+      selectedMatcherIndex = 0;
+    }
+    _this2._userSelection = true;
+    _this2.setState({
+      selected: selectedMatcherIndex
+    });
+    var contact = nameMatches[selectedMatcherIndex];
+    if (contact) {
+      _this2.props.getAvatarUrl(contact).then(function (avatarUrl) {
+        _this2.setState({ avatarUrl: avatarUrl });
+      });
+      if (_this2.props.call.webphoneSession) {
+        _this2.props.updateSessionMatchedContact(_this2.props.call.webphoneSession.id, contact);
+      }
+    }
+  };
+
+  this.getSelectedContact = function () {
+    var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _this2.props;
+
+    var contactMatches = _this2.getContactMatches(props);
+    var selected = null;
+
+    if (!props.call.webphoneSession) {
+      selected = 0;
+    } else if (contactMatches && contactMatches.length) {
+      var contact = props.call.webphoneSession.contactMatch;
+      if (contact) {
+        selected = contactMatches.findIndex(function (match) {
+          return match.id === contact.id;
+        });
+      }
+      if (selected === -1 || !contact) {
+        selected = 0;
+      }
+    }
+
+    return contactMatches && contactMatches[selected] || null;
+  };
+}, _temp);
 exports.default = ActiveCallItem;
 
 
@@ -530,13 +587,13 @@ ActiveCallItem.propTypes = {
   isOnConferenceCall: _propTypes2.default.bool,
   onClick: _propTypes2.default.func,
   getAvatarUrl: _propTypes2.default.func,
-  conferenceCallParties: _propTypes2.default.arrayOf(_propTypes2.default.object),
   showMergeCall: _propTypes2.default.bool,
   showHold: _propTypes2.default.bool,
   disableMerge: _propTypes2.default.bool,
   onMergeCall: _propTypes2.default.func,
   showCallDetail: _propTypes2.default.bool,
-  updateSessionMatchedContact: _propTypes2.default.func
+  updateSessionMatchedContact: _propTypes2.default.func,
+  webphoneAnswer: _propTypes2.default.func
 };
 
 ActiveCallItem.defaultProps = {
@@ -559,7 +616,6 @@ ActiveCallItem.defaultProps = {
   getAvatarUrl: function getAvatarUrl(i) {
     return i;
   },
-  conferenceCallParties: [],
   showMergeCall: false,
   showHold: true,
   disableMerge: false,
@@ -568,6 +624,9 @@ ActiveCallItem.defaultProps = {
   },
   showCallDetail: false,
   updateSessionMatchedContact: function updateSessionMatchedContact(i) {
+    return i;
+  },
+  webphoneAnswer: function webphoneAnswer(i) {
     return i;
   }
 };
