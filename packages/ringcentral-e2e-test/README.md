@@ -27,6 +27,18 @@
   * Infrastructure(Login/Account/Entry/Navigation/Others, etc.)
   * Test Results Collector
 
+- Reporter
+  * Data Receiver
+  * RESTful API Server
+  * Web App with Result List(Query/sorting/filtering)
+  * Display Features(Chart/Layered List/Display Error)
+
+- Testing Parameters Management
+  * Process/Thread Management
+  * Basics CLI feature(Output Beautification/Version Management/Update/Helper)
+  * Create Project
+  * Create/Update/Search Cases
+
 ## Milestone
 * Infrastructure／Architecture
 * Foundation Steps
