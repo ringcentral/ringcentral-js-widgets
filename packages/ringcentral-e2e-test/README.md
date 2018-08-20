@@ -35,7 +35,7 @@
 
 - Command Line Interface
   * Process/Thread Management
-  * Basics CLI feature(Output Beautification/Version Management/Update/Helper)
+  * Basics CLI Feature(Output Beautification/Version Management/Update/Helper)
   * Create Project
   * Create/Update/Search Cases
   * Testing Parameters Management

@@ -1,9 +1,9 @@
 import enzyme from './enzyme';
 import puppeteer from './puppeteer';
-import webdriverio from './webdriverio';
+import seleniumWebdriver from './seleniumWebdriver';
 
 export default {
   enzyme,
   puppeteer,
-  webdriverio,
+  seleniumWebdriver,
 };

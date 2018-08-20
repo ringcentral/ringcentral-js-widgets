@@ -1,4 +1,4 @@
-import runner from './src/bin/runner';
+import runner from './src/runner';
 
 runner({
   inputTesterConfig: {

@@ -28,7 +28,9 @@ class Driver {
   }
 
   async close() {
-    await this.browser.close();
+    if (this.browser) {
+      await this.browser.close();
+    }
   }
 
   async $(selector) {
