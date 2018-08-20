@@ -34,20 +34,23 @@ afterEach(() => {
   unholdFn.mockClear();
 });
 
-describe('RCI-1710786 Conference Call Control Page - Mute/Muted', () => {
+describe('Prepare', () => {
   test('Success to mock a conference call', async () => {
     const conferenceSession = await mockConferenceCallEnv(phone);
     phone.routerInteraction.push(`/calls/active/${conferenceSession.id}`);
     wrapper.update();
     expect(wrapper.find(ActiveCallPad)).toHaveLength(1);
-  });
+  }, 6000);
+})
+
+describe('RCI-1710786 Conference Call Control Page - Mute/Muted', () => {
   test('There is a "Mute" button', async () => {
     const conferenceSession = await mockConferenceCallEnv(phone);
     phone.routerInteraction.push(`/calls/active/${conferenceSession.id}`);
     wrapper.update();
     const muteButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(0);
     expect(muteButton.find('.buttonTitle').text()).toEqual('Mute');
-  });
+  }, 6000);
   test('Press Mute/Unmuted button', async () => {
     let muteButton = null;
     const conferenceSession = await mockConferenceCallEnv(phone);
@@ -64,23 +67,17 @@ describe('RCI-1710786 Conference Call Control Page - Mute/Muted', () => {
     muteButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(0);
     expect(muteButton.find('.buttonTitle').text()).toEqual('Mute');
     expect(unmuteFn.mock.calls[0]).toEqual([conferenceSession.id]);
-  });
+  }, 6000);
 });
 
 describe('RCI-1710773 Conference Call Control Page - Hold/Unhold', () => {
-  test('Success to mock a conference call', async () => {
-    const conferenceSession = await mockConferenceCallEnv(phone);
-    phone.routerInteraction.push(`/calls/active/${conferenceSession.id}`);
-    wrapper.update();
-    expect(wrapper.find(ActiveCallPad)).toHaveLength(1);
-  });
   test('There is a "Hold" button', async () => {
     const conferenceSession = await mockConferenceCallEnv(phone);
     phone.routerInteraction.push(`/calls/active/${conferenceSession.id}`);
     wrapper.update();
     const holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
-  });
+  }, 6000);
   test('Press Hold/Unhold button', async () => {
     let holdButton = null;
     let muteButton = null;
@@ -109,5 +106,5 @@ describe('RCI-1710773 Conference Call Control Page - Hold/Unhold', () => {
     expect(unholdFn.mock.calls[0]).toEqual([conferenceSession.id]);
     expect(muteButton.props().disabled).toBe(false);
     expect(recordButton.props().disabled).toBe(false);
-  });
+  }, 6000);
 });
