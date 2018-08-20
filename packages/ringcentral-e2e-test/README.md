@@ -19,33 +19,16 @@
 
 ## Planning
 - Infrastructure/Architecture
-  * Steps controller(Code Review/CI/docs/UT..)
-  * Jest-helper(CLI/Tag-Decorator..)
-    * Multi-dimension options for test case 
-    * Inherit jest
-    * Parallel/Replay
-    * Process Manager - PM2
-  * Jest-reporter(ErrorTracking[ScriptError/ValidationError]/APIsData/Screenshots/DetailTime..)
-  * Using jest-puppeteer/jest-environment-puppeteer(?)
-
-- Foundation Steps
-  * Puppeteer APIs re-encapsulate
-  * Login/Account/Entry/Navigation/Others...
+  * Test Runner
+  * Steps Controller ✅
+  * Driver(Puppeteer/WebdriverIO/Enzyme)
+  * Helper Libs(Webphone/AccountManager/MockServer)
+  * Plugins(Logger/Screenshot, etc.)
+  * Infrastructure(Login/Account/Entry/Navigation/Others, etc.)
+  * Test Results Collector
 
 ## Milestone
 * Infrastructure／Architecture
 * Foundation Steps
 * Compatibility
 * Enhancement
-
-
-### Nonuse attribute(?)
-- Easily find UI DOM  node [v]
-- Feature Code mix test code [x]
-- remove attribute on production phase
-  * babel-plugin-react-remove-properties
-  * babel-plugin-remove-attribute
-  * babel-plugin-remove-object-properties
-
-
-
