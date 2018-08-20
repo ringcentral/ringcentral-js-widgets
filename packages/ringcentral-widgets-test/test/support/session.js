@@ -95,7 +95,6 @@ export default class Session {
   }
 
   mute() {
-    console.info('exec muted');
     this.trigger('muted');
     this.callStatus = sessionStatus.onMute;
     this.isOnMute = true;
@@ -103,7 +102,6 @@ export default class Session {
   }
 
   unmute() {
-    console.info('exec unmuted');
     this.trigger('unmuted');
     this.callStatus = sessionStatus.connected;
     this.isOnMute = false;
