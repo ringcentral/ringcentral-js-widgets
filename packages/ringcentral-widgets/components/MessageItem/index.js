@@ -369,6 +369,7 @@ export default class MessageItem extends Component {
       onLogConversation,
       onViewContact,
       onCreateContact,
+      createEntityTypes,
       enableContactFallback,
       showContactDisplayPlaceholder,
       sourceIcons,
@@ -490,6 +491,7 @@ export default class MessageItem extends Component {
             }
             onViewEntity={onViewContact && this.viewSelectedContact}
             onCreateEntity={onCreateContact && this.createSelectedContact}
+            createEntityTypes={createEntityTypes}
             hasEntity={correspondents.length === 1 && !!correspondentMatches.length &&
               (correspondentMatches.length === 1 || this.state.selected >= 0)}
             onClickToDial={!isFax ? (onClickToDial && this.clickToDial) : undefined}
@@ -554,6 +556,7 @@ MessageItem.propTypes = {
   onLogConversation: PropTypes.func,
   onViewContact: PropTypes.func,
   onCreateContact: PropTypes.func,
+  createEntityTypes: PropTypes.array,
   onClickToDial: PropTypes.func,
   onClickToSms: PropTypes.func,
   disableLinks: PropTypes.bool,
@@ -578,6 +581,7 @@ MessageItem.defaultProps = {
   onClickToDial: undefined,
   onViewContact: undefined,
   onCreateContact: undefined,
+  createEntityTypes: undefined,
   disableClickToDial: false,
   onClickToSms: undefined,
   disableLinks: false,
@@ -586,7 +590,7 @@ MessageItem.defaultProps = {
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
   showGroupNumberName: false,
-  deleteMessage: () => {},
+  deleteMessage() {},
   previewFaxMessages: undefined,
   renderExtraButton: undefined,
 };
