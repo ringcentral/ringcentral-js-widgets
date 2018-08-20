@@ -5,9 +5,9 @@ import config, {
 } from './config';
 import createProcess from './utils/createProess';
 
-const rootPath = '<rootDir>/packages/ringcentral-e2e-test/src/runCycle';
-const setupFile = 'setup.js';
-const postSetupFile = 'postSetup.js';
+const rootPath = '<rootDir>/packages/ringcentral-e2e-test/src';
+const setupFile = 'lifecycle/setup.js';
+const postSetupFile = 'lifecycle/postSetup.js';
 const defaultTags = Object.keys(config.params.projects)
   .map(project => [project]);
 
