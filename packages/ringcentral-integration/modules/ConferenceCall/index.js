@@ -855,12 +855,22 @@ export default class ConferenceCall extends RcModule {
     await this.mergeToConference(webphoneSessions);
 
     const conferenceData = Object.values(this.conferences)[0];
+    const conferenceSession = find(
+      x => x.id === conferenceData.sessionId,
+      this._webphone.sessions
+    );
     if (!conferenceData) {
       await this._webphone.resume(session.id);
       return null;
     }
 
-    if (hasActiveSession) {
+    if (
+      (session.isOnHold && sessionToMergeWith && sessionToMergeWith.isOnHold)
+      ||
+      (session.isOnHold && conferenceSession.isOnHold)
+    ) {
+      this._webphone.hold(conferenceData.sessionId);
+    } else if (hasActiveSession) {
       if (isActiveSessionOnhold) {
         this._webphone.hold(conferenceData.sessionId);
       } else {
