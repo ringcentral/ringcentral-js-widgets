@@ -67,6 +67,7 @@ function mapToFunctions(_, {
   onViewContact,
   showViewContact = true,
   getAvatarUrl,
+  useV2,
 }) {
   return {
     formatPhone(phoneNumber) {
@@ -89,7 +90,13 @@ function mapToFunctions(_, {
       return (webphone && webphone.hangup(...args));
     },
     async webphoneResume(...args) {
-      return (webphone && webphone.resume(...args));
+      if (!webphone) {
+        return;
+      }
+      await webphone.resume(...args);
+      if (routerInteraction.currentPath !== callCtrlRoute && !useV2) {
+        routerInteraction.push(callCtrlRoute);
+      }
     },
     async webphoneHold(...args) {
       return (webphone && webphone.hold(...args));
