@@ -33,11 +33,22 @@
   * Web App with Result List(Query/sorting/filtering)
   * Display Features(Chart/Layered List/Display Error)
 
-- Testing Parameters Management
+- Command Line Interface
   * Process/Thread Management
   * Basics CLI feature(Output Beautification/Version Management/Update/Helper)
   * Create Project
   * Create/Update/Search Cases
+  * Testing Parameters Management
+
+| controller                  | config       | info             |
+| --------------------------- | ------------ | ---------------- |
+| 1.tags(title/level/target…) | 1.runner     | 1.help info      |
+| 2.path                      | 2.driver     | 2.error info     |
+| 3.env                       | 3.tester     | 3.verbose option |
+| 4.exclude                   | 4.reporter   |                  |
+| 5.worker                    | 5.screenshot |                  |
+|                             | 6.mock       |                  |
+|                             | 7.mode       |                  |
 
 ## Milestone
 * Infrastructure／Architecture
