@@ -206,10 +206,10 @@ export default class ActiveCallItem extends Component {
     };
   }
 
-  setContact(props = this.props) {
+  setContact(nextProps = this.props) {
     const {
       isOnConferenceCall, conferenceCallParties
-    } = props;
+    } = nextProps;
 
     if (isOnConferenceCall) {
       this.setState({
@@ -219,7 +219,13 @@ export default class ActiveCallItem extends Component {
       return;
     }
 
-    this.onSelectContact(this.getSelectedContact(props));
+    const selected = this.getSelectedContactIdx(nextProps);
+    this.onSelectContact(
+      this.getSelectedContact(
+        selected,
+        nextProps),
+      selected,
+    );
   }
 
   componentDidMount() {
@@ -279,40 +285,33 @@ export default class ActiveCallItem extends Component {
       (this.props.call.to.name);
   }
 
-  onSelectContact = (value) => {
+  onSelectContact = (value, idx) => {
     if (!value) {
       return;
     }
-    const nameMatches = this.getContactMatches();
-    let selectedMatcherIndex = nameMatches.findIndex(
-      match => match.id === value.id
-    );
-    if (selectedMatcherIndex < 0) {
-      selectedMatcherIndex = 0;
-    }
+
     this._userSelection = true;
     this.setState({
-      selected: selectedMatcherIndex,
+      selected: idx,
     });
-    const contact = nameMatches[selectedMatcherIndex];
-    if (contact) {
-      this.props.getAvatarUrl(contact).then((avatarUrl) => {
+    if (value) {
+      this.props.getAvatarUrl(value).then((avatarUrl) => {
         this.setState({ avatarUrl });
       });
       if (this.props.call.webphoneSession) {
-        this.props.updateSessionMatchedContact(this.props.call.webphoneSession.id, contact);
+        this.props.updateSessionMatchedContact(this.props.call.webphoneSession.id, value);
       }
     }
   }
 
-  getSelectedContact = (props = this.props) => {
-    const contactMatches = this.getContactMatches(props);
+  getSelectedContactIdx = (nextProps = this.props) => {
+    const contactMatches = this.getContactMatches(nextProps);
     let selected = null;
 
-    if (!props.call.webphoneSession) {
+    if (!nextProps.call.webphoneSession) {
       selected = 0;
     } else if (contactMatches && contactMatches.length) {
-      const contact = props.call.webphoneSession.contactMatch;
+      const contact = nextProps.call.webphoneSession.contactMatch;
       if (contact) {
         selected = contactMatches.findIndex(match =>
           match.id === contact.id
@@ -322,7 +321,11 @@ export default class ActiveCallItem extends Component {
         selected = 0;
       }
     }
+    return selected;
+  }
 
+  getSelectedContact = (selected = this.getSelectedContactIdx(), nextProps = this.props) => {
+    const contactMatches = this.getContactMatches(nextProps);
     return (contactMatches && contactMatches[selected]) || null;
   }
 
