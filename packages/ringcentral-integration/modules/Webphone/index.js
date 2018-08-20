@@ -662,13 +662,13 @@ export default class Webphone extends RcModule {
       this._onAccepted(newSession);
     });
     session.on('muted', () => {
-      console.info('Event: Muted');
+      console.log('Event: Muted');
       session.isOnMute = true;
       session.callStatus = sessionStatus.onMute;
       this._updateSessions();
     });
     session.on('unmuted', () => {
-      console.info('Event: Unmuted');
+      console.log('Event: Unmuted');
       session.isOnMute = false;
       session.callStatus = sessionStatus.connected;
       this._updateSessions();
