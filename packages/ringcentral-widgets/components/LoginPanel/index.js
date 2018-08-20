@@ -21,27 +21,29 @@ export default class LoginPanel extends Component {
       version,
       showSpinner,
       children,
-      showSignup,
+      showSignUp,
+      onSignUpButtonClick
     } = this.props;
-    const spinner = showSpinner ?
-      <SpinnerOverlay /> :
-      null;
-    const versionDisplay = version ?
-      (
-        <div className={styles.versionContainer} >
-          {i18n.getString('version', currentLocale)} {version}
-        </div>
-      ) :
-      null;
+    const spinner = showSpinner ? <SpinnerOverlay /> : null;
+    const versionDisplay = version ? (
+      <div className={styles.versionContainer}>
+        {i18n.getString('version', currentLocale)} {version}
+      </div>
+    ) : null;
     return (
       <div className={classnames(styles.root, className)}>
         <button
           className={styles.loginButton}
           onClick={onLoginButtonClick}
-          disabled={disabled} >
+          disabled={disabled}
+        >
           {i18n.getString('loginButton', currentLocale)}
         </button>
-        {showSignup && <button>{i18n.getString('signupButton', currentLocale)}</button>}
+        {showSignUp && (
+          <button onClick={onSignUpButtonClick}>
+            {i18n.getString('signupButton', currentLocale)}
+          </button>
+        )}
         {versionDisplay}
         {spinner}
         {children}
@@ -60,7 +62,8 @@ LoginPanel.propTypes = {
   version: PropTypes.string,
   showSpinner: PropTypes.bool,
   children: PropTypes.node,
-  showSignup: PropTypes.bool,
+  showSignUp: PropTypes.bool,
+  onSignUpButtonClick: PropTypes.func
 };
 
 LoginPanel.defaultProps = {
@@ -69,5 +72,6 @@ LoginPanel.defaultProps = {
   version: undefined,
   showSpinner: false,
   children: undefined,
-  showSignup: false,
+  showSignUp: false,
+  onSignUpButtonClick() {}
 };
