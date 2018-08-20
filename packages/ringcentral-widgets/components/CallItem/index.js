@@ -327,6 +327,7 @@ export default class CallItem extends Component {
       active,
       onViewContact,
       onCreateContact,
+      createEntityTypes,
       onLogCall,
       onClickToDial,
       onClickToSms,
@@ -439,6 +440,7 @@ export default class CallItem extends Component {
           onLog={onLogCall && this.logCall}
           onViewEntity={onViewContact && this.viewSelectedContact}
           onCreateEntity={onCreateContact && this.createSelectedContact}
+          createEntityTypes={createEntityTypes}
           hasEntity={!!contactMatches.length}
           onClickToDial={onClickToDial && this.clickToDial}
           onClickToSms={
@@ -494,6 +496,7 @@ CallItem.propTypes = {
   onLogCall: PropTypes.func,
   onViewContact: PropTypes.func,
   onCreateContact: PropTypes.func,
+  createEntityTypes: PropTypes.array,
   onClickToDial: PropTypes.func,
   onClickToSms: PropTypes.func,
   isLoggedContact: PropTypes.func,
@@ -522,6 +525,7 @@ CallItem.defaultProps = {
   onClickToSms: undefined,
   onViewContact: undefined,
   onCreateContact: undefined,
+  createEntityTypes: undefined,
   isLoggedContact: () => false,
   isLogging: false,
   disableClickToDial: false,

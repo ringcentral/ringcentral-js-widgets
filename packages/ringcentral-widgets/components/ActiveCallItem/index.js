@@ -411,6 +411,7 @@ export default class ActiveCallItem extends Component {
       onClickToSms,
       onViewContact,
       onCreateContact,
+      createEntityTypes,
       onLogCall,
       webphoneAnswer,
       webphoneHangup,
@@ -525,6 +526,7 @@ export default class ActiveCallItem extends Component {
               hasEntity={!!contactMatches.length}
               onViewEntity={onViewContact && this.viewSelectedContact}
               onCreateEntity={onCreateContact && this.createSelectedContact}
+              createEntityTypes={createEntityTypes}
               textTitle={i18n.getString('text', currentLocale)}
               onLog={onLogCall}
               isLogging={isLogging || this.state.isLogging}
@@ -584,6 +586,7 @@ ActiveCallItem.propTypes = {
   formatPhone: PropTypes.func.isRequired,
   onClickToSms: PropTypes.func,
   onCreateContact: PropTypes.func,
+  createEntityTypes: PropTypes.array,
   onLogCall: PropTypes.func,
   onViewContact: PropTypes.func,
   sourceIcons: PropTypes.object,
@@ -606,6 +609,7 @@ ActiveCallItem.defaultProps = {
   onClickToSms: undefined,
   onViewContact: undefined,
   onCreateContact: undefined,
+  createEntityTypes: undefined,
   isLogging: false,
   outboundSmsPermission: false,
   internalSmsPermission: false,

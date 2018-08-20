@@ -112,6 +112,7 @@ export default class ConversationsPanel extends Component {
       onLogConversation,
       onViewContact,
       onCreateContact,
+      createEntityTypes,
       onClickToDial,
       onClickToSms,
       disableClickToDial,
@@ -189,6 +190,7 @@ export default class ConversationsPanel extends Component {
           onLogConversation={onLogConversation}
           onViewContact={onViewContact}
           onCreateContact={onCreateContact}
+          createEntityTypes={createEntityTypes}
           onClickToDial={onClickToDial}
           onClickToSms={onClickToSms}
           disableClickToDial={disableClickToDial}
@@ -274,6 +276,7 @@ ConversationsPanel.propTypes = {
   onLogConversation: PropTypes.func,
   onViewContact: PropTypes.func,
   onCreateContact: PropTypes.func,
+  createEntityTypes: PropTypes.array,
   disableClickToDial: PropTypes.bool,
   unmarkMessage: PropTypes.func.isRequired,
   autoLog: PropTypes.bool,
@@ -309,6 +312,7 @@ ConversationsPanel.defaultProps = {
   onLogConversation: undefined,
   onViewContact: undefined,
   onCreateContact: undefined,
+  createEntityTypes: undefined,
   disableClickToDial: false,
   autoLog: false,
   enableContactFallback: undefined,

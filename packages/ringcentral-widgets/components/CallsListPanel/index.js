@@ -25,6 +25,7 @@ function ActiveCallList({
   onClickToSms,
   onCreateContact,
   onViewContact,
+  createEntityTypes,
   outboundSmsPermission,
   internalSmsPermission,
   isLoggedContact,
@@ -72,6 +73,7 @@ function ActiveCallList({
             isLoggedContact={isLoggedContact}
             onLogCall={onLogCall}
             onViewContact={onViewContact}
+            createEntityTypes={createEntityTypes}
             onCreateContact={onCreateContact}
             loggingMap={loggingMap}
             webphoneAnswer={webphoneAnswer}
@@ -108,6 +110,7 @@ ActiveCallList.propTypes = {
   formatPhone: PropTypes.func.isRequired,
   onClickToSms: PropTypes.func,
   onCreateContact: PropTypes.func,
+  createEntityTypes: PropTypes.array,
   onViewContact: PropTypes.func,
   outboundSmsPermission: PropTypes.bool,
   internalSmsPermission: PropTypes.bool,
@@ -149,6 +152,7 @@ ActiveCallList.defaultProps = {
   enableContactFallback: undefined,
   autoLog: false,
   onViewContact: undefined,
+  createEntityTypes: undefined,
   webphoneToVoicemail: undefined,
   sourceIcons: undefined,
   disableLinks: false,
@@ -209,6 +213,7 @@ export default class CallsListPanel extends Component {
       formatPhone,
       onClickToSms,
       onCreateContact,
+      createEntityTypes,
       onViewContact,
       outboundSmsPermission,
       internalSmsPermission,
@@ -334,6 +339,7 @@ export default class CallsListPanel extends Component {
         formatPhone={formatPhone}
         onClickToSms={onClickToSms}
         onCreateContact={onCreateContact}
+        createEntityTypes={createEntityTypes}
         onViewContact={onViewContact}
         outboundSmsPermission={outboundSmsPermission}
         internalSmsPermission={internalSmsPermission}
@@ -374,6 +380,7 @@ export default class CallsListPanel extends Component {
             countryCode={countryCode}
             onViewContact={onViewContact}
             onCreateContact={onCreateContact}
+            createEntityTypes={createEntityTypes}
             onLogCall={onLogCall}
             onClickToDial={onClickToDial}
             onClickToSms={onClickToSms}
@@ -444,6 +451,7 @@ CallsListPanel.propTypes = {
   formatPhone: PropTypes.func.isRequired,
   onClickToSms: PropTypes.func,
   onCreateContact: PropTypes.func,
+  createEntityTypes: PropTypes.array,
   outboundSmsPermission: PropTypes.bool,
   internalSmsPermission: PropTypes.bool,
   isLoggedContact: PropTypes.func,
@@ -497,6 +505,7 @@ CallsListPanel.defaultProps = {
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
   onCreateContact: undefined,
+  createEntityTypes: undefined,
   onClickToSms: undefined,
   outboundSmsPermission: true,
   internalSmsPermission: true,
