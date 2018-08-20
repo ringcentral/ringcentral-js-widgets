@@ -21,7 +21,7 @@ class CallCtrlPage extends Component {
       avatarUrl: null,
     };
 
-    this.onLastCallEnded = this::this.onLastCallEnded;
+    this.onLastMergingCallEnded = this::this.onLastMergingCallEnded;
 
     this.onSelectMatcherName = (option) => {
       const nameMatches = this.props.nameMatches || [];
@@ -106,7 +106,7 @@ class CallCtrlPage extends Component {
       && CallCtrlPage.isLastCallEnded(nextProps) === true
       && this.mounted
     ) {
-      this.onLastCallEnded();
+      this.onLastMergingCallEnded();
     }
   }
 
@@ -147,13 +147,13 @@ class CallCtrlPage extends Component {
     }
   }
 
-  async onLastCallEnded() {
+  async onLastMergingCallEnded() {
     if (
-      this.props.onLastCallEnded
+      this.props.onLastMergingCallEnded
       && this.mounted
     ) {
       await sleep(2000);
-      this.props.onLastCallEnded();
+      this.props.onLastMergingCallEnded();
     }
   }
 
@@ -235,7 +235,7 @@ class CallCtrlPage extends Component {
         lastCallInfo={this.props.lastCallInfo}
         getAvatarUrl={this.props.getAvatarUrl}
         gotoParticipantsCtrl={this.props.gotoParticipantsCtrl}
-        onLastCallEnded={this.props.onLastCallEnded}
+        onLastMergingCallEnded={this.props.onLastMergingCallEnded}
       >
         {this.props.children}
       </CallCtrlPanel>
@@ -303,7 +303,7 @@ CallCtrlPage.propTypes = {
   conferenceCallId: PropTypes.string,
   gotoParticipantsCtrl: PropTypes.func,
   loadConference: PropTypes.func,
-  onLastCallEnded: PropTypes.func,
+  onLastMergingCallEnded: PropTypes.func,
 };
 
 CallCtrlPage.defaultProps = {
@@ -329,7 +329,7 @@ CallCtrlPage.defaultProps = {
   conferenceCallId: null,
   gotoParticipantsCtrl: i => i,
   loadConference: i => i,
-  onLastCallEnded: undefined,
+  onLastMergingCallEnded: undefined,
 };
 
 function mapToProps(_, {
