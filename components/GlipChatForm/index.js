@@ -264,7 +264,7 @@ var GlipChatForm = function (_Component) {
               overlayClassName: _styles2.default.emojisTooltip,
               overlay: _react2.default.createElement(
                 'div',
-                { style: { width: 325, height: 250 } },
+                { style: { width: 250, height: 200 } },
                 _react2.default.createElement(_EmojiSelect2.default, { onSelect: this._onSelectEmoji })
               )
             },
