@@ -3,6 +3,7 @@ import ActiveCallPad from 'ringcentral-widgets/components/ActiveCallPad';
 import CircleButton from 'ringcentral-widgets/components/CircleButton';
 import * as mock from 'ringcentral-integration/integration-test/mock';
 import { mockConferenceCallEnv } from './helper';
+import deviceBody from './data/device';
 import { getWrapper } from '../shared';
 import { makeCall } from '../../support/callHelper';
 import {
@@ -36,17 +37,15 @@ afterEach(() => {
 
 describe('Prepare', () => {
   test('Success to mock a conference call', async () => {
-    const conferenceSession = await mockConferenceCallEnv(phone);
-    phone.routerInteraction.push(`/calls/active/${conferenceSession.id}`);
+    await mockConferenceCallEnv(phone);
     wrapper.update();
     expect(wrapper.find(ActiveCallPad)).toHaveLength(1);
   }, 12000);
-})
+});
 
 describe('RCI-1710786 Conference Call Control Page - Mute/Muted', () => {
   test('There is a "Mute" button', async () => {
-    const conferenceSession = await mockConferenceCallEnv(phone);
-    phone.routerInteraction.push(`/calls/active/${conferenceSession.id}`);
+    await mockConferenceCallEnv(phone);
     wrapper.update();
     const muteButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(0);
     expect(muteButton.find('.buttonTitle').text()).toEqual('Mute');
@@ -54,7 +53,6 @@ describe('RCI-1710786 Conference Call Control Page - Mute/Muted', () => {
   test('Press Mute/Unmuted button', async () => {
     let muteButton = null;
     const conferenceSession = await mockConferenceCallEnv(phone);
-    phone.routerInteraction.push(`/calls/active/${conferenceSession.id}`);
     wrapper.update();
     muteButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(0);
     muteButton.find(CircleButton).simulate('click');
@@ -72,8 +70,7 @@ describe('RCI-1710786 Conference Call Control Page - Mute/Muted', () => {
 
 describe('RCI-1710773 Conference Call Control Page - Hold/Unhold', () => {
   test('There is a "Hold" button', async () => {
-    const conferenceSession = await mockConferenceCallEnv(phone);
-    phone.routerInteraction.push(`/calls/active/${conferenceSession.id}`);
+    await mockConferenceCallEnv(phone);
     wrapper.update();
     const holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
@@ -83,7 +80,6 @@ describe('RCI-1710773 Conference Call Control Page - Hold/Unhold', () => {
     let muteButton = null;
     let recordButton = null;
     const conferenceSession = await mockConferenceCallEnv(phone);
-    phone.routerInteraction.push(`/calls/active/${conferenceSession.id}`);
     wrapper.update();
     // Click Hold Button
     holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
@@ -107,4 +103,28 @@ describe('RCI-1710773 Conference Call Control Page - Hold/Unhold', () => {
     expect(muteButton.props().disabled).toBe(false);
     expect(recordButton.props().disabled).toBe(false);
   }, 12000);
+});
+
+describe('RCI-2980793 Conference Call Control Page - Hang Up', () => {
+  test('Press "Hand Up" button #1 Direct to dialer page', async () => {
+    await mockConferenceCallEnv(phone);
+    wrapper.update();
+    const handupButton = wrapper.find('.stopButtonGroup').find(CircleButton);
+    expect(handupButton.props().className).toEqual('stopButton');
+    handupButton.find(CircleButton).simulate('click');
+    expect(phone.webphone.sessions).toHaveLength(0);
+    expect(phone.routerInteraction.currentPath).toEqual('/dialer');
+  });
+  test('Press "Hand Up" button #2 Direct to call contral page', async () => {
+    mock.device(deviceBody);
+    const outboundSession = await makeCall(phone);
+    await phone.webphone.hold(outboundSession.id);
+    await mockConferenceCallEnv(phone);
+    wrapper.update();
+    const handupButton = wrapper.find('.stopButtonGroup').find(CircleButton);
+    expect(handupButton.props().className).toEqual('stopButton');
+    handupButton.find(CircleButton).simulate('click');
+    expect(phone.webphone.sessions).toHaveLength(1);
+    expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
+  });
 });
