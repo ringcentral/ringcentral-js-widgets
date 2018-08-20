@@ -3,12 +3,14 @@ import { CallCtrlPage } from 'ringcentral-widgets/containers/CallCtrlPage';
 import MergeInfo from 'ringcentral-widgets/components/ActiveCallPanel/MergeInfo';
 import CallAvatar from 'ringcentral-widgets/components/CallAvatar';
 import DurationCounter from 'ringcentral-widgets/components/DurationCounter';
+import calleeTypes from 'ringcentral-integration/enums/calleeTypes';
+import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 import deviceBody from './data/device';
 import activeCallsBody from './data/activeCalls';
 import extensionListBody from './data/extension';
 import conferenceCallBody from './data/conferenceCall';
 import conferenceCallBringInBody from './data/conferenceCallBringIn';
-
+import conferenceUpdate from './data/conferenceUpdate';
 import { getWrapper, timeout } from '../shared';
 import {
   mockGeneratePresenceApi,
@@ -21,6 +23,20 @@ import {
 let wrapper = null;
 let phone = null;
 
+beforeEach(async () => {
+  mock.reset();
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
+  wrapper = await getWrapper();
+  phone = wrapper.props().phone;
+  phone.webphone._createWebphone();
+  phone.webphone._removeWebphone = () => { };
+  phone.webphone._connect = () => { };
+
+  Object.defineProperties(wrapper.props().phone.audioSettings, {
+    userMedia: { value: true },
+  });
+});
+
 async function call({
   phoneNumber,
   fromNumber
@@ -32,7 +48,7 @@ async function call({
   wrapper.update();
 }
 
-async function mockSub() {
+async function mockSub(ttl = 2500) {
   const activeCalls = generateActiveCallsData(phone.webphone.sessions);
   mockGeneratePresenceApi({
     activeCalls
@@ -44,7 +60,7 @@ async function mockSub() {
     sessions: phone.webphone.sessions
   });
   await phone.subscription.subscribe(['/account/~/extension/~/presence']);
-  await timeout(2500);
+  await timeout(ttl);
   await mockPubnub({
     activeCalls
   });
@@ -64,6 +80,7 @@ async function mockAddCall(contactA, contactB) {
   });
   await mockSub();
   wrapper.update();
+  await timeout(1000);
 }
 
 async function mockContacts() {
@@ -71,20 +88,7 @@ async function mockContacts() {
   await phone.accountExtension.fetchData();
 }
 
-beforeEach(async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
-  wrapper = await getWrapper();
-  phone = wrapper.props().phone;
-  phone.webphone._createWebphone();
-  phone.webphone._removeWebphone = () => { };
-  phone.webphone._connect = () => { };
-
-  Object.defineProperties(wrapper.props().phone.audioSettings, {
-    userMedia: { value: true },
-  });
-});
-
-describe('RCI-1071: simplified call control page', () => {
+describe('RCI-1071: simplified call control page #3', () => {
   let contactA = null;
   let contactB = null;
 
@@ -98,7 +102,6 @@ describe('RCI-1071: simplified call control page', () => {
       await mockAddCall(contactA, contactB);
       expect(phone.routerInteraction.currentPath).toEqual('/conferenceCall/mergeCtrl');
       await timeout(3000);
-
       const mergeInfo = wrapper.find(MergeInfo);
       expect(mergeInfo).toHaveLength(1);
 
@@ -137,5 +140,58 @@ describe('RCI-1071: simplified call control page', () => {
     expect(callAvatarB.props().avatarUrl).toBeNull();
     expect(mergeInfo.find('.callee_name_active').text()).toEqual('Unknown');
     expect(mergeInfo.find(DurationCounter)).toHaveLength(1);
+  });
+  test('#3 && #4 user makes a conference call then make an outbound call, then hangup', async () => {
+    // expect.assertions(1);
+    await mockContacts();
+    contactA = phone.contacts.allContacts.find(item => item.type === 'company');
+    contactB = phone.contacts.allContacts.find(item => item.type === 'company');
+    await mockAddCall(contactA, contactB);
+    await mock.updateConferenceCall(conferenceCallBody.id, conferenceUpdate);
+    await mock.conferenceCallBringIn(conferenceCallBody.id);
+    await mock.terminateConferenceCall(conferenceCallBody.id);
+    expect(phone.routerInteraction.currentPath).toEqual('/conferenceCall/mergeCtrl');
+    await mock.conferenceCall();
+    const callCtrlPage = wrapper.find(CallCtrlPage);
+    const sessionId = phone.webphone.activeSession.id;
+    callCtrlPage.props().onMerge(sessionId);
+    const fromSessionId = phone.conferenceCall.state.mergingPair.fromSessionId;
+    const fromSession = phone.webphone._sessions.get(fromSessionId);
+    const toSessionId = phone.conferenceCall.state.mergingPair.toSessionId;
+    const toSession = phone.webphone._sessions.get(toSessionId);
+    toSession.terminate();
+    fromSession.terminate();
+    await timeout(1000);
+    toSession.reject();
+    fromSession.reject();
+    await timeout(1000);
+    const conferenceSessionId = Object.values(phone.conferenceCall.conferences)[0].sessionId;
+    const conferenceSession = phone.webphone._sessions.get(conferenceSessionId);
+    conferenceSession.accept();
+    await timeout(2000);
+    const conferenceId = Object.values(phone.conferenceCall.conferences)[0].conference.id;
+    expect(phone.routerInteraction.currentPath).toEqual(`/calls/active/${conferenceSessionId}`);
+    callCtrlPage.props().onAdd(conferenceSessionId);
+    await timeout(500);
+    expect(phone.routerInteraction.currentPath).toEqual(`/conferenceCall/dialer/${conferenceSession.fromNumber}`);
+    call({
+      phoneNumber: contactA.phoneNumbers[0].phoneNumber,
+    });
+    await timeout(1000);
+    await mockSub(1000);
+    await timeout(5000);
+    expect(phone.routerInteraction.currentPath).toEqual('/conferenceCall/mergeCtrl');
+    wrapper.update();
+    const mergeInfo = wrapper.find(MergeInfo);
+    expect(mergeInfo).toHaveLength(1);
+    expect(mergeInfo.find('.callee_name').text()).toEqual('Conference Call');
+    expect(mergeInfo.find('.callee_status').text()).toEqual('On Hold');
+    await phone.webphone.hangup(conferenceSessionId);
+    phone.webphone._updateSessions();
+    await timeout(3000);
+    wrapper.update();
+    expect(mergeInfo.find('.callee_status').text()).toEqual('Disconnected');
+    await timeout(2000);
+    expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
   });
 });

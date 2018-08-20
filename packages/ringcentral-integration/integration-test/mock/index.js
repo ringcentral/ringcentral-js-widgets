@@ -474,9 +474,10 @@ export function updateConferenceCall(id, mockResponse = {}) {
   mockApi({
     path: `/restapi/v1.0/account/~/telephony/sessions/${id}`,
     body: {
-      ...conferenceCallBody,
+    //  ...conferenceCallBody,
       ...mockResponse,
-    }
+    },
+    isOnce: false
   });
 }
 

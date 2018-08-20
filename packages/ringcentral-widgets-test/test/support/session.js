@@ -1,6 +1,7 @@
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatuses';
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 
+let partyId = 95;
 class MediaHandler {
   constructor() {
     this._events = {};
@@ -30,12 +31,25 @@ export default class Session {
   constructor({
     id, direction, to, fromNumber, _header_callId, telephonyStatus
   }) {
+    const displayName = to && to.includes('conf_') ? 'Conference' : null;
+    const toPhoneNumber = to && to.includes('conf_') ? to : null;
+    const request = {
+      to: {
+        uri: {
+          user: toPhoneNumber
+        },
+        displayName,
+      },
+      from: {
+        uri: { }
+      }
+    };
     this.id = id;
     this._header_callId = _header_callId; // call id
     this.to = to;
     this.direction = direction;
     this.callStatus = sessionStatus.connecting;
-    this.request = { to: { uri: { } }, from: { uri: { } } };
+    this.request = request;
     this.creationTime = 1532076632960;
     this.isToVoicemail = true;
     this.data = {};
@@ -75,12 +89,17 @@ export default class Session {
     });
     this.callStatus = sessionStatus.connected;
     this.trigger('accepted', acceptOptions);
+    partyId += 1;
+    this.partyData = {
+      partyId: `cs17262255528361442${partyId}-1`,
+      sessionId: 'Y3MxNzI2MjI1NTQzODI0MzUzM0AxMC43NC4yLjIxOA',
+    }
     return acceptFn(this.id);
   }
 
   reject() {
-    console.info('session rejected');
     this.trigger('rejected');
+    this.callStatus = sessionStatus.finished;
     return rejectFn(this.id);
   }
 
@@ -92,6 +111,7 @@ export default class Session {
 
   terminate() {
     this.trigger('terminated');
+    this.callStatus = sessionStatus.finished;
     return terminateFn(this.id);
   }
 
