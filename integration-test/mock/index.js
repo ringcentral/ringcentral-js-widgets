@@ -517,7 +517,8 @@ function updateConferenceCall(id) {
 
   mockApi({
     path: '/restapi/v1.0/account/~/telephony/sessions/' + id,
-    body: (0, _extends3.default)({}, conferenceCallBody, mockResponse)
+    body: (0, _extends3.default)({}, mockResponse),
+    isOnce: false
   });
 }
 

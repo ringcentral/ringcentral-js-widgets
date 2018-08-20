@@ -755,7 +755,6 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 this.store.dispatch({
                   type: this.actionTypes.mergeStart
                 });
-
                 sipInstances = void 0;
                 conferenceId = null;
 
@@ -772,7 +771,6 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 sipInstances = webphoneSessions.map(function (webphoneSession) {
                   return _this3._webphone._sessions.get(webphoneSession.id);
                 });
-
                 /**
                  * HACK: we need to preserve the merging session in prevent the glitch of
                  * the call control page.
@@ -798,6 +796,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   });
                 }, function () {
                   var conferenceState = (0, _values2.default)(_this3.conferences)[0];
+
                   /**
                    * if create conference successfully but failed to bring-in,
                    *  then terminate the conference.
@@ -1326,7 +1325,6 @@ var ConferenceCall = (_dec = (0, _di.Module)({
               case 10:
                 session = _context11.sent;
 
-
                 if ((typeof session === 'undefined' ? 'undefined' : (0, _typeof3.default)(session)) === 'object' && Object.prototype.toString.call(session.on).toLowerCase() === '[object function]') {
                   this._hookConference(conference, session);
 
@@ -1341,7 +1339,6 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                     type: this.actionTypes.makeConferenceFailed
                   });
                 }
-
                 return _context11.abrupt('return', conference);
 
               case 15:
