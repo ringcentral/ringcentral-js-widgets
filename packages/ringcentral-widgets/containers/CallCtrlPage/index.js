@@ -434,8 +434,10 @@ function mapToFunctions(_, {
       countryCode: regionSettings.countryCode,
     }),
     onHangup(sessionId) {
-      // close the MergingPair if any.
-      conferenceCall.closeMergingPair();
+      if (conferenceCall) {
+        // close the MergingPair if any.
+        conferenceCall.closeMergingPair();
+      }
       webphone.hangup(sessionId);
     },
     onMute: sessionId => webphone.mute(sessionId),
@@ -464,7 +466,9 @@ function mapToFunctions(_, {
       if (!session || webphone.isCallRecording({ session })) {
         return;
       }
-      conferenceCall.setMergeParty({ fromSessionId: sessionId });
+      if (conferenceCall) {
+        conferenceCall.setMergeParty({ fromSessionId: sessionId });
+      }
       const outBoundOnholdCalls = filter(
         call => call.direction === callDirections.outbound,
         callMonitor.activeOnHoldCalls
@@ -508,7 +512,9 @@ function mapToFunctions(_, {
       routerInteraction.push('/conferenceCall/participants');
     },
     loadConference(confId) {
-      conferenceCall.loadConference(confId);
+      if (conferenceCall) {
+        conferenceCall.loadConference(confId);
+      }
     },
   };
 }
