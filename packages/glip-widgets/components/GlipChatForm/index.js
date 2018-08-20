@@ -193,7 +193,7 @@ export default class GlipChatForm extends Component {
             arrowContent={<div className="rc-tooltip-arrow-inner" />}
             overlayClassName={styles.emojisTooltip}
             overlay={(
-              <div style={{ width: 325, height: 250 }}>
+              <div style={{ width: 250, height: 200 }}>
                 <EmojiSelect onSelect={this._onSelectEmoji} />
               </div>
             )}
