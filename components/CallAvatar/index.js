@@ -66,8 +66,7 @@ var CallAvatar = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallAvatar.__proto__ || (0, _getPrototypeOf2.default)(CallAvatar)).call(this, props));
 
     _this.state = {
-      avatarUrl: null,
-      avatarUrlLoadFailed: false
+      avatarUrl: null
     };
     _this._mounted = false;
     return _this;
@@ -109,8 +108,7 @@ var CallAvatar = function (_Component) {
             return;
           }
           _this2.setState({
-            avatarUrl: null,
-            avatarUrlLoadFailed: true
+            avatarUrl: null
           });
         };
       }
@@ -147,8 +145,6 @@ var CallAvatar = function (_Component) {
           extraNum = _props.extraNum,
           isOnConferenceCall = _props.isOnConferenceCall,
           spinnerMode = _props.spinnerMode;
-
-      var avatarUrlSource = this.props.avatarUrl;
       var avatarUrl = this.state.avatarUrl;
 
       var initialSize = 38;
@@ -167,8 +163,7 @@ var CallAvatar = function (_Component) {
       var textId = 'text-' + hash;
       var clipId = 'circleClip-' + hash;
       var avatarStyle = { stroke: $dark, strokeWidth: circleBorder + 'px' };
-      var avatarUrlLoadFailed = this.state.avatarUrlLoadFailed;
-      var showSpinner = spinnerMode;
+      var showingSpinner = spinnerMode;
 
       // spinner sizing
       var spinnerId = 'spinner-' + hash;
@@ -217,8 +212,8 @@ var CallAvatar = function (_Component) {
             cy: margin + avatarCircleRadius,
             r: avatarCircleRadius,
             fill: $snow,
-            stroke: showSpinner ? $dark : 'inherit',
-            strokeOpacity: showSpinner ? $transparency : '1'
+            stroke: showingSpinner ? $dark : 'inherit',
+            strokeOpacity: showingSpinner ? $transparency : '1'
           }),
           _react2.default.createElement(
             'g',
@@ -233,13 +228,13 @@ var CallAvatar = function (_Component) {
                 fill: $snow })
             )
           ),
-          showSpinner && _react2.default.createElement(
+          showingSpinner && _react2.default.createElement(
             'g',
             { transform: spinnerTransform },
             _react2.default.createElement('use', { xlinkHref: '#' + spinnerId })
           ),
           avatarUrl && _react2.default.createElement('image', { clipPath: 'url(#' + clipId + ')', height: '100%', width: '100%', xlinkHref: avatarUrl }),
-          !showSpinner && (!avatarUrlSource || !avatarUrl || avatarUrlLoadFailed) && _react2.default.createElement('use', { xlinkHref: '#' + textId, clipPath: 'url(#' + clipId + ')' }),
+          !avatarUrl && !showingSpinner && _react2.default.createElement('use', { xlinkHref: '#' + textId, clipPath: 'url(#' + clipId + ')' }),
           _react2.default.createElement('circle', {
             cx: initialSize - extraNumCircleRadius,
             cy: extraNumCircleRadius,
@@ -304,8 +299,8 @@ var CallAvatar = function (_Component) {
             cy: initialSize / 2,
             r: initialSize / 2 - circleBorder,
             fill: $snow,
-            stroke: showSpinner ? $dark : 'inherit',
-            strokeOpacity: showSpinner ? $transparency : '1'
+            stroke: showingSpinner ? $dark : 'inherit',
+            strokeOpacity: showingSpinner ? $transparency : '1'
           }),
           _react2.default.createElement(
             'g',
@@ -320,12 +315,12 @@ var CallAvatar = function (_Component) {
               })
             )
           ),
-          showSpinner && _react2.default.createElement(
+          showingSpinner && _react2.default.createElement(
             'g',
             { transform: spinnerTransform },
             _react2.default.createElement('use', { xlinkHref: '#' + spinnerId })
           ),
-          showSpinner && _react2.default.createElement(
+          showingSpinner && _react2.default.createElement(
             'g',
             { transform: spinnerTransform },
             _react2.default.createElement('use', { xlinkHref: '#' + spinnerId })
@@ -336,7 +331,7 @@ var CallAvatar = function (_Component) {
             width: '100%',
             xlinkHref: avatarUrl,
             preserveAspectRatio: 'xMinYMin slice' }),
-          !showSpinner && (!avatarUrlSource || !avatarUrl || avatarUrlLoadFailed) && _react2.default.createElement('use', { xlinkHref: '#' + textId, clipPath: 'url(#' + clipId + ')' })
+          !avatarUrl && !showingSpinner && _react2.default.createElement('use', { xlinkHref: '#' + textId, clipPath: 'url(#' + clipId + ')' })
         );
       }
       return res;
