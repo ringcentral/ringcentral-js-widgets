@@ -530,8 +530,10 @@ function mapToFunctions(_, _ref2) {
       });
     },
     onHangup: function onHangup(sessionId) {
-      // close the MergingPair if any.
-      conferenceCall.closeMergingPair();
+      if (conferenceCall) {
+        // close the MergingPair if any.
+        conferenceCall.closeMergingPair();
+      }
       webphone.hangup(sessionId);
     },
 
@@ -583,7 +585,9 @@ function mapToFunctions(_, _ref2) {
       if (!session || webphone.isCallRecording({ session: session })) {
         return;
       }
-      conferenceCall.setMergeParty({ fromSessionId: sessionId });
+      if (conferenceCall) {
+        conferenceCall.setMergeParty({ fromSessionId: sessionId });
+      }
       var outBoundOnholdCalls = (0, _ramda.filter)(function (call) {
         return call.direction === _callDirections2.default.outbound;
       }, callMonitor.activeOnHoldCalls);
@@ -660,7 +664,9 @@ function mapToFunctions(_, _ref2) {
       routerInteraction.push('/conferenceCall/participants');
     },
     loadConference: function loadConference(confId) {
-      conferenceCall.loadConference(confId);
+      if (conferenceCall) {
+        conferenceCall.loadConference(confId);
+      }
     }
   };
 }
