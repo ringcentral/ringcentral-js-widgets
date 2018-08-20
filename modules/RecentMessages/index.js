@@ -93,6 +93,8 @@ var _concurrentExecute = require('../../lib/concurrentExecute');
 
 var _concurrentExecute2 = _interopRequireDefault(_concurrentExecute);
 
+var _messageHelper = require('../../lib/messageHelper');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
@@ -266,7 +268,7 @@ var RecentMessages = (_dec = (0, _di.Module)({
                   type: this.actionTypes.initLoad
                 });
                 _context.next = 9;
-                return this._getRecentMessages(currentContact, this._messageStore.allConversations, fromLocal);
+                return this._getRecentMessages(currentContact, this._messageStore.textConversations, fromLocal);
 
               case 9:
                 messages = _context.sent;
@@ -321,7 +323,7 @@ var RecentMessages = (_dec = (0, _di.Module)({
      */
     value: function () {
       var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(currentContact) {
-        var messages = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+        var conversations = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
         var fromLocal = arguments[2];
         var daySpan = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 60;
         var length = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 5;
@@ -331,7 +333,7 @@ var RecentMessages = (_dec = (0, _di.Module)({
             switch (_context2.prev = _context2.next) {
               case 0:
                 dateFrom = (0, _getDateFrom2.default)(daySpan);
-                recentMessages = this._getLocalRecentMessages(currentContact, messages, dateFrom, length);
+                recentMessages = this._getLocalRecentMessages(currentContact, conversations, dateFrom, length);
 
                 // If we could not find enough recent messages,
                 // we need to search for messages on server.
@@ -383,24 +385,25 @@ var RecentMessages = (_dec = (0, _di.Module)({
 
   }, {
     key: '_getLocalRecentMessages',
-    value: function _getLocalRecentMessages(_ref6, messages, dateFrom, length) {
+    value: function _getLocalRecentMessages(_ref6, conversations, dateFrom, length) {
       var phoneNumbers = _ref6.phoneNumbers;
 
       // Get all messages related to this contact
       var recentMessages = [];
-      var message = void 0;
       var matches = void 0;
-      for (var i = messages.length - 1; i >= 0; i -= 1) {
-        message = messages[i];
-        matches = phoneNumbers.find(this._filterPhoneNumber(message));
+
+      for (var i = conversations.length - 1; i >= 0; i -= 1) {
+        var conversation = conversations[i];
+        var messageList = this._messageStore.conversationStore[conversation.id] || [];
+        matches = phoneNumbers.find(this._filterPhoneNumber(conversation));
 
         // Check if message is within certain days
-        if (!!matches && new Date(message.creationTime) > dateFrom) {
-          recentMessages.push(message);
+        if (!!matches && new Date(conversation.creationTime) > dateFrom) {
+          recentMessages.concat(messageList);
         }
         if (recentMessages.length >= length) break;
       }
-      return recentMessages;
+      return recentMessages.sort(_messageHelper.sortByDate);
     }
   }, {
     key: '_filterPhoneNumber',
