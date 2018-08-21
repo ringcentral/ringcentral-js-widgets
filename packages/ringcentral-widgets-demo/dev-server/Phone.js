@@ -264,6 +264,10 @@ export default class BasePhone extends RcModule {
           routerInteraction.push('/calls/active');
           return;
         }
+        if (conferenceCall.isMerging) {
+          routerInteraction.push('/calls/active/');
+          return;
+        }
         routerInteraction.goBack();
       }
     });
