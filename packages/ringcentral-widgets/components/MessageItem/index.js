@@ -179,6 +179,7 @@ export default class MessageItem extends Component {
     if (typeof this.props.onViewContact === 'function') {
       this.props.onViewContact({
         contact: this.getSelectedContact(),
+        phoneNumber: this.getPhoneNumber()
       });
     }
   }
@@ -492,8 +493,7 @@ export default class MessageItem extends Component {
             onViewEntity={onViewContact && this.viewSelectedContact}
             onCreateEntity={onCreateContact && this.createSelectedContact}
             createEntityTypes={createEntityTypes}
-            hasEntity={correspondents.length === 1 && !!correspondentMatches.length &&
-              (correspondentMatches.length === 1 || this.state.selected >= 0)}
+            hasEntity={correspondents.length === 1 && !!correspondentMatches.length}
             onClickToDial={!isFax ? (onClickToDial && this.clickToDial) : undefined}
             onClickToSms={isVoicemail ? (onClickToSms && this.onClickToSms) : undefined}
             phoneNumber={phoneNumber}
