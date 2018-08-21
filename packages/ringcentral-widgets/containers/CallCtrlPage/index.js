@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
+import sleep from 'ringcentral-integration/lib/sleep';
 import calleeTypes from 'ringcentral-integration/enums/calleeTypes';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
@@ -19,6 +20,8 @@ class CallCtrlPage extends Component {
       selectedMatcherIndex: 0,
       avatarUrl: null,
     };
+
+    this.onLastMergingCallEnded = this::this.onLastMergingCallEnded;
 
     this.onSelectMatcherName = (option) => {
       const nameMatches = this.props.nameMatches || [];
@@ -71,6 +74,12 @@ class CallCtrlPage extends Component {
       this.props.onBeforeMerge(this.props.session.id);
   }
 
+  static isLastCallEnded({ lastCallInfo }) {
+    return !!(
+      lastCallInfo && lastCallInfo.status === sessionStatus.finished
+    );
+  }
+
   componentDidMount() {
     this._mounted = true;
     this._updateAvatarAndMatchIndex(this.props);
@@ -89,6 +98,15 @@ class CallCtrlPage extends Component {
     }
     if (this.props.conferenceCallId !== nextProps.conferenceCallId) {
       this._updateCurrentConferenceCall(nextProps);
+    }
+
+    if (
+      this.props.layout === callCtrlLayouts.mergeCtrl
+      && CallCtrlPage.isLastCallEnded(this.props) === false
+      && CallCtrlPage.isLastCallEnded(nextProps) === true
+      && this.mounted
+    ) {
+      this.onLastMergingCallEnded();
     }
   }
 
@@ -126,6 +144,16 @@ class CallCtrlPage extends Component {
       && props.loadConference
     ) {
       props.loadConference(props.conferenceCallId);
+    }
+  }
+
+  async onLastMergingCallEnded() {
+    if (
+      this.props.onLastMergingCallEnded
+      && this.mounted
+    ) {
+      await sleep(2000);
+      this.props.onLastMergingCallEnded();
     }
   }
 
@@ -207,6 +235,7 @@ class CallCtrlPage extends Component {
         lastCallInfo={this.props.lastCallInfo}
         getAvatarUrl={this.props.getAvatarUrl}
         gotoParticipantsCtrl={this.props.gotoParticipantsCtrl}
+        onLastMergingCallEnded={this.props.onLastMergingCallEnded}
       >
         {this.props.children}
       </CallCtrlPanel>
@@ -274,6 +303,7 @@ CallCtrlPage.propTypes = {
   conferenceCallId: PropTypes.string,
   gotoParticipantsCtrl: PropTypes.func,
   loadConference: PropTypes.func,
+  onLastMergingCallEnded: PropTypes.func,
 };
 
 CallCtrlPage.defaultProps = {
@@ -299,6 +329,7 @@ CallCtrlPage.defaultProps = {
   conferenceCallId: null,
   gotoParticipantsCtrl: i => i,
   loadConference: i => i,
+  onLastMergingCallEnded: undefined,
 };
 
 function mapToProps(_, {
@@ -316,7 +347,7 @@ function mapToProps(_, {
   },
   layout = callCtrlLayouts.normalCtrl,
   params,
-  children
+  children,
 }) {
   const sessionId = params && params.sessionId;
   let currentSession;
@@ -386,6 +417,13 @@ function mapToProps(_, {
 
       // for mergeCtrl page, we don't show any children (container) component.
       children = null;
+    }
+
+    if (
+      layout === callCtrlLayouts.mergeCtrl
+      && (!lastCallInfo || lastCallInfo.status === sessionStatus.finished)
+    ) {
+      mergeDisabled = true;
     }
   }
 
