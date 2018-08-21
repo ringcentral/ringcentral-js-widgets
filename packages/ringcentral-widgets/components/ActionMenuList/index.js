@@ -367,14 +367,26 @@ export default class ActionMenuList extends Component {
       null;
 
     let entityButton;
-    if (externalViewEntity && externalHasEntity) {
-      entityButton = (<EntityButton
-        className={styles.button}
-        onViewEntity={externalViewEntity}
-        hasEntity={externalHasEntity}
-        disableLinks={disableLinks}
-        viewEntityTitle={viewEntityTitle}
-      />);
+    if (externalViewEntity) {
+      if (externalHasEntity) {
+        entityButton = (<EntityButton
+          className={styles.button}
+          onViewEntity={externalViewEntity}
+          hasEntity={externalHasEntity}
+          disableLinks={disableLinks}
+          viewEntityTitle={viewEntityTitle}
+        />);
+      } else if (phoneNumber && onCreateEntity) {
+        entityButton = (<EntityButton
+          className={styles.button}
+          onCreateEntity={this.openEntityModal}
+          hasEntity={externalHasEntity}
+          disableLinks={disableLinks}
+          createEntityTitle={createEntityTitle}
+        />);
+      } else {
+        entityButton = null;
+      }
     } else if (hasEntity && onViewEntity) {
       entityButton = (<EntityButton
         className={styles.button}
