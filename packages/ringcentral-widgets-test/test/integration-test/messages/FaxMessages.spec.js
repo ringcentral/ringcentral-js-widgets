@@ -414,7 +414,7 @@ describe('fax messages', () => {
       await panel.find(NavigationBar).props().goTo('Fax');
       wrapper.update();
       mockUpdateMessageStatusApi({
-        id: 0,
+        id: 1,
         readStatus: 'Read',
         messageType: 'Fax',
       });
@@ -458,7 +458,7 @@ describe('fax messages', () => {
       await panel.find(NavigationBar).props().goTo('Fax');
       wrapper.update();
       mockUpdateMessageStatusApi({
-        id: 0,
+        id: 1,
         readStatus: 'Unread',
         messageType: 'Fax',
       });
@@ -482,7 +482,7 @@ describe('fax messages', () => {
         count: 100, messageType: 'Fax', readStatus: 'Unread', direction: 'Inbound'
       });
       mockUpdateMessageStatusApi({
-        id: 0,
+        id: 1,
         readStatus: 'Read',
         messageType: 'Fax',
       });
@@ -524,7 +524,7 @@ describe('fax messages', () => {
         count: 100, messageType: 'Fax', readStatus: 'Unread', direction: 'Inbound'
       });
       mockUpdateMessageStatusApi({
-        id: 0,
+        id: 1,
         readStatus: 'Read',
         messageType: 'Fax',
       });
@@ -553,7 +553,7 @@ describe('fax messages', () => {
 
       wrapper.update();
       mockUpdateMessageStatusApi({
-        id: 0,
+        id: 1,
         readStatus: 'Unread',
         messageType: 'Fax',
       });

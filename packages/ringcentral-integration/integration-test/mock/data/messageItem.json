@@ -1,26 +1,37 @@
 {
-  "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/message-store/937441587020",
-  "id" : 5475922005,
-  "from" : {
-    "phoneNumber" : "+1234567890",
-    "name" : "Something1 New1",
-    "location" : "Orange, CA"
+  "uri": "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/message-store/5475922005",
+  "id": 5475922005,
+  "to": [
+    {
+      "extensionNumber": "101",
+      "name": "Something1 New1"
+    }
+  ],
+  "from": {
+    "extensionNumber": "101",
+    "name": "Something1 New1"
   },
-  "type" : "Fax",
-  "creationTime" : "2018-02-12T05:20:02.000Z",
-  "readStatus" : "Read",
-  "priority" : "Normal",
-  "attachments" : [ {
-    "id" : 5475922005,
-    "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/message-store/937441587020/content/937441587020",
-    "type" : "RenderedDocument",
-    "contentType" : "application/pdf"
-  } ],
-  "direction" : "Inbound",
-  "availability" : "Alive",
-  "subject" : "+1234567890",
-  "messageStatus" : "Received",
-  "faxResolution" : "High",
-  "faxPageCount" : 3,
-  "lastModifiedTime" : "2018-02-12T15:15:35.758Z"
+  "type": "Pager",
+  "creationTime": "2017-06-01T02:24:02.000Z",
+  "readStatus": "Read",
+  "priority": "Normal",
+  "attachments": [
+    {
+      "id": 5475922005,
+      "uri": "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/message-store/5475922005/content/5475922005",
+      "type": "Text",
+      "contentType": "text/plain"
+    }
+  ],
+  "direction": "Inbound",
+  "availability": "Alive",
+  "subject": "test 2",
+  "messageStatus": "Sent",
+  "conversationId": 6015823250778200202,
+  "conversation": {
+    "id": "6015823250778200202",
+    "uri": "https://platform.ringcentral.com/restapi/v1.0/conversation/6015823250778200202"
+  },
+  "lastModifiedTime": "2017-06-30T02:24:08.238Z",
+  "pgToDepartment": false
 }

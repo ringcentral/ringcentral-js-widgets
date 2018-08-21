@@ -254,7 +254,7 @@ export function messageSync(mockResponse = {}, isOnce = true) {
 
 export function messageList(mockResponse = {}) {
   mockApi({
-    url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/message-store`,
+    url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/message-store?`,
     body: {
       ...messageListBody,
       ...mockResponse,
@@ -263,14 +263,15 @@ export function messageList(mockResponse = {}) {
   });
 }
 
-export function updateMessageStatus(mockResponse = {}) {
+export function updateMessageStatus(mockResponse = {}, isOnce = true) {
   mockApi({
-    url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/message-store`,
+    url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/message-store/`,
     method: 'PUT',
     body: {
       ...messageItemBody,
       ...mockResponse,
-    }
+    },
+    isOnce
   });
 }
 
