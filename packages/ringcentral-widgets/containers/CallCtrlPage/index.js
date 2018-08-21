@@ -374,7 +374,7 @@ function mapToProps(_, {
   let isMerging = false;
   let conferenceCallParties;
   let conferenceCallId = null;
-  let lastCallInfo = callMonitor.lastCallInfo;
+  const lastCallInfo = callMonitor.lastCallInfo;
   if (conferenceCall) {
     isOnConference = conferenceCall.isConferenceSession(currentSession.id);
     const conferenceData = Object.values(conferenceCall.conferences)[0];
@@ -399,8 +399,6 @@ function mapToProps(_, {
     conferenceCallParties = conferenceCall.partyProfiles;
 
     layout = isOnConference ? callCtrlLayouts.conferenceCtrl : layout;
-
-    lastCallInfo = isOnConference ? null : lastCallInfo;
 
     const { fromSessionId } = conferenceCall.mergingPair;
     if (
