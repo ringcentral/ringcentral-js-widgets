@@ -155,7 +155,10 @@ export default class MessageItem extends Component {
       (contactMatches.length === 1 && contactMatches[0]) ||
       null;
   }
-
+  getMatchEntitiesIds() {
+    const contactMatches = this.props.conversation.correspondentMatches || [];
+    return contactMatches.map(item => item.id);
+  }
   getPhoneNumber() {
     const { correspondents } = this.props.conversation;
     return (correspondents.length === 1 && correspondents[0] &&
@@ -179,6 +182,8 @@ export default class MessageItem extends Component {
     if (typeof this.props.onViewContact === 'function') {
       this.props.onViewContact({
         contact: this.getSelectedContact(),
+        phoneNumber: this.getPhoneNumber(),
+        matchEntitiesIds: this.getMatchEntitiesIds()
       });
     }
   }
@@ -369,6 +374,7 @@ export default class MessageItem extends Component {
       onLogConversation,
       onViewContact,
       onCreateContact,
+      createEntityTypes,
       enableContactFallback,
       showContactDisplayPlaceholder,
       sourceIcons,
@@ -490,8 +496,8 @@ export default class MessageItem extends Component {
             }
             onViewEntity={onViewContact && this.viewSelectedContact}
             onCreateEntity={onCreateContact && this.createSelectedContact}
-            hasEntity={correspondents.length === 1 && !!correspondentMatches.length &&
-              (correspondentMatches.length === 1 || this.state.selected >= 0)}
+            createEntityTypes={createEntityTypes}
+            hasEntity={correspondents.length === 1 && !!correspondentMatches.length}
             onClickToDial={!isFax ? (onClickToDial && this.clickToDial) : undefined}
             onClickToSms={isVoicemail ? (onClickToSms && this.onClickToSms) : undefined}
             phoneNumber={phoneNumber}
@@ -554,6 +560,7 @@ MessageItem.propTypes = {
   onLogConversation: PropTypes.func,
   onViewContact: PropTypes.func,
   onCreateContact: PropTypes.func,
+  createEntityTypes: PropTypes.array,
   onClickToDial: PropTypes.func,
   onClickToSms: PropTypes.func,
   disableLinks: PropTypes.bool,
@@ -578,6 +585,7 @@ MessageItem.defaultProps = {
   onClickToDial: undefined,
   onViewContact: undefined,
   onCreateContact: undefined,
+  createEntityTypes: undefined,
   disableClickToDial: false,
   onClickToSms: undefined,
   disableLinks: false,
@@ -586,7 +594,7 @@ MessageItem.defaultProps = {
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
   showGroupNumberName: false,
-  deleteMessage: () => {},
+  deleteMessage() {},
   previewFaxMessages: undefined,
   renderExtraButton: undefined,
 };
