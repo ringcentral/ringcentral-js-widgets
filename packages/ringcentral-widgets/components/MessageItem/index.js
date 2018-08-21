@@ -155,7 +155,10 @@ export default class MessageItem extends Component {
       (contactMatches.length === 1 && contactMatches[0]) ||
       null;
   }
-
+  getMatchEntitiesIds() {
+    const contactMatches = this.props.conversation.correspondentMatches || [];
+    return contactMatches.map(item => item.id);
+  }
   getPhoneNumber() {
     const { correspondents } = this.props.conversation;
     return (correspondents.length === 1 && correspondents[0] &&
@@ -179,7 +182,8 @@ export default class MessageItem extends Component {
     if (typeof this.props.onViewContact === 'function') {
       this.props.onViewContact({
         contact: this.getSelectedContact(),
-        phoneNumber: this.getPhoneNumber()
+        phoneNumber: this.getPhoneNumber(),
+        matchEntitiesIds: this.getMatchEntitiesIds()
       });
     }
   }
