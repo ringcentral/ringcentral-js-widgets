@@ -93,7 +93,8 @@ function mapToFunctions(_, _ref2) {
       onViewContact = _ref2.onViewContact,
       _ref2$showViewContact = _ref2.showViewContact,
       showViewContact = _ref2$showViewContact === undefined ? true : _ref2$showViewContact,
-      getAvatarUrl = _ref2.getAvatarUrl;
+      getAvatarUrl = _ref2.getAvatarUrl,
+      useV2 = _ref2.useV2;
 
   return {
     formatPhone: function formatPhone(phoneNumber) {
@@ -202,9 +203,23 @@ function mapToFunctions(_, _ref2) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                return _context5.abrupt('return', webphone && webphone.resume.apply(webphone, _args5));
+                if (webphone) {
+                  _context5.next = 2;
+                  break;
+                }
 
-              case 1:
+                return _context5.abrupt('return');
+
+              case 2:
+                _context5.next = 4;
+                return webphone.resume.apply(webphone, _args5);
+
+              case 4:
+                if (routerInteraction.currentPath !== callCtrlRoute && !useV2) {
+                  routerInteraction.push(callCtrlRoute);
+                }
+
+              case 5:
               case 'end':
                 return _context5.stop();
             }

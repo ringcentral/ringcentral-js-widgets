@@ -29,8 +29,6 @@ var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
 
 var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
-var _class, _temp, _initialiseProps;
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -267,7 +265,8 @@ WebphoneButtons.defaultProps = {
 /**
  * TODO: Gradually replace <ActiveCallItem/> with this component
  */
-var ActiveCallItem = (_temp = _class = function (_Component) {
+
+var ActiveCallItem = function (_Component) {
   (0, _inherits3.default)(ActiveCallItem, _Component);
 
   function ActiveCallItem(props) {
@@ -275,7 +274,54 @@ var ActiveCallItem = (_temp = _class = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ActiveCallItem.__proto__ || (0, _getPrototypeOf2.default)(ActiveCallItem)).call(this, props));
 
-    _initialiseProps.call(_this);
+    _this.onSelectContact = function (value, idx) {
+      if (!value) {
+        return;
+      }
+
+      _this._userSelection = true;
+      _this.setState({
+        selected: idx
+      });
+      if (value) {
+        _this.props.getAvatarUrl(value).then(function (avatarUrl) {
+          _this.setState({ avatarUrl: avatarUrl });
+        });
+        if (_this.props.call.webphoneSession) {
+          _this.props.updateSessionMatchedContact(_this.props.call.webphoneSession.id, value);
+        }
+      }
+    };
+
+    _this.getSelectedContactIdx = function () {
+      var nextProps = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _this.props;
+
+      var contactMatches = _this.getContactMatches(nextProps);
+      var selected = null;
+
+      if (!nextProps.call.webphoneSession) {
+        selected = 0;
+      } else if (contactMatches && contactMatches.length) {
+        var contact = nextProps.call.webphoneSession.contactMatch;
+        if (contact) {
+          selected = contactMatches.findIndex(function (match) {
+            return match.id === contact.id;
+          });
+        }
+        if (selected === -1 || !contact) {
+          selected = 0;
+        }
+      }
+      return selected;
+    };
+
+    _this.getSelectedContact = function () {
+      var selected = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _this.getSelectedContactIdx();
+      var nextProps = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _this.props;
+
+      var contactMatches = _this.getContactMatches(nextProps);
+      return contactMatches && contactMatches[selected] || null;
+    };
 
     _this.state = {
       selected: 0,
@@ -301,9 +347,9 @@ var ActiveCallItem = (_temp = _class = function (_Component) {
   (0, _createClass3.default)(ActiveCallItem, [{
     key: 'setContact',
     value: function setContact() {
-      var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
-      var isOnConferenceCall = props.isOnConferenceCall,
-          conferenceCallParties = props.conferenceCallParties;
+      var nextProps = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
+      var isOnConferenceCall = nextProps.isOnConferenceCall,
+          conferenceCallParties = nextProps.conferenceCallParties;
 
 
       if (isOnConferenceCall) {
@@ -316,7 +362,8 @@ var ActiveCallItem = (_temp = _class = function (_Component) {
         return;
       }
 
-      this.onSelectContact(this.getSelectedContact(props));
+      var selected = this.getSelectedContactIdx(nextProps);
+      this.onSelectContact(this.getSelectedContact(selected, nextProps), selected);
     }
   }, {
     key: 'componentDidMount',
@@ -492,58 +539,8 @@ var ActiveCallItem = (_temp = _class = function (_Component) {
     }
   }]);
   return ActiveCallItem;
-}(_react.Component), _initialiseProps = function _initialiseProps() {
-  var _this2 = this;
+}(_react.Component);
 
-  this.onSelectContact = function (value) {
-    if (!value) {
-      return;
-    }
-    var nameMatches = _this2.getContactMatches();
-    var selectedMatcherIndex = nameMatches.findIndex(function (match) {
-      return match.id === value.id;
-    });
-    if (selectedMatcherIndex < 0) {
-      selectedMatcherIndex = 0;
-    }
-    _this2._userSelection = true;
-    _this2.setState({
-      selected: selectedMatcherIndex
-    });
-    var contact = nameMatches[selectedMatcherIndex];
-    if (contact) {
-      _this2.props.getAvatarUrl(contact).then(function (avatarUrl) {
-        _this2.setState({ avatarUrl: avatarUrl });
-      });
-      if (_this2.props.call.webphoneSession) {
-        _this2.props.updateSessionMatchedContact(_this2.props.call.webphoneSession.id, contact);
-      }
-    }
-  };
-
-  this.getSelectedContact = function () {
-    var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _this2.props;
-
-    var contactMatches = _this2.getContactMatches(props);
-    var selected = null;
-
-    if (!props.call.webphoneSession) {
-      selected = 0;
-    } else if (contactMatches && contactMatches.length) {
-      var contact = props.call.webphoneSession.contactMatch;
-      if (contact) {
-        selected = contactMatches.findIndex(function (match) {
-          return match.id === contact.id;
-        });
-      }
-      if (selected === -1 || !contact) {
-        selected = 0;
-      }
-    }
-
-    return contactMatches && contactMatches[selected] || null;
-  };
-}, _temp);
 exports.default = ActiveCallItem;
 
 
