@@ -80,9 +80,10 @@ function mapToFunctions(_, {
     onBackButtonClick() {
       const confId = conferenceCall.conferences && Object.keys(conferenceCall.conferences)[0];
 
-      const sessionId = conferenceCall.conferences[confId].sessionId;
-
-      routerInteraction.push(`/calls/active/${sessionId}}`);
+      if (confId) {
+        const sessionId = conferenceCall.conferences[confId].sessionId;
+        routerInteraction.push(`/calls/active/${sessionId}}`);
+      }
     },
     async removeFunc(id) {
       const confId = conferenceCall.conferences && Object.keys(conferenceCall.conferences)[0];
