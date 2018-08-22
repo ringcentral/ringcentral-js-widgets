@@ -273,13 +273,10 @@ export default function App({
               <Route
                 path="/conferenceCall/mergeCtrl"
                 component={() => (
-                  <CallCtrlPage
+                  <ConferenceCallMergeCtrlPage
                     showContactDisplayPlaceholder={false}
                     sourceIcons={sourceIcons}
                     getAvatarUrl={getAvatarUrl}
-                    onAdd={() => {
-                      phone.routerInteraction.push('/dialer');
-                    }}
                     onBackButtonClick={() => {
                       phone.routerInteraction.push('/calls');
                     }}
