@@ -1,4 +1,4 @@
-import { find } from 'ramda';
+import { find, reduce } from 'ramda';
 import { createSelector } from 'reselect';
 import getter from '../../lib/getter';
 import { Module } from '../../lib/di';
@@ -350,6 +350,26 @@ export default class ConferenceCall extends RcModule {
     this.store.subscribe(() => this._onStateChange());
   }
 
+  shouldHoldConference(webphoneSessions) {
+    const isSessionsOnhold = reduce(
+      (acc, current) => acc && current.isOnHold,
+      true,
+      webphoneSessions
+    );
+    if (webphoneSessions.length === 2 && isSessionsOnhold) {
+      return true;
+    }
+    const conferenceState = Object.values(this.conferences)[0];
+    const conferenceSession = find(
+      x => x.id === conferenceState.sessionId,
+      this._webphone.sessions
+    );
+    if (isSessionsOnhold && conferenceSession.isOnHold) {
+      return true;
+    }
+    return false;
+  }
+
   /**
    * Merge calls to (or create) a conference.
    * @param {webphone.sessions} webphoneSessions
@@ -422,6 +442,12 @@ export default class ConferenceCall extends RcModule {
           });
         });
       this._webphone.clearSessionCaching();
+      const conferenceState = Object.values(this.conferences)[0];
+      if (this.shouldHoldConference(webphoneSessions)) {
+        this._webphone.hold(conferenceState.sessionId);
+      } else {
+        this._webphone.resume(conferenceState.sessionId);
+      }
     } else {
       try {
         conferenceId = await this._mergeToConference(webphoneSessions);
@@ -811,14 +837,10 @@ export default class ConferenceCall extends RcModule {
       this._webphone.sessions
     );
 
-    const isSessionOnhold = session.isOnHold;
-
     const sessionToMergeWith = find(
       x => x.id === this.mergingPair.fromSessionId,
       this._webphone.sessions
     );
-
-    const isSessionToMergeWithOnhold = sessionToMergeWith && sessionToMergeWith.isOnHold;
 
     const webphoneSessions = sessionToMergeWith
       ? [sessionToMergeWith, session]
@@ -858,19 +880,6 @@ export default class ConferenceCall extends RcModule {
     if (!conferenceData) {
       await this._webphone.resume(session.id);
       return null;
-    }
-    const currentConferenceSession = find(
-      x => x.id === conferenceData.sessionId,
-      this._webphone.sessions
-    );
-    const isCurrentConferenceOnhold = currentConferenceSession.isOnHold;
-
-    if (
-      isSessionOnhold && (isSessionToMergeWithOnhold || isCurrentConferenceOnhold)
-    ) {
-      this._webphone.hold(conferenceData.sessionId);
-    } else if (isCurrentConferenceOnhold) {
-      this._webphone.resume(conferenceData.sessionId);
     }
 
     return conferenceData;
