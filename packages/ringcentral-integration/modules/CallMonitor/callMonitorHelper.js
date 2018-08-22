@@ -16,13 +16,10 @@ export function matchWephoneSessionWithAcitveCall(sessions, callItem) {
   }
   const matches = sessions.filter((session) => {
     // Strategy 1: use `P-Rc-Api-Ids` header of a webRTC session to match with `telephonySessionId`
-    // and `partyId` of a call data from presence api
-    if (session.partyData && callItem.partyId && callItem.telephonySessionId) {
-      const { partyId, sessionId } = session.partyData;
-      if (
-        partyId === callItem.partyId
-      && sessionId === callItem.telephonySessionId
-      ) {
+    // and `partyId` of a call data from presence api.
+    if (session.partyData && callItem.telephonySessionId) {
+      const { sessionId } = session.partyData;
+      if (sessionId === callItem.telephonySessionId) {
         return true;
       }
       return false;
