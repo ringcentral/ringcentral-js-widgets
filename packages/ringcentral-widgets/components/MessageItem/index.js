@@ -129,10 +129,7 @@ export default class MessageItem extends Component {
     this.setState({
       selected,
     });
-    if (
-      this.props.conversation.conversationMatches.length > 0 &&
-      this.props.autoLog
-    ) {
+    if (this.props.autoLog) {
       this.logConversation({ redirect: false, selected, prefill: false });
     }
   }

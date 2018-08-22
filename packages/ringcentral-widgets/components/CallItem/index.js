@@ -149,10 +149,7 @@ export default class CallItem extends Component {
     this.setState({
       selected,
     });
-    if (
-      this.props.call.activityMatches.length > 0 &&
-      this.props.autoLog
-    ) {
+    if (this.props.autoLog) {
       this.logCall({ redirect: false, selected });
     }
   }

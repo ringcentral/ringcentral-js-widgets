@@ -61,7 +61,6 @@ export default class ConversationLogger extends LoggerBase {
     tabManager,
     isLoggedContact = () => false,
     isAutoUpdate = true,
-    isForceLogToggleOn = true,
     formatDateTime = (...args) => dateTimeFormat.formatDateTime(...args),
     ...options
   }) {
@@ -83,7 +82,6 @@ export default class ConversationLogger extends LoggerBase {
     this._isLoggedContact = isLoggedContact;
     this._formatDateTime = formatDateTime;
     this._isAutoUpdate = isAutoUpdate;
-    this._isForceLogToggleOn = isForceLogToggleOn;
     this._storageKey = `${this._name}Data`;
     this._storage.registerReducer({
       key: this._storageKey,
@@ -334,8 +332,7 @@ export default class ConversationLogger extends LoggerBase {
       this._lastAutoLog = this.autoLog;
       if (this.autoLog) {
         // force conversation log checking when switch auto log to on
-        this._lastProcessedConversations = this._isForceLogToggleOn ?
-          null : this.conversationLogMap;
+        this._lastProcessedConversations = null;
       }
     }
     if (this.ready && this._lastProcessedConversations !== this.conversationLogMap) {
