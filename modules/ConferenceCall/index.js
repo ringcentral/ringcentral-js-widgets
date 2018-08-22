@@ -1475,7 +1475,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
         var sessionId = _ref17.sessionId,
             onReadyToMerge = _ref17.onReadyToMerge;
 
-        var session, sessionToMergeWith, webphoneSessions, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, _session, conferenceState, conferenceSession, hasActiveSession, isActiveSessionOnhold, conferenceData;
+        var session, sessionToMergeWith, webphoneSessions, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, _session, conferenceState, _conferenceSession, hasActiveSession, isActiveSessionOnhold, conferenceData, conferenceSession;
 
         return _regenerator2.default.wrap(function _callee13$(_context13) {
           while (1) {
@@ -1556,11 +1556,11 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   break;
                 }
 
-                conferenceSession = (0, _ramda.find)(function (x) {
+                _conferenceSession = (0, _ramda.find)(function (x) {
                   return x.id === conferenceState.sessionId;
                 }, this._webphone.sessions);
 
-                if (!this._webphone.isCallRecording({ session: conferenceSession })) {
+                if (!this._webphone.isCallRecording({ session: _conferenceSession })) {
                   _context13.next = 34;
                   break;
                 }
@@ -1598,8 +1598,14 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 return _context13.abrupt('return', null);
 
               case 45:
+                conferenceSession = (0, _ramda.find)(function (x) {
+                  return x.id === conferenceData.sessionId;
+                }, this._webphone.sessions);
 
-                if (hasActiveSession) {
+
+                if (session.isOnHold && sessionToMergeWith && sessionToMergeWith.isOnHold || session.isOnHold && conferenceSession.isOnHold) {
+                  this._webphone.hold(conferenceData.sessionId);
+                } else if (hasActiveSession) {
                   if (isActiveSessionOnhold) {
                     this._webphone.hold(conferenceData.sessionId);
                   } else {
@@ -1609,7 +1615,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
 
                 return _context13.abrupt('return', conferenceData);
 
-              case 47:
+              case 48:
               case 'end':
                 return _context13.stop();
             }

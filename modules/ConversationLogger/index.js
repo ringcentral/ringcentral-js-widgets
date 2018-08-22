@@ -183,13 +183,11 @@ var ConversationLogger = (_dec = (0, _di.Module)({
     } : _ref2$isLoggedContact,
         _ref2$isAutoUpdate = _ref2.isAutoUpdate,
         isAutoUpdate = _ref2$isAutoUpdate === undefined ? true : _ref2$isAutoUpdate,
-        _ref2$isForceLogToggl = _ref2.isForceLogToggleOn,
-        isForceLogToggleOn = _ref2$isForceLogToggl === undefined ? true : _ref2$isForceLogToggl,
         _ref2$formatDateTime = _ref2.formatDateTime,
         formatDateTime = _ref2$formatDateTime === undefined ? function () {
       return dateTimeFormat.formatDateTime.apply(dateTimeFormat, arguments);
     } : _ref2$formatDateTime,
-        options = (0, _objectWithoutProperties3.default)(_ref2, ['auth', 'contactMatcher', 'conversationMatcher', 'dateTimeFormat', 'extensionInfo', 'messageStore', 'rolesAndPermissions', 'storage', 'tabManager', 'isLoggedContact', 'isAutoUpdate', 'isForceLogToggleOn', 'formatDateTime']);
+        options = (0, _objectWithoutProperties3.default)(_ref2, ['auth', 'contactMatcher', 'conversationMatcher', 'dateTimeFormat', 'extensionInfo', 'messageStore', 'rolesAndPermissions', 'storage', 'tabManager', 'isLoggedContact', 'isAutoUpdate', 'formatDateTime']);
     (0, _classCallCheck3.default)(this, ConversationLogger);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ConversationLogger.__proto__ || (0, _getPrototypeOf2.default)(ConversationLogger)).call(this, (0, _extends3.default)({}, options, {
@@ -210,7 +208,6 @@ var ConversationLogger = (_dec = (0, _di.Module)({
     _this._isLoggedContact = isLoggedContact;
     _this._formatDateTime = formatDateTime;
     _this._isAutoUpdate = isAutoUpdate;
-    _this._isForceLogToggleOn = isForceLogToggleOn;
     _this._storageKey = _this._name + 'Data';
     _this._storage.registerReducer({
       key: _this._storageKey,
@@ -509,7 +506,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
         this._lastAutoLog = this.autoLog;
         if (this.autoLog) {
           // force conversation log checking when switch auto log to on
-          this._lastProcessedConversations = this._isForceLogToggleOn ? null : this.conversationLogMap;
+          this._lastProcessedConversations = null;
         }
       }
       if (this.ready && this._lastProcessedConversations !== this.conversationLogMap) {
