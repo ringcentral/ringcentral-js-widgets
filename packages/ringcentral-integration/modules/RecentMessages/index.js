@@ -201,21 +201,19 @@ export default class RecentMessages extends RcModule {
    */
   _getLocalRecentMessages({ phoneNumbers }, conversations, dateFrom, length) {
     // Get all messages related to this contact
-    const recentMessages = [];
+    let recentMessages = [];
     let matches;
-
     for (let i = conversations.length - 1; i >= 0; i -= 1) {
       const conversation = conversations[i];
       const messageList = this._messageStore.conversationStore[conversation.id] || [];
       matches = phoneNumbers.find(this._filterPhoneNumber(conversation));
-
       // Check if message is within certain days
       if (!!matches && new Date(conversation.creationTime) > dateFrom) {
-        recentMessages.concat(messageList);
+        recentMessages = recentMessages.concat(messageList);
       }
       if (recentMessages.length >= length) break;
     }
-    return recentMessages.sort(sortByDate);
+    return recentMessages.sort(sortByDate).slice(0, length);
   }
 
   _filterPhoneNumber(message) {
