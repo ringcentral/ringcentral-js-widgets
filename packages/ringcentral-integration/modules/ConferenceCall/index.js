@@ -811,10 +811,14 @@ export default class ConferenceCall extends RcModule {
       this._webphone.sessions
     );
 
+    const isSessionOnhold = session.isOnHold;
+
     const sessionToMergeWith = find(
       x => x.id === this.mergingPair.fromSessionId,
       this._webphone.sessions
     );
+
+    const isSessionToMergeWithOnhold = sessionToMergeWith && sessionToMergeWith.isOnHold;
 
     const webphoneSessions = sessionToMergeWith
       ? [sessionToMergeWith, session]
@@ -848,10 +852,6 @@ export default class ConferenceCall extends RcModule {
       toSessionId: sessionId,
     });
 
-    // should retrieve active session state before merging
-    const hasActiveSession = !!this._webphone.activeSession;
-    const isActiveSessionOnhold = hasActiveSession && this._webphone.activeSession.isOnHold;
-
     await this.mergeToConference(webphoneSessions);
 
     const conferenceData = Object.values(this.conferences)[0];
@@ -859,23 +859,18 @@ export default class ConferenceCall extends RcModule {
       await this._webphone.resume(session.id);
       return null;
     }
-    const conferenceSession = find(
+    const currentConferenceSession = find(
       x => x.id === conferenceData.sessionId,
       this._webphone.sessions
     );
+    const isCurrentConferenceOnhold = currentConferenceSession.isOnHold;
 
     if (
-      (session.isOnHold && sessionToMergeWith && sessionToMergeWith.isOnHold)
-      ||
-      (session.isOnHold && conferenceSession.isOnHold)
+      isSessionOnhold && (isSessionToMergeWithOnhold || isCurrentConferenceOnhold)
     ) {
       this._webphone.hold(conferenceData.sessionId);
-    } else if (hasActiveSession) {
-      if (isActiveSessionOnhold) {
-        this._webphone.hold(conferenceData.sessionId);
-      } else {
-        this._webphone.resume(conferenceData.sessionId);
-      }
+    } else if (isCurrentConferenceOnhold) {
+      this._webphone.resume(conferenceData.sessionId);
     }
 
     return conferenceData;
