@@ -15,6 +15,20 @@ export function matchWephoneSessionWithAcitveCall(sessions, callItem) {
     return undefined;
   }
   const matches = sessions.filter((session) => {
+    // Strategy 1: use `P-Rc-Api-Ids` header of a webRTC session to match with `telephonySessionId`
+    // and `partyId` of a call data from presence api.
+    if (session.partyData && callItem.telephonySessionId) {
+      const { sessionId } = session.partyData;
+      if (sessionId === callItem.telephonySessionId) {
+        return true;
+      }
+      return false;
+    }
+
+    // Strategy 2: use `call-id` header of a webRTC session to match with
+    // `id` of a call data from presence api.
+    // This approach is unstable since the `id` of a call data from presence api can change before
+    // the call being accepted.
     if (session.callId === callItem.id) {
       return true;
     }
@@ -24,6 +38,7 @@ export function matchWephoneSessionWithAcitveCall(sessions, callItem) {
     }
 
     /**
+     * Strategy 3:
      * Hack: for conference call, the `to` field is Conference,
      * and the callItem's id won't change. According to `sip.js/src/session.js`
      * the `InviteClientContext`'s id will always begin with callItem's id.
