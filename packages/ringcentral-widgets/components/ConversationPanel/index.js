@@ -78,12 +78,7 @@ class ConversationPanel extends Component {
     this.setState({
       selected,
     });
-    if (
-      this.props.conversation &&
-      this.props.conversation.conversationMatches &&
-      this.props.conversation.conversationMatches.length > 0 &&
-      this.props.autoLog
-    ) {
+    if (this.props.autoLog) {
       this.logConversation({ redirect: false, selected, prefill: false });
     }
   }
