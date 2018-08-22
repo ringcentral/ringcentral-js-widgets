@@ -53,10 +53,12 @@ export default class GlipTeamCreationModal extends Component {
         return;
       }
       if (this.state.teamName === '') {
+        // TODO: update error message with i18n
         this.setState({ error: 'Please enter a valid team name.' });
         return;
       }
       if (this.state.selectedContacts.length === 0) {
+        // TODO: update error message with i18n
         this.setState({ error: 'Please select team number.' });
         return;
       }
@@ -104,6 +106,7 @@ export default class GlipTeamCreationModal extends Component {
     } else {
       contacts = this.props.filteredContacts.filter(c => c.emails.length).slice(0, 10);
     }
+    // TODO: update title message with i18n
     return (
       <Modal
         onConfirm={this.onConfirm}

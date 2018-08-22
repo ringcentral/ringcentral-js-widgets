@@ -17,12 +17,14 @@ function LatestPost({ latestPost, members }) {
   const formatedText = getPostAbstract(latestPost, members);
 
   if (!isGroup || !latestPost.creator) {
+    // TODO: update message with i18n
     return (
       <div className={styles.latestPost}>
         {formatedText || 'Unsupported message'}
       </div>
     );
   }
+  // TODO: update message with i18n
   return (
     <div className={styles.latestPost}>
       {latestPost.creator.firstName}: {formatedText || 'Unsupported message'}

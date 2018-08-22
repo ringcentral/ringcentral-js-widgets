@@ -23,6 +23,7 @@ function Attachments({ attachments }) {
       );
     }
     if (attachment.type === 'Card') {
+      // TODO: update message with i18n
       return 'Unsupported message';
     }
     return (

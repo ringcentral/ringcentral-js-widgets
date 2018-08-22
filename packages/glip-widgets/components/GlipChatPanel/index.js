@@ -48,6 +48,7 @@ export default class GlipChatPage extends Component {
       mobile,
     } = this.props;
     const spinner = showSpinner ? (<SpinnerOverlay />) : null;
+    // TODO: update alt with i18n
     const backIcon =
       onBackClick ? (
         <img src={leftArrow} alt="Back" className={styles.backIcon} onClick={onBackClick} />

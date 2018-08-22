@@ -10,6 +10,7 @@ import GlipPostContent from '../GlipPostContent';
 
 function PostAvatar({ creator, viewProfile }) {
   if (!creator) {
+    // TODO: update alt with i18n
     return (
       <img src={defaultAvatar} alt="default avatar" />
     );
@@ -57,6 +58,7 @@ function PostStatus({ sendStatus }) {
   if (!sendStatus) {
     return null;
   }
+  // TODO: update sending status with i18n
   return (
     <span>
       ({sendStatus === status.creating ? 'Sending' : 'Send failed'})
@@ -108,6 +110,7 @@ export default function GlipPost({
       );
     });
   }
+  // TODO: update joining status with i18n
   return (
     <div
       className={classnames(

@@ -85,6 +85,7 @@ export default class GlipGroupsPanel extends PureComponent {
       contactSearchFilter,
     } = this.props;
     const spinner = showSpinner ? (<SpinnerOverlay />) : null;
+    // TODO: update searching with i18n
     return (
       <div className={classnames(styles.root, className)}>
         <div className={styles.header}>

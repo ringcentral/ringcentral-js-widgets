@@ -183,7 +183,7 @@ export default class GlipChatForm extends Component {
       placeholder,
       height,
     } = this.props;
-
+    const noFoundString = 'No found.'; // TODO: i18n after string confirmed
     return (
       <div className={classnames(styles.root, className)} style={{ height }} >
         <div className={styles.tools}>
@@ -217,7 +217,7 @@ export default class GlipChatForm extends Component {
             onSearchChange={this._onSearchChange}
             suggestions={this.state.suggestions}
             prefix="@"
-            notFoundContent="No found."
+            notFoundContent={noFoundString}
             multiLines
             mode="immutable"
             onKeyDown={this._onTextAreaKeyDown}
