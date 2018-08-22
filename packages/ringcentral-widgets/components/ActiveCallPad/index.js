@@ -111,7 +111,6 @@ class ActiveCallPad extends Component {
 
   render() {
     const buttons = [];
-
     /* --------------------- Mute/Unmute --------------------------- */
     buttons.push(this.props.isOnMute
       ? {

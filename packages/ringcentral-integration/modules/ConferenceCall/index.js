@@ -859,8 +859,18 @@ export default class ConferenceCall extends RcModule {
       await this._webphone.resume(session.id);
       return null;
     }
+    const conferenceSession = find(
+      x => x.id === conferenceData.sessionId,
+      this._webphone.sessions
+    );
 
-    if (hasActiveSession) {
+    if (
+      (session.isOnHold && sessionToMergeWith && sessionToMergeWith.isOnHold)
+      ||
+      (session.isOnHold && conferenceSession.isOnHold)
+    ) {
+      this._webphone.hold(conferenceData.sessionId);
+    } else if (hasActiveSession) {
       if (isActiveSessionOnhold) {
         this._webphone.hold(conferenceData.sessionId);
       } else {
