@@ -465,6 +465,7 @@ var ActionMenuList = function (_Component) {
           isCreating = _props.isCreating,
           onViewEntity = _props.onViewEntity,
           onCreateEntity = _props.onCreateEntity,
+          createEntityTypes = _props.createEntityTypes,
           hasEntity = _props.hasEntity,
           onClickToDial = _props.onClickToDial,
           onClickToSms = _props.onClickToSms,
@@ -505,13 +506,25 @@ var ActionMenuList = function (_Component) {
 
       var entityButton = void 0;
       if (externalViewEntity) {
-        entityButton = externalHasEntity ? _react2.default.createElement(_EntityButton2.default, {
-          className: _styles2.default.button,
-          onViewEntity: externalViewEntity,
-          hasEntity: externalHasEntity,
-          disableLinks: disableLinks,
-          viewEntityTitle: viewEntityTitle
-        }) : null;
+        if (externalHasEntity) {
+          entityButton = _react2.default.createElement(_EntityButton2.default, {
+            className: _styles2.default.button,
+            onViewEntity: externalViewEntity,
+            hasEntity: externalHasEntity,
+            disableLinks: disableLinks,
+            viewEntityTitle: viewEntityTitle
+          });
+        } else if (phoneNumber && onCreateEntity) {
+          entityButton = _react2.default.createElement(_EntityButton2.default, {
+            className: _styles2.default.button,
+            onCreateEntity: this.openEntityModal,
+            hasEntity: externalHasEntity,
+            disableLinks: disableLinks,
+            createEntityTitle: createEntityTitle
+          });
+        } else {
+          entityButton = null;
+        }
       } else if (hasEntity && onViewEntity) {
         entityButton = _react2.default.createElement(_EntityButton2.default, {
           className: _styles2.default.button,
@@ -534,6 +547,7 @@ var ActionMenuList = function (_Component) {
 
       var entityModal = !hasEntity && phoneNumber ? _react2.default.createElement(_EntityModal2.default, {
         currentLocale: currentLocale,
+        entities: createEntityTypes,
         show: this.state.entityModalVisible,
         onCreate: this.onCreateEnityModal,
         onCancel: this.onCancelEntityModal
@@ -627,6 +641,7 @@ ActionMenuList.propTypes = {
   isCreating: _propTypes2.default.bool,
   onViewEntity: _propTypes2.default.func,
   onCreateEntity: _propTypes2.default.func,
+  createEntityTypes: _propTypes2.default.array,
   hasEntity: _propTypes2.default.bool,
   onClickToDial: _propTypes2.default.func,
   onClickToSms: _propTypes2.default.func,
@@ -664,6 +679,7 @@ ActionMenuList.defaultProps = {
   isCreating: false,
   onViewEntity: undefined,
   onCreateEntity: undefined,
+  createEntityTypes: undefined,
   hasEntity: false,
   onClickToDial: undefined,
   onClickToSms: undefined,

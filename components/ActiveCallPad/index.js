@@ -223,7 +223,6 @@ var ActiveCallPad = function (_Component) {
     key: 'render',
     value: function render() {
       var buttons = [];
-
       /* --------------------- Mute/Unmute --------------------------- */
       buttons.push(this.props.isOnMute ? {
         icon: _Mute2.default,

@@ -173,7 +173,7 @@ var MessageItem = function (_Component) {
       _this.setState({
         selected: selected
       });
-      if (_this.props.conversation.conversationMatches.length > 0 && _this.props.autoLog) {
+      if (_this.props.autoLog) {
         _this.logConversation({ redirect: false, selected: selected, prefill: false });
       }
     };
@@ -188,7 +188,9 @@ var MessageItem = function (_Component) {
     _this.viewSelectedContact = function () {
       if (typeof _this.props.onViewContact === 'function') {
         _this.props.onViewContact({
-          contact: _this.getSelectedContact()
+          contact: _this.getSelectedContact(),
+          phoneNumber: _this.getPhoneNumber(),
+          matchEntitiesIds: _this.getMatchEntitiesIds()
         });
       }
     };
@@ -321,6 +323,14 @@ var MessageItem = function (_Component) {
         if (index > -1) return index;
       }
       return this.props.showContactDisplayPlaceholder ? -1 : 0;
+    }
+  }, {
+    key: 'getMatchEntitiesIds',
+    value: function getMatchEntitiesIds() {
+      var contactMatches = this.props.conversation.correspondentMatches || [];
+      return contactMatches.map(function (item) {
+        return item.id;
+      });
     }
   }, {
     key: 'getPhoneNumber',
@@ -512,6 +522,7 @@ var MessageItem = function (_Component) {
           onLogConversation = _props2.onLogConversation,
           onViewContact = _props2.onViewContact,
           onCreateContact = _props2.onCreateContact,
+          createEntityTypes = _props2.createEntityTypes,
           enableContactFallback = _props2.enableContactFallback,
           showContactDisplayPlaceholder = _props2.showContactDisplayPlaceholder,
           sourceIcons = _props2.sourceIcons,
@@ -635,7 +646,8 @@ var MessageItem = function (_Component) {
             onLog: isVoicemail || isFax || extraButton ? undefined : onLogConversation && this.logConversation,
             onViewEntity: onViewContact && this.viewSelectedContact,
             onCreateEntity: onCreateContact && this.createSelectedContact,
-            hasEntity: correspondents.length === 1 && !!correspondentMatches.length && (correspondentMatches.length === 1 || this.state.selected >= 0),
+            createEntityTypes: createEntityTypes,
+            hasEntity: correspondents.length === 1 && !!correspondentMatches.length,
             onClickToDial: !isFax ? onClickToDial && this.clickToDial : undefined,
             onClickToSms: isVoicemail ? onClickToSms && this.onClickToSms : undefined,
             phoneNumber: phoneNumber,
@@ -700,6 +712,7 @@ MessageItem.propTypes = {
   onLogConversation: _propTypes2.default.func,
   onViewContact: _propTypes2.default.func,
   onCreateContact: _propTypes2.default.func,
+  createEntityTypes: _propTypes2.default.array,
   onClickToDial: _propTypes2.default.func,
   onClickToSms: _propTypes2.default.func,
   disableLinks: _propTypes2.default.bool,
@@ -724,6 +737,7 @@ MessageItem.defaultProps = {
   onClickToDial: undefined,
   onViewContact: undefined,
   onCreateContact: undefined,
+  createEntityTypes: undefined,
   disableClickToDial: false,
   onClickToSms: undefined,
   disableLinks: false,
@@ -733,6 +747,7 @@ MessageItem.defaultProps = {
   sourceIcons: undefined,
   showGroupNumberName: false,
   deleteMessage: function deleteMessage() {},
+
   previewFaxMessages: undefined,
   renderExtraButton: undefined
 };

@@ -214,7 +214,7 @@ var CallItem = function (_Component) {
       _this.setState({
         selected: selected
       });
-      if (_this.props.call.activityMatches.length > 0 && _this.props.autoLog) {
+      if (_this.props.autoLog) {
         _this.logCall({ redirect: false, selected: selected });
       }
     };
@@ -526,6 +526,7 @@ var CallItem = function (_Component) {
           active = _props.active,
           onViewContact = _props.onViewContact,
           onCreateContact = _props.onCreateContact,
+          createEntityTypes = _props.createEntityTypes,
           onLogCall = _props.onLogCall,
           onClickToDial = _props.onClickToDial,
           onClickToSms = _props.onClickToSms,
@@ -629,6 +630,7 @@ var CallItem = function (_Component) {
           onLog: onLogCall && this.logCall,
           onViewEntity: onViewContact && this.viewSelectedContact,
           onCreateEntity: onCreateContact && this.createSelectedContact,
+          createEntityTypes: createEntityTypes,
           hasEntity: !!contactMatches.length,
           onClickToDial: onClickToDial && this.clickToDial,
           onClickToSms: readTextPermission ? function () {
@@ -688,6 +690,7 @@ CallItem.propTypes = {
   onLogCall: _propTypes2.default.func,
   onViewContact: _propTypes2.default.func,
   onCreateContact: _propTypes2.default.func,
+  createEntityTypes: _propTypes2.default.array,
   onClickToDial: _propTypes2.default.func,
   onClickToSms: _propTypes2.default.func,
   isLoggedContact: _propTypes2.default.func,
@@ -716,6 +719,7 @@ CallItem.defaultProps = {
   onClickToSms: undefined,
   onViewContact: undefined,
   onCreateContact: undefined,
+  createEntityTypes: undefined,
   isLoggedContact: function isLoggedContact() {
     return false;
   },

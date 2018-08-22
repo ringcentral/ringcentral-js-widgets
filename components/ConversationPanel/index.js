@@ -94,7 +94,7 @@ var ConversationPanel = function (_Component) {
       _this.setState({
         selected: selected
       });
-      if (_this.props.conversation && _this.props.conversation.conversationMatches && _this.props.conversation.conversationMatches.length > 0 && _this.props.autoLog) {
+      if (_this.props.autoLog) {
         _this.logConversation({ redirect: false, selected: selected, prefill: false });
       }
     };

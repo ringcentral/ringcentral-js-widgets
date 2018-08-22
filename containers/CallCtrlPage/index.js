@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = exports.CallCtrlPage = exports.mapToFunctions = exports.mapToProps = undefined;
 
+var _values = require('babel-runtime/core-js/object/values');
+
+var _values2 = _interopRequireDefault(_values);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -12,10 +16,6 @@ var _regenerator2 = _interopRequireDefault(_regenerator);
 var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
-var _values = require('babel-runtime/core-js/object/values');
-
-var _values2 = _interopRequireDefault(_values);
 
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
@@ -52,6 +52,10 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 var _formatNumber = require('ringcentral-integration/lib/formatNumber');
 
 var _formatNumber2 = _interopRequireDefault(_formatNumber);
+
+var _sleep = require('ringcentral-integration/lib/sleep');
+
+var _sleep2 = _interopRequireDefault(_sleep);
 
 var _calleeTypes = require('ringcentral-integration/enums/calleeTypes');
 
@@ -99,6 +103,8 @@ var CallCtrlPage = function (_Component) {
       selectedMatcherIndex: 0,
       avatarUrl: null
     };
+
+    _this.onLastMergingCallEnded = _this.onLastMergingCallEnded.bind(_this);
 
     _this.onSelectMatcherName = function (option) {
       var nameMatches = _this.props.nameMatches || [];
@@ -185,6 +191,10 @@ var CallCtrlPage = function (_Component) {
       if (this.props.conferenceCallId !== nextProps.conferenceCallId) {
         this._updateCurrentConferenceCall(nextProps);
       }
+
+      if (this.props.layout === _callCtrlLayouts2.default.mergeCtrl && CallCtrlPage.isLastCallEnded(this.props) === false && CallCtrlPage.isLastCallEnded(nextProps) === true && this.mounted) {
+        this.onLastMergingCallEnded();
+      }
     }
   }, {
     key: 'componentWillUnmount',
@@ -225,6 +235,39 @@ var CallCtrlPage = function (_Component) {
         props.loadConference(props.conferenceCallId);
       }
     }
+  }, {
+    key: 'onLastMergingCallEnded',
+    value: function () {
+      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+        return _regenerator2.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(this.props.onLastMergingCallEnded && this.mounted)) {
+                  _context.next = 4;
+                  break;
+                }
+
+                _context.next = 3;
+                return (0, _sleep2.default)(2000);
+
+              case 3:
+                this.props.onLastMergingCallEnded();
+
+              case 4:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function onLastMergingCallEnded() {
+        return _ref.apply(this, arguments);
+      }
+
+      return onLastMergingCallEnded;
+    }()
   }, {
     key: 'render',
     value: function render() {
@@ -303,10 +346,18 @@ var CallCtrlPage = function (_Component) {
           conferenceCallParties: this.props.conferenceCallParties,
           lastCallInfo: this.props.lastCallInfo,
           getAvatarUrl: this.props.getAvatarUrl,
-          gotoParticipantsCtrl: this.props.gotoParticipantsCtrl
+          gotoParticipantsCtrl: this.props.gotoParticipantsCtrl,
+          onLastMergingCallEnded: this.props.onLastMergingCallEnded
         },
         this.props.children
       );
+    }
+  }], [{
+    key: 'isLastCallEnded',
+    value: function isLastCallEnded(_ref2) {
+      var lastCallInfo = _ref2.lastCallInfo;
+
+      return !!(lastCallInfo && lastCallInfo.status === _sessionStatus2.default.finished);
     }
   }]);
   return CallCtrlPage;
@@ -371,7 +422,8 @@ CallCtrlPage.propTypes = {
   onIncomingCallCaptured: _propTypes2.default.func,
   conferenceCallId: _propTypes2.default.string,
   gotoParticipantsCtrl: _propTypes2.default.func,
-  loadConference: _propTypes2.default.func
+  loadConference: _propTypes2.default.func,
+  onLastMergingCallEnded: _propTypes2.default.func
 };
 
 CallCtrlPage.defaultProps = {
@@ -402,25 +454,26 @@ CallCtrlPage.defaultProps = {
   },
   loadConference: function loadConference(i) {
     return i;
-  }
+  },
+  onLastMergingCallEnded: undefined
 };
 
-function mapToProps(_, _ref) {
-  var _ref$phone = _ref.phone,
-      webphone = _ref$phone.webphone,
-      locale = _ref$phone.locale,
-      contactMatcher = _ref$phone.contactMatcher,
-      regionSettings = _ref$phone.regionSettings,
-      brand = _ref$phone.brand,
-      forwardingNumber = _ref$phone.forwardingNumber,
-      contactSearch = _ref$phone.contactSearch,
-      conferenceCall = _ref$phone.conferenceCall,
-      callingSettings = _ref$phone.callingSettings,
-      callMonitor = _ref$phone.callMonitor,
-      _ref$layout = _ref.layout,
-      layout = _ref$layout === undefined ? _callCtrlLayouts2.default.normalCtrl : _ref$layout,
-      params = _ref.params,
-      children = _ref.children;
+function mapToProps(_, _ref3) {
+  var _ref3$phone = _ref3.phone,
+      webphone = _ref3$phone.webphone,
+      locale = _ref3$phone.locale,
+      contactMatcher = _ref3$phone.contactMatcher,
+      regionSettings = _ref3$phone.regionSettings,
+      brand = _ref3$phone.brand,
+      forwardingNumber = _ref3$phone.forwardingNumber,
+      contactSearch = _ref3$phone.contactSearch,
+      conferenceCall = _ref3$phone.conferenceCall,
+      callingSettings = _ref3$phone.callingSettings,
+      callMonitor = _ref3$phone.callMonitor,
+      _ref3$layout = _ref3.layout,
+      layout = _ref3$layout === undefined ? _callCtrlLayouts2.default.normalCtrl : _ref3$layout,
+      params = _ref3.params,
+      children = _ref3.children;
 
   var sessionId = params && params.sessionId;
   var currentSession = void 0;
@@ -482,6 +535,10 @@ function mapToProps(_, _ref) {
       // for mergeCtrl page, we don't show any children (container) component.
       children = null;
     }
+
+    if (layout === _callCtrlLayouts2.default.mergeCtrl && (!lastCallInfo || lastCallInfo.status === _sessionStatus2.default.finished)) {
+      mergeDisabled = true;
+    }
   }
 
   return {
@@ -507,19 +564,19 @@ function mapToProps(_, _ref) {
   };
 }
 
-function mapToFunctions(_, _ref2) {
-  var _ref2$phone = _ref2.phone,
-      webphone = _ref2$phone.webphone,
-      regionSettings = _ref2$phone.regionSettings,
-      contactSearch = _ref2$phone.contactSearch,
-      conferenceCall = _ref2$phone.conferenceCall,
-      routerInteraction = _ref2$phone.routerInteraction,
-      callMonitor = _ref2$phone.callMonitor,
-      getAvatarUrl = _ref2.getAvatarUrl,
-      onBackButtonClick = _ref2.onBackButtonClick,
-      phoneTypeRenderer = _ref2.phoneTypeRenderer,
-      recipientsContactInfoRenderer = _ref2.recipientsContactInfoRenderer,
-      recipientsContactPhoneRenderer = _ref2.recipientsContactPhoneRenderer;
+function mapToFunctions(_, _ref4) {
+  var _ref4$phone = _ref4.phone,
+      webphone = _ref4$phone.webphone,
+      regionSettings = _ref4$phone.regionSettings,
+      contactSearch = _ref4$phone.contactSearch,
+      conferenceCall = _ref4$phone.conferenceCall,
+      routerInteraction = _ref4$phone.routerInteraction,
+      callMonitor = _ref4$phone.callMonitor,
+      getAvatarUrl = _ref4.getAvatarUrl,
+      onBackButtonClick = _ref4.onBackButtonClick,
+      phoneTypeRenderer = _ref4.phoneTypeRenderer,
+      recipientsContactInfoRenderer = _ref4.recipientsContactInfoRenderer,
+      recipientsContactPhoneRenderer = _ref4.recipientsContactPhoneRenderer;
 
   return {
     formatPhone: function formatPhone(phoneNumber) {
@@ -620,39 +677,39 @@ function mapToFunctions(_, _ref2) {
       return true;
     },
     onMerge: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(sessionId) {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(sessionId) {
         var conferenceData;
-        return _regenerator2.default.wrap(function _callee$(_context) {
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _context.next = 2;
+                _context2.next = 2;
                 return conferenceCall.mergeSession({ sessionId: sessionId });
 
               case 2:
-                conferenceData = _context.sent;
+                conferenceData = _context2.sent;
 
                 if (conferenceData) {
-                  _context.next = 6;
+                  _context2.next = 6;
                   break;
                 }
 
                 routerInteraction.push('/conferenceCall/mergeCtrl');
-                return _context.abrupt('return');
+                return _context2.abrupt('return');
 
               case 6:
                 routerInteraction.push('/calls/active/' + conferenceData.sessionId);
 
               case 7:
               case 'end':
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee, this);
+        }, _callee2, this);
       }));
 
       function onMerge(_x) {
-        return _ref3.apply(this, arguments);
+        return _ref5.apply(this, arguments);
       }
 
       return onMerge;
