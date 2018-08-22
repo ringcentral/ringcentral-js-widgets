@@ -39,6 +39,7 @@
     }
   },
   "dependencies": {
-    "puppeteer": "^1.7.0"
+    "puppeteer": "^1.7.0",
+    "request": "^2.88.0"
   }
 }
