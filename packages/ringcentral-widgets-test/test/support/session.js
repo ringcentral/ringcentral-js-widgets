@@ -150,6 +150,10 @@ export default class Session {
     this.reject();
     forwardFn(validPhoneNumber, acceptOptions);
   }
+
+  dtmf(value) {
+    return value;
+  }
 }
 
 export const inboundSession = new Session({
