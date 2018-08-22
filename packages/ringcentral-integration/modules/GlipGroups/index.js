@@ -74,6 +74,24 @@ function getUniqueMemberIds(groups) {
   return memberIds;
 }
 
+function searchPosts(searchFilter, posts) {
+  let result = false;
+  for (const post of posts) {
+    if (post.text && post.text.toLowerCase().indexOf(searchFilter) > -1) {
+      result = true;
+      break;
+    }
+    if (post.mentions && post.mentions.length > 0) {
+      const mentionNames = post.mentions.map(m => m.name).join(' ').toLowerCase();
+      if (mentionNames.indexOf(searchFilter) > -1) {
+        result = true;
+        break;
+      }
+    }
+  }
+  return result;
+}
+
 /**
  * @class
  * @description Accound info managing module.
@@ -495,10 +513,10 @@ export default class GlipGroups extends Pollable {
   @getter
   allGroups = createSelector(
     () => this.data,
-    () => (this._glipPersons && this._glipPersons.personsMap) || {},
-    () => (this._glipPosts && this._glipPosts.postsMap) || {},
+    () => (this._glipPersons && this._glipPersons.personsMap),
+    () => (this._glipPosts && this._glipPosts.postsMap),
     () => this._auth.ownerId,
-    (data, personsMap, postsMap, ownerId) => (data || []).map(
+    (data, personsMap = {}, postsMap = {}, ownerId) => (data || []).map(
       group => formatGroup(group, personsMap, postsMap, ownerId)
     ),
   )
@@ -507,7 +525,8 @@ export default class GlipGroups extends Pollable {
   filteredGroups = createSelector(
     () => this.allGroups,
     () => this.searchFilter,
-    (allGroups, searchFilter) => {
+    () => (this._glipPosts && this._glipPosts.postsMap),
+    (allGroups, searchFilter, postsMap = {}) => {
       if (isBlank(searchFilter)) {
         return allGroups;
       }
@@ -520,13 +539,14 @@ export default class GlipGroups extends Pollable {
         if (!name) {
           const groupUsernames = group.detailMembers
             .map(m => `${m.firstName} ${m.lastName}`)
-            .join(',')
+            .join(' ')
             .toLowerCase();
           if (groupUsernames && groupUsernames.indexOf(filterString) > -1) {
             return true;
           }
         }
-        return false;
+        const result = searchPosts(filterString, postsMap[group.id] || []);
+        return result;
       });
     },
   )
