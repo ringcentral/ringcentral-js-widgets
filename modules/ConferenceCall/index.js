@@ -1475,7 +1475,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
         var sessionId = _ref17.sessionId,
             onReadyToMerge = _ref17.onReadyToMerge;
 
-        var session, sessionToMergeWith, webphoneSessions, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, _session, conferenceState, _conferenceSession, hasActiveSession, isActiveSessionOnhold, conferenceData, conferenceSession;
+        var session, isSessionOnhold, sessionToMergeWith, isSessionToMergeWithOnhold, webphoneSessions, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, _session, conferenceState, conferenceSession, conferenceData, currentConferenceSession, isCurrentConferenceOnhold;
 
         return _regenerator2.default.wrap(function _callee13$(_context13) {
           while (1) {
@@ -1484,90 +1484,92 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 session = (0, _ramda.find)(function (x) {
                   return x.id === sessionId;
                 }, this._webphone.sessions);
+                isSessionOnhold = session.isOnHold;
                 sessionToMergeWith = (0, _ramda.find)(function (x) {
                   return x.id === _this7.mergingPair.fromSessionId;
                 }, this._webphone.sessions);
+                isSessionToMergeWithOnhold = sessionToMergeWith && sessionToMergeWith.isOnHold;
                 webphoneSessions = sessionToMergeWith ? [sessionToMergeWith, session] : [session];
                 _iteratorNormalCompletion2 = true;
                 _didIteratorError2 = false;
                 _iteratorError2 = undefined;
-                _context13.prev = 6;
+                _context13.prev = 8;
                 _iterator2 = (0, _getIterator3.default)(webphoneSessions);
 
-              case 8:
+              case 10:
                 if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
-                  _context13.next = 15;
+                  _context13.next = 17;
                   break;
                 }
 
                 _session = _step2.value;
 
                 if (!this._webphone.isCallRecording({ session: _session })) {
-                  _context13.next = 12;
+                  _context13.next = 14;
                   break;
                 }
 
                 return _context13.abrupt('return', null);
 
-              case 12:
+              case 14:
                 _iteratorNormalCompletion2 = true;
-                _context13.next = 8;
-                break;
-
-              case 15:
-                _context13.next = 21;
+                _context13.next = 10;
                 break;
 
               case 17:
-                _context13.prev = 17;
-                _context13.t0 = _context13['catch'](6);
+                _context13.next = 23;
+                break;
+
+              case 19:
+                _context13.prev = 19;
+                _context13.t0 = _context13['catch'](8);
                 _didIteratorError2 = true;
                 _iteratorError2 = _context13.t0;
 
-              case 21:
-                _context13.prev = 21;
-                _context13.prev = 22;
+              case 23:
+                _context13.prev = 23;
+                _context13.prev = 24;
 
                 if (!_iteratorNormalCompletion2 && _iterator2.return) {
                   _iterator2.return();
                 }
 
-              case 24:
-                _context13.prev = 24;
+              case 26:
+                _context13.prev = 26;
 
                 if (!_didIteratorError2) {
-                  _context13.next = 27;
+                  _context13.next = 29;
                   break;
                 }
 
                 throw _iteratorError2;
 
-              case 27:
-                return _context13.finish(24);
-
-              case 28:
-                return _context13.finish(21);
-
               case 29:
+                return _context13.finish(26);
+
+              case 30:
+                return _context13.finish(23);
+
+              case 31:
                 conferenceState = (0, _values2.default)(this.conferences)[0];
 
                 if (!conferenceState) {
-                  _context13.next = 34;
+                  _context13.next = 36;
                   break;
                 }
 
-                _conferenceSession = (0, _ramda.find)(function (x) {
+                conferenceSession = (0, _ramda.find)(function (x) {
                   return x.id === conferenceState.sessionId;
                 }, this._webphone.sessions);
 
-                if (!this._webphone.isCallRecording({ session: _conferenceSession })) {
-                  _context13.next = 34;
+                if (!this._webphone.isCallRecording({ session: conferenceSession })) {
+                  _context13.next = 36;
                   break;
                 }
 
                 return _context13.abrupt('return', null);
 
-              case 34:
+              case 36:
 
                 if (onReadyToMerge && (0, _is_type.isFunction)(onReadyToMerge)) {
                   onReadyToMerge();
@@ -1577,9 +1579,6 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   toSessionId: sessionId
                 });
 
-                // should retrieve active session state before merging
-                hasActiveSession = !!this._webphone.activeSession;
-                isActiveSessionOnhold = hasActiveSession && this._webphone.activeSession.isOnHold;
                 _context13.next = 40;
                 return this.mergeToConference(webphoneSessions);
 
@@ -1598,29 +1597,26 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 return _context13.abrupt('return', null);
 
               case 45:
-                conferenceSession = (0, _ramda.find)(function (x) {
+                currentConferenceSession = (0, _ramda.find)(function (x) {
                   return x.id === conferenceData.sessionId;
                 }, this._webphone.sessions);
+                isCurrentConferenceOnhold = currentConferenceSession.isOnHold;
 
 
-                if (session.isOnHold && sessionToMergeWith && sessionToMergeWith.isOnHold || session.isOnHold && conferenceSession.isOnHold) {
+                if (isSessionOnhold && (isSessionToMergeWithOnhold || isCurrentConferenceOnhold)) {
                   this._webphone.hold(conferenceData.sessionId);
-                } else if (hasActiveSession) {
-                  if (isActiveSessionOnhold) {
-                    this._webphone.hold(conferenceData.sessionId);
-                  } else {
-                    this._webphone.resume(conferenceData.sessionId);
-                  }
+                } else if (isCurrentConferenceOnhold) {
+                  this._webphone.resume(conferenceData.sessionId);
                 }
 
                 return _context13.abrupt('return', conferenceData);
 
-              case 48:
+              case 49:
               case 'end':
                 return _context13.stop();
             }
           }
-        }, _callee13, this, [[6, 17, 21, 29], [22,, 24, 28]]);
+        }, _callee13, this, [[8, 19, 23, 31], [24,, 26, 30]]);
       }));
 
       function mergeSession(_x16) {
