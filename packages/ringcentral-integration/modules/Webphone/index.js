@@ -1093,7 +1093,7 @@ export default class Webphone extends RcModule {
   }
 
   /**
-   * start a outbound call.
+   * start an outbound call.
    * @param {toNumber} recipient number
    * @param {fromNumber} call Id
    * @param {homeCountryId} homeCountry Id
