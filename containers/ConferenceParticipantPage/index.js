@@ -147,36 +147,41 @@ function mapToFunctions(_, _ref2) {
       routerInteraction = _ref2$phone.routerInteraction,
       regionSettings = _ref2$phone.regionSettings;
 
-  var confId = conferenceCall.conferences && (0, _keys2.default)(conferenceCall.conferences)[0];
-
   return {
     onBackButtonClick: function onBackButtonClick() {
-      return routerInteraction.push('/calls/active');
+      var confId = conferenceCall.conferences && (0, _keys2.default)(conferenceCall.conferences)[0];
+
+      if (confId) {
+        var sessionId = conferenceCall.conferences[confId].sessionId;
+        routerInteraction.push('/calls/active/' + sessionId + '}');
+      }
     },
     removeFunc: function () {
       var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(id) {
+        var confId;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.prev = 0;
-                _context.next = 3;
+                confId = conferenceCall.conferences && (0, _keys2.default)(conferenceCall.conferences)[0];
+                _context.prev = 1;
+                _context.next = 4;
                 return conferenceCall.removeFromConference(confId, id);
 
-              case 3:
+              case 4:
                 return _context.abrupt('return', true);
 
-              case 6:
-                _context.prev = 6;
-                _context.t0 = _context['catch'](0);
+              case 7:
+                _context.prev = 7;
+                _context.t0 = _context['catch'](1);
                 return _context.abrupt('return', false);
 
-              case 9:
+              case 10:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this, [[0, 6]]);
+        }, _callee, this, [[1, 7]]);
       }));
 
       function removeFunc(_x) {

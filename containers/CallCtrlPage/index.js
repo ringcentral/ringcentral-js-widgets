@@ -678,7 +678,6 @@ function mapToFunctions(_, _ref4) {
     },
     onMerge: function () {
       var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(sessionId) {
-        var conferenceData;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -687,20 +686,6 @@ function mapToFunctions(_, _ref4) {
                 return conferenceCall.mergeSession({ sessionId: sessionId });
 
               case 2:
-                conferenceData = _context2.sent;
-
-                if (conferenceData) {
-                  _context2.next = 6;
-                  break;
-                }
-
-                routerInteraction.push('/conferenceCall/mergeCtrl');
-                return _context2.abrupt('return');
-
-              case 6:
-                routerInteraction.push('/calls/active/' + conferenceData.sessionId);
-
-              case 7:
               case 'end':
                 return _context2.stop();
             }
