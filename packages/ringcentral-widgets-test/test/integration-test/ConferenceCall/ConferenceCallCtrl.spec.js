@@ -40,7 +40,7 @@ describe('Prepare', () => {
     phone.routerInteraction.push(`/calls/active/${conferenceSession.id}`);
     wrapper.update();
     expect(wrapper.find(ActiveCallPad)).toHaveLength(1);
-  }, 6000);
+  }, 12000);
 })
 
 describe('RCI-1710786 Conference Call Control Page - Mute/Muted', () => {
