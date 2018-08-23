@@ -19,7 +19,7 @@ export async function mockPubnub() {
       mode: 'ecb'
     });
   pubnub.mockMessage(encrypted);
-  await timeout(2000);
+  await timeout(100);
 }
 
 export function mockGenerateMessageApi({
