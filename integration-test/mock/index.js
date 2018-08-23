@@ -325,7 +325,7 @@ function messageList() {
   var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
   mockApi({
-    url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/message-store',
+    url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/message-store?',
     body: (0, _extends3.default)({}, messageListBody, mockResponse),
     isOnce: false
   });
@@ -333,11 +333,13 @@ function messageList() {
 
 function updateMessageStatus() {
   var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var isOnce = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
   mockApi({
-    url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/message-store',
+    url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/message-store/',
     method: 'PUT',
-    body: (0, _extends3.default)({}, messageItemBody, mockResponse)
+    body: (0, _extends3.default)({}, messageItemBody, mockResponse),
+    isOnce: isOnce
   });
 }
 
