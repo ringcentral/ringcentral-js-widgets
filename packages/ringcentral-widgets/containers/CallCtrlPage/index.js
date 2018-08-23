@@ -21,6 +21,8 @@ class CallCtrlPage extends Component {
     this.state = {
       selectedMatcherIndex: 0,
       avatarUrl: null,
+      layout: props.getInitialLayout(this.props),
+      mergeDisabled: false,
     };
 
     this.onLastMergingCallEnded = this::this.onLastMergingCallEnded;
@@ -86,11 +88,70 @@ class CallCtrlPage extends Component {
     this._mounted = true;
     this._updateAvatarAndMatchIndex(this.props);
     this._updateCurrentConferenceCall(this.props);
+
+    if (CallCtrlPage.isLastCallEnded(this.props)) {
+      /**
+       * if the last has already been terminated after rendering, need to trigger the callback at the point
+       */
+      this.onLastMergingCallEnded();
+    }
   }
 
-  componentWillReceiveProps(nextProps) {
+  disableMerge(nextProps, layout) {
+    const {
+      lastCallInfo
+    } = nextProps;
+
+    let mergeDisabled = false;
     if (
-      nextProps.layout === callCtrlLayouts.mergeCtrl &&
+      layout === callCtrlLayouts.mergeCtrl
+    && (!lastCallInfo || lastCallInfo.status === sessionStatus.finished)
+    ) {
+      mergeDisabled = true;
+    }
+
+    return mergeDisabled;
+  }
+
+  async onLastMergingCallEnded() {
+    if (this._mounted) {
+      await sleep(2000);
+
+      if (this._mounted) {
+        this.setState({
+          layout: callCtrlLayouts.normalCtrl
+        });
+      }
+
+      if (this.props.closeMergingPair) {
+        this.props.closeMergingPair();
+      }
+
+      if (this.props.onLastMergingCallEnded) {
+        this.props.onLastMergingCallEnded();
+      }
+    }
+  }
+
+  getLayout(lastProps, nextProps) {
+    if (nextProps.showSpinner) {
+      return callCtrlLayouts.conferenceCtrl;
+    }
+    return this.props.getInitialLayout(nextProps);
+  }
+
+  componentWillReceiveProps(nextProps, nextState) {
+    if (nextProps.session !== this.props.session) {
+      const layout = this.getLayout(this.props, nextProps);
+      const mergeDisabled = this.disableMerge(nextProps, layout);
+
+      this.setState({
+        layout,
+        mergeDisabled
+      });
+    }
+    if (
+      nextState.layout === callCtrlLayouts.mergeCtrl &&
       nextProps.session.direction === callDirections.inbound
     ) {
       nextProps.onIncomingCallCaptured();
@@ -103,10 +164,10 @@ class CallCtrlPage extends Component {
     }
 
     if (
-      this.props.layout === callCtrlLayouts.mergeCtrl
+      this.state.layout === callCtrlLayouts.mergeCtrl
       && CallCtrlPage.isLastCallEnded(this.props) === false
       && CallCtrlPage.isLastCallEnded(nextProps) === true
-      && this.mounted
+      && this._mounted
     ) {
       this.onLastMergingCallEnded();
     }
@@ -142,20 +203,10 @@ class CallCtrlPage extends Component {
 
   _updateCurrentConferenceCall(props) {
     if (
-      props.layout === callCtrlLayouts.conferenceCtrl
+      this.state.layout === callCtrlLayouts.conferenceCtrl
       && props.loadConference
     ) {
       props.loadConference(props.conferenceCallId);
-    }
-  }
-
-  async onLastMergingCallEnded() {
-    if (
-      this.props.onLastMergingCallEnded
-      && this.mounted
-    ) {
-      await sleep(2000);
-      this.props.onLastMergingCallEnded();
     }
   }
 
@@ -226,11 +277,11 @@ class CallCtrlPage extends Component {
         phoneTypeRenderer={this.props.phoneTypeRenderer}
         recipientsContactInfoRenderer={this.props.recipientsContactInfoRenderer}
         recipientsContactPhoneRenderer={this.props.recipientsContactPhoneRenderer}
-        layout={this.props.layout}
+        layout={this.state.layout}
         showSpinner={this.props.showSpinner}
         direction={session.direction}
         addDisabled={this.props.addDisabled}
-        mergeDisabled={this.props.mergeDisabled}
+        mergeDisabled={this.state.mergeDisabled}
         conferenceCallEquipped={this.props.conferenceCallEquipped}
         hasConferenceCall={this.props.hasConferenceCall}
         conferenceCallParties={this.props.conferenceCallParties}
@@ -293,7 +344,7 @@ CallCtrlPage.propTypes = {
   phoneTypeRenderer: PropTypes.func,
   recipientsContactInfoRenderer: PropTypes.func,
   recipientsContactPhoneRenderer: PropTypes.func,
-  layout: PropTypes.string.isRequired,
+  layout: PropTypes.string,
   showSpinner: PropTypes.bool,
   addDisabled: PropTypes.bool,
   mergeDisabled: PropTypes.bool,
@@ -306,6 +357,8 @@ CallCtrlPage.propTypes = {
   gotoParticipantsCtrl: PropTypes.func,
   loadConference: PropTypes.func,
   onLastMergingCallEnded: PropTypes.func,
+  getInitialLayout: PropTypes.func,
+  closeMergingPair: PropTypes.func,
 };
 
 CallCtrlPage.defaultProps = {
@@ -332,6 +385,9 @@ CallCtrlPage.defaultProps = {
   gotoParticipantsCtrl: i => i,
   loadConference: i => i,
   onLastMergingCallEnded: undefined,
+  getInitialLayout: () => callCtrlLayouts.normalCtrl,
+  layout: callCtrlLayouts.normalCtrl,
+  closeMergingPair: null,
 };
 
 function mapToProps(_, {
@@ -347,7 +403,6 @@ function mapToProps(_, {
     callingSettings,
     callMonitor,
   },
-  layout = callCtrlLayouts.normalCtrl,
   params,
   children,
 }) {
@@ -367,16 +422,16 @@ function mapToProps(_, {
     currentSession.direction === callDirections.outbound ? toMatches : fromMatches;
 
   const isWebRTC = callingSettings.callingMode === callingModes.webphone;
-  const isInoundCall = currentSession.direction === callDirections.inbound;
-  let mergeDisabled = !isWebRTC || isInoundCall || !currentSession.partyData;
-  let addDisabled = !isWebRTC || isInoundCall || !currentSession.partyData;
+  const isInboundCall = currentSession.direction === callDirections.inbound;
+  let mergeDisabled = !isWebRTC || isInboundCall || !currentSession.partyData;
+  let addDisabled = !isWebRTC || isInboundCall || !currentSession.partyData;
 
   let isOnConference = false;
   let hasConferenceCall = false;
   let isMerging = false;
   let conferenceCallParties;
   let conferenceCallId = null;
-  let lastCallInfo = callMonitor.lastCallInfo;
+  const lastCallInfo = callMonitor.lastCallInfo;
   if (conferenceCall) {
     isOnConference = conferenceCall.isConferenceSession(currentSession.id);
     const conferenceData = Object.values(conferenceCall.conferences)[0];
@@ -400,32 +455,19 @@ function mapToProps(_, {
     hasConferenceCall = !!conferenceData;
     conferenceCallParties = conferenceCall.partyProfiles;
 
-    layout = isOnConference ? callCtrlLayouts.conferenceCtrl : layout;
-
-    lastCallInfo = isOnConference ? null : lastCallInfo;
-
     const { fromSessionId } = conferenceCall.mergingPair;
     if (
-      !isInoundCall &&
-      (
-        fromSessionId &&
-        fromSessionId !== currentSession.id &&
-        lastCallInfo &&
-        lastCallInfo.status !== sessionStatus.finished
-      )
+      (!isInboundCall &&
+        (
+          fromSessionId &&
+          fromSessionId !== currentSession.id &&
+          lastCallInfo &&
+          lastCallInfo.status &&
+          lastCallInfo.status !== sessionStatus.finished
+        ))
     ) {
-      // enter merge ctrl page.
-      layout = callCtrlLayouts.mergeCtrl;
-
       // for mergeCtrl page, we don't show any children (container) component.
       children = null;
-    }
-
-    if (
-      layout === callCtrlLayouts.mergeCtrl
-      && (!lastCallInfo || lastCallInfo.status === sessionStatus.finished)
-    ) {
-      mergeDisabled = true;
     }
   }
 
@@ -439,7 +481,6 @@ function mapToProps(_, {
     flipNumbers: forwardingNumber.flipNumbers,
     showBackButton: true, // callMonitor.calls.length > 0,
     searchContactList: contactSearch.sortedResult,
-    layout,
     showSpinner: isMerging,
     addDisabled,
     mergeDisabled,
@@ -449,6 +490,7 @@ function mapToProps(_, {
     conferenceCallId,
     lastCallInfo,
     children,
+    isOnConference,
   };
 }
 
@@ -466,8 +508,33 @@ function mapToFunctions(_, {
   phoneTypeRenderer,
   recipientsContactInfoRenderer,
   recipientsContactPhoneRenderer,
+  session,
 }) {
   return {
+    getInitialLayout({ isOnConference, lastCallInfo, session }) {
+      let layout = callCtrlLayouts.normalCtrl;
+
+      layout = isOnConference ? callCtrlLayouts.conferenceCtrl : layout;
+
+      lastCallInfo = isOnConference ? null : lastCallInfo;
+      const isInboundCall = session.direction === callDirections.inbound;
+
+      const { fromSessionId } = conferenceCall.mergingPair;
+
+      if (!isOnConference &&
+         !isInboundCall &&
+        (
+          fromSessionId &&
+          fromSessionId !== session.id &&
+          lastCallInfo
+        )
+      ) {
+        // enter merge ctrl page.
+        layout = callCtrlLayouts.mergeCtrl;
+      }
+
+      return layout;
+    },
     formatPhone: phoneNumber => formatNumber({
       phoneNumber,
       areaCode: regionSettings.areaCode,
@@ -475,8 +542,18 @@ function mapToFunctions(_, {
     }),
     onHangup(sessionId) {
       if (conferenceCall) {
-        // close the MergingPair if any.
-        conferenceCall.closeMergingPair();
+        let currentSession;
+
+        if (sessionId) {
+          currentSession = webphone.sessions.find(session => session.id === sessionId) || {};
+        } else {
+          currentSession = webphone.activeSession || {};
+        }
+
+        if (currentSession && currentSession.direction !== callDirections.inbound) {
+          // close the MergingPair if any.
+          conferenceCall.closeMergingPair();
+        }
       }
       webphone.hangup(sessionId);
     },
@@ -551,6 +628,9 @@ function mapToFunctions(_, {
         conferenceCall.loadConference(confId);
       }
     },
+    closeMergingPair() {
+      return conferenceCall.closeMergingPair();
+    }
   };
 }
 

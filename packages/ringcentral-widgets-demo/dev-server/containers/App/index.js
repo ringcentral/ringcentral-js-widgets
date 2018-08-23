@@ -273,15 +273,15 @@ export default function App({
               <Route
                 path="/conferenceCall/mergeCtrl"
                 component={() => (
-                  <ConferenceCallMergeCtrlPage
+                  <CallCtrlPage
                     showContactDisplayPlaceholder={false}
                     sourceIcons={sourceIcons}
                     getAvatarUrl={getAvatarUrl}
+                    onAdd={() => {
+                      phone.routerInteraction.push('/dialer');
+                    }}
                     onBackButtonClick={() => {
                       phone.routerInteraction.push('/calls');
-                    }}
-                    onLastCallEnded={() => {
-                      phone.routerInteraction.push('/calls/active');
                     }}
                   />
                 )} />

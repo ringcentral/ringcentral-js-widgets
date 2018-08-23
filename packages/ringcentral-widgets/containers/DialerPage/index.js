@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
+import callDirections from 'ringcentral-integration/enums/callDirections';
 
 import DialerPanel from '../../components/DialerPanel';
 import styles from './styles.scss';
@@ -65,6 +66,7 @@ function mapToFunctions(_, {
     contactSearch,
     dialerUI,
     conferenceCall,
+    webphone,
   },
   phoneTypeRenderer,
   recipientsContactInfoRenderer,
@@ -80,7 +82,10 @@ function mapToFunctions(_, {
        * Clear the mergingPair if it is from mergeCallCtrl (RCINT-7716)
        */
       if (conferenceCall) {
-        conferenceCall.closeMergingPair();
+        const { activeSession } = webphone;
+        if (activeSession && activeSession.direction !== callDirections.inbound) {
+          conferenceCall.closeMergingPair();
+        }
       }
       dialerUI.onCallButtonClick();
     },

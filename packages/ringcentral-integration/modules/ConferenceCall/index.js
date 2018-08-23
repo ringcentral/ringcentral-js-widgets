@@ -470,9 +470,7 @@ export default class ConferenceCall extends RcModule {
    */
   @proxify
   closeMergingPair() {
-    const { activeSession } = this._webphone;
-    if (this.mergingPair.fromSessionId && activeSession && activeSession.direction !== 'Inbound') {
-      // when Incoming call hang-up, users can still see the previous calls in simplified ctrl view
+    if (this.mergingPair.fromSessionId) {
       return this.store.dispatch({
         type: this.actionTypes.closeMergingPair,
       });

@@ -88,6 +88,13 @@ function mapToFunctions(_, {
       return (webphone && webphone.reject(...args));
     },
     async webphoneHangup(...args) {
+      const sessionId = args && args[0];
+      const mergingPair = conferenceCall && conferenceCall.mergingPair;
+      if (sessionId === mergingPair.fromSessionId) {
+        // close merging pair to close the merge call.
+        conferenceCall.closeMergingPair();
+      }
+
       return (webphone && webphone.hangup(...args));
     },
     async webphoneResume(...args) {
