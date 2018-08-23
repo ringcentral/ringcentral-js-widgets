@@ -13,10 +13,6 @@ var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-pr
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
-var _getIterator2 = require('babel-runtime/core-js/get-iterator');
-
-var _getIterator3 = _interopRequireDefault(_getIterator2);
-
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -48,6 +44,10 @@ var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorRet
 var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _getIterator2 = require('babel-runtime/core-js/get-iterator');
+
+var _getIterator3 = _interopRequireDefault(_getIterator2);
 
 var _extends2 = require('babel-runtime/helpers/extends');
 
@@ -196,6 +196,48 @@ function getUniqueMemberIds(groups) {
     });
   });
   return memberIds;
+}
+
+function searchPosts(searchFilter, posts) {
+  var result = false;
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = (0, _getIterator3.default)(posts), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var post = _step.value;
+
+      if (post.text && post.text.toLowerCase().indexOf(searchFilter) > -1) {
+        result = true;
+        break;
+      }
+      if (post.mentions && post.mentions.length > 0) {
+        var mentionNames = post.mentions.map(function (m) {
+          return m.name;
+        }).join(' ').toLowerCase();
+        if (mentionNames.indexOf(searchFilter) > -1) {
+          result = true;
+          break;
+        }
+      }
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  return result;
 }
 
 /**
@@ -600,26 +642,26 @@ var GlipGroups = (_dec = (0, _di.Module)({
     key: '_preloadGroupPosts',
     value: function () {
       var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(force) {
-        var groups, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, group;
+        var groups, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, group;
 
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 groups = this.groups.slice(0, 20);
-                _iteratorNormalCompletion = true;
-                _didIteratorError = false;
-                _iteratorError = undefined;
+                _iteratorNormalCompletion2 = true;
+                _didIteratorError2 = false;
+                _iteratorError2 = undefined;
                 _context4.prev = 4;
-                _iterator = (0, _getIterator3.default)(groups);
+                _iterator2 = (0, _getIterator3.default)(groups);
 
               case 6:
-                if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
+                if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
                   _context4.next = 23;
                   break;
                 }
 
-                group = _step.value;
+                group = _step2.value;
 
                 if (this._glipPosts) {
                   _context4.next = 10;
@@ -662,7 +704,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
                 }
 
               case 20:
-                _iteratorNormalCompletion = true;
+                _iteratorNormalCompletion2 = true;
                 _context4.next = 6;
                 break;
 
@@ -673,26 +715,26 @@ var GlipGroups = (_dec = (0, _di.Module)({
               case 25:
                 _context4.prev = 25;
                 _context4.t0 = _context4['catch'](4);
-                _didIteratorError = true;
-                _iteratorError = _context4.t0;
+                _didIteratorError2 = true;
+                _iteratorError2 = _context4.t0;
 
               case 29:
                 _context4.prev = 29;
                 _context4.prev = 30;
 
-                if (!_iteratorNormalCompletion && _iterator.return) {
-                  _iterator.return();
+                if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                  _iterator2.return();
                 }
 
               case 32:
                 _context4.prev = 32;
 
-                if (!_didIteratorError) {
+                if (!_didIteratorError2) {
                   _context4.next = 35;
                   break;
                 }
 
-                throw _iteratorError;
+                throw _iteratorError2;
 
               case 35:
                 return _context4.finish(32);
@@ -1038,12 +1080,15 @@ var GlipGroups = (_dec = (0, _di.Module)({
     return (0, _reselect.createSelector)(function () {
       return _this3.data;
     }, function () {
-      return _this3._glipPersons && _this3._glipPersons.personsMap || {};
+      return _this3._glipPersons && _this3._glipPersons.personsMap;
     }, function () {
-      return _this3._glipPosts && _this3._glipPosts.postsMap || {};
+      return _this3._glipPosts && _this3._glipPosts.postsMap;
     }, function () {
       return _this3._auth.ownerId;
-    }, function (data, personsMap, postsMap, ownerId) {
+    }, function (data) {
+      var personsMap = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var postsMap = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      var ownerId = arguments[3];
       return (data || []).map(function (group) {
         return formatGroup(group, personsMap, postsMap, ownerId);
       });
@@ -1058,7 +1103,11 @@ var GlipGroups = (_dec = (0, _di.Module)({
       return _this4.allGroups;
     }, function () {
       return _this4.searchFilter;
+    }, function () {
+      return _this4._glipPosts && _this4._glipPosts.postsMap;
     }, function (allGroups, searchFilter) {
+      var postsMap = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
       if ((0, _isBlank2.default)(searchFilter)) {
         return allGroups;
       }
@@ -1071,12 +1120,13 @@ var GlipGroups = (_dec = (0, _di.Module)({
         if (!name) {
           var groupUsernames = group.detailMembers.map(function (m) {
             return m.firstName + ' ' + m.lastName;
-          }).join(',').toLowerCase();
+          }).join(' ').toLowerCase();
           if (groupUsernames && groupUsernames.indexOf(filterString) > -1) {
             return true;
           }
         }
-        return false;
+        var result = searchPosts(filterString, postsMap[group.id] || []);
+        return result;
       });
     });
   }
