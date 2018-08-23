@@ -3,16 +3,20 @@ import ActiveCallDialPad from 'ringcentral-widgets/components/ActiveCallDialPad'
 import ActiveCallButton from 'ringcentral-widgets/components/ActiveCallButton';
 import IncomingCallPad from 'ringcentral-widgets/components/IncomingCallPad';
 import RecipientsInput from 'ringcentral-widgets/components/RecipientsInput';
+import { CallCtrlPage } from 'ringcentral-widgets/containers/CallCtrlPage';
+import RadioBtnGroup from 'ringcentral-widgets/components/RadioBtnGroup';
 import TransferPanel from 'ringcentral-widgets/components/TransferPanel';
 import CircleButton from 'ringcentral-widgets/components/CircleButton';
 import { HeaderButton } from 'ringcentral-widgets/components/Header';
 import DialButton from 'ringcentral-widgets/components/DialButton';
 import BackHeader from 'ringcentral-widgets/components/BackHeader';
+import FlipPanel from 'ringcentral-widgets/components/FlipPanel';
 import Tooltip from 'ringcentral-widgets/components/Tooltip';
 import DialPad from 'ringcentral-widgets/components/DialPad';
 import TransferIcon from 'ringcentral-widgets/assets/images/Transfer.svg';
 import * as mock from 'ringcentral-integration/integration-test/mock';
 import deviceBody from './data/device';
+import forwardingNumberBody from './data/forwardingNumberNoCallFlip';
 import { getWrapper, timeout } from '../shared';
 import { makeCall, getInboundCall } from '../../support/callHelper';
 import {
@@ -21,6 +25,7 @@ import {
   holdFn,
   unholdFn,
   transferFn,
+  flipFn,
 } from '../../support/session';
 
 const ALTERNATIVE_TIMEOUT = 1000; // refer to DialButton
@@ -49,6 +54,7 @@ afterEach(() => {
   holdFn.mockClear();
   unholdFn.mockClear();
   transferFn.mockClear();
+  flipFn.mockClear();
 });
 
 
@@ -309,48 +315,6 @@ describe('Current Call Control Page - Record', () => {
   );
 });
 
-describe('Current Call Control Page - Flip', () => {
-  let holdButton = null;
-  let flipButton = null;
-  function getFlipButton() {
-    const moreButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(5);
-    moreButton.find(CircleButton).simulate('click');
-    const flipButton = wrapper.find(ActiveCallPad).find(Tooltip).find(MoreActionItem).at(1);
-    return flipButton;
-  }
-
-  test('RCI-1712647 Answer an inbound call then user hold the call, Flip should be disabled',
-    async () => {
-      await makeInbountCall(sid111, true);
-      // Click Hold Button
-      holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
-      holdButton.find(CircleButton).simulate('click');
-      flipButton = getFlipButton();
-      expect(flipButton.props().disabled).toBe(true);
-      // Unhold button
-      holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
-      holdButton.find(CircleButton).simulate('click');
-      flipButton = getFlipButton();
-      expect(flipButton.props().disabled).toBe(false);
-    }
-  );
-  test('RCI-1712647 Make an outbound call then user hold the call, Flip should be disabled',
-    async () => {
-      await makeOutboundCall();
-      // Click Hold Button
-      holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
-      holdButton.find(CircleButton).simulate('click');
-      flipButton = getFlipButton();
-      expect(flipButton.props().disabled).toBe(true);
-      // Unhold button
-      holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
-      holdButton.find(CircleButton).simulate('click');
-      flipButton = getFlipButton();
-      expect(flipButton.props().disabled).toBe(false);
-    }
-  );
-});
-
 describe('Current Call Control Page - Transfer', () => {
   let transferButton = null;
   function getTransferButton() {
@@ -452,4 +416,114 @@ describe('Current Call Control Page - Transfer', () => {
       expect(phone.routerInteraction.currentPath).toEqual('/dialer');
     }
   );
+});
+
+describe('Current Call Control Page - Flip', () => {
+  let holdButton = null;
+  let flipButton = null;
+  function getFlipButton() {
+    const moreButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(5);
+    moreButton.find(CircleButton).simulate('click');
+    const flipButton = wrapper.find(ActiveCallPad).find(Tooltip).find(MoreActionItem).at(1);
+    return flipButton;
+  }
+
+  test('RCI-1712647 Answer an inbound call then user hold the call, Flip should be disabled',
+    async () => {
+      await makeInbountCall(sid111, true);
+      // Click Hold Button
+      holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+      holdButton.find(CircleButton).simulate('click');
+      flipButton = getFlipButton();
+      expect(flipButton.props().disabled).toBe(true);
+      // Unhold button
+      holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+      holdButton.find(CircleButton).simulate('click');
+      flipButton = getFlipButton();
+      expect(flipButton.props().disabled).toBe(false);
+    }
+  );
+  test('RCI-1712647 Make an outbound call then user hold the call, Flip should be disabled',
+    async () => {
+      await makeOutboundCall();
+      // Click Hold Button
+      holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+      holdButton.find(CircleButton).simulate('click');
+      flipButton = getFlipButton();
+      expect(flipButton.props().disabled).toBe(true);
+      // Unhold button
+      holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
+      holdButton.find(CircleButton).simulate('click');
+      flipButton = getFlipButton();
+      expect(flipButton.props().disabled).toBe(false);
+    }
+  );
+  test('RCI-1712678 if user does not have filp numbers, Flip should be disabled', async () => {
+    mock.forwardingNumber(forwardingNumberBody);
+    await phone.forwardingNumber.fetchData();
+    await makeOutboundCall();
+    flipButton = getFlipButton();
+    expect(flipButton.props().disabled).toBe(true);
+  });
+
+  test('RCI-1712678 Answer an inbound call and keep in active call page, click Flip Button',
+    async () => {
+      await makeInbountCall(sid111, true);
+      flipButton = getFlipButton();
+      flipButton.find('.buttonItem').simulate('click');
+      expect(wrapper.find(FlipPanel)).toHaveLength(1);
+    }
+  );
+  test('RCI-1712678 Make an outbound call and keep in active call page, click Flip Button',
+    async () => {
+      await makeOutboundCall();
+      flipButton = getFlipButton();
+      flipButton.find('.buttonItem').simulate('click');
+      expect(wrapper.find(FlipPanel)).toHaveLength(1);
+    }
+  );
+  test('RCI-1712678 Check Flip Panel Page', async () => {
+    const filpNumbers = phone.forwardingNumber.flipNumbers;
+    await makeOutboundCall();
+    flipButton = getFlipButton();
+    flipButton.find('.buttonItem').simulate('click');
+    expect(wrapper.find(FlipPanel)).toHaveLength(1);
+    const panel = wrapper.find(FlipPanel);
+    expect(panel).toHaveLength(1);
+    expect(panel.find(BackHeader)).toHaveLength(1);
+    expect(panel.find(BackHeader).find(HeaderButton)).toHaveLength(1);
+    expect(panel.find(BackHeader).text()).toEqual('Flip Call to...');
+    const radioOptions = panel.find(RadioBtnGroup).find('.radioOption');
+    expect(radioOptions).toHaveLength(filpNumbers.length);
+    filpNumbers.forEach((item, index) => {
+      const phoneNumber = wrapper.find(CallCtrlPage).props().formatPhone(item.phoneNumber);
+      expect(radioOptions.at(index).find('.optionNumber').text()).toEqual(phoneNumber);
+      expect(radioOptions.at(index).find('.optionLabel').text()).toEqual(item.label);
+    });
+    expect(panel.find(CircleButton).find('.btnSvg.flipButton')).toHaveLength(1);
+    expect(panel.find(CircleButton).find('.btnSvg.completeButton')).toHaveLength(1);
+  });
+  test('RCI-1712678 Click Flip button in Flip Panel Page', async () => {
+    let flipIconButton = null;
+    let endIconButton = null;
+    const filpNumbers = phone.forwardingNumber.flipNumbers;
+    await makeOutboundCall();
+    flipButton = getFlipButton();
+    flipButton.find('.buttonItem').simulate('click');
+    expect(wrapper.find(FlipPanel)).toHaveLength(1);
+    flipIconButton = wrapper.find(FlipPanel).find(CircleButton).at(0);
+    endIconButton = wrapper.find(FlipPanel).find(CircleButton).at(1);
+    expect(flipIconButton.props().disabled).toBe(false);
+    expect(endIconButton.props().disabled).toBe(true);
+    flipIconButton.find('svg').simulate('click');
+    await timeout(200);
+    wrapper.update();
+    flipIconButton = wrapper.find(FlipPanel).find(CircleButton).at(0);
+    endIconButton = wrapper.find(FlipPanel).find(CircleButton).at(1);
+    expect(flipFn.mock.calls[0]).toContain(filpNumbers[0].phoneNumber);
+    expect(endIconButton.props().disabled).toBe(false);
+    expect(flipIconButton.props().disabled).toBe(true);
+    endIconButton.find('svg').simulate('click');
+    expect(phone.routerInteraction.currentPath).toEqual('/dialer');
+  });
 });

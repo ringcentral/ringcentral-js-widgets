@@ -33,4 +33,6 @@
   
   // Enable ESLint (with Prettier plugin) to format code on save
   "eslint.autoFixOnSave": true,
+  "favorites.sortDirection": "ASC",
+  "favorites.groupsFirst": true,
 }
