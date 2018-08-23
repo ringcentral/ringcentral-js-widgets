@@ -5,9 +5,9 @@ import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
+import { withPhone } from '../../lib/phoneContext';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import CallCtrlPage from './CallCtrlPage';
-import { withPhone } from '../../lib/phoneContext';
 
 function mapToProps(_, {
   phone: {
