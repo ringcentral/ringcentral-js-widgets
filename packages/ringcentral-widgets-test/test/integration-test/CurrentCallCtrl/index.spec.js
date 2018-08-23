@@ -2,10 +2,15 @@ import ActiveCallPad, { MoreActionItem } from 'ringcentral-widgets/components/Ac
 import ActiveCallDialPad from 'ringcentral-widgets/components/ActiveCallDialPad';
 import ActiveCallButton from 'ringcentral-widgets/components/ActiveCallButton';
 import IncomingCallPad from 'ringcentral-widgets/components/IncomingCallPad';
+import RecipientsInput from 'ringcentral-widgets/components/RecipientsInput';
+import TransferPanel from 'ringcentral-widgets/components/TransferPanel';
 import CircleButton from 'ringcentral-widgets/components/CircleButton';
 import { HeaderButton } from 'ringcentral-widgets/components/Header';
 import DialButton from 'ringcentral-widgets/components/DialButton';
+import BackHeader from 'ringcentral-widgets/components/BackHeader';
 import Tooltip from 'ringcentral-widgets/components/Tooltip';
+import DialPad from 'ringcentral-widgets/components/DialPad';
+import TransferIcon from 'ringcentral-widgets/assets/images/Transfer.svg';
 import * as mock from 'ringcentral-integration/integration-test/mock';
 import deviceBody from './data/device';
 import { getWrapper, timeout } from '../shared';
@@ -15,12 +20,14 @@ import {
   unmuteFn,
   holdFn,
   unholdFn,
+  transferFn,
 } from '../../support/session';
 
 const ALTERNATIVE_TIMEOUT = 1000; // refer to DialButton
 
 const sid111 = '111';
 let wrapper = null;
+let store = null;
 let phone = null;
 
 beforeEach(async () => {
@@ -28,8 +35,9 @@ beforeEach(async () => {
   wrapper = await getWrapper();
   phone = wrapper.props().phone;
   phone.webphone._createWebphone();
-  phone.webphone._removeWebphone = () => { };
-  phone.webphone._connect = () => { };
+  phone.webphone._removeWebphone = () => {};
+  phone.webphone._connect = () => {};
+  store = wrapper.props().phone.store;
   Object.defineProperties(wrapper.props().phone.audioSettings, {
     userMedia: { value: true },
   });
@@ -40,7 +48,14 @@ afterEach(() => {
   unmuteFn.mockClear();
   holdFn.mockClear();
   unholdFn.mockClear();
+  transferFn.mockClear();
 });
+
+
+async function enterToNumber(domInput, number) {
+  domInput.instance().value = number;
+  await domInput.simulate('change');
+}
 
 async function makeOutboundCall() {
   mock.device(deviceBody);
@@ -332,6 +347,109 @@ describe('Current Call Control Page - Flip', () => {
       holdButton.find(CircleButton).simulate('click');
       flipButton = getFlipButton();
       expect(flipButton.props().disabled).toBe(false);
+    }
+  );
+});
+
+describe('Current Call Control Page - Transfer', () => {
+  let transferButton = null;
+  function getTransferButton() {
+    const moreButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(5);
+    moreButton.find(CircleButton).simulate('click');
+    const transferButton = wrapper.find(ActiveCallPad).find(Tooltip).find(MoreActionItem).at(0);
+    return transferButton;
+  }
+
+  test('RCI-1712674 Answer an inbound call and keep in active call page, click Transfer Button',
+    async () => {
+      await makeInbountCall(sid111, true);
+      transferButton = getTransferButton();
+      transferButton.find('.buttonItem').simulate('click');
+      expect(wrapper.find(TransferPanel)).toHaveLength(1);
+    }
+  );
+  test('RCI-1712674 Make an outbound call and keep in active call page, click Transfer Button',
+    async () => {
+      await makeOutboundCall();
+      transferButton = getTransferButton();
+      transferButton = getTransferButton();
+      transferButton.find('.buttonItem').simulate('click');
+      expect(wrapper.find(TransferPanel)).toHaveLength(1);
+    }
+  );
+  test('RCI-1712674 Check Transfer Panel Page', async () => {
+    await makeInbountCall(sid111, true);
+    transferButton = getTransferButton();
+    transferButton.find('.buttonItem').simulate('click');
+    const panel = wrapper.find(TransferPanel);
+    expect(panel).toHaveLength(1);
+    expect(panel.find(BackHeader)).toHaveLength(1);
+    expect(panel.find(BackHeader).find(HeaderButton)).toHaveLength(1);
+    expect(panel.find(BackHeader).text()).toEqual('Transfer to');
+    expect(panel.find(RecipientsInput)).toHaveLength(1);
+    expect(panel.find(RecipientsInput).find('label').text()).toEqual('To:');
+    expect(panel.find(RecipientsInput).find('input').props().placeholder).toEqual('Enter Name or Number');
+    expect(panel.find(DialPad)).toHaveLength(1);
+    expect(panel.find(CircleButton).find(TransferIcon)).toHaveLength(1);
+  });
+  test('RCI-1712674 Transfer Panel: click Transfer and Back Button',
+    async () => {
+      await makeOutboundCall();
+      transferButton = getTransferButton();
+      transferButton = getTransferButton();
+      transferButton.find('.buttonItem').simulate('click');
+      const backButton = wrapper.find(TransferPanel).find(BackHeader).find(HeaderButton).first();
+      backButton.simulate('click');
+      expect(wrapper.find(TransferPanel)).toHaveLength(0);
+    }
+  );
+  test('Transfer Panel: failed to transfer call',
+    async () => {
+      let messages = null;
+      await makeOutboundCall();
+      transferButton = getTransferButton();
+      transferButton.find('.buttonItem').simulate('click');
+      const transferBtn = wrapper.find(TransferPanel).find(CircleButton).last();
+      transferBtn.find('svg').simulate('click');
+      await timeout(200);
+      messages = store.getState(wrapper).alert.messages;
+      expect(messages).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            level: 'warning',
+            message: 'callErrors-noToNumber'
+          })
+        ])
+      );
+      const domInput = wrapper.find(TransferPanel).find(RecipientsInput).find('input');
+      enterToNumber(domInput, 'abcde');
+      transferBtn.find('svg').simulate('click');
+      messages = store.getState(wrapper).alert.messages;
+      expect(messages).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            level: 'warning',
+            message: 'callErrors-noToNumber'
+          })
+        ])
+      );
+    }
+  );
+  test('RCI-1712674 Transfer Panel: success to transfer call, navigates to the page user last viewed',
+    async () => {
+      mock.numberParser();
+      await makeOutboundCall();
+      transferButton = getTransferButton();
+      transferButton.find('.buttonItem').simulate('click');
+      const domInput = wrapper.find(TransferPanel).find(RecipientsInput).find('input');
+      enterToNumber(domInput, '987654321');
+      const transferBtn = wrapper.find(TransferPanel).find(CircleButton).last();
+      transferBtn.find('svg').simulate('click');
+      await timeout(100);
+      const validatedResult = await phone.numberValidate.validateNumbers(['987654321']);
+      const validPhoneNumber = validatedResult.numbers[0] && validatedResult.numbers[0].e164;
+      expect(transferFn.mock.calls[0]).toContain(validPhoneNumber);
+      expect(phone.routerInteraction.currentPath).toEqual('/dialer');
     }
   );
 });

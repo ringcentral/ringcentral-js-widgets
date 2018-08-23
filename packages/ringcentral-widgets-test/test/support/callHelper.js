@@ -80,8 +80,8 @@ export async function mockDetailedPresencePubnub(activeCallsBody) {
   pubnub.mockMessage(encrypted);
   await timeout(2000);
 }
-/* --- mock data --- */
 
+/* --- mock data --- */
 export function mockGeneratePresenceApi({ activeCalls, totalActiveCalls }) {
   mock.presence('~', {
     activeCalls,
