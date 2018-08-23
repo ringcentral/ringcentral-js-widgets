@@ -234,6 +234,12 @@ function mapToFunctions(_, {
         conferenceCall.loadConference(confId);
       }
     },
+    closeMergingPair() {
+      return conferenceCall && conferenceCall.closeMergingPair();
+    },
+    setMergeParty(...args) {
+      return conferenceCall && conferenceCall.setMergeParty(...args);
+    },
   };
 }
 
