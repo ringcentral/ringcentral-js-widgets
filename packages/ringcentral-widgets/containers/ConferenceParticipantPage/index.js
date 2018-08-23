@@ -82,7 +82,7 @@ function mapToFunctions(_, {
 
       if (confId) {
         const sessionId = conferenceCall.conferences[confId].sessionId;
-        routerInteraction.push(`/calls/active/${sessionId}}`);
+        routerInteraction.push(`/calls/active/${sessionId}`);
       }
     },
     async removeFunc(id) {
