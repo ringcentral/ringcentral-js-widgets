@@ -1,6 +1,5 @@
 import path from 'path';
 import { reduce, forEach, find, uniq } from 'ramda';
-import yargs from 'yargs';
 import readPackages from '../readPackages';
 import compileModuleDependency from '../compileModuleDependency';
 
