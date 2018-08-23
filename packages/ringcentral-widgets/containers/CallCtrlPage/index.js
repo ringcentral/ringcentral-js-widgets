@@ -234,9 +234,6 @@ function mapToFunctions(_, {
         conferenceCall.loadConference(confId);
       }
     },
-    closeMergingPair() {
-      return conferenceCall.closeMergingPair();
-    }
   };
 }
 
