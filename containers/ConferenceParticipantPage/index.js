@@ -153,7 +153,7 @@ function mapToFunctions(_, _ref2) {
 
       if (confId) {
         var sessionId = conferenceCall.conferences[confId].sessionId;
-        routerInteraction.push('/calls/active/' + sessionId + '}');
+        routerInteraction.push('/calls/active/' + sessionId);
       }
     },
     removeFunc: function () {
