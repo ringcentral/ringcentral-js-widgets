@@ -297,7 +297,6 @@ export default class CallItem extends Component {
     }
   }
   externalViewEntity = () => this.props.externalViewEntity(this.props.call);
-
   render() {
     if (this.state.loading) {
       return (

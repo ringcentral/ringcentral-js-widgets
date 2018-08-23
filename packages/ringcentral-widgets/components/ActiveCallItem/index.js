@@ -392,7 +392,6 @@ export default class ActiveCallItem extends Component {
   logCall = this.logCall.bind(this)
 
   externalViewEntity = () => this.props.externalViewEntity(this.props.call);
-  
   render() {
     const {
       call: {
@@ -457,6 +456,7 @@ export default class ActiveCallItem extends Component {
     const extraButton = typeof renderExtraButton === 'function' ?
       renderExtraButton(this.props.call) :
       undefined;
+
     return (
       <div className={styles.root} onClick={this.toggleExtended}>
         <div className={styles.wrapper}>
