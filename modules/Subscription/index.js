@@ -324,6 +324,8 @@ var Subscription = (_dec = (0, _di.Module)({
     value: function _register() {
       var _this5 = this;
 
+      var delay = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 2000;
+
       if (this._registerTimeoutId) {
         clearTimeout(this._registerTimeoutId);
       }
@@ -336,22 +338,23 @@ var Subscription = (_dec = (0, _di.Module)({
           _this5._subscription.setEventFilters(_this5.filters);
           _this5._subscription.register();
         }
-      }, 2000);
+      }, delay);
     }
   }, {
     key: '_subscribe',
-    value: function _subscribe() {
+    value: function _subscribe(delay) {
       if (!this._subscription) {
         this._createSubscription();
       }
       this._subscription.setEventFilters(this.filters);
-      this._register();
+      this._register(delay);
     }
   }, {
     key: 'subscribe',
     value: function () {
       var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
         var events = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+        var delay = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2000;
         var oldFilters;
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
@@ -375,7 +378,7 @@ var Subscription = (_dec = (0, _di.Module)({
                 }
 
                 _context4.next = 6;
-                return this._subscribe();
+                return this._subscribe(delay);
 
               case 6:
               case 'end':
