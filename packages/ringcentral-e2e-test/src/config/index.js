@@ -21,7 +21,7 @@ const DEFAULT_BRANDS = ['rc'];
 const DEFAULT_EXEC_BRANDS = ['rc'];
 const DEFAULT_EXEC_LEVELS = ['p0', 'p1'];
 
-export const defaultDriver = 'puppeteer';
+export const defaultDriver = 'seleniumWebdriverChrome';
 
 export const defaultCaseConfig = {
   brands: DEFAULT_BRANDS,

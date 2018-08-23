@@ -20,26 +20,28 @@
   },
   "e2e": {
     "runner": "./src/bin/runner.js",
-    "caseServices": [
-      {
-        "name": "Einstein",
-        "url": "http://www.einstein.com"
-      }
-    ],
+    "caseServices": [{
+      "name": "Einstein",
+      "url": "http://www.einstein.com",
+      "handler": "./einstein.js"
+    }],
     "tester": "jest",
-    "defaultExec": {
+    "default": {
       "driver": "puppeteer",
       "level": [
         "p0",
         "p1"
       ],
-      "brand": [
-        "rc"
-      ]
+      "tags": {
+        "brand": [
+          "rc"
+        ]
+      }
     }
   },
   "dependencies": {
     "puppeteer": "^1.7.0",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "selenium-webdriver": "^4.0.0-alpha.1"
   }
 }

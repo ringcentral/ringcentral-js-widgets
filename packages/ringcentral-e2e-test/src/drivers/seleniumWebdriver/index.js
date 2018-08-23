@@ -1,62 +1,88 @@
-// import webdriverio from 'webdriverio';
+import {
+  Builder,
+  By,
+  until
+} from 'selenium-webdriver';
+import chrome from 'selenium-webdriver/chrome';
+import firefox from 'selenium-webdriver/firefox';
+import safari from 'selenium-webdriver/safari';
+import ie from 'selenium-webdriver/ie';
+import edge from 'selenium-webdriver/edge';
 
-// export default {
-//   Driver: webdriverio,
-// };
+const Browsers = {
+  chrome: 'chrome',
+  edge: 'MicrosoftEdge',
+  firefox: 'firefox',
+  ie: 'internet explorer',
+  safari: 'safari',
+};
 
-// class API {
-//   constructor(options = {}, program = webdriverio) {
-//     this._options = options;
-//     this._program = program;
-//   }
+const seleniumWebdriverSetting = {
+  safari: new safari.Options(),
+  chrome: new chrome.Options().headless(),
+  firefox: new firefox.Options().headless(),
+  ie: new ie.Options(),
+  edge: new edge.Options(),
+};
 
-//   get program() {
-//     return this._program;
-//   }
+export function getSeleniumWebdriver(browser) {
+  const webdriver = browser.toLowerCase();
+  const setKeyName = `set${browser}Options`;
+  const setting = seleniumWebdriverSetting[webdriver];
+  class Driver {
+    constructor(options = {}, program = new Builder()) {
+      this._options = options;
+      this._program = program;
+    }
 
-//   async launch() {
-//     this.browser = await this._program.launch({
-//       ...this._options.global.driverSetting,
-//       ...this._options.driver.setting,
-//     });
-//     this.page = await this.browser.newPage();
-//     await this.page.goto(this._options.driver.config.location);
-//     return this;
-//   }
+    get program() {
+      return this._program;
+    }
 
-//   async close() {
-//     await this.browser.close();
-//   }
-//   constructor(context) {
-//     this._context = context;
-//   }
+    async launch() {
+      this.browser = this._program
+        .forBrowser(Browsers[webdriver])[setKeyName](
+          this._options.driver.setting,
+        )
+        .build();
+      await this.browser.get(this._options.driver.config.location);
+    }
 
-//   async $(selector) {
-//     const element = await this._context.$(selector);
-//     return element;
-//   }
+    async close() {
+      if (this.browser) {
+        // TODO process is still exist?
+        await this.browser.quit();
+      }
+    }
 
-//   async $$(selector) {
-//     const elements = await this._context.$$(selector);
-//     return elements;
-//   }
+    async text(selector) {
+      const element = await this.browser.wait(until.elementLocated(By.css(selector)));
+      const innerText = element.getAttribute('innerText');
+      return innerText;
+    }
 
-//   async click(selector) {
-//     const handle = await this._context.click(selector);
-//     return handle;
-//   }
+    // async $(selector) {
+    //   const element = await this._context.$(selector);
+    //   return element;
+    // }
 
-//   async type(selector, value) {
-//     const handle = await this._context.setValue(selector, value);
-//     return handle;
-//   }
+    // async $$(selector) {
+    //   const elements = await this._context.$$(selector);
+    //   return elements;
+    // }
 
-//   setContext(context) {
-//     this._context = context;
-//     return this;
-//   }
-// }
+    // async click(selector) {
+    //   const handle = await this._context.click(selector);
+    //   return handle;
+    // }
 
-// const api = new API();
-
-// export const $ = context => api.setContext(context);
+    // async type(selector, value) {
+    //   const handle = await this._context.type(selector, value);
+    //   return handle;
+    // }
+  }
+  return {
+    Driver,
+    setting,
+  };
+}
