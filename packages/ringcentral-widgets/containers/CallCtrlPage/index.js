@@ -6,7 +6,7 @@ import callDirections from 'ringcentral-integration/enums/callDirections';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
-import CallCtrlPage from './CallCtrlpage';
+import CallCtrlPage from './CallCtrlPage';
 import { withPhone } from '../../lib/phoneContext';
 
 function mapToProps(_, {
@@ -235,11 +235,8 @@ function mapToFunctions(_, {
       }
     },
     closeMergingPair() {
-      return conferenceCall && conferenceCall.closeMergingPair();
-    },
-    setMergeParty(...args) {
-      return conferenceCall && conferenceCall.setMergeParty(...args);
-    },
+      return conferenceCall.closeMergingPair();
+    }
   };
 }
 
