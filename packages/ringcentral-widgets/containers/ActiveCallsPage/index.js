@@ -88,12 +88,29 @@ function mapToFunctions(_, {
       return (webphone && webphone.reject(...args));
     },
     async webphoneHangup(...args) {
+      const sessionId = args && args[0];
+      const mergingPair = conferenceCall && conferenceCall.mergingPair;
+      if (mergingPair &&
+          (Object.values(mergingPair).indexOf(sessionId) !== -1)
+      ) {
+        // close merging pair to close the merge call.
+        conferenceCall.closeMergingPair();
+      }
+
       return (webphone && webphone.hangup(...args));
     },
     async webphoneResume(...args) {
       if (!webphone) {
         return;
       }
+
+      const sessionId = args && args[0];
+      const mergingPair = conferenceCall && conferenceCall.mergingPair;
+      if (mergingPair && sessionId !== mergingPair.toSessionId) {
+        // close merging pair to close the merge call.
+        conferenceCall.closeMergingPair();
+      }
+
       await webphone.resume(...args);
       if (routerInteraction.currentPath !== callCtrlRoute && !useV2) {
         routerInteraction.push(callCtrlRoute);
