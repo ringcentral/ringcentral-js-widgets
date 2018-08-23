@@ -190,6 +190,7 @@ class ConversationPanel extends Component {
     } else {
       conversationBody = (
         <ConversationMessageList
+          currentLocale={this.props.currentLocale}
           height={this.getMessageListHeight()}
           messages={this.props.messages}
           className={styles.conversationBody}
