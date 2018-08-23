@@ -895,10 +895,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
   }, {
     key: 'closeMergingPair',
     value: function closeMergingPair() {
-      var activeSession = this._webphone.activeSession;
-
-      if (this.mergingPair.fromSessionId && activeSession && activeSession.direction !== 'Inbound') {
-        // when Incoming call hang-up, users can still see the previous calls in simplified ctrl view
+      if (this.mergingPair.fromSessionId) {
         return this.store.dispatch({
           type: this.actionTypes.closeMergingPair
         });
