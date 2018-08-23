@@ -59,7 +59,7 @@ export async function mockMultiActiveCalls(phone) {
     mockOtherDeivce
   );
   mock.activeCalls(activeCallsBody);
-  await phone.subscription.subscribe(['/account/~/extension/~/presence']);
-  await timeout(2500);
+  await phone.subscription.subscribe(['/account/~/extension/~/presence'], 10);
+  await timeout(100);
   await mockDetailedPresencePubnub(activeCallsBody);
 }

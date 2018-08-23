@@ -29,8 +29,8 @@ export async function mockConferenceCallEnv(phone) {
   mockGenerateActiveCallsApi({
     sessions: phone.webphone.sessions
   });
-  await phone.subscription.subscribe(['/account/~/extension/~/presence']);
-  await timeout(2500);
+  await phone.subscription.subscribe(['/account/~/extension/~/presence'], 10);
+  await timeout(100);
   await mockDetailedPresencePubnub(activeCallsBody);
   mock.activeCalls(activeCallsBody);
   /* mock redux datas */

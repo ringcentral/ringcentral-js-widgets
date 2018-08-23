@@ -588,8 +588,8 @@ describe('fax messages', () => {
       mockGenerateMessageApi({
         count: 1, messageType: 'Fax', readStatus: 'read', direction: 'Outbound'
       });
-      await phone.subscription.subscribe(['/account/~/extension/~/message-sync']);
-      await timeout(4500);
+      await phone.subscription.subscribe(['/account/~/extension/~/message-sync'], 10);
+      await timeout(100);
       await mockPubnub();
 
       wrapper.update();
@@ -605,8 +605,8 @@ describe('fax messages', () => {
       mockGenerateMessageApi({
         count: 1, messageType: 'Fax', readStatus: 'read', direction: 'Outbound'
       });
-      await phone.subscription.subscribe(['/account/~/extension/~/message-sync']);
-      await timeout(2500);
+      await phone.subscription.subscribe(['/account/~/extension/~/message-sync'], 10);
+      await timeout(100);
       await mockPubnub();
       wrapper.update();
 
@@ -617,8 +617,8 @@ describe('fax messages', () => {
       mockGenerateMessageApi({
         count: 1, messageType: 'Fax', readStatus: 'Read', direction: 'Inbound'
       });
-      await phone.subscription.subscribe(['/account/~/extension/~/message-sync']);
-      await timeout(2500);
+      await phone.subscription.subscribe(['/account/~/extension/~/message-sync'], 10);
+      await timeout(100);
       await mockPubnub();
 
       wrapper.update();
@@ -629,8 +629,8 @@ describe('fax messages', () => {
       mockGenerateMessageApi({
         count: 1, messageType: 'Fax', readStatus: 'Unread', direction: 'Inbound'
       });
-      await phone.subscription.subscribe(['/account/~/extension/~/message-sync']);
-      await timeout(2500);
+      await phone.subscription.subscribe(['/account/~/extension/~/message-sync'], 10);
+      await timeout(100);
       await mockPubnub();
 
       wrapper.update();
@@ -641,8 +641,8 @@ describe('fax messages', () => {
       mockGenerateMessageApi({
         count: 1, messageType: 'Fax', readStatus: 'read', direction: 'Outbound'
       });
-      await phone.subscription.subscribe(['/account/~/extension/~/message-sync']);
-      await timeout(2500);
+      await phone.subscription.subscribe(['/account/~/extension/~/message-sync'], 10);
+      await timeout(100);
       await mockPubnub();
 
       wrapper.update();
@@ -654,8 +654,8 @@ describe('fax messages', () => {
       mockGenerateMessageApi({
         count: 1, messageType: 'Fax', readStatus: 'read', direction: 'Outbound'
       });
-      await phone.subscription.subscribe(['/account/~/extension/~/message-sync']);
-      await timeout(2500);
+      await phone.subscription.subscribe(['/account/~/extension/~/message-sync'], 10);
+      await timeout(100);
       await mockPubnub();
       wrapper.update();
 
