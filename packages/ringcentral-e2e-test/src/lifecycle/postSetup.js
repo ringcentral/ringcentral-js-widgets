@@ -105,9 +105,13 @@ function testCase(caseParams, fn) {
           }, context)[driver];
           const tail = ` => (${project} in ${group.join(' & ')} on ${driver})`;
           // TODO
-          global.beforeEach(beforeEachStart.bind(null, context));
+          // global.beforeEach(beforeEachStart.bind(null, context));
           global.afterEach(afterEachEnd.bind(null, context));
-          _test(`${name}${tail}`, fn.bind(null, {
+          const func = async function (context, ...args) {
+            await context.launch();
+            await fn(...args);
+          };
+          _test(`${name}${tail}`, func.bind(null, context, {
             context,
             option,
             tag,
