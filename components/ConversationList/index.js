@@ -53,6 +53,10 @@ var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
 
+var _i18n = require('./i18n');
+
+var _i18n2 = _interopRequireDefault(_i18n);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function NoMessages(props) {
@@ -134,7 +138,7 @@ var ConversationList = function (_Component) {
       var loading = loadingNextPage ? _react2.default.createElement(
         'div',
         { className: _styles2.default.loading },
-        'Loading...'
+        _i18n2.default.getString('loading', currentLocale)
       ) : null;
       return _react2.default.createElement(
         'div',

@@ -54,6 +54,10 @@ var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
 
+var _i18n = require('./i18n');
+
+var _i18n2 = _interopRequireDefault(_i18n);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function Message(_ref) {
@@ -199,7 +203,8 @@ var ConversationMessageList = function (_Component) {
           height = _props.height,
           messageSubjectRenderer = _props.messageSubjectRenderer,
           formatPhone = _props.formatPhone,
-          loadingNextPage = _props.loadingNextPage;
+          loadingNextPage = _props.loadingNextPage,
+          currentLocale = _props.currentLocale;
 
 
       var lastDate = 0;
@@ -221,7 +226,7 @@ var ConversationMessageList = function (_Component) {
       var loading = loadingNextPage ? _react2.default.createElement(
         'div',
         { className: _styles2.default.loading },
-        'Loading...'
+        _i18n2.default.getString('loading', currentLocale)
       ) : null;
       return _react2.default.createElement(
         'div',
@@ -242,6 +247,7 @@ var ConversationMessageList = function (_Component) {
 }(_react.Component);
 
 ConversationMessageList.propTypes = {
+  currentLocale: _propTypes2.default.string,
   messages: _propTypes2.default.arrayOf(_propTypes2.default.shape({
     creationTime: _propTypes2.default.number,
     id: _propTypes2.default.number,
@@ -260,6 +266,7 @@ ConversationMessageList.propTypes = {
 };
 
 ConversationMessageList.defaultProps = {
+  currentLocale: 'en-US',
   className: null,
   showSender: false,
   messageSubjectRenderer: undefined,

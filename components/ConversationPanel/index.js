@@ -289,6 +289,7 @@ var ConversationPanel = function (_Component) {
         );
       } else {
         conversationBody = _react2.default.createElement(_ConversationMessageList2.default, {
+          currentLocale: this.props.currentLocale,
           height: this.getMessageListHeight(),
           messages: this.props.messages,
           className: _styles2.default.conversationBody,
