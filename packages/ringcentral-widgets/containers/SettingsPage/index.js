@@ -3,7 +3,7 @@ import loginStatus from 'ringcentral-integration/modules/Auth/loginStatus';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 
 import SettingsPanel from '../../components/SettingsPanel';
-import withPhone from '../../lib/withPhone';
+import { withPhone } from '../../lib/phoneContext';
 
 function mapToProps(_, {
   phone: {

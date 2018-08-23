@@ -35,7 +35,7 @@ import ConferenceParticipantPage from 'ringcentral-widgets/containers/Conference
 
 import ContactSourceFilter from 'ringcentral-widgets/components/ContactSourceFilter';
 import MeetingScheduleButton from 'ringcentral-widgets/components/MeetingScheduleButton';
-import PhoneProvider from 'ringcentral-widgets/lib/PhoneProvider';
+import { PhoneProvider } from 'ringcentral-widgets/lib/phoneContext';
 
 import MainView from '../MainView';
 import AppView from '../AppView';

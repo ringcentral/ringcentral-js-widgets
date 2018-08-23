@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
-import withPhone from '../../lib/withPhone';
+import { withPhone } from '../../lib/phoneContext';
+
 import ActiveCallsPanel from '../../components/ActiveCallsPanel';
 
 function mapToProps(_, {
