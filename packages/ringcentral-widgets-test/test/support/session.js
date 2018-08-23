@@ -26,6 +26,7 @@ export const unmuteFn = jest.fn();
 export const acceptFn = jest.fn();
 export const terminateFn = jest.fn();
 export const rejectFn = jest.fn();
+export const transferFn = jest.fn();
 
 export default class Session {
   constructor({
@@ -153,6 +154,12 @@ export default class Session {
 
   dtmf(value) {
     return value;
+  }
+
+  async transfer(validPhoneNumber) {
+    this.trigger('refer');
+    transferFn(validPhoneNumber);
+    return Promise.resolve(validPhoneNumber);
   }
 }
 
