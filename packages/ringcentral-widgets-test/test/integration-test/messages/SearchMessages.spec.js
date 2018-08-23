@@ -58,8 +58,8 @@ beforeEach(async () => {
     }],
   });
   mock.messageList();
-  await phone.subscription.subscribe(['/account/~/extension/~/message-sync']);
-  await timeout(2500);
+  await phone.subscription.subscribe(['/account/~/extension/~/message-sync'], 10);
+  await timeout(100);
 
   await mockPubnub();
   navigationBar = wrapper.find(NavigationBar).first();

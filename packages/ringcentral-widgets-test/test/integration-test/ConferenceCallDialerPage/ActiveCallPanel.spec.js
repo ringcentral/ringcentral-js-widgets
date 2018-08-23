@@ -48,7 +48,7 @@ async function call({
   wrapper.update();
 }
 
-async function mockSub(ttl = 2500) {
+async function mockSub(ttl = 100) {
   const activeCalls = generateActiveCallsData(phone.webphone.sessions);
   mockGeneratePresenceApi({
     activeCalls
@@ -59,7 +59,7 @@ async function mockSub(ttl = 2500) {
   mockGenerateActiveCallsApi({
     sessions: phone.webphone.sessions
   });
-  await phone.subscription.subscribe(['/account/~/extension/~/presence']);
+  await phone.subscription.subscribe(['/account/~/extension/~/presence'], 10);
   await timeout(ttl);
   await mockPubnub({
     activeCalls
