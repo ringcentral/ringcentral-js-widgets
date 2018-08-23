@@ -106,7 +106,7 @@ jobs:
         skip_cleanup: true
         script: yarn phone-number:start-release
     - stage: glip widgets script release
-      if: branch = master
+      if: branch = master AND type = push
       node_js: "8"
       script: yarn glip-widgets:prepare-release
       deploy:
