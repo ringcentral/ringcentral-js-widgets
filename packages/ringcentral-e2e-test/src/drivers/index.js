@@ -1,6 +1,6 @@
 import enzyme from './enzyme';
 import puppeteer from './puppeteer';
-import getSeleniumWebdriver from './seleniumWebdriver';
+import { getSeleniumWebdriver } from './seleniumWebdriver';
 
 export default {
   enzyme,

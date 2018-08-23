@@ -6,11 +6,11 @@ runner({
     testRegex: './packages/ringcentral-e2e-test/src/features/widgets/meeting/ScheduleMeeting.spec.js',
   },
   options: [],
-  webdrivers: [
-    'enzyme',
+  drivers: [
+    // 'enzyme',
     'puppeteer',
-    'seleniumWebdriverFirefox',
-    'seleniumWebdriverSafari',
+    // 'seleniumWebdriverFirefox',
+    // 'seleniumWebdriverSafari',
     // 'seleniumWebdriverChrome',
     // 'seleniumWebdriverIE',
     // 'seleniumWebdriverEdge',

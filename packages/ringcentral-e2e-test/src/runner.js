@@ -1,7 +1,7 @@
 import config, {
   defaultExecConfig,
   defaultExecLevels,
-  defaultDriver
+  defaultDrivers
 } from './config';
 import createProcess from './utils/createProess';
 
@@ -25,7 +25,7 @@ function getExecTags(rawTags) {
 export default function runner({
   inputTesterConfig,
   tags,
-  driver = defaultDriver,
+  drivers = defaultDrivers,
   levels = defaultExecLevels,
   options = [],
 }) {
@@ -37,7 +37,7 @@ export default function runner({
     globals: {
       execTags,
       execLevels: levels,
-      execDriver: driver,
+      execDrivers: drivers,
       execGlobal: config,
     },
     // TODO using globalSetup ?

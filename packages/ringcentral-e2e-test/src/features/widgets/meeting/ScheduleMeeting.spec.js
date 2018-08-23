@@ -7,7 +7,6 @@ describe('test: =====>', () => {
     level: 'p1',
     options: [
       { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
-      // { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
     ],
   }, async ({
     option, context, tag, level
