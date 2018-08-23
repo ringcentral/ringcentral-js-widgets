@@ -90,7 +90,7 @@ function mapToFunctions(_, {
     async webphoneHangup(...args) {
       const sessionId = args && args[0];
       const mergingPair = conferenceCall && conferenceCall.mergingPair;
-      if (sessionId === mergingPair.fromSessionId) {
+      if (mergingPair && sessionId === mergingPair.fromSessionId) {
         // close merging pair to close the merge call.
         conferenceCall.closeMergingPair();
       }
@@ -101,6 +101,14 @@ function mapToFunctions(_, {
       if (!webphone) {
         return;
       }
+
+      const sessionId = args && args[0];
+      const mergingPair = conferenceCall && conferenceCall.mergingPair;
+      if (mergingPair && sessionId !== mergingPair.toSessionId) {
+        // close merging pair to close the merge call.
+        conferenceCall.closeMergingPair();
+      }
+
       await webphone.resume(...args);
       if (routerInteraction.currentPath !== callCtrlRoute && !useV2) {
         routerInteraction.push(callCtrlRoute);

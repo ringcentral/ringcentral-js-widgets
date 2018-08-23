@@ -88,6 +88,7 @@ class CallCtrlPage extends Component {
     this._mounted = true;
     this._updateAvatarAndMatchIndex(this.props);
     this._updateCurrentConferenceCall(this.props);
+    this._updateMergingPairToSessionId();
 
     if (CallCtrlPage.isLastCallEnded(this.props)) {
       /**
@@ -141,6 +142,8 @@ class CallCtrlPage extends Component {
   }
 
   componentWillReceiveProps(nextProps, nextState) {
+    this._updateMergingPairToSessionId(nextProps, nextState);
+
     if (nextProps.session !== this.props.session) {
       const layout = this.getLayout(this.props, nextProps);
       const mergeDisabled = this.disableMerge(nextProps, layout);
@@ -207,6 +210,15 @@ class CallCtrlPage extends Component {
       && props.loadConference
     ) {
       props.loadConference(props.conferenceCallId);
+    }
+  }
+
+  _updateMergingPairToSessionId(nextProps = this.props, nextState = this.state) {
+    if (
+      nextState.layout === callCtrlLayouts.mergeCtrl &&
+      nextProps.lastCallInfo
+    ) {
+      nextProps.setMergeParty({ toSessionId: nextProps.session.id });
     }
   }
 
@@ -508,7 +520,6 @@ function mapToFunctions(_, {
   phoneTypeRenderer,
   recipientsContactInfoRenderer,
   recipientsContactPhoneRenderer,
-  session,
 }) {
   return {
     getInitialLayout({ isOnConference, lastCallInfo, session }) {
@@ -629,7 +640,10 @@ function mapToFunctions(_, {
       }
     },
     closeMergingPair() {
-      return conferenceCall.closeMergingPair();
+      return conferenceCall && conferenceCall.closeMergingPair();
+    },
+    setMergeParty(...args) {
+      return conferenceCall && conferenceCall.setMergeParty(...args);
     }
   };
 }
