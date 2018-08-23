@@ -1,8 +1,8 @@
 import path from 'path';
 import { reduce, forEach, find, uniq } from 'ramda';
+import yargs from 'yargs';
 import readPackages from '../readPackages';
 import compileModuleDependency from '../compileModuleDependency';
-
 
 function findDependencies({
   packageNames,
@@ -35,7 +35,7 @@ function findDependencies({
   ));
 }
 
-export default async function getAffectedPackages({
+export default async function calculateAffectedPackages({
   files,
   cwd = process.cwd(),
   directOnly = false,
