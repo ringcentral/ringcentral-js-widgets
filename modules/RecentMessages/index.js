@@ -391,19 +391,17 @@ var RecentMessages = (_dec = (0, _di.Module)({
       // Get all messages related to this contact
       var recentMessages = [];
       var matches = void 0;
-
       for (var i = conversations.length - 1; i >= 0; i -= 1) {
         var conversation = conversations[i];
         var messageList = this._messageStore.conversationStore[conversation.id] || [];
         matches = phoneNumbers.find(this._filterPhoneNumber(conversation));
-
         // Check if message is within certain days
         if (!!matches && new Date(conversation.creationTime) > dateFrom) {
-          recentMessages.concat(messageList);
+          recentMessages = recentMessages.concat(messageList);
         }
         if (recentMessages.length >= length) break;
       }
-      return recentMessages.sort(_messageHelper.sortByDate);
+      return recentMessages.sort(_messageHelper.sortByDate).slice(0, length);
     }
   }, {
     key: '_filterPhoneNumber',
