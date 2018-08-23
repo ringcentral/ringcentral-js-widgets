@@ -54,9 +54,7 @@ var _IncomingCallPanel = require('../../components/IncomingCallPanel');
 
 var _IncomingCallPanel2 = _interopRequireDefault(_IncomingCallPanel);
 
-var _withPhone = require('../../lib/withPhone');
-
-var _withPhone2 = _interopRequireDefault(_withPhone);
+var _phoneContext = require('../../lib/phoneContext');
 
 var _i18n = require('./i18n');
 
@@ -402,7 +400,7 @@ function mapToFunctions(_, _ref4) {
   };
 }
 
-var IncomingCallContainer = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(IncomingCallPage));
+var IncomingCallContainer = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(IncomingCallPage));
 
 exports.default = IncomingCallContainer;
 //# sourceMappingURL=index.js.map

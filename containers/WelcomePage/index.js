@@ -15,9 +15,7 @@ var _LoginPanel = require('../../components/LoginPanel');
 
 var _LoginPanel2 = _interopRequireDefault(_LoginPanel);
 
-var _withPhone = require('../../lib/withPhone');
-
-var _withPhone2 = _interopRequireDefault(_withPhone);
+var _phoneContext = require('../../lib/phoneContext');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -54,7 +52,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var WelcomePage = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_LoginPanel2.default));
+var WelcomePage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_LoginPanel2.default));
 
 exports.mapToFunctions = mapToFunctions;
 exports.mapToProps = mapToProps;

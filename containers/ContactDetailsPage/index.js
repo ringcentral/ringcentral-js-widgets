@@ -22,9 +22,7 @@ var _ContactDetailsView = require('../../components/ContactDetailsView');
 
 var _ContactDetailsView2 = _interopRequireDefault(_ContactDetailsView);
 
-var _withPhone = require('../../lib/withPhone');
-
-var _withPhone2 = _interopRequireDefault(_withPhone);
+var _phoneContext = require('../../lib/phoneContext');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -135,7 +133,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var ContactDetailsPage = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ContactDetailsView2.default));
+var ContactDetailsPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ContactDetailsView2.default));
 
 exports.default = ContactDetailsPage;
 //# sourceMappingURL=index.js.map

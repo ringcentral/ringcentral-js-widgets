@@ -19,9 +19,7 @@ var _ComposeTextPanel = require('../../components/ComposeTextPanel');
 
 var _ComposeTextPanel2 = _interopRequireDefault(_ComposeTextPanel);
 
-var _withPhone = require('../../lib/withPhone');
-
-var _withPhone2 = _interopRequireDefault(_withPhone);
+var _phoneContext = require('../../lib/phoneContext');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -141,7 +139,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var ComposeTextPage = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ComposeTextPanel2.default));
+var ComposeTextPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ComposeTextPanel2.default));
 
 exports.mapToProps = mapToProps;
 exports.mapToFunctions = mapToFunctions;

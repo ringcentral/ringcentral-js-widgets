@@ -82,9 +82,7 @@ var _RolesAndPermissionsAlert = require('../../components/RolesAndPermissionsAle
 
 var _RolesAndPermissionsAlert2 = _interopRequireDefault(_RolesAndPermissionsAlert);
 
-var _withPhone = require('../../lib/withPhone');
-
-var _withPhone2 = _interopRequireDefault(_withPhone);
+var _phoneContext = require('../../lib/phoneContext');
 
 var _index = require('../../components/ConferenceAlert/index');
 
@@ -270,7 +268,7 @@ function mapToFunctions(_, _ref4) {
   };
 }
 
-var AlertContainer = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_AnimationAlert2.default));
+var AlertContainer = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_AnimationAlert2.default));
 
 exports.default = AlertContainer;
 //# sourceMappingURL=index.js.map

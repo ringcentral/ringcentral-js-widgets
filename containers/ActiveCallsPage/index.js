@@ -23,9 +23,7 @@ var _callingModes = require('ringcentral-integration/modules/CallingSettings/cal
 
 var _callingModes2 = _interopRequireDefault(_callingModes);
 
-var _withPhone = require('../../lib/withPhone');
-
-var _withPhone2 = _interopRequireDefault(_withPhone);
+var _phoneContext = require('../../lib/phoneContext');
 
 var _ActiveCallsPanel = require('../../components/ActiveCallsPanel');
 
@@ -390,7 +388,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var ActiveCallsPage = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ActiveCallsPanel2.default));
+var ActiveCallsPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ActiveCallsPanel2.default));
 
 exports.mapToProps = mapToProps;
 exports.mapToFunctions = mapToFunctions;

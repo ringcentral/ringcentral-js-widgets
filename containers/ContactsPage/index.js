@@ -18,9 +18,7 @@ var _ContactsView = require('../../components/ContactsView');
 
 var _ContactsView2 = _interopRequireDefault(_ContactsView);
 
-var _withPhone = require('../../lib/withPhone');
-
-var _withPhone2 = _interopRequireDefault(_withPhone);
+var _phoneContext = require('../../lib/phoneContext');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -111,7 +109,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var ContactsPage = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ContactsView2.default));
+var ContactsPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ContactsView2.default));
 
 exports.default = ContactsPage;
 //# sourceMappingURL=index.js.map

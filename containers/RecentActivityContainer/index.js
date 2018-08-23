@@ -39,9 +39,7 @@ var _Fax = require('../../assets/images/Fax.svg');
 
 var _Fax2 = _interopRequireDefault(_Fax);
 
-var _withPhone = require('../../lib/withPhone');
-
-var _withPhone2 = _interopRequireDefault(_withPhone);
+var _phoneContext = require('../../lib/phoneContext');
 
 var _i18n = require('./i18n');
 
@@ -189,7 +187,7 @@ function mapToProps(_, _ref2) {
   };
 }
 
-var RecentActivityContainer = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps)(_RecentActivityPanel2.default));
+var RecentActivityContainer = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps)(_RecentActivityPanel2.default));
 
 exports.getTabs = getTabs;
 exports.mapToProps = mapToProps;

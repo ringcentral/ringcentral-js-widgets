@@ -18,9 +18,7 @@ var _formatNumber = require('ringcentral-integration/lib/formatNumber');
 
 var _formatNumber2 = _interopRequireDefault(_formatNumber);
 
-var _withPhone = require('../../lib/withPhone');
-
-var _withPhone2 = _interopRequireDefault(_withPhone);
+var _phoneContext = require('../../lib/phoneContext');
 
 var _CallsListPanel = require('../../components/CallsListPanel');
 
@@ -290,7 +288,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var CallsListPage = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_CallsListPanel2.default));
+var CallsListPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_CallsListPanel2.default));
 
 exports.default = CallsListPage;
 //# sourceMappingURL=index.js.map

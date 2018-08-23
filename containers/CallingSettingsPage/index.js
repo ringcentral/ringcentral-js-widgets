@@ -11,9 +11,7 @@ var _CallingSettingsPanel = require('../../components/CallingSettingsPanel');
 
 var _CallingSettingsPanel2 = _interopRequireDefault(_CallingSettingsPanel);
 
-var _withPhone = require('../../lib/withPhone');
-
-var _withPhone2 = _interopRequireDefault(_withPhone);
+var _phoneContext = require('../../lib/phoneContext');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -57,7 +55,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var CallingSettingsPage = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_CallingSettingsPanel2.default));
+var CallingSettingsPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_CallingSettingsPanel2.default));
 
 exports.mapToFunctions = mapToFunctions;
 exports.mapToProps = mapToProps;

@@ -73,10 +73,6 @@ var _sessionStatus = require('ringcentral-integration/modules/Webphone/sessionSt
 
 var _sessionStatus2 = _interopRequireDefault(_sessionStatus);
 
-var _withPhone = require('../../lib/withPhone');
-
-var _withPhone2 = _interopRequireDefault(_withPhone);
-
 var _callCtrlLayouts = require('../../enums/callCtrlLayouts');
 
 var _callCtrlLayouts2 = _interopRequireDefault(_callCtrlLayouts);
@@ -84,6 +80,8 @@ var _callCtrlLayouts2 = _interopRequireDefault(_callCtrlLayouts);
 var _CallCtrlPanel = require('../../components/CallCtrlPanel');
 
 var _CallCtrlPanel2 = _interopRequireDefault(_CallCtrlPanel);
+
+var _phoneContext = require('../../lib/phoneContext');
 
 var _i18n = require('./i18n');
 
@@ -713,7 +711,7 @@ function mapToFunctions(_, _ref4) {
   };
 }
 
-var CallCtrlContainer = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(CallCtrlPage));
+var CallCtrlContainer = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(CallCtrlPage));
 
 CallCtrlContainer.propTypes = {
   getAvatarUrl: _propTypes2.default.func,

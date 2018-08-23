@@ -6,9 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _reactRedux = require('react-redux');
 
-var _withPhone = require('../../lib/withPhone');
-
-var _withPhone2 = _interopRequireDefault(_withPhone);
+var _phoneContext = require('../../lib/phoneContext');
 
 var _UserGuide = require('../../components/UserGuide');
 
@@ -45,5 +43,5 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-exports.default = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_UserGuide2.default));
+exports.default = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_UserGuide2.default));
 //# sourceMappingURL=index.js.map

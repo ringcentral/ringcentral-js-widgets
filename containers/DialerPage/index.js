@@ -19,13 +19,11 @@ var _DialerPanel = require('../../components/DialerPanel');
 
 var _DialerPanel2 = _interopRequireDefault(_DialerPanel);
 
-var _withPhone = require('../../lib/withPhone');
-
-var _withPhone2 = _interopRequireDefault(_withPhone);
-
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
+
+var _phoneContext = require('../../lib/phoneContext');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -125,7 +123,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var DialerPage = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_DialerPanel2.default));
+var DialerPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_DialerPanel2.default));
 
 exports.mapToFunctions = mapToFunctions;
 exports.mapToProps = mapToProps;

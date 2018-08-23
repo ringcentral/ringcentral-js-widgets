@@ -11,9 +11,7 @@ var _MeetingPanel = require('../../components/MeetingPanel');
 
 var _MeetingPanel2 = _interopRequireDefault(_MeetingPanel);
 
-var _withPhone = require('../../lib/withPhone');
-
-var _withPhone2 = _interopRequireDefault(_withPhone);
+var _phoneContext = require('../../lib/phoneContext');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -58,7 +56,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var MeetingPage = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_MeetingPanel2.default));
+var MeetingPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_MeetingPanel2.default));
 
 exports.mapToFunctions = mapToFunctions;
 exports.mapToProps = mapToProps;
