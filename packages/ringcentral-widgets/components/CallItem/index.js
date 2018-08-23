@@ -296,6 +296,8 @@ export default class CallItem extends Component {
       }
     }
   }
+  externalViewEntity = () => this.props.externalViewEntity(this.props.call);
+
   render() {
     if (this.state.loading) {
       return (
@@ -457,7 +459,7 @@ export default class CallItem extends Component {
           callTitle={i18n.getString('call', currentLocale)}
           createEntityTitle={i18n.getString('addEntity', currentLocale)}
           viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
-          externalViewEntity={externalViewEntity && (() => externalViewEntity(this.props.call))}
+          externalViewEntity={externalViewEntity && this.externalViewEntity}
           externalHasEntity={externalHasEntity && externalHasEntity(this.props.call)}
           disableClickToSms={disableClickToSms}
         />

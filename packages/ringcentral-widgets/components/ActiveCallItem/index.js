@@ -391,6 +391,8 @@ export default class ActiveCallItem extends Component {
 
   logCall = this.logCall.bind(this)
 
+  externalViewEntity = () => this.props.externalViewEntity(this.props.call);
+  
   render() {
     const {
       call: {
@@ -455,7 +457,6 @@ export default class ActiveCallItem extends Component {
     const extraButton = typeof renderExtraButton === 'function' ?
       renderExtraButton(this.props.call) :
       undefined;
-
     return (
       <div className={styles.root} onClick={this.toggleExtended}>
         <div className={styles.wrapper}>
@@ -536,7 +537,7 @@ export default class ActiveCallItem extends Component {
               editLogTitle={i18n.getString('editLog', currentLocale)}
               createEntityTitle={i18n.getString('addEntity', currentLocale)}
               viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
-              externalViewEntity={externalViewEntity && (() => externalViewEntity(this.props.call))}
+              externalViewEntity={externalViewEntity && this.externalViewEntity}
               externalHasEntity={externalHasEntity && externalHasEntity(this.props.call)}
               disableClickToSms={disableClickToSms}
             />
