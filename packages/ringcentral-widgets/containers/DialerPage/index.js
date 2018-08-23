@@ -79,13 +79,10 @@ function mapToFunctions(_, {
     clearToNumber: () => dialerUI.clearToNumberField(),
     onCallButtonClick() {
       /**
-       * Clear the mergingPair if it is from mergeCallCtrl (RCINT-7716)
+       * Clear the mergingPair if any (RCINT-7716)
        */
       if (conferenceCall) {
-        const { activeSession } = webphone;
-        if (activeSession && activeSession.direction !== callDirections.inbound) {
-          conferenceCall.closeMergingPair();
-        }
+        conferenceCall.closeMergingPair();
       }
       dialerUI.onCallButtonClick();
     },

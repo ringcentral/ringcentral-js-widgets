@@ -18,11 +18,13 @@ import i18n from './i18n';
 class CallCtrlPage extends Component {
   constructor(props) {
     super(props);
+    const layout = props.getInitialLayout(this.props);
+    const mergeDisabled = this.disableMerge(this.props, layout);
     this.state = {
       selectedMatcherIndex: 0,
       avatarUrl: null,
-      layout: props.getInitialLayout(this.props),
-      mergeDisabled: false,
+      layout,
+      mergeDisabled,
     };
 
     this.onLastMergingCallEnded = this::this.onLastMergingCallEnded;
@@ -127,10 +129,6 @@ class CallCtrlPage extends Component {
       if (this.props.closeMergingPair) {
         this.props.closeMergingPair();
       }
-
-      if (this.props.onLastMergingCallEnded) {
-        this.props.onLastMergingCallEnded();
-      }
     }
   }
 
@@ -152,25 +150,21 @@ class CallCtrlPage extends Component {
         layout,
         mergeDisabled
       });
-    }
-    if (
-      nextState.layout === callCtrlLayouts.mergeCtrl &&
-      nextProps.session.direction === callDirections.inbound
-    ) {
-      nextProps.onIncomingCallCaptured();
-    }
-    if (this.props.session.id !== nextProps.session.id) {
-      this._updateAvatarAndMatchIndex(nextProps);
-    }
-    if (this.props.conferenceCallId !== nextProps.conferenceCallId) {
-      this._updateCurrentConferenceCall(nextProps);
-    }
 
-    if (
+      if (
+        layout === callCtrlLayouts.normalCtrl &&
+        this.props.session.id !== nextProps.session.id
+      ) {
+        this._updateAvatarAndMatchIndex(nextProps);
+      }
+
+      if (!this.props.conferenceCallId && nextProps.conferenceCallId) {
+        this._updateCurrentConferenceCall(nextProps);
+      }
+    } else if (
       this.state.layout === callCtrlLayouts.mergeCtrl
       && CallCtrlPage.isLastCallEnded(this.props) === false
       && CallCtrlPage.isLastCallEnded(nextProps) === true
-      && this._mounted
     ) {
       this.onLastMergingCallEnded();
     }
@@ -300,7 +294,6 @@ class CallCtrlPage extends Component {
         lastCallInfo={this.props.lastCallInfo}
         getAvatarUrl={this.props.getAvatarUrl}
         gotoParticipantsCtrl={this.props.gotoParticipantsCtrl}
-        onLastMergingCallEnded={this.props.onLastMergingCallEnded}
       >
         {this.props.children}
       </CallCtrlPanel>
@@ -364,11 +357,9 @@ CallCtrlPage.propTypes = {
   conferenceCallEquipped: PropTypes.bool,
   hasConferenceCall: PropTypes.bool,
   lastCallInfo: PropTypes.object,
-  onIncomingCallCaptured: PropTypes.func,
   conferenceCallId: PropTypes.string,
   gotoParticipantsCtrl: PropTypes.func,
   loadConference: PropTypes.func,
-  onLastMergingCallEnded: PropTypes.func,
   getInitialLayout: PropTypes.func,
   closeMergingPair: PropTypes.func,
 };
@@ -392,11 +383,9 @@ CallCtrlPage.defaultProps = {
   hasConferenceCall: false,
   conferenceCallParties: undefined,
   lastCallInfo: { calleeType: calleeTypes.unknow },
-  onIncomingCallCaptured: i => i,
   conferenceCallId: null,
   gotoParticipantsCtrl: i => i,
   loadConference: i => i,
-  onLastMergingCallEnded: undefined,
   getInitialLayout: () => callCtrlLayouts.normalCtrl,
   layout: callCtrlLayouts.normalCtrl,
   closeMergingPair: null,
@@ -561,7 +550,7 @@ function mapToFunctions(_, {
           currentSession = webphone.activeSession || {};
         }
 
-        if (currentSession && currentSession.direction !== callDirections.inbound) {
+        if (currentSession) {
           // close the MergingPair if any.
           conferenceCall.closeMergingPair();
         }
@@ -628,9 +617,7 @@ function mapToFunctions(_, {
     async onMerge(sessionId) {
       await conferenceCall.mergeSession({ sessionId });
     },
-    onIncomingCallCaptured() {
-      routerInteraction.push('/calls/active');
-    },
+
     gotoParticipantsCtrl() {
       routerInteraction.push('/conferenceCall/participants');
     },
@@ -644,7 +631,7 @@ function mapToFunctions(_, {
     },
     setMergeParty(...args) {
       return conferenceCall && conferenceCall.setMergeParty(...args);
-    }
+    },
   };
 }
 

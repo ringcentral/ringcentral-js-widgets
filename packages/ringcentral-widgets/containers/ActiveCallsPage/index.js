@@ -90,7 +90,9 @@ function mapToFunctions(_, {
     async webphoneHangup(...args) {
       const sessionId = args && args[0];
       const mergingPair = conferenceCall && conferenceCall.mergingPair;
-      if (mergingPair && sessionId === mergingPair.fromSessionId) {
+      if (mergingPair &&
+          (Object.values(mergingPair).indexOf(sessionId) !== -1)
+      ) {
         // close merging pair to close the merge call.
         conferenceCall.closeMergingPair();
       }
