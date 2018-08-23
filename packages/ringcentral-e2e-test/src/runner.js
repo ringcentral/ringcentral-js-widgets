@@ -1,3 +1,4 @@
+import childProcess from 'child_process';
 import config, {
   defaultExecConfig,
   defaultExecLevels,
@@ -50,6 +51,7 @@ export default function runner({
   const args = [`--config=${JSON.stringify(testerConfig)}`, ...options, ...tails];
   const close = () => {
     console.log('close');
+    childProcess.exec('kill $(ps aux | grep chromedriver | grep -v grep | awk \'{print $2}\')');
   };
   createProcess({
     command,

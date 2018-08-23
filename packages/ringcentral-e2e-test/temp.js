@@ -11,7 +11,7 @@ runner({
     'puppeteer',
     'seleniumWebdriverFirefox',
     'seleniumWebdriverSafari',
-    // 'seleniumWebdriverChrome',
+    'seleniumWebdriverChrome',
     // 'seleniumWebdriverIE',
     // 'seleniumWebdriverEdge',
   ],
