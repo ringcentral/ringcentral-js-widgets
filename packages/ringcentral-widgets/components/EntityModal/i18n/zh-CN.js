@@ -2,6 +2,7 @@ export default {
   account: "账户",
   contact: "联系人",
   lead: "引导",
+
   chooseEntity: "请选择实体类型",
   create: "创建"
 };

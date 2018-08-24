@@ -18,7 +18,8 @@ export default {
   faxReceived: "Fax received",
   pages: "pages",
   preview: "View",
-  download: "Download"
+  download: "Download",
+  imageAttachment: "Attachment: 1 image"
 };
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
@@ -39,3 +40,4 @@ export default {
 // @key: @#@"pages"@#@ @source: @#@"pages"@#@
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
+// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: 1 image"@#@

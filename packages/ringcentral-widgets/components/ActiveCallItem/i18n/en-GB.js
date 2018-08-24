@@ -24,7 +24,9 @@ export default {
   accept: "Accept",
   toVoicemail: "Send to voicemail",
   anonymous: "Anonymous",
-  mergeToConference: "Merge"
+  mergeToConference: "Merge",
+  hold: "Hold",
+  unhold: "Unhold"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -53,3 +55,5 @@ export default {
 // @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"hold"@#@ @source: @#@"Hold"@#@
+// @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
