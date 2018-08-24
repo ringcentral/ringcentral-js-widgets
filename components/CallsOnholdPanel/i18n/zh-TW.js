@@ -5,11 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   add: "加入",
-  noCallsOnhold: "沒有等待接通的電話",
+  noCalls: "沒有可用通話",
   activeCall: "使用中通話"
 };
 
 // @key: @#@"add"@#@ @source: @#@"Add"@#@
-// @key: @#@"noCallsOnhold"@#@ @source: @#@"No calls on hold"@#@
+// @key: @#@"noCalls"@#@ @source: @#@"No available calls"@#@
 // @key: @#@"activeCall"@#@ @source: @#@"Active Call"@#@
 //# sourceMappingURL=zh-TW.js.map

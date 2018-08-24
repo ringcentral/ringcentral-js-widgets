@@ -13,7 +13,7 @@ exports.default = {
   autoCreateLog: "Auto-create Call Log",
   autoCreateSMSLog: "Auto-create SMS Log",
   autoLogCalls: "Auto log calls",
-
+  autoLogNotes: "Auto log notes",
   autoLogSMS: "Auto log SMS",
   clickToSMS: "Click to SMS",
   clickToDialSMS: "Click to Dial/SMS",
@@ -32,6 +32,7 @@ exports.default = {
 // @key: @#@"autoCreateLog"@#@ @source: @#@"Auto-create Call Log"@#@
 // @key: @#@"autoCreateSMSLog"@#@ @source: @#@"Auto-create SMS Log"@#@
 // @key: @#@"autoLogCalls"@#@ @source: @#@"Auto log calls"@#@
+// @key: @#@"autoLogNotes"@#@ @source: @#@"Auto log notes"@#@
 // @key: @#@"autoLogSMS"@#@ @source: @#@"Auto log SMS"@#@
 // @key: @#@"clickToSMS"@#@ @source: @#@"Click to SMS"@#@
 // @key: @#@"clickToDialSMS"@#@ @source: @#@"Click to Dial/SMS"@#@

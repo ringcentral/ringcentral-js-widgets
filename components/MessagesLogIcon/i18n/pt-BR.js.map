@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/MessagesLogIcon/i18n/pt-BR.js"],"names":["log"],"mappings":";;;;;kBAAe;AACbA,OAAK;AADQ,C;;AAIf","file":"pt-BR.js","sourcesContent":["export default {\n  log: \"Log\"\n};\n\n// @key: @#@\"log\"@#@ @source: @#@\"Log\"@#@\n"]}

@@ -7,7 +7,7 @@ exports.default = {
   logging: "Registrando...",
   logCall: "Registrar chamada",
   editLog: "Editar log",
-
+  select: "Correspondência de seleção",
   OnHold: "Em espera",
   Ringing: "Chamando",
   CallConnected: "Chamada conectada",
@@ -21,6 +21,7 @@ exports.default = {
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
+// @key: @#@"select"@#@ @source: @#@"Select matching"@#@
 // @key: @#@"OnHold"@#@ @source: @#@"On Hold"@#@
 // @key: @#@"Ringing"@#@ @source: @#@"Ringing"@#@
 // @key: @#@"CallConnected"@#@ @source: @#@"Call Connected"@#@

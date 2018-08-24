@@ -5,11 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   add: "追加",
-  noCallsOnhold: "保留中の通話はありません",
+  noCalls: "利用可能な通話がありません",
   activeCall: "アクティブな通話"
 };
 
 // @key: @#@"add"@#@ @source: @#@"Add"@#@
-// @key: @#@"noCallsOnhold"@#@ @source: @#@"No calls on hold"@#@
+// @key: @#@"noCalls"@#@ @source: @#@"No available calls"@#@
 // @key: @#@"activeCall"@#@ @source: @#@"Active Call"@#@
 //# sourceMappingURL=ja-JP.js.map

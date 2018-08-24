@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/MessagesLogIcon/i18n/ja-JP.js"],"names":["log"],"mappings":";;;;;kBAAe;AACbA,OAAK;AADQ,C;;AAIf","file":"ja-JP.js","sourcesContent":["export default {\n  log: \"ログ\"\n};\n\n// @key: @#@\"log\"@#@ @source: @#@\"Log\"@#@\n"]}

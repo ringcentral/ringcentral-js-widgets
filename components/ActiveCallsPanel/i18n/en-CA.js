@@ -8,7 +8,11 @@ exports.default = {
   currentCall: "Current Call",
   ringCall: "Ringing Call",
   onHoldCall: "Call on Hold",
-  otherDeviceCall: "Ongoing calls on my other devices"
+  otherDeviceCall: "Ongoing calls on my other devices",
+  confirmation: "Confirmation",
+  confirmMergeToConference: "Add to conference call?",
+  mergeToConference: "Merge",
+  conferenceCall: "Conference Call"
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
@@ -16,4 +20,8 @@ exports.default = {
 // @key: @#@"ringCall"@#@ @source: @#@"Ringing Call"@#@
 // @key: @#@"onHoldCall"@#@ @source: @#@"Call on Hold"@#@
 // @key: @#@"otherDeviceCall"@#@ @source: @#@"Ongoing calls on my other devices"@#@
+// @key: @#@"confirmation"@#@ @source: @#@"Confirmation"@#@
+// @key: @#@"confirmMergeToConference"@#@ @source: @#@"Add to conference call?"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
 //# sourceMappingURL=en-CA.js.map

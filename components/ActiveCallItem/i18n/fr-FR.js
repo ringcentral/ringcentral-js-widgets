@@ -29,7 +29,9 @@ exports.default = {
   accept: "Accepter",
   toVoicemail: "Envoyer vers la messagerie vocale",
   anonymous: "Anonyme",
-  mergeToConference: "Fusionner"
+  mergeToConference: "Fusionner",
+  hold: "Mettre en attente",
+  unhold: "Reprendre l'appel"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -58,4 +60,6 @@ exports.default = {
 // @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"hold"@#@ @source: @#@"Hold"@#@
+// @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
 //# sourceMappingURL=fr-FR.js.map

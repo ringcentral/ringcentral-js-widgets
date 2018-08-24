@@ -5,11 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   add: "添加",
-  noCallsOnhold: "无电话等候接听",
+  noCalls: "无可用通话",
   activeCall: "主动呼叫"
 };
 
 // @key: @#@"add"@#@ @source: @#@"Add"@#@
-// @key: @#@"noCallsOnhold"@#@ @source: @#@"No calls on hold"@#@
+// @key: @#@"noCalls"@#@ @source: @#@"No available calls"@#@
 // @key: @#@"activeCall"@#@ @source: @#@"Active Call"@#@
 //# sourceMappingURL=zh-CN.js.map

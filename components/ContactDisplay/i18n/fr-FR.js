@@ -7,7 +7,7 @@ exports.default = {
   logging: "Connexion en cours...",
   logCall: "Journal des appels",
   editLog: "Éditer le journal",
-
+  select: "Sélectionner une correspondance",
   OnHold: "En attente",
   Ringing: "Sonnerie en cours",
   CallConnected: "Appel établi",
@@ -21,6 +21,7 @@ exports.default = {
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
+// @key: @#@"select"@#@ @source: @#@"Select matching"@#@
 // @key: @#@"OnHold"@#@ @source: @#@"On Hold"@#@
 // @key: @#@"Ringing"@#@ @source: @#@"Ringing"@#@
 // @key: @#@"CallConnected"@#@ @source: @#@"Call Connected"@#@

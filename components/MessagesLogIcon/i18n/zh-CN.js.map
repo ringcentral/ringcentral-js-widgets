@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/MessagesLogIcon/i18n/zh-CN.js"],"names":["log"],"mappings":";;;;;kBAAe;AACbA,OAAK;AADQ,C;;AAIf","file":"zh-CN.js","sourcesContent":["export default {\n  log: \"记录\"\n};\n\n// @key: @#@\"log\"@#@ @source: @#@\"Log\"@#@\n"]}

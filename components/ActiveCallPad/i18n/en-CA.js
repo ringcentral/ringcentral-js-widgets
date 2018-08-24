@@ -14,7 +14,9 @@ exports.default = {
   record: "Record",
   add: "Add",
   transfer: "Transfer",
-  flip: "Flip"
+  flip: "Flip",
+  more: "Call Actions",
+  mergeToConference: "Merge"
 };
 
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
@@ -28,4 +30,6 @@ exports.default = {
 // @key: @#@"add"@#@ @source: @#@"Add"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
 // @key: @#@"flip"@#@ @source: @#@"Flip"@#@
+// @key: @#@"more"@#@ @source: @#@"Call Actions"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 //# sourceMappingURL=en-CA.js.map

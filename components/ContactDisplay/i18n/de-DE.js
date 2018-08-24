@@ -7,7 +7,7 @@ exports.default = {
   logging: "Protokollierung ...",
   logCall: "Anruf protokollieren",
   editLog: "Protokoll bearbeiten",
-
+  select: "Übereinstimmende/s/n auswählen",
   OnHold: "Wird gehalten",
   Ringing: "Es wird angerufen",
   CallConnected: "Anruf verbunden",
@@ -21,6 +21,7 @@ exports.default = {
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
+// @key: @#@"select"@#@ @source: @#@"Select matching"@#@
 // @key: @#@"OnHold"@#@ @source: @#@"On Hold"@#@
 // @key: @#@"Ringing"@#@ @source: @#@"Ringing"@#@
 // @key: @#@"CallConnected"@#@ @source: @#@"Call Connected"@#@

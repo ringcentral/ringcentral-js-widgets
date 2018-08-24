@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/MessagesLogIcon/i18n/es-419.js"],"names":["log"],"mappings":";;;;;kBAAe;AACbA,OAAK;AADQ,C;;AAIf","file":"es-419.js","sourcesContent":["export default {\n  log: \"Registro\"\n};\n\n// @key: @#@\"log\"@#@ @source: @#@\"Log\"@#@\n"]}

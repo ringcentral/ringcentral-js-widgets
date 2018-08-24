@@ -5,11 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   add: "Ajouter",
-  noCallsOnhold: "Aucun appel en attente",
+  noCalls: "Aucun appel disponible",
   activeCall: "Appel en cours"
 };
 
 // @key: @#@"add"@#@ @source: @#@"Add"@#@
-// @key: @#@"noCallsOnhold"@#@ @source: @#@"No calls on hold"@#@
+// @key: @#@"noCalls"@#@ @source: @#@"No available calls"@#@
 // @key: @#@"activeCall"@#@ @source: @#@"Active Call"@#@
 //# sourceMappingURL=fr-FR.js.map

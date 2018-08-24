@@ -10,7 +10,8 @@ exports.default = {
   ringCall: "Chamada sonora",
   onHoldCall: "Chamada em espera",
   historyCalls: "Chamadas anteriores",
-  otherDeviceCall: "Chamadas em andamento nos meus outros dispositivos"
+  otherDeviceCall: "Chamadas em andamento nos meus outros dispositivos",
+  searchPlaceholder: "Pesquisar..."
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
@@ -20,4 +21,5 @@ exports.default = {
 // @key: @#@"onHoldCall"@#@ @source: @#@"Call on Hold"@#@
 // @key: @#@"historyCalls"@#@ @source: @#@"Past Calls"@#@
 // @key: @#@"otherDeviceCall"@#@ @source: @#@"Ongoing calls on my other devices"@#@
+// @key: @#@"searchPlaceholder"@#@ @source: @#@"Search..."@#@
 //# sourceMappingURL=pt-BR.js.map
