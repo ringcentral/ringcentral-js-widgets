@@ -5,7 +5,8 @@ export default {
   ringCall: "Squillo chiamata",
   onHoldCall: "Chiamata in attesa",
   historyCalls: "Chiamate passate",
-  otherDeviceCall: "Chiamate in corso sugli altri miei dispositivi"
+  otherDeviceCall: "Chiamate in corso sugli altri miei dispositivi",
+  searchPlaceholder: "Cerca..."
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
@@ -15,3 +16,4 @@ export default {
 // @key: @#@"onHoldCall"@#@ @source: @#@"Call on Hold"@#@
 // @key: @#@"historyCalls"@#@ @source: @#@"Past Calls"@#@
 // @key: @#@"otherDeviceCall"@#@ @source: @#@"Ongoing calls on my other devices"@#@
+// @key: @#@"searchPlaceholder"@#@ @source: @#@"Search..."@#@

@@ -2,7 +2,7 @@ export default {
   logging: "Connessione...",
   logCall: "Registra chiamata",
   editLog: "Modifica registro",
-
+  select: "Seleziona corrispondenza",
   OnHold: "In attesa",
   Ringing: "Chiamata in corso",
   CallConnected: "Chiamata connessa",
@@ -16,6 +16,7 @@ export default {
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
+// @key: @#@"select"@#@ @source: @#@"Select matching"@#@
 // @key: @#@"OnHold"@#@ @source: @#@"On Hold"@#@
 // @key: @#@"Ringing"@#@ @source: @#@"Ringing"@#@
 // @key: @#@"CallConnected"@#@ @source: @#@"Call Connected"@#@

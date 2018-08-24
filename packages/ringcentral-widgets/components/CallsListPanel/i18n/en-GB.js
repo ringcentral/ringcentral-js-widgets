@@ -5,7 +5,8 @@ export default {
   ringCall: "Ringing Call",
   onHoldCall: "Call on Hold",
   historyCalls: "Past Calls",
-  otherDeviceCall: "Ongoing calls on my other devices"
+  otherDeviceCall: "Ongoing calls on my other devices",
+  searchPlaceholder: "Search..."
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
@@ -15,3 +16,4 @@ export default {
 // @key: @#@"onHoldCall"@#@ @source: @#@"Call on Hold"@#@
 // @key: @#@"historyCalls"@#@ @source: @#@"Past Calls"@#@
 // @key: @#@"otherDeviceCall"@#@ @source: @#@"Ongoing calls on my other devices"@#@
+// @key: @#@"searchPlaceholder"@#@ @source: @#@"Search..."@#@

@@ -24,7 +24,9 @@ export default {
   accept: "同意する",
   toVoicemail: "ボイスメールへ転送",
   anonymous: "匿名",
-  mergeToConference: "マージ"
+  mergeToConference: "マージ",
+  hold: "保留",
+  unhold: "保留解除"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -53,3 +55,5 @@ export default {
 // @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"hold"@#@ @source: @#@"Hold"@#@
+// @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@

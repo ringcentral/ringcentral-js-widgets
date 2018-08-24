@@ -24,7 +24,9 @@ export default {
   accept: "接受",
   toVoicemail: "傳送至語音信箱",
   anonymous: "匿名",
-  mergeToConference: "合併"
+  mergeToConference: "合併",
+  hold: "通話保留",
+  unhold: "取消通話保留"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -53,3 +55,5 @@ export default {
 // @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"hold"@#@ @source: @#@"Hold"@#@
+// @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
