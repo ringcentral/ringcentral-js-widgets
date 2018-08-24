@@ -78,7 +78,7 @@ export async function mockDetailedPresencePubnub(activeCallsBody) {
       mode: 'ecb'
     });
   pubnub.mockMessage(encrypted);
-  await timeout(2000);
+  await timeout(1000);
 }
 
 /* --- mock data --- */
