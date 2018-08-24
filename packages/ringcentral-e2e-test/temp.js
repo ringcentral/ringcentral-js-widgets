@@ -9,8 +9,8 @@ runner({
   options: [],
   drivers: [
     'puppeteer',
-    'seleniumWebdriverFirefox',
-    'enzyme',
+    // 'seleniumWebdriverFirefox',
+    // 'enzyme',
     // 'seleniumWebdriverChrome',
     // 'seleniumWebdriverSafari',
     // 'seleniumWebdriverIE',
