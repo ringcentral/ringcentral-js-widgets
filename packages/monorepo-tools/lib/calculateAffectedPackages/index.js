@@ -3,7 +3,6 @@ import { reduce, forEach, find, uniq } from 'ramda';
 import readPackages from '../readPackages';
 import compileModuleDependency from '../compileModuleDependency';
 
-
 function findDependencies({
   packageNames,
   moduleDependency
@@ -35,7 +34,7 @@ function findDependencies({
   ));
 }
 
-export default async function getAffectedPackages({
+export default async function calculateAffectedPackages({
   files,
   cwd = process.cwd(),
   directOnly = false,
