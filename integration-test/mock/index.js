@@ -102,7 +102,7 @@ var serviceInfoBody = require('./data/serviceInfo');
 var conferenceCallBody = require('./data/conferenceCall');
 var numberParseBody = require('./data/numberParse');
 var conferenceCallBringInBody = require('./data/conferenceCallBringIn');
-
+var updateConferenceCallBody = require('./data/updateConference');
 var mockServer = 'http://whatever';
 function createSDK() {
   var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -629,7 +629,9 @@ function mockForLogin() {
       mockConferencing = _ref3$mockConferencin === undefined ? true : _ref3$mockConferencin,
       _ref3$mockActiveCalls = _ref3.mockActiveCalls,
       mockActiveCalls = _ref3$mockActiveCalls === undefined ? true : _ref3$mockActiveCalls,
-      params = (0, _objectWithoutProperties3.default)(_ref3, ['mockAuthzProfile', 'mockExtensionInfo', 'mockForwardingNumber', 'mockMessageSync', 'mockConferencing', 'mockActiveCalls']);
+      _ref3$mockUpdateConfe = _ref3.mockUpdateConference,
+      mockUpdateConference = _ref3$mockUpdateConfe === undefined ? false : _ref3$mockUpdateConfe,
+      params = (0, _objectWithoutProperties3.default)(_ref3, ['mockAuthzProfile', 'mockExtensionInfo', 'mockForwardingNumber', 'mockMessageSync', 'mockConferencing', 'mockActiveCalls', 'mockUpdateConference']);
 
   authentication();
   logout();
@@ -666,5 +668,8 @@ function mockForLogin() {
     activeCalls(params.activeCallsData);
   }
   numberParser(params.numberParseData);
+  if (mockUpdateConference) {
+    updateConferenceCall(updateConferenceCallBody.id, updateConferenceCallBody);
+  }
 }
 //# sourceMappingURL=index.js.map
