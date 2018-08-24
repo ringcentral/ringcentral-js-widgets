@@ -26,6 +26,8 @@ import {
   unholdFn,
   transferFn,
   flipFn,
+  startRecordFn,
+  stopRecordFn,
 } from '../../support/session';
 
 const ALTERNATIVE_TIMEOUT = 1000; // refer to DialButton
@@ -55,6 +57,8 @@ afterEach(() => {
   unholdFn.mockClear();
   transferFn.mockClear();
   flipFn.mockClear();
+  startRecordFn.mockClear();
+  stopRecordFn.mockClear();
 });
 
 
@@ -214,7 +218,6 @@ describe('Current Call Control Page - Hold/Unhold', () => {
     expect(unholdFn.mock.calls[0]).toEqual([outboundSession.id]);
   });
 });
-
 describe('Current Call Control Page - Mute/Unmute', () => {
   let holdButton = null;
   let muteButton = null;
@@ -280,7 +283,7 @@ describe('Current Call Control Page - Mute/Unmute', () => {
   });
 });
 
-describe('Current Call Control Page - Record', () => {
+describe('Current Call Control Page - Record/Stop', () => {
   let holdButton = null;
   let recordButton = null;
   test('RCI-1712647 Answer an inbound call then user hold the call, Record should be disabled',
@@ -311,6 +314,47 @@ describe('Current Call Control Page - Record', () => {
       holdButton.find(CircleButton).simulate('click');
       recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
       expect(recordButton.props().disabled).toBe(false);
+    }
+  );
+  test('RCI-1712679 Answer an inbound call and keep in active call page, click Record/Stop',
+    async () => {
+      await makeInbountCall(sid111, true);
+      recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
+      expect(recordButton.find('.buttonTitle').text()).toEqual('Record');
+
+      recordButton.find(CircleButton).simulate('click');
+      await timeout(200);
+      wrapper.update();
+      recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
+      expect(startRecordFn.mock.calls[0]).toEqual([sid111]);
+      expect(recordButton.find('.buttonTitle').text()).toEqual('Stop');
+
+      recordButton.find(CircleButton).simulate('click');
+      await timeout(200);
+      recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
+      expect(recordButton.find('.buttonTitle').text()).toEqual('Record');
+      expect(stopRecordFn.mock.calls[0]).toEqual([sid111]);
+    }
+  );
+  test('RCI-1712679 Make an outbound call and keep in active call page, click Record/Stop',
+    async () => {
+      const outboundSession = await makeOutboundCall();
+      outboundSession.accept(phone.webphone.acceptOptions);
+      recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
+      expect(recordButton.find('.buttonTitle').text()).toEqual('Record');
+
+      recordButton.find(CircleButton).simulate('click');
+      await timeout(200);
+      wrapper.update();
+      recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
+      expect(recordButton.find('.buttonTitle').text()).toEqual('Stop');
+      expect(startRecordFn.mock.calls[0]).toEqual([outboundSession.id]);
+
+      recordButton.find(CircleButton).simulate('click');
+      await timeout(200);
+      recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
+      expect(recordButton.find('.buttonTitle').text()).toEqual('Record');
+      expect(stopRecordFn.mock.calls[0]).toEqual([outboundSession.id]);
     }
   );
 });

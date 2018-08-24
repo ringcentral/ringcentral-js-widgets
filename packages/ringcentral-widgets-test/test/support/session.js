@@ -1,5 +1,6 @@
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatuses';
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
+import recordStatus from 'ringcentral-integration/modules/Webphone/recordStatus';
 
 let partyId = 95;
 class MediaHandler {
@@ -28,6 +29,8 @@ export const terminateFn = jest.fn();
 export const rejectFn = jest.fn();
 export const transferFn = jest.fn();
 export const flipFn = jest.fn();
+export const startRecordFn = jest.fn();
+export const stopRecordFn = jest.fn();
 
 export default class Session {
   constructor({
@@ -62,7 +65,7 @@ export default class Session {
     this.isOnTransfer = undefined;
     this.isForwarded = undefined;
     this.isReplied = undefined;
-    this.recordStatus = undefined;
+    this.recordStatus = recordStatus.idle;
     this.minimized = undefined;
     this.lastHoldingTime = undefined;
     this.telephonyStatus = telephonyStatus || telephonyStatuses.onHold;
@@ -164,6 +167,16 @@ export default class Session {
     flipFn(flipValue, sessionId);
     this.isOnFlip = true;
     return Promise.resolve({ flipValue, sessionId });
+  }
+
+  async startRecord() {
+    startRecordFn(this.id);
+    return Promise.resolve(this.id);
+  }
+
+  async stopRecord() {
+    stopRecordFn(this.id);
+    return Promise.resolve(this.id);
   }
 }
 

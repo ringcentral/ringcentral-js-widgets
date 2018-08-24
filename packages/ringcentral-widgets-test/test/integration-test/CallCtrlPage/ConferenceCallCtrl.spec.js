@@ -2,15 +2,17 @@ import ActiveCallButton from 'ringcentral-widgets/components/ActiveCallButton';
 import ActiveCallPad from 'ringcentral-widgets/components/ActiveCallPad';
 import CircleButton from 'ringcentral-widgets/components/CircleButton';
 import * as mock from 'ringcentral-integration/integration-test/mock';
-import { mockConferenceCallEnv } from './helper';
 import deviceBody from './data/device';
-import { getWrapper } from '../shared';
+import { mockConferenceCallEnv } from './helper';
+import { getWrapper, timeout } from '../shared';
 import { makeCall } from '../../support/callHelper';
 import {
   muteFn,
   unmuteFn,
   holdFn,
   unholdFn,
+  startRecordFn,
+  stopRecordFn,
 } from '../../support/session';
 
 let wrapper = null;
@@ -33,6 +35,8 @@ afterEach(() => {
   unmuteFn.mockClear();
   holdFn.mockClear();
   unholdFn.mockClear();
+  startRecordFn.mockClear();
+  stopRecordFn.mockClear();
 });
 
 describe('Prepare', () => {
@@ -127,4 +131,30 @@ describe('RCI-2980793 Conference Call Control Page - Hang Up', () => {
     expect(phone.webphone.sessions).toHaveLength(1);
     expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
   });
+});
+
+describe('Conference Call Control Page - Record/Stop', () => {
+  let recordButton = null;
+  test('RCI-1712679 Make a conference call and keep in conference call control page, click Record/Stop',
+    async () => {
+      const conferenceSession = await mockConferenceCallEnv(phone);
+      conferenceSession.accept(phone.webphone.acceptOptions);
+      wrapper.update();
+      recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
+      expect(recordButton.find('.buttonTitle').text()).toEqual('Record');
+
+      recordButton.find(CircleButton).simulate('click');
+      await timeout(200);
+      wrapper.update();
+      recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
+      expect(recordButton.find('.buttonTitle').text()).toEqual('Stop');
+      expect(startRecordFn.mock.calls[0]).toEqual([conferenceSession.id]);
+
+      recordButton.find(CircleButton).simulate('click');
+      await timeout(200);
+      recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
+      expect(recordButton.find('.buttonTitle').text()).toEqual('Record');
+      expect(stopRecordFn.mock.calls[0]).toEqual([conferenceSession.id]);
+    }, 7000
+  );
 });
