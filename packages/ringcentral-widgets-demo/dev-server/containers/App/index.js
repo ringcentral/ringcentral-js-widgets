@@ -170,6 +170,7 @@ export default function App({
                     onBackButtonClick={() => {
                       phone.routerInteraction.push('/calls');
                     }}
+                    multipleLayout
                   >
                     <RecentActivityContainer
                       getSession={() => (phone.webphone.activeSession || {})}
@@ -282,6 +283,7 @@ export default function App({
                     onBackButtonClick={() => {
                       phone.routerInteraction.push('/calls');
                     }}
+                    multipleLayout
                   />
                 )} />
               <Route
