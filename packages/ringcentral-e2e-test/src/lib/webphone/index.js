@@ -2,7 +2,7 @@ import * as WebPhoneClient  from 'webphone-client';
 const TTL = 1800000;
 const WAIT_TIMEOUT = 300000;
 
-class webPhone{
+class WebPhone{
 
   async createWebPhone(phone, type, password) {
     let apiClient = new WebPhoneClient.ApiClient(this.getHost());
@@ -78,10 +78,10 @@ class webPhone{
     let response = await apiInstance.phonePreOperatePost(body);
     return response;
   }
-  async preOperate_answerCall(phoneId, sessionId) {
+  async preOperateAnswerCall(phoneId, sessionId) {
     return await this.preOperate(phoneId, sessionId, 'answerCall');
   }
-  async preOperate_decline(phoneId, sessionId) {
+  async preOperateDecline(phoneId, sessionId) {
     return await this.preOperate(phoneId, sessionId, 'decline');
   }
 
@@ -101,15 +101,15 @@ class webPhone{
     return response;
   }
 
-  async operate_makecall(phoneId, sessionId, phoneNumber) {
+  async operateMakeCall(phoneId, sessionId, phoneNumber) {
     return await this.operate(phoneId, sessionId, 'makeCall',phoneNumber);
   }
 
-  async operate_hangup(phoneId, sessionId, phoneNumber) {
+  async operateHangUp(phoneId, sessionId, phoneNumber) {
     return await this.operate(phoneId, sessionId, 'hangup',phoneNumber);
   }
 
-  async operate_close(phoneId, sessionId, phoneNumber) {
+  async operateClose(phoneId, sessionId, phoneNumber) {
     return await this.operate(phoneId, sessionId, 'close',phoneNumber);
   }
 
@@ -140,7 +140,7 @@ class webPhone{
     let phoneId = response.body._id;
     const waitUntil = Date.now() + timeout;
     while ((res.body.status === phoneStatus || res.body.status === 'pageReady') && Date.now() < waitUntil) {
-      await this.sleep(100);
+      await this.sleep(1000);
       res = await this.getPhonesById(phoneId);
     }
     return res;
@@ -153,4 +153,4 @@ class webPhone{
 
 }
 
-module.exports = new webPhone()
+export default new WebPhone
