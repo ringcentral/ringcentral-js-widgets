@@ -168,7 +168,15 @@ function mapToFunctions(_, {
     onMute: sessionId => webphone.mute(sessionId),
     onUnmute: sessionId => webphone.unmute(sessionId),
     onHold: sessionId => webphone.hold(sessionId),
-    onUnhold: sessionId => webphone.unhold(sessionId),
+    onUnhold(sessionId) {
+      const mergingPair = conferenceCall && conferenceCall.mergingPair;
+      if (mergingPair && sessionId !== mergingPair.toSessionId) {
+        // close merging pair to close the merge call if resume a call
+        conferenceCall.closeMergingPair();
+      }
+
+      webphone.unhold(sessionId);
+    },
     onRecord: sessionId => webphone.startRecord(sessionId),
     onStopRecord: sessionId => webphone.stopRecord(sessionId),
     sendDTMF: (value, sessionId) => webphone.sendDTMF(value, sessionId),
