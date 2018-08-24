@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
-    "babel-settings": "0.0.1",
+    "babel-settings": "^1.0.2",
     "jest": "^22.4.3"
   },
   "e2e": {
@@ -38,8 +38,12 @@
       ]
     }
   },
+  "jest": {
+    "testEnvironment": "node"
+  },
   "dependencies": {
     "puppeteer": "^1.7.0",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "webphone-client": "git+https://git.ringcentral.com/centralized-webphone/js_api_client.git#master"
   }
 }
