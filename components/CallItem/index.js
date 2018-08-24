@@ -331,6 +331,10 @@ var CallItem = function (_Component) {
       }
     };
 
+    _this.externalViewEntity = function () {
+      return _this.props.externalViewEntity(_this.props.call);
+    };
+
     _this.state = {
       selected: _this.getInitialContactIndex(),
       isLogging: false,
@@ -648,9 +652,7 @@ var CallItem = function (_Component) {
           callTitle: _i18n2.default.getString('call', currentLocale),
           createEntityTitle: _i18n2.default.getString('addEntity', currentLocale),
           viewEntityTitle: _i18n2.default.getString('viewDetails', currentLocale),
-          externalViewEntity: externalViewEntity && function () {
-            return externalViewEntity(_this5.props.call);
-          },
+          externalViewEntity: externalViewEntity && this.externalViewEntity,
           externalHasEntity: externalHasEntity && externalHasEntity(this.props.call),
           disableClickToSms: disableClickToSms
         })

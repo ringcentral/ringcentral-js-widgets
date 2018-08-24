@@ -356,6 +356,10 @@ var ActiveCallItem = function (_Component) {
 
     _this.logCall = _this.logCall.bind(_this);
 
+    _this.externalViewEntity = function () {
+      return _this.props.externalViewEntity(_this.props.call);
+    };
+
     _this.state = {
       selected: 0,
       isLogging: false,
@@ -556,7 +560,7 @@ var ActiveCallItem = function (_Component) {
           renderContactName = _props2.renderContactName,
           renderExtraButton = _props2.renderExtraButton,
           contactDisplayStyle = _props2.contactDisplayStyle,
-          _externalViewEntity = _props2.externalViewEntity,
+          externalViewEntity = _props2.externalViewEntity,
           externalHasEntity = _props2.externalHasEntity,
           readTextPermission = _props2.readTextPermission,
           isOnConferenceCall = _props2.isOnConferenceCall,
@@ -657,9 +661,7 @@ var ActiveCallItem = function (_Component) {
           editLogTitle: _i18n2.default.getString('editLog', currentLocale),
           createEntityTitle: _i18n2.default.getString('addEntity', currentLocale),
           viewEntityTitle: _i18n2.default.getString('viewDetails', currentLocale),
-          externalViewEntity: function externalViewEntity() {
-            return _externalViewEntity && _externalViewEntity(_this3.props.call);
-          },
+          externalViewEntity: externalViewEntity && this.externalViewEntity,
           externalHasEntity: externalHasEntity && externalHasEntity(this.props.call),
           disableClickToSms: disableClickToSms
         }) : null
