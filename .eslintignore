@@ -3,6 +3,8 @@
 build/**
 docs/**
 
+**/integration-test/**
+**/ringcentral-widgets-test/**
 release/**
 coverage/**
 **/karma.config.js
