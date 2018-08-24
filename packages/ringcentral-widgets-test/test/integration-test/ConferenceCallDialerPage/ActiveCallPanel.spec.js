@@ -114,7 +114,7 @@ async function mockStartConference() {
   contactA = phone.contacts.allContacts.find(item => item.type === 'company');
   contactB = phone.contacts.allContacts.find(item => item.type === 'company');
   await mockAddCall(contactA, contactB);
-  expect(phone.routerInteraction.currentPath).toEqual('/conferenceCall/mergeCtrl');
+  expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
   wrapper.update();
   const callCtrlPage = wrapper.find(CallCtrlPage);
   const sessionId = phone.webphone.activeSession.id;
@@ -147,7 +147,7 @@ describe('RCI-1071: simplified call control page #3', () => {
       contactB = phone.contacts.allContacts.find(item => item.type === 'personal' && !item.hasProfileImage);
 
       await mockAddCall(contactA, contactB);
-      expect(phone.routerInteraction.currentPath).toEqual('/conferenceCall/mergeCtrl');
+      expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
       await timeout(3000);
       const mergeInfo = wrapper.find(MergeInfo);
       expect(mergeInfo).toHaveLength(1);
@@ -205,7 +205,7 @@ describe('RCI-1071: simplified call control page #3', () => {
     await timeout(1000);
     await mockSub(1000);
     await timeout(1000);
-    expect(phone.routerInteraction.currentPath).toEqual('/conferenceCall/mergeCtrl');
+    expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
     wrapper.update();
     const mergeInfo = wrapper.find(MergeInfo);
     expect(mergeInfo).toHaveLength(1);
@@ -224,7 +224,7 @@ describe('RCI-1710156: Call control add call flow', () => {
     contactA = phone.contacts.allContacts.find(item => item.type === 'company' && item.hasProfileImage);
     contactB = phone.contacts.allContacts.find(item => item.type === 'personal' && !item.hasProfileImage);
     await mockAddCall(contactA, contactB);
-    expect(phone.routerInteraction.currentPath).toEqual('/conferenceCall/mergeCtrl');
+    expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
     const activeCallButtons = wrapper.find(ActiveCallPad).find(ActiveCallButton);
     expect(activeCallButtons.at(0).props().title).toEqual('Mute');
     expect(activeCallButtons.at(1).props().title).toEqual('Keypad');

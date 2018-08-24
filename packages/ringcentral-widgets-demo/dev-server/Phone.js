@@ -227,7 +227,7 @@ export default class BasePhone extends RcModule {
 
     webphone.onCallEnd((session, currentSession) => {
       if (
-        routerInteraction.currentPath === '/conferenceCall/mergeCtrl' &&
+        routerInteraction.currentPath === '/calls/active' &&
         webphone.cachedSessions.length && (
           !currentSession ||
           (webphone.cachedSessions.find(cachedSession => cachedSession.id === currentSession.id))
@@ -236,24 +236,15 @@ export default class BasePhone extends RcModule {
         return;
       }
 
-      if (currentSession && routerInteraction.currentPath === '/conferenceCall/mergeCtrl') {
-        const { fromSessionId } = conferenceCall.mergingPair;
-        if (session.id !== fromSessionId) {
-          routerInteraction.push('/calls/active');
-          return;
-        }
-      }
-
       if (
         !![
-          '/conferenceCall/mergeCtrl',
           '/conferenceCall/dialer/',
           '/calls/active'
         ].find(path => routerInteraction.currentPath.indexOf(path) !== -1) &&
         (!currentSession || session.id === currentSession.id)
       ) {
         if (
-          routerInteraction.currentPath === '/conferenceCall/mergeCtrl' ||
+          routerInteraction.currentPath === '/calls/active' ||
           routerInteraction.currentPath.indexOf('/conferenceCall/dialer/') === 0 ||
           !currentSession
         ) {
@@ -273,11 +264,6 @@ export default class BasePhone extends RcModule {
     });
 
     webphone.onCallStart((session) => {
-      if (routerInteraction.currentPath.indexOf('/conferenceCall/dialer/') === 0) {
-        routerInteraction.push('/conferenceCall/mergeCtrl');
-        return;
-      }
-
       const isConferenceCallSession = (
         conferenceCall
         && conferenceCall.isConferenceSession(session.id)
@@ -285,7 +271,6 @@ export default class BasePhone extends RcModule {
 
       if (
         routerInteraction.currentPath !== '/calls/active' &&
-        routerInteraction.currentPath !== '/conferenceCall/mergeCtrl' &&
         !(isConferenceCallSession && routerInteraction.currentPath === '/calls')
       ) {
         routerInteraction.push('/calls/active');
