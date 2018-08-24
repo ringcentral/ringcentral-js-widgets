@@ -13,20 +13,18 @@ describe(
       console.log(JSON.parse(respstn.text));
 
       console.log("set pstn auto answer");
-      let result1  = await webphone.preOperate_answerCall(JSON.parse(respstn.text)._id, JSON.parse(respstn.text).sessionId);
+      let result1  = await webphone.preOperateAnswerCall(JSON.parse(respstn.text)._id, JSON.parse(respstn.text).sessionId);
 
       console.log("webphone makecall");
-      let result2 = await webphone.operate_makecall(JSON.parse(reswebphone.text)._id,JSON.parse(reswebphone.text).sessionId,JSON.parse(respstn.text).phoneNumber);
+      let result2 = await webphone.operateMakeCall(JSON.parse(reswebphone.text)._id,JSON.parse(reswebphone.text).sessionId,JSON.parse(respstn.text).phoneNumber);
 
       webphone.sleep(50000);
 
       console.log("webphone hangup");
-     let result3 = await webphone.operate_hangup(JSON.parse(reswebphone.text)._id,JSON.parse(reswebphone.text).sessionId,JSON.parse(respstn.text).phoneNumber);
+     let result3 = await webphone.operateHangUp(JSON.parse(reswebphone.text)._id,JSON.parse(reswebphone.text).sessionId,JSON.parse(respstn.text).phoneNumber);
 
       console.log("close");
-      await webphone.operate_close(JSON.parse(reswebphone.text)._id,JSON.parse(reswebphone.text).sessionId,JSON.parse(reswebphone.text).phoneNumber);
-      await webphone.operate_close(JSON.parse(respstn.text)._id,JSON.parse(respstn.text).sessionId,JSON.parse(respstn.text).phoneNumber);
-    })
-  },
-  5000
-)
+      await webphone.operateClose(JSON.parse(reswebphone.text)._id,JSON.parse(reswebphone.text).sessionId,JSON.parse(reswebphone.text).phoneNumber);
+      await webphone.operateClose(JSON.parse(respstn.text)._id,JSON.parse(respstn.text).sessionId,JSON.parse(respstn.text).phoneNumber);
+    },500000)
+  })
