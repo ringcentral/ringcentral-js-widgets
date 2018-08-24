@@ -31,14 +31,53 @@
       "uri" : "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/profile-image",
       "etag": "blob:http://localhost:8080/363d6075-6433-4a86-b1c4-e95030edc103"
     }
-  }],
+  }, {
+    "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/160770006/extension/160772006",
+    "id" : 160772006,
+    "extensionNumber" : "102",
+    "contact" : {
+      "firstName" : "FirstName 102",
+      "lastName" : "LastName",
+      "email" : "mm1+1528852490321-2542433@dins.ru",
+      "emailAsLoginName" : true,
+      "pronouncedName" : {
+        "type" : "Default",
+        "text" : "FirstName 102 LastName"
+      }
+    },
+    "name" : "FirstName 102 LastName",
+    "type" : "User",
+    "status" : "Enabled",
+    "permissions" : {
+      "admin" : {
+        "enabled" : false
+      },
+      "internationalCalling" : {
+        "enabled" : true
+      }
+    },
+    "profileImage" : {
+      "uri" : "https://media-xmnup.lab.nordigy.ru/restapi/v1.0/account/160770006/extension/160772006/profile-image",
+      "etag" : "5fc8ebda856d6574b79b38618ed91724",
+      "contentType" : "image/png",
+      "lastModified" : "2018-06-13T01:14:58.760Z",
+      "scales" : [ {
+        "uri" : "https://media-xmnup.lab.nordigy.ru/restapi/v1.0/account/160770006/extension/160772006/profile-image/90x90"
+      }, {
+        "uri" : "https://media-xmnup.lab.nordigy.ru/restapi/v1.0/account/160770006/extension/160772006/profile-image/195x195"
+      }, {
+        "uri" : "https://media-xmnup.lab.nordigy.ru/restapi/v1.0/account/160770006/extension/160772006/profile-image/584x584"
+      } ]
+    },
+    "hidden" : false
+  } ],
   "paging" : {
     "page" : 1,
     "totalPages" : 1,
     "perPage" : 1000,
-    "totalElements" : 1,
+    "totalElements" : 2,
     "pageStart" : 0,
-    "pageEnd" : 0
+    "pageEnd" : 1
   },
   "navigation" : {
     "firstPage" : {
