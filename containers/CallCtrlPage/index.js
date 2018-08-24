@@ -209,8 +209,15 @@ function mapToFunctions(_, _ref2) {
       return webphone.hold(sessionId);
     },
     onUnhold: function onUnhold(sessionId) {
-      return webphone.unhold(sessionId);
+      var mergingPair = conferenceCall && conferenceCall.mergingPair;
+      if (mergingPair && sessionId !== mergingPair.toSessionId) {
+        // close merging pair to close the merge call if resume a call
+        conferenceCall.closeMergingPair();
+      }
+
+      webphone.unhold(sessionId);
     },
+
     onRecord: function onRecord(sessionId) {
       return webphone.startRecord(sessionId);
     },
