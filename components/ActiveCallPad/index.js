@@ -32,6 +32,8 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+exports.MoreActionItem = MoreActionItem;
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -123,8 +125,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // import ParkIcon from '../../assets/images/Park.svg';
 var DisplayButtonNumber = 6;
 // import AddIcon from '../../assets/images/AddCall.svg';
-
-
 function MoreActionItem(_ref) {
   var title = _ref.title,
       Icon = _ref.icon,
