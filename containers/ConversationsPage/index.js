@@ -181,7 +181,7 @@ function mapToFunctions(_, _ref2) {
         dialerUI.call({ recipient: recipient });
       }
     } : undefined,
-    onClickToSms: function onClickToSms(contact) {
+    onClickToSms: rolesAndPermissions.hasComposeTextPermission ? function (contact) {
       var isDummyContact = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
       if (routerInteraction) {
@@ -199,8 +199,7 @@ function mapToFunctions(_, _ref2) {
       }
       // for track
       messageStore.onClickToSMS();
-    },
-
+    } : undefined,
     isLoggedContact: isLoggedContact,
     onLogConversation: onLogConversation || conversationLogger && function () {
       var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref6) {
