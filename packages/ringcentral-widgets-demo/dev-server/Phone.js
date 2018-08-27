@@ -244,7 +244,7 @@ export default class BasePhone extends RcModule {
         (!currentSession || session.id === currentSession.id)
       ) {
         if (
-          routerInteraction.currentPath === '/calls/active' ||
+          routerInteraction.currentPath.indexOf('/calls/active') === 0 ||
           routerInteraction.currentPath.indexOf('/conferenceCall/dialer/') === 0 ||
           !currentSession
         ) {
@@ -263,15 +263,9 @@ export default class BasePhone extends RcModule {
       }
     });
 
-    webphone.onCallStart((session) => {
-      const isConferenceCallSession = (
-        conferenceCall
-        && conferenceCall.isConferenceSession(session.id)
-      );
-
+    webphone.onCallStart(() => {
       if (
-        routerInteraction.currentPath !== '/calls/active' &&
-        !(isConferenceCallSession && routerInteraction.currentPath === '/calls')
+        routerInteraction.currentPath !== '/calls/active'
       ) {
         routerInteraction.push('/calls/active');
       }
