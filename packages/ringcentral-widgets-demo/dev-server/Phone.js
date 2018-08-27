@@ -253,7 +253,8 @@ export default class BasePhone extends RcModule {
       if (
         !![
           '/conferenceCall/dialer/',
-          '/calls/active'
+          '/calls/active',
+          '/conferenceCall/callsOnhold'
         ].find(path => routerInteraction.currentPath.indexOf(path) !== -1) &&
         (!currentSession || session.id === currentSession.id)
       ) {
