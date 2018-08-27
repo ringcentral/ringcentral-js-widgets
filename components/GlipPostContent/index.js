@@ -47,6 +47,7 @@ function Attachments(_ref) {
       });
     }
     if (attachment.type === 'Card') {
+      // TODO: update message with i18n
       return 'Unsupported message';
     }
     return _react2.default.createElement(

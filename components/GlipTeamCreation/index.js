@@ -129,6 +129,7 @@ var GlipTeamCreationModal = function (_Component) {
                 break;
               }
 
+              // TODO: update error message with i18n
               _this.setState({ error: 'Please enter a valid team name.' });
               return _context.abrupt('return');
 
@@ -138,6 +139,7 @@ var GlipTeamCreationModal = function (_Component) {
                 break;
               }
 
+              // TODO: update error message with i18n
               _this.setState({ error: 'Please select team number.' });
               return _context.abrupt('return');
 
@@ -209,6 +211,7 @@ var GlipTeamCreationModal = function (_Component) {
           return c.emails.length;
         }).slice(0, 10);
       }
+      // TODO: update title message with i18n
       return _react2.default.createElement(
         _Modal2.default,
         {

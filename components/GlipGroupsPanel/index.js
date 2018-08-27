@@ -147,6 +147,7 @@ var GlipGroupsPanel = function (_PureComponent) {
           contactSearchFilter = _props.contactSearchFilter;
 
       var spinner = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : null;
+      // TODO: update searching with i18n
       return _react2.default.createElement(
         'div',
         { className: (0, _classnames2.default)(_styles2.default.root, className) },

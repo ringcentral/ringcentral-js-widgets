@@ -248,7 +248,7 @@ var GlipChatForm = function (_Component) {
           placeholder = _props.placeholder,
           height = _props.height;
 
-
+      var noFoundString = 'No found.'; // TODO: i18n after string confirmed
       return _react2.default.createElement(
         'div',
         { className: (0, _classnames2.default)(_styles2.default.root, className), style: { height: height } },
@@ -293,7 +293,7 @@ var GlipChatForm = function (_Component) {
             onSearchChange: this._onSearchChange,
             suggestions: this.state.suggestions,
             prefix: '@',
-            notFoundContent: 'No found.',
+            notFoundContent: noFoundString,
             multiLines: true,
             mode: 'immutable',
             onKeyDown: this._onTextAreaKeyDown

@@ -44,12 +44,14 @@ function LatestPost(_ref) {
   var formatedText = (0, _formatPost.getPostAbstract)(latestPost, members);
 
   if (!isGroup || !latestPost.creator) {
+    // TODO: update message with i18n
     return _react2.default.createElement(
       'div',
       { className: _styles2.default.latestPost },
       formatedText || 'Unsupported message'
     );
   }
+  // TODO: update message with i18n
   return _react2.default.createElement(
     'div',
     { className: _styles2.default.latestPost },

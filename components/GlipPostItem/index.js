@@ -40,6 +40,7 @@ function PostAvatar(_ref) {
       viewProfile = _ref.viewProfile;
 
   if (!creator) {
+    // TODO: update alt with i18n
     return _react2.default.createElement('img', { src: _default_avatar2.default, alt: 'default avatar' });
   }
   return _react2.default.createElement('img', {
@@ -95,6 +96,7 @@ function PostStatus(_ref3) {
   if (!sendStatus) {
     return null;
   }
+  // TODO: update sending status with i18n
   return _react2.default.createElement(
     'span',
     null,
@@ -152,6 +154,7 @@ function GlipPost(_ref5) {
       );
     });
   }
+  // TODO: update joining status with i18n
   return _react2.default.createElement(
     'div',
     {
