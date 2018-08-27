@@ -227,7 +227,7 @@ export default class BasePhone extends RcModule {
 
     webphone.onCallEnd((session, currentSession) => {
       if (
-        routerInteraction.currentPath === '/calls/active' &&
+        routerInteraction.currentPath.indexOf('/calls/active') === 0 &&
         webphone.cachedSessions.length && (
           !currentSession ||
           (webphone.cachedSessions.find(cachedSession => cachedSession.id === currentSession.id))
