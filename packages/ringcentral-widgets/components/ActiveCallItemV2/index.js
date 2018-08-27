@@ -400,15 +400,12 @@ export default class ActiveCallItem extends Component {
               <ContactDisplay
                 isOnConferenceCall={isOnConferenceCall}
                 contactName={contactName}
-                className={
-                isOnConferenceCall
-                  ? classnames(styles.conferenceContactDisplay)
-                  : classnames(styles.contactDisplay, contactDisplayStyle)
-              }
+                className={classnames(styles.contactDisplay, contactDisplayStyle)}
                 contactMatches={contactMatches}
                 selected={this.state.selected}
                 onSelectContact={this.onSelectContact}
-                disabled={disableLinks}
+                disabled
+                iconClassName={styles.icon}
                 isLogging={isLogging || this.state.isLogging}
                 fallBackName={fallbackContactName}
                 enableContactFallback={enableContactFallback}
