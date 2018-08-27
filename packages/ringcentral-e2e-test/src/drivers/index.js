@@ -1,9 +1,13 @@
 import enzyme from './enzyme';
 import puppeteer from './puppeteer';
-import seleniumWebdriver from './seleniumWebdriver';
+import { getSeleniumWebdriver } from './seleniumWebdriver';
 
 export default {
   enzyme,
   puppeteer,
-  seleniumWebdriver,
+  seleniumWebdriverChrome: getSeleniumWebdriver('Chrome'),
+  seleniumWebdriverIE: getSeleniumWebdriver('Ie'),
+  seleniumWebdriverEdge: getSeleniumWebdriver('Edge'),
+  seleniumWebdriverFirefox: getSeleniumWebdriver('Firefox'),
+  seleniumWebdriverSafari: getSeleniumWebdriver('Safari'),
 };

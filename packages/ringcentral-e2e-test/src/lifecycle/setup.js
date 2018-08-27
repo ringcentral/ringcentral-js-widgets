@@ -44,6 +44,31 @@ function flattenTestConfig(config) {
     ]), []);
 }
 
+function getDriver(name, {
+  caseParams,
+  option,
+  tag,
+  level
+}) {
+  const { Driver, setting, } = drivers[name];
+  const config = getDriverConfig({
+    projects: global.execGlobal.params.projects,
+    tag,
+  });
+  const options = {
+    global: global.execGlobal,
+    caseParams,
+    option,
+    tag,
+    level,
+    driver: {
+      config,
+      setting,
+    },
+  };
+  return new Driver(options);
+}
+// TODO optimizing about once get generator from `globalSetup`
 function setup({
   config,
   plugins,
@@ -60,26 +85,16 @@ function setup({
     option,
     tag,
     level
-  }) => {
-    const { Driver, setting, } = drivers[global.execDriver];
-    const config = getDriverConfig({
-      projects: global.execGlobal.params.projects,
-      tag,
-    });
-    const options = {
-      global: global.execGlobal,
+  }) => (global.execDrivers.reduce((_drivers, name) => {
+    // TODO setup plugins
+    _drivers[name] = getDriver(name, {
       caseParams,
       option,
       tag,
-      level,
-      driver: {
-        config,
-        setting,
-      },
-    };
-    // TODO setup plugins
-    return new Driver(options);
-  };
+      level
+    });
+    return _drivers;
+  }, {}));
 }
 
 const setting = {

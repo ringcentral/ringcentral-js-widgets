@@ -1,44 +1,49 @@
-import request from "request";
+import request from 'request';
 
-class accountHelper{
+const BASE_URL = 'http://10.32.36.75:7789/env/xmnup/account/';
 
-  baseReq(method, path, param){
-    const BASE_URL = "http://10.32.36.75:7789/env/xmnup/account/";
-    let options = {
+class AccountHelper {
+  constructor({ baseUrl = BASE_URL }) {
+    this._baseUrl = baseUrl;
+  }
+
+  baseReq(method, path, param) {
+    const options = {
       headers: {
         charset: 'UTF-8'
       },
-      url: BASE_URL + path + "/" + param,
-      method: method,
+      url: `${this._baseUrl}${path}/${param}`,
+      method,
       json: true
     };
-
-    return new Promise(function(resolve, reject) {
-      return request(options, function (err, response, body) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(body);
-        }
-      });
-    });
+    return new Promise((resolve, reject) => (request(options, (err, response, body) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(body);
+      }
+    })));
   }
 
   async getAccount(scenarioTag) {
-    return await this.baseReq('GET', "tag", scenarioTag);
+    const response = await this.baseReq('GET', 'tag', scenarioTag);
+    return response;
   }
 
   async getAccountByUUid(uuid) {
-    return await this.baseReq('GET',"id", uuid);
+    const response = await this.baseReq('GET', 'id', uuid);
+    return response;
   }
 
   async lockAccount(uuid) {
-    return await this.baseReq('PUT',"occupy", uuid);
+    const response = await this.baseReq('PUT', 'occupy', uuid);
+    return response;
   }
 
   async recycleAccount(uuid) {
-    return await this.baseReq('PUT',"recycle", uuid)
+    const response = await this.baseReq('PUT', 'recycle', uuid);
+    return response;
   }
 }
 
-module.exports = new accountHelper()
+export default new AccountHelper();

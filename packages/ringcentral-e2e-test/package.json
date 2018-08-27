@@ -21,22 +21,23 @@
   },
   "e2e": {
     "runner": "./src/bin/runner.js",
-    "caseServices": [
-      {
-        "name": "Einstein",
-        "url": "http://www.einstein.com"
-      }
-    ],
+    "caseServices": [{
+      "name": "Einstein",
+      "url": "http://www.einstein.com",
+      "handler": "./einstein.js"
+    }],
     "tester": "jest",
-    "defaultExec": {
+    "default": {
       "driver": "puppeteer",
       "level": [
         "p0",
         "p1"
       ],
-      "brand": [
-        "rc"
-      ]
+      "tags": {
+        "brand": [
+          "rc"
+        ]
+      }
     }
   },
   "jest": {
@@ -45,6 +46,7 @@
   "dependencies": {
     "puppeteer": "^1.7.0",
     "request": "^2.88.0",
-    "webphone-client": "git+https://git.ringcentral.com/centralized-webphone/js_api_client.git#master"
+    "webphone-client": "git+https://git.ringcentral.com/centralized-webphone/js_api_client.git#master",
+    "selenium-webdriver": "^4.0.0-alpha.1"
   }
 }

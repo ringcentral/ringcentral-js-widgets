@@ -29,7 +29,8 @@ class Driver {
 
   async close() {
     if (this.browser) {
-      await this.browser.close();
+      // await this.browser.close();
+      try { await this.browser.close(); } catch (e) {}
     }
   }
 
