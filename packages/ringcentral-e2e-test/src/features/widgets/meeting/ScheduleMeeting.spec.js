@@ -9,8 +9,8 @@ describe('test: =====>', () => {
       { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
     ],
   }, async ({
-    option, context, tag, level
-  }) => {
+              option, context, tag, level
+            }) => {
     const text = await context.text(option.selector);
     expect(text).toBe(option.expected);
   });
