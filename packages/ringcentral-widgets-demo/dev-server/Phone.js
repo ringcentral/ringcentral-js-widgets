@@ -226,6 +226,20 @@ export default class BasePhone extends RcModule {
     });
 
     webphone.onCallEnd((session, currentSession) => {
+      const callsOnholdReg = /^\/conferenceCall\/callsOnhold\/(.+)\/(.+)$/;
+      const execCallsOnhold = callsOnholdReg.exec(routerInteraction.currentPath);
+
+      if (execCallsOnhold) {
+        const fromSessionIdOfCallsOnhold = execCallsOnhold[2];
+        if (!currentSession || session.id === currentSession.id) {
+          routerInteraction.go(-2);
+          return;
+        }
+        if (session.id === fromSessionIdOfCallsOnhold) {
+          routerInteraction.push('/calls/active');
+          return;
+        }
+      }
       if (
         routerInteraction.currentPath.indexOf('/calls/active') === 0 &&
         webphone.cachedSessions.length && (
@@ -239,7 +253,8 @@ export default class BasePhone extends RcModule {
       if (
         !![
           '/conferenceCall/dialer/',
-          '/calls/active'
+          '/calls/active',
+          '/conferenceCall/callsOnhold'
         ].find(path => routerInteraction.currentPath.indexOf(path) !== -1) &&
         (!currentSession || session.id === currentSession.id)
       ) {
