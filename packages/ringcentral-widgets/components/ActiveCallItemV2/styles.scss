@@ -115,3 +115,13 @@ $button-basis:68.5px;
 .pointer {
   cursor: pointer;
 }
+
+// overwrite <DropDownSelect/>
+.contactDisplay,
+.contactDisplay * {
+  cursor: default !important;
+  color: $lightblack !important;
+  .icon {
+    display: none;
+  }
+}
