@@ -26,7 +26,7 @@ import i18n from './i18n';
 
 const DisplayButtonNumber = 6;
 
-function MoreActionItem({
+export function MoreActionItem({
   title,
   icon: Icon,
   disabled,

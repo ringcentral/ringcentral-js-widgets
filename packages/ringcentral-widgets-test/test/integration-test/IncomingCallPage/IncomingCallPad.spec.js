@@ -282,7 +282,7 @@ describe('Check Ignore Button', () => {
     expect(wrapper.find(IncomingCallPanel)).toHaveLength(0);
   });
   test('RCI-1712332#Entry2: outbound call + incoming call, Second call incoming_Ignore', async () => {
-    // Make a outbound call, and make another incoming call
+    // Make an outbound call, and make another incoming call
     await makeMultiCalls('Outbound');
 
     const buttons = wrapper.find(IncomingCallPad).find(ActiveCallButton);

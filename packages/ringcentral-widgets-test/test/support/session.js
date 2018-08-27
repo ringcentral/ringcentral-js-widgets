@@ -1,5 +1,6 @@
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatuses';
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
+import recordStatus from 'ringcentral-integration/modules/Webphone/recordStatus';
 
 let partyId = 95;
 class MediaHandler {
@@ -26,6 +27,10 @@ export const unmuteFn = jest.fn();
 export const acceptFn = jest.fn();
 export const terminateFn = jest.fn();
 export const rejectFn = jest.fn();
+export const transferFn = jest.fn();
+export const flipFn = jest.fn();
+export const startRecordFn = jest.fn();
+export const stopRecordFn = jest.fn();
 
 export default class Session {
   constructor({
@@ -60,7 +65,7 @@ export default class Session {
     this.isOnTransfer = undefined;
     this.isForwarded = undefined;
     this.isReplied = undefined;
-    this.recordStatus = undefined;
+    this.recordStatus = recordStatus.idle;
     this.minimized = undefined;
     this.lastHoldingTime = undefined;
     this.telephonyStatus = telephonyStatus || telephonyStatuses.onHold;
@@ -84,16 +89,13 @@ export default class Session {
 
   // Change Session Id
   accept(acceptOptions) {
-    acceptFn.mockReturnValueOnce({
-      sessionId: this.id
-    });
     this.callStatus = sessionStatus.connected;
     this.trigger('accepted', acceptOptions);
     partyId += 1;
     this.partyData = {
       partyId: `cs17262255528361442${partyId}-1`,
       sessionId: 'Y3MxNzI2MjI1NTQzODI0MzUzM0AxMC43NC4yLjIxOA',
-    }
+    };
     return acceptFn(this.id);
   }
 
@@ -149,6 +151,32 @@ export default class Session {
   forward(validPhoneNumber, acceptOptions) {
     this.reject();
     forwardFn(validPhoneNumber, acceptOptions);
+  }
+
+  dtmf(value) {
+    return value;
+  }
+
+  async transfer(validPhoneNumber) {
+    this.trigger('refer');
+    transferFn(validPhoneNumber);
+    return Promise.resolve(validPhoneNumber);
+  }
+
+  async flip(flipValue, sessionId) {
+    flipFn(flipValue, sessionId);
+    this.isOnFlip = true;
+    return Promise.resolve({ flipValue, sessionId });
+  }
+
+  async startRecord() {
+    startRecordFn(this.id);
+    return Promise.resolve(this.id);
+  }
+
+  async stopRecord() {
+    stopRecordFn(this.id);
+    return Promise.resolve(this.id);
   }
 }
 
