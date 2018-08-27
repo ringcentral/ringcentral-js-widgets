@@ -1,5 +1,5 @@
-import config, { getDriverConfig } from '../config';
 import drivers from 'ringcentral-e2e-drivers';
+import config, { getDriverConfig } from '../config';
 import {
   isNil,
   isPlainobject
@@ -7,7 +7,6 @@ import {
 // import screenshot from '../plugins/screenshot';
 // import logger from '../plugins/logger';
 
-console.log('<>>>>>>setup');
 function getPattern(value) {
   let pattern;
   if (Array.isArray(value)) {
@@ -102,5 +101,5 @@ const setting = {
   config,
   // plugins: [screenshot, logger]
 };
-
+console.log('setup');
 setup(setting);
