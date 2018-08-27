@@ -24,6 +24,7 @@ function mapToProps(_, {
   },
   params,
   children,
+  multipleLayout,
 }) {
   const sessionId = params && params.sessionId;
   let currentSession;
@@ -110,6 +111,7 @@ function mapToProps(_, {
     lastCallInfo,
     children,
     isOnConference,
+    multipleLayout,
   };
 }
 
@@ -127,10 +129,15 @@ function mapToFunctions(_, {
   phoneTypeRenderer,
   recipientsContactInfoRenderer,
   recipientsContactPhoneRenderer,
+  multipleLayout,
 }) {
   return {
     getInitialLayout({ isOnConference, lastCallInfo, session }) {
       let layout = callCtrlLayouts.normalCtrl;
+
+      if (!multipleLayout) {
+        return layout;
+      }
 
       if (isOnConference) {
         return callCtrlLayouts.conferenceCtrl;
@@ -138,13 +145,18 @@ function mapToFunctions(_, {
       const isInboundCall = session.direction === callDirections.inbound;
 
       const { fromSessionId } = conferenceCall.mergingPair;
+      const activeSessionId = webphone && webphone.activeSession && webphone.activeSession.id;
 
       if (!isOnConference &&
          !isInboundCall &&
         (
           fromSessionId &&
-          fromSessionId !== session.id &&
+          (fromSessionId !== session.id) &&
           lastCallInfo
+        ) &&
+        (
+          session.callStatus !== sessionStatus.onHold ||
+          (session.callStatus === sessionStatus.onHold && session.id === activeSessionId)
         )
       ) {
         // enter merge ctrl page.
@@ -264,6 +276,7 @@ CallCtrlContainer.propTypes = {
   children: PropTypes.node,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
+  multipleLayout: PropTypes.bool,
 };
 
 CallCtrlContainer.defaultProps = {
@@ -271,6 +284,11 @@ CallCtrlContainer.defaultProps = {
   showContactDisplayPlaceholder: false,
   children: undefined,
   sourceIcons: undefined,
+
+  /**
+   * Set to true to let callctrlpage support handling multiple layouts, false by default.
+   */
+  multipleLayout: false,
 };
 
 export {

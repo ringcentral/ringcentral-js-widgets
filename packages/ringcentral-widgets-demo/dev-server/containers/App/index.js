@@ -63,7 +63,6 @@ export default function App({
                   defaultOffsetY={73}
                   hidden={(
                     routerProps.location.pathname === '/calls/active' ||
-                    routerProps.location.pathname === '/conferenceCall/mergeCtrl' ||
                     routerProps.location.pathname.indexOf('/conferenceCall/callsOnhold') === 0 ||
                     routerProps.location.pathname.indexOf('/conferenceCall/dialer') === 0 ||
                     routerProps.location.pathname === '/conferenceCall/participants'
@@ -170,6 +169,7 @@ export default function App({
                     onBackButtonClick={() => {
                       phone.routerInteraction.push('/calls');
                     }}
+                    multipleLayout
                   >
                     <RecentActivityContainer
                       getSession={() => (phone.webphone.activeSession || {})}
@@ -268,21 +268,6 @@ export default function App({
                     onBack={() => {
                       phone.routerInteraction.push('/calls/active');
                     }} />
-                )} />
-              <Route
-                path="/conferenceCall/mergeCtrl"
-                component={() => (
-                  <CallCtrlPage
-                    showContactDisplayPlaceholder={false}
-                    sourceIcons={sourceIcons}
-                    getAvatarUrl={getAvatarUrl}
-                    onAdd={() => {
-                      phone.routerInteraction.push('/dialer');
-                    }}
-                    onBackButtonClick={() => {
-                      phone.routerInteraction.push('/calls');
-                    }}
-                  />
                 )} />
               <Route
                 path="/conferenceCall/participants"
