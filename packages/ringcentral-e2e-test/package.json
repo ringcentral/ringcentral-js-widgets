@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "test": "e2e-test run ./src/features/widgets/meeting/ScheduleMeeting.spec.js"
+  },
   "dependencies": {
     "babel-cli": "^6.26.0",
     "jest": "^23.5.0",

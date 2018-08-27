@@ -67,5 +67,6 @@ cd packages/ringcentral-widgets-demo && yarn dev-server
 ```
 
 ```shell
-npx babel-node ./packages/ringcentral-e2e-test/temp.js
+cd packages/ringcentral-e2e-test
+yarn test
 ```
