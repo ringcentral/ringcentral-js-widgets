@@ -2034,7 +2034,7 @@ var Webphone = (_dec = (0, _di.Module)({
     }
 
     /**
-     * start a outbound call.
+     * start an outbound call.
      * @param {toNumber} recipient number
      * @param {fromNumber} call Id
      * @param {homeCountryId} homeCountry Id
