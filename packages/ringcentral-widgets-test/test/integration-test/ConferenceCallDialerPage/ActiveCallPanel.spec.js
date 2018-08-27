@@ -117,22 +117,22 @@ async function mockStartConference() {
   expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
   wrapper.update();
   const callCtrlPage = wrapper.find(CallCtrlPage);
-  const sessionId = phone.webphone.activeSession.id;
-  callCtrlPage.props().onMerge(sessionId);
+  const mergeButton = callCtrlPage.find(CircleButton).at(3);
+  mergeButton.simulate('click');
   const fromSessionId = phone.conferenceCall.state.mergingPair.fromSessionId;
   const fromSession = phone.webphone._sessions.get(fromSessionId);
   const toSessionId = phone.conferenceCall.state.mergingPair.toSessionId;
   const toSession = phone.webphone._sessions.get(toSessionId);
   toSession.terminate();
   fromSession.terminate();
-  await timeout(1000);
+  await timeout(100);
   toSession.reject();
   fromSession.reject();
-  await timeout(1000);
+  await timeout(100);
   const conferenceSessionId = Object.values(phone.conferenceCall.conferences)[0].sessionId;
   const conferenceSession = phone.webphone._sessions.get(conferenceSessionId);
   conferenceSession.accept();
-  await timeout(2000);
+  await timeout(200);
   wrapper.update();
 }
 describe('RCI-1071: simplified call control page #3', () => {
@@ -148,7 +148,7 @@ describe('RCI-1071: simplified call control page #3', () => {
 
       await mockAddCall(contactA, contactB);
       expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
-      await timeout(3000);
+      await timeout(300);
       const mergeInfo = wrapper.find(MergeInfo);
       expect(mergeInfo).toHaveLength(1);
 
@@ -171,7 +171,7 @@ describe('RCI-1071: simplified call control page #3', () => {
     const sessionA = phone.webphone._sessions.get(sessionId);
     sessionA.terminate();
     wrapper.update();
-    await timeout(3000);
+    await timeout(300);
 
     const mergeInfo = wrapper.find(MergeInfo);
     expect(mergeInfo).toHaveLength(1);
@@ -190,12 +190,14 @@ describe('RCI-1071: simplified call control page #3', () => {
   });
   test('#3 && #4 user makes a conference call then make an outbound call, then hangup', async () => {
     await mockStartConference();
+    phone.webphone._updateSessions();
     const conferenceSessionId = Object.values(phone.conferenceCall.conferences)[0].sessionId;
     const conferenceSession = phone.webphone._sessions.get(conferenceSessionId);
     const conferenceId = Object.values(phone.conferenceCall.conferences)[0].conference.id;
     expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
     const callCtrlPage = wrapper.find(CallCtrlPage);
-    callCtrlPage.props().onAdd(conferenceSessionId);
+    const addButton = callCtrlPage.find(CircleButton).at(3);
+    addButton.simulate('click');
     await timeout(500);
     wrapper.update();
     expect(phone.routerInteraction.currentPath).toEqual(`/conferenceCall/dialer/${conferenceSession.fromNumber}`);
