@@ -127,6 +127,8 @@ export default class ConversationsPanel extends Component {
       loadNextPage,
       loadingNextPage,
       renderExtraButton,
+      outboundSmsPermission,
+      internalSmsPermission,
     } = this.props;
     if (showSpinner) {
       return (<SpinnerOverlay />);
@@ -203,6 +205,8 @@ export default class ConversationsPanel extends Component {
           loadingNextPage={loadingNextPage}
           typeFilter={typeFilter}
           renderExtraButton={renderExtraButton}
+          outboundSmsPermission={outboundSmsPermission}
+          internalSmsPermission={internalSmsPermission}
         />
       </div>
     );
@@ -262,6 +266,8 @@ ConversationsPanel.propTypes = {
   markMessage: PropTypes.func.isRequired,
   readMessage: PropTypes.func.isRequired,
   readTextPermission: PropTypes.bool,
+  outboundSmsPermission: PropTypes.bool,
+  internalSmsPermission: PropTypes.bool,
   readVoicemailPermission: PropTypes.bool,
   readFaxPermission: PropTypes.bool,
   onSearchInputChange: PropTypes.func,
@@ -302,6 +308,8 @@ ConversationsPanel.defaultProps = {
   onClickToDial: undefined,
   onClickToSms: undefined,
   readTextPermission: true,
+  outboundSmsPermission: true,
+  internalSmsPermission: true,
   readVoicemailPermission: true,
   readFaxPermission: true,
   onSearchInputChange: undefined,
