@@ -66,7 +66,8 @@ function mapToProps(_, _ref) {
       callingSettings = _ref$phone.callingSettings,
       callMonitor = _ref$phone.callMonitor,
       params = _ref.params,
-      children = _ref.children;
+      children = _ref.children,
+      multipleLayout = _ref.multipleLayout;
 
   var sessionId = params && params.sessionId;
   var currentSession = void 0;
@@ -142,7 +143,8 @@ function mapToProps(_, _ref) {
     conferenceCallId: conferenceCallId,
     lastCallInfo: lastCallInfo,
     children: children,
-    isOnConference: isOnConference
+    isOnConference: isOnConference,
+    multipleLayout: multipleLayout
   };
 }
 
@@ -158,7 +160,8 @@ function mapToFunctions(_, _ref2) {
       onBackButtonClick = _ref2.onBackButtonClick,
       phoneTypeRenderer = _ref2.phoneTypeRenderer,
       recipientsContactInfoRenderer = _ref2.recipientsContactInfoRenderer,
-      recipientsContactPhoneRenderer = _ref2.recipientsContactPhoneRenderer;
+      recipientsContactPhoneRenderer = _ref2.recipientsContactPhoneRenderer,
+      multipleLayout = _ref2.multipleLayout;
 
   return {
     getInitialLayout: function getInitialLayout(_ref3) {
@@ -168,6 +171,10 @@ function mapToFunctions(_, _ref2) {
 
       var layout = _callCtrlLayouts2.default.normalCtrl;
 
+      if (!multipleLayout) {
+        return layout;
+      }
+
       if (isOnConference) {
         return _callCtrlLayouts2.default.conferenceCtrl;
       }
@@ -175,8 +182,9 @@ function mapToFunctions(_, _ref2) {
 
       var fromSessionId = conferenceCall.mergingPair.fromSessionId;
 
+      var activeSessionId = webphone && webphone.activeSession && webphone.activeSession.id;
 
-      if (!isOnConference && !isInboundCall && fromSessionId && fromSessionId !== session.id && lastCallInfo) {
+      if (!isOnConference && !isInboundCall && fromSessionId && fromSessionId !== session.id && lastCallInfo && (session.callStatus !== _sessionStatus2.default.onHold || session.callStatus === _sessionStatus2.default.onHold && session.id === activeSessionId)) {
         // enter merge ctrl page.
         layout = _callCtrlLayouts2.default.mergeCtrl;
       }
@@ -337,7 +345,8 @@ CallCtrlContainer.propTypes = {
   backButtonLabel: _propTypes2.default.string,
   children: _propTypes2.default.node,
   showContactDisplayPlaceholder: _propTypes2.default.bool,
-  sourceIcons: _propTypes2.default.object
+  sourceIcons: _propTypes2.default.object,
+  multipleLayout: _propTypes2.default.bool
 };
 
 CallCtrlContainer.defaultProps = {
@@ -346,7 +355,12 @@ CallCtrlContainer.defaultProps = {
   },
   showContactDisplayPlaceholder: false,
   children: undefined,
-  sourceIcons: undefined
+  sourceIcons: undefined,
+
+  /**
+   * Set to true to let callctrlpage support handling multiple layouts, false by default.
+   */
+  multipleLayout: false
 };
 
 exports.mapToProps = mapToProps;
