@@ -51,7 +51,7 @@ export function getSeleniumWebdriver(browser) {
     async close() {
       if (this.browser) {
         // TODO process is still exist?
-        // await this.browser.quit();
+        try { await this.browser.close(); } catch (e) {}
         try { await this.browser.quit(); } catch (e) {}
       }
     }

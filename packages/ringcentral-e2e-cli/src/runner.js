@@ -6,9 +6,10 @@ import config, {
 } from './config';
 import createProcess from './utils/createProess';
 
-const rootPath = '<rootDir>/packages/ringcentral-e2e-test/src';
-const setupFile = 'lifecycle/setup.js';
-const postSetupFile = 'lifecycle/postSetup.js';
+const rootPath = require('path').resolve(__dirname, '../');
+
+const setupFile = 'src/lifecycle/setup.js';
+const postSetupFile = 'src/lifecycle/postSetup.js';
 const defaultTags = Object.keys(config.params.projects)
   .map(project => [project]);
 
@@ -44,10 +45,14 @@ export default function runner({
     // TODO using globalSetup ?
     setupFiles: [`${rootPath}/${setupFile}`],
     setupTestFrameworkScriptFile: `${rootPath}/${postSetupFile}`,
+    // preset: `${rootPath}/jest-environment-e2e/jest-preset.js`,
+    globalSetup: 'ringcentral-e2e-environment/setup',
+    globalTeardown: 'ringcentral-e2e-environment/teardown',
+    testEnvironment: 'ringcentral-e2e-environment'
   };
   const command = config.tester;
   // TODO configurative tails
-  const tails = ['--forceExit', '--maxWorkers=2'];
+  const tails = ['--forceExit', '--maxWorkers=2', '--detectOpenHandles'];
   const args = [`--config=${JSON.stringify(testerConfig)}`, ...options, ...tails];
   const close = () => {
     console.log('close');

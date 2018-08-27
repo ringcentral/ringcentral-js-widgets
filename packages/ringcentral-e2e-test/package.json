@@ -1,47 +1,12 @@
 {
   "name": "ringcentral-e2e-test",
-  "version": "0.0.1",
-  "private": true,
-  "description": "E2E Tests for RingCentral Integration Apps",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ringcentral/ringcentral-js-widget.git"
-  },
-  "engines": {
-    "node": ">=8"
-  },
-  "scripts": {
-    "test": "jest"
-  },
-  "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-settings": "0.0.1",
-    "jest": "^22.4.3"
-  },
-  "e2e": {
-    "runner": "./src/bin/runner.js",
-    "caseServices": [{
-      "name": "Einstein",
-      "url": "http://www.einstein.com",
-      "handler": "./einstein.js"
-    }],
-    "tester": "jest",
-    "default": {
-      "driver": "puppeteer",
-      "level": [
-        "p0",
-        "p1"
-      ],
-      "tags": {
-        "brand": [
-          "rc"
-        ]
-      }
-    }
-  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
   "dependencies": {
-    "puppeteer": "^1.7.0",
+    "babel-cli": "^6.26.0",
+    "jest": "^23.5.0",
     "request": "^2.88.0",
-    "selenium-webdriver": "^4.0.0-alpha.1"
+    "ringcentral-e2e-cli": "^1.0.0"
   }
 }

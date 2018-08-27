@@ -17,7 +17,7 @@ describe('test: =====>', () => {
   // test({
   //   title: 'Login button ${selector} text is ${expected}',
   //   tags: [
-  //     ['google', { brands: ['rc', 'att'] }]
+  //     ['widgets', { brands: ['rc', 'att'] }]
   //   ],
   //   level: 'p1',
   //   options: [

@@ -129,6 +129,6 @@ function testCase(caseParams, fn) {
 function testDescribe(...args) {
   return _describe(...args);
 }
-
+console.log('postSetup');
 global.test = testCase;
 global.describe = testDescribe;

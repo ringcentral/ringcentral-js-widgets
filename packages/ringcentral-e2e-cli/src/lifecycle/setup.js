@@ -1,12 +1,13 @@
 import config, { getDriverConfig } from '../config';
-import drivers from '../drivers';
+import drivers from 'ringcentral-e2e-drivers';
 import {
   isNil,
   isPlainobject
 } from '../utils/checkType';
-import screenshot from '../plugins/screenshot';
-import logger from '../plugins/logger';
+// import screenshot from '../plugins/screenshot';
+// import logger from '../plugins/logger';
 
+console.log('<>>>>>>setup');
 function getPattern(value) {
   let pattern;
   if (Array.isArray(value)) {
@@ -99,7 +100,7 @@ function setup({
 
 const setting = {
   config,
-  plugins: [screenshot, logger]
+  // plugins: [screenshot, logger]
 };
 
 setup(setting);
