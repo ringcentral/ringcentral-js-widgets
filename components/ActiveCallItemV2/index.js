@@ -478,7 +478,10 @@ var ActiveCallItem = function (_Component) {
 
       return _react2.default.createElement(
         'div',
-        { onClick: onClick, className: (0, _classnames3.default)(_styles2.default.callItemContainer, _styles2.default.pointer) },
+        {
+          onClick: onClick,
+          className: (0, _classnames3.default)(_styles2.default.callItemContainer, onClick ? _styles2.default.pointer : null)
+        },
         _react2.default.createElement(_MediaObject2.default, {
           containerCls: _styles2.default.wrapper,
           mediaLeft: _react2.default.createElement(
@@ -496,11 +499,12 @@ var ActiveCallItem = function (_Component) {
             _react2.default.createElement(_ContactDisplay2.default, {
               isOnConferenceCall: isOnConferenceCall,
               contactName: contactName,
-              className: isOnConferenceCall ? (0, _classnames3.default)(_styles2.default.conferenceContactDisplay) : (0, _classnames3.default)(_styles2.default.contactDisplay, contactDisplayStyle),
+              className: (0, _classnames3.default)(_styles2.default.contactDisplay, contactDisplayStyle),
               contactMatches: contactMatches,
               selected: this.state.selected,
               onSelectContact: this.onSelectContact,
-              disabled: disableLinks,
+              disabled: true,
+              iconClassName: _styles2.default.icon,
               isLogging: isLogging || this.state.isLogging,
               fallBackName: fallbackContactName,
               enableContactFallback: enableContactFallback,

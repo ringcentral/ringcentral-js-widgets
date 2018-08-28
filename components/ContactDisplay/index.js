@@ -159,7 +159,8 @@ function ContactDisplay(_ref3) {
       sourceIcons = _ref3$sourceIcons === undefined ? {} : _ref3$sourceIcons,
       showGroupNumberName = _ref3.showGroupNumberName,
       contactName = _ref3.contactName,
-      isOnConferenceCall = _ref3.isOnConferenceCall;
+      isOnConferenceCall = _ref3.isOnConferenceCall,
+      iconClassName = _ref3.iconClassName;
 
   var contentEl = void 0;
   if (isOnConferenceCall) {
@@ -235,7 +236,7 @@ function ContactDisplay(_ref3) {
       className: (0, _classnames2.default)(_styles2.default.select, selectClassName),
       selectedClassName: (0, _classnames2.default)(_styles2.default.selectedValue, selectedClassName),
       buttonStyle: _styles2.default.button,
-      iconClassName: _styles2.default.icon,
+      iconClassName: (0, _classnames2.default)(_styles2.default.icon, iconClassName),
       value: _selected,
       onChange: onSelectContact,
       disabled: disabled || isLogging,
@@ -304,7 +305,8 @@ ContactDisplay.propTypes = {
   stopPropagation: _propTypes2.default.bool,
   sourceIcons: _propTypes2.default.object,
   showGroupNumberName: _propTypes2.default.bool,
-  contactName: _propTypes2.default.any
+  contactName: _propTypes2.default.any,
+  iconClassName: _propTypes2.default.string
 };
 ContactDisplay.defaultProps = {
   isOnConferenceCall: false,
@@ -323,6 +325,7 @@ ContactDisplay.defaultProps = {
   stopPropagation: true,
   sourceIcons: undefined,
   showGroupNumberName: false,
-  contactName: undefined
+  contactName: undefined,
+  iconClassName: null
 };
 //# sourceMappingURL=index.js.map

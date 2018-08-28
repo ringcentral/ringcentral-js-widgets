@@ -240,7 +240,8 @@ var ActiveCallPad = function (_Component) {
       buttons.push({
         icon: _Dialpad2.default,
         title: _i18n2.default.getString('keypad', this.props.currentLocale),
-        onClick: this.props.onShowKeyPad
+        onClick: this.props.onShowKeyPad,
+        disabled: this.props.layout === _callCtrlLayouts2.default.conferenceCtrl
       });
 
       /* --------------------- Hold/Unhold --------------------------- */
@@ -282,7 +283,7 @@ var ActiveCallPad = function (_Component) {
       });
 
       /* --------------------- Transfer --------------------------- */
-      var disabledTransfer = this.props.layout === _callCtrlLayouts2.default.mergeCtrl;
+      var disabledTransfer = this.props.layout !== _callCtrlLayouts2.default.normalCtrl;
       buttons.push({
         icon: _Transfer2.default,
         title: _i18n2.default.getString('transfer', this.props.currentLocale),
@@ -291,7 +292,7 @@ var ActiveCallPad = function (_Component) {
       });
 
       /* --------------------- Flip --------------------------- */
-      var disabledFlip = this.props.flipNumbers.length === 0 || this.props.isOnHold || this.props.layout === _callCtrlLayouts2.default.mergeCtrl;
+      var disabledFlip = this.props.flipNumbers.length === 0 || this.props.isOnHold || this.props.layout !== _callCtrlLayouts2.default.normalCtrl;
       buttons.push({
         icon: _Flip2.default,
         title: _i18n2.default.getString('flip', this.props.currentLocale),

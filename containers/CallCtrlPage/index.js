@@ -182,9 +182,13 @@ function mapToFunctions(_, _ref2) {
 
       var fromSessionId = conferenceCall.mergingPair.fromSessionId;
 
+      var fromSession = (0, _ramda.find)(function (x) {
+        return x.id === fromSessionId;
+      }, webphone.sessions);
+
       var activeSessionId = webphone && webphone.activeSession && webphone.activeSession.id;
 
-      if (!isOnConference && !isInboundCall && fromSessionId && fromSessionId !== session.id && lastCallInfo && (session.callStatus !== _sessionStatus2.default.onHold || session.callStatus === _sessionStatus2.default.onHold && session.id === activeSessionId)) {
+      if (!isOnConference && !isInboundCall && fromSession && fromSessionId !== session.id && lastCallInfo && (session.callStatus !== _sessionStatus2.default.onHold || session.callStatus === _sessionStatus2.default.onHold && session.id === activeSessionId)) {
         // enter merge ctrl page.
         layout = _callCtrlLayouts2.default.mergeCtrl;
       }
