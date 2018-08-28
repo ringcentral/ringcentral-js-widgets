@@ -520,7 +520,7 @@ export default class MessageItem extends Component {
             className={styles.actionMenuList}
             currentLocale={currentLocale}
             onLog={
-              isVoicemail || isFax || extraButton ?
+              isVoicemail || isFax || renderExtraButton ?
                 undefined : (onLogConversation && this.logConversation)
             }
             onViewEntity={onViewContact && this.viewSelectedContact}
