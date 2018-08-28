@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import messageTypes from 'ringcentral-integration/enums/messageTypes';
 import messageDirection from 'ringcentral-integration/enums/messageDirection';
+import parseNumber from 'ringcentral-integration/lib/parseNumber';
 import {
   messageIsTextMessage,
   messageIsFax
@@ -346,6 +347,36 @@ export default class MessageItem extends Component {
     }
   }
 
+  getDisableClickToSms= () => {
+    const {
+      areaCode,
+      countryCode,
+      onClickToSms,
+      internalSmsPermission,
+      outboundSmsPermission,
+    } = this.props;
+    const phoneNumber = this.getPhoneNumber();
+    let disableClickToSms = false;
+    if (phoneNumber) {
+      const parsedInfo = parseNumber({
+        phoneNumber,
+        countryCode,
+        areaCode,
+      });
+      const isExtension = !parsedInfo.hasPlus &&
+      parsedInfo.number && parsedInfo.number.length <= 6;
+      disableClickToSms = !(
+        onClickToSms &&
+        (
+          isExtension ?
+            internalSmsPermission :
+            outboundSmsPermission
+        )
+      );
+    }
+    return disableClickToSms;
+  }
+
   render() {
     const {
       areaCode,
@@ -391,6 +422,7 @@ export default class MessageItem extends Component {
     const phoneNumber = this.getPhoneNumber();
     const fallbackName = this.getFallbackContactName();
     const detail = this.getDetail();
+    const disableClickToSms = this.getDisableClickToSms();
     let player;
     let slideMenuHeight = 60;
     if (isVoicemail) {
@@ -497,6 +529,7 @@ export default class MessageItem extends Component {
             hasEntity={correspondents.length === 1 && !!correspondentMatches.length}
             onClickToDial={!isFax ? (onClickToDial && this.clickToDial) : undefined}
             onClickToSms={isVoicemail ? (onClickToSms && this.onClickToSms) : undefined}
+            disableClickToSms={disableClickToSms}
             phoneNumber={phoneNumber}
             disableLinks={disableLinks}
             disableClickToDial={disableClickToDial}
@@ -575,6 +608,8 @@ MessageItem.propTypes = {
   deleteMessage: PropTypes.func,
   previewFaxMessages: PropTypes.func,
   renderExtraButton: PropTypes.func,
+  internalSmsPermission: PropTypes.bool,
+  outboundSmsPermission: PropTypes.bool,
 };
 
 MessageItem.defaultProps = {
@@ -594,4 +629,6 @@ MessageItem.defaultProps = {
   deleteMessage() {},
   previewFaxMessages: undefined,
   renderExtraButton: undefined,
+  internalSmsPermission: true,
+  outboundSmsPermission: true,
 };
