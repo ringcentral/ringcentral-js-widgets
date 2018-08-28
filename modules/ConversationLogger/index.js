@@ -209,6 +209,9 @@ var ConversationLogger = (_dec = (0, _di.Module)({
     _this._formatDateTime = formatDateTime;
     _this._isAutoUpdate = isAutoUpdate;
     _this._storageKey = _this._name + 'Data';
+    _this._messageStore.onMessageUpdated(function () {
+      _this._processConversationLogMap();
+    });
     _this._storage.registerReducer({
       key: _this._storageKey,
       reducer: (0, _getDataReducer2.default)(_this.actionTypes)
@@ -529,45 +532,17 @@ var ConversationLogger = (_dec = (0, _di.Module)({
       }
     }
   }, {
-    key: '_onStateChange',
+    key: '_autoLogConversation',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_ref7) {
+        var conversation = _ref7.conversation,
+            selfEntity = _ref7.selfEntity,
+            correspondentEntity = _ref7.correspondentEntity;
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.next = 2;
-                return (0, _get3.default)(ConversationLogger.prototype.__proto__ || (0, _getPrototypeOf2.default)(ConversationLogger.prototype), '_onStateChange', this).call(this);
-
-              case 2:
-                this._processConversationLogMap();
-
-              case 3:
-              case 'end':
-                return _context3.stop();
-            }
-          }
-        }, _callee3, this);
-      }));
-
-      function _onStateChange() {
-        return _ref7.apply(this, arguments);
-      }
-
-      return _onStateChange;
-    }()
-  }, {
-    key: '_autoLogConversation',
-    value: function () {
-      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref8) {
-        var conversation = _ref8.conversation,
-            selfEntity = _ref8.selfEntity,
-            correspondentEntity = _ref8.correspondentEntity;
-        return _regenerator2.default.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                _context4.next = 2;
                 return this.log({
                   conversation: conversation,
                   selfEntity: selfEntity,
@@ -576,14 +551,14 @@ var ConversationLogger = (_dec = (0, _di.Module)({
 
               case 2:
               case 'end':
-                return _context4.stop();
+                return _context3.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee3, this);
       }));
 
       function _autoLogConversation(_x4) {
-        return _ref9.apply(this, arguments);
+        return _ref8.apply(this, arguments);
       }
 
       return _autoLogConversation;
@@ -591,25 +566,25 @@ var ConversationLogger = (_dec = (0, _di.Module)({
   }, {
     key: 'log',
     value: function () {
-      var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_ref10) {
-        var conversation = _ref10.conversation,
-            options = (0, _objectWithoutProperties3.default)(_ref10, ['conversation']);
-        return _regenerator2.default.wrap(function _callee5$(_context5) {
+      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_ref9) {
+        var conversation = _ref9.conversation,
+            options = (0, _objectWithoutProperties3.default)(_ref9, ['conversation']);
+        return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 (0, _get3.default)(ConversationLogger.prototype.__proto__ || (0, _getPrototypeOf2.default)(ConversationLogger.prototype), 'log', this).call(this, (0, _extends3.default)({ item: conversation }, options));
 
               case 1:
               case 'end':
-                return _context5.stop();
+                return _context4.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee4, this);
       }));
 
       function log(_x5) {
-        return _ref11.apply(this, arguments);
+        return _ref10.apply(this, arguments);
       }
 
       return log;
@@ -617,23 +592,23 @@ var ConversationLogger = (_dec = (0, _di.Module)({
   }, {
     key: 'logConversation',
     value: function () {
-      var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(_ref12) {
+      var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_ref11) {
         var _this6 = this;
 
-        var conversationId = _ref12.conversationId,
-            correspondentEntity = _ref12.correspondentEntity,
-            redirect = _ref12.redirect,
-            options = (0, _objectWithoutProperties3.default)(_ref12, ['conversationId', 'correspondentEntity', 'redirect']);
-        return _regenerator2.default.wrap(function _callee6$(_context6) {
+        var conversationId = _ref11.conversationId,
+            correspondentEntity = _ref11.correspondentEntity,
+            redirect = _ref11.redirect,
+            options = (0, _objectWithoutProperties3.default)(_ref11, ['conversationId', 'correspondentEntity', 'redirect']);
+        return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 if (!this.conversationLogMap[conversationId]) {
-                  _context6.next = 3;
+                  _context5.next = 3;
                   break;
                 }
 
-                _context6.next = 3;
+                _context5.next = 3;
                 return _promise2.default.all((0, _keys2.default)(this.conversationLogMap[conversationId]).map(function (date) {
                   return _this6.conversationLogMap[conversationId][date];
                 }).sort(_messageHelper.sortByDate).map(function (conversation, idx) {
@@ -652,14 +627,14 @@ var ConversationLogger = (_dec = (0, _di.Module)({
 
               case 3:
               case 'end':
-                return _context6.stop();
+                return _context5.stop();
             }
           }
-        }, _callee6, this);
+        }, _callee5, this);
       }));
 
       function logConversation(_x6) {
-        return _ref13.apply(this, arguments);
+        return _ref12.apply(this, arguments);
       }
 
       return logConversation;
@@ -667,10 +642,10 @@ var ConversationLogger = (_dec = (0, _di.Module)({
   }, {
     key: 'setAutoLog',
     value: function () {
-      var _ref14 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(autoLog) {
-        return _regenerator2.default.wrap(function _callee7$(_context7) {
+      var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(autoLog) {
+        return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 if (this.ready && autoLog !== this.autoLog) {
                   this.store.dispatch({
@@ -681,14 +656,14 @@ var ConversationLogger = (_dec = (0, _di.Module)({
 
               case 1:
               case 'end':
-                return _context7.stop();
+                return _context6.stop();
             }
           }
-        }, _callee7, this);
+        }, _callee6, this);
       }));
 
       function setAutoLog(_x7) {
-        return _ref14.apply(this, arguments);
+        return _ref13.apply(this, arguments);
       }
 
       return setAutoLog;
