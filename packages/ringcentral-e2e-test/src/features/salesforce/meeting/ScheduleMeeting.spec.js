@@ -1,12 +1,12 @@
 describe('test: =====>', () => {
   test({
-    title: 'Login button ${selector} text is ${expected}',
+    title: 'button ${selector} text is ${expected}',
     tags: [
-      ['widgets', { brands: ['rc', 'att'] }]
+      ['salesforce', { brands: ['rc', 'att'] }],
     ],
     level: 'p1',
     options: [
-      { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
+      { selector: '[for="rememberUn"]', expected: 'Remember me' },
     ],
   }, async ({
     option, context, tag, level

@@ -29,22 +29,22 @@ let config;
 const argsHead = /^--config=/;
 
 const setup = async () => {
-  config = process.argv.find(arg => argsHead.test(arg)).replace(argsHead, '');
-  try {
-    config = JSON.parse(config);
-  } catch (e) {
-    console.error(e);
-    process.exit();
-  }
-  const isValidBrowsers = (
-    config &&
-    Array.isArray(config.execDrivers) &&
-    config.execDrivers.length > 0
-  );
-  if (!isValidBrowsers) {
-    console.error('Valid browsers');
-    process.exit();
-  }
+  // config = process.argv.find(arg => argsHead.test(arg)).replace(argsHead, '');
+  // try {
+  //   config = JSON.parse(config);
+  // } catch (e) {
+  //   console.error(e);
+  //   process.exit();
+  // }
+  // const isValidBrowsers = (
+  //   config &&
+  //   Array.isArray(config.execDrivers) &&
+  //   config.execDrivers.length > 0
+  // );
+  // if (!isValidBrowsers) {
+  //   console.error('Valid browsers');
+  //   process.exit();
+  // }
   // for (const name of config.execDrivers) {
   //   getDriver(name);
   //   const driver = await driver.launch();

@@ -35,14 +35,15 @@ export default (dir, cmd) => {
         // 'seleniumWebdriverEdge',
       ],
       tags: [
-        [
-          'widgets',
-          {
-            brands: [
-              'rc'
-            ],
-          }
-        ]
+        args.tags,
+        // [
+        //   'widgets',
+        //   {
+        //     brands: [
+        //       'rc'
+        //     ],
+        //   }
+        // ]
       ],
     };
     const exit = () => {
