@@ -259,6 +259,7 @@ export default class DataFetcher extends Pollable {
   async _fetchWithForbiddenCheck() {
     try {
       const data = await this._fetchFunction();
+      console.log('=====>fetch data', data);
       return data;
     } catch (error) {
       if (

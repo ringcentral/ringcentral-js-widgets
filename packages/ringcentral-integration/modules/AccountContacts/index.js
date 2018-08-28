@@ -3,6 +3,7 @@ import { Module } from '../../lib/di';
 import isBlank from '../../lib/isBlank';
 import ensureExist from '../../lib/ensureExist';
 import { addPhoneToContact, getMatchContacts } from '../../lib/contactHelper';
+import { createChecker } from './accountContactsHelper';
 import { batchGetApi } from '../../lib/batchApiHelper';
 import proxify from '../../lib/proxy/proxify';
 
@@ -14,6 +15,7 @@ const DEFAULT_TTL = 30 * 60 * 1000; // 30 mins
 const DEFAULT_PRESENCETTL = 10 * 60 * 1000; // 10 mins
 const DEFAULT_AVATARTTL = 2 * 60 * 60 * 1000; // 2 hour
 const DEFAULT_AVATARQUERYINTERVAL = 2 * 1000; // 2 seconds
+const DEFAULT_STATUS_VALUE = true;
 
 /**
  * @class
@@ -24,7 +26,7 @@ const DEFAULT_AVATARQUERYINTERVAL = 2 * 1000; // 2 seconds
     'Client',
     'AccountExtension',
     'AccountPhoneNumber',
-    { dep: 'AccoundContactsOptions', optional: true }
+    { dep: 'AccountContactsOptions', optional: true }
   ]
 })
 export default class AccountContacts extends RcModule {
@@ -37,6 +39,7 @@ export default class AccountContacts extends RcModule {
    * @param {Number} params.ttl - timestamp of local cache, default 30 mins
    * @param {Number} params.avatarTtl - timestamp of avatar local cache, default 2 hour
    * @param {Number} params.presenceTtl - timestamp of presence local cache, default 10 mins
+   * @param {Number} params.needCheckStatus - If it's necessary to check extension's status
    * @param {Number} params.avatarQueryInterval - interval of query avatar, default 2 seconds
    */
   constructor({
@@ -46,8 +49,9 @@ export default class AccountContacts extends RcModule {
     ttl = DEFAULT_TTL,
     avatarTtl = DEFAULT_AVATARTTL,
     presenceTtl = DEFAULT_PRESENCETTL,
+    needCheckStatus = DEFAULT_STATUS_VALUE,
     avatarQueryInterval = DEFAULT_AVATARQUERYINTERVAL,
-    ...options,
+    ...options
   }) {
     super({
       ...options,
@@ -73,10 +77,14 @@ export default class AccountContacts extends RcModule {
       (extensions, extensionToPhoneNumberMap, profileImages, presences) => {
         const newExtensions = [];
         extensions.forEach((extension) => {
-          if (!(extension.status === 'Enabled' &&
-            ['DigitalUser', 'User', 'Department'].indexOf(extension.type) >= 0)) {
+          // if (!(extension.status === 'Enabled' &&
+          //   ['DigitalUser', 'User', 'Department'].indexOf(extension.type) >= 0)) {
+          //   return;
+          // }
+          if (!createChecker(needCheckStatus)(extension)) {
             return;
           }
+
           const id = `${extension.id}`;
           const contact = {
             type: this.sourceName,

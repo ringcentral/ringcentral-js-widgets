@@ -13,6 +13,7 @@ import {
 } from './getAccountExtensionReducer';
 import {
   isEssential,
+  createEssentialChecker,
   simplifyExtensionData,
 } from './accountExtensionHelper';
 import subscriptionFilters from '../../enums/subscriptionFilters';
@@ -20,6 +21,7 @@ import proxify from '../../lib/proxy/proxify';
 
 const extensionRegExp = /.*\/extension$/;
 const DEFAULT_TTL = 24 * 60 * 60 * 1000;
+const DEFAULT_STATUS_VALUE = true;
 
 /**
  * @class
@@ -43,6 +45,7 @@ export default class AccountExtension extends DataFetcher {
     client,
     rolesAndPermissions,
     ttl = DEFAULT_TTL,
+    needCheckStatus = DEFAULT_STATUS_VALUE,
     ...options
   }) {
     super({
@@ -57,9 +60,11 @@ export default class AccountExtension extends DataFetcher {
       subscriptionHandler: async (message) => {
         this._subscriptionHandleFn(message);
       },
-      fetchFunction: async () => (await fetchList(params => (
-        this._client.account().extension().list(params)
-      ))).filter(isEssential).map(simplifyExtensionData),
+      fetchFunction: async () => (await fetchList((params) => {
+        const fetchRet = this._client.account().extension().list(params);
+        console.log('#####', fetchRet);
+        return fetchRet;
+      })).filter(createEssentialChecker(needCheckStatus)).map(simplifyExtensionData),
       readyCheckFn: () => this._rolesAndPermissions.ready,
     });
 
