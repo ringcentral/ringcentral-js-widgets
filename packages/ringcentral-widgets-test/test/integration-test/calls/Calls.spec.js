@@ -54,11 +54,10 @@ describe('RCI-1038#4 All Calls Page', () => {
     expect(ringCallPanel).toHaveLength(1);
     expect(ringCallPanel.find('div.listTitle').text()).toEqual('Ringing Call');
 
-    const buttons = (
-          panel.props().useV2 ?
-          ringCallPanel.find(ActiveCallItemV2) : ringCallPanel.find(ActiveCallItem)
-        )
-        .find('.webphoneButtons > span');
+    const buttons =
+        (
+          ringCallPanel.find(panel.props().useV2 ? ActiveCallItemV2 : ActiveCallItem) 
+        ).find('.webphoneButtons > span');
 
     expect(buttons.at(0).props().title).toEqual('Send to Voicemail');
     expect(buttons.at(1).props().title).toEqual('Accept');
