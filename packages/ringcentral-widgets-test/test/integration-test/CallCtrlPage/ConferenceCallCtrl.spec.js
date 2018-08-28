@@ -2,10 +2,8 @@ import ActiveCallButton from 'ringcentral-widgets/components/ActiveCallButton';
 import ActiveCallPad from 'ringcentral-widgets/components/ActiveCallPad';
 import CircleButton from 'ringcentral-widgets/components/CircleButton';
 import * as mock from 'ringcentral-integration/integration-test/mock';
-import deviceBody from './data/device';
-import { mockConferenceCallEnv } from './helper';
+import { mockConferenceCallEnv, makeOutboundCall } from './helper';
 import { getWrapper, timeout } from '../shared';
-import { makeCall } from '../../support/callHelper';
 import {
   muteFn,
   unmuteFn,
@@ -17,14 +15,16 @@ import {
 
 let wrapper = null;
 let phone = null;
+let store = null;
 
 beforeEach(async () => {
   jasmine.DEFAUL_INTERVAL = 64000;
   wrapper = await getWrapper();
   phone = wrapper.props().phone;
   phone.webphone._createWebphone();
-  phone.webphone._removeWebphone = () => { };
-  phone.webphone._connect = () => { };
+  phone.webphone._connect = () => {};
+  phone.webphone._removeWebphone = () => {};
+  store = wrapper.props().phone.store;
   Object.defineProperties(wrapper.props().phone.audioSettings, {
     userMedia: { value: true },
   });
@@ -120,8 +120,7 @@ describe('RCI-2980793 Conference Call Control Page - Hang Up', () => {
     expect(phone.routerInteraction.currentPath).toEqual('/dialer');
   });
   test('Press "Hand Up" button #2 Direct to call contral page', async () => {
-    mock.device(deviceBody);
-    const outboundSession = await makeCall(phone);
+    const outboundSession = await makeOutboundCall(wrapper, phone);;
     await phone.webphone.hold(outboundSession.id);
     await mockConferenceCallEnv(phone);
     wrapper.update();
@@ -138,7 +137,6 @@ describe('Conference Call Control Page - Record/Stop', () => {
   test('RCI-1712679 Make a conference call and keep in conference call control page, click Record/Stop',
     async () => {
       const conferenceSession = await mockConferenceCallEnv(phone);
-      conferenceSession.accept(phone.webphone.acceptOptions);
       wrapper.update();
       recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
       expect(recordButton.find('.buttonTitle').text()).toEqual('Record');
@@ -155,6 +153,52 @@ describe('Conference Call Control Page - Record/Stop', () => {
       recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
       expect(recordButton.find('.buttonTitle').text()).toEqual('Record');
       expect(stopRecordFn.mock.calls[0]).toEqual([conferenceSession.id]);
-    }, 7000
+    }
   );
+});
+
+describe('Conference Call Control Page - Add', () => {
+  let recordButton = null;
+  test('When user records the conference call, user can not add other call', async () => {
+    const conferenceSession = await mockConferenceCallEnv(phone);
+    wrapper.update();
+    recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
+    const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
+    recordButton.find(CircleButton).simulate('click');
+    await timeout(200);
+    addButton.find(CircleButton).simulate('click');
+    const messages = store.getState(wrapper).alert.messages;
+    expect(messages).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          level: 'warning',
+          message: 'webphone-record-recording'
+        })
+      ])
+    );
+  })
+});
+
+describe('Conference Call Control Page - Merge Button', () => {
+  let recordButton = null;
+  test('When user records the conference call, user can not merge other call', async () => {
+    let messages = null
+    const outboundSession = await makeOutboundCall(wrapper, phone);;
+    await phone.webphone.hold(outboundSession.id);
+    const conferenceSession = await mockConferenceCallEnv(phone);
+    wrapper.update();
+    recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
+    const mergeButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
+    recordButton.find(CircleButton).simulate('click');
+    mergeButton.find(CircleButton).simulate('click');
+    messages = store.getState(wrapper).alert.messages;
+    expect(messages).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          level: 'warning',
+          message: 'webphone-record-recording'
+        })
+      ])
+    );
+  })
 });

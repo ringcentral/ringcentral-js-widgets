@@ -2,6 +2,7 @@ import actionTypes from 'ringcentral-integration/modules/ConferenceCall/actionTy
 import * as mock from 'ringcentral-integration/integration-test/mock';
 import prefix from 'ringcentral-widgets-demo/dev-server/prefix';
 
+import { makeCall } from '../../support/callHelper';
 import conferenceCallBody from './data/conferenceCall.json';
 import deviceBody from './data/device';
 
@@ -14,6 +15,13 @@ import {
   mockGeneratePresenceUpdateApi
 } from '../../support/callHelper';
 import { timeout } from '../shared';
+
+export async function makeOutboundCall(wrapper, phone) {
+  mock.device(deviceBody);
+  const session = await makeCall(phone);
+  wrapper.update();
+  return session;
+}
 
 export async function mockConferenceCallEnv(phone) {
   /* mock data */
@@ -40,5 +48,7 @@ export async function mockConferenceCallEnv(phone) {
     sessionId: conferenceSession.id,
     parties: [],
   });
+  /* update session status */
+  conferenceSession.accept(phone.webphone.acceptOptions);
   return conferenceSession;
 }
