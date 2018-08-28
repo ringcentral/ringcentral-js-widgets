@@ -696,7 +696,6 @@ export default class Webphone extends RcModule {
       console.log('Event: unhold');
       session.callStatus = sessionStatus.connected;
       session.lastActiveTime = Date.now();
-      this._onBeforeCallResume(session);
       this._updateSessions();
     });
     session.mediaHandler.on('userMediaFailed', () => {
