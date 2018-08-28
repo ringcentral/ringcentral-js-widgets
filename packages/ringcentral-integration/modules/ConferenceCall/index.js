@@ -803,7 +803,7 @@ export default class ConferenceCall extends RcModule {
   }
 
   @proxify
-  async mergeSession({ sessionId, onReadyToMerge }) {
+  async mergeSession({ sessionId, sessionIdToMergeWith, onReadyToMerge }) {
     const session = find(
       x => x.id === sessionId,
       this._webphone.sessions
@@ -812,7 +812,7 @@ export default class ConferenceCall extends RcModule {
     const isSessionOnhold = session.isOnHold;
 
     const sessionToMergeWith = find(
-      x => x.id === this.mergingPair.fromSessionId,
+      x => x.id === (sessionIdToMergeWith || this.mergingPair.fromSessionId),
       this._webphone.sessions
     );
 

@@ -236,7 +236,7 @@ export default class BasePhone extends RcModule {
           return;
         }
         if (session.id === fromSessionIdOfCallsOnhold) {
-          routerInteraction.push('/calls/active');
+          routerInteraction.replace('/calls/active');
           return;
         }
       }

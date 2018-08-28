@@ -203,9 +203,6 @@ function mapToFunctions(_, {
       if (!session || webphone.isCallRecording({ session })) {
         return;
       }
-      if (conferenceCall) {
-        conferenceCall.setMergeParty({ fromSessionId: sessionId });
-      }
       const outBoundOnholdCalls = filter(
         call => call.direction === callDirections.outbound,
         callMonitor.activeOnHoldCalls
@@ -214,6 +211,9 @@ function mapToFunctions(_, {
         // goto 'calls on hold' page
         routerInteraction.push(`/conferenceCall/callsOnhold/${session.fromNumber}/${session.id}`);
       } else {
+        if (conferenceCall) {
+          conferenceCall.setMergeParty({ fromSessionId: sessionId });
+        }
         // goto dialer directly
         routerInteraction.push(`/conferenceCall/dialer/${session.fromNumber}`);
       }

@@ -76,6 +76,8 @@ function mapToFunctions(_, {
   getAvatarUrl,
   ...props
 }) {
+  const { fromSessionId } = params;
+
   const baseProps = mapToBaseFunctions(_, {
     params,
     phone,
@@ -86,6 +88,7 @@ function mapToFunctions(_, {
     async onMerge(sessionId) {
       await conferenceCall.mergeSession({
         sessionId,
+        sessionIdToMergeWith: fromSessionId,
         onReadyToMerge() {
           routerInteraction.goBack();
         },
