@@ -670,7 +670,7 @@ var MessageItem = function (_Component) {
           _react2.default.createElement(_ActionMenuList2.default, {
             className: _styles2.default.actionMenuList,
             currentLocale: currentLocale,
-            onLog: isVoicemail || isFax || extraButton ? undefined : onLogConversation && this.logConversation,
+            onLog: isVoicemail || isFax || renderExtraButton ? undefined : onLogConversation && this.logConversation,
             onViewEntity: onViewContact && this.viewSelectedContact,
             onCreateEntity: onCreateContact && this.createSelectedContact,
             createEntityTypes: createEntityTypes,
