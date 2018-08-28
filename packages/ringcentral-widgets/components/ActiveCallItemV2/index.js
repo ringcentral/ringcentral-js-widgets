@@ -383,7 +383,12 @@ export default class ActiveCallItem extends Component {
       undefined;
 
     return (
-      <div onClick={onClick} className={classnames(styles.callItemContainer, styles.pointer)}>
+      <div
+        onClick={onClick}
+        className={classnames(styles.callItemContainer, onClick
+        ? styles.pointer
+        : null)}
+      >
         <MediaObject
           containerCls={styles.wrapper}
           mediaLeft={
@@ -400,15 +405,12 @@ export default class ActiveCallItem extends Component {
               <ContactDisplay
                 isOnConferenceCall={isOnConferenceCall}
                 contactName={contactName}
-                className={
-                isOnConferenceCall
-                  ? classnames(styles.conferenceContactDisplay)
-                  : classnames(styles.contactDisplay, contactDisplayStyle)
-              }
+                className={classnames(styles.contactDisplay, contactDisplayStyle)}
                 contactMatches={contactMatches}
                 selected={this.state.selected}
                 onSelectContact={this.onSelectContact}
-                disabled={disableLinks}
+                disabled
+                iconClassName={styles.icon}
                 isLogging={isLogging || this.state.isLogging}
                 fallBackName={fallbackContactName}
                 enableContactFallback={enableContactFallback}

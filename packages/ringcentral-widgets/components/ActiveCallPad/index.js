@@ -133,6 +133,7 @@ class ActiveCallPad extends Component {
         icon: KeypadIcon,
         title: i18n.getString('keypad', this.props.currentLocale),
         onClick: this.props.onShowKeyPad,
+        disabled: this.props.layout === callCtrlLayouts.conferenceCtrl,
       }
     );
 
@@ -199,7 +200,7 @@ class ActiveCallPad extends Component {
 
     /* --------------------- Transfer --------------------------- */
     const disabledTransfer = (
-      this.props.layout === callCtrlLayouts.mergeCtrl
+      this.props.layout !== callCtrlLayouts.normalCtrl
     );
     buttons.push(
       {
@@ -214,7 +215,7 @@ class ActiveCallPad extends Component {
     const disabledFlip = (
       this.props.flipNumbers.length === 0
       || this.props.isOnHold
-      || this.props.layout === callCtrlLayouts.mergeCtrl
+      || this.props.layout !== callCtrlLayouts.normalCtrl
     );
     buttons.push(
       {

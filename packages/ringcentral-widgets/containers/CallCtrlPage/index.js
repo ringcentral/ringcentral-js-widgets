@@ -145,12 +145,14 @@ function mapToFunctions(_, {
       const isInboundCall = session.direction === callDirections.inbound;
 
       const { fromSessionId } = conferenceCall.mergingPair;
+      const fromSession = find(x => x.id === fromSessionId, webphone.sessions);
+
       const activeSessionId = webphone && webphone.activeSession && webphone.activeSession.id;
 
       if (!isOnConference &&
          !isInboundCall &&
         (
-          fromSessionId &&
+          fromSession &&
           (fromSessionId !== session.id) &&
           lastCallInfo
         ) &&
