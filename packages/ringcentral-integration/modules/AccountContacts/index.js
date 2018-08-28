@@ -97,6 +97,7 @@ export default class AccountContacts extends RcModule {
             phoneNumbers: [{ phoneNumber: extension.ext, phoneType: 'extension' }],
             profileImageUrl: profileImages[id] && profileImages[id].imageUrl,
             presence: presences[id] && presences[id].presence,
+            contactStatus: extension.status,
           };
           contact.name = `${contact.firstName || ''} ${contact.lastName || ''}`;
           if (isBlank(contact.extensionNumber)) {
