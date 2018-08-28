@@ -68,7 +68,8 @@ export default class Webphone extends RcModule {
    * @param {Function} params.onCallEnd - callback on a call end
    * @param {Function} params.onCallRing - callback on a call ring
    * @param {Function} params.onCallStart - callback on a call start
-   * @param {Function} params.onBeforeCallResume - callback on a call resume
+   * @param {Function} params.onBeforeCallResume - callback before a call resume
+   * @param {Function} params.onBeforeCallEnd - callback before a call hangup
    */
   constructor({
     appKey,
