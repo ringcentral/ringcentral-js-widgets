@@ -1,5 +1,30 @@
 
-let browser;
+function getDriver(name, {
+  caseParams,
+  option,
+  tag,
+  level
+}) {
+  const { Driver, setting, } = drivers[name];
+  const config = getDriverConfig({
+    projects: global.execGlobal.params.projects,
+    tag,
+  });
+  const options = {
+    global: global.execGlobal,
+    caseParams,
+    option,
+    tag,
+    level,
+    driver: {
+      config,
+      setting,
+    },
+  };
+  return new Driver(options);
+}
+
+let browsers;
 let config;
 const argsHead = /^--config=/;
 
@@ -11,8 +36,19 @@ const setup = async () => {
     console.error(e);
     process.exit();
   }
-  console.log('global.teardown');
-  // const driver = await driver.launch();
+  const isValidBrowsers = (
+    config &&
+    Array.isArray(config.execDrivers) &&
+    config.execDrivers.length > 0
+  );
+  if (!isValidBrowsers) {
+    console.error('Valid browsers');
+    process.exit();
+  }
+  // for (const name of config.execDrivers) {
+  //   getDriver(name);
+  //   const driver = await driver.launch();
+  // }
 };
 
 const teardown = async () => {
