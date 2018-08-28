@@ -210,7 +210,9 @@ var ConversationsPanel = function (_Component) {
           previewFaxMessages = _props.previewFaxMessages,
           loadNextPage = _props.loadNextPage,
           loadingNextPage = _props.loadingNextPage,
-          renderExtraButton = _props.renderExtraButton;
+          renderExtraButton = _props.renderExtraButton,
+          outboundSmsPermission = _props.outboundSmsPermission,
+          internalSmsPermission = _props.internalSmsPermission;
 
       if (showSpinner) {
         return _react2.default.createElement(_SpinnerOverlay2.default, null);
@@ -278,7 +280,9 @@ var ConversationsPanel = function (_Component) {
           loadNextPage: loadNextPage,
           loadingNextPage: loadingNextPage,
           typeFilter: typeFilter,
-          renderExtraButton: renderExtraButton
+          renderExtraButton: renderExtraButton,
+          outboundSmsPermission: outboundSmsPermission,
+          internalSmsPermission: internalSmsPermission
         })
       );
     }
@@ -341,6 +345,8 @@ ConversationsPanel.propTypes = {
   markMessage: _propTypes2.default.func.isRequired,
   readMessage: _propTypes2.default.func.isRequired,
   readTextPermission: _propTypes2.default.bool,
+  outboundSmsPermission: _propTypes2.default.bool,
+  internalSmsPermission: _propTypes2.default.bool,
   readVoicemailPermission: _propTypes2.default.bool,
   readFaxPermission: _propTypes2.default.bool,
   onSearchInputChange: _propTypes2.default.func,
@@ -381,6 +387,8 @@ ConversationsPanel.defaultProps = {
   onClickToDial: undefined,
   onClickToSms: undefined,
   readTextPermission: true,
+  outboundSmsPermission: true,
+  internalSmsPermission: true,
   readVoicemailPermission: true,
   readFaxPermission: true,
   onSearchInputChange: undefined,

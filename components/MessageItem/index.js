@@ -57,6 +57,10 @@ var _messageDirection = require('ringcentral-integration/enums/messageDirection'
 
 var _messageDirection2 = _interopRequireDefault(_messageDirection);
 
+var _parseNumber = require('ringcentral-integration/lib/parseNumber');
+
+var _parseNumber2 = _interopRequireDefault(_parseNumber);
+
 var _messageHelper = require('ringcentral-integration/lib/messageHelper');
 
 var _formatDuration = require('../../lib/formatDuration');
@@ -266,6 +270,28 @@ var MessageItem = function (_Component) {
 
     _this.onDeleteMessage = function () {
       _this.props.deleteMessage(_this.props.conversation.conversationId);
+    };
+
+    _this.getDisableClickToSms = function () {
+      var _this$props = _this.props,
+          areaCode = _this$props.areaCode,
+          countryCode = _this$props.countryCode,
+          onClickToSms = _this$props.onClickToSms,
+          internalSmsPermission = _this$props.internalSmsPermission,
+          outboundSmsPermission = _this$props.outboundSmsPermission;
+
+      var phoneNumber = _this.getPhoneNumber();
+      var disableClickToSms = false;
+      if (phoneNumber) {
+        var parsedInfo = (0, _parseNumber2.default)({
+          phoneNumber: phoneNumber,
+          countryCode: countryCode,
+          areaCode: areaCode
+        });
+        var isExtension = !parsedInfo.hasPlus && parsedInfo.number && parsedInfo.number.length <= 6;
+        disableClickToSms = !(onClickToSms && (isExtension ? internalSmsPermission : outboundSmsPermission));
+      }
+      return disableClickToSms;
     };
 
     _this.state = {
@@ -542,6 +568,7 @@ var MessageItem = function (_Component) {
       var phoneNumber = this.getPhoneNumber();
       var fallbackName = this.getFallbackContactName();
       var detail = this.getDetail();
+      var disableClickToSms = this.getDisableClickToSms();
       var player = void 0;
       var slideMenuHeight = 60;
       if (isVoicemail) {
@@ -650,6 +677,7 @@ var MessageItem = function (_Component) {
             hasEntity: correspondents.length === 1 && !!correspondentMatches.length,
             onClickToDial: !isFax ? onClickToDial && this.clickToDial : undefined,
             onClickToSms: isVoicemail ? onClickToSms && this.onClickToSms : undefined,
+            disableClickToSms: disableClickToSms,
             phoneNumber: phoneNumber,
             disableLinks: disableLinks,
             disableClickToDial: disableClickToDial,
@@ -729,7 +757,9 @@ MessageItem.propTypes = {
   showGroupNumberName: _propTypes2.default.bool,
   deleteMessage: _propTypes2.default.func,
   previewFaxMessages: _propTypes2.default.func,
-  renderExtraButton: _propTypes2.default.func
+  renderExtraButton: _propTypes2.default.func,
+  internalSmsPermission: _propTypes2.default.bool,
+  outboundSmsPermission: _propTypes2.default.bool
 };
 
 MessageItem.defaultProps = {
@@ -749,6 +779,8 @@ MessageItem.defaultProps = {
   deleteMessage: function deleteMessage() {},
 
   previewFaxMessages: undefined,
-  renderExtraButton: undefined
+  renderExtraButton: undefined,
+  internalSmsPermission: true,
+  outboundSmsPermission: true
 };
 //# sourceMappingURL=index.js.map
