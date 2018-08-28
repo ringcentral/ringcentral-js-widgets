@@ -53,15 +53,15 @@ describe('RCI-1038#4 All Calls Page', () => {
     const ringCallPanel = panel.find(ActiveCallList).at(0);
     expect(ringCallPanel).toHaveLength(1);
     expect(ringCallPanel.find('div.listTitle').text()).toEqual('Ringing Call');
-    if (panel.props().useV2) {
-      const buttons = ringCallPanel.find(ActiveCallItemV2).find('.webphoneButtons > span');
-      expect(buttons.at(0).props().title).toEqual('Hold');
-      expect(buttons.at(1).props().title).toEqual('Send to Voicemail');
-    } else {
-      const buttons = ringCallPanel.find(ActiveCallItem).find('.webphoneButtons > span');
-      expect(buttons.at(0).props().title).toEqual('Send to Voicemail');
-      expect(buttons.at(1).props().title).toEqual('Accept');
-    }
+
+    const buttons = (
+          panel.props().useV2 ?
+          ringCallPanel.find(ActiveCallItemV2) : ringCallPanel.find(ActiveCallItem)
+        )
+        .find('.webphoneButtons > span');
+
+    expect(buttons.at(0).props().title).toEqual('Send to Voicemail');
+    expect(buttons.at(1).props().title).toEqual('Accept');
   });
   test('Check Call Section: currentCall', () => {
     const currentCallPanel = panel.find(ActiveCallList).at(1);
