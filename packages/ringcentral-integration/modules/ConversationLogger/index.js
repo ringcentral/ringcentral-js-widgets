@@ -83,6 +83,9 @@ export default class ConversationLogger extends LoggerBase {
     this._formatDateTime = formatDateTime;
     this._isAutoUpdate = isAutoUpdate;
     this._storageKey = `${this._name}Data`;
+    this._messageStore.onMessageUpdated(() => {
+      this._processConversationLogMap();
+    });
     this._storage.registerReducer({
       key: this._storageKey,
       reducer: getDataReducer(this.actionTypes),
@@ -357,11 +360,6 @@ export default class ConversationLogger extends LoggerBase {
         });
       }
     }
-  }
-
-  async _onStateChange() {
-    await super._onStateChange();
-    this._processConversationLogMap();
   }
 
   async _autoLogConversation({ conversation, selfEntity, correspondentEntity }) {
