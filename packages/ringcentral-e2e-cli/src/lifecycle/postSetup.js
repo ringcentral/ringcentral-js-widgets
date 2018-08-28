@@ -2,6 +2,8 @@ import '../reporter';
 import config, { defaultCaseLevel } from '../config';
 import { compile } from '../utils/template';
 
+jest.setTimeout(30000);
+
 const _test = test;
 const _describe = describe;
 const _beforeAll = beforeAll;

@@ -3,7 +3,7 @@ export default {
   params: {
     modes: [
       'lightning',
-      'classic'
+      // 'classic'
     ],
     brands: {
       rc: {

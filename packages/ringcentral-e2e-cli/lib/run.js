@@ -27,10 +27,10 @@ export default (dir, cmd) => {
       options: [],
       drivers: [
         'puppeteer',
-        // 'seleniumWebdriverFirefox',
+        'seleniumWebdriverFirefox',
         // 'enzyme',
-        // 'seleniumWebdriverChrome',
-        // 'seleniumWebdriverSafari',
+        'seleniumWebdriverChrome',
+        'seleniumWebdriverSafari',
         // 'seleniumWebdriverIE',
         // 'seleniumWebdriverEdge',
       ],
