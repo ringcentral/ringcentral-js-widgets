@@ -383,7 +383,12 @@ export default class ActiveCallItem extends Component {
       undefined;
 
     return (
-      <div onClick={onClick} className={classnames(styles.callItemContainer, styles.pointer)}>
+      <div
+        onClick={onClick}
+        className={classnames(styles.callItemContainer, onClick
+        ? styles.pointer
+        : null)}
+      >
         <MediaObject
           containerCls={styles.wrapper}
           mediaLeft={
