@@ -10,11 +10,32 @@ import Line from '../../components/Line';
 import IconLine from '../../components/IconLine';
 import LinkLine from '../../components/LinkLine';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
+import Switch from '../../components/Switch';
 
-const iconLineProps = {
-  icon: (<span className={dynamicsFont.arrow} />),
-};
+
 storiesOf('Line', module)
-  .add('basic', () => <Line />)
-  .add('IconLine', () => <IconLine {...iconLineProps}> <span>iconline</span></IconLine>)
-  .add('LinkLine', () => <LinkLine onClick={() => null} to="test string"><span>linkline</span></LinkLine>);
+  .add('basic', () => {
+    const lineProps = {
+      noBorder: boolean('NoBorder', false),
+      onClick: action('onClick'),
+      horizontal: boolean('Horizontal', false),
+    };
+    return <Line {...lineProps} />;
+  })
+  .add('IconLine', () => {
+    const iconLineProps = {
+      icon: (<Switch />),
+      noBorder: boolean('NoBorder', false),
+    };
+    return <IconLine {...iconLineProps}><span>Iconline</span></IconLine>;
+  })
+  .add('LinkLine', () => {
+    const linkLineProps = {
+      onClick: action('onClick'),
+      tooltip: text('Tooltip', 'Tooltip'),
+      hrefClassName: null,
+      iconClassName: null,
+      noBorder: boolean('NoBorder', false),
+    };
+    return <LinkLine {...linkLineProps}><span>Linkline</span></LinkLine>;
+  });

@@ -9,4 +9,13 @@ import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
 import Spinner from '../../components/Spinner';
 
 storiesOf('Spinner', module)
-  .add('basic', () => <div style={{ width: '50px', height: '50px' }}> <Spinner /> </div>);
+  .add('basic', () => {
+    const spinnerProps = {
+      ringWidth: number('Border', 8)
+    };
+    return (
+      <div style={{ width: '50px', height: '50px' }}>
+        <Spinner {...spinnerProps} />
+      </div>
+    );
+  });
