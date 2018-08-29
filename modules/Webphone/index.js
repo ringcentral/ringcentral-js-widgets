@@ -188,6 +188,8 @@ var Webphone = (_dec = (0, _di.Module)({
    * @param {Function} params.onCallEnd - callback on a call end
    * @param {Function} params.onCallRing - callback on a call ring
    * @param {Function} params.onCallStart - callback on a call start
+   * @param {Function} params.onBeforeCallResume - callback before a call resume
+   * @param {Function} params.onBeforeCallEnd - callback before a call hangup
    */
   function Webphone(_ref) {
     var appKey = _ref.appKey,
@@ -206,7 +208,9 @@ var Webphone = (_dec = (0, _di.Module)({
         onCallEnd = _ref.onCallEnd,
         onCallRing = _ref.onCallRing,
         onCallStart = _ref.onCallStart,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['appKey', 'appName', 'appVersion', 'alert', 'auth', 'client', 'rolesAndPermissions', 'webphoneLogLevel', 'contactMatcher', 'numberValidate', 'audioSettings', 'tabManager', 'onCallEnd', 'onCallRing', 'onCallStart']);
+        onBeforeCallResume = _ref.onBeforeCallResume,
+        onBeforeCallEnd = _ref.onBeforeCallEnd,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['appKey', 'appName', 'appVersion', 'alert', 'auth', 'client', 'rolesAndPermissions', 'webphoneLogLevel', 'contactMatcher', 'numberValidate', 'audioSettings', 'tabManager', 'onCallEnd', 'onCallRing', 'onCallStart', 'onBeforeCallResume', 'onBeforeCallEnd']);
     (0, _classCallCheck3.default)(this, Webphone);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Webphone.__proto__ || (0, _getPrototypeOf2.default)(Webphone)).call(this, (0, _extends3.default)({}, options, {
@@ -237,6 +241,16 @@ var Webphone = (_dec = (0, _di.Module)({
     _this._onCallStartFunctions = [];
     if (typeof onCallStart === 'function') {
       _this._onCallStartFunctions.push(onCallStart);
+    }
+
+    _this._onBeforeCallResumeFunctions = [];
+    if (typeof onBeforeCallResume === 'function') {
+      _this._onBeforeCallResumeFunctions.push(onBeforeCallResume);
+    }
+
+    _this._onBeforeCallEndFunctions = [];
+    if (typeof onBeforeCallEnd === 'function') {
+      _this._onBeforeCallEndFunctions.push(onBeforeCallEnd);
     }
 
     _this._webphone = null;
@@ -1381,33 +1395,34 @@ var Webphone = (_dec = (0, _di.Module)({
                 _context14.prev = 3;
 
                 if (!session.isOnHold().local) {
-                  _context14.next = 9;
+                  _context14.next = 10;
                   break;
                 }
 
                 this._holdOtherSession(session.id);
-                _context14.next = 8;
+                this._onBeforeCallResume(session);
+                _context14.next = 9;
                 return session.unhold();
 
-              case 8:
+              case 9:
                 this._onCallStart(session);
 
-              case 9:
-                _context14.next = 14;
+              case 10:
+                _context14.next = 15;
                 break;
 
-              case 11:
-                _context14.prev = 11;
+              case 12:
+                _context14.prev = 12;
                 _context14.t0 = _context14['catch'](3);
 
                 console.log(_context14.t0);
 
-              case 14:
+              case 15:
               case 'end':
                 return _context14.stop();
             }
           }
-        }, _callee14, this, [[3, 11]]);
+        }, _callee14, this, [[3, 12]]);
       }));
 
       function unhold(_x10) {
@@ -1892,26 +1907,28 @@ var Webphone = (_dec = (0, _di.Module)({
 
               case 3:
                 _context23.prev = 3;
-                _context23.next = 6;
+
+                this._onBeforeCallEnd(session);
+                _context23.next = 7;
                 return session.terminate();
 
-              case 6:
-                _context23.next = 12;
+              case 7:
+                _context23.next = 13;
                 break;
 
-              case 8:
-                _context23.prev = 8;
+              case 9:
+                _context23.prev = 9;
                 _context23.t0 = _context23['catch'](3);
 
                 console.error(_context23.t0);
                 this._onCallEnd(session);
 
-              case 12:
+              case 13:
               case 'end':
                 return _context23.stop();
             }
           }
-        }, _callee23, this, [[3, 8]]);
+        }, _callee23, this, [[3, 9]]);
       }));
 
       function hangup(_x22) {
@@ -2269,9 +2286,22 @@ var Webphone = (_dec = (0, _di.Module)({
       });
     }
   }, {
+    key: '_onBeforeCallEnd',
+    value: function _onBeforeCallEnd(session) {
+      var _this16 = this;
+
+      var normalizedSession = (0, _webphoneHelper.normalizeSession)(session);
+      if (typeof this._onBeforeCallEndFunc === 'function') {
+        this._onBeforeCallEndFunc(normalizedSession, this.activeSession);
+      }
+      this._onBeforeCallEndFunctions.forEach(function (handler) {
+        return handler(normalizedSession, _this16.activeSession);
+      });
+    }
+  }, {
     key: '_onCallEnd',
     value: function _onCallEnd(session) {
-      var _this16 = this;
+      var _this17 = this;
 
       this._removeSession(session);
       var normalizedSession = (0, _webphoneHelper.normalizeSession)(session);
@@ -2284,7 +2314,19 @@ var Webphone = (_dec = (0, _di.Module)({
         this._onCallEndFunc(normalizedSession, this.activeSession);
       }
       this._onCallEndFunctions.forEach(function (handler) {
-        return handler(normalizedSession, _this16.activeSession);
+        return handler(normalizedSession, _this17.activeSession);
+      });
+    }
+  }, {
+    key: '_onBeforeCallResume',
+    value: function _onBeforeCallResume(session) {
+      var _this18 = this;
+
+      if (typeof this._onBeforeCallResumeFunc === 'function') {
+        this._onBeforeCallResumeFunc(session, this.activeSession);
+      }
+      this._onBeforeCallResumeFunctions.forEach(function (handler) {
+        return handler(session, _this18.activeSession);
       });
     }
   }, {
@@ -2407,6 +2449,20 @@ var Webphone = (_dec = (0, _di.Module)({
     value: function onCallEnd(handler) {
       if (typeof handler === 'function') {
         this._onCallEndFunctions.push(handler);
+      }
+    }
+  }, {
+    key: 'onBeforeCallResume',
+    value: function onBeforeCallResume(handler) {
+      if (typeof handler === 'function') {
+        this._onBeforeCallResumeFunctions.push(handler);
+      }
+    }
+  }, {
+    key: 'onBeforeCallEnd',
+    value: function onBeforeCallEnd(handler) {
+      if (typeof handler === 'function') {
+        this._onBeforeCallEndFunctions.push(handler);
       }
     }
   }, {
