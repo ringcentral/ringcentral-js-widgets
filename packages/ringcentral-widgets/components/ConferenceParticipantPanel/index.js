@@ -76,9 +76,9 @@ class ParticipantsContainer extends Component {
         <div className={styles.participantsListContainer}>
           <div className={styles.participantsCount}>
             {
-              participants.length > 1
-              ? `${participants.length} ${i18n.getString('participants', currentLocale)}`
-              : `${participants.length} ${i18n.getString('participant', currentLocale)}`
+              participants.length === 1
+              ? `${participants.length} ${i18n.getString('participant', currentLocale)}`
+              : `${participants.length} ${i18n.getString('participants', currentLocale)}`
             }
           </div>
           <div className={styles.participantsList}>
