@@ -268,15 +268,8 @@ export default class BasePhone extends RcModule {
         return;
       }
 
-      if (routerInteraction.currentPath.indexOf('/calls/active') === 0 && currentSession) {
-        routerInteraction.push('/calls/active');
-      }
-
       if (routerInteraction.currentPath.indexOf('/calls/active') === 0) {
-        if (conferenceCall.isMerging) {
-          return;
-        }
-        routerInteraction.replace('/calls/active');
+        routerInteraction.push('/calls/active');
       }
     });
 
