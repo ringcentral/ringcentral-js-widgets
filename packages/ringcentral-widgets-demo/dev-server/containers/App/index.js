@@ -153,16 +153,19 @@ export default function App({
                       onCreateContact={() => { }}
                       onCallsEmpty={() => { }}
                       sourceIcons={sourceIcons}
+                      getAvatarUrl={getAvatarUrl}
+                      useV2
                     />
                   </DialerAndCallsTabContainer>
                 )} />
               <Route
-                path="/calls/active"
-                component={() => (
+                path="/calls/active(/:sessionId)"
+                component={routerProps => (
                   <CallCtrlPage
                     showContactDisplayPlaceholder={false}
                     sourceIcons={sourceIcons}
                     getAvatarUrl={getAvatarUrl}
+                    params={routerProps.params}
                     onAdd={() => {
                       phone.routerInteraction.push('/dialer');
                     }}

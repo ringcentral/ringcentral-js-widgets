@@ -240,15 +240,6 @@ export default class BasePhone extends RcModule {
           return;
         }
       }
-      if (
-        routerInteraction.currentPath.indexOf('/calls/active') === 0 &&
-        webphone.cachedSessions.length && (
-          !currentSession ||
-          (webphone.cachedSessions.find(cachedSession => cachedSession.id === currentSession.id))
-        )
-      ) {
-        return;
-      }
 
       if (
         !![
@@ -267,14 +258,25 @@ export default class BasePhone extends RcModule {
           routerInteraction.push('/calls/active');
           return;
         }
-        const confId = conferenceCall.conferences && Object.keys(conferenceCall.conferences)[0];
 
-        if (conferenceCall.isMerging && confId) {
-          const sessionId = conferenceCall.conferences[confId].sessionId;
-          routerInteraction.push(`/calls/active/${sessionId}`);
+        if (conferenceCall.isMerging) {
+          // Do nothing, let the merge() to do the jump
+          // TODO: this should have some reactive design, or simple event emmiter
           return;
         }
         routerInteraction.goBack();
+        return;
+      }
+
+      if (routerInteraction.currentPath.indexOf('/calls/active') === 0 && currentSession) {
+        routerInteraction.push('/calls/active');
+      }
+
+      if (routerInteraction.currentPath.indexOf('/calls/active') === 0) {
+        if (conferenceCall.isMerging) {
+          return;
+        }
+        routerInteraction.replace('/calls/active');
       }
     });
 
@@ -314,6 +316,10 @@ export default class BasePhone extends RcModule {
         // close merging pair to close the merge call.
         conferenceCall.closeMergingPair();
       }
+    });
+
+    conferenceCall.onMergeSuccess((conferenceData) => {
+      routerInteraction.push(`/calls/active/${conferenceData.sessionId}`);
     });
 
     // CallMonitor configuration
