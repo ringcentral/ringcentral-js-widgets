@@ -1470,6 +1470,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
         var _this7 = this;
 
         var sessionId = _ref17.sessionId,
+            sessionIdToMergeWith = _ref17.sessionIdToMergeWith,
             onReadyToMerge = _ref17.onReadyToMerge;
 
         var session, isSessionOnhold, sessionToMergeWith, isSessionToMergeWithOnhold, webphoneSessions, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, _session, conferenceState, conferenceSession, conferenceData, currentConferenceSession, isCurrentConferenceOnhold;
@@ -1483,7 +1484,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 }, this._webphone.sessions);
                 isSessionOnhold = session.isOnHold;
                 sessionToMergeWith = (0, _ramda.find)(function (x) {
-                  return x.id === _this7.mergingPair.fromSessionId;
+                  return x.id === (sessionIdToMergeWith || _this7.mergingPair.fromSessionId);
                 }, this._webphone.sessions);
                 isSessionToMergeWithOnhold = sessionToMergeWith && sessionToMergeWith.isOnHold;
                 webphoneSessions = sessionToMergeWith ? [sessionToMergeWith, session] : [session];
