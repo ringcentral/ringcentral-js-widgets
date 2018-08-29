@@ -34,16 +34,15 @@ export const stopRecordFn = jest.fn();
 
 export default class Session {
   constructor({
-    id, direction, to, fromNumber, _header_callId, telephonyStatus
+    id, direction, to, fromNumber, _header_callId, telephonyStatus,
   }) {
-    const displayName = to && to.includes('conf_') ? 'Conference' : null;
-    const toPhoneNumber = to && to.includes('conf_') ? to : null;
+    partyId += 1;
     const request = {
       to: {
         uri: {
-          user: toPhoneNumber
+          user: to && to.includes('conf_') ? to : null
         },
-        displayName,
+        displayName: to && to.includes('conf_') ? 'Conference' : null,
       },
       from: {
         uri: { }
@@ -71,6 +70,10 @@ export default class Session {
     this.telephonyStatus = telephonyStatus || telephonyStatuses.onHold;
     this._events = {};
     this.mediaHandler = new MediaHandler();
+    this.partyData = {
+      partyId: `cs17262255528361442${partyId}-1`,
+      sessionId: 'Y3MxNzI2MjI1NTQzODI0MzUzM0AxMC43NC4yLjIxOA',
+    }
   }
 
   on(event, cb) {
@@ -91,11 +94,6 @@ export default class Session {
   accept(acceptOptions) {
     this.callStatus = sessionStatus.connected;
     this.trigger('accepted', acceptOptions);
-    partyId += 1;
-    this.partyData = {
-      partyId: `cs17262255528361442${partyId}-1`,
-      sessionId: 'Y3MxNzI2MjI1NTQzODI0MzUzM0AxMC43NC4yLjIxOA',
-    };
     return acceptFn(this.id);
   }
 
@@ -179,8 +177,3 @@ export default class Session {
     return Promise.resolve(this.id);
   }
 }
-
-export const inboundSession = new Session({
-  id: '111',
-  direction: 'Inbound'
-});
