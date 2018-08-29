@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
+import { isRinging } from 'ringcentral-integration/lib/callLogHelpers';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 import { withPhone } from '../../lib/phoneContext';
 
@@ -156,6 +157,15 @@ function mapToFunctions(_, {
       );
     },
     onCallItemClick(call) {
+      // TODO: Display the ringout call ctrl page.
+      if (!call.webphoneSession) {
+        return;
+      }
+      // show the ring call modal when click a ringing call.
+      if (isRinging(call)) {
+        webphone.toggleMinimized(call.webphoneSession.id);
+        return;
+      }
       if (call.webphoneSession && call.webphoneSession.id) {
         routerInteraction.push(`${callCtrlRoute}/${call.webphoneSession.id}`);
       }
