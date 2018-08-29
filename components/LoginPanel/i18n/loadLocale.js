@@ -200,6 +200,19 @@ function loadLocale(locale) {
           }
           break;
         }
+      case 'zh-HK':
+        {
+          if (typeof require.ensure === 'function') {
+            require.ensure(['./zh-HK'], function (require) {
+              var data = require('./zh-HK');
+              resolve(data.__esModule === true ? data.default : data);
+            }, 'zh-HK');
+          } else {
+            var _data13 = require('./zh-HK');
+            resolve(_data13.__esModule === true ? _data13.default : _data13);
+          }
+          break;
+        }
       case 'zh-TW':
         {
           if (typeof require.ensure === 'function') {
@@ -208,8 +221,8 @@ function loadLocale(locale) {
               resolve(data.__esModule === true ? data.default : data);
             }, 'zh-TW');
           } else {
-            var _data13 = require('./zh-TW');
-            resolve(_data13.__esModule === true ? _data13.default : _data13);
+            var _data14 = require('./zh-TW');
+            resolve(_data14.__esModule === true ? _data14.default : _data14);
           }
           break;
         }

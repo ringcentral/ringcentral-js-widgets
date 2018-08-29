@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/MessagesLogIcon/i18n/zh-HK.js"],"names":["log"],"mappings":";;;;;kBAAe;AACbA,OAAK;AADQ,C;;AAIf","file":"zh-HK.js","sourcesContent":["export default {\n  log: \"記錄\"\n};\n\n// @key: @#@\"log\"@#@ @source: @#@\"Log\"@#@\n"]}
