@@ -173,22 +173,12 @@ function mapToFunctions(_, {
       countryCode: regionSettings.countryCode,
     }),
     onHangup(sessionId) {
-      if (conferenceCall) {
-        // close the MergingPair if any.
-        conferenceCall.closeMergingPair();
-      }
       webphone.hangup(sessionId);
     },
     onMute: sessionId => webphone.mute(sessionId),
     onUnmute: sessionId => webphone.unmute(sessionId),
     onHold: sessionId => webphone.hold(sessionId),
     onUnhold(sessionId) {
-      const mergingPair = conferenceCall && conferenceCall.mergingPair;
-      if (mergingPair && sessionId !== mergingPair.toSessionId) {
-        // close merging pair to close the merge call if resume a call
-        conferenceCall.closeMergingPair();
-      }
-
       webphone.unhold(sessionId);
     },
     onRecord: sessionId => webphone.startRecord(sessionId),

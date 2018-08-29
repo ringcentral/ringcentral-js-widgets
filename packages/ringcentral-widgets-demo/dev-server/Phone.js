@@ -294,6 +294,25 @@ export default class BasePhone extends RcModule {
       }
     });
 
+    webphone.onBeforeCallResume((session) => {
+      const sessionId = session && session.id;
+      const mergingPair = conferenceCall && conferenceCall.mergingPair;
+      if (mergingPair && sessionId !== mergingPair.toSessionId) {
+        // close merging pair to close the merge call.
+        conferenceCall.closeMergingPair();
+      }
+    });
+
+    webphone.onBeforeCallEnd((session) => {
+      const mergingPair = conferenceCall && conferenceCall.mergingPair;
+      if (session && mergingPair &&
+          (Object.values(mergingPair).indexOf(session.id) !== -1)
+      ) {
+        // close merging pair to close the merge call.
+        conferenceCall.closeMergingPair();
+      }
+    });
+
     // CallMonitor configuration
     callMonitor._onRinging = async () => {
       if (this.webphone._webphone) {
