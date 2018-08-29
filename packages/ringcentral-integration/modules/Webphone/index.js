@@ -1,4 +1,5 @@
 import { find, filter } from 'ramda';
+import { createSelector } from 'reselect';
 import RingCentralWebphone from 'ringcentral-web-phone';
 import incomingAudio from 'ringcentral-web-phone/audio/incoming.ogg';
 import outgoingAudio from 'ringcentral-web-phone/audio/outgoing.ogg';
@@ -17,6 +18,8 @@ import webphoneErrors from './webphoneErrors';
 import callErrors from '../Call/callErrors';
 import ensureExist from '../../lib/ensureExist';
 import proxify from '../../lib/proxy/proxify';
+import getter from '../../lib/getter';
+
 import {
   isBrowserSupport,
   normalizeSession,
@@ -1485,4 +1488,13 @@ export default class Webphone extends RcModule {
   get connectFailed() {
     return this.connectionStatus === connectionStatus.connectFailed;
   }
+
+  @getter
+  ringingCallOnView = createSelector(
+    () => this.ringSessions,
+    sessions => find(
+      session => !session.minimized,
+      sessions,
+    )
+  )
 }
