@@ -193,7 +193,7 @@ describe('RCI-1071: simplified call control page #3', () => {
     const conferenceSessionId = Object.values(phone.conferenceCall.conferences)[0].sessionId;
     const conferenceSession = phone.webphone._sessions.get(conferenceSessionId);
     const conferenceId = Object.values(phone.conferenceCall.conferences)[0].conference.id;
-    expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
+    expect(phone.routerInteraction.currentPath.indexOf('/calls/active')).toEqual(0);
     const callCtrlPage = wrapper.find(CallCtrlPage);
     callCtrlPage.props().onAdd(conferenceSessionId);
     await timeout(500);
