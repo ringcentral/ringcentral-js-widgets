@@ -296,7 +296,9 @@ export default class ActiveCallItem extends Component {
     });
     if (value) {
       this.props.getAvatarUrl(value).then((avatarUrl) => {
-        this.setState({ avatarUrl });
+        if (this._mounted) {
+          this.setState({ avatarUrl });
+        }
       });
       if (this.props.call.webphoneSession) {
         this.props.updateSessionMatchedContact(this.props.call.webphoneSession.id, value);
