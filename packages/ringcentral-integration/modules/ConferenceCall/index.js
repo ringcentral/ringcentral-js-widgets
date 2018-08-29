@@ -622,7 +622,7 @@ export default class ConferenceCall extends RcModule {
   }
 
   _checkPermission() {
-    if (!this._rolesAndPermissions.callingEnabled || !this._rolesAndPermissions.webphoneEnabled) {
+    if (!this._rolesAndPermissions.hasConferenceCallPermission) {
       this._alert.danger({
         message: permissionsMessages.insufficientPrivilege,
         ttl: 0,

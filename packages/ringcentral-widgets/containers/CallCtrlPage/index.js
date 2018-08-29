@@ -21,6 +21,7 @@ function mapToProps(_, {
     conferenceCall,
     callingSettings,
     callMonitor,
+    rolesAndPermissions,
   },
   params,
   children,
@@ -52,7 +53,9 @@ function mapToProps(_, {
   let conferenceCallParties;
   let conferenceCallId = null;
   const lastCallInfo = callMonitor.lastCallInfo;
-  if (conferenceCall) {
+  const conferenceCallEquipped =
+    !!(conferenceCall && rolesAndPermissions.hasConferenceCallPermission);
+  if (conferenceCallEquipped) {
     isOnConference = conferenceCall.isConferenceSession(currentSession.id);
     const conferenceData = Object.values(conferenceCall.conferences)[0];
 
@@ -99,7 +102,7 @@ function mapToProps(_, {
     showSpinner: isMerging,
     addDisabled,
     mergeDisabled,
-    conferenceCallEquipped: !!conferenceCall,
+    conferenceCallEquipped,
     hasConferenceCall,
     conferenceCallParties,
     conferenceCallId,
