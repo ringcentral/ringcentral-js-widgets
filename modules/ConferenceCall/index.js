@@ -1111,7 +1111,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
   }, {
     key: '_checkPermission',
     value: function _checkPermission() {
-      if (!this._rolesAndPermissions.callingEnabled || !this._rolesAndPermissions.webphoneEnabled) {
+      if (!this._rolesAndPermissions.hasConferenceCallPermission) {
         this._alert.danger({
           message: _permissionsMessages2.default.insufficientPrivilege,
           ttl: 0

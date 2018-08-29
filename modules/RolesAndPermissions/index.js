@@ -408,6 +408,11 @@ var RolesAndPermissions = (_dec = (0, _di.Module)({
     get: function get() {
       return !!(this.permissions && this.permissions.Glip);
     }
+  }, {
+    key: 'hasConferenceCallPermission',
+    get: function get() {
+      return this.callingEnabled && this.webphoneEnabled;
+    }
   }]);
   return RolesAndPermissions;
 }(_DataFetcher3.default)) || _class);
