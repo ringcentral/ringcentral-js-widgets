@@ -154,7 +154,7 @@ var ParticipantsContainer = function (_Component) {
           _react2.default.createElement(
             'div',
             { className: _styles2.default.participantsCount },
-            participants.length > 1 ? participants.length + ' ' + _i18n2.default.getString('participants', currentLocale) : participants.length + ' ' + _i18n2.default.getString('participant', currentLocale)
+            participants.length === 1 ? participants.length + ' ' + _i18n2.default.getString('participant', currentLocale) : participants.length + ' ' + _i18n2.default.getString('participants', currentLocale)
           ),
           _react2.default.createElement(
             'div',
