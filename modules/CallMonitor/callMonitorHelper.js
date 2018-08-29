@@ -28,10 +28,13 @@ function matchWephoneSessionWithAcitveCall(sessions, callItem) {
   var matches = sessions.filter(function (session) {
     // Strategy 1: use `P-Rc-Api-Ids` header of a webRTC session to match with `telephonySessionId`
     // and `partyId` of a call data from presence api.
+    // when caller calls him self, the sessionId are the same, so we need the `partyId` to identify the participants.
     if (session.partyData && callItem.telephonySessionId) {
-      var sessionId = session.partyData.sessionId;
+      var _session$partyData = session.partyData,
+          sessionId = _session$partyData.sessionId,
+          partyId = _session$partyData.partyId;
 
-      if (sessionId === callItem.telephonySessionId) {
+      if (sessionId === callItem.telephonySessionId && partyId === callItem.partyId) {
         return true;
       }
       return false;
