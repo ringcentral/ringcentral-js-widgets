@@ -328,7 +328,7 @@ function mapToProps(_, _ref3) {
       showContactDisplayPlaceholder = _ref3$showContactDisp === undefined ? false : _ref3$showContactDisp,
       phoneTypeRenderer = _ref3.phoneTypeRenderer;
 
-  var currentSession = webphone.ringSession || {};
+  var currentSession = webphone.ringingCallOnView || {};
   var contactMapping = contactMatcher && contactMatcher.dataMapping;
   var fromMatches = contactMapping && contactMapping[currentSession.from] || [];
   var toMatches = contactMapping && contactMapping[currentSession.to] || [];

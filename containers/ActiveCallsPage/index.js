@@ -19,6 +19,8 @@ var _formatNumber = require('ringcentral-integration/lib/formatNumber');
 
 var _formatNumber2 = _interopRequireDefault(_formatNumber);
 
+var _callLogHelpers = require('ringcentral-integration/lib/callLogHelpers');
+
 var _callingModes = require('ringcentral-integration/modules/CallingSettings/callingModes');
 
 var _callingModes2 = _interopRequireDefault(_callingModes);
@@ -376,6 +378,15 @@ function mapToFunctions(_, _ref2) {
       return !!(conferenceCall && conferenceCall.isConferenceSession(sessionId));
     },
     onCallItemClick: function onCallItemClick(call) {
+      // TODO: Display the ringout call ctrl page.
+      if (!call.webphoneSession) {
+        return;
+      }
+      // show the ring call modal when click a ringing call.
+      if ((0, _callLogHelpers.isRinging)(call)) {
+        webphone.toggleMinimized(call.webphoneSession.id);
+        return;
+      }
       if (call.webphoneSession && call.webphoneSession.id) {
         routerInteraction.push(callCtrlRoute + '/' + call.webphoneSession.id);
       }
