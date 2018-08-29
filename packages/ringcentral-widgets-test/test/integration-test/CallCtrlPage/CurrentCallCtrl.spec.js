@@ -84,7 +84,8 @@ async function enterToNumber(domInput, number) {
 
 describe('Enter to Current Call Page', () => {
   test('Make an outbound call, page should be in Current Call Page', async () => {
-    await makeOutboundCall(wrapper, phone);
+    await makeOutboundCall(phone);
+    wrapper.update();
     expect(wrapper.find(ActiveCallPad)).toHaveLength(1);
     expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
   });
@@ -116,7 +117,8 @@ describe('Current Call Control Page - Hang Up', () => {
     expect(phone.routerInteraction.currentPath).toEqual('/dialer');
   });
   test('RCI-1712650 Make an outbound call and keep in active call page, click "Hang Up" Button', async () => {
-    await makeOutboundCall(wrapper, phone);
+    await makeOutboundCall(phone);
+    wrapper.update();
     expect(phone.webphone.sessions).toHaveLength(1);
     const handupButton = wrapper.find(ActiveCallPad).find('.stopButtonGroup').find(CircleButton);
     expect(handupButton.props().className).toEqual('stopButton');
@@ -142,7 +144,8 @@ describe('Current Call Control Page - Keypad', () => {
     expect(wrapper.find(ActiveCallDialPad).find('input').props().value).toEqual('0+');
   });
   test('RCI-1712646 Make an outbound call and keep in active call page, click Keypad and "0"', async () => {
-    await makeOutboundCall(wrapper, phone);
+    await makeOutboundCall(phone);
+    wrapper.update();
     const keypadButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(1);
     keypadButton.find(CircleButton).simulate('click');
     const zeroDialButton = wrapper.find(ActiveCallDialPad).find(DialButton).at(10);
@@ -165,7 +168,8 @@ describe('Current Call Control Page - Keypad', () => {
     expect(wrapper.find(ActiveCallDialPad)).toHaveLength(0);
   });
   test('RCI-1712646 Make an outbound call and keep in active call page, click Keypad and Back', async () => {
-    await makeOutboundCall(wrapper, phone);
+    await makeOutboundCall(phone);
+    wrapper.update();
     const keypadButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(1);
     keypadButton.find(CircleButton).simulate('click');
     expect(wrapper.find(ActiveCallDialPad)).toHaveLength(1);
@@ -194,7 +198,8 @@ describe('Current Call Control Page - Hold/Unhold', () => {
     expect(unholdFn.mock.calls[0]).toEqual([sid111]);
   });
   test('RCI-1712647 Make an outbound call and keep in active call page, click Hold/Unhold', async () => {
-    const outboundSession = await makeOutboundCall(wrapper, phone);
+    const outboundSession = await makeOutboundCall(phone);
+    wrapper.update();
     holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
 
@@ -230,7 +235,8 @@ describe('Current Call Control Page - Mute/Unmute', () => {
   );
   test('Make an outbound call then user hold the call, Mute/Unmute should be disabled',
     async () => {
-      await makeOutboundCall(wrapper, phone);
+      await makeOutboundCall(phone);
+      wrapper.update();
       // Click Hold Button
       holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
       holdButton.find(CircleButton).simulate('click');
@@ -259,7 +265,8 @@ describe('Current Call Control Page - Mute/Unmute', () => {
     expect(unmuteFn.mock.calls[0]).toEqual([sid111]);
   });
   test('RCI-1712648 Make an outbound call and keep in active call page, click Mute/Unmute', async () => {
-    const outboundSession = await makeOutboundCall(wrapper, phone);
+    const outboundSession = await makeOutboundCall(phone);
+    wrapper.update();
     muteButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(0);
     expect(muteButton.find('.buttonTitle').text()).toEqual('Mute');
 
@@ -295,7 +302,8 @@ describe('Current Call Control Page - Record/Stop', () => {
   );
   test('RCI-1712647 Make an outbound call then user hold the call, Record should be disabled',
     async () => {
-      await makeOutboundCall(wrapper, phone);
+      await makeOutboundCall(phone);
+      wrapper.update();
       // Click Hold Button
       holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
       holdButton.find(CircleButton).simulate('click');
@@ -330,7 +338,8 @@ describe('Current Call Control Page - Record/Stop', () => {
   );
   test('RCI-1712679 Make an outbound call and keep in active call page, click Record/Stop',
     async () => {
-      const outboundSession = await makeOutboundCall(wrapper, phone);
+      const outboundSession = await makeOutboundCall(phone);
+      wrapper.update();
       outboundSession.accept(phone.webphone.acceptOptions);
       recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
       expect(recordButton.find('.buttonTitle').text()).toEqual('Record');
@@ -353,14 +362,13 @@ describe('Current Call Control Page - Record/Stop', () => {
 
 describe('Current Call Control Page - Merge', () => {
   test('When user records the conference call, user can not merge call to conference call', async () => {
-    const conferenceSession = await mockConferenceCallEnv(phone);
-    conferenceSession.accept(phone.webphone.acceptOptions);
+    await mockConferenceCallEnv(phone);
     wrapper.update();
     const recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
     recordButton.find(CircleButton).simulate('click');
     const holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
     holdButton.find(CircleButton).simulate('click');
-    const outboundSession = await makeOutboundCall(wrapper, phone);
+    await makeOutboundCall(phone);
     wrapper.update();
     const mergeButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
     mergeButton.find(CircleButton).simulate('click');
@@ -373,30 +381,29 @@ describe('Current Call Control Page - Merge', () => {
         })
       ])
     );
-  })
+  });
 });
 
 describe('Current Call Control Page - Add', () => {
-  let recordButton = null;
   test('When user records the outbound call, user can not add another call to merge a conference call'
-  , async () => {
-    const outboundSession = await makeOutboundCall(wrapper, phone);
-    outboundSession.accept(phone.webphone.acceptOptions);
-    wrapper.update();
-    const recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
-    recordButton.find(CircleButton).simulate('click');
-    const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
-    addButton.find(CircleButton).simulate('click');
-    const messages = store.getState(wrapper).alert.messages;
-    expect(messages).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          level: 'warning',
-          message: 'webphone-record-recording'
-        })
-      ])
-    );
-  })
+    , async () => {
+      const outboundSession = await makeOutboundCall(phone);
+      outboundSession.accept(phone.webphone.acceptOptions);
+      wrapper.update();
+      const recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
+      recordButton.find(CircleButton).simulate('click');
+      const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
+      addButton.find(CircleButton).simulate('click');
+      const messages = store.getState(wrapper).alert.messages;
+      expect(messages).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            level: 'warning',
+            message: 'webphone-record-recording'
+          })
+        ])
+      );
+    });
 });
 
 describe('Current Call Control Page - Transfer', () => {
@@ -418,7 +425,8 @@ describe('Current Call Control Page - Transfer', () => {
   );
   test('RCI-1712674 Make an outbound call and keep in active call page, click Transfer Button',
     async () => {
-      await makeOutboundCall(wrapper, phone);
+      await makeOutboundCall(phone);
+      wrapper.update();
       transferButton = getTransferButton();
       transferButton = getTransferButton();
       transferButton.find('.buttonItem').simulate('click');
@@ -442,7 +450,8 @@ describe('Current Call Control Page - Transfer', () => {
   });
   test('RCI-1712674 Transfer Panel: click Transfer and Back Button',
     async () => {
-      await makeOutboundCall(wrapper, phone);
+      await makeOutboundCall(phone);
+      wrapper.update();
       transferButton = getTransferButton();
       transferButton = getTransferButton();
       transferButton.find('.buttonItem').simulate('click');
@@ -454,7 +463,8 @@ describe('Current Call Control Page - Transfer', () => {
   test('Transfer Panel: failed to transfer call',
     async () => {
       let messages = null;
-      await makeOutboundCall(wrapper, phone);
+      await makeOutboundCall(phone);
+      wrapper.update();
       transferButton = getTransferButton();
       transferButton.find('.buttonItem').simulate('click');
       const transferBtn = wrapper.find(TransferPanel).find(CircleButton).last();
@@ -486,7 +496,8 @@ describe('Current Call Control Page - Transfer', () => {
   test('RCI-1712674 Transfer Panel: success to transfer call, navigates to the page user last viewed',
     async () => {
       mock.numberParser();
-      await makeOutboundCall(wrapper, phone);
+      await makeOutboundCall(phone);
+      wrapper.update();
       transferButton = getTransferButton();
       transferButton.find('.buttonItem').simulate('click');
       const domInput = wrapper.find(TransferPanel).find(RecipientsInput).find('input');
@@ -528,7 +539,8 @@ describe('Current Call Control Page - Flip', () => {
   );
   test('RCI-1712647 Make an outbound call then user hold the call, Flip should be disabled',
     async () => {
-      await makeOutboundCall(wrapper, phone);
+      await makeOutboundCall(phone);
+      wrapper.update();
       // Click Hold Button
       holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
       holdButton.find(CircleButton).simulate('click');
@@ -544,7 +556,8 @@ describe('Current Call Control Page - Flip', () => {
   test('RCI-1712678 if user does not have filp numbers, Flip should be disabled', async () => {
     mock.forwardingNumber(forwardingNumberBody);
     await phone.forwardingNumber.fetchData();
-    await makeOutboundCall(wrapper, phone);
+    await makeOutboundCall(phone);
+    wrapper.update();
     flipButton = getFlipButton();
     expect(flipButton.props().disabled).toBe(true);
   });
@@ -559,7 +572,8 @@ describe('Current Call Control Page - Flip', () => {
   );
   test('RCI-1712678 Make an outbound call and keep in active call page, click Flip Button',
     async () => {
-      await makeOutboundCall(wrapper, phone);
+      await makeOutboundCall(phone);
+      wrapper.update();
       flipButton = getFlipButton();
       flipButton.find('.buttonItem').simulate('click');
       expect(wrapper.find(FlipPanel)).toHaveLength(1);
@@ -567,7 +581,8 @@ describe('Current Call Control Page - Flip', () => {
   );
   test('RCI-1712678 Check Flip Panel Page', async () => {
     const filpNumbers = phone.forwardingNumber.flipNumbers;
-    await makeOutboundCall(wrapper, phone);
+    await makeOutboundCall(phone);
+    wrapper.update();
     flipButton = getFlipButton();
     flipButton.find('.buttonItem').simulate('click');
     expect(wrapper.find(FlipPanel)).toHaveLength(1);
@@ -590,7 +605,8 @@ describe('Current Call Control Page - Flip', () => {
     let flipIconButton = null;
     let endIconButton = null;
     const filpNumbers = phone.forwardingNumber.flipNumbers;
-    await makeOutboundCall(wrapper, phone);
+    await makeOutboundCall(phone);
+    wrapper.update();
     flipButton = getFlipButton();
     flipButton.find('.buttonItem').simulate('click');
     expect(wrapper.find(FlipPanel)).toHaveLength(1);

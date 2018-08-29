@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import i18n from './i18n';
 import styles from './styles.scss';
 import Modal from '../Modal';
-import Button from '../Button';
 import CircleButton from '../CircleButton';
-import CloseIcon from '../../assets/images/CloseIcon.svg';
 import CallAvatar from '../CallAvatar';
 import MergeIntoConferenceIcon from '../../assets/images/MergeIntoConferenceIcon.svg';
 
