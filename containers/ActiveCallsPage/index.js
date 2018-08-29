@@ -5,14 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = exports.mapToFunctions = exports.mapToProps = undefined;
 
-var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
-
-var _values = require('babel-runtime/core-js/object/values');
-
-var _values2 = _interopRequireDefault(_values);
-
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -181,26 +173,14 @@ function mapToFunctions(_, _ref2) {
     }(),
     webphoneHangup: function () {
       var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-          args[_key] = arguments[_key];
-        }
-
-        var sessionId, mergingPair;
+        var _args4 = arguments;
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                sessionId = args && args[0];
-                mergingPair = conferenceCall && conferenceCall.mergingPair;
+                return _context4.abrupt('return', webphone && webphone.hangup.apply(webphone, _args4));
 
-                if (mergingPair && (0, _values2.default)(mergingPair).indexOf(sessionId) !== -1) {
-                  // close merging pair to close the merge call.
-                  conferenceCall.closeMergingPair();
-                }
-
-                return _context4.abrupt('return', webphone && webphone.hangup.apply(webphone, (0, _toConsumableArray3.default)(args)));
-
-              case 4:
+              case 1:
               case 'end':
                 return _context4.stop();
             }
@@ -216,11 +196,7 @@ function mapToFunctions(_, _ref2) {
     }(),
     webphoneResume: function () {
       var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
-        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-          args[_key2] = arguments[_key2];
-        }
-
-        var sessionId, mergingPair;
+        var _args5 = arguments;
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -233,23 +209,15 @@ function mapToFunctions(_, _ref2) {
                 return _context5.abrupt('return');
 
               case 2:
-                sessionId = args && args[0];
-                mergingPair = conferenceCall && conferenceCall.mergingPair;
+                _context5.next = 4;
+                return webphone.resume.apply(webphone, _args5);
 
-                if (mergingPair && sessionId !== mergingPair.toSessionId) {
-                  // close merging pair to close the merge call.
-                  conferenceCall.closeMergingPair();
-                }
-
-                _context5.next = 7;
-                return webphone.resume.apply(webphone, (0, _toConsumableArray3.default)(args));
-
-              case 7:
+              case 4:
                 if (routerInteraction.currentPath !== callCtrlRoute && !useV2) {
                   routerInteraction.push(callCtrlRoute);
                 }
 
-              case 8:
+              case 5:
               case 'end':
                 return _context5.stop();
             }

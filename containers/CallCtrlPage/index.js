@@ -204,10 +204,6 @@ function mapToFunctions(_, _ref2) {
       });
     },
     onHangup: function onHangup(sessionId) {
-      if (conferenceCall) {
-        // close the MergingPair if any.
-        conferenceCall.closeMergingPair();
-      }
       webphone.hangup(sessionId);
     },
 
@@ -221,12 +217,6 @@ function mapToFunctions(_, _ref2) {
       return webphone.hold(sessionId);
     },
     onUnhold: function onUnhold(sessionId) {
-      var mergingPair = conferenceCall && conferenceCall.mergingPair;
-      if (mergingPair && sessionId !== mergingPair.toSessionId) {
-        // close merging pair to close the merge call if resume a call
-        conferenceCall.closeMergingPair();
-      }
-
       webphone.unhold(sessionId);
     },
 
