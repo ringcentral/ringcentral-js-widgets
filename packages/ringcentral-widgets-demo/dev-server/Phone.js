@@ -260,8 +260,7 @@ export default class BasePhone extends RcModule {
         }
 
         if (conferenceCall.isMerging) {
-          // Do nothing, let the merge() to do the jump
-          // TODO: this should have some reactive design, or simple event emmiter
+          // Do nothing, let the merge success event to do the jump
           return;
         }
         routerInteraction.goBack();
@@ -270,7 +269,10 @@ export default class BasePhone extends RcModule {
 
       if (routerInteraction.currentPath.indexOf('/calls/active') === 0) {
         routerInteraction.push('/calls/active');
+        return;
       }
+
+      routerInteraction.goBack();
     });
 
     webphone.onCallStart(() => {
