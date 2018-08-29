@@ -8,13 +8,13 @@ var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
 
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
-
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
 var _keys = require('babel-runtime/core-js/object/keys');
 
 var _keys2 = _interopRequireDefault(_keys);
+
+var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
@@ -149,12 +149,7 @@ function mapToFunctions(_, _ref2) {
 
   return {
     onBackButtonClick: function onBackButtonClick() {
-      var confId = conferenceCall.conferences && (0, _keys2.default)(conferenceCall.conferences)[0];
-
-      if (confId) {
-        var sessionId = conferenceCall.conferences[confId].sessionId;
-        routerInteraction.push('/calls/active/' + sessionId);
-      }
+      routerInteraction.goBack();
     },
     removeFunc: function () {
       var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(id) {

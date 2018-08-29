@@ -65,6 +65,7 @@ function mapToProps(_, _ref) {
       conferenceCall = _ref$phone.conferenceCall,
       callingSettings = _ref$phone.callingSettings,
       callMonitor = _ref$phone.callMonitor,
+      rolesAndPermissions = _ref$phone.rolesAndPermissions,
       params = _ref.params,
       children = _ref.children,
       multipleLayout = _ref.multipleLayout;
@@ -96,7 +97,8 @@ function mapToProps(_, _ref) {
   var conferenceCallParties = void 0;
   var conferenceCallId = null;
   var lastCallInfo = callMonitor.lastCallInfo;
-  if (conferenceCall) {
+  var conferenceCallEquipped = !!(conferenceCall && rolesAndPermissions.hasConferenceCallPermission);
+  if (conferenceCallEquipped) {
     isOnConference = conferenceCall.isConferenceSession(currentSession.id);
     var conferenceData = (0, _values2.default)(conferenceCall.conferences)[0];
 
@@ -135,7 +137,7 @@ function mapToProps(_, _ref) {
     showSpinner: isMerging,
     addDisabled: addDisabled,
     mergeDisabled: mergeDisabled,
-    conferenceCallEquipped: !!conferenceCall,
+    conferenceCallEquipped: conferenceCallEquipped,
     hasConferenceCall: hasConferenceCall,
     conferenceCallParties: conferenceCallParties,
     conferenceCallId: conferenceCallId,
