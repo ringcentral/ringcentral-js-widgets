@@ -56,12 +56,7 @@ function mapToProps(_, {
     isOnConference = conferenceCall.isConferenceSession(currentSession.id);
     const conferenceData = Object.values(conferenceCall.conferences)[0];
 
-    isMerging = conferenceCall.isMerging && !!(
-      Object
-        .values(conferenceCall.mergingPair)
-        .find(id => id === currentSession.id)
-      || (isOnConference)
-    );
+    isMerging = conferenceCall.isMerging;
 
     if (conferenceData && isWebRTC) {
       conferenceCallId = conferenceData.conference.id;
@@ -215,7 +210,7 @@ function mapToFunctions(_, {
           conferenceCall.setMergeParty({ fromSessionId: sessionId });
         }
         // goto dialer directly
-        routerInteraction.push(`/conferenceCall/dialer/${session.fromNumber}`);
+        routerInteraction.push(`/conferenceCall/dialer/${session.fromNumber}/${sessionId}`);
       }
     },
     onBeforeMerge(sessionId) {

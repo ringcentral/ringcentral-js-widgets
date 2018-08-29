@@ -261,7 +261,7 @@ export default function App({
                 )}
               />
               <Route
-                path="/conferenceCall/dialer/:fromNumber"
+                path="/conferenceCall/dialer/:fromNumber/:fromSessionId"
                 component={routerProps => (
                   <ConferenceCallDialerPage
                     params={routerProps.params}

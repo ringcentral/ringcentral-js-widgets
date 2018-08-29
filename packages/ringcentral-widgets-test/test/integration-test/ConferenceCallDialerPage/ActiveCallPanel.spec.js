@@ -198,7 +198,7 @@ describe('RCI-1071: simplified call control page #3', () => {
     callCtrlPage.props().onAdd(conferenceSessionId);
     await timeout(500);
     wrapper.update();
-    expect(phone.routerInteraction.currentPath).toEqual(`/conferenceCall/dialer/${conferenceSession.fromNumber}`);
+    expect(phone.routerInteraction.currentPath).toEqual(`/conferenceCall/dialer/${conferenceSession.fromNumber}/${conferenceSession.id}`);
     call({
       phoneNumber: contactA.phoneNumbers[0].phoneNumber,
     });
@@ -274,7 +274,7 @@ describe('RCI-1710156: Call control add call flow', () => {
     addCircleButton.simulate('click');
     wrapper.update();
     const fromNumber = phone.webphone.activeSession.fromNumber;
-    expect(phone.routerInteraction.currentPath).toEqual(`/conferenceCall/dialer/${fromNumber}`);
+    expect(phone.routerInteraction.currentPath).toEqual(`/conferenceCall/dialer/${fromNumber}/${phone.webphone.activeSession.id}`);
     expect(wrapper.find(FromField)).toHaveLength(0);
     expect(wrapper.find(BackHeader)).toHaveLength(1);
     expect(wrapper.find(BackButton).find('.backLabel').text()).toEqual('Active Call');

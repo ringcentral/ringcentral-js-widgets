@@ -267,8 +267,11 @@ export default class BasePhone extends RcModule {
           routerInteraction.push('/calls/active');
           return;
         }
-        if (conferenceCall.isMerging) {
-          routerInteraction.push('/calls/active/');
+        const confId = conferenceCall.conferences && Object.keys(conferenceCall.conferences)[0];
+
+        if (conferenceCall.isMerging && confId) {
+          const sessionId = conferenceCall.conferences[confId].sessionId;
+          routerInteraction.push(`/calls/active/${sessionId}`);
           return;
         }
         routerInteraction.goBack();

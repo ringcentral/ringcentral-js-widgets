@@ -55,6 +55,9 @@ function mapToProps(_, {
 function mapToFunctions(_, {
   params,
   phone,
+  phone: {
+    conferenceCall
+  },
   onBack,
   ...props
 }) {
@@ -67,6 +70,19 @@ function mapToFunctions(_, {
     ...baseProps,
     onBack,
     onCallButtonClick() {
+      // set mergingPair if has
+      const { fromSessionId } = params;
+      if (
+        fromSessionId &&
+        conferenceCall &&
+        conferenceCall.mergingPair &&
+        !conferenceCall.mergingPair.fromSessionId
+      ) {
+        conferenceCall.setMergeParty({
+          fromSessionId
+        });
+      }
+
       phone.dialerUI.onCallButtonClick({
         fromNumber: params.fromNumber,
       });
