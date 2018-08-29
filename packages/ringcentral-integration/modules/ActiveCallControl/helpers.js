@@ -59,3 +59,23 @@ export function normalizeSession({
     isReject,
   };
 }
+export function requestURI(activeSession) {
+  const {
+    telephonySessionId,
+    partyId,
+    recordingId
+  } = activeSession;
+  const prefix = `/account/~/telephony/sessions/${telephonySessionId}`;
+  return {
+    hangUp: `${prefix}`,
+    reject: `${prefix}/parties/${partyId}/reject`,
+    hold: `${prefix}/parties/${partyId}/hold`,
+    unHold: `${prefix}/parties/${partyId}/unhold`,
+    transfer: `${prefix}/parties/${partyId}/transfer`,
+    flip: `${prefix}/parties/${partyId}/flip`,
+    getPartyData: `${prefix}/parties/${partyId}`,
+    mute: `${prefix}/parties/${partyId}`,
+    record: `${prefix}/parties/${partyId}/recordings`,
+    stopRecord: `${prefix}/parties/${partyId}/recordings/${recordingId}`
+  };
+}

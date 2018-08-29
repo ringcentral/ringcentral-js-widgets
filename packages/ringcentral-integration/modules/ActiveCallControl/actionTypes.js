@@ -14,4 +14,5 @@ export default new Enum([
   'unHoldSuccess',
   'startRecord',
   'stopRecord',
+  'recordFail'
 ], 'activeCallControlStore');

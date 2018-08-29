@@ -53,9 +53,9 @@ function getRecordingIdsStatusReducer(types) {
         };
         return newState;
       }
-      case types.resetSuccess: {
+      case type.recordFail:
+      case types.resetSuccess:
         return {};
-      }
       default:
         return state;
     }

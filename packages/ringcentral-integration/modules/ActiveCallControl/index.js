@@ -9,7 +9,7 @@ import ensureExist from '../../lib/ensureExist';
 import actionTypes from './actionTypes';
 import getActiveCallControlReducer from './getActiveCallControlReducer';
 import getDataReducer from './getDataReducer';
-import { normalizeSession } from './helpers';
+import { normalizeSession, requestURI } from './helpers';
 
 
 const DEFAULT_TTL = 30 * 60 * 1000;
@@ -91,9 +91,7 @@ export default class ActiveCallControl extends Pollable {
       this.store.dispatch({
         type: this.actionTypes.init,
       });
-      if (this._connectivityMonitor) {
-        this._connectivity = this._connectivityMonitor.connectivity;
-      }
+      this._connectivity = this._connectivityMonitor.connectivity;
       await this._init();
       this.store.dispatch({
         type: this.actionTypes.initSuccess,
@@ -113,9 +111,9 @@ export default class ActiveCallControl extends Pollable {
       this._auth.loggedIn &&
       (!this._storage || this._storage.ready) &&
       this._subscription.ready &&
-      (!this._connectivityMonitor || this._connectivityMonitor.ready) &&
+      this._connectivityMonitor.ready &&
+      this._callMonitor.ready &&
       (!this._tabManager || this._tabManager.ready) &&
-      (!this._callMonitor || this._callMonitor.ready) &&
       this._rolesAndPermissions.ready &&
       this.pending
     );
@@ -128,8 +126,8 @@ export default class ActiveCallControl extends Pollable {
         (!!this._storage && !this._storage.ready) ||
         !this._subscription.ready ||
         (!!this._tabManager && !this._tabManager.ready) ||
-        (!!this._connectivityMonitor && !this._connectivityMonitor.ready) ||
-        (!!this._callMonitor && !this._callMonitor.ready) ||
+        !this._connectivityMonitor.ready ||
+        !this._callMonitor.ready ||
         !this._rolesAndPermissions.ready
       ) &&
       this.ready
@@ -255,6 +253,12 @@ export default class ActiveCallControl extends Pollable {
       sessionId
     });
   }
+  setActiveSessionId(sessionId) {
+    this.store.dispatch({
+      type: this.actionTypes.setActiveSessionId,
+      sessionId,
+    });
+  }
 
   _checkConnectivity() {
     if (
@@ -268,63 +272,56 @@ export default class ActiveCallControl extends Pollable {
       }
     }
   }
-  get status() {
-    return this.state.status;
-  }
-
-  get ready() {
-    return this.status === moduleStatuses.ready;
-  }
   async patch({ url = null, query = null, body = null }) {
     this._client.service._platform.send({
       method: 'PATCH', url, query, body
     });
   }
   async mute(sessionId) {
-    const {
-      telephonySessionId,
-      partyId
-    } = this.activeSessions[sessionId];
+    const activeSession = this.activeSessions[sessionId];
+    const url = requestURI(activeSession).mute;
     this.patch({
-      url: `/account/~/telephony/sessions/${telephonySessionId}/parties/${partyId}`,
+      url,
       body: {
         muted: true
       }
     });
   }
   async unmute(sessionId) {
-    const {
-      telephonySessionId,
-      partyId
-    } = this.activeSessions[sessionId];
+    const activeSession = this.activeSessions[sessionId];
+    const url = requestURI(activeSession).mute;
     await this.patch({
-      url: `/account/~/telephony/sessions/${telephonySessionId}/parties/${partyId}`,
+      url,
       body: {
         muted: false
       }
     });
   }
   async startRecord(sessionId) {
-    const {
-      telephonySessionId,
-      partyId
-    } = this.activeSessions[sessionId];
-    const _response = await this._client.service._platform.post(`/account/~/telephony/sessions/${telephonySessionId}/parties/${partyId}/recordings`);
-    const response = JSON.parse(_response._text);
-    this.store.dispatch({
-      type: this.actionTypes.startRecord,
-      sessionId,
-      response
-    });
+    const activeSession = this.activeSessions[sessionId];
+    const url = requestURI(activeSession).record;
+    try {
+      const _response = await this._client.service._platform.post(url);
+      const response = JSON.parse(_response._text);
+      this.store.dispatch({
+        type: this.actionTypes.startRecord,
+        sessionId,
+        response
+      });
+    } catch (error) {
+      this.store.dispatch({
+        type: this.actionTypes.recordFail,
+        sessionId,
+      });
+    }
   }
   async stopRecord(sessionId) {
-    const {
-      telephonySessionId,
-      partyId,
-    } = this.activeSessions[sessionId];
+    const activeSession = this.activeSessions[sessionId];
     const recordingId = this.recordingIds[sessionId].id;
+    activeSession.recordingId = recordingId;
+    const url = requestURI(activeSession).stopRecord;
     this.patch({
-      url: `/account/~/telephony/sessions/${telephonySessionId}/parties/${partyId}/recordings/${recordingId}`,
+      url,
       body: {
         active: false
       }
@@ -345,73 +342,61 @@ export default class ActiveCallControl extends Pollable {
     }
   }
   async _hangUp(sessionId) {
-    const {
-      telephonySessionId,
-    } = this.activeSessions[sessionId];
+    const activeSession = this.activeSessions[sessionId];
+    const url = requestURI(activeSession).hangUp;
     try {
-      await this._client.service._platform.delete(`/account/~/telephony/sessions/${telephonySessionId}`);
+      await this._client.service._platform.delete(url);
     } catch (error) {
       throw error;
     }
   }
   async reject(sessionId) {
-    const {
-      telephonySessionId,
-      partyId
-    } = this.activeSessions[sessionId];
+    const activeSession = this.activeSessions[sessionId];
+    const url = requestURI(activeSession).reject;
     try {
-      await this._client.service._platform.post(`/account/~/telephony/sessions/${telephonySessionId}/parties/${partyId}/reject`);
+      await this._client.service._platform.post(url);
     } catch (error) {
       throw error;
     }
   }
   async hold(sessionId) {
-    const {
-      telephonySessionId,
-      partyId
-    } = this.activeSessions[sessionId];
-    await this._client.service._platform.post(`/account/~/telephony/sessions/${telephonySessionId}/parties/${partyId}/hold`);
+    const activeSession = this.activeSessions[sessionId];
+    const url = requestURI(activeSession).hold;
+    await this._client.service._platform.post(url);
   }
-  async onHold(sessionId) {
-    const {
-      telephonySessionId,
-      partyId
-    } = this.activeSessions[sessionId];
-    await this._client.service._platform.post(`/account/~/telephony/sessions/${telephonySessionId}/parties/${partyId}/unhold`);
+  async unHold(sessionId) {
+    const activeSession = this.activeSessions[sessionId];
+    const url = requestURI(activeSession).unHold;
+    await this._client.service._platform.post(url);
   }
   async transfer(transferNumber, sessionId) {
-    const {
-      telephonySessionId,
-      partyId
-    } = this.activeSessions[sessionId];
-    await this._client.service._platform.post(`/account/~/telephony/sessions/${telephonySessionId}/parties/${partyId}/transfer`, {
+    const activeSession = this.activeSessions[sessionId];
+    const url = requestURI(activeSession).transfer;
+    await this._client.service._platform.post(url, {
       phoneNumber: transferNumber
     });
     this._onCallEndFunc();
   }
 
   async flip(flipValue, sessionId) {
-    const {
-      telephonySessionId,
-      partyId
-    } = this.activeSessions[sessionId];
-    await this._client.service._platform.post(`/account/~/telephony/sessions/${telephonySessionId}/parties/${partyId}/flip`, {
+    const activeSession = this.activeSessions[sessionId];
+    const url = requestURI(activeSession).flip;
+    await this._client.service._platform.post(url, {
       callFlipId: flipValue
     });
   }
-  async forward(telephonySessionId, partyId) {
-    await this._client.service._platform.post(`/account/~/telephony/sessions/${telephonySessionId}/parties/${partyId}/forward`);
+  async forward() {
+    // No implement at the moment
+    // Need to check the API document
   }
-  async getCallSessionStatus(telephonySessionId) {
-    await this._client.service._platform.get(`/account/~/telephony/sessions/${telephonySessionId}`);
+  async getCallSessionStatus() {
+    // No implement at the moment
+    // Need to check the API document
   }
   async getPartyData(item, sessionId) {
-    const {
-      telephonySessionId,
-      partyId
-    } = item;
+    const url = requestURI(item).getPartyData;
     try {
-      const _response = await this._client.service._platform.get(`/account/~/telephony/sessions/${telephonySessionId}/parties/${partyId}`);
+      const _response = await this._client.service._platform.get(url);
       const response = JSON.parse(_response._text);
       return response;
     } catch (error) {
@@ -420,7 +405,8 @@ export default class ActiveCallControl extends Pollable {
     }
   }
   get data() {
-    return this._storage.ready && this._storage.getItem(this._storageKey);
+    return (this._storage && this._storage.ready && this._storage.getItem(this._storageKey)) ||
+     this.state;
   }
   get activeSessionId() {
     return this.data.activeSessionId || null;
@@ -440,6 +426,13 @@ export default class ActiveCallControl extends Pollable {
   get ttl() {
     return this._ttl;
   }
+  get status() {
+    return this.state.status;
+  }
+
+  get ready() {
+    return this.status === moduleStatuses.ready;
+  }
   @getter
   recordingId = createSelector(
     () => this.activeSessionId,
@@ -452,12 +445,6 @@ export default class ActiveCallControl extends Pollable {
     () => this.activeSessions,
     (activeSessionId, activeSessions) => activeSessions[activeSessionId]
   );
-  setActiveSessionId(sessionId) {
-    this.store.dispatch({
-      type: this.actionTypes.setActiveSessionId,
-      sessionId,
-    });
-  }
 
   @getter
   activeSessions = createSelector(
