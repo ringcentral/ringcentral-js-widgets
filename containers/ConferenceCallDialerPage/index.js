@@ -82,8 +82,9 @@ function mapToProps(_, _ref2) {
 function mapToFunctions(_, _ref3) {
   var params = _ref3.params,
       phone = _ref3.phone,
+      conferenceCall = _ref3.phone.conferenceCall,
       onBack = _ref3.onBack,
-      props = (0, _objectWithoutProperties3.default)(_ref3, ['params', 'phone', 'onBack']);
+      props = (0, _objectWithoutProperties3.default)(_ref3, ['params', 'phone', 'phone', 'onBack']);
 
   var baseProps = (0, _DialerPage.mapToFunctions)(_, (0, _extends3.default)({
     params: params,
@@ -92,6 +93,15 @@ function mapToFunctions(_, _ref3) {
   return (0, _extends3.default)({}, baseProps, {
     onBack: onBack,
     onCallButtonClick: function onCallButtonClick() {
+      // set mergingPair if has
+      var fromSessionId = params.fromSessionId;
+
+      if (fromSessionId && conferenceCall && conferenceCall.mergingPair && !conferenceCall.mergingPair.fromSessionId) {
+        conferenceCall.setMergeParty({
+          fromSessionId: fromSessionId
+        });
+      }
+
       phone.dialerUI.onCallButtonClick({
         fromNumber: params.fromNumber
       });

@@ -100,9 +100,7 @@ function mapToProps(_, _ref) {
     isOnConference = conferenceCall.isConferenceSession(currentSession.id);
     var conferenceData = (0, _values2.default)(conferenceCall.conferences)[0];
 
-    isMerging = conferenceCall.isMerging && !!((0, _values2.default)(conferenceCall.mergingPair).find(function (id) {
-      return id === currentSession.id;
-    }) || isOnConference);
+    isMerging = conferenceCall.isMerging;
 
     if (conferenceData && isWebRTC) {
       conferenceCallId = conferenceData.conference.id;
@@ -256,9 +254,6 @@ function mapToFunctions(_, _ref2) {
       if (!session || webphone.isCallRecording({ session: session })) {
         return;
       }
-      if (conferenceCall) {
-        conferenceCall.setMergeParty({ fromSessionId: sessionId });
-      }
       var outBoundOnholdCalls = (0, _ramda.filter)(function (call) {
         return call.direction === _callDirections2.default.outbound;
       }, callMonitor.activeOnHoldCalls);
@@ -266,8 +261,11 @@ function mapToFunctions(_, _ref2) {
         // goto 'calls on hold' page
         routerInteraction.push('/conferenceCall/callsOnhold/' + session.fromNumber + '/' + session.id);
       } else {
+        if (conferenceCall) {
+          conferenceCall.setMergeParty({ fromSessionId: sessionId });
+        }
         // goto dialer directly
-        routerInteraction.push('/conferenceCall/dialer/' + session.fromNumber);
+        routerInteraction.push('/conferenceCall/dialer/' + session.fromNumber + '/' + sessionId);
       }
     },
     onBeforeMerge: function onBeforeMerge(sessionId) {

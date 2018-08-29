@@ -285,7 +285,9 @@ var ActiveCallItem = function (_Component) {
       });
       if (value) {
         _this.props.getAvatarUrl(value).then(function (avatarUrl) {
-          _this.setState({ avatarUrl: avatarUrl });
+          if (_this._mounted) {
+            _this.setState({ avatarUrl: avatarUrl });
+          }
         });
         if (_this.props.call.webphoneSession) {
           _this.props.updateSessionMatchedContact(_this.props.call.webphoneSession.id, value);

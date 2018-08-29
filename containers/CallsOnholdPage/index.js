@@ -8,6 +8,10 @@ var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
 
+var _keys = require('babel-runtime/core-js/object/keys');
+
+var _keys2 = _interopRequireDefault(_keys);
+
 var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
@@ -132,6 +136,8 @@ function mapToFunctions(_, _ref2) {
       routerInteraction = _ref2$phone.routerInteraction,
       getAvatarUrl = _ref2.getAvatarUrl,
       props = (0, _objectWithoutProperties3.default)(_ref2, ['params', 'phone', 'phone', 'getAvatarUrl']);
+  var fromSessionId = params.fromSessionId;
+
 
   var baseProps = (0, _ActiveCallsPage.mapToFunctions)(_, (0, _extends3.default)({
     params: params,
@@ -147,8 +153,17 @@ function mapToFunctions(_, _ref2) {
                 _context.next = 2;
                 return conferenceCall.mergeSession({
                   sessionId: sessionId,
+                  sessionIdToMergeWith: fromSessionId,
                   onReadyToMerge: function onReadyToMerge() {
-                    routerInteraction.goBack();
+                    var confId = conferenceCall.conferences && (0, _keys2.default)(conferenceCall.conferences)[0];
+
+                    if (confId) {
+                      var _sessionId = conferenceCall.conferences[confId].sessionId;
+
+                      routerInteraction.push('/calls/active/' + _sessionId);
+                    } else {
+                      routerInteraction.goBack();
+                    }
                   }
                 });
 
@@ -174,7 +189,7 @@ function mapToFunctions(_, _ref2) {
       phone.routerInteraction.go(-2);
     },
     onAdd: function onAdd() {
-      routerInteraction.push('/conferenceCall/dialer/' + params.fromNumber);
+      routerInteraction.push('/conferenceCall/dialer/' + params.fromNumber + '/' + params.fromSessionId);
     },
 
     getAvatarUrl: getAvatarUrl,
