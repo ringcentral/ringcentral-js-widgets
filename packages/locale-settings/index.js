@@ -14,6 +14,7 @@ export default {
     'pt-BR',
     'zh-CN',
     'zh-TW',
+    'zh-HK',
   ],
   sourceLocale: 'en-US',
 };
