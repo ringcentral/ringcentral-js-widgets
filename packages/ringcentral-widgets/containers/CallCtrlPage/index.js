@@ -25,7 +25,6 @@ function mapToProps(_, {
   },
   params,
   children,
-  multipleLayout,
 }) {
   const sessionId = params && params.sessionId;
   let currentSession;
@@ -109,7 +108,6 @@ function mapToProps(_, {
     lastCallInfo,
     children,
     isOnConference,
-    multipleLayout,
   };
 }
 
@@ -127,13 +125,17 @@ function mapToFunctions(_, {
   phoneTypeRenderer,
   recipientsContactInfoRenderer,
   recipientsContactPhoneRenderer,
-  multipleLayout,
 }) {
   return {
-    getInitialLayout({ isOnConference, lastCallInfo, session }) {
+    getInitialLayout({
+      conferenceCallEquipped,
+      isOnConference,
+      lastCallInfo,
+      session
+    }) {
       let layout = callCtrlLayouts.normalCtrl;
 
-      if (!multipleLayout) {
+      if (!conferenceCallEquipped) {
         return layout;
       }
 
@@ -266,7 +268,6 @@ CallCtrlContainer.propTypes = {
   children: PropTypes.node,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
-  multipleLayout: PropTypes.bool,
 };
 
 CallCtrlContainer.defaultProps = {
@@ -274,11 +275,6 @@ CallCtrlContainer.defaultProps = {
   showContactDisplayPlaceholder: false,
   children: undefined,
   sourceIcons: undefined,
-
-  /**
-   * Set to true to let callctrlpage support handling multiple layouts, false by default.
-   */
-  multipleLayout: false,
 };
 
 export {
