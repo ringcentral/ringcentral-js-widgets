@@ -252,10 +252,6 @@ export default class BasePhone extends RcModule {
         if (
           !currentSession
         ) {
-          if (routerInteraction.currentPath === '/conferenceCall/participants') {
-            routerInteraction.replace('/dialer');
-            return;
-          }
           routerInteraction.replace('/dialer');
           return;
         }
