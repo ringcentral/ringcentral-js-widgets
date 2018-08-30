@@ -67,8 +67,7 @@ function mapToProps(_, _ref) {
       callMonitor = _ref$phone.callMonitor,
       rolesAndPermissions = _ref$phone.rolesAndPermissions,
       params = _ref.params,
-      children = _ref.children,
-      multipleLayout = _ref.multipleLayout;
+      children = _ref.children;
 
   var sessionId = params && params.sessionId;
   var currentSession = void 0;
@@ -88,8 +87,6 @@ function mapToProps(_, _ref) {
 
   var isWebRTC = callingSettings.callingMode === _callingModes2.default.webphone;
   var isInboundCall = currentSession.direction === _callDirections2.default.inbound;
-  var mergeDisabled = !isWebRTC || isInboundCall || !currentSession.partyData;
-  var addDisabled = !isWebRTC || isInboundCall || !currentSession.partyData;
 
   var isOnConference = false;
   var hasConferenceCall = false;
@@ -97,6 +94,7 @@ function mapToProps(_, _ref) {
   var conferenceCallParties = void 0;
   var conferenceCallId = null;
   var lastCallInfo = callMonitor.lastCallInfo;
+  var isConferenceCallOverload = false;
   var conferenceCallEquipped = !!(conferenceCall && rolesAndPermissions.hasConferenceCallPermission);
   if (conferenceCallEquipped) {
     isOnConference = conferenceCall.isConferenceSession(currentSession.id);
@@ -106,11 +104,7 @@ function mapToProps(_, _ref) {
 
     if (conferenceData && isWebRTC) {
       conferenceCallId = conferenceData.conference.id;
-      var overload = conferenceCall.isOverload(conferenceCallId);
-      if (overload) {
-        mergeDisabled = true;
-        addDisabled = true;
-      }
+      isConferenceCallOverload = conferenceCall.isOverload(conferenceCallId);
     }
 
     hasConferenceCall = !!conferenceData;
@@ -135,8 +129,6 @@ function mapToProps(_, _ref) {
     showBackButton: true, // callMonitor.calls.length > 0,
     searchContactList: contactSearch.sortedResult,
     showSpinner: isMerging,
-    addDisabled: addDisabled,
-    mergeDisabled: mergeDisabled,
     conferenceCallEquipped: conferenceCallEquipped,
     hasConferenceCall: hasConferenceCall,
     conferenceCallParties: conferenceCallParties,
@@ -144,7 +136,8 @@ function mapToProps(_, _ref) {
     lastCallInfo: lastCallInfo,
     children: children,
     isOnConference: isOnConference,
-    multipleLayout: multipleLayout
+    isWebRTC: isWebRTC,
+    isConferenceCallOverload: isConferenceCallOverload
   };
 }
 
@@ -160,18 +153,18 @@ function mapToFunctions(_, _ref2) {
       onBackButtonClick = _ref2.onBackButtonClick,
       phoneTypeRenderer = _ref2.phoneTypeRenderer,
       recipientsContactInfoRenderer = _ref2.recipientsContactInfoRenderer,
-      recipientsContactPhoneRenderer = _ref2.recipientsContactPhoneRenderer,
-      multipleLayout = _ref2.multipleLayout;
+      recipientsContactPhoneRenderer = _ref2.recipientsContactPhoneRenderer;
 
   return {
     getInitialLayout: function getInitialLayout(_ref3) {
-      var isOnConference = _ref3.isOnConference,
+      var conferenceCallEquipped = _ref3.conferenceCallEquipped,
+          isOnConference = _ref3.isOnConference,
           lastCallInfo = _ref3.lastCallInfo,
           session = _ref3.session;
 
       var layout = _callCtrlLayouts2.default.normalCtrl;
 
-      if (!multipleLayout) {
+      if (!conferenceCallEquipped) {
         return layout;
       }
 
@@ -339,8 +332,7 @@ CallCtrlContainer.propTypes = {
   backButtonLabel: _propTypes2.default.string,
   children: _propTypes2.default.node,
   showContactDisplayPlaceholder: _propTypes2.default.bool,
-  sourceIcons: _propTypes2.default.object,
-  multipleLayout: _propTypes2.default.bool
+  sourceIcons: _propTypes2.default.object
 };
 
 CallCtrlContainer.defaultProps = {
@@ -349,12 +341,7 @@ CallCtrlContainer.defaultProps = {
   },
   showContactDisplayPlaceholder: false,
   children: undefined,
-  sourceIcons: undefined,
-
-  /**
-   * Set to true to let callctrlpage support handling multiple layouts, false by default.
-   */
-  multipleLayout: false
+  sourceIcons: undefined
 };
 
 exports.mapToProps = mapToProps;

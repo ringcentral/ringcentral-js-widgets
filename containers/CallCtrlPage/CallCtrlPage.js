@@ -79,12 +79,17 @@ var CallCtrlPage = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallCtrlPage.__proto__ || (0, _getPrototypeOf2.default)(CallCtrlPage)).call(this, props));
 
     var layout = props.getInitialLayout(_this.props);
-    var mergeDisabled = _this.disableMerge(_this.props, layout);
+
+    var _this$disableMergeAnd = _this.disableMergeAndAdd(_this.props, layout),
+        mergeDisabled = _this$disableMergeAnd.mergeDisabled,
+        addDisabled = _this$disableMergeAnd.addDisabled;
+
     _this.state = {
       selectedMatcherIndex: 0,
       avatarUrl: null,
       layout: layout,
-      mergeDisabled: mergeDisabled
+      mergeDisabled: mergeDisabled,
+      addDisabled: addDisabled
     };
 
     _this.onLastMergingCallEnded = _this.onLastMergingCallEnded.bind(_this);
@@ -171,17 +176,30 @@ var CallCtrlPage = function (_Component) {
       }
     }
   }, {
-    key: 'disableMerge',
-    value: function disableMerge(nextProps, layout) {
-      var lastCallInfo = nextProps.lastCallInfo;
+    key: 'disableMergeAndAdd',
+    value: function disableMergeAndAdd(nextProps, layout) {
+      var lastCallInfo = nextProps.lastCallInfo,
+          isWebRTC = nextProps.isWebRTC,
+          isConferenceCallOverload = nextProps.isConferenceCallOverload,
+          session = nextProps.session,
+          hasConferenceCall = nextProps.hasConferenceCall;
 
 
-      var mergeDisabled = false;
+      var isInboundCall = session.direction === _callDirections2.default.inbound;
+      var isMergeAndAddDisabled = !isWebRTC || isInboundCall || !session.partyData;
+
+      var mergeDisabled = isMergeAndAddDisabled;
+      var addDisabled = isMergeAndAddDisabled;
       if (layout === _callCtrlLayouts2.default.mergeCtrl && (!lastCallInfo || lastCallInfo.status === _sessionStatus2.default.finished)) {
         mergeDisabled = true;
       }
 
-      return mergeDisabled;
+      if (hasConferenceCall && isWebRTC && isConferenceCallOverload) {
+        mergeDisabled = true;
+        addDisabled = true;
+      }
+
+      return { mergeDisabled: mergeDisabled, addDisabled: addDisabled };
     }
   }, {
     key: 'onLastMergingCallEnded',
@@ -238,23 +256,34 @@ var CallCtrlPage = function (_Component) {
     value: function componentWillReceiveProps(nextProps, nextState) {
       this._updateMergingPairToSessionId(nextProps, nextState);
 
+      var layout = this.state.layout;
       if (nextProps.session.id !== this.props.session.id) {
-        var layout = this.getLayout(this.props, nextProps);
-        var mergeDisabled = this.disableMerge(nextProps, layout);
-
+        layout = this.getLayout(this.props, nextProps);
         this.setState({
-          layout: layout,
-          mergeDisabled: mergeDisabled
+          layout: layout
         });
 
         if (layout === _callCtrlLayouts2.default.normalCtrl) {
           this._updateAvatarAndMatchIndex(nextProps);
         }
-      } else if (this.state.layout === _callCtrlLayouts2.default.mergeCtrl && CallCtrlPage.isLastCallEnded(this.props) === false && CallCtrlPage.isLastCallEnded(nextProps) === true) {
+      } else if (layout === _callCtrlLayouts2.default.mergeCtrl && CallCtrlPage.isLastCallEnded(this.props) === false && CallCtrlPage.isLastCallEnded(nextProps) === true) {
         this.onLastMergingCallEnded();
-      } else if (this.state.layout === _callCtrlLayouts2.default.conferenceCtrl && this.props.conferenceCallParties !== nextProps.conferenceCallParties) {
+      } else if (layout === _callCtrlLayouts2.default.conferenceCtrl && this.props.conferenceCallParties !== nextProps.conferenceCallParties) {
         this._updateCurrentConferenceCall(nextProps);
       }
+      this._updateMergeAddButtonDisabled(nextProps, layout);
+    }
+  }, {
+    key: '_updateMergeAddButtonDisabled',
+    value: function _updateMergeAddButtonDisabled(nextProps, layout) {
+      var _disableMergeAndAdd = this.disableMergeAndAdd(nextProps, layout),
+          mergeDisabled = _disableMergeAndAdd.mergeDisabled,
+          addDisabled = _disableMergeAndAdd.addDisabled;
+
+      this.setState({
+        mergeDisabled: mergeDisabled,
+        addDisabled: addDisabled
+      });
     }
   }, {
     key: 'componentWillUnmount',
@@ -376,7 +405,7 @@ var CallCtrlPage = function (_Component) {
           layout: this.state.layout,
           showSpinner: this.props.showSpinner,
           direction: session.direction,
-          addDisabled: this.props.addDisabled,
+          addDisabled: this.state.addDisabled,
           mergeDisabled: this.state.mergeDisabled,
           conferenceCallEquipped: this.props.conferenceCallEquipped,
           hasConferenceCall: this.props.hasConferenceCall,
@@ -449,8 +478,6 @@ CallCtrlPage.propTypes = {
   recipientsContactPhoneRenderer: _propTypes2.default.func,
   layout: _propTypes2.default.string,
   showSpinner: _propTypes2.default.bool,
-  addDisabled: _propTypes2.default.bool,
-  mergeDisabled: _propTypes2.default.bool,
   conferenceCallParties: _propTypes2.default.array,
   conferenceCallEquipped: _propTypes2.default.bool,
   hasConferenceCall: _propTypes2.default.bool,
@@ -459,7 +486,9 @@ CallCtrlPage.propTypes = {
   gotoParticipantsCtrl: _propTypes2.default.func,
   loadConference: _propTypes2.default.func,
   getInitialLayout: _propTypes2.default.func,
-  closeMergingPair: _propTypes2.default.func
+  closeMergingPair: _propTypes2.default.func,
+  isWebRTC: _propTypes2.default.bool,
+  isConferenceCallOverload: _propTypes2.default.bool
 };
 
 CallCtrlPage.defaultProps = {
@@ -475,8 +504,6 @@ CallCtrlPage.defaultProps = {
   onMerge: undefined,
   onBeforeMerge: undefined,
   showSpinner: false,
-  addDisabled: false,
-  mergeDisabled: false,
   conferenceCallEquipped: false,
   hasConferenceCall: false,
   conferenceCallParties: undefined,
@@ -492,7 +519,9 @@ CallCtrlPage.defaultProps = {
     return _callCtrlLayouts2.default.normalCtrl;
   },
   layout: _callCtrlLayouts2.default.normalCtrl,
-  closeMergingPair: null
+  closeMergingPair: null,
+  isWebRTC: false,
+  isConferenceCallOverload: false
 };
 
 exports.default = CallCtrlPage;
