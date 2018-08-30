@@ -95,7 +95,7 @@ class CallAvatar extends Component {
     const $blue = '#0684bd';
     const $dark = '#e2e2e2';
     const $transparency = '0.8';
-    let res;
+    const defaultAvatarStyle = { opacity: +$transparency };
     const hash = uuid.v4();
     const textId = `text-${hash}`;
     const clipId = `circleClip-${hash}`;
@@ -108,7 +108,13 @@ class CallAvatar extends Component {
     const spinnerSize = 12;
     const spinnerTranslateTo = (initialSize - (spinnerSize * spinnerScaleSize)) / 2;
     const isOnConferenceCallWithExtraNum = isOnConferenceCall && extraNum > 0;
-    const spinnerTransform = `translate(${spinnerTranslateTo - (isOnConferenceCallWithExtraNum ? margin : 0)},${spinnerTranslateTo}) scale(${spinnerScaleSize}, ${spinnerScaleSize})`;
+    const spinnerTransform = `translate(${spinnerTranslateTo
+      - (isOnConferenceCallWithExtraNum ? margin : 0)},${spinnerTranslateTo}) scale(${
+      spinnerScaleSize
+    }, ${spinnerScaleSize})`;
+
+    let res;
+
     if (isOnConferenceCallWithExtraNum) {
       res = (
         <svg
@@ -167,7 +173,12 @@ class CallAvatar extends Component {
             )
           }
           {
-            (!avatarUrl && !showingSpinner) && <use xlinkHref={`#${textId}`} clipPath={`url(#${clipId})`} />
+            (!avatarUrl && !showingSpinner) &&
+            <use
+              xlinkHref={`#${textId}`}
+              clipPath={`url(#${clipId})`}
+              style={defaultAvatarStyle}
+            />
           }
           <circle
             cx={initialSize - extraNumCircleRadius}
@@ -262,7 +273,12 @@ class CallAvatar extends Component {
             )
           }
           {
-            (!avatarUrl && !showingSpinner) && <use xlinkHref={`#${textId}`} clipPath={`url(#${clipId})`} />
+            (!avatarUrl && !showingSpinner) &&
+            <use
+              xlinkHref={`#${textId}`}
+              clipPath={`url(#${clipId})`}
+              style={defaultAvatarStyle}
+            />
           }
         </svg>
       );
