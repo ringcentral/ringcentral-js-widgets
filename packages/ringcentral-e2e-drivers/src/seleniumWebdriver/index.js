@@ -47,14 +47,15 @@ module.exports = (browser) => {
     }
     /* Global runner API */
     async run() {
+      // nothing
+    }
+
+    async newPage() {
       this.browser = this._program
         .forBrowser(Browsers[webdriver])[setKeyName](
           this._options.driver.setting,
         )
         .build();
-    }
-
-    async newPage() {
       this.page = this.browser;
     }
 
