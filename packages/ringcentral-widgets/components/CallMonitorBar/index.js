@@ -9,14 +9,11 @@ import CarrouselBar from '../CarrouselBar';
 import i18n from './i18n';
 import styles from './styles.scss';
 
-const ALL_CALL_PATH = '/calls';
-const ACTIVE_CALL_PATH = '/calls/active';
-
 export function CallInfoBar({
   label,
   onClick,
-  currentPath,
-  currentLocale
+  currentLocale,
+  shouldDisplayViewCallsBtn
 }) {
   return (
     <div className={styles.bar}>
@@ -24,7 +21,7 @@ export function CallInfoBar({
         {label}
       </div>
       {
-          currentPath !== ALL_CALL_PATH ?
+          shouldDisplayViewCallsBtn ?
             <Button
               className={styles.viewCallsBtn}
               onClick={onClick}
@@ -39,18 +36,25 @@ export function CallInfoBar({
 CallInfoBar.propTypes = {
   label: PropTypes.string,
   onClick: PropTypes.func,
-  currentPath: PropTypes.string,
   currentLocale: PropTypes.string,
+  shouldDisplayViewCallsBtn: PropTypes.bool,
+};
+CallInfoBar.defaultProps = {
+  label: '',
+  onClick: undefined,
+  currentLocale: '',
+  shouldDisplayViewCallsBtn: false
 };
 
 export default function CallMonitorBar({
   ringingCalls,
   onHoldCalls,
   currentCalls,
-  currentPath,
   currentLocale,
   onCurrentCallBtnClick,
-  onViewCallBtnClick
+  onViewCallBtnClick,
+  shouldDisplayCurrentCallBtn,
+  shouldDisplayViewCallsBtn
 }) {
   const numberOfIncomingCalls = ringingCalls.length;
   const numberOfOnHoldCalls = onHoldCalls.length;
@@ -65,7 +69,7 @@ export default function CallMonitorBar({
               />
             </div>
             {
-                currentPath !== ACTIVE_CALL_PATH ?
+                shouldDisplayCurrentCallBtn && onCurrentCallBtnClick ?
                   <Button
                     className={styles.currentCallBtn}
                     onClick={onCurrentCallBtnClick}
@@ -81,13 +85,13 @@ export default function CallMonitorBar({
         //   numberOfIncomingCalls > 0 ? (
         //     <CallInfoBar
         //       label={
-        //       numberOfIncomingCalls === 1 ?
-        //       formatMessage(i18n.getString('incomingCall', currentLocale), { numberOf: numberOfIncomingCalls }) :
-        //       formatMessage(i18n.getString('incomingCalls', currentLocale), { numberOf: numberOfIncomingCalls })
-        //     }
+        //         numberOfIncomingCalls === 1 ?
+        //         formatMessage(i18n.getString('incomingCall', currentLocale), { numberOf: numberOfIncomingCalls }) :
+        //         formatMessage(i18n.getString('incomingCalls', currentLocale), { numberOf: numberOfIncomingCalls })
+        //       }
         //       currentLocale={currentLocale}
-        //       currentPath={currentPath}
         //       onClick={onViewCallBtnClick}
+        //       shouldDisplayViewCallsBtn={shouldDisplayViewCallsBtn}
         //   />
         // ) : null
         }
@@ -95,13 +99,13 @@ export default function CallMonitorBar({
         //   numberOfOnHoldCalls > 0 ? (
         //     <CallInfoBar
         //       label={
-        //       numberOfOnHoldCalls === 1 ?
-        //       formatMessage(i18n.getString('callOnHold', currentLocale), { numberOf: numberOfOnHoldCalls }) :
-        //       formatMessage(i18n.getString('callsOnHold', currentLocale), { numberOf: numberOfOnHoldCalls })
-        //     }
+        //         numberOfOnHoldCalls === 1 ?
+        //         formatMessage(i18n.getString('callOnHold', currentLocale), { numberOf: numberOfOnHoldCalls }) :
+        //         formatMessage(i18n.getString('callsOnHold', currentLocale), { numberOf: numberOfOnHoldCalls })
+        //       }
         //       currentLocale={currentLocale}
-        //       currentPath={currentPath}
         //       onClick={onViewCallBtnClick}
+        //       shouldDisplayViewCallsBtn={shouldDisplayViewCallsBtn}
         //   />
         // ) : null
       }
@@ -112,16 +116,18 @@ CallMonitorBar.propTypes = {
   ringingCalls: PropTypes.array,
   currentCalls: PropTypes.array,
   onHoldCalls: PropTypes.array,
-  currentPath: PropTypes.string,
   currentLocale: PropTypes.string.isRequired,
   onCurrentCallBtnClick: PropTypes.func,
   onViewCallBtnClick: PropTypes.func,
+  shouldDisplayCurrentCallBtn: PropTypes.bool,
+  shouldDisplayViewCallsBtn: PropTypes.bool,
 };
 CallMonitorBar.defaultProps = {
   ringingCalls: [],
   currentCalls: [],
   onHoldCalls: [],
-  currentPath: '',
   onCurrentCallBtnClick: undefined,
   onViewCallBtnClick: undefined,
+  shouldDisplayCurrentCallBtn: false,
+  shouldDisplayViewCallsBtn: false,
 };

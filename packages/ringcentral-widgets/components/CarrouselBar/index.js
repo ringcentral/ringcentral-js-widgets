@@ -34,7 +34,6 @@ export default class CarrouselBar extends Component {
   }
   render() {
     this.validChildren = this.getValidChildren(this.props.children);
-    console.log('validChildren', this.validChildren);
     if (this.validChildren.length < 2) {
       return this.props.children;
     }
