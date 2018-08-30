@@ -43,8 +43,6 @@ function mapToProps(_, {
 
   const isWebRTC = callingSettings.callingMode === callingModes.webphone;
   const isInboundCall = currentSession.direction === callDirections.inbound;
-  let mergeDisabled = !isWebRTC || isInboundCall || !currentSession.partyData;
-  let addDisabled = !isWebRTC || isInboundCall || !currentSession.partyData;
 
   let isOnConference = false;
   let hasConferenceCall = false;
@@ -52,6 +50,7 @@ function mapToProps(_, {
   let conferenceCallParties;
   let conferenceCallId = null;
   const lastCallInfo = callMonitor.lastCallInfo;
+  let isConferenceCallOverload = false;
   const conferenceCallEquipped =
     !!(conferenceCall && rolesAndPermissions.hasConferenceCallPermission);
   if (conferenceCallEquipped) {
@@ -62,11 +61,7 @@ function mapToProps(_, {
 
     if (conferenceData && isWebRTC) {
       conferenceCallId = conferenceData.conference.id;
-      const overload = conferenceCall.isOverload(conferenceCallId);
-      if (overload) {
-        mergeDisabled = true;
-        addDisabled = true;
-      }
+      isConferenceCallOverload = conferenceCall.isOverload(conferenceCallId);
     }
 
     hasConferenceCall = !!conferenceData;
@@ -99,8 +94,6 @@ function mapToProps(_, {
     showBackButton: true, // callMonitor.calls.length > 0,
     searchContactList: contactSearch.sortedResult,
     showSpinner: isMerging,
-    addDisabled,
-    mergeDisabled,
     conferenceCallEquipped,
     hasConferenceCall,
     conferenceCallParties,
@@ -108,6 +101,8 @@ function mapToProps(_, {
     lastCallInfo,
     children,
     isOnConference,
+    isWebRTC,
+    isConferenceCallOverload,
   };
 }
 
