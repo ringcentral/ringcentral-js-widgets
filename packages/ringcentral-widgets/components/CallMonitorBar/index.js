@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { concat } from 'ramda';
-import formatMessage from 'format-message';
+// import formatMessage from 'format-message';
 
 import DurationCounter from '../DurationCounter';
 import Button from '../Button';
@@ -47,17 +46,17 @@ CallInfoBar.defaultProps = {
 };
 
 export default function CallMonitorBar({
-  ringingCalls,
-  onHoldCalls,
+  // ringingCalls,
+  // onHoldCalls,
   currentCalls,
   currentLocale,
   onCurrentCallBtnClick,
-  onViewCallBtnClick,
+  // onViewCallBtnClick,
   shouldDisplayCurrentCallBtn,
-  shouldDisplayViewCallsBtn
+  // shouldDisplayViewCallsBtn
 }) {
-  const numberOfIncomingCalls = ringingCalls.length;
-  const numberOfOnHoldCalls = onHoldCalls.length;
+  // const numberOfIncomingCalls = ringingCalls.length;
+  // const numberOfOnHoldCalls = onHoldCalls.length;
   return (
     <CarrouselBar>
       {
@@ -113,21 +112,21 @@ export default function CallMonitorBar({
   );
 }
 CallMonitorBar.propTypes = {
-  ringingCalls: PropTypes.array,
+  // ringingCalls: PropTypes.array,
   currentCalls: PropTypes.array,
-  onHoldCalls: PropTypes.array,
+  // onHoldCalls: PropTypes.array,
   currentLocale: PropTypes.string.isRequired,
   onCurrentCallBtnClick: PropTypes.func,
-  onViewCallBtnClick: PropTypes.func,
+  // onViewCallBtnClick: PropTypes.func,
   shouldDisplayCurrentCallBtn: PropTypes.bool,
-  shouldDisplayViewCallsBtn: PropTypes.bool,
+  // shouldDisplayViewCallsBtn: PropTypes.bool,
 };
 CallMonitorBar.defaultProps = {
-  ringingCalls: [],
+  // ringingCalls: [],
   currentCalls: [],
-  onHoldCalls: [],
+  // onHoldCalls: [],
   onCurrentCallBtnClick: undefined,
-  onViewCallBtnClick: undefined,
+  // onViewCallBtnClick: undefined,
   shouldDisplayCurrentCallBtn: false,
-  shouldDisplayViewCallsBtn: false,
+  // shouldDisplayViewCallsBtn: false,
 };
