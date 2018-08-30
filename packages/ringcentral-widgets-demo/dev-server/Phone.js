@@ -240,15 +240,6 @@ export default class BasePhone extends RcModule {
           return;
         }
       }
-      if (
-        routerInteraction.currentPath.indexOf('/calls/active') === 0 &&
-        webphone.cachedSessions.length && (
-          !currentSession ||
-          (webphone.cachedSessions.find(cachedSession => cachedSession.id === currentSession.id))
-        )
-      ) {
-        return;
-      }
 
       if (
         !![
@@ -267,15 +258,21 @@ export default class BasePhone extends RcModule {
           routerInteraction.push('/calls/active');
           return;
         }
-        const confId = conferenceCall.conferences && Object.keys(conferenceCall.conferences)[0];
 
-        if (conferenceCall.isMerging && confId) {
-          const sessionId = conferenceCall.conferences[confId].sessionId;
-          routerInteraction.push(`/calls/active/${sessionId}`);
+        if (conferenceCall.isMerging) {
+          // Do nothing, let the merge success event to do the jump
           return;
         }
         routerInteraction.goBack();
+        return;
       }
+
+      if (routerInteraction.currentPath.indexOf('/calls/active') === 0) {
+        routerInteraction.push('/calls/active');
+        return;
+      }
+
+      routerInteraction.goBack();
     });
 
     webphone.onCallStart(() => {
@@ -314,6 +311,10 @@ export default class BasePhone extends RcModule {
         // close merging pair to close the merge call.
         conferenceCall.closeMergingPair();
       }
+    });
+
+    conferenceCall.onMergeSuccess((conferenceData) => {
+      routerInteraction.push(`/calls/active/${conferenceData.sessionId}`);
     });
 
     // CallMonitor configuration

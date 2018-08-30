@@ -1,4 +1,5 @@
 import { find } from 'ramda';
+import EventEmitter from 'event-emitter';
 import { createSelector } from 'reselect';
 import getter from '../../lib/getter';
 import { Module } from '../../lib/di';
@@ -404,6 +405,9 @@ export default class ConferenceCall extends RcModule {
           this.store.dispatch({
             type: this.actionTypes.mergeSucceeded,
           });
+          const conferenceState = Object.values(this.conferences)[0];
+
+          this.emit(this.actionTypes.mergeSucceeded, conferenceState);
         }, () => {
           const conferenceState = Object.values(this.conferences)[0];
 
@@ -429,6 +433,7 @@ export default class ConferenceCall extends RcModule {
         this.store.dispatch({
           type: this.actionTypes.mergeSucceeded,
         });
+        this.emit(this.actionTypes.mergeSucceeded);
       } catch (e) {
         const conferenceState = Object.values(this.conferences)[0];
         /**
@@ -565,6 +570,18 @@ export default class ConferenceCall extends RcModule {
     }
     this._timout = timeout;
     return timeout;
+  }
+
+  onMergeSuccess(func, isOnce) {
+    if (isOnce) {
+      this.once(this.actionTypes.mergeSucceeded, func);
+      return;
+    }
+    this.on(this.actionTypes.mergeSucceeded, func);
+  }
+
+  removeMergeSuccess(func) {
+    this.off(this.actionTypes.mergeSucceeded, func);
   }
 
   @proxify
@@ -911,3 +928,5 @@ export default class ConferenceCall extends RcModule {
     },
   )
 }
+
+EventEmitter(ConferenceCall.prototype);
