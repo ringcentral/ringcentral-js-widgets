@@ -25,7 +25,6 @@ function mapToProps(_, {
   },
   params,
   children,
-  multipleLayout,
 }) {
   const sessionId = params && params.sessionId;
   let currentSession;
@@ -44,8 +43,6 @@ function mapToProps(_, {
 
   const isWebRTC = callingSettings.callingMode === callingModes.webphone;
   const isInboundCall = currentSession.direction === callDirections.inbound;
-  let mergeDisabled = !isWebRTC || isInboundCall || !currentSession.partyData;
-  let addDisabled = !isWebRTC || isInboundCall || !currentSession.partyData;
 
   let isOnConference = false;
   let hasConferenceCall = false;
@@ -53,6 +50,7 @@ function mapToProps(_, {
   let conferenceCallParties;
   let conferenceCallId = null;
   const lastCallInfo = callMonitor.lastCallInfo;
+  let isConferenceCallOverload = false;
   const conferenceCallEquipped =
     !!(conferenceCall && rolesAndPermissions.hasConferenceCallPermission);
   if (conferenceCallEquipped) {
@@ -63,11 +61,7 @@ function mapToProps(_, {
 
     if (conferenceData && isWebRTC) {
       conferenceCallId = conferenceData.conference.id;
-      const overload = conferenceCall.isOverload(conferenceCallId);
-      if (overload) {
-        mergeDisabled = true;
-        addDisabled = true;
-      }
+      isConferenceCallOverload = conferenceCall.isOverload(conferenceCallId);
     }
 
     hasConferenceCall = !!conferenceData;
@@ -100,8 +94,6 @@ function mapToProps(_, {
     showBackButton: true, // callMonitor.calls.length > 0,
     searchContactList: contactSearch.sortedResult,
     showSpinner: isMerging,
-    addDisabled,
-    mergeDisabled,
     conferenceCallEquipped,
     hasConferenceCall,
     conferenceCallParties,
@@ -109,7 +101,8 @@ function mapToProps(_, {
     lastCallInfo,
     children,
     isOnConference,
-    multipleLayout,
+    isWebRTC,
+    isConferenceCallOverload,
   };
 }
 
@@ -127,13 +120,17 @@ function mapToFunctions(_, {
   phoneTypeRenderer,
   recipientsContactInfoRenderer,
   recipientsContactPhoneRenderer,
-  multipleLayout,
 }) {
   return {
-    getInitialLayout({ isOnConference, lastCallInfo, session }) {
+    getInitialLayout({
+      conferenceCallEquipped,
+      isOnConference,
+      lastCallInfo,
+      session
+    }) {
       let layout = callCtrlLayouts.normalCtrl;
 
-      if (!multipleLayout) {
+      if (!conferenceCallEquipped) {
         return layout;
       }
 
@@ -266,7 +263,6 @@ CallCtrlContainer.propTypes = {
   children: PropTypes.node,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
-  multipleLayout: PropTypes.bool,
 };
 
 CallCtrlContainer.defaultProps = {
@@ -274,11 +270,6 @@ CallCtrlContainer.defaultProps = {
   showContactDisplayPlaceholder: false,
   children: undefined,
   sourceIcons: undefined,
-
-  /**
-   * Set to true to let callctrlpage support handling multiple layouts, false by default.
-   */
-  multipleLayout: false,
 };
 
 export {
