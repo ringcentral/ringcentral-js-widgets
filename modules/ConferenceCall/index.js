@@ -81,6 +81,10 @@ var _dec, _class, _desc, _value, _class2, _descriptor;
 
 var _ramda = require('ramda');
 
+var _eventEmitter = require('event-emitter');
+
+var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+
 var _reselect = require('reselect');
 
 var _getter = require('../../lib/getter');
@@ -794,6 +798,9 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   _this3.store.dispatch({
                     type: _this3.actionTypes.mergeSucceeded
                   });
+                  var conferenceState = (0, _values2.default)(_this3.conferences)[0];
+
+                  _this3.emit(_this3.actionTypes.mergeSucceeded, conferenceState);
                 }, function () {
                   var conferenceState = (0, _values2.default)(_this3.conferences)[0];
 
@@ -814,7 +821,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
 
               case 14:
                 this._webphone.clearSessionCaching();
-                _context6.next = 30;
+                _context6.next = 31;
                 break;
 
               case 17:
@@ -829,11 +836,12 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 this.store.dispatch({
                   type: this.actionTypes.mergeSucceeded
                 });
-                _context6.next = 29;
+                this.emit(this.actionTypes.mergeSucceeded);
+                _context6.next = 30;
                 break;
 
-              case 24:
-                _context6.prev = 24;
+              case 25:
+                _context6.prev = 25;
                 _context6.t0 = _context6['catch'](17);
                 conferenceState = (0, _values2.default)(this.conferences)[0];
                 /**
@@ -848,19 +856,19 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   message: _conferenceCallErrors2.default.bringInFailed
                 });
 
-              case 29:
+              case 30:
                 if (!sipInstances || conferenceId === null) {
                   this.store.dispatch({
                     type: this.actionTypes.mergeFailed
                   });
                 }
 
-              case 30:
+              case 31:
               case 'end':
                 return _context6.stop();
             }
           }
-        }, _callee6, this, [[17, 24]]);
+        }, _callee6, this, [[17, 25]]);
       }));
 
       function mergeToConference() {
@@ -1047,6 +1055,20 @@ var ConferenceCall = (_dec = (0, _di.Module)({
       }
       this._timout = timeout;
       return timeout;
+    }
+  }, {
+    key: 'onMergeSuccess',
+    value: function onMergeSuccess(func, isOnce) {
+      if (isOnce) {
+        this.once(this.actionTypes.mergeSucceeded, func);
+        return;
+      }
+      this.on(this.actionTypes.mergeSucceeded, func);
+    }
+  }, {
+    key: 'removeMergeSuccess',
+    value: function removeMergeSuccess(func) {
+      this.off(this.actionTypes.mergeSucceeded, func);
     }
   }, {
     key: 'loadConference',
@@ -1674,4 +1696,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
   }
 })), _class2)) || _class);
 exports.default = ConferenceCall;
+
+
+(0, _eventEmitter2.default)(ConferenceCall.prototype);
 //# sourceMappingURL=index.js.map
