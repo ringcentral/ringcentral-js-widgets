@@ -8,12 +8,14 @@ function getDriver(name, inputSetting) {
     Driver,
     setting
   } = e2eDrivers[name];
+  // TDDO inputSetting for browser
   const options = {
     driver: {
-      setting: {
-        ...setting,
-        ...inputSetting,
-      }
+      setting,
+      // setting: {
+      //   ...setting,
+      //   ...inputSetting,
+      // }
     },
   };
   return new Driver(options);
@@ -45,7 +47,6 @@ function getConfig(process) {
 }
 
 const setup = async () => {
-  console.log('====>>> global.setup');
   const config = getConfig(process);
   checkValidBrowsers(process, config);
   for (const item of config.globals.execDrivers) {
@@ -55,17 +56,18 @@ const setup = async () => {
       ...defaultSetting,
       ...execSetting
     });
-    // await driver.launch();
+    await driver.run();
     drivers[name] = driver;
   }
   global.drivers = drivers;
+  console.log('=====>>> global === setup');
 };
 
 const teardown = async () => {
   for (const driver of Object.values(drivers)) {
-    // await driver.browser.close();
+    await driver.close();
   }
-  console.log('====>>> global.teardown');
+  console.log('=====>>> global === teardown');
 };
 
 module.exports = {

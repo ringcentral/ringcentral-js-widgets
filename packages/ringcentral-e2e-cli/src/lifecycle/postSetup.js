@@ -84,10 +84,10 @@ function testCase(caseParams, fn) {
     _test.skip();
     return;
   }
-  // let context = global.testBeforeAll({
-  //   caseParams,
-  //   execTags,
-  // });
+  let context = global.testBeforeAll({
+    caseParams,
+    execTags,
+  });
   for (const driver of global.execDrivers) {
     for (const [project, tags] of execTags) {
       const groups = flattenTags(tags);
@@ -105,17 +105,24 @@ function testCase(caseParams, fn) {
           //   tag,
           //   level,
           // }, context)[driver];
+          context = global._testBeforeEach({
+            caseParams,
+            option,
+            tag,
+            level,
+          }, context, global.drivers[driver]);
           const tail = ` => (${project} in ${group.join(' & ')} on ${driver})`;
           // TODO
           // global.beforeEach(beforeEachStart.bind(null, context));
           // global.afterEach(afterEachEnd.bind(null, context));
           const func = async function (context, ...args) {
             // await context.launch();
+            await context.driver.goto(context.config.location);
             await fn(...args);
           };
-          const context = {};
           _test(`${name}${tail}`, func.bind(null, context, {
-            context,
+            context: context.driver,
+            config: context.config,
             option,
             tag,
             level,

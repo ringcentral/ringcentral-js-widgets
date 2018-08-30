@@ -3,18 +3,23 @@ const NodeEnvironment = require('jest-environment-node');
 class WebDriverEnvironment extends NodeEnvironment {
   constructor(config) {
     super(config);
-    console.log(config, '====');
     this._config = config;
   }
 
   async setup() {
     await super.setup();
-    console.log('=====setup=======');
-    // this.global.page = await global.browser.newPage();
+    console.log('=====>>> WebDriverEnvironment === setup');
+    this.global.drivers = global.drivers;
+    for (const driver of Object.values(global.drivers)) {
+      await driver.newPage();
+    }
   }
 
   async teardown() {
-    // await this.global.page.close();
+    for (const driver of Object.values(this.global.drivers)) {
+      await driver.closePage();
+    }
+    console.log('=====>>> WebDriverEnvironment === teardown');
     await super.teardown();
   }
 }

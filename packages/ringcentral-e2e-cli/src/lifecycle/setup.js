@@ -95,11 +95,26 @@ function setup({
     });
     return _drivers;
   }, {}));
+  global._testBeforeEach = ({
+    // caseParams,
+    // option,
+    // level,
+    tag,
+  }, context, driver) => {
+    const config = getDriverConfig({
+      projects: global.execGlobal.params.projects,
+      tag,
+    });
+    return {
+      driver,
+      config,
+    };
+  };
 }
 
 const setting = {
   config,
   // plugins: [screenshot, logger]
 };
-console.log('setup');
+
 setup(setting);

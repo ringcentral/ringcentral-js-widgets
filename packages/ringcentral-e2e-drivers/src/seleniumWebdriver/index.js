@@ -41,16 +41,33 @@ module.exports = (browser) => {
 
     async launch() {
       this.browser = this._program
+        .forBrowser(Browsers[webdriver])[setKeyName](this._options.driver.setting)
+        .build();
+      await this.browser.get(this._options.driver.config.location);
+    }
+    /* Global runner API */
+    async run() {
+      this.browser = this._program
         .forBrowser(Browsers[webdriver])[setKeyName](
           this._options.driver.setting,
         )
         .build();
-      // await this.browser.get(this._options.driver.config.location);
     }
 
+    async newPage() {
+      this.page = this.browser;
+    }
+
+    async goto(location) {
+      await this.browser.get(location);
+    }
+
+    async closePage() {
+      await this.close();
+    }
+    /* Global runner API */
     async close() {
       if (this.browser) {
-        // TODO process is still exist?
         try {
           await this.browser.close();
         } catch (e) {

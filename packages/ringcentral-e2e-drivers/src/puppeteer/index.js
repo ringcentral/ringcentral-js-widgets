@@ -19,14 +19,34 @@ class Driver {
   }
 
   async launch() {
+    this.browser = await this._program.launch({
+      // ...this._options.global.driverSetting,
+      ...this._options.driver.setting,
+    });
+    this.page = await this.browser.newPage();
+    await this.page.goto(this._options.driver.config.location);
+  }
+  /* Global runner API */
+  async run() {
     this.browser = await this._program.launch(this._options.driver.setting);
-    // this.browser = await this._program.launch(this._options.driver.setting);
-    // await this.page.goto(this._options.driver.config.location);
   }
 
+  async newPage() {
+    this.page = await this.browser.newPage();
+  }
+
+  async goto(location) {
+    await this.page.goto(location);
+  }
+
+  async closePage() {
+    await this.page.close();
+    this.page = null;
+    return this.page;
+  }
+  /* Global runner API */
   async close() {
     if (this.browser) {
-      // await this.browser.close();
       try {
         await this.browser.close();
       } catch (e) {
