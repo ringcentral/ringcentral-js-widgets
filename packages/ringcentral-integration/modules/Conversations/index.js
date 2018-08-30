@@ -39,6 +39,33 @@ function getEarliestTime(messages) {
   return newTime;
 }
 
+function getUniqueNumbers(conversations) {
+  const output = [];
+  const numberMap = {};
+  function addIfNotExist(number) {
+    if (number && !numberMap[number]) {
+      output.push(number);
+      numberMap[number] = true;
+    }
+  }
+  conversations.forEach((message) => {
+    if (message.from) {
+      const fromNumber = message.from.phoneNumber || message.from.extensionNumber;
+      addIfNotExist(fromNumber);
+    }
+    if (message.to && message.to.length > 0) {
+      message.to.forEach((toNumber) => {
+        if (!toNumber) {
+          return;
+        }
+        const toPhoneNumber = toNumber.phoneNumber || toNumber.extensionNumber;
+        addIfNotExist(toPhoneNumber);
+      });
+    }
+  });
+  return output;
+}
+
 const DEFAULT_PER_PAGE = 20;
 const DEFAULT_DAY_SPAN = 90;
 
@@ -494,33 +521,14 @@ export default class Conversations extends RcModule {
 
   @getter
   uniqueNumbers = createSelector(
+    () => this.pagingConversations,
+    getUniqueNumbers
+  )
+
+  @getter
+  allUniqueNumbers = createSelector(
     () => this.allConversations,
-    (conversations) => {
-      const output = [];
-      const numberMap = {};
-      function addIfNotExist(number) {
-        if (number && !numberMap[number]) {
-          output.push(number);
-          numberMap[number] = true;
-        }
-      }
-      conversations.forEach((message) => {
-        if (message.from) {
-          const fromNumber = message.from.phoneNumber || message.from.extensionNumber;
-          addIfNotExist(fromNumber);
-        }
-        if (message.to && message.to.length > 0) {
-          message.to.forEach((toNumber) => {
-            if (!toNumber) {
-              return;
-            }
-            const toPhoneNumber = toNumber.phoneNumber || toNumber.extensionNumber;
-            addIfNotExist(toPhoneNumber);
-          });
-        }
-      });
-      return output;
-    }
+    getUniqueNumbers,
   )
 
   @getter
