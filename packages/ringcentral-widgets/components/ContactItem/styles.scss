@@ -1,6 +1,6 @@
-@import '../../lib/commonStyles/colors.scss';
-@import '../../lib/commonStyles/fonts.scss';
-@import '../../lib/commonStyles/reset.scss';
+@import "../../lib/commonStyles/colors.scss";
+@import "../../lib/commonStyles/fonts.scss";
+@import "../../lib/commonStyles/reset.scss";
 
 $rowHeight: 50px;
 
@@ -32,7 +32,7 @@ $rowHeight: 50px;
 }
 
 .contactName {
-  @include secondary-font;
+  @include second-primary-font;
   float: left;
   padding-left: 6px;
   padding-right: 6px;
@@ -86,7 +86,6 @@ $rowHeight: 50px;
   border-radius: 7px;
   top: 6px;
   right: 2px;
-
 }
 
 .presenceNodeContainer {
@@ -110,4 +109,41 @@ $rowHeight: 50px;
       left: -1px;
     }
   }
+}
+
+.infoWrapper {
+  float: left;
+  max-width: 60%;
+  height: $rowHeight;
+  line-height: $rowHeight;
+}
+
+.inactiveContactName {
+  @include second-primary-font;
+  color: $coin;
+  margin-top: 10px;
+  line-height: normal;
+  float: left;
+  padding-left: 6px;
+  padding-right: 6px;
+  text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.inactiveText {
+  font-size: $tertiary-font-size;
+  color: $coin;
+  margin-top: 2px;
+  line-height: normal;
+  float: left;
+  padding-left: 6px;
+  padding-right: 6px;
+  text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
