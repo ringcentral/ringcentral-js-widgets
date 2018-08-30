@@ -158,7 +158,7 @@ var CallAvatar = function (_Component) {
       var $blue = '#0684bd';
       var $dark = '#e2e2e2';
       var $transparency = '0.8';
-      var res = void 0;
+      var defaultAvatarStyle = { opacity: +$transparency };
       var hash = _uuid2.default.v4();
       var textId = 'text-' + hash;
       var clipId = 'circleClip-' + hash;
@@ -172,6 +172,9 @@ var CallAvatar = function (_Component) {
       var spinnerTranslateTo = (initialSize - spinnerSize * spinnerScaleSize) / 2;
       var isOnConferenceCallWithExtraNum = isOnConferenceCall && extraNum > 0;
       var spinnerTransform = 'translate(' + (spinnerTranslateTo - (isOnConferenceCallWithExtraNum ? margin : 0)) + ',' + spinnerTranslateTo + ') scale(' + spinnerScaleSize + ', ' + spinnerScaleSize + ')';
+
+      var res = void 0;
+
       if (isOnConferenceCallWithExtraNum) {
         res = _react2.default.createElement(
           'svg',
@@ -234,7 +237,11 @@ var CallAvatar = function (_Component) {
             _react2.default.createElement('use', { xlinkHref: '#' + spinnerId })
           ),
           avatarUrl && _react2.default.createElement('image', { clipPath: 'url(#' + clipId + ')', height: '100%', width: '100%', xlinkHref: avatarUrl }),
-          !avatarUrl && !showingSpinner && _react2.default.createElement('use', { xlinkHref: '#' + textId, clipPath: 'url(#' + clipId + ')' }),
+          !avatarUrl && !showingSpinner && _react2.default.createElement('use', {
+            xlinkHref: '#' + textId,
+            clipPath: 'url(#' + clipId + ')',
+            style: defaultAvatarStyle
+          }),
           _react2.default.createElement('circle', {
             cx: initialSize - extraNumCircleRadius,
             cy: extraNumCircleRadius,
@@ -331,7 +338,11 @@ var CallAvatar = function (_Component) {
             width: '100%',
             xlinkHref: avatarUrl,
             preserveAspectRatio: 'xMinYMin slice' }),
-          !avatarUrl && !showingSpinner && _react2.default.createElement('use', { xlinkHref: '#' + textId, clipPath: 'url(#' + clipId + ')' })
+          !avatarUrl && !showingSpinner && _react2.default.createElement('use', {
+            xlinkHref: '#' + textId,
+            clipPath: 'url(#' + clipId + ')',
+            style: defaultAvatarStyle
+          })
         );
       }
       return res;
