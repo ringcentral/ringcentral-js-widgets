@@ -244,23 +244,27 @@ export default class BasePhone extends RcModule {
       if (
         !![
           '/conferenceCall/dialer/',
-          '/calls/active'
-        ].find(path => routerInteraction.currentPath.indexOf(path) !== -1) &&
-        (!currentSession || session.id === currentSession.id)
+          '/calls/active',
+          '/conferenceCall/participants',
+        ].find(path => routerInteraction.currentPath.indexOf(path) !== -1)
+        && (!currentSession || session.id === currentSession.id)
       ) {
         if (
           !currentSession
         ) {
-          routerInteraction.push('/dialer');
+          if (routerInteraction.currentPath === '/conferenceCall/participants') {
+            routerInteraction.replace('/dialer');
+            return;
+          }
+          routerInteraction.replace('/dialer');
           return;
         }
-        if (routerInteraction.currentPath.indexOf('/calls/active') !== 0) {
-          routerInteraction.push('/calls/active');
+        if (routerInteraction.currentPath.indexOf('/calls/active') === -1) {
+          routerInteraction.replace('/calls/active');
           return;
         }
-
         if (conferenceCall.isMerging) {
-          // Do nothing, let the merge success event to do the jump
+          // Do nothing, let the merge() to do the jump
           return;
         }
         routerInteraction.goBack();
@@ -268,11 +272,20 @@ export default class BasePhone extends RcModule {
       }
 
       if (routerInteraction.currentPath.indexOf('/calls/active') === 0) {
-        routerInteraction.push('/calls/active');
+        routerInteraction.replace('/calls/active');
         return;
       }
 
-      routerInteraction.goBack();
+      if (
+        routerInteraction.currentPath === '/calls'
+        && !callMonitor.activeRingCalls.length
+        && !callMonitor.activeOnHoldCalls.length
+        && !callMonitor.activeCurrentCalls.length
+        && !conferenceCall.isMerging
+        // && callMonitor.otherDeviceCalls.length === 0
+      ) {
+        routerInteraction.replace('/dialer');
+      }
     });
 
     webphone.onCallStart(() => {
