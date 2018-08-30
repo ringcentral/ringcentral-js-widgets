@@ -29,7 +29,7 @@ export function normalizeSession({
     muted,
     code,
     isReject,
-    isRecorded,
+    isOnRecording,
   } = activeSessionStatus;
   return {
     telephonySessionId,
@@ -54,7 +54,7 @@ export function normalizeSession({
     isToVoicemail: false,
     lastHoldingTime: 0,
     minimized: false,
-    recordStatus: isRecorded ? recordStatus.recording : recordStatus.idle,
+    recordStatus: isOnRecording ? recordStatus.recording : recordStatus.idle,
     removed: false,
     isReject,
   };

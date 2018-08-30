@@ -400,7 +400,10 @@ export default class ActiveCallControl extends Pollable {
       const response = JSON.parse(_response._text);
       return response;
     } catch (error) {
-      this.removeActiveSession(sessionId);
+      const regEx = /^4[0-9][0-9]$/;
+      if (regEx.test(error.status)) {
+        this.removeActiveSession(sessionId);
+      }
       throw error;
     }
   }

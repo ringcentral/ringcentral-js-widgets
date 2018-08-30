@@ -23,6 +23,7 @@ function updateActiveSessionStatus({
       muted,
       standAlone,
       code,
+      sessionId,
       isReject: isReject({ direction, code })
     };
   }
@@ -86,19 +87,12 @@ function getActiveSessionsStatusReducer(types) {
           sessionId
         });
       }
-      case types.startRecord: {
-        const newState = { ...state };
-        newState[sessionId] = {
-          ...newState[sessionId],
-          isRecorded: true
-        };
-        return newState;
-      }
+      case types.startRecord:
       case types.stopRecord: {
         const newState = { ...state };
         newState[sessionId] = {
           ...newState[sessionId],
-          isRecorded: false
+          isOnRecording: type === types.startRecord
         };
         return newState;
       }
