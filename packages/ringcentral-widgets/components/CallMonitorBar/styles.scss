@@ -1,0 +1,48 @@
+@import '../../lib/commonStyles/colors';
+
+.bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 100%;
+}
+.duration {
+  display: inline-block;
+  color: $ash;
+  font-size: 13px;
+  cursor: pointer;
+}
+.currentCallBtn {
+  display: inline-block;
+  width: 73px;
+  height: 18px;
+  line-height: 18px;
+  border-radius: 10.5px;
+  border: solid 1px $leaf;
+  color: $leaf;
+  font-size: 11px;
+  margin-left: 5px;
+}
+.currentCallBtn:hover {
+  color: $leaf;
+}
+.viewCallsBtn {
+  display: inline-block;
+  width: 73px;
+  height: 18px;
+  line-height: 18px;
+  border-radius: 10.5px;
+  border: solid 1px $orange;
+  color: $orange;
+  font-size: 11px;
+  margin-left: 5px;
+}
+.viewCallsBtn:hover {
+  color: $orange;
+}
+.currentCallInfo {
+  font-size: 13px;
+  color: $ash;
+  cursor: pointer;
+}
