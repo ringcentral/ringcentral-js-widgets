@@ -149,33 +149,29 @@ class CallCtrlPage extends Component {
   componentWillReceiveProps(nextProps, nextState) {
     this._updateMergingPairToSessionId(nextProps, nextState);
 
+    let layout = this.state.layout;
     if (nextProps.session.id !== this.props.session.id) {
-      const layout = this.getLayout(this.props, nextProps);
+      layout = this.getLayout(this.props, nextProps);
       this.setState({
         layout,
       });
-      this._updateMergeAddButtonDisabled(nextProps, layout);
 
       if (
         layout === callCtrlLayouts.normalCtrl
       ) {
         this._updateAvatarAndMatchIndex(nextProps);
       }
-    } else {
-      const layout = this.state.layout;
-      this._updateMergeAddButtonDisabled(nextProps, layout);
-
-      if (
-        layout === callCtrlLayouts.mergeCtrl
+    } else if (
+      layout === callCtrlLayouts.mergeCtrl
         && CallCtrlPage.isLastCallEnded(this.props) === false
         && CallCtrlPage.isLastCallEnded(nextProps) === true
-      ) {
-        this.onLastMergingCallEnded();
-      } else if (layout === callCtrlLayouts.conferenceCtrl &&
+    ) {
+      this.onLastMergingCallEnded();
+    } else if (layout === callCtrlLayouts.conferenceCtrl &&
         this.props.conferenceCallParties !== nextProps.conferenceCallParties) {
-        this._updateCurrentConferenceCall(nextProps);
-      }
+      this._updateCurrentConferenceCall(nextProps);
     }
+    this._updateMergeAddButtonDisabled(nextProps, layout);
   }
 
   _updateMergeAddButtonDisabled(nextProps, layout) {
