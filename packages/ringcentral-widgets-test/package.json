@@ -71,20 +71,6 @@
     ],
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
-    ],
-    "coveragePathIgnorePatterns": [
-      "../ringcentral-widgets/(?:components|containers)/RecentActivity.+",
-      "../ringcentral-widgets/(?:components|containers)/TransferPanel.+",
-      "../ringcentral-widgets/(?:components|containers)/ForwardForm/.+",
-      "../ringcentral-widgets/(?:components|containers)/FlipPanel.+",
-      "../ringcentral-widgets/(?:components|containers)/CallCtrl.+",
-      "../ringcentral-widgets/(?:components|containers)/IncomingCall.+",
-      "../ringcentral-widgets/(?:components|containers)/ActiveCall.+",
-      "../ringcentral-widgets/(?:components|containers)/DurationCounter.+",
-      "../ringcentral-widgets/(?:components|containers)/WebPhone.+",
-      "../ringcentral-widgets/(?:components|containers)/Draggable.+",
-      "../ringcentral-widgets/(?:components|containers)/CircleButton.+",
-      "../ringcentral-widgets/(?:components|containers)/RadioBtnGroup.+"
     ]
   },
   "peerDependencies": {
