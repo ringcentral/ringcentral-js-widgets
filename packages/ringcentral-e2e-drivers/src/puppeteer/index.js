@@ -1,4 +1,4 @@
-import puppeteer from 'puppeteer';
+const puppeteer = require('puppeteer');
 
 const puppeteerSetting = {
   ignoreHTTPSErrors: true,
@@ -19,18 +19,19 @@ class Driver {
   }
 
   async launch() {
-    this.browser = await this._program.launch({
-      ...this._options.global.driverSetting,
-      ...this._options.driver.setting,
-    });
-    this.page = await this.browser.newPage();
-    await this.page.goto(this._options.driver.config.location);
+    this.browser = await this._program.launch(this._options.driver.setting);
+    // this.browser = await this._program.launch(this._options.driver.setting);
+    // await this.page.goto(this._options.driver.config.location);
   }
 
   async close() {
     if (this.browser) {
       // await this.browser.close();
-      try { await this.browser.close(); } catch (e) {}
+      try {
+        await this.browser.close();
+      } catch (e) {
+        //
+      }
     }
   }
 
@@ -60,7 +61,7 @@ class Driver {
   }
 }
 
-export default {
+module.exports = {
   Driver,
   setting: puppeteerSetting,
 };

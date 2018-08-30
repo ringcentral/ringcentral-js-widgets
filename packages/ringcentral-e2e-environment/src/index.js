@@ -3,13 +3,14 @@ const NodeEnvironment = require('jest-environment-node');
 class WebDriverEnvironment extends NodeEnvironment {
   constructor(config) {
     super(config);
-    // console.log(config, '====');
+    console.log(config, '====');
     this._config = config;
   }
 
   async setup() {
     await super.setup();
-    // this.global.page = await this.global.browser.newPage();
+    console.log('=====setup=======');
+    // this.global.page = await global.browser.newPage();
   }
 
   async teardown() {

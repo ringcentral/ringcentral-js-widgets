@@ -1,8 +1,8 @@
-import enzyme from './enzyme';
-import puppeteer from './puppeteer';
-import { getSeleniumWebdriver } from './seleniumWebdriver';
+const enzyme = require('./enzyme');
+const puppeteer = require('./puppeteer');
+const getSeleniumWebdriver = require('./seleniumWebdriver');
 
-export default {
+module.exports = {
   enzyme,
   puppeteer,
   seleniumWebdriverChrome: getSeleniumWebdriver('Chrome'),

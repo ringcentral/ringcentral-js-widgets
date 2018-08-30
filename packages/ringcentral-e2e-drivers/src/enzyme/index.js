@@ -39,3 +39,5 @@
 // const api = new API();
 
 // export const $ = context => api.setContext(context);
+
+module.exports = {};

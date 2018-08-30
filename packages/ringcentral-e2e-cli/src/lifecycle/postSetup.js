@@ -60,13 +60,13 @@ function restoreTags(group, project) {
   });
 }
 
-async function beforeEachStart(context) {
-  await context.launch();
-}
+// async function beforeEachStart(context) {
+//   await context.launch();
+// }
 
-async function afterEachEnd(context) {
-  await context.close();
-}
+// async function afterEachEnd(context) {
+//   await context.close();
+// }
 
 function testCase(caseParams, fn) {
   const {
@@ -84,10 +84,10 @@ function testCase(caseParams, fn) {
     _test.skip();
     return;
   }
-  let context = global.testBeforeAll({
-    caseParams,
-    execTags,
-  });
+  // let context = global.testBeforeAll({
+  //   caseParams,
+  //   execTags,
+  // });
   for (const driver of global.execDrivers) {
     for (const [project, tags] of execTags) {
       const groups = flattenTags(tags);
@@ -99,20 +99,21 @@ function testCase(caseParams, fn) {
             values: Object.values(option),
           });
           const tag = restoreTags(group, project);
-          context = global.testBeforeEach({
-            caseParams,
-            option,
-            tag,
-            level,
-          }, context)[driver];
+          // context = global.testBeforeEach({
+          //   caseParams,
+          //   option,
+          //   tag,
+          //   level,
+          // }, context)[driver];
           const tail = ` => (${project} in ${group.join(' & ')} on ${driver})`;
           // TODO
           // global.beforeEach(beforeEachStart.bind(null, context));
-          global.afterEach(afterEachEnd.bind(null, context));
+          // global.afterEach(afterEachEnd.bind(null, context));
           const func = async function (context, ...args) {
-            await context.launch();
+            // await context.launch();
             await fn(...args);
           };
+          const context = {};
           _test(`${name}${tail}`, func.bind(null, context, {
             context,
             option,

@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "e2e-test run ./src/features/salesforce/meeting/ScheduleMeeting.spec.js --tags '[\"salesforce\"]'"
+    "test": "e2e-test run ./src/features/widgets/meeting/ScheduleMeeting.spec.js --tags '[\"widgets\"]'"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",

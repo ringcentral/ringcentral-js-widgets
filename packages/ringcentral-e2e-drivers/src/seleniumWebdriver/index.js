@@ -1,13 +1,13 @@
-import {
+const {
   Builder,
   By,
   until
-} from 'selenium-webdriver';
-import chrome from 'selenium-webdriver/chrome';
-import firefox from 'selenium-webdriver/firefox';
-import safari from 'selenium-webdriver/safari';
-import ie from 'selenium-webdriver/ie';
-import edge from 'selenium-webdriver/edge';
+} = require('selenium-webdriver');
+const chrome = require('selenium-webdriver/chrome');
+const firefox = require('selenium-webdriver/firefox');
+const safari = require('selenium-webdriver/safari');
+const ie = require('selenium-webdriver/ie');
+const edge = require('selenium-webdriver/edge');
 
 const Browsers = {
   chrome: 'chrome',
@@ -25,7 +25,7 @@ const seleniumWebdriverSetting = {
   edge: new edge.Options(),
 };
 
-export function getSeleniumWebdriver(browser) {
+module.exports = (browser) => {
   const webdriver = browser.toLowerCase();
   const setKeyName = `set${browser}Options`;
   const setting = seleniumWebdriverSetting[webdriver];
@@ -45,14 +45,22 @@ export function getSeleniumWebdriver(browser) {
           this._options.driver.setting,
         )
         .build();
-      await this.browser.get(this._options.driver.config.location);
+      // await this.browser.get(this._options.driver.config.location);
     }
 
     async close() {
       if (this.browser) {
         // TODO process is still exist?
-        try { await this.browser.close(); } catch (e) {}
-        try { await this.browser.quit(); } catch (e) {}
+        try {
+          await this.browser.close();
+        } catch (e) {
+          //
+        }
+        try {
+          await this.browser.quit();
+        } catch (e) {
+          //
+        }
       }
     }
 
@@ -86,4 +94,4 @@ export function getSeleniumWebdriver(browser) {
     Driver,
     setting,
   };
-}
+};

@@ -14,7 +14,6 @@
   "license": "MIT",
   "dependencies": {
     "commander": "^2.17.1",
-    "ringcentral-e2e-drivers": "^0.0.1",
     "ringcentral-e2e-environment": "^0.0.1"
   }
 }

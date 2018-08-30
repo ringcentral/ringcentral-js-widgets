@@ -41,6 +41,11 @@ export default function runner({
       execLevels: levels,
       execDrivers: drivers,
       execGlobal: config,
+      execDefaults: {
+        browsers: {
+          //
+        }
+      }
     },
     // TODO using globalSetup ?
     setupFiles: [`${rootPath}/${setupFile}`],
