@@ -81,26 +81,26 @@ export default function CallMonitorBar({
         ) : null
         }
       {
-        //   numberOfIncomingCalls > 0 ? (
-        //     <CallInfoBar
-        //       label={
-        //         numberOfIncomingCalls === 1 ?
-        //         formatMessage(i18n.getString('incomingCall', currentLocale), { numberOf: numberOfIncomingCalls }) :
-        //         formatMessage(i18n.getString('incomingCalls', currentLocale), { numberOf: numberOfIncomingCalls })
-        //       }
-        //       currentLocale={currentLocale}
-        //       onClick={onViewCallBtnClick}
-        //       shouldDisplayViewCallsBtn={shouldDisplayViewCallsBtn}
-        //   />
-        // ) : null
-        }
-      {
         //   numberOfOnHoldCalls > 0 ? (
         //     <CallInfoBar
         //       label={
         //         numberOfOnHoldCalls === 1 ?
         //         formatMessage(i18n.getString('callOnHold', currentLocale), { numberOf: numberOfOnHoldCalls }) :
         //         formatMessage(i18n.getString('callsOnHold', currentLocale), { numberOf: numberOfOnHoldCalls })
+        //       }
+        //       currentLocale={currentLocale}
+        //       onClick={onViewCallBtnClick}
+        //       shouldDisplayViewCallsBtn={shouldDisplayViewCallsBtn}
+        //   />
+        // ) : null
+      }
+      {
+        //   numberOfIncomingCalls > 0 ? (
+        //     <CallInfoBar
+        //       label={
+        //         numberOfIncomingCalls === 1 ?
+        //         formatMessage(i18n.getString('incomingCall', currentLocale), { numberOf: numberOfIncomingCalls }) :
+        //         formatMessage(i18n.getString('incomingCalls', currentLocale), { numberOf: numberOfIncomingCalls })
         //       }
         //       currentLocale={currentLocale}
         //       onClick={onViewCallBtnClick}
