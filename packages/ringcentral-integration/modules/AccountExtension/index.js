@@ -62,7 +62,6 @@ export default class AccountExtension extends DataFetcher {
       },
       fetchFunction: async () => (await fetchList((params) => {
         const fetchRet = this._client.account().extension().list(params);
-        console.log('#####', fetchRet);
         return fetchRet;
       })).filter(createEssentialChecker(needCheckStatus)).map(simplifyExtensionData),
       readyCheckFn: () => this._rolesAndPermissions.ready,

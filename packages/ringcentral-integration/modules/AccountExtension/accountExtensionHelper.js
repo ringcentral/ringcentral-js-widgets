@@ -8,8 +8,8 @@ export function isEssential(ext) {
   return (
     ext.extensionNumber &&
     ext.extensionNumber !== '' &&
-    /* ext.status === 'Enabled' && */
-    ['DigitalUser', 'User', 'Department'].indexOf(ext.type) >= 0
+    ext.status === 'Enabled' &&
+      ['DigitalUser', 'User', 'Department'].indexOf(ext.type) >= 0
   );
 }
 

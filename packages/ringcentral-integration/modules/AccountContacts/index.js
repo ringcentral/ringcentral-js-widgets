@@ -77,10 +77,6 @@ export default class AccountContacts extends RcModule {
       (extensions, extensionToPhoneNumberMap, profileImages, presences) => {
         const newExtensions = [];
         extensions.forEach((extension) => {
-          // if (!(extension.status === 'Enabled' &&
-          //   ['DigitalUser', 'User', 'Department'].indexOf(extension.type) >= 0)) {
-          //   return;
-          // }
           if (!createChecker(needCheckStatus)(extension)) {
             return;
           }
