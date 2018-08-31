@@ -12,7 +12,7 @@ describe('test: =====>', () => {
   }, async ({
     option, context, tag, level
   }) => {
-    const text = await context.text(option.selector);
+    const text = await browser.text(option.selector);;
     console.log('ffff');
     expect(text).toBe(option.expected);
   });
@@ -29,7 +29,7 @@ describe('test: =====>', () => {
   }, async ({
     option, context, tag, level
   }) => {
-    const text = await context.text(option.selector);
+    const text = await browser.text(option.selector);;
     expect(text).toBe(option.expected);
   });
   test({
@@ -45,7 +45,7 @@ describe('test: =====>', () => {
   }, async ({
     option, context, tag, level
   }) => {
-    const text = await context.text(option.selector);
+    const text = await browser.text(option.selector);;
     expect(text).toBe(option.expected);
   });
   test({
@@ -61,7 +61,7 @@ describe('test: =====>', () => {
   }, async ({
     option, context, tag, level
   }) => {
-    const text = await context.text(option.selector);
+    const text = await browser.text(option.selector);;
     expect(text).toBe(option.expected);
   });
 });

@@ -1,4 +1,4 @@
-import drivers from 'ringcentral-e2e-drivers';
+import createDriver from 'ringcentral-e2e-environment/createDriver';
 import config, { getDriverConfig } from '../config';
 import {
   isNil,
@@ -44,69 +44,33 @@ function flattenTestConfig(config) {
     ]), []);
 }
 
-function getDriver(name, {
-  caseParams,
-  option,
-  tag,
-  level
-}) {
-  const { Driver, setting, } = drivers[name];
-  const config = getDriverConfig({
-    projects: global.execGlobal.params.projects,
-    tag,
-  });
-  const options = {
-    global: global.execGlobal,
-    caseParams,
-    option,
-    tag,
-    level,
-    driver: {
-      config,
-      setting,
-    },
-  };
-  return new Driver(options);
-}
-// TODO optimizing about once get generator from `globalSetup`
 function setup({
   config,
   plugins,
 }) {
   global.defaultTestConfig = flattenTestConfig(config);
-  global.testBeforeAll = ({
-    caseParams,
-    execTags,
-  }) => {
-    // TODO setup plugins
+  global.testBeforeAll = ({ caseParams, execTags, }) => {
+    // TODO HOOK and setup plugins
   };
   global.testBeforeEach = ({
     caseParams,
     option,
     tag,
     level
-  }) => (global.execDrivers.reduce((_drivers, name) => {
-    // TODO setup plugins
-    _drivers[name] = getDriver(name, {
-      caseParams,
-      option,
-      tag,
-      level
-    });
-    return _drivers;
-  }, {}));
-  global._testBeforeEach = ({
-    // caseParams,
-    // option,
-    // level,
-    tag,
-  }, context, driver) => {
+  }, {
+    drivers,
+    driver,
+    modes,
+    isSandbox,
+  }) => {
+    // TODO HOOK setup plugins
+    const browser = isSandbox ? createDriver(driver) : drivers[driver];
     const config = getDriverConfig({
       projects: global.execGlobal.params.projects,
       tag,
     });
     return {
-      driver,
+      browser,
       config,
     };
   };

@@ -34,20 +34,9 @@ module.exports = (browser) => {
       this._options = options;
       this._program = program;
     }
-
-    get program() {
-      return this._program;
-    }
-
-    async launch() {
-      this.browser = this._program
-        .forBrowser(Browsers[webdriver])[setKeyName](this._options.driver.setting)
-        .build();
-      await this.browser.get(this._options.driver.config.location);
-    }
     /* Global runner API */
     async run() {
-      // nothing
+      // Nothing
     }
 
     async newPage() {
@@ -61,12 +50,25 @@ module.exports = (browser) => {
 
     async goto(location) {
       await this.browser.get(location);
+      return this.browser;
     }
 
     async closePage() {
       await this.close();
     }
     /* Global runner API */
+    get program() {
+      return this._program;
+    }
+
+    async launch(location) {
+      this.browser = this._program
+        .forBrowser(Browsers[webdriver])[setKeyName](this._options.driver.setting)
+        .build();
+      await this.browser.get(location);
+      return this.browser;
+    }
+
     async close() {
       if (this.browser) {
         try {

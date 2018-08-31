@@ -7,13 +7,12 @@ describe('test: =====>', () => {
     level: 'p1',
     options: [
       { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
-      { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
     ],
+    // modes: ['sandbox']
   }, async ({
-    option, context, tag, level
+    option, tag, level
   }) => {
-    const text = await context.text(option.selector);
-    console.log('ffff');
+    const text = await browser.text(option.selector);
     expect(text).toBe(option.expected);
   });
   test({
@@ -24,12 +23,12 @@ describe('test: =====>', () => {
     level: 'p1',
     options: [
       { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
-      { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
     ],
+    // modes: ['sandbox']
   }, async ({
-    option, context, tag, level
+    option, tag, level
   }) => {
-    const text = await context.text(option.selector);
+    const text = await browser.text(option.selector);
     expect(text).toBe(option.expected);
   });
   test({
@@ -40,12 +39,12 @@ describe('test: =====>', () => {
     level: 'p1',
     options: [
       { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
-      { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
     ],
+    modes: ['sandbox']
   }, async ({
-    option, context, tag, level
+    option, tag, level
   }) => {
-    const text = await context.text(option.selector);
+    const text = await browser.text(option.selector);
     expect(text).toBe(option.expected);
   });
   test({
@@ -56,12 +55,12 @@ describe('test: =====>', () => {
     level: 'p1',
     options: [
       { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
-      { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
     ],
+    // modes: ['sandbox']
   }, async ({
-    option, context, tag, level
+    option, tag, level
   }) => {
-    const text = await context.text(option.selector);
+    const text = await browser.text(option.selector);
     expect(text).toBe(option.expected);
   });
 });

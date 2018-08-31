@@ -24,12 +24,15 @@ function getExecTags(rawTags) {
   ]));
 }
 
-export default function runner({
+function runner({
   inputTesterConfig,
   tags,
   drivers = defaultDrivers,
   levels = defaultExecLevels,
   options = [],
+  modes = [],
+}, {
+  exit,
 }) {
   // exec all project by default if `tags` is nil.
   // TODO alert if tags is nil
@@ -38,6 +41,7 @@ export default function runner({
     ...inputTesterConfig,
     globals: {
       execTags,
+      execModes: modes,
       execLevels: levels,
       execDrivers: drivers,
       execGlobal: config,
@@ -47,21 +51,25 @@ export default function runner({
         }
       }
     },
-    // TODO using globalSetup ?
     setupFiles: [`${rootPath}/${setupFile}`],
     setupTestFrameworkScriptFile: `${rootPath}/${postSetupFile}`,
-    // preset: `${rootPath}/jest-environment-e2e/jest-preset.js`,
     globalSetup: 'ringcentral-e2e-environment/setup',
     globalTeardown: 'ringcentral-e2e-environment/teardown',
     testEnvironment: 'ringcentral-e2e-environment'
   };
   const command = config.tester;
   // TODO configurative tails
-  const tails = ['--forceExit', '--maxWorkers=1', '--no-cache', '--detectOpenHandles'];
+  const tails = ['--forceExit', '--maxWorkers=8', '--no-cache', '--detectOpenHandles'];
   const args = [`--config=${JSON.stringify(testerConfig)}`, ...options, ...tails];
   const close = () => {
-    console.log('close');
-    // TODO
+    // TODO HOOK main process close
+    if (typeof exit === 'function') {
+      try {
+        exit();
+      } catch (e) {
+        console.error(e);
+      }
+    }
     childProcess.exec('kill $(ps aux | grep chromedriver | grep -v grep | awk \'{print $2}\')');
   };
   createProcess({
@@ -70,3 +78,5 @@ export default function runner({
     close
   });
 }
+
+export { runner as default };

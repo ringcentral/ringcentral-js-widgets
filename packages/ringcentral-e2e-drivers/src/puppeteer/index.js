@@ -13,19 +13,6 @@ class Driver {
     this._options = options;
     this._program = program;
   }
-
-  get program() {
-    return this._program;
-  }
-
-  async launch() {
-    this.browser = await this._program.launch({
-      // ...this._options.global.driverSetting,
-      ...this._options.driver.setting,
-    });
-    this.page = await this.browser.newPage();
-    await this.page.goto(this._options.driver.config.location);
-  }
   /* Global runner API */
   async run() {
     this.browser = await this._program.launch(this._options.driver.setting);
@@ -37,6 +24,7 @@ class Driver {
 
   async goto(location) {
     await this.page.goto(location);
+    return this.page;
   }
 
   async closePage() {
@@ -45,6 +33,21 @@ class Driver {
     return this.page;
   }
   /* Global runner API */
+
+  get program() {
+    return this._program;
+  }
+
+  async launch(location) {
+    this.browser = await this._program.launch({
+      // ...this._options.global.driverSetting,
+      ...this._options.driver.setting,
+    });
+    this.page = await this.browser.newPage();
+    await this.page.goto(location);
+    return this.page;
+  }
+
   async close() {
     if (this.browser) {
       try {

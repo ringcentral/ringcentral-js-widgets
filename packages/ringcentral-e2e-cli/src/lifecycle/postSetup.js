@@ -2,6 +2,7 @@ import '../reporter';
 import config, { defaultCaseLevel } from '../config';
 import { compile } from '../utils/template';
 
+// TODO configuration-based
 jest.setTimeout(30000);
 
 const _test = test;
@@ -60,31 +61,34 @@ function restoreTags(group, project) {
   });
 }
 
-// async function beforeEachStart(context) {
-//   await context.launch();
-// }
+async function beforeEachStart({ browser, isSandbox }) {
+  // TODO HOOK
+}
 
-// async function afterEachEnd(context) {
-//   await context.close();
-// }
+async function afterEachEnd({ browser, isSandbox }) {
+  // TODO HOOK
+  if (isSandbox) await browser.close();
+}
 
 function testCase(caseParams, fn) {
   const {
     title,
     options,
     tags = global.defaultTestConfig,
-    level = defaultCaseLevel
+    level = defaultCaseLevel,
+    modes = [],
   } = caseParams;
   const testCaseTags = mergeTags(tags, global.defaultTestConfig);
   const execTags = mergeTags(global.execTags, testCaseTags);
   const isExecTagsNil = execTags.length === 0;
   const isOverExecLevels = global.execLevels.indexOf(level) < 0;
+  const isSandbox = [...modes, ...global.execModes].indexOf('sandbox') > -1;
   if (isExecTagsNil || isOverExecLevels) {
     console.warn(`\`${title}\` is skipped.`);
     _test.skip();
     return;
   }
-  let context = global.testBeforeAll({
+  global.testBeforeAll({
     caseParams,
     execTags,
   });
@@ -99,34 +103,39 @@ function testCase(caseParams, fn) {
             values: Object.values(option),
           });
           const tag = restoreTags(group, project);
-          // context = global.testBeforeEach({
-          //   caseParams,
-          //   option,
-          //   tag,
-          //   level,
-          // }, context)[driver];
-          context = global._testBeforeEach({
+          const tail = ` => (${project} in ${group.join(' & ')} on ${driver})`;
+          const { browser, config } = global.testBeforeEach({
             caseParams,
             option,
             tag,
             level,
-          }, context, global.drivers[driver]);
-          const tail = ` => (${project} in ${group.join(' & ')} on ${driver})`;
-          // TODO
-          // global.beforeEach(beforeEachStart.bind(null, context));
-          // global.afterEach(afterEachEnd.bind(null, context));
-          const func = async function (context, ...args) {
-            // await context.launch();
-            await context.driver.goto(context.config.location);
-            await fn(...args);
+          }, {
+            drivers: global.drivers,
+            driver,
+            modes,
+            isSandbox,
+          });
+          global.beforeEach(beforeEachStart.bind(null, { browser, isSandbox }));
+          global.afterEach(afterEachEnd.bind(null, { browser, isSandbox }));
+          /* eslint-disable */
+          const func = async function ({ browser, isSandbox, config, ...args }) {
+            global.browser = browser;
+            global.page = isSandbox ?
+              await browser.launch(config.location) :
+              await browser.goto(config.location);
+            // TODO HOOK
+            await fn({ ...args, isSandbox, config});
           };
-          _test(`${name}${tail}`, func.bind(null, context, {
-            context: context.driver,
-            config: context.config,
+          /* eslint-enable */
+          _test(`${name}${tail}`, func.bind(null, {
+            browser,
+            config,
             option,
             tag,
             level,
             driver,
+            modes,
+            isSandbox,
           }));
         }
       }
@@ -139,6 +148,6 @@ function testCase(caseParams, fn) {
 function testDescribe(...args) {
   return _describe(...args);
 }
-console.log('postSetup');
+
 global.test = testCase;
 global.describe = testDescribe;
