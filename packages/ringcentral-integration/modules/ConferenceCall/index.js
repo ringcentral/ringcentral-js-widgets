@@ -826,14 +826,10 @@ export default class ConferenceCall extends RcModule {
       this._webphone.sessions
     );
 
-    const isSessionOnhold = session.isOnHold;
-
     const sessionToMergeWith = find(
       x => x.id === (sessionIdToMergeWith || this.mergingPair.fromSessionId),
       this._webphone.sessions
     );
-
-    const isSessionToMergeWithOnhold = sessionToMergeWith && sessionToMergeWith.isOnHold;
 
     const webphoneSessions = sessionToMergeWith
       ? [sessionToMergeWith, session]
@@ -880,11 +876,7 @@ export default class ConferenceCall extends RcModule {
     );
     const isCurrentConferenceOnhold = currentConferenceSession.isOnHold;
 
-    if (
-      isSessionOnhold && (isSessionToMergeWithOnhold || isCurrentConferenceOnhold)
-    ) {
-      this._webphone.hold(conferenceData.sessionId);
-    } else if (isCurrentConferenceOnhold) {
+    if (isCurrentConferenceOnhold) {
       this._webphone.resume(conferenceData.sessionId);
     }
 
