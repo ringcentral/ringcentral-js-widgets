@@ -66,7 +66,7 @@ function DialerPanel({
         titleEnabled
         autoFocus={autoFocus}
         className={!showFromField ? classnames(styles.inputField, styles.recipientsField) : null}
-        searchByDialButtonClick
+        searchByDialButtonClick={searchByDialButtonClick}
       />
       {
         showFromField ?
