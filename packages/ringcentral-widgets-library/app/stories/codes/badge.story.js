@@ -4,7 +4,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withKnobs, text, select, boolean } from '@storybook/addon-knobs/react';
 
-import Badge from '../components/Badge';
+import Badge from '../../components/Badge';
 import styles from './badge.story.scss';
 
 storiesOf('Badge', module)
