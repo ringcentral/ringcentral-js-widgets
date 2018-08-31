@@ -65,7 +65,7 @@ export default class CallHistory extends RcModule {
     this._callMonitor = callMonitor;
     this._tabManager = tabManager;
     this._locale = locale;
-    this._debouncedSearch = debounce(this.callsSearch, 230, false)
+    this._debouncedSearch = debounce(this.callsSearch, 230, false);
 
     if (this._storage) {
       this._reducer = getCallHistoryReducer(this.actionTypes);
@@ -390,7 +390,7 @@ export default class CallHistory extends RcModule {
 
   @proxify
   debouncedSearch(...args) {
-    this._debouncedSearch.apply( this, args);
+    this._debouncedSearch.apply(this, args);
   }
 
   @proxify

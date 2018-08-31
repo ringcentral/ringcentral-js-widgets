@@ -39,6 +39,7 @@ function DialerPanel({
   showFromField = true,
   children,
   callBtnClassName,
+  searchByDialButtonClick,
 }) {
   const onCallFunc = () => {
     if (!callButtonDisabled) {
@@ -65,6 +66,7 @@ function DialerPanel({
         titleEnabled
         autoFocus={autoFocus}
         className={!showFromField ? classnames(styles.inputField, styles.recipientsField) : null}
+        searchByDialButtonClick={searchByDialButtonClick}
       />
       {
         showFromField ?
@@ -149,6 +151,7 @@ DialerPanel.propTypes = {
   showFromField: PropTypes.bool,
   children: PropTypes.node,
   callBtnClassName: PropTypes.string,
+  searchByDialButtonClick: PropTypes.bool,
 };
 
 DialerPanel.defaultProps = {
@@ -173,6 +176,7 @@ DialerPanel.defaultProps = {
   showFromField: true,
   children: undefined,
   callBtnClassName: undefined,
+  searchByDialButtonClick: true,
 };
 
 export default DialerPanel;
