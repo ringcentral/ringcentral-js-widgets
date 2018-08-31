@@ -57,7 +57,7 @@ export default function runner({
   };
   const command = config.tester;
   // TODO configurative tails
-  const tails = ['--forceExit', '--maxWorkers=2', '--detectOpenHandles'];
+  const tails = ['--forceExit', '--maxWorkers=1', '--no-cache', '--detectOpenHandles'];
   const args = [`--config=${JSON.stringify(testerConfig)}`, ...options, ...tails];
   const close = () => {
     console.log('close');

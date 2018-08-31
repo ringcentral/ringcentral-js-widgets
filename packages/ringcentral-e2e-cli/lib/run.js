@@ -21,16 +21,16 @@ export default (dir, cmd) => {
       // TODO for jest ?
       inputTesterConfig: {
         verbose: true,
-        // testMatch: ['<rootDir>/src/features/**/*.js'],
-        testRegex,
+        testMatch: ['<rootDir>/src/features/**/*.js'],
+        // testRegex,
       },
       options: [],
       drivers: [
         // 'enzyme',
         'puppeteer',
-        'seleniumWebdriverFirefox',
-        'seleniumWebdriverChrome',
-        'seleniumWebdriverSafari'
+        // 'seleniumWebdriverFirefox',
+        // 'seleniumWebdriverChrome',
+        // 'seleniumWebdriverSafari'
         // 'seleniumWebdriverIE',
         // 'seleniumWebdriverEdge',
       ],
