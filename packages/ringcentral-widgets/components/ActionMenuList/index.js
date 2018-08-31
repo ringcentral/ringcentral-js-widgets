@@ -407,7 +407,10 @@ export default class ActionMenuList extends Component {
       entityButton = null;
     }
 
-    const entityModal = (!hasEntity && phoneNumber) ?
+    const entityModal = (
+      (!hasEntity && phoneNumber) ||
+      (externalViewEntity && !externalHasEntity && phoneNumber && onCreateEntity)
+    ) ?
       (<EntityModal
         currentLocale={currentLocale}
         entities={createEntityTypes}
