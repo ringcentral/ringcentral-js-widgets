@@ -5,11 +5,36 @@
  * @return {Boolean}
  */
 export function isEssential(ext) {
-  return ext.extensionNumber &&
+  return (
+    ext.extensionNumber &&
     ext.extensionNumber !== '' &&
-    ext.status === 'Enabled' &&
-    ['DigitalUser', 'User', 'Department'].indexOf(ext.type) >= 0;
+    /* ext.status === 'Enabled' && */
+    ['DigitalUser', 'User', 'Department'].indexOf(ext.type) >= 0
+  );
 }
+
+/**
+ * Create a account extension checker to verify if an extension can be cached
+ * @param {boolean} checkStatus
+ */
+export function createEssentialChecker(checkStatus = true) {
+  return (ext) => {
+    if (checkStatus) {
+      return (
+        ext.extensionNumber &&
+        ext.extensionNumber !== '' &&
+        ext.status === 'Enabled' &&
+        ['DigitalUser', 'User', 'Department'].indexOf(ext.type) >= 0
+      );
+    }
+    return (
+      ext.extensionNumber &&
+      ext.extensionNumber !== '' &&
+      ['DigitalUser', 'User', 'Department'].indexOf(ext.type) >= 0
+    );
+  };
+}
+
 /**
  * @function
  * @description Returns a simplified extension data for caching to reducer storage use

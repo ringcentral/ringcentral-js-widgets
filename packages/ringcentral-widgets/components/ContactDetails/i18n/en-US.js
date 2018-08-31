@@ -10,5 +10,6 @@ export default {
   [presenceStatus.available]: 'Available',
   [presenceStatus.offline]: 'Invisible',
   [presenceStatus.busy]: 'Busy',
-  [dndStatus.doNotAcceptAnyCalls]: 'Do not Disturb'
+  [dndStatus.doNotAcceptAnyCalls]: 'Do not Disturb',
+  notActivated: 'Inactive',
 };
