@@ -447,7 +447,7 @@ describe('Current Call Control Page - Transfer', () => {
     expect(panel.find(RecipientsInput).find('input').props().placeholder).toEqual('Enter Name or Number');
     expect(panel.find(DialPad)).toHaveLength(1);
     expect(panel.find(CircleButton).find(TransferIcon)).toHaveLength(1);
-  });
+  }, 7000);
   test('RCI-1712674 Transfer Panel: click Transfer and Back Button',
     async () => {
       await makeOutboundCall(phone);

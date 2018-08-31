@@ -154,7 +154,7 @@ describe('Conference Call Control Page - Record/Stop', () => {
       recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
       expect(recordButton.find('.buttonTitle').text()).toEqual('Record');
       expect(stopRecordFn.mock.calls[0]).toEqual([conferenceSession.id]);
-    }
+    }, 7000
   );
 });
 
