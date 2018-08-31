@@ -25,17 +25,9 @@ var _Modal = require('../Modal');
 
 var _Modal2 = _interopRequireDefault(_Modal);
 
-var _Button = require('../Button');
-
-var _Button2 = _interopRequireDefault(_Button);
-
 var _CircleButton = require('../CircleButton');
 
 var _CircleButton2 = _interopRequireDefault(_CircleButton);
-
-var _CloseIcon = require('../../assets/images/CloseIcon.svg');
-
-var _CloseIcon2 = _interopRequireDefault(_CloseIcon);
 
 var _CallAvatar = require('../CallAvatar');
 
