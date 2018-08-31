@@ -1,4 +1,4 @@
-@import '../../lib/commonStyles/fonts.scss';
+@import "../../lib/commonStyles/fonts.scss";
 
 .container {
   width: 100%;
@@ -12,7 +12,7 @@
   cursor: pointer;
   border-color: #e3e3e3;
   @include primary-font;
-  font-weight: 300;
+  font-weight: normal;
   font-size: 15px;
 }
 
