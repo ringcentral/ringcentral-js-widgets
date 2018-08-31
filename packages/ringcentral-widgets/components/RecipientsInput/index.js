@@ -255,6 +255,12 @@ class RecipientsInput extends Component {
       });
       this.props.searchContact(nextProps.value);
     }
+
+    if (nextProps.searchByDialButtonClick && !this.state.isFocusOnInput) {
+      this.setState({
+        isFocusOnInput: true,
+      });
+    }
   }
 
   componentDidMount() {
@@ -413,6 +419,7 @@ RecipientsInput.propTypes = {
   phoneTypeRenderer: PropTypes.func,
   contactInfoRenderer: PropTypes.func,
   contactPhoneRenderer: PropTypes.func,
+  searchByDialButtonClick: PropTypes.bool,
 };
 
 RecipientsInput.defaultProps = {
@@ -430,6 +437,7 @@ RecipientsInput.defaultProps = {
   phoneTypeRenderer: undefined,
   contactInfoRenderer: undefined,
   contactPhoneRenderer: undefined,
+  searchByDialButtonClick: false,
 };
 
 export default RecipientsInput;
