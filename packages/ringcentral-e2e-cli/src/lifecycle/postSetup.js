@@ -65,7 +65,13 @@ function getTags({
 }) {
   let tags;
   if (rawTags.length === 0) {
-    tags = defaultTestConfig;
+    tags = defaultTestConfig.map(([_project, _tags]) => ([
+      _project,
+      {
+        ..._tags,
+        ...caseTags,
+      }
+    ]));
   } else {
     tags = rawTags.map(([_project, _tags]) => ([
       _project,

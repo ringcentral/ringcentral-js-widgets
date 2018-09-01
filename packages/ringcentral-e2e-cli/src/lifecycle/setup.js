@@ -68,7 +68,8 @@ function setup({
   // plugins,
 }) {
   global.defaultTestConfig = flattenTestConfig(config);
-  global.testBeforeAll = () => {
+  global.testBeforeAll = (...args) => {
+    // console.log(JSON.stringify(args, null, 2));
     // TODO HOOK and setup plugins
   };
   global.testBeforeEach = ({
