@@ -31,7 +31,10 @@ function mergeTags(tags, supersetTags) {
 
 function flattenTags(tags) {
   const _tags = Object.entries(tags)
-    .map(([name, values]) => values.map(value => `${name}-${value}`));
+    .map(
+      ([name, values]) => values
+        .map(value => `${name}-${typeof value === 'object' ? Object.keys(value)[0] : value}`)
+    );
   const groups = [];
   const group = [];
   const getGroups = (_tags, depth = 0) => {
@@ -125,10 +128,9 @@ function testCase(caseParams, fn) {
   const tags = getTags({ rawTags, defaultTestConfig, caseTags });
   // case setting merged withdefaultTestConfig .
   const testCaseTags = mergeTags(tags, defaultTestConfig);
-  const execTags = mergeTags(global.execTags, testCaseTags).map((item) => {
-    item[1].drivers = [...global.execDrivers];
-    return item;
-  });
+  const execTags = mergeTags(global.execTags, testCaseTags).map(([_project, _tags]) => (
+    [_project, { ..._tags, drivers: [...global.execDrivers] }]
+  ));
   const isSandbox = [...modes, ...global.execModes].indexOf('sandbox') > -1;
   global.testBeforeAll({
     testCaseTags,
