@@ -18,14 +18,14 @@ module.exports = {
       ['salesforce'],
     ],
   },
-  defaults: {
-    drivers: ['puppeteer', 'seleniumWebdriverFirefox'],
-    levels: ['p3'],
-    brands: ['rc'],
-    tags: [
-      ['salesforce', { modes: ['lightning'], drivers: ['puppeteer'] }],
-    ],
-  },
+  // defaults: {
+  //   drivers: ['puppeteer', 'seleniumWebdriverFirefox'],
+  //   levels: ['p3'],
+  //   brands: ['rc'],
+  //   tags: [
+  //     ['salesforce', { modes: ['lightning'], drivers: ['puppeteer'] }],
+  //   ],
+  // },
   params: {
     projects: {
       google: {
@@ -52,7 +52,7 @@ module.exports = {
             rc: {
               username: '',
               password: '',
-              location: 'https://login.salesforce.com/',
+              location: 'http://localhost:8080/',
             }
           },
         }

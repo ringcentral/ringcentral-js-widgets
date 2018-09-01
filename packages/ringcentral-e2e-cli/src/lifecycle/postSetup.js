@@ -87,7 +87,10 @@ function getTags({
 function checkSkippedCase({ project, ...execTag }, [_, caseTag]) {
   if (!caseTag) return true;
   for (const [name, value] of Object.entries(execTag)) {
-    if (!Array.isArray(caseTag[name]) || caseTag[name].indexOf(value) === -1) return true;
+    const currentCaseTag = caseTag[name].map(item => (
+      typeof item === 'object' ? Object.keys(item)[0] : item
+    ));
+    if (!Array.isArray(caseTag[name]) || currentCaseTag.indexOf(value) === -1) return true;
   }
   return false;
 }
