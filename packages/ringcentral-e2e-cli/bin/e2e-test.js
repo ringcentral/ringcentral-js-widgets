@@ -9,9 +9,13 @@ commander
   .usage('<command> [options]');
 
 commander
-  .command('run <file-path>')
-  .description('Run E2E test case.')
-  .option('-t, --tags <tagsInfo>', 'Run E2E test case with some tags filtering.')
+  .command('run [dir...]')
+  .description('Run E2E test specified case.')
+  .option('-p, --params <paramsInfo>', 'Run E2E test case with some params filtering.')
+  .option('-S, --sandbox', 'Run E2E test case with \'sandbox\' mode.')
+  .option('-D, --debugger', 'Run E2E test case with \'debugger\' mode.')
+  .option('--drivers <drivers>', 'Run E2E test case with some drivers.', value => value.split('.'))
+  .option('--testerCLI <testerCLI>', 'Run E2E test case with testerCLI args.')
   .action((run));
 
 commander.parse(process.argv);

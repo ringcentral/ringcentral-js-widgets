@@ -16,6 +16,7 @@ class WebDriverEnvironment extends NodeEnvironment {
       const drivers = {};
       for (const item of this._config.globals.execDrivers) {
         const [name, execSetting] = Array.isArray(item) ? item : [item];
+        // TODO import browsers setting
         const defaultSetting = this._config.globals.execDefaults.browsers[name];
         const driver = createDriver(name, {
           ...defaultSetting,

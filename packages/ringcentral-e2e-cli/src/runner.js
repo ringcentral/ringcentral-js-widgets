@@ -1,66 +1,103 @@
 import childProcess from 'child_process';
-import config, {
-  defaultExecConfig,
-  defaultExecLevels,
-  defaultDrivers
-} from './config';
+import { resolve } from 'path';
+import defaultsConfig from './config';
 import createProcess from './utils/createProess';
 
-const rootPath = require('path').resolve(__dirname, '../');
-
+const rootPath = resolve(__dirname, '../');
 const setupFile = 'src/lifecycle/setup.js';
 const postSetupFile = 'src/lifecycle/postSetup.js';
-const defaultTags = Object.keys(config.params.projects)
-  .map(project => [project]);
+const globalSetup = 'ringcentral-e2e-environment/setup';
+const globalTeardown = 'ringcentral-e2e-environment/teardown';
+const testEnvironment = 'ringcentral-e2e-environment';
+const tails = ['--forceExit', '--no-cache', '--detectOpenHandles'];
 
-function getExecTags(rawTags) {
+function getExecTags(
+  { tags: rawTags, ...rest },
+  { tags: execDefaultTags, ...execDefaultConfigs },
+  defaultTags,
+) {
   const isTagsNil = !rawTags || rawTags.length === 0;
-  const tags = isTagsNil ? defaultTags : rawTags;
-  return tags.map(([project, tag = {}]) => ([
-    project, {
-      ...defaultExecConfig,
-      ...tag,
-    }
-  ]));
+  const tags = isTagsNil ? execDefaultTags || defaultTags : rawTags;
+  return tags.map(([project, tag = {}]) => {
+    const [_, _tag] = execDefaultTags.find(([_project]) => _project === project) || [];
+    return [
+      project, {
+        // order(right priority): execDefaultTags < execDefaultProjectTags < userInputTags < userInputProjectTags
+        ...execDefaultConfigs,
+        ..._tag,
+        ...rest,
+        ...tag,
+      }
+    ];
+  });
 }
 
 function runner({
-  inputTesterConfig,
-  tags,
-  drivers = defaultDrivers,
-  levels = defaultExecLevels,
-  options = [],
-  modes = [],
+  testerParams,
+  testerCLI,
+  modes,
+  drivers,
+  params, // CLI input tags
+  config = {},
 }, {
   exit,
 }) {
-  // exec all project by default if `tags` is nil.
-  // TODO alert if tags is nil
-  const execTags = getExecTags(tags);
+  config = {
+    ...config,
+    exec: {
+      ...defaultsConfig.exec,
+      ...config.exec,
+    },
+    defaults: {
+      ...defaultsConfig.defaults,
+      ...config.defaults,
+    },
+    params: {
+      ...defaultsConfig.params,
+      ...config.params,
+    },
+  };
+  const {
+    exec = {}
+  } = config;
+  const defaultTags = Object.keys(config.params.projects).map(project => [project]);
+  const execTags = getExecTags(params, exec, defaultTags);
+  /* eslint-disable */
+  // order: defaultsConfig < configfile < CLI args
+  const execModes = modes && modes.length > 0 ?
+    modes : (
+      exec.modes && exec.modes.length > 0 ?
+      exec.modes :
+      defaultsConfig.modes
+    );
+  const execDrivers = drivers && drivers.length > 0 ?
+    drivers : (
+      exec.drivers && exec.drivers.length > 0 ?
+      exec.drivers :
+      defaultsConfig.exec.drivers
+    );
+  /* eslint-enable */
   const testerConfig = {
-    ...inputTesterConfig,
+    ...testerParams,
     globals: {
       execTags,
-      execModes: modes,
-      execLevels: levels,
-      execDrivers: drivers,
+      execModes,
+      execDrivers,
       execGlobal: config,
       execDefaults: {
         browsers: {
-          //
+          // TODO config for browsers
         }
       }
     },
     setupFiles: [`${rootPath}/${setupFile}`],
     setupTestFrameworkScriptFile: `${rootPath}/${postSetupFile}`,
-    globalSetup: 'ringcentral-e2e-environment/setup',
-    globalTeardown: 'ringcentral-e2e-environment/teardown',
-    testEnvironment: 'ringcentral-e2e-environment'
+    globalSetup,
+    globalTeardown,
+    testEnvironment,
   };
-  const command = config.tester;
-  // TODO configurative tails
-  const tails = ['--forceExit', '--maxWorkers=8', '--no-cache', '--detectOpenHandles'];
-  const args = [`--config=${JSON.stringify(testerConfig)}`, ...options, ...tails];
+  const command = defaultsConfig.tester;
+  const args = [`--config=${JSON.stringify(testerConfig)}`, ...testerCLI, ...tails];
   const close = () => {
     // TODO HOOK main process close
     if (typeof exit === 'function') {
@@ -70,8 +107,10 @@ function runner({
         console.error(e);
       }
     }
+    // TODO check chromedriver close abnormal
     childProcess.exec('kill $(ps aux | grep chromedriver | grep -v grep | awk \'{print $2}\')');
   };
+  // TODO HOOK main process start
   createProcess({
     command,
     args,

@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "e2e-test run ./src/features/widgets/meeting/ScheduleMeeting.spec.js --tags '[\"widgets\"]'"
+    "testExample": "e2e-test run ./src/features/widgets/meeting/ScheduleMeeting.spec.js --params '{ \"levels\": [\"p1\"],\"tags\": [[\"widgets\", {\"brands\":[\"rc\"]}],[\"salesforce\"]] }' -D -S --testerCLI '--clearCache' --drivers puppeteer.seleniumWebdriverFirefox",
+    "test": "e2e-test run ./src/features/widgets/meeting/ScheduleMeeting.spec.js --params '{ \"levels\": [\"p1\"],\"tags\": [[\"widgets\", {\"brands\":[\"rc\"], \"levels\": [\"p0\"]}],[\"salesforce\",{\"brands\":[\"att\"]}]] }'"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",

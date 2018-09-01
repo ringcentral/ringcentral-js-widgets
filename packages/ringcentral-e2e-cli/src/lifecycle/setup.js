@@ -1,11 +1,15 @@
 import createDriver from 'ringcentral-e2e-environment/createDriver';
-import config, { getDriverConfig } from '../config';
 import {
   isNil,
   isPlainobject
 } from '../utils/checkType';
+import { configPath } from '../../lib/run';
 // import screenshot from '../plugins/screenshot';
 // import logger from '../plugins/logger';
+
+// eslint-disable-next-line
+const { lookupConfig } = require(configPath);
+const config = global.execGlobal;
 
 function getPattern(value) {
   let pattern;
@@ -22,34 +26,49 @@ function getPattern(value) {
 }
 
 function flattenTestConfig(config) {
+  const { tags = [], ..._tags } = config.defaults || {};
   const generalParams = Object.entries(config.params).filter(([key]) => key !== 'projects');
   return Object.entries(config.params.projects).reduce(
-    (projects, [project, {
-      params = []
-    } = {}]) => ([
-      ...projects, [
+    (projects, [
+      project,
+      {
+        params = []
+      } = {}
+    ]) => ([
+      ...projects,
+      [
         project,
-        Object.entries(params).reduce((patterns, [name, pattern]) => {
-          const values = getPattern(pattern);
-          if (!values) return patterns;
-          return ({
-            ...patterns,
-            [name]: values,
-          });
-        }, generalParams.reduce((generalParams, [name, values]) => ({
-          ...generalParams,
-          [name]: values
-        }), {}))
+        {
+          ...Object.entries(params).reduce((patterns, [name, pattern]) => {
+            const values = getPattern(pattern);
+            if (!values) return patterns;
+            return ({
+              ...patterns,
+              [name]: values,
+            });
+          }, generalParams.reduce((generalParams, [name, values]) => ({
+            ...generalParams,
+            [name]: values
+          }), {})),
+          ..._tags,
+          ...tags.reduce((tag, [_project, _tag]) => {
+            if (_project !== project) return tag;
+            return {
+              ...tag,
+              ..._tag
+            };
+          }, {})
+        }
       ]
     ]), []);
 }
 
 function setup({
   config,
-  plugins,
+  // plugins,
 }) {
   global.defaultTestConfig = flattenTestConfig(config);
-  global.testBeforeAll = ({ caseParams, execTags, }) => {
+  global.testBeforeAll = () => {
     // TODO HOOK and setup plugins
   };
   global.testBeforeEach = ({
@@ -65,8 +84,8 @@ function setup({
   }) => {
     // TODO HOOK setup plugins
     const browser = isSandbox ? createDriver(driver) : drivers[driver];
-    const config = getDriverConfig({
-      projects: global.execGlobal.params.projects,
+    const config = lookupConfig({
+      config: global.execGlobal,
       tag,
     });
     return {
@@ -80,5 +99,4 @@ const setting = {
   config,
   // plugins: [screenshot, logger]
 };
-
 setup(setting);

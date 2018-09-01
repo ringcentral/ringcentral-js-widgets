@@ -1,8 +1,7 @@
 import '../reporter';
-import config, { defaultCaseLevel } from '../config';
 import { compile } from '../utils/template';
 
-// TODO configuration-based
+// TODO configuration-based.
 jest.setTimeout(30000);
 
 const _test = test;
@@ -61,6 +60,32 @@ function restoreTags(group, project) {
   });
 }
 
+function getTags({
+  rawTags, defaultTestConfig, caseTags
+}) {
+  let tags;
+  if (rawTags.length === 0) {
+    tags = defaultTestConfig;
+  } else {
+    tags = rawTags.map(([_project, _tags]) => ([
+      _project,
+      {
+        ...caseTags,
+        ..._tags,
+      }
+    ]));
+  }
+  return tags;
+}
+
+function checkSkippedCase({ project, ...execTag }, [_, caseTag]) {
+  if (!caseTag) return true;
+  for (const [name, value] of Object.entries(execTag)) {
+    if (!Array.isArray(caseTag[name]) || caseTag[name].indexOf(value) === -1) return true;
+  }
+  return false;
+}
+
 async function beforeEachStart({ browser, isSandbox }) {
   // TODO HOOK
 }
@@ -74,22 +99,27 @@ function testCase(caseParams, fn) {
   const {
     title,
     options,
-    tags = global.defaultTestConfig,
-    level = defaultCaseLevel,
+    tags: rawTags = [],
     modes = [],
   } = caseParams;
-  const testCaseTags = mergeTags(tags, global.defaultTestConfig);
-  const execTags = mergeTags(global.execTags, testCaseTags);
-  const isExecTagsNil = execTags.length === 0;
-  const isOverExecLevels = global.execLevels.indexOf(level) < 0;
+  const defaultTestConfig = global.defaultTestConfig;
+  const { projects, ...params } = global.execGlobal.params;
+  const caseTags = Object.entries(caseParams).reduce((_params, [name, _tag]) => {
+    const isGeneralParam = Object.keys(params).indexOf(name) > -1;
+    if (!isGeneralParam) return _params;
+    return {
+      ..._params,
+      [name]: _tag
+    };
+  }, {});
+  // case setting merged.
+  const tags = getTags({ rawTags, defaultTestConfig, caseTags });
+  // case setting merged withdefaultTestConfig .
+  const testCaseTags = mergeTags(tags, defaultTestConfig);
+  const execTags = global.execTags;
   const isSandbox = [...modes, ...global.execModes].indexOf('sandbox') > -1;
-  if (isExecTagsNil || isOverExecLevels) {
-    console.warn(`\`${title}\` is skipped.`);
-    _test.skip();
-    return;
-  }
   global.testBeforeAll({
-    caseParams,
+    testCaseTags,
     execTags,
   });
   for (const driver of global.execDrivers) {
@@ -97,18 +127,24 @@ function testCase(caseParams, fn) {
       const groups = flattenTags(tags);
       for (const group of groups) {
         for (const option of options) {
+          const tag = restoreTags(group, project);
+          const caseTag = testCaseTags.find(([_project, _tags]) => _project === project);
+          const isSkipped = checkSkippedCase(tag, caseTag);
+          if (isSkipped) {
+            // console.warn(`\`${title}\` is skipped.`);
+            _test.skip('skip case', () => {});
+            break;
+          }
           const name = compile({
             template: title,
             keys: Object.keys(option),
             values: Object.values(option),
           });
-          const tag = restoreTags(group, project);
           const tail = ` => (${project} in ${group.join(' & ')} on ${driver})`;
           const { browser, config } = global.testBeforeEach({
             caseParams,
             option,
             tag,
-            level,
           }, {
             drivers: global.drivers,
             driver,
@@ -132,7 +168,6 @@ function testCase(caseParams, fn) {
             config,
             option,
             tag,
-            level,
             driver,
             modes,
             isSandbox,
