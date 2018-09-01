@@ -13,7 +13,7 @@ const tails = ['--forceExit', '--no-cache', '--detectOpenHandles'];
 
 function getExecTags(
   { tags: rawTags, ...rest },
-  { tags: execDefaultTags, ...execDefaultConfigs },
+  { tags: execDefaultTags = [], ...execDefaultConfigs },
   defaultTags,
 ) {
   const isTagsNil = !rawTags || rawTags.length === 0;

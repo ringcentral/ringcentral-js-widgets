@@ -125,20 +125,23 @@ function testCase(caseParams, fn) {
   const tags = getTags({ rawTags, defaultTestConfig, caseTags });
   // case setting merged withdefaultTestConfig .
   const testCaseTags = mergeTags(tags, defaultTestConfig);
-  const execTags = global.execTags;
+  const execTags = mergeTags(global.execTags, testCaseTags).map((item) => {
+    item[1].drivers = [...global.execDrivers];
+    return item;
+  });
   const isSandbox = [...modes, ...global.execModes].indexOf('sandbox') > -1;
   global.testBeforeAll({
     testCaseTags,
     execTags,
   });
   for (const driver of global.execDrivers) {
-    for (const [project, tags] of execTags) {
+    for (const [project, { drivers, ...tags }] of execTags) {
       const groups = flattenTags(tags);
       for (const group of groups) {
         for (const option of options) {
           const tag = restoreTags(group, project);
-          const caseTag = testCaseTags.find(([_project, _tags]) => _project === project);
-          const isSkipped = checkSkippedCase(tag, caseTag);
+          const caseTag = testCaseTags.find(([_project]) => _project === project);
+          const isSkipped = checkSkippedCase({ ...tag, drivers: driver }, caseTag);
           if (isSkipped) {
             // console.warn(`\`${title}\` is skipped.`);
             _test.skip('skip case', () => {});

@@ -1,17 +1,17 @@
 describe('test: =====>', () => {
   test({
     title: 'Login button ${selector} text is ${expected}',
-    tags: [
-      ['widgets'],
-      ['salesforce']
-    ],
-    modes: ['sandbox'],
+    // tags: [
+    //   ['widgets'],
+    //   ['salesforce']
+    // ],
+    // drivers: ['seleniumWebdriverFirefox'],
+    // modes: ['sandbox'],
+    brands: ['rc'],
     levels: ['p0'],
     options: [
       { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
-      { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
     ],
-    // modes: ['sandbox']
   }, async ({
     option, tag, level
   }) => {

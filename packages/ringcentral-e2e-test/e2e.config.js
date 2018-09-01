@@ -5,27 +5,28 @@ module.exports = {
     handler: './einstein.js'
   }],
   exec: {
-    drivers: ['puppeteer'],
+    drivers: ['puppeteer', 'seleniumWebdriverFirefox'],
     levels: [
       'p0',
       'p1'
     ],
     brands: [
-      'rc'
+      'rc',
+      'att'
     ],
     tags: [
       ['widgets'],
       ['salesforce'],
     ],
   },
-  // defaults: {
-  //   drivers: ['puppeteer', 'seleniumWebdriverFirefox'],
-  //   levels: ['p3'],
-  //   brands: ['rc'],
-  //   tags: [
-  //     ['salesforce', { modes: ['lightning'], drivers: ['puppeteer'] }],
-  //   ],
-  // },
+  defaults: {
+    drivers: ['puppeteer', 'seleniumWebdriverFirefox', 'seleniumWebdriverSafari'],
+    levels: ['p3'],
+    brands: ['rc'],
+    tags: [
+      ['salesforce', { modes: ['lightning'], drivers: ['puppeteer'] }],
+    ],
+  },
   params: {
     projects: {
       google: {
@@ -50,6 +51,11 @@ module.exports = {
           ],
           brands: {
             rc: {
+              username: '',
+              password: '',
+              location: 'http://localhost:8080/',
+            },
+            att: {
               username: '',
               password: '',
               location: 'http://localhost:8080/',
