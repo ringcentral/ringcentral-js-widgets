@@ -4,7 +4,7 @@ describe('test: =====>', () => {
     tags: [
       ['widgets', { brands: ['rc', 'att'] }]
     ],
-    level: 'p1',
+    levels: ['p1'],
     options: [
       { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
       { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
@@ -21,7 +21,7 @@ describe('test: =====>', () => {
     tags: [
       ['widgets', { brands: ['rc', 'att'] }]
     ],
-    level: 'p1',
+    levels: ['p1'],
     options: [
       { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
       { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
@@ -37,7 +37,7 @@ describe('test: =====>', () => {
     tags: [
       ['widgets', { brands: ['rc', 'att'] }]
     ],
-    level: 'p1',
+    levels: ['p1'],
     options: [
       { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
       { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
@@ -53,7 +53,7 @@ describe('test: =====>', () => {
     tags: [
       ['widgets', { brands: ['rc', 'att'] }]
     ],
-    level: 'p1',
+    levels: ['p1'],
     options: [
       { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
       { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
