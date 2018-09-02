@@ -51,7 +51,7 @@ const run = (dir, cmd) => {
   ];
   const drivers = cmd.drivers || [];
   const params = args.params || {};
-  const testerCLI = cmd.testerCLI || '';
+  const testerCLI = cmd.testerCLI || [];
   const testerParams = {
     verbose: true,
     testMatch,

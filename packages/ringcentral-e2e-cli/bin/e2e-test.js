@@ -15,7 +15,7 @@ commander
   .option('-S, --sandbox', 'Run E2E test case with \'sandbox\' mode.')
   .option('-D, --debugger', 'Run E2E test case with \'debugger\' mode.')
   .option('--drivers <drivers>', 'Run E2E test case with some drivers.', value => value.split('.'))
-  .option('--testerCLI <testerCLI>', 'Run E2E test case with testerCLI args.')
+  .option('--testerCLI <testerCLI>', 'Run E2E test case with testerCLI args.', value => value.split('.'))
   .action((run));
 
 commander.parse(process.argv);
