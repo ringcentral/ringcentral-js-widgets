@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@ringcentral-integration/i18n": "^2.0.0",
+    "@ringcentral-integration/locale-loader": "^2.0.0",
     "@ringcentral-integration/phone-number": "*",
     "autoprefixer": "^8.4.1",
     "babel-istanbul": "^0.12.1",
@@ -32,7 +33,6 @@
     "gulp-sourcemaps": "^2.4.0",
     "identity-obj-proxy": "^3.0.0",
     "json-loader": "^0.5.4",
-    "@ringcentral-integration/locale-loader": "^2.0.0",
     "node-sass": "^4.5.3",
     "normalize-css": "^2.3.1",
     "postcss-loader": "^2.1.5",
@@ -57,7 +57,7 @@
     "url-loader": "^1.0.1",
     "webpack": "^3.11.0",
     "webpack-dev-server": "^2.4.5",
-    "yargs": "^11.1.0"
+    "yargs": "^12.0.1"
   },
   "peerDependencies": {
     "babel-runtime": "^6.26.0"

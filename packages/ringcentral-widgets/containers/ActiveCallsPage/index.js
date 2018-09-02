@@ -1,7 +1,9 @@
 import { connect } from 'react-redux';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
+import { isRinging } from 'ringcentral-integration/lib/callLogHelpers';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
-import withPhone from '../../lib/withPhone';
+import { withPhone } from '../../lib/phoneContext';
+
 import ActiveCallsPanel from '../../components/ActiveCallsPanel';
 
 function mapToProps(_, {
@@ -67,6 +69,7 @@ function mapToFunctions(_, {
   onViewContact,
   showViewContact = true,
   getAvatarUrl,
+  useV2,
 }) {
   return {
     formatPhone(phoneNumber) {
@@ -89,7 +92,13 @@ function mapToFunctions(_, {
       return (webphone && webphone.hangup(...args));
     },
     async webphoneResume(...args) {
-      return (webphone && webphone.resume(...args));
+      if (!webphone) {
+        return;
+      }
+      await webphone.resume(...args);
+      if (routerInteraction.currentPath !== callCtrlRoute && !useV2) {
+        routerInteraction.push(callCtrlRoute);
+      }
     },
     async webphoneHold(...args) {
       return (webphone && webphone.hold(...args));
@@ -148,6 +157,15 @@ function mapToFunctions(_, {
       );
     },
     onCallItemClick(call) {
+      // TODO: Display the ringout call ctrl page.
+      if (!call.webphoneSession) {
+        return;
+      }
+      // show the ring call modal when click a ringing call.
+      if (isRinging(call)) {
+        webphone.toggleMinimized(call.webphoneSession.id);
+        return;
+      }
       if (call.webphoneSession && call.webphoneSession.id) {
         routerInteraction.push(`${callCtrlRoute}/${call.webphoneSession.id}`);
       }

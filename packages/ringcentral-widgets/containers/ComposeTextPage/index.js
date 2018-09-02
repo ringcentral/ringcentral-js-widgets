@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import messageSenderMessages from 'ringcentral-integration/modules/MessageSender/messageSenderMessages';
 import ComposeTextPanel from '../../components/ComposeTextPanel';
-import withPhone from '../../lib/withPhone';
+import { withPhone } from '../../lib/phoneContext';
 
 function mapToProps(_, {
   phone: {

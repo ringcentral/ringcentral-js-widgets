@@ -1,15 +1,3 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { withPhone } from '../phoneContext';
 
-export default function withPhone(Comp) {
-  const WithPhone = (props, context) => (
-    <Comp
-      phone={context.phone}
-      {...props}
-    />
-  );
-  WithPhone.contextTypes = {
-    phone: PropTypes.object.isRequired,
-  };
-  return WithPhone;
-}
+export default withPhone;

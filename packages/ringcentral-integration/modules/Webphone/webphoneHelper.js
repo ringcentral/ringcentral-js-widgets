@@ -28,6 +28,11 @@ export function extractHeadersData(session, headers) {
      *  "partyId": String,
      *  "sessionId": String
      * }
+     *
+     * INFO: partyId is ID of the participant in current Session. Mostly it represents User on the call,
+     * it could be active participant (talking right now) or already disconnected User,
+     * e.g. who made a transfer to another person.
+     * To identify the User who owns the party you need to find owner.extensionId within party.
      */
     const data = headers['P-Rc-Api-Ids'][0].raw
       .split(';')

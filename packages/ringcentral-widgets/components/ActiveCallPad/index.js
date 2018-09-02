@@ -26,7 +26,7 @@ import i18n from './i18n';
 
 const DisplayButtonNumber = 6;
 
-function MoreActionItem({
+export function MoreActionItem({
   title,
   icon: Icon,
   disabled,
@@ -111,7 +111,6 @@ class ActiveCallPad extends Component {
 
   render() {
     const buttons = [];
-
     /* --------------------- Mute/Unmute --------------------------- */
     buttons.push(this.props.isOnMute
       ? {
@@ -134,6 +133,7 @@ class ActiveCallPad extends Component {
         icon: KeypadIcon,
         title: i18n.getString('keypad', this.props.currentLocale),
         onClick: this.props.onShowKeyPad,
+        disabled: this.props.layout === callCtrlLayouts.conferenceCtrl,
       }
     );
 
@@ -200,7 +200,7 @@ class ActiveCallPad extends Component {
 
     /* --------------------- Transfer --------------------------- */
     const disabledTransfer = (
-      this.props.layout === callCtrlLayouts.mergeCtrl
+      this.props.layout !== callCtrlLayouts.normalCtrl
     );
     buttons.push(
       {
@@ -215,7 +215,7 @@ class ActiveCallPad extends Component {
     const disabledFlip = (
       this.props.flipNumbers.length === 0
       || this.props.isOnHold
-      || this.props.layout === callCtrlLayouts.mergeCtrl
+      || this.props.layout !== callCtrlLayouts.normalCtrl
     );
     buttons.push(
       {

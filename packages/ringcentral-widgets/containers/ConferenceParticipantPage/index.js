@@ -76,11 +76,13 @@ function mapToFunctions(_, {
     regionSettings,
   },
 }) {
-  const confId = conferenceCall.conferences && Object.keys(conferenceCall.conferences)[0];
-
   return {
-    onBackButtonClick: () => routerInteraction.push('/calls/active'),
+    onBackButtonClick() {
+      routerInteraction.goBack();
+    },
     async removeFunc(id) {
+      const confId = conferenceCall.conferences && Object.keys(conferenceCall.conferences)[0];
+
       try {
         await conferenceCall.removeFromConference(confId, id);
         return true;

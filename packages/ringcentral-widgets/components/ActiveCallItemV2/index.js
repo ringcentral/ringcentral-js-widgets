@@ -11,6 +11,7 @@ import CircleButton from '../CircleButton';
 import EndIcon from '../../assets/images/End.svg';
 import HoldIcon from '../../assets/images/Hold.svg';
 import VoicemailIcon from '../../assets/images/Voicemail.svg';
+import AnswerIcon from '../../assets/images/Answer.svg';
 import MergeIntoConferenceIcon from '../../assets/images/MergeIntoConferenceIcon.svg';
 import MediaObject from '../MediaObject';
 import DurationCounter from '../DurationCounter';
@@ -24,6 +25,7 @@ function WebphoneButtons({
   webphoneReject,
   webphoneHangup,
   webphoneResume,
+  webphoneAnswer,
   webphoneHold,
   showMergeCall,
   showHold,
@@ -34,8 +36,9 @@ function WebphoneButtons({
     return null;
   }
   let hangupFunc = webphoneHangup;
-
   let endIcon = EndIcon;
+  let answerBtn = null;
+
   let rejectTitle = i18n.getString('hangup', currentLocale);
   const holdTitle = i18n.getString('hold', currentLocale);
   const unholdTitle = i18n.getString('unhold', currentLocale);
@@ -47,6 +50,20 @@ function WebphoneButtons({
     hangupFunc = webphoneReject;
     endIcon = VoicemailIcon;
     rejectTitle = i18n.getString('toVoicemail', currentLocale);
+    showHold = false;
+    answerBtn = (
+      <span title={i18n.getString('accept', currentLocale)} className={styles.webphoneButton}>
+        <CircleButton
+          className={styles.answerButton}
+          onClick={(e) => {
+                e.stopPropagation();
+                webphoneAnswer(session.id);
+              }}
+          icon={AnswerIcon}
+          showBorder={false}
+            />
+      </span>
+    );
   }
 
   let holdBtn;
@@ -131,6 +148,7 @@ function WebphoneButtons({
           showBorder={false}
         />
       </span>
+      {answerBtn}
     </div>
   );
 }
@@ -146,6 +164,7 @@ WebphoneButtons.propTypes = {
   showHold: PropTypes.bool,
   disableMerge: PropTypes.bool,
   onMergeCall: PropTypes.func,
+  webphoneAnswer: PropTypes.func,
 };
 
 WebphoneButtons.defaultProps = {
@@ -158,6 +177,7 @@ WebphoneButtons.defaultProps = {
   showHold: true,
   disableMerge: true,
   onMergeCall: i => i,
+  webphoneAnswer: i => i,
 };
 
 /**
@@ -186,10 +206,10 @@ export default class ActiveCallItem extends Component {
     };
   }
 
-  setContact() {
+  setContact(nextProps = this.props) {
     const {
       isOnConferenceCall, conferenceCallParties
-    } = this.props;
+    } = nextProps;
 
     if (isOnConferenceCall) {
       this.setState({
@@ -199,12 +219,24 @@ export default class ActiveCallItem extends Component {
       return;
     }
 
-    this.onSelectContact(this.getSelectedContact());
+    const selected = this.getSelectedContactIdx(nextProps);
+    this.onSelectContact(
+      this.getSelectedContact(
+        selected,
+        nextProps),
+      selected,
+    );
   }
 
   componentDidMount() {
     this._mounted = true;
     this.setContact();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.getContactMatches(nextProps) !== this.getContactMatches()) {
+      this.setContact(nextProps);
+    }
   }
 
   componentWillUnmount() {
@@ -253,34 +285,50 @@ export default class ActiveCallItem extends Component {
       (this.props.call.to.name);
   }
 
-  onSelectContact = (value) => {
-    const nameMatches = this.getContactMatches();
-    let selectedMatcherIndex = nameMatches.findIndex(
-      match => match.id === value.id
-    );
-    if (selectedMatcherIndex < 0) {
-      selectedMatcherIndex = 0;
+  onSelectContact = (value, idx) => {
+    if (!value) {
+      return;
     }
+
     this._userSelection = true;
     this.setState({
-      selected: selectedMatcherIndex,
+      selected: idx,
     });
-    const contact = nameMatches[selectedMatcherIndex];
-    if (contact) {
-      this.props.getAvatarUrl(contact).then((avatarUrl) => {
-        this.setState({ avatarUrl });
+    if (value) {
+      this.props.getAvatarUrl(value).then((avatarUrl) => {
+        if (this._mounted) {
+          this.setState({ avatarUrl });
+        }
       });
       if (this.props.call.webphoneSession) {
-        this.props.updateSessionMatchedContact(this.props.call.webphoneSession.id, contact);
+        this.props.updateSessionMatchedContact(this.props.call.webphoneSession.id, value);
       }
     }
   }
 
-  getSelectedContact = (selected = this.state.selected) => {
-    const contactMatches = this.getContactMatches();
-    return (selected > -1 && contactMatches[selected]) ||
-      (contactMatches.length === 1 && contactMatches[0]) ||
-      null;
+  getSelectedContactIdx = (nextProps = this.props) => {
+    const contactMatches = this.getContactMatches(nextProps);
+    let selected = null;
+
+    if (!nextProps.call.webphoneSession) {
+      selected = 0;
+    } else if (contactMatches && contactMatches.length) {
+      const contact = nextProps.call.webphoneSession.contactMatch;
+      if (contact) {
+        selected = contactMatches.findIndex(match =>
+          match.id === contact.id
+        );
+      }
+      if (selected === -1 || !contact) {
+        selected = 0;
+      }
+    }
+    return selected;
+  }
+
+  getSelectedContact = (selected = this.getSelectedContactIdx(), nextProps = this.props) => {
+    const contactMatches = this.getContactMatches(nextProps);
+    return (contactMatches && contactMatches[selected]) || null;
   }
 
   getContactMatches(nextProps = this.props) {
@@ -322,6 +370,7 @@ export default class ActiveCallItem extends Component {
       disableMerge,
       onMergeCall,
       showCallDetail,
+      webphoneAnswer,
     } = this.props;
 
     const { avatarUrl, extraNum } = this.state;
@@ -336,7 +385,12 @@ export default class ActiveCallItem extends Component {
       undefined;
 
     return (
-      <div onClick={onClick} className={classnames(styles.callItemContainer, styles.pointer)}>
+      <div
+        onClick={onClick}
+        className={classnames(styles.callItemContainer, onClick
+        ? styles.pointer
+        : null)}
+      >
         <MediaObject
           containerCls={styles.wrapper}
           mediaLeft={
@@ -353,15 +407,12 @@ export default class ActiveCallItem extends Component {
               <ContactDisplay
                 isOnConferenceCall={isOnConferenceCall}
                 contactName={contactName}
-                className={
-                isOnConferenceCall
-                  ? classnames(styles.conferenceContactDisplay)
-                  : classnames(styles.contactDisplay, contactDisplayStyle)
-              }
+                className={classnames(styles.contactDisplay, contactDisplayStyle)}
                 contactMatches={contactMatches}
                 selected={this.state.selected}
                 onSelectContact={this.onSelectContact}
-                disabled={disableLinks}
+                disabled
+                iconClassName={styles.icon}
                 isLogging={isLogging || this.state.isLogging}
                 fallBackName={fallbackContactName}
                 enableContactFallback={enableContactFallback}
@@ -391,7 +442,8 @@ export default class ActiveCallItem extends Component {
                 showHold={showHold}
                 disableMerge={disableMerge}
                 onMergeCall={onMergeCall}
-            />
+                webphoneAnswer={webphoneAnswer}
+              />
               {extraButton}
             </div>
         }
@@ -441,13 +493,13 @@ ActiveCallItem.propTypes = {
   isOnConferenceCall: PropTypes.bool,
   onClick: PropTypes.func,
   getAvatarUrl: PropTypes.func,
-  conferenceCallParties: PropTypes.arrayOf(PropTypes.object),
   showMergeCall: PropTypes.bool,
   showHold: PropTypes.bool,
   disableMerge: PropTypes.bool,
   onMergeCall: PropTypes.func,
   showCallDetail: PropTypes.bool,
   updateSessionMatchedContact: PropTypes.func,
+  webphoneAnswer: PropTypes.func,
 };
 
 ActiveCallItem.defaultProps = {
@@ -468,11 +520,11 @@ ActiveCallItem.defaultProps = {
   isOnConferenceCall: false,
   onClick: undefined,
   getAvatarUrl: i => i,
-  conferenceCallParties: [],
   showMergeCall: false,
   showHold: true,
   disableMerge: false,
   onMergeCall: i => i,
   showCallDetail: false,
   updateSessionMatchedContact: i => i,
+  webphoneAnswer: i => i,
 };

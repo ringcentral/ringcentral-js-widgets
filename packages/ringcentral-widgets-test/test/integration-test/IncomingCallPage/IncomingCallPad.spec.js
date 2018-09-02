@@ -20,8 +20,6 @@ import {
   toVoicemailFn,
   holdFn,
   unholdFn,
-  muteFn,
-  unmuteFn,
   acceptFn,
   terminateFn,
   rejectFn,
@@ -90,8 +88,6 @@ afterEach(() => {
   toVoicemailFn.mockClear();
   holdFn.mockClear();
   unholdFn.mockClear();
-  muteFn.mockClear();
-  unmuteFn.mockClear();
   acceptFn.mockClear();
   terminateFn.mockClear();
   rejectFn.mockClear();
@@ -286,7 +282,7 @@ describe('Check Ignore Button', () => {
     expect(wrapper.find(IncomingCallPanel)).toHaveLength(0);
   });
   test('RCI-1712332#Entry2: outbound call + incoming call, Second call incoming_Ignore', async () => {
-    // Make a outbound call, and make another incoming call
+    // Make an outbound call, and make another incoming call
     await makeMultiCalls('Outbound');
 
     const buttons = wrapper.find(IncomingCallPad).find(ActiveCallButton);
@@ -490,5 +486,5 @@ describe('Check Incoming Call Reply Button > ReplyWithMessage', () => {
     );
     expect(phone.webphone.sessions).toHaveLength(0);
     expect(wrapper.find(IncomingCallPad)).toHaveLength(0);
-  });
+  }, 7000);
 });

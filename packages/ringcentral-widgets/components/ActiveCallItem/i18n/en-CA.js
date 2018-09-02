@@ -22,7 +22,11 @@ export default {
   to: "To",
   hangup: "Hangup",
   accept: "Accept",
-  toVoicemail: "Send to Voicemail"
+  toVoicemail: "Send to Voicemail",
+  anonymous: "Anonymous",
+  mergeToConference: "Merge",
+  hold: "Hold",
+  unhold: "Unhold"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -49,3 +53,7 @@ export default {
 // @key: @#@"hangup"@#@ @source: @#@"Hangup"@#@
 // @key: @#@"accept"@#@ @source: @#@"Accept"@#@
 // @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@
+// @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"hold"@#@ @source: @#@"Hold"@#@
+// @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@

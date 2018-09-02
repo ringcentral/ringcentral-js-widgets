@@ -103,6 +103,7 @@ export default function ContactDisplay({
   showGroupNumberName,
   contactName,
   isOnConferenceCall,
+  iconClassName,
 }) {
   let contentEl;
   if (isOnConferenceCall) {
@@ -182,7 +183,7 @@ export default function ContactDisplay({
         className={classnames(styles.select, selectClassName)}
         selectedClassName={classnames(styles.selectedValue, selectedClassName)}
         buttonStyle={styles.button}
-        iconClassName={styles.icon}
+        iconClassName={classnames(styles.icon, iconClassName)}
         value={_selected}
         onChange={onSelectContact}
         disabled={disabled || isLogging}
@@ -256,6 +257,7 @@ ContactDisplay.propTypes = {
   sourceIcons: PropTypes.object,
   showGroupNumberName: PropTypes.bool,
   contactName: PropTypes.any,
+  iconClassName: PropTypes.string,
 };
 ContactDisplay.defaultProps = {
   isOnConferenceCall: false,
@@ -275,4 +277,5 @@ ContactDisplay.defaultProps = {
   sourceIcons: undefined,
   showGroupNumberName: false,
   contactName: undefined,
+  iconClassName: null,
 };

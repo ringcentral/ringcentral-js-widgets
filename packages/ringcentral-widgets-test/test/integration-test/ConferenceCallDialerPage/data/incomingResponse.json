@@ -1,0 +1,23 @@
+{
+  "body": "v=0o=- 2693744390 3859148171 IN IP4 10.74.3.85s=SmcSipc=IN IP4 10.74.3.85t=0 0m=audio 10360 RTP/SAVPF 111 110a=rtpmap:111 OPUS/48000/2a=fmtp:111 useinbandfec=1a=rtpmap:110 telephone-event/48000a=fmtp:110 0-15a=sendrecva=rtcp:10360a=rtcp-muxa=setup:activea=fingerprint:sha-1 D3:82:0D:C0:44:8F:B1:A6:B9:39:0A:47:DB:6B:77:2A:3B:E5:7B:80a=ice-ufrag:5174ThxFa=ice-pwd:RTza1nhxRKAXSAVPNqHOirlu4ea=candidate:ffzHBmDvEZubdQeh 1 UDP 2130706431 10.74.3.85 10360 typ host",
+  "call_id": "prjo3dgt9g673s3vjhh4",
+  "cseq": 28,
+  "data": "SIP/2.0 200 OKVia: SIP/2.0/WSS e0u8rficicia.invalid;branch=z9hG4bK6630752From: <sip:18552085154*101@sip-xmnup.lab.nordigy.ru>;tag=cjq90bpor9To: <sip:102@sip-xmnup.lab.nordigy.ru>;tag=10.74.2.218-5070-8cfeb58f4aeb4afCall-ID: prjo3dgt9g673s3vjhh4CSeq: 28 INVITEContent-Length: 494Contact: <sip:102@10.74.3.83:8083;transport=wss>Content-Type: application/sdpSupported: replaces,timer,diversionP-Rc-Api-Ids: party-id=cs1726225542272257488-1;session-id=Y3MxNzI2MjI1NTQyMjcyMjU3NDg4QDEwLjc0LjIuMjE4Allow: SUBSCRIBE, NOTIFY, REFER, INVITE, ACK, BYE, CANCEL, UPDATE, INFOv=0o=- 878364845 246771824 IN IP4 10.74.3.85s=SmcSipc=IN IP4 10.74.3.85t=0 0m=audio 11822 RTP/SAVPF 111 110a=rtpmap:111 OPUS/48000/2a=fmtp:111 useinbandfec=1a=rtpmap:110 telephone-event/48000a=fmtp:110 0-15a=sendrecva=rtcp:11822a=rtcp-muxa=setup:activea=fingerprint:sha-1 68:1C:05:E3:93:AB:D6:A2:09:36:C3:7E:02:1A:A2:CE:23:A5:EF:9Ca=ice-ufrag:WZ9BJXhla=ice-pwd:SFs1dA3sdQr9g2nqUWSrEZ1RDWa=candidate:YxoXW6bGhfRYh9RF 1 UDP 2130706431 10.74.3.85 11822 typ host",
+  "from": {},
+  "from_tag": "cjq90bpor9",
+  "headers": {
+    "Allow": [{"raw": "SUBSCRIBE, NOTIFY, REFER, INVITE, ACK, BYE, CANCEL, UPDATE, INFO"}],
+    "Cseq": [{"raw": "28 INVITE","parsed":{"value": 28,"method":"INVITE"}}],
+    "Call-ID": [{"raw": "prjo3dgt9g673s3vjhh4","parsed": "prjo3dgt9g673s3vjhh4"}],
+    "Contact": [{"raw": "<sip:102@10.74.3.83:8083;transport=wss>","parsed": {}}],
+    "Content-Length": [{"raw": "494","parsed": 494}],
+    "Content-Type": [{"parsed":"application/sdp","raw":"application/sdp"}],
+    "From": [{"raw":"<sip:18552085154*101@sip-xmnup.lab.nordigy.ru>;tag=cjq90bpor9","parsed":{}}],
+    "P-Rc-Api-Ids": [{"raw":"party-id=cs1726225542272257488-1;session-id=Y3MxNzI2MjI1NTQyMjcyMjU3NDg4QDEwLjc0LjIuMjE4"}],
+    "Supported": [{"raw": "replaces,timer,diversion"}],
+    "To": [{"raw": "<sip:102@sip-xmnup.lab.nordigy.ru>;tag=10.74.2.218-5070-8cfeb58f4aeb4af","parsed":{}}],
+    "Via": {"branch":"z9hG4bK6630752","host":"e0u8rficicia.invalid","host_type":"domain","protocol":"SIP","transport":"WSS"},
+    "via_branch": "z9hG4bK6630752"
+  }
+
+}

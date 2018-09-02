@@ -3,8 +3,8 @@ import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 
 import DialerPanel from '../../components/DialerPanel';
-import withPhone from '../../lib/withPhone';
 import styles from './styles.scss';
+import { withPhone } from '../../lib/phoneContext';
 
 function mapToProps(_, {
   phone: {
@@ -77,7 +77,7 @@ function mapToFunctions(_, {
     clearToNumber: () => dialerUI.clearToNumberField(),
     onCallButtonClick() {
       /**
-       * Clear the mergingPair if it is from mergeCallCtrl (RCINT-7716)
+       * Clear the mergingPair if any (RCINT-7716)
        */
       if (conferenceCall) {
         conferenceCall.closeMergingPair();

@@ -34,7 +34,7 @@ const serviceInfoBody = require('./data/serviceInfo');
 const conferenceCallBody = require('./data/conferenceCall');
 const numberParseBody = require('./data/numberParse');
 const conferenceCallBringInBody = require('./data/conferenceCallBringIn');
-
+const updateConferenceCallBody = require('./data/updateConference');
 const mockServer = 'http://whatever';
 export function createSDK(options = {}) {
   const opts = {
@@ -254,7 +254,7 @@ export function messageSync(mockResponse = {}, isOnce = true) {
 
 export function messageList(mockResponse = {}) {
   mockApi({
-    url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/message-store`,
+    url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/message-store?`,
     body: {
       ...messageListBody,
       ...mockResponse,
@@ -263,14 +263,15 @@ export function messageList(mockResponse = {}) {
   });
 }
 
-export function updateMessageStatus(mockResponse = {}) {
+export function updateMessageStatus(mockResponse = {}, isOnce = true) {
   mockApi({
-    url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/message-store`,
+    url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/message-store/`,
     method: 'PUT',
     body: {
       ...messageItemBody,
       ...mockResponse,
-    }
+    },
+    isOnce
   });
 }
 
@@ -474,9 +475,10 @@ export function updateConferenceCall(id, mockResponse = {}) {
   mockApi({
     path: `/restapi/v1.0/account/~/telephony/sessions/${id}`,
     body: {
-      ...conferenceCallBody,
+      //...conferenceCallBody,
       ...mockResponse,
-    }
+    },
+    isOnce: false
   });
 }
 
@@ -581,6 +583,7 @@ export function mockForLogin({
   mockMessageSync = true,
   mockConferencing = true,
   mockActiveCalls = true,
+  mockUpdateConference = false,
   ...params,
 } = {}) {
   authentication();
@@ -618,4 +621,7 @@ export function mockForLogin({
     activeCalls(params.activeCallsData);
   }
   numberParser(params.numberParseData);
+  if (mockUpdateConference) {
+    updateConferenceCall(updateConferenceCallBody.id, updateConferenceCallBody);
+  }
 }

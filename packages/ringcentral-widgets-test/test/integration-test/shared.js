@@ -1,9 +1,8 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { createStore } from 'redux';
-import getIntlDateTimeFormatter from 'ringcentral-integration/lib/getIntlDateTimeFormatter';
 import * as mock from 'ringcentral-integration/integration-test/mock';
-import { ensureLogin, containsErrorMessage } from 'ringcentral-integration/integration-test/utils/HelpUtil';
+import { ensureLogin } from 'ringcentral-integration/integration-test/utils/HelpUtil';
 import ClientHistoryRequest from 'ringcentral-integration/integration-test/utils/ClientHistoryRequest';
 
 import { createPhone } from 'ringcentral-widgets-demo/dev-server/Phone';
@@ -40,7 +39,7 @@ const getPhone = async (shouldMockForLogin = true) => {
   });
   if (shouldMockForLogin) {
     mock.restore();
-    mock.mockForLogin();
+    mock.mockForLogin({ mockUpdateConference: true });
     phone.connectivityMonitor._checkConnectionFunc = () => true;
     await ensureLogin(phone.auth, {
       username: 'test',

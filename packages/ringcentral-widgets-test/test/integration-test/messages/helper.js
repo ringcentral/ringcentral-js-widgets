@@ -1,4 +1,5 @@
 import messageSyncBody from 'ringcentral-integration/integration-test/mock/data/messageSync.json';
+import messageFaxItemBody from 'ringcentral-integration/integration-test/mock/data/messageFaxItem.json';
 import subscriptionBody from 'ringcentral-integration/integration-test/mock/data/subscription.json';
 import pubnubMsg from 'ringcentral-integration/integration-test/mock/data/pubnub.json';
 import * as mock from 'ringcentral-integration/integration-test/mock';
@@ -19,15 +20,15 @@ export async function mockPubnub() {
       mode: 'ecb'
     });
   pubnub.mockMessage(encrypted);
-  await timeout(2000);
+  await timeout(100);
 }
 
 export function mockGenerateMessageApi({
   count = 1, messageType = 'Text', readStatus = 'Unread', direction = 'Inbound'
 }) {
   const records = [];
-  for (let i = 0; i < count; i += 1) {
-    records.push({
+  for (let i = 1; i <= count; i += 1) {
+    const mockedMessage = {
       ...messageSyncBody.records[0],
       type: messageType,
       readStatus,
@@ -44,14 +45,25 @@ export function mockGenerateMessageApi({
       },
       creationTime: (new Date()).toISOString(),
       lastModifiedTime: (new Date()).toISOString(),
-    });
+    };
+    if (messageType === 'Fax' || messageType === 'VoiceMail') {
+      // Fax and Voicemail doesn't have conversation
+      mockedMessage.conversation = undefined;
+      mockedMessage.conversationId = undefined;
+    }
+    records.push(mockedMessage);
   }
   mock.messageSync({ records });
 }
 export function mockUpdateMessageStatusApi({
-  id = 0, messageType = 'Text', readStatus = 'Unread', direction = 'Inbound'
+  id = 1, messageType = 'Text', readStatus = 'Unread', direction = 'Inbound'
 }) {
-  mock.updateMessageStatus({
+  let preDefined = {};
+  if (messageType === 'Fax') {
+    preDefined = messageFaxItemBody;
+  }
+  const mockedMessage = {
+    ...preDefined,
     type: messageType,
     id,
     readStatus,
@@ -59,6 +71,12 @@ export function mockUpdateMessageStatusApi({
     messageStatus: direction === 'Inbound' ? 'Received' : 'Sent',
     creationTime: (new Date()).toISOString(),
     lastModifiedTime: (new Date()).toISOString(),
-  });
+  };
+  if (messageType === 'Fax' || messageType === 'VoiceMail') {
+    // Fax and Voicemail doesn't have conversation
+    mockedMessage.conversation = undefined;
+    mockedMessage.conversationId = undefined;
+  }
+  mock.updateMessageStatus(mockedMessage);
 }
 

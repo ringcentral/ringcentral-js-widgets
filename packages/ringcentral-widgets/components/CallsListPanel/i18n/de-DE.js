@@ -5,7 +5,8 @@ export default {
   ringCall: "Anruf wird getätigt",
   onHoldCall: "Anruf wird gehalten",
   historyCalls: "Vergangene Anrufe",
-  otherDeviceCall: "Aktuelle Gespräche auf meinen anderen Geräten"
+  otherDeviceCall: "Aktuelle Gespräche auf meinen anderen Geräten",
+  searchPlaceholder: "Suchen ..."
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
@@ -15,3 +16,4 @@ export default {
 // @key: @#@"onHoldCall"@#@ @source: @#@"Call on Hold"@#@
 // @key: @#@"historyCalls"@#@ @source: @#@"Past Calls"@#@
 // @key: @#@"otherDeviceCall"@#@ @source: @#@"Ongoing calls on my other devices"@#@
+// @key: @#@"searchPlaceholder"@#@ @source: @#@"Search..."@#@

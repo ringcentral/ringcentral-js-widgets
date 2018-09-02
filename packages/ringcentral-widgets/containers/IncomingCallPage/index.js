@@ -6,7 +6,7 @@ import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 
 import IncomingCallPanel from '../../components/IncomingCallPanel';
-import withPhone from '../../lib/withPhone';
+import { withPhone } from '../../lib/phoneContext';
 
 import i18n from './i18n';
 
@@ -213,7 +213,7 @@ function mapToProps(_, {
   showContactDisplayPlaceholder = false,
   phoneTypeRenderer
 }) {
-  const currentSession = webphone.ringSession || {};
+  const currentSession = webphone.ringingCallOnView || {};
   const contactMapping = contactMatcher && contactMatcher.dataMapping;
   const fromMatches = (contactMapping && contactMapping[currentSession.from]) || [];
   const toMatches = (contactMapping && contactMapping[currentSession.to]) || [];
