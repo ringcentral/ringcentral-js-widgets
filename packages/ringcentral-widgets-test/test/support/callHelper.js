@@ -12,14 +12,14 @@ const defaultInboundOption = {
 };
 
 const defaultOutboundOption = {
-  _header_callId: true,
+  callId: true,
   fromNumber: '+15878133670',
   homeCountryId: '1',
   toNumber: '101',
 };
 
 const defaultConferenceOption = {
-  _header_callId: true,
+  callId: true,
   fromNumber: '+15878133670',
   homeCountryId: '1',
   toNumber: 'conf_7777777777777777',
@@ -34,16 +34,16 @@ export async function getInboundCall(phone, options = defaultInboundOption) {
 
 export async function makeCall(phone, options = defaultOutboundOption) {
   const session = await phone.webphone.makeCall(options);
-  if (options._header_callId) {
-    session._header_callId = `call-${session.id}`;
+  if (options.callId) {
+    session.__rc_callId = `call-${session.id}`;
   }
   return session;
 }
 
 export async function makeConferenceCall(phone, options = defaultConferenceOption) {
   const session = await phone.webphone.makeCall(options);
-  if (options._header_callId) {
-    session._header_callId = `call-${session.id}`;
+  if (options.callId) {
+    session.__rc_callId = `call-${session.id}`;
   }
   return session;
 }
@@ -154,9 +154,9 @@ export function mockActiveCalls(sessions, mockOtherDeivce = []) {
     if (isConferenceSession(session)) {
       return calls.concat({
         ...commons,
-        id: session._header_callId,
+        id: session.__rc_callId,
         sessionId: session.id,
-        direction: session.direction,
+        direction: session.__rc_direction,
         telephonyStatus: session.telephonyStatus || telephonyStatuses.onHold,
         fromName: 'FirstName 104 LastName',
         from: '104',
@@ -164,12 +164,12 @@ export function mockActiveCalls(sessions, mockOtherDeivce = []) {
         to: { phoneNumber: '' },
       });
     }
-    if (session.direction === 'Inbound') {
+    if (session.__rc_direction === 'Inbound') {
       return calls.concat({
         ...commons,
-        id: session._header_callId,
+        id: session.__rc_callId,
         sessionId: session.id,
-        direction: session.direction,
+        direction: session.__rc_direction,
         telephonyStatus: session.telephonyStatus || telephonyStatuses.onHold,
         fromName: 'FirstName 104 LastName',
         from: '104',
@@ -177,17 +177,17 @@ export function mockActiveCalls(sessions, mockOtherDeivce = []) {
         to: '105',
       });
     }
-    if (session.direction === 'Outbound') {
+    if (session.__rc_direction === 'Outbound') {
       return calls.concat({
         ...commons,
         id: `call-${session.id}`,
         sessionId: session.id,
-        direction: session.direction,
+        direction: session.__rc_direction,
         telephonyStatus: session.telephonyStatus || telephonyStatuses.onHold,
         fromName: 'FirstName 105 LastName',
-        from: session.fromNumber,
+        from: session.__rc_fromNumber,
         toName: 'Something1 New1',
-        to: session.to,
+        to: session.request.to.uri.user,
       });
     }
     return calls;

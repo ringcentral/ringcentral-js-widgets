@@ -34,46 +34,49 @@ export const stopRecordFn = jest.fn();
 
 export default class Session {
   constructor({
-    id, direction, to, fromNumber, _header_callId, telephonyStatus,
+    id, direction, to, fromNumber, callId, telephonyStatus,
   }) {
     partyId += 1;
-    const request = {
+
+    // native sip fields
+    this.id = id;
+    this.startTime = new Date();
+    this.telephonyStatus = telephonyStatus || telephonyStatuses.onHold;
+    this.mediaHandler = new MediaHandler();
+    this.request = {
       to: {
         uri: {
-          user: to && to.includes('conf_') ? to : null
+          user: to && to.includes('conf_') ? to : null,
         },
         displayName: to && to.includes('conf_') ? 'Conference' : null,
       },
       from: {
-        uri: { }
-      }
+        uri: {},
+      },
     };
-    this.id = id;
-    this._header_callId = _header_callId; // call id
-    this.to = to;
-    this.direction = direction;
-    this.callStatus = sessionStatus.connecting;
-    this.request = request;
-    this.creationTime = 1532076632960;
-    this.isToVoicemail = true;
-    this.data = {};
-    this.fromNumber = fromNumber;
-    this.startTime = new Date();
-    this.isOnMute = undefined;
-    this.isOnFlip = undefined;
-    this.isOnTransfer = undefined;
-    this.isForwarded = undefined;
-    this.isReplied = undefined;
-    this.recordStatus = recordStatus.idle;
-    this.minimized = undefined;
-    this.lastHoldingTime = undefined;
-    this.telephonyStatus = telephonyStatus || telephonyStatuses.onHold;
-    this._events = {};
-    this.mediaHandler = new MediaHandler();
-    this.partyData = {
+
+    // customized fields
+    this.__rc_callId = callId;
+    this.__rc_direction = direction;
+    this.__rc_callStatus = sessionStatus.connecting;
+    this.__rc_creationTime = 1532076632960;
+    this.__rc_isToVoicemail = true;
+    this.__rc_fromNumber = fromNumber;
+    this.__rc_isOnMute = undefined;
+    this.__rc_isOnFlip = undefined;
+    this.__rc_isOnTransfer = undefined;
+    this.__rc_isForwarded = undefined;
+    this.__rc_isReplied = undefined;
+    this.__rc_recordStatus = recordStatus.idle;
+    this.__rc_minimized = undefined;
+    this.__rc_lastActiveTime = undefined;
+    this.__rc_partyData = {
       partyId: `cs17262255528361442${partyId}-1`,
       sessionId: 'Y3MxNzI2MjI1NTQzODI0MzUzM0AxMC43NC4yLjIxOA',
-    }
+    };
+
+    // mock events
+    this._events = {};
   }
 
   on(event, cb) {
@@ -82,7 +85,7 @@ export default class Session {
 
   isOnHold() {
     return {
-      local: this.callStatus === sessionStatus.onHold
+      local: this.__rc_callStatus === sessionStatus.onHold
     };
   }
 
@@ -92,52 +95,52 @@ export default class Session {
 
   // Change Session Id
   accept(acceptOptions) {
-    this.callStatus = sessionStatus.connected;
+    this.__rc_callStatus = sessionStatus.connected;
     this.trigger('accepted', acceptOptions);
     return acceptFn(this.id);
   }
 
   reject() {
     this.trigger('rejected');
-    this.callStatus = sessionStatus.finished;
+    this.__rc_callStatus = sessionStatus.finished;
     return rejectFn(this.id);
   }
 
   toVoicemail() {
     this.reject();
-    this.callStatus = sessionStatus.finished;
+    this.__rc_callStatus = sessionStatus.finished;
     return toVoicemailFn(this.id);
   }
 
   terminate() {
     this.trigger('terminated');
-    this.callStatus = sessionStatus.finished;
+    this.__rc_callStatus = sessionStatus.finished;
     return terminateFn(this.id);
   }
 
   mute() {
     this.trigger('muted');
-    this.callStatus = sessionStatus.onMute;
-    this.isOnMute = true;
+    this.__rc_callStatus = sessionStatus.onMute;
+    this.__rc_isOnMute = true;
     return muteFn(this.id);
   }
 
   unmute() {
     this.trigger('unmuted');
-    this.callStatus = sessionStatus.connected;
-    this.isOnMute = false;
+    this.__rc_callStatus = sessionStatus.connected;
+    this.__rc_isOnMute = false;
     return unmuteFn(this.id);
   }
 
   hold() {
     this.trigger('hold');
-    this.callStatus = sessionStatus.onHold;
+    this.__rc_callStatus = sessionStatus.onHold;
     return holdFn(this.id);
   }
 
   unhold() {
     this.trigger('unhold');
-    this.callStatus = sessionStatus.connected;
+    this.__rc_callStatus = sessionStatus.connected;
     return unholdFn(this.id);
   }
 
@@ -163,7 +166,7 @@ export default class Session {
 
   async flip(flipValue, sessionId) {
     flipFn(flipValue, sessionId);
-    this.isOnFlip = true;
+    this.__rc_isOnFlip = true;
     return Promise.resolve({ flipValue, sessionId });
   }
 

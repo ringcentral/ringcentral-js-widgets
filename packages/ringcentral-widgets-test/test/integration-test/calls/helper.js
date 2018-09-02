@@ -17,13 +17,13 @@ export async function mockMultiActiveCalls(phone) {
   const inboundSession = await getInboundCall(phone, {
     id: '111',
     direction: 'Inbound',
-    _header_callId: 'call-111'
+    callId: 'call-111'
   });
   await phone.webphone.answer(inboundSession.id);
   await phone.webphone.hold(inboundSession.id);
   // outbound call session
   const outboundSession = await makeCall(phone, {
-    _header_callId: true,
+    callId: true,
     fromNumber: '+15878133670',
     homeCountryId: '1',
     toNumber: '101',
@@ -33,7 +33,7 @@ export async function mockMultiActiveCalls(phone) {
   const incomingSession = await getInboundCall(phone, {
     id: '222',
     direction: 'Inbound',
-    _header_callId: 'call-222',
+    callId: 'call-222',
     telephonyStatus: telephonyStatuses.ringing
   });
   // other device calls

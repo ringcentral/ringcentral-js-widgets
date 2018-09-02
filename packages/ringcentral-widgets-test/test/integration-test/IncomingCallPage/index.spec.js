@@ -25,7 +25,7 @@ async function makeInbountCall() {
   await getInboundCall(phone, {
     id: '111',
     direction: 'Inbound',
-    _header_callId: 'call-111'
+    callId: 'call-111'
   });
   wrapper.update();
 }
