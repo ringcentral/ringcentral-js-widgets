@@ -5,7 +5,7 @@ module.exports = {
     handler: './einstein.js'
   }],
   exec: {
-    drivers: ['puppeteer'],
+    drivers: ['seleniumWebdriverFirefox'],
     levels: [
       'p0',
       'p1'
@@ -24,7 +24,7 @@ module.exports = {
     levels: ['p3'],
     brands: ['rc'],
     tags: [
-      ['salesforce', { modes: ['lightning'], drivers: ['puppeteer'] }],
+      ['salesforce', { modes: ['lightning'], drivers: ['puppeteer', 'seleniumWebdriverFirefox'] }],
     ],
   },
   params: {
