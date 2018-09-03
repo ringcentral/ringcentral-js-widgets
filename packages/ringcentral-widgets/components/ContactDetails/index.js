@@ -19,54 +19,73 @@ export function getPresenceStatusName(presence, currentLocale) {
 }
 
 function AvatarNode({ name, avatarUrl }) {
-  return avatarUrl ?
-    (
-      <img
-        className={styles.avatarNode}
-        alt={name}
-        src={avatarUrl}
-      />
-    ) :
-    (
-      <DefaultAvatar
-        className={styles.avatarNode}
-      />
-    );
+  return avatarUrl ? (
+    <img className={styles.avatarNode} alt={name} src={avatarUrl} />
+  ) : (
+    <DefaultAvatar className={styles.avatarNode} />
+  );
 }
 AvatarNode.propTypes = {
   name: PropTypes.string,
-  avatarUrl: PropTypes.string,
+  avatarUrl: PropTypes.string
 };
 AvatarNode.defaultProps = {
   name: undefined,
-  avatarUrl: undefined,
+  avatarUrl: undefined
 };
 
 export default class ContactDetails extends PureComponent {
   onClickToDial = (contact, phoneNumber) => {
     this.props.onClickToDial({
       ...contact,
-      phoneNumber,
+      phoneNumber
     });
-  }
+  };
 
   onClickToSMS = (contact, phoneNumber) => {
     this.props.onClickToSMS({
       ...contact,
       phoneNumber
     });
-  }
+  };
 
   onClickMailTo = (email, contactType) => {
     if (typeof this.props.onClickMailTo === 'function') {
       this.props.onClickMailTo(email, contactType);
     }
-  }
+  };
+
+  renderPresence = (contactStatus, presence, presenceName, currentLocale) => {
+    if (contactStatus === 'NotActivated') {
+      return (
+        <div className={styles.presence}>
+          <div>
+            <span className={styles.inactiveText}>
+              {i18n.getString('notActivated', currentLocale)}
+            </span>
+          </div>
+        </div>
+      );
+    }
+
+    return presence ? (
+      <div className={styles.presence}>
+        <div className={styles.presenceNodeContainer}>
+          <PresenceStatusIcon className={styles.presenceNode} {...presence} />
+        </div>
+        <span className={styles.presenceStatus}>{presenceName}</span>
+      </div>
+    ) : null;
+  };
 
   renderProfile() {
     const { contactItem, sourceNodeRenderer, currentLocale } = this.props;
     const {
-      name, presence, profileImageUrl, type
+      name,
+      presence,
+      profileImageUrl,
+      type,
+      contactStatus
     } = contactItem;
     const sourceNode = sourceNodeRenderer({ sourceType: type });
     const presenceName = presence
@@ -76,40 +95,27 @@ export default class ContactDetails extends PureComponent {
       <div className={styles.contactProfile}>
         <div className={styles.avatar}>
           <div className={styles.avatarNodeContainer}>
-            <AvatarNode
-              name={name}
-              avatarUrl={profileImageUrl}
-            />
-            {
-              sourceNode
-                ? (
-                  <div className={styles.sourceNodeContainer}>
-                    {sourceNode}
-                  </div>
-                ) : null
-            }
+            <AvatarNode name={name} avatarUrl={profileImageUrl} />
+            {sourceNode ? (
+              <div className={styles.sourceNodeContainer}>{sourceNode}</div>
+            ) : null}
           </div>
         </div>
         <div className={styles.info}>
-          <div className={classnames(styles.name, !presence ? styles.nameWithoutPresence : null)}>
-            <span title={name}>{name}</span>
+          <div
+            className={classnames(
+              styles.name,
+              !presence ? styles.nameWithoutPresence : null
+            )}
+          >
+            <span style={contactStatus === 'NotActivated' ? { color: '#999999', fontSize: '12px' } : null} title={name}>{name}</span>
           </div>
-          {
-            presence
-              ? (
-                <div className={styles.presence}>
-                  <div className={styles.presenceNodeContainer}>
-                    <PresenceStatusIcon
-                      className={styles.presenceNode}
-                      {...presence}
-                    />
-                  </div>
-                  <span className={styles.presenceStatus}>
-                    {presenceName}
-                  </span>
-                </div>
-              ) : null
-          }
+          {this.renderPresence(
+            contactStatus,
+            presence,
+            presenceName,
+            currentLocale
+          )}
         </div>
       </div>
     );
@@ -120,9 +126,13 @@ export default class ContactDetails extends PureComponent {
     const { extensionNumber } = contactItem;
     if (!extensionNumber) return null;
     const textBtn = this.props.internalSmsPermission ? (
-      <button title={i18n.getString('text', currentLocale)} onClick={() => this.onClickToSMS(contactItem, extensionNumber)}>
+      <button
+        title={i18n.getString('text', currentLocale)}
+        onClick={() => this.onClickToSMS(contactItem, extensionNumber)}
+      >
         <i className={dynamicsFont.composeText} />
-      </button>) : null;
+      </button>
+    ) : null;
     const callBtn = this.props.onClickToDial ? (
       <button
         title={i18n.getString('call', currentLocale)}
@@ -134,7 +144,7 @@ export default class ContactDetails extends PureComponent {
     return (
       <div className={styles.item}>
         <div className={styles.label}>
-          <span>{ i18n.getString('extensionLabel', currentLocale) }</span>
+          <span>{i18n.getString('extensionLabel', currentLocale)}</span>
         </div>
         <ul>
           <li>
@@ -154,47 +164,46 @@ export default class ContactDetails extends PureComponent {
   renderDirectNumberCell() {
     const { contactItem, currentLocale } = this.props;
     const { phoneNumbers } = contactItem;
-    const phoneNumberListView = phoneNumbers.map(({ phoneType, phoneNumber }, index) => {
-      if (phoneType === 'extension') return null;
-      const formattedPhoneNumber = this.props.formatNumber(phoneNumber);
-      const textBtn = this.props.outboundSmsPermission ? (
-        <button title={i18n.getString('text', currentLocale)} onClick={() => this.onClickToSMS(contactItem, phoneNumber)}>
-          <i className={dynamicsFont.composeText} />
-        </button>) : null;
-      const callBtn = this.props.onClickToDial ? (
-        <button
-          title={i18n.getString('call', currentLocale)}
-          onClick={() => this.onClickToDial(contactItem, phoneNumber)}
-        >
-          <i className={dynamicsFont.call} />
-        </button>
-      ) : null;
-      return (
-        <li key={index}>
-          <div className={styles.number}>
-            <span title={formattedPhoneNumber}>{formattedPhoneNumber}</span>
-          </div>
-          <div className={styles.menu}>
-            {callBtn}
-            {textBtn}
-            {
-              // <button>
-              //   <FaxIcon className={styles.faxIcon} />
-              // </button>
-            }
-          </div>
-        </li>
-      );
-    }).filter(v => !!v);
+    const phoneNumberListView = phoneNumbers
+      .map(({ phoneType, phoneNumber }, index) => {
+        if (phoneType === 'extension') return null;
+        const formattedPhoneNumber = this.props.formatNumber(phoneNumber);
+        const textBtn = this.props.outboundSmsPermission ? (
+          <button
+            title={i18n.getString('text', currentLocale)}
+            onClick={() => this.onClickToSMS(contactItem, phoneNumber)}
+          >
+            <i className={dynamicsFont.composeText} />
+          </button>
+        ) : null;
+        const callBtn = this.props.onClickToDial ? (
+          <button
+            title={i18n.getString('call', currentLocale)}
+            onClick={() => this.onClickToDial(contactItem, phoneNumber)}
+          >
+            <i className={dynamicsFont.call} />
+          </button>
+        ) : null;
+        return (
+          <li key={index}>
+            <div className={styles.number}>
+              <span title={formattedPhoneNumber}>{formattedPhoneNumber}</span>
+            </div>
+            <div className={styles.menu}>
+              {callBtn}
+              {textBtn}
+            </div>
+          </li>
+        );
+      })
+      .filter(v => !!v);
     if (phoneNumberListView.length <= 0) return null;
     return (
       <div className={styles.item}>
         <div className={styles.label}>
           <span>{i18n.getString('directLabel', currentLocale)}</span>
         </div>
-        <ul>
-          {phoneNumberListView}
-        </ul>
+        <ul>{phoneNumberListView}</ul>
       </div>
     );
   }
@@ -230,21 +239,14 @@ export default class ContactDetails extends PureComponent {
     const directNumberCellView = this.renderDirectNumberCell();
     return (
       <div className={styles.root}>
-        <div className={styles.profile}>
-          {this.renderProfile()}
-        </div>
-        {
-          extensionCellView || directNumberCellView
-            ? (
-              <div className={styles.contacts}>
-                {extensionCellView}
-                {directNumberCellView}
-              </div>
-            ) : null
-        }
-        <div className={styles.email}>
-          {this.renderEmailCell()}
-        </div>
+        <div className={styles.profile}>{this.renderProfile()}</div>
+        {extensionCellView || directNumberCellView ? (
+          <div className={styles.contacts}>
+            {extensionCellView}
+            {directNumberCellView}
+          </div>
+        ) : null}
+        <div className={styles.email}>{this.renderEmailCell()}</div>
       </div>
     );
   }
@@ -257,10 +259,13 @@ export const contactItemPropTypes = {
   lastName: PropTypes.string,
   email: PropTypes.string,
   profileImageUrl: PropTypes.string,
-  phoneNumbers: PropTypes.arrayOf(PropTypes.shape({
-    phoneNumber: PropTypes.string,
-    phoneType: PropTypes.string,
-  })),
+  phoneNumbers: PropTypes.arrayOf(
+    PropTypes.shape({
+      phoneNumber: PropTypes.string,
+      phoneType: PropTypes.string
+    })
+  ),
+  contactStatus: PropTypes.string
 };
 
 ContactDetails.propTypes = {
@@ -272,7 +277,7 @@ ContactDetails.propTypes = {
   onClickMailTo: PropTypes.func,
   formatNumber: PropTypes.func.isRequired,
   outboundSmsPermission: PropTypes.bool,
-  internalSmsPermission: PropTypes.bool,
+  internalSmsPermission: PropTypes.bool
 };
 
 ContactDetails.defaultProps = {
@@ -281,5 +286,5 @@ ContactDetails.defaultProps = {
   onClickMailTo: undefined,
   sourceNodeRenderer: () => null,
   outboundSmsPermission: false,
-  internalSmsPermission: false,
+  internalSmsPermission: false
 };
