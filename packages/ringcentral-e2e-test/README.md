@@ -73,13 +73,52 @@ npx e2e-test run ./src/features/widgets/meeting/**/*.js
 
 
 ### Benchmark Results
-|                                | cases | threads | sandbox | performance | stability |
-| ------------------------------ | ----- | ------- | ------- | ----------- | --------- |
-| puppeteer/Firefox/Chrom/Safari | 1600  | 1       |         | 1260.56s    | ✅         |
-| puppeteer                      | 400   | 1       |         | 215.179s    | ✅         |
-| puppeteer                      | 400   | 8       |         | 79.744s     | ✅         |
-| puppeteer                      | 400   | 8       | ✅       | 230.122s    | ✅         |
-| seleniumWebdriverChrome        | 400   |         |         | 80.129s     | ✅         |
-| seleniumWebdriverFirefox       |       | 8       |         | 428s        | ❌         |
-| puppeteer/Firefox/Chrome       | 1200  | 8       |         | 505.122s    | ❌         |
-| Safari                         | 400   | 8       |         | -           | ❌         |
+| Drivers                         | cases | threads | sandbox | performance | stability |
+| ------------------------------- | ----- | ------- | ------- | ----------- | --------- |
+| puppeteer/Firefox/Chrome/Safari | 1600  | 1       |         | 1260.56s    | ✅         |
+| puppeteer                       | 400   | 1       |         | 215.179s    | ✅         |
+| puppeteer                       | 400   | 8       |         | 79.744s     | ✅         |
+| puppeteer                       | 400   | 8       | ✅       | 230.122s    | ✅         |
+| seleniumWebdriverChrome         | 400   |         |         | 80.129s     | ✅         |
+| seleniumWebdriverFirefox        | 1200  | 8       |         | 428s        | ❌         |
+| puppeteer/Firefox/Chrome        | 1200  | 8       |         | 505.122s    | ❌         |
+| Safari                          | 400   | 8       |         | -           | ❌         |
+
+### Subpackage
+
+├── ringcentral-e2e-test
+      ├── ringcentral-e2e-cli
+            ├── ringcentral-e2e-environment
+                  ├── ringcentral-e2e-drivers
+      ├── ringcentral-e2e-reporter
+
+### Configuration Relation
+
+- Exec Config
+  - User CLI config
+  - User setting exec config
+  - Library default exec config
+- Cases Config
+  - Cases setting config
+  - User setting cases config
+  - Library default cases config
+
+### Lifecycle Hook
+
+* CLI start
+* Runner
+* Jest
+* Jest global setup
+* Jest setupFiles
+* Jest NodeEnvironment Setup
+* setupTestFrameworkScriptFile
+* Jest BeforeAll
+* Jest BeforeEach
+* Test case
+* Steps Pre-Hook
+* Steps Post-Hook
+* Jest AfterEach
+* Jest AfterAll
+* Jest NodeEnvironment Teardown
+* Jest global teardown
+* CLI close
