@@ -67,6 +67,8 @@ var _ensureExist2 = _interopRequireDefault(_ensureExist);
 
 var _contactHelper = require('../../lib/contactHelper');
 
+var _accountContactsHelper = require('./accountContactsHelper');
+
 var _batchApiHelper = require('../../lib/batchApiHelper');
 
 var _proxify = require('../../lib/proxy/proxify');
@@ -117,13 +119,14 @@ var DEFAULT_TTL = 30 * 60 * 1000; // 30 mins
 var DEFAULT_PRESENCETTL = 10 * 60 * 1000; // 10 mins
 var DEFAULT_AVATARTTL = 2 * 60 * 60 * 1000; // 2 hour
 var DEFAULT_AVATARQUERYINTERVAL = 2 * 1000; // 2 seconds
+var DEFAULT_STATUS_VALUE = true;
 
 /**
  * @class
  * @description Contacts managing module
  */
 var AccountContacts = (_dec = (0, _di.Module)({
-  deps: ['Client', 'AccountExtension', 'AccountPhoneNumber', { dep: 'AccoundContactsOptions', optional: true }]
+  deps: ['Client', 'AccountExtension', 'AccountPhoneNumber', { dep: 'AccountContactsOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(AccountContacts, _RcModule);
 
@@ -136,6 +139,7 @@ var AccountContacts = (_dec = (0, _di.Module)({
    * @param {Number} params.ttl - timestamp of local cache, default 30 mins
    * @param {Number} params.avatarTtl - timestamp of avatar local cache, default 2 hour
    * @param {Number} params.presenceTtl - timestamp of presence local cache, default 10 mins
+   * @param {Number} params.needCheckStatus - If it's necessary to check extension's status
    * @param {Number} params.avatarQueryInterval - interval of query avatar, default 2 seconds
    */
   function AccountContacts(_ref) {
@@ -148,9 +152,11 @@ var AccountContacts = (_dec = (0, _di.Module)({
         avatarTtl = _ref$avatarTtl === undefined ? DEFAULT_AVATARTTL : _ref$avatarTtl,
         _ref$presenceTtl = _ref.presenceTtl,
         presenceTtl = _ref$presenceTtl === undefined ? DEFAULT_PRESENCETTL : _ref$presenceTtl,
+        _ref$needCheckStatus = _ref.needCheckStatus,
+        needCheckStatus = _ref$needCheckStatus === undefined ? DEFAULT_STATUS_VALUE : _ref$needCheckStatus,
         _ref$avatarQueryInter = _ref.avatarQueryInterval,
         avatarQueryInterval = _ref$avatarQueryInter === undefined ? DEFAULT_AVATARQUERYINTERVAL : _ref$avatarQueryInter,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'accountExtension', 'accountPhoneNumber', 'ttl', 'avatarTtl', 'presenceTtl', 'avatarQueryInterval']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'accountExtension', 'accountPhoneNumber', 'ttl', 'avatarTtl', 'presenceTtl', 'needCheckStatus', 'avatarQueryInterval']);
     (0, _classCallCheck3.default)(this, AccountContacts);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (AccountContacts.__proto__ || (0, _getPrototypeOf2.default)(AccountContacts)).call(this, (0, _extends3.default)({}, options, {
@@ -179,9 +185,10 @@ var AccountContacts = (_dec = (0, _di.Module)({
     }, function (extensions, extensionToPhoneNumberMap, profileImages, presences) {
       var newExtensions = [];
       extensions.forEach(function (extension) {
-        if (!(extension.status === 'Enabled' && ['DigitalUser', 'User', 'Department'].indexOf(extension.type) >= 0)) {
+        if (!(0, _accountContactsHelper.createChecker)(needCheckStatus)(extension)) {
           return;
         }
+
         var id = '' + extension.id;
         var contact = {
           type: _this.sourceName,
@@ -193,7 +200,8 @@ var AccountContacts = (_dec = (0, _di.Module)({
           hasProfileImage: !!extension.hasProfileImage,
           phoneNumbers: [{ phoneNumber: extension.ext, phoneType: 'extension' }],
           profileImageUrl: profileImages[id] && profileImages[id].imageUrl,
-          presence: presences[id] && presences[id].presence
+          presence: presences[id] && presences[id].presence,
+          contactStatus: extension.status
         };
         contact.name = (contact.firstName || '') + ' ' + (contact.lastName || '');
         if ((0, _isBlank2.default)(contact.extensionNumber)) {

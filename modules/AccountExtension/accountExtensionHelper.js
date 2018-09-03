@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.isEssential = isEssential;
+exports.createEssentialChecker = createEssentialChecker;
 exports.simplifyExtensionData = simplifyExtensionData;
 /**
  * @function
@@ -14,6 +15,22 @@ exports.simplifyExtensionData = simplifyExtensionData;
 function isEssential(ext) {
   return ext.extensionNumber && ext.extensionNumber !== '' && ext.status === 'Enabled' && ['DigitalUser', 'User', 'Department'].indexOf(ext.type) >= 0;
 }
+
+/**
+ * Create a account extension checker to verify if an extension can be cached
+ * @param {boolean} checkStatus
+ */
+function createEssentialChecker() {
+  var checkStatus = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
+  return function (ext) {
+    if (checkStatus) {
+      return ext.extensionNumber && ext.extensionNumber !== '' && ext.status === 'Enabled' && ['DigitalUser', 'User', 'Department'].indexOf(ext.type) >= 0;
+    }
+    return ext.extensionNumber && ext.extensionNumber !== '' && ['DigitalUser', 'User', 'Department'].indexOf(ext.type) >= 0;
+  };
+}
+
 /**
  * @function
  * @description Returns a simplified extension data for caching to reducer storage use

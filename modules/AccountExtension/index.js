@@ -140,6 +140,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 var extensionRegExp = /.*\/extension$/;
 var DEFAULT_TTL = 24 * 60 * 60 * 1000;
+var DEFAULT_STATUS_VALUE = true;
 
 /**
  * @class
@@ -163,7 +164,9 @@ var AccountExtension = (_dec = (0, _di.Module)({
         rolesAndPermissions = _ref.rolesAndPermissions,
         _ref$ttl = _ref.ttl,
         ttl = _ref$ttl === undefined ? DEFAULT_TTL : _ref$ttl,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'rolesAndPermissions', 'ttl']);
+        _ref$needCheckStatus = _ref.needCheckStatus,
+        needCheckStatus = _ref$needCheckStatus === undefined ? DEFAULT_STATUS_VALUE : _ref$needCheckStatus,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'rolesAndPermissions', 'ttl', 'needCheckStatus']);
     (0, _classCallCheck3.default)(this, AccountExtension);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (AccountExtension.__proto__ || (0, _getPrototypeOf2.default)(AccountExtension)).call(this, (0, _extends3.default)({}, options, {
@@ -204,11 +207,12 @@ var AccountExtension = (_dec = (0, _di.Module)({
                 case 0:
                   _context2.next = 2;
                   return (0, _fetchList2.default)(function (params) {
-                    return _this._client.account().extension().list(params);
+                    var fetchRet = _this._client.account().extension().list(params);
+                    return fetchRet;
                   });
 
                 case 2:
-                  _context2.t0 = _accountExtensionHelper.isEssential;
+                  _context2.t0 = (0, _accountExtensionHelper.createEssentialChecker)(needCheckStatus);
                   _context2.t1 = _accountExtensionHelper.simplifyExtensionData;
                   return _context2.abrupt('return', _context2.sent.filter(_context2.t0).map(_context2.t1));
 
@@ -233,6 +237,7 @@ var AccountExtension = (_dec = (0, _di.Module)({
 
     _initDefineProp(_this, 'availableExtensions', _descriptor, _this);
 
+    _this._needCheckStatus = needCheckStatus;
     _this._rolesAndPermissions = _ensureExist2.default.call(_this, rolesAndPermissions, 'rolesAndPermissions');
     return _this;
   }
@@ -355,7 +360,7 @@ var AccountExtension = (_dec = (0, _di.Module)({
               case 10:
                 extensionData = _context4.sent;
 
-                this._addOrDeleteExtension((0, _accountExtensionHelper.isEssential)(extensionData), this.isAvailableExtension(extensionData.extensionNumber), extensionData, id);
+                this._addOrDeleteExtension((0, _accountExtensionHelper.createEssentialChecker)(this._needCheckStatus)(extensionData), this.isAvailableExtension(extensionData.extensionNumber), extensionData, id);
                 _context4.next = 16;
                 break;
 
