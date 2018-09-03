@@ -76,6 +76,8 @@ function mapToFunctions(_, {
   getAvatarUrl,
   ...props
 }) {
+  const { fromSessionId } = params;
+
   const baseProps = mapToBaseFunctions(_, {
     params,
     phone,
@@ -86,9 +88,19 @@ function mapToFunctions(_, {
     async onMerge(sessionId) {
       await conferenceCall.mergeSession({
         sessionId,
+        sessionIdToMergeWith: fromSessionId,
         onReadyToMerge() {
-          routerInteraction.goBack();
+          const confId = conferenceCall.conferences && Object.keys(conferenceCall.conferences)[0];
+
+          if (confId) {
+            const sessionId = conferenceCall.conferences[confId].sessionId;
+
+            routerInteraction.push(`/calls/active/${sessionId}`);
+          } else {
+            routerInteraction.goBack();
+          }
         },
+
       });
     },
     onBackButtonClick() {
@@ -99,7 +111,7 @@ function mapToFunctions(_, {
       phone.routerInteraction.go(-2);
     },
     onAdd() {
-      routerInteraction.push(`/conferenceCall/dialer/${params.fromNumber}`);
+      routerInteraction.push(`/conferenceCall/dialer/${params.fromNumber}/${params.fromSessionId}`);
     },
     getAvatarUrl,
     isConferenceSession: (...args) => conferenceCall.isConferenceSession(...args),

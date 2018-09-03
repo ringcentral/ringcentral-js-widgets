@@ -23,6 +23,7 @@ const defaultConferenceOption = {
   fromNumber: '+15878133670',
   homeCountryId: '1',
   toNumber: 'conf_7777777777777777',
+  to: 'conf_7777777777777777'
 };
 
 export async function getInboundCall(phone, options = defaultInboundOption) {

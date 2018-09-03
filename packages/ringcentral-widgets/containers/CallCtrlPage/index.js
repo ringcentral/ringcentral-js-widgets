@@ -21,10 +21,10 @@ function mapToProps(_, {
     conferenceCall,
     callingSettings,
     callMonitor,
+    rolesAndPermissions,
   },
   params,
   children,
-  multipleLayout,
 }) {
   const sessionId = params && params.sessionId;
   let currentSession;
@@ -43,8 +43,6 @@ function mapToProps(_, {
 
   const isWebRTC = callingSettings.callingMode === callingModes.webphone;
   const isInboundCall = currentSession.direction === callDirections.inbound;
-  let mergeDisabled = !isWebRTC || isInboundCall || !currentSession.partyData;
-  let addDisabled = !isWebRTC || isInboundCall || !currentSession.partyData;
 
   let isOnConference = false;
   let hasConferenceCall = false;
@@ -52,24 +50,18 @@ function mapToProps(_, {
   let conferenceCallParties;
   let conferenceCallId = null;
   const lastCallInfo = callMonitor.lastCallInfo;
-  if (conferenceCall) {
+  let isConferenceCallOverload = false;
+  const conferenceCallEquipped =
+    !!(conferenceCall && rolesAndPermissions.hasConferenceCallPermission);
+  if (conferenceCallEquipped) {
     isOnConference = conferenceCall.isConferenceSession(currentSession.id);
     const conferenceData = Object.values(conferenceCall.conferences)[0];
 
-    isMerging = conferenceCall.isMerging && !!(
-      Object
-        .values(conferenceCall.mergingPair)
-        .find(id => id === currentSession.id)
-      || (isOnConference)
-    );
+    isMerging = conferenceCall.isMerging;
 
     if (conferenceData && isWebRTC) {
       conferenceCallId = conferenceData.conference.id;
-      const overload = conferenceCall.isOverload(conferenceCallId);
-      if (overload) {
-        mergeDisabled = true;
-        addDisabled = true;
-      }
+      isConferenceCallOverload = conferenceCall.isOverload(conferenceCallId);
     }
 
     hasConferenceCall = !!conferenceData;
@@ -102,16 +94,15 @@ function mapToProps(_, {
     showBackButton: true, // callMonitor.calls.length > 0,
     searchContactList: contactSearch.sortedResult,
     showSpinner: isMerging,
-    addDisabled,
-    mergeDisabled,
-    conferenceCallEquipped: !!conferenceCall,
+    conferenceCallEquipped,
     hasConferenceCall,
     conferenceCallParties,
     conferenceCallId,
     lastCallInfo,
     children,
     isOnConference,
-    multipleLayout,
+    isWebRTC,
+    isConferenceCallOverload,
   };
 }
 
@@ -129,13 +120,17 @@ function mapToFunctions(_, {
   phoneTypeRenderer,
   recipientsContactInfoRenderer,
   recipientsContactPhoneRenderer,
-  multipleLayout,
 }) {
   return {
-    getInitialLayout({ isOnConference, lastCallInfo, session }) {
+    getInitialLayout({
+      conferenceCallEquipped,
+      isOnConference,
+      lastCallInfo,
+      session
+    }) {
       let layout = callCtrlLayouts.normalCtrl;
 
-      if (!multipleLayout) {
+      if (!conferenceCallEquipped) {
         return layout;
       }
 
@@ -173,22 +168,12 @@ function mapToFunctions(_, {
       countryCode: regionSettings.countryCode,
     }),
     onHangup(sessionId) {
-      if (conferenceCall) {
-        // close the MergingPair if any.
-        conferenceCall.closeMergingPair();
-      }
       webphone.hangup(sessionId);
     },
     onMute: sessionId => webphone.mute(sessionId),
     onUnmute: sessionId => webphone.unmute(sessionId),
     onHold: sessionId => webphone.hold(sessionId),
     onUnhold(sessionId) {
-      const mergingPair = conferenceCall && conferenceCall.mergingPair;
-      if (mergingPair && sessionId !== mergingPair.toSessionId) {
-        // close merging pair to close the merge call if resume a call
-        conferenceCall.closeMergingPair();
-      }
-
       webphone.unhold(sessionId);
     },
     onRecord: sessionId => webphone.startRecord(sessionId),
@@ -213,9 +198,6 @@ function mapToFunctions(_, {
       if (!session || webphone.isCallRecording({ session })) {
         return;
       }
-      if (conferenceCall) {
-        conferenceCall.setMergeParty({ fromSessionId: sessionId });
-      }
       const outBoundOnholdCalls = filter(
         call => call.direction === callDirections.outbound,
         callMonitor.activeOnHoldCalls
@@ -224,8 +206,11 @@ function mapToFunctions(_, {
         // goto 'calls on hold' page
         routerInteraction.push(`/conferenceCall/callsOnhold/${session.fromNumber}/${session.id}`);
       } else {
+        if (conferenceCall) {
+          conferenceCall.setMergeParty({ fromSessionId: sessionId });
+        }
         // goto dialer directly
-        routerInteraction.push(`/conferenceCall/dialer/${session.fromNumber}`);
+        routerInteraction.push(`/conferenceCall/dialer/${session.fromNumber}/${sessionId}`);
       }
     },
     onBeforeMerge(sessionId) {
@@ -278,7 +263,6 @@ CallCtrlContainer.propTypes = {
   children: PropTypes.node,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
-  multipleLayout: PropTypes.bool,
 };
 
 CallCtrlContainer.defaultProps = {
@@ -286,11 +270,6 @@ CallCtrlContainer.defaultProps = {
   showContactDisplayPlaceholder: false,
   children: undefined,
   sourceIcons: undefined,
-
-  /**
-   * Set to true to let callctrlpage support handling multiple layouts, false by default.
-   */
-  multipleLayout: false,
 };
 
 export {

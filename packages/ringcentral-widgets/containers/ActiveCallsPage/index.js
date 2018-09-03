@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
+import { isRinging } from 'ringcentral-integration/lib/callLogHelpers';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 import { withPhone } from '../../lib/phoneContext';
 
@@ -88,29 +89,12 @@ function mapToFunctions(_, {
       return (webphone && webphone.reject(...args));
     },
     async webphoneHangup(...args) {
-      const sessionId = args && args[0];
-      const mergingPair = conferenceCall && conferenceCall.mergingPair;
-      if (mergingPair &&
-          (Object.values(mergingPair).indexOf(sessionId) !== -1)
-      ) {
-        // close merging pair to close the merge call.
-        conferenceCall.closeMergingPair();
-      }
-
       return (webphone && webphone.hangup(...args));
     },
     async webphoneResume(...args) {
       if (!webphone) {
         return;
       }
-
-      const sessionId = args && args[0];
-      const mergingPair = conferenceCall && conferenceCall.mergingPair;
-      if (mergingPair && sessionId !== mergingPair.toSessionId) {
-        // close merging pair to close the merge call.
-        conferenceCall.closeMergingPair();
-      }
-
       await webphone.resume(...args);
       if (routerInteraction.currentPath !== callCtrlRoute && !useV2) {
         routerInteraction.push(callCtrlRoute);
@@ -173,6 +157,15 @@ function mapToFunctions(_, {
       );
     },
     onCallItemClick(call) {
+      // TODO: Display the ringout call ctrl page.
+      if (!call.webphoneSession) {
+        return;
+      }
+      // show the ring call modal when click a ringing call.
+      if (isRinging(call)) {
+        webphone.toggleMinimized(call.webphoneSession.id);
+        return;
+      }
       if (call.webphoneSession && call.webphoneSession.id) {
         routerInteraction.push(`${callCtrlRoute}/${call.webphoneSession.id}`);
       }

@@ -400,8 +400,8 @@ export default class ActiveCallControl extends Pollable {
       const response = JSON.parse(_response._text);
       return response;
     } catch (error) {
-      const regEx = /^4[0-9][0-9]$/;
-      if (regEx.test(error.status)) {
+      const errRgx = /4[0-9][0-9]/g;
+      if (errRgx.test(error.message)) {
         this.removeActiveSession(sessionId);
       }
       throw error;
@@ -454,18 +454,30 @@ export default class ActiveCallControl extends Pollable {
     () => this._callMonitor.calls,
     () => this.activeSessionsStatus,
     (calls, activeSessionsStatus) => {
-      const _activeSessions = {};
-      calls.forEach((call) => {
+      // const _activeSessions = {};
+      // calls.forEach((call) => {
+      //   const {
+      //     sessionId
+      //   } = call;
+      //   const activeSessionStatus = activeSessionsStatus[sessionId];
+      //   _activeSessions[sessionId] = normalizeSession({
+      //     call,
+      //     activeSessionStatus
+      //   });
+      // });
+      // return _activeSessions;
+      const reducer = (accumulator, call) => {
         const {
           sessionId
         } = call;
         const activeSessionStatus = activeSessionsStatus[sessionId];
-        _activeSessions[sessionId] = normalizeSession({
+        accumulator[sessionId] = normalizeSession({
           call,
           activeSessionStatus
         });
-      });
-      return _activeSessions;
+        return accumulator;
+      };
+      return calls.reduce(reducer, {});
     }
   );
 }

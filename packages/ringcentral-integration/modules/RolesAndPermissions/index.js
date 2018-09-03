@@ -263,4 +263,8 @@ export default class RolesAndPermissions extends DataFetcher {
       this.permissions.Glip
     );
   }
+
+  get hasConferenceCallPermission() {
+    return this.callingEnabled && this.webphoneEnabled;
+  }
 }

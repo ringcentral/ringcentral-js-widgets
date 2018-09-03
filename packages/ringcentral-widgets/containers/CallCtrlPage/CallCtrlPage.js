@@ -12,12 +12,13 @@ class CallCtrlPage extends Component {
   constructor(props) {
     super(props);
     const layout = props.getInitialLayout(this.props);
-    const mergeDisabled = this.disableMerge(this.props, layout);
+    const { mergeDisabled, addDisabled } = this.disableMergeAndAdd(this.props, layout);
     this.state = {
       selectedMatcherIndex: 0,
       avatarUrl: null,
       layout,
       mergeDisabled,
+      addDisabled,
     };
 
     this.onLastMergingCallEnded = this::this.onLastMergingCallEnded;
@@ -93,12 +94,20 @@ class CallCtrlPage extends Component {
     }
   }
 
-  disableMerge(nextProps, layout) {
+  disableMergeAndAdd(nextProps, layout) {
     const {
-      lastCallInfo
+      lastCallInfo,
+      isWebRTC,
+      isConferenceCallOverload,
+      session,
+      hasConferenceCall,
     } = nextProps;
 
-    let mergeDisabled = false;
+    const isInboundCall = session.direction === callDirections.inbound;
+    const isMergeAndAddDisabled = !isWebRTC || isInboundCall || !session.partyData;
+
+    let mergeDisabled = isMergeAndAddDisabled;
+    let addDisabled = isMergeAndAddDisabled;
     if (
       layout === callCtrlLayouts.mergeCtrl
     && (!lastCallInfo || lastCallInfo.status === sessionStatus.finished)
@@ -106,7 +115,12 @@ class CallCtrlPage extends Component {
       mergeDisabled = true;
     }
 
-    return mergeDisabled;
+    if (hasConferenceCall && isWebRTC && isConferenceCallOverload) {
+      mergeDisabled = true;
+      addDisabled = true;
+    }
+
+    return { mergeDisabled, addDisabled };
   }
 
   async onLastMergingCallEnded() {
@@ -135,13 +149,11 @@ class CallCtrlPage extends Component {
   componentWillReceiveProps(nextProps, nextState) {
     this._updateMergingPairToSessionId(nextProps, nextState);
 
+    let layout = this.state.layout;
     if (nextProps.session.id !== this.props.session.id) {
-      const layout = this.getLayout(this.props, nextProps);
-      const mergeDisabled = this.disableMerge(nextProps, layout);
-
+      layout = this.getLayout(this.props, nextProps);
       this.setState({
         layout,
-        mergeDisabled
       });
 
       if (
@@ -150,15 +162,24 @@ class CallCtrlPage extends Component {
         this._updateAvatarAndMatchIndex(nextProps);
       }
     } else if (
-      this.state.layout === callCtrlLayouts.mergeCtrl
-      && CallCtrlPage.isLastCallEnded(this.props) === false
-      && CallCtrlPage.isLastCallEnded(nextProps) === true
+      layout === callCtrlLayouts.mergeCtrl
+        && CallCtrlPage.isLastCallEnded(this.props) === false
+        && CallCtrlPage.isLastCallEnded(nextProps) === true
     ) {
       this.onLastMergingCallEnded();
-    } else if (this.state.layout === callCtrlLayouts.conferenceCtrl &&
-      this.props.conferenceCallParties !== nextProps.conferenceCallParties) {
+    } else if (layout === callCtrlLayouts.conferenceCtrl &&
+        this.props.conferenceCallParties !== nextProps.conferenceCallParties) {
       this._updateCurrentConferenceCall(nextProps);
     }
+    this._updateMergeAddButtonDisabled(nextProps, layout);
+  }
+
+  _updateMergeAddButtonDisabled(nextProps, layout) {
+    const { mergeDisabled, addDisabled } = this.disableMergeAndAdd(nextProps, layout);
+    this.setState({
+      mergeDisabled,
+      addDisabled
+    });
   }
 
   componentWillUnmount() {
@@ -277,7 +298,7 @@ class CallCtrlPage extends Component {
         layout={this.state.layout}
         showSpinner={this.props.showSpinner}
         direction={session.direction}
-        addDisabled={this.props.addDisabled}
+        addDisabled={this.state.addDisabled}
         mergeDisabled={this.state.mergeDisabled}
         conferenceCallEquipped={this.props.conferenceCallEquipped}
         hasConferenceCall={this.props.hasConferenceCall}
@@ -342,8 +363,6 @@ CallCtrlPage.propTypes = {
   recipientsContactPhoneRenderer: PropTypes.func,
   layout: PropTypes.string,
   showSpinner: PropTypes.bool,
-  addDisabled: PropTypes.bool,
-  mergeDisabled: PropTypes.bool,
   conferenceCallParties: PropTypes.array,
   conferenceCallEquipped: PropTypes.bool,
   hasConferenceCall: PropTypes.bool,
@@ -353,6 +372,8 @@ CallCtrlPage.propTypes = {
   loadConference: PropTypes.func,
   getInitialLayout: PropTypes.func,
   closeMergingPair: PropTypes.func,
+  isWebRTC: PropTypes.bool,
+  isConferenceCallOverload: PropTypes.bool,
 };
 
 CallCtrlPage.defaultProps = {
@@ -368,8 +389,6 @@ CallCtrlPage.defaultProps = {
   onMerge: undefined,
   onBeforeMerge: undefined,
   showSpinner: false,
-  addDisabled: false,
-  mergeDisabled: false,
   conferenceCallEquipped: false,
   hasConferenceCall: false,
   conferenceCallParties: undefined,
@@ -380,6 +399,8 @@ CallCtrlPage.defaultProps = {
   getInitialLayout: () => callCtrlLayouts.normalCtrl,
   layout: callCtrlLayouts.normalCtrl,
   closeMergingPair: null,
+  isWebRTC: false,
+  isConferenceCallOverload: false,
 };
 
 

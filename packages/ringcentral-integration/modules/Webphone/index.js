@@ -1,4 +1,5 @@
 import { find, filter } from 'ramda';
+import { createSelector } from 'reselect';
 import RingCentralWebphone from 'ringcentral-web-phone';
 import incomingAudio from 'ringcentral-web-phone/audio/incoming.ogg';
 import outgoingAudio from 'ringcentral-web-phone/audio/outgoing.ogg';
@@ -17,6 +18,8 @@ import webphoneErrors from './webphoneErrors';
 import callErrors from '../Call/callErrors';
 import ensureExist from '../../lib/ensureExist';
 import proxify from '../../lib/proxy/proxify';
+import getter from '../../lib/getter';
+
 import {
   isBrowserSupport,
   normalizeSession,
@@ -68,6 +71,8 @@ export default class Webphone extends RcModule {
    * @param {Function} params.onCallEnd - callback on a call end
    * @param {Function} params.onCallRing - callback on a call ring
    * @param {Function} params.onCallStart - callback on a call start
+   * @param {Function} params.onBeforeCallResume - callback before a call resume
+   * @param {Function} params.onBeforeCallEnd - callback before a call hangup
    */
   constructor({
     appKey,
@@ -85,6 +90,8 @@ export default class Webphone extends RcModule {
     onCallEnd,
     onCallRing,
     onCallStart,
+    onBeforeCallResume,
+    onBeforeCallEnd,
     ...options
   }) {
     super({
@@ -115,6 +122,16 @@ export default class Webphone extends RcModule {
     this._onCallStartFunctions = [];
     if (typeof onCallStart === 'function') {
       this._onCallStartFunctions.push(onCallStart);
+    }
+
+    this._onBeforeCallResumeFunctions = [];
+    if (typeof onBeforeCallResume === 'function') {
+      this._onBeforeCallResumeFunctions.push(onBeforeCallResume);
+    }
+
+    this._onBeforeCallEndFunctions = [];
+    if (typeof onBeforeCallEnd === 'function') {
+      this._onBeforeCallEndFunctions.push(onBeforeCallEnd);
     }
 
     this._webphone = null;
@@ -857,6 +874,7 @@ export default class Webphone extends RcModule {
     try {
       if (session.isOnHold().local) {
         this._holdOtherSession(session.id);
+        this._onBeforeCallResume(session);
         await session.unhold();
         this._onCallStart(session);
       }
@@ -1044,6 +1062,7 @@ export default class Webphone extends RcModule {
       return;
     }
     try {
+      this._onBeforeCallEnd(session);
       await session.terminate();
     } catch (e) {
       console.error(e);
@@ -1243,6 +1262,16 @@ export default class Webphone extends RcModule {
     );
   }
 
+  _onBeforeCallEnd(session) {
+    const normalizedSession = normalizeSession(session);
+    if (typeof this._onBeforeCallEndFunc === 'function') {
+      this._onBeforeCallEndFunc(normalizedSession, this.activeSession);
+    }
+    this._onBeforeCallEndFunctions.forEach(
+      handler => handler(normalizedSession, this.activeSession)
+    );
+  }
+
   _onCallEnd(session) {
     this._removeSession(session);
     const normalizedSession = normalizeSession(session);
@@ -1256,6 +1285,15 @@ export default class Webphone extends RcModule {
     }
     this._onCallEndFunctions.forEach(
       handler => handler(normalizedSession, this.activeSession)
+    );
+  }
+
+  _onBeforeCallResume(session) {
+    if (typeof this._onBeforeCallResumeFunc === 'function') {
+      this._onBeforeCallResumeFunc(session, this.activeSession);
+    }
+    this._onBeforeCallResumeFunctions.forEach(
+      handler => handler(session, this.activeSession)
     );
   }
 
@@ -1307,6 +1345,18 @@ export default class Webphone extends RcModule {
   onCallEnd(handler) {
     if (typeof handler === 'function') {
       this._onCallEndFunctions.push(handler);
+    }
+  }
+
+  onBeforeCallResume(handler) {
+    if (typeof handler === 'function') {
+      this._onBeforeCallResumeFunctions.push(handler);
+    }
+  }
+
+  onBeforeCallEnd(handler) {
+    if (typeof handler === 'function') {
+      this._onBeforeCallEndFunctions.push(handler);
     }
   }
 
@@ -1438,4 +1488,13 @@ export default class Webphone extends RcModule {
   get connectFailed() {
     return this.connectionStatus === connectionStatus.connectFailed;
   }
+
+  @getter
+  ringingCallOnView = createSelector(
+    () => this.ringSessions,
+    sessions => find(
+      session => !session.minimized,
+      sessions,
+    )
+  )
 }

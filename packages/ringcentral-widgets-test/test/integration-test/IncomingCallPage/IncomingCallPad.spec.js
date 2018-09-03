@@ -486,5 +486,5 @@ describe('Check Incoming Call Reply Button > ReplyWithMessage', () => {
     );
     expect(phone.webphone.sessions).toHaveLength(0);
     expect(wrapper.find(IncomingCallPad)).toHaveLength(0);
-  });
+  }, 7000);
 });

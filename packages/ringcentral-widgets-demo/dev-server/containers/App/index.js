@@ -153,23 +153,25 @@ export default function App({
                       onCreateContact={() => { }}
                       onCallsEmpty={() => { }}
                       sourceIcons={sourceIcons}
+                      getAvatarUrl={getAvatarUrl}
+                      useV2
                     />
                   </DialerAndCallsTabContainer>
                 )} />
               <Route
-                path="/calls/active"
-                component={() => (
+                path="/calls/active(/:sessionId)"
+                component={routerProps => (
                   <CallCtrlPage
                     showContactDisplayPlaceholder={false}
                     sourceIcons={sourceIcons}
                     getAvatarUrl={getAvatarUrl}
+                    params={routerProps.params}
                     onAdd={() => {
                       phone.routerInteraction.push('/dialer');
                     }}
                     onBackButtonClick={() => {
                       phone.routerInteraction.push('/calls');
                     }}
-                    multipleLayout
                   >
                     <RecentActivityContainer
                       getSession={() => (phone.webphone.activeSession || {})}
@@ -261,7 +263,7 @@ export default function App({
                 )}
               />
               <Route
-                path="/conferenceCall/dialer/:fromNumber"
+                path="/conferenceCall/dialer/:fromNumber/:fromSessionId"
                 component={routerProps => (
                   <ConferenceCallDialerPage
                     params={routerProps.params}

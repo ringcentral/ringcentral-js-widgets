@@ -213,7 +213,7 @@ function mapToProps(_, {
   showContactDisplayPlaceholder = false,
   phoneTypeRenderer
 }) {
-  const currentSession = webphone.ringSession || {};
+  const currentSession = webphone.ringingCallOnView || {};
   const contactMapping = contactMatcher && contactMatcher.dataMapping;
   const fromMatches = (contactMapping && contactMapping[currentSession.from]) || [];
   const toMatches = (contactMapping && contactMapping[currentSession.to]) || [];

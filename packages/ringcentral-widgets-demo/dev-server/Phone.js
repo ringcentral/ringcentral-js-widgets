@@ -236,42 +236,51 @@ export default class BasePhone extends RcModule {
           return;
         }
         if (session.id === fromSessionIdOfCallsOnhold) {
-          routerInteraction.push('/calls/active');
+          routerInteraction.replace('/calls/active');
           return;
         }
-      }
-      if (
-        routerInteraction.currentPath.indexOf('/calls/active') === 0 &&
-        webphone.cachedSessions.length && (
-          !currentSession ||
-          (webphone.cachedSessions.find(cachedSession => cachedSession.id === currentSession.id))
-        )
-      ) {
-        return;
       }
 
       if (
         !![
           '/conferenceCall/dialer/',
-          '/calls/active'
-        ].find(path => routerInteraction.currentPath.indexOf(path) !== -1) &&
-        (!currentSession || session.id === currentSession.id)
+          '/calls/active',
+          '/conferenceCall/participants',
+        ].find(path => routerInteraction.currentPath.indexOf(path) !== -1)
+        && (!currentSession || session.id === currentSession.id)
       ) {
         if (
           !currentSession
         ) {
-          routerInteraction.push('/dialer');
+          routerInteraction.replace('/dialer');
           return;
         }
-        if (routerInteraction.currentPath.indexOf('/calls/active') !== 0) {
-          routerInteraction.push('/calls/active');
+        if (routerInteraction.currentPath.indexOf('/calls/active') === -1) {
+          routerInteraction.replace('/calls/active');
           return;
         }
         if (conferenceCall.isMerging) {
-          routerInteraction.push('/calls/active/');
+          // Do nothing, let the merge() to do the jump
           return;
         }
         routerInteraction.goBack();
+        return;
+      }
+
+      if (routerInteraction.currentPath.indexOf('/calls/active') === 0) {
+        routerInteraction.replace('/calls/active');
+        return;
+      }
+
+      if (
+        routerInteraction.currentPath === '/calls'
+        && !callMonitor.activeRingCalls.length
+        && !callMonitor.activeOnHoldCalls.length
+        && !callMonitor.activeCurrentCalls.length
+        && !conferenceCall.isMerging
+        // && callMonitor.otherDeviceCalls.length === 0
+      ) {
+        routerInteraction.replace('/dialer');
       }
     });
 
@@ -292,6 +301,29 @@ export default class BasePhone extends RcModule {
           webphone.toggleMinimized(session.id);
         });
       }
+    });
+
+    webphone.onBeforeCallResume((session) => {
+      const sessionId = session && session.id;
+      const mergingPair = conferenceCall && conferenceCall.mergingPair;
+      if (mergingPair && sessionId !== mergingPair.toSessionId) {
+        // close merging pair to close the merge call.
+        conferenceCall.closeMergingPair();
+      }
+    });
+
+    webphone.onBeforeCallEnd((session) => {
+      const mergingPair = conferenceCall && conferenceCall.mergingPair;
+      if (session && mergingPair &&
+          (Object.values(mergingPair).indexOf(session.id) !== -1)
+      ) {
+        // close merging pair to close the merge call.
+        conferenceCall.closeMergingPair();
+      }
+    });
+
+    conferenceCall.onMergeSuccess((conferenceData) => {
+      routerInteraction.push(`/calls/active/${conferenceData.sessionId}`);
     });
 
     // CallMonitor configuration
