@@ -5,9 +5,9 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import Markdown from './tools/Markdown';
-import markdownDemo from './source/markdown.mkd';
+import markdownDemo from './source/guideline.mkd';
 
 storiesOf('UX', module)
-  .add('hello', () => {
+  .add('guide', () => {
     return <Markdown input={markdownDemo} />;
   });
