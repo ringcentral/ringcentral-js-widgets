@@ -120,11 +120,11 @@ function mapToProps(_, _ref) {
       callingSettings = _ref$phone.callingSettings,
       routerInteraction = _ref$phone.routerInteraction,
       conferenceCall = _ref$phone.conferenceCall,
-      webphone = _ref$phone.webphone;
+      callMonitor = _ref$phone.callMonitor;
 
   var conferenceCallEquipped = !!conferenceCall;
   var isWebphoneMode = callingSettings.callingMode === _callingModes2.default.webphone;
-  var applicable = !!(conferenceCallEquipped && isWebphoneMode && webphone.sessions.length);
+  var applicable = !!(conferenceCallEquipped && isWebphoneMode && callMonitor.calls.length);
   return {
     applicable: applicable,
     currentLocale: locale.currentLocale,
