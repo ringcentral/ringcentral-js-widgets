@@ -9964,11 +9964,11 @@ ringcentral-client@^1.0.0-beta.1:
     form-data "^2.1.2"
     isomorphic-fetch "^2.2.1"
 
-ringcentral-web-phone@^0.4.5:
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/ringcentral-web-phone/-/ringcentral-web-phone-0.4.5.tgz#9c901cbbba8db03218b3b3ebc908f996aae21da6"
+ringcentral-web-phone@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/ringcentral-web-phone/-/ringcentral-web-phone-0.5.0.tgz#da5df3c2ce078010a2aa9c815475f0db9f87a708"
   dependencies:
-    sip.js "^0.7.8"
+    sip.js "^0.10.0"
 
 ringcentral@^3.1.3:
   version "3.2.0"
@@ -10311,9 +10311,9 @@ sinon@^2.3.1:
     text-encoding "0.6.4"
     type-detect "^4.0.0"
 
-sip.js@^0.7.8:
-  version "0.7.8"
-  resolved "https://registry.yarnpkg.com/sip.js/-/sip.js-0.7.8.tgz#48709ba13485bcc050869b77a93c21658095b430"
+sip.js@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/sip.js/-/sip.js-0.10.0.tgz#3e8ac22c36f670ed8eb95e7a63601ad3a3f39f11"
   dependencies:
     ws "^1.0.1"
   optionalDependencies:

@@ -223,8 +223,10 @@ export default class Webphone extends RcModule {
 
   _prepareVideoElement() {
     this._remoteVideo = document.createElement('video');
+    this._remoteVideo.id = 'remoteVideo';
     this._remoteVideo.setAttribute('hidden', 'hidden');
     this._localVideo = document.createElement('video');
+    this._localVideo.id = 'localVideo';
     this._localVideo.setAttribute('hidden', 'hidden');
     this._localVideo.setAttribute('muted', 'muted');
     this._localVideo.muted = true;
@@ -380,9 +382,15 @@ export default class Webphone extends RcModule {
       logLevel: this._webphoneLogLevel, // error 0, warn 1, log: 2, debug: 3
       audioHelper: {
         enabled: true, // enables audio feedback when web phone is ringing or making a call
-        incoming: incomingAudio, // path to audio file for incoming call
-        outgoing: outgoingAudio, // path to aduotfile for outgoing call
+      },
+      media: {
+        remote: this._remoteVideo,
+        local: this._localVideo,
       }
+    });
+    this._webphone.userAgent.audioHelper.loadAudio({
+      incoming: incomingAudio, // path to audio file for incoming call
+      outgoing: outgoingAudio, // path to aduotfile for outgoing call
     });
     this._isFirstRegister = true;
     const onRegistered = () => {
@@ -403,14 +411,17 @@ export default class Webphone extends RcModule {
       });
     };
     const onRegistrationFailed = (response, cause) => {
+      console.error('Webphone Register Error:', response, cause);
+      // For 401
+      if (!response && cause === 'Connection Error') {
+        return;
+      }
       if (this.connectionStatus === connectionStatus.connectFailed) {
         return;
       }
       this._isFirstRegister = true;
       let errorCode;
       let needToReconnect = false;
-      console.error(response);
-      console.error('webphone register failed:', cause);
       // limit logic:
       /*
        * Specialties of this flow are next:
@@ -726,18 +737,18 @@ export default class Webphone extends RcModule {
       session.__rc_callStatus = sessionStatus.connected;
       this._updateSessions();
     });
-    session.on('hold', () => {
-      console.log('Event: hold');
-      session.__rc_callStatus = sessionStatus.onHold;
-      this._updateSessions();
-    });
-    session.on('unhold', () => {
-      console.log('Event: unhold');
-      session.__rc_callStatus = sessionStatus.connected;
-      session.__rc_lastActiveTime = Date.now();
-      this._updateSessions();
-    });
-    session.mediaHandler.on('userMediaFailed', () => {
+    // session.on('hold', () => {
+    //   console.log('Event: hold');
+    //   session.__rc_callStatus = sessionStatus.onHold;
+    //   this._updateSessions();
+    // });
+    // session.on('unhold', () => {
+    //   console.log('Event: unhold');
+    //   session.__rc_callStatus = sessionStatus.connected;
+    //   session.__rc_lastActiveTime = Date.now();
+    //   this._updateSessions();
+    // });
+    session.on('userMediaFailed', () => {
       this._audioSettings.onGetUserMediaError();
     });
   }
@@ -767,7 +778,7 @@ export default class Webphone extends RcModule {
       return;
     }
     try {
-      this._holdOtherSession(sessionId);
+      await this._holdOtherSession(sessionId);
       this._onAccepted(sipSession, 'inbound');
       await sipSession.accept(this.acceptOptions);
       this._onCallStart(sipSession);
@@ -873,11 +884,12 @@ export default class Webphone extends RcModule {
     if (!session) {
       return false;
     }
-    if (session.isOnHold().local) {
+    if (session.onLocalHold()) {
       return true;
     }
     try {
       await session.hold();
+      session.__rc_callStatus = sessionStatus.onHold;
       this._updateSessions();
       return true;
     } catch (e) {
@@ -889,16 +901,17 @@ export default class Webphone extends RcModule {
     }
   }
 
-  _holdOtherSession(currentSessionId) {
-    this._sessions.forEach((session, sessionId) => {
+  async _holdOtherSession(currentSessionId) {
+    await Promise.all(Array.from(this._sessions, async ([sessionId, session]) => {
       if (currentSessionId === sessionId) {
         return;
       }
-      if (session.isOnHold().local) {
+      if (session.onLocalHold()) {
         return;
       }
-      session.hold();
-    });
+      await session.hold();
+      session.__rc_callStatus = sessionStatus.onHold;
+    }));
     // update cached sessions
     this.store.dispatch({
       type: this.actionTypes.onholdCachedSession,
@@ -912,8 +925,8 @@ export default class Webphone extends RcModule {
       return;
     }
     try {
-      if (session.isOnHold().local) {
-        this._holdOtherSession(session.id);
+      if (session.onLocalHold()) {
+        await this._holdOtherSession(session.id);
         this._onBeforeCallResume(session);
         await session.unhold();
         this._updateSessions();
@@ -1046,7 +1059,7 @@ export default class Webphone extends RcModule {
     try {
       await session.hold();
       const newSession = session.ua.invite(transferNumber, {
-        media: this.acceptOptions.media
+        sessionDescriptionHandlerOptions: this.acceptOptions.sessionDescriptionHandlerOptions
       });
       newSession.once('accepted', async () => {
         try {
@@ -1183,7 +1196,7 @@ export default class Webphone extends RcModule {
       return null;
     }
     const session = this._webphone.userAgent.invite(toNumber, {
-      media: this.acceptOptions.media,
+      sessionDescriptionHandlerOptions: this.acceptOptions.sessionDescriptionHandlerOptions,
       fromNumber,
       homeCountryId,
     });
@@ -1195,7 +1208,7 @@ export default class Webphone extends RcModule {
     session.__rc_extendedControls = extendedControls;
     session.__rc_extendedControlStatus = extendedControlStatus.pending;
     this._onAccepted(session);
-    this._holdOtherSession(session.id);
+    await this._holdOtherSession(session.id);
     this._onCallStart(session);
     return session;
   }
@@ -1491,15 +1504,13 @@ export default class Webphone extends RcModule {
 
   get acceptOptions() {
     return {
-      media: {
-        audio: {
-          deviceId: this._audioSettings.inputDeviceId,
+      sessionDescriptionHandlerOptions: {
+        constraints: {
+          audio: {
+            deviceId: this._audioSettings.inputDeviceId,
+          },
+          video: false,
         },
-        video: false,
-        render: {
-          remote: this._remoteVideo,
-          local: this._localVideo,
-        }
       }
     };
   }
