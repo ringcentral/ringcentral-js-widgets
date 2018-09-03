@@ -164,7 +164,8 @@ var MergeInfo = function (_Component) {
               avatarUrl: isContacts && !lastCallInfo.avatarUrl ? lastCallAvatar : lastCallInfo.avatarUrl,
               extraNum: isOnConferenceCall ? lastCallInfo.extraNum : 0,
               isOnConferenceCall: isOnConferenceCall,
-              spinnerMode: showSpinner
+              spinnerMode: showSpinner,
+              shouldBubbleClick: true
             })
           ),
           (isLastCallInfoReady || !isLastCallInfoReady && isOnConferenceCall) && _react2.default.createElement(
@@ -209,7 +210,7 @@ var MergeInfo = function (_Component) {
           _react2.default.createElement(
             'div',
             { className: _styles2.default.callee_avatar_active },
-            currentCallAvatarUrl ? _react2.default.createElement(_CallAvatar2.default, { avatarUrl: currentCallAvatarUrl }) : _react2.default.createElement(_CallAvatar2.default, { avatarUrl: null })
+            currentCallAvatarUrl ? _react2.default.createElement(_CallAvatar2.default, { avatarUrl: currentCallAvatarUrl, shouldBubbleClick: true }) : _react2.default.createElement(_CallAvatar2.default, { avatarUrl: null, shouldBubbleClick: true })
           ),
           _react2.default.createElement(
             'div',

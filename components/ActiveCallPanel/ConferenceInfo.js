@@ -67,7 +67,10 @@ function ConferenceInfo(_ref) {
           {
             key: toUserName + '_' + idx,
             className: _styles2.default.avatar },
-          _react2.default.createElement(_CallAvatar2.default, { avatarUrl: avatarUrl })
+          _react2.default.createElement(_CallAvatar2.default, {
+            avatarUrl: avatarUrl,
+            shouldBubbleClick: true
+          })
         );
       }),
       remains > 0 ? _react2.default.createElement(

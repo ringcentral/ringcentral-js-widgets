@@ -38,9 +38,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function CallInfo(props) {
   var avatar = void 0;
   if (props.avatarUrl) {
-    avatar = _react2.default.createElement(_CallAvatar2.default, { avatarUrl: props.avatarUrl });
+    avatar = _react2.default.createElement(_CallAvatar2.default, { avatarUrl: props.avatarUrl, shouldBubbleClick: true });
   } else {
-    avatar = _react2.default.createElement(_CallAvatar2.default, { avatarUrl: null });
+    avatar = _react2.default.createElement(_CallAvatar2.default, { avatarUrl: null, shouldBubbleClick: true });
   }
   return _react2.default.createElement(
     'div',

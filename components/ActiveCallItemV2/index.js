@@ -492,7 +492,8 @@ var ActiveCallItem = function (_Component) {
             _react2.default.createElement(_CallAvatar2.default, {
               isOnConferenceCall: isOnConferenceCall,
               avatarUrl: avatarUrl,
-              extraNum: extraNum })
+              extraNum: extraNum,
+              shouldBubbleClick: true })
           ),
           bodyCls: _styles2.default.content,
           mediaBody: _react2.default.createElement(

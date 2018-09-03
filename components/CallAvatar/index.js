@@ -36,6 +36,10 @@ var _uuid = require('uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
 
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -144,7 +148,8 @@ var CallAvatar = function (_Component) {
       var _props = this.props,
           extraNum = _props.extraNum,
           isOnConferenceCall = _props.isOnConferenceCall,
-          spinnerMode = _props.spinnerMode;
+          spinnerMode = _props.spinnerMode,
+          shouldBubbleClick = _props.shouldBubbleClick;
       var avatarUrl = this.state.avatarUrl;
 
       var initialSize = 38;
@@ -179,7 +184,7 @@ var CallAvatar = function (_Component) {
         res = _react2.default.createElement(
           'svg',
           {
-            className: _styles2.default.callAvatar,
+            className: shouldBubbleClick ? (0, _classnames2.default)(_styles2.default.callAvatar, _styles2.default.bubbleSvg) : _styles2.default.callAvatar,
             style: avatarUrl ? avatarStyle : null,
             viewBox: '0 0 ' + initialSize + ' ' + initialSize,
             preserveAspectRatio: 'xMidYMid meet',
@@ -358,14 +363,16 @@ CallAvatar.propTypes = {
   /**
    * Set to true to make it always show the loading spinner.
    */
-  spinnerMode: _propTypes2.default.bool
+  spinnerMode: _propTypes2.default.bool,
+  shouldBubbleClick: _propTypes2.default.bool
 };
 
 CallAvatar.defaultProps = {
   isOnConferenceCall: false,
   avatarUrl: null,
   extraNum: 0,
-  spinnerMode: false
+  spinnerMode: false,
+  shouldBubbleClick: false
 };
 
 exports.default = CallAvatar;
