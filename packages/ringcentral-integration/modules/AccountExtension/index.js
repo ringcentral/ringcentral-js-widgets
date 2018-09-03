@@ -67,6 +67,7 @@ export default class AccountExtension extends DataFetcher {
       readyCheckFn: () => this._rolesAndPermissions.ready,
     });
 
+    this._needCheckStatus = needCheckStatus;
     this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
   }
 
@@ -90,7 +91,7 @@ export default class AccountExtension extends DataFetcher {
     } else if (eventType === 'Create' || eventType === 'Update') {
       try {
         const extensionData = await this._fetchExtensionData(id);
-        this._addOrDeleteExtension(isEssential(extensionData),
+        this._addOrDeleteExtension(createEssentialChecker(this._needCheckStatus)(extensionData),
           this.isAvailableExtension(extensionData.extensionNumber), extensionData, id);
       } catch (error) {
         /* falls through */
