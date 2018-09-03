@@ -212,7 +212,8 @@ var ConversationsPanel = function (_Component) {
           loadingNextPage = _props.loadingNextPage,
           renderExtraButton = _props.renderExtraButton,
           outboundSmsPermission = _props.outboundSmsPermission,
-          internalSmsPermission = _props.internalSmsPermission;
+          internalSmsPermission = _props.internalSmsPermission,
+          updateTypeFilter = _props.updateTypeFilter;
 
       if (showSpinner) {
         return _react2.default.createElement(_SpinnerOverlay2.default, null);
@@ -282,7 +283,8 @@ var ConversationsPanel = function (_Component) {
           typeFilter: typeFilter,
           renderExtraButton: renderExtraButton,
           outboundSmsPermission: outboundSmsPermission,
-          internalSmsPermission: internalSmsPermission
+          internalSmsPermission: internalSmsPermission,
+          updateTypeFilter: updateTypeFilter
         })
       );
     }

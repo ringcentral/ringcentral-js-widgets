@@ -222,6 +222,7 @@ var MessageItem = function (_Component) {
         var phoneNumber = _this.getPhoneNumber();
 
         if (phoneNumber) {
+          _this.props.updateTypeFilter(_messageTypes2.default.text);
           _this.props.onClickToSms((0, _extends3.default)({}, contact, {
             phoneNumber: phoneNumber
           }));
@@ -759,7 +760,8 @@ MessageItem.propTypes = {
   previewFaxMessages: _propTypes2.default.func,
   renderExtraButton: _propTypes2.default.func,
   internalSmsPermission: _propTypes2.default.bool,
-  outboundSmsPermission: _propTypes2.default.bool
+  outboundSmsPermission: _propTypes2.default.bool,
+  updateTypeFilter: _propTypes2.default.func
 };
 
 MessageItem.defaultProps = {
@@ -781,6 +783,7 @@ MessageItem.defaultProps = {
   previewFaxMessages: undefined,
   renderExtraButton: undefined,
   internalSmsPermission: true,
-  outboundSmsPermission: true
+  outboundSmsPermission: true,
+  updateTypeFilter: undefined
 };
 //# sourceMappingURL=index.js.map
