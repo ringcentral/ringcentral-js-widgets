@@ -36,8 +36,5 @@
     "eslint-settings": "*",
     "babel-settings": "*",
     "lerna": "^2.11.0"
-  },
-  "dependencies": {
-    "ramda": "^0.25.0"
   }
 }
