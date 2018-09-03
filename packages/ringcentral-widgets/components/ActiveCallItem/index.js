@@ -43,7 +43,9 @@ function CallIcon({
         <CallAvatar
           isOnConferenceCall={isOnConferenceCall}
           avatarUrl={avatarUrl}
-          extraNum={extraNum} />
+          extraNum={extraNum}
+          shouldBubbleClick
+          />
       </div>
     );
   } else {

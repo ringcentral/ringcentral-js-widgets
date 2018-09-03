@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import uuid from 'uuid';
+import classnames from 'classnames';
 import styles from './styles.scss';
 import SpinnerIcon from '../../assets/images/Spinner.svg';
 
@@ -82,7 +83,9 @@ class CallAvatar extends Component {
   }
 
   render() {
-    const { extraNum, isOnConferenceCall, spinnerMode } = this.props;
+    const {
+      extraNum, isOnConferenceCall, spinnerMode, shouldBubbleClick
+    } = this.props;
     const { avatarUrl } = this.state;
     const initialSize = 38;
     const margin = 4;
@@ -118,7 +121,9 @@ class CallAvatar extends Component {
     if (isOnConferenceCallWithExtraNum) {
       res = (
         <svg
-          className={styles.callAvatar}
+          className={shouldBubbleClick ?
+            classnames(styles.callAvatar, styles.bubbleSvg) :
+            styles.callAvatar}
           style={avatarUrl ? avatarStyle : null}
           viewBox={`0 0 ${initialSize} ${initialSize}`}
           preserveAspectRatio="xMidYMid meet"
@@ -296,6 +301,7 @@ CallAvatar.propTypes = {
    * Set to true to make it always show the loading spinner.
    */
   spinnerMode: PropTypes.bool,
+  shouldBubbleClick: PropTypes.bool
 };
 
 CallAvatar.defaultProps = {
@@ -303,6 +309,7 @@ CallAvatar.defaultProps = {
   avatarUrl: null,
   extraNum: 0,
   spinnerMode: false,
+  shouldBubbleClick: false,
 };
 
 

@@ -40,7 +40,10 @@ function ConferenceInfo({
                   <div
                     key={`${toUserName}_${idx}`}
                     className={styles.avatar}>
-                    <CallAvatar avatarUrl={avatarUrl} />
+                    <CallAvatar
+                      avatarUrl={avatarUrl}
+                      shouldBubbleClick
+                    />
                   </div>
                 )
                 )
