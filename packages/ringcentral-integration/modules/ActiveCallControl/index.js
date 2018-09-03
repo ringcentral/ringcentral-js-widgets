@@ -454,18 +454,6 @@ export default class ActiveCallControl extends Pollable {
     () => this._callMonitor.calls,
     () => this.activeSessionsStatus,
     (calls, activeSessionsStatus) => {
-      // const _activeSessions = {};
-      // calls.forEach((call) => {
-      //   const {
-      //     sessionId
-      //   } = call;
-      //   const activeSessionStatus = activeSessionsStatus[sessionId];
-      //   _activeSessions[sessionId] = normalizeSession({
-      //     call,
-      //     activeSessionStatus
-      //   });
-      // });
-      // return _activeSessions;
       const reducer = (accumulator, call) => {
         const {
           sessionId
