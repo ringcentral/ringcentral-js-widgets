@@ -883,6 +883,51 @@ export default class ConferenceCall extends RcModule {
     return conferenceData;
   }
 
+  /*
+  * User action track dispatchs
+  * */
+  callsOnHoldClickAddTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.callsOnHoldClickAddTrack
+    });
+  }
+
+  callsOnHoldClickMergeTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.callsOnHoldClickMergeTrack
+    });
+  }
+
+  confirmMergeClickCloseTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.confirmMergeClickCloseTrack,
+    });
+  }
+
+  confirmMergeClickMergeTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.confirmMergeClickMergeTrack,
+    });
+  }
+
+  participantListClickHangupTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.participantListClickHangupTrack
+    });
+  }
+
+  removeParticipantClickCancelTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.removeParticipantClickCancelTrack
+    });
+  }
+
+  removeParticipantClickRemoveTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.removeParticipantClickRemoveTrack
+    });
+  }
+
   get status() {
     return this.state.status;
   }

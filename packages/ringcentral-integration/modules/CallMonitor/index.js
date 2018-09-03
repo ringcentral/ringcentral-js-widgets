@@ -543,6 +543,42 @@ export default class CallMonitor extends RcModule {
       ...matched,
     });
   }
+  // user action track funtions
+  callItemClickTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.callItemClickTrack,
+    });
+  }
+
+  allCallsClickHoldTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.allCallsClickHoldTrack
+    });
+  }
+
+  allCallsClickHangupTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.allCallsClickHangupTrack,
+    });
+  }
+
+  callControlClickAddTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.callControlClickAddTrack
+    });
+  }
+
+  simplifiedControlClickMergeTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.simplifiedControlClickMergeTrack
+    });
+  }
+
+  callControlClickMergeTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.callControlClickMergeTrack
+    });
+  }
 
   get hasRingingCalls() {
     return hasRingingCalls(this.calls);

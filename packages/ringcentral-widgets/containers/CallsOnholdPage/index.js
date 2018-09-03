@@ -86,6 +86,8 @@ function mapToFunctions(_, {
   return {
     ...baseProps,
     async onMerge(sessionId) {
+      // to track user click merge
+      conferenceCall.callsOnHoldClickMergeTrack();
       await conferenceCall.mergeSession({
         sessionId,
         sessionIdToMergeWith: fromSessionId,
@@ -100,7 +102,6 @@ function mapToFunctions(_, {
             routerInteraction.goBack();
           }
         },
-
       });
     },
     onBackButtonClick() {
@@ -111,6 +112,8 @@ function mapToFunctions(_, {
       phone.routerInteraction.go(-2);
     },
     onAdd() {
+      // to track use click add button
+      conferenceCall.callsOnHoldClickAddTrack();
       routerInteraction.push(`/conferenceCall/dialer/${params.fromNumber}/${params.fromSessionId}`);
     },
     getAvatarUrl,

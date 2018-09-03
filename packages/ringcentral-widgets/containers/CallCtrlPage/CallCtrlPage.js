@@ -306,6 +306,9 @@ class CallCtrlPage extends Component {
         lastCallInfo={this.props.lastCallInfo}
         getAvatarUrl={this.props.getAvatarUrl}
         gotoParticipantsCtrl={this.props.gotoParticipantsCtrl}
+        confirmMergeClickCloseTrack={this.props.confirmMergeClickCloseTrack}
+        confirmMergeClickMergeTrack={this.props.confirmMergeClickMergeTrack}
+        callControlClickMergeTrack={this.props.callControlClickMergeTrack}
       >
         {this.props.children}
       </CallCtrlPanel>
@@ -374,6 +377,9 @@ CallCtrlPage.propTypes = {
   closeMergingPair: PropTypes.func,
   isWebRTC: PropTypes.bool,
   isConferenceCallOverload: PropTypes.bool,
+  confirmMergeClickCloseTrack: PropTypes.func,
+  confirmMergeClickMergeTrack: PropTypes.func,
+  callControlClickMergeTrack: PropTypes.func,
 };
 
 CallCtrlPage.defaultProps = {
@@ -401,6 +407,9 @@ CallCtrlPage.defaultProps = {
   closeMergingPair: null,
   isWebRTC: false,
   isConferenceCallOverload: false,
+  confirmMergeClickMergeTrack: i => i,
+  confirmMergeClickCloseTrack: i => i,
+  callControlClickMergeTrack: i => i,
 };
 
 
