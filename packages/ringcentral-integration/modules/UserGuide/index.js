@@ -118,7 +118,9 @@ export default class UserGuide extends RcModule {
 
   @proxify
   dismiss() {
-    this.updateCarousel({ curIdx: 0, entered: false, playing: false });
+    this.updateCarousel({
+      curIdx: 0, entered: false, playing: false, quickEnter: false
+    });
   }
 
   @proxify
@@ -132,12 +134,16 @@ export default class UserGuide extends RcModule {
   }
 
   @proxify
-  async updateCarousel({ curIdx, entered, playing }) {
+  async updateCarousel({
+    curIdx, entered, playing, quickEnter = this.state.carouselState.quickEnter
+  }) {
     this.store.dispatch({
       type: this.actionTypes.updateCarousel,
       curIdx,
       entered,
-      playing
+      playing,
+      quickEnter,
+      firstLogin: this.state.firstLogin
     });
   }
 
@@ -153,22 +159,48 @@ export default class UserGuide extends RcModule {
     // will be changed as well, in this case, it will be displayed.
     await this.loadGuides(guides);
     if (JSON.stringify(guides) !== JSON.stringify(prevGuides)) {
-      await this.start();
+      this.start(true);
     }
   }
 
   @proxify
-  async start() {
+  async start(firstLogin = false) {
     // Start guides only when images are ready
-    if (this.guides.length > 0) {
+    this.store.dispatch({
+      type: this.actionTypes.updateCarousel,
+      curIdx: 0,
+      entered: true,
+      playing: true,
+      firstLogin
+    });
+  }
+
+  @proxify
+  async quick(show = false) {
+    if (this.state.firstLogin || show) {
       this.store.dispatch({
         type: this.actionTypes.updateCarousel,
         curIdx: 0,
-        entered: true,
-        playing: true,
+        entered: false,
+        playing: false,
+        quickEnter: true,
+        firstLogin: false
       });
     }
   }
+
+  @proxify
+  async quickBack() {
+    this.store.dispatch({
+      type: this.actionTypes.updateCarousel,
+      curIdx: 0,
+      entered: false,
+      playing: false,
+      quickEnter: false,
+      firstLogin: false
+    });
+  }
+
 
   get guides() {
     if (!this._locale.ready) return [];

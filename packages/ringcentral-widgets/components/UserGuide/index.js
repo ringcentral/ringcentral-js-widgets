@@ -58,6 +58,7 @@ export default class UserGuide extends React.Component {
       entered: this.state.entered,
       playing: false
     });
+    this.props.quick();
   }
 
   onExited = () => {
@@ -77,8 +78,7 @@ export default class UserGuide extends React.Component {
         <div
           className={styles.introBg}
           style={{ backgroundImage: `url(${this.props.guides[0]})` }}
-        >
-        </div>
+         />
         <div className={styles.buttonGroup}>
           <Button
             className={styles.primaryButton}
@@ -107,8 +107,7 @@ export default class UserGuide extends React.Component {
           backgroundImage: `url(${guide})`,
           transform: `translateX(${(i + 1) * 100}vw)`
         }}
-      >
-      </div>
+       />
     ));
     const indicatorView = guides.map((_, i) => {
       const highlight = i + 1 === this.state.curIdx ? styles.highlight : null;
@@ -117,13 +116,12 @@ export default class UserGuide extends React.Component {
           key={i}
           className={classnames(styles.dot, highlight)}
           onClick={() => { this.slideTo(i + 1); }}
-        >
-        </li>
+         />
       );
     });
     const onLastPage = this.state.curIdx === this.props.guides.length - 1;
     const skipButton = onLastPage
-      ? (<div className={styles.secondaryButton}></div>)
+      ? (<div className={styles.secondaryButton} />)
       : (
         <Button
           onClick={() => { this.exit(); }}
@@ -204,6 +202,7 @@ UserGuide.propTypes = {
   entered: PropTypes.bool,
   playing: PropTypes.bool,
   updateCarousel: PropTypes.func,
+  quick: PropTypes.func,
   guides: PropTypes.array.isRequired,
   showSpinner: PropTypes.bool.isRequired,
   currentLocale: PropTypes.string.isRequired,
@@ -213,5 +212,6 @@ UserGuide.defaultProps = {
   curIdx: 0,
   entered: false,
   playing: false,
-  updateCarousel: () => null
+  updateCarousel: () => null,
+  quick: () => null
 };
