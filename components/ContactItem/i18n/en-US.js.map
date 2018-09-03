@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ContactItem/i18n/en-US.js"],"names":["notActivated"],"mappings":";;;;;kBAAe;AACbA,gBAAc;AADD,C","file":"en-US.js","sourcesContent":["export default {\n  notActivated: 'Inactive',\n};\n"]}

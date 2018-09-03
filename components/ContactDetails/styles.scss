@@ -8,7 +8,9 @@
   padding: 0 15px;
 }
 
-.profile, .contacts, .email {
+.profile,
+.contacts,
+.email {
   padding: 20px 0;
 }
 .profile {
@@ -41,10 +43,12 @@
     list-style: none;
     width: 80%;
   }
-  li:not(:first-child){
+  li:not(:first-child) {
     margin-top: 20px;
   }
-  .label, .number, .menu {
+  .label,
+  .number,
+  .menu {
     display: inline-block;
   }
   .label {
@@ -213,7 +217,10 @@ $rowHeight: 50px;
       @include secondary-font;
       @include text-ellipsis;
     }
-    a, a:hover, a:visited, a:focus {
+    a,
+    a:hover,
+    a:visited,
+    a:focus {
       color: $primary-color;
     }
   }
@@ -223,3 +230,7 @@ $rowHeight: 50px;
   }
 }
 
+.inactiveText {
+  font-size: $tertiary-font-size;
+  color: $coin;
+}

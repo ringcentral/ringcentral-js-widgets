@@ -84,13 +84,7 @@ function AvatarNode(_ref) {
   var name = _ref.name,
       avatarUrl = _ref.avatarUrl;
 
-  return avatarUrl ? _react2.default.createElement('img', {
-    className: _styles2.default.avatarNode,
-    alt: name,
-    src: avatarUrl
-  }) : _react2.default.createElement(_DefaultAvatar2.default, {
-    className: _styles2.default.avatarNode
-  });
+  return avatarUrl ? _react2.default.createElement('img', { className: _styles2.default.avatarNode, alt: name, src: avatarUrl }) : _react2.default.createElement(_DefaultAvatar2.default, { className: _styles2.default.avatarNode });
 }
 AvatarNode.propTypes = {
   name: _propTypes2.default.string,
@@ -127,6 +121,37 @@ var ContactDetails = function (_PureComponent) {
       if (typeof _this.props.onClickMailTo === 'function') {
         _this.props.onClickMailTo(email, contactType);
       }
+    }, _this.renderPresence = function (contactStatus, presence, presenceName, currentLocale) {
+      if (contactStatus === 'NotActivated') {
+        return _react2.default.createElement(
+          'div',
+          { className: _styles2.default.presence },
+          _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(
+              'span',
+              { className: _styles2.default.inactiveText },
+              _i18n2.default.getString('notActivated', currentLocale)
+            )
+          )
+        );
+      }
+
+      return presence ? _react2.default.createElement(
+        'div',
+        { className: _styles2.default.presence },
+        _react2.default.createElement(
+          'div',
+          { className: _styles2.default.presenceNodeContainer },
+          _react2.default.createElement(_PresenceStatusIcon2.default, (0, _extends3.default)({ className: _styles2.default.presenceNode }, presence))
+        ),
+        _react2.default.createElement(
+          'span',
+          { className: _styles2.default.presenceStatus },
+          presenceName
+        )
+      ) : null;
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
@@ -140,7 +165,8 @@ var ContactDetails = function (_PureComponent) {
       var name = contactItem.name,
           presence = contactItem.presence,
           profileImageUrl = contactItem.profileImageUrl,
-          type = contactItem.type;
+          type = contactItem.type,
+          contactStatus = contactItem.contactStatus;
 
       var sourceNode = sourceNodeRenderer({ sourceType: type });
       var presenceName = presence ? getPresenceStatusName(presence, currentLocale) : null;
@@ -153,10 +179,7 @@ var ContactDetails = function (_PureComponent) {
           _react2.default.createElement(
             'div',
             { className: _styles2.default.avatarNodeContainer },
-            _react2.default.createElement(AvatarNode, {
-              name: name,
-              avatarUrl: profileImageUrl
-            }),
+            _react2.default.createElement(AvatarNode, { name: name, avatarUrl: profileImageUrl }),
             sourceNode ? _react2.default.createElement(
               'div',
               { className: _styles2.default.sourceNodeContainer },
@@ -169,29 +192,16 @@ var ContactDetails = function (_PureComponent) {
           { className: _styles2.default.info },
           _react2.default.createElement(
             'div',
-            { className: (0, _classnames2.default)(_styles2.default.name, !presence ? _styles2.default.nameWithoutPresence : null) },
+            {
+              className: (0, _classnames2.default)(_styles2.default.name, !presence ? _styles2.default.nameWithoutPresence : null)
+            },
             _react2.default.createElement(
               'span',
-              { title: name },
+              { style: contactStatus === 'NotActivated' ? { color: '#999999', fontSize: '12px' } : null, title: name },
               name
             )
           ),
-          presence ? _react2.default.createElement(
-            'div',
-            { className: _styles2.default.presence },
-            _react2.default.createElement(
-              'div',
-              { className: _styles2.default.presenceNodeContainer },
-              _react2.default.createElement(_PresenceStatusIcon2.default, (0, _extends3.default)({
-                className: _styles2.default.presenceNode
-              }, presence))
-            ),
-            _react2.default.createElement(
-              'span',
-              { className: _styles2.default.presenceStatus },
-              presenceName
-            )
-          ) : null
+          this.renderPresence(contactStatus, presence, presenceName, currentLocale)
         )
       );
     }
@@ -208,9 +218,12 @@ var ContactDetails = function (_PureComponent) {
       if (!extensionNumber) return null;
       var textBtn = this.props.internalSmsPermission ? _react2.default.createElement(
         'button',
-        { title: _i18n2.default.getString('text', currentLocale), onClick: function onClick() {
+        {
+          title: _i18n2.default.getString('text', currentLocale),
+          onClick: function onClick() {
             return _this2.onClickToSMS(contactItem, extensionNumber);
-          } },
+          }
+        },
         _react2.default.createElement('i', { className: _DynamicsFont2.default.composeText })
       ) : null;
       var callBtn = this.props.onClickToDial ? _react2.default.createElement(
@@ -278,9 +291,12 @@ var ContactDetails = function (_PureComponent) {
         var formattedPhoneNumber = _this3.props.formatNumber(phoneNumber);
         var textBtn = _this3.props.outboundSmsPermission ? _react2.default.createElement(
           'button',
-          { title: _i18n2.default.getString('text', currentLocale), onClick: function onClick() {
+          {
+            title: _i18n2.default.getString('text', currentLocale),
+            onClick: function onClick() {
               return _this3.onClickToSMS(contactItem, phoneNumber);
-            } },
+            }
+          },
           _react2.default.createElement('i', { className: _DynamicsFont2.default.composeText })
         ) : null;
         var callBtn = _this3.props.onClickToDial ? _react2.default.createElement(
@@ -424,7 +440,8 @@ var contactItemPropTypes = exports.contactItemPropTypes = {
   phoneNumbers: _propTypes2.default.arrayOf(_propTypes2.default.shape({
     phoneNumber: _propTypes2.default.string,
     phoneType: _propTypes2.default.string
-  }))
+  })),
+  contactStatus: _propTypes2.default.string
 };
 
 ContactDetails.propTypes = {

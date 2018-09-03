@@ -45,6 +45,10 @@ var _DefaultAvatar = require('../../assets/images/DefaultAvatar.svg');
 
 var _DefaultAvatar2 = _interopRequireDefault(_DefaultAvatar);
 
+var _i18n = require('./i18n');
+
+var _i18n2 = _interopRequireDefault(_i18n);
+
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -55,13 +59,7 @@ function AvatarNode(_ref) {
   var name = _ref.name,
       avatarUrl = _ref.avatarUrl;
 
-  return avatarUrl ? _react2.default.createElement('img', {
-    className: _styles2.default.avatarNode,
-    alt: name,
-    src: avatarUrl
-  }) : _react2.default.createElement(_DefaultAvatar2.default, {
-    className: _styles2.default.avatarNode
-  });
+  return avatarUrl ? _react2.default.createElement('img', { className: _styles2.default.avatarNode, alt: name, src: avatarUrl }) : _react2.default.createElement(_DefaultAvatar2.default, { className: _styles2.default.avatarNode });
 }
 AvatarNode.propTypes = {
   name: _propTypes2.default.string,
@@ -79,6 +77,49 @@ var ContactItem = function (_PureComponent) {
     (0, _classCallCheck3.default)(this, ContactItem);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ContactItem.__proto__ || (0, _getPrototypeOf2.default)(ContactItem)).call(this, props));
+
+    _this.renderPresence = function (contact) {
+      var presence = contact.presence,
+          contactStatus = contact.contactStatus;
+
+      if (contactStatus === 'NotActivated') {
+        return null;
+      }
+
+      return presence ? _react2.default.createElement(
+        'div',
+        { className: _styles2.default.presenceNodeContainer },
+        _react2.default.createElement(_PresenceStatusIcon2.default, (0, _extends3.default)({ className: _styles2.default.presenceNode }, presence))
+      ) : null;
+    };
+
+    _this.renderMiddle = function (contact, currentLocale) {
+      var name = contact.name,
+          contactStatus = contact.contactStatus;
+
+      if (contactStatus === 'NotActivated') {
+        return _react2.default.createElement(
+          'div',
+          { className: _styles2.default.infoWrapper },
+          _react2.default.createElement(
+            'div',
+            { className: _styles2.default.inactiveContactName, title: name },
+            name
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: _styles2.default.inactiveText },
+            _i18n2.default.getString('notActivated', currentLocale)
+          )
+        );
+      }
+
+      return _react2.default.createElement(
+        'div',
+        { className: _styles2.default.contactName, title: name },
+        name
+      );
+    };
 
     _this.state = {
       loading: true
@@ -129,50 +170,35 @@ var ContactItem = function (_PureComponent) {
       if (this.state.loading) {
         return _react2.default.createElement('div', { className: _styles2.default.root });
       }
-      var _props$contact = this.props.contact,
-          name = _props$contact.name,
-          extensionNumber = _props$contact.extensionNumber,
-          type = _props$contact.type,
-          profileImageUrl = _props$contact.profileImageUrl,
-          presence = _props$contact.presence;
+      var _props = this.props,
+          contact = _props.contact,
+          currentLocale = _props.currentLocale;
+      var name = contact.name,
+          extensionNumber = contact.extensionNumber,
+          type = contact.type,
+          profileImageUrl = contact.profileImageUrl;
       var sourceNodeRenderer = this.props.sourceNodeRenderer;
 
       var sourceNode = sourceNodeRenderer({ sourceType: type });
       return _react2.default.createElement(
         'div',
-        {
-          className: _styles2.default.root,
-          onClick: this.onItemSelected
-        },
+        { className: _styles2.default.root, onClick: this.onItemSelected },
         _react2.default.createElement(
           'div',
           { className: _styles2.default.contactProfile },
           _react2.default.createElement(
             'div',
             { className: _styles2.default.avatarNodeContainer },
-            _react2.default.createElement(AvatarNode, {
-              name: name,
-              avatarUrl: profileImageUrl
-            })
+            _react2.default.createElement(AvatarNode, { name: name, avatarUrl: profileImageUrl })
           ),
           sourceNode ? _react2.default.createElement(
             'div',
             { className: _styles2.default.sourceNodeContainer },
             sourceNode
           ) : null,
-          presence ? _react2.default.createElement(
-            'div',
-            { className: _styles2.default.presenceNodeContainer },
-            _react2.default.createElement(_PresenceStatusIcon2.default, (0, _extends3.default)({
-              className: _styles2.default.presenceNode
-            }, presence))
-          ) : null
+          this.renderPresence(this.props.contact)
         ),
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.contactName, title: name },
-          name
-        ),
+        this.renderMiddle(contact, currentLocale),
         _react2.default.createElement(
           'div',
           { className: _styles2.default.phoneNumber, title: extensionNumber },
@@ -188,6 +214,7 @@ exports.default = ContactItem;
 
 
 ContactItem.propTypes = {
+  currentLocale: _propTypes2.default.string.isRequired,
   contact: _propTypes2.default.shape({
     id: _propTypes2.default.string,
     type: _propTypes2.default.string,
@@ -195,7 +222,8 @@ ContactItem.propTypes = {
     extensionNumber: _propTypes2.default.string,
     email: _propTypes2.default.string,
     profileImageUrl: _propTypes2.default.string,
-    presence: _propTypes2.default.object
+    presence: _propTypes2.default.object,
+    contactStatus: _propTypes2.default.string
   }).isRequired,
   getAvatarUrl: _propTypes2.default.func.isRequired,
   getPresence: _propTypes2.default.func.isRequired,

@@ -130,6 +130,7 @@ var ContactList = function (_Component) {
         );
       }
       var _this$props = _this.props,
+          currentLocale = _this$props.currentLocale,
           getAvatarUrl = _this$props.getAvatarUrl,
           getPresence = _this$props.getPresence,
           onItemSelect = _this$props.onItemSelect,
@@ -141,6 +142,7 @@ var ContactList = function (_Component) {
           key: rowData.type + '-' + rowData.id
         },
         _react2.default.createElement(_ContactItem2.default, {
+          currentLocale: currentLocale,
           contact: rowData,
           getAvatarUrl: getAvatarUrl,
           getPresence: getPresence,
