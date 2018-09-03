@@ -29,6 +29,7 @@ function mapToFunctions(_, {
 }) {
   return {
     updateCarousel: (...args) => userGuide.updateCarousel(...args),
+    quick: () => userGuide.quick()
   };
 }
 
