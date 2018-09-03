@@ -56,12 +56,12 @@ function mapToProps(_, {
     callingSettings,
     routerInteraction,
     conferenceCall,
-    webphone,
+    callMonitor,
   },
 }) {
   const conferenceCallEquipped = !!conferenceCall;
   const isWebphoneMode = (callingSettings.callingMode === callingModes.webphone);
-  const applicable = !!(conferenceCallEquipped && isWebphoneMode && webphone.sessions.length);
+  const applicable = !!(conferenceCallEquipped && isWebphoneMode && callMonitor.calls.length);
   return {
     applicable,
     currentLocale: locale.currentLocale,
