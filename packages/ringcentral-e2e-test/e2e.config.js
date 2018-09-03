@@ -1,7 +1,7 @@
 module.exports = {
   caseServices: [{
-    name: 'Einstein1',
-    url: 'http://www.einstein.com',
+    name: 'einstein',
+    url: 'http://einstein.int.ringcentral.com/',
     handler: './einstein.js'
   }],
   exec: {

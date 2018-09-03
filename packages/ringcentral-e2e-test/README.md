@@ -79,7 +79,7 @@ npx e2e-test run ./src/features/widgets/meeting/**/*.js
 | puppeteer                       | 400   | 1       |         | 215.179s    | ✅         |
 | puppeteer                       | 400   | 8       |         | 79.744s     | ✅         |
 | puppeteer                       | 400   | 8       | ✅       | 230.122s    | ✅         |
-| seleniumWebdriverChrome         | 400   |         |         | 80.129s     | ✅         |
+| seleniumWebdriverChrome         | 400   | 1       |         | 80.129s     | ✅         |
 | seleniumWebdriverFirefox        | 1200  | 8       |         | 428s        | ❌         |
 | puppeteer/Firefox/Chrome        | 1200  | 8       |         | 505.122s    | ❌         |
 | Safari                          | 400   | 8       |         | -           | ❌         |
