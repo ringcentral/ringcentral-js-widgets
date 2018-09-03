@@ -254,6 +254,7 @@ export default class MessageItem extends Component {
       const phoneNumber = this.getPhoneNumber();
 
       if (phoneNumber) {
+        this.props.updateTypeFilter(messageTypes.text);
         this.props.onClickToSms({
           ...contact,
           phoneNumber,
@@ -610,6 +611,7 @@ MessageItem.propTypes = {
   renderExtraButton: PropTypes.func,
   internalSmsPermission: PropTypes.bool,
   outboundSmsPermission: PropTypes.bool,
+  updateTypeFilter: PropTypes.func,
 };
 
 MessageItem.defaultProps = {
@@ -631,4 +633,5 @@ MessageItem.defaultProps = {
   renderExtraButton: undefined,
   internalSmsPermission: true,
   outboundSmsPermission: true,
+  updateTypeFilter: undefined,
 };

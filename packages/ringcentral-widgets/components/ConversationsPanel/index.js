@@ -129,6 +129,7 @@ export default class ConversationsPanel extends Component {
       renderExtraButton,
       outboundSmsPermission,
       internalSmsPermission,
+      updateTypeFilter
     } = this.props;
     if (showSpinner) {
       return (<SpinnerOverlay />);
@@ -207,6 +208,7 @@ export default class ConversationsPanel extends Component {
           renderExtraButton={renderExtraButton}
           outboundSmsPermission={outboundSmsPermission}
           internalSmsPermission={internalSmsPermission}
+          updateTypeFilter={updateTypeFilter}
         />
       </div>
     );
