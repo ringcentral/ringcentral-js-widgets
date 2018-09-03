@@ -950,71 +950,71 @@ var Webphone = (_dec = (0, _di.Module)({
       var _this5 = this;
 
       session.on('accepted', function (incomingResponse) {
-        if (session.callStatus === _sessionStatus2.default.finished) {
+        if (session.__rc_callStatus === _sessionStatus2.default.finished) {
           return;
         }
         console.log('accepted');
-        session.callStatus = _sessionStatus2.default.connected;
+        session.__rc_callStatus = _sessionStatus2.default.connected;
         (0, _webphoneHelper.extractHeadersData)(session, incomingResponse.headers);
         _this5._onCallStart(session);
       });
       session.on('progress', function () {
         console.log('progress...');
-        session.callStatus = _sessionStatus2.default.connecting;
+        session.__rc_callStatus = _sessionStatus2.default.connecting;
         _this5._updateSessions();
       });
       session.on('rejected', function () {
         console.log('rejected');
-        session.callStatus = _sessionStatus2.default.finished;
+        session.__rc_callStatus = _sessionStatus2.default.finished;
         _this5._onCallEnd(session);
       });
       session.on('failed', function (response, cause) {
         console.log('Event: Failed');
         console.log(cause);
-        session.callStatus = _sessionStatus2.default.finished;
+        session.__rc_callStatus = _sessionStatus2.default.finished;
         _this5._onCallEnd(session);
       });
       session.on('terminated', function () {
         console.log('Event: Terminated');
-        session.callStatus = _sessionStatus2.default.finished;
+        session.__rc_callStatus = _sessionStatus2.default.finished;
         _this5._onCallEnd(session);
       });
       session.on('cancel', function () {
         console.log('Event: Cancel');
-        session.callStatus = _sessionStatus2.default.finished;
+        session.__rc_callStatus = _sessionStatus2.default.finished;
         _this5._onCallEnd(session);
       });
       session.on('refer', function () {
         console.log('Event: Refer');
       });
       session.on('replaced', function (newSession) {
-        session.callStatus = _sessionStatus2.default.replaced;
-        newSession.callStatus = _sessionStatus2.default.connected;
-        newSession.direction = _callDirections2.default.inbound;
+        session.__rc_callStatus = _sessionStatus2.default.replaced;
+        newSession.__rc_callStatus = _sessionStatus2.default.connected;
+        newSession.__rc_direction = _callDirections2.default.inbound;
         _this5._addSession(newSession);
         _this5._onAccepted(newSession);
       });
       session.on('muted', function () {
         console.log('Event: Muted');
-        session.isOnMute = true;
-        session.callStatus = _sessionStatus2.default.onMute;
+        session.__rc_isOnMute = true;
+        session.__rc_callStatus = _sessionStatus2.default.onMute;
         _this5._updateSessions();
       });
       session.on('unmuted', function () {
         console.log('Event: Unmuted');
-        session.isOnMute = false;
-        session.callStatus = _sessionStatus2.default.connected;
+        session.__rc_isOnMute = false;
+        session.__rc_callStatus = _sessionStatus2.default.connected;
         _this5._updateSessions();
       });
       session.on('hold', function () {
         console.log('Event: hold');
-        session.callStatus = _sessionStatus2.default.onHold;
+        session.__rc_callStatus = _sessionStatus2.default.onHold;
         _this5._updateSessions();
       });
       session.on('unhold', function () {
         console.log('Event: unhold');
-        session.callStatus = _sessionStatus2.default.connected;
-        session.lastActiveTime = Date.now();
+        session.__rc_callStatus = _sessionStatus2.default.connected;
+        session.__rc_lastActiveTime = Date.now();
         _this5._updateSessions();
       });
       session.mediaHandler.on('userMediaFailed', function () {
@@ -1026,10 +1026,10 @@ var Webphone = (_dec = (0, _di.Module)({
     value: function _onInvite(session) {
       var _this6 = this;
 
-      session.creationTime = Date.now();
-      session.lastActiveTime = Date.now();
-      session.direction = _callDirections2.default.inbound;
-      session.callStatus = _sessionStatus2.default.connecting;
+      session.__rc_creationTime = Date.now();
+      session.__rc_lastActiveTime = Date.now();
+      session.__rc_direction = _callDirections2.default.inbound;
+      session.__rc_callStatus = _sessionStatus2.default.connecting;
       (0, _webphoneHelper.extractHeadersData)(session, session.request.headers);
       session.on('rejected', function () {
         console.log('Event: Rejected');
@@ -1217,7 +1217,7 @@ var Webphone = (_dec = (0, _di.Module)({
               case 10:
                 validPhoneNumber = validatedResult.numbers[0] && validatedResult.numbers[0].e164;
 
-                session.isForwarded = true;
+                session.__rc_isForwarded = true;
                 _context10.next = 14;
                 return session.forward(validPhoneNumber, this.acceptOptions);
 
@@ -1263,7 +1263,7 @@ var Webphone = (_dec = (0, _di.Module)({
                 _context11.prev = 0;
 
                 this._sessionHandleWithId(sessionId, function (session) {
-                  session.isOnMute = true;
+                  session.__rc_isOnMute = true;
                   session.mute();
                   _this8._updateSessions();
                 });
@@ -1304,7 +1304,7 @@ var Webphone = (_dec = (0, _di.Module)({
             switch (_context12.prev = _context12.next) {
               case 0:
                 this._sessionHandleWithId(sessionId, function (session) {
-                  session.isOnMute = false;
+                  session.__rc_isOnMute = false;
                   session.unmute();
                   _this9._updateSessions();
                 });
@@ -1476,7 +1476,7 @@ var Webphone = (_dec = (0, _di.Module)({
                 return _context15.abrupt('return');
 
               case 3:
-                if (!(session.callStatus === _sessionStatus2.default.connecting)) {
+                if (!(session.__rc_callStatus === _sessionStatus2.default.connecting)) {
                   _context15.next = 5;
                   break;
                 }
@@ -1486,13 +1486,13 @@ var Webphone = (_dec = (0, _di.Module)({
               case 5:
                 _context15.prev = 5;
 
-                session.recordStatus = _recordStatus2.default.pending;
+                session.__rc_recordStatus = _recordStatus2.default.pending;
                 this._updateSessions();
                 _context15.next = 10;
                 return session.startRecord();
 
               case 10:
-                session.recordStatus = _recordStatus2.default.recording;
+                session.__rc_recordStatus = _recordStatus2.default.recording;
                 this._updateSessions();
                 _context15.next = 25;
                 break;
@@ -1502,7 +1502,7 @@ var Webphone = (_dec = (0, _di.Module)({
                 _context15.t0 = _context15['catch'](5);
 
                 console.error(_context15.t0);
-                session.recordStatus = _recordStatus2.default.idle;
+                session.__rc_recordStatus = _recordStatus2.default.idle;
                 this._updateSessions();
                 // Recording has been disabled
 
@@ -1515,7 +1515,7 @@ var Webphone = (_dec = (0, _di.Module)({
                   message: _webphoneErrors2.default.recordDisabled
                 });
                 // Disabled phone recording
-                session.recordStatus = _recordStatus2.default.noAccess;
+                session.__rc_recordStatus = _recordStatus2.default.noAccess;
                 this._updateSessions();
                 return _context15.abrupt('return');
 
@@ -1562,13 +1562,13 @@ var Webphone = (_dec = (0, _di.Module)({
               case 3:
                 _context16.prev = 3;
 
-                session.recordStatus = _recordStatus2.default.pending;
+                session.__rc_recordStatus = _recordStatus2.default.pending;
                 this._updateSessions();
                 _context16.next = 8;
                 return session.stopRecord();
 
               case 8:
-                session.recordStatus = _recordStatus2.default.idle;
+                session.__rc_recordStatus = _recordStatus2.default.idle;
                 this._updateSessions();
                 _context16.next = 17;
                 break;
@@ -1578,7 +1578,7 @@ var Webphone = (_dec = (0, _di.Module)({
                 _context16.t0 = _context16['catch'](3);
 
                 console.error(_context16.t0);
-                session.recordStatus = _recordStatus2.default.recording;
+                session.__rc_recordStatus = _recordStatus2.default.recording;
                 this._updateSessions();
 
               case 17:
@@ -1666,7 +1666,7 @@ var Webphone = (_dec = (0, _di.Module)({
               case 3:
                 _context18.prev = 3;
 
-                session.isOnTransfer = true;
+                session.__rc_isOnTransfer = true;
                 this._updateSessions();
                 _context18.next = 8;
                 return this._numberValidate.validateNumbers([transferNumber]);
@@ -1687,7 +1687,7 @@ var Webphone = (_dec = (0, _di.Module)({
                     }
                   });
                 });
-                session.isOnTransfer = false;
+                session.__rc_isOnTransfer = false;
                 this._updateSessions();
                 return _context18.abrupt('return');
 
@@ -1697,7 +1697,7 @@ var Webphone = (_dec = (0, _di.Module)({
                 return session.transfer(validPhoneNumber);
 
               case 17:
-                session.isOnTransfer = false;
+                session.__rc_isOnTransfer = false;
                 this._updateSessions();
                 this._onCallEnd(session);
                 _context18.next = 28;
@@ -1708,7 +1708,7 @@ var Webphone = (_dec = (0, _di.Module)({
                 _context18.t0 = _context18['catch'](3);
 
                 console.error(_context18.t0);
-                session.isOnTransfer = false;
+                session.__rc_isOnTransfer = false;
                 this._updateSessions();
                 this._alert.danger({
                   message: _webphoneErrors2.default.transferError
@@ -1834,7 +1834,7 @@ var Webphone = (_dec = (0, _di.Module)({
 
               case 6:
                 // this._onCallEnd(session);
-                session.isOnFlip = true;
+                session.__rc_isOnFlip = true;
                 console.log('Flipped');
                 _context21.next = 15;
                 break;
@@ -1843,7 +1843,7 @@ var Webphone = (_dec = (0, _di.Module)({
                 _context21.prev = 10;
                 _context21.t0 = _context21['catch'](3);
 
-                session.isOnFlip = false;
+                session.__rc_isOnFlip = false;
                 this._alert.warning({
                   message: _webphoneErrors2.default.flipError
                 });
@@ -1984,7 +1984,7 @@ var Webphone = (_dec = (0, _di.Module)({
               case 3:
                 _context24.prev = 3;
 
-                session.isToVoicemail = true;
+                session.__rc_isToVoicemail = true;
                 _context24.next = 7;
                 return session.toVoicemail();
 
@@ -2037,7 +2037,7 @@ var Webphone = (_dec = (0, _di.Module)({
               case 3:
                 _context25.prev = 3;
 
-                session.isReplied = true;
+                session.__rc_isReplied = true;
                 _context25.next = 7;
                 return session.replyWithMessage(replyOptions);
 
@@ -2129,11 +2129,11 @@ var Webphone = (_dec = (0, _di.Module)({
                   homeCountryId: homeCountryId
                 });
 
-                session.direction = _callDirections2.default.outbound;
-                session.callStatus = _sessionStatus2.default.connecting;
-                session.creationTime = Date.now();
-                session.lastActiveTime = Date.now();
-                session.fromNumber = fromNumber;
+                session.__rc_direction = _callDirections2.default.outbound;
+                session.__rc_callStatus = _sessionStatus2.default.connecting;
+                session.__rc_creationTime = Date.now();
+                session.__rc_lastActiveTime = Date.now();
+                session.__rc_fromNumber = fromNumber;
                 this._onAccepted(session);
                 this._holdOtherSession(session.id);
                 this._beforeCallStart(session);
@@ -2164,7 +2164,7 @@ var Webphone = (_dec = (0, _di.Module)({
             switch (_context27.prev = _context27.next) {
               case 0:
                 this._sessionHandleWithId(sessionId, function (session) {
-                  session.contactMatch = contact;
+                  session.__rc_contactMatch = contact;
                   _this12._updateSessions();
                 });
 
@@ -2229,7 +2229,7 @@ var Webphone = (_dec = (0, _di.Module)({
             switch (_context28.prev = _context28.next) {
               case 0:
                 this._sessionHandleWithId(sessionId, function (session) {
-                  session.minimized = !session.minimized;
+                  session.__rc_minimized = !session.__rc_minimized;
                   _this13._updateSessions();
                 });
 
