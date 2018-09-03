@@ -5,14 +5,14 @@ module.exports = {
     handler: './einstein.js'
   }],
   exec: {
-    drivers: ['seleniumWebdriverFirefox'],
+    drivers: ['puppeteer'],
     levels: [
       'p0',
       'p1'
     ],
     brands: [
       'rc',
-      'att'
+      // 'att'
     ],
     tags: [
       ['widgets'],

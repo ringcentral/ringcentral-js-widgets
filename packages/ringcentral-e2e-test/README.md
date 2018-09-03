@@ -68,5 +68,24 @@ cd packages/ringcentral-widgets-demo && yarn dev-server
 
 ```shell
 cd packages/ringcentral-e2e-test
-yarn test
+npx e2e-test run ./src/features/widgets/meeting/**/*.js
 ```
+
+
+### Benchmark Results
+
+|           | cases | threads | sandbox | performance | stability |
+| --------- | ----- | ------- | ------- | ----------- | --------- |
+| puppeteer |
+seleniumWebdriverFirefox
+seleniumWebdriverChrome
+seleniumWebdriverSafari | 1600  | 1       |         | 1260.56s    | ✅       |
+| puppeteer                                                                          | 400   | 1       |         | 215.179s    | ✅       |
+| puppeteer                                                                          | 400   | 8       |         | 79.744s     | ✅       |
+| puppeteer                                                                          | 400   | 8       | ✅     |  230.122s   | ✅       |
+| seleniumWebdriverChrome                                                            | 400   |         |         | 80.129s     | ✅       |
+| seleniumWebdriverFirefox                                                           |       | 8       |         |   428s      | ❌       |
+| puppeteer
+seleniumWebdriverFirefox
+seleniumWebdriverChrome                         | 1200  | 8       |         | 505.122s    | ❌       |
+| seleniumWebdriverSafari                                                            | 400   | 8       |

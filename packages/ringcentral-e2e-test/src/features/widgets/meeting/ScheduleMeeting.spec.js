@@ -8,8 +8,8 @@ describe('test: =====>', () => {
       // ['widgets'],
       ['salesforce']
     ],
-    drivers: ['seleniumWebdriverFirefox'],
-    modes: ['sandbox'],
+    // drivers: ['seleniumWebdriverFirefox'],
+    // modes: ['sandbox'],
     brands: ['rc'],
     levels: ['p0'],
     options: [
