@@ -86,15 +86,15 @@ npx e2e-test run ./src/features/widgets/meeting/**/*.js
 
 ### Subpackage
 
-├── ringcentral-e2e-test
+  ├── ringcentral-e2e-test
 
-      ├── ringcentral-e2e-cli
+        ├── ringcentral-e2e-cli
 
-            ├── ringcentral-e2e-environment
+              ├── ringcentral-e2e-environment
 
-                  ├── ringcentral-e2e-drivers
+                    ├── ringcentral-e2e-drivers
 
-      ├── ringcentral-e2e-reporter
+        ├── ringcentral-e2e-reporter
 
 ### Configuration Relation
 
