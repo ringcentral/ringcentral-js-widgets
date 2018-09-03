@@ -126,3 +126,12 @@ npx e2e-test run ./src/features/widgets/meeting/**/*.js
 * Jest NodeEnvironment Teardown
 * Jest global teardown
 * CLI close
+
+### TODO
+
+* Query
+* Enzyme
+* Marten
+* Plugins
+* CLI
+* Reporter
