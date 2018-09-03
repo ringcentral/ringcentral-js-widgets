@@ -24,7 +24,7 @@ function ParticipantItem({
       containerCls={styles.participantItem}
       mediaLeft={
         <div className={styles.avatar}>
-          <CallAvatar isOnConferenceCall={false} avatarUrl={avatarUrl} />
+          <CallAvatar isOnConferenceCall={false} avatarUrl={avatarUrl} shouldBubbleClick />
         </div>
       }
       mediaBody={detail}

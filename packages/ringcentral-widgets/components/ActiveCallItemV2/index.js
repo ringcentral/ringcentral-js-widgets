@@ -398,7 +398,8 @@ export default class ActiveCallItem extends Component {
               <CallAvatar
                 isOnConferenceCall={isOnConferenceCall}
                 avatarUrl={avatarUrl}
-                extraNum={extraNum} />
+                extraNum={extraNum}
+                shouldBubbleClick />
             </div>
           }
           bodyCls={styles.content}
