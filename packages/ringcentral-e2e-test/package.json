@@ -1,16 +1,24 @@
 {
   "name": "ringcentral-e2e-test",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "index.js",
-  "license": "MIT",
+  "description": "E2E Tests for RingCentral Integration Apps",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ringcentral/ringcentral-js-widget.git"
+  },
   "scripts": {
     "testExample": "e2e-test run ./src/features/widgets/meeting/ScheduleMeeting.spec.js --params '{ \"levels\": [\"p1\"],\"tags\": [[\"widgets\", {\"brands\":[\"rc\"]}],[\"salesforce\"]] }' -D -S --testerCLI '--clearCache' --drivers puppeteer.seleniumWebdriverFirefox",
     "test": "e2e-test run ./src/features/widgets/meeting/ScheduleMeeting.spec.js --params '{ \"levels\": [\"p1\"],\"tags\": [[\"widgets\", {\"brands\":[\"rc\"], \"levels\": [\"p0\"]}],[\"salesforce\",{\"brands\":[\"att\"]}]] }'"
+  },
+  "engines": {
+    "node": ">=8"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
     "jest": "^23.5.0",
     "request": "^2.88.0",
-    "ringcentral-e2e-cli": "^1.0.0"
-  }
+    "ringcentral-e2e-cli": "^0.0.1"
+  },
+  "license": "MIT"
 }

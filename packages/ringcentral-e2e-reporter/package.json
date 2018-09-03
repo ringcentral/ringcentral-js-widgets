@@ -1,12 +1,16 @@
 {
   "name": "ringcentral-e2e-reporter",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "E2E Tests Reporter for RingCentral Integration Apps",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ringcentral/ringcentral-js-widget.git"
+  },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "MIT"
 }
