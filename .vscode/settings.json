@@ -26,7 +26,7 @@
     "editor.formatOnSave": false
   },
   // Allow formatting for other languages
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
 
   // Enable ESLint (with Prettier plugin) to format code on save
   "eslint.autoFixOnSave": true
