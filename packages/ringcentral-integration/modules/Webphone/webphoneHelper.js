@@ -24,7 +24,7 @@ export function extractHeadersData(session, headers) {
     && headers['P-Rc-Api-Ids'][0].raw
   ) {
     /**
-     * interface SessionData{
+     * interface PartyData {
      *  "partyId": String,
      *  "sessionId": String
      * }
@@ -43,7 +43,7 @@ export function extractHeadersData(session, headers) {
       }, {});
 
     if (Object.keys(data).length) {
-      session.partyData = data;
+      session.__rc_partyData = data;
     }
   }
 
@@ -53,35 +53,35 @@ export function extractHeadersData(session, headers) {
     && headers['Call-ID'][0]
     && headers['Call-ID'][0].raw
   ) {
-    session._header_callId = headers['Call-ID'][0].raw;
+    session.__rc_callId = headers['Call-ID'][0].raw;
   }
 }
 
 export function normalizeSession(session) {
   return {
     id: session.id,
-    callId: session._header_callId,
-    direction: session.direction,
-    callStatus: session.callStatus,
+    callId: session.__rc_callId,
+    direction: session.__rc_direction,
+    callStatus: session.__rc_callStatus,
     to: session.request.to.uri.user,
     toUserName: session.request.to.displayName,
     from: session.request.from.uri.user,
-    fromNumber: session.fromNumber,
+    fromNumber: session.__rc_fromNumber,
     fromUserName: session.request.from.displayName,
     startTime: session.startTime && (new Date(session.startTime)).getTime(),
-    creationTime: session.creationTime,
+    creationTime: session.__rc_creationTime,
     isOnHold: !!session.isOnHold().local,
-    isOnMute: !!session.isOnMute,
-    isOnFlip: !!session.isOnFlip,
-    isOnTransfer: !!session.isOnTransfer,
-    isToVoicemail: !!session.isToVoicemail,
-    isForwarded: !!session.isForwarded,
-    isReplied: !!session.isForwarded,
-    recordStatus: session.recordStatus || recordStatus.idle,
-    contactMatch: session.contactMatch,
-    minimized: !!session.minimized,
-    partyData: session.partyData || null,
-    lastActiveTime: session.lastActiveTime,
+    isOnMute: !!session.__rc_isOnMute,
+    isOnFlip: !!session.__rc_isOnFlip,
+    isOnTransfer: !!session.__rc_isOnTransfer,
+    isToVoicemail: !!session.__rc_isToVoicemail,
+    isForwarded: !!session.__rc_isForwarded,
+    isReplied: !!session.__rc_isReplied,
+    recordStatus: session.__rc_recordStatus || recordStatus.idle,
+    contactMatch: session.__rc_contactMatch,
+    minimized: !!session.__rc_minimized,
+    partyData: session.__rc_partyData || null,
+    lastActiveTime: session.__rc_lastActiveTime,
     cached: false,
     removed: false,
   };

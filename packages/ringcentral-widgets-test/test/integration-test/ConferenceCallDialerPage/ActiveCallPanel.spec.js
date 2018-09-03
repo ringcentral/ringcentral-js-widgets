@@ -191,7 +191,7 @@ describe('RCI-1071: simplified call control page #3', () => {
   test('#3 && #4 user makes a conference call then make an outbound call, then hangup', async () => {
     await mockStartConference();
     const conferenceSessionId = Object.values(phone.conferenceCall.conferences)[0].sessionId;
-    const conferenceSession = phone.webphone._sessions.get(conferenceSessionId);
+    const conferenceSession = phone.webphone.sessions.find(x => x.id === conferenceSessionId);
     const conferenceId = Object.values(phone.conferenceCall.conferences)[0].conference.id;
     expect(phone.routerInteraction.currentPath.indexOf('/calls/active')).toEqual(0);
     const callCtrlPage = wrapper.find(CallCtrlPage);
