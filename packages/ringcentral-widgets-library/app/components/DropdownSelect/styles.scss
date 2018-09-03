@@ -1,0 +1,150 @@
+@import '../lib/commonStyles/full-size';
+@import '../lib/commonStyles/colors.scss';
+@import '../lib/commonStyles/text-ellipsis';
+
+.root {
+  position: relative;
+  font-size: 13px;
+  border: 1px solid #a6a6a6;
+  border-radius: 2px;
+  color: #797979;
+  padding: 0 10px;
+}
+
+.noPadding {
+  padding: 0 0px;
+}
+
+.button {
+  position: relative;
+  height: 30px;
+  line-height: 30px;
+  border: 0;
+  // margin: 0 10px;
+  padding: 0;
+  width: 100%;
+  outline: medium none!important;
+  cursor: pointer;
+  text-transform: none;
+  background: transparent;
+  text-align: left;
+  overflow:hidden;
+
+  label {
+    float: left;
+    width: 50px;
+    overflow: hidden;
+  }
+}
+
+.selectedValue {
+  margin-left: 0;
+  display: block;
+  margin-right: 20px;
+  color: rgb(0, 0, 0);
+}
+
+.icon {
+  position: absolute;
+  right: 0px;
+  top: 0;
+}
+
+.iconUp {
+  transform: rotate(-180deg);
+}
+
+.selected {
+  color: $primary-color;
+}
+
+.dropdownItem {
+  display: block;
+  line-height: 15px;
+  padding: 5px 10px;
+  &:hover {
+    color: $primary-color;
+    cursor: pointer;
+  }
+}
+.dropdownItem:first-child {
+  padding-top: 10px;
+}
+
+.dropdownItem:last-child {
+  padding-bottom: 10px;
+}
+
+.left {
+  text-align: left;
+}
+.right {
+  text-align: right;
+}
+.center {
+  text-align: center;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0px;
+  margin: 0;
+  margin-top: 1px;
+  padding: 0;
+  z-index: 2;
+  width: 100%;
+  border: 1px solid #efefef;
+  border-radius: 2px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.175);
+  background: #fff;
+  max-height: 250px;
+  overflow: hidden;
+  overflow-y: auto;
+
+  &:hover {
+    .selected {
+      color: inherit;
+      &:hover {
+        color: $primary-color;
+      }
+    }
+  }
+
+  .placeholder:first-child {
+    color: #303030;
+    font-size: 13px;
+    font-weight: bold;
+    &:hover {
+      color: #303030;
+    }
+    .selected {
+      color: #303030;
+      &:hover {
+        color: #303030;
+      }
+    }
+  }
+
+}
+
+.open {
+  .dropdown {
+    display: block;
+  }
+}
+
+.disabled {
+  color: #777;
+  cursor: not-allowed;
+  .selectedValue {
+    color: #777;
+  }
+}
+
+.ellipsis {
+  @include text-ellipsis;
+}
+
+
