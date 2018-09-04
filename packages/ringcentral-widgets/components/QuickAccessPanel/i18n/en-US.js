@@ -8,5 +8,4 @@ export default {
   extensionOptions: 'Extension Options',
   Confirm: 'Confirm',
   Cancel: 'Cancel',
-
 };

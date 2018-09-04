@@ -5,8 +5,7 @@ import UserGuide from '../../components/UserGuide';
 function mapToProps(_, {
   phone: {
     locale,
-    userGuide,
-    quickAccess
+    userGuide
   },
 }) {
   const { curIdx, entered, playing } = userGuide.carouselState;
@@ -21,17 +20,18 @@ function mapToProps(_, {
     playing,
     firstLogin: userGuide.state.firstLogin,
     guides: userGuide.guides,
-    quickAccess
   };
 }
 
 function mapToFunctions(_, {
   phone: {
-    userGuide
+    userGuide,
+    quickAccess
   }
 }) {
   return {
     updateCarousel: (...args) => userGuide.updateCarousel(...args),
+    quickAccessEnter: () => quickAccess.enter()
   };
 }
 
