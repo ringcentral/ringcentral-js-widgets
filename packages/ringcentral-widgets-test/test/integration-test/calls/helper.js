@@ -11,8 +11,18 @@ import {
   mockDetailedPresencePubnub,
 } from '../../support/callHelper';
 
-export async function mockMultiActiveCalls(phone) {
-  mock.device(deviceBody, false);
+function mockCallProcedure(func) {
+  return async function (phone, ...args) {
+    mock.device(deviceBody, false);
+    const activeCallsBody = await func.apply(null, [phone, ...args]);
+    mock.activeCalls(activeCallsBody);
+    await phone.subscription.subscribe(['/account/~/extension/~/presence'], 10);
+    await timeout(100);
+    await mockDetailedPresencePubnub(activeCallsBody);
+  };
+}
+
+async function mockMultiActiveCallBodies(phone) {
   // inbound call
   const inboundSession = await getInboundCall(phone, {
     id: '111',
@@ -54,12 +64,32 @@ export async function mockMultiActiveCalls(phone) {
     },
     startTime: '2018-08-07T09:20:09.405Z',
   }];
-  const activeCallsBody = mockActiveCalls(
+  return mockActiveCalls(
     [inboundSession, outboundSession, incomingSession],
     mockOtherDeivce
   );
-  mock.activeCalls(activeCallsBody);
-  await phone.subscription.subscribe(['/account/~/extension/~/presence'], 10);
-  await timeout(100);
-  await mockDetailedPresencePubnub(activeCallsBody);
+}
+
+async function mockMultipleOutboundCallBodies(phone, n) {
+  const res = [];
+
+  for (let i = n; i > 0; i--) {
+    const outboundSession = await makeCall(phone, {
+      callId: true,
+      fromNumber: '+15878133670',
+      homeCountryId: '1',
+      toNumber: '101',
+    });
+    await phone.webphone.hold(outboundSession.id);
+    res.push(outboundSession);
+  }
+  return mockActiveCalls(res);
+}
+
+export async function mockMultiActiveCalls(phone) {
+  await mockCallProcedure(mockMultiActiveCallBodies)(phone);
+}
+
+export async function mockMultiOutboundCalls(phone, n) {
+  await mockCallProcedure(mockMultipleOutboundCallBodies)(phone, n);
 }
