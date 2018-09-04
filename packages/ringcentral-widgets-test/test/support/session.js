@@ -1,3 +1,5 @@
+import { CONFERENCE_SESSION_ID } from './callHelper';
+import { isConferenceSession, normalizeSession } from 'ringcentral-integration/modules/Webphone/webphoneHelper';
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatuses';
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 import recordStatus from 'ringcentral-integration/modules/Webphone/recordStatus';
@@ -72,7 +74,7 @@ export default class Session {
     this.__rc_lastActiveTime = undefined;
     this.__rc_partyData = {
       partyId: `cs17262255528361442${partyId}-1`,
-      sessionId: 'Y3MxNzI2MjI1NTQzODI0MzUzM0AxMC43NC4yLjIxOA',
+      sessionId: CONFERENCE_SESSION_ID
     };
 
     // mock events
@@ -178,5 +180,9 @@ export default class Session {
   async stopRecord() {
     stopRecordFn(this.id);
     return Promise.resolve(this.id);
+  }
+
+  isConferenceSession() {
+    return isConferenceSession(normalizeSession(this));
   }
 }
