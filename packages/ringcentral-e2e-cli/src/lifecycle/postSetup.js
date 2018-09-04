@@ -170,6 +170,7 @@ function testCase(caseParams, fn) {
           /* eslint-disable */
           const func = async function ({ browser, isSandbox, config, ...args }) {
             global.browser = browser;
+            // TODO handle type in `config`
             global.page = isSandbox ?
               await browser.launch(config.location) :
               await browser.goto(config.location);

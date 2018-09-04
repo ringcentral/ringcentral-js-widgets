@@ -95,6 +95,9 @@ function runner({
     globalSetup,
     globalTeardown,
     testEnvironment,
+    transform: {
+      '^.+\\.jsx?$': 'babel-jest'
+    },
   };
   const command = defaultsConfig.tester;
   const args = [`--config=${JSON.stringify(testerConfig)}`, ...testerCLI, ...tails];
