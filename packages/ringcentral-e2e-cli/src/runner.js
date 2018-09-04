@@ -9,7 +9,7 @@ const postSetupFile = 'src/lifecycle/postSetup.js';
 const globalSetup = 'ringcentral-e2e-environment/setup';
 const globalTeardown = 'ringcentral-e2e-environment/teardown';
 const testEnvironment = 'ringcentral-e2e-environment';
-const tails = ['--forceExit', '--no-cache', '--detectOpenHandles'];
+const tails = ['--forceExit', '--no-cache'];
 
 function getExecTags(
   { tags: rawTags, ...rest },
@@ -99,8 +99,14 @@ function runner({
       '^.+\\.jsx?$': 'babel-jest'
     },
   };
-  const command = defaultsConfig.tester;
-  const args = [`--config=${JSON.stringify(testerConfig)}`, ...testerCLI, ...tails];
+  // defaultsConfig.tester == 'jest';
+  const command = 'node';
+  const args = [
+    `${rootPath}/node_modules/.bin/jest`,
+    `--config=${JSON.stringify(testerConfig)}`,
+    ...testerCLI,
+    ...tails
+  ];
   const close = () => {
     // TODO HOOK main process close
     if (typeof exit === 'function') {
