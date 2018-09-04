@@ -1,5 +1,6 @@
 import sleep from 'ringcentral-integration/lib/sleep';
 import ActiveCallPad from 'ringcentral-widgets/components/ActiveCallPad';
+import ActiveCallPanel from 'ringcentral-widgets/components/ActiveCallPanel';
 import ActiveCallsPanel from 'ringcentral-widgets/components/ActiveCallsPanel';
 import ActiveCallItem from 'ringcentral-widgets/components//ActiveCallItemV2';
 import ActiveCallButton from 'ringcentral-widgets/components/ActiveCallButton';
@@ -129,5 +130,23 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
     wrapper.update();
     expect(phone.routerInteraction.currentPath.indexOf('/conferenceCall/callsOnhold')).toEqual(0);
     expect(phone.webphone.sessions.length).toEqual(SESSIONS_COUNT - 1);
+  });
+
+  test('Click Merge button of call B', async () => {
+    const navigationBar = wrapper.find(NavigationBar).first();
+    await navigationBar.props().goTo('/calls/active');
+    wrapper.update();
+    const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
+    addButton.find(CircleButton).simulate('click');
+    await sleep(200);
+    wrapper.update();
+    panel = wrapper.find(CallsOnholdPanel).first();
+    const firstMergeButton = panel.find(CircleButton).at(2);
+    firstMergeButton.simulate('click');
+    await sleep(200);
+    wrapper.update();
+    expect(phone.routerInteraction.currentPath.indexOf('/calls/active')).toEqual(0);
+    panel = wrapper.find(ActiveCallPanel).first();
+    expect(panel).toBeDefined();
   });
 });
