@@ -61,7 +61,7 @@
   float: left;
   width: calc(100% - 59px);
   font-weight: bold;
-  margin-top: 5px;
+  margin-top: 7.5px;
 }
 
 .group{
@@ -83,6 +83,10 @@
   margin-left: 30px;
   margin-bottom: 20px;
   margin-top: 8px;
+}
+
+.bageBox{
+   box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.2);
 }
 
 .bage{
