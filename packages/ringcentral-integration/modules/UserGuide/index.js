@@ -174,33 +174,6 @@ export default class UserGuide extends RcModule {
     });
   }
 
-  // @proxify
-  // async quick(show = false) {
-  //   if (this.state.firstLogin || show) {
-  //     this.store.dispatch({
-  //       type: this.actionTypes.updateCarousel,
-  //       curIdx: 0,
-  //       entered: false,
-  //       playing: false,
-  //       quickEnter: true,
-  //       firstLogin: false
-  //     });
-  //   }
-  // }
-
-  // @proxify
-  // async quickBack() {
-  //   this.store.dispatch({
-  //     type: this.actionTypes.updateCarousel,
-  //     curIdx: 0,
-  //     entered: false,
-  //     playing: false,
-  //     quickEnter: false,
-  //     firstLogin: false
-  //   });
-  // }
-
-
   get guides() {
     if (!this._locale.ready) return [];
     if (this.allGuides) {
