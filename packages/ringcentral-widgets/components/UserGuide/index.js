@@ -58,8 +58,8 @@ export default class UserGuide extends React.Component {
       entered: this.state.entered,
       playing: false
     });
-    if (this.props.quickAccess && this.props.firstLogin) {
-      this.props.quickAccess.enter();
+    if (this.props.quickAccessEnter && this.props.firstLogin) {
+      this.props.quickAccessEnter();
     }
   }
 
@@ -206,7 +206,7 @@ UserGuide.propTypes = {
   playing: PropTypes.bool,
   firstLogin: PropTypes.bool,
   updateCarousel: PropTypes.func,
-  quickAccess: PropTypes.any,
+  quickAccessEnter: PropTypes.func,
   guides: PropTypes.array.isRequired,
   showSpinner: PropTypes.bool.isRequired,
   currentLocale: PropTypes.string.isRequired,
@@ -218,5 +218,5 @@ UserGuide.defaultProps = {
   playing: false,
   firstLogin: false,
   updateCarousel: () => null,
-  quickAccess: undefined
+  quickAccessEnter: undefined
 };
