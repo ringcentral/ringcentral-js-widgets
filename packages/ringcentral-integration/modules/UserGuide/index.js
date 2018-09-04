@@ -119,7 +119,7 @@ export default class UserGuide extends RcModule {
   @proxify
   dismiss() {
     this.updateCarousel({
-      curIdx: 0, entered: false, playing: false, quickEnter: false
+      curIdx: 0, entered: false, playing: false, firstLogin: false
     });
   }
 
@@ -135,15 +135,14 @@ export default class UserGuide extends RcModule {
 
   @proxify
   async updateCarousel({
-    curIdx, entered, playing, quickEnter = this.state.carouselState.quickEnter
+    curIdx, entered, playing, firstLogin = this.state.firstLogin
   }) {
     this.store.dispatch({
       type: this.actionTypes.updateCarousel,
       curIdx,
       entered,
       playing,
-      quickEnter,
-      firstLogin: this.state.firstLogin
+      firstLogin
     });
   }
 
@@ -159,7 +158,7 @@ export default class UserGuide extends RcModule {
     // will be changed as well, in this case, it will be displayed.
     await this.loadGuides(guides);
     if (JSON.stringify(guides) !== JSON.stringify(prevGuides)) {
-      this.start(true);
+      this.start({ firstLogin: true });
     }
   }
 
@@ -175,31 +174,31 @@ export default class UserGuide extends RcModule {
     });
   }
 
-  @proxify
-  async quick(show = false) {
-    if (this.state.firstLogin || show) {
-      this.store.dispatch({
-        type: this.actionTypes.updateCarousel,
-        curIdx: 0,
-        entered: false,
-        playing: false,
-        quickEnter: true,
-        firstLogin: false
-      });
-    }
-  }
+  // @proxify
+  // async quick(show = false) {
+  //   if (this.state.firstLogin || show) {
+  //     this.store.dispatch({
+  //       type: this.actionTypes.updateCarousel,
+  //       curIdx: 0,
+  //       entered: false,
+  //       playing: false,
+  //       quickEnter: true,
+  //       firstLogin: false
+  //     });
+  //   }
+  // }
 
-  @proxify
-  async quickBack() {
-    this.store.dispatch({
-      type: this.actionTypes.updateCarousel,
-      curIdx: 0,
-      entered: false,
-      playing: false,
-      quickEnter: false,
-      firstLogin: false
-    });
-  }
+  // @proxify
+  // async quickBack() {
+  //   this.store.dispatch({
+  //     type: this.actionTypes.updateCarousel,
+  //     curIdx: 0,
+  //     entered: false,
+  //     playing: false,
+  //     quickEnter: false,
+  //     firstLogin: false
+  //   });
+  // }
 
 
   get guides() {

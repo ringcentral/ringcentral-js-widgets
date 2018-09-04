@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import formatMessage from 'format-message';
 
 // eslint-disable-next-line
 import logoIconUrl from '!url-loader!brand-logo-path/Icon.svg';
+import FormattedMessage from '../FormattedMessage';
 import CheckBox from '../CheckBox';
 import Button from '../Button';
 
@@ -19,14 +21,14 @@ export default class QuickAccessPanel extends Component {
     super(props);
     this.state = {
       selected: 1,
-      quickEnter: this.props.quickEnter || false,
+      entered: this.props.entered || false,
     };
   }
   componentWillReceiveProps(nextProps) {
-    const { quickEnter } = nextProps;
-    if (this.state.quickEnter !== quickEnter) {
-      this.setState({ quickEnter });
-      if (quickEnter) {
+    const { entered } = nextProps;
+    if (this.state.entered !== entered) {
+      this.setState({ entered });
+      if (entered) {
         this.props.getChromeStorage((storageData) => {
           if (storageData.whitelistOption === OPTION_FOR_ALL) {
             this.setState({
@@ -65,9 +67,9 @@ export default class QuickAccessPanel extends Component {
 s
 
 render() {
-  if (!this.state.quickEnter) return null;
+  if (!this.state.entered) return null;
   const data = [{
-    text: i18n.getString('textGoogle', this.props.currentLocale),
+    text: formatMessage(i18n.getString('textGoogle', this.props.currentLocale), { appName: 'Google apps' }),
     value: 1
   }, {
     text: i18n.getString('textAll', this.props.currentLocale),
@@ -77,17 +79,26 @@ render() {
     value: 3
   }];
   let description = null;
+  const extensionOptions = i18n.getString('extensionOptions', this.props.currentLocale);
+  const optionsLink = (
+    <a href="#" onClick={this.props.openOptionspage}>
+      {extensionOptions}
+    </a>
+  );
   if (this.state.selected === 2) {
-    description = (<div className={styles.description}>Go to <a href="#" onClick={this.props.openOptionspage}> Extension Options</a > to define your blacklist.</div>);
+    description = (<FormattedMessage
+      message={i18n.getString('descriptionAll', this.props.currentLocale)}
+      values={{ optionsLink }} />);
   } else if (this.state.selected === 3) {
-    description = (<div className={styles.description}>Go to <a href="#" onClick={this.props.openOptionspage}> Extension Options</a > to define your specific websites.</div>);
+    description = (<FormattedMessage
+      message={i18n.getString('descriptionUser', this.props.currentLocale)}
+      values={{ optionsLink }} />);
   }
   return (
     <div className={classnames(styles.root, this.props.className)}>
       <div className={styles.group}>
         <div className={styles.header} >
-          <div className={styles.title} > {i18n.getString('titleFirst', this.props.currentLocale) + this.props.brandName }
-            <br />{i18n.getString('titleSecond')}
+          <div className={styles.title} >{formatMessage(i18n.getString('title', this.props.currentLocale), { brandName: this.props.brandName })}
           </div>
           <div className={classnames(styles.bage, styles[this.props.brandCode])} ><div className={styles.presence} />
             <div className={styles.iconContainer}>
@@ -104,18 +115,18 @@ render() {
           onSelect={this.onSelectOption}
         />
         {/* <div>{props.data[this.state.selected - 1].description}</div> */}
-        {description}
+        <div className={styles.description}> {description} </div>
       </div>
       <Button
         className={styles.confirmBtn}
         onClick={this.onConfirm}
         >
-        {'Confirm'}
+        {i18n.getString('Confirm', this.props.currentLocale)}
       </Button>
       <Button
         className={styles.cancelBtn}
         onClick={this.props.onCancel}>
-        {'Cancel'}
+        {i18n.getString('Cancel', this.props.currentLocale)}
       </Button>
     </div>
   );
@@ -123,7 +134,7 @@ render() {
 }
 
 QuickAccessPanel.propTypes = {
-  quickEnter: PropTypes.bool,
+  entered: PropTypes.bool,
   className: PropTypes.string,
   onCancel: PropTypes.func.isRequired,
   brandName: PropTypes.string,
@@ -135,7 +146,7 @@ QuickAccessPanel.propTypes = {
 };
 
 QuickAccessPanel.defaultProps = {
-  quickEnter: false,
+  entered: false,
   className: '',
   brandName: 'RingCentral'
 };

@@ -5,13 +5,13 @@ import QuickAccessPanel from '../../components/QuickAccessPanel';
 function mapToProps(_, {
   phone: {
     brand,
-    userGuide,
+    quickAccess,
     locale
   },
 }) {
-  const { quickEnter } = userGuide.carouselState;
+  const entered = quickAccess.entered;
   return {
-    quickEnter,
+    entered,
     brandName: brand.fullName,
     brandCode: brand.code,
     currentLocale: locale.currentLocale,
@@ -20,12 +20,12 @@ function mapToProps(_, {
 
 function mapToFunctions(_, {
   phone: {
-    userGuide
+    quickAccess
   }
 }) {
   return {
     onCancel() {
-      userGuide.quickBack();
+      quickAccess.exit();
     }
   };
 }

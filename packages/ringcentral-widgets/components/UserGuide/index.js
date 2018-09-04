@@ -58,7 +58,9 @@ export default class UserGuide extends React.Component {
       entered: this.state.entered,
       playing: false
     });
-    this.props.quick();
+    if (this.props.quickAccess && this.props.firstLogin) {
+      this.props.quickAccess.enter();
+    }
   }
 
   onExited = () => {
@@ -68,7 +70,8 @@ export default class UserGuide extends React.Component {
     this.props.updateCarousel({
       curIdx: 0,
       entered: false,
-      playing: false
+      playing: false,
+      firstLogin: false
     });
   }
 
@@ -201,8 +204,9 @@ UserGuide.propTypes = {
   curIdx: PropTypes.number,
   entered: PropTypes.bool,
   playing: PropTypes.bool,
+  firstLogin: PropTypes.bool,
   updateCarousel: PropTypes.func,
-  quick: PropTypes.func,
+  quickAccess: PropTypes.any,
   guides: PropTypes.array.isRequired,
   showSpinner: PropTypes.bool.isRequired,
   currentLocale: PropTypes.string.isRequired,
@@ -212,6 +216,7 @@ UserGuide.defaultProps = {
   curIdx: 0,
   entered: false,
   playing: false,
+  firstLogin: false,
   updateCarousel: () => null,
-  quick: () => null
+  quickAccess: undefined
 };

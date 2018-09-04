@@ -127,7 +127,7 @@ export default function SettingsPanel({
     ? (
       <LinkLine
         onClick={onQuickAccessLinkClick} >
-        {'Quick Access'}
+        {i18n.getString('quickAccess', currentLocale)}
       </LinkLine>
     )
     : null;
@@ -374,6 +374,6 @@ SettingsPanel.defaultProps = {
   savedLocale: undefined,
   saveLocale: undefined,
   showFeedback: true,
-  showQuickAccess: true,
+  showQuickAccess: false,
   onQuickAccessLinkClick: () => null
 };
