@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import formatMessage from 'format-message';
 
-// eslint-disable-next-line
-import logoIconUrl from '!url-loader!brand-logo-path/Icon.svg';
 import FormattedMessage from '../FormattedMessage';
 import CheckBox from '../CheckBox';
 import Button from '../Button';
@@ -69,7 +67,7 @@ s
 render() {
   if (!this.state.entered) return null;
   const data = [{
-    text: formatMessage(i18n.getString('textGoogle', this.props.currentLocale), { appName: 'Google apps' }),
+    text: formatMessage(i18n.getString('textGoogle', this.props.currentLocale), { appName: this.props.appName }),
     value: 1
   }, {
     text: i18n.getString('textAll', this.props.currentLocale),
@@ -102,7 +100,7 @@ render() {
           </div>
           <div className={classnames(styles.bage, styles[this.props.brandCode])} ><div className={styles.presence} />
             <div className={styles.iconContainer}>
-              <img className={styles.icon} src={logoIconUrl} alt={this.props.brandName} />
+              <img className={styles.icon} src={this.props.logoIconUrl} alt={this.props.brandName} />
             </div>
           </div>
         </div>
@@ -139,6 +137,8 @@ QuickAccessPanel.propTypes = {
   onCancel: PropTypes.func.isRequired,
   brandName: PropTypes.string,
   brandCode: PropTypes.string,
+  appName: PropTypes.string,
+  logoIconUrl: PropTypes.any,
   setChromeStorage: PropTypes.func.isRequired,
   getChromeStorage: PropTypes.func.isRequired,
   openOptionspage: PropTypes.func.isRequired,
@@ -148,5 +148,8 @@ QuickAccessPanel.propTypes = {
 QuickAccessPanel.defaultProps = {
   entered: false,
   className: '',
-  brandName: 'RingCentral'
+  brandName: 'RingCentral',
+  brandCode: '',
+  appName: '',
+  logoIconUrl: undefined
 };
