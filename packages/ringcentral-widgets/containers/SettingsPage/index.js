@@ -92,6 +92,7 @@ function mapToFunctions(_, {
     routerInteraction,
     localeSettings,
     userGuide,
+    quickAccess
   },
   regionSettingsUrl = '/settings/region',
   callingSettingsUrl = '/settings/calling',
@@ -117,6 +118,7 @@ function mapToFunctions(_, {
     onUserGuideClick() {
       userGuide.start();
     },
+
     setAvailable: (...args) => (detailedPresence && detailedPresence.setAvailable(...args)),
     setBusy: (...args) => (detailedPresence && detailedPresence.setBusy(...args)),
     setDoNotDisturb: (...args) => (detailedPresence && detailedPresence.setDoNotDisturb(...args)),
