@@ -15,6 +15,8 @@
     "node": ">=8"
   },
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "jest": "^23.5.0",
     "request": "^2.88.0",
     "ringcentral-e2e-cli": "^0.0.1"
   },
