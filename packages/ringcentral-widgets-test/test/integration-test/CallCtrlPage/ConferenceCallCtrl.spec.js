@@ -116,7 +116,6 @@ describe('RCI-2980793 Conference Call Control Page - Hang Up', () => {
   test('Press "Hand Up" button #2 Direct to call contral page', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
     const outboundSession = await makeOutboundCall(phone);
-    await phone.webphone.hold(outboundSession.id);
     await mockConferenceCallEnv(phone);
     wrapper.update();
     const handupButton = wrapper.find('.stopButtonGroup').find(CircleButton);
@@ -182,7 +181,6 @@ describe('Conference Call Control Page - Merge Button', () => {
   test('When user records the conference call, user can not merge other call', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
     const outboundSession = await makeOutboundCall(phone);
-    await phone.webphone.hold(outboundSession.id);
     await mockConferenceCallEnv(phone);
     wrapper.update();
     recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);

@@ -14,10 +14,12 @@ class UserAgent {
   }
 
   invite(toNumber) {
+    const sessionId = `${toNumber}-${Math.round(Math.random() * 1000000000).toString()}`;
     return new Session({
-      id: `${toNumber}-${Math.round(Math.random() * 1000000000).toString()}`,
+      id: sessionId,
       direction: 'Outbound',
-      to: toNumber
+      to: toNumber,
+      callId: `call-${sessionId}`
     });
   }
 

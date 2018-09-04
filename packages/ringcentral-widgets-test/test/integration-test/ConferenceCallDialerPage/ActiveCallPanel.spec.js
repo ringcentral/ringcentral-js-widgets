@@ -3,26 +3,18 @@ import { CallCtrlPage } from 'ringcentral-widgets/containers/CallCtrlPage';
 import MergeInfo from 'ringcentral-widgets/components/ActiveCallPanel/MergeInfo';
 import CallAvatar from 'ringcentral-widgets/components/CallAvatar';
 import DurationCounter from 'ringcentral-widgets/components/DurationCounter';
-import calleeTypes from 'ringcentral-integration/enums/calleeTypes';
-import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 import ActiveCallPad from 'ringcentral-widgets/components/ActiveCallPad/';
 import ActiveCallButton from 'ringcentral-widgets/components/ActiveCallButton';
-import CombinIcon from 'ringcentral-widgets/assets/images/Combine.svg';
-import Answer from 'ringcentral-widgets/assets/images/Answer.svg';
 import CircleButton from 'ringcentral-widgets/components/CircleButton';
 import FromField from 'ringcentral-widgets/components/FromField';
 import BackHeader from 'ringcentral-widgets/components/BackHeader';
 import BackButton from 'ringcentral-widgets/components/BackButton';
 import RecipientsInput from 'ringcentral-widgets/components/RecipientsInput';
 import ContactDropdownList from 'ringcentral-widgets/components/ContactDropdownList';
-import ContactItem from 'ringcentral-widgets/components/ContactItem';
-import LinkLine from 'ringcentral-widgets/components/LinkLine';
 import DropdownSelect from 'ringcentral-widgets/components/DropdownSelect';
 import deviceBody from './data/device';
-import activeCallsBody from './data/activeCalls';
 import extensionListBody from './data/extension';
 import conferenceCallBody from './data/conferenceCall';
-import conferenceCallBringInBody from './data/conferenceCallBringIn';
 import incomingResponse from './data/incomingResponse';
 import { initPhoneWrapper, timeout } from '../shared';
 import {
@@ -95,7 +87,6 @@ async function mockStartConference(phone, wrapper) {
   // HACK: `updateConference` should be mock at mockForLogin func.
   // mock.updateConferenceCall(conferenceUpdate.id, conferenceUpdate);
   mock.conferenceCallBringIn(conferenceCallBody.id);
-  mock.terminateConferenceCall(conferenceCallBody.id);
   mock.conferenceCall();
   await mockContacts(phone);
   const contactA = phone.contacts.allContacts.find(item => item.type === 'company');
@@ -118,7 +109,7 @@ async function mockStartConference(phone, wrapper) {
   await timeout(100);
   const conferenceSessionId = Object.values(phone.conferenceCall.conferences)[0].sessionId;
   const conferenceSession = phone.webphone._sessions.get(conferenceSessionId);
-  conferenceSession.accept();
+  conferenceSession.accept(phone.webphone.acceptOptions);
   await timeout(200);
   wrapper.update();
 }
