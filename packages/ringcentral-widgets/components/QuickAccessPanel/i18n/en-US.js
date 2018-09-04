@@ -1,5 +1,5 @@
 export default {
-  textGoogle: 'Only show in {appName}.',
+  textGoogle: 'Only show in {appName} apps.',
   textAll: 'Show on all websites except my blacklist.',
   textUser: 'Show on the websites I specify.',
   title: 'Choose where {brandName} Quick Access appears: ',

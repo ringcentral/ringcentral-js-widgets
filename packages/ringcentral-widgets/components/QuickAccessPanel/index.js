@@ -27,7 +27,7 @@ export default class QuickAccessPanel extends Component {
     if (this.state.entered !== entered) {
       this.setState({ entered });
       if (entered) {
-        this.props.getChromeStorage((storageData) => {
+        this.props.getOptionData((storageData) => {
           if (storageData.whitelistOption === OPTION_FOR_ALL) {
             this.setState({
               selected: 2,
@@ -48,11 +48,11 @@ export default class QuickAccessPanel extends Component {
 
  onConfirm = () => {
    if (this.state.selected === 2) {
-     this.props.setChromeStorage({ whitelistOption: OPTION_FOR_ALL });
+     this.props.setOptionData({ whitelistOption: OPTION_FOR_ALL });
    } else if (this.state.selected === 3) {
-     this.props.setChromeStorage({ whitelistOption: OPTION_FOR_USER });
+     this.props.setOptionData({ whitelistOption: OPTION_FOR_USER });
    } else {
-     this.props.setChromeStorage({ whitelistOption: OPTION_FOR_GOOGLE });
+     this.props.setOptionData({ whitelistOption: OPTION_FOR_GOOGLE });
    }
    this.props.onCancel();
  };
@@ -138,8 +138,8 @@ QuickAccessPanel.propTypes = {
   brandCode: PropTypes.string,
   appName: PropTypes.string,
   logoIconUrl: PropTypes.any,
-  setChromeStorage: PropTypes.func.isRequired,
-  getChromeStorage: PropTypes.func.isRequired,
+  setOptionData: PropTypes.func.isRequired,
+  getOptionData: PropTypes.func.isRequired,
   openOptionspage: PropTypes.func.isRequired,
   currentLocale: PropTypes.string.isRequired,
 };
