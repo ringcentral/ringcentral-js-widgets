@@ -22,8 +22,8 @@ class Driver {
     this.page = await this.browser.newPage();
   }
 
-  async goto(location) {
-    await this.page.goto(location);
+  async goto(config) {
+    await this.page.goto(config.location);
     return this.page;
   }
 
@@ -38,13 +38,13 @@ class Driver {
     return this._program;
   }
 
-  async launch(location) {
+  async launch(config) {
     this.browser = await this._program.launch({
       // ...this._options.global.driverSetting,
       ...this._options.driver.setting,
     });
     this.page = await this.browser.newPage();
-    await this.page.goto(location);
+    await this.page.goto(config.location);
     return this.page;
   }
 

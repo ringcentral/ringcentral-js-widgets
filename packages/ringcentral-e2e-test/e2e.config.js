@@ -5,7 +5,7 @@ module.exports = {
     handler: './einstein.js'
   }],
   exec: {
-    drivers: ['puppeteer'],
+    drivers: ['puppeteer', 'seleniumWebdriverFirefox', 'seleniumWebdriverSafari', 'enzyme'],
     levels: [
       'p0',
       'p1'

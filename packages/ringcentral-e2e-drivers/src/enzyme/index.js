@@ -19,7 +19,7 @@ class Driver {
     //
   }
 
-  async goto(location) {
+  async goto(config) {
     // const app = require(location);
     // this.browser = this._program.mount();
     // this.page = this.browser;
@@ -38,8 +38,14 @@ class Driver {
     return this._program;
   }
 
-  async launch() {
-    //
+  async launch(config) {
+    const path = require('path').resolve(process.cwd(), config.source);
+    const getApp = require(path).default;
+    const app = await getApp();
+    this.browser = this._program.mount(app);
+    this.page = this.browser;
+    await new Promise(r => setTimeout(r, 100));
+    return this.page;
   }
 
   async close() {

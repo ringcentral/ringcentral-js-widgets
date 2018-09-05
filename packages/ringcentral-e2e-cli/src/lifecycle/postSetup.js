@@ -172,8 +172,8 @@ function testCase(caseParams, fn) {
             global.browser = browser;
             // TODO handle type in `config`
             global.page = isSandbox ?
-              await browser.launch(config.location) :
-              await browser.goto(config.location);
+              await browser.launch(config) :
+              await browser.goto(config);
             // TODO HOOK
             await fn({ ...args, isSandbox, config});
           };

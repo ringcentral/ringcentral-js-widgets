@@ -48,8 +48,8 @@ module.exports = (browser) => {
       this.page = this.browser;
     }
 
-    async goto(location) {
-      await this.browser.get(location);
+    async goto(config) {
+      await this.browser.get(config.location);
       return this.browser;
     }
 
@@ -61,11 +61,11 @@ module.exports = (browser) => {
       return this._program;
     }
 
-    async launch(location) {
+    async launch(config) {
       this.browser = this._program
         .forBrowser(Browsers[webdriver])[setKeyName](this._options.driver.setting)
         .build();
-      await this.browser.get(location);
+      await this.browser.get(config.location);
       return this.browser;
     }
 
