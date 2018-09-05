@@ -248,8 +248,8 @@ export default function SettingsPanel({
         {clickToDial}
         {additional}
         {feedback}
-        {quickAccess}
         {userGuide}
+        {quickAccess}
         <section className={styles.section}>
           <Line noBorder>
             <EulaRenderer
