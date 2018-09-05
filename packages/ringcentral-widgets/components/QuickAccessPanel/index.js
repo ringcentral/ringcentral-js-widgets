@@ -97,8 +97,8 @@ export default class QuickAccessPanel extends Component {
          <div className={styles.header} >
            <div className={styles.title} >{formatMessage(i18n.getString('title', this.props.currentLocale), { brandName: this.props.brandName })}
            </div>
-           <div className={styles.bageBox} >
-             <div className={classnames(styles.bage, styles[this.props.brandCode])} ><div className={styles.presence} />
+           <div className={classnames(styles.bageBox, styles[this.props.brandCode])} >
+             <div className={styles.bage} ><div className={styles.presence} />
                <div className={styles.iconContainer}>
                  <img className={styles.icon} src={this.props.logoIconUrl} alt={this.props.brandName} />
                </div>

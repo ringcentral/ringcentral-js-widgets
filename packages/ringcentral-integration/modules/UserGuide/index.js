@@ -163,7 +163,7 @@ export default class UserGuide extends RcModule {
   }
 
   @proxify
-  async start(firstLogin = false) {
+  async start({ firstLogin = false } = {}) {
     // Start guides only when images are ready
     this.store.dispatch({
       type: this.actionTypes.updateCarousel,

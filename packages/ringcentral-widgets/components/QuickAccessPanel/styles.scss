@@ -59,7 +59,7 @@
 
 .title{
   float: left;
-  width: calc(100% - 59px);
+  width: calc(100% - 78px);
   font-weight: bold;
   margin-top: 7.5px;
 }
@@ -86,23 +86,30 @@
 }
 
 .bageBox{
-   box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.2);
+    position: absolute;
+    right: 15px;
+    height: 50px;
+    width: 1px;
+    height: 50px;
+    background-color: #ffffff;
+    box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.2);
 }
 
 .bage{
-  position: absolute;
-  right: 0px;
-  width: 59px;
-  height: 35px;
-  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.18);
-  background-color: #f3f3f3;
-  border-top-left-radius: 3px;
-  border-bottom-left-radius: 3px;
-  margin-top: 5px;
+    position: absolute;
+    right: 0px;
+    width: 59px;
+    height: 35px;
+    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.18);
+    background-color: #f3f3f3;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    margin-top: 7.5px;
 }
 
 .telus{
-  top: 30px;
+    top: 28px;
 }
 
 .iconContainer {
