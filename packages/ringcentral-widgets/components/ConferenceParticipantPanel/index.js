@@ -46,16 +46,20 @@ class ParticipantsContainer extends Component {
     this.props.afterOnCancel();
   }
 
+  onClose() {
+    this.setState({
+      showModal: false,
+      detail: null,
+    });
+  }
+
   componentWillReceiveProps(nextProps) {
     this.formatPrticipants(nextProps);
     if (this.state.showModal
       && !nextProps.participants.find(
         participant => participant.id === this.state.detail.id
       )) {
-      this.setState({
-        showModal: false,
-        detail: null,
-      });
+      this.onClose();
     }
   }
 
@@ -122,10 +126,7 @@ class ParticipantsContainer extends Component {
           onCancel={this.onCancel}
           currentLocale={currentLocale}
           onRemove={
-            () => removeFunc(detail && detail.id).then(this.setState({
-              showModal: false,
-              detail: null,
-            }))
+            () => removeFunc(detail && detail.id).then(this.onClose)
           } />
       </div>
     );
@@ -139,9 +140,6 @@ ParticipantsContainer.propTypes = {
   participants: PropTypes.arrayOf(PropTypes.object).isRequired,
   onBackButtonClick: PropTypes.func,
   formatPhone: PropTypes.func,
-  removeParticipantClickRemoveTrack: PropTypes.func,
-  removeParticipantClickCancelTrack: PropTypes.func,
-  participantListClickHangupTrack: PropTypes.func,
   afterOnCancel: PropTypes.func,
   afterOnRemoveBtnClick: PropTypes.func,
 };
@@ -150,9 +148,6 @@ ParticipantsContainer.defaultProps = {
   removeFunc: i => i,
   onBackButtonClick: i => i,
   formatPhone: i => i,
-  removeParticipantClickRemoveTrack: i => i,
-  participantListClickHangupTrack: i => i,
-  removeParticipantClickCancelTrack: i => i,
   afterOnCancel: i => i,
   afterOnRemoveBtnClick: i => i,
 };

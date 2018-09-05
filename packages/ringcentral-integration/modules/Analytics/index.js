@@ -40,8 +40,6 @@ const INIT_TRACK_LIST = [
   '_conferenceAddDialInNumber',
   '_conferenceJoinAsHost',
   '_showWhatsNew',
-  '_conferenceControlClickParticipantsArea',
-  '_simplifiedCallControlClickHangup',
 ];
 
 /**
@@ -86,7 +84,6 @@ export default class Analytics extends RcModule {
     callHistory,
     conference,
     userGuide,
-    conferenceCall,
     ...options
   }) {
     super({
@@ -111,7 +108,6 @@ export default class Analytics extends RcModule {
     this._callHistory = callHistory;
     this._conference = conference;
     this._userGuide = userGuide;
-    this._conferenceCall = conferenceCall;
     // init
     this._reducer = getAnalyticsReducer(this.actionTypes);
     this._segment = Segment();
@@ -407,25 +403,6 @@ export default class Analytics extends RcModule {
       && action.curIdx === 0
       && action.playing) {
       this.track('What\'s New');
-    }
-  }
-
-  _conferenceControlClickParticipantsArea(action) {
-    if (this._router
-      && this._router.actionTypes.locationChange === action.type
-      && this._router.currentPath === '/conferenceCall/participants'
-    ) {
-      this.track('Click Participants Area (Conference Control)');
-    }
-  }
-
-  _simplifiedCallControlClickHangup(action) {
-    if (this._router
-      && this._router.currentPath === '/calls/active'
-      && this._conferenceCall
-      && this._conferenceCall.actionTypes.closeMergingPair === action.type
-    ) {
-      this.track('Click Hangup (Simplified Call Control)');
     }
   }
 
