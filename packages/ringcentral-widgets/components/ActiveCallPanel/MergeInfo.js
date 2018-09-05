@@ -100,7 +100,6 @@ class MergeInfo extends Component {
               extraNum={isOnConferenceCall ? lastCallInfo.extraNum : 0}
               isOnConferenceCall={isOnConferenceCall}
               spinnerMode={showSpinner}
-              shouldBubbleClick
             />
           </div>
           {
@@ -151,8 +150,8 @@ class MergeInfo extends Component {
           <div className={styles.callee_avatar_active} >
             {
               currentCallAvatarUrl
-                ? <CallAvatar avatarUrl={currentCallAvatarUrl} shouldBubbleClick />
-                : <CallAvatar avatarUrl={null} shouldBubbleClick />
+                ? <CallAvatar avatarUrl={currentCallAvatarUrl} />
+                : <CallAvatar avatarUrl={null} />
             }
           </div>
           <div className={styles.callee_name_active}>

@@ -9,9 +9,9 @@ import CallAvatar from '../CallAvatar';
 export default function CallInfo(props) {
   let avatar;
   if (props.avatarUrl) {
-    avatar = (<CallAvatar avatarUrl={props.avatarUrl} shouldBubbleClick />);
+    avatar = (<CallAvatar avatarUrl={props.avatarUrl} />);
   } else {
-    avatar = (<CallAvatar avatarUrl={null} shouldBubbleClick />);
+    avatar = (<CallAvatar avatarUrl={null} />);
   }
   return (
     <div className={styles.userInfo}>
