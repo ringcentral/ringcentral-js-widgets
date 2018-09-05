@@ -10,6 +10,7 @@ function mapToProps(_, {
   phone: {
     call,
     dialerUI,
+    callMonitor,
     callingSettings,
     contactSearch,
     connectivityMonitor,
@@ -26,7 +27,12 @@ function mapToProps(_, {
   const webphoneDisconnected = (isWebphoneMode && webphone && !webphone.connected);
   const audioNotEnabled = isWebphoneMode && audioSettings && !audioSettings.userMedia;
   const conferenceCallEquipped = !!conferenceCall;
-  const withTab = !!(conferenceCallEquipped && isWebphoneMode && webphone.sessions.length);
+  const withTab = !!(
+    conferenceCallEquipped
+    && isWebphoneMode
+    && callMonitor.calls.length
+    && webphone.sessions.length
+  );
 
   return {
     currentLocale: locale.currentLocale,
