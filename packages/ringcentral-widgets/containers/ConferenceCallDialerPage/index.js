@@ -70,21 +70,22 @@ function mapToFunctions(_, {
     ...baseProps,
     onBack,
     onCallButtonClick() {
-      // set mergingPair if has
-      const { fromSessionId } = params;
-      if (
-        fromSessionId &&
-        conferenceCall &&
-        conferenceCall.mergingPair &&
-        !conferenceCall.mergingPair.fromSessionId
-      ) {
-        conferenceCall.setMergeParty({
-          fromSessionId
-        });
-      }
-
       phone.dialerUI.onCallButtonClick({
         fromNumber: params.fromNumber,
+        beforeCall() {
+          const { fromSessionId } = params;
+          if (
+            fromSessionId &&
+            conferenceCall &&
+            conferenceCall.mergingPair &&
+            !conferenceCall.mergingPair.fromSessionId
+          ) {
+            // set mergingPair if has
+            conferenceCall.setMergeParty({
+              fromSessionId
+            });
+          }
+        }
       });
     },
     callBtnClassName: styles.callBtn,

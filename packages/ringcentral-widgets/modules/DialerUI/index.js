@@ -187,7 +187,7 @@ export default class DialerUI extends RcModule {
   }
 
   @proxify
-  async onCallButtonClick({ fromNumber } = {}) {
+  async onCallButtonClick({ fromNumber, beforeCall } = {}) {
     if (
       `${this.toNumberField}`.trim().length === 0 &&
       !this.recipient
@@ -204,6 +204,9 @@ export default class DialerUI extends RcModule {
         });
       }
     } else {
+      if (typeof beforeCall === 'function') {
+        beforeCall();
+      }
       await this.call({
         phoneNumber: this.toNumberField,
         recipient: this.recipient,
