@@ -12,14 +12,10 @@ import BackButton from 'ringcentral-widgets/components/BackButton';
 import RecipientsInput from 'ringcentral-widgets/components/RecipientsInput';
 import ContactDropdownList from 'ringcentral-widgets/components/ContactDropdownList';
 import DropdownSelect from 'ringcentral-widgets/components/DropdownSelect';
-import extensionListBody from './data/extension';
-import conferenceCallBody from './data/conferenceCall';
-import incomingResponse from './data/incomingResponse';
 import { initPhoneWrapper, timeout } from '../shared';
+import extensionListBody from './data/extension';
+import { makeCall, CONFERENCE_SESSION_ID } from '../../support/callHelper';
 import {
-  mockGeneratePresenceApi,
-  mockGeneratePresenceUpdateApi,
-  mockGenerateActiveCallsApi,
   mockPubnub,
   generateActiveCallsData
 } from './helper.js';
@@ -32,26 +28,33 @@ async function call(phone, wrapper, {
   phoneNumber,
   fromNumber
 }) {
-  mock.numberParser();
-  // joy mock.device(deviceBody, false);
-  await phone.dialerUI.call({ phoneNumber, fromNumber });
+  const session = await makeCall(phone, {
+    fromNumber: fromNumber || '+12812923232',
+    homeCountryId: '1',
+    toNumber: phoneNumber,
+  });
   await timeout(500);
   wrapper.update();
-  const currentSessionId = phone.webphone.activeSession.id;
-  const currentSession = await phone.webphone._sessions.get(currentSessionId);
-  currentSession.accept(incomingResponse);
+  session.accept(phone.webphone.acceptOptions);
+  return session;
 }
 
 async function mockSub(phone, ttl = 100) {
   const activeCalls = generateActiveCallsData(phone.webphone.sessions);
-  mockGeneratePresenceApi({
-    activeCalls
-  });
-  mockGeneratePresenceUpdateApi({
-    activeCalls
-  });
-  mockGenerateActiveCallsApi({
-    sessions: phone.webphone.sessions
+  mock.activeCalls(activeCalls);
+  mock.presence('~', {
+    activeCalls,
+    allowSeeMyPresence: true,
+    dndStatus: 'TakeAllCalls',
+    extensionId: 160751006,
+    meetingsStatus: 'Disconnected',
+    pickUpCallsOnHold: false,
+    presenceStatus: 'Busy',
+    ringOnMonitoredCall: false,
+    sequence: 368997,
+    telephonyStatus: 'OnHold',
+    totalActiveCalls: activeCalls.length,
+    userStatus: 'Available',
   });
   await phone.subscription.subscribe(['/account/~/extension/~/presence'], 10);
   await timeout(ttl);
@@ -61,20 +64,20 @@ async function mockSub(phone, ttl = 100) {
 }
 
 async function mockAddCall(phone, wrapper, contactA, contactB) {
-  await call(phone, wrapper, {
+  const firstSession = await call(phone, wrapper, {
     phoneNumber: contactA.phoneNumbers[0].phoneNumber
   });
-  const sessionA = phone.webphone.sessions[0];
-  await phone.webphone.hold(sessionA.id);
+  await phone.webphone.hold(firstSession.id);
   const callCtrlPage = wrapper.find(CallCtrlPage);
-  await callCtrlPage.props().onAdd(sessionA.id);
-  await call(phone, wrapper, {
+  await callCtrlPage.props().onAdd(firstSession.id);
+  const secondSession = await call(phone, wrapper, {
     phoneNumber: contactB.phoneNumbers[0].phoneNumber,
     fromNumber: contactB.phoneNumbers[0].phoneNumber,
   });
   await mockSub(phone);
   wrapper.update();
   await timeout(1000);
+  return { firstSession, secondSession };
 }
 
 async function mockContacts(phone) {
@@ -85,7 +88,7 @@ async function mockContacts(phone) {
 async function mockStartConference(phone, wrapper) {
   // HACK: `updateConference` should be mock at mockForLogin func.
   // mock.updateConferenceCall(conferenceUpdate.id, conferenceUpdate);
-  mock.conferenceCallBringIn(conferenceCallBody.id);
+  mock.conferenceCallBringIn(CONFERENCE_SESSION_ID);
   mock.conferenceCall();
   await mockContacts(phone);
   const contactA = phone.contacts.allContacts.find(item => item.type === 'company');

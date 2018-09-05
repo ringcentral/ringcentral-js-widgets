@@ -33,6 +33,20 @@ export async function mockConferenceCallEnv(phone, params = {
   const conferenceSession = await makeConferenceCall(phone);
   const activeCallsBody = mockActiveCalls(phone.webphone.sessions, []);
   mock.activeCalls(activeCallsBody);
+  mock.presence('~', {
+    activeCalls: activeCallsBody,
+    allowSeeMyPresence: true,
+    dndStatus: 'TakeAllCalls',
+    extensionId: 160751006,
+    meetingsStatus: 'Disconnected',
+    pickUpCallsOnHold: false,
+    presenceStatus: 'Busy',
+    ringOnMonitoredCall: false,
+    sequence: 368997,
+    telephonyStatus: 'OnHold',
+    totalActiveCalls: activeCallsBody.length,
+    userStatus: 'Available',
+  });
   await phone.subscription.subscribe(['/account/~/extension/~/presence'], 10);
   await timeout(100);
   await mockDetailedPresencePubnub(activeCallsBody);

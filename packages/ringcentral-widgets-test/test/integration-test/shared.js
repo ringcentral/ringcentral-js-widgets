@@ -39,7 +39,12 @@ const getPhone = async ({ shouldMockForLogin = true, ...options } = {}) => {
   });
   if (shouldMockForLogin) {
     mock.restore();
-    mock.mockForLogin(options);
+    mock.mockForLogin({
+      mockUpdateConference: true,
+      deviceData: {},
+      deviceIsOnce: false,
+      ...options
+    });
     phone.connectivityMonitor._checkConnectionFunc = () => true;
     await ensureLogin(phone.auth, {
       username: 'test',

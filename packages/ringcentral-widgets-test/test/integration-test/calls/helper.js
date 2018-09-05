@@ -1,3 +1,4 @@
+import deviceBody from 'ringcentral-integration/integration-test/mock/data/device';
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatuses';
 import * as mock from 'ringcentral-integration/integration-test/mock';
 
@@ -14,6 +15,20 @@ function mockCallProcedure(func) {
     mock.device(deviceBody, false);
     const activeCallsBody = await func.apply(null, [phone, ...args]);
     mock.activeCalls(activeCallsBody);
+    mock.presence('~', {
+      activeCalls: activeCallsBody,
+      allowSeeMyPresence: true,
+      dndStatus: 'TakeAllCalls',
+      extensionId: 160751006,
+      meetingsStatus: 'Disconnected',
+      pickUpCallsOnHold: false,
+      presenceStatus: 'Busy',
+      ringOnMonitoredCall: false,
+      sequence: 368997,
+      telephonyStatus: 'OnHold',
+      totalActiveCalls: activeCallsBody.length,
+      userStatus: 'Available',
+    });
     await phone.subscription.subscribe(['/account/~/extension/~/presence'], 10);
     await timeout(100);
     await mockDetailedPresencePubnub(activeCallsBody);
@@ -66,19 +81,11 @@ async function mockMultiActiveCallBodies(phone) {
 }
 
 async function mockMultipleOutboundCallBodies(phone, n) {
-  const res = [];
-
   for (let i = n; i > 0; i -= 1) {
-    const outboundSession = await makeCall(phone, {
-      callId: true,
-      fromNumber: '+15878133670',
-      homeCountryId: '1',
-      toNumber: '101',
-    });
+    const outboundSession = await makeCall(phone);
     await phone.webphone.hold(outboundSession.id);
-    res.push(outboundSession);
   }
-  return mockActiveCalls(res);
+  return mockActiveCalls(phone.webphone.sessions);
 }
 
 export async function mockMultiActiveCalls(phone) {
@@ -89,6 +96,20 @@ export async function mockMultiOutboundCalls(phone, n) {
   await mockCallProcedure(mockMultipleOutboundCallBodies)(phone, n);
   const activeCallsBody = mockActiveCalls(phone.webphone.sessions);
   mock.activeCalls(activeCallsBody);
+  mock.presence('~', {
+    activeCalls: activeCallsBody,
+    allowSeeMyPresence: true,
+    dndStatus: 'TakeAllCalls',
+    extensionId: 160751006,
+    meetingsStatus: 'Disconnected',
+    pickUpCallsOnHold: false,
+    presenceStatus: 'Busy',
+    ringOnMonitoredCall: false,
+    sequence: 368997,
+    telephonyStatus: 'OnHold',
+    totalActiveCalls: activeCallsBody.length,
+    userStatus: 'Available',
+  });
   await phone.subscription.subscribe(['/account/~/extension/~/presence'], 10);
   await timeout(100);
   await mockDetailedPresencePubnub(activeCallsBody);
