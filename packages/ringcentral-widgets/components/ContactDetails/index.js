@@ -18,20 +18,23 @@ export function getPresenceStatusName(presence, currentLocale) {
   return i18n.getString(presenceStatus, currentLocale);
 }
 
-function AvatarNode({ name, avatarUrl }) {
+function AvatarNode({ name, avatarUrl, isInactive }) {
+  const avatarStyle = isInactive ? styles.inactiveAvatarNode : styles.avatarNode
   return avatarUrl ? (
-    <img className={styles.avatarNode} alt={name} src={avatarUrl} />
+    <img className={avatarStyle} alt={name} src={avatarUrl} />
   ) : (
-    <DefaultAvatar className={styles.avatarNode} />
+    <DefaultAvatar className={avatarStyle} />
   );
 }
 AvatarNode.propTypes = {
   name: PropTypes.string,
-  avatarUrl: PropTypes.string
+  avatarUrl: PropTypes.string,
+  isInactive: PropTypes.bool,
 };
 AvatarNode.defaultProps = {
   name: undefined,
-  avatarUrl: undefined
+  avatarUrl: undefined,
+  isInactive: false,
 };
 
 export default class ContactDetails extends PureComponent {
@@ -95,7 +98,7 @@ export default class ContactDetails extends PureComponent {
       <div className={styles.contactProfile}>
         <div className={styles.avatar}>
           <div className={styles.avatarNodeContainer}>
-            <AvatarNode name={name} avatarUrl={profileImageUrl} />
+            <AvatarNode name={name} avatarUrl={profileImageUrl} isInactive={contactStatus === 'NotActivated'} />
             {sourceNode ? (
               <div className={styles.sourceNodeContainer}>{sourceNode}</div>
             ) : null}

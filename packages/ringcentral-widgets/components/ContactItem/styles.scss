@@ -1,6 +1,6 @@
-@import "../../lib/commonStyles/colors.scss";
-@import "../../lib/commonStyles/fonts.scss";
-@import "../../lib/commonStyles/reset.scss";
+@import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/fonts.scss';
+@import '../../lib/commonStyles/reset.scss';
 
 $rowHeight: 50px;
 
@@ -73,6 +73,15 @@ $rowHeight: 50px;
     height: 100%;
     line-height: 30px;
     text-align: center;
+  }
+
+  .inactiveAvatarNode {
+    @include reset;
+    width: 100%;
+    height: 100%;
+    line-height: 30px;
+    text-align: center;
+    opacity: 0.3;
   }
 }
 
