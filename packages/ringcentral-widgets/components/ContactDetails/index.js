@@ -19,7 +19,7 @@ export function getPresenceStatusName(presence, currentLocale) {
 }
 
 function AvatarNode({ name, avatarUrl, isInactive }) {
-  const avatarStyle = isInactive ? styles.inactiveAvatarNode : styles.avatarNode
+  const avatarStyle = isInactive ? styles.inactiveAvatarNode : styles.avatarNode;
   return avatarUrl ? (
     <img className={avatarStyle} alt={name} src={avatarUrl} />
   ) : (
