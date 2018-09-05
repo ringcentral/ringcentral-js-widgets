@@ -146,6 +146,43 @@ class CallCtrlPage extends Component {
     return this.props.getInitialLayout(nextProps);
   }
 
+  shouldComponentUpdate(nextProps) {
+    const { conferenceCallParties } = nextProps;
+    const oldConferenceCallParties = this.props.conferenceCallParties;
+    let showUpdate = true;
+    if (oldConferenceCallParties !== conferenceCallParties) {
+      if (
+        Array.isArray(conferenceCallParties) && Array.isArray(oldConferenceCallParties)
+        && conferenceCallParties.length === oldConferenceCallParties.length
+      ) {
+        showUpdate = false;
+        for (let i = 0; i < conferenceCallParties.length; i += 1) {
+          if (conferenceCallParties[i].id !== oldConferenceCallParties[i].id) {
+            showUpdate = true;
+            break;
+          }
+        }
+      }
+    } else {
+      showUpdate = false;
+      for (const p in nextProps) {
+        if (nextProps::Object.prototype.hasOwnProperty(p)) {
+          const val = nextProps[p];
+
+          if (
+            val !== this.props[p] &&
+            (typeof val !== 'function')
+          ) {
+            showUpdate = true;
+            break;
+          }
+        }
+      }
+    }
+
+    return showUpdate;
+  }
+
   componentWillReceiveProps(nextProps, nextState) {
     this._updateMergingPairToSessionId(nextProps, nextState);
 
