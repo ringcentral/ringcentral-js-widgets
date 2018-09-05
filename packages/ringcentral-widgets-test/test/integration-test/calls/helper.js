@@ -92,4 +92,32 @@ export async function mockMultiOutboundCalls(phone, n) {
   await phone.subscription.subscribe(['/account/~/extension/~/presence'], 10);
   await timeout(100);
   await mockDetailedPresencePubnub(activeCallsBody);
+  return mockActiveCalls(
+    [inboundSession, outboundSession, incomingSession],
+    mockOtherDeivce
+  );
+}
+
+async function mockMultipleOutboundCallBodies(phone, n) {
+  const res = [];
+
+  for (let i = n; i > 0; i--) {
+    const outboundSession = await makeCall(phone, {
+      callId: true,
+      fromNumber: '+15878133670',
+      homeCountryId: '1',
+      toNumber: '101',
+    });
+    await phone.webphone.hold(outboundSession.id);
+    res.push(outboundSession);
+  }
+  return mockActiveCalls(res);
+}
+
+export async function mockMultiActiveCalls(phone) {
+  await mockCallProcedure(mockMultiActiveCallBodies)(phone);
+}
+
+export async function mockMultiOutboundCalls(phone, n) {
+  await mockCallProcedure(mockMultipleOutboundCallBodies)(phone, n);
 }
