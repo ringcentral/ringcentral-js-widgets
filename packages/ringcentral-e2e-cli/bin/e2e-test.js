@@ -11,7 +11,7 @@ commander
 commander
   .command('run [dir...]')
   .description('Run E2E test specified case.')
-  .option('-p, --params <paramsInfo>', 'Run E2E test case with some params filtering.')
+  .option('-P, --params <paramsInfo>', 'Run E2E test case with some params filtering.')
   .option('-S, --sandbox', 'Run E2E test case with \'sandbox\' mode.')
   .option('-D, --debugger', 'Run E2E test case with \'debugger\' mode.')
   .option('--drivers <drivers>', 'Run E2E test case with some drivers.', value => value.split('.'))

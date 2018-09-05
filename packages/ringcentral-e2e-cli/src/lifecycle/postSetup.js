@@ -110,7 +110,7 @@ async function afterEachEnd({ browser, isSandbox }) {
 function testCase(caseParams, fn) {
   const {
     title,
-    options,
+    options = [{}],
     tags: rawTags = [],
     modes = [],
   } = caseParams;

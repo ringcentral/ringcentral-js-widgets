@@ -65,6 +65,7 @@ module.exports = {
       },
       widgets: {
         type: 'uri',
+        source: './src/targets/widgets',
         driver: {
           viewport: {
             height: 518,
@@ -97,13 +98,19 @@ module.exports = {
       transformIgnorePatterns: [
         '.*?/node_modules/(?!(ringcentral-integration|ringcentral-widgets|ringcentral-widgets-demo|locale-loader|babel-settings)/).*/'
       ],
+      transform: {
+        'loadLocale\\.js$': '<rootDir>/src/__mocks__/loadLocale.js',
+        '^.+\\.js$': 'babel-jest'
+      },
     }
   },
   lookupConfig({ config, tag }) {
     const project = config.params.projects[tag.project];
+    const source = project.source;
     return {
       ...project.params.brands[tag.brands],
       type: project.type,
+      source,
     };
   }
 };
