@@ -20,7 +20,7 @@ module.exports = {
     ],
   },
   defaults: {
-    drivers: ['puppeteer', 'seleniumWebdriverFirefox', 'seleniumWebdriverSafari'],
+    drivers: ['puppeteer', 'seleniumWebdriverFirefox', 'seleniumWebdriverSafari', 'enzyme'],
     levels: ['p3'],
     brands: ['rc'],
     tags: [
@@ -83,7 +83,7 @@ module.exports = {
         }
       }
     },
-    drivers: ['puppeteer', 'seleniumWebdriverFirefox', 'seleniumWebdriverSafari'],
+    drivers: ['enzyme', 'puppeteer', 'seleniumWebdriverFirefox', 'seleniumWebdriverSafari'],
     levels: ['p0', 'p1', 'p2', 'p3'],
     brands: ['rc', 'bt', 'telus', 'att'],
   },
