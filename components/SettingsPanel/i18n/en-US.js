@@ -21,6 +21,6 @@ exports.default = {
   language: 'Language',
   feedback: 'Feedback',
   userGuide: "What\'s New",
-  quickAccess: "Quick Access"
+  quickAccess: "Quick access setting"
 };
 //# sourceMappingURL=en-US.js.map
