@@ -637,7 +637,7 @@ describe('Current Call Control Page - Flip', () => {
     const { wrapper, phone } = await initPhoneWrapper();
     mock.forwardingNumber(forwardingNumberBody);
     await phone.forwardingNumber.fetchData();
-    await makeOutboundCall(phone);
+    await makeCall(phone);
     wrapper.update();
     const flipButton = await getFlipButton(wrapper);
     expect(flipButton.props().disabled).toBe(true);
@@ -667,7 +667,7 @@ describe('Current Call Control Page - Flip', () => {
   test('RCI-1712678 Check Flip Panel Page', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
     const filpNumbers = phone.forwardingNumber.flipNumbers;
-    await makeOutboundCall(phone);
+    await makeCall(phone);
     wrapper.update();
     const flipButton = await getFlipButton(wrapper);
     flipButton.find('.buttonItem').simulate('click');
@@ -693,7 +693,7 @@ describe('Current Call Control Page - Flip', () => {
     let endIconButton = null;
     const { wrapper, phone } = await initPhoneWrapper();
     const filpNumbers = phone.forwardingNumber.flipNumbers;
-    await makeOutboundCall(phone);
+    await makeCall(phone);
     wrapper.update();
     const flipButton = await getFlipButton(wrapper);
     flipButton.find('.buttonItem').simulate('click');

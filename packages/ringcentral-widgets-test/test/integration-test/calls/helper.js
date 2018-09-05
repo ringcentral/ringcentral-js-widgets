@@ -1,8 +1,6 @@
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatuses';
 import * as mock from 'ringcentral-integration/integration-test/mock';
 
-import deviceBody from './data/device';
-
 import { timeout } from '../shared';
 import {
   makeCall,

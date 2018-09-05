@@ -12,7 +12,6 @@ import BackButton from 'ringcentral-widgets/components/BackButton';
 import RecipientsInput from 'ringcentral-widgets/components/RecipientsInput';
 import ContactDropdownList from 'ringcentral-widgets/components/ContactDropdownList';
 import DropdownSelect from 'ringcentral-widgets/components/DropdownSelect';
-import deviceBody from './data/device';
 import extensionListBody from './data/extension';
 import conferenceCallBody from './data/conferenceCall';
 import incomingResponse from './data/incomingResponse';
@@ -34,7 +33,7 @@ async function call(phone, wrapper, {
   fromNumber
 }) {
   mock.numberParser();
-  mock.device(deviceBody, false);
+  // joy mock.device(deviceBody, false);
   await phone.dialerUI.call({ phoneNumber, fromNumber });
   await timeout(500);
   wrapper.update();
@@ -175,7 +174,6 @@ describe('RCI-1071: simplified call control page #3', () => {
     phone.webphone._updateSessions();
     const conferenceSessionId = Object.values(phone.conferenceCall.conferences)[0].sessionId;
     const conferenceSession = phone.webphone.sessions.find(x => x.id === conferenceSessionId);
-    const conferenceId = Object.values(phone.conferenceCall.conferences)[0].conference.id;
     expect(phone.routerInteraction.currentPath.indexOf('/calls/active')).toEqual(0);
     const callCtrlPage = wrapper.find(CallCtrlPage);
     const addButton = callCtrlPage.find(CircleButton).at(3);
