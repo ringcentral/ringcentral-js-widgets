@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getGuidesReducer = getGuidesReducer;
+exports.getFirstLoginReducer = getFirstLoginReducer;
 exports.getCarouselState = getCarouselState;
 exports.default = getUserGuideReducer;
 
@@ -29,6 +30,20 @@ function getGuidesReducer(types) {
   };
 }
 
+function getFirstLoginReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var _ref2 = arguments[1];
+    var type = _ref2.type,
+        firstLogin = _ref2.firstLogin;
+
+    if (type === types.updateCarousel) {
+      return firstLogin;
+    }
+    return state;
+  };
+}
+
 function getCarouselState(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
@@ -36,14 +51,16 @@ function getCarouselState(types) {
       entered: false,
       playing: false
     };
-    var _ref2 = arguments[1];
-    var type = _ref2.type,
-        curIdx = _ref2.curIdx,
-        entered = _ref2.entered,
-        playing = _ref2.playing;
+    var _ref3 = arguments[1];
+    var type = _ref3.type,
+        curIdx = _ref3.curIdx,
+        entered = _ref3.entered,
+        playing = _ref3.playing;
 
     if (type === types.updateCarousel) {
-      return { curIdx: curIdx, entered: entered, playing: playing };
+      return {
+        curIdx: curIdx, entered: entered, playing: playing
+      };
     }
     return state;
   };
@@ -52,7 +69,8 @@ function getCarouselState(types) {
 function getUserGuideReducer(types) {
   return (0, _redux.combineReducers)({
     status: (0, _getModuleStatusReducer2.default)(types),
-    carouselState: getCarouselState(types)
+    carouselState: getCarouselState(types),
+    firstLogin: getFirstLoginReducer(types)
   });
 }
 //# sourceMappingURL=getUserGuideReducer.js.map

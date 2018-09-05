@@ -240,7 +240,9 @@ var UserGuide = (_dec = (0, _di.Module)({
   }, {
     key: 'dismiss',
     value: function dismiss() {
-      this.updateCarousel({ curIdx: 0, entered: false, playing: false });
+      this.updateCarousel({
+        curIdx: 0, entered: false, playing: false, firstLogin: false
+      });
     }
   }, {
     key: 'loadGuides',
@@ -277,7 +279,9 @@ var UserGuide = (_dec = (0, _di.Module)({
       var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_ref4) {
         var curIdx = _ref4.curIdx,
             entered = _ref4.entered,
-            playing = _ref4.playing;
+            playing = _ref4.playing,
+            _ref4$firstLogin = _ref4.firstLogin,
+            firstLogin = _ref4$firstLogin === undefined ? this.state.firstLogin : _ref4$firstLogin;
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -286,7 +290,8 @@ var UserGuide = (_dec = (0, _di.Module)({
                   type: this.actionTypes.updateCarousel,
                   curIdx: curIdx,
                   entered: entered,
-                  playing: playing
+                  playing: playing,
+                  firstLogin: firstLogin
                 });
 
               case 1:
@@ -332,15 +337,11 @@ var UserGuide = (_dec = (0, _di.Module)({
                 return this.loadGuides(guides);
 
               case 6:
-                if (!((0, _stringify2.default)(guides) !== (0, _stringify2.default)(prevGuides))) {
-                  _context4.next = 9;
-                  break;
+                if ((0, _stringify2.default)(guides) !== (0, _stringify2.default)(prevGuides)) {
+                  this.start({ firstLogin: true });
                 }
 
-                _context4.next = 9;
-                return this.start();
-
-              case 9:
+              case 7:
               case 'end':
                 return _context4.stop();
             }
@@ -358,19 +359,22 @@ var UserGuide = (_dec = (0, _di.Module)({
     key: 'start',
     value: function () {
       var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
+        var _ref8 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+            _ref8$firstLogin = _ref8.firstLogin,
+            firstLogin = _ref8$firstLogin === undefined ? false : _ref8$firstLogin;
+
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
                 // Start guides only when images are ready
-                if (this.guides.length > 0) {
-                  this.store.dispatch({
-                    type: this.actionTypes.updateCarousel,
-                    curIdx: 0,
-                    entered: true,
-                    playing: true
-                  });
-                }
+                this.store.dispatch({
+                  type: this.actionTypes.updateCarousel,
+                  curIdx: 0,
+                  entered: true,
+                  playing: true,
+                  firstLogin: firstLogin
+                });
 
               case 1:
               case 'end':
