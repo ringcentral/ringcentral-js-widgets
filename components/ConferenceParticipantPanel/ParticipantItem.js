@@ -54,7 +54,7 @@ function ParticipantItem(_ref) {
     mediaLeft: _react2.default.createElement(
       'div',
       { className: _styles2.default.avatar },
-      _react2.default.createElement(_CallAvatar2.default, { isOnConferenceCall: false, avatarUrl: avatarUrl, shouldBubbleClick: true })
+      _react2.default.createElement(_CallAvatar2.default, { isOnConferenceCall: false, avatarUrl: avatarUrl })
     ),
     mediaBody: detail,
     bodyCls: _styles2.default.detail,

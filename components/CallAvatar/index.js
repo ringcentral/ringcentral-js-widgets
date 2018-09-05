@@ -149,7 +149,8 @@ var CallAvatar = function (_Component) {
           extraNum = _props.extraNum,
           isOnConferenceCall = _props.isOnConferenceCall,
           spinnerMode = _props.spinnerMode,
-          shouldBubbleClick = _props.shouldBubbleClick;
+          className = _props.className,
+          onClick = _props.onClick;
       var avatarUrl = this.state.avatarUrl;
 
       var initialSize = 38;
@@ -169,7 +170,9 @@ var CallAvatar = function (_Component) {
       var clipId = 'circleClip-' + hash;
       var avatarStyle = { stroke: $dark, strokeWidth: circleBorder + 'px' };
       var showingSpinner = spinnerMode;
-
+      var aspectRatio = 'xMidYMid meet';
+      var xmlns = 'http://www.w3.org/2000/svg';
+      var svgCls = (0, _classnames2.default)(_styles2.default.callAvatar, onClick ? _styles2.default.autoPointerEvents : _styles2.default.disabledPointerEvents, className);
       // spinner sizing
       var spinnerId = 'spinner-' + hash;
       var spinnerScaleSize = 1.5;
@@ -178,17 +181,18 @@ var CallAvatar = function (_Component) {
       var isOnConferenceCallWithExtraNum = isOnConferenceCall && extraNum > 0;
       var spinnerTransform = 'translate(' + (spinnerTranslateTo - (isOnConferenceCallWithExtraNum ? margin : 0)) + ',' + spinnerTranslateTo + ') scale(' + spinnerScaleSize + ', ' + spinnerScaleSize + ')';
 
-      var res = void 0;
-
       if (isOnConferenceCallWithExtraNum) {
-        res = _react2.default.createElement(
+        return _react2.default.createElement(
           'svg',
           {
-            className: shouldBubbleClick ? (0, _classnames2.default)(_styles2.default.callAvatar, _styles2.default.bubbleSvg) : _styles2.default.callAvatar,
+            onClick: onClick ? function () {
+              return onClick();
+            } : null,
+            className: svgCls,
             style: avatarUrl ? avatarStyle : null,
             viewBox: '0 0 ' + initialSize + ' ' + initialSize,
-            preserveAspectRatio: 'xMidYMid meet',
-            xmlns: 'http://www.w3.org/2000/svg'
+            preserveAspectRatio: aspectRatio,
+            xmlns: xmlns
           },
           _react2.default.createElement(
             'defs',
@@ -274,83 +278,86 @@ var CallAvatar = function (_Component) {
             '+' + extraNum
           )
         );
-      } else {
-        res = _react2.default.createElement(
-          'svg',
-          {
-            className: _styles2.default.callAvatar,
-            style: avatarUrl ? avatarStyle : null,
-            viewBox: '0 0 ' + initialSize + ' ' + initialSize,
-            xmlns: 'http://www.w3.org/2000/svg' },
-          _react2.default.createElement(
-            'defs',
-            null,
-            _react2.default.createElement(
-              'g',
-              { id: textId },
-              _react2.default.createElement(
-                'text',
-                {
-                  x: '0',
-                  y: '0',
-                  dy: initialSize - 10 + 'px',
-                  dx: '2',
-                  style: {
-                    fontSize: (initialSize / 2 - 2) * 2 + 'px',
-                    fill: $blue,
-                    opacity: '.5'
-                  },
-                  className: _styles2.default.portrait },
-                '\uE904'
-              )
-            ),
-            _react2.default.createElement(_Spinner2.default, { id: spinnerId })
-          ),
-          _react2.default.createElement('circle', {
-            cx: initialSize / 2,
-            cy: initialSize / 2,
-            r: initialSize / 2 - circleBorder,
-            fill: $snow,
-            stroke: showingSpinner ? $dark : 'inherit',
-            strokeOpacity: showingSpinner ? $transparency : '1'
-          }),
+      }
+      return _react2.default.createElement(
+        'svg',
+        {
+          className: svgCls,
+          onClick: onClick ? function () {
+            return onClick();
+          } : null,
+          style: avatarUrl ? avatarStyle : null,
+          viewBox: '0 0 ' + initialSize + ' ' + initialSize,
+          preserveAspectRatio: aspectRatio,
+          xmlns: xmlns
+        },
+        _react2.default.createElement(
+          'defs',
+          null,
           _react2.default.createElement(
             'g',
-            null,
+            { id: textId },
             _react2.default.createElement(
-              'clipPath',
-              { id: clipId },
-              _react2.default.createElement('circle', {
-                cx: initialSize / 2,
-                cy: initialSize / 2,
-                r: initialSize / 2 - 1
-              })
+              'text',
+              {
+                x: '0',
+                y: '0',
+                dy: initialSize - 10 + 'px',
+                dx: '2',
+                style: {
+                  fontSize: (initialSize / 2 - 2) * 2 + 'px',
+                  fill: $blue,
+                  opacity: '.5'
+                },
+                className: _styles2.default.portrait },
+              '\uE904'
             )
           ),
-          showingSpinner && _react2.default.createElement(
-            'g',
-            { transform: spinnerTransform },
-            _react2.default.createElement('use', { xlinkHref: '#' + spinnerId })
-          ),
-          showingSpinner && _react2.default.createElement(
-            'g',
-            { transform: spinnerTransform },
-            _react2.default.createElement('use', { xlinkHref: '#' + spinnerId })
-          ),
-          avatarUrl && _react2.default.createElement('image', {
-            clipPath: 'url(#' + clipId + ')',
-            height: '100%',
-            width: '100%',
-            xlinkHref: avatarUrl,
-            preserveAspectRatio: 'xMinYMin slice' }),
-          !avatarUrl && !showingSpinner && _react2.default.createElement('use', {
-            xlinkHref: '#' + textId,
-            clipPath: 'url(#' + clipId + ')',
-            style: defaultAvatarStyle
-          })
-        );
-      }
-      return res;
+          _react2.default.createElement(_Spinner2.default, { id: spinnerId })
+        ),
+        _react2.default.createElement('circle', {
+          cx: initialSize / 2,
+          cy: initialSize / 2,
+          r: initialSize / 2 - circleBorder,
+          fill: $snow,
+          stroke: showingSpinner ? $dark : 'inherit',
+          strokeOpacity: showingSpinner ? $transparency : '1'
+        }),
+        _react2.default.createElement(
+          'g',
+          null,
+          _react2.default.createElement(
+            'clipPath',
+            { id: clipId },
+            _react2.default.createElement('circle', {
+              cx: initialSize / 2,
+              cy: initialSize / 2,
+              r: initialSize / 2 - 1
+            })
+          )
+        ),
+        showingSpinner && _react2.default.createElement(
+          'g',
+          { transform: spinnerTransform },
+          _react2.default.createElement('use', { xlinkHref: '#' + spinnerId })
+        ),
+        showingSpinner && _react2.default.createElement(
+          'g',
+          { transform: spinnerTransform },
+          _react2.default.createElement('use', { xlinkHref: '#' + spinnerId })
+        ),
+        avatarUrl && _react2.default.createElement('image', {
+          clipPath: 'url(#' + clipId + ')',
+          height: '100%',
+          width: '100%',
+          xlinkHref: avatarUrl,
+          preserveAspectRatio: 'xMinYMin slice' }),
+        !avatarUrl && !showingSpinner && _react2.default.createElement('use', {
+          xlinkHref: '#' + textId,
+          clipPath: 'url(#' + clipId + ')',
+          style: defaultAvatarStyle
+        })
+      );
     }
   }]);
   return CallAvatar;
@@ -364,7 +371,8 @@ CallAvatar.propTypes = {
    * Set to true to make it always show the loading spinner.
    */
   spinnerMode: _propTypes2.default.bool,
-  shouldBubbleClick: _propTypes2.default.bool
+  className: _propTypes2.default.string,
+  onClick: _propTypes2.default.func
 };
 
 CallAvatar.defaultProps = {
@@ -372,7 +380,8 @@ CallAvatar.defaultProps = {
   avatarUrl: null,
   extraNum: 0,
   spinnerMode: false,
-  shouldBubbleClick: false
+  className: null,
+  onClick: null
 };
 
 exports.default = CallAvatar;

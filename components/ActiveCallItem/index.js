@@ -141,8 +141,7 @@ function CallIcon(_ref) {
       _react2.default.createElement(_CallAvatar2.default, {
         isOnConferenceCall: isOnConferenceCall,
         avatarUrl: avatarUrl,
-        extraNum: extraNum,
-        shouldBubbleClick: true
+        extraNum: extraNum
       })
     );
   } else {

@@ -80,8 +80,8 @@ function ConfirmMergeModal(_ref) {
           _react2.default.createElement(_CallAvatar2.default, {
             avatarUrl: avatarUrls[0],
             isOnConferenceCall: true,
-            extraNum: avatarUrls.length - 1,
-            shouldBubbleClick: true })
+            extraNum: avatarUrls.length - 1
+          })
         ),
         _react2.default.createElement(
           'span',
