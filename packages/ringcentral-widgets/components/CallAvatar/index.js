@@ -228,18 +228,18 @@ class CallAvatar extends Component {
         <defs>
           <g id={textId}>
             <text
-                x="0"
-                y="0"
-                dy={`${initialSize - 10}px`}
-                dx="2"
-                style={{
+              x="0"
+              y="0"
+              dy={`${initialSize - 10}px`}
+              dx="2"
+              style={{
                       fontSize: `${(initialSize / 2 - 2) * 2}px`,
                       fill: $blue,
                       opacity: '.5'
                     }}
-                className={styles.portrait}>
-                {'\ue904'}
-              </text>
+              className={styles.portrait}>
+              {'\ue904'}
+            </text>
           </g>
           <SpinnerIcon id={spinnerId} />
         </defs>
@@ -254,9 +254,9 @@ class CallAvatar extends Component {
         <g>
           <clipPath id={clipId}>
             <circle
-                cx={initialSize / 2}
-                cy={initialSize / 2}
-                r={initialSize / 2 - 1}
+              cx={initialSize / 2}
+              cy={initialSize / 2}
+              r={initialSize / 2 - 1}
               />
           </clipPath>
         </g>
@@ -315,7 +315,7 @@ CallAvatar.defaultProps = {
   extraNum: 0,
   spinnerMode: false,
   className: null,
-  onClick: undefined,
+  onClick: null,
 };
 
 
