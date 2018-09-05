@@ -11,7 +11,6 @@ import IncomingCallPanel from 'ringcentral-widgets/components/IncomingCallPanel'
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 import MultiCallAnswerButton from 'ringcentral-widgets/components/MultiCallAnswerButton';
 
-import deviceBody from './data/device';
 import forwardingNumberBody from './data/forwardingNumber';
 import { getInboundCall, makeCall } from '../../support/callHelper';
 import {

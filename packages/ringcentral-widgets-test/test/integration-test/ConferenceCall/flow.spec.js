@@ -3,19 +3,15 @@ import MergeInfo from 'ringcentral-widgets/components/ActiveCallPanel/MergeInfo'
 import ConfirmMergeModal from 'ringcentral-widgets/components/ConfirmMergeModal';
 import CallsOnholdPanel from 'ringcentral-widgets/components/CallsOnholdPanel';
 import ActiveCallItem from 'ringcentral-widgets/components/ActiveCallItemV2';
-import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
-import CallCtrlPage from 'ringcentral-widgets/containers/CallCtrlPage';
 import * as mock from 'ringcentral-integration/integration-test/mock';
 import DialerPanel from 'ringcentral-widgets/components/DialerPanel';
 import ActiveCallPad from 'ringcentral-widgets/components/ActiveCallPad';
-import ActiveCallPanel from 'ringcentral-widgets/components/ActiveCallPanel';
 import ActiveCallButton from 'ringcentral-widgets/components/ActiveCallButton';
 import CircleButton from 'ringcentral-widgets/components/CircleButton';
 import RecipientsInput from 'ringcentral-widgets/components/RecipientsInput';
-import { makeOutboundCall, mockConferenceCallEnv } from '../CallCtrlPage/helper.js';
-import { mockActiveCalls, mockDetailedPresencePubnub, CONFERENCE_SESSION_ID } from '../../support/callHelper';
+import { mockConferenceCallEnv } from '../CallCtrlPage/helper.js';
 import { getWrapper, timeout } from '../shared';
-import deviceBody from './data/device';
+import { makeCall, mockActiveCalls, mockDetailedPresencePubnub, CONFERENCE_SESSION_ID } from '../../support/callHelper';
 
 let wrapper = null;
 let phone = null;
@@ -48,7 +44,6 @@ async function updateCallMonitorCalls() {
 async function dialAnotherOutboundCall() {
   /* mock data */
   mock.numberParser();
-  mock.device(deviceBody);
   phone.webphone.sessions.forEach(x => phone.webphone.hold(x.id));
   /* click action */
   const domInput = wrapper.find(DialerPanel).find(RecipientsInput).find('input');
@@ -64,14 +59,15 @@ async function dialAnotherOutboundCall() {
 async function clickMergeButtonIn(pageName) {
   /* mock data */
   mock.conferenceCallBringIn(CONFERENCE_SESSION_ID);
-  mock.device(deviceBody, false);
   mock.conferenceCall();
+  let confirmMergeButton = null;
   let mergeButton = null;
+  let callItem = null;
   /* click action */
   switch (pageName) {
     case 'OnholdPage':
       expect(wrapper.find(CallsOnholdPanel).find(ActiveCallItem)).toHaveLength(1);
-      const callItem = wrapper.find(CallsOnholdPanel).find(ActiveCallItem).first();
+      callItem = wrapper.find(CallsOnholdPanel).find(ActiveCallItem).first();
       mergeButton = callItem.find('.webphoneButton').first();
       mergeButton.find(CircleButton).simulate('click');
       break;
@@ -84,7 +80,7 @@ async function clickMergeButtonIn(pageName) {
       mergeButton.find(CircleButton).simulate('click');
       await timeout(10);
       wrapper.update();
-      const confirmMergeButton = wrapper.find(ConfirmMergeModal).find(CircleButton);
+      confirmMergeButton = wrapper.find(ConfirmMergeModal).find(CircleButton);
       confirmMergeButton.simulate('click');
       break;
     default:
@@ -126,7 +122,7 @@ describe('Merge Call Flow: Conference Call Ctrl -> click Merge -> on hold list',
   });
   test('RCINT-8377 Active Conference Call when merged(onheld outbound + onheld conference):', async () => {
     let holdButton = null;
-    const sessionA = await makeOutboundCall(phone);
+    await makeCall(phone);
     await mockConferenceCallEnv(phone);
     wrapper.update();
     // Click Hold
@@ -206,7 +202,7 @@ describe('Merge Call Flow: Normal Call Ctrl -> click Merge -> popup', () => {
   test('RCINT-8377 Active Conference Call when merged(onheld outbound + onheld conference):', async () => {
     let holdButton = null;
     await mockConferenceCallEnv(phone);
-    await makeOutboundCall(phone);
+    await makeCall(phone);
     await updateCallMonitorCalls();
     wrapper.update();
     // Click Hold
@@ -226,7 +222,7 @@ describe('Merge Call Flow: Normal Call Ctrl -> click Merge -> popup', () => {
   test('RCINT-8377 Active Conference Call when merged(active outbound + onheld conference):', async () => {
     let holdButton = null;
     await mockConferenceCallEnv(phone);
-    await makeOutboundCall(phone);
+    await makeCall(phone);
     await updateCallMonitorCalls();
     wrapper.update();
     // Click Merge
@@ -261,7 +257,7 @@ describe('Add Call Flow: Normal Call Ctrl -> click Add -> dialer', () => {
   });
   test('RCINT-8377 Active Conference Call when merged(onheld outbound + onheld outbound):', async () => {
     let holdButton = null;
-    const sessionA = await makeOutboundCall(phone);
+    await makeCall(phone);
     wrapper.update();
     // Click Add
     const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
@@ -309,8 +305,8 @@ describe('Add Call Flow: Normal Call Ctrl -> click Add -> on hold list', () => {
   });
   test('RCINT-8377 Active Conference Call when merged(onheld outbound + onheld outbound):', async () => {
     let holdButton = null;
-    const sessionA = await makeOutboundCall(phone);
-    const sessionB = await makeOutboundCall(phone);
+    const sessionA = await makeCall(phone);
+    const sessionB = await makeCall(phone);
     await updateCallMonitorCalls();
     wrapper.update();
     // Click Hold

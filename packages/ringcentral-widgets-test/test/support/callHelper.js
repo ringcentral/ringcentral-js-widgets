@@ -1,7 +1,6 @@
 import subscriptionBody from 'ringcentral-integration/integration-test/mock/data/subscription.json';
 import { isConferenceSession } from 'ringcentral-integration/modules/Webphone/webphoneHelper';
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatuses';
-import * as mock from 'ringcentral-integration/integration-test/mock';
 import * as MockedPubNub from '../__mocks__/pubnub.js';
 import Session from './session';
 import { timeout } from '../integration-test/shared';
@@ -35,6 +34,7 @@ export async function getInboundCall(phone, options = defaultInboundOption) {
 }
 
 export async function makeCall(phone, options = defaultOutboundOption) {
+  phone.webphone.sessions.forEach(session => phone.webphone.hold(session.id));
   const session = await phone.webphone.makeCall(options);
   if (options.callId) {
     session.__rc_callId = `call-${session.id}`;

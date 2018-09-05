@@ -12,6 +12,7 @@ import {
   startRecordFn,
   stopRecordFn,
 } from '../../support/session';
+import { makeCall } from '../../support/callHelper';
 
 beforeEach(async () => {
   jasmine.DEFAUL_INTERVAL = 64000;
@@ -213,7 +214,7 @@ describe(`RCI-12004 Conference maximize participants: User has a Conference Call
     expect(addButton.props().disabled).toBe(true);
     expect(addButton.find(CircleButton).find('svg').props().className).toContain('buttonDisabled');
     // #3 Make an outbound call, the Merge button is disabled
-    await makeOutboundCall(phone);
+    await makeCall(phone);
     wrapper.update();
     const mergeButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
     expect(mergeButton.props().title).toEqual('Merge');
@@ -226,7 +227,7 @@ describe(`RCI-12004 Conference maximize participants: User has a Conference Call
       // Add to maximum
       await mockConferenceCallEnv(phone, { conferencePartiesCount: 10 });
       // make outbound call
-      await makeOutboundCall(phone);
+      await makeCall(phone);
       // one of Participants quit Conference Call
       await updateConferenceCallEnv(phone, { conferencePartiesCount: 9 });
       wrapper.update();
