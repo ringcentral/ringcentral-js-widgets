@@ -5,11 +5,14 @@ import createProcess from './utils/createProess';
 
 const rootPath = resolve(__dirname, '../');
 const setupFile = 'src/lifecycle/setup.js';
+const transform = { '^.+\\.(jsx|js)$': 'babel-jest' };
 const postSetupFile = 'src/lifecycle/postSetup.js';
 const globalSetup = 'ringcentral-e2e-environment/setup';
 const globalTeardown = 'ringcentral-e2e-environment/teardown';
 const testEnvironment = 'ringcentral-e2e-environment';
 const tails = ['--forceExit', '--no-cache'];
+const command = 'node';
+const tester = `${rootPath}/node_modules/.bin/${defaultsConfig.tester}`;
 
 function getExecTags(
   { tags: rawTags, ...rest },
@@ -76,6 +79,7 @@ function runner({
       exec.drivers :
       defaultsConfig.exec.drivers
     );
+  const customTesterConfig = config.tester && config.tester[defaultsConfig.tester] || {};
   /* eslint-enable */
   const testerConfig = {
     ...testerParams,
@@ -95,14 +99,11 @@ function runner({
     globalSetup,
     globalTeardown,
     testEnvironment,
-    transform: {
-      '^.+\\.jsx?$': 'babel-jest'
-    },
+    transform,
+    ...customTesterConfig
   };
-  // defaultsConfig.tester == 'jest';
-  const command = 'node';
   const args = [
-    `${rootPath}/node_modules/.bin/jest`,
+    tester,
     `--config=${JSON.stringify(testerConfig)}`,
     ...testerCLI,
     ...tails
