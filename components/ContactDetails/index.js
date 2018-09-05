@@ -82,17 +82,21 @@ function getPresenceStatusName(presence, currentLocale) {
 
 function AvatarNode(_ref) {
   var name = _ref.name,
-      avatarUrl = _ref.avatarUrl;
+      avatarUrl = _ref.avatarUrl,
+      isInactive = _ref.isInactive;
 
-  return avatarUrl ? _react2.default.createElement('img', { className: _styles2.default.avatarNode, alt: name, src: avatarUrl }) : _react2.default.createElement(_DefaultAvatar2.default, { className: _styles2.default.avatarNode });
+  var avatarStyle = isInactive ? _styles2.default.inactiveAvatarNode : _styles2.default.avatarNode;
+  return avatarUrl ? _react2.default.createElement('img', { className: avatarStyle, alt: name, src: avatarUrl }) : _react2.default.createElement(_DefaultAvatar2.default, { className: avatarStyle });
 }
 AvatarNode.propTypes = {
   name: _propTypes2.default.string,
-  avatarUrl: _propTypes2.default.string
+  avatarUrl: _propTypes2.default.string,
+  isInactive: _propTypes2.default.bool
 };
 AvatarNode.defaultProps = {
   name: undefined,
-  avatarUrl: undefined
+  avatarUrl: undefined,
+  isInactive: false
 };
 
 var ContactDetails = function (_PureComponent) {
@@ -179,7 +183,7 @@ var ContactDetails = function (_PureComponent) {
           _react2.default.createElement(
             'div',
             { className: _styles2.default.avatarNodeContainer },
-            _react2.default.createElement(AvatarNode, { name: name, avatarUrl: profileImageUrl }),
+            _react2.default.createElement(AvatarNode, { name: name, avatarUrl: profileImageUrl, isInactive: contactStatus === 'NotActivated' }),
             sourceNode ? _react2.default.createElement(
               'div',
               { className: _styles2.default.sourceNodeContainer },
