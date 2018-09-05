@@ -118,7 +118,9 @@ export default class UserGuide extends RcModule {
 
   @proxify
   dismiss() {
-    this.updateCarousel({ curIdx: 0, entered: false, playing: false });
+    this.updateCarousel({
+      curIdx: 0, entered: false, playing: false, firstLogin: false
+    });
   }
 
   @proxify
@@ -132,12 +134,15 @@ export default class UserGuide extends RcModule {
   }
 
   @proxify
-  async updateCarousel({ curIdx, entered, playing }) {
+  async updateCarousel({
+    curIdx, entered, playing, firstLogin = this.state.firstLogin
+  }) {
     this.store.dispatch({
       type: this.actionTypes.updateCarousel,
       curIdx,
       entered,
-      playing
+      playing,
+      firstLogin
     });
   }
 
@@ -153,21 +158,20 @@ export default class UserGuide extends RcModule {
     // will be changed as well, in this case, it will be displayed.
     await this.loadGuides(guides);
     if (JSON.stringify(guides) !== JSON.stringify(prevGuides)) {
-      await this.start();
+      this.start({ firstLogin: true });
     }
   }
 
   @proxify
-  async start() {
+  async start({ firstLogin = false } = {}) {
     // Start guides only when images are ready
-    if (this.guides.length > 0) {
-      this.store.dispatch({
-        type: this.actionTypes.updateCarousel,
-        curIdx: 0,
-        entered: true,
-        playing: true,
-      });
-    }
+    this.store.dispatch({
+      type: this.actionTypes.updateCarousel,
+      curIdx: 0,
+      entered: true,
+      playing: true,
+      firstLogin
+    });
   }
 
   get guides() {

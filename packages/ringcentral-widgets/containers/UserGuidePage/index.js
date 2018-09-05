@@ -18,17 +18,20 @@ function mapToProps(_, {
     curIdx,
     entered,
     playing,
-    guides: userGuide.guides
+    firstLogin: userGuide.state.firstLogin,
+    guides: userGuide.guides,
   };
 }
 
 function mapToFunctions(_, {
   phone: {
-    userGuide
+    userGuide,
+    quickAccess
   }
 }) {
   return {
     updateCarousel: (...args) => userGuide.updateCarousel(...args),
+    quickAccessEnter: () => quickAccess.enter()
   };
 }
 
