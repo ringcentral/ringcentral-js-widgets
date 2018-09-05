@@ -1,6 +1,6 @@
-@import '../../lib/commonStyles/colors.scss';
-@import '../../lib/commonStyles/fonts.scss';
-@import '../../lib/commonStyles/reset.scss';
+@import "../../lib/commonStyles/colors.scss";
+@import "../../lib/commonStyles/fonts.scss";
+@import "../../lib/commonStyles/reset.scss";
 
 $rowHeight: 50px;
 
@@ -123,7 +123,6 @@ $rowHeight: 50px;
   color: $coin;
   margin-top: 10px;
   line-height: normal;
-  float: left;
   padding-left: 6px;
   padding-right: 6px;
   text-align: left;
