@@ -19,34 +19,15 @@ describe('parse', () => {
     expect(parse({ input: '_#' }).isValid).toBe(false);
   });
 
-  test('parse correct number', () => {
-    expect(parse({ input: '+1 650-361-8700' })).toEqual({
-      input: '+1 650-361-8700',
-      isServiceNumber: false,
-      hasInvalidChars: false,
-      isExtension: false,
-      parsedCountry: 'US',
-      parsedNumber: '6503618700',
-      phoneNumber: '+16503618700',
-      extension: null,
-      isValid: true,
-      hasPlus: true,
-    });
+  test('parse correct number but not service number', () => {
+    const { parsedNumber, phoneNumber, isValid } = parse({ input: '+1 650-361-8700' })
+    expect(parsedNumber).toEqual('6503618700');
+    expect(phoneNumber).toEqual('+16503618700');
+    expect(isValid).toEqual(true);
   });
 
   test('detect country', () => {
-    expect(parse({ input: pizzahutUK })).toEqual({
-      input: pizzahutUK,
-      isServiceNumber: false,
-      hasInvalidChars: false,
-      isExtension: false,
-      parsedCountry: 'GB',
-      parsedNumber: '1473748635',
-      phoneNumber: '+441473748635',
-      extension: null,
-      isValid: true,
-      hasPlus: true,
-    });
+    expect(parse({ input: pizzahutUK }).parsedCountry).toEqual('GB');
   });
 
   test('parse correct number without +', () => {
