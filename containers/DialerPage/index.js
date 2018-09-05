@@ -31,6 +31,7 @@ function mapToProps(_, _ref) {
   var _ref$phone = _ref.phone,
       call = _ref$phone.call,
       dialerUI = _ref$phone.dialerUI,
+      callMonitor = _ref$phone.callMonitor,
       callingSettings = _ref$phone.callingSettings,
       contactSearch = _ref$phone.contactSearch,
       connectivityMonitor = _ref$phone.connectivityMonitor,
@@ -47,7 +48,7 @@ function mapToProps(_, _ref) {
   var webphoneDisconnected = isWebphoneMode && webphone && !webphone.connected;
   var audioNotEnabled = isWebphoneMode && audioSettings && !audioSettings.userMedia;
   var conferenceCallEquipped = !!conferenceCall;
-  var withTab = !!(conferenceCallEquipped && isWebphoneMode && webphone.sessions.length);
+  var withTab = !!(conferenceCallEquipped && isWebphoneMode && callMonitor.calls.length && webphone.sessions.length);
 
   return {
     currentLocale: locale.currentLocale,
