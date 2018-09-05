@@ -293,8 +293,11 @@ var Conversations = (_dec = (0, _di.Module)({
         this._init();
       } else if (this._shouldReset()) {
         this._reset();
-      } else if (this._lastProcessedNumbers !== this.uniqueNumbers) {
-        this._lastProcessedNumbers = this.uniqueNumbers;
+      } else if (this._lastProcessedNumbers !== this.allUniqueNumbers || this._lastProcessedPage !== this.currentPage || this._lastTypeFilter !== this.typeFilter || this._lastSearchString !== this.effectiveSearchString) {
+        this._lastProcessedNumbers = this.allUniqueNumbers;
+        this._lastProcessedPage = this.currentPage;
+        this._lastTypeFilter = this.typeFilter;
+        this._lastSearchString = this.effectiveSearchString;
         if (this._contactMatcher) {
           this._contactMatcher.triggerMatch();
         }
@@ -1054,6 +1057,9 @@ var Conversations = (_dec = (0, _di.Module)({
     }, function () {
       return _this3.oldConversations;
     }, function (conversations, oldConversations) {
+      if (oldConversations.length === 0) {
+        return conversations;
+      }
       var newConversations = [];
       var conversationMap = {};
       var pushConversation = function pushConversation(c) {
