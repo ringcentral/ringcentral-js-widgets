@@ -145,8 +145,16 @@ export default class Conversations extends RcModule {
       this._init();
     } else if (this._shouldReset()) {
       this._reset();
-    } else if (this._lastProcessedNumbers !== this.uniqueNumbers) {
-      this._lastProcessedNumbers = this.uniqueNumbers;
+    } else if (
+      this._lastProcessedNumbers !== this.allUniqueNumbers ||
+      this._lastProcessedPage !== this.currentPage ||
+      this._lastTypeFilter !== this.typeFilter ||
+      this._lastSearchString !== this.effectiveSearchString
+    ) {
+      this._lastProcessedNumbers = this.allUniqueNumbers;
+      this._lastProcessedPage = this.currentPage;
+      this._lastTypeFilter = this.typeFilter;
+      this._lastSearchString = this.effectiveSearchString;
       if (this._contactMatcher) {
         this._contactMatcher.triggerMatch();
       }
@@ -504,6 +512,9 @@ export default class Conversations extends RcModule {
     () => this._messageStore.allConversations,
     () => this.oldConversations,
     (conversations, oldConversations) => {
+      if (oldConversations.length === 0) {
+        return conversations;
+      }
       const newConversations = [];
       const conversationMap = {};
       const pushConversation = (c) => {
