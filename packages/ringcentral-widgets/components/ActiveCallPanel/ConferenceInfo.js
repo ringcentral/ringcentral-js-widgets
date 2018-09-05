@@ -42,7 +42,6 @@ function ConferenceInfo({
                     className={styles.avatar}>
                     <CallAvatar
                       avatarUrl={avatarUrl}
-                      shouldBubbleClick
                     />
                   </div>
                 )

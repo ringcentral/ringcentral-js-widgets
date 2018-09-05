@@ -44,7 +44,6 @@ function CallIcon({
           isOnConferenceCall={isOnConferenceCall}
           avatarUrl={avatarUrl}
           extraNum={extraNum}
-          shouldBubbleClick
           />
       </div>
     );

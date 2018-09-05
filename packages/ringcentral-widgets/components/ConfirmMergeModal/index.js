@@ -38,7 +38,7 @@ export default function ConfirmMergeModal({
               avatarUrl={avatarUrls[0]}
               isOnConferenceCall
               extraNum={avatarUrls.length - 1}
-              shouldBubbleClick />
+            />
           </div>
           <span>{i18n.getString('conferenceCall', currentLocale)}</span>
         </div>
