@@ -61,6 +61,7 @@ const INIT_TRACK_LIST = [
     { dep: 'AnalyticsAdapter', optional: true },
     { dep: 'AnalyticsOptions', optional: true },
     { dep: 'UserGuide', optional: true },
+    { dep: 'ConferenceCall', optional: true },
   ]
 })
 export default class Analytics extends RcModule {
@@ -405,11 +406,16 @@ export default class Analytics extends RcModule {
     }
   }
 
-
   _getTrackTarget(path) {
     if (path) {
       const routes = path.split('/');
-      const firstRoute = routes.length > 1 ? `/${routes[1]}` : '';
+      let formatRoute = null;
+      const needMatchSecondRoutes = ['calls'];
+      if (routes.length >= 3 && needMatchSecondRoutes.indexOf(routes[1]) !== -1) {
+        formatRoute = `/${routes[1]}/${routes[2]}`;
+      } else if (routes.length > 1) {
+        formatRoute = `/${routes[1]}`;
+      }
 
       const targets = [{
         eventPostfix: 'Dialer',
@@ -441,8 +447,11 @@ export default class Analytics extends RcModule {
       }, {
         eventPostfix: 'Contacts',
         router: '/contacts',
+      }, {
+        eventPostfix: 'Call Control',
+        router: '/calls/active'
       }];
-      return targets.find(target => firstRoute === target.router);
+      return targets.find(target => formatRoute === target.router);
     }
     return undefined;
   }

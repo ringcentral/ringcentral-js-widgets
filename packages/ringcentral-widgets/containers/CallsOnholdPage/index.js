@@ -100,7 +100,6 @@ function mapToFunctions(_, {
             routerInteraction.goBack();
           }
         },
-
       });
     },
     onBackButtonClick() {
@@ -123,4 +122,9 @@ const CallsOnholdPage = withPhone(connect(
   mapToFunctions,
 )(CallsOnholdContainer));
 
-export default CallsOnholdPage;
+export {
+  mapToProps,
+  mapToFunctions,
+  CallsOnholdContainer,
+  CallsOnholdPage as default,
+};
