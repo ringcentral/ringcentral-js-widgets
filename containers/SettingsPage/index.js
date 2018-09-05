@@ -100,6 +100,7 @@ function mapToFunctions(_, _ref2) {
       routerInteraction = _ref2$phone.routerInteraction,
       localeSettings = _ref2$phone.localeSettings,
       userGuide = _ref2$phone.userGuide,
+      quickAccess = _ref2$phone.quickAccess,
       _ref2$regionSettingsU = _ref2.regionSettingsUrl,
       regionSettingsUrl = _ref2$regionSettingsU === undefined ? '/settings/region' : _ref2$regionSettingsU,
       _ref2$callingSettings = _ref2.callingSettingsUrl,
@@ -148,6 +149,7 @@ function mapToFunctions(_, _ref2) {
     onUserGuideClick: function onUserGuideClick() {
       userGuide.start();
     },
+
 
     setAvailable: function setAvailable() {
       return detailedPresence && detailedPresence.setAvailable.apply(detailedPresence, arguments);

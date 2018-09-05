@@ -97,6 +97,9 @@ var UserGuide = function (_React$Component) {
         entered: _this.state.entered,
         playing: false
       });
+      if (_this.props.quickAccessEnter && _this.props.firstLogin) {
+        _this.props.quickAccessEnter();
+      }
     };
 
     _this.onExited = function () {
@@ -106,7 +109,8 @@ var UserGuide = function (_React$Component) {
       _this.props.updateCarousel({
         curIdx: 0,
         entered: false,
-        playing: false
+        playing: false,
+        firstLogin: false
       });
     };
 
@@ -295,7 +299,9 @@ UserGuide.propTypes = {
   curIdx: _propTypes2.default.number,
   entered: _propTypes2.default.bool,
   playing: _propTypes2.default.bool,
+  firstLogin: _propTypes2.default.bool,
   updateCarousel: _propTypes2.default.func,
+  quickAccessEnter: _propTypes2.default.func,
   guides: _propTypes2.default.array.isRequired,
   showSpinner: _propTypes2.default.bool.isRequired,
   currentLocale: _propTypes2.default.string.isRequired
@@ -305,8 +311,10 @@ UserGuide.defaultProps = {
   curIdx: 0,
   entered: false,
   playing: false,
+  firstLogin: false,
   updateCarousel: function updateCarousel() {
     return null;
-  }
+  },
+  quickAccessEnter: undefined
 };
 //# sourceMappingURL=index.js.map

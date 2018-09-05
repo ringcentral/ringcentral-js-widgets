@@ -88,6 +88,7 @@ function SettingsPanel(_ref) {
       onRegionSettingsLinkClick = _ref.onRegionSettingsLinkClick,
       onAudioSettingsLinkClick = _ref.onAudioSettingsLinkClick,
       onFeedbackSettingsLinkClick = _ref.onFeedbackSettingsLinkClick,
+      onQuickAccessLinkClick = _ref.onQuickAccessLinkClick,
       onUserGuideClick = _ref.onUserGuideClick,
       showCalling = _ref.showCalling,
       showAutoLog = _ref.showAutoLog,
@@ -121,6 +122,7 @@ function SettingsPanel(_ref) {
       showPresenceSettings = _ref.showPresenceSettings,
       openPresenceSettings = _ref.openPresenceSettings,
       showFeedback = _ref.showFeedback,
+      showQuickAccess = _ref.showQuickAccess,
       showUserGuide = _ref.showUserGuide,
       additional = _ref.additional,
       supportedLocales = _ref.supportedLocales,
@@ -167,6 +169,12 @@ function SettingsPanel(_ref) {
     {
       onClick: onFeedbackSettingsLinkClick },
     _i18n2.default.getString('feedback', currentLocale)
+  ) : null;
+  var quickAccess = showQuickAccess ? _react2.default.createElement(
+    _LinkLine2.default,
+    {
+      onClick: onQuickAccessLinkClick },
+    _i18n2.default.getString('quickAccess', currentLocale)
   ) : null;
   var presenceSetting = showPresenceSettings && dndStatus && userStatus ? _react2.default.createElement(_PresenceSettingSection2.default, {
     currentLocale: currentLocale,
@@ -272,6 +280,7 @@ function SettingsPanel(_ref) {
       clickToDial,
       additional,
       feedback,
+      quickAccess,
       userGuide,
       _react2.default.createElement(
         'section',
@@ -357,11 +366,13 @@ SettingsPanel.propTypes = {
   openPresenceSettings: _propTypes2.default.bool,
   showPresenceSettings: _propTypes2.default.bool,
   showFeedback: _propTypes2.default.bool,
+  showQuickAccess: _propTypes2.default.bool,
   additional: _propTypes2.default.node,
   supportedLocales: _propTypes2.default.arrayOf(_propTypes2.default.string),
   savedLocale: _propTypes2.default.string,
   saveLocale: _propTypes2.default.func,
   onFeedbackSettingsLinkClick: _propTypes2.default.func.isRequired,
+  onQuickAccessLinkClick: _propTypes2.default.func,
   onUserGuideClick: _propTypes2.default.func.isRequired,
   showUserGuide: _propTypes2.default.bool
 };
@@ -419,6 +430,10 @@ SettingsPanel.defaultProps = {
   supportedLocales: undefined,
   savedLocale: undefined,
   saveLocale: undefined,
-  showFeedback: true
+  showFeedback: true,
+  showQuickAccess: false,
+  onQuickAccessLinkClick: function onQuickAccessLinkClick() {
+    return null;
+  }
 };
 //# sourceMappingURL=index.js.map

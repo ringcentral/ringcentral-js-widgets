@@ -29,16 +29,22 @@ function mapToProps(_, _ref) {
     curIdx: curIdx,
     entered: entered,
     playing: playing,
+    firstLogin: userGuide.state.firstLogin,
     guides: userGuide.guides
   };
 }
 
 function mapToFunctions(_, _ref2) {
-  var userGuide = _ref2.phone.userGuide;
+  var _ref2$phone = _ref2.phone,
+      userGuide = _ref2$phone.userGuide,
+      quickAccess = _ref2$phone.quickAccess;
 
   return {
     updateCarousel: function updateCarousel() {
       return userGuide.updateCarousel.apply(userGuide, arguments);
+    },
+    quickAccessEnter: function quickAccessEnter() {
+      return quickAccess.enter();
     }
   };
 }

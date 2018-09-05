@@ -20,6 +20,7 @@ exports.default = {
   audio: 'Audio',
   language: 'Language',
   feedback: 'Feedback',
-  userGuide: "What\'s New"
+  userGuide: "What\'s New",
+  quickAccess: "Quick Access"
 };
 //# sourceMappingURL=en-US.js.map
