@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
-import { isInbound } from 'ringcentral-integration/lib/callLogHelpers';
+import { isInbound, isRinging } from 'ringcentral-integration/lib/callLogHelpers';
 import { isOnHold } from 'ringcentral-integration/modules/Webphone/webphoneHelper';
 
-import CallAvatar from '../CallAvatar';
+import CallIcon from '../CallIcon';
 import ContactDisplay from '../ContactDisplay';
 import CircleButton from '../CircleButton';
 import EndIcon from '../../assets/images/End.svg';
@@ -286,7 +286,8 @@ export default class ActiveCallItem extends Component {
   }
 
   onSelectContact = (value, idx) => {
-    if (!value) {
+    console.warn(this.props.getAvatarUrl)
+    if (!value || typeof this.props.getAvatarUrl !== 'function') {
       return;
     }
 
@@ -346,6 +347,7 @@ export default class ActiveCallItem extends Component {
   render() {
     const {
       call: {
+        direction,
         webphoneSession,
       },
       disableLinks,
@@ -367,6 +369,7 @@ export default class ActiveCallItem extends Component {
       onClick,
       showMergeCall,
       showHold,
+      showAvatar,
       disableMerge,
       onMergeCall,
       showCallDetail,
@@ -377,13 +380,13 @@ export default class ActiveCallItem extends Component {
     const phoneNumber = this.getPhoneNumber();
     const contactMatches = this.getContactMatches();
     const fallbackContactName = this.getFallbackContactName();
+    const ringing = isRinging(this.props.call);
     const contactName = typeof renderContactName === 'function' ?
       renderContactName(this.props.call) :
       undefined;
     const extraButton = typeof renderExtraButton === 'function' ?
       renderExtraButton(this.props.call) :
       undefined;
-
     return (
       <div
         onClick={onClick}
@@ -394,13 +397,19 @@ export default class ActiveCallItem extends Component {
         <MediaObject
           containerCls={styles.wrapper}
           mediaLeft={
-            <div className={classnames(styles.callIcon, styles.avatar)}>
-              <CallAvatar
-                isOnConferenceCall={isOnConferenceCall}
-                avatarUrl={avatarUrl}
-                extraNum={extraNum}
-                 />
-            </div>
+            <CallIcon
+              direction={direction}
+              ringing={ringing}
+              active
+              missed={false}
+              inboundTitle={i18n.getString('inboundCall', currentLocale)}
+              outboundTitle={i18n.getString('outboundCall', currentLocale)}
+              missedTitle={i18n.getString('missedCall', currentLocale)}
+              isOnConferenceCall={isOnConferenceCall}
+              showAvatar={showAvatar}
+              avatarUrl={avatarUrl}
+              extraNum={extraNum}
+            />
           }
           bodyCls={styles.content}
           mediaBody={
@@ -493,6 +502,7 @@ ActiveCallItem.propTypes = {
   contactDisplayStyle: PropTypes.string,
   isOnConferenceCall: PropTypes.bool,
   onClick: PropTypes.func,
+  showAvatar: PropTypes.bool,
   getAvatarUrl: PropTypes.func,
   showMergeCall: PropTypes.bool,
   showHold: PropTypes.bool,
@@ -520,7 +530,8 @@ ActiveCallItem.defaultProps = {
   contactDisplayStyle: undefined,
   isOnConferenceCall: false,
   onClick: undefined,
-  getAvatarUrl: i => i,
+  showAvatar: true,
+  getAvatarUrl: undefined,
   showMergeCall: false,
   showHold: true,
   disableMerge: false,

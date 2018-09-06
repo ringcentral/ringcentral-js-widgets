@@ -41,12 +41,15 @@ function ActiveCallList({
   sourceIcons,
   isSessionAConferenceCall,
   onCallItemClick,
+  showAvatar,
   getAvatarUrl,
   conferenceCallParties,
   useV2, // TODO: For compatibility, after replacing all ActiveCallItem with ActiveCallItemV2, we should remove this.
   webphoneHold,
   showCallDetail,
   updateSessionMatchedContact,
+  renderExtraButton,
+  renderContactName
 }) {
   if (!calls.length) {
     return null;
@@ -98,11 +101,14 @@ function ActiveCallList({
               sourceIcons={sourceIcons}
               hasActionMenu={!isOnConferenceCall}
               onClick={() => onCallItemClick(call)}
+              showAvatar={showAvatar}
               getAvatarUrl={getAvatarUrl}
               conferenceCallParties={conferenceCallParties}
               webphoneHold={webphoneHold}
               showCallDetail={showCallDetail}
               updateSessionMatchedContact={updateSessionMatchedContact}
+              renderExtraButton={renderExtraButton}
+              renderContactName={renderContactName}
             />
           );
         })
@@ -140,11 +146,14 @@ ActiveCallList.propTypes = {
   isSessionAConferenceCall: PropTypes.func,
   useV2: PropTypes.bool,
   onCallItemClick: PropTypes.func,
+  showAvatar: PropTypes.bool,
   getAvatarUrl: PropTypes.func,
   conferenceCallParties: PropTypes.arrayOf(PropTypes.object),
   webphoneHold: PropTypes.func,
   showCallDetail: PropTypes.bool,
   updateSessionMatchedContact: PropTypes.func,
+  renderExtraButton: PropTypes.func,
+  renderContactName: PropTypes.func
 };
 
 ActiveCallList.defaultProps = {
@@ -170,11 +179,14 @@ ActiveCallList.defaultProps = {
   isSessionAConferenceCall: () => false,
   useV2: false,
   onCallItemClick: i => i,
+  showAvatar: true,
   getAvatarUrl: i => i,
   conferenceCallParties: [],
   webphoneHold: i => i,
   showCallDetail: false,
   updateSessionMatchedContact: i => i,
+  renderExtraButton: undefined,
+  renderContactName: undefined
 };
 
 export default ActiveCallList;
