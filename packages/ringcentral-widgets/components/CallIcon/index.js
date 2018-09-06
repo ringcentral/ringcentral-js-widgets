@@ -36,17 +36,14 @@ function CallIcon({
   } else {
     symbol = (
       <div className={styles.callIcon}>
-        {isOnConferenceCall
-          ? <ConferenceCallIcon />
-          : <span
-            className={classnames(
-              callIconMap[direction],
-              styles.activeCall,
-              ringing && styles.ringing,
-            )}
-            title={title}
-          />
-        }
+        <span
+          className={classnames(
+            callIconMap[direction],
+            styles.activeCall,
+            ringing && styles.ringing,
+          )}
+          title={title}
+        />
       </div>
     );
   }
