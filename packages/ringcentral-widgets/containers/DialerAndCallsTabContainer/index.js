@@ -70,7 +70,7 @@ function mapToProps(_, {
   )
   || !isWebphoneMode && (
     callMonitor.calls.length > 0 ||
-    callLogSection.show
+    (callLogSection && callLogSection.show)
   );
   return {
     applicable,
