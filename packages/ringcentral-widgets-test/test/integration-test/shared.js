@@ -55,4 +55,3 @@ export const getWrapper = async ({ shouldMockForLogin = true } = {}) => {
   const phone = await getPhone(shouldMockForLogin);
   return mount(<App phone={phone} />);
 };
-
