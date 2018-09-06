@@ -27,19 +27,6 @@ export class ConferenceInfo extends Component {
       }
     } else {
       showUpdate = false;
-      for (const p in nextProps) {
-        if (nextProps::Object.prototype.hasOwnProperty(p)) {
-          const val = nextProps[p];
-
-          if (
-            val !== this.props[p] &&
-            (typeof val !== 'function')
-          ) {
-            showUpdate = true;
-            break;
-          }
-        }
-      }
     }
 
     return showUpdate;
