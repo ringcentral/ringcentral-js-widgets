@@ -72,6 +72,7 @@ function mapToFunctions(_, {
     webphone,
     conferenceCall,
     routerInteraction,
+    callMonitor,
   },
   getAvatarUrl,
   ...props
@@ -86,6 +87,8 @@ function mapToFunctions(_, {
   return {
     ...baseProps,
     async onMerge(sessionId) {
+      // to track user click merge
+      callMonitor.callsOnHoldClickMergeTrack();
       await conferenceCall.mergeSession({
         sessionId,
         sessionIdToMergeWith: fromSessionId,
@@ -100,7 +103,6 @@ function mapToFunctions(_, {
             routerInteraction.goBack();
           }
         },
-
       });
     },
     onBackButtonClick() {
@@ -111,10 +113,17 @@ function mapToFunctions(_, {
       phone.routerInteraction.go(-2);
     },
     onAdd() {
+      // to track use click add button
+      callMonitor.callsOnHoldClickAddTrack();
       routerInteraction.push(`/conferenceCall/dialer/${params.fromNumber}/${params.fromSessionId}`);
     },
     getAvatarUrl,
     isConferenceSession: (...args) => conferenceCall.isConferenceSession(...args),
+    async webphoneHangup(...args) {
+      // track user click hangup on calls onhold page
+      callMonitor.callsOnHoldClickHangupTrack();
+      return (webphone && webphone.hangup(...args));
+    },
   };
 }
 

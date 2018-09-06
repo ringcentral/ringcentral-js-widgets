@@ -58,6 +58,8 @@ class CallCtrlPanel extends Component {
           this.props.onMerge();
         }
       }
+      // track user click merge
+      this.props.afterOnMerge();
     };
     this.showMergeConfirm = () => {
       this.setState({
@@ -67,15 +69,21 @@ class CallCtrlPanel extends Component {
 
     this.hideMergeConfirm = () => {
       this.setState({
-        isShowMergeConfirm: false,
+        isShowMergeConfirm: false
       });
+      // user action track
+      this.props.afterHideMergeConfirm();
     };
 
     this.confirmMerge = () => {
-      this.hideMergeConfirm();
+      this.setState({
+        isShowMergeConfirm: false
+      });
       if (this.props.onMerge) {
         this.props.onMerge();
       }
+      // user action track
+      this.props.afterConfirmMerge();
     };
 
     this.gotoParticipantsCtrl = () => {
@@ -85,7 +93,9 @@ class CallCtrlPanel extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.hasConferenceCall && this.state.isShowMergeConfirm) {
-      this.hideMergeConfirm();
+      this.setState({
+        isShowMergeConfirm: false
+      });
     }
   }
 
@@ -252,6 +262,9 @@ CallCtrlPanel.propTypes = {
   conferenceCallParties: PropTypes.array,
   getAvatarUrl: PropTypes.func,
   gotoParticipantsCtrl: PropTypes.func,
+  afterHideMergeConfirm: PropTypes.func,
+  afterConfirmMerge: PropTypes.func,
+  afterOnMerge: PropTypes.func,
 };
 
 CallCtrlPanel.defaultProps = {
@@ -288,6 +301,9 @@ CallCtrlPanel.defaultProps = {
   lastCallInfo: undefined,
   getAvatarUrl: () => null,
   gotoParticipantsCtrl: i => i,
+  afterHideMergeConfirm: () => null,
+  afterConfirmMerge: () => null,
+  afterOnMerge: () => null,
 };
 
 export default CallCtrlPanel;

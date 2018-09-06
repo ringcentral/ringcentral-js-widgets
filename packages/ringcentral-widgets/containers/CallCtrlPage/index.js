@@ -194,6 +194,8 @@ function mapToFunctions(_, {
     recipientsContactInfoRenderer,
     recipientsContactPhoneRenderer,
     onAdd(sessionId) {
+      // track user click add on call control
+      callMonitor.callControlClickAddTrack();
       const session = find(x => x.id === sessionId, webphone.sessions);
       if (!session || webphone.isCallRecording({ session })) {
         return;
@@ -235,6 +237,8 @@ function mapToFunctions(_, {
 
     gotoParticipantsCtrl() {
       routerInteraction.push('/conferenceCall/participants');
+      // track user click participant area on call control
+      callMonitor.callControlClickParticipantAreaTrack();
     },
     loadConference(confId) {
       if (conferenceCall) {
@@ -247,6 +251,10 @@ function mapToFunctions(_, {
     setMergeParty(...args) {
       return conferenceCall && conferenceCall.setMergeParty(...args);
     },
+    // user action track functions
+    afterHideMergeConfirm: () => callMonitor.confirmMergeClickCloseTrack(),
+    afterConfirmMerge: () => callMonitor.confirmMergeClickMergeTrack(),
+    afterOnMerge: () => callMonitor.callControlClickMergeTrack()
   };
 }
 

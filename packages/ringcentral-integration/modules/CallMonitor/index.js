@@ -543,6 +543,78 @@ export default class CallMonitor extends RcModule {
       ...matched,
     });
   }
+  // user action track funtions
+  callItemClickTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.callItemClickTrack,
+    });
+  }
+
+  allCallsClickHoldTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.allCallsClickHoldTrack
+    });
+  }
+
+  allCallsClickHangupTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.allCallsClickHangupTrack,
+    });
+  }
+
+  callControlClickAddTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.callControlClickAddTrack
+    });
+  }
+
+  simplifiedControlClickMergeTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.simplifiedControlClickMergeTrack
+    });
+  }
+
+  callControlClickMergeTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.callControlClickMergeTrack
+    });
+  }
+
+  confirmMergeClickCloseTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.confirmMergeClickCloseTrack,
+    });
+  }
+
+  confirmMergeClickMergeTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.confirmMergeClickMergeTrack,
+    });
+  }
+
+  callsOnHoldClickAddTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.callsOnHoldClickAddTrack
+    });
+  }
+
+  callsOnHoldClickMergeTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.callsOnHoldClickMergeTrack
+    });
+  }
+
+  callsOnHoldClickHangupTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.callsOnHoldClickHangupTrack
+    });
+  }
+
+  callControlClickParticipantAreaTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.callControlClickParticipantAreaClickTrack
+    });
+  }
 
   get hasRingingCalls() {
     return hasRingingCalls(this.calls);
