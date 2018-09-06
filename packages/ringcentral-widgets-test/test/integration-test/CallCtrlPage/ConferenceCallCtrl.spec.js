@@ -15,7 +15,6 @@ import {
 
 let wrapper = null;
 let phone = null;
-let store = null;
 
 beforeEach(async () => {
   jasmine.DEFAUL_INTERVAL = 64000;
@@ -24,7 +23,6 @@ beforeEach(async () => {
   phone.webphone._createWebphone();
   phone.webphone._connect = () => {};
   phone.webphone._removeWebphone = () => {};
-  store = wrapper.props().phone.store;
   Object.defineProperties(wrapper.props().phone.audioSettings, {
     userMedia: { value: true },
   });
@@ -168,6 +166,7 @@ describe('Conference Call Control Page - Add', () => {
     recordButton.find(CircleButton).simulate('click');
     await timeout(200);
     addButton.find(CircleButton).simulate('click');
+    const store = wrapper.props().phone.store;
     const messages = store.getState(wrapper).alert.messages;
     expect(messages).toEqual(
       expect.arrayContaining([
@@ -183,7 +182,6 @@ describe('Conference Call Control Page - Add', () => {
 describe('Conference Call Control Page - Merge Button', () => {
   let recordButton = null;
   test('When user records the conference call, user can not merge other call', async () => {
-    let messages = null;
     const outboundSession = await makeOutboundCall(phone);
     await phone.webphone.hold(outboundSession.id);
     await mockConferenceCallEnv(phone);
@@ -192,7 +190,8 @@ describe('Conference Call Control Page - Merge Button', () => {
     const mergeButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
     recordButton.find(CircleButton).simulate('click');
     mergeButton.find(CircleButton).simulate('click');
-    messages = store.getState(wrapper).alert.messages;
+    const store = wrapper.props().phone.store;
+    const messages = store.getState(wrapper).alert.messages;
     expect(messages).toEqual(
       expect.arrayContaining([
         expect.objectContaining({

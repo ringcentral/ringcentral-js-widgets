@@ -31,7 +31,6 @@ const sid222 = '222';
 let sidOutbound = null;
 let wrapper = null;
 let phone = null;
-let store = null;
 
 async function makeInbountCall(sessionId) {
   await getInboundCall(phone, {
@@ -72,7 +71,6 @@ beforeEach(async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
   wrapper = await getWrapper();
   phone = wrapper.props().phone;
-  store = wrapper.props().phone.store;
   phone.webphone._createWebphone();
   phone.webphone._removeWebphone = () => { };
   phone.webphone._connect = () => { };
@@ -94,7 +92,7 @@ afterEach(() => {
 });
 
 describe('RCI-1038: There is no Add button', () => {
-  test('RCI-1038#1 - When user has only one active call', async () => {
+  test('RCI-1038#1 - When user has only one active call', async (done) => {
     await makeInbountCall(sid111);
     const page = wrapper.find(IncomingCallPad);
     const activeButtons = page.find(ActiveCallButton);
@@ -104,9 +102,10 @@ describe('RCI-1038: There is no Add button', () => {
       const button = activeButtons.at(index);
       expect(button.find('.buttonTitle').text()).not.toEqual('Add');
     }
+    done();
   });
 
-  test('RCI-1038#3 - When user has other active calls', async () => {
+  test('RCI-1038#3 - When user has other active calls', async (done) => {
     await makeInbountCall(sid111);
     // Click Answer Button
     wrapper
@@ -129,11 +128,12 @@ describe('RCI-1038: There is no Add button', () => {
       const button = multiButtons.at(index);
       expect(button.find('.buttonTitle').text()).not.toEqual('Add');
     }
+    done();
   });
 });
 
 describe('To Voicemail Button', () => {
-  test('RCI-1712243 Single incoming Call_ Send to voicemail', async () => {
+  test('RCI-1712243 Single incoming Call_ Send to voicemail', async (done) => {
     await makeInbountCall(sid111);
     const buttons = wrapper.find(IncomingCallPad).find(ActiveCallButton);
     const buttonToVoicemail = buttons.at(3);
@@ -146,11 +146,12 @@ describe('To Voicemail Button', () => {
     expect(toVoicemailFn.mock.calls[0]).toContain(sid111);
     expect(phone.webphone.sessions).toHaveLength(0);
     expect(phone.routerInteraction.currentPath).toEqual('/dialer');
+    done();
   });
 });
 
 describe('Check Answer Button', () => {
-  test('RCI-1712246 Single Incoming Call_ Answer Call', async () => {
+  test('RCI-1712246 Single Incoming Call_ Answer Call', async (done) => {
     await makeInbountCall(sid111);
     const buttons = wrapper.find(IncomingCallPad).find(ActiveCallButton);
     const buttonAnswer = buttons.at(4);
@@ -161,11 +162,12 @@ describe('Check Answer Button', () => {
     expect(phone.webphone.sessions).toHaveLength(1);
     expect(phone.webphone.sessions[0].callStatus).toEqual(sessionStatus.connected);
     expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
+    done();
   });
 });
 
 describe('Check Answer and Hold Button', () => {
-  test('RCI-1712291#Entry1: inbound call + incoming call: Second call incoming_Answer and Hold', async () => {
+  test('RCI-1712291#Entry1: inbound call + incoming call: Second call incoming_Answer and Hold', async (done) => {
     // Answer an inbound call, and make another incoming call
     await makeMultiCalls('Inbound');
 
@@ -185,8 +187,9 @@ describe('Check Answer and Hold Button', () => {
     ).toEqual([sessionStatus.connected, sessionStatus.onHold]);
     expect(wrapper.find(ActiveCallPanel)).toHaveLength(1);
     expect(wrapper.find(IncomingCallPanel)).toHaveLength(0);
+    done();
   });
-  test('RCI-1712291#Entry2: outbound call + incoming call: Second call incoming_Answer and Hold', async () => {
+  test('RCI-1712291#Entry2: outbound call + incoming call: Second call incoming_Answer and Hold', async (done) => {
     // Answer an inbound call, and make another incoming call
     await makeMultiCalls('Outbound');
 
@@ -206,11 +209,12 @@ describe('Check Answer and Hold Button', () => {
     ).toEqual([sessionStatus.connected, sessionStatus.onHold]);
     expect(wrapper.find(ActiveCallPanel)).toHaveLength(1);
     expect(wrapper.find(IncomingCallPanel)).toHaveLength(0);
+    done();
   });
 });
 
 describe('Check Answer and End Button', () => {
-  test('RCI-1712330#Entry1: inbound call + incoming call: Second call incoming_Answer and End', async () => {
+  test('RCI-1712330#Entry1: inbound call + incoming call: Second call incoming_Answer and End', async (done) => {
     // Answer an inbound call, and make another incoming call
     await makeMultiCalls('Inbound');
 
@@ -228,8 +232,9 @@ describe('Check Answer and End Button', () => {
     expect(phone.webphone.sessions[0].callStatus).toEqual(sessionStatus.connected);
     expect(wrapper.find(ActiveCallPanel)).toHaveLength(1);
     expect(wrapper.find(IncomingCallPanel)).toHaveLength(0);
+    done();
   });
-  test('RCI-1712330#Entry2: outbound call + incoming call: Second call incoming_Answer and End', async () => {
+  test('RCI-1712330#Entry2: outbound call + incoming call: Second call incoming_Answer and End', async (done) => {
     // Answer an inbound call, and make another incoming call
     await makeMultiCalls('Outbound');
 
@@ -247,11 +252,12 @@ describe('Check Answer and End Button', () => {
     expect(phone.webphone.sessions[0].callStatus).toEqual(sessionStatus.connected);
     expect(wrapper.find(ActiveCallPanel)).toHaveLength(1);
     expect(wrapper.find(IncomingCallPanel)).toHaveLength(0);
+    done();
   });
 });
 
 describe('Check Ignore Button', () => {
-  test('RCI-1712247 Single Incoming Call_ Ignore Call', async () => {
+  test('RCI-1712247 Single Incoming Call_ Ignore Call', async (done) => {
     await makeInbountCall(sid111);
     const buttons = wrapper.find(IncomingCallPad).find(ActiveCallButton);
     const buttonIgnore = buttons.at(2);
@@ -263,8 +269,9 @@ describe('Check Ignore Button', () => {
     wrapper.update();
     expect(rejectFn.mock.calls[0]).toEqual([sid111]);
     expect(phone.routerInteraction.currentPath).toEqual('/dialer');
+    done();
   });
-  test('RCI-1712332#Entry1: inbound call + incoming call, Second call incoming_Ignore', async () => {
+  test('RCI-1712332#Entry1: inbound call + incoming call, Second call incoming_Ignore', async (done) => {
     // Answer an inbound call, and make another incoming call
     await makeMultiCalls('Inbound');
 
@@ -280,28 +287,31 @@ describe('Check Ignore Button', () => {
     expect(rejectFn.mock.calls[0]).toEqual([sid222]);
     expect(wrapper.find(ActiveCallPanel)).toHaveLength(1);
     expect(wrapper.find(IncomingCallPanel)).toHaveLength(0);
+    done();
   });
-  test('RCI-1712332#Entry2: outbound call + incoming call, Second call incoming_Ignore', async () => {
+  test('RCI-1712332#Entry2: outbound call + incoming call, Second call incoming_Ignore',
+    async (done) => {
     // Make an outbound call, and make another incoming call
-    await makeMultiCalls('Outbound');
+      await makeMultiCalls('Outbound');
 
-    const buttons = wrapper.find(IncomingCallPad).find(ActiveCallButton);
-    const buttonIgnore = buttons.at(2);
-    expect(buttonIgnore.find('.buttonTitle').text()).toEqual('Ignore');
+      const buttons = wrapper.find(IncomingCallPad).find(ActiveCallButton);
+      const buttonIgnore = buttons.at(2);
+      expect(buttonIgnore.find('.buttonTitle').text()).toEqual('Ignore');
 
-    buttonIgnore.find(CircleButton).simulate('click');
-    expect(phone.webphone.sessions).toHaveLength(1);
+      buttonIgnore.find(CircleButton).simulate('click');
+      expect(phone.webphone.sessions).toHaveLength(1);
 
-    wrapper.update();
+      wrapper.update();
 
-    expect(rejectFn.mock.calls[0]).toEqual([sid222]);
-    expect(wrapper.find(ActiveCallPanel)).toHaveLength(1);
-    expect(wrapper.find(IncomingCallPanel)).toHaveLength(0);
-  });
+      expect(rejectFn.mock.calls[0]).toEqual([sid222]);
+      expect(wrapper.find(ActiveCallPanel)).toHaveLength(1);
+      expect(wrapper.find(IncomingCallPanel)).toHaveLength(0);
+      done();
+    });
 });
 
 describe('Check Incoming Call Forward Button', () => {
-  test('RCI-1712302#1 Single Incoming Call - Forward Call', async () => {
+  test('RCI-1712302#1 Single Incoming Call - Forward Call', async (done) => {
     await makeInbountCall(sid111);
     const buttonForward = wrapper.find(IncomingCallPad).find(ActiveCallButton).at(0);
     expect(buttonForward.find('.buttonTitle').text()).toEqual('Forward');
@@ -309,8 +319,9 @@ describe('Check Incoming Call Forward Button', () => {
     buttonForward.find(CircleButton).simulate('click');
     wrapper.update();
     expect(wrapper.find(Tooltip).at(0).props().visible).toBe(true);
+    done();
   });
-  test('RCI-1712302#2 Second Incoming Call - Forward Call', async () => {
+  test('RCI-1712302#2 Second Incoming Call - Forward Call', async (done) => {
     // Answer an inbound call, then make an incoming call
     await makeMultiCalls('Inbound');
     const buttonForward = wrapper.find(IncomingCallPad).find(ActiveCallButton).at(0);
@@ -319,8 +330,9 @@ describe('Check Incoming Call Forward Button', () => {
     buttonForward.find(CircleButton).simulate('click');
     wrapper.update();
     expect(wrapper.find(Tooltip).at(0).props().visible).toBe(true);
+    done();
   });
-  test('RCI-1712302#3 Second Incoming Call - Forward Call', async () => {
+  test('RCI-1712302#3 Second Incoming Call - Forward Call', async (done) => {
     // Make an outbound call, then make an incoming call
     await makeMultiCalls('Outbound');
     const buttonForward = wrapper.find(IncomingCallPad).find(ActiveCallButton).at(0);
@@ -329,11 +341,12 @@ describe('Check Incoming Call Forward Button', () => {
     buttonForward.find(CircleButton).simulate('click');
     wrapper.update();
     expect(wrapper.find(Tooltip).at(0).props().visible).toBe(true);
+    done();
   });
 });
 
 describe('Check Incoming Call Forward Button > ForwardForm', () => {
-  test('RCI-1712302 Main Flow - Click Cancel Button', async () => {
+  test('RCI-1712302 Main Flow - Click Cancel Button', async (done) => {
     await makeInbountCall(sid111);
     const buttonForward = wrapper.find(IncomingCallPad).find(ActiveCallButton).at(0);
     buttonForward.find(CircleButton).simulate('click');
@@ -344,8 +357,9 @@ describe('Check Incoming Call Forward Button > ForwardForm', () => {
     btnCancel.simulate('click');
     wrapper.update();
     expect(wrapper.find(Tooltip).at(0).props().visible).toBe(false);
+    done();
   });
-  test('RCI-1712302 Main Flow - select one of the forward numbers', async () => {
+  test('RCI-1712302 Main Flow - select one of the forward numbers', async (done) => {
     await makeInbountCall(sid111);
     const buttonForward = wrapper.find(IncomingCallPad).find(ActiveCallButton).at(0);
     buttonForward.find(CircleButton).simulate('click');
@@ -359,8 +373,9 @@ describe('Check Incoming Call Forward Button > ForwardForm', () => {
     expect(forwardFn.mock.calls[0]).toContain('+16505819954');
     expect(phone.webphone.sessions).toHaveLength(0);
     expect(wrapper.find(IncomingCallPad)).toHaveLength(0);
+    done();
   });
-  test('RCI-1712302 Main Flow - Success to Forward Custom Number', async () => {
+  test('RCI-1712302 Main Flow - Success to Forward Custom Number', async (done) => {
     // clear the forwardingNumbers
     mock.forwardingNumber(forwardingNumberBody);
     mock.numberParser();
@@ -381,8 +396,9 @@ describe('Check Incoming Call Forward Button > ForwardForm', () => {
     expect(forwardFn.mock.calls[0]).toContain(validPhoneNumber);
     expect(phone.webphone.sessions).toHaveLength(0);
     expect(wrapper.find(IncomingCallPad)).toHaveLength(0);
+    done();
   });
-  test('RCI-1712302 Main Flow - Failed to Forward Custom Number', async () => {
+  test('RCI-1712302 Main Flow - Failed to Forward Custom Number', async (done) => {
     // clear the forwardingNumbers
     mock.forwardingNumber(forwardingNumberBody);
     await phone.forwardingNumber.fetchData();
@@ -396,6 +412,7 @@ describe('Check Incoming Call Forward Button > ForwardForm', () => {
     await enterToNumber(domForwardForm, 'abcdefg');
     btnForward.simulate('click');
     await timeout(200);
+    const store = wrapper.props().phone.store;
     const messages = store.getState(wrapper).alert.messages;
     expect(messages).toEqual(
       expect.arrayContaining([
@@ -407,11 +424,12 @@ describe('Check Incoming Call Forward Button > ForwardForm', () => {
     );
     expect(phone.webphone.sessions).toHaveLength(1);
     expect(wrapper.find(IncomingCallPad)).toHaveLength(1);
+    done();
   });
 });
 
 describe('Check Incoming Call Reply Button', () => {
-  test('RCI-1712265#1 Single Incoming Call - Click Reply Button', async () => {
+  test('RCI-1712265#1 Single Incoming Call - Click Reply Button', async (done) => {
     await makeInbountCall(sid111);
     const buttonReply = wrapper.find(IncomingCallPad).find(ActiveCallButton).at(1);
     expect(buttonReply.find('.buttonTitle').text()).toEqual('Reply');
@@ -419,8 +437,9 @@ describe('Check Incoming Call Reply Button', () => {
     buttonReply.find(CircleButton).simulate('click');
     wrapper.update();
     expect(wrapper.find(Tooltip).at(1).props().visible).toBe(true);
+    done();
   });
-  test('RCI-1712265#2 Second Incoming Call - Click Reply Button', async () => {
+  test('RCI-1712265#2 Second Incoming Call - Click Reply Button', async (done) => {
     await makeMultiCalls('Outbound');
     const buttonReply = wrapper.find(IncomingCallPad).find(ActiveCallButton).at(1);
     expect(buttonReply.find('.buttonTitle').text()).toEqual('Reply');
@@ -428,11 +447,12 @@ describe('Check Incoming Call Reply Button', () => {
     buttonReply.find(CircleButton).simulate('click');
     wrapper.update();
     expect(wrapper.find(Tooltip).at(1).props().visible).toBe(true);
+    done();
   });
 });
 
 describe('Check Incoming Call Reply Button > ReplyWithMessage', () => {
-  test('RCI-1712265 Content', async () => {
+  test('RCI-1712265 Content', async (done) => {
     await makeInbountCall(sid111);
     const buttonReply = wrapper.find(IncomingCallPad).find(ActiveCallButton).at(1);
     buttonReply.find(CircleButton).simulate('click');
@@ -447,8 +467,9 @@ describe('Check Incoming Call Reply Button > ReplyWithMessage', () => {
     expect(domReplyWithMessage.find('.label').at(3).text()).toEqual('Custom Message');
     expect(btnCancel.text()).toEqual('Cancel');
     expect(btnReply.text()).toEqual('Reply');
+    done();
   });
-  test('RCI-1712265 Click Cancel Button', async () => {
+  test('RCI-1712265 Click Cancel Button', async (done) => {
     await makeInbountCall(sid111);
     const buttonReply = wrapper.find(IncomingCallPad).find(ActiveCallButton).at(1);
     buttonReply.find(CircleButton).simulate('click');
@@ -459,9 +480,10 @@ describe('Check Incoming Call Reply Button > ReplyWithMessage', () => {
     btnCancel.first().simulate('click');
     wrapper.update();
     expect(wrapper.find(Tooltip).at(1).props().visible).toBe(false);
+    done();
   });
   // TODO: Check all options
-  test('RCI-1712265 Choose an option then press "Reply" button', async () => {
+  test('RCI-1712265 Choose an option then press "Reply" button', async (done) => {
     await makeInbountCall(sid111);
     const buttonReply = wrapper.find(IncomingCallPad).find(ActiveCallButton).at(1);
     buttonReply.find(CircleButton).simulate('click');
@@ -486,5 +508,6 @@ describe('Check Incoming Call Reply Button > ReplyWithMessage', () => {
     );
     expect(phone.webphone.sessions).toHaveLength(0);
     expect(wrapper.find(IncomingCallPad)).toHaveLength(0);
+    done();
   }, 7000);
 });
