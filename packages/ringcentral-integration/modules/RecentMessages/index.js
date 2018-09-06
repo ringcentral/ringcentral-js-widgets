@@ -205,7 +205,7 @@ export default class RecentMessages extends RcModule {
     let matches;
     for (let i = conversations.length - 1; i >= 0; i -= 1) {
       const conversation = conversations[i];
-      const messageList = this._messageStore.conversationStore[conversation.id] || [];
+      const messageList = this._messageStore.conversationStore[conversation.conversationId] || [];
       matches = phoneNumbers.find(this._filterPhoneNumber(conversation));
       // Check if message is within certain days
       if (!!matches && new Date(conversation.creationTime) > dateFrom) {
