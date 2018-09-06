@@ -72,7 +72,7 @@ function CallIcon(_ref) {
     symbol = _react2.default.createElement(
       'div',
       { className: _styles2.default.callIcon },
-      isOnConferenceCall ? _react2.default.createElement(_ConferenceCallIcon2.default, null) : _react2.default.createElement('span', {
+      _react2.default.createElement('span', {
         className: (0, _classnames2.default)(callIconMap[direction], _styles2.default.activeCall, ringing && _styles2.default.ringing),
         title: title
       })
