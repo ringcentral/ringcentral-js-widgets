@@ -1,3 +1,4 @@
+import deviceBody from 'ringcentral-integration/integration-test/mock/data/device';
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatuses';
 import * as mock from 'ringcentral-integration/integration-test/mock';
 
@@ -101,7 +102,7 @@ export async function mockMultiOutboundCalls(phone, n) {
 async function mockMultipleOutboundCallBodies(phone, n) {
   const res = [];
 
-  for (let i = n; i > 0; i--) {
+  for (let i = n; i > 0; i -= 1) {
     const outboundSession = await makeCall(phone, {
       callId: true,
       fromNumber: '+15878133670',

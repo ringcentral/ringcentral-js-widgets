@@ -25,7 +25,6 @@ import {
 } from '../../support/session';
 import { initPhoneWrapper, timeout } from '../shared';
 
-
 const sid111 = '111';
 const sid222 = '222';
 let sidOutbound = null;
@@ -36,13 +35,6 @@ async function makeInbountCall(phone, wrapper, sessionId) {
     direction: 'Inbound'
   });
   await timeout(10);
-  wrapper.update();
-}
-
-async function makeOutboundCall(phone, wrapper) {
-  mock.device(deviceBody);
-  const outboundSession = await makeCall(phone);
-  sidOutbound = outboundSession.id;
   wrapper.update();
 }
 

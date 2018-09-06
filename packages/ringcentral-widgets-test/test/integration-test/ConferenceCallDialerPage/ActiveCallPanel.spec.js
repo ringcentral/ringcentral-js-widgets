@@ -13,6 +13,11 @@ import RecipientsInput from 'ringcentral-widgets/components/RecipientsInput';
 import ContactDropdownList from 'ringcentral-widgets/components/ContactDropdownList';
 import DropdownSelect from 'ringcentral-widgets/components/DropdownSelect';
 import incomingResponse from './data/incomingResponse';
+import { makeCall } from '../../support/callHelper';
+import extensionListBody from './data/extension';
+import conferenceCallBody from './data/conferenceCall';
+import conferenceCallBringInBody from './data/conferenceCallBringIn';
+import incomingResponse from './data/incomingResponse';
 import { initPhoneWrapper, timeout } from '../shared';
 import {
   mockPubnub,
@@ -23,7 +28,7 @@ beforeEach(async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
 });
 
-async function call(phone, wrapper, {
+async function makeOutboundCall(phone, wrapper, {
   phoneNumber,
   fromNumber
 }) {
@@ -49,13 +54,13 @@ async function mockSub(phone, ttl = 100) {
 }
 
 async function mockAddCall(phone, wrapper, contactA, contactB) {
-  await call(phone, wrapper, {
+  const firstSession = await makeOutboundCall(phone, wrapper, {
     phoneNumber: contactA.phoneNumbers[0].phoneNumber
   });
   await phone.webphone.hold(firstSession.id);
   const callCtrlPage = wrapper.find(CallCtrlPage);
-  await callCtrlPage.props().onAdd(sessionA.id);
-  await call(phone, wrapper, {
+  await callCtrlPage.props().onAdd(firstSession.id);
+  const secondSession = await makeOutboundCall(phone, wrapper, {
     phoneNumber: contactB.phoneNumbers[0].phoneNumber,
     fromNumber: contactB.phoneNumbers[0].phoneNumber,
   });
@@ -169,7 +174,7 @@ describe('RCI-1071: simplified call control page #3', () => {
     await timeout(500);
     wrapper.update();
     expect(phone.routerInteraction.currentPath).toEqual(`/conferenceCall/dialer/${conferenceSession.fromNumber}/${conferenceSession.id}`);
-    call(phone, wrapper, {
+    makeOutboundCall(phone, wrapper, {
       phoneNumber: contactA.phoneNumbers[0].phoneNumber,
     });
     await timeout(1000);
@@ -226,7 +231,7 @@ describe('RCI-1710156: Call control add call flow', () => {
     const contactA = phone.contacts.allContacts.find(item => item.type === 'company' && item.hasProfileImage);
     const contactB = phone.contacts.allContacts.find(item => item.type === 'personal' && !item.hasProfileImage);
     const phoneNumber = contactA.phoneNumbers[0].phoneNumber;
-    call(phone, wrapper, {
+    makeOutboundCall(phone, wrapper, {
       phoneNumber,
     });
     await timeout(100);
