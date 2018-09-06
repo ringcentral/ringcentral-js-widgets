@@ -25,7 +25,7 @@ describe('test: =====>', () => {
       { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
     ],
   }, async ({ option }) => {
-    const text = await browser.text(option.selector);
+    const text = await $(page).text(option.selector);
     expect(text).toBe(option.expected);
   });
 });

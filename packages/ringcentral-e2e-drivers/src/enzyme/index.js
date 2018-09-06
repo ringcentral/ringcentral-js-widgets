@@ -2,7 +2,23 @@ const enzyme = require('enzyme');
 const Adapter = require('enzyme-adapter-react-16');
 
 const setting = {
+  //
 };
+
+// global.requestAnimationFrame = (callback) => {
+//   setTimeout(callback, 0);
+// };
+
+class Query {
+  constructor(node) {
+    this._node = node;
+  }
+
+  async text(selector) {
+    const text = this._node.find(selector).first().text();
+    return text;
+  }
+}
 
 class Driver {
   constructor(options = {}, program = enzyme) {
@@ -10,7 +26,7 @@ class Driver {
     this._program = program;
     this._program.configure({ adapter: new Adapter() });
   }
-  /* Global runner API */
+
   async run() {
     //
   }
@@ -20,65 +36,39 @@ class Driver {
   }
 
   async goto(config) {
-    // const app = require(location);
-    // this.browser = this._program.mount();
-    // this.page = this.browser;
-    // return this.page;
-    return this;
+    const path = require('path').resolve(process.cwd(), config.source);
+    const source = require(path);
+    const getApp = typeof source === 'function' ? source : source.default;
+    const app = await getApp();
+    this._browser = this._program.mount(app);
+    this._page = this._browser;
+    await new Promise(resolve => setTimeout(resolve, 100));
   }
 
   async closePage() {
-    this.browser = null;
-    this.page = null;
-    return this.page;
+    this._browser = null;
+    this._page = null;
   }
-  /* Global runner API */
+
+  async close() {
+    this._browser = null;
+  }
 
   get program() {
     return this._program;
   }
 
-  async launch(config) {
-    const path = require('path').resolve(process.cwd(), config.source);
-    const getApp = require(path).default;
-    const app = await getApp();
-    this.browser = this._program.mount(app);
-    this.page = this.browser;
-    await new Promise(r => setTimeout(r, 100));
-    return this.page;
+  get page() {
+    return this._page;
   }
 
-  async close() {
-    this.browser = null;
+  get browser() {
+    return this._browser;
   }
-
-  async text(selector) {
-    const text = this.page.find(selector).first().text();
-    return text;
-  }
-
-  // async $(selector) {
-  //   const element = await this._context.$(selector);
-  //   return element;
-  // }
-
-  // async $$(selector) {
-  //   const elements = await this._context.$$(selector);
-  //   return elements;
-  // }
-
-  // async click(selector) {
-  //   const handle = await this._context.click(selector);
-  //   return handle;
-  // }
-
-  // async type(selector, value) {
-  //   const handle = await this._context.type(selector, value);
-  //   return handle;
-  // }
 }
 
 module.exports = {
   Driver,
   setting,
+  Query,
 };

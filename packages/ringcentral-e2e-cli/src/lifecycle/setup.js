@@ -69,7 +69,6 @@ function setup({
 }) {
   global.defaultTestConfig = flattenTestConfig(config);
   global.testBeforeAll = (...args) => {
-    // console.log(JSON.stringify(args, null, 2));
     // TODO HOOK and setup plugins
   };
   global.testBeforeEach = ({
@@ -80,13 +79,13 @@ function setup({
     isSandbox,
   }) => {
     // TODO HOOK setup plugins
-    const browser = isSandbox ? createDriver(driver) : drivers[driver];
+    const instance = isSandbox ? createDriver(driver) : drivers[driver];
     const config = lookupConfig({
       config: global.execGlobal,
       tag,
     });
     return {
-      browser,
+      instance,
       config,
     };
   };

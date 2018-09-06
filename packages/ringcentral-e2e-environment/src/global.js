@@ -31,7 +31,8 @@ function checkValidBrowsers(process) {
 const createDriver = (name, inputSetting) => {
   const {
     Driver,
-    setting
+    setting,
+    Query
   } = e2eDrivers[name];
   // TDDO inputSetting for browser
   const options = {
@@ -39,7 +40,10 @@ const createDriver = (name, inputSetting) => {
       setting,
     },
   };
-  return new Driver(options);
+  return {
+    driver: new Driver(options),
+    query: node => new Query(node),
+  };
 };
 
 const setup = async () => {

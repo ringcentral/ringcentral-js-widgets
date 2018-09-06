@@ -25,6 +25,19 @@ const seleniumWebdriverSetting = {
   edge: new edge.Options(),
 };
 
+class Query {
+  constructor(node) {
+    this._node = node;
+  }
+
+  async text(selector) {
+    const element = await this._node.wait(until.elementLocated(By.css(selector)));
+    const innerText = element.getAttribute('innerText');
+    return innerText;
+  }
+}
+
+
 module.exports = (browser) => {
   const webdriver = browser.toLowerCase();
   const setKeyName = `set${browser}Options`;
@@ -34,84 +47,59 @@ module.exports = (browser) => {
       this._options = options;
       this._program = program;
     }
-    /* Global runner API */
+
     async run() {
       // Nothing
     }
 
     async newPage() {
-      this.browser = this._program
+      this._browser = this._program
         .forBrowser(Browsers[webdriver])[setKeyName](
           this._options.driver.setting,
         )
         .build();
-      this.page = this.browser;
+      this._page = this._browser;
     }
 
     async goto(config) {
-      await this.browser.get(config.location);
-      return this.browser;
+      await this._browser.get(config.location);
     }
 
     async closePage() {
       await this.close();
     }
-    /* Global runner API */
-    get program() {
-      return this._program;
-    }
-
-    async launch(config) {
-      this.browser = this._program
-        .forBrowser(Browsers[webdriver])[setKeyName](this._options.driver.setting)
-        .build();
-      await this.browser.get(config.location);
-      return this.browser;
-    }
 
     async close() {
-      if (this.browser) {
+      if (this._browser) {
         try {
-          await this.browser.close();
+          await this._browser.close();
         } catch (e) {
-          //
+          // console.error(e);
         }
         try {
-          await this.browser.quit();
+          await this._browser.quit();
         } catch (e) {
-          //
+          // console.error(e);
         }
       }
     }
 
-    async text(selector) {
-      const element = await this.browser.wait(until.elementLocated(By.css(selector)));
-      const innerText = element.getAttribute('innerText');
-      return innerText;
+    get program() {
+      return this._program;
     }
 
-    // async $(selector) {
-    //   const element = await this._context.$(selector);
-    //   return element;
-    // }
+    get page() {
+      return this._page;
+    }
 
-    // async $$(selector) {
-    //   const elements = await this._context.$$(selector);
-    //   return elements;
-    // }
-
-    // async click(selector) {
-    //   const handle = await this._context.click(selector);
-    //   return handle;
-    // }
-
-    // async type(selector, value) {
-    //   const handle = await this._context.type(selector, value);
-    //   return handle;
-    // }
+    get browser() {
+      return this._browser;
+    }
   }
+
   return {
     Driver,
     setting,
+    Query,
   };
 };

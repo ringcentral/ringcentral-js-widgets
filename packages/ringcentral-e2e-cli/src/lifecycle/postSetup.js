@@ -2,7 +2,7 @@ import '../reporter';
 import { compile } from '../utils/template';
 
 // TODO configuration-based.
-jest.setTimeout(30000);
+jest.setTimeout(1000 * 60);
 
 const _test = test;
 const _describe = describe;
@@ -98,13 +98,13 @@ function checkSkippedCase({ project, ...execTag }, [_, caseTag]) {
   return false;
 }
 
-async function beforeEachStart({ browser, isSandbox }) {
+async function beforeEachStart({ driver, isSandbox }) {
   // TODO HOOK
 }
 
-async function afterEachEnd({ browser, isSandbox }) {
+async function afterEachEnd({ driver, isSandbox }) {
   // TODO HOOK
-  if (isSandbox) await browser.close();
+  if (isSandbox) await driver.close();
 }
 
 function testCase(caseParams, fn) {
@@ -155,7 +155,7 @@ function testCase(caseParams, fn) {
             values: Object.values(option),
           });
           const tail = ` => (${project} in ${group.join(' & ')} on ${driver})`;
-          const { browser, config } = global.testBeforeEach({
+          const { config, instance } = global.testBeforeEach({
             caseParams,
             option,
             tag,
@@ -165,21 +165,25 @@ function testCase(caseParams, fn) {
             modes,
             isSandbox,
           });
-          global.beforeEach(beforeEachStart.bind(null, { browser, isSandbox }));
-          global.afterEach(afterEachEnd.bind(null, { browser, isSandbox }));
+          global.beforeEach(beforeEachStart.bind(null, { driver: instance.driver, isSandbox }));
+          global.afterEach(afterEachEnd.bind(null, { driver: instance.driver, isSandbox }));
           /* eslint-disable */
-          const func = async function ({ browser, isSandbox, config, ...args }) {
-            global.browser = browser;
+          const func = async function ({ instance, isSandbox, config, ...args }) {
             // TODO handle type in `config`
-            global.page = isSandbox ?
-              await browser.launch(config) :
-              await browser.goto(config);
+            if (isSandbox) {
+              await instance.driver.run();
+              await instance.driver.newPage();
+            }
+            await instance.driver.goto(config);
+            global.$ = instance.query;
+            global.browser = instance.driver.browser;
+            global.page = instance.driver.page;
             // TODO HOOK
             await fn({ ...args, isSandbox, config});
           };
           /* eslint-enable */
           _test(`${name}${tail}`, func.bind(null, {
-            browser,
+            instance,
             config,
             option,
             tag,
