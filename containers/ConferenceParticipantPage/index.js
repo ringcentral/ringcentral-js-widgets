@@ -164,19 +164,21 @@ function mapToFunctions(_, _ref2) {
                 return conferenceCall.removeFromConference(confId, id);
 
               case 4:
+                // user action track
+                conferenceCall.removeParticipantClickRemoveTrack();
                 return _context.abrupt('return', true);
 
-              case 7:
-                _context.prev = 7;
+              case 8:
+                _context.prev = 8;
                 _context.t0 = _context['catch'](1);
                 return _context.abrupt('return', false);
 
-              case 10:
+              case 11:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this, [[1, 7]]);
+        }, _callee, this, [[1, 8]]);
       }));
 
       function removeFunc(_x) {
@@ -192,6 +194,13 @@ function mapToFunctions(_, _ref2) {
         areaCode: regionSettings.areaCode,
         countryCode: regionSettings.countryCode
       });
+    },
+    // user action track functions
+    afterOnRemoveBtnClick: function afterOnRemoveBtnClick() {
+      return conferenceCall.participantListClickHangupTrack();
+    },
+    afterOnCancel: function afterOnCancel() {
+      return conferenceCall.removeParticipantClickCancelTrack();
     }
   };
 }

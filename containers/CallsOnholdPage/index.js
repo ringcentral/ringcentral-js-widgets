@@ -134,6 +134,7 @@ function mapToFunctions(_, _ref2) {
       webphone = _ref2$phone.webphone,
       conferenceCall = _ref2$phone.conferenceCall,
       routerInteraction = _ref2$phone.routerInteraction,
+      callMonitor = _ref2$phone.callMonitor,
       getAvatarUrl = _ref2.getAvatarUrl,
       props = (0, _objectWithoutProperties3.default)(_ref2, ['params', 'phone', 'phone', 'getAvatarUrl']);
   var fromSessionId = params.fromSessionId;
@@ -150,7 +151,9 @@ function mapToFunctions(_, _ref2) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                // to track user click merge
+                callMonitor.callsOnHoldClickMergeTrack();
+                _context.next = 3;
                 return conferenceCall.mergeSession({
                   sessionId: sessionId,
                   sessionIdToMergeWith: fromSessionId,
@@ -167,7 +170,7 @@ function mapToFunctions(_, _ref2) {
                   }
                 });
 
-              case 2:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -189,13 +192,40 @@ function mapToFunctions(_, _ref2) {
       phone.routerInteraction.go(-2);
     },
     onAdd: function onAdd() {
+      // to track use click add button
+      callMonitor.callsOnHoldClickAddTrack();
       routerInteraction.push('/conferenceCall/dialer/' + params.fromNumber + '/' + params.fromSessionId);
     },
 
     getAvatarUrl: getAvatarUrl,
     isConferenceSession: function isConferenceSession() {
       return conferenceCall.isConferenceSession.apply(conferenceCall, arguments);
-    }
+    },
+    webphoneHangup: function () {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
+        var _args2 = arguments;
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                // track user click hangup on calls onhold page
+                callMonitor.callsOnHoldClickHangupTrack();
+                return _context2.abrupt('return', webphone && webphone.hangup.apply(webphone, _args2));
+
+              case 2:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function webphoneHangup() {
+        return _ref4.apply(this, arguments);
+      }
+
+      return webphoneHangup;
+    }()
   });
 }
 

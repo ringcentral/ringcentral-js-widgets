@@ -82,6 +82,7 @@ function mapToFunctions(_, _ref2) {
       webphone = _ref2$phone.webphone,
       callingSettings = _ref2$phone.callingSettings,
       conferenceCall = _ref2$phone.conferenceCall,
+      callMonitor = _ref2$phone.callMonitor,
       _ref2$composeTextRout = _ref2.composeTextRoute,
       composeTextRoute = _ref2$composeTextRout === undefined ? '/composeText' : _ref2$composeTextRout,
       _ref2$callCtrlRoute = _ref2.callCtrlRoute,
@@ -180,9 +181,11 @@ function mapToFunctions(_, _ref2) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
+                // user action track
+                callMonitor.allCallsClickHangupTrack();
                 return _context4.abrupt('return', webphone && webphone.hangup.apply(webphone, _args4));
 
-              case 1:
+              case 2:
               case 'end':
                 return _context4.stop();
             }
@@ -240,9 +243,11 @@ function mapToFunctions(_, _ref2) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
+                // user action track
+                callMonitor.allCallsClickHoldTrack();
                 return _context6.abrupt('return', webphone && webphone.hold.apply(webphone, _args6));
 
-              case 1:
+              case 2:
               case 'end':
                 return _context6.stop();
             }
@@ -388,6 +393,8 @@ function mapToFunctions(_, _ref2) {
         return;
       }
       if (call.webphoneSession && call.webphoneSession.id) {
+        // to track the call item be clicked.
+        callMonitor.callItemClickTrack();
         routerInteraction.push(callCtrlRoute + '/' + call.webphoneSession.id);
       }
     },

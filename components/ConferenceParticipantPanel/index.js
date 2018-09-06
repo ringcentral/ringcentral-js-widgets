@@ -77,6 +77,7 @@ var ParticipantsContainer = function (_Component) {
     _this.formatPrticipants(props);
     _this.onRemoveBtnClick = _this.onRemoveBtnClick.bind(_this);
     _this.onCancel = _this.onCancel.bind(_this);
+    _this.onCancelNoAfter = _this.onCancelNoAfter.bind(_this);
     return _this;
   }
 
@@ -102,10 +103,19 @@ var ParticipantsContainer = function (_Component) {
           showModal: true
         };
       });
+      this.props.afterOnRemoveBtnClick();
     }
   }, {
     key: 'onCancel',
     value: function onCancel() {
+      this.onCancelNoAfter();
+      this.props.afterOnCancel();
+    }
+    // onCancel without track
+
+  }, {
+    key: 'onCancelNoAfter',
+    value: function onCancelNoAfter() {
       this.setState({
         showModal: false,
         detail: null
@@ -120,7 +130,7 @@ var ParticipantsContainer = function (_Component) {
       if (this.state.showModal && !nextProps.participants.find(function (participant) {
         return participant.id === _this2.state.detail.id;
       })) {
-        this.onCancel();
+        this.onCancelNoAfter();
       }
     }
   }, {
@@ -191,7 +201,7 @@ var ParticipantsContainer = function (_Component) {
           onCancel: this.onCancel,
           currentLocale: currentLocale,
           onRemove: function onRemove() {
-            return removeFunc(detail && detail.id).then(_this3.onCancel);
+            return removeFunc(detail && detail.id).then(_this3.onCancelNoAfter);
           } })
       );
     }
@@ -204,7 +214,9 @@ ParticipantsContainer.propTypes = {
   removeFunc: _propTypes2.default.func,
   participants: _propTypes2.default.arrayOf(_propTypes2.default.object).isRequired,
   onBackButtonClick: _propTypes2.default.func,
-  formatPhone: _propTypes2.default.func
+  formatPhone: _propTypes2.default.func,
+  afterOnCancel: _propTypes2.default.func,
+  afterOnRemoveBtnClick: _propTypes2.default.func
 };
 
 ParticipantsContainer.defaultProps = {
@@ -215,6 +227,12 @@ ParticipantsContainer.defaultProps = {
     return i;
   },
   formatPhone: function formatPhone(i) {
+    return i;
+  },
+  afterOnCancel: function afterOnCancel(i) {
+    return i;
+  },
+  afterOnRemoveBtnClick: function afterOnRemoveBtnClick(i) {
     return i;
   }
 };

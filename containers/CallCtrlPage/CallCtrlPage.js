@@ -412,7 +412,10 @@ var CallCtrlPage = function (_Component) {
           conferenceCallParties: this.props.conferenceCallParties,
           lastCallInfo: this.props.lastCallInfo,
           getAvatarUrl: this.props.getAvatarUrl,
-          gotoParticipantsCtrl: this.props.gotoParticipantsCtrl
+          gotoParticipantsCtrl: this.props.gotoParticipantsCtrl,
+          afterHideMergeConfirm: this.props.afterHideMergeConfirm,
+          afterConfirmMerge: this.props.afterConfirmMerge,
+          afterOnMerge: this.props.afterOnMerge
         },
         this.props.children
       );
@@ -488,7 +491,10 @@ CallCtrlPage.propTypes = {
   getInitialLayout: _propTypes2.default.func,
   closeMergingPair: _propTypes2.default.func,
   isWebRTC: _propTypes2.default.bool,
-  isConferenceCallOverload: _propTypes2.default.bool
+  isConferenceCallOverload: _propTypes2.default.bool,
+  afterHideMergeConfirm: _propTypes2.default.func,
+  afterConfirmMerge: _propTypes2.default.func,
+  afterOnMerge: _propTypes2.default.func
 };
 
 CallCtrlPage.defaultProps = {
@@ -521,7 +527,16 @@ CallCtrlPage.defaultProps = {
   layout: _callCtrlLayouts2.default.normalCtrl,
   closeMergingPair: null,
   isWebRTC: false,
-  isConferenceCallOverload: false
+  isConferenceCallOverload: false,
+  afterHideMergeConfirm: function afterHideMergeConfirm() {
+    return null;
+  },
+  afterConfirmMerge: function afterConfirmMerge() {
+    return null;
+  },
+  afterOnMerge: function afterOnMerge() {
+    return null;
+  }
 };
 
 exports.default = CallCtrlPage;

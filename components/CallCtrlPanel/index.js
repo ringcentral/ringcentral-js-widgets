@@ -117,6 +117,8 @@ var CallCtrlPanel = function (_Component) {
           _this.props.onMerge();
         }
       }
+      // track user click merge
+      _this.props.afterOnMerge();
     };
     _this.showMergeConfirm = function () {
       _this.setState({
@@ -128,13 +130,19 @@ var CallCtrlPanel = function (_Component) {
       _this.setState({
         isShowMergeConfirm: false
       });
+      // user action track
+      _this.props.afterHideMergeConfirm();
     };
 
     _this.confirmMerge = function () {
-      _this.hideMergeConfirm();
+      _this.setState({
+        isShowMergeConfirm: false
+      });
       if (_this.props.onMerge) {
         _this.props.onMerge();
       }
+      // user action track
+      _this.props.afterConfirmMerge();
     };
 
     _this.gotoParticipantsCtrl = function () {
@@ -147,7 +155,9 @@ var CallCtrlPanel = function (_Component) {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       if (!nextProps.hasConferenceCall && this.state.isShowMergeConfirm) {
-        this.hideMergeConfirm();
+        this.setState({
+          isShowMergeConfirm: false
+        });
       }
     }
   }, {
@@ -307,7 +317,10 @@ CallCtrlPanel.propTypes = {
   lastCallInfo: _propTypes2.default.object,
   conferenceCallParties: _propTypes2.default.array,
   getAvatarUrl: _propTypes2.default.func,
-  gotoParticipantsCtrl: _propTypes2.default.func
+  gotoParticipantsCtrl: _propTypes2.default.func,
+  afterHideMergeConfirm: _propTypes2.default.func,
+  afterConfirmMerge: _propTypes2.default.func,
+  afterOnMerge: _propTypes2.default.func
 };
 
 CallCtrlPanel.defaultProps = {
@@ -347,6 +360,15 @@ CallCtrlPanel.defaultProps = {
   },
   gotoParticipantsCtrl: function gotoParticipantsCtrl(i) {
     return i;
+  },
+  afterHideMergeConfirm: function afterHideMergeConfirm() {
+    return null;
+  },
+  afterConfirmMerge: function afterConfirmMerge() {
+    return null;
+  },
+  afterOnMerge: function afterOnMerge() {
+    return null;
   }
 };
 

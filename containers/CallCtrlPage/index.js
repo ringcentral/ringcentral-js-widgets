@@ -243,6 +243,8 @@ function mapToFunctions(_, _ref2) {
     recipientsContactInfoRenderer: recipientsContactInfoRenderer,
     recipientsContactPhoneRenderer: recipientsContactPhoneRenderer,
     onAdd: function onAdd(sessionId) {
+      // track user click add on call control
+      callMonitor.callControlClickAddTrack();
       var session = (0, _ramda.find)(function (x) {
         return x.id === sessionId;
       }, webphone.sessions);
@@ -308,6 +310,8 @@ function mapToFunctions(_, _ref2) {
     }(),
     gotoParticipantsCtrl: function gotoParticipantsCtrl() {
       routerInteraction.push('/conferenceCall/participants');
+      // track user click participant area on call control
+      callMonitor.callControlClickParticipantAreaTrack();
     },
     loadConference: function loadConference(confId) {
       if (conferenceCall) {
@@ -319,6 +323,17 @@ function mapToFunctions(_, _ref2) {
     },
     setMergeParty: function setMergeParty() {
       return conferenceCall && conferenceCall.setMergeParty.apply(conferenceCall, arguments);
+    },
+
+    // user action track functions
+    afterHideMergeConfirm: function afterHideMergeConfirm() {
+      return callMonitor.confirmMergeClickCloseTrack();
+    },
+    afterConfirmMerge: function afterConfirmMerge() {
+      return callMonitor.confirmMergeClickMergeTrack();
+    },
+    afterOnMerge: function afterOnMerge() {
+      return callMonitor.callControlClickMergeTrack();
     }
   };
 }
