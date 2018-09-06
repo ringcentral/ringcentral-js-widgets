@@ -502,10 +502,6 @@ export default class ConferenceCall extends RcModule {
     return null;
   }
 
-  getOnlinePartyIdStr(id) {
-    return this.getOnlinePartyProfiles(id).join('');
-  }
-
   getOnlineParties(id) {
     const conferenceData = this.conferences[id];
     if (conferenceData) {
@@ -912,24 +908,10 @@ export default class ConferenceCall extends RcModule {
   }
 
   @getter
-  onlinePartyIdStr = createSelector(
-    () => this.currentConferenceId,
-    () => this.conferences,
-    (currentConferenceId, conferences) => {
-      const conferenceData = conferences && conferences[currentConferenceId];
-      if (!conferenceData) {
-        return [];
-      }
-      return this.getOnlinePartyIdStr(currentConferenceId);
-    }
-  )
-
-  @getter
   partyProfiles = createSelector(
     () => this.currentConferenceId,
     () => this.conferences,
-    () => this.onlinePartyIdStr,
-    (currentConferenceId, conferences, onlinePartyIdStr) => {
+    (currentConferenceId, conferences) => {
       const conferenceData = conferences && conferences[currentConferenceId];
       if (!conferenceData) {
         return [];
