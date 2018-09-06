@@ -286,7 +286,6 @@ export default class ActiveCallItem extends Component {
   }
 
   onSelectContact = (value, idx) => {
-    console.warn(this.props.getAvatarUrl)
     if (!value || typeof this.props.getAvatarUrl !== 'function') {
       return;
     }
