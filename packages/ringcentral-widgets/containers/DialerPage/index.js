@@ -82,13 +82,16 @@ function mapToFunctions(_, {
     ),
     clearToNumber: () => dialerUI.clearToNumberField(),
     onCallButtonClick() {
-      /**
-       * Clear the mergingPair if any (RCINT-7716)
-       */
-      if (conferenceCall) {
-        conferenceCall.closeMergingPair();
-      }
-      dialerUI.onCallButtonClick();
+      dialerUI.onCallButtonClick({
+        beforeCall() {
+          /**
+           * Clear the mergingPair if any (RCINT-7716)
+           */
+          if (conferenceCall) {
+            conferenceCall.closeMergingPair();
+          }
+        }
+      });
     },
     changeFromNumber: (...args) => callingSettings.updateFromNumber(...args),
     formatPhone: phoneNumber => formatNumber({
