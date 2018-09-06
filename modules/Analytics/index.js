@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _values = require('babel-runtime/core-js/object/values');
+
+var _values2 = _interopRequireDefault(_values);
+
 var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
@@ -77,14 +81,14 @@ var _callingModes2 = _interopRequireDefault(_callingModes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var INIT_TRACK_LIST = ['_authentication', '_logout', '_callAttempt', '_callConnected', '_webRTCRegistration', '_smsAttempt', '_smsSent', '_logCall', '_logSMS', '_clickToDial', '_clickToSMS', '_viewEntity', '_createEntity', '_editCallLog', '_editSMSLog', '_navigate', '_inboundCall', '_coldTransfer', '_textClickToDial', '_voicemailClickToDial', '_voicemailClickToSMS', '_voicemailDelete', '_voicemailFlag', '_contactDetailClickToDial', '_contactDetailClickToSMS', '_callHistoryClickToDial', '_callHistoryClickToSMS', '_conferenceInviteWithText', '_conferenceAddDialInNumber', '_conferenceJoinAsHost', '_showWhatsNew'];
+var INIT_TRACK_LIST = ['_authentication', '_logout', '_callAttempt', '_callConnected', '_webRTCRegistration', '_smsAttempt', '_smsSent', '_logCall', '_logSMS', '_clickToDial', '_clickToSMS', '_viewEntity', '_createEntity', '_editCallLog', '_editSMSLog', '_navigate', '_inboundCall', '_coldTransfer', '_textClickToDial', '_voicemailClickToDial', '_voicemailClickToSMS', '_voicemailDelete', '_voicemailFlag', '_contactDetailClickToDial', '_contactDetailClickToSMS', '_callHistoryClickToDial', '_callHistoryClickToSMS', '_conferenceInviteWithText', '_conferenceAddDialInNumber', '_conferenceJoinAsHost', '_showWhatsNew', '_allCallsClickHangup', '_allCallsClickHold', '_allCallsCallItemClick', '_callControlClickAdd', '_simplifiedCallControlClickMerge', '_simplifiedCallControlClickHangup', '_callsOnHoldClickHangup', '_callsOnHoldClickAdd', '_callsOnHoldClickMerge', '_confirmMergeClickClose', '_confirmMergeClickMerge', '_removeParticipantClickRemove', '_removeParticipantClickCancel', '_participantListClickHangup', '_callControlClickMerge', '_callControlClickParticipantArea'];
 
 /**
  * @class
  * @description Analytics module.
  */
 var Analytics = (_dec = (0, _di.Module)({
-  deps: [{ dep: 'Auth', optional: true }, { dep: 'Call', optional: true }, { dep: 'Webphone', optional: true }, { dep: 'Contacts', optional: true }, { dep: 'MessageSender', optional: true }, { dep: 'MessageStore', optional: true }, { dep: 'ContactDetails', optional: true }, { dep: 'CallHistory', optional: true }, { dep: 'Conference', optional: true }, { dep: 'RouterInteraction', optional: true }, { dep: 'AnalyticsAdapter', optional: true }, { dep: 'AnalyticsOptions', optional: true }, { dep: 'UserGuide', optional: true }]
+  deps: [{ dep: 'Auth', optional: true }, { dep: 'Call', optional: true }, { dep: 'Webphone', optional: true }, { dep: 'Contacts', optional: true }, { dep: 'MessageSender', optional: true }, { dep: 'MessageStore', optional: true }, { dep: 'ContactDetails', optional: true }, { dep: 'CallHistory', optional: true }, { dep: 'Conference', optional: true }, { dep: 'RouterInteraction', optional: true }, { dep: 'AnalyticsAdapter', optional: true }, { dep: 'AnalyticsOptions', optional: true }, { dep: 'UserGuide', optional: true }, { dep: 'CallMonitor', optional: true }, { dep: 'ConferenceCall', optional: true }]
 }), _dec(_class = function (_RcModule) {
   (0, _inherits3.default)(Analytics, _RcModule);
 
@@ -105,7 +109,9 @@ var Analytics = (_dec = (0, _di.Module)({
         callHistory = _ref.callHistory,
         conference = _ref.conference,
         userGuide = _ref.userGuide,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['analyticsKey', 'appName', 'appVersion', 'brandCode', 'auth', 'call', 'webphone', 'contacts', 'messageSender', 'adapter', 'routerInteraction', 'messageStore', 'contactDetails', 'callHistory', 'conference', 'userGuide']);
+        callMonitor = _ref.callMonitor,
+        conferenceCall = _ref.conferenceCall,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['analyticsKey', 'appName', 'appVersion', 'brandCode', 'auth', 'call', 'webphone', 'contacts', 'messageSender', 'adapter', 'routerInteraction', 'messageStore', 'contactDetails', 'callHistory', 'conference', 'userGuide', 'callMonitor', 'conferenceCall']);
     (0, _classCallCheck3.default)(this, Analytics);
 
     // config
@@ -130,6 +136,8 @@ var Analytics = (_dec = (0, _di.Module)({
     _this._callHistory = callHistory;
     _this._conference = conference;
     _this._userGuide = userGuide;
+    _this._callMonitor = callMonitor;
+    _this._conferenceCall = conferenceCall;
     // init
     _this._reducer = (0, _getAnalyticsReducer2.default)(_this.actionTypes);
     _this._segment = (0, _Analytics.Segment)();
@@ -504,11 +512,129 @@ var Analytics = (_dec = (0, _di.Module)({
       }
     }
   }, {
+    key: '_allCallsClickHold',
+    value: function _allCallsClickHold(action) {
+      if (this._callMonitor && this._callMonitor.actionTypes.allCallsClickHoldTrack === action.type) {
+        this.track('Click Hold (All Calls)');
+      }
+    }
+  }, {
+    key: '_allCallsClickHangup',
+    value: function _allCallsClickHangup(action) {
+      if (this._callMonitor && this._callMonitor.actionTypes.allCallsClickHangupTrack === action.type) {
+        this.track('Click Hangup (All Calls)');
+      }
+    }
+  }, {
+    key: '_allCallsCallItemClick',
+    value: function _allCallsCallItemClick(action) {
+      if (this._callMonitor && this._callMonitor.actionTypes.callItemClickTrack === action.type) {
+        this.track('Click Call Item (All Calls)');
+      }
+    }
+  }, {
+    key: '_callControlClickAdd',
+    value: function _callControlClickAdd(action) {
+      if (this._callMonitor && this._callMonitor.actionTypes.callControlClickAddTrack === action.type) {
+        this.track('Click Add (Call Control)');
+      }
+    }
+  }, {
+    key: '_callControlClickMerge',
+    value: function _callControlClickMerge(action) {
+      if (this._callMonitor && this._callMonitor.actionTypes.callControlClickMergeTrack === action.type && !(0, _values2.default)(this._conferenceCall.state.mergingPair).length) {
+        this.track('Click Merge (Call Control)');
+      }
+    }
+  }, {
+    key: '_simplifiedCallControlClickMerge',
+    value: function _simplifiedCallControlClickMerge(action) {
+      if (this._callMonitor && this._callMonitor.actionTypes.callControlClickMergeTrack === action.type && (0, _values2.default)(this._conferenceCall.state.mergingPair).length) {
+        this.track('Click Merge (Simplified Call Control)');
+      }
+    }
+  }, {
+    key: '_simplifiedCallControlClickHangup',
+    value: function _simplifiedCallControlClickHangup(action) {
+      if (this._conferenceCall && this._conferenceCall.actionTypes.closeMergingPair === action.type) {
+        this.track('Click Hangup (Simplified Call Control)');
+      }
+    }
+  }, {
+    key: '_callsOnHoldClickAdd',
+    value: function _callsOnHoldClickAdd(action) {
+      if (this._callMonitor && this._callMonitor.actionTypes.callsOnHoldClickAddTrack === action.type) {
+        this.track('Click Add (Calls OnHold)');
+      }
+    }
+  }, {
+    key: '_callsOnHoldClickMerge',
+    value: function _callsOnHoldClickMerge(action) {
+      if (this._callMonitor && this._callMonitor.actionTypes.callsOnHoldClickMergeTrack === action.type) {
+        this.track('Click Merge (Calls OnHold)');
+      }
+    }
+  }, {
+    key: '_confirmMergeClickClose',
+    value: function _confirmMergeClickClose(action) {
+      if (this._callMonitor && this._callMonitor.actionTypes.confirmMergeClickCloseTrack === action.type) {
+        this.track('Click Close (ConfirmMerge Modal)');
+      }
+    }
+  }, {
+    key: '_confirmMergeClickMerge',
+    value: function _confirmMergeClickMerge(action) {
+      if (this._callMonitor && this._callMonitor.actionTypes.confirmMergeClickMergeTrack === action.type) {
+        this.track('Click Merge (ConfirmMerge Modal)');
+      }
+    }
+  }, {
+    key: '_removeParticipantClickRemove',
+    value: function _removeParticipantClickRemove(action) {
+      if (this._conferenceCall && this._conferenceCall.actionTypes.removeParticipantClickRemoveTrack === action.type) {
+        this.track('Click Remove (RemoveParticipants Modal)');
+      }
+    }
+  }, {
+    key: '_removeParticipantClickCancel',
+    value: function _removeParticipantClickCancel(action) {
+      if (this._conferenceCall && this._conferenceCall.actionTypes.removeParticipantClickCancelTrack === action.type) {
+        this.track('Cancel Remove (RemoveParticipants Modal)');
+      }
+    }
+  }, {
+    key: '_participantListClickHangup',
+    value: function _participantListClickHangup(action) {
+      if (this._conferenceCall && this._conferenceCall.actionTypes.participantListClickHangupTrack === action.type) {
+        this.track('Click Hangup (Participant List)');
+      }
+    }
+  }, {
+    key: '_callControlClickParticipantArea',
+    value: function _callControlClickParticipantArea(action) {
+      if (this._callMonitor && this._callMonitor.actionTypes.callControlClickParticipantAreaClickTrack === action.type) {
+        this.track('Click Participant Area (Call Control)');
+      }
+    }
+  }, {
+    key: '_callsOnHoldClickHangup',
+    value: function _callsOnHoldClickHangup(action) {
+      if (this._callMonitor && this._callMonitor.actionTypes.callsOnHoldClickHangupTrack === action.type) {
+        this.track('Click Hangup (Calls OnHold)');
+      }
+    }
+  }, {
     key: '_getTrackTarget',
     value: function _getTrackTarget(path) {
       if (path) {
         var routes = path.split('/');
-        var firstRoute = routes.length > 1 ? '/' + routes[1] : '';
+        var formatRoute = null;
+        var needMatchSecondRoutes = ['calls'];
+        if (routes.length >= 3 && needMatchSecondRoutes.indexOf(routes[1]) !== -1) {
+          formatRoute = '/' + routes[1] + '/' + routes[2];
+        } else if (routes.length > 1) {
+          formatRoute = '/' + routes[1];
+        }
 
         var targets = [{
           eventPostfix: 'Dialer',
@@ -540,9 +666,12 @@ var Analytics = (_dec = (0, _di.Module)({
         }, {
           eventPostfix: 'Contacts',
           router: '/contacts'
+        }, {
+          eventPostfix: 'Call Control',
+          router: '/calls/active'
         }];
         return targets.find(function (target) {
-          return firstRoute === target.router;
+          return formatRoute === target.router;
         });
       }
       return undefined;

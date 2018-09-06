@@ -580,6 +580,92 @@ var CallMonitor = (_dec = (0, _di.Module)({
         type: this.actionTypes.setData
       }, matched));
     }
+    // user action track funtions
+
+  }, {
+    key: 'callItemClickTrack',
+    value: function callItemClickTrack() {
+      this.store.dispatch({
+        type: this.actionTypes.callItemClickTrack
+      });
+    }
+  }, {
+    key: 'allCallsClickHoldTrack',
+    value: function allCallsClickHoldTrack() {
+      this.store.dispatch({
+        type: this.actionTypes.allCallsClickHoldTrack
+      });
+    }
+  }, {
+    key: 'allCallsClickHangupTrack',
+    value: function allCallsClickHangupTrack() {
+      this.store.dispatch({
+        type: this.actionTypes.allCallsClickHangupTrack
+      });
+    }
+  }, {
+    key: 'callControlClickAddTrack',
+    value: function callControlClickAddTrack() {
+      this.store.dispatch({
+        type: this.actionTypes.callControlClickAddTrack
+      });
+    }
+  }, {
+    key: 'simplifiedControlClickMergeTrack',
+    value: function simplifiedControlClickMergeTrack() {
+      this.store.dispatch({
+        type: this.actionTypes.simplifiedControlClickMergeTrack
+      });
+    }
+  }, {
+    key: 'callControlClickMergeTrack',
+    value: function callControlClickMergeTrack() {
+      this.store.dispatch({
+        type: this.actionTypes.callControlClickMergeTrack
+      });
+    }
+  }, {
+    key: 'confirmMergeClickCloseTrack',
+    value: function confirmMergeClickCloseTrack() {
+      this.store.dispatch({
+        type: this.actionTypes.confirmMergeClickCloseTrack
+      });
+    }
+  }, {
+    key: 'confirmMergeClickMergeTrack',
+    value: function confirmMergeClickMergeTrack() {
+      this.store.dispatch({
+        type: this.actionTypes.confirmMergeClickMergeTrack
+      });
+    }
+  }, {
+    key: 'callsOnHoldClickAddTrack',
+    value: function callsOnHoldClickAddTrack() {
+      this.store.dispatch({
+        type: this.actionTypes.callsOnHoldClickAddTrack
+      });
+    }
+  }, {
+    key: 'callsOnHoldClickMergeTrack',
+    value: function callsOnHoldClickMergeTrack() {
+      this.store.dispatch({
+        type: this.actionTypes.callsOnHoldClickMergeTrack
+      });
+    }
+  }, {
+    key: 'callsOnHoldClickHangupTrack',
+    value: function callsOnHoldClickHangupTrack() {
+      this.store.dispatch({
+        type: this.actionTypes.callsOnHoldClickHangupTrack
+      });
+    }
+  }, {
+    key: 'callControlClickParticipantAreaTrack',
+    value: function callControlClickParticipantAreaTrack() {
+      this.store.dispatch({
+        type: this.actionTypes.callControlClickParticipantAreaClickTrack
+      });
+    }
   }, {
     key: 'hasRingingCalls',
     get: function get() {

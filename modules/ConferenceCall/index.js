@@ -1641,6 +1641,32 @@ var ConferenceCall = (_dec = (0, _di.Module)({
 
       return mergeSession;
     }()
+
+    /*
+    * User action track dispatchs
+    * */
+
+  }, {
+    key: 'participantListClickHangupTrack',
+    value: function participantListClickHangupTrack() {
+      this.store.dispatch({
+        type: this.actionTypes.participantListClickHangupTrack
+      });
+    }
+  }, {
+    key: 'removeParticipantClickCancelTrack',
+    value: function removeParticipantClickCancelTrack() {
+      this.store.dispatch({
+        type: this.actionTypes.removeParticipantClickCancelTrack
+      });
+    }
+  }, {
+    key: 'removeParticipantClickRemoveTrack',
+    value: function removeParticipantClickRemoveTrack() {
+      this.store.dispatch({
+        type: this.actionTypes.removeParticipantClickRemoveTrack
+      });
+    }
   }, {
     key: 'status',
     get: function get() {
