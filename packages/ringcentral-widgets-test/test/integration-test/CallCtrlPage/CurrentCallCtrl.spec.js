@@ -34,7 +34,6 @@ const ALTERNATIVE_TIMEOUT = 1000; // refer to DialButton
 
 const sid111 = '111';
 let wrapper = null;
-let store = null;
 let phone = null;
 
 beforeEach(async () => {
@@ -44,7 +43,6 @@ beforeEach(async () => {
   phone.webphone._createWebphone();
   phone.webphone._removeWebphone = () => {};
   phone.webphone._connect = () => {};
-  store = wrapper.props().phone.store;
   Object.defineProperties(wrapper.props().phone.audioSettings, {
     userMedia: { value: true },
   });
@@ -372,6 +370,7 @@ describe('Current Call Control Page - Merge', () => {
     wrapper.update();
     const mergeButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
     mergeButton.find(CircleButton).simulate('click');
+    const store = wrapper.props().phone.store;
     const messages = store.getState(wrapper).alert.messages;
     expect(messages).toEqual(
       expect.arrayContaining([
@@ -394,6 +393,7 @@ describe('Current Call Control Page - Add', () => {
       recordButton.find(CircleButton).simulate('click');
       const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
       addButton.find(CircleButton).simulate('click');
+      const store = wrapper.props().phone.store;
       const messages = store.getState(wrapper).alert.messages;
       expect(messages).toEqual(
         expect.arrayContaining([
@@ -463,6 +463,7 @@ describe('Current Call Control Page - Transfer', () => {
   test('Transfer Panel: failed to transfer call',
     async () => {
       let messages = null;
+      let store = null;
       await makeOutboundCall(phone);
       wrapper.update();
       transferButton = getTransferButton();
@@ -470,6 +471,7 @@ describe('Current Call Control Page - Transfer', () => {
       const transferBtn = wrapper.find(TransferPanel).find(CircleButton).last();
       transferBtn.find('svg').simulate('click');
       await timeout(200);
+      store = wrapper.props().phone.store;
       messages = store.getState(wrapper).alert.messages;
       expect(messages).toEqual(
         expect.arrayContaining([
@@ -482,6 +484,7 @@ describe('Current Call Control Page - Transfer', () => {
       const domInput = wrapper.find(TransferPanel).find(RecipientsInput).find('input');
       enterToNumber(domInput, 'abcde');
       transferBtn.find('svg').simulate('click');
+      store = wrapper.props().phone.store;
       messages = store.getState(wrapper).alert.messages;
       expect(messages).toEqual(
         expect.arrayContaining([

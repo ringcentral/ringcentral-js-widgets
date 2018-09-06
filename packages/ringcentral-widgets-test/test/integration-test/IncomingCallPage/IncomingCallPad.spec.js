@@ -31,7 +31,6 @@ const sid222 = '222';
 let sidOutbound = null;
 let wrapper = null;
 let phone = null;
-let store = null;
 
 async function makeInbountCall(sessionId) {
   await getInboundCall(phone, {
@@ -72,7 +71,6 @@ beforeEach(async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
   wrapper = await getWrapper();
   phone = wrapper.props().phone;
-  store = wrapper.props().phone.store;
   phone.webphone._createWebphone();
   phone.webphone._removeWebphone = () => { };
   phone.webphone._connect = () => { };
@@ -414,6 +412,7 @@ describe('Check Incoming Call Forward Button > ForwardForm', () => {
     await enterToNumber(domForwardForm, 'abcdefg');
     btnForward.simulate('click');
     await timeout(200);
+    const store = wrapper.props().phone.store;
     const messages = store.getState(wrapper).alert.messages;
     expect(messages).toEqual(
       expect.arrayContaining([
