@@ -292,15 +292,15 @@ describe('Check Ignore Button', () => {
     // Answer an inbound call, and make another incoming call
     await makeMultiCalls(phone, wrapper, 'Inbound');
 
-    const buttons = wrapper.find(IncomingCallPad).find(ActiveCallButton);
-    const buttonIgnore = buttons.at(2);
-    expect(buttonIgnore.find('.buttonTitle').text()).toEqual('Ignore');
+      const buttons = wrapper.find(IncomingCallPad).find(ActiveCallButton);
+      const buttonIgnore = buttons.at(2);
+      expect(buttonIgnore.find('.buttonTitle').text()).toEqual('Ignore');
 
     buttonIgnore.find(CircleButton).simulate('click');
     await timeout(10);
     expect(phone.webphone.sessions).toHaveLength(1);
 
-    wrapper.update();
+      wrapper.update();
 
     expect(rejectFn.mock.calls[0]).toEqual([sid222]);
     expect(wrapper.find(ActiveCallPanel)).toHaveLength(1);
