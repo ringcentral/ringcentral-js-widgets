@@ -93,17 +93,18 @@ function mapToFunctions(_, _ref3) {
   return (0, _extends3.default)({}, baseProps, {
     onBack: onBack,
     onCallButtonClick: function onCallButtonClick() {
-      // set mergingPair if has
-      var fromSessionId = params.fromSessionId;
-
-      if (fromSessionId && conferenceCall && conferenceCall.mergingPair && !conferenceCall.mergingPair.fromSessionId) {
-        conferenceCall.setMergeParty({
-          fromSessionId: fromSessionId
-        });
-      }
-
       phone.dialerUI.onCallButtonClick({
-        fromNumber: params.fromNumber
+        fromNumber: params.fromNumber,
+        beforeCall: function beforeCall() {
+          var fromSessionId = params.fromSessionId;
+
+          if (fromSessionId && conferenceCall && conferenceCall.mergingPair && !conferenceCall.mergingPair.fromSessionId) {
+            // set mergingPair if has
+            conferenceCall.setMergeParty({
+              fromSessionId: fromSessionId
+            });
+          }
+        }
       });
     },
 

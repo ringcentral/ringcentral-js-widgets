@@ -473,7 +473,8 @@ var DialerUI = (_dec = (0, _di.Module)({
     value: function () {
       var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
         var _ref12 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-            fromNumber = _ref12.fromNumber;
+            fromNumber = _ref12.fromNumber,
+            beforeCall = _ref12.beforeCall;
 
         return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
@@ -495,18 +496,21 @@ var DialerUI = (_dec = (0, _di.Module)({
                     recipient: this._call.lastRecipient
                   });
                 }
-                _context7.next = 6;
+                _context7.next = 7;
                 break;
 
               case 4:
-                _context7.next = 6;
+                if (typeof beforeCall === 'function') {
+                  beforeCall();
+                }
+                _context7.next = 7;
                 return this.call({
                   phoneNumber: this.toNumberField,
                   recipient: this.recipient,
                   fromNumber: fromNumber
                 });
 
-              case 6:
+              case 7:
               case 'end':
                 return _context7.stop();
             }

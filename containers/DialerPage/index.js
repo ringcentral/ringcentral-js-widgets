@@ -86,13 +86,16 @@ function mapToFunctions(_, _ref2) {
       return dialerUI.clearToNumberField();
     },
     onCallButtonClick: function onCallButtonClick() {
-      /**
-       * Clear the mergingPair if any (RCINT-7716)
-       */
-      if (conferenceCall) {
-        conferenceCall.closeMergingPair();
-      }
-      dialerUI.onCallButtonClick();
+      dialerUI.onCallButtonClick({
+        beforeCall: function beforeCall() {
+          /**
+           * Clear the mergingPair if any (RCINT-7716)
+           */
+          if (conferenceCall) {
+            conferenceCall.closeMergingPair();
+          }
+        }
+      });
     },
 
     changeFromNumber: function changeFromNumber() {
