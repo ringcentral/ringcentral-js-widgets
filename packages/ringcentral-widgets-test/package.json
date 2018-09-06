@@ -71,7 +71,8 @@
     ],
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
-    ]
+    ],
+    "setupTestFrameworkScriptFile": "./jest.setup.js"
   },
   "peerDependencies": {
     "babel-runtime": "^6.26.0"
