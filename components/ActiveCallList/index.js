@@ -62,12 +62,15 @@ function ActiveCallList(_ref) {
       sourceIcons = _ref.sourceIcons,
       isSessionAConferenceCall = _ref.isSessionAConferenceCall,
       onCallItemClick = _ref.onCallItemClick,
+      showAvatar = _ref.showAvatar,
       getAvatarUrl = _ref.getAvatarUrl,
       conferenceCallParties = _ref.conferenceCallParties,
       useV2 = _ref.useV2,
       webphoneHold = _ref.webphoneHold,
       showCallDetail = _ref.showCallDetail,
-      updateSessionMatchedContact = _ref.updateSessionMatchedContact;
+      updateSessionMatchedContact = _ref.updateSessionMatchedContact,
+      renderExtraButton = _ref.renderExtraButton,
+      renderContactName = _ref.renderContactName;
 
   if (!calls.length) {
     return null;
@@ -120,11 +123,14 @@ function ActiveCallList(_ref) {
         onClick: function onClick() {
           return onCallItemClick(call);
         },
+        showAvatar: showAvatar,
         getAvatarUrl: getAvatarUrl,
         conferenceCallParties: conferenceCallParties,
         webphoneHold: webphoneHold,
         showCallDetail: showCallDetail,
-        updateSessionMatchedContact: updateSessionMatchedContact
+        updateSessionMatchedContact: updateSessionMatchedContact,
+        renderExtraButton: renderExtraButton,
+        renderContactName: renderContactName
       });
     })
   );
@@ -159,11 +165,14 @@ ActiveCallList.propTypes = {
   isSessionAConferenceCall: _propTypes2.default.func,
   useV2: _propTypes2.default.bool,
   onCallItemClick: _propTypes2.default.func,
+  showAvatar: _propTypes2.default.bool,
   getAvatarUrl: _propTypes2.default.func,
   conferenceCallParties: _propTypes2.default.arrayOf(_propTypes2.default.object),
   webphoneHold: _propTypes2.default.func,
   showCallDetail: _propTypes2.default.bool,
-  updateSessionMatchedContact: _propTypes2.default.func
+  updateSessionMatchedContact: _propTypes2.default.func,
+  renderExtraButton: _propTypes2.default.func,
+  renderContactName: _propTypes2.default.func
 };
 
 ActiveCallList.defaultProps = {
@@ -193,6 +202,7 @@ ActiveCallList.defaultProps = {
   onCallItemClick: function onCallItemClick(i) {
     return i;
   },
+  showAvatar: true,
   getAvatarUrl: function getAvatarUrl(i) {
     return i;
   },
@@ -203,7 +213,9 @@ ActiveCallList.defaultProps = {
   showCallDetail: false,
   updateSessionMatchedContact: function updateSessionMatchedContact(i) {
     return i;
-  }
+  },
+  renderExtraButton: undefined,
+  renderContactName: undefined
 };
 
 exports.default = ActiveCallList;

@@ -49,9 +49,9 @@ var _callLogHelpers = require('ringcentral-integration/lib/callLogHelpers');
 
 var _webphoneHelper = require('ringcentral-integration/modules/Webphone/webphoneHelper');
 
-var _CallAvatar = require('../CallAvatar');
+var _CallIcon = require('../CallIcon');
 
-var _CallAvatar2 = _interopRequireDefault(_CallAvatar);
+var _CallIcon2 = _interopRequireDefault(_CallIcon);
 
 var _ContactDisplay = require('../ContactDisplay');
 
@@ -275,7 +275,7 @@ var ActiveCallItem = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (ActiveCallItem.__proto__ || (0, _getPrototypeOf2.default)(ActiveCallItem)).call(this, props));
 
     _this.onSelectContact = function (value, idx) {
-      if (!value) {
+      if (!value || typeof _this.props.getAvatarUrl !== 'function') {
         return;
       }
 
@@ -444,7 +444,9 @@ var ActiveCallItem = function (_Component) {
     key: 'render',
     value: function render() {
       var _props2 = this.props,
-          webphoneSession = _props2.call.webphoneSession,
+          _props2$call = _props2.call,
+          direction = _props2$call.direction,
+          webphoneSession = _props2$call.webphoneSession,
           disableLinks = _props2.disableLinks,
           currentLocale = _props2.currentLocale,
           areaCode = _props2.areaCode,
@@ -464,6 +466,7 @@ var ActiveCallItem = function (_Component) {
           onClick = _props2.onClick,
           showMergeCall = _props2.showMergeCall,
           showHold = _props2.showHold,
+          showAvatar = _props2.showAvatar,
           disableMerge = _props2.disableMerge,
           onMergeCall = _props2.onMergeCall,
           showCallDetail = _props2.showCallDetail,
@@ -475,9 +478,9 @@ var ActiveCallItem = function (_Component) {
       var phoneNumber = this.getPhoneNumber();
       var contactMatches = this.getContactMatches();
       var fallbackContactName = this.getFallbackContactName();
+      var ringing = (0, _callLogHelpers.isRinging)(this.props.call);
       var contactName = typeof renderContactName === 'function' ? renderContactName(this.props.call) : undefined;
       var extraButton = typeof renderExtraButton === 'function' ? renderExtraButton(this.props.call) : undefined;
-
       return _react2.default.createElement(
         'div',
         {
@@ -486,15 +489,19 @@ var ActiveCallItem = function (_Component) {
         },
         _react2.default.createElement(_MediaObject2.default, {
           containerCls: _styles2.default.wrapper,
-          mediaLeft: _react2.default.createElement(
-            'div',
-            { className: (0, _classnames3.default)(_styles2.default.callIcon, _styles2.default.avatar) },
-            _react2.default.createElement(_CallAvatar2.default, {
-              isOnConferenceCall: isOnConferenceCall,
-              avatarUrl: avatarUrl,
-              extraNum: extraNum
-            })
-          ),
+          mediaLeft: _react2.default.createElement(_CallIcon2.default, {
+            direction: direction,
+            ringing: ringing,
+            active: true,
+            missed: false,
+            inboundTitle: _i18n2.default.getString('inboundCall', currentLocale),
+            outboundTitle: _i18n2.default.getString('outboundCall', currentLocale),
+            missedTitle: _i18n2.default.getString('missedCall', currentLocale),
+            isOnConferenceCall: isOnConferenceCall,
+            showAvatar: showAvatar,
+            avatarUrl: avatarUrl,
+            extraNum: extraNum
+          }),
           bodyCls: _styles2.default.content,
           mediaBody: _react2.default.createElement(
             'div',
@@ -590,6 +597,7 @@ ActiveCallItem.propTypes = {
   contactDisplayStyle: _propTypes2.default.string,
   isOnConferenceCall: _propTypes2.default.bool,
   onClick: _propTypes2.default.func,
+  showAvatar: _propTypes2.default.bool,
   getAvatarUrl: _propTypes2.default.func,
   showMergeCall: _propTypes2.default.bool,
   showHold: _propTypes2.default.bool,
@@ -617,9 +625,8 @@ ActiveCallItem.defaultProps = {
   contactDisplayStyle: undefined,
   isOnConferenceCall: false,
   onClick: undefined,
-  getAvatarUrl: function getAvatarUrl(i) {
-    return i;
-  },
+  showAvatar: true,
+  getAvatarUrl: undefined,
   showMergeCall: false,
   showHold: true,
   disableMerge: false,

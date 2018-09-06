@@ -37,12 +37,6 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
-
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
-
-var _callIconMap;
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -69,17 +63,9 @@ var _parseNumber = require('ringcentral-integration/lib/parseNumber');
 
 var _parseNumber2 = _interopRequireDefault(_parseNumber);
 
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
-
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
-
 var _DurationCounter = require('../DurationCounter');
 
 var _DurationCounter2 = _interopRequireDefault(_DurationCounter);
-
-var _CallAvatar = require('../CallAvatar');
-
-var _CallAvatar2 = _interopRequireDefault(_CallAvatar);
 
 var _ContactDisplay = require('../ContactDisplay');
 
@@ -105,9 +91,9 @@ var _Voicemail = require('../../assets/images/Voicemail.svg');
 
 var _Voicemail2 = _interopRequireDefault(_Voicemail);
 
-var _ConferenceCallIcon = require('../../assets/images/ConferenceCallIcon.svg');
+var _CallIcon = require('../CallIcon');
 
-var _ConferenceCallIcon2 = _interopRequireDefault(_ConferenceCallIcon);
+var _CallIcon2 = _interopRequireDefault(_CallIcon);
 
 var _styles = require('./styles.scss');
 
@@ -119,71 +105,14 @@ var _i18n2 = _interopRequireDefault(_i18n);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var callIconMap = (_callIconMap = {}, (0, _defineProperty3.default)(_callIconMap, _callDirections2.default.inbound, _DynamicsFont2.default.inbound), (0, _defineProperty3.default)(_callIconMap, _callDirections2.default.outbound, _DynamicsFont2.default.outbound), _callIconMap);
-
-function CallIcon(_ref) {
-  var direction = _ref.direction,
-      ringing = _ref.ringing,
-      inboundTitle = _ref.inboundTitle,
-      outboundTitle = _ref.outboundTitle,
-      isOnConferenceCall = _ref.isOnConferenceCall,
-      showAvatar = _ref.showAvatar,
-      avatarUrl = _ref.avatarUrl,
-      _ref$extraNum = _ref.extraNum,
-      extraNum = _ref$extraNum === undefined ? 0 : _ref$extraNum;
-
-  var title = direction === _callDirections2.default.inbound ? inboundTitle : outboundTitle;
-  var symbol = void 0;
-  if (showAvatar) {
-    symbol = _react2.default.createElement(
-      'div',
-      { className: (0, _classnames2.default)(_styles2.default.callIcon, _styles2.default.avatar) },
-      _react2.default.createElement(_CallAvatar2.default, {
-        isOnConferenceCall: isOnConferenceCall,
-        avatarUrl: avatarUrl,
-        extraNum: extraNum
-      })
-    );
-  } else {
-    symbol = _react2.default.createElement(
-      'div',
-      { className: _styles2.default.callIcon },
-      isOnConferenceCall ? _react2.default.createElement(_ConferenceCallIcon2.default, null) : _react2.default.createElement('span', {
-        className: (0, _classnames2.default)(callIconMap[direction], _styles2.default.activeCall, ringing && _styles2.default.ringing),
-        title: title
-      })
-    );
-  }
-  return symbol;
-}
-
-CallIcon.propTypes = {
-  direction: _propTypes2.default.string.isRequired,
-  ringing: _propTypes2.default.bool,
-  isOnConferenceCall: _propTypes2.default.bool,
-  inboundTitle: _propTypes2.default.string,
-  outboundTitle: _propTypes2.default.string,
-  showAvatar: _propTypes2.default.bool,
-  avatarUrl: _propTypes2.default.string
-};
-
-CallIcon.defaultProps = {
-  ringing: false,
-  isOnConferenceCall: false,
-  inboundTitle: undefined,
-  outboundTitle: undefined,
-  showAvatar: false,
-  avatarUrl: null
-};
-
-function WebphoneButtons(_ref2) {
-  var currentLocale = _ref2.currentLocale,
-      session = _ref2.session,
-      webphoneAnswer = _ref2.webphoneAnswer,
-      webphoneReject = _ref2.webphoneReject,
-      webphoneHangup = _ref2.webphoneHangup,
-      webphoneResume = _ref2.webphoneResume,
-      showAnswer = _ref2.showAnswer;
+function WebphoneButtons(_ref) {
+  var currentLocale = _ref.currentLocale,
+      session = _ref.session,
+      webphoneAnswer = _ref.webphoneAnswer,
+      webphoneReject = _ref.webphoneReject,
+      webphoneHangup = _ref.webphoneHangup,
+      webphoneResume = _ref.webphoneResume,
+      showAnswer = _ref.showAnswer;
 
   if (!session || !webphoneAnswer || !webphoneHangup) {
     return null;
@@ -302,7 +231,7 @@ var ActiveCallItem = function (_Component) {
     };
 
     _this.createSelectedContact = function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(entityType) {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(entityType) {
         var phoneNumber;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -343,7 +272,7 @@ var ActiveCallItem = function (_Component) {
       }));
 
       return function (_x2) {
-        return _ref3.apply(this, arguments);
+        return _ref2.apply(this, arguments);
       };
     }();
 
@@ -485,10 +414,10 @@ var ActiveCallItem = function (_Component) {
   }, {
     key: 'logCall',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref4) {
-        var _ref4$redirect = _ref4.redirect,
-            redirect = _ref4$redirect === undefined ? true : _ref4$redirect,
-            selected = _ref4.selected;
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_ref3) {
+        var _ref3$redirect = _ref3.redirect,
+            redirect = _ref3$redirect === undefined ? true : _ref3$redirect,
+            selected = _ref3.selected;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -524,7 +453,7 @@ var ActiveCallItem = function (_Component) {
       }));
 
       function logCall(_x4) {
-        return _ref5.apply(this, arguments);
+        return _ref4.apply(this, arguments);
       }
 
       return logCall;
@@ -591,7 +520,7 @@ var ActiveCallItem = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: _styles2.default.wrapper },
-          _react2.default.createElement(CallIcon, {
+          _react2.default.createElement(_CallIcon2.default, {
             direction: direction,
             ringing: ringing,
             active: true,

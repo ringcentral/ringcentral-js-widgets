@@ -53,6 +53,14 @@ var _i18n = require('./i18n');
 
 var _i18n2 = _interopRequireDefault(_i18n);
 
+var _InsideModal = require('../InsideModal');
+
+var _InsideModal2 = _interopRequireDefault(_InsideModal);
+
+var _LogSection = require('../LogSection');
+
+var _LogSection2 = _interopRequireDefault(_LogSection);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ActiveCallsPanel = function (_Component) {
@@ -85,41 +93,83 @@ var ActiveCallsPanel = function (_Component) {
       return props.activeRingCalls.length > 0 || props.activeOnHoldCalls.length > 0 || props.activeCurrentCalls.length > 0 || props.otherDeviceCalls.length > 0;
     }
   }, {
+    key: 'renderLogSection',
+    value: function renderLogSection() {
+      if (!this.props.currentLog) return null;
+
+      var _props = this.props,
+          formatPhone = _props.formatPhone,
+          currentLocale = _props.currentLocale,
+          currentLog = _props.currentLog,
+          renderEditLogSection = _props.renderEditLogSection,
+          renderSaveLogButton = _props.renderSaveLogButton,
+          onSaveCallLog = _props.onSaveCallLog,
+          onUpdateCallLog = _props.onUpdateCallLog,
+          onCloseLogSection = _props.onCloseLogSection;
+
+
+      return _react2.default.createElement(
+        _InsideModal2.default,
+        {
+          title: currentLog.title,
+          show: currentLog.showLog,
+          onClose: onCloseLogSection
+          // containerStyles={sectionContainerStyles}
+          // modalStyles={sectionModalStyles}
+        },
+        _react2.default.createElement(_LogSection2.default, {
+          currentLocale: currentLocale,
+          currentLog: currentLog
+          // additionalInfo={additionalInfo}
+          , isInnerMask: false,
+          renderEditLogSection: renderEditLogSection,
+          renderSaveLogButton: renderSaveLogButton,
+          formatPhone: formatPhone,
+          onUpdateCallLog: onUpdateCallLog,
+          onSaveCallLog: onSaveCallLog,
+          showSaveLogBtn: true
+        })
+      );
+    }
+  }, {
     key: 'getCallList',
     value: function getCallList(calls, title) {
       var showCallDetail = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-      var _props = this.props,
-          currentLocale = _props.currentLocale,
-          areaCode = _props.areaCode,
-          countryCode = _props.countryCode,
-          brand = _props.brand,
-          showContactDisplayPlaceholder = _props.showContactDisplayPlaceholder,
-          formatPhone = _props.formatPhone,
-          onClickToSms = _props.onClickToSms,
-          onCreateContact = _props.onCreateContact,
-          onViewContact = _props.onViewContact,
-          outboundSmsPermission = _props.outboundSmsPermission,
-          internalSmsPermission = _props.internalSmsPermission,
-          isLoggedContact = _props.isLoggedContact,
-          onLogCall = _props.onLogCall,
-          autoLog = _props.autoLog,
-          loggingMap = _props.loggingMap,
-          webphoneAnswer = _props.webphoneAnswer,
-          webphoneReject = _props.webphoneReject,
-          webphoneHangup = _props.webphoneHangup,
-          webphoneResume = _props.webphoneResume,
-          enableContactFallback = _props.enableContactFallback,
-          webphoneToVoicemail = _props.webphoneToVoicemail,
-          sourceIcons = _props.sourceIcons,
-          activeCurrentCalls = _props.activeCurrentCalls,
-          isWebRTC = _props.isWebRTC,
-          isSessionAConferenceCall = _props.isSessionAConferenceCall,
-          onCallItemClick = _props.onCallItemClick,
-          getAvatarUrl = _props.getAvatarUrl,
-          conferenceCallParties = _props.conferenceCallParties,
-          webphoneHold = _props.webphoneHold,
-          useV2 = _props.useV2,
-          updateSessionMatchedContact = _props.updateSessionMatchedContact;
+      var _props2 = this.props,
+          currentLocale = _props2.currentLocale,
+          areaCode = _props2.areaCode,
+          countryCode = _props2.countryCode,
+          brand = _props2.brand,
+          showContactDisplayPlaceholder = _props2.showContactDisplayPlaceholder,
+          formatPhone = _props2.formatPhone,
+          onClickToSms = _props2.onClickToSms,
+          onCreateContact = _props2.onCreateContact,
+          onViewContact = _props2.onViewContact,
+          outboundSmsPermission = _props2.outboundSmsPermission,
+          internalSmsPermission = _props2.internalSmsPermission,
+          isLoggedContact = _props2.isLoggedContact,
+          onLogCall = _props2.onLogCall,
+          autoLog = _props2.autoLog,
+          loggingMap = _props2.loggingMap,
+          webphoneAnswer = _props2.webphoneAnswer,
+          webphoneReject = _props2.webphoneReject,
+          webphoneHangup = _props2.webphoneHangup,
+          webphoneResume = _props2.webphoneResume,
+          enableContactFallback = _props2.enableContactFallback,
+          webphoneToVoicemail = _props2.webphoneToVoicemail,
+          sourceIcons = _props2.sourceIcons,
+          activeCurrentCalls = _props2.activeCurrentCalls,
+          isWebRTC = _props2.isWebRTC,
+          isSessionAConferenceCall = _props2.isSessionAConferenceCall,
+          onCallItemClick = _props2.onCallItemClick,
+          showAvatar = _props2.showAvatar,
+          getAvatarUrl = _props2.getAvatarUrl,
+          conferenceCallParties = _props2.conferenceCallParties,
+          webphoneHold = _props2.webphoneHold,
+          useV2 = _props2.useV2,
+          updateSessionMatchedContact = _props2.updateSessionMatchedContact,
+          renderExtraButton = _props2.renderExtraButton,
+          renderContactName = _props2.renderContactName;
 
 
       return _react2.default.createElement(_ActiveCallList2.default, {
@@ -145,6 +195,8 @@ var ActiveCallsPanel = function (_Component) {
         webphoneHangup: webphoneHangup,
         webphoneResume: webphoneResume,
         webphoneToVoicemail: webphoneToVoicemail,
+        renderExtraButton: renderExtraButton,
+        renderContactName: renderContactName,
         enableContactFallback: enableContactFallback,
         sourceIcons: sourceIcons,
         isWebRTC: isWebRTC,
@@ -152,6 +204,7 @@ var ActiveCallsPanel = function (_Component) {
         isSessionAConferenceCall: isSessionAConferenceCall,
         useV2: useV2 // TODO: Maybe we should make all the call item consistent
         , onCallItemClick: onCallItemClick,
+        showAvatar: showAvatar,
         getAvatarUrl: getAvatarUrl,
         conferenceCallParties: conferenceCallParties,
         webphoneHold: webphoneHold,
@@ -164,15 +217,16 @@ var ActiveCallsPanel = function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var _props2 = this.props,
-          activeRingCalls = _props2.activeRingCalls,
-          activeOnHoldCalls = _props2.activeOnHoldCalls,
-          activeCurrentCalls = _props2.activeCurrentCalls,
-          otherDeviceCalls = _props2.otherDeviceCalls,
-          className = _props2.className,
-          currentLocale = _props2.currentLocale,
-          showSpinner = _props2.showSpinner;
+      var _props3 = this.props,
+          activeRingCalls = _props3.activeRingCalls,
+          activeOnHoldCalls = _props3.activeOnHoldCalls,
+          activeCurrentCalls = _props3.activeCurrentCalls,
+          otherDeviceCalls = _props3.otherDeviceCalls,
+          className = _props3.className,
+          currentLocale = _props3.currentLocale,
+          showSpinner = _props3.showSpinner;
 
+      var logSection = this.renderLogSection();
 
       if (!this.hasCalls()) {
         return _react2.default.createElement(
@@ -183,6 +237,7 @@ var ActiveCallsPanel = function (_Component) {
             { className: _styles2.default.noCalls },
             _i18n2.default.getString('noActiveCalls', currentLocale)
           ),
+          logSection,
           showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, { className: _styles2.default.spinner }) : null
         );
       }
@@ -203,6 +258,7 @@ var ActiveCallsPanel = function (_Component) {
           this.getCallList(activeOnHoldCalls, _i18n2.default.getString('onHoldCall', currentLocale)),
           this.getCallList(otherDeviceCalls, _i18n2.default.getString('otherDeviceCall', currentLocale), true)
         ),
+        logSection,
         showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, { className: _styles2.default.spinner }) : null
       );
     }
@@ -250,7 +306,18 @@ ActiveCallsPanel.propTypes = {
   conferenceCallParties: _propTypes2.default.arrayOf(_propTypes2.default.object),
   webphoneHold: _propTypes2.default.func,
   useV2: _propTypes2.default.bool,
-  updateSessionMatchedContact: _propTypes2.default.func
+  updateSessionMatchedContact: _propTypes2.default.func,
+  // CallLog related
+  currentLog: _propTypes2.default.object,
+  renderEditLogSection: _propTypes2.default.func,
+  renderSaveLogButton: _propTypes2.default.func,
+  renderExtraButton: _propTypes2.default.func,
+  onSaveCallLog: _propTypes2.default.func,
+  onUpdateCallLog: _propTypes2.default.func,
+  onCloseLogSection: _propTypes2.default.func,
+  // Contact
+  showAvatar: _propTypes2.default.bool,
+  renderContactName: _propTypes2.default.func
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -289,6 +356,17 @@ ActiveCallsPanel.defaultProps = {
   useV2: false,
   updateSessionMatchedContact: function updateSessionMatchedContact(i) {
     return i;
-  }
+  },
+  // CallLog related
+  currentLog: undefined,
+  renderEditLogSection: undefined,
+  renderSaveLogButton: undefined,
+  renderExtraButton: undefined,
+  onSaveCallLog: undefined,
+  onUpdateCallLog: undefined,
+  onCloseLogSection: undefined,
+  // Contact
+  showAvatar: true,
+  renderContactName: undefined
 };
 //# sourceMappingURL=index.js.map

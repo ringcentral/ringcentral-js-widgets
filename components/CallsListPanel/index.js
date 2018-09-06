@@ -262,6 +262,7 @@ var CallsListPanel = function (_Component) {
     key: 'render',
     value: function render() {
       var _props = this.props,
+          onlyHistory = _props.onlyHistory,
           activeRingCalls = _props.activeRingCalls,
           activeOnHoldCalls = _props.activeOnHoldCalls,
           activeCurrentCalls = _props.activeCurrentCalls,
@@ -484,10 +485,10 @@ var CallsListPanel = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: (0, _classnames2.default)(_styles2.default.root, currentLog && currentLog.showLog ? _styles2.default.hiddenScroll : '', className) },
-          getCallList(activeRingCalls, _i18n2.default.getString('ringCall', currentLocale)),
-          getCallList(activeCurrentCalls, _i18n2.default.getString('currentCall', currentLocale)),
-          getCallList(activeOnHoldCalls, _i18n2.default.getString('onHoldCall', currentLocale)),
-          getCallList(otherDeviceCalls, _i18n2.default.getString('otherDeviceCall', currentLocale)),
+          onlyHistory || getCallList(activeRingCalls, _i18n2.default.getString('ringCall', currentLocale)),
+          onlyHistory || getCallList(activeCurrentCalls, _i18n2.default.getString('currentCall', currentLocale)),
+          onlyHistory || getCallList(activeOnHoldCalls, _i18n2.default.getString('onHoldCall', currentLocale)),
+          onlyHistory || getCallList(otherDeviceCalls, _i18n2.default.getString('otherDeviceCall', currentLocale)),
           calls.length > 0 ? historyCall : noCalls
         ),
         logSection
@@ -563,7 +564,8 @@ CallsListPanel.propTypes = {
   externalViewEntity: _propTypes2.default.func,
   externalHasEntity: _propTypes2.default.func,
   readTextPermission: _propTypes2.default.bool,
-  children: _propTypes2.default.node
+  children: _propTypes2.default.node,
+  onlyHistory: _propTypes2.default.bool
 };
 
 CallsListPanel.defaultProps = {
@@ -617,6 +619,7 @@ CallsListPanel.defaultProps = {
   externalViewEntity: undefined,
   externalHasEntity: undefined,
   readTextPermission: true,
-  children: null
+  children: null,
+  onlyHistory: false
 };
 //# sourceMappingURL=index.js.map
