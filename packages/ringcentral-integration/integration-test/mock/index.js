@@ -356,14 +356,15 @@ export function subscription(mockResponse = {}) {
   });
 }
 
-export function numberParser(mockResponse = {}) {
+export function numberParser(mockResponse = {}, isOnce = true) {
   mockApi({
     method: 'POST',
     url: `begin:${mockServer}/restapi/v1.0/number-parser/`,
     body: {
       ...numberParserBody,
       ...mockResponse,
-    }
+    },
+    isOnce
   });
 }
 
@@ -584,7 +585,7 @@ export function mockForLogin({
   mockConferencing = true,
   mockActiveCalls = true,
   mockUpdateConference = false,
-  ...params,
+  ...params
 } = {}) {
   authentication();
   logout();
@@ -620,7 +621,7 @@ export function mockForLogin({
   if (mockActiveCalls) {
     activeCalls(params.activeCallsData);
   }
-  numberParser(params.numberParseData);
+  numberParser(params.numberParseData, params.numberParseIsOnce);
   if (mockUpdateConference) {
     updateConferenceCall(updateConferenceCallBody.id, updateConferenceCallBody);
   }

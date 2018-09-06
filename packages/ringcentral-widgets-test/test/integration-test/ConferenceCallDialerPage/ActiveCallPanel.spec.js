@@ -24,7 +24,7 @@ import extensionListBody from './data/extension';
 import conferenceCallBody from './data/conferenceCall';
 import conferenceCallBringInBody from './data/conferenceCallBringIn';
 import incomingResponse from './data/incomingResponse';
-import { getWrapper, timeout } from '../shared';
+import { initPhoneWrapper, timeout } from '../shared';
 import {
   mockGeneratePresenceApi,
   mockGeneratePresenceUpdateApi,
@@ -33,23 +33,11 @@ import {
   generateActiveCallsData
 } from './helper.js';
 
-let wrapper = null;
-let phone = null;
-
 beforeEach(async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
-  wrapper = await getWrapper();
-  phone = wrapper.props().phone;
-  phone.webphone._createWebphone();
-  phone.webphone._removeWebphone = () => { };
-  phone.webphone._connect = () => { };
-
-  Object.defineProperties(wrapper.props().phone.audioSettings, {
-    userMedia: { value: true },
-  });
 });
 
-async function call({
+async function call(phone, wrapper, {
   phoneNumber,
   fromNumber
 }) {
@@ -63,7 +51,7 @@ async function call({
   currentSession.accept(incomingResponse);
 }
 
-async function mockSub(ttl = 100) {
+async function mockSub(phone, ttl = 100) {
   const activeCalls = generateActiveCallsData(phone.webphone.sessions);
   mockGeneratePresenceApi({
     activeCalls
@@ -81,39 +69,38 @@ async function mockSub(ttl = 100) {
   });
 }
 
-async function mockAddCall(contactA, contactB) {
-  await call({
+async function mockAddCall(phone, wrapper, contactA, contactB) {
+  await call(phone, wrapper, {
     phoneNumber: contactA.phoneNumbers[0].phoneNumber
   });
   const sessionA = phone.webphone.sessions[0];
   await phone.webphone.hold(sessionA.id);
   const callCtrlPage = wrapper.find(CallCtrlPage);
   await callCtrlPage.props().onAdd(sessionA.id);
-  await call({
+  await call(phone, wrapper, {
     phoneNumber: contactB.phoneNumbers[0].phoneNumber,
     fromNumber: contactB.phoneNumbers[0].phoneNumber,
   });
-  await mockSub();
+  await mockSub(phone);
   wrapper.update();
   await timeout(1000);
 }
 
-async function mockContacts() {
+async function mockContacts(phone) {
   mock.extensionList(extensionListBody);
   await phone.accountExtension.fetchData();
 }
-async function mockStartConference() {
+
+async function mockStartConference(phone, wrapper) {
   // HACK: `updateConference` should be mock at mockForLogin func.
   // mock.updateConferenceCall(conferenceUpdate.id, conferenceUpdate);
   mock.conferenceCallBringIn(conferenceCallBody.id);
   mock.terminateConferenceCall(conferenceCallBody.id);
   mock.conferenceCall();
-  let contactA;
-  let contactB;
-  await mockContacts();
-  contactA = phone.contacts.allContacts.find(item => item.type === 'company');
-  contactB = phone.contacts.allContacts.find(item => item.type === 'company');
-  await mockAddCall(contactA, contactB);
+  await mockContacts(phone);
+  const contactA = phone.contacts.allContacts.find(item => item.type === 'company');
+  const contactB = phone.contacts.allContacts.find(item => item.type === 'company');
+  await mockAddCall(phone, wrapper, contactA, contactB);
   expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
   wrapper.update();
   const callCtrlPage = wrapper.find(CallCtrlPage);
@@ -135,18 +122,17 @@ async function mockStartConference() {
   await timeout(200);
   wrapper.update();
 }
-describe('RCI-1071: simplified call control page #3', () => {
-  let contactA = null;
-  let contactB = null;
 
+describe('RCI-1071: simplified call control page #3', () => {
   test('#1 Check the Simplified Call control page'
     , async () => {
+      const { wrapper, phone } = await initPhoneWrapper();
       // Prepare: Contacts has a internal contact with avatar and a external contact without avatar
-      await mockContacts();
-      contactA = phone.contacts.allContacts.find(item => item.type === 'company' && item.hasProfileImage);
-      contactB = phone.contacts.allContacts.find(item => item.type === 'personal' && !item.hasProfileImage);
+      await mockContacts(phone);
+      const contactA = phone.contacts.allContacts.find(item => item.type === 'company' && item.hasProfileImage);
+      const contactB = phone.contacts.allContacts.find(item => item.type === 'personal' && !item.hasProfileImage);
 
-      await mockAddCall(contactA, contactB);
+      await mockAddCall(phone, wrapper, contactA, contactB);
       expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
       await timeout(300);
       const mergeInfo = wrapper.find(MergeInfo);
@@ -163,10 +149,11 @@ describe('RCI-1071: simplified call control page #3', () => {
       expect(mergeInfo.find(DurationCounter)).toHaveLength(1);
     });
   test('#2 Contact A hangs up the call', async () => {
-    await mockContacts();
-    contactA = phone.contacts.allContacts.find(item => item.type === 'company' && item.hasProfileImage);
-    contactB = phone.contacts.allContacts.find(item => item.type === 'personal' && !item.hasProfileImage);
-    await mockAddCall(contactA, contactB);
+    const { wrapper, phone } = await initPhoneWrapper();
+    await mockContacts(phone);
+    const contactA = phone.contacts.allContacts.find(item => item.type === 'company' && item.hasProfileImage);
+    const contactB = phone.contacts.allContacts.find(item => item.type === 'personal' && !item.hasProfileImage);
+    await mockAddCall(phone, wrapper, contactA, contactB);
     const sessionId = phone.webphone.sessions[1].id;
     const sessionA = phone.webphone._sessions.get(sessionId);
     sessionA.terminate();
@@ -189,7 +176,11 @@ describe('RCI-1071: simplified call control page #3', () => {
     expect(mergeInfo.find(DurationCounter)).toHaveLength(1);
   });
   test('#3 && #4 user makes a conference call then make an outbound call, then hangup', async () => {
-    await mockStartConference();
+    const { wrapper, phone } = await initPhoneWrapper();
+    // Prepare: Contacts has a internal contact with avatar and a external contact without avatar
+    await mockContacts(phone);
+    const contactA = phone.contacts.allContacts.find(item => item.type === 'company' && item.hasProfileImage);
+    await mockStartConference(phone, wrapper);
     phone.webphone._updateSessions();
     const conferenceSessionId = Object.values(phone.conferenceCall.conferences)[0].sessionId;
     const conferenceSession = phone.webphone.sessions.find(x => x.id === conferenceSessionId);
@@ -201,11 +192,11 @@ describe('RCI-1071: simplified call control page #3', () => {
     await timeout(500);
     wrapper.update();
     expect(phone.routerInteraction.currentPath).toEqual(`/conferenceCall/dialer/${conferenceSession.fromNumber}/${conferenceSession.id}`);
-    call({
+    call(phone, wrapper, {
       phoneNumber: contactA.phoneNumbers[0].phoneNumber,
     });
     await timeout(1000);
-    await mockSub(1000);
+    await mockSub(phone, 1000);
     await timeout(1000);
     expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
     wrapper.update();
@@ -221,14 +212,14 @@ describe('RCI-1071: simplified call control page #3', () => {
     // expect(mergeInfo.find('.callee_status').text()).toEqual('Disconnected');
   });
 });
+
 describe('RCI-1710156: Call control add call flow', () => {
-  let contactA = null;
-  let contactB = null;
   test('#5 User make an outbound call', async () => {
-    await mockContacts();
-    contactA = phone.contacts.allContacts.find(item => item.type === 'company' && item.hasProfileImage);
-    contactB = phone.contacts.allContacts.find(item => item.type === 'personal' && !item.hasProfileImage);
-    await mockAddCall(contactA, contactB);
+    const { wrapper, phone } = await initPhoneWrapper();
+    await mockContacts(phone);
+    const contactA = phone.contacts.allContacts.find(item => item.type === 'company' && item.hasProfileImage);
+    const contactB = phone.contacts.allContacts.find(item => item.type === 'personal' && !item.hasProfileImage);
+    await mockAddCall(phone, wrapper, contactA, contactB);
     expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
     const activeCallButtons = wrapper.find(ActiveCallPad).find(ActiveCallButton);
     expect(activeCallButtons.at(0).props().title).toEqual('Mute');
@@ -239,9 +230,11 @@ describe('RCI-1710156: Call control add call flow', () => {
     expect(hangupBtn.props().className).toEqual('stopButton');
   });
 });
+
 describe('RCI-1710156: Call control add call flow #6&#7', () => {
   test('#6 && #7 User clicked Merge button then go to Settings ->Calling page', async () => {
-    await mockStartConference();
+    const { wrapper, phone } = await initPhoneWrapper();
+    await mockStartConference(phone, wrapper);
     phone.routerInteraction.push('/settings/calling');
     wrapper.update();
     const calling = wrapper.find(DropdownSelect);
@@ -250,18 +243,17 @@ describe('RCI-1710156: Call control add call flow #6&#7', () => {
 });
 
 describe('RCI-1710156: Call control add call flow', () => {
-  let contactA;
-  let contactB;
   test('#1 User make an outbound call', async () => {
-    await mockContacts();
-    contactA = phone.contacts.allContacts.find(item => item.type === 'company' && item.hasProfileImage);
-    contactB = phone.contacts.allContacts.find(item => item.type === 'personal' && !item.hasProfileImage);
+    const { wrapper, phone } = await initPhoneWrapper();
+    await mockContacts(phone);
+    const contactA = phone.contacts.allContacts.find(item => item.type === 'company' && item.hasProfileImage);
+    const contactB = phone.contacts.allContacts.find(item => item.type === 'personal' && !item.hasProfileImage);
     const phoneNumber = contactA.phoneNumbers[0].phoneNumber;
-    call({
+    call(phone, wrapper, {
       phoneNumber,
     });
     await timeout(100);
-    await mockSub();
+    await mockSub(phone);
     wrapper.update();
     expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
     const activeCallPad = wrapper.find(ActiveCallPad);

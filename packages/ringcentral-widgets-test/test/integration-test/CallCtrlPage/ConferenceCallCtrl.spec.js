@@ -3,7 +3,7 @@ import ActiveCallButton from 'ringcentral-widgets/components/ActiveCallButton';
 import ActiveCallPad from 'ringcentral-widgets/components/ActiveCallPad';
 import CircleButton from 'ringcentral-widgets/components/CircleButton';
 import { makeOutboundCall, mockConferenceCallEnv, updateConferenceCallEnv } from './helper';
-import { getWrapper, timeout } from '../shared';
+import { initPhoneWrapper, timeout } from '../shared';
 import {
   muteFn,
   unmuteFn,
@@ -13,19 +13,8 @@ import {
   stopRecordFn,
 } from '../../support/session';
 
-let wrapper = null;
-let phone = null;
-
 beforeEach(async () => {
   jasmine.DEFAUL_INTERVAL = 64000;
-  wrapper = await getWrapper();
-  phone = wrapper.props().phone;
-  phone.webphone._createWebphone();
-  phone.webphone._connect = () => {};
-  phone.webphone._removeWebphone = () => {};
-  Object.defineProperties(wrapper.props().phone.audioSettings, {
-    userMedia: { value: true },
-  });
 });
 
 afterEach(() => {
@@ -39,6 +28,7 @@ afterEach(() => {
 
 describe('Prepare', () => {
   test('Success to mock a conference call', async () => {
+    const { wrapper, phone } = await initPhoneWrapper();
     await mockConferenceCallEnv(phone);
     wrapper.update();
     expect(wrapper.find(ActiveCallPad)).toHaveLength(1);
@@ -48,12 +38,14 @@ describe('Prepare', () => {
 
 describe('RCI-1710786 Conference Call Control Page - Mute/Muted', () => {
   test('There is a "Mute" button', async () => {
+    const { wrapper, phone } = await initPhoneWrapper();
     await mockConferenceCallEnv(phone);
     wrapper.update();
     const muteButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(0);
     expect(muteButton.find('.buttonTitle').text()).toEqual('Mute');
   });
   test('Press Mute/Unmuted button', async () => {
+    const { wrapper, phone } = await initPhoneWrapper();
     let muteButton = null;
     const conferenceSession = await mockConferenceCallEnv(phone);
     wrapper.update();
@@ -73,12 +65,14 @@ describe('RCI-1710786 Conference Call Control Page - Mute/Muted', () => {
 
 describe('RCI-1710773 Conference Call Control Page - Hold/Unhold', () => {
   test('There is a "Hold" button', async () => {
+    const { wrapper, phone } = await initPhoneWrapper();
     await mockConferenceCallEnv(phone);
     wrapper.update();
     const holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
   });
   test('Press Hold/Unhold button', async () => {
+    const { wrapper, phone } = await initPhoneWrapper();
     let holdButton = null;
     let muteButton = null;
     let recordButton = null;
@@ -110,6 +104,7 @@ describe('RCI-1710773 Conference Call Control Page - Hold/Unhold', () => {
 
 describe('RCI-2980793 Conference Call Control Page - Hang Up', () => {
   test('Press "Hand Up" button #1 Direct to dialer page', async () => {
+    const { wrapper, phone } = await initPhoneWrapper();
     await mockConferenceCallEnv(phone);
     wrapper.update();
     const handupButton = wrapper.find('.stopButtonGroup').find(CircleButton);
@@ -119,6 +114,7 @@ describe('RCI-2980793 Conference Call Control Page - Hang Up', () => {
     expect(phone.routerInteraction.currentPath).toEqual('/dialer');
   });
   test('Press "Hand Up" button #2 Direct to call contral page', async () => {
+    const { wrapper, phone } = await initPhoneWrapper();
     const outboundSession = await makeOutboundCall(phone);
     await phone.webphone.hold(outboundSession.id);
     await mockConferenceCallEnv(phone);
@@ -135,6 +131,7 @@ describe('Conference Call Control Page - Record/Stop', () => {
   let recordButton = null;
   test('RCI-1712679 Make a conference call and keep in conference call control page, click Record/Stop',
     async () => {
+      const { wrapper, phone } = await initPhoneWrapper();
       const conferenceSession = await mockConferenceCallEnv(phone);
       wrapper.update();
       recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
@@ -159,6 +156,7 @@ describe('Conference Call Control Page - Record/Stop', () => {
 describe('Conference Call Control Page - Add', () => {
   let recordButton = null;
   test('When user records the conference call, user can not add other call', async () => {
+    const { wrapper, phone } = await initPhoneWrapper();
     await mockConferenceCallEnv(phone);
     wrapper.update();
     recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
@@ -182,6 +180,7 @@ describe('Conference Call Control Page - Add', () => {
 describe('Conference Call Control Page - Merge Button', () => {
   let recordButton = null;
   test('When user records the conference call, user can not merge other call', async () => {
+    const { wrapper, phone } = await initPhoneWrapper();
     const outboundSession = await makeOutboundCall(phone);
     await phone.webphone.hold(outboundSession.id);
     await mockConferenceCallEnv(phone);
@@ -206,6 +205,7 @@ describe('Conference Call Control Page - Merge Button', () => {
 describe(`RCI-12004 Conference maximize participants: User has a Conference Call and has 10
  participants (include host)`, () => {
   test('#2, #3 , check the Conference/Normal call control page:', async () => {
+    const { wrapper, phone } = await initPhoneWrapper();
     await mockConferenceCallEnv(phone, { conferencePartiesCount: 10 });
     wrapper.update();
     expect(wrapper.find(ConferenceInfo).find('.remains').text()).toEqual('+5');
@@ -224,6 +224,7 @@ describe(`RCI-12004 Conference maximize participants: User has a Conference Call
   });
   test('#4 One of Participants quit Conference Call, Merge button is enabled in Normal Call Ctrl Page:',
     async () => {
+      const { wrapper, phone } = await initPhoneWrapper();
       // Add to maximum
       await mockConferenceCallEnv(phone, { conferencePartiesCount: 10 });
       // make outbound call
@@ -239,6 +240,7 @@ describe(`RCI-12004 Conference maximize participants: User has a Conference Call
   );
   test('#5 One of Participants quit Conference Call, Add button is enabled in Conference Call Ctrl Page:',
     async () => {
+      const { wrapper, phone } = await initPhoneWrapper();
       // Add to maximum
       await mockConferenceCallEnv(phone, { conferencePartiesCount: 10 });
       // one of Participants quit Conference Call

@@ -11,29 +11,25 @@ import CallsOnholdPanel from 'ringcentral-widgets/components/CallsOnholdPanel';
 import DialerPanel from 'ringcentral-widgets/components/DialerPanel';
 import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
 import { mockMultiOutboundCalls } from './helper';
-import { getWrapper } from '../shared';
+import { initPhoneWrapper } from '../shared';
 
-let wrapper = null;
-let phone = null;
 let panel = null;
 const SESSIONS_COUNT = 4;
 const TIME_OUT = 10000;
 
 beforeEach(async () => {
   jasmine.DEFAUL_INTERVAL = 64000;
-  wrapper = await getWrapper();
-  phone = wrapper.props().phone;
-  phone.webphone._createWebphone();
-  phone.webphone._removeWebphone = () => {};
-  phone.webphone._connect = () => {};
-  Object.defineProperties(wrapper.props().phone.audioSettings, {
-    userMedia: { value: true },
-  });
-  await mockMultiOutboundCalls(phone, SESSIONS_COUNT);
 });
+
+async function initialize() {
+  const { wrapper, phone } = await initPhoneWrapper();
+  await mockMultiOutboundCalls(phone, SESSIONS_COUNT);
+  return { wrapper, phone };
+}
 
 describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', () => {
   test('Make 4 outbound calls:', async (done) => {
+    const { wrapper } = await initialize();
     const navigationBar = wrapper.find(NavigationBar).first();
     await navigationBar.props().goTo('/calls');
     wrapper.update();
@@ -44,6 +40,7 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
   }, TIME_OUT);
 
   test('click Add button on call control page', async (done) => {
+    const { wrapper, phone } = await initialize();
     const navigationBar = wrapper.find(NavigationBar).first();
     await navigationBar.props().goTo('/calls/active');
     wrapper.update();
@@ -73,6 +70,7 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
   }, TIME_OUT);
 
   test('Click Add button', async (done) => {
+    const { wrapper, phone } = await initialize();
     const navigationBar = wrapper.find(NavigationBar).first();
     await navigationBar.props().goTo('/calls/active');
     wrapper.update();
@@ -92,6 +90,7 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
   }, TIME_OUT);
 
   test('Click Back button', async (done) => {
+    const { wrapper, phone } = await initialize();
     const navigationBar = wrapper.find(NavigationBar).first();
     await navigationBar.props().goTo('/calls/active');
     const callCtrlStep = async () => {
@@ -121,6 +120,7 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
   }, TIME_OUT);
 
   test('Click Hang up button of call A', async (done) => {
+    const { wrapper, phone } = await initialize();
     const navigationBar = wrapper.find(NavigationBar).first();
     await navigationBar.props().goTo('/calls/active');
     wrapper.update();
@@ -139,6 +139,7 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
   }, TIME_OUT);
 
   test('Click Merge button of call B', async (done) => {
+    const { wrapper, phone } = await initialize();
     const navigationBar = wrapper.find(NavigationBar).first();
     await navigationBar.props().goTo('/calls/active');
     wrapper.update();
