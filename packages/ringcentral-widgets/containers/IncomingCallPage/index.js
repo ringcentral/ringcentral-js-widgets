@@ -68,7 +68,7 @@ class IncomingCallPage extends Component {
     if (this.props.session.id !== nextProps.session.id) {
       this._updateAvatarAndMatchIndex(nextProps);
       this.setState({
-        hasOtherActiveCall: !!nextProps.activeSessionId,
+        hasOtherActiveCall: nextProps.activeSessionId !== nextProps.session.id,
       });
     }
   }
