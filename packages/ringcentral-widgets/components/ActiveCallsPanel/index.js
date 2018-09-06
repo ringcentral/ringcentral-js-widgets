@@ -5,6 +5,8 @@ import SpinnerOverlay from '../SpinnerOverlay';
 import ActiveCallList from '../ActiveCallList';
 import styles from './styles.scss';
 import i18n from './i18n';
+import InsideModal from '../InsideModal';
+import LogSection from '../LogSection';
 
 export default class ActiveCallsPanel extends Component {
   componentDidMount() {
@@ -32,6 +34,50 @@ export default class ActiveCallsPanel extends Component {
       props.activeOnHoldCalls.length > 0 ||
       props.activeCurrentCalls.length > 0 ||
       props.otherDeviceCalls.length > 0
+    );
+  }
+
+  renderLogSection() {
+    if (!this.props.currentLog) return null;
+
+    const {
+      formatPhone,
+      currentLocale,
+      currentLog,
+      // - styles
+      // sectionContainerStyles,
+      // sectionModalStyles,
+      // - aditional
+      // additionalInfo,
+      // showSaveLogBtn,
+      renderEditLogSection,
+      renderSaveLogButton,
+      onSaveCallLog,
+      onUpdateCallLog,
+      onCloseLogSection,
+    } = this.props;
+
+    return (
+      <InsideModal
+        title={currentLog.title}
+        show={currentLog.showLog}
+        onClose={onCloseLogSection}
+        // containerStyles={sectionContainerStyles}
+        // modalStyles={sectionModalStyles}
+        >
+        <LogSection
+          currentLocale={currentLocale}
+          currentLog={currentLog}
+          // additionalInfo={additionalInfo}
+          isInnerMask={false}
+          renderEditLogSection={renderEditLogSection}
+          renderSaveLogButton={renderSaveLogButton}
+          formatPhone={formatPhone}
+          onUpdateCallLog={onUpdateCallLog}
+          onSaveCallLog={onSaveCallLog}
+          showSaveLogBtn
+        />
+      </InsideModal>
     );
   }
 
@@ -63,11 +109,14 @@ export default class ActiveCallsPanel extends Component {
       isWebRTC,
       isSessionAConferenceCall,
       onCallItemClick,
+      showAvatar,
       getAvatarUrl,
       conferenceCallParties,
       webphoneHold,
       useV2,
       updateSessionMatchedContact,
+      renderExtraButton,
+      renderContactName
     } = this.props;
 
     return (
@@ -94,6 +143,8 @@ export default class ActiveCallsPanel extends Component {
         webphoneHangup={webphoneHangup}
         webphoneResume={webphoneResume}
         webphoneToVoicemail={webphoneToVoicemail}
+        renderExtraButton={renderExtraButton}
+        renderContactName={renderContactName}
         enableContactFallback={enableContactFallback}
         sourceIcons={sourceIcons}
         isWebRTC={isWebRTC}
@@ -101,6 +152,7 @@ export default class ActiveCallsPanel extends Component {
         isSessionAConferenceCall={isSessionAConferenceCall}
         useV2={useV2}// TODO: Maybe we should make all the call item consistent
         onCallItemClick={onCallItemClick}
+        showAvatar={showAvatar}
         getAvatarUrl={getAvatarUrl}
         conferenceCallParties={conferenceCallParties}
         webphoneHold={webphoneHold}
@@ -120,11 +172,13 @@ export default class ActiveCallsPanel extends Component {
       currentLocale,
       showSpinner,
     } = this.props;
+    const logSection = this.renderLogSection();
 
     if (!this.hasCalls()) {
       return (
         <div className={classnames(styles.root, className)}>
           <p className={styles.noCalls}>{i18n.getString('noActiveCalls', currentLocale)}</p>
+          {logSection}
           {showSpinner ? <SpinnerOverlay className={styles.spinner} /> : null}
         </div>
       );
@@ -141,6 +195,7 @@ export default class ActiveCallsPanel extends Component {
           {this.getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}
           {this.getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale), true)}
         </div>
+        {logSection}
         {showSpinner ? <SpinnerOverlay className={styles.spinner} /> : null}
       </div>
     );
@@ -185,6 +240,17 @@ ActiveCallsPanel.propTypes = {
   webphoneHold: PropTypes.func,
   useV2: PropTypes.bool,
   updateSessionMatchedContact: PropTypes.func,
+  // CallLog related
+  currentLog: PropTypes.object,
+  renderEditLogSection: PropTypes.func,
+  renderSaveLogButton: PropTypes.func,
+  renderExtraButton: PropTypes.func,
+  onSaveCallLog: PropTypes.func,
+  onUpdateCallLog: PropTypes.func,
+  onCloseLogSection: PropTypes.func,
+  // Contact
+  showAvatar: PropTypes.bool,
+  renderContactName: PropTypes.func
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -216,4 +282,15 @@ ActiveCallsPanel.defaultProps = {
   webphoneHold: i => i,
   useV2: false,
   updateSessionMatchedContact: i => i,
+  // CallLog related
+  currentLog: undefined,
+  renderEditLogSection: undefined,
+  renderSaveLogButton: undefined,
+  renderExtraButton: undefined,
+  onSaveCallLog: undefined,
+  onUpdateCallLog: undefined,
+  onCloseLogSection: undefined,
+  // Contact
+  showAvatar: true,
+  renderContactName: undefined
 };

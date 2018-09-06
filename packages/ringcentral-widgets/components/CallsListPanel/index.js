@@ -197,6 +197,7 @@ export default class CallsListPanel extends Component {
 
   render() {
     const {
+      onlyHistory,
       activeRingCalls,
       activeOnHoldCalls,
       activeCurrentCalls,
@@ -422,10 +423,10 @@ export default class CallsListPanel extends Component {
         {children}
         {search}
         <div className={classnames(styles.root, currentLog && currentLog.showLog ? styles.hiddenScroll : '', className)}>
-          {getCallList(activeRingCalls, i18n.getString('ringCall', currentLocale))}
-          {getCallList(activeCurrentCalls, i18n.getString('currentCall', currentLocale))}
-          {getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}
-          {getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale))}
+          {onlyHistory || getCallList(activeRingCalls, i18n.getString('ringCall', currentLocale))}
+          {onlyHistory || getCallList(activeCurrentCalls, i18n.getString('currentCall', currentLocale))}
+          {onlyHistory || getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}
+          {onlyHistory || getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale))}
           {calls.length > 0 ? historyCall : noCalls}
         </div>
         {logSection}
@@ -498,6 +499,7 @@ CallsListPanel.propTypes = {
   externalHasEntity: PropTypes.func,
   readTextPermission: PropTypes.bool,
   children: PropTypes.node,
+  onlyHistory: PropTypes.bool
 };
 
 CallsListPanel.defaultProps = {
@@ -552,4 +554,5 @@ CallsListPanel.defaultProps = {
   externalHasEntity: undefined,
   readTextPermission: true,
   children: null,
+  onlyHistory: false
 };

@@ -6,85 +6,17 @@ import callDirections from 'ringcentral-integration/enums/callDirections';
 import { isInbound, isRinging } from 'ringcentral-integration/lib/callLogHelpers';
 import parseNumber from 'ringcentral-integration/lib/parseNumber';
 
-import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import DurationCounter from '../DurationCounter';
-import CallAvatar from '../CallAvatar';
 import ContactDisplay from '../ContactDisplay';
 import ActionMenu from '../ActionMenu';
 import CircleButton from '../CircleButton';
 import EndIcon from '../../assets/images/End.svg';
 import AnswerIcon from '../../assets/images/Answer.svg';
 import VoicemailIcon from '../../assets/images/Voicemail.svg';
-import ConferenceCallIcon from '../../assets/images/ConferenceCallIcon.svg';
+import CallIcon from '../CallIcon';
 
 import styles from './styles.scss';
 import i18n from './i18n';
-
-const callIconMap = {
-  [callDirections.inbound]: dynamicsFont.inbound,
-  [callDirections.outbound]: dynamicsFont.outbound,
-};
-
-function CallIcon({
-  direction,
-  ringing,
-  inboundTitle,
-  outboundTitle,
-  isOnConferenceCall,
-  showAvatar,
-  avatarUrl,
-  extraNum = 0,
-}) {
-  const title = (direction === callDirections.inbound) ? inboundTitle : outboundTitle;
-  let symbol;
-  if (showAvatar) {
-    symbol = (
-      <div className={classnames(styles.callIcon, styles.avatar)}>
-        <CallAvatar
-          isOnConferenceCall={isOnConferenceCall}
-          avatarUrl={avatarUrl}
-          extraNum={extraNum}
-          />
-      </div>
-    );
-  } else {
-    symbol = (
-      <div className={styles.callIcon}>
-        {isOnConferenceCall
-          ? <ConferenceCallIcon />
-          : <span
-            className={classnames(
-              callIconMap[direction],
-              styles.activeCall,
-              ringing && styles.ringing,
-            )}
-            title={title}
-          />
-        }
-      </div>
-    );
-  }
-  return symbol;
-}
-
-CallIcon.propTypes = {
-  direction: PropTypes.string.isRequired,
-  ringing: PropTypes.bool,
-  isOnConferenceCall: PropTypes.bool,
-  inboundTitle: PropTypes.string,
-  outboundTitle: PropTypes.string,
-  showAvatar: PropTypes.bool,
-  avatarUrl: PropTypes.string
-};
-
-CallIcon.defaultProps = {
-  ringing: false,
-  isOnConferenceCall: false,
-  inboundTitle: undefined,
-  outboundTitle: undefined,
-  showAvatar: false,
-  avatarUrl: null,
-};
 
 function WebphoneButtons({
   currentLocale,
