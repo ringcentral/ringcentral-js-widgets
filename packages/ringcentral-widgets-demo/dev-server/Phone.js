@@ -62,6 +62,7 @@ import { ModuleFactory } from 'ringcentral-integration/lib/di';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 import DialerUI from 'ringcentral-widgets/modules/DialerUI';
 import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
+import { isRing } from 'ringcentral-integration/modules/Webphone/webphoneHelper';
 
 @ModuleFactory({
   providers: [
@@ -268,6 +269,10 @@ export default class BasePhone extends RcModule {
       }
 
       if (routerInteraction.currentPath.indexOf('/calls/active') === 0) {
+        if (isRing(currentSession)) {
+          routerInteraction.replace('/calls');
+          return;
+        }
         routerInteraction.replace('/calls/active');
         return;
       }
