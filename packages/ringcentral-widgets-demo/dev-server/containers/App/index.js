@@ -93,11 +93,7 @@ export default function App({
                   />
                 </IncomingCallPage>
                 <UserGuidePage />
-                <QuickAccessPage
-                  appName=""
-                  getOptionData={() => {}}
-                  setOptionData={() => {}}
-                  openOptionspage={() => {}} />
+                <QuickAccessPage />
               </AppView>
             )} >
             <Route

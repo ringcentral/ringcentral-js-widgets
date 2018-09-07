@@ -140,9 +140,9 @@ QuickAccessPanel.propTypes = {
   brandCode: PropTypes.string,
   appName: PropTypes.string,
   logoIconUrl: PropTypes.any,
-  setOptionData: PropTypes.func.isRequired,
-  getOptionData: PropTypes.func.isRequired,
-  openOptionspage: PropTypes.func.isRequired,
+  setOptionData: PropTypes.func,
+  getOptionData: PropTypes.func,
+  openOptionspage: PropTypes.func,
   currentLocale: PropTypes.string.isRequired,
 };
 
@@ -152,5 +152,8 @@ QuickAccessPanel.defaultProps = {
   brandName: 'RingCentral',
   brandCode: '',
   appName: '',
-  logoIconUrl: undefined
+  logoIconUrl: undefined,
+  setOptionData() {},
+  getOptionData() {},
+  openOptionspage: undefined,
 };
