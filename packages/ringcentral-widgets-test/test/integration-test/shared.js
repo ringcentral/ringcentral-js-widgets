@@ -17,7 +17,7 @@ const apiConfig = {
   server: 'testServer',
 };
 
-const getPhone = async (shouldMockForLogin = true) => {
+const getPhone = async ({ shouldMockForLogin = true, ...options } = {}) => {
   jest.mock('pubnub');
   jest.mock('ringcentral-web-phone');
   localStorage.clear();
@@ -39,7 +39,7 @@ const getPhone = async (shouldMockForLogin = true) => {
   });
   if (shouldMockForLogin) {
     mock.restore();
-    mock.mockForLogin({ mockUpdateConference: true });
+    mock.mockForLogin(options);
     phone.connectivityMonitor._checkConnectionFunc = () => true;
     await ensureLogin(phone.auth, {
       username: 'test',
@@ -51,7 +51,22 @@ const getPhone = async (shouldMockForLogin = true) => {
 
 export const timeout = ms => new Promise(resolve => setTimeout(() => resolve(true), ms));
 
-export const getWrapper = async ({ shouldMockForLogin = true } = {}) => {
-  const phone = await getPhone(shouldMockForLogin);
+export const getWrapper = async ({
+  shouldMockForLogin = true, mockUpdateConference = true, ...options
+} = {}) => {
+  const phone = await getPhone({ shouldMockForLogin, mockUpdateConference, ...options });
   return mount(<App phone={phone} />);
+};
+
+export const initPhoneWrapper = async (options = {}) => {
+  const wrapper = await getWrapper(options);
+  const phone = wrapper.props().phone;
+  phone.webphone._createWebphone();
+  phone.webphone._removeWebphone = () => { };
+  phone.webphone._connect = () => { };
+
+  Object.defineProperties(wrapper.props().phone.audioSettings, {
+    userMedia: { value: true },
+  });
+  return { wrapper, phone };
 };
