@@ -15,7 +15,6 @@ import { initPhoneWrapper } from '../shared';
 
 let panel = null;
 const SESSIONS_COUNT = 4;
-const TIME_OUT = 10000;
 
 beforeEach(async () => {
   jasmine.DEFAUL_INTERVAL = 64000;
@@ -37,7 +36,7 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
     expect(panel).toBeDefined();
     expect(panel.find(ActiveCallItem)).toHaveLength(SESSIONS_COUNT);
     done();
-  }, TIME_OUT);
+  });
 
   test('click Add button on call control page', async (done) => {
     const { wrapper, phone } = await initialize();
@@ -67,7 +66,7 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
     expect(activeCallItemProps).toBeDefined();
     expect(activeCallItemProps.showMergeCall).toEqual(true);
     done();
-  }, TIME_OUT);
+  });
 
   test('Click Add button', async (done) => {
     const { wrapper, phone } = await initialize();
@@ -87,7 +86,7 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
     panel = wrapper.find(DialerPanel).at(0);
     expect(panel).toBeDefined();
     done();
-  }, TIME_OUT);
+  });
 
   test('Click Back button', async (done) => {
     const { wrapper, phone } = await initialize();
@@ -117,7 +116,7 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
       await step();
     }
     done();
-  }, TIME_OUT);
+  });
 
   test('Click Hang up button of call A', async (done) => {
     const { wrapper, phone } = await initialize();
@@ -136,7 +135,7 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
     expect(phone.routerInteraction.currentPath.indexOf('/conferenceCall/callsOnhold')).toEqual(0);
     expect(phone.webphone.sessions.length).toEqual(SESSIONS_COUNT - 1);
     done();
-  }, TIME_OUT);
+  });
 
   test('Click Merge button of call B', async (done) => {
     const { wrapper, phone } = await initialize();
@@ -156,5 +155,5 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
     panel = wrapper.find(ActiveCallPanel).first();
     expect(panel).toBeDefined();
     done();
-  }, TIME_OUT);
+  });
 });
