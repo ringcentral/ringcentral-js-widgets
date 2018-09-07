@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 
 export function getupdatePageReducer(types) {
-  return (state = false, { type, entered }) => {
+  return (state = false, { type, entered = state }) => {
     if (type === types.updatePage) {
       return entered;
     }
