@@ -312,7 +312,8 @@ export default class CallItem extends Component {
         duration,
         activityMatches,
         offset,
-        type
+        type,
+        toName
       },
       brand,
       currentLocale,
@@ -399,6 +400,7 @@ export default class CallItem extends Component {
           />
           <div className={styles.infoWrapper}>
             <ContactDisplay
+              isOnConferenceCall={direction === callDirections.outbound && toName === 'Conference'}
               contactName={contactName}
               reference={(ref) => { this.contactDisplay = ref; }}
               className={classnames(
