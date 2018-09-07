@@ -13,7 +13,6 @@ import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
 import { mockMultiOutboundCalls } from './helper';
 import { initPhoneWrapper } from '../shared';
 
-let panel = null;
 const SESSIONS_COUNT = 4;
 
 beforeEach(async () => {
@@ -32,7 +31,7 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
     const navigationBar = wrapper.find(NavigationBar).first();
     await navigationBar.props().goTo('/calls');
     wrapper.update();
-    panel = wrapper.find(ActiveCallsPanel).first();
+    const panel = wrapper.find(ActiveCallsPanel).first();
     expect(panel).toBeDefined();
     expect(panel.find(ActiveCallItem)).toHaveLength(SESSIONS_COUNT);
     done();
@@ -50,7 +49,7 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
     await sleep(200);
     wrapper.update();
     expect(phone.routerInteraction.currentPath.indexOf('/conferenceCall/callsOnhold')).toEqual(0);
-    panel = wrapper.find(CallsOnholdPanel).first();
+    const panel = wrapper.find(CallsOnholdPanel).first();
     const backHeader = panel.find(BackHeader);
     const backButton = backHeader.find(BackButton);
     expect(backHeader).toBeDefined();
@@ -69,6 +68,7 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
   });
 
   test('Click Add button', async (done) => {
+    let panel = null;
     const { wrapper, phone } = await initialize();
     const navigationBar = wrapper.find(NavigationBar).first();
     await navigationBar.props().goTo('/calls/active');
@@ -102,7 +102,7 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
 
     const callsOnHoldStep = async () => {
       wrapper.update();
-      panel = wrapper.find(CallsOnholdPanel).first();
+      const panel = wrapper.find(CallsOnholdPanel).first();
       const backHeader = panel.find(BackHeader);
       const backButton = backHeader.find(BackButton);
       backButton.simulate('click');
@@ -127,7 +127,7 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
     addButton.find(CircleButton).simulate('click');
     await sleep(200);
     wrapper.update();
-    panel = wrapper.find(CallsOnholdPanel).first();
+    const panel = wrapper.find(CallsOnholdPanel).first();
     const firstHangupButton = panel.find(CircleButton).at(1);
     firstHangupButton.simulate('click');
     await sleep(200);
@@ -138,6 +138,7 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
   });
 
   test('Click Merge button of call B', async (done) => {
+    let panel = null;
     const { wrapper, phone } = await initialize();
     const navigationBar = wrapper.find(NavigationBar).first();
     await navigationBar.props().goTo('/calls/active');

@@ -12,12 +12,8 @@ import BackButton from 'ringcentral-widgets/components/BackButton';
 import RecipientsInput from 'ringcentral-widgets/components/RecipientsInput';
 import ContactDropdownList from 'ringcentral-widgets/components/ContactDropdownList';
 import DropdownSelect from 'ringcentral-widgets/components/DropdownSelect';
-import incomingResponse from './data/incomingResponse';
 import { makeCall } from '../../support/callHelper';
 import extensionListBody from './data/extension';
-import conferenceCallBody from './data/conferenceCall';
-import conferenceCallBringInBody from './data/conferenceCallBringIn';
-import incomingResponse from './data/incomingResponse';
 import { initPhoneWrapper, timeout } from '../shared';
 import {
   mockPubnub,
