@@ -107,7 +107,6 @@ function WebphoneButtons({
 
   if (showMergeCall) {
     const mergeTitle = i18n.getString('mergeToConference', currentLocale);
-
     mergeBtn = (
       <span title={mergeTitle} className={styles.webphoneButton}>
         <CircleButton

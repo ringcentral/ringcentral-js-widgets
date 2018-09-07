@@ -11,7 +11,6 @@ import IncomingCallPanel from 'ringcentral-widgets/components/IncomingCallPanel'
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 import MultiCallAnswerButton from 'ringcentral-widgets/components/MultiCallAnswerButton';
 
-import deviceBody from './data/device';
 import forwardingNumberBody from './data/forwardingNumber';
 import { getInboundCall, makeCall } from '../../support/callHelper';
 import {
@@ -26,10 +25,8 @@ import {
 } from '../../support/session';
 import { initPhoneWrapper, timeout } from '../shared';
 
-
 const sid111 = '111';
 const sid222 = '222';
-let sidOutbound = null;
 
 async function makeInbountCall(phone, wrapper, sessionId) {
   await getInboundCall(phone, {
@@ -40,14 +37,8 @@ async function makeInbountCall(phone, wrapper, sessionId) {
   wrapper.update();
 }
 
-async function makeOutboundCall(phone, wrapper) {
-  mock.device(deviceBody);
-  const outboundSession = await makeCall(phone);
-  sidOutbound = outboundSession.id;
-  wrapper.update();
-}
-
 async function makeMultiCalls(phone, wrapper, firstCall) {
+  let outboundSession = null;
   if (firstCall === 'Inbound') {
     await makeInbountCall(phone, wrapper, sid111);
     wrapper
@@ -57,9 +48,11 @@ async function makeMultiCalls(phone, wrapper, firstCall) {
       .simulate('click');
     await timeout(10);
   } else {
-    await makeOutboundCall(phone, wrapper);
+    outboundSession = await makeCall(phone);
   }
   await makeInbountCall(phone, wrapper, sid222);
+  wrapper.update();
+  return { outboundSession };
 }
 
 const enterToNumber = async (target, number) => {
@@ -196,7 +189,8 @@ describe('Check Answer and Hold Button', () => {
     async (done) => {
       const { wrapper, phone } = await initPhoneWrapper();
       // Answer an inbound call, and make another incoming call
-      await makeMultiCalls(phone, wrapper, 'Outbound');
+      const { outboundSession } = await makeMultiCalls(phone, wrapper, 'Outbound');
+      const sidOutbound = outboundSession.id;
 
       const multiButtons = wrapper.find(IncomingCallPad).find(MultiCallAnswerButton);
       const buttonAnswerHold = multiButtons.at(1);
@@ -249,7 +243,8 @@ describe('Check Answer and End Button', () => {
     async (done) => {
       const { wrapper, phone } = await initPhoneWrapper();
       // Answer an inbound call, and make another incoming call
-      await makeMultiCalls(phone, wrapper, 'Outbound');
+      const { outboundSession } = await makeMultiCalls(phone, wrapper, 'Outbound');
+      const sidOutbound = outboundSession.id;
 
       const multiButtons = wrapper.find(IncomingCallPad).find(MultiCallAnswerButton);
       const buttonAnswerEnd = multiButtons.at(0);
@@ -293,15 +288,15 @@ describe('Check Ignore Button', () => {
     // Answer an inbound call, and make another incoming call
     await makeMultiCalls(phone, wrapper, 'Inbound');
 
-    const buttons = wrapper.find(IncomingCallPad).find(ActiveCallButton);
-    const buttonIgnore = buttons.at(2);
-    expect(buttonIgnore.find('.buttonTitle').text()).toEqual('Ignore');
+      const buttons = wrapper.find(IncomingCallPad).find(ActiveCallButton);
+      const buttonIgnore = buttons.at(2);
+      expect(buttonIgnore.find('.buttonTitle').text()).toEqual('Ignore');
 
     buttonIgnore.find(CircleButton).simulate('click');
     await timeout(10);
     expect(phone.webphone.sessions).toHaveLength(1);
 
-    wrapper.update();
+      wrapper.update();
 
     expect(rejectFn.mock.calls[0]).toEqual([sid222]);
     expect(wrapper.find(ActiveCallPanel)).toHaveLength(1);

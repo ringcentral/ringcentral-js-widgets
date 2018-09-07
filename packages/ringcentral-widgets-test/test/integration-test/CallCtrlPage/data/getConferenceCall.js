@@ -1,3 +1,4 @@
+import { CONFERENCE_SESSION_ID } from '../../../support/callHelper';
 const partyMemberIdPrefix = 'cs1726225542272106109';
 
 const randomSessionId = () => (10 ** 70 * Math.random()).toString(36);
@@ -57,7 +58,7 @@ export default (conferencePartiesCount = 3) => {
   }
   return {
     creationTime: '2018-08-02T01:48:29Z',
-    id: 'Y3MxNzI2MjI1NTQzODI0MzUzM0AxMC43NC4yLjIxOA',
+    id: CONFERENCE_SESSION_ID,
     origin: { type: 'Conference' },
     voiceCallToken: 'conf_59334d784e7a49324d6a49314e5451794d6a63794d5441324d544135514445774c6a63304c6a49754d6a45344031302e37342e322e3231383a35303730',
     parties,

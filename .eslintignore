@@ -3,6 +3,4 @@
 build/**
 docs/**
 
-release/**
-coverage/**
 **/karma.config.js

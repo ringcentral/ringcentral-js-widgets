@@ -600,7 +600,7 @@ export function mockForLogin({
   if (mockAuthzProfile) {
     authzProfile(params.authzProfileData);
   }
-  device(params.deviceData);
+  device(params.deviceData, params.deviceIsOnce);
   extensionList(params.extensionListData);
   accountPhoneNumber(params.accountPhoneNumberData);
   blockedNumber(params.blockedNumberData);

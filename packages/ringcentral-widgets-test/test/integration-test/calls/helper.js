@@ -1,7 +1,6 @@
+import deviceBody from 'ringcentral-integration/integration-test/mock/data/device';
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatuses';
 import * as mock from 'ringcentral-integration/integration-test/mock';
-
-import deviceBody from './data/device';
 
 import { timeout } from '../shared';
 import {
@@ -12,7 +11,7 @@ import {
 } from '../../support/callHelper';
 
 function mockCallProcedure(func) {
-  return async function (phone, ...args) {
+  return async (phone, ...args) => {
     mock.device(deviceBody, false);
     const activeCallsBody = await func.apply(null, [phone, ...args]);
     mock.activeCalls(activeCallsBody);
@@ -64,26 +63,15 @@ async function mockMultiActiveCallBodies(phone) {
     },
     startTime: '2018-08-07T09:20:09.405Z',
   }];
-  return mockActiveCalls(
-    [inboundSession, outboundSession, incomingSession],
-    mockOtherDeivce
-  );
+  return mockActiveCalls(phone.webphone.sessions, mockOtherDeivce);
 }
 
 async function mockMultipleOutboundCallBodies(phone, n) {
-  const res = [];
-
-  for (let i = n; i > 0; i--) {
-    const outboundSession = await makeCall(phone, {
-      callId: true,
-      fromNumber: '+15878133670',
-      homeCountryId: '1',
-      toNumber: '101',
-    });
+  for (let i = n; i > 0; i -= 1) {
+    const outboundSession = await makeCall(phone);
     await phone.webphone.hold(outboundSession.id);
-    res.push(outboundSession);
   }
-  return mockActiveCalls(res);
+  return mockActiveCalls(phone.webphone.sessions);
 }
 
 export async function mockMultiActiveCalls(phone) {
