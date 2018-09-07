@@ -19,7 +19,8 @@ function getupdatePageReducer(types) {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
     var _ref = arguments[1];
     var type = _ref.type,
-        entered = _ref.entered;
+        _ref$entered = _ref.entered,
+        entered = _ref$entered === undefined ? state : _ref$entered;
 
     if (type === types.updatePage) {
       return entered;
