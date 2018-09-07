@@ -519,6 +519,7 @@ var CallItem = function (_Component) {
           activityMatches = _props$call.activityMatches,
           offset = _props$call.offset,
           type = _props$call.type,
+          toName = _props$call.toName,
           brand = _props.brand,
           currentLocale = _props.currentLocale,
           areaCode = _props.areaCode,
@@ -595,6 +596,7 @@ var CallItem = function (_Component) {
             'div',
             { className: _styles2.default.infoWrapper },
             _react2.default.createElement(_ContactDisplay2.default, {
+              isOnConferenceCall: direction === _callDirections2.default.outbound && toName === 'Conference',
               contactName: contactName,
               reference: function reference(ref) {
                 _this5.contactDisplay = ref;
