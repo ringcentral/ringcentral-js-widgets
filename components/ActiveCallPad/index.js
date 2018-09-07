@@ -220,6 +220,23 @@ var ActiveCallPad = function (_Component) {
       document.body.removeEventListener('click', this.onClick);
     }
   }, {
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps) {
+      var showUpdate = false;
+
+      for (var p in nextProps) {
+        if (Object.prototype.hasOwnProperty.call(nextProps, p)) {
+          var val = nextProps[p];
+
+          if (val !== this.props[p] && typeof val !== 'function') {
+            showUpdate = true;
+            break;
+          }
+        }
+      }
+      return showUpdate;
+    }
+  }, {
     key: 'render',
     value: function render() {
       var buttons = [];
