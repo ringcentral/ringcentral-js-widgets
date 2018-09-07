@@ -23,7 +23,7 @@
   "files.eol": "\n",
   // Disable default VSCode formatting for JavaScript
   "[javascript]": {
-    "editor.formatOnSave": false
+    "editor.formatOnSave": true
   },
   // Allow formatting for other languages
   "editor.formatOnSave": true,
