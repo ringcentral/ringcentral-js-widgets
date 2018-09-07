@@ -31,6 +31,7 @@ import ConferenceCallDialerPage from 'ringcentral-widgets/containers/ConferenceC
 import CallsOnholdPage from 'ringcentral-widgets/containers/CallsOnholdPage';
 import DialerAndCallsTabContainer from 'ringcentral-widgets/containers/DialerAndCallsTabContainer';
 import ConferenceParticipantPage from 'ringcentral-widgets/containers/ConferenceParticipantPage';
+import QuickAccessPage from 'ringcentral-widgets/containers/QuickAccessPage';
 
 import ContactSourceFilter from 'ringcentral-widgets/components/ContactSourceFilter';
 import MeetingScheduleButton from 'ringcentral-widgets/components/MeetingScheduleButton';
@@ -92,6 +93,11 @@ export default function App({
                   />
                 </IncomingCallPage>
                 <UserGuidePage />
+                <QuickAccessPage
+                  appName=""
+                  getOptionData={() => {}}
+                  setOptionData={() => {}}
+                  openOptionspage={() => {}} />
               </AppView>
             )} >
             <Route
@@ -129,6 +135,7 @@ export default function App({
                 component={routerProps => (
                   <SettingsPage
                     params={routerProps.location.query}
+                    showQuickAccess
                   />
                 )}
               />
