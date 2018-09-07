@@ -84,7 +84,7 @@ export function getActiveSessionIdReducer(types) {
         if (session.id !== state) {
           return state;
         }
-        const sessionWithoutRinging = session.filter(session => !isRing(session));
+        const sessionWithoutRinging = sessions.filter(session => !isRing(session));
         return (sessionWithoutRinging[0] && sessionWithoutRinging[0].id) || null;
       }
       case types.clearSessionCaching: {
