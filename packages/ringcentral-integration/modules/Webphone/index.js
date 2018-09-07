@@ -1278,7 +1278,7 @@ export default class Webphone extends RcModule {
     this.store.dispatch({
       type: this.actionTypes.callEnd,
       session: normalizedSession,
-      sessions: this.sessions.filter(session=>!isRing(session)),
+      sessions: this.sessions,
     });
     if (typeof this._onCallEndFunc === 'function') {
       this._onCallEndFunc(normalizedSession, this.activeSession);
