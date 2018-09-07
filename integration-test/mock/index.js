@@ -414,11 +414,13 @@ function subscription() {
 
 function numberParser() {
   var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var isOnce = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
   mockApi({
     method: 'POST',
     url: 'begin:' + mockServer + '/restapi/v1.0/number-parser/',
-    body: (0, _extends3.default)({}, numberParserBody, mockResponse)
+    body: (0, _extends3.default)({}, numberParserBody, mockResponse),
+    isOnce: isOnce
   });
 }
 
@@ -667,7 +669,7 @@ function mockForLogin() {
   if (mockActiveCalls) {
     activeCalls(params.activeCallsData);
   }
-  numberParser(params.numberParseData);
+  numberParser(params.numberParseData, params.numberParseIsOnce);
   if (mockUpdateConference) {
     updateConferenceCall(updateConferenceCallBody.id, updateConferenceCallBody);
   }
