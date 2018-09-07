@@ -150,7 +150,7 @@ function getActiveSessionIdReducer(types) {
           if (session.id !== state) {
             return state;
           }
-          var sessionWithoutRinging = session.filter(function (session) {
+          var sessionWithoutRinging = sessions.filter(function (session) {
             return !(0, _webphoneHelper.isRing)(session);
           });
           return sessionWithoutRinging[0] && sessionWithoutRinging[0].id || null;
