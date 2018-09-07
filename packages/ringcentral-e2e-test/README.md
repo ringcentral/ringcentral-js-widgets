@@ -85,14 +85,14 @@ npx e2e-test run ./src/features/widgets/meeting/**/*.js
 
 | Drivers                         | cases | threads | sandbox | performance | stability |
 | ------------------------------- | ----- | ------- | ------- | ----------- | --------- |
-| puppeteer/Firefox/Chrome/Safari | 1600  | 1       |         | 1260.56s    | ✅        |
-| puppeteer                       | 400   | 1       |         | 215.179s    | ✅        |
-| puppeteer                       | 400   | 8       |         | 79.744s     | ✅        |
-| puppeteer                       | 400   | 8       | ✅      | 230.122s    | ✅        |
-| Chrome                          | 400   | 1       |         | 80.129s     | ✅        |
-| Firefox                         | 1200  | 8       |         | 428s        | ❌        |
-| puppeteer/Firefox/Chrome        | 1200  | 8       |         | 505.122s    | ❌        |
-| Safari                          | 400   | 8       |         | -           | ❌        |
+| puppeteer/Firefox/Chrome/Safari | 1600  | 1       |         | 1260.56s    | ✅         |
+| puppeteer                       | 400   | 1       |         | 215.179s    | ✅         |
+| puppeteer                       | 400   | 8       |         | 79.744s     | ✅         |
+| puppeteer                       | 400   | 8       | ✅       | 230.122s    | ✅         |
+| Chrome                          | 400   | 1       |         | 80.129s     | ✅         |
+| Firefox                         | 1200  | 8       |         | 428s        | ❌         |
+| puppeteer/Firefox/Chrome        | 1200  | 8       |         | 505.122s    | ❌         |
+| Safari                          | 400   | 8       |         | -           | ❌         |
 
 ### Subpackage
 
@@ -144,4 +144,20 @@ npx e2e-test run ./src/features/widgets/meeting/**/*.js
 -   Marten
 -   Plugins
 -   CLI
+
+    - Tags optimization
+    - Exclude file or path
+    - Filter jest env cli option
+    - Error driver warning 
+    - Debug mode
+    - Verbose option/help info/error info
+    - Exec config file
+    - Create cases/update cases/search cases
+    - Create project
+
 -   Reporter
+
+    - Test Results Collector (info/error end/error script/error assert)
+    - reporter SPA(Query/sorting/filtering)
+    - Display Features(Chart/Layered List/Display Error)
+    - RESTful API Server(TBD)
