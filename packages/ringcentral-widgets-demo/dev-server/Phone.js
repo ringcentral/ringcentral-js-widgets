@@ -43,6 +43,7 @@ import ContactSearch from 'ringcentral-integration/modules/ContactSearch';
 import DateTimeFormat from 'ringcentral-integration/modules/DateTimeFormat';
 import Conference from 'ringcentral-integration/modules/Conference';
 import ConferenceCall from 'ringcentral-integration/modules/ConferenceCall';
+import QuickAccess from 'ringcentral-integration/modules/QuickAccess';
 
 import ActiveCalls from 'ringcentral-integration/modules/ActiveCalls';
 import DetailedPresence from 'ringcentral-integration/modules/DetailedPresence';
@@ -118,6 +119,7 @@ import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
     { provide: 'AccountContacts', useClass: AccountContacts },
     { provide: 'AddressBook', useClass: AddressBook },
     { provide: 'Contacts', useClass: Contacts },
+    { provide: 'QuickAccess', useClass: QuickAccess },
     {
       provide: 'ContactSources',
       deps: ['AddressBook', 'AccountContacts'],
