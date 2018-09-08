@@ -90,9 +90,12 @@ npx e2e-test run ./src/features/widgets/meeting/**/*.js
 | puppeteer                       | 400   | 8       |         | 79.744s     | ✅         |
 | puppeteer                       | 400   | 8       | ✅       | 230.122s    | ✅         |
 | Chrome                          | 400   | 1       |         | 80.129s     | ✅         |
-| Firefox                         | 1200  | 8       |         | 428s        | ❌         |
-| puppeteer/Firefox/Chrome        | 1200  | 8       |         | 505.122s    | ❌         |
+| Firefox                         | 1200  | 8       |         | 428s        | ⚠️        |
+| puppeteer/Firefox/Chrome        | 1200  | 8       |         | 505.122s    | ⚠️        |
 | Safari                          | 400   | 8       |         | -           | ❌         |
+| Enzyme                          | 400   | 1       | ✅       | 356.076s    | ✅         |
+| Enzyme                          | 400   | 8       | ✅       | 146.771s    | ✅         |
+| Enzyme                          | 400   | 1       |         | -           | ❌         |
 
 ### Subpackage
 
