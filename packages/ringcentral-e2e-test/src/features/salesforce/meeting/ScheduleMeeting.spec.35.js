@@ -1,67 +1,58 @@
 describe('test: =====>', () => {
   test({
-    title: 'Login button ${selector} text is ${expected}',
+    title: 'button',
     tags: [
-      ['widgets', { brands: ['rc', 'att'] }]
+      ['widgets'],
     ],
-    levels: ['p1'],
+    levels: ['p0'],
     options: [
       { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
       { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
     ],
-  }, async ({
-    option, context, tag, level
-  }) => {
-    const text = await browser.text(option.selector);;
-    console.log('ffff');
+  }, async ({ option }) => {
+    const text = await $(page).text(option.selector);
     expect(text).toBe(option.expected);
   });
   test({
-    title: 'Login button ${selector} text is ${expected}',
+    title: 'button',
     tags: [
-      ['widgets', { brands: ['rc', 'att'] }]
+      ['widgets'],
     ],
-    levels: ['p1'],
+    levels: ['p0'],
     options: [
       { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
       { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
     ],
-  }, async ({
-    option, context, tag, level
-  }) => {
-    const text = await browser.text(option.selector);;
+  }, async ({ option }) => {
+    const text = await $(page).text(option.selector);
     expect(text).toBe(option.expected);
   });
   test({
-    title: 'Login button ${selector} text is ${expected}',
+    title: 'button',
     tags: [
-      ['widgets', { brands: ['rc', 'att'] }]
+      ['widgets'],
     ],
-    levels: ['p1'],
+    levels: ['p0'],
     options: [
       { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
       { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
     ],
-  }, async ({
-    option, context, tag, level
-  }) => {
-    const text = await browser.text(option.selector);;
+  }, async ({ option }) => {
+    const text = await $(page).text(option.selector);
     expect(text).toBe(option.expected);
   });
   test({
-    title: 'Login button ${selector} text is ${expected}',
+    title: 'button',
     tags: [
-      ['widgets', { brands: ['rc', 'att'] }]
+      ['widgets'],
     ],
-    levels: ['p1'],
+    levels: ['p0'],
     options: [
       { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
       { selector: '[data-sign="loginButton"]', expected: 'Sign In' },
     ],
-  }, async ({
-    option, context, tag, level
-  }) => {
-    const text = await browser.text(option.selector);;
+  }, async ({ option }) => {
+    const text = await $(page).text(option.selector);
     expect(text).toBe(option.expected);
   });
 });
