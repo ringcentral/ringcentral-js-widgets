@@ -25,6 +25,10 @@ var _ContactDisplay = require('../ContactDisplay');
 
 var _ContactDisplay2 = _interopRequireDefault(_ContactDisplay);
 
+var _CallAvatar = require('../CallAvatar');
+
+var _CallAvatar2 = _interopRequireDefault(_CallAvatar);
+
 var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
 
 var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
@@ -36,12 +40,6 @@ var _styles2 = _interopRequireDefault(_styles);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function UserInfo(props) {
-  var avatar = void 0;
-  if (props.avatarUrl) {
-    avatar = _react2.default.createElement('img', { src: props.avatarUrl, alt: 'avatar' });
-  } else {
-    avatar = _react2.default.createElement('i', { className: (0, _classnames2.default)(_DynamicsFont2.default.portrait, _styles2.default.icon) });
-  }
   return _react2.default.createElement(
     'div',
     { className: _styles2.default.userInfo },
@@ -56,7 +54,9 @@ function UserInfo(props) {
         _react2.default.createElement(
           'div',
           { className: _styles2.default.avatar },
-          avatar
+          _react2.default.createElement(_CallAvatar2.default, {
+            avatarUrl: props.avatarUrl
+          })
         )
       )
     ),

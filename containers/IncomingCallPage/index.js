@@ -175,14 +175,14 @@ var IncomingCallPage = function (_Component) {
     value: function componentWillReceiveProps(nextProps) {
       if (this.props.session.id !== nextProps.session.id) {
         this._updateAvatarAndMatchIndex(nextProps);
-        this.setState({
-          hasOtherActiveCall: nextProps.activeSessionId
-          // when ringcall became active call
-          ? nextProps.activeSessionId !== nextProps.session.id
-          // otherwise when no active call
-          : false
-        });
       }
+      this.setState({
+        hasOtherActiveCall: nextProps.activeSessionId
+        // when ringcall became active call
+        ? nextProps.activeSessionId !== nextProps.session.id
+        // otherwise when no active call
+        : false
+      });
     }
   }, {
     key: 'componentWillUnmount',
