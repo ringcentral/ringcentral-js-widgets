@@ -1,5 +1,4 @@
 @import '../../lib/commonStyles/colors';
-$fixed-avatar-width:35px;
 $padding-horizontal:20px;
 $avatar-basis:45.5px;
 $button-basis:68.5px;
@@ -8,20 +7,6 @@ $button-basis:68.5px;
   border-bottom: 1px solid #e2e2e2;
   .wrapper {
     overflow: visible;
-    .avatar {
-      width: $fixed-avatar-width;
-      height: $fixed-avatar-width;
-      margin-left: auto;
-      margin-right: auto;
-      color: $primary-color;
-      overflow: hidden;
-      flex-basis: $avatar-basis;
-      .icon {
-        display: block;
-        font-size: $fixed-avatar-width;
-        opacity: 0.3;
-      }
-    }
     .content {
       max-width: calc(100% - #{$avatar-basis+$button-basis});
       overflow: visible;
