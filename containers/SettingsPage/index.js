@@ -56,6 +56,8 @@ function mapToProps(_, _ref) {
       showUserGuide = _ref$showUserGuide === undefined ? true : _ref$showUserGuide,
       _ref$showPresenceSett = _ref.showPresenceSettings,
       showPresenceSettings = _ref$showPresenceSett === undefined ? true : _ref$showPresenceSett,
+      _ref$showQuickAccess = _ref.showQuickAccess,
+      showQuickAccess = _ref$showQuickAccess === undefined ? false : _ref$showQuickAccess,
       params = _ref.params;
 
   var loginNumber = '';
@@ -73,6 +75,7 @@ function mapToProps(_, _ref) {
   return {
     showSpinner: !(accountInfo.ready && auth.ready && loggedIn && extensionInfo.ready && locale.ready && regionSettings.ready && (!callingSettings || callingSettings.ready) && rolesAndPermissions.ready && (!detailedPresence || detailedPresence.ready) && (!localeSettings || localeSettings.ready)),
     showFeedback: showFeedback,
+    showQuickAccess: showQuickAccess,
     showCalling: showCalling && callingSettings && rolesAndPermissions.callingEnabled,
     showAudio: showAudio && rolesAndPermissions.callingEnabled,
     showRegion: loggedIn && brand.id === '1210' && regionSettings.showReginSetting && rolesAndPermissions.callingEnabled && showRegion,
@@ -148,6 +151,9 @@ function mapToFunctions(_, _ref2) {
     },
     onUserGuideClick: function onUserGuideClick() {
       userGuide.start();
+    },
+    onQuickAccessLinkClick: function onQuickAccessLinkClick() {
+      quickAccess.enter();
     },
 
 
