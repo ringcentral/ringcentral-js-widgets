@@ -52,6 +52,8 @@ export default class DetailedPresence extends Presence {
           .filter(call => !isEnded(call))
       ),
     );
+
+    this.fetchRemainingCalls = throttle(this::this._fetch, FETCH_THRESHOLD);
   }
 
   _subscriptionHandler = (message) => {
@@ -152,9 +154,5 @@ export default class DetailedPresence extends Presence {
         this._promise = null;
       }
     }
-  }
-
-  async fetchRemainingCalls() {
-    return throttle(this::this._fetch(), FETCH_THRESHOLD);
   }
 }

@@ -5,6 +5,7 @@ import getConferenceCallReducer, {
   getMakeConferenceCallReducer,
   getMergingStatusReducer,
   getMergingPairReducer,
+  getCurrentConferenceIdReducer,
 } from './getConferenceCallReducer';
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 import conferenceCallStatus from './conferenceCallStatus';
@@ -24,6 +25,7 @@ describe('ConferenceCall :: getConferenceCallReducer', () => {
     const conferencesReducer = getMakeConferenceCallReducer(actionTypes);
     const mergingPairReducer = getMergingPairReducer(actionTypes);
     const isMergingReducer = getMergingStatusReducer(actionTypes);
+    const currentConferenceIdReducer = getCurrentConferenceIdReducer(actionTypes);
 
     it('should return the combined initialState', () => {
       expect(reducer(undefined, {})).to.deep.equal({
@@ -32,6 +34,7 @@ describe('ConferenceCall :: getConferenceCallReducer', () => {
         conferenceCallStatus: conferenceCallStatusReducer(undefined, {}),
         isMerging: isMergingReducer(undefined, {}),
         mergingPair: mergingPairReducer(undefined, {}),
+        currentConferenceId: currentConferenceIdReducer(undefined, {}),
       });
     });
   });
@@ -71,24 +74,24 @@ describe('ConferenceCall :: getMergingPairReducer', () => {
     expect(reducer(undefined, {})).to.be.an('object').that.is.empty;
   });
   it('should have the from field', () => {
-    const from = {};
+    const fromSessionId = '123';
 
     expect(reducer(undefined, {
       type: actionTypes.updateFromSession,
-      from,
+      fromSessionId,
     })).to.deep.equal({
-      from
+      fromSessionId
     });
   });
 
   it('should have the to field', () => {
-    const to = {};
+    const toSessionId = '1234';
 
     expect(reducer(undefined, {
       type: actionTypes.updateToSession,
-      to,
+      toSessionId,
     })).to.deep.equal({
-      to
+      toSessionId
     });
   });
 

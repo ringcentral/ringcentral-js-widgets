@@ -30,7 +30,10 @@ props.fallBackName = 'Unknown';
 props.flipNumbers = [];
 props.recordStatus = 'recordStatus-idle';
 props.onShowKeyPad = () => null;
-props.layout = callCtrlLayouts.normalCtrl;
+props.layout = callCtrlLayouts.mergeCtrl;
+props.lastCallInfo = {
+  phoneNumber: '103'
+};
 
 /**
  * A example of `ActiveCallPanel`

@@ -11,6 +11,7 @@
     "node": ">=8"
   },
   "scripts": {
+    "debug": "node --inspect ./node_modules/.bin/jest -i",
     "test": "yarn test:jest",
     "test:jest": "jest --no-cache --maxWorkers=5",
     "test:watch": "yarn test -- --watch",
@@ -25,9 +26,9 @@
     "babel-istanbul": "^0.12.1",
     "coveralls": "^2.11.15",
     "dotenv": "^5.0.0",
-    "enzyme": "^3.3.0",
-    "enzyme-adapter-react-16": "^1.1.1",
-    "enzyme-to-json": "^3.3.0",
+    "enzyme": "^3.4.4",
+    "enzyme-adapter-react-16": "^1.2.0",
+    "enzyme-to-json": "^3.3.4",
     "format-message": "^5.0.0",
     "fs-extra": "^6.0.0",
     "identity-obj-proxy": "^3.0.0",
@@ -35,6 +36,7 @@
     "moment": "^2.22.1",
     "normalize-css": "^2.3.1",
     "pubnub": "^4.20.1",
+    "rc-tooltip": "^3.7.2",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-redux": "^5.0.5",
@@ -45,10 +47,10 @@
     "redux-thunk": "^2.2.0",
     "ringcentral": "^3.1.3",
     "ringcentral-client": "^1.0.0-beta.1",
-    "ringcentral-integration": "^0.7.46",
-    "ringcentral-widgets": "^0.5.18",
+    "ringcentral-integration": "^0.9.0",
+    "ringcentral-widgets": "^0.9.0",
     "ringcentral-widgets-demo": "^0.0.1",
-    "yargs": "^11.1.0"
+    "yargs": "^12.0.1"
   },
   "jest": {
     "moduleNameMapper": {
@@ -70,20 +72,7 @@
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],
-    "coveragePathIgnorePatterns": [
-      "../ringcentral-widgets/(?:components|containers)/RecentActivity.+",
-      "../ringcentral-widgets/(?:components|containers)/TransferPanel.+",
-      "../ringcentral-widgets/(?:components|containers)/ForwardForm/.+",
-      "../ringcentral-widgets/(?:components|containers)/FlipPanel.+",
-      "../ringcentral-widgets/(?:components|containers)/CallCtrl.+",
-      "../ringcentral-widgets/(?:components|containers)/IncomingCall.+",
-      "../ringcentral-widgets/(?:components|containers)/ActiveCall.+",
-      "../ringcentral-widgets/(?:components|containers)/DurationCounter.+",
-      "../ringcentral-widgets/(?:components|containers)/WebPhone.+",
-      "../ringcentral-widgets/(?:components|containers)/Draggable.+",
-      "../ringcentral-widgets/(?:components|containers)/CircleButton.+",
-      "../ringcentral-widgets/(?:components|containers)/RadioBtnGroup.+"
-    ]
+    "setupTestFrameworkScriptFile": "./jest.setup.js"
   },
   "peerDependencies": {
     "babel-runtime": "^6.26.0"

@@ -12,6 +12,7 @@ import {
   mapToFunctions as mapToBaseFunctions,
 } from '../DialerPage';
 import i18n from './i18n';
+import styles from './styles.scss';
 
 function ConferenceCallDialerPanel({
   onBack,
@@ -54,6 +55,9 @@ function mapToProps(_, {
 function mapToFunctions(_, {
   params,
   phone,
+  phone: {
+    conferenceCall
+  },
   onBack,
   ...props
 }) {
@@ -68,8 +72,23 @@ function mapToFunctions(_, {
     onCallButtonClick() {
       phone.dialerUI.onCallButtonClick({
         fromNumber: params.fromNumber,
+        beforeCall() {
+          const { fromSessionId } = params;
+          if (
+            fromSessionId &&
+            conferenceCall &&
+            conferenceCall.mergingPair &&
+            !conferenceCall.mergingPair.fromSessionId
+          ) {
+            // set mergingPair if has
+            conferenceCall.setMergeParty({
+              fromSessionId
+            });
+          }
+        }
       });
     },
+    callBtnClassName: styles.callBtn,
   };
 }
 

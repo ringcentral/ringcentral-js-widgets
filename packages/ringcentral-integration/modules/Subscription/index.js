@@ -198,7 +198,7 @@ export default class Subscription extends RcModule {
     });
   }
 
-  _register() {
+  _register(delay = 2000) {
     if (this._registerTimeoutId) {
       clearTimeout(this._registerTimeoutId);
     }
@@ -211,19 +211,19 @@ export default class Subscription extends RcModule {
         this._subscription.setEventFilters(this.filters);
         this._subscription.register();
       }
-    }, 2000);
+    }, delay);
   }
 
-  _subscribe() {
+  _subscribe(delay) {
     if (!this._subscription) {
       this._createSubscription();
     }
     this._subscription.setEventFilters(this.filters);
-    this._register();
+    this._register(delay);
   }
 
   @proxify
-  async subscribe(events = []) {
+  async subscribe(events = [], delay = 2000) {
     if (this.ready) {
       const oldFilters = this.filters;
       this.store.dispatch({
@@ -231,7 +231,7 @@ export default class Subscription extends RcModule {
         filters: [].concat(events),
       });
       if (oldFilters.length !== this.filters.length) {
-        await this._subscribe();
+        await this._subscribe(delay);
       }
     }
   }

@@ -1,11 +1,12 @@
 export default {
-  noActiveCalls: 'Aucun appel actif',
-  currentCall: 'Appel actuel',
-  ringCall: 'Sonnerie en cours',
-  onHoldCall: 'Appel en attente',
-  otherDeviceCall: 'Appels en cours sur mes autres appareils',
-  noCalls: 'Aucun résultat.',
-  historyCalls: 'Appels émis dans le passé<',
+  noActiveCalls: "Aucun appel actif",
+  noCalls: "Aucun résultat.",
+  currentCall: "Appel actuel",
+  ringCall: "Sonnerie en cours",
+  onHoldCall: "Appel en attente",
+  historyCalls: "Appels émis dans le passé<",
+  otherDeviceCall: "Appels en cours sur mes autres appareils",
+  searchPlaceholder: "Recherche..."
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
@@ -15,3 +16,4 @@ export default {
 // @key: @#@"onHoldCall"@#@ @source: @#@"Call on Hold"@#@
 // @key: @#@"historyCalls"@#@ @source: @#@"Past Calls"@#@
 // @key: @#@"otherDeviceCall"@#@ @source: @#@"Ongoing calls on my other devices"@#@
+// @key: @#@"searchPlaceholder"@#@ @source: @#@"Search..."@#@

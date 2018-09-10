@@ -1,6 +1,6 @@
 @import '../../lib/commonStyles/full-size';
 @import '../../lib/commonStyles/colors';
-
+@import '../../lib/commonStyles/layout';
 $userInfoHight: 182px;
 
 .root {
@@ -12,7 +12,7 @@ $userInfoHight: 182px;
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 20;
+  z-index: $maximum-zIndex; // always put the incomming call panel in the top most
   background: #ffffff;
 }
 
@@ -114,7 +114,8 @@ $userInfoHight: 182px;
   z-index: 3;
   overflow: hidden;
 
-  img {
+  img,
+  svg {
     width: 100%;
   }
 }
@@ -129,6 +130,7 @@ $userInfoHight: 182px;
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 0.1;
   }
@@ -138,6 +140,7 @@ $userInfoHight: 182px;
   0% {
     opacity: 0.05;
   }
+
   100% {
     opacity: 0.29;
   }

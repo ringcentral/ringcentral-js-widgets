@@ -44,9 +44,9 @@
   // So need to let flex-basis help here.
   // Details: https://github.com/philipwalton/flexbugs#flexbug-17
   flex: 1;
-  flex-basis: calc(100% - 76px);
-  max-width: calc(100% - 76px);
-  padding-left: 12px;
+  flex-basis: calc(100% - 40px);
+  max-width: calc(100% - 40px);
+  padding: 0 12px;
   box-sizing: border-box;
 }
 
@@ -73,9 +73,24 @@
   @include field-value-font;
   color: $ash;
   align-self: flex-start;
-  // Yesterday, mm/dd/yy, 12:00
-  min-width: 53px;
   text-align: right;
+}
+
+.detailsWithTime {
+  display: flex;
+}
+
+.embellishInfoWrapper {
+  flex-basis: calc(100% - 12px);
+  max-width: calc(100% - 12px);
+}
+
+.separatrix {
+  margin: 0 5px;
+  color: $ash;;
+  font-size: 11px;
+  position: relative;
+  top: -1px;
 }
 
 .contactDisplay {
@@ -142,6 +157,10 @@
 
 .unread {
   .selectedValue {
+    color: $primary-color;
+  }
+
+  .separatrix {
     color: $primary-color;
   }
 

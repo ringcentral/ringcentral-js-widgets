@@ -1,9 +1,10 @@
 export default {
-  account: 'Conta',
-  contact: 'Contato',
-  lead: 'Lead',
-  chooseEntity: 'Selecione o tipo de entidade',
-  create: 'Criar',
+  account: "Conta",
+  contact: "Contato",
+  lead: "Lead",
+
+  chooseEntity: "Selecione o tipo de entidade",
+  create: "Criar"
 };
 
 // @key: @#@"account"@#@ @source: @#@"Account"@#@

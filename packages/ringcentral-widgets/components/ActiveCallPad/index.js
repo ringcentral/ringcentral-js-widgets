@@ -26,7 +26,7 @@ import i18n from './i18n';
 
 const DisplayButtonNumber = 6;
 
-function MoreActionItem({
+export function MoreActionItem({
   title,
   icon: Icon,
   disabled,
@@ -109,9 +109,31 @@ class ActiveCallPad extends Component {
     document.body.removeEventListener('click', this.onClick);
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextState !== this.state) {
+      return true;
+    }
+
+    let showUpdate = false;
+
+    for (const p in nextProps) {
+      if (nextProps::Object.prototype.hasOwnProperty(p)) {
+        const val = nextProps[p];
+
+        if (
+          val !== this.props[p] &&
+            (typeof val !== 'function')
+        ) {
+          showUpdate = true;
+          break;
+        }
+      }
+    }
+    return showUpdate;
+  }
+
   render() {
     const buttons = [];
-
     /* --------------------- Mute/Unmute --------------------------- */
     buttons.push(this.props.isOnMute
       ? {
@@ -134,6 +156,7 @@ class ActiveCallPad extends Component {
         icon: KeypadIcon,
         title: i18n.getString('keypad', this.props.currentLocale),
         onClick: this.props.onShowKeyPad,
+        disabled: this.props.layout === callCtrlLayouts.conferenceCtrl,
       }
     );
 
@@ -190,6 +213,7 @@ class ActiveCallPad extends Component {
           this.props.isOnHold
           || this.props.recordStatus === recordStatus.pending
           || this.props.layout === callCtrlLayouts.mergeCtrl
+          || this.props.recordStatus === recordStatus.noAccess
         ),
         onClick: this.props.recordStatus === recordStatus.recording
           ? this.props.onStopRecord
@@ -199,7 +223,7 @@ class ActiveCallPad extends Component {
 
     /* --------------------- Transfer --------------------------- */
     const disabledTransfer = (
-      this.props.layout === callCtrlLayouts.mergeCtrl
+      this.props.layout !== callCtrlLayouts.normalCtrl
     );
     buttons.push(
       {
@@ -214,7 +238,7 @@ class ActiveCallPad extends Component {
     const disabledFlip = (
       this.props.flipNumbers.length === 0
       || this.props.isOnHold
-      || this.props.layout === callCtrlLayouts.mergeCtrl
+      || this.props.layout !== callCtrlLayouts.normalCtrl
     );
     buttons.push(
       {

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
 import TabNavigationView from 'ringcentral-widgets/components/TabNavigationView';
-import withPhone from 'ringcentral-widgets/lib/withPhone';
 
 import DialPadIcon from 'ringcentral-widgets/assets/images/DialPadNav.svg';
 import CallsIcon from 'ringcentral-widgets/assets/images/Calls.svg';
@@ -29,6 +28,7 @@ import ContactNavIcon from 'ringcentral-widgets/assets/images/ContactsNavigation
 import MeetingNavIcon from 'ringcentral-widgets/assets/images/MeetingNavigation.svg';
 import ConferenceNavIcon from 'ringcentral-widgets/assets/images/ConferenceNavigation.svg';
 import SettingsNavIcon from 'ringcentral-widgets/assets/images/SettingsNavigation.svg';
+import { withPhone } from 'ringcentral-widgets/lib/phoneContext';
 
 import i18n from './i18n';
 

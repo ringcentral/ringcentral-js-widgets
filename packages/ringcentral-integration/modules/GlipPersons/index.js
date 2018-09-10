@@ -4,6 +4,7 @@ import sleep from '../../lib/sleep';
 import moduleStatuses from '../../enums/moduleStatuses';
 import { batchGetApi } from '../../lib/batchApiHelper';
 import proxify from '../../lib/proxy/proxify';
+import ensureExist from '../../lib/ensureExist';
 
 import actionTypes from './actionTypes';
 import getReducer, { getGlipPersonStoreReducer } from './getReducer';
@@ -15,6 +16,7 @@ const DEFAULT_BATCH_FETCH_DELAY = 500;
   deps: [
     'Client',
     'Auth',
+    'RolesAndPermissions',
     { dep: 'Storage', optional: true },
     { dep: 'TabManager', optional: true },
     { dep: 'GlipPersonsOptions', optional: true }
@@ -26,6 +28,7 @@ export default class GlipPersons extends RcModule {
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
    * @param {Auth} params.auth - auth module instance
+   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermission module instance
    * @param {Storage} params.storage - storage module instance
    * @param {TabManager} params.tabManager - tabManager module instance
    */
@@ -34,6 +37,7 @@ export default class GlipPersons extends RcModule {
     auth,
     storage,
     tabManager,
+    rolesAndPermissions,
     batchFetchDelay = DEFAULT_BATCH_FETCH_DELAY,
     ...options
   }) {
@@ -42,8 +46,9 @@ export default class GlipPersons extends RcModule {
       actionTypes,
     });
 
-    this._client = client;
-    this._auth = auth;
+    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._client = this::ensureExist(client, 'client');
+    this._auth = this::ensureExist(auth, 'auth');
     this._tabManager = tabManager;
     this._storage = storage;
 
@@ -78,6 +83,7 @@ export default class GlipPersons extends RcModule {
           type: this.actionTypes.cleanUp,
         });
       }
+      if (!this._hasPermission) return;
       await this.loadMe();
       this.store.dispatch({
         type: this.actionTypes.initSuccess,
@@ -92,6 +98,7 @@ export default class GlipPersons extends RcModule {
   _shouldInit() {
     return (
       this._auth.loggedIn &&
+      this._rolesAndPermissions.ready &&
       (!this._storage || this._storage.ready) &&
       (!this._tabManager || this._tabManager.ready) &&
       this.pending
@@ -103,6 +110,7 @@ export default class GlipPersons extends RcModule {
       (
         (this._storage && !this._storage.ready) ||
         (this._tabManager && !this._tabManager.ready) ||
+        !this._rolesAndPermissions.ready ||
         !this._auth.loggedIn
       ) &&
       this.ready
@@ -222,5 +230,9 @@ export default class GlipPersons extends RcModule {
 
   get me() {
     return this.personsMap[this._auth.ownerId];
+  }
+
+  get _hasPermission() {
+    return this._rolesAndPermissions.hasGlipPermission;
   }
 }

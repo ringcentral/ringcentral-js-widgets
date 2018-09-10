@@ -31,6 +31,7 @@ export default function SettingsPanel({
   onRegionSettingsLinkClick,
   onAudioSettingsLinkClick,
   onFeedbackSettingsLinkClick,
+  onQuickAccessLinkClick,
   onUserGuideClick,
   showCalling,
   showAutoLog,
@@ -64,6 +65,7 @@ export default function SettingsPanel({
   showPresenceSettings,
   openPresenceSettings,
   showFeedback,
+  showQuickAccess,
   showUserGuide,
   additional,
   supportedLocales,
@@ -118,6 +120,14 @@ export default function SettingsPanel({
       <LinkLine
         onClick={onFeedbackSettingsLinkClick} >
         {i18n.getString('feedback', currentLocale)}
+      </LinkLine>
+    )
+    : null;
+  const quickAccess = showQuickAccess
+    ? (
+      <LinkLine
+        onClick={onQuickAccessLinkClick} >
+        {i18n.getString('quickAccess', currentLocale)}
       </LinkLine>
     )
     : null;
@@ -206,8 +216,7 @@ export default function SettingsPanel({
     >
       {i18n.getString('autoLogSMS', currentLocale)}
     </IconLine>
-  ) :
-    null;
+  ) : null;
   const header = showHeader ? (
     <Header>
       {i18n.getString('settings', currentLocale)}
@@ -239,6 +248,7 @@ export default function SettingsPanel({
         {clickToDial}
         {additional}
         {feedback}
+        {quickAccess}
         {userGuide}
         <section className={styles.section}>
           <Line noBorder>
@@ -313,13 +323,15 @@ SettingsPanel.propTypes = {
   openPresenceSettings: PropTypes.bool,
   showPresenceSettings: PropTypes.bool,
   showFeedback: PropTypes.bool,
+  showQuickAccess: PropTypes.bool,
   additional: PropTypes.node,
   supportedLocales: PropTypes.arrayOf(PropTypes.string),
   savedLocale: PropTypes.string,
   saveLocale: PropTypes.func,
   onFeedbackSettingsLinkClick: PropTypes.func.isRequired,
+  onQuickAccessLinkClick: PropTypes.func,
   onUserGuideClick: PropTypes.func.isRequired,
-  showUserGuide: PropTypes.bool
+  showUserGuide: PropTypes.bool,
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -362,4 +374,6 @@ SettingsPanel.defaultProps = {
   savedLocale: undefined,
   saveLocale: undefined,
   showFeedback: true,
+  showQuickAccess: false,
+  onQuickAccessLinkClick: () => null
 };

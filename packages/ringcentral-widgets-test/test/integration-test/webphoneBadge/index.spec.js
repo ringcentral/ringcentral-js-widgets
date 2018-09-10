@@ -7,13 +7,11 @@ import AudioSettingsAlert from 'ringcentral-widgets/components/AudioSettingsAler
 import { getWrapper } from '../shared';
 
 /* global jasmine */
-let store = null;
 let wrapper = null;
 let phone = null;
 beforeEach(async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
   wrapper = await getWrapper();
-  store = wrapper.props().phone.store;
   phone = wrapper.props().phone;
   phone.webphone._createWebphone();
   phone.webphone._removeWebphone = () => { };

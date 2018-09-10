@@ -53,15 +53,25 @@ class TabContentView extends Component {
 function mapToProps(_, {
   phone: {
     locale,
+    callMonitor,
+    callLogSection,
     callingSettings,
     routerInteraction,
     conferenceCall,
     webphone,
-  },
+  }
 }) {
   const conferenceCallEquipped = !!conferenceCall;
   const isWebphoneMode = (callingSettings.callingMode === callingModes.webphone);
-  const applicable = !!(conferenceCallEquipped && isWebphoneMode && webphone.sessions.length);
+  const applicable = isWebphoneMode && !!(
+    conferenceCallEquipped &&
+    callMonitor.calls.length &&
+    webphone.sessions.length
+  )
+  || !isWebphoneMode && (
+    callMonitor.calls.length > 0 ||
+    (callLogSection && callLogSection.show)
+  );
   return {
     applicable,
     currentLocale: locale.currentLocale,

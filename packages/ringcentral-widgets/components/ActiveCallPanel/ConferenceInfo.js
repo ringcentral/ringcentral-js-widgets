@@ -1,72 +1,104 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
+import CallAvatar from '../CallAvatar';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
 import i18n from './i18n';
 
-function ConferenceInfo({
-  currentLocale,
-  partyProfiles,
-  onClick,
-}) {
-  const MAXIMUM_AVATARS = 4;
-  const profiles = partyProfiles || [];
-
-  const displayedProfiles =
-    profiles.length >= MAXIMUM_AVATARS
-      ? profiles.slice(0, MAXIMUM_AVATARS)
-      : profiles;
-
-  const remains = profiles.length > MAXIMUM_AVATARS
-    ? profiles.length - MAXIMUM_AVATARS
-    : 0;
-
-  return (
-    <a
-      className={styles.conferenceCallInfoContainer}
-      onClick={(e) => { e.preventDefault(); onClick(); }}
-    >
-      {
-        displayedProfiles.length
-          ? (
-            <div className={styles.avatarContainer}>
-              {
-                displayedProfiles.map(({ avatarUrl, toUserName }, idx) => (
-                  <div
-                    key={`${toUserName}_${idx}`}
-                    className={styles.avatar}
-                    style={avatarUrl
-                      ? { backgroundImage: `url(${avatarUrl})` }
-                      : { backgroundColor: '#fff' }
-                    }>
-                    {avatarUrl
-                      ? null
-                      : <i className={classnames(dynamicsFont.portrait, styles.icon)} />}
-                  </div>
-                )
-                )
-              }{
-                remains > 0
-                  ? (<div className={classnames(styles.avatar, styles.remains)}>{`+${remains}`}</div>)
-                  : null
-              }
-            </div>
-          )
-          : (
-            <div className={styles.avatarContainer}>
-              <div className={styles.avatar} style={{ backgroundColor: '#fff' }}>
-                <i className={classnames(dynamicsFont.portrait, styles.icon)} />
-              </div>
-            </div>
-          )
+export class ConferenceInfo extends Component {
+  shouldComponentUpdate(nextProps) {
+    const { partyProfiles } = nextProps;
+    const oldpartyProfiles = this.props.partyProfiles;
+    let showUpdate = true;
+    if (partyProfiles !== oldpartyProfiles) {
+      if (
+        Array.isArray(partyProfiles) && Array.isArray(oldpartyProfiles)
+        && partyProfiles.length === oldpartyProfiles.length
+      ) {
+        showUpdate = false;
+        for (let i = 0; i < partyProfiles.length; i += 1) {
+          if (partyProfiles[i].id !== oldpartyProfiles[i].id) {
+            showUpdate = true;
+            break;
+          }
+        }
       }
-      <p className={styles.info}>
-        {i18n.getString('conferenceCall', currentLocale)}
-      </p>
-    </a>
-  );
+    } else {
+      showUpdate = false;
+    }
+
+    return showUpdate;
+  }
+
+  render() {
+    const {
+      currentLocale,
+      partyProfiles,
+      onClick,
+    } = this.props;
+    const MAXIMUM_AVATARS = 4;
+    const profiles = partyProfiles || [];
+
+    const displayedProfiles =
+      profiles.length >= MAXIMUM_AVATARS
+        ? profiles.slice(0, MAXIMUM_AVATARS)
+        : profiles;
+
+    const remains = profiles.length > MAXIMUM_AVATARS
+      ? profiles.length - MAXIMUM_AVATARS
+      : 0;
+
+    return (
+      <div
+        className={styles.conferenceCallInfoContainer}
+        >
+        {
+            displayedProfiles.length
+              ? (
+                <div
+                  className={classnames(styles.avatarContainer, styles.clickable)}
+                  onClick={(e) => { e.preventDefault(); onClick(); }}
+                >
+                  {
+                    displayedProfiles.map(({ avatarUrl, toUserName }, idx) => (
+                      <div
+                        key={`${toUserName}_${idx}`}
+                        className={styles.avatar}>
+                        <CallAvatar
+                          avatarUrl={avatarUrl}
+                        />
+                      </div>
+                    )
+                    )
+                  }{
+                    remains > 0
+                      ? (
+                        <div
+                          className={classnames(styles.avatar, styles.remains)}
+                        >
+                          {`+${remains}`}
+                        </div>
+                      )
+                      : null
+                  }
+                </div>
+              )
+              : (
+                <div className={styles.avatarContainer}>
+                  <div className={styles.avatar} style={{ backgroundColor: '#fff' }}>
+                    <i className={classnames(dynamicsFont.portrait, styles.icon)} />
+                  </div>
+                </div>
+              )
+          }
+        <p className={styles.info}>
+          {i18n.getString('conferenceCall', currentLocale)}
+        </p>
+      </div>
+    );
+  }
 }
 
 ConferenceInfo.propTypes = {

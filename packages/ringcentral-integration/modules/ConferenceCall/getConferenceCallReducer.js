@@ -89,6 +89,12 @@ export function getMergingStatusReducer(types) {
   };
 }
 
+/**
+ * interface MergingPairState = {fromSessionId:string, toSessionId:string}
+ *
+ * The `from` and `to` is relative to the [adding call](https://app.zeplin.io/project/59df2e4346294d03f96d15a9/screen/5b2c64f7db2860b90ddd5939) flow
+ * which is in [RCINT-7378](https://jira.ringcentral.com/browse/RCINT-7378)
+ */
 export function getMergingPairReducer(types) {
   return (state = {}, { type, fromSessionId, toSessionId }) => {
     switch (type) {
@@ -96,10 +102,25 @@ export function getMergingPairReducer(types) {
         return { fromSessionId };
       case types.updateToSession:
         return { ...state, toSessionId };
+      case types.closeMergingPair:
       case types.mergeSucceeded:
       case types.resetSuccess:
         return {};
       // restore the pair when failure
+      default:
+        return state;
+    }
+  };
+}
+
+export function getCurrentConferenceIdReducer(types) {
+  return (state = null, { type, conferenceId }) => {
+    switch (type) {
+      case types.updateCurrentConferenceId:
+        return conferenceId;
+      case types.initSuccess:
+      case types.resetSuccess:
+        return null;
       default:
         return state;
     }
@@ -113,5 +134,6 @@ export default function getConferenceCallReducer(types) {
     conferenceCallStatus: getConferenceCallStatusReducer(types),
     isMerging: getMergingStatusReducer(types),
     mergingPair: getMergingPairReducer(types),
+    currentConferenceId: getCurrentConferenceIdReducer(types),
   });
 }

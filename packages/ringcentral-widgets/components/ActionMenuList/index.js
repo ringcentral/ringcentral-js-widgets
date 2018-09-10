@@ -30,18 +30,6 @@ export function ConfirmDeleteModal({
       currentLocale={currentLocale}
       onConfirm={onDelete}
       onCancel={onCancel}
-      className={styles.confirmDeleteModal}
-      modalClassName={styles.confirmDeleteModal}
-      cancelBtnClassName={styles.cancelBtn}
-      confirmBtnClassName={styles.confirmBtn}
-      closeBtn={
-        <Button
-          className={styles.closeBtn}
-          onClick={onCancel}
-        >
-          <CloseIcon />
-        </Button>
-      }
     >
       <div className={styles.contentText}>
         {i18n.getString('sureToDeleteVoiceMail', currentLocale)}
@@ -57,8 +45,8 @@ ConfirmDeleteModal.propTypes = {
 };
 
 ConfirmDeleteModal.defaultProps = {
-  onDelete: () => {},
-  onCancel: () => {}
+  onDelete() {},
+  onCancel() {}
 };
 
 export function ClickToDialButton({
@@ -162,7 +150,7 @@ DeleteButton.propTypes = {
 DeleteButton.defaultProps = {
   className: undefined,
   title: undefined,
-  openDeleteModal: () => {},
+  openDeleteModal() {},
 };
 
 export function MarkButton({
@@ -335,6 +323,7 @@ export default class ActionMenuList extends Component {
       isCreating,
       onViewEntity,
       onCreateEntity,
+      createEntityTypes,
       hasEntity,
       onClickToDial,
       onClickToSms,
@@ -379,13 +368,25 @@ export default class ActionMenuList extends Component {
 
     let entityButton;
     if (externalViewEntity) {
-      entityButton = externalHasEntity ? (<EntityButton
-        className={styles.button}
-        onViewEntity={externalViewEntity}
-        hasEntity={externalHasEntity}
-        disableLinks={disableLinks}
-        viewEntityTitle={viewEntityTitle}
-      />) : null;
+      if (externalHasEntity) {
+        entityButton = (<EntityButton
+          className={styles.button}
+          onViewEntity={externalViewEntity}
+          hasEntity={externalHasEntity}
+          disableLinks={disableLinks}
+          viewEntityTitle={viewEntityTitle}
+        />);
+      } else if (phoneNumber && onCreateEntity) {
+        entityButton = (<EntityButton
+          className={styles.button}
+          onCreateEntity={this.openEntityModal}
+          hasEntity={externalHasEntity}
+          disableLinks={disableLinks}
+          createEntityTitle={createEntityTitle}
+        />);
+      } else {
+        entityButton = null;
+      }
     } else if (hasEntity && onViewEntity) {
       entityButton = (<EntityButton
         className={styles.button}
@@ -409,6 +410,7 @@ export default class ActionMenuList extends Component {
     const entityModal = (!hasEntity && phoneNumber) ?
       (<EntityModal
         currentLocale={currentLocale}
+        entities={createEntityTypes}
         show={this.state.entityModalVisible}
         onCreate={this.onCreateEnityModal}
         onCancel={this.onCancelEntityModal}
@@ -522,6 +524,7 @@ ActionMenuList.propTypes = {
   isCreating: PropTypes.bool,
   onViewEntity: PropTypes.func,
   onCreateEntity: PropTypes.func,
+  createEntityTypes: PropTypes.array,
   hasEntity: PropTypes.bool,
   onClickToDial: PropTypes.func,
   onClickToSms: PropTypes.func,
@@ -559,6 +562,7 @@ ActionMenuList.defaultProps = {
   isCreating: false,
   onViewEntity: undefined,
   onCreateEntity: undefined,
+  createEntityTypes: undefined,
   hasEntity: false,
   onClickToDial: undefined,
   onClickToSms: undefined,

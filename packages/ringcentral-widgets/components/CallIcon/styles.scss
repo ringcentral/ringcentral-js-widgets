@@ -1,0 +1,25 @@
+@import '../../lib/commonStyles/colors';
+$fixed-icon-width: 21px;
+$fixed-avatar-width: 35px;
+$avatar-basis:45.5px;
+
+.callIcon {
+  display: inline-flex;
+  font-size: 22px;
+  color: #666;
+  width: $fixed-icon-width;
+}
+.avatar {
+  width: $fixed-avatar-width;
+  height: $fixed-avatar-width;
+  margin-left: auto;
+  margin-right: auto;
+  color: $primary-color;
+  overflow: hidden;
+  flex-basis: $avatar-basis;
+  .icon {
+    display: block;
+    font-size: $fixed-avatar-width;
+    opacity: 0.3;
+  }
+}

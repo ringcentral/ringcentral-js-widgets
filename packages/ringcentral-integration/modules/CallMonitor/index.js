@@ -4,65 +4,22 @@ import RcModule from '../../lib/RcModule';
 import moduleStatuses from '../../enums/moduleStatuses';
 import actionTypes from './actionTypes';
 import calleeTypes from '../../enums/calleeTypes';
-import callDirections from '../../enums/callDirections';
 import sessionStatus from '../Webphone/sessionStatus';
 import getCallMonitorReducer, { getCallMatchedReducer } from './getCallMonitorReducer';
+import ensureExist from '../../lib/ensureExist';
 import normalizeNumber from '../../lib/normalizeNumber';
+import { matchWephoneSessionWithAcitveCall } from './callMonitorHelper';
 import {
   isRinging,
   hasRingingCalls,
   sortByStartTime,
 } from '../../lib/callLogHelpers';
-import ensureExist from '../../lib/ensureExist';
-import { isRing, isOnHold, sortByLastHoldingTimeDesc, isConferenceSession } from '../Webphone/webphoneHelper';
-
-function matchWephoneSessionWithAcitveCall(sessions, callItem) {
-  if (!sessions || !callItem.sipData) {
-    return undefined;
-  }
-  return sessions.find((session) => {
-    if (session.direction !== callItem.direction) {
-      return false;
-    }
-
-    /**
-     * Hack: for conference call, the `to` field is Conference,
-     * and the callItem's id won't change. According to `sip.js/src/session.js`
-     * the `InviteClientContext`'s id will always begin with callItem's id.
-     */
-    if (callItem.toName && callItem.toName.toLowerCase() === 'conference') {
-      return session.id.indexOf(callItem.id) === 0;
-    }
-
-    if (
-      session.direction === callDirections.inbound &&
-      callItem.sipData.remoteUri.indexOf(session.from) === -1
-    ) {
-      return false;
-    }
-    if (
-      session.direction === callDirections.outbound &&
-      callItem.sipData.remoteUri.indexOf(session.to) === -1
-    ) {
-      return false;
-    }
-    let webphoneStartTime;
-    if (session.direction === callDirections.inbound) {
-      webphoneStartTime = session.creationTime;
-    } else {
-      webphoneStartTime = session.startTime || session.creationTime;
-    }
-    // 16000 is from experience in test.
-    // there is delay bettween active call created and webphone session created
-    // for example, the time delay is decided by when webphone get invite info
-    if (
-      Math.abs(callItem.startTime - webphoneStartTime) > 16000
-    ) {
-      return false;
-    }
-    return true;
-  });
-}
+import {
+  isRing,
+  isOnHold,
+  isConferenceSession,
+  sortByLastActiveTimeDesc,
+} from '../Webphone/webphoneHelper';
 
 /**
  * @class
@@ -194,7 +151,7 @@ export default class CallMonitor extends RcModule {
             webphoneSession,
           };
         }).sort((l, r) => (
-          sortByLastHoldingTimeDesc(l.webphoneSession, r.webphoneSession)
+          sortByLastActiveTimeDesc(l.webphoneSession, r.webphoneSession)
         ));
 
         return _normalizedCalls;
@@ -584,6 +541,78 @@ export default class CallMonitor extends RcModule {
     this.store.dispatch({
       type: this.actionTypes.setData,
       ...matched,
+    });
+  }
+  // user action track funtions
+  callItemClickTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.callItemClickTrack,
+    });
+  }
+
+  allCallsClickHoldTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.allCallsClickHoldTrack
+    });
+  }
+
+  allCallsClickHangupTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.allCallsClickHangupTrack,
+    });
+  }
+
+  callControlClickAddTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.callControlClickAddTrack
+    });
+  }
+
+  simplifiedControlClickMergeTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.simplifiedControlClickMergeTrack
+    });
+  }
+
+  callControlClickMergeTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.callControlClickMergeTrack
+    });
+  }
+
+  confirmMergeClickCloseTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.confirmMergeClickCloseTrack,
+    });
+  }
+
+  confirmMergeClickMergeTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.confirmMergeClickMergeTrack,
+    });
+  }
+
+  callsOnHoldClickAddTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.callsOnHoldClickAddTrack
+    });
+  }
+
+  callsOnHoldClickMergeTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.callsOnHoldClickMergeTrack
+    });
+  }
+
+  callsOnHoldClickHangupTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.callsOnHoldClickHangupTrack
+    });
+  }
+
+  callControlClickParticipantAreaTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.callControlClickParticipantAreaClickTrack
     });
   }
 

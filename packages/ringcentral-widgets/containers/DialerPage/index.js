@@ -3,12 +3,14 @@ import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 
 import DialerPanel from '../../components/DialerPanel';
-import withPhone from '../../lib/withPhone';
+import styles from './styles.scss';
+import { withPhone } from '../../lib/phoneContext';
 
 function mapToProps(_, {
   phone: {
     call,
     dialerUI,
+    callMonitor,
     callingSettings,
     contactSearch,
     connectivityMonitor,
@@ -16,6 +18,7 @@ function mapToProps(_, {
     rateLimiter,
     webphone,
     audioSettings,
+    conferenceCall,
   },
   dialButtonMuted = false,
 }) {
@@ -23,6 +26,14 @@ function mapToProps(_, {
   const waitingWebphoneConnected = (isWebphoneMode && webphone && webphone.connecting);
   const webphoneDisconnected = (isWebphoneMode && webphone && !webphone.connected);
   const audioNotEnabled = isWebphoneMode && audioSettings && !audioSettings.userMedia;
+  const conferenceCallEquipped = !!conferenceCall;
+  const withTab = !!(
+    conferenceCallEquipped
+    && isWebphoneMode
+    && callMonitor.calls.length
+    && webphone.sessions.length
+  );
+
   return {
     currentLocale: locale.currentLocale,
     callingMode: callingSettings.callingMode,
@@ -50,6 +61,7 @@ function mapToProps(_, {
     dialButtonVolume: audioSettings ? audioSettings.dialButtonVolume : 1,
     // If audioSettings is used, then use values from audioSettings module
     dialButtonMuted: audioSettings ? audioSettings.dialButtonMuted : dialButtonMuted,
+    callBtnClassName: withTab ? null : styles.callBtn,
   };
 }
 function mapToFunctions(_, {
@@ -58,6 +70,7 @@ function mapToFunctions(_, {
     regionSettings,
     contactSearch,
     dialerUI,
+    conferenceCall,
   },
   phoneTypeRenderer,
   recipientsContactInfoRenderer,
@@ -69,7 +82,16 @@ function mapToFunctions(_, {
     ),
     clearToNumber: () => dialerUI.clearToNumberField(),
     onCallButtonClick() {
-      dialerUI.onCallButtonClick();
+      dialerUI.onCallButtonClick({
+        beforeCall() {
+          /**
+           * Clear the mergingPair if any (RCINT-7716)
+           */
+          if (conferenceCall) {
+            conferenceCall.closeMergingPair();
+          }
+        }
+      });
     },
     changeFromNumber: (...args) => callingSettings.updateFromNumber(...args),
     formatPhone: phoneNumber => formatNumber({

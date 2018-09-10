@@ -58,6 +58,8 @@ export function getGlipPostsStoreReducer(types) {
         newPosts = (newState[groupId] && [...newState[groupId]]) || [];
         if (oldRecordId) {
           oldPostIndex = newPosts.findIndex(p => p.id === oldRecordId);
+        } else {
+          oldPostIndex = newPosts.findIndex(p => p.id === record.id);
         }
         if (oldPostIndex > -1) {
           newPosts.splice(oldPostIndex, 1, record);
@@ -84,7 +86,9 @@ export function getGlipPostsStoreReducer(types) {
 }
 
 export function getGlipPostsInputsReducer(types) {
-  return (state = {}, { type, groupId, textValue }) => {
+  return (state = {}, {
+    type, groupId, textValue, mentions
+  }) => {
     let newState;
     switch (type) {
       case types.updatePostInput:
@@ -93,6 +97,7 @@ export function getGlipPostsInputsReducer(types) {
         };
         newState[groupId] = {
           text: textValue,
+          mentions,
         };
         return newState;
       default:

@@ -112,6 +112,7 @@ export default class ConversationsPanel extends Component {
       onLogConversation,
       onViewContact,
       onCreateContact,
+      createEntityTypes,
       onClickToDial,
       onClickToSms,
       disableClickToDial,
@@ -125,6 +126,10 @@ export default class ConversationsPanel extends Component {
       previewFaxMessages,
       loadNextPage,
       loadingNextPage,
+      renderExtraButton,
+      outboundSmsPermission,
+      internalSmsPermission,
+      updateTypeFilter
     } = this.props;
     if (showSpinner) {
       return (<SpinnerOverlay />);
@@ -188,6 +193,7 @@ export default class ConversationsPanel extends Component {
           onLogConversation={onLogConversation}
           onViewContact={onViewContact}
           onCreateContact={onCreateContact}
+          createEntityTypes={createEntityTypes}
           onClickToDial={onClickToDial}
           onClickToSms={onClickToSms}
           disableClickToDial={disableClickToDial}
@@ -199,6 +205,10 @@ export default class ConversationsPanel extends Component {
           loadNextPage={loadNextPage}
           loadingNextPage={loadingNextPage}
           typeFilter={typeFilter}
+          renderExtraButton={renderExtraButton}
+          outboundSmsPermission={outboundSmsPermission}
+          internalSmsPermission={internalSmsPermission}
+          updateTypeFilter={updateTypeFilter}
         />
       </div>
     );
@@ -258,6 +268,8 @@ ConversationsPanel.propTypes = {
   markMessage: PropTypes.func.isRequired,
   readMessage: PropTypes.func.isRequired,
   readTextPermission: PropTypes.bool,
+  outboundSmsPermission: PropTypes.bool,
+  internalSmsPermission: PropTypes.bool,
   readVoicemailPermission: PropTypes.bool,
   readFaxPermission: PropTypes.bool,
   onSearchInputChange: PropTypes.func,
@@ -272,6 +284,7 @@ ConversationsPanel.propTypes = {
   onLogConversation: PropTypes.func,
   onViewContact: PropTypes.func,
   onCreateContact: PropTypes.func,
+  createEntityTypes: PropTypes.array,
   disableClickToDial: PropTypes.bool,
   unmarkMessage: PropTypes.func.isRequired,
   autoLog: PropTypes.bool,
@@ -282,6 +295,7 @@ ConversationsPanel.propTypes = {
   loadNextPage: PropTypes.func.isRequired,
   loadingNextPage: PropTypes.bool,
   onUnmount: PropTypes.func,
+  renderExtraButton: PropTypes.func,
 };
 
 ConversationsPanel.defaultProps = {
@@ -296,6 +310,8 @@ ConversationsPanel.defaultProps = {
   onClickToDial: undefined,
   onClickToSms: undefined,
   readTextPermission: true,
+  outboundSmsPermission: true,
+  internalSmsPermission: true,
   readVoicemailPermission: true,
   readFaxPermission: true,
   onSearchInputChange: undefined,
@@ -306,6 +322,7 @@ ConversationsPanel.defaultProps = {
   onLogConversation: undefined,
   onViewContact: undefined,
   onCreateContact: undefined,
+  createEntityTypes: undefined,
   disableClickToDial: false,
   autoLog: false,
   enableContactFallback: undefined,
@@ -314,4 +331,5 @@ ConversationsPanel.defaultProps = {
   previewFaxMessages: undefined,
   loadingNextPage: false,
   onUnmount: undefined,
+  renderExtraButton: undefined,
 };

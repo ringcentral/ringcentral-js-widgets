@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
-import withPhone from '../../lib/withPhone';
 import MessagesPanel from '../../components/ConversationsPanel';
+import { withPhone } from '../../lib/phoneContext';
 
-function mapToProps(_, {
+export function mapToProps(_, {
   phone: {
     brand,
     locale,
@@ -84,7 +84,7 @@ function mapToProps(_, {
   });
 }
 
-function mapToFunctions(_, {
+export function mapToFunctions(_, {
   phone: {
     dateTimeFormat,
     conversations,
@@ -137,23 +137,25 @@ function mapToFunctions(_, {
         }
       } :
       undefined,
-    onClickToSms(contact, isDummyContact = false) {
-      if (routerInteraction) {
-        routerInteraction.push(composeTextRoute);
-      }
-      // if contact autocomplete, if no match fill the number only
-      if (contact.name && contact.phoneNumber && isDummyContact) {
-        composeText.updateTypingToNumber(contact.name);
-        contactSearch.search({ searchString: contact.name });
-      } else {
-        composeText.addToNumber(contact);
-        if (composeText.typingToNumber === contact.phoneNumber) {
-          composeText.cleanTypingToNumber();
+    onClickToSms: rolesAndPermissions.hasComposeTextPermission ?
+      (contact, isDummyContact = false) => {
+        if (routerInteraction) {
+          routerInteraction.push(composeTextRoute);
         }
-      }
-      // for track
-      messageStore.onClickToSMS();
-    },
+        // if contact autocomplete, if no match fill the number only
+        if (contact.name && contact.phoneNumber && isDummyContact) {
+          composeText.updateTypingToNumber(contact.name);
+          contactSearch.search({ searchString: contact.name });
+        } else {
+          composeText.addToNumber(contact);
+          if (composeText.typingToNumber === contact.phoneNumber) {
+            composeText.cleanTypingToNumber();
+          }
+        }
+        // for track
+        messageStore.onClickToSMS();
+      } :
+      undefined,
     isLoggedContact,
     onLogConversation: onLogConversation ||
     (conversationLogger && (async ({ redirect = true, ...options }) => {

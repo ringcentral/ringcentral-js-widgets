@@ -1,0 +1,91 @@
+@import '../../lib/commonStyles/full-size.scss';
+@import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/layout';
+$participant-count-height: 42px;
+$avatar-size:35px;
+$button-size:24px;
+$marginBetweenItems:25px;
+$padding-horizontal:20px;
+.root {
+  @include full-size;
+  background: $snow;
+  padding-top: $header-height;
+  overflow: hidden;
+  font-size: 13px;
+  &,
+  & * {
+    box-sizing: border-box;
+  }
+  .header {
+    margin-top: -$header-height;
+  }
+  .participantsListContainer {
+    @include full-size;
+    /*
+    * Deviding the with of the padding-right for the sake of reserving space of the scroll bar
+    */
+    padding: $participant-count-height $padding-horizontal/2 0 $padding-horizontal;
+    color: $night;
+    .participantsCount {
+      width: 100%;
+      padding: ($participant-count-height - 11px)/2 0;
+      margin-top: -$participant-count-height;
+      font-size: 11px;
+      color: $coin;
+    }
+    .participantsList {
+      @include full-size;
+      overflow: auto;
+      padding-right: 10px;
+      .participantItem {
+        .avatar {
+          width: $avatar-size;
+          height: $avatar-size;
+          flex-shrink: 0;
+        }
+        .detail {
+          align-self: center;
+        }
+        .webphoneButton {
+          width: $button-size;
+          height: $button-size;
+          flex-shrink: 0;
+        }
+        .rejectButton {
+          width: $button-size;
+          g,
+          path {
+            fill: #ffffff;
+          }
+          circle {
+            fill: #ff4646;
+          }
+        }
+      }
+      .participantItem+.participantItem {
+        margin-top: $marginBetweenItems;
+      }
+      .participantItem:last-of-type {
+        margin-bottom: $marginBetweenItems;
+      }
+    }
+  }
+}
+
+.ConfirmRemoveModal {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  .contentText {
+    font-weight: bold;
+    padding: 5px 10px 0;
+    p {
+      font-weight: normal;
+      span {
+        font-weight: bold;
+      }
+    }
+  }
+}

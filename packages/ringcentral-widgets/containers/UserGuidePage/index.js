@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import withPhone from '../../lib/withPhone';
+import { withPhone } from '../../lib/phoneContext';
 import UserGuide from '../../components/UserGuide';
 
 function mapToProps(_, {
@@ -18,17 +18,20 @@ function mapToProps(_, {
     curIdx,
     entered,
     playing,
-    guides: userGuide.guides
+    firstLogin: userGuide.state.firstLogin,
+    guides: userGuide.guides,
   };
 }
 
 function mapToFunctions(_, {
   phone: {
-    userGuide
+    userGuide,
+    quickAccess
   }
 }) {
   return {
     updateCarousel: (...args) => userGuide.updateCarousel(...args),
+    quickAccessEnter: () => quickAccess.enter()
   };
 }
 

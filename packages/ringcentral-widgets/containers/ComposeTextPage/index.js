@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import messageSenderMessages from 'ringcentral-integration/modules/MessageSender/messageSenderMessages';
 import ComposeTextPanel from '../../components/ComposeTextPanel';
-import withPhone from '../../lib/withPhone';
+import { withPhone } from '../../lib/phoneContext';
 
 function mapToProps(_, {
   phone: {
@@ -65,17 +65,10 @@ function mapToFunctions(_, {
   recipientsContactPhoneRenderer,
 }) {
   return {
-    send: () => {
-      let hasAlertOtherMsg;
-      setTimeout(() => {
-        hasAlertOtherMsg = alert.messages.filter(({ level, message }) => (
-          level === 'warning' &&
-          Object.values(messageSenderMessages).indexOf(message) > -1
-        )).length > 0;
-      }, 500);
+    send() {
       let timeout = setTimeout(() => {
         if (routerInteraction.currentPath === '/composeText') {
-          if (!hasAlertOtherMsg) composeText.alertMessageSending();
+          composeText.alertMessageSending();
         }
         if (timeout) {
           clearTimeout(timeout);
@@ -104,6 +97,11 @@ function mapToFunctions(_, {
         }
         composeText.clean();
         return null;
+      }, () => {
+        if (timeout) {
+          clearTimeout(timeout);
+          timeout = null;
+        }
       });
     },
     formatPhone: formatContactPhone,

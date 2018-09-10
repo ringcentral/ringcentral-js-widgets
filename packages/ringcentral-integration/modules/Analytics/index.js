@@ -40,6 +40,22 @@ const INIT_TRACK_LIST = [
   '_conferenceAddDialInNumber',
   '_conferenceJoinAsHost',
   '_showWhatsNew',
+  '_allCallsClickHangup',
+  '_allCallsClickHold',
+  '_allCallsCallItemClick',
+  '_callControlClickAdd',
+  '_simplifiedCallControlClickMerge',
+  '_simplifiedCallControlClickHangup',
+  '_callsOnHoldClickHangup',
+  '_callsOnHoldClickAdd',
+  '_callsOnHoldClickMerge',
+  '_confirmMergeClickClose',
+  '_confirmMergeClickMerge',
+  '_removeParticipantClickRemove',
+  '_removeParticipantClickCancel',
+  '_participantListClickHangup',
+  '_callControlClickMerge',
+  '_callControlClickParticipantArea',
 ];
 
 /**
@@ -61,6 +77,8 @@ const INIT_TRACK_LIST = [
     { dep: 'AnalyticsAdapter', optional: true },
     { dep: 'AnalyticsOptions', optional: true },
     { dep: 'UserGuide', optional: true },
+    { dep: 'CallMonitor', optional: true },
+    { dep: 'ConferenceCall', optional: true },
   ]
 })
 export default class Analytics extends RcModule {
@@ -83,6 +101,8 @@ export default class Analytics extends RcModule {
     callHistory,
     conference,
     userGuide,
+    callMonitor,
+    conferenceCall,
     ...options
   }) {
     super({
@@ -107,6 +127,8 @@ export default class Analytics extends RcModule {
     this._callHistory = callHistory;
     this._conference = conference;
     this._userGuide = userGuide;
+    this._callMonitor = callMonitor;
+    this._conferenceCall = conferenceCall;
     // init
     this._reducer = getAnalyticsReducer(this.actionTypes);
     this._segment = Segment();
@@ -405,11 +427,144 @@ export default class Analytics extends RcModule {
     }
   }
 
+  _allCallsClickHold(action) {
+    if (this._callMonitor
+      && this._callMonitor.actionTypes.allCallsClickHoldTrack === action.type
+    ) {
+      this.track('Click Hold (All Calls)');
+    }
+  }
+
+  _allCallsClickHangup(action) {
+    if (this._callMonitor
+      && this._callMonitor.actionTypes.allCallsClickHangupTrack === action.type
+    ) {
+      this.track('Click Hangup (All Calls)');
+    }
+  }
+
+  _allCallsCallItemClick(action) {
+    if (this._callMonitor
+      && this._callMonitor.actionTypes.callItemClickTrack === action.type
+    ) {
+      this.track('Click Call Item (All Calls)');
+    }
+  }
+  _callControlClickAdd(action) {
+    if (this._callMonitor
+     && this._callMonitor.actionTypes.callControlClickAddTrack === action.type
+    ) {
+      this.track('Click Add (Call Control)');
+    }
+  }
+
+  _callControlClickMerge(action) {
+    if (this._callMonitor
+      && this._callMonitor.actionTypes.callControlClickMergeTrack === action.type
+      && !Object.values(this._conferenceCall.state.mergingPair).length
+    ) {
+      this.track('Click Merge (Call Control)');
+    }
+  }
+
+  _simplifiedCallControlClickMerge(action) {
+    if (this._callMonitor
+     && this._callMonitor.actionTypes.callControlClickMergeTrack === action.type
+     && Object.values(this._conferenceCall.state.mergingPair).length
+    ) {
+      this.track('Click Merge (Simplified Call Control)');
+    }
+  }
+
+  _simplifiedCallControlClickHangup(action) {
+    if (this._conferenceCall
+      && this._conferenceCall.actionTypes.closeMergingPair === action.type
+    ) {
+      this.track('Click Hangup (Simplified Call Control)');
+    }
+  }
+
+  _callsOnHoldClickAdd(action) {
+    if (this._callMonitor
+      && this._callMonitor.actionTypes.callsOnHoldClickAddTrack === action.type
+    ) {
+      this.track('Click Add (Calls OnHold)');
+    }
+  }
+
+  _callsOnHoldClickMerge(action) {
+    if (this._callMonitor
+      && this._callMonitor.actionTypes.callsOnHoldClickMergeTrack === action.type
+    ) {
+      this.track('Click Merge (Calls OnHold)');
+    }
+  }
+
+  _confirmMergeClickClose(action) {
+    if (this._callMonitor
+      && this._callMonitor.actionTypes.confirmMergeClickCloseTrack === action.type
+    ) {
+      this.track('Click Close (ConfirmMerge Modal)');
+    }
+  }
+
+  _confirmMergeClickMerge(action) {
+    if (this._callMonitor
+      && this._callMonitor.actionTypes.confirmMergeClickMergeTrack === action.type
+    ) {
+      this.track('Click Merge (ConfirmMerge Modal)');
+    }
+  }
+
+  _removeParticipantClickRemove(action) {
+    if (this._conferenceCall
+      && this._conferenceCall.actionTypes.removeParticipantClickRemoveTrack === action.type
+    ) {
+      this.track('Click Remove (RemoveParticipants Modal)');
+    }
+  }
+
+  _removeParticipantClickCancel(action) {
+    if (this._conferenceCall
+      && this._conferenceCall.actionTypes.removeParticipantClickCancelTrack === action.type
+    ) {
+      this.track('Cancel Remove (RemoveParticipants Modal)');
+    }
+  }
+
+  _participantListClickHangup(action) {
+    if (this._conferenceCall
+      && this._conferenceCall.actionTypes.participantListClickHangupTrack === action.type
+    ) {
+      this.track('Click Hangup (Participant List)');
+    }
+  }
+
+  _callControlClickParticipantArea(action) {
+    if (this._callMonitor
+      && this._callMonitor.actionTypes.callControlClickParticipantAreaClickTrack === action.type
+    ) {
+      this.track('Click Participant Area (Call Control)');
+    }
+  }
+  _callsOnHoldClickHangup(action) {
+    if (this._callMonitor
+      && this._callMonitor.actionTypes.callsOnHoldClickHangupTrack === action.type
+    ) {
+      this.track('Click Hangup (Calls OnHold)');
+    }
+  }
 
   _getTrackTarget(path) {
     if (path) {
       const routes = path.split('/');
-      const firstRoute = routes.length > 1 ? `/${routes[1]}` : '';
+      let formatRoute = null;
+      const needMatchSecondRoutes = ['calls'];
+      if (routes.length >= 3 && needMatchSecondRoutes.indexOf(routes[1]) !== -1) {
+        formatRoute = `/${routes[1]}/${routes[2]}`;
+      } else if (routes.length > 1) {
+        formatRoute = `/${routes[1]}`;
+      }
 
       const targets = [{
         eventPostfix: 'Dialer',
@@ -441,8 +596,11 @@ export default class Analytics extends RcModule {
       }, {
         eventPostfix: 'Contacts',
         router: '/contacts',
+      }, {
+        eventPostfix: 'Call Control',
+        router: '/calls/active'
       }];
-      return targets.find(target => firstRoute === target.router);
+      return targets.find(target => formatRoute === target.router);
     }
     return undefined;
   }

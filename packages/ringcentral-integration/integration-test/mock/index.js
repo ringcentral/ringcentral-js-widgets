@@ -33,7 +33,8 @@ const meetingBody = require('./data/meeting');
 const serviceInfoBody = require('./data/serviceInfo');
 const conferenceCallBody = require('./data/conferenceCall');
 const numberParseBody = require('./data/numberParse');
-
+const conferenceCallBringInBody = require('./data/conferenceCallBringIn');
+const updateConferenceCallBody = require('./data/updateConference');
 const mockServer = 'http://whatever';
 export function createSDK(options = {}) {
   const opts = {
@@ -86,9 +87,9 @@ export function mockApi({
     headers: responseHeaders,
     sendAsJson: false
   }, {
-    method,
-    times: isOnce ? 1 : 20,
-  });
+      method,
+      times: isOnce ? 1 : 20,
+    });
 }
 
 export function authentication() {
@@ -145,7 +146,7 @@ export function tokenRefresh(failure) {
   }
 }
 
-export function presence(id) {
+export function presence(id, mockResponse = {}) {
   mockApi({
     url: `begin:${mockServer}/restapi/v1.0/account/~/extension/${id}/presence`,
     body: {
@@ -160,7 +161,8 @@ export function presence(id) {
       telephonyStatus: 'Ringing',
       userStatus: 'Available',
       dndStatus: 'TakeAllCalls',
-      extensionId: id
+      extensionId: id,
+      ...mockResponse
     }
   });
 }
@@ -191,6 +193,18 @@ export function extensionInfo(mockResponse = {}) {
     path: '/restapi/v1.0/account/~/extension/~',
     body: {
       ...extensionBody,
+      ...mockResponse,
+    },
+    isOnce: false,
+  });
+}
+
+export function conferenceCallBringIn(id, mockResponse = {}) {
+  mockApi({
+    method: 'POST',
+    path: `/restapi/v1.0/account/~/telephony/sessions/${id}/parties/bring-in`,
+    body: {
+      ...conferenceCallBringInBody,
       ...mockResponse,
     },
     isOnce: false,
@@ -240,7 +254,7 @@ export function messageSync(mockResponse = {}, isOnce = true) {
 
 export function messageList(mockResponse = {}) {
   mockApi({
-    url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/message-store`,
+    url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/message-store?`,
     body: {
       ...messageListBody,
       ...mockResponse,
@@ -249,14 +263,15 @@ export function messageList(mockResponse = {}) {
   });
 }
 
-export function updateMessageStatus(mockResponse = {}) {
+export function updateMessageStatus(mockResponse = {}, isOnce = true) {
   mockApi({
-    url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/message-store`,
+    url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/message-store/`,
     method: 'PUT',
     body: {
       ...messageItemBody,
       ...mockResponse,
-    }
+    },
+    isOnce
   });
 }
 
@@ -341,14 +356,15 @@ export function subscription(mockResponse = {}) {
   });
 }
 
-export function numberParser(mockResponse = {}) {
+export function numberParser(mockResponse = {}, isOnce = true) {
   mockApi({
     method: 'POST',
     url: `begin:${mockServer}/restapi/v1.0/number-parser/`,
     body: {
       ...numberParserBody,
       ...mockResponse,
-    }
+    },
+    isOnce
   });
 }
 
@@ -386,6 +402,16 @@ export function callLog(mockResponse = {}) {
     url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/call-log-sync`,
     body: {
       ...callLogBody,
+      records: [
+        {
+          ...callLogBody.records[0],
+          startTime: ((new Date(Date.now()))).toISOString(),
+        },
+        {
+          ...callLogBody.records[1],
+          startTime: ((new Date(Date.now()))).toISOString(),
+        }
+      ],
       ...{
         syncInfo: {
           syncType: callLogBody.syncInfo.syncType,
@@ -399,13 +425,14 @@ export function callLog(mockResponse = {}) {
   });
 }
 
-export function device(mockResponse = {}) {
+export function device(mockResponse = {}, isOnce = true) {
   mockApi({
     url: `begin:${mockServer}/restapi/v1.0/account/~/extension/~/device`,
     body: {
       ...deviceBody,
       ...mockResponse,
-    }
+    },
+    isOnce
   });
 }
 
@@ -419,6 +446,7 @@ export function conferencing(mockResponse = {}) {
   });
 }
 
+// TODO: replace it with numberParser
 export function numberParse(mockResponse = {}, homeCountry) {
   mockApi({
     method: 'POST',
@@ -432,7 +460,7 @@ export function numberParse(mockResponse = {}, homeCountry) {
 }
 
 export function conferenceCall(mockResponse = {}) {
-  conferenceCallBody.session.on = () => {};
+  conferenceCallBody.session.on = () => { };
   mockApi({
     method: 'POST',
     path: '/restapi/v1.0/account/~/telephony/conference',
@@ -441,6 +469,28 @@ export function conferenceCall(mockResponse = {}) {
       ...mockResponse,
     },
     isOnce: false
+  });
+}
+
+export function updateConferenceCall(id, mockResponse = {}) {
+  mockApi({
+    path: `/restapi/v1.0/account/~/telephony/sessions/${id}`,
+    body: {
+      //...conferenceCallBody,
+      ...mockResponse,
+    },
+    isOnce: false
+  });
+}
+
+export function terminateConferenceCall(id, mockResponse = {}) {
+  mockApi({
+    method: 'DELETE',
+    path: `/restapi/v1.0/account/~/telephony/sessions/${id}`,
+    body: {
+      ...conferenceCallBody,
+      ...mockResponse,
+    }
   });
 }
 
@@ -534,7 +584,8 @@ export function mockForLogin({
   mockMessageSync = true,
   mockConferencing = true,
   mockActiveCalls = true,
-  ...params,
+  mockUpdateConference = false,
+  ...params
 } = {}) {
   authentication();
   logout();
@@ -570,5 +621,8 @@ export function mockForLogin({
   if (mockActiveCalls) {
     activeCalls(params.activeCallsData);
   }
-  numberParser(params.numberParseData);
+  numberParser(params.numberParseData, params.numberParseIsOnce);
+  if (mockUpdateConference) {
+    updateConferenceCall(updateConferenceCallBody.id, updateConferenceCallBody);
+  }
 }

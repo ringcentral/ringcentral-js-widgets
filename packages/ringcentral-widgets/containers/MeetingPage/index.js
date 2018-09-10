@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import MeetingPanel from '../../components/MeetingPanel';
-import withPhone from '../../lib/withPhone';
+import { withPhone } from '../../lib/phoneContext';
 
 function mapToProps(_, {
   phone: {

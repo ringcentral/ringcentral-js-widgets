@@ -1,6 +1,6 @@
 {
   "name": "ringcentral-integration",
-  "version": "0.7.46",
+  "version": "0.9.0",
   "description": "RingCentral Integration Common Javascript Core Library",
   "main": "build/rc-phone.js",
   "scripts": {
@@ -69,7 +69,7 @@
     "watchify": "^3.7.0",
     "webpack": "^3.11.0",
     "webpack-dev-server": "^2.4.5",
-    "yargs": "^11.1.0"
+    "yargs": "^12.0.1"
   },
   "peerDependencies": {
     "@ringcentral-integration/i18n": "^2.0.0",

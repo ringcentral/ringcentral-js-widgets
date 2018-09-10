@@ -25,6 +25,7 @@ function ActiveCallList({
   onClickToSms,
   onCreateContact,
   onViewContact,
+  createEntityTypes,
   outboundSmsPermission,
   internalSmsPermission,
   isLoggedContact,
@@ -72,6 +73,7 @@ function ActiveCallList({
             isLoggedContact={isLoggedContact}
             onLogCall={onLogCall}
             onViewContact={onViewContact}
+            createEntityTypes={createEntityTypes}
             onCreateContact={onCreateContact}
             loggingMap={loggingMap}
             webphoneAnswer={webphoneAnswer}
@@ -108,6 +110,7 @@ ActiveCallList.propTypes = {
   formatPhone: PropTypes.func.isRequired,
   onClickToSms: PropTypes.func,
   onCreateContact: PropTypes.func,
+  createEntityTypes: PropTypes.array,
   onViewContact: PropTypes.func,
   outboundSmsPermission: PropTypes.bool,
   internalSmsPermission: PropTypes.bool,
@@ -149,6 +152,7 @@ ActiveCallList.defaultProps = {
   enableContactFallback: undefined,
   autoLog: false,
   onViewContact: undefined,
+  createEntityTypes: undefined,
   webphoneToVoicemail: undefined,
   sourceIcons: undefined,
   disableLinks: false,
@@ -193,6 +197,7 @@ export default class CallsListPanel extends Component {
 
   render() {
     const {
+      onlyHistory,
       activeRingCalls,
       activeOnHoldCalls,
       activeCurrentCalls,
@@ -209,6 +214,7 @@ export default class CallsListPanel extends Component {
       formatPhone,
       onClickToSms,
       onCreateContact,
+      createEntityTypes,
       onViewContact,
       outboundSmsPermission,
       internalSmsPermission,
@@ -234,6 +240,7 @@ export default class CallsListPanel extends Component {
       contactDisplayStyle,
       activeContactDisplayStyle,
       currentLog,
+      additionalInfo,
       onCloseLogSection,
       onUpdateCallLog,
       onSaveCallLog,
@@ -245,6 +252,7 @@ export default class CallsListPanel extends Component {
       onSaveNotification,
       onExpandNotification,
       showSaveLogBtn,
+      showNotiLogButton,
       sectionContainerStyles,
       sectionModalStyles,
       notificationContainerStyles,
@@ -259,11 +267,12 @@ export default class CallsListPanel extends Component {
     const search = onSearchInputChange ?
       (
         <div className={classnames(styles.searchContainer)}>
-          <SearchInput key="100"
+          <SearchInput
+            key="100"
             className={styles.searchInput}
             value={searchInput}
             onChange={onSearchInputChange}
-            placeholder={i18n.getString('search', currentLocale)}
+            placeholder={i18n.getString('searchPlaceholder', currentLocale)}
             disabled={disableLinks}
           />
         </div>
@@ -281,6 +290,7 @@ export default class CallsListPanel extends Component {
           <LogSection
             currentLocale={currentLocale}
             currentLog={currentLog}
+            additionalInfo={additionalInfo}
             isInnerMask={logNotification && logNotification.notificationIsExpand}
             renderEditLogSection={renderEditLogSection}
             renderSaveLogButton={renderSaveLogButton}
@@ -294,6 +304,7 @@ export default class CallsListPanel extends Component {
           logNotification ? (
             <InsideModal
               show={logNotification.showNotification}
+              showTitle={false}
               containerStyles={classnames(
                 styles.notificationContainer, notificationContainerStyles
               )}
@@ -301,6 +312,7 @@ export default class CallsListPanel extends Component {
               contentStyle={styles.notificationContent}
               onClose={onCloseNotification}>
               <LogNotification
+                showLogButton={showNotiLogButton}
                 currentLocale={currentLocale}
                 formatPhone={formatPhone}
                 currentLog={logNotification}
@@ -328,6 +340,7 @@ export default class CallsListPanel extends Component {
         formatPhone={formatPhone}
         onClickToSms={onClickToSms}
         onCreateContact={onCreateContact}
+        createEntityTypes={createEntityTypes}
         onViewContact={onViewContact}
         outboundSmsPermission={outboundSmsPermission}
         internalSmsPermission={internalSmsPermission}
@@ -351,12 +364,15 @@ export default class CallsListPanel extends Component {
         readTextPermission={isShowMessageIcon}
       />
     );
-    
+
 
     const historyCall = showSpinner ?
       <SpinnerOverlay /> :
       (
         <div className={classnames(styles.list, className)}>
+          <div className={styles.listTitle}>
+            {i18n.getString('historyCalls', currentLocale)}
+          </div>
           <CallList
             brand={brand}
             currentLocale={currentLocale}
@@ -365,6 +381,7 @@ export default class CallsListPanel extends Component {
             countryCode={countryCode}
             onViewContact={onViewContact}
             onCreateContact={onCreateContact}
+            createEntityTypes={createEntityTypes}
             onLogCall={onLogCall}
             onClickToDial={onClickToDial}
             onClickToSms={onClickToSms}
@@ -394,22 +411,23 @@ export default class CallsListPanel extends Component {
         </div>
       );
 
-    const noCalls =  (
+    const noCalls = (
       <p className={styles.noCalls}>
         {i18n.getString('noCalls', currentLocale)}
       </p>
-      );
+    );
 
     return (
-      <div className={classnames(styles.container, onSearchInputChange ? styles.containerWithSearch : null)}>
+      <div className={classnames(styles.container, onSearchInputChange ?
+        styles.containerWithSearch : null)}>
         {children}
         {search}
         <div className={classnames(styles.root, currentLog && currentLog.showLog ? styles.hiddenScroll : '', className)}>
-          {getCallList(activeRingCalls, i18n.getString('ringCall', currentLocale))}
-          {getCallList(activeCurrentCalls, i18n.getString('currentCall', currentLocale))}
-          {getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}
-          {getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale))}   
-          { calls.length > 0 ? historyCall : noCalls }
+          {onlyHistory || getCallList(activeRingCalls, i18n.getString('ringCall', currentLocale))}
+          {onlyHistory || getCallList(activeCurrentCalls, i18n.getString('currentCall', currentLocale))}
+          {onlyHistory || getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}
+          {onlyHistory || getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale))}
+          {calls.length > 0 ? historyCall : noCalls}
         </div>
         {logSection}
       </div>
@@ -434,6 +452,7 @@ CallsListPanel.propTypes = {
   formatPhone: PropTypes.func.isRequired,
   onClickToSms: PropTypes.func,
   onCreateContact: PropTypes.func,
+  createEntityTypes: PropTypes.array,
   outboundSmsPermission: PropTypes.bool,
   internalSmsPermission: PropTypes.bool,
   isLoggedContact: PropTypes.func,
@@ -460,6 +479,7 @@ CallsListPanel.propTypes = {
   contactDisplayStyle: PropTypes.string,
   activeContactDisplayStyle: PropTypes.string,
   currentLog: PropTypes.object,
+  additionalInfo: PropTypes.object,
   onCloseLogSection: PropTypes.func,
   onUpdateCallLog: PropTypes.func,
   onSaveCallLog: PropTypes.func,
@@ -471,6 +491,7 @@ CallsListPanel.propTypes = {
   onSaveNotification: PropTypes.func,
   onExpandNotification: PropTypes.func,
   showSaveLogBtn: PropTypes.bool,
+  showNotiLogButton: PropTypes.bool,
   sectionContainerStyles: PropTypes.string,
   sectionModalStyles: PropTypes.string,
   notificationContainerStyles: PropTypes.string,
@@ -478,6 +499,7 @@ CallsListPanel.propTypes = {
   externalHasEntity: PropTypes.func,
   readTextPermission: PropTypes.bool,
   children: PropTypes.node,
+  onlyHistory: PropTypes.bool
 };
 
 CallsListPanel.defaultProps = {
@@ -485,6 +507,7 @@ CallsListPanel.defaultProps = {
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
   onCreateContact: undefined,
+  createEntityTypes: undefined,
   onClickToSms: undefined,
   outboundSmsPermission: true,
   internalSmsPermission: true,
@@ -511,6 +534,7 @@ CallsListPanel.defaultProps = {
   contactDisplayStyle: styles.contactDisplay,
   activeContactDisplayStyle: styles.activeContactDisplay,
   currentLog: undefined,
+  additionalInfo: undefined,
   onCloseLogSection: undefined,
   onUpdateCallLog: undefined,
   onSaveCallLog: undefined,
@@ -522,6 +546,7 @@ CallsListPanel.defaultProps = {
   onSaveNotification: undefined,
   onExpandNotification: undefined,
   showSaveLogBtn: true,
+  showNotiLogButton: true,
   sectionContainerStyles: undefined,
   sectionModalStyles: undefined,
   notificationContainerStyles: undefined,
@@ -529,4 +554,5 @@ CallsListPanel.defaultProps = {
   externalHasEntity: undefined,
   readTextPermission: true,
   children: null,
+  onlyHistory: false
 };

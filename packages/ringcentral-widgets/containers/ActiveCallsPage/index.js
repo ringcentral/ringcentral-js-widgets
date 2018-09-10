@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
-import sleep from 'ringcentral-integration/lib/sleep';
+import { isRinging } from 'ringcentral-integration/lib/callLogHelpers';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
-import withPhone from '../../lib/withPhone';
+import { withPhone } from '../../lib/phoneContext';
+
 import ActiveCallsPanel from '../../components/ActiveCallsPanel';
 
 function mapToProps(_, {
@@ -17,19 +18,10 @@ function mapToProps(_, {
     callingSettings,
   },
   showContactDisplayPlaceholder = false,
+  useV2,
 }) {
   const isWebRTC = callingSettings.callingMode === callingModes.webphone;
-  const conferenceCallEquipped = !!conferenceCall;
-  let disableMerge = !isWebRTC;
-  let hasConferenceCall = false;
-  if (conferenceCallEquipped) {
-    const conferenceList = Object.values(conferenceCall.conferences);
-    const conference = conferenceList.length ? conferenceList[0] : null;
-    hasConferenceCall = !!conference;
-    if (conference) {
-      disableMerge = conferenceCall.isOverload(conference.conference.id);
-    }
-  }
+
   return {
     currentLocale: locale.currentLocale,
     activeRingCalls: callMonitor.activeRingCalls,
@@ -51,10 +43,8 @@ function mapToProps(_, {
     showContactDisplayPlaceholder,
     autoLog: !!(callLogger && callLogger.autoLog),
     isWebRTC,
-    conferenceCallEquipped,
-    hasConferenceCall,
-    disableMerge,
     conferenceCallParties: conferenceCall ? conferenceCall.partyProfiles : null,
+    useV2,
   };
 }
 
@@ -69,6 +59,7 @@ function mapToFunctions(_, {
     webphone,
     callingSettings,
     conferenceCall,
+    callMonitor,
   },
   composeTextRoute = '/composeText',
   callCtrlRoute = '/calls/active',
@@ -78,8 +69,9 @@ function mapToFunctions(_, {
   onCallsEmpty,
   onViewContact,
   showViewContact = true,
+  getAvatarUrl,
+  useV2,
 }) {
-  const isWebRTC = callingSettings.callingMode === callingModes.webphone;
   return {
     formatPhone(phoneNumber) {
       return formatNumber({
@@ -98,6 +90,8 @@ function mapToFunctions(_, {
       return (webphone && webphone.reject(...args));
     },
     async webphoneHangup(...args) {
+      // user action track
+      callMonitor.allCallsClickHangupTrack();
       return (webphone && webphone.hangup(...args));
     },
     async webphoneResume(...args) {
@@ -105,9 +99,14 @@ function mapToFunctions(_, {
         return;
       }
       await webphone.resume(...args);
-      if (routerInteraction.currentPath !== callCtrlRoute) {
+      if (routerInteraction.currentPath !== callCtrlRoute && !useV2) {
         routerInteraction.push(callCtrlRoute);
       }
+    },
+    async webphoneHold(...args) {
+      // user action track
+      callMonitor.allCallsClickHoldTrack();
+      return (webphone && webphone.hold(...args));
     },
     onViewContact: showViewContact ?
       (onViewContact || (({ contact }) => {
@@ -150,29 +149,38 @@ function mapToFunctions(_, {
         });
       })),
     onCallsEmpty: onCallsEmpty || (() => {
+      const isWebRTC = callingSettings.callingMode === callingModes.webphone;
+
       if (isWebRTC && !webphone.sessions.length) {
         routerInteraction.push('/dialer');
       }
     }),
-    /**
-     * if there is a existing conference, merge into it
-     * else make one and merge into it;
-     * @param {[string]} sessionIds
-     */
-    async mergeToConference(...args) {
-      await conferenceCall.mergeToConference(...args);
-      const conferenceData = Object.values(conferenceCall.conferences)[0];
-      if (conferenceData && conferenceData.sessionId === webphone.activeSessionId) {
-        await sleep(200);
-        webphone.resume(conferenceData.sessionId);
-      }
-    },
     isSessionAConferenceCall(sessionId) {
       return !!(
         conferenceCall
         && conferenceCall.isConferenceSession(sessionId)
       );
     },
+    onCallItemClick(call) {
+      // TODO: Display the ringout call ctrl page.
+      if (!call.webphoneSession) {
+        return;
+      }
+      // show the ring call modal when click a ringing call.
+      if (isRinging(call)) {
+        webphone.toggleMinimized(call.webphoneSession.id);
+        return;
+      }
+      if (call.webphoneSession && call.webphoneSession.id) {
+        // to track the call item be clicked.
+        callMonitor.callItemClickTrack();
+        routerInteraction.push(`${callCtrlRoute}/${call.webphoneSession.id}`);
+      }
+    },
+    getAvatarUrl,
+    updateSessionMatchedContact: (sessionId, contact) => (
+      webphone.updateSessionMatchedContact(sessionId, contact)
+    ),
   };
 }
 

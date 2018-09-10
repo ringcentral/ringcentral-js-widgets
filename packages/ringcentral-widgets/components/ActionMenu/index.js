@@ -15,6 +15,7 @@ export default class ActionMenu extends Component {
       isCreating,
       onViewEntity,
       onCreateEntity,
+      createEntityTypes,
       hasEntity,
       onClickToDial,
       onClickToSms,
@@ -54,6 +55,7 @@ export default class ActionMenu extends Component {
             isCreating={isCreating}
             onViewEntity={onViewEntity}
             onCreateEntity={onCreateEntity}
+            createEntityTypes={createEntityTypes}
             hasEntity={hasEntity}
             onClickToDial={onClickToDial}
             onClickToSms={onClickToSms}
@@ -96,6 +98,7 @@ ActionMenu.propTypes = {
   isCreating: PropTypes.bool,
   onViewEntity: PropTypes.func,
   onCreateEntity: PropTypes.func,
+  createEntityTypes: PropTypes.array,
   hasEntity: PropTypes.bool,
   onClickToDial: PropTypes.func,
   onClickToSms: PropTypes.func,
@@ -130,6 +133,7 @@ ActionMenu.defaultProps = {
   isCreating: false,
   onViewEntity: undefined,
   onCreateEntity: undefined,
+  createEntityTypes: undefined,
   hasEntity: false,
   onClickToDial: undefined,
   onClickToSms: undefined,

@@ -72,18 +72,13 @@ class ConversationPanel extends Component {
   }
 
   onSelectContact = (value, idx) => {
-    const selected = this.showContactDisplayPlaceholder
+    const selected = this.props.showContactDisplayPlaceholder
       ? parseInt(idx, 10) - 1 : parseInt(idx, 10);
     this._userSelection = true;
     this.setState({
       selected,
     });
-    if (
-      this.props.conversation &&
-      this.props.conversation.conversationMatches &&
-      this.props.conversation.conversationMatches.length > 0 &&
-      this.props.autoLog
-    ) {
+    if (this.props.autoLog) {
       this.logConversation({ redirect: false, selected, prefill: false });
     }
   }
@@ -156,7 +151,7 @@ class ConversationPanel extends Component {
     this.setState({ loaded: true });
   }
 
-  async logConversation({ redirect = true, selected, prefill = true }) {
+  async logConversation({ redirect = true, selected, prefill = true } = {}) {
     if (typeof this.props.onLogConversation === 'function' &&
       this._mounted && !this.state.isLogging
     ) {
@@ -195,6 +190,7 @@ class ConversationPanel extends Component {
     } else {
       conversationBody = (
         <ConversationMessageList
+          currentLocale={this.props.currentLocale}
           height={this.getMessageListHeight()}
           messages={this.props.messages}
           className={styles.conversationBody}
@@ -215,8 +211,15 @@ class ConversationPanel extends Component {
     const groupNumbers = this.getGroupPhoneNumbers();
     const phoneNumber = this.getPhoneNumber();
     const fallbackName = this.getFallbackContactName();
-
-    const logButton = this.props.onLogConversation ?
+    const extraButton = this.props.renderExtraButton ?
+      this.props.renderExtraButton(
+        this.props.conversation,
+        {
+          logConversation: this.logConversation,
+          isLogging: isLogging || this.state.isLogging,
+        }
+      ) : null;
+    const logButton = this.props.onLogConversation && !this.props.renderExtraButton ?
       (
         <LogButton
           className={styles.logButton}
@@ -258,6 +261,9 @@ class ConversationPanel extends Component {
           >
             <span className={dynamicsFont.arrow} />
           </a>
+          {extraButton && (
+            <div className={styles.logButton}>{extraButton}</div>
+          )}
           {logButton}
         </div>
         {conversationBody}
@@ -308,6 +314,7 @@ ConversationPanel.propTypes = {
   perPage: PropTypes.number,
   conversationId: PropTypes.string.isRequired,
   loadConversation: PropTypes.func,
+  renderExtraButton: PropTypes.func,
   loadingNextPage: PropTypes.bool,
 };
 ConversationPanel.defaultProps = {
@@ -323,6 +330,7 @@ ConversationPanel.defaultProps = {
   messageSubjectRenderer: undefined,
   perPage: undefined,
   loadConversation: () => null,
+  renderExtraButton: undefined,
   loadingNextPage: false
 };
 

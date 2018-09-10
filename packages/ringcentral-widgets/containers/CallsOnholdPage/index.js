@@ -1,5 +1,9 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import callDirections from 'ringcentral-integration/enums/callDirections';
+import { createSelector } from 'reselect';
+import { filter } from 'ramda';
 
 import withPhone from '../../lib/withPhone';
 import CallsOnholdPanel from '../../components/CallsOnholdPanel';
@@ -9,24 +13,55 @@ import {
   mapToFunctions as mapToBaseFunctions,
 } from '../ActiveCallsPage';
 
+
+class CallsOnholdContainer extends Component {
+  static propTypes = {
+    calls: PropTypes.arrayOf(PropTypes.object).isRequired,
+    fromSessionId: PropTypes.string.isRequired,
+    isConferenceSession: PropTypes.func.isRequired,
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.getCalls = createSelector(
+      () => this.props.calls,
+      () => this.props.fromSessionId,
+      (calls, fromSessionId) => filter(
+        call => (
+          call.webphoneSession &&
+          call.direction !== callDirections.inbound
+          && !this.props.isConferenceSession(call.webphoneSession)
+          && call.webphoneSession.id !== fromSessionId
+        ),
+        calls
+      ),
+    );
+  }
+
+  render() {
+    return <CallsOnholdPanel {...this.props} calls={this.getCalls()} />;
+  }
+}
+
 function mapToProps(_, {
   phone,
   phone: {
     callMonitor,
-    contactMatcher,
   },
+  params,
   ...props
 }) {
+  const { fromSessionId } = params;
   const baseProps = mapToBaseProps(_, {
     phone,
     ...props,
   });
-  const contactMapping = contactMatcher && contactMatcher.dataMapping;
 
   return {
     ...baseProps,
-    calls: callMonitor.activeOnHoldCalls.filter(call => call.direction !== callDirections.inbound),
-    contactMapping,
+    calls: callMonitor.calls,
+    fromSessionId,
   };
 }
 
@@ -37,10 +72,13 @@ function mapToFunctions(_, {
     webphone,
     conferenceCall,
     routerInteraction,
+    callMonitor,
   },
   getAvatarUrl,
   ...props
 }) {
+  const { fromSessionId } = params;
+
   const baseProps = mapToBaseFunctions(_, {
     params,
     phone,
@@ -49,38 +87,49 @@ function mapToFunctions(_, {
   return {
     ...baseProps,
     async onMerge(sessionId) {
-      routerInteraction.replace('/calls/active');
-      const session = webphone._sessions.get(sessionId);
-      conferenceCall.setMergeParty({ toSessionId: sessionId });
-      const sessionToMergeWith = webphone._sessions.get(conferenceCall.mergingPair.fromSessionId);
-      const webphoneSessions = sessionToMergeWith
-        ? [sessionToMergeWith, session]
-        : [session];
-      await conferenceCall.mergeToConference(webphoneSessions);
-      const conferenceData = Object.values(conferenceCall.conferences)[0];
-      const conferenceSession = webphone._sessions.get(conferenceData.sessionId);
+      // to track user click merge
+      callMonitor.callsOnHoldClickMergeTrack();
+      await conferenceCall.mergeSession({
+        sessionId,
+        sessionIdToMergeWith: fromSessionId,
+        onReadyToMerge() {
+          const confId = conferenceCall.conferences && Object.keys(conferenceCall.conferences)[0];
 
-      if (conferenceData && conferenceSession.isOnHold().local) {
-        /**
-         * because session termination operation in conferenceCall._mergeToConference,
-         * need to wait for webphone.getActiveSessionIdReducer to update
-         */
-        webphone.resume(conferenceData.sessionId);
-      }
+          if (confId) {
+            const sessionId = conferenceCall.conferences[confId].sessionId;
+
+            routerInteraction.push(`/calls/active/${sessionId}`);
+          } else {
+            routerInteraction.goBack();
+          }
+        },
+      });
     },
     onBackButtonClick() {
-      routerInteraction.goBack();
+      if (webphone.sessions.length) {
+        routerInteraction.goBack();
+        return;
+      }
+      phone.routerInteraction.go(-2);
     },
     onAdd() {
-      routerInteraction.push(`/conferenceCall/dialer/${params.fromNumber}`);
+      // to track use click add button
+      callMonitor.callsOnHoldClickAddTrack();
+      routerInteraction.push(`/conferenceCall/dialer/${params.fromNumber}/${params.fromSessionId}`);
     },
     getAvatarUrl,
+    isConferenceSession: (...args) => conferenceCall.isConferenceSession(...args),
+    async webphoneHangup(...args) {
+      // track user click hangup on calls onhold page
+      callMonitor.callsOnHoldClickHangupTrack();
+      return (webphone && webphone.hangup(...args));
+    },
   };
 }
 
 const CallsOnholdPage = withPhone(connect(
   mapToProps,
   mapToFunctions,
-)(CallsOnholdPanel));
+)(CallsOnholdContainer));
 
 export default CallsOnholdPage;

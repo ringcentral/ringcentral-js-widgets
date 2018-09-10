@@ -116,6 +116,7 @@ export default class ContactList extends Component {
       );
     }
     const {
+      currentLocale,
       getAvatarUrl,
       getPresence,
       onItemSelect,
@@ -126,6 +127,7 @@ export default class ContactList extends Component {
         key={`${rowData.type}-${rowData.id}`}
       >
         <ContactItem
+          currentLocale={currentLocale}
           contact={rowData}
           getAvatarUrl={getAvatarUrl}
           getPresence={getPresence}

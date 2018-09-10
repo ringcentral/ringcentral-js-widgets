@@ -1,9 +1,10 @@
 export default {
-  account: 'Account',
-  contact: 'Contact',
-  lead: 'Lead',
-  chooseEntity: 'Please select entity type',
-  create: 'Create',
+  account: "Account",
+  contact: "Contact",
+  lead: "Lead",
+
+  chooseEntity: "Please select entity type",
+  create: "Create"
 };
 
 // @key: @#@"account"@#@ @source: @#@"Account"@#@

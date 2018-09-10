@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import i18n from './i18n';
 import styles from './styles.scss';
 import Modal from '../Modal';
-import Button from '../Button';
 import CircleButton from '../CircleButton';
-import CloseIcon from '../../assets/images/CloseIcon.svg';
 import CallAvatar from '../CallAvatar';
 import MergeIntoConferenceIcon from '../../assets/images/MergeIntoConferenceIcon.svg';
 
@@ -27,14 +25,8 @@ export default function ConfirmMergeModal({
       cancelBtnClassName={styles.cancelBtn}
       confirmBtnClassName={styles.confirmBtn}
       title={i18n.getString('confirmation', currentLocale)}
-      closeBtn={
-        <Button
-          className={styles.closeBtn}
-          onClick={onCancel}
-        >
-          <CloseIcon />
-        </Button>
-      }
+      onCancel={onCancel}
+      footerClassName={styles.footer}
     >
       <div className={styles.contentText}>
         {i18n.getString('confirmMergeToConference', currentLocale)}
@@ -45,7 +37,8 @@ export default function ConfirmMergeModal({
             <CallAvatar
               avatarUrl={avatarUrls[0]}
               isOnConferenceCall
-              extraNum={avatarUrls.length - 1} />
+              extraNum={avatarUrls.length - 1}
+            />
           </div>
           <span>{i18n.getString('conferenceCall', currentLocale)}</span>
         </div>

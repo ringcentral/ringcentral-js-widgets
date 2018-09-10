@@ -1,8 +1,8 @@
 export default {
-  start: 'Take a Quick Tour',
-  skip: 'Skip',
-  next: 'Next',
-  finish: 'Finish',
+  start: "Take a Quick Tour",
+  skip: "Skip",
+  next: "Next",
+  finish: "Finish"
 };
 
 // @key: @#@"start"@#@ @source: @#@"Take a Quick Tour"@#@

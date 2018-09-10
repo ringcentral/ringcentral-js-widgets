@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import MessageItem from '../MessageItem';
 import styles from './styles.scss';
+import i18n from './i18n';
 
 function NoMessages(props) {
   return (
@@ -72,7 +73,7 @@ export default class ConversationList extends Component {
     }
     const loading = loadingNextPage ? (
       <div className={styles.loading}>
-        Loading...
+        {i18n.getString('loading', currentLocale)}
       </div>
     ) : null;
     return (
@@ -111,6 +112,7 @@ ConversationList.propTypes = {
   typeFilter: PropTypes.string,
   loadNextPage: PropTypes.func,
   loadingNextPage: PropTypes.bool,
+  renderExtraButton: PropTypes.func,
 };
 ConversationList.defaultProps = {
   perPage: 20,
@@ -124,4 +126,5 @@ ConversationList.defaultProps = {
   loadNextPage: undefined,
   loadingNextPage: false,
   typeFilter: undefined,
+  renderExtraButton: undefined,
 };

@@ -11,7 +11,6 @@ import proxify from '../../lib/proxy/proxify';
 
 import getReducer, {
   getDataReducer,
-  getCurrentGroupIdReducer,
   getTimestampReducer,
 } from './getReducer';
 import actionTypes from './actionTypes';
@@ -75,6 +74,24 @@ function getUniqueMemberIds(groups) {
   return memberIds;
 }
 
+function searchPosts(searchFilter, posts) {
+  let result = false;
+  for (const post of posts) {
+    if (post.text && post.text.toLowerCase().indexOf(searchFilter) > -1) {
+      result = true;
+      break;
+    }
+    if (post.mentions && post.mentions.length > 0) {
+      const mentionNames = post.mentions.map(m => m.name).join(' ').toLowerCase();
+      if (mentionNames.indexOf(searchFilter) > -1) {
+        result = true;
+        break;
+      }
+    }
+  }
+  return result;
+}
+
 /**
  * @class
  * @description Accound info managing module.
@@ -84,6 +101,7 @@ function getUniqueMemberIds(groups) {
     'Auth',
     'Client',
     'Subscription',
+    'RolesAndPermissions',
     { dep: 'ConnectivityMonitor', optional: true },
     { dep: 'Storage', optional: true },
     { dep: 'TabManager', optional: true },
@@ -98,6 +116,7 @@ export default class GlipGroups extends Pollable {
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
    * @param {Auth} params.auth - auth module instance
+   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermission module instance
    * @param {Subscription} params.subscription - subscription module instance
    * @param {TabManager} params.tabManager - tabManager module instance
    * @param {GlipPersons} params.glipPersons - glipPersons module instance
@@ -112,6 +131,7 @@ export default class GlipGroups extends Pollable {
     glipPersons,
     glipPosts,
     storage,
+    rolesAndPermissions,
     connectivityMonitor,
     timeToRetry = DEFAULT_RETRY,
     ttl = DEFAULT_TTL,
@@ -130,6 +150,7 @@ export default class GlipGroups extends Pollable {
     this._auth = this::ensureExist(auth, 'auth');
     this._client = this::ensureExist(client, 'client');
     this._subscription = this::ensureExist(subscription, 'subscription');
+    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
     this._connectivityMonitor = connectivityMonitor;
     this._glipPersons = glipPersons;
     this._glipPosts = glipPosts;
@@ -154,7 +175,6 @@ export default class GlipGroups extends Pollable {
 
     this._dataStorageKey = 'glipGroupsData';
     this._timestampStorageKey = 'glipGroupsTimestamp';
-    this._currentGroupIdStorageKey = 'glipGroupsCurrentGroupId';
 
     if (this._storage) {
       this._reducer = getReducer(this.actionTypes);
@@ -167,15 +187,10 @@ export default class GlipGroups extends Pollable {
         key: this._timestampStorageKey,
         reducer: getTimestampReducer(this.actionTypes),
       });
-      this._storage.registerReducer({
-        key: this._currentGroupIdStorageKey,
-        reducer: getCurrentGroupIdReducer(this.actionTypes),
-      });
     } else {
       this._reducer = getReducer(this.actionTypes, {
         timestamp: getTimestampReducer(this.actionTypes),
         data: getDataReducer(this.actionTypes),
-        currentGroupId: getCurrentGroupIdReducer(this.actionTypes),
       });
     }
 
@@ -198,7 +213,7 @@ export default class GlipGroups extends Pollable {
       this.store.dispatch({
         type: this.actionTypes.initSuccess,
       });
-      this._onDataReady()
+      this._onDataReady();
     } else if (this._shouldReset()) {
       this._clearTimeout();
       this._promise = null;
@@ -228,6 +243,7 @@ export default class GlipGroups extends Pollable {
   _shouldInit() {
     return !!(
       this._auth.loggedIn &&
+      this._rolesAndPermissions.ready &&
       (!this._connectivityMonitor || this._connectivityMonitor.ready) &&
       (!this._storage || this._storage.ready) &&
       (!this._readyCheckFn || this._readyCheckFn()) &&
@@ -243,6 +259,7 @@ export default class GlipGroups extends Pollable {
     return !!(
       (
         !this._auth.loggedIn ||
+        !this._rolesAndPermissions.ready ||
         (this._storage && !this._storage.ready) ||
         (this._readyCheckFn && !this._readyCheckFn()) ||
         (this._subscription && !this._subscription.ready) ||
@@ -268,9 +285,6 @@ export default class GlipGroups extends Pollable {
   _onDataReady() {
     if (this._glipPersons) {
       this._glipPersons.loadPersons(this.groupMemberIds);
-    }
-    if (this.currentGroupId && !this.currentGroup.id) {
-      this.updateCurrentGroupId(this.groups[0] && this.groups[0].id);
     }
     if (this._preloadPosts) {
       this._preloadedPosts = {};
@@ -318,6 +332,9 @@ export default class GlipGroups extends Pollable {
   }
 
   async _init() {
+    if (!this._hasPermission) {
+      return;
+    }
     if (this._shouldFetch()) {
       try {
         await this.fetchData();
@@ -344,7 +361,8 @@ export default class GlipGroups extends Pollable {
   }
 
   async _preloadGroupPosts(force) {
-    for (const group of this.groups) {
+    const groups = this.groups.slice(0, 20);
+    for (const group of groups) {
       if (!this._glipPosts) {
         break;
       }
@@ -481,24 +499,34 @@ export default class GlipGroups extends Pollable {
     }
   }
 
+  async createTeam(name, members, type = 'Team') {
+    const group = await this._client.glip().groups().post({
+      type,
+      name,
+      members,
+      isPublic: true,
+      description: ''
+    });
+    return group.id;
+  }
+
   @getter
   allGroups = createSelector(
     () => this.data,
-    () => (this._glipPersons && this._glipPersons.personsMap) || {},
-    () => (this._glipPosts && this._glipPosts.postsMap) || {},
+    () => (this._glipPersons && this._glipPersons.personsMap),
+    () => (this._glipPosts && this._glipPosts.postsMap),
     () => this._auth.ownerId,
-    (data, personsMap, postsMap, ownerId) => {
-      return (data || []).map(
-        group => formatGroup(group, personsMap, postsMap, ownerId)
-      );
-    },
+    (data, personsMap = {}, postsMap = {}, ownerId) => (data || []).map(
+      group => formatGroup(group, personsMap, postsMap, ownerId)
+    ),
   )
 
   @getter
   filteredGroups = createSelector(
     () => this.allGroups,
     () => this.searchFilter,
-    (allGroups, searchFilter) => {
+    () => (this._glipPosts && this._glipPosts.postsMap),
+    (allGroups, searchFilter, postsMap = {}) => {
       if (isBlank(searchFilter)) {
         return allGroups;
       }
@@ -511,13 +539,14 @@ export default class GlipGroups extends Pollable {
         if (!name) {
           const groupUsernames = group.detailMembers
             .map(m => `${m.firstName} ${m.lastName}`)
-            .join(',')
+            .join(' ')
             .toLowerCase();
           if (groupUsernames && groupUsernames.indexOf(filterString) > -1) {
             return true;
           }
         }
-        return false;
+        const result = searchPosts(filterString, postsMap[group.id] || []);
+        return result;
       });
     },
   )
@@ -525,9 +554,7 @@ export default class GlipGroups extends Pollable {
   @getter
   groups = createSelector(
     () => this.filteredGroups,
-    () => this.pageNumber,
-    (filteredGroups, pageNumber) => {
-      const count = pageNumber * this._perPage;
+    (filteredGroups) => {
       const sortedGroups =
         filteredGroups.sort((a, b) => {
           if (a.updatedTime === b.updatedTime) return 0;
@@ -535,7 +562,7 @@ export default class GlipGroups extends Pollable {
             -1 :
             1;
         });
-      return sortedGroups.slice(0, count);
+      return sortedGroups;
     },
   )
 
@@ -605,12 +632,15 @@ export default class GlipGroups extends Pollable {
     })
   )
 
+  @getter
+  unreadCounts = createSelector(
+    () => this.groupsWithUnread,
+    groups =>
+      groups.reduce((a, b) => a + b.unread, 0)
+  )
+
   get searchFilter() {
     return this.state.searchFilter;
-  }
-
-  get pageNumber() {
-    return this.state.pageNumber;
   }
 
   get data() {
@@ -626,9 +656,7 @@ export default class GlipGroups extends Pollable {
   }
 
   get currentGroupId() {
-    return this._storage ?
-      this._storage.getItem(this._currentGroupIdStorageKey) :
-      this.state.currentGroupId;
+    return this.state.currentGroupId;
   }
 
   get status() {
@@ -649,5 +677,9 @@ export default class GlipGroups extends Pollable {
 
   get timeToRetry() {
     return this._timeToRetry;
+  }
+
+  get _hasPermission() {
+    return !!this._rolesAndPermissions.hasGlipPermission;
   }
 }

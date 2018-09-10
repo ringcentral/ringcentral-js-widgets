@@ -1,4 +1,5 @@
 import 'core-js/fn/array/find';
+import * as R from 'ramda';
 import { isValidNumber, isSameLocalNumber } from '@ringcentral-integration/phone-number';
 
 import HashMap from './HashMap';
@@ -7,6 +8,7 @@ import callDirections from '../enums/callDirections';
 import callResults from '../enums/callResults';
 import telephonyStatuses from '../enums/telephonyStatuses';
 import terminationTypes from '../enums/terminationTypes';
+// import i18n from './i18n';
 
 /* call direction helpers */
 export function isInbound(call = {}) {
@@ -240,4 +242,36 @@ export function removeDuplicateSelfCalls(calls) {
     }
   });
   return resultCalls;
+}
+
+// Get phone number and matches.
+export function getPhoneNumberMatches(call = {}) {
+  const {
+    to = {},
+    from = {},
+    sessionId,
+    toMatches,
+    fromMatches
+  } = call;
+  if (R.isEmpty(call)) {
+    return {};
+  }
+  const isOutboundCall = isOutbound(call);
+  const isInboundCall = isInbound(call);
+  let phoneNumber = null;
+  let matches = null;
+  if (isOutboundCall) {
+    phoneNumber = to.phoneNumber || to.extensionNumber;
+    matches = toMatches;
+  } else if (isInboundCall) {
+    phoneNumber = from.phoneNumber || from.extensionNumber;
+    matches = fromMatches;
+  }
+  // if (!phoneNumber || !matches) {
+  //   console.warn(`Call sessionId: ${sessionId} is abnormal data.`);
+  // }
+  return {
+    phoneNumber,
+    matches
+  };
 }

@@ -1,5 +1,5 @@
 export default {
   add: 'Add',
-  noCallsOnhold: 'No calls on hold',
+  noCalls: 'No available calls',
   activeCall: 'Active Call',
 };

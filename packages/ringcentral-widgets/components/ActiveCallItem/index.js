@@ -6,85 +6,17 @@ import callDirections from 'ringcentral-integration/enums/callDirections';
 import { isInbound, isRinging } from 'ringcentral-integration/lib/callLogHelpers';
 import parseNumber from 'ringcentral-integration/lib/parseNumber';
 
-import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import DurationCounter from '../DurationCounter';
-import CallAvatar from '../CallAvatar';
 import ContactDisplay from '../ContactDisplay';
 import ActionMenu from '../ActionMenu';
 import CircleButton from '../CircleButton';
 import EndIcon from '../../assets/images/End.svg';
 import AnswerIcon from '../../assets/images/Answer.svg';
 import VoicemailIcon from '../../assets/images/Voicemail.svg';
-import ConferenceCallIcon from '../../assets/images/ConferenceCallIcon.svg';
-import MergeIntoConferenceIcon from '../../assets/images/MergeIntoConferenceIcon.svg';
+import CallIcon from '../CallIcon';
 
 import styles from './styles.scss';
 import i18n from './i18n';
-
-const callIconMap = {
-  [callDirections.inbound]: dynamicsFont.inbound,
-  [callDirections.outbound]: dynamicsFont.outbound,
-};
-
-function CallIcon({
-  direction,
-  ringing,
-  inboundTitle,
-  outboundTitle,
-  isOnConferenceCall,
-  showAvatar,
-  avatarUrl,
-  extraNum = 0,
-}) {
-  const title = (direction === callDirections.inbound) ? inboundTitle : outboundTitle;
-  let symbol;
-  if (showAvatar) {
-    symbol = (
-      <div className={classnames(styles.callIcon, styles.avatar)}>
-        <CallAvatar
-          isOnConferenceCall={isOnConferenceCall}
-          avatarUrl={avatarUrl}
-          extraNum={extraNum} />
-      </div>
-    );
-  } else {
-    symbol = (
-      <div className={styles.callIcon}>
-        {isOnConferenceCall
-          ? <ConferenceCallIcon />
-          : <span
-            className={classnames(
-              callIconMap[direction],
-              styles.activeCall,
-              ringing && styles.ringing,
-            )}
-            title={title}
-          />
-        }
-      </div>
-    );
-  }
-  return symbol;
-}
-
-CallIcon.propTypes = {
-  direction: PropTypes.string.isRequired,
-  ringing: PropTypes.bool,
-  isOnConferenceCall: PropTypes.bool,
-  inboundTitle: PropTypes.string,
-  outboundTitle: PropTypes.string,
-  showAvatar: PropTypes.bool,
-  avatarUrl: PropTypes.string
-};
-
-CallIcon.defaultProps = {
-  ringing: false,
-  isOnConferenceCall: false,
-  inboundTitle: undefined,
-  outboundTitle: undefined,
-  showAvatar: false,
-  avatarUrl: null,
-};
 
 function WebphoneButtons({
   currentLocale,
@@ -94,9 +26,6 @@ function WebphoneButtons({
   webphoneHangup,
   webphoneResume,
   showAnswer,
-  showMergeCall,
-  disableMerge,
-  onMergeCall,
 }) {
   if (!session || !webphoneAnswer || !webphoneHangup) {
     return null;
@@ -104,10 +33,8 @@ function WebphoneButtons({
   let hangupFunc = webphoneHangup;
   let resumeFunc = webphoneResume;
   let endIcon = EndIcon;
-  const mergeIcon = MergeIntoConferenceIcon;
   let rejectTitle = i18n.getString('hangup', currentLocale);
   const acceptTitle = i18n.getString('accept', currentLocale);
-  const mergeTitle = i18n.getString('mergeToConference', currentLocale);
   if (
     session.direction === callDirections.inbound &&
     session.callStatus === sessionStatus.connecting
@@ -119,26 +46,6 @@ function WebphoneButtons({
   }
   return (
     <div className={styles.webphoneButtons}>
-      {
-        showMergeCall ?
-          <span title={mergeTitle} className={styles.webphoneButton}>
-            <CircleButton
-              className={disableMerge
-                ? classnames(styles.mergeButton, styles.disabled)
-                : styles.mergeButton}
-              onClick={(e) => {
-                e.stopPropagation();
-                onMergeCall();
-              }}
-              iconWidth={260}
-              iconX={120}
-              icon={mergeIcon}
-              showBorder
-              disabled={disableMerge}
-            />
-          </span>
-          : null
-      }
       <span title={rejectTitle} className={styles.webphoneButton}>
         <CircleButton
           className={styles.rejectButton}
@@ -179,9 +86,6 @@ WebphoneButtons.propTypes = {
   webphoneHangup: PropTypes.func,
   webphoneResume: PropTypes.func,
   showAnswer: PropTypes.bool,
-  disableMerge: PropTypes.bool,
-  showMergeCall: PropTypes.bool,
-  onMergeCall: PropTypes.func,
 };
 
 WebphoneButtons.defaultProps = {
@@ -191,9 +95,6 @@ WebphoneButtons.defaultProps = {
   webphoneHangup: undefined,
   webphoneResume: undefined,
   showAnswer: true,
-  disableMerge: false,
-  showMergeCall: false,
-  onMergeCall: undefined,
 };
 
 export default class ActiveCallItem extends Component {
@@ -423,6 +324,7 @@ export default class ActiveCallItem extends Component {
 
   logCall = this.logCall.bind(this)
 
+  externalViewEntity = () => this.props.externalViewEntity(this.props.call);
   render() {
     const {
       call: {
@@ -443,6 +345,7 @@ export default class ActiveCallItem extends Component {
       onClickToSms,
       onViewContact,
       onCreateContact,
+      createEntityTypes,
       onLogCall,
       webphoneAnswer,
       webphoneHangup,
@@ -455,9 +358,6 @@ export default class ActiveCallItem extends Component {
       externalHasEntity,
       readTextPermission,
       isOnConferenceCall,
-      showMergeCall,
-      onMergeCall,
-      disableMerge,
       hasActionMenu,
       showAnswer,
       avatarUrl,
@@ -539,9 +439,6 @@ export default class ActiveCallItem extends Component {
             webphoneReject={this.webphoneToVoicemail}
             webphoneHangup={webphoneHangup}
             webphoneResume={webphoneResume}
-            showMergeCall={showMergeCall}
-            onMergeCall={onMergeCall}
-            disableMerge={disableMerge}
             currentLocale={currentLocale}
             showAnswer={showAnswer}
           />
@@ -563,6 +460,7 @@ export default class ActiveCallItem extends Component {
               hasEntity={!!contactMatches.length}
               onViewEntity={onViewContact && this.viewSelectedContact}
               onCreateEntity={onCreateContact && this.createSelectedContact}
+              createEntityTypes={createEntityTypes}
               textTitle={i18n.getString('text', currentLocale)}
               onLog={onLogCall}
               isLogging={isLogging || this.state.isLogging}
@@ -572,7 +470,7 @@ export default class ActiveCallItem extends Component {
               editLogTitle={i18n.getString('editLog', currentLocale)}
               createEntityTitle={i18n.getString('addEntity', currentLocale)}
               viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
-              externalViewEntity={() => externalViewEntity && externalViewEntity(this.props.call)}
+              externalViewEntity={externalViewEntity && this.externalViewEntity}
               externalHasEntity={externalHasEntity && externalHasEntity(this.props.call)}
               disableClickToSms={disableClickToSms}
             />
@@ -622,6 +520,7 @@ ActiveCallItem.propTypes = {
   formatPhone: PropTypes.func.isRequired,
   onClickToSms: PropTypes.func,
   onCreateContact: PropTypes.func,
+  createEntityTypes: PropTypes.array,
   onLogCall: PropTypes.func,
   onViewContact: PropTypes.func,
   sourceIcons: PropTypes.object,
@@ -632,14 +531,11 @@ ActiveCallItem.propTypes = {
   externalHasEntity: PropTypes.func,
   readTextPermission: PropTypes.bool,
   isOnConferenceCall: PropTypes.bool,
-  disableMerge: PropTypes.bool,
   hasActionMenu: PropTypes.bool,
   showAnswer: PropTypes.bool,
   avatarUrl: PropTypes.string,
   showAvatar: PropTypes.bool,
   showCallDetail: PropTypes.bool,
-  showMergeCall: PropTypes.bool,
-  onMergeCall: PropTypes.func,
 };
 
 ActiveCallItem.defaultProps = {
@@ -647,6 +543,7 @@ ActiveCallItem.defaultProps = {
   onClickToSms: undefined,
   onViewContact: undefined,
   onCreateContact: undefined,
+  createEntityTypes: undefined,
   isLogging: false,
   outboundSmsPermission: false,
   internalSmsPermission: false,
@@ -668,12 +565,9 @@ ActiveCallItem.defaultProps = {
   externalHasEntity: undefined,
   readTextPermission: true,
   isOnConferenceCall: false,
-  disableMerge: false,
   hasActionMenu: true,
   showAnswer: true,
   avatarUrl: null,
   showAvatar: false,
   showCallDetail: true,
-  showMergeCall: false,
-  onMergeCall: undefined,
 };

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Button from '../Button';
@@ -11,6 +11,7 @@ export default function LogNotification(
     formatPhone,
     currentLog,
     currentLocale,
+    showLogButton,
     isExpand,
     onStay,
     onDiscard,
@@ -26,12 +27,16 @@ export default function LogNotification(
           currentLocale={currentLocale}
           formatPhone={formatPhone}
         />
-        <Button
-          disabled={isExpand}
-          className={classnames(styles.expandButton, isExpand && styles.expandDisableButton)}
-          onClick={() => onExpand()}>
-          {i18n.getString('log', currentLocale)}
-        </Button>
+        {
+          showLogButton ? (
+            <Button
+              disabled={isExpand}
+              className={classnames(styles.expandButton, isExpand && styles.expandDisableButton)}
+              onClick={() => onExpand()}>
+              {i18n.getString('log', currentLocale)}
+            </Button>
+          ) : null
+        }
       </div>
       {
         isExpand ? (
@@ -77,6 +82,7 @@ export default function LogNotification(
 
 LogNotification.propTypes = {
   currentLocale: PropTypes.string.isRequired,
+  showLogButton: PropTypes.bool,
   currentLog: PropTypes.object,
   formatPhone: PropTypes.func,
   isExpand: PropTypes.bool,
@@ -87,6 +93,7 @@ LogNotification.propTypes = {
 };
 
 LogNotification.defaultProps = {
+  showLogButton: true,
   currentLog: {},
   formatPhone: undefined,
   isExpand: undefined,

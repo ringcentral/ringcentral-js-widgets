@@ -3,7 +3,7 @@ import loginStatus from 'ringcentral-integration/modules/Auth/loginStatus';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 
 import SettingsPanel from '../../components/SettingsPanel';
-import withPhone from '../../lib/withPhone';
+import { withPhone } from '../../lib/phoneContext';
 
 function mapToProps(_, {
   phone: {
@@ -25,6 +25,7 @@ function mapToProps(_, {
   showFeedback = true,
   showUserGuide = true,
   showPresenceSettings = true,
+  showQuickAccess = false,
   params,
 }) {
   let loginNumber = '';
@@ -58,6 +59,7 @@ function mapToProps(_, {
       (!localeSettings || localeSettings.ready)
     ),
     showFeedback,
+    showQuickAccess,
     showCalling: showCalling && callingSettings && rolesAndPermissions.callingEnabled,
     showAudio: showAudio && rolesAndPermissions.callingEnabled,
     showRegion:
@@ -92,6 +94,7 @@ function mapToFunctions(_, {
     routerInteraction,
     localeSettings,
     userGuide,
+    quickAccess
   },
   regionSettingsUrl = '/settings/region',
   callingSettingsUrl = '/settings/calling',
@@ -99,24 +102,28 @@ function mapToFunctions(_, {
   feedbackSettingsUrl = '/settings/feedback',
 }) {
   return {
-    onLogoutButtonClick: async () => {
+    async onLogoutButtonClick() {
       await auth.logout();
     },
-    onRegionSettingsLinkClick: () => {
+    onRegionSettingsLinkClick() {
       routerInteraction.push(regionSettingsUrl);
     },
-    onCallingSettingsLinkClick: () => {
+    onCallingSettingsLinkClick() {
       routerInteraction.push(callingSettingsUrl);
     },
-    onAudioSettingsLinkClick: () => {
+    onAudioSettingsLinkClick() {
       routerInteraction.push(audioSettingsUrl);
     },
-    onFeedbackSettingsLinkClick: () => {
+    onFeedbackSettingsLinkClick() {
       routerInteraction.push(feedbackSettingsUrl);
     },
-    onUserGuideClick: () => {
+    onUserGuideClick() {
       userGuide.start();
     },
+    onQuickAccessLinkClick() {
+      quickAccess.enter();
+    },
+
     setAvailable: (...args) => (detailedPresence && detailedPresence.setAvailable(...args)),
     setBusy: (...args) => (detailedPresence && detailedPresence.setBusy(...args)),
     setDoNotDisturb: (...args) => (detailedPresence && detailedPresence.setDoNotDisturb(...args)),
