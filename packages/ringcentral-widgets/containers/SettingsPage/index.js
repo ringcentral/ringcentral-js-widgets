@@ -25,6 +25,7 @@ function mapToProps(_, {
   showFeedback = true,
   showUserGuide = true,
   showPresenceSettings = true,
+  showQuickAccess = false,
   params,
 }) {
   let loginNumber = '';
@@ -58,6 +59,7 @@ function mapToProps(_, {
       (!localeSettings || localeSettings.ready)
     ),
     showFeedback,
+    showQuickAccess,
     showCalling: showCalling && callingSettings && rolesAndPermissions.callingEnabled,
     showAudio: showAudio && rolesAndPermissions.callingEnabled,
     showRegion:
@@ -117,6 +119,9 @@ function mapToFunctions(_, {
     },
     onUserGuideClick() {
       userGuide.start();
+    },
+    onQuickAccessLinkClick() {
+      quickAccess.enter();
     },
 
     setAvailable: (...args) => (detailedPresence && detailedPresence.setAvailable(...args)),
