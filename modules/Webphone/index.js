@@ -2337,10 +2337,10 @@ var Webphone = (_dec = (0, _di.Module)({
         sessions: this.sessions
       });
       if (typeof this._onCallEndFunc === 'function') {
-        this._onCallEndFunc(normalizedSession, this.activeSession);
+        this._onCallEndFunc(normalizedSession, this.activeSession, this.ringSession);
       }
       this._onCallEndFunctions.forEach(function (handler) {
-        return handler(normalizedSession, _this17.activeSession);
+        return handler(normalizedSession, _this17.activeSession, _this17.ringSession);
       });
     }
   }, {
