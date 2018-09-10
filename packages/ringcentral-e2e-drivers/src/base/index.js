@@ -23,6 +23,7 @@ class Driver {
   constructor(options, program) {
     this._options = options;
     this._program = program;
+    this._afterHooks = new Set();
   }
 
   async run() {
@@ -43,6 +44,14 @@ class Driver {
 
   async close() {
     //
+  }
+
+  addAfterHook(fn) {
+    this._afterHooks.add(fn);
+  }
+
+  get afterHooks() {
+    return this._afterHooks;
   }
 
   get program() {

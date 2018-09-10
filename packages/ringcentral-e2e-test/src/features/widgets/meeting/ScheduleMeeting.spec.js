@@ -35,11 +35,14 @@ describe('test: =====>', () => {
     brands: ['rc'],
     levels: ['p0'],
     options: [
-      { selector: 'loginButton', expected: 'Sign In' },
-      { selector: 'loginButton', expected: 'Sign In' },
+      { selector: 'loginButton', expected: 'Sign In2' },
+      { selector: 'loginButton', expected: 'Sign In1' },
     ],
   }, async ({ option }) => {
     const text = await $(page).text(option.selector);
+    context.driver.addAfterHook(async () => {
+      await context.driver.page.screenshot({ path: 'screenshot.png' });
+    });
     expect(text).toBe(option.expected);
   });
   // test({

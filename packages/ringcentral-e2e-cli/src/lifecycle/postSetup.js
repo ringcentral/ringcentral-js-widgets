@@ -104,6 +104,9 @@ async function beforeEachStart({ driver, isSandbox }) {
 
 async function afterEachEnd({ driver, isSandbox }) {
   // TODO HOOK
+  for (const hook of driver.afterHooks) {
+    await hook();
+  }
   if (isSandbox) await driver.close();
 }
 
