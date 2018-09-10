@@ -1,5 +1,5 @@
 /* eslint-env node, jest */
-/* global $, page, browser, driver */
+/* global $, page, browser, driver, context */
 import React from 'react';
 import Button from 'ringcentral-widgets/components/Button';
 import { shallow } from 'enzyme';
@@ -38,7 +38,7 @@ describe('test: =====>', () => {
       { selector: 'loginButton', expected: 'Sign In' },
       { selector: 'loginButton', expected: 'Sign In' },
     ],
-  }, async ({ option, ...args }) => {
+  }, async ({ option }) => {
     const text = await $(page).text(option.selector);
     expect(text).toBe(option.expected);
   });

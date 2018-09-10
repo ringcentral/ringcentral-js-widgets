@@ -182,8 +182,13 @@ function testCase(caseParams, fn) {
             global.browser = instance.driver.browser;
             global.page = instance.driver.page;
             global.driver = instance.driver;
+            global.context = {
+              driver: instance.driver,
+              options: { isSandbox, config, driver, ...args },
+            };
+            // TODO thinking about using `vm.createContext` implement real sanbox.
             // TODO HOOK
-            await fn({ isSandbox, config, driver, ...args });
+            await fn(global.context.options);
           };
           /* eslint-enable */
           _test(`${name}${tail}`, func.bind(null, {
