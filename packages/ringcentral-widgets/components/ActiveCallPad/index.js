@@ -109,7 +109,11 @@ class ActiveCallPad extends Component {
     document.body.removeEventListener('click', this.onClick);
   }
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextState !== this.state) {
+      return true;
+    }
+
     let showUpdate = false;
 
     for (const p in nextProps) {
