@@ -221,7 +221,11 @@ var ActiveCallPad = function (_Component) {
     }
   }, {
     key: 'shouldComponentUpdate',
-    value: function shouldComponentUpdate(nextProps) {
+    value: function shouldComponentUpdate(nextProps, nextState) {
+      if (nextState !== this.state) {
+        return true;
+      }
+
       var showUpdate = false;
 
       for (var p in nextProps) {
