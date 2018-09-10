@@ -62,7 +62,6 @@ import { ModuleFactory } from 'ringcentral-integration/lib/di';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 import DialerUI from 'ringcentral-widgets/modules/DialerUI';
 import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
-import { isRing } from 'ringcentral-integration/modules/Webphone/webphoneHelper';
 
 @ModuleFactory({
   providers: [
@@ -226,7 +225,7 @@ export default class BasePhone extends RcModule {
       readyCheckFn: () => contacts.ready,
     });
 
-    webphone.onCallEnd((session, currentSession) => {
+    webphone.onCallEnd((session, currentSession, ringSession) => {
       const callsOnholdReg = /^\/conferenceCall\/callsOnhold\/(.+)\/(.+)$/;
       const execCallsOnhold = callsOnholdReg.exec(routerInteraction.currentPath);
 
@@ -249,6 +248,7 @@ export default class BasePhone extends RcModule {
           '/conferenceCall/participants',
         ].find(path => routerInteraction.currentPath.indexOf(path) !== -1)
         && (!currentSession || session.id === currentSession.id)
+        && !ringSession
       ) {
         if (
           !currentSession
@@ -269,7 +269,7 @@ export default class BasePhone extends RcModule {
       }
 
       if (routerInteraction.currentPath.indexOf('/calls/active') === 0) {
-        if (isRing(currentSession)) {
+        if (ringSession) {
           routerInteraction.replace('/calls');
           return;
         }
