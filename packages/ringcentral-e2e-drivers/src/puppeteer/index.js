@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const { Driver: BaseDriver, Query: BaseQuery } = require('../base');
 
 const setting = {
   ignoreHTTPSErrors: true,
@@ -7,41 +8,36 @@ const setting = {
     // '--load-extension=/path/to/extension/'
   ]
 };
-class Query {
-  constructor(node) {
-    this._node = node;
-  }
-
+class Query extends BaseQuery {
   async text(selector) {
-    const innerText = await this._node.$eval(selector, node => node.innerText);
+    const innerText = await this._node.$eval(this.getSelector(selector), node => node.innerText);
     return innerText;
   }
 
-  async $(selector) {
-    const element = await this._node.$(selector);
-    return element;
-  }
+  // async $(selector) {
+  //   const element = await this._node.$(selector);
+  //   return element;
+  // }
 
-  async $$(selector) {
-    const elements = await this._node.$$(selector);
-    return elements;
-  }
+  // async $$(selector) {
+  //   const elements = await this._node.$$(selector);
+  //   return elements;
+  // }
 
-  async click(selector) {
-    const handle = await this._node.click(selector);
-    return handle;
-  }
+  // async click(selector) {
+  //   const handle = await this._node.click(selector);
+  //   return handle;
+  // }
 
-  async type(selector, value) {
-    const handle = await this._node.type(selector, value);
-    return handle;
-  }
+  // async type(selector, value) {
+  //   const handle = await this._node.type(selector, value);
+  //   return handle;
+  // }
 }
 
-class Driver {
+class Driver extends BaseDriver {
   constructor(options = {}, program = puppeteer) {
-    this._options = options;
-    this._program = program;
+    super(options, program);
   }
 
   async run() {
@@ -69,18 +65,6 @@ class Driver {
         console.error(e);
       }
     }
-  }
-
-  get program() {
-    return this._program;
-  }
-
-  get page() {
-    return this._page;
-  }
-
-  get browser() {
-    return this._browser;
   }
 }
 

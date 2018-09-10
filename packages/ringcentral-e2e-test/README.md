@@ -151,7 +151,7 @@ npx e2e-test run ./src/features/widgets/meeting/**/*.js
     - Tags optimization
     - Exclude file or path
     - Filter jest env cli option
-    - Error driver warning 
+    - Error driver warning
     - Debug mode
     - Verbose option/help info/error info
     - Exec config file

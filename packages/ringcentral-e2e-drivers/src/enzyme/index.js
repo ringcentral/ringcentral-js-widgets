@@ -1,5 +1,6 @@
 const enzyme = require('enzyme');
 const Adapter = require('enzyme-adapter-react-16');
+const { Driver: BaseDriver, Query: BaseQuery } = require('../base');
 
 const setting = {
   //
@@ -9,21 +10,16 @@ const setting = {
 //   setTimeout(callback, 0);
 // };
 
-class Query {
-  constructor(node) {
-    this._node = node;
-  }
-
+class Query extends BaseQuery {
   async text(selector) {
-    const text = this._node.find(selector).first().text();
+    const text = this._node.find(this.getSelector(selector)).first().text();
     return text;
   }
 }
 
-class Driver {
+class Driver extends BaseDriver {
   constructor(options = {}, program = enzyme) {
-    this._options = options;
-    this._program = program;
+    super(options, program);
     this._program.configure({ adapter: new Adapter() });
   }
 
@@ -36,6 +32,7 @@ class Driver {
   }
 
   async goto(config) {
+    this._config = config;
     const path = require('path').resolve(process.cwd(), config.source);
     const source = require(path);
     const getApp = typeof source === 'function' ? source : source.default;
@@ -52,18 +49,6 @@ class Driver {
 
   async close() {
     this._browser = null;
-  }
-
-  get program() {
-    return this._program;
-  }
-
-  get page() {
-    return this._page;
-  }
-
-  get browser() {
-    return this._browser;
   }
 }
 

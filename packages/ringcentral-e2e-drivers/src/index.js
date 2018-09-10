@@ -1,8 +1,11 @@
+const base = require('./base');
 const enzyme = require('./enzyme');
 const puppeteer = require('./puppeteer');
 const getSeleniumWebdriver = require('./seleniumWebdriver');
 
 module.exports = {
+  UT: base,
+  enzymeUT: enzyme,
   enzyme,
   puppeteer,
   seleniumWebdriverChrome: getSeleniumWebdriver('Chrome'),

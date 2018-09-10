@@ -79,7 +79,9 @@ function setup({
     isSandbox,
   }) => {
     // TODO HOOK setup plugins
-    const instance = isSandbox || driver === 'enzyme' ? createDriver(driver) : drivers[driver];
+    const instance = isSandbox || driver === 'enzyme' ? createDriver(driver, {
+      selectorLabel: global.execGlobal.selectorLabel
+    }) : drivers[driver];
     const config = lookupConfig({
       config: global.execGlobal,
       tag,

@@ -8,6 +8,8 @@ const firefox = require('selenium-webdriver/firefox');
 const safari = require('selenium-webdriver/safari');
 const ie = require('selenium-webdriver/ie');
 const edge = require('selenium-webdriver/edge');
+const { Driver: BaseDriver, Query: BaseQuery } = require('../base');
+
 
 const Browsers = {
   chrome: 'chrome',
@@ -25,13 +27,9 @@ const seleniumWebdriverSetting = {
   edge: new edge.Options(),
 };
 
-class Query {
-  constructor(node) {
-    this._node = node;
-  }
-
+class Query extends BaseQuery {
   async text(selector) {
-    const element = await this._node.wait(until.elementLocated(By.css(selector)));
+    const element = await this._node.wait(until.elementLocated(By.css(this.getSelector(selector))));
     const innerText = element.getAttribute('innerText');
     return innerText;
   }
@@ -42,10 +40,9 @@ module.exports = (browser) => {
   const webdriver = browser.toLowerCase();
   const setKeyName = `set${browser}Options`;
   const setting = seleniumWebdriverSetting[webdriver];
-  class Driver {
+  class Driver extends BaseDriver {
     constructor(options = {}, program = new Builder()) {
-      this._options = options;
-      this._program = program;
+      super(options, program);
     }
 
     async run() {
@@ -82,18 +79,6 @@ module.exports = (browser) => {
           // console.error(e);
         }
       }
-    }
-
-    get program() {
-      return this._program;
-    }
-
-    get page() {
-      return this._page;
-    }
-
-    get browser() {
-      return this._browser;
     }
   }
 

@@ -168,18 +168,22 @@ function testCase(caseParams, fn) {
           global.beforeEach(beforeEachStart.bind(null, { driver: instance.driver, isSandbox }));
           global.afterEach(afterEachEnd.bind(null, { driver: instance.driver, isSandbox }));
           /* eslint-disable */
-          const func = async function ({ instance, isSandbox, config, ...args }) {
+          const func = async function ({ instance, isSandbox, config, driver, ...args }) {
             // TODO handle type in `config`
-            if (isSandbox) {
-              await instance.driver.run();
-              await instance.driver.newPage();
+            const isUT = /UT$/.test(driver);
+            if (!isUT) {
+              if (isSandbox) {
+                await instance.driver.run();
+                await instance.driver.newPage();
+              }
+              await instance.driver.goto(config);
             }
-            await instance.driver.goto(config);
             global.$ = instance.query;
             global.browser = instance.driver.browser;
             global.page = instance.driver.page;
+            global.driver = instance.driver;
             // TODO HOOK
-            await fn({ ...args, isSandbox, config});
+            await fn({ isSandbox, config, driver, ...args });
           };
           /* eslint-enable */
           _test(`${name}${tail}`, func.bind(null, {

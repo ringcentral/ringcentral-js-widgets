@@ -28,7 +28,7 @@ function checkValidBrowsers(process) {
   }
 }
 
-const createDriver = (name, inputSetting) => {
+const createDriver = (name, inputSetting = {}) => {
   const {
     Driver,
     setting,
@@ -42,7 +42,7 @@ const createDriver = (name, inputSetting) => {
   };
   return {
     driver: new Driver(options),
-    query: node => new Query(node),
+    query: node => new Query(node, { label: inputSetting.selectorLabel }),
   };
 };
 

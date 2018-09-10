@@ -99,7 +99,8 @@ class WebDriverEnvironment {
         const defaultSetting = this._config.globals.execDefaults.browsers[name];
         const instance = createDriver(name, {
           ...defaultSetting,
-          ...execSetting
+          ...execSetting,
+          selectorLabel: this._config.globals.execGlobal.selectorLabel
         });
         await instance.driver.run();
         await instance.driver.newPage();
