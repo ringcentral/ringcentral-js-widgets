@@ -3,6 +3,8 @@ import loginStatus from 'ringcentral-integration/modules/Auth/loginStatus';
 import LoginPanel from '../../components/LoginPanel';
 import { withPhone } from '../../lib/phoneContext';
 
+/* global chrome */
+
 function mapToProps(_, {
   phone: {
     auth,
@@ -12,6 +14,7 @@ function mapToProps(_, {
     oAuth,
   },
   version,
+  showSignUp = false,
 }) {
   return {
     currentLocale: locale.currentLocale,
@@ -28,6 +31,7 @@ function mapToProps(_, {
       auth.loginStatus === loginStatus.beforeLogout ||
       auth.loginStatus === loginStatus.loggedIn
     ),
+    showSignUp,
   };
 }
 
@@ -46,6 +50,14 @@ function mapToFunctions(_, {
     onLoginButtonClick() {
       oAuth.openOAuthPage();
     },
+    onSignUpButtonClick() {
+      const url = 'https://www.ringcentral.com/office/plansandpricing.html';
+      if (chrome && chrome.tabs) {
+        chrome.tabs.create({ url });
+      } else {
+        window.open(url);
+      }
+    }
   };
 }
 

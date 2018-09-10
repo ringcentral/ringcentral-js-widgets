@@ -40,7 +40,9 @@ export default class LoginPanel extends Component {
           {i18n.getString('loginButton', currentLocale)}
         </button>
         {showSignUp && (
-          <button onClick={onSignUpButtonClick}>
+          <button
+            className={styles.signUpButton}
+            onClick={onSignUpButtonClick}>
             {i18n.getString('signupButton', currentLocale)}
           </button>
         )}
