@@ -1281,10 +1281,10 @@ export default class Webphone extends RcModule {
       sessions: this.sessions,
     });
     if (typeof this._onCallEndFunc === 'function') {
-      this._onCallEndFunc(normalizedSession, this.activeSession);
+      this._onCallEndFunc(normalizedSession, this.activeSession, this.ringSession);
     }
     this._onCallEndFunctions.forEach(
-      handler => handler(normalizedSession, this.activeSession)
+      handler => handler(normalizedSession, this.activeSession, this.ringSession)
     );
   }
 
