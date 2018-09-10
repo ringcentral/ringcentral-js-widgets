@@ -5,6 +5,9 @@ import * as mock from 'ringcentral-integration/integration-test/mock';
 import * as MockedPubNub from '../__mocks__/pubnub.js';
 import Session from './session';
 import { timeout } from '../integration-test/shared';
+import deviceBody from './data/device';
+
+export const CONFERENCE_SESSION_ID = 'Y3MxNzI2MjI1NTQzODI0MzUzM0AxMC43NC4yLjIxOA';
 
 const defaultInboundOption = {
   id: '111',
@@ -33,6 +36,7 @@ export async function getInboundCall(phone, options = defaultInboundOption) {
 }
 
 export async function makeCall(phone, options = defaultOutboundOption) {
+  mock.device(deviceBody);
   const session = await phone.webphone.makeCall(options);
   if (options.callId) {
     session.__rc_callId = `call-${session.id}`;
@@ -82,65 +86,7 @@ export async function mockDetailedPresencePubnub(activeCallsBody) {
   await timeout(1000);
 }
 
-/* --- mock data --- */
-export function mockGeneratePresenceApi({ activeCalls, totalActiveCalls }) {
-  mock.presence('~', {
-    activeCalls,
-    allowSeeMyPresence: true,
-    dndStatus: 'TakeAllCalls',
-    extensionId: 160751006,
-    meetingsStatus: 'Disconnected',
-    pickUpCallsOnHold: false,
-    presenceStatus: 'Busy',
-    ringOnMonitoredCall: false,
-    sequence: 368997,
-    telephonyStatus: 'OnHold',
-    totalActiveCalls: totalActiveCalls || activeCalls.length,
-    userStatus: 'Available',
-  });
-}
-
-export function mockGeneratePresenceUpdateApi({ activeCalls, totalActiveCalls }) {
-  mock.presenceUpdate('~', {
-    activeCalls,
-    allowSeeMyPresence: true,
-    dndStatus: 'TakeAllCalls',
-    extensionId: 160751006,
-    meetingsStatus: 'Disconnected',
-    pickUpCallsOnHold: false,
-    presenceStatus: 'Busy',
-    ringOnMonitoredCall: false,
-    sequence: 368997,
-    telephonyStatus: 'OnHold',
-    totalActiveCalls: totalActiveCalls || activeCalls.length,
-    userStatus: 'Available',
-  });
-}
-
-export function mockGenerateActiveCallsApi({ sessions }) {
-  const records = sessions.reduce((calls, session) => calls.concat({
-    uri: 'https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/160746006/extension/160751006/call-log/Q6E-u_FeDGlNQA?view=Simple',
-    id: 'Q6E-u_FeDGlNQA',
-    sessionId: session.id,
-    startTime: '2018-08-02T01:48:31.000Z',
-    type: 'Voice',
-    direction: session.direction,
-    action: 'VoIP Call',
-    result: 'In Progress',
-    to: {
-      extensionNumber: '105',
-      name: 'FirstName 105 LastName'
-    },
-    from: {
-      name: 'FirstName 105 LastName'
-    }
-  }), []);
-  mock.activeCalls({
-    records
-  });
-}
-
-export function mockActiveCalls(sessions, mockOtherDeivce = []) {
+export function mockActiveCalls(webphoneSessions, mockOtherDeivce = []) {
   const commons = {
     sipData: {
       toTag: 'pgrneavq66',
@@ -150,13 +96,13 @@ export function mockActiveCalls(sessions, mockOtherDeivce = []) {
     },
     startTime: '2018-08-07T09:20:09.405Z',
   };
-  return sessions.reduce((calls, session) => {
+  return webphoneSessions.reduce((calls, session) => {
     if (isConferenceSession(session)) {
       return calls.concat({
         ...commons,
-        id: session.__rc_callId,
+        id: session.callId,
         sessionId: session.id,
-        direction: session.__rc_direction,
+        direction: session.direction,
         telephonyStatus: session.telephonyStatus || telephonyStatuses.onHold,
         fromName: 'FirstName 104 LastName',
         from: '104',
@@ -164,12 +110,12 @@ export function mockActiveCalls(sessions, mockOtherDeivce = []) {
         to: { phoneNumber: '' },
       });
     }
-    if (session.__rc_direction === 'Inbound') {
+    if (session.direction === 'Inbound') {
       return calls.concat({
         ...commons,
-        id: session.__rc_callId,
+        id: session.callId,
         sessionId: session.id,
-        direction: session.__rc_direction,
+        direction: session.direction,
         telephonyStatus: session.telephonyStatus || telephonyStatuses.onHold,
         fromName: 'FirstName 104 LastName',
         from: '104',
@@ -177,17 +123,17 @@ export function mockActiveCalls(sessions, mockOtherDeivce = []) {
         to: '105',
       });
     }
-    if (session.__rc_direction === 'Outbound') {
+    if (session.direction === 'Outbound') {
       return calls.concat({
         ...commons,
         id: `call-${session.id}`,
         sessionId: session.id,
-        direction: session.__rc_direction,
+        direction: session.direction,
         telephonyStatus: session.telephonyStatus || telephonyStatuses.onHold,
         fromName: 'FirstName 105 LastName',
-        from: session.__rc_fromNumber,
+        from: session.fromNumber,
         toName: 'Something1 New1',
-        to: session.request.to.uri.user,
+        to: session.to,
       });
     }
     return calls;

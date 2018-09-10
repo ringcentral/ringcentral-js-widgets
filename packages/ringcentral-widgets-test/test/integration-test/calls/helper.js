@@ -12,7 +12,7 @@ import {
 } from '../../support/callHelper';
 
 function mockCallProcedure(func) {
-  return async function (phone, ...args) {
+  return async (phone, ...args) => {
     mock.device(deviceBody, false);
     const activeCallsBody = await func.apply(null, [phone, ...args]);
     mock.activeCalls(activeCallsBody);
@@ -64,16 +64,13 @@ async function mockMultiActiveCallBodies(phone) {
     },
     startTime: '2018-08-07T09:20:09.405Z',
   }];
-  return mockActiveCalls(
-    [inboundSession, outboundSession, incomingSession],
-    mockOtherDeivce
-  );
+  return mockActiveCalls(phone.webphone.sessions, mockOtherDeivce);
 }
 
 async function mockMultipleOutboundCallBodies(phone, n) {
   const res = [];
 
-  for (let i = n; i > 0; i--) {
+  for (let i = n; i > 0; i -= 1) {
     const outboundSession = await makeCall(phone, {
       callId: true,
       fromNumber: '+15878133670',
@@ -92,4 +89,9 @@ export async function mockMultiActiveCalls(phone) {
 
 export async function mockMultiOutboundCalls(phone, n) {
   await mockCallProcedure(mockMultipleOutboundCallBodies)(phone, n);
+  const activeCallsBody = mockActiveCalls(phone.webphone.sessions);
+  mock.activeCalls(activeCallsBody);
+  await phone.subscription.subscribe(['/account/~/extension/~/presence'], 10);
+  await timeout(100);
+  await mockDetailedPresencePubnub(activeCallsBody);
 }
