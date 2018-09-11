@@ -9,6 +9,9 @@ import {
   getInboundCall,
   mockActiveCalls,
   mockDetailedPresencePubnub,
+  mockGeneratePresenceApi,
+  mockGeneratePresenceUpdateApi,
+  mockGenerateActiveCallsApi,
 } from '../../support/callHelper';
 
 function mockCallProcedure(func) {
@@ -92,4 +95,51 @@ export async function mockMultiActiveCalls(phone) {
 
 export async function mockMultiOutboundCalls(phone, n) {
   await mockCallProcedure(mockMultipleOutboundCallBodies)(phone, n);
+}
+// all calls page
+export async function makeInboudCalls(phone, optional = []) {
+  const inboundSessions = [];
+  for (const option of optional) {
+    const inboundSession = await getInboundCall(phone, option);
+    inboundSessions.push(inboundSession);
+  }
+  const activeCallBody = await mockActiveCalls(inboundSessions);
+  mock.activeCalls(activeCallBody);
+  await phone.subscription.subscribe(['/account/~/extension/~/presence'], 10);
+  await timeout(100);
+  await mockDetailedPresencePubnub(activeCallBody);
+}
+export function generateActiveCallsData(sessions) {
+  return sessions.reduce((calls, session) => calls.concat({
+    direction: session.direction,
+    from: '+12812923232',
+    fromName: 'FirstName 105 LastName',
+    id: `call-id-${session.id}`,
+    sessionId: session.id,
+    startTime: (new Date()).getTime(),
+    telephonyStatus: 'OnHold',
+    to: session.to || '101',
+    toName: 'Something1 New1',
+    sipData: {
+      fromTag: '10.74.2.219-5070-09d1878acdfc44a',
+      localUri: 'sip:+12812923232@ringcentral.com',
+      remoteUri: `sip:${session.to}@ringcentral.com`,
+      toTag: 'tr8f8ele53',
+    }
+  }), []);
+}
+export async function mockSub(phone, sessions, ttl = 100) {
+  const activeCalls = generateActiveCallsData(sessions);
+  mockGeneratePresenceApi({
+    activeCalls
+  });
+  mockGeneratePresenceUpdateApi({
+    activeCalls
+  });
+  mockGenerateActiveCallsApi({
+    sessions: phone.webphone.sessions
+  });
+  await phone.subscription.subscribe(['/account/~/extension/~/presence'], 10);
+  await timeout(ttl);
+  await mockDetailedPresencePubnub(activeCalls);
 }
