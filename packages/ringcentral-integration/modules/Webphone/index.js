@@ -746,7 +746,7 @@ export default class Webphone extends RcModule {
       console.error(e);
       if (e.code !== INCOMING_CALL_INVALID_STATE_ERROR_CODE) {
         // FIXME:
-        // 2 means the call is answered.
+        // 2 means the call is answered
         this._onCallEnd(sipSession);
       }
     }
