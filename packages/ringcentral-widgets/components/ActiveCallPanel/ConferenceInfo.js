@@ -13,6 +13,13 @@ const WIDTH_PER_AVATAR = 51;
 const PEDDING_WIDTH = 10 - 2; // 2 means the num avatar's width bigger than the nomal avatar.
 const MINIUM_WIDTH = WIDTH_PER_AVATAR * 2 + 4 + PEDDING_WIDTH;
 
+// when the container width reachs below item of width, display the avatar amount of count.
+const KINDS_OF_WIDTH_THAT_NEED_ADAPATER = [
+  { avartarCount: 0, width: MINIUM_WIDTH, },
+  { avartarCount: 2, width: WIDTH_PER_AVATAR * 3 + PEDDING_WIDTH + 1.5, },
+  { avartarCount: 3, width: WIDTH_PER_AVATAR * MAXIMUM_AVATARS + PEDDING_WIDTH, },
+];
+
 export class ConferenceInfo extends Component {
   constructor(props) {
     super(props);
@@ -42,13 +49,7 @@ export class ConferenceInfo extends Component {
 
     let avatarCount = avatarProfilesCount;
 
-    const kindsOfWidthThatNeedAdapater = [
-      { width: MINIUM_WIDTH, avartarCount: 0 },
-      { width: WIDTH_PER_AVATAR * 3 + PEDDING_WIDTH + 1.5, avartarCount: 2 },
-      { width: WIDTH_PER_AVATAR * MAXIMUM_AVATARS + PEDDING_WIDTH, avartarCount: 3 },
-    ];
-
-    const firstMatchWidth = kindsOfWidthThatNeedAdapater.find(it => width < it.width);
+    const firstMatchWidth = KINDS_OF_WIDTH_THAT_NEED_ADAPATER.find(it => width < it.width);
 
     if (firstMatchWidth) {
       avatarCount = avatarCount > firstMatchWidth.avartarCount ?
