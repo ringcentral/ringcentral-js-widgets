@@ -1,4 +1,5 @@
 import 'core-js/fn/array/find';
+import { createSelector } from 'reselect';
 import { Module } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
 import moduleStatuses from '../../enums/moduleStatuses';
@@ -9,6 +10,8 @@ import getCallMonitorReducer, { getCallMatchedReducer } from './getCallMonitorRe
 import ensureExist from '../../lib/ensureExist';
 import normalizeNumber from '../../lib/normalizeNumber';
 import { matchWephoneSessionWithAcitveCall } from './callMonitorHelper';
+import getter from '../../lib/getter';
+
 import {
   isRinging,
   hasRingingCalls,
@@ -260,25 +263,6 @@ export default class CallMonitor extends RcModule {
           return !endCall;
         });
       },
-    );
-    this.addSelector('ringoutRingCalls',
-      this._selectors.calls,
-      calls => calls.filter(callItem =>
-        isRingingInboundCall(callItem)
-      )
-    );
-    this.addSelector('ringoutCurrentCalls',
-      this._selectors.calls,
-      calls => calls.filter(callItem =>
-        !isRingingInboundCall(callItem) &&
-        !isRingOutOnHold(callItem)
-      )
-    );
-    this.addSelector('ringoutOnHoldCalls',
-      this._selectors.calls,
-      calls => calls.filter(callItem =>
-        isRingOutOnHold(callItem)
-      )
     );
 
     this.addSelector('uniqueNumbers',
@@ -679,13 +663,26 @@ export default class CallMonitor extends RcModule {
   get lastCallInfo() {
     return this._selectors.lastCallInfo();
   }
-  get ringoutRingingCalls() {
-    return this._selectors.ringoutRingCalls();
-  }
-  get ringoutCurrentCalls() {
-    return this._selectors.ringoutCurrentCalls();
-  }
-  get ringoutOnHoldCalls() {
-    return this._selectors.ringoutOnHoldCalls();
-  }
+  @getter
+  ringoutRingCalls = createSelector(
+    () => this.otherDeviceCalls,
+    otherDeviceCalls => otherDeviceCalls.filter(callItem =>
+      isRingingInboundCall(callItem)
+    )
+  );
+  @getter
+  ringoutCurrentCalls = createSelector(
+    () => this.otherDeviceCalls,
+    otherDeviceCalls => otherDeviceCalls.filter(callItem =>
+      !isRingingInboundCall(callItem) &&
+          !isRingOutOnHold(callItem)
+    )
+  );
+  @getter
+  ringoutOnHoldCalls = createSelector(
+    () => this.otherDeviceCalls,
+    otherDeviceCalls => otherDeviceCalls.filter(callItem =>
+      isRingOutOnHold(callItem)
+    )
+  );
 }

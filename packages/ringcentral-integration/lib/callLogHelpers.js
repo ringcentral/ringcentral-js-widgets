@@ -23,7 +23,7 @@ export function isOutbound(call = {}) {
 export function isRinging(call = {}) {
   return call.telephonyStatus === telephonyStatuses.ringing;
 }
-export function isRingingInboundCall(call = {}) {
+export function isRingingInboundCall(call) {
   return isRinging(call) && isInbound(call);
 }
 
