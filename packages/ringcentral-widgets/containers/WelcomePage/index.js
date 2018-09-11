@@ -3,8 +3,6 @@ import loginStatus from 'ringcentral-integration/modules/Auth/loginStatus';
 import LoginPanel from '../../components/LoginPanel';
 import { withPhone } from '../../lib/phoneContext';
 
-/* global chrome */
-
 function mapToProps(_, {
   phone: {
     auth,
