@@ -15,6 +15,7 @@ function mapToProps(_, {
   },
   version,
   showSignUp = false,
+  onSignUpButtonClick
 }) {
   return {
     currentLocale: locale.currentLocale,
@@ -32,6 +33,7 @@ function mapToProps(_, {
       auth.loginStatus === loginStatus.loggedIn
     ),
     showSignUp,
+    onSignUpButtonClick,
   };
 }
 
