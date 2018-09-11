@@ -10,37 +10,52 @@ import i18n from './i18n';
 
 const MAXIMUM_AVATARS = 4;
 const WIDTH_PER_AVATAR = 51;
-const PEDDING_WIDTH = 15;
-const MINIUM_WIDTH = 140;
+const PEDDING_WIDTH = 10 - 2; // 2 means the num avatar's width bigger than the nomal avatar.
+const MINIUM_WIDTH = WIDTH_PER_AVATAR * 2 + 4 + PEDDING_WIDTH;
 
 export class ConferenceInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      avatarCount: this._computeAvatarCountByWindowWidth(),
+      avatarCount: this._computeAvatarCountByWindowWidth(window && window.innerWidth),
     };
+
+    this._container = React.createRef();
   }
 
-  _computeAvatarCountByWindowWidth() {
-    const w = window;
-    const width = w.innerWidth;
-
+  _computeAvatarCountByWindowWidth(alternativeContainerWidth) {
     const { partyProfiles } = this.props;
-
     const avatarProfilesCount = (partyProfiles && partyProfiles.length) || 0;
+
+    if (!this._mounted) {
+      if (avatarProfilesCount >= MAXIMUM_AVATARS) {
+        return MAXIMUM_AVATARS;
+      }
+      return avatarProfilesCount;
+    }
+
+    const width = (
+      this._container &&
+      this._container.current &&
+      this._container.current.clientWidth
+    ) || alternativeContainerWidth;
 
     let avatarCount = avatarProfilesCount;
 
-    const minWith4Avatars = WIDTH_PER_AVATAR * (MAXIMUM_AVATARS) + PEDDING_WIDTH;
+    const kindsOfWidthThatNeedAdapater = [
+      { width: MINIUM_WIDTH, avartarCount: 0 },
+      { width: WIDTH_PER_AVATAR * 3 + PEDDING_WIDTH + 1.5, avartarCount: 2 },
+      { width: WIDTH_PER_AVATAR * MAXIMUM_AVATARS + PEDDING_WIDTH, avartarCount: 3 },
+    ];
 
-    if (
-      width <= MINIUM_WIDTH
-    ) {
-      avatarCount = 1; // meets the minium window width, shows 1 avart + num
-    } else if (
-      width <= minWith4Avatars
-    ) {
-      avatarCount = 2; // meets the minium width of 2 avatars, show 2 avart + num
+    const firstMatchWidth = kindsOfWidthThatNeedAdapater.find(it => width < it.width);
+
+    if (firstMatchWidth) {
+      avatarCount = avatarCount > firstMatchWidth.avartarCount ?
+        firstMatchWidth.avartarCount - 1 : firstMatchWidth.avartarCount;
+      if (avatarCount === -1) {
+        avatarCount = 0;
+      }
     } else if (
       avatarCount >= MAXIMUM_AVATARS
     ) {
@@ -56,12 +71,14 @@ export class ConferenceInfo extends Component {
     }
 
     const avatarCount = this._computeAvatarCountByWindowWidth();
-
     this.setState({
       avatarCount,
     });
-  }, 100);
+  }, 10);
 
+  componentWillReceiveProps() {
+    this._updateAvatarAmounts();
+  }
 
   componentDidMount() {
     this._mounted = true;
@@ -134,9 +151,10 @@ export class ConferenceInfo extends Component {
     return (
       <div
         className={styles.conferenceCallInfoContainer}
+        ref={this._container}
         >
         {
-            displayedProfiles.length
+            (displayedProfiles.length || (avatarCount === 0 && remains > 0))
               ? (
                 <div
                   className={classnames(styles.avatarContainer, styles.clickable)}
