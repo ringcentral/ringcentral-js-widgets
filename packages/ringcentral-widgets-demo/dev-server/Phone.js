@@ -62,7 +62,7 @@ import UserGuide from 'ringcentral-integration/modules/UserGuide';
 import { ModuleFactory } from 'ringcentral-integration/lib/di';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 import DialerUI from 'ringcentral-widgets/modules/DialerUI';
-import ConferenceCallDialerUI from 'ringcentral-widgets/modules/ConferenceCallDialerUI';
+import ConferenceDialerUI from 'ringcentral-widgets/modules/ConferenceDialerUI';
 import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
 
 @ModuleFactory({
@@ -138,7 +138,7 @@ import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
     { provide: 'ContactSearch', useClass: ContactSearch },
     { provide: 'CallMonitor', useClass: CallMonitor },
     { provide: 'DialerUI', useClass: DialerUI },
-    { provide: 'ConferenceCallDialerUI', useClass: ConferenceCallDialerUI },
+    { provide: 'ConferenceDialerUI', useClass: ConferenceDialerUI },
     { provide: 'Feedback', useClass: Feedback },
     { provide: 'UserGuide', useClass: UserGuide },
     {
@@ -320,7 +320,7 @@ export default class BasePhone extends RcModule {
     webphone.onBeforeCallEnd((session) => {
       const mergingPair = conferenceCall && conferenceCall.mergingPair;
       if (session && mergingPair &&
-          (Object.values(mergingPair).indexOf(session.id) !== -1)
+        (Object.values(mergingPair).indexOf(session.id) !== -1)
       ) {
         // close merging pair to close the merge call.
         conferenceCall.closeMergingPair();

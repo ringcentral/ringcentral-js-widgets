@@ -42,7 +42,7 @@ ConferenceCallDialerPanel.defaultProps = {
 
 function mapToProps(_, {
   phone: {
-    conferenceCallDialerUI,
+    conferenceDialerUI,
     ...components
   },
   ...props
@@ -51,7 +51,7 @@ function mapToProps(_, {
     ...props,
     phone: {
       ...components,
-      dialerUI: conferenceCallDialerUI, // override
+      dialerUI: conferenceDialerUI, // override
     },
   });
   return {
@@ -64,7 +64,7 @@ function mapToFunctions(_, {
   params,
   phone: {
     conferenceCall,
-    conferenceCallDialerUI,
+    conferenceDialerUI,
     ...components
   },
   onBack,
@@ -76,14 +76,14 @@ function mapToFunctions(_, {
     phone: {
       ...components,
       conferenceCall,
-      dialerUI: conferenceCallDialerUI, // override
+      dialerUI: conferenceDialerUI, // override
     },
   });
   return {
     ...baseProps,
     onBack,
     onCallButtonClick() {
-      conferenceCallDialerUI.onCallButtonClick({
+      conferenceDialerUI.onCallButtonClick({
         fromNumber: params.fromNumber,
         beforeCall() {
           const { fromSessionId } = params;
