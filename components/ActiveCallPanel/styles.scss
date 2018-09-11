@@ -155,34 +155,29 @@ $borderWidth:1px;
   .merge_item {
     height: 30px;
     opacity: 0.8;
+    display: flex;
+    align-items: center;
     .callee_avatar {
       width: $calleeAvatarSize;
       height: $calleeAvatarSize;
-      float: left;
-      margin-right: 35px - $calleeAvatarMarginL;
+      margin-right: 20px + $calleeAvatarMarginL;
       margin-left: $calleeAvatarMarginL;
       border-radius: 100%;
-      @media only screen and (min-width: 150px) and (max-width: 265px) {
-        margin-right: 11%;
-      }
     }
     .callee_name,
     .last_call_info_load_timeout {
       font-size: 15px;
       letter-spacing: normal;
       color: $ash;
-      float: left;
-      line-height: 30px;
-      max-width: 43%;
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
       @media only screen and (max-width: 150px) {
         display: none;
       }
-      @media only screen and (min-width: 150px) and (max-width: 265px) {
-        max-width: 23%;
-      }
+      flex: 1;
+      padding-right: 10px;
+      text-align: left;
     }
     .callee_status {
       font-size: 12px;
@@ -192,8 +187,7 @@ $borderWidth:1px;
       line-height: normal;
       letter-spacing: normal;
       color: $ash;
-      float: right;
-      line-height: 30px;
+      text-align: right;
     }
     .callee_status_disconnected {
       color: $tomato;
@@ -201,55 +195,45 @@ $borderWidth:1px;
   }
   .merge_item_active {
     height: 45px;
+    display: flex;
+    align-items: center;
     .callee_avatar_active {
       width: $calleeAvatarActiveSize;
       height: $calleeAvatarActiveSize;
       border-radius: 100%;
-      float: left;
       margin-right: 20px;
-      @media only screen and (min-width: 150px) and (max-width: 265px) {
-        margin-right: 6%;
-      }
     }
     .callee_name_active {
       font-size: 18px;
       font-weight: normal;
       font-style: normal;
       font-stretch: normal;
-      line-height: 45px;
       letter-spacing: normal;
       color: #303030;
-      float: left;
-      max-width: 58%;
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
       @media only screen and (max-width: 150px) {
         display: none;
       }
-      @media only screen and (min-width: 150px) and (max-width: 265px) {
-        max-width: 23%;
-      }
+      flex: 1;
+      text-align: left;
+      padding-right: 10px;
     }
     .callee_status_active {
-      float: right;
+      text-align: right;
+      min-width: 33px;
       .timeCounter {
         font-size: 12px;
         font-weight: normal;
         font-style: normal;
         font-stretch: normal;
-        line-height: 45px;
         letter-spacing: normal;
         color: $night;
         margin: 0;
         padding: 0;
       }
     }
-  }
-  .callee_avatar,
-  .callee_status,
-  .callee_name {
-    // display: inline-block;
   }
   .callee_avatar,
   .callee_avatar_active {
