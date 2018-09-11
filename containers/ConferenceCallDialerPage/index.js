@@ -71,9 +71,16 @@ ConferenceCallDialerPanel.propTypes = (0, _extends3.default)({}, _DialerPanel2.d
 ConferenceCallDialerPanel.defaultProps = (0, _extends3.default)({}, _DialerPanel2.default.defaultProps);
 
 function mapToProps(_, _ref2) {
-  var props = (0, _objectWithoutProperties3.default)(_ref2, []);
+  var _ref2$phone = _ref2.phone,
+      conferenceDialerUI = _ref2$phone.conferenceDialerUI,
+      components = (0, _objectWithoutProperties3.default)(_ref2$phone, ['conferenceDialerUI']),
+      props = (0, _objectWithoutProperties3.default)(_ref2, ['phone']);
 
-  var baseProps = (0, _DialerPage.mapToProps)(_, (0, _extends3.default)({}, props));
+  var baseProps = (0, _DialerPage.mapToProps)(_, (0, _extends3.default)({}, props, {
+    phone: (0, _extends3.default)({}, components, {
+      dialerUI: conferenceDialerUI // override
+    })
+  }));
   return (0, _extends3.default)({}, baseProps, {
     showFromField: false
   });
@@ -81,19 +88,25 @@ function mapToProps(_, _ref2) {
 
 function mapToFunctions(_, _ref3) {
   var params = _ref3.params,
-      phone = _ref3.phone,
-      conferenceCall = _ref3.phone.conferenceCall,
+      _ref3$phone = _ref3.phone,
+      conferenceCall = _ref3$phone.conferenceCall,
+      conferenceDialerUI = _ref3$phone.conferenceDialerUI,
+      components = (0, _objectWithoutProperties3.default)(_ref3$phone, ['conferenceCall', 'conferenceDialerUI']),
       onBack = _ref3.onBack,
-      props = (0, _objectWithoutProperties3.default)(_ref3, ['params', 'phone', 'phone', 'onBack']);
+      props = (0, _objectWithoutProperties3.default)(_ref3, ['params', 'phone', 'onBack']);
 
   var baseProps = (0, _DialerPage.mapToFunctions)(_, (0, _extends3.default)({
-    params: params,
-    phone: phone
-  }, props));
+    params: params
+  }, props, {
+    phone: (0, _extends3.default)({}, components, {
+      conferenceCall: conferenceCall,
+      dialerUI: conferenceDialerUI // override
+    })
+  }));
   return (0, _extends3.default)({}, baseProps, {
     onBack: onBack,
     onCallButtonClick: function onCallButtonClick() {
-      phone.dialerUI.onCallButtonClick({
+      conferenceDialerUI.onCallButtonClick({
         fromNumber: params.fromNumber,
         beforeCall: function beforeCall() {
           var fromSessionId = params.fromSessionId;
