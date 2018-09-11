@@ -13,6 +13,8 @@ import {
   isRinging,
   hasRingingCalls,
   sortByStartTime,
+  isRingingInboundCall,
+  isOnHold as isRingOutOnHold
 } from '../../lib/callLogHelpers';
 import {
   isRing,
@@ -196,7 +198,6 @@ export default class CallMonitor extends RcModule {
       ),
     );
 
-
     this.addSelector('activeRingCalls',
       this._selectors.calls,
       calls => calls.filter(callItem =>
@@ -259,6 +260,25 @@ export default class CallMonitor extends RcModule {
           return !endCall;
         });
       },
+    );
+    this.addSelector('ringoutRingCalls',
+      this._selectors.calls,
+      calls => calls.filter(callItem =>
+        isRingingInboundCall(callItem)
+      )
+    );
+    this.addSelector('ringoutCurrentCalls',
+      this._selectors.calls,
+      calls => calls.filter(callItem =>
+        !isRingingInboundCall(callItem) &&
+        !isRingOutOnHold(callItem)
+      )
+    );
+    this.addSelector('ringoutOnHoldCalls',
+      this._selectors.calls,
+      calls => calls.filter(callItem =>
+        isRingOutOnHold(callItem)
+      )
     );
 
     this.addSelector('uniqueNumbers',
@@ -658,5 +678,14 @@ export default class CallMonitor extends RcModule {
 
   get lastCallInfo() {
     return this._selectors.lastCallInfo();
+  }
+  get ringoutRingingCalls() {
+    return this._selectors.ringoutRingCalls();
+  }
+  get ringoutCurrentCalls() {
+    return this._selectors.ringoutCurrentCalls();
+  }
+  get ringoutOnHoldCalls() {
+    return this._selectors.ringoutOnHoldCalls();
   }
 }
