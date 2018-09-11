@@ -50,14 +50,6 @@ function mapToFunctions(_, {
     onLoginButtonClick() {
       oAuth.openOAuthPage();
     },
-    onSignUpButtonClick() {
-      const url = 'https://www.ringcentral.com/office/plansandpricing.html';
-      if (chrome && chrome.tabs) {
-        chrome.tabs.create({ url });
-      } else {
-        window.open(url);
-      }
-    }
   };
 }
 
