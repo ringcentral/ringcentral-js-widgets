@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _defineProperty = require('babel-runtime/core-js/object/define-property');
+
+var _defineProperty2 = _interopRequireDefault(_defineProperty);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -45,9 +49,11 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _dec, _class;
+var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3;
 
 require('core-js/fn/array/find');
+
+var _reselect = require('reselect');
 
 var _di = require('../../lib/di');
 
@@ -85,11 +91,58 @@ var _normalizeNumber2 = _interopRequireDefault(_normalizeNumber);
 
 var _callMonitorHelper = require('./callMonitorHelper');
 
+var _getter = require('../../lib/getter');
+
+var _getter2 = _interopRequireDefault(_getter);
+
 var _callLogHelpers = require('../../lib/callLogHelpers');
 
 var _webphoneHelper = require('../Webphone/webphoneHelper');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _initDefineProp(target, property, descriptor, context) {
+  if (!descriptor) return;
+  (0, _defineProperty2.default)(target, property, {
+    enumerable: descriptor.enumerable,
+    configurable: descriptor.configurable,
+    writable: descriptor.writable,
+    value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+  });
+}
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+  var desc = {};
+  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+    desc[key] = descriptor[key];
+  });
+  desc.enumerable = !!desc.enumerable;
+  desc.configurable = !!desc.configurable;
+
+  if ('value' in desc || desc.initializer) {
+    desc.writable = true;
+  }
+
+  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    return decorator(target, property, desc) || desc;
+  }, desc);
+
+  if (context && desc.initializer !== void 0) {
+    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+    desc.initializer = undefined;
+  }
+
+  if (desc.initializer === void 0) {
+    Object['define' + 'Property'](target, property, desc);
+    desc = null;
+  }
+
+  return desc;
+}
+
+function _initializerWarningHelper(descriptor, context) {
+  throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
+}
 
 /**
  * @class
@@ -97,7 +150,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 var CallMonitor = (_dec = (0, _di.Module)({
   deps: ['AccountInfo', 'Storage', 'DetailedPresence', { dep: 'ContactMatcher', optional: true }, { dep: 'Webphone', optional: true }, { dep: 'Call', optional: true }, { dep: 'ConferenceCall', optional: true }, { dep: 'ActivityMatcher', optional: true }, { dep: 'CallMonitorOptions', optional: true }, { dep: 'TabManager', optional: true }]
-}), _dec(_class = function (_RcModule) {
+}), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(CallMonitor, _RcModule);
 
   /**
@@ -136,6 +189,12 @@ var CallMonitor = (_dec = (0, _di.Module)({
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallMonitor.__proto__ || (0, _getPrototypeOf2.default)(CallMonitor)).call(this, (0, _extends3.default)({}, options, {
       actionTypes: _actionTypes2.default
     })));
+
+    _initDefineProp(_this, 'ringoutRingCalls', _descriptor, _this);
+
+    _initDefineProp(_this, 'ringoutCurrentCalls', _descriptor2, _this);
+
+    _initDefineProp(_this, 'ringoutOnHoldCalls', _descriptor3, _this);
 
     _this._call = call;
     _this._conferenceCall = conferenceCall;
@@ -723,6 +782,45 @@ var CallMonitor = (_dec = (0, _di.Module)({
     }
   }]);
   return CallMonitor;
-}(_RcModule3.default)) || _class);
+}(_RcModule3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'ringoutRingCalls', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this4 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this4.otherDeviceCalls;
+    }, function (otherDeviceCalls) {
+      return otherDeviceCalls.filter(function (callItem) {
+        return (0, _callLogHelpers.isRingingInboundCall)(callItem);
+      });
+    });
+  }
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'ringoutCurrentCalls', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this5 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this5.otherDeviceCalls;
+    }, function (otherDeviceCalls) {
+      return otherDeviceCalls.filter(function (callItem) {
+        return !(0, _callLogHelpers.isRingingInboundCall)(callItem) && !(0, _callLogHelpers.isOnHold)(callItem);
+      });
+    });
+  }
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'ringoutOnHoldCalls', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this6 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this6.otherDeviceCalls;
+    }, function (otherDeviceCalls) {
+      return otherDeviceCalls.filter(function (callItem) {
+        return (0, _callLogHelpers.isOnHold)(callItem);
+      });
+    });
+  }
+})), _class2)) || _class);
 exports.default = CallMonitor;
 //# sourceMappingURL=index.js.map
