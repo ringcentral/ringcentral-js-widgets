@@ -40,7 +40,7 @@ export async function updateConferenceCallEnv(phone, {
 }
 
 export async function mockConferenceCallEnv(phone, params = {
-  conferencePartiesCount: 3
+  conferencePartiesCount: 3,
 }) {
   for (const session of phone.webphone.sessions) {
     await phone.webphone.hold(session.id);
@@ -80,4 +80,16 @@ export async function mockConferenceCallEnv(phone, params = {
   phone.routerInteraction.push('/dialer');
   phone.routerInteraction.push('/calls/active');
   return conferenceSession;
+}
+export function removeParticipant(phone, partyId) {
+  if (!partyId) return;
+  const conferenceBody = Object.values(phone.conferenceCall.conferences)[0].conference;
+  const newConferenceParties = conferenceBody.parties.map((item, index, arr) => {
+    if (item.id === partyId) {
+      item.status = { code: 'Disconnected' };
+    }
+    return item;
+  });
+  conferenceBody.parties = newConferenceParties;
+  return conferenceBody;
 }

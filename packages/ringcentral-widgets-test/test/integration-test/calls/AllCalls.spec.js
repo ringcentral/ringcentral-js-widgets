@@ -8,12 +8,17 @@ import ActiveCallButton from 'ringcentral-widgets/components/ActiveCallButton';
 import CircleButton from 'ringcentral-widgets/components/CircleButton';
 import ActiveCallsPanel from 'ringcentral-widgets/components/ActiveCallsPanel';
 import telephonyStatus from 'ringcentral-integration/enums/telephonyStatuses';
+import MediaObject from 'ringcentral-widgets/components/MediaObject';
 import { timeout, initPhoneWrapper } from '../shared';
 import deviceBody from '../calls/data/device.json';
 import {
   makeInboudCalls,
   mockSub,
 } from './helper';
+
+beforeEach(async () => {
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
+});
 
 async function call({
   phone,
@@ -56,12 +61,14 @@ describe('Incoming Call Control Page from All Calls', () => {
     expect(ringingCall.find('.listTitle').text()).toEqual('Ringing Call');
     const panel = wrapper.find(ActiveCallsPanel);
     if (panel.props().useV2) {
-      ringingCall.find(ActiveCallItemV2).props().onClick();
+      ringingCall.find(ActiveCallItemV2).find('.currentName').simulate('click');
     } else {
-      ringingCall.find(ActiveCallItem).props().onClick();
+      ringingCall.find(ActiveCallItem).find('.currentName').simulate('click');
     }
+    await timeout(100);
     expect(phone.routerInteraction.currentPath).toEqual('/calls');
     wrapper.update();
+    debugger;
     expect(wrapper.find(IncomingCallPanel)).toHaveLength(1);
   });
   test('make two inbound call then click one of the call item can goto incoming call ctrl', async () => {
@@ -86,13 +93,14 @@ describe('Incoming Call Control Page from All Calls', () => {
       ringingCalls = allCallList.at(0).find(ActiveCallItem);
     }
     expect(ringingCalls).toHaveLength(2);
-    ringingCalls.at(0).props().onClick();
+    ringingCalls.at(0).find('.currentName').simulate('click');
+    await timeout(100);
     wrapper.update();
     expect(wrapper.find(IncomingCallPanel)).toHaveLength(1);
     wrapper.find(IncomingCallPanel).find('.backButton').simulate('click');
     await timeout(100);
     wrapper.update();
-    ringingCalls.at(1).props().onClick();
+    ringingCalls.at(1).find('.currentName').simulate('click');
     wrapper.update();
     expect(wrapper.find(IncomingCallPanel)).toHaveLength(1);
   });
@@ -101,12 +109,9 @@ describe('Incoming Call Control Page from All Calls', () => {
     await makeInboudCalls(phone, [{
       id: '102',
       direction: 'Inbound',
-      telephonyStatus: telephonyStatus.ringing,
-    }, {
-      id: '103',
-      direction: 'Inbound',
-      telephonyStatus: telephonyStatus.ringing,
     }]);
+    const currentSession = phone.webphone._sessions.get('102');
+    phone.routerInteraction.push('/calls');
     wrapper.update();
     const allCallList = wrapper.find(ActiveCallList);
     const ringingCalls = allCallList.at(0);
@@ -117,13 +122,8 @@ describe('Incoming Call Control Page from All Calls', () => {
     } else {
       callItem = ActiveCallItem;
     }
-    let ringingCallItems = wrapper.find(callItem);
-    expect(ringingCallItems).toHaveLength(2);
-    ringingCallItems.at(0).find('svg.rejectButton').simulate('click');
-    await timeout(100);
-    wrapper.update();
-    ringingCallItems = wrapper.find(callItem);
-    expect(ringingCalls).toHaveLength(1);
+    const ringingCallItems = wrapper.find(callItem);
+    expect(ringingCallItems).toHaveLength(1);
     ringingCallItems.at(0).find('svg.rejectButton').simulate('click');
     await timeout(100);
     wrapper.update();
