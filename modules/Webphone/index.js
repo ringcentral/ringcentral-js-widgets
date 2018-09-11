@@ -185,6 +185,8 @@ var FOURTH_RETRIES_DELAY = 30 * 1000;
 var FIFTH_RETRIES_DELAY = 60 * 1000;
 var MAX_RETRIES_DELAY = 2 * 60 * 1000;
 
+var INCOMING_CALL_INVALID_STATE_ERROR_CODE = 2;
+
 /**
  * @constructor
  * @description Web phone module to handle phone interaction with WebRTC.
@@ -1045,51 +1047,58 @@ var Webphone = (_dec = (0, _di.Module)({
     key: 'answer',
     value: function () {
       var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(sessionId) {
-        var session;
+        var sipSession, session;
         return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                session = this._sessions.get(sessionId);
+                sipSession = this._sessions.get(sessionId);
+                session = this.sessions.find(function (session) {
+                  return session.id === sessionId;
+                });
 
-                if (session) {
-                  _context7.next = 3;
+                if (!(!session || !(0, _webphoneHelper.isRing)(session))) {
+                  _context7.next = 4;
                   break;
                 }
 
                 return _context7.abrupt('return');
 
-              case 3:
-                _context7.prev = 3;
+              case 4:
+                _context7.prev = 4;
 
-                this._holdOtherSession(session.id);
-                this._onAccepted(session, 'inbound');
-                this._beforeCallStart(session);
-                _context7.next = 9;
-                return session.accept(this.acceptOptions);
+                this._holdOtherSession(sessionId);
+                this._onAccepted(sipSession, 'inbound');
+                this._beforeCallStart(sipSession);
+                _context7.next = 10;
+                return sipSession.accept(this.acceptOptions);
 
-              case 9:
-                this._onCallStart(session);
+              case 10:
+                this._onCallStart(sipSession);
                 this.store.dispatch({ // for track
                   type: this.actionTypes.callAnswer
                 });
-                _context7.next = 18;
+                _context7.next = 19;
                 break;
 
-              case 13:
-                _context7.prev = 13;
-                _context7.t0 = _context7['catch'](3);
+              case 14:
+                _context7.prev = 14;
+                _context7.t0 = _context7['catch'](4);
 
                 console.log('Accept failed');
                 console.error(_context7.t0);
-                this._onCallEnd(session);
+                if (_context7.t0.code !== INCOMING_CALL_INVALID_STATE_ERROR_CODE) {
+                  // FIXME:
+                  // 2 means the call is answered
+                  this._onCallEnd(sipSession);
+                }
 
-              case 18:
+              case 19:
               case 'end':
                 return _context7.stop();
             }
           }
-        }, _callee7, this, [[3, 13]]);
+        }, _callee7, this, [[4, 14]]);
       }));
 
       function answer(_x2) {
@@ -1109,7 +1118,7 @@ var Webphone = (_dec = (0, _di.Module)({
               case 0:
                 session = this._sessions.get(sessionId);
 
-                if (session) {
+                if (!(!session || session.__rc_callStatus === _sessionStatus2.default.finished)) {
                   _context8.next = 3;
                   break;
                 }
