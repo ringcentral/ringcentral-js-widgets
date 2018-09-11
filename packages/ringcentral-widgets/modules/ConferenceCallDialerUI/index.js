@@ -9,7 +9,7 @@ export default class ConferenceCallDialerUI extends DialerUI {
   }) {
     super({
       ...options,
-      prefix: `${prefix}-alt`,
+      prefix: `${prefix}-conf`,
     });
   }
 }

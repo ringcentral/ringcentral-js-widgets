@@ -62,6 +62,7 @@ import UserGuide from 'ringcentral-integration/modules/UserGuide';
 import { ModuleFactory } from 'ringcentral-integration/lib/di';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 import DialerUI from 'ringcentral-widgets/modules/DialerUI';
+import ConferenceCallDialerUI from 'ringcentral-widgets/modules/ConferenceCallDialerUI';
 import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
 
 @ModuleFactory({
@@ -137,6 +138,7 @@ import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
     { provide: 'ContactSearch', useClass: ContactSearch },
     { provide: 'CallMonitor', useClass: CallMonitor },
     { provide: 'DialerUI', useClass: DialerUI },
+    { provide: 'ConferenceCallDialerUI', useClass: ConferenceCallDialerUI },
     { provide: 'Feedback', useClass: Feedback },
     { provide: 'UserGuide', useClass: UserGuide },
     {
