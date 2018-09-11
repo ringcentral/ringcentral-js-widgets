@@ -12,6 +12,7 @@ import styles from './styles.scss';
 class TabContentView extends Component {
   static propTypes = {
     applicable: PropTypes.bool.isRequired,
+    localeReady: PropTypes.bool.isRequired,
     currentLocale: PropTypes.string.isRequired,
     currentPath: PropTypes.string.isRequired,
     goTo: PropTypes.func.isRequired,
@@ -23,7 +24,8 @@ class TabContentView extends Component {
     this.getTabs = createSelector(
       () => this.props.currentLocale,
       () => this.props.currentPath,
-      (currentLocale, currentPath) => ([
+      () => this.props.localeReady,
+      (currentLocale, currentPath, localeReady) => ([
         {
           path: '/dialer',
           label: i18n.getString('dialer', currentLocale),
@@ -75,6 +77,7 @@ function mapToProps(_, {
   return {
     applicable,
     currentLocale: locale.currentLocale,
+    localeReady: locale.ready,
     currentPath: routerInteraction.currentPath,
   };
 }
