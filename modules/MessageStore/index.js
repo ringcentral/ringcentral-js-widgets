@@ -13,10 +13,6 @@ var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-pr
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
-var _typeof2 = require('babel-runtime/helpers/typeof');
-
-var _typeof3 = _interopRequireDefault(_typeof2);
-
 var _getIterator2 = require('babel-runtime/core-js/get-iterator');
 
 var _getIterator3 = _interopRequireDefault(_getIterator2);
@@ -831,24 +827,22 @@ var MessageStore = (_dec = (0, _di.Module)({
             lastModifiedTime = _ref15.lastModifiedTime,
             creationTime = _ref15.creationTime;
         // Notify when new message incoming
+        // fix mix old messages and new messages logic error.
 
 
-        if (_this4._messageDispatched(record)) {
-          return {
-            v: void 0
-          };
-        }
-        // Mark last 10 messages that dispatched
-        // To present dispatching same record twice
-        _this4._dispatchedMessageIds = [{ id: id, lastModifiedTime: lastModifiedTime }].concat(_this4._dispatchedMessageIds).slice(0, 20);
-        _this4._messageUpdatedHandlers.forEach(function (handler) {
-          return handler(record);
-        });
-        // For new inbound message notification
-        if (direction === 'Inbound' && readStatus === 'Unread' && messageStatus === 'Received' && availability === 'Alive' && new Date(creationTime).getTime() > new Date(lastModifiedTime).getTime() - 600 * 1000) {
-          _this4._newInboundMessageNotificationHandlers.forEach(function (handler) {
+        if (!_this4._messageDispatched(record)) {
+          // Mark last 10 messages that dispatched
+          // To present dispatching same record twice
+          _this4._dispatchedMessageIds = [{ id: id, lastModifiedTime: lastModifiedTime }].concat(_this4._dispatchedMessageIds).slice(0, 20);
+          _this4._messageUpdatedHandlers.forEach(function (handler) {
             return handler(record);
           });
+          // For new inbound message notification
+          if (direction === 'Inbound' && readStatus === 'Unread' && messageStatus === 'Received' && availability === 'Alive' && new Date(creationTime).getTime() > new Date(lastModifiedTime).getTime() - 600 * 1000) {
+            _this4._newInboundMessageNotificationHandlers.forEach(function (handler) {
+              return handler(record);
+            });
+          }
         }
       };
 
@@ -860,9 +854,7 @@ var MessageStore = (_dec = (0, _di.Module)({
         for (var _iterator = (0, _getIterator3.default)(records), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
           var record = _step.value;
 
-          var _ret = _loop(record);
-
-          if ((typeof _ret === 'undefined' ? 'undefined' : (0, _typeof3.default)(_ret)) === "object") return _ret.v;
+          _loop(record);
         }
       } catch (err) {
         _didIteratorError = true;
