@@ -292,11 +292,7 @@ export default class BasePhone extends RcModule {
     });
 
     webphone.onCallStart(() => {
-      if (
-        routerInteraction.currentPath.indexOf('/calls/active') !== 0
-      ) {
-        routerInteraction.push('/calls/active');
-      }
+      routerInteraction.push('/calls/active');
     });
 
     webphone.onCallRing(() => {
