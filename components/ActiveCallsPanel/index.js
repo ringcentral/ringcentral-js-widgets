@@ -224,7 +224,8 @@ var ActiveCallsPanel = function (_Component) {
           otherDeviceCalls = _props3.otherDeviceCalls,
           className = _props3.className,
           currentLocale = _props3.currentLocale,
-          showSpinner = _props3.showSpinner;
+          showSpinner = _props3.showSpinner,
+          showOtherDevice = _props3.showOtherDevice;
 
       var logSection = this.renderLogSection();
 
@@ -241,7 +242,7 @@ var ActiveCallsPanel = function (_Component) {
           showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, { className: _styles2.default.spinner }) : null
         );
       }
-
+      var otherDevice = showOtherDevice ? this.getCallList(otherDeviceCalls, _i18n2.default.getString('otherDeviceCall', currentLocale), true) : null;
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.root },
@@ -256,7 +257,7 @@ var ActiveCallsPanel = function (_Component) {
           this.getCallList(activeRingCalls, _i18n2.default.getString('ringCall', currentLocale)),
           this.getCallList(activeCurrentCalls, _i18n2.default.getString('currentCall', currentLocale)),
           this.getCallList(activeOnHoldCalls, _i18n2.default.getString('onHoldCall', currentLocale)),
-          this.getCallList(otherDeviceCalls, _i18n2.default.getString('otherDeviceCall', currentLocale), true)
+          otherDevice
         ),
         logSection,
         showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, { className: _styles2.default.spinner }) : null
@@ -317,7 +318,8 @@ ActiveCallsPanel.propTypes = {
   onCloseLogSection: _propTypes2.default.func,
   // Contact
   showAvatar: _propTypes2.default.bool,
-  renderContactName: _propTypes2.default.func
+  renderContactName: _propTypes2.default.func,
+  showOtherDevice: _propTypes2.default.bool
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -367,6 +369,7 @@ ActiveCallsPanel.defaultProps = {
   onCloseLogSection: undefined,
   // Contact
   showAvatar: true,
-  renderContactName: undefined
+  renderContactName: undefined,
+  showOtherDevice: true
 };
 //# sourceMappingURL=index.js.map
