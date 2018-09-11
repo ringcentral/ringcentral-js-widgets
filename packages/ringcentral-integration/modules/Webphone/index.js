@@ -35,6 +35,8 @@ const FOURTH_RETRIES_DELAY = 30 * 1000;
 const FIFTH_RETRIES_DELAY = 60 * 1000;
 const MAX_RETRIES_DELAY = 2 * 60 * 1000;
 
+const INCOMING_CALL_INVALID_STATE_ERROR_CODE = 2;
+
 /**
  * @constructor
  * @description Web phone module to handle phone interaction with WebRTC.
@@ -725,30 +727,35 @@ export default class Webphone extends RcModule {
 
   @proxify
   async answer(sessionId) {
-    const session = this._sessions.get(sessionId);
-    if (!session) {
+    const sipSession = this._sessions.get(sessionId);
+    const session = this.sessions.find(session => session.id === sessionId);
+    if (!session || !isRing(session)) {
       return;
     }
     try {
-      this._holdOtherSession(session.id);
-      this._onAccepted(session, 'inbound');
-      this._beforeCallStart(session);
-      await session.accept(this.acceptOptions);
-      this._onCallStart(session);
+      this._holdOtherSession(sessionId);
+      this._onAccepted(sipSession, 'inbound');
+      this._beforeCallStart(sipSession);
+      await sipSession.accept(this.acceptOptions);
+      this._onCallStart(sipSession);
       this.store.dispatch({ // for track
         type: this.actionTypes.callAnswer,
       });
     } catch (e) {
       console.log('Accept failed');
       console.error(e);
-      this._onCallEnd(session);
+      if (e.code !== INCOMING_CALL_INVALID_STATE_ERROR_CODE) {
+        // FIXME:
+        // 2 means the call is answered.
+        this._onCallEnd(sipSession);
+      }
     }
   }
 
   @proxify
   async reject(sessionId) {
     const session = this._sessions.get(sessionId);
-    if (!session) {
+    if (!session || session.__rc_callStatus === sessionStatus.finished) {
       return;
     }
     try {
