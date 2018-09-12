@@ -26,13 +26,18 @@ function mapToProps(_, _ref) {
       rateLimiter = _ref$phone.rateLimiter,
       connectivityMonitor = _ref$phone.connectivityMonitor,
       oAuth = _ref$phone.oAuth,
-      version = _ref.version;
+      version = _ref.version,
+      _ref$showSignUp = _ref.showSignUp,
+      showSignUp = _ref$showSignUp === undefined ? false : _ref$showSignUp,
+      onSignUpButtonClick = _ref.onSignUpButtonClick;
 
   return {
     currentLocale: locale.currentLocale,
     disabled: !oAuth.oAuthReady || rateLimiter.throttling || !connectivityMonitor.connectivity,
     version: version,
-    showSpinner: !auth.ready || auth.loginStatus === _loginStatus2.default.loggingIn || auth.loginStatus === _loginStatus2.default.loggingOut || auth.loginStatus === _loginStatus2.default.beforeLogout || auth.loginStatus === _loginStatus2.default.loggedIn
+    showSpinner: !auth.ready || auth.loginStatus === _loginStatus2.default.loggingIn || auth.loginStatus === _loginStatus2.default.loggingOut || auth.loginStatus === _loginStatus2.default.beforeLogout || auth.loginStatus === _loginStatus2.default.loggedIn,
+    showSignUp: showSignUp,
+    onSignUpButtonClick: onSignUpButtonClick
   };
 }
 

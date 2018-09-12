@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   loginButton: 'Sign In',
+  signupButton: 'New user? Sign Up',
   version: 'Version'
 };
 //# sourceMappingURL=en-US.js.map

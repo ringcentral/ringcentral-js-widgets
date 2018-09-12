@@ -79,7 +79,9 @@ var LoginPanel = function (_Component) {
           disabled = _props.disabled,
           version = _props.version,
           showSpinner = _props.showSpinner,
-          children = _props.children;
+          children = _props.children,
+          showSignUp = _props.showSignUp,
+          onSignUpButtonClick = _props.onSignUpButtonClick;
 
       var spinner = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : null;
       var versionDisplay = version ? _react2.default.createElement(
@@ -97,8 +99,16 @@ var LoginPanel = function (_Component) {
           {
             className: _styles2.default.loginButton,
             onClick: onLoginButtonClick,
-            disabled: disabled },
+            disabled: disabled
+          },
           _i18n2.default.getString('loginButton', currentLocale)
+        ),
+        showSignUp && _react2.default.createElement(
+          'button',
+          {
+            className: _styles2.default.signUpButton,
+            onClick: onSignUpButtonClick },
+          _i18n2.default.getString('signupButton', currentLocale)
         ),
         versionDisplay,
         spinner,
@@ -121,7 +131,9 @@ LoginPanel.propTypes = {
   disabled: _propTypes2.default.bool,
   version: _propTypes2.default.string,
   showSpinner: _propTypes2.default.bool,
-  children: _propTypes2.default.node
+  children: _propTypes2.default.node,
+  showSignUp: _propTypes2.default.bool,
+  onSignUpButtonClick: _propTypes2.default.func
 };
 
 LoginPanel.defaultProps = {
@@ -129,6 +141,8 @@ LoginPanel.defaultProps = {
   disabled: false,
   version: undefined,
   showSpinner: false,
-  children: undefined
+  children: undefined,
+  showSignUp: false,
+  onSignUpButtonClick: function onSignUpButtonClick() {}
 };
 //# sourceMappingURL=index.js.map
