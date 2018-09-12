@@ -8,8 +8,8 @@ exports.default = {
   reply: "回复",
   onMyWay: "在路上",
   customMessage: "自定义消息",
-  callMeBackIn: "在以下时间内回电给我",
-  willCallYouBackIn: "将在以下时间内回电给您",
+  callMeBackIn: "请稍后再打给我",
+  willCallYouBackIn: "稍后回电给您",
   min: "分钟",
   hours: "小时",
   days: "天"

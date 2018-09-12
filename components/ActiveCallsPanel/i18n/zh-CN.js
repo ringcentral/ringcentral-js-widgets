@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  noActiveCalls: "无主动呼叫",
+  noActiveCalls: "无活动通话",
   currentCall: "当前通话",
   ringCall: "正在响铃通话",
   onHoldCall: "等候接听电话",

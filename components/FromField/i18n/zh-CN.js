@@ -4,14 +4,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  DirectNumber: "直线",
-  MainCompanyNumber: "主要",
+  DirectNumber: "直拨",
+  MainCompanyNumber: "主号码",
   CompanyNumber: "公司",
   CompanyFaxNumber: "传真",
   Blocked: "已阻止",
   AdditionalCompanyNumber: "公司",
   ForwardedCompanyNumber: "已转发",
-  from: "从"
+  from: "自"
 };
 
 // @key: @#@"DirectNumber"@#@ @source: @#@"Direct"@#@

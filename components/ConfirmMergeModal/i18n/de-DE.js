@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   confirmation: "Bestätigung",
   confirmMergeToConference: "Zur Telefonkonferenz hinzufügen?",
-  mergeToConference: "Zusammenfügen",
+  mergeToConference: "Zus.führen",
   conferenceCall: "Telefonkonferenz"
 };
 

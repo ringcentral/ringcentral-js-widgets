@@ -26,7 +26,7 @@ exports.default = (_extensionLabel$direc = {
   emailLabel: "Courriel",
   call: "Appeler",
   text: "Texto"
-}, (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.available, "Disponible"), (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.offline, "Invisible"), (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.busy, "Occupé"), (0, _defineProperty3.default)(_extensionLabel$direc, _dndStatus2.default.doNotAcceptAnyCalls, "Ne pas déranger"), _extensionLabel$direc);
+}, (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.available, "Disponible"), (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.offline, "Invisible"), (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.busy, "Occupé"), (0, _defineProperty3.default)(_extensionLabel$direc, _dndStatus2.default.doNotAcceptAnyCalls, "Ne pas déranger"), (0, _defineProperty3.default)(_extensionLabel$direc, 'notActivated', "Inactive"), _extensionLabel$direc);
 
 // @key: @#@"extensionLabel"@#@ @source: @#@"Ext."@#@
 // @key: @#@"directLabel"@#@ @source: @#@"Direct"@#@
@@ -37,4 +37,5 @@ exports.default = (_extensionLabel$direc = {
 // @key: @#@"[presenceStatus.offline]"@#@ @source: @#@"Invisible"@#@
 // @key: @#@"[presenceStatus.busy]"@#@ @source: @#@"Busy"@#@
 // @key: @#@"[dndStatus.doNotAcceptAnyCalls]"@#@ @source: @#@"Do not Disturb"@#@
+// @key: @#@"notActivated"@#@ @source: @#@"Inactive"@#@
 //# sourceMappingURL=fr-CA.js.map

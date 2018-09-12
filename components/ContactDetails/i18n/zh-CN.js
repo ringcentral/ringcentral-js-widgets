@@ -22,11 +22,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = (_extensionLabel$direc = {
   extensionLabel: "分机",
-  directLabel: "直线",
+  directLabel: "直拨",
   emailLabel: "电子邮件",
   call: "呼叫",
   text: "短信"
-}, (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.available, "在线"), (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.offline, "隐身"), (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.busy, "忙碌"), (0, _defineProperty3.default)(_extensionLabel$direc, _dndStatus2.default.doNotAcceptAnyCalls, "勿扰"), _extensionLabel$direc);
+}, (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.available, "在线"), (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.offline, "隐身"), (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.busy, "忙碌"), (0, _defineProperty3.default)(_extensionLabel$direc, _dndStatus2.default.doNotAcceptAnyCalls, "勿扰"), (0, _defineProperty3.default)(_extensionLabel$direc, 'notActivated', "Inactive"), _extensionLabel$direc);
 
 // @key: @#@"extensionLabel"@#@ @source: @#@"Ext."@#@
 // @key: @#@"directLabel"@#@ @source: @#@"Direct"@#@
@@ -37,4 +37,5 @@ exports.default = (_extensionLabel$direc = {
 // @key: @#@"[presenceStatus.offline]"@#@ @source: @#@"Invisible"@#@
 // @key: @#@"[presenceStatus.busy]"@#@ @source: @#@"Busy"@#@
 // @key: @#@"[dndStatus.doNotAcceptAnyCalls]"@#@ @source: @#@"Do not Disturb"@#@
+// @key: @#@"notActivated"@#@ @source: @#@"Inactive"@#@
 //# sourceMappingURL=zh-CN.js.map

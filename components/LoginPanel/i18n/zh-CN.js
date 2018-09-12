@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   loginButton: "登录",
+
   version: "版本"
 };
 

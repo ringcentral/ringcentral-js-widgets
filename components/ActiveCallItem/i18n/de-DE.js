@@ -29,7 +29,7 @@ exports.default = {
   accept: "Annehmen",
   toVoicemail: "An Voicemail weiterleiten",
   anonymous: "Anonym",
-  mergeToConference: "Zusammenfügen",
+  mergeToConference: "Zus.führen",
   hold: "Halten",
   unhold: "Gehaltenen Anruf annehmen"
 };

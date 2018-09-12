@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   unknown: "未知",
   anonymous: "匿名",
-  activeCall: "主动呼叫"
+  activeCall: "活动通话"
 };
 
 // @key: @#@"unknown"@#@ @source: @#@"Unknown"@#@

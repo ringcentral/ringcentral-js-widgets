@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  from: "从",
+  from: "自",
   to: "至",
   enterNameOrNumber: "输入号码或姓名...",
   typeMessage: "输入消息...",

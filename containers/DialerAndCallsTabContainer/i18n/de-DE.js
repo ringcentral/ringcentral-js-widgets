@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  dialer: "Ziffernblock",
+  dialer: "Wählfeld",
   allCalls: "Alle Anrufe"
 };
 

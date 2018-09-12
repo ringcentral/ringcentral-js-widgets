@@ -21,17 +21,17 @@ exports.default = {
   call: "呼叫",
   addContact: "添加联系人",
   missedCall: "未接",
-  inboundCall: "入站",
-  outboundCall: "出站",
-  from: "从",
+  inboundCall: "呼入",
+  outboundCall: "呼出",
+  from: "自",
   to: "至",
   hangup: "挂断",
   accept: "接受",
   toVoicemail: "发送到语音信箱",
   anonymous: "匿名",
   mergeToConference: "合并",
-  hold: "保留",
-  unhold: "取消保留"
+  hold: "保持",
+  unhold: "取消保持"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@

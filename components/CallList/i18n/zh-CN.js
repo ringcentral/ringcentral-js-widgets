@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  noActiveCalls: "无主动呼叫",
+  noActiveCalls: "无活动通话",
   noRecords: "找不到结果。"
 };
 

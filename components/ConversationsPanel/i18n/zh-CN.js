@@ -17,9 +17,9 @@ var _messageTypes2 = _interopRequireDefault(_messageTypes);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = (_title$search$compose = {
-  title: "信息",
+  title: "消息",
   search: "搜索...",
-  composeText: "编辑信息文本",
+  composeText: "编辑短信",
   noMessages: "无消息",
   noSearchResults: "未找到匹配记录"
 }, (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.all, "全部"), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.voiceMail, "语音"), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.text, "短信"), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.fax, "传真"), _title$search$compose);

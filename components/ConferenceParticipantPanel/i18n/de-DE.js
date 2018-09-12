@@ -5,8 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   removeParticipant: "Teilnehmer entfernen",
-  confirmStr1: "Möchten Sie sich wirklich",
-  confirmStr2: "aus diesem Anruf entfernen?",
+  confirmStr1: "Möchten Sie",
+  confirmStr2: "wirklich aus diesem Anruf entfernen?",
   remove: "Entfernen",
   cancel: "Abbrechen",
   participants: "Teilnehmer",
