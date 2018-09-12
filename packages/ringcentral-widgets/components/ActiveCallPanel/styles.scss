@@ -112,6 +112,8 @@ $borderWidth:1px;
   font-family: sans-serif;
   height: $userInfoHeight;
   box-sizing: border-box;
+  white-space: nowrap;
+
   .info {
     font-size: $fontSize;
   }

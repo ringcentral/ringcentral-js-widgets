@@ -27,17 +27,19 @@ const KINDS_OF_WIDTH_THAT_NEED_ADAPATER = [
   { avartarCount: 3, width: minWidthCalculator(MAXIMUM_AVATARS + 1), },
 ];
 
+console.log(KINDS_OF_WIDTH_THAT_NEED_ADAPATER);
+
 export class ConferenceInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      avatarCount: this._computeAvatarCountByWindowWidth(window && window.innerWidth),
+      avatarCount: 4,
     };
 
     this._container = React.createRef();
   }
 
-  _computeAvatarCountByWindowWidth(alternativeContainerWidth) {
+  _computeAvatarCountByWindowWidth() {
     const { partyProfiles } = this.props;
     const avatarProfilesCount = (partyProfiles && partyProfiles.length) || 0;
 
@@ -52,7 +54,7 @@ export class ConferenceInfo extends Component {
       this._container &&
       this._container.current &&
       this._container.current.clientWidth
-    ) || alternativeContainerWidth;
+    );
 
     let avatarCount = avatarProfilesCount;
 
@@ -62,6 +64,8 @@ export class ConferenceInfo extends Component {
       avatarCount = firstMatchWidth.avartarCount;
       if (avatarCount === -1) {
         avatarCount = 0;
+      } else if (avatarCount + 1 === avatarProfilesCount) {
+        avatarCount = avatarProfilesCount;
       }
     } else if (
       avatarCount >= MAXIMUM_AVATARS
@@ -81,7 +85,7 @@ export class ConferenceInfo extends Component {
     this.setState({
       avatarCount,
     });
-  }, 50);
+  }, 100);
 
   componentWillReceiveProps() {
     this._updateAvatarAmounts();
@@ -90,6 +94,7 @@ export class ConferenceInfo extends Component {
   componentDidMount() {
     this._mounted = true;
     window.addEventListener('resize', this._updateAvatarAmounts);
+    this._updateAvatarAmounts();
   }
 
   componentWillUnmount() {
@@ -150,6 +155,8 @@ export class ConferenceInfo extends Component {
 
     const { avatarCount } = this.state;
 
+    const isAvatarCountComputingReady = !!avatarCount || avatarCount === 0;
+
     const {
       displayedProfiles,
       remains
@@ -161,7 +168,8 @@ export class ConferenceInfo extends Component {
         ref={this._container}
         >
         {
-            (displayedProfiles.length || (avatarCount === 0 && remains > 0))
+           isAvatarCountComputingReady &&
+             (displayedProfiles.length || (avatarCount === 0 && remains > 0))
               ? (
                 <div
                   className={classnames(styles.avatarContainer, styles.clickable)}
