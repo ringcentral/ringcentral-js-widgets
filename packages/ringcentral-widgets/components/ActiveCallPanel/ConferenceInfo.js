@@ -27,20 +27,18 @@ const KINDS_OF_WIDTH_THAT_NEED_ADAPATER = [
   { avartarCount: 3, width: minWidthCalculator(MAXIMUM_AVATARS + 1), },
 ];
 
-console.log(KINDS_OF_WIDTH_THAT_NEED_ADAPATER);
-
 export class ConferenceInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      avatarCount: 4,
+      avatarCount: MAXIMUM_AVATARS,
     };
 
     this._container = React.createRef();
   }
 
-  _computeAvatarCountByWindowWidth() {
-    const { partyProfiles } = this.props;
+  _computeAvatarCountByWindowWidth(props) {
+    const { partyProfiles } = props;
     const avatarProfilesCount = (partyProfiles && partyProfiles.length) || 0;
 
     if (!this._mounted) {
@@ -76,30 +74,34 @@ export class ConferenceInfo extends Component {
     return avatarCount;
   }
 
-  _updateAvatarAmounts = debounce(() => {
+  onWindowResize = debounce(() => {
+    this.updateAvatarAmounts(this.props);
+  }, 100);
+
+  updateAvatarAmounts(props) {
     if (!this._mounted) {
       return;
     }
 
-    const avatarCount = this._computeAvatarCountByWindowWidth();
+    const avatarCount = this._computeAvatarCountByWindowWidth(props);
     this.setState({
       avatarCount,
     });
-  }, 100);
+  }
 
-  componentWillReceiveProps() {
-    this._updateAvatarAmounts();
+  componentWillReceiveProps(nextProps) {
+    this.updateAvatarAmounts(nextProps);
   }
 
   componentDidMount() {
     this._mounted = true;
-    window.addEventListener('resize', this._updateAvatarAmounts);
-    this._updateAvatarAmounts();
+    window.addEventListener('resize', this.onWindowResize);
+    this.updateAvatarAmounts(this.props);
   }
 
   componentWillUnmount() {
     this._mounted = false;
-    window.removeEventListener('resize', this._updateAvatarAmounts);
+    window.removeEventListener('resize', this.onWindowResize);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
