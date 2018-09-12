@@ -33,7 +33,6 @@ async function mockMultiActiveCallBodies(phone) {
     callId: 'call-111'
   });
   await phone.webphone.answer(inboundSession.id);
-  await phone.webphone.hold(inboundSession.id);
   // outbound call session
   const outboundSession = await makeCall(phone, {
     callId: true,
@@ -41,7 +40,6 @@ async function mockMultiActiveCallBodies(phone) {
     homeCountryId: '1',
     toNumber: '101',
   });
-  await phone.webphone.hold(outboundSession.id);
   // incoming call
   const incomingSession = await getInboundCall(phone, {
     id: '222',
@@ -67,26 +65,19 @@ async function mockMultiActiveCallBodies(phone) {
     },
     startTime: '2018-08-07T09:20:09.405Z',
   }];
-  return mockActiveCalls(
-    [inboundSession, outboundSession, incomingSession],
-    mockOtherDeivce
-  );
+  return mockActiveCalls(phone.webphone.sessions, mockOtherDeivce);
 }
 
 async function mockMultipleOutboundCallBodies(phone, n) {
-  const res = [];
-
-  for (let i = n; i > 0; i--) {
-    const outboundSession = await makeCall(phone, {
+  for (let i = n; i > 0; i -= 1) {
+    await makeCall(phone, {
       callId: true,
       fromNumber: '+15878133670',
       homeCountryId: '1',
       toNumber: '101',
     });
-    await phone.webphone.hold(outboundSession.id);
-    res.push(outboundSession);
   }
-  return mockActiveCalls(res);
+  return mockActiveCalls(phone.webphone.sessions);
 }
 
 export async function mockMultiActiveCalls(phone) {
@@ -103,7 +94,7 @@ export async function makeInboudCalls(phone, optional = []) {
     const inboundSession = await getInboundCall(phone, option);
     inboundSessions.push(inboundSession);
   }
-  const activeCallBody = await mockActiveCalls(inboundSessions);
+  const activeCallBody = await mockActiveCalls(phone.webphone.sessions);
   mock.activeCalls(activeCallBody);
   await phone.subscription.subscribe(['/account/~/extension/~/presence'], 10);
   await timeout(100);
@@ -128,8 +119,8 @@ export function generateActiveCallsData(sessions) {
     }
   }), []);
 }
-export async function mockSub(phone, sessions, ttl = 100) {
-  const activeCalls = generateActiveCallsData(sessions);
+export async function mockSub(phone, ttl = 100) {
+  const activeCalls = generateActiveCallsData(phone.webphone.sessions);
   mockGeneratePresenceApi({
     activeCalls
   });

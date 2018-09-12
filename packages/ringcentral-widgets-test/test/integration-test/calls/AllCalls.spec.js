@@ -4,6 +4,8 @@ import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
 import ActiveCallList from 'ringcentral-widgets/components/ActiveCallList';
 import ActiveCallItemV2 from 'ringcentral-widgets/components/ActiveCallItemV2';
 import ActiveCallItem from 'ringcentral-widgets/components/ActiveCallItem';
+import ActiveCallButton from 'ringcentral-widgets/components/ActiveCallButton';
+import CircleButton from 'ringcentral-widgets/components/CircleButton';
 import ActiveCallsPanel from 'ringcentral-widgets/components/ActiveCallsPanel';
 import telephonyStatus from 'ringcentral-integration/enums/telephonyStatuses';
 import { timeout, initPhoneWrapper } from '../shared';
@@ -87,13 +89,13 @@ describe('Incoming Call Control Page from All Calls', () => {
     wrapper.update();
     expect(wrapper.find(IncomingCallPanel)).toHaveLength(1);
     wrapper.find(IncomingCallPanel).find('.backButton').simulate('click');
+    await timeout(100);
     wrapper.update();
     ringingCalls.at(1).props().onClick();
     wrapper.update();
     expect(wrapper.find(IncomingCallPanel)).toHaveLength(1);
   });
-  test(`hangup all incoming call,then make a outbound call, then meke a inbound
-    call then the caller hangup`, async () => {
+  test('hangup all incoming call, page should navigate to Dialer Page', async () => {
     const { phone, wrapper } = await initPhoneWrapper();
     await makeInboudCalls(phone, [{
       id: '102',
@@ -117,34 +119,41 @@ describe('Incoming Call Control Page from All Calls', () => {
     let ringingCallItems = wrapper.find(callItem);
     expect(ringingCallItems).toHaveLength(2);
     ringingCallItems.at(0).find('svg.rejectButton').simulate('click');
+    await timeout(100);
     wrapper.update();
     ringingCallItems = wrapper.find(callItem);
     expect(ringingCalls).toHaveLength(1);
     ringingCallItems.at(0).find('svg.rejectButton').simulate('click');
+    await timeout(100);
     wrapper.update();
     expect(phone.routerInteraction.currentPath).toEqual('/dialer');
-    wrapper.update();
-    await timeout(1000);
+  });
+  test(`when user has a outbound call, then there is a incoming call,
+    if user reject this incoming call, app should stay at original page
+  `, async () => {
+    const { phone, wrapper } = await initPhoneWrapper();
     await call({
       phone,
       wrapper,
       phoneNumber: '102',
     });
-    await mockSub(phone, phone.webphone.sessions);
+    await mockSub(phone);
     await timeout(1000);
     wrapper.update();
     expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
     wrapper.find('.backLabel').simulate('click');
+    await timeout(100);
     expect(phone.routerInteraction.currentPath).toEqual('/calls');
-    wrapper.update();
     await makeInboudCalls(phone, [{
       id: '102',
       direction: 'Inbound',
       telephonyStatus: telephonyStatus.ringing,
     }]);
-    const ringingSession = phone.webphone._sessions.get('102');
-    ringingSession.terminate();
-    ringingSession.reject();
+    wrapper.update();
+    const buttonToVoicemail = wrapper.find(IncomingCallPanel).find(ActiveCallButton).at(3);
+    expect(buttonToVoicemail.find('.buttonTitle').text()).toEqual('To Voicemail');
+    buttonToVoicemail.find(CircleButton).simulate('click');
+    await timeout(100);
     wrapper.update();
     expect(phone.routerInteraction.currentPath).toEqual('/calls');
   });

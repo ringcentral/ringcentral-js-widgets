@@ -92,8 +92,6 @@ async function mockContacts(phone) {
 }
 
 async function mockStartConference(phone, wrapper) {
-  // HACK: `updateConference` should be mock at mockForLogin func.
-  // mock.updateConferenceCall(conferenceUpdate.id, conferenceUpdate);
   mock.conferenceCallBringIn(conferenceCallBody.id);
   mock.terminateConferenceCall(conferenceCallBody.id);
   mock.conferenceCall();
