@@ -5,6 +5,9 @@ import * as mock from 'ringcentral-integration/integration-test/mock';
 import * as MockedPubNub from '../__mocks__/pubnub.js';
 import Session from './session';
 import { timeout } from '../integration-test/shared';
+import deviceBody from './data/device';
+
+export const CONFERENCE_SESSION_ID = 'Y3MxNzI2MjI1NTQzODI0MzUzM0AxMC43NC4yLjIxOA';
 
 const defaultInboundOption = {
   id: '111',
@@ -27,12 +30,15 @@ const defaultConferenceOption = {
 };
 
 export async function getInboundCall(phone, options = defaultInboundOption) {
+  phone.webphone.sessions.forEach(session => phone.webphone.hold(session.id));
   const session = new Session(options);
   await phone.webphone._webphone.userAgent.trigger('invite', session);
   return session;
 }
 
 export async function makeCall(phone, options = defaultOutboundOption) {
+  mock.device(deviceBody);
+  phone.webphone.sessions.forEach(session => phone.webphone.hold(session.id));
   const session = await phone.webphone.makeCall(options);
   if (options.callId) {
     session.__rc_callId = `call-${session.id}`;
@@ -140,7 +146,7 @@ export function mockGenerateActiveCallsApi({ sessions }) {
   });
 }
 
-export function mockActiveCalls(sessions, mockOtherDeivce = []) {
+export function mockActiveCalls(webphoneSessions, mockOtherDeivce = [], ringSessionId) {
   const commons = {
     sipData: {
       toTag: 'pgrneavq66',
@@ -150,44 +156,47 @@ export function mockActiveCalls(sessions, mockOtherDeivce = []) {
     },
     startTime: '2018-08-07T09:20:09.405Z',
   };
-  return sessions.reduce((calls, session) => {
+  return webphoneSessions.reduce((calls, session) => {
+    const telephonyStatus = ringSessionId && session.id === ringSessionId
+      ? telephonyStatuses.onHold
+      : telephonyStatuses.ringing;
     if (isConferenceSession(session)) {
       return calls.concat({
         ...commons,
-        id: session.__rc_callId,
+        id: session.callId,
         sessionId: session.id,
-        direction: session.__rc_direction,
-        telephonyStatus: session.telephonyStatus || telephonyStatuses.onHold,
+        direction: session.direction,
+        telephonyStatus,
         fromName: 'FirstName 104 LastName',
         from: '104',
         toName: 'Conference',
         to: { phoneNumber: '' },
       });
     }
-    if (session.__rc_direction === 'Inbound') {
+    if (session.direction === 'Inbound') {
       return calls.concat({
         ...commons,
-        id: session.__rc_callId,
+        id: session.callId,
         sessionId: session.id,
-        direction: session.__rc_direction,
-        telephonyStatus: session.telephonyStatus || telephonyStatuses.onHold,
+        direction: session.direction,
+        telephonyStatus,
         fromName: 'FirstName 104 LastName',
         from: '104',
         toName: 'FirstName 105 LastName',
         to: '105',
       });
     }
-    if (session.__rc_direction === 'Outbound') {
+    if (session.direction === 'Outbound') {
       return calls.concat({
         ...commons,
         id: `call-${session.id}`,
         sessionId: session.id,
-        direction: session.__rc_direction,
-        telephonyStatus: session.telephonyStatus || telephonyStatuses.onHold,
+        direction: session.direction,
+        telephonyStatus,
         fromName: 'FirstName 105 LastName',
-        from: session.__rc_fromNumber,
+        from: session.fromNumber,
         toName: 'Something1 New1',
-        to: session.request.to.uri.user,
+        to: session.to,
       });
     }
     return calls;
