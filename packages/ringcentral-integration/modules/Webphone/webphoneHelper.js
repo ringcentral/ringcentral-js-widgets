@@ -95,6 +95,14 @@ export function isRing(session) {
   );
 }
 
+
+export function isInbound(session) {
+  return !!(
+    session &&
+    session.direction === callDirections.inbound
+  );
+}
+
 export function isOnHold(session) {
   return !!(session && session.callStatus === sessionStatus.onHold);
 }

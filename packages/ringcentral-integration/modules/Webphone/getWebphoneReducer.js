@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 import connectionStatus from './connectionStatus';
 import sessionStatus from './sessionStatus';
-import { isRing, sortByLastActiveTimeDesc } from './webphoneHelper';
+import { isInbound, isRing, sortByLastActiveTimeDesc } from './webphoneHelper';
 
 export function getVideoElementPreparedReducer(types) {
   return (state = false, { type }) => {
@@ -78,6 +78,10 @@ export function getActiveSessionIdReducer(types) {
   return (state = null, { type, session = {}, sessions = [] }) => {
     switch (type) {
       case types.beforeCallStart:
+        if (!isInbound(session)) {
+          return session.id;
+        }
+        return state;
       case types.callStart:
         return session.id;
       case types.callEnd: {
@@ -106,7 +110,7 @@ export function getRingSessionIdReducer(types) {
     switch (type) {
       case types.callRing:
         return session.id;
-      case types.beforeCallStart:
+      // case types.beforeCallStart:
       case types.callStart:
       case types.callEnd:
         if (session.id !== state) {

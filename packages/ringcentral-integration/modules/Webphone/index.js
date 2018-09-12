@@ -737,7 +737,7 @@ export default class Webphone extends RcModule {
       this._onAccepted(sipSession, 'inbound');
       this._beforeCallStart(sipSession);
       await sipSession.accept(this.acceptOptions);
-      this._onCallStart(sipSession);
+      // this._onCallStart(sipSession);
       this.store.dispatch({ // for track
         type: this.actionTypes.callAnswer,
       });

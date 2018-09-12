@@ -69,11 +69,9 @@ class IncomingCallPage extends Component {
       this._updateAvatarAndMatchIndex(nextProps);
     }
     // if we just pick up the phone, and the modal is still opening, then do nothing at all
-    if (nextProps.activeSessionId !== nextProps.session.id) {
-      this.setState({
-        hasOtherActiveCall: !!nextProps.activeSessionId,
-      });
-    }
+    this.setState({
+      hasOtherActiveCall: !!nextProps.activeSessionId,
+    });
   }
 
   componentWillUnmount() {
