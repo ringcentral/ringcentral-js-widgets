@@ -13,6 +13,7 @@ import HoldIcon from '../../assets/images/Hold.svg';
 import VoicemailIcon from '../../assets/images/Voicemail.svg';
 import AnswerIcon from '../../assets/images/Answer.svg';
 import MergeIntoConferenceIcon from '../../assets/images/MergeIntoConferenceIcon.svg';
+import TransferIcon from '../../assets/images/Transfer.svg';
 import MediaObject from '../MediaObject';
 import DurationCounter from '../DurationCounter';
 
@@ -178,6 +179,91 @@ WebphoneButtons.defaultProps = {
   disableMerge: true,
   onMergeCall: i => i,
   webphoneAnswer: i => i,
+};
+
+function RingoutButtons({
+  currentLocale,
+  extraButton,
+  disableLinks,
+  ringoutHangup,
+  ringoutTransfer,
+  ringing,
+}) {
+  let hangupBtn;
+  if (ringoutHangup) {
+    const hangupTitle = i18n.getString('hangup', currentLocale);
+    hangupBtn = (
+      <span title={hangupTitle} className={styles.ringoutButton}>
+        <CircleButton
+          disabled={disableLinks}
+          className={
+            classnames({
+              [styles.hangupButton]: true,
+              [styles.disabled]: disableLinks
+            })
+          }
+          onClick={(e) => {
+                e.stopPropagation();
+                console.log(1);
+          }}
+          icon={EndIcon}
+          showBorder={false}
+            />
+      </span>
+    );
+  }
+
+  let transferBtn;
+  if (ringoutTransfer && !ringing) {
+    const transferTitle = i18n.getString('transfer', currentLocale);
+
+    transferBtn = (
+      <span title={transferTitle} className={styles.ringoutButton}>
+        <CircleButton
+          disabled={disableLinks}
+          className={
+            classnames({
+              [styles.transferButton]: true,
+              [styles.disabled]: disableLinks
+            })
+          }
+          onClick={(e) => {
+                e.stopPropagation();
+                console.log(1);
+          }}
+          icon={TransferIcon}
+            />
+      </span>
+    );
+  }
+
+  const extraBtn = extraButton ? (
+    <span className={styles.ringoutButton}>{extraButton}</span>
+  ) : null;
+
+  return (
+    <div className={styles.ringoutButtons}>
+      {extraBtn}
+      {transferBtn}
+      {hangupBtn}
+    </div>
+  );
+}
+
+RingoutButtons.propTypes = {
+  extraButton: PropTypes.element,
+  currentLocale: PropTypes.string.isRequired,
+  disableLinks: PropTypes.bool,
+  ringoutHangup: PropTypes.func,
+  ringoutTransfer: PropTypes.func,
+  ringing: PropTypes.bool.isRequired,
+};
+
+RingoutButtons.defaultProps = {
+  extraButton: undefined,
+  disableLinks: false,
+  ringoutHangup: undefined,
+  ringoutTransfer: undefined,
 };
 
 /**
@@ -373,6 +459,8 @@ export default class ActiveCallItem extends Component {
       onMergeCall,
       showCallDetail,
       webphoneAnswer,
+      ringoutHangup,
+      ringoutTransfer,
     } = this.props;
 
     const { avatarUrl, extraNum } = this.state;
@@ -410,7 +498,7 @@ export default class ActiveCallItem extends Component {
               extraNum={extraNum}
             />
           }
-          bodyCls={styles.content}
+          bodyCls={showAvatar ? styles.contentWithAvatar : styles.contentWithIcon}
           mediaBody={
             <div>
               <ContactDisplay
@@ -437,7 +525,7 @@ export default class ActiveCallItem extends Component {
               />
               {showCallDetail ? this.getCallInfo() : null}
             </div>
-        }
+          }
           mediaRight={
             <div>
               <WebphoneButtons
@@ -453,7 +541,13 @@ export default class ActiveCallItem extends Component {
                 onMergeCall={onMergeCall}
                 webphoneAnswer={webphoneAnswer}
               />
-              {extraButton}
+              <RingoutButtons
+                disableLinks={disableLinks}
+                ringing={ringing}
+                ringoutHangup={ringoutHangup}
+                ringoutTransfer={ringoutTransfer}
+                currentLocale={currentLocale}
+                extraButton={extraButton} />
             </div>
         }
       />
@@ -510,6 +604,8 @@ ActiveCallItem.propTypes = {
   showCallDetail: PropTypes.bool,
   updateSessionMatchedContact: PropTypes.func,
   webphoneAnswer: PropTypes.func,
+  ringoutHangup: PropTypes.func,
+  ringoutTransfer: PropTypes.func,
 };
 
 ActiveCallItem.defaultProps = {
@@ -538,4 +634,6 @@ ActiveCallItem.defaultProps = {
   showCallDetail: false,
   updateSessionMatchedContact: i => i,
   webphoneAnswer: i => i,
+  ringoutHangup: undefined,
+  ringoutTransfer: undefined,
 };
