@@ -9,15 +9,22 @@ import styles from './styles.scss';
 import i18n from './i18n';
 
 const MAXIMUM_AVATARS = 4;
-const WIDTH_PER_AVATAR = 51;
-const PEDDING_WIDTH = 10 - 2; // 2 means the num avatar's width bigger than the nomal avatar.
-const MINIUM_WIDTH = WIDTH_PER_AVATAR * 2 + 4 + PEDDING_WIDTH;
+
+const WIDTH_PER_AVATAR = parseInt(styles.conferenceAvatarSize, 0); // 51
+
+const AVATAR_MERGIN_LEFT = parseInt(styles.avatarMerginLeftSize, 0); // -20
+const PEDDING_WIDTH = parseInt(styles.avatarPaddingSize, 0); // 15
+
+const minWidthCalculator = count =>
+  (WIDTH_PER_AVATAR * count) +
+  AVATAR_MERGIN_LEFT * (count - 1) + (PEDDING_WIDTH * 2) + 1 + 2;
 
 // when the container width reachs below item of width, display the avatar amount of count.
 const KINDS_OF_WIDTH_THAT_NEED_ADAPATER = [
-  { avartarCount: 0, width: MINIUM_WIDTH, },
-  { avartarCount: 2, width: WIDTH_PER_AVATAR * 3 + PEDDING_WIDTH + 1.5, },
-  { avartarCount: 3, width: WIDTH_PER_AVATAR * MAXIMUM_AVATARS + PEDDING_WIDTH, },
+  { avartarCount: 0, width: minWidthCalculator(2), },
+  { avartarCount: 1, width: minWidthCalculator(3), },
+  { avartarCount: 2, width: minWidthCalculator(MAXIMUM_AVATARS), },
+  { avartarCount: 3, width: minWidthCalculator(MAXIMUM_AVATARS + 1), },
 ];
 
 export class ConferenceInfo extends Component {
@@ -52,8 +59,7 @@ export class ConferenceInfo extends Component {
     const firstMatchWidth = KINDS_OF_WIDTH_THAT_NEED_ADAPATER.find(it => width < it.width);
 
     if (firstMatchWidth) {
-      avatarCount = avatarCount > firstMatchWidth.avartarCount ?
-        firstMatchWidth.avartarCount - 1 : firstMatchWidth.avartarCount;
+      avatarCount = firstMatchWidth.avartarCount;
       if (avatarCount === -1) {
         avatarCount = 0;
       }
@@ -75,7 +81,7 @@ export class ConferenceInfo extends Component {
     this.setState({
       avatarCount,
     });
-  }, 10);
+  }, 50);
 
   componentWillReceiveProps() {
     this._updateAvatarAmounts();
