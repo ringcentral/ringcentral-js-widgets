@@ -4,6 +4,7 @@ import ConfirmMergeModal from 'ringcentral-widgets/components/ConfirmMergeModal'
 import CallsOnholdPanel from 'ringcentral-widgets/components/CallsOnholdPanel';
 import ActiveCallItem from 'ringcentral-widgets/components/ActiveCallItemV2';
 import * as mock from 'ringcentral-integration/integration-test/mock';
+import updateConferenceCallBody from 'ringcentral-integration/integration-test/mock/data/updateConference';
 import DialerPanel from 'ringcentral-widgets/components/DialerPanel';
 import ActiveCallPad from 'ringcentral-widgets/components/ActiveCallPad';
 import ActiveCallButton from 'ringcentral-widgets/components/ActiveCallButton';
@@ -325,6 +326,7 @@ describe('Add Call Flow: Normal Call Ctrl -> click Add -> on hold list', () => {
     await timeout(10);
     expect(phone.routerInteraction.currentPath.indexOf('/conferenceCall/callsOnhold')).toBe(0);
     // Click Merge
+    mock.updateConferenceCall(updateConferenceCallBody.id, updateConferenceCallBody);
     await clickMergeButtonIn(wrapper, phone, 'OnholdPage');
     // Confernce Call Ctrl Page
     holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
