@@ -1,59 +1,34 @@
 export default {
-  // logging: "ログ記録中...",
-  // logCall: "通話のログ記録",
-  // editLog: "ログの編集",
-  // select: "一致する記録の選択",
-  // OnHold: "保留中",
-  // Ringing: "呼び出し中",
-  // CallConnected: "通話接続済み",
-  // unknownUser: "不明なユーザー",
-  // unknownNumber: "匿名",
-  // unavailable: "利用不可",
-  // viewDetails: "詳細の表示",
-  // addEntity: "新規作成",
-  // addLog: "ログ",
-  // text: "テキスト",
-  // call: "通話",
-  // addContact: "連絡先の追加",
+  // logging: 'Logging...',
+  // logCall: 'Log Call',
+  // editLog: 'Edit Log',
+  // select: 'Select a matching record',
+  // OnHold: 'On Hold',
+  // Ringing: 'Ringing',
+  // CallConnected: 'Call Connected',
+  // unknownUser: 'Unknown User',
+  // unknownNumber: 'Anonymous',
+  // unavailable: 'Unavailable',
+  // viewDetails: 'View Details',
+  // addEntity: 'Create New',
+  // addLog: 'Log',
+  // text: 'Text',
+  // call: 'Call',
+  // addContact: 'Add Contact',
   missedCall: "不在",
   inboundCall: "着信",
-  outboundCall: "発信",
-  // from: "発信元",
-  // to: "宛先",
-  // hangup: "通話を終了する",
-  // accept: "同意する",
-  // toVoicemail: "ボイスメールへ転送",
-  // anonymous: "匿名",
-  // mergeToConference: "マージ",
-  // hold: "保留",
-  // unhold: "保留解除"
+  outboundCall: "発信"
+  // from: 'From',
+  // to: 'To',
+  // hangup: 'Hangup',
+  // accept: 'Accept',
+  // toVoicemail: 'Send to Voicemail',
+  // anonymous: 'Anonymous',
+  // mergeToConference: 'Merge',
+  // hold: 'Hold',
+  // unhold: 'Unhold',
 };
 
-// @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
-// @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
-// @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
-// @key: @#@"select"@#@ @source: @#@"Select a matching record"@#@
-// @key: @#@"OnHold"@#@ @source: @#@"On Hold"@#@
-// @key: @#@"Ringing"@#@ @source: @#@"Ringing"@#@
-// @key: @#@"CallConnected"@#@ @source: @#@"Call Connected"@#@
-// @key: @#@"unknownUser"@#@ @source: @#@"Unknown User"@#@
-// @key: @#@"unknownNumber"@#@ @source: @#@"Anonymous"@#@
-// @key: @#@"unavailable"@#@ @source: @#@"Unavailable"@#@
-// @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
-// @key: @#@"addEntity"@#@ @source: @#@"Create New"@#@
-// @key: @#@"addLog"@#@ @source: @#@"Log"@#@
-// @key: @#@"text"@#@ @source: @#@"Text"@#@
-// @key: @#@"call"@#@ @source: @#@"Call"@#@
-// @key: @#@"addContact"@#@ @source: @#@"Add Contact"@#@
 // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
-// @key: @#@"from"@#@ @source: @#@"From"@#@
-// @key: @#@"to"@#@ @source: @#@"To"@#@
-// @key: @#@"hangup"@#@ @source: @#@"Hangup"@#@
-// @key: @#@"accept"@#@ @source: @#@"Accept"@#@
-// @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@
-// @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
-// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
-// @key: @#@"hold"@#@ @source: @#@"Hold"@#@
-// @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@

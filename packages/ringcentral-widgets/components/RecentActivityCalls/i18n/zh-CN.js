@@ -1,7 +1,7 @@
 export default {
   noRecords: "未找到最近记录。",
-  inBound: "入站",
-  outBound: "出站",
+  inBound: "呼入",
+  outBound: "呼出",
   missed: "未接来电"
 };
 
