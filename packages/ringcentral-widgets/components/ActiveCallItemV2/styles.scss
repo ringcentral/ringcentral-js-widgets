@@ -1,7 +1,10 @@
 @import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/layout';
+
 $padding-horizontal:20px;
 $avatar-basis:45.5px;
 $button-basis:68.5px;
+$fixed-icon-width: 21px;
 
 .pointer {
   cursor: pointer;
@@ -14,8 +17,13 @@ $button-basis:68.5px;
   .wrapper {
     overflow: visible;
 
-    .content {
+    .contentWithAvatar {
       max-width: calc(100% - #{$avatar-basis+$button-basis});
+      flex-shrink: 1;
+    }
+
+    .contentWithIcon {
+      max-width: calc(100% - #{$fixed-icon-width+$button-basis} - #{($container-padding-left + $container-padding-right)/2});
       flex-shrink: 1;
     }
 
@@ -98,6 +106,58 @@ $button-basis:68.5px;
         path {
           fill: $snow;
         }
+      }
+    }
+
+    .ringoutButtons {
+      min-width: $button-basis;
+      display: flex;
+      flex-flow: row-reverse;
+    }
+
+    .ringoutButton {
+      margin-right: $padding-horizontal/2;
+      display: flex;
+      align-items: center;
+
+      .transferButton,
+      .hangupButton {
+        width: 24px;
+      }
+
+      .hangupButton {
+        circle {
+          fill: #f95b5c;
+        }
+
+        g,
+        path {
+          fill: $snow;
+        }
+        
+        &.disabled {
+          circle {
+            fill: $smoke;
+          }
+        }
+      }
+
+      .transferButton {
+        &.disabled {
+          circle {
+            stroke: $smoke;
+          }
+
+          g,
+          path {
+            fill: $smoke;
+          }
+        }
+      }
+
+      .disabled,
+      .disabled * {
+        cursor: not-allowed;
       }
     }
   }
