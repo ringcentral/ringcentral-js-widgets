@@ -16,6 +16,6 @@ export default {
   language: 'Language',
   feedback: 'Feedback',
   userGuide: "What\'s New",
-  quickAccess: "Quick access setting",
+  quickAccess: "Quick Access Setting",
 };
 
