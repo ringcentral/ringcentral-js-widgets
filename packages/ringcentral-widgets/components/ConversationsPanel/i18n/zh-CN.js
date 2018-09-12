@@ -1,9 +1,9 @@
 import messageTypes from 'ringcentral-integration/enums/messageTypes';
 
 export default {
-  title: "信息",
+  title: "消息",
   search: "搜索...",
-  composeText: "编辑信息文本",
+  composeText: "编辑短信",
   noMessages: "无消息",
   noSearchResults: "未找到匹配记录",
   [messageTypes.all]: "全部",

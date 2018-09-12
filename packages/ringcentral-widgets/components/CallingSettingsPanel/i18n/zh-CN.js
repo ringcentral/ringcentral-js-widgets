@@ -2,7 +2,7 @@ import callingOptions from 'ringcentral-integration/modules/CallingSettings/call
 
 export default {
   title: "呼叫",
-  [callingOptions.softphone]: "桌面版 {brand}",
+  [callingOptions.softphone]: "{brand} 桌面版",
   [callingOptions.myphone]: "我的 {brand} 电话",
   [callingOptions.otherphone]: "其他电话",
   [callingOptions.customphone]: "自定义电话",
@@ -12,7 +12,7 @@ export default {
   myLocationLabel: "我的位置",
   press1ToStartCallLabel: "连接通话前提示我拨 1",
   [`${callingOptions.browser}Tooltip`]: "使用此选项通过计算机的麦克风和扬声器拨打和接听电话。",
-  [`${callingOptions.softphone}Tooltip`]: "使用此选项通过桌面版 {brand} 应用拨打和接听电话。",
+  [`${callingOptions.softphone}Tooltip`]: "使用此选项通过 {brand} 桌面版应用拨打和接听电话。",
   [`${callingOptions.myphone}Tooltip`]: "使用此选项通过您的 {brand} 电话拨打电话。",
   [`${callingOptions.myphone}Tooltip1`]: "对于您拨出的通话，您的 {brand} 电话会先响铃，然后您呼叫的对方电话再响铃。",
   [`${callingOptions.otherphone}Tooltip`]: "使用此选项通过您的其他电话拨打电话，例如，您在 {brand} 分机中添加的家庭电话或手机。",

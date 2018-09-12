@@ -10,7 +10,7 @@ export default {
   add: "Agregar",
   transfer: "Transferir",
   flip: "Traspasar",
-  more: "Acciones de llamada",
+  more: "Acc. de llam.",
   mergeToConference: "Combinar"
 };
 

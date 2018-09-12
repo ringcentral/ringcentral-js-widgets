@@ -10,7 +10,8 @@ export default {
   [presenceStatus.available]: "Disponible",
   [presenceStatus.offline]: "Invisible",
   [presenceStatus.busy]: "Occupé(e)",
-  [dndStatus.doNotAcceptAnyCalls]: "Ne pas déranger"
+  [dndStatus.doNotAcceptAnyCalls]: "Ne pas déranger",
+  notActivated: "Inactive"
 };
 
 // @key: @#@"extensionLabel"@#@ @source: @#@"Ext."@#@
@@ -22,3 +23,4 @@ export default {
 // @key: @#@"[presenceStatus.offline]"@#@ @source: @#@"Invisible"@#@
 // @key: @#@"[presenceStatus.busy]"@#@ @source: @#@"Busy"@#@
 // @key: @#@"[dndStatus.doNotAcceptAnyCalls]"@#@ @source: @#@"Do not Disturb"@#@
+// @key: @#@"notActivated"@#@ @source: @#@"Inactive"@#@

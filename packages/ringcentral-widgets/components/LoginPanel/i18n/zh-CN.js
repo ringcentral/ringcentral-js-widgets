@@ -1,5 +1,6 @@
 export default {
   loginButton: "登录",
+
   version: "版本"
 };
 
