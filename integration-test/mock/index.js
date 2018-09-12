@@ -103,6 +103,7 @@ var conferenceCallBody = require('./data/conferenceCall');
 var numberParseBody = require('./data/numberParse');
 var conferenceCallBringInBody = require('./data/conferenceCallBringIn');
 var updateConferenceCallBody = require('./data/updateConference');
+
 var mockServer = 'http://whatever';
 function createSDK() {
   var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -671,6 +672,7 @@ function mockForLogin() {
   }
   numberParser(params.numberParseData, params.numberParseIsOnce);
   if (mockUpdateConference) {
+    conferenceCall();
     updateConferenceCall(updateConferenceCallBody.id, updateConferenceCallBody);
   }
 }
