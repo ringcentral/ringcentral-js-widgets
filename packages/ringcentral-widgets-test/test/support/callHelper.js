@@ -146,7 +146,7 @@ export function mockGenerateActiveCallsApi({ sessions }) {
   });
 }
 
-export function mockActiveCalls(webphoneSessions, mockOtherDeivce = [], ringSessionId) {
+export function mockActiveCalls(webphoneSessions, mockOtherDeivce = [], ringSessionIds = []) {
   const commons = {
     sipData: {
       toTag: 'pgrneavq66',
@@ -157,7 +157,7 @@ export function mockActiveCalls(webphoneSessions, mockOtherDeivce = [], ringSess
     startTime: '2018-08-07T09:20:09.405Z',
   };
   return webphoneSessions.reduce((calls, session) => {
-    const telephonyStatus = ringSessionId && session.id === ringSessionId
+    const telephonyStatus = ringSessionIds.includes(session.id)
       ? telephonyStatuses.onHold
       : telephonyStatuses.ringing;
     if (isConferenceSession(session)) {

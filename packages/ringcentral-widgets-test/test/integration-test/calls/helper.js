@@ -33,7 +33,6 @@ async function mockMultiActiveCallBodies(phone) {
     callId: 'call-111'
   });
   await phone.webphone.answer(inboundSession.id);
-  await phone.webphone.hold(inboundSession.id);
   // outbound call session
   const outboundSession = await makeCall(phone, {
     callId: true,
@@ -41,7 +40,6 @@ async function mockMultiActiveCallBodies(phone) {
     homeCountryId: '1',
     toNumber: '101',
   });
-  await phone.webphone.hold(outboundSession.id);
   // incoming call
   const incomingSession = await getInboundCall(phone, {
     id: '222',
@@ -71,8 +69,8 @@ async function mockMultiActiveCallBodies(phone) {
 }
 
 async function mockMultipleOutboundCallBodies(phone, n) {
-  for (let i = n; i > 0; i--) {
-    makeCall(phone, {
+  for (let i = n; i > 0; i -= 1) {
+    await makeCall(phone, {
       callId: true,
       fromNumber: '+15878133670',
       homeCountryId: '1',
@@ -121,8 +119,8 @@ export function generateActiveCallsData(sessions) {
     }
   }), []);
 }
-export async function mockSub(phone, sessions, ttl = 100) {
-  const activeCalls = generateActiveCallsData(sessions);
+export async function mockSub(phone, ttl = 100) {
+  const activeCalls = generateActiveCallsData(phone.webphone.sessions);
   mockGeneratePresenceApi({
     activeCalls
   });
