@@ -55,14 +55,14 @@ export default class ActiveCallControl extends Pollable {
     if (!disableCache) {
       this._storage = storage;
     }
-    this._subscription = this::ensureExist(subscription, 'subscription');
-    this._connectivityMonitor = this::ensureExist(connectivityMonitor, 'connectivityMonitor');
-    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
-    this._callMonitor = this::ensureExist(callMonitor, 'callMonitor');
+    this._subscription = this:: ensureExist(subscription, 'subscription');
+    this._connectivityMonitor = this:: ensureExist(connectivityMonitor, 'connectivityMonitor');
+    this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._callMonitor = this:: ensureExist(callMonitor, 'callMonitor');
     this._tabManager = tabManager;
     this._ttl = ttl;
     this._timeToRetry = timeToRetry;
-    this._auth = this::ensureExist(auth, 'auth');
+    this._auth = this:: ensureExist(auth, 'auth');
     this._promise = null;
     this._lastSubscriptionMessage = null;
     this._storageKey = storageKey;
@@ -409,7 +409,7 @@ export default class ActiveCallControl extends Pollable {
   }
   get data() {
     return (this._storage && this._storage.ready && this._storage.getItem(this._storageKey)) ||
-     this.state;
+      this.state;
   }
   get activeSessionId() {
     return this.data.activeSessionId || null;

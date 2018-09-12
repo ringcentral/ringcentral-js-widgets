@@ -24,6 +24,7 @@ import { withPhone } from '../../lib/phoneContext';
 import ConferenceAlert from '../../components/ConferenceAlert/index';
 import ConferenceCallAlert from '../../components/ConferenceCallAlert/index';
 import AddCallAlert from '../../components/AddCallAlert/';
+import CallControlAlert from '../../components/CallControlAlert';
 
 
 function mapToProps(_, {
@@ -166,6 +167,9 @@ function getDefaultRenderer({
           {...props}
         />
       );
+    }
+    if (CallControlAlert.handleMessage(message)) {
+      return props => <CallControlAlert {...props} />;
     }
 
     return undefined;

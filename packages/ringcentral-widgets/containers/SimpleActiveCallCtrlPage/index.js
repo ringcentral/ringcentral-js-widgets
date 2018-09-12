@@ -13,11 +13,19 @@ import CallCtrlPanel from '../../components/CallCtrlPanel';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import { ACTIONS_CTRL_MAP } from '../../components/ActiveCallPad';
 import i18n from './i18n';
+import { pickEleByProps, pickFallBackName } from './utils';
 
 function mapToProps(_, { phone }) {
-  const { activeCallControl } = phone;
+  const {
+    activeCallControl, regionSettings, activeCalls, contactMatcher,
+    alert,
+  } = phone;
   return {
-    activeCallControl
+    activeCallControl,
+    regionSettings,
+    activeCalls,
+    contactMatcher,
+    alert,
   };
 }
 
@@ -26,19 +34,49 @@ function mapToFunctions(_, { phone }) {
 }
 
 class ActiveCallControl extends Component {
-  click() { }
-  render() {
-    const { currentLocale, activeCallControl } = this.props;
-    const sessionId = activeCallControl.activeSessionId;
+  async holdCall(sessionId) {
+    const { activeCallControl } = this.props;
+    const { activeSession } = activeCallControl;
+    const { isOnHold } = activeSession;
+    if (isOnHold) {
+      this.props.alert.warning({ message: 'muteFail' });
+    }
+    await activeCallControl.hold(sessionId);
+  }
 
+  async muteCall(sessionId) {
+    const { activeCallControl } = this.props;
+    const { activeSession } = activeCallControl;
+    const { isOnMute } = activeSession;
+    if (isOnMute) {
+      this.props.alert.warning({ message: 'holdFail' });
+    }
+    await activeCallControl.mute(sessionId);
+  }
+  render() {
+    const {
+      currentLocale,
+      activeCallControl,
+      regionSettings,
+      activeCalls,
+      contactMatcher,
+    } = this.props;
+
+    const sessionId = activeCallControl.activeSessionId || '3977048006';
+    const activeCall = pickEleByProps(
+      { sessionId },
+      activeCalls.calls
+    )[0];
+
+    const fallBackName = pickFallBackName(activeCall, contactMatcher.dataMapping);
     const { muteCtrl, transferCtrl, holdCtrl } = ACTIONS_CTRL_MAP;
     const callCtrlProps = {
-      nameMatches: [],
-      fallBackName: 'fallBackName',
+      fallBackName,
       currentLocale,
-      onMute: async () => activeCallControl.mute(sessionId),
+      nameMatches: [],
+      onMute: async () => this.muteCall(sessionId),
       onUnmute: async () => activeCallControl.unmute(sessionId),
-      onHold: async () => activeCallControl.hold(sessionId),
+      onHold: async () => this.holdCall(sessionId),
       onUnhold: async () => activeCallControl.unHold(sessionId),
       onHangup: async () => activeCallControl.hangUp(sessionId),
       onTransfer: async number => activeCallControl.transfer(number, sessionId),
@@ -46,13 +84,14 @@ class ActiveCallControl extends Component {
       backButtonLabel: i18n.getString('allCalls', currentLocale),
       onBackButtonClick: () => null,
       formatPhone: () => null,
-      areaCode: '650',
-      countryCode: 'US',
+      areaCode: regionSettings.areaCode,
+      countryCode: regionSettings.countryCode,
       selectedMatcherIndex: 0,
       onSelectMatcherName: () => null,
       searchContactList: [],
       searchContact: () => null,
       layout: callCtrlLayouts.normalCtrl,
+      startTime: Date.now(),
       actions: [muteCtrl, transferCtrl, holdCtrl]
     };
 
@@ -79,11 +118,19 @@ class ActiveCallControl extends Component {
 ActiveCallControl.propTypes = {
   currentLocale: PropTypes.string,
   activeCallControl: PropTypes.object,
+  regionSettings: PropTypes.object,
+  activeCalls: PropTypes.object,
+  contactMatcher: PropTypes.object,
+  alert: PropTypes.object,
 };
 
 ActiveCallControl.defaultProps = {
   currentLocale: 'en-US',
   activeCallControl: {},
+  regionSettings: {},
+  activeCalls: {},
+  contactMatcher: {},
+  alert: {},
 };
 
 export default withPhone(connect(mapToProps, mapToFunctions)(ActiveCallControl));
