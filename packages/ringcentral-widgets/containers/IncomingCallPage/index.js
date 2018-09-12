@@ -68,13 +68,12 @@ class IncomingCallPage extends Component {
     if (this.props.session.id !== nextProps.session.id) {
       this._updateAvatarAndMatchIndex(nextProps);
     }
-    this.setState({
-      hasOtherActiveCall: nextProps.activeSessionId
-        // when ringcall became active call
-        ? nextProps.activeSessionId !== nextProps.session.id
-        // otherwise when no active call
-        : false,
-    });
+    // if we just pick up the phone, and the modal is still opening, then do nothing at all
+    if (nextProps.activeSessionId !== nextProps.session.id) {
+      this.setState({
+        hasOtherActiveCall: !!nextProps.activeSessionId,
+      });
+    }
   }
 
   componentWillUnmount() {
