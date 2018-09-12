@@ -182,6 +182,7 @@ WebphoneButtons.defaultProps = {
 };
 
 function RingoutButtons({
+  sessionId,
   currentLocale,
   extraButton,
   disableLinks,
@@ -203,8 +204,8 @@ function RingoutButtons({
             })
           }
           onClick={(e) => {
-                e.stopPropagation();
-                console.log(1);
+            e.stopPropagation();
+            ringoutHangup(sessionId);
           }}
           icon={EndIcon}
           showBorder={false}
@@ -229,7 +230,7 @@ function RingoutButtons({
           }
           onClick={(e) => {
                 e.stopPropagation();
-                console.log(1);
+                ringoutTransfer(sessionId);
           }}
           icon={TransferIcon}
             />
@@ -257,6 +258,7 @@ RingoutButtons.propTypes = {
   ringoutHangup: PropTypes.func,
   ringoutTransfer: PropTypes.func,
   ringing: PropTypes.bool.isRequired,
+  sessionId: PropTypes.string.isRequired,
 };
 
 RingoutButtons.defaultProps = {
@@ -434,6 +436,7 @@ export default class ActiveCallItem extends Component {
       call: {
         direction,
         webphoneSession,
+        sessionId,
       },
       disableLinks,
       currentLocale,
@@ -542,6 +545,7 @@ export default class ActiveCallItem extends Component {
                 webphoneAnswer={webphoneAnswer}
               />
               <RingoutButtons
+                sessionId={sessionId}
                 disableLinks={disableLinks}
                 ringing={ringing}
                 ringoutHangup={ringoutHangup}
@@ -575,6 +579,7 @@ ActiveCallItem.propTypes = {
       name: PropTypes.string,
     }),
     webphoneSession: PropTypes.object,
+    sessionId: PropTypes.string,
   }).isRequired,
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
@@ -606,6 +611,7 @@ ActiveCallItem.propTypes = {
   webphoneAnswer: PropTypes.func,
   ringoutHangup: PropTypes.func,
   ringoutTransfer: PropTypes.func,
+  disableLinks: PropTypes.bool,
 };
 
 ActiveCallItem.defaultProps = {
@@ -636,4 +642,5 @@ ActiveCallItem.defaultProps = {
   webphoneAnswer: i => i,
   ringoutHangup: undefined,
   ringoutTransfer: undefined,
+  disableLinks: false,
 };

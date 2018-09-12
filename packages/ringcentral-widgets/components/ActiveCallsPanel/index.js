@@ -119,6 +119,7 @@ export default class ActiveCallsPanel extends Component {
       renderContactName,
       ringoutHangup,
       ringoutTransfer,
+      disableLinks,
     } = this.props;
 
     return (
@@ -162,6 +163,7 @@ export default class ActiveCallsPanel extends Component {
         updateSessionMatchedContact={updateSessionMatchedContact}
         ringoutHangup={ringoutHangup}
         ringoutTransfer={ringoutTransfer}
+        disableLinks={disableLinks}
       />
     );
   }
@@ -259,6 +261,7 @@ ActiveCallsPanel.propTypes = {
   showOtherDevice: PropTypes.bool,
   ringoutHangup: PropTypes.func,
   ringoutTransfer: PropTypes.func,
+  disableLinks: PropTypes.bool,
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -302,6 +305,7 @@ ActiveCallsPanel.defaultProps = {
   showAvatar: true,
   renderContactName: undefined,
   showOtherDevice: true,
-  ringoutHangup: () => 1,
-  ringoutTransfer: () => 1,
+  ringoutHangup: undefined,
+  ringoutTransfer: undefined,
+  disableLinks: false,
 };

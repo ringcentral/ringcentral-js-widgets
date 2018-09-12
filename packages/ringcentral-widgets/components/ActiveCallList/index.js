@@ -52,6 +52,7 @@ function ActiveCallList({
   renderContactName,
   ringoutHangup,
   ringoutTransfer,
+  disableLinks,
 }) {
   if (!calls.length) {
     return null;
@@ -113,6 +114,7 @@ function ActiveCallList({
               renderContactName={renderContactName}
               ringoutHangup={ringoutHangup}
               ringoutTransfer={ringoutTransfer}
+              disableLinks={disableLinks}
             />
           );
         })
@@ -160,6 +162,7 @@ ActiveCallList.propTypes = {
   renderContactName: PropTypes.func,
   ringoutHangup: PropTypes.func,
   ringoutTransfer: PropTypes.func,
+  disableLinks: PropTypes.bool,
 };
 
 ActiveCallList.defaultProps = {
@@ -195,6 +198,7 @@ ActiveCallList.defaultProps = {
   renderContactName: undefined,
   ringoutHangup: undefined,
   ringoutTransfer: undefined,
+  disableLinks: false,
 };
 
 export default ActiveCallList;
