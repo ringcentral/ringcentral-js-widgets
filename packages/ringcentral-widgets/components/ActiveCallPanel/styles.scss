@@ -2,18 +2,20 @@
 @import '../../lib/commonStyles/colors.scss';
 @import '../../lib/commonStyles/fonts.scss';
 @import '../../lib/commonStyles/layout';
+$px: 'px';
 $userInfoHeight: 134px;
 $conferenceAvatarSizeInt: 51;
 $conferenceAvatarSize: 51px;
 $avaterMerginLeftSizeInt: -20;
-$avaterMerginLeftSize: -20px;
+$avaterMerginLeftSize: $avaterMerginLeftSizeInt+unquote($px);
 $timeCounterMarginTop:10px;
 $timeCounterHeight: 14px;
 $calleeAvatarSize: 30px;
 $calleeAvatarActiveSize: 45px;
 $calleeAvatarMarginL: ($calleeAvatarActiveSize - $calleeAvatarSize)/2;
-$fontSize:15px;
+
 $fontSizeInt: 15;
+$fontSize: $fontSizeInt+unquote($px);
 $borderWidth:1px;
 
 .root {

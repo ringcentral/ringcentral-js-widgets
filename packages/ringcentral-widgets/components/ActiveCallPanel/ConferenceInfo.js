@@ -21,7 +21,6 @@ const minWidthCalculator = count =>
 
 // when the container width reachs below item of width, display the avatar amount of count.
 const KINDS_OF_WIDTH_THAT_NEED_ADAPATER = [
-  { avartarCount: 0, width: minWidthCalculator(2), },
   { avartarCount: 1, width: minWidthCalculator(3), },
   { avartarCount: 2, width: minWidthCalculator(MAXIMUM_AVATARS), },
   { avartarCount: 3, width: minWidthCalculator(MAXIMUM_AVATARS + 1), },
@@ -60,9 +59,7 @@ export class ConferenceInfo extends Component {
 
     if (firstMatchWidth) {
       avatarCount = firstMatchWidth.avartarCount;
-      if (avatarCount === -1) {
-        avatarCount = 0;
-      } else if (avatarCount + 1 === avatarProfilesCount) {
+      if (avatarCount + 1 === avatarProfilesCount) {
         avatarCount = avatarProfilesCount;
       }
     } else if (
@@ -84,9 +81,12 @@ export class ConferenceInfo extends Component {
     }
 
     const avatarCount = this._computeAvatarCountByWindowWidth(props);
-    this.setState({
-      avatarCount,
-    });
+
+    if (avatarCount !== this.state.avatarCount) {
+      this.setState({
+        avatarCount,
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -157,8 +157,6 @@ export class ConferenceInfo extends Component {
 
     const { avatarCount } = this.state;
 
-    const isAvatarCountComputingReady = !!avatarCount || avatarCount === 0;
-
     const {
       displayedProfiles,
       remains
@@ -170,8 +168,7 @@ export class ConferenceInfo extends Component {
         ref={this._container}
         >
         {
-           isAvatarCountComputingReady &&
-             (displayedProfiles.length || (avatarCount === 0 && remains > 0))
+           (displayedProfiles.length || (avatarCount === 0 && remains > 0))
               ? (
                 <div
                   className={classnames(styles.avatarContainer, styles.clickable)}
