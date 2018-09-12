@@ -21,6 +21,7 @@ const minWidthCalculator = count =>
 
 // when the container width reachs below item of width, display the avatar amount of count.
 const KINDS_OF_WIDTH_THAT_NEED_ADAPATER = [
+  { avartarCount: 0, width: minWidthCalculator(1), },
   { avartarCount: 1, width: minWidthCalculator(3), },
   { avartarCount: 2, width: minWidthCalculator(MAXIMUM_AVATARS), },
   { avartarCount: 3, width: minWidthCalculator(MAXIMUM_AVATARS + 1), },
