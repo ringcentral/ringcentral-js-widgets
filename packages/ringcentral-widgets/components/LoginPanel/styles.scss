@@ -17,14 +17,16 @@
   color: #fff;
   border-radius: 3px;
   width: 80%;
-  height: 30px;
+  height: 32px;
   line-height: 30px;
   box-sizing: border-box;
   top: 40%;
   left: 50%;
   margin-top: -15px;
   margin-left: -40%;
-  font: bold 13px normal $font-family;
+  font-family: $font-family;
+  font-size: 12px;
+  font-weight: bold;
 }
 
 .loginButton:active {
@@ -44,14 +46,16 @@
   border-radius: 3px;
   border: solid 1px $primary-color;
   width: 80%;
-  height: 30px;
+  height: 32px;
   line-height: 30px;
   box-sizing: border-box;
   top: 50%;
   left: 50%;
   margin-top: -15px;
   margin-left: -40%;
-  font: bold 13px normal $font-family;
+  font-family: $font-family;
+  font-size: 12px;
+  font-weight: bold;
 }
 
 .signUpButton:active {
