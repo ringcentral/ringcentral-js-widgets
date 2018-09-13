@@ -1,7 +1,9 @@
 @import '../../lib/commonStyles/layout.scss';
+
 .media {
   // Proper spacing between instances of .media
   margin-top: 15px;
+
   &:first-child {
     margin-top: 0;
   }
@@ -16,22 +18,31 @@
   flex-wrap: nowrap;
   align-items: center;
   justify-content: flex-start;
+
   .mediaBody {
     flex-grow: 1;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+
   .mediaRight,
   .mediaLeft {
     flex-shrink: 0;
   }
+
   .mediaTop {
     align-self: flex-start;
   }
+
   .mediaMiddle {
-    align-self: center;
+    align-self: stretch;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
   }
+
   .mediaBottom {
     align-self: flex-end;
   }
@@ -49,6 +60,7 @@
 
 .mediaObject {
   display: block; // Fix collapse in webkit from max-width: 100% and display: table-cell.
+
   &.img-thumbnail {
     max-width: none;
   }
