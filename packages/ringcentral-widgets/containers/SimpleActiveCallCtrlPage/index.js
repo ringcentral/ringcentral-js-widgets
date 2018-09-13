@@ -71,8 +71,8 @@ class ActiveCallControl extends Component {
       countryCode: regionSettings.countryCode,
       selectedMatcherIndex: 0,
       onSelectMatcherName: () => null,
-      searchContactList: [],
-      searchContact: () => null,
+      searchContactList: this.props.searchContactList,
+      searchContact: value => this.props.searchContact(value),
       layout: callCtrlLayouts.normalCtrl,
       startTime: activeCall.startTime,
       actions: [muteCtrl, transferCtrl, holdCtrl]
@@ -106,6 +106,8 @@ ActiveCallControl.propTypes = {
   contactMatcher: PropTypes.object,
   alert: PropTypes.object,
   routerInteraction: PropTypes.object,
+  searchContact: PropTypes.func,
+  searchContactList: PropTypes.array,
 };
 
 ActiveCallControl.defaultProps = {
@@ -116,6 +118,8 @@ ActiveCallControl.defaultProps = {
   contactMatcher: {},
   alert: {},
   routerInteraction: {},
+  searchContact() {},
+  searchContactList: []
 };
 
 export default withPhone(connect(mapToProps, mapToFunctions)(ActiveCallControl));
