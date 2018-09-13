@@ -60,3 +60,4 @@ alias.json
 */**/*.log
 
 */**/gh-pages
+*/**/e2e.config.js
