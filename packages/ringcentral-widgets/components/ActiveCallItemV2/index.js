@@ -192,16 +192,17 @@ function RingoutButtons({
 }) {
   if (!showRingoutCallControl) return null;
 
-  let hangupBtn;
-  if (ringoutHangup) {
-    const hangupTitle = i18n.getString('hangup', currentLocale);
-    hangupBtn = (
-      <span title={hangupTitle} className={styles.ringoutButton}>
+  let endButton;
+  // TD: implement end button
+  if (ringoutHangup && !ringing) {
+    const rejectTitle = i18n.getString('reject', currentLocale);
+    endButton = (
+      <span title={rejectTitle} className={styles.ringoutButton}>
         <CircleButton
           disabled={disableLinks}
           className={
             classnames({
-              [styles.hangupButton]: true,
+              [styles.endButton]: true,
               [styles.disabled]: disableLinks
             })
           }
@@ -215,6 +216,29 @@ function RingoutButtons({
       </span>
     );
   }
+  if (ringoutHangup && ringing) {
+    const hangupTitle = i18n.getString('hangup', currentLocale);
+    endButton = (
+      <span title={hangupTitle} className={styles.ringoutButton}>
+        <CircleButton
+          disabled={disableLinks}
+          className={
+            classnames({
+              [styles.endButton]: true,
+              [styles.disabled]: disableLinks
+            })
+          }
+          onClick={(e) => {
+            e.stopPropagation();
+            ringoutHangup(sessionId);
+          }}
+          icon={EndIcon}
+          showBorder={false}
+            />
+      </span>
+    );
+  }
+
 
   let transferBtn;
   if (ringoutTransfer && !ringing) {
@@ -242,7 +266,7 @@ function RingoutButtons({
 
   return (
     <div>
-      {hangupBtn}
+      {endButton}
       {transferBtn}
     </div>
   );
@@ -475,32 +499,30 @@ export default class ActiveCallItem extends Component {
       <div className={styles.extraButton}>{renderExtraButton(this.props.call)}</div> :
       undefined;
     return (
-      <div
-        onClick={onClick}
-        className={classnames(styles.callItemContainer, onClick
-        ? styles.pointer
-        : null)}
-      >
+      <div className={styles.callItemContainer}>
         <MediaObject
           containerCls={styles.wrapper}
+          bodyCls={classnames(styles.content, styles.pointer)}
+          leftCls={styles.pointer}
           mediaLeft={
-            <CallIcon
-              direction={direction}
-              ringing={ringing}
-              active
-              missed={false}
-              inboundTitle={i18n.getString('inboundCall', currentLocale)}
-              outboundTitle={i18n.getString('outboundCall', currentLocale)}
-              missedTitle={i18n.getString('missedCall', currentLocale)}
-              isOnConferenceCall={isOnConferenceCall}
-              showAvatar={showAvatar}
-              avatarUrl={avatarUrl}
-              extraNum={extraNum}
-            />
+            <div onClick={onClick}>
+              <CallIcon
+                direction={direction}
+                ringing={ringing}
+                active
+                missed={false}
+                inboundTitle={i18n.getString('inboundCall', currentLocale)}
+                outboundTitle={i18n.getString('outboundCall', currentLocale)}
+                missedTitle={i18n.getString('missedCall', currentLocale)}
+                isOnConferenceCall={isOnConferenceCall}
+                showAvatar={showAvatar}
+                avatarUrl={avatarUrl}
+                extraNum={extraNum}
+              />
+            </div>
           }
-          bodyCls={styles.content}
           mediaBody={
-            <div>
+            <div onClick={onClick} className={styles.strechVertical}>
               <ContactDisplay
                 isOnConferenceCall={isOnConferenceCall}
                 contactName={contactName}

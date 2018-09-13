@@ -10,10 +10,6 @@ $avatar-basis:45.5px;
   width: $fixed-icon-width;
 }
 
-.activeCall {
-  color: $active;
-}
-
 @keyframes ringing {
   0% {
     text-shadow: 0px 0px 1px $active;

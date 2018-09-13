@@ -28,4 +28,5 @@ export default {
   hold: 'Hold',
   unhold: 'Unhold',
   transfer: 'Transfer',
+  reject: 'Reject',
 };

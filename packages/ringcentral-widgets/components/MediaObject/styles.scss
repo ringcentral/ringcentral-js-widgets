@@ -70,7 +70,11 @@
 }
 
 .mediaMiddle {
-  vertical-align: middle;
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
 }
 
 .mediaBottom {

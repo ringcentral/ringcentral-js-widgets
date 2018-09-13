@@ -118,9 +118,8 @@ function mapToFunctions(_, {
       callMonitor.allCallsClickHangupTrack();
       return (activeCallControl && activeCallControl.hangUp(...args));
     },
-    async ringoutTransfer(...args) {
-      activeCallControl.setActiveSessionId(...args);
-      routerInteraction.push('/transfer');
+    async ringoutTransfer(sessionId) {
+      routerInteraction.push(`/transfer/${sessionId}`);
     },
     onViewContact: showViewContact ?
       (onViewContact || (({ contact }) => {

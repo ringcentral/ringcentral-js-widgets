@@ -8,6 +8,15 @@ $button-basis:68.5px;
   cursor: pointer;
 }
 
+.strechVertical {
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  height: 100%;
+}
+
 .callItemContainer {
   padding: $padding-horizontal*3/4 $padding-horizontal;
   border-bottom: 1px solid #e2e2e2;
@@ -115,11 +124,11 @@ $button-basis:68.5px;
         margin-right: $padding-horizontal/2;
       }
       .transferButton,
-      .hangupButton {
+      .endButton {
         width: 24px;
       }
 
-      .hangupButton {
+      .endButton {
         circle {
           fill: #f95b5c;
         }
@@ -178,6 +187,9 @@ $button-basis:68.5px;
 .contactDisplay,
 .contactDisplay * {
   color: $lightblack !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
 
   .icon {
     display: none;
