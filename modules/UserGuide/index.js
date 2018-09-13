@@ -17,6 +17,10 @@ var _keys = require('babel-runtime/core-js/object/keys');
 
 var _keys2 = _interopRequireDefault(_keys);
 
+var _promise = require('babel-runtime/core-js/promise');
+
+var _promise2 = _interopRequireDefault(_promise);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -166,7 +170,7 @@ var UserGuide = (_dec = (0, _di.Module)({
             switch (_context.prev = _context.next) {
               case 0:
                 if (!(this.pending && this._auth.ready && this._locale.ready && this._storage.ready && this._rolesAndPermissions.ready && this._auth.loggedIn)) {
-                  _context.next = 6;
+                  _context.next = 8;
                   break;
                 }
 
@@ -177,17 +181,21 @@ var UserGuide = (_dec = (0, _di.Module)({
                 return this.initUserGuide();
 
               case 4:
-                _context.next = 7;
-                break;
+                _context.next = 6;
+                return this.preLoadImage();
 
               case 6:
+                _context.next = 9;
+                break;
+
+              case 8:
                 if (this.ready && (!this._auth.ready || !this._locale.ready || !this._storage.ready || !this._rolesAndPermissions.ready)) {
                   this.store.dispatch({
                     type: this.actionTypes.resetSuccess
                   });
                 }
 
-              case 7:
+              case 9:
                 // When there is an incoming call,
                 // the guide should be dismissed
                 if (this._webphone.ready && this._webphone.ringSession && this._webphone.ringSession !== this._lastRingSession) {
@@ -195,7 +203,7 @@ var UserGuide = (_dec = (0, _di.Module)({
                   this.dismiss();
                 }
 
-              case 8:
+              case 10:
               case 'end':
                 return _context.stop();
             }
@@ -208,6 +216,66 @@ var UserGuide = (_dec = (0, _di.Module)({
       }
 
       return _onStateChange;
+    }()
+  }, {
+    key: '_preLoadImage',
+    value: function () {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(url) {
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return new _promise2.default(function (resolve, reject) {
+                  var img = new Image();
+                  img.src = url;
+                  img.onload = resolve;
+                  img.onerror = resolve;
+                });
+
+              case 2:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function _preLoadImage(_x) {
+        return _ref3.apply(this, arguments);
+      }
+
+      return _preLoadImage;
+    }()
+  }, {
+    key: 'preLoadImage',
+    value: function () {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return this._preLoadImage(this.guides[0]);
+
+              case 2:
+                this.store.dispatch({
+                  type: this.actionTypes.preLoadImageStatus
+                });
+
+              case 3:
+              case 'end':
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function preLoadImage() {
+        return _ref4.apply(this, arguments);
+      }
+
+      return preLoadImage;
     }()
 
     /**
@@ -247,10 +315,10 @@ var UserGuide = (_dec = (0, _di.Module)({
   }, {
     key: 'loadGuides',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(guides) {
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(guides) {
+        return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 if (guides) {
                   this.store.dispatch({
@@ -261,14 +329,14 @@ var UserGuide = (_dec = (0, _di.Module)({
 
               case 1:
               case 'end':
-                return _context2.stop();
+                return _context4.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee4, this);
       }));
 
-      function loadGuides(_x) {
-        return _ref3.apply(this, arguments);
+      function loadGuides(_x2) {
+        return _ref5.apply(this, arguments);
       }
 
       return loadGuides;
@@ -276,15 +344,15 @@ var UserGuide = (_dec = (0, _di.Module)({
   }, {
     key: 'updateCarousel',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_ref4) {
-        var curIdx = _ref4.curIdx,
-            entered = _ref4.entered,
-            playing = _ref4.playing,
-            _ref4$firstLogin = _ref4.firstLogin,
-            firstLogin = _ref4$firstLogin === undefined ? this.state.firstLogin : _ref4$firstLogin;
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_ref6) {
+        var curIdx = _ref6.curIdx,
+            entered = _ref6.entered,
+            playing = _ref6.playing,
+            _ref6$firstLogin = _ref6.firstLogin,
+            firstLogin = _ref6$firstLogin === undefined ? this.state.firstLogin : _ref6$firstLogin;
+        return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 this.store.dispatch({
                   type: this.actionTypes.updateCarousel,
@@ -296,14 +364,14 @@ var UserGuide = (_dec = (0, _di.Module)({
 
               case 1:
               case 'end':
-                return _context3.stop();
+                return _context5.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee5, this);
       }));
 
-      function updateCarousel(_x2) {
-        return _ref5.apply(this, arguments);
+      function updateCarousel(_x3) {
+        return _ref7.apply(this, arguments);
       }
 
       return updateCarousel;
@@ -311,18 +379,18 @@ var UserGuide = (_dec = (0, _di.Module)({
   }, {
     key: 'initUserGuide',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6() {
         var prevGuides, guides;
-        return _regenerator2.default.wrap(function _callee4$(_context4) {
+        return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 if (this._rolesAndPermissions.hasUserGuidePermission) {
-                  _context4.next = 2;
+                  _context6.next = 2;
                   break;
                 }
 
-                return _context4.abrupt('return');
+                return _context6.abrupt('return');
 
               case 2:
                 // eslint-disable-next-line
@@ -333,7 +401,7 @@ var UserGuide = (_dec = (0, _di.Module)({
                 // i.e. if any of the guide files is changed, the file name hash
                 // will be changed as well, in this case, it will be displayed.
 
-                _context4.next = 6;
+                _context6.next = 6;
                 return this.loadGuides(guides);
 
               case 6:
@@ -343,14 +411,14 @@ var UserGuide = (_dec = (0, _di.Module)({
 
               case 7:
               case 'end':
-                return _context4.stop();
+                return _context6.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee6, this);
       }));
 
       function initUserGuide() {
-        return _ref6.apply(this, arguments);
+        return _ref8.apply(this, arguments);
       }
 
       return initUserGuide;
@@ -358,14 +426,14 @@ var UserGuide = (_dec = (0, _di.Module)({
   }, {
     key: 'start',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
-        var _ref8 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-            _ref8$firstLogin = _ref8.firstLogin,
-            firstLogin = _ref8$firstLogin === undefined ? false : _ref8$firstLogin;
+      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
+        var _ref10 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+            _ref10$firstLogin = _ref10.firstLogin,
+            firstLogin = _ref10$firstLogin === undefined ? false : _ref10$firstLogin;
 
-        return _regenerator2.default.wrap(function _callee5$(_context5) {
+        return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 // Start guides only when images are ready
                 this.store.dispatch({
@@ -378,14 +446,14 @@ var UserGuide = (_dec = (0, _di.Module)({
 
               case 1:
               case 'end':
-                return _context5.stop();
+                return _context7.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee7, this);
       }));
 
       function start() {
-        return _ref7.apply(this, arguments);
+        return _ref9.apply(this, arguments);
       }
 
       return start;
@@ -422,8 +490,13 @@ var UserGuide = (_dec = (0, _di.Module)({
     get: function get() {
       return this.state.status;
     }
+  }, {
+    key: 'preLoadImageStatus',
+    get: function get() {
+      return this.state.preLoadImageStatus;
+    }
   }]);
   return UserGuide;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'dismiss', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'dismiss'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'loadGuides', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'loadGuides'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateCarousel', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateCarousel'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'initUserGuide', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'initUserGuide'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'start', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'start'), _class2.prototype)), _class2)) || _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, '_preLoadImage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_preLoadImage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'preLoadImage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'preLoadImage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'dismiss', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'dismiss'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'loadGuides', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'loadGuides'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateCarousel', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateCarousel'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'initUserGuide', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'initUserGuide'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'start', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'start'), _class2.prototype)), _class2)) || _class);
 exports.default = UserGuide;
 //# sourceMappingURL=index.js.map

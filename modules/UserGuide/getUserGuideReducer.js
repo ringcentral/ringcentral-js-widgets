@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.getGuidesReducer = getGuidesReducer;
 exports.getFirstLoginReducer = getFirstLoginReducer;
 exports.getCarouselState = getCarouselState;
+exports.getPreLoadImageStatus = getPreLoadImageStatus;
 exports.default = getUserGuideReducer;
 
 var _redux = require('redux');
@@ -66,11 +67,25 @@ function getCarouselState(types) {
   };
 }
 
+function getPreLoadImageStatus(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var _ref4 = arguments[1];
+    var type = _ref4.type;
+
+    if (type === types.preLoadImageStatus) {
+      return true;
+    }
+    return state;
+  };
+}
+
 function getUserGuideReducer(types) {
   return (0, _redux.combineReducers)({
     status: (0, _getModuleStatusReducer2.default)(types),
     carouselState: getCarouselState(types),
-    firstLogin: getFirstLoginReducer(types)
+    firstLogin: getFirstLoginReducer(types),
+    preLoadImageStatus: getPreLoadImageStatus(types)
   });
 }
 //# sourceMappingURL=getUserGuideReducer.js.map
