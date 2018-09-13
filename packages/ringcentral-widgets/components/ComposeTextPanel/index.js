@@ -94,6 +94,7 @@ class ComposeTextPanel extends Component {
           disabled={this.props.sendButtonDisabled}
           currentLocale={this.props.currentLocale}
           onSend={this.props.send}
+          maxHeight={this.props.maxHeight}
         />
       </div>
     );

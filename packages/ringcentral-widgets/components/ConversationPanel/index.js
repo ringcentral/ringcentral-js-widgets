@@ -274,6 +274,7 @@ class ConversationPanel extends Component {
           currentLocale={this.props.currentLocale}
           onSend={this.onSend}
           onHeightChange={this.onInputHeightChange}
+          maxHeight={this.props.maxHeight}
         />
       </div>
     );

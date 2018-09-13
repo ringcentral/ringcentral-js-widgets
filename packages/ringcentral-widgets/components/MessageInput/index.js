@@ -24,7 +24,7 @@ export default class MessageInput extends Component {
     onChange: undefined,
     onHeightChange: undefined,
     minHeight: 63,
-    maxHeight: 63,  // change to 300 when allow to flex show message.
+    maxHeight: 300,
     maxLength: 5000,
   }
   constructor(props, context) {
