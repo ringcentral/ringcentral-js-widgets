@@ -23,6 +23,9 @@ export function isOutbound(call = {}) {
 export function isRinging(call = {}) {
   return call.telephonyStatus === telephonyStatuses.ringing;
 }
+export function isRingingInboundCall(call) {
+  return isRinging(call) && isInbound(call);
+}
 
 const callResultsToMissedMap = HashMap.fromSet({
   set: Object.keys(callResults).map(key => callResults[key]),

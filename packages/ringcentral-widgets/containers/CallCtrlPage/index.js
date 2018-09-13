@@ -20,7 +20,6 @@ function mapToProps(_, {
     contactSearch,
     conferenceCall,
     callingSettings,
-    callMonitor,
     rolesAndPermissions,
   },
   params,
@@ -49,7 +48,7 @@ function mapToProps(_, {
   let isMerging = false;
   let conferenceCallParties;
   let conferenceCallId = null;
-  const lastCallInfo = callMonitor.lastCallInfo;
+  const lastCallInfo = conferenceCall && conferenceCall.lastCallInfo;
   let isConferenceCallOverload = false;
   const conferenceCallEquipped =
     !!(conferenceCall && rolesAndPermissions.hasConferenceCallPermission);

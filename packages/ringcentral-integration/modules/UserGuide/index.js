@@ -69,6 +69,7 @@ export default class UserGuide extends RcModule {
         type: this.actionTypes.initSuccess,
       });
       await this.initUserGuide();
+      await this.preLoadImage();
     } else if (
       this.ready && (
         !this._auth.ready ||
@@ -93,6 +94,25 @@ export default class UserGuide extends RcModule {
     }
   }
 
+  @proxify
+  async _preLoadImage(url) {
+    await new Promise((resolve, reject) => {
+      let img = new Image();
+      img.src = url;
+      img.onload = resolve;
+      img.onerror = resolve;
+    })
+    
+  }
+
+  @proxify
+  async preLoadImage(){
+    await this._preLoadImage(this.guides[0]);
+    this.store.dispatch({
+      type: this.actionTypes.preLoadImageStatus,
+    });
+  }
+  
   /**
    * Using webpack `require.context` to load guides files.
    * Image files will be ordered by file name ascendingly.
@@ -199,5 +219,8 @@ export default class UserGuide extends RcModule {
 
   get status() {
     return this.state.status;
+  }
+  get preLoadImageStatus() {
+    return this.state.preLoadImageStatus;
   }
 }

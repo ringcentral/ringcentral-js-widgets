@@ -35,6 +35,7 @@ const conferenceCallBody = require('./data/conferenceCall');
 const numberParseBody = require('./data/numberParse');
 const conferenceCallBringInBody = require('./data/conferenceCallBringIn');
 const updateConferenceCallBody = require('./data/updateConference');
+
 const mockServer = 'http://whatever';
 export function createSDK(options = {}) {
   const opts = {
@@ -87,9 +88,9 @@ export function mockApi({
     headers: responseHeaders,
     sendAsJson: false
   }, {
-      method,
-      times: isOnce ? 1 : 20,
-    });
+    method,
+    times: isOnce ? 1 : 20,
+  });
 }
 
 export function authentication() {
@@ -476,7 +477,7 @@ export function updateConferenceCall(id, mockResponse = {}) {
   mockApi({
     path: `/restapi/v1.0/account/~/telephony/sessions/${id}`,
     body: {
-      //...conferenceCallBody,
+      // ...conferenceCallBody,
       ...mockResponse,
     },
     isOnce: false
@@ -576,7 +577,17 @@ export function serviceInfo(mockResponse = {}) {
     isOnce: false
   });
 }
-
+export function recentActivity(mockResponse = {}, isOnce = false) {
+  mockApi({
+    method: 'GET',
+    url: new RegExp(`${mockServer}/restapi/v1.0/account/~/extension/~/call-log`),
+    body: {
+      ...callLogBody,
+      ...mockResponse,
+    },
+    isOnce
+  });
+}
 export function mockForLogin({
   mockAuthzProfile = true,
   mockExtensionInfo = true,
@@ -585,6 +596,8 @@ export function mockForLogin({
   mockConferencing = true,
   mockActiveCalls = true,
   mockUpdateConference = false,
+  mockNumberParser = true,
+  mockRecentActivity = true,
   ...params
 } = {}) {
   authentication();
@@ -621,8 +634,14 @@ export function mockForLogin({
   if (mockActiveCalls) {
     activeCalls(params.activeCallsData);
   }
-  numberParser(params.numberParseData, params.numberParseIsOnce);
+  if (mockNumberParser) {
+    numberParser(params.numberParseData, params.numberParseIsOnce);
+  }
   if (mockUpdateConference) {
+    conferenceCall();
     updateConferenceCall(updateConferenceCallBody.id, updateConferenceCallBody);
+  }
+  if (mockRecentActivity) {
+    recentActivity();
   }
 }

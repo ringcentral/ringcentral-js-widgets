@@ -6,7 +6,7 @@ export default {
   recurringDescribe: "请记住检查或重复参与者日历邀请。",
   video: "视频",
   videoDescribe: "加入会议时",
-  host: "主机",
+  host: "主持人",
   participants: "参与者",
   audioOptions: "音频选项",
   voIPOnly: "仅网络电话",
@@ -14,7 +14,7 @@ export default {
   meetingOptions: "会议选项",
   requirePassword: "需要会议密码",
   password: "密码",
-  enableJoinBeforeHost: "托管前启用加入",
+  enableJoinBeforeHost: "允许在主持人加入前进入会议",
   telephonyOnly: "仅电话"
 };
 
