@@ -154,22 +154,22 @@ describe('RecentMessages Unit Test', () => {
     it('should only get messages within certain days', async () => {
       sinon.stub(recentMessages, '_filterPhoneNumber').callsFake(() => () => true);
       const conversations = [{
-        id: 12345,
+        conversationId: 12345,
         creationTime: '2017-07-26T06:52:43.515Z'
       }, {
-        id: 12346,
+          conversationId: 12346,
         creationTime: '2017-01-26T06:52:43.515Z'
       }];
       recentMessages._messageStore.conversationStore = {
         12345: [
           {
-            id: '12345',
+            conversationId: '12345',
             creationTime: '2017-07-26T06:52:43.515Z'
           }
         ],
         12346: [
           {
-            id: '12346',
+            conversationId: '12346',
             creationTime: '2017-01-26T06:52:43.515Z'
           }
         ],
@@ -190,7 +190,7 @@ describe('RecentMessages Unit Test', () => {
     it('should only get 5 messages even if there are more matches', async () => {
       sinon.stub(recentMessages, '_filterPhoneNumber').callsFake(() => () => true);
       const conversations = [{
-        id: '12345',
+        conversationId: '12345',
         creationTime: '2017-07-26T06:52:43.515Z'
       }];
       recentMessages._messageStore.conversationStore = {
