@@ -48,7 +48,7 @@ export default class Session {
     this.request = {
       to: {
         uri: {
-          user: to && to.includes('conf_') ? to : null,
+          user: to,
         },
         displayName: to && to.includes('conf_') ? 'Conference' : null,
       },

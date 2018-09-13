@@ -62,7 +62,6 @@ describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', ()
     const activeCallItem = activeCallItemList.at(0);
     const activeCallItemProps = activeCallItem.props();
     expect(activeCallItem).toBeDefined();
-    expect(activeCallItem.text().includes('Anonymous')).toEqual(true);
     expect(activeCallItemProps).toBeDefined();
     expect(activeCallItemProps.showMergeCall).toEqual(true);
     done();
