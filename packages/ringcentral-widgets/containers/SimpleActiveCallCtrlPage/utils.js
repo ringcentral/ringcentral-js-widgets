@@ -13,11 +13,12 @@ export const pickEleByProps = (props = {}, list = []) => {
   return result;
 };
 
-export const pickFallBackName = (call = {}, contactMatchMap = {}, currentLocale) => {
+export const pickFallBackInfo = (call = {}, contactMatchMap = {}, currentLocale) => {
   const { direction } = call;
   const callFrom = call.from;
   const callTo = call.to;
   let fallBackName = i18n.getString('Unknown', currentLocale);
+  let fallBackNumber = '';
 
   function getName(target) {
     const { name, extensionNumber, phoneNumber } = target;
@@ -36,16 +37,29 @@ export const pickFallBackName = (call = {}, contactMatchMap = {}, currentLocale)
     return name;
   }
 
+  function getNumber(target) {
+    const { extensionNumber, phoneNumber } = target;
+    return (phoneNumber || extensionNumber);
+  }
+
   switch (direction) {
-    case callDirection.inbound:
+    case callDirection.inbound: {
       fallBackName = getName(callFrom);
+      fallBackNumber = getNumber(callFrom);
       break;
-    case callDirection.outbound:
+    }
+    case callDirection.outbound: {
       fallBackName = getName(callTo);
+      fallBackNumber = getNumber(callTo);
       break;
+    }
+
     default:
       break;
   }
 
-  return fallBackName;
+  return {
+    fallBackName,
+    fallBackNumber
+  };
 };

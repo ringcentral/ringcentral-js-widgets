@@ -6,6 +6,7 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import formatNumber from 'ringcentral-integration/lib/formatNumber';
 
 import withPhone from '../../lib/withPhone';
 
@@ -13,7 +14,7 @@ import CallCtrlPanel from '../../components/CallCtrlPanel';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import { ACTIONS_CTRL_MAP } from '../../components/ActiveCallPad';
 import i18n from './i18n';
-import { pickEleByProps, pickFallBackName } from './utils';
+import { pickEleByProps, pickFallBackInfo } from './utils';
 
 function mapToProps(_, { phone }) {
   const {
@@ -51,11 +52,16 @@ class ActiveCallControl extends Component {
       activeCalls.calls
     )[0] || {};
 
-    const fallBackName = pickFallBackName(activeCall, contactMatcher.dataMapping, currentLocale);
+    const { fallBackName, fallBackNumber } = pickFallBackInfo(
+      activeCall,
+      contactMatcher.dataMapping,
+      currentLocale
+    );
     const { muteCtrl, transferCtrl, holdCtrl } = ACTIONS_CTRL_MAP;
     const callCtrlProps = {
       fallBackName,
       currentLocale,
+      phoneNumber: '101',
       nameMatches: [],
       onMute: async () => activeCallControl.mute(sessionId),
       onUnmute: async () => activeCallControl.unmute(sessionId),
@@ -66,7 +72,11 @@ class ActiveCallControl extends Component {
       showBackButton: true,
       backButtonLabel: i18n.getString('allCalls', currentLocale),
       onBackButtonClick: async () => routerInteraction.push('/dialer'),
-      formatPhone: () => null,
+      formatPhone: phoneNumber => formatNumber({
+        phoneNumber,
+        areaCode: regionSettings.areaCode,
+        countryCode: regionSettings.countryCode,
+      }),
       areaCode: regionSettings.areaCode,
       countryCode: regionSettings.countryCode,
       selectedMatcherIndex: 0,
