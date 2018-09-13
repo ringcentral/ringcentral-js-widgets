@@ -17,14 +17,17 @@ $fixed-icon-width: 21px;
   .wrapper {
     overflow: visible;
 
-    .contentWithAvatar {
-      max-width: calc(100% - #{$avatar-basis+$button-basis});
+    .content {
       flex-shrink: 1;
     }
 
-    .contentWithIcon {
-      max-width: calc(100% - #{$fixed-icon-width+$button-basis} - #{($container-padding-left + $container-padding-right)/2});
-      flex-shrink: 1;
+    .actionIconsBox {
+      display: flex;
+      .extraButton {
+        display: flex;
+        align-items: center;
+        margin-left: $padding-horizontal/2;
+      }
     }
 
     .webphoneButton {
@@ -109,17 +112,10 @@ $fixed-icon-width: 21px;
       }
     }
 
-    .ringoutButtons {
-      min-width: $button-basis;
-      display: flex;
-      flex-flow: row-reverse;
-    }
-
     .ringoutButton {
-      margin-right: $padding-horizontal/2;
-      display: flex;
-      align-items: center;
-
+      &:not(:last-of-type) {
+        margin-right: $padding-horizontal/2;
+      }
       .transferButton,
       .hangupButton {
         width: 24px;

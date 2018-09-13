@@ -120,7 +120,6 @@ function mapToFunctions(_, {
     },
     async ringoutTransfer(...args) {
       // TODO: Display the ringout call transfer page.
-      console.log(...args);
     },
     onViewContact: showViewContact ?
       (onViewContact || (({ contact }) => {

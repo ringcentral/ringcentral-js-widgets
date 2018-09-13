@@ -184,12 +184,14 @@ WebphoneButtons.defaultProps = {
 function RingoutButtons({
   sessionId,
   currentLocale,
-  extraButton,
   disableLinks,
   ringoutHangup,
   ringoutTransfer,
   ringing,
+  showRingoutCallControl,
 }) {
+  if (!showRingoutCallControl) return null;
+
   let hangupBtn;
   if (ringoutHangup) {
     const hangupTitle = i18n.getString('hangup', currentLocale);
@@ -238,31 +240,25 @@ function RingoutButtons({
     );
   }
 
-  const extraBtn = extraButton ? (
-    <span className={styles.ringoutButton}>{extraButton}</span>
-  ) : null;
-
   return (
     <div className={styles.ringoutButtons}>
-      {extraBtn}
-      {transferBtn}
       {hangupBtn}
+      {transferBtn}
     </div>
   );
 }
 
 RingoutButtons.propTypes = {
-  extraButton: PropTypes.element,
   currentLocale: PropTypes.string.isRequired,
   disableLinks: PropTypes.bool,
   ringoutHangup: PropTypes.func,
   ringoutTransfer: PropTypes.func,
   ringing: PropTypes.bool.isRequired,
   sessionId: PropTypes.string.isRequired,
+  showRingoutCallControl: PropTypes.bool.isRequired,
 };
 
 RingoutButtons.defaultProps = {
-  extraButton: undefined,
   disableLinks: false,
   ringoutHangup: undefined,
   ringoutTransfer: undefined,
@@ -464,6 +460,7 @@ export default class ActiveCallItem extends Component {
       webphoneAnswer,
       ringoutHangup,
       ringoutTransfer,
+      showRingoutCallControl,
     } = this.props;
 
     const { avatarUrl, extraNum } = this.state;
@@ -475,7 +472,7 @@ export default class ActiveCallItem extends Component {
       renderContactName(this.props.call) :
       undefined;
     const extraButton = typeof renderExtraButton === 'function' ?
-      renderExtraButton(this.props.call) :
+      <div className={styles.extraButton}>{renderExtraButton(this.props.call)}</div> :
       undefined;
     return (
       <div
@@ -501,7 +498,7 @@ export default class ActiveCallItem extends Component {
               extraNum={extraNum}
             />
           }
-          bodyCls={showAvatar ? styles.contentWithAvatar : styles.contentWithIcon}
+          bodyCls={styles.content}
           mediaBody={
             <div>
               <ContactDisplay
@@ -530,28 +527,33 @@ export default class ActiveCallItem extends Component {
             </div>
           }
           mediaRight={
-            <div>
-              <WebphoneButtons
-                session={webphoneSession}
-                webphoneReject={this.webphoneToVoicemail}
-                webphoneHangup={webphoneHangup}
-                webphoneResume={webphoneResume}
-                webphoneHold={webphoneHold}
-                currentLocale={currentLocale}
-                showMergeCall={showMergeCall}
-                showHold={showHold}
-                disableMerge={disableMerge}
-                onMergeCall={onMergeCall}
-                webphoneAnswer={webphoneAnswer}
-              />
-              <RingoutButtons
-                sessionId={sessionId}
-                disableLinks={disableLinks}
-                ringing={ringing}
-                ringoutHangup={ringoutHangup}
-                ringoutTransfer={ringoutTransfer}
-                currentLocale={currentLocale}
-                extraButton={extraButton} />
+            <div className={styles.actionIconsBox}>
+              {
+                webphoneSession ?
+                  <WebphoneButtons
+                    session={webphoneSession}
+                    webphoneReject={this.webphoneToVoicemail}
+                    webphoneHangup={webphoneHangup}
+                    webphoneResume={webphoneResume}
+                    webphoneHold={webphoneHold}
+                    currentLocale={currentLocale}
+                    showMergeCall={showMergeCall}
+                    showHold={showHold}
+                    disableMerge={disableMerge}
+                    onMergeCall={onMergeCall}
+                    webphoneAnswer={webphoneAnswer}
+                /> :
+                  <RingoutButtons
+                    showRingoutCallControl={showRingoutCallControl}
+                    sessionId={sessionId}
+                    disableLinks={disableLinks}
+                    ringing={ringing}
+                    ringoutHangup={ringoutHangup}
+                    ringoutTransfer={ringoutTransfer}
+                    currentLocale={currentLocale}
+                />
+              }
+              {extraButton}
             </div>
         }
       />
@@ -611,7 +613,7 @@ ActiveCallItem.propTypes = {
   webphoneAnswer: PropTypes.func,
   ringoutHangup: PropTypes.func,
   ringoutTransfer: PropTypes.func,
-  disableLinks: PropTypes.bool,
+  showRingoutCallControl: PropTypes.bool,
 };
 
 ActiveCallItem.defaultProps = {
@@ -642,5 +644,5 @@ ActiveCallItem.defaultProps = {
   webphoneAnswer: i => i,
   ringoutHangup: undefined,
   ringoutTransfer: undefined,
-  disableLinks: false,
+  showRingoutCallControl: false,
 };

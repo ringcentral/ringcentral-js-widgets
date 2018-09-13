@@ -120,6 +120,7 @@ export default class ActiveCallsPanel extends Component {
       ringoutHangup,
       ringoutTransfer,
       disableLinks,
+      showRingoutCallControl,
     } = this.props;
 
     return (
@@ -164,6 +165,7 @@ export default class ActiveCallsPanel extends Component {
         ringoutHangup={ringoutHangup}
         ringoutTransfer={ringoutTransfer}
         disableLinks={disableLinks}
+        showRingoutCallControl={showRingoutCallControl}
       />
     );
   }
@@ -262,6 +264,7 @@ ActiveCallsPanel.propTypes = {
   ringoutHangup: PropTypes.func,
   ringoutTransfer: PropTypes.func,
   disableLinks: PropTypes.bool,
+  showRingoutCallControl: PropTypes.bool,
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -308,4 +311,5 @@ ActiveCallsPanel.defaultProps = {
   ringoutHangup: undefined,
   ringoutTransfer: undefined,
   disableLinks: false,
+  showRingoutCallControl: false,
 };
