@@ -152,10 +152,12 @@ function testCase(caseParams, fn) {
             _test.skip('skip case', () => {});
             break;
           }
+          const isVirtual = ['enzyme'].indexOf(driver) > -1;
+          const templateMappding = { ...option, isVirtual };
           const name = compile({
             template: title,
-            keys: Object.keys(option),
-            values: Object.values(option),
+            keys: Object.keys(templateMappding),
+            values: Object.values(templateMappding),
           });
           const tail = ` => (${project} in ${group.join(' & ')} on ${driver})`;
           const { config, instance } = global.testBeforeEach({
@@ -174,7 +176,6 @@ function testCase(caseParams, fn) {
           const func = async function ({ instance, isSandbox, config, driver, ...args }) {
             // TODO handle type in `config`
             const isUT = /UT$/.test(driver);
-            const isVirtual = ['enzyme'].indexOf(driver) > -1;
             if (!isUT) {
               if (isSandbox) {
                 await instance.driver.run();
@@ -188,7 +189,7 @@ function testCase(caseParams, fn) {
             global.driver = instance.driver;
             global.context = {
               driver: instance.driver,
-              options: { isVirtual, isSandbox, config, driver, ...args },
+              options: { isSandbox, config, driver, ...args },
             };
             // TODO thinking about using `vm.createContext` implement real sanbox.
             // TODO HOOK
@@ -203,6 +204,7 @@ function testCase(caseParams, fn) {
             driver,
             modes,
             isSandbox,
+            isVirtual,
           }));
         }
       }

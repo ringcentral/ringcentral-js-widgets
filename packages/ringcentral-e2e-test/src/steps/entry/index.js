@@ -4,7 +4,11 @@ import widgets from './widgets';
 
 export default class Entry {
   static async enter(context) {
-    if (context.options.isVirtual) return;
+    if (context.options.isVirtual) {
+      context.driver.app = context.driver.page;
+      global.app = context.driver.app;
+      return;
+    }
     const entries = {
       widgets,
       salesforce,
