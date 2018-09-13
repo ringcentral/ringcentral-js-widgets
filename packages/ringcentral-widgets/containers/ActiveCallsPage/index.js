@@ -16,6 +16,8 @@ function mapToProps(_, {
     rolesAndPermissions,
     conferenceCall,
     callingSettings,
+    connectivityMonitor,
+    rateLimiter,
   },
   showContactDisplayPlaceholder = false,
   useV2,
@@ -45,6 +47,8 @@ function mapToProps(_, {
     isWebRTC,
     conferenceCallParties: conferenceCall ? conferenceCall.partyProfiles : null,
     useV2,
+    disableLinks: !connectivityMonitor.connectivity ||
+    rateLimiter.throttling,
   };
 }
 
@@ -60,6 +64,7 @@ function mapToFunctions(_, {
     callingSettings,
     conferenceCall,
     callMonitor,
+    activeCallControl,
   },
   composeTextRoute = '/composeText',
   callCtrlRoute = '/calls/active',
@@ -107,6 +112,15 @@ function mapToFunctions(_, {
       // user action track
       callMonitor.allCallsClickHoldTrack();
       return (webphone && webphone.hold(...args));
+    },
+    async ringoutHangup(...args) {
+      // user action track
+      callMonitor.allCallsClickHangupTrack();
+      return (activeCallControl && activeCallControl.hangUp(...args));
+    },
+    async ringoutTransfer(...args) {
+      activeCallControl.setActiveSessionId(...args);
+      routerInteraction.push('/transfer');
     },
     onViewContact: showViewContact ?
       (onViewContact || (({ contact }) => {
@@ -162,19 +176,25 @@ function mapToFunctions(_, {
       );
     },
     onCallItemClick(call) {
-      // TODO: Display the ringout call ctrl page.
       if (!call.webphoneSession) {
-        return;
-      }
-      // show the ring call modal when click a ringing call.
-      if (isRinging(call)) {
-        webphone.toggleMinimized(call.webphoneSession.id);
-        return;
-      }
-      if (call.webphoneSession && call.webphoneSession.id) {
+        // For ringout call
+        const { sessionId } = call;
         // to track the call item be clicked.
         callMonitor.callItemClickTrack();
-        routerInteraction.push(`${callCtrlRoute}/${call.webphoneSession.id}`);
+        activeCallControl.setActiveSessionId(sessionId);
+        // TODO: Display the call control page.
+      } else {
+        // For webphone call
+        // show the ring call modal when click a ringing call.
+        if (isRinging(call)) {
+          webphone.toggleMinimized(call.webphoneSession.id);
+          return;
+        }
+        if (call.webphoneSession && call.webphoneSession.id) {
+          // to track the call item be clicked.
+          callMonitor.callItemClickTrack();
+          routerInteraction.push(`${callCtrlRoute}/${call.webphoneSession.id}`);
+        }
       }
     },
     getAvatarUrl,

@@ -9,6 +9,28 @@ $avatar-basis:45.5px;
   color: #666;
   width: $fixed-icon-width;
 }
+
+.activeCall {
+  color: $active;
+}
+
+@keyframes ringing {
+  0% {
+    text-shadow: 0px 0px 1px $active;
+  }
+  100% {
+    color: #2ce44d;
+    text-shadow: 0px 0px 10px #2ce44d;
+  }
+}
+
+.activeCall.ringing {
+  animation-name: ringing;
+  animation-direction: alternate;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+}
+
 .avatar {
   width: $fixed-avatar-width;
   height: $fixed-avatar-width;

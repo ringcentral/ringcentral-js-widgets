@@ -13,6 +13,7 @@ import HoldIcon from '../../assets/images/Hold.svg';
 import VoicemailIcon from '../../assets/images/Voicemail.svg';
 import AnswerIcon from '../../assets/images/Answer.svg';
 import MergeIntoConferenceIcon from '../../assets/images/MergeIntoConferenceIcon.svg';
+import TransferIcon from '../../assets/images/Transfer.svg';
 import MediaObject from '../MediaObject';
 import DurationCounter from '../DurationCounter';
 
@@ -178,6 +179,89 @@ WebphoneButtons.defaultProps = {
   disableMerge: true,
   onMergeCall: i => i,
   webphoneAnswer: i => i,
+};
+
+function RingoutButtons({
+  showRingoutCallControl,
+  currentLocale,
+  disableLinks,
+  sessionId,
+  ringoutHangup,
+  ringoutTransfer,
+  ringing,
+}) {
+  if (!showRingoutCallControl) return null;
+
+  let hangupBtn;
+  if (ringoutHangup) {
+    const hangupTitle = i18n.getString('hangup', currentLocale);
+    hangupBtn = (
+      <span title={hangupTitle} className={styles.ringoutButton}>
+        <CircleButton
+          disabled={disableLinks}
+          className={
+            classnames({
+              [styles.hangupButton]: true,
+              [styles.disabled]: disableLinks
+            })
+          }
+          onClick={(e) => {
+            e.stopPropagation();
+            ringoutHangup(sessionId);
+          }}
+          icon={EndIcon}
+          showBorder={false}
+            />
+      </span>
+    );
+  }
+
+  let transferBtn;
+  if (ringoutTransfer && !ringing) {
+    const transferTitle = i18n.getString('transfer', currentLocale);
+
+    transferBtn = (
+      <span title={transferTitle} className={styles.ringoutButton}>
+        <CircleButton
+          disabled={disableLinks}
+          className={
+            classnames({
+              [styles.transferButton]: true,
+              [styles.disabled]: disableLinks
+            })
+          }
+          onClick={(e) => {
+                e.stopPropagation();
+                ringoutTransfer(sessionId);
+          }}
+          icon={TransferIcon}
+            />
+      </span>
+    );
+  }
+
+  return (
+    <div>
+      {hangupBtn}
+      {transferBtn}
+    </div>
+  );
+}
+
+RingoutButtons.propTypes = {
+  currentLocale: PropTypes.string.isRequired,
+  disableLinks: PropTypes.bool,
+  ringoutHangup: PropTypes.func,
+  ringoutTransfer: PropTypes.func,
+  ringing: PropTypes.bool.isRequired,
+  sessionId: PropTypes.string.isRequired,
+  showRingoutCallControl: PropTypes.bool.isRequired,
+};
+
+RingoutButtons.defaultProps = {
+  disableLinks: false,
+  ringoutHangup: undefined,
+  ringoutTransfer: undefined,
 };
 
 /**
@@ -348,6 +432,7 @@ export default class ActiveCallItem extends Component {
       call: {
         direction,
         webphoneSession,
+        sessionId,
       },
       disableLinks,
       currentLocale,
@@ -373,6 +458,9 @@ export default class ActiveCallItem extends Component {
       onMergeCall,
       showCallDetail,
       webphoneAnswer,
+      ringoutHangup,
+      ringoutTransfer,
+      showRingoutCallControl,
     } = this.props;
 
     const { avatarUrl, extraNum } = this.state;
@@ -384,7 +472,7 @@ export default class ActiveCallItem extends Component {
       renderContactName(this.props.call) :
       undefined;
     const extraButton = typeof renderExtraButton === 'function' ?
-      renderExtraButton(this.props.call) :
+      <div className={styles.extraButton}>{renderExtraButton(this.props.call)}</div> :
       undefined;
     return (
       <div
@@ -437,22 +525,34 @@ export default class ActiveCallItem extends Component {
               />
               {showCallDetail ? this.getCallInfo() : null}
             </div>
-        }
+          }
           mediaRight={
-            <div>
-              <WebphoneButtons
-                session={webphoneSession}
-                webphoneReject={this.webphoneToVoicemail}
-                webphoneHangup={webphoneHangup}
-                webphoneResume={webphoneResume}
-                webphoneHold={webphoneHold}
-                currentLocale={currentLocale}
-                showMergeCall={showMergeCall}
-                showHold={showHold}
-                disableMerge={disableMerge}
-                onMergeCall={onMergeCall}
-                webphoneAnswer={webphoneAnswer}
-              />
+            <div className={styles.actionIconsBox}>
+              {
+                webphoneSession ?
+                  <WebphoneButtons
+                    session={webphoneSession}
+                    webphoneReject={this.webphoneToVoicemail}
+                    webphoneHangup={webphoneHangup}
+                    webphoneResume={webphoneResume}
+                    webphoneHold={webphoneHold}
+                    currentLocale={currentLocale}
+                    showMergeCall={showMergeCall}
+                    showHold={showHold}
+                    disableMerge={disableMerge}
+                    onMergeCall={onMergeCall}
+                    webphoneAnswer={webphoneAnswer}
+                /> :
+                  <RingoutButtons
+                    showRingoutCallControl={showRingoutCallControl}
+                    sessionId={sessionId}
+                    disableLinks={disableLinks}
+                    currentLocale={currentLocale}
+                    ringing={ringing}
+                    ringoutHangup={ringoutHangup}
+                    ringoutTransfer={ringoutTransfer}
+                />
+              }
               {extraButton}
             </div>
         }
@@ -481,6 +581,7 @@ ActiveCallItem.propTypes = {
       name: PropTypes.string,
     }),
     webphoneSession: PropTypes.object,
+    sessionId: PropTypes.string,
   }).isRequired,
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
@@ -510,6 +611,9 @@ ActiveCallItem.propTypes = {
   showCallDetail: PropTypes.bool,
   updateSessionMatchedContact: PropTypes.func,
   webphoneAnswer: PropTypes.func,
+  ringoutHangup: PropTypes.func,
+  ringoutTransfer: PropTypes.func,
+  showRingoutCallControl: PropTypes.bool,
 };
 
 ActiveCallItem.defaultProps = {
@@ -538,4 +642,7 @@ ActiveCallItem.defaultProps = {
   showCallDetail: false,
   updateSessionMatchedContact: i => i,
   webphoneAnswer: i => i,
+  ringoutHangup: undefined,
+  ringoutTransfer: undefined,
+  showRingoutCallControl: false,
 };
