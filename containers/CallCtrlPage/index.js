@@ -250,10 +250,10 @@ function mapToFunctions(_, _ref2) {
       if (!session || webphone.isCallRecording({ session: session })) {
         return;
       }
-      var outBoundOnholdCalls = (0, _ramda.filter)(function (call) {
-        return call.direction === _callDirections2.default.outbound;
-      }, callMonitor.activeOnHoldCalls);
-      if (outBoundOnholdCalls.length) {
+      var otherOutboundCalls = (0, _ramda.filter)(function (call) {
+        return call.direction === _callDirections2.default.outbound && call.webphoneSession && call.webphoneSession.id !== session.id;
+      }, callMonitor.allCalls);
+      if (otherOutboundCalls.length) {
         // goto 'calls on hold' page
         routerInteraction.push('/conferenceCall/callsOnhold/' + session.fromNumber + '/' + session.id);
       } else {
