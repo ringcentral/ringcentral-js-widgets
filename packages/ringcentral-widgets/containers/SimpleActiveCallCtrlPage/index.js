@@ -12,6 +12,7 @@ import withPhone from '../../lib/withPhone';
 import CallCtrlPanel from '../../components/CallCtrlPanel';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import { ACTIONS_CTRL_MAP } from '../../components/ActiveCallPad';
+import { CALL_CTRL_ALERT } from '../../components/CallControlAlert';
 import i18n from './i18n';
 import { pickEleByProps, pickFallBackName } from './utils';
 
@@ -39,7 +40,7 @@ class ActiveCallControl extends Component {
     const { activeSession } = activeCallControl;
     const { isOnHold } = activeSession;
     if (isOnHold) {
-      this.props.alert.warning({ message: 'muteFail' });
+      this.props.alert.warning({ message: CALL_CTRL_ALERT.muteFail });
     }
     await activeCallControl.hold(sessionId);
   }
@@ -49,7 +50,7 @@ class ActiveCallControl extends Component {
     const { activeSession } = activeCallControl;
     const { isOnMute } = activeSession;
     if (isOnMute) {
-      this.props.alert.warning({ message: 'holdFail' });
+      this.props.alert.warning({ message: CALL_CTRL_ALERT.holdFail });
     }
     await activeCallControl.mute(sessionId);
   }
