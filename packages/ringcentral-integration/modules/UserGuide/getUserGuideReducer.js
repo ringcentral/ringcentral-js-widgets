@@ -42,10 +42,20 @@ export function getCarouselState(types) {
   };
 }
 
+export function getPreLoadImageStatus(types) {
+  return (state = false, { type }) => {
+    if (type === types.preLoadImageStatus) {
+      return true;
+    }
+    return state;
+  };
+}
+
 export default function getUserGuideReducer(types) {
   return combineReducers({
     status: getModuleStatusReducer(types),
     carouselState: getCarouselState(types),
-    firstLogin: getFirstLoginReducer(types)
+    firstLogin: getFirstLoginReducer(types),
+    preLoadImageStatus: getPreLoadImageStatus(types),
   });
 }
