@@ -367,16 +367,6 @@ export default class ActiveCallControl extends Pollable {
     }
   }
   async hangUp(sessionId) {
-    const {
-      isReject
-    } = this.activeSessions[sessionId];
-    if (isReject) {
-      this.reject(sessionId);
-    } else {
-      this._hangUp(sessionId);
-    }
-  }
-  async _hangUp(sessionId) {
     try {
       const activeSession = this.activeSessions[sessionId];
       const url = requestURI(activeSession).hangUp;
@@ -439,7 +429,9 @@ export default class ActiveCallControl extends Pollable {
       await this._client.service._platform.post(url, {
         phoneNumber: transferNumber
       });
-      this._onCallEndFunc();
+      if (typeof this._onCallEndFunc === 'function') {
+        this._onCallEndFunc();
+      }
     } catch (error) {
       this._alert.warning({
         message: callControlError.transferError
