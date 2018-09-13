@@ -12,7 +12,6 @@ import withPhone from '../../lib/withPhone';
 import CallCtrlPanel from '../../components/CallCtrlPanel';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import { ACTIONS_CTRL_MAP } from '../../components/ActiveCallPad';
-import { CALL_CTRL_ALERT } from '../../components/CallControlAlert';
 import i18n from './i18n';
 import { pickEleByProps, pickFallBackName } from './utils';
 
@@ -34,28 +33,8 @@ function mapToProps(_, { phone }) {
 function mapToFunctions(_, { phone }) {
   return {};
 }
-
+/* eslint-disable react/prefer-stateless-function */
 class ActiveCallControl extends Component {
-  async holdCall(sessionId) {
-    const { activeCallControl } = this.props;
-    const { activeSession } = activeCallControl;
-    const { isOnHold } = activeSession;
-    if (isOnHold) {
-      this.props.alert.warning({ message: CALL_CTRL_ALERT.muteFail });
-    }
-    await activeCallControl.hold(sessionId);
-  }
-
-  async muteCall(sessionId) {
-    const { activeCallControl } = this.props;
-    const { activeSession } = activeCallControl;
-    const { isOnMute } = activeSession;
-    if (isOnMute) {
-      this.props.alert.warning({ message: CALL_CTRL_ALERT.holdFail });
-    }
-    await activeCallControl.mute(sessionId);
-  }
-
   render() {
     const {
       currentLocale,
@@ -66,21 +45,21 @@ class ActiveCallControl extends Component {
       routerInteraction
     } = this.props;
 
-    const sessionId = activeCallControl.activeSessionId || '3977048006';
+    const sessionId = activeCallControl.activeSessionId;
     const activeCall = pickEleByProps(
       { sessionId },
       activeCalls.calls
-    )[0];
+    )[0] || {};
 
-    const fallBackName = pickFallBackName(activeCall, contactMatcher.dataMapping);
+    const fallBackName = pickFallBackName(activeCall, contactMatcher.dataMapping, currentLocale);
     const { muteCtrl, transferCtrl, holdCtrl } = ACTIONS_CTRL_MAP;
     const callCtrlProps = {
       fallBackName,
       currentLocale,
       nameMatches: [],
-      onMute: async () => this.muteCall(sessionId),
+      onMute: async () => activeCallControl.mute(sessionId),
       onUnmute: async () => activeCallControl.unmute(sessionId),
-      onHold: async () => this.holdCall(sessionId),
+      onHold: async () => activeCallControl.hold(sessionId),
       onUnhold: async () => activeCallControl.unHold(sessionId),
       onHangup: async () => activeCallControl.hangUp(sessionId),
       onTransfer: async number => activeCallControl.transfer(number, sessionId),

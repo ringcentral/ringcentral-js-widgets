@@ -2,13 +2,14 @@
  * @file call control alert
  * it be used in <SimpleActiveCallCtrlPage>
  */
-
-import PropTypes from 'prop-types';
 import i18n from './i18n';
 
 export const CALL_CTRL_ALERT = {
   muteFail: 'CALL_MUTE_FAIL',
+  unmuteFail: 'CALL_UNMUTE_FAIL',
   holdFail: 'CALL_HOLD_FAIL',
+  unHoldFail: 'CALL_UNHOLDFAIL_FAIL',
+  transferFail: 'CALL_TRANSFER_FAIL',
 };
 
 export default function CallControlAlert({
