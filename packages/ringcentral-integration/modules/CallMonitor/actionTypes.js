@@ -8,6 +8,7 @@ export default new Enum([
   'callItemClickTrack',
   'allCallsClickHoldTrack',
   'allCallsClickHangupTrack',
+  'allCallsClickRejectTrack',
   'callControlClickAddTrack',
   'simplifiedControlClickMergeTrack',
   'callControlClickMergeTrack',

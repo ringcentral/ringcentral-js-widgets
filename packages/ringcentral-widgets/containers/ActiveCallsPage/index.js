@@ -121,6 +121,11 @@ function mapToFunctions(_, {
     async ringoutTransfer(sessionId) {
       routerInteraction.push(`/transfer/${sessionId}`);
     },
+    async ringoutReject(sessionId) {
+      // user action track
+      callMonitor.allCallsClickRejectTrack();
+      return (activeCallControl && activeCallControl.reject(sessionId));
+    },
     onViewContact: showViewContact ?
       (onViewContact || (({ contact }) => {
         const { id, type } = contact;

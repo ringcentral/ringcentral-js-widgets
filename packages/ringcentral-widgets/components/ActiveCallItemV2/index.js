@@ -187,6 +187,7 @@ function RingoutButtons({
   disableLinks,
   sessionId,
   ringoutHangup,
+  ringoutReject,
   ringoutTransfer,
   ringing,
 }) {
@@ -194,7 +195,7 @@ function RingoutButtons({
 
   let endButton;
   // TD: implement end button
-  if (ringoutHangup && !ringing) {
+  if (!ringing && ringoutReject) {
     const rejectTitle = i18n.getString('reject', currentLocale);
     endButton = (
       <span title={rejectTitle} className={styles.ringoutButton}>
@@ -208,7 +209,7 @@ function RingoutButtons({
           }
           onClick={(e) => {
             e.stopPropagation();
-            ringoutHangup(sessionId);
+            ringoutReject(sessionId);
           }}
           icon={EndIcon}
           showBorder={false}
@@ -279,6 +280,7 @@ RingoutButtons.propTypes = {
   ringoutTransfer: PropTypes.func,
   ringing: PropTypes.bool.isRequired,
   sessionId: PropTypes.string.isRequired,
+  ringoutReject: PropTypes.func,
   showRingoutCallControl: PropTypes.bool.isRequired,
 };
 
@@ -286,6 +288,7 @@ RingoutButtons.defaultProps = {
   disableLinks: false,
   ringoutHangup: undefined,
   ringoutTransfer: undefined,
+  ringoutReject: undefined,
 };
 
 /**
@@ -484,6 +487,7 @@ export default class ActiveCallItem extends Component {
       webphoneAnswer,
       ringoutHangup,
       ringoutTransfer,
+      ringoutReject,
       showRingoutCallControl,
     } = this.props;
 
@@ -571,6 +575,7 @@ export default class ActiveCallItem extends Component {
                     disableLinks={disableLinks}
                     currentLocale={currentLocale}
                     ringing={ringing}
+                    ringoutReject={ringoutReject}
                     ringoutHangup={ringoutHangup}
                     ringoutTransfer={ringoutTransfer}
                 />
@@ -636,6 +641,7 @@ ActiveCallItem.propTypes = {
   ringoutHangup: PropTypes.func,
   ringoutTransfer: PropTypes.func,
   showRingoutCallControl: PropTypes.bool,
+  ringoutReject: PropTypes.func,
 };
 
 ActiveCallItem.defaultProps = {
@@ -666,5 +672,6 @@ ActiveCallItem.defaultProps = {
   webphoneAnswer: i => i,
   ringoutHangup: undefined,
   ringoutTransfer: undefined,
+  ringoutReject: undefined,
   showRingoutCallControl: false,
 };
