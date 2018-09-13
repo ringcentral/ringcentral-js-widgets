@@ -64,7 +64,6 @@ function mapToProps(_, _ref) {
       contactSearch = _ref$phone.contactSearch,
       conferenceCall = _ref$phone.conferenceCall,
       callingSettings = _ref$phone.callingSettings,
-      callMonitor = _ref$phone.callMonitor,
       rolesAndPermissions = _ref$phone.rolesAndPermissions,
       params = _ref.params,
       children = _ref.children;
@@ -93,7 +92,7 @@ function mapToProps(_, _ref) {
   var isMerging = false;
   var conferenceCallParties = void 0;
   var conferenceCallId = null;
-  var lastCallInfo = callMonitor.lastCallInfo;
+  var lastCallInfo = conferenceCall && conferenceCall.lastCallInfo;
   var isConferenceCallOverload = false;
   var conferenceCallEquipped = !!(conferenceCall && rolesAndPermissions.hasConferenceCallPermission);
   if (conferenceCallEquipped) {
