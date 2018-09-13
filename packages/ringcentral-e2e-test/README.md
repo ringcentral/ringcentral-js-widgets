@@ -74,7 +74,8 @@ cd ringcentral-js-widget && git checkout e2e-test && lerna bootstrap
 cd packages/ringcentral-widgets-demo && yarn dev-server
 ```
 
-> set a config file in `./packages/ringcentral-widgets-demo/dev-server/api-config.js`
+> set demo config file in `./packages/ringcentral-widgets-demo/dev-server/api-config.js`
+> set e2e config file in `./packages/ringcentral-e2e-test/e2e.config.js`
 
 ```shell
 cd packages/ringcentral-e2e-test
