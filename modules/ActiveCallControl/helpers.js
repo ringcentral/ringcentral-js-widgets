@@ -7,6 +7,7 @@ exports.isHangUp = isHangUp;
 exports.isReject = isReject;
 exports.normalizeSession = normalizeSession;
 exports.requestURI = requestURI;
+exports.confictError = confictError;
 
 var _recordStatus = require('ringcentral-integration/modules/Webphone/recordStatus');
 
@@ -45,6 +46,7 @@ function normalizeSession(_ref2) {
       from = call.from,
       to = call.to,
       result = call.result,
+      telephonyStatus = call.telephonyStatus,
       startTime = call.startTime,
       sessionId = call.sessionId;
   var muted = activeSessionStatus.muted,
@@ -63,7 +65,7 @@ function normalizeSession(_ref2) {
     toNumber: to && to.phoneNumber,
     toUserName: to && to.name,
     id: sessionId,
-    callStatus: result,
+    callStatus: telephonyStatus || result,
     startTime: startTime,
     creationTime: startTime,
     isOnMute: muted,
@@ -98,5 +100,9 @@ function requestURI(activeSession) {
     record: prefix + '/parties/' + partyId + '/recordings',
     stopRecord: prefix + '/parties/' + partyId + '/recordings/' + recordingId
   };
+}
+function confictError(error) {
+  var conflictErrRgx = /409/g;
+  return conflictErrRgx.test(error.message);
 }
 //# sourceMappingURL=helpers.js.map

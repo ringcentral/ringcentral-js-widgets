@@ -662,6 +662,11 @@ var CallMonitor = (_dec = (0, _di.Module)({
       return this._selectors.calls();
     }
   }, {
+    key: 'allCalls',
+    get: function get() {
+      return this._selectors.allCalls();
+    }
+  }, {
     key: 'callMatched',
     get: function get() {
       return this._storage.getItem(this._callMatchedKey);

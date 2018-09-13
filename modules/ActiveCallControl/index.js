@@ -81,6 +81,10 @@ var _getDataReducer2 = _interopRequireDefault(_getDataReducer);
 
 var _helpers = require('./helpers');
 
+var _callControlError = require('./callControlError');
+
+var _callControlError2 = _interopRequireDefault(_callControlError);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _initDefineProp(target, property, descriptor, context) {
@@ -133,7 +137,7 @@ var storageKey = 'activeCallControl';
 var subscribeEvent = '/account/~/extension/~/telephony/sessions';
 
 var ActiveCallControl = (_dec = (0, _di.Module)({
-  deps: ['Client', 'Auth', 'Subscription', 'ConnectivityMonitor', 'RolesAndPermissions', 'CallMonitor', { dep: 'TabManager', optional: true }, { dep: 'Storage', optional: true }, { dep: 'ActiveCallControlOptions', optional: true }]
+  deps: ['Client', 'Auth', 'Subscription', 'ConnectivityMonitor', 'RolesAndPermissions', 'CallMonitor', 'Alert', { dep: 'TabManager', optional: true }, { dep: 'Storage', optional: true }, { dep: 'ActiveCallControlOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_Pollable) {
   (0, _inherits3.default)(ActiveCallControl, _Pollable);
 
@@ -154,7 +158,8 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
         polling = _ref$polling === undefined ? false : _ref$polling,
         _ref$disableCache = _ref.disableCache,
         disableCache = _ref$disableCache === undefined ? false : _ref$disableCache,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'auth', 'ttl', 'timeToRetry', 'storage', 'subscription', 'connectivityMonitor', 'rolesAndPermissions', 'tabManager', 'callMonitor', 'polling', 'disableCache']);
+        alert = _ref.alert,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'auth', 'ttl', 'timeToRetry', 'storage', 'subscription', 'connectivityMonitor', 'rolesAndPermissions', 'tabManager', 'callMonitor', 'polling', 'disableCache', 'alert']);
     (0, _classCallCheck3.default)(this, ActiveCallControl);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ActiveCallControl.__proto__ || (0, _getPrototypeOf2.default)(ActiveCallControl)).call(this, (0, _extends3.default)({}, options, {
@@ -183,6 +188,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
     _this._lastSubscriptionMessage = null;
     _this._storageKey = storageKey;
     _this._polling = polling;
+    _this._alert = alert;
 
     if (_this._storage) {
       _this._reducer = (0, _getActiveCallControlReducer2.default)(_this.actionTypes);
@@ -565,16 +571,25 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
+                _context6.prev = 0;
+
                 this._client.service._platform.send({
                   method: 'PATCH', url: url, query: query, body: body
                 });
+                _context6.next = 7;
+                break;
 
-              case 1:
+              case 4:
+                _context6.prev = 4;
+                _context6.t0 = _context6['catch'](0);
+                throw _context6.t0;
+
+              case 7:
               case 'end':
                 return _context6.stop();
             }
           }
-        }, _callee6, this);
+        }, _callee6, this, [[0, 4]]);
       }));
 
       function patch(_x2) {
@@ -592,17 +607,29 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                activeSession = this.activeSessions[sessionId];
-                url = (0, _helpers.requestURI)(activeSession).mute;
+                try {
+                  activeSession = this.activeSessions[sessionId];
+                  url = (0, _helpers.requestURI)(activeSession).mute;
 
-                this.patch({
-                  url: url,
-                  body: {
-                    muted: true
+                  this.patch({
+                    url: url,
+                    body: {
+                      muted: true
+                    }
+                  });
+                } catch (error) {
+                  if ((0, _helpers.confictError)(error)) {
+                    this._alert.warning({
+                      message: _callControlError2.default.muteConflictError
+                    });
+                  } else {
+                    this._alert.warning({
+                      message: _callControlError2.default.muteError
+                    });
                   }
-                });
+                }
 
-              case 3:
+              case 1:
               case 'end':
                 return _context7.stop();
             }
@@ -625,9 +652,10 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
+                _context8.prev = 0;
                 activeSession = this.activeSessions[sessionId];
                 url = (0, _helpers.requestURI)(activeSession).mute;
-                _context8.next = 4;
+                _context8.next = 5;
                 return this.patch({
                   url: url,
                   body: {
@@ -635,12 +663,30 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                   }
                 });
 
-              case 4:
+              case 5:
+                _context8.next = 10;
+                break;
+
+              case 7:
+                _context8.prev = 7;
+                _context8.t0 = _context8['catch'](0);
+
+                if ((0, _helpers.confictError)(_context8.t0)) {
+                  this._alert.warning({
+                    message: _callControlError2.default.unMuteConflictError
+                  });
+                } else {
+                  this._alert.warning({
+                    message: _callControlError2.default.unMuteError
+                  });
+                }
+
+              case 10:
               case 'end':
                 return _context8.stop();
             }
           }
-        }, _callee8, this);
+        }, _callee8, this, [[0, 7]]);
       }));
 
       function unmute(_x4) {
@@ -659,9 +705,9 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context9.prev = _context9.next) {
               case 0:
+                _context9.prev = 0;
                 activeSession = this.activeSessions[sessionId];
                 url = (0, _helpers.requestURI)(activeSession).record;
-                _context9.prev = 2;
                 _context9.next = 5;
                 return this._client.service._platform.post(url);
 
@@ -679,7 +725,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
 
               case 10:
                 _context9.prev = 10;
-                _context9.t0 = _context9['catch'](2);
+                _context9.t0 = _context9['catch'](0);
 
                 this.store.dispatch({
                   type: this.actionTypes.recordFail,
@@ -691,7 +737,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 return _context9.stop();
             }
           }
-        }, _callee9, this, [[2, 10]]);
+        }, _callee9, this, [[0, 10]]);
       }));
 
       function startRecord(_x5) {
@@ -709,6 +755,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context10.prev = _context10.next) {
               case 0:
+                _context10.prev = 0;
                 activeSession = this.activeSessions[sessionId];
                 recordingId = this.recordingIds[sessionId].id;
 
@@ -725,13 +772,20 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                   type: this.actionTypes.stopRecord,
                   sessionId: sessionId
                 });
+                _context10.next = 12;
+                break;
 
-              case 6:
+              case 9:
+                _context10.prev = 9;
+                _context10.t0 = _context10['catch'](0);
+                throw _context10.t0;
+
+              case 12:
               case 'end':
                 return _context10.stop();
             }
           }
-        }, _callee10, this);
+        }, _callee10, this, [[0, 9]]);
       }));
 
       function stopRecord(_x6) {
@@ -780,9 +834,9 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context12.prev = _context12.next) {
               case 0:
+                _context12.prev = 0;
                 activeSession = this.activeSessions[sessionId];
                 url = (0, _helpers.requestURI)(activeSession).hangUp;
-                _context12.prev = 2;
                 _context12.next = 5;
                 return this._client.service._platform.delete(url);
 
@@ -792,15 +846,18 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
 
               case 7:
                 _context12.prev = 7;
-                _context12.t0 = _context12['catch'](2);
-                throw _context12.t0;
+                _context12.t0 = _context12['catch'](0);
+
+                this._alert.warning({
+                  message: _callControlError2.default.hangUpError
+                });
 
               case 10:
               case 'end':
                 return _context12.stop();
             }
           }
-        }, _callee12, this, [[2, 7]]);
+        }, _callee12, this, [[0, 7]]);
       }));
 
       function _hangUp(_x8) {
@@ -818,9 +875,9 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context13.prev = _context13.next) {
               case 0:
+                _context13.prev = 0;
                 activeSession = this.activeSessions[sessionId];
                 url = (0, _helpers.requestURI)(activeSession).reject;
-                _context13.prev = 2;
                 _context13.next = 5;
                 return this._client.service._platform.post(url);
 
@@ -830,15 +887,18 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
 
               case 7:
                 _context13.prev = 7;
-                _context13.t0 = _context13['catch'](2);
-                throw _context13.t0;
+                _context13.t0 = _context13['catch'](0);
+
+                this._alert.warning({
+                  message: _callControlError2.default.rejectError
+                });
 
               case 10:
               case 'end':
                 return _context13.stop();
             }
           }
-        }, _callee13, this, [[2, 7]]);
+        }, _callee13, this, [[0, 7]]);
       }));
 
       function reject(_x9) {
@@ -856,17 +916,36 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context14.prev = _context14.next) {
               case 0:
+                _context14.prev = 0;
                 activeSession = this.activeSessions[sessionId];
                 url = (0, _helpers.requestURI)(activeSession).hold;
-                _context14.next = 4;
+                _context14.next = 5;
                 return this._client.service._platform.post(url);
 
-              case 4:
+              case 5:
+                _context14.next = 10;
+                break;
+
+              case 7:
+                _context14.prev = 7;
+                _context14.t0 = _context14['catch'](0);
+
+                if ((0, _helpers.confictError)(_context14.t0)) {
+                  this._alert.warning({
+                    message: _callControlError2.default.holdConflictError
+                  });
+                } else {
+                  this._alert.warning({
+                    message: _callControlError2.default.holdError
+                  });
+                }
+
+              case 10:
               case 'end':
                 return _context14.stop();
             }
           }
-        }, _callee14, this);
+        }, _callee14, this, [[0, 7]]);
       }));
 
       function hold(_x10) {
@@ -884,17 +963,36 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context15.prev = _context15.next) {
               case 0:
+                _context15.prev = 0;
                 activeSession = this.activeSessions[sessionId];
                 url = (0, _helpers.requestURI)(activeSession).unHold;
-                _context15.next = 4;
+                _context15.next = 5;
                 return this._client.service._platform.post(url);
 
-              case 4:
+              case 5:
+                _context15.next = 10;
+                break;
+
+              case 7:
+                _context15.prev = 7;
+                _context15.t0 = _context15['catch'](0);
+
+                if ((0, _helpers.confictError)(_context15.t0)) {
+                  this._alert.warning({
+                    message: _callControlError2.default.unHoldConflictError
+                  });
+                } else {
+                  this._alert.warning({
+                    message: _callControlError2.default.unHoldError
+                  });
+                }
+
+              case 10:
               case 'end':
                 return _context15.stop();
             }
           }
-        }, _callee15, this);
+        }, _callee15, this, [[0, 7]]);
       }));
 
       function unHold(_x11) {
@@ -912,22 +1010,33 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context16.prev = _context16.next) {
               case 0:
+                _context16.prev = 0;
                 activeSession = this.activeSessions[sessionId];
                 url = (0, _helpers.requestURI)(activeSession).transfer;
-                _context16.next = 4;
+                _context16.next = 5;
                 return this._client.service._platform.post(url, {
                   phoneNumber: transferNumber
                 });
 
-              case 4:
-                this._onCallEndFunc();
-
               case 5:
+                this._onCallEndFunc();
+                _context16.next = 11;
+                break;
+
+              case 8:
+                _context16.prev = 8;
+                _context16.t0 = _context16['catch'](0);
+
+                this._alert.warning({
+                  message: _callControlError2.default.transferError
+                });
+
+              case 11:
               case 'end':
                 return _context16.stop();
             }
           }
-        }, _callee16, this);
+        }, _callee16, this, [[0, 8]]);
       }));
 
       function transfer(_x12, _x13) {
@@ -945,19 +1054,29 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context17.prev = _context17.next) {
               case 0:
+                _context17.prev = 0;
                 activeSession = this.activeSessions[sessionId];
                 url = (0, _helpers.requestURI)(activeSession).flip;
-                _context17.next = 4;
+                _context17.next = 5;
                 return this._client.service._platform.post(url, {
                   callFlipId: flipValue
                 });
 
-              case 4:
+              case 5:
+                _context17.next = 10;
+                break;
+
+              case 7:
+                _context17.prev = 7;
+                _context17.t0 = _context17['catch'](0);
+                throw _context17.t0;
+
+              case 10:
               case 'end':
                 return _context17.stop();
             }
           }
-        }, _callee17, this);
+        }, _callee17, this, [[0, 7]]);
       }));
 
       function flip(_x14, _x15) {
