@@ -37,7 +37,7 @@ function mapToFunctions(_, {
       }
     },
     toggleTransferPanel() {
-      phone.routerInteraction.push('/calls');
+      routerInteraction.push('/calls');
     },
     formatPhone: phoneNumber => formatNumber({
       phoneNumber,
