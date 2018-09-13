@@ -241,7 +241,7 @@ function RingoutButtons({
   }
 
   return (
-    <div className={styles.ringoutButtons}>
+    <div>
       {hangupBtn}
       {transferBtn}
     </div>
