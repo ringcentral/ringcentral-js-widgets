@@ -30,7 +30,7 @@ class Query extends BaseQuery {
   }
 
   async waitForSelector(selector, options) {
-    await this._timeout(100);
+    await this.waitFor(100);
     this._node.update();
     const _selector = this.getSelector(selector, options);
     if (this._node.find(_selector).length === 0) {
@@ -38,10 +38,6 @@ class Query extends BaseQuery {
       return result;
     }
     return this._node.find(_selector).first();
-  }
-
-  async _timeout(time = 0) {
-    await new Promise(resolve => setTimeout(resolve, time));
   }
 }
 

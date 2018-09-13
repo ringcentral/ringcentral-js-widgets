@@ -49,8 +49,8 @@ describe('Test Demo: =====>', () => {
   test({
     title: 'Login with username ${username}, dialer "fromField" number expected ${isVirtual?mockNumber:number}',
     tags: [
-      // ['widgets'],
-      ['salesforce'],
+      ['widgets'],
+      // ['salesforce'],
     ],
     levels: ['p0'],
     options: [

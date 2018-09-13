@@ -1,11 +1,11 @@
 /* global $ */
 export default class ToggleEnv {
-  static async setEnv({ driver: { page } }) {
-    await $(page).execute('toggleEnv()');
-    await $(page).click('envToggle');
-    await $(page).clear('envServerUrl');
-    await $(page).type('envServerUrl', 'https://api-xmnup.lab.nordigy.ru');
-    await $(page).click('envSave');
+  static async setEnv({ driver: { app } }) {
+    await $(app).execute('toggleEnv()');
+    await $(app).click('envToggle');
+    await $(app).clear('envServerUrl');
+    await $(app).type('envServerUrl', 'https://api-xmnup.lab.nordigy.ru');
+    await $(app).click('envSave');
   }
 
   static get steps() {

@@ -10,13 +10,13 @@ export default class Login {
     await process.exec();
   }
 
-  static async login({ options: { option, isVirtual }, driver: { page } }) {
+  static async login({ options: { option, isVirtual }, driver: { app } }) {
     if (isVirtual) {
-      page.props().phone.auth.login({ username: option.username, password: option.password });
+      app.props().phone.auth.login({ username: option.username, password: option.password });
     } else {
-      await $(page).execute(`phone.auth.login({username: '${option.username}', password: '${option.password}'})`);
+      await $(app).execute(`phone.auth.login({username: '${option.username}', password: '${option.password}'})`);
     }
-    await $(page).waitForSelector('tabNavigationView');
+    await $(app).waitForSelector('tabNavigationView');
   }
 
   static get steps() {
