@@ -119,7 +119,8 @@ function mapToFunctions(_, {
       return (activeCallControl && activeCallControl.hangUp(...args));
     },
     async ringoutTransfer(...args) {
-      // TODO: Display the ringout call transfer page.
+      activeCallControl.setActiveSessionId(...args);
+      routerInteraction.push('/transfer');
     },
     onViewContact: showViewContact ?
       (onViewContact || (({ contact }) => {
@@ -175,13 +176,13 @@ function mapToFunctions(_, {
       );
     },
     onCallItemClick(call) {
-      // TODO: Display the  ctrl page.
       if (!call.webphoneSession) {
         // For ringout call
         const { sessionId } = call;
         // to track the call item be clicked.
         callMonitor.callItemClickTrack();
         activeCallControl.setActiveSessionId(sessionId);
+        // TODO: Display the call control page.
       } else {
         // For webphone call
         // show the ring call modal when click a ringing call.
