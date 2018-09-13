@@ -57,6 +57,7 @@ exports.ringOut = ringOut;
 exports.ringOutUpdate = ringOutUpdate;
 exports.meeting = meeting;
 exports.serviceInfo = serviceInfo;
+exports.recentActivity = recentActivity;
 exports.mockForLogin = mockForLogin;
 
 var _AccountPhoneNumber = require('../../../../node_modules/ringcentral-integration/modules/AccountPhoneNumber');
@@ -616,7 +617,17 @@ function serviceInfo() {
     isOnce: false
   });
 }
+function recentActivity() {
+  var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var isOnce = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
+  mockApi({
+    method: 'GET',
+    url: new RegExp(mockServer + '/restapi/v1.0/account/~/extension/~/call-log'),
+    body: (0, _extends3.default)({}, callLogBody, mockResponse),
+    isOnce: isOnce
+  });
+}
 function mockForLogin() {
   var _ref3 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -634,7 +645,11 @@ function mockForLogin() {
       mockActiveCalls = _ref3$mockActiveCalls === undefined ? true : _ref3$mockActiveCalls,
       _ref3$mockUpdateConfe = _ref3.mockUpdateConference,
       mockUpdateConference = _ref3$mockUpdateConfe === undefined ? false : _ref3$mockUpdateConfe,
-      params = (0, _objectWithoutProperties3.default)(_ref3, ['mockAuthzProfile', 'mockExtensionInfo', 'mockForwardingNumber', 'mockMessageSync', 'mockConferencing', 'mockActiveCalls', 'mockUpdateConference']);
+      _ref3$mockNumberParse = _ref3.mockNumberParser,
+      mockNumberParser = _ref3$mockNumberParse === undefined ? true : _ref3$mockNumberParse,
+      _ref3$mockRecentActiv = _ref3.mockRecentActivity,
+      mockRecentActivity = _ref3$mockRecentActiv === undefined ? true : _ref3$mockRecentActiv,
+      params = (0, _objectWithoutProperties3.default)(_ref3, ['mockAuthzProfile', 'mockExtensionInfo', 'mockForwardingNumber', 'mockMessageSync', 'mockConferencing', 'mockActiveCalls', 'mockUpdateConference', 'mockNumberParser', 'mockRecentActivity']);
 
   authentication();
   logout();
@@ -670,10 +685,15 @@ function mockForLogin() {
   if (mockActiveCalls) {
     activeCalls(params.activeCallsData);
   }
-  numberParser(params.numberParseData, params.numberParseIsOnce);
+  if (mockNumberParser) {
+    numberParser(params.numberParseData, params.numberParseIsOnce);
+  }
   if (mockUpdateConference) {
     conferenceCall();
     updateConferenceCall(updateConferenceCallBody.id, updateConferenceCallBody);
+  }
+  if (mockRecentActivity) {
+    recentActivity();
   }
 }
 //# sourceMappingURL=index.js.map

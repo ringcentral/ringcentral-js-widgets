@@ -73,7 +73,7 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _dec, _class, _desc, _value, _class2, _descriptor;
+var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2;
 // import webphoneErrors from '../Webphone/webphoneErrors';
 
 // import sleep from '../../lib/sleep';
@@ -145,6 +145,10 @@ var _calleeTypes2 = _interopRequireDefault(_calleeTypes);
 
 var _is_type = require('../../lib/di/utils/is_type');
 
+var _sessionStatus = require('../Webphone/sessionStatus');
+
+var _sessionStatus2 = _interopRequireDefault(_sessionStatus);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _initDefineProp(target, property, descriptor, context) {
@@ -193,6 +197,9 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 var DEFAULT_TIMEOUT = 30000; // time out for conferencing session being accepted.
 var DEFAULT_TTL = 5000; // timer to update the conference information
 var MAXIMUM_CAPACITY = 10;
+
+var _fromSessionId = void 0;
+var _lastCallInfo = void 0;
 
 function ascendSortParties(parties) {
   return parties.filter(function (party) {
@@ -249,7 +256,9 @@ var ConferenceCall = (_dec = (0, _di.Module)({
       actionTypes: _actionTypes2.default
     })));
 
-    _initDefineProp(_this, 'partyProfiles', _descriptor, _this);
+    _initDefineProp(_this, 'lastCallInfo', _descriptor, _this);
+
+    _initDefineProp(_this, 'partyProfiles', _descriptor2, _this);
 
     _this._auth = _ensureExist2.default.call(_this, auth, 'auth');
     _this._alert = _ensureExist2.default.call(_this, alert, 'alert');
@@ -1699,21 +1708,109 @@ var ConferenceCall = (_dec = (0, _di.Module)({
     }
   }]);
   return ConferenceCall;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'updateConferenceStatus', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateConferenceStatus'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'terminateConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'terminateConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'bringInToConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'bringInToConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'removeFromConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'removeFromConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'makeConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'makeConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'mergeToConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'mergeToConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setMergeParty', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setMergeParty'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'closeMergingPair', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'closeMergingPair'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'startPollingConferenceStatus', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'startPollingConferenceStatus'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'loadConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'loadConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_hookConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_hookConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_mergeToConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_mergeToConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_makeConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_makeConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_getProfile', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_getProfile'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'mergeSession', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'mergeSession'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'partyProfiles', [_getter2.default], {
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'updateConferenceStatus', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateConferenceStatus'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'terminateConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'terminateConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'bringInToConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'bringInToConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'removeFromConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'removeFromConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'makeConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'makeConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'mergeToConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'mergeToConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setMergeParty', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setMergeParty'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'closeMergingPair', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'closeMergingPair'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'startPollingConferenceStatus', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'startPollingConferenceStatus'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'loadConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'loadConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_hookConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_hookConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_mergeToConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_mergeToConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_makeConference', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_makeConference'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_getProfile', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_getProfile'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'mergeSession', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'mergeSession'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'lastCallInfo', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
     var _this8 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this8.currentConferenceId;
+      return _this8._webphone.sessions;
     }, function () {
-      return _this8.conferences;
+      return _this8.mergingPair.fromSessionId;
+    }, function () {
+      return _this8.partyProfiles;
+    }, function (sessions, fromSessionId, partyProfiles) {
+      if (!fromSessionId) {
+        _lastCallInfo = null;
+        return _lastCallInfo;
+      }
+
+      var lastCall = sessions.find(function (session) {
+        return session.id === fromSessionId;
+      });
+
+      var toMatches = lastCall && _this8._contactMatcher.dataMapping && _this8._contactMatcher.dataMapping[lastCall.to] || [];
+
+      var lastCalleeType = void 0;
+      if (lastCall) {
+        if (toMatches.length) {
+          lastCalleeType = _calleeTypes2.default.contacts;
+        } else if (_this8.isConferenceSession(lastCall.id)) {
+          lastCalleeType = _calleeTypes2.default.conference;
+        } else {
+          lastCalleeType = _calleeTypes2.default.unknow;
+        }
+      } else if (_fromSessionId === fromSessionId && _lastCallInfo && _lastCallInfo.calleeType) {
+        _lastCallInfo = (0, _extends3.default)({}, _lastCallInfo, {
+          status: _sessionStatus2.default.finished
+        });
+        return _lastCallInfo;
+      } else {
+        return {
+          calleeType: _calleeTypes2.default.unknow
+        };
+      }
+
+      var partiesAvatarUrls = null;
+      if (lastCalleeType === _calleeTypes2.default.conference) {
+        partiesAvatarUrls = (partyProfiles || []).map(function (profile) {
+          return profile.avatarUrl;
+        });
+      }
+      switch (lastCalleeType) {
+        case _calleeTypes2.default.conference:
+          _lastCallInfo = {
+            calleeType: _calleeTypes2.default.conference,
+            avatarUrl: partiesAvatarUrls[0],
+            extraNum: partiesAvatarUrls.length - 1,
+            name: null,
+            phoneNumber: null,
+            status: lastCall.callStatus,
+            lastCallContact: null
+          };
+          break;
+        case _calleeTypes2.default.contacts:
+          _lastCallInfo = {
+            calleeType: _calleeTypes2.default.contacts,
+            avatarUrl: toMatches[0].profileImageUrl,
+            name: toMatches[0].name,
+            status: lastCall.callStatus,
+            phoneNumber: lastCall.to,
+            extraNum: 0,
+            lastCallContact: toMatches[0]
+          };
+          break;
+        default:
+          _lastCallInfo = {
+            calleeType: _calleeTypes2.default.unknow,
+            avatarUrl: null,
+            name: null,
+            status: lastCall ? lastCall.callStatus : null,
+            phoneNumber: lastCall.to,
+            extraNum: 0,
+            lastCallContact: null
+          };
+      }
+
+      _fromSessionId = fromSessionId;
+      return _lastCallInfo;
+    });
+  }
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'partyProfiles', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this9 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this9.currentConferenceId;
+    }, function () {
+      return _this9.conferences;
     }, function (currentConferenceId, conferences) {
       var conferenceData = conferences && conferences[currentConferenceId];
       if (!conferenceData) {
         return [];
       }
-      return _this8.getOnlinePartyProfiles(currentConferenceId);
+      return _this9.getOnlinePartyProfiles(currentConferenceId);
     });
   }
 })), _class2)) || _class);

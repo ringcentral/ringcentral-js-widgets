@@ -69,14 +69,6 @@ var _actionTypes = require('./actionTypes');
 
 var _actionTypes2 = _interopRequireDefault(_actionTypes);
 
-var _calleeTypes = require('../../enums/calleeTypes');
-
-var _calleeTypes2 = _interopRequireDefault(_calleeTypes);
-
-var _sessionStatus = require('../Webphone/sessionStatus');
-
-var _sessionStatus2 = _interopRequireDefault(_sessionStatus);
-
 var _getCallMonitorReducer = require('./getCallMonitorReducer');
 
 var _getCallMonitorReducer2 = _interopRequireDefault(_getCallMonitorReducer);
@@ -400,87 +392,6 @@ var CallMonitor = (_dec = (0, _di.Module)({
       return calls.map(function (callItem) {
         return callItem.sessionId;
       });
-    });
-
-    var _fromSessionId = void 0;
-    var _lastCallInfo = void 0;
-    _this.addSelector('lastCallInfo', _this._selectors.allCalls, function () {
-      return _this._conferenceCall && _this._conferenceCall.mergingPair.fromSessionId;
-    }, function () {
-      return _this._conferenceCall && _this._conferenceCall.partyProfiles;
-    }, function (calls, fromSessionId, partyProfiles) {
-      if (!fromSessionId) {
-        _lastCallInfo = null;
-        return _lastCallInfo;
-      }
-
-      var lastCall = calls.find(function (call) {
-        return call.webphoneSession && call.webphoneSession.id === fromSessionId;
-      });
-
-      var lastCalleeType = void 0;
-      if (lastCall) {
-        if (lastCall.toMatches.length) {
-          lastCalleeType = _calleeTypes2.default.contacts;
-        } else if ((0, _webphoneHelper.isConferenceSession)(lastCall.webphoneSession)) {
-          lastCalleeType = _calleeTypes2.default.conference;
-        } else {
-          lastCalleeType = _calleeTypes2.default.unknow;
-        }
-      } else if (_fromSessionId === fromSessionId && _lastCallInfo && _lastCallInfo.calleeType) {
-        _lastCallInfo = (0, _extends3.default)({}, _lastCallInfo, {
-          status: _sessionStatus2.default.finished
-        });
-        return _lastCallInfo;
-      } else {
-        return {
-          calleeType: _calleeTypes2.default.unknow
-        };
-      }
-
-      var partiesAvatarUrls = null;
-      if (lastCalleeType === _calleeTypes2.default.conference) {
-        partiesAvatarUrls = (partyProfiles || []).map(function (profile) {
-          return profile.avatarUrl;
-        });
-      }
-      switch (lastCalleeType) {
-        case _calleeTypes2.default.conference:
-          _lastCallInfo = {
-            calleeType: _calleeTypes2.default.conference,
-            avatarUrl: partiesAvatarUrls[0],
-            extraNum: partiesAvatarUrls.length - 1,
-            name: null,
-            phoneNumber: null,
-            status: lastCall.webphoneSession.callStatus,
-            lastCallContact: null
-          };
-          break;
-        case _calleeTypes2.default.contacts:
-          _lastCallInfo = {
-            calleeType: _calleeTypes2.default.contacts,
-            avatarUrl: lastCall.toMatches[0].profileImageUrl,
-            name: lastCall.toMatches[0].name,
-            status: lastCall.webphoneSession.callStatus,
-            phoneNumber: lastCall.to.phoneNumber,
-            extraNum: 0,
-            lastCallContact: lastCall.toMatches[0]
-          };
-          break;
-        default:
-          _lastCallInfo = {
-            calleeType: _calleeTypes2.default.unknow,
-            avatarUrl: null,
-            name: null,
-            status: lastCall.webphoneSession ? lastCall.webphoneSession.callStatus : null,
-            phoneNumber: lastCall.to.phoneNumber,
-            extraNum: 0,
-            lastCallContact: null
-          };
-      }
-
-      _fromSessionId = fromSessionId;
-      return _lastCallInfo;
     });
 
     if (_this._activityMatcher) {
