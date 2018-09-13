@@ -15,14 +15,12 @@ const defaultInboundOption = {
 };
 
 const defaultOutboundOption = {
-  callId: true,
   fromNumber: '+15878133670',
   homeCountryId: '1',
   toNumber: '101',
 };
 
 const defaultConferenceOption = {
-  callId: true,
   fromNumber: '+15878133670',
   homeCountryId: '1',
   toNumber: 'conf_7777777777777777',
@@ -30,27 +28,27 @@ const defaultConferenceOption = {
 };
 
 export async function getInboundCall(phone, options = defaultInboundOption) {
-  phone.webphone.sessions.forEach(session => phone.webphone.hold(session.id));
-  const session = new Session(options);
+  const session = new Session({
+    ...options,
+    callId: options.callId || `call-${options.id}`
+  });
   await phone.webphone._webphone.userAgent.trigger('invite', session);
   return session;
 }
 
 export async function makeCall(phone, options = defaultOutboundOption) {
   mock.device(deviceBody);
-  phone.webphone.sessions.forEach(session => phone.webphone.hold(session.id));
+  phone.webphone.sessions.forEach(async (session) => {
+    await phone.webphone.hold(session.id);
+  });
   const session = await phone.webphone.makeCall(options);
-  if (options.callId) {
-    session.__rc_callId = `call-${session.id}`;
-  }
+  session.__rc_callId = `call-${session.id}`;
   return session;
 }
 
 export async function makeConferenceCall(phone, options = defaultConferenceOption) {
   const session = await phone.webphone.makeCall(options);
-  if (options.callId) {
-    session.__rc_callId = `call-${session.id}`;
-  }
+  session.__rc_callId = `call-${session.id}`;
   return session;
 }
 

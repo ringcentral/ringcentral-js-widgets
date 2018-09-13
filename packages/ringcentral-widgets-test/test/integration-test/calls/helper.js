@@ -15,7 +15,7 @@ import {
 } from '../../support/callHelper';
 
 function mockCallProcedure(func) {
-  return async function (phone, ...args) {
+  return async (phone, ...args) => {
     mock.device(deviceBody, false);
     const activeCallsBody = await func.apply(null, [phone, ...args]);
     mock.activeCalls(activeCallsBody);
@@ -89,10 +89,8 @@ export async function mockMultiOutboundCalls(phone, n) {
 }
 // all calls page
 export async function makeInboudCalls(phone, optional = []) {
-  const inboundSessions = [];
   for (const option of optional) {
-    const inboundSession = await getInboundCall(phone, option);
-    inboundSessions.push(inboundSession);
+    await getInboundCall(phone, option);
   }
   const activeCallBody = await mockActiveCalls(phone.webphone.sessions);
   mock.activeCalls(activeCallBody);
