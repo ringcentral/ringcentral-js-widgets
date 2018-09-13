@@ -1,5 +1,5 @@
 export default {
-  dialer: "Ziffernblock",
+  dialer: "Wählfeld",
   allCalls: "Alle Anrufe"
 };
 

@@ -19,11 +19,14 @@ import ensureExist from '../../lib/ensureExist';
 import callingModes from '../CallingSettings/callingModes';
 import calleeTypes from '../../enums/calleeTypes';
 import { isFunction } from '../../lib/di/utils/is_type';
+import sessionStatus from '../Webphone/sessionStatus';
 
 const DEFAULT_TIMEOUT = 30000;// time out for conferencing session being accepted.
 const DEFAULT_TTL = 5000;// timer to update the conference information
 const MAXIMUM_CAPACITY = 10;
 
+let _fromSessionId;
+let _lastCallInfo;
 
 function ascendSortParties(parties) {
   return parties
@@ -59,6 +62,7 @@ function ascendSortParties(parties) {
     },
   ]
 })
+
 export default class ConferenceCall extends RcModule {
   /**
    * @constructor
@@ -928,6 +932,94 @@ export default class ConferenceCall extends RcModule {
   get currentConferenceId() {
     return this.state.currentConferenceId;
   }
+
+  @getter
+  lastCallInfo = createSelector(
+    () => this._webphone.sessions,
+    () => this.mergingPair.fromSessionId,
+    () => this.partyProfiles,
+    (sessions, fromSessionId, partyProfiles) => {
+      if (!fromSessionId) {
+        _lastCallInfo = null;
+        return _lastCallInfo;
+      }
+
+      const lastCall = sessions.find(
+        session => session.id === fromSessionId
+      );
+
+      const toMatches = (lastCall && (
+        this._contactMatcher.dataMapping &&
+        this._contactMatcher.dataMapping[lastCall.to]
+      )) || [];
+
+      let lastCalleeType;
+      if (lastCall) {
+        if (toMatches.length) {
+          lastCalleeType = calleeTypes.contacts;
+        } else if (this.isConferenceSession(lastCall.id)) {
+          lastCalleeType = calleeTypes.conference;
+        } else {
+          lastCalleeType = calleeTypes.unknow;
+        }
+      } else if (
+        _fromSessionId === fromSessionId
+        && _lastCallInfo && _lastCallInfo.calleeType
+      ) {
+        _lastCallInfo = {
+          ..._lastCallInfo,
+          status: sessionStatus.finished,
+        };
+        return _lastCallInfo;
+      } else {
+        return {
+          calleeType: calleeTypes.unknow,
+        };
+      }
+
+      let partiesAvatarUrls = null;
+      if (lastCalleeType === calleeTypes.conference) {
+        partiesAvatarUrls = (partyProfiles || []).map(profile => profile.avatarUrl);
+      }
+      switch (lastCalleeType) {
+        case calleeTypes.conference:
+          _lastCallInfo = {
+            calleeType: calleeTypes.conference,
+            avatarUrl: partiesAvatarUrls[0],
+            extraNum: partiesAvatarUrls.length - 1,
+            name: null,
+            phoneNumber: null,
+            status: lastCall.callStatus,
+            lastCallContact: null,
+          };
+          break;
+        case calleeTypes.contacts:
+          _lastCallInfo = {
+            calleeType: calleeTypes.contacts,
+            avatarUrl: toMatches[0].profileImageUrl,
+            name: toMatches[0].name,
+            status: lastCall.callStatus,
+            phoneNumber: lastCall.to,
+            extraNum: 0,
+            lastCallContact: toMatches[0],
+          };
+          break;
+        default:
+          _lastCallInfo = {
+            calleeType: calleeTypes.unknow,
+            avatarUrl: null,
+            name: null,
+            status: lastCall ? lastCall.callStatus : null,
+            phoneNumber: lastCall.to,
+            extraNum: 0,
+            lastCallContact: null,
+          };
+      }
+
+      _fromSessionId = fromSessionId;
+      return _lastCallInfo;
+    },
+  );
 
   @getter
   partyProfiles = createSelector(

@@ -1,18 +1,21 @@
 import 'core-js/fn/array/find';
+import { createSelector } from 'reselect';
 import { Module } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
 import moduleStatuses from '../../enums/moduleStatuses';
 import actionTypes from './actionTypes';
-import calleeTypes from '../../enums/calleeTypes';
-import sessionStatus from '../Webphone/sessionStatus';
 import getCallMonitorReducer, { getCallMatchedReducer } from './getCallMonitorReducer';
 import ensureExist from '../../lib/ensureExist';
 import normalizeNumber from '../../lib/normalizeNumber';
 import { matchWephoneSessionWithAcitveCall } from './callMonitorHelper';
+import getter from '../../lib/getter';
+
 import {
   isRinging,
   hasRingingCalls,
   sortByStartTime,
+  isRingingInboundCall,
+  isOnHold as isRingOutOnHold
 } from '../../lib/callLogHelpers';
 import {
   isRing,
@@ -196,7 +199,6 @@ export default class CallMonitor extends RcModule {
       ),
     );
 
-
     this.addSelector('activeRingCalls',
       this._selectors.calls,
       calls => calls.filter(callItem =>
@@ -297,90 +299,6 @@ export default class CallMonitor extends RcModule {
     this.addSelector('sessionIds',
       () => this._detailedPresence.calls,
       calls => calls.map(callItem => callItem.sessionId)
-    );
-
-    let _fromSessionId;
-    let _lastCallInfo;
-    this.addSelector('lastCallInfo',
-      this._selectors.allCalls,
-      () => this._conferenceCall && this._conferenceCall.mergingPair.fromSessionId,
-      () => this._conferenceCall && this._conferenceCall.partyProfiles,
-      (calls, fromSessionId, partyProfiles) => {
-        if (!fromSessionId) {
-          _lastCallInfo = null;
-          return _lastCallInfo;
-        }
-
-        const lastCall = calls.find(
-          call => call.webphoneSession && call.webphoneSession.id === fromSessionId
-        );
-
-        let lastCalleeType;
-        if (lastCall) {
-          if (lastCall.toMatches.length) {
-            lastCalleeType = calleeTypes.contacts;
-          } else if (isConferenceSession(lastCall.webphoneSession)) {
-            lastCalleeType = calleeTypes.conference;
-          } else {
-            lastCalleeType = calleeTypes.unknow;
-          }
-        } else if (
-          _fromSessionId === fromSessionId
-          && _lastCallInfo && _lastCallInfo.calleeType
-        ) {
-          _lastCallInfo = {
-            ..._lastCallInfo,
-            status: sessionStatus.finished,
-          };
-          return _lastCallInfo;
-        } else {
-          return {
-            calleeType: calleeTypes.unknow,
-          };
-        }
-
-        let partiesAvatarUrls = null;
-        if (lastCalleeType === calleeTypes.conference) {
-          partiesAvatarUrls = (partyProfiles || []).map(profile => profile.avatarUrl);
-        }
-        switch (lastCalleeType) {
-          case calleeTypes.conference:
-            _lastCallInfo = {
-              calleeType: calleeTypes.conference,
-              avatarUrl: partiesAvatarUrls[0],
-              extraNum: partiesAvatarUrls.length - 1,
-              name: null,
-              phoneNumber: null,
-              status: lastCall.webphoneSession.callStatus,
-              lastCallContact: null,
-            };
-            break;
-          case calleeTypes.contacts:
-            _lastCallInfo = {
-              calleeType: calleeTypes.contacts,
-              avatarUrl: lastCall.toMatches[0].profileImageUrl,
-              name: lastCall.toMatches[0].name,
-              status: lastCall.webphoneSession.callStatus,
-              phoneNumber: lastCall.to.phoneNumber,
-              extraNum: 0,
-              lastCallContact: lastCall.toMatches[0],
-            };
-            break;
-          default:
-            _lastCallInfo = {
-              calleeType: calleeTypes.unknow,
-              avatarUrl: null,
-              name: null,
-              status: lastCall.webphoneSession ? lastCall.webphoneSession.callStatus : null,
-              phoneNumber: lastCall.to.phoneNumber,
-              extraNum: 0,
-              lastCallContact: null,
-            };
-        }
-
-        _fromSessionId = fromSessionId;
-        return _lastCallInfo;
-      },
     );
 
     if (this._activityMatcher) {
@@ -636,6 +554,10 @@ export default class CallMonitor extends RcModule {
     return this._selectors.calls();
   }
 
+  get allCalls() {
+    return this._selectors.allCalls();
+  }
+
   get callMatched() {
     return this._storage.getItem(this._callMatchedKey);
   }
@@ -659,4 +581,26 @@ export default class CallMonitor extends RcModule {
   get lastCallInfo() {
     return this._selectors.lastCallInfo();
   }
+  @getter
+  ringoutRingCalls = createSelector(
+    () => this.otherDeviceCalls,
+    otherDeviceCalls => otherDeviceCalls.filter(callItem =>
+      isRingingInboundCall(callItem)
+    )
+  );
+  @getter
+  ringoutCurrentCalls = createSelector(
+    () => this.otherDeviceCalls,
+    otherDeviceCalls => otherDeviceCalls.filter(callItem =>
+      !isRingingInboundCall(callItem) &&
+          !isRingOutOnHold(callItem)
+    )
+  );
+  @getter
+  ringoutOnHoldCalls = createSelector(
+    () => this.otherDeviceCalls,
+    otherDeviceCalls => otherDeviceCalls.filter(callItem =>
+      isRingOutOnHold(callItem)
+    )
+  );
 }

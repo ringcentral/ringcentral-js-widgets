@@ -12,7 +12,7 @@ export default {
   [messageSenderMessages.textTooLong]: "文本太长，上限为 1000",
   [messageSenderMessages.multipartTextTooLong]: "文本太长，上限为 5000",
   [messageSenderMessages.recipientNumberInvalids]: "请输入有效的电话号码。",
-  [messageSenderMessages.noAreaCode]: "请将 {areaCodeLink} 设置为使用 7 位本地电话号码。",
+  [messageSenderMessages.noAreaCode]: "请设置{areaCodeLink}以使用 7 位本地电话号码。",
   [messageSenderMessages.specialNumber]: "不支持向紧急/特殊服务号码发送信息文本。",
   [messageSenderMessages.connectFailed]: "连接失败。请稍后再试。",
   [messageSenderMessages.internalError]: "由于内部错误，无法连接：请稍后再试。",

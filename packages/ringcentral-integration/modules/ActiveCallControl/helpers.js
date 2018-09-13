@@ -22,6 +22,7 @@ export function normalizeSession({
     from,
     to,
     result,
+    telephonyStatus,
     startTime,
     sessionId,
   } = call;
@@ -42,7 +43,7 @@ export function normalizeSession({
     toNumber: to && to.phoneNumber,
     toUserName: to && to.name,
     id: sessionId,
-    callStatus: result,
+    callStatus: telephonyStatus || result,
     startTime,
     creationTime: startTime,
     isOnMute: muted,
@@ -78,4 +79,8 @@ export function requestURI(activeSession) {
     record: `${prefix}/parties/${partyId}/recordings`,
     stopRecord: `${prefix}/parties/${partyId}/recordings/${recordingId}`
   };
+}
+export function confictError(error) {
+  const conflictErrRgx = /409/g;
+  return conflictErrRgx.test(error.message);
 }

@@ -4,8 +4,8 @@ export default {
   ignore: "忽略",
   toVoicemail: "到语音信箱",
   answer: "接听",
-  answerAndEnd: "接听和结束",
-  answerAndHold: "接听和保留"
+  answerAndEnd: "接听并结束",
+  answerAndHold: "接听并保持"
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

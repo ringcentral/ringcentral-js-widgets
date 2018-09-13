@@ -28,7 +28,7 @@ beforeEach(async () => {
   panel = wrapper.find(SettingsPanel).first();
   const quickAccessLinkLine = panel.find({
     children:
-      "Quick access setting"
+      "Quick Access Setting"
   }).first();
   await quickAccessLinkLine.simulate('click');
   wrapper.update();

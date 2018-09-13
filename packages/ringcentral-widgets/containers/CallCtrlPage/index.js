@@ -20,7 +20,6 @@ function mapToProps(_, {
     contactSearch,
     conferenceCall,
     callingSettings,
-    callMonitor,
     rolesAndPermissions,
   },
   params,
@@ -49,7 +48,7 @@ function mapToProps(_, {
   let isMerging = false;
   let conferenceCallParties;
   let conferenceCallId = null;
-  const lastCallInfo = callMonitor.lastCallInfo;
+  const lastCallInfo = conferenceCall && conferenceCall.lastCallInfo;
   let isConferenceCallOverload = false;
   const conferenceCallEquipped =
     !!(conferenceCall && rolesAndPermissions.hasConferenceCallPermission);
@@ -200,11 +199,15 @@ function mapToFunctions(_, {
       if (!session || webphone.isCallRecording({ session })) {
         return;
       }
-      const outBoundOnholdCalls = filter(
-        call => call.direction === callDirections.outbound,
-        callMonitor.activeOnHoldCalls
+      const otherOutboundCalls = filter(
+        call => call.direction === callDirections.outbound &&
+                (
+                  call.webphoneSession &&
+                  call.webphoneSession.id !== session.id
+                ),
+        callMonitor.allCalls
       );
-      if (outBoundOnholdCalls.length) {
+      if (otherOutboundCalls.length) {
         // goto 'calls on hold' page
         routerInteraction.push(`/conferenceCall/callsOnhold/${session.fromNumber}/${session.id}`);
       } else {

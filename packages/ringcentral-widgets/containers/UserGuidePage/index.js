@@ -11,7 +11,8 @@ function mapToProps(_, {
   const { curIdx, entered, playing } = userGuide.carouselState;
   return {
     showSpinner: !(
-      userGuide.ready &&
+      userGuide.ready && 
+      userGuide.preLoadImageStatus &&
       locale.ready
     ),
     currentLocale: locale.currentLocale,
