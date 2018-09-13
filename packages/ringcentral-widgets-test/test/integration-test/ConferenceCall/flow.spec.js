@@ -53,6 +53,7 @@ async function dialAnotherOutboundCall(phone, wrapper) {
 
 async function clickMergeButtonIn(wrapper, phone, pageName) {
   /* mock data */
+  mock.updateConferenceCall(updateConferenceCallBody.id, updateConferenceCallBody);
   mock.conferenceCallBringIn(CONFERENCE_SESSION_ID);
   mock.device(deviceBody, false);
   mock.conferenceCall();
@@ -326,7 +327,6 @@ describe('Add Call Flow: Normal Call Ctrl -> click Add -> on hold list', () => {
     await timeout(10);
     expect(phone.routerInteraction.currentPath.indexOf('/conferenceCall/callsOnhold')).toBe(0);
     // Click Merge
-    mock.updateConferenceCall(updateConferenceCallBody.id, updateConferenceCallBody);
     await clickMergeButtonIn(wrapper, phone, 'OnholdPage');
     // Confernce Call Ctrl Page
     holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
