@@ -199,11 +199,15 @@ function mapToFunctions(_, {
       if (!session || webphone.isCallRecording({ session })) {
         return;
       }
-      const outBoundOnholdCalls = filter(
-        call => call.direction === callDirections.outbound,
-        callMonitor.activeOnHoldCalls
+      const otherOutboundCalls = filter(
+        call => call.direction === callDirections.outbound &&
+                (
+                  call.webphoneSession &&
+                  call.webphoneSession.id !== session.id
+                ),
+        callMonitor.allCalls
       );
-      if (outBoundOnholdCalls.length) {
+      if (otherOutboundCalls.length) {
         // goto 'calls on hold' page
         routerInteraction.push(`/conferenceCall/callsOnhold/${session.fromNumber}/${session.id}`);
       } else {
