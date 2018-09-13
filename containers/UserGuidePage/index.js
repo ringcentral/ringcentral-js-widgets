@@ -24,7 +24,7 @@ function mapToProps(_, _ref) {
       playing = _userGuide$carouselSt.playing;
 
   return {
-    showSpinner: !(userGuide.ready && locale.ready),
+    showSpinner: !(userGuide.ready && userGuide.preLoadImageStatus && locale.ready),
     currentLocale: locale.currentLocale,
     curIdx: curIdx,
     entered: entered,

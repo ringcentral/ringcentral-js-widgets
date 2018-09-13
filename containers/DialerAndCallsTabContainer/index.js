@@ -51,6 +51,10 @@ var _TabContentPanel = require('../../components/TabContentPanel');
 
 var _TabContentPanel2 = _interopRequireDefault(_TabContentPanel);
 
+var _SpinnerOverlay = require('../../components/SpinnerOverlay');
+
+var _SpinnerOverlay2 = _interopRequireDefault(_SpinnerOverlay);
+
 var _withPhone = require('../../lib/withPhone');
 
 var _withPhone2 = _interopRequireDefault(_withPhone);
@@ -98,6 +102,9 @@ var TabContentView = (_temp = _class = function (_Component) {
   (0, _createClass3.default)(TabContentView, [{
     key: 'render',
     value: function render() {
+      if (this.props.showSpinner) {
+        return _react2.default.createElement(_SpinnerOverlay2.default, null);
+      }
       return _react2.default.createElement(_TabContentPanel2.default, (0, _extends3.default)({}, this.props, {
         tabs: this.getTabs(),
         navClassName: _styles2.default.nav,
@@ -108,6 +115,7 @@ var TabContentView = (_temp = _class = function (_Component) {
   return TabContentView;
 }(_react.Component), _class.propTypes = {
   applicable: _propTypes2.default.bool.isRequired,
+  showSpinner: _propTypes2.default.bool.isRequired,
   currentLocale: _propTypes2.default.string.isRequired,
   currentPath: _propTypes2.default.string.isRequired,
   goTo: _propTypes2.default.func.isRequired
@@ -127,9 +135,11 @@ function mapToProps(_, _ref) {
   var conferenceCallEquipped = !!conferenceCall;
   var isWebphoneMode = callingSettings.callingMode === _callingModes2.default.webphone;
   var applicable = isWebphoneMode && !!(conferenceCallEquipped && callMonitor.calls.length && webphone.sessions.length) || !isWebphoneMode && (callMonitor.calls.length > 0 || callLogSection && callLogSection.show);
+
   return {
     applicable: applicable,
     currentLocale: locale.currentLocale,
+    showSpinner: !locale.ready,
     currentPath: routerInteraction.currentPath
   };
 }
