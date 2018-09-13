@@ -14,8 +14,38 @@ class Query {
     return this._label;
   }
 
-  getSelector(selector) {
-    return this._label ? `[${this._label}="${selector}"]` : selector;
+  getSelector(selector, options = {}) {
+    const isUsingCssSelector = !this._label || options.selector === 'css';
+    const labelLocator = `[${this._label}="${selector}"]`;
+    return isUsingCssSelector ? selector : labelLocator;
+  }
+
+  async waitFor(param, options) {
+    switch (typeof param) {
+      case 'number':
+        await this.timeout(param);
+        break;
+      case 'string':
+        if (typeof this.waitForSelector === 'function') {
+          await this.waitForSelector(param, options);
+        } else {
+          console.error('\'waitForSelector\' function  in current \'Query\' has not yet been implemented.');
+        }
+        break;
+      case 'function':
+        // TODO
+        break;
+      default:
+        console.error('Error type param for \'waitFor\' function in Query class.');
+    }
+  }
+
+  async timeout(time = 0) {
+    await new Promise(resolve => setTimeout(resolve, time));
+  }
+
+  async screenshot() {
+    //
   }
 }
 

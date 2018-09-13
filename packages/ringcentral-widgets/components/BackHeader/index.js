@@ -13,6 +13,7 @@ export default function BackHeader(props) {
     label: props.backButton || defaultBackButton,
     onClick: props.onBackClick,
     placement: 'left',
+    dataSign: props.dataSign,
   });
   return (
     <Header
@@ -33,6 +34,7 @@ BackHeader.propTypes = {
     placement: PropTypes.oneOf(['left', 'right']),
   })),
   onBackClick: PropTypes.func,
+  dataSign: PropTypes.string,
 };
 
 BackHeader.defaultProps = {
@@ -41,4 +43,5 @@ BackHeader.defaultProps = {
   buttons: undefined,
   backButton: undefined,
   onBackClick: undefined,
+  dataSign: undefined,
 };

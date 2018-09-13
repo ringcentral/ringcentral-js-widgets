@@ -10,6 +10,7 @@ export function HeaderButton(props) {
         styles.button,
         props.disabled && styles.disabled,
       )}
+      data-sign={props.dataSign}
       onClick={props.disabled ? undefined : props.onClick}
       title={props.title}
     >
@@ -23,6 +24,7 @@ HeaderButton.propTypes = {
   label: PropTypes.node,
   disabled: PropTypes.bool,
   title: PropTypes.string,
+  dataSign: PropTypes.string,
 };
 
 HeaderButton.defaultProps = {
@@ -30,6 +32,7 @@ HeaderButton.defaultProps = {
   label: undefined,
   disabled: false,
   title: undefined,
+  dataSign: undefined,
 };
 
 function Header(props) {

@@ -25,7 +25,7 @@ function TabNavigationView(props) {
           navBar :
           null
       }
-      <div className={styles.main}>
+      <div data-sign="tabNavigationView" className={styles.main}>
         {props.children}
       </div>
       {

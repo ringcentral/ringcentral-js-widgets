@@ -1,5 +1,8 @@
 const puppeteer = require('puppeteer');
-const { Driver: BaseDriver, Query: BaseQuery } = require('../base');
+const {
+  Driver: BaseDriver,
+  Query: BaseQuery
+} = require('../base');
 
 const setting = {
   ignoreHTTPSErrors: true,
@@ -9,10 +12,62 @@ const setting = {
   ]
 };
 class Query extends BaseQuery {
-  async text(selector) {
-    const innerText = await this._node.$eval(this.getSelector(selector), node => node.innerText);
+  async getText(selector, options = {}) {
+    const _selector = this.getSelector(selector, options);
+    await this.waitForSelector(selector, options);
+    const innerText = await this._node.$eval(_selector, node => node.innerText);
     return innerText;
   }
+
+  async click(selector, options) {
+    const _selector = this.getSelector(selector, options);
+    await this._node.click(_selector);
+  }
+
+  async type(selector, value, options) {
+    const _selector = this.getSelector(selector, options);
+    await this._node.type(_selector, value);
+  }
+
+  async waitForSelector(selector, options) {
+    const _selector = this.getSelector(selector, options);
+    const element = await this._node.waitForSelector(_selector, options);
+    return element;
+  }
+
+  async screenshot({
+    path
+  } = {}) {
+    await this._node.screenshot({
+      path
+    });
+  }
+
+  async goto(url) {
+    await this._node.goto(url);
+  }
+
+  async getFrame(frameIds) {
+    let frame;
+    for (const frameId of frameIds) {
+      frame = await this._node.switchTo().frames(frameId);
+    }
+    return frame;
+  }
+
+  async execute(...args) {
+    return this._node.evaluate(...args);
+  }
+
+  async clear(selector, options) {
+    await this.waitForSelector(selector, options);
+    const _selector = this.getSelector(selector, options);
+    await this._node.focus(_selector);
+    await this._node.$eval(_selector, input => input.select(), _selector);
+    await this._node.keyboard.down('Delete');
+    await this._node.keyboard.up('Delete');
+  }
+
 
   // async $(selector) {
   //   const element = await this._node.$(selector);
@@ -22,16 +77,6 @@ class Query extends BaseQuery {
   // async $$(selector) {
   //   const elements = await this._node.$$(selector);
   //   return elements;
-  // }
-
-  // async click(selector) {
-  //   const handle = await this._node.click(selector);
-  //   return handle;
-  // }
-
-  // async type(selector, value) {
-  //   const handle = await this._node.type(selector, value);
-  //   return handle;
   // }
 }
 

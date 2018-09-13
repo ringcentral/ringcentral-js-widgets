@@ -96,6 +96,7 @@ class Environment extends Component {
     return (
       <div className={styles.root}>
         <BackHeader
+          dataSign="back"
           onBackClick={this.onCancel}
           buttons={[]}
         >
@@ -105,6 +106,7 @@ class Environment extends Component {
           <Line>
             Server
             <TextInput
+              dataSign="envServerUrl"
               value={this.state.serverValue}
               onChange={this.onServerChange}
             />
@@ -119,6 +121,7 @@ class Environment extends Component {
           <IconLine
             icon={
               <Switch
+                dataSign="envToggle"
                 checked={this.state.enabledValue}
                 onChange={this.onToggleEnabled}
               />
@@ -128,6 +131,7 @@ class Environment extends Component {
           </IconLine>
           <Line>
             <Button
+              dataSign="envSave"
               className={classnames(styles.saveButton, !hasChanges ? styles.disabled : null)}
               onClick={this.onOk}
               disabled={!hasChanges}

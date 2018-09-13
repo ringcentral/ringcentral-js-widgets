@@ -174,6 +174,7 @@ function testCase(caseParams, fn) {
           const func = async function ({ instance, isSandbox, config, driver, ...args }) {
             // TODO handle type in `config`
             const isUT = /UT$/.test(driver);
+            const isVirtual = ['enzyme'].indexOf(driver) > -1;
             if (!isUT) {
               if (isSandbox) {
                 await instance.driver.run();
@@ -187,7 +188,7 @@ function testCase(caseParams, fn) {
             global.driver = instance.driver;
             global.context = {
               driver: instance.driver,
-              options: { isSandbox, config, driver, ...args },
+              options: { isVirtual, isSandbox, config, driver, ...args },
             };
             // TODO thinking about using `vm.createContext` implement real sanbox.
             // TODO HOOK

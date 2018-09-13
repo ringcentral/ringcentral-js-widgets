@@ -123,8 +123,7 @@ npx e2e-test run ./src/features/widgets/meeting/**/*.js
 ### Lifecycle Hook
 
 -   CLI start
--   Runner
--   Jest
+-   Runner start
 -   Jest global setup
 -   Jest setupFiles
 -   Jest NodeEnvironment Setup
@@ -132,20 +131,23 @@ npx e2e-test run ./src/features/widgets/meeting/**/*.js
 -   Jest BeforeAll
 -   Jest BeforeEach
 -   Test case
--   Steps Pre-Hook
--   Steps Post-Hook
+-   Marten Pre-Hook
+-   Marten Post-Hook
 -   Jest AfterEach
 -   Jest AfterAll
 -   Jest NodeEnvironment Teardown
 -   Jest global teardown
+-   Runner close
 -   CLI close
 
 ### TODO
 
 -   Query
--   Enzyme
--   Marten
+-   Infrastructure
+-   Enzyme✅
+-   Marten(CI/Test,etc.)
 -   Plugins
+    - Logger
 -   CLI
 
     - Tags optimization

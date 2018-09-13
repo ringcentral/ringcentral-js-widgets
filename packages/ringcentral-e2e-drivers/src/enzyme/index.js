@@ -11,9 +11,37 @@ const setting = {
 // };
 
 class Query extends BaseQuery {
-  async text(selector) {
-    const text = this._node.find(this.getSelector(selector)).first().text();
+  async getText(selector, options = {}) {
+    const _selector = this.getSelector(selector, options);
+    const text = this._node.find(_selector).first().text();
     return text;
+  }
+  // TODO
+  async execute(...args) {
+    let script = args.shift();
+    if ((typeof script !== 'string' && typeof script !== 'function')) {
+      throw new Error('number or type of arguments don\'t agree with execute protocol command');
+    }
+    if (typeof script === 'function') {
+      script = `return (${script}).apply(null, arguments)`;
+    }
+    const handle = new Function(script)(args);
+    return handle;
+  }
+
+  async waitForSelector(selector, options) {
+    await this._timeout(100);
+    this._node.update();
+    const _selector = this.getSelector(selector, options);
+    if (this._node.find(_selector).length === 0) {
+      const result = await this.waitForSelector(selector, options);
+      return result;
+    }
+    return this._node.find(_selector).first();
+  }
+
+  async _timeout(time = 0) {
+    await new Promise(resolve => setTimeout(resolve, time));
   }
 }
 

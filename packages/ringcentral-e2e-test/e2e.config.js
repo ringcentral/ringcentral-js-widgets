@@ -6,7 +6,7 @@ module.exports = {
     handler: './einstein.js'
   }],
   exec: {
-    drivers: ['puppeteer', 'seleniumWebdriverFirefox', 'seleniumWebdriverSafari', 'enzyme'],
+    drivers: ['puppeteer', 'seleniumWebdriverFirefox', 'enzyme'],
     levels: [
       'p0',
       'p1'
@@ -24,7 +24,7 @@ module.exports = {
     levels: ['p3'],
     brands: ['rc'],
     tags: [
-      ['salesforce', { modes: ['lightning'], drivers: ['puppeteer', 'seleniumWebdriverFirefox'] }],
+      ['salesforce', { modes: ['classic'], drivers: ['puppeteer', 'seleniumWebdriverFirefox', 'seleniumWebdriverSafari'] }],
     ],
   },
   tester: {
@@ -60,6 +60,7 @@ module.exports = {
       },
       salesforce: {
         type: 'uri',
+        source: './src/targets/widgets',
         params: {
           modes: [
             'lightning',
@@ -67,14 +68,14 @@ module.exports = {
           ],
           brands: {
             rc: {
-              username: '',
-              password: '',
-              location: 'http://localhost:8080/',
+              username: 'integration.developer@ringcentral.com',
+              password: 'RNG94405@',
+              location: 'https://login.salesforce.com/',
             },
             att: {
               username: '',
               password: '',
-              location: 'http://localhost:8080/',
+              location: 'https://login.salesforce.com/',
             }
           },
         }

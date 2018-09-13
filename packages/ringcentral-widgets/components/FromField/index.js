@@ -21,7 +21,7 @@ function PhoneNumber({
   return (
     <span className={styles.phoneNumber}>
       {usageTypeDom}
-      <span>
+      <span data-sign="fromField">
         {formatPhone(phoneNumber)}
       </span>
     </span>

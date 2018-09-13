@@ -6,7 +6,7 @@ import i18n from './i18n';
 
 function NoCalls({ currentLocale, active }) {
   return (
-    <p className={styles.noCalls}>
+    <p data-sign="noCalls" className={styles.noCalls}>
       {i18n.getString(active ? 'noActiveCalls' : 'noRecords', currentLocale)}
     </p>
   );
