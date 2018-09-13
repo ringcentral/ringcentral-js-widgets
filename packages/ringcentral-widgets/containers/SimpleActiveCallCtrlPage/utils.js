@@ -4,9 +4,6 @@
 import callDirection from 'ringcentral-integration/enums/callDirections';
 import i18n from './i18n';
 
-export const CALL_DIREC_IN = 'Inbound';
-export const CALL_DIREC_OUT = 'Outbound';
-
 export const pickEleByProps = (props = {}, list = []) => {
   const keys = Object.keys(props);
   const result = list.filter((item) => {
@@ -43,7 +40,6 @@ export const pickFallBackName = (call = {}, contactMatchMap = {}, currentLocale)
     case callDirection.inbound:
       fallBackName = getName(callFrom);
       break;
-
     case callDirection.outbound:
       fallBackName = getName(callTo);
       break;
