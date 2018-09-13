@@ -182,13 +182,13 @@ WebphoneButtons.defaultProps = {
 };
 
 function RingoutButtons({
-  sessionId,
+  showRingoutCallControl,
   currentLocale,
   disableLinks,
+  sessionId,
   ringoutHangup,
   ringoutTransfer,
   ringing,
-  showRingoutCallControl,
 }) {
   if (!showRingoutCallControl) return null;
 
@@ -547,10 +547,10 @@ export default class ActiveCallItem extends Component {
                     showRingoutCallControl={showRingoutCallControl}
                     sessionId={sessionId}
                     disableLinks={disableLinks}
+                    currentLocale={currentLocale}
                     ringing={ringing}
                     ringoutHangup={ringoutHangup}
                     ringoutTransfer={ringoutTransfer}
-                    currentLocale={currentLocale}
                 />
               }
               {extraButton}
