@@ -93,6 +93,8 @@ export default class UserGuide extends RcModule {
       this.dismiss();
     }
   }
+
+  @proxify
   async _preLoadImage(url) {
     await new Promise((resolve, reject) => {
       let img = new Image();
@@ -102,6 +104,7 @@ export default class UserGuide extends RcModule {
     })
     
   }
+
   @proxify
   async preLoadImage(){
     await this._preLoadImage(this.guides[0]);
@@ -109,6 +112,7 @@ export default class UserGuide extends RcModule {
       type: this.actionTypes.preLoadImageStatus,
     });
   }
+  
   /**
    * Using webpack `require.context` to load guides files.
    * Image files will be ordered by file name ascendingly.
