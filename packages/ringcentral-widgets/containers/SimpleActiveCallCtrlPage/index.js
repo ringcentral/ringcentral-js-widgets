@@ -19,7 +19,7 @@ import { pickEleByProps, pickFallBackName } from './utils';
 function mapToProps(_, { phone }) {
   const {
     activeCallControl, regionSettings, activeCalls, contactMatcher,
-    alert,
+    alert, routerInteraction,
   } = phone;
   return {
     activeCallControl,
@@ -27,6 +27,7 @@ function mapToProps(_, { phone }) {
     activeCalls,
     contactMatcher,
     alert,
+    routerInteraction,
   };
 }
 
@@ -54,6 +55,7 @@ class ActiveCallControl extends Component {
     }
     await activeCallControl.mute(sessionId);
   }
+
   render() {
     const {
       currentLocale,
@@ -61,6 +63,7 @@ class ActiveCallControl extends Component {
       regionSettings,
       activeCalls,
       contactMatcher,
+      routerInteraction
     } = this.props;
 
     const sessionId = activeCallControl.activeSessionId || '3977048006';
@@ -83,7 +86,7 @@ class ActiveCallControl extends Component {
       onTransfer: async number => activeCallControl.transfer(number, sessionId),
       showBackButton: true,
       backButtonLabel: i18n.getString('allCalls', currentLocale),
-      onBackButtonClick: () => null,
+      onBackButtonClick: async () => routerInteraction.push('/dialer'),
       formatPhone: () => null,
       areaCode: regionSettings.areaCode,
       countryCode: regionSettings.countryCode,
@@ -92,7 +95,7 @@ class ActiveCallControl extends Component {
       searchContactList: [],
       searchContact: () => null,
       layout: callCtrlLayouts.normalCtrl,
-      startTime: Date.now(),
+      startTime: activeCall.startTime,
       actions: [muteCtrl, transferCtrl, holdCtrl]
     };
 
@@ -123,6 +126,7 @@ ActiveCallControl.propTypes = {
   activeCalls: PropTypes.object,
   contactMatcher: PropTypes.object,
   alert: PropTypes.object,
+  routerInteraction: PropTypes.object,
 };
 
 ActiveCallControl.defaultProps = {
@@ -132,6 +136,7 @@ ActiveCallControl.defaultProps = {
   activeCalls: {},
   contactMatcher: {},
   alert: {},
+  routerInteraction: {},
 };
 
 export default withPhone(connect(mapToProps, mapToFunctions)(ActiveCallControl));
