@@ -200,8 +200,12 @@ function mapToFunctions(_, {
         return;
       }
       const outBoundOnholdCalls = filter(
-        call => call.direction === callDirections.outbound,
-        callMonitor.activeOnHoldCalls
+        call => call.direction === callDirections.outbound &&
+                (
+                  call.webphoneSession &&
+                  call.webphoneSession.id !== session.id
+                ),
+        callMonitor.allCalls
       );
       if (outBoundOnholdCalls.length) {
         // goto 'calls on hold' page

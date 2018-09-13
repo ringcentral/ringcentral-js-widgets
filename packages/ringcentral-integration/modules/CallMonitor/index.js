@@ -554,6 +554,10 @@ export default class CallMonitor extends RcModule {
     return this._selectors.calls();
   }
 
+  get allCalls() {
+    return this._selectors.allCalls();
+  }
+
   get callMatched() {
     return this._storage.getItem(this._callMatchedKey);
   }
