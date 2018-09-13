@@ -387,32 +387,30 @@ export default class ActiveCallItem extends Component {
       renderExtraButton(this.props.call) :
       undefined;
     return (
-      <div
-        onClick={onClick}
-        className={classnames(styles.callItemContainer, onClick
-        ? styles.pointer
-        : null)}
-      >
+      <div className={styles.callItemContainer}>
         <MediaObject
           containerCls={styles.wrapper}
+          bodyCls={classnames(styles.content, styles.pointer)}
+          leftCls={styles.pointer}
           mediaLeft={
-            <CallIcon
-              direction={direction}
-              ringing={ringing}
-              active
-              missed={false}
-              inboundTitle={i18n.getString('inboundCall', currentLocale)}
-              outboundTitle={i18n.getString('outboundCall', currentLocale)}
-              missedTitle={i18n.getString('missedCall', currentLocale)}
-              isOnConferenceCall={isOnConferenceCall}
-              showAvatar={showAvatar}
-              avatarUrl={avatarUrl}
-              extraNum={extraNum}
+            <div onClick={onClick}>
+              <CallIcon
+                direction={direction}
+                ringing={ringing}
+                active
+                missed={false}
+                inboundTitle={i18n.getString('inboundCall', currentLocale)}
+                outboundTitle={i18n.getString('outboundCall', currentLocale)}
+                missedTitle={i18n.getString('missedCall', currentLocale)}
+                isOnConferenceCall={isOnConferenceCall}
+                showAvatar={showAvatar}
+                avatarUrl={avatarUrl}
+                extraNum={extraNum}
             />
+            </div>
           }
-          bodyCls={styles.content}
           mediaBody={
-            <div>
+            <div onClick={onClick} className={styles.strechVertical}>
               <ContactDisplay
                 isOnConferenceCall={isOnConferenceCall}
                 contactName={contactName}
@@ -439,7 +437,7 @@ export default class ActiveCallItem extends Component {
             </div>
         }
           mediaRight={
-            <div>
+            <div className={styles.strechVertical}>
               <WebphoneButtons
                 session={webphoneSession}
                 webphoneReject={this.webphoneToVoicemail}
