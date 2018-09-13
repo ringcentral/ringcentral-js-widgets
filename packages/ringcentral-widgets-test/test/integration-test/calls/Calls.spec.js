@@ -70,7 +70,7 @@ describe('RCI-1038#4 All Calls Page', () => {
     expect(currentCallPanel.find('div.listTitle').text()).toEqual('Current Call');
     if (panel.props().useV2) {
       const buttons = currentCallPanel.find(ActiveCallItemV2).find('.webphoneButtons > span');
-      expect(buttons.at(0).props().title).toEqual('Unhold');
+      expect(buttons.at(0).props().title).toEqual('Hold');
       expect(buttons.at(1).props().title).toEqual('Hangup');
     } else {
       const buttons = currentCallPanel.find(ActiveCallItem).find('.webphoneButtons > span');

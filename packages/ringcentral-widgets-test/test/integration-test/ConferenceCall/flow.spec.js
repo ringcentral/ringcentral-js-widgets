@@ -39,7 +39,9 @@ async function dialAnotherOutboundCall(phone, wrapper) {
   /* mock data */
   mock.numberParser();
   mock.device(deviceBody);
-  phone.webphone.sessions.forEach(x => phone.webphone.hold(x.id));
+  phone.webphone.sessions.forEach(async (session) => {
+    await phone.webphone.hold(session.id);
+  });
   /* click action */
   const domInput = wrapper.find(DialerPanel).find(RecipientsInput).find('input');
   enterToNumber(domInput, '987654321');
