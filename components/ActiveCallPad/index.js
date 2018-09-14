@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.ACTIONS_CTRL_MAP = undefined;
 
 var _extends2 = require('babel-runtime/helpers/extends');
 
@@ -112,6 +113,8 @@ var _callCtrlLayouts = require('../../enums/callCtrlLayouts');
 
 var _callCtrlLayouts2 = _interopRequireDefault(_callCtrlLayouts);
 
+var _utils = require('./utils');
+
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -122,9 +125,19 @@ var _i18n2 = _interopRequireDefault(_i18n);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import ParkIcon from '../../assets/images/Park.svg';
-var DisplayButtonNumber = 6;
 // import AddIcon from '../../assets/images/AddCall.svg';
+var DisplayButtonNumber = 6;
+// import ParkIcon from '../../assets/images/Park.svg';
+var ACTIONS_CTRL_MAP = exports.ACTIONS_CTRL_MAP = {
+  muteCtrl: 'muteCtrl',
+  keypadCtrl: 'keypadCtrl',
+  holdCtrl: 'holdCtrl',
+  mergeOrAddCtrl: 'mergeOrAddCtrl',
+  recordCtrl: 'recordCtrl',
+  transferCtrl: 'transferCtrl',
+  flipCtrl: 'flipCtrl'
+};
+
 function MoreActionItem(_ref) {
   var title = _ref.title,
       Icon = _ref.icon,
@@ -247,11 +260,13 @@ var ActiveCallPad = function (_Component) {
       /* --------------------- Mute/Unmute --------------------------- */
       buttons.push(this.props.isOnMute ? {
         icon: _Mute2.default,
+        id: ACTIONS_CTRL_MAP.muteCtrl,
         title: _i18n2.default.getString('unmute', this.props.currentLocale),
         disabled: this.props.isOnHold,
         onClick: this.props.onUnmute
       } : {
         icon: _Unmute2.default,
+        id: ACTIONS_CTRL_MAP.muteCtrl,
         title: _i18n2.default.getString('mute', this.props.currentLocale),
         disabled: this.props.isOnHold,
         onClick: this.props.onMute
@@ -260,6 +275,7 @@ var ActiveCallPad = function (_Component) {
       /* --------------------- keyPad --------------------------- */
       buttons.push({
         icon: _Dialpad2.default,
+        id: ACTIONS_CTRL_MAP.keypadCtrl,
         title: _i18n2.default.getString('keypad', this.props.currentLocale),
         onClick: this.props.onShowKeyPad,
         disabled: this.props.layout === _callCtrlLayouts2.default.conferenceCtrl
@@ -268,6 +284,7 @@ var ActiveCallPad = function (_Component) {
       /* --------------------- Hold/Unhold --------------------------- */
       buttons.push({
         icon: _Hold2.default,
+        id: ACTIONS_CTRL_MAP.holdCtrl,
         iconWidth: 120,
         iconHeight: 160,
         iconX: 190,
@@ -282,12 +299,14 @@ var ActiveCallPad = function (_Component) {
         var showMerge = this.props.layout === _callCtrlLayouts2.default.mergeCtrl || this.props.layout === _callCtrlLayouts2.default.normalCtrl && this.props.hasConferenceCall;
         buttons.push(showMerge ? {
           icon: _MergeIntoConferenceIcon2.default,
+          id: ACTIONS_CTRL_MAP.mergeOrAddCtrl,
           title: _i18n2.default.getString('mergeToConference', this.props.currentLocale),
           disabled: this.props.mergeDisabled,
           onClick: this.props.onMerge,
           showRipple: !this.props.mergeDisabled
         } : {
           icon: _Combine2.default,
+          id: ACTIONS_CTRL_MAP.mergeOrAddCtrl,
           title: _i18n2.default.getString('add', this.props.currentLocale),
           disabled: this.props.addDisabled,
           onClick: this.props.onAdd
@@ -297,6 +316,7 @@ var ActiveCallPad = function (_Component) {
       /* --------------------- Record/Stop --------------------------- */
       buttons.push({
         icon: _Record2.default,
+        id: ACTIONS_CTRL_MAP.recordCtrl,
         title: this.props.recordStatus === _recordStatus2.default.recording ? _i18n2.default.getString('stopRecord', this.props.currentLocale) : _i18n2.default.getString('record', this.props.currentLocale),
         active: this.props.recordStatus === _recordStatus2.default.recording,
         disabled: this.props.isOnHold || this.props.recordStatus === _recordStatus2.default.pending || this.props.layout === _callCtrlLayouts2.default.mergeCtrl || this.props.recordStatus === _recordStatus2.default.noAccess,
@@ -307,6 +327,7 @@ var ActiveCallPad = function (_Component) {
       var disabledTransfer = this.props.layout !== _callCtrlLayouts2.default.normalCtrl;
       buttons.push({
         icon: _Transfer2.default,
+        id: ACTIONS_CTRL_MAP.transferCtrl,
         title: _i18n2.default.getString('transfer', this.props.currentLocale),
         disabled: disabledTransfer,
         onClick: this.props.onToggleTransferPanel
@@ -316,10 +337,18 @@ var ActiveCallPad = function (_Component) {
       var disabledFlip = this.props.flipNumbers.length === 0 || this.props.isOnHold || this.props.layout !== _callCtrlLayouts2.default.normalCtrl;
       buttons.push({
         icon: _Flip2.default,
+        id: ACTIONS_CTRL_MAP.flipCtrl,
         title: _i18n2.default.getString('flip', this.props.currentLocale),
         disabled: disabledFlip,
         onClick: this.props.onShowFlipPanel
       });
+
+      // filter actions
+      var actions = this.props.actions;
+
+      if (actions.length > 0) {
+        buttons = (0, _utils.pickElements)(actions, buttons);
+      }
 
       /* --------------------- More Actions --------------------------- */
       var moreActions = null;
@@ -426,7 +455,8 @@ ActiveCallPad.propTypes = {
   mergeDisabled: _propTypes2.default.bool,
   conferenceCallEquipped: _propTypes2.default.bool,
   hasConferenceCall: _propTypes2.default.bool,
-  expandMore: _propTypes2.default.bool
+  expandMore: _propTypes2.default.bool,
+  actions: _propTypes2.default.array
 };
 
 ActiveCallPad.defaultProps = {
@@ -440,7 +470,8 @@ ActiveCallPad.defaultProps = {
   hasConferenceCall: false,
   onAdd: undefined,
   onMerge: undefined,
-  expandMore: false
+  expandMore: false,
+  actions: []
 };
 
 exports.default = ActiveCallPad;

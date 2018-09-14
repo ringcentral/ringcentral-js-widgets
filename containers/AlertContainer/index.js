@@ -96,6 +96,10 @@ var _AddCallAlert = require('../../components/AddCallAlert/');
 
 var _AddCallAlert2 = _interopRequireDefault(_AddCallAlert);
 
+var _CallControlAlert = require('../../components/CallControlAlert');
+
+var _CallControlAlert2 = _interopRequireDefault(_CallControlAlert);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function mapToProps(_, _ref) {
@@ -227,6 +231,11 @@ function getDefaultRenderer(_ref2) {
     if (_AddCallAlert2.default.handleMessage(message)) {
       return function (props) {
         return _react2.default.createElement(_AddCallAlert2.default, props);
+      };
+    }
+    if (_CallControlAlert2.default.handleMessage(message)) {
+      return function (props) {
+        return _react2.default.createElement(_CallControlAlert2.default, props);
       };
     }
 

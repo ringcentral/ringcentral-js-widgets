@@ -1,0 +1,1 @@
+{"version":3,"sources":["containers/SimpleActiveCallCtrlPage/i18n/en-US.js"],"names":["allCalls","Unknown","Multiple"],"mappings":";;;;;kBAAe;AACbA,YAAU,WADG;AAEbC,WAAS,SAFI;AAGbC,YAAU;AAHG,C","file":"en-US.js","sourcesContent":["export default {\n  allCalls: 'All calls',\n  Unknown: 'Unknown',\n  Multiple: 'Multiple',\n};\n"]}

@@ -244,7 +244,8 @@ var CallCtrlPanel = function (_Component) {
           hasConferenceCall: this.props.hasConferenceCall,
           conferenceCallParties: this.props.conferenceCallParties,
           lastCallInfo: this.props.lastCallInfo,
-          getAvatarUrl: this.props.getAvatarUrl
+          getAvatarUrl: this.props.getAvatarUrl,
+          actions: this.props.actions
         },
         this.props.children,
         this.props.showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : null,
@@ -320,7 +321,8 @@ CallCtrlPanel.propTypes = {
   gotoParticipantsCtrl: _propTypes2.default.func,
   afterHideMergeConfirm: _propTypes2.default.func,
   afterConfirmMerge: _propTypes2.default.func,
-  afterOnMerge: _propTypes2.default.func
+  afterOnMerge: _propTypes2.default.func,
+  actions: _propTypes2.default.array
 };
 
 CallCtrlPanel.defaultProps = {
@@ -369,7 +371,8 @@ CallCtrlPanel.defaultProps = {
   },
   afterOnMerge: function afterOnMerge() {
     return null;
-  }
+  },
+  actions: []
 };
 
 exports.default = CallCtrlPanel;
