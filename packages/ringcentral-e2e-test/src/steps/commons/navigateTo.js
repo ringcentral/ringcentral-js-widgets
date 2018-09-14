@@ -1,7 +1,13 @@
 /* global $ */
 export default class NavigateTo {
-  static async go({ driver: { app } }, router) {
-    console.log(router, app);
+  static async go({ driver: { app }, options: { isVirtual } }) {
+    // TODO
+    await $(app).waitFor(300);
+    if (isVirtual) {
+      app.props().phone.routerInteraction.push('/');
+    } else {
+      await $(app).execute('phone.routerInteraction.push(\'/\')');
+    }
   }
 
   static get steps() {

@@ -49,9 +49,7 @@ class Query extends BaseQuery {
     await this._node.waitForFunction(...args);
   }
 
-  async screenshot({
-    path
-  } = {}) {
+  async screenshot({ path } = {}) {
     await this._node.screenshot({
       path
     });
@@ -59,14 +57,6 @@ class Query extends BaseQuery {
 
   async goto(url) {
     await this._node.goto(url);
-  }
-
-  async getFrame(frameIds) {
-    let frame;
-    for (const frameId of frameIds) {
-      frame = await this._node.switchTo().frames(frameId);
-    }
-    return frame;
   }
 
   async execute(...args) {
@@ -78,8 +68,15 @@ class Query extends BaseQuery {
     const _selector = this.getSelector(selector, options);
     await this._node.focus(_selector);
     await this._node.$eval(_selector, input => input.select(), _selector);
-    await this._node.keyboard.down('Delete');
-    await this._node.keyboard.up('Delete');
+    if (this._node.keyboard) {
+      await this._node.keyboard.down('Delete');
+      await this._node.keyboard.up('Delete');
+    } else {
+      this._node.evaluate(() => {
+        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Delete' }));
+        document.dispatchEvent(new KeyboardEvent('keyup', { key: 'Delete' }));
+      });
+    }
   }
 
 
