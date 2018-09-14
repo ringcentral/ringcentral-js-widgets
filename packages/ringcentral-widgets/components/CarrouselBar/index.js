@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 import styles from './styles.scss';
 
 const DEFAULT_SCROLL_INTERVAL = 5000;
@@ -9,7 +8,7 @@ export default class CarrouselBar extends Component {
     super(props);
     this.state = {
       currentIndex: 0,
-      toggleAnimation: this.props.toggleAnimation
+      showAnimation: this.props.showAnimation
     };
   }
   componentDidMount() {
@@ -17,7 +16,7 @@ export default class CarrouselBar extends Component {
       this.setState(prevState => ({
         currentIndex: prevState.currentIndex >= this.validChildren.length - 1 ?
           0 : prevState.currentIndex + 1,
-        toggleAnimation: 'actionOn'
+        showAnimation: true
       }));
     }, this.props.scrollInterval);
   }
@@ -40,8 +39,8 @@ export default class CarrouselBar extends Component {
       return this.props.children;
     }
     return (
-      <div className={classnames(styles.root, styles[this.state.toggleAnimation])}>
-        <div className={styles.move}>
+      <div className={styles.root}>
+        <div className={this.state.showAnimation ? styles.move : null}>
           {this.validChildren[this.state.currentIndex]}
         </div>
       </div>
@@ -52,10 +51,10 @@ export default class CarrouselBar extends Component {
 CarrouselBar.propTypes = {
   children: PropTypes.node,
   scrollInterval: PropTypes.number,
-  toggleAnimation: PropTypes.string,
+  showAnimation: PropTypes.bool,
 };
 CarrouselBar.defaultProps = {
   children: undefined,
   scrollInterval: DEFAULT_SCROLL_INTERVAL,
-  toggleAnimation: 'actionOff'
+  showAnimation: false
 };
