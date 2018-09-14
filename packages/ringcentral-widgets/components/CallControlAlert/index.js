@@ -20,15 +20,13 @@ CallControlAlert.handleMessage = ({ message }) => {
     unHoldConflictError,
     muteConflictError,
     unMuteConflictError,
-    hangUpError,
-    transferError
+    generalError,
   } = callControlError;
   return (
     message === holdConflictError ||
     message === unHoldConflictError ||
     message === muteConflictError ||
     message === unMuteConflictError ||
-    message === hangUpError ||
-    message === transferError
+    message === generalError
   );
 };
