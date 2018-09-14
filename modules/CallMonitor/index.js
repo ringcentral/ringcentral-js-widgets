@@ -574,6 +574,13 @@ var CallMonitor = (_dec = (0, _di.Module)({
       });
     }
   }, {
+    key: 'allCallsClickRejectTrack',
+    value: function allCallsClickRejectTrack() {
+      this.store.dispatch({
+        type: this.actionTypes.allCallsClickRejectTrack
+      });
+    }
+  }, {
     key: 'callControlClickAddTrack',
     value: function callControlClickAddTrack() {
       this.store.dispatch({
