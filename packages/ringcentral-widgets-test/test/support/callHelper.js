@@ -38,9 +38,9 @@ export async function getInboundCall(phone, options = defaultInboundOption) {
 
 export async function makeCall(phone, options = defaultOutboundOption) {
   mock.device(deviceBody);
-  phone.webphone.sessions.forEach(async (session) => {
+  for (const session of phone.webphone.sessions) {
     await phone.webphone.hold(session.id);
-  });
+  }
   const session = await phone.webphone.makeCall(options);
   session.__rc_callId = `call-${session.id}`;
   return session;
