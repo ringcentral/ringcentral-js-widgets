@@ -57,7 +57,7 @@ export function mapToProps(_, {
     disableLinks,
     autoLog: !!(conversationLogger && conversationLogger.autoLog),
     perPage,
-    loadingNextPage: conversations.loadingOldMessages
+    loadingNextPage: conversations.loadingOldMessages,
   });
 }
 
