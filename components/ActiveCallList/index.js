@@ -70,7 +70,12 @@ function ActiveCallList(_ref) {
       showCallDetail = _ref.showCallDetail,
       updateSessionMatchedContact = _ref.updateSessionMatchedContact,
       renderExtraButton = _ref.renderExtraButton,
-      renderContactName = _ref.renderContactName;
+      renderContactName = _ref.renderContactName,
+      ringoutHangup = _ref.ringoutHangup,
+      ringoutTransfer = _ref.ringoutTransfer,
+      ringoutReject = _ref.ringoutReject,
+      disableLinks = _ref.disableLinks,
+      showRingoutCallControl = _ref.showRingoutCallControl;
 
   if (!calls.length) {
     return null;
@@ -130,7 +135,12 @@ function ActiveCallList(_ref) {
         showCallDetail: showCallDetail,
         updateSessionMatchedContact: updateSessionMatchedContact,
         renderExtraButton: renderExtraButton,
-        renderContactName: renderContactName
+        renderContactName: renderContactName,
+        ringoutHangup: ringoutHangup,
+        ringoutTransfer: ringoutTransfer,
+        ringoutReject: ringoutReject,
+        disableLinks: disableLinks,
+        showRingoutCallControl: showRingoutCallControl
       });
     })
   );
@@ -172,7 +182,12 @@ ActiveCallList.propTypes = {
   showCallDetail: _propTypes2.default.bool,
   updateSessionMatchedContact: _propTypes2.default.func,
   renderExtraButton: _propTypes2.default.func,
-  renderContactName: _propTypes2.default.func
+  renderContactName: _propTypes2.default.func,
+  ringoutHangup: _propTypes2.default.func,
+  ringoutTransfer: _propTypes2.default.func,
+  ringoutReject: _propTypes2.default.func,
+  disableLinks: _propTypes2.default.bool,
+  showRingoutCallControl: _propTypes2.default.bool
 };
 
 ActiveCallList.defaultProps = {
@@ -215,7 +230,12 @@ ActiveCallList.defaultProps = {
     return i;
   },
   renderExtraButton: undefined,
-  renderContactName: undefined
+  renderContactName: undefined,
+  ringoutHangup: undefined,
+  ringoutTransfer: undefined,
+  ringoutReject: undefined,
+  disableLinks: false,
+  showRingoutCallControl: false
 };
 
 exports.default = ActiveCallList;

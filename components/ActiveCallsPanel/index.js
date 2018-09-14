@@ -169,7 +169,12 @@ var ActiveCallsPanel = function (_Component) {
           useV2 = _props2.useV2,
           updateSessionMatchedContact = _props2.updateSessionMatchedContact,
           renderExtraButton = _props2.renderExtraButton,
-          renderContactName = _props2.renderContactName;
+          renderContactName = _props2.renderContactName,
+          ringoutHangup = _props2.ringoutHangup,
+          ringoutTransfer = _props2.ringoutTransfer,
+          ringoutReject = _props2.ringoutReject,
+          disableLinks = _props2.disableLinks,
+          showRingoutCallControl = _props2.showRingoutCallControl;
 
 
       return _react2.default.createElement(_ActiveCallList2.default, {
@@ -209,7 +214,12 @@ var ActiveCallsPanel = function (_Component) {
         conferenceCallParties: conferenceCallParties,
         webphoneHold: webphoneHold,
         showCallDetail: showCallDetail,
-        updateSessionMatchedContact: updateSessionMatchedContact
+        updateSessionMatchedContact: updateSessionMatchedContact,
+        ringoutHangup: ringoutHangup,
+        ringoutTransfer: ringoutTransfer,
+        ringoutReject: ringoutReject,
+        disableLinks: disableLinks,
+        showRingoutCallControl: showRingoutCallControl
       });
     }
   }, {
@@ -319,7 +329,12 @@ ActiveCallsPanel.propTypes = {
   // Contact
   showAvatar: _propTypes2.default.bool,
   renderContactName: _propTypes2.default.func,
-  showOtherDevice: _propTypes2.default.bool
+  showOtherDevice: _propTypes2.default.bool,
+  ringoutHangup: _propTypes2.default.func,
+  ringoutTransfer: _propTypes2.default.func,
+  ringoutReject: _propTypes2.default.func,
+  disableLinks: _propTypes2.default.bool,
+  showRingoutCallControl: _propTypes2.default.bool
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -370,6 +385,11 @@ ActiveCallsPanel.defaultProps = {
   // Contact
   showAvatar: true,
   renderContactName: undefined,
-  showOtherDevice: true
+  showOtherDevice: true,
+  ringoutHangup: undefined,
+  ringoutTransfer: undefined,
+  ringoutReject: undefined,
+  disableLinks: false,
+  showRingoutCallControl: false
 };
 //# sourceMappingURL=index.js.map

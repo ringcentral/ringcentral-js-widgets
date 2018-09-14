@@ -37,9 +37,9 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _classnames2 = require('classnames');
+var _classnames7 = require('classnames');
 
-var _classnames3 = _interopRequireDefault(_classnames2);
+var _classnames8 = _interopRequireDefault(_classnames7);
 
 var _sessionStatus = require('ringcentral-integration/modules/Webphone/sessionStatus');
 
@@ -80,6 +80,10 @@ var _Answer2 = _interopRequireDefault(_Answer);
 var _MergeIntoConferenceIcon = require('../../assets/images/MergeIntoConferenceIcon.svg');
 
 var _MergeIntoConferenceIcon2 = _interopRequireDefault(_MergeIntoConferenceIcon);
+
+var _Transfer = require('../../assets/images/Transfer.svg');
+
+var _Transfer2 = _interopRequireDefault(_Transfer);
 
 var _MediaObject = require('../MediaObject');
 
@@ -154,7 +158,7 @@ function WebphoneButtons(_ref) {
         'span',
         { title: unholdTitle, className: _styles2.default.webphoneButton },
         _react2.default.createElement(_CircleButton2.default, {
-          className: (0, _classnames3.default)(_styles2.default.holdButton, _styles2.default.active),
+          className: (0, _classnames8.default)(_styles2.default.holdButton, _styles2.default.active),
           onClick: function onClick(e) {
             e.stopPropagation();
             webphoneResume(session.id);
@@ -193,7 +197,7 @@ function WebphoneButtons(_ref) {
       'span',
       { title: mergeTitle, className: _styles2.default.webphoneButton },
       _react2.default.createElement(_CircleButton2.default, {
-        className: (0, _classnames3.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, _styles2.default.mergeButton, true), (0, _defineProperty3.default)(_classnames, _styles2.default.disabled, disableMerge), _classnames)),
+        className: (0, _classnames8.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, _styles2.default.mergeButton, true), (0, _defineProperty3.default)(_classnames, _styles2.default.disabled, disableMerge), _classnames)),
         onClick: function onClick(e) {
           e.stopPropagation();
           onMergeCall(session.id);
@@ -260,6 +264,107 @@ WebphoneButtons.defaultProps = {
   webphoneAnswer: function webphoneAnswer(i) {
     return i;
   }
+};
+
+function RingoutButtons(_ref2) {
+  var showRingoutCallControl = _ref2.showRingoutCallControl,
+      currentLocale = _ref2.currentLocale,
+      disableLinks = _ref2.disableLinks,
+      sessionId = _ref2.sessionId,
+      ringoutHangup = _ref2.ringoutHangup,
+      ringoutReject = _ref2.ringoutReject,
+      ringoutTransfer = _ref2.ringoutTransfer,
+      ringing = _ref2.ringing,
+      inbound = _ref2.inbound;
+
+  if (!showRingoutCallControl) return null;
+
+  var endButton = void 0;
+  var inComingCall = inbound && ringing;
+  if (inComingCall) {
+    var _classnames2;
+
+    var rejectTitle = _i18n2.default.getString('reject', currentLocale);
+    endButton = _react2.default.createElement(
+      'span',
+      { title: rejectTitle, className: _styles2.default.ringoutButton },
+      _react2.default.createElement(_CircleButton2.default, {
+        disabled: disableLinks,
+        className: (0, _classnames8.default)((_classnames2 = {}, (0, _defineProperty3.default)(_classnames2, _styles2.default.endButton, true), (0, _defineProperty3.default)(_classnames2, _styles2.default.disabled, disableLinks), _classnames2)),
+        onClick: function onClick(e) {
+          e.stopPropagation();
+          ringoutReject(sessionId);
+        },
+        icon: _End2.default,
+        showBorder: false
+      })
+    );
+  } else {
+    var _classnames3;
+
+    var hangupTitle = _i18n2.default.getString('hangup', currentLocale);
+    endButton = _react2.default.createElement(
+      'span',
+      { title: hangupTitle, className: _styles2.default.ringoutButton },
+      _react2.default.createElement(_CircleButton2.default, {
+        disabled: disableLinks,
+        className: (0, _classnames8.default)((_classnames3 = {}, (0, _defineProperty3.default)(_classnames3, _styles2.default.endButton, true), (0, _defineProperty3.default)(_classnames3, _styles2.default.disabled, disableLinks), _classnames3)),
+        onClick: function onClick(e) {
+          e.stopPropagation();
+          ringoutHangup(sessionId);
+        },
+        icon: _End2.default,
+        showBorder: false
+      })
+    );
+  }
+
+  var transferBtn = void 0;
+  if (ringoutTransfer && !inComingCall) {
+    var _classnames4;
+
+    var transferTitle = _i18n2.default.getString('transfer', currentLocale);
+
+    transferBtn = _react2.default.createElement(
+      'span',
+      { title: transferTitle, className: _styles2.default.ringoutButton },
+      _react2.default.createElement(_CircleButton2.default, {
+        disabled: disableLinks,
+        className: (0, _classnames8.default)((_classnames4 = {}, (0, _defineProperty3.default)(_classnames4, _styles2.default.transferButton, true), (0, _defineProperty3.default)(_classnames4, _styles2.default.disabled, disableLinks), _classnames4)),
+        onClick: function onClick(e) {
+          e.stopPropagation();
+          ringoutTransfer(sessionId);
+        },
+        icon: _Transfer2.default
+      })
+    );
+  }
+
+  return _react2.default.createElement(
+    'div',
+    null,
+    endButton,
+    transferBtn
+  );
+}
+
+RingoutButtons.propTypes = {
+  currentLocale: _propTypes2.default.string.isRequired,
+  disableLinks: _propTypes2.default.bool,
+  ringoutHangup: _propTypes2.default.func,
+  ringoutTransfer: _propTypes2.default.func,
+  ringing: _propTypes2.default.bool.isRequired,
+  inbound: _propTypes2.default.bool.isRequired,
+  sessionId: _propTypes2.default.string.isRequired,
+  ringoutReject: _propTypes2.default.func,
+  showRingoutCallControl: _propTypes2.default.bool.isRequired
+};
+
+RingoutButtons.defaultProps = {
+  disableLinks: false,
+  ringoutHangup: undefined,
+  ringoutTransfer: undefined,
+  ringoutReject: undefined
 };
 
 /**
@@ -443,10 +548,13 @@ var ActiveCallItem = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _classnames5, _classnames6;
+
       var _props2 = this.props,
           _props2$call = _props2.call,
           direction = _props2$call.direction,
           webphoneSession = _props2$call.webphoneSession,
+          sessionId = _props2$call.sessionId,
           disableLinks = _props2.disableLinks,
           currentLocale = _props2.currentLocale,
           areaCode = _props2.areaCode,
@@ -463,14 +571,18 @@ var ActiveCallItem = function (_Component) {
           contactDisplayStyle = _props2.contactDisplayStyle,
           isOnConferenceCall = _props2.isOnConferenceCall,
           webphoneHold = _props2.webphoneHold,
-          onClick = _props2.onClick,
+          _onClick = _props2.onClick,
           showMergeCall = _props2.showMergeCall,
           showHold = _props2.showHold,
           showAvatar = _props2.showAvatar,
           disableMerge = _props2.disableMerge,
           onMergeCall = _props2.onMergeCall,
           showCallDetail = _props2.showCallDetail,
-          webphoneAnswer = _props2.webphoneAnswer;
+          webphoneAnswer = _props2.webphoneAnswer,
+          ringoutHangup = _props2.ringoutHangup,
+          ringoutTransfer = _props2.ringoutTransfer,
+          ringoutReject = _props2.ringoutReject,
+          showRingoutCallControl = _props2.showRingoutCallControl;
       var _state = this.state,
           avatarUrl = _state.avatarUrl,
           extraNum = _state.extraNum;
@@ -479,37 +591,49 @@ var ActiveCallItem = function (_Component) {
       var contactMatches = this.getContactMatches();
       var fallbackContactName = this.getFallbackContactName();
       var ringing = (0, _callLogHelpers.isRinging)(this.props.call);
+      var inbound = (0, _callLogHelpers.isInbound)(this.props.call);
       var contactName = typeof renderContactName === 'function' ? renderContactName(this.props.call) : undefined;
-      var extraButton = typeof renderExtraButton === 'function' ? renderExtraButton(this.props.call) : undefined;
+      var extraButton = typeof renderExtraButton === 'function' ? _react2.default.createElement(
+        'div',
+        { className: _styles2.default.extraButton },
+        renderExtraButton(this.props.call)
+      ) : undefined;
+      var hasCallControl = !!(webphoneSession || showRingoutCallControl);
       return _react2.default.createElement(
         'div',
-        {
-          onClick: onClick,
-          className: (0, _classnames3.default)(_styles2.default.callItemContainer, onClick ? _styles2.default.pointer : null)
-        },
+        { className: _styles2.default.callItemContainer },
         _react2.default.createElement(_MediaObject2.default, {
           containerCls: _styles2.default.wrapper,
-          mediaLeft: _react2.default.createElement(_CallIcon2.default, {
-            direction: direction,
-            ringing: ringing,
-            active: true,
-            missed: false,
-            inboundTitle: _i18n2.default.getString('inboundCall', currentLocale),
-            outboundTitle: _i18n2.default.getString('outboundCall', currentLocale),
-            missedTitle: _i18n2.default.getString('missedCall', currentLocale),
-            isOnConferenceCall: isOnConferenceCall,
-            showAvatar: showAvatar,
-            avatarUrl: avatarUrl,
-            extraNum: extraNum
-          }),
-          bodyCls: _styles2.default.content,
+          bodyCls: (0, _classnames8.default)((_classnames5 = {}, (0, _defineProperty3.default)(_classnames5, _styles2.default.content, true), (0, _defineProperty3.default)(_classnames5, _styles2.default.pointer, hasCallControl), (0, _defineProperty3.default)(_classnames5, _styles2.default.disabled, hasCallControl && disableLinks), _classnames5)),
+          leftCls: (0, _classnames8.default)((_classnames6 = {}, (0, _defineProperty3.default)(_classnames6, _styles2.default.pointer, hasCallControl), (0, _defineProperty3.default)(_classnames6, _styles2.default.disabled, hasCallControl && disableLinks), _classnames6)),
+          mediaLeft: _react2.default.createElement(
+            'div',
+            { onClick: function onClick() {
+                return hasCallControl && _onClick();
+              } },
+            _react2.default.createElement(_CallIcon2.default, {
+              direction: direction,
+              ringing: ringing,
+              active: true,
+              missed: false,
+              inboundTitle: _i18n2.default.getString('inboundCall', currentLocale),
+              outboundTitle: _i18n2.default.getString('outboundCall', currentLocale),
+              missedTitle: _i18n2.default.getString('missedCall', currentLocale),
+              isOnConferenceCall: isOnConferenceCall,
+              showAvatar: showAvatar,
+              avatarUrl: avatarUrl,
+              extraNum: extraNum
+            })
+          ),
           mediaBody: _react2.default.createElement(
             'div',
-            null,
+            { onClick: function onClick() {
+                return hasCallControl && _onClick();
+              }, className: _styles2.default.strechVertical },
             _react2.default.createElement(_ContactDisplay2.default, {
               isOnConferenceCall: isOnConferenceCall,
               contactName: contactName,
-              className: (0, _classnames3.default)(_styles2.default.contactDisplay, contactDisplayStyle),
+              className: (0, _classnames8.default)(_styles2.default.contactDisplay, contactDisplayStyle),
               contactMatches: contactMatches,
               selected: this.state.selected,
               onSelectContact: this.onSelectContact,
@@ -532,8 +656,8 @@ var ActiveCallItem = function (_Component) {
           ),
           mediaRight: _react2.default.createElement(
             'div',
-            null,
-            _react2.default.createElement(WebphoneButtons, {
+            { className: _styles2.default.actionIconsBox },
+            webphoneSession ? _react2.default.createElement(WebphoneButtons, {
               session: webphoneSession,
               webphoneReject: this.webphoneToVoicemail,
               webphoneHangup: webphoneHangup,
@@ -545,6 +669,16 @@ var ActiveCallItem = function (_Component) {
               disableMerge: disableMerge,
               onMergeCall: onMergeCall,
               webphoneAnswer: webphoneAnswer
+            }) : _react2.default.createElement(RingoutButtons, {
+              showRingoutCallControl: showRingoutCallControl,
+              sessionId: sessionId,
+              disableLinks: disableLinks,
+              currentLocale: currentLocale,
+              ringing: ringing,
+              inbound: inbound,
+              ringoutReject: ringoutReject,
+              ringoutHangup: ringoutHangup,
+              ringoutTransfer: ringoutTransfer
             }),
             extraButton
           )
@@ -576,7 +710,8 @@ ActiveCallItem.propTypes = {
       extensionNumber: _propTypes2.default.string,
       name: _propTypes2.default.string
     }),
-    webphoneSession: _propTypes2.default.object
+    webphoneSession: _propTypes2.default.object,
+    sessionId: _propTypes2.default.string
   }).isRequired,
   areaCode: _propTypes2.default.string.isRequired,
   countryCode: _propTypes2.default.string.isRequired,
@@ -605,7 +740,11 @@ ActiveCallItem.propTypes = {
   onMergeCall: _propTypes2.default.func,
   showCallDetail: _propTypes2.default.bool,
   updateSessionMatchedContact: _propTypes2.default.func,
-  webphoneAnswer: _propTypes2.default.func
+  webphoneAnswer: _propTypes2.default.func,
+  ringoutHangup: _propTypes2.default.func,
+  ringoutTransfer: _propTypes2.default.func,
+  showRingoutCallControl: _propTypes2.default.bool,
+  ringoutReject: _propTypes2.default.func
 };
 
 ActiveCallItem.defaultProps = {
@@ -639,6 +778,10 @@ ActiveCallItem.defaultProps = {
   },
   webphoneAnswer: function webphoneAnswer(i) {
     return i;
-  }
+  },
+  ringoutHangup: undefined,
+  ringoutTransfer: undefined,
+  ringoutReject: undefined,
+  showRingoutCallControl: false
 };
 //# sourceMappingURL=index.js.map

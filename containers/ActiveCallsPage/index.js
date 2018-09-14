@@ -43,6 +43,8 @@ function mapToProps(_, _ref) {
       rolesAndPermissions = _ref$phone.rolesAndPermissions,
       conferenceCall = _ref$phone.conferenceCall,
       callingSettings = _ref$phone.callingSettings,
+      connectivityMonitor = _ref$phone.connectivityMonitor,
+      rateLimiter = _ref$phone.rateLimiter,
       _ref$showContactDispl = _ref.showContactDisplayPlaceholder,
       showContactDisplayPlaceholder = _ref$showContactDispl === undefined ? false : _ref$showContactDispl,
       useV2 = _ref.useV2;
@@ -65,7 +67,8 @@ function mapToProps(_, _ref) {
     autoLog: !!(callLogger && callLogger.autoLog),
     isWebRTC: isWebRTC,
     conferenceCallParties: conferenceCall ? conferenceCall.partyProfiles : null,
-    useV2: useV2
+    useV2: useV2,
+    disableLinks: !connectivityMonitor.connectivity || rateLimiter.throttling
   };
 }
 
@@ -83,6 +86,7 @@ function mapToFunctions(_, _ref2) {
       callingSettings = _ref2$phone.callingSettings,
       conferenceCall = _ref2$phone.conferenceCall,
       callMonitor = _ref2$phone.callMonitor,
+      activeCallControl = _ref2$phone.activeCallControl,
       _ref2$composeTextRout = _ref2.composeTextRoute,
       composeTextRoute = _ref2$composeTextRout === undefined ? '/composeText' : _ref2$composeTextRout,
       _ref2$callCtrlRoute = _ref2.callCtrlRoute,
@@ -261,20 +265,91 @@ function mapToFunctions(_, _ref2) {
 
       return webphoneHold;
     }(),
+    ringoutHangup: function () {
+      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
+        var _args7 = arguments;
+        return _regenerator2.default.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                // user action track
+                callMonitor.allCallsClickHangupTrack();
+                return _context7.abrupt('return', activeCallControl && activeCallControl.hangUp.apply(activeCallControl, _args7));
 
-    onViewContact: showViewContact ? onViewContact || function (_ref9) {
-      var contact = _ref9.contact;
+              case 2:
+              case 'end':
+                return _context7.stop();
+            }
+          }
+        }, _callee7, this);
+      }));
+
+      function ringoutHangup() {
+        return _ref9.apply(this, arguments);
+      }
+
+      return ringoutHangup;
+    }(),
+    ringoutTransfer: function () {
+      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(sessionId) {
+        return _regenerator2.default.wrap(function _callee8$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                routerInteraction.push('/transfer/' + sessionId);
+
+              case 1:
+              case 'end':
+                return _context8.stop();
+            }
+          }
+        }, _callee8, this);
+      }));
+
+      function ringoutTransfer(_x) {
+        return _ref10.apply(this, arguments);
+      }
+
+      return ringoutTransfer;
+    }(),
+    ringoutReject: function () {
+      var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(sessionId) {
+        return _regenerator2.default.wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                // user action track
+                callMonitor.allCallsClickRejectTrack();
+                return _context9.abrupt('return', activeCallControl && activeCallControl.reject(sessionId));
+
+              case 2:
+              case 'end':
+                return _context9.stop();
+            }
+          }
+        }, _callee9, this);
+      }));
+
+      function ringoutReject(_x2) {
+        return _ref11.apply(this, arguments);
+      }
+
+      return ringoutReject;
+    }(),
+
+    onViewContact: showViewContact ? onViewContact || function (_ref12) {
+      var contact = _ref12.contact;
       var id = contact.id,
           type = contact.type;
 
       routerInteraction.push('/contacts/' + type + '/' + id + '?direct=true');
     } : null,
     onClickToSms: composeText ? function () {
-      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(contact) {
+      var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(contact) {
         var isDummyContact = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-        return _regenerator2.default.wrap(function _callee7$(_context7) {
+        return _regenerator2.default.wrap(function _callee10$(_context10) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
                 if (routerInteraction) {
                   routerInteraction.push(composeTextRoute);
@@ -289,71 +364,71 @@ function mapToFunctions(_, _ref2) {
 
               case 3:
               case 'end':
-                return _context7.stop();
+                return _context10.stop();
             }
           }
-        }, _callee7, _this);
+        }, _callee10, _this);
       }));
 
-      return function (_x2) {
-        return _ref10.apply(this, arguments);
+      return function (_x4) {
+        return _ref13.apply(this, arguments);
       };
     }() : undefined,
     onCreateContact: onCreateContact ? function () {
-      var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(_ref11) {
-        var phoneNumber = _ref11.phoneNumber,
-            name = _ref11.name,
-            entityType = _ref11.entityType;
+      var _ref15 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(_ref14) {
+        var phoneNumber = _ref14.phoneNumber,
+            name = _ref14.name,
+            entityType = _ref14.entityType;
         var hasMatchNumber;
-        return _regenerator2.default.wrap(function _callee8$(_context8) {
+        return _regenerator2.default.wrap(function _callee11$(_context11) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context11.prev = _context11.next) {
               case 0:
-                _context8.next = 2;
+                _context11.next = 2;
                 return contactMatcher.hasMatchNumber({
                   phoneNumber: phoneNumber,
                   ignoreCache: true
                 });
 
               case 2:
-                hasMatchNumber = _context8.sent;
+                hasMatchNumber = _context11.sent;
 
                 if (hasMatchNumber) {
-                  _context8.next = 8;
+                  _context11.next = 8;
                   break;
                 }
 
-                _context8.next = 6;
+                _context11.next = 6;
                 return onCreateContact({ phoneNumber: phoneNumber, name: name, entityType: entityType });
 
               case 6:
-                _context8.next = 8;
+                _context11.next = 8;
                 return contactMatcher.forceMatchNumber({ phoneNumber: phoneNumber });
 
               case 8:
               case 'end':
-                return _context8.stop();
+                return _context11.stop();
             }
           }
-        }, _callee8, _this);
+        }, _callee11, _this);
       }));
 
-      return function (_x3) {
-        return _ref12.apply(this, arguments);
+      return function (_x5) {
+        return _ref15.apply(this, arguments);
       };
     }() : undefined,
     isLoggedContact: isLoggedContact,
     onLogCall: onLogCall || callLogger && function () {
-      var _ref14 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(_ref13) {
-        var call = _ref13.call,
-            contact = _ref13.contact,
-            _ref13$redirect = _ref13.redirect,
-            redirect = _ref13$redirect === undefined ? true : _ref13$redirect;
-        return _regenerator2.default.wrap(function _callee9$(_context9) {
+      var _ref17 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee12(_ref16) {
+        var call = _ref16.call,
+            contact = _ref16.contact,
+            _ref16$redirect = _ref16.redirect,
+            redirect = _ref16$redirect === undefined ? true : _ref16$redirect;
+        return _regenerator2.default.wrap(function _callee12$(_context12) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context12.prev = _context12.next) {
               case 0:
-                _context9.next = 2;
+                _context12.next = 2;
                 return callLogger.logCall({
                   call: call,
                   contact: contact,
@@ -362,14 +437,14 @@ function mapToFunctions(_, _ref2) {
 
               case 2:
               case 'end':
-                return _context9.stop();
+                return _context12.stop();
             }
           }
-        }, _callee9, _this);
+        }, _callee12, _this);
       }));
 
-      return function (_x4) {
-        return _ref14.apply(this, arguments);
+      return function (_x6) {
+        return _ref17.apply(this, arguments);
       };
     }(),
     onCallsEmpty: onCallsEmpty || function () {
@@ -383,19 +458,26 @@ function mapToFunctions(_, _ref2) {
       return !!(conferenceCall && conferenceCall.isConferenceSession(sessionId));
     },
     onCallItemClick: function onCallItemClick(call) {
-      // TODO: Display the ringout call ctrl page.
       if (!call.webphoneSession) {
-        return;
-      }
-      // show the ring call modal when click a ringing call.
-      if ((0, _callLogHelpers.isRinging)(call)) {
-        webphone.toggleMinimized(call.webphoneSession.id);
-        return;
-      }
-      if (call.webphoneSession && call.webphoneSession.id) {
+        // For ringout call
+        var sessionId = call.sessionId;
         // to track the call item be clicked.
+
         callMonitor.callItemClickTrack();
-        routerInteraction.push(callCtrlRoute + '/' + call.webphoneSession.id);
+        activeCallControl.setActiveSessionId(sessionId);
+        // TODO: Display the call control page.
+      } else {
+        // For webphone call
+        // show the ring call modal when click a ringing call.
+        if ((0, _callLogHelpers.isRinging)(call)) {
+          webphone.toggleMinimized(call.webphoneSession.id);
+          return;
+        }
+        if (call.webphoneSession && call.webphoneSession.id) {
+          // to track the call item be clicked.
+          callMonitor.callItemClickTrack();
+          routerInteraction.push(callCtrlRoute + '/' + call.webphoneSession.id);
+        }
       }
     },
 

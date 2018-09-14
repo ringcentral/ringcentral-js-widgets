@@ -31,6 +31,8 @@ exports.default = {
   anonymous: 'Anonymous',
   mergeToConference: 'Merge',
   hold: 'Hold',
-  unhold: 'Unhold'
+  unhold: 'Unhold',
+  transfer: 'Transfer',
+  reject: 'Reject'
 };
 //# sourceMappingURL=en-US.js.map
