@@ -54,6 +54,7 @@ function getActiveSessionIdReducer(types) {
           return sessionId;
         }
       case types.resetSuccess:
+      case types.removeActiveSession:
         {
           return null;
         }
@@ -78,6 +79,7 @@ function getRecordingIdsStatusReducer(types) {
           return newState;
         }
       case types.recordFail:
+      case types.removeActiveSession:
       case types.resetSuccess:
         return {};
       default:
@@ -126,13 +128,31 @@ function getActiveSessionsStatusReducer(types) {
           });
           return _newState;
         }
-      case types.removeActiveSession:
+      case types.mute:
+      case types.unmute:
         {
           var _newState2 = (0, _extends3.default)({}, state);
-          if (_newState2[sessionId]) {
-            delete _newState2[sessionId];
-          }
+          _newState2[sessionId] = (0, _extends3.default)({}, _newState2[sessionId], {
+            isOnMute: type === types.mute
+          });
           return _newState2;
+        }
+      case types.hold:
+      case types.unhold:
+        {
+          var _newState3 = (0, _extends3.default)({}, state);
+          _newState3[sessionId] = (0, _extends3.default)({}, _newState3[sessionId], {
+            isOnHold: type === types.hold
+          });
+          return _newState3;
+        }
+      case types.removeActiveSession:
+        {
+          var _newState4 = (0, _extends3.default)({}, state);
+          if (_newState4[sessionId]) {
+            delete _newState4[sessionId];
+          }
+          return _newState4;
         }
       case types.resetSuccess:
         {

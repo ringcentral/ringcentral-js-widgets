@@ -617,6 +617,10 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                       muted: true
                     }
                   });
+                  this.store.dispatch({
+                    type: this.actionTypes.mute,
+                    sessionId: sessionId
+                  });
                 } catch (error) {
                   if ((0, _helpers.confictError)(error)) {
                     this._alert.warning({
@@ -664,11 +668,15 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 });
 
               case 5:
-                _context8.next = 10;
+                this.store.dispatch({
+                  type: this.actionTypes.unmute,
+                  sessionId: sessionId
+                });
+                _context8.next = 11;
                 break;
 
-              case 7:
-                _context8.prev = 7;
+              case 8:
+                _context8.prev = 8;
                 _context8.t0 = _context8['catch'](0);
 
                 if ((0, _helpers.confictError)(_context8.t0)) {
@@ -681,12 +689,12 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                   });
                 }
 
-              case 10:
+              case 11:
               case 'end':
                 return _context8.stop();
             }
           }
-        }, _callee8, this, [[0, 7]]);
+        }, _callee8, this, [[0, 8]]);
       }));
 
       function unmute(_x4) {
@@ -810,23 +818,30 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 return this._client.service._platform.delete(url);
 
               case 5:
-                _context11.next = 10;
+                if (typeof this._onCallEndFunc === 'function') {
+                  this._onCallEndFunc();
+                }
+                this.store.dispatch({
+                  type: this.actionTypes.removeActiveSession,
+                  sessionId: sessionId
+                });
+                _context11.next = 12;
                 break;
 
-              case 7:
-                _context11.prev = 7;
+              case 9:
+                _context11.prev = 9;
                 _context11.t0 = _context11['catch'](0);
 
                 this._alert.warning({
                   message: _callControlError2.default.generalError
                 });
 
-              case 10:
+              case 12:
               case 'end':
                 return _context11.stop();
             }
           }
-        }, _callee11, this, [[0, 7]]);
+        }, _callee11, this, [[0, 9]]);
       }));
 
       function hangUp(_x7) {
@@ -851,23 +866,27 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 return this._client.service._platform.post(url);
 
               case 5:
-                _context12.next = 10;
+                this.store.dispatch({
+                  type: this.actionTypes.removeActiveSession,
+                  sessionId: sessionId
+                });
+                _context12.next = 11;
                 break;
 
-              case 7:
-                _context12.prev = 7;
+              case 8:
+                _context12.prev = 8;
                 _context12.t0 = _context12['catch'](0);
 
                 this._alert.warning({
                   message: _callControlError2.default.generalError
                 });
 
-              case 10:
+              case 11:
               case 'end':
                 return _context12.stop();
             }
           }
-        }, _callee12, this, [[0, 7]]);
+        }, _callee12, this, [[0, 8]]);
       }));
 
       function reject(_x8) {
@@ -892,11 +911,15 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 return this._client.service._platform.post(url);
 
               case 5:
-                _context13.next = 10;
+                this.store.dispatch({
+                  type: this.actionTypes.hold,
+                  sessionId: sessionId
+                });
+                _context13.next = 11;
                 break;
 
-              case 7:
-                _context13.prev = 7;
+              case 8:
+                _context13.prev = 8;
                 _context13.t0 = _context13['catch'](0);
 
                 if ((0, _helpers.confictError)(_context13.t0)) {
@@ -909,12 +932,12 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                   });
                 }
 
-              case 10:
+              case 11:
               case 'end':
                 return _context13.stop();
             }
           }
-        }, _callee13, this, [[0, 7]]);
+        }, _callee13, this, [[0, 8]]);
       }));
 
       function hold(_x9) {
@@ -939,11 +962,15 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 return this._client.service._platform.post(url);
 
               case 5:
-                _context14.next = 10;
+                this.store.dispatch({
+                  type: this.actionTypes.unhold,
+                  sessionId: sessionId
+                });
+                _context14.next = 11;
                 break;
 
-              case 7:
-                _context14.prev = 7;
+              case 8:
+                _context14.prev = 8;
                 _context14.t0 = _context14['catch'](0);
 
                 if ((0, _helpers.confictError)(_context14.t0)) {
@@ -956,12 +983,12 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                   });
                 }
 
-              case 10:
+              case 11:
               case 'end':
                 return _context14.stop();
             }
           }
-        }, _callee14, this, [[0, 7]]);
+        }, _callee14, this, [[0, 8]]);
       }));
 
       function unHold(_x10) {
