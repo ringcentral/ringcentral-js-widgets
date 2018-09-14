@@ -28,10 +28,10 @@ function TabContentPanel({
   tabContentClassName,
   tabs,
   goTo,
-  children,
+  getContent,
 }) {
   if (!applicable) {
-    return children;
+    return getContent({ applicable });
   }
 
   const formattedTabs = tabs.map(tab => ({
@@ -63,7 +63,7 @@ function TabContentPanel({
         [styles.content]: true,
         [tabContentClassName]: !!tabContentClassName,
       })}>
-        {children}
+        {getContent({ applicable })}
       </div>
     </div>
   );
@@ -77,13 +77,12 @@ TabContentPanel.propTypes = {
     isActive: PropTypes.func.isRequired,
   })).isRequired,
   goTo: PropTypes.func.isRequired,
-  children: PropTypes.node,
+  getContent: PropTypes.func.isRequired,
   navClassName: PropTypes.string,
   tabContentClassName: PropTypes.string,
 };
 
 TabContentPanel.defaultProps = {
-  children: null,
   navClassName: null,
   tabContentClassName: null,
 };

@@ -10,7 +10,6 @@ function mapToProps(_, {
   phone: {
     call,
     dialerUI,
-    callMonitor,
     callingSettings,
     contactSearch,
     connectivityMonitor,
@@ -18,21 +17,14 @@ function mapToProps(_, {
     rateLimiter,
     webphone,
     audioSettings,
-    conferenceCall,
   },
   dialButtonMuted = false,
+  withinTab = false,
 }) {
   const isWebphoneMode = (callingSettings.callingMode === callingModes.webphone);
   const waitingWebphoneConnected = (isWebphoneMode && webphone && webphone.connecting);
   const webphoneDisconnected = (isWebphoneMode && webphone && !webphone.connected);
   const audioNotEnabled = isWebphoneMode && audioSettings && !audioSettings.userMedia;
-  const conferenceCallEquipped = !!conferenceCall;
-  const withTab = !!(
-    conferenceCallEquipped
-    && isWebphoneMode
-    && callMonitor.calls.length
-    && webphone.sessions.length
-  );
 
   return {
     currentLocale: locale.currentLocale,
@@ -61,7 +53,7 @@ function mapToProps(_, {
     dialButtonVolume: audioSettings ? audioSettings.dialButtonVolume : 1,
     // If audioSettings is used, then use values from audioSettings module
     dialButtonMuted: audioSettings ? audioSettings.dialButtonMuted : dialButtonMuted,
-    callBtnClassName: withTab ? null : styles.callBtn,
+    callBtnClassName: withinTab ? null : styles.callBtn,
   };
 }
 function mapToFunctions(_, {
