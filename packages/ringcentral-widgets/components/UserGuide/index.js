@@ -176,7 +176,7 @@ export default class UserGuide extends React.Component {
   render() {
     if (!this.state.entered) return null;
     if (this.props.showSpinner) {
-      return <SpinnerOverlay />;
+      return <div className={styles.root}><SpinnerOverlay /></div>
     }
     const view = this.getCarouselView();
     return (
