@@ -624,7 +624,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                     });
                   } else {
                     this._alert.warning({
-                      message: _callControlError2.default.muteError
+                      message: _callControlError2.default.generalError
                     });
                   }
                 }
@@ -677,7 +677,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                   });
                 } else {
                   this._alert.warning({
-                    message: _callControlError2.default.unMuteError
+                    message: _callControlError2.default.generalError
                   });
                 }
 
@@ -818,7 +818,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 _context11.t0 = _context11['catch'](0);
 
                 this._alert.warning({
-                  message: _callControlError2.default.hangUpError
+                  message: _callControlError2.default.generalError
                 });
 
               case 10:
@@ -859,7 +859,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 _context12.t0 = _context12['catch'](0);
 
                 this._alert.warning({
-                  message: _callControlError2.default.rejectError
+                  message: _callControlError2.default.generalError
                 });
 
               case 10:
@@ -905,7 +905,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                   });
                 } else {
                   this._alert.warning({
-                    message: _callControlError2.default.holdError
+                    message: _callControlError2.default.generalError
                   });
                 }
 
@@ -952,7 +952,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                   });
                 } else {
                   this._alert.warning({
-                    message: _callControlError2.default.unHoldError
+                    message: _callControlError2.default.generalError
                   });
                 }
 
@@ -999,7 +999,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 _context15.t0 = _context15['catch'](0);
 
                 this._alert.warning({
-                  message: _callControlError2.default.transferError
+                  message: _callControlError2.default.generalError
                 });
 
               case 11:

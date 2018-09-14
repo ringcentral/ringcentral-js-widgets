@@ -10,5 +10,5 @@ var _Enum2 = _interopRequireDefault(_Enum);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new _Enum2.default(['holdError', 'unHoldError', 'holdConflictError', 'unHoldConflictError', 'muteError', 'unMuteError', 'muteConflictError', 'unMuteConflictError', 'hangUpError', 'rejectError', 'transferError'], 'callControl');
+exports.default = new _Enum2.default(['holdConflictError', 'unHoldConflictError', 'muteConflictError', 'unMuteConflictError', 'generalError'], 'callControl');
 //# sourceMappingURL=callControlError.js.map
