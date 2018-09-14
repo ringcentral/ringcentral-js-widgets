@@ -301,7 +301,7 @@ export default class ActiveCallControl extends Pollable {
         });
       } else {
         this._alert.warning({
-          message: callControlError.muteError
+          message: callControlError.generalError
         });
       }
     }
@@ -323,7 +323,7 @@ export default class ActiveCallControl extends Pollable {
         });
       } else {
         this._alert.warning({
-          message: callControlError.unMuteError
+          message: callControlError.generalError
         });
       }
     }
@@ -373,7 +373,7 @@ export default class ActiveCallControl extends Pollable {
       await this._client.service._platform.delete(url);
     } catch (error) {
       this._alert.warning({
-        message: callControlError.hangUpError
+        message: callControlError.generalError
       });
     }
   }
@@ -384,7 +384,7 @@ export default class ActiveCallControl extends Pollable {
       await this._client.service._platform.post(url);
     } catch (error) {
       this._alert.warning({
-        message: callControlError.rejectError
+        message: callControlError.generalError
       });
     }
   }
@@ -400,7 +400,7 @@ export default class ActiveCallControl extends Pollable {
         });
       } else {
         this._alert.warning({
-          message: callControlError.holdError
+          message: callControlError.generalError
         });
       }
     }
@@ -417,7 +417,7 @@ export default class ActiveCallControl extends Pollable {
         });
       } else {
         this._alert.warning({
-          message: callControlError.unHoldError
+          message: callControlError.generalError
         });
       }
     }
@@ -434,7 +434,7 @@ export default class ActiveCallControl extends Pollable {
       }
     } catch (error) {
       this._alert.warning({
-        message: callControlError.transferError
+        message: callControlError.generalError
       });
     }
   }
