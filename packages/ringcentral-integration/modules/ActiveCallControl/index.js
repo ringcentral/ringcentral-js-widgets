@@ -294,6 +294,10 @@ export default class ActiveCallControl extends Pollable {
           muted: true
         }
       });
+      this.store.dispatch({
+        type: this.actionTypes.mute,
+        sessionId,
+      });
     } catch (error) {
       if (confictError(error)) {
         this._alert.warning({
@@ -315,6 +319,10 @@ export default class ActiveCallControl extends Pollable {
         body: {
           muted: false
         }
+      });
+      this.store.dispatch({
+        type: this.actionTypes.unmute,
+        sessionId,
       });
     } catch (error) {
       if (confictError(error)) {
@@ -371,6 +379,13 @@ export default class ActiveCallControl extends Pollable {
       const activeSession = this.activeSessions[sessionId];
       const url = requestURI(activeSession).hangUp;
       await this._client.service._platform.delete(url);
+      if (typeof this._onCallEndFunc === 'function') {
+        this._onCallEndFunc();
+      }
+      this.store.dispatch({
+        type: this.actionTypes.removeActiveSession,
+        sessionId,
+      });
     } catch (error) {
       this._alert.warning({
         message: callControlError.generalError
@@ -382,6 +397,10 @@ export default class ActiveCallControl extends Pollable {
       const activeSession = this.activeSessions[sessionId];
       const url = requestURI(activeSession).reject;
       await this._client.service._platform.post(url);
+      this.store.dispatch({
+        type: this.actionTypes.removeActiveSession,
+        sessionId,
+      });
     } catch (error) {
       this._alert.warning({
         message: callControlError.generalError
@@ -393,6 +412,10 @@ export default class ActiveCallControl extends Pollable {
       const activeSession = this.activeSessions[sessionId];
       const url = requestURI(activeSession).hold;
       await this._client.service._platform.post(url);
+      this.store.dispatch({
+        type: this.actionTypes.hold,
+        sessionId,
+      });
     } catch (error) {
       if (confictError(error)) {
         this._alert.warning({
@@ -410,6 +433,10 @@ export default class ActiveCallControl extends Pollable {
       const activeSession = this.activeSessions[sessionId];
       const url = requestURI(activeSession).unHold;
       await this._client.service._platform.post(url);
+      this.store.dispatch({
+        type: this.actionTypes.unhold,
+        sessionId,
+      });
     } catch (error) {
       if (confictError(error)) {
         this._alert.warning({
