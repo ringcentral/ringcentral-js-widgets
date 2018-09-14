@@ -46,7 +46,8 @@ class ActiveCallControl extends Component {
       routerInteraction
     } = this.props;
 
-    const sessionId = activeCallControl.activeSessionId;
+    const { activeSessionsStatus, activeSessionId: sessionId } = activeCallControl;
+    const currentActiveSessionStatus = activeSessionsStatus[sessionId];
     const activeCall = pickEleByProps(
       { sessionId: String(sessionId) },
       activeCalls.calls
@@ -86,8 +87,8 @@ class ActiveCallControl extends Component {
       layout: callCtrlLayouts.normalCtrl,
       startTime: activeCall.startTime,
       actions: [muteCtrl, transferCtrl, holdCtrl],
-      isOnMute: false,
-      isOnHold: false,
+      isOnMute: currentActiveSessionStatus.isOnMute,
+      isOnHold: currentActiveSessionStatus.isOnHold,
     };
 
     const uselessProps = {
