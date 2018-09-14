@@ -1,7 +1,7 @@
 export default {
   hide: "Ocultar",
   end: "Fim",
-  keypad: "Teclado numérico"
+  keypad: "Teclado"
 };
 
 // @key: @#@"hide"@#@ @source: @#@"Hide"@#@

@@ -43,6 +43,7 @@ import ContactSearch from 'ringcentral-integration/modules/ContactSearch';
 import DateTimeFormat from 'ringcentral-integration/modules/DateTimeFormat';
 import Conference from 'ringcentral-integration/modules/Conference';
 import ConferenceCall from 'ringcentral-integration/modules/ConferenceCall';
+import QuickAccess from 'ringcentral-integration/modules/QuickAccess';
 
 import ActiveCalls from 'ringcentral-integration/modules/ActiveCalls';
 import DetailedPresence from 'ringcentral-integration/modules/DetailedPresence';
@@ -61,6 +62,7 @@ import UserGuide from 'ringcentral-integration/modules/UserGuide';
 import { ModuleFactory } from 'ringcentral-integration/lib/di';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 import DialerUI from 'ringcentral-widgets/modules/DialerUI';
+import ConferenceDialerUI from 'ringcentral-widgets/modules/ConferenceDialerUI';
 import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
 
 @ModuleFactory({
@@ -118,6 +120,7 @@ import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
     { provide: 'AccountContacts', useClass: AccountContacts },
     { provide: 'AddressBook', useClass: AddressBook },
     { provide: 'Contacts', useClass: Contacts },
+    { provide: 'QuickAccess', useClass: QuickAccess },
     {
       provide: 'ContactSources',
       deps: ['AddressBook', 'AccountContacts'],
@@ -135,6 +138,7 @@ import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
     { provide: 'ContactSearch', useClass: ContactSearch },
     { provide: 'CallMonitor', useClass: CallMonitor },
     { provide: 'DialerUI', useClass: DialerUI },
+    { provide: 'ConferenceDialerUI', useClass: ConferenceDialerUI },
     { provide: 'Feedback', useClass: Feedback },
     { provide: 'UserGuide', useClass: UserGuide },
     {
@@ -290,11 +294,7 @@ export default class BasePhone extends RcModule {
     });
 
     webphone.onCallStart(() => {
-      if (
-        routerInteraction.currentPath.indexOf('/calls/active') !== 0
-      ) {
-        routerInteraction.push('/calls/active');
-      }
+      routerInteraction.push('/calls/active');
     });
 
     webphone.onCallRing(() => {
@@ -320,7 +320,7 @@ export default class BasePhone extends RcModule {
     webphone.onBeforeCallEnd((session) => {
       const mergingPair = conferenceCall && conferenceCall.mergingPair;
       if (session && mergingPair &&
-          (Object.values(mergingPair).indexOf(session.id) !== -1)
+        (Object.values(mergingPair).indexOf(session.id) !== -1)
       ) {
         // close merging pair to close the merge call.
         conferenceCall.closeMergingPair();

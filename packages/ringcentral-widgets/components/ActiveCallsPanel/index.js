@@ -171,6 +171,7 @@ export default class ActiveCallsPanel extends Component {
       className,
       currentLocale,
       showSpinner,
+      showOtherDevice,
     } = this.props;
     const logSection = this.renderLogSection();
 
@@ -183,7 +184,7 @@ export default class ActiveCallsPanel extends Component {
         </div>
       );
     }
-
+    const otherDevice = showOtherDevice ? this.getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale), true) : null;
     return (
       <div className={styles.root}>
         <div
@@ -193,7 +194,7 @@ export default class ActiveCallsPanel extends Component {
           {this.getCallList(activeRingCalls, i18n.getString('ringCall', currentLocale))}
           {this.getCallList(activeCurrentCalls, i18n.getString('currentCall', currentLocale))}
           {this.getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}
-          {this.getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale), true)}
+          {otherDevice}
         </div>
         {logSection}
         {showSpinner ? <SpinnerOverlay className={styles.spinner} /> : null}
@@ -250,7 +251,8 @@ ActiveCallsPanel.propTypes = {
   onCloseLogSection: PropTypes.func,
   // Contact
   showAvatar: PropTypes.bool,
-  renderContactName: PropTypes.func
+  renderContactName: PropTypes.func,
+  showOtherDevice: PropTypes.bool,
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -292,5 +294,6 @@ ActiveCallsPanel.defaultProps = {
   onCloseLogSection: undefined,
   // Contact
   showAvatar: true,
-  renderContactName: undefined
+  renderContactName: undefined,
+  showOtherDevice: true
 };

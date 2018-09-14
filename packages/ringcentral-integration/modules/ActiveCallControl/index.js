@@ -9,8 +9,8 @@ import ensureExist from '../../lib/ensureExist';
 import actionTypes from './actionTypes';
 import getActiveCallControlReducer from './getActiveCallControlReducer';
 import getDataReducer from './getDataReducer';
-import { normalizeSession, requestURI } from './helpers';
-
+import { normalizeSession, requestURI, confictError } from './helpers';
+import callControlError from './callControlError';
 
 const DEFAULT_TTL = 30 * 60 * 1000;
 const DEFAULT_TIME_TO_RETRY = 62 * 1000;
@@ -26,6 +26,7 @@ const subscribeEvent = '/account/~/extension/~/telephony/sessions';
     'ConnectivityMonitor',
     'RolesAndPermissions',
     'CallMonitor',
+    'Alert',
     { dep: 'TabManager', optional: true },
     { dep: 'Storage', optional: true },
     { dep: 'ActiveCallControlOptions', optional: true }
@@ -45,6 +46,7 @@ export default class ActiveCallControl extends Pollable {
     callMonitor,
     polling = false,
     disableCache = false,
+    alert,
     ...options
   }) {
     super({
@@ -67,6 +69,7 @@ export default class ActiveCallControl extends Pollable {
     this._lastSubscriptionMessage = null;
     this._storageKey = storageKey;
     this._polling = polling;
+    this._alert = alert;
 
 
     if (this._storage) {
@@ -273,34 +276,62 @@ export default class ActiveCallControl extends Pollable {
     }
   }
   async patch({ url = null, query = null, body = null }) {
-    this._client.service._platform.send({
-      method: 'PATCH', url, query, body
-    });
+    try {
+      this._client.service._platform.send({
+        method: 'PATCH', url, query, body
+      });
+    } catch (error) {
+      throw error;
+    }
   }
   async mute(sessionId) {
-    const activeSession = this.activeSessions[sessionId];
-    const url = requestURI(activeSession).mute;
-    this.patch({
-      url,
-      body: {
-        muted: true
+    try {
+      const activeSession = this.activeSessions[sessionId];
+      const url = requestURI(activeSession).mute;
+      this.patch({
+        url,
+        body: {
+          muted: true
+        }
+      });
+    } catch (error) {
+      if (confictError(error)) {
+        this._alert.warning({
+          message: callControlError.muteConflictError
+        });
+      } else {
+        this._alert.warning({
+          message: callControlError.generalError
+        });
       }
-    });
+    }
   }
   async unmute(sessionId) {
-    const activeSession = this.activeSessions[sessionId];
-    const url = requestURI(activeSession).mute;
-    await this.patch({
-      url,
-      body: {
-        muted: false
+    try {
+      const activeSession = this.activeSessions[sessionId];
+      const url = requestURI(activeSession).mute;
+      await this.patch({
+        url,
+        body: {
+          muted: false
+        }
+      });
+    } catch (error) {
+      if (confictError(error)) {
+        this._alert.warning({
+          message: callControlError.unMuteConflictError
+        });
+      } else {
+        this._alert.warning({
+          message: callControlError.generalError
+        });
       }
-    });
+    }
   }
   async startRecord(sessionId) {
-    const activeSession = this.activeSessions[sessionId];
-    const url = requestURI(activeSession).record;
     try {
+      const activeSession = this.activeSessions[sessionId];
+      const url = requestURI(activeSession).record;
       const _response = await this._client.service._platform.post(url);
       const response = JSON.parse(_response._text);
       this.store.dispatch({
@@ -316,74 +347,108 @@ export default class ActiveCallControl extends Pollable {
     }
   }
   async stopRecord(sessionId) {
-    const activeSession = this.activeSessions[sessionId];
-    const recordingId = this.recordingIds[sessionId].id;
-    activeSession.recordingId = recordingId;
-    const url = requestURI(activeSession).stopRecord;
-    this.patch({
-      url,
-      body: {
-        active: false
-      }
-    });
-    this.store.dispatch({
-      type: this.actionTypes.stopRecord,
-      sessionId,
-    });
-  }
-  async hangUp(sessionId) {
-    const {
-      isReject
-    } = this.activeSessions[sessionId];
-    if (isReject) {
-      this.reject(sessionId);
-    } else {
-      this._hangUp(sessionId);
-    }
-  }
-  async _hangUp(sessionId) {
-    const activeSession = this.activeSessions[sessionId];
-    const url = requestURI(activeSession).hangUp;
     try {
-      await this._client.service._platform.delete(url);
+      const activeSession = this.activeSessions[sessionId];
+      const recordingId = this.recordingIds[sessionId].id;
+      activeSession.recordingId = recordingId;
+      const url = requestURI(activeSession).stopRecord;
+      this.patch({
+        url,
+        body: {
+          active: false
+        }
+      });
+      this.store.dispatch({
+        type: this.actionTypes.stopRecord,
+        sessionId,
+      });
     } catch (error) {
       throw error;
+    }
+  }
+  async hangUp(sessionId) {
+    try {
+      const activeSession = this.activeSessions[sessionId];
+      const url = requestURI(activeSession).hangUp;
+      await this._client.service._platform.delete(url);
+    } catch (error) {
+      this._alert.warning({
+        message: callControlError.generalError
+      });
     }
   }
   async reject(sessionId) {
-    const activeSession = this.activeSessions[sessionId];
-    const url = requestURI(activeSession).reject;
     try {
+      const activeSession = this.activeSessions[sessionId];
+      const url = requestURI(activeSession).reject;
       await this._client.service._platform.post(url);
     } catch (error) {
-      throw error;
+      this._alert.warning({
+        message: callControlError.generalError
+      });
     }
   }
   async hold(sessionId) {
-    const activeSession = this.activeSessions[sessionId];
-    const url = requestURI(activeSession).hold;
-    await this._client.service._platform.post(url);
+    try {
+      const activeSession = this.activeSessions[sessionId];
+      const url = requestURI(activeSession).hold;
+      await this._client.service._platform.post(url);
+    } catch (error) {
+      if (confictError(error)) {
+        this._alert.warning({
+          message: callControlError.holdConflictError
+        });
+      } else {
+        this._alert.warning({
+          message: callControlError.generalError
+        });
+      }
+    }
   }
   async unHold(sessionId) {
-    const activeSession = this.activeSessions[sessionId];
-    const url = requestURI(activeSession).unHold;
-    await this._client.service._platform.post(url);
+    try {
+      const activeSession = this.activeSessions[sessionId];
+      const url = requestURI(activeSession).unHold;
+      await this._client.service._platform.post(url);
+    } catch (error) {
+      if (confictError(error)) {
+        this._alert.warning({
+          message: callControlError.unHoldConflictError
+        });
+      } else {
+        this._alert.warning({
+          message: callControlError.generalError
+        });
+      }
+    }
   }
   async transfer(transferNumber, sessionId) {
-    const activeSession = this.activeSessions[sessionId];
-    const url = requestURI(activeSession).transfer;
-    await this._client.service._platform.post(url, {
-      phoneNumber: transferNumber
-    });
-    this._onCallEndFunc();
+    try {
+      const activeSession = this.activeSessions[sessionId];
+      const url = requestURI(activeSession).transfer;
+      await this._client.service._platform.post(url, {
+        phoneNumber: transferNumber
+      });
+      if (typeof this._onCallEndFunc === 'function') {
+        this._onCallEndFunc();
+      }
+    } catch (error) {
+      this._alert.warning({
+        message: callControlError.generalError
+      });
+    }
   }
 
   async flip(flipValue, sessionId) {
-    const activeSession = this.activeSessions[sessionId];
-    const url = requestURI(activeSession).flip;
-    await this._client.service._platform.post(url, {
-      callFlipId: flipValue
-    });
+    try {
+      const activeSession = this.activeSessions[sessionId];
+      const url = requestURI(activeSession).flip;
+      await this._client.service._platform.post(url, {
+        callFlipId: flipValue
+      });
+    } catch (error) {
+      throw error;
+    }
   }
   async forward() {
     // No implement at the moment

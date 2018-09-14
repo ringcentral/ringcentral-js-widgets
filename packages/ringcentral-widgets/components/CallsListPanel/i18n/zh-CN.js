@@ -1,5 +1,5 @@
 export default {
-  noActiveCalls: "无主动呼叫",
+  noActiveCalls: "无活动通话",
   noCalls: "找不到结果。",
   currentCall: "当前通话",
   ringCall: "正在响铃通话",

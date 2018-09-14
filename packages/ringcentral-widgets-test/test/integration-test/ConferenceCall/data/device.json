@@ -1,0 +1,73 @@
+{
+  "uri": "https://platform.ringcentral.com/restapi/v1.0/account/~/extension/160772006/device?page=1&perPage=100",
+  "records": [{
+    "uri": "https://platform.ringcentral.com/restapi/v1.0/account/~/device/38923006",
+    "id": "38923006",
+    "type": "HardPhone",
+    "sku": "HP-51",
+    "model": {
+      "id": "51",
+      "name": "Cisco SPA-303 Desk Phone",
+      "addons": [],
+      "features": ["Intercom", "Paging", "BLA"]
+    },
+    "name": "Phone",
+    "serial": "HELL38923006-160770006",
+    "status": "Offline",
+    "extension": {
+      "uri": "https://platform.ringcentral.com/restapi/v1.0/account/~/extension/160772006",
+      "id": 160772006,
+      "extensionNumber": "102"
+    },
+    "phoneLines": [{
+      "lineType": "Standalone",
+      "emergencyAddress": {
+        "required": true,
+        "localOnly": false
+      },
+      "phoneInfo": {
+        "id": 288733006,
+        "phoneNumber": "+19284733303",
+        "paymentType": "Local",
+        "type": "VoiceFax",
+        "usageType": "DirectNumber",
+        "country": {
+          "uri": "https://platform.ringcentral.com/restapi/v1.0/dictionary/country/1",
+          "id": "1",
+          "name": "United States"
+        }
+      }
+    }],
+    "shipping": {
+      "address": {
+        "street": "1400 Fashion Island Blvd",
+        "city": "San Mateo",
+        "country": "US",
+        "zip": "94065",
+        "customerName": "Something1 New1"
+      },
+      "method": {
+        "id": "1",
+        "name": "Ground"
+      },
+      "status": "Accepted"
+    },
+    "linePooling": "Host"
+  }],
+  "paging": {
+    "page": 1,
+    "totalPages": 1,
+    "perPage": 100,
+    "totalElements": 1,
+    "pageStart": 0,
+    "pageEnd": 0
+  },
+  "navigation": {
+    "firstPage": {
+      "uri": "https://platform.ringcentral.com/restapi/v1.0/account/~/extension/160772006/device?page=1&perPage=100"
+    },
+    "lastPage": {
+      "uri": "https://platform.ringcentral.com/restapi/v1.0/account/~/extension/160772006/device?page=1&perPage=100"
+    }
+  }
+}

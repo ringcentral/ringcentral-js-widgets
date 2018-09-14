@@ -446,23 +446,23 @@ export default class MessageStore extends Pollable {
         creationTime,
       } = record || {};
       // Notify when new message incoming
-      if (this._messageDispatched(record)) {
-        return;
-      }
-      // Mark last 10 messages that dispatched
-      // To present dispatching same record twice
-      this._dispatchedMessageIds =
+      // fix mix old messages and new messages logic error.
+      if (!this._messageDispatched(record)) {
+        // Mark last 10 messages that dispatched
+        // To present dispatching same record twice
+        this._dispatchedMessageIds =
         [{ id, lastModifiedTime }].concat(this._dispatchedMessageIds).slice(0, 20);
-      this._messageUpdatedHandlers.forEach(handler => handler(record));
-      // For new inbound message notification
-      if (
-        direction === 'Inbound' &&
-        readStatus === 'Unread' &&
-        messageStatus === 'Received' &&
-        availability === 'Alive' &&
-        (new Date(creationTime)).getTime() > (new Date(lastModifiedTime)).getTime() - (600 * 1000)
-      ) {
-        this._newInboundMessageNotificationHandlers.forEach(handler => handler(record));
+        this._messageUpdatedHandlers.forEach(handler => handler(record));
+        // For new inbound message notification
+        if (
+          direction === 'Inbound' &&
+          readStatus === 'Unread' &&
+          messageStatus === 'Received' &&
+          availability === 'Alive' &&
+          (new Date(creationTime)).getTime() > (new Date(lastModifiedTime)).getTime() - (600 * 1000)
+        ) {
+          this._newInboundMessageNotificationHandlers.forEach(handler => handler(record));
+        }
       }
     }
   }

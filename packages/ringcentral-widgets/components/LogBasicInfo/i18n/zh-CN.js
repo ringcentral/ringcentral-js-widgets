@@ -3,8 +3,8 @@ import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 
 export default {
-  [callDirections.inbound]: "入站",
-  [callDirections.outbound]: "出站",
+  [callDirections.inbound]: "呼入",
+  [callDirections.outbound]: "呼出",
   status: "状态：",
   InboundNumber: "主叫显示号码：",
   OutboundNumber: "被叫：",
