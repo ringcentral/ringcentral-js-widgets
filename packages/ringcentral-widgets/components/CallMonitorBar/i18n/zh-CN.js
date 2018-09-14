@@ -1,6 +1,6 @@
 export default {
   currentCall: "Current Call",
-  viewCall: "View Call",
+  viewCalls: "View Calls",
   incomingCall: "{numberOf} Incoming Call",
   incomingCalls: "{numberOf} Incoming Calls",
   callOnHold: "{numberOf} Call On Hold",
@@ -8,7 +8,7 @@ export default {
 };
 
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
-// @key: @#@"viewCall"@#@ @source: @#@"View Call"@#@
+// @key: @#@"viewCalls"@#@ @source: @#@"View Calls"@#@
 // @key: @#@"incomingCall"@#@ @source: @#@"{numberOf} Incoming Call"@#@
 // @key: @#@"incomingCalls"@#@ @source: @#@"{numberOf} Incoming Calls"@#@
 // @key: @#@"callOnHold"@#@ @source: @#@"{numberOf} Call On Hold"@#@
