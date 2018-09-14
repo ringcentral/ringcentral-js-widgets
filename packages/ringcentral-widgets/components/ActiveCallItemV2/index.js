@@ -503,14 +503,22 @@ export default class ActiveCallItem extends Component {
     const extraButton = typeof renderExtraButton === 'function' ?
       <div className={styles.extraButton}>{renderExtraButton(this.props.call)}</div> :
       undefined;
+    const hasCallControl = !!(webphoneSession || showRingoutCallControl);
     return (
       <div className={styles.callItemContainer}>
         <MediaObject
           containerCls={styles.wrapper}
-          bodyCls={classnames(styles.content, styles.pointer)}
-          leftCls={styles.pointer}
+          bodyCls={classnames({
+            [styles.content]: true,
+            [styles.pointer]: hasCallControl,
+            [styles.disabled]: hasCallControl && disableLinks
+          })}
+          leftCls={classnames({
+            [styles.pointer]: hasCallControl,
+            [styles.disabled]: hasCallControl && disableLinks
+          })}
           mediaLeft={
-            <div onClick={onClick}>
+            <div onClick={() => hasCallControl && onClick()}>
               <CallIcon
                 direction={direction}
                 ringing={ringing}
@@ -527,7 +535,7 @@ export default class ActiveCallItem extends Component {
             </div>
           }
           mediaBody={
-            <div onClick={onClick} className={styles.strechVertical}>
+            <div onClick={() => hasCallControl && onClick()} className={styles.strechVertical}>
               <ContactDisplay
                 isOnConferenceCall={isOnConferenceCall}
                 contactName={contactName}
