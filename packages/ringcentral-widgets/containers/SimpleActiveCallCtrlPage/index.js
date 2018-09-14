@@ -48,7 +48,7 @@ class ActiveCallControl extends Component {
 
     const sessionId = activeCallControl.activeSessionId;
     const activeCall = pickEleByProps(
-      { sessionId },
+      { sessionId: String(sessionId) },
       activeCalls.calls
     )[0] || {};
 
@@ -61,7 +61,7 @@ class ActiveCallControl extends Component {
     const callCtrlProps = {
       fallBackName,
       currentLocale,
-      phoneNumber: '101',
+      phoneNumber: fallBackNumber,
       nameMatches: [],
       onMute: async () => activeCallControl.mute(sessionId),
       onUnmute: async () => activeCallControl.unmute(sessionId),
@@ -71,7 +71,7 @@ class ActiveCallControl extends Component {
       onTransfer: async number => activeCallControl.transfer(number, sessionId),
       showBackButton: true,
       backButtonLabel: i18n.getString('allCalls', currentLocale),
-      onBackButtonClick: async () => routerInteraction.push('/dialer'),
+      onBackButtonClick: async () => routerInteraction.goBack(),
       formatPhone: phoneNumber => formatNumber({
         phoneNumber,
         areaCode: regionSettings.areaCode,
@@ -85,7 +85,9 @@ class ActiveCallControl extends Component {
       searchContact: value => this.props.searchContact(value),
       layout: callCtrlLayouts.normalCtrl,
       startTime: activeCall.startTime,
-      actions: [muteCtrl, transferCtrl, holdCtrl]
+      actions: [muteCtrl, transferCtrl, holdCtrl],
+      isOnMute: false,
+      isOnHold: false,
     };
 
     const uselessProps = {
