@@ -18,7 +18,7 @@ export function getLastSessionIdReducer(types) {
   };
 }
 
-export default function getCallReducer(types) {
+export default function getReducer(types) {
   return combineReducers({
     status: getModuleStatusReducer(types),
     toNumberField: getToNumberFieldReducer(types),

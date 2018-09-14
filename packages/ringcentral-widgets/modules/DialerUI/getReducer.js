@@ -36,7 +36,7 @@ export function getRecipientReducer(types) {
   };
 }
 
-export default function getCallReducer(actionTypes) {
+export default function getReducer(actionTypes) {
   return combineReducers({
     status: getModuleStatusReducer(actionTypes),
     toNumberField: getToNumberFieldReducer(actionTypes),
