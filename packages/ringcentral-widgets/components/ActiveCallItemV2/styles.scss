@@ -30,6 +30,8 @@ $button-basis:68.5px;
 
     .actionIconsBox {
       display: flex;
+      justify-content: center;
+      
       .extraButton {
         display: flex;
         align-items: center;

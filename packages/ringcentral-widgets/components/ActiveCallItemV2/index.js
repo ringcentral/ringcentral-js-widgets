@@ -190,12 +190,13 @@ function RingoutButtons({
   ringoutReject,
   ringoutTransfer,
   ringing,
+  inbound,
 }) {
   if (!showRingoutCallControl) return null;
 
   let endButton;
-  // TD: implement end button
-  if (!ringing && ringoutReject) {
+  const inComingCall = inbound && ringing;
+  if (inComingCall) {
     const rejectTitle = i18n.getString('reject', currentLocale);
     endButton = (
       <span title={rejectTitle} className={styles.ringoutButton}>
@@ -216,8 +217,7 @@ function RingoutButtons({
             />
       </span>
     );
-  }
-  if (ringoutHangup && ringing) {
+  } else {
     const hangupTitle = i18n.getString('hangup', currentLocale);
     endButton = (
       <span title={hangupTitle} className={styles.ringoutButton}>
@@ -240,9 +240,8 @@ function RingoutButtons({
     );
   }
 
-
   let transferBtn;
-  if (ringoutTransfer && !ringing) {
+  if (ringoutTransfer && !inComingCall) {
     const transferTitle = i18n.getString('transfer', currentLocale);
 
     transferBtn = (
@@ -279,6 +278,7 @@ RingoutButtons.propTypes = {
   ringoutHangup: PropTypes.func,
   ringoutTransfer: PropTypes.func,
   ringing: PropTypes.bool.isRequired,
+  inbound: PropTypes.bool.isRequired,
   sessionId: PropTypes.string.isRequired,
   ringoutReject: PropTypes.func,
   showRingoutCallControl: PropTypes.bool.isRequired,
@@ -496,6 +496,7 @@ export default class ActiveCallItem extends Component {
     const contactMatches = this.getContactMatches();
     const fallbackContactName = this.getFallbackContactName();
     const ringing = isRinging(this.props.call);
+    const inbound = isInbound(this.props.call);
     const contactName = typeof renderContactName === 'function' ?
       renderContactName(this.props.call) :
       undefined;
@@ -575,6 +576,7 @@ export default class ActiveCallItem extends Component {
                     disableLinks={disableLinks}
                     currentLocale={currentLocale}
                     ringing={ringing}
+                    inbound={inbound}
                     ringoutReject={ringoutReject}
                     ringoutHangup={ringoutHangup}
                     ringoutTransfer={ringoutTransfer}
