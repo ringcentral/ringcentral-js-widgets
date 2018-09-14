@@ -94,7 +94,7 @@ class ComposeTextPanel extends Component {
           disabled={this.props.sendButtonDisabled}
           currentLocale={this.props.currentLocale}
           onSend={this.props.send}
-          maxHeight={this.props.maxHeight}
+          maxHeight={this.props.inputMaxHeight}
         />
       </div>
     );
@@ -138,6 +138,7 @@ ComposeTextPanel.propTypes = {
   recipientsContactInfoRenderer: PropTypes.func,
   recipientsContactPhoneRenderer: PropTypes.func,
   autoFocus: PropTypes.bool,
+  inputMaxHeight:PropTypes.number,
 };
 
 ComposeTextPanel.defaultProps = {
@@ -152,6 +153,7 @@ ComposeTextPanel.defaultProps = {
   recipientsContactInfoRenderer: undefined,
   recipientsContactPhoneRenderer: undefined,
   autoFocus: false,
+  inputMaxHeight: 300,
 };
 
 export default ComposeTextPanel;
