@@ -63,6 +63,10 @@ var _moduleStatuses = require('../../enums/moduleStatuses');
 
 var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
 
+var _callErrors = require('../Call/callErrors');
+
+var _callErrors2 = _interopRequireDefault(_callErrors);
+
 var _ensureExist = require('../../lib/ensureExist');
 
 var _ensureExist2 = _interopRequireDefault(_ensureExist);
@@ -137,7 +141,7 @@ var storageKey = 'activeCallControl';
 var subscribeEvent = '/account/~/extension/~/telephony/sessions';
 
 var ActiveCallControl = (_dec = (0, _di.Module)({
-  deps: ['Client', 'Auth', 'Subscription', 'ConnectivityMonitor', 'RolesAndPermissions', 'CallMonitor', 'Alert', { dep: 'TabManager', optional: true }, { dep: 'Storage', optional: true }, { dep: 'ActiveCallControlOptions', optional: true }]
+  deps: ['Client', 'Auth', 'Subscription', 'ConnectivityMonitor', 'RolesAndPermissions', 'CallMonitor', 'Alert', 'NumberValidate', { dep: 'TabManager', optional: true }, { dep: 'Storage', optional: true }, { dep: 'ActiveCallControlOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_Pollable) {
   (0, _inherits3.default)(ActiveCallControl, _Pollable);
 
@@ -159,7 +163,8 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
         _ref$disableCache = _ref.disableCache,
         disableCache = _ref$disableCache === undefined ? false : _ref$disableCache,
         alert = _ref.alert,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'auth', 'ttl', 'timeToRetry', 'storage', 'subscription', 'connectivityMonitor', 'rolesAndPermissions', 'tabManager', 'callMonitor', 'polling', 'disableCache', 'alert']);
+        numberValidate = _ref.numberValidate,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'auth', 'ttl', 'timeToRetry', 'storage', 'subscription', 'connectivityMonitor', 'rolesAndPermissions', 'tabManager', 'callMonitor', 'polling', 'disableCache', 'alert', 'numberValidate']);
     (0, _classCallCheck3.default)(this, ActiveCallControl);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ActiveCallControl.__proto__ || (0, _getPrototypeOf2.default)(ActiveCallControl)).call(this, (0, _extends3.default)({}, options, {
@@ -189,6 +194,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
     _this._storageKey = storageKey;
     _this._polling = polling;
     _this._alert = alert;
+    _this._numberValidate = numberValidate;
 
     if (_this._storage) {
       _this._reducer = (0, _getActiveCallControlReducer2.default)(_this.actionTypes);
@@ -1001,7 +1007,9 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
     key: 'transfer',
     value: function () {
       var _ref17 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee15(transferNumber, sessionId) {
-        var activeSession, url;
+        var _this4 = this;
+
+        var activeSession, url, validatedResult, validPhoneNumber;
         return _regenerator2.default.wrap(function _callee15$(_context15) {
           while (1) {
             switch (_context15.prev = _context15.next) {
@@ -1010,31 +1018,54 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 activeSession = this.activeSessions[sessionId];
                 url = (0, _helpers.requestURI)(activeSession).transfer;
                 _context15.next = 5;
-                return this._client.service._platform.post(url, {
-                  phoneNumber: transferNumber
-                });
+                return this._numberValidate.validateNumbers([transferNumber]);
 
               case 5:
+                validatedResult = _context15.sent;
+
+                if (validatedResult.result) {
+                  _context15.next = 9;
+                  break;
+                }
+
+                validatedResult.errors.forEach(function (error) {
+                  _this4._alert.warning({
+                    message: _callErrors2.default[error.type],
+                    payload: {
+                      phoneNumber: error.phoneNumber
+                    }
+                  });
+                });
+                return _context15.abrupt('return');
+
+              case 9:
+                validPhoneNumber = validatedResult.numbers[0] && validatedResult.numbers[0].e164;
+                _context15.next = 12;
+                return this._client.service._platform.post(url, {
+                  phoneNumber: validPhoneNumber
+                });
+
+              case 12:
                 if (typeof this._onCallEndFunc === 'function') {
                   this._onCallEndFunc();
                 }
-                _context15.next = 11;
+                _context15.next = 18;
                 break;
 
-              case 8:
-                _context15.prev = 8;
+              case 15:
+                _context15.prev = 15;
                 _context15.t0 = _context15['catch'](0);
 
                 this._alert.warning({
                   message: _callControlError2.default.generalError
                 });
 
-              case 11:
+              case 18:
               case 'end':
                 return _context15.stop();
             }
           }
-        }, _callee15, this, [[0, 8]]);
+        }, _callee15, this, [[0, 15]]);
       }));
 
       function transfer(_x11, _x12) {
@@ -1224,12 +1255,12 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
 }(_Pollable3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'recordingId', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this4 = this;
+    var _this5 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this4.activeSessionId;
+      return _this5.activeSessionId;
     }, function () {
-      return _this4.recordingIds;
+      return _this5.recordingIds;
     }, function (activeSessionId, recordingIds) {
       return recordingIds[activeSessionId];
     });
@@ -1237,12 +1268,12 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
 }), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'activeSession', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this5 = this;
+    var _this6 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this5.activeSessionId;
+      return _this6.activeSessionId;
     }, function () {
-      return _this5.activeSessions;
+      return _this6.activeSessions;
     }, function (activeSessionId, activeSessions) {
       return activeSessions[activeSessionId];
     });
@@ -1250,12 +1281,12 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
 }), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'activeSessions', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this6 = this;
+    var _this7 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this6._callMonitor.calls;
+      return _this7._callMonitor.calls;
     }, function () {
-      return _this6.activeSessionsStatus;
+      return _this7.activeSessionsStatus;
     }, function (calls, activeSessionsStatus) {
       var reducer = function reducer(accumulator, call) {
         var sessionId = call.sessionId;
