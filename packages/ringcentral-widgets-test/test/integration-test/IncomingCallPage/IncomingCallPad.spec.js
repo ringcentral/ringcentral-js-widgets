@@ -36,7 +36,7 @@ async function makeInbountCall(phone, wrapper, sessionId) {
     id: sessionId,
     direction: 'Inbound'
   });
-  await timeout(10);
+  await timeout(100);
   wrapper.update();
 }
 
@@ -55,7 +55,7 @@ async function makeMultiCalls(phone, wrapper, firstCall) {
       .find(ActiveCallButton).at(4)
       .find(CircleButton)
       .simulate('click');
-    await timeout(10);
+    await timeout(100);
   } else {
     await makeOutboundCall(phone, wrapper);
   }
@@ -66,7 +66,7 @@ const enterToNumber = async (target, number) => {
   const domInput = target.find('input');
   domInput.instance().value = number;
   await domInput.simulate('change');
-  await timeout(10);
+  await timeout(100);
 };
 
 beforeEach(async () => {
@@ -107,7 +107,7 @@ describe('RCI-1038: There is no Add button', () => {
       .find(ActiveCallButton).at(4)
       .find(CircleButton)
       .simulate('click');
-    await timeout(10);
+    await timeout(100);
     await makeInbountCall(phone, wrapper, sid222);
     const page = wrapper.find(IncomingCallPad);
     const activeButtons = page.find(ActiveCallButton);
@@ -136,9 +136,8 @@ describe('To Voicemail Button', () => {
     expect(buttonToVoicemail.find('.buttonTitle').text()).toEqual('To Voicemail');
 
     buttonToVoicemail.find(CircleButton).simulate('click');
-    await timeout(10);
-    wrapper.update();
     await timeout(100);
+    wrapper.update();
     expect(rejectFn.mock.calls[0]).toContain(sid111);
     expect(toVoicemailFn.mock.calls[0]).toContain(sid111);
     expect(phone.webphone.sessions).toHaveLength(0);
@@ -156,7 +155,7 @@ describe('Check Answer Button', () => {
     expect(buttonAnswer.find('.buttonTitle').text()).toEqual('Answer');
 
     buttonAnswer.find(CircleButton).simulate('click');
-    await timeout(10);
+    await timeout(100);
     expect(acceptFn.mock.calls[0]).toContain(sid111);
     expect(phone.webphone.sessions).toHaveLength(1);
     expect(phone.webphone.sessions[0].callStatus).toEqual(sessionStatus.connected);
@@ -177,7 +176,7 @@ describe('Check Answer and Hold Button', () => {
       expect(buttonAnswerHold.find('.buttonTitle').text()).toEqual('Answer & Hold');
 
       buttonAnswerHold.find(CircleButton).first().simulate('click');
-      await timeout(10);
+      await timeout(100);
       expect(phone.webphone.sessions).toHaveLength(2);
 
       await timeout(1000);
@@ -203,7 +202,7 @@ describe('Check Answer and Hold Button', () => {
       expect(buttonAnswerHold.find('.buttonTitle').text()).toEqual('Answer & Hold');
 
       buttonAnswerHold.find(CircleButton).first().simulate('click');
-      await timeout(10);
+      await timeout(100);
       expect(phone.webphone.sessions).toHaveLength(2);
 
       await timeout(1000);
@@ -232,7 +231,7 @@ describe('Check Answer and End Button', () => {
       expect(buttonAnswerEnd.find('.buttonTitle').text()).toEqual('Answer & End');
 
       buttonAnswerEnd.find(CircleButton).first().simulate('click');
-      await timeout(10);
+      await timeout(100);
       expect(phone.webphone.sessions).toHaveLength(1);
 
       await timeout(1000);
@@ -256,7 +255,7 @@ describe('Check Answer and End Button', () => {
       expect(buttonAnswerEnd.find('.buttonTitle').text()).toEqual('Answer & End');
 
       buttonAnswerEnd.find(CircleButton).first().simulate('click');
-      await timeout(10);
+      await timeout(100);
       expect(phone.webphone.sessions).toHaveLength(1);
 
       await timeout(1000);
@@ -280,7 +279,7 @@ describe('Check Ignore Button', () => {
     expect(buttonIgnore.find('.buttonTitle').text()).toEqual('Ignore');
 
     buttonIgnore.find(CircleButton).simulate('click');
-    await timeout(10);
+    await timeout(100);
     expect(phone.webphone.sessions).toHaveLength(0);
 
     wrapper.update();
@@ -298,7 +297,7 @@ describe('Check Ignore Button', () => {
     expect(buttonIgnore.find('.buttonTitle').text()).toEqual('Ignore');
 
     buttonIgnore.find(CircleButton).simulate('click');
-    await timeout(10);
+    await timeout(100);
     expect(phone.webphone.sessions).toHaveLength(1);
 
     wrapper.update();
@@ -319,7 +318,7 @@ describe('Check Ignore Button', () => {
       expect(buttonIgnore.find('.buttonTitle').text()).toEqual('Ignore');
 
       buttonIgnore.find(CircleButton).simulate('click');
-      await timeout(10);
+      await timeout(100);
       expect(phone.webphone.sessions).toHaveLength(1);
 
       wrapper.update();
@@ -339,7 +338,7 @@ describe('Check Incoming Call Forward Button', () => {
     expect(buttonForward.find('.buttonTitle').text()).toEqual('Forward');
 
     buttonForward.find(CircleButton).simulate('click');
-    await timeout(10);
+    await timeout(100);
     wrapper.update();
     expect(wrapper.find(Tooltip).at(0).props().visible).toBe(true);
     done();
@@ -352,7 +351,7 @@ describe('Check Incoming Call Forward Button', () => {
     expect(buttonForward.find('.buttonTitle').text()).toEqual('Forward');
 
     buttonForward.find(CircleButton).simulate('click');
-    await timeout(10);
+    await timeout(100);
     wrapper.update();
     expect(wrapper.find(Tooltip).at(0).props().visible).toBe(true);
     done();
@@ -365,7 +364,7 @@ describe('Check Incoming Call Forward Button', () => {
     expect(buttonForward.find('.buttonTitle').text()).toEqual('Forward');
 
     buttonForward.find(CircleButton).simulate('click');
-    await timeout(10);
+    await timeout(100);
     wrapper.update();
     expect(wrapper.find(Tooltip).at(0).props().visible).toBe(true);
     done();
@@ -378,13 +377,13 @@ describe('Check Incoming Call Forward Button > ForwardForm', () => {
     await makeInbountCall(phone, wrapper, sid111);
     const buttonForward = wrapper.find(IncomingCallPad).find(ActiveCallButton).at(0);
     buttonForward.find(CircleButton).simulate('click');
-    await timeout(10);
+    await timeout(100);
     wrapper.update();
 
     const domForwardForm = wrapper.find(ForwardForm);
     const btnCancel = domForwardForm.find(Button).at(0);
     btnCancel.simulate('click');
-    await timeout(10);
+    await timeout(100);
     wrapper.update();
     expect(wrapper.find(Tooltip).at(0).props().visible).toBe(false);
     done();
@@ -394,14 +393,13 @@ describe('Check Incoming Call Forward Button > ForwardForm', () => {
     await makeInbountCall(phone, wrapper, sid111);
     const buttonForward = wrapper.find(IncomingCallPad).find(ActiveCallButton).at(0);
     buttonForward.find(CircleButton).simulate('click');
-    await timeout(10);
+    await timeout(100);
     wrapper.update();
 
     const domForwardForm = wrapper.find(ForwardForm);
     const btnForward = domForwardForm.find(Button).at(1);
     btnForward.simulate('click');
-    await timeout(10);
-    await timeout(200);
+    await timeout(100);
     wrapper.update();
     expect(forwardFn.mock.calls[0]).toContain('+16505819954');
     expect(phone.webphone.sessions).toHaveLength(0);
@@ -417,7 +415,7 @@ describe('Check Incoming Call Forward Button > ForwardForm', () => {
     await makeInbountCall(phone, wrapper, sid111);
     const buttonForward = wrapper.find(IncomingCallPad).find(ActiveCallButton).at(0);
     buttonForward.find(CircleButton).simulate('click');
-    await timeout(10);
+    await timeout(100);
     wrapper.update();
 
     const domForwardForm = wrapper.find(ForwardForm);
@@ -426,8 +424,7 @@ describe('Check Incoming Call Forward Button > ForwardForm', () => {
     const validatedResult = await phone.numberValidate.validateNumbers(['987654321']);
     const validPhoneNumber = validatedResult.numbers[0] && validatedResult.numbers[0].e164;
     btnForward.simulate('click');
-    await timeout(10);
-    await timeout(200);
+    await timeout(100);
     wrapper.update();
     expect(forwardFn.mock.calls[0]).toContain(validPhoneNumber);
     expect(phone.webphone.sessions).toHaveLength(0);
@@ -442,15 +439,14 @@ describe('Check Incoming Call Forward Button > ForwardForm', () => {
     await makeInbountCall(phone, wrapper, sid111);
     const buttonForward = wrapper.find(IncomingCallPad).find(ActiveCallButton).at(0);
     buttonForward.find(CircleButton).simulate('click');
-    await timeout(10);
+    await timeout(100);
     wrapper.update();
 
     const domForwardForm = wrapper.find(ForwardForm);
     const btnForward = domForwardForm.find(Button).at(1);
     await enterToNumber(domForwardForm, 'abcdefg');
     btnForward.simulate('click');
-    await timeout(10);
-    await timeout(200);
+    await timeout(100);
     const store = wrapper.props().phone.store;
     const messages = store.getState(wrapper).alert.messages;
     expect(messages).toEqual(
@@ -475,7 +471,7 @@ describe('Check Incoming Call Reply Button', () => {
     expect(buttonReply.find('.buttonTitle').text()).toEqual('Reply');
 
     buttonReply.find(CircleButton).simulate('click');
-    await timeout(10);
+    await timeout(100);
     wrapper.update();
     expect(wrapper.find(Tooltip).at(1).props().visible).toBe(true);
     done();
@@ -487,7 +483,7 @@ describe('Check Incoming Call Reply Button', () => {
     expect(buttonReply.find('.buttonTitle').text()).toEqual('Reply');
 
     buttonReply.find(CircleButton).simulate('click');
-    await timeout(10);
+    await timeout(100);
     wrapper.update();
     expect(wrapper.find(Tooltip).at(1).props().visible).toBe(true);
     done();
@@ -500,7 +496,7 @@ describe('Check Incoming Call Reply Button > ReplyWithMessage', () => {
     await makeInbountCall(phone, wrapper, sid111);
     const buttonReply = wrapper.find(IncomingCallPad).find(ActiveCallButton).at(1);
     buttonReply.find(CircleButton).simulate('click');
-    await timeout(10);
+    await timeout(100);
     wrapper.update();
 
     const domReplyWithMessage = wrapper.find(ReplyWithMessage);
@@ -519,13 +515,13 @@ describe('Check Incoming Call Reply Button > ReplyWithMessage', () => {
     await makeInbountCall(phone, wrapper, sid111);
     const buttonReply = wrapper.find(IncomingCallPad).find(ActiveCallButton).at(1);
     buttonReply.find(CircleButton).simulate('click');
-    await timeout(10);
+    await timeout(100);
     wrapper.update();
 
     const domReplyWithMessage = wrapper.find(ReplyWithMessage);
     const btnCancel = domReplyWithMessage.find(Button).at(0);
     btnCancel.first().simulate('click');
-    await timeout(10);
+    await timeout(100);
     wrapper.update();
     expect(wrapper.find(Tooltip).at(1).props().visible).toBe(false);
     done();
@@ -536,22 +532,21 @@ describe('Check Incoming Call Reply Button > ReplyWithMessage', () => {
     await makeInbountCall(phone, wrapper, sid111);
     const buttonReply = wrapper.find(IncomingCallPad).find(ActiveCallButton).at(1);
     buttonReply.find(CircleButton).simulate('click');
-    await timeout(10);
+    await timeout(100);
     wrapper.update();
 
     const domReplyWithMessage = wrapper.find(ReplyWithMessage);
     const domMessageItem = domReplyWithMessage.find('.messageItem').at(0);
     const btnReply = domReplyWithMessage.find(Button).at(1);
     domMessageItem.simulate('click');
-    await timeout(10);
-    await timeout(200);
+    await timeout(100);
     const replyText = '666888';
     enterToNumber(domMessageItem, replyText);
     await timeout(200);
     wrapper.update();
 
     btnReply.simulate('click');
-    await timeout(10);
+    await timeout(100);
     wrapper.update();
     expect(replyFn.mock.calls[0]).toEqual(
       expect.arrayContaining([
