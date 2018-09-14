@@ -14,7 +14,6 @@ export default class ConferenceDialerUI extends DialerUI {
       actionTypes,
     });
 
-    this._storageKey = 'ConferenceDialerUIData';
     this._reducer = getReducer(this.actionTypes);
   }
 

@@ -28,10 +28,7 @@ export default class DialerUI extends RcModule {
 
     this._call = this:: ensureExist(call, 'call');
     this._alert = this:: ensureExist(alert, 'alert');
-
-    this._storageKey = 'dialerUIData';
     this._reducer = getReducer(this.actionTypes);
-
     this._callHooks = [];
   }
 
@@ -159,10 +156,6 @@ export default class DialerUI extends RcModule {
         fromNumber,
       });
     }
-  }
-
-  get lastDialedState() {
-    return this._storage.getItem(this._storageKey);
   }
 
   get toNumberField() {
