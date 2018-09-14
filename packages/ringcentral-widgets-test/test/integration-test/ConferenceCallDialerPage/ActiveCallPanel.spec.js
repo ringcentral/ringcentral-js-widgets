@@ -75,7 +75,6 @@ async function mockAddCall(phone, wrapper, contactA, contactB) {
     phoneNumber: contactA.phoneNumbers[0].phoneNumber
   });
   const sessionA = phone.webphone.sessions[0];
-  debugger;
   await phone.webphone.hold(sessionA.id);
   const callCtrlPage = wrapper.find(CallCtrlPage);
   await callCtrlPage.props().onAdd(sessionA.id);
@@ -130,7 +129,7 @@ describe('RCI-1071: simplified call control page #3', () => {
       await mockContacts(phone);
       const contactA = phone.contacts.allContacts.find(item => item.type === 'company' && item.hasProfileImage);
       await mockAddCall(phone, wrapper, contactA, contactA);
-      debugger;
+
       expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
       await timeout(300);
       const mergeInfo = wrapper.find(MergeInfo);
@@ -152,7 +151,6 @@ describe('RCI-1071: simplified call control page #3', () => {
     await mockContacts(phone);
     const contactA = phone.contacts.allContacts.find(item => item.type === 'company' && item.hasProfileImage);
     await mockAddCall(phone, wrapper, contactA, contactA);
-    // debugger;
     const sessionId = phone.webphone.sessions[1].id;
     const sessionA = phone.webphone._sessions.get(sessionId);
     sessionA.terminate();
