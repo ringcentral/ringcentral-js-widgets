@@ -1,10 +1,20 @@
 @import '../../lib/commonStyles/colors';
+
 $padding-horizontal:20px;
 $avatar-basis:45.5px;
 $button-basis:68.5px;
 
 .pointer {
   cursor: pointer;
+}
+
+.strechVertical {
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  height: 100%;
 }
 
 .callItemContainer {
@@ -15,8 +25,18 @@ $button-basis:68.5px;
     overflow: visible;
 
     .content {
-      max-width: calc(100% - #{$avatar-basis+$button-basis});
       flex-shrink: 1;
+    }
+
+    .actionIconsBox {
+      display: flex;
+      justify-content: center;
+      
+      .extraButton {
+        display: flex;
+        align-items: center;
+        margin-left: $padding-horizontal/2;
+      }
     }
 
     .webphoneButton {
@@ -100,6 +120,51 @@ $button-basis:68.5px;
         }
       }
     }
+
+    .ringoutButton {
+      &:not(:last-of-type) {
+        margin-right: $padding-horizontal/2;
+      }
+      .transferButton,
+      .endButton {
+        width: 24px;
+      }
+
+      .endButton {
+        circle {
+          fill: #f95b5c;
+        }
+
+        g,
+        path {
+          fill: $snow;
+        }
+        
+        &.disabled {
+          circle {
+            fill: $smoke;
+          }
+        }
+      }
+
+      .transferButton {
+        &.disabled {
+          circle {
+            stroke: $smoke;
+          }
+
+          g,
+          path {
+            fill: $smoke;
+          }
+        }
+      }
+
+      .disabled,
+      .disabled * {
+        cursor: not-allowed;
+      }
+    }
   }
 }
 
@@ -124,6 +189,9 @@ $button-basis:68.5px;
 .contactDisplay,
 .contactDisplay * {
   color: $lightblack !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
 
   .icon {
     display: none;

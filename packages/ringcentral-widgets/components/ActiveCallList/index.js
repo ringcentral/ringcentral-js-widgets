@@ -49,7 +49,12 @@ function ActiveCallList({
   showCallDetail,
   updateSessionMatchedContact,
   renderExtraButton,
-  renderContactName
+  renderContactName,
+  ringoutHangup,
+  ringoutTransfer,
+  ringoutReject,
+  disableLinks,
+  showRingoutCallControl,
 }) {
   if (!calls.length) {
     return null;
@@ -109,6 +114,11 @@ function ActiveCallList({
               updateSessionMatchedContact={updateSessionMatchedContact}
               renderExtraButton={renderExtraButton}
               renderContactName={renderContactName}
+              ringoutHangup={ringoutHangup}
+              ringoutTransfer={ringoutTransfer}
+              ringoutReject={ringoutReject}
+              disableLinks={disableLinks}
+              showRingoutCallControl={showRingoutCallControl}
             />
           );
         })
@@ -153,7 +163,12 @@ ActiveCallList.propTypes = {
   showCallDetail: PropTypes.bool,
   updateSessionMatchedContact: PropTypes.func,
   renderExtraButton: PropTypes.func,
-  renderContactName: PropTypes.func
+  renderContactName: PropTypes.func,
+  ringoutHangup: PropTypes.func,
+  ringoutTransfer: PropTypes.func,
+  ringoutReject: PropTypes.func,
+  disableLinks: PropTypes.bool,
+  showRingoutCallControl: PropTypes.bool,
 };
 
 ActiveCallList.defaultProps = {
@@ -186,7 +201,12 @@ ActiveCallList.defaultProps = {
   showCallDetail: false,
   updateSessionMatchedContact: i => i,
   renderExtraButton: undefined,
-  renderContactName: undefined
+  renderContactName: undefined,
+  ringoutHangup: undefined,
+  ringoutTransfer: undefined,
+  ringoutReject: undefined,
+  disableLinks: false,
+  showRingoutCallControl: false,
 };
 
 export default ActiveCallList;

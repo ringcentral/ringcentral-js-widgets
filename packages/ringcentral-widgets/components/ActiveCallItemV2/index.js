@@ -13,6 +13,7 @@ import HoldIcon from '../../assets/images/Hold.svg';
 import VoicemailIcon from '../../assets/images/Voicemail.svg';
 import AnswerIcon from '../../assets/images/Answer.svg';
 import MergeIntoConferenceIcon from '../../assets/images/MergeIntoConferenceIcon.svg';
+import TransferIcon from '../../assets/images/Transfer.svg';
 import MediaObject from '../MediaObject';
 import DurationCounter from '../DurationCounter';
 
@@ -178,6 +179,116 @@ WebphoneButtons.defaultProps = {
   disableMerge: true,
   onMergeCall: i => i,
   webphoneAnswer: i => i,
+};
+
+function RingoutButtons({
+  showRingoutCallControl,
+  currentLocale,
+  disableLinks,
+  sessionId,
+  ringoutHangup,
+  ringoutReject,
+  ringoutTransfer,
+  ringing,
+  inbound,
+}) {
+  if (!showRingoutCallControl) return null;
+
+  let endButton;
+  const inComingCall = inbound && ringing;
+  if (inComingCall) {
+    const rejectTitle = i18n.getString('reject', currentLocale);
+    endButton = (
+      <span title={rejectTitle} className={styles.ringoutButton}>
+        <CircleButton
+          disabled={disableLinks}
+          className={
+            classnames({
+              [styles.endButton]: true,
+              [styles.disabled]: disableLinks
+            })
+          }
+          onClick={(e) => {
+            e.stopPropagation();
+            ringoutReject(sessionId);
+          }}
+          icon={EndIcon}
+          showBorder={false}
+            />
+      </span>
+    );
+  } else {
+    const hangupTitle = i18n.getString('hangup', currentLocale);
+    endButton = (
+      <span title={hangupTitle} className={styles.ringoutButton}>
+        <CircleButton
+          disabled={disableLinks}
+          className={
+            classnames({
+              [styles.endButton]: true,
+              [styles.disabled]: disableLinks
+            })
+          }
+          onClick={(e) => {
+            e.stopPropagation();
+            ringoutHangup(sessionId);
+          }}
+          icon={EndIcon}
+          showBorder={false}
+            />
+      </span>
+    );
+  }
+
+  let transferBtn;
+  if (ringoutTransfer && !inComingCall) {
+    const transferTitle = i18n.getString('transfer', currentLocale);
+
+    transferBtn = (
+      <span title={transferTitle} className={styles.ringoutButton}>
+        <CircleButton
+          disabled={disableLinks}
+          className={
+            classnames({
+              [styles.transferButton]: true,
+              [styles.disabled]: disableLinks
+            })
+          }
+          onClick={(e) => {
+                e.stopPropagation();
+                ringoutTransfer(sessionId);
+          }}
+          icon={TransferIcon}
+            />
+      </span>
+    );
+  }
+
+  return (
+    <div>
+      {endButton}
+      {transferBtn}
+    </div>
+  );
+}
+
+RingoutButtons.propTypes = {
+  currentLocale: PropTypes.string.isRequired,
+  disableLinks: PropTypes.bool,
+  ringoutHangup: PropTypes.func,
+  ringoutTransfer: PropTypes.func,
+  ringing: PropTypes.bool.isRequired,
+  inbound: PropTypes.bool.isRequired,
+  sessionId: PropTypes.string.isRequired,
+  ringoutReject: PropTypes.func,
+  showRingoutCallControl: PropTypes.bool.isRequired,
+};
+
+RingoutButtons.defaultProps = {
+  disableLinks: false,
+  ringoutHangup: undefined,
+  ringoutTransfer: undefined,
+  ringoutReject: undefined,
 };
 
 /**
@@ -348,6 +459,7 @@ export default class ActiveCallItem extends Component {
       call: {
         direction,
         webphoneSession,
+        sessionId,
       },
       disableLinks,
       currentLocale,
@@ -373,6 +485,10 @@ export default class ActiveCallItem extends Component {
       onMergeCall,
       showCallDetail,
       webphoneAnswer,
+      ringoutHangup,
+      ringoutTransfer,
+      ringoutReject,
+      showRingoutCallControl,
     } = this.props;
 
     const { avatarUrl, extraNum } = this.state;
@@ -380,39 +496,46 @@ export default class ActiveCallItem extends Component {
     const contactMatches = this.getContactMatches();
     const fallbackContactName = this.getFallbackContactName();
     const ringing = isRinging(this.props.call);
+    const inbound = isInbound(this.props.call);
     const contactName = typeof renderContactName === 'function' ?
       renderContactName(this.props.call) :
       undefined;
     const extraButton = typeof renderExtraButton === 'function' ?
-      renderExtraButton(this.props.call) :
+      <div className={styles.extraButton}>{renderExtraButton(this.props.call)}</div> :
       undefined;
+    const hasCallControl = !!(webphoneSession || showRingoutCallControl);
     return (
-      <div
-        onClick={onClick}
-        className={classnames(styles.callItemContainer, onClick
-        ? styles.pointer
-        : null)}
-      >
+      <div className={styles.callItemContainer}>
         <MediaObject
           containerCls={styles.wrapper}
+          bodyCls={classnames({
+            [styles.content]: true,
+            [styles.pointer]: hasCallControl,
+            [styles.disabled]: hasCallControl && disableLinks
+          })}
+          leftCls={classnames({
+            [styles.pointer]: hasCallControl,
+            [styles.disabled]: hasCallControl && disableLinks
+          })}
           mediaLeft={
-            <CallIcon
-              direction={direction}
-              ringing={ringing}
-              active
-              missed={false}
-              inboundTitle={i18n.getString('inboundCall', currentLocale)}
-              outboundTitle={i18n.getString('outboundCall', currentLocale)}
-              missedTitle={i18n.getString('missedCall', currentLocale)}
-              isOnConferenceCall={isOnConferenceCall}
-              showAvatar={showAvatar}
-              avatarUrl={avatarUrl}
-              extraNum={extraNum}
-            />
+            <div onClick={() => hasCallControl && onClick()}>
+              <CallIcon
+                direction={direction}
+                ringing={ringing}
+                active
+                missed={false}
+                inboundTitle={i18n.getString('inboundCall', currentLocale)}
+                outboundTitle={i18n.getString('outboundCall', currentLocale)}
+                missedTitle={i18n.getString('missedCall', currentLocale)}
+                isOnConferenceCall={isOnConferenceCall}
+                showAvatar={showAvatar}
+                avatarUrl={avatarUrl}
+                extraNum={extraNum}
+              />
+            </div>
           }
-          bodyCls={styles.content}
           mediaBody={
-            <div>
+            <div onClick={() => hasCallControl && onClick()} className={styles.strechVertical}>
               <ContactDisplay
                 isOnConferenceCall={isOnConferenceCall}
                 contactName={contactName}
@@ -437,22 +560,36 @@ export default class ActiveCallItem extends Component {
               />
               {showCallDetail ? this.getCallInfo() : null}
             </div>
-        }
+          }
           mediaRight={
-            <div>
-              <WebphoneButtons
-                session={webphoneSession}
-                webphoneReject={this.webphoneToVoicemail}
-                webphoneHangup={webphoneHangup}
-                webphoneResume={webphoneResume}
-                webphoneHold={webphoneHold}
-                currentLocale={currentLocale}
-                showMergeCall={showMergeCall}
-                showHold={showHold}
-                disableMerge={disableMerge}
-                onMergeCall={onMergeCall}
-                webphoneAnswer={webphoneAnswer}
-              />
+            <div className={styles.actionIconsBox}>
+              {
+                webphoneSession ?
+                  <WebphoneButtons
+                    session={webphoneSession}
+                    webphoneReject={this.webphoneToVoicemail}
+                    webphoneHangup={webphoneHangup}
+                    webphoneResume={webphoneResume}
+                    webphoneHold={webphoneHold}
+                    currentLocale={currentLocale}
+                    showMergeCall={showMergeCall}
+                    showHold={showHold}
+                    disableMerge={disableMerge}
+                    onMergeCall={onMergeCall}
+                    webphoneAnswer={webphoneAnswer}
+                /> :
+                  <RingoutButtons
+                    showRingoutCallControl={showRingoutCallControl}
+                    sessionId={sessionId}
+                    disableLinks={disableLinks}
+                    currentLocale={currentLocale}
+                    ringing={ringing}
+                    inbound={inbound}
+                    ringoutReject={ringoutReject}
+                    ringoutHangup={ringoutHangup}
+                    ringoutTransfer={ringoutTransfer}
+                />
+              }
               {extraButton}
             </div>
         }
@@ -481,6 +618,7 @@ ActiveCallItem.propTypes = {
       name: PropTypes.string,
     }),
     webphoneSession: PropTypes.object,
+    sessionId: PropTypes.string,
   }).isRequired,
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
@@ -510,6 +648,10 @@ ActiveCallItem.propTypes = {
   showCallDetail: PropTypes.bool,
   updateSessionMatchedContact: PropTypes.func,
   webphoneAnswer: PropTypes.func,
+  ringoutHangup: PropTypes.func,
+  ringoutTransfer: PropTypes.func,
+  showRingoutCallControl: PropTypes.bool,
+  ringoutReject: PropTypes.func,
 };
 
 ActiveCallItem.defaultProps = {
@@ -538,4 +680,8 @@ ActiveCallItem.defaultProps = {
   showCallDetail: false,
   updateSessionMatchedContact: i => i,
   webphoneAnswer: i => i,
+  ringoutHangup: undefined,
+  ringoutTransfer: undefined,
+  ringoutReject: undefined,
+  showRingoutCallControl: false,
 };

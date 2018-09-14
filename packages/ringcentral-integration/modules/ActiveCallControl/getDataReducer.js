@@ -36,7 +36,8 @@ function getActiveSessionIdReducer(types) {
       case types.setActiveSessionId: {
         return sessionId;
       }
-      case types.resetSuccess: {
+      case types.resetSuccess:
+      case types.removeActiveSession: {
         return null;
       }
       default:
@@ -55,6 +56,7 @@ function getRecordingIdsStatusReducer(types) {
         return newState;
       }
       case types.recordFail:
+      case types.removeActiveSession:
       case types.resetSuccess:
         return {};
       default:
@@ -93,6 +95,24 @@ function getActiveSessionsStatusReducer(types) {
         newState[sessionId] = {
           ...newState[sessionId],
           isOnRecording: type === types.startRecord
+        };
+        return newState;
+      }
+      case types.mute:
+      case types.unmute: {
+        const newState = { ...state };
+        newState[sessionId] = {
+          ...newState[sessionId],
+          isOnMute: type === types.mute
+        };
+        return newState;
+      }
+      case types.hold:
+      case types.unhold: {
+        const newState = { ...state };
+        newState[sessionId] = {
+          ...newState[sessionId],
+          isOnHold: type === types.hold
         };
         return newState;
       }
