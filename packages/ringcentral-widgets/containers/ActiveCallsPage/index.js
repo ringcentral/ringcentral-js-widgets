@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
-import { isRinging } from 'ringcentral-integration/lib/callLogHelpers';
+import { isRinging, isRingingInboundCall } from 'ringcentral-integration/lib/callLogHelpers';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 import { withPhone } from '../../lib/phoneContext';
 
@@ -182,10 +182,15 @@ function mapToFunctions(_, {
     onCallItemClick(call) {
       if (!call.webphoneSession) {
         // For ringout call
+        if (isRingingInboundCall(call)) {
+          return;
+        }
+
         const { sessionId } = call;
         // to track the call item be clicked.
         callMonitor.callItemClickTrack();
         activeCallControl.setActiveSessionId(sessionId);
+        routerInteraction.push('/simplifycallctrl');
         // TODO: Display the call control page.
       } else {
         // For webphone call
