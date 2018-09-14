@@ -187,6 +187,7 @@ class CallCtrlPanel extends Component {
         conferenceCallParties={this.props.conferenceCallParties}
         lastCallInfo={this.props.lastCallInfo}
         getAvatarUrl={this.props.getAvatarUrl}
+        actions={this.props.actions}
       >
         {this.props.children}
         {this.props.showSpinner ? <SpinnerOverlay /> : null}
@@ -265,6 +266,7 @@ CallCtrlPanel.propTypes = {
   afterHideMergeConfirm: PropTypes.func,
   afterConfirmMerge: PropTypes.func,
   afterOnMerge: PropTypes.func,
+  actions: PropTypes.array,
 };
 
 CallCtrlPanel.defaultProps = {
@@ -304,6 +306,7 @@ CallCtrlPanel.defaultProps = {
   afterHideMergeConfirm: () => null,
   afterConfirmMerge: () => null,
   afterOnMerge: () => null,
+  actions: []
 };
 
 export default CallCtrlPanel;

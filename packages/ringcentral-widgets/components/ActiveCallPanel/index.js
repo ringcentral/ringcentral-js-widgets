@@ -59,6 +59,7 @@ function ActiveCallPanel({
   conferenceCallParties,
   lastCallInfo,
   getAvatarUrl,
+  actions,
 }) {
   const backHeader = showBackButton ? (
     <BackHeader
@@ -156,6 +157,7 @@ function ActiveCallPanel({
           mergeDisabled={mergeDisabled}
           conferenceCallEquipped={conferenceCallEquipped}
           hasConferenceCall={hasConferenceCall}
+          actions={actions}
         />
         {children}
       </Panel>
@@ -210,6 +212,7 @@ ActiveCallPanel.propTypes = {
   hasConferenceCall: PropTypes.bool,
   lastCallInfo: PropTypes.object,
   getAvatarUrl: PropTypes.func,
+  actions: PropTypes.array,
 };
 
 ActiveCallPanel.defaultProps = {
@@ -240,6 +243,7 @@ ActiveCallPanel.defaultProps = {
   conferenceCallParties: undefined,
   lastCallInfo: undefined,
   getAvatarUrl: () => null,
+  actions: []
 };
 
 export default ActiveCallPanel;

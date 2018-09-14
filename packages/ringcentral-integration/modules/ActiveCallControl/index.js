@@ -4,6 +4,7 @@ import getter from '../../lib/getter';
 import { Module } from '../../lib/di';
 import Pollable from '../../lib/Pollable';
 import moduleStatuses from '../../enums/moduleStatuses';
+import callErrors from '../Call/callErrors';
 
 import ensureExist from '../../lib/ensureExist';
 import actionTypes from './actionTypes';
@@ -27,6 +28,7 @@ const subscribeEvent = '/account/~/extension/~/telephony/sessions';
     'RolesAndPermissions',
     'CallMonitor',
     'Alert',
+    'NumberValidate',
     { dep: 'TabManager', optional: true },
     { dep: 'Storage', optional: true },
     { dep: 'ActiveCallControlOptions', optional: true }
@@ -47,6 +49,7 @@ export default class ActiveCallControl extends Pollable {
     polling = false,
     disableCache = false,
     alert,
+    numberValidate,
     ...options
   }) {
     super({
@@ -57,20 +60,20 @@ export default class ActiveCallControl extends Pollable {
     if (!disableCache) {
       this._storage = storage;
     }
-    this._subscription = this::ensureExist(subscription, 'subscription');
-    this._connectivityMonitor = this::ensureExist(connectivityMonitor, 'connectivityMonitor');
-    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
-    this._callMonitor = this::ensureExist(callMonitor, 'callMonitor');
+    this._subscription = this:: ensureExist(subscription, 'subscription');
+    this._connectivityMonitor = this:: ensureExist(connectivityMonitor, 'connectivityMonitor');
+    this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._callMonitor = this:: ensureExist(callMonitor, 'callMonitor');
     this._tabManager = tabManager;
     this._ttl = ttl;
     this._timeToRetry = timeToRetry;
-    this._auth = this::ensureExist(auth, 'auth');
+    this._auth = this:: ensureExist(auth, 'auth');
     this._promise = null;
     this._lastSubscriptionMessage = null;
     this._storageKey = storageKey;
     this._polling = polling;
     this._alert = alert;
-
+    this._numberValidate = numberValidate;
 
     if (this._storage) {
       this._reducer = getActiveCallControlReducer(this.actionTypes);
@@ -453,8 +456,21 @@ export default class ActiveCallControl extends Pollable {
     try {
       const activeSession = this.activeSessions[sessionId];
       const url = requestURI(activeSession).transfer;
+      const validatedResult = await this._numberValidate.validateNumbers([transferNumber]);
+      if (!validatedResult.result) {
+        validatedResult.errors.forEach((error) => {
+          this._alert.warning({
+            message: callErrors[error.type],
+            payload: {
+              phoneNumber: error.phoneNumber
+            }
+          });
+        });
+        return;
+      }
+      const validPhoneNumber = validatedResult.numbers[0] && validatedResult.numbers[0].e164;
       await this._client.service._platform.post(url, {
-        phoneNumber: transferNumber
+        phoneNumber: validPhoneNumber
       });
       if (typeof this._onCallEndFunc === 'function') {
         this._onCallEndFunc();
@@ -501,7 +517,7 @@ export default class ActiveCallControl extends Pollable {
   }
   get data() {
     return (this._storage && this._storage.ready && this._storage.getItem(this._storageKey)) ||
-     this.state;
+      this.state;
   }
   get activeSessionId() {
     return this.data.activeSessionId || null;
