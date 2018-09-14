@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -14,26 +14,34 @@ import {
 import i18n from './i18n';
 import styles from './styles.scss';
 
-function ConferenceCallDialerPanel({
-  onBack,
-  ...baseProps
-}) {
-  return [
-    <BackHeader
-      key="header"
-      onBackClick={onBack}
-      backButton={<BackButton label={i18n.getString('activeCall')} />}
-    />,
-    <DialerPanel
-      key="dialer"
-      {...baseProps}
-    />
-  ];
+class ConferenceCallDialerPanel extends Component {
+  componentWillMount() {
+    this.props.setLastSessionId();
+  }
+
+  render() {
+    const {
+      onBack,
+      ...baseProps
+    } = this.props;
+    return [
+      <BackHeader
+        key="header"
+        onBackClick={onBack}
+        backButton={<BackButton label={i18n.getString('activeCall')} />}
+      />,
+      <DialerPanel
+        key="dialer"
+        {...baseProps}
+      />
+    ];
+  }
 }
 
 ConferenceCallDialerPanel.propTypes = {
   ...DialerPanel.propTypes,
   onBack: PropTypes.func.isRequired,
+  setLastSessionId: PropTypes.func.isRequired,
 };
 
 ConferenceCallDialerPanel.defaultProps = {
@@ -82,6 +90,10 @@ function mapToFunctions(_, {
   return {
     ...baseProps,
     onBack,
+    setLastSessionId() {
+      const { fromSessionId } = params;
+      conferenceDialerUI.setLastSessionId(fromSessionId);
+    },
     onCallButtonClick() {
       conferenceDialerUI.onCallButtonClick({
         fromNumber: params.fromNumber,
