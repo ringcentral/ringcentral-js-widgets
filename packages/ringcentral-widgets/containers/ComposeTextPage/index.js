@@ -13,8 +13,10 @@ function mapToProps(_, {
     messageSender,
     rateLimiter,
     rolesAndPermissions,
-    brand
+    brand,
   },
+  inputFlexHeightEnable = true,
+  inputMaxHeight = 300,
 }) {
   return {
     brand: brand.fullName,
@@ -43,6 +45,7 @@ function mapToProps(_, {
       rolesAndPermissions.ready &&
       contactSearch.ready
     ),
+    inputMaxHeight: inputFlexHeightEnable? inputMaxHeight: 65,
   };
 }
 
