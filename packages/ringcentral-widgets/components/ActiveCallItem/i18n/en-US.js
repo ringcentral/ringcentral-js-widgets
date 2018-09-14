@@ -27,4 +27,6 @@ export default {
   mergeToConference: 'Merge',
   hold: 'Hold',
   unhold: 'Unhold',
+  transfer: 'Transfer',
+  reject: 'Reject',
 };

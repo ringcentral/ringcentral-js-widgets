@@ -480,6 +480,13 @@ export default class CallMonitor extends RcModule {
     });
   }
 
+  allCallsClickRejectTrack() {
+    this.store.dispatch({
+      type: this.actionTypes.allCallsClickRejectTrack,
+    });
+  }
+
+
   callControlClickAddTrack() {
     this.store.dispatch({
       type: this.actionTypes.callControlClickAddTrack
