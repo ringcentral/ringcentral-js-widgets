@@ -5,8 +5,7 @@
 }
 .move {
  position: relative;
- animation: rotate 5s ;
- animation-iteration-count: infinite;
+ animation: rotate 5s infinite;
 }
 @-webkit-keyframes rotate{
   0% {
