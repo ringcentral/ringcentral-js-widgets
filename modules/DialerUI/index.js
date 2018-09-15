@@ -9,14 +9,6 @@ var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-pr
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
-var _keys = require('babel-runtime/core-js/object/keys');
-
-var _keys2 = _interopRequireDefault(_keys);
-
-var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
-
 var _getIterator2 = require('babel-runtime/core-js/get-iterator');
 
 var _getIterator3 = _interopRequireDefault(_getIterator2);
@@ -63,13 +55,7 @@ var _RcModule2 = require('ringcentral-integration/lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
 
-var _Enum = require('ringcentral-integration/lib/Enum');
-
-var _Enum2 = _interopRequireDefault(_Enum);
-
 var _di = require('ringcentral-integration/lib/di');
-
-var _redux = require('redux');
 
 var _proxify = require('ringcentral-integration/lib/proxy/proxify');
 
@@ -79,17 +65,17 @@ var _ensureExist = require('ringcentral-integration/lib/ensureExist');
 
 var _ensureExist2 = _interopRequireDefault(_ensureExist);
 
-var _getModuleStatusReducer = require('ringcentral-integration/lib/getModuleStatusReducer');
-
-var _getModuleStatusReducer2 = _interopRequireDefault(_getModuleStatusReducer);
-
-var _moduleActionTypes = require('ringcentral-integration/enums/moduleActionTypes');
-
-var _moduleActionTypes2 = _interopRequireDefault(_moduleActionTypes);
-
 var _callErrors = require('ringcentral-integration/modules/Call/callErrors');
 
 var _callErrors2 = _interopRequireDefault(_callErrors);
+
+var _actionTypes = require('./actionTypes');
+
+var _actionTypes2 = _interopRequireDefault(_actionTypes);
+
+var _getReducer = require('./getReducer');
+
+var _getReducer2 = _interopRequireDefault(_getReducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -122,68 +108,26 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
   return desc;
 }
 
-function getToNumberFieldReducer(types) {
-  return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-    var _ref = arguments[1];
-    var type = _ref.type,
-        phoneNumber = _ref.phoneNumber;
-
-    switch (type) {
-      case types.setToNumberField:
-      case types.loadLastCallState:
-      case types.call:
-        return phoneNumber;
-      case types.setRecipient:
-      case types.clearToNumberField:
-      case types.resetSuccess:
-      case types.callSuccess:
-        return '';
-      default:
-        return state;
-    }
-  };
-}
-
-function getRecipientReducer(types) {
-  return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    var _ref2 = arguments[1];
-    var type = _ref2.type,
-        recipient = _ref2.recipient;
-
-    switch (type) {
-      case types.setRecipient:
-      case types.loadLastCallState:
-      case types.call:
-        return recipient;
-      case types.clearRecipient:
-      case types.resetSuccess:
-      case types.callSuccess:
-        return null;
-      default:
-        return state;
-    }
-  };
-}
-
 var DialerUI = (_dec = (0, _di.Module)({
   name: 'DialerUI',
   deps: ['Call', 'Alert', { dep: 'DialerUIOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(DialerUI, _RcModule);
 
-  function DialerUI(_ref3) {
-    var call = _ref3.call,
-        alert = _ref3.alert,
-        options = (0, _objectWithoutProperties3.default)(_ref3, ['call', 'alert']);
+  function DialerUI(_ref) {
+    var call = _ref.call,
+        alert = _ref.alert,
+        subActionTypes = _ref.actionTypes,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['call', 'alert', 'actionTypes']);
     (0, _classCallCheck3.default)(this, DialerUI);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (DialerUI.__proto__ || (0, _getPrototypeOf2.default)(DialerUI)).call(this, (0, _extends3.default)({}, options)));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (DialerUI.__proto__ || (0, _getPrototypeOf2.default)(DialerUI)).call(this, (0, _extends3.default)({}, options, {
+      actionTypes: subActionTypes || _actionTypes2.default
+    })));
 
     _this._call = _ensureExist2.default.call(_this, call, 'call');
     _this._alert = _ensureExist2.default.call(_this, alert, 'alert');
-    _this._storageKey = 'dialerUIData';
+    _this._reducer = (0, _getReducer2.default)(_this.actionTypes);
     _this._callHooks = [];
     return _this;
   }
@@ -191,7 +135,7 @@ var DialerUI = (_dec = (0, _di.Module)({
   (0, _createClass3.default)(DialerUI, [{
     key: '_onStateChange',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -221,7 +165,7 @@ var DialerUI = (_dec = (0, _di.Module)({
       }));
 
       function _onStateChange() {
-        return _ref4.apply(this, arguments);
+        return _ref2.apply(this, arguments);
       }
 
       return _onStateChange;
@@ -229,7 +173,7 @@ var DialerUI = (_dec = (0, _di.Module)({
   }, {
     key: 'clearToNumberField',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -247,7 +191,7 @@ var DialerUI = (_dec = (0, _di.Module)({
       }));
 
       function clearToNumberField() {
-        return _ref5.apply(this, arguments);
+        return _ref3.apply(this, arguments);
       }
 
       return clearToNumberField;
@@ -255,7 +199,7 @@ var DialerUI = (_dec = (0, _di.Module)({
   }, {
     key: 'setToNumberField',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(phoneNumber) {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(phoneNumber) {
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -275,8 +219,8 @@ var DialerUI = (_dec = (0, _di.Module)({
         }, _callee3, this);
       }));
 
-      function setToNumberField(_x3) {
-        return _ref6.apply(this, arguments);
+      function setToNumberField(_x) {
+        return _ref4.apply(this, arguments);
       }
 
       return setToNumberField;
@@ -284,7 +228,7 @@ var DialerUI = (_dec = (0, _di.Module)({
   }, {
     key: 'setRecipient',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(recipient) {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(recipient) {
         var shouldClean = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
@@ -311,8 +255,8 @@ var DialerUI = (_dec = (0, _di.Module)({
         }, _callee4, this);
       }));
 
-      function setRecipient(_x5) {
-        return _ref7.apply(this, arguments);
+      function setRecipient(_x3) {
+        return _ref5.apply(this, arguments);
       }
 
       return setRecipient;
@@ -320,7 +264,7 @@ var DialerUI = (_dec = (0, _di.Module)({
   }, {
     key: 'clearRecipient',
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -338,7 +282,7 @@ var DialerUI = (_dec = (0, _di.Module)({
       }));
 
       function clearRecipient() {
-        return _ref8.apply(this, arguments);
+        return _ref6.apply(this, arguments);
       }
 
       return clearRecipient;
@@ -346,13 +290,13 @@ var DialerUI = (_dec = (0, _di.Module)({
   }, {
     key: 'call',
     value: function () {
-      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(_ref9) {
-        var _ref9$phoneNumber = _ref9.phoneNumber,
-            phoneNumber = _ref9$phoneNumber === undefined ? '' : _ref9$phoneNumber,
-            _ref9$recipient = _ref9.recipient,
-            recipient = _ref9$recipient === undefined ? null : _ref9$recipient,
-            _ref9$fromNumber = _ref9.fromNumber,
-            fromNumber = _ref9$fromNumber === undefined ? null : _ref9$fromNumber;
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(_ref7) {
+        var _ref7$phoneNumber = _ref7.phoneNumber,
+            phoneNumber = _ref7$phoneNumber === undefined ? '' : _ref7$phoneNumber,
+            _ref7$recipient = _ref7.recipient,
+            recipient = _ref7$recipient === undefined ? null : _ref7$recipient,
+            _ref7$fromNumber = _ref7.fromNumber,
+            fromNumber = _ref7$fromNumber === undefined ? null : _ref7$fromNumber;
 
         var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, hook;
 
@@ -462,8 +406,8 @@ var DialerUI = (_dec = (0, _di.Module)({
         }, _callee6, this, [[5, 16, 20, 28], [21,, 23, 27], [28, 34]]);
       }));
 
-      function call(_x6) {
-        return _ref10.apply(this, arguments);
+      function call(_x4) {
+        return _ref8.apply(this, arguments);
       }
 
       return call;
@@ -471,10 +415,10 @@ var DialerUI = (_dec = (0, _di.Module)({
   }, {
     key: 'onCallButtonClick',
     value: function () {
-      var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
-        var _ref12 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-            fromNumber = _ref12.fromNumber,
-            beforeCall = _ref12.beforeCall;
+      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
+        var _ref10 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+            fromNumber = _ref10.fromNumber,
+            beforeCall = _ref10.beforeCall;
 
         return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
@@ -519,30 +463,11 @@ var DialerUI = (_dec = (0, _di.Module)({
       }));
 
       function onCallButtonClick() {
-        return _ref11.apply(this, arguments);
+        return _ref9.apply(this, arguments);
       }
 
       return onCallButtonClick;
     }()
-  }, {
-    key: '_actionTypes',
-    get: function get() {
-      return new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)(_moduleActionTypes2.default)), ['setToNumberField', 'clearToNumberField', 'setRecipient', 'clearRecipient', 'loadLastCallState', 'call', 'callError', 'callSuccess']), 'dialerUI');
-    }
-  }, {
-    key: 'reducer',
-    get: function get() {
-      return (0, _redux.combineReducers)({
-        status: (0, _getModuleStatusReducer2.default)(this.actionTypes),
-        toNumberField: getToNumberFieldReducer(this.actionTypes),
-        recipient: getRecipientReducer(this.actionTypes)
-      });
-    }
-  }, {
-    key: 'lastDialedState',
-    get: function get() {
-      return this._storage.getItem(this._storageKey);
-    }
   }, {
     key: 'toNumberField',
     get: function get() {

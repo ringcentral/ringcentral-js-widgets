@@ -13,6 +13,26 @@ var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProp
 
 var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
+var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -51,30 +71,50 @@ var _styles2 = _interopRequireDefault(_styles);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function ConferenceCallDialerPanel(_ref) {
-  var onBack = _ref.onBack,
-      baseProps = (0, _objectWithoutProperties3.default)(_ref, ['onBack']);
+var ConferenceCallDialerPanel = function (_Component) {
+  (0, _inherits3.default)(ConferenceCallDialerPanel, _Component);
 
-  return [_react2.default.createElement(_BackHeader2.default, {
-    key: 'header',
-    onBackClick: onBack,
-    backButton: _react2.default.createElement(_BackButton2.default, { label: _i18n2.default.getString('activeCall') })
-  }), _react2.default.createElement(_DialerPanel2.default, (0, _extends3.default)({
-    key: 'dialer'
-  }, baseProps))];
-}
+  function ConferenceCallDialerPanel() {
+    (0, _classCallCheck3.default)(this, ConferenceCallDialerPanel);
+    return (0, _possibleConstructorReturn3.default)(this, (ConferenceCallDialerPanel.__proto__ || (0, _getPrototypeOf2.default)(ConferenceCallDialerPanel)).apply(this, arguments));
+  }
+
+  (0, _createClass3.default)(ConferenceCallDialerPanel, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      this.props.setLastSessionId();
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          onBack = _props.onBack,
+          baseProps = (0, _objectWithoutProperties3.default)(_props, ['onBack']);
+
+      return [_react2.default.createElement(_BackHeader2.default, {
+        key: 'header',
+        onBackClick: onBack,
+        backButton: _react2.default.createElement(_BackButton2.default, { label: _i18n2.default.getString('activeCall') })
+      }), _react2.default.createElement(_DialerPanel2.default, (0, _extends3.default)({
+        key: 'dialer'
+      }, baseProps))];
+    }
+  }]);
+  return ConferenceCallDialerPanel;
+}(_react.Component);
 
 ConferenceCallDialerPanel.propTypes = (0, _extends3.default)({}, _DialerPanel2.default.propTypes, {
-  onBack: _propTypes2.default.func.isRequired
+  onBack: _propTypes2.default.func.isRequired,
+  setLastSessionId: _propTypes2.default.func.isRequired
 });
 
 ConferenceCallDialerPanel.defaultProps = (0, _extends3.default)({}, _DialerPanel2.default.defaultProps);
 
-function mapToProps(_, _ref2) {
-  var _ref2$phone = _ref2.phone,
-      conferenceDialerUI = _ref2$phone.conferenceDialerUI,
-      components = (0, _objectWithoutProperties3.default)(_ref2$phone, ['conferenceDialerUI']),
-      props = (0, _objectWithoutProperties3.default)(_ref2, ['phone']);
+function mapToProps(_, _ref) {
+  var _ref$phone = _ref.phone,
+      conferenceDialerUI = _ref$phone.conferenceDialerUI,
+      components = (0, _objectWithoutProperties3.default)(_ref$phone, ['conferenceDialerUI']),
+      props = (0, _objectWithoutProperties3.default)(_ref, ['phone']);
 
   var baseProps = (0, _DialerPage.mapToProps)(_, (0, _extends3.default)({}, props, {
     phone: (0, _extends3.default)({}, components, {
@@ -86,14 +126,14 @@ function mapToProps(_, _ref2) {
   });
 }
 
-function mapToFunctions(_, _ref3) {
-  var params = _ref3.params,
-      _ref3$phone = _ref3.phone,
-      conferenceCall = _ref3$phone.conferenceCall,
-      conferenceDialerUI = _ref3$phone.conferenceDialerUI,
-      components = (0, _objectWithoutProperties3.default)(_ref3$phone, ['conferenceCall', 'conferenceDialerUI']),
-      onBack = _ref3.onBack,
-      props = (0, _objectWithoutProperties3.default)(_ref3, ['params', 'phone', 'onBack']);
+function mapToFunctions(_, _ref2) {
+  var params = _ref2.params,
+      _ref2$phone = _ref2.phone,
+      conferenceCall = _ref2$phone.conferenceCall,
+      conferenceDialerUI = _ref2$phone.conferenceDialerUI,
+      components = (0, _objectWithoutProperties3.default)(_ref2$phone, ['conferenceCall', 'conferenceDialerUI']),
+      onBack = _ref2.onBack,
+      props = (0, _objectWithoutProperties3.default)(_ref2, ['params', 'phone', 'onBack']);
 
   var baseProps = (0, _DialerPage.mapToFunctions)(_, (0, _extends3.default)({
     params: params
@@ -105,6 +145,11 @@ function mapToFunctions(_, _ref3) {
   }));
   return (0, _extends3.default)({}, baseProps, {
     onBack: onBack,
+    setLastSessionId: function setLastSessionId() {
+      var fromSessionId = params.fromSessionId;
+
+      conferenceDialerUI.setLastSessionId(fromSessionId);
+    },
     onCallButtonClick: function onCallButtonClick() {
       conferenceDialerUI.onCallButtonClick({
         fromNumber: params.fromNumber,
