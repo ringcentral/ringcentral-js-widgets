@@ -1,3 +1,4 @@
+import formatMessage from 'format-message';
 import RcModule from 'ringcentral-integration/lib/RcModule';
 import { Module } from 'ringcentral-integration/lib/di';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
@@ -10,6 +11,11 @@ import baseActionTypes from './baseActionTypes';
 import getDefaultGlobalStorageReducer from './getDefaultGlobalStorageReducer';
 import IframeMessageTransport from '../IframeMessageTransport';
 
+import headerI18n from '../../components/CallMonitorBar/i18n';
+
+const ALL_CALL_PATH = '/calls';
+const ACTIVE_CALL_PATH = '/calls/active';
+
 @Module({
   deps: [
     'CallingSettings',
@@ -19,6 +25,7 @@ import IframeMessageTransport from '../IframeMessageTransport';
     'RouterInteraction',
     'Storage',
     'Webphone',
+    'CallMonitor'
   ]
 })
 export default class AdapterModuleCore extends RcModule {
@@ -33,6 +40,7 @@ export default class AdapterModuleCore extends RcModule {
     presence,
     routerInteraction,
     webphone,
+    callMonitor,
     getGlobalStorageReducer = getDefaultGlobalStorageReducer,
     messageTransport = new IframeMessageTransport({
       targetWindow: window.parent,
@@ -52,6 +60,7 @@ export default class AdapterModuleCore extends RcModule {
     this._router = this::ensureExist(routerInteraction, 'routerInteraction');
     this._callingSettings = callingSettings;
     this._webphone = webphone;
+    this._callMonitor = callMonitor;
 
     this._storageKey = storageKey;
     this._globalStorage = this::ensureExist(globalStorage, 'globalStorage');
@@ -60,6 +69,27 @@ export default class AdapterModuleCore extends RcModule {
       key: this._storageKey,
       reducer: getGlobalStorageReducer(this.actionTypes),
     });
+
+    this.addSelector(
+      'localeStrings',
+      () => this._currentLocale,
+      () => this._callMonitor.activeRingCalls.length,
+      () => this._callMonitor.activeOnHoldCalls.length,
+      (currentLocale, ringingCallsLength, onHoldCallsLength) => {
+        const ringCallsInfo = ringingCallsLength === 1 ?
+          formatMessage(headerI18n.getString('incomingCall', currentLocale), { numberOf: ringingCallsLength }) :
+          formatMessage(headerI18n.getString('incomingCalls', currentLocale), { numberOf: ringingCallsLength });
+        const onHoldCallsInfo = onHoldCallsLength === 1 ?
+          formatMessage(headerI18n.getString('callOnHold', currentLocale), { numberOf: onHoldCallsLength }) :
+          formatMessage(headerI18n.getString('callsOnHold', currentLocale), { numberOf: onHoldCallsLength });
+        return {
+          currentCall: headerI18n.getString('currentCall', currentLocale),
+          viewCalls: headerI18n.getString('viewCall', currentLocale),
+          ringCallsInfo,
+          onHoldCallsInfo,
+        };
+      }
+    );
   }
   initialize() {
     this._messageTransport.addListener(msg => this._onMessage(msg));
@@ -103,6 +133,12 @@ export default class AdapterModuleCore extends RcModule {
           break;
         case this._messageTypes.presenceClicked:
           this._onPresenceClicked();
+          break;
+        case this._messageTypes.navigateToCurrentCall:
+          this._onNavigateToCurrentCall();
+          break;
+        case this._messageTypes.navigateToViewCalls:
+          this._onNavigateToViewCalls();
           break;
         default:
           break;
@@ -165,6 +201,54 @@ export default class AdapterModuleCore extends RcModule {
             ringing: false
           });
           this._ringSessionId = null;
+        }
+      }
+      const ringingCallsLength = this._callMonitor.activeRingCalls.length;
+      const onHoldCallsLength = this._callMonitor.activeOnHoldCalls.length;
+      const currentStartTime = (
+        this._callMonitor.activeCurrentCalls &&
+        this._callMonitor.activeCurrentCalls.length > 0 &&
+        this._callMonitor.activeCurrentCalls[0].startTime) || 0;
+      if (
+        this._lastRingCallsLength !== ringingCallsLength ||
+        this._lastOnHoldCallsLength !== onHoldCallsLength ||
+        this._lastCurrentStartTime !== currentStartTime
+      ) {
+        this._lastRingCallsLength = ringingCallsLength;
+        this._lastOnHoldCallsLength = onHoldCallsLength;
+        this._lastCurrentStartTime = currentStartTime;
+        this._postMessage({
+          type: this._messageTypes.pushCalls,
+          ringingCallsLength,
+          onHoldCallsLength,
+          currentStartTime,
+        });
+        this._postMessage({
+          type: this._messageTypes.pushLocale,
+          strings: this._localeStrings
+        });
+      }
+      if (this._lastPath !== this._router.currentPath) {
+        this._lastPath = this._router.currentPath;
+        const onCurrentCallPath = (this._router.currentPath.indexOf(ACTIVE_CALL_PATH) >= 0);
+        if (
+          this.onCurrentCallPath !== onCurrentCallPath
+        ) {
+          this.onCurrentCallPath = onCurrentCallPath;
+          this._postMessage({
+            type: this._messageTypes.pushOnCurrentCallPath,
+            onCurrentCallPath,
+          });
+        }
+        const onAllCallsPath = (this._router.currentPath === ALL_CALL_PATH);
+        if (
+          this.onAllCallsPath !== onAllCallsPath
+        ) {
+          this.onAllCallsPath = onAllCallsPath;
+          this._postMessage({
+            type: this._messageTypes.pushOnAllCallsPath,
+            onAllCallsPath,
+          });
         }
       }
     } else {
@@ -268,6 +352,20 @@ export default class AdapterModuleCore extends RcModule {
     this.store.dispatch({
       type: this.actionTypes.showAdapter,
     });
+  }
+
+  @proxify
+  async _onNavigateToCurrentCall() {
+    this._router.push(ACTIVE_CALL_PATH);
+  }
+
+  @proxify
+  async _onNavigateToViewCalls() {
+    this._router.push(ALL_CALL_PATH);
+  }
+
+  get _localeStrings() {
+    return this._selectors.localeStrings();
   }
 
   get status() {
