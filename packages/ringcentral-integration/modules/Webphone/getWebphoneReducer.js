@@ -84,11 +84,12 @@ export function getActiveSessionIdReducer(types) {
         if (session.id !== state) {
           return state;
         }
-        const sessionWithoutRinging = sessions.filter(session => !isRing(session));
-        return (sessionWithoutRinging[0] && sessionWithoutRinging[0].id) || null;
+        const activeSessions = sessions.filter(session => !isRing(session));
+        activeSessions.sort(sortByLastActiveTimeDesc);
+        return (activeSessions[0] && activeSessions[0].id) || null;
       }
       case types.clearSessionCaching: {
-        const activeSessions = sessions.filter(x => !x.cached);
+        const activeSessions = sessions.filter(x => !x.cached && !isRing(session));
         activeSessions.sort(sortByLastActiveTimeDesc);
         return (activeSessions[0] && activeSessions[0].id) || null;
       }
@@ -112,12 +113,8 @@ export function getRingSessionIdReducer(types) {
         if (session.id !== state) {
           return state;
         }
-        ringSessions =
-          sessions.filter(sessionItem => isRing(sessionItem));
-        if (ringSessions && ringSessions[0]) {
-          return ringSessions[0].id;
-        }
-        return null;
+        ringSessions = sessions.filter(sessionItem => isRing(sessionItem));
+        return (ringSessions[0] && ringSessions[0].id) || null;
       case types.disconnect:
         return null;
       default:
