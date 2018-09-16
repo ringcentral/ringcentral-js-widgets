@@ -15,6 +15,7 @@ describe('Test Demo: =====>', () => {
   //   levels: ['p0'],
   //   options: [
   //     { text: 'test', expected: 'test' },
+  //     { text: 'test1', expected: 'test1' },
   //   ],
   // }, async ({ option }) => {
   //   expect(option.text).toBe(option.expected);
@@ -27,6 +28,7 @@ describe('Test Demo: =====>', () => {
   //   levels: ['p0'],
   //   options: [
   //     { text: 'test', expected: 'test' },
+  //     { text: 'test1', expected: 'test1' },
   //   ],
   // }, async ({ option }) => {
   //   expect(driver.program.shallow(<Button>{option.text}</Button>).text()).toBe(option.expected);
@@ -50,8 +52,8 @@ describe('Test Demo: =====>', () => {
   test({
     title: 'Login with username ${username}, dialer ${selector} text expected "${title}"',
     tags: [
-      ['widgets'],
-      // ['salesforce'],
+      // ['widgets'],
+      ['salesforce', { drivers: ['puppeteer'], }],
     ],
     levels: ['p0'],
     options: [
