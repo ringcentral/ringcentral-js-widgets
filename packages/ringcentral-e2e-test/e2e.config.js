@@ -52,7 +52,7 @@ module.exports = {
         params: {
           brands: {
             rc: {
-              extension: './resources/extension/google/rc',
+              extension: '/Users/jackson.lin/workspace/jackzong/googlechrome/build/extension/google/rc',
               location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
             },
             att: {
