@@ -68,7 +68,8 @@ class Query extends BaseQuery {
 
   async waitForFrames(frameIds) {
     for (const frameId of frameIds) {
-      await this._node.switchTo().frames(frameId);
+      const element = await this._node.wait(until.elementLocated(By.id(frameId)));
+      await this._node.switchTo().frame(element);
     }
     return this._node;
   }
@@ -129,6 +130,11 @@ module.exports = (browser) => {
         .forBrowser(Browsers[webdriver])[setKeyName](
           this._options.driver.setting,
         )
+        .withCapabilities({
+          browserName: webdriver,
+          acceptSslCerts: true,
+          acceptInsecureCerts: true
+        })
         .build();
       this._page = this._browser;
     }
