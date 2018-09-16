@@ -53,7 +53,7 @@ describe('Test Demo: =====>', () => {
     title: 'Login with username ${username}, dialer ${selector} text expected "${title}"',
     tags: [
       // ['widgets'],
-      ['salesforce', { drivers: ['puppeteer'], }],
+      ['salesforce'],
     ],
     levels: ['p0'],
     options: [

@@ -11,7 +11,7 @@ export default class Entry {
 
   static async classic(context) {
     const { driver: { page } } = context;
-    const app = await $(page).waitForFrame('rcAppClassic');
+    const app = await $(page).waitForFrames(['SoftphoneIframe', 'rcAppClassic']);
     return app;
   }
 

@@ -66,12 +66,11 @@ class Query extends BaseQuery {
     });
   }
 
-  async getFrame(frameIds) {
-    let frame;
+  async waitForFrames(frameIds) {
     for (const frameId of frameIds) {
-      frame = await this._node.switchTo().frames(frameId);
+      await this._node.switchTo().frames(frameId);
     }
-    return frame;
+    return this._node;
   }
 
   async execute(...args) {

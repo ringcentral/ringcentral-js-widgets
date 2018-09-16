@@ -35,14 +35,15 @@ class Query extends BaseQuery {
     return element;
   }
 
-  async waitForFrame(frameId) {
+  async waitForFrames(frameIds) {
     // TODO
     await this.waitFor(100);
+    const frameId = frameIds.unshift();
     const frame = this._node.frames().find(frame => frame.name() === frameId);
     if (frame) {
       return frame;
     }
-    const result = await this.waitForFrame(frameId);
+    const result = await this.waitForFrames(frameIds);
     return result;
   }
 
