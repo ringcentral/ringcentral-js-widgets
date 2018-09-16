@@ -77,7 +77,6 @@ export function getConnectRetryCountsReducer(types) {
 export function getActiveSessionIdReducer(types) {
   return (state = null, { type, session = {}, sessions = [] }) => {
     switch (type) {
-      case types.beforeCallStart:
       case types.callStart:
         return session.id;
       case types.callEnd: {
@@ -107,7 +106,6 @@ export function getRingSessionIdReducer(types) {
     switch (type) {
       case types.callRing:
         return session.id;
-      case types.beforeCallStart:
       case types.callStart:
       case types.callEnd:
         if (session.id !== state) {
