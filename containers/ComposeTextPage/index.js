@@ -32,7 +32,8 @@ function mapToProps(_, _ref) {
       messageSender = _ref$phone.messageSender,
       rateLimiter = _ref$phone.rateLimiter,
       rolesAndPermissions = _ref$phone.rolesAndPermissions,
-      brand = _ref$phone.brand;
+      brand = _ref$phone.brand,
+      inputExpandable = _ref.inputExpandable;
 
   return {
     brand: brand.fullName,
@@ -45,7 +46,8 @@ function mapToProps(_, _ref) {
     messageText: composeText.messageText,
     outboundSMS: rolesAndPermissions.permissions.OutboundSMS,
     searchContactList: contactSearch.sortedResult,
-    showSpinner: !(composeText.ready && locale.ready && messageSender.ready && rolesAndPermissions.ready && contactSearch.ready)
+    showSpinner: !(composeText.ready && locale.ready && messageSender.ready && rolesAndPermissions.ready && contactSearch.ready),
+    inputExpandable: inputExpandable
   };
 }
 

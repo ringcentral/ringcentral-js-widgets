@@ -372,7 +372,8 @@ var ConversationPanel = function (_Component) {
           disabled: this.props.sendButtonDisabled,
           currentLocale: this.props.currentLocale,
           onSend: this.onSend,
-          onHeightChange: this.onInputHeightChange
+          onHeightChange: this.onInputHeightChange,
+          inputExpandable: this.props.inputExpandable
         })
       );
     }
@@ -415,7 +416,8 @@ ConversationPanel.propTypes = {
   conversationId: _propTypes2.default.string.isRequired,
   loadConversation: _propTypes2.default.func,
   renderExtraButton: _propTypes2.default.func,
-  loadingNextPage: _propTypes2.default.bool
+  loadingNextPage: _propTypes2.default.bool,
+  inputExpandable: _propTypes2.default.bool
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
@@ -435,7 +437,8 @@ ConversationPanel.defaultProps = {
     return null;
   },
   renderExtraButton: undefined,
-  loadingNextPage: false
+  loadingNextPage: false,
+  inputExpandable: undefined
 };
 
 exports.default = ConversationPanel;

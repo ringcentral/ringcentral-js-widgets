@@ -54,7 +54,8 @@ function mapToProps(_, _ref) {
       _ref$showGroupNumberN = _ref.showGroupNumberName,
       showGroupNumberName = _ref$showGroupNumberN === undefined ? false : _ref$showGroupNumberN,
       _ref$perPage = _ref.perPage,
-      perPage = _ref$perPage === undefined ? 20 : _ref$perPage;
+      perPage = _ref$perPage === undefined ? 20 : _ref$perPage,
+      inputExpandable = _ref.inputExpandable;
 
   var disableLinks = rateLimiter.isThrottling || !connectivityMonitor.connectivity;
   var showSpinner = !(dateTimeFormat.ready && (!contactMatcher || contactMatcher.ready) && regionSettings.ready && conversations.ready && rateLimiter.ready && connectivityMonitor.ready && (!conversationLogger || conversationLogger.ready));
@@ -76,7 +77,8 @@ function mapToProps(_, _ref) {
     disableLinks: disableLinks,
     autoLog: !!(conversationLogger && conversationLogger.autoLog),
     perPage: perPage,
-    loadingNextPage: conversations.loadingOldMessages
+    loadingNextPage: conversations.loadingOldMessages,
+    inputExpandable: inputExpandable
   };
 }
 

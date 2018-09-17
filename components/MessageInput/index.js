@@ -131,6 +131,9 @@ var MessageInput = (_temp = _class = function (_Component) {
   }, {
     key: 'calculateNewHeight',
     value: function calculateNewHeight() {
+      if (!this.props.inputExpandable) {
+        return this.props.minHeight;
+      }
       // temperarily set height to 0 to check scrollHeight
       this.textArea.style.height = 0;
       var newHeight = this.textArea.scrollHeight + 10 + UIHeightOffset;
@@ -206,7 +209,8 @@ var MessageInput = (_temp = _class = function (_Component) {
   maxLength: _propTypes2.default.number,
   onSend: _propTypes2.default.func,
   onChange: _propTypes2.default.func,
-  onHeightChange: _propTypes2.default.func
+  onHeightChange: _propTypes2.default.func,
+  inputExpandable: _propTypes2.default.bool
 }, _class.defaultProps = {
   disabled: false,
   onSend: undefined,
@@ -214,7 +218,8 @@ var MessageInput = (_temp = _class = function (_Component) {
   onHeightChange: undefined,
   minHeight: 63,
   maxHeight: 300,
-  maxLength: 5000
+  maxLength: 5000,
+  inputExpandable: true
 }, _temp);
 exports.default = MessageInput;
 //# sourceMappingURL=index.js.map

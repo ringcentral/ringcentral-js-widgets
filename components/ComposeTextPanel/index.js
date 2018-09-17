@@ -193,7 +193,8 @@ var ComposeTextPanel = function (_Component) {
           onChange: this.props.updateMessageText,
           disabled: this.props.sendButtonDisabled,
           currentLocale: this.props.currentLocale,
-          onSend: this.props.send
+          onSend: this.props.send,
+          inputExpandable: this.props.inputExpandable
         })
       );
     }
@@ -237,7 +238,8 @@ ComposeTextPanel.propTypes = {
   phoneTypeRenderer: _propTypes2.default.func,
   recipientsContactInfoRenderer: _propTypes2.default.func,
   recipientsContactPhoneRenderer: _propTypes2.default.func,
-  autoFocus: _propTypes2.default.bool
+  autoFocus: _propTypes2.default.bool,
+  inputExpandable: _propTypes2.default.bool
 };
 
 ComposeTextPanel.defaultProps = {
@@ -251,7 +253,8 @@ ComposeTextPanel.defaultProps = {
   phoneTypeRenderer: undefined,
   recipientsContactInfoRenderer: undefined,
   recipientsContactPhoneRenderer: undefined,
-  autoFocus: false
+  autoFocus: false,
+  inputExpandable: undefined
 };
 
 exports.default = ComposeTextPanel;
