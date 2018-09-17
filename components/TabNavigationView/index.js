@@ -44,6 +44,7 @@ function TabNavigationView(props) {
     currentPath: props.currentPath,
     currentVirtualPath: props.currentVirtualPath
   });
+  if (props.holdReady) return null;
   return _react2.default.createElement(
     'div',
     { className: (0, _classnames2.default)(_styles2.default.root, props.className) },
@@ -65,7 +66,8 @@ TabNavigationView.propTypes = {
   goTo: _propTypes2.default.func.isRequired,
   navigationPosition: _propTypes2.default.oneOf(['top', 'bottom']),
   tabWidth: _propTypes2.default.string,
-  tabs: _NavigationBar2.default.propTypes.tabs
+  tabs: _NavigationBar2.default.propTypes.tabs,
+  holdReady: _propTypes2.default.bool
 };
 
 TabNavigationView.defaultProps = {
@@ -74,7 +76,8 @@ TabNavigationView.defaultProps = {
   currentVirtualPath: undefined,
   navigationPosition: 'top',
   tabWidth: undefined,
-  tabs: null
+  tabs: null,
+  holdReady: false
 };
 
 exports.default = TabNavigationView;
