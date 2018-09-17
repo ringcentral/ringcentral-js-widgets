@@ -7,6 +7,7 @@ import styles from './styles.scss';
 import i18n from './i18n';
 import InsideModal from '../InsideModal';
 import LogSection from '../LogSection';
+import LogNotification from '../LogNotification';
 
 export default class ActiveCallsPanel extends Component {
   componentDidMount() {
@@ -55,29 +56,64 @@ export default class ActiveCallsPanel extends Component {
       onSaveCallLog,
       onUpdateCallLog,
       onCloseLogSection,
+      // notification
+      logNotification,
+      showNotiLogButton,
+      onCloseNotification,
+      onSaveNotification,
+      onExpandNotification,
+      onDiscardNotification,
+      notificationContainerStyles
     } = this.props;
 
     return (
-      <InsideModal
-        title={currentLog.title}
-        show={currentLog.showLog}
-        onClose={onCloseLogSection}
-        // containerStyles={sectionContainerStyles}
-        // modalStyles={sectionModalStyles}
-        >
-        <LogSection
-          currentLocale={currentLocale}
-          currentLog={currentLog}
-          // additionalInfo={additionalInfo}
-          isInnerMask={false}
-          renderEditLogSection={renderEditLogSection}
-          renderSaveLogButton={renderSaveLogButton}
-          formatPhone={formatPhone}
-          onUpdateCallLog={onUpdateCallLog}
-          onSaveCallLog={onSaveCallLog}
-          showSaveLogBtn
-        />
-      </InsideModal>
+      <div>
+        <InsideModal
+          title={currentLog.title}
+          show={currentLog.showLog}
+          onClose={onCloseLogSection}
+          // containerStyles={sectionContainerStyles}
+          // modalStyles={sectionModalStyles}
+          >
+          <LogSection
+            currentLocale={currentLocale}
+            currentLog={currentLog}
+            // additionalInfo={additionalInfo}
+            isInnerMask={false}
+            renderEditLogSection={renderEditLogSection}
+            renderSaveLogButton={renderSaveLogButton}
+            formatPhone={formatPhone}
+            onUpdateCallLog={onUpdateCallLog}
+            onSaveCallLog={onSaveCallLog}
+            showSaveLogBtn
+          />
+        </InsideModal>
+        {
+          logNotification ? (
+            <InsideModal
+              show={logNotification.showNotification}
+              showTitle={false}
+              containerStyles={classnames(
+                styles.notificationContainer, notificationContainerStyles
+              )}
+              modalStyles={styles.notificationModal}
+              contentStyle={styles.notificationContent}
+              onClose={onCloseNotification}>
+              <LogNotification
+                showLogButton={showNotiLogButton}
+                currentLocale={currentLocale}
+                formatPhone={formatPhone}
+                currentLog={logNotification}
+                isExpand={logNotification.notificationIsExpand}
+                onSave={onSaveNotification}
+                onExpand={onExpandNotification}
+                onDiscard={onDiscardNotification}
+                onStay={onCloseNotification}
+              />
+            </InsideModal>
+          ) : null
+        }
+      </div>
     );
   }
 
@@ -259,6 +295,14 @@ ActiveCallsPanel.propTypes = {
   onSaveCallLog: PropTypes.func,
   onUpdateCallLog: PropTypes.func,
   onCloseLogSection: PropTypes.func,
+  // - Notification
+  logNotification: PropTypes.object,
+  onCloseNotification: PropTypes.func,
+  onDiscardNotification: PropTypes.func,
+  onSaveNotification: PropTypes.func,
+  onExpandNotification: PropTypes.func,
+  showNotiLogButton: PropTypes.bool,
+  notificationContainerStyles: PropTypes.string,
   // Contact
   showAvatar: PropTypes.bool,
   renderContactName: PropTypes.func,
@@ -307,6 +351,14 @@ ActiveCallsPanel.defaultProps = {
   onSaveCallLog: undefined,
   onUpdateCallLog: undefined,
   onCloseLogSection: undefined,
+  // Notification
+  logNotification: undefined,
+  onCloseNotification: undefined,
+  onDiscardNotification: undefined,
+  onSaveNotification: undefined,
+  onExpandNotification: undefined,
+  showNotiLogButton: true,
+  notificationContainerStyles: undefined,
   // Contact
   showAvatar: true,
   renderContactName: undefined,
