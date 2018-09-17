@@ -35,14 +35,6 @@ function mapToFunctions(_, { phone }) {
 }
 /* eslint-disable react/prefer-stateless-function */
 class ActiveCallControl extends Component {
-  async componentWillReceiveProps(props) {
-    const { activeCallControl, routerInteraction } = props;
-    const { activeSession } = activeCallControl;
-    // hang up call and throw error with 4** error number
-    if (!activeSession) {
-      await routerInteraction.goBack();
-    }
-  }
   render() {
     const {
       currentLocale,
@@ -61,6 +53,7 @@ class ActiveCallControl extends Component {
     )[0] || {};
 
     if (!activeSession) {
+      routerInteraction.goBack();
       return null;
     }
     const { fallBackName, fallBackNumber } = pickFallBackInfo(
