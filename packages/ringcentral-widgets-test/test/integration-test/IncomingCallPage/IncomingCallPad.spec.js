@@ -32,12 +32,13 @@ const sid222 = '222';
 let sidOutbound = null;
 
 async function makeInbountCall(phone, wrapper, sessionId) {
-  await getInboundCall(phone, {
+  const session = await getInboundCall(phone, {
     id: sessionId,
     direction: 'Inbound'
   });
   await timeout(100);
   wrapper.update();
+  return session;
 }
 
 async function makeOutboundCall(phone, wrapper) {
@@ -149,7 +150,7 @@ describe('To Voicemail Button', () => {
 describe('Check Answer Button', () => {
   test('RCI-1712246 Single Incoming Call_ Answer Call', async (done) => {
     const { wrapper, phone } = await initPhoneWrapper();
-    await makeInbountCall(phone, wrapper, sid111);
+    const session = await makeInbountCall(phone, wrapper, sid111);
     const buttons = wrapper.find(IncomingCallPad).find(ActiveCallButton);
     const buttonAnswer = buttons.at(4);
     expect(buttonAnswer.find('.buttonTitle').text()).toEqual('Answer');
@@ -159,7 +160,7 @@ describe('Check Answer Button', () => {
     expect(acceptFn.mock.calls[0]).toContain(sid111);
     expect(phone.webphone.sessions).toHaveLength(1);
     expect(phone.webphone.sessions[0].callStatus).toEqual(sessionStatus.connected);
-    expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
+    expect(phone.routerInteraction.currentPath).toEqual(`/calls/active/${session.id}`);
     done();
   });
 });
