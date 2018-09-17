@@ -295,10 +295,12 @@ export default class BasePhone extends RcModule {
 
     webphone.onCallStart(({ id }) => {
       const path = `/calls/active/${id}`;
-      if (routerInteraction.currentPath.indexOf('/calls/active') === 0) {
-        routerInteraction.replace(path);
-      } else {
-        routerInteraction.push(path);
+      if (routerInteraction.currentPath !== path) {
+        if (routerInteraction.currentPath.indexOf('/calls/active') === 0) {
+          routerInteraction.replace(path);
+        } else {
+          routerInteraction.push(path);
+        }
       }
     });
 
