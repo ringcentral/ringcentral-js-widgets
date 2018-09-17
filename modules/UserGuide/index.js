@@ -251,19 +251,27 @@ var UserGuide = (_dec = (0, _di.Module)({
     key: 'preLoadImage',
     value: function () {
       var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
+        var url;
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _context3.next = 2;
-                return this._preLoadImage(this.guides[0]);
+                url = this.guides[0];
 
-              case 2:
+                if (!url) {
+                  _context3.next = 4;
+                  break;
+                }
+
+                _context3.next = 4;
+                return this._preLoadImage(url);
+
+              case 4:
                 this.store.dispatch({
                   type: this.actionTypes.preLoadImageStatus
                 });
 
-              case 3:
+              case 5:
               case 'end':
                 return _context3.stop();
             }
