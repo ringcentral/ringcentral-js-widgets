@@ -38,38 +38,29 @@ var pickEleByProps = exports.pickEleByProps = function pickEleByProps() {
 
 var pickFallBackInfo = exports.pickFallBackInfo = function pickFallBackInfo() {
   var call = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var contactMatchMap = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var contactName = arguments[1];
   var currentLocale = arguments[2];
   var direction = call.direction;
 
-  var callFrom = call.from;
-  var callTo = call.to;
-  var fallBackName = _i18n2.default.getString('Unknown', currentLocale);
+  var fallBackName = contactName;
   var fallBackNumber = '';
 
   function getName(target) {
-    var name = target.name,
-        extensionNumber = target.extensionNumber,
-        phoneNumber = target.phoneNumber;
+    var activityMatches = target.activityMatches;
 
-    var number = phoneNumber || extensionNumber;
-    var matchList = [];
-    if (!name) {
-      matchList = contactMatchMap[number] || [];
-      if (!matchList.length) {
+    var SINGLE_OR_NONE_MATCH = 2;
+    if (!contactName) {
+      if (activityMatches.length < SINGLE_OR_NONE_MATCH) {
         return _i18n2.default.getString('Unknown', currentLocale);
-      }
-      if (matchList.length === 1) {
-        return matchList[0].name;
       }
       return _i18n2.default.getString('Multiple', currentLocale);
     }
-    return name;
+    return contactName;
   }
 
-  function getNumber(target) {
-    var extensionNumber = target.extensionNumber,
-        phoneNumber = target.phoneNumber;
+  function getNumber(numberObj) {
+    var extensionNumber = numberObj.extensionNumber,
+        phoneNumber = numberObj.phoneNumber;
 
     return phoneNumber || extensionNumber;
   }
@@ -77,14 +68,14 @@ var pickFallBackInfo = exports.pickFallBackInfo = function pickFallBackInfo() {
   switch (direction) {
     case _callDirections2.default.inbound:
       {
-        fallBackName = getName(callFrom);
-        fallBackNumber = getNumber(callFrom);
+        fallBackName = getName(call);
+        fallBackNumber = getNumber(call.from);
         break;
       }
     case _callDirections2.default.outbound:
       {
-        fallBackName = getName(callTo);
-        fallBackNumber = getNumber(callTo);
+        fallBackName = getName(call);
+        fallBackNumber = getNumber(call.to);
         break;
       }
 

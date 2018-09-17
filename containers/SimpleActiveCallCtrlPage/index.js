@@ -81,16 +81,14 @@ function mapToProps(_, _ref) {
   var phone = _ref.phone;
   var activeCallControl = phone.activeCallControl,
       regionSettings = phone.regionSettings,
-      activeCalls = phone.activeCalls,
-      contactMatcher = phone.contactMatcher,
+      callMonitor = phone.callMonitor,
       alert = phone.alert,
       routerInteraction = phone.routerInteraction;
 
   return {
     activeCallControl: activeCallControl,
     regionSettings: regionSettings,
-    activeCalls: activeCalls,
-    contactMatcher: contactMatcher,
+    callMonitor: callMonitor,
     alert: alert,
     routerInteraction: routerInteraction
   };
@@ -120,16 +118,21 @@ var ActiveCallControl = function (_Component) {
           currentLocale = _props.currentLocale,
           activeCallControl = _props.activeCallControl,
           regionSettings = _props.regionSettings,
-          activeCalls = _props.activeCalls,
-          contactMatcher = _props.contactMatcher,
-          routerInteraction = _props.routerInteraction;
-      var activeSessionsStatus = activeCallControl.activeSessionsStatus,
+          callMonitor = _props.callMonitor,
+          routerInteraction = _props.routerInteraction,
+          renderContactName = _props.renderContactName;
+      var activeSession = activeCallControl.activeSession,
           sessionId = activeCallControl.activeSessionId;
 
-      var currentActiveSessionStatus = activeSessionsStatus[sessionId];
-      var activeCall = (0, _utils.pickEleByProps)({ sessionId: String(sessionId) }, activeCalls.calls)[0] || {};
 
-      var _pickFallBackInfo = (0, _utils.pickFallBackInfo)(activeCall, contactMatcher.dataMapping, currentLocale),
+      var activeCall = (0, _utils.pickEleByProps)({ sessionId: String(sessionId) }, callMonitor.otherDeviceCalls)[0] || {};
+
+      if (!activeSession) {
+        routerInteraction.goBack();
+        return null;
+      }
+
+      var _pickFallBackInfo = (0, _utils.pickFallBackInfo)(activeCall, renderContactName(sessionId), currentLocale),
           fallBackName = _pickFallBackInfo.fallBackName,
           fallBackNumber = _pickFallBackInfo.fallBackNumber;
 
@@ -318,8 +321,8 @@ var ActiveCallControl = function (_Component) {
         layout: _callCtrlLayouts2.default.normalCtrl,
         startTime: activeCall.startTime,
         actions: [muteCtrl, transferCtrl, holdCtrl],
-        isOnMute: currentActiveSessionStatus.isOnMute,
-        isOnHold: currentActiveSessionStatus.isOnHold
+        isOnMute: activeSession.isOnMute,
+        isOnHold: activeSession.isOnHold
       };
 
       var uselessProps = {
@@ -359,25 +362,25 @@ ActiveCallControl.propTypes = {
   currentLocale: _propTypes2.default.string,
   activeCallControl: _propTypes2.default.object,
   regionSettings: _propTypes2.default.object,
-  activeCalls: _propTypes2.default.object,
-  contactMatcher: _propTypes2.default.object,
+  callMonitor: _propTypes2.default.object,
   alert: _propTypes2.default.object,
   routerInteraction: _propTypes2.default.object,
   searchContact: _propTypes2.default.func,
-  searchContactList: _propTypes2.default.array
+  searchContactList: _propTypes2.default.array,
+  renderContactName: _propTypes2.default.func
 };
 
 ActiveCallControl.defaultProps = {
   currentLocale: 'en-US',
   activeCallControl: {},
   regionSettings: {},
-  activeCalls: {},
-  contactMatcher: {},
+  callMonitor: {},
   alert: {},
   routerInteraction: {},
   searchContact: function searchContact() {},
 
-  searchContactList: []
+  searchContactList: [],
+  renderContactName: function renderContactName() {}
 };
 
 exports.default = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(ActiveCallControl));
