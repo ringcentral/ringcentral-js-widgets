@@ -13,44 +13,37 @@ export const pickEleByProps = (props = {}, list = []) => {
   return result;
 };
 
-export const pickFallBackInfo = (call = {}, contactMatchMap = {}, currentLocale) => {
+export const pickFallBackInfo = (call = {}, contactName, currentLocale) => {
   const { direction } = call;
-  const callFrom = call.from;
-  const callTo = call.to;
-  let fallBackName = i18n.getString('Unknown', currentLocale);
+  let fallBackName = contactName;
   let fallBackNumber = '';
 
   function getName(target) {
-    const { name, extensionNumber, phoneNumber } = target;
-    const number = phoneNumber || extensionNumber;
-    let matchList = [];
-    if (!name) {
-      matchList = contactMatchMap[number] || [];
-      if (!matchList.length) {
+    const { activityMatches } = target;
+    const SINGLE_OR_NONE_MATCH = 2;
+    if (!contactName) {
+      if (!activityMatches.length < SINGLE_OR_NONE_MATCH) {
         return i18n.getString('Unknown', currentLocale);
-      }
-      if (matchList.length === 1) {
-        return matchList[0].name;
       }
       return i18n.getString('Multiple', currentLocale);
     }
-    return name;
+    return contactName;
   }
 
-  function getNumber(target) {
-    const { extensionNumber, phoneNumber } = target;
+  function getNumber(numberObj) {
+    const { extensionNumber, phoneNumber } = numberObj;
     return (phoneNumber || extensionNumber);
   }
 
   switch (direction) {
     case callDirection.inbound: {
-      fallBackName = getName(callFrom);
-      fallBackNumber = getNumber(callFrom);
+      fallBackName = getName(call);
+      fallBackNumber = getNumber(call.from);
       break;
     }
     case callDirection.outbound: {
-      fallBackName = getName(callTo);
-      fallBackNumber = getNumber(callTo);
+      fallBackName = getName(call);
+      fallBackNumber = getNumber(call.to);
       break;
     }
 
