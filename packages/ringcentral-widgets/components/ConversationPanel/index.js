@@ -274,6 +274,7 @@ class ConversationPanel extends Component {
           currentLocale={this.props.currentLocale}
           onSend={this.onSend}
           onHeightChange={this.onInputHeightChange}
+          inputExpandable={this.props.inputExpandable}
         />
       </div>
     );
@@ -316,6 +317,7 @@ ConversationPanel.propTypes = {
   loadConversation: PropTypes.func,
   renderExtraButton: PropTypes.func,
   loadingNextPage: PropTypes.bool,
+  inputExpandable:PropTypes.bool,
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
@@ -331,7 +333,8 @@ ConversationPanel.defaultProps = {
   perPage: undefined,
   loadConversation: () => null,
   renderExtraButton: undefined,
-  loadingNextPage: false
+  loadingNextPage: false,
+  inputExpandable: undefined,
 };
 
 export default ConversationPanel;

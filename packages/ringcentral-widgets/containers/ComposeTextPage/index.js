@@ -13,8 +13,9 @@ function mapToProps(_, {
     messageSender,
     rateLimiter,
     rolesAndPermissions,
-    brand
+    brand,
   },
+  inputExpandable,
 }) {
   return {
     brand: brand.fullName,
@@ -43,6 +44,7 @@ function mapToProps(_, {
       rolesAndPermissions.ready &&
       contactSearch.ready
     ),
+    inputExpandable,
   };
 }
 

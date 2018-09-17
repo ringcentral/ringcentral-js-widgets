@@ -20,6 +20,7 @@ export function mapToProps(_, {
   enableContactFallback = false,
   showGroupNumberName = false,
   perPage = 20,
+  inputExpandable,
 }) {
   const disableLinks = (
     rateLimiter.isThrottling ||
@@ -58,6 +59,7 @@ export function mapToProps(_, {
     autoLog: !!(conversationLogger && conversationLogger.autoLog),
     perPage,
     loadingNextPage: conversations.loadingOldMessages,
+    inputExpandable: inputExpandable,
   });
 }
 
