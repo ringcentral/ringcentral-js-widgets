@@ -5,19 +5,19 @@
 }
 .move {
  position: relative;
- animation: rotate 5s infinite;
+ animation: rotate 5s ease-in-out infinite;
 }
-@-webkit-keyframes rotate{
+@keyframes rotate{
   0% {
-    top: -11px;
+    top: -30px;
   }
-  4% {
+  14% {
     top: 0px;
   }
-  96% {
+  86% {
     top: 0px ;
   }
   100%{
-    top: 11px;
+    top: 30px;
   }
 }
