@@ -25,7 +25,9 @@ const ACTIVE_CALL_PATH = '/calls/active';
     'RouterInteraction',
     'Storage',
     'Webphone',
-    'CallMonitor'
+    'CallMonitor',
+    { dep: 'UserGuide', optional: true },
+    { dep: 'QuickAccess', optional: true }
   ]
 })
 export default class AdapterModuleCore extends RcModule {
@@ -41,6 +43,8 @@ export default class AdapterModuleCore extends RcModule {
     routerInteraction,
     webphone,
     callMonitor,
+    userGuide,
+    quickAccess,
     getGlobalStorageReducer = getDefaultGlobalStorageReducer,
     messageTransport = new IframeMessageTransport({
       targetWindow: window.parent,
@@ -61,6 +65,8 @@ export default class AdapterModuleCore extends RcModule {
     this._callingSettings = callingSettings;
     this._webphone = webphone;
     this._callMonitor = callMonitor;
+    this._userGuide = userGuide;
+    this._quickAccess = quickAccess;
 
     this._storageKey = storageKey;
     this._globalStorage = this::ensureExist(globalStorage, 'globalStorage');
@@ -99,7 +105,9 @@ export default class AdapterModuleCore extends RcModule {
     return this.pending &&
       this._globalStorage.ready &&
       this._locale.ready &&
-      this._router.ready;
+      this._router.ready &&
+      (!this._userGuide || this._userGuide.ready) &&
+      (!this._quickAccess || this._quickAccess.ready);
   }
   _onStateChange() {
     if (this._shouldInit()) {
@@ -356,11 +364,29 @@ export default class AdapterModuleCore extends RcModule {
 
   @proxify
   async _onNavigateToCurrentCall() {
+    if (this._userGuide && this._userGuide.started) {
+      this._userGuide.dismiss();
+    }
+    if (this._quickAccess && this._quickAccess.entered) {
+      this._quickAccess.exit();
+    }
+    if (this._webphone && this._webphone.ringSession && !this._webphone.ringSession.minimized) {
+      this._webphone.toggleMinimized(this._webphone.ringSession.id);
+    }
     this._router.push(ACTIVE_CALL_PATH);
   }
 
   @proxify
   async _onNavigateToViewCalls() {
+    if (this._userGuide && this._userGuide.started) {
+      this._userGuide.dismiss();
+    }
+    if (this._quickAccess && this._quickAccess.entered) {
+      this._quickAccess.exit();
+    }
+    if (this._webphone && this._webphone.ringSession && !this._webphone.ringSession.minimized) {
+      this._webphone.toggleMinimized(this._webphone.ringSession.id);
+    }
     this._router.push(ALL_CALL_PATH);
   }
 
