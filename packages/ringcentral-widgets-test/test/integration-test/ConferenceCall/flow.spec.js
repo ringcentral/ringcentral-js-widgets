@@ -48,6 +48,7 @@ async function dialAnotherOutboundCall(phone, wrapper) {
   /* pubnub push message */
   await updateCallMonitorCalls(phone);
   wrapper.update();
+  return phone.webphone.activeSession;
 }
 
 async function clickMergeButtonIn(wrapper, phone, pageName) {
@@ -159,9 +160,9 @@ describe('Merge Call Flow: Conference Call Ctrl -> click Merge -> dialer', () =>
     await timeout(100);
     expect(phone.routerInteraction.currentPath.indexOf('/conferenceCall/dialer')).toBe(0);
     // make another call
-    await dialAnotherOutboundCall(phone, wrapper);
+    const anotherSession = await dialAnotherOutboundCall(phone, wrapper);
     expect(phone.webphone.sessions).toHaveLength(2);
-    expect(phone.routerInteraction.currentPath).toBe('/calls/active');
+    expect(phone.routerInteraction.currentPath).toBe(`/calls/active/${anotherSession.id}`);
     expect(wrapper.find(MergeInfo)).toHaveLength(1);
     // Click Hold
     holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
@@ -188,9 +189,9 @@ describe('Merge Call Flow: Conference Call Ctrl -> click Merge -> dialer', () =>
     await timeout(100);
     expect(phone.routerInteraction.currentPath.indexOf('/conferenceCall/dialer')).toBe(0);
     // make another call
-    await dialAnotherOutboundCall(phone, wrapper);
+    const anotherSession = await dialAnotherOutboundCall(phone, wrapper);
     expect(phone.webphone.sessions).toHaveLength(2);
-    expect(phone.routerInteraction.currentPath).toBe('/calls/active');
+    expect(phone.routerInteraction.currentPath).toBe(`/calls/active/${anotherSession.id}`);
     expect(wrapper.find(MergeInfo)).toHaveLength(1);
     // Click Merge
     await clickMergeButtonIn(wrapper, phone, 'SimplifiedCallCtrlPage');
@@ -250,9 +251,9 @@ describe('Add Call Flow: Normal Call Ctrl -> click Add -> dialer', () => {
     await timeout(100);
     expect(phone.routerInteraction.currentPath.indexOf('/conferenceCall/dialer')).toBe(0);
     // make another call
-    await dialAnotherOutboundCall(phone, wrapper);
+    const anotherSession = await dialAnotherOutboundCall(phone, wrapper);
     expect(phone.webphone.sessions).toHaveLength(2);
-    expect(phone.routerInteraction.currentPath).toBe('/calls/active');
+    expect(phone.routerInteraction.currentPath).toBe(`/calls/active/${anotherSession.id}`);
     expect(wrapper.find(MergeInfo)).toHaveLength(1);
     // Click Merge
     await clickMergeButtonIn(wrapper, phone, 'SimplifiedCallCtrlPage');
@@ -261,7 +262,7 @@ describe('Add Call Flow: Normal Call Ctrl -> click Add -> dialer', () => {
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(wrapper.find(ConferenceInfo)).toHaveLength(1);
   });
-  test('RCINT-8377 Active Conference Call when merged(onheld outbound + onheld outbound):', async () => {
+  test('RCINT-8377 Active Conference Call when merged(onheld outbound + onheld outbound)-1', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
     let holdButton = null;
     const sessionA = await makeCall(phone);
@@ -272,9 +273,9 @@ describe('Add Call Flow: Normal Call Ctrl -> click Add -> dialer', () => {
     await timeout(100);
     expect(phone.routerInteraction.currentPath.indexOf('/conferenceCall/dialer')).toBe(0);
     // make another call
-    await dialAnotherOutboundCall(phone, wrapper);
+    const anotherSession = await dialAnotherOutboundCall(phone, wrapper);
     expect(phone.webphone.sessions).toHaveLength(2);
-    expect(phone.routerInteraction.currentPath).toBe('/calls/active');
+    expect(phone.routerInteraction.currentPath).toBe(`/calls/active/${anotherSession.id}`);
     expect(wrapper.find(MergeInfo)).toHaveLength(1);
     // Click Hold
     holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
@@ -311,7 +312,7 @@ describe('Add Call Flow: Normal Call Ctrl -> click Add -> on hold list', () => {
     expect(holdButton.find('.buttonTitle').text()).toEqual('Hold');
     expect(wrapper.find(ConferenceInfo)).toHaveLength(1);
   });
-  test('RCINT-8377 Active Conference Call when merged(onheld outbound + onheld outbound):', async () => {
+  test('RCINT-8377 Active Conference Call when merged(onheld outbound + onheld outbound)-2', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
     let holdButton = null;
     const sessionA = await makeCall(phone);

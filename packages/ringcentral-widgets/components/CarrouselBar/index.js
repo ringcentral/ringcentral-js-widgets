@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import styles from './styles.scss';
 
 const DEFAULT_SCROLL_INTERVAL = 5000;
@@ -9,13 +8,15 @@ export default class CarrouselBar extends Component {
     super(props);
     this.state = {
       currentIndex: 0,
+      showAnimation: false
     };
   }
   componentDidMount() {
     this.timeout = setInterval(() => {
       this.setState(prevState => ({
         currentIndex: prevState.currentIndex >= this.validChildren.length - 1 ?
-          0 : prevState.currentIndex + 1
+          0 : prevState.currentIndex + 1,
+        showAnimation: true
       }));
     }, this.props.scrollInterval);
   }
@@ -39,14 +40,17 @@ export default class CarrouselBar extends Component {
     }
     return (
       <div className={styles.root}>
-        {this.validChildren[this.state.currentIndex]}
+        <div className={this.state.showAnimation ? styles.move : null}>
+          {this.validChildren[this.state.currentIndex]}
+        </div>
       </div>
     );
   }
 }
+
 CarrouselBar.propTypes = {
   children: PropTypes.node,
-  scrollInterval: PropTypes.number,
+  scrollInterval: PropTypes.number
 };
 CarrouselBar.defaultProps = {
   children: undefined,

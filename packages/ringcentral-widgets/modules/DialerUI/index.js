@@ -1,47 +1,10 @@
 import RcModule from 'ringcentral-integration/lib/RcModule';
-import Enum from 'ringcentral-integration/lib/Enum';
 import { Module } from 'ringcentral-integration/lib/di';
-import { combineReducers } from 'redux';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
 import ensureExist from 'ringcentral-integration/lib/ensureExist';
-import getModuleStatusReducer from 'ringcentral-integration/lib/getModuleStatusReducer';
-import moduleActionTypes from 'ringcentral-integration/enums/moduleActionTypes';
 import callErrors from 'ringcentral-integration/modules/Call/callErrors';
-
-function getToNumberFieldReducer(types) {
-  return (state = '', { type, phoneNumber }) => {
-    switch (type) {
-      case types.setToNumberField:
-      case types.loadLastCallState:
-      case types.call:
-        return phoneNumber;
-      case types.setRecipient:
-      case types.clearToNumberField:
-      case types.resetSuccess:
-      case types.callSuccess:
-        return '';
-      default:
-        return state;
-    }
-  };
-}
-
-function getRecipientReducer(types) {
-  return (state = null, { type, recipient }) => {
-    switch (type) {
-      case types.setRecipient:
-      case types.loadLastCallState:
-      case types.call:
-        return recipient;
-      case types.clearRecipient:
-      case types.resetSuccess:
-      case types.callSuccess:
-        return null;
-      default:
-        return state;
-    }
-  };
-}
+import actionTypes from './actionTypes';
+import getReducer from './getReducer';
 
 @Module({
   name: 'DialerUI',
@@ -55,38 +18,18 @@ export default class DialerUI extends RcModule {
   constructor({
     call,
     alert,
+    actionTypes: subActionTypes,
     ...options
   }) {
     super({
       ...options,
+      actionTypes: (subActionTypes || actionTypes),
     });
+
     this._call = this:: ensureExist(call, 'call');
-    this._alert = this::ensureExist(alert, 'alert');
-    this._storageKey = 'dialerUIData';
+    this._alert = this:: ensureExist(alert, 'alert');
+    this._reducer = getReducer(this.actionTypes);
     this._callHooks = [];
-  }
-
-  get _actionTypes() {
-    return new Enum([
-      ...Object.keys(moduleActionTypes),
-      'setToNumberField',
-      'clearToNumberField',
-      'setRecipient',
-      'clearRecipient',
-      'loadLastCallState',
-      'call',
-      'callError',
-      'callSuccess',
-    ], 'dialerUI');
-  }
-
-
-  get reducer() {
-    return combineReducers({
-      status: getModuleStatusReducer(this.actionTypes),
-      toNumberField: getToNumberFieldReducer(this.actionTypes),
-      recipient: getRecipientReducer(this.actionTypes),
-    });
   }
 
   async _onStateChange() {
@@ -213,10 +156,6 @@ export default class DialerUI extends RcModule {
         fromNumber,
       });
     }
-  }
-
-  get lastDialedState() {
-    return this._storage.getItem(this._storageKey);
   }
 
   get toNumberField() {

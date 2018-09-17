@@ -5,7 +5,6 @@ import * as mock from 'ringcentral-integration/integration-test/mock';
 import * as MockedPubNub from '../__mocks__/pubnub.js';
 import Session from './session';
 import { timeout } from '../integration-test/shared';
-import deviceBody from './data/device';
 
 export const CONFERENCE_SESSION_ID = 'Y3MxNzI2MjI1NTQzODI0MzUzM0AxMC43NC4yLjIxOA';
 
@@ -37,18 +36,17 @@ export async function getInboundCall(phone, options = defaultInboundOption) {
 }
 
 export async function makeCall(phone, options = defaultOutboundOption) {
-  mock.device(deviceBody);
   for (const session of phone.webphone.sessions) {
     await phone.webphone.hold(session.id);
   }
+  mock.device();
   const session = await phone.webphone.makeCall(options);
-  session.__rc_callId = `call-${session.id}`;
   return session;
 }
 
 export async function makeConferenceCall(phone, options = defaultConferenceOption) {
+  mock.device();
   const session = await phone.webphone.makeCall(options);
-  session.__rc_callId = `call-${session.id}`;
   return session;
 }
 
