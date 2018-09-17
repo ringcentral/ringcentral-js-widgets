@@ -293,8 +293,15 @@ export default class BasePhone extends RcModule {
       }
     });
 
-    webphone.onCallStart(() => {
-      routerInteraction.push('/calls/active');
+    webphone.onCallStart(({ id }) => {
+      const path = `/calls/active/${id}`;
+      if (routerInteraction.currentPath !== path) {
+        if (routerInteraction.currentPath.indexOf('/calls/active') === 0) {
+          routerInteraction.replace(path);
+        } else {
+          routerInteraction.push(path);
+        }
+      }
     });
 
     webphone.onCallRing(() => {
@@ -319,8 +326,10 @@ export default class BasePhone extends RcModule {
 
     webphone.onBeforeCallEnd((session) => {
       const mergingPair = conferenceCall && conferenceCall.mergingPair;
-      if (session && mergingPair &&
-        (Object.values(mergingPair).indexOf(session.id) !== -1)
+      if (
+        session
+        && mergingPair
+        && (Object.values(mergingPair).indexOf(session.id) !== -1)
       ) {
         // close merging pair to close the merge call.
         conferenceCall.closeMergingPair();

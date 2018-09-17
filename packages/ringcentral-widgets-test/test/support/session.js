@@ -92,7 +92,9 @@ export default class Session {
   }
 
   trigger(event, ...args) {
-    this._events[event](...args);
+    if (typeof this._events[event] === 'function') {
+      this._events[event](...args);
+    }
   }
 
   // Change Session Id
@@ -134,8 +136,8 @@ export default class Session {
     return unmuteFn(this.id);
   }
 
-  hold() {
-    this.trigger('hold');
+  async hold() {
+    await this.trigger('hold');
     this.__rc_callStatus = sessionStatus.onHold;
     return holdFn(this.id);
   }

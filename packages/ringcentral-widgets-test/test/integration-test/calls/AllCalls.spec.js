@@ -29,6 +29,7 @@ async function call({
   const currentSessionId = phone.webphone.activeSession.id;
   const currentSession = await phone.webphone._sessions.get(currentSessionId);
   currentSession.accept(phone.webphone.acceptOptions);
+  return phone.webphone.activeSession;
 }
 
 describe('Incoming Call Control Page from All Calls', () => {
@@ -132,7 +133,7 @@ describe('Incoming Call Control Page from All Calls', () => {
     if user reject this incoming call, app should stay at original page
   `, async () => {
     const { phone, wrapper } = await initPhoneWrapper();
-    await call({
+    const session = await call({
       phone,
       wrapper,
       phoneNumber: '102',
@@ -140,7 +141,7 @@ describe('Incoming Call Control Page from All Calls', () => {
     await mockSub(phone);
     await timeout(1000);
     wrapper.update();
-    expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
+    expect(phone.routerInteraction.currentPath).toEqual(`/calls/active/${session.id}`);
     wrapper.find('.backLabel').simulate('click');
     await timeout(100);
     expect(phone.routerInteraction.currentPath).toEqual('/calls');
