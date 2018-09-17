@@ -22,7 +22,7 @@ export const pickFallBackInfo = (call = {}, contactName, currentLocale) => {
     const { activityMatches } = target;
     const SINGLE_OR_NONE_MATCH = 2;
     if (!contactName) {
-      if (!activityMatches.length < SINGLE_OR_NONE_MATCH) {
+      if (activityMatches.length < SINGLE_OR_NONE_MATCH) {
         return i18n.getString('Unknown', currentLocale);
       }
       return i18n.getString('Multiple', currentLocale);
