@@ -18,6 +18,7 @@ function TabNavigationView(props) {
       currentVirtualPath={props.currentVirtualPath}
     />
   );
+  if (props.holdReady) return null;
   return (
     <div className={classnames(styles.root, props.className)} >
       {
@@ -46,6 +47,7 @@ TabNavigationView.propTypes = {
   navigationPosition: PropTypes.oneOf(['top', 'bottom']),
   tabWidth: PropTypes.string,
   tabs: NavigationBar.propTypes.tabs,
+  holdReady: PropTypes.bool,
 };
 
 TabNavigationView.defaultProps = {
@@ -55,6 +57,7 @@ TabNavigationView.defaultProps = {
   navigationPosition: 'top',
   tabWidth: undefined,
   tabs: null,
+  holdReady: false,
 };
 
 export default TabNavigationView;
