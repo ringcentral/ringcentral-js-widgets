@@ -17,11 +17,18 @@ class TabContentView extends Component {
     currentLocale: PropTypes.string.isRequired,
     currentPath: PropTypes.string.isRequired,
     goTo: PropTypes.func.isRequired,
+    onEnter: PropTypes.func
   };
+  static defaultProps = {
+    onEnter: null
+  }
 
   constructor(props) {
     super(props);
-    
+    const { onEnter, currentPath } = this.props;
+    if (onEnter && currentPath) {
+      onEnter(currentPath);
+    }
     this.getTabs = createSelector(
       () => this.props.currentLocale,
       () => this.props.currentPath,
@@ -37,7 +44,7 @@ class TabContentView extends Component {
           isActive() { return currentPath === '/calls'; }
         },
       ]),
-    )
+    );
   }
   render() {
     if (this.props.showSpinner) {
@@ -76,7 +83,6 @@ function mapToProps(_, {
     callMonitor.calls.length > 0 ||
     (callLogSection && callLogSection.show)
   );
-  
   return {
     applicable,
     currentLocale: locale.currentLocale,
