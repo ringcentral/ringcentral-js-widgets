@@ -83,7 +83,6 @@ export default class CallMonitorBar extends Component {
 
     return (
       <div className={styles.bar} onMouseOver={this.showBtn} onMouseLeave={this.hideBtn} onClick={this.hideBtn}>
-<<<<<<< HEAD
         <div className={classnames(styles.box, (this.state.hoverShow ? styles.show : styles.hide))}>
           <Button
             className={styles.currentCallBtn}
@@ -100,24 +99,6 @@ export default class CallMonitorBar extends Component {
         </div>
         <div className={classnames(styles.box, (this.state.hoverShow ? styles.hide : styles.show))}>
           <CarrouselBar >
-=======
-        {this.state.hoverShow ? (
-          <div>
-            <Button
-              className={styles.currentCallBtn}
-              onClick={onCurrentCallBtnClick}
-            >
-              {i18n.getString('currentCall', currentLocale)}
-            </Button>
-            <Button
-              className={styles.viewCallsBtn}
-              onClick={onViewCallBtnClick}
-            >
-              {i18n.getString('viewCalls', currentLocale)}
-            </Button>
-          </div>) :
-          <CarrouselBar showAnimation={this.state.showAnimation}>
->>>>>>> 0559e6cd2086a1b29685453146ff142cb1859094
             {
               numberOfOnHoldCalls > 0 ? (
                 <CallInfoBar
@@ -167,11 +148,7 @@ export default class CallMonitorBar extends Component {
             ) : null
             }
           </CarrouselBar>
-<<<<<<< HEAD
         </div>
-=======
-        }
->>>>>>> 0559e6cd2086a1b29685453146ff142cb1859094
       </div>
     );
   }
