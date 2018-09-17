@@ -326,8 +326,10 @@ export default class BasePhone extends RcModule {
 
     webphone.onBeforeCallEnd((session) => {
       const mergingPair = conferenceCall && conferenceCall.mergingPair;
-      if (session && mergingPair &&
-        (Object.values(mergingPair).indexOf(session.id) !== -1)
+      if (
+        session
+        && mergingPair
+        && (Object.values(mergingPair).indexOf(session.id) !== -1)
       ) {
         // close merging pair to close the merge call.
         conferenceCall.closeMergingPair();
