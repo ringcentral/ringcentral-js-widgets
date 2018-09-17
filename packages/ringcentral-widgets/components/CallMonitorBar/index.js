@@ -100,26 +100,6 @@ export default class CallMonitorBar extends Component {
             </Button>
           </div>) :
           <CarrouselBar showAnimation={this.state.showAnimation}>
-            {currentCalls.length > 0 ? (
-              <div className={styles.bar} >
-                <div className={styles.duration} onClick={onCurrentCallBtnClick}>
-                  <DurationCounter
-                    startTime={currentCalls[0].startTime}
-                  />
-                </div>
-                {
-                  shouldDisplayCurrentCallBtn && onCurrentCallBtnClick ?
-                    <Button
-                      className={styles.currentCallBtn}
-                      onClick={onCurrentCallBtnClick}
-                    >
-                      {i18n.getString('currentCall', currentLocale)}
-                    </Button>
-                    : null
-                }
-              </div>
-            ) : null
-            }
             {
               numberOfOnHoldCalls > 0 ? (
                 <CallInfoBar
@@ -147,6 +127,26 @@ export default class CallMonitorBar extends Component {
                   shouldDisplayViewCallsBtn={shouldDisplayViewCallsBtn}
                 />
               ) : null
+            }
+            {currentCalls.length > 0 ? (
+              <div className={styles.bar} >
+                <div className={styles.duration} onClick={onCurrentCallBtnClick}>
+                  <DurationCounter
+                    startTime={currentCalls[0].startTime}
+                  />
+                </div>
+                {
+                  shouldDisplayCurrentCallBtn && onCurrentCallBtnClick ?
+                    <Button
+                      className={styles.currentCallBtn}
+                      onClick={onCurrentCallBtnClick}
+                    >
+                      {i18n.getString('currentCall', currentLocale)}
+                    </Button>
+                    : null
+                }
+              </div>
+            ) : null
             }
           </CarrouselBar>
         }
