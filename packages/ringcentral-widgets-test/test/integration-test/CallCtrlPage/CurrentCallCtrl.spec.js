@@ -50,7 +50,7 @@ afterEach(() => {
 });
 
 async function makeInbountCall(phone, wrapper, sessionId, answerIt = false) {
-  await getInboundCall(phone, {
+  const session = await getInboundCall(phone, {
     id: sessionId,
     direction: 'Inbound'
   });
@@ -64,6 +64,7 @@ async function makeInbountCall(phone, wrapper, sessionId, answerIt = false) {
       .simulate('click');
     await timeout(100);
   }
+  return session;
 }
 
 async function enterToNumber(domInput, number) {
@@ -75,16 +76,16 @@ async function enterToNumber(domInput, number) {
 describe('Enter to Current Call Page', () => {
   test('Make an outbound call, page should be in Current Call Page', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
-    await makeOutboundCall(phone);
+    const outboundSession = await makeOutboundCall(phone);
     wrapper.update();
     expect(wrapper.find(ActiveCallPad)).toHaveLength(1);
-    expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
+    expect(phone.routerInteraction.currentPath).toEqual(`/calls/active/${outboundSession.id}`);
   });
   test('Answer an inbound call, page should be in Current Call Page', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
-    await makeInbountCall(phone, wrapper, sid111, true);
+    const inboundCall = await makeInbountCall(phone, wrapper, sid111, true);
     expect(wrapper.find(ActiveCallPad)).toHaveLength(1);
-    expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
+    expect(phone.routerInteraction.currentPath).toEqual(`/calls/active/${inboundCall.id}`);
   });
   test('Make an outbound call, check buttons in Current Call Page', async () => {
     const { wrapper, phone } = await initPhoneWrapper();

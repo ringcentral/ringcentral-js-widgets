@@ -735,7 +735,6 @@ export default class Webphone extends RcModule {
     try {
       this._holdOtherSession(sessionId);
       this._onAccepted(sipSession, 'inbound');
-      this._beforeCallStart(sipSession);
       await sipSession.accept(this.acceptOptions);
       this._onCallStart(sipSession);
       this.store.dispatch({ // for track
@@ -1155,7 +1154,7 @@ export default class Webphone extends RcModule {
     session.__rc_fromNumber = fromNumber;
     this._onAccepted(session);
     this._holdOtherSession(session.id);
-    this._beforeCallStart(session);
+    this._onCallStart(session);
     return session;
   }
 
@@ -1208,12 +1207,11 @@ export default class Webphone extends RcModule {
     });
   }
 
-  // for outbound call
-  _beforeCallStart(session) {
+  _onCallStart(session) {
     this._addSession(session);
     const normalizedSession = normalizeSession(session);
     this.store.dispatch({
-      type: this.actionTypes.beforeCallStart,
+      type: this.actionTypes.callStart,
       session: normalizedSession,
       sessions: this.sessions,
     });
@@ -1229,19 +1227,6 @@ export default class Webphone extends RcModule {
     this._onCallStartFunctions.forEach(
       handler => handler(normalizedSession, this.activeSession)
     );
-  }
-
-  _onCallStart(session) {
-    this._addSession(session);
-    const normalizedSession = normalizeSession(session);
-    this.store.dispatch({
-      type: this.actionTypes.callStart,
-      session: normalizedSession,
-      sessions: this.sessions,
-    });
-    if (this._contactMatcher) {
-      this._contactMatcher.triggerMatch();
-    }
   }
 
   _onCallRing(session) {

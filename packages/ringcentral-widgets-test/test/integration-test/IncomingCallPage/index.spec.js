@@ -10,12 +10,13 @@ beforeEach(async () => {
 });
 
 async function makeInbountCall(phone, wrapper) {
-  await getInboundCall(phone, {
+  const session = await getInboundCall(phone, {
     id: '111',
     direction: 'Inbound',
     callId: 'call-111'
   });
   wrapper.update();
+  return session;
 }
 
 describe('Incoming Call Interaction', () => {
@@ -29,11 +30,11 @@ describe('Incoming Call Interaction', () => {
 describe('Inbound Call in Call Control Page', () => {
   test('RCI-1038#2 - User anwser the incoming call, Add button is disabled in Call Control Page', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
-    await makeInbountCall(phone, wrapper);
+    const session = await makeInbountCall(phone, wrapper);
     const buttonAnswer = wrapper.find(IncomingCallPad).find(ActiveCallButton).at(4);
     buttonAnswer.find(CircleButton).simulate('click');
     wrapper.update();
-    expect(phone.routerInteraction.currentPath).toEqual('/calls/active');
+    expect(phone.routerInteraction.currentPath).toEqual(`/calls/active/${session.id}`);
     const buttonAdd = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
     expect(buttonAdd.find('.buttonTitle').text()).toEqual('Add');
     expect(buttonAdd.props().disabled).toBeTruthy();

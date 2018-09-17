@@ -77,18 +77,18 @@ export function getConnectRetryCountsReducer(types) {
 export function getActiveSessionIdReducer(types) {
   return (state = null, { type, session = {}, sessions = [] }) => {
     switch (type) {
-      case types.beforeCallStart:
       case types.callStart:
         return session.id;
       case types.callEnd: {
         if (session.id !== state) {
           return state;
         }
-        const sessionWithoutRinging = sessions.filter(session => !isRing(session));
-        return (sessionWithoutRinging[0] && sessionWithoutRinging[0].id) || null;
+        const activeSessions = sessions.filter(session => !isRing(session));
+        activeSessions.sort(sortByLastActiveTimeDesc);
+        return (activeSessions[0] && activeSessions[0].id) || null;
       }
       case types.clearSessionCaching: {
-        const activeSessions = sessions.filter(x => !x.cached);
+        const activeSessions = sessions.filter(x => !x.cached && !isRing(session));
         activeSessions.sort(sortByLastActiveTimeDesc);
         return (activeSessions[0] && activeSessions[0].id) || null;
       }
@@ -102,22 +102,17 @@ export function getActiveSessionIdReducer(types) {
 
 export function getRingSessionIdReducer(types) {
   return (state = null, { type, session = {}, sessions = [] }) => {
-    let ringSessions;
     switch (type) {
       case types.callRing:
         return session.id;
-      case types.beforeCallStart:
       case types.callStart:
-      case types.callEnd:
+      case types.callEnd: {
         if (session.id !== state) {
           return state;
         }
-        ringSessions =
-          sessions.filter(sessionItem => isRing(sessionItem));
-        if (ringSessions && ringSessions[0]) {
-          return ringSessions[0].id;
-        }
-        return null;
+        const ringSessions = sessions.filter(sessionItem => isRing(sessionItem));
+        return (ringSessions[0] && ringSessions[0].id) || null;
+      }
       case types.disconnect:
         return null;
       default:
@@ -128,9 +123,8 @@ export function getRingSessionIdReducer(types) {
 
 export function getLastEndedSessionsReducer(types) {
   return (state = [], { type, session = {} }) => {
-    let lastSessions;
     switch (type) {
-      case types.callEnd:
+      case types.callEnd: {
         if (
           /**
           * don't add incoming call that isn't relied by current app
@@ -143,10 +137,11 @@ export function getLastEndedSessionsReducer(types) {
         ) {
           return state;
         }
-        lastSessions = [session].concat(
+        const lastSessions = [session].concat(
           state.filter(sessionItem => sessionItem.id !== session.id)
         );
         return lastSessions.slice(0, 5);
+      }
       default:
         return state;
     }
