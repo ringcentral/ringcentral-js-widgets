@@ -47,6 +47,7 @@ TabNavigationView.propTypes = {
   navigationPosition: PropTypes.oneOf(['top', 'bottom']),
   tabWidth: PropTypes.string,
   tabs: NavigationBar.propTypes.tabs,
+  holdReady: PropTypes.bool,
 };
 
 TabNavigationView.defaultProps = {
