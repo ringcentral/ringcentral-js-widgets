@@ -20,6 +20,7 @@ function mapToProps(_, {
     rateLimiter,
   },
   showContactDisplayPlaceholder = false,
+  showRingoutCallControl = false,
   useV2,
 }) {
   const isWebRTC = callingSettings.callingMode === callingModes.webphone;
@@ -43,6 +44,7 @@ function mapToProps(_, {
     showSpinner: !!(conferenceCall && conferenceCall.isMerging),
     brand: brand.fullName,
     showContactDisplayPlaceholder,
+    showRingoutCallControl,
     autoLog: !!(callLogger && callLogger.autoLog),
     isWebRTC,
     conferenceCallParties: conferenceCall ? conferenceCall.partyProfiles : null,
