@@ -12,10 +12,24 @@ const setting = {
 
 class Query extends BaseQuery {
   async getText(selector, options = {}) {
-    const _selector = this.getSelector(selector, options);
-    const text = this._node.find(_selector).first().text();
-    return text;
+    const element = await this.$(selector, options);
+    return element.text();
   }
+
+  async click(selector, options) {
+    await this.$(selector, options).simulate('click');
+  }
+
+  async clear(selector, options) {
+    await this.type(selector, '', options);
+  }
+
+  async type(selector, value, options) {
+    const element = await this.$(selector, options);
+    element.instance().value = value;
+    element.simulate('change');
+  }
+
   // TODO
   async execute(...args) {
     let script = args.shift();
@@ -38,6 +52,17 @@ class Query extends BaseQuery {
       return result;
     }
     return this._node.find(_selector).first();
+  }
+
+  async $(selector, options) {
+    const element = await this.$$(selector, options);
+    return element.first();
+  }
+
+  async $$(selector, options) {
+    const _selector = this.getSelector(selector, options);
+    const element = this._node.find(_selector);
+    return element;
   }
 }
 

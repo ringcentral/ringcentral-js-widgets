@@ -59,7 +59,8 @@ class Query extends BaseQuery {
   }
 
   async execute(...args) {
-    return this._node.evaluate(...args);
+    const result = await this._node.evaluate(...args);
+    return result;
   }
 
   async clear(selector, options) {
@@ -71,23 +72,24 @@ class Query extends BaseQuery {
       await this._node.keyboard.down('Delete');
       await this._node.keyboard.up('Delete');
     } else {
-      this._node.evaluate(() => {
+      await this._node.evaluate(() => {
         document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Delete' }));
         document.dispatchEvent(new KeyboardEvent('keyup', { key: 'Delete' }));
       });
     }
   }
 
+  async $(selector, options) {
+    const _selector = this.getSelector(selector, options);
+    const element = await this._node.$(_selector);
+    return element;
+  }
 
-  // async $(selector) {
-  //   const element = await this._node.$(selector);
-  //   return element;
-  // }
-
-  // async $$(selector) {
-  //   const elements = await this._node.$$(selector);
-  //   return elements;
-  // }
+  async $$(selector, options) {
+    const _selector = this.getSelector(selector, options);
+    const elements = await this._node.$$(_selector);
+    return elements;
+  }
 }
 
 class Driver extends BaseDriver {
