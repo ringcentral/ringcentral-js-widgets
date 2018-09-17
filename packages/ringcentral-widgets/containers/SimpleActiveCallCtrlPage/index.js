@@ -18,14 +18,13 @@ import { pickEleByProps, pickFallBackInfo } from './utils';
 
 function mapToProps(_, { phone }) {
   const {
-    activeCallControl, regionSettings, activeCalls, contactMatcher,
+    activeCallControl, regionSettings, callMonitor,
     alert, routerInteraction,
   } = phone;
   return {
     activeCallControl,
     regionSettings,
-    activeCalls,
-    contactMatcher,
+    callMonitor,
     alert,
     routerInteraction,
   };
@@ -41,21 +40,25 @@ class ActiveCallControl extends Component {
       currentLocale,
       activeCallControl,
       regionSettings,
-      activeCalls,
-      contactMatcher,
-      routerInteraction
+      callMonitor,
+      routerInteraction,
+      renderContactName,
     } = this.props;
 
-    const { activeSessionsStatus, activeSessionId: sessionId } = activeCallControl;
-    const currentActiveSessionStatus = activeSessionsStatus[sessionId];
+    const { activeSession, activeSessionId: sessionId } = activeCallControl;
+
     const activeCall = pickEleByProps(
       { sessionId: String(sessionId) },
-      activeCalls.calls
+      callMonitor.otherDeviceCalls
     )[0] || {};
 
+    if (!activeSession) {
+      routerInteraction.goBack();
+      return null;
+    }
     const { fallBackName, fallBackNumber } = pickFallBackInfo(
       activeCall,
-      contactMatcher.dataMapping,
+      renderContactName(sessionId),
       currentLocale
     );
     const { muteCtrl, transferCtrl, holdCtrl } = ACTIONS_CTRL_MAP;
@@ -87,8 +90,8 @@ class ActiveCallControl extends Component {
       layout: callCtrlLayouts.normalCtrl,
       startTime: activeCall.startTime,
       actions: [muteCtrl, transferCtrl, holdCtrl],
-      isOnMute: currentActiveSessionStatus.isOnMute,
-      isOnHold: currentActiveSessionStatus.isOnHold,
+      isOnMute: activeSession.isOnMute,
+      isOnHold: activeSession.isOnHold,
     };
 
     const uselessProps = {
@@ -115,24 +118,24 @@ ActiveCallControl.propTypes = {
   currentLocale: PropTypes.string,
   activeCallControl: PropTypes.object,
   regionSettings: PropTypes.object,
-  activeCalls: PropTypes.object,
-  contactMatcher: PropTypes.object,
+  callMonitor: PropTypes.object,
   alert: PropTypes.object,
   routerInteraction: PropTypes.object,
   searchContact: PropTypes.func,
   searchContactList: PropTypes.array,
+  renderContactName: PropTypes.func,
 };
 
 ActiveCallControl.defaultProps = {
   currentLocale: 'en-US',
   activeCallControl: {},
   regionSettings: {},
-  activeCalls: {},
-  contactMatcher: {},
+  callMonitor: {},
   alert: {},
   routerInteraction: {},
   searchContact() {},
-  searchContactList: []
+  searchContactList: [],
+  renderContactName() { },
 };
 
 export default withPhone(connect(mapToProps, mapToFunctions)(ActiveCallControl));

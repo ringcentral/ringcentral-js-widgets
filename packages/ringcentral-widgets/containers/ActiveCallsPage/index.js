@@ -187,6 +187,7 @@ function mapToFunctions(_, {
         callMonitor.callItemClickTrack();
         activeCallControl.setActiveSessionId(sessionId);
         // TODO: Display the call control page.
+        routerInteraction.push('/simplifycallctrl');
       } else {
         // For webphone call
         // show the ring call modal when click a ringing call.
