@@ -238,7 +238,10 @@ export default class AdapterModuleCore extends RcModule {
       }
       if (this._lastPath !== this._router.currentPath) {
         this._lastPath = this._router.currentPath;
-        const onCurrentCallPath = (this._router.currentPath.indexOf(ACTIVE_CALL_PATH) >= 0);
+        const onCurrentCallPath = (
+          this._router.currentPath === ACTIVE_CALL_PATH ||
+          this._router.currentPath === `${ACTIVE_CALL_PATH}/${this._webphone.activeSessionId}`
+        );
         if (
           this.onCurrentCallPath !== onCurrentCallPath
         ) {

@@ -737,7 +737,7 @@ export default class AdapterCore {
       this._styles.viewCallsBtn,
       this._hoverBar && this._styles.visible,
       !this._scrollable && this.showViewCallsBtn && this._styles.visible,
-      this.moveOutViewCallsBtn && this._styles.moveOut,
+      !this.moveInViewCallsBtn && this.moveOutViewCallsBtn && this._styles.moveOut,
       this.moveInViewCallsBtn && this._styles.moveIn,
     ));
   }
