@@ -32,7 +32,7 @@ function mapToFunctions(_, {
 }) {
   return {
     updateCarousel: (...args) => userGuide.updateCarousel(...args),
-    quickAccessEnter: () => quickAccess.enter()
+    quickAccessEnter: () => quickAccess && quickAccess.enter()
   };
 }
 
