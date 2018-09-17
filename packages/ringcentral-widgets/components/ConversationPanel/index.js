@@ -274,7 +274,7 @@ class ConversationPanel extends Component {
           currentLocale={this.props.currentLocale}
           onSend={this.onSend}
           onHeightChange={this.onInputHeightChange}
-          maxHeight={this.props.inputMaxHeight}
+          inputExpandable={this.props.inputExpandable}
         />
       </div>
     );
@@ -317,7 +317,7 @@ ConversationPanel.propTypes = {
   loadConversation: PropTypes.func,
   renderExtraButton: PropTypes.func,
   loadingNextPage: PropTypes.bool,
-  inputMaxHeight:PropTypes.number,
+  inputExpandable:PropTypes.bool,
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
@@ -334,7 +334,7 @@ ConversationPanel.defaultProps = {
   loadConversation: () => null,
   renderExtraButton: undefined,
   loadingNextPage: false,
-  inputMaxHeight: 300,
+  inputExpandable: undefined,
 };
 
 export default ConversationPanel;

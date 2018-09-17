@@ -20,8 +20,7 @@ export function mapToProps(_, {
   enableContactFallback = false,
   showGroupNumberName = false,
   perPage = 20,
-  inputFlexHeightEnable = true,
-  inputMaxHeight = 300,
+  inputExpandable,
 }) {
   const disableLinks = (
     rateLimiter.isThrottling ||
@@ -60,7 +59,7 @@ export function mapToProps(_, {
     autoLog: !!(conversationLogger && conversationLogger.autoLog),
     perPage,
     loadingNextPage: conversations.loadingOldMessages,
-    inputMaxHeight: inputFlexHeightEnable? inputMaxHeight: 65,
+    inputExpandable: inputExpandable,
   });
 }
 
