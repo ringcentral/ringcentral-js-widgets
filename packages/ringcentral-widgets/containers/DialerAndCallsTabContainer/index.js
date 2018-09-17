@@ -21,7 +21,7 @@ class TabContentView extends Component {
 
   constructor(props) {
     super(props);
-    
+
     this.getTabs = createSelector(
       () => this.props.currentLocale,
       () => this.props.currentPath,
@@ -37,7 +37,7 @@ class TabContentView extends Component {
           isActive() { return currentPath === '/calls'; }
         },
       ]),
-    )
+    );
   }
   render() {
     if (this.props.showSpinner) {
@@ -72,11 +72,11 @@ function mapToProps(_, {
     callMonitor.calls.length &&
     webphone.sessions.length
   )
-  || !isWebphoneMode && (
-    callMonitor.calls.length > 0 ||
-    (callLogSection && callLogSection.show)
-  );
-  
+    || !isWebphoneMode && !!(
+      callMonitor.calls.length > 0 ||
+      (callLogSection && callLogSection.show)
+    );
+
   return {
     applicable,
     currentLocale: locale.currentLocale,
@@ -89,8 +89,10 @@ function mapToFunctions(_, {
   phone: {
     routerInteraction,
   },
+  getContent,
 }) {
   return {
+    getContent,
     goTo(path) {
       routerInteraction.push(path);
     },

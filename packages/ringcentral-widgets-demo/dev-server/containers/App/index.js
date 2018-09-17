@@ -122,9 +122,13 @@ export default function App({
               <Route
                 path="/dialer"
                 component={() => (
-                  <DialerAndCallsTabContainer>
-                    <DialerPage />
-                  </DialerAndCallsTabContainer>
+                  <DialerAndCallsTabContainer
+                    getContent={({ applicable }) => (
+                      <DialerPage
+                        withinTab={applicable}
+                      />
+                    )}
+                  />
                 )} />
               <Route
                 path="/settings"
@@ -150,16 +154,18 @@ export default function App({
               <Route
                 path="/calls"
                 component={() => (
-                  <DialerAndCallsTabContainer>
-                    <ActiveCallsPage
-                      onLogCall={async () => { await sleep(1000); }}
-                      onCreateContact={() => { }}
-                      onCallsEmpty={() => { }}
-                      sourceIcons={sourceIcons}
-                      getAvatarUrl={getAvatarUrl}
-                      useV2
-                    />
-                  </DialerAndCallsTabContainer>
+                  <DialerAndCallsTabContainer
+                    getContent={() => (
+                      <ActiveCallsPage
+                        onLogCall={async () => { await sleep(1000); }}
+                        onCreateContact={() => { }}
+                        onCallsEmpty={() => { }}
+                        sourceIcons={sourceIcons}
+                        getAvatarUrl={getAvatarUrl}
+                        useV2
+                      />
+                    )}
+                  />
                 )} />
               <Route
                 path="/calls/active(/:sessionId)"
