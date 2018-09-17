@@ -3,6 +3,7 @@ import ToggleEnv from './toggleEnv';
 /* global $ */
 export default class Login {
   static async prepare(context) {
+    await $(context.driver.app).waitFor('loginButton');
     if (context.options.isVirtual) return;
     const process = createProcess(
       ToggleEnv,

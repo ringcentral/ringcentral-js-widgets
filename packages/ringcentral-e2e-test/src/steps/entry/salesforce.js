@@ -2,11 +2,15 @@
 const location = 'https://na78.salesforce.com/home/showAllTabs.jsp';
 export default class Entry {
   static async goto(context) {
-    const { options: { config }, driver: { page } } = context;
+    const { options: { config, driver }, driver: { page } } = context;
     await $(page).type('#username', config.username, { selector: 'css' });
     await $(page).type('#password', config.password, { selector: 'css' });
     await $(page).click('#Login', { selector: 'css' });
     await $(page).waitFor('body', { selector: 'css' });
+    if (driver === 'seleniumWebdriverSafari') {
+      // compatibility for safari
+      await $(page).waitFor(2000);
+    }
   }
 
   static async classic(context) {
@@ -23,8 +27,6 @@ export default class Entry {
     await $(context.driver.page).goto(location);
     context.driver.app = await this[context.options.tag.modes](context);
     global.app = context.driver.app;
-    // TODO
-    await $(global.app).waitFor(500);
   }
 
   static get steps() {

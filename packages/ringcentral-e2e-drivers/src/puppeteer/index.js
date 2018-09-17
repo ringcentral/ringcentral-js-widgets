@@ -36,15 +36,12 @@ class Query extends BaseQuery {
   }
 
   async waitForFrames(frameIds) {
-    // TODO
-    await this.waitFor(100);
-    const [frameId] = frameIds.slice(-1);
-    const frame = this._node.frames().find(frame => frame.name() === frameId);
-    if (frame) {
-      return frame;
+    let frame = this._node;
+    for (const frameId of frameIds) {
+      await frame.waitForFunction(`document.querySelector('#${frameId}')`);
+      frame = this._node.frames().find(frame => frame.name() === frameId);
     }
-    const result = await this.waitForFrames(frameIds);
-    return result;
+    return frame;
   }
 
   async waitForFunction(...args) {
