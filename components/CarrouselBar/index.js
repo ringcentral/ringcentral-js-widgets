@@ -50,7 +50,8 @@ var CarrouselBar = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (CarrouselBar.__proto__ || (0, _getPrototypeOf2.default)(CarrouselBar)).call(this, props));
 
     _this.state = {
-      currentIndex: 0
+      currentIndex: 0,
+      showAnimation: false
     };
     return _this;
   }
@@ -63,7 +64,8 @@ var CarrouselBar = function (_Component) {
       this.timeout = setInterval(function () {
         _this2.setState(function (prevState) {
           return {
-            currentIndex: prevState.currentIndex >= _this2.validChildren.length - 1 ? 0 : prevState.currentIndex + 1
+            currentIndex: prevState.currentIndex >= _this2.validChildren.length - 1 ? 0 : prevState.currentIndex + 1,
+            showAnimation: true
           };
         });
       }, this.props.scrollInterval);
@@ -97,7 +99,11 @@ var CarrouselBar = function (_Component) {
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.root },
-        this.validChildren[this.state.currentIndex]
+        _react2.default.createElement(
+          'div',
+          { className: this.state.showAnimation ? _styles2.default.move : null },
+          this.validChildren[this.state.currentIndex]
+        )
       );
     }
   }]);
@@ -105,6 +111,7 @@ var CarrouselBar = function (_Component) {
 }(_react.Component);
 
 exports.default = CarrouselBar;
+
 
 CarrouselBar.propTypes = {
   children: _propTypes2.default.node,

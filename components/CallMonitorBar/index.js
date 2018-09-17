@@ -3,8 +3,29 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = undefined;
+
+var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
 exports.CallInfoBar = CallInfoBar;
-exports.default = CallMonitorBar;
 
 var _react = require('react');
 
@@ -13,6 +34,14 @@ var _react2 = _interopRequireDefault(_react);
 var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _formatMessage = require('format-message');
+
+var _formatMessage2 = _interopRequireDefault(_formatMessage);
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
 
 var _DurationCounter = require('../DurationCounter');
 
@@ -56,12 +85,10 @@ function CallInfoBar(_ref) {
         className: _styles2.default.viewCallsBtn,
         onClick: onClick
       },
-      _i18n2.default.getString('viewCall', currentLocale)
+      _i18n2.default.getString('viewCalls', currentLocale)
     ) : null
   );
 }
-// import formatMessage from 'format-message';
-
 CallInfoBar.propTypes = {
   label: _propTypes2.default.string,
   onClick: _propTypes2.default.func,
@@ -75,55 +102,136 @@ CallInfoBar.defaultProps = {
   shouldDisplayViewCallsBtn: false
 };
 
-function CallMonitorBar(_ref2) {
-  var currentCalls = _ref2.currentCalls,
-      currentLocale = _ref2.currentLocale,
-      onCurrentCallBtnClick = _ref2.onCurrentCallBtnClick,
-      shouldDisplayCurrentCallBtn = _ref2.shouldDisplayCurrentCallBtn;
+var CallMonitorBar = function (_Component) {
+  (0, _inherits3.default)(CallMonitorBar, _Component);
 
-  // const numberOfIncomingCalls = ringingCalls.length;
-  // const numberOfOnHoldCalls = onHoldCalls.length;
-  return _react2.default.createElement(
-    _CarrouselBar2.default,
-    null,
-    currentCalls.length > 0 ? _react2.default.createElement(
-      'div',
-      { className: _styles2.default.bar },
-      _react2.default.createElement(
+  function CallMonitorBar(props) {
+    (0, _classCallCheck3.default)(this, CallMonitorBar);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (CallMonitorBar.__proto__ || (0, _getPrototypeOf2.default)(CallMonitorBar)).call(this, props));
+
+    _this.state = {
+      hoverShow: false
+    };
+    _this.showBtn = function () {
+      if (_this.props.currentCalls.length > 0) {
+        _this.setState({
+          hoverShow: true
+        });
+      }
+    };
+    _this.hideBtn = function () {
+      _this.setState({
+        hoverShow: false
+      });
+    };
+    return _this;
+  }
+
+  (0, _createClass3.default)(CallMonitorBar, [{
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          ringingCalls = _props.ringingCalls,
+          onHoldCalls = _props.onHoldCalls,
+          currentCalls = _props.currentCalls,
+          currentLocale = _props.currentLocale,
+          onCurrentCallBtnClick = _props.onCurrentCallBtnClick,
+          onViewCallBtnClick = _props.onViewCallBtnClick,
+          shouldDisplayCurrentCallBtn = _props.shouldDisplayCurrentCallBtn,
+          shouldDisplayViewCallsBtn = _props.shouldDisplayViewCallsBtn;
+
+
+      var numberOfIncomingCalls = ringingCalls.length;
+      var numberOfOnHoldCalls = onHoldCalls.length;
+
+      return _react2.default.createElement(
         'div',
-        { className: _styles2.default.duration, onClick: onCurrentCallBtnClick },
-        _react2.default.createElement(_DurationCounter2.default, {
-          startTime: currentCalls[0].startTime
-        })
-      ),
-      shouldDisplayCurrentCallBtn && onCurrentCallBtnClick ? _react2.default.createElement(
-        _Button2.default,
-        {
-          className: _styles2.default.currentCallBtn,
-          onClick: onCurrentCallBtnClick
-        },
-        _i18n2.default.getString('currentCall', currentLocale)
-      ) : null
-    ) : null
-  );
-}
+        { className: _styles2.default.bar, onMouseOver: this.showBtn, onMouseLeave: this.hideBtn, onClick: this.hideBtn },
+        _react2.default.createElement(
+          'div',
+          { className: (0, _classnames2.default)(_styles2.default.box, this.state.hoverShow ? _styles2.default.show : _styles2.default.hide) },
+          _react2.default.createElement(
+            _Button2.default,
+            {
+              className: _styles2.default.currentCallBtn,
+              onClick: onCurrentCallBtnClick
+            },
+            _i18n2.default.getString('currentCall', currentLocale)
+          ),
+          _react2.default.createElement(
+            _Button2.default,
+            {
+              className: _styles2.default.viewCallsBtn,
+              onClick: onViewCallBtnClick
+            },
+            _i18n2.default.getString('viewCalls', currentLocale)
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: (0, _classnames2.default)(_styles2.default.box, this.state.hoverShow ? _styles2.default.hide : _styles2.default.show) },
+          _react2.default.createElement(
+            _CarrouselBar2.default,
+            null,
+            numberOfOnHoldCalls > 0 ? _react2.default.createElement(CallInfoBar, {
+              label: numberOfOnHoldCalls === 1 ? (0, _formatMessage2.default)(_i18n2.default.getString('callOnHold', currentLocale), { numberOf: numberOfOnHoldCalls }) : (0, _formatMessage2.default)(_i18n2.default.getString('callsOnHold', currentLocale), { numberOf: numberOfOnHoldCalls }),
+              currentLocale: currentLocale,
+              onClick: onViewCallBtnClick,
+              shouldDisplayViewCallsBtn: shouldDisplayViewCallsBtn
+            }) : null,
+            numberOfIncomingCalls > 0 ? _react2.default.createElement(CallInfoBar, {
+              label: numberOfIncomingCalls === 1 ? (0, _formatMessage2.default)(_i18n2.default.getString('incomingCall', currentLocale), { numberOf: numberOfIncomingCalls }) : (0, _formatMessage2.default)(_i18n2.default.getString('incomingCalls', currentLocale), { numberOf: numberOfIncomingCalls }),
+              currentLocale: currentLocale,
+              onClick: onViewCallBtnClick,
+              shouldDisplayViewCallsBtn: shouldDisplayViewCallsBtn
+            }) : null,
+            currentCalls.length > 0 ? _react2.default.createElement(
+              'div',
+              { className: _styles2.default.bar },
+              _react2.default.createElement(
+                'div',
+                { className: _styles2.default.duration, onClick: onCurrentCallBtnClick },
+                _react2.default.createElement(_DurationCounter2.default, {
+                  startTime: currentCalls[0].startTime
+                })
+              ),
+              shouldDisplayCurrentCallBtn && onCurrentCallBtnClick ? _react2.default.createElement(
+                _Button2.default,
+                {
+                  className: _styles2.default.currentCallBtn,
+                  onClick: onCurrentCallBtnClick
+                },
+                _i18n2.default.getString('currentCall', currentLocale)
+              ) : null
+            ) : null
+          )
+        )
+      );
+    }
+  }]);
+  return CallMonitorBar;
+}(_react.Component);
+
+exports.default = CallMonitorBar;
+
 CallMonitorBar.propTypes = {
-  // ringingCalls: PropTypes.array,
+  ringingCalls: _propTypes2.default.array,
   currentCalls: _propTypes2.default.array,
-  // onHoldCalls: PropTypes.array,
+  onHoldCalls: _propTypes2.default.array,
   currentLocale: _propTypes2.default.string.isRequired,
   onCurrentCallBtnClick: _propTypes2.default.func,
-  // onViewCallBtnClick: PropTypes.func,
-  shouldDisplayCurrentCallBtn: _propTypes2.default.bool
-  // shouldDisplayViewCallsBtn: PropTypes.bool,
+  onViewCallBtnClick: _propTypes2.default.func,
+  shouldDisplayCurrentCallBtn: _propTypes2.default.bool,
+  shouldDisplayViewCallsBtn: _propTypes2.default.bool
 };
 CallMonitorBar.defaultProps = {
-  // ringingCalls: [],
+  ringingCalls: [],
   currentCalls: [],
-  // onHoldCalls: [],
+  onHoldCalls: [],
   onCurrentCallBtnClick: undefined,
-  // onViewCallBtnClick: undefined,
-  shouldDisplayCurrentCallBtn: false
-  // shouldDisplayViewCallsBtn: false,
+  onViewCallBtnClick: undefined,
+  shouldDisplayCurrentCallBtn: false,
+  shouldDisplayViewCallsBtn: false
 };
 //# sourceMappingURL=index.js.map

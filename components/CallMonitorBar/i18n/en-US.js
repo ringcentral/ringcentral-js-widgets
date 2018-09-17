@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   currentCall: 'Current Call',
-  viewCall: 'View Call',
+  viewCalls: 'View Calls',
   incomingCall: '{numberOf} Incoming Call',
   incomingCalls: '{numberOf} Incoming Calls',
   callOnHold: '{numberOf} Call On Hold',

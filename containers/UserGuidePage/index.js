@@ -44,7 +44,7 @@ function mapToFunctions(_, _ref2) {
       return userGuide.updateCarousel.apply(userGuide, arguments);
     },
     quickAccessEnter: function quickAccessEnter() {
-      return quickAccess.enter();
+      return quickAccess && quickAccess.enter();
     }
   };
 }
