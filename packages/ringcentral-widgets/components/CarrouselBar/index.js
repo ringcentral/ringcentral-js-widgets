@@ -8,7 +8,7 @@ export default class CarrouselBar extends Component {
     super(props);
     this.state = {
       currentIndex: 0,
-      showAnimation: this.props.showAnimation
+      showAnimation: false
     };
   }
   componentDidMount() {
@@ -50,11 +50,9 @@ export default class CarrouselBar extends Component {
 
 CarrouselBar.propTypes = {
   children: PropTypes.node,
-  scrollInterval: PropTypes.number,
-  showAnimation: PropTypes.bool,
+  scrollInterval: PropTypes.number
 };
 CarrouselBar.defaultProps = {
   children: undefined,
-  scrollInterval: DEFAULT_SCROLL_INTERVAL,
-  showAnimation: false
+  scrollInterval: DEFAULT_SCROLL_INTERVAL
 };

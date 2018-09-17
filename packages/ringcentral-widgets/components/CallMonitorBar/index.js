@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import formatMessage from 'format-message';
+import classnames from 'classnames';
 
 import DurationCounter from '../DurationCounter';
 import Button from '../Button';
@@ -49,8 +50,7 @@ export default class CallMonitorBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hoverShow: false,
-      showAnimation: this.props.showAnimation
+      hoverShow: false
     };
     this.showBtn = () => {
       if (this.props.currentCalls.length > 0) {
@@ -61,8 +61,7 @@ export default class CallMonitorBar extends Component {
     };
     this.hideBtn = () => {
       this.setState({
-        hoverShow: false,
-        showAnimation: false
+        hoverShow: false
       });
     };
   }
@@ -84,22 +83,22 @@ export default class CallMonitorBar extends Component {
 
     return (
       <div className={styles.bar} onMouseOver={this.showBtn} onMouseLeave={this.hideBtn} onClick={this.hideBtn}>
-        {this.state.hoverShow ? (
-          <div>
-            <Button
-              className={styles.currentCallBtn}
-              onClick={onCurrentCallBtnClick}
+        <div className={classnames(styles.box, (this.state.hoverShow ? styles.show : styles.hide))}>
+          <Button
+            className={styles.currentCallBtn}
+            onClick={onCurrentCallBtnClick}
             >
-              {i18n.getString('currentCall', currentLocale)}
-            </Button>
-            <Button
-              className={styles.viewCallsBtn}
-              onClick={onViewCallBtnClick}
+            {i18n.getString('currentCall', currentLocale)}
+          </Button>
+          <Button
+            className={styles.viewCallsBtn}
+            onClick={onViewCallBtnClick}
             >
-              {i18n.getString('viewCalls', currentLocale)}
-            </Button>
-          </div>) :
-          <CarrouselBar showAnimation={this.state.showAnimation}>
+            {i18n.getString('viewCalls', currentLocale)}
+          </Button>
+        </div>
+        <div className={classnames(styles.box, (this.state.hoverShow ? styles.hide : styles.show))}>
+          <CarrouselBar >
             {
               numberOfOnHoldCalls > 0 ? (
                 <CallInfoBar
@@ -149,7 +148,7 @@ export default class CallMonitorBar extends Component {
             ) : null
             }
           </CarrouselBar>
-        }
+        </div>
       </div>
     );
   }
@@ -163,7 +162,7 @@ CallMonitorBar.propTypes = {
   onViewCallBtnClick: PropTypes.func,
   shouldDisplayCurrentCallBtn: PropTypes.bool,
   shouldDisplayViewCallsBtn: PropTypes.bool,
-  showAnimation: PropTypes.bool
+  // showAnimation: PropTypes.bool
 };
 CallMonitorBar.defaultProps = {
   ringingCalls: [],
@@ -173,6 +172,6 @@ CallMonitorBar.defaultProps = {
   onViewCallBtnClick: undefined,
   shouldDisplayCurrentCallBtn: false,
   shouldDisplayViewCallsBtn: false,
-  showAnimation: false
+  // showAnimation: false
 };
 

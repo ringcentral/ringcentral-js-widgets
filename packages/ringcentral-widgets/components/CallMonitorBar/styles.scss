@@ -1,12 +1,6 @@
 @import '../../lib/commonStyles/colors';
 
-.bar {
-  display: inline-block;
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
-  // height: 100%;
-}
+
 .duration {
   display: inline-block;
   color: $ash;
@@ -62,4 +56,18 @@ p{
 }
 .content p{
   position: absolute;
+}
+.hide{
+  visibility: hidden;
+}
+.show{
+  visibility: visible;
+}
+
+.box{
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
