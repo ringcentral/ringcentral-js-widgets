@@ -1,11 +1,5 @@
 @import '../../lib/commonStyles/colors';
 
-.bar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
 .duration {
   display: inline-block;
   color: $ash;
@@ -41,7 +35,37 @@
   color: $orange;
 }
 .currentCallInfo {
+  display: inline-block;
   font-size: 13px;
   color: $ash;
   cursor: pointer;
+}
+.wrap{
+  height:30px;
+  overflow: hidden;
+  position: absolute;
+  top:30;
+  left: 100;
+  width: 100%
+}
+p{
+  margin:0;
+  height: 30px;
+  width: 100%
+}
+.content p{
+  position: absolute;
+}
+.hide{
+  visibility: hidden;
+}
+.show{
+  visibility: visible;
+}
+.box{
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
