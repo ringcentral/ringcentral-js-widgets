@@ -1069,20 +1069,19 @@ var Webphone = (_dec = (0, _di.Module)({
 
                 this._holdOtherSession(sessionId);
                 this._onAccepted(sipSession, 'inbound');
-                this._beforeCallStart(sipSession);
-                _context7.next = 10;
+                _context7.next = 9;
                 return sipSession.accept(this.acceptOptions);
 
-              case 10:
+              case 9:
                 this._onCallStart(sipSession);
                 this.store.dispatch({ // for track
                   type: this.actionTypes.callAnswer
                 });
-                _context7.next = 19;
+                _context7.next = 18;
                 break;
 
-              case 14:
-                _context7.prev = 14;
+              case 13:
+                _context7.prev = 13;
                 _context7.t0 = _context7['catch'](4);
 
                 console.log('Accept failed');
@@ -1093,12 +1092,12 @@ var Webphone = (_dec = (0, _di.Module)({
                   this._onCallEnd(sipSession);
                 }
 
-              case 19:
+              case 18:
               case 'end':
                 return _context7.stop();
             }
           }
-        }, _callee7, this, [[4, 14]]);
+        }, _callee7, this, [[4, 13]]);
       }));
 
       function answer(_x2) {
@@ -2145,7 +2144,7 @@ var Webphone = (_dec = (0, _di.Module)({
                 session.__rc_fromNumber = fromNumber;
                 this._onAccepted(session);
                 this._holdOtherSession(session.id);
-                this._beforeCallStart(session);
+                this._onCallStart(session);
                 return _context26.abrupt('return', session);
 
               case 19:
@@ -2256,18 +2255,15 @@ var Webphone = (_dec = (0, _di.Module)({
 
       return toggleMinimized;
     }()
-
-    // for outbound call
-
   }, {
-    key: '_beforeCallStart',
-    value: function _beforeCallStart(session) {
+    key: '_onCallStart',
+    value: function _onCallStart(session) {
       var _this14 = this;
 
       this._addSession(session);
       var normalizedSession = (0, _webphoneHelper.normalizeSession)(session);
       this.store.dispatch({
-        type: this.actionTypes.beforeCallStart,
+        type: this.actionTypes.callStart,
         session: normalizedSession,
         sessions: this.sessions
       });
@@ -2280,20 +2276,6 @@ var Webphone = (_dec = (0, _di.Module)({
       this._onCallStartFunctions.forEach(function (handler) {
         return handler(normalizedSession, _this14.activeSession);
       });
-    }
-  }, {
-    key: '_onCallStart',
-    value: function _onCallStart(session) {
-      this._addSession(session);
-      var normalizedSession = (0, _webphoneHelper.normalizeSession)(session);
-      this.store.dispatch({
-        type: this.actionTypes.callStart,
-        session: normalizedSession,
-        sessions: this.sessions
-      });
-      if (this._contactMatcher) {
-        this._contactMatcher.triggerMatch();
-      }
     }
   }, {
     key: '_onCallRing',

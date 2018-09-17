@@ -142,7 +142,6 @@ function getActiveSessionIdReducer(types) {
         sessions = _ref6$sessions === undefined ? [] : _ref6$sessions;
 
     switch (type) {
-      case types.beforeCallStart:
       case types.callStart:
         return session.id;
       case types.callEnd:
@@ -150,18 +149,19 @@ function getActiveSessionIdReducer(types) {
           if (session.id !== state) {
             return state;
           }
-          var sessionWithoutRinging = sessions.filter(function (session) {
+          var activeSessions = sessions.filter(function (session) {
             return !(0, _webphoneHelper.isRing)(session);
-          });
-          return sessionWithoutRinging[0] && sessionWithoutRinging[0].id || null;
-        }
-      case types.clearSessionCaching:
-        {
-          var activeSessions = sessions.filter(function (x) {
-            return !x.cached;
           });
           activeSessions.sort(_webphoneHelper.sortByLastActiveTimeDesc);
           return activeSessions[0] && activeSessions[0].id || null;
+        }
+      case types.clearSessionCaching:
+        {
+          var _activeSessions = sessions.filter(function (x) {
+            return !x.cached && !(0, _webphoneHelper.isRing)(session);
+          });
+          _activeSessions.sort(_webphoneHelper.sortByLastActiveTimeDesc);
+          return _activeSessions[0] && _activeSessions[0].id || null;
         }
       case types.disconnect:
         return null;
@@ -181,23 +181,20 @@ function getRingSessionIdReducer(types) {
         _ref7$sessions = _ref7.sessions,
         sessions = _ref7$sessions === undefined ? [] : _ref7$sessions;
 
-    var ringSessions = void 0;
     switch (type) {
       case types.callRing:
         return session.id;
-      case types.beforeCallStart:
       case types.callStart:
       case types.callEnd:
-        if (session.id !== state) {
-          return state;
+        {
+          if (session.id !== state) {
+            return state;
+          }
+          var ringSessions = sessions.filter(function (sessionItem) {
+            return (0, _webphoneHelper.isRing)(sessionItem);
+          });
+          return ringSessions[0] && ringSessions[0].id || null;
         }
-        ringSessions = sessions.filter(function (sessionItem) {
-          return (0, _webphoneHelper.isRing)(sessionItem);
-        });
-        if (ringSessions && ringSessions[0]) {
-          return ringSessions[0].id;
-        }
-        return null;
       case types.disconnect:
         return null;
       default:
@@ -214,21 +211,22 @@ function getLastEndedSessionsReducer(types) {
         _ref8$session = _ref8.session,
         session = _ref8$session === undefined ? {} : _ref8$session;
 
-    var lastSessions = void 0;
     switch (type) {
       case types.callEnd:
-        if (
-        /**
-        * don't add incoming call that isn't relied by current app
-        *   to end sessions. this call can be answered by other apps
-        */
-        !session.startTime && !session.isToVoicemail && !session.isForwarded && !session.isReplied) {
-          return state;
+        {
+          if (
+          /**
+          * don't add incoming call that isn't relied by current app
+          *   to end sessions. this call can be answered by other apps
+          */
+          !session.startTime && !session.isToVoicemail && !session.isForwarded && !session.isReplied) {
+            return state;
+          }
+          var lastSessions = [session].concat(state.filter(function (sessionItem) {
+            return sessionItem.id !== session.id;
+          }));
+          return lastSessions.slice(0, 5);
         }
-        lastSessions = [session].concat(state.filter(function (sessionItem) {
-          return sessionItem.id !== session.id;
-        }));
-        return lastSessions.slice(0, 5);
       default:
         return state;
     }
