@@ -177,11 +177,7 @@ var IncomingCallPage = function (_Component) {
         this._updateAvatarAndMatchIndex(nextProps);
       }
       this.setState({
-        hasOtherActiveCall: nextProps.activeSessionId
-        // when ringcall became active call
-        ? nextProps.activeSessionId !== nextProps.session.id
-        // otherwise when no active call
-        : false
+        hasOtherActiveCall: !!nextProps.activeSessionId
       });
     }
   }, {
