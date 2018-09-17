@@ -35,6 +35,14 @@ function mapToFunctions(_, { phone }) {
 }
 /* eslint-disable react/prefer-stateless-function */
 class ActiveCallControl extends Component {
+  async componentWillReceiveProps(props) {
+    const { activeCallControl, routerInteraction } = props;
+    const { activeSession } = activeCallControl;
+    // hang up call and throw error with 4** error number
+    if (!activeSession) {
+      await routerInteraction.goBack();
+    }
+  }
   render() {
     const {
       currentLocale,
@@ -45,13 +53,16 @@ class ActiveCallControl extends Component {
       renderContactName,
     } = this.props;
 
-    const { activeSessionsStatus, activeSessionId: sessionId } = activeCallControl;
-    const currentActiveSessionStatus = activeSessionsStatus[sessionId];
+    const { activeSession, activeSessionId: sessionId } = activeCallControl;
+
     const activeCall = pickEleByProps(
       { sessionId: String(sessionId) },
       callMonitor.otherDeviceCalls
     )[0] || {};
 
+    if (!activeSession) {
+      return null;
+    }
     const { fallBackName, fallBackNumber } = pickFallBackInfo(
       activeCall,
       renderContactName(sessionId),
@@ -86,8 +97,8 @@ class ActiveCallControl extends Component {
       layout: callCtrlLayouts.normalCtrl,
       startTime: activeCall.startTime,
       actions: [muteCtrl, transferCtrl, holdCtrl],
-      isOnMute: currentActiveSessionStatus.isOnMute,
-      isOnHold: currentActiveSessionStatus.isOnHold,
+      isOnMute: activeSession.isOnMute,
+      isOnHold: activeSession.isOnHold,
     };
 
     const uselessProps = {
