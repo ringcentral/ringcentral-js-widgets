@@ -44,6 +44,7 @@ import DateTimeFormat from 'ringcentral-integration/modules/DateTimeFormat';
 import Conference from 'ringcentral-integration/modules/Conference';
 import ConferenceCall from 'ringcentral-integration/modules/ConferenceCall';
 import QuickAccess from 'ringcentral-integration/modules/QuickAccess';
+import ActiveCallControl from 'ringcentral-integration/modules/ActiveCallControl';
 
 import ActiveCalls from 'ringcentral-integration/modules/ActiveCalls';
 import DetailedPresence from 'ringcentral-integration/modules/DetailedPresence';
@@ -141,6 +142,7 @@ import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
     { provide: 'ConferenceDialerUI', useClass: ConferenceDialerUI },
     { provide: 'Feedback', useClass: Feedback },
     { provide: 'UserGuide', useClass: UserGuide },
+    { provide: 'ActiveCallControl', useClass: ActiveCallControl },
     {
       provide: 'StorageOptions',
       useValue: {

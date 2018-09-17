@@ -32,6 +32,8 @@ import CallsOnholdPage from 'ringcentral-widgets/containers/CallsOnholdPage';
 import DialerAndCallsTabContainer from 'ringcentral-widgets/containers/DialerAndCallsTabContainer';
 import ConferenceParticipantPage from 'ringcentral-widgets/containers/ConferenceParticipantPage';
 import QuickAccessPage from 'ringcentral-widgets/containers/QuickAccessPage';
+import TransferPage from 'ringcentral-widgets/containers/TransferPage';
+import SimpleActiveCallCtrlPage from 'ringcentral-widgets/containers/SimpleActiveCallCtrlPage';
 
 import ContactSourceFilter from 'ringcentral-widgets/components/ContactSourceFilter';
 import MeetingScheduleButton from 'ringcentral-widgets/components/MeetingScheduleButton';
@@ -152,6 +154,7 @@ export default function App({
                 component={() => (
                   <DialerAndCallsTabContainer>
                     <ActiveCallsPage
+                      showRingoutCallControl
                       onLogCall={async () => { await sleep(1000); }}
                       onCreateContact={() => { }}
                       onCallsEmpty={() => { }}
@@ -184,6 +187,18 @@ export default function App({
                     />
                   </CallCtrlPage>
                 )} />
+              <Route
+                path="/transfer/:sessionsId"
+                component={() => (
+                  <TransferPage />
+                )}
+              />
+              <Route
+                path="/simplifycallctrl"
+                component={() => (
+                  <SimpleActiveCallCtrlPage currentLocale={phone.locale.currentLocale} />
+                )}
+              />
               <Route
                 path="/history"
                 component={() => (
