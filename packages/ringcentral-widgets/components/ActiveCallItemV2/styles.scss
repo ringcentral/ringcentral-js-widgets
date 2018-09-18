@@ -4,8 +4,12 @@ $padding-horizontal:20px;
 $avatar-basis:45.5px;
 $button-basis:68.5px;
 
-.pointer {
+@mixin pointer {
   cursor: pointer;
+}
+
+.pointer {
+  @include pointer;
 }
 
 .strechVertical {
@@ -194,7 +198,7 @@ $button-basis:68.5px;
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 100%;
-  cursor: default;
+  @include pointer;
 
   .icon {
     display: none;
