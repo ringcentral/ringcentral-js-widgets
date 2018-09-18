@@ -58,10 +58,10 @@ export default class AdapterModuleCore extends RcModule {
     });
 
     this._messageTypes = prefixEnum({ enumMap: messageTypes, prefix });
-    this._locale = this::ensureExist(locale, 'locale');
-    this._messageTransport = this::ensureExist(messageTransport, 'messageTransport');
-    this._presence = this::ensureExist(presence, 'presence');
-    this._router = this::ensureExist(routerInteraction, 'routerInteraction');
+    this._locale = this:: ensureExist(locale, 'locale');
+    this._messageTransport = this:: ensureExist(messageTransport, 'messageTransport');
+    this._presence = this:: ensureExist(presence, 'presence');
+    this._router = this:: ensureExist(routerInteraction, 'routerInteraction');
     this._callingSettings = callingSettings;
     this._webphone = webphone;
     this._callMonitor = callMonitor;
@@ -69,7 +69,7 @@ export default class AdapterModuleCore extends RcModule {
     this._quickAccess = quickAccess;
 
     this._storageKey = storageKey;
-    this._globalStorage = this::ensureExist(globalStorage, 'globalStorage');
+    this._globalStorage = this:: ensureExist(globalStorage, 'globalStorage');
 
     this._globalStorage.registerReducer({
       key: this._storageKey,
@@ -105,9 +105,7 @@ export default class AdapterModuleCore extends RcModule {
     return this.pending &&
       this._globalStorage.ready &&
       this._locale.ready &&
-      this._router.ready &&
-      (!this._userGuide || this._userGuide.ready) &&
-      (!this._quickAccess || this._quickAccess.ready);
+      this._router.ready;
   }
   _onStateChange() {
     if (this._shouldInit()) {
@@ -240,7 +238,8 @@ export default class AdapterModuleCore extends RcModule {
         this._lastPath = this._router.currentPath;
         const onCurrentCallPath = (
           this._router.currentPath === ACTIVE_CALL_PATH ||
-          this._router.currentPath === `${ACTIVE_CALL_PATH}/${this._webphone.activeSessionId}`
+          this._router.currentPath === `${ACTIVE_CALL_PATH}/${this._webphone.activeSessionId}` ||
+          (this._webphone && this._webphone.ringSession && !this._webphone.ringSession.minimized)
         );
         if (
           this.onCurrentCallPath !== onCurrentCallPath
@@ -251,7 +250,10 @@ export default class AdapterModuleCore extends RcModule {
             onCurrentCallPath,
           });
         }
-        const onAllCallsPath = (this._router.currentPath === ALL_CALL_PATH);
+        const onAllCallsPath = (
+          this._router.currentPath === ALL_CALL_PATH ||
+          (this._webphone && this._webphone.ringSession && !this._webphone.ringSession.minimized)
+        );
         if (
           this.onAllCallsPath !== onAllCallsPath
         ) {
