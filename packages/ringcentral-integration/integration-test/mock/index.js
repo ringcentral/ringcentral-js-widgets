@@ -211,7 +211,12 @@ export function conferenceCallBringIn(id, mockResponse = {}) {
     isOnce: false,
   });
 }
-
+export function removeFromConference(id, partyId) {
+  mockApi({
+    method: 'DELETE',
+    path: `/restapi/v1.0/account/~/telephony/sessions/${id}/parties/${partyId}`
+  });
+}
 export function extensionList(mockResponse = {}) {
   mockApi({
     url: `begin:${mockServer}/restapi/v1.0/account/~/extension?`,
@@ -473,14 +478,14 @@ export function conferenceCall(mockResponse = {}) {
   });
 }
 
-export function updateConferenceCall(id, mockResponse = {}) {
+export function updateConferenceCall(id, mockResponse = {}, isOnce = false) {
   mockApi({
     path: `/restapi/v1.0/account/~/telephony/sessions/${id}`,
     body: {
       // ...conferenceCallBody,
       ...mockResponse,
     },
-    isOnce: false
+    isOnce
   });
 }
 
