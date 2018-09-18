@@ -473,7 +473,7 @@ export default class ActiveCallControl extends Pollable {
       }
       const validPhoneNumber = validatedResult.numbers[0] && validatedResult.numbers[0].e164;
       let phoneNumber = validPhoneNumber;
-      if (validPhoneNumber.length < 7) {
+      if (validPhoneNumber.indexOf('+') === -1) {
         phoneNumber = [this._accountInfo.mainCompanyNumber, validPhoneNumber].join('*');
       }
       await this._client.service._platform.post(url, {
