@@ -141,7 +141,7 @@ var storageKey = 'activeCallControl';
 var subscribeEvent = '/account/~/extension/~/telephony/sessions';
 
 var ActiveCallControl = (_dec = (0, _di.Module)({
-  deps: ['Client', 'Auth', 'Subscription', 'ConnectivityMonitor', 'RolesAndPermissions', 'CallMonitor', 'Alert', 'NumberValidate', { dep: 'TabManager', optional: true }, { dep: 'Storage', optional: true }, { dep: 'ActiveCallControlOptions', optional: true }]
+  deps: ['Client', 'Auth', 'Subscription', 'ConnectivityMonitor', 'RolesAndPermissions', 'CallMonitor', 'Alert', 'NumberValidate', 'AccountInfo', { dep: 'TabManager', optional: true }, { dep: 'Storage', optional: true }, { dep: 'ActiveCallControlOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_Pollable) {
   (0, _inherits3.default)(ActiveCallControl, _Pollable);
 
@@ -164,7 +164,8 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
         disableCache = _ref$disableCache === undefined ? false : _ref$disableCache,
         alert = _ref.alert,
         numberValidate = _ref.numberValidate,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'auth', 'ttl', 'timeToRetry', 'storage', 'subscription', 'connectivityMonitor', 'rolesAndPermissions', 'tabManager', 'callMonitor', 'polling', 'disableCache', 'alert', 'numberValidate']);
+        accountInfo = _ref.accountInfo,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'auth', 'ttl', 'timeToRetry', 'storage', 'subscription', 'connectivityMonitor', 'rolesAndPermissions', 'tabManager', 'callMonitor', 'polling', 'disableCache', 'alert', 'numberValidate', 'accountInfo']);
     (0, _classCallCheck3.default)(this, ActiveCallControl);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ActiveCallControl.__proto__ || (0, _getPrototypeOf2.default)(ActiveCallControl)).call(this, (0, _extends3.default)({}, options, {
@@ -195,6 +196,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
     _this._polling = polling;
     _this._alert = alert;
     _this._numberValidate = numberValidate;
+    _this._accountInfo = accountInfo;
 
     if (_this._storage) {
       _this._reducer = (0, _getActiveCallControlReducer2.default)(_this.actionTypes);
@@ -1009,7 +1011,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
       var _ref17 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee15(transferNumber, sessionId) {
         var _this4 = this;
 
-        var activeSession, url, validatedResult, validPhoneNumber;
+        var activeSession, url, validatedResult, validPhoneNumber, phoneNumber;
         return _regenerator2.default.wrap(function _callee15$(_context15) {
           while (1) {
             switch (_context15.prev = _context15.next) {
@@ -1040,32 +1042,37 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
 
               case 9:
                 validPhoneNumber = validatedResult.numbers[0] && validatedResult.numbers[0].e164;
-                _context15.next = 12;
+                phoneNumber = validPhoneNumber;
+
+                if (validPhoneNumber.length <= 5) {
+                  phoneNumber = [this._accountInfo.mainCompanyNumber, validPhoneNumber].join('*');
+                }
+                _context15.next = 14;
                 return this._client.service._platform.post(url, {
-                  phoneNumber: validPhoneNumber
+                  phoneNumber: phoneNumber
                 });
 
-              case 12:
+              case 14:
                 if (typeof this._onCallEndFunc === 'function') {
                   this._onCallEndFunc();
                 }
-                _context15.next = 18;
+                _context15.next = 20;
                 break;
 
-              case 15:
-                _context15.prev = 15;
+              case 17:
+                _context15.prev = 17;
                 _context15.t0 = _context15['catch'](0);
 
                 this._alert.warning({
                   message: _callControlError2.default.generalError
                 });
 
-              case 18:
+              case 20:
               case 'end':
                 return _context15.stop();
             }
           }
-        }, _callee15, this, [[0, 15]]);
+        }, _callee15, this, [[0, 17]]);
       }));
 
       function transfer(_x11, _x12) {
