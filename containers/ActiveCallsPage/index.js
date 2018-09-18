@@ -47,6 +47,8 @@ function mapToProps(_, _ref) {
       rateLimiter = _ref$phone.rateLimiter,
       _ref$showContactDispl = _ref.showContactDisplayPlaceholder,
       showContactDisplayPlaceholder = _ref$showContactDispl === undefined ? false : _ref$showContactDispl,
+      _ref$showRingoutCallC = _ref.showRingoutCallControl,
+      showRingoutCallControl = _ref$showRingoutCallC === undefined ? false : _ref$showRingoutCallC,
       useV2 = _ref.useV2;
 
   var isWebRTC = callingSettings.callingMode === _callingModes2.default.webphone;
@@ -64,6 +66,7 @@ function mapToProps(_, _ref) {
     showSpinner: !!(conferenceCall && conferenceCall.isMerging),
     brand: brand.fullName,
     showContactDisplayPlaceholder: showContactDisplayPlaceholder,
+    showRingoutCallControl: showRingoutCallControl,
     autoLog: !!(callLogger && callLogger.autoLog),
     isWebRTC: isWebRTC,
     conferenceCallParties: conferenceCall ? conferenceCall.partyProfiles : null,
@@ -460,12 +463,15 @@ function mapToFunctions(_, _ref2) {
     onCallItemClick: function onCallItemClick(call) {
       if (!call.webphoneSession) {
         // For ringout call
+        if ((0, _callLogHelpers.isRingingInboundCall)(call)) {
+          return;
+        }
+
         var sessionId = call.sessionId;
         // to track the call item be clicked.
 
         callMonitor.callItemClickTrack();
         activeCallControl.setActiveSessionId(sessionId);
-        // TODO: Display the call control page.
         routerInteraction.push('/simplifycallctrl');
       } else {
         // For webphone call
