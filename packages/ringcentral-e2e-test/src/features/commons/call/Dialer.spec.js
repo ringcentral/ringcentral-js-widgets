@@ -52,8 +52,8 @@ describe('Test Demo: =====>', () => {
   test({
     title: 'Login with username ${username}, dialer ${selector} text expected "${title}"',
     tags: [
-      // ['widgets'],
-      ['salesforce'],
+      ['widgets'],
+      // ['salesforce'],
     ],
     levels: ['p0'],
     options: [
