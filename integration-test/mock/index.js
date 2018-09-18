@@ -26,6 +26,7 @@ exports.presenceUpdate = presenceUpdate;
 exports.dialingPlan = dialingPlan;
 exports.extensionInfo = extensionInfo;
 exports.conferenceCallBringIn = conferenceCallBringIn;
+exports.removeFromConference = removeFromConference;
 exports.extensionList = extensionList;
 exports.accountInfo = accountInfo;
 exports.apiInfo = apiInfo;
@@ -284,7 +285,12 @@ function conferenceCallBringIn(id) {
     isOnce: false
   });
 }
-
+function removeFromConference(id, partyId) {
+  mockApi({
+    method: 'DELETE',
+    path: '/restapi/v1.0/account/~/telephony/sessions/' + id + '/parties/' + partyId
+  });
+}
 function extensionList() {
   var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -520,11 +526,12 @@ function conferenceCall() {
 
 function updateConferenceCall(id) {
   var mockResponse = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var isOnce = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
   mockApi({
     path: '/restapi/v1.0/account/~/telephony/sessions/' + id,
     body: (0, _extends3.default)({}, mockResponse),
-    isOnce: false
+    isOnce: isOnce
   });
 }
 
