@@ -58,10 +58,10 @@ export default class AdapterModuleCore extends RcModule {
     });
 
     this._messageTypes = prefixEnum({ enumMap: messageTypes, prefix });
-    this._locale = this::ensureExist(locale, 'locale');
-    this._messageTransport = this::ensureExist(messageTransport, 'messageTransport');
-    this._presence = this::ensureExist(presence, 'presence');
-    this._router = this::ensureExist(routerInteraction, 'routerInteraction');
+    this._locale = this:: ensureExist(locale, 'locale');
+    this._messageTransport = this:: ensureExist(messageTransport, 'messageTransport');
+    this._presence = this:: ensureExist(presence, 'presence');
+    this._router = this:: ensureExist(routerInteraction, 'routerInteraction');
     this._callingSettings = callingSettings;
     this._webphone = webphone;
     this._callMonitor = callMonitor;
@@ -69,7 +69,7 @@ export default class AdapterModuleCore extends RcModule {
     this._quickAccess = quickAccess;
 
     this._storageKey = storageKey;
-    this._globalStorage = this::ensureExist(globalStorage, 'globalStorage');
+    this._globalStorage = this:: ensureExist(globalStorage, 'globalStorage');
 
     this._globalStorage.registerReducer({
       key: this._storageKey,
@@ -90,7 +90,7 @@ export default class AdapterModuleCore extends RcModule {
           formatMessage(headerI18n.getString('callsOnHold', currentLocale), { numberOf: onHoldCallsLength });
         return {
           currentCall: headerI18n.getString('currentCall', currentLocale),
-          viewCalls: headerI18n.getString('viewCall', currentLocale),
+          viewCalls: headerI18n.getString('viewCalls', currentLocale),
           ringCallsInfo,
           onHoldCallsInfo,
         };
@@ -105,9 +105,7 @@ export default class AdapterModuleCore extends RcModule {
     return this.pending &&
       this._globalStorage.ready &&
       this._locale.ready &&
-      this._router.ready &&
-      (!this._userGuide || this._userGuide.ready) &&
-      (!this._quickAccess || this._quickAccess.ready);
+      this._router.ready;
   }
   _onStateChange() {
     if (this._shouldInit()) {
@@ -236,22 +234,34 @@ export default class AdapterModuleCore extends RcModule {
           strings: this._localeStrings
         });
       }
-      if (this._lastPath !== this._router.currentPath) {
+      this._showIncomingCallPage = !!(
+        this._webphone && this._webphone.ringSession && !this._webphone.ringSession.minimized
+      );
+      if (this._lastPath !== this._router.currentPath ||
+        this._lastShowIncomingCallPage !== this._showIncomingCallPage
+      ) {
         this._lastPath = this._router.currentPath;
+        this._lastShowIncomingCallPage = this._showIncomingCallPage;
         const onCurrentCallPath = (
-          this._router.currentPath === ACTIVE_CALL_PATH ||
-          this._router.currentPath === `${ACTIVE_CALL_PATH}/${this._webphone.activeSessionId}`
+          (this._router.currentPath === ACTIVE_CALL_PATH ||
+            this._router.currentPath === `${ACTIVE_CALL_PATH}/${this._webphone.activeSessionId}`) &&
+          !this._showIncomingCallPage
         );
         if (
-          this.onCurrentCallPath !== onCurrentCallPath
+          this.onCurrentCallPath !== onCurrentCallPath ||
+          this._lastShowIncomingCallPage !== this._showIncomingCallPage
         ) {
           this.onCurrentCallPath = onCurrentCallPath;
+          this._lastShowIncomingCallPage = this._showIncomingCallPage;
           this._postMessage({
             type: this._messageTypes.pushOnCurrentCallPath,
             onCurrentCallPath,
           });
         }
-        const onAllCallsPath = (this._router.currentPath === ALL_CALL_PATH);
+        const onAllCallsPath = (
+          this._router.currentPath === ALL_CALL_PATH &&
+          !this._showIncomingCallPage
+        );
         if (
           this.onAllCallsPath !== onAllCallsPath
         ) {
