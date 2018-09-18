@@ -234,25 +234,25 @@ export default class AdapterModuleCore extends RcModule {
           strings: this._localeStrings
         });
       }
-      this._showIncomingCall = !!(
+      this._showIncomingCallPage = !!(
         this._webphone && this._webphone.ringSession && !this._webphone.ringSession.minimized
       );
       if (this._lastPath !== this._router.currentPath ||
-        this._lastShowIncomingCall !== this._showIncomingCall
+        this._lastShowIncomingCallPage !== this._showIncomingCallPage
       ) {
         this._lastPath = this._router.currentPath;
-        this._lastShowIncomingCall = this._showIncomingCall;
+        this._lastShowIncomingCallPage = this._showIncomingCallPage;
         const onCurrentCallPath = (
           (this._router.currentPath === ACTIVE_CALL_PATH ||
             this._router.currentPath === `${ACTIVE_CALL_PATH}/${this._webphone.activeSessionId}`) &&
-          !this._showIncomingCall
+          !this._showIncomingCallPage
         );
         if (
           this.onCurrentCallPath !== onCurrentCallPath ||
-          this._lastShowIncomingCall !== this._showIncomingCall
+          this._lastShowIncomingCallPage !== this._showIncomingCallPage
         ) {
           this.onCurrentCallPath = onCurrentCallPath;
-          this._lastShowIncomingCall = this._showIncomingCall;
+          this._lastShowIncomingCallPage = this._showIncomingCallPage;
           this._postMessage({
             type: this._messageTypes.pushOnCurrentCallPath,
             onCurrentCallPath,
@@ -260,7 +260,7 @@ export default class AdapterModuleCore extends RcModule {
         }
         const onAllCallsPath = (
           this._router.currentPath === ALL_CALL_PATH &&
-          !this._showIncomingCall
+          !this._showIncomingCallPage
         );
         if (
           this.onAllCallsPath !== onAllCallsPath
