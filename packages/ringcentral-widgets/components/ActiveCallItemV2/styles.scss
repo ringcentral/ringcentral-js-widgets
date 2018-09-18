@@ -31,7 +31,7 @@ $button-basis:68.5px;
     .actionIconsBox {
       display: flex;
       justify-content: center;
-      
+
       .extraButton {
         display: flex;
         align-items: center;
@@ -125,6 +125,7 @@ $button-basis:68.5px;
       &:not(:last-of-type) {
         margin-right: $padding-horizontal/2;
       }
+
       .transferButton,
       .endButton {
         width: 24px;
@@ -139,7 +140,7 @@ $button-basis:68.5px;
         path {
           fill: $snow;
         }
-        
+
         &.disabled {
           circle {
             fill: $smoke;
@@ -192,6 +193,7 @@ $button-basis:68.5px;
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 100%;
+  cursor: default;
 
   .icon {
     display: none;
