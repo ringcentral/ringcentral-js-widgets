@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
-import { isRinging } from 'ringcentral-integration/lib/callLogHelpers';
+import { isRinging, isRingingInboundCall } from 'ringcentral-integration/lib/callLogHelpers';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 import { withPhone } from '../../lib/phoneContext';
 
@@ -20,6 +20,7 @@ function mapToProps(_, {
     rateLimiter,
   },
   showContactDisplayPlaceholder = false,
+  showRingoutCallControl = false,
   useV2,
 }) {
   const isWebRTC = callingSettings.callingMode === callingModes.webphone;
@@ -43,6 +44,7 @@ function mapToProps(_, {
     showSpinner: !!(conferenceCall && conferenceCall.isMerging),
     brand: brand.fullName,
     showContactDisplayPlaceholder,
+    showRingoutCallControl,
     autoLog: !!(callLogger && callLogger.autoLog),
     isWebRTC,
     conferenceCallParties: conferenceCall ? conferenceCall.partyProfiles : null,
@@ -182,11 +184,14 @@ function mapToFunctions(_, {
     onCallItemClick(call) {
       if (!call.webphoneSession) {
         // For ringout call
+        if (isRingingInboundCall(call)) {
+          return;
+        }
+
         const { sessionId } = call;
         // to track the call item be clicked.
         callMonitor.callItemClickTrack();
         activeCallControl.setActiveSessionId(sessionId);
-        // TODO: Display the call control page.
         routerInteraction.push('/simplifycallctrl');
       } else {
         // For webphone call
