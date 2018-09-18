@@ -61,6 +61,10 @@ var _LogSection = require('../LogSection');
 
 var _LogSection2 = _interopRequireDefault(_LogSection);
 
+var _LogNotification = require('../LogNotification');
+
+var _LogNotification2 = _interopRequireDefault(_LogNotification);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ActiveCallsPanel = function (_Component) {
@@ -105,30 +109,62 @@ var ActiveCallsPanel = function (_Component) {
           renderSaveLogButton = _props.renderSaveLogButton,
           onSaveCallLog = _props.onSaveCallLog,
           onUpdateCallLog = _props.onUpdateCallLog,
-          onCloseLogSection = _props.onCloseLogSection;
+          onCloseLogSection = _props.onCloseLogSection,
+          logNotification = _props.logNotification,
+          showNotiLogButton = _props.showNotiLogButton,
+          onCloseNotification = _props.onCloseNotification,
+          onSaveNotification = _props.onSaveNotification,
+          onExpandNotification = _props.onExpandNotification,
+          onDiscardNotification = _props.onDiscardNotification,
+          notificationContainerStyles = _props.notificationContainerStyles;
 
 
       return _react2.default.createElement(
-        _InsideModal2.default,
-        {
-          title: currentLog.title,
-          show: currentLog.showLog,
-          onClose: onCloseLogSection
-          // containerStyles={sectionContainerStyles}
-          // modalStyles={sectionModalStyles}
-        },
-        _react2.default.createElement(_LogSection2.default, {
-          currentLocale: currentLocale,
-          currentLog: currentLog
-          // additionalInfo={additionalInfo}
-          , isInnerMask: false,
-          renderEditLogSection: renderEditLogSection,
-          renderSaveLogButton: renderSaveLogButton,
-          formatPhone: formatPhone,
-          onUpdateCallLog: onUpdateCallLog,
-          onSaveCallLog: onSaveCallLog,
-          showSaveLogBtn: true
-        })
+        'div',
+        null,
+        _react2.default.createElement(
+          _InsideModal2.default,
+          {
+            title: currentLog.title,
+            show: currentLog.showLog,
+            onClose: onCloseLogSection
+            // containerStyles={sectionContainerStyles}
+            // modalStyles={sectionModalStyles}
+          },
+          _react2.default.createElement(_LogSection2.default, {
+            currentLocale: currentLocale,
+            currentLog: currentLog
+            // additionalInfo={additionalInfo}
+            , isInnerMask: false,
+            renderEditLogSection: renderEditLogSection,
+            renderSaveLogButton: renderSaveLogButton,
+            formatPhone: formatPhone,
+            onUpdateCallLog: onUpdateCallLog,
+            onSaveCallLog: onSaveCallLog,
+            showSaveLogBtn: true
+          })
+        ),
+        logNotification ? _react2.default.createElement(
+          _InsideModal2.default,
+          {
+            show: logNotification.showNotification,
+            showTitle: false,
+            containerStyles: (0, _classnames2.default)(_styles2.default.notificationContainer, notificationContainerStyles),
+            modalStyles: _styles2.default.notificationModal,
+            contentStyle: _styles2.default.notificationContent,
+            onClose: onCloseNotification },
+          _react2.default.createElement(_LogNotification2.default, {
+            showLogButton: showNotiLogButton,
+            currentLocale: currentLocale,
+            formatPhone: formatPhone,
+            currentLog: logNotification,
+            isExpand: logNotification.notificationIsExpand,
+            onSave: onSaveNotification,
+            onExpand: onExpandNotification,
+            onDiscard: onDiscardNotification,
+            onStay: onCloseNotification
+          })
+        ) : null
       );
     }
   }, {
@@ -326,6 +362,14 @@ ActiveCallsPanel.propTypes = {
   onSaveCallLog: _propTypes2.default.func,
   onUpdateCallLog: _propTypes2.default.func,
   onCloseLogSection: _propTypes2.default.func,
+  // - Notification
+  logNotification: _propTypes2.default.object,
+  onCloseNotification: _propTypes2.default.func,
+  onDiscardNotification: _propTypes2.default.func,
+  onSaveNotification: _propTypes2.default.func,
+  onExpandNotification: _propTypes2.default.func,
+  showNotiLogButton: _propTypes2.default.bool,
+  notificationContainerStyles: _propTypes2.default.string,
   // Contact
   showAvatar: _propTypes2.default.bool,
   renderContactName: _propTypes2.default.func,
@@ -382,6 +426,14 @@ ActiveCallsPanel.defaultProps = {
   onSaveCallLog: undefined,
   onUpdateCallLog: undefined,
   onCloseLogSection: undefined,
+  // Notification
+  logNotification: undefined,
+  onCloseNotification: undefined,
+  onDiscardNotification: undefined,
+  onSaveNotification: undefined,
+  onExpandNotification: undefined,
+  showNotiLogButton: true,
+  notificationContainerStyles: undefined,
   // Contact
   showAvatar: true,
   renderContactName: undefined,
