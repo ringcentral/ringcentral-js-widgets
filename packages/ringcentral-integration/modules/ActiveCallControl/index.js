@@ -29,6 +29,7 @@ const subscribeEvent = '/account/~/extension/~/telephony/sessions';
     'CallMonitor',
     'Alert',
     'NumberValidate',
+    'AccountInfo',
     { dep: 'TabManager', optional: true },
     { dep: 'Storage', optional: true },
     { dep: 'ActiveCallControlOptions', optional: true }
@@ -50,6 +51,7 @@ export default class ActiveCallControl extends Pollable {
     disableCache = false,
     alert,
     numberValidate,
+    accountInfo,
     ...options
   }) {
     super({
@@ -74,6 +76,7 @@ export default class ActiveCallControl extends Pollable {
     this._polling = polling;
     this._alert = alert;
     this._numberValidate = numberValidate;
+    this._accountInfo = accountInfo;
 
     if (this._storage) {
       this._reducer = getActiveCallControlReducer(this.actionTypes);
@@ -469,8 +472,12 @@ export default class ActiveCallControl extends Pollable {
         return;
       }
       const validPhoneNumber = validatedResult.numbers[0] && validatedResult.numbers[0].e164;
+      let phoneNumber = validPhoneNumber;
+      if (validPhoneNumber.length <= 5) {
+        phoneNumber = [this._accountInfo.mainCompanyNumber, validPhoneNumber].join('*');
+      }
       await this._client.service._platform.post(url, {
-        phoneNumber: validPhoneNumber
+        phoneNumber
       });
       if (typeof this._onCallEndFunc === 'function') {
         this._onCallEndFunc();
