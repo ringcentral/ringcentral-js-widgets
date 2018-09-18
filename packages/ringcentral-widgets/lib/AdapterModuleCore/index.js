@@ -90,7 +90,7 @@ export default class AdapterModuleCore extends RcModule {
           formatMessage(headerI18n.getString('callsOnHold', currentLocale), { numberOf: onHoldCallsLength });
         return {
           currentCall: headerI18n.getString('currentCall', currentLocale),
-          viewCalls: headerI18n.getString('viewCall', currentLocale),
+          viewCalls: headerI18n.getString('viewCalls', currentLocale),
           ringCallsInfo,
           onHoldCallsInfo,
         };
@@ -234,25 +234,33 @@ export default class AdapterModuleCore extends RcModule {
           strings: this._localeStrings
         });
       }
-      if (this._lastPath !== this._router.currentPath) {
+      this._showIncomingCall = !!(
+        this._webphone && this._webphone.ringSession && !this._webphone.ringSession.minimized
+      );
+      if (this._lastPath !== this._router.currentPath ||
+        this._lastShowIncomingCall !== this._showIncomingCall
+      ) {
         this._lastPath = this._router.currentPath;
+        this._lastShowIncomingCall = this._showIncomingCall;
         const onCurrentCallPath = (
-          this._router.currentPath === ACTIVE_CALL_PATH ||
-          this._router.currentPath === `${ACTIVE_CALL_PATH}/${this._webphone.activeSessionId}` ||
-          (this._webphone && this._webphone.ringSession && !this._webphone.ringSession.minimized)
+          (this._router.currentPath === ACTIVE_CALL_PATH ||
+            this._router.currentPath === `${ACTIVE_CALL_PATH}/${this._webphone.activeSessionId}`) &&
+          !this._showIncomingCall
         );
         if (
-          this.onCurrentCallPath !== onCurrentCallPath
+          this.onCurrentCallPath !== onCurrentCallPath ||
+          this._lastShowIncomingCall !== this._showIncomingCall
         ) {
           this.onCurrentCallPath = onCurrentCallPath;
+          this._lastShowIncomingCall = this._showIncomingCall;
           this._postMessage({
             type: this._messageTypes.pushOnCurrentCallPath,
             onCurrentCallPath,
           });
         }
         const onAllCallsPath = (
-          this._router.currentPath === ALL_CALL_PATH ||
-          (this._webphone && this._webphone.ringSession && !this._webphone.ringSession.minimized)
+          this._router.currentPath === ALL_CALL_PATH &&
+          !this._showIncomingCall
         );
         if (
           this.onAllCallsPath !== onAllCallsPath
