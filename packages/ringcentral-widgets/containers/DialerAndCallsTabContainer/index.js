@@ -17,18 +17,10 @@ class TabContentView extends Component {
     currentLocale: PropTypes.string.isRequired,
     currentPath: PropTypes.string.isRequired,
     goTo: PropTypes.func.isRequired,
-    onEnter: PropTypes.func
   };
-  static defaultProps = {
-    onEnter: null
-  }
 
   constructor(props) {
     super(props);
-    const { onEnter, currentPath } = this.props;
-    if (onEnter && currentPath) {
-      onEnter(currentPath);
-    }
     this.getTabs = createSelector(
       () => this.props.currentLocale,
       () => this.props.currentPath,
@@ -65,7 +57,8 @@ function mapToProps(_, {
   phone: {
     locale,
     callMonitor,
-    callLogSection,
+    callMonitorUI,
+    // callLogSection,
     callingSettings,
     routerInteraction,
     conferenceCall,
@@ -81,7 +74,8 @@ function mapToProps(_, {
   )
   || !isWebphoneMode && (
     callMonitor.calls.length > 0 ||
-    (callLogSection && callLogSection.show)
+    // (callLogSection && callLogSection.show) ||
+    (callMonitorUI && callMonitorUI.cachedActive)
   );
   return {
     applicable,
