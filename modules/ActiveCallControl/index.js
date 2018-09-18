@@ -1044,7 +1044,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 validPhoneNumber = validatedResult.numbers[0] && validatedResult.numbers[0].e164;
                 phoneNumber = validPhoneNumber;
 
-                if (validPhoneNumber.length <= 5) {
+                if (validPhoneNumber.indexOf('+') === -1) {
                   phoneNumber = [this._accountInfo.mainCompanyNumber, validPhoneNumber].join('*');
                 }
                 _context15.next = 14;
