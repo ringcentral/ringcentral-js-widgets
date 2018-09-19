@@ -113,3 +113,19 @@ jobs:
         provider: script
         skip_cleanup: true
         script: yarn glip-widgets:start-release
+      - stage: Google regression commons script release
+      node_js: "8"
+      if: branch = Google-4.1-regression
+      script: yarn commons:prepare-release
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script: yarn commons:start-release
+    - stage: Google regression widgets script release
+      if: branch = Google-4.1-regression
+      node_js: "8"
+      script: yarn widgets:prepare-release
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script: yarn widgets:start-release
