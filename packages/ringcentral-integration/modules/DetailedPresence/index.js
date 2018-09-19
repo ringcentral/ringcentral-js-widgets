@@ -53,7 +53,8 @@ export default class DetailedPresence extends Presence {
       ),
     );
 
-    this.fetchRemainingCalls = throttle(this::this._fetch, FETCH_THRESHOLD);
+    this._lastActiveCalls = [];
+    this._fetchRemainingCalls = throttle(this:: this._fetch, FETCH_THRESHOLD);
   }
 
   _subscriptionHandler = (message) => {
@@ -64,18 +65,21 @@ export default class DetailedPresence extends Presence {
         }
         this._lastSequence = message.body.sequence;
       }
+
       const {
-        activeCalls,
+        activeCalls = [],
         dndStatus,
         telephonyStatus,
         presenceStatus,
         userStatus,
-        totalActiveCalls,
+        totalActiveCalls = 0,
       } = message.body;
+
+      const gotAllCalls = (activeCalls.length === totalActiveCalls);
 
       this.store.dispatch({
         type: this.actionTypes.notification,
-        activeCalls,
+        activeCalls: gotAllCalls ? activeCalls : this._lastActiveCalls,
         dndStatus,
         telephonyStatus,
         presenceStatus,
@@ -90,12 +94,10 @@ export default class DetailedPresence extends Presence {
        * when the real calls count larger than the active calls returned by the pubnub,
        * we need to pulling the calls manually.
        */
-      if (
-        activeCalls &&
-        Array.isArray(activeCalls) &&
-        activeCalls.length < totalActiveCalls
-      ) {
-        this.fetchRemainingCalls();
+      if (gotAllCalls) {
+        this._lastActiveCalls = activeCalls;
+      } else {
+        this._fetchRemainingCalls();
       }
     }
   }
@@ -124,7 +126,7 @@ export default class DetailedPresence extends Presence {
     const { ownerId } = this._auth;
     try {
       const {
-        activeCalls,
+        activeCalls = [],
         dndStatus,
         telephonyStatus,
         presenceStatus,
@@ -144,6 +146,7 @@ export default class DetailedPresence extends Presence {
           timestamp: Date.now(),
         });
         this._promise = null;
+        this._lastActiveCalls = activeCalls;
       }
     } catch (error) {
       if (this._auth.ownerId === ownerId) {
