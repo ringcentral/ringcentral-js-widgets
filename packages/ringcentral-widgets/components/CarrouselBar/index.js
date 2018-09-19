@@ -8,7 +8,8 @@ export default class CarrouselBar extends Component {
     super(props);
     this.state = {
       currentIndex: 0,
-      showAnimation: false
+      showAnimation: false,
+      animationMode: 'move'
     };
   }
   componentDidMount() {
@@ -16,7 +17,8 @@ export default class CarrouselBar extends Component {
       this.setState(prevState => ({
         currentIndex: prevState.currentIndex >= this.validChildren.length - 1 ?
           0 : prevState.currentIndex + 1,
-        showAnimation: true
+        showAnimation: true,
+        animationMode: prevState.animationMode === 'move' ? 'moveOn' : 'move'
       }));
     }, this.props.scrollInterval);
   }
@@ -40,7 +42,7 @@ export default class CarrouselBar extends Component {
     }
     return (
       <div className={styles.root}>
-        <div className={this.state.showAnimation ? styles.move : null}>
+        <div className={this.state.showAnimation ? styles[this.state.animationMode] : null}>
           {this.validChildren[this.state.currentIndex]}
         </div>
       </div>
