@@ -81,7 +81,7 @@ var _callingModes2 = _interopRequireDefault(_callingModes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var INIT_TRACK_LIST = ['_authentication', '_logout', '_callAttempt', '_callConnected', '_webRTCRegistration', '_smsAttempt', '_smsSent', '_logCall', '_logSMS', '_clickToDial', '_clickToSMS', '_viewEntity', '_createEntity', '_editCallLog', '_editSMSLog', '_navigate', '_inboundCall', '_coldTransfer', '_textClickToDial', '_voicemailClickToDial', '_voicemailClickToSMS', '_voicemailDelete', '_voicemailFlag', '_contactDetailClickToDial', '_contactDetailClickToSMS', '_callHistoryClickToDial', '_callHistoryClickToSMS', '_conferenceInviteWithText', '_conferenceAddDialInNumber', '_conferenceJoinAsHost', '_showWhatsNew', '_allCallsClickHangup', '_allCallsClickHold', '_allCallsCallItemClick', '_callControlClickAdd', '_simplifiedCallControlClickMerge', '_simplifiedCallControlClickHangup', '_callsOnHoldClickHangup', '_callsOnHoldClickAdd', '_callsOnHoldClickMerge', '_confirmMergeClickClose', '_confirmMergeClickMerge', '_removeParticipantClickRemove', '_removeParticipantClickCancel', '_participantListClickHangup', '_callControlClickMerge', '_callControlClickParticipantArea'];
+var INIT_TRACK_LIST = ['_authentication', '_logout', '_callAttempt', '_callConnected', '_webRTCRegistration', '_smsAttempt', '_smsSent', '_logCall', '_logSMS', '_clickToDial', '_clickToSMS', '_viewEntity', '_createEntity', '_editCallLog', '_editSMSLog', '_navigate', '_inboundCall', '_coldTransfer', '_textClickToDial', '_voicemailClickToDial', '_voicemailClickToSMS', '_voicemailDelete', '_voicemailFlag', '_contactDetailClickToDial', '_contactDetailClickToSMS', '_callHistoryClickToDial', '_callHistoryClickToSMS', '_conferenceInviteWithText', '_conferenceAddDialInNumber', '_conferenceJoinAsHost', '_showWhatsNew', '_allCallsClickHangup', '_allCallsClickHold', '_allCallsCallItemClick', '_callControlClickAdd', '_mergeCallControlClickMerge', '_mergeCallControlClickHangup', '_callsOnHoldClickHangup', '_callsOnHoldClickAdd', '_callsOnHoldClickMerge', '_confirmMergeClickClose', '_confirmMergeClickMerge', '_removeParticipantClickRemove', '_removeParticipantClickCancel', '_participantListClickHangup', '_callControlClickMerge', '_callControlClickParticipantArea'];
 
 /**
  * @class
@@ -547,17 +547,17 @@ var Analytics = (_dec = (0, _di.Module)({
       }
     }
   }, {
-    key: '_simplifiedCallControlClickMerge',
-    value: function _simplifiedCallControlClickMerge(action) {
+    key: '_mergeCallControlClickMerge',
+    value: function _mergeCallControlClickMerge(action) {
       if (this._callMonitor && this._callMonitor.actionTypes.callControlClickMergeTrack === action.type && (0, _values2.default)(this._conferenceCall.state.mergingPair).length) {
-        this.track('Click Merge (Simplified Call Control)');
+        this.track('Click Merge (Merge Call Control)');
       }
     }
   }, {
-    key: '_simplifiedCallControlClickHangup',
-    value: function _simplifiedCallControlClickHangup(action) {
-      if (this._conferenceCall && this._conferenceCall.actionTypes.closeMergingPair === action.type) {
-        this.track('Click Hangup (Simplified Call Control)');
+    key: '_mergeCallControlClickHangup',
+    value: function _mergeCallControlClickHangup(action) {
+      if (this._callMonitor && this._callMonitor.actionTypes.mergeControlClickHangupTrack === action.type) {
+        this.track('Click Hangup (Merge Call Control)');
       }
     }
   }, {

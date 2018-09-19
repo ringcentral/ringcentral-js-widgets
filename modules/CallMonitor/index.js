@@ -588,10 +588,10 @@ var CallMonitor = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: 'simplifiedControlClickMergeTrack',
-    value: function simplifiedControlClickMergeTrack() {
+    key: 'mergeControlClickHangupTrack',
+    value: function mergeControlClickHangupTrack() {
       this.store.dispatch({
-        type: this.actionTypes.simplifiedControlClickMergeTrack
+        type: this.actionTypes.mergeControlClickHangupTrack
       });
     }
   }, {

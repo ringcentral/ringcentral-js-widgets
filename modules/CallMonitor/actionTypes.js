@@ -24,5 +24,5 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)(_moduleActionTypes2.default)), ['setData',
 // user action track
-'callItemClickTrack', 'allCallsClickHoldTrack', 'allCallsClickHangupTrack', 'allCallsClickRejectTrack', 'callControlClickAddTrack', 'simplifiedControlClickMergeTrack', 'callControlClickMergeTrack', 'confirmMergeClickCloseTrack', 'confirmMergeClickMergeTrack', 'callsOnHoldClickAddTrack', 'callsOnHoldClickMergeTrack', 'callsOnHoldClickHangupTrack', 'callControlClickParticipantAreaClickTrack']), 'callMonitorAcionTypes');
+'callItemClickTrack', 'allCallsClickHoldTrack', 'allCallsClickHangupTrack', 'allCallsClickRejectTrack', 'callControlClickAddTrack', 'callControlClickMergeTrack', 'confirmMergeClickCloseTrack', 'confirmMergeClickMergeTrack', 'callsOnHoldClickAddTrack', 'callsOnHoldClickMergeTrack', 'callsOnHoldClickHangupTrack', 'callControlClickParticipantAreaClickTrack', 'mergeControlClickHangupTrack']), 'callMonitorAcionTypes');
 //# sourceMappingURL=actionTypes.js.map
