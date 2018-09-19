@@ -39,7 +39,7 @@ export default class AdapterCore {
   }) {
     this._prefix = prefix;
     this._messageTypes = prefixEnum({ enumMap: messageTypes, prefix });
-    this._container = this::ensureExist(container, 'container');
+    this._container = this:: ensureExist(container, 'container');
     this._root = root;
     this._styles = styles;
     this._defaultDirection = defaultDirection;
@@ -640,6 +640,7 @@ export default class AdapterCore {
       [ON_HOLD_CALLS]: this._onHoldCallsLength > 0
     };
     // when multiple calls, should scroll with call info
+    this.rotateCallInfo();
     this.rotateInterval = setInterval(() => {
       this.rotateCallInfo();
     }, ROTATE_INTERVAL);
