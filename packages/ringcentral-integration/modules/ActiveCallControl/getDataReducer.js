@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux';
 import { isHangUp, isReject } from './helpers';
+import activeCallControlStatus from '../../enums/activeCallControlStatus';
+
 
 function updateActiveSessionStatus({
   state,
@@ -20,10 +22,10 @@ function updateActiveSessionStatus({
   } else {
     newState[sessionId] = {
       ...newState[sessionId],
-      muted,
       standAlone,
-      code,
       sessionId,
+      isOnMute: muted,
+      isOnHold: code === activeCallControlStatus.hold,
       isReject: isReject({ direction, code })
     };
   }
