@@ -49,8 +49,8 @@ function normalizeSession(_ref2) {
       telephonyStatus = call.telephonyStatus,
       startTime = call.startTime,
       sessionId = call.sessionId;
-  var muted = activeSessionStatus.muted,
-      code = activeSessionStatus.code,
+  var isOnMute = activeSessionStatus.isOnMute,
+      isOnHold = activeSessionStatus.isOnHold,
       isReject = activeSessionStatus.isReject,
       isOnRecording = activeSessionStatus.isOnRecording;
 
@@ -68,10 +68,10 @@ function normalizeSession(_ref2) {
     callStatus: telephonyStatus || result,
     startTime: startTime,
     creationTime: startTime,
-    isOnMute: muted,
+    isOnMute: isOnMute,
     isForwarded: false,
     isOnFlip: false,
-    isOnHold: code === _activeCallControlStatus2.default.hold,
+    isOnHold: isOnHold,
     isOnTransfer: false,
     isReplied: false,
     isToVoicemail: false,

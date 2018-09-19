@@ -14,6 +14,10 @@ var _redux = require('redux');
 
 var _helpers = require('./helpers');
 
+var _activeCallControlStatus = require('../../enums/activeCallControlStatus');
+
+var _activeCallControlStatus2 = _interopRequireDefault(_activeCallControlStatus);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function updateActiveSessionStatus(_ref) {
@@ -31,16 +35,21 @@ function updateActiveSessionStatus(_ref) {
     delete newState[sessionId];
   } else {
     newState[sessionId] = (0, _extends3.default)({}, newState[sessionId], {
-      muted: muted,
       standAlone: standAlone,
-      code: code,
       sessionId: sessionId,
+      isOnMute: muted,
+      isOnHold: code === _activeCallControlStatus2.default.hold,
       isReject: (0, _helpers.isReject)({ direction: direction, code: code })
     });
   }
   return newState;
 }
 
+function setActiveSessionStatus(state, sessionId, obj) {
+  var newState = (0, _extends3.default)({}, state);
+  newState[sessionId] = (0, _extends3.default)({}, newState[sessionId], obj);
+  return newState;
+}
 function getActiveSessionIdReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -122,37 +131,25 @@ function getActiveSessionsStatusReducer(types) {
       case types.startRecord:
       case types.stopRecord:
         {
-          var _newState = (0, _extends3.default)({}, state);
-          _newState[sessionId] = (0, _extends3.default)({}, _newState[sessionId], {
-            isOnRecording: type === types.startRecord
-          });
-          return _newState;
+          return setActiveSessionStatus(state, sessionId, { isOnRecording: type === types.startRecord });
         }
       case types.mute:
       case types.unmute:
         {
-          var _newState2 = (0, _extends3.default)({}, state);
-          _newState2[sessionId] = (0, _extends3.default)({}, _newState2[sessionId], {
-            isOnMute: type === types.mute
-          });
-          return _newState2;
+          return setActiveSessionStatus(state, sessionId, { isOnMute: type === types.mute });
         }
       case types.hold:
       case types.unhold:
         {
-          var _newState3 = (0, _extends3.default)({}, state);
-          _newState3[sessionId] = (0, _extends3.default)({}, _newState3[sessionId], {
-            isOnHold: type === types.hold
-          });
-          return _newState3;
+          return setActiveSessionStatus(state, sessionId, { isOnHold: type === types.hold });
         }
       case types.removeActiveSession:
         {
-          var _newState4 = (0, _extends3.default)({}, state);
-          if (_newState4[sessionId]) {
-            delete _newState4[sessionId];
+          var _newState = (0, _extends3.default)({}, state);
+          if (_newState[sessionId]) {
+            delete _newState[sessionId];
           }
-          return _newState4;
+          return _newState;
         }
       case types.resetSuccess:
         {
