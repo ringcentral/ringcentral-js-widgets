@@ -1,13 +1,7 @@
 import Enum from '../../lib/Enum';
-import moduleActionTypes from '../../enums/moduleActionTypes';
+import presenceActionTypes from '../Presence/actionTypes';
 
 export default new Enum([
-  ...Object.keys(moduleActionTypes),
-  'fetch',
-  'fetchSuccess',
-  'fetchError',
-  'notification',
-  'update',
-  'updateSuccess',
-  'updateError',
+  ...Object.keys(presenceActionTypes),
+  'updateActiveCalls',
 ], 'detailedPresence');
