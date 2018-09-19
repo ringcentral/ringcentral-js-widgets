@@ -134,7 +134,7 @@ function mapToProps(_, _ref) {
 
   var conferenceCallEquipped = !!conferenceCall;
   var isWebphoneMode = callingSettings.callingMode === _callingModes2.default.webphone;
-  var applicable = isWebphoneMode && !!(conferenceCallEquipped && callMonitor.calls.length && webphone.sessions.length) || !isWebphoneMode && (callMonitor.calls.length > 0 ||
+  var applicable = isWebphoneMode && !!(conferenceCallEquipped && callMonitor.calls.length && webphone.sessions.length) || !isWebphoneMode && !!(callMonitor.calls.length ||
   // (callLogSection && callLogSection.show) ||
   callMonitorUI && callMonitorUI.cachedActive);
   return {
