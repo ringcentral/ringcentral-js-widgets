@@ -195,8 +195,11 @@ function mapToFunctions(_, _ref2) {
         countryCode: regionSettings.countryCode
       });
     },
-    onHangup: function onHangup(sessionId) {
+    onHangup: function onHangup(sessionId, layout) {
       webphone.hangup(sessionId);
+      if (layout && layout === _callCtrlLayouts2.default.mergeCtrl) {
+        callMonitor.mergeControlClickHangupTrack();
+      }
     },
 
     onMute: function onMute(sessionId) {

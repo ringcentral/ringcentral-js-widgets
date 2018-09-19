@@ -134,7 +134,7 @@ var CallCtrlPage = function (_Component) {
       return _this.props.onStopRecord(_this.props.session.id);
     };
     _this.onHangup = function () {
-      return _this.props.onHangup(_this.props.session.id);
+      return _this.props.onHangup(_this.props.session.id, _this.state.layout);
     };
     _this.onKeyPadChange = function (value) {
       return _this.props.sendDTMF(value, _this.props.session.id);
