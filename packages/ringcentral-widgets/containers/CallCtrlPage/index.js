@@ -166,8 +166,11 @@ function mapToFunctions(_, {
       areaCode: regionSettings.areaCode,
       countryCode: regionSettings.countryCode,
     }),
-    onHangup(sessionId) {
+    onHangup(sessionId, layout) {
       webphone.hangup(sessionId);
+      if (layout && layout === callCtrlLayouts.mergeCtrl) {
+        callMonitor.mergeControlClickHangupTrack();
+      }
     },
     onMute: sessionId => webphone.mute(sessionId),
     onUnmute: sessionId => webphone.unmute(sessionId),
