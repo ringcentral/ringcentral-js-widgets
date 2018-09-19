@@ -32,6 +32,15 @@ function updateActiveSessionStatus({
   return newState;
 }
 
+function setActiveSessionStatus(state, sessionId, obj) {
+  const newState = { ...state };
+  newState[sessionId] = {
+    ...newState[sessionId],
+    isOnProceed: false,
+    ...obj
+  };
+  return newState;
+}
 function getActiveSessionIdReducer(types) {
   return (state = null, { type, sessionId }) => {
     switch (type) {
@@ -91,32 +100,20 @@ function getActiveSessionsStatusReducer(types) {
           sessionId
         });
       }
+      case types.proceeding: {
+        return setActiveSessionStatus(state, sessionId, { isOnProceed: true });
+      }
       case types.startRecord:
       case types.stopRecord: {
-        const newState = { ...state };
-        newState[sessionId] = {
-          ...newState[sessionId],
-          isOnRecording: type === types.startRecord
-        };
-        return newState;
+        return setActiveSessionStatus(state, sessionId, { isOnRecording: type === types.startRecord });
       }
       case types.mute:
       case types.unmute: {
-        const newState = { ...state };
-        newState[sessionId] = {
-          ...newState[sessionId],
-          isOnMute: type === types.mute
-        };
-        return newState;
+        return setActiveSessionStatus(state, sessionId, { isOnMute: type === types.mute });
       }
       case types.hold:
       case types.unhold: {
-        const newState = { ...state };
-        newState[sessionId] = {
-          ...newState[sessionId],
-          isOnHold: type === types.hold
-        };
-        return newState;
+        return setActiveSessionStatus(state, sessionId, { isOnHold: type === types.hold });
       }
       case types.removeActiveSession: {
         const newState = { ...state };

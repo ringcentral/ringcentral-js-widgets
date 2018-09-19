@@ -292,6 +292,10 @@ export default class ActiveCallControl extends Pollable {
   }
   async mute(sessionId) {
     try {
+      // this.store.dispatch({
+      //   type: this.actionTypes.proceeding,
+      //   sessionId,
+      // });
       const activeSession = this.activeSessions[sessionId];
       const url = requestURI(activeSession).mute;
       this.patch({
@@ -318,6 +322,10 @@ export default class ActiveCallControl extends Pollable {
   }
   async unmute(sessionId) {
     try {
+      // this.store.dispatch({
+      //   type: this.actionTypes.proceeding,
+      //   sessionId,
+      // });
       const activeSession = this.activeSessions[sessionId];
       const url = requestURI(activeSession).mute;
       await this.patch({
@@ -415,6 +423,10 @@ export default class ActiveCallControl extends Pollable {
   }
   async hold(sessionId) {
     try {
+      // this.store.dispatch({
+      //   type: this.actionTypes.proceeding,
+      //   sessionId,
+      // });
       const activeSession = this.activeSessions[sessionId];
       const url = requestURI(activeSession).hold;
       await this._client.service._platform.post(url);
@@ -436,6 +448,10 @@ export default class ActiveCallControl extends Pollable {
   }
   async unHold(sessionId) {
     try {
+      // this.store.dispatch({
+      //   type: this.actionTypes.proceeding,
+      //   sessionId,
+      // });
       const activeSession = this.activeSessions[sessionId];
       const url = requestURI(activeSession).unHold;
       await this._client.service._platform.post(url);
