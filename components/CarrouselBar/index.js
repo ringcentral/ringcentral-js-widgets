@@ -51,7 +51,8 @@ var CarrouselBar = function (_Component) {
 
     _this.state = {
       currentIndex: 0,
-      showAnimation: false
+      showAnimation: false,
+      animationMode: 'move'
     };
     return _this;
   }
@@ -65,7 +66,8 @@ var CarrouselBar = function (_Component) {
         _this2.setState(function (prevState) {
           return {
             currentIndex: prevState.currentIndex >= _this2.validChildren.length - 1 ? 0 : prevState.currentIndex + 1,
-            showAnimation: true
+            showAnimation: true,
+            animationMode: prevState.animationMode === 'move' ? 'moveOn' : 'move'
           };
         });
       }, this.props.scrollInterval);
@@ -101,7 +103,7 @@ var CarrouselBar = function (_Component) {
         { className: _styles2.default.root },
         _react2.default.createElement(
           'div',
-          { className: this.state.showAnimation ? _styles2.default.move : null },
+          { className: this.state.showAnimation ? _styles2.default[this.state.animationMode] : null },
           this.validChildren[this.state.currentIndex]
         )
       );

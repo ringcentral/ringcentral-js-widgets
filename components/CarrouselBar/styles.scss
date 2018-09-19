@@ -21,3 +21,21 @@
     top: 30px;
   }
 }
+.moveOn {
+ position: relative;
+ animation: moveOn 5s ease-in-out infinite;
+}
+@keyframes moveOn{
+  0% {
+    top: -30px;
+  }
+  14% {
+    top: 0px;
+  }
+  86% {
+    top: 0px ;
+  }
+  100%{
+    top: 30px;
+  }
+}
