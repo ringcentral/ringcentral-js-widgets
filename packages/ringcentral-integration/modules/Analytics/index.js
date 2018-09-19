@@ -44,8 +44,8 @@ const INIT_TRACK_LIST = [
   '_allCallsClickHold',
   '_allCallsCallItemClick',
   '_callControlClickAdd',
-  '_simplifiedCallControlClickMerge',
-  '_simplifiedCallControlClickHangup',
+  '_mergeCallControlClickMerge',
+  '_mergeCallControlClickHangup',
   '_callsOnHoldClickHangup',
   '_callsOnHoldClickAdd',
   '_callsOnHoldClickMerge',
@@ -467,20 +467,20 @@ export default class Analytics extends RcModule {
     }
   }
 
-  _simplifiedCallControlClickMerge(action) {
+  _mergeCallControlClickMerge(action) {
     if (this._callMonitor
      && this._callMonitor.actionTypes.callControlClickMergeTrack === action.type
      && Object.values(this._conferenceCall.state.mergingPair).length
     ) {
-      this.track('Click Merge (Simplified Call Control)');
+      this.track('Click Merge (Merge Call Control)');
     }
   }
 
-  _simplifiedCallControlClickHangup(action) {
-    if (this._conferenceCall
-      && this._conferenceCall.actionTypes.closeMergingPair === action.type
+  _mergeCallControlClickHangup(action) {
+    if (this._callMonitor
+      && this._callMonitor.actionTypes.mergeControlClickHangupTrack === action.type
     ) {
-      this.track('Click Hangup (Simplified Call Control)');
+      this.track('Click Hangup (Merge Call Control)');
     }
   }
 

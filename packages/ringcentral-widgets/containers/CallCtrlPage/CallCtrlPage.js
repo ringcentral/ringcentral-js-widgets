@@ -57,7 +57,7 @@ class CallCtrlPage extends Component {
     this.onStopRecord = () =>
       this.props.onStopRecord(this.props.session.id);
     this.onHangup = () =>
-      this.props.onHangup(this.props.session.id);
+      this.props.onHangup(this.props.session.id, this.state.layout);
     this.onKeyPadChange = value =>
       this.props.sendDTMF(value, this.props.session.id);
     this.onFlip = value =>
