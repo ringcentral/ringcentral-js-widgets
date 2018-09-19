@@ -78,7 +78,7 @@ export default class AdapterModuleCore extends RcModule {
 
     this.addSelector(
       'localeStrings',
-      () => this._currentLocale,
+      () => this._locale.currentLocale,
       () => this._callMonitor.activeRingCalls.length,
       () => this._callMonitor.activeOnHoldCalls.length,
       (currentLocale, ringingCallsLength, onHoldCallsLength) => {
@@ -312,6 +312,7 @@ export default class AdapterModuleCore extends RcModule {
   _pushLocale() {
     if (
       this.ready &&
+      this._locale.ready &&
       this._lastLocale !== this._locale.currentLocale
     ) {
       this._lastLocale = this._locale.currentLocale;
@@ -377,6 +378,7 @@ export default class AdapterModuleCore extends RcModule {
 
   @proxify
   async _onNavigateToCurrentCall() {
+    this._router.push(ACTIVE_CALL_PATH);
     if (this._userGuide && this._userGuide.started) {
       this._userGuide.dismiss();
     }
@@ -386,11 +388,11 @@ export default class AdapterModuleCore extends RcModule {
     if (this._webphone && this._webphone.ringSession && !this._webphone.ringSession.minimized) {
       this._webphone.toggleMinimized(this._webphone.ringSession.id);
     }
-    this._router.push(ACTIVE_CALL_PATH);
   }
 
   @proxify
   async _onNavigateToViewCalls() {
+    this._router.push(ALL_CALL_PATH);
     if (this._userGuide && this._userGuide.started) {
       this._userGuide.dismiss();
     }
@@ -400,7 +402,6 @@ export default class AdapterModuleCore extends RcModule {
     if (this._webphone && this._webphone.ringSession && !this._webphone.ringSession.minimized) {
       this._webphone.toggleMinimized(this._webphone.ringSession.id);
     }
-    this._router.push(ALL_CALL_PATH);
   }
 
   get _localeStrings() {
