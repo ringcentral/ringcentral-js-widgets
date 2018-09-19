@@ -72,8 +72,8 @@ function mapToProps(_, {
     callMonitor.calls.length &&
     webphone.sessions.length
   )
-  || !isWebphoneMode && (
-    callMonitor.calls.length > 0 ||
+  || !isWebphoneMode && !!(
+    callMonitor.calls.length ||
     // (callLogSection && callLogSection.show) ||
     (callMonitorUI && callMonitorUI.cachedActive)
   );
