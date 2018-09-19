@@ -33,8 +33,15 @@
     "glip-widgets:start-release": "node scripts/startRelease.js @ringcentral-integration/glip-widgets glip-widgets-release"
   },
   "devDependencies": {
-    "eslint-settings": "*",
     "babel-settings": "*",
+    "commitizen": "^2.10.1",
+    "cz-changelog": "https://github.com/caffffe/cz-changelog",
+    "eslint-settings": "*",
     "lerna": "^2.11.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-changelog"
+    }
   }
 }
