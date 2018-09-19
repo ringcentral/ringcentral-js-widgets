@@ -19,5 +19,4 @@ export default new Enum([
   'unmute',
   'hold',
   'unhold',
-  'proceeding',
 ], 'activeCallControlStore');

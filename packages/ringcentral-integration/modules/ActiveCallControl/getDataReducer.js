@@ -36,7 +36,6 @@ function setActiveSessionStatus(state, sessionId, obj) {
   const newState = { ...state };
   newState[sessionId] = {
     ...newState[sessionId],
-    isOnProceed: false,
     ...obj
   };
   return newState;
@@ -99,9 +98,6 @@ function getActiveSessionsStatusReducer(types) {
           party,
           sessionId
         });
-      }
-      case types.proceeding: {
-        return setActiveSessionStatus(state, sessionId, { isOnProceed: true });
       }
       case types.startRecord:
       case types.stopRecord: {
