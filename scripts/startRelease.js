@@ -9,8 +9,8 @@ const packageNames = [
   '@ringcentral-integration/glip-widgets',
 ];
 const releaseBranchNames = [
-  'commons-release',
-  'widgets-release',
+  'google-commons-release',
+  'google-widgets-release',
   'i18n-release',
   'locale-loader-release',
   'phone-number-release',
