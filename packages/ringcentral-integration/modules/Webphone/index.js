@@ -105,11 +105,11 @@ export default class Webphone extends RcModule {
     this._appVersion = appVersion;
     this._alert = alert;
     this._webphoneLogLevel = webphoneLogLevel;
-    this._auth = this::ensureExist(auth, 'auth');
-    this._client = this::ensureExist(client, 'client');
-    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
-    this._numberValidate = this::ensureExist(numberValidate, 'numberValidate');
-    this._audioSettings = this::ensureExist(audioSettings, 'audioSettings');
+    this._auth = this:: ensureExist(auth, 'auth');
+    this._client = this:: ensureExist(client, 'client');
+    this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._numberValidate = this:: ensureExist(numberValidate, 'numberValidate');
+    this._audioSettings = this:: ensureExist(audioSettings, 'audioSettings');
     this._contactMatcher = contactMatcher;
     this._tabManager = tabManager;
 
@@ -1203,6 +1203,14 @@ export default class Webphone extends RcModule {
   async toggleMinimized(sessionId) {
     this._sessionHandleWithId(sessionId, (session) => {
       session.__rc_minimized = !session.__rc_minimized;
+      this._updateSessions();
+    });
+  }
+
+  @proxify
+  async setMinimized(sessionId, minimized) {
+    this._sessionHandleWithId(sessionId, (session) => {
+      session.__rc_minimized = !!minimized;
       this._updateSessions();
     });
   }

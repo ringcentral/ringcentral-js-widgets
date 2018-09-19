@@ -312,7 +312,7 @@ export default class BasePhone extends RcModule {
           routerInteraction.push('/calls');
         }
         webphone.ringSessions.forEach((session) => {
-          webphone.toggleMinimized(session.id);
+          webphone.setMinimized(session.id, true);
         });
       }
     });
