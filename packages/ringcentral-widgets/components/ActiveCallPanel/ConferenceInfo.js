@@ -27,7 +27,7 @@ const KINDS_OF_WIDTH_THAT_NEED_ADAPATER = [
   { avartarCount: 3, width: minWidthCalculator(MAXIMUM_AVATARS + 1), },
 ];
 
-export class ConferenceInfo extends Component {
+export default class ConferenceInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -229,5 +229,3 @@ ConferenceInfo.defaultProps = {
   partyProfiles: null,
   onClick: i => i,
 };
-
-export default ConferenceInfo;
