@@ -9,6 +9,7 @@ var _extends2 = require('babel-runtime/helpers/extends');
 var _extends3 = _interopRequireDefault(_extends2);
 
 exports.getDataReducer = getDataReducer;
+exports.getTelephonyStatusReducer = getTelephonyStatusReducer;
 exports.default = getDetailedPresenceReducer;
 
 require('core-js/fn/array/find');
@@ -17,13 +18,9 @@ require('core-js/fn/array/find-index');
 
 var _ramda = require('ramda');
 
-var _redux = require('redux');
-
 var _getPresenceReducer = require('../Presence/getPresenceReducer');
 
-var _getModuleStatusReducer = require('../../lib/getModuleStatusReducer');
-
-var _getModuleStatusReducer2 = _interopRequireDefault(_getModuleStatusReducer);
+var _getPresenceReducer2 = _interopRequireDefault(_getPresenceReducer);
 
 var _callLogHelpers = require('../../lib/callLogHelpers');
 
@@ -48,7 +45,7 @@ function getDataReducer(types) {
 
     switch (type) {
       case types.fetchSuccess:
-      case types.notification:
+      case types.updateActiveCalls:
         {
           return (0, _ramda.map)(function (activeCall) {
             var existingCall = state.find(function (call) {
@@ -94,17 +91,11 @@ function getTelephonyStatusReducer(types) {
   };
 }
 
-/* istanbul ignore next: unnecessary to test combineReducers */
 function getDetailedPresenceReducer(types) {
   var reducers = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-  return (0, _redux.combineReducers)((0, _extends3.default)({}, reducers, {
-    status: (0, _getModuleStatusReducer2.default)(types),
+  return (0, _getPresenceReducer2.default)(types, (0, _extends3.default)({}, reducers, {
     data: getDataReducer(types),
-    dndStatus: (0, _getPresenceReducer.getDndStatusReducer)(types),
-    presenceStatus: (0, _getPresenceReducer.getPresenceStatusReducer)(types),
-    userStatus: (0, _getPresenceReducer.getUserStatusReducer)(types),
-    message: (0, _getPresenceReducer.getMessageReducer)(types),
     telephonyStatus: getTelephonyStatusReducer(types)
   }));
 }
