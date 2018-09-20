@@ -342,7 +342,7 @@ function RingoutButtons(_ref2) {
 
   return _react2.default.createElement(
     'div',
-    null,
+    { className: _styles2.default.ringoutButtons },
     endButton,
     transferBtn
   );
