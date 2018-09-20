@@ -3,6 +3,7 @@
 $padding-horizontal:20px;
 $avatar-basis:45.5px;
 $button-basis:68.5px;
+$ringout-button-size: 24px;
 
 @mixin pointer {
   cursor: pointer;
@@ -125,15 +126,20 @@ $button-basis:68.5px;
       }
     }
 
+    .ringoutButtons {
+      display: flex;
+    }
+
     .ringoutButton {
+      height: $ringout-button-size;
       &:not(:last-of-type) {
         margin-right: $padding-horizontal/2;
       }
 
       .transferButton,
       .endButton {
-        width: 24px;
-        height: 24px;
+        width: $ringout-button-size;
+        height: $ringout-button-size;
       }
 
       .endButton {
