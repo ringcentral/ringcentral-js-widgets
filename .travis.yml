@@ -33,7 +33,7 @@ jobs:
           condition: "$TRAVIS_TAG =~ ^[0-9]+.[0-9]+.[0-9]+"
     - stage: commons script release
       node_js: "8"
-      if: branch = Google-4.1-regression AND type = push
+      if: branch = Google-4.1-regression
       script: yarn commons:prepare-release
       deploy:
         provider: script
@@ -58,7 +58,7 @@ jobs:
           tags: true
           condition: "$TRAVIS_TAG =~ ^[0-9]+.[0-9]+.[0-9]+"
     - stage: widgets script release
-      if: branch = Google-4.1-regression AND type = push
+      if: branch = Google-4.1-regression
       node_js: "8"
       script: yarn widgets:prepare-release
       deploy:
@@ -113,7 +113,7 @@ jobs:
     #     provider: script
     #     skip_cleanup: true
     #     script: yarn glip-widgets:start-release
-    #   - stage: Google regression commons script release
+    # - stage: Google regression commons script release
     #   node_js: "8"
     #   if: branch = Google-4.1-regression
     #   script: yarn commons:prepare-release
