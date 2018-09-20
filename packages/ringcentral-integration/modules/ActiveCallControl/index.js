@@ -283,7 +283,7 @@ export default class ActiveCallControl extends Pollable {
   }
   async patch({ url = null, query = null, body = null }) {
     try {
-      this._client.service._platform.send({
+      await this._client.service._platform.send({
         method: 'PATCH', url, query, body
       });
     } catch (error) {
@@ -294,7 +294,7 @@ export default class ActiveCallControl extends Pollable {
     try {
       const activeSession = this.activeSessions[sessionId];
       const url = requestURI(activeSession).mute;
-      this.patch({
+      await this.patch({
         url,
         body: {
           muted: true
