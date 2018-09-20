@@ -53,7 +53,7 @@ export default class DetailedPresence extends Presence {
       ),
     );
 
-    this.fetchRemainingCalls = throttle(this::this._fetch, FETCH_THRESHOLD);
+    this._fetchRemainingCalls = throttle(this:: this._fetch, FETCH_THRESHOLD);
   }
 
   _subscriptionHandler = (message) => {
@@ -64,40 +64,50 @@ export default class DetailedPresence extends Presence {
         }
         this._lastSequence = message.body.sequence;
       }
-      const {
-        activeCalls,
-        dndStatus,
-        telephonyStatus,
-        presenceStatus,
-        userStatus,
-        totalActiveCalls,
-      } = message.body;
 
-      this.store.dispatch({
-        type: this.actionTypes.notification,
-        activeCalls,
-        dndStatus,
-        telephonyStatus,
-        presenceStatus,
-        userStatus,
-        message: message.body.message,
-        lastDndStatus: this.dndStatus,
-        timestamp: Date.now(),
-      });
+      const { body } = message;
+      this._updateStatuses(this.actionTypes.notification, body);
 
       /**
        * as pointed out by Igor in https://jira.ringcentral.com/browse/PLA-33391,
        * when the real calls count larger than the active calls returned by the pubnub,
        * we need to pulling the calls manually.
        */
-      if (
-        activeCalls &&
-        Array.isArray(activeCalls) &&
-        activeCalls.length < totalActiveCalls
-      ) {
-        this.fetchRemainingCalls();
+      const { activeCalls = [], totalActiveCalls = 0 } = body;
+      if (activeCalls.length === totalActiveCalls) {
+        this._updateActiveCalls(this.actionTypes.updateActiveCalls, body);
+      } else {
+        this._fetchRemainingCalls();
       }
     }
+  }
+
+  _updateStatuses(type, {
+    dndStatus,
+    telephonyStatus,
+    presenceStatus,
+    userStatus,
+    message,
+  }) {
+    this.store.dispatch({
+      type,
+      dndStatus,
+      telephonyStatus,
+      presenceStatus,
+      userStatus,
+      message,
+      lastDndStatus: this.dndStatus,
+    });
+  }
+
+  _updateActiveCalls(type, {
+    activeCalls,
+  }) {
+    this.store.dispatch({
+      type,
+      activeCalls,
+      timestamp: Date.now(),
+    });
   }
 
   get data() {
@@ -123,26 +133,11 @@ export default class DetailedPresence extends Presence {
     });
     const { ownerId } = this._auth;
     try {
-      const {
-        activeCalls,
-        dndStatus,
-        telephonyStatus,
-        presenceStatus,
-        userStatus,
-        message,
-      } = (await this._client.service.platform()
+      const body = (await this._client.service.platform()
         .get(subscriptionFilters.detailedPresenceWithSip)).json();
       if (this._auth.ownerId === ownerId) {
-        this.store.dispatch({
-          type: this.actionTypes.fetchSuccess,
-          activeCalls,
-          dndStatus,
-          telephonyStatus,
-          presenceStatus,
-          userStatus,
-          message,
-          timestamp: Date.now(),
-        });
+        this._updateStatuses(this.actionTypes.fetchSuccess, body);
+        this._updateActiveCalls(this.actionTypes.fetchSuccess, body);
         this._promise = null;
       }
     } catch (error) {

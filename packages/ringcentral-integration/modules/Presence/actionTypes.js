@@ -3,11 +3,11 @@ import moduleActionTypes from '../../enums/moduleActionTypes';
 
 export default new Enum([
   ...Object.keys(moduleActionTypes),
-  'notification',
   'fetch',
   'fetchSuccess',
   'fetchError',
   'update',
   'updateSuccess',
   'updateError',
+  'notification',
 ], 'presence');
