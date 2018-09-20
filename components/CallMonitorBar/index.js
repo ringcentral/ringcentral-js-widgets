@@ -147,7 +147,7 @@ var CallMonitorBar = function (_Component) {
 
       return _react2.default.createElement(
         'div',
-        { className: _styles2.default.bar, onMouseOver: this.showBtn, onMouseLeave: this.hideBtn, onClick: this.hideBtn },
+        { className: _styles2.default.bar, onMouseOver: this.showBtn, onMouseLeave: this.hideBtn },
         _react2.default.createElement(
           'div',
           { className: (0, _classnames2.default)(_styles2.default.box, this.state.hoverShow ? _styles2.default.show : _styles2.default.hide) },

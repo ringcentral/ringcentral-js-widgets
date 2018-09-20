@@ -1,7 +1,7 @@
-@import '../../lib/commonStyles/full-size';
-@import '../../lib/commonStyles/no-select';
-@import '../../lib/commonStyles/colors';
-@import '../../lib/commonStyles/fonts';
+@import "../../lib/commonStyles/full-size";
+@import "../../lib/commonStyles/no-select";
+@import "../../lib/commonStyles/colors";
+@import "../../lib/commonStyles/fonts";
 
 .root {
   @include full-size;
@@ -45,6 +45,7 @@
   color: $primary-color;
   border-radius: 3px;
   border: solid 1px $primary-color;
+  background-color: #fff;
   width: 80%;
   height: 32px;
   line-height: 30px;
