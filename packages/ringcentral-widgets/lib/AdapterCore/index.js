@@ -683,6 +683,7 @@ export default class AdapterCore {
       this._logoEl.setAttribute('class', classnames(
         this._styles.logo,
         this._logoUrl && this._logoUrl !== '' && this._styles.visible,
+        this._styles.dock,
       ));
       this._durationEl.setAttribute('class', classnames(
         this._styles.duration,
