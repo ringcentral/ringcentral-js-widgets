@@ -21,6 +21,8 @@ export default class TransferPanel extends PureComponent {
     recipientsContactPhoneRenderer: PropTypes.func,
     isOnTransfer: PropTypes.bool,
     autoFocus: PropTypes.bool,
+    activeSession: PropTypes.object,
+    disablePage: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -29,6 +31,8 @@ export default class TransferPanel extends PureComponent {
     recipientsContactPhoneRenderer: undefined,
     isOnTransfer: false,
     autoFocus: true,
+    activeSession: null,
+    disablePage: false
   };
 
   constructor(props) {
@@ -84,6 +88,10 @@ export default class TransferPanel extends PureComponent {
   }
 
   render() {
+    if (this.props.disablePage && !this.props.activeSession) {
+      this.props.toggleTransferPanel();
+      return null;
+    }
     return (
       <div className={styles.root}>
         <BackHeader

@@ -50,7 +50,7 @@ function mapToProps(_, {
     conferenceCallParties: conferenceCall ? conferenceCall.partyProfiles : null,
     useV2,
     disableLinks: !connectivityMonitor.connectivity ||
-    rateLimiter.throttling,
+      rateLimiter.throttling,
   };
 }
 
@@ -121,6 +121,7 @@ function mapToFunctions(_, {
       return (activeCallControl && activeCallControl.hangUp(...args));
     },
     async ringoutTransfer(sessionId) {
+      activeCallControl.setActiveSessionId(sessionId);
       routerInteraction.push(`/transfer/${sessionId}`);
     },
     async ringoutReject(sessionId) {
