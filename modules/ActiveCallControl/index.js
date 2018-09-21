@@ -580,24 +580,26 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
             switch (_context6.prev = _context6.next) {
               case 0:
                 _context6.prev = 0;
-
-                this._client.service._platform.send({
+                _context6.next = 3;
+                return this._client.service._platform.send({
                   method: 'PATCH', url: url, query: query, body: body
                 });
-                _context6.next = 7;
+
+              case 3:
+                _context6.next = 8;
                 break;
 
-              case 4:
-                _context6.prev = 4;
+              case 5:
+                _context6.prev = 5;
                 _context6.t0 = _context6['catch'](0);
                 throw _context6.t0;
 
-              case 7:
+              case 8:
               case 'end':
                 return _context6.stop();
             }
           }
-        }, _callee6, this, [[0, 4]]);
+        }, _callee6, this, [[0, 5]]);
       }));
 
       function patch(_x2) {
@@ -615,38 +617,45 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                try {
-                  activeSession = this.activeSessions[sessionId];
-                  url = (0, _helpers.requestURI)(activeSession).mute;
-
-                  this.patch({
-                    url: url,
-                    body: {
-                      muted: true
-                    }
-                  });
-                  this.store.dispatch({
-                    type: this.actionTypes.mute,
-                    sessionId: sessionId
-                  });
-                } catch (error) {
-                  if ((0, _helpers.confictError)(error)) {
-                    this._alert.warning({
-                      message: _callControlError2.default.muteConflictError
-                    });
-                  } else {
-                    this._alert.warning({
-                      message: _callControlError2.default.generalError
-                    });
+                _context7.prev = 0;
+                activeSession = this.activeSessions[sessionId];
+                url = (0, _helpers.requestURI)(activeSession).mute;
+                _context7.next = 5;
+                return this.patch({
+                  url: url,
+                  body: {
+                    muted: true
                   }
+                });
+
+              case 5:
+                this.store.dispatch({
+                  type: this.actionTypes.mute,
+                  sessionId: sessionId
+                });
+                _context7.next = 11;
+                break;
+
+              case 8:
+                _context7.prev = 8;
+                _context7.t0 = _context7['catch'](0);
+
+                if ((0, _helpers.confictError)(_context7.t0)) {
+                  this._alert.warning({
+                    message: _callControlError2.default.muteConflictError
+                  });
+                } else {
+                  this._alert.warning({
+                    message: _callControlError2.default.generalError
+                  });
                 }
 
-              case 1:
+              case 11:
               case 'end':
                 return _context7.stop();
             }
           }
-        }, _callee7, this);
+        }, _callee7, this, [[0, 8]]);
       }));
 
       function mute(_x3) {
@@ -1053,26 +1062,23 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 });
 
               case 14:
-                if (typeof this._onCallEndFunc === 'function') {
-                  this._onCallEndFunc();
-                }
-                _context15.next = 20;
+                _context15.next = 19;
                 break;
 
-              case 17:
-                _context15.prev = 17;
+              case 16:
+                _context15.prev = 16;
                 _context15.t0 = _context15['catch'](0);
 
                 this._alert.warning({
                   message: _callControlError2.default.generalError
                 });
 
-              case 20:
+              case 19:
               case 'end':
                 return _context15.stop();
             }
           }
-        }, _callee15, this, [[0, 17]]);
+        }, _callee15, this, [[0, 16]]);
       }));
 
       function transfer(_x11, _x12) {
