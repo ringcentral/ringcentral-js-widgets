@@ -479,9 +479,6 @@ export default class ActiveCallControl extends Pollable {
       await this._client.service._platform.post(url, {
         phoneNumber
       });
-      if (typeof this._onCallEndFunc === 'function') {
-        this._onCallEndFunc();
-      }
     } catch (error) {
       this._alert.warning({
         message: callControlError.generalError
