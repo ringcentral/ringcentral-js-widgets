@@ -91,8 +91,31 @@ async function mockStartConference(phone, wrapper) {
   wrapper.update();
 }
 
+describe('Simplified Call Control Page:', () => {
+  test('Check buttons in Conference Call Ctrl Page', async () => {
+    const { wrapper, phone } = await initPhoneWrapper({
+      mockNumberParser: false,
+      mockRecentActivity: true,
+    });
+    const contactA = phone.contacts.allContacts[0];
+    await mockAddCall(phone, wrapper, contactA, contactA);
+    wrapper.update();
+    expect(wrapper.find(MergeInfo)).toHaveLength(1);
+    expect(wrapper.find(ActiveCallPad)).toHaveLength(1);
+    const buttons = wrapper.find(ActiveCallPad).find(ActiveCallButton);
+    expect(buttons.at(0).text()).toEqual('Mute');
+    expect(buttons.at(1).text()).toEqual('Keypad');
+    expect(buttons.at(2).text()).toEqual('Hold');
+    expect(buttons.at(3).text()).toEqual('Merge');
+    expect(buttons.at(4).text()).toEqual('Record');
+    expect(buttons.at(5).text()).toEqual('Call Actions');
+    const handupButton = wrapper.find('.stopButtonGroup').find(CircleButton);
+    expect(handupButton.props().className).toEqual('stopButton');
+  });
+});
+
 describe('RCI-1071: simplified call control page #3', () => {
-  test('#1 Check the Simplified Call control page', async () => {
+  test('#1 Check the merge info in Simplified Call control page', async () => {
     const { wrapper, phone } = await initPhoneWrapper({
       mockNumberParser: false,
       mockRecentActivity: true,
