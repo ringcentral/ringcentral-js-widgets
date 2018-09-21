@@ -125,6 +125,10 @@ var TransferPanel = (_temp = _class = function (_PureComponent) {
   }, {
     key: 'render',
     value: function render() {
+      if (this.props.disablePage && !this.props.activeSession) {
+        this.props.toggleTransferPanel();
+        return null;
+      }
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.root },
@@ -189,13 +193,17 @@ var TransferPanel = (_temp = _class = function (_PureComponent) {
   recipientsContactInfoRenderer: _propTypes2.default.func,
   recipientsContactPhoneRenderer: _propTypes2.default.func,
   isOnTransfer: _propTypes2.default.bool,
-  autoFocus: _propTypes2.default.bool
+  autoFocus: _propTypes2.default.bool,
+  activeSession: _propTypes2.default.object,
+  disablePage: _propTypes2.default.bool
 }, _class.defaultProps = {
   phoneTypeRenderer: undefined,
   recipientsContactInfoRenderer: undefined,
   recipientsContactPhoneRenderer: undefined,
   isOnTransfer: false,
-  autoFocus: true
+  autoFocus: true,
+  activeSession: null,
+  disablePage: false
 }, _temp);
 exports.default = TransferPanel;
 //# sourceMappingURL=index.js.map

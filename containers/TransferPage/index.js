@@ -21,13 +21,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function mapToProps(_, _ref) {
   var phone = _ref.phone;
-  var locale = phone.locale;
+  var locale = phone.locale,
+      activeCallControl = phone.activeCallControl;
   var currentLocale = locale.currentLocale;
+  var activeSession = activeCallControl.activeSession;
+
 
   return {
     currentLocale: currentLocale,
     searchContactList: [],
-    isOnTransfer: false
+    isOnTransfer: false,
+    activeSession: activeSession,
+    disablePage: true
   };
 }
 
