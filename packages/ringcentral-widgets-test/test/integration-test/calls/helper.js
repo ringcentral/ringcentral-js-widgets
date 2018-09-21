@@ -70,12 +70,13 @@ async function mockMultiActiveCallBodies(phone) {
 
 async function mockMultipleOutboundCallBodies(phone, n) {
   for (let i = n; i > 0; i -= 1) {
-    await makeCall(phone, {
+    const outboundSession = await makeCall(phone, {
       callId: true,
       fromNumber: '+15878133670',
       homeCountryId: '1',
       toNumber: '101',
     });
+    outboundSession.accept(phone.webphone.acceptOptions);
   }
   return mockActiveCalls(phone.webphone.sessions);
 }

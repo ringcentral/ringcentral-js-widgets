@@ -10,6 +10,8 @@ import CircleButton from 'ringcentral-widgets/components/CircleButton';
 import CallsOnholdPanel from 'ringcentral-widgets/components/CallsOnholdPanel';
 import DialerPanel from 'ringcentral-widgets/components/DialerPanel';
 import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
+import { mockConferenceCallEnv } from '../CallCtrlPage/helper.js';
+import { makeCall } from '../../support/callHelper';
 import { mockMultiOutboundCalls } from './helper';
 import { initPhoneWrapper } from '../shared';
 
@@ -20,11 +22,88 @@ beforeEach(async () => {
   jasmine.DEFAUL_INTERVAL = 64000;
 });
 
-async function initialize() {
+async function initialize(count = SESSIONS_COUNT) {
   const { wrapper, phone } = await initPhoneWrapper();
-  await mockMultiOutboundCalls(phone, SESSIONS_COUNT);
+  await mockMultiOutboundCalls(phone, count);
   return { wrapper, phone };
 }
+
+describe('When user records the outbound call, user can not merge this call into a conference', () => {
+  test('An outbound call tried to merge a recorded outbound call, it will failed to merge and prompt', async () => {
+    const { wrapper } = await initialize(2);
+    const navigationBar = wrapper.find(NavigationBar).first();
+    await navigationBar.props().goTo('/calls/active');
+    wrapper.update();
+    // record current call
+    const recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
+    recordButton.find(CircleButton).simulate('click');
+    await sleep(100);
+    await navigationBar.props().goTo('/calls');
+    wrapper.update();
+    const currentCallItem = wrapper.find(ActiveCallsPanel).first().find(ActiveCallItem).at(0);
+    const onheldCallItem = wrapper.find(ActiveCallsPanel).first().find(ActiveCallItem).at(1);
+    expect(
+      currentCallItem.find('.webphoneButtons').find('.webphoneButton').at(0).props().title
+    ).toEqual('Hold');
+    expect(
+      onheldCallItem.find('.webphoneButtons').find('.webphoneButton').at(0).props().title
+    ).toEqual('Unhold');
+    // choose another outbound call
+    onheldCallItem.find('.strechVertical').simulate('click');
+    await sleep(200);
+    wrapper.update();
+    const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
+    addButton.find(CircleButton).simulate('click');
+    await sleep(100);
+    wrapper.update();
+    const itemToAdd = wrapper.find(CallsOnholdPanel).first().find(ActiveCallItem).at(0);
+    const mergeButton = itemToAdd.find('.webphoneButtons').find('.webphoneButton').at(0);
+    mergeButton.find(CircleButton).simulate('click');
+    await sleep(100);
+    const store = wrapper.props().phone.store;
+    const messages = store.getState(wrapper).alert.messages;
+    expect(messages).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          level: 'warning',
+          message: 'webphone-record-recording'
+        })
+      ])
+    );
+  });
+  test('An conference call tried to merge a recorded outbound call, it will failed to merge and prompt', async () => {
+    const { wrapper, phone } = await initPhoneWrapper();
+    const outboundSession = await makeCall(phone);
+    outboundSession.accept(phone.webphone.acceptOptions);
+    wrapper.update();
+    // record a outbound call call
+    const recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
+    recordButton.find(CircleButton).simulate('click');
+    await sleep(100);
+    // mock a conference call
+    await mockConferenceCallEnv(phone);
+    await sleep(200);
+    wrapper.update();
+    const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
+    addButton.find(CircleButton).simulate('click');
+    await sleep(100);
+    wrapper.update();
+    const itemToAdd = wrapper.find(CallsOnholdPanel).first().find(ActiveCallItem).at(0);
+    const mergeButton = itemToAdd.find('.webphoneButtons').find('.webphoneButton').at(0);
+    mergeButton.find(CircleButton).simulate('click');
+    await sleep(100);
+    const store = wrapper.props().phone.store;
+    const messages = store.getState(wrapper).alert.messages;
+    expect(messages).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          level: 'warning',
+          message: 'webphone-record-recording'
+        })
+      ])
+    );
+  });
+});
 
 describe('RCI-121011 Merge call when multiple on hold outbound WebRTC calls', () => {
   test('Make 4 outbound calls:', async (done) => {
