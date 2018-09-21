@@ -107,6 +107,13 @@ var CallCtrlPanel = function (_Component) {
         };
       });
     };
+
+    _this.hideTransferPanel = function () {
+      _this.setState({
+        isShowTransferPanel: false
+      });
+    };
+
     _this.onMerge = function () {
       var onBeforeMerge = _this.props.onBeforeMerge;
 
@@ -130,6 +137,10 @@ var CallCtrlPanel = function (_Component) {
       _this.setState({
         isShowMergeConfirm: false
       });
+    };
+
+    _this.hideMergeConfirmAlt = function () {
+      _this.hideMergeConfirm();
       // user action track
       _this.props.afterHideMergeConfirm();
     };
@@ -155,9 +166,13 @@ var CallCtrlPanel = function (_Component) {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       if (!nextProps.hasConferenceCall && this.state.isShowMergeConfirm) {
-        this.setState({
-          isShowMergeConfirm: false
-        });
+        this.hideMergeConfirm();
+      }
+      if (this.props.sessionId !== nextProps.sessionId) {
+        this.hiddenKeyPad();
+        this.hideFlipPanel();
+        this.hideTransferPanel();
+        this.hideMergeConfirm();
       }
     }
   }, {
@@ -253,7 +268,7 @@ var CallCtrlPanel = function (_Component) {
           currentLocale: this.props.currentLocale,
           show: this.state.isShowMergeConfirm,
           onMerge: this.confirmMerge,
-          onCancel: this.hideMergeConfirm,
+          onCancel: this.hideMergeConfirmAlt,
           partyProfiles: this.props.conferenceCallParties
         }) : null
       );
