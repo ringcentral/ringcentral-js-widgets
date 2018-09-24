@@ -1,168 +1,145 @@
 # ringcentral-e2e-test
 
-## Goal
+`ringcentral-e2e-test` is RingCentral integration Apps test project. It's based on `ringcentral-test-cli` and `marten`.
 
--   More easily code/read/maintain E2E testing
--   High-quality reusable code
--   High-performance
--   Appropriate structure
--   Progressive enhancement/plug-in modular
+* `ringcentral-test-cli` is a complex of E2E test framework, it's based on `jest` as test runner.
+* `marten` is a steps controller library.
 
-## Features
+We are committed to designing a more efficient testing framework that is used to implement the more easily code/read/maintain E2E testing project with high-quality reusable code. Of course, it better be high-performance. In appropriate structure, it should be progressive enhancement/plug-in modular.
 
--   Steps controller(Control process/Enhance steps)
--   E2E test report
--   Support CLI
--   Compatible with selenium-webdriver(Maybe WebdriverIO)
+### Contents
 
----
+* [Features](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#features)
+* [Installation](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#Installation)
+* [Getting Started](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#getting-started)
+* [Guide For RC Integration App](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#guide-for-rc-integration-app)
+* [APIs Reference](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#api-reference)
+    - [Test CLI](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#test-cli)
+    - [Project Config](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#project-config)
+    - [Test Drivers](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#test-drivers)
+    - [Test Hooks](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#test-hooks)
+* [How It Works](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#how-it-works)
+* [Change Log](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#change-log)
 
--   Serial perform case
--   Auto-create test file with AC or test case
--   Auto-modify ticket status from Jira
+### Features
 
-## Planning
+* **Compatible Test**
+* **Controllable Process**
+* **Stratified Test**
+* **Progressive Modular**
 
--   Infrastructure/Architecture
+### Installation
 
-    -   Test Runner
-    -   Steps Controller ✅
-    -   Driver(Puppeteer/WebdriverIO/Enzyme)
-    -   Helper Libs(Webphone/AccountManager/MockServer)
-    -   Plugins(Logger/Screenshot, etc.)
-    -   Infrastructure(Login/Account/Entry/Navigation/Others, etc.)
-    -   Test Results Collector
+TODO
 
--   Reporter
+### Getting Started
 
-    -   Data Receiver
-    -   RESTful API Server
-    -   Web App with Result List(Query/sorting/filtering)
-    -   Display Features(Chart/Layered List/Display Error)
+1. Check to make sure the `lerna` npm package installation.if not, install lerna in the node Global environment; if learn has been installed, skip to next step.
 
--   Command Line Interface
-    -   Process/Thread Management
-    -   Basics CLI Feature(Output Beautification/Version Management/Update/Helper)
-    -   Create Project
-    -   Create/Update/Search Cases
-    -   Testing Parameters Management
+```shell
+npm install -g lerna
+```
 
-| controller                | config     | info           |
-| ------------------------- | ---------- | -------------- |
-| tags(title/level/target…) | runner     | help info      |
-| path                      | driver     | error info     |
-| env                       | tester     | verbose option |
-| exclude                   | reporter   |                |
-| worker                    | screenshot |                |
-|                           | mock       |                |
-|                           | mode       |                |
-
-## Milestone
-
--   Infrastructure／Architecture
--   Foundation Steps
--   Compatibility
--   Enhancement
-
----
-
-## Usage
+2. Clone current repo and start example from widget demo.
 
 ```shell
 git clone https://github.com/unadlib/ringcentral-js-widget.git
 cd ringcentral-js-widget && git checkout e2e-test && lerna bootstrap
+```
+
+> NOTE: set demo config file in `./packages/ringcentral-widgets-demo/dev-server/api-config.js`.
+
+```shell
 cd packages/ringcentral-widgets-demo && yarn dev-server
 ```
 
-> set demo config file in `./packages/ringcentral-widgets-demo/dev-server/api-config.js`
-> set e2e config file in `./packages/ringcentral-e2e-test/e2e.config.js`
+3. Run a test file.
 
 ```shell
-cd packages/ringcentral-e2e-test
+cd <repo>/packages/ringcentral-e2e-test
 npx e2e-test run ./src/features/widgets/meeting/**/*.js
 ```
 
+**NOTE: If you want to try to write some test cases from the RC widget demo, you can keep on the following [next steps](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#guide-for-rc-integration-app).**
+
+### Guide For RC Integration App
+
+TODO
+
+### APIs Reference
+
+#### Test CLI
+
+| Reference | Description                                   | type   | default |
+| --------- | --------------------------------------------- | ------ | ------- |
+| --params  | Run E2E test case with some params filtering. | object | None    |
+| --sandbox | Run E2E test case with 'sandbox' mode.        |        | disable |
+
+TODO
+
+#### Project Config
+
+| Reference    | Description                                     | type     |
+| ------------ | ----------------------------------------------- | -------- |
+| lookupConfig | Look up executive config from this config file. | function |
+| params       | Setting project basic information.              | object   |
+
+TODO
+
+#### Test Drivers
+
+##### Driver APIs
+
+| Reference | Description                              | arguments |
+| --------- | ---------------------------------------- | --------- |
+| goto      | Current page goto a new page with a url. | (config)  |
+
+TODO
+
+##### Query APIs
+
+| Reference | Description               | arguments             |
+| --------- | ------------------------- | --------------------- |
+| getText   | Get text from a selector. | (selector[, options]) |
+
+TODO
+
+#### Test Hooks
+
+| Reference           | Description           | callback arguments |
+| ------------------- | --------------------- | ------------------ |
+| driver.addAfterHook | After each case ends. | -                  |
+
+TODO
+
 ### Benchmark Results
 
-| Drivers                         | cases | threads | sandbox | performance | stability |
-| ------------------------------- | ----- | ------- | ------- | ----------- | --------- |
-| puppeteer/Firefox/Chrome/Safari | 1600  | 1       |         | 1312.125s   | ✅         |
-| puppeteer                       | 400   | 1       |         | 237.614s    | ✅         |
-| puppeteer                       | 400   | 8       |         | 96.44s      | ✅         |
-| puppeteer                       | 400   | 8       | ✅       | 289.44s     | ✅         |
-| Chrome                          | 400   | 8       |         | 103.665s    | ✅         |
-| Firefox                         | 400   | 8       |         | 415.726s    | ✅         |
-| puppeteer/Firefox/Chrome        | 1200  | 8       |         | 630.503s    | ⚠️        |
-| Safari                          | 400   | 8       |         | -           | ❌         |
-| Enzyme                          | 400   | 1       | ✅       | 374.998s    | ✅         |
-| Enzyme                          | 400   | 8       | ✅       | 149.882s    | ✅         |
-| Enzyme                          | 400   | 1       |         | -           | ❌         |
+| Drivers                             | cases | threads | sandbox | performance | stability |
+| ----------------------------------- | ----- | ------- | ------- | ----------- | --------- |
+| **puppeteer/Firefox/Chrome/Safari** | 1600  | 1       |         | 1312.125s   | ✅         |
+| **puppeteer**                       | 400   | 8       |         | 96.44s      | ✅         |
+| puppeteer                           | 400   | 1       |         | 237.614s    | ✅         |
+| puppeteer                           | 400   | 8       | ✅       | 289.44s     | ✅         |
+| Chrome                              | 400   | 8       |         | 103.665s    | ✅         |
+| Firefox                             | 400   | 8       |         | 415.726s    | ✅         |
+| puppeteer/Firefox/Chrome            | 1200  | 8       |         | 630.503s    | ⚠️        |
+| Safari                              | 400   | 8       |         | -           | ❌         |
+| Enzyme                              | 400   | 1       | ✅       | 374.998s    | ✅         |
+| **Enzyme**                          | 400   | 8       | ✅       | 149.882s    | ✅         |
+| Enzyme                              | 400   | 1       |         | -           | ❌         |
 
-### Subpackage
+> `Chrome` is selenium webdriver's Chrome.
+>
+> Selenium webdriver multithreading operation is not stable.
+>
+> Selenium Webdriver Safari does not support multithreading.
+>
+> Enzyme does not support non-sandbox mode(Default forced sandbox mode).
 
-├── ringcentral-e2e-test
+### How It Works
 
-        ├── ringcentral-e2e-cli
+<img src='https://raw.githubusercontent.com/unadlib/ringcentral-js-widget/e2e-test/assets/flow.png' />
 
-              ├── ringcentral-e2e-environment
+### Change Log
 
-                    ├── ringcentral-e2e-drivers
-
-        ├── ringcentral-e2e-reporter
-
-### Configuration Relation
-
--   Exec Config
-    -   User CLI config
-    -   User setting exec config
-    -   Library default exec config
--   Cases Config
-    -   Cases setting config
-    -   User setting cases config
-    -   Library default cases config
-
-### Lifecycle Hook
-
--   CLI start
--   Runner start
--   Jest global setup
--   Jest setupFiles
--   Jest NodeEnvironment Setup
--   setupTestFrameworkScriptFile
--   Jest BeforeAll
--   Jest BeforeEach
--   Test case
--   Marten Pre-Hook
--   Marten Post-Hook
--   Jest AfterEach
--   Jest AfterAll
--   Jest NodeEnvironment Teardown
--   Jest global teardown
--   Runner close
--   CLI close
-
-### TODO
-
--   Query
--   Infrastructure
--   Marten(CI/Test,etc.)
--   Plugins
-    - Logger
--   CLI
-
-    - Tags optimization
-    - Exclude file or path
-    - Filter jest env cli option
-    - Error driver warning
-    - Debug mode
-    - Verbose option/help info/error info
-    - Exec config file
-    - Create cases/update cases/search cases
-    - Create project
-
--   Reporter
-
-    - Test Results Collector (info/error end/error script/error assert)
-    - reporter SPA(Query/sorting/filtering)
-    - Display Features(Chart/Layered List/Display Error)
-    - RESTful API Server(TBD)
+* 2018/9/14 Implement infrastructure & architecture.

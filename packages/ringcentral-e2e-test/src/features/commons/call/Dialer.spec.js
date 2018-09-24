@@ -34,41 +34,41 @@ describe('Test Demo: =====>', () => {
   //   expect(driver.program.shallow(<Button>{option.text}</Button>).text()).toBe(option.expected);
   // });
 
-  // test({
-  //   title: 'button text with select ${selector} expected ${expected} ',
-  //   tags: [
-  //     ['widgets', { brands: ['rc', 'att'] }],
-  //   ],
-  //   brands: ['rc'],
-  //   levels: ['p0'],
-  //   options: [
-  //     { selector: 'loginButton', expected: 'Sign In' },
-  //   ],
-  // }, async ({ option }) => {
-  //   const text = await $(page).getText(option.selector);
-  //   expect(text).toBe(option.expected);
-  // });
-
   test({
-    title: 'Login with username ${username}, dialer ${selector} text expected "${title}"',
+    title: 'button text with select ${selector} expected ${expected} ',
     tags: [
-      ['widgets'],
-      // ['salesforce'],
+      ['widgets', { brands: ['rc', 'att'] }],
     ],
+    brands: ['rc'],
     levels: ['p0'],
     options: [
-      { username: '+18552085709*103', password: 'Test!123', selector: 'toTitle', title: 'To:'},
+      { selector: 'loginButton', expected: 'Sign In' },
     ],
-  }, async ({ option, isVirtual }) => {
-    // 1. login CTI
-    const process = createProcess(
-      Entry,
-      Login,
-      NavigateTo,
-    )(context);
-    await process.exec();
-    // 2. check 'toTitle' text
-    const fromNumber = await $(app).getText(option.selector);
-    expect(fromNumber).toBe(option.title);
+  }, async ({ option }) => {
+    const text = await $(page).getText(option.selector);
+    expect(text).toBe(option.expected);
   });
+
+  // test({
+  //   title: 'Login with username ${username}, dialer ${selector} text expected "${title}"',
+  //   tags: [
+  //     ['widgets'],
+  //     // ['salesforce'],
+  //   ],
+  //   levels: ['p0'],
+  //   options: [
+  //     { username: '+18552085709*103', password: 'Test!123', selector: 'toTitle', title: 'To:'},
+  //   ],
+  // }, async ({ option, isVirtual }) => {
+  //   // 1. login CTI
+  //   const process = createProcess(
+  //     Entry,
+  //     Login,
+  //     NavigateTo,
+  //   )(context);
+  //   await process.exec();
+  //   // 2. check 'toTitle' text
+  //   const fromNumber = await $(app).getText(option.selector);
+  //   expect(fromNumber).toBe(option.title);
+  // });
 });
