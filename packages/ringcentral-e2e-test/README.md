@@ -138,7 +138,7 @@ TODO
 
 ### How It Works
 
-<img src='https://raw.githubusercontent.com/unadlib/ringcentral-js-widget/e2e-test/assets/flow.png' />
+<img src='https://raw.githubusercontent.com/unadlib/ringcentral-js-widget/e2e-test/packages/ringcentral-e2e-test/assets/flow.png' />
 
 ### Change Log
 
