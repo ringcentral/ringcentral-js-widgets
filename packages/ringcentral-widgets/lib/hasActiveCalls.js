@@ -9,12 +9,12 @@ export default function hasActiveCalls(phone) {
   } = phone;
   const isWebphoneMode = (callingSettings.callingMode === callingModes.webphone);
   return isWebphoneMode && !!(
-    // callMonitor.calls.length &&
-    webphone.sessions.length
+    // (callMonitor && callMonitor.calls.length) &&
+    (webphone && webphone.sessions.length)
   )
     || !isWebphoneMode && !!(
-      callMonitor.calls.length ||
-      // (callLogSection && callLogSection.show) ||
-      (callMonitorUI && callMonitorUI.cachedActive)
+      (callMonitor && callMonitor.calls.length)
+      // || (callLogSection && callLogSection.show)
+      || (callMonitorUI && callMonitorUI.cachedActive)
     );
 }
