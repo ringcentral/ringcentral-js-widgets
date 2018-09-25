@@ -2256,38 +2256,9 @@ var Webphone = (_dec = (0, _di.Module)({
       return toggleMinimized;
     }()
   }, {
-    key: 'setMinimized',
-    value: function () {
-      var _ref31 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee29(sessionId, minimized) {
-        var _this14 = this;
-
-        return _regenerator2.default.wrap(function _callee29$(_context29) {
-          while (1) {
-            switch (_context29.prev = _context29.next) {
-              case 0:
-                this._sessionHandleWithId(sessionId, function (session) {
-                  session.__rc_minimized = !!minimized;
-                  _this14._updateSessions();
-                });
-
-              case 1:
-              case 'end':
-                return _context29.stop();
-            }
-          }
-        }, _callee29, this);
-      }));
-
-      function setMinimized(_x30, _x31) {
-        return _ref31.apply(this, arguments);
-      }
-
-      return setMinimized;
-    }()
-  }, {
     key: '_onCallStart',
     value: function _onCallStart(session) {
-      var _this15 = this;
+      var _this14 = this;
 
       this._addSession(session);
       var normalizedSession = (0, _webphoneHelper.normalizeSession)(session);
@@ -2303,13 +2274,13 @@ var Webphone = (_dec = (0, _di.Module)({
         this._onCallStartFunc(normalizedSession, this.activeSession);
       }
       this._onCallStartFunctions.forEach(function (handler) {
-        return handler(normalizedSession, _this15.activeSession);
+        return handler(normalizedSession, _this14.activeSession);
       });
     }
   }, {
     key: '_onCallRing',
     value: function _onCallRing(session) {
-      var _this16 = this;
+      var _this15 = this;
 
       this._addSession(session);
       var normalizedSession = (0, _webphoneHelper.normalizeSession)(session);
@@ -2328,26 +2299,26 @@ var Webphone = (_dec = (0, _di.Module)({
         this._onCallRingFunc(normalizedSession, this.ringSession);
       }
       this._onCallRingFunctions.forEach(function (handler) {
-        return handler(normalizedSession, _this16.ringSession);
+        return handler(normalizedSession, _this15.ringSession);
       });
     }
   }, {
     key: '_onBeforeCallEnd',
     value: function _onBeforeCallEnd(session) {
-      var _this17 = this;
+      var _this16 = this;
 
       var normalizedSession = (0, _webphoneHelper.normalizeSession)(session);
       if (typeof this._onBeforeCallEndFunc === 'function') {
         this._onBeforeCallEndFunc(normalizedSession, this.activeSession);
       }
       this._onBeforeCallEndFunctions.forEach(function (handler) {
-        return handler(normalizedSession, _this17.activeSession);
+        return handler(normalizedSession, _this16.activeSession);
       });
     }
   }, {
     key: '_onCallEnd',
     value: function _onCallEnd(session) {
-      var _this18 = this;
+      var _this17 = this;
 
       this._removeSession(session);
       var normalizedSession = (0, _webphoneHelper.normalizeSession)(session);
@@ -2360,74 +2331,74 @@ var Webphone = (_dec = (0, _di.Module)({
         this._onCallEndFunc(normalizedSession, this.activeSession, this.ringSession);
       }
       this._onCallEndFunctions.forEach(function (handler) {
-        return handler(normalizedSession, _this18.activeSession, _this18.ringSession);
+        return handler(normalizedSession, _this17.activeSession, _this17.ringSession);
       });
     }
   }, {
     key: '_onBeforeCallResume',
     value: function _onBeforeCallResume(session) {
-      var _this19 = this;
+      var _this18 = this;
 
       if (typeof this._onBeforeCallResumeFunc === 'function') {
         this._onBeforeCallResumeFunc(session, this.activeSession);
       }
       this._onBeforeCallResumeFunctions.forEach(function (handler) {
-        return handler(session, _this19.activeSession);
+        return handler(session, _this18.activeSession);
       });
     }
   }, {
     key: '_retrySleep',
     value: function () {
-      var _ref32 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee30() {
-        return _regenerator2.default.wrap(function _callee30$(_context30) {
+      var _ref31 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee29() {
+        return _regenerator2.default.wrap(function _callee29$(_context29) {
           while (1) {
-            switch (_context30.prev = _context30.next) {
+            switch (_context29.prev = _context29.next) {
               case 0:
                 if (!(this.connectRetryCounts < 3)) {
-                  _context30.next = 3;
+                  _context29.next = 3;
                   break;
                 }
 
-                _context30.next = 3;
+                _context29.next = 3;
                 return (0, _sleep2.default)(FIRST_THREE_RETRIES_DELAY);
 
               case 3:
                 if (!(this.connectRetryCounts === 3)) {
-                  _context30.next = 6;
+                  _context29.next = 6;
                   break;
                 }
 
-                _context30.next = 6;
+                _context29.next = 6;
                 return (0, _sleep2.default)(FOURTH_RETRIES_DELAY);
 
               case 6:
                 if (!(this.connectRetryCounts === 4)) {
-                  _context30.next = 9;
+                  _context29.next = 9;
                   break;
                 }
 
-                _context30.next = 9;
+                _context29.next = 9;
                 return (0, _sleep2.default)(FIFTH_RETRIES_DELAY);
 
               case 9:
                 if (!(this.connectRetryCounts > 4)) {
-                  _context30.next = 12;
+                  _context29.next = 12;
                   break;
                 }
 
-                _context30.next = 12;
+                _context29.next = 12;
                 return (0, _sleep2.default)(MAX_RETRIES_DELAY);
 
               case 12:
               case 'end':
-                return _context30.stop();
+                return _context29.stop();
             }
           }
-        }, _callee30, this);
+        }, _callee29, this);
       }));
 
       function _retrySleep() {
-        return _ref32.apply(this, arguments);
+        return _ref31.apply(this, arguments);
       }
 
       return _retrySleep;
@@ -2441,17 +2412,17 @@ var Webphone = (_dec = (0, _di.Module)({
   }, {
     key: 'showAlert',
     value: function () {
-      var _ref33 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee31() {
-        return _regenerator2.default.wrap(function _callee31$(_context31) {
+      var _ref32 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee30() {
+        return _regenerator2.default.wrap(function _callee30$(_context30) {
           while (1) {
-            switch (_context31.prev = _context31.next) {
+            switch (_context30.prev = _context30.next) {
               case 0:
                 if (this.errorCode) {
-                  _context31.next = 2;
+                  _context30.next = 2;
                   break;
                 }
 
-                return _context31.abrupt('return');
+                return _context30.abrupt('return');
 
               case 2:
                 this._alert.danger({
@@ -2464,14 +2435,14 @@ var Webphone = (_dec = (0, _di.Module)({
 
               case 3:
               case 'end':
-                return _context31.stop();
+                return _context30.stop();
             }
           }
-        }, _callee31, this);
+        }, _callee30, this);
       }));
 
       function showAlert() {
-        return _ref33.apply(this, arguments);
+        return _ref32.apply(this, arguments);
       }
 
       return showAlert;
@@ -2513,10 +2484,10 @@ var Webphone = (_dec = (0, _di.Module)({
     }
   }, {
     key: 'isCallRecording',
-    value: function isCallRecording(_ref34) {
-      var session = _ref34.session,
-          _ref34$showAlert = _ref34.showAlert,
-          showAlert = _ref34$showAlert === undefined ? true : _ref34$showAlert;
+    value: function isCallRecording(_ref33) {
+      var session = _ref33.session,
+          _ref33$showAlert = _ref33.showAlert,
+          showAlert = _ref33$showAlert === undefined ? true : _ref33$showAlert;
 
       if ((0, _webphoneHelper.isRecording)(session)) {
         if (showAlert) {
@@ -2676,13 +2647,13 @@ var Webphone = (_dec = (0, _di.Module)({
     }
   }]);
   return Webphone;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, '_sipProvision', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_sipProvision'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_connect', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_connect'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'connect', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'connect'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'disconnect', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'disconnect'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'answer', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'answer'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'reject', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'reject'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'resume', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'resume'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'forward', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'forward'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'mute', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'mute'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unmute', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unmute'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hold', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'hold'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unhold', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unhold'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'startRecord', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'startRecord'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'stopRecord', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'stopRecord'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'park', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'park'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'transfer', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'transfer'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'transferWarm', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'transferWarm'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'flip', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'flip'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'sendDTMF', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'sendDTMF'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hangup', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'hangup'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'toVoiceMail', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'toVoiceMail'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'replyWithMessage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'replyWithMessage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'makeCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'makeCall'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateSessionMatchedContact', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateSessionMatchedContact'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setSessionCaching', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setSessionCaching'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'clearSessionCaching', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'clearSessionCaching'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'toggleMinimized', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'toggleMinimized'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setMinimized', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setMinimized'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'showAlert', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'showAlert'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'ringingCallOnView', [_getter2.default], {
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, '_sipProvision', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_sipProvision'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_connect', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_connect'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'connect', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'connect'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'disconnect', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'disconnect'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'answer', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'answer'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'reject', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'reject'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'resume', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'resume'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'forward', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'forward'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'mute', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'mute'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unmute', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unmute'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hold', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'hold'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unhold', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unhold'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'startRecord', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'startRecord'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'stopRecord', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'stopRecord'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'park', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'park'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'transfer', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'transfer'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'transferWarm', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'transferWarm'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'flip', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'flip'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'sendDTMF', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'sendDTMF'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hangup', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'hangup'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'toVoiceMail', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'toVoiceMail'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'replyWithMessage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'replyWithMessage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'makeCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'makeCall'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateSessionMatchedContact', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateSessionMatchedContact'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setSessionCaching', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setSessionCaching'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'clearSessionCaching', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'clearSessionCaching'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'toggleMinimized', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'toggleMinimized'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'showAlert', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'showAlert'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'ringingCallOnView', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this20 = this;
+    var _this19 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this20.ringSessions;
+      return _this19.ringSessions;
     }, function (sessions) {
       return (0, _ramda.find)(function (session) {
         return !session.minimized;
