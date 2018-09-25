@@ -5,6 +5,7 @@ export default function hasActiveCalls(phone) {
     callingSettings,
     callMonitor,
     webphone,
+    callLogSection,
     callMonitorUI,
   } = phone;
   const isWebphoneMode = (callingSettings.callingMode === callingModes.webphone);
@@ -14,6 +15,7 @@ export default function hasActiveCalls(phone) {
   )
     || !isWebphoneMode && !!(
       (callMonitor && callMonitor.calls.length)
+      || (callLogSection && callLogSection.showNotification)
       // || (callLogSection && callLogSection.show)
       || (callMonitorUI && callMonitorUI.cachedActive)
     );
