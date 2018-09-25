@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
+import { withPhone } from 'ringcentral-widgets/lib/phoneContext';
+import hasActiveCalls from 'ringcentral-widgets/lib/hasActiveCalls';
+
 import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
 import TabNavigationView from 'ringcentral-widgets/components/TabNavigationView';
 
@@ -28,7 +30,6 @@ import ContactNavIcon from 'ringcentral-widgets/assets/images/ContactsNavigation
 import MeetingNavIcon from 'ringcentral-widgets/assets/images/MeetingNavigation.svg';
 import ConferenceNavIcon from 'ringcentral-widgets/assets/images/ConferenceNavigation.svg';
 import SettingsNavIcon from 'ringcentral-widgets/assets/images/SettingsNavigation.svg';
-import { withPhone } from 'ringcentral-widgets/lib/phoneContext';
 
 import i18n from './i18n';
 
@@ -205,22 +206,17 @@ function mapToProps(_, {
 }
 
 function mapToFunctions(_, {
+  phone,
   phone: {
     routerInteraction,
-    callingSettings,
-    conferenceCall,
-    webphone,
   },
 }) {
-  const conferenceCallEquipped = !!conferenceCall;
   return {
     goTo(path) {
       if (path) {
         if (
           path === '/dialer'
-          && conferenceCallEquipped
-          && webphone.sessions.length
-          && callingSettings.callingMode === callingModes.webphone
+          && hasActiveCalls(phone)
         ) {
           routerInteraction.push('/calls');
         } else {
