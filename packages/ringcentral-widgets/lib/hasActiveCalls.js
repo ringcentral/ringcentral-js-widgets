@@ -6,13 +6,10 @@ export default function hasActiveCalls(phone) {
     callMonitor,
     webphone,
     callMonitorUI,
-    conferenceCall,
   } = phone;
-  const conferenceCallEquipped = !!conferenceCall;
   const isWebphoneMode = (callingSettings.callingMode === callingModes.webphone);
   return isWebphoneMode && !!(
-    conferenceCallEquipped &&
-    callMonitor.calls.length &&
+    // callMonitor.calls.length &&
     webphone.sessions.length
   )
     || !isWebphoneMode && !!(
