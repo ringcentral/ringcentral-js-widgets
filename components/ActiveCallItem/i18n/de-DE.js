@@ -31,7 +31,9 @@ exports.default = {
   anonymous: "Anonym",
   mergeToConference: "Zus.führen",
   hold: "Halten",
-  unhold: "Gehaltenen Anruf annehmen"
+  unhold: "Gehaltenen Anruf annehmen",
+  transfer: "Weiterleitung",
+  reject: "Ablehnen"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -62,4 +64,6 @@ exports.default = {
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
+// @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
+// @key: @#@"reject"@#@ @source: @#@"Reject"@#@
 //# sourceMappingURL=de-DE.js.map

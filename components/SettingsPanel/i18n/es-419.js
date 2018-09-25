@@ -20,7 +20,8 @@ exports.default = {
   audio: "Audio",
   language: "Idioma",
   feedback: "Comentarios",
-  userGuide: "Novedades"
+  userGuide: "Novedades",
+  quickAccess: "Configuración de acceso rápido"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -40,4 +41,5 @@ exports.default = {
 // @key: @#@"language"@#@ @source: @#@"Language"@#@
 // @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
+// @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
 //# sourceMappingURL=es-419.js.map

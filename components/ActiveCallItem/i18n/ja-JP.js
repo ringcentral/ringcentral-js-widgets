@@ -31,7 +31,9 @@ exports.default = {
   anonymous: "匿名",
   mergeToConference: "マージ",
   hold: "保留",
-  unhold: "保留解除"
+  unhold: "保留解除",
+  transfer: "転送",
+  reject: "拒否"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -62,4 +64,6 @@ exports.default = {
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
+// @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
+// @key: @#@"reject"@#@ @source: @#@"Reject"@#@
 //# sourceMappingURL=ja-JP.js.map
