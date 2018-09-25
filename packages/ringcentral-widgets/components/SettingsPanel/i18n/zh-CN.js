@@ -15,7 +15,8 @@ export default {
   audio: "音频",
   language: "语言",
   feedback: "反馈",
-  userGuide: "新功能"
+  userGuide: "新功能",
+  quickAccess: "快速访问设置"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -35,3 +36,4 @@ export default {
 // @key: @#@"language"@#@ @source: @#@"Language"@#@
 // @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
+// @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
