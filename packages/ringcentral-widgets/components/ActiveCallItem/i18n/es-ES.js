@@ -26,7 +26,9 @@ export default {
   anonymous: "Anónimo",
   mergeToConference: "Combinar",
   hold: "Retener",
-  unhold: "Reanudar"
+  unhold: "Reanudar",
+  transfer: "Transferir",
+  reject: "Rechazar"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -57,3 +59,5 @@ export default {
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
+// @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
+// @key: @#@"reject"@#@ @source: @#@"Reject"@#@

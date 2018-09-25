@@ -26,7 +26,9 @@ export default {
   anonymous: "匿名",
   mergeToConference: "合併",
   hold: "通話保留",
-  unhold: "取消通話保留"
+  unhold: "取消通話保留",
+  transfer: "轉移",
+  reject: "拒絕"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -57,3 +59,5 @@ export default {
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
+// @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
+// @key: @#@"reject"@#@ @source: @#@"Reject"@#@
