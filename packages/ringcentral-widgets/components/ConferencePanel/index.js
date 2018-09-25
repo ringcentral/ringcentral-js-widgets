@@ -376,7 +376,7 @@ class ConferencePanel extends Component {
             showJoinAsHost &&
             <Button
               className={styles.primaryButton}
-              onClick={() => joinAsHost(dialInNumber)}>
+              onClick={joinAsHost}>
               {i18n.getString('joinAsHost', currentLocale)}
             </Button>
           }

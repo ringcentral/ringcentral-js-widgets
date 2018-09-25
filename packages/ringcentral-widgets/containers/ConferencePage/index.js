@@ -77,6 +77,7 @@ function mapToFunctions(_, {
     call,
     alert
   },
+  enableAutoEnterHostKey = false,
 }) {
   return {
     alert(msg) {
@@ -94,10 +95,13 @@ function mapToFunctions(_, {
       conference.onInviteWithText();
       routerInteraction.push('/composeText');
     },
-    joinAsHost(phoneNumber) {
+    joinAsHost() {
       // for track
       conference.onJoinAsHost();
       routerInteraction.history.push('/dialer');
+      const phoneNumber = enableAutoEnterHostKey ?
+        `${conference.dialInNumber},,${conference.data.hostCode}#` :
+        conference.dialInNumber;
       call.call({ phoneNumber });
     },
     onAllowJoinBeforeHostChange(allowJoinBeforeHost) {

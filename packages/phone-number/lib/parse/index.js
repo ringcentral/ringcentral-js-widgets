@@ -1,11 +1,18 @@
 import { parseNumber } from 'libphonenumber-js';
+import cleanNumber from '../cleanNumber';
+import extractControls from '../extractControls';
 
 const invalidCharsRegExp = /[^\d*+#\-(). ]/;
-const cleanRegex = /[^\d*+#]/g;
 const plusRegex = /\+/g;
 const extensionDelimiter = /[*#]/g;
 
 export default function parse({ input, countryCode = 'US' }) {
+
+  const {
+    phoneNumber,
+    extendedControls,
+  } = extractControls(input);
+  const cleanInput = cleanNumber(phoneNumber);
   const result = {
     input,
     parsedCountry: null,
@@ -17,9 +24,9 @@ export default function parse({ input, countryCode = 'US' }) {
     hasPlus: false,
     phoneNumber: null,
     extension: null,
-
+    extendedControls,
   };
-  const cleanInput = (input || '').replace(cleanRegex, '');
+  // const cleanInput = (input || '').replace(cleanRegex, '');
   const startWithPlus = cleanInput[0] === '+';
   const withoutPlus = cleanInput.replace(plusRegex, '');
   const startWithStar = withoutPlus[0] === '*';
