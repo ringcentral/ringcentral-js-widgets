@@ -1207,14 +1207,6 @@ export default class Webphone extends RcModule {
     });
   }
 
-  @proxify
-  async setMinimized(sessionId, minimized) {
-    this._sessionHandleWithId(sessionId, (session) => {
-      session.__rc_minimized = !!minimized;
-      this._updateSessions();
-    });
-  }
-
   _onCallStart(session) {
     this._addSession(session);
     const normalizedSession = normalizeSession(session);
