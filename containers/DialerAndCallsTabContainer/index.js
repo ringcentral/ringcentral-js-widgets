@@ -43,9 +43,13 @@ var _reactRedux = require('react-redux');
 
 var _reselect = require('reselect');
 
-var _callingModes = require('ringcentral-integration/modules/CallingSettings/callingModes');
+var _withPhone = require('../../lib/withPhone');
 
-var _callingModes2 = _interopRequireDefault(_callingModes);
+var _withPhone2 = _interopRequireDefault(_withPhone);
+
+var _hasActiveCalls = require('../../lib/hasActiveCalls');
+
+var _hasActiveCalls2 = _interopRequireDefault(_hasActiveCalls);
 
 var _TabContentPanel = require('../../components/TabContentPanel');
 
@@ -54,10 +58,6 @@ var _TabContentPanel2 = _interopRequireDefault(_TabContentPanel);
 var _SpinnerOverlay = require('../../components/SpinnerOverlay');
 
 var _SpinnerOverlay2 = _interopRequireDefault(_SpinnerOverlay);
-
-var _withPhone = require('../../lib/withPhone');
-
-var _withPhone2 = _interopRequireDefault(_withPhone);
 
 var _i18n = require('./i18n');
 
@@ -123,22 +123,13 @@ var TabContentView = (_temp = _class = function (_Component) {
 
 
 function mapToProps(_, _ref) {
-  var _ref$phone = _ref.phone,
+  var phone = _ref.phone,
+      _ref$phone = _ref.phone,
       locale = _ref$phone.locale,
-      callMonitor = _ref$phone.callMonitor,
-      callMonitorUI = _ref$phone.callMonitorUI,
-      callingSettings = _ref$phone.callingSettings,
-      routerInteraction = _ref$phone.routerInteraction,
-      conferenceCall = _ref$phone.conferenceCall,
-      webphone = _ref$phone.webphone;
+      routerInteraction = _ref$phone.routerInteraction;
 
-  var conferenceCallEquipped = !!conferenceCall;
-  var isWebphoneMode = callingSettings.callingMode === _callingModes2.default.webphone;
-  var applicable = isWebphoneMode && !!(conferenceCallEquipped && callMonitor.calls.length && webphone.sessions.length) || !isWebphoneMode && !!(callMonitor.calls.length ||
-  // (callLogSection && callLogSection.show) ||
-  callMonitorUI && callMonitorUI.cachedActive);
   return {
-    applicable: applicable,
+    applicable: (0, _hasActiveCalls2.default)(phone),
     currentLocale: locale.currentLocale,
     showSpinner: !locale.ready,
     currentPath: routerInteraction.currentPath
