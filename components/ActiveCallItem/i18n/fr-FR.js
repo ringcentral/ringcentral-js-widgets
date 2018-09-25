@@ -31,7 +31,9 @@ exports.default = {
   anonymous: "Anonyme",
   mergeToConference: "Fusionner",
   hold: "Mettre en attente",
-  unhold: "Reprendre l'appel"
+  unhold: "Reprendre l'appel",
+  transfer: "Transférer",
+  reject: "Rejeter"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -62,4 +64,6 @@ exports.default = {
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
+// @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
+// @key: @#@"reject"@#@ @source: @#@"Reject"@#@
 //# sourceMappingURL=fr-FR.js.map

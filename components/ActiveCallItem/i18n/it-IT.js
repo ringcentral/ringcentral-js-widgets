@@ -31,7 +31,9 @@ exports.default = {
   anonymous: "Anonimo",
   mergeToConference: "Unisci",
   hold: "Metti in attesa",
-  unhold: "Riprendi"
+  unhold: "Riprendi",
+  transfer: "Trasferisci",
+  reject: "Rifiuta"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -62,4 +64,6 @@ exports.default = {
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
+// @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
+// @key: @#@"reject"@#@ @source: @#@"Reject"@#@
 //# sourceMappingURL=it-IT.js.map
