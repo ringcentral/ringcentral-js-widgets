@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 
+import withPhone from '../../lib/withPhone';
+import hasActiveCalls from '../../lib/hasActiveCalls';
 import TabContentPanel from '../../components/TabContentPanel';
 import SpinnerOverlay from '../../components/SpinnerOverlay';
-import withPhone from '../../lib/withPhone';
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -54,31 +54,14 @@ class TabContentView extends Component {
 }
 
 function mapToProps(_, {
+  phone,
   phone: {
     locale,
-    callMonitor,
-    callMonitorUI,
-    // callLogSection,
-    callingSettings,
     routerInteraction,
-    conferenceCall,
-    webphone,
-  }
+  },
 }) {
-  const conferenceCallEquipped = !!conferenceCall;
-  const isWebphoneMode = (callingSettings.callingMode === callingModes.webphone);
-  const applicable = isWebphoneMode && !!(
-    conferenceCallEquipped &&
-    callMonitor.calls.length &&
-    webphone.sessions.length
-  )
-  || !isWebphoneMode && !!(
-    callMonitor.calls.length ||
-    // (callLogSection && callLogSection.show) ||
-    (callMonitorUI && callMonitorUI.cachedActive)
-  );
   return {
-    applicable,
+    applicable: hasActiveCalls(phone),
     currentLocale: locale.currentLocale,
     showSpinner: !locale.ready,
     currentPath: routerInteraction.currentPath,
