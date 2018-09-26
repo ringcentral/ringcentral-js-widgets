@@ -371,7 +371,7 @@ export default class CallsListPanel extends Component {
       (
         <div className={classnames(styles.list, className)}>
           <div className={styles.listTitle}>
-            {i18n.getString('historyCalls', currentLocale)}
+            {onlyHistory ? null : i18n.getString('historyCalls', currentLocale)}
           </div>
           <CallList
             brand={brand}
