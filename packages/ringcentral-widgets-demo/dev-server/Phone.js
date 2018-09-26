@@ -236,13 +236,13 @@ export default class BasePhone extends RcModule {
       const execCallsOnhold = callsOnholdReg.exec(routerInteraction.currentPath);
 
       if (execCallsOnhold) {
-        if (!currentSession || session.id === currentSession.id) {
-          routerInteraction.go(-2);
-          return;
-        }
         const fromSessionIdOfCallsOnhold = execCallsOnhold[2];
         if (session.id === fromSessionIdOfCallsOnhold) {
-          routerInteraction.replace(`/calls/active/${currentSession.id}`);
+          if (currentSession) {
+            routerInteraction.replace(`/calls/active/${currentSession.id}`);
+          } else {
+            routerInteraction.go(-2);
+          }
           return;
         }
       }
