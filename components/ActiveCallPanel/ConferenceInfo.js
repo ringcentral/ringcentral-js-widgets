@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ConferenceInfo = undefined;
+exports.default = undefined;
 
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
@@ -73,7 +73,7 @@ var minWidthCalculator = function minWidthCalculator(count) {
 // when the container width reachs below item of width, display the avatar amount of count.
 var KINDS_OF_WIDTH_THAT_NEED_ADAPATER = [{ avartarCount: 0, width: minWidthCalculator(1) }, { avartarCount: 1, width: minWidthCalculator(3) }, { avartarCount: 2, width: minWidthCalculator(MAXIMUM_AVATARS) }, { avartarCount: 3, width: minWidthCalculator(MAXIMUM_AVATARS + 1) }];
 
-var ConferenceInfo = exports.ConferenceInfo = function (_Component) {
+var ConferenceInfo = function (_Component) {
   (0, _inherits3.default)(ConferenceInfo, _Component);
 
   function ConferenceInfo(props) {
@@ -269,6 +269,9 @@ var ConferenceInfo = exports.ConferenceInfo = function (_Component) {
   return ConferenceInfo;
 }(_react.Component);
 
+exports.default = ConferenceInfo;
+
+
 ConferenceInfo.propTypes = {
   currentLocale: _propTypes2.default.string.isRequired,
   partyProfiles: _propTypes2.default.arrayOf(_propTypes2.default.shape({
@@ -284,6 +287,4 @@ ConferenceInfo.defaultProps = {
     return i;
   }
 };
-
-exports.default = ConferenceInfo;
 //# sourceMappingURL=ConferenceInfo.js.map
