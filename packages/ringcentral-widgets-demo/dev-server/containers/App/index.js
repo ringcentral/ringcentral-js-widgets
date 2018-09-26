@@ -65,10 +65,10 @@ export default function App({
                   defaultOffsetX={0}
                   defaultOffsetY={73}
                   hidden={(
-                    routerProps.location.pathname === '/calls/active' ||
-                    routerProps.location.pathname.indexOf('/conferenceCall/callsOnhold') === 0 ||
-                    routerProps.location.pathname.indexOf('/conferenceCall/dialer') === 0 ||
-                    routerProps.location.pathname === '/conferenceCall/participants'
+                    routerProps.location.pathname.indexOf('/calls/active') === 0
+                    || routerProps.location.pathname.indexOf('/conferenceCall/dialer') === 0
+                    || routerProps.location.pathname.indexOf('/conferenceCall/callsOnhold') === 0
+                    || routerProps.location.pathname.indexOf('/conferenceCall/participants') === 0
                   )}
                   goToCallCtrl={() => {
                     phone.routerInteraction.push('/calls/active');
