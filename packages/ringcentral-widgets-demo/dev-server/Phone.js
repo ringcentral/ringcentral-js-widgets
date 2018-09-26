@@ -274,13 +274,12 @@ export default class BasePhone extends RcModule {
         return;
       }
 
-      if (routerInteraction.currentPath.indexOf('/calls/active') === 0) {
-        if (ringSession) {
-          routerInteraction.replace('/calls');
-          return;
-        }
-        routerInteraction.replace('/calls/active');
-        return;
+      if (
+        currentSession
+        && currentSession.id !== session.id
+        && routerInteraction.currentPath === `/calls/active/${session.id}`
+      ) {
+        routerInteraction.replace(`/calls/active/${currentSession.id}`);
       }
 
       if (
