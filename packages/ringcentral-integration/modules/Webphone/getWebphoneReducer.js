@@ -83,12 +83,12 @@ export function getActiveSessionIdReducer(types) {
         if (session.id !== state) {
           return state;
         }
-        const activeSessions = sessions.filter(session => !isRing(session));
+        const activeSessions = sessions.filter(x => !isRing(x));
         activeSessions.sort(sortByLastActiveTimeDesc);
         return (activeSessions[0] && activeSessions[0].id) || null;
       }
       case types.clearSessionCaching: {
-        const activeSessions = sessions.filter(x => !x.cached && !isRing(session));
+        const activeSessions = sessions.filter(x => !x.cached && !isRing(x));
         activeSessions.sort(sortByLastActiveTimeDesc);
         return (activeSessions[0] && activeSessions[0].id) || null;
       }
@@ -110,7 +110,7 @@ export function getRingSessionIdReducer(types) {
         if (session.id !== state) {
           return state;
         }
-        const ringSessions = sessions.filter(sessionItem => isRing(sessionItem));
+        const ringSessions = sessions.filter(x => isRing(x));
         return (ringSessions[0] && ringSessions[0].id) || null;
       }
       case types.disconnect:
@@ -138,7 +138,7 @@ export function getLastEndedSessionsReducer(types) {
           return state;
         }
         const lastSessions = [session].concat(
-          state.filter(sessionItem => sessionItem.id !== session.id)
+          state.filter(x => x.id !== session.id)
         );
         return lastSessions.slice(0, 5);
       }
