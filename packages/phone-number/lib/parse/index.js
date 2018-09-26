@@ -7,7 +7,6 @@ const plusRegex = /\+/g;
 const extensionDelimiter = /[*#]/g;
 
 export default function parse({ input, countryCode = 'US' }) {
-
   const {
     phoneNumber,
     extendedControls,
@@ -26,10 +25,11 @@ export default function parse({ input, countryCode = 'US' }) {
     extension: null,
     extendedControls,
   };
-  // const cleanInput = (input || '').replace(cleanRegex, '');
+
   const startWithPlus = cleanInput[0] === '+';
   const withoutPlus = cleanInput.replace(plusRegex, '');
   const startWithStar = withoutPlus[0] === '*';
+
   if (startWithPlus && startWithStar) {
     result.isValid = false;
   } else {

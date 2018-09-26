@@ -1,5 +1,10 @@
 const cleanRegex = /[^\d*+,#]/g;
 
-export default function cleanNumber(input = '') {
-  return input.replace(cleanRegex, '');
+/**
+ * @function
+ * @param {String} input
+ * @returns {String}
+ */
+export default function cleanNumber(input) {
+  return (input || '').replace(cleanRegex, '');
 }
