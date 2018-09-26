@@ -70,8 +70,8 @@ export default function App({
                     || routerProps.location.pathname.indexOf('/conferenceCall/callsOnhold') === 0
                     || routerProps.location.pathname.indexOf('/conferenceCall/participants') === 0
                   )}
-                  goToCallCtrl={() => {
-                    phone.routerInteraction.push('/calls/active');
+                  goToCallCtrl={(sessionId) => {
+                    phone.routerInteraction.push(`/calls/active/${sessionId}`);
                   }}
                 />
                 <IncomingCallPage
