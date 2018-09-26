@@ -283,6 +283,11 @@ export default class BasePhone extends RcModule {
         return;
       }
 
+      if (!currentSession && ringSession) {
+        routerInteraction.push('/calls');
+        return;
+      }
+
       if (
         routerInteraction.currentPath === '/calls'
         && !callMonitor.activeRingCalls.length
