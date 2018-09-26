@@ -432,7 +432,7 @@ var CallsListPanel = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: _styles2.default.listTitle },
-          onlyHistory ? null : _i18n2.default.getString('historyCalls', currentLocale)
+          _i18n2.default.getString('historyCalls', currentLocale)
         ),
         _react2.default.createElement(_CallList2.default, {
           brand: brand,
