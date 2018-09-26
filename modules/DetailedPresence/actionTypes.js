@@ -16,11 +16,11 @@ var _Enum = require('../../lib/Enum');
 
 var _Enum2 = _interopRequireDefault(_Enum);
 
-var _moduleActionTypes = require('../../enums/moduleActionTypes');
+var _actionTypes = require('../Presence/actionTypes');
 
-var _moduleActionTypes2 = _interopRequireDefault(_moduleActionTypes);
+var _actionTypes2 = _interopRequireDefault(_actionTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)(_moduleActionTypes2.default)), ['fetch', 'fetchSuccess', 'fetchError', 'notification', 'update', 'updateSuccess', 'updateError']), 'detailedPresence');
+exports.default = new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)(_actionTypes2.default)), ['updateActiveCalls']), 'detailedPresence');
 //# sourceMappingURL=actionTypes.js.map

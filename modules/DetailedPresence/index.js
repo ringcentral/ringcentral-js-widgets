@@ -140,34 +140,25 @@ var DetailedPresence = (_dec = (0, _di.Module)({
           }
           _this._lastSequence = message.body.sequence;
         }
-        var _message$body = message.body,
-            activeCalls = _message$body.activeCalls,
-            dndStatus = _message$body.dndStatus,
-            telephonyStatus = _message$body.telephonyStatus,
-            presenceStatus = _message$body.presenceStatus,
-            userStatus = _message$body.userStatus,
-            totalActiveCalls = _message$body.totalActiveCalls;
 
+        var body = message.body;
 
-        _this.store.dispatch({
-          type: _this.actionTypes.notification,
-          activeCalls: activeCalls,
-          dndStatus: dndStatus,
-          telephonyStatus: telephonyStatus,
-          presenceStatus: presenceStatus,
-          userStatus: userStatus,
-          message: message.body.message,
-          lastDndStatus: _this.dndStatus,
-          timestamp: Date.now()
-        });
+        _this._updateStatuses(_this.actionTypes.notification, body);
 
         /**
          * as pointed out by Igor in https://jira.ringcentral.com/browse/PLA-33391,
          * when the real calls count larger than the active calls returned by the pubnub,
          * we need to pulling the calls manually.
          */
-        if (activeCalls && Array.isArray(activeCalls) && activeCalls.length < totalActiveCalls) {
-          _this.fetchRemainingCalls();
+        var _body$activeCalls = body.activeCalls,
+            activeCalls = _body$activeCalls === undefined ? [] : _body$activeCalls,
+            _body$totalActiveCall = body.totalActiveCalls,
+            totalActiveCalls = _body$totalActiveCall === undefined ? 0 : _body$totalActiveCall;
+
+        if (activeCalls.length === totalActiveCalls) {
+          _this._updateActiveCalls(_this.actionTypes.updateActiveCalls, body);
+        } else {
+          _this._fetchRemainingCalls();
         }
       }
     };
@@ -188,16 +179,45 @@ var DetailedPresence = (_dec = (0, _di.Module)({
       });
     });
 
-    _this.fetchRemainingCalls = (0, _throttle2.default)(_this._fetch.bind(_this), FETCH_THRESHOLD);
+    _this._fetchRemainingCalls = (0, _throttle2.default)(_this._fetch.bind(_this), FETCH_THRESHOLD);
     return _this;
   }
 
   (0, _createClass3.default)(DetailedPresence, [{
+    key: '_updateStatuses',
+    value: function _updateStatuses(type, _ref) {
+      var dndStatus = _ref.dndStatus,
+          telephonyStatus = _ref.telephonyStatus,
+          presenceStatus = _ref.presenceStatus,
+          userStatus = _ref.userStatus,
+          message = _ref.message;
+
+      this.store.dispatch({
+        type: type,
+        dndStatus: dndStatus,
+        telephonyStatus: telephonyStatus,
+        presenceStatus: presenceStatus,
+        userStatus: userStatus,
+        message: message,
+        lastDndStatus: this.dndStatus
+      });
+    }
+  }, {
+    key: '_updateActiveCalls',
+    value: function _updateActiveCalls(type, _ref2) {
+      var activeCalls = _ref2.activeCalls;
+
+      this.store.dispatch({
+        type: type,
+        activeCalls: activeCalls,
+        timestamp: Date.now()
+      });
+    }
+  }, {
     key: '_fetch',
     value: function () {
-      var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-        var ownerId, _json, activeCalls, dndStatus, telephonyStatus, presenceStatus, userStatus, message;
-
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+        var ownerId, body;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -211,32 +231,18 @@ var DetailedPresence = (_dec = (0, _di.Module)({
                 return this._client.service.platform().get(_subscriptionFilters2.default.detailedPresenceWithSip);
 
               case 5:
-                _json = _context.sent.json();
-                activeCalls = _json.activeCalls;
-                dndStatus = _json.dndStatus;
-                telephonyStatus = _json.telephonyStatus;
-                presenceStatus = _json.presenceStatus;
-                userStatus = _json.userStatus;
-                message = _json.message;
+                body = _context.sent.json();
 
                 if (this._auth.ownerId === ownerId) {
-                  this.store.dispatch({
-                    type: this.actionTypes.fetchSuccess,
-                    activeCalls: activeCalls,
-                    dndStatus: dndStatus,
-                    telephonyStatus: telephonyStatus,
-                    presenceStatus: presenceStatus,
-                    userStatus: userStatus,
-                    message: message,
-                    timestamp: Date.now()
-                  });
+                  this._updateStatuses(this.actionTypes.fetchSuccess, body);
+                  this._updateActiveCalls(this.actionTypes.fetchSuccess, body);
                   this._promise = null;
                 }
-                _context.next = 18;
+                _context.next = 12;
                 break;
 
-              case 15:
-                _context.prev = 15;
+              case 9:
+                _context.prev = 9;
                 _context.t0 = _context['catch'](2);
 
                 if (this._auth.ownerId === ownerId) {
@@ -247,16 +253,16 @@ var DetailedPresence = (_dec = (0, _di.Module)({
                   this._promise = null;
                 }
 
-              case 18:
+              case 12:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this, [[2, 15]]);
+        }, _callee, this, [[2, 9]]);
       }));
 
       function _fetch() {
-        return _ref.apply(this, arguments);
+        return _ref3.apply(this, arguments);
       }
 
       return _fetch;
