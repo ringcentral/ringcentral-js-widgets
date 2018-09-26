@@ -1,14 +1,7 @@
 import 'core-js/fn/array/find';
 import 'core-js/fn/array/find-index';
 import { find, reduce, map } from 'ramda';
-import { combineReducers } from 'redux';
-import {
-  getDndStatusReducer,
-  getPresenceStatusReducer,
-  getUserStatusReducer,
-  getMessageReducer,
-} from '../Presence/getPresenceReducer';
-import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
+import getPresenceReducer from '../Presence/getPresenceReducer';
 import {
   normalizeFromTo,
   normalizeStartTime,
@@ -34,7 +27,7 @@ export function getDataReducer(types) {
   return (state = [], { type, activeCalls = [], timestamp }) => {
     switch (type) {
       case types.fetchSuccess:
-      case types.notification: {
+      case types.updateActiveCalls: {
         return map((activeCall) => {
           const existingCall = state.find(call => (
             call.sessionId === activeCall.sessionId
@@ -63,8 +56,7 @@ export function getDataReducer(types) {
   };
 }
 
-
-function getTelephonyStatusReducer(types) {
+export function getTelephonyStatusReducer(types) {
   return (state = null, { type, telephonyStatus = state }) => {
     switch (type) {
       case types.fetchSuccess:
@@ -78,16 +70,10 @@ function getTelephonyStatusReducer(types) {
   };
 }
 
-/* istanbul ignore next: unnecessary to test combineReducers */
 export default function getDetailedPresenceReducer(types, reducers = {}) {
-  return combineReducers({
+  return getPresenceReducer(types, {
     ...reducers,
-    status: getModuleStatusReducer(types),
     data: getDataReducer(types),
-    dndStatus: getDndStatusReducer(types),
-    presenceStatus: getPresenceStatusReducer(types),
-    userStatus: getUserStatusReducer(types),
-    message: getMessageReducer(types),
     telephonyStatus: getTelephonyStatusReducer(types),
   });
 }
