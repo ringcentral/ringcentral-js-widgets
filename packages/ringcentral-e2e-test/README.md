@@ -66,6 +66,19 @@ npx e2e-test run ./src/features/widgets/meeting/**/*.js
 
 TODO
 
+#### Run RC for GoogleChrome Test Case
+
+1. Generate RC for Google Chrome with brand rc, copy files to `<repo>/packages/ringcentral-e2e-test/resources/extension/google/rc`.
+
+2. Run example test case.
+
+```shell
+cd <repo>/packages/ringcentral-e2e-test
+npx e2e-test run ./src/features/google/call/Dialer.spec.js --drivers puppeteer -S
+```
+
+> NOTE: Chrome Extension for puppeteer must be `sandbox` mode.
+
 ### APIs Reference
 
 #### Test CLI

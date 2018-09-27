@@ -60,3 +60,4 @@ alias.json
 */**/*.log
 
 */**/gh-pages
+packages/ringcentral-e2e-test/resources/**

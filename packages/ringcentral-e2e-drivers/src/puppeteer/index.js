@@ -1,4 +1,6 @@
 const puppeteer = require('puppeteer');
+const path = require('path');
+
 const {
   Driver: BaseDriver,
   Query: BaseQuery
@@ -8,7 +10,6 @@ const setting = {
   ignoreHTTPSErrors: true,
   args: [
     '--use-fake-ui-for-media-stream',
-    // '--load-extension=/path/to/extension/'
   ]
 };
 class Query extends BaseQuery {
@@ -97,8 +98,19 @@ class Driver extends BaseDriver {
     super(options, program);
   }
 
-  async run() {
-    this._browser = await this._program.launch(this._options.driver.setting);
+  async run({ type, extension } = {}) {
+    const isExtension = type === 'extension';
+    const extensionPath = path.resolve(process.cwd(), extension);
+    const setting = isExtension ? {
+      ...this._options.driver.setting,
+      headless: false,
+      args: [
+        ...this._options.driver.setting.args,
+        `--disable-extensions-except=${extensionPath}`,
+        `--load-extension=${extensionPath}`
+      ],
+    } : this._options.driver.setting;
+    this._browser = await this._program.launch(setting);
   }
 
   async newPage() {
