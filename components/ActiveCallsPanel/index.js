@@ -127,7 +127,8 @@ var ActiveCallsPanel = function (_Component) {
           {
             title: currentLog.title,
             show: currentLog.showLog,
-            onClose: onCloseLogSection
+            onClose: onCloseLogSection,
+            clickOutToClose: false
             // containerStyles={sectionContainerStyles}
             // modalStyles={sectionModalStyles}
           },
@@ -135,7 +136,7 @@ var ActiveCallsPanel = function (_Component) {
             currentLocale: currentLocale,
             currentLog: currentLog
             // additionalInfo={additionalInfo}
-            , isInnerMask: false,
+            , isInnerMask: logNotification && logNotification.notificationIsExpand,
             renderEditLogSection: renderEditLogSection,
             renderSaveLogButton: renderSaveLogButton,
             formatPhone: formatPhone,
