@@ -1,6 +1,5 @@
 {
   "name": "ringcentral-js-widgets",
-  "version": "0.0.1",
   "private": true,
   "devEngines": {
     "node": "8.x || 9.x"
