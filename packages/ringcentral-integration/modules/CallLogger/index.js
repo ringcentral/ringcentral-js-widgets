@@ -173,6 +173,9 @@ export default class CallLogger extends LoggerBase {
     );
   }
   _customMatcherCheck(sessionId) {
+    if (!this._customMatcherHooks.length) {
+      return true;
+    }
     return this._customMatcherHooks.some(hook => hook(sessionId));
   }
   addCustomMatcherHook(hook) {
