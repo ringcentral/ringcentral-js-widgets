@@ -70,12 +70,13 @@ async function mockMultiActiveCallBodies(phone) {
 
 async function mockMultipleOutboundCallBodies(phone, n) {
   for (let i = n; i > 0; i -= 1) {
-    await makeCall(phone, {
+    const outboundSession = await makeCall(phone, {
       callId: true,
       fromNumber: '+15878133670',
       homeCountryId: '1',
       toNumber: '101',
     });
+    outboundSession.accept(phone.webphone.acceptOptions);
   }
   return mockActiveCalls(phone.webphone.sessions);
 }
@@ -87,38 +88,9 @@ export async function mockMultiActiveCalls(phone) {
 export async function mockMultiOutboundCalls(phone, n) {
   await mockCallProcedure(mockMultipleOutboundCallBodies)(phone, n);
 }
-// all calls page
-export async function makeInboudCalls(phone, optional = []) {
-  for (const option of optional) {
-    await getInboundCall(phone, option);
-  }
-  const activeCallBody = await mockActiveCalls(phone.webphone.sessions);
-  mock.activeCalls(activeCallBody);
-  await phone.subscription.subscribe(['/account/~/extension/~/presence'], 10);
-  await timeout(100);
-  await mockDetailedPresencePubnub(activeCallBody);
-}
-export function generateActiveCallsData(sessions) {
-  return sessions.reduce((calls, session) => calls.concat({
-    direction: session.direction,
-    from: '+12812923232',
-    fromName: 'FirstName 105 LastName',
-    id: `call-id-${session.id}`,
-    sessionId: session.id,
-    startTime: (new Date()).getTime(),
-    telephonyStatus: 'OnHold',
-    to: session.to || '101',
-    toName: 'Something1 New1',
-    sipData: {
-      fromTag: '10.74.2.219-5070-09d1878acdfc44a',
-      localUri: 'sip:+12812923232@ringcentral.com',
-      remoteUri: `sip:${session.to}@ringcentral.com`,
-      toTag: 'tr8f8ele53',
-    }
-  }), []);
-}
-export async function mockSub(phone, ttl = 100) {
-  const activeCalls = generateActiveCallsData(phone.webphone.sessions);
+
+export async function mockActiveCallPanelData(phone, mockOtherDeivce = [], ringSessionIds = []) {
+  const activeCalls = mockActiveCalls(phone.webphone.sessions, mockOtherDeivce, ringSessionIds);
   mockGeneratePresenceApi({
     activeCalls
   });
@@ -129,6 +101,6 @@ export async function mockSub(phone, ttl = 100) {
     sessions: phone.webphone.sessions
   });
   await phone.subscription.subscribe(['/account/~/extension/~/presence'], 10);
-  await timeout(ttl);
+  await timeout(100);
   await mockDetailedPresencePubnub(activeCalls);
 }
