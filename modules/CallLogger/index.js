@@ -372,6 +372,9 @@ var CallLogger = (_dec = (0, _di.Module)({
   }, {
     key: '_customMatcherCheck',
     value: function _customMatcherCheck(sessionId) {
+      if (!this._customMatcherHooks.length) {
+        return true;
+      }
       return this._customMatcherHooks.some(function (hook) {
         return hook(sessionId);
       });
