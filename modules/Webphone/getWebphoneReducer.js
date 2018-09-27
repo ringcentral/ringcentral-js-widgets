@@ -149,8 +149,8 @@ function getActiveSessionIdReducer(types) {
           if (session.id !== state) {
             return state;
           }
-          var activeSessions = sessions.filter(function (session) {
-            return !(0, _webphoneHelper.isRing)(session);
+          var activeSessions = sessions.filter(function (x) {
+            return !(0, _webphoneHelper.isRing)(x);
           });
           activeSessions.sort(_webphoneHelper.sortByLastActiveTimeDesc);
           return activeSessions[0] && activeSessions[0].id || null;
@@ -158,7 +158,7 @@ function getActiveSessionIdReducer(types) {
       case types.clearSessionCaching:
         {
           var _activeSessions = sessions.filter(function (x) {
-            return !x.cached && !(0, _webphoneHelper.isRing)(session);
+            return !x.cached && !(0, _webphoneHelper.isRing)(x);
           });
           _activeSessions.sort(_webphoneHelper.sortByLastActiveTimeDesc);
           return _activeSessions[0] && _activeSessions[0].id || null;
@@ -190,8 +190,8 @@ function getRingSessionIdReducer(types) {
           if (session.id !== state) {
             return state;
           }
-          var ringSessions = sessions.filter(function (sessionItem) {
-            return (0, _webphoneHelper.isRing)(sessionItem);
+          var ringSessions = sessions.filter(function (x) {
+            return (0, _webphoneHelper.isRing)(x);
           });
           return ringSessions[0] && ringSessions[0].id || null;
         }
@@ -222,8 +222,8 @@ function getLastEndedSessionsReducer(types) {
           !session.startTime && !session.isToVoicemail && !session.isForwarded && !session.isReplied) {
             return state;
           }
-          var lastSessions = [session].concat(state.filter(function (sessionItem) {
-            return sessionItem.id !== session.id;
+          var lastSessions = [session].concat(state.filter(function (x) {
+            return x.id !== session.id;
           }));
           return lastSessions.slice(0, 5);
         }
