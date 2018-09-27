@@ -50,7 +50,7 @@ export default function App({
     brandIcon: icon
   };
   const getAvatarUrl = async (contact) => {
-    const avatarUrl = await phone.contacts.getProfileImage(contact, false);
+    const avatarUrl = await phone.contacts.getProfileImage(contact, true);
     return avatarUrl;
   };
   return (
