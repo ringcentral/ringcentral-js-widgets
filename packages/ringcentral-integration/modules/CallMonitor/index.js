@@ -585,9 +585,6 @@ export default class CallMonitor extends RcModule {
     return this._selectors.otherDeviceCalls();
   }
 
-  get lastCallInfo() {
-    return this._selectors.lastCallInfo();
-  }
   @getter
   ringoutRingCalls = createSelector(
     () => this.otherDeviceCalls,
@@ -600,7 +597,7 @@ export default class CallMonitor extends RcModule {
     () => this.otherDeviceCalls,
     otherDeviceCalls => otherDeviceCalls.filter(callItem =>
       !isRingingInboundCall(callItem) &&
-          !isRingOutOnHold(callItem)
+      !isRingOutOnHold(callItem)
     )
   );
   @getter
