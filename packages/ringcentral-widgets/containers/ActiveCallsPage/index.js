@@ -88,14 +88,12 @@ function mapToFunctions(_, {
         countryCode: regionSettings.countryCode,
       });
     },
-    async webphoneAnswer(...args) {
+    async webphoneAnswer(sessionId) {
       if (!webphone) {
         return;
       }
 
-      const sessionId = args && args.length && args[0];
       const session = webphone.sessions.find(session => session.id === sessionId);
-
       if (
         conferenceCall &&
         session &&
@@ -104,7 +102,7 @@ function mapToFunctions(_, {
         conferenceCall.closeMergingPair();
       }
 
-      webphone.answer(...args);
+      webphone.answer(sessionId);
     },
     async webphoneToVoicemail(...args) {
       return (webphone && webphone.toVoiceMail(...args));
