@@ -173,7 +173,7 @@ export default class Meeting extends RcModule {
   }
 
   @proxify
-  async schedule(meeting, { isAlertSuccess = true } = {}) {
+  async schedule(meeting, { isAlertSuccess = true } = {}, opener) {
     if (this.isScheduling) return null;
     meeting = meeting || this.meeting;
     try {
@@ -208,7 +208,7 @@ export default class Meeting extends RcModule {
         extensionInfo: this.extensionInfo
       };
       if (typeof this.scheduledHook === 'function') {
-        await this.scheduledHook(result);
+        await this.scheduledHook(result, opener);
       }
       // Reload meeting info
       this._initMeeting();
