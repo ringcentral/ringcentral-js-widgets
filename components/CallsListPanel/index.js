@@ -351,6 +351,7 @@ var CallsListPanel = function (_Component) {
             title: currentLog.title,
             show: currentLog.showLog,
             onClose: onCloseLogSection,
+            clickOutToClose: false,
             containerStyles: sectionContainerStyles,
             modalStyles: sectionModalStyles },
           _react2.default.createElement(_LogSection2.default, {
