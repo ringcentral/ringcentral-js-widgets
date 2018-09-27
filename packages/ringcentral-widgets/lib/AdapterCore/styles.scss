@@ -278,6 +278,7 @@
   margin-left: -63px;
   color: #666666;
   font-size: 12px;
+  white-space: nowrap;
 }
 .duration.visible, .ringingCalls.visible, .onHoldCalls.visible {
   top: 50%;
@@ -291,8 +292,10 @@
 }
 .ringingCalls, .onHoldCalls {
   @include callInfo;
-  width: 100px;
+  max-width: 100px;
   margin-left: -97px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .ringingCalls.center, .onHoldCalls.center {
   margin-left: -50px;
@@ -302,13 +305,15 @@
   position: absolute;
   top: -50%;
   left: 50%;
-  width: 73px;
+  padding: 0 5px;
   height: 18px;
   line-height: 18px;
   border-radius: 10.5px;
   font-size: 11px;
   margin-top: -10px;
   margin-left: -13px;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .currentCallBtn {
