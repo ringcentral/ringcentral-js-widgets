@@ -77,6 +77,7 @@ export default class CallLogger extends LoggerBase {
 
     this._lastProcessedCalls = null;
     this._lastProcessedEndedCalls = null;
+    this._customMatcherHooks = [];
   }
 
   _onReset() {
@@ -172,10 +173,12 @@ export default class CallLogger extends LoggerBase {
     );
   }
   _customMatcherCheck(sessionId) {
-    return (
-      typeof this._customMatcherFunc === 'function' &&
-      this._customMatcherFunc(sessionId)
-    ) || (this._customMatcherFunc === undefined);
+    return this._customMatcherHooks.some((hook) => {
+      return hook(sessionId);
+    });
+  }
+  _addCustomMatcherHooks(hook) {
+    this._customMatcherHooks.push(hook);
   }
   async _onNewCall(call, triggerType) {
     if (await this._shouldLogNewCall(call)) {
