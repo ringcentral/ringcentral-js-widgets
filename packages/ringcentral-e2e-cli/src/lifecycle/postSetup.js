@@ -178,7 +178,7 @@ function testCase(caseParams, fn) {
             const isUT = /UT$/.test(driver);
             if (!isUT) {
               if (isSandbox) {
-                await instance.driver.run();
+                await instance.driver.run(config);
                 await instance.driver.newPage();
               }
               await instance.driver.goto(config);

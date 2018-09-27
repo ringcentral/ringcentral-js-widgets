@@ -17,6 +17,7 @@ module.exports = {
     tags: [
       ['widgets'],
       ['salesforce'],
+      ['google'],
     ],
   },
   defaults: {
@@ -47,13 +48,16 @@ module.exports = {
     projects: {
       google: {
         type: 'extension',
+        source: './src/targets/google',
         params: {
           brands: {
             rc: {
-              location: '../../../resources/google/rc',
+              extension: './resources/extension/google/rc',
+              location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
             },
             att: {
-              location: '../../../resources/google/att',
+              extension: './resources/extension/google/att',
+              location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
             }
           }
         }
@@ -68,7 +72,6 @@ module.exports = {
           ],
           brands: {
             rc: {
-              
               location: 'https://login.salesforce.com/',
             },
             att: {
