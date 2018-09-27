@@ -493,9 +493,9 @@ export default class CallMonitor extends RcModule {
     });
   }
 
-  simplifiedControlClickMergeTrack() {
+  mergeControlClickHangupTrack() {
     this.store.dispatch({
-      type: this.actionTypes.simplifiedControlClickMergeTrack
+      type: this.actionTypes.mergeControlClickHangupTrack
     });
   }
 

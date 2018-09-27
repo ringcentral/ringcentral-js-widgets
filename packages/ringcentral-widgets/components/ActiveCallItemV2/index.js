@@ -57,12 +57,12 @@ function WebphoneButtons({
         <CircleButton
           className={styles.answerButton}
           onClick={(e) => {
-                e.stopPropagation();
-                webphoneAnswer(session.id);
-              }}
+            e.stopPropagation();
+            webphoneAnswer(session.id);
+          }}
           icon={AnswerIcon}
           showBorder={false}
-            />
+        />
       </span>
     );
   }
@@ -214,7 +214,7 @@ function RingoutButtons({
           }}
           icon={EndIcon}
           showBorder={false}
-            />
+        />
       </span>
     );
   } else {
@@ -235,7 +235,7 @@ function RingoutButtons({
           }}
           icon={EndIcon}
           showBorder={false}
-            />
+        />
       </span>
     );
   }
@@ -255,17 +255,17 @@ function RingoutButtons({
             })
           }
           onClick={(e) => {
-                e.stopPropagation();
-                ringoutTransfer(sessionId);
+            e.stopPropagation();
+            ringoutTransfer(sessionId);
           }}
           icon={TransferIcon}
-            />
+        />
       </span>
     );
   }
 
   return (
-    <div>
+    <div className={styles.ringoutButtons}>
       {endButton}
       {transferBtn}
     </div>
@@ -577,7 +577,7 @@ export default class ActiveCallItem extends Component {
                     disableMerge={disableMerge}
                     onMergeCall={onMergeCall}
                     webphoneAnswer={webphoneAnswer}
-                /> :
+                  /> :
                   <RingoutButtons
                     showRingoutCallControl={showRingoutCallControl}
                     sessionId={sessionId}
@@ -588,12 +588,12 @@ export default class ActiveCallItem extends Component {
                     ringoutReject={ringoutReject}
                     ringoutHangup={ringoutHangup}
                     ringoutTransfer={ringoutTransfer}
-                />
+                  />
               }
               {extraButton}
             </div>
-        }
-      />
+          }
+        />
       </div>
     );
   }

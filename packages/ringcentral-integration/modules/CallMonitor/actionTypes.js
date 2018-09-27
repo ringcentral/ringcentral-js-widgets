@@ -10,7 +10,6 @@ export default new Enum([
   'allCallsClickHangupTrack',
   'allCallsClickRejectTrack',
   'callControlClickAddTrack',
-  'simplifiedControlClickMergeTrack',
   'callControlClickMergeTrack',
   'confirmMergeClickCloseTrack',
   'confirmMergeClickMergeTrack',
@@ -18,4 +17,5 @@ export default new Enum([
   'callsOnHoldClickMergeTrack',
   'callsOnHoldClickHangupTrack',
   'callControlClickParticipantAreaClickTrack',
+  'mergeControlClickHangupTrack',
 ], 'callMonitorAcionTypes');

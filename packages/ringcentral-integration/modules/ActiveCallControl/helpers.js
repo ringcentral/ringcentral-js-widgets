@@ -9,7 +9,7 @@ export function isHangUp(code) {
 }
 export function isReject({ direction, code }) {
   return (direction === callDirections.inbound) &&
-  (code === activeCallControlStatus.setUp || code === activeCallControlStatus.proceeding);
+    (code === activeCallControlStatus.setUp || code === activeCallControlStatus.proceeding);
 }
 export function normalizeSession({
   call,
@@ -27,8 +27,8 @@ export function normalizeSession({
     sessionId,
   } = call;
   const {
-    muted,
-    code,
+    isOnMute,
+    isOnHold,
     isReject,
     isOnRecording,
   } = activeSessionStatus;
@@ -46,10 +46,10 @@ export function normalizeSession({
     callStatus: telephonyStatus || result,
     startTime,
     creationTime: startTime,
-    isOnMute: muted,
+    isOnMute,
     isForwarded: false,
     isOnFlip: false,
-    isOnHold: code === activeCallControlStatus.hold,
+    isOnHold,
     isOnTransfer: false,
     isReplied: false,
     isToVoicemail: false,
