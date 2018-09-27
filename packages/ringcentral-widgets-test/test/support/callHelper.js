@@ -154,8 +154,8 @@ export function mockActiveCalls(webphoneSessions, mockOtherDeivce = [], ringSess
   };
   return webphoneSessions.reduce((calls, session) => {
     const telephonyStatus = ringSessionIds.includes(session.id)
-      ? telephonyStatuses.onHold
-      : telephonyStatuses.ringing;
+      ? telephonyStatuses.ringing
+      : telephonyStatuses.onHold;
     if (isConferenceSession(session)) {
       return calls.concat({
         ...commons,
