@@ -21,7 +21,7 @@ class CallCtrlPage extends Component {
       addDisabled,
     };
 
-    this.onLastMergingCallEnded = this::this.onLastMergingCallEnded;
+    this.onLastMergingCallEnded = this:: this.onLastMergingCallEnded;
 
     this.onSelectMatcherName = (option) => {
       const nameMatches = this.props.nameMatches || [];
@@ -72,6 +72,8 @@ class CallCtrlPage extends Component {
       this.props.onMerge(this.props.session.id);
     this.onBeforeMerge = () =>
       this.props.onBeforeMerge(this.props.session.id);
+    this.gotoParticipantsCtrl = () =>
+      this.props.gotoParticipantsCtrl(this.props.session.id);
   }
 
   static isLastCallEnded({ lastCallInfo }) {
@@ -110,7 +112,7 @@ class CallCtrlPage extends Component {
     let addDisabled = isMergeAndAddDisabled;
     if (
       layout === callCtrlLayouts.mergeCtrl
-    && (!lastCallInfo || lastCallInfo.status === sessionStatus.finished)
+      && (!lastCallInfo || lastCallInfo.status === sessionStatus.finished)
     ) {
       mergeDisabled = true;
     }
@@ -163,12 +165,12 @@ class CallCtrlPage extends Component {
       }
     } else if (
       layout === callCtrlLayouts.mergeCtrl
-        && CallCtrlPage.isLastCallEnded(this.props) === false
-        && CallCtrlPage.isLastCallEnded(nextProps) === true
+      && CallCtrlPage.isLastCallEnded(this.props) === false
+      && CallCtrlPage.isLastCallEnded(nextProps) === true
     ) {
       this.onLastMergingCallEnded();
     } else if (layout === callCtrlLayouts.conferenceCtrl &&
-        this.props.conferenceCallParties !== nextProps.conferenceCallParties) {
+      this.props.conferenceCallParties !== nextProps.conferenceCallParties) {
       this._updateCurrentConferenceCall(nextProps);
     }
     this._updateMergeAddButtonDisabled(nextProps, layout);
@@ -305,7 +307,7 @@ class CallCtrlPage extends Component {
         conferenceCallParties={this.props.conferenceCallParties}
         lastCallInfo={this.props.lastCallInfo}
         getAvatarUrl={this.props.getAvatarUrl}
-        gotoParticipantsCtrl={this.props.gotoParticipantsCtrl}
+        gotoParticipantsCtrl={this.gotoParticipantsCtrl}
         afterHideMergeConfirm={this.props.afterHideMergeConfirm}
         afterConfirmMerge={this.props.afterConfirmMerge}
         afterOnMerge={this.props.afterOnMerge}
