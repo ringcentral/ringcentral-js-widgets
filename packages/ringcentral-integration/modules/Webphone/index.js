@@ -1209,7 +1209,7 @@ export default class Webphone extends RcModule {
 
   _onCallStart(session) {
     this._addSession(session);
-    const normalizedSession = normalizeSession(session);
+    const normalizedSession = find(x => x.id === session.id, this.sessions);
     this.store.dispatch({
       type: this.actionTypes.callStart,
       session: normalizedSession,
@@ -1231,7 +1231,7 @@ export default class Webphone extends RcModule {
 
   _onCallRing(session) {
     this._addSession(session);
-    const normalizedSession = normalizeSession(session);
+    const normalizedSession = find(x => x.id === session.id, this.sessions);
     this.store.dispatch({
       type: this.actionTypes.callRing,
       session: normalizedSession,
@@ -1255,7 +1255,7 @@ export default class Webphone extends RcModule {
   }
 
   _onBeforeCallEnd(session) {
-    const normalizedSession = normalizeSession(session);
+    const normalizedSession = find(x => x.id === session.id, this.sessions);
     if (typeof this._onBeforeCallEndFunc === 'function') {
       this._onBeforeCallEndFunc(normalizedSession, this.activeSession);
     }
@@ -1265,8 +1265,11 @@ export default class Webphone extends RcModule {
   }
 
   _onCallEnd(session) {
+    const normalizedSession = find(x => x.id === session.id, this.sessions);
+    if (!normalizedSession) {
+      return;
+    }
     this._removeSession(session);
-    const normalizedSession = normalizeSession(session);
     this.store.dispatch({
       type: this.actionTypes.callEnd,
       session: normalizedSession,
