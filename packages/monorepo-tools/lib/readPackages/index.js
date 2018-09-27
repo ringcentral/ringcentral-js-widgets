@@ -4,7 +4,7 @@ import asyncReduce from '@ringcentral-integration/utils/lib/asyncReduce';
 import readGlob from '../readGlob';
 
 
-export default async function readPackages({ cwd = process.cwd() }) {
+export default async function readPackages({ cwd = process.cwd() } = {}) {
   const globString = '{**/packages/*/package.json,package.json}';
   const packages = (await readGlob(globString, { cwd }))
     .map(f => path.resolve(cwd, f));
