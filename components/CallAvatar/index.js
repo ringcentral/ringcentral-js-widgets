@@ -85,7 +85,7 @@ var CallAvatar = function (_Component) {
       var avatarUrl = props.avatarUrl;
 
 
-      if (isBlobURL(avatarUrl) || isBase64(avatarUrl)) {
+      if (isBase64(avatarUrl)) {
         this.setState({
           avatarUrl: avatarUrl
         });

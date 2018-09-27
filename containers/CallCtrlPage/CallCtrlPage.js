@@ -157,6 +157,9 @@ var CallCtrlPage = function (_Component) {
     _this.onBeforeMerge = function () {
       return _this.props.onBeforeMerge(_this.props.session.id);
     };
+    _this.gotoParticipantsCtrl = function () {
+      return _this.props.gotoParticipantsCtrl(_this.props.session.id);
+    };
     return _this;
   }
 
@@ -412,7 +415,7 @@ var CallCtrlPage = function (_Component) {
           conferenceCallParties: this.props.conferenceCallParties,
           lastCallInfo: this.props.lastCallInfo,
           getAvatarUrl: this.props.getAvatarUrl,
-          gotoParticipantsCtrl: this.props.gotoParticipantsCtrl,
+          gotoParticipantsCtrl: this.gotoParticipantsCtrl,
           afterHideMergeConfirm: this.props.afterHideMergeConfirm,
           afterConfirmMerge: this.props.afterConfirmMerge,
           afterOnMerge: this.props.afterOnMerge

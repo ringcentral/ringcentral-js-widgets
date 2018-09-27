@@ -80,7 +80,7 @@ var CallBadge = function (_Component) {
         _this.props.toggleMinimized(_this.props.session.id);
         return;
       }
-      _this.props.goToCallCtrl();
+      _this.props.goToCallCtrl(_this.props.session.id);
     };
     return _this;
   }
