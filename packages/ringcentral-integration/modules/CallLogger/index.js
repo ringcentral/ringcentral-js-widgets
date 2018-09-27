@@ -63,10 +63,10 @@ export default class CallLogger extends LoggerBase {
       getDataReducer,
       identityFunction: callIdentityFunction,
     });
-    this._storage = this::ensureExist(storage, 'storage');
-    this._callMonitor = this::ensureExist(callMonitor, 'callMonitor');
-    this._contactMatcher = this::ensureExist(contactMatcher, 'contactMatcher');
-    this._activityMatcher = this::ensureExist(activityMatcher, 'activityMatcher');
+    this._storage = this:: ensureExist(storage, 'storage');
+    this._callMonitor = this:: ensureExist(callMonitor, 'callMonitor');
+    this._contactMatcher = this:: ensureExist(contactMatcher, 'contactMatcher');
+    this._activityMatcher = this:: ensureExist(activityMatcher, 'activityMatcher');
     this._callHistory = callHistory;
     this._tabManager = tabManager;
     this._storageKey = `${this._name}Data`;
@@ -77,6 +77,7 @@ export default class CallLogger extends LoggerBase {
 
     this._lastProcessedCalls = null;
     this._lastProcessedEndedCalls = null;
+    this._customMatcherHooks = [];
   }
 
   _onReset() {
@@ -142,7 +143,7 @@ export default class CallLogger extends LoggerBase {
       ...options,
       call: {
         ...call,
-        duration: call::Object.prototype.hasOwnProperty('duration') ?
+        duration: call:: Object.prototype.hasOwnProperty('duration') ?
           call.duration :
           Math.round((Date.now() - call.startTime) / 1000),
         result: call.result || call.telephonyStatus,
@@ -155,7 +156,7 @@ export default class CallLogger extends LoggerBase {
     await this.log({
       call: {
         ...call,
-        duration: call::Object.prototype.hasOwnProperty('duration') ?
+        duration: call:: Object.prototype.hasOwnProperty('duration') ?
           call.duration :
           Math.round((Date.now() - call.startTime) / 1000),
         result: call.result || call.telephonyStatus,
@@ -165,13 +166,25 @@ export default class CallLogger extends LoggerBase {
       triggerType
     });
   }
+  _activityMatcherCheck(sessionId) {
+    return (
+      !this._activityMatcher.dataMapping[sessionId] ||
+      !this._activityMatcher.dataMapping[sessionId].length
+    );
+  }
+  _customMatcherCheck(sessionId) {
+    return this._customMatcherHooks.some(hook => hook(sessionId));
+  }
+  addCustomMatcherHook(hook) {
+    this._customMatcherHooks.push(hook);
+  }
   async _onNewCall(call, triggerType) {
     if (await this._shouldLogNewCall(call)) {
       // RCINT-3857 check activity in case instance was reloaded when call is still active
       await this._activityMatcher.triggerMatch();
       if (
-        !this._activityMatcher.dataMapping[call.sessionId] ||
-        !this._activityMatcher.dataMapping[call.sessionId].length
+        this._activityMatcherCheck(call.sessionId) &&
+        this._customMatcherCheck(call.sessionId)
       ) {
         // is completely new, need entity information
         await this._contactMatcher.triggerMatch();
@@ -207,8 +220,8 @@ export default class CallLogger extends LoggerBase {
         });
       } else {
         // only update call information if call has been logged
-        await this._autoLogCall({ 
-          call,  
+        await this._autoLogCall({
+          call,
           triggerType
         });
       }
@@ -240,7 +253,6 @@ export default class CallLogger extends LoggerBase {
 
         removeDuplicateSelfCalls(this._lastProcessedCalls).forEach((call) => {
           const oldCallIndex = oldCalls.findIndex(item => item.sessionId === call.sessionId);
-
           if (oldCallIndex === -1) {
             this._onNewCall(call, callLoggerTriggerTypes.presenceUpdate);
           } else {
