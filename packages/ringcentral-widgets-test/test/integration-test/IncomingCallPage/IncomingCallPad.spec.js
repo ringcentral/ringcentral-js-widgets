@@ -240,7 +240,7 @@ describe('Check Answer and End Button', () => {
       expect(acceptFn.mock.calls[0]).toContain(sid111);
       expect(terminateFn.mock.calls[0]).toContain(sid111);
       expect(phone.webphone.sessions[0].callStatus).toEqual(sessionStatus.connected);
-      expect(wrapper.find(ActiveCallPanel)).toHaveLength(1);
+      expect(wrapper.find(ActiveCallPanel)).toHaveLength(0);
       expect(wrapper.find(IncomingCallPanel)).toHaveLength(0);
       done();
     }
@@ -264,7 +264,7 @@ describe('Check Answer and End Button', () => {
       expect(terminateFn.mock.calls[0]).toContain(sidOutbound);
       expect(acceptFn.mock.calls[0]).toContain(sid222);
       expect(phone.webphone.sessions[0].callStatus).toEqual(sessionStatus.connected);
-      expect(wrapper.find(ActiveCallPanel)).toHaveLength(1);
+      expect(wrapper.find(ActiveCallPanel)).toHaveLength(0);
       expect(wrapper.find(IncomingCallPanel)).toHaveLength(0);
       done();
     }
