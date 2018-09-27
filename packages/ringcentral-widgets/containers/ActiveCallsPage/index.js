@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
+import callDirections from 'ringcentral-integration/enums/callDirections';
 import { isRinging, isRingingInboundCall } from 'ringcentral-integration/lib/callLogHelpers';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 import { withPhone } from '../../lib/phoneContext';
@@ -87,8 +88,21 @@ function mapToFunctions(_, {
         countryCode: regionSettings.countryCode,
       });
     },
-    async webphoneAnswer(...args) {
-      return (webphone && webphone.answer(...args));
+    async webphoneAnswer(sessionId) {
+      if (!webphone) {
+        return;
+      }
+
+      const session = webphone.sessions.find(session => session.id === sessionId);
+      if (
+        conferenceCall &&
+        session &&
+        session.direction === callDirections.inbound
+      ) {
+        conferenceCall.closeMergingPair();
+      }
+
+      webphone.answer(sessionId);
     },
     async webphoneToVoicemail(...args) {
       return (webphone && webphone.toVoiceMail(...args));

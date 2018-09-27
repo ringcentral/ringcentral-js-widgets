@@ -285,6 +285,7 @@ export default class CallsListPanel extends Component {
           title={currentLog.title}
           show={currentLog.showLog}
           onClose={onCloseLogSection}
+          clickOutToClose={false}
           containerStyles={sectionContainerStyles}
           modalStyles={sectionModalStyles}>
           <LogSection
