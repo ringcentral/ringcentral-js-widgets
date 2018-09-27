@@ -28,7 +28,7 @@ class CallAvatar extends Component {
   loadImg(props = this.props) {
     const { avatarUrl } = props;
 
-    if (isBlobURL(avatarUrl) || isBase64(avatarUrl)) {
+    if (isBase64(avatarUrl)) {
       this.setState({
         avatarUrl
       });
