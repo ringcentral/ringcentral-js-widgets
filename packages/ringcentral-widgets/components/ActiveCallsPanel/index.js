@@ -72,6 +72,7 @@ export default class ActiveCallsPanel extends Component {
           title={currentLog.title}
           show={currentLog.showLog}
           onClose={onCloseLogSection}
+          clickOutToClose={false}
           // containerStyles={sectionContainerStyles}
           // modalStyles={sectionModalStyles}
           >
@@ -79,7 +80,7 @@ export default class ActiveCallsPanel extends Component {
             currentLocale={currentLocale}
             currentLog={currentLog}
             // additionalInfo={additionalInfo}
-            isInnerMask={false}
+            isInnerMask={logNotification && logNotification.notificationIsExpand}
             renderEditLogSection={renderEditLogSection}
             renderSaveLogButton={renderSaveLogButton}
             formatPhone={formatPhone}
