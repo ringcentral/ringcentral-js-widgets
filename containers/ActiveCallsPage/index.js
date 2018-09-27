@@ -19,6 +19,10 @@ var _formatNumber = require('ringcentral-integration/lib/formatNumber');
 
 var _formatNumber2 = _interopRequireDefault(_formatNumber);
 
+var _callDirections = require('ringcentral-integration/enums/callDirections');
+
+var _callDirections2 = _interopRequireDefault(_callDirections);
+
 var _callLogHelpers = require('ringcentral-integration/lib/callLogHelpers');
 
 var _callingModes = require('ringcentral-integration/modules/CallingSettings/callingModes');
@@ -113,15 +117,31 @@ function mapToFunctions(_, _ref2) {
       });
     },
     webphoneAnswer: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-        var _args = arguments;
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(sessionId) {
+        var session;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                return _context.abrupt('return', webphone && webphone.answer.apply(webphone, _args));
+                if (webphone) {
+                  _context.next = 2;
+                  break;
+                }
 
-              case 1:
+                return _context.abrupt('return');
+
+              case 2:
+                session = webphone.sessions.find(function (session) {
+                  return session.id === sessionId;
+                });
+
+                if (conferenceCall && session && session.direction === _callDirections2.default.inbound) {
+                  conferenceCall.closeMergingPair();
+                }
+
+                webphone.answer(sessionId);
+
+              case 5:
               case 'end':
                 return _context.stop();
             }
@@ -129,7 +149,7 @@ function mapToFunctions(_, _ref2) {
         }, _callee, this);
       }));
 
-      function webphoneAnswer() {
+      function webphoneAnswer(_x) {
         return _ref3.apply(this, arguments);
       }
 
@@ -310,7 +330,7 @@ function mapToFunctions(_, _ref2) {
         }, _callee8, this);
       }));
 
-      function ringoutTransfer(_x) {
+      function ringoutTransfer(_x2) {
         return _ref10.apply(this, arguments);
       }
 
@@ -334,7 +354,7 @@ function mapToFunctions(_, _ref2) {
         }, _callee9, this);
       }));
 
-      function ringoutReject(_x2) {
+      function ringoutReject(_x3) {
         return _ref11.apply(this, arguments);
       }
 
@@ -374,7 +394,7 @@ function mapToFunctions(_, _ref2) {
         }, _callee10, _this);
       }));
 
-      return function (_x4) {
+      return function (_x5) {
         return _ref13.apply(this, arguments);
       };
     }() : undefined,
@@ -417,7 +437,7 @@ function mapToFunctions(_, _ref2) {
         }, _callee11, _this);
       }));
 
-      return function (_x5) {
+      return function (_x6) {
         return _ref15.apply(this, arguments);
       };
     }() : undefined,
@@ -447,7 +467,7 @@ function mapToFunctions(_, _ref2) {
         }, _callee12, _this);
       }));
 
-      return function (_x6) {
+      return function (_x7) {
         return _ref17.apply(this, arguments);
       };
     }(),
