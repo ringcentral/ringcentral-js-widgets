@@ -78,10 +78,11 @@ export default class AdapterModuleCore extends RcModule {
 
     this.addSelector(
       'localeStrings',
+      () => this._locale.ready,
       () => this._locale.currentLocale,
       () => this._callMonitor.activeRingCalls.length,
       () => this._callMonitor.activeOnHoldCalls.length,
-      (currentLocale, ringingCallsLength, onHoldCallsLength) => {
+      (localeReady, currentLocale, ringingCallsLength, onHoldCallsLength) => {
         const ringCallsInfo = ringingCallsLength === 1 ?
           formatMessage(headerI18n.getString('incomingCall', currentLocale), { numberOf: ringingCallsLength }) :
           formatMessage(headerI18n.getString('incomingCalls', currentLocale), { numberOf: ringingCallsLength });

@@ -647,6 +647,9 @@ export default class AdapterCore {
   }
 
   rotateCallInfo() {
+    if (this._hoverBar && this.callInfoMap[this.currentState]) {
+      return;
+    }
     this.lastState = this.currentState;
     this.currentState = this.increment(this.currentState);
     while (!this.callInfoMap[this.currentState]) {
@@ -708,21 +711,21 @@ export default class AdapterCore {
     ));
     this._durationEl.setAttribute('class', classnames(
       this._styles.duration,
-      !this._scrollable && !this._hoverBar && this.showDuration && this._styles.visible,
+      !this._scrollable && this.showDuration && this._styles.visible,
       this._onCurrentCallPath && this._styles.center,
       this.moveOutDuration && this._styles.moveOut,
       this.moveInDuration && this._styles.moveIn,
     ));
     this._ringingCallsEl.setAttribute('class', classnames(
       this._styles.ringingCalls,
-      !this._scrollable && !this._hoverBar && this.showRingingCalls && this._styles.visible,
+      !this._scrollable && this.showRingingCalls && this._styles.visible,
       this._onAllCallsPath && this._styles.center,
       this.moveOutRingingInfo && this._styles.moveOut,
       this.moveInRingingInfo && this._styles.moveIn,
     ));
     this._onHoldCallsEl.setAttribute('class', classnames(
       this._styles.onHoldCalls,
-      !this._scrollable && !this._hoverBar && this.showOnHoldCalls && this._styles.visible,
+      !this._scrollable && this.showOnHoldCalls && this._styles.visible,
       this._onAllCallsPath && this._styles.center,
       this.moveOutOnHoldInfo && this._styles.moveOut,
       this.moveInOnHoldInfo && this._styles.moveIn,
@@ -730,14 +733,11 @@ export default class AdapterCore {
     this._currentCallEl.setAttribute('class', classnames(
       this._styles.currentCallBtn,
       !this._scrollable && this.showCurrentCallBtn && this._styles.visible,
-      this._hoverBar && this._styles.visible,
-      this._hoverBar && this._styles.left,
       this.moveOutCurrentCallBtn && this._styles.moveOut,
       this.moveInCurrentCallBtn && this._styles.moveIn,
     ));
     this._viewCallsEl.setAttribute('class', classnames(
       this._styles.viewCallsBtn,
-      this._hoverBar && this._styles.visible,
       !this._scrollable && this.showViewCallsBtn && this._styles.visible,
       !this.moveInViewCallsBtn && this.moveOutViewCallsBtn && this._styles.moveOut,
       this.moveInViewCallsBtn && this._styles.moveIn,
@@ -762,6 +762,7 @@ export default class AdapterCore {
       return;
     }
     this._ringingCallsEl.innerHTML = this._strings.ringCallsInfo;
+    this._ringingCallsEl.title = this._strings.ringCallsInfo;
   }
 
   _renderOnHoldCalls() {
@@ -769,6 +770,7 @@ export default class AdapterCore {
       return;
     }
     this._onHoldCallsEl.innerHTML = this._strings.onHoldCallsInfo;
+    this._onHoldCallsEl.title = this._strings.onHoldCallsInfo;
   }
 
   _renderCallBarBtn() {
