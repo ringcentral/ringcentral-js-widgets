@@ -82,18 +82,18 @@ export default class CallMonitorBar extends Component {
     const numberOfOnHoldCalls = onHoldCalls.length;
 
     return (
-      <div className={styles.bar} onMouseOver={this.showBtn} onMouseLeave={this.hideBtn} onClick={this.hideBtn}>
+      <div className={styles.bar} onMouseOver={this.showBtn} onMouseLeave={this.hideBtn}>
         <div className={classnames(styles.box, (this.state.hoverShow ? styles.show : styles.hide))}>
           <Button
             className={styles.currentCallBtn}
             onClick={onCurrentCallBtnClick}
-            >
+          >
             {i18n.getString('currentCall', currentLocale)}
           </Button>
           <Button
             className={styles.viewCallsBtn}
             onClick={onViewCallBtnClick}
-            >
+          >
             {i18n.getString('viewCalls', currentLocale)}
           </Button>
         </div>
