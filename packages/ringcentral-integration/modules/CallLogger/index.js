@@ -175,7 +175,7 @@ export default class CallLogger extends LoggerBase {
   _customMatcherCheck(sessionId) {
     return this._customMatcherHooks.some(hook => hook(sessionId));
   }
-  _addCustomMatcherHooks(hook) {
+  addCustomMatcherHook(hook) {
     this._customMatcherHooks.push(hook);
   }
   async _onNewCall(call, triggerType) {
