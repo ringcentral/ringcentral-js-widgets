@@ -172,6 +172,7 @@ var CallLogger = (_dec = (0, _di.Module)({
 
     _this._lastProcessedCalls = null;
     _this._lastProcessedEndedCalls = null;
+    _this._customMatcherHooks = [];
     return _this;
   }
 
@@ -364,6 +365,23 @@ var CallLogger = (_dec = (0, _di.Module)({
       return _autoLogCall;
     }()
   }, {
+    key: '_activityMatcherCheck',
+    value: function _activityMatcherCheck(sessionId) {
+      return !this._activityMatcher.dataMapping[sessionId] || !this._activityMatcher.dataMapping[sessionId].length;
+    }
+  }, {
+    key: '_customMatcherCheck',
+    value: function _customMatcherCheck(sessionId) {
+      return this._customMatcherHooks.some(function (hook) {
+        return hook(sessionId);
+      });
+    }
+  }, {
+    key: 'addCustomMatcherHook',
+    value: function addCustomMatcherHook(hook) {
+      this._customMatcherHooks.push(hook);
+    }
+  }, {
     key: '_onNewCall',
     value: function () {
       var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(call, triggerType) {
@@ -385,7 +403,7 @@ var CallLogger = (_dec = (0, _di.Module)({
                 return this._activityMatcher.triggerMatch();
 
               case 5:
-                if (!(!this._activityMatcher.dataMapping[call.sessionId] || !this._activityMatcher.dataMapping[call.sessionId].length)) {
+                if (!(this._activityMatcherCheck(call.sessionId) && this._customMatcherCheck(call.sessionId))) {
                   _context6.next = 18;
                   break;
                 }
@@ -542,7 +560,6 @@ var CallLogger = (_dec = (0, _di.Module)({
             var oldCallIndex = oldCalls.findIndex(function (item) {
               return item.sessionId === call.sessionId;
             });
-
             if (oldCallIndex === -1) {
               _this2._onNewCall(call, _callLoggerTriggerTypes2.default.presenceUpdate);
             } else {
