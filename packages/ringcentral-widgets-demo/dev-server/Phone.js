@@ -247,18 +247,19 @@ export default class BasePhone extends RcModule {
         }
       }
 
+      const withinCallCtrl = !![
+        '/calls/active',
+        '/conferenceCall/dialer/',
+        '/conferenceCall/callsOnhold',
+        '/conferenceCall/participants',
+      ].find(path => routerInteraction.currentPath.indexOf(path) === 0);
+
       if (
-        !![
-          '/conferenceCall/dialer/',
-          '/calls/active',
-          '/conferenceCall/participants',
-        ].find(path => routerInteraction.currentPath.indexOf(path) !== -1)
+        withinCallCtrl
         && (!currentSession || session.id === currentSession.id)
         && !ringSession
       ) {
-        if (
-          !currentSession
-        ) {
+        if (!currentSession) {
           routerInteraction.replace('/dialer');
           return;
         }
