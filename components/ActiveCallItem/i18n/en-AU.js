@@ -31,7 +31,9 @@ exports.default = {
   anonymous: "Anonymous",
   mergeToConference: "Merge",
   hold: "Hold",
-  unhold: "Unhold"
+  unhold: "Unhold",
+  transfer: "Transfer",
+  reject: "Reject"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -62,4 +64,6 @@ exports.default = {
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
+// @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
+// @key: @#@"reject"@#@ @source: @#@"Reject"@#@
 //# sourceMappingURL=en-AU.js.map

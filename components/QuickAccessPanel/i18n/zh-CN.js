@@ -4,15 +4,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  textGoogle: "Only show in {appName} apps",
-  textAll: "Show on all websites except my blacklist",
-  textUser: "Show on the websites I specify",
-  title: "Choose where {brandName} Quick Access appears: ",
-  descriptionAll: "Go to {optionsLink} to define your blacklist.",
-  descriptionUser: "Go to {optionsLink}  to define your specific websites.",
-  extensionOptions: "Extension Options",
-  Confirm: "Confirm",
-  Cancel: "Cancel"
+  textGoogle: "只显示在 {appName} 应用中",
+  textAll: "显示在除了黑名单之外的所有网站上",
+  textUser: "显示在我指定的网站上",
+  title: "选择显示 {brandName} Quick Access 的位置：",
+  descriptionAll: "转至 {optionsLink} 以定义黑名单。",
+  descriptionUser: "转至 {optionsLink} 以定义指定网站。",
+  extensionOptions: "分机选项",
+  Confirm: "确认",
+  Cancel: "取消"
 };
 
 // @key: @#@"textGoogle"@#@ @source: @#@"Only show in {appName} apps"@#@

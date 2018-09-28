@@ -20,7 +20,8 @@ exports.default = {
   audio: "音訊",
   language: "語言",
   feedback: "意見回饋",
-  userGuide: "新功能"
+  userGuide: "新功能",
+  quickAccess: "快速存取設定"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -40,4 +41,5 @@ exports.default = {
 // @key: @#@"language"@#@ @source: @#@"Language"@#@
 // @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
+// @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
 //# sourceMappingURL=zh-HK.js.map

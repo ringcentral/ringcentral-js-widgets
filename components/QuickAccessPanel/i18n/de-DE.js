@@ -4,15 +4,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  textGoogle: "Only show in {appName} apps",
-  textAll: "Show on all websites except my blacklist",
-  textUser: "Show on the websites I specify",
-  title: "Choose where {brandName} Quick Access appears: ",
-  descriptionAll: "Go to {optionsLink} to define your blacklist.",
-  descriptionUser: "Go to {optionsLink}  to define your specific websites.",
-  extensionOptions: "Extension Options",
-  Confirm: "Confirm",
-  Cancel: "Cancel"
+  textGoogle: "Nur in {appName} Apps anzeigen",
+  textAll: "Auf allen Websites außer meiner Blacklist anzeigen",
+  textUser: "Auf den von mir angegebenen Websites anzeigen",
+  title: "Wählen Sie aus, wo der {brandName}-Schnellzugriff angezeigt werden soll: ",
+  descriptionAll: "Navigieren Sie zu {optionsLink}, um Ihre Blacklist zu definieren.",
+  descriptionUser: "Navigieren Sie zu {optionsLink}, um Ihre spezifischen Websites zu definieren.",
+  extensionOptions: "Erweiterungsoptionen",
+  Confirm: "Bestätigen",
+  Cancel: "Abbrechen"
 };
 
 // @key: @#@"textGoogle"@#@ @source: @#@"Only show in {appName} apps"@#@

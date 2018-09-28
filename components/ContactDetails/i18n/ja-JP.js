@@ -26,7 +26,7 @@ exports.default = (_extensionLabel$direc = {
   emailLabel: "Eメール",
   call: "通話",
   text: "テキスト"
-}, (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.available, "利用可能"), (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.offline, "非表示"), (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.busy, "取り込み中"), (0, _defineProperty3.default)(_extensionLabel$direc, _dndStatus2.default.doNotAcceptAnyCalls, "応答不可"), (0, _defineProperty3.default)(_extensionLabel$direc, 'notActivated', "Inactive"), _extensionLabel$direc);
+}, (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.available, "利用可能"), (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.offline, "非表示"), (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.busy, "取り込み中"), (0, _defineProperty3.default)(_extensionLabel$direc, _dndStatus2.default.doNotAcceptAnyCalls, "応答不可"), (0, _defineProperty3.default)(_extensionLabel$direc, 'notActivated', "非アクティブ"), _extensionLabel$direc);
 
 // @key: @#@"extensionLabel"@#@ @source: @#@"Ext."@#@
 // @key: @#@"directLabel"@#@ @source: @#@"Direct"@#@

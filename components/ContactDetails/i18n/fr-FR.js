@@ -26,7 +26,7 @@ exports.default = (_extensionLabel$direc = {
   emailLabel: "E-mail",
   call: "Appeler",
   text: "Texte"
-}, (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.available, "Disponible"), (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.offline, "Invisible"), (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.busy, "Occupé(e)"), (0, _defineProperty3.default)(_extensionLabel$direc, _dndStatus2.default.doNotAcceptAnyCalls, "Ne pas déranger"), (0, _defineProperty3.default)(_extensionLabel$direc, 'notActivated', "Inactive"), _extensionLabel$direc);
+}, (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.available, "Disponible"), (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.offline, "Invisible"), (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.busy, "Occupé(e)"), (0, _defineProperty3.default)(_extensionLabel$direc, _dndStatus2.default.doNotAcceptAnyCalls, "Ne pas déranger"), (0, _defineProperty3.default)(_extensionLabel$direc, 'notActivated', "Inactif"), _extensionLabel$direc);
 
 // @key: @#@"extensionLabel"@#@ @source: @#@"Ext."@#@
 // @key: @#@"directLabel"@#@ @source: @#@"Direct"@#@

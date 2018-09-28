@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ContactItem/i18n/zh-HK.js"],"names":["notActivated"],"mappings":";;;;;kBAAe;AACbA,gBAAc;AADD,C;;AAIf","file":"zh-HK.js","sourcesContent":["export default {\n  notActivated: \"非使用中\"\n};\n\n// @key: @#@\"notActivated\"@#@ @source: @#@\"Inactive\"@#@\n"]}
