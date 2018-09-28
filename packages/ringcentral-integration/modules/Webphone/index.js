@@ -73,6 +73,7 @@ export default class Webphone extends RcModule {
    * @param {Function} params.onCallEnd - callback on a call end
    * @param {Function} params.onCallRing - callback on a call ring
    * @param {Function} params.onCallStart - callback on a call start
+   * @param {Function} params.onCallResume - callback on a call resume
    * @param {Function} params.onBeforeCallResume - callback before a call resume
    * @param {Function} params.onBeforeCallEnd - callback before a call hangup
    */
@@ -92,6 +93,7 @@ export default class Webphone extends RcModule {
     onCallEnd,
     onCallRing,
     onCallStart,
+    onCallResume,
     onBeforeCallResume,
     onBeforeCallEnd,
     ...options
@@ -125,12 +127,14 @@ export default class Webphone extends RcModule {
     if (typeof onCallStart === 'function') {
       this._onCallStartFunctions.push(onCallStart);
     }
-
+    this._onCallResumeFunctions = [];
+    if (typeof onCallResume === 'function') {
+      this._onCallResumeFunctions.push(onCallResume);
+    }
     this._onBeforeCallResumeFunctions = [];
     if (typeof onBeforeCallResume === 'function') {
       this._onBeforeCallResumeFunctions.push(onBeforeCallResume);
     }
-
     this._onBeforeCallEndFunctions = [];
     if (typeof onBeforeCallEnd === 'function') {
       this._onBeforeCallEndFunctions.push(onBeforeCallEnd);
@@ -882,7 +886,8 @@ export default class Webphone extends RcModule {
         this._holdOtherSession(session.id);
         this._onBeforeCallResume(session);
         await session.unhold();
-        this._onCallStart(session);
+        this._updateSessions();
+        this._onCallResume(session);
       }
     } catch (e) {
       console.log(e);
@@ -1209,7 +1214,7 @@ export default class Webphone extends RcModule {
 
   _onCallStart(session) {
     this._addSession(session);
-    const normalizedSession = normalizeSession(session);
+    const normalizedSession = find(x => x.id === session.id, this.sessions);
     this.store.dispatch({
       type: this.actionTypes.callStart,
       session: normalizedSession,
@@ -1231,7 +1236,7 @@ export default class Webphone extends RcModule {
 
   _onCallRing(session) {
     this._addSession(session);
-    const normalizedSession = normalizeSession(session);
+    const normalizedSession = find(x => x.id === session.id, this.sessions);
     this.store.dispatch({
       type: this.actionTypes.callRing,
       session: normalizedSession,
@@ -1255,7 +1260,7 @@ export default class Webphone extends RcModule {
   }
 
   _onBeforeCallEnd(session) {
-    const normalizedSession = normalizeSession(session);
+    const normalizedSession = find(x => x.id === session.id, this.sessions);
     if (typeof this._onBeforeCallEndFunc === 'function') {
       this._onBeforeCallEndFunc(normalizedSession, this.activeSession);
     }
@@ -1265,8 +1270,11 @@ export default class Webphone extends RcModule {
   }
 
   _onCallEnd(session) {
+    const normalizedSession = find(x => x.id === session.id, this.sessions);
+    if (!normalizedSession) {
+      return;
+    }
     this._removeSession(session);
-    const normalizedSession = normalizeSession(session);
     this.store.dispatch({
       type: this.actionTypes.callEnd,
       session: normalizedSession,
@@ -1281,11 +1289,22 @@ export default class Webphone extends RcModule {
   }
 
   _onBeforeCallResume(session) {
+    const normalizedSession = find(x => x.id === session.id, this.sessions);
     if (typeof this._onBeforeCallResumeFunc === 'function') {
-      this._onBeforeCallResumeFunc(session, this.activeSession);
+      this._onBeforeCallResumeFunc(normalizedSession, this.activeSession);
     }
     this._onBeforeCallResumeFunctions.forEach(
-      handler => handler(session, this.activeSession)
+      handler => handler(normalizedSession, this.activeSession)
+    );
+  }
+
+  _onCallResume(session) {
+    const normalizedSession = find(x => x.id === session.id, this.sessions);
+    if (typeof this._onCallResumeFunc === 'function') {
+      this._onCallResumeFunc(normalizedSession, this.activeSession);
+    }
+    this._onCallResumeFunctions.forEach(
+      handler => handler(normalizedSession, this.activeSession)
     );
   }
 
@@ -1343,6 +1362,12 @@ export default class Webphone extends RcModule {
   onBeforeCallResume(handler) {
     if (typeof handler === 'function') {
       this._onBeforeCallResumeFunctions.push(handler);
+    }
+  }
+
+  onCallResume(handler) {
+    if (typeof handler === 'function') {
+      this._onCallResumeFunctions.push(handler);
     }
   }
 
