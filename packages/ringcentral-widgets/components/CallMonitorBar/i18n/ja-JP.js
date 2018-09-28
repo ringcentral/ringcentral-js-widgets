@@ -1,6 +1,6 @@
 export default {
   currentCall: "現在の通話",
-  viewCalls: "通話を表示",
+  viewCalls: "表示",
   incomingCall: "{numberOf}件の着信",
   incomingCalls: "{numberOf}件の着信",
   callOnHold: "{numberOf}件の保留中の通話",
