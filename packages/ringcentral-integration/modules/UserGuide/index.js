@@ -1,3 +1,4 @@
+import { contains } from 'ramda';
 import RcModule from '../../lib/RcModule';
 import proxify from '../../lib/proxy/proxify';
 import { Module } from '../../lib/di';
@@ -128,7 +129,7 @@ export default class UserGuide extends RcModule {
         .reduce((prev, curr) => {
           locales.forEach((locale) => {
             if (!prev[locale]) prev[locale] = [];
-            if (curr.includes(locale)) {
+            if (contains(locale, curr)) {
               prev[locale].push(curr);
             }
           });

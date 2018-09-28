@@ -1,3 +1,4 @@
+import { contains } from 'ramda';
 import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErrors';
 import WebphoneBadge from 'ringcentral-widgets/components/WebphoneBadge';
 import CircleButton from 'ringcentral-widgets/components/CircleButton';
@@ -25,7 +26,7 @@ describe('Webphone warning badge', () => {
     // Case 1: check if webphone badge is shown
     {
       desc: 'Webphone Badge',
-      assert: () => {
+      assert() {
         wrapper.update();
         const badge = wrapper.find(WebphoneBadge);
         expect(badge.exists()).toBeTruthy();
@@ -35,16 +36,16 @@ describe('Webphone warning badge', () => {
     // Case 2: check if dial button is disabled
     {
       desc: 'Disabled Dial Button',
-      assert: () => {
+      assert() {
         wrapper.update();
         const button = wrapper.find(CircleButton);
-        expect(button.at(0).prop('className').includes('disabled')).toBeTruthy();
+        expect(contains('disabled', button.at(0).prop('className'))).toBeTruthy();
       }
     },
     // Case 3: check if alert message is shown when clicks badge
     {
       desc: 'Alert Message',
-      assert: ({ type, msg }) => {
+      assert({ type, msg }) {
         wrapper.update();
         const badge = wrapper.find(WebphoneBadge);
 

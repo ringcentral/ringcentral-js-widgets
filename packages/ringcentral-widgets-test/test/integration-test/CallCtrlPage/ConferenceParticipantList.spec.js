@@ -1,3 +1,4 @@
+import { contains } from 'ramda';
 import ConferenceParticipantPage from 'ringcentral-widgets/containers/ConferenceParticipantPage';
 import ConferenceParticipantPanel from 'ringcentral-widgets/components/ConferenceParticipantPanel';
 import ConferenceInfo from 'ringcentral-widgets/components/ActiveCallPanel/ConferenceInfo';
@@ -64,7 +65,7 @@ describe('Conference Participant List Page', () => {
     expect(participantLists).toHaveLength(0);
     expect(wrapper.find('.participantsCount').text()).toEqual('0 Participants');
     await timeout(750);
-    expect(phone.routerInteraction.currentPath.includes('/calls/active')).toBeTruthy();
+    expect(contains('/calls/active', phone.routerInteraction.currentPath)).toBeTruthy();
   });
   test('participant list page click back button', async () => {
     const { phone, wrapper } = await initPhoneWrapper();
@@ -80,6 +81,6 @@ describe('Conference Participant List Page', () => {
     expect(backLabel.text()).toEqual('Conference Call');
     backLabel.simulate('click');
     await timeout(100);
-    expect(phone.routerInteraction.currentPath.includes('/calls/active')).toBeTruthy();
+    expect(contains('/calls/active', phone.routerInteraction.currentPath)).toBeTruthy();
   });
 });

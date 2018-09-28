@@ -1,3 +1,4 @@
+import { contains } from 'ramda';
 import subscriptionBody from 'ringcentral-integration/integration-test/mock/data/subscription.json';
 import { isConferenceSession } from 'ringcentral-integration/modules/Webphone/webphoneHelper';
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatuses';
@@ -153,7 +154,7 @@ export function mockActiveCalls(webphoneSessions, mockOtherDeivce = [], ringSess
     startTime: '2018-08-07T09:20:09.405Z',
   };
   return webphoneSessions.reduce((calls, session) => {
-    const telephonyStatus = ringSessionIds.includes(session.id)
+    const telephonyStatus = contains(session.id, ringSessionIds)
       ? telephonyStatuses.ringing
       : telephonyStatuses.onHold;
     if (isConferenceSession(session)) {
