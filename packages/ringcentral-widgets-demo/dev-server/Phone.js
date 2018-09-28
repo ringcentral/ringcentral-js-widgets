@@ -247,18 +247,19 @@ export default class BasePhone extends RcModule {
         }
       }
 
+      const withinCallCtrl = !![
+        '/calls/active',
+        '/conferenceCall/dialer/',
+        '/conferenceCall/callsOnhold',
+        '/conferenceCall/participants',
+      ].find(path => routerInteraction.currentPath.indexOf(path) === 0);
+
       if (
-        !![
-          '/conferenceCall/dialer/',
-          '/calls/active',
-          '/conferenceCall/participants',
-        ].find(path => routerInteraction.currentPath.indexOf(path) !== -1)
+        withinCallCtrl
         && (!currentSession || session.id === currentSession.id)
         && !ringSession
       ) {
-        if (
-          !currentSession
-        ) {
+        if (!currentSession) {
           routerInteraction.replace('/dialer');
           return;
         }
@@ -274,12 +275,17 @@ export default class BasePhone extends RcModule {
         return;
       }
 
-      if (routerInteraction.currentPath.indexOf('/calls/active') === 0) {
-        if (ringSession) {
-          routerInteraction.replace('/calls');
-          return;
-        }
-        routerInteraction.replace('/calls/active');
+      if (
+        currentSession
+        && currentSession.id !== session.id
+        && routerInteraction.currentPath === `/calls/active/${session.id}`
+      ) {
+        routerInteraction.replace(`/calls/active/${currentSession.id}`);
+        return;
+      }
+
+      if (!currentSession && ringSession) {
+        routerInteraction.push('/calls');
         return;
       }
 
@@ -295,8 +301,8 @@ export default class BasePhone extends RcModule {
       }
     });
 
-    webphone.onCallStart(({ id }) => {
-      const path = `/calls/active/${id}`;
+    webphone.onCallStart((session) => {
+      const path = `/calls/active/${session.id}`;
       if (routerInteraction.currentPath !== path) {
         if (routerInteraction.currentPath.indexOf('/calls/active') === 0) {
           routerInteraction.replace(path);
