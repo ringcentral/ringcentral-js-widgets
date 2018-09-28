@@ -1,3 +1,4 @@
+import { contains } from 'ramda';
 import { isConferenceSession, normalizeSession } from 'ringcentral-integration/modules/Webphone/webphoneHelper';
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatuses';
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
@@ -50,7 +51,7 @@ export default class Session {
         uri: {
           user: to,
         },
-        displayName: to && to.includes('conf_') ? 'Conference' : null,
+        displayName: to && contains('conf_', to) ? 'Conference' : null,
       },
       from: {
         uri: {},

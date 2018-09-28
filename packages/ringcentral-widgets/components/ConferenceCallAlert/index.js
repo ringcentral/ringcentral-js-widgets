@@ -1,3 +1,4 @@
+import { contains } from 'ramda';
 import React from 'react';
 import PropTypes from 'prop-types';
 import conferenceCallErrors from 'ringcentral-integration/modules/ConferenceCall/conferenceCallErrors';
@@ -17,11 +18,9 @@ ConferenceAlert.propTypes = {
   }).isRequired,
 };
 
-ConferenceAlert.handleMessage = ({ message }) => (
-  [
-    conferenceCallErrors.bringInFailed,
-    conferenceCallErrors.makeConferenceFailed,
-    conferenceCallErrors.terminateConferenceFailed,
-    conferenceCallErrors.removeFromConferenceFailed,
-  ].includes(message)
-);
+ConferenceAlert.handleMessage = ({ message }) => contains(message, [
+  conferenceCallErrors.bringInFailed,
+  conferenceCallErrors.makeConferenceFailed,
+  conferenceCallErrors.terminateConferenceFailed,
+  conferenceCallErrors.removeFromConferenceFailed,
+]);
