@@ -31,12 +31,12 @@ function mapToFunctions(_, {
 }) {
   return {
     update: meetingState => meeting.update(meetingState),
-    invite: (meetingInfo) => {
+    invite: (meetingInfo, opener) => {
       if (schedule) {
-        schedule(meetingInfo);
+        schedule(meetingInfo, opener);
         return;
       }
-      meeting.schedule(meetingInfo);
+      meeting.schedule(meetingInfo, {}, opener);
     },
     init: () => meeting.init(),
   };
@@ -52,4 +52,3 @@ export {
   mapToProps,
   MeetingPage as default,
 };
-
