@@ -294,6 +294,8 @@ var Meeting = (_dec = (0, _di.Module)({
             _ref3$isAlertSuccess = _ref3.isAlertSuccess,
             isAlertSuccess = _ref3$isAlertSuccess === undefined ? true : _ref3$isAlertSuccess;
 
+        var opener = arguments[2];
+
         var formattedMeeting, resp, serviceInfo, result, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, error;
 
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -346,7 +348,7 @@ var Meeting = (_dec = (0, _di.Module)({
                 }
 
                 _context.next = 18;
-                return this.scheduledHook(result);
+                return this.scheduledHook(result, opener);
 
               case 18:
                 // Reload meeting info
