@@ -40,7 +40,7 @@ describe('exportLocale', () => {
         };
         `);
     });
-    // afterEach(clean);
+    afterEach(clean);
     test('should throw when supportedLocales is not defined', () => {
       expect(() => exportLocale()).toThrow('options.supportedLocales is missing');
     });
