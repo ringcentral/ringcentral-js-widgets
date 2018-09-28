@@ -101,6 +101,11 @@ var MAX_TOPIC_LENGTH = 128;
 var PASSWORD_REGEX = exports.PASSWORD_REGEX = /^[A-Za-z0-9]{0,10}$/;
 var NO_NUMBER_REGEX = /[^\d]/g;
 
+var isSafari = function isSafari() {
+  return (/^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+  );
+};
+
 function getMinutesList(MINUTE_SCALE) {
   return (0, _ramda.reduce)(function (result) {
     var index = result.length;
@@ -889,9 +894,12 @@ var MeetingPanel = function (_Component) {
           disabled: disabled,
           meeting: meeting,
           onClick: function onClick() {
-            return !disabled && setTimeout(function () {
-              return invite(_this4.props.meeting);
-            }, 100);
+            if (!disabled) {
+              setTimeout(function () {
+                var opener = isSafari() ? window.open() : null;
+                invite(_this4.props.meeting, opener);
+              }, 100);
+            }
           } })
       );
     }

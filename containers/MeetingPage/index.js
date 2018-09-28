@@ -43,12 +43,12 @@ function mapToFunctions(_, _ref2) {
     update: function update(meetingState) {
       return meeting.update(meetingState);
     },
-    invite: function invite(meetingInfo) {
+    invite: function invite(meetingInfo, opener) {
       if (schedule) {
-        schedule(meetingInfo);
+        schedule(meetingInfo, opener);
         return;
       }
-      meeting.schedule(meetingInfo);
+      meeting.schedule(meetingInfo, {}, opener);
     },
     init: function init() {
       return meeting.init();
