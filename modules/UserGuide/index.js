@@ -59,6 +59,8 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _dec, _class, _desc, _value, _class2;
 
+var _ramda = require('ramda');
+
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
@@ -304,7 +306,7 @@ var UserGuide = (_dec = (0, _di.Module)({
         }).reduce(function (prev, curr) {
           locales.forEach(function (locale) {
             if (!prev[locale]) prev[locale] = [];
-            if (curr.includes(locale)) {
+            if ((0, _ramda.contains)(locale, curr)) {
               prev[locale].push(curr);
             }
           });
