@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = ConferenceAlert;
 
+var _ramda = require('ramda');
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -41,6 +43,6 @@ ConferenceAlert.propTypes = {
 
 ConferenceAlert.handleMessage = function (_ref) {
   var message = _ref.message;
-  return [_conferenceCallErrors2.default.bringInFailed, _conferenceCallErrors2.default.makeConferenceFailed, _conferenceCallErrors2.default.terminateConferenceFailed, _conferenceCallErrors2.default.removeFromConferenceFailed].includes(message);
+  return (0, _ramda.contains)(message, [_conferenceCallErrors2.default.bringInFailed, _conferenceCallErrors2.default.makeConferenceFailed, _conferenceCallErrors2.default.terminateConferenceFailed, _conferenceCallErrors2.default.removeFromConferenceFailed]);
 };
 //# sourceMappingURL=index.js.map

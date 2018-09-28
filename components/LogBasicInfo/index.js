@@ -12,6 +12,8 @@ var _callIconMap;
 
 exports.default = LogBasicInfo;
 
+var _ramda = require('ramda');
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -79,9 +81,9 @@ function LogBasicInfo(props) {
   var status = result || telephonyStatus;
   var active = !duration && duration !== 0;
   var missed = (0, _callLogHelpers.isMissed)(call);
-  var green = colorStatusMap.green.includes(status);
-  var red = colorStatusMap.red.includes(status);
-  var orange = colorStatusMap.orange.includes(status);
+  var green = (0, _ramda.contains)(status, colorStatusMap.green);
+  var red = (0, _ramda.contains)(status, colorStatusMap.red);
+  var orange = (0, _ramda.contains)(status, colorStatusMap.orange);
   var isRinging = status === _telephonyStatus2.default.ringing;
   var title = missed ? _i18n2.default.getString(_callResults2.default.missed, currentLocale) : _i18n2.default.getString(direction, currentLocale);
   var statusI18n = _i18n2.default.getString(status, currentLocale);

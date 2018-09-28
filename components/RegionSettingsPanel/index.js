@@ -25,6 +25,8 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _ramda = require('ramda');
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -108,7 +110,7 @@ var RegionSettings = function (_Component) {
 
     _this.onSaveClick = function () {
       if (typeof _this.props.onSave === 'function') {
-        var showAreaCode = ['CA', 'US'].includes(_this.state.countryCodeValue);
+        var showAreaCode = (0, _ramda.contains)(_this.state.countryCodeValue, ['CA', 'US']);
         _this.props.onSave({
           areaCode: showAreaCode ? _this.state.areaCodeValue : undefined,
           countryCode: _this.state.countryCodeValue

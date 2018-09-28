@@ -48,6 +48,8 @@ var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProp
 
 var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
+var _ramda = require('ramda');
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -151,10 +153,10 @@ var AnimationAlert = function (_Component) {
                   return message.id;
                 });
                 addedMessagesIDs = nextMessagesIDs.filter(function (id) {
-                  return !currentMessagesIDs.includes(id);
+                  return !(0, _ramda.contains)(id, currentMessagesIDs);
                 });
                 removedMessagesIDs = currentMessagesIDs.filter(function (id) {
-                  return !nextMessagesIDs.includes(id);
+                  return !(0, _ramda.contains)(id, nextMessagesIDs);
                 });
                 allMessagesIDs = [].concat((0, _toConsumableArray3.default)(new _set2.default(currentMessagesIDs.concat(nextMessagesIDs))));
                 allMessages = {};
@@ -165,8 +167,8 @@ var AnimationAlert = function (_Component) {
                 });
                 messages = allMessagesIDs.map(function (id) {
                   var message = allMessages[id];
-                  var isAddedMessage = addedMessagesIDs.includes(id);
-                  var isRemovedMessage = removedMessagesIDs.includes(id);
+                  var isAddedMessage = (0, _ramda.contains)(id, addedMessagesIDs);
+                  var isRemovedMessage = (0, _ramda.contains)(id, removedMessagesIDs);
                   var animation = void 0;
                   if (isAddedMessage) {
                     animation = entranceAnimation;

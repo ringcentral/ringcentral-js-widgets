@@ -29,6 +29,8 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _ramda = require('ramda');
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -195,7 +197,7 @@ var ContactsView = function (_Component) {
       if (nextProps.searchString !== this.props.searchString) {
         nextState.searchString = nextProps.searchString;
       }
-      if (!nextProps.contactSourceNames.includes(nextProps.searchSource)) {
+      if (!(0, _ramda.contains)(nextProps.searchSource, nextProps.contactSourceNames)) {
         this.search({
           searchSource: nextProps.contactSourceNames[0],
           searchString: this.state.searchString
