@@ -698,11 +698,6 @@ var CallMonitor = (_dec = (0, _di.Module)({
     get: function get() {
       return this._selectors.otherDeviceCalls();
     }
-  }, {
-    key: 'lastCallInfo',
-    get: function get() {
-      return this._selectors.lastCallInfo();
-    }
   }]);
   return CallMonitor;
 }(_RcModule3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'ringoutRingCalls', [_getter2.default], {
