@@ -31,7 +31,7 @@ class CallBadge extends Component {
         this.props.toggleMinimized(this.props.session.id);
         return;
       }
-      this.props.goToCallCtrl();
+      this.props.goToCallCtrl(this.props.session.id);
     };
   }
 

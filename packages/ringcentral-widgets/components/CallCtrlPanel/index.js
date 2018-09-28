@@ -85,10 +85,6 @@ class CallCtrlPanel extends Component {
       // user action track
       this.props.afterConfirmMerge();
     };
-
-    this.gotoParticipantsCtrl = () => {
-      this.props.gotoParticipantsCtrl();
-    };
   }
 
   componentWillReceiveProps(nextProps) {
@@ -175,7 +171,7 @@ class CallCtrlPanel extends Component {
         showContactDisplayPlaceholder={this.props.showContactDisplayPlaceholder}
         onShowFlipPanel={this.showFlipPanel}
         onToggleTransferPanel={this.toggleTransferPanel}
-        gotoParticipantsCtrl={this.gotoParticipantsCtrl}
+        gotoParticipantsCtrl={this.props.gotoParticipantsCtrl}
         flipNumbers={this.props.flipNumbers}
         sourceIcons={this.props.sourceIcons}
         layout={this.props.layout}
