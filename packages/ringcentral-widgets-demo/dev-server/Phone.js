@@ -295,8 +295,8 @@ export default class BasePhone extends RcModule {
       }
     });
 
-    webphone.onCallStart(({ id }) => {
-      const path = `/calls/active/${id}`;
+    webphone.onCallStart((session) => {
+      const path = `/calls/active/${session.id}`;
       if (routerInteraction.currentPath !== path) {
         if (routerInteraction.currentPath.indexOf('/calls/active') === 0) {
           routerInteraction.replace(path);
