@@ -182,7 +182,8 @@ var ProxyFrameOAuth = (_dec = (0, _di.Module)({
       _this._proxyFrame.src = _this.proxyUri;
       _this._proxyFrame.style.display = 'none';
       var isEdge = window && window.navigator && window.navigator.userAgent.indexOf('Edge') > -1;
-      if (!isEdge) {
+      var isIE = window && window.navigator && /MSIE|Trident/i.test(window.navigator.userAgent);
+      if (!isEdge && !isIE) {
         _this._proxyFrame.setAttribute('sandbox', ['allow-scripts', 'allow-popups', 'allow-same-origin', 'allow-forms'].join(' '));
       }
       document.body.appendChild(_this._proxyFrame);
