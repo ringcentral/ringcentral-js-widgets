@@ -214,6 +214,7 @@ var Webphone = (_dec = (0, _di.Module)({
    * @param {Function} params.onCallEnd - callback on a call end
    * @param {Function} params.onCallRing - callback on a call ring
    * @param {Function} params.onCallStart - callback on a call start
+   * @param {Function} params.onCallResume - callback on a call resume
    * @param {Function} params.onBeforeCallResume - callback before a call resume
    * @param {Function} params.onBeforeCallEnd - callback before a call hangup
    */
@@ -234,9 +235,10 @@ var Webphone = (_dec = (0, _di.Module)({
         onCallEnd = _ref.onCallEnd,
         onCallRing = _ref.onCallRing,
         onCallStart = _ref.onCallStart,
+        onCallResume = _ref.onCallResume,
         onBeforeCallResume = _ref.onBeforeCallResume,
         onBeforeCallEnd = _ref.onBeforeCallEnd,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['appKey', 'appName', 'appVersion', 'alert', 'auth', 'client', 'rolesAndPermissions', 'webphoneLogLevel', 'contactMatcher', 'numberValidate', 'audioSettings', 'tabManager', 'onCallEnd', 'onCallRing', 'onCallStart', 'onBeforeCallResume', 'onBeforeCallEnd']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['appKey', 'appName', 'appVersion', 'alert', 'auth', 'client', 'rolesAndPermissions', 'webphoneLogLevel', 'contactMatcher', 'numberValidate', 'audioSettings', 'tabManager', 'onCallEnd', 'onCallRing', 'onCallStart', 'onCallResume', 'onBeforeCallResume', 'onBeforeCallEnd']);
     (0, _classCallCheck3.default)(this, Webphone);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Webphone.__proto__ || (0, _getPrototypeOf2.default)(Webphone)).call(this, (0, _extends3.default)({}, options, {
@@ -270,12 +272,14 @@ var Webphone = (_dec = (0, _di.Module)({
     if (typeof onCallStart === 'function') {
       _this._onCallStartFunctions.push(onCallStart);
     }
-
+    _this._onCallResumeFunctions = [];
+    if (typeof onCallResume === 'function') {
+      _this._onCallResumeFunctions.push(onCallResume);
+    }
     _this._onBeforeCallResumeFunctions = [];
     if (typeof onBeforeCallResume === 'function') {
       _this._onBeforeCallResumeFunctions.push(onBeforeCallResume);
     }
-
     _this._onBeforeCallEndFunctions = [];
     if (typeof onBeforeCallEnd === 'function') {
       _this._onBeforeCallEndFunctions.push(onBeforeCallEnd);
@@ -1429,7 +1433,7 @@ var Webphone = (_dec = (0, _di.Module)({
                 _context14.prev = 3;
 
                 if (!session.isOnHold().local) {
-                  _context14.next = 10;
+                  _context14.next = 11;
                   break;
                 }
 
@@ -1439,24 +1443,25 @@ var Webphone = (_dec = (0, _di.Module)({
                 return session.unhold();
 
               case 9:
-                this._onCallStart(session);
+                this._updateSessions();
+                this._onCallResume(session);
 
-              case 10:
-                _context14.next = 15;
+              case 11:
+                _context14.next = 16;
                 break;
 
-              case 12:
-                _context14.prev = 12;
+              case 13:
+                _context14.prev = 13;
                 _context14.t0 = _context14['catch'](3);
 
                 console.log(_context14.t0);
 
-              case 15:
+              case 16:
               case 'end':
                 return _context14.stop();
             }
           }
-        }, _callee14, this, [[3, 12]]);
+        }, _callee14, this, [[3, 13]]);
       }));
 
       function unhold(_x10) {
@@ -2261,7 +2266,9 @@ var Webphone = (_dec = (0, _di.Module)({
       var _this14 = this;
 
       this._addSession(session);
-      var normalizedSession = (0, _webphoneHelper.normalizeSession)(session);
+      var normalizedSession = (0, _ramda.find)(function (x) {
+        return x.id === session.id;
+      }, this.sessions);
       this.store.dispatch({
         type: this.actionTypes.callStart,
         session: normalizedSession,
@@ -2283,7 +2290,9 @@ var Webphone = (_dec = (0, _di.Module)({
       var _this15 = this;
 
       this._addSession(session);
-      var normalizedSession = (0, _webphoneHelper.normalizeSession)(session);
+      var normalizedSession = (0, _ramda.find)(function (x) {
+        return x.id === session.id;
+      }, this.sessions);
       this.store.dispatch({
         type: this.actionTypes.callRing,
         session: normalizedSession,
@@ -2307,7 +2316,9 @@ var Webphone = (_dec = (0, _di.Module)({
     value: function _onBeforeCallEnd(session) {
       var _this16 = this;
 
-      var normalizedSession = (0, _webphoneHelper.normalizeSession)(session);
+      var normalizedSession = (0, _ramda.find)(function (x) {
+        return x.id === session.id;
+      }, this.sessions);
       if (typeof this._onBeforeCallEndFunc === 'function') {
         this._onBeforeCallEndFunc(normalizedSession, this.activeSession);
       }
@@ -2320,8 +2331,13 @@ var Webphone = (_dec = (0, _di.Module)({
     value: function _onCallEnd(session) {
       var _this17 = this;
 
+      var normalizedSession = (0, _ramda.find)(function (x) {
+        return x.id === session.id;
+      }, this.sessions);
+      if (!normalizedSession) {
+        return;
+      }
       this._removeSession(session);
-      var normalizedSession = (0, _webphoneHelper.normalizeSession)(session);
       this.store.dispatch({
         type: this.actionTypes.callEnd,
         session: normalizedSession,
@@ -2339,11 +2355,29 @@ var Webphone = (_dec = (0, _di.Module)({
     value: function _onBeforeCallResume(session) {
       var _this18 = this;
 
+      var normalizedSession = (0, _ramda.find)(function (x) {
+        return x.id === session.id;
+      }, this.sessions);
       if (typeof this._onBeforeCallResumeFunc === 'function') {
-        this._onBeforeCallResumeFunc(session, this.activeSession);
+        this._onBeforeCallResumeFunc(normalizedSession, this.activeSession);
       }
       this._onBeforeCallResumeFunctions.forEach(function (handler) {
-        return handler(session, _this18.activeSession);
+        return handler(normalizedSession, _this18.activeSession);
+      });
+    }
+  }, {
+    key: '_onCallResume',
+    value: function _onCallResume(session) {
+      var _this19 = this;
+
+      var normalizedSession = (0, _ramda.find)(function (x) {
+        return x.id === session.id;
+      }, this.sessions);
+      if (typeof this._onCallResumeFunc === 'function') {
+        this._onCallResumeFunc(normalizedSession, this.activeSession);
+      }
+      this._onCallResumeFunctions.forEach(function (handler) {
+        return handler(normalizedSession, _this19.activeSession);
       });
     }
   }, {
@@ -2473,6 +2507,13 @@ var Webphone = (_dec = (0, _di.Module)({
     value: function onBeforeCallResume(handler) {
       if (typeof handler === 'function') {
         this._onBeforeCallResumeFunctions.push(handler);
+      }
+    }
+  }, {
+    key: 'onCallResume',
+    value: function onCallResume(handler) {
+      if (typeof handler === 'function') {
+        this._onCallResumeFunctions.push(handler);
       }
     }
   }, {
@@ -2650,10 +2691,10 @@ var Webphone = (_dec = (0, _di.Module)({
 }(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, '_sipProvision', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_sipProvision'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_connect', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_connect'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'connect', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'connect'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'disconnect', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'disconnect'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'answer', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'answer'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'reject', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'reject'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'resume', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'resume'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'forward', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'forward'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'mute', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'mute'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unmute', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unmute'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hold', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'hold'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unhold', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unhold'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'startRecord', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'startRecord'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'stopRecord', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'stopRecord'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'park', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'park'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'transfer', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'transfer'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'transferWarm', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'transferWarm'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'flip', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'flip'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'sendDTMF', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'sendDTMF'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hangup', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'hangup'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'toVoiceMail', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'toVoiceMail'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'replyWithMessage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'replyWithMessage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'makeCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'makeCall'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateSessionMatchedContact', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateSessionMatchedContact'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setSessionCaching', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setSessionCaching'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'clearSessionCaching', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'clearSessionCaching'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'toggleMinimized', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'toggleMinimized'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'showAlert', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'showAlert'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'ringingCallOnView', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this19 = this;
+    var _this20 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this19.ringSessions;
+      return _this20.ringSessions;
     }, function (sessions) {
       return (0, _ramda.find)(function (session) {
         return !session.minimized;
