@@ -53,6 +53,8 @@ export default class AdapterCore {
     this._appHeight = 0;
     this._dragStartPosition = null;
 
+    this._strings = {};
+
     this._closed = true;
     this._minimized = true;
     this._dragging = false;
@@ -758,7 +760,7 @@ export default class AdapterCore {
   }
 
   _renderRingingCalls() {
-    if (!this._ringingCallsLength) {
+    if (!this._ringingCallsLength || !this._strings) {
       return;
     }
     this._ringingCallsEl.innerHTML = this._strings.ringCallsInfo;
@@ -766,7 +768,7 @@ export default class AdapterCore {
   }
 
   _renderOnHoldCalls() {
-    if (!this._onHoldCallsLength) {
+    if (!this._onHoldCallsLength || !this._strings) {
       return;
     }
     this._onHoldCallsEl.innerHTML = this._strings.onHoldCallsInfo;
@@ -774,6 +776,9 @@ export default class AdapterCore {
   }
 
   _renderCallBarBtn() {
+    if (!this._strings) {
+      return;
+    }
     this._currentCallEl.innerHTML = this._strings.currentCall;
     this._viewCallsEl.innerHTML = this._strings.viewCalls;
   }
