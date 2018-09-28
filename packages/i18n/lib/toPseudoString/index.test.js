@@ -49,8 +49,8 @@ describe('toPseudoString', () => {
   test('should return accented strings', () => {
     [...new Array(10)].map(() => faker.lorem.words())
       .forEach((str) => {
-        expect(toPseudoString(str))
-          .toBe(`[${toAccentString(str)}]`);
+        expect(toPseudoString({ str }).indexOf(toAccentString(str)) > -1)
+          .toBe(true);
       });
   });
   test('should accentify ICU strings without messing with variables', () => {
@@ -58,7 +58,7 @@ describe('toPseudoString', () => {
       .map(() => `{${faker.lorem.word}}`)
       .forEach((str) => {
         const line = `${faker.lorem.words()} ${str} ${faker.lorem.words()}`;
-        const accentedLine = toPseudoString(line);
+        const accentedLine = toPseudoString({ str: line });
         expect(accentedLine.indexOf(str) > -1)
           .toBe(true);
       });
@@ -71,7 +71,7 @@ describe('toPseudoString', () => {
       }))
       .forEach((set) => {
         const line = `${faker.lorem.words()} ${set.variable} ${set.escaped} ${faker.lorem.words()}`;
-        const accentedLine = toPseudoString(line);
+        const accentedLine = toPseudoString({ str: line });
         expect(accentedLine.indexOf(set.variable) > -1)
           .toBe(true);
         expect(accentedLine.indexOf(set.escaped) === -1)

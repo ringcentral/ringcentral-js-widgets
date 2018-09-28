@@ -53,6 +53,8 @@ export const charMap = {
   Z: 0x017d
 };
 
+const padCharacters = '~!@#$%^&*';
+
 const replaceFunctions = Object.keys(charMap).map((char) => {
   const regExp = new RegExp(char, 'g');
   const accentChar = String.fromCharCode(charMap[char]);
@@ -83,8 +85,20 @@ export function processVars(str) {
   return tokens.join('');
 }
 
+
+export function padString({ str, padRatio = 0.3, padChar = ' ' } = {}) {
+  const normalized = str || '';
+  const padLen = Math.ceil((normalized.length * padRatio) / 2);
+  const padding = [];
+  for (let i = 0; i < padLen; i += 1) {
+    padding.push(padCharacters[i % padCharacters.length]);
+  }
+  const padStr = padding.join('');
+  return `[${padStr}]${normalized}[${padStr}]`;
+}
+
 const escapeRegExp = /'.*?'/;
-export default function toPseudoString(str) {
+export default function toPseudoString({ str, padRatio, padChar }) {
   let input = `${str}`;
   const tokens = [];
   let match = escapeRegExp.exec(input);
@@ -95,5 +109,6 @@ export default function toPseudoString(str) {
     match = escapeRegExp.exec(input);
   }
   tokens.push(processVars(input));
-  return `[${tokens.join('')}]`;
+  const result = padString({ str: tokens.join(''), padRatio, padChar });
+  return `[${result}]`;
 }
