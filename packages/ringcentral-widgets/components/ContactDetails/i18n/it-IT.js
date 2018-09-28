@@ -11,7 +11,7 @@ export default {
   [presenceStatus.offline]: "Invisibile",
   [presenceStatus.busy]: "Occupato",
   [dndStatus.doNotAcceptAnyCalls]: "Non disturbare",
-  notActivated: "Inactive"
+  notActivated: "Inattivo"
 };
 
 // @key: @#@"extensionLabel"@#@ @source: @#@"Ext."@#@

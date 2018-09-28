@@ -11,7 +11,7 @@ export default {
   [presenceStatus.offline]: "隐身",
   [presenceStatus.busy]: "忙碌",
   [dndStatus.doNotAcceptAnyCalls]: "勿扰",
-  notActivated: "Inactive"
+  notActivated: "停用"
 };
 
 // @key: @#@"extensionLabel"@#@ @source: @#@"Ext."@#@
