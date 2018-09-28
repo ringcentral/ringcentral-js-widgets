@@ -1,6 +1,6 @@
 export default {
   currentCall: "Llamada actual",
-  viewCalls: "Ver llamadas",
+  viewCalls: "Ver",
   incomingCall: "{numberOf} llamada entrante",
   incomingCalls: "{numberOf} llamadas entrantes",
   callOnHold: "{numberOf} llamada en espera",

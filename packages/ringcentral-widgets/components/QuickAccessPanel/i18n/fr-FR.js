@@ -1,4 +1,5 @@
 export default {
+<<<<<<< HEAD
   textGoogle: "Only show in {appName} apps",
   textAll: "Show on all websites except my blacklist",
   textUser: "Show on the websites I specify",
@@ -8,6 +9,17 @@ export default {
   extensionOptions: "Extension Options",
   Confirm: "Confirm",
   Cancel: "Cancel"
+=======
+  textGoogle: "Afficher uniquement dans les applications {appName}",
+  textAll: "Afficher sur tous les sites Web sauf ceux sur ma liste noire",
+  textUser: "Afficher sur les sites Web que j'ai spécifiés",
+  title: "Choisissez l'emplacement où l'accès rapide {brandName} apparaît : ",
+  descriptionAll: "Allez à {optionsLink} pour définir votre liste noire.",
+  descriptionUser: "Allez à {optionsLink} pour définir vos sites Web spécifiques.",
+  extensionOptions: "Options d'extension",
+  Confirm: "Confirmer",
+  Cancel: "Annuler"
+>>>>>>> 8c227545... i18:google 4.1 and Screenshots review
 };
 
 // @key: @#@"textGoogle"@#@ @source: @#@"Only show in {appName} apps"@#@
