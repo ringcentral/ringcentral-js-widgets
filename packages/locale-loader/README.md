@@ -104,6 +104,7 @@ const config = {
     sourceFolder: 'src', // export locale will use 'src/**/*.js' glob to search for loaders
     localizationFolder: 'localization', // exported files will be saved to here
     exportType: 'diff', // determines what is exported
+    fillEmptyWithSource: true // default to fill in translated field with source string
 };
 
 exportLocale(config);
