@@ -1,5 +1,5 @@
 export default {
-  notActivated: "Inactive"
+  notActivated: "Inactif"
 };
 
 // @key: @#@"notActivated"@#@ @source: @#@"Inactive"@#@

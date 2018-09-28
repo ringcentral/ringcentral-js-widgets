@@ -1,6 +1,6 @@
 export default {
   currentCall: "Aktueller Anruf",
-  viewCalls: "Anrufe anzeigen",
+  viewCalls: "Anzeigen",
   incomingCall: "{numberOf} eingehender Anruf",
   incomingCalls: "{numberOf} eingehende Anrufe",
   callOnHold: "{numberOf} Anruf wird gehalten",
