@@ -353,6 +353,7 @@ function mapToFunctions(_, _ref4) {
       webphone = _ref4$phone.webphone,
       regionSettings = _ref4$phone.regionSettings,
       contactSearch = _ref4$phone.contactSearch,
+      conferenceCall = _ref4$phone.conferenceCall,
       _ref4$getAvatarUrl = _ref4.getAvatarUrl,
       getAvatarUrl = _ref4$getAvatarUrl === undefined ? function () {
     return null;
@@ -367,8 +368,12 @@ function mapToFunctions(_, _ref4) {
       });
     },
     answer: function answer(sessionId) {
-      return webphone.answer(sessionId);
+      if (conferenceCall) {
+        conferenceCall.closeMergingPair();
+      }
+      webphone.answer(sessionId);
     },
+
     reject: function reject(sessionId) {
       return webphone.reject(sessionId);
     },
