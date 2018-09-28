@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 import connectionStatus from './connectionStatus';
 import sessionStatus from './sessionStatus';
-import { isRing, trackingChanges, sortByLastActiveTimeDesc } from './webphoneHelper';
+import { isRing, sortByLastActiveTimeDesc } from './webphoneHelper';
 
 export function getVideoElementPreparedReducer(types) {
   return (state = false, { type }) => {
@@ -162,7 +162,6 @@ export function getSessionsReducer(types) {
             sessions.push(cachedSession);
           }
         });
-        trackingChanges(sessions, state);
         return sessions.sort(sortByLastActiveTimeDesc);
       }
       case types.setSessionCaching: {

@@ -302,16 +302,6 @@ export default class BasePhone extends RcModule {
     });
 
     webphone.onCallStart((session) => {
-      if (routerInteraction.currentPath === '/calls') {
-        const isResume = (
-          session.lastDiff.isOnHold
-          && session.lastDiff.isOnHold.was === true
-          && session.lastDiff.isOnHold.now === false
-        );
-        if (isResume) {
-          return;
-        }
-      }
       const path = `/calls/active/${session.id}`;
       if (routerInteraction.currentPath !== path) {
         if (routerInteraction.currentPath.indexOf('/calls/active') === 0) {

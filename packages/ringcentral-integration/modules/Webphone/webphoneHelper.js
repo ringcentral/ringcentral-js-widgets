@@ -82,42 +82,9 @@ export function normalizeSession(session) {
     minimized: !!session.__rc_minimized,
     partyData: session.__rc_partyData || null,
     lastActiveTime: session.__rc_lastActiveTime,
-    lastDiff: null,
     cached: false,
     removed: false,
   };
-}
-
-export function trackingChanges(newSessions, oldSessions) {
-  newSessions.forEach((newSession) => {
-    let diff = {};
-    const oldSession = oldSessions.find(x => x.id === newSession.id);
-    if (oldSession) {
-      // detect new diff
-      Object.keys(newSession).forEach((key) => {
-        if (
-          newSession[key] !== oldSession[key]
-          && key !== 'contactMatch'
-          && key !== 'partyData'
-          && key !== 'lastDiff'
-        ) {
-          diff[key] = {
-            was: oldSession[key],
-            now: newSession[key],
-          };
-        }
-      });
-      // use previous diff when no new diff found
-      if (
-        Object.keys(diff).length === 0
-        && oldSession.lastDiff
-      ) {
-        diff = oldSession.lastDiff;
-      }
-    }
-    // diff info
-    newSession.lastDiff = diff;
-  });
 }
 
 export function isRing(session) {
