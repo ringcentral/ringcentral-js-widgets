@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ConversationList/i18n/zh-HK.js"],"names":["loading"],"mappings":";;;;;kBAAe;AACbA,WAAS;AADI,C;;AAIf","file":"zh-HK.js","sourcesContent":["export default {\n  loading: \"正在載入...\"\n};\n\n// @key: @#@\"loading\"@#@ @source: @#@\"Loading ...\"@#@\n"]}

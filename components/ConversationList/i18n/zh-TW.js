@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  loading: "Loading ..."
+  loading: "正在載入..."
 };
 
 // @key: @#@"loading"@#@ @source: @#@"Loading ..."@#@

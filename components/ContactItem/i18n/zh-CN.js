@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  notActivated: "Inactive"
+  notActivated: "停用"
 };
 
 // @key: @#@"notActivated"@#@ @source: @#@"Inactive"@#@

@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  loading: "Loading ..."
+  loading: "Chargement en cours…"
 };
 
 // @key: @#@"loading"@#@ @source: @#@"Loading ..."@#@
