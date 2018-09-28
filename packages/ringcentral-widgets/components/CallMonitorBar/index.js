@@ -50,18 +50,18 @@ export default class CallMonitorBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hoverShow: false
+      hoverBar: false
     };
     this.showBtn = () => {
       if (this.props.currentCalls.length > 0) {
         this.setState({
-          hoverShow: true
+          hoverBar: true
         });
       }
     };
     this.hideBtn = () => {
       this.setState({
-        hoverShow: false
+        hoverBar: false
       });
     };
   }
@@ -83,22 +83,8 @@ export default class CallMonitorBar extends Component {
 
     return (
       <div className={styles.bar} onMouseOver={this.showBtn} onMouseLeave={this.hideBtn}>
-        <div className={classnames(styles.box, (this.state.hoverShow ? styles.show : styles.hide))}>
-          <Button
-            className={styles.currentCallBtn}
-            onClick={onCurrentCallBtnClick}
-          >
-            {i18n.getString('currentCall', currentLocale)}
-          </Button>
-          <Button
-            className={styles.viewCallsBtn}
-            onClick={onViewCallBtnClick}
-          >
-            {i18n.getString('viewCalls', currentLocale)}
-          </Button>
-        </div>
-        <div className={classnames(styles.box, (this.state.hoverShow ? styles.hide : styles.show))}>
-          <CarrouselBar >
+        <div className={styles.box}>
+          <CarrouselBar hoverBar={this.state.hoverBar} >
             {
               numberOfOnHoldCalls > 0 ? (
                 <CallInfoBar
