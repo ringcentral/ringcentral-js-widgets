@@ -1,15 +1,4 @@
 export default {
-<<<<<<< HEAD
-  textGoogle: "Only show in {appName} apps",
-  textAll: "Show on all websites except my blacklist",
-  textUser: "Show on the websites I specify",
-  title: "Choose where {brandName} Quick Access appears: ",
-  descriptionAll: "Go to {optionsLink} to define your blacklist.",
-  descriptionUser: "Go to {optionsLink}  to define your specific websites.",
-  extensionOptions: "Extension Options",
-  Confirm: "Confirm",
-  Cancel: "Cancel"
-=======
   textGoogle: "{appName} アプリにのみ表示",
   textAll: "マイブラックリスト以外のすべてのウェブサイトで表示",
   textUser: "指定するウェブサイトで表示",
@@ -19,7 +8,6 @@ export default {
   extensionOptions: "拡張オプション",
   Confirm: "確認",
   Cancel: "キャンセル"
->>>>>>> 8c227545... i18:google 4.1 and Screenshots review
 };
 
 // @key: @#@"textGoogle"@#@ @source: @#@"Only show in {appName} apps"@#@
