@@ -144,10 +144,6 @@ var CallCtrlPanel = function (_Component) {
       // user action track
       _this.props.afterConfirmMerge();
     };
-
-    _this.gotoParticipantsCtrl = function () {
-      _this.props.gotoParticipantsCtrl();
-    };
     return _this;
   }
 
@@ -233,7 +229,7 @@ var CallCtrlPanel = function (_Component) {
           showContactDisplayPlaceholder: this.props.showContactDisplayPlaceholder,
           onShowFlipPanel: this.showFlipPanel,
           onToggleTransferPanel: this.toggleTransferPanel,
-          gotoParticipantsCtrl: this.gotoParticipantsCtrl,
+          gotoParticipantsCtrl: this.props.gotoParticipantsCtrl,
           flipNumbers: this.props.flipNumbers,
           sourceIcons: this.props.sourceIcons,
           layout: this.props.layout,
