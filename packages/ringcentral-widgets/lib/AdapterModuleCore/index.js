@@ -225,14 +225,14 @@ export default class AdapterModuleCore extends RcModule {
         this._lastOnHoldCallsLength = onHoldCallsLength;
         this._lastCurrentStartTime = currentStartTime;
         this._postMessage({
+          type: this._messageTypes.pushLocale,
+          strings: this._localeStrings
+        });
+        this._postMessage({
           type: this._messageTypes.pushCalls,
           ringingCallsLength,
           onHoldCallsLength,
           currentStartTime,
-        });
-        this._postMessage({
-          type: this._messageTypes.pushLocale,
-          strings: this._localeStrings
         });
       }
       this._showIncomingCallPage = !!(
