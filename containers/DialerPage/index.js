@@ -15,6 +15,12 @@ var _callingModes = require('ringcentral-integration/modules/CallingSettings/cal
 
 var _callingModes2 = _interopRequireDefault(_callingModes);
 
+var _phoneContext = require('../../lib/phoneContext');
+
+var _hasActiveCalls = require('../../lib/hasActiveCalls');
+
+var _hasActiveCalls2 = _interopRequireDefault(_hasActiveCalls);
+
 var _DialerPanel = require('../../components/DialerPanel');
 
 var _DialerPanel2 = _interopRequireDefault(_DialerPanel);
@@ -23,15 +29,13 @@ var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
 
-var _phoneContext = require('../../lib/phoneContext');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function mapToProps(_, _ref) {
-  var _ref$phone = _ref.phone,
+  var phone = _ref.phone,
+      _ref$phone = _ref.phone,
       call = _ref$phone.call,
       dialerUI = _ref$phone.dialerUI,
-      callMonitor = _ref$phone.callMonitor,
       callingSettings = _ref$phone.callingSettings,
       contactSearch = _ref$phone.contactSearch,
       connectivityMonitor = _ref$phone.connectivityMonitor,
@@ -39,7 +43,6 @@ function mapToProps(_, _ref) {
       rateLimiter = _ref$phone.rateLimiter,
       webphone = _ref$phone.webphone,
       audioSettings = _ref$phone.audioSettings,
-      conferenceCall = _ref$phone.conferenceCall,
       _ref$dialButtonMuted = _ref.dialButtonMuted,
       dialButtonMuted = _ref$dialButtonMuted === undefined ? false : _ref$dialButtonMuted;
 
@@ -47,8 +50,7 @@ function mapToProps(_, _ref) {
   var waitingWebphoneConnected = isWebphoneMode && webphone && webphone.connecting;
   var webphoneDisconnected = isWebphoneMode && webphone && !webphone.connected;
   var audioNotEnabled = isWebphoneMode && audioSettings && !audioSettings.userMedia;
-  var conferenceCallEquipped = !!conferenceCall;
-  var withTab = !!(conferenceCallEquipped && isWebphoneMode && callMonitor.calls.length && webphone.sessions.length);
+  var withinTab = (0, _hasActiveCalls2.default)(phone);
 
   return {
     currentLocale: locale.currentLocale,
@@ -64,7 +66,7 @@ function mapToProps(_, _ref) {
     dialButtonVolume: audioSettings ? audioSettings.dialButtonVolume : 1,
     // If audioSettings is used, then use values from audioSettings module
     dialButtonMuted: audioSettings ? audioSettings.dialButtonMuted : dialButtonMuted,
-    callBtnClassName: withTab ? null : _styles2.default.callBtn
+    callBtnClassName: withinTab ? null : _styles2.default.callBtn
   };
 }
 function mapToFunctions(_, _ref2) {
