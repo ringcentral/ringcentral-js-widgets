@@ -1,5 +1,5 @@
 module.exports = {
-  selectorLabel: 'data-sign',
+  selectorLabel: 'data-test-automation-id',
   caseServices: [{
     name: 'einstein',
     url: 'http://einstein.int.ringcentral.com/',
@@ -18,6 +18,7 @@ module.exports = {
       ['widgets'],
       ['salesforce'],
       ['google'],
+      ['office'],
     ],
   },
   defaults: {
@@ -46,13 +47,13 @@ module.exports = {
   },
   params: {
     projects: {
-      google: {
+      office: {
         type: 'extension',
         source: './src/targets/google',
         params: {
           brands: {
             rc: {
-              extension: '/Users/jackson.lin/workspace/jackzong/googlechrome/build/extension/google/rc',
+              extension: '/Users/jackson.lin/workspace/jackzong/googlechrome/build/extension/office/rc',
               location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
             },
             att: {
