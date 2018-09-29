@@ -650,7 +650,7 @@ var ActiveCallItem = function (_Component) {
               showPlaceholder: showContactDisplayPlaceholder,
               showType: false,
               sourceIcons: sourceIcons,
-              stopPropagation: true
+              stopPropagation: false
             }),
             showCallDetail ? this.getCallInfo() : null
           ),
