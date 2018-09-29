@@ -271,6 +271,7 @@
 @mixin callInfo {
   position: absolute;
   top: -50%;
+  left: 50%;
   height: 16px;
   line-height: 16px;
   margin-top: -8px;
@@ -285,7 +286,6 @@
   @include callInfo;
   width: 33px;
   margin-left: -52px;
-  left: 50%;
   cursor: pointer;
 }
 .duration.center {
@@ -293,15 +293,14 @@
 }
 .ringingCalls, .onHoldCalls {
   @include callInfo;
-  right: 50%;
   width: 100px;
-  margin-right: 5px;
+  margin-left: -100px;
   text-overflow: ellipsis;
   overflow: hidden;
   text-align: center;
 }
 .ringingCalls.center, .onHoldCalls.center {
-  margin-right: -50px;
+  margin-left: -50px;
 }
 
 @mixin btn {
@@ -317,6 +316,8 @@
   margin-left: -13px;
   overflow: hidden;
   white-space: nowrap;
+  min-width: 66px;
+  max-width: 110px;
   cursor: pointer;
 }
 
