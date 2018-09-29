@@ -556,7 +556,7 @@ export default class ActiveCallItem extends Component {
                 showPlaceholder={showContactDisplayPlaceholder}
                 showType={false}
                 sourceIcons={sourceIcons}
-                stopPropagation
+                stopPropagation={false}
               />
               {showCallDetail ? this.getCallInfo() : null}
             </div>
