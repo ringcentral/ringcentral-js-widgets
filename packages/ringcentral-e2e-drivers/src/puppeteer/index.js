@@ -98,7 +98,7 @@ class Driver extends BaseDriver {
     super(options, program);
   }
 
-  async run({ type, extension } = {}) {
+  async run({ type, extension = '' } = {}) {
     const isExtension = type === 'extension';
     const extensionPath = path.resolve(process.cwd(), extension);
     const setting = isExtension ? {
