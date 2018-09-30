@@ -2,12 +2,12 @@ import request from 'request';
 
 const BASE_URL = 'http://10.32.36.75:7789/env/xmnup/account/';
 
-class AccountHelper {
-  constructor({ baseUrl = BASE_URL }) {
+export default class AccountHelper {
+  constructor({ baseUrl = BASE_URL } = {}) {
     this._baseUrl = baseUrl;
   }
 
-  baseReq(method, path, param) {
+  async baseReq(method, path, param) {
     const options = {
       headers: {
         charset: 'UTF-8'
@@ -45,5 +45,3 @@ class AccountHelper {
     return response;
   }
 }
-
-export default new AccountHelper();
