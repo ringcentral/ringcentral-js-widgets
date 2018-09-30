@@ -79,7 +79,7 @@ var DatePicker = function (_Component) {
     };
 
     _this.onClickFunc = function () {
-      var open = !!document.querySelector('.rw-open');
+      var open = !!_this.date.querySelector('.rw-open');
       var openState = !open ? 'date' : false;
       if (!_this.state.open) {
         window.addEventListener('click', _this._handleDocumentClick, false);
