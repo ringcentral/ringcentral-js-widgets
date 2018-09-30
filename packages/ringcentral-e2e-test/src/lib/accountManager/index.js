@@ -2,17 +2,14 @@ import request from 'request';
 
 const BASE_URL = 'http://10.32.36.75:7789/env/xmnup/account/';
 
-class AccountHelper {
-  constructor({ baseUrl = BASE_URL }) {
-    this._baseUrl = baseUrl;
-  }
+export default class AccountHelper {
 
-  baseReq(method, path, param) {
+  async baseReq(method, path, param) {
     const options = {
       headers: {
         charset: 'UTF-8'
       },
-      url: `${this._baseUrl}${path}/${param}`,
+      url: `${BASE_URL}${path}/${param}`,
       method,
       json: true
     };
@@ -46,4 +43,3 @@ class AccountHelper {
   }
 }
 
-export default new AccountHelper();

@@ -2,7 +2,7 @@ import * as WebPhoneClient  from 'webphone-client';
 const TTL = 1800000;
 const WAIT_TIMEOUT = 300000;
 
-class WebPhone{
+export default class WebPhone{
 
   async createWebPhone(phone, type, password) {
     let apiClient = new WebPhoneClient.ApiClient(this.getHost());
@@ -56,12 +56,6 @@ class WebPhone{
     let apiClient = new WebPhoneClient.ApiClient(this.getHost());
     let apiInstance = new WebPhoneClient.ListPhoneApi(apiClient);
     let response = await apiInstance.getPhoneByEnvAndNum(this.getEnv(), phoneNumber);
-    return response;
-  }
-  async getPhonesByNumber(phoneNumber, extension) {
-    let apiClient = new WebPhoneClient.ApiClient(this.getHost());
-    let apiInstance = new WebPhoneClient.ListPhoneApi(apiClient);
-    let response = await apiInstance.getPhoneByEnvAndNumAndExt(this.getEnv(), phoneNumber, extension);
     return response;
   }
 
@@ -153,4 +147,3 @@ class WebPhone{
 
 }
 
-export default new WebPhone
