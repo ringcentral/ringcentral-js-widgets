@@ -23,7 +23,7 @@ function checkValidBrowsers(process) {
     config.globals.execDrivers.length > 0
   );
   if (!isValidBrowsers) {
-    console.error('Valid browsers');
+    console.error('Invalid browsers');
     process.exit();
   }
 }
