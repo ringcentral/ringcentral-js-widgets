@@ -27,7 +27,10 @@ export function getDataReducer(types) {
   return (state = [], { type, activeCalls = [], timestamp }) => {
     switch (type) {
       case types.fetchSuccess:
-      case types.updateActiveCalls: {
+      case types.notification: {
+        if (!timestamp) {
+          return state;
+        }
         return map((activeCall) => {
           const existingCall = state.find(call => (
             call.sessionId === activeCall.sessionId
