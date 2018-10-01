@@ -45,8 +45,11 @@ function getDataReducer(types) {
 
     switch (type) {
       case types.fetchSuccess:
-      case types.updateActiveCalls:
+      case types.notification:
         {
+          if (!timestamp) {
+            return state;
+          }
           return (0, _ramda.map)(function (activeCall) {
             var existingCall = state.find(function (call) {
               return call.sessionId === activeCall.sessionId;
