@@ -36,10 +36,11 @@ export function getRecipientReducer(types) {
   };
 }
 
-export default function getReducer(actionTypes) {
+export default function getReducer(types, reducers = {}) {
   return combineReducers({
-    status: getModuleStatusReducer(actionTypes),
-    toNumberField: getToNumberFieldReducer(actionTypes),
-    recipient: getRecipientReducer(actionTypes),
+    ...reducers,
+    status: getModuleStatusReducer(types),
+    toNumberField: getToNumberFieldReducer(types),
+    recipient: getRecipientReducer(types),
   });
 }
