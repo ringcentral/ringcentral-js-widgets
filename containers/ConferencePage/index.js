@@ -84,7 +84,9 @@ function mapToFunctions(_, _ref3) {
       composeText = _ref3$phone.composeText,
       routerInteraction = _ref3$phone.routerInteraction,
       call = _ref3$phone.call,
-      _alert = _ref3$phone.alert;
+      _alert = _ref3$phone.alert,
+      _ref3$enableAutoEnter = _ref3.enableAutoEnterHostKey,
+      enableAutoEnterHostKey = _ref3$enableAutoEnter === undefined ? false : _ref3$enableAutoEnter;
 
   return {
     alert: function alert(msg) {
@@ -102,10 +104,11 @@ function mapToFunctions(_, _ref3) {
       conference.onInviteWithText();
       routerInteraction.push('/composeText');
     },
-    joinAsHost: function joinAsHost(phoneNumber) {
+    joinAsHost: function joinAsHost() {
       // for track
       conference.onJoinAsHost();
       routerInteraction.history.push('/dialer');
+      var phoneNumber = enableAutoEnterHostKey ? conference.dialInNumber + ',,' + conference.data.hostCode + '#' : conference.dialInNumber;
       call.call({ phoneNumber: phoneNumber });
     },
     onAllowJoinBeforeHostChange: function onAllowJoinBeforeHostChange(allowJoinBeforeHost) {

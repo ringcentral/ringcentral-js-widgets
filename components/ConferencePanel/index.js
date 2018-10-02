@@ -587,9 +587,7 @@ var ConferencePanel = function (_Component) {
             _Button2.default,
             {
               className: _styles2.default.primaryButton,
-              onClick: function onClick() {
-                return joinAsHost(dialInNumber);
-              } },
+              onClick: joinAsHost },
             _i18n2.default.getString('joinAsHost', currentLocale)
           )
         )
