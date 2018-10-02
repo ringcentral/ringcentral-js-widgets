@@ -19,6 +19,7 @@ import callErrors from '../Call/callErrors';
 import ensureExist from '../../lib/ensureExist';
 import proxify from '../../lib/proxy/proxify';
 import getter from '../../lib/getter';
+import Enum from '../../lib/Enum';
 
 import {
   isBrowserSupport,
@@ -36,6 +37,12 @@ const FIFTH_RETRIES_DELAY = 60 * 1000;
 const MAX_RETRIES_DELAY = 2 * 60 * 1000;
 
 const INCOMING_CALL_INVALID_STATE_ERROR_CODE = 2;
+
+const extendedControlStatus = new Enum([
+  'pending',
+  'playing',
+  'stopped',
+]);
 
 /**
  * @constructor
@@ -638,6 +645,23 @@ export default class Webphone extends RcModule {
     this._disconnect();
   }
 
+  async _playExtendedControls(session) {
+    session.__rc_extendedControlStatus = extendedControlStatus.playing;
+    const controls = session.__rc_extendedControls.slice();
+    for (let i = 0, len = controls.length; i < len; i += 1) {
+      if (session.__rc_extendedControlStatus === extendedControlStatus.playing) {
+        if (controls[i] === ',') {
+          await sleep(2000);
+        } else {
+          await this._sendDTMF(controls[i], session);
+        }
+      } else {
+        return;
+      }
+    }
+    session.__rc_extendedControlStatus = extendedControlStatus.stopped;
+  }
+
   _onAccepted(session) {
     session.on('accepted', (incomingResponse) => {
       if (session.__rc_callStatus === sessionStatus.finished) {
@@ -646,6 +670,12 @@ export default class Webphone extends RcModule {
       console.log('accepted');
       session.__rc_callStatus = sessionStatus.connected;
       extractHeadersData(session, incomingResponse.headers);
+      if (
+        session.__rc_extendedControls &&
+        session.__rc_extendedControlStatus === extendedControlStatus.pending
+      ) {
+        this._playExtendedControls(session);
+      }
       this._onCallStart(session);
     });
     session.on('progress', () => {
@@ -1054,15 +1084,19 @@ export default class Webphone extends RcModule {
   }
 
   @proxify
-  async sendDTMF(dtmfValue, sessionId) {
-    const session = this._sessions.get(sessionId);
-    if (!session) {
-      return;
-    }
+  async _sendDTMF(dtmfValue, session) {
     try {
       await session.dtmf(dtmfValue);
     } catch (e) {
       console.error(e);
+    }
+  }
+
+  @proxify
+  async sendDTMF(dtmfValue, sessionId) {
+    const session = this._sessions.get(sessionId);
+    if (session) {
+      await this._sendDTMF(dtmfValue, session);
     }
   }
 
@@ -1133,6 +1167,7 @@ export default class Webphone extends RcModule {
     toNumber,
     fromNumber,
     homeCountryId,
+    extendedControls,
   }) {
     if (!this._webphone) {
       this._alert.warning({
@@ -1157,6 +1192,8 @@ export default class Webphone extends RcModule {
     session.__rc_creationTime = Date.now();
     session.__rc_lastActiveTime = Date.now();
     session.__rc_fromNumber = fromNumber;
+    session.__rc_extendedControls = extendedControls;
+    session.__rc_extendedControlStatus = extendedControlStatus.pending;
     this._onAccepted(session);
     this._holdOtherSession(session.id);
     this._onCallStart(session);
@@ -1270,6 +1307,7 @@ export default class Webphone extends RcModule {
   }
 
   _onCallEnd(session) {
+    session.__rc_extendedControlStatus = extendedControlStatus.stopped;
     const normalizedSession = find(x => x.id === session.id, this.sessions);
     if (!normalizedSession) {
       return;

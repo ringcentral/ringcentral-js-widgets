@@ -210,7 +210,11 @@ export default function App({
                 )} />
               <Route
                 path="/conference"
-                component={ConferencePage} />
+                component={() => (
+                  <ConferencePage
+                    enableAutoEnterHostKey
+                  />
+                )} />
               <Route
                 path="/conference/commands"
                 component={() => (
