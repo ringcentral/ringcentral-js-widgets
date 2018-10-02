@@ -49,6 +49,10 @@ var _dec, _class, _desc, _value, _class2;
 
 var _redux = require('redux');
 
+var _extractControls2 = require('@ringcentral-integration/phone-number/lib/extractControls');
+
+var _extractControls3 = _interopRequireDefault(_extractControls2);
+
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
@@ -406,12 +410,14 @@ var Call = (_dec = (0, _di.Module)({
     key: 'call',
     value: function () {
       var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_ref7) {
-        var phoneNumber = _ref7.phoneNumber,
+        var input = _ref7.phoneNumber,
             recipient = _ref7.recipient,
             fromNumber = _ref7.fromNumber,
             _ref7$isConference = _ref7.isConference,
             isConference = _ref7$isConference === undefined ? false : _ref7$isConference;
-        var session, toNumber, validatedNumbers;
+
+        var session, _extractControls, phoneNumber, extendedControls, toNumber, validatedNumbers;
+
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -419,24 +425,25 @@ var Call = (_dec = (0, _di.Module)({
                 session = null;
 
                 if (!this.isIdle) {
-                  _context5.next = 27;
+                  _context5.next = 28;
                   break;
                 }
 
+                _extractControls = (0, _extractControls3.default)(input), phoneNumber = _extractControls.phoneNumber, extendedControls = _extractControls.extendedControls;
                 toNumber = recipient && (recipient.phoneNumber || recipient.extension) || phoneNumber;
 
                 if (!(!toNumber || ('' + toNumber).trim().length === 0)) {
-                  _context5.next = 7;
+                  _context5.next = 8;
                   break;
                 }
 
                 this._alert.warning({
                   message: _callErrors2.default.noToNumber
                 });
-                _context5.next = 27;
+                _context5.next = 28;
                 break;
 
-              case 7:
+              case 8:
                 this.store.dispatch({
                   type: this.actionTypes.connect,
                   isConference: isConference,
@@ -444,47 +451,49 @@ var Call = (_dec = (0, _di.Module)({
                   recipient: recipient,
                   callSettingMode: this._callSettingMode // for Track
                 });
-                _context5.prev = 8;
-                _context5.next = 11;
+                _context5.prev = 9;
+                _context5.next = 12;
                 return this._getValidatedNumbers({
                   toNumber: toNumber,
                   fromNumber: fromNumber,
                   isConference: isConference
                 });
 
-              case 11:
+              case 12:
                 validatedNumbers = _context5.sent;
 
                 if (!validatedNumbers) {
-                  _context5.next = 19;
+                  _context5.next = 20;
                   break;
                 }
 
-                _context5.next = 15;
-                return this._makeCall(validatedNumbers);
+                _context5.next = 16;
+                return this._makeCall((0, _extends3.default)({}, validatedNumbers, {
+                  extendedControls: extendedControls
+                }));
 
-              case 15:
+              case 16:
                 session = _context5.sent;
 
                 this.store.dispatch({
                   type: this.actionTypes.connectSuccess,
                   callSettingMode: this._callSettingMode // for Track
                 });
-                _context5.next = 20;
+                _context5.next = 21;
                 break;
 
-              case 19:
+              case 20:
                 this.store.dispatch({
                   type: this.actionTypes.connectError
                 });
 
-              case 20:
-                _context5.next = 27;
+              case 21:
+                _context5.next = 28;
                 break;
 
-              case 22:
-                _context5.prev = 22;
-                _context5.t0 = _context5['catch'](8);
+              case 23:
+                _context5.prev = 23;
+                _context5.t0 = _context5['catch'](9);
 
                 if (!_context5.t0.message && _context5.t0.type && _callErrors2.default[_context5.t0.type]) {
                   // validate format error
@@ -515,15 +524,15 @@ var Call = (_dec = (0, _di.Module)({
                 });
                 throw _context5.t0;
 
-              case 27:
+              case 28:
                 return _context5.abrupt('return', session);
 
-              case 28:
+              case 29:
               case 'end':
                 return _context5.stop();
             }
           }
-        }, _callee5, this, [[8, 22]]);
+        }, _callee5, this, [[9, 23]]);
       }));
 
       function call(_x2) {
@@ -672,7 +681,9 @@ var Call = (_dec = (0, _di.Module)({
         var toNumber = _ref11.toNumber,
             fromNumber = _ref11.fromNumber,
             _ref11$callingMode = _ref11.callingMode,
-            callingMode = _ref11$callingMode === undefined ? this._callingSettings.callingMode : _ref11$callingMode;
+            callingMode = _ref11$callingMode === undefined ? this._callingSettings.callingMode : _ref11$callingMode,
+            _ref11$extendedContro = _ref11.extendedControls,
+            extendedControls = _ref11$extendedContro === undefined ? [] : _ref11$extendedContro;
         var homeCountry, homeCountryId, session;
         return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
@@ -713,7 +724,8 @@ var Call = (_dec = (0, _di.Module)({
                 return this._webphone.makeCall({
                   fromNumber: fromNumber,
                   toNumber: toNumber,
-                  homeCountryId: homeCountryId
+                  homeCountryId: homeCountryId,
+                  extendedControls: extendedControls
                 });
 
               case 15:
