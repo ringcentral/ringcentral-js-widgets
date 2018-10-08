@@ -16,9 +16,10 @@
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
+    "chromedriver": "^2.42.0",
+    "geckodriver": "^1.12.2",
     "marten": "^1.0.0-alpha.1",
     "request": "^2.88.0",
-    "webphone-client": "git+https://git.ringcentral.com/centralized-webphone/js_api_client.git#master",
     "ringcentral-e2e-cli": "^0.0.1"
   },
   "license": "MIT"
