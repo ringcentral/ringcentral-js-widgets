@@ -5,6 +5,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = exports.RUNTIME = exports.PSEUDO_LOCALE = exports.DEFAULT_LOCALE = undefined;
 
+var _parseFloat = require('babel-runtime/core-js/number/parse-float');
+
+var _parseFloat2 = _interopRequireDefault(_parseFloat);
+
+var _isNan = require('babel-runtime/core-js/number/is-nan');
+
+var _isNan2 = _interopRequireDefault(_isNan);
+
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
@@ -129,7 +137,8 @@ var PSEUDO_LOCALE = exports.PSEUDO_LOCALE = 'en-ZZ';
 var RUNTIME = exports.RUNTIME = {
   locale: DEFAULT_LOCALE,
   defaultLocale: DEFAULT_LOCALE,
-  instances: new _set2.default()
+  instances: new _set2.default(),
+  padRatio: 0.3
 };
 var I18n = function () {
   /**
@@ -261,7 +270,10 @@ var I18n = function () {
       var locale = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : RUNTIME.locale;
 
       if (locale === PSEUDO_LOCALE) {
-        return (0, _toPseudoString2.default)(this._getString(key, RUNTIME.defaultLocale));
+        return (0, _toPseudoString2.default)({
+          str: this._getString(key, RUNTIME.defaultLocale),
+          padRatio: RUNTIME.padRatio
+        });
       }
       return this._getString(key, locale);
     }
@@ -294,6 +306,18 @@ var I18n = function () {
     key: 'setLocale',
     get: function get() {
       return setLocale;
+    }
+  }, {
+    key: 'padRatio',
+    get: function get() {
+      return RUNTIME.padRatio;
+    },
+    set: function set(ratio) {
+      if ((0, _isNan2.default)(ratio)) {
+        console.log('ratio must be a number');
+        return;
+      }
+      RUNTIME.padRatio = (0, _parseFloat2.default)(ratio);
     }
   }]);
   return I18n;
