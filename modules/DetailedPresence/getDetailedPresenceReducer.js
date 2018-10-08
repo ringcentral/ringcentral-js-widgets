@@ -26,28 +26,31 @@ var _callLogHelpers = require('../../lib/callLogHelpers');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var removeIntermediateCall = (0, _ramda.reduce)(function (result, activeCall) {
+  if (!(0, _callLogHelpers.isIntermediateCall)(activeCall) && !(0, _ramda.find)(function (item) {
+    return item.sessionId === activeCall.sessionId && item.direction === activeCall.direction;
+  }, result)) {
+    result.push(activeCall);
+  }
+  return result;
+});
+
 function getDataReducer(types) {
-  var removeIntermediateCall = (0, _ramda.reduce)(function (result, activeCall) {
-    if (!(0, _callLogHelpers.isIntermediateCall)(activeCall) && !(0, _ramda.find)(function (item) {
-      return item.sessionId === activeCall.sessionId && item.direction === activeCall.direction;
-    }, result)) {
-      result.push(activeCall);
-    }
-    return result;
-  });
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
     var _ref = arguments[1];
     var type = _ref.type,
+        timestamp = _ref.timestamp,
         _ref$activeCalls = _ref.activeCalls,
         activeCalls = _ref$activeCalls === undefined ? [] : _ref$activeCalls,
-        timestamp = _ref.timestamp;
+        _ref$totalActiveCalls = _ref.totalActiveCalls,
+        totalActiveCalls = _ref$totalActiveCalls === undefined ? 0 : _ref$totalActiveCalls;
 
     switch (type) {
       case types.fetchSuccess:
       case types.notification:
         {
-          if (!timestamp) {
+          if (activeCalls.length !== totalActiveCalls) {
             return state;
           }
           return (0, _ramda.map)(function (activeCall) {
