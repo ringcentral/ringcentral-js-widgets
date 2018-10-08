@@ -2,31 +2,31 @@
 
 `ringcentral-e2e-test` is RingCentral integration Apps test project. It's based on `ringcentral-test-cli` and `marten`.
 
-* `ringcentral-test-cli` is a complex of E2E test framework, it's based on `jest` as test runner.
-* `marten` is a steps controller library.
+-   `ringcentral-test-cli` is a complex of E2E test framework, it's based on `jest` as test runner.
+-   `marten` is a steps controller library.
 
 We are committed to designing a more efficient testing framework that is used to implement the more easily code/read/maintain E2E testing project with high-quality reusable code. Of course, it better be high-performance. In appropriate structure, it should be progressive enhancement/plug-in modular.
 
 ### Contents
 
-* [Features](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#features)
-* [Installation](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#Installation)
-* [Getting Started](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#getting-started)
-* [Guide For RC Integration App](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#guide-for-rc-integration-app)
-* [APIs Reference](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#api-reference)
-    - [Test CLI](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#test-cli)
-    - [Project Config](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#project-config)
-    - [Test Drivers](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#test-drivers)
-    - [Test Hooks](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#test-hooks)
-* [How It Works](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#how-it-works)
-* [Change Log](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#change-log)
+-   [Features](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#features)
+-   [Installation](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#Installation)
+-   [Getting Started](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#getting-started)
+-   [Guide For RC Integration App](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#guide-for-rc-integration-app)
+-   [APIs Reference](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#api-reference)
+    -   [Test CLI](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#test-cli)
+    -   [Project Config](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#project-config)
+    -   [Test Drivers](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#test-drivers)
+    -   [Test Hooks](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#test-hooks)
+-   [How It Works](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#how-it-works)
+-   [Change Log](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#change-log)
 
 ### Features
 
-* **Compatible Test**
-* **Controllable Process**
-* **Stratified Test**
-* **Progressive Modular**
+-   **Compatible Test**
+-   **Controllable Process**
+-   **Stratified Test**
+-   **Progressive Modular**
 
 ### Installation
 
@@ -57,8 +57,11 @@ cd packages/ringcentral-widgets-demo && yarn dev-server
 
 ```shell
 cd <repo>/packages/ringcentral-e2e-test
-npx e2e-test run ./src/features/widgets/meeting/**/*.js
+npx e2e-test run ./src/features/commons/call/Dialer.spec.js --drivers puppeteer
 ```
+
+> `webphone-client` in RC private internal package.</br>
+> Using safari note: it needs enable Remote Automation.
 
 **NOTE: If you want to try to write some test cases from the RC widget demo, you can keep on the following [next steps](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#guide-for-rc-integration-app).**
 
@@ -129,24 +132,21 @@ TODO
 
 | Drivers                             | cases | threads | sandbox | performance | stability |
 | ----------------------------------- | ----- | ------- | ------- | ----------- | --------- |
-| **puppeteer/Firefox/Chrome/Safari** | 1600  | 1       |         | 1312.125s   | ✅         |
-| **puppeteer**                       | 400   | 8       |         | 96.44s      | ✅         |
-| puppeteer                           | 400   | 1       |         | 237.614s    | ✅         |
-| puppeteer                           | 400   | 8       | ✅       | 289.44s     | ✅         |
-| Chrome                              | 400   | 8       |         | 103.665s    | ✅         |
-| Firefox                             | 400   | 8       |         | 415.726s    | ✅         |
+| **puppeteer/Firefox/Chrome/Safari** | 1600  | 1       |         | 1312.125s   | ✅        |
+| **puppeteer**                       | 400   | 8       |         | 96.44s      | ✅        |
+| puppeteer                           | 400   | 1       |         | 237.614s    | ✅        |
+| puppeteer                           | 400   | 8       | ✅      | 289.44s     | ✅        |
+| Chrome                              | 400   | 8       |         | 103.665s    | ✅        |
+| Firefox                             | 400   | 8       |         | 415.726s    | ✅        |
 | puppeteer/Firefox/Chrome            | 1200  | 8       |         | 630.503s    | ⚠️        |
-| Safari                              | 400   | 8       |         | -           | ❌         |
-| Enzyme                              | 400   | 1       | ✅       | 374.998s    | ✅         |
-| **Enzyme**                          | 400   | 8       | ✅       | 149.882s    | ✅         |
-| Enzyme                              | 400   | 1       |         | -           | ❌         |
+| Safari                              | 400   | 8       |         | -           | ❌        |
+| Enzyme                              | 400   | 1       | ✅      | 374.998s    | ✅        |
+| **Enzyme**                          | 400   | 8       | ✅      | 149.882s    | ✅        |
+| Enzyme                              | 400   | 1       |         | -           | ❌        |
 
-> `Chrome` is selenium webdriver's Chrome.
->
-> Selenium webdriver multithreading operation is not stable.
->
-> Selenium Webdriver Safari does not support multithreading.
->
+> `Chrome` is selenium webdriver's Chrome.</br>
+> Selenium webdriver multithreading operation is not stable.</br>
+> Selenium Webdriver Safari does not support multithreading.</br>
 > Enzyme does not support non-sandbox mode(Default forced sandbox mode).
 
 ### How It Works
@@ -155,4 +155,4 @@ TODO
 
 ### Change Log
 
-* 2018/9/14 Implement infrastructure & architecture.
+-   2018/9/14 Implement infrastructure & architecture.
