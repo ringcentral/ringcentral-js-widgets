@@ -1,6 +1,7 @@
 import { createProcess } from 'marten';
 import salesforce from './salesforce';
 import widgets from './widgets';
+import office from './office';
 
 export default class Entry {
   static async enter(context) {
@@ -10,6 +11,7 @@ export default class Entry {
       return;
     }
     const entries = {
+      office,
       widgets,
       salesforce,
     };

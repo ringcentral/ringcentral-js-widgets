@@ -18,6 +18,7 @@ module.exports = {
       ['widgets'],
       ['salesforce'],
       ['google'],
+      ['office'],
     ],
   },
   defaults: {
@@ -46,13 +47,13 @@ module.exports = {
   },
   params: {
     projects: {
-      google: {
+      office: {
         type: 'extension',
         source: './src/targets/google',
         params: {
           brands: {
             rc: {
-              extension: './resources/extension/google/rc',
+              extension: '../../../googlechrome/build/extension/office/rc',
               location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
             },
             att: {
