@@ -6,13 +6,9 @@ Object.defineProperty(exports, "__esModule", {
 exports.getLastSessionIdReducer = getLastSessionIdReducer;
 exports.default = getReducer;
 
-var _redux = require('redux');
-
-var _getModuleStatusReducer = require('ringcentral-integration/lib/getModuleStatusReducer');
-
-var _getModuleStatusReducer2 = _interopRequireDefault(_getModuleStatusReducer);
-
 var _getReducer = require('../DialerUI/getReducer');
+
+var _getReducer2 = _interopRequireDefault(_getReducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35,10 +31,7 @@ function getLastSessionIdReducer(types) {
 }
 
 function getReducer(types) {
-  return (0, _redux.combineReducers)({
-    status: (0, _getModuleStatusReducer2.default)(types),
-    toNumberField: (0, _getReducer.getToNumberFieldReducer)(types),
-    recipient: (0, _getReducer.getRecipientReducer)(types),
+  return (0, _getReducer2.default)(types, {
     lastSessionId: getLastSessionIdReducer(types)
   });
 }
