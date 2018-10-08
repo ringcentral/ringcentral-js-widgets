@@ -676,7 +676,7 @@ export default class Webphone extends RcModule {
       ) {
         this._playExtendedControls(session);
       }
-      // this._onCallStart(session);
+      this._updateSessions();
     });
     session.on('progress', () => {
       console.log('progress...');
