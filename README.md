@@ -63,6 +63,14 @@ $ yarn bootstrap # Bootstrap with lerna
 $ yarn test # Run tests
 ```
 
+Commit:
+
+```bash
+$ git add .
+$ yarn commit
+$ npx git-cz # if you are using NPM 5.2+
+```
+
 ### Play with Development Server
 
 A development server is delivered with source so that developers can use it to get familiar with the project or do further development. To get development server running：

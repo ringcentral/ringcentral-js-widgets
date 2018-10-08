@@ -30,11 +30,19 @@
     "phone-number:prepare-release": "node scripts/prepareRelease.js @ringcentral-integration/phone-number phone-number-release",
     "phone-number:start-release": "node scripts/startRelease.js @ringcentral-integration/phone-number phone-number-release",
     "glip-widgets:prepare-release": "node scripts/prepareRelease.js @ringcentral-integration/glip-widgets glip-widgets-release",
-    "glip-widgets:start-release": "node scripts/startRelease.js @ringcentral-integration/glip-widgets glip-widgets-release"
+    "glip-widgets:start-release": "node scripts/startRelease.js @ringcentral-integration/glip-widgets glip-widgets-release",
+    "commit": "./node_modules/.bin/git-cz"
   },
   "devDependencies": {
-    "eslint-settings": "*",
     "babel-settings": "*",
+    "commitizen": "^3.0.2",
+    "cz-conventional-changelog": "^2.1.0",
+    "eslint-settings": "*",
     "lerna": "^2.11.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   }
 }
