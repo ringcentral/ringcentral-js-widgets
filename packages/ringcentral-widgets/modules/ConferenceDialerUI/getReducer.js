@@ -1,9 +1,4 @@
-import { combineReducers } from 'redux';
-import getModuleStatusReducer from 'ringcentral-integration/lib/getModuleStatusReducer';
-import {
-  getToNumberFieldReducer,
-  getRecipientReducer,
-} from '../DialerUI/getReducer';
+import getDialerUIReducer from '../DialerUI/getReducer';
 
 export function getLastSessionIdReducer(types) {
   return (state = null, { type, sessionId }) => {
@@ -19,10 +14,7 @@ export function getLastSessionIdReducer(types) {
 }
 
 export default function getReducer(types) {
-  return combineReducers({
-    status: getModuleStatusReducer(types),
-    toNumberField: getToNumberFieldReducer(types),
-    recipient: getRecipientReducer(types),
+  return getDialerUIReducer(types, {
     lastSessionId: getLastSessionIdReducer(types),
   });
 }
