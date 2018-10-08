@@ -2,7 +2,7 @@ import CircleButton from 'ringcentral-widgets/components/CircleButton';
 import ActiveCallPad from 'ringcentral-widgets/components/ActiveCallPad';
 import IncomingCallPad from 'ringcentral-widgets/components/IncomingCallPad';
 import ActiveCallButton from 'ringcentral-widgets/components/ActiveCallButton';
-import { initPhoneWrapper } from '../shared';
+import { initPhoneWrapper, timeout } from '../shared';
 import { getInboundCall } from '../../support/callHelper';
 
 beforeEach(async () => {
@@ -33,6 +33,7 @@ describe('Inbound Call in Call Control Page', () => {
     const session = await makeInbountCall(phone, wrapper);
     const buttonAnswer = wrapper.find(IncomingCallPad).find(ActiveCallButton).at(4);
     buttonAnswer.find(CircleButton).simulate('click');
+    await timeout(100);
     wrapper.update();
     expect(phone.routerInteraction.currentPath).toEqual(`/calls/active/${session.id}`);
     const buttonAdd = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
