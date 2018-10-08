@@ -32,8 +32,8 @@ export default class RecentMessages extends RcModule {
       actionTypes,
       ...options
     });
-    this._client = this::ensureExist(client, 'client');
-    this._messageStore = this::ensureExist(messageStore, 'messageStore');
+    this._client = this:: ensureExist(client, 'client');
+    this._messageStore = this:: ensureExist(messageStore, 'messageStore');
     this._reducer = getRecentMessagesReducer(this.actionTypes);
 
     this.addSelector(
@@ -175,15 +175,19 @@ export default class RecentMessages extends RcModule {
         ? recentMessages[recentMessages.length - 1].creationTime
         : undefined;
 
-      // This will always be sorted
-      recentMessages = recentMessages.concat(
-        await this._fetchRemoteRecentMessages(
-          currentContact,
-          dateFrom.toISOString(),
-          dateTo,
-          length
-        )
-      );
+      try {
+        // This will always be sorted
+        recentMessages = recentMessages.concat(
+          await this._fetchRemoteRecentMessages(
+            currentContact,
+            dateFrom.toISOString(),
+            dateTo.toISOString(),
+            length
+          )
+        );
+      } catch (error) {
+        console.error(error);
+      }
     }
 
     recentMessages = this._dedup(recentMessages);
