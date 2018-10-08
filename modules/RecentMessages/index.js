@@ -339,33 +339,39 @@ var RecentMessages = (_dec = (0, _di.Module)({
                 // we need to search for messages on server.
 
                 if (!(!fromLocal && recentMessages.length < length)) {
-                  _context2.next = 9;
+                  _context2.next = 15;
                   break;
                 }
 
                 dateTo = recentMessages.length > 0 ? recentMessages[recentMessages.length - 1].creationTime : undefined;
-
-                // This will always be sorted
-
+                _context2.prev = 4;
                 _context2.t0 = recentMessages;
-                _context2.next = 7;
-                return this._fetchRemoteRecentMessages(currentContact, dateFrom.toISOString(), dateTo, length);
+                _context2.next = 8;
+                return this._fetchRemoteRecentMessages(currentContact, dateFrom.toISOString(), dateTo.toISOString(), length);
 
-              case 7:
+              case 8:
                 _context2.t1 = _context2.sent;
                 recentMessages = _context2.t0.concat.call(_context2.t0, _context2.t1);
+                _context2.next = 15;
+                break;
 
-              case 9:
+              case 12:
+                _context2.prev = 12;
+                _context2.t2 = _context2['catch'](4);
+
+                console.error(_context2.t2);
+
+              case 15:
 
                 recentMessages = this._dedup(recentMessages);
                 return _context2.abrupt('return', recentMessages.length > length ? recentMessages.slice(0, length) : recentMessages);
 
-              case 11:
+              case 17:
               case 'end':
                 return _context2.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee2, this, [[4, 12]]);
       }));
 
       function _getRecentMessages(_x5) {
