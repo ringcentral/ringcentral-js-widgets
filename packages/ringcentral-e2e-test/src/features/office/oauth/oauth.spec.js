@@ -10,9 +10,9 @@ beforeEach(() => {
 afterEach(async() => {
   await browser.close();
 })
-describe('Test Demo: =====>', () => {
+describe('O365 authorization flow: =====>', () => {
   test({
-    title: 'button text with select ${selector} expected ${expected} ',
+    title: 'O365 authorization flow(click authorization on setting panel)',
     tags: [
       ['office', { brands: ['rc'] }],
     ],
@@ -20,17 +20,10 @@ describe('Test Demo: =====>', () => {
     levels: ['p0'],
     options: [
       {
-        selector: '[class*=styles_loginButton]',
-        expected: 'Sign In',
-        username: '',
-        pwd: '',
-        loginTitle: 'Sign in - RingCentral',
-        appTitle: '',
         authSuccess: 'Authorized Account',
         officeAccout: '',
         officePwd: '',
-        server: 'https://service-xmnup.lab.nordigy.ru',
-        microsoftTitle: 'Sign in to your account',
+        microsoftOauthUrl: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize'
       },
     ],
   }, async ({ option }) => {
@@ -41,23 +34,26 @@ describe('Test Demo: =====>', () => {
     )(context);
     await process.exec();
     // Authroize Office365
+    await $(page).waitFor(500);
+    await $(page).waitFor('div[title="More Menu"]', { selector: 'css' });
+    await $(page).click('div[title="More Menu"]', { selector: 'css' });
     await $(page).waitFor('div[title="Settings"]', { selector: 'css' });
     await $(page).click('div[title="Settings"]', { selector: 'css' });
     await $(page).waitFor('button[class*="AuthorizeSettingsPanel"]', { selector: 'css' });
     await $(page).click('button[class*="AuthorizeSettingsPanel"]', { selector: 'css' });
-    // TODO: wait for popup
-    await $(page).waitFor(6000);
-    const targets = await browser.targets();
-    const officeAuthPop = targets.find(t => t._targetInfo.title === option.microsoftTitle);
-    const officeAuthPage = await officeAuthPop.page();
-    await officeAuthPage.type("input[type='email']", option.officeAccout, { selector: 'css' });
-    await officeAuthPage.click("input[type='submit']", { selector: 'css' });
-    await officeAuthPage.type("input[name='passwd']", option.officePwd, { selector: 'css' });
+    const officeAuthPage = await new Promise(resolve => browser.on('targetcreated', async(t) => {
+      if(t._targetInfo && t._targetInfo.url.includes(option.microsoftOauthUrl)) {
+        resolve(await t.page());
+      }
+    }));
+    await $(officeAuthPage).waitFor("input[type='email']", { selector: 'css' });
+    await $(officeAuthPage).type("input[type='email']", option.officeAccout, { selector: 'css' });
+    await $(officeAuthPage).click("input[type='submit']", { selector: 'css' });
+    await $(officeAuthPage).type("input[name='passwd']", option.officePwd, { selector: 'css' });
     // need a timeout
-    await $(officeAuthPage).waitFor(2000);
-    await officeAuthPage.click("input[type='submit']", { selector: 'css' });
-    await $(officeAuthPage).waitFor(3000);
-    // Check status
+    await $(page).waitFor(500);
+    await $(officeAuthPage).click("input[type='submit']", { selector: 'css' });
+    await $(page).waitFor(2500);
     const text = await $(page).getText("[class*='AuthorizeSettingsPanel-_styles_title']",
       { selector: 'css' }
     );
