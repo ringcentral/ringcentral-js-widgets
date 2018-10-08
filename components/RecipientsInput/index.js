@@ -374,7 +374,7 @@ var RecipientsInput = function (_Component) {
       var relatedContactList = this.state.value.length >= 3 ? this.props.searchContactList.slice(0, 50) : [];
       var label = _react2.default.createElement(
         'label',
-        null,
+        { className: _styles2.default.label },
         this.props.label === undefined ? _i18n2.default.getString('to', this.props.currentLocale) + ':' : this.props.label
       );
       var toNumberInput = !this.props.multiple && this.props.recipient ? null : _react2.default.createElement(
