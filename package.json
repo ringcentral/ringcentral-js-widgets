@@ -31,7 +31,7 @@
     "phone-number:start-release": "node scripts/startRelease.js @ringcentral-integration/phone-number phone-number-release",
     "glip-widgets:prepare-release": "node scripts/prepareRelease.js @ringcentral-integration/glip-widgets glip-widgets-release",
     "glip-widgets:start-release": "node scripts/startRelease.js @ringcentral-integration/glip-widgets glip-widgets-release",
-    "commit": "./node_modules/.bin/git-cz"
+    "commit": "yarn git-cz"
   },
   "devDependencies": {
     "babel-settings": "*",

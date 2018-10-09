@@ -68,7 +68,8 @@ Commit:
 ```bash
 $ git add .
 $ yarn commit
-$ npx git-cz # if you are using NPM 5.2+
+or
+$ yarn git-cz
 ```
 
 ### Play with Development Server
