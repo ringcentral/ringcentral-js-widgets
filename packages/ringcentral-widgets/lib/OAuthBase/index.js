@@ -148,7 +148,7 @@ export default class OAuthBase extends RcModule {
     const extendedQuery = qs.stringify({
       force: true,
       localeId: this._locale.currentLocale,
-      ui_options: ['hide_remember_me', 'hide_tos'].concat(this._extralUIOptions).join(' ')
+      ui_options: ['hide_remember_me', 'hide_tos', ...this._extralUIOptions].join(' ')
     });
     return `${this._auth.getLoginUrl({
       redirectUri: this.redirectUri,
