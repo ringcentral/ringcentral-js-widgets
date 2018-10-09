@@ -106,17 +106,29 @@ TODO
 
 ##### Driver APIs
 
-| Reference | Description                              | arguments |
-| --------- | ---------------------------------------- | --------- |
-| goto      | Current page goto a new page with a url. | (config)  |
+| Reference     | Description                                       | arguments                 |
+| ------------- | ------------------------------------------------- | --------------------------|
+| goto          | Current page goto a new page with a url.          | (config)                  |
+| clear         | Clear the value of this element.                  | (selector, options)       |
+| newPage       | Create a new page in a default browser context.   | ()                        |
+| closePage     | Closes the current window.                        | ()                        |
 
 TODO
 
 ##### Query APIs
 
-| Reference | Description               | arguments             |
-| --------- | ------------------------- | --------------------- |
-| getText   | Get text from a selector. | (selector[, options]) |
+| Reference     | Description                                       | arguments                 |
+| ------------- | ------------------------------------------------- | ------------------------- |
+| getText       | Get text from a selector.                         | (selector[, options])     |
+| goto          | Current page goto a new page with a url.          | (config)                  |
+| click         | left-click with the mouse.                        |(selector, options)        |
+| type          | Enter a value on the selector.                    |(selector, value, options) |
+|waitForSelector| Wait for the selector to appear in page.          |(selector, options)        |
+|waitForFrames  | Wait for the iframes to appear in page and return |                           |
+|               | a frame.                                          |(frameIds)                 |
+|screenshot     | Takes a screenshot of the current page.           |(path)                     |  
+|execute        | Executes JavaScript in the context of the         |                           |
+|               | currently selectedframe or window.                |(...args)                  |
 
 TODO
 
