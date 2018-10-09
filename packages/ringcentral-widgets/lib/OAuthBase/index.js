@@ -13,6 +13,7 @@ import baseActionTypes from './baseActionTypes';
 import getOAuthBaseReducer from './getOAuthBaseReducer';
 import oAuthMessages from './oAuthMessages';
 
+const DEFAULT_UI_OPTIONS = ['hide_remember_me', 'hide_tos'];
 @Module({
   deps: [
     'Auth',
@@ -30,7 +31,7 @@ export default class OAuthBase extends RcModule {
     locale,
     tabManager,
     redirectUri,
-    extralUIOptions = [],
+    extralUIOptions = DEFAULT_UI_OPTIONS,
     ...options
   }) {
     super({
@@ -148,7 +149,7 @@ export default class OAuthBase extends RcModule {
     const extendedQuery = qs.stringify({
       force: true,
       localeId: this._locale.currentLocale,
-      ui_options: ['hide_remember_me', 'hide_tos', ...this._extralUIOptions].join(' ')
+      ui_options: this._extralUIOptions.join(' ')
     });
     return `${this._auth.getLoginUrl({
       redirectUri: this.redirectUri,
