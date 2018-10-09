@@ -2784,6 +2784,11 @@ crypto-browserify@^3.0.0, crypto-browserify@^3.11.0:
     randombytes "^2.0.0"
     randomfill "^1.0.3"
 
+crypto-js@^3.1.9-1:
+  version "3.1.9-1"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-3.1.9-1.tgz#fda19e761fc077e01ffbfdc6e9fdfc59e8806cd8"
+  integrity sha1-/aGedh/Ad+Af+/3G6f38WeiAbNg=
+
 css-animation@^1.3.2:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/css-animation/-/css-animation-1.4.1.tgz#5b8813125de0fbbbb0bbe1b472ae84221469b7a8"
@@ -9964,11 +9969,12 @@ ringcentral-client@^1.0.0-beta.1:
     form-data "^2.1.2"
     isomorphic-fetch "^2.2.1"
 
-ringcentral-web-phone@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/ringcentral-web-phone/-/ringcentral-web-phone-0.5.0.tgz#da5df3c2ce078010a2aa9c815475f0db9f87a708"
+ringcentral-web-phone@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/ringcentral-web-phone/-/ringcentral-web-phone-0.6.0.tgz#c94a515328df5d91eba4e873ce05860fd2fc41a5"
+  integrity sha512-9E3fxl6lix5Z9dcAHOez2AjypeJddLzBy4sjHW1eLAfxvHkURAmmStfTPNeivLld9FWIcM0oVR76xA3nAJDmoA==
   dependencies:
-    sip.js "^0.10.0"
+    sip.js "^0.11.3"
 
 ringcentral@^3.1.3:
   version "3.2.0"
@@ -10311,11 +10317,12 @@ sinon@^2.3.1:
     text-encoding "0.6.4"
     type-detect "^4.0.0"
 
-sip.js@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/sip.js/-/sip.js-0.10.0.tgz#3e8ac22c36f670ed8eb95e7a63601ad3a3f39f11"
+sip.js@^0.11.3:
+  version "0.11.4"
+  resolved "https://registry.yarnpkg.com/sip.js/-/sip.js-0.11.4.tgz#0f1a8ca17a4bbde32c09cf1140acdc4ad8ddb769"
+  integrity sha512-EzR7W6E+z1N3TgIHc9nYA7DQBtbjLOxHApYBIRTgOSceqiXrwmIJKiwYkJB+NC8h/TrMD7+Ugq2KwCYIIFRP1A==
   dependencies:
-    ws "^1.0.1"
+    crypto-js "^3.1.9-1"
   optionalDependencies:
     promiscuous "^0.6.0"
 
@@ -11952,13 +11959,6 @@ write@^0.2.1:
 ws@1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/ws/-/ws-1.1.2.tgz#8a244fa052401e08c9886cf44a85189e1fd4067f"
-  dependencies:
-    options ">=0.0.5"
-    ultron "1.0.x"
-
-ws@^1.0.1:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-1.1.5.tgz#cbd9e6e75e09fc5d2c90015f21f0c40875e0dd51"
   dependencies:
     options ">=0.0.5"
     ultron "1.0.x"
