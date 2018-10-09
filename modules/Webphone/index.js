@@ -1040,7 +1040,7 @@ var Webphone = (_dec = (0, _di.Module)({
         if (session.__rc_extendedControls && session.__rc_extendedControlStatus === extendedControlStatus.pending) {
           _this5._playExtendedControls(session);
         }
-        _this5._onCallStart(session);
+        _this5._updateSessions();
       });
       session.on('progress', function () {
         console.log('progress...');
