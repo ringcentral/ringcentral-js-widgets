@@ -63,6 +63,7 @@ async function makeInbountCall(phone, wrapper, sessionId, answerIt = false) {
       .find(CircleButton)
       .simulate('click');
     await timeout(100);
+    wrapper.update();
   }
   return session;
 }
