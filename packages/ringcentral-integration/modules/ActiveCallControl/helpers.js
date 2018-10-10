@@ -82,5 +82,7 @@ export function requestURI(activeSession) {
 }
 export function confictError(error) {
   const conflictErrRgx = /409/g;
-  return conflictErrRgx.test(error.message);
+  const conflictMsgRgx = /Incorrect State/g;
+  return conflictErrRgx.test(error.message) &&
+    conflictMsgRgx.test(error.message);
 }
