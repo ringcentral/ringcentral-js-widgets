@@ -1,4 +1,4 @@
-import 'core-js/fn/array/find';
+import { find } from 'ramda';
 import { createSelector } from 'reselect';
 import { Module } from '../../lib/di';
 import DataFetcher from '../../lib/DataFetcher';
@@ -12,16 +12,35 @@ import {
   getTimestampReducer,
 } from './getAccountExtensionReducer';
 import {
-  isEssential,
-  createEssentialChecker,
+  isEnabled,
+  isFiltered,
   simplifyExtensionData,
+  hasExtensionNumber,
 } from './accountExtensionHelper';
 import subscriptionFilters from '../../enums/subscriptionFilters';
 import proxify from '../../lib/proxy/proxify';
+import extensionTypes from '../../enums/extensionTypes';
 
 const extensionRegExp = /.*\/extension$/;
 const DEFAULT_TTL = 24 * 60 * 60 * 1000;
-const DEFAULT_STATUS_VALUE = true;
+const DEFAULT_CHECK_STATUS = true;
+
+// Consider enable all extension types and filter through selector if
+// we'll allow users to configure this through settings
+const DEFAULT_TYPE_LIST = [
+  extensionTypes.digitalUser,
+  extensionTypes.user,
+  extensionTypes.department,
+  // extensionTypes.limited,
+  // extensionTypes.announcement,
+  // extensionTypes.applicationExtension,
+  // extensionTypes.bot,
+  // extensionTypes.faxUser,
+  // extensionTypes.ivrMenu,
+  // extensionTypes.pagingOnly,
+  // extensionTypes.parkLocation,
+  // extensionTypes.sharedLinesGroup,
+];
 
 /**
  * @class
@@ -45,7 +64,8 @@ export default class AccountExtension extends DataFetcher {
     client,
     rolesAndPermissions,
     ttl = DEFAULT_TTL,
-    needCheckStatus = DEFAULT_STATUS_VALUE,
+    checkStatus = DEFAULT_CHECK_STATUS,
+    typeList = DEFAULT_TYPE_LIST,
     ...options
   }) {
     super({
@@ -63,12 +83,21 @@ export default class AccountExtension extends DataFetcher {
       fetchFunction: async () => (await fetchList((params) => {
         const fetchRet = this._client.account().extension().list(params);
         return fetchRet;
-      })).filter(createEssentialChecker(needCheckStatus)).map(simplifyExtensionData),
+      })).filter(ext => this._extensionFilter(ext)).map(simplifyExtensionData),
       readyCheckFn: () => this._rolesAndPermissions.ready,
     });
 
-    this._needCheckStatus = needCheckStatus;
-    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._checkStatus = checkStatus;
+    this._typeList = typeList;
+    this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+  }
+
+  _extensionFilter(ext) {
+    return (
+      hasExtensionNumber(ext) &&
+      (!this._checkStatus || isEnabled(ext)) &&
+      !isFiltered(ext, this._typeList)
+    );
   }
 
   async _subscriptionHandleFn(message) {
@@ -91,8 +120,7 @@ export default class AccountExtension extends DataFetcher {
     } else if (eventType === 'Create' || eventType === 'Update') {
       try {
         const extensionData = await this._fetchExtensionData(id);
-        this._addOrDeleteExtension(createEssentialChecker(this._needCheckStatus)(extensionData),
-          this.isAvailableExtension(extensionData.extensionNumber), extensionData, id);
+        this._addOrDeleteExtension(extensionData, id);
       } catch (error) {
         /* falls through */
       }
@@ -101,12 +129,12 @@ export default class AccountExtension extends DataFetcher {
     }
   }
 
-  _addOrDeleteExtension(essential, isAvailableExtension, extensionData, extensionId) {
-    if (essential && !isAvailableExtension) { // && !isAvailableExtension
+  _addOrDeleteExtension(extensionData, extensionId) {
+    const essential = this._extensionFilter(extensionData);
+    const alreadyExists = this.isAvailableExtension(extensionData.extensionNumber);
+    if (essential && !alreadyExists) {
       this._addExtension(extensionData);
-    } else if (!essential && isAvailableExtension) {
-      // if an extension was updated to be not essential anymore
-      // eg. not assigned an extension number
+    } else if (!essential && alreadyExists) {
       this._deleteExtension(extensionId);
     }
   }
@@ -139,7 +167,7 @@ export default class AccountExtension extends DataFetcher {
   )
 
   isAvailableExtension(extensionNumber) {
-    return !!this.availableExtensions.find(item => item.ext === extensionNumber);
+    return !!find(item => item.ext === extensionNumber, this.availableExtensions);
   }
 
   get _hasPermission() {

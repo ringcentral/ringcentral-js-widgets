@@ -1,15 +1,47 @@
-import 'core-js/fn/array/find';
 import { createSelector } from 'reselect';
-
 import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
 import DataFetcher from '../../lib/DataFetcher';
 import removeUri from '../../lib/removeUri';
 import getter from '../../lib/getter';
 import ensureExist from '../../lib/ensureExist';
-
 import { getDataReducer } from './getReducer';
 
+/**
+ * @typedef ExtensionData
+ * @type {object}
+ * @property {number} id
+ * @property {string} extensionNumber
+ */
+
+/**
+ * @typedef {Object} SimplePhoneNumber
+ * @property {ExtensionData} extension
+ * @property {number} id
+ * @property {string} location
+ * @property {string} paymentType
+ * @property {string} phoneNumber
+ * @property {string} status
+ * @property {string} type
+ * @property {string} usageType
+ */
+
+/**
+ * @typedef {Object} PhoneNumber
+ * @property {string} uri
+ * @property {number} id
+ * @property {string} location
+ * @property {string} paymentType
+ * @property {string} phoneNumber
+ * @property {string} status
+ * @property {string} type
+ * @property {string} usageType
+ */
+
+/**
+ * @param {PhoneNumber} number
+ * @returns {SimplePhoneNumber}
+ */
 function simplifyPhoneNumber(number) {
   return removeUri(number);
 }
@@ -47,7 +79,7 @@ export default class AccountPhoneNumber extends DataFetcher {
       ...options,
     });
 
-    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
   }
 
   @getter
