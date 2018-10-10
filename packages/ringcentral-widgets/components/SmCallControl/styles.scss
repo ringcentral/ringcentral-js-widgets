@@ -1,0 +1,18 @@
+.smWraper {
+  width: 58px;
+}
+.button {
+  width: 50%;
+  box-sizing: border-box;
+  padding: 2px;
+}
+
+.hangup {
+  circle {
+    fill: #ff4646;
+  }
+  g,
+  path {
+    fill: #ffffff;
+  }
+}

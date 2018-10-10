@@ -66,3 +66,13 @@ $section_height: 36px;
   height: 100%;
   z-index: 3;
 }
+
+.infoWithCtrlWrapper {
+  display: flex;
+  padding: 10px 0;
+  align-items: center;
+}
+
+.basicInfoWrapper {
+  cursor: pointer;
+}
