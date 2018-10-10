@@ -47,8 +47,6 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2;
 
-require('core-js/fn/array/find');
-
 var _reselect = require('reselect');
 
 var _di = require('../../lib/di');
@@ -120,6 +118,41 @@ function _initializerWarningHelper(descriptor, context) {
   throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
 }
 
+/**
+ * @typedef ExtensionData
+ * @type {object}
+ * @property {number} id
+ * @property {string} extensionNumber
+ */
+
+/**
+ * @typedef {Object} SimplePhoneNumber
+ * @property {ExtensionData} extension
+ * @property {number} id
+ * @property {string} location
+ * @property {string} paymentType
+ * @property {string} phoneNumber
+ * @property {string} status
+ * @property {string} type
+ * @property {string} usageType
+ */
+
+/**
+ * @typedef {Object} PhoneNumber
+ * @property {string} uri
+ * @property {number} id
+ * @property {string} location
+ * @property {string} paymentType
+ * @property {string} phoneNumber
+ * @property {string} status
+ * @property {string} type
+ * @property {string} usageType
+ */
+
+/**
+ * @param {PhoneNumber} number
+ * @returns {SimplePhoneNumber}
+ */
 function simplifyPhoneNumber(number) {
   return (0, _removeUri2.default)(number);
 }

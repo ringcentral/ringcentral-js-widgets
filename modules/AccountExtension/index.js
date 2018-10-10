@@ -55,7 +55,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _dec, _class, _desc, _value, _class2, _descriptor;
 
-require('core-js/fn/array/find');
+var _ramda = require('ramda');
 
 var _reselect = require('reselect');
 
@@ -92,6 +92,10 @@ var _subscriptionFilters2 = _interopRequireDefault(_subscriptionFilters);
 var _proxify = require('../../lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
+
+var _extensionTypes = require('../../enums/extensionTypes');
+
+var _extensionTypes2 = _interopRequireDefault(_extensionTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -140,7 +144,11 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 var extensionRegExp = /.*\/extension$/;
 var DEFAULT_TTL = 24 * 60 * 60 * 1000;
-var DEFAULT_STATUS_VALUE = true;
+var DEFAULT_CHECK_STATUS = true;
+
+// Consider enable all extension types and filter through selector if
+// we'll allow users to configure this through settings
+var DEFAULT_TYPE_LIST = [_extensionTypes2.default.digitalUser, _extensionTypes2.default.user, _extensionTypes2.default.department];
 
 /**
  * @class
@@ -164,9 +172,11 @@ var AccountExtension = (_dec = (0, _di.Module)({
         rolesAndPermissions = _ref.rolesAndPermissions,
         _ref$ttl = _ref.ttl,
         ttl = _ref$ttl === undefined ? DEFAULT_TTL : _ref$ttl,
-        _ref$needCheckStatus = _ref.needCheckStatus,
-        needCheckStatus = _ref$needCheckStatus === undefined ? DEFAULT_STATUS_VALUE : _ref$needCheckStatus,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'rolesAndPermissions', 'ttl', 'needCheckStatus']);
+        _ref$checkStatus = _ref.checkStatus,
+        checkStatus = _ref$checkStatus === undefined ? DEFAULT_CHECK_STATUS : _ref$checkStatus,
+        _ref$typeList = _ref.typeList,
+        typeList = _ref$typeList === undefined ? DEFAULT_TYPE_LIST : _ref$typeList,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'rolesAndPermissions', 'ttl', 'checkStatus', 'typeList']);
     (0, _classCallCheck3.default)(this, AccountExtension);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (AccountExtension.__proto__ || (0, _getPrototypeOf2.default)(AccountExtension)).call(this, (0, _extends3.default)({}, options, {
@@ -212,7 +222,10 @@ var AccountExtension = (_dec = (0, _di.Module)({
                   });
 
                 case 2:
-                  _context2.t0 = (0, _accountExtensionHelper.createEssentialChecker)(needCheckStatus);
+                  _context2.t0 = function (ext) {
+                    return _this._extensionFilter(ext);
+                  };
+
                   _context2.t1 = _accountExtensionHelper.simplifyExtensionData;
                   return _context2.abrupt('return', _context2.sent.filter(_context2.t0).map(_context2.t1));
 
@@ -237,12 +250,18 @@ var AccountExtension = (_dec = (0, _di.Module)({
 
     _initDefineProp(_this, 'availableExtensions', _descriptor, _this);
 
-    _this._needCheckStatus = needCheckStatus;
+    _this._checkStatus = checkStatus;
+    _this._typeList = typeList;
     _this._rolesAndPermissions = _ensureExist2.default.call(_this, rolesAndPermissions, 'rolesAndPermissions');
     return _this;
   }
 
   (0, _createClass3.default)(AccountExtension, [{
+    key: '_extensionFilter',
+    value: function _extensionFilter(ext) {
+      return (0, _accountExtensionHelper.hasExtensionNumber)(ext) && (!this._checkStatus || (0, _accountExtensionHelper.isEnabled)(ext)) && !(0, _accountExtensionHelper.isFiltered)(ext, this._typeList);
+    }
+  }, {
     key: '_subscriptionHandleFn',
     value: function () {
       var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(message) {
@@ -360,7 +379,7 @@ var AccountExtension = (_dec = (0, _di.Module)({
               case 10:
                 extensionData = _context4.sent;
 
-                this._addOrDeleteExtension((0, _accountExtensionHelper.createEssentialChecker)(this._needCheckStatus)(extensionData), this.isAvailableExtension(extensionData.extensionNumber), extensionData, id);
+                this._addOrDeleteExtension(extensionData, id);
                 _context4.next = 16;
                 break;
 
@@ -388,13 +407,12 @@ var AccountExtension = (_dec = (0, _di.Module)({
     }()
   }, {
     key: '_addOrDeleteExtension',
-    value: function _addOrDeleteExtension(essential, isAvailableExtension, extensionData, extensionId) {
-      if (essential && !isAvailableExtension) {
-        // && !isAvailableExtension
+    value: function _addOrDeleteExtension(extensionData, extensionId) {
+      var essential = this._extensionFilter(extensionData);
+      var alreadyExists = this.isAvailableExtension(extensionData.extensionNumber);
+      if (essential && !alreadyExists) {
         this._addExtension(extensionData);
-      } else if (!essential && isAvailableExtension) {
-        // if an extension was updated to be not essential anymore
-        // eg. not assigned an extension number
+      } else if (!essential && alreadyExists) {
         this._deleteExtension(extensionId);
       }
     }
@@ -443,9 +461,9 @@ var AccountExtension = (_dec = (0, _di.Module)({
   }, {
     key: 'isAvailableExtension',
     value: function isAvailableExtension(extensionNumber) {
-      return !!this.availableExtensions.find(function (item) {
+      return !!(0, _ramda.find)(function (item) {
         return item.ext === extensionNumber;
-      });
+      }, this.availableExtensions);
     }
   }, {
     key: '_hasPermission',

@@ -3,49 +3,85 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isEssential = isEssential;
-exports.createEssentialChecker = createEssentialChecker;
+exports.hasExtensionNumber = hasExtensionNumber;
+exports.isEnabled = isEnabled;
+exports.isFiltered = isFiltered;
 exports.simplifyExtensionData = simplifyExtensionData;
 /**
- * @function
- * @description Determines whether an extension data is worth caching
- * @param {Object} ext - extension data
- * @return {Boolean}
+ * @typedef Extension
+ * @type {object}
+ * @property {string} extensionNumber
+ * @property {string} status
+ * @property {string} name
+ * @property {string} id
+ * @property {string} type
+ * @property {object} contact
+ * @property {object} profileImage
  */
-function isEssential(ext) {
-  return ext.extensionNumber && ext.extensionNumber !== '' && ext.status === 'Enabled' && ['DigitalUser', 'User', 'Department'].indexOf(ext.type) >= 0;
+
+/**
+ * @typedef SimpleExtension
+ * @type {object}
+ * @property {string} ext
+ * @property {string} status
+ * @property {string} name
+ * @property {string} id
+ * @property {string} type
+ * @property {object} contact
+ * @property {bool} hasProfileImage
+ */
+
+/**
+ *
+ * @param {Extension} ext
+ * @returns {boolean}
+ */
+function hasExtensionNumber(ext) {
+  return ext.extensionNumber && ext.extensionNumber !== '';
 }
 
 /**
- * Create a account extension checker to verify if an extension can be cached
- * @param {boolean} checkStatus
+ *
+ * @param {Extension} ext
+ * @returns {boolean}
  */
-function createEssentialChecker() {
-  var checkStatus = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+function isEnabled(ext) {
+  return ext.status === 'Enabled';
+}
 
-  return function (ext) {
-    if (checkStatus) {
-      return ext.extensionNumber && ext.extensionNumber !== '' && ext.status === 'Enabled' && ['DigitalUser', 'User', 'Department'].indexOf(ext.type) >= 0;
-    }
-    return ext.extensionNumber && ext.extensionNumber !== '' && ['DigitalUser', 'User', 'Department'].indexOf(ext.type) >= 0;
-  };
+/**
+ *
+ * @param {object} ext
+ * @param {string[]} list
+ * @returns {boolean}
+ */
+function isFiltered(ext, list) {
+  return list.indexOf(ext.type) === -1;
 }
 
 /**
  * @function
  * @description Returns a simplified extension data for caching to reducer storage use
- * @param {Object} ext - extension data
- * @return {Object}
+ * @param {Extension}
+ * @return {SimpleExtension}
  */
-function simplifyExtensionData(ext) {
+function simplifyExtensionData(_ref) {
+  var extensionNumber = _ref.extensionNumber,
+      name = _ref.name,
+      id = _ref.id,
+      status = _ref.status,
+      type = _ref.type,
+      contact = _ref.contact,
+      profileImage = _ref.profileImage;
+
   return {
-    ext: ext.extensionNumber,
-    name: ext.name,
-    id: ext.id,
-    status: ext.status,
-    type: ext.type,
-    contact: ext.contact,
-    hasProfileImage: ext.profileImage && ext.profileImage.etag
+    ext: extensionNumber,
+    name: name,
+    id: id,
+    status: status,
+    type: type,
+    contact: contact,
+    hasProfileImage: !!(profileImage && profileImage.etag)
   };
 }
 //# sourceMappingURL=accountExtensionHelper.js.map

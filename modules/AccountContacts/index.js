@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _defineProperty = require('babel-runtime/core-js/object/define-property');
+
+var _defineProperty2 = _interopRequireDefault(_defineProperty);
+
 var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
@@ -49,7 +53,11 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _dec, _class, _desc, _value, _class2;
+var _dec, _class, _desc, _value, _class2, _descriptor;
+
+var _reselect = require('reselect');
+
+var _ramda = require('ramda');
 
 var _RcModule2 = require('../../lib/RcModule');
 
@@ -67,13 +75,15 @@ var _ensureExist2 = _interopRequireDefault(_ensureExist);
 
 var _contactHelper = require('../../lib/contactHelper');
 
-var _accountContactsHelper = require('./accountContactsHelper');
-
 var _batchApiHelper = require('../../lib/batchApiHelper');
 
 var _proxify = require('../../lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
+
+var _getter = require('../../lib/getter');
+
+var _getter2 = _interopRequireDefault(_getter);
 
 var _actionTypes = require('./actionTypes');
 
@@ -84,6 +94,20 @@ var _getReducer = require('./getReducer');
 var _getReducer2 = _interopRequireDefault(_getReducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _initDefineProp(target, property, descriptor, context) {
+  if (!descriptor) return;
+  (0, _defineProperty2.default)(target, property, {
+    enumerable: descriptor.enumerable,
+    configurable: descriptor.configurable,
+    writable: descriptor.writable,
+    value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+  });
+}
+
+function _initializerWarningHelper(descriptor, context) {
+  throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
+}
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
   var desc = {};
@@ -119,7 +143,6 @@ var DEFAULT_TTL = 30 * 60 * 1000; // 30 mins
 var DEFAULT_PRESENCETTL = 10 * 60 * 1000; // 10 mins
 var DEFAULT_AVATARTTL = 2 * 60 * 60 * 1000; // 2 hour
 var DEFAULT_AVATARQUERYINTERVAL = 2 * 1000; // 2 seconds
-var DEFAULT_STATUS_VALUE = true;
 
 /**
  * @class
@@ -152,16 +175,16 @@ var AccountContacts = (_dec = (0, _di.Module)({
         avatarTtl = _ref$avatarTtl === undefined ? DEFAULT_AVATARTTL : _ref$avatarTtl,
         _ref$presenceTtl = _ref.presenceTtl,
         presenceTtl = _ref$presenceTtl === undefined ? DEFAULT_PRESENCETTL : _ref$presenceTtl,
-        _ref$needCheckStatus = _ref.needCheckStatus,
-        needCheckStatus = _ref$needCheckStatus === undefined ? DEFAULT_STATUS_VALUE : _ref$needCheckStatus,
         _ref$avatarQueryInter = _ref.avatarQueryInterval,
         avatarQueryInterval = _ref$avatarQueryInter === undefined ? DEFAULT_AVATARQUERYINTERVAL : _ref$avatarQueryInter,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'accountExtension', 'accountPhoneNumber', 'ttl', 'avatarTtl', 'presenceTtl', 'needCheckStatus', 'avatarQueryInterval']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'accountExtension', 'accountPhoneNumber', 'ttl', 'avatarTtl', 'presenceTtl', 'avatarQueryInterval']);
     (0, _classCallCheck3.default)(this, AccountContacts);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (AccountContacts.__proto__ || (0, _getPrototypeOf2.default)(AccountContacts)).call(this, (0, _extends3.default)({}, options, {
       actionTypes: _actionTypes2.default
     })));
+
+    _initDefineProp(_this, 'contacts', _descriptor, _this);
 
     _this._accountExtension = _ensureExist2.default.call(_this, accountExtension, 'accountExtension');
     _this._accountPhoneNumber = _ensureExist2.default.call(_this, accountPhoneNumber, 'accountPhoneNumber');
@@ -173,50 +196,6 @@ var AccountContacts = (_dec = (0, _di.Module)({
     _this._avatarQueryInterval = avatarQueryInterval;
 
     _this._reducer = (0, _getReducer2.default)(_this.actionTypes);
-
-    _this.addSelector('contacts', function () {
-      return _this._accountExtension.availableExtensions;
-    }, function () {
-      return _this._accountPhoneNumber.extensionToPhoneNumberMap;
-    }, function () {
-      return _this.profileImages;
-    }, function () {
-      return _this.presences;
-    }, function (extensions, extensionToPhoneNumberMap, profileImages, presences) {
-      var newExtensions = [];
-      extensions.forEach(function (extension) {
-        if (!(0, _accountContactsHelper.createChecker)(needCheckStatus)(extension)) {
-          return;
-        }
-
-        var id = '' + extension.id;
-        var contact = {
-          type: _this.sourceName,
-          id: id,
-          firstName: extension.contact && extension.contact.firstName,
-          lastName: extension.contact && extension.contact.lastName,
-          emails: extension.contact ? [extension.contact.email] : [],
-          extensionNumber: extension.ext,
-          hasProfileImage: !!extension.hasProfileImage,
-          phoneNumbers: [{ phoneNumber: extension.ext, phoneType: 'extension' }],
-          profileImageUrl: profileImages[id] && profileImages[id].imageUrl,
-          presence: presences[id] && presences[id].presence,
-          contactStatus: extension.status
-        };
-        contact.name = (contact.firstName || '') + ' ' + (contact.lastName || '');
-        if ((0, _isBlank2.default)(contact.extensionNumber)) {
-          return;
-        }
-        var phones = extensionToPhoneNumberMap[contact.extensionNumber];
-        if (phones && phones.length > 0) {
-          phones.forEach(function (phone) {
-            (0, _contactHelper.addPhoneToContact)(contact, phone.phoneNumber, 'directPhone');
-          });
-        }
-        newExtensions.push(contact);
-      });
-      return newExtensions;
-    });
     return _this;
   }
 
@@ -553,17 +532,56 @@ var AccountContacts = (_dec = (0, _di.Module)({
     // interface of contact source
 
   }, {
-    key: 'contacts',
-    get: function get() {
-      return this._selectors.contacts();
-    }
-  }, {
     key: 'sourceReady',
     get: function get() {
       return this.ready;
     }
   }]);
   return AccountContacts;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'getProfileImage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getProfileImage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getPresence', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getPresence'), _class2.prototype)), _class2)) || _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'getProfileImage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getProfileImage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getPresence', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getPresence'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'contacts', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this4 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this4._accountExtension.availableExtensions;
+    }, function () {
+      return _this4._accountPhoneNumber.extensionToPhoneNumberMap;
+    }, function () {
+      return _this4.profileImages;
+    }, function () {
+      return _this4.presences;
+    }, function (extensions, extensionToPhoneNumberMap, profileImages, presences) {
+      return (0, _ramda.reduce)(function (result, extension) {
+        var id = '' + extension.id;
+        var contact = {
+          type: _this4.sourceName,
+          id: id,
+          firstName: extension.contact && extension.contact.firstName,
+          lastName: extension.contact && extension.contact.lastName,
+          emails: extension.contact ? [extension.contact.email] : [],
+          extensionNumber: extension.ext,
+          hasProfileImage: !!extension.hasProfileImage,
+          phoneNumbers: [{ phoneNumber: extension.ext, phoneType: 'extension' }],
+          profileImageUrl: profileImages[id] && profileImages[id].imageUrl,
+          presence: presences[id] && presences[id].presence,
+          contactStatus: extension.status
+        };
+        contact.name = (contact.firstName || '') + ' ' + (contact.lastName || '');
+        if ((0, _isBlank2.default)(contact.extensionNumber)) {
+          return result;
+        }
+        var phones = extensionToPhoneNumberMap[contact.extensionNumber];
+        if (phones && phones.length > 0) {
+          phones.forEach(function (phone) {
+            (0, _contactHelper.addPhoneToContact)(contact, phone.phoneNumber, 'directPhone');
+          });
+        }
+        result.push(contact);
+        return result;
+      }, [], extensions);
+    });
+  }
+})), _class2)) || _class);
 exports.default = AccountContacts;
 //# sourceMappingURL=index.js.map
