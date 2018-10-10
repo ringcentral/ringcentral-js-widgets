@@ -103,6 +103,7 @@ function requestURI(activeSession) {
 }
 function confictError(error) {
   var conflictErrRgx = /409/g;
-  return conflictErrRgx.test(error.message);
+  var conflictMsgRgx = /Incorrect State/g;
+  return conflictErrRgx.test(error.message) && conflictMsgRgx.test(error.message);
 }
 //# sourceMappingURL=helpers.js.map
