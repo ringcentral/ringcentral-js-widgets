@@ -15,15 +15,12 @@ import withPhone from '../../lib/withPhone';
 
 function mapToProps(_, { phone }) {
   const {
-    activeCallControl, regionSettings, callMonitor,
-    alert, routerInteraction,
+    activeCallControl,
   } = phone;
+  const { activeSessions } = activeCallControl;
   return {
     activeCallControl,
-    regionSettings,
-    callMonitor,
-    alert,
-    routerInteraction,
+    activeSessions
   };
 }
 
@@ -44,9 +41,10 @@ class SmCallCtrlContainer extends Component {
     const {
       currentLocale,
       activeCallControl,
+      activeSessions,
       sessionId,
     } = this.props;
-    const { activeSessions } = activeCallControl;
+    // const { activeSessions } = activeCallControl;
     const curentSession = activeSessions[sessionId];
     if (!curentSession) {
       return null;
@@ -65,6 +63,7 @@ class SmCallCtrlContainer extends Component {
 SmCallCtrlContainer.propTypes = {
   currentLocale: PropTypes.string,
   activeCallControl: PropTypes.object,
+  activeSessions: PropTypes.object,
   sessionId: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
 };
@@ -72,5 +71,6 @@ SmCallCtrlContainer.propTypes = {
 SmCallCtrlContainer.defaultProps = {
   currentLocale: 'en-US',
   activeCallControl: {},
+  activeSessions: {},
 };
 export default withPhone(connect(mapToProps, mapToFunctions)(SmCallCtrlContainer));

@@ -5,7 +5,7 @@ import SpinnerOverlay from '../SpinnerOverlay';
 import Button from '../Button';
 import styles from './styles.scss';
 import LogBasicInfo from '../LogBasicInfo';
-import SmCallCtrlContainer from '../../containers/SmCallCtrlContainer';
+// import SmCallCtrlContainer from '../../containers/SmCallCtrlContainer';
 import i18n from './i18n';
 
 export default class LogSection extends Component {
@@ -133,7 +133,7 @@ export default class LogSection extends Component {
             formatPhone={this.props.formatPhone}
           />
         </div>
-        <SmCallCtrlContainer status={status} sessionId={currentSessionId} />
+        {this.props.renderSmallCallContrl(status, currentSessionId)}
       </div>
     );
   }
@@ -178,6 +178,7 @@ LogSection.propTypes = {
   onLogBasicInfoClick: PropTypes.func,
   showSaveLogBtn: PropTypes.bool,
   showSmallCallControl: PropTypes.bool,
+  renderSmallCallContrl: PropTypes.func,
 };
 
 LogSection.defaultProps = {
@@ -190,6 +191,7 @@ LogSection.defaultProps = {
   renderSaveLogButton: undefined,
   isInnerMask: undefined,
   onLogBasicInfoClick() { },
+  renderSmallCallContrl() { },
   showSaveLogBtn: true,
   showSmallCallControl: true,
 };

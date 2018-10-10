@@ -65,6 +65,7 @@ export default class ActiveCallsPanel extends Component {
       onDiscardNotification,
       notificationContainerStyles,
       onLogBasicInfoClick,
+      renderSmallCallContrl,
     } = this.props;
 
     return (
@@ -88,6 +89,7 @@ export default class ActiveCallsPanel extends Component {
             onUpdateCallLog={onUpdateCallLog}
             onSaveCallLog={onSaveCallLog}
             onLogBasicInfoClick={onLogBasicInfoClick}
+            renderSmallCallContrl={renderSmallCallContrl}
             showSaveLogBtn
           />
         </InsideModal>
@@ -316,6 +318,7 @@ ActiveCallsPanel.propTypes = {
   disableLinks: PropTypes.bool,
   showRingoutCallControl: PropTypes.bool,
   onLogBasicInfoClick: PropTypes.func,
+  renderSmallCallContrl: PropTypes.func,
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -373,4 +376,5 @@ ActiveCallsPanel.defaultProps = {
   disableLinks: false,
   showRingoutCallControl: false,
   onLogBasicInfoClick() { },
+  renderSmallCallContrl() { },
 };
