@@ -100,6 +100,8 @@ class CallAvatar extends Component {
     const $transparency = '0.8';
     const defaultAvatarStyle = { opacity: +$transparency };
     const hash = uuid.v4();
+    const portraitChar = '\ue904'; // HACK: &#xe904; is the font code for the portrait icon
+    const iconFont = 'dynamics_icon';// Hard coding this for firefox to load iconfont
     const textId = `text-${hash}`;
     const clipId = `circleClip-${hash}`;
     const avatarStyle = { stroke: $dark, strokeWidth: `${circleBorder}px` };
@@ -143,10 +145,9 @@ class CallAvatar extends Component {
                       fill: $blue,
                       opacity: '.5'
                     }}
-                className={styles.portrait}
-                // HACK: &#xe904; is the font code for the portrait icon
-                >
-                {'\ue904'}
+                fontFamily={iconFont}
+              >
+                {portraitChar}
               </text>
             </g>
             <SpinnerIcon id={spinnerId} />
@@ -237,8 +238,9 @@ class CallAvatar extends Component {
                       fill: $blue,
                       opacity: '.5'
                     }}
-              className={styles.portrait}>
-              {'\ue904'}
+              fontFamily={iconFont}
+            >
+              {portraitChar}
             </text>
           </g>
           <SpinnerIcon id={spinnerId} />
