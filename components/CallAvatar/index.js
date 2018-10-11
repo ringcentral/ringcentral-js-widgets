@@ -166,6 +166,8 @@ var CallAvatar = function (_Component) {
       var $transparency = '0.8';
       var defaultAvatarStyle = { opacity: +$transparency };
       var hash = _uuid2.default.v4();
+      var portraitChar = '\uE904'; // HACK: &#xe904; is the font code for the portrait icon
+      var iconFont = 'dynamics_icon'; // Hard coding this for firefox to load iconfont
       var textId = 'text-' + hash;
       var clipId = 'circleClip-' + hash;
       var avatarStyle = { stroke: $dark, strokeWidth: circleBorder + 'px' };
@@ -211,10 +213,9 @@ var CallAvatar = function (_Component) {
                     fill: $blue,
                     opacity: '.5'
                   },
-                  className: _styles2.default.portrait
-                  // HACK: &#xe904; is the font code for the portrait icon
+                  fontFamily: iconFont
                 },
-                '\uE904'
+                portraitChar
               )
             ),
             _react2.default.createElement(_Spinner2.default, { id: spinnerId })
@@ -309,8 +310,9 @@ var CallAvatar = function (_Component) {
                   fill: $blue,
                   opacity: '.5'
                 },
-                className: _styles2.default.portrait },
-              '\uE904'
+                fontFamily: iconFont
+              },
+              portraitChar
             )
           ),
           _react2.default.createElement(_Spinner2.default, { id: spinnerId })
