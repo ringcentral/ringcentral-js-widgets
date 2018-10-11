@@ -92,10 +92,6 @@ export default class LocalforageStorage {
       key,
       { value, setter: this.id },
     );
-    this.emit('storage', {
-      key,
-      value,
-    });
     this._updateStorageSyncData(key);
   }
 
