@@ -1,5 +1,8 @@
+@import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/fonts.scss';
+
 .smWraper {
-  width: 58px;
+  width: 50px;
 }
 .button {
   width: 50%;
@@ -14,5 +17,23 @@
   g,
   path {
     fill: #ffffff;
+  }
+}
+.buttonDisabled {
+  circle {
+    fill: $lightgray;
+    stroke: $gray;
+  }
+  path {
+    fill: $primary-color-highlight-solid;
+  }
+  g {
+    cursor: default;
+
+    &:hover {
+      circle {
+        stroke: $gray;
+      }
+    }
   }
 }

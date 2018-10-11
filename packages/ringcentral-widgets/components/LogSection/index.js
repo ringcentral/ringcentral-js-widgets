@@ -120,7 +120,7 @@ export default class LogSection extends Component {
     const { currentSessionId, call } = currentlog;
     const { telephonyStatus, result } = call;
     const status = telephonyStatus || result;
-    // if `result` is exit, call has been disconnect
+    // if `result` is exist, call has been disconnect
     if (result) {
       return this.genLogBasicInfo();
     }
@@ -133,7 +133,9 @@ export default class LogSection extends Component {
             formatPhone={this.props.formatPhone}
           />
         </div>
-        {this.props.renderSmallCallContrl(status, currentSessionId)}
+        <div className={styles.callCtrlWrapper}>
+          {this.props.renderSmallCallContrl(status, currentSessionId)}
+        </div>
       </div>
     );
   }

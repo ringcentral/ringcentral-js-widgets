@@ -93,5 +93,13 @@
 }
 
 .separator {
-  margin: 0 3px;
+  margin: 0 4px;
+  display: inline-block;
+  position: relative;
+  &::after {
+    content: '|';
+    position: absolute;
+    top: 0;
+    right: -1px;
+  }
 }
