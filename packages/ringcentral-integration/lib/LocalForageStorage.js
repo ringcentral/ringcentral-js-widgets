@@ -92,7 +92,11 @@ export default class LocalforageStorage {
       key,
       { value, setter: this.id },
     );
-    this._updateStorageSyncData(key);
+    try {
+      this._updateStorageSyncData(key);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async removeItem(key) {
