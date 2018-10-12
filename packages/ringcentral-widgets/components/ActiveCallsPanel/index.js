@@ -63,7 +63,9 @@ export default class ActiveCallsPanel extends Component {
       onSaveNotification,
       onExpandNotification,
       onDiscardNotification,
-      notificationContainerStyles
+      notificationContainerStyles,
+      onLogBasicInfoClick,
+      renderSmallCallContrl,
     } = this.props;
 
     return (
@@ -73,9 +75,9 @@ export default class ActiveCallsPanel extends Component {
           show={currentLog.showLog}
           onClose={onCloseLogSection}
           clickOutToClose={false}
-          // containerStyles={sectionContainerStyles}
-          // modalStyles={sectionModalStyles}
-          >
+        // containerStyles={sectionContainerStyles}
+        // modalStyles={sectionModalStyles}
+        >
           <LogSection
             currentLocale={currentLocale}
             currentLog={currentLog}
@@ -86,6 +88,8 @@ export default class ActiveCallsPanel extends Component {
             formatPhone={formatPhone}
             onUpdateCallLog={onUpdateCallLog}
             onSaveCallLog={onSaveCallLog}
+            onLogBasicInfoClick={onLogBasicInfoClick}
+            renderSmallCallContrl={renderSmallCallContrl}
             showSaveLogBtn
           />
         </InsideModal>
@@ -313,6 +317,8 @@ ActiveCallsPanel.propTypes = {
   ringoutReject: PropTypes.func,
   disableLinks: PropTypes.bool,
   showRingoutCallControl: PropTypes.bool,
+  onLogBasicInfoClick: PropTypes.func,
+  renderSmallCallContrl: PropTypes.func,
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -369,4 +375,6 @@ ActiveCallsPanel.defaultProps = {
   ringoutReject: undefined,
   disableLinks: false,
   showRingoutCallControl: false,
+  onLogBasicInfoClick() { },
+  renderSmallCallContrl() { },
 };
