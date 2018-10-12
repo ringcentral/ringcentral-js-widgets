@@ -99,7 +99,7 @@ export function filterContacts(contacts, searchFilter) {
   }
   const searchText = searchFilter.toLowerCase();
   return items.filter((item) => {
-    const name = `${item.firstName} ${item.lastName}`;
+    const name = `${item.firstName} ${item.lastName} ${item.name}`;
     if (
       name.toLowerCase().indexOf(searchText) >= 0 ||
       (item.extensionNumber && item.extensionNumber.indexOf(searchText) >= 0) ||
