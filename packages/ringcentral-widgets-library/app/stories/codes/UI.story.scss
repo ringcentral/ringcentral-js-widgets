@@ -1,0 +1,118 @@
+@import '../../components/UI/varibles';
+
+.module {
+  padding: 20px;
+  background: #f5f5f5;
+
+  .group {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .title {
+    font-size: 32px;
+    color: #4a4a4a;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #9b9b9b;
+  }
+
+  .item {
+    font-size: 12px;
+    color: #4a4a4a;
+    margin: 32px 20px 32px 0;
+  }
+
+  .legend {
+    width: 60px;
+    height: 60px;
+    border-radius: 2px;
+    margin-bottom: 4px;
+  }
+}
+
+/* Blue */
+.blue500 {
+  background-color: $blue500;
+}
+
+.blue-600 {
+  background-color: $blue-600;
+}
+
+.blue-400 {
+  background-color: $blue-400;
+}
+
+.blue-300 {
+  background-color: $blue-300;
+}
+
+.blue-200 {
+  background-color: $blue-200;
+}
+
+.blue-100 {
+  background-color: $blue-100;
+}
+
+/* Orange */
+.orange500 {
+  background-color: $orange500;
+}
+
+.orange-600 {
+  background-color: $orange-600;
+}
+
+.orange-400 {
+  background-color: $orange-400;
+}
+
+/* Nature */
+.nature-500 {
+  background-color: $nature-500;
+}
+
+.nature-400 {
+  background-color: $nature-400;
+}
+
+.nature-300 {
+  background-color: $nature-300;
+}
+
+.nature-200 {
+  background-color: $nature-200;
+}
+
+.nature-100 {
+  background-color: $nature-100;
+}
+
+.nature-50 {
+  background-color: $nature-50;
+}
+
+.nature-20 {
+  background-color: $nature-20;
+}
+
+.nature-10 {
+  background-color: $nature-10;
+}
+
+/* Red */
+.red-500 {
+  background-color: $red-500;
+}
+
+.red-600 {
+  background-color: $red-600;
+}
+
+/* Green */
+.green-500 {
+  background-color: $green-500;
+}

@@ -12,6 +12,7 @@ function LinkLine({
   hrefClassName,
   iconClassName,
   tooltip,
+  noBorder,
 }) {
   return (
     <a
@@ -25,6 +26,7 @@ function LinkLine({
       <IconLine
         className={className}
         icon={<span className={classnames(dynamicsFont.arrow, styles.icon, iconClassName)} />}
+        noBorder={noBorder}
       >
         {children}
       </IconLine>

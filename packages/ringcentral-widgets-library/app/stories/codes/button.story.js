@@ -7,7 +7,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
 
-import Button from '../components/Button';
+import Button from '../../components/Button';
 
 storiesOf('Button', module)
   .add('with text', () => <Button onClick={action('clicked')}>RC Button</Button>)

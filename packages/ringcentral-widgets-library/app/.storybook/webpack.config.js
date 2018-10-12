@@ -94,6 +94,10 @@ module.exports = {
             name: '[name].[hash].[ext]'
           }
         }
+      },
+      {
+        test: /\.mkd$/,
+        use: 'raw-loader'
       }
     ]
   }
