@@ -116,7 +116,9 @@ var ActiveCallsPanel = function (_Component) {
           onSaveNotification = _props.onSaveNotification,
           onExpandNotification = _props.onExpandNotification,
           onDiscardNotification = _props.onDiscardNotification,
-          notificationContainerStyles = _props.notificationContainerStyles;
+          notificationContainerStyles = _props.notificationContainerStyles,
+          onLogBasicInfoClick = _props.onLogBasicInfoClick,
+          renderSmallCallContrl = _props.renderSmallCallContrl;
 
 
       return _react2.default.createElement(
@@ -142,6 +144,8 @@ var ActiveCallsPanel = function (_Component) {
             formatPhone: formatPhone,
             onUpdateCallLog: onUpdateCallLog,
             onSaveCallLog: onSaveCallLog,
+            onLogBasicInfoClick: onLogBasicInfoClick,
+            renderSmallCallContrl: renderSmallCallContrl,
             showSaveLogBtn: true
           })
         ),
@@ -379,7 +383,9 @@ ActiveCallsPanel.propTypes = {
   ringoutTransfer: _propTypes2.default.func,
   ringoutReject: _propTypes2.default.func,
   disableLinks: _propTypes2.default.bool,
-  showRingoutCallControl: _propTypes2.default.bool
+  showRingoutCallControl: _propTypes2.default.bool,
+  onLogBasicInfoClick: _propTypes2.default.func,
+  renderSmallCallContrl: _propTypes2.default.func
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -443,6 +449,8 @@ ActiveCallsPanel.defaultProps = {
   ringoutTransfer: undefined,
   ringoutReject: undefined,
   disableLinks: false,
-  showRingoutCallControl: false
+  showRingoutCallControl: false,
+  onLogBasicInfoClick: function onLogBasicInfoClick() {},
+  renderSmallCallContrl: function renderSmallCallContrl() {}
 };
 //# sourceMappingURL=index.js.map

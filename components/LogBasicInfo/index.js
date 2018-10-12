@@ -124,7 +124,7 @@ function LogBasicInfo(props) {
         formatNumber ? _react2.default.createElement(
           'span',
           { className: _styles2.default.separator },
-          '|'
+          '\xA0'
         ) : null,
         _react2.default.createElement(
           'span',

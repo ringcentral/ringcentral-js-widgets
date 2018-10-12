@@ -101,27 +101,18 @@ var LogSection = function (_Component) {
       }
     }
   }, {
-    key: 'render',
-    value: function render() {
+    key: 'genEditLogSection',
+    value: function genEditLogSection() {
       var _this2 = this;
 
       var _props = this.props,
           renderEditLogSection = _props.renderEditLogSection,
-          renderSaveLogButton = _props.renderSaveLogButton,
           currentLocale = _props.currentLocale,
+          onSaveCallLog = _props.onSaveCallLog,
           onUpdateCallLog = _props.onUpdateCallLog,
           currentLog = _props.currentLog,
-          isInnerMask = _props.isInnerMask,
-          showSaveLogBtn = _props.showSaveLogBtn,
-          onSaveCallLog = _props.onSaveCallLog,
           additionalInfo = _props.additionalInfo;
-      var call = currentLog.call,
-          showSpinner = currentLog.showSpinner,
-          currentLogCall = currentLog.currentLogCall;
 
-      if (showSpinner) {
-        return _react2.default.createElement(_SpinnerOverlay2.default, { className: _styles2.default.spinner });
-      }
       var editLogSection = renderEditLogSection({
         currentLocale: currentLocale,
         onSaveCallLog: onSaveCallLog,
@@ -129,14 +120,45 @@ var LogSection = function (_Component) {
         currentLog: currentLog,
         additionalInfo: additionalInfo
       });
+      return _react2.default.createElement(
+        'div',
+        {
+          ref: function ref(_ref) {
+            _this2.mainCtrl = _ref;
+          },
+          onScroll: function onScroll() {
+            return _this2.checkOverlap();
+          },
+          className: _styles2.default.editSection },
+        editLogSection
+      );
+    }
+  }, {
+    key: 'genSaveLogButton',
+    value: function genSaveLogButton() {
+      var _props2 = this.props,
+          showSaveLogBtn = _props2.showSaveLogBtn,
+          renderSaveLogButton = _props2.renderSaveLogButton,
+          currentLocale = _props2.currentLocale,
+          onSaveCallLog = _props2.onSaveCallLog,
+          currentLog = _props2.currentLog;
+      var call = currentLog.call,
+          currentLogCall = currentLog.currentLogCall;
+
       var buttonPanelClassName = (0, _classnames2.default)(_styles2.default.buttonPanel, this.state.mainCtrlOverlapped && _styles2.default.overlapped);
       var buttonClassName = (0, _classnames2.default)(_styles2.default.primaryButton, currentLogCall.isSaving && _styles2.default.disabled);
-      var saveLogBtn = showSaveLogBtn ? renderSaveLogButton && renderSaveLogButton({
-        currentLocale: currentLocale,
-        onSaveCallLog: onSaveCallLog,
-        currentLog: currentLog,
-        overlapped: this.state.mainCtrlOverlapped
-      }) || _react2.default.createElement(
+      if (!showSaveLogBtn) {
+        return null;
+      }
+      if (renderSaveLogButton) {
+        return renderSaveLogButton({
+          currentLocale: currentLocale,
+          onSaveCallLog: onSaveCallLog,
+          currentLog: currentLog,
+          overlapped: this.state.mainCtrlOverlapped
+        });
+      }
+      return _react2.default.createElement(
         'div',
         {
           className: buttonPanelClassName },
@@ -150,34 +172,81 @@ var LogSection = function (_Component) {
             } },
           _i18n2.default.getString('saveLog', currentLocale)
         )
-      ) : null;
+      );
+    }
+  }, {
+    key: 'genLogBasicInfo',
+    value: function genLogBasicInfo() {
+      return _react2.default.createElement(_LogBasicInfo2.default, {
+        currentLog: this.props.currentLog,
+        currentLocale: this.props.currentLocale,
+        formatPhone: this.props.formatPhone
+      });
+    }
+  }, {
+    key: 'genLogBasicInfoWithSmallCallCtrl',
+    value: function genLogBasicInfoWithSmallCallCtrl() {
+      var _this3 = this;
+
+      var currentlog = this.props.currentLog;
+      var currentSessionId = currentlog.currentSessionId,
+          call = currentlog.call;
+      var telephonyStatus = call.telephonyStatus,
+          result = call.result;
+
+      var status = telephonyStatus || result;
+      // if `result` is exist, call has been disconnect
+      if (result) {
+        return this.genLogBasicInfo();
+      }
+      return _react2.default.createElement(
+        'div',
+        { className: _styles2.default.infoWithCtrlWrapper },
+        _react2.default.createElement(
+          'div',
+          { className: _styles2.default.basicInfoWrapper, onClick: function onClick() {
+              return _this3.props.onLogBasicInfoClick();
+            } },
+          _react2.default.createElement(_LogBasicInfo2.default, {
+            currentLog: this.props.currentLog,
+            currentLocale: this.props.currentLocale,
+            formatPhone: this.props.formatPhone
+          })
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: _styles2.default.callCtrlWrapper },
+          this.props.renderSmallCallContrl(status, currentSessionId)
+        )
+      );
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props3 = this.props,
+          currentLog = _props3.currentLog,
+          isInnerMask = _props3.isInnerMask,
+          showSmallCallControl = _props3.showSmallCallControl;
+      var showSpinner = currentLog.showSpinner;
+
+      if (showSpinner) {
+        return _react2.default.createElement(_SpinnerOverlay2.default, { className: _styles2.default.spinner });
+      }
+
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.section },
-        _react2.default.createElement(_LogBasicInfo2.default, {
-          currentLog: this.props.currentLog,
-          currentLocale: this.props.currentLocale,
-          formatPhone: this.props.formatPhone
-        }),
-        _react2.default.createElement(
-          'div',
-          {
-            ref: function ref(_ref) {
-              _this2.mainCtrl = _ref;
-            },
-            onScroll: function onScroll() {
-              return _this2.checkOverlap();
-            },
-            className: _styles2.default.editSection },
-          editLogSection
-        ),
-        saveLogBtn,
+        showSmallCallControl ? this.genLogBasicInfoWithSmallCallCtrl() : this.genLogBasicInfo(),
+        this.genEditLogSection(),
+        this.genSaveLogButton(),
         isInnerMask ? _react2.default.createElement('div', { className: _styles2.default.innerMask }) : null
       );
     }
   }]);
   return LogSection;
 }(_react.Component);
+// import SmCallCtrlContainer from '../../containers/SmCallCtrlContainer';
+
 
 exports.default = LogSection;
 
@@ -192,7 +261,10 @@ LogSection.propTypes = {
   renderEditLogSection: _propTypes2.default.func,
   renderSaveLogButton: _propTypes2.default.func,
   isInnerMask: _propTypes2.default.bool,
-  showSaveLogBtn: _propTypes2.default.bool
+  onLogBasicInfoClick: _propTypes2.default.func,
+  showSaveLogBtn: _propTypes2.default.bool,
+  showSmallCallControl: _propTypes2.default.bool,
+  renderSmallCallContrl: _propTypes2.default.func
 };
 
 LogSection.defaultProps = {
@@ -204,6 +276,10 @@ LogSection.defaultProps = {
   renderEditLogSection: undefined,
   renderSaveLogButton: undefined,
   isInnerMask: undefined,
-  showSaveLogBtn: true
+  onLogBasicInfoClick: function onLogBasicInfoClick() {},
+  renderSmallCallContrl: function renderSmallCallContrl() {},
+
+  showSaveLogBtn: true,
+  showSmallCallControl: true
 };
 //# sourceMappingURL=index.js.map
