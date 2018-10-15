@@ -1,5 +1,5 @@
 module.exports = {
-  selectorLabel: 'data-sign',
+  // selectorLabel: 'css',
   caseServices: [{
     name: 'einstein',
     url: 'http://einstein.int.ringcentral.com/',
@@ -95,7 +95,7 @@ module.exports = {
         params: {
           brands: {
             rc: {
-              location: 'http://localhost:8080/',
+              location: 'https://localhost:8201/',
             },
             att: {
               location: 'http://localhost:8080/',

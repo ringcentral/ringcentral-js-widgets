@@ -7,6 +7,7 @@ const {
 } = require('../base');
 
 const setting = {
+  headless: false,
   ignoreHTTPSErrors: true,
   args: [
     '--use-fake-ui-for-media-stream',
@@ -15,9 +16,21 @@ const setting = {
 class Query extends BaseQuery {
   async getText(selector, options = {}) {
     const _selector = this.getSelector(selector, options);
+    console.log(_selector)
     await this.waitForSelector(selector, options);
     const innerText = await this._node.$eval(_selector, node => node.innerText);
     return innerText;
+  }
+
+  async html(selector) {
+    const _selector = this.getSelector(selector);
+    await this.waitForSelector(selector);
+    const html = await this._node.$eval(_selector, node => node.innerHTML);
+    return html;
+  }
+
+  async url() {
+    return this._node.url();
   }
 
   async click(selector, options) {
@@ -34,6 +47,19 @@ class Query extends BaseQuery {
     const _selector = this.getSelector(selector, options);
     const element = await this._node.waitForSelector(_selector, options);
     return element;
+  }
+
+  async waitForNewPage() {
+    const browser = this._node.browser();
+    return new Promise((resolve) => {
+      const listener = (target) => {
+        if (target.type() === 'page') {
+          browser.removeListener('targetcreated', listener);
+          resolve(target.page());
+        }
+      };
+      browser.on('targetcreated', listener);
+    });
   }
 
   async waitForFrames(frameIds) {
@@ -69,9 +95,9 @@ class Query extends BaseQuery {
     const _selector = this.getSelector(selector, options);
     await this._node.focus(_selector);
     await this._node.$eval(_selector, input => input.select(), _selector);
+    // await this._node.click(_selector, { clickCount: 3 });
     if (this._node.keyboard) {
-      await this._node.keyboard.down('Delete');
-      await this._node.keyboard.up('Delete');
+      await this._node.keyboard.press('Delete');
     } else {
       await this._node.evaluate(() => {
         document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Delete' }));
