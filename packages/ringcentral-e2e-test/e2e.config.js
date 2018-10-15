@@ -1,4 +1,4 @@
-const logInfo = require('./logInfo.js');
+const loginInfo = require('./loginInfo.js');
 
 module.exports = {
   // selectorLabel: 'css',
@@ -28,7 +28,10 @@ module.exports = {
     levels: ['p3'],
     brands: ['rc'],
     tags: [
-      ['salesforce', { modes: ['classic'], drivers: ['puppeteer', 'seleniumWebdriverFirefox', 'seleniumWebdriverSafari', 'enzyme', 'seleniumWebdriverChrome'] }],
+      ['salesforce', {
+        modes: ['classic'],
+        drivers: ['puppeteer', 'seleniumWebdriverFirefox', 'seleniumWebdriverSafari', 'enzyme', 'seleniumWebdriverChrome']
+      }],
     ],
   },
   tester: {
@@ -55,7 +58,7 @@ module.exports = {
         params: {
           brands: {
             rc: {
-              ...logInfo,
+              ...loginInfo,
               location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
             },
             att: {
@@ -117,7 +120,10 @@ module.exports = {
     levels: ['p0', 'p1', 'p2', 'p3'],
     brands: ['rc', 'bt', 'telus', 'att'],
   },
-  lookupConfig({ config, tag }) {
+  lookupConfig({
+    config,
+    tag
+  }) {
     const project = config.params.projects[tag.project];
     const source = project.source;
     return {
