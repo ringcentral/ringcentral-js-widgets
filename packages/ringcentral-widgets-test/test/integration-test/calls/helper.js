@@ -1,4 +1,4 @@
-import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatuses';
+import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
 import * as mock from 'ringcentral-integration/integration-test/mock';
 
 import deviceBody from './data/device';

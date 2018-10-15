@@ -1,7 +1,7 @@
 import { contains } from 'ramda';
 import subscriptionBody from 'ringcentral-integration/integration-test/mock/data/subscription.json';
 import { isConferenceSession } from 'ringcentral-integration/modules/Webphone/webphoneHelper';
-import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatuses';
+import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
 import * as mock from 'ringcentral-integration/integration-test/mock';
 import * as MockedPubNub from '../__mocks__/pubnub.js';
 import Session from './session';
