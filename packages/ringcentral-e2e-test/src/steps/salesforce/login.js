@@ -16,7 +16,7 @@ export default class Login {
     const accountHelper = new AccountHelper();
     context.options.option.account = await accountHelper.getAccount(context.options.option.accountTag);
     context.driver.addAfterHook(async () => {
-      await accountHelper.recycleAccount(option.account[0]['uuid']);
+      await accountHelper.recycleAccount(context.options.option.account[0]['uuid']);
     });
   }
 
