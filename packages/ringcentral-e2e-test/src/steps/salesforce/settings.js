@@ -32,21 +32,21 @@ export default class Settings {
     }
   }
 
-  static async logout({ options: { option, isVirtual }, driver: { app } }) {
-    if (isVirtual) {
-      app.props().phone.auth.logout({ username: option.username, password: option.password });
-    } else {
-      await $(app).execute(`phone.auth.logout({username: '${option.username}', password: '${option.password}'})`);
-    }
-    await console.log("logout");
-    await $(app).waitFor('[class*=loginButton]',{ selector: 'css' });
-  }
+  // static async logout({ options: { option, isVirtual }, driver: { app } }) {
+  //   if (isVirtual) {
+  //     app.props().phone.auth.logout({ username: option.username, password: option.password });
+  //   } else {
+  //     await $(app).execute(`phone.auth.logout({username: '${option.username}', password: '${option.password}'})`);
+  //   }
+  //   await console.log("logout");
+  //   await $(app).waitFor('[class*=loginButton]',{ selector: 'css' });
+  // }
   static get steps() {
     return [
       this.enterSettings,
       this.settingMyRCPhone,
       this.settingRCPhoneDesktop,
-      this.logout,
+      // this.logout,
     ];
   }
 }

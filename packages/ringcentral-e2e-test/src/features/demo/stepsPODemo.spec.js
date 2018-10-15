@@ -7,8 +7,9 @@ import Login from 'ringcentral-e2e-test/src/steps/salesforce/login';
 import NavigateTo from 'ringcentral-e2e-test/src/steps/salesforce/navigateTo';
 import Entry from 'ringcentral-e2e-test/src/steps/entry';
 import Settings from 'ringcentral-e2e-test/src/steps/salesforce/settings'
+import Logout from 'ringcentral-e2e-test/src/steps/salesforce/logout'
 
-describe('Test Demo: =====>', () => {
+describe('use steps&PO Test Demo: =====>', () => {
 
   // test({
   //   title: 'Login with username ${username}, dialer ${selector} text expected "${title}"',
@@ -18,7 +19,7 @@ describe('Test Demo: =====>', () => {
   //   ],
   //   levels: ['p0'],
   //   options: [
-  //     { username: '+18552085709*103', password: 'Test!123', selector: 'numberInput', title: 'Enter Name or Number'},
+  //     { accountTag: 'rc_uk_sfentity', username: '+18552085709*103', password: 'Test!123', selector: 'numberInput', title: 'Enter Name or Number'},
   //   ],
   // }, async ({ option, isVirtual }) => {
   //   // 1. login CTI
@@ -42,7 +43,7 @@ describe('Test Demo: =====>', () => {
     ],
     levels: ['p0'],
     options: [
-      { username: '+448451030178*301', password: 'Test!123'},
+      { accountTag: 'rc_uk_sfentity',username: '+448451030178*301', password: 'Test!123'},
     ],
   }, async ({ option, isVirtual }) => {
     const process = createProcess(
@@ -50,11 +51,12 @@ describe('Test Demo: =====>', () => {
       Login,
       NavigateTo,
       Settings,
+      Logout,
     )(context);
       await process.execTo(Settings.settingMyRCPhone);
       await process.skip(Settings.settingRCPhoneDesktop);
       context.driver.addAfterHook(async () => {
-        await process.exec(Settings.logout);
+        await process.exec(Logout);
       });
       const RCPhone = await $(app).getText('[class*="DropdownSelect"]');
       expect(RCPhone.trim()).toBe('My RingCentral Phone');
@@ -67,7 +69,7 @@ describe('Test Demo: =====>', () => {
     ],
     levels: ['p0'],
     options: [
-      { username: '+18882117455*101', password: 'Test!123'},
+      { accountTag: 'rc_uk_sfentity',username: '+18882117455*101', password: 'Test!123'},
     ],
   }, async ({ option, isVirtual }) => {
     const process = createProcess(
@@ -75,14 +77,16 @@ describe('Test Demo: =====>', () => {
       Login,
       NavigateTo,
       Settings,
+      Logout,
     )(context);
       await process.execBefore(Settings.settingMyRCPhone);
       await process.skip(Settings.settingMyRCPhone);
       await process.execTo(Settings.settingRCPhoneDesktop);
       context.driver.addAfterHook(async () => {
-        await process.exec(Settings.logout);
+        await process.exec(Logout);
       });
       const RCPhone = await $(app).getText('[class*="DropdownSelect"]');
       expect(RCPhone.trim()).toBe('RingCentral for Desktop');
   });
+  
 });
