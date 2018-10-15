@@ -45,8 +45,11 @@ export default class Storage extends StorageBase {
       if (
         this._auth.loginStatus === loginStatus.loggedIn &&
         (!this._tabManager || this._tabManager.ready) &&
-        !this.ready
+        this.pending
       ) {
+        this.store.dispatch({
+          type: this.actionTypes.init,
+        });
         const storageKey =
           `${this.prefix ? `${this.prefix}-` : ''}storage-${this._auth.ownerId}`;
         this._storage = new this._StorageProvider({
