@@ -1,3 +1,5 @@
+const loginInfo = require('./loginInfo.js');
+
 module.exports = {
   selectorLabel: 'data-sign',
   caseServices: [{
@@ -53,7 +55,7 @@ module.exports = {
         params: {
           brands: {
             rc: {
-              extension: '../../../googlechrome/build/extension/office/rc',
+              ...loginInfo,
               location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
             },
             att: {

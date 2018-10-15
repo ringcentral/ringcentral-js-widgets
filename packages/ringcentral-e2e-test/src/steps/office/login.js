@@ -1,6 +1,7 @@
 import { createProcess } from 'marten';
 import ToggleEnv from './toggleEnv';
-/* global $, page, browser */
+/* global $, page, browser, context */
+
 export default class Login {
   static async prepare(context) {
     await $(context.driver.app).waitFor('[class*=loginButton]', { selector: 'css' });
@@ -10,7 +11,9 @@ export default class Login {
     )(context);
     await process.exec();
   }
-  static async login({ options: { option } }) {
+  static async login({ options: { option } } = {}) {
+    const params = context.options.config;
+    await $(context.driver.app).waitFor('[class*=loginButton]', { selector: 'css' });
     await $(page).click('[class*=loginButton]', { selector: 'css' });
     // TODO: wait for popup
     await $(page).waitFor(2000);
@@ -18,18 +21,17 @@ export default class Login {
     const popupTarget = targets.find(t => t._targetInfo.title === 'Sign in - RingCentral');
     const loginPage = await popupTarget.page();
     // 1. username
-    await $(loginPage).type('input#credential', '8552085154', { selector: 'css' });
+    await $(loginPage).type('input#credential', params.username, { selector: 'css' });
     // TODO: wait for url change
-    const response = await Promise.all([
-      $(loginPage).click('loginCredentialNext'),
+    await Promise.all([
+      $(loginPage).click('[data-test-automation-id=loginCredentialNext]', { selector: 'css' }),
       // loginPage.waitForNavigation({ waitUntil: 'networkidle2' }),
       $(loginPage).waitFor(1000),
       $(loginPage).waitFor('input#password', { selector: 'css' }),
     ]);
-    console.info('response:', response);
     // 2. pwd
-    await $(loginPage).type('input#password', 'Test!123', { selector: 'css' });
-    await $(loginPage).click('signInBtn');
+    await $(loginPage).type('input#password', params.password, { selector: 'css' });
+    await $(loginPage).click('[data-test-automation-id=signInBtn]', { selector: 'css' });
     // display UserGuide and skip(by default)
     await $(page).waitFor('[class*=components-UserGuide]', { selector: 'css' });
     if (!option.noSkipUserGuide) {
@@ -39,7 +41,6 @@ export default class Login {
   }
   static get steps() {
     return [
-      this.prepare,
       this.login,
     ];
   }
