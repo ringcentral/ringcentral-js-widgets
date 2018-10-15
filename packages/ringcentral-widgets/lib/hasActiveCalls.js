@@ -2,21 +2,18 @@ import callingModes from 'ringcentral-integration/modules/CallingSettings/callin
 
 export default function hasActiveCalls(phone) {
   const {
-    callingSettings,
     callMonitor,
     webphone,
     callLogSection,
     callMonitorUI,
   } = phone;
-  const isWebphoneMode = (callingSettings.callingMode === callingModes.webphone);
-  return isWebphoneMode && !!(
+  return !!(
     // (callMonitor && callMonitor.calls.length) &&
     (webphone && webphone.sessions.length)
-  )
-    || !isWebphoneMode && !!(
-      (callMonitor && callMonitor.calls.length)
-      || (callLogSection && callLogSection.showNotification)
-      // || (callLogSection && callLogSection.show)
-      || (callMonitorUI && callMonitorUI.cachedActive)
-    );
+  ) || !!(
+    (callMonitor && callMonitor.calls.length)
+    || (callLogSection && callLogSection.showNotification)
+    // || (callLogSection && callLogSection.show)
+    || (callMonitorUI && callMonitorUI.cachedActive)
+  );
 }
