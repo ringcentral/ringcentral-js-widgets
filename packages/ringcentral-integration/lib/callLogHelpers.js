@@ -6,7 +6,7 @@ import HashMap from './HashMap';
 import callActions from '../enums/callActions';
 import callDirections from '../enums/callDirections';
 import callResults from '../enums/callResults';
-import telephonyStatuses from '../enums/telephonyStatuses';
+import telephonyStatuses from '../enums/telephonyStatus';
 import terminationTypes from '../enums/terminationTypes';
 // import i18n from './i18n';
 

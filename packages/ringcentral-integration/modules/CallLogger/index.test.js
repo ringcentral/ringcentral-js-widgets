@@ -6,7 +6,7 @@ import CallLogger, {
   callIdentityFunction,
 } from './index';
 import LoggerBase from '../../lib/LoggerBase';
-import telephonyStatuses from '../../enums/telephonyStatuses';
+import telephonyStatuses from '../../enums/telephonyStatus';
 import { isRinging } from '../../lib/callLogHelpers';
 import sleep from '../../lib/sleep';
 
