@@ -66,7 +66,99 @@ npx e2e-test run ./src/features/commons/call/Dialer.spec.js --drivers puppeteer
 **NOTE: If you want to try to write some test cases from the RC widget demo, you can keep on the following [next steps](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#guide-for-rc-integration-app).**
 
 ### Guide For RC Integration App
+description:1. User has logged into Salesforce. 
+            2. User has logged into RC CTI app.
+            3. User go to setting and set up the Make my calls with my ringcentral phone.
+1. Write a Minimum steps,this steps is setting process include go to setting and set up the Make my calls with my ringcentral phone.
+settingRCPhone.js
+```js
+export default class SettingMyRCPhone {
+  //go to setting
+  static async enterSettings() {
+    await $(app).waitFor(1000);
+    await $(app).waitForSelector('[title="More Menu"]',{ selector: 'css' });
+    await $(app).click('[title="More Menu"]',{ selector: 'css' });
+    await $(app).waitForSelector('[title="Settings"]',{ selector: 'css' });
+    await $(app).click('[title="Settings"]',{ selector: 'css' });
+    await $(app).waitFor(1000);
+  }
+  //set up the Make my calls with my ringcentral phone.
+  static async settingMyRCPhone() {
+    await $(app).click('#viewport > div > div > div > div > div > div.node_modules-ringcentral-widgets-components-SettingsPanel-_styles_root_1Eq2f > div > a:nth-child(1) > div > div > div.node_modules-ringcentral-widgets-components-IconField-_styles_content_2rExK')
+    const DropdownSelectText = await $(app).getText('[class*="DropdownSelect"]');
+    if (DropdownSelectText.trim() !== 'My RingCentral Phone') {
+      await $(app).click('[class*="DropdownSelect"]',{ selector: 'css' });
+      await $(app).click('[title="My RingCentral Phone"]',{ selector: 'css' });
+      await $(app).click('[class*=SaveButton]',{ selector: 'css' });
+      await $(app).waitForSelector('[class*="AlertDisplay"]',{ selector: 'css' });
+      await $(app).execute('phone.alert.dismissAll');
+      await $(app).waitFor(1000);
+    }
+  }
+  static get steps() {
+    return [
+      this.enterSettings,
+      this.settingMyRCPhone,
+    ];
+  }
+}
+```
+NOTE: If use marten must have a function is steps.
 
+2. write a test case
+stepsDemo.js
+```js
+import { createProcess } from 'marten';
+import Login from 'ringcentral-e2e-test/src/steps/salesforce/login';
+import NavigateTo from 'ringcentral-e2e-test/src/steps/salesforce/navigateTo';
+import Entry from 'ringcentral-e2e-test/src/steps/entry';
+import SettingMyRCPhone from 'ringcentral-e2e-test/src/steps/salesforce/settingMyRCPhone'
+import Logout from 'ringcentral-e2e-test/src/steps/salesforce/logout'
+
+describe('Test Demo: =====>', () => {
+  test({
+    title: 'setting My RC Phone',
+    tags: [
+      ['salesforce'],
+    ],
+    levels: ['p0'],
+    options: [
+      { accountTag: 'rc_uk_sfentity'},
+    ],
+  }, async ({ option, isVirtual }) => {
+    const process = createProcess(
+      Entry,
+      Login,
+      NavigateTo,
+      SettingMyRCPhone,
+      Logout,
+    )(context);
+      await process.execTo(SettingMyRCPhone);
+      context.driver.addAfterHook(async () => {
+        await process.exec(Logout);
+      });
+      const RCPhone = await $(app).getText('[class*="DropdownSelect"]');
+      expect(RCPhone.trim()).toBe('My RingCentral Phone');
+  });
+});
+```
+NOTE: 
+    title: test case title
+    tags:  This tags is similar to the name of your app, include widgets,salesforce,google，office.
+    levels: Priority
+    options: an open reference, you can set up account Tag...
+    function:createProces: https://github.com/unadlib/marten#function-createprocess
+    the peocess description:
+        Entry: User has logged into Salesforce..
+        Login,NavigateTo: User has logged into RC CTI app.
+        SettingMyRCPhone: User go to setting and set up the Make my calls with my ringcentral phone.
+    expect: https://jestjs.io/docs/en/expect
+
+3. Run test case
+```shell
+cd <repo>/packages/ringcentral-e2e-test
+npx e2e-test run ./src/features/salesforce/demo/stepsDemo.js --drivers puppeteer 
+```
 TODO
 
 #### Run RC for GoogleChrome Test Case
@@ -89,7 +181,7 @@ npx e2e-test run ./src/features/google/call/Dialer.spec.js --drivers puppeteer -
 | Reference | Description                                   | type   | default |
 | --------- | --------------------------------------------- | ------ | ------- |
 | --params  | Run E2E test case with some params filtering. | object | None    |
-| --sandbox | Run E2E test case with 'sandbox' mode.        |        | disable |
+| --sandbox | Run E2E test case with 'sandbox' mode.        |        | disable | 
 
 TODO
 
@@ -138,7 +230,16 @@ TODO
 | ------------------- | --------------------- | ------------------ |
 | driver.addAfterHook | After each case ends. | -                  |
 
+example:
+```js
+context.driver.addAfterHook(async () => {
+        await process.exec(Logout);
+      });
+```
 TODO
+
+#### Account
+
 
 ### Benchmark Results
 
