@@ -78,12 +78,7 @@ class ConversationPanel extends Component {
     this.setState({
       selected,
     });
-    if (
-      this.props.conversation &&
-      this.props.conversation.conversationMatches &&
-      this.props.conversation.conversationMatches.length > 0 &&
-      this.props.autoLog
-    ) {
+    if (this.props.autoLog) {
       this.logConversation({ redirect: false, selected, prefill: false });
     }
   }
@@ -195,6 +190,7 @@ class ConversationPanel extends Component {
     } else {
       conversationBody = (
         <ConversationMessageList
+          currentLocale={this.props.currentLocale}
           height={this.getMessageListHeight()}
           messages={this.props.messages}
           className={styles.conversationBody}
@@ -278,6 +274,7 @@ class ConversationPanel extends Component {
           currentLocale={this.props.currentLocale}
           onSend={this.onSend}
           onHeightChange={this.onInputHeightChange}
+          inputExpandable={this.props.inputExpandable}
         />
       </div>
     );
@@ -320,6 +317,7 @@ ConversationPanel.propTypes = {
   loadConversation: PropTypes.func,
   renderExtraButton: PropTypes.func,
   loadingNextPage: PropTypes.bool,
+  inputExpandable:PropTypes.bool,
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
@@ -335,7 +333,8 @@ ConversationPanel.defaultProps = {
   perPage: undefined,
   loadConversation: () => null,
   renderExtraButton: undefined,
-  loadingNextPage: false
+  loadingNextPage: false,
+  inputExpandable: undefined,
 };
 
 export default ConversationPanel;

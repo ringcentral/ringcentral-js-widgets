@@ -60,6 +60,9 @@
   text-align: center;
   cursor: move;
   z-index: 11;
+  overflow: hidden;
+  font-family: Helvetica;
+  font-weight: normal;
 }
 
 .minimized.header {
@@ -227,4 +230,124 @@
   animation-duration: 2s;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
+}
+
+@keyframes moveIn {
+  0% {
+    display: none;
+    top: -50%;
+  }
+  100% {
+    display: inline-block;
+    top: 50%;
+  }
+}
+@keyframes moveOut {
+  0% {
+    display: inline-block;
+    top: 50%;
+  }
+  100% {
+    top: 150%;
+    display: none;
+  }
+}
+
+.moveIn {
+  animation-name: moveIn;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+.moveOut {
+  animation-name: moveOut;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@mixin callInfo {
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  height: 16px;
+  line-height: 16px;
+  margin-top: -8px;
+  color: #666666;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.duration.visible, .ringingCalls.visible, .onHoldCalls.visible {
+  top: 50%;
+}
+.duration {
+  @include callInfo;
+  width: 33px;
+  margin-left: -60px;
+  cursor: pointer;
+}
+.duration.center {
+  margin-left: -16px;
+}
+.ringingCalls, .onHoldCalls {
+  @include callInfo;
+  width: 100px;
+  margin-left: -100px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-align: center;
+}
+.ringingCalls.center, .onHoldCalls.center {
+  margin-left: -50px;
+}
+
+@mixin btn {
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  padding: 0 5px;
+  height: 18px;
+  line-height: 18px;
+  border-radius: 10.5px;
+  font-size: 11px;
+  margin-top: -10px;
+  margin-left: -13px;
+  overflow: hidden;
+  white-space: nowrap;
+  min-width: 66px;
+  max-width: 110px;
+  cursor: pointer;
+}
+
+.currentCallBtn {
+  @include btn;
+  border: solid 1px $leaf;
+  color: $leaf;
+}
+.currentCallBtn.visible {
+  display: inline-block;
+  margin-top: -10px;
+  top: 50%;
+}
+.currentCallBtn:hover {
+  color: $leaf;
+}
+.currentCallBtn.left {
+  margin-left: -80px;
+}
+.viewCallsBtn {
+  @include btn;
+  border: solid 1px $orange;
+  color: $orange;
+  margin-left: 0;
+}
+.viewCallsBtn:hover {
+  color: $orange;
+}
+.viewCallsBtn.visible {
+  display: inline-block;
+  margin-top: -10px;
+  top: 50%;
 }

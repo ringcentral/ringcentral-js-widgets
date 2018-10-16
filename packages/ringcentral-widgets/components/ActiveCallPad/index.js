@@ -21,12 +21,24 @@ import EndIcon from '../../assets/images/End.svg';
 import CombineIcon from '../../assets/images/Combine.svg';
 import MergeIcon from '../../assets/images/MergeIntoConferenceIcon.svg';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
+import { pickElements } from './utils';
+
 import styles from './styles.scss';
 import i18n from './i18n';
 
 const DisplayButtonNumber = 6;
 
-function MoreActionItem({
+export const ACTIONS_CTRL_MAP = {
+  muteCtrl: 'muteCtrl',
+  keypadCtrl: 'keypadCtrl',
+  holdCtrl: 'holdCtrl',
+  mergeOrAddCtrl: 'mergeOrAddCtrl',
+  recordCtrl: 'recordCtrl',
+  transferCtrl: 'transferCtrl',
+  flipCtrl: 'flipCtrl'
+};
+
+export function MoreActionItem({
   title,
   icon: Icon,
   disabled,
@@ -109,19 +121,43 @@ class ActiveCallPad extends Component {
     document.body.removeEventListener('click', this.onClick);
   }
 
-  render() {
-    const buttons = [];
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextState !== this.state) {
+      return true;
+    }
 
+    let showUpdate = false;
+
+    for (const p in nextProps) {
+      if (nextProps::Object.prototype.hasOwnProperty(p)) {
+        const val = nextProps[p];
+
+        if (
+          val !== this.props[p] &&
+            (typeof val !== 'function')
+        ) {
+          showUpdate = true;
+          break;
+        }
+      }
+    }
+    return showUpdate;
+  }
+
+  render() {
+    let buttons = [];
     /* --------------------- Mute/Unmute --------------------------- */
     buttons.push(this.props.isOnMute
       ? {
         icon: MuteIcon,
+        id: ACTIONS_CTRL_MAP.muteCtrl,
         title: i18n.getString('unmute', this.props.currentLocale),
         disabled: this.props.isOnHold,
         onClick: this.props.onUnmute,
       }
       : {
         icon: UnmuteIcon,
+        id: ACTIONS_CTRL_MAP.muteCtrl,
         title: i18n.getString('mute', this.props.currentLocale),
         disabled: this.props.isOnHold,
         onClick: this.props.onMute,
@@ -132,8 +168,10 @@ class ActiveCallPad extends Component {
     buttons.push(
       {
         icon: KeypadIcon,
+        id: ACTIONS_CTRL_MAP.keypadCtrl,
         title: i18n.getString('keypad', this.props.currentLocale),
         onClick: this.props.onShowKeyPad,
+        disabled: this.props.layout === callCtrlLayouts.conferenceCtrl,
       }
     );
 
@@ -141,6 +179,7 @@ class ActiveCallPad extends Component {
     buttons.push(
       {
         icon: HoldIcon,
+        id: ACTIONS_CTRL_MAP.holdCtrl,
         iconWidth: 120,
         iconHeight: 160,
         iconX: 190,
@@ -164,6 +203,7 @@ class ActiveCallPad extends Component {
       buttons.push(showMerge
         ? {
           icon: MergeIcon,
+          id: ACTIONS_CTRL_MAP.mergeOrAddCtrl,
           title: i18n.getString('mergeToConference', this.props.currentLocale),
           disabled: this.props.mergeDisabled,
           onClick: this.props.onMerge,
@@ -171,6 +211,7 @@ class ActiveCallPad extends Component {
         }
         : {
           icon: CombineIcon,
+          id: ACTIONS_CTRL_MAP.mergeOrAddCtrl,
           title: i18n.getString('add', this.props.currentLocale),
           disabled: this.props.addDisabled,
           onClick: this.props.onAdd,
@@ -182,6 +223,7 @@ class ActiveCallPad extends Component {
     buttons.push(
       {
         icon: RecordIcon,
+        id: ACTIONS_CTRL_MAP.recordCtrl,
         title: this.props.recordStatus === recordStatus.recording
           ? i18n.getString('stopRecord', this.props.currentLocale)
           : i18n.getString('record', this.props.currentLocale),
@@ -200,11 +242,12 @@ class ActiveCallPad extends Component {
 
     /* --------------------- Transfer --------------------------- */
     const disabledTransfer = (
-      this.props.layout === callCtrlLayouts.mergeCtrl
+      this.props.layout !== callCtrlLayouts.normalCtrl
     );
     buttons.push(
       {
         icon: TransferIcon,
+        id: ACTIONS_CTRL_MAP.transferCtrl,
         title: i18n.getString('transfer', this.props.currentLocale),
         disabled: disabledTransfer,
         onClick: this.props.onToggleTransferPanel,
@@ -215,16 +258,23 @@ class ActiveCallPad extends Component {
     const disabledFlip = (
       this.props.flipNumbers.length === 0
       || this.props.isOnHold
-      || this.props.layout === callCtrlLayouts.mergeCtrl
+      || this.props.layout !== callCtrlLayouts.normalCtrl
     );
     buttons.push(
       {
         icon: FlipIcon,
+        id: ACTIONS_CTRL_MAP.flipCtrl,
         title: i18n.getString('flip', this.props.currentLocale),
         disabled: disabledFlip,
         onClick: this.props.onShowFlipPanel,
       }
     );
+
+    // filter actions
+    const { actions } = this.props;
+    if (actions.length > 0) {
+      buttons = pickElements(actions, buttons);
+    }
 
     /* --------------------- More Actions --------------------------- */
     let moreActions = null;
@@ -323,6 +373,7 @@ ActiveCallPad.propTypes = {
   conferenceCallEquipped: PropTypes.bool,
   hasConferenceCall: PropTypes.bool,
   expandMore: PropTypes.bool,
+  actions: PropTypes.array
 };
 
 ActiveCallPad.defaultProps = {
@@ -337,6 +388,7 @@ ActiveCallPad.defaultProps = {
   onAdd: undefined,
   onMerge: undefined,
   expandMore: false,
+  actions: []
 };
 
 export default ActiveCallPad;

@@ -43,6 +43,8 @@ import ContactSearch from 'ringcentral-integration/modules/ContactSearch';
 import DateTimeFormat from 'ringcentral-integration/modules/DateTimeFormat';
 import Conference from 'ringcentral-integration/modules/Conference';
 import ConferenceCall from 'ringcentral-integration/modules/ConferenceCall';
+import QuickAccess from 'ringcentral-integration/modules/QuickAccess';
+import ActiveCallControl from 'ringcentral-integration/modules/ActiveCallControl';
 
 import ActiveCalls from 'ringcentral-integration/modules/ActiveCalls';
 import DetailedPresence from 'ringcentral-integration/modules/DetailedPresence';
@@ -61,6 +63,7 @@ import UserGuide from 'ringcentral-integration/modules/UserGuide';
 import { ModuleFactory } from 'ringcentral-integration/lib/di';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 import DialerUI from 'ringcentral-widgets/modules/DialerUI';
+import ConferenceDialerUI from 'ringcentral-widgets/modules/ConferenceDialerUI';
 import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
 
 @ModuleFactory({
@@ -118,6 +121,7 @@ import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
     { provide: 'AccountContacts', useClass: AccountContacts },
     { provide: 'AddressBook', useClass: AddressBook },
     { provide: 'Contacts', useClass: Contacts },
+    { provide: 'QuickAccess', useClass: QuickAccess },
     {
       provide: 'ContactSources',
       deps: ['AddressBook', 'AccountContacts'],
@@ -135,8 +139,10 @@ import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
     { provide: 'ContactSearch', useClass: ContactSearch },
     { provide: 'CallMonitor', useClass: CallMonitor },
     { provide: 'DialerUI', useClass: DialerUI },
+    { provide: 'ConferenceDialerUI', useClass: ConferenceDialerUI },
     { provide: 'Feedback', useClass: Feedback },
     { provide: 'UserGuide', useClass: UserGuide },
+    { provide: 'ActiveCallControl', useClass: ActiveCallControl },
     {
       provide: 'StorageOptions',
       useValue: {
@@ -225,66 +231,84 @@ export default class BasePhone extends RcModule {
       readyCheckFn: () => contacts.ready,
     });
 
-    webphone.onCallEnd((session, currentSession) => {
-      if (
-        routerInteraction.currentPath === '/conferenceCall/mergeCtrl' &&
-        webphone.cachedSessions.length && (
-          !currentSession ||
-          (webphone.cachedSessions.find(cachedSession => cachedSession.id === currentSession.id))
-        )
-      ) {
-        return;
-      }
+    webphone.onCallEnd((session, currentSession, ringSession) => {
+      const callsOnholdReg = /^\/conferenceCall\/callsOnhold\/(.+)\/(.+)$/;
+      const execCallsOnhold = callsOnholdReg.exec(routerInteraction.currentPath);
 
-      if (currentSession && routerInteraction.currentPath === '/conferenceCall/mergeCtrl') {
-        const { fromSessionId } = conferenceCall.mergingPair;
-        if (session.id !== fromSessionId) {
-          routerInteraction.push('/calls/active');
+      if (execCallsOnhold) {
+        const fromSessionIdOfCallsOnhold = execCallsOnhold[2];
+        if (!currentSession || session.id === currentSession.id) {
+          routerInteraction.go(-2);
+          return;
+        }
+        if (session.id === fromSessionIdOfCallsOnhold) {
+          routerInteraction.replace('/calls/active');
           return;
         }
       }
 
+      const withinCallCtrl = !![
+        '/calls/active',
+        '/conferenceCall/dialer/',
+        '/conferenceCall/callsOnhold',
+        '/conferenceCall/participants',
+      ].find(path => routerInteraction.currentPath.indexOf(path) === 0);
+
       if (
-        !![
-          '/conferenceCall/mergeCtrl',
-          '/conferenceCall/dialer/',
-          '/calls/active'
-        ].find(path => routerInteraction.currentPath.indexOf(path) !== -1) &&
-        (!currentSession || session.id === currentSession.id)
+        withinCallCtrl
+        && (!currentSession || session.id === currentSession.id)
+        && !ringSession
       ) {
-        if (
-          routerInteraction.currentPath === '/conferenceCall/mergeCtrl' ||
-          routerInteraction.currentPath.indexOf('/conferenceCall/dialer/') === 0 ||
-          !currentSession
-        ) {
-          routerInteraction.push('/dialer');
+        if (!currentSession) {
+          routerInteraction.replace('/dialer');
           return;
         }
-        if (routerInteraction.currentPath !== '/calls/active') {
-          routerInteraction.push('/calls/active');
+        if (routerInteraction.currentPath.indexOf('/calls/active') === -1) {
+          routerInteraction.replace('/calls/active');
+          return;
+        }
+        if (conferenceCall.isMerging) {
+          // Do nothing, let the merge() to do the jump
           return;
         }
         routerInteraction.goBack();
+        return;
+      }
+
+      if (
+        currentSession
+        && currentSession.id !== session.id
+        && routerInteraction.currentPath === `/calls/active/${session.id}`
+      ) {
+        routerInteraction.replace(`/calls/active/${currentSession.id}`);
+        return;
+      }
+
+      if (!currentSession && ringSession) {
+        routerInteraction.push('/calls');
+        return;
+      }
+
+      if (
+        routerInteraction.currentPath === '/calls'
+        && !callMonitor.activeRingCalls.length
+        && !callMonitor.activeOnHoldCalls.length
+        && !callMonitor.activeCurrentCalls.length
+        && !conferenceCall.isMerging
+        // && callMonitor.otherDeviceCalls.length === 0
+      ) {
+        routerInteraction.replace('/dialer');
       }
     });
 
     webphone.onCallStart((session) => {
-      if (routerInteraction.currentPath.indexOf('/conferenceCall/dialer/') === 0) {
-        routerInteraction.push('/conferenceCall/mergeCtrl');
-        return;
-      }
-
-      const isConferenceCallSession = (
-        conferenceCall
-        && conferenceCall.isConferenceSession(session.id)
-      );
-
-      if (
-        routerInteraction.currentPath !== '/calls/active' &&
-        routerInteraction.currentPath !== '/conferenceCall/mergeCtrl' &&
-        !(isConferenceCallSession && routerInteraction.currentPath === '/calls')
-      ) {
-        routerInteraction.push('/calls/active');
+      const path = `/calls/active/${session.id}`;
+      if (routerInteraction.currentPath !== path) {
+        if (routerInteraction.currentPath.indexOf('/calls/active') === 0) {
+          routerInteraction.replace(path);
+        } else {
+          routerInteraction.push(path);
+        }
       }
     });
 
@@ -294,9 +318,36 @@ export default class BasePhone extends RcModule {
           routerInteraction.push('/calls');
         }
         webphone.ringSessions.forEach((session) => {
-          webphone.toggleMinimized(session.id);
+          if (!session.minimized) {
+            webphone.toggleMinimized(session.id);
+          }
         });
       }
+    });
+
+    webphone.onBeforeCallResume((session) => {
+      const sessionId = session && session.id;
+      const mergingPair = conferenceCall && conferenceCall.mergingPair;
+      if (mergingPair && sessionId !== mergingPair.toSessionId) {
+        // close merging pair to close the merge call.
+        conferenceCall.closeMergingPair();
+      }
+    });
+
+    webphone.onBeforeCallEnd((session) => {
+      const mergingPair = conferenceCall && conferenceCall.mergingPair;
+      if (
+        session
+        && mergingPair
+        && (Object.values(mergingPair).indexOf(session.id) !== -1)
+      ) {
+        // close merging pair to close the merge call.
+        conferenceCall.closeMergingPair();
+      }
+    });
+
+    conferenceCall.onMergeSuccess((conferenceData) => {
+      routerInteraction.push(`/calls/active/${conferenceData.sessionId}`);
     });
 
     // CallMonitor configuration

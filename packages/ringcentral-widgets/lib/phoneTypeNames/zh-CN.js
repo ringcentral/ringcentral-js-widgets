@@ -8,7 +8,7 @@ export default {
   [phoneTypes.phone]: "电话",
   [phoneTypes.unknown]: "未知电话类型",
   [phoneTypes.company]: "公司号码",
-  [phoneTypes.direct]: "直线号码"
+  [phoneTypes.direct]: "直拨号码"
 };
 
 // @key: @#@"[phoneTypes.business]"@#@ @source: @#@"Business Phone"@#@

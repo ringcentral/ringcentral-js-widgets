@@ -32,6 +32,7 @@ export default function generateXlfData({
   supportedLocales,
   sourceFolder,
   exportType,
+  fillEmptyWithSource,
 }) {
   const isFull = exportType.toLowerCase() === 'full';
   const onlyTranslated = exportType.toLowerCase() === 'translated';
@@ -90,12 +91,22 @@ export default function generateXlfData({
                         source: {
                           _text: sourceFile.data.get(key).value,
                         },
-                        target: {
-                          _text: diff ?
-                            sourceFile.data.get(key).value :
-                            targetFile.data.get(key).value
-                        },
                       };
+                      if (diff) {
+                        if (fillEmptyWithSource) {
+                          unit.target = {
+                            _text: sourceFile.data.get(key).value,
+                          };
+                        } else {
+                          unit.target = {
+                            _text: '',
+                          };
+                        }
+                      } else {
+                        unit.target = {
+                          _text: targetFile.data.get(key).value,
+                        };
+                      }
                       transUnits.push(unit);
                     }
                   }

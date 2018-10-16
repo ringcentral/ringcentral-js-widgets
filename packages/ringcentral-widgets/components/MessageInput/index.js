@@ -17,6 +17,7 @@ export default class MessageInput extends Component {
     onSend: PropTypes.func,
     onChange: PropTypes.func,
     onHeightChange: PropTypes.func,
+    inputExpandable: PropTypes.bool,
   }
   static defaultProps = {
     disabled: false,
@@ -26,6 +27,7 @@ export default class MessageInput extends Component {
     minHeight: 63,
     maxHeight: 300,
     maxLength: 5000,
+    inputExpandable: true,
   }
   constructor(props, context) {
     super(props, context);
@@ -68,6 +70,9 @@ export default class MessageInput extends Component {
     }
   }
   calculateNewHeight() {
+    if (!this.props.inputExpandable) {
+      return this.props.minHeight;
+    }
     // temperarily set height to 0 to check scrollHeight
     this.textArea.style.height = 0;
     const newHeight = this.textArea.scrollHeight + 10 + UIHeightOffset;

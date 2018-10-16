@@ -5,6 +5,9 @@ import SpinnerOverlay from '../SpinnerOverlay';
 import ActiveCallList from '../ActiveCallList';
 import styles from './styles.scss';
 import i18n from './i18n';
+import InsideModal from '../InsideModal';
+import LogSection from '../LogSection';
+import LogNotification from '../LogNotification';
 
 export default class ActiveCallsPanel extends Component {
   componentDidMount() {
@@ -35,7 +38,91 @@ export default class ActiveCallsPanel extends Component {
     );
   }
 
-  getCallList(calls, title) {
+  renderLogSection() {
+    if (!this.props.currentLog) return null;
+
+    const {
+      formatPhone,
+      currentLocale,
+      currentLog,
+      // - styles
+      // sectionContainerStyles,
+      // sectionModalStyles,
+      // - aditional
+      // additionalInfo,
+      // showSaveLogBtn,
+      renderEditLogSection,
+      renderSaveLogButton,
+      onSaveCallLog,
+      onUpdateCallLog,
+      onCloseLogSection,
+      // notification
+      logNotification,
+      showNotiLogButton,
+      onCloseNotification,
+      onSaveNotification,
+      onExpandNotification,
+      onDiscardNotification,
+      notificationContainerStyles,
+      onLogBasicInfoClick,
+      renderSmallCallContrl,
+    } = this.props;
+
+    return (
+      <div>
+        <InsideModal
+          title={currentLog.title}
+          show={currentLog.showLog}
+          onClose={onCloseLogSection}
+          clickOutToClose={false}
+        // containerStyles={sectionContainerStyles}
+        // modalStyles={sectionModalStyles}
+        >
+          <LogSection
+            currentLocale={currentLocale}
+            currentLog={currentLog}
+            // additionalInfo={additionalInfo}
+            isInnerMask={logNotification && logNotification.notificationIsExpand}
+            renderEditLogSection={renderEditLogSection}
+            renderSaveLogButton={renderSaveLogButton}
+            formatPhone={formatPhone}
+            onUpdateCallLog={onUpdateCallLog}
+            onSaveCallLog={onSaveCallLog}
+            onLogBasicInfoClick={onLogBasicInfoClick}
+            renderSmallCallContrl={renderSmallCallContrl}
+            showSaveLogBtn
+          />
+        </InsideModal>
+        {
+          logNotification ? (
+            <InsideModal
+              show={logNotification.showNotification}
+              showTitle={false}
+              containerStyles={classnames(
+                styles.notificationContainer, notificationContainerStyles
+              )}
+              modalStyles={styles.notificationModal}
+              contentStyle={styles.notificationContent}
+              onClose={onCloseNotification}>
+              <LogNotification
+                showLogButton={showNotiLogButton}
+                currentLocale={currentLocale}
+                formatPhone={formatPhone}
+                currentLog={logNotification}
+                isExpand={logNotification.notificationIsExpand}
+                onSave={onSaveNotification}
+                onExpand={onExpandNotification}
+                onDiscard={onDiscardNotification}
+                onStay={onCloseNotification}
+              />
+            </InsideModal>
+          ) : null
+        }
+      </div>
+    );
+  }
+
+  getCallList(calls, title, showCallDetail = false) {
     const {
       currentLocale,
       areaCode,
@@ -61,8 +148,21 @@ export default class ActiveCallsPanel extends Component {
       sourceIcons,
       activeCurrentCalls,
       isWebRTC,
-      conferenceCallEquipped,
       isSessionAConferenceCall,
+      onCallItemClick,
+      showAvatar,
+      getAvatarUrl,
+      conferenceCallParties,
+      webphoneHold,
+      useV2,
+      updateSessionMatchedContact,
+      renderExtraButton,
+      renderContactName,
+      ringoutHangup,
+      ringoutTransfer,
+      ringoutReject,
+      disableLinks,
+      showRingoutCallControl,
     } = this.props;
 
     return (
@@ -89,12 +189,26 @@ export default class ActiveCallsPanel extends Component {
         webphoneHangup={webphoneHangup}
         webphoneResume={webphoneResume}
         webphoneToVoicemail={webphoneToVoicemail}
+        renderExtraButton={renderExtraButton}
+        renderContactName={renderContactName}
         enableContactFallback={enableContactFallback}
         sourceIcons={sourceIcons}
         isWebRTC={isWebRTC}
-        conferenceCallEquipped={conferenceCallEquipped}
         currentCall={activeCurrentCalls[0]}
         isSessionAConferenceCall={isSessionAConferenceCall}
+        useV2={useV2}// TODO: Maybe we should make all the call item consistent
+        onCallItemClick={onCallItemClick}
+        showAvatar={showAvatar}
+        getAvatarUrl={getAvatarUrl}
+        conferenceCallParties={conferenceCallParties}
+        webphoneHold={webphoneHold}
+        showCallDetail={showCallDetail}
+        updateSessionMatchedContact={updateSessionMatchedContact}
+        ringoutHangup={ringoutHangup}
+        ringoutTransfer={ringoutTransfer}
+        ringoutReject={ringoutReject}
+        disableLinks={disableLinks}
+        showRingoutCallControl={showRingoutCallControl}
       />
     );
   }
@@ -108,17 +222,20 @@ export default class ActiveCallsPanel extends Component {
       className,
       currentLocale,
       showSpinner,
+      showOtherDevice,
     } = this.props;
+    const logSection = this.renderLogSection();
 
     if (!this.hasCalls()) {
       return (
         <div className={classnames(styles.root, className)}>
           <p className={styles.noCalls}>{i18n.getString('noActiveCalls', currentLocale)}</p>
+          {logSection}
           {showSpinner ? <SpinnerOverlay className={styles.spinner} /> : null}
         </div>
       );
     }
-
+    const otherDevice = showOtherDevice ? this.getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale), true) : null;
     return (
       <div className={styles.root}>
         <div
@@ -128,8 +245,9 @@ export default class ActiveCallsPanel extends Component {
           {this.getCallList(activeRingCalls, i18n.getString('ringCall', currentLocale))}
           {this.getCallList(activeCurrentCalls, i18n.getString('currentCall', currentLocale))}
           {this.getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}
-          {this.getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale))}
+          {otherDevice}
         </div>
+        {logSection}
         {showSpinner ? <SpinnerOverlay className={styles.spinner} /> : null}
       </div>
     );
@@ -166,9 +284,41 @@ ActiveCallsPanel.propTypes = {
   onCallsEmpty: PropTypes.func,
   sourceIcons: PropTypes.object,
   isWebRTC: PropTypes.bool.isRequired,
-  conferenceCallEquipped: PropTypes.bool,
   showSpinner: PropTypes.bool,
   isSessionAConferenceCall: PropTypes.func,
+  onCallItemClick: PropTypes.func,
+  getAvatarUrl: PropTypes.func,
+  conferenceCallParties: PropTypes.arrayOf(PropTypes.object),
+  webphoneHold: PropTypes.func,
+  useV2: PropTypes.bool,
+  updateSessionMatchedContact: PropTypes.func,
+  // CallLog related
+  currentLog: PropTypes.object,
+  renderEditLogSection: PropTypes.func,
+  renderSaveLogButton: PropTypes.func,
+  renderExtraButton: PropTypes.func,
+  onSaveCallLog: PropTypes.func,
+  onUpdateCallLog: PropTypes.func,
+  onCloseLogSection: PropTypes.func,
+  // - Notification
+  logNotification: PropTypes.object,
+  onCloseNotification: PropTypes.func,
+  onDiscardNotification: PropTypes.func,
+  onSaveNotification: PropTypes.func,
+  onExpandNotification: PropTypes.func,
+  showNotiLogButton: PropTypes.bool,
+  notificationContainerStyles: PropTypes.string,
+  // Contact
+  showAvatar: PropTypes.bool,
+  renderContactName: PropTypes.func,
+  showOtherDevice: PropTypes.bool,
+  ringoutHangup: PropTypes.func,
+  ringoutTransfer: PropTypes.func,
+  ringoutReject: PropTypes.func,
+  disableLinks: PropTypes.bool,
+  showRingoutCallControl: PropTypes.bool,
+  onLogBasicInfoClick: PropTypes.func,
+  renderSmallCallContrl: PropTypes.func,
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -192,7 +342,39 @@ ActiveCallsPanel.defaultProps = {
   autoLog: false,
   onCallsEmpty: undefined,
   sourceIcons: undefined,
-  conferenceCallEquipped: false,
   showSpinner: false,
   isSessionAConferenceCall: () => false,
+  onCallItemClick: false,
+  getAvatarUrl: i => i,
+  conferenceCallParties: [],
+  webphoneHold: i => i,
+  useV2: false,
+  updateSessionMatchedContact: i => i,
+  // CallLog related
+  currentLog: undefined,
+  renderEditLogSection: undefined,
+  renderSaveLogButton: undefined,
+  renderExtraButton: undefined,
+  onSaveCallLog: undefined,
+  onUpdateCallLog: undefined,
+  onCloseLogSection: undefined,
+  // Notification
+  logNotification: undefined,
+  onCloseNotification: undefined,
+  onDiscardNotification: undefined,
+  onSaveNotification: undefined,
+  onExpandNotification: undefined,
+  showNotiLogButton: true,
+  notificationContainerStyles: undefined,
+  // Contact
+  showAvatar: true,
+  renderContactName: undefined,
+  showOtherDevice: true,
+  ringoutHangup: undefined,
+  ringoutTransfer: undefined,
+  ringoutReject: undefined,
+  disableLinks: false,
+  showRingoutCallControl: false,
+  onLogBasicInfoClick() { },
+  renderSmallCallContrl() { },
 };

@@ -1,3 +1,4 @@
+import { contains } from 'ramda';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -57,8 +58,8 @@ class AnimationAlert extends Component {
       } = this.props;
       const currentMessagesIDs = this.props.messages.map(message => message.id);
       const nextMessagesIDs = nextProps.messages.map(message => message.id);
-      const addedMessagesIDs = nextMessagesIDs.filter(id => !currentMessagesIDs.includes(id));
-      const removedMessagesIDs = currentMessagesIDs.filter(id => !nextMessagesIDs.includes(id));
+      const addedMessagesIDs = nextMessagesIDs.filter(id => !contains(id, currentMessagesIDs));
+      const removedMessagesIDs = currentMessagesIDs.filter(id => !contains(id, nextMessagesIDs));
       const allMessagesIDs = [...new Set(currentMessagesIDs.concat(nextMessagesIDs))];
       const allMessages = {};
       this.props.messages.concat(nextProps.messages).map((message) => {
@@ -68,8 +69,8 @@ class AnimationAlert extends Component {
       const messages = allMessagesIDs
         .map((id) => {
           const message = allMessages[id];
-          const isAddedMessage = addedMessagesIDs.includes(id);
-          const isRemovedMessage = removedMessagesIDs.includes(id);
+          const isAddedMessage = contains(id, addedMessagesIDs);
+          const isRemovedMessage = contains(id, removedMessagesIDs);
           let animation;
           if (isAddedMessage) {
             animation = entranceAnimation;

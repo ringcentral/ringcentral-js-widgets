@@ -52,6 +52,8 @@ export default class DetailedPresence extends Presence {
           .filter(call => !isEnded(call))
       ),
     );
+
+    this._fetchRemainingCalls = throttle(this:: this._fetch, FETCH_THRESHOLD);
   }
 
   _subscriptionHandler = (message) => {
@@ -62,23 +64,11 @@ export default class DetailedPresence extends Presence {
         }
         this._lastSequence = message.body.sequence;
       }
-      const {
-        activeCalls,
-        dndStatus,
-        telephonyStatus,
-        presenceStatus,
-        userStatus,
-        totalActiveCalls,
-      } = message.body;
 
+      const { body } = message;
       this.store.dispatch({
+        ...body,
         type: this.actionTypes.notification,
-        activeCalls,
-        dndStatus,
-        telephonyStatus,
-        presenceStatus,
-        userStatus,
-        message: message.body.message,
         lastDndStatus: this.dndStatus,
         timestamp: Date.now(),
       });
@@ -88,12 +78,9 @@ export default class DetailedPresence extends Presence {
        * when the real calls count larger than the active calls returned by the pubnub,
        * we need to pulling the calls manually.
        */
-      if (
-        activeCalls &&
-        Array.isArray(activeCalls) &&
-        activeCalls.length < totalActiveCalls
-      ) {
-        this.fetchRemainingCalls();
+      const { activeCalls = [], totalActiveCalls = 0 } = body;
+      if (activeCalls.length !== totalActiveCalls) {
+        this._fetchRemainingCalls();
       }
     }
   }
@@ -121,24 +108,13 @@ export default class DetailedPresence extends Presence {
     });
     const { ownerId } = this._auth;
     try {
-      const {
-        activeCalls,
-        dndStatus,
-        telephonyStatus,
-        presenceStatus,
-        userStatus,
-        message,
-      } = (await this._client.service.platform()
+      const body = (await this._client.service.platform()
         .get(subscriptionFilters.detailedPresenceWithSip)).json();
       if (this._auth.ownerId === ownerId) {
         this.store.dispatch({
+          ...body,
           type: this.actionTypes.fetchSuccess,
-          activeCalls,
-          dndStatus,
-          telephonyStatus,
-          presenceStatus,
-          userStatus,
-          message,
+          lastDndStatus: this.dndStatus,
           timestamp: Date.now(),
         });
         this._promise = null;
@@ -152,9 +128,5 @@ export default class DetailedPresence extends Presence {
         this._promise = null;
       }
     }
-  }
-
-  async fetchRemainingCalls() {
-    return throttle(this::this._fetch(), FETCH_THRESHOLD);
   }
 }

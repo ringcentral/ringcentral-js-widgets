@@ -24,7 +24,11 @@ export default {
   accept: "Aceitar",
   toVoicemail: "Enviar para caixa postal",
   anonymous: "Anônimo",
-  mergeToConference: "Mesclar"
+  mergeToConference: "Mesclar",
+  hold: "Aguardar",
+  unhold: "Desbloquear",
+  transfer: "Transferir",
+  reject: "Rejeitar"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -53,3 +57,7 @@ export default {
 // @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"hold"@#@ @source: @#@"Hold"@#@
+// @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
+// @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
+// @key: @#@"reject"@#@ @source: @#@"Reject"@#@

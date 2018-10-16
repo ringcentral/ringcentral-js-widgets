@@ -70,7 +70,7 @@ function TabContentPanel({
 }
 
 TabContentPanel.propTypes = {
-  applicable: PropTypes.bool.isRequired,
+  applicable: PropTypes.bool,
   tabs: PropTypes.arrayOf(PropTypes.shape({
     path: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
@@ -83,6 +83,7 @@ TabContentPanel.propTypes = {
 };
 
 TabContentPanel.defaultProps = {
+  applicable: false,
   children: null,
   navClassName: null,
   tabContentClassName: null,

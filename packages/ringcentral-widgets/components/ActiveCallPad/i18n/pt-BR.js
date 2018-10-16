@@ -1,7 +1,7 @@
 export default {
   unmute: "Desativar mudo",
   mute: "Ativar mudo",
-  keypad: "Teclado numérico",
+  keypad: "Teclado",
   hold: "Aguardar",
   onHold: "Em espera",
   park: "Estacionar",
@@ -10,7 +10,7 @@ export default {
   add: "Adicionar",
   transfer: "Transferência",
   flip: "Transferir",
-  more: "Ações de chamada",
+  more: "Ações",
   mergeToConference: "Mesclar"
 };
 

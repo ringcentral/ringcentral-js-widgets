@@ -149,10 +149,7 @@ export default class CallItem extends Component {
     this.setState({
       selected,
     });
-    if (
-      this.props.call.activityMatches.length > 0 &&
-      this.props.autoLog
-    ) {
+    if (this.props.autoLog) {
       this.logCall({ redirect: false, selected });
     }
   }
@@ -299,6 +296,7 @@ export default class CallItem extends Component {
       }
     }
   }
+  externalViewEntity = () => this.props.externalViewEntity(this.props.call);
   render() {
     if (this.state.loading) {
       return (
@@ -314,7 +312,8 @@ export default class CallItem extends Component {
         duration,
         activityMatches,
         offset,
-        type
+        type,
+        toName
       },
       brand,
       currentLocale,
@@ -327,6 +326,7 @@ export default class CallItem extends Component {
       active,
       onViewContact,
       onCreateContact,
+      createEntityTypes,
       onLogCall,
       onClickToDial,
       onClickToSms,
@@ -400,6 +400,7 @@ export default class CallItem extends Component {
           />
           <div className={styles.infoWrapper}>
             <ContactDisplay
+              isOnConferenceCall={direction === callDirections.outbound && toName === 'Conference'}
               contactName={contactName}
               reference={(ref) => { this.contactDisplay = ref; }}
               className={classnames(
@@ -439,6 +440,7 @@ export default class CallItem extends Component {
           onLog={onLogCall && this.logCall}
           onViewEntity={onViewContact && this.viewSelectedContact}
           onCreateEntity={onCreateContact && this.createSelectedContact}
+          createEntityTypes={createEntityTypes}
           hasEntity={!!contactMatches.length}
           onClickToDial={onClickToDial && this.clickToDial}
           onClickToSms={
@@ -458,7 +460,7 @@ export default class CallItem extends Component {
           callTitle={i18n.getString('call', currentLocale)}
           createEntityTitle={i18n.getString('addEntity', currentLocale)}
           viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
-          externalViewEntity={externalViewEntity && (() => externalViewEntity(this.props.call))}
+          externalViewEntity={externalViewEntity && this.externalViewEntity}
           externalHasEntity={externalHasEntity && externalHasEntity(this.props.call)}
           disableClickToSms={disableClickToSms}
         />
@@ -494,6 +496,7 @@ CallItem.propTypes = {
   onLogCall: PropTypes.func,
   onViewContact: PropTypes.func,
   onCreateContact: PropTypes.func,
+  createEntityTypes: PropTypes.array,
   onClickToDial: PropTypes.func,
   onClickToSms: PropTypes.func,
   isLoggedContact: PropTypes.func,
@@ -522,6 +525,7 @@ CallItem.defaultProps = {
   onClickToSms: undefined,
   onViewContact: undefined,
   onCreateContact: undefined,
+  createEntityTypes: undefined,
   isLoggedContact: () => false,
   isLogging: false,
   disableClickToDial: false,

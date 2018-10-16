@@ -13,6 +13,7 @@ import baseActionTypes from './baseActionTypes';
 import getOAuthBaseReducer from './getOAuthBaseReducer';
 import oAuthMessages from './oAuthMessages';
 
+const DEFAULT_UI_OPTIONS = ['hide_remember_me', 'hide_tos'];
 @Module({
   deps: [
     'Auth',
@@ -30,18 +31,20 @@ export default class OAuthBase extends RcModule {
     locale,
     tabManager,
     redirectUri,
+    extralUIOptions = DEFAULT_UI_OPTIONS,
     ...options
   }) {
     super({
       ...options,
     });
-    this._alert = this::ensureExist(alert, 'alert');
-    this._auth = this::ensureExist(auth, 'auth');
-    this._brand = this::ensureExist(brand, 'brand');
-    this._locale = this::ensureExist(locale, 'locale');
+    this._alert = this:: ensureExist(alert, 'alert');
+    this._auth = this:: ensureExist(auth, 'auth');
+    this._brand = this:: ensureExist(brand, 'brand');
+    this._locale = this:: ensureExist(locale, 'locale');
     this._tabManager = tabManager;
-    this._redirectUri = this::ensureExist(redirectUri, 'redirectUri');
+    this._redirectUri = this:: ensureExist(redirectUri, 'redirectUri');
     this._reducer = getOAuthBaseReducer(this.actionTypes);
+    this._extralUIOptions = extralUIOptions;
   }
 
   get _actionTypes() {
@@ -133,20 +136,20 @@ export default class OAuthBase extends RcModule {
   }
 
   @required
-  async prepareOAuth() {}
+  async prepareOAuth() { }
 
   @required
-  async destroyOAuth() {}
+  async destroyOAuth() { }
 
   @required
-  openOAuthPage() {}
+  openOAuthPage() { }
 
 
   get oAuthUri() {
     const extendedQuery = qs.stringify({
       force: true,
       localeId: this._locale.currentLocale,
-      ui_options: 'hide_remember_me hide_tos',
+      ui_options: this._extralUIOptions.join(' ')
     });
     return `${this._auth.getLoginUrl({
       redirectUri: this.redirectUri,

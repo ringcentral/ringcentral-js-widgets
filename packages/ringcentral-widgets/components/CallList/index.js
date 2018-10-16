@@ -25,6 +25,7 @@ function CallList({
   countryCode,
   onViewContact,
   onCreateContact,
+  createEntityTypes,
   onLogCall,
   onClickToDial,
   onClickToSms,
@@ -64,6 +65,7 @@ function CallList({
             countryCode={countryCode}
             onViewContact={onViewContact}
             onCreateContact={onCreateContact}
+            createEntityTypes={createEntityTypes}
             onLogCall={onLogCall}
             onClickToDial={onClickToDial}
             onClickToSms={onClickToSms}
@@ -111,6 +113,7 @@ CallList.propTypes = {
   countryCode: PropTypes.string.isRequired,
   onViewContact: PropTypes.func,
   onCreateContact: PropTypes.func,
+  createEntityTypes: PropTypes.array,
   onLogCall: PropTypes.func,
   onClickToDial: PropTypes.func,
   onClickToSms: PropTypes.func,
@@ -145,6 +148,7 @@ CallList.defaultProps = {
   internalSmsPermission: false,
   onViewContact: undefined,
   onCreateContact: undefined,
+  createEntityTypes: undefined,
   onLogCall: undefined,
   isLoggedContact: undefined,
   onClickToDial: undefined,

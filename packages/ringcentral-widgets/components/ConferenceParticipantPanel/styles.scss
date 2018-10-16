@@ -36,6 +36,7 @@ $padding-horizontal:20px;
     .participantsList {
       @include full-size;
       overflow: auto;
+      padding-right: 10px;
       .participantItem {
         .avatar {
           width: $avatar-size;

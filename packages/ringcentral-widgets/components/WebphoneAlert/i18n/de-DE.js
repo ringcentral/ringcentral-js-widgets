@@ -1,6 +1,7 @@
 import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErrors';
 
 export default {
+  [webphoneErrors.connectFailed]: "Verbindung mit Webtelefonserver fehlgeschlagen.",
   [webphoneErrors.connected]: "Das Webtelefon wurde registriert.",
   [webphoneErrors.browserNotSupported]: "Das Tätigen von Anrufen über den Browser wird nur in Chrome unterstützt.",
   [webphoneErrors.webphoneCountOverLimit]: "Maximal fünf Webtelefone können registriert werden.",
@@ -18,6 +19,7 @@ export default {
   occurs: "Ein interner Fehler tritt auf."
 };
 
+// @key: @#@"[webphoneErrors.connectFailed]"@#@ @source: @#@"Connect with web phone server failed."@#@
 // @key: @#@"[webphoneErrors.connected]"@#@ @source: @#@"Web phone registered."@#@
 // @key: @#@"[webphoneErrors.browserNotSupported]"@#@ @source: @#@"Calling with browser is only supported on Chrome."@#@
 // @key: @#@"[webphoneErrors.webphoneCountOverLimit]"@#@ @source: @#@"A maximum of 5 web phones could be registered."@#@

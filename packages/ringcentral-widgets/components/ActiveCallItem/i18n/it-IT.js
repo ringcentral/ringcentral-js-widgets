@@ -24,7 +24,11 @@ export default {
   accept: "Accetta",
   toVoicemail: "Invia alla segreteria telefonica",
   anonymous: "Anonimo",
-  mergeToConference: "Unisci"
+  mergeToConference: "Unisci",
+  hold: "Metti in attesa",
+  unhold: "Riprendi",
+  transfer: "Trasferisci",
+  reject: "Rifiuta"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -53,3 +57,7 @@ export default {
 // @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"hold"@#@ @source: @#@"Hold"@#@
+// @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
+// @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
+// @key: @#@"reject"@#@ @source: @#@"Reject"@#@

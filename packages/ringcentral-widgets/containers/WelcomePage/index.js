@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import loginStatus from 'ringcentral-integration/modules/Auth/loginStatus';
 import LoginPanel from '../../components/LoginPanel';
-import withPhone from '../../lib/withPhone';
+import { withPhone } from '../../lib/phoneContext';
 
 function mapToProps(_, {
   phone: {
@@ -12,6 +12,8 @@ function mapToProps(_, {
     oAuth,
   },
   version,
+  showSignUp = false,
+  onSignUpButtonClick
 }) {
   return {
     currentLocale: locale.currentLocale,
@@ -28,6 +30,8 @@ function mapToProps(_, {
       auth.loginStatus === loginStatus.beforeLogout ||
       auth.loginStatus === loginStatus.loggedIn
     ),
+    showSignUp,
+    onSignUpButtonClick,
   };
 }
 

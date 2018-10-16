@@ -6,7 +6,7 @@ import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 
 import IncomingCallPanel from '../../components/IncomingCallPanel';
-import withPhone from '../../lib/withPhone';
+import { withPhone } from '../../lib/phoneContext';
 
 import i18n from './i18n';
 
@@ -41,7 +41,7 @@ class IncomingCallPage extends Component {
     };
   }
 
-  answer = () => this.props.answer(this.props.session.id)
+  answer = () => this.props.answer(this.props.session.id);
   reject = () => this.props.reject(this.props.session.id);
   toVoiceMail = () => this.props.toVoiceMail(this.props.session.id);
   replyWithMessage = message =>
@@ -67,10 +67,10 @@ class IncomingCallPage extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.session.id !== nextProps.session.id) {
       this._updateAvatarAndMatchIndex(nextProps);
-      this.setState({
-        hasOtherActiveCall: !!nextProps.activeSessionId,
-      });
     }
+    this.setState({
+      hasOtherActiveCall: !!nextProps.activeSessionId,
+    });
   }
 
   componentWillUnmount() {
@@ -213,7 +213,7 @@ function mapToProps(_, {
   showContactDisplayPlaceholder = false,
   phoneTypeRenderer
 }) {
-  const currentSession = webphone.ringSession || {};
+  const currentSession = webphone.ringingCallOnView || {};
   const contactMapping = contactMatcher && contactMatcher.dataMapping;
   const fromMatches = (contactMapping && contactMapping[currentSession.from]) || [];
   const toMatches = (contactMapping && contactMapping[currentSession.to]) || [];
@@ -239,6 +239,7 @@ function mapToFunctions(_, {
     webphone,
     regionSettings,
     contactSearch,
+    conferenceCall,
   },
   getAvatarUrl = () => null,
 }) {
@@ -248,7 +249,12 @@ function mapToFunctions(_, {
       areaCode: regionSettings.areaCode,
       countryCode: regionSettings.countryCode,
     }),
-    answer: sessionId => webphone.answer(sessionId),
+    answer(sessionId) {
+      if (conferenceCall) {
+        conferenceCall.closeMergingPair();
+      }
+      webphone.answer(sessionId);
+    },
     reject: sessionId => webphone.reject(sessionId),
     toVoiceMail: sessionId => webphone.toVoiceMail(sessionId),
     onForward: (sessionId, forwardNumber) => webphone.forward(sessionId, forwardNumber),

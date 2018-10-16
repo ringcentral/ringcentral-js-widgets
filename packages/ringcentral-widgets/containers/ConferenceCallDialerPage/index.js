@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -14,26 +14,34 @@ import {
 import i18n from './i18n';
 import styles from './styles.scss';
 
-function ConferenceCallDialerPanel({
-  onBack,
-  ...baseProps
-}) {
-  return [
-    <BackHeader
-      key="header"
-      onBackClick={onBack}
-      backButton={<BackButton label={i18n.getString('activeCall')} />}
-    />,
-    <DialerPanel
-      key="dialer"
-      {...baseProps}
-    />
-  ];
+class ConferenceCallDialerPanel extends Component {
+  componentWillMount() {
+    this.props.setLastSessionId();
+  }
+
+  render() {
+    const {
+      onBack,
+      ...baseProps
+    } = this.props;
+    return [
+      <BackHeader
+        key="header"
+        onBackClick={onBack}
+        backButton={<BackButton label={i18n.getString('activeCall')} />}
+      />,
+      <DialerPanel
+        key="dialer"
+        {...baseProps}
+      />
+    ];
+  }
 }
 
 ConferenceCallDialerPanel.propTypes = {
   ...DialerPanel.propTypes,
   onBack: PropTypes.func.isRequired,
+  setLastSessionId: PropTypes.func.isRequired,
 };
 
 ConferenceCallDialerPanel.defaultProps = {
@@ -41,10 +49,18 @@ ConferenceCallDialerPanel.defaultProps = {
 };
 
 function mapToProps(_, {
+  phone: {
+    conferenceDialerUI,
+    ...components
+  },
   ...props
 }) {
   const baseProps = mapToBaseProps(_, {
     ...props,
+    phone: {
+      ...components,
+      dialerUI: conferenceDialerUI, // override
+    },
   });
   return {
     ...baseProps,
@@ -54,21 +70,47 @@ function mapToProps(_, {
 
 function mapToFunctions(_, {
   params,
-  phone,
+  phone: {
+    conferenceCall,
+    conferenceDialerUI,
+    ...components
+  },
   onBack,
   ...props
 }) {
   const baseProps = mapToBaseFunctions(_, {
     params,
-    phone,
     ...props,
+    phone: {
+      ...components,
+      conferenceCall,
+      dialerUI: conferenceDialerUI, // override
+    },
   });
   return {
     ...baseProps,
     onBack,
+    setLastSessionId() {
+      const { fromSessionId } = params;
+      conferenceDialerUI.setLastSessionId(fromSessionId);
+    },
     onCallButtonClick() {
-      phone.dialerUI.onCallButtonClick({
+      conferenceDialerUI.onCallButtonClick({
         fromNumber: params.fromNumber,
+        beforeCall() {
+          const { fromSessionId } = params;
+          if (
+            fromSessionId &&
+            conferenceCall &&
+            conferenceCall.mergingPair &&
+            !conferenceCall.mergingPair.fromSessionId
+          ) {
+            // set mergingPair if has
+            conferenceCall.setMergeParty({
+              fromSessionId
+            });
+          }
+        }
       });
     },
     callBtnClassName: styles.callBtn,

@@ -20,7 +20,7 @@ describe('parse', () => {
   });
 
   test('parse correct number', () => {
-    expect(parse({ input: '+1 650-361-8700' })).toEqual({
+    expect(parse({ input: '+1 650-361-8700' })).toMatchObject({
       input: '+1 650-361-8700',
       isServiceNumber: false,
       hasInvalidChars: false,
@@ -35,7 +35,7 @@ describe('parse', () => {
   });
 
   test('detect country', () => {
-    expect(parse({ input: pizzahutUK })).toEqual({
+    expect(parse({ input: pizzahutUK })).toMatchObject({
       input: pizzahutUK,
       isServiceNumber: false,
       hasInvalidChars: false,
@@ -50,7 +50,7 @@ describe('parse', () => {
   });
 
   test('parse correct number without +', () => {
-    expect(parse({ input: '1 650-361-8700' })).toEqual({
+    expect(parse({ input: '1 650-361-8700' })).toMatchObject({
       input: '1 650-361-8700',
       isServiceNumber: false,
       hasInvalidChars: false,
@@ -65,7 +65,7 @@ describe('parse', () => {
   });
 
   test('parse correct number without country code', () => {
-    expect(parse({ input: '650-361-8700' })).toEqual({
+    expect(parse({ input: '650-361-8700' })).toMatchObject({
       input: '650-361-8700',
       isServiceNumber: false,
       hasInvalidChars: false,
@@ -80,7 +80,7 @@ describe('parse', () => {
   });
 
   test('parse number with extension', () => {
-    expect(parse({ input: '650-361-8700 * 123' })).toEqual({
+    expect(parse({ input: '650-361-8700 * 123' })).toMatchObject({
       input: '650-361-8700 * 123',
       isServiceNumber: false,
       hasInvalidChars: false,
@@ -92,7 +92,7 @@ describe('parse', () => {
       isValid: true,
       hasPlus: false,
     });
-    expect(parse({ input: '+1 650-361-8700 * 123' })).toEqual({
+    expect(parse({ input: '+1 650-361-8700 * 123' })).toMatchObject({
       input: '+1 650-361-8700 * 123',
       isServiceNumber: false,
       hasInvalidChars: false,
@@ -107,7 +107,7 @@ describe('parse', () => {
   });
 
   test('parse service number', () => {
-    expect(parse({ input: '*123' })).toEqual({
+    expect(parse({ input: '*123' })).toMatchObject({
       input: '*123',
       isServiceNumber: true,
       hasInvalidChars: false,
@@ -122,7 +122,7 @@ describe('parse', () => {
   });
 
   test('parse extension number', () => {
-    expect(parse({ input: '123456' })).toEqual({
+    expect(parse({ input: '123456' })).toMatchObject({
       input: '123456',
       isServiceNumber: false,
       hasInvalidChars: false,
@@ -136,7 +136,7 @@ describe('parse', () => {
     });
   });
   test('parse short number with +', () => {
-    expect(parse({ input: '+123456' })).toEqual({
+    expect(parse({ input: '+123456' })).toMatchObject({
       input: '+123456',
       isServiceNumber: false,
       hasInvalidChars: false,
@@ -147,6 +147,18 @@ describe('parse', () => {
       extension: null,
       isValid: true,
       hasPlus: true,
+    });
+  });
+
+  test('extract extended controls', () => {
+    expect(parse({ input: '+12345,,123,45#' })).toMatchObject({
+      extendedControls: [
+        ',',
+        ',',
+        '123',
+        ',',
+        '45#'
+      ]
     });
   });
 });
