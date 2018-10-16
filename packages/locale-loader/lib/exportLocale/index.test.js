@@ -174,5 +174,26 @@ describe('exportLocale', () => {
       expect(content.indexOf('whisky') > -1).toBe(true);
       expect(content.indexOf('Vault') > -1).toBe(true);
     });
+    test('should allow export with untranslated strings left empty', async () => {
+      await fs.writeFile(path.resolve(sourceFolder, 'en-GB.js'), `
+        export default {
+          modern: 'rogue',
+        };
+      `);
+      exportLocale({
+        sourceLocale,
+        sourceFolder,
+        localizationFolder,
+        supportedLocales: ['en-US', 'en-GB'],
+        fillEmptyWithSource: false,
+      });
+      const content = await fs.readFile(path.resolve(localizationFolder, 'en-GB.xlf'), 'utf8');
+      expect(content.indexOf('modern') > -1).toBe(false);
+      expect(content.indexOf('rogue') > -1).toBe(false);
+      expect(content.indexOf('whisky') > -1).toBe(true);
+      expect(content.indexOf('<source>Vault</source>') > -1).toBe(true);
+      expect(content.indexOf('<target>Vault</target>') > -1).toBe(false);
+      expect(content.indexOf('<target></target>') > -1).toBe(true);
+    });
   });
 });

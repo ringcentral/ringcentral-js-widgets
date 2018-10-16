@@ -239,6 +239,7 @@ function mapToFunctions(_, {
     webphone,
     regionSettings,
     contactSearch,
+    conferenceCall,
   },
   getAvatarUrl = () => null,
 }) {
@@ -248,7 +249,12 @@ function mapToFunctions(_, {
       areaCode: regionSettings.areaCode,
       countryCode: regionSettings.countryCode,
     }),
-    answer: sessionId => webphone.answer(sessionId),
+    answer(sessionId) {
+      if (conferenceCall) {
+        conferenceCall.closeMergingPair();
+      }
+      webphone.answer(sessionId);
+    },
     reject: sessionId => webphone.reject(sessionId),
     toVoiceMail: sessionId => webphone.toVoiceMail(sessionId),
     onForward: (sessionId, forwardNumber) => webphone.forward(sessionId, forwardNumber),

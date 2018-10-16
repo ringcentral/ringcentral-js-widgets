@@ -43,9 +43,16 @@ class CallCtrlPanel extends Component {
 
     this.toggleTransferPanel = () => {
       this.setState(prevState => ({
-        isShowTransferPanel: !prevState.isShowTransferPanel
+        isShowTransferPanel: !prevState.isShowTransferPanel,
       }));
     };
+
+    this.hideTransferPanel = () => {
+      this.setState({
+        isShowTransferPanel: false,
+      });
+    };
+
     this.onMerge = () => {
       const { onBeforeMerge } = this.props;
       if (!onBeforeMerge || onBeforeMerge()) {
@@ -69,8 +76,12 @@ class CallCtrlPanel extends Component {
 
     this.hideMergeConfirm = () => {
       this.setState({
-        isShowMergeConfirm: false
+        isShowMergeConfirm: false,
       });
+    };
+
+    this.hideMergeConfirmAlt = () => {
+      this.hideMergeConfirm();
       // user action track
       this.props.afterHideMergeConfirm();
     };
@@ -85,17 +96,17 @@ class CallCtrlPanel extends Component {
       // user action track
       this.props.afterConfirmMerge();
     };
-
-    this.gotoParticipantsCtrl = () => {
-      this.props.gotoParticipantsCtrl();
-    };
   }
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.hasConferenceCall && this.state.isShowMergeConfirm) {
-      this.setState({
-        isShowMergeConfirm: false
-      });
+      this.hideMergeConfirm();
+    }
+    if (this.props.sessionId !== nextProps.sessionId) {
+      this.hiddenKeyPad();
+      this.hideFlipPanel();
+      this.hideTransferPanel();
+      this.hideMergeConfirm();
     }
   }
 
@@ -175,7 +186,7 @@ class CallCtrlPanel extends Component {
         showContactDisplayPlaceholder={this.props.showContactDisplayPlaceholder}
         onShowFlipPanel={this.showFlipPanel}
         onToggleTransferPanel={this.toggleTransferPanel}
-        gotoParticipantsCtrl={this.gotoParticipantsCtrl}
+        gotoParticipantsCtrl={this.props.gotoParticipantsCtrl}
         flipNumbers={this.props.flipNumbers}
         sourceIcons={this.props.sourceIcons}
         layout={this.props.layout}
@@ -196,7 +207,7 @@ class CallCtrlPanel extends Component {
             currentLocale={this.props.currentLocale}
             show={this.state.isShowMergeConfirm}
             onMerge={this.confirmMerge}
-            onCancel={this.hideMergeConfirm}
+            onCancel={this.hideMergeConfirmAlt}
             partyProfiles={this.props.conferenceCallParties}
           />
           : null

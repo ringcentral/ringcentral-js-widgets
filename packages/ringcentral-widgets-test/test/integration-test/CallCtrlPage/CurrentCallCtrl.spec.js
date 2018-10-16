@@ -63,6 +63,7 @@ async function makeInbountCall(phone, wrapper, sessionId, answerIt = false) {
       .find(CircleButton)
       .simulate('click');
     await timeout(100);
+    wrapper.update();
   }
   return session;
 }
@@ -97,6 +98,15 @@ describe('Enter to Current Call Page', () => {
     expect(buttons.at(3).text()).toEqual('Add');
     expect(buttons.at(4).text()).toEqual('Record');
     expect(buttons.at(5).text()).toEqual('Call Actions');
+    const moreButton = buttons.at(5);
+    moreButton.find(CircleButton).simulate('click');
+    await timeout(100);
+    const transferButton = wrapper.find(ActiveCallPad).find(Tooltip).find(MoreActionItem).at(0);
+    const flipButton = wrapper.find(ActiveCallPad).find(Tooltip).find(MoreActionItem).at(1);
+    expect(transferButton.text()).toEqual('Transfer');
+    expect(flipButton.text()).toEqual('Flip');
+    const handupButton = wrapper.find('.stopButtonGroup').find(CircleButton);
+    expect(handupButton.props().className).toEqual('stopButton');
   });
 });
 
@@ -360,6 +370,15 @@ describe('Current Call Control Page - Record/Stop', () => {
       expect(recordButton.props().disabled).toBe(false);
     }
   );
+  test('If the outbound call is not accepted, it should be failed to record the call', async () => {
+    const { wrapper, phone } = await initPhoneWrapper();
+    await makeOutboundCall(phone);
+    wrapper.update();
+    const recordButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(4);
+    recordButton.find(CircleButton).simulate('click');
+    await timeout(100);
+    expect(startRecordFn.mock.calls).toHaveLength(0);
+  })
   test('RCI-1712679 Answer an inbound call and keep in active call page, click Record/Stop',
     async () => {
       let recordButton = null;

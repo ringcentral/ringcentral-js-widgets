@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import extractControls from '@ringcentral-integration/phone-number/lib/extractControls';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import callingModes from '../CallingSettings/callingModes';
@@ -64,17 +65,17 @@ export default class Call extends RcModule {
       actionTypes: callActionTypes,
     });
 
-    this._alert = this::ensureExist(alert, 'alert');
-    this._storage = this::ensureExist(storage, 'storage');
+    this._alert = this:: ensureExist(alert, 'alert');
+    this._storage = this:: ensureExist(storage, 'storage');
     this._storageKey = 'callData';
     this._reducer = getCallReducer(this.actionTypes);
-    this._callingSettings = this::ensureExist(callingSettings, 'callingSettings');
-    this._ringout = this::ensureExist(ringout, 'ringout');
-    this._softphone = this::ensureExist(softphone, 'softphone');
+    this._callingSettings = this:: ensureExist(callingSettings, 'callingSettings');
+    this._ringout = this:: ensureExist(ringout, 'ringout');
+    this._softphone = this:: ensureExist(softphone, 'softphone');
     this._webphone = webphone;
-    this._numberValidate = this::ensureExist(numberValidate, 'numberValidate');
-    this._regionSettings = this::ensureExist(regionSettings, 'regionSettings');
-    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._numberValidate = this:: ensureExist(numberValidate, 'numberValidate');
+    this._regionSettings = this:: ensureExist(regionSettings, 'regionSettings');
+    this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
 
     this._callSettingMode = null;
 
@@ -189,13 +190,17 @@ export default class Call extends RcModule {
 
   @proxify
   async call({
-    phoneNumber,
+    phoneNumber: input,
     recipient,
     fromNumber,
     isConference = false,
   }) {
     let session = null;
     if (this.isIdle) {
+      const {
+        phoneNumber,
+        extendedControls,
+      } = extractControls(input);
       const toNumber = recipient && (recipient.phoneNumber || recipient.extension) || phoneNumber;
       if (!toNumber || `${toNumber}`.trim().length === 0) {
         this._alert.warning({
@@ -217,7 +222,10 @@ export default class Call extends RcModule {
           });
 
           if (validatedNumbers) {
-            session = await this._makeCall(validatedNumbers);
+            session = await this._makeCall({
+              ...validatedNumbers,
+              extendedControls,
+            });
             this.store.dispatch({
               type: this.actionTypes.connectSuccess,
               callSettingMode: this._callSettingMode // for Track
@@ -358,6 +366,7 @@ export default class Call extends RcModule {
     toNumber,
     fromNumber,
     callingMode = this._callingSettings.callingMode,
+    extendedControls = [],
   }) {
     const homeCountry = this._regionSettings.availableCountries.find(
       country => country.isoCode === this._regionSettings.countryCode
@@ -381,6 +390,7 @@ export default class Call extends RcModule {
             fromNumber,
             toNumber,
             homeCountryId,
+            extendedControls,
           });
         }
         break;

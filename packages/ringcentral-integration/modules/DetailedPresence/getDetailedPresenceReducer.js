@@ -8,26 +8,35 @@ import {
   isIntermediateCall,
 } from '../../lib/callLogHelpers';
 
+const removeIntermediateCall = reduce((result, activeCall) => {
+  if (
+    !isIntermediateCall(activeCall) &&
+    !find(
+      item => (
+        item.sessionId === activeCall.sessionId &&
+        item.direction === activeCall.direction
+      ),
+      result
+    )
+  ) {
+    result.push(activeCall);
+  }
+  return result;
+});
+
 export function getDataReducer(types) {
-  const removeIntermediateCall = reduce((result, activeCall) => {
-    if (
-      !isIntermediateCall(activeCall) &&
-      !find(
-        item => (
-          item.sessionId === activeCall.sessionId &&
-          item.direction === activeCall.direction
-        ),
-        result
-      )
-    ) {
-      result.push(activeCall);
-    }
-    return result;
-  });
-  return (state = [], { type, activeCalls = [], timestamp }) => {
+  return (state = [], {
+    type,
+    timestamp,
+    activeCalls = [],
+    totalActiveCalls = 0,
+  }) => {
     switch (type) {
       case types.fetchSuccess:
-      case types.updateActiveCalls: {
+      case types.notification: {
+        if (activeCalls.length !== totalActiveCalls) {
+          return state;
+        }
         return map((activeCall) => {
           const existingCall = state.find(call => (
             call.sessionId === activeCall.sessionId

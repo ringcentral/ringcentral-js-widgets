@@ -50,7 +50,7 @@ export default function App({
     brandIcon: icon
   };
   const getAvatarUrl = async (contact) => {
-    const avatarUrl = await phone.contacts.getProfileImage(contact, false);
+    const avatarUrl = await phone.contacts.getProfileImage(contact, true);
     return avatarUrl;
   };
   return (
@@ -65,13 +65,13 @@ export default function App({
                   defaultOffsetX={0}
                   defaultOffsetY={73}
                   hidden={(
-                    routerProps.location.pathname === '/calls/active' ||
-                    routerProps.location.pathname.indexOf('/conferenceCall/callsOnhold') === 0 ||
-                    routerProps.location.pathname.indexOf('/conferenceCall/dialer') === 0 ||
-                    routerProps.location.pathname === '/conferenceCall/participants'
+                    routerProps.location.pathname.indexOf('/calls/active') === 0
+                    || routerProps.location.pathname.indexOf('/conferenceCall/dialer') === 0
+                    || routerProps.location.pathname.indexOf('/conferenceCall/callsOnhold') === 0
+                    || routerProps.location.pathname.indexOf('/conferenceCall/participants') === 0
                   )}
-                  goToCallCtrl={() => {
-                    phone.routerInteraction.push('/calls/active');
+                  goToCallCtrl={(sessionId) => {
+                    phone.routerInteraction.push(`/calls/active/${sessionId}`);
                   }}
                 />
                 <IncomingCallPage
@@ -210,7 +210,11 @@ export default function App({
                 )} />
               <Route
                 path="/conference"
-                component={ConferencePage} />
+                component={() => (
+                  <ConferencePage
+                    enableAutoEnterHostKey
+                  />
+                )} />
               <Route
                 path="/conference/commands"
                 component={() => (

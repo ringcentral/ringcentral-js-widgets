@@ -66,7 +66,12 @@ export default class DetailedPresence extends Presence {
       }
 
       const { body } = message;
-      this._updateStatuses(this.actionTypes.notification, body);
+      this.store.dispatch({
+        ...body,
+        type: this.actionTypes.notification,
+        lastDndStatus: this.dndStatus,
+        timestamp: Date.now(),
+      });
 
       /**
        * as pointed out by Igor in https://jira.ringcentral.com/browse/PLA-33391,
@@ -74,40 +79,10 @@ export default class DetailedPresence extends Presence {
        * we need to pulling the calls manually.
        */
       const { activeCalls = [], totalActiveCalls = 0 } = body;
-      if (activeCalls.length === totalActiveCalls) {
-        this._updateActiveCalls(this.actionTypes.updateActiveCalls, body);
-      } else {
+      if (activeCalls.length !== totalActiveCalls) {
         this._fetchRemainingCalls();
       }
     }
-  }
-
-  _updateStatuses(type, {
-    dndStatus,
-    telephonyStatus,
-    presenceStatus,
-    userStatus,
-    message,
-  }) {
-    this.store.dispatch({
-      type,
-      dndStatus,
-      telephonyStatus,
-      presenceStatus,
-      userStatus,
-      message,
-      lastDndStatus: this.dndStatus,
-    });
-  }
-
-  _updateActiveCalls(type, {
-    activeCalls,
-  }) {
-    this.store.dispatch({
-      type,
-      activeCalls,
-      timestamp: Date.now(),
-    });
   }
 
   get data() {
@@ -136,8 +111,12 @@ export default class DetailedPresence extends Presence {
       const body = (await this._client.service.platform()
         .get(subscriptionFilters.detailedPresenceWithSip)).json();
       if (this._auth.ownerId === ownerId) {
-        this._updateStatuses(this.actionTypes.fetchSuccess, body);
-        this._updateActiveCalls(this.actionTypes.fetchSuccess, body);
+        this.store.dispatch({
+          ...body,
+          type: this.actionTypes.fetchSuccess,
+          lastDndStatus: this.dndStatus,
+          timestamp: Date.now(),
+        });
         this._promise = null;
       }
     } catch (error) {

@@ -1,3 +1,4 @@
+import { contains } from 'ramda';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -58,7 +59,7 @@ export default class RegionSettings extends Component {
   }
   onSaveClick = () => {
     if (typeof this.props.onSave === 'function') {
-      const showAreaCode = ['CA', 'US'].includes(this.state.countryCodeValue);
+      const showAreaCode = contains(this.state.countryCodeValue, ['CA', 'US']);
       this.props.onSave({
         areaCode: showAreaCode ? this.state.areaCodeValue : undefined,
         countryCode: this.state.countryCodeValue,
@@ -110,7 +111,7 @@ export default class RegionSettings extends Component {
         <BackHeader
           buttons={[]}
           onBackClick={this.onBackClick}
-          >
+        >
           {i18n.getString('title', this.props.currentLocale)}
         </BackHeader>
         <Panel className={styles.content}>

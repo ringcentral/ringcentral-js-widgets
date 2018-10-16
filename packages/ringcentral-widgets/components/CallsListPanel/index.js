@@ -285,6 +285,7 @@ export default class CallsListPanel extends Component {
           title={currentLog.title}
           show={currentLog.showLog}
           onClose={onCloseLogSection}
+          clickOutToClose={false}
           containerStyles={sectionContainerStyles}
           modalStyles={sectionModalStyles}>
           <LogSection
@@ -371,7 +372,7 @@ export default class CallsListPanel extends Component {
       (
         <div className={classnames(styles.list, className)}>
           <div className={styles.listTitle}>
-            {i18n.getString('historyCalls', currentLocale)}
+            {onlyHistory ? null : i18n.getString('historyCalls', currentLocale)}
           </div>
           <CallList
             brand={brand}

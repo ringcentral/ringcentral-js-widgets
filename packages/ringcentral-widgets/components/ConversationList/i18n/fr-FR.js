@@ -1,5 +1,5 @@
 export default {
-  loading: "Loading ..."
+  loading: "Chargement..."
 };
 
 // @key: @#@"loading"@#@ @source: @#@"Loading ..."@#@

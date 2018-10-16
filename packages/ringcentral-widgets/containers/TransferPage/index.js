@@ -8,15 +8,22 @@ function mapToProps(_, {
   phone
 }) {
   const {
-    locale
+    locale,
+    activeCallControl,
   } = phone;
   const {
     currentLocale
   } = locale;
+  const {
+    activeSession
+  } = activeCallControl;
+
   return {
     currentLocale,
     searchContactList: [],
     isOnTransfer: false,
+    activeSession,
+    disablePage: true
   };
 }
 
