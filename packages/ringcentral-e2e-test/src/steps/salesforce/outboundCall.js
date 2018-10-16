@@ -7,7 +7,7 @@ export default class CallPhone {
 
   static async iInputPhoneNumber(account) {
     await $(app).waitFor('[class*=styles_numberInput]', { selector: 'css' });
-    await $(app).type('[class*=styles_numberInput]', '+' + context.options.option.account3[0]['did'], { selector: 'css' });
+    await $(app).type('[class*=styles_numberInput]', '+' + context.options.option.account2[0]['did'], { selector: 'css' });
   }
 
   static async iClickCallBtn() {
