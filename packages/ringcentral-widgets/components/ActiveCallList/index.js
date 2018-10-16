@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import ActiveCallItem from '../ActiveCallItem';
+import ActiveCallItemV2 from '../ActiveCallItemV2';
 import styles from './styles.scss';
 
 function isConferenceCall(normalizedCall) {
@@ -38,29 +39,46 @@ function ActiveCallList({
   enableContactFallback,
   title,
   sourceIcons,
-  conferenceCallEquipped,
   isSessionAConferenceCall,
+  onCallItemClick,
+  showAvatar,
+  getAvatarUrl,
+  conferenceCallParties,
+  useV2, // TODO: For compatibility, after replacing all ActiveCallItem with ActiveCallItemV2, we should remove this.
+  webphoneHold,
+  showCallDetail,
+  updateSessionMatchedContact,
+  renderExtraButton,
+  renderContactName,
+  ringoutHangup,
+  ringoutTransfer,
+  ringoutReject,
+  disableLinks,
+  showRingoutCallControl,
 }) {
   if (!calls.length) {
     return null;
   }
+  const Component = useV2 ? ActiveCallItemV2 : ActiveCallItem;
 
   return (
     <div className={classnames(styles.list, className)}>
-      <div className={styles.listTitle}>
+      <div
+        className={styles.listTitle}
+        style={{
+          marginBottom: useV2 && title ? '-5px' : null
+        }}
+      >
         {title}
       </div>
       {
         calls.map((call) => {
-          let isOnConferenceCall = false;
-          if (conferenceCallEquipped) {
-            isOnConferenceCall = call.webphoneSession
-              ? isSessionAConferenceCall(call.webphoneSession.id)
-              : isConferenceCall(call);// in case it's an other device call
-          }
+          const isOnConferenceCall = call.webphoneSession
+          ? isSessionAConferenceCall(call.webphoneSession.id)
+          : isConferenceCall(call);// in case it's an other device call
 
           return (
-            <ActiveCallItem
+            <Component
               call={call}
               key={call.id}
               isOnConferenceCall={isOnConferenceCall}
@@ -87,6 +105,20 @@ function ActiveCallList({
               autoLog={autoLog}
               sourceIcons={sourceIcons}
               hasActionMenu={!isOnConferenceCall}
+              onClick={() => onCallItemClick(call)}
+              showAvatar={showAvatar}
+              getAvatarUrl={getAvatarUrl}
+              conferenceCallParties={conferenceCallParties}
+              webphoneHold={webphoneHold}
+              showCallDetail={showCallDetail}
+              updateSessionMatchedContact={updateSessionMatchedContact}
+              renderExtraButton={renderExtraButton}
+              renderContactName={renderContactName}
+              ringoutHangup={ringoutHangup}
+              ringoutTransfer={ringoutTransfer}
+              ringoutReject={ringoutReject}
+              disableLinks={disableLinks}
+              showRingoutCallControl={showRingoutCallControl}
             />
           );
         })
@@ -121,8 +153,22 @@ ActiveCallList.propTypes = {
   enableContactFallback: PropTypes.bool,
   autoLog: PropTypes.bool,
   sourceIcons: PropTypes.object,
-  conferenceCallEquipped: PropTypes.bool,
   isSessionAConferenceCall: PropTypes.func,
+  useV2: PropTypes.bool,
+  onCallItemClick: PropTypes.func,
+  showAvatar: PropTypes.bool,
+  getAvatarUrl: PropTypes.func,
+  conferenceCallParties: PropTypes.arrayOf(PropTypes.object),
+  webphoneHold: PropTypes.func,
+  showCallDetail: PropTypes.bool,
+  updateSessionMatchedContact: PropTypes.func,
+  renderExtraButton: PropTypes.func,
+  renderContactName: PropTypes.func,
+  ringoutHangup: PropTypes.func,
+  ringoutTransfer: PropTypes.func,
+  ringoutReject: PropTypes.func,
+  disableLinks: PropTypes.bool,
+  showRingoutCallControl: PropTypes.bool,
 };
 
 ActiveCallList.defaultProps = {
@@ -145,8 +191,22 @@ ActiveCallList.defaultProps = {
   onViewContact: undefined,
   webphoneToVoicemail: undefined,
   sourceIcons: undefined,
-  conferenceCallEquipped: false,
   isSessionAConferenceCall: () => false,
+  useV2: false,
+  onCallItemClick: i => i,
+  showAvatar: true,
+  getAvatarUrl: i => i,
+  conferenceCallParties: [],
+  webphoneHold: i => i,
+  showCallDetail: false,
+  updateSessionMatchedContact: i => i,
+  renderExtraButton: undefined,
+  renderContactName: undefined,
+  ringoutHangup: undefined,
+  ringoutTransfer: undefined,
+  ringoutReject: undefined,
+  disableLinks: false,
+  showRingoutCallControl: false,
 };
 
 export default ActiveCallList;

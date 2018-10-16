@@ -24,7 +24,11 @@ export default {
   accept: "Accepter",
   toVoicemail: "Envoyer vers la messagerie vocale",
   anonymous: "Anonyme",
-  mergeToConference: "Fusionner"
+  mergeToConference: "Fusionner",
+  hold: "Mettre en attente",
+  unhold: "Reprendre l'appel",
+  transfer: "Transférer",
+  reject: "Rejeter"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -53,3 +57,7 @@ export default {
 // @key: @#@"toVoicemail"@#@ @source: @#@"Send to Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"hold"@#@ @source: @#@"Hold"@#@
+// @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
+// @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@
+// @key: @#@"reject"@#@ @source: @#@"Reject"@#@

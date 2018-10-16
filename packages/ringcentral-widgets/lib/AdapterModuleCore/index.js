@@ -1,3 +1,4 @@
+import formatMessage from 'format-message';
 import RcModule from 'ringcentral-integration/lib/RcModule';
 import { Module } from 'ringcentral-integration/lib/di';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
@@ -10,6 +11,11 @@ import baseActionTypes from './baseActionTypes';
 import getDefaultGlobalStorageReducer from './getDefaultGlobalStorageReducer';
 import IframeMessageTransport from '../IframeMessageTransport';
 
+import headerI18n from '../../components/CallMonitorBar/i18n';
+
+const ALL_CALL_PATH = '/calls';
+const ACTIVE_CALL_PATH = '/calls/active';
+
 @Module({
   deps: [
     'CallingSettings',
@@ -19,6 +25,9 @@ import IframeMessageTransport from '../IframeMessageTransport';
     'RouterInteraction',
     'Storage',
     'Webphone',
+    'CallMonitor',
+    { dep: 'UserGuide', optional: true },
+    { dep: 'QuickAccess', optional: true }
   ]
 })
 export default class AdapterModuleCore extends RcModule {
@@ -33,6 +42,9 @@ export default class AdapterModuleCore extends RcModule {
     presence,
     routerInteraction,
     webphone,
+    callMonitor,
+    userGuide,
+    quickAccess,
     getGlobalStorageReducer = getDefaultGlobalStorageReducer,
     messageTransport = new IframeMessageTransport({
       targetWindow: window.parent,
@@ -46,20 +58,45 @@ export default class AdapterModuleCore extends RcModule {
     });
 
     this._messageTypes = prefixEnum({ enumMap: messageTypes, prefix });
-    this._locale = this::ensureExist(locale, 'locale');
-    this._messageTransport = this::ensureExist(messageTransport, 'messageTransport');
-    this._presence = this::ensureExist(presence, 'presence');
-    this._router = this::ensureExist(routerInteraction, 'routerInteraction');
+    this._locale = this:: ensureExist(locale, 'locale');
+    this._messageTransport = this:: ensureExist(messageTransport, 'messageTransport');
+    this._presence = this:: ensureExist(presence, 'presence');
+    this._router = this:: ensureExist(routerInteraction, 'routerInteraction');
     this._callingSettings = callingSettings;
     this._webphone = webphone;
+    this._callMonitor = callMonitor;
+    this._userGuide = userGuide;
+    this._quickAccess = quickAccess;
 
     this._storageKey = storageKey;
-    this._globalStorage = this::ensureExist(globalStorage, 'globalStorage');
+    this._globalStorage = this:: ensureExist(globalStorage, 'globalStorage');
 
     this._globalStorage.registerReducer({
       key: this._storageKey,
       reducer: getGlobalStorageReducer(this.actionTypes),
     });
+
+    this.addSelector(
+      'localeStrings',
+      () => this._locale.ready,
+      () => this._locale.currentLocale,
+      () => this._callMonitor.activeRingCalls.length,
+      () => this._callMonitor.activeOnHoldCalls.length,
+      (localeReady, currentLocale, ringingCallsLength, onHoldCallsLength) => {
+        const ringCallsInfo = ringingCallsLength === 1 ?
+          formatMessage(headerI18n.getString('incomingCall', currentLocale), { numberOf: ringingCallsLength }) :
+          formatMessage(headerI18n.getString('incomingCalls', currentLocale), { numberOf: ringingCallsLength });
+        const onHoldCallsInfo = onHoldCallsLength === 1 ?
+          formatMessage(headerI18n.getString('callOnHold', currentLocale), { numberOf: onHoldCallsLength }) :
+          formatMessage(headerI18n.getString('callsOnHold', currentLocale), { numberOf: onHoldCallsLength });
+        return {
+          currentCall: headerI18n.getString('currentCall', currentLocale),
+          viewCalls: headerI18n.getString('viewCalls', currentLocale),
+          ringCallsInfo,
+          onHoldCallsInfo,
+        };
+      }
+    );
   }
   initialize() {
     this._messageTransport.addListener(msg => this._onMessage(msg));
@@ -103,6 +140,12 @@ export default class AdapterModuleCore extends RcModule {
           break;
         case this._messageTypes.presenceClicked:
           this._onPresenceClicked();
+          break;
+        case this._messageTypes.navigateToCurrentCall:
+          this._onNavigateToCurrentCall();
+          break;
+        case this._messageTypes.navigateToViewCalls:
+          this._onNavigateToViewCalls();
           break;
         default:
           break;
@@ -167,6 +210,69 @@ export default class AdapterModuleCore extends RcModule {
           this._ringSessionId = null;
         }
       }
+      const ringingCallsLength = this._callMonitor.activeRingCalls.length;
+      const onHoldCallsLength = this._callMonitor.activeOnHoldCalls.length;
+      const currentStartTime = (
+        this._callMonitor.activeCurrentCalls &&
+        this._callMonitor.activeCurrentCalls.length > 0 &&
+        this._callMonitor.activeCurrentCalls[0].startTime) || 0;
+      if (
+        this._lastRingCallsLength !== ringingCallsLength ||
+        this._lastOnHoldCallsLength !== onHoldCallsLength ||
+        this._lastCurrentStartTime !== currentStartTime
+      ) {
+        this._lastRingCallsLength = ringingCallsLength;
+        this._lastOnHoldCallsLength = onHoldCallsLength;
+        this._lastCurrentStartTime = currentStartTime;
+        this._postMessage({
+          type: this._messageTypes.pushCalls,
+          ringingCallsLength,
+          onHoldCallsLength,
+          currentStartTime,
+        });
+        this._postMessage({
+          type: this._messageTypes.pushLocale,
+          strings: this._localeStrings
+        });
+      }
+      this._showIncomingCallPage = !!(
+        this._webphone && this._webphone.ringSession && !this._webphone.ringSession.minimized
+      );
+      if (this._lastPath !== this._router.currentPath ||
+        this._lastShowIncomingCallPage !== this._showIncomingCallPage
+      ) {
+        this._lastPath = this._router.currentPath;
+        this._lastShowIncomingCallPage = this._showIncomingCallPage;
+        const onCurrentCallPath = (
+          (this._router.currentPath === ACTIVE_CALL_PATH ||
+            this._router.currentPath === `${ACTIVE_CALL_PATH}/${this._webphone.activeSessionId}`) &&
+          !this._showIncomingCallPage
+        );
+        if (
+          this.onCurrentCallPath !== onCurrentCallPath ||
+          this._lastShowIncomingCallPage !== this._showIncomingCallPage
+        ) {
+          this.onCurrentCallPath = onCurrentCallPath;
+          this._lastShowIncomingCallPage = this._showIncomingCallPage;
+          this._postMessage({
+            type: this._messageTypes.pushOnCurrentCallPath,
+            onCurrentCallPath,
+          });
+        }
+        const onAllCallsPath = (
+          this._router.currentPath === ALL_CALL_PATH &&
+          !this._showIncomingCallPage
+        );
+        if (
+          this.onAllCallsPath !== onAllCallsPath
+        ) {
+          this.onAllCallsPath = onAllCallsPath;
+          this._postMessage({
+            type: this._messageTypes.pushOnAllCallsPath,
+            onAllCallsPath,
+          });
+        }
+      }
     } else {
       const status = this._presence.telephonyStatus;
       if (this._presence.telephonyStatus !== this._telephonyStatus) {
@@ -207,6 +313,7 @@ export default class AdapterModuleCore extends RcModule {
   _pushLocale() {
     if (
       this.ready &&
+      this._locale.ready &&
       this._lastLocale !== this._locale.currentLocale
     ) {
       this._lastLocale = this._locale.currentLocale;
@@ -268,6 +375,38 @@ export default class AdapterModuleCore extends RcModule {
     this.store.dispatch({
       type: this.actionTypes.showAdapter,
     });
+  }
+
+  @proxify
+  async _onNavigateToCurrentCall() {
+    this._router.push(ACTIVE_CALL_PATH);
+    if (this._userGuide && this._userGuide.started) {
+      this._userGuide.dismiss();
+    }
+    if (this._quickAccess && this._quickAccess.entered) {
+      this._quickAccess.exit();
+    }
+    if (this._webphone && this._webphone.ringSession && !this._webphone.ringSession.minimized) {
+      this._webphone.toggleMinimized(this._webphone.ringSession.id);
+    }
+  }
+
+  @proxify
+  async _onNavigateToViewCalls() {
+    this._router.push(ALL_CALL_PATH);
+    if (this._userGuide && this._userGuide.started) {
+      this._userGuide.dismiss();
+    }
+    if (this._quickAccess && this._quickAccess.entered) {
+      this._quickAccess.exit();
+    }
+    if (this._webphone && this._webphone.ringSession && !this._webphone.ringSession.minimized) {
+      this._webphone.toggleMinimized(this._webphone.ringSession.id);
+    }
+  }
+
+  get _localeStrings() {
+    return this._selectors.localeStrings();
   }
 
   get status() {

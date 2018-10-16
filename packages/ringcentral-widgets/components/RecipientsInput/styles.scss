@@ -5,7 +5,7 @@
 .container {
   @include primary-font;
   position: relative;
-  display: block;
+  display: flex;
   color: $night;
   margin-top: 10px;
   margin: 10px 20px 0 20px;
@@ -14,24 +14,24 @@
     box-sizing: content-box;
   }
 
-  label {
-    font-size: 15px;
-    font-weight: normal !important;
-    line-height: 29px;
-    margin-right: 5px;
-    font-weight: 200;
-    float: left;
-  }
-
   a {
     text-decoration: none;
   }
 }
 
+
+.label {
+  font-size: 15px;
+  font-weight: normal !important;
+  line-height: 29px;
+  font-weight: 200;
+  min-width: 46px;
+}
+
 .rightPanel {
   font-size: 15px;
   display: block;
-  margin-left: 45px;
+  flex-grow: 1;
 }
 
 .inputWrapper {

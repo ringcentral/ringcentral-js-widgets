@@ -15,7 +15,8 @@ export default {
   audio: "オーディオ",
   language: "言語",
   feedback: "フィードバック",
-  userGuide: "新着情報"
+  userGuide: "新着情報",
+  quickAccess: "クイックアクセスの設定"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -35,3 +36,4 @@ export default {
 // @key: @#@"language"@#@ @source: @#@"Language"@#@
 // @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
+// @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@

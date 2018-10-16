@@ -1,8 +1,10 @@
 import { connect } from 'react-redux';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
-import sleep from 'ringcentral-integration/lib/sleep';
+import callDirections from 'ringcentral-integration/enums/callDirections';
+import { isRingingInboundCall } from 'ringcentral-integration/lib/callLogHelpers';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
-import withPhone from '../../lib/withPhone';
+import { withPhone } from '../../lib/phoneContext';
+
 import ActiveCallsPanel from '../../components/ActiveCallsPanel';
 
 function mapToProps(_, {
@@ -15,19 +17,15 @@ function mapToProps(_, {
     rolesAndPermissions,
     conferenceCall,
     callingSettings,
+    connectivityMonitor,
+    rateLimiter,
   },
   showContactDisplayPlaceholder = false,
+  showRingoutCallControl = false,
+  useV2,
 }) {
   const isWebRTC = callingSettings.callingMode === callingModes.webphone;
-  const conferenceCallEquipped = !!conferenceCall;
-  let disableMerge = !isWebRTC;
-  if (conferenceCallEquipped) {
-    const conferenceList = Object.values(conferenceCall.conferences);
-    const conference = conferenceList.length ? conferenceList[0] : null;
-    if (conference) {
-      disableMerge = conferenceCall.isOverload(conference.conference.id);
-    }
-  }
+
   return {
     currentLocale: locale.currentLocale,
     activeRingCalls: callMonitor.activeRingCalls,
@@ -47,11 +45,13 @@ function mapToProps(_, {
     showSpinner: !!(conferenceCall && conferenceCall.isMerging),
     brand: brand.fullName,
     showContactDisplayPlaceholder,
+    showRingoutCallControl,
     autoLog: !!(callLogger && callLogger.autoLog),
     isWebRTC,
-    conferenceCallEquipped,
-    disableMerge,
     conferenceCallParties: conferenceCall ? conferenceCall.partyProfiles : null,
+    useV2,
+    disableLinks: !connectivityMonitor.connectivity ||
+      rateLimiter.throttling,
   };
 }
 
@@ -66,6 +66,8 @@ function mapToFunctions(_, {
     webphone,
     callingSettings,
     conferenceCall,
+    callMonitor,
+    activeCallControl,
   },
   composeTextRoute = '/composeText',
   callCtrlRoute = '/calls/active',
@@ -75,8 +77,9 @@ function mapToFunctions(_, {
   onCallsEmpty,
   onViewContact,
   showViewContact = true,
+  getAvatarUrl,
+  useV2,
 }) {
-  const isWebRTC = callingSettings.callingMode === callingModes.webphone;
   return {
     formatPhone(phoneNumber) {
       return formatNumber({
@@ -85,8 +88,21 @@ function mapToFunctions(_, {
         countryCode: regionSettings.countryCode,
       });
     },
-    async webphoneAnswer(...args) {
-      return (webphone && webphone.answer(...args));
+    async webphoneAnswer(sessionId) {
+      if (!webphone) {
+        return;
+      }
+
+      const session = webphone.sessions.find(session => session.id === sessionId);
+      if (
+        conferenceCall &&
+        session &&
+        session.direction === callDirections.inbound
+      ) {
+        conferenceCall.closeMergingPair();
+      }
+
+      webphone.answer(sessionId);
     },
     async webphoneToVoicemail(...args) {
       return (webphone && webphone.toVoiceMail(...args));
@@ -95,6 +111,8 @@ function mapToFunctions(_, {
       return (webphone && webphone.reject(...args));
     },
     async webphoneHangup(...args) {
+      // user action track
+      callMonitor.allCallsClickHangupTrack();
       return (webphone && webphone.hangup(...args));
     },
     async webphoneResume(...args) {
@@ -102,9 +120,28 @@ function mapToFunctions(_, {
         return;
       }
       await webphone.resume(...args);
-      if (routerInteraction.currentPath !== callCtrlRoute) {
+      if (routerInteraction.currentPath !== callCtrlRoute && !useV2) {
         routerInteraction.push(callCtrlRoute);
       }
+    },
+    async webphoneHold(...args) {
+      // user action track
+      callMonitor.allCallsClickHoldTrack();
+      return (webphone && webphone.hold(...args));
+    },
+    async ringoutHangup(...args) {
+      // user action track
+      callMonitor.allCallsClickHangupTrack();
+      return (activeCallControl && activeCallControl.hangUp(...args));
+    },
+    async ringoutTransfer(sessionId) {
+      activeCallControl.setActiveSessionId(sessionId);
+      routerInteraction.push(`/transfer/${sessionId}`);
+    },
+    async ringoutReject(sessionId) {
+      // user action track
+      callMonitor.allCallsClickRejectTrack();
+      return (activeCallControl && activeCallControl.reject(sessionId));
     },
     onViewContact: showViewContact ?
       (onViewContact || (({ contact }) => {
@@ -147,6 +184,8 @@ function mapToFunctions(_, {
         });
       })),
     onCallsEmpty: onCallsEmpty || (() => {
+      const isWebRTC = callingSettings.callingMode === callingModes.webphone;
+
       if (isWebRTC && !webphone.sessions.length) {
         routerInteraction.push('/dialer');
       }
@@ -157,6 +196,36 @@ function mapToFunctions(_, {
         && conferenceCall.isConferenceSession(sessionId)
       );
     },
+    onCallItemClick(call) {
+      if (!call.webphoneSession) {
+        // For ringout call
+        if (isRingingInboundCall(call)) {
+          return;
+        }
+
+        const { sessionId } = call;
+        // to track the call item be clicked.
+        callMonitor.callItemClickTrack();
+        activeCallControl.setActiveSessionId(sessionId);
+        routerInteraction.push('/simplifycallctrl');
+      } else {
+        // For webphone call
+        // show the ring call modal when click a ringing call.
+        if (isRingingInboundCall(call)) {
+          webphone.toggleMinimized(call.webphoneSession.id);
+          return;
+        }
+        if (call.webphoneSession && call.webphoneSession.id) {
+          // to track the call item be clicked.
+          callMonitor.callItemClickTrack();
+          routerInteraction.push(`${callCtrlRoute}/${call.webphoneSession.id}`);
+        }
+      }
+    },
+    getAvatarUrl,
+    updateSessionMatchedContact: (sessionId, contact) => (
+      webphone.updateSessionMatchedContact(sessionId, contact)
+    ),
   };
 }
 

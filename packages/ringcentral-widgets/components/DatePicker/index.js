@@ -36,7 +36,7 @@ export default class DatePicker extends Component {
     });
   }
   onClickFunc = () => {
-    const open = !!document.querySelector('.rw-open');
+    const open = !!this.date.querySelector('.rw-open');
     const openState = !open ? 'date' : false;
     if (!this.state.open) {
       window.addEventListener('click', this._handleDocumentClick, false);
@@ -79,7 +79,7 @@ export default class DatePicker extends Component {
           }}
           format="MM/DD/YY"
           min={new Date()}
-          onToggle={() => {}}
+          onToggle={() => { }}
         />
         <div
           onClick={() => this.onClickFunc()}

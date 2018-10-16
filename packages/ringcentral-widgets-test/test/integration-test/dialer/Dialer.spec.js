@@ -9,12 +9,10 @@ import DropdownSelect from 'ringcentral-widgets/components/DropdownSelect';
 import { getWrapper, timeout } from '../shared';
 
 let wrapper = null;
-let store = null;
 let panel = null;
 beforeEach(async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
   wrapper = await getWrapper();
-  store = wrapper.props().phone.store;
   const navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/');
   wrapper.update();
@@ -46,6 +44,7 @@ describe('dialer panel', () => {
     await enterToNumber('16506417422');
     panel = wrapper.find(DialerPanel).first();
     domInput = panel.find(RecipientsInput).find('input');
+    const store = wrapper.props().phone.store;
     expect(domInput.props().value).toEqual('16506417422');
     expect(store.getState(wrapper).dialerUI.toNumberField).toEqual('16506417422');
   });
@@ -96,6 +95,7 @@ describe('dialer panel', () => {
 
     panel = wrapper.find(DialerPanel).first();
     textInput = panel.find(RecipientsInput).find('input');
+    const store = wrapper.props().phone.store;
     expect(textInput.props().value).toEqual('0123456789*#');
 
     expect(store.getState(wrapper).dialerUI.toNumberField).toEqual('0123456789*#');
@@ -103,6 +103,7 @@ describe('dialer panel', () => {
 
   test('invalid number', async () => {
     await enterToNumber('Hello world');
+    const store = wrapper.props().phone.store;
     expect(store.getState(wrapper).dialerUI.toNumberField).toEqual('Hello world');
 
     const callButton = panel.find('.callBtnRow').find('.callBtn').find('.btnSvgGroup');
@@ -121,6 +122,7 @@ describe('dialer panel', () => {
 
   test('clear input', async () => {
     await enterToNumber('Hello world');
+    const store = wrapper.props().phone.store;
     expect(store.getState(wrapper).dialerUI.toNumberField).toEqual('Hello world');
 
     const deleteButton = panel.find(RecipientsInput).first().find(RemoveButton);
@@ -130,6 +132,7 @@ describe('dialer panel', () => {
 
   test('click call button to restore last number', async () => {
     await enterToNumber('Hello world');
+    const store = wrapper.props().phone.store;
     expect(store.getState(wrapper).dialerUI.toNumberField).toEqual('Hello world');
 
     let callButton = panel.find('.callBtnRow').find('.callBtn').find('.btnSvgGroup');

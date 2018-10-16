@@ -5,7 +5,7 @@ import callDirections from 'ringcentral-integration/enums/callDirections';
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 
 import ActiveCallBadge from '../../components/ActiveCallBadge';
-import withPhone from '../../lib/withPhone';
+import { withPhone } from '../../lib/phoneContext';
 
 import i18n from './i18n';
 
@@ -31,7 +31,7 @@ class CallBadge extends Component {
         this.props.toggleMinimized(this.props.session.id);
         return;
       }
-      this.props.goToCallCtrl();
+      this.props.goToCallCtrl(this.props.session.id);
     };
   }
 

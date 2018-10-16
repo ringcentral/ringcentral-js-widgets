@@ -3,7 +3,7 @@
 // TODO: fix the whole style with flex
 $tmpWidth: calc(100% - 53px - 7px - 98px - 20px);
 $fixed-icon-width: 21px;
-$fixed-avatar-width:35px;
+
 .root {
   display: block;
   background: #fff;
@@ -26,12 +26,7 @@ $fixed-avatar-width:35px;
   @include secondary-font;
 }
 
-.callIcon {
-  display: inline-flex;
-  font-size: 22px;
-  color: #666;
-  width: $fixed-icon-width;
-}
+
 
 .infoWrapper {
   display: flex;
@@ -193,21 +188,6 @@ $fixed-avatar-width:35px;
   }
 }
 
-.avatar {
-  width: $fixed-avatar-width;
-  height: $fixed-avatar-width;
-  border-radius: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  color: $primary-color;
-  overflow: hidden;
-  .icon {
-    display: block;
-    font-size: $fixed-avatar-width;
-    opacity: 0.3;
-  }
-}
-
-.avatar+.infoWrapper {
+.infoWrapper {
   margin-left: 4px;
 }

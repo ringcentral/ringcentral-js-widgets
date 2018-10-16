@@ -1,9 +1,9 @@
 export default {
   add: "Adicionar",
-  noCallsOnhold: "Nenhuma chamada em espera",
+  noCalls: "Nenhuma chamada disponível",
   activeCall: "Chamada ativa"
 };
 
 // @key: @#@"add"@#@ @source: @#@"Add"@#@
-// @key: @#@"noCallsOnhold"@#@ @source: @#@"No calls on hold"@#@
+// @key: @#@"noCalls"@#@ @source: @#@"No available calls"@#@
 // @key: @#@"activeCall"@#@ @source: @#@"Active Call"@#@

@@ -12,4 +12,9 @@ export default new Enum([
   'clickToDial',
   'clickToSms',
   'pushRingState',
+  'pushCalls',
+  'pushOnCurrentCallPath',
+  'pushOnAllCallsPath',
+  'navigateToCurrentCall',
+  'navigateToViewCalls'
 ]);

@@ -22,6 +22,8 @@ const MAX_TOPIC_LENGTH = 128;
 export const PASSWORD_REGEX = /^[A-Za-z0-9]{0,10}$/;
 const NO_NUMBER_REGEX = /[^\d]/g;
 
+const isSafari = () => /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
 function getMinutesList(MINUTE_SCALE) {
   return reduce((result) => {
     const index = result.length;
@@ -59,61 +61,61 @@ const Topic = (
     that,
   }
 ) => (
-  <MeetingSection hideTopBorderLine>
-    <div className={styles.inline}>
-      <span className={styles.label}>
-        {i18n.getString('topic', currentLocale)}
-      </span>
-      <input
-        ref={(ref) => { that.topic = ref; }}
-        onPaste={(event) => {
-          const topic = event.target.value;
-          event.preventDefault();
-          event.clipboardData.items[0].getAsString((data) => {
-            const isOverLength = topic.length >= 0 && topic.length <= MAX_TOPIC_LENGTH;
-            const positionStart = that.topic.selectionStart;
-            const positionEnd = that.topic.selectionEnd;
-            const select = positionEnd - positionStart;
-            const restLength = MAX_TOPIC_LENGTH - topic.length + select;
-            const isOver = isOverLength && restLength > 0;
-            if (isOver) {
-              const isOverLength = restLength >= data.length;
-              const insertText = isOverLength ? data : data.slice(0, !isOver ? select : restLength);
-              const value = topic.split('');
-              value.splice(positionStart, select, insertText);
-              that.topic.value = value.join('');
-              const newPosition = positionStart + insertText.length;
-              that.topic.setSelectionRange(newPosition, newPosition);
-            }
-            update({
-              ...meeting,
-              topic: that.topic.value,
+    <MeetingSection hideTopBorderLine>
+      <div className={styles.inline}>
+        <span className={styles.label}>
+          {i18n.getString('topic', currentLocale)}
+        </span>
+        <input
+          ref={(ref) => { that.topic = ref; }}
+          onPaste={(event) => {
+            const topic = event.target.value;
+            event.preventDefault();
+            event.clipboardData.items[0].getAsString((data) => {
+              const isOverLength = topic.length >= 0 && topic.length <= MAX_TOPIC_LENGTH;
+              const positionStart = that.topic.selectionStart;
+              const positionEnd = that.topic.selectionEnd;
+              const select = positionEnd - positionStart;
+              const restLength = MAX_TOPIC_LENGTH - topic.length + select;
+              const isOver = isOverLength && restLength > 0;
+              if (isOver) {
+                const isOverLength = restLength >= data.length;
+                const insertText = isOverLength ? data : data.slice(0, !isOver ? select : restLength);
+                const value = topic.split('');
+                value.splice(positionStart, select, insertText);
+                that.topic.value = value.join('');
+                const newPosition = positionStart + insertText.length;
+                that.topic.setSelectionRange(newPosition, newPosition);
+              }
+              update({
+                ...meeting,
+                topic: that.topic.value,
+              });
             });
-          });
-        }}
-        type="text"
-        className={styles.input}
-        defaultValue={meeting.topic || ''}
-        onChange={({ target }) => {
-          const topic = target.value;
-          if (topic.length >= 0 && topic.length <= MAX_TOPIC_LENGTH) {
-            clearTimeout(that.topicSetTimeoutId);
-            that.topicSetTimeoutId = setTimeout(
-              () => {
-                update({
-                  ...meeting,
-                  topic,
-                });
-              },
-              10
-            );
-          } else {
-            target.value = meeting.topic || '';
-          }
-        }} />
-    </div>
-  </MeetingSection>
-);
+          }}
+          type="text"
+          className={styles.input}
+          defaultValue={meeting.topic || ''}
+          onChange={({ target }) => {
+            const topic = target.value;
+            if (topic.length >= 0 && topic.length <= MAX_TOPIC_LENGTH) {
+              clearTimeout(that.topicSetTimeoutId);
+              that.topicSetTimeoutId = setTimeout(
+                () => {
+                  update({
+                    ...meeting,
+                    topic,
+                  });
+                },
+                10
+              );
+            } else {
+              target.value = meeting.topic || '';
+            }
+          }} />
+      </div>
+    </MeetingSection>
+  );
 
 Topic.propTypes = {
   update: PropTypes.func.isRequired,
@@ -338,57 +340,57 @@ const Duration = (
     update
   }
 ) => (
-  !isRecurring ? (
-    <MeetingSection title={i18n.getString('duration', currentLocale)}>
-      <div className={classnames(styles.spaceBetween, styles.duration)}>
-        <div className={styles.list}>
-          <div className={styles.hoursList}>
-            <DropdownList
-              data={hoursList}
-              valueField="value"
-              textField="text"
-              value={parseInt((meeting.schedule.durationInMinutes / 60), 10)}
-              onChange={({ value }) => {
-                let restMinutes = meeting.schedule.durationInMinutes % 60;
-                const isMax = value === hoursList.slice(-1)[0].value;
-                restMinutes = isMax ? 0 : restMinutes;
-                const durationInMinutes = value * 60 + restMinutes;
-                update({
-                  ...meeting,
-                  schedule: {
-                    ...meeting.schedule,
-                    durationInMinutes,
-                  }
-                });
-              }} />
+    !isRecurring ? (
+      <MeetingSection title={i18n.getString('duration', currentLocale)}>
+        <div className={classnames(styles.spaceBetween, styles.duration)}>
+          <div className={styles.list}>
+            <div className={styles.hoursList}>
+              <DropdownList
+                data={hoursList}
+                valueField="value"
+                textField="text"
+                value={parseInt((meeting.schedule.durationInMinutes / 60), 10)}
+                onChange={({ value }) => {
+                  let restMinutes = meeting.schedule.durationInMinutes % 60;
+                  const isMax = value === hoursList.slice(-1)[0].value;
+                  restMinutes = isMax ? 0 : restMinutes;
+                  const durationInMinutes = value * 60 + restMinutes;
+                  update({
+                    ...meeting,
+                    schedule: {
+                      ...meeting.schedule,
+                      durationInMinutes,
+                    }
+                  });
+                }} />
+            </div>
+          </div>
+          <div className={styles.list}>
+            <div className={styles.minutesList}>
+              <DropdownList
+                data={minutesList}
+                valueField="value"
+                textField="text"
+                value={(meeting.schedule.durationInMinutes % 60) || 0}
+                onChange={({ value }) => {
+                  const restHours = parseInt((meeting.schedule.durationInMinutes / 60), 10);
+                  const isMax = restHours === hoursList.slice(-1)[0].value;
+                  const minutes = isMax ? 0 : value;
+                  const durationInMinutes = restHours * 60 + minutes;
+                  update({
+                    ...meeting,
+                    schedule: {
+                      ...meeting.schedule,
+                      durationInMinutes,
+                    }
+                  });
+                }} />
+            </div>
           </div>
         </div>
-        <div className={styles.list}>
-          <div className={styles.minutesList}>
-            <DropdownList
-              data={minutesList}
-              valueField="value"
-              textField="text"
-              value={(meeting.schedule.durationInMinutes % 60) || 0}
-              onChange={({ value }) => {
-                const restHours = parseInt((meeting.schedule.durationInMinutes / 60), 10);
-                const isMax = restHours === hoursList.slice(-1)[0].value;
-                const minutes = isMax ? 0 : value;
-                const durationInMinutes = restHours * 60 + minutes;
-                update({
-                  ...meeting,
-                  schedule: {
-                    ...meeting.schedule,
-                    durationInMinutes,
-                  }
-                });
-              }} />
-          </div>
-        </div>
-      </div>
-    </MeetingSection>
-  ) : null
-);
+      </MeetingSection>
+    ) : null
+  );
 
 Duration.propTypes = {
   update: PropTypes.func.isRequired,
@@ -405,32 +407,32 @@ const RecurringMeeting = (
     meeting,
   }
 ) => (
-  <MeetingSection className={styles.section}>
-    <div>
-      <div className={styles.spaceBetween}>
-        <span className={styles.label}>
-          {i18n.getString('recurringMeeting', currentLocale)}
-        </span>
-        <Switch
-          checked={isRecurring}
-          onChange={(isCheckRecurring) => {
-            const meetingType = isCheckRecurring ? 'Recurring' : 'Scheduled';
-            update({
-              ...meeting,
-              meetingType,
-            });
-          }} />
+    <MeetingSection className={styles.section}>
+      <div>
+        <div className={styles.spaceBetween}>
+          <span className={styles.label}>
+            {i18n.getString('recurringMeeting', currentLocale)}
+          </span>
+          <Switch
+            checked={isRecurring}
+            onChange={(isCheckRecurring) => {
+              const meetingType = isCheckRecurring ? 'Recurring' : 'Scheduled';
+              update({
+                ...meeting,
+                meetingType,
+              });
+            }} />
+        </div>
+        {
+          isRecurring ? (
+            <div className={styles.recurringDescribe}>
+              {i18n.getString('recurringDescribe', currentLocale)}
+            </div>
+          ) : null
+        }
       </div>
-      {
-        isRecurring ? (
-          <div className={styles.recurringDescribe}>
-            {i18n.getString('recurringDescribe', currentLocale)}
-          </div>
-        ) : null
-      }
-    </div>
-  </MeetingSection>
-);
+    </MeetingSection>
+  );
 
 RecurringMeeting.propTypes = {
   update: PropTypes.func.isRequired,
@@ -446,40 +448,40 @@ const Video = (
     update,
   }
 ) => (
-  <MeetingSection title={i18n.getString('video', currentLocale)} withSwitch>
-    <div>
-      <div className={classnames(styles.labelLight, styles.fixTopMargin)}>
-        {i18n.getString('videoDescribe', currentLocale)}
+    <MeetingSection title={i18n.getString('video', currentLocale)} withSwitch>
+      <div>
+        <div className={classnames(styles.labelLight, styles.fixTopMargin)}>
+          {i18n.getString('videoDescribe', currentLocale)}
+        </div>
+        <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
+          <span className={styles.labelLight}>
+            {i18n.getString('host', currentLocale)}
+          </span>
+          <Switch
+            checked={meeting.startHostVideo}
+            onChange={(startHostVideo) => {
+              update({
+                ...meeting,
+                startHostVideo,
+              });
+            }} />
+        </div>
+        <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
+          <span className={styles.labelLight}>
+            {i18n.getString('participants', currentLocale)}
+          </span>
+          <Switch
+            checked={meeting.startParticipantsVideo}
+            onChange={(startParticipantsVideo) => {
+              update({
+                ...meeting,
+                startParticipantsVideo,
+              });
+            }} />
+        </div>
       </div>
-      <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
-        <span className={styles.labelLight}>
-          {i18n.getString('host', currentLocale)}
-        </span>
-        <Switch
-          checked={meeting.startHostVideo}
-          onChange={(startHostVideo) => {
-            update({
-              ...meeting,
-              startHostVideo,
-            });
-          }} />
-      </div>
-      <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
-        <span className={styles.labelLight}>
-          {i18n.getString('participants', currentLocale)}
-        </span>
-        <Switch
-          checked={meeting.startParticipantsVideo}
-          onChange={(startParticipantsVideo) => {
-            update({
-              ...meeting,
-              startParticipantsVideo,
-            });
-          }} />
-      </div>
-    </div>
-  </MeetingSection>
-);
+    </MeetingSection>
+  );
 
 Video.propTypes = {
   update: PropTypes.func.isRequired,
@@ -495,21 +497,21 @@ const AudioOptions = (
     data,
   }
 ) => (
-  <MeetingSection title={i18n.getString('audioOptions', currentLocale)} withSwitch>
-    <CheckBox
-      onSelect={({ key }) => {
-        const audioOptions = key.split('_');
-        update({
-          ...meeting,
-          audioOptions,
-        });
-      }}
-      valueField="key"
-      textField="text"
-      selected={meeting.audioOptions.join('_')}
-      data={data} />
-  </MeetingSection>
-);
+    <MeetingSection title={i18n.getString('audioOptions', currentLocale)} withSwitch>
+      <CheckBox
+        onSelect={({ key }) => {
+          const audioOptions = key.split('_');
+          update({
+            ...meeting,
+            audioOptions,
+          });
+        }}
+        valueField="key"
+        textField="text"
+        selected={meeting.audioOptions.join('_')}
+        data={data} />
+    </MeetingSection>
+  );
 
 AudioOptions.propTypes = {
   update: PropTypes.func.isRequired,
@@ -526,69 +528,69 @@ const MeetingOptions = (
     that,
   }
 ) => (
-  <MeetingSection
-    title={i18n.getString('meetingOptions', currentLocale)}
-    toggle={false}
-    withSwitch>
-    <div>
-      <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
-        <span className={styles.labelLight}>
-          {i18n.getString('requirePassword', currentLocale)}
-        </span>
-        <Switch
-          checked={meeting._requireMeetingPassword}
-          onChange={(_requireMeetingPassword) => {
-            if (_requireMeetingPassword) {
-              setTimeout(() => {
-                that.password.focus();
-              }, 100);
-            }
-            const password = _requireMeetingPassword ? null : meeting.password;
-            update({
-              ...meeting,
-              _requireMeetingPassword,
-              password,
-            });
-          }} />
-      </div>
-      {
-        meeting._requireMeetingPassword ? (
-          <div className={styles.passwordBox}>
-            <div className={styles.labelLight}>
-              {i18n.getString('password', currentLocale)}
+    <MeetingSection
+      title={i18n.getString('meetingOptions', currentLocale)}
+      toggle={false}
+      withSwitch>
+      <div>
+        <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
+          <span className={styles.labelLight}>
+            {i18n.getString('requirePassword', currentLocale)}
+          </span>
+          <Switch
+            checked={meeting._requireMeetingPassword}
+            onChange={(_requireMeetingPassword) => {
+              if (_requireMeetingPassword) {
+                setTimeout(() => {
+                  that.password.focus();
+                }, 100);
+              }
+              const password = _requireMeetingPassword ? null : meeting.password;
+              update({
+                ...meeting,
+                _requireMeetingPassword,
+                password,
+              });
+            }} />
+        </div>
+        {
+          meeting._requireMeetingPassword ? (
+            <div className={styles.passwordBox}>
+              <div className={styles.labelLight}>
+                {i18n.getString('password', currentLocale)}
+              </div>
+              <input
+                type="text"
+                className={styles.password}
+                ref={(ref) => { that.password = ref; }}
+                value={meeting.password || ''}
+                onChange={({ target }) => {
+                  if (PASSWORD_REGEX.test(target.value)) {
+                    update({
+                      ...meeting,
+                      password: target.value
+                    });
+                  }
+                }} />
             </div>
-            <input
-              type="text"
-              className={styles.password}
-              ref={(ref) => { that.password = ref; }}
-              value={meeting.password || ''}
-              onChange={({ target }) => {
-                if (PASSWORD_REGEX.test(target.value)) {
-                  update({
-                    ...meeting,
-                    password: target.value
-                  });
-                }
-              }} />
-          </div>
-        ) : null
-      }
-      <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
-        <span className={styles.labelLight}>
-          {i18n.getString('enableJoinBeforeHost', currentLocale)}
-        </span>
-        <Switch
-          checked={meeting.allowJoinBeforeHost}
-          onChange={(allowJoinBeforeHost) => {
-            update({
-              ...meeting,
-              allowJoinBeforeHost,
-            });
-          }} />
+          ) : null
+        }
+        <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
+          <span className={styles.labelLight}>
+            {i18n.getString('enableJoinBeforeHost', currentLocale)}
+          </span>
+          <Switch
+            checked={meeting.allowJoinBeforeHost}
+            onChange={(allowJoinBeforeHost) => {
+              update({
+                ...meeting,
+                allowJoinBeforeHost,
+              });
+            }} />
+        </div>
       </div>
-    </div>
-  </MeetingSection>
-);
+    </MeetingSection>
+  );
 
 MeetingOptions.propTypes = {
   update: PropTypes.func.isRequired,
@@ -741,7 +743,14 @@ class MeetingPanel extends Component {
           hidden={hidden}
           disabled={disabled}
           meeting={meeting}
-          onClick={() => !disabled && setTimeout(() => invite(this.props.meeting), 100)} />
+          onClick={() => {
+            if (!disabled) {
+              setTimeout(() => {
+                const opener = isSafari() ? window.open() : null;
+                invite(this.props.meeting, opener);
+              }, 100);
+            }
+          }} />
       </div>
     );
   }

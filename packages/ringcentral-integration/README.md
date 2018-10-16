@@ -1,8 +1,8 @@
 # ringcentral-js-integration-commons
 
-[![Build Status](https://travis-ci.org/ringcentral/ringcentral-js-integration-commons.svg?branch=master)](https://travis-ci.org/ringcentral/ringcentral-js-integration-commons)
-[![Coverage Status](https://coveralls.io/repos/github/ringcentral/ringcentral-js-integration-commons/badge.svg?branch=master)](https://coveralls.io/github/ringcentral/ringcentral-js-integration-commons?branch=master)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/39f7f85c990b4eeab98702c89cdd31d3)](https://www.codacy.com/app/RingCentral/ringcentral-js-integration-commons?utm_source=github.com&utm_medium=referral&utm_content=ringcentral/ringcentral-js-integration-commons&utm_campaign=badger)
+[![Build Status](https://travis-ci.org/ringcentral/ringcentral-js-widgets.svg?branch=master)](https://travis-ci.org/ringcentral/ringcentral-js-widgets)
+[![Coverage Status](https://coveralls.io/repos/github/ringcentral/ringcentral-js-widgets/badge.svg?branch=master)](https://coveralls.io/github/ringcentral/ringcentral-js-widgets?branch=master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/39f7f85c990b4eeab98702c89cdd31d3)](https://www.codacy.com/app/RingCentral/ringcentral-js-widgets?utm_source=github.com&utm_medium=referral&utm_content=ringcentral/ringcentral-js-widgets&utm_campaign=badger)
 [![NPM Version](https://img.shields.io/npm/v/ringcentral-integration.svg?style=flat-square)](https://www.npmjs.com/package/ringcentral-integration)
 
 
@@ -63,6 +63,7 @@ There are three kind of modules:
 3. Custom modules, when common modules can not fulfill your need, you develop one yourself.
 
 ### Root Module
+
 All needed common modules which are provided by `ringcentral-integration` can be listed here. And also other modules composed by you.
 ```javascript
 import Alert from 'ringcentral-integration/modules/Alert';
@@ -399,35 +400,6 @@ In the map, key is `Alert` class and value is `{ dep: 'AlertOptions', optional: 
 
 #### ModuleFactory
 This decorator can be used on any kind modules, no matter it's root module or not.
-
-
-## Play with Development Server
-
-A development server is delivered with source so that developers can use it to get familiar with the project or do further development. To get development server running
-
-Clone the repo
-
-```bash
-git clone https://github.com/ringcentral/ringcentral-js-integration-commons.git
-```
-
-Create a file named config.js in following format in folder `dev-server` to specify app related info
-
-```javascript
-export default {
-  appKey: ${app key},
-  appSecret: ${app secret},
-  server: ${server url},
-};
-```
-
-Run following command to start development server
-
-```bash
-npm run dev-server
-```
-
-The development server is listening on port 8190 by default. Open up your browser and access `localhost:8190` to see how it works.
 
 ## Dependency Injection
 Please refer to [Dependency Injection](docs/dependency-injection.md) for more details.

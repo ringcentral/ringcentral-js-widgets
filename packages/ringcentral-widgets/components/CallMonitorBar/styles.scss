@@ -1,0 +1,90 @@
+@import '../../lib/commonStyles/colors';
+
+.duration {
+  display: inline-block;
+  color: $ash;
+  font-size: 13px;
+  cursor: pointer;
+}
+.currentCallBtn {
+    display: inline-block;
+    min-width: 66px;
+    max-width: 110px;
+    height: 18px;
+    line-height: 18px;
+    border-radius: 10.5px;
+    border: solid 1px $leaf;
+    color: $leaf;
+    font-size: 11px;
+    margin-left: 5px;
+    overflow: hidden;
+    text-overflow: hidden;
+    white-space: nowrap;
+    padding: 0 5px;
+    vertical-align: middle;
+}
+.currentCallBtn:hover {
+  color: $leaf;
+}
+.viewCallsBtn {
+  display: inline-block;
+  width: 66px;
+  height: 18px;
+  line-height: 18px;
+  border-radius: 10.5px;
+  border: solid 1px $orange;
+  color: $orange;
+  font-size: 11px;
+  margin-left: 5px;
+  overflow: hidden;
+  text-overflow: hidden;
+  white-space: nowrap;
+  padding: 0 5px;
+  vertical-align: middle;
+}
+.viewCallsBtn:hover {
+  color: $orange;
+}
+.currentCallInfo {
+  display: inline-block;
+  font-size: 13px;
+  color: $ash;
+  cursor: pointer;
+  text-overflow: ellipsis;
+  max-width: 120px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  line-height: 35px;
+  vertical-align: middle;
+}
+.wrap{
+  height:30px;
+  overflow: hidden;
+  position: absolute;
+  top:30;
+  left: 100;
+  width: 100%
+}
+p{
+  margin:0;
+  height: 30px;
+  width: 100%
+}
+.content p{
+  position: absolute;
+}
+.hide{
+  visibility: hidden;
+}
+.show{
+  visibility: visible;
+}
+.box{
+  position: absolute;
+  width: 210px;
+  height: 35px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

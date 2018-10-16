@@ -10,14 +10,12 @@
 .media.flex {
   padding: 0;
   display: flex;
-  overflow: hidden;
   width: 100%;
   box-sizing: border-box;
   flex-direction: row;
   flex-wrap: nowrap;
   align-items: center;
   justify-content: flex-start;
-  padding-right: $container-padding-left/2;
   .mediaBody {
     flex-grow: 1;
     overflow: hidden;
@@ -32,7 +30,7 @@
     align-self: flex-start;
   }
   .mediaMiddle {
-    align-self: center;
+    // align-self: center;
   }
   .mediaBottom {
     align-self: flex-end;
@@ -72,7 +70,11 @@
 }
 
 .mediaMiddle {
-  vertical-align: middle;
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
 }
 
 .mediaBottom {

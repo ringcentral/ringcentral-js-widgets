@@ -84,7 +84,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['*.test.js'],
+      files: ['*.test.js', '*.spec.js'],
       env: {
         jest: true
       },
@@ -94,8 +94,8 @@ module.exports = {
     },
     {
       // files: ['**/i18n/*.js', '**/phoneSourceNames/*.js','**/phoneTypeNames/*.js'],
-      files: ['**/de-DE.js','**/de-AU.js','**/de-CA.js','**/en-GB.js','**/de-US.js','**/es-419.js','**/de-ES.js','**/fr-CA.js','**/fr-FR.js','**/it-IT.js',
-      '**/ja-JP.js','**/pt-BR.js','**/zh-CN.js','**/zh-TW.js','**/es-ES.js','**/en-AU.js','**/en-CA.js','**/en-US.js'],
+      files: ['**/de-DE.js', '**/de-AU.js', '**/de-CA.js', '**/en-GB.js', '**/de-US.js', '**/es-419.js', '**/de-ES.js', '**/fr-CA.js', '**/fr-FR.js', '**/it-IT.js',
+        '**/ja-JP.js', '**/pt-BR.js', '**/zh-CN.js', '**/zh-TW.js', '**/es-ES.js', '**/en-AU.js', '**/en-CA.js', '**/en-US.js'],
       rules: {
         "quotes": 0,
       }

@@ -4,7 +4,6 @@ import classnames from 'classnames';
 import isBlank from 'ringcentral-integration/lib/isBlank';
 import RecipientsInput from '../RecipientsInput';
 
-import TextInput from '../TextInput';
 import Button from '../Button';
 
 import styles from './styles.scss';

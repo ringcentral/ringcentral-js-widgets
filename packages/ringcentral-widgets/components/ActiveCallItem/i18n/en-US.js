@@ -25,4 +25,8 @@ export default {
   toVoicemail: 'Send to Voicemail',
   anonymous: 'Anonymous',
   mergeToConference: 'Merge',
+  hold: 'Hold',
+  unhold: 'Unhold',
+  transfer: 'Transfer',
+  reject: 'Reject',
 };

@@ -102,6 +102,7 @@ export function getMergingPairReducer(types) {
         return { fromSessionId };
       case types.updateToSession:
         return { ...state, toSessionId };
+      case types.closeMergingPair:
       case types.mergeSucceeded:
       case types.resetSuccess:
         return {};

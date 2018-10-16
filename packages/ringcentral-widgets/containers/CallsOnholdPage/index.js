@@ -16,17 +16,25 @@ import {
 
 class CallsOnholdContainer extends Component {
   static propTypes = {
-    activeOnHoldCalls: PropTypes.arrayOf(PropTypes.object).isRequired,
+    calls: PropTypes.arrayOf(PropTypes.object).isRequired,
+    fromSessionId: PropTypes.string.isRequired,
+    isConferenceSession: PropTypes.func.isRequired,
   }
 
   constructor(props) {
     super(props);
 
     this.getCalls = createSelector(
-      () => this.props.activeOnHoldCalls,
-      activeOnHoldCalls => filter(
-        call => call.direction !== callDirections.inbound,
-        activeOnHoldCalls
+      () => this.props.calls,
+      () => this.props.fromSessionId,
+      (calls, fromSessionId) => filter(
+        call => (
+          call.webphoneSession &&
+          call.direction !== callDirections.inbound
+          && !this.props.isConferenceSession(call.webphoneSession)
+          && call.webphoneSession.id !== fromSessionId
+        ),
+        calls
       ),
     );
   }
@@ -41,8 +49,10 @@ function mapToProps(_, {
   phone: {
     callMonitor,
   },
+  params,
   ...props
 }) {
+  const { fromSessionId } = params;
   const baseProps = mapToBaseProps(_, {
     phone,
     ...props,
@@ -50,7 +60,8 @@ function mapToProps(_, {
 
   return {
     ...baseProps,
-    activeOnHoldCalls: callMonitor.activeOnHoldCalls,
+    calls: callMonitor.calls,
+    fromSessionId,
   };
 }
 
@@ -61,22 +72,38 @@ function mapToFunctions(_, {
     webphone,
     conferenceCall,
     routerInteraction,
+    callMonitor,
   },
   getAvatarUrl,
   ...props
 }) {
+  const { fromSessionId } = params;
+
   const baseProps = mapToBaseFunctions(_, {
     params,
     phone,
     ...props,
   });
-  const onBackButtonClick = () => {
-    routerInteraction.goBack();
-  };
   return {
     ...baseProps,
     async onMerge(sessionId) {
-      await conferenceCall.onMergeOnhold({ sessionId, callback: this::onBackButtonClick });
+      // to track user click merge
+      callMonitor.callsOnHoldClickMergeTrack();
+      await conferenceCall.mergeSession({
+        sessionId,
+        sessionIdToMergeWith: fromSessionId,
+        onReadyToMerge() {
+          const confId = conferenceCall.conferences && Object.keys(conferenceCall.conferences)[0];
+
+          if (confId) {
+            const sessionId = conferenceCall.conferences[confId].sessionId;
+
+            routerInteraction.push(`/calls/active/${sessionId}`);
+          } else {
+            routerInteraction.goBack();
+          }
+        },
+      });
     },
     onBackButtonClick() {
       if (webphone.sessions.length) {
@@ -86,9 +113,17 @@ function mapToFunctions(_, {
       phone.routerInteraction.go(-2);
     },
     onAdd() {
-      routerInteraction.push(`/conferenceCall/dialer/${params.fromNumber}`);
+      // to track use click add button
+      callMonitor.callsOnHoldClickAddTrack();
+      routerInteraction.push(`/conferenceCall/dialer/${params.fromNumber}/${params.fromSessionId}`);
     },
     getAvatarUrl,
+    isConferenceSession: (...args) => conferenceCall.isConferenceSession(...args),
+    async webphoneHangup(...args) {
+      // track user click hangup on calls onhold page
+      callMonitor.callsOnHoldClickHangupTrack();
+      return (webphone && webphone.hangup(...args));
+    },
   };
 }
 

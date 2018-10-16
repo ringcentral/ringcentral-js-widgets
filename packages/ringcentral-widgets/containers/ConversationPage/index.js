@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 
 import ConversationPanel from '../../components/ConversationPanel';
-import withPhone from '../../lib/withPhone';
+import { withPhone } from '../../lib/phoneContext';
 
 export function mapToProps(_, {
   phone: {
@@ -20,6 +20,7 @@ export function mapToProps(_, {
   enableContactFallback = false,
   showGroupNumberName = false,
   perPage = 20,
+  inputExpandable,
 }) {
   const disableLinks = (
     rateLimiter.isThrottling ||
@@ -58,6 +59,7 @@ export function mapToProps(_, {
     autoLog: !!(conversationLogger && conversationLogger.autoLog),
     perPage,
     loadingNextPage: conversations.loadingOldMessages,
+    inputExpandable: inputExpandable,
   });
 }
 

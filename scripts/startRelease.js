@@ -5,14 +5,16 @@ const packageNames = [
   'ringcentral-widgets',
   '@ringcentral-integration/i18n',
   '@ringcentral-integration/locale-loader',
-  '@ringcentral-integration/phone-number'
+  '@ringcentral-integration/phone-number',
+  '@ringcentral-integration/glip-widgets',
 ];
 const releaseBranchNames = [
   'commons-release',
   'widgets-release',
   'i18n-release',
   'locale-loader-release',
-  'phone-number-release'
+  'phone-number-release',
+  'glip-widgets-release',
 ];
 
 const args = process.argv.slice(2);

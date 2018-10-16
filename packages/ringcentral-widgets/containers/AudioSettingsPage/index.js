@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
 import AudioSettingsPanel from '../../components/AudioSettingsPanel';
-import withPhone from '../../lib/withPhone';
+import { withPhone } from '../../lib/phoneContext';
 
 
 function mapToProps(_, {

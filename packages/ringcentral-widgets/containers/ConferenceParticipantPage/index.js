@@ -76,13 +76,16 @@ function mapToFunctions(_, {
     regionSettings,
   },
 }) {
-  const confId = conferenceCall.conferences && Object.keys(conferenceCall.conferences)[0];
-
   return {
-    onBackButtonClick: () => routerInteraction.push('/calls/active'),
+    onBackButtonClick() {
+      routerInteraction.goBack();
+    },
     async removeFunc(id) {
+      const confId = conferenceCall.conferences && Object.keys(conferenceCall.conferences)[0];
       try {
         await conferenceCall.removeFromConference(confId, id);
+        // user action track
+        conferenceCall.removeParticipantClickRemoveTrack();
         return true;
       } catch (e) {
         return false;
@@ -93,6 +96,9 @@ function mapToFunctions(_, {
       areaCode: regionSettings.areaCode,
       countryCode: regionSettings.countryCode,
     }),
+    // user action track functions
+    afterOnRemoveBtnClick: () => conferenceCall.participantListClickHangupTrack(),
+    afterOnCancel: () => conferenceCall.removeParticipantClickCancelTrack(),
   };
 }
 
