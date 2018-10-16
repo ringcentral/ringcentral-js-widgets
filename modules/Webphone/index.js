@@ -1042,9 +1042,10 @@ var Webphone = (_dec = (0, _di.Module)({
         }
         _this5._updateSessions();
       });
-      session.on('progress', function () {
+      session.on('progress', function (incomingResponse) {
         console.log('progress...');
         session.__rc_callStatus = _sessionStatus2.default.connecting;
+        (0, _webphoneHelper.extractHeadersData)(session, incomingResponse.headers);
         _this5._updateSessions();
       });
       session.on('rejected', function () {
