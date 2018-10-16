@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import callDirections from 'ringcentral-integration/enums/callDirections';
-import { isRinging, isRingingInboundCall } from 'ringcentral-integration/lib/callLogHelpers';
+import { isRingingInboundCall } from 'ringcentral-integration/lib/callLogHelpers';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 import { withPhone } from '../../lib/phoneContext';
 
@@ -211,7 +211,7 @@ function mapToFunctions(_, {
       } else {
         // For webphone call
         // show the ring call modal when click a ringing call.
-        if (isRinging(call)) {
+        if (isRingingInboundCall(call)) {
           webphone.toggleMinimized(call.webphoneSession.id);
           return;
         }
