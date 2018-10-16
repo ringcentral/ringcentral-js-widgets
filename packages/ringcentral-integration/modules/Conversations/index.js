@@ -104,14 +104,14 @@ export default class Conversations extends RcModule {
       ...options,
       actionTypes,
     });
-    this._auth = this::ensureExist(auth, 'auth');
-    this._alert = this::ensureExist(alert, 'alert');
-    this._client = this::ensureExist(client, 'client');
-    this._messageSender = this::ensureExist(messageSender, 'messageSender');
-    this._extensionInfo = this::ensureExist(extensionInfo, 'extensionInfo');
-    this._messageStore = this::ensureExist(messageStore, 'messageStore');
+    this._auth = this:: ensureExist(auth, 'auth');
+    this._alert = this:: ensureExist(alert, 'alert');
+    this._client = this:: ensureExist(client, 'client');
+    this._messageSender = this:: ensureExist(messageSender, 'messageSender');
+    this._extensionInfo = this:: ensureExist(extensionInfo, 'extensionInfo');
+    this._messageStore = this:: ensureExist(messageStore, 'messageStore');
     this._rolesAndPermissions =
-      this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+      this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
     this._contactMatcher = contactMatcher;
     this._conversationLogger = conversationLogger;
 
@@ -600,60 +600,60 @@ export default class Conversations extends RcModule {
       conversationLogMapping = {},
       accessToken,
     ) => (
-      conversations.map((message) => {
-        const {
-          self,
-          correspondents,
-        } = getNumbersFromMessage({ extensionNumber, message });
-        const selfNumber = self && (self.phoneNumber || self.extensionNumber);
-        const selfMatches = (selfNumber && contactMapping[selfNumber]) || [];
-        const correspondentMatches = correspondents.reduce((matches, contact) => {
-          const number = contact && (contact.phoneNumber || contact.extensionNumber);
-          return number && contactMapping[number] && contactMapping[number].length ?
-            matches.concat(contactMapping[number]) :
-            matches;
-        }, []);
-        const conversationLogId = this._conversationLogger ?
-          this._conversationLogger.getConversationLogId(message) :
-          null;
-        const isLogging = !!(conversationLogId && loggingMap[conversationLogId]);
-        const conversationMatches = conversationLogMapping[conversationLogId] || [];
-        let voicemailAttachment = null;
-        if (messageIsVoicemail(message)) {
-          voicemailAttachment = getVoicemailAttachment(message, accessToken);
-        }
-        let faxAttachment = null;
-        if (messageIsFax(message)) {
-          faxAttachment = getFaxAttachment(message, accessToken);
-        }
-        let unreadCounts = message.unreadCounts;
-        if (typeof unreadCounts === 'undefined') {
-          unreadCounts = messageIsUnread(message) ? 1 : 0;
-        }
-        let mmsAttachment = null;
-        if (messageIsTextMessage(message) && isBlank(message.subject) && this._showMMSAttachment) {
-          mmsAttachment = getMMSAttachment(message);
-        }
-        return {
-          ...message,
-          unreadCounts,
-          self,
-          selfMatches,
-          correspondents,
-          correspondentMatches,
-          conversationLogId,
-          isLogging,
-          conversationMatches,
-          voicemailAttachment,
-          faxAttachment,
-          mmsAttachment,
-          lastMatchedCorrespondentEntity: (
-            this._conversationLogger &&
+        conversations.map((message) => {
+          const {
+            self,
+            correspondents,
+          } = getNumbersFromMessage({ extensionNumber, message });
+          const selfNumber = self && (self.phoneNumber || self.extensionNumber);
+          const selfMatches = (selfNumber && contactMapping[selfNumber]) || [];
+          const correspondentMatches = correspondents.reduce((matches, contact) => {
+            const number = contact && (contact.phoneNumber || contact.extensionNumber);
+            return number && contactMapping[number] && contactMapping[number].length ?
+              matches.concat(contactMapping[number]) :
+              matches;
+          }, []);
+          const conversationLogId = this._conversationLogger ?
+            this._conversationLogger.getConversationLogId(message) :
+            null;
+          const isLogging = !!(conversationLogId && loggingMap[conversationLogId]);
+          const conversationMatches = conversationLogMapping[conversationLogId] || [];
+          let voicemailAttachment = null;
+          if (messageIsVoicemail(message)) {
+            voicemailAttachment = getVoicemailAttachment(message, accessToken);
+          }
+          let faxAttachment = null;
+          if (messageIsFax(message)) {
+            faxAttachment = getFaxAttachment(message, accessToken);
+          }
+          let unreadCounts = message.unreadCounts;
+          if (typeof unreadCounts === 'undefined') {
+            unreadCounts = messageIsUnread(message) ? 1 : 0;
+          }
+          let mmsAttachment = null;
+          if (messageIsTextMessage(message) && isBlank(message.subject) && this._showMMSAttachment) {
+            mmsAttachment = getMMSAttachment(message);
+          }
+          return {
+            ...message,
+            unreadCounts,
+            self,
+            selfMatches,
+            correspondents,
+            correspondentMatches,
+            conversationLogId,
+            isLogging,
+            conversationMatches,
+            voicemailAttachment,
+            faxAttachment,
+            mmsAttachment,
+            lastMatchedCorrespondentEntity: (
+              this._conversationLogger &&
               this._conversationLogger.getLastMatchedCorrespondentEntity(message)
-          ) || null,
-        };
-      })
-    ),
+            ) || null,
+          };
+        })
+      ),
   )
 
   @getter
@@ -753,11 +753,23 @@ export default class Conversations extends RcModule {
   @getter
   currentConversation = createSelector(
     () => this.currentConversationId,
+    () => this._extensionInfo.extensionNumber,
+    () => this._contactMatcher && this._contactMatcher.dataMapping,
     () => this.oldMessages,
     () => this._messageStore.conversationStore,
-    () => this.formatedConversations,
+    () => this.allConversations,
     () => this._auth.accessToken,
-    (conversationId, oldMessages, conversationStore, conversations, accessToken) => {
+    () => this._conversationLogger && this._conversationLogger.dataMapping,
+    (
+      conversationId,
+      extensionNumber,
+      contactMapping,
+      oldMessages,
+      conversationStore,
+      conversations,
+      accessToken,
+      conversationLogMapping = {},
+    ) => {
       const conversation = conversations.find(
         c => c.conversationId === conversationId
       );
@@ -775,6 +787,22 @@ export default class Conversations extends RcModule {
           mmsAttachment,
         };
       });
+      const {
+        correspondents = [],
+      } = getNumbersFromMessage({ extensionNumber, message: conversation });
+      const correspondentMatches = correspondents.reduce((matches, contact) => {
+        const number = contact && (contact.phoneNumber || contact.extensionNumber);
+        return number && contactMapping[number] && contactMapping[number].length ?
+          matches.concat(contactMapping[number]) :
+          matches;
+      }, []);
+      const conversationLogId = this._conversationLogger ?
+        this._conversationLogger.getConversationLogId(conversation) :
+        null;
+      const conversationMatches = conversationLogMapping[conversationLogId] || [];
+      currentConversation.correspondents = correspondents;
+      currentConversation.correspondentMatches = correspondentMatches;
+      currentConversation.conversationMatches = conversationMatches;
       currentConversation.messages = allMessages.reverse();
       currentConversation.senderNumber = getMyNumberFromMessage({
         message: conversation,
