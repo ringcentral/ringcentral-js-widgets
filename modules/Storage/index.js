@@ -109,45 +109,48 @@ var Storage = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(_this2._auth.loginStatus === _loginStatus2.default.loggedIn && (!_this2._tabManager || _this2._tabManager.ready) && !_this2.ready)) {
-                  _context.next = 20;
+                if (!(_this2._auth.loginStatus === _loginStatus2.default.loggedIn && (!_this2._tabManager || _this2._tabManager.ready) && _this2.pending)) {
+                  _context.next = 21;
                   break;
                 }
 
+                _this2.store.dispatch({
+                  type: _this2.actionTypes.init
+                });
                 storageKey = (_this2.prefix ? _this2.prefix + '-' : '') + 'storage-' + _this2._auth.ownerId;
 
                 _this2._storage = new _this2._StorageProvider({
                   storageKey: storageKey
                 });
-                _context.next = 5;
+                _context.next = 6;
                 return _this2._storage.getData();
 
-              case 5:
+              case 6:
                 storedData = _context.sent;
                 _context.t0 = _regenerator2.default.keys(storedData);
 
-              case 7:
+              case 8:
                 if ((_context.t1 = _context.t0()).done) {
-                  _context.next = 15;
+                  _context.next = 16;
                   break;
                 }
 
                 key = _context.t1.value;
 
                 if (_this2._reducers[key]) {
-                  _context.next = 13;
+                  _context.next = 14;
                   break;
                 }
 
                 delete storedData[key];
-                _context.next = 13;
+                _context.next = 14;
                 return _this2._storage.removeItem(key);
 
-              case 13:
-                _context.next = 7;
+              case 14:
+                _context.next = 8;
                 break;
 
-              case 15:
+              case 16:
                 _this2.store.dispatch({
                   type: _this2.actionTypes.initSuccess,
                   storageKey: storageKey,
@@ -168,10 +171,10 @@ var Storage = (_dec = (0, _di.Module)({
                   }
                 };
                 _this2._storage.on('storage', _this2._storageHandler);
-                _context.next = 21;
+                _context.next = 22;
                 break;
 
-              case 20:
+              case 21:
                 if ((!!_this2._tabManager && !_this2._tabManager.ready || _this2._auth.notLoggedIn) && _this2.ready) {
                   _this2.store.dispatch({
                     type: _this2.actionTypes.reset
@@ -189,7 +192,7 @@ var Storage = (_dec = (0, _di.Module)({
                   });
                 }
 
-              case 21:
+              case 22:
                 if (_this2.status === _moduleStatuses2.default.ready && (!_this2._disableAllowInactiveTabsWrite || !_this2._tabManager || _this2._tabManager.active)) {
                   // save new data to storage when changed
                   currentData = _this2.data;
@@ -202,7 +205,7 @@ var Storage = (_dec = (0, _di.Module)({
                   }
                 }
 
-              case 22:
+              case 23:
               case 'end':
                 return _context.stop();
             }
