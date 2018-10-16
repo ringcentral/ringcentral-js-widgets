@@ -497,7 +497,7 @@ function mapToFunctions(_, _ref2) {
       } else {
         // For webphone call
         // show the ring call modal when click a ringing call.
-        if ((0, _callLogHelpers.isRinging)(call)) {
+        if ((0, _callLogHelpers.isRingingInboundCall)(call)) {
           webphone.toggleMinimized(call.webphoneSession.id);
           return;
         }
