@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CallItem from '../CallItem';
-// import styles from './styles.scss';
-// import i18n from './i18n';
 import NoCalls from '../NoCalls';
 import { List } from 'react-virtualized';
 
@@ -13,10 +11,6 @@ export class CallListV2 extends React.PureComponent {
     this._list = React.createRef();
 
     this._mostRecentWidth = 0;
-    // this._cache = new CellMeasurerCache({
-    //   defaultHeight: this._rowHeight,
-    //   fixedWidth: true
-    // });
     this._resizeAllFlag = false;
   }
 
@@ -30,13 +24,11 @@ export class CallListV2 extends React.PureComponent {
     if (this._resizeAllFlag) {
       this._resizeAllFlag = false;
 
-      // this._cache.clearAll();
       if (this._list) {
         this._list.current.recomputeRowHeights();
       }
     } else if (this.props.calls !== prevProps.calls) {
       const index = prevProps.calls.length;
-      // this._cache.clear(index, 0);
       if (this._list) {
         this._list.current.recomputeRowHeights(index);
       }
@@ -47,7 +39,6 @@ export class CallListV2 extends React.PureComponent {
     this._resizeAllFlag = false;
     this._renderIndex = index;
     this._cellExtended = extended;
-    // this._cache.clearAll();
     if (this._list && this._list.current) {
       this._list.current.recomputeRowHeights();
       this._list.current.forceUpdateGrid();
@@ -55,12 +46,6 @@ export class CallListV2 extends React.PureComponent {
   };
 
   _renderRowHeight = (params) => {
-    console.log(
-      '===>renderRowHeight',
-      params,
-      this._renderIndex,
-      this._cellExtended,
-    );
     if (
       this._renderIndex !== undefined &&
       this._renderIndex === params.index &&
@@ -163,8 +148,6 @@ export class CallListV2 extends React.PureComponent {
         />
       );
     }
-
-    const call = calls[index];
 
     return (
       <div key={key} style={style}>

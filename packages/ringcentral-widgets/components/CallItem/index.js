@@ -297,7 +297,7 @@ export default class CallItem extends Component {
         const formatted = formatNumber({
           phoneNumber,
           countryCode,
-          areaCoe,
+          areaCode,
         });
         this.props.onClickToSms(
           {
