@@ -29,7 +29,6 @@ describe('test: =====>', () => {
 
     global.app = await $(page).waitForFrames(['SoftphoneIframe', 'rcAppClassic']);
 
-    await accountHelper.lockAccount(account1[0]['uuid']);
     context.driver.addAfterHook(async () => {
       await accountHelper.recycleAccount(account1[0]['uuid']);
     });
