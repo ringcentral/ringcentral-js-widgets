@@ -44,9 +44,16 @@ function CallIcon({
   let icon = null;
   switch (type) {
     case messageTypes.fax: {
-      icon = direction === messageDirection.inbound ?
-        <span title={inboundTitle} ><FaxInboundIcon width={21} /></span> :
-        <span title={outboundTitle} ><FaxOutboundIcon width={21} /></span>;
+      icon =
+        direction === messageDirection.inbound ? (
+          <span title={inboundTitle}>
+            <FaxInboundIcon width={21} />
+          </span>
+        ) : (
+          <span title={outboundTitle}>
+            <FaxOutboundIcon width={21} />
+          </span>
+        );
       break;
     }
     default: {
@@ -71,11 +78,7 @@ function CallIcon({
       );
     }
   }
-  return (
-    <div className={styles.callIcon}>
-      {icon}
-    </div>
-  );
+  return <div className={styles.callIcon}>{icon}</div>;
 }
 CallIcon.propTypes = {
   direction: PropTypes.string.isRequired,
@@ -124,17 +127,22 @@ export default class CallItem extends Component {
   componentWillReceiveProps(nextProps) {
     if (
       !this._userSelection &&
-      (
-        nextProps.call.activityMatches !== this.props.call.activityMatches ||
+      (nextProps.call.activityMatches !== this.props.call.activityMatches ||
         nextProps.call.fromMatches !== this.props.call.fromMatches ||
-        nextProps.call.toMatches !== this.props.call.toMatches
-      )
+        nextProps.call.toMatches !== this.props.call.toMatches)
     ) {
       this.setState({
         selected: this.getInitialContactIndex(nextProps),
       });
     }
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.extended !== prevState.extended) {
+      this.setState({ extended: this.props.extended });
+    }
+  }
+
   componentWillUnmount() {
     this._mounted = false;
     if (this._loadingTimeout) {
@@ -144,7 +152,8 @@ export default class CallItem extends Component {
   }
   onSelectContact = (value, idx) => {
     const selected = this.props.showContactDisplayPlaceholder
-      ? parseInt(idx, 10) - 1 : parseInt(idx, 10);
+      ? parseInt(idx, 10) - 1
+      : parseInt(idx, 10);
     this._userSelection = true;
     this.setState({
       selected,
@@ -152,18 +161,26 @@ export default class CallItem extends Component {
     if (this.props.autoLog) {
       this.logCall({ redirect: false, selected });
     }
-  }
+  };
 
   toggleExtended = (e) => {
-    if ((
-      this.contactDisplay &&
-      this.contactDisplay.contains(e.target))
-    ) {
+    if (this.contactDisplay && this.contactDisplay.contains(e.target)) {
       return;
     }
-    this.setState(preState => ({
-      extended: !preState.extended,
-    }));
+    this.setState(
+      (preState) => ({
+        extended: !preState.extended,
+      }),
+      () => {
+        const {
+          onSizeChanged = undefined,
+          renderIndex = undefined,
+        } = this.props;
+        if (onSizeChanged) {
+          onSizeChanged(renderIndex, this.state.extended);
+        }
+      },
+    );
   };
 
   getInitialContactIndex(nextProps = this.props) {
@@ -171,40 +188,42 @@ export default class CallItem extends Component {
     const activityMatches = nextProps.call.activityMatches;
     // console.log('getInitialContactIndex:', nextProps.call.toNumberEntity);
     for (const activity of activityMatches) {
-      const index = contactMatches.findIndex(contact => (
+      const index = contactMatches.findIndex((contact) =>
         // TODO find a better name or mechanism...
-        this.props.isLoggedContact(nextProps.call, activity, contact)
-      ));
+        this.props.isLoggedContact(nextProps.call, activity, contact),
+      );
       if (index > -1) return index;
     }
     if (nextProps.call.toNumberEntity) {
-      const index = contactMatches.findIndex(contact => (
-        contact.id === nextProps.call.toNumberEntity
-      ));
+      const index = contactMatches.findIndex(
+        (contact) => contact.id === nextProps.call.toNumberEntity,
+      );
       return index;
     }
     return this.props.showContactDisplayPlaceholder ? -1 : 0;
   }
   getSelectedContact = (selected = this.state.selected) => {
     const contactMatches = this.getContactMatches();
-    return (selected > -1 && contactMatches[selected]) ||
+    return (
+      (selected > -1 && contactMatches[selected]) ||
       (contactMatches.length === 1 && contactMatches[0]) ||
-      null;
-  }
+      null
+    );
+  };
   getPhoneNumber() {
-    return isInbound(this.props.call) ?
-      (this.props.call.from.phoneNumber || this.props.call.from.extensionNumber) :
-      (this.props.call.to.phoneNumber || this.props.call.to.extensionNumber);
+    return isInbound(this.props.call)
+      ? this.props.call.from.phoneNumber || this.props.call.from.extensionNumber
+      : this.props.call.to.phoneNumber || this.props.call.to.extensionNumber;
   }
   getContactMatches(nextProps = this.props) {
-    return isInbound(nextProps.call) ?
-      nextProps.call.fromMatches :
-      nextProps.call.toMatches;
+    return isInbound(nextProps.call)
+      ? nextProps.call.fromMatches
+      : nextProps.call.toMatches;
   }
   getFallbackContactName() {
-    return isInbound(this.props.call) ?
-      (this.props.call.from.name) :
-      (this.props.call.to.name);
+    return isInbound(this.props.call)
+      ? this.props.call.from.name
+      : this.props.call.to.name;
   }
   async logCall({ redirect = true, selected }) {
     if (
@@ -227,7 +246,7 @@ export default class CallItem extends Component {
       }
     }
   }
-  logCall = this.logCall.bind(this)
+  logCall = this.logCall.bind(this);
 
   viewSelectedContact = () => {
     if (typeof this.props.onViewContact === 'function') {
@@ -235,13 +254,15 @@ export default class CallItem extends Component {
         contact: this.getSelectedContact(),
       });
     }
-  }
+  };
 
   createSelectedContact = async (entityType) => {
     // console.log('click createSelectedContact!!', entityType);
-    if (typeof this.props.onCreateContact === 'function' &&
+    if (
+      typeof this.props.onCreateContact === 'function' &&
       this._mounted &&
-      !this.state.isCreating) {
+      !this.state.isCreating
+    ) {
       this.setState({
         isCreating: true,
       });
@@ -249,7 +270,9 @@ export default class CallItem extends Component {
       const phoneNumber = this.getPhoneNumber();
       await this.props.onCreateContact({
         phoneNumber,
-        name: this.props.enableContactFallback ? this.getFallbackContactName() : '',
+        name: this.props.enableContactFallback
+          ? this.getFallbackContactName()
+          : '',
         entityType,
       });
 
@@ -260,7 +283,7 @@ export default class CallItem extends Component {
         // console.log('created: isCreating...', this.state.isCreating);
       }
     }
-  }
+  };
   clickToSms = ({ countryCode, areaCode }) => {
     if (this.props.onClickToSms) {
       const phoneNumber = this.getPhoneNumber();
@@ -274,15 +297,20 @@ export default class CallItem extends Component {
         const formatted = formatNumber({
           phoneNumber,
           countryCode,
-          areaCode,
+          areaCoe,
         });
-        this.props.onClickToSms({
-          name: this.props.enableContactFallback ? this.getFallbackContactName() : formatted,
-          phoneNumber,
-        }, true);
+        this.props.onClickToSms(
+          {
+            name: this.props.enableContactFallback
+              ? this.getFallbackContactName()
+              : formatted,
+            phoneNumber,
+          },
+          true,
+        );
       }
     }
-  }
+  };
   clickToDial = () => {
     if (this.props.onClickToDial) {
       const contact = this.getSelectedContact() || {};
@@ -295,13 +323,11 @@ export default class CallItem extends Component {
         });
       }
     }
-  }
+  };
   externalViewEntity = () => this.props.externalViewEntity(this.props.call);
   render() {
     if (this.state.loading) {
-      return (
-        <div className={styles.root} />
-      );
+      return <div className={styles.root} />;
     }
     const {
       call: {
@@ -313,7 +339,7 @@ export default class CallItem extends Component {
         activityMatches,
         offset,
         type,
-        toName
+        toName,
       },
       brand,
       currentLocale,
@@ -352,22 +378,20 @@ export default class CallItem extends Component {
       countryCode,
       areaCode,
     });
-    const isExtension = !parsedInfo.hasPlus &&
-      parsedInfo.number && parsedInfo.number.length <= 6;
+    const isExtension =
+      !parsedInfo.hasPlus && parsedInfo.number && parsedInfo.number.length <= 6;
     const disableClickToSms = !(
       onClickToSms &&
-      (
-        isExtension ?
-          internalSmsPermission :
-          outboundSmsPermission
-      )
+      (isExtension ? internalSmsPermission : outboundSmsPermission)
     );
 
     let durationEl = null;
     if (typeof duration === 'undefined') {
-      durationEl = disableLinks ?
-        i18n.getString('unavailable', currentLocale) :
-        <DurationCounter startTime={startTime} offset={offset} />;
+      durationEl = disableLinks ? (
+        i18n.getString('unavailable', currentLocale)
+      ) : (
+        <DurationCounter startTime={startTime} offset={offset} />
+      );
     } else {
       durationEl = formatDuration(duration);
     }
@@ -379,12 +403,14 @@ export default class CallItem extends Component {
     if (active) {
       statusEl = i18n.getString(result || telephonyStatus, currentLocale);
     }
-    const contactName = typeof renderContactName === 'function' ?
-      renderContactName(this.props.call) :
-      undefined;
-    const extraButton = typeof renderExtraButton === 'function' ?
-      renderExtraButton(this.props.call) :
-      undefined;
+    const contactName =
+      typeof renderContactName === 'function'
+        ? renderContactName(this.props.call)
+        : undefined;
+    const extraButton =
+      typeof renderExtraButton === 'function'
+        ? renderExtraButton(this.props.call)
+        : undefined;
     return (
       <div className={styles.root} onClick={this.toggleExtended}>
         <div className={styles.wrapper}>
@@ -400,9 +426,13 @@ export default class CallItem extends Component {
           />
           <div className={styles.infoWrapper}>
             <ContactDisplay
-              isOnConferenceCall={direction === callDirections.outbound && toName === 'Conference'}
+              isOnConferenceCall={
+                direction === callDirections.outbound && toName === 'Conference'
+              }
               contactName={contactName}
-              reference={(ref) => { this.contactDisplay = ref; }}
+              reference={(ref) => {
+                this.contactDisplay = ref;
+              }}
               className={classnames(
                 styles.contactDisplay,
                 contactDisplayStyle,
@@ -427,8 +457,9 @@ export default class CallItem extends Component {
               showType={false}
               showPlaceholder={showContactDisplayPlaceholder}
             />
-            <div className={styles.details} >
-              {durationEl}{` | ${dateEl}${statusEl}`}
+            <div className={styles.details}>
+              {durationEl}
+              {` | ${dateEl}${statusEl}`}
             </div>
           </div>
           {extraButton}
@@ -444,8 +475,8 @@ export default class CallItem extends Component {
           hasEntity={!!contactMatches.length}
           onClickToDial={onClickToDial && this.clickToDial}
           onClickToSms={
-            readTextPermission ?
-              () => this.clickToSms({ countryCode, areaCode })
+            readTextPermission
+              ? () => this.clickToSms({ countryCode, areaCode })
               : undefined
           }
           phoneNumber={phoneNumber}
@@ -461,7 +492,9 @@ export default class CallItem extends Component {
           createEntityTitle={i18n.getString('addEntity', currentLocale)}
           viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
           externalViewEntity={externalViewEntity && this.externalViewEntity}
-          externalHasEntity={externalHasEntity && externalHasEntity(this.props.call)}
+          externalHasEntity={
+            externalHasEntity && externalHasEntity(this.props.call)
+          }
           disableClickToSms={disableClickToSms}
         />
       </div>
@@ -470,6 +503,8 @@ export default class CallItem extends Component {
 }
 
 CallItem.propTypes = {
+  renderIndex: PropTypes.number,
+  extended: PropTypes.bool,
   call: PropTypes.shape({
     direction: PropTypes.string.isRequired,
     telephonyStatus: PropTypes.string,
@@ -517,9 +552,12 @@ CallItem.propTypes = {
   externalViewEntity: PropTypes.func,
   externalHasEntity: PropTypes.func,
   readTextPermission: PropTypes.bool,
+  onSizeChanged: PropTypes.func,
 };
 
 CallItem.defaultProps = {
+  renderIndex: undefined,
+  extended: false,
   onLogCall: undefined,
   onClickToDial: undefined,
   onClickToSms: undefined,
@@ -542,4 +580,5 @@ CallItem.defaultProps = {
   externalViewEntity: undefined,
   externalHasEntity: undefined,
   readTextPermission: true,
+  onSizeChanged: undefined,
 };

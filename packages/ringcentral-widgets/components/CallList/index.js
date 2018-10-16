@@ -3,107 +3,110 @@ import PropTypes from 'prop-types';
 import CallItem from '../CallItem';
 import styles from './styles.scss';
 import i18n from './i18n';
+import NoCalls from '../NoCalls';
 
-function NoCalls({ currentLocale, active }) {
-  return (
-    <p className={styles.noCalls}>
-      {i18n.getString(active ? 'noActiveCalls' : 'noRecords', currentLocale)}
-    </p>
-  );
-}
-NoCalls.propTypes = {
-  currentLocale: PropTypes.string.isRequired,
-  active: PropTypes.bool.isRequired,
-};
+export class CallList extends React.PureComponent {
+  constructor(props) {
+    super(props);
+  }
 
-function CallList({
-  className,
-  brand,
-  currentLocale,
-  calls,
-  areaCode,
-  countryCode,
-  onViewContact,
-  onCreateContact,
-  createEntityTypes,
-  onLogCall,
-  onClickToDial,
-  onClickToSms,
-  isLoggedContact,
-  disableLinks,
-  disableClickToDial,
-  outboundSmsPermission,
-  internalSmsPermission,
-  active,
-  dateTimeFormatter,
-  loggingMap,
-  webphoneAnswer,
-  webphoneReject,
-  webphoneHangup,
-  webphoneResume,
-  enableContactFallback,
-  autoLog,
-  showContactDisplayPlaceholder,
-  sourceIcons,
-  renderContactName,
-  renderExtraButton,
-  contactDisplayStyle,
-  externalViewEntity,
-  externalHasEntity,
-  readTextPermission,
-}) {
-  if (calls && calls.length) {
+  render() {
+    const {
+      className,
+      brand,
+      currentLocale,
+      calls,
+      areaCode,
+      countryCode,
+      onViewContact,
+      onCreateContact,
+      createEntityTypes,
+      onLogCall,
+      onClickToDial,
+      onClickToSms,
+      isLoggedContact,
+      disableLinks,
+      disableClickToDial,
+      outboundSmsPermission,
+      internalSmsPermission,
+      active,
+      dateTimeFormatter,
+      loggingMap,
+      webphoneAnswer,
+      webphoneReject,
+      webphoneHangup,
+      webphoneResume,
+      enableContactFallback,
+      autoLog,
+      showContactDisplayPlaceholder,
+      sourceIcons,
+      renderContactName,
+      renderExtraButton,
+      contactDisplayStyle,
+      externalViewEntity,
+      externalHasEntity,
+      readTextPermission,
+    } = this.props;
+
+    if (calls && calls.length) {
+      return (
+        <div className={className}>
+          {calls.map((call, index) => (
+            <CallItem
+              key={call.id}
+              call={call}
+              renderIndex={index}
+              extended={
+                (this._renderIndex === index && this._cellExtended) || false
+              }
+              currentLocale={currentLocale}
+              brand={brand}
+              areaCode={areaCode}
+              countryCode={countryCode}
+              onViewContact={onViewContact}
+              onCreateContact={onCreateContact}
+              createEntityTypes={createEntityTypes}
+              onLogCall={onLogCall}
+              onClickToDial={onClickToDial}
+              onClickToSms={onClickToSms}
+              isLoggedContact={isLoggedContact}
+              disableLinks={disableLinks}
+              disableClickToDial={disableClickToDial}
+              outboundSmsPermission={outboundSmsPermission}
+              internalSmsPermission={internalSmsPermission}
+              active={active}
+              dateTimeFormatter={dateTimeFormatter}
+              isLogging={!!loggingMap[call.sessionId]}
+              webphoneAnswer={webphoneAnswer}
+              webphoneReject={webphoneReject}
+              webphoneHangup={webphoneHangup}
+              webphoneResume={webphoneResume}
+              enableContactFallback={enableContactFallback}
+              autoLog={autoLog}
+              showContactDisplayPlaceholder={showContactDisplayPlaceholder}
+              sourceIcons={sourceIcons}
+              renderContactName={renderContactName}
+              renderExtraButton={renderExtraButton}
+              contactDisplayStyle={contactDisplayStyle}
+              externalViewEntity={externalViewEntity}
+              externalHasEntity={externalHasEntity}
+              readTextPermission={readTextPermission}
+            />
+          ))}
+        </div>
+      );
+    }
     return (
       <div className={className}>
-        {calls.map(call => (
-          <CallItem
-            key={call.id}
-            call={call}
-            currentLocale={currentLocale}
-            brand={brand}
-            areaCode={areaCode}
-            countryCode={countryCode}
-            onViewContact={onViewContact}
-            onCreateContact={onCreateContact}
-            createEntityTypes={createEntityTypes}
-            onLogCall={onLogCall}
-            onClickToDial={onClickToDial}
-            onClickToSms={onClickToSms}
-            isLoggedContact={isLoggedContact}
-            disableLinks={disableLinks}
-            disableClickToDial={disableClickToDial}
-            outboundSmsPermission={outboundSmsPermission}
-            internalSmsPermission={internalSmsPermission}
-            active={active}
-            dateTimeFormatter={dateTimeFormatter}
-            isLogging={!!loggingMap[call.sessionId]}
-            webphoneAnswer={webphoneAnswer}
-            webphoneReject={webphoneReject}
-            webphoneHangup={webphoneHangup}
-            webphoneResume={webphoneResume}
-            enableContactFallback={enableContactFallback}
-            autoLog={autoLog}
-            showContactDisplayPlaceholder={showContactDisplayPlaceholder}
-            sourceIcons={sourceIcons}
-            renderContactName={renderContactName}
-            renderExtraButton={renderExtraButton}
-            contactDisplayStyle={contactDisplayStyle}
-            externalViewEntity={externalViewEntity}
-            externalHasEntity={externalHasEntity}
-            readTextPermission={readTextPermission}
-          />
-        ))}
+        <NoCalls currentLocale={currentLocale} active={active} />
       </div>
     );
   }
-  return (
-    <div className={className}>
-      <NoCalls currentLocale={currentLocale} active={active} />
-    </div>
-  );
 }
 
 CallList.propTypes = {
+  renderIndex: PropTypes.number,
+  extended: PropTypes.bool,
   className: PropTypes.string,
   brand: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
@@ -139,7 +142,10 @@ CallList.propTypes = {
   externalHasEntity: PropTypes.func,
   readTextPermission: PropTypes.bool,
 };
+
 CallList.defaultProps = {
+  renderIndex: undefined,
+  extended: undefined,
   className: null,
   active: false,
   disableLinks: false,
@@ -169,5 +175,3 @@ CallList.defaultProps = {
   externalHasEntity: undefined,
   readTextPermission: true,
 };
-
-export default CallList;
