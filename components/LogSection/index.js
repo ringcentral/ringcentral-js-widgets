@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -33,9 +37,17 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _classnames = require('classnames');
+var _classnames2 = require('classnames');
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _classnames3 = _interopRequireDefault(_classnames2);
+
+var _telephonyStatus = require('ringcentral-integration/enums/telephonyStatus');
+
+var _telephonyStatus2 = _interopRequireDefault(_telephonyStatus);
+
+var _callDirections = require('ringcentral-integration/enums/callDirections');
+
+var _callDirections2 = _interopRequireDefault(_callDirections);
 
 var _SpinnerOverlay = require('../SpinnerOverlay');
 
@@ -145,8 +157,8 @@ var LogSection = function (_Component) {
       var call = currentLog.call,
           currentLogCall = currentLog.currentLogCall;
 
-      var buttonPanelClassName = (0, _classnames2.default)(_styles2.default.buttonPanel, this.state.mainCtrlOverlapped && _styles2.default.overlapped);
-      var buttonClassName = (0, _classnames2.default)(_styles2.default.primaryButton, currentLogCall.isSaving && _styles2.default.disabled);
+      var buttonPanelClassName = (0, _classnames3.default)(_styles2.default.buttonPanel, this.state.mainCtrlOverlapped && _styles2.default.overlapped);
+      var buttonClassName = (0, _classnames3.default)(_styles2.default.primaryButton, currentLogCall.isSaving && _styles2.default.disabled);
       if (!showSaveLogBtn) {
         return null;
       }
@@ -186,8 +198,6 @@ var LogSection = function (_Component) {
   }, {
     key: 'genLogBasicInfoWithSmallCallCtrl',
     value: function genLogBasicInfoWithSmallCallCtrl() {
-      var _this3 = this;
-
       var currentlog = this.props.currentLog;
       var currentSessionId = currentlog.currentSessionId,
           call = currentlog.call;
@@ -199,14 +209,19 @@ var LogSection = function (_Component) {
       if (result) {
         return this.genLogBasicInfo();
       }
+      function disabledToCallControl() {
+        return _callDirections2.default.inbound === call.direction && _telephonyStatus2.default.ringing === telephonyStatus;
+      }
+
+      var onLogBasicInfoClick = disabledToCallControl() ? function () {} : this.props.onLogBasicInfoClick;
+
+      var wrapperCls = (0, _classnames3.default)(_styles2.default.infoWithCtrlWrapper, (0, _defineProperty3.default)({}, _styles2.default.pointer, !disabledToCallControl()));
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.infoWithCtrlWrapper },
         _react2.default.createElement(
           'div',
-          { className: _styles2.default.basicInfoWrapper, onClick: function onClick() {
-              return _this3.props.onLogBasicInfoClick();
-            } },
+          { className: wrapperCls, onClick: onLogBasicInfoClick },
           _react2.default.createElement(_LogBasicInfo2.default, {
             currentLog: this.props.currentLog,
             currentLocale: this.props.currentLocale,
@@ -245,8 +260,6 @@ var LogSection = function (_Component) {
   }]);
   return LogSection;
 }(_react.Component);
-// import SmCallCtrlContainer from '../../containers/SmCallCtrlContainer';
-
 
 exports.default = LogSection;
 
