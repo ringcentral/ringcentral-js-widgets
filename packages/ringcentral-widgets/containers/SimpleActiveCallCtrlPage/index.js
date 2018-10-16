@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
+import callDirections from 'ringcentral-integration/enums/callDirections';
 
 import withPhone from '../../lib/withPhone';
 
@@ -16,126 +17,174 @@ import { ACTIONS_CTRL_MAP } from '../../components/ActiveCallPad';
 import i18n from './i18n';
 import { pickEleByProps, pickFallBackInfo } from './utils';
 
-function mapToProps(_, { phone }) {
-  const {
-    activeCallControl, regionSettings, callMonitor,
-    alert, routerInteraction,
-  } = phone;
-  return {
+function mapToProps(_, {
+  phone: {
     activeCallControl,
     regionSettings,
     callMonitor,
-    alert,
-    routerInteraction,
+    locale,
+    brand,
+  },
+  renderContactName,
+}) {
+  const { activeSession, activeSessionId: sessionId } = activeCallControl;
+  const activeCall = pickEleByProps(
+    { sessionId: String(sessionId) },
+    callMonitor.otherDeviceCalls
+  )[0];
+  let nameMatches = [];
+  if (activeCall && !renderContactName) {
+    nameMatches =
+      activeSession.direction === callDirections.outbound ?
+        activeCall.toMatches : activeCall.fromMatches;
+  }
+  let phoneNumber;
+  if (activeSession) {
+    phoneNumber = activeSession.direction === callDirections.outbound ?
+      activeSession.to : activeSession.from;
+  }
+  let fallBackName = i18n.getString('Unknown', locale.currentLocale);
+  if (renderContactName) {
+    const { fallBackName: fallBackNameFromThirdParty, fallBackNumber } = pickFallBackInfo(
+      activeCall,
+      renderContactName(sessionId),
+      locale.currentLocale
+    );
+    phoneNumber = fallBackNumber;
+    fallBackName = fallBackNameFromThirdParty;
+  }
+  return {
+    currentLocale: locale.currentLocale,
+    session: activeSession,
+    activeCall,
+    sessionId: activeCallControl.activeSessionId,
+    areaCode: regionSettings.areaCode,
+    countryCode: regionSettings.countryCode,
+    otherDeviceCalls: callMonitor.otherDeviceCalls,
+    nameMatches,
+    phoneNumber,
+    fallBackName,
+    brand: brand.fullName,
+    activeCallControl,
   };
 }
 
-function mapToFunctions(_, { phone }) {
-  return {};
+function mapToFunctions(_, {
+  phone: {
+    routerInteraction,
+  },
+}) {
+  return {
+    onBackButtonClick: () => routerInteraction.goBack(),
+  };
 }
-/* eslint-disable react/prefer-stateless-function */
+
 class ActiveCallControl extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      selectedMatcherIndex: 0,
+    };
+
+    this.onMute = () => this.props.activeCallControl.mute(this.props.sessionId);
+    this.onUnmute = () => this.props.activeCallControl.unmute(this.props.sessionId);
+    this.onHold = () => this.props.activeCallControl.hold(this.props.sessionId);
+    this.onUnhold = () => this.props.activeCallControl.unHold(this.props.sessionId);
+    this.onHangup = () => this.props.activeCallControl.hangUp(this.props.sessionId);
+    this.onTransfer = async number =>
+      this.props.activeCallControl.transfer(number, this.props.sessionId);
+
+    this.formatPhone = phoneNumber => formatNumber({
+      phoneNumber,
+      areaCode: this.props.areaCode,
+      countryCode: this.props.countryCode,
+    });
+
+    this.onSelectMatcherName = (option) => {
+      const nameMatches = this.props.nameMatches || [];
+      let selectedMatcherIndex = nameMatches.findIndex(
+        match => match.id === option.id
+      );
+      if (selectedMatcherIndex < 0) {
+        selectedMatcherIndex = 0;
+      }
+      this.setState({
+        selectedMatcherIndex,
+      });
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.session) {
+      this.props.onBackButtonClick();
+    }
+  }
+
   render() {
-    const {
-      currentLocale,
-      activeCallControl,
-      regionSettings,
-      callMonitor,
-      routerInteraction,
-      renderContactName,
-    } = this.props;
-
-    const { activeSession, activeSessionId: sessionId } = activeCallControl;
-
-    const activeCall = pickEleByProps(
-      { sessionId: String(sessionId) },
-      callMonitor.otherDeviceCalls
-    )[0] || {};
-
-    if (!activeSession) {
-      routerInteraction.goBack();
+    if (!this.props.session) {
       return null;
     }
-    const { fallBackName, fallBackNumber } = pickFallBackInfo(
-      activeCall,
-      renderContactName(sessionId),
-      currentLocale
-    );
     const { muteCtrl, transferCtrl, holdCtrl } = ACTIONS_CTRL_MAP;
-    const callCtrlProps = {
-      fallBackName,
-      currentLocale,
-      phoneNumber: fallBackNumber,
-      nameMatches: [],
-      onMute: async () => activeCallControl.mute(sessionId),
-      onUnmute: async () => activeCallControl.unmute(sessionId),
-      onHold: async () => activeCallControl.hold(sessionId),
-      onUnhold: async () => activeCallControl.unHold(sessionId),
-      onHangup: async () => activeCallControl.hangUp(sessionId),
-      onTransfer: async number => activeCallControl.transfer(number, sessionId),
-      showBackButton: true,
-      backButtonLabel: i18n.getString('allCalls', currentLocale),
-      onBackButtonClick: async () => routerInteraction.goBack(),
-      formatPhone: phoneNumber => formatNumber({
-        phoneNumber,
-        areaCode: regionSettings.areaCode,
-        countryCode: regionSettings.countryCode,
-      }),
-      areaCode: regionSettings.areaCode,
-      countryCode: regionSettings.countryCode,
-      selectedMatcherIndex: 0,
-      onSelectMatcherName: () => null,
-      searchContactList: this.props.searchContactList,
-      searchContact: value => this.props.searchContact(value),
-      layout: callCtrlLayouts.normalCtrl,
-      startTime: activeCall.startTime,
-      actions: [muteCtrl, transferCtrl, holdCtrl],
-      isOnMute: activeSession.isOnMute,
-      isOnHold: activeSession.isOnHold,
-    };
 
-    const uselessProps = {
-      recordStatus: '',
-      onRecord: () => null,
-      onStopRecord: () => null,
-      onAdd: () => null,
-      onMerge: () => null,
-      onFlip: () => null,
-      onPark: () => null,
-      onKeyPadChange: () => null,
-    };
-
-    const props = {
-      ...callCtrlProps,
-      ...uselessProps
-    };
-
-    return <CallCtrlPanel {...props} />;
+    return (
+      <CallCtrlPanel
+        currentLocale={this.props.currentLocale}
+        fallBackName={this.props.fallBackName}
+        phoneNumber={this.props.phoneNumber}
+        onMute={this.onMute}
+        onUnmute={this.onUnmute}
+        onHold={this.onHold}
+        onUnhold={this.onUnhold}
+        onHangup={this.onHangup}
+        onTransfer={this.onTransfer}
+        showBackButton
+        backButtonLabel={i18n.getString('allCalls', this.props.currentLocale)}
+        onBackButtonClick={this.props.onBackButtonClick}
+        formatPhone={this.formatPhone}
+        areaCode={this.props.areaCode}
+        countryCode={this.props.countryCode}
+        selectedMatcherIndex={this.state.selectedMatcherIndex}
+        layout={callCtrlLayouts.normalCtrl}
+        startTime={this.props.activeCall.startTime}
+        actions={[muteCtrl, transferCtrl, holdCtrl]}
+        isOnMute={this.props.session.isOnMute}
+        isOnHold={this.props.session.isOnHold}
+        nameMatches={this.props.nameMatches}
+        onSelectMatcherName={this.onSelectMatcherName}
+        brand={this.props.brand}
+        showContactDisplayPlaceholder={this.props.showContactDisplayPlaceholder}
+      />
+    );
   }
 }
 
 ActiveCallControl.propTypes = {
   currentLocale: PropTypes.string,
+  sessionId: PropTypes.string,
+  areaCode: PropTypes.string.isRequired,
+  countryCode: PropTypes.string.isRequired,
+  session: PropTypes.object,
+  activeCall: PropTypes.object,
+  onBackButtonClick: PropTypes.func.isRequired,
   activeCallControl: PropTypes.object,
-  regionSettings: PropTypes.object,
-  callMonitor: PropTypes.object,
-  alert: PropTypes.object,
-  routerInteraction: PropTypes.object,
-  searchContact: PropTypes.func,
-  searchContactList: PropTypes.array,
-  renderContactName: PropTypes.func,
+  nameMatches: PropTypes.array,
+  fallBackName: PropTypes.string,
+  phoneNumber: PropTypes.string,
+  showContactDisplayPlaceholder: PropTypes.bool,
+  brand: PropTypes.string.isRequired,
 };
 
 ActiveCallControl.defaultProps = {
   currentLocale: 'en-US',
   activeCallControl: {},
-  regionSettings: {},
-  callMonitor: {},
-  alert: {},
-  routerInteraction: {},
-  searchContact() {},
-  searchContactList: [],
-  renderContactName() { },
+  session: null,
+  sessionId: null,
+  activeCall: {},
+  nameMatches: [],
+  fallBackName: '',
+  phoneNumber: '',
+  showContactDisplayPlaceholder: false,
 };
 
 export default withPhone(connect(mapToProps, mapToFunctions)(ActiveCallControl));
