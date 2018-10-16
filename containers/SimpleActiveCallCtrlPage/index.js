@@ -4,10 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends2 = require('babel-runtime/helpers/extends');
-
-var _extends3 = _interopRequireDefault(_extends2);
-
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -50,6 +46,10 @@ var _formatNumber = require('ringcentral-integration/lib/formatNumber');
 
 var _formatNumber2 = _interopRequireDefault(_formatNumber);
 
+var _callDirections = require('ringcentral-integration/enums/callDirections');
+
+var _callDirections2 = _interopRequireDefault(_callDirections);
+
 var _withPhone = require('../../lib/withPhone');
 
 var _withPhone2 = _interopRequireDefault(_withPhone);
@@ -72,287 +72,182 @@ var _utils = require('./utils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * @file simplify active call control page
- * detail: https://jira.ringcentral.com/browse/RCINT-8256
- */
-
 function mapToProps(_, _ref) {
-  var phone = _ref.phone;
-  var activeCallControl = phone.activeCallControl,
-      regionSettings = phone.regionSettings,
-      callMonitor = phone.callMonitor,
-      alert = phone.alert,
-      routerInteraction = phone.routerInteraction;
+  var _ref$phone = _ref.phone,
+      activeCallControl = _ref$phone.activeCallControl,
+      regionSettings = _ref$phone.regionSettings,
+      callMonitor = _ref$phone.callMonitor,
+      locale = _ref$phone.locale,
+      brand = _ref$phone.brand,
+      renderContactName = _ref.renderContactName;
+  var activeSession = activeCallControl.activeSession,
+      sessionId = activeCallControl.activeSessionId;
 
+  var activeCall = (0, _utils.pickEleByProps)({ sessionId: String(sessionId) }, callMonitor.otherDeviceCalls)[0];
+  var nameMatches = [];
+  if (activeCall && !renderContactName) {
+    nameMatches = activeSession.direction === _callDirections2.default.outbound ? activeCall.toMatches : activeCall.fromMatches;
+  }
+  var phoneNumber = void 0;
+  if (activeSession) {
+    phoneNumber = activeSession.direction === _callDirections2.default.outbound ? activeSession.to : activeSession.from;
+  }
+  var fallBackName = _i18n2.default.getString('Unknown', locale.currentLocale);
+  if (renderContactName) {
+    var _pickFallBackInfo = (0, _utils.pickFallBackInfo)(activeCall, renderContactName(sessionId), locale.currentLocale),
+        fallBackNameFromThirdParty = _pickFallBackInfo.fallBackName,
+        fallBackNumber = _pickFallBackInfo.fallBackNumber;
+
+    phoneNumber = fallBackNumber;
+    fallBackName = fallBackNameFromThirdParty;
+  }
   return {
-    activeCallControl: activeCallControl,
-    regionSettings: regionSettings,
-    callMonitor: callMonitor,
-    alert: alert,
-    routerInteraction: routerInteraction
+    currentLocale: locale.currentLocale,
+    session: activeSession,
+    activeCall: activeCall,
+    sessionId: activeCallControl.activeSessionId,
+    areaCode: regionSettings.areaCode,
+    countryCode: regionSettings.countryCode,
+    otherDeviceCalls: callMonitor.otherDeviceCalls,
+    nameMatches: nameMatches,
+    phoneNumber: phoneNumber,
+    fallBackName: fallBackName,
+    brand: brand.fullName,
+    activeCallControl: activeCallControl
   };
-}
+} /**
+   * @file simplify active call control page
+   * detail: https://jira.ringcentral.com/browse/RCINT-8256
+   */
 
 function mapToFunctions(_, _ref2) {
-  var phone = _ref2.phone;
+  var routerInteraction = _ref2.phone.routerInteraction;
 
-  return {};
+  return {
+    onBackButtonClick: function onBackButtonClick() {
+      return routerInteraction.goBack();
+    }
+  };
 }
-/* eslint-disable react/prefer-stateless-function */
 
 var ActiveCallControl = function (_Component) {
   (0, _inherits3.default)(ActiveCallControl, _Component);
 
-  function ActiveCallControl() {
+  function ActiveCallControl(props) {
+    var _this2 = this;
+
     (0, _classCallCheck3.default)(this, ActiveCallControl);
-    return (0, _possibleConstructorReturn3.default)(this, (ActiveCallControl.__proto__ || (0, _getPrototypeOf2.default)(ActiveCallControl)).apply(this, arguments));
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (ActiveCallControl.__proto__ || (0, _getPrototypeOf2.default)(ActiveCallControl)).call(this, props));
+
+    _this.state = {
+      selectedMatcherIndex: 0
+    };
+
+    _this.onMute = function () {
+      return _this.props.activeCallControl.mute(_this.props.sessionId);
+    };
+    _this.onUnmute = function () {
+      return _this.props.activeCallControl.unmute(_this.props.sessionId);
+    };
+    _this.onHold = function () {
+      return _this.props.activeCallControl.hold(_this.props.sessionId);
+    };
+    _this.onUnhold = function () {
+      return _this.props.activeCallControl.unHold(_this.props.sessionId);
+    };
+    _this.onHangup = function () {
+      return _this.props.activeCallControl.hangUp(_this.props.sessionId);
+    };
+    _this.onTransfer = function () {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(number) {
+        return _regenerator2.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                return _context.abrupt('return', _this.props.activeCallControl.transfer(number, _this.props.sessionId));
+
+              case 1:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, _this2);
+      }));
+
+      return function (_x) {
+        return _ref3.apply(this, arguments);
+      };
+    }();
+
+    _this.formatPhone = function (phoneNumber) {
+      return (0, _formatNumber2.default)({
+        phoneNumber: phoneNumber,
+        areaCode: _this.props.areaCode,
+        countryCode: _this.props.countryCode
+      });
+    };
+
+    _this.onSelectMatcherName = function (option) {
+      var nameMatches = _this.props.nameMatches || [];
+      var selectedMatcherIndex = nameMatches.findIndex(function (match) {
+        return match.id === option.id;
+      });
+      if (selectedMatcherIndex < 0) {
+        selectedMatcherIndex = 0;
+      }
+      _this.setState({
+        selectedMatcherIndex: selectedMatcherIndex
+      });
+    };
+    return _this;
   }
 
   (0, _createClass3.default)(ActiveCallControl, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      if (!nextProps.session) {
+        this.props.onBackButtonClick();
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
-
-      var _props = this.props,
-          currentLocale = _props.currentLocale,
-          activeCallControl = _props.activeCallControl,
-          regionSettings = _props.regionSettings,
-          callMonitor = _props.callMonitor,
-          routerInteraction = _props.routerInteraction,
-          renderContactName = _props.renderContactName;
-      var activeSession = activeCallControl.activeSession,
-          sessionId = activeCallControl.activeSessionId;
-
-
-      var activeCall = (0, _utils.pickEleByProps)({ sessionId: String(sessionId) }, callMonitor.otherDeviceCalls)[0] || {};
-
-      if (!activeSession) {
-        routerInteraction.goBack();
+      if (!this.props.session) {
         return null;
       }
-
-      var _pickFallBackInfo = (0, _utils.pickFallBackInfo)(activeCall, renderContactName(sessionId), currentLocale),
-          fallBackName = _pickFallBackInfo.fallBackName,
-          fallBackNumber = _pickFallBackInfo.fallBackNumber;
-
       var muteCtrl = _ActiveCallPad.ACTIONS_CTRL_MAP.muteCtrl,
           transferCtrl = _ActiveCallPad.ACTIONS_CTRL_MAP.transferCtrl,
           holdCtrl = _ActiveCallPad.ACTIONS_CTRL_MAP.holdCtrl;
 
-      var callCtrlProps = {
-        fallBackName: fallBackName,
-        currentLocale: currentLocale,
-        phoneNumber: fallBackNumber,
-        nameMatches: [],
-        onMute: function () {
-          var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-            return _regenerator2.default.wrap(function _callee$(_context) {
-              while (1) {
-                switch (_context.prev = _context.next) {
-                  case 0:
-                    return _context.abrupt('return', activeCallControl.mute(sessionId));
 
-                  case 1:
-                  case 'end':
-                    return _context.stop();
-                }
-              }
-            }, _callee, _this2);
-          }));
-
-          function onMute() {
-            return _ref3.apply(this, arguments);
-          }
-
-          return onMute;
-        }(),
-        onUnmute: function () {
-          var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
-            return _regenerator2.default.wrap(function _callee2$(_context2) {
-              while (1) {
-                switch (_context2.prev = _context2.next) {
-                  case 0:
-                    return _context2.abrupt('return', activeCallControl.unmute(sessionId));
-
-                  case 1:
-                  case 'end':
-                    return _context2.stop();
-                }
-              }
-            }, _callee2, _this2);
-          }));
-
-          function onUnmute() {
-            return _ref4.apply(this, arguments);
-          }
-
-          return onUnmute;
-        }(),
-        onHold: function () {
-          var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
-            return _regenerator2.default.wrap(function _callee3$(_context3) {
-              while (1) {
-                switch (_context3.prev = _context3.next) {
-                  case 0:
-                    return _context3.abrupt('return', activeCallControl.hold(sessionId));
-
-                  case 1:
-                  case 'end':
-                    return _context3.stop();
-                }
-              }
-            }, _callee3, _this2);
-          }));
-
-          function onHold() {
-            return _ref5.apply(this, arguments);
-          }
-
-          return onHold;
-        }(),
-        onUnhold: function () {
-          var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
-            return _regenerator2.default.wrap(function _callee4$(_context4) {
-              while (1) {
-                switch (_context4.prev = _context4.next) {
-                  case 0:
-                    return _context4.abrupt('return', activeCallControl.unHold(sessionId));
-
-                  case 1:
-                  case 'end':
-                    return _context4.stop();
-                }
-              }
-            }, _callee4, _this2);
-          }));
-
-          function onUnhold() {
-            return _ref6.apply(this, arguments);
-          }
-
-          return onUnhold;
-        }(),
-        onHangup: function () {
-          var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
-            return _regenerator2.default.wrap(function _callee5$(_context5) {
-              while (1) {
-                switch (_context5.prev = _context5.next) {
-                  case 0:
-                    return _context5.abrupt('return', activeCallControl.hangUp(sessionId));
-
-                  case 1:
-                  case 'end':
-                    return _context5.stop();
-                }
-              }
-            }, _callee5, _this2);
-          }));
-
-          function onHangup() {
-            return _ref7.apply(this, arguments);
-          }
-
-          return onHangup;
-        }(),
-        onTransfer: function () {
-          var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(number) {
-            return _regenerator2.default.wrap(function _callee6$(_context6) {
-              while (1) {
-                switch (_context6.prev = _context6.next) {
-                  case 0:
-                    return _context6.abrupt('return', activeCallControl.transfer(number, sessionId));
-
-                  case 1:
-                  case 'end':
-                    return _context6.stop();
-                }
-              }
-            }, _callee6, _this2);
-          }));
-
-          function onTransfer(_x) {
-            return _ref8.apply(this, arguments);
-          }
-
-          return onTransfer;
-        }(),
+      return _react2.default.createElement(_CallCtrlPanel2.default, {
+        currentLocale: this.props.currentLocale,
+        fallBackName: this.props.fallBackName,
+        phoneNumber: this.props.phoneNumber,
+        onMute: this.onMute,
+        onUnmute: this.onUnmute,
+        onHold: this.onHold,
+        onUnhold: this.onUnhold,
+        onHangup: this.onHangup,
+        onTransfer: this.onTransfer,
         showBackButton: true,
-        backButtonLabel: _i18n2.default.getString('allCalls', currentLocale),
-        onBackButtonClick: function () {
-          var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
-            return _regenerator2.default.wrap(function _callee7$(_context7) {
-              while (1) {
-                switch (_context7.prev = _context7.next) {
-                  case 0:
-                    return _context7.abrupt('return', routerInteraction.goBack());
-
-                  case 1:
-                  case 'end':
-                    return _context7.stop();
-                }
-              }
-            }, _callee7, _this2);
-          }));
-
-          function onBackButtonClick() {
-            return _ref9.apply(this, arguments);
-          }
-
-          return onBackButtonClick;
-        }(),
-        formatPhone: function formatPhone(phoneNumber) {
-          return (0, _formatNumber2.default)({
-            phoneNumber: phoneNumber,
-            areaCode: regionSettings.areaCode,
-            countryCode: regionSettings.countryCode
-          });
-        },
-        areaCode: regionSettings.areaCode,
-        countryCode: regionSettings.countryCode,
-        selectedMatcherIndex: 0,
-        onSelectMatcherName: function onSelectMatcherName() {
-          return null;
-        },
-        searchContactList: this.props.searchContactList,
-        searchContact: function searchContact(value) {
-          return _this2.props.searchContact(value);
-        },
+        backButtonLabel: _i18n2.default.getString('allCalls', this.props.currentLocale),
+        onBackButtonClick: this.props.onBackButtonClick,
+        formatPhone: this.formatPhone,
+        areaCode: this.props.areaCode,
+        countryCode: this.props.countryCode,
+        selectedMatcherIndex: this.state.selectedMatcherIndex,
         layout: _callCtrlLayouts2.default.normalCtrl,
-        startTime: activeCall.startTime,
+        startTime: this.props.activeCall.startTime,
         actions: [muteCtrl, transferCtrl, holdCtrl],
-        isOnMute: activeSession.isOnMute,
-        isOnHold: activeSession.isOnHold
-      };
-
-      var uselessProps = {
-        recordStatus: '',
-        onRecord: function onRecord() {
-          return null;
-        },
-        onStopRecord: function onStopRecord() {
-          return null;
-        },
-        onAdd: function onAdd() {
-          return null;
-        },
-        onMerge: function onMerge() {
-          return null;
-        },
-        onFlip: function onFlip() {
-          return null;
-        },
-        onPark: function onPark() {
-          return null;
-        },
-        onKeyPadChange: function onKeyPadChange() {
-          return null;
-        }
-      };
-
-      var props = (0, _extends3.default)({}, callCtrlProps, uselessProps);
-
-      return _react2.default.createElement(_CallCtrlPanel2.default, props);
+        isOnMute: this.props.session.isOnMute,
+        isOnHold: this.props.session.isOnHold,
+        nameMatches: this.props.nameMatches,
+        onSelectMatcherName: this.onSelectMatcherName,
+        brand: this.props.brand,
+        showContactDisplayPlaceholder: this.props.showContactDisplayPlaceholder
+      });
     }
   }]);
   return ActiveCallControl;
@@ -360,27 +255,30 @@ var ActiveCallControl = function (_Component) {
 
 ActiveCallControl.propTypes = {
   currentLocale: _propTypes2.default.string,
+  sessionId: _propTypes2.default.string,
+  areaCode: _propTypes2.default.string.isRequired,
+  countryCode: _propTypes2.default.string.isRequired,
+  session: _propTypes2.default.object,
+  activeCall: _propTypes2.default.object,
+  onBackButtonClick: _propTypes2.default.func.isRequired,
   activeCallControl: _propTypes2.default.object,
-  regionSettings: _propTypes2.default.object,
-  callMonitor: _propTypes2.default.object,
-  alert: _propTypes2.default.object,
-  routerInteraction: _propTypes2.default.object,
-  searchContact: _propTypes2.default.func,
-  searchContactList: _propTypes2.default.array,
-  renderContactName: _propTypes2.default.func
+  nameMatches: _propTypes2.default.array,
+  fallBackName: _propTypes2.default.string,
+  phoneNumber: _propTypes2.default.string,
+  showContactDisplayPlaceholder: _propTypes2.default.bool,
+  brand: _propTypes2.default.string.isRequired
 };
 
 ActiveCallControl.defaultProps = {
   currentLocale: 'en-US',
   activeCallControl: {},
-  regionSettings: {},
-  callMonitor: {},
-  alert: {},
-  routerInteraction: {},
-  searchContact: function searchContact() {},
-
-  searchContactList: [],
-  renderContactName: function renderContactName() {}
+  session: null,
+  sessionId: null,
+  activeCall: {},
+  nameMatches: [],
+  fallBackName: '',
+  phoneNumber: '',
+  showContactDisplayPlaceholder: false
 };
 
 exports.default = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(ActiveCallControl));

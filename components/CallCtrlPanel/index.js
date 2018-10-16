@@ -286,36 +286,36 @@ CallCtrlPanel.propTypes = {
   isOnFlip: _propTypes2.default.bool,
   isOnTransfer: _propTypes2.default.bool,
   flipNumbers: _propTypes2.default.array,
-  recordStatus: _propTypes2.default.string.isRequired,
+  recordStatus: _propTypes2.default.string,
   onMute: _propTypes2.default.func.isRequired,
   onUnmute: _propTypes2.default.func.isRequired,
   onHold: _propTypes2.default.func.isRequired,
   onUnhold: _propTypes2.default.func.isRequired,
-  onRecord: _propTypes2.default.func.isRequired,
-  onStopRecord: _propTypes2.default.func.isRequired,
+  onRecord: _propTypes2.default.func,
+  onStopRecord: _propTypes2.default.func,
   onAdd: _propTypes2.default.func,
   onMerge: _propTypes2.default.func,
   onBeforeMerge: _propTypes2.default.func,
-  onPark: _propTypes2.default.func.isRequired,
+  onPark: _propTypes2.default.func,
   onHangup: _propTypes2.default.func.isRequired,
-  onFlip: _propTypes2.default.func.isRequired,
+  onFlip: _propTypes2.default.func,
   onTransfer: _propTypes2.default.func.isRequired,
   showBackButton: _propTypes2.default.bool,
   backButtonLabel: _propTypes2.default.string,
   onBackButtonClick: _propTypes2.default.func,
-  onKeyPadChange: _propTypes2.default.func.isRequired,
+  onKeyPadChange: _propTypes2.default.func,
   formatPhone: _propTypes2.default.func.isRequired,
   children: _propTypes2.default.node,
   areaCode: _propTypes2.default.string.isRequired,
   countryCode: _propTypes2.default.string.isRequired,
   selectedMatcherIndex: _propTypes2.default.number.isRequired,
-  onSelectMatcherName: _propTypes2.default.func.isRequired,
+  onSelectMatcherName: _propTypes2.default.func,
   avatarUrl: _propTypes2.default.string,
   brand: _propTypes2.default.string,
   showContactDisplayPlaceholder: _propTypes2.default.bool,
   sourceIcons: _propTypes2.default.object,
-  searchContactList: _propTypes2.default.array.isRequired,
-  searchContact: _propTypes2.default.func.isRequired,
+  searchContactList: _propTypes2.default.array,
+  searchContact: _propTypes2.default.func,
   phoneTypeRenderer: _propTypes2.default.func,
   recipientsContactInfoRenderer: _propTypes2.default.func,
   recipientsContactPhoneRenderer: _propTypes2.default.func,
@@ -383,7 +383,30 @@ CallCtrlPanel.defaultProps = {
   afterOnMerge: function afterOnMerge() {
     return null;
   },
-  actions: []
+  onFlip: function onFlip() {
+    return null;
+  },
+  onRecord: function onRecord() {
+    return null;
+  },
+  onStopRecord: function onStopRecord() {
+    return null;
+  },
+  onPark: function onPark() {
+    return null;
+  },
+  onKeyPadChange: function onKeyPadChange() {
+    return null;
+  },
+  onSelectMatcherName: function onSelectMatcherName() {
+    return null;
+  },
+  searchContactList: [],
+  searchContact: function searchContact() {
+    return [];
+  },
+  actions: [],
+  recordStatus: ''
 };
 
 exports.default = CallCtrlPanel;
