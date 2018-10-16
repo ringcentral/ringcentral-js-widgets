@@ -52,7 +52,8 @@ var CarrouselBar = function (_Component) {
     _this.state = {
       currentIndex: 0,
       showAnimation: false,
-      animationMode: 'move'
+      animationMode: 'move',
+      hoverBar: false
     };
     return _this;
   }
@@ -63,13 +64,16 @@ var CarrouselBar = function (_Component) {
       var _this2 = this;
 
       this.timeout = setInterval(function () {
-        _this2.setState(function (prevState) {
-          return {
-            currentIndex: prevState.currentIndex >= _this2.validChildren.length - 1 ? 0 : prevState.currentIndex + 1,
-            showAnimation: true,
-            animationMode: prevState.animationMode === 'move' ? 'moveOn' : 'move'
-          };
-        });
+        if (!_this2.props.hoverBar) {
+          _this2.setState(function (prevState) {
+            return {
+              currentIndex: prevState.currentIndex >= _this2.validChildren.length - 1 ? 0 : prevState.currentIndex + 1,
+              showAnimation: true,
+              animationMode: prevState.animationMode === 'move' ? 'moveOn' : 'move',
+              hoverBar: false
+            };
+          });
+        }
       }, this.props.scrollInterval);
     }
   }, {
@@ -77,6 +81,13 @@ var CarrouselBar = function (_Component) {
     value: function componentWillReceiveProps(nextProps) {
       if (nextProps.children !== this.props.children) {
         this.validChildren = this.getValidChildren(nextProps.children);
+      }
+      if (nextProps.hoverBar !== this.props.hoverBar && !!nextProps.hoverBar) {
+        this.setState(function () {
+          return {
+            hoverBar: true
+          };
+        });
       }
     }
   }, {
@@ -103,7 +114,7 @@ var CarrouselBar = function (_Component) {
         { className: _styles2.default.root },
         _react2.default.createElement(
           'div',
-          { className: this.state.showAnimation ? _styles2.default[this.state.animationMode] : null },
+          { className: this.state.showAnimation && !this.state.hoverBar ? _styles2.default[this.state.animationMode] : _styles2.default.center },
           this.validChildren[this.state.currentIndex]
         )
       );
@@ -117,10 +128,12 @@ exports.default = CarrouselBar;
 
 CarrouselBar.propTypes = {
   children: _propTypes2.default.node,
-  scrollInterval: _propTypes2.default.number
+  scrollInterval: _propTypes2.default.number,
+  hoverBar: _propTypes2.default.bool
 };
 CarrouselBar.defaultProps = {
   children: undefined,
-  scrollInterval: DEFAULT_SCROLL_INTERVAL
+  scrollInterval: DEFAULT_SCROLL_INTERVAL,
+  hoverBar: false
 };
 //# sourceMappingURL=index.js.map

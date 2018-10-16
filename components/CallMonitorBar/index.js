@@ -111,18 +111,18 @@ var CallMonitorBar = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallMonitorBar.__proto__ || (0, _getPrototypeOf2.default)(CallMonitorBar)).call(this, props));
 
     _this.state = {
-      hoverShow: false
+      hoverBar: false
     };
     _this.showBtn = function () {
       if (_this.props.currentCalls.length > 0) {
         _this.setState({
-          hoverShow: true
+          hoverBar: true
         });
       }
     };
     _this.hideBtn = function () {
       _this.setState({
-        hoverShow: false
+        hoverBar: false
       });
     };
     return _this;
@@ -150,30 +150,10 @@ var CallMonitorBar = function (_Component) {
         { className: _styles2.default.bar, onMouseOver: this.showBtn, onMouseLeave: this.hideBtn },
         _react2.default.createElement(
           'div',
-          { className: (0, _classnames2.default)(_styles2.default.box, this.state.hoverShow ? _styles2.default.show : _styles2.default.hide) },
-          _react2.default.createElement(
-            _Button2.default,
-            {
-              className: _styles2.default.currentCallBtn,
-              onClick: onCurrentCallBtnClick
-            },
-            _i18n2.default.getString('currentCall', currentLocale)
-          ),
-          _react2.default.createElement(
-            _Button2.default,
-            {
-              className: _styles2.default.viewCallsBtn,
-              onClick: onViewCallBtnClick
-            },
-            _i18n2.default.getString('viewCalls', currentLocale)
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: (0, _classnames2.default)(_styles2.default.box, this.state.hoverShow ? _styles2.default.hide : _styles2.default.show) },
+          { className: _styles2.default.box },
           _react2.default.createElement(
             _CarrouselBar2.default,
-            null,
+            { hoverBar: this.state.hoverBar },
             numberOfOnHoldCalls > 0 ? _react2.default.createElement(CallInfoBar, {
               label: numberOfOnHoldCalls === 1 ? (0, _formatMessage2.default)(_i18n2.default.getString('callOnHold', currentLocale), { numberOf: numberOfOnHoldCalls }) : (0, _formatMessage2.default)(_i18n2.default.getString('callsOnHold', currentLocale), { numberOf: numberOfOnHoldCalls }),
               currentLocale: currentLocale,
