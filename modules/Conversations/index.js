@@ -1298,14 +1298,22 @@ var Conversations = (_dec = (0, _di.Module)({
     return (0, _reselect.createSelector)(function () {
       return _this12.currentConversationId;
     }, function () {
+      return _this12._extensionInfo.extensionNumber;
+    }, function () {
+      return _this12._contactMatcher && _this12._contactMatcher.dataMapping;
+    }, function () {
       return _this12.oldMessages;
     }, function () {
       return _this12._messageStore.conversationStore;
     }, function () {
-      return _this12.formatedConversations;
+      return _this12.allConversations;
     }, function () {
       return _this12._auth.accessToken;
-    }, function (conversationId, oldMessages, conversationStore, conversations, accessToken) {
+    }, function () {
+      return _this12._conversationLogger && _this12._conversationLogger.dataMapping;
+    }, function (conversationId, extensionNumber, contactMapping, oldMessages, conversationStore, conversations, accessToken) {
+      var conversationLogMapping = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : {};
+
       var conversation = conversations.find(function (c) {
         return c.conversationId === conversationId;
       });
@@ -1320,6 +1328,20 @@ var Conversations = (_dec = (0, _di.Module)({
           mmsAttachment: mmsAttachment
         });
       });
+
+      var _getNumbersFromMessag2 = (0, _messageHelper.getNumbersFromMessage)({ extensionNumber: extensionNumber, message: conversation }),
+          _getNumbersFromMessag3 = _getNumbersFromMessag2.correspondents,
+          correspondents = _getNumbersFromMessag3 === undefined ? [] : _getNumbersFromMessag3;
+
+      var correspondentMatches = correspondents.reduce(function (matches, contact) {
+        var number = contact && (contact.phoneNumber || contact.extensionNumber);
+        return number && contactMapping[number] && contactMapping[number].length ? matches.concat(contactMapping[number]) : matches;
+      }, []);
+      var conversationLogId = _this12._conversationLogger ? _this12._conversationLogger.getConversationLogId(conversation) : null;
+      var conversationMatches = conversationLogMapping[conversationLogId] || [];
+      currentConversation.correspondents = correspondents;
+      currentConversation.correspondentMatches = correspondentMatches;
+      currentConversation.conversationMatches = conversationMatches;
       currentConversation.messages = allMessages.reverse();
       currentConversation.senderNumber = (0, _messageHelper.getMyNumberFromMessage)({
         message: conversation,
