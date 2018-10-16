@@ -1,14 +1,14 @@
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import classnames from "classnames";
-import SearchInput from "ringcentral-widgets/components/SearchInput";
-import SpinnerOverlay from "ringcentral-widgets/components/SpinnerOverlay";
-import debounce from "ringcentral-integration/lib/debounce";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import classnames from 'classnames';
+import SearchInput from 'ringcentral-widgets/components/SearchInput';
+import SpinnerOverlay from 'ringcentral-widgets/components/SpinnerOverlay';
+import debounce from 'ringcentral-integration/lib/debounce';
 
-import GlipGroupList from "../GlipGroupList";
-import GlipTeamCreationModal from "../GlipTeamCreation";
+import GlipGroupList from '../GlipGroupList';
+import GlipTeamCreationModal from '../GlipTeamCreation';
 
-import styles from "./styles.scss";
+import styles from './styles.scss';
 
 export default class GlipGroupsPanel extends PureComponent {
   constructor(props) {
@@ -17,18 +17,18 @@ export default class GlipGroupsPanel extends PureComponent {
       searchString: props.searchFilter,
       showTeamCreationModal: false,
       contentHeight: 0,
-      contentWidth: 0
+      contentWidth: 0,
     };
-    this.updateSeachString = e => {
+    this.updateSeachString = (e) => {
       const searchString = e.target.value;
       this.setState({
-        searchString
+        searchString,
       });
       this.props.updateSearchFilter(searchString);
     };
     this.toggleShowTeamCreationModal = () => {
-      this.setState(preState => ({
-        showTeamCreationModal: !preState.showTeamCreationModal
+      this.setState((preState) => ({
+        showTeamCreationModal: !preState.showTeamCreationModal,
       }));
     };
     this._contentWrapper = React.createRef();
@@ -38,12 +38,12 @@ export default class GlipGroupsPanel extends PureComponent {
   componentDidMount() {
     this._mounted = true;
     this._calculateContentSize();
-    window.addEventListener("resize", this._onResize);
+    window.addEventListener('resize', this._onResize);
   }
 
   componentWillUnmount() {
     this._mounted = false;
-    window.removeEventListener("resize", this._onResize);
+    window.removeEventListener('resize', this._onResize);
   }
 
   _onResize = debounce(() => {
@@ -61,13 +61,13 @@ export default class GlipGroupsPanel extends PureComponent {
       const rect = this._contentWrapper.current.getBoundingClientRect();
       this.setState({
         contentHeight: rect.bottom - rect.top,
-        contentWidth: rect.right - rect.left
+        contentWidth: rect.right - rect.left,
       });
       return;
     }
     this.setState({
       contentHeight: 0,
-      contentWidth: 0
+      contentWidth: 0,
     });
   }
 
@@ -82,7 +82,7 @@ export default class GlipGroupsPanel extends PureComponent {
       onSelectGroup,
       filteredContacts,
       updateContactSearchFilter,
-      contactSearchFilter
+      contactSearchFilter,
     } = this.props;
     const spinner = showSpinner ? <SpinnerOverlay /> : null;
     // TODO: update searching with i18n
@@ -140,17 +140,17 @@ GlipGroupsPanel.propTypes = {
   createTeam: PropTypes.func.isRequired,
   filteredContacts: PropTypes.array,
   updateContactSearchFilter: PropTypes.func.isRequired,
-  contactSearchFilter: PropTypes.string
+  contactSearchFilter: PropTypes.string,
 };
 
 GlipGroupsPanel.defaultProps = {
   groups: [],
   className: undefined,
-  searchFilter: "",
+  searchFilter: '',
   currentGroupId: undefined,
   showSpinner: false,
   currentPage: 1,
   onNextPage: undefined,
   filteredContacts: [],
-  contactSearchFilter: ""
+  contactSearchFilter: '',
 };
