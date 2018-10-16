@@ -600,60 +600,60 @@ export default class Conversations extends RcModule {
       conversationLogMapping = {},
       accessToken,
     ) => (
-        conversations.map((message) => {
-          const {
-            self,
-            correspondents,
-          } = getNumbersFromMessage({ extensionNumber, message });
-          const selfNumber = self && (self.phoneNumber || self.extensionNumber);
-          const selfMatches = (selfNumber && contactMapping[selfNumber]) || [];
-          const correspondentMatches = correspondents.reduce((matches, contact) => {
-            const number = contact && (contact.phoneNumber || contact.extensionNumber);
-            return number && contactMapping[number] && contactMapping[number].length ?
-              matches.concat(contactMapping[number]) :
-              matches;
-          }, []);
-          const conversationLogId = this._conversationLogger ?
-            this._conversationLogger.getConversationLogId(message) :
-            null;
-          const isLogging = !!(conversationLogId && loggingMap[conversationLogId]);
-          const conversationMatches = conversationLogMapping[conversationLogId] || [];
-          let voicemailAttachment = null;
-          if (messageIsVoicemail(message)) {
-            voicemailAttachment = getVoicemailAttachment(message, accessToken);
-          }
-          let faxAttachment = null;
-          if (messageIsFax(message)) {
-            faxAttachment = getFaxAttachment(message, accessToken);
-          }
-          let unreadCounts = message.unreadCounts;
-          if (typeof unreadCounts === 'undefined') {
-            unreadCounts = messageIsUnread(message) ? 1 : 0;
-          }
-          let mmsAttachment = null;
-          if (messageIsTextMessage(message) && isBlank(message.subject) && this._showMMSAttachment) {
-            mmsAttachment = getMMSAttachment(message);
-          }
-          return {
-            ...message,
-            unreadCounts,
-            self,
-            selfMatches,
-            correspondents,
-            correspondentMatches,
-            conversationLogId,
-            isLogging,
-            conversationMatches,
-            voicemailAttachment,
-            faxAttachment,
-            mmsAttachment,
-            lastMatchedCorrespondentEntity: (
-              this._conversationLogger &&
+      conversations.map((message) => {
+        const {
+          self,
+          correspondents,
+        } = getNumbersFromMessage({ extensionNumber, message });
+        const selfNumber = self && (self.phoneNumber || self.extensionNumber);
+        const selfMatches = (selfNumber && contactMapping[selfNumber]) || [];
+        const correspondentMatches = correspondents.reduce((matches, contact) => {
+          const number = contact && (contact.phoneNumber || contact.extensionNumber);
+          return number && contactMapping[number] && contactMapping[number].length ?
+            matches.concat(contactMapping[number]) :
+            matches;
+        }, []);
+        const conversationLogId = this._conversationLogger ?
+          this._conversationLogger.getConversationLogId(message) :
+          null;
+        const isLogging = !!(conversationLogId && loggingMap[conversationLogId]);
+        const conversationMatches = conversationLogMapping[conversationLogId] || [];
+        let voicemailAttachment = null;
+        if (messageIsVoicemail(message)) {
+          voicemailAttachment = getVoicemailAttachment(message, accessToken);
+        }
+        let faxAttachment = null;
+        if (messageIsFax(message)) {
+          faxAttachment = getFaxAttachment(message, accessToken);
+        }
+        let unreadCounts = message.unreadCounts;
+        if (typeof unreadCounts === 'undefined') {
+          unreadCounts = messageIsUnread(message) ? 1 : 0;
+        }
+        let mmsAttachment = null;
+        if (messageIsTextMessage(message) && isBlank(message.subject) && this._showMMSAttachment) {
+          mmsAttachment = getMMSAttachment(message);
+        }
+        return {
+          ...message,
+          unreadCounts,
+          self,
+          selfMatches,
+          correspondents,
+          correspondentMatches,
+          conversationLogId,
+          isLogging,
+          conversationMatches,
+          voicemailAttachment,
+          faxAttachment,
+          mmsAttachment,
+          lastMatchedCorrespondentEntity: (
+            this._conversationLogger &&
               this._conversationLogger.getLastMatchedCorrespondentEntity(message)
-            ) || null,
-          };
-        })
-      ),
+          ) || null,
+        };
+      })
+    ),
   )
 
   @getter
