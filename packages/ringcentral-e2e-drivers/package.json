@@ -7,9 +7,6 @@
     "url": "https://github.com/ringcentral/ringcentral-js-widget.git"
   },
   "main": "src/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "",
   "license": "MIT",
   "dependencies": {
