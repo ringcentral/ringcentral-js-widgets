@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
+import callDirections from 'ringcentral-integration/enums/callDirections';
+
 import SpinnerOverlay from '../SpinnerOverlay';
 import Button from '../Button';
 import styles from './styles.scss';
 import LogBasicInfo from '../LogBasicInfo';
-// import SmCallCtrlContainer from '../../containers/SmCallCtrlContainer';
 import i18n from './i18n';
 
 export default class LogSection extends Component {
@@ -124,9 +126,23 @@ export default class LogSection extends Component {
     if (result) {
       return this.genLogBasicInfo();
     }
+    function disabledToCallControl() {
+      return (
+        callDirections.inbound === call.direction &&
+        telephonyStatuses.ringing === telephonyStatus
+      );
+    }
+
+    const onLogBasicInfoClick = disabledToCallControl()
+      ? () => { }
+      : this.props.onLogBasicInfoClick;
+
+    const wrapperCls = classnames(styles.infoWithCtrlWrapper, {
+      [styles.pointer]: !disabledToCallControl()
+    });
     return (
       <div className={styles.infoWithCtrlWrapper}>
-        <div className={styles.basicInfoWrapper} onClick={() => this.props.onLogBasicInfoClick()}>
+        <div className={wrapperCls} onClick={onLogBasicInfoClick}>
           <LogBasicInfo
             currentLog={this.props.currentLog}
             currentLocale={this.props.currentLocale}
