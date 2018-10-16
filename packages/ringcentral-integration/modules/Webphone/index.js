@@ -678,9 +678,10 @@ export default class Webphone extends RcModule {
       }
       this._updateSessions();
     });
-    session.on('progress', () => {
+    session.on('progress', (incomingResponse) => {
       console.log('progress...');
       session.__rc_callStatus = sessionStatus.connecting;
+      extractHeadersData(session, incomingResponse.headers);
       this._updateSessions();
     });
     session.on('rejected', () => {
