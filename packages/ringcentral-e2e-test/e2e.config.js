@@ -74,6 +74,8 @@ module.exports = {
           brands: {
             rc: {
               location: 'https://login.salesforce.com/',
+              username: 'integration.end2end@ringcentral.com',
+              password: 'RNG94405!'
             },
             att: {
               username: '',

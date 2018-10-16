@@ -1331,6 +1331,10 @@ babel-types@^6.0.0, babel-types@^6.18.0, babel-types@^6.19.0, babel-types@^6.24.
     lodash "^4.17.4"
     to-fast-properties "^1.0.3"
 
+babel@^6.23.0:
+  version "6.23.0"
+  resolved "https://registry.yarnpkg.com/babel/-/babel-6.23.0.tgz#d0d1e7d803e974765beea3232d4e153c0efb90f4"
+
 babelify@^7.3.0:
   version "7.3.0"
   resolved "https://registry.yarnpkg.com/babelify/-/babelify-7.3.0.tgz#aa56aede7067fd7bd549666ee16dc285087e88e5"
@@ -10739,7 +10743,7 @@ superagent-proxy@^1.0.2:
     debug "^3.1.0"
     proxy-agent "2"
 
-superagent@^3.8.1:
+superagent@^3.8.1, superagent@^3.8.3:
   version "3.8.3"
   resolved "https://registry.yarnpkg.com/superagent/-/superagent-3.8.3.tgz#460ea0dbdb7d5b11bc4f78deba565f86a178e128"
   dependencies:
@@ -11547,6 +11551,14 @@ webpack@^3.11.0:
     watchpack "^1.4.0"
     webpack-sources "^1.0.1"
     yargs "^8.0.2"
+
+"webphone-client@git+https://git.ringcentral.com/centralized-webphone/js_api_client.git#master":
+  version "1.0.0"
+  resolved "git+https://git.ringcentral.com/centralized-webphone/js_api_client.git#6f65369a08ab07229cd64ec1f64e995272df0b49"
+  dependencies:
+    babel "^6.23.0"
+    babel-cli "^6.26.0"
+    superagent "^3.8.3"
 
 websocket-driver@>=0.5.1:
   version "0.7.0"
