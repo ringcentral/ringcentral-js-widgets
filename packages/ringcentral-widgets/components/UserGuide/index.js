@@ -67,6 +67,7 @@ export default class UserGuide extends React.Component {
 
   onExited = () => {
     this.setState({
+      playing: false,
       entered: false
     });
     this.props.updateCarousel({
