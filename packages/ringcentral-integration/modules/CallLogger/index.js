@@ -78,6 +78,7 @@ export default class CallLogger extends LoggerBase {
     this._lastProcessedCalls = null;
     this._lastProcessedEndedCalls = null;
     this._customMatcherHooks = [];
+    this._transferredCallsMap = {};
   }
 
   _onReset() {
@@ -261,13 +262,28 @@ export default class CallLogger extends LoggerBase {
           } else {
             const oldCall = oldCalls[oldCallIndex];
             oldCalls.splice(oldCallIndex, 1);
+            console.log('oldCall', oldCall);
+            console.log('call', call);
             if (call.telephonyStatus !== oldCall.telephonyStatus) {
-              this._onCallUpdated(call, callLoggerTriggerTypes.presenceUpdate);
+              this._onCallUpdated({
+                ...call,
+                isTransferredCall: !!this._transferredCallsMap[call.sessionId]
+              }, callLoggerTriggerTypes.presenceUpdate);
+            }
+            if ((call.from && call.from.phoneNumber) !== (oldCall.from && oldCall.from.phoneNumber)) {
+              this._transferredCallsMap[call.sessionId] = true;
+              this._onCallUpdated({
+                ...call,
+                isTransferredCall: true
+              }, callLoggerTriggerTypes.presenceUpdate);
             }
           }
         });
         oldCalls.forEach((call) => {
-          this._onCallUpdated(call, callLoggerTriggerTypes.presenceUpdate);
+          this._onCallUpdated({
+            ...call,
+            isTransferredCall: !!this._transferredCallsMap[call.sessionId]
+          }, callLoggerTriggerTypes.presenceUpdate);
         });
       }
       if (
@@ -289,7 +305,10 @@ export default class CallLogger extends LoggerBase {
             const callInfo = this._callHistory.calls
               .find(item => item.sessionId === call.sessionId);
             if (callInfo) {
-              this._onCallUpdated(callInfo, callLoggerTriggerTypes.callLogSync);
+              this._onCallUpdated({
+                ...callInfo,
+                isTransferredCall: !!this._transferredCallsMap[callInfo.sessionId]
+              }, callLoggerTriggerTypes.callLogSync);
             }
           }
         });

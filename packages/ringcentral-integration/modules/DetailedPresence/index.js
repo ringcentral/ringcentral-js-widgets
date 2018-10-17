@@ -59,7 +59,7 @@ export default class DetailedPresence extends Presence {
   _subscriptionHandler = (message) => {
     if (presenceRegExp.test(message.event) && message.body) {
       if (message.body.sequence) {
-        if (message.body.sequence <= this._lastSequence) {
+        if (message.body.sequence < this._lastSequence) {
           return;
         }
         this._lastSequence = message.body.sequence;
