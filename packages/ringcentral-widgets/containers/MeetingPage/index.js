@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import MeetingPanel from '../../components/MeetingPanel';
-import withPhone from '../../lib/withPhone';
+import { withPhone } from '../../lib/phoneContext';
 
 function mapToProps(_, {
   phone: {
@@ -31,12 +31,12 @@ function mapToFunctions(_, {
 }) {
   return {
     update: meetingState => meeting.update(meetingState),
-    invite: (meetingInfo) => {
+    invite: (meetingInfo, opener) => {
       if (schedule) {
-        schedule(meetingInfo);
+        schedule(meetingInfo, opener);
         return;
       }
-      meeting.schedule(meetingInfo);
+      meeting.schedule(meetingInfo, {}, opener);
     },
     init: () => meeting.init(),
   };
@@ -52,4 +52,3 @@ export {
   mapToProps,
   MeetingPage as default,
 };
-

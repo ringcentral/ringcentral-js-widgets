@@ -15,7 +15,8 @@ export default {
   audio: "Audio",
   language: "Lingua",
   feedback: "Feedback",
-  userGuide: "Novità"
+  userGuide: "Novità",
+  quickAccess: "Impostazione accesso rapido"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -35,3 +36,4 @@ export default {
 // @key: @#@"language"@#@ @source: @#@"Language"@#@
 // @key: @#@"feedback"@#@ @source: @#@"Feedback"@#@
 // @key: @#@"userGuide"@#@ @source: @#@"What's New"@#@
+// @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@

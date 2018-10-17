@@ -1,3 +1,4 @@
+import { contains } from 'ramda';
 import RcModule from '../../lib/RcModule';
 import proxify from '../../lib/proxy/proxify';
 import { Module } from '../../lib/di';
@@ -69,6 +70,7 @@ export default class UserGuide extends RcModule {
         type: this.actionTypes.initSuccess,
       });
       await this.initUserGuide();
+      await this.preLoadImage();
     } else if (
       this.ready && (
         !this._auth.ready ||
@@ -93,6 +95,27 @@ export default class UserGuide extends RcModule {
     }
   }
 
+  @proxify
+  async _preLoadImage(url) {
+    await new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = url;
+      img.onload = resolve;
+      img.onerror = resolve;
+    });
+  }
+
+  @proxify
+  async preLoadImage() {
+    const url = this.guides[0];
+    if (url) {
+      await this._preLoadImage(url);
+    }
+    this.store.dispatch({
+      type: this.actionTypes.preLoadImageStatus,
+    });
+  }
+
   /**
    * Using webpack `require.context` to load guides files.
    * Image files will be ordered by file name ascendingly.
@@ -106,7 +129,7 @@ export default class UserGuide extends RcModule {
         .reduce((prev, curr) => {
           locales.forEach((locale) => {
             if (!prev[locale]) prev[locale] = [];
-            if (curr.includes(locale)) {
+            if (contains(locale, curr)) {
               prev[locale].push(curr);
             }
           });
@@ -118,7 +141,9 @@ export default class UserGuide extends RcModule {
 
   @proxify
   dismiss() {
-    this.updateCarousel({ curIdx: 0, entered: false, playing: false });
+    this.updateCarousel({
+      curIdx: 0, entered: false, playing: false, firstLogin: false
+    });
   }
 
   @proxify
@@ -132,12 +157,15 @@ export default class UserGuide extends RcModule {
   }
 
   @proxify
-  async updateCarousel({ curIdx, entered, playing }) {
+  async updateCarousel({
+    curIdx, entered, playing, firstLogin = this.state.firstLogin
+  }) {
     this.store.dispatch({
       type: this.actionTypes.updateCarousel,
       curIdx,
       entered,
-      playing
+      playing,
+      firstLogin
     });
   }
 
@@ -153,21 +181,20 @@ export default class UserGuide extends RcModule {
     // will be changed as well, in this case, it will be displayed.
     await this.loadGuides(guides);
     if (JSON.stringify(guides) !== JSON.stringify(prevGuides)) {
-      await this.start();
+      this.start({ firstLogin: true });
     }
   }
 
   @proxify
-  async start() {
+  async start({ firstLogin = false } = {}) {
     // Start guides only when images are ready
-    if (this.guides.length > 0) {
-      this.store.dispatch({
-        type: this.actionTypes.updateCarousel,
-        curIdx: 0,
-        entered: true,
-        playing: true,
-      });
-    }
+    this.store.dispatch({
+      type: this.actionTypes.updateCarousel,
+      curIdx: 0,
+      entered: true,
+      playing: true,
+      firstLogin
+    });
   }
 
   get guides() {
@@ -195,5 +222,9 @@ export default class UserGuide extends RcModule {
 
   get status() {
     return this.state.status;
+  }
+
+  get preLoadImageStatus() {
+    return this.state.preLoadImageStatus;
   }
 }

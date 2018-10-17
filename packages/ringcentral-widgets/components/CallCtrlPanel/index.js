@@ -43,9 +43,16 @@ class CallCtrlPanel extends Component {
 
     this.toggleTransferPanel = () => {
       this.setState(prevState => ({
-        isShowTransferPanel: !prevState.isShowTransferPanel
+        isShowTransferPanel: !prevState.isShowTransferPanel,
       }));
     };
+
+    this.hideTransferPanel = () => {
+      this.setState({
+        isShowTransferPanel: false,
+      });
+    };
+
     this.onMerge = () => {
       const { onBeforeMerge } = this.props;
       if (!onBeforeMerge || onBeforeMerge()) {
@@ -58,6 +65,8 @@ class CallCtrlPanel extends Component {
           this.props.onMerge();
         }
       }
+      // track user click merge
+      this.props.afterOnMerge();
     };
     this.showMergeConfirm = () => {
       this.setState({
@@ -71,20 +80,32 @@ class CallCtrlPanel extends Component {
       });
     };
 
-    this.confirmMerge = () => {
+    this.hideMergeConfirmAlt = () => {
       this.hideMergeConfirm();
+      // user action track
+      this.props.afterHideMergeConfirm();
+    };
+
+    this.confirmMerge = () => {
+      this.setState({
+        isShowMergeConfirm: false
+      });
       if (this.props.onMerge) {
         this.props.onMerge();
       }
-    };
-
-    this.gotoParticipantsCtrl = () => {
-      this.props.gotoParticipantsCtrl();
+      // user action track
+      this.props.afterConfirmMerge();
     };
   }
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.hasConferenceCall && this.state.isShowMergeConfirm) {
+      this.hideMergeConfirm();
+    }
+    if (this.props.sessionId !== nextProps.sessionId) {
+      this.hiddenKeyPad();
+      this.hideFlipPanel();
+      this.hideTransferPanel();
       this.hideMergeConfirm();
     }
   }
@@ -165,7 +186,7 @@ class CallCtrlPanel extends Component {
         showContactDisplayPlaceholder={this.props.showContactDisplayPlaceholder}
         onShowFlipPanel={this.showFlipPanel}
         onToggleTransferPanel={this.toggleTransferPanel}
-        gotoParticipantsCtrl={this.gotoParticipantsCtrl}
+        gotoParticipantsCtrl={this.props.gotoParticipantsCtrl}
         flipNumbers={this.props.flipNumbers}
         sourceIcons={this.props.sourceIcons}
         layout={this.props.layout}
@@ -177,6 +198,7 @@ class CallCtrlPanel extends Component {
         conferenceCallParties={this.props.conferenceCallParties}
         lastCallInfo={this.props.lastCallInfo}
         getAvatarUrl={this.props.getAvatarUrl}
+        actions={this.props.actions}
       >
         {this.props.children}
         {this.props.showSpinner ? <SpinnerOverlay /> : null}
@@ -185,7 +207,7 @@ class CallCtrlPanel extends Component {
             currentLocale={this.props.currentLocale}
             show={this.state.isShowMergeConfirm}
             onMerge={this.confirmMerge}
-            onCancel={this.hideMergeConfirm}
+            onCancel={this.hideMergeConfirmAlt}
             partyProfiles={this.props.conferenceCallParties}
           />
           : null
@@ -208,36 +230,36 @@ CallCtrlPanel.propTypes = {
   isOnFlip: PropTypes.bool,
   isOnTransfer: PropTypes.bool,
   flipNumbers: PropTypes.array,
-  recordStatus: PropTypes.string.isRequired,
+  recordStatus: PropTypes.string,
   onMute: PropTypes.func.isRequired,
   onUnmute: PropTypes.func.isRequired,
   onHold: PropTypes.func.isRequired,
   onUnhold: PropTypes.func.isRequired,
-  onRecord: PropTypes.func.isRequired,
-  onStopRecord: PropTypes.func.isRequired,
+  onRecord: PropTypes.func,
+  onStopRecord: PropTypes.func,
   onAdd: PropTypes.func,
   onMerge: PropTypes.func,
   onBeforeMerge: PropTypes.func,
-  onPark: PropTypes.func.isRequired,
+  onPark: PropTypes.func,
   onHangup: PropTypes.func.isRequired,
-  onFlip: PropTypes.func.isRequired,
+  onFlip: PropTypes.func,
   onTransfer: PropTypes.func.isRequired,
   showBackButton: PropTypes.bool,
   backButtonLabel: PropTypes.string,
   onBackButtonClick: PropTypes.func,
-  onKeyPadChange: PropTypes.func.isRequired,
+  onKeyPadChange: PropTypes.func,
   formatPhone: PropTypes.func.isRequired,
   children: PropTypes.node,
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
   selectedMatcherIndex: PropTypes.number.isRequired,
-  onSelectMatcherName: PropTypes.func.isRequired,
+  onSelectMatcherName: PropTypes.func,
   avatarUrl: PropTypes.string,
   brand: PropTypes.string,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
-  searchContactList: PropTypes.array.isRequired,
-  searchContact: PropTypes.func.isRequired,
+  searchContactList: PropTypes.array,
+  searchContact: PropTypes.func,
   phoneTypeRenderer: PropTypes.func,
   recipientsContactInfoRenderer: PropTypes.func,
   recipientsContactPhoneRenderer: PropTypes.func,
@@ -252,6 +274,10 @@ CallCtrlPanel.propTypes = {
   conferenceCallParties: PropTypes.array,
   getAvatarUrl: PropTypes.func,
   gotoParticipantsCtrl: PropTypes.func,
+  afterHideMergeConfirm: PropTypes.func,
+  afterConfirmMerge: PropTypes.func,
+  afterOnMerge: PropTypes.func,
+  actions: PropTypes.array,
 };
 
 CallCtrlPanel.defaultProps = {
@@ -288,6 +314,19 @@ CallCtrlPanel.defaultProps = {
   lastCallInfo: undefined,
   getAvatarUrl: () => null,
   gotoParticipantsCtrl: i => i,
+  afterHideMergeConfirm: () => null,
+  afterConfirmMerge: () => null,
+  afterOnMerge: () => null,
+  onFlip: () => null,
+  onRecord: () => null,
+  onStopRecord: () => null,
+  onPark: () => null,
+  onKeyPadChange: () => null,
+  onSelectMatcherName: () => null,
+  searchContactList: [],
+  searchContact: () => [],
+  actions: [],
+  recordStatus: '',
 };
 
 export default CallCtrlPanel;

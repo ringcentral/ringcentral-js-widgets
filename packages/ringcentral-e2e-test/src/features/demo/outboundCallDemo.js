@@ -20,7 +20,7 @@ describe('Test Demo: =====>', () => {
     ],
     levels: ['p0'],
     options: [
-      { tagNum: 3,accountTag1: 'rc_uk_sfentity',accountTag2: 'rc_us_sfentity', accountTag3: 'rc_us_sfentity'},
+      { tagNum: 3, accountTag1: 'rc_uk_sfentity', accountTag2: 'rc_us_sfentity', accountTag3: 'rc_us_sfentity' },
     ],
   }, async ({ option, isVirtual }) => {
     const process = createProcess(
@@ -32,17 +32,17 @@ describe('Test Demo: =====>', () => {
       outboundCall,
       // Logout,
     )(context);
-      await process.execTo(settingCustomPhone.gotoSettings);
-      await process.skip(settingCustomPhone.settingAutoLog);
-      await process.execTo(settingCustomPhone.settingCustomPhone);
-      // context.driver.addAfterHook(async () => {
-      //   await process.exec(Logout);
-      // });
-      const RCPhone = await $(app).getText('[class*="DropdownSelect"]');
-      expect(RCPhone.trim()).toBe('Custom Phone');
-      await process.execTo(outboundCall);
-      const logCall = await $(app).getText('[class*="InsideModal-_styles_title"]');
-      expect(logCall.trim()).toBe('Log Call');
+    await process.execTo(settingCustomPhone.gotoSettings);
+    await process.skip(settingCustomPhone.settingAutoLog);
+    await process.execTo(settingCustomPhone.settingCustomPhone);
+    // context.driver.addAfterHook(async () => {
+    //   await process.exec(Logout);
+    // });
+    const RCPhone = await $(app).getText('[class*="DropdownSelect"]');
+    expect(RCPhone.trim()).toBe('Custom Phone');
+    await process.execTo(outboundCall);
+    const logCall = await $(app).getText('[class*="InsideModal-_styles_title"]');
+    expect(logCall.trim()).toBe('Log Call');
   });
 });
 

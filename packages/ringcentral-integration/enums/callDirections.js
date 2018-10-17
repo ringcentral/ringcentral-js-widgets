@@ -4,4 +4,3 @@ export default new HashMap({
   inbound: 'Inbound',
   outbound: 'Outbound',
 });
-

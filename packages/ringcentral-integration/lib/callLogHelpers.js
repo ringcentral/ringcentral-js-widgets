@@ -6,7 +6,7 @@ import HashMap from './HashMap';
 import callActions from '../enums/callActions';
 import callDirections from '../enums/callDirections';
 import callResults from '../enums/callResults';
-import telephonyStatuses from '../enums/telephonyStatuses';
+import telephonyStatuses from '../enums/telephonyStatus';
 import terminationTypes from '../enums/terminationTypes';
 // import i18n from './i18n';
 
@@ -22,6 +22,9 @@ export function isOutbound(call = {}) {
 /* status helpers */
 export function isRinging(call = {}) {
   return call.telephonyStatus === telephonyStatuses.ringing;
+}
+export function isRingingInboundCall(call) {
+  return isRinging(call) && isInbound(call);
 }
 
 const callResultsToMissedMap = HashMap.fromSet({

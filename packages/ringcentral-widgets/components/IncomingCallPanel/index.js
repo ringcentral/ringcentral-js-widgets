@@ -3,16 +3,11 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import IncomingCallPad from '../IncomingCallPad';
 import ContactDisplay from '../ContactDisplay';
+import CallAvatar from '../CallAvatar';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
 
 function UserInfo(props) {
-  let avatar;
-  if (props.avatarUrl) {
-    avatar = (<img src={props.avatarUrl} alt="avatar" />);
-  } else {
-    avatar = (<i className={classnames(dynamicsFont.portrait, styles.icon)} />);
-  }
   return (
     <div className={styles.userInfo}>
       <div className={styles.avatarContainer}>
@@ -20,7 +15,9 @@ function UserInfo(props) {
           <div className={classnames(styles.ringOutside, styles.ringing)} />
           <div className={classnames(styles.ringInner, styles.ringing)} />
           <div className={styles.avatar}>
-            {avatar}
+            <CallAvatar
+              avatarUrl={props.avatarUrl}
+            />
           </div>
         </div>
       </div>

@@ -1,0 +1,89 @@
+.header {
+  font-size: 15px;
+  line-height: 30px;
+  border-bottom: 1px solid #dfdfdf;
+}
+
+.selectedContacts {
+  display: block;
+  box-sizing: content-box;
+  margin-top: 10px;
+  line-height: 30px;
+}
+
+.selectedContactItem {
+  box-sizing: content-box;
+  background-color: #0684bd;
+  position: relative;
+  color: #fff;
+  border-radius: 20px;
+  font-size: 13px;
+  line-height: 1;
+  margin-bottom: 2px;
+  max-width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 5px 10px 5px 10px;
+  margin-right: 5px;
+}
+
+.closeIcon {
+  font-size: 15px;
+  margin-left: 5px;
+  font-weight: 300;
+  cursor: pointer;
+}
+
+.contacts {
+  display: block;
+  font-size: 14px;
+  margin-top: 10px;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.contactItem {
+  display: block;
+  border-top: 1px solid #dfdfdf;
+  padding: 10px 5px;
+  height: 40px;
+  box-sizing: border-box;
+  &:hover {
+    background: #f3f3f3;
+  }
+}
+
+.contactName {
+  width: 100px;
+  float: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contactEmail {
+  width: calc(100% - 100px);
+  text-align: right;
+  float: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.teamName {
+  border-radius: 15px;
+  border: solid 1px #e9e9e9;
+  margin: 10px 0 15px 0;
+  padding: 6px 0;
+  width: 256px;
+  ::placeholder {
+    color: #bbb;
+  }
+}
+
+.errorMessage {
+  display: block;
+  color: #ca0c16;
+  line-height: 25px;
+  font-size: 14px;
+}

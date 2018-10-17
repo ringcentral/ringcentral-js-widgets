@@ -41,7 +41,9 @@ export default function getIntlDateTimeFormatter({
   }) => {
     switch (type) {
       case 'date':
-        return getFormatter(locale, dateOptions).format(new Date(utcTimestamp));
+        return getFormatter(locale, dateOptions)
+          .format(new Date(utcTimestamp))
+          .replace(/\u200E|\u200F/g, ''); // FIX: https://github.com/tc39/ecma402/issues/28
       case 'time':
         return getFormatter(locale, timeOptions).format(new Date(utcTimestamp));
       default:

@@ -1,8 +1,6 @@
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
-import getPresenceReducer, {
-  getLastNotDisturbDndStatusReducer
-} from './getPresenceReducer';
+import getPresenceReducer, { getLastNotDisturbDndStatusReducer } from './getPresenceReducer';
 import presenceActionTypes from './actionTypes';
 import moduleStatuses from '../../enums/moduleStatuses';
 import subscriptionFilters from '../../enums/subscriptionFilters';

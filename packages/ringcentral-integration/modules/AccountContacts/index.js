@@ -1,3 +1,5 @@
+import { createSelector } from 'reselect';
+import { reduce } from 'ramda';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import isBlank from '../../lib/isBlank';
@@ -5,7 +7,7 @@ import ensureExist from '../../lib/ensureExist';
 import { addPhoneToContact, getMatchContacts } from '../../lib/contactHelper';
 import { batchGetApi } from '../../lib/batchApiHelper';
 import proxify from '../../lib/proxy/proxify';
-
+import getter from '../../lib/getter';
 import actionTypes from './actionTypes';
 import getReducer from './getReducer';
 
@@ -24,7 +26,7 @@ const DEFAULT_AVATARQUERYINTERVAL = 2 * 1000; // 2 seconds
     'Client',
     'AccountExtension',
     'AccountPhoneNumber',
-    { dep: 'AccoundContactsOptions', optional: true }
+    { dep: 'AccountContactsOptions', optional: true }
   ]
 })
 export default class AccountContacts extends RcModule {
@@ -37,6 +39,7 @@ export default class AccountContacts extends RcModule {
    * @param {Number} params.ttl - timestamp of local cache, default 30 mins
    * @param {Number} params.avatarTtl - timestamp of avatar local cache, default 2 hour
    * @param {Number} params.presenceTtl - timestamp of presence local cache, default 10 mins
+   * @param {Number} params.needCheckStatus - If it's necessary to check extension's status
    * @param {Number} params.avatarQueryInterval - interval of query avatar, default 2 seconds
    */
   constructor({
@@ -47,15 +50,15 @@ export default class AccountContacts extends RcModule {
     avatarTtl = DEFAULT_AVATARTTL,
     presenceTtl = DEFAULT_PRESENCETTL,
     avatarQueryInterval = DEFAULT_AVATARQUERYINTERVAL,
-    ...options,
+    ...options
   }) {
     super({
       ...options,
       actionTypes,
     });
-    this._accountExtension = this::ensureExist(accountExtension, 'accountExtension');
-    this._accountPhoneNumber = this::ensureExist(accountPhoneNumber, 'accountPhoneNumber');
-    this._client = this::ensureExist(client, 'client');
+    this._accountExtension = this:: ensureExist(accountExtension, 'accountExtension');
+    this._accountPhoneNumber = this:: ensureExist(accountPhoneNumber, 'accountPhoneNumber');
+    this._client = this:: ensureExist(client, 'client');
 
     this._ttl = ttl;
     this._avatarTtl = avatarTtl;
@@ -63,48 +66,6 @@ export default class AccountContacts extends RcModule {
     this._avatarQueryInterval = avatarQueryInterval;
 
     this._reducer = getReducer(this.actionTypes);
-
-    this.addSelector(
-      'contacts',
-      () => this._accountExtension.availableExtensions,
-      () => this._accountPhoneNumber.extensionToPhoneNumberMap,
-      () => this.profileImages,
-      () => this.presences,
-      (extensions, extensionToPhoneNumberMap, profileImages, presences) => {
-        const newExtensions = [];
-        extensions.forEach((extension) => {
-          if (!(extension.status === 'Enabled' &&
-            ['DigitalUser', 'User', 'Department'].indexOf(extension.type) >= 0)) {
-            return;
-          }
-          const id = `${extension.id}`;
-          const contact = {
-            type: this.sourceName,
-            id,
-            firstName: extension.contact && extension.contact.firstName,
-            lastName: extension.contact && extension.contact.lastName,
-            emails: extension.contact ? [extension.contact.email] : [],
-            extensionNumber: extension.ext,
-            hasProfileImage: !!extension.hasProfileImage,
-            phoneNumbers: [{ phoneNumber: extension.ext, phoneType: 'extension' }],
-            profileImageUrl: profileImages[id] && profileImages[id].imageUrl,
-            presence: presences[id] && presences[id].presence,
-          };
-          contact.name = `${contact.firstName || ''} ${contact.lastName || ''}`;
-          if (isBlank(contact.extensionNumber)) {
-            return;
-          }
-          const phones = extensionToPhoneNumberMap[contact.extensionNumber];
-          if (phones && phones.length > 0) {
-            phones.forEach((phone) => {
-              addPhoneToContact(contact, phone.phoneNumber, 'directPhone');
-            });
-          }
-          newExtensions.push(contact);
-        });
-        return newExtensions;
-      }
-    );
   }
 
   initialize() {
@@ -298,9 +259,45 @@ export default class AccountContacts extends RcModule {
   }
 
   // interface of contact source
-  get contacts() {
-    return this._selectors.contacts();
-  }
+  @getter
+  contacts = createSelector(
+    () => this._accountExtension.availableExtensions,
+    () => this._accountPhoneNumber.extensionToPhoneNumberMap,
+    () => this.profileImages,
+    () => this.presences,
+    (extensions, extensionToPhoneNumberMap, profileImages, presences) => reduce(
+      (result, extension) => {
+        const id = `${extension.id}`;
+        const contact = {
+          type: this.sourceName,
+          id,
+          firstName: extension.contact && extension.contact.firstName,
+          lastName: extension.contact && extension.contact.lastName,
+          emails: extension.contact ? [extension.contact.email] : [],
+          extensionNumber: extension.ext,
+          hasProfileImage: !!extension.hasProfileImage,
+          phoneNumbers: [{ phoneNumber: extension.ext, phoneType: 'extension' }],
+          profileImageUrl: profileImages[id] && profileImages[id].imageUrl,
+          presence: presences[id] && presences[id].presence,
+          contactStatus: extension.status,
+        };
+        contact.name = `${contact.firstName || ''} ${contact.lastName || ''}`;
+        if (isBlank(contact.extensionNumber)) {
+          return result;
+        }
+        const phones = extensionToPhoneNumberMap[contact.extensionNumber];
+        if (phones && phones.length > 0) {
+          phones.forEach((phone) => {
+            addPhoneToContact(contact, phone.phoneNumber, 'directPhone');
+          });
+        }
+        result.push(contact);
+        return result;
+      },
+      [],
+      extensions,
+    ),
+  )
 
   get sourceReady() {
     return this.ready;

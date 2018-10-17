@@ -153,18 +153,34 @@ describe('RecentMessages Unit Test', () => {
   describe('_getLocalRecentMessages', () => {
     it('should only get messages within certain days', async () => {
       sinon.stub(recentMessages, '_filterPhoneNumber').callsFake(() => () => true);
-      const messages = [{
+      const conversations = [{
+        conversationId: 12345,
         creationTime: '2017-07-26T06:52:43.515Z'
       }, {
+          conversationId: 12346,
         creationTime: '2017-01-26T06:52:43.515Z'
       }];
+      recentMessages._messageStore.conversationStore = {
+        12345: [
+          {
+            conversationId: '12345',
+            creationTime: '2017-07-26T06:52:43.515Z'
+          }
+        ],
+        12346: [
+          {
+            conversationId: '12346',
+            creationTime: '2017-01-26T06:52:43.515Z'
+          }
+        ],
+      };
       const contact = {
         phoneNumbers: ['171']
       };
       const dateFrom = new Date('2017-02-26T06:52:43.515Z');
       const retval = await recentMessages._getLocalRecentMessages(
         contact,
-        messages,
+        conversations,
         dateFrom,
         5
       );
@@ -173,21 +189,27 @@ describe('RecentMessages Unit Test', () => {
 
     it('should only get 5 messages even if there are more matches', async () => {
       sinon.stub(recentMessages, '_filterPhoneNumber').callsFake(() => () => true);
-      let messages = [{
+      const conversations = [{
+        conversationId: '12345',
         creationTime: '2017-07-26T06:52:43.515Z'
-      }, {
-        creationTime: '2017-01-26T06:52:43.515Z'
       }];
-      for (let i = 0; i < 6; i += 1) {
-        messages = messages.concat(messages);
-      }
+      recentMessages._messageStore.conversationStore = {
+        12345: [
+          { creationTime: '2017-07-26T06:52:43.515Z' },
+          { creationTime: '2017-07-26T06:52:43.515Z' },
+          { creationTime: '2017-07-26T06:52:43.515Z' },
+          { creationTime: '2017-07-26T06:52:43.515Z' },
+          { creationTime: '2017-07-26T06:52:43.515Z' },
+          { creationTime: '2017-07-26T06:52:43.515Z' },
+        ],
+      };
       const contact = {
         phoneNumbers: ['171']
       };
       const dateFrom = new Date('2017-02-26T06:52:43.515Z');
       const retval = await recentMessages._getLocalRecentMessages(
         contact,
-        messages,
+        conversations,
         dateFrom,
         5
       );

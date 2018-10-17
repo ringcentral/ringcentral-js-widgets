@@ -58,6 +58,9 @@ export default class UserGuide extends React.Component {
       entered: this.state.entered,
       playing: false
     });
+    if (this.props.quickAccessEnter && this.props.firstLogin) {
+      this.props.quickAccessEnter();
+    }
   }
 
   onExited = () => {
@@ -67,7 +70,8 @@ export default class UserGuide extends React.Component {
     this.props.updateCarousel({
       curIdx: 0,
       entered: false,
-      playing: false
+      playing: false,
+      firstLogin: false
     });
   }
 
@@ -77,8 +81,7 @@ export default class UserGuide extends React.Component {
         <div
           className={styles.introBg}
           style={{ backgroundImage: `url(${this.props.guides[0]})` }}
-        >
-        </div>
+         />
         <div className={styles.buttonGroup}>
           <Button
             className={styles.primaryButton}
@@ -107,8 +110,7 @@ export default class UserGuide extends React.Component {
           backgroundImage: `url(${guide})`,
           transform: `translateX(${(i + 1) * 100}vw)`
         }}
-      >
-      </div>
+       />
     ));
     const indicatorView = guides.map((_, i) => {
       const highlight = i + 1 === this.state.curIdx ? styles.highlight : null;
@@ -117,13 +119,12 @@ export default class UserGuide extends React.Component {
           key={i}
           className={classnames(styles.dot, highlight)}
           onClick={() => { this.slideTo(i + 1); }}
-        >
-        </li>
+         />
       );
     });
     const onLastPage = this.state.curIdx === this.props.guides.length - 1;
     const skipButton = onLastPage
-      ? (<div className={styles.secondaryButton}></div>)
+      ? (<div className={styles.secondaryButton} />)
       : (
         <Button
           onClick={() => { this.exit(); }}
@@ -203,7 +204,9 @@ UserGuide.propTypes = {
   curIdx: PropTypes.number,
   entered: PropTypes.bool,
   playing: PropTypes.bool,
+  firstLogin: PropTypes.bool,
   updateCarousel: PropTypes.func,
+  quickAccessEnter: PropTypes.func,
   guides: PropTypes.array.isRequired,
   showSpinner: PropTypes.bool.isRequired,
   currentLocale: PropTypes.string.isRequired,
@@ -213,5 +216,7 @@ UserGuide.defaultProps = {
   curIdx: 0,
   entered: false,
   playing: false,
-  updateCarousel: () => null
+  firstLogin: false,
+  updateCarousel: () => null,
+  quickAccessEnter: undefined
 };

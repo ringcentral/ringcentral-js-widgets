@@ -6,6 +6,7 @@ export const RUNTIME = {
   locale: DEFAULT_LOCALE,
   defaultLocale: DEFAULT_LOCALE,
   instances: new Set(),
+  padRatio: 0.3,
 };
 
 /**
@@ -74,7 +75,10 @@ export default class I18n {
   }
   getString(key, locale = RUNTIME.locale) {
     if (locale === PSEUDO_LOCALE) {
-      return toPseudoString(this._getString(key, RUNTIME.defaultLocale));
+      return toPseudoString({
+        str: this._getString(key, RUNTIME.defaultLocale),
+        padRatio: RUNTIME.padRatio,
+      });
     }
     return this._getString(key, locale);
   }
@@ -94,6 +98,18 @@ export default class I18n {
 
   static get setLocale() {
     return setLocale;
+  }
+
+  static get padRatio() {
+    return RUNTIME.padRatio;
+  }
+
+  static set padRatio(ratio) {
+    if (Number.isNaN(ratio)) {
+      console.log('ratio must be a number');
+      return;
+    }
+    RUNTIME.padRatio = Number.parseFloat(ratio);
   }
 
   static setDefaultLocale(locale) {

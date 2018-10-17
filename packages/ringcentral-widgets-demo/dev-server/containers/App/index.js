@@ -28,14 +28,16 @@ import ContactDetailsPage from 'ringcentral-widgets/containers/ContactDetailsPag
 import FeedbackPage from 'ringcentral-widgets/containers/FeedbackPage';
 import UserGuidePage from 'ringcentral-widgets/containers/UserGuidePage';
 import ConferenceCallDialerPage from 'ringcentral-widgets/containers/ConferenceCallDialerPage';
-import ConferenceCallMergeCtrlPage from 'ringcentral-widgets/containers/ConferenceCallMergeCtrlPage';
 import CallsOnholdPage from 'ringcentral-widgets/containers/CallsOnholdPage';
 import DialerAndCallsTabContainer from 'ringcentral-widgets/containers/DialerAndCallsTabContainer';
 import ConferenceParticipantPage from 'ringcentral-widgets/containers/ConferenceParticipantPage';
+import QuickAccessPage from 'ringcentral-widgets/containers/QuickAccessPage';
+import TransferPage from 'ringcentral-widgets/containers/TransferPage';
+import SimpleActiveCallCtrlPage from 'ringcentral-widgets/containers/SimpleActiveCallCtrlPage';
 
 import ContactSourceFilter from 'ringcentral-widgets/components/ContactSourceFilter';
 import MeetingScheduleButton from 'ringcentral-widgets/components/MeetingScheduleButton';
-import PhoneProvider from 'ringcentral-widgets/lib/PhoneProvider';
+import { PhoneProvider } from 'ringcentral-widgets/lib/phoneContext';
 
 import MainView from '../MainView';
 import AppView from '../AppView';
@@ -48,7 +50,7 @@ export default function App({
     brandIcon: icon
   };
   const getAvatarUrl = async (contact) => {
-    const avatarUrl = await phone.contacts.getProfileImage(contact, false);
+    const avatarUrl = await phone.contacts.getProfileImage(contact, true);
     return avatarUrl;
   };
   return (
@@ -63,14 +65,13 @@ export default function App({
                   defaultOffsetX={0}
                   defaultOffsetY={73}
                   hidden={(
-                    routerProps.location.pathname === '/calls/active' ||
-                    routerProps.location.pathname === '/conferenceCall/mergeCtrl' ||
-                    routerProps.location.pathname.indexOf('/conferenceCall/callsOnhold') === 0 ||
-                    routerProps.location.pathname.indexOf('/conferenceCall/dialer') === 0 ||
-                    routerProps.location.pathname === '/conferenceCall/participants'
+                    routerProps.location.pathname.indexOf('/calls/active') === 0
+                    || routerProps.location.pathname.indexOf('/conferenceCall/dialer') === 0
+                    || routerProps.location.pathname.indexOf('/conferenceCall/callsOnhold') === 0
+                    || routerProps.location.pathname.indexOf('/conferenceCall/participants') === 0
                   )}
-                  goToCallCtrl={() => {
-                    phone.routerInteraction.push('/calls/active');
+                  goToCallCtrl={(sessionId) => {
+                    phone.routerInteraction.push(`/calls/active/${sessionId}`);
                   }}
                 />
                 <IncomingCallPage
@@ -94,6 +95,7 @@ export default function App({
                   />
                 </IncomingCallPage>
                 <UserGuidePage />
+                <QuickAccessPage />
               </AppView>
             )} >
             <Route
@@ -131,6 +133,7 @@ export default function App({
                 component={routerProps => (
                   <SettingsPage
                     params={routerProps.location.query}
+                    showQuickAccess
                   />
                 )}
               />
@@ -151,20 +154,24 @@ export default function App({
                 component={() => (
                   <DialerAndCallsTabContainer>
                     <ActiveCallsPage
+                      showRingoutCallControl
                       onLogCall={async () => { await sleep(1000); }}
                       onCreateContact={() => { }}
                       onCallsEmpty={() => { }}
                       sourceIcons={sourceIcons}
+                      getAvatarUrl={getAvatarUrl}
+                      useV2
                     />
                   </DialerAndCallsTabContainer>
                 )} />
               <Route
-                path="/calls/active"
-                component={() => (
+                path="/calls/active(/:sessionId)"
+                component={routerProps => (
                   <CallCtrlPage
                     showContactDisplayPlaceholder={false}
                     sourceIcons={sourceIcons}
                     getAvatarUrl={getAvatarUrl}
+                    params={routerProps.params}
                     onAdd={() => {
                       phone.routerInteraction.push('/dialer');
                     }}
@@ -181,6 +188,18 @@ export default function App({
                   </CallCtrlPage>
                 )} />
               <Route
+                path="/transfer/:sessionsId"
+                component={() => (
+                  <TransferPage />
+                )}
+              />
+              <Route
+                path="/simplifycallctrl"
+                component={() => (
+                  <SimpleActiveCallCtrlPage currentLocale={phone.locale.currentLocale} />
+                )}
+              />
+              <Route
                 path="/history"
                 component={() => (
                   <CallHistoryPage
@@ -191,7 +210,11 @@ export default function App({
                 )} />
               <Route
                 path="/conference"
-                component={ConferencePage} />
+                component={() => (
+                  <ConferencePage
+                    enableAutoEnterHostKey
+                  />
+                )} />
               <Route
                 path="/conference/commands"
                 component={() => (
@@ -262,28 +285,13 @@ export default function App({
                 )}
               />
               <Route
-                path="/conferenceCall/dialer/:fromNumber"
+                path="/conferenceCall/dialer/:fromNumber/:fromSessionId"
                 component={routerProps => (
                   <ConferenceCallDialerPage
                     params={routerProps.params}
                     onBack={() => {
                       phone.routerInteraction.push('/calls/active');
                     }} />
-                )} />
-              <Route
-                path="/conferenceCall/mergeCtrl"
-                component={() => (
-                  <ConferenceCallMergeCtrlPage
-                    showContactDisplayPlaceholder={false}
-                    sourceIcons={sourceIcons}
-                    getAvatarUrl={getAvatarUrl}
-                    onBackButtonClick={() => {
-                      phone.routerInteraction.push('/calls');
-                    }}
-                    onLastCallEnded={() => {
-                      phone.routerInteraction.push('/calls/active');
-                    }}
-                  />
                 )} />
               <Route
                 path="/conferenceCall/participants"

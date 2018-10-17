@@ -7,6 +7,10 @@ function capitalize(str) {
   return str[0].toUpperCase() + str.slice(1);
 }
 
+function getMeidaCls(str) {
+  return styles[`media${capitalize(str)}`];
+}
+
 function MediaObject({
   containerCls,
   mediaLeft,
@@ -18,11 +22,13 @@ function MediaObject({
   mediaHeading,
   headingCls,
   leftAlignment,
+  bodyAlignment,
   rightAlignment,
   flexible, // Using flex layout or not
 }) {
-  const leftAlignmentClassName = styles[`media${capitalize(leftAlignment)}`];
-  const rightAlignmentClassName = styles[`media${capitalize(rightAlignment)}`];
+  const leftAlignmentClassName = getMeidaCls(leftAlignment);
+  const rightAlignmentClassName = getMeidaCls(rightAlignment);
+  const bodyAlignmentClassName = getMeidaCls(bodyAlignment);
 
   return (
     <div className={classnames({
@@ -39,7 +45,7 @@ function MediaObject({
           </div>
         ) : null
       }
-      <div className={classnames(styles.mediaBody, bodyCls)}>
+      <div className={classnames(styles.mediaBody, bodyAlignmentClassName, bodyCls)}>
         {
           mediaHeading ? (
             <h4 className={classnames(styles.mediaHeading, headingCls)}>
@@ -74,6 +80,7 @@ MediaObject.propTypes = {
   rightCls: PropTypes.string,
   headingCls: PropTypes.string,
   leftAlignment: PropTypes.oneOf(['top', 'middle', 'bottom']),
+  bodyAlignment: PropTypes.oneOf(['top', 'middle', 'bottom']),
   rightAlignment: PropTypes.oneOf(['top', 'middle', 'bottom']),
   flexible: PropTypes.bool,
 };
@@ -89,8 +96,9 @@ MediaObject.defaultProps = {
   bodyCls: null,
   rightCls: null,
   headingCls: null,
-  leftAlignment: 'top',
-  rightAlignment: 'top',
+  leftAlignment: 'middle',
+  bodyAlignment: 'middle',
+  rightAlignment: 'middle',
   flexible: true,
 };
 

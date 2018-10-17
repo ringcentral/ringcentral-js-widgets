@@ -304,7 +304,6 @@ describe('DataMatcher', async () => {
       sinon.stub(instance, '_shouldReset').callsFake(() => false);
       sinon.stub(instance, '_cleanUp');
       instance._onStateChange();
-      sinon.assert.calledOnce(instance._cleanUp);
       expect(instance._store.getState().status === moduleStatuses.ready);
     });
     it('should reset when _shouldReset returns true', () => {

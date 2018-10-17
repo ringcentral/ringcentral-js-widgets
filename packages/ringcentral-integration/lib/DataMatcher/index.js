@@ -136,7 +136,7 @@ export default class DataMatcher extends RcModule {
       this.store.dispatch({
         type: this.actionTypes.init,
       });
-      this._cleanUp();
+      // this._cleanUp();
       this.store.dispatch({
         type: this.actionTypes.initSuccess,
       });

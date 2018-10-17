@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
+import callDirections from 'ringcentral-integration/enums/callDirections';
+
 import SpinnerOverlay from '../SpinnerOverlay';
 import Button from '../Button';
 import styles from './styles.scss';
@@ -39,26 +42,12 @@ export default class LogSection extends Component {
     }
   }
 
-  render() {
+  genEditLogSection() {
     const {
-      renderEditLogSection,
-      renderSaveLogButton,
-      currentLocale,
-      onUpdateCallLog,
-      currentLog,
-      isInnerMask,
-      showSaveLogBtn,
-      onSaveCallLog,
-      additionalInfo,
+      renderEditLogSection, currentLocale,
+      onSaveCallLog, onUpdateCallLog,
+      currentLog, additionalInfo
     } = this.props;
-    const {
-      call,
-      showSpinner,
-      currentLogCall,
-    } = currentLog;
-    if (showSpinner) {
-      return (<SpinnerOverlay className={styles.spinner} />);
-    }
     const editLogSection = renderEditLogSection({
       currentLocale,
       onSaveCallLog,
@@ -66,6 +55,26 @@ export default class LogSection extends Component {
       currentLog,
       additionalInfo,
     });
+    return (
+      <div
+        ref={(ref) => { this.mainCtrl = ref; }}
+        onScroll={() => this.checkOverlap()}
+        className={styles.editSection}>
+        {editLogSection}
+      </div>
+    );
+  }
+
+  genSaveLogButton() {
+    const {
+      showSaveLogBtn, renderSaveLogButton,
+      currentLocale, onSaveCallLog,
+      currentLog
+    } = this.props;
+    const {
+      call,
+      currentLogCall,
+    } = currentLog;
     const buttonPanelClassName = classnames(
       styles.buttonPanel,
       this.state.mainCtrlOverlapped && styles.overlapped
@@ -74,38 +83,97 @@ export default class LogSection extends Component {
       styles.primaryButton,
       currentLogCall.isSaving && styles.disabled
     );
-    const saveLogBtn = showSaveLogBtn ? renderSaveLogButton && (
-      renderSaveLogButton({
+    if (!showSaveLogBtn) {
+      return null;
+    }
+    if (renderSaveLogButton) {
+      return renderSaveLogButton({
         currentLocale,
         onSaveCallLog,
         currentLog,
         overlapped: this.state.mainCtrlOverlapped
-      })
-    ) || (
+      });
+    }
+    return (
       <div
         className={buttonPanelClassName}>
         <Button
           disabled={currentLogCall.isSaving}
           className={buttonClassName}
           onClick={() => onSaveCallLog(call)}>
-          { i18n.getString('saveLog', currentLocale)}
+          {i18n.getString('saveLog', currentLocale)}
         </Button>
       </div>
-    ) : null;
+    );
+  }
+
+  genLogBasicInfo() {
+    return (
+      <LogBasicInfo
+        currentLog={this.props.currentLog}
+        currentLocale={this.props.currentLocale}
+        formatPhone={this.props.formatPhone}
+      />
+    );
+  }
+
+  genLogBasicInfoWithSmallCallCtrl() {
+    const currentlog = this.props.currentLog;
+    const { currentSessionId, call } = currentlog;
+    const { telephonyStatus, result } = call;
+    const status = telephonyStatus || result;
+    // if `result` is exist, call has been disconnect
+    if (result) {
+      return this.genLogBasicInfo();
+    }
+    function disabledToCallControl() {
+      return (
+        callDirections.inbound === call.direction &&
+        telephonyStatuses.ringing === telephonyStatus
+      );
+    }
+
+    const onLogBasicInfoClick = disabledToCallControl()
+      ? () => { }
+      : this.props.onLogBasicInfoClick;
+
+    const wrapperCls = classnames(styles.infoWithCtrlWrapper, {
+      [styles.pointer]: !disabledToCallControl()
+    });
+    return (
+      <div className={styles.infoWithCtrlWrapper}>
+        <div className={wrapperCls} onClick={onLogBasicInfoClick}>
+          <LogBasicInfo
+            currentLog={this.props.currentLog}
+            currentLocale={this.props.currentLocale}
+            formatPhone={this.props.formatPhone}
+          />
+        </div>
+        <div className={styles.callCtrlWrapper}>
+          {this.props.renderSmallCallContrl(status, currentSessionId)}
+        </div>
+      </div>
+    );
+  }
+
+  render() {
+    const {
+      currentLog,
+      isInnerMask,
+      showSmallCallControl
+    } = this.props;
+    const {
+      showSpinner,
+    } = currentLog;
+    if (showSpinner) {
+      return (<SpinnerOverlay className={styles.spinner} />);
+    }
+
     return (
       <div className={styles.section}>
-        <LogBasicInfo
-          currentLog={this.props.currentLog}
-          currentLocale={this.props.currentLocale}
-          formatPhone={this.props.formatPhone}
-        />
-        <div
-          ref={(ref) => { this.mainCtrl = ref; }}
-          onScroll={() => this.checkOverlap()}
-          className={styles.editSection}>
-          {editLogSection}
-        </div>
-        {saveLogBtn}
+        {showSmallCallControl ? this.genLogBasicInfoWithSmallCallCtrl() : this.genLogBasicInfo()}
+        {this.genEditLogSection()}
+        {this.genSaveLogButton()}
         {
           isInnerMask ? (
             <div className={styles.innerMask} />
@@ -125,7 +193,10 @@ LogSection.propTypes = {
   renderEditLogSection: PropTypes.func,
   renderSaveLogButton: PropTypes.func,
   isInnerMask: PropTypes.bool,
+  onLogBasicInfoClick: PropTypes.func,
   showSaveLogBtn: PropTypes.bool,
+  showSmallCallControl: PropTypes.bool,
+  renderSmallCallContrl: PropTypes.func,
 };
 
 LogSection.defaultProps = {
@@ -137,5 +208,8 @@ LogSection.defaultProps = {
   renderEditLogSection: undefined,
   renderSaveLogButton: undefined,
   isInnerMask: undefined,
+  onLogBasicInfoClick() { },
+  renderSmallCallContrl() { },
   showSaveLogBtn: true,
+  showSmallCallControl: true,
 };

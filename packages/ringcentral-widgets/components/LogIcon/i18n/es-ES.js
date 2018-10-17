@@ -1,6 +1,6 @@
 export default {
   logged: "Registrada",
-  unlogged: "No trabajada",
+  unlogged: "No editada",
   faxNotSupported: "No se pueden registrar mensajes por fax."
 };
 

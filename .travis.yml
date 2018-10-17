@@ -33,7 +33,7 @@ jobs:
           condition: "$TRAVIS_TAG =~ ^[0-9]+.[0-9]+.[0-9]+"
     - stage: commons script release
       node_js: "8"
-      if: branch = master
+      if: branch = master AND type = push
       script: yarn commons:prepare-release
       deploy:
         provider: script
@@ -58,7 +58,7 @@ jobs:
           tags: true
           condition: "$TRAVIS_TAG =~ ^[0-9]+.[0-9]+.[0-9]+"
     - stage: widgets script release
-      if: branch = master
+      if: branch = master AND type = push
       node_js: "8"
       script: yarn widgets:prepare-release
       deploy:
@@ -83,7 +83,7 @@ jobs:
           condition: "$TRAVIS_TAG =~ ^[0-9]+.[0-9]+.[0-9]+"
     - stage: i18n script release
       node_js: "8"
-      if: branch = master
+      if: branch = master AND type = push
       script: yarn i18n:prepare-release
       deploy:
         provider: script
@@ -91,7 +91,7 @@ jobs:
         script: yarn i18n:start-release
     - stage: locale loader script release
       node_js: "8"
-      if: branch = master
+      if: branch = master AND type = push
       script: yarn locale-loader:prepare-release
       deploy:
         provider: script
@@ -99,9 +99,17 @@ jobs:
         script: yarn locale-loader:start-release
     - stage: phone number script release
       node_js: "8"
-      if: branch = master
+      if: branch = master AND type = push
       script: yarn phone-number:prepare-release
       deploy:
         provider: script
         skip_cleanup: true
         script: yarn phone-number:start-release
+    - stage: glip widgets script release
+      if: branch = master AND type = push
+      node_js: "8"
+      script: yarn glip-widgets:prepare-release
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script: yarn glip-widgets:start-release

@@ -30,7 +30,7 @@ export function messageIsAcceptable(message) {
   // do not show submitted faxes or sending failed faxes now
   // do not show deleted messages
   return (message.type !== messageTypes.fax || (message.messageStatus !== 'Queued' && message.messageStatus !== 'SendingFailed')) &&
-  (!messageIsDeleted(message));
+    (!messageIsDeleted(message));
 }
 
 export function getMessageType(message) {
@@ -105,6 +105,9 @@ export function getRecipients({ message, myExtensionNumber }) {
 }
 
 export function getNumbersFromMessage({ extensionNumber, message }) {
+  if (!message) {
+    return {};
+  }
   if (message.type === messageTypes.pager) {
     // It is safer and simpler to just put all known contacts into array and filter self out
     const contacts = (message.to && message.to.slice()) || [];
