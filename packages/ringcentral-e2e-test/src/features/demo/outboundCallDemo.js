@@ -8,7 +8,7 @@ import NavigateTo from 'ringcentral-e2e-test/src/steps/salesforce/navigateTo';
 import Entry from 'ringcentral-e2e-test/src/steps/entry';
 import settingCustomPhone from 'ringcentral-e2e-test/src/steps/salesforce/settingCustomPhone'
 import Logout from 'ringcentral-e2e-test/src/steps/salesforce/logout'
-import WebphoneCall from 'ringcentral-e2e-test/src/steps/salesforce/settingWebphoneaAutoAnswerCall'
+import WebphoneAnswerCall from 'ringcentral-e2e-test/src/steps/salesforce/settingWebphoneAnswerCall'
 import outboundCall from 'ringcentral-e2e-test/src/steps/salesforce/outboundCall'
 
 describe('Test Demo: =====>', () => {
@@ -20,14 +20,14 @@ describe('Test Demo: =====>', () => {
     ],
     levels: ['p0'],
     options: [
-      { accountTag: 'rc_uk_sfentity', username: '+448451030178*301', password: 'Test!123'},
+      { tagNum: 3,accountTag1: 'rc_uk_sfentity',accountTag2: 'rc_us_sfentity', accountTag3: 'rc_us_sfentity'},
     ],
   }, async ({ option, isVirtual }) => {
     const process = createProcess(
       Entry,
       Login,
       NavigateTo,
-      WebphoneCall,
+      WebphoneAnswerCall,
       settingCustomPhone,
       outboundCall,
       // Logout,

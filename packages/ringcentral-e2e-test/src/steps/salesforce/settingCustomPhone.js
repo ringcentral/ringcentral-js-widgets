@@ -23,7 +23,7 @@ export default class settingCustomPhone {
         await $(app).click('[class*=Switch-_styles_slider]',{ selector: 'css' });
       }
       await $(app).waitForSelector('[class*=TextInput-_styles_input]',{ selector: 'css' });
-      await $(app).type('[class*=TextInput-_styles_input]','+'+context.options.option.account1[0]['did'],{ selector: 'css' });
+      await $(app).type('[class*=TextInput-_styles_input]','+'+context.options.option.account2[0]['did'],{ selector: 'css' });
       await $(app).click('[class*=SaveButton]',{ selector: 'css' });
       await $(app).waitForSelector('[class*="AlertDisplay"]',{ selector: 'css' });
       await $(app).execute('phone.alert.dismissAll');
