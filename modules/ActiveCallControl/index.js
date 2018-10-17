@@ -547,6 +547,8 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
         sessionId: sessionId
       });
     }
+    // count it as load (should only call on container init step)
+
   }, {
     key: 'setActiveSessionId',
     value: function setActiveSessionId(sessionId) {
