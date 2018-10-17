@@ -430,13 +430,16 @@ export default class CallHistory extends RcModule {
   @getter
   latestCalls = createSelector(
     () => this.filterCalls,
-    () => this._activityMatcher.dataMapping,
+    () => this._activityMatcher && this._activityMatcher.dataMapping,
     (calls, dataMapping) => {
-      const newCalls = calls.map(call => ({
-        ...call,
-        activityMatches: dataMapping[call.sessionId] || []
-      }));
-      return newCalls;
+      if (dataMapping) {
+        const newCalls = calls.map(call => ({
+          ...call,
+          activityMatches: dataMapping[call.sessionId] || []
+        }));
+        return newCalls;
+      }
+      return calls;
     },
   )
 

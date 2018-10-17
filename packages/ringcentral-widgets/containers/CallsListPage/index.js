@@ -47,7 +47,7 @@ function mapToProps(_, {
     enableContactFallback,
     calls: callHistory.latestCalls,
     disableLinks: !connectivityMonitor.connectivity ||
-    rateLimiter.throttling,
+      rateLimiter.throttling,
     disableClickToDial: !(call && call.isIdle),
     loggingMap: (callLogger && callLogger.loggingMap),
     showSpinner: !(
@@ -123,13 +123,13 @@ function mapToFunctions(_, {
       undefined,
     isLoggedContact,
     onLogCall: onLogCall ||
-    (callLogger && (async ({ call, contact, redirect = true }) => {
-      await callLogger.logCall({
-        call,
-        contact,
-        redirect,
-      });
-    })),
+      (callLogger && (async ({ call, contact, redirect = true }) => {
+        await callLogger.logCall({
+          call,
+          contact,
+          redirect,
+        });
+      })),
 
     dateTimeFormatter,
     onViewContact: onViewContact || (({ contact: { type, id } }) => {

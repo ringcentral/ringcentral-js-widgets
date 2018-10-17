@@ -65,7 +65,7 @@ import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 import DialerUI from 'ringcentral-widgets/modules/DialerUI';
 import ConferenceDialerUI from 'ringcentral-widgets/modules/ConferenceDialerUI';
 import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
-
+import ActivityMatcher from 'ringcentral-integration/modules/ActivityMatcher';
 @ModuleFactory({
   providers: [
     {
@@ -169,6 +169,7 @@ import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
       spread: true
     },
     { provide: 'ConferenceCall', useClass: ConferenceCall },
+    // { provide: 'ActivityMatcher', useClass: ActivityMatcher }
     // {
     //   provide: 'ConferenceCallOptions',
     //   useValue: {
