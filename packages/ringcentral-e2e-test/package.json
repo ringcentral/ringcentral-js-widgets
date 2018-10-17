@@ -21,7 +21,7 @@
     "marten": "^1.0.0-alpha.1",
     "request": "^2.88.0",
     "ringcentral-e2e-cli": "^0.0.1",
-    "webphone-client": "git+https://git.ringcentral.com/centralized-webphone/js_api_client.git#master"
+    "webphone-client": "^1.0.3"
   },
   "license": "MIT"
 }
