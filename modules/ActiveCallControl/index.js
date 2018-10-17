@@ -629,15 +629,11 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 });
 
               case 5:
-                this.store.dispatch({
-                  type: this.actionTypes.mute,
-                  sessionId: sessionId
-                });
-                _context7.next = 11;
+                _context7.next = 10;
                 break;
 
-              case 8:
-                _context7.prev = 8;
+              case 7:
+                _context7.prev = 7;
                 _context7.t0 = _context7['catch'](0);
 
                 if ((0, _helpers.confictError)(_context7.t0)) {
@@ -650,12 +646,12 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                   });
                 }
 
-              case 11:
+              case 10:
               case 'end':
                 return _context7.stop();
             }
           }
-        }, _callee7, this, [[0, 8]]);
+        }, _callee7, this, [[0, 7]]);
       }));
 
       function mute(_x3) {
@@ -685,15 +681,11 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 });
 
               case 5:
-                this.store.dispatch({
-                  type: this.actionTypes.unmute,
-                  sessionId: sessionId
-                });
-                _context8.next = 11;
+                _context8.next = 10;
                 break;
 
-              case 8:
-                _context8.prev = 8;
+              case 7:
+                _context8.prev = 7;
                 _context8.t0 = _context8['catch'](0);
 
                 if ((0, _helpers.confictError)(_context8.t0)) {
@@ -706,12 +698,12 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                   });
                 }
 
-              case 11:
+              case 10:
               case 'end':
                 return _context8.stop();
             }
           }
-        }, _callee8, this, [[0, 8]]);
+        }, _callee8, this, [[0, 7]]);
       }));
 
       function unmute(_x4) {
@@ -928,15 +920,11 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 return this._client.service._platform.post(url);
 
               case 5:
-                this.store.dispatch({
-                  type: this.actionTypes.hold,
-                  sessionId: sessionId
-                });
-                _context13.next = 11;
+                _context13.next = 10;
                 break;
 
-              case 8:
-                _context13.prev = 8;
+              case 7:
+                _context13.prev = 7;
                 _context13.t0 = _context13['catch'](0);
 
                 if ((0, _helpers.confictError)(_context13.t0)) {
@@ -949,12 +937,12 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                   });
                 }
 
-              case 11:
+              case 10:
               case 'end':
                 return _context13.stop();
             }
           }
-        }, _callee13, this, [[0, 8]]);
+        }, _callee13, this, [[0, 7]]);
       }));
 
       function hold(_x9) {
@@ -979,15 +967,11 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 return this._client.service._platform.post(url);
 
               case 5:
-                this.store.dispatch({
-                  type: this.actionTypes.unhold,
-                  sessionId: sessionId
-                });
-                _context14.next = 11;
+                _context14.next = 10;
                 break;
 
-              case 8:
-                _context14.prev = 8;
+              case 7:
+                _context14.prev = 7;
                 _context14.t0 = _context14['catch'](0);
 
                 if ((0, _helpers.confictError)(_context14.t0)) {
@@ -1000,12 +984,12 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                   });
                 }
 
-              case 11:
+              case 10:
               case 'end':
                 return _context14.stop();
             }
           }
-        }, _callee14, this, [[0, 8]]);
+        }, _callee14, this, [[0, 7]]);
       }));
 
       function unHold(_x10) {
