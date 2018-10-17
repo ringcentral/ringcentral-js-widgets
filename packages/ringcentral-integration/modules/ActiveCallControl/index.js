@@ -249,7 +249,6 @@ export default class ActiveCallControl extends Pollable {
         sessionId,
         parties
       } = message.body;
-      console.log('====parties', parties);
       this.store.dispatch({
         type: this.actionTypes.updateActiveSessionStatus,
         sessionId,
