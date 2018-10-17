@@ -79,14 +79,13 @@ function mapToProps(_, _ref) {
       callMonitor = _ref$phone.callMonitor,
       locale = _ref$phone.locale,
       brand = _ref$phone.brand,
+      activeSession = _ref.activeSession,
       renderContactName = _ref.renderContactName;
-  var activeSession = activeCallControl.activeSession,
-      sessionId = activeCallControl.activeSessionId;
 
-  var activeCall = (0, _utils.pickEleByProps)({ sessionId: String(sessionId) }, callMonitor.otherDeviceCalls)[0];
+  var sessionId = activeSession.id;
   var nameMatches = [];
-  if (activeCall && !renderContactName) {
-    nameMatches = activeSession.direction === _callDirections2.default.outbound ? activeCall.toMatches : activeCall.fromMatches;
+  if (activeSession && !renderContactName) {
+    nameMatches = activeSession.direction === _callDirections2.default.outbound ? activeSession.toMatches : activeSession.fromMatches;
   }
   var phoneNumber = void 0;
   if (activeSession) {
@@ -94,7 +93,7 @@ function mapToProps(_, _ref) {
   }
   var fallBackName = _i18n2.default.getString('Unknown', locale.currentLocale);
   if (renderContactName) {
-    var _pickFallBackInfo = (0, _utils.pickFallBackInfo)(activeCall, renderContactName(sessionId), locale.currentLocale),
+    var _pickFallBackInfo = (0, _utils.pickFallBackInfo)(activeSession, renderContactName(sessionId), locale.currentLocale),
         fallBackNameFromThirdParty = _pickFallBackInfo.fallBackName,
         fallBackNumber = _pickFallBackInfo.fallBackNumber;
 
@@ -104,8 +103,7 @@ function mapToProps(_, _ref) {
   return {
     currentLocale: locale.currentLocale,
     session: activeSession,
-    activeCall: activeCall,
-    sessionId: activeCallControl.activeSessionId,
+    sessionId: sessionId,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
     otherDeviceCalls: callMonitor.otherDeviceCalls,
@@ -239,7 +237,7 @@ var ActiveCallControl = function (_Component) {
         countryCode: this.props.countryCode,
         selectedMatcherIndex: this.state.selectedMatcherIndex,
         layout: _callCtrlLayouts2.default.normalCtrl,
-        startTime: this.props.activeCall.startTime,
+        startTime: this.props.session.startTime,
         actions: [muteCtrl, transferCtrl, holdCtrl],
         isOnMute: this.props.session.isOnMute,
         isOnHold: this.props.session.isOnHold,
@@ -259,7 +257,6 @@ ActiveCallControl.propTypes = {
   areaCode: _propTypes2.default.string.isRequired,
   countryCode: _propTypes2.default.string.isRequired,
   session: _propTypes2.default.object,
-  activeCall: _propTypes2.default.object,
   onBackButtonClick: _propTypes2.default.func.isRequired,
   activeCallControl: _propTypes2.default.object,
   nameMatches: _propTypes2.default.array,
@@ -274,7 +271,6 @@ ActiveCallControl.defaultProps = {
   activeCallControl: {},
   session: null,
   sessionId: null,
-  activeCall: {},
   nameMatches: [],
   fallBackName: '',
   phoneNumber: '',
