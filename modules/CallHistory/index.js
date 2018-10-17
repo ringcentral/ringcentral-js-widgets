@@ -53,7 +53,7 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
+var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
 
 var _reselect = require('reselect');
 
@@ -181,9 +181,11 @@ var CallHistory = (_dec = (0, _di.Module)({
 
     _initDefineProp(_this, 'calls', _descriptor2, _this);
 
-    _initDefineProp(_this, 'uniqueNumbers', _descriptor3, _this);
+    _initDefineProp(_this, 'latestCalls', _descriptor3, _this);
 
-    _initDefineProp(_this, 'sessionIds', _descriptor4, _this);
+    _initDefineProp(_this, 'uniqueNumbers', _descriptor4, _this);
+
+    _initDefineProp(_this, 'sessionIds', _descriptor5, _this);
 
     _this._accountInfo = _ensureExist2.default.call(_this, accountInfo, 'accountInfo');
     _this._callLog = _ensureExist2.default.call(_this, callLog, 'callLog');
@@ -608,15 +610,36 @@ var CallHistory = (_dec = (0, _di.Module)({
       return [].concat((0, _toConsumableArray3.default)(filteredEndedCalls), (0, _toConsumableArray3.default)(calls)).sort(_callLogHelpers.sortByStartTime);
     });
   }
-}), _applyDecoratedDescriptor(_class2.prototype, 'debouncedSearch', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'debouncedSearch'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'callsSearch', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'callsSearch'), _class2.prototype), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'uniqueNumbers', [_getter2.default], {
+}), _applyDecoratedDescriptor(_class2.prototype, 'debouncedSearch', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'debouncedSearch'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'callsSearch', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'callsSearch'), _class2.prototype), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'latestCalls', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
     var _this5 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this5.normalizedCalls;
+      return _this5.filterCalls;
     }, function () {
-      return _this5.recentlyEndedCalls;
+      return _this5._activityMatcher && _this5._activityMatcher.dataMapping;
+    }, function (calls, dataMapping) {
+      if (dataMapping) {
+        var newCalls = calls.map(function (call) {
+          return (0, _extends3.default)({}, call, {
+            activityMatches: dataMapping[call.sessionId] || []
+          });
+        });
+        return newCalls;
+      }
+      return calls;
+    });
+  }
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'uniqueNumbers', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this6 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this6.normalizedCalls;
+    }, function () {
+      return _this6.recentlyEndedCalls;
     }, function (normalizedCalls, endedCalls) {
       var output = [];
       var numberMap = {};
@@ -643,15 +666,15 @@ var CallHistory = (_dec = (0, _di.Module)({
       return output;
     });
   }
-}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'sessionIds', [_getter2.default], {
+}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'sessionIds', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this6 = this;
+    var _this7 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this6._callLog.calls;
+      return _this7._callLog.calls;
     }, function () {
-      return _this6.recentlyEndedCalls;
+      return _this7.recentlyEndedCalls;
     }, function (calls, endedCalls) {
       var sessionIds = {};
       return calls.map(function (call) {
