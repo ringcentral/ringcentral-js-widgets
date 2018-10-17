@@ -74,6 +74,24 @@ function getUniqueMemberIds(groups) {
   return memberIds;
 }
 
+function searchPosts(searchFilter, posts) {
+  let result = false;
+  for (const post of posts) {
+    if (post.text && post.text.toLowerCase().indexOf(searchFilter) > -1) {
+      result = true;
+      break;
+    }
+    if (post.mentions && post.mentions.length > 0) {
+      const mentionNames = post.mentions.map(m => m.name).join(' ').toLowerCase();
+      if (mentionNames.indexOf(searchFilter) > -1) {
+        result = true;
+        break;
+      }
+    }
+  }
+  return result;
+}
+
 /**
  * @class
  * @description Accound info managing module.
@@ -83,6 +101,7 @@ function getUniqueMemberIds(groups) {
     'Auth',
     'Client',
     'Subscription',
+    'RolesAndPermissions',
     { dep: 'ConnectivityMonitor', optional: true },
     { dep: 'Storage', optional: true },
     { dep: 'TabManager', optional: true },
@@ -97,6 +116,7 @@ export default class GlipGroups extends Pollable {
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
    * @param {Auth} params.auth - auth module instance
+   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermission module instance
    * @param {Subscription} params.subscription - subscription module instance
    * @param {TabManager} params.tabManager - tabManager module instance
    * @param {GlipPersons} params.glipPersons - glipPersons module instance
@@ -111,6 +131,7 @@ export default class GlipGroups extends Pollable {
     glipPersons,
     glipPosts,
     storage,
+    rolesAndPermissions,
     connectivityMonitor,
     timeToRetry = DEFAULT_RETRY,
     ttl = DEFAULT_TTL,
@@ -129,6 +150,7 @@ export default class GlipGroups extends Pollable {
     this._auth = this::ensureExist(auth, 'auth');
     this._client = this::ensureExist(client, 'client');
     this._subscription = this::ensureExist(subscription, 'subscription');
+    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
     this._connectivityMonitor = connectivityMonitor;
     this._glipPersons = glipPersons;
     this._glipPosts = glipPosts;
@@ -221,6 +243,7 @@ export default class GlipGroups extends Pollable {
   _shouldInit() {
     return !!(
       this._auth.loggedIn &&
+      this._rolesAndPermissions.ready &&
       (!this._connectivityMonitor || this._connectivityMonitor.ready) &&
       (!this._storage || this._storage.ready) &&
       (!this._readyCheckFn || this._readyCheckFn()) &&
@@ -236,6 +259,7 @@ export default class GlipGroups extends Pollable {
     return !!(
       (
         !this._auth.loggedIn ||
+        !this._rolesAndPermissions.ready ||
         (this._storage && !this._storage.ready) ||
         (this._readyCheckFn && !this._readyCheckFn()) ||
         (this._subscription && !this._subscription.ready) ||
@@ -308,6 +332,9 @@ export default class GlipGroups extends Pollable {
   }
 
   async _init() {
+    if (!this._hasPermission) {
+      return;
+    }
     if (this._shouldFetch()) {
       try {
         await this.fetchData();
@@ -486,10 +513,10 @@ export default class GlipGroups extends Pollable {
   @getter
   allGroups = createSelector(
     () => this.data,
-    () => (this._glipPersons && this._glipPersons.personsMap) || {},
-    () => (this._glipPosts && this._glipPosts.postsMap) || {},
+    () => (this._glipPersons && this._glipPersons.personsMap),
+    () => (this._glipPosts && this._glipPosts.postsMap),
     () => this._auth.ownerId,
-    (data, personsMap, postsMap, ownerId) => (data || []).map(
+    (data, personsMap = {}, postsMap = {}, ownerId) => (data || []).map(
       group => formatGroup(group, personsMap, postsMap, ownerId)
     ),
   )
@@ -498,7 +525,8 @@ export default class GlipGroups extends Pollable {
   filteredGroups = createSelector(
     () => this.allGroups,
     () => this.searchFilter,
-    (allGroups, searchFilter) => {
+    () => (this._glipPosts && this._glipPosts.postsMap),
+    (allGroups, searchFilter, postsMap = {}) => {
       if (isBlank(searchFilter)) {
         return allGroups;
       }
@@ -511,13 +539,14 @@ export default class GlipGroups extends Pollable {
         if (!name) {
           const groupUsernames = group.detailMembers
             .map(m => `${m.firstName} ${m.lastName}`)
-            .join(',')
+            .join(' ')
             .toLowerCase();
           if (groupUsernames && groupUsernames.indexOf(filterString) > -1) {
             return true;
           }
         }
-        return false;
+        const result = searchPosts(filterString, postsMap[group.id] || []);
+        return result;
       });
     },
   )
@@ -603,6 +632,13 @@ export default class GlipGroups extends Pollable {
     })
   )
 
+  @getter
+  unreadCounts = createSelector(
+    () => this.groupsWithUnread,
+    groups =>
+      groups.reduce((a, b) => a + b.unread, 0)
+  )
+
   get searchFilter() {
     return this.state.searchFilter;
   }
@@ -641,5 +677,9 @@ export default class GlipGroups extends Pollable {
 
   get timeToRetry() {
     return this._timeToRetry;
+  }
+
+  get _hasPermission() {
+    return !!this._rolesAndPermissions.hasGlipPermission;
   }
 }

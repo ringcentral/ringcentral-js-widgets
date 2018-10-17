@@ -9,11 +9,10 @@ import { getWrapper, timeout } from '../shared';
 let wrapper = null;
 let panel = null;
 let regionSettings = null;
-let store = null;
+
 beforeEach(async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
   wrapper = await getWrapper();
-  store = wrapper.props().phone.store;
   const navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/settings');
   wrapper.update();
@@ -47,6 +46,7 @@ describe('region settings', async () => {
     const saveButton = regionSettings.find(Button).first();
     await enterAreaCode('853');
     await saveButton.simulate('click');
+    const store = wrapper.props().phone.store;
     const messages = store.getState(wrapper).alert.messages;
     expect(messages).toEqual(
       expect.arrayContaining([
@@ -62,6 +62,7 @@ describe('region settings', async () => {
     const saveButton = regionSettings.find(Button).first();
     await enterAreaCode('000');
     await saveButton.simulate('click');
+    const store = wrapper.props().phone.store;
     const messages = store.getState(wrapper).alert.messages;
     expect(messages).toEqual(
       expect.arrayContaining([

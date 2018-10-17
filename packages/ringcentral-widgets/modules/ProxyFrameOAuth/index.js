@@ -103,7 +103,8 @@ export default class ProxyFrameOAuth extends OAuthBase {
     this._proxyFrame.src = this.proxyUri;
     this._proxyFrame.style.display = 'none';
     const isEdge = window && window.navigator && window.navigator.userAgent.indexOf('Edge') > -1;
-    if (!isEdge) {
+    const isIE = window && window.navigator && /MSIE|Trident/i.test(window.navigator.userAgent);
+    if (!isEdge && !isIE) {
       this._proxyFrame.setAttribute('sandbox', [
         'allow-scripts',
         'allow-popups',

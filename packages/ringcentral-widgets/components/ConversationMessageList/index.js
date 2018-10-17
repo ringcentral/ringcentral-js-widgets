@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import isBlank from 'ringcentral-integration/lib/isBlank';
 
 import styles from './styles.scss';
+import i18n from './i18n';
 
 export function Message({
   subject,
@@ -130,6 +131,7 @@ class ConversationMessageList extends Component {
       messageSubjectRenderer,
       formatPhone,
       loadingNextPage,
+      currentLocale,
     } = this.props;
 
     let lastDate = 0;
@@ -159,7 +161,7 @@ class ConversationMessageList extends Component {
     });
     const loading = loadingNextPage ? (
       <div className={styles.loading}>
-        Loading...
+        {i18n.getString('loading', currentLocale)}
       </div>
     ) : null;
     return (
@@ -177,6 +179,7 @@ class ConversationMessageList extends Component {
 }
 
 ConversationMessageList.propTypes = {
+  currentLocale: PropTypes.string,
   messages: PropTypes.arrayOf(PropTypes.shape({
     creationTime: PropTypes.number,
     id: PropTypes.number,
@@ -195,6 +198,7 @@ ConversationMessageList.propTypes = {
 };
 
 ConversationMessageList.defaultProps = {
+  currentLocale: 'en-US',
   className: null,
   showSender: false,
   messageSubjectRenderer: undefined,

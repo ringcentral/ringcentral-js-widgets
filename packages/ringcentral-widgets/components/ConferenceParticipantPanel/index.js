@@ -19,6 +19,7 @@ class ParticipantsContainer extends Component {
     this.formatPrticipants(props);
     this.onRemoveBtnClick = this::this.onRemoveBtnClick;
     this.onCancel = this::this.onCancel;
+    this.onCancelNoAfter = this::this.onCancelNoAfter;
   }
 
   formatPrticipants(props = this.props) {
@@ -35,9 +36,15 @@ class ParticipantsContainer extends Component {
       detail: participant,
       showModal: true,
     }));
+    this.props.afterOnRemoveBtnClick();
   }
 
   onCancel() {
+    this.onCancelNoAfter();
+    this.props.afterOnCancel();
+  }
+  // onCancel without track
+  onCancelNoAfter() {
     this.setState({
       showModal: false,
       detail: null,
@@ -50,7 +57,7 @@ class ParticipantsContainer extends Component {
       && !nextProps.participants.find(
         participant => participant.id === this.state.detail.id
       )) {
-      this.onCancel();
+      this.onCancelNoAfter();
     }
   }
 
@@ -76,9 +83,9 @@ class ParticipantsContainer extends Component {
         <div className={styles.participantsListContainer}>
           <div className={styles.participantsCount}>
             {
-              participants.length > 1
-              ? `${participants.length} ${i18n.getString('participants', currentLocale)}`
-              : `${participants.length} ${i18n.getString('participant', currentLocale)}`
+              participants.length === 1
+              ? `${participants.length} ${i18n.getString('participant', currentLocale)}`
+              : `${participants.length} ${i18n.getString('participants', currentLocale)}`
             }
           </div>
           <div className={styles.participantsList}>
@@ -117,7 +124,7 @@ class ParticipantsContainer extends Component {
           onCancel={this.onCancel}
           currentLocale={currentLocale}
           onRemove={
-            () => removeFunc(detail && detail.id).then(this.onCancel)
+            () => removeFunc(detail && detail.id).then(this.onCancelNoAfter)
           } />
       </div>
     );
@@ -131,12 +138,16 @@ ParticipantsContainer.propTypes = {
   participants: PropTypes.arrayOf(PropTypes.object).isRequired,
   onBackButtonClick: PropTypes.func,
   formatPhone: PropTypes.func,
+  afterOnCancel: PropTypes.func,
+  afterOnRemoveBtnClick: PropTypes.func,
 };
 
 ParticipantsContainer.defaultProps = {
   removeFunc: i => i,
   onBackButtonClick: i => i,
   formatPhone: i => i,
+  afterOnCancel: i => i,
+  afterOnRemoveBtnClick: i => i,
 };
 
 export default ParticipantsContainer;

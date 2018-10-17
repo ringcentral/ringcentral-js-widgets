@@ -11,7 +11,7 @@ export default {
   transfer: "Weiterleitung",
   flip: "Umlegen",
   more: "Anrufaktionen",
-  mergeToConference: "Zusammenfügen"
+  mergeToConference: "Zus.führen"
 };
 
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@

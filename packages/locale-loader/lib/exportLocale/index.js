@@ -26,6 +26,7 @@ export default function exportLocale({
   sourceLocale = defaultConfig.sourceLocale,
   supportedLocales,
   exportType = 'diff',
+  fillEmptyWithSource = true,
 } = {}) {
   if (!supportedLocales) {
     throw new Error('options.supportedLocales is missing');
@@ -41,6 +42,7 @@ export default function exportLocale({
     sourceLocale,
     supportedLocales,
     exportType,
+    fillEmptyWithSource,
   });
   writeXlf({
     xlfData,

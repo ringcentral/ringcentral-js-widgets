@@ -23,7 +23,7 @@ describe('settings panel', () => {
     const wrapper = await setupWrapper();
     let panel = wrapper.find(SettingsPanel).first();
     const linkLines = panel.find(LinkLine);
-    expect(linkLines.length).toBe(5);
+    expect(linkLines.length).toBe(6);
     expect(linkLines.at(0).props().children).toEqual('Calling');
     expect(linkLines.at(1).props().children).toEqual('Region');
 

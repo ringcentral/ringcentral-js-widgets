@@ -12,86 +12,38 @@ RingCentral integration widgets aim to provide reusable UI components to allow d
 This project is built based on [RingCentral Integration Common Library](https://www.npmjs.com/package/ringcentral-integration) and [React](https://facebook.github.io/react/). The basic idea is to connect modules in RingCentral Integration Common Library with React components to provide ready to use UI widgets.
 
 
-## Play with Development Server
+## Get Started
 
-A development server is delivered with source so that developers can use it to get familiar with the project or do further development. To get development server running：
+We use [RingCentral Widgets CLI](https://github.com/ringcentral/ringcentral-js-widgets/tree/master/packages/ringcentral-widgets-cli/README.md) to startup a RingCentral Widgets based app.
 
-Clone the repo:
-
-```bash
-$ git clone https://github.com/ringcentral/ringcentral-js-widgets.git
-$ cd ringcentral-js-widgets
+```
+$ npm install -g ringcentral-widgets-cli
+$ rc-widgets -h
 ```
 
-Install dependent libraries:
+### Create a new project
 
-```bash
-$ yarn install
+```
+rc-widgets new your_project_name
+cd your_project_name
+yarn install
 ```
 
-Create a file named `api-config.js` in following format in folder `dev-server` to specify app related info
+[Update `.env` file in project root path](https://github.com/ringcentral/ringcentral-js-widgets/tree/master/packages/ringcentral-widgets-cli/README.md#start-developement-server).
 
-```javascript
-export default {
-  appKey: ${app key},
-  appSecret: ${app secret},
-  server: ${server url},
-};
+### Start development server
+
 ```
-
-Run following command to start development server
-
-```bash
-$ yarn dev-server
+$ yarn start
 ```
+Visit on [http://localhost:8080](http://localhost:8080) in browser.
 
-The development server is listening on port `8191` by default.
-Open up your browser and access http://localhost:8191 to see how it works.
+For production build and deploy, please get more information in [here](https://github.com/ringcentral/ringcentral-js-widgets/tree/master/packages/ringcentral-widgets-cli/README.md).
 
-Note that the development server is using OAuth for authorization process.
-Please make sure the app you specified in configuration above is setup with Redirect Uri `http://localhost:8191/redirect.html`.
+### Tutorials
 
+This is a [demo](https://github.com/embbnux/ringcentral-widgets-demo) and [step-by-step tutorials](https://embbnux.github.io/ringcentral-widgets-demo/) show how to use this library.
 
-## Test
+## Tests
 
-Create `.env` file in `./test/` folder, with the following content:
-
-```ini
-appKey=your-appKey
-appSecret=your-appSecret
-server=sever-url
-username=your-phone-number
-extension=your-extension
-password=your-password
-receiver=testing-phone-number-to-receive-sms-fax-etc
-```
-
-Run:
-
-```bash
-$ yarn test
-```
-
-If you want to run it in watch mode:
-
-```bash
-$ brew install watchman
-$ yarn test:watch
-```
-
-### Update mock data
-
-Whenever there is major change to the design, you might need to update `test/state.json` and `test/storage.json`.
-
-Launch the dev-server and visit the app in chrome browser. In console:
-
-Run `JSON.stringify(phone.store.getState(), null, 2)` to generate content for `test/state.json`.
-
-Run `JSON.stringify(localStorage, null, 2)` to generate content for `test/storage.json`
-
-
-### About test coverage
-
-WebRTC code is excluded from test coverage report. Because we are unable to run WebRTC in node.js.
-
-We might need to do some mocking to cover this part in the future.
+This packages's tests are included in [RingCentral Widget Test](https://github.com/ringcentral/ringcentral-js-widgets/tree/master/packages/ringcentral-widgets-test/README.md)

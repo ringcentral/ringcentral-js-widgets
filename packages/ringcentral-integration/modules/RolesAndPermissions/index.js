@@ -256,4 +256,15 @@ export default class RolesAndPermissions extends DataFetcher {
       )
     );
   }
+
+  get hasGlipPermission() {
+    return !!(
+      this.permissions &&
+      this.permissions.Glip
+    );
+  }
+
+  get hasConferenceCallPermission() {
+    return this.callingEnabled && this.webphoneEnabled;
+  }
 }

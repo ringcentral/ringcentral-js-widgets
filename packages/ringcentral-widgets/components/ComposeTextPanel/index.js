@@ -94,6 +94,7 @@ class ComposeTextPanel extends Component {
           disabled={this.props.sendButtonDisabled}
           currentLocale={this.props.currentLocale}
           onSend={this.props.send}
+          inputExpandable={this.props.inputExpandable}
         />
       </div>
     );
@@ -137,6 +138,7 @@ ComposeTextPanel.propTypes = {
   recipientsContactInfoRenderer: PropTypes.func,
   recipientsContactPhoneRenderer: PropTypes.func,
   autoFocus: PropTypes.bool,
+  inputExpandable:PropTypes.bool,
 };
 
 ComposeTextPanel.defaultProps = {
@@ -151,6 +153,7 @@ ComposeTextPanel.defaultProps = {
   recipientsContactInfoRenderer: undefined,
   recipientsContactPhoneRenderer: undefined,
   autoFocus: false,
+  inputExpandable: undefined,
 };
 
 export default ComposeTextPanel;

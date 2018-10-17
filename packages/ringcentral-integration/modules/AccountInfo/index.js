@@ -51,7 +51,7 @@ export default class AccountInfo extends DataFetcher {
       ...options,
     });
 
-    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
     this._alert = alert;
 
     this.addSelector(

@@ -7,7 +7,7 @@ import RecentActivityMessages from '../../components/RecentActivityMessages';
 import RecentActivityCalls from '../../components/RecentActivityCalls';
 import VoicemailIcon from '../../assets/images/VoicemailIcon.svg';
 import FaxIcon from '../../assets/images/Fax.svg';
-import withPhone from '../../lib/withPhone';
+import { withPhone } from '../../lib/phoneContext';
 import i18n from './i18n';
 
 function getTabs({

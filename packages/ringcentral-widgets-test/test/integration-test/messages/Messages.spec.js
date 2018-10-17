@@ -8,6 +8,7 @@ import ConversationPanel from 'ringcentral-widgets/components/ConversationPanel'
 import LogButton from 'ringcentral-widgets/components/LogButton';
 import Button from 'ringcentral-widgets/components/Button';
 import Spinner from 'ringcentral-widgets/components/Spinner';
+import * as mock from 'ringcentral-integration/integration-test/mock';
 
 import { getWrapper, timeout } from '../shared';
 
@@ -54,8 +55,15 @@ describe('messages', () => {
   });
 
   test('click a message', async () => {
+    const message = wrapper.props().phone.messageStore.allConversations[0];
+    mock.updateMessageStatus({
+      ...message,
+      readStatus: 'Read',
+      lastModifiedTime: (new Date()).toISOString(),
+    }, false);
     const firstMessage = panel.find(MessageItem).first();
     await firstMessage.find('.wrapper').first().simulate('click');
+    await timeout(200); // wait conversation loaded
     const conversationPanel = wrapper.find(ConversationPanel);
     expect(conversationPanel.length > 0).toBe(true);
   });
@@ -89,16 +97,30 @@ describe('messages', () => {
   });
 
   test('message log button', async () => {
+    const message = wrapper.props().phone.messageStore.allConversations[0];
+    mock.updateMessageStatus({
+      ...message,
+      readStatus: 'Read',
+      lastModifiedTime: (new Date()).toISOString(),
+    }, false);
     const firstMessage = panel.find(MessageItem).first();
     await firstMessage.find('.wrapper').first().simulate('click');
+    await timeout(200); // wait conversation loaded
     const conversationPanel = wrapper.find(ConversationPanel);
     const logButton = conversationPanel.find(LogButton).first().find(Button);
     expect(logButton.props().disabled).toBe(false);
   });
 
   test('message click log button', async () => {
+    const message = wrapper.props().phone.messageStore.allConversations[0];
+    mock.updateMessageStatus({
+      ...message,
+      readStatus: 'Read',
+      lastModifiedTime: (new Date()).toISOString(),
+    }, false);
     const firstMessage = panel.find(MessageItem).first();
     await firstMessage.find('.wrapper').first().simulate('click');
+    await timeout(200); // wait conversation loaded
     let conversationPanel = wrapper.find(ConversationPanel);
     let logButton = conversationPanel.find(LogButton).find(Button);
     logButton.simulate('click');

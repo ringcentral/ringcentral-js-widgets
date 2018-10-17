@@ -3,8 +3,8 @@ import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 
 export default {
-  [callDirections.inbound]: "入站",
-  [callDirections.outbound]: "出站",
+  [callDirections.inbound]: "呼入",
+  [callDirections.outbound]: "呼出",
   status: "状态：",
   InboundNumber: "主叫显示号码：",
   OutboundNumber: "被叫：",
@@ -40,8 +40,8 @@ export default {
   [callResults.wrongNumber]: "错误号码",
   [callResults.stopped]: "已停止",
   [callResults.suspendedAccount]: "已暂停账户",
-  [callResults.hangUp]: "挂断",
-  [callResults.HangUp]: "挂断",
+  [callResults.hangUp]: "已挂断",
+  [callResults.HangUp]: "已挂断",
   [callResults.abandoned]: "已放弃",
   [callResults.declined]: "已拒绝",
   [callResults.faxReceipt]: "传真接收",

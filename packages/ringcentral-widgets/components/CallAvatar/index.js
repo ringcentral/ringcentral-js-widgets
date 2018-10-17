@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import uuid from 'uuid';
+import classnames from 'classnames';
 import styles from './styles.scss';
 import SpinnerIcon from '../../assets/images/Spinner.svg';
 
@@ -19,8 +20,7 @@ class CallAvatar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      avatarUrl: null,
-      avatarUrlLoadFailed: false
+      avatarUrl: null
     };
     this._mounted = false;
   }
@@ -28,7 +28,7 @@ class CallAvatar extends Component {
   loadImg(props = this.props) {
     const { avatarUrl } = props;
 
-    if (isBlobURL(avatarUrl) || isBase64(avatarUrl)) {
+    if (isBase64(avatarUrl)) {
       this.setState({
         avatarUrl
       });
@@ -55,8 +55,7 @@ class CallAvatar extends Component {
           return;
         }
         this.setState({
-          avatarUrl: null,
-          avatarUrlLoadFailed: true
+          avatarUrl: null
         });
       };
     }
@@ -84,58 +83,71 @@ class CallAvatar extends Component {
   }
 
   render() {
-    const { extraNum, isOnConferenceCall, spinnerMode } = this.props;
-    const avatarUrlSource = this.props.avatarUrl;
+    const {
+      extraNum, isOnConferenceCall, spinnerMode, className, onClick
+    } = this.props;
     const { avatarUrl } = this.state;
     const initialSize = 38;
     const margin = 4;
     const avatarCircleRadius = 15;
     const extraNumCircleRadius = 8.5;
     const extraNumCircleBorder = 1;
+    const circleBorder = 1;
     const $snow = '#fff';
     const $blueLight = '#cee7f2';
     const $blue = '#0684bd';
     const $dark = '#e2e2e2';
     const $transparency = '0.8';
-    let res;
+    const defaultAvatarStyle = { opacity: +$transparency };
     const hash = uuid.v4();
+    const portraitChar = '\ue904'; // HACK: &#xe904; is the font code for the portrait icon
+    const iconFont = 'dynamics_icon';// Hard coding this for firefox to load iconfont
     const textId = `text-${hash}`;
     const clipId = `circleClip-${hash}`;
-    const avatarStyle = { stroke: $dark, strokeWidth: '1px' };
-    const avatarUrlLoadFailed = this.state.avatarUrlLoadFailed;
-    const showSpinner = spinnerMode;
-
+    const avatarStyle = { stroke: $dark, strokeWidth: `${circleBorder}px` };
+    const showingSpinner = spinnerMode;
+    const aspectRatio = 'xMidYMid meet';
+    const xmlns = 'http://www.w3.org/2000/svg';
+    const svgCls = classnames(
+      styles.callAvatar,
+      onClick ? styles.autoPointerEvents : styles.disabledPointerEvents,
+      className
+    );
     // spinner sizing
     const spinnerId = `spinner-${hash}`;
     const spinnerScaleSize = 1.5;
     const spinnerSize = 12;
     const spinnerTranslateTo = (initialSize - (spinnerSize * spinnerScaleSize)) / 2;
     const isOnConferenceCallWithExtraNum = isOnConferenceCall && extraNum > 0;
-    const spinnerTransform = `translate(${spinnerTranslateTo - (isOnConferenceCallWithExtraNum ? margin : 0)},${spinnerTranslateTo}) scale(${spinnerScaleSize}, ${spinnerScaleSize})`;
+    const spinnerTransform = `translate(${spinnerTranslateTo
+      - (isOnConferenceCallWithExtraNum ? margin : 0)},${spinnerTranslateTo}) scale(${
+      spinnerScaleSize
+    }, ${spinnerScaleSize})`;
+
     if (isOnConferenceCallWithExtraNum) {
-      res = (
+      return (
         <svg
-          className={styles.callAvatar}
+          onClick={onClick ? () => onClick() : null}
+          className={svgCls}
           style={avatarUrl ? avatarStyle : null}
           viewBox={`0 0 ${initialSize} ${initialSize}`}
-          preserveAspectRatio="xMidYMid meet"
-          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio={aspectRatio}
+          xmlns={xmlns}
         >
           <defs>
             <g id={textId}>
               <text
                 x="0"
                 y="0"
-                dy="29px"
+                dy={`${initialSize - 10}px`}
                 style={{
                       fontSize: `${avatarCircleRadius * 2}px`,
                       fill: $blue,
                       opacity: '.5'
                     }}
-                className={styles.portrait}
-                // HACK: &#xe904; is the font code for the portrait icon
-                >
-                {'\ue904'}
+                fontFamily={iconFont}
+              >
+                {portraitChar}
               </text>
             </g>
             <SpinnerIcon id={spinnerId} />
@@ -145,8 +157,8 @@ class CallAvatar extends Component {
             cy={margin + avatarCircleRadius}
             r={avatarCircleRadius}
             fill={$snow}
-            stroke={showSpinner ? $dark : 'inherit'}
-            strokeOpacity={showSpinner ? $transparency : '1'}
+            stroke={showingSpinner ? $dark : 'inherit'}
+            strokeOpacity={showingSpinner ? $transparency : '1'}
           />
           <g>
             <clipPath id={clipId}>
@@ -158,7 +170,7 @@ class CallAvatar extends Component {
             </clipPath>
           </g>
           {
-            showSpinner && (
+            showingSpinner && (
               <g transform={spinnerTransform}>
                 <use xlinkHref={`#${spinnerId}`} />
               </g>
@@ -170,7 +182,12 @@ class CallAvatar extends Component {
             )
           }
           {
-            (!showSpinner && (!avatarUrlSource || !avatarUrl || avatarUrlLoadFailed)) && <use xlinkHref={`#${textId}`} clipPath={`url(#${clipId})`} />
+            (!avatarUrl && !showingSpinner) &&
+            <use
+              xlinkHref={`#${textId}`}
+              clipPath={`url(#${clipId})`}
+              style={defaultAvatarStyle}
+            />
           }
           <circle
             cx={initialSize - extraNumCircleRadius}
@@ -199,63 +216,67 @@ class CallAvatar extends Component {
           </text>
         </svg>
       );
-    } else {
-      res = (
-        <svg
-          className={styles.callAvatar}
-          style={avatarUrl ? avatarStyle : null}
-          viewBox={`0 0 ${initialSize} ${initialSize}`}
-          xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <g id={textId}>
-              <text
-                x="0"
-                y="0"
-                dy="29px"
-                dx="2"
-                style={{
+    }
+    return (
+      <svg
+        className={svgCls}
+        onClick={onClick ? () => onClick() : null}
+        style={avatarUrl ? avatarStyle : null}
+        viewBox={`0 0 ${initialSize} ${initialSize}`}
+        preserveAspectRatio={aspectRatio}
+        xmlns={xmlns}
+          >
+        <defs>
+          <g id={textId}>
+            <text
+              x="0"
+              y="0"
+              dy={`${initialSize - 10}px`}
+              dx="2"
+              style={{
                       fontSize: `${(initialSize / 2 - 2) * 2}px`,
                       fill: $blue,
                       opacity: '.5'
                     }}
-                className={styles.portrait}>
-                {'\ue904'}
-              </text>
-            </g>
-            <SpinnerIcon id={spinnerId} />
-          </defs>
-          <circle
-            cx={initialSize / 2}
-            cy={initialSize / 2}
-            r={initialSize / 2}
-            fill={$snow}
-            stroke={showSpinner ? $dark : 'inherit'}
-            strokeOpacity={showSpinner ? $transparency : '1'}
-          />
-          <g>
-            <clipPath id={clipId}>
-              <circle
-                cx={initialSize / 2}
-                cy={initialSize / 2}
-                r={initialSize / 2 - 1}
-              />
-            </clipPath>
+              fontFamily={iconFont}
+            >
+              {portraitChar}
+            </text>
           </g>
-          {
-            showSpinner && (
+          <SpinnerIcon id={spinnerId} />
+        </defs>
+        <circle
+          cx={initialSize / 2}
+          cy={initialSize / 2}
+          r={initialSize / 2 - circleBorder}
+          fill={$snow}
+          stroke={showingSpinner ? $dark : 'inherit'}
+          strokeOpacity={showingSpinner ? $transparency : '1'}
+          />
+        <g>
+          <clipPath id={clipId}>
+            <circle
+              cx={initialSize / 2}
+              cy={initialSize / 2}
+              r={initialSize / 2 - 1}
+              />
+          </clipPath>
+        </g>
+        {
+            showingSpinner && (
               <g transform={spinnerTransform} >
                 <use xlinkHref={`#${spinnerId}`} />
               </g>
             )
           }
-          {
-            showSpinner && (
+        {
+            showingSpinner && (
               <g transform={spinnerTransform} >
                 <use xlinkHref={`#${spinnerId}`} />
               </g>
             )
           }
-          {
+        {
             avatarUrl && (<image
               clipPath={`url(#${clipId})`}
               height="100%"
@@ -264,13 +285,16 @@ class CallAvatar extends Component {
               preserveAspectRatio="xMinYMin slice" />
             )
           }
-          {
-            (!showSpinner && (!avatarUrlSource || !avatarUrl || avatarUrlLoadFailed)) && <use xlinkHref={`#${textId}`} clipPath={`url(#${clipId})`} />
+        {
+            (!avatarUrl && !showingSpinner) &&
+            <use
+              xlinkHref={`#${textId}`}
+              clipPath={`url(#${clipId})`}
+              style={defaultAvatarStyle}
+            />
           }
-        </svg>
-      );
-    }
-    return res;
+      </svg>
+    );
   }
 }
 
@@ -283,6 +307,8 @@ CallAvatar.propTypes = {
    * Set to true to make it always show the loading spinner.
    */
   spinnerMode: PropTypes.bool,
+  className: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 CallAvatar.defaultProps = {
@@ -290,6 +316,8 @@ CallAvatar.defaultProps = {
   avatarUrl: null,
   extraNum: 0,
   spinnerMode: false,
+  className: null,
+  onClick: null,
 };
 
 

@@ -1,3 +1,4 @@
+import { contains } from 'ramda';
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -64,9 +65,9 @@ export default function LogBasicInfo(props) {
   const status = result || telephonyStatus;
   const active = (!duration && duration !== 0);
   const missed = isMissed(call);
-  const green = colorStatusMap.green.includes(status);
-  const red = colorStatusMap.red.includes(status);
-  const orange = colorStatusMap.orange.includes(status);
+  const green = contains(status, colorStatusMap.green);
+  const red = contains(status, colorStatusMap.red);
+  const orange = contains(status, colorStatusMap.orange);
   const isRinging = status === telephonyStatuses.ringing;
   const title = missed ? i18n.getString(callResults.missed, currentLocale) :
     i18n.getString(direction, currentLocale);
@@ -109,7 +110,7 @@ export default function LogBasicInfo(props) {
           </span>
           {
             formatNumber ? (
-              <span className={styles.separator}>|</span>
+              <span className={styles.separator}>&nbsp;</span>
             ) : null
           }
           <span

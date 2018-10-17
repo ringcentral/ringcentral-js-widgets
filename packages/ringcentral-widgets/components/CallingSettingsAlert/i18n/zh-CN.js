@@ -2,7 +2,7 @@ import callingSettingsMessages from 'ringcentral-integration/modules/CallingSett
 
 export default {
   [callingSettingsMessages.saveSuccess]: "设置已成功保存。",
-  [callingSettingsMessages.saveSuccessWithSoftphone]: "设置已成功保存。请确保您的计算机上已安装桌面版 {brand}。",
+  [callingSettingsMessages.saveSuccessWithSoftphone]: "设置已成功保存。请确保您的计算机上已安装 {brand} 桌面版。",
   [callingSettingsMessages.permissionChanged]: "您的权限最近已被更改。请前往 {link} 检查您的呼叫选项。",
   [callingSettingsMessages.phoneNumberChanged]: "您的电话号码信息最近已被更改。请前往 {link} 检查您的呼叫选项。",
   link: "设置 > 呼叫",

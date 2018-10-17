@@ -1,3 +1,4 @@
+import { contains } from 'ramda';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -91,7 +92,7 @@ export default class ContactsView extends Component {
     if (nextProps.searchString !== this.props.searchString) {
       nextState.searchString = nextProps.searchString;
     }
-    if (!nextProps.contactSourceNames.includes(nextProps.searchSource)) {
+    if (!contains(nextProps.searchSource, nextProps.contactSourceNames)) {
       this.search({
         searchSource: nextProps.contactSourceNames[0],
         searchString: this.state.searchString,
