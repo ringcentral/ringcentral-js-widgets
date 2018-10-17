@@ -89,16 +89,21 @@ var UserGuide = function (_React$Component) {
     };
 
     _this.exit = function () {
-      _this.setState({
-        playing: false
-      });
-      _this.props.updateCarousel({
-        curIdx: _this.state.curIdx,
-        entered: _this.state.entered,
-        playing: false
-      });
       if (_this.props.quickAccessEnter && _this.props.firstLogin) {
+        _this.setState({
+          playing: false
+        });
+        _this.props.updateCarousel({
+          curIdx: _this.state.curIdx,
+          entered: _this.state.entered,
+          playing: false
+        });
         _this.props.quickAccessEnter();
+      } else {
+        _this.setState({
+          playing: false
+        });
+        _this.onExited();
       }
     };
 
