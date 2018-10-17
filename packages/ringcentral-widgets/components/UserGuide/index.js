@@ -61,13 +61,15 @@ export default class UserGuide extends React.Component {
       });
       this.props.quickAccessEnter();
     } else {
+      this.setState({
+        playing: false,
+      });
       this.onExited();
     }
   }
 
   onExited = () => {
     this.setState({
-      playing: false,
       entered: false
     });
     this.props.updateCarousel({
