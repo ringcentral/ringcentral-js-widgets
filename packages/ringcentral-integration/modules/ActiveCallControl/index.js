@@ -249,6 +249,7 @@ export default class ActiveCallControl extends Pollable {
         sessionId,
         parties
       } = message.body;
+      console.log('====parties', parties);
       this.store.dispatch({
         type: this.actionTypes.updateActiveSessionStatus,
         sessionId,
@@ -300,10 +301,10 @@ export default class ActiveCallControl extends Pollable {
           muted: true
         }
       });
-      this.store.dispatch({
-        type: this.actionTypes.mute,
-        sessionId,
-      });
+      // this.store.dispatch({
+      //   type: this.actionTypes.mute,
+      //   sessionId,
+      // });
     } catch (error) {
       if (confictError(error)) {
         this._alert.warning({
@@ -326,10 +327,10 @@ export default class ActiveCallControl extends Pollable {
           muted: false
         }
       });
-      this.store.dispatch({
-        type: this.actionTypes.unmute,
-        sessionId,
-      });
+      // this.store.dispatch({
+      //   type: this.actionTypes.unmute,
+      //   sessionId,
+      // });
     } catch (error) {
       if (confictError(error)) {
         this._alert.warning({
@@ -418,10 +419,10 @@ export default class ActiveCallControl extends Pollable {
       const activeSession = this.activeSessions[sessionId];
       const url = requestURI(activeSession).hold;
       await this._client.service._platform.post(url);
-      this.store.dispatch({
-        type: this.actionTypes.hold,
-        sessionId,
-      });
+      // this.store.dispatch({
+      //   type: this.actionTypes.hold,
+      //   sessionId,
+      // });
     } catch (error) {
       if (confictError(error)) {
         this._alert.warning({
@@ -439,10 +440,10 @@ export default class ActiveCallControl extends Pollable {
       const activeSession = this.activeSessions[sessionId];
       const url = requestURI(activeSession).unHold;
       await this._client.service._platform.post(url);
-      this.store.dispatch({
-        type: this.actionTypes.unhold,
-        sessionId,
-      });
+      // this.store.dispatch({
+      //   type: this.actionTypes.unhold,
+      //   sessionId,
+      // });
     } catch (error) {
       if (confictError(error)) {
         this._alert.warning({
