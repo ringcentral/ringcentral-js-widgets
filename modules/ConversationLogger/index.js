@@ -671,6 +671,9 @@ var ConversationLogger = (_dec = (0, _di.Module)({
   }, {
     key: 'getConversationLogId',
     value: function getConversationLogId(message) {
+      if (!message) {
+        return;
+      }
       var conversationId = message.conversationId;
 
       var date = this._formatDateTime({
