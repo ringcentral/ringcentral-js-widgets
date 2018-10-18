@@ -166,11 +166,14 @@ var ConversationPanel = function (_Component) {
       var nextProps = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
       var _nextProps$conversati = nextProps.conversation,
           correspondentMatches = _nextProps$conversati.correspondentMatches,
-          lastMatchedCorrespondentEntity = _nextProps$conversati.lastMatchedCorrespondentEntity;
+          lastMatchedCorrespondentEntity = _nextProps$conversati.lastMatchedCorrespondentEntity,
+          conversationMatches = _nextProps$conversati.conversationMatches;
 
-      if (lastMatchedCorrespondentEntity) {
-        var index = correspondentMatches.findIndex(function (contact) {
-          return contact.id === lastMatchedCorrespondentEntity.id;
+      var index = null;
+      var correspondentMatchId = lastMatchedCorrespondentEntity && lastMatchedCorrespondentEntity.id || conversationMatches[0] && conversationMatches[0].id;
+      if (correspondentMatchId) {
+        index = correspondentMatches.findIndex(function (contact) {
+          return contact.id === correspondentMatchId;
         });
         if (index > -1) return index;
       }
