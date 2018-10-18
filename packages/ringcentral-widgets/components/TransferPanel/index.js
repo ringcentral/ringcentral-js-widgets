@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { isNil } from 'ramda';
 import DialPad from '../DialPad';
 import RecipientsInput from '../RecipientsInput';
 import BackHeader from '../BackHeader';
@@ -10,6 +11,7 @@ import i18n from './i18n';
 
 export default class TransferPanel extends PureComponent {
   static propTypes = {
+    setActiveSessionId: PropTypes.func,
     onTransfer: PropTypes.func.isRequired,
     currentLocale: PropTypes.string.isRequired,
     toggleTransferPanel: PropTypes.func.isRequired,
@@ -21,11 +23,13 @@ export default class TransferPanel extends PureComponent {
     recipientsContactPhoneRenderer: PropTypes.func,
     isOnTransfer: PropTypes.bool,
     autoFocus: PropTypes.bool,
+    sessionId: PropTypes.string.isRequired,
     activeSession: PropTypes.object,
     disablePage: PropTypes.bool,
   };
 
   static defaultProps = {
+    setActiveSessionId: null,
     phoneTypeRenderer: undefined,
     recipientsContactInfoRenderer: undefined,
     recipientsContactPhoneRenderer: undefined,
@@ -41,6 +45,16 @@ export default class TransferPanel extends PureComponent {
       toNumber: '',
       recipient: null,
     };
+  }
+
+  componentDidMount() {
+    if (this.props.disablePage) {
+      this.load();
+    }
+  }
+
+  load() {
+    this.props.setActiveSessionId(this.props.sessionId);
   }
 
   _getTransferNumber() {
