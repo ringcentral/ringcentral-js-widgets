@@ -262,6 +262,7 @@ export default class ActiveCallControl extends Pollable {
       sessionId
     });
   }
+  // count it as load (should only call on container init step)
   setActiveSessionId(sessionId) {
     this.store.dispatch({
       type: this.actionTypes.setActiveSessionId,
