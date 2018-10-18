@@ -29,9 +29,21 @@ export function getEnabledReducer(types) {
   };
 }
 
-export default function getEnvironmentReducer(types) {
+export function getEnvironmentReducer(types) {
   return combineReducers({
     status: getModuleStatusReducer(types),
     changeCounter: getChangeCounterReducer(types),
+  });
+}
+
+export function getEnvironmentStorageReducer({
+  types,
+  defaultServer,
+  defaultRecordingHost,
+}) {
+  return combineReducers({
+    enabled: getEnabledReducer(types),
+    server: getServerReducer({ types, defaultServer }),
+    recordingHost: getRecordingHostReducer({ types, defaultRecordingHost }),
   });
 }
