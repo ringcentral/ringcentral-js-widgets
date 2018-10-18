@@ -484,7 +484,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
                       } else {
                         var oldCall = oldCalls[oldCallIndex];
                         oldCalls.splice(oldCallIndex, 1);
-                        if (call.telephonyStatus !== oldCall.telephonyStatus && typeof _this2._onCallUpdated === 'function') {
+                        if ((call.telephonyStatus !== oldCall.telephonyStatus || (oldCall.from && oldCall.from.phoneNumber) !== (call.from && call.from.phoneNumber)) && typeof _this2._onCallUpdated === 'function') {
                           _this2._onCallUpdated(call);
                         }
                       }

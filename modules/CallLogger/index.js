@@ -5,6 +5,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _defineProperty = require('babel-runtime/core-js/object/define-property');
+
+var _defineProperty2 = _interopRequireDefault(_defineProperty);
+
+var _assign = require('babel-runtime/core-js/object/assign');
+
+var _assign2 = _interopRequireDefault(_assign);
+
 var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
@@ -49,7 +57,7 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _dec, _class, _desc, _value, _class2;
+var _dec, _class, _desc, _value, _class2, _descriptor;
 
 exports.callIdentityFunction = callIdentityFunction;
 
@@ -81,7 +89,29 @@ var _proxify = require('../../lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
 
+var _getAuthReducer = require('../Auth/getAuthReducer');
+
+var _getter = require('../../lib/getter');
+
+var _getter2 = _interopRequireDefault(_getter);
+
+var _reselect = require('reselect');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _initDefineProp(target, property, descriptor, context) {
+  if (!descriptor) return;
+  (0, _defineProperty2.default)(target, property, {
+    enumerable: descriptor.enumerable,
+    configurable: descriptor.configurable,
+    writable: descriptor.writable,
+    value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+  });
+}
+
+function _initializerWarningHelper(descriptor, context) {
+  throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
+}
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
   var desc = {};
@@ -158,6 +188,8 @@ var CallLogger = (_dec = (0, _di.Module)({
       identityFunction: callIdentityFunction
     })));
 
+    _initDefineProp(_this, 'transferredCallsMap', _descriptor, _this);
+
     _this._storage = _ensureExist2.default.call(_this, storage, 'storage');
     _this._callMonitor = _ensureExist2.default.call(_this, callMonitor, 'callMonitor');
     _this._contactMatcher = _ensureExist2.default.call(_this, contactMatcher, 'contactMatcher');
@@ -169,7 +201,6 @@ var CallLogger = (_dec = (0, _di.Module)({
       key: _this._storageKey,
       reducer: (0, _getDataReducer2.default)(_this.actionTypes, initialState)
     });
-
     _this._lastProcessedCalls = null;
     _this._lastProcessedEndedCalls = null;
     _this._customMatcherHooks = [];
@@ -569,12 +600,25 @@ var CallLogger = (_dec = (0, _di.Module)({
               var oldCall = oldCalls[oldCallIndex];
               oldCalls.splice(oldCallIndex, 1);
               if (call.telephonyStatus !== oldCall.telephonyStatus) {
-                _this2._onCallUpdated(call, _callLoggerTriggerTypes2.default.presenceUpdate);
+                _this2._onCallUpdated((0, _extends3.default)({}, call, {
+                  isTransferredCall: !!_this2.transferredCallsMap[call.sessionId]
+                }), _callLoggerTriggerTypes2.default.presenceUpdate);
+              }
+              if ((call.from && call.from.phoneNumber) !== (oldCall.from && oldCall.from.phoneNumber)) {
+                _this2.store.dispatch({
+                  type: _this2.actionTypes.addTransferredCall,
+                  sessionId: call.sessionId
+                });
+                _this2._onCallUpdated((0, _extends3.default)({}, call, {
+                  isTransferredCall: true
+                }), _callLoggerTriggerTypes2.default.presenceUpdate);
               }
             }
           });
           oldCalls.forEach(function (call) {
-            _this2._onCallUpdated(call, _callLoggerTriggerTypes2.default.presenceUpdate);
+            _this2._onCallUpdated((0, _extends3.default)({}, call, {
+              isTransferredCall: !!_this2.transferredCallsMap[call.sessionId]
+            }), _callLoggerTriggerTypes2.default.presenceUpdate);
           });
         }
         if (this._callHistory && this._lastProcessedEndedCalls !== this._callHistory.recentlyEndedCalls) {
@@ -591,7 +635,9 @@ var CallLogger = (_dec = (0, _di.Module)({
                 return item.sessionId === call.sessionId;
               });
               if (callInfo) {
-                _this2._onCallUpdated(callInfo, _callLoggerTriggerTypes2.default.callLogSync);
+                _this2._onCallUpdated((0, _extends3.default)({}, callInfo, {
+                  isTransferredCall: !!_this2.transferredCallsMap[callInfo.sessionId]
+                }), _callLoggerTriggerTypes2.default.callLogSync);
               }
             }
           });
@@ -694,8 +740,26 @@ var CallLogger = (_dec = (0, _di.Module)({
     get: function get() {
       return this._storage.getItem(this._storageKey).logOnRinging;
     }
+  }, {
+    key: 'transferredCallsArr',
+    get: function get() {
+      return this._storage.getItem(this._storageKey).transferredCallsMap;
+    }
   }]);
   return CallLogger;
-}(_LoggerBase3.default), (_applyDecoratedDescriptor(_class2.prototype, 'log', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'log'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'logCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'logCall'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setAutoLog', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setAutoLog'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setLogOnRinging', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setLogOnRinging'), _class2.prototype)), _class2)) || _class);
+}(_LoggerBase3.default), (_applyDecoratedDescriptor(_class2.prototype, 'log', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'log'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'logCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'logCall'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setAutoLog', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setAutoLog'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setLogOnRinging', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setLogOnRinging'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'transferredCallsMap', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this3 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this3.transferredCallsArr;
+    }, function (transferredCallsArr) {
+      return transferredCallsArr.reduce(function (mapping, matcher) {
+        return (0, _assign2.default)({}, mapping, matcher);
+      }, {});
+    });
+  }
+})), _class2)) || _class);
 exports.default = CallLogger;
 //# sourceMappingURL=index.js.map

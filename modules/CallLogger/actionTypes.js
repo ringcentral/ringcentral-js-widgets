@@ -22,5 +22,5 @@ var _baseActionTypes2 = _interopRequireDefault(_baseActionTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)(_baseActionTypes2.default)), ['setAutoLog', 'setLogOnRinging']), 'callLogger');
+exports.default = new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)(_baseActionTypes2.default)), ['setAutoLog', 'setLogOnRinging', 'addTransferredCall']), 'callLogger');
 //# sourceMappingURL=actionTypes.js.map

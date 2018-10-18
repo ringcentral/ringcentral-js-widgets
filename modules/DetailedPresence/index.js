@@ -135,7 +135,7 @@ var DetailedPresence = (_dec = (0, _di.Module)({
     _this._subscriptionHandler = function (message) {
       if (presenceRegExp.test(message.event) && message.body) {
         if (message.body.sequence) {
-          if (message.body.sequence <= _this._lastSequence) {
+          if (message.body.sequence < _this._lastSequence) {
             return;
           }
           _this._lastSequence = message.body.sequence;
