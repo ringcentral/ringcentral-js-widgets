@@ -319,10 +319,9 @@ function mapToFunctions(_, _ref2) {
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
-                activeCallControl.setActiveSessionId(sessionId);
                 routerInteraction.push('/transfer/' + sessionId);
 
-              case 2:
+              case 1:
               case 'end':
                 return _context8.stop();
             }

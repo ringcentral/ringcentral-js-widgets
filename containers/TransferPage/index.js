@@ -20,7 +20,8 @@ var _phoneContext = require('../../lib/phoneContext');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function mapToProps(_, _ref) {
-  var phone = _ref.phone;
+  var phone = _ref.phone,
+      sessionId = _ref.params.sessionId;
   var locale = phone.locale,
       activeCallControl = phone.activeCallControl;
   var currentLocale = locale.currentLocale;
@@ -28,6 +29,7 @@ function mapToProps(_, _ref) {
 
 
   return {
+    sessionId: sessionId,
     currentLocale: currentLocale,
     searchContactList: [],
     isOnTransfer: false,
@@ -43,6 +45,9 @@ function mapToFunctions(_, _ref2) {
       activeCallControl = phone.activeCallControl;
 
   return {
+    setActiveSessionId: function setActiveSessionId(sessionId) {
+      return activeCallControl.setActiveSessionId(sessionId);
+    },
     onTransfer: function onTransfer(transferNumber) {
       var sessionIdRgx = /\d+/g;
       var sessionId = routerInteraction.currentPath.match(sessionIdRgx);

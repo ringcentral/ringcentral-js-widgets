@@ -35,6 +35,8 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _ramda = require('ramda');
+
 var _DialPad = require('../DialPad');
 
 var _DialPad2 = _interopRequireDefault(_DialPad);
@@ -118,6 +120,18 @@ var TransferPanel = (_temp = _class = function (_PureComponent) {
   }
 
   (0, _createClass3.default)(TransferPanel, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      if (this.props.disablePage) {
+        this.load();
+      }
+    }
+  }, {
+    key: 'load',
+    value: function load() {
+      this.props.setActiveSessionId(this.props.sessionId);
+    }
+  }, {
     key: '_getTransferNumber',
     value: function _getTransferNumber() {
       return this.state.recipient && this.state.recipient.phoneNumber || this.state.toNumber;
@@ -183,6 +197,7 @@ var TransferPanel = (_temp = _class = function (_PureComponent) {
   }]);
   return TransferPanel;
 }(_react.PureComponent), _class.propTypes = {
+  setActiveSessionId: _propTypes2.default.func,
   onTransfer: _propTypes2.default.func.isRequired,
   currentLocale: _propTypes2.default.string.isRequired,
   toggleTransferPanel: _propTypes2.default.func.isRequired,
@@ -194,9 +209,11 @@ var TransferPanel = (_temp = _class = function (_PureComponent) {
   recipientsContactPhoneRenderer: _propTypes2.default.func,
   isOnTransfer: _propTypes2.default.bool,
   autoFocus: _propTypes2.default.bool,
+  sessionId: _propTypes2.default.string.isRequired,
   activeSession: _propTypes2.default.object,
   disablePage: _propTypes2.default.bool
 }, _class.defaultProps = {
+  setActiveSessionId: null,
   phoneTypeRenderer: undefined,
   recipientsContactInfoRenderer: undefined,
   recipientsContactPhoneRenderer: undefined,

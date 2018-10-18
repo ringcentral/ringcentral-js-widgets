@@ -390,12 +390,13 @@ var ActiveCallPad = function (_Component) {
         );
       }
 
+      var isLessBtn = buttons.length <= 3 && moreActions === null;
       return _react2.default.createElement(
         'div',
         { className: (0, _classnames2.default)(_styles2.default.root, this.props.className) },
         _react2.default.createElement(
           'div',
-          { className: _styles2.default.callCtrlButtonGroup },
+          { className: (0, _classnames2.default)(_styles2.default.callCtrlButtonGroup, isLessBtn && _styles2.default.biggerButton) },
           _react2.default.createElement(
             'div',
             { className: _styles2.default.buttonRow },

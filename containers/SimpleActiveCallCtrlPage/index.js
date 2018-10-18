@@ -79,10 +79,11 @@ function mapToProps(_, _ref) {
       callMonitor = _ref$phone.callMonitor,
       locale = _ref$phone.locale,
       brand = _ref$phone.brand,
-      activeSession = _ref.activeSession,
+      params = _ref.params,
       renderContactName = _ref.renderContactName;
+  var sessionId = params.sessionId;
+  var activeSession = activeCallControl.activeSession;
 
-  var sessionId = activeSession.id;
   var nameMatches = [];
   if (activeSession && !renderContactName) {
     nameMatches = activeSession.direction === _callDirections2.default.outbound ? activeSession.toMatches : activeSession.fromMatches;
@@ -93,7 +94,7 @@ function mapToProps(_, _ref) {
   }
   var fallBackName = _i18n2.default.getString('Unknown', locale.currentLocale);
   if (renderContactName) {
-    var _pickFallBackInfo = (0, _utils.pickFallBackInfo)(activeSession, renderContactName(sessionId), locale.currentLocale),
+    var _pickFallBackInfo = (0, _utils.pickFallBackInfo)(activeSession, renderContactName({ sessionId: sessionId }), locale.currentLocale),
         fallBackNameFromThirdParty = _pickFallBackInfo.fallBackName,
         fallBackNumber = _pickFallBackInfo.fallBackNumber;
 
@@ -102,7 +103,7 @@ function mapToProps(_, _ref) {
   }
   return {
     currentLocale: locale.currentLocale,
-    session: activeSession,
+    activeSession: activeSession,
     sessionId: sessionId,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
@@ -119,24 +120,29 @@ function mapToProps(_, _ref) {
    */
 
 function mapToFunctions(_, _ref2) {
-  var routerInteraction = _ref2.phone.routerInteraction;
+  var _ref2$phone = _ref2.phone,
+      routerInteraction = _ref2$phone.routerInteraction,
+      activeCallControl = _ref2$phone.activeCallControl;
 
   return {
     onBackButtonClick: function onBackButtonClick() {
       return routerInteraction.goBack();
+    },
+    setActiveSessionId: function setActiveSessionId(sessionId) {
+      return activeCallControl.setActiveSessionId(sessionId);
     }
   };
 }
 
-var ActiveCallControl = function (_Component) {
-  (0, _inherits3.default)(ActiveCallControl, _Component);
+var ActiveCallControlPanel = function (_Component) {
+  (0, _inherits3.default)(ActiveCallControlPanel, _Component);
 
-  function ActiveCallControl(props) {
+  function ActiveCallControlPanel(props) {
     var _this2 = this;
 
-    (0, _classCallCheck3.default)(this, ActiveCallControl);
+    (0, _classCallCheck3.default)(this, ActiveCallControlPanel);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (ActiveCallControl.__proto__ || (0, _getPrototypeOf2.default)(ActiveCallControl)).call(this, props));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (ActiveCallControlPanel.__proto__ || (0, _getPrototypeOf2.default)(ActiveCallControlPanel)).call(this, props));
 
     _this.state = {
       selectedMatcherIndex: 0
@@ -201,17 +207,28 @@ var ActiveCallControl = function (_Component) {
     return _this;
   }
 
-  (0, _createClass3.default)(ActiveCallControl, [{
+  (0, _createClass3.default)(ActiveCallControlPanel, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.loadActCall();
+    }
+  }, {
+    key: 'loadActCall',
+    value: function loadActCall() {
+      this.props.setActiveSessionId(this.props.sessionId);
+    }
+  }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      if (!nextProps.session) {
+      if (!nextProps.activeSession) {
         this.props.onBackButtonClick();
       }
     }
   }, {
     key: 'render',
     value: function render() {
-      if (!this.props.session) {
+      if (!this.props.activeSession) {
+        // or using skeleton screen here
         return null;
       }
       var muteCtrl = _ActiveCallPad.ACTIONS_CTRL_MAP.muteCtrl,
@@ -237,10 +254,10 @@ var ActiveCallControl = function (_Component) {
         countryCode: this.props.countryCode,
         selectedMatcherIndex: this.state.selectedMatcherIndex,
         layout: _callCtrlLayouts2.default.normalCtrl,
-        startTime: this.props.session.startTime,
+        startTime: this.props.activeSession.startTime,
         actions: [muteCtrl, transferCtrl, holdCtrl],
-        isOnMute: this.props.session.isOnMute,
-        isOnHold: this.props.session.isOnHold,
+        isOnMute: this.props.activeSession.isOnMute,
+        isOnHold: this.props.activeSession.isOnHold,
         nameMatches: this.props.nameMatches,
         onSelectMatcherName: this.onSelectMatcherName,
         brand: this.props.brand,
@@ -248,15 +265,16 @@ var ActiveCallControl = function (_Component) {
       });
     }
   }]);
-  return ActiveCallControl;
+  return ActiveCallControlPanel;
 }(_react.Component);
 
-ActiveCallControl.propTypes = {
+ActiveCallControlPanel.propTypes = {
+  setActiveSessionId: _propTypes2.default.func,
   currentLocale: _propTypes2.default.string,
   sessionId: _propTypes2.default.string,
   areaCode: _propTypes2.default.string.isRequired,
   countryCode: _propTypes2.default.string.isRequired,
-  session: _propTypes2.default.object,
+  activeSession: _propTypes2.default.object,
   onBackButtonClick: _propTypes2.default.func.isRequired,
   activeCallControl: _propTypes2.default.object,
   nameMatches: _propTypes2.default.array,
@@ -266,10 +284,11 @@ ActiveCallControl.propTypes = {
   brand: _propTypes2.default.string.isRequired
 };
 
-ActiveCallControl.defaultProps = {
+ActiveCallControlPanel.defaultProps = {
+  setActiveSessionId: function setActiveSessionId() {},
   currentLocale: 'en-US',
   activeCallControl: {},
-  session: null,
+  activeSession: null,
   sessionId: null,
   nameMatches: [],
   fallBackName: '',
@@ -277,5 +296,5 @@ ActiveCallControl.defaultProps = {
   showContactDisplayPlaceholder: false
 };
 
-exports.default = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(ActiveCallControl));
+exports.default = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(ActiveCallControlPanel));
 //# sourceMappingURL=index.js.map
