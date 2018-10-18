@@ -110,7 +110,7 @@ export default class Presence extends RcModule {
   _subscriptionHandler(message) {
     if (message && presenceEndPoint.test(message.event) && message.body) {
       if (message.body.sequence) {
-        if (message.body.sequence <= this._lastSequence) {
+        if (message.body.sequence < this._lastSequence) {
           return;
         }
         this._lastSequence = message.body.sequence;
