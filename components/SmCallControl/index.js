@@ -61,7 +61,7 @@ function SmCallControl(props) {
       currentLocale = props.currentLocale,
       callDirection = props.callDirection;
 
-  // reject conditons: call direction is inbound & call status is ringing
+  // reject conditions: call direction is inbound & call status is ringing
 
   function canRejectCall() {
     return _callDirections2.default.inbound === callDirection && _telephonyStatus2.default.ringing === callStatus;
@@ -69,7 +69,7 @@ function SmCallControl(props) {
 
   var muteIcon = isOnMute ? _Mute2.default : _Unmute2.default;
   var muteAction = isOnMute ? onUnmute : onMute;
-  var muteTitle = isOnMute ? 'mute' : 'unmute';
+  var muteTitle = isOnMute ? 'unmute' : 'mute';
   var endTile = canRejectCall() ? 'reject' : 'hangup';
   var endAction = canRejectCall() ? onReject : onHangup;
   var disabledCtrl = callStatus === _telephonyStatus2.default.ringing;
