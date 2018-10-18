@@ -22,7 +22,7 @@ export default function SmCallControl(props) {
     isOnMute, callStatus, currentLocale, callDirection,
   } = props;
 
-  // reject conditons: call direction is inbound & call status is ringing
+  // reject conditions: call direction is inbound & call status is ringing
   function canRejectCall() {
     return (
       callDirections.inbound === callDirection &&
@@ -32,7 +32,7 @@ export default function SmCallControl(props) {
 
   const muteIcon = isOnMute ? MuteIcon : UnmuteIcon;
   const muteAction = isOnMute ? onUnmute : onMute;
-  const muteTitle = isOnMute ? 'mute' : 'unmute';
+  const muteTitle = isOnMute ? 'unmute' : 'mute';
   const endTile = canRejectCall() ? 'reject' : 'hangup';
   const endAction = canRejectCall() ? onReject : onHangup;
   const disabledCtrl = callStatus === telephonyStatuses.ringing;
