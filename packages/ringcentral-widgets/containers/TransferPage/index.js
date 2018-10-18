@@ -13,8 +13,9 @@ function mapToProps(_, {
   } = phone;
   const { currentLocale } = locale;
   const { activeSession } = activeCallControl;
-  activeCallControl.setActiveSessionId(sessionId);
+
   return {
+    sessionId,
     currentLocale,
     searchContactList: [],
     isOnTransfer: false,
@@ -32,6 +33,7 @@ function mapToFunctions(_, {
     activeCallControl
   } = phone;
   return {
+    setActiveSessionId: sessionId => activeCallControl.setActiveSessionId(sessionId),
     onTransfer(transferNumber) {
       const sessionIdRgx = /\d+/g;
       const sessionId = routerInteraction.currentPath.match(sessionIdRgx);
