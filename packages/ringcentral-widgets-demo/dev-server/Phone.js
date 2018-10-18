@@ -65,6 +65,7 @@ import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 import DialerUI from 'ringcentral-widgets/modules/DialerUI';
 import ConferenceDialerUI from 'ringcentral-widgets/modules/ConferenceDialerUI';
 import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
+import LocalForageStorage from 'ringcentral-integration/lib/LocalForageStorage';
 
 @ModuleFactory({
   providers: [
@@ -144,9 +145,16 @@ import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
     { provide: 'UserGuide', useClass: UserGuide },
     { provide: 'ActiveCallControl', useClass: ActiveCallControl },
     {
+      provide: 'GlobalStorageOptions',
+      useValue: {
+        StorageProvider: LocalForageStorage,
+      },
+      spread: true,
+    },
+    {
       provide: 'StorageOptions',
       useValue: {
-        // StorageProvider: LocalForageStorage, // IndexedDB
+        StorageProvider: LocalForageStorage, // IndexedDB
         disableAllowInactiveTabsWrite: true,
       },
       spread: true

@@ -4,10 +4,9 @@ import { Module } from '../../lib/di';
 import moduleStatuses from '../../enums/moduleStatuses';
 import proxify from '../../lib/proxy/proxify';
 import actionTypes from './actionTypes';
-import getEnvironmentReducer, {
-  getServerReducer,
-  getRecordingHostReducer,
-  getEnabledReducer,
+import {
+  getEnvironmentReducer,
+  getEnvironmentStorageReducer,
 } from './getEnvironmentReducer';
 
 /**
@@ -45,27 +44,16 @@ export default class Environment extends RcModule {
     this._globalStorage = globalStorage;
     this._sdkConfig = sdkConfig;
     this._reducer = getEnvironmentReducer(this.actionTypes);
-    this._serverStorageKey = 'environmentServer';
-    this._recordingHostStoragekey = 'environmentRecordingHost';
-    this._enabledStorageKey = 'environmentEnabled';
+    this._storageKey = 'environmentData';
+    this._defaultRecordingHost = defaultRecordingHost ||
+      'https://s3.ap-northeast-2.amazonaws.com/fetch-call-recording/test/index.html';
     this._globalStorage.registerReducer({
-      key: this._serverStorageKey,
-      reducer: getServerReducer({
+      key: this._storageKey,
+      reducer: getEnvironmentStorageReducer({
         types: this.actionTypes,
         defaultServer: SDK.server.sandbox,
+        defaultRecordingHost: this._defaultRecordingHost,
       }),
-    });
-    this._globalStorage.registerReducer({
-      key: this._recordingHostStoragekey,
-      reducer: getRecordingHostReducer({
-        types: this.actionTypes,
-        defaultRecordingHost: defaultRecordingHost ||
-          'https://s3.ap-northeast-2.amazonaws.com/fetch-call-recording/test/index.html',
-      }),
-    });
-    this._globalStorage.registerReducer({
-      key: this._enabledStorageKey,
-      reducer: getEnabledReducer(this.actionTypes),
     });
   }
   initialize() {
@@ -83,6 +71,7 @@ export default class Environment extends RcModule {
     return this._globalStorage.ready && !this.ready;
   }
   _initClientService() {
+    console.log('@@@', this.data, this._globalStorage.ready);
     if (this.enabled) {
       this._client.service = new SDK({
         ...this._sdkConfig,
@@ -125,16 +114,20 @@ export default class Environment extends RcModule {
     return this.state.status === moduleStatuses.ready;
   }
 
+  get data() {
+    return this._globalStorage.getItem(this._storageKey);
+  }
+
   get server() {
-    return this._globalStorage.getItem(this._serverStorageKey);
+    return this.data.server;
   }
 
   get recordingHost() {
-    return this._globalStorage.getItem(this._recordingHostStoragekey);
+    return this.data.recordingHost;
   }
 
   get enabled() {
-    return this._globalStorage.getItem(this._enabledStorageKey);
+    return this.data.enabled;
   }
 
   get changeCounter() {

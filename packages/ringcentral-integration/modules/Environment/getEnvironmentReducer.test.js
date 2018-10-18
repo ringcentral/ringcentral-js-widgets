@@ -1,10 +1,11 @@
 import { expect } from 'chai';
 import actionTypes from './actionTypes';
-import getEnvironmentReducer, {
+import {
   getChangeCounterReducer,
   getServerReducer,
   getRecordingHostReducer,
   getEnabledReducer,
+  getEnvironmentReducer,
 } from './getEnvironmentReducer';
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 

@@ -22,14 +22,14 @@ export default class GlobalStorage extends StorageBase {
       ...options,
     });
   }
-  initialize() {
+  async initialize() {
     let storedData = null;
     const storageKey =
       `${this.prefix ? `${this.prefix}-` : ''}GlobalStorage`;
     this._storage = new this._StorageProvider({
       storageKey,
     });
-    storedData = this._storage.getData();
+    storedData = await this._storage.getData();
     for (const key in storedData) {
       if (!this._reducers[key]) {
         delete storedData[key];
