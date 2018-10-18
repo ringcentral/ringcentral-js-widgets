@@ -71,7 +71,6 @@ export default class Environment extends RcModule {
     return this._globalStorage.ready && !this.ready;
   }
   _initClientService() {
-    console.log('@@@', this.data, this._globalStorage.ready);
     if (this.enabled) {
       this._client.service = new SDK({
         ...this._sdkConfig,
