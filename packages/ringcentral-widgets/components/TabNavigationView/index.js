@@ -21,11 +21,13 @@ function TabNavigationView(props) {
   if (props.holdReady) return null;
   return (
     <div className={classnames(styles.root, props.className)} >
-      {
-        props.navigationPosition === 'top' ?
-          navBar :
-          null
-      }
+      <div className={styles.tabContainer}>
+        {
+          props.navigationPosition === 'top' ?
+            navBar :
+            null
+        }
+      </div>
       <div className={styles.main}>
         {props.children}
       </div>
