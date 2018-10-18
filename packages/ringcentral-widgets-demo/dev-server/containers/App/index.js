@@ -189,14 +189,14 @@ export default function App({
                 )} />
               <Route
                 path="/transfer/:sessionsId"
-                component={() => (
-                  <TransferPage />
+                component={routerProps => (
+                  <TransferPage params={routerProps.params} />
                 )}
               />
               <Route
-                path="/simplifycallctrl"
-                component={() => (
-                  <SimpleActiveCallCtrlPage currentLocale={phone.locale.currentLocale} />
+                path="/simplifycallctrl/:sessionId"
+                component={routerProps => (
+                  <SimpleActiveCallCtrlPage params={routerProps.params} />
                 )}
               />
               <Route

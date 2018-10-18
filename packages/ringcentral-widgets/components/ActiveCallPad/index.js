@@ -314,9 +314,10 @@ class ActiveCallPad extends Component {
       );
     }
 
+    const isLessBtn = (buttons.length <= 3) && moreActions === null;
     return (
       <div className={classnames(styles.root, this.props.className)}>
-        <div className={styles.callCtrlButtonGroup}>
+        <div className={classnames(styles.callCtrlButtonGroup, isLessBtn && styles.biggerButton)}>
           <div className={styles.buttonRow}>
             {
               buttons.slice(0, DisplayButtonNumber - (moreActions ? 1 : 0)).map(opts => (

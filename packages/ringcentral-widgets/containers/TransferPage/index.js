@@ -5,19 +5,15 @@ import TransferPanel from '../../components/TransferPanel';
 import { withPhone } from '../../lib/phoneContext';
 
 function mapToProps(_, {
-  phone
+  phone, params: { sessionId }
 }) {
   const {
     locale,
     activeCallControl,
   } = phone;
-  const {
-    currentLocale
-  } = locale;
-  const {
-    activeSession
-  } = activeCallControl;
-
+  const { currentLocale } = locale;
+  const { activeSession } = activeCallControl;
+  activeCallControl.setActiveSessionId(sessionId);
   return {
     currentLocale,
     searchContactList: [],
