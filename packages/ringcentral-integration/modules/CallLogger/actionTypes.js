@@ -5,4 +5,5 @@ export default new Enum([
   ...Object.keys(baseActionTypes),
   'setAutoLog',
   'setLogOnRinging',
+  'addTransferredCall'
 ], 'callLogger');

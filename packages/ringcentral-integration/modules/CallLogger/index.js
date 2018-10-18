@@ -74,11 +74,9 @@ export default class CallLogger extends LoggerBase {
       key: this._storageKey,
       reducer: getDataReducer(this.actionTypes, initialState),
     });
-
     this._lastProcessedCalls = null;
     this._lastProcessedEndedCalls = null;
     this._customMatcherHooks = [];
-    this._transferredCallsMap = {};
   }
 
   _onReset() {
@@ -265,11 +263,14 @@ export default class CallLogger extends LoggerBase {
             if (call.telephonyStatus !== oldCall.telephonyStatus) {
               this._onCallUpdated({
                 ...call,
-                isTransferredCall: !!this._transferredCallsMap[call.sessionId]
+                isTransferredCall: !!this.transferredCallsMap[call.sessionId]
               }, callLoggerTriggerTypes.presenceUpdate);
             }
             if ((call.from && call.from.phoneNumber) !== (oldCall.from && oldCall.from.phoneNumber)) {
-              this._transferredCallsMap[call.sessionId] = true;
+              this.store.dispatch({
+                type: this.actionTypes.addTransferredCall,
+                sessionId: call.sessionId
+              });
               this._onCallUpdated({
                 ...call,
                 isTransferredCall: true
@@ -280,7 +281,7 @@ export default class CallLogger extends LoggerBase {
         oldCalls.forEach((call) => {
           this._onCallUpdated({
             ...call,
-            isTransferredCall: !!this._transferredCallsMap[call.sessionId]
+            isTransferredCall: !!this.transferredCallsMap[call.sessionId]
           }, callLoggerTriggerTypes.presenceUpdate);
         });
       }
@@ -305,7 +306,7 @@ export default class CallLogger extends LoggerBase {
             if (callInfo) {
               this._onCallUpdated({
                 ...callInfo,
-                isTransferredCall: !!this._transferredCallsMap[callInfo.sessionId]
+                isTransferredCall: !!this.transferredCallsMap[callInfo.sessionId]
               }, callLoggerTriggerTypes.callLogSync);
             }
           }
@@ -344,5 +345,9 @@ export default class CallLogger extends LoggerBase {
 
   get logOnRinging() {
     return this._storage.getItem(this._storageKey).logOnRinging;
+  }
+
+  get transferredCallsMap() {
+    return this._storage.getItem(this._storageKey).transferredCallsMap;
   }
 }
