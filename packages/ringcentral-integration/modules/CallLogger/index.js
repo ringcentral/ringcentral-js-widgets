@@ -10,6 +10,9 @@ import callLoggerTriggerTypes from '../../enums/callLoggerTriggerTypes';
 import actionTypes from './actionTypes';
 import getDataReducer from './getDataReducer';
 import proxify from '../../lib/proxy/proxify';
+import { getTokenReducer } from '../Auth/getAuthReducer';
+import getter from '../../lib/getter';
+import { createSelector } from 'reselect';
 
 /**
  * @function
@@ -151,7 +154,9 @@ export default class CallLogger extends LoggerBase {
       toEntity,
     });
   }
-  async _autoLogCall({ call, fromEntity, toEntity, triggerType }) {
+  async _autoLogCall({
+    call, fromEntity, toEntity, triggerType
+  }) {
     await this.log({
       call: {
         ...call,
@@ -343,11 +348,16 @@ export default class CallLogger extends LoggerBase {
     }
   }
 
+  @getter
+  transferredCallsMap = createSelector(
+    () => this.transferredCallsArr,
+    transferredCallsArr => transferredCallsArr.reduce((mapping, matcher) => Object.assign({}, mapping, matcher), {})
+  )
   get logOnRinging() {
     return this._storage.getItem(this._storageKey).logOnRinging;
   }
 
-  get transferredCallsMap() {
+  get transferredCallsArr() {
     return this._storage.getItem(this._storageKey).transferredCallsMap;
   }
 }

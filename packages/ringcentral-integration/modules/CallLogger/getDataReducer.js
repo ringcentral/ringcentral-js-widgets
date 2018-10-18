@@ -17,21 +17,12 @@ export function getAutoLogReducer(types, initialState = true) {
 }
 
 export function getTransferredCallsReducer(types, opacity = DEFAULT_OPACITY) {
-  return (state = {}, { type, sessionId }) => {
+  return (state = [], { type, sessionId }) => {
     if (type === types.addTransferredCall) {
-      if (Object.keys(state).length >= opacity) {
-        const newState = {};
-        for (let i = 1; i < Object.keys(state).length; i += 1) {
-          const key = Object.keys(state)[i];
-          newState[key] = state[key];
-        }
-        newState[sessionId] = true;
-        return newState;
-      }
-      return {
-        ...state,
-        [sessionId]: true
-      };
+      return [
+        ...(state.slice(state.length >= opacity ? 1 : 0, opacity)),
+        { [sessionId]: true }
+      ];
     }
     return state;
   };
