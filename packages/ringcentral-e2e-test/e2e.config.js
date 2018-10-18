@@ -92,6 +92,11 @@ module.exports = {
           viewport: {
             height: 518,
             width: 300,
+          },
+          setting: {
+            args: [
+              '--disable-dev-shm-usage',
+            ]
           }
         },
         params: {

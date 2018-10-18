@@ -14,11 +14,16 @@ export default class Login {
   static async login({ options: { option } } = {}) {
     const params = context.options.config;
     await $(context.driver.app).waitFor('[class*=loginButton]', { selector: 'css' });
+    await $(page).waitFor(2000);// wait for js warm up;
     await $(page).click('[class*=loginButton]', { selector: 'css' });
     // TODO: wait for popup
-    await $(page).waitFor(2000);
+    await $(page).waitFor(5000);
     const targets = await browser.targets();
-    const popupTarget = targets.find(t => t._targetInfo.title === 'Sign in - RingCentral');
+    const popupTarget = targets.find(t => t._targetInfo.title.indexOf('Sign in') !== -1);
+    if (!popupTarget) {
+      console.error('Fail to open login popup of RC');
+      return;
+    }
     const loginPage = await popupTarget.page();
     // 1. username
     await $(loginPage).type('input#credential', params.username, { selector: 'css' });
