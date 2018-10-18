@@ -262,8 +262,6 @@ export default class CallLogger extends LoggerBase {
           } else {
             const oldCall = oldCalls[oldCallIndex];
             oldCalls.splice(oldCallIndex, 1);
-            console.log('oldCall', oldCall);
-            console.log('call', call);
             if (call.telephonyStatus !== oldCall.telephonyStatus) {
               this._onCallUpdated({
                 ...call,
