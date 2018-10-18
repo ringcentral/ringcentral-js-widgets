@@ -70,14 +70,14 @@ export default class ConversationLogger extends LoggerBase {
       actionTypes,
       identityFunction: conversationLogIdentityFunction,
     });
-    this._auth = this::ensureExist(auth, 'auth');
-    this._contactMatcher = this::ensureExist(contactMatcher, 'contactMatcher');
-    this._conversationMatcher = this::ensureExist(conversationMatcher, 'conversationMatcher');
-    this._dateTimeFormat = this::ensureExist(dateTimeFormat, 'dateTimeFormat');
-    this._extensionInfo = this::ensureExist(extensionInfo, 'extensionInfo');
-    this._messageStore = this::ensureExist(messageStore, 'messageStore');
-    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
-    this._storage = this::ensureExist(storage, 'storage');
+    this._auth = this:: ensureExist(auth, 'auth');
+    this._contactMatcher = this:: ensureExist(contactMatcher, 'contactMatcher');
+    this._conversationMatcher = this:: ensureExist(conversationMatcher, 'conversationMatcher');
+    this._dateTimeFormat = this:: ensureExist(dateTimeFormat, 'dateTimeFormat');
+    this._extensionInfo = this:: ensureExist(extensionInfo, 'extensionInfo');
+    this._messageStore = this:: ensureExist(messageStore, 'messageStore');
+    this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._storage = this:: ensureExist(storage, 'storage');
     this._tabManager = tabManager;
     this._isLoggedContact = isLoggedContact;
     this._formatDateTime = formatDateTime;
@@ -432,6 +432,9 @@ export default class ConversationLogger extends LoggerBase {
     return this._selectors.conversationLogIds();
   }
   getConversationLogId(message) {
+    if (!message) {
+      return;
+    }
     const { conversationId } = message;
     const date = this._formatDateTime({
       type: 'date',
