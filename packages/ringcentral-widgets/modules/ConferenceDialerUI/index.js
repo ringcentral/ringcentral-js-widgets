@@ -5,7 +5,7 @@ import actionTypes from './actionTypes';
 import getReducer from './getReducer';
 
 @Module({
-  name: 'DialerUI',
+  name: 'ConferenceDialerUI',
   deps: [
     'ConferenceCall',
   ],
