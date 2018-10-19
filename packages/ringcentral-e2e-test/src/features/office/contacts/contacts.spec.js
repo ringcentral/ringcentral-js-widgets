@@ -50,11 +50,11 @@ describe('O365 contact flow: =====>', () => {
     const process = createProcess(
       Entry,
       Login,
-      // AuthorizeOffice
+      AuthorizeOffice
     )(context);
     await process.exec();
-    console.log('Wait 10s for syncing');
-    await sleep(10000);
+    // console.log('Wait 40s for syncing');
+    // await sleep(40000);
 
     const alertHandlers = await page.$$(dismissBtn, { selector: 'css' });
     for (const alertHandler of alertHandlers) {
