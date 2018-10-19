@@ -146,6 +146,8 @@ export default class ActiveCallsPanel extends Component {
       enableContactFallback,
       webphoneToVoicemail,
       sourceIcons,
+      phoneTypeRenderer,
+      phoneSourceNameRenderer,
       activeCurrentCalls,
       isWebRTC,
       isSessionAConferenceCall,
@@ -193,6 +195,8 @@ export default class ActiveCallsPanel extends Component {
         renderContactName={renderContactName}
         enableContactFallback={enableContactFallback}
         sourceIcons={sourceIcons}
+        phoneTypeRenderer={phoneTypeRenderer}
+        phoneSourceNameRenderer={phoneSourceNameRenderer}
         isWebRTC={isWebRTC}
         currentCall={activeCurrentCalls[0]}
         isSessionAConferenceCall={isSessionAConferenceCall}
@@ -283,6 +287,8 @@ ActiveCallsPanel.propTypes = {
   loggingMap: PropTypes.object,
   onCallsEmpty: PropTypes.func,
   sourceIcons: PropTypes.object,
+  phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
   isWebRTC: PropTypes.bool.isRequired,
   showSpinner: PropTypes.bool,
   isSessionAConferenceCall: PropTypes.func,
@@ -342,6 +348,8 @@ ActiveCallsPanel.defaultProps = {
   autoLog: false,
   onCallsEmpty: undefined,
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   showSpinner: false,
   isSessionAConferenceCall: () => false,
   onCallItemClick: false,

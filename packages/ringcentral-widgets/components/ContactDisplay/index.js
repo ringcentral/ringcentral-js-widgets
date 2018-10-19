@@ -13,15 +13,20 @@ const displayFormatter = ({
   entityName,
   entityType,
   phoneNumber,
+  phoneType,
   currentLocale,
   brand,
+  phoneTypeRenderer,
+  phoneSourceNameRenderer,
 }) => {
   let typeName;
   if (entityType) {
-    typeName = formatMessage(
-      phoneSourceNames.getString(entityType, currentLocale),
-      { brand }
-    );
+    typeName = phoneSourceNameRenderer
+      ? phoneSourceNameRenderer(entityType)
+      : formatMessage(
+        phoneSourceNames.getString(entityType, currentLocale),
+        { brand }
+      );
   }
   if (phoneNumber && entityName && entityType) {
     return `${entityName} | ${typeName} ${phoneNumber}`;
@@ -100,6 +105,8 @@ export default function ContactDisplay({
   brand,
   stopPropagation,
   sourceIcons = {},
+  phoneTypeRenderer,
+  phoneSourceNameRenderer,
   showGroupNumberName,
   contactName,
   isOnConferenceCall,
@@ -159,7 +166,9 @@ export default function ContactDisplay({
       entityType: contactMatches[0].entityType,
       phoneNumber,
       brand,
-      currentLocale
+      currentLocale,
+      phoneTypeRenderer,
+      phoneSourceNameRenderer,
     });
     contentEl = (
       <div title={title} className={styles.currentName}>
@@ -195,7 +204,7 @@ export default function ContactDisplay({
             entityType: entity.entityType,
             brand,
             currentLocale,
-            sourceIcons
+            sourceIcons,
           })
         )}
         renderValue={value => (
@@ -204,6 +213,8 @@ export default function ContactDisplay({
             entityType: showType && options[value].entityType,
             brand,
             currentLocale,
+            phoneTypeRenderer,
+            phoneSourceNameRenderer,
           })
         )}
         renderTitle={entity => (
@@ -213,6 +224,8 @@ export default function ContactDisplay({
             phoneNumber,
             brand,
             currentLocale,
+            phoneTypeRenderer,
+            phoneSourceNameRenderer,
           }) : phoneNumber)
         }
         dropdownAlign="left"
@@ -255,6 +268,8 @@ ContactDisplay.propTypes = {
   brand: PropTypes.string,
   stopPropagation: PropTypes.bool,
   sourceIcons: PropTypes.object,
+  phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
   showGroupNumberName: PropTypes.bool,
   contactName: PropTypes.any,
   iconClassName: PropTypes.string,
@@ -275,6 +290,8 @@ ContactDisplay.defaultProps = {
   brand: undefined,
   stopPropagation: true,
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   showGroupNumberName: false,
   contactName: undefined,
   iconClassName: null,

@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 import ContactDisplay from '../ContactDisplay';
-import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
 import CallAvatar from '../CallAvatar';
 
@@ -39,6 +37,8 @@ export default function CallInfo(props) {
           brand={props.brand}
           showPlaceholder={props.showContactDisplayPlaceholder}
           sourceIcons={props.sourceIcons}
+          phoneTypeRenderer={props.phoneTypeRenderer}
+          phoneSourceNameRenderer={props.phoneSourceNameRenderer}
         />
       </div>
       <div className={styles.userPhoneNumber}>
@@ -62,6 +62,8 @@ CallInfo.propTypes = {
   brand: PropTypes.string,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
+  phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
 };
 
 CallInfo.defaultProps = {
@@ -70,4 +72,6 @@ CallInfo.defaultProps = {
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
 };

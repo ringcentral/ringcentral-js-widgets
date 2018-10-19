@@ -190,6 +190,8 @@ class CallCtrlPanel extends Component {
         gotoParticipantsCtrl={this.props.gotoParticipantsCtrl}
         flipNumbers={this.props.flipNumbers}
         sourceIcons={this.props.sourceIcons}
+        phoneTypeRenderer={this.props.phoneTypeRenderer}
+        phoneSourceNameRenderer={this.props.phoneSourceNameRenderer}
         layout={this.props.layout}
         direction={this.props.direction}
         addDisabled={this.props.addDisabled}

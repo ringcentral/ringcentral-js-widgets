@@ -45,6 +45,8 @@ function CallList({
   autoLog,
   showContactDisplayPlaceholder,
   sourceIcons,
+  phoneTypeRenderer,
+  phoneSourceNameRenderer,
   renderContactName,
   renderExtraButton,
   contactDisplayStyle,
@@ -85,6 +87,8 @@ function CallList({
             autoLog={autoLog}
             showContactDisplayPlaceholder={showContactDisplayPlaceholder}
             sourceIcons={sourceIcons}
+            phoneTypeRenderer={phoneTypeRenderer}
+            phoneSourceNameRenderer={phoneSourceNameRenderer}
             renderContactName={renderContactName}
             renderExtraButton={renderExtraButton}
             contactDisplayStyle={contactDisplayStyle}
@@ -132,6 +136,8 @@ CallList.propTypes = {
   autoLog: PropTypes.bool,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
+  phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
   renderContactName: PropTypes.func,
   renderExtraButton: PropTypes.func,
   contactDisplayStyle: PropTypes.string,
@@ -162,6 +168,8 @@ CallList.defaultProps = {
   showContactDisplayPlaceholder: true,
   autoLog: false,
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   renderContactName: undefined,
   renderExtraButton: undefined,
   contactDisplayStyle: undefined,

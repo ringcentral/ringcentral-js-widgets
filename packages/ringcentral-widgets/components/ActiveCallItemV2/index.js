@@ -472,6 +472,8 @@ export default class ActiveCallItem extends Component {
       webphoneHangup,
       webphoneResume,
       sourceIcons,
+      phoneTypeRenderer,
+      phoneSourceNameRenderer,
       renderContactName,
       renderExtraButton,
       contactDisplayStyle,
@@ -556,6 +558,8 @@ export default class ActiveCallItem extends Component {
                 showPlaceholder={showContactDisplayPlaceholder}
                 showType={false}
                 sourceIcons={sourceIcons}
+                phoneTypeRenderer={phoneTypeRenderer}
+                phoneSourceNameRenderer={phoneSourceNameRenderer}
                 stopPropagation={false}
               />
               {showCallDetail ? this.getCallInfo() : null}
@@ -634,6 +638,8 @@ ActiveCallItem.propTypes = {
   brand: PropTypes.string,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
+  phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
   renderContactName: PropTypes.func,
   renderExtraButton: PropTypes.func,
   contactDisplayStyle: PropTypes.string,
@@ -666,6 +672,8 @@ ActiveCallItem.defaultProps = {
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   renderContactName: undefined,
   renderExtraButton: undefined,
   contactDisplayStyle: undefined,

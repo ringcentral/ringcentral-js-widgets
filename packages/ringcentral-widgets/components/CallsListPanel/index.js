@@ -40,6 +40,8 @@ function ActiveCallList({
   enableContactFallback,
   title,
   sourceIcons,
+  phoneTypeRenderer,
+  phoneSourceNameRenderer,
   disableLinks,
   renderContactName,
   renderExtraButton,
@@ -84,6 +86,8 @@ function ActiveCallList({
             enableContactFallback={enableContactFallback}
             autoLog={autoLog}
             sourceIcons={sourceIcons}
+            phoneTypeRenderer={phoneTypeRenderer}
+            phoneSourceNameRenderer={phoneSourceNameRenderer}
             disableLinks={disableLinks}
             renderContactName={renderContactName}
             renderExtraButton={renderExtraButton}
@@ -125,6 +129,8 @@ ActiveCallList.propTypes = {
   enableContactFallback: PropTypes.bool,
   autoLog: PropTypes.bool,
   sourceIcons: PropTypes.object,
+  phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
   disableLinks: PropTypes.bool,
   renderContactName: PropTypes.func,
   renderExtraButton: PropTypes.func,
@@ -155,6 +161,8 @@ ActiveCallList.defaultProps = {
   createEntityTypes: undefined,
   webphoneToVoicemail: undefined,
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   disableLinks: false,
   renderContactName: undefined,
   renderExtraButton: undefined,
@@ -229,6 +237,8 @@ export default class CallsListPanel extends Component {
       enableContactFallback,
       webphoneToVoicemail,
       sourceIcons,
+      phoneTypeRenderer,
+      phoneSourceNameRenderer,
       onClickToDial,
       disableLinks,
       disableClickToDial,
@@ -356,6 +366,8 @@ export default class CallsListPanel extends Component {
         webphoneToVoicemail={webphoneToVoicemail}
         enableContactFallback={enableContactFallback}
         sourceIcons={sourceIcons}
+        phoneTypeRenderer={phoneTypeRenderer}
+        phoneSourceNameRenderer={phoneSourceNameRenderer}
         disableLinks={disableLinks}
         renderContactName={renderContactName}
         renderExtraButton={renderExtraButton}
@@ -402,6 +414,8 @@ export default class CallsListPanel extends Component {
             autoLog={autoLog}
             showContactDisplayPlaceholder={showContactDisplayPlaceholder}
             sourceIcons={sourceIcons}
+            phoneTypeRenderer={phoneTypeRenderer}
+            phoneSourceNameRenderer={phoneSourceNameRenderer}
             renderContactName={renderContactName}
             renderExtraButton={renderExtraButton}
             contactDisplayStyle={contactDisplayStyle}
@@ -469,6 +483,8 @@ CallsListPanel.propTypes = {
   loggingMap: PropTypes.object,
   onCallsEmpty: PropTypes.func,
   sourceIcons: PropTypes.object,
+  phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
   calls: PropTypes.arrayOf(PropTypes.any).isRequired,
   onClickToDial: PropTypes.func,
   disableLinks: PropTypes.bool.isRequired,
@@ -527,6 +543,8 @@ CallsListPanel.defaultProps = {
   autoLog: false,
   onCallsEmpty: undefined,
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   onClickToDial: undefined,
   disableClickToDial: false,
   active: false,

@@ -260,6 +260,8 @@ class ConversationPanel extends Component {
             enableContactFallback={this.props.enableContactFallback}
             showPlaceholder={this.props.showContactDisplayPlaceholder}
             sourceIcons={this.props.sourceIcons}
+            phoneTypeRenderer={this.props.phoneTypeRenderer}
+            phoneSourceNameRenderer={this.props.phoneSourceNameRenderer}
             showGroupNumberName={this.props.showGroupNumberName}
           />
           <a
@@ -313,6 +315,8 @@ ConversationPanel.propTypes = {
   goBack: PropTypes.func.isRequired,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
+  phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
   showGroupNumberName: PropTypes.bool,
   messageSubjectRenderer: PropTypes.func,
   formatPhone: PropTypes.func.isRequired,
@@ -333,6 +337,8 @@ ConversationPanel.defaultProps = {
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   showGroupNumberName: false,
   messageText: '',
   updateMessageText: () => null,

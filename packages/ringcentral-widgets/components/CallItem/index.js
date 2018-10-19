@@ -335,6 +335,8 @@ export default class CallItem extends Component {
       enableContactFallback,
       showContactDisplayPlaceholder,
       sourceIcons,
+      phoneTypeRenderer,
+      phoneSourceNameRenderer,
       renderContactName,
       renderExtraButton,
       contactDisplayStyle,
@@ -412,6 +414,8 @@ export default class CallItem extends Component {
               selectClassName={styles.dropdownSelect}
               brand={brand}
               sourceIcons={sourceIcons}
+              phoneTypeRenderer={phoneTypeRenderer}
+              phoneSourceNameRenderer={phoneSourceNameRenderer}
               contactMatches={contactMatches}
               selected={this.state.selected}
               onSelectContact={this.onSelectContact}
@@ -511,6 +515,8 @@ CallItem.propTypes = {
   autoLog: PropTypes.bool,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
+  phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
   renderContactName: PropTypes.func,
   renderExtraButton: PropTypes.func,
   contactDisplayStyle: PropTypes.string,
@@ -536,6 +542,8 @@ CallItem.defaultProps = {
   showContactDisplayPlaceholder: true,
   autoLog: false,
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   renderContactName: undefined,
   renderExtraButton: undefined,
   contactDisplayStyle: undefined,
