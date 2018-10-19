@@ -214,9 +214,14 @@ function testCase(caseParams, fn) {
 
 // TODO: inherit nativeDescribe／nativeTest(concurrent/only/skip)
 
+function testSkip(...args) {
+  return _test.skip(...args);
+}
+
 function testDescribe(...args) {
   return _describe(...args);
 }
 
 global.test = testCase;
 global.describe = testDescribe;
+global.test.skip = testSkip;
