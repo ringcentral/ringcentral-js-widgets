@@ -3,23 +3,23 @@ import EventEmitter from 'event-emitter';
 import { createSelector } from 'reselect';
 import getter from '../../lib/getter';
 import { Module } from '../../lib/di';
-import callDirections from '../../enums/callDirections';
-import RcModule from '../../lib/RcModule';
-import actionTypes from './actionTypes';
-import partyStatusCode from './partyStatusCode';
-import conferenceRole from './conferenceRole';
-import getConferenceCallReducer from './getConferenceCallReducer';
-import proxify from '../../lib/proxy/proxify';
-import permissionsMessages from '../RolesAndPermissions/permissionsMessages';
-import conferenceErrors from './conferenceCallErrors';
-import { isConferenceSession } from '../Webphone/webphoneHelper';
-// import webphoneErrors from '../Webphone/webphoneErrors';
-import ensureExist from '../../lib/ensureExist';
-// import sleep from '../../lib/sleep';
-import callingModes from '../CallingSettings/callingModes';
-import calleeTypes from '../../enums/calleeTypes';
 import { isFunction } from '../../lib/di/utils/is_type';
+import RcModule from '../../lib/RcModule';
+import proxify from '../../lib/proxy/proxify';
+import ensureExist from '../../lib/ensureExist';
+import calleeTypes from '../../enums/calleeTypes';
+import callDirections from '../../enums/callDirections';
+
+import callingModes from '../CallingSettings/callingModes';
+import permissionsMessages from '../RolesAndPermissions/permissionsMessages';
+import { isConferenceSession, isRecording } from '../Webphone/webphoneHelper';
 import sessionStatus from '../Webphone/sessionStatus';
+
+import actionTypes from './actionTypes';
+import conferenceRole from './conferenceRole';
+import partyStatusCode from './partyStatusCode';
+import conferenceCallErrors from './conferenceCallErrors';
+import getConferenceCallReducer from './getConferenceCallReducer';
 
 const DEFAULT_TIMEOUT = 30000;// time out for conferencing session being accepted.
 const DEFAULT_TTL = 5000;// timer to update the conference information
@@ -202,7 +202,7 @@ export default class ConferenceCall extends RcModule {
       }
     } catch (e) {
       this._alert.warning({
-        message: conferenceErrors.terminateConferenceFailed,
+        message: conferenceCallErrors.terminateConferenceFailed,
       });
       this.store.dispatch({
         type: this.actionTypes.terminateConferenceFailed,
@@ -234,7 +234,7 @@ export default class ConferenceCall extends RcModule {
       || !this._connectivityMonitor.connectivity
     ) {
       this._alert.danger({
-        message: conferenceErrors.modeError,
+        message: conferenceCallErrors.modeError,
         ttl: 0,
       });
       return null;
@@ -303,7 +303,7 @@ export default class ConferenceCall extends RcModule {
       });
     } catch (e) {
       this._alert.warning({
-        message: conferenceErrors.removeFromConferenceFailed,
+        message: conferenceCallErrors.removeFromConferenceFailed,
       });
       this.store.dispatch({
         type: this.actionTypes.removeFromConferenceFailed,
@@ -322,7 +322,7 @@ export default class ConferenceCall extends RcModule {
   async makeConference(propagate = false) {
     if (!this.ready || !this._connectivityMonitor.connectivity) {
       this._alert.danger({
-        message: conferenceErrors.modeError,
+        message: conferenceCallErrors.modeError,
         ttl: 0,
       });
       return null;
@@ -340,7 +340,7 @@ export default class ConferenceCall extends RcModule {
     if (!this._callingSettings.callingMode === callingModes.webphone) {
       if (!propagate) {
         this._alert.danger({
-          message: conferenceErrors.modeError,
+          message: conferenceCallErrors.modeError,
           ttl: 0,
         });
       }
@@ -369,7 +369,7 @@ export default class ConferenceCall extends RcModule {
 
     if (!webphoneSessions.length) {
       this._alert.warning({
-        message: conferenceErrors.bringInFailed,
+        message: conferenceCallErrors.bringInFailed,
       });
       return;
     }
@@ -423,7 +423,7 @@ export default class ConferenceCall extends RcModule {
             this.terminateConference(conferenceState.conference.id);
           }
           this._alert.warning({
-            message: conferenceErrors.bringInFailed,
+            message: conferenceCallErrors.bringInFailed,
           });
           this.store.dispatch({
             type: this.actionTypes.mergeFailed,
@@ -448,7 +448,7 @@ export default class ConferenceCall extends RcModule {
           this.terminateConference(conferenceState.conference.id);
         }
         this._alert.warning({
-          message: conferenceErrors.bringInFailed,
+          message: conferenceCallErrors.bringInFailed,
         });
       }
       if (!sipInstances || conferenceId === null) {
@@ -754,7 +754,7 @@ export default class ConferenceCall extends RcModule {
 
       if (!propagate) {
         this._alert.warning({
-          message: conferenceErrors.makeConferenceFailed,
+          message: conferenceCallErrors.makeConferenceFailed,
         });
         return null;
       }
@@ -840,7 +840,7 @@ export default class ConferenceCall extends RcModule {
       : [session];
 
     for (const session of webphoneSessions) {
-      if (this._webphone.isCallRecording({ session })) {
+      if (!this.validateCallRecording(session)) {
         return null;
       }
     }
@@ -851,7 +851,7 @@ export default class ConferenceCall extends RcModule {
         x => x.id === conferenceState.sessionId,
         this._webphone.sessions
       );
-      if (this._webphone.isCallRecording({ session: conferenceSession })) {
+      if (!this.validateCallRecording(conferenceSession)) {
         return null;
       }
     }
@@ -889,6 +889,16 @@ export default class ConferenceCall extends RcModule {
     }
 
     return conferenceData;
+  }
+
+  validateCallRecording(session) {
+    if (isRecording(session)) {
+      this._alert.warning({
+        message: conferenceCallErrors.callIsRecording,
+      });
+      return false;
+    }
+    return true;
   }
 
   /*
