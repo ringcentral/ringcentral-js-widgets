@@ -512,15 +512,15 @@ export default class ActiveCallItem extends Component {
           containerCls={styles.wrapper}
           bodyCls={classnames({
             [styles.content]: true,
-            [styles.pointer]: hasCallControl,
+            [styles.pointer]: hasCallControl && !!onClick,
             [styles.disabled]: hasCallControl && disableLinks
           })}
           leftCls={classnames({
-            [styles.pointer]: hasCallControl,
+            [styles.pointer]: hasCallControl && !!onClick,
             [styles.disabled]: hasCallControl && disableLinks
           })}
           mediaLeft={
-            <div onClick={() => hasCallControl && onClick()}>
+            <div onClick={(hasCallControl && onClick) ? onClick : null}>
               <CallIcon
                 direction={direction}
                 ringing={ringing}
@@ -537,7 +537,9 @@ export default class ActiveCallItem extends Component {
             </div>
           }
           mediaBody={
-            <div onClick={() => hasCallControl && onClick()} className={styles.strechVertical}>
+            <div
+              onClick={(hasCallControl && onClick) ? onClick : null}
+              className={styles.strechVertical}>
               <ContactDisplay
                 isOnConferenceCall={isOnConferenceCall}
                 contactName={contactName}
