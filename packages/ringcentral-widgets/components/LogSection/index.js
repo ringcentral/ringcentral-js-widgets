@@ -137,7 +137,7 @@ export default class LogSection extends Component {
       ? () => { }
       : this.props.onLogBasicInfoClick;
 
-    const wrapperCls = classnames(styles.infoWithCtrlWrapper, {
+    const wrapperCls = classnames(styles.basicInfoWrapper, {
       [styles.pointer]: !disabledToCallControl()
     });
     return (
