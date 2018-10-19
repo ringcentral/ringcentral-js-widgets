@@ -117,6 +117,7 @@ function mapToFunctions(_, {
   getAvatarUrl,
   onBackButtonClick,
   phoneTypeRenderer,
+  phoneSourceNameRenderer,
   recipientsContactInfoRenderer,
   recipientsContactPhoneRenderer,
 }) {
@@ -144,7 +145,7 @@ function mapToFunctions(_, {
       const activeSessionId = webphone && webphone.activeSession && webphone.activeSession.id;
 
       if (!isOnConference &&
-         !isInboundCall &&
+        !isInboundCall &&
         (
           fromSession &&
           (fromSessionId !== session.id) &&
@@ -193,6 +194,7 @@ function mapToFunctions(_, {
       contactSearch.debouncedSearch({ searchString })
     ),
     phoneTypeRenderer,
+    phoneSourceNameRenderer,
     recipientsContactInfoRenderer,
     recipientsContactPhoneRenderer,
     onAdd(sessionId) {
@@ -204,10 +206,10 @@ function mapToFunctions(_, {
       }
       const otherOutboundCalls = filter(
         call => call.direction === callDirections.outbound &&
-                (
-                  call.webphoneSession &&
-                  call.webphoneSession.id !== session.id
-                ),
+          (
+            call.webphoneSession &&
+            call.webphoneSession.id !== session.id
+          ),
         callMonitor.allCalls
       );
       if (otherOutboundCalls.length) {

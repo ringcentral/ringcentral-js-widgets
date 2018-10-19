@@ -113,6 +113,7 @@ export default function IncomingCallPanel(props) {
         searchContact={props.searchContact}
         searchContactList={props.searchContactList}
         phoneTypeRenderer={props.phoneTypeRenderer}
+        phoneSourceNameRenderer={props.phoneSourceNameRenderer}
       />
       {props.children}
     </div>
@@ -149,6 +150,7 @@ IncomingCallPanel.propTypes = {
   searchContactList: PropTypes.array.isRequired,
   searchContact: PropTypes.func.isRequired,
   phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
 };
 
 IncomingCallPanel.defaultProps = {
@@ -163,4 +165,5 @@ IncomingCallPanel.defaultProps = {
   hasOtherActiveCall: false,
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
 };

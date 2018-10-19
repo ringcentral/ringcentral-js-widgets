@@ -371,6 +371,7 @@ class RecipientsInput extends Component {
           visibility={this.state.isFocusOnInput}
           titleEnabled={this.props.titleEnabled}
           phoneTypeRenderer={this.props.phoneTypeRenderer}
+          phoneSourceNameRenderer={this.props.phoneSourceNameRenderer}
           contactInfoRenderer={this.props.contactInfoRenderer}
           contactPhoneRenderer={this.props.contactPhoneRenderer}
         />
@@ -411,6 +412,7 @@ RecipientsInput.propTypes = {
   multiple: PropTypes.bool,
   inputRef: PropTypes.func,
   phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
   contactInfoRenderer: PropTypes.func,
   contactPhoneRenderer: PropTypes.func,
 };
@@ -428,6 +430,7 @@ RecipientsInput.defaultProps = {
   multiple: false,
   inputRef: undefined,
   phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   contactInfoRenderer: undefined,
   contactPhoneRenderer: undefined,
 };

@@ -12,8 +12,11 @@ function ContactInfo({
   name,
   entityType,
   titleEnabled,
+  phoneSourceNameRenderer,
 }) {
-  const phoneSourceName = phoneSourceNames.getString(entityType);
+  const phoneSourceName = phoneSourceNameRenderer
+    ? phoneSourceNameRenderer(entityType)
+    : phoneSourceNames.getString(entityType);
   const nameTitle = `${name} ${spliter} ${phoneSourceName}`;
   return (
     <div className={styles.nameSection} title={titleEnabled && nameTitle}>
@@ -31,9 +34,11 @@ ContactInfo.propTypes = {
   name: PropTypes.string.isRequired,
   entityType: PropTypes.string.isRequired,
   titleEnabled: PropTypes.bool,
+  phoneSourceNameRenderer: PropTypes.func,
 };
 ContactInfo.defaultProps = {
   titleEnabled: undefined,
+  phoneSourceNameRenderer: undefined,
 };
 
 function ContactPhone({
@@ -43,9 +48,9 @@ function ContactPhone({
   titleEnabled,
   phoneTypeRenderer,
 }) {
-  const phoneTypeName = phoneTypeRenderer ?
-    phoneTypeRenderer(phoneType) :
-    phoneTypeNames.getString(phoneType);
+  const phoneTypeName = phoneTypeRenderer
+    ? phoneTypeRenderer(phoneType)
+    : phoneTypeNames.getString(phoneType);
   const phoneNumberTitle =
     `${formatContactPhone(phoneNumber)} ${spliter} ${phoneTypeName}`;
   return (
@@ -84,6 +89,7 @@ function ContactItem({
   formatContactPhone,
   titleEnabled,
   phoneTypeRenderer,
+  phoneSourceNameRenderer,
   contactInfoRenderer: ContactInfoRenderer,
   contactPhoneRenderer: ContactPhoneRenderer,
 }) {
@@ -108,6 +114,7 @@ function ContactItem({
           phoneNumber={phoneNumber}
           formatContactPhone={formatContactPhone}
           phoneTypeRenderer={phoneTypeRenderer}
+          phoneSourceNameRenderer={phoneSourceNameRenderer}
           titleEnabled={titleEnabled}
         />
         <ContactPhoneRenderer
@@ -118,6 +125,7 @@ function ContactItem({
           phoneNumber={phoneNumber}
           formatContactPhone={formatContactPhone}
           phoneTypeRenderer={phoneTypeRenderer}
+          phoneSourceNameRenderer={phoneSourceNameRenderer}
           titleEnabled={titleEnabled}
         />
       </div>
@@ -136,12 +144,14 @@ ContactItem.propTypes = {
   onHover: PropTypes.func.isRequired,
   titleEnabled: PropTypes.bool,
   phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
   contactInfoRenderer: PropTypes.func,
   contactPhoneRenderer: PropTypes.func,
 };
 ContactItem.defaultProps = {
   titleEnabled: undefined,
   phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   contactInfoRenderer: undefined,
   contactPhoneRenderer: undefined,
 };
@@ -182,6 +192,7 @@ class ContactDropdownList extends Component {
       titleEnabled,
       visibility,
       phoneTypeRenderer,
+      phoneSourceNameRenderer,
       contactInfoRenderer,
       contactPhoneRenderer,
     } = this.props;
@@ -208,6 +219,7 @@ class ContactDropdownList extends Component {
               phoneType={item.phoneType}
               phoneNumber={item.phoneNumber}
               phoneTypeRenderer={phoneTypeRenderer}
+              phoneSourceNameRenderer={phoneSourceNameRenderer}
               formatContactPhone={formatContactPhone}
               onHover={() => setSelectedIndex(index)}
               onClick={() => addToRecipients(item)}
@@ -241,6 +253,7 @@ ContactDropdownList.propTypes = {
   titleEnabled: PropTypes.bool,
   listRef: PropTypes.func,
   phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
   contactInfoRenderer: PropTypes.func,
   contactPhoneRenderer: PropTypes.func,
 };
@@ -251,6 +264,7 @@ ContactDropdownList.defaultProps = {
   titleEnabled: undefined,
   listRef: undefined,
   phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   contactInfoRenderer: undefined,
   contactPhoneRenderer: undefined,
 };

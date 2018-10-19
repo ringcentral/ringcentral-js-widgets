@@ -295,6 +295,7 @@ class CallCtrlPage extends Component {
         searchContactList={this.props.searchContactList}
         searchContact={this.props.searchContact}
         phoneTypeRenderer={this.props.phoneTypeRenderer}
+        phoneSourceNameRenderer={this.props.phoneSourceNameRenderer}
         recipientsContactInfoRenderer={this.props.recipientsContactInfoRenderer}
         recipientsContactPhoneRenderer={this.props.recipientsContactPhoneRenderer}
         layout={this.state.layout}
@@ -364,6 +365,7 @@ CallCtrlPage.propTypes = {
   searchContactList: PropTypes.array.isRequired,
   searchContact: PropTypes.func.isRequired,
   phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
   recipientsContactInfoRenderer: PropTypes.func,
   recipientsContactPhoneRenderer: PropTypes.func,
   layout: PropTypes.string,
@@ -391,6 +393,7 @@ CallCtrlPage.defaultProps = {
   onBackButtonClick: null,
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   recipientsContactInfoRenderer: undefined,
   recipientsContactPhoneRenderer: undefined,
   onAdd: undefined,

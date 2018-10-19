@@ -145,6 +145,7 @@ class CallCtrlPanel extends Component {
           searchContact={this.props.searchContact}
           formatPhone={this.props.formatPhone}
           phoneTypeRenderer={this.props.phoneTypeRenderer}
+          phoneSourceNameRenderer={this.props.phoneSourceNameRenderer}
           recipientsContactInfoRenderer={this.props.recipientsContactInfoRenderer}
           recipientsContactPhoneRenderer={this.props.recipientsContactPhoneRenderer}
         />
@@ -261,6 +262,7 @@ CallCtrlPanel.propTypes = {
   searchContactList: PropTypes.array,
   searchContact: PropTypes.func,
   phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
   recipientsContactInfoRenderer: PropTypes.func,
   recipientsContactPhoneRenderer: PropTypes.func,
   layout: PropTypes.string.isRequired,
@@ -299,6 +301,7 @@ CallCtrlPanel.defaultProps = {
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   recipientsContactInfoRenderer: undefined,
   recipientsContactPhoneRenderer: undefined,
   onAdd: undefined,
