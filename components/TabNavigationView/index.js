@@ -48,7 +48,11 @@ function TabNavigationView(props) {
   return _react2.default.createElement(
     'div',
     { className: (0, _classnames2.default)(_styles2.default.root, props.className) },
-    props.navigationPosition === 'top' ? navBar : null,
+    _react2.default.createElement(
+      'div',
+      { className: _styles2.default.tabContainer },
+      props.navigationPosition === 'top' ? navBar : null
+    ),
     _react2.default.createElement(
       'div',
       { className: _styles2.default.main },
