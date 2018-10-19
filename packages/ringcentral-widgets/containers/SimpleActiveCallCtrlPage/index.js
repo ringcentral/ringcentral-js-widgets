@@ -15,7 +15,7 @@ import CallCtrlPanel from '../../components/CallCtrlPanel';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import { ACTIONS_CTRL_MAP } from '../../components/ActiveCallPad';
 import i18n from './i18n';
-import { pickEleByProps, pickFallBackInfo } from './utils';
+import { pickFallBackInfo } from './utils';
 
 function mapToProps(_, {
   phone: {
@@ -25,18 +25,16 @@ function mapToProps(_, {
     locale,
     brand,
   },
+  params,
   renderContactName,
 }) {
-  const { activeSession, activeSessionId: sessionId } = activeCallControl;
-  const activeCall = pickEleByProps(
-    { sessionId: String(sessionId) },
-    callMonitor.otherDeviceCalls
-  )[0];
+  const { sessionId } = params;
+  const { activeSession } = activeCallControl;
   let nameMatches = [];
-  if (activeCall && !renderContactName) {
+  if (activeSession && !renderContactName) {
     nameMatches =
       activeSession.direction === callDirections.outbound ?
-        activeCall.toMatches : activeCall.fromMatches;
+        activeSession.toMatches : activeSession.fromMatches;
   }
   let phoneNumber;
   if (activeSession) {
@@ -46,8 +44,8 @@ function mapToProps(_, {
   let fallBackName = i18n.getString('Unknown', locale.currentLocale);
   if (renderContactName) {
     const { fallBackName: fallBackNameFromThirdParty, fallBackNumber } = pickFallBackInfo(
-      activeCall,
-      renderContactName(sessionId),
+      activeSession,
+      renderContactName({ sessionId }),
       locale.currentLocale
     );
     phoneNumber = fallBackNumber;
@@ -55,9 +53,8 @@ function mapToProps(_, {
   }
   return {
     currentLocale: locale.currentLocale,
-    session: activeSession,
-    activeCall,
-    sessionId: activeCallControl.activeSessionId,
+    activeSession,
+    sessionId,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
     otherDeviceCalls: callMonitor.otherDeviceCalls,
@@ -72,14 +69,16 @@ function mapToProps(_, {
 function mapToFunctions(_, {
   phone: {
     routerInteraction,
+    activeCallControl
   },
 }) {
   return {
     onBackButtonClick: () => routerInteraction.goBack(),
+    setActiveSessionId: sessionId => activeCallControl.setActiveSessionId(sessionId)
   };
 }
 
-class ActiveCallControl extends Component {
+class ActiveCallControlPanel extends Component {
   constructor(props) {
     super(props);
 
@@ -115,14 +114,22 @@ class ActiveCallControl extends Component {
     };
   }
 
+  componentDidMount() {
+    this.loadActCall();
+  }
+  loadActCall() {
+    this.props.setActiveSessionId(this.props.sessionId);
+  }
+
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.session) {
+    if (!nextProps.activeSession) {
       this.props.onBackButtonClick();
     }
   }
 
   render() {
-    if (!this.props.session) {
+    if (!this.props.activeSession) {
+      // or using skeleton screen here
       return null;
     }
     const { muteCtrl, transferCtrl, holdCtrl } = ACTIONS_CTRL_MAP;
@@ -146,10 +153,10 @@ class ActiveCallControl extends Component {
         countryCode={this.props.countryCode}
         selectedMatcherIndex={this.state.selectedMatcherIndex}
         layout={callCtrlLayouts.normalCtrl}
-        startTime={this.props.activeCall.startTime}
+        startTime={this.props.activeSession.startTime}
         actions={[muteCtrl, transferCtrl, holdCtrl]}
-        isOnMute={this.props.session.isOnMute}
-        isOnHold={this.props.session.isOnHold}
+        isOnMute={this.props.activeSession.isOnMute}
+        isOnHold={this.props.activeSession.isOnHold}
         nameMatches={this.props.nameMatches}
         onSelectMatcherName={this.onSelectMatcherName}
         brand={this.props.brand}
@@ -159,13 +166,13 @@ class ActiveCallControl extends Component {
   }
 }
 
-ActiveCallControl.propTypes = {
+ActiveCallControlPanel.propTypes = {
+  setActiveSessionId: PropTypes.func,
   currentLocale: PropTypes.string,
   sessionId: PropTypes.string,
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
-  session: PropTypes.object,
-  activeCall: PropTypes.object,
+  activeSession: PropTypes.object,
   onBackButtonClick: PropTypes.func.isRequired,
   activeCallControl: PropTypes.object,
   nameMatches: PropTypes.array,
@@ -175,16 +182,16 @@ ActiveCallControl.propTypes = {
   brand: PropTypes.string.isRequired,
 };
 
-ActiveCallControl.defaultProps = {
+ActiveCallControlPanel.defaultProps = {
+  setActiveSessionId: () => {},
   currentLocale: 'en-US',
   activeCallControl: {},
-  session: null,
+  activeSession: null,
   sessionId: null,
-  activeCall: {},
   nameMatches: [],
   fallBackName: '',
   phoneNumber: '',
   showContactDisplayPlaceholder: false,
 };
 
-export default withPhone(connect(mapToProps, mapToFunctions)(ActiveCallControl));
+export default withPhone(connect(mapToProps, mapToFunctions)(ActiveCallControlPanel));

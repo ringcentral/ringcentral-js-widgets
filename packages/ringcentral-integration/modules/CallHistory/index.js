@@ -390,7 +390,7 @@ export default class CallHistory extends RcModule {
 
   @proxify
   debouncedSearch(...args) {
-    this._debouncedSearch.apply( this, args);
+    this._debouncedSearch.apply(this, args);
   }
 
   @proxify
@@ -426,6 +426,23 @@ export default class CallHistory extends RcModule {
       data
     });
   }
+
+  @getter
+  latestCalls = createSelector(
+    () => this.filterCalls,
+    () => this._activityMatcher && this._activityMatcher.dataMapping,
+    (calls, dataMapping) => {
+      if (dataMapping) {
+        const newCalls = calls.map(call => ({
+          ...call,
+          activityMatches: dataMapping[call.sessionId] || []
+        }));
+        return newCalls;
+      }
+      return calls;
+    },
+  )
+
 
   @getter
   uniqueNumbers = createSelector(

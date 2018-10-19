@@ -102,10 +102,17 @@ class ConversationPanel extends Component {
     const {
       correspondentMatches,
       lastMatchedCorrespondentEntity,
+      conversationMatches
     } = nextProps.conversation;
-    if (lastMatchedCorrespondentEntity) {
-      const index = correspondentMatches.findIndex(contact => (
-        contact.id === lastMatchedCorrespondentEntity.id
+    let index = null;
+    const correspondentMatchId = (
+      lastMatchedCorrespondentEntity &&
+      lastMatchedCorrespondentEntity.id) ||
+      (conversationMatches[0] &&
+        conversationMatches[0].id);
+    if (correspondentMatchId) {
+      index = correspondentMatches.findIndex(contact => (
+        contact.id === correspondentMatchId
       ));
       if (index > -1) return index;
     }
@@ -317,7 +324,7 @@ ConversationPanel.propTypes = {
   loadConversation: PropTypes.func,
   renderExtraButton: PropTypes.func,
   loadingNextPage: PropTypes.bool,
-  inputExpandable:PropTypes.bool,
+  inputExpandable: PropTypes.bool,
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,

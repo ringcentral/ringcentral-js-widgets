@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux';
 
+const DEFAULT_OPACITY = 20;
+
 export function getLogOnRingingReducer(types) {
   return (state = true, { type, logOnRinging }) => {
     if (type === types.setLogOnRinging) return !!logOnRinging;
@@ -14,10 +16,23 @@ export function getAutoLogReducer(types, initialState = true) {
   };
 }
 
+export function getTransferredCallsReducer(types, opacity = DEFAULT_OPACITY) {
+  return (state = [], { type, sessionId }) => {
+    if (type === types.addTransferredCall) {
+      return [
+        ...(state.slice(state.length >= opacity ? 1 : 0, opacity)),
+        { [sessionId]: true }
+      ];
+    }
+    return state;
+  };
+}
+
 /* istanbul ignore next */
 export default function getDataReducer(types, initialState = {}) {
   return combineReducers({
     autoLog: getAutoLogReducer(types, initialState.autoLog),
     logOnRinging: getLogOnRingingReducer(types),
+    transferredCallsMap: getTransferredCallsReducer(types)
   });
 }

@@ -63,6 +63,12 @@ $stopButtonIconRatio:0.98;
 }
 
 .callCtrlButtonGroup {
+  &.biggerButton {
+    height: auto;
+    .callButton {
+      padding: 8px;
+    }
+  }
   height: $keypadHeight;
 }
 

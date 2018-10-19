@@ -50,16 +50,21 @@ export default class UserGuide extends React.Component {
   }
 
   exit = () => {
-    this.setState({
-      playing: false,
-    });
-    this.props.updateCarousel({
-      curIdx: this.state.curIdx,
-      entered: this.state.entered,
-      playing: false
-    });
     if (this.props.quickAccessEnter && this.props.firstLogin) {
+      this.setState({
+        playing: false,
+      });
+      this.props.updateCarousel({
+        curIdx: this.state.curIdx,
+        entered: this.state.entered,
+        playing: false
+      });
       this.props.quickAccessEnter();
+    } else {
+      this.setState({
+        playing: false,
+      });
+      this.onExited();
     }
   }
 
@@ -81,7 +86,7 @@ export default class UserGuide extends React.Component {
         <div
           className={styles.introBg}
           style={{ backgroundImage: `url(${this.props.guides[0]})` }}
-         />
+        />
         <div className={styles.buttonGroup}>
           <Button
             className={styles.primaryButton}
@@ -110,7 +115,7 @@ export default class UserGuide extends React.Component {
           backgroundImage: `url(${guide})`,
           transform: `translateX(${(i + 1) * 100}vw)`
         }}
-       />
+      />
     ));
     const indicatorView = guides.map((_, i) => {
       const highlight = i + 1 === this.state.curIdx ? styles.highlight : null;
@@ -119,7 +124,7 @@ export default class UserGuide extends React.Component {
           key={i}
           className={classnames(styles.dot, highlight)}
           onClick={() => { this.slideTo(i + 1); }}
-         />
+        />
       );
     });
     const onLastPage = this.state.curIdx === this.props.guides.length - 1;
@@ -130,7 +135,7 @@ export default class UserGuide extends React.Component {
           onClick={() => { this.exit(); }}
           className={classnames(styles.secondaryButton)}
         >
-          { i18n.getString('skip', this.props.currentLocale) }
+          {i18n.getString('skip', this.props.currentLocale)}
         </Button>
       );
     const nextButton = (
@@ -138,9 +143,9 @@ export default class UserGuide extends React.Component {
         onClick={() => { this.slideTo(this.state.curIdx + 1); }}
         className={classnames(styles.primaryButton)}
       >
-        { onLastPage
-        ? i18n.getString('finish', this.props.currentLocale)
-            : i18n.getString('next', this.props.currentLocale) }
+        {onLastPage
+          ? i18n.getString('finish', this.props.currentLocale)
+          : i18n.getString('next', this.props.currentLocale)}
       </Button>
     );
     const controlView = (

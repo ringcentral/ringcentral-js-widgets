@@ -413,8 +413,10 @@ export default class CallMonitor extends RcModule {
           } else {
             const oldCall = oldCalls[oldCallIndex];
             oldCalls.splice(oldCallIndex, 1);
-            if (
-              call.telephonyStatus !== oldCall.telephonyStatus &&
+            if ((
+              call.telephonyStatus !== oldCall.telephonyStatus ||
+              (oldCall.from && oldCall.from.phoneNumber) !== (call.from && call.from.phoneNumber)
+            ) &&
               typeof this._onCallUpdated === 'function'
             ) {
               this._onCallUpdated(call);

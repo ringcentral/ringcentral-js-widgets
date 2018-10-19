@@ -10,6 +10,9 @@ import callLoggerTriggerTypes from '../../enums/callLoggerTriggerTypes';
 import actionTypes from './actionTypes';
 import getDataReducer from './getDataReducer';
 import proxify from '../../lib/proxy/proxify';
+import { getTokenReducer } from '../Auth/getAuthReducer';
+import getter from '../../lib/getter';
+import { createSelector } from 'reselect';
 
 /**
  * @function
@@ -74,7 +77,6 @@ export default class CallLogger extends LoggerBase {
       key: this._storageKey,
       reducer: getDataReducer(this.actionTypes, initialState),
     });
-
     this._lastProcessedCalls = null;
     this._lastProcessedEndedCalls = null;
     this._customMatcherHooks = [];
@@ -152,7 +154,9 @@ export default class CallLogger extends LoggerBase {
       toEntity,
     });
   }
-  async _autoLogCall({ call, fromEntity, toEntity, triggerType }) {
+  async _autoLogCall({
+    call, fromEntity, toEntity, triggerType
+  }) {
     await this.log({
       call: {
         ...call,
@@ -262,12 +266,28 @@ export default class CallLogger extends LoggerBase {
             const oldCall = oldCalls[oldCallIndex];
             oldCalls.splice(oldCallIndex, 1);
             if (call.telephonyStatus !== oldCall.telephonyStatus) {
-              this._onCallUpdated(call, callLoggerTriggerTypes.presenceUpdate);
+              this._onCallUpdated({
+                ...call,
+                isTransferredCall: !!this.transferredCallsMap[call.sessionId]
+              }, callLoggerTriggerTypes.presenceUpdate);
+            }
+            if ((call.from && call.from.phoneNumber) !== (oldCall.from && oldCall.from.phoneNumber)) {
+              this.store.dispatch({
+                type: this.actionTypes.addTransferredCall,
+                sessionId: call.sessionId
+              });
+              this._onCallUpdated({
+                ...call,
+                isTransferredCall: true
+              }, callLoggerTriggerTypes.presenceUpdate);
             }
           }
         });
         oldCalls.forEach((call) => {
-          this._onCallUpdated(call, callLoggerTriggerTypes.presenceUpdate);
+          this._onCallUpdated({
+            ...call,
+            isTransferredCall: !!this.transferredCallsMap[call.sessionId]
+          }, callLoggerTriggerTypes.presenceUpdate);
         });
       }
       if (
@@ -289,7 +309,10 @@ export default class CallLogger extends LoggerBase {
             const callInfo = this._callHistory.calls
               .find(item => item.sessionId === call.sessionId);
             if (callInfo) {
-              this._onCallUpdated(callInfo, callLoggerTriggerTypes.callLogSync);
+              this._onCallUpdated({
+                ...callInfo,
+                isTransferredCall: !!this.transferredCallsMap[callInfo.sessionId]
+              }, callLoggerTriggerTypes.callLogSync);
             }
           }
         });
@@ -325,7 +348,16 @@ export default class CallLogger extends LoggerBase {
     }
   }
 
+  @getter
+  transferredCallsMap = createSelector(
+    () => this.transferredCallsArr,
+    transferredCallsArr => transferredCallsArr.reduce((mapping, matcher) => Object.assign({}, mapping, matcher), {})
+  )
   get logOnRinging() {
     return this._storage.getItem(this._storageKey).logOnRinging;
+  }
+
+  get transferredCallsArr() {
+    return this._storage.getItem(this._storageKey).transferredCallsMap;
   }
 }

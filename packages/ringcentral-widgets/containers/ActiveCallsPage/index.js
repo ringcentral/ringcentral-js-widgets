@@ -135,7 +135,6 @@ function mapToFunctions(_, {
       return (activeCallControl && activeCallControl.hangUp(...args));
     },
     async ringoutTransfer(sessionId) {
-      activeCallControl.setActiveSessionId(sessionId);
       routerInteraction.push(`/transfer/${sessionId}`);
     },
     async ringoutReject(sessionId) {
@@ -206,8 +205,7 @@ function mapToFunctions(_, {
         const { sessionId } = call;
         // to track the call item be clicked.
         callMonitor.callItemClickTrack();
-        activeCallControl.setActiveSessionId(sessionId);
-        routerInteraction.push('/simplifycallctrl');
+        routerInteraction.push(`/simplifycallctrl/${sessionId}`);
       } else {
         // For webphone call
         // show the ring call modal when click a ringing call.
