@@ -5,7 +5,6 @@ import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import callErrors from 'ringcentral-integration/modules/Call/callErrors';
 import actionTypes from './actionTypes';
 import getReducer from './getReducer';
-import ConferenceCall from 'ringcentral-integration/modules/ConferenceCall';
 
 @Module({
   name: 'DialerUI',
