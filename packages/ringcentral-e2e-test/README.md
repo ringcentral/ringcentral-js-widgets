@@ -89,7 +89,7 @@ npx e2e-test run ./src/features/google/call/Dialer.spec.js --drivers puppeteer -
 
 ```shell
 cd <repo>/packages/ringcentral-e2e-test
-npx e2e-test run ./src/features/office/*/*.spec.js --drivers puppeteer -S
+npx e2e-test run ./src/features/office/*.spec.js --drivers puppeteer -S
 ```
 
 > NOTE: Chrome Extension for puppeteer must be `sandbox` mode.

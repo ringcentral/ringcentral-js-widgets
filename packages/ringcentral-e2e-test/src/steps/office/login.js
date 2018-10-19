@@ -18,7 +18,7 @@ export default class Login {
     await $(page).waitFor(2000);// wait for js warm up;
     await $(page).click('[class*=loginButton]', { selector: 'css' });
     // TODO: wait for popup
-    await $(page).waitFor(5000);
+    await $(page).waitFor(10000);
     const targets = await browser.targets();
     const popupTarget = targets.find(t => t._targetInfo.title.indexOf('Sign in') !== -1);
     if (!popupTarget) {
