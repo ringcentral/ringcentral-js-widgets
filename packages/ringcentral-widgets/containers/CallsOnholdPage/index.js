@@ -89,21 +89,21 @@ function mapToFunctions(_, {
     async onMerge(sessionId) {
       // to track user click merge
       callMonitor.callsOnHoldClickMergeTrack();
-      await conferenceCall.mergeSession({
+
+      const sessions = conferenceCall.parseMergingSessions({
         sessionId,
         sessionIdToMergeWith: fromSessionId,
-        onReadyToMerge() {
-          const confId = conferenceCall.conferences && Object.keys(conferenceCall.conferences)[0];
-
-          if (confId) {
-            const sessionId = conferenceCall.conferences[confId].sessionId;
-
-            routerInteraction.push(`/calls/active/${sessionId}`);
-          } else {
-            routerInteraction.goBack();
-          }
-        },
       });
+      if (sessions) {
+        const confId = conferenceCall.conferences && Object.keys(conferenceCall.conferences)[0];
+        if (confId) {
+          const confSessionId = conferenceCall.conferences[confId].sessionId;
+          routerInteraction.push(`/calls/active/${confSessionId}`);
+        } else {
+          routerInteraction.goBack();
+        }
+        await conferenceCall.mergeSessions(sessions);
+      }
     },
     onBackButtonClick() {
       if (webphone.sessions.length) {

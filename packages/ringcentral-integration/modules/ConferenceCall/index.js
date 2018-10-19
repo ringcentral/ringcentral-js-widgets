@@ -823,8 +823,7 @@ export default class ConferenceCall extends RcModule {
     };
   }
 
-  @proxify
-  async mergeSession({ sessionId, sessionIdToMergeWith, onReadyToMerge }) {
+  parseMergingSessions({ sessionId, sessionIdToMergeWith }) {
     const session = find(
       x => x.id === sessionId,
       this._webphone.sessions
@@ -856,17 +855,21 @@ export default class ConferenceCall extends RcModule {
       }
     }
 
-    if (
-      onReadyToMerge
-      && isFunction(onReadyToMerge)
-    ) {
-      onReadyToMerge();
-    }
+    return {
+      session,
+      sessionToMergeWith,
+    };
+  }
 
+  @proxify
+  async mergeSessions({ session, sessionToMergeWith }) {
     this.setMergeParty({
-      toSessionId: sessionId,
+      toSessionId: session.id,
     });
 
+    const webphoneSessions = sessionToMergeWith
+      ? [sessionToMergeWith, session]
+      : [session];
     await this.mergeToConference(webphoneSessions);
 
     const conferenceData = Object.values(this.conferences)[0];
