@@ -13,7 +13,7 @@ import outboundCall from 'ringcentral-e2e-test/src/steps/salesforce/outboundCall
 
 describe('Test Demo: =====>', () => {
   test({
-    title: 'setting My RC Phone',
+    title: 'Call with my custom phone',
     tags: [
       // ['widgets'],
       ['salesforce'],
@@ -30,7 +30,7 @@ describe('Test Demo: =====>', () => {
       WebphoneAnswerCall,
       settingCustomPhone,
       outboundCall,
-      // Logout,
+      Logout,
     )(context);
     await process.execTo(settingCustomPhone.gotoSettings);
     await process.skip(settingCustomPhone.settingAutoLog);
