@@ -1,13 +1,12 @@
 import { find, filter } from 'ramda';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 import { withPhone } from '../../lib/phoneContext';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
-import CallCtrlPage from './CallCtrlPage';
+import CallCtrlContainer from './CallCtrlPage';
 
 function mapToProps(_, {
   phone: {
@@ -266,31 +265,13 @@ function mapToFunctions(_, {
   };
 }
 
-const CallCtrlContainer = withPhone(connect(
+const CallCtrlPage = withPhone(connect(
   mapToProps,
   mapToFunctions,
-)(CallCtrlPage));
-
-CallCtrlContainer.propTypes = {
-  getAvatarUrl: PropTypes.func,
-  onBackButtonClick: PropTypes.func.isRequired,
-  onAdd: PropTypes.func.isRequired,
-  backButtonLabel: PropTypes.string,
-  children: PropTypes.node,
-  showContactDisplayPlaceholder: PropTypes.bool,
-  sourceIcons: PropTypes.object,
-};
-
-CallCtrlContainer.defaultProps = {
-  getAvatarUrl: () => null,
-  showContactDisplayPlaceholder: false,
-  children: undefined,
-  sourceIcons: undefined,
-};
+)(CallCtrlContainer));
 
 export {
   mapToProps,
   mapToFunctions,
-  CallCtrlPage,
-  CallCtrlContainer as default,
+  CallCtrlPage as default,
 };
