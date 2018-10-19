@@ -96,17 +96,22 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
   return desc;
 }
 
-var ConferenceDialerUI = (_dec = (0, _di.Module)(), _dec(_class = (_class2 = function (_DialerUI) {
+var ConferenceDialerUI = (_dec = (0, _di.Module)({
+  name: 'ConferenceDialerUI',
+  deps: ['ConferenceCall']
+}), _dec(_class = (_class2 = function (_DialerUI) {
   (0, _inherits3.default)(ConferenceDialerUI, _DialerUI);
 
   function ConferenceDialerUI(_ref) {
-    var options = (0, _objectWithoutProperties3.default)(_ref, []);
+    var conferenceCall = _ref.conferenceCall,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['conferenceCall']);
     (0, _classCallCheck3.default)(this, ConferenceDialerUI);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ConferenceDialerUI.__proto__ || (0, _getPrototypeOf2.default)(ConferenceDialerUI)).call(this, (0, _extends3.default)({}, options, {
       actionTypes: _actionTypes2.default
     })));
 
+    _this._conferenceCall = conferenceCall;
     _this._reducer = (0, _getReducer2.default)(_this.actionTypes);
     return _this;
   }
@@ -142,6 +147,16 @@ var ConferenceDialerUI = (_dec = (0, _di.Module)(), _dec(_class = (_class2 = fun
 
       return setLastSessionId;
     }()
+  }, {
+    key: '_onBeforeCall',
+    value: function _onBeforeCall(fromSessionId) {
+      if (fromSessionId && this._conferenceCall.mergingPair && !this._conferenceCall.mergingPair.fromSessionId) {
+        // set mergingPair if has
+        this._conferenceCall.setMergeParty({
+          fromSessionId: fromSessionId
+        });
+      }
+    }
   }, {
     key: 'lastSessionId',
     get: function get() {

@@ -110,15 +110,16 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 var DialerUI = (_dec = (0, _di.Module)({
   name: 'DialerUI',
-  deps: ['Call', 'Alert', { dep: 'DialerUIOptions', optional: true }]
+  deps: ['Call', 'Alert', { dep: 'ConferenceCall', optional: true }, { dep: 'DialerUIOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(DialerUI, _RcModule);
 
   function DialerUI(_ref) {
     var call = _ref.call,
         alert = _ref.alert,
+        conferenceCall = _ref.conferenceCall,
         subActionTypes = _ref.actionTypes,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['call', 'alert', 'actionTypes']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['call', 'alert', 'conferenceCall', 'actionTypes']);
     (0, _classCallCheck3.default)(this, DialerUI);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (DialerUI.__proto__ || (0, _getPrototypeOf2.default)(DialerUI)).call(this, (0, _extends3.default)({}, options, {
@@ -127,6 +128,7 @@ var DialerUI = (_dec = (0, _di.Module)({
 
     _this._call = _ensureExist2.default.call(_this, call, 'call');
     _this._alert = _ensureExist2.default.call(_this, alert, 'alert');
+    _this._conferenceCall = conferenceCall;
     _this._reducer = (0, _getReducer2.default)(_this.actionTypes);
     _this._callHooks = [];
     return _this;
@@ -413,12 +415,27 @@ var DialerUI = (_dec = (0, _di.Module)({
       return call;
     }()
   }, {
+    key: '_loadLastPhoneNumber',
+    value: function _loadLastPhoneNumber() {
+      if (!this._call.lastRecipient && !this._call.lastPhoneNumber) {
+        this._alert.warning({
+          message: _callErrors2.default.noToNumber
+        });
+      } else {
+        this.store.dispatch({
+          type: this.actionTypes.loadLastCallState,
+          phoneNumber: this._call.lastPhoneNumber,
+          recipient: this._call.lastRecipient
+        });
+      }
+    }
+  }, {
     key: 'onCallButtonClick',
     value: function () {
       var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
         var _ref10 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
             fromNumber = _ref10.fromNumber,
-            beforeCall = _ref10.beforeCall;
+            fromSessionId = _ref10.fromSessionId;
 
         return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
@@ -429,24 +446,12 @@ var DialerUI = (_dec = (0, _di.Module)({
                   break;
                 }
 
-                if (!this._call.lastRecipient && !this._call.lastPhoneNumber) {
-                  this._alert.warning({
-                    message: _callErrors2.default.noToNumber
-                  });
-                } else {
-                  this.store.dispatch({
-                    type: this.actionTypes.loadLastCallState,
-                    phoneNumber: this._call.lastPhoneNumber,
-                    recipient: this._call.lastRecipient
-                  });
-                }
+                this._loadLastPhoneNumber();
                 _context7.next = 7;
                 break;
 
               case 4:
-                if (typeof beforeCall === 'function') {
-                  beforeCall();
-                }
+                this._onBeforeCall(fromSessionId);
                 _context7.next = 7;
                 return this.call({
                   phoneNumber: this.toNumberField,
@@ -468,6 +473,13 @@ var DialerUI = (_dec = (0, _di.Module)({
 
       return onCallButtonClick;
     }()
+  }, {
+    key: '_onBeforeCall',
+    value: function _onBeforeCall() {
+      if (this._conferenceCall) {
+        this._conferenceCall.closeMergingPair();
+      }
+    }
   }, {
     key: 'toNumberField',
     get: function get() {

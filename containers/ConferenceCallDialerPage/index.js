@@ -153,16 +153,7 @@ function mapToFunctions(_, _ref2) {
     onCallButtonClick: function onCallButtonClick() {
       conferenceDialerUI.onCallButtonClick({
         fromNumber: params.fromNumber,
-        beforeCall: function beforeCall() {
-          var fromSessionId = params.fromSessionId;
-
-          if (fromSessionId && conferenceCall && conferenceCall.mergingPair && !conferenceCall.mergingPair.fromSessionId) {
-            // set mergingPair if has
-            conferenceCall.setMergeParty({
-              fromSessionId: fromSessionId
-            });
-          }
-        }
+        fromSessionId: params.fromSessionId
       });
     },
 
