@@ -158,68 +158,25 @@ describe('RCI-330 - Authorize and Unauthorize RingCentral for Office 365', () =>
     await $(page).click('button[class*="AuthorizeSettingsPanel"]', { selector: 'css' });
     detectAuthPanel(false, option);
   });
-  test({
-    title: 'O365 authorization flow(click authorization on setting panel)',
-    tags: [
-      ['office', { brands: ['rc'] }],
-    ],
-    brands: ['rc'],
-    levels: ['p0'],
-    options: [
-      {
-        authSuccess: 'Authorized Account',
-      },
-    ],
-  }, async ({ option }) => {
-    // Login CTI
-    const params = context.options.config;
-    const process = createProcess(
-      Entry,
-      Login,
-      AuthorizeOffice
-    )(context);
-    // Authroize Office365
-    await process.exec();
-    await detectAuthPanel(true, option);
-    /** Click logout and relogin, user still Authorized **/
-    await $(page).waitFor('[class*="loginNumber"]', { selector: 'css' });
-    await $(page).click('[class*="loginNumber"]', { selector: 'css' });
-    Login.login();
-    await detectAuthPanel(true, option);
-    /** Click the Unauthorise button **/
-    await $(page).click('button[class*="AuthorizeSettingsPanel"]', { selector: 'css' });
-    await detectAuthPanel(false, option);
-  });
-  // for test
-  test.skip({
-    title: '123',
-    tags: [
-      ['office', { brands: ['rc'] }],
-    ],
-    brands: ['rc'],
-    levels: ['p0'],
-    options: [
-      {
-        authSuccess: 'Authorized Account',
-      },
-    ],
-  }, async ({ option }) => {
-    // Login CTI
-    const process = createProcess(
-      Entry,
-      Login,
-    )(context);
-    // Authroize Office365
-    await process.exec();
-    // await $(page).waitFor(2000);
-    await $(page).waitFor('div[title="More Menu"]', { selector: 'css' });
-    await $(page).click('div[title="More Menu"]', { selector: 'css' });
-    await $(page).waitFor('div[title="Settings"]', { selector: 'css' });
-    await $(page).click('div[title="Settings"]', { selector: 'css' });
-    /** Click logout and relogin, user still Authorized **/
-    await $(page).waitFor('[class*="loginNumber"]', { selector: 'css' });
-    await $(page).click('[class*="loginNumber"]', { selector: 'css' });
-    Login.login();
-    await detectAuthPanel(true, option);
-  });
 });
+
+export async function caseAuthorizePanel({ option }) {
+  // Login CTI
+  const params = context.options.config;
+  const process = createProcess(
+    Entry,
+    Login,
+    AuthorizeOffice
+  )(context);
+  // Authroize Office365
+  await process.exec();
+  await detectAuthPanel(true, option);
+  /** Click logout and relogin, user still Authorized **/
+  await $(page).waitFor('[class*="loginNumber"]', { selector: 'css' });
+  await $(page).click('[class*="loginNumber"]', { selector: 'css' });
+  Login.login();
+  await detectAuthPanel(true, option);
+  /** Click the Unauthorise button **/
+  await $(page).click('button[class*="AuthorizeSettingsPanel"]', { selector: 'css' });
+  await detectAuthPanel(false, option);
+}
