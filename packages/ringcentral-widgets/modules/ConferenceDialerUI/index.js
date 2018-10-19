@@ -4,16 +4,22 @@ import DialerUI from '../DialerUI';
 import actionTypes from './actionTypes';
 import getReducer from './getReducer';
 
-@Module()
+@Module({
+  name: 'ConferenceDialerUI',
+  deps: [
+    'ConferenceCall',
+  ],
+})
 export default class ConferenceDialerUI extends DialerUI {
   constructor({
-    ...options
+    conferenceCall,
+    ...options,
   }) {
     super({
       ...options,
       actionTypes,
     });
-
+    this._conferenceCall = conferenceCall;
     this._reducer = getReducer(this.actionTypes);
   }
 
@@ -31,5 +37,18 @@ export default class ConferenceDialerUI extends DialerUI {
 
   get lastSessionId() {
     return this.state.lastSessionId;
+  }
+
+  _onBeforeCall(fromSessionId) {
+    if (
+      fromSessionId &&
+      this._conferenceCall.mergingPair &&
+      !this._conferenceCall.mergingPair.fromSessionId
+    ) {
+      // set mergingPair if has
+      this._conferenceCall.setMergeParty({
+        fromSessionId
+      });
+    }
   }
 }

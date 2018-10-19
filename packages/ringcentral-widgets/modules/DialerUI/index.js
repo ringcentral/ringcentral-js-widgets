@@ -11,6 +11,7 @@ import getReducer from './getReducer';
   deps: [
     'Call',
     'Alert',
+    { dep: 'ConferenceCall', optional: true },
     { dep: 'DialerUIOptions', optional: true },
   ],
 })
@@ -18,6 +19,7 @@ export default class DialerUI extends RcModule {
   constructor({
     call,
     alert,
+    conferenceCall,
     actionTypes: subActionTypes,
     ...options
   }) {
@@ -28,6 +30,7 @@ export default class DialerUI extends RcModule {
 
     this._call = this:: ensureExist(call, 'call');
     this._alert = this:: ensureExist(alert, 'alert');
+    this._conferenceCall = conferenceCall;
     this._reducer = getReducer(this.actionTypes);
     this._callHooks = [];
   }
@@ -129,32 +132,40 @@ export default class DialerUI extends RcModule {
     }
   }
 
+  _loadLastPhoneNumber() {
+    if (!this._call.lastRecipient && !this._call.lastPhoneNumber) {
+      this._alert.warning({
+        message: callErrors.noToNumber,
+      });
+    } else {
+      this.store.dispatch({
+        type: this.actionTypes.loadLastCallState,
+        phoneNumber: this._call.lastPhoneNumber,
+        recipient: this._call.lastRecipient,
+      });
+    }
+  }
+
   @proxify
-  async onCallButtonClick({ fromNumber, beforeCall } = {}) {
+  async onCallButtonClick({ fromNumber, fromSessionId } = {}) {
     if (
       `${this.toNumberField}`.trim().length === 0 &&
       !this.recipient
     ) {
-      if (!this._call.lastRecipient && !this._call.lastPhoneNumber) {
-        this._alert.warning({
-          message: callErrors.noToNumber,
-        });
-      } else {
-        this.store.dispatch({
-          type: this.actionTypes.loadLastCallState,
-          phoneNumber: this._call.lastPhoneNumber,
-          recipient: this._call.lastRecipient,
-        });
-      }
+      this._loadLastPhoneNumber();
     } else {
-      if (typeof beforeCall === 'function') {
-        beforeCall();
-      }
+      this._onBeforeCall(fromSessionId);
       await this.call({
         phoneNumber: this.toNumberField,
         recipient: this.recipient,
         fromNumber,
       });
+    }
+  }
+
+  _onBeforeCall() {
+    if (this._conferenceCall) {
+      this._conferenceCall.closeMergingPair();
     }
   }
 
