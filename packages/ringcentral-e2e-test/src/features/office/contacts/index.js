@@ -1,6 +1,8 @@
 /* eslint-disable */
 /* global $, page, browser, driver, context */
-import { createProcess } from 'marten';
+import {
+  createProcess
+} from 'marten';
 import AuthorizeOffice from '../../../steps/office/authorizeOffice';
 import Login from '../../../steps/office/login';
 import Entry from '../../../steps/entry';
@@ -12,7 +14,7 @@ import sleep from 'ringcentral-integration/lib/sleep';
 const o365loginURL = 'https://login.microsoftonline.com';
 const o365PeopleURL = 'https://outlook.office.com/owa/?path=/people';
 const outlookId = 'ShellMail_link';
-const peopleBtnSelector = 'button[title="People"]';// unsafe but due to outlook page can render multiple people button with the same Aria lable but different css cls
+const peopleBtnSelector = 'button[title="People"]'; // unsafe but due to outlook page can render multiple people button with the same Aria lable but different css cls
 const contactFolderSelector = 'div[aria-label="Your contacts"][role="tree"][aria-haspopup="true"][role="tree"]';
 const markAsReadSelector = '[aria-label="Mark all as read (Q)"]';
 const contactFolderExpandedAttr = 'aria-expanded';
@@ -38,11 +40,13 @@ export default async function caseO365Contacts(option) {
   // await sleep(40000);
 
   console.log('Dismiss alerts...');
-  const alertHandlers = await page.$$(dismissBtn, { selector: 'css' });
+  const alertHandlers = await page.$$(dismissBtn, {
+    selector: 'css'
+  });
   for (const alertHandler of alertHandlers) {
-    try{
+    try {
       await alertHandler.click();
-    }catch(e){
+    } catch (e) {
       //
     }
   }
@@ -125,15 +129,15 @@ export default async function caseO365Contacts(option) {
   await $(outlookPage).waitFor(contactFolderSelector, {
     selector: 'css',
     timeout: 120000,
-   });
+  });
 
   const {
     expanded,
     contactFolderId,
-  } = await outlookPage.evaluate((contactFolderSelector, contactFolderExpandedAttr)=>{
+  } = await outlookPage.evaluate((contactFolderSelector, contactFolderExpandedAttr) => {
       const foldr = [].slice
-      .call(document.querySelectorAll(contactFolderSelector))
-      .find(dom=>dom.offsetHeight > 0);
+        .call(document.querySelectorAll(contactFolderSelector))
+        .find(dom => dom.offsetHeight > 0);
 
       return {
         expanded: foldr && eval(foldr.parentElement.getAttribute(contactFolderExpandedAttr)),
@@ -151,19 +155,23 @@ export default async function caseO365Contacts(option) {
 
   if (!expanded) {
     console.log('Clicking to expand the contacts section tree.')
-    await $(outlookPage).click(contactFolderExpandIconSelector, { selector: 'css' });
+    await $(outlookPage).click(contactFolderExpandIconSelector, {
+      selector: 'css'
+    });
   }
 
   console.log('Clicking contact entry and waiting for 15s for entry page to laod.')
-  await $(outlookPage).click(contactsEntry, { selector: 'css' });
-  await sleep(15000);// wait for loading
+  await $(outlookPage).click(contactsEntry, {
+    selector: 'css'
+  });
+  await sleep(15000); // wait for loading
   console.log('Get contacts names');
 
   // get contact names of the first page.
   const contactsNames = await outlookPage.evaluate(
-    (contactListSelector, ariaLableAttr)=>(
+    (contactListSelector, ariaLableAttr) => (
       Array.prototype.slice.call(document.querySelectorAll(contactListSelector))
-      .map(dom=>dom.getAttribute(ariaLableAttr).replace('. Press enter to view more details.',''))
+      .map(dom => dom.getAttribute(ariaLableAttr).replace('. Press enter to view more details.', ''))
     ),
     contactListSelector,
     ariaLableAttr,
@@ -180,32 +188,42 @@ export default async function caseO365Contacts(option) {
   /**
    * FIXME: get the contact count
    */
-  await $(page).waitFor(contactNavSelector, { selector: 'css' });
-  await $(page).click(contactNavSelector, { selector: 'css' });
+  await $(page).waitFor(contactNavSelector, {
+    selector: 'css'
+  });
+  await $(page).click(contactNavSelector, {
+    selector: 'css'
+  });
 
   for (let contactName of contactsNames) {
     console.log(`Seaching ${contactName} in CTI...`);
-    const searchBar=await page.$(searchBarSelector);
+    const searchBar = await page.$(searchBarSelector);
     await searchBar.click();
     await searchBar.focus();
     // click three times to select all
-    await searchBar.click({clickCount: 3});
+    await searchBar.click({
+      clickCount: 3
+    });
     await searchBar.press('Backspace');
     await searchBar.type(contactName);
-    await sleep(1000);
+    await sleep(500);
     const contactItemSelector = `div[title="${contactName}"]`;
-    const resultLength = await page.evaluate((contactName, contactItemSelector)=>(
+    const resultLength = await page.evaluate((contactName, contactItemSelector) => (
       Array.prototype.slice.call(document.querySelectorAll(contactItemSelector)).length
     ), contactName, contactItemSelector);
     expect(resultLength).toBeGreaterThanOrEqual(0);
-    await $(page).click(contactItemSelector, { selector: 'css' });
+    await $(page).click(contactItemSelector, {
+      selector: 'css'
+    });
     await sleep(500);
 
     const contactTitleSelector = `span[title="${contactName}"]`;
-    const contactTitle = await page.evaluate((contactName, contactTitleSelector)=>(
+    const contactTitle = await page.evaluate((contactName, contactTitleSelector) => (
       document.querySelector(contactTitleSelector).innerText
     ), contactName, contactTitleSelector);
     expect(contactTitle).toEqual(contactName);
-    await $(page).click(backBtnSelector, { selector: 'css' });
+    await $(page).click(backBtnSelector, {
+      selector: 'css'
+    });
   }
 }
