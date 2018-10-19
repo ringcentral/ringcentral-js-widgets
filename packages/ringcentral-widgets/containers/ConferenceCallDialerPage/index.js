@@ -97,20 +97,7 @@ function mapToFunctions(_, {
     onCallButtonClick() {
       conferenceDialerUI.onCallButtonClick({
         fromNumber: params.fromNumber,
-        beforeCall() {
-          const { fromSessionId } = params;
-          if (
-            fromSessionId &&
-            conferenceCall &&
-            conferenceCall.mergingPair &&
-            !conferenceCall.mergingPair.fromSessionId
-          ) {
-            // set mergingPair if has
-            conferenceCall.setMergeParty({
-              fromSessionId
-            });
-          }
-        }
+        fromSessionId: params.fromSessionId,
       });
     },
     callBtnClassName: styles.callBtn,
