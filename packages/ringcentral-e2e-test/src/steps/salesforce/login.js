@@ -30,11 +30,12 @@ export default class Login {
 
   static async login({ options: { option, isVirtual }, driver: { app } }) {
     if (isVirtual) {
-      app.props().phone.auth.login({ username: option.account1[0]['mainNumber'], password: option.account1[0]['password'] });
+      app.props().phone.auth.login({ username: option.account1[0]['did'], password: option.account1[0]['password'] });
     } else {
-      await $(app).execute(`phone.auth.login({username: '${option.account1[0]['mainNumber']}', password: '${option.account1[0]['password']}'})`);
+      await $(app).execute(`phone.auth.login({username: '${option.account1[0]['did']}', password: '${option.account1[0]['password']}'})`);
     }
-    await $(app).waitForSelector('[title="More Menu"]', { selector: 'css' });
+    await $(app).waitFor(1500);
+    await $(app).waitForSelector('[class*=-SettingsPanel-_styles_root] div  a:nth-child(1) [class*=IconField-_styles_content]', { selector: 'css', visible: true });
   }
 
   // static async login({ options: { option, isVirtual }, driver: { app } }) {

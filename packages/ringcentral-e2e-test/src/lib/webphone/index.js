@@ -1,8 +1,8 @@
-import * as WebPhoneClient  from 'webphone-client';
+import * as WebPhoneClient from 'webphone-client';
 const TTL = 1800000;
 const WAIT_TIMEOUT = 300000;
 
-export default class WebPhone{
+export default class WebPhone {
 
   async createWebPhone(phone, type, password) {
     let apiClient = new WebPhoneClient.ApiClient(this.getHost());
@@ -59,7 +59,7 @@ export default class WebPhone{
     return response;
   }
 
-  async preOperate(phoneId, sessionId, action, always = true) {
+  async preOperate({ phoneId, sessionId, action, always = true }) {
     let apiClient = new WebPhoneClient.ApiClient(this.getHost());
     let apiInstance = new WebPhoneClient.PreOperatePhoneApi(apiClient);
     let request = {
@@ -72,15 +72,7 @@ export default class WebPhone{
     let response = await apiInstance.phonePreOperatePost(body);
     return response;
   }
-  async preOperateAnswerCall(phoneId, sessionId) {
-    return await this.preOperate(phoneId, sessionId, 'answerCall');
-  }
-  async preOperateDecline(phoneId, sessionId) {
-    return await this.preOperate(phoneId, sessionId, 'decline');
-  }
-
-
-  async operate(phoneId, sessionId, action, phoneNumber) {
+  async operate({ phoneId, sessionId, action, phoneNumber }) {
     let apiClient = new WebPhoneClient.ApiClient(this.getHost());
     let phoneStatus = (await this.getPhonesById(phoneId)).body.status;
     let apiInstance = new WebPhoneClient.OperatePhoneApi(apiClient);
@@ -93,18 +85,6 @@ export default class WebPhone{
     let body = WebPhoneClient.OperationReqeust.constructFromObject(request, null);
     let response = await this.statusChange(await apiInstance.phoneOperatePost(body), phoneStatus);
     return response;
-  }
-
-  async operateMakeCall(phoneId, sessionId, phoneNumber) {
-    return await this.operate(phoneId, sessionId, 'makeCall',phoneNumber);
-  }
-
-  async operateHangUp(phoneId, sessionId, phoneNumber) {
-    return await this.operate(phoneId, sessionId, 'hangup',phoneNumber);
-  }
-
-  async operateClose(phoneId, sessionId, phoneNumber) {
-    return await this.operate(phoneId, sessionId, 'close',phoneNumber);
   }
 
   getEnv() {
