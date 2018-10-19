@@ -147,14 +147,14 @@ export default class DialerUI extends RcModule {
   }
 
   @proxify
-  async onCallButtonClick({ fromNumber } = {}) {
+  async onCallButtonClick({ fromNumber, fromSessionId } = {}) {
     if (
       `${this.toNumberField}`.trim().length === 0 &&
       !this.recipient
     ) {
       this._loadLastPhoneNumber();
     } else {
-      this._onBeforeCall();
+      this._onBeforeCall(fromSessionId);
       await this.call({
         phoneNumber: this.toNumberField,
         recipient: this.recipient,

@@ -39,23 +39,6 @@ export default class ConferenceDialerUI extends DialerUI {
     return this.state.lastSessionId;
   }
 
-  @proxify
-  async onCallButtonClick({ fromNumber, fromSessionId } = {}) {
-    if (
-      `${this.toNumberField}`.trim().length === 0 &&
-      !this.recipient
-    ) {
-      this._loadLastPhoneNumber();
-    } else {
-      this._onBeforeCall(fromSessionId);
-      await this.call({
-        phoneNumber: this.toNumberField,
-        recipient: this.recipient,
-        fromNumber,
-      });
-    }
-  }
-
   _onBeforeCall(fromSessionId) {
     if (
       fromSessionId &&
