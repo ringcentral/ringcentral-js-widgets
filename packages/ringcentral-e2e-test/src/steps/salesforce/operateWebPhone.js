@@ -4,12 +4,13 @@ export default class operateWebPhoneBasic {
 
   static async createWebPhone() {
     const webphone = new Webphone();
+    const accountLength = context.options.option.accounts.length;
     let webphones = [];
     context.driver.addAfterHook(async () => {
       await this.close();
     });
-    const webphone1 = await webphone.createWebPhone('+' + context.options.option.account1[0]['did'], 'webphone', 'Test!123');
-    const webphone2 = await webphone.createWebPhone('+' + context.options.option.account2[0]['did'], 'webphone', 'Test!123');
+    const webphone1 = await webphone.createWebPhone('+' + context.options.option.accounts[accountLength - 2]['did'], 'webphone', 'Test!123');
+    const webphone2 = await webphone.createWebPhone('+' + context.options.option.accounts[accountLength - 1]['did'], 'webphone', 'Test!123');
     await webphones.push({ id: JSON.parse(webphone1.text)._id, sessionId: JSON.parse(webphone1.text).sessionId, phoneNumber: JSON.parse(webphone1.text).phoneNumber });
     await webphones.push({ id: JSON.parse(webphone2.text)._id, sessionId: JSON.parse(webphone2.text).sessionId, phoneNumber: JSON.parse(webphone2.text).phoneNumber });
     context.options.option.webphones = webphones;

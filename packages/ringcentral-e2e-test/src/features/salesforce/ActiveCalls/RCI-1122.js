@@ -24,7 +24,7 @@ describe('Test Demo: =====>', () => {
     ],
     levels: ['p0'],
     options: [
-      { tagNum: 3, accountTag1: 'rc_uk_common', accountTag2: 'rc_us_common', accountTag3: 'rc_us_common' },
+      { callingType: 'myRCPhone', accountTag1: 'rc_uk_common', accountTag2: 'rc_us_common' },
     ],
   }, async ({ option, isVirtual }) => {
     const process = createProcess(
@@ -32,7 +32,6 @@ describe('Test Demo: =====>', () => {
       Login,
       NavigateTo,
       settingMyRCPhone,
-      // WebphoneCall,
       operateWebPhone,
       MakeCall,
       AnswerCall,
@@ -46,6 +45,7 @@ describe('Test Demo: =====>', () => {
     // const RCPhone = await $(app).getText('[class*="DropdownSelect"]');
     // expect(RCPhone.trim()).toBe('Custom Phone');
     await process.execTo(MakeCall);
+    await $(app).waitFor(1000);
     await $(app).waitForSelector('[class*="InsideModal-_styles_title"]', { selector: 'css' });
     const logCall = await $(app).getText('[class*="InsideModal-_styles_title"]', { selector: 'css' });
     expect(logCall.trim()).toBe('Log Call');
@@ -58,16 +58,14 @@ describe('Test Demo: =====>', () => {
     await process.execTo(AnswerCall);
     await $(app).waitFor(5000);
     await $(app).waitForSelector('[class*=LogSection-_styles_callCtrlWrapper] [class*=SmCallControl-_styles_button]', { selector: 'css', visible: true });
-    const unmute = await $(app).getText('[class*=LogSection-_styles_callCtrlWrapper] svg[class*=SmCallControl-_styles_button]', { selector: 'css' });
-    await console.log(unmute);
+    await $(app).getText('[class*=LogSection-_styles_callCtrlWrapper] svg[class*=SmCallControl-_styles_button]', { selector: 'css' });
     const connected = await $(app).getText('[class*=LogBasicInfo-_styles_green]', { selector: 'css' });
     await console.log(connected);
     await $(app).click('[class*=LogSection-_styles_callCtrlWrapper] svg[class*=SmCallControl-_styles_button]', { selector: 'css' });
     await console.log('=======');
     await $(app).waitForSelector('[class*=SmCallControl-_styles_buttonDisabled]', { selector: 'css', visible: false });
-
     await $(app).waitFor(100000);
-
   });
+
 });
 
