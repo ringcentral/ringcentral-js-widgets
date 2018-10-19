@@ -4,6 +4,7 @@ import { createProcess } from 'marten';
 import AuthorizeOffice, { goThrough3rdPartyLogin } from '../../../steps/office/authorizeOffice';
 import Login from '../../../steps/office/login';
 import Entry from '../../../steps/entry';
+import sleep from 'ringcentral-integration/lib/sleep';
 
 beforeEach(() => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000;
@@ -36,7 +37,7 @@ async function detectAuthPanel(isAuth, option) {
     await $(page).waitFor('[class*="IconField"] > i', { selector: 'css' });
     await $(page).click('[class*="IconField"] > i', { selector: 'css' });
     const authTooltip = await $(page).getText('[class*="rc-tooltip-inner"]', { selector: 'css' });
-    expect(authTooltip).toEqual(`You have authorized RingCentral for Office365 to access your account ${option.officeAccout}.`);
+    expect(authTooltip).toContain(`You have authorized RingCentral for Office365 to access your account ${option.officeAccout}.`);
     // Authorise button
     const authButton = await $(page).getText('button[class*="AuthorizeSettingsPanel"]', { selector: 'css' });
     expect(authButton).toEqual('Unauthorize');
@@ -65,7 +66,7 @@ describe('RCI-330 - Authorize and Unauthorize RingCentral for Office 365', () =>
         scheduleButton: 'Invite with Outlook Calendar',
       },
     ],
-  }, async ({ option }) => {
+  }, async (option) => {
     // Login CTI
     const params = context.options.config;
     const process = createProcess(
@@ -103,7 +104,7 @@ describe('RCI-330 - Authorize and Unauthorize RingCentral for Office 365', () =>
      */
     await $(page).waitFor('[class*="loginNumber"]', { selector: 'css' });
     await $(page).click('[class*="loginNumber"]', { selector: 'css' });
-    Login.login();
+    await Login.login();
     await detectAuthPanel(true, option);
     /** Click the Unauthorise button
      * User should be able to view below authorized message
@@ -160,7 +161,7 @@ describe('RCI-330 - Authorize and Unauthorize RingCentral for Office 365', () =>
   });
 });
 
-export async function caseAuthorizePanel({ option }) {
+export async function caseAuthorizePanel(option) {
   // Login CTI
   const params = context.options.config;
   const process = createProcess(
@@ -170,13 +171,16 @@ export async function caseAuthorizePanel({ option }) {
   )(context);
   // Authroize Office365
   await process.exec();
-  await detectAuthPanel(true, option);
+  await detectAuthPanel(true, option.config);
   /** Click logout and relogin, user still Authorized **/
   await $(page).waitFor('[class*="loginNumber"]', { selector: 'css' });
   await $(page).click('[class*="loginNumber"]', { selector: 'css' });
-  Login.login();
-  await detectAuthPanel(true, option);
+  sleep(2000);
+  await Login.login({
+    noSkipUserGuide: true
+  });
+  await detectAuthPanel(false, option.config);
   /** Click the Unauthorise button **/
   await $(page).click('button[class*="AuthorizeSettingsPanel"]', { selector: 'css' });
-  await detectAuthPanel(false, option);
+  await detectAuthPanel(false, option.config);
 }

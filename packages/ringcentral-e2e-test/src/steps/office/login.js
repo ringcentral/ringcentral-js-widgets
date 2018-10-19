@@ -12,7 +12,7 @@ export default class Login {
     )(context);
     await process.exec();
   }
-  static async login(actions = {}) {
+  static async login(actions) {
     const params = context.options.config;
     await $(context.driver.app).waitFor('[class*=loginButton]', { selector: 'css' });
     await $(page).waitFor(2000);// wait for js warm up;
@@ -40,8 +40,8 @@ export default class Login {
     await $(loginPage).type('input#password', params.password, { selector: 'css' });
     await $(loginPage).click('[data-test-automation-id=signInBtn]', { selector: 'css' });
     // display UserGuide and skip(by default)
-    await $(page).waitFor('[class*=components-UserGuide]', { selector: 'css' });
     if (!actions.noSkipUserGuide) {
+      await $(page).waitFor('[class*=components-UserGuide]', { selector: 'css' });
       await $(page).click('[class*=styles_secondaryButton]', { selector: 'css' });
       await $(page).waitFor('[class*=components-TabNavigationView]', { selector: 'css' });
     }
