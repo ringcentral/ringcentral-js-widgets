@@ -31,7 +31,7 @@ export default class Login {
           let myRCPhoneAccount = await accountHelper.getAccount(accountTag[i]);
           tempAccount = myRCPhoneAccount[0];
           console.log("tempAccount====", tempAccount);
-          accounts.push(tempAccount)
+          accounts.push(tempAccount);
         }
         break;
       case 'otherPhone':
@@ -40,11 +40,12 @@ export default class Login {
           otherAccount = await accountHelper.getAccount(accountTag[i]);
           if (accountTag[i].indexOf('forwarding') >= 0) {
             let tempAccount1 = otherAccount[1];
+            console.log("tempAccount1====", tempAccount1);
             tempAccount = otherAccount[0];
             accounts.push(tempAccount, tempAccount1);
           } else {
             tempAccount = otherAccount[0];
-            accounts.push(tempAccount)
+            accounts.push(tempAccount);
           }
           console.log("tempAccount====", tempAccount);
         }
@@ -55,7 +56,7 @@ export default class Login {
           customPhoneAccount = await accountHelper.getAccount(accountTag[i]);
           tempAccount = customAccount[0];
           console.log("tempAccount====", tempAccount);
-          accounts.push(tempAccount)
+          accounts.push(tempAccount);
         }
         break;
       default:
