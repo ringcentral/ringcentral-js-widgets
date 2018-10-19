@@ -74,14 +74,13 @@ $section_height: 36px;
 }
 
 .basicInfoWrapper {
-  cursor: pointer;
-  flex: 1;
+  flex: 2;
 }
-
 .pointer {
   cursor: pointer;
 }
 
 .callCtrlWrapper {
+  flex: 1;
   padding: 0 10px;
 }

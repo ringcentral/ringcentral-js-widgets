@@ -215,7 +215,7 @@ var LogSection = function (_Component) {
 
       var onLogBasicInfoClick = disabledToCallControl() ? function () {} : this.props.onLogBasicInfoClick;
 
-      var wrapperCls = (0, _classnames3.default)(_styles2.default.infoWithCtrlWrapper, (0, _defineProperty3.default)({}, _styles2.default.pointer, !disabledToCallControl()));
+      var wrapperCls = (0, _classnames3.default)(_styles2.default.basicInfoWrapper, (0, _defineProperty3.default)({}, _styles2.default.pointer, !disabledToCallControl()));
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.infoWithCtrlWrapper },
