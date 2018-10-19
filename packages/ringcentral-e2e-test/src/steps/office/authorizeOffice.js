@@ -1,5 +1,6 @@
 /* global $, page, browser, context */
 import sleep from 'ringcentral-integration/lib/sleep';
+
 export default class AuthorizeOffice {
   static async login() {
     console.log('office 365 authorization');

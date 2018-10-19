@@ -59,7 +59,7 @@ module.exports = {
               location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
             },
             att: {
-              extension: './resources/extension/google/att',
+              ...logInfo,
               location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
             }
           }
