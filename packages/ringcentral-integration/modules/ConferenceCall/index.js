@@ -824,7 +824,7 @@ export default class ConferenceCall extends RcModule {
   }
 
   @proxify
-  parseMergingSessions({ sessionId, sessionIdToMergeWith }) {
+  async parseMergingSessions({ sessionId, sessionIdToMergeWith }) {
     const session = find(
       x => x.id === sessionId,
       this._webphone.sessions

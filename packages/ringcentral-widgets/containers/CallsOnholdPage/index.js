@@ -90,7 +90,7 @@ function mapToFunctions(_, {
       // to track user click merge
       callMonitor.callsOnHoldClickMergeTrack();
 
-      const sessions = conferenceCall.parseMergingSessions({
+      const sessions = await conferenceCall.parseMergingSessions({
         sessionId,
         sessionIdToMergeWith: fromSessionId,
       });

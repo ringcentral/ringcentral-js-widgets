@@ -238,7 +238,7 @@ function mapToFunctions(_, {
       return true;
     },
     async onMerge(sessionId) {
-      const sessions = conferenceCall.parseMergingSessions({ sessionId });
+      const sessions = await conferenceCall.parseMergingSessions({ sessionId });
       if (sessions) {
         await conferenceCall.mergeSessions(sessions);
       }
