@@ -23,7 +23,7 @@ export function isWebRTCSupport() {
     environment.MediaStream &&
     environment.RTCPeerConnection &&
     environment.navigator.mediaDevices.getUserMedia
-  )
+  );
 }
 
 export function isBrowserSupport() {
