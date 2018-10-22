@@ -89,16 +89,16 @@ export default class ConferenceCall extends RcModule {
       ...options,
       actionTypes,
     });
-    this._auth = this::ensureExist(auth, 'auth');
-    this._alert = this::ensureExist(alert, 'alert');
-    this._call = this::ensureExist(call, 'call');
-    this._callingSettings = this::ensureExist(callingSettings, 'callingSettings');
-    this._client = this::ensureExist(client, 'client');
+    this._auth = this:: ensureExist(auth, 'auth');
+    this._alert = this:: ensureExist(alert, 'alert');
+    this._call = this:: ensureExist(call, 'call');
+    this._callingSettings = this:: ensureExist(callingSettings, 'callingSettings');
+    this._client = this:: ensureExist(client, 'client');
     // in order to run the integeration test, we need it to be optional
     this._webphone = webphone;
     this._connectivityMonitor = connectivityMonitor;
     this._contactMatcher = contactMatcher;
-    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
     // we need the constructed actions
     this._reducer = getConferenceCallReducer(this.actionTypes);
     this._ttl = DEFAULT_TTL;
@@ -150,7 +150,7 @@ export default class ConferenceCall extends RcModule {
         sessionId,
       });
     } catch (e) {
-    // TODO: alert
+      // TODO: alert
       this.store.dispatch({
         type: this.actionTypes.updateConferenceFailed,
         conference: this.state.conferences[id],
@@ -824,7 +824,7 @@ export default class ConferenceCall extends RcModule {
   }
 
   @proxify
-  async mergeSession({ sessionId, sessionIdToMergeWith, onReadyToMerge }) {
+  async parseMergingSessions({ sessionId, sessionIdToMergeWith }) {
     const session = find(
       x => x.id === sessionId,
       this._webphone.sessions
@@ -856,17 +856,21 @@ export default class ConferenceCall extends RcModule {
       }
     }
 
-    if (
-      onReadyToMerge
-      && isFunction(onReadyToMerge)
-    ) {
-      onReadyToMerge();
-    }
+    return {
+      session,
+      sessionToMergeWith,
+    };
+  }
 
+  @proxify
+  async mergeSessions({ session, sessionToMergeWith }) {
     this.setMergeParty({
-      toSessionId: sessionId,
+      toSessionId: session.id,
     });
 
+    const webphoneSessions = sessionToMergeWith
+      ? [sessionToMergeWith, session]
+      : [session];
     await this.mergeToConference(webphoneSessions);
 
     const conferenceData = Object.values(this.conferences)[0];
