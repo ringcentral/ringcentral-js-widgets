@@ -289,14 +289,26 @@ function mapToFunctions(_, _ref2) {
     },
     onMerge: function () {
       var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(sessionId) {
+        var sessions;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return conferenceCall.mergeSession({ sessionId: sessionId });
+                return conferenceCall.parseMergingSessions({ sessionId: sessionId });
 
               case 2:
+                sessions = _context.sent;
+
+                if (!sessions) {
+                  _context.next = 6;
+                  break;
+                }
+
+                _context.next = 6;
+                return conferenceCall.mergeSessions(sessions);
+
+              case 6:
               case 'end':
                 return _context.stop();
             }

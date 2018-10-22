@@ -147,30 +147,41 @@ function mapToFunctions(_, _ref2) {
   return (0, _extends3.default)({}, baseProps, {
     onMerge: function () {
       var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(sessionId) {
+        var sessions, confId, confSessionId;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 // to track user click merge
                 callMonitor.callsOnHoldClickMergeTrack();
+
                 _context.next = 3;
-                return conferenceCall.mergeSession({
+                return conferenceCall.parseMergingSessions({
                   sessionId: sessionId,
-                  sessionIdToMergeWith: fromSessionId,
-                  onReadyToMerge: function onReadyToMerge() {
-                    var confId = conferenceCall.conferences && (0, _keys2.default)(conferenceCall.conferences)[0];
-
-                    if (confId) {
-                      var _sessionId = conferenceCall.conferences[confId].sessionId;
-
-                      routerInteraction.push('/calls/active/' + _sessionId);
-                    } else {
-                      routerInteraction.goBack();
-                    }
-                  }
+                  sessionIdToMergeWith: fromSessionId
                 });
 
               case 3:
+                sessions = _context.sent;
+
+                if (!sessions) {
+                  _context.next = 9;
+                  break;
+                }
+
+                confId = conferenceCall.conferences && (0, _keys2.default)(conferenceCall.conferences)[0];
+
+                if (confId) {
+                  confSessionId = conferenceCall.conferences[confId].sessionId;
+
+                  routerInteraction.push('/calls/active/' + confSessionId);
+                } else {
+                  routerInteraction.goBack();
+                }
+                _context.next = 9;
+                return conferenceCall.mergeSessions(sessions);
+
+              case 9:
               case 'end':
                 return _context.stop();
             }
