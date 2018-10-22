@@ -60,5 +60,3 @@ alias.json
 */**/*.log
 
 */**/gh-pages
-
-.prettierrc
