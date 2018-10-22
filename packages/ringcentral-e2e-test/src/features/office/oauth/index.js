@@ -27,8 +27,9 @@ async function detectAuthPanel(isAuth, option) {
   await $(page).click('div[title="More Menu"]', { selector: 'css' });
   await $(page).waitFor('div[title="Settings"]', { selector: 'css' });
   await $(page).click('div[title="Settings"]', { selector: 'css' });
+  await $(page).waitFor(2000);
+
   if (isAuth) {
-    await $(page).waitFor(2000);
     // title: Authorised Account
     $(page).waitFor('span[class*="src-components-AuthorizeSettingsPanel-_styles_title"]', { selector: 'css' });
     const authTitle = await $(page).getText('span[class*="AuthorizeSettingsPanel-_styles_title"]', { selector: 'css' });
@@ -163,14 +164,14 @@ describe('RCI-330 - Authorize and Unauthorize RingCentral for Office 365', () =>
 
 export async function caseAuthorizePanel(option) {
   // Login CTI
-  const params = context.options.config;
-  const process = createProcess(
-    Entry,
-    Login,
-    AuthorizeOffice
-  )(context);
+  // const params = context.options.config;
+  // const process = createProcess(
+  //   Entry,
+  //   Login,
+  //   AuthorizeOffice
+  // )(context);
   // Authroize Office365
-  await process.exec();
+  // await process.exec();
   await detectAuthPanel(true, option.config);
   /** Click logout and relogin, user still Authorized **/
   await $(page).waitFor('[class*="loginNumber"]', { selector: 'css' });
@@ -179,7 +180,7 @@ export async function caseAuthorizePanel(option) {
   await Login.login({
     noSkipUserGuide: true
   });
-  await detectAuthPanel(false, option.config);
+  await detectAuthPanel(true, option.config);
   /** Click the Unauthorise button **/
   await $(page).click('button[class*="AuthorizeSettingsPanel"]', { selector: 'css' });
   await detectAuthPanel(false, option.config);
