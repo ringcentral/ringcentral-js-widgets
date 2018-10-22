@@ -1,4 +1,4 @@
-const logInfo = require('./logInfo.js');
+const loginInfo = require('./loginInfo.js');
 
 module.exports = {
   // selectorLabel: 'css',
@@ -58,11 +58,11 @@ module.exports = {
         params: {
           brands: {
             rc: {
-              ...logInfo,
+              ...loginInfo,
               location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
             },
             att: {
-              ...logInfo,
+              ...loginInfo,
               location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
             }
           }
