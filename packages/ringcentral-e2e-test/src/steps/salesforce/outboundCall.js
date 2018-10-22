@@ -20,7 +20,7 @@ export default class CallPhone {
     return [
       this.iClickDialPad,
       this.iInputPhoneNumber,
-      this.iClickCallBtn,
+      this.iClickCal lBtn,
     ];
   }
 }

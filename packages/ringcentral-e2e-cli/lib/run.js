@@ -22,7 +22,13 @@ function getArgs(dir, cmd) {
 function getTestMatch(args) {
   return (
     args.paths.length > 0 ?
-      args.paths.map(path => `${DEFAULT_ROOT}/${path.replace(/^\.\//, '')}`) :
+      args.paths.map((path) => {
+        const isFile = (/.js$/).test(path);
+        if (!isFile) {
+          path = `${path}/**/*.js`;
+        }
+        return `${DEFAULT_ROOT}/${path.replace(/^\.\//, '')}`;
+      }) :
       [`${DEFAULT_ROOT}/${DEFAULT_TEST_MATCH}`]
   );
 }
@@ -51,10 +57,12 @@ const run = (dir, cmd) => {
   ];
   const drivers = cmd.drivers || [];
   const params = args.params || {};
+  const testPathIgnorePatterns = cmd.exclude || [];
   const testerCLI = cmd.testerCLI || [];
   const testerParams = {
     verbose: true,
     testMatch,
+    testPathIgnorePatterns
   };
   const testParams = {
     testerParams,
