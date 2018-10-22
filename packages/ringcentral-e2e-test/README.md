@@ -172,18 +172,6 @@ cd <repo>/packages/ringcentral-e2e-test
 npx e2e-test run ./src/features/google/call/Dialer.spec.js --drivers puppeteer -S
 ```
 
-#### Run RC for O365 Test Case
-
-1. Generate RC for Office with brand rc, copy files to
-`<repo>/packages/ringcentral-e2e-test/resources/extension/google/rc`.
-
-2. Run example test case.
-
-```shell
-cd <repo>/packages/ringcentral-e2e-test
-npx e2e-test run ./src/features/office/*.spec.js --drivers puppeteer -S
-```
-
 > NOTE: Chrome Extension for puppeteer must be `sandbox` mode.
 
 ### APIs Reference
@@ -257,17 +245,17 @@ TODO
 
 | Drivers                             | cases | threads | sandbox | performance | stability |
 | ----------------------------------- | ----- | ------- | ------- | ----------- | --------- |
-| **puppeteer/Firefox/Chrome/Safari** | 1600  | 1       |         | 1312.125s   | ✅         |
-| **puppeteer**                       | 400   | 8       |         | 96.44s      | ✅         |
-| puppeteer                           | 400   | 1       |         | 237.614s    | ✅         |
-| puppeteer                           | 400   | 8       | ✅       | 289.44s     | ✅         |
-| Chrome                              | 400   | 8       |         | 103.665s    | ✅         |
-| Firefox                             | 400   | 8       |         | 415.726s    | ✅         |
+| **puppeteer/Firefox/Chrome/Safari** | 1600  | 1       |         | 1312.125s   | ✅        |
+| **puppeteer**                       | 400   | 8       |         | 96.44s      | ✅        |
+| puppeteer                           | 400   | 1       |         | 237.614s    | ✅        |
+| puppeteer                           | 400   | 8       | ✅      | 289.44s     | ✅        |
+| Chrome                              | 400   | 8       |         | 103.665s    | ✅        |
+| Firefox                             | 400   | 8       |         | 415.726s    | ✅        |
 | puppeteer/Firefox/Chrome            | 1200  | 8       |         | 630.503s    | ⚠️        |
-| Safari                              | 400   | 8       |         | -           | ❌         |
-| Enzyme                              | 400   | 1       | ✅       | 374.998s    | ✅         |
-| **Enzyme**                          | 400   | 8       | ✅       | 149.882s    | ✅         |
-| Enzyme                              | 400   | 1       |         | -           | ❌         |
+| Safari                              | 400   | 8       |         | -           | ❌        |
+| Enzyme                              | 400   | 1       | ✅      | 374.998s    | ✅        |
+| **Enzyme**                          | 400   | 8       | ✅      | 149.882s    | ✅        |
+| Enzyme                              | 400   | 1       |         | -           | ❌        |
 
 > `Chrome` is selenium webdriver's Chrome.</br>
 > Selenium webdriver multithreading operation is not stable.</br>

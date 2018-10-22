@@ -1,5 +1,3 @@
-const logInfo = require('./logInfo.js');
-
 module.exports = {
   // selectorLabel: 'css',
   caseServices: [{
@@ -55,11 +53,11 @@ module.exports = {
         params: {
           brands: {
             rc: {
-              ...logInfo,
+              extension: '../../../googlechrome/build/extension/office/rc',
               location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
             },
             att: {
-              ...logInfo,
+              extension: './resources/extension/google/att',
               location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
             }
           }
@@ -94,11 +92,6 @@ module.exports = {
           viewport: {
             height: 518,
             width: 300,
-          },
-          setting: {
-            args: [
-              '--disable-dev-shm-usage',
-            ]
           }
         },
         params: {
