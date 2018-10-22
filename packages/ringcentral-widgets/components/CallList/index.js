@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import CallItem from '../CallItem';
 import NoCalls from '../NoCalls';
 
-export class CallList extends React.PureComponent {
+export default class CallList extends React.PureComponent {
   constructor(props) {
     super(props);
   }

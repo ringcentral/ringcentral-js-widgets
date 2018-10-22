@@ -4,7 +4,7 @@ import CallItem from '../CallItem';
 import NoCalls from '../NoCalls';
 import { List } from 'react-virtualized';
 
-export class CallListV2 extends React.PureComponent {
+export default class CallListV2 extends React.PureComponent {
   constructor(props) {
     super(props);
     this._rowHeight = 65;
