@@ -1,4 +1,6 @@
-const loginInfo = require('./loginInfo.js');
+const loginInfoPath = './loginInfo';
+const isExists = fs.existsSync(loginInfoPath);
+const loginInfo = isExists ? require(loginInfoPath) : {};
 
 module.exports = {
   // selectorLabel: 'css',
