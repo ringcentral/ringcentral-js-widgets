@@ -1,6 +1,5 @@
-import Enum from 'ringcentral-integration/lib/Enum';
+import Enum from '../lib/Enum';
 
-// FIXME: delete this after syncing up
 export default new Enum([
   'business',
   'extension',

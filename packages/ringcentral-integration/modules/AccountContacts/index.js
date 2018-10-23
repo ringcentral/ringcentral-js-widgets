@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import { reduce } from 'ramda';
+import phoneTypes from '../../enums/phoneTypes';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import isBlank from '../../lib/isBlank';
@@ -276,7 +277,7 @@ export default class AccountContacts extends RcModule {
           emails: extension.contact ? [extension.contact.email] : [],
           extensionNumber: extension.ext,
           hasProfileImage: !!extension.hasProfileImage,
-          phoneNumbers: [{ phoneNumber: extension.ext, phoneType: 'extension' }],
+          phoneNumbers: [{ phoneNumber: extension.ext, phoneType: phoneTypes.extension }],
           profileImageUrl: profileImages[id] && profileImages[id].imageUrl,
           presence: presences[id] && presences[id].presence,
           contactStatus: extension.status,
@@ -288,7 +289,7 @@ export default class AccountContacts extends RcModule {
         const phones = extensionToPhoneNumberMap[contact.extensionNumber];
         if (phones && phones.length > 0) {
           phones.forEach((phone) => {
-            addPhoneToContact(contact, phone.phoneNumber, 'directPhone');
+            addPhoneToContact(contact, phone.phoneNumber, phoneTypes.direct);
           });
         }
         result.push(contact);

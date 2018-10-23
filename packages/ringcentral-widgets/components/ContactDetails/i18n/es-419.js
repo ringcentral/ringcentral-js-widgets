@@ -1,9 +1,10 @@
 import presenceStatus from 'ringcentral-integration/modules/Presence/presenceStatus';
 import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
+import phoneTypes from '../../../enums/phoneTypes';
 
 export default {
-  extensionLabel: "Ext.",
-  directLabel: "Directo",
+  [phoneTypes.extension]: "Ext.",
+  [phoneTypes.direct]: "Directo",
   emailLabel: "Correo electrónico",
   call: "Llamar",
   text: "Texto",
