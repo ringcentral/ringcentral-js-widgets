@@ -5,9 +5,9 @@ export default class CallPhone {
     await $(app).click('[title="Dial Pad"]', { selector: 'css' });
   }
 
-  static async iInputPhoneNumber(account) {
+  static async iInputPhoneNumber() {
     await $(app).waitFor('[class*=styles_numberInput]', { selector: 'css' });
-    await $(app).type('[class*=styles_numberInput]', '+' + context.options.option.account2[0]['did'], { selector: 'css' });
+    await $(app).type('[class*=styles_numberInput]', '+' + context.options.option.accounts[2]['did'], { selector: 'css' });
   }
 
   static async iClickCallBtn() {
@@ -20,7 +20,7 @@ export default class CallPhone {
     return [
       this.iClickDialPad,
       this.iInputPhoneNumber,
-      this.iClickCal lBtn,
+      this.iClickCallBtn,
     ];
   }
 }

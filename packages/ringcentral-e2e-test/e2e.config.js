@@ -72,6 +72,7 @@ module.exports = {
         }
       },
       salesforce: {
+        env: 'itl',
         type: 'uri',
         source: './src/targets/widgets',
         params: {
@@ -131,6 +132,7 @@ module.exports = {
     const source = project.source;
     return {
       ...project.params.brands[tag.brands],
+      env: project.env,
       type: project.type,
       source,
     };

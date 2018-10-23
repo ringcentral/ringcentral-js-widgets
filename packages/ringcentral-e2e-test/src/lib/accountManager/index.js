@@ -1,18 +1,34 @@
 import request from 'request';
 
-const BASE_URL = 'http://10.32.36.75:7789/env/xmnup/account/';
+const BASE_URL = 'http://10.32.36.75:7789/env';
 
 export default class AccountHelper {
   constructor({ baseUrl = BASE_URL } = {}) {
     this._baseUrl = baseUrl;
   }
 
+  getEnv() {
+    let env;
+    switch (context.options.config.env) {
+      case 'xmnup':
+        env = 'xmnup';
+        break;
+      case 'itl':
+        env = 'itl';
+        break;
+      default:
+        env = 'itl';
+    }
+    return env;
+  }
+
   async baseReq(method, path, param) {
+    const env = this.getEnv();
     const options = {
       headers: {
         charset: 'UTF-8'
       },
-      url: `${this._baseUrl}${path}/${param}`,
+      url: `${this._baseUrl}/${env}/account/${path}/${param}`,
       method,
       json: true
     };
