@@ -3,6 +3,27 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = undefined;
+
+var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _react = require('react');
 
@@ -16,119 +37,124 @@ var _CallItem = require('../CallItem');
 
 var _CallItem2 = _interopRequireDefault(_CallItem);
 
-var _styles = require('./styles.scss');
+var _NoCalls = require('../NoCalls');
 
-var _styles2 = _interopRequireDefault(_styles);
-
-var _i18n = require('./i18n');
-
-var _i18n2 = _interopRequireDefault(_i18n);
+var _NoCalls2 = _interopRequireDefault(_NoCalls);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function NoCalls(_ref) {
-  var currentLocale = _ref.currentLocale,
-      active = _ref.active;
+var CallList = function (_React$PureComponent) {
+  (0, _inherits3.default)(CallList, _React$PureComponent);
 
-  return _react2.default.createElement(
-    'p',
-    { className: _styles2.default.noCalls },
-    _i18n2.default.getString(active ? 'noActiveCalls' : 'noRecords', currentLocale)
-  );
-}
-NoCalls.propTypes = {
-  currentLocale: _propTypes2.default.string.isRequired,
-  active: _propTypes2.default.bool.isRequired
-};
-
-function CallList(_ref2) {
-  var className = _ref2.className,
-      brand = _ref2.brand,
-      currentLocale = _ref2.currentLocale,
-      calls = _ref2.calls,
-      areaCode = _ref2.areaCode,
-      countryCode = _ref2.countryCode,
-      onViewContact = _ref2.onViewContact,
-      onCreateContact = _ref2.onCreateContact,
-      createEntityTypes = _ref2.createEntityTypes,
-      onLogCall = _ref2.onLogCall,
-      onClickToDial = _ref2.onClickToDial,
-      onClickToSms = _ref2.onClickToSms,
-      isLoggedContact = _ref2.isLoggedContact,
-      disableLinks = _ref2.disableLinks,
-      disableClickToDial = _ref2.disableClickToDial,
-      outboundSmsPermission = _ref2.outboundSmsPermission,
-      internalSmsPermission = _ref2.internalSmsPermission,
-      active = _ref2.active,
-      dateTimeFormatter = _ref2.dateTimeFormatter,
-      loggingMap = _ref2.loggingMap,
-      webphoneAnswer = _ref2.webphoneAnswer,
-      webphoneReject = _ref2.webphoneReject,
-      webphoneHangup = _ref2.webphoneHangup,
-      webphoneResume = _ref2.webphoneResume,
-      enableContactFallback = _ref2.enableContactFallback,
-      autoLog = _ref2.autoLog,
-      showContactDisplayPlaceholder = _ref2.showContactDisplayPlaceholder,
-      sourceIcons = _ref2.sourceIcons,
-      renderContactName = _ref2.renderContactName,
-      renderExtraButton = _ref2.renderExtraButton,
-      contactDisplayStyle = _ref2.contactDisplayStyle,
-      externalViewEntity = _ref2.externalViewEntity,
-      externalHasEntity = _ref2.externalHasEntity,
-      readTextPermission = _ref2.readTextPermission;
-
-  if (calls && calls.length) {
-    return _react2.default.createElement(
-      'div',
-      { className: className },
-      calls.map(function (call) {
-        return _react2.default.createElement(_CallItem2.default, {
-          key: call.id,
-          call: call,
-          currentLocale: currentLocale,
-          brand: brand,
-          areaCode: areaCode,
-          countryCode: countryCode,
-          onViewContact: onViewContact,
-          onCreateContact: onCreateContact,
-          createEntityTypes: createEntityTypes,
-          onLogCall: onLogCall,
-          onClickToDial: onClickToDial,
-          onClickToSms: onClickToSms,
-          isLoggedContact: isLoggedContact,
-          disableLinks: disableLinks,
-          disableClickToDial: disableClickToDial,
-          outboundSmsPermission: outboundSmsPermission,
-          internalSmsPermission: internalSmsPermission,
-          active: active,
-          dateTimeFormatter: dateTimeFormatter,
-          isLogging: !!loggingMap[call.sessionId],
-          webphoneAnswer: webphoneAnswer,
-          webphoneReject: webphoneReject,
-          webphoneHangup: webphoneHangup,
-          webphoneResume: webphoneResume,
-          enableContactFallback: enableContactFallback,
-          autoLog: autoLog,
-          showContactDisplayPlaceholder: showContactDisplayPlaceholder,
-          sourceIcons: sourceIcons,
-          renderContactName: renderContactName,
-          renderExtraButton: renderExtraButton,
-          contactDisplayStyle: contactDisplayStyle,
-          externalViewEntity: externalViewEntity,
-          externalHasEntity: externalHasEntity,
-          readTextPermission: readTextPermission
-        });
-      })
-    );
+  function CallList(props) {
+    (0, _classCallCheck3.default)(this, CallList);
+    return (0, _possibleConstructorReturn3.default)(this, (CallList.__proto__ || (0, _getPrototypeOf2.default)(CallList)).call(this, props));
   }
-  return _react2.default.createElement(
-    'div',
-    { className: className },
-    _react2.default.createElement(NoCalls, { currentLocale: currentLocale, active: active })
-  );
-}
+
+  (0, _createClass3.default)(CallList, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var _props = this.props,
+          className = _props.className,
+          brand = _props.brand,
+          currentLocale = _props.currentLocale,
+          calls = _props.calls,
+          areaCode = _props.areaCode,
+          countryCode = _props.countryCode,
+          onViewContact = _props.onViewContact,
+          onCreateContact = _props.onCreateContact,
+          createEntityTypes = _props.createEntityTypes,
+          onLogCall = _props.onLogCall,
+          onClickToDial = _props.onClickToDial,
+          onClickToSms = _props.onClickToSms,
+          isLoggedContact = _props.isLoggedContact,
+          disableLinks = _props.disableLinks,
+          disableClickToDial = _props.disableClickToDial,
+          outboundSmsPermission = _props.outboundSmsPermission,
+          internalSmsPermission = _props.internalSmsPermission,
+          active = _props.active,
+          dateTimeFormatter = _props.dateTimeFormatter,
+          loggingMap = _props.loggingMap,
+          webphoneAnswer = _props.webphoneAnswer,
+          webphoneReject = _props.webphoneReject,
+          webphoneHangup = _props.webphoneHangup,
+          webphoneResume = _props.webphoneResume,
+          enableContactFallback = _props.enableContactFallback,
+          autoLog = _props.autoLog,
+          showContactDisplayPlaceholder = _props.showContactDisplayPlaceholder,
+          sourceIcons = _props.sourceIcons,
+          renderContactName = _props.renderContactName,
+          renderExtraButton = _props.renderExtraButton,
+          contactDisplayStyle = _props.contactDisplayStyle,
+          externalViewEntity = _props.externalViewEntity,
+          externalHasEntity = _props.externalHasEntity,
+          readTextPermission = _props.readTextPermission;
+
+
+      if (calls && calls.length) {
+        return _react2.default.createElement(
+          'div',
+          { className: className },
+          calls.map(function (call, index) {
+            return _react2.default.createElement(_CallItem2.default, {
+              key: call.id,
+              call: call,
+              renderIndex: index,
+              extended: _this2._renderIndex === index && _this2._cellExtended || false,
+              currentLocale: currentLocale,
+              brand: brand,
+              areaCode: areaCode,
+              countryCode: countryCode,
+              onViewContact: onViewContact,
+              onCreateContact: onCreateContact,
+              createEntityTypes: createEntityTypes,
+              onLogCall: onLogCall,
+              onClickToDial: onClickToDial,
+              onClickToSms: onClickToSms,
+              isLoggedContact: isLoggedContact,
+              disableLinks: disableLinks,
+              disableClickToDial: disableClickToDial,
+              outboundSmsPermission: outboundSmsPermission,
+              internalSmsPermission: internalSmsPermission,
+              active: active,
+              dateTimeFormatter: dateTimeFormatter,
+              isLogging: !!loggingMap[call.sessionId],
+              webphoneAnswer: webphoneAnswer,
+              webphoneReject: webphoneReject,
+              webphoneHangup: webphoneHangup,
+              webphoneResume: webphoneResume,
+              enableContactFallback: enableContactFallback,
+              autoLog: autoLog,
+              showContactDisplayPlaceholder: showContactDisplayPlaceholder,
+              sourceIcons: sourceIcons,
+              renderContactName: renderContactName,
+              renderExtraButton: renderExtraButton,
+              contactDisplayStyle: contactDisplayStyle,
+              externalViewEntity: externalViewEntity,
+              externalHasEntity: externalHasEntity,
+              readTextPermission: readTextPermission
+            });
+          })
+        );
+      }
+      return _react2.default.createElement(
+        'div',
+        { className: className },
+        _react2.default.createElement(_NoCalls2.default, { currentLocale: currentLocale, active: active })
+      );
+    }
+  }]);
+  return CallList;
+}(_react2.default.PureComponent);
+
+exports.default = CallList;
+
 
 CallList.propTypes = {
+  renderIndex: _propTypes2.default.number,
+  extended: _propTypes2.default.bool,
   className: _propTypes2.default.string,
   brand: _propTypes2.default.string.isRequired,
   currentLocale: _propTypes2.default.string.isRequired,
@@ -164,7 +190,10 @@ CallList.propTypes = {
   externalHasEntity: _propTypes2.default.func,
   readTextPermission: _propTypes2.default.bool
 };
+
 CallList.defaultProps = {
+  renderIndex: undefined,
+  extended: undefined,
   className: null,
   active: false,
   disableLinks: false,
@@ -194,6 +223,4 @@ CallList.defaultProps = {
   externalHasEntity: undefined,
   readTextPermission: true
 };
-
-exports.default = CallList;
 //# sourceMappingURL=index.js.map

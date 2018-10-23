@@ -227,6 +227,16 @@ var CallItem = function (_Component) {
         return {
           extended: !preState.extended
         };
+      }, function () {
+        var _this$props = _this.props,
+            _this$props$onSizeCha = _this$props.onSizeChanged,
+            onSizeChanged = _this$props$onSizeCha === undefined ? undefined : _this$props$onSizeCha,
+            _this$props$renderInd = _this$props.renderIndex,
+            renderIndex = _this$props$renderInd === undefined ? undefined : _this$props$renderInd;
+
+        if (onSizeChanged) {
+          onSizeChanged(renderIndex, _this.state.extended);
+        }
       });
     };
 
@@ -368,6 +378,13 @@ var CallItem = function (_Component) {
         this.setState({
           selected: this.getInitialContactIndex(nextProps)
         });
+      }
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps, prevState) {
+      if (this.props.extended !== prevState.extended) {
+        this.setState({ extended: this.props.extended });
       }
     }
   }, {
@@ -668,6 +685,8 @@ exports.default = CallItem;
 
 
 CallItem.propTypes = {
+  renderIndex: _propTypes2.default.number,
+  extended: _propTypes2.default.bool,
   call: _propTypes2.default.shape({
     direction: _propTypes2.default.string.isRequired,
     telephonyStatus: _propTypes2.default.string,
@@ -714,10 +733,13 @@ CallItem.propTypes = {
   contactDisplayStyle: _propTypes2.default.string,
   externalViewEntity: _propTypes2.default.func,
   externalHasEntity: _propTypes2.default.func,
-  readTextPermission: _propTypes2.default.bool
+  readTextPermission: _propTypes2.default.bool,
+  onSizeChanged: _propTypes2.default.func
 };
 
 CallItem.defaultProps = {
+  renderIndex: undefined,
+  extended: false,
   onLogCall: undefined,
   onClickToDial: undefined,
   onClickToSms: undefined,
@@ -741,6 +763,7 @@ CallItem.defaultProps = {
   contactDisplayStyle: undefined,
   externalViewEntity: undefined,
   externalHasEntity: undefined,
-  readTextPermission: true
+  readTextPermission: true,
+  onSizeChanged: undefined
 };
 //# sourceMappingURL=index.js.map
