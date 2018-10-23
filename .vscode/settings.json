@@ -25,10 +25,10 @@
   "files.eol": "\n",
   // Disable default VSCode formatting for JavaScript
   "[javascript]": {
-    "editor.formatOnSave": true
+    "editor.formatOnSave": false
   },
-  // Allow formatting for other languages	
-  "editor.formatOnSave": true,
+  // Allow formatting for other languages
+  "editor.formatOnSave": false,
   // Enable ESLint (with Prettier plugin) to format code on save
-  "eslint.autoFixOnSave": false
+  "eslint.autoFixOnSave": true
 }
