@@ -19,6 +19,7 @@ export default class TransferPanel extends PureComponent {
     searchContact: PropTypes.func.isRequired,
     formatPhone: PropTypes.func.isRequired,
     phoneTypeRenderer: PropTypes.func,
+    phoneSourceNameRenderer: PropTypes.func,
     recipientsContactInfoRenderer: PropTypes.func,
     recipientsContactPhoneRenderer: PropTypes.func,
     isOnTransfer: PropTypes.bool,
@@ -31,6 +32,7 @@ export default class TransferPanel extends PureComponent {
   static defaultProps = {
     setActiveSessionId: null,
     phoneTypeRenderer: undefined,
+    phoneSourceNameRenderer: undefined,
     recipientsContactInfoRenderer: undefined,
     recipientsContactPhoneRenderer: undefined,
     isOnTransfer: false,
@@ -125,6 +127,7 @@ export default class TransferPanel extends PureComponent {
           formatContactPhone={this.props.formatPhone}
           currentLocale={this.props.currentLocale}
           phoneTypeRenderer={this.props.phoneTypeRenderer}
+          phoneSourceNameRenderer={this.props.phoneSourceNameRenderer}
           contactInfoRenderer={this.props.recipientsContactInfoRenderer}
           contactPhoneRenderer={this.props.recipientsContactPhoneRenderer}
           titleEnabled

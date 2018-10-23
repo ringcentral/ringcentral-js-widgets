@@ -148,6 +148,7 @@ export default class ForwardForm extends Component {
       searchContact,
       searchContactList,
       phoneTypeRenderer,
+      phoneSourceNameRenderer,
       autoFocus,
     } = this.props;
     const value = this.getValue();
@@ -186,6 +187,7 @@ export default class ForwardForm extends Component {
             searchContact={searchContact}
             searchContactList={searchContactList}
             phoneTypeRenderer={phoneTypeRenderer}
+            phoneSourceNameRenderer={phoneSourceNameRenderer}
             formatContactPhone={formatPhone}
             currentLocale={currentLocale}
             titleEnabled
@@ -227,6 +229,7 @@ ForwardForm.propTypes = {
   searchContactList: PropTypes.array.isRequired,
   searchContact: PropTypes.func.isRequired,
   phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
   autoFocus: PropTypes.bool,
 };
 
@@ -234,5 +237,6 @@ ForwardForm.defaultProps = {
   className: null,
   onChange: undefined,
   phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   autoFocus: true,
 };

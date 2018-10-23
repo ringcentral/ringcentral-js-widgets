@@ -23,6 +23,8 @@ export default function CallsOnholdContainer({
   webphoneToVoicemail,
   enableContactFallback,
   sourceIcons,
+  phoneTypeRenderer,
+  phoneSourceNameRenderer,
   disableMerge,
   onBackButtonClick,
   onMerge,
@@ -60,6 +62,8 @@ export default function CallsOnholdContainer({
                 enableContactFallback={enableContactFallback}
                 autoLog={autoLog}
                 sourceIcons={sourceIcons}
+                phoneTypeRenderer={phoneTypeRenderer}
+                phoneSourceNameRenderer={phoneSourceNameRenderer}
                 disableMerge={disableMerge}
                 hasActionMenu={false}
                 showAnswer={false}
@@ -103,6 +107,8 @@ CallsOnholdContainer.propTypes = {
   enableContactFallback: PropTypes.bool,
   autoLog: PropTypes.bool,
   sourceIcons: PropTypes.object,
+  phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
   onBackButtonClick: PropTypes.func,
   disableMerge: PropTypes.bool,
   onAdd: PropTypes.func,
@@ -120,6 +126,8 @@ CallsOnholdContainer.defaultProps = {
   autoLog: false,
   webphoneToVoicemail: undefined,
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   onBackButtonClick: undefined,
   onAdd: undefined,
   onMerge: undefined,

@@ -148,6 +148,7 @@ class IncomingCallPage extends Component {
         searchContact={this.props.searchContact}
         searchContactList={this.props.searchContactList}
         phoneTypeRenderer={this.props.phoneTypeRenderer}
+        phoneSourceNameRenderer={this.props.phoneSourceNameRenderer}
       >
         {this.props.children}
       </IncomingCallPanel>
@@ -191,6 +192,7 @@ IncomingCallPage.propTypes = {
   searchContactList: PropTypes.array.isRequired,
   searchContact: PropTypes.func.isRequired,
   phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
 };
 
 IncomingCallPage.defaultProps = {
@@ -198,6 +200,7 @@ IncomingCallPage.defaultProps = {
   activeSessionId: null,
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
 };
 
 function mapToProps(_, {
@@ -211,7 +214,8 @@ function mapToProps(_, {
     brand,
   },
   showContactDisplayPlaceholder = false,
-  phoneTypeRenderer
+  phoneTypeRenderer,
+  phoneSourceNameRenderer,
 }) {
   const currentSession = webphone.ringingCallOnView || {};
   const contactMapping = contactMatcher && contactMatcher.dataMapping;
@@ -230,7 +234,8 @@ function mapToProps(_, {
     forwardingNumbers: forwardingNumber.forwardingNumbers,
     showContactDisplayPlaceholder,
     searchContactList: contactSearch.sortedResult,
-    phoneTypeRenderer
+    phoneTypeRenderer,
+    phoneSourceNameRenderer,
   };
 }
 

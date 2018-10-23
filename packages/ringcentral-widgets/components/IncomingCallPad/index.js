@@ -188,6 +188,7 @@ export default class IncomingCallPad extends Component {
                 searchContact={this.props.searchContact}
                 searchContactList={this.props.searchContactList}
                 phoneTypeRenderer={this.props.phoneTypeRenderer}
+                phoneSourceNameRenderer={this.props.phoneSourceNameRenderer}
               />
             }
           >
@@ -256,6 +257,7 @@ IncomingCallPad.propTypes = {
   searchContactList: PropTypes.array.isRequired,
   searchContact: PropTypes.func.isRequired,
   phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
 };
 
 IncomingCallPad.defaultProps = {
@@ -265,4 +267,5 @@ IncomingCallPad.defaultProps = {
   answerAndHold: () => null,
   hasOtherActiveCall: false,
   phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
 };

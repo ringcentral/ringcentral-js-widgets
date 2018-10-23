@@ -40,6 +40,8 @@ function UserInfo(props) {
           brand={props.brand}
           showPlaceholder={props.showContactDisplayPlaceholder}
           sourceIcons={props.sourceIcons}
+          phoneTypeRenderer={props.phoneTypeRenderer}
+          phoneSourceNameRenderer={props.phoneSourceNameRenderer}
         />
       </div>
       <div className={styles.userPhoneNumber}>
@@ -63,15 +65,18 @@ UserInfo.propTypes = {
   brand: PropTypes.string,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
+  phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
 };
 
 UserInfo.defaultProps = {
-  className: null,
   phoneNumber: null,
   avatarUrl: null,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
 };
 
 export default function IncomingCallPanel(props) {
@@ -95,6 +100,8 @@ export default function IncomingCallPanel(props) {
         brand={props.brand}
         showContactDisplayPlaceholder={props.showContactDisplayPlaceholder}
         sourceIcons={props.sourceIcons}
+        phoneTypeRenderer={props.phoneTypeRenderer}
+        phoneSourceNameRenderer={props.phoneSourceNameRenderer}
       />
       <IncomingCallPad
         className={styles.callPad}
@@ -113,6 +120,7 @@ export default function IncomingCallPanel(props) {
         searchContact={props.searchContact}
         searchContactList={props.searchContactList}
         phoneTypeRenderer={props.phoneTypeRenderer}
+        phoneSourceNameRenderer={props.phoneSourceNameRenderer}
       />
       {props.children}
     </div>
@@ -149,6 +157,7 @@ IncomingCallPanel.propTypes = {
   searchContactList: PropTypes.array.isRequired,
   searchContact: PropTypes.func.isRequired,
   phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
 };
 
 IncomingCallPanel.defaultProps = {
@@ -163,4 +172,5 @@ IncomingCallPanel.defaultProps = {
   hasOtherActiveCall: false,
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
 };

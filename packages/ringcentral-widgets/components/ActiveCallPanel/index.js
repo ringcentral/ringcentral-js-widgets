@@ -50,6 +50,8 @@ function ActiveCallPanel({
   brand,
   flipNumbers,
   sourceIcons,
+  phoneTypeRenderer,
+  phoneSourceNameRenderer,
   layout,
   direction,
   addDisabled,
@@ -121,6 +123,8 @@ function ActiveCallPanel({
         brand={brand}
         showContactDisplayPlaceholder={showContactDisplayPlaceholder}
         sourceIcons={sourceIcons}
+        phoneTypeRenderer={phoneTypeRenderer}
+        phoneSourceNameRenderer={phoneSourceNameRenderer}
       />);
       break;
   }
@@ -203,6 +207,8 @@ ActiveCallPanel.propTypes = {
   onToggleTransferPanel: PropTypes.func,
   gotoParticipantsCtrl: PropTypes.func,
   sourceIcons: PropTypes.object,
+  phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
   layout: PropTypes.string.isRequired,
   direction: PropTypes.string,
   addDisabled: PropTypes.bool,
@@ -235,6 +241,8 @@ ActiveCallPanel.defaultProps = {
   onToggleTransferPanel: () => null,
   gotoParticipantsCtrl: () => null,
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   direction: null,
   addDisabled: false,
   mergeDisabled: false,

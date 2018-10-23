@@ -66,6 +66,7 @@ function mapToFunctions(_, {
     dialerUI,
   },
   phoneTypeRenderer,
+  phoneSourceNameRenderer,
   recipientsContactInfoRenderer,
   recipientsContactPhoneRenderer,
 }) {
@@ -92,6 +93,7 @@ function mapToFunctions(_, {
       contactSearch.debouncedSearch({ searchString });
     },
     phoneTypeRenderer,
+    phoneSourceNameRenderer,
     recipientsContactInfoRenderer,
     recipientsContactPhoneRenderer,
   };

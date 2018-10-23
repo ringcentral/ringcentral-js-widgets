@@ -39,6 +39,8 @@ function ActiveCallList({
   enableContactFallback,
   title,
   sourceIcons,
+  phoneTypeRenderer,
+  phoneSourceNameRenderer,
   isSessionAConferenceCall,
   onCallItemClick,
   showAvatar,
@@ -74,8 +76,8 @@ function ActiveCallList({
       {
         calls.map((call) => {
           const isOnConferenceCall = call.webphoneSession
-          ? isSessionAConferenceCall(call.webphoneSession.id)
-          : isConferenceCall(call);// in case it's an other device call
+            ? isSessionAConferenceCall(call.webphoneSession.id)
+            : isConferenceCall(call);// in case it's an other device call
 
           return (
             <Component
@@ -104,6 +106,8 @@ function ActiveCallList({
               enableContactFallback={enableContactFallback}
               autoLog={autoLog}
               sourceIcons={sourceIcons}
+              phoneTypeRenderer={phoneTypeRenderer}
+              phoneSourceNameRenderer={phoneSourceNameRenderer}
               hasActionMenu={!isOnConferenceCall}
               onClick={() => onCallItemClick(call)}
               showAvatar={showAvatar}
@@ -153,6 +157,8 @@ ActiveCallList.propTypes = {
   enableContactFallback: PropTypes.bool,
   autoLog: PropTypes.bool,
   sourceIcons: PropTypes.object,
+  phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
   isSessionAConferenceCall: PropTypes.func,
   useV2: PropTypes.bool,
   onCallItemClick: PropTypes.func,
@@ -191,6 +197,8 @@ ActiveCallList.defaultProps = {
   onViewContact: undefined,
   webphoneToVoicemail: undefined,
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   isSessionAConferenceCall: () => false,
   useV2: false,
   onCallItemClick: i => i,

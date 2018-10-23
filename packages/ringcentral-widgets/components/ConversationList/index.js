@@ -81,7 +81,7 @@ export default class ConversationList extends Component {
         className={classnames(styles.root, className)}
         onScroll={this.onScroll}
         ref={(list) => { this.messagesListBody = list; }}
-        >
+      >
         {content}
         {loading}
       </div>
@@ -107,6 +107,8 @@ ConversationList.propTypes = {
   dateTimeFormatter: PropTypes.func,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
+  phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
   showGroupNumberName: PropTypes.bool,
   placeholder: PropTypes.string,
   typeFilter: PropTypes.string,
@@ -121,6 +123,8 @@ ConversationList.defaultProps = {
   dateTimeFormatter: undefined,
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   showGroupNumberName: false,
   placeholder: undefined,
   loadNextPage: undefined,
