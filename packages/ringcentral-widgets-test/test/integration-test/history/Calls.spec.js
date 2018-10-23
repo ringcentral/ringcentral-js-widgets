@@ -7,6 +7,8 @@ import Spinner from 'ringcentral-widgets/components/Spinner';
 
 import { getWrapper, timeout } from '../shared';
 
+/* global jasmine */
+
 let wrapper = null;
 let panel = null;
 beforeEach(async () => {
@@ -25,7 +27,12 @@ describe('history', () => {
     await timeout(200); // because there is a setTimeout in CallItem implementation
     const callItems = panel.find(CallItem);
     for (let i = 0; i < callItems.length; i += 1) {
-      expect(callItems.at(i).text().trim().length > 0).toEqual(true);
+      expect(
+        callItems
+          .at(i)
+          .text()
+          .trim().length > 0,
+      ).toEqual(true);
     }
   });
 
@@ -36,7 +43,11 @@ describe('history', () => {
     const callItems = panel.find(CallItem);
     if (callItems.length > 0) {
       const callItem = callItems.at(callItems.length - 1); // last item
-      const logButton = callItem.find(LogButton).first().find(Button).first();
+      const logButton = callItem
+        .find(LogButton)
+        .first()
+        .find(Button)
+        .first();
       expect(logButton.props().disabled).toBe(false);
     }
   });
@@ -52,13 +63,21 @@ describe('history', () => {
       logButton.simulate('click');
       await timeout(200);
       panel = wrapper.find(CallsPanel).first();
-      logButton = panel.find(CallItem).at(callItems.length - 1).find(LogButton).find(Button);
+      logButton = panel
+        .find(CallItem)
+        .at(callItems.length - 1)
+        .find(LogButton)
+        .find(Button);
       expect(logButton.props().disabled).toBe(true);
       expect(logButton.find(Spinner).length).toBe(1);
       await timeout(1000);
       wrapper.update();
       panel = wrapper.find(CallsPanel).first();
-      logButton = panel.find(CallItem).at(callItems.length - 1).find(LogButton).find(Button);
+      logButton = panel
+        .find(CallItem)
+        .at(callItems.length - 1)
+        .find(LogButton)
+        .find(Button);
       expect(logButton.props().disabled).toBe(false);
       expect(logButton.find(Spinner).length).toBe(0);
     }
