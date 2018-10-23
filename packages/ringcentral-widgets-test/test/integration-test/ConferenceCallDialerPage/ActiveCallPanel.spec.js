@@ -1,5 +1,5 @@
 import * as mock from 'ringcentral-integration/integration-test/mock';
-import CallCtrlPage from 'ringcentral-widgets/containers/CallCtrlPage';
+import { CallCtrlContainer } from 'ringcentral-widgets/containers/CallCtrlPage';
 import MergeInfo from 'ringcentral-widgets/components/ActiveCallPanel/MergeInfo';
 import CallAvatar from 'ringcentral-widgets/components/CallAvatar';
 import DurationCounter from 'ringcentral-widgets/components/DurationCounter';
@@ -44,8 +44,8 @@ async function mockSub(phone) {
 async function mockAddCall(phone, wrapper, contactA, contactB) {
   const sessionA = await call(phone, wrapper, contactA.phoneNumbers[0].phoneNumber);
   await phone.webphone.hold(sessionA.id);
-  const callCtrlPage = wrapper.find(CallCtrlPage);
-  await callCtrlPage.props().onAdd(sessionA.id);
+  const callCtrlContainer = wrapper.find(CallCtrlContainer);
+  await callCtrlContainer.props().onAdd(sessionA.id);
   const sessionB = await call(phone, wrapper, contactB.phoneNumbers[0].phoneNumber);
   await mockSub(phone);
   wrapper.update();
@@ -72,7 +72,7 @@ async function mockStartConference(phone, wrapper) {
   const { sessionB } = await mockAddCall(phone, wrapper, contactA, contactB);
   expect(phone.routerInteraction.currentPath).toEqual(`/calls/active/${sessionB.id}`);
   wrapper.update();
-  const mergeButton = wrapper.find(CallCtrlPage).find(CircleButton).at(3);
+  const mergeButton = wrapper.find(CallCtrlContainer).find(CircleButton).at(3);
   mergeButton.simulate('click');
   await timeout(100);
   /* manual terminate normal session, accept conference session */
@@ -185,8 +185,8 @@ describe('RCI-1071: simplified call control page #3', () => {
     const conferenceSessionId = Object.values(phone.conferenceCall.conferences)[0].sessionId;
     const conferenceSession = phone.webphone.sessions.find(x => x.id === conferenceSessionId);
     expect(phone.routerInteraction.currentPath.indexOf('/calls/active')).toEqual(0);
-    const callCtrlPage = wrapper.find(CallCtrlPage);
-    const addButton = callCtrlPage.find(CircleButton).at(3);
+    const callCtrlContainer = wrapper.find(CallCtrlContainer);
+    const addButton = callCtrlContainer.find(CircleButton).at(3);
     addButton.simulate('click');
     await timeout(500);
     wrapper.update();

@@ -6,7 +6,7 @@ import callingModes from 'ringcentral-integration/modules/CallingSettings/callin
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 import { withPhone } from '../../lib/phoneContext';
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
-import CallCtrlContainer from './CallCtrlPage';
+import CallCtrlContainer from './CallCtrlContainer';
 
 function mapToProps(_, {
   phone: {
@@ -276,5 +276,6 @@ const CallCtrlPage = withPhone(connect(
 export {
   mapToProps,
   mapToFunctions,
+  CallCtrlContainer,
   CallCtrlPage as default,
 };

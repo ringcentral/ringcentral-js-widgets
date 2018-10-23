@@ -3,7 +3,7 @@ import ActiveCallDialPad from 'ringcentral-widgets/components/ActiveCallDialPad'
 import ActiveCallButton from 'ringcentral-widgets/components/ActiveCallButton';
 import IncomingCallPad from 'ringcentral-widgets/components/IncomingCallPad';
 import RecipientsInput from 'ringcentral-widgets/components/RecipientsInput';
-import CallCtrlPage from 'ringcentral-widgets/containers/CallCtrlPage';
+import { CallCtrlContainer } from 'ringcentral-widgets/containers/CallCtrlPage';
 import RadioBtnGroup from 'ringcentral-widgets/components/RadioBtnGroup';
 import TransferPanel from 'ringcentral-widgets/components/TransferPanel';
 import CircleButton from 'ringcentral-widgets/components/CircleButton';
@@ -701,7 +701,7 @@ describe('Current Call Control Page - Flip', () => {
     const radioOptions = panel.find(RadioBtnGroup).find('.radioOption');
     expect(radioOptions).toHaveLength(filpNumbers.length);
     filpNumbers.forEach((item, index) => {
-      const phoneNumber = wrapper.find(CallCtrlPage).props().formatPhone(item.phoneNumber);
+      const phoneNumber = wrapper.find(CallCtrlContainer).props().formatPhone(item.phoneNumber);
       expect(radioOptions.at(index).find('.optionNumber').text()).toEqual(phoneNumber);
       expect(radioOptions.at(index).find('.optionLabel').text()).toEqual(item.label);
     });
