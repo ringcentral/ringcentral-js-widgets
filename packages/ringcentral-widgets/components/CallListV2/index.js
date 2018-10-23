@@ -86,6 +86,8 @@ export default class CallListV2 extends React.PureComponent {
       autoLog,
       showContactDisplayPlaceholder,
       sourceIcons,
+      phoneTypeRenderer,
+      phoneSourceNameRenderer,
       renderContactName,
       renderExtraButton,
       contactDisplayStyle,
@@ -138,6 +140,8 @@ export default class CallListV2 extends React.PureComponent {
           autoLog={autoLog}
           showContactDisplayPlaceholder={showContactDisplayPlaceholder}
           sourceIcons={sourceIcons}
+          phoneTypeRenderer={phoneTypeRenderer}
+          phoneSourceNameRenderer={phoneSourceNameRenderer}
           renderContactName={renderContactName}
           renderExtraButton={renderExtraButton}
           contactDisplayStyle={contactDisplayStyle}
@@ -206,6 +210,8 @@ CallListV2.propTypes = {
   autoLog: PropTypes.bool,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
+  phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
   renderContactName: PropTypes.func,
   renderExtraButton: PropTypes.func,
   contactDisplayStyle: PropTypes.string,
@@ -237,6 +243,8 @@ CallListV2.defaultProps = {
   showContactDisplayPlaceholder: true,
   autoLog: false,
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   renderContactName: undefined,
   renderExtraButton: undefined,
   contactDisplayStyle: undefined,

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import formatMessage from 'format-message';
-import classnames from 'classnames';
 
 import DurationCounter from '../DurationCounter';
 import Button from '../Button';
