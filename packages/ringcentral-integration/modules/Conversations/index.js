@@ -30,8 +30,8 @@ import status from './status';
 
 function getEarliestTime(messages) {
   let newTime = Date.now();
-  messages.forEach((message) => {
-    const creationTime = (new Date(message.creationTime)).getTime();
+  messages.forEach(message => {
+    const creationTime = new Date(message.creationTime).getTime();
     if (creationTime < newTime) {
       newTime = creationTime;
     }
@@ -48,13 +48,14 @@ function getUniqueNumbers(conversations) {
       numberMap[number] = true;
     }
   }
-  conversations.forEach((message) => {
+  conversations.forEach(message => {
     if (message.from) {
-      const fromNumber = message.from.phoneNumber || message.from.extensionNumber;
+      const fromNumber =
+        message.from.phoneNumber || message.from.extensionNumber;
       addIfNotExist(fromNumber);
     }
     if (message.to && message.to.length > 0) {
-      message.to.forEach((toNumber) => {
+      message.to.forEach(toNumber => {
         if (!toNumber) {
           return;
         }
@@ -80,7 +81,7 @@ const DEFAULT_DAY_SPAN = 90;
     'RolesAndPermissions',
     { dep: 'ContactMatcher', optional: true },
     { dep: 'ConversationLogger', optional: true },
-    { dep: 'ConversationsOptions', optional: true }
+    { dep: 'ConversationsOptions', optional: true },
   ],
 })
 export default class Conversations extends RcModule {
@@ -104,14 +105,16 @@ export default class Conversations extends RcModule {
       ...options,
       actionTypes,
     });
-    this._auth = this:: ensureExist(auth, 'auth');
-    this._alert = this:: ensureExist(alert, 'alert');
-    this._client = this:: ensureExist(client, 'client');
-    this._messageSender = this:: ensureExist(messageSender, 'messageSender');
-    this._extensionInfo = this:: ensureExist(extensionInfo, 'extensionInfo');
-    this._messageStore = this:: ensureExist(messageStore, 'messageStore');
-    this._rolesAndPermissions =
-      this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._auth = this::ensureExist(auth, 'auth');
+    this._alert = this::ensureExist(alert, 'alert');
+    this._client = this::ensureExist(client, 'client');
+    this._messageSender = this::ensureExist(messageSender, 'messageSender');
+    this._extensionInfo = this::ensureExist(extensionInfo, 'extensionInfo');
+    this._messageStore = this::ensureExist(messageStore, 'messageStore');
+    this._rolesAndPermissions = this::ensureExist(
+      rolesAndPermissions,
+      'rolesAndPermissions',
+    );
     this._contactMatcher = contactMatcher;
     this._conversationLogger = conversationLogger;
 
@@ -129,9 +132,7 @@ export default class Conversations extends RcModule {
     if (this._contactMatcher) {
       this._contactMatcher.addQuerySource({
         getQueriesFn: () => this.uniqueNumbers,
-        readyCheckFn: () => (
-          this._messageStore.ready
-        ),
+        readyCheckFn: () => this._messageStore.ready,
       });
     }
   }
@@ -176,15 +177,13 @@ export default class Conversations extends RcModule {
 
   _shouldReset() {
     return (
-      (
-        !this._auth.loggedIn ||
+      (!this._auth.loggedIn ||
         !this._extensionInfo.ready ||
         !this._messageSender.ready ||
         !this._rolesAndPermissions ||
         !this._messageStore.ready ||
         (this._contactMatcher && !this._contactMatcher.ready) ||
-        (this._conversationLogger && !this._conversationLogger.ready)
-      ) &&
+        (this._conversationLogger && !this._conversationLogger.ready)) &&
       this.ready
     );
   }
@@ -268,7 +267,11 @@ export default class Conversations extends RcModule {
     };
     if (typeFilter === messageTypes.text) {
       params.messageType = [messageTypes.sms, messageTypes.pager];
-    } else if (typeFilter && typeFilter !== '' && typeFilter !== messageTypes.all) {
+    } else if (
+      typeFilter &&
+      typeFilter !== '' &&
+      typeFilter !== messageTypes.all
+    ) {
       params.messageType = typeFilter;
     }
     try {
@@ -287,7 +290,7 @@ export default class Conversations extends RcModule {
     } catch (e) {
       if (typeFilter === this.typeFilter && currentPage === this.currentPage) {
         this.store.dispatch({
-          type: this.actionTypes.fetchOldConverstaionsError
+          type: this.actionTypes.fetchOldConverstaionsError,
         });
       }
     }
@@ -296,7 +299,10 @@ export default class Conversations extends RcModule {
   @proxify
   async loadNextPage() {
     const currentPage = this.currentPage;
-    if ((currentPage + 1) * this._perPage <= this.filteredConversations.length) {
+    if (
+      (currentPage + 1) * this._perPage <=
+      this.filteredConversations.length
+    ) {
       this.store.dispatch({
         type: this.actionTypes.increaseCurrentPage,
       });
@@ -388,7 +394,7 @@ export default class Conversations extends RcModule {
     } catch (e) {
       if (conversationId === this.currentConversationId) {
         this.store.dispatch({
-          type: this.actionTypes.fetchOldMessagesError
+          type: this.actionTypes.fetchOldMessagesError,
         });
       }
     }
@@ -487,7 +493,7 @@ export default class Conversations extends RcModule {
       return;
     }
     const conversation = this.allConversations.find(
-      c => c.conversationId === conversationId
+      c => c.conversationId === conversationId,
     );
     if (!conversation) {
       return;
@@ -517,7 +523,7 @@ export default class Conversations extends RcModule {
       }
       const newConversations = [];
       const conversationMap = {};
-      const pushConversation = (c) => {
+      const pushConversation = c => {
         if (conversationMap[c.id]) {
           return;
         }
@@ -527,29 +533,29 @@ export default class Conversations extends RcModule {
       conversations.forEach(pushConversation);
       oldConversations.forEach(pushConversation);
       return newConversations;
-    }
-  )
+    },
+  );
 
   @getter
   uniqueNumbers = createSelector(
     () => this.pagingConversations,
-    getUniqueNumbers
-  )
+    getUniqueNumbers,
+  );
 
   @getter
   allUniqueNumbers = createSelector(
     () => this.allConversations,
     getUniqueNumbers,
-  )
+  );
 
   @getter
   effectiveSearchString = createSelector(
     () => this.state.searchInput,
-    (input) => {
+    input => {
       if (input.length >= 3) return input;
       return '';
-    }
-  )
+    },
+  );
 
   @getter
   typeFilteredConversations = createSelector(
@@ -565,23 +571,16 @@ export default class Conversations extends RcModule {
           return allConversations.filter(messageIsFax);
         default:
           return allConversations.filter(
-            conversation => (
-              (
-                this._rolesAndPermissions.readTextPermissions ||
-                !messageIsTextMessage(conversation)
-              ) &&
-              (
-                this._rolesAndPermissions.voicemailPermissions ||
-                !messageIsVoicemail(conversation)
-              ) &&
-              (
-                this._rolesAndPermissions.readFaxPermissions ||
-                !messageIsFax(conversation)
-              )
-            )
+            conversation =>
+              (this._rolesAndPermissions.readTextPermissions ||
+                !messageIsTextMessage(conversation)) &&
+              (this._rolesAndPermissions.voicemailPermissions ||
+                !messageIsVoicemail(conversation)) &&
+              (this._rolesAndPermissions.readFaxPermissions ||
+                !messageIsFax(conversation)),
           );
       }
-    }
+    },
   );
 
   @getter
@@ -599,25 +598,34 @@ export default class Conversations extends RcModule {
       loggingMap = {},
       conversationLogMapping = {},
       accessToken,
-    ) => (
-      conversations.map((message) => {
-        const {
-          self,
-          correspondents,
-        } = getNumbersFromMessage({ extensionNumber, message });
+    ) =>
+      conversations.map(message => {
+        const { self, correspondents } = getNumbersFromMessage({
+          extensionNumber,
+          message,
+        });
         const selfNumber = self && (self.phoneNumber || self.extensionNumber);
         const selfMatches = (selfNumber && contactMapping[selfNumber]) || [];
-        const correspondentMatches = correspondents.reduce((matches, contact) => {
-          const number = contact && (contact.phoneNumber || contact.extensionNumber);
-          return number && contactMapping[number] && contactMapping[number].length ?
-            matches.concat(contactMapping[number]) :
-            matches;
-        }, []);
-        const conversationLogId = this._conversationLogger ?
-          this._conversationLogger.getConversationLogId(message) :
-          null;
-        const isLogging = !!(conversationLogId && loggingMap[conversationLogId]);
-        const conversationMatches = conversationLogMapping[conversationLogId] || [];
+        const correspondentMatches = correspondents.reduce(
+          (matches, contact) => {
+            const number =
+              contact && (contact.phoneNumber || contact.extensionNumber);
+            return number &&
+              contactMapping[number] &&
+              contactMapping[number].length
+              ? matches.concat(contactMapping[number])
+              : matches;
+          },
+          [],
+        );
+        const conversationLogId = this._conversationLogger
+          ? this._conversationLogger.getConversationLogId(message)
+          : null;
+        const isLogging = !!(
+          conversationLogId && loggingMap[conversationLogId]
+        );
+        const conversationMatches =
+          conversationLogMapping[conversationLogId] || [];
         let voicemailAttachment = null;
         if (messageIsVoicemail(message)) {
           voicemailAttachment = getVoicemailAttachment(message, accessToken);
@@ -631,7 +639,11 @@ export default class Conversations extends RcModule {
           unreadCounts = messageIsUnread(message) ? 1 : 0;
         }
         let mmsAttachment = null;
-        if (messageIsTextMessage(message) && isBlank(message.subject) && this._showMMSAttachment) {
+        if (
+          messageIsTextMessage(message) &&
+          isBlank(message.subject) &&
+          this._showMMSAttachment
+        ) {
           mmsAttachment = getMMSAttachment(message);
         }
         return {
@@ -647,14 +659,15 @@ export default class Conversations extends RcModule {
           voicemailAttachment,
           faxAttachment,
           mmsAttachment,
-          lastMatchedCorrespondentEntity: (
-            this._conversationLogger &&
-              this._conversationLogger.getLastMatchedCorrespondentEntity(message)
-          ) || null,
+          lastMatchedCorrespondentEntity:
+            (this._conversationLogger &&
+              this._conversationLogger.getLastMatchedCorrespondentEntity(
+                message,
+              )) ||
+            null,
         };
-      })
-    ),
-  )
+      }),
+  );
 
   @getter
   filteredConversations = createSelector(
@@ -668,15 +681,15 @@ export default class Conversations extends RcModule {
       const cleanRegex = /[^\d*+#\s]/g;
       const searchString = effectiveSearchString.toLowerCase();
       const searchNumber = effectiveSearchString.replace(cleanRegex, '');
-      conversations.forEach((message) => {
+      conversations.forEach(message => {
         if (searchNumber === effectiveSearchString) {
           const cleanedNumber = cleanNumber(effectiveSearchString);
           if (
             message.correspondents.find(
-              contact => (
-                cleanNumber(contact.phoneNumber || contact.extensionNumber || '')
-                  .indexOf(cleanedNumber) > -1
-              )
+              contact =>
+                cleanNumber(
+                  contact.phoneNumber || contact.extensionNumber || '',
+                ).indexOf(cleanedNumber) > -1,
             )
           ) {
             // match by phoneNumber or extensionNumber
@@ -689,9 +702,10 @@ export default class Conversations extends RcModule {
         }
         if (message.correspondentMatches.length) {
           if (
-            message.correspondentMatches.find(entity => (
-              (entity.name || '').toLowerCase().indexOf(searchString) > -1
-            ))
+            message.correspondentMatches.find(
+              entity =>
+                (entity.name || '').toLowerCase().indexOf(searchString) > -1,
+            )
           ) {
             // match by entity's name
             searchResults.push({
@@ -700,9 +714,12 @@ export default class Conversations extends RcModule {
             });
             return;
           }
-        } else if (message.correspondents.find(contact => (
-          (contact.name || '').toLowerCase().indexOf(searchString) > -1
-        ))) {
+        } else if (
+          message.correspondents.find(
+            contact =>
+              (contact.name || '').toLowerCase().indexOf(searchString) > -1,
+          )
+        ) {
           searchResults.push({
             ...message,
             matchOrder: 0,
@@ -718,10 +735,11 @@ export default class Conversations extends RcModule {
           });
           return;
         }
-        const messageList = this._messageStore.conversationStore[message.conversationId] || [];
-        const matchedMessage = messageList.find(item => (
-          (item.subject || '').toLowerCase().indexOf(searchString) > -1
-        ));
+        const messageList =
+          this._messageStore.conversationStore[message.conversationId] || [];
+        const matchedMessage = messageList.find(
+          item => (item.subject || '').toLowerCase().indexOf(searchString) > -1,
+        );
         if (matchedMessage) {
           searchResults.push({
             ...message,
@@ -732,23 +750,23 @@ export default class Conversations extends RcModule {
       });
       return searchResults.sort(sortSearchResults);
     },
-  )
+  );
 
   @getter
   pagingConversations = createSelector(
     () => this.filteredConversations,
     () => this.currentPage,
     (conversations, pageNumber) => {
-      const lastIndex = (pageNumber * this._perPage) - 1;
+      const lastIndex = pageNumber * this._perPage;
       return conversations.slice(0, lastIndex);
-    }
-  )
+    },
+  );
 
   @getter
   earliestTime = createSelector(
     () => this.typeFilteredConversations,
     getEarliestTime,
-  )
+  );
 
   @getter
   currentConversation = createSelector(
@@ -771,13 +789,13 @@ export default class Conversations extends RcModule {
       conversationLogMapping = {},
     ) => {
       const conversation = conversations.find(
-        c => c.conversationId === conversationId
+        c => c.conversationId === conversationId,
       );
       const messages = [].concat(conversationStore[conversationId] || []);
       const currentConversation = {
-        ...conversation
+        ...conversation,
       };
-      const allMessages = (messages.concat(oldMessages)).map((m) => {
+      const allMessages = messages.concat(oldMessages).map(m => {
         if (!this._showMMSAttachment) {
           return m;
         }
@@ -787,19 +805,22 @@ export default class Conversations extends RcModule {
           mmsAttachment,
         };
       });
-      const {
-        correspondents = [],
-      } = getNumbersFromMessage({ extensionNumber, message: conversation });
+      const { correspondents = [] } = getNumbersFromMessage({
+        extensionNumber,
+        message: conversation,
+      });
       const correspondentMatches = correspondents.reduce((matches, contact) => {
-        const number = contact && (contact.phoneNumber || contact.extensionNumber);
-        return number && contactMapping[number] && contactMapping[number].length ?
-          matches.concat(contactMapping[number]) :
-          matches;
+        const number =
+          contact && (contact.phoneNumber || contact.extensionNumber);
+        return number && contactMapping[number] && contactMapping[number].length
+          ? matches.concat(contactMapping[number])
+          : matches;
       }, []);
-      const conversationLogId = this._conversationLogger ?
-        this._conversationLogger.getConversationLogId(conversation) :
-        null;
-      const conversationMatches = conversationLogMapping[conversationLogId] || [];
+      const conversationLogId = this._conversationLogger
+        ? this._conversationLogger.getConversationLogId(conversation)
+        : null;
+      const conversationMatches =
+        conversationLogMapping[conversationLogId] || [];
       currentConversation.correspondents = correspondents;
       currentConversation.correspondentMatches = correspondentMatches;
       currentConversation.conversationMatches = conversationMatches;
@@ -813,8 +834,8 @@ export default class Conversations extends RcModule {
         myNumber: currentConversation.senderNumber,
       });
       return currentConversation;
-    }
-  )
+    },
+  );
 
   @getter
   messageText = createSelector(
