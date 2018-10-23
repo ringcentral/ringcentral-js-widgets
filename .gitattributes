@@ -21,3 +21,4 @@ LICENSE text=auto eol=lf
 *.lock text=auto eol=lf
 *.default text=auto eol=lf
 *.snap text=auto eol=lf
+*.prettierrc text=auto eol=lf

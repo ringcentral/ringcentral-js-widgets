@@ -27,7 +27,7 @@ export default class GlipGroupsPanel extends PureComponent {
       this.props.updateSearchFilter(searchString);
     };
     this.toggleShowTeamCreationModal = () => {
-      this.setState(preState => ({
+      this.setState((preState) => ({
         showTeamCreationModal: !preState.showTeamCreationModal,
       }));
     };
@@ -50,7 +50,7 @@ export default class GlipGroupsPanel extends PureComponent {
     if (this._mounted) {
       this._calculateContentSize();
     }
-  }, 300)
+  }, 300);
 
   _calculateContentSize() {
     if (
@@ -67,7 +67,7 @@ export default class GlipGroupsPanel extends PureComponent {
     }
     this.setState({
       contentHeight: 0,
-      contentWidth: 0
+      contentWidth: 0,
     });
   }
 
@@ -84,7 +84,7 @@ export default class GlipGroupsPanel extends PureComponent {
       updateContactSearchFilter,
       contactSearchFilter,
     } = this.props;
-    const spinner = showSpinner ? (<SpinnerOverlay />) : null;
+    const spinner = showSpinner ? <SpinnerOverlay /> : null;
     // TODO: update searching with i18n
     return (
       <div className={classnames(styles.root, className)}>
@@ -152,5 +152,5 @@ GlipGroupsPanel.defaultProps = {
   currentPage: 1,
   onNextPage: undefined,
   filteredContacts: [],
-  contactSearchFilter: ''
+  contactSearchFilter: '',
 };
