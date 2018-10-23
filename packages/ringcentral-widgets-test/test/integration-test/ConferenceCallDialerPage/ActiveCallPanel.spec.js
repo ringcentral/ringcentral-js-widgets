@@ -1,5 +1,5 @@
 import * as mock from 'ringcentral-integration/integration-test/mock';
-import { CallCtrlPage } from 'ringcentral-widgets/containers/CallCtrlPage';
+import CallCtrlPage from 'ringcentral-widgets/containers/CallCtrlPage';
 import MergeInfo from 'ringcentral-widgets/components/ActiveCallPanel/MergeInfo';
 import CallAvatar from 'ringcentral-widgets/components/CallAvatar';
 import DurationCounter from 'ringcentral-widgets/components/DurationCounter';

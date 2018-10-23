@@ -3,7 +3,7 @@ import ActiveCallDialPad from 'ringcentral-widgets/components/ActiveCallDialPad'
 import ActiveCallButton from 'ringcentral-widgets/components/ActiveCallButton';
 import IncomingCallPad from 'ringcentral-widgets/components/IncomingCallPad';
 import RecipientsInput from 'ringcentral-widgets/components/RecipientsInput';
-import { CallCtrlPage } from 'ringcentral-widgets/containers/CallCtrlPage';
+import CallCtrlPage from 'ringcentral-widgets/containers/CallCtrlPage';
 import RadioBtnGroup from 'ringcentral-widgets/components/RadioBtnGroup';
 import TransferPanel from 'ringcentral-widgets/components/TransferPanel';
 import CircleButton from 'ringcentral-widgets/components/CircleButton';
