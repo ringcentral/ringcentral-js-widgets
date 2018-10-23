@@ -68,6 +68,7 @@ function mapToFunctions(_, _ref2) {
     });
   } : _ref2$formatContactPh,
       phoneTypeRenderer = _ref2.phoneTypeRenderer,
+      phoneSourceNameRenderer = _ref2.phoneSourceNameRenderer,
       recipientsContactInfoRenderer = _ref2.recipientsContactInfoRenderer,
       recipientsContactPhoneRenderer = _ref2.recipientsContactPhoneRenderer;
 
@@ -136,6 +137,7 @@ function mapToFunctions(_, _ref2) {
       return composeText.updateMessageText.apply(composeText, arguments);
     },
     phoneTypeRenderer: phoneTypeRenderer,
+    phoneSourceNameRenderer: phoneSourceNameRenderer,
     recipientsContactInfoRenderer: recipientsContactInfoRenderer,
     recipientsContactPhoneRenderer: recipientsContactPhoneRenderer
   };

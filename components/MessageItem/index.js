@@ -553,6 +553,8 @@ var MessageItem = function (_Component) {
           enableContactFallback = _props2.enableContactFallback,
           showContactDisplayPlaceholder = _props2.showContactDisplayPlaceholder,
           sourceIcons = _props2.sourceIcons,
+          phoneTypeRenderer = _props2.phoneTypeRenderer,
+          phoneSourceNameRenderer = _props2.phoneSourceNameRenderer,
           showGroupNumberName = _props2.showGroupNumberName,
           renderExtraButton = _props2.renderExtraButton;
 
@@ -629,7 +631,9 @@ var MessageItem = function (_Component) {
               stopPropagation: false,
               showType: false,
               showPlaceholder: showContactDisplayPlaceholder,
-              sourceIcons: sourceIcons
+              sourceIcons: sourceIcons,
+              phoneTypeRenderer: phoneTypeRenderer,
+              phoneSourceNameRenderer: phoneSourceNameRenderer
             }),
             _react2.default.createElement(
               'div',
@@ -755,6 +759,8 @@ MessageItem.propTypes = {
   enableContactFallback: _propTypes2.default.bool,
   showContactDisplayPlaceholder: _propTypes2.default.bool,
   sourceIcons: _propTypes2.default.object,
+  phoneTypeRenderer: _propTypes2.default.func,
+  phoneSourceNameRenderer: _propTypes2.default.func,
   showGroupNumberName: _propTypes2.default.bool,
   deleteMessage: _propTypes2.default.func,
   previewFaxMessages: _propTypes2.default.func,
@@ -777,6 +783,8 @@ MessageItem.defaultProps = {
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   showGroupNumberName: false,
   deleteMessage: function deleteMessage() {},
 

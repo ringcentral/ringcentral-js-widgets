@@ -13,17 +13,9 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
 var _ContactDisplay = require('../ContactDisplay');
 
 var _ContactDisplay2 = _interopRequireDefault(_ContactDisplay);
-
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
-
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
 
 var _styles = require('./styles.scss');
 
@@ -74,7 +66,9 @@ function CallInfo(props) {
         enableContactFallback: true,
         brand: props.brand,
         showPlaceholder: props.showContactDisplayPlaceholder,
-        sourceIcons: props.sourceIcons
+        sourceIcons: props.sourceIcons,
+        phoneTypeRenderer: props.phoneTypeRenderer,
+        phoneSourceNameRenderer: props.phoneSourceNameRenderer
       })
     ),
     _react2.default.createElement(
@@ -98,7 +92,9 @@ CallInfo.propTypes = {
   avatarUrl: _propTypes2.default.string,
   brand: _propTypes2.default.string,
   showContactDisplayPlaceholder: _propTypes2.default.bool,
-  sourceIcons: _propTypes2.default.object
+  sourceIcons: _propTypes2.default.object,
+  phoneTypeRenderer: _propTypes2.default.func,
+  phoneSourceNameRenderer: _propTypes2.default.func
 };
 
 CallInfo.defaultProps = {
@@ -106,6 +102,8 @@ CallInfo.defaultProps = {
   avatarUrl: null,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
-  sourceIcons: undefined
+  sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined
 };
 //# sourceMappingURL=CallInfo.js.map

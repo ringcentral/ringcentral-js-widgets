@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.CallCtrlPage = exports.mapToFunctions = exports.mapToProps = undefined;
+exports.default = exports.CallCtrlContainer = exports.mapToFunctions = exports.mapToProps = undefined;
 
 var _regenerator = require('babel-runtime/regenerator');
 
@@ -20,10 +20,6 @@ var _values2 = _interopRequireDefault(_values);
 var _ramda = require('ramda');
 
 var _reactRedux = require('react-redux');
-
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _formatNumber = require('ringcentral-integration/lib/formatNumber');
 
@@ -47,9 +43,9 @@ var _callCtrlLayouts = require('../../enums/callCtrlLayouts');
 
 var _callCtrlLayouts2 = _interopRequireDefault(_callCtrlLayouts);
 
-var _CallCtrlPage = require('./CallCtrlPage');
+var _CallCtrlContainer = require('./CallCtrlContainer');
 
-var _CallCtrlPage2 = _interopRequireDefault(_CallCtrlPage);
+var _CallCtrlContainer2 = _interopRequireDefault(_CallCtrlContainer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -151,6 +147,7 @@ function mapToFunctions(_, _ref2) {
       getAvatarUrl = _ref2.getAvatarUrl,
       onBackButtonClick = _ref2.onBackButtonClick,
       phoneTypeRenderer = _ref2.phoneTypeRenderer,
+      phoneSourceNameRenderer = _ref2.phoneSourceNameRenderer,
       recipientsContactInfoRenderer = _ref2.recipientsContactInfoRenderer,
       recipientsContactPhoneRenderer = _ref2.recipientsContactPhoneRenderer;
 
@@ -242,6 +239,7 @@ function mapToFunctions(_, _ref2) {
       return contactSearch.debouncedSearch({ searchString: searchString });
     },
     phoneTypeRenderer: phoneTypeRenderer,
+    phoneSourceNameRenderer: phoneSourceNameRenderer,
     recipientsContactInfoRenderer: recipientsContactInfoRenderer,
     recipientsContactPhoneRenderer: recipientsContactPhoneRenderer,
     onAdd: function onAdd(sessionId) {
@@ -352,29 +350,10 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var CallCtrlContainer = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_CallCtrlPage2.default));
-
-CallCtrlContainer.propTypes = {
-  getAvatarUrl: _propTypes2.default.func,
-  onBackButtonClick: _propTypes2.default.func.isRequired,
-  onAdd: _propTypes2.default.func.isRequired,
-  backButtonLabel: _propTypes2.default.string,
-  children: _propTypes2.default.node,
-  showContactDisplayPlaceholder: _propTypes2.default.bool,
-  sourceIcons: _propTypes2.default.object
-};
-
-CallCtrlContainer.defaultProps = {
-  getAvatarUrl: function getAvatarUrl() {
-    return null;
-  },
-  showContactDisplayPlaceholder: false,
-  children: undefined,
-  sourceIcons: undefined
-};
+var CallCtrlPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_CallCtrlContainer2.default));
 
 exports.mapToProps = mapToProps;
 exports.mapToFunctions = mapToFunctions;
-exports.CallCtrlPage = _CallCtrlPage2.default;
-exports.default = CallCtrlContainer;
+exports.CallCtrlContainer = _CallCtrlContainer2.default;
+exports.default = CallCtrlPage;
 //# sourceMappingURL=index.js.map

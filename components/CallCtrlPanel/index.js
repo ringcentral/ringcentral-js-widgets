@@ -203,6 +203,7 @@ var CallCtrlPanel = function (_Component) {
           searchContact: this.props.searchContact,
           formatPhone: this.props.formatPhone,
           phoneTypeRenderer: this.props.phoneTypeRenderer,
+          phoneSourceNameRenderer: this.props.phoneSourceNameRenderer,
           recipientsContactInfoRenderer: this.props.recipientsContactInfoRenderer,
           recipientsContactPhoneRenderer: this.props.recipientsContactPhoneRenderer
         });
@@ -247,6 +248,8 @@ var CallCtrlPanel = function (_Component) {
           gotoParticipantsCtrl: this.props.gotoParticipantsCtrl,
           flipNumbers: this.props.flipNumbers,
           sourceIcons: this.props.sourceIcons,
+          phoneTypeRenderer: this.props.phoneTypeRenderer,
+          phoneSourceNameRenderer: this.props.phoneSourceNameRenderer,
           layout: this.props.layout,
           direction: this.props.direction,
           addDisabled: this.props.addDisabled,
@@ -317,6 +320,7 @@ CallCtrlPanel.propTypes = {
   searchContactList: _propTypes2.default.array,
   searchContact: _propTypes2.default.func,
   phoneTypeRenderer: _propTypes2.default.func,
+  phoneSourceNameRenderer: _propTypes2.default.func,
   recipientsContactInfoRenderer: _propTypes2.default.func,
   recipientsContactPhoneRenderer: _propTypes2.default.func,
   layout: _propTypes2.default.string.isRequired,
@@ -355,6 +359,7 @@ CallCtrlPanel.defaultProps = {
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   recipientsContactInfoRenderer: undefined,
   recipientsContactPhoneRenderer: undefined,
   onAdd: undefined,

@@ -60,6 +60,8 @@ function ActiveCallList(_ref) {
       enableContactFallback = _ref.enableContactFallback,
       title = _ref.title,
       sourceIcons = _ref.sourceIcons,
+      phoneTypeRenderer = _ref.phoneTypeRenderer,
+      phoneSourceNameRenderer = _ref.phoneSourceNameRenderer,
       isSessionAConferenceCall = _ref.isSessionAConferenceCall,
       onCallItemClick = _ref.onCallItemClick,
       showAvatar = _ref.showAvatar,
@@ -124,6 +126,8 @@ function ActiveCallList(_ref) {
         enableContactFallback: enableContactFallback,
         autoLog: autoLog,
         sourceIcons: sourceIcons,
+        phoneTypeRenderer: phoneTypeRenderer,
+        phoneSourceNameRenderer: phoneSourceNameRenderer,
         hasActionMenu: !isOnConferenceCall,
         onClick: function onClick() {
           return onCallItemClick(call);
@@ -172,6 +176,8 @@ ActiveCallList.propTypes = {
   enableContactFallback: _propTypes2.default.bool,
   autoLog: _propTypes2.default.bool,
   sourceIcons: _propTypes2.default.object,
+  phoneTypeRenderer: _propTypes2.default.func,
+  phoneSourceNameRenderer: _propTypes2.default.func,
   isSessionAConferenceCall: _propTypes2.default.func,
   useV2: _propTypes2.default.bool,
   onCallItemClick: _propTypes2.default.func,
@@ -210,6 +216,8 @@ ActiveCallList.defaultProps = {
   onViewContact: undefined,
   webphoneToVoicemail: undefined,
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   isSessionAConferenceCall: function isSessionAConferenceCall() {
     return false;
   },

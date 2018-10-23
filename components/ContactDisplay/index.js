@@ -56,12 +56,15 @@ var displayFormatter = function displayFormatter(_ref) {
   var entityName = _ref.entityName,
       entityType = _ref.entityType,
       phoneNumber = _ref.phoneNumber,
+      phoneType = _ref.phoneType,
       currentLocale = _ref.currentLocale,
-      brand = _ref.brand;
+      brand = _ref.brand,
+      phoneTypeRenderer = _ref.phoneTypeRenderer,
+      phoneSourceNameRenderer = _ref.phoneSourceNameRenderer;
 
   var typeName = void 0;
   if (entityType) {
-    typeName = (0, _formatMessage2.default)(_phoneSourceNames2.default.getString(entityType, currentLocale), { brand: brand });
+    typeName = phoneSourceNameRenderer ? phoneSourceNameRenderer(entityType) : (0, _formatMessage2.default)(_phoneSourceNames2.default.getString(entityType, currentLocale), { brand: brand });
   }
   if (phoneNumber && entityName && entityType) {
     return entityName + ' | ' + typeName + ' ' + phoneNumber;
@@ -157,6 +160,8 @@ function ContactDisplay(_ref3) {
       stopPropagation = _ref3.stopPropagation,
       _ref3$sourceIcons = _ref3.sourceIcons,
       sourceIcons = _ref3$sourceIcons === undefined ? {} : _ref3$sourceIcons,
+      phoneTypeRenderer = _ref3.phoneTypeRenderer,
+      phoneSourceNameRenderer = _ref3.phoneSourceNameRenderer,
       showGroupNumberName = _ref3.showGroupNumberName,
       contactName = _ref3.contactName,
       isOnConferenceCall = _ref3.isOnConferenceCall,
@@ -215,7 +220,9 @@ function ContactDisplay(_ref3) {
       entityType: contactMatches[0].entityType,
       phoneNumber: phoneNumber,
       brand: brand,
-      currentLocale: currentLocale
+      currentLocale: currentLocale,
+      phoneTypeRenderer: phoneTypeRenderer,
+      phoneSourceNameRenderer: phoneSourceNameRenderer
     });
     contentEl = _react2.default.createElement(
       'div',
@@ -256,7 +263,9 @@ function ContactDisplay(_ref3) {
           entityName: options[value].name,
           entityType: showType && options[value].entityType,
           brand: brand,
-          currentLocale: currentLocale
+          currentLocale: currentLocale,
+          phoneTypeRenderer: phoneTypeRenderer,
+          phoneSourceNameRenderer: phoneSourceNameRenderer
         });
       },
       renderTitle: function renderTitle(entity) {
@@ -265,7 +274,9 @@ function ContactDisplay(_ref3) {
           entityType: entity.entityType,
           phoneNumber: phoneNumber,
           brand: brand,
-          currentLocale: currentLocale
+          currentLocale: currentLocale,
+          phoneTypeRenderer: phoneTypeRenderer,
+          phoneSourceNameRenderer: phoneSourceNameRenderer
         }) : phoneNumber;
       },
       dropdownAlign: 'left',
@@ -304,6 +315,8 @@ ContactDisplay.propTypes = {
   brand: _propTypes2.default.string,
   stopPropagation: _propTypes2.default.bool,
   sourceIcons: _propTypes2.default.object,
+  phoneTypeRenderer: _propTypes2.default.func,
+  phoneSourceNameRenderer: _propTypes2.default.func,
   showGroupNumberName: _propTypes2.default.bool,
   contactName: _propTypes2.default.any,
   iconClassName: _propTypes2.default.string
@@ -324,6 +337,8 @@ ContactDisplay.defaultProps = {
   brand: undefined,
   stopPropagation: true,
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   showGroupNumberName: false,
   contactName: undefined,
   iconClassName: null

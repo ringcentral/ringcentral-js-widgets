@@ -55,9 +55,10 @@ var spliter = '|';
 function ContactInfo(_ref) {
   var name = _ref.name,
       entityType = _ref.entityType,
-      titleEnabled = _ref.titleEnabled;
+      titleEnabled = _ref.titleEnabled,
+      phoneSourceNameRenderer = _ref.phoneSourceNameRenderer;
 
-  var phoneSourceName = _phoneSourceNames2.default.getString(entityType);
+  var phoneSourceName = phoneSourceNameRenderer ? phoneSourceNameRenderer(entityType) : _phoneSourceNames2.default.getString(entityType);
   var nameTitle = name + ' ' + spliter + ' ' + phoneSourceName;
   return _react2.default.createElement(
     'div',
@@ -82,10 +83,12 @@ function ContactInfo(_ref) {
 ContactInfo.propTypes = {
   name: _propTypes2.default.string.isRequired,
   entityType: _propTypes2.default.string.isRequired,
-  titleEnabled: _propTypes2.default.bool
+  titleEnabled: _propTypes2.default.bool,
+  phoneSourceNameRenderer: _propTypes2.default.func
 };
 ContactInfo.defaultProps = {
-  titleEnabled: undefined
+  titleEnabled: undefined,
+  phoneSourceNameRenderer: undefined
 };
 
 function ContactPhone(_ref2) {
@@ -141,6 +144,7 @@ function ContactItem(_ref3) {
       formatContactPhone = _ref3.formatContactPhone,
       titleEnabled = _ref3.titleEnabled,
       phoneTypeRenderer = _ref3.phoneTypeRenderer,
+      phoneSourceNameRenderer = _ref3.phoneSourceNameRenderer,
       ContactInfoRenderer = _ref3.contactInfoRenderer,
       ContactPhoneRenderer = _ref3.contactPhoneRenderer;
 
@@ -165,6 +169,7 @@ function ContactItem(_ref3) {
         phoneNumber: phoneNumber,
         formatContactPhone: formatContactPhone,
         phoneTypeRenderer: phoneTypeRenderer,
+        phoneSourceNameRenderer: phoneSourceNameRenderer,
         titleEnabled: titleEnabled
       }),
       _react2.default.createElement(ContactPhoneRenderer, {
@@ -175,6 +180,7 @@ function ContactItem(_ref3) {
         phoneNumber: phoneNumber,
         formatContactPhone: formatContactPhone,
         phoneTypeRenderer: phoneTypeRenderer,
+        phoneSourceNameRenderer: phoneSourceNameRenderer,
         titleEnabled: titleEnabled
       })
     )
@@ -192,12 +198,14 @@ ContactItem.propTypes = {
   onHover: _propTypes2.default.func.isRequired,
   titleEnabled: _propTypes2.default.bool,
   phoneTypeRenderer: _propTypes2.default.func,
+  phoneSourceNameRenderer: _propTypes2.default.func,
   contactInfoRenderer: _propTypes2.default.func,
   contactPhoneRenderer: _propTypes2.default.func
 };
 ContactItem.defaultProps = {
   titleEnabled: undefined,
   phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   contactInfoRenderer: undefined,
   contactPhoneRenderer: undefined
 };
@@ -250,6 +258,7 @@ var ContactDropdownList = function (_Component) {
           titleEnabled = _props.titleEnabled,
           visibility = _props.visibility,
           phoneTypeRenderer = _props.phoneTypeRenderer,
+          phoneSourceNameRenderer = _props.phoneSourceNameRenderer,
           contactInfoRenderer = _props.contactInfoRenderer,
           contactPhoneRenderer = _props.contactPhoneRenderer;
 
@@ -276,6 +285,7 @@ var ContactDropdownList = function (_Component) {
             phoneType: item.phoneType,
             phoneNumber: item.phoneNumber,
             phoneTypeRenderer: phoneTypeRenderer,
+            phoneSourceNameRenderer: phoneSourceNameRenderer,
             formatContactPhone: formatContactPhone,
             onHover: function onHover() {
               return setSelectedIndex(index);
@@ -313,6 +323,7 @@ ContactDropdownList.propTypes = {
   titleEnabled: _propTypes2.default.bool,
   listRef: _propTypes2.default.func,
   phoneTypeRenderer: _propTypes2.default.func,
+  phoneSourceNameRenderer: _propTypes2.default.func,
   contactInfoRenderer: _propTypes2.default.func,
   contactPhoneRenderer: _propTypes2.default.func
 };
@@ -323,6 +334,7 @@ ContactDropdownList.defaultProps = {
   titleEnabled: undefined,
   listRef: undefined,
   phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   contactInfoRenderer: undefined,
   contactPhoneRenderer: undefined
 };

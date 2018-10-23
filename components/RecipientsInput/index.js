@@ -436,6 +436,7 @@ var RecipientsInput = function (_Component) {
           visibility: this.state.isFocusOnInput,
           titleEnabled: this.props.titleEnabled,
           phoneTypeRenderer: this.props.phoneTypeRenderer,
+          phoneSourceNameRenderer: this.props.phoneSourceNameRenderer,
           contactInfoRenderer: this.props.contactInfoRenderer,
           contactPhoneRenderer: this.props.contactPhoneRenderer
         })
@@ -477,6 +478,7 @@ RecipientsInput.propTypes = {
   multiple: _propTypes2.default.bool,
   inputRef: _propTypes2.default.func,
   phoneTypeRenderer: _propTypes2.default.func,
+  phoneSourceNameRenderer: _propTypes2.default.func,
   contactInfoRenderer: _propTypes2.default.func,
   contactPhoneRenderer: _propTypes2.default.func
 };
@@ -496,6 +498,7 @@ RecipientsInput.defaultProps = {
   multiple: false,
   inputRef: undefined,
   phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   contactInfoRenderer: undefined,
   contactPhoneRenderer: undefined
 };

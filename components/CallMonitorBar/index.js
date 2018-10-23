@@ -39,10 +39,6 @@ var _formatMessage = require('format-message');
 
 var _formatMessage2 = _interopRequireDefault(_formatMessage);
 
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
 var _DurationCounter = require('../DurationCounter');
 
 var _DurationCounter2 = _interopRequireDefault(_DurationCounter);

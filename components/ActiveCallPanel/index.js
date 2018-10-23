@@ -94,6 +94,8 @@ function ActiveCallPanel(_ref) {
       brand = _ref.brand,
       flipNumbers = _ref.flipNumbers,
       sourceIcons = _ref.sourceIcons,
+      phoneTypeRenderer = _ref.phoneTypeRenderer,
+      phoneSourceNameRenderer = _ref.phoneSourceNameRenderer,
       layout = _ref.layout,
       direction = _ref.direction,
       addDisabled = _ref.addDisabled,
@@ -160,7 +162,9 @@ function ActiveCallPanel(_ref) {
         avatarUrl: avatarUrl,
         brand: brand,
         showContactDisplayPlaceholder: showContactDisplayPlaceholder,
-        sourceIcons: sourceIcons
+        sourceIcons: sourceIcons,
+        phoneTypeRenderer: phoneTypeRenderer,
+        phoneSourceNameRenderer: phoneSourceNameRenderer
       });
       break;
   }
@@ -245,6 +249,8 @@ ActiveCallPanel.propTypes = {
   onToggleTransferPanel: _propTypes2.default.func,
   gotoParticipantsCtrl: _propTypes2.default.func,
   sourceIcons: _propTypes2.default.object,
+  phoneTypeRenderer: _propTypes2.default.func,
+  phoneSourceNameRenderer: _propTypes2.default.func,
   layout: _propTypes2.default.string.isRequired,
   direction: _propTypes2.default.string,
   addDisabled: _propTypes2.default.bool,
@@ -283,6 +289,8 @@ ActiveCallPanel.defaultProps = {
     return null;
   },
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   direction: null,
   addDisabled: false,
   mergeDisabled: false,

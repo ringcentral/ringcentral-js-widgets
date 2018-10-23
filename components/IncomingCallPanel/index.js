@@ -80,7 +80,9 @@ function UserInfo(props) {
         enableContactFallback: true,
         brand: props.brand,
         showPlaceholder: props.showContactDisplayPlaceholder,
-        sourceIcons: props.sourceIcons
+        sourceIcons: props.sourceIcons,
+        phoneTypeRenderer: props.phoneTypeRenderer,
+        phoneSourceNameRenderer: props.phoneSourceNameRenderer
       })
     ),
     _react2.default.createElement(
@@ -104,16 +106,19 @@ UserInfo.propTypes = {
   avatarUrl: _propTypes2.default.string,
   brand: _propTypes2.default.string,
   showContactDisplayPlaceholder: _propTypes2.default.bool,
-  sourceIcons: _propTypes2.default.object
+  sourceIcons: _propTypes2.default.object,
+  phoneTypeRenderer: _propTypes2.default.func,
+  phoneSourceNameRenderer: _propTypes2.default.func
 };
 
 UserInfo.defaultProps = {
-  className: null,
   phoneNumber: null,
   avatarUrl: null,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
-  sourceIcons: undefined
+  sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined
 };
 
 function IncomingCallPanel(props) {
@@ -139,7 +144,9 @@ function IncomingCallPanel(props) {
       avatarUrl: props.avatarUrl,
       brand: props.brand,
       showContactDisplayPlaceholder: props.showContactDisplayPlaceholder,
-      sourceIcons: props.sourceIcons
+      sourceIcons: props.sourceIcons,
+      phoneTypeRenderer: props.phoneTypeRenderer,
+      phoneSourceNameRenderer: props.phoneSourceNameRenderer
     }),
     _react2.default.createElement(_IncomingCallPad2.default, {
       className: _styles2.default.callPad,
@@ -157,7 +164,8 @@ function IncomingCallPanel(props) {
       sessionId: props.sessionId,
       searchContact: props.searchContact,
       searchContactList: props.searchContactList,
-      phoneTypeRenderer: props.phoneTypeRenderer
+      phoneTypeRenderer: props.phoneTypeRenderer,
+      phoneSourceNameRenderer: props.phoneSourceNameRenderer
     }),
     props.children
   );
@@ -192,7 +200,8 @@ IncomingCallPanel.propTypes = {
   sourceIcons: _propTypes2.default.object,
   searchContactList: _propTypes2.default.array.isRequired,
   searchContact: _propTypes2.default.func.isRequired,
-  phoneTypeRenderer: _propTypes2.default.func
+  phoneTypeRenderer: _propTypes2.default.func,
+  phoneSourceNameRenderer: _propTypes2.default.func
 };
 
 IncomingCallPanel.defaultProps = {
@@ -206,6 +215,7 @@ IncomingCallPanel.defaultProps = {
   answerAndHold: undefined,
   hasOtherActiveCall: false,
   sourceIcons: undefined,
-  phoneTypeRenderer: undefined
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined
 };
 //# sourceMappingURL=index.js.map

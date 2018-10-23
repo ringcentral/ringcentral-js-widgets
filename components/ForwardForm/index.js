@@ -255,6 +255,7 @@ var ForwardForm = function (_Component) {
           searchContact = _props.searchContact,
           searchContactList = _props.searchContactList,
           phoneTypeRenderer = _props.phoneTypeRenderer,
+          phoneSourceNameRenderer = _props.phoneSourceNameRenderer,
           autoFocus = _props.autoFocus;
 
       var value = this.getValue();
@@ -295,6 +296,7 @@ var ForwardForm = function (_Component) {
             searchContact: searchContact,
             searchContactList: searchContactList,
             phoneTypeRenderer: phoneTypeRenderer,
+            phoneSourceNameRenderer: phoneSourceNameRenderer,
             formatContactPhone: formatPhone,
             currentLocale: currentLocale,
             titleEnabled: true,
@@ -346,6 +348,7 @@ ForwardForm.propTypes = {
   searchContactList: _propTypes2.default.array.isRequired,
   searchContact: _propTypes2.default.func.isRequired,
   phoneTypeRenderer: _propTypes2.default.func,
+  phoneSourceNameRenderer: _propTypes2.default.func,
   autoFocus: _propTypes2.default.bool
 };
 
@@ -353,6 +356,7 @@ ForwardForm.defaultProps = {
   className: null,
   onChange: undefined,
   phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   autoFocus: true
 };
 //# sourceMappingURL=index.js.map

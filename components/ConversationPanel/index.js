@@ -349,6 +349,8 @@ var ConversationPanel = function (_Component) {
             enableContactFallback: this.props.enableContactFallback,
             showPlaceholder: this.props.showContactDisplayPlaceholder,
             sourceIcons: this.props.sourceIcons,
+            phoneTypeRenderer: this.props.phoneTypeRenderer,
+            phoneSourceNameRenderer: this.props.phoneSourceNameRenderer,
             showGroupNumberName: this.props.showGroupNumberName
           }),
           _react2.default.createElement(
@@ -409,6 +411,8 @@ ConversationPanel.propTypes = {
   goBack: _propTypes2.default.func.isRequired,
   showContactDisplayPlaceholder: _propTypes2.default.bool,
   sourceIcons: _propTypes2.default.object,
+  phoneTypeRenderer: _propTypes2.default.func,
+  phoneSourceNameRenderer: _propTypes2.default.func,
   showGroupNumberName: _propTypes2.default.bool,
   messageSubjectRenderer: _propTypes2.default.func,
   formatPhone: _propTypes2.default.func.isRequired,
@@ -429,6 +433,8 @@ ConversationPanel.defaultProps = {
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   showGroupNumberName: false,
   messageText: '',
   updateMessageText: function updateMessageText() {

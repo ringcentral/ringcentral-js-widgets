@@ -76,6 +76,7 @@ function mapToFunctions(_, _ref2) {
       contactSearch = _ref2$phone.contactSearch,
       dialerUI = _ref2$phone.dialerUI,
       phoneTypeRenderer = _ref2.phoneTypeRenderer,
+      phoneSourceNameRenderer = _ref2.phoneSourceNameRenderer,
       recipientsContactInfoRenderer = _ref2.recipientsContactInfoRenderer,
       recipientsContactPhoneRenderer = _ref2.recipientsContactPhoneRenderer;
 
@@ -114,6 +115,7 @@ function mapToFunctions(_, _ref2) {
     },
 
     phoneTypeRenderer: phoneTypeRenderer,
+    phoneSourceNameRenderer: phoneSourceNameRenderer,
     recipientsContactInfoRenderer: recipientsContactInfoRenderer,
     recipientsContactPhoneRenderer: recipientsContactPhoneRenderer
   };

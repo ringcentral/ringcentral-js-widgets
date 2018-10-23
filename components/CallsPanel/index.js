@@ -65,7 +65,9 @@ function CallsPanel(_ref) {
       enableContactFallback = _ref.enableContactFallback,
       autoLog = _ref.autoLog,
       showContactDisplayPlaceholder = _ref.showContactDisplayPlaceholder,
-      sourceIcons = _ref.sourceIcons;
+      sourceIcons = _ref.sourceIcons,
+      phoneTypeRenderer = _ref.phoneTypeRenderer,
+      phoneSourceNameRenderer = _ref.phoneSourceNameRenderer;
 
   var content = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : _react2.default.createElement(_CallList2.default, {
     brand: brand,
@@ -93,7 +95,9 @@ function CallsPanel(_ref) {
     enableContactFallback: enableContactFallback,
     autoLog: autoLog,
     showContactDisplayPlaceholder: showContactDisplayPlaceholder,
-    sourceIcons: sourceIcons
+    sourceIcons: sourceIcons,
+    phoneTypeRenderer: phoneTypeRenderer,
+    phoneSourceNameRenderer: phoneSourceNameRenderer
   });
   return _react2.default.createElement(
     'div',
@@ -139,7 +143,9 @@ CallsPanel.propTypes = {
   enableContactFallback: _propTypes2.default.bool,
   autoLog: _propTypes2.default.bool,
   showContactDisplayPlaceholder: _propTypes2.default.bool,
-  sourceIcons: _propTypes2.default.object
+  sourceIcons: _propTypes2.default.object,
+  phoneTypeRenderer: _propTypes2.default.func,
+  phoneSourceNameRenderer: _propTypes2.default.func
 };
 
 CallsPanel.defaultProps = {
@@ -163,6 +169,8 @@ CallsPanel.defaultProps = {
   enableContactFallback: undefined,
   autoLog: false,
   showContactDisplayPlaceholder: true,
-  sourceIcons: undefined
+  sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined
 };
 //# sourceMappingURL=index.js.map

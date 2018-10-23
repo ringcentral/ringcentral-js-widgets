@@ -279,7 +279,8 @@ var IncomingCallPad = function (_Component) {
                 onForward: this.props.onForward,
                 searchContact: this.props.searchContact,
                 searchContactList: this.props.searchContactList,
-                phoneTypeRenderer: this.props.phoneTypeRenderer
+                phoneTypeRenderer: this.props.phoneTypeRenderer,
+                phoneSourceNameRenderer: this.props.phoneSourceNameRenderer
               })
             },
             _react2.default.createElement(_ActiveCallButton2.default, {
@@ -356,7 +357,8 @@ IncomingCallPad.propTypes = {
   sessionId: _propTypes2.default.string.isRequired,
   searchContactList: _propTypes2.default.array.isRequired,
   searchContact: _propTypes2.default.func.isRequired,
-  phoneTypeRenderer: _propTypes2.default.func
+  phoneTypeRenderer: _propTypes2.default.func,
+  phoneSourceNameRenderer: _propTypes2.default.func
 };
 
 IncomingCallPad.defaultProps = {
@@ -371,6 +373,7 @@ IncomingCallPad.defaultProps = {
     return null;
   },
   hasOtherActiveCall: false,
-  phoneTypeRenderer: undefined
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined
 };
 //# sourceMappingURL=index.js.map

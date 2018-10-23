@@ -261,7 +261,8 @@ var IncomingCallPage = function (_Component) {
           sourceIcons: this.props.sourceIcons,
           searchContact: this.props.searchContact,
           searchContactList: this.props.searchContactList,
-          phoneTypeRenderer: this.props.phoneTypeRenderer
+          phoneTypeRenderer: this.props.phoneTypeRenderer,
+          phoneSourceNameRenderer: this.props.phoneSourceNameRenderer
         },
         this.props.children
       );
@@ -305,14 +306,16 @@ IncomingCallPage.propTypes = {
   onHold: _propTypes2.default.func.isRequired,
   searchContactList: _propTypes2.default.array.isRequired,
   searchContact: _propTypes2.default.func.isRequired,
-  phoneTypeRenderer: _propTypes2.default.func
+  phoneTypeRenderer: _propTypes2.default.func,
+  phoneSourceNameRenderer: _propTypes2.default.func
 };
 
 IncomingCallPage.defaultProps = {
   children: undefined,
   activeSessionId: null,
   sourceIcons: undefined,
-  phoneTypeRenderer: undefined
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined
 };
 
 function mapToProps(_, _ref3) {
@@ -326,7 +329,8 @@ function mapToProps(_, _ref3) {
       brand = _ref3$phone.brand,
       _ref3$showContactDisp = _ref3.showContactDisplayPlaceholder,
       showContactDisplayPlaceholder = _ref3$showContactDisp === undefined ? false : _ref3$showContactDisp,
-      phoneTypeRenderer = _ref3.phoneTypeRenderer;
+      phoneTypeRenderer = _ref3.phoneTypeRenderer,
+      phoneSourceNameRenderer = _ref3.phoneSourceNameRenderer;
 
   var currentSession = webphone.ringingCallOnView || {};
   var contactMapping = contactMatcher && contactMatcher.dataMapping;
@@ -344,7 +348,8 @@ function mapToProps(_, _ref3) {
     forwardingNumbers: forwardingNumber.forwardingNumbers,
     showContactDisplayPlaceholder: showContactDisplayPlaceholder,
     searchContactList: contactSearch.sortedResult,
-    phoneTypeRenderer: phoneTypeRenderer
+    phoneTypeRenderer: phoneTypeRenderer,
+    phoneSourceNameRenderer: phoneSourceNameRenderer
   };
 }
 
