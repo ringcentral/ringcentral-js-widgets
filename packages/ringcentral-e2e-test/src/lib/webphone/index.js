@@ -88,15 +88,18 @@ export default class WebPhone {
   }
 
   getEnv() {
-    return 'xmnup';
-    // if (!this.options.env) {
-    //   try {
-    //     throw new Error('WebPhone.env is not set');
-    //   } catch (e) {
-    //     throw e;
-    //   }
-    // }
-    // return this.options.env;
+    let env;
+    switch (context.options.config.env) {
+      case 'xmnup':
+        env = 'xmnup';
+        break;
+      case 'itl':
+        env = 'itldevxmn';
+        break;
+      default:
+        env = 'itldevxmn';
+    }
+    return env;
   }
 
   getHost() {
