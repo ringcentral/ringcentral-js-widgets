@@ -8,7 +8,7 @@ var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
 
 var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
-var _extensionLabel$direc;
+var _emailLabel$call$text;
 
 var _presenceStatus = require('ringcentral-integration/modules/Presence/presenceStatus');
 
@@ -18,18 +18,18 @@ var _dndStatus = require('ringcentral-integration/modules/Presence/dndStatus');
 
 var _dndStatus2 = _interopRequireDefault(_dndStatus);
 
+var _phoneTypes = require('../../../enums/phoneTypes');
+
+var _phoneTypes2 = _interopRequireDefault(_phoneTypes);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (_extensionLabel$direc = {
-  extensionLabel: "Ramal",
-  directLabel: "Direto",
+exports.default = (_emailLabel$call$text = {
   emailLabel: "Email",
   call: "Chamada",
   text: "Texto"
-}, (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.available, "Disponível"), (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.offline, "Invisível"), (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.busy, "Ocupado"), (0, _defineProperty3.default)(_extensionLabel$direc, _dndStatus2.default.doNotAcceptAnyCalls, "Não perturbe"), (0, _defineProperty3.default)(_extensionLabel$direc, 'notActivated', "Inativo"), _extensionLabel$direc);
+}, (0, _defineProperty3.default)(_emailLabel$call$text, _presenceStatus2.default.available, "Disponível"), (0, _defineProperty3.default)(_emailLabel$call$text, _presenceStatus2.default.offline, "Invisível"), (0, _defineProperty3.default)(_emailLabel$call$text, _presenceStatus2.default.busy, "Ocupado"), (0, _defineProperty3.default)(_emailLabel$call$text, _dndStatus2.default.doNotAcceptAnyCalls, "Não perturbe"), (0, _defineProperty3.default)(_emailLabel$call$text, 'notActivated', "Inativo"), _emailLabel$call$text);
 
-// @key: @#@"extensionLabel"@#@ @source: @#@"Ext."@#@
-// @key: @#@"directLabel"@#@ @source: @#@"Direct"@#@
 // @key: @#@"emailLabel"@#@ @source: @#@"Email"@#@
 // @key: @#@"call"@#@ @source: @#@"Call"@#@
 // @key: @#@"text"@#@ @source: @#@"Text"@#@

@@ -10,5 +10,6 @@ var _Enum2 = _interopRequireDefault(_Enum);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new _Enum2.default(['business', 'extension', 'home', 'mobile', 'phone', 'unknown', 'company', 'direct']);
+// FIXME: delete this after syncing up
+exports.default = new _Enum2.default(['business', 'extension', 'home', 'mobile', 'phone', 'unknown', 'company', 'direct', 'fax', 'other']);
 //# sourceMappingURL=phoneTypes.js.map

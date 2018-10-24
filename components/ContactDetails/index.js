@@ -5,6 +5,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.contactItemPropTypes = exports.default = undefined;
 
+var _keys = require('babel-runtime/core-js/object/keys');
+
+var _keys2 = _interopRequireDefault(_keys);
+
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
 var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
@@ -47,6 +55,8 @@ var _dndStatus = require('ringcentral-integration/modules/Presence/dndStatus');
 
 var _dndStatus2 = _interopRequireDefault(_dndStatus);
 
+var _ramda = require('ramda');
+
 var _PresenceStatusIcon = require('../PresenceStatusIcon');
 
 var _PresenceStatusIcon2 = _interopRequireDefault(_PresenceStatusIcon);
@@ -58,6 +68,14 @@ var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
 var _DefaultAvatar = require('../../assets/images/DefaultAvatar.svg');
 
 var _DefaultAvatar2 = _interopRequireDefault(_DefaultAvatar);
+
+var _phoneTypes = require('../../enums/phoneTypes');
+
+var _phoneTypes2 = _interopRequireDefault(_phoneTypes);
+
+var _phoneTypeNames = require('../../lib/phoneTypeNames');
+
+var _phoneTypeNames2 = _interopRequireDefault(_phoneTypeNames);
 
 var _i18n = require('./i18n');
 
@@ -210,155 +228,156 @@ var ContactDetails = function (_PureComponent) {
       );
     }
   }, {
-    key: 'renderExtensionCell',
-    value: function renderExtensionCell() {
+    key: 'getListContainerBuilder',
+    value: function getListContainerBuilder(label, listComp) {
+      return _react2.default.createElement(
+        'div',
+        { className: _styles2.default.item, key: label },
+        _react2.default.createElement(
+          'div',
+          { className: _styles2.default.label },
+          _react2.default.createElement(
+            'span',
+            null,
+            label
+          )
+        ),
+        _react2.default.createElement(
+          'ul',
+          null,
+          listComp
+        )
+      );
+    }
+  }, {
+    key: 'getListItem',
+    value: function getListItem(_ref3) {
+      var showCallBtn = _ref3.showCallBtn,
+          showTextBtn = _ref3.showTextBtn,
+          onClickToDial = _ref3.onClickToDial,
+          onClickToSMS = _ref3.onClickToSMS,
+          key = _ref3.key,
+          number = _ref3.number,
+          currentLocale = _ref3.currentLocale,
+          contactItem = _ref3.contactItem;
+
+      var formattedPhoneNumber = this.props.formatNumber(number);
+
+      return _react2.default.createElement(
+        'li',
+        { key: key },
+        _react2.default.createElement(
+          'div',
+          { className: _styles2.default.number },
+          _react2.default.createElement(
+            'span',
+            { title: formattedPhoneNumber },
+            formattedPhoneNumber
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: _styles2.default.menu },
+          showCallBtn ? _react2.default.createElement(
+            'button',
+            {
+              title: _i18n2.default.getString('call', currentLocale),
+              onClick: function onClick() {
+                return onClickToDial(contactItem, number);
+              }
+            },
+            _react2.default.createElement('i', { className: _DynamicsFont2.default.call })
+          ) : null,
+          showTextBtn ? _react2.default.createElement(
+            'button',
+            {
+              title: _i18n2.default.getString('text', currentLocale),
+              onClick: function onClick() {
+                return onClickToSMS(contactItem, number);
+              }
+            },
+            _react2.default.createElement('i', { className: _DynamicsFont2.default.composeText })
+          ) : null
+        )
+      );
+    }
+  }, {
+    key: 'getPhoneSections',
+    value: function getPhoneSections() {
       var _this2 = this;
 
       var _props2 = this.props,
           contactItem = _props2.contactItem,
           currentLocale = _props2.currentLocale;
-      var extensionNumber = contactItem.extensionNumber;
-
-      if (!extensionNumber) return null;
-      var textBtn = this.props.internalSmsPermission ? _react2.default.createElement(
-        'button',
-        {
-          title: _i18n2.default.getString('text', currentLocale),
-          onClick: function onClick() {
-            return _this2.onClickToSMS(contactItem, extensionNumber);
-          }
-        },
-        _react2.default.createElement('i', { className: _DynamicsFont2.default.composeText })
-      ) : null;
-      var callBtn = this.props.onClickToDial ? _react2.default.createElement(
-        'button',
-        {
-          title: _i18n2.default.getString('call', currentLocale),
-          onClick: function onClick() {
-            return _this2.onClickToDial(contactItem, extensionNumber);
-          }
-        },
-        _react2.default.createElement('i', { className: _DynamicsFont2.default.call })
-      ) : null;
-      return _react2.default.createElement(
-        'div',
-        { className: _styles2.default.item },
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.label },
-          _react2.default.createElement(
-            'span',
-            null,
-            _i18n2.default.getString('extensionLabel', currentLocale)
-          )
-        ),
-        _react2.default.createElement(
-          'ul',
-          null,
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              'div',
-              { className: _styles2.default.number },
-              _react2.default.createElement(
-                'span',
-                { title: extensionNumber },
-                extensionNumber
-              )
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: _styles2.default.menu },
-              callBtn,
-              textBtn
-            )
-          )
-        )
-      );
-    }
-  }, {
-    key: 'renderDirectNumberCell',
-    value: function renderDirectNumberCell() {
-      var _this3 = this;
-
-      var _props3 = this.props,
-          contactItem = _props3.contactItem,
-          currentLocale = _props3.currentLocale;
       var phoneNumbers = contactItem.phoneNumbers;
 
-      var phoneNumberListView = phoneNumbers.map(function (_ref3, index) {
-        var phoneType = _ref3.phoneType,
-            phoneNumber = _ref3.phoneNumber;
 
-        if (phoneType === 'extension') return null;
-        var formattedPhoneNumber = _this3.props.formatNumber(phoneNumber);
-        var textBtn = _this3.props.outboundSmsPermission ? _react2.default.createElement(
-          'button',
-          {
-            title: _i18n2.default.getString('text', currentLocale),
-            onClick: function onClick() {
-              return _this3.onClickToSMS(contactItem, phoneNumber);
-            }
-          },
-          _react2.default.createElement('i', { className: _DynamicsFont2.default.composeText })
-        ) : null;
-        var callBtn = _this3.props.onClickToDial ? _react2.default.createElement(
-          'button',
-          {
-            title: _i18n2.default.getString('call', currentLocale),
-            onClick: function onClick() {
-              return _this3.onClickToDial(contactItem, phoneNumber);
-            }
-          },
-          _react2.default.createElement('i', { className: _DynamicsFont2.default.call })
-        ) : null;
-        return _react2.default.createElement(
-          'li',
-          { key: index },
-          _react2.default.createElement(
-            'div',
-            { className: _styles2.default.number },
-            _react2.default.createElement(
-              'span',
-              { title: formattedPhoneNumber },
-              formattedPhoneNumber
-            )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: _styles2.default.menu },
-            callBtn,
-            textBtn
-          )
-        );
-      }).filter(function (v) {
-        return !!v;
-      });
-      if (phoneNumberListView.length <= 0) return null;
+      var phoneMaps = (0, _ramda.reduce)(function (acc, phoneNumberElm) {
+        acc[phoneNumberElm.phoneType] = acc[phoneNumberElm.phoneType] || [];
+        acc[phoneNumberElm.phoneType].push(phoneNumberElm);
+
+        return acc;
+      }, {}, phoneNumbers);
+
+      // we need sequence that: ext followed by direct followed by others.
+      var schema = (0, _ramda.filter)(function (key) {
+        return !!_phoneTypes2.default[key] && Array.isArray(phoneMaps[key]);
+      }, [_phoneTypes2.default.extension, _phoneTypes2.default.direct].concat((0, _toConsumableArray3.default)((0, _keys2.default)(phoneMaps).filter(function (key) {
+        return key !== _phoneTypes2.default.extension && key !== _phoneTypes2.default.direct;
+      }))));
+
       return _react2.default.createElement(
         'div',
-        { className: _styles2.default.item },
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.label },
-          _react2.default.createElement(
-            'span',
-            null,
-            _i18n2.default.getString('directLabel', currentLocale)
-          )
-        ),
-        _react2.default.createElement(
-          'ul',
-          null,
-          phoneNumberListView
-        )
+        { className: _styles2.default.contacts },
+        (0, _ramda.map)(function (key) {
+          switch (key) {
+            case _phoneTypes2.default.extension:
+              {
+                return _this2.getListContainerBuilder(_i18n2.default.getString(_phoneTypes2.default.extension, currentLocale), (0, _ramda.map)(function (phoneNumberElm) {
+                  return _this2.getListItem({
+                    showCallBtn: _this2.props.internalSmsPermission,
+                    showTextBtn: _this2.props.onClickToDial,
+                    onClickToDial: _this2.props.onClickToDial,
+                    onClickToSMS: _this2.props.onClickToSMS,
+                    key: phoneNumberElm.phoneNumber,
+                    number: phoneNumberElm.phoneNumber
+                  });
+                }, phoneMaps[key]));
+              }
+            case _phoneTypes2.default.fax:
+              {
+                return _this2.getListContainerBuilder(_i18n2.default.getString(_phoneTypes2.default.fax, currentLocale), (0, _ramda.map)(function (phoneNumberElm) {
+                  return _this2.getListItem({
+                    showCallBtn: false,
+                    showTextBtn: false,
+                    onClickToDial: _this2.props.onClickToDial,
+                    onClickToSMS: _this2.props.onClickToSMS,
+                    key: phoneNumberElm.phoneNumber,
+                    number: phoneNumberElm.phoneNumber
+                  });
+                }, phoneMaps[key]));
+              }
+            default:
+              {
+                return _this2.getListContainerBuilder(_i18n2.default.getString(_phoneTypes2.default[key], currentLocale), (0, _ramda.map)(function (phoneNumberElm) {
+                  return _this2.getListItem({
+                    showCallBtn: _this2.props.onClickToDial,
+                    showTextBtn: _this2.props.outboundSmsPermission,
+                    onClickToDial: _this2.props.onClickToDial,
+                    onClickToSMS: _this2.props.onClickToSMS,
+                    key: phoneNumberElm.phoneNumber,
+                    number: phoneNumberElm.phoneNumber
+                  });
+                }, phoneMaps[key]));
+              }
+          }
+        }, schema)
       );
     }
   }, {
     key: 'renderEmailCell',
     value: function renderEmailCell() {
-      var _this4 = this;
+      var _this3 = this;
 
       var onClickMailTo = this.props.onClickMailTo;
       var _props$contactItem = this.props.contactItem,
@@ -377,7 +396,7 @@ var ContactDetails = function (_PureComponent) {
               title: email,
               className: hasMailToHandler ? _styles2.default.underline : null,
               onClick: function onClick() {
-                return _this4.onClickMailTo(email, type);
+                return _this3.onClickMailTo(email, type);
               }
             },
             email
@@ -406,8 +425,6 @@ var ContactDetails = function (_PureComponent) {
   }, {
     key: 'render',
     value: function render() {
-      var extensionCellView = this.renderExtensionCell();
-      var directNumberCellView = this.renderDirectNumberCell();
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.root },
@@ -416,12 +433,7 @@ var ContactDetails = function (_PureComponent) {
           { className: _styles2.default.profile },
           this.renderProfile()
         ),
-        extensionCellView || directNumberCellView ? _react2.default.createElement(
-          'div',
-          { className: _styles2.default.contacts },
-          extensionCellView,
-          directNumberCellView
-        ) : null,
+        this.getPhoneSections(),
         _react2.default.createElement(
           'div',
           { className: _styles2.default.email },
