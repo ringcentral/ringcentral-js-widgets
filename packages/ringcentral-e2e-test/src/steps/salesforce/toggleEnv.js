@@ -26,4 +26,15 @@ export default class ToggleEnv {
       this.setEnv,
     ];
   }
+
+  // static async toggleEnv({ driver: { app } }) {
+  //   await $(app).execute('window.toggleEnv()');
+  //   await $(app).waitForSelector('[class*=input]', { visible: true });
+  //   await $(app).click('[class*=slider]');
+  //   await $(app).clear('[class*=input]');
+  //   await $(app).type('[class*=input]', 'https://api-xmnup.lab.nordigy.ru');
+  //   // for display only
+  //   await $(app).waitFor(100);
+  //   await $(app).click('[class*=saveButton]');
+  // }
 }

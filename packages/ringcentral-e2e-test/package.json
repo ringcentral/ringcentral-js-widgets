@@ -19,6 +19,7 @@
     "chromedriver": "^2.42.0",
     "geckodriver": "^1.12.2",
     "marten": "^1.0.0-alpha.1",
+    "ramda": "^0.25.0",
     "request": "^2.88.0",
     "ringcentral-e2e-cli": "^0.0.1",
     "webphone-client": "^1.0.3"

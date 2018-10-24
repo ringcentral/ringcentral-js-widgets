@@ -47,6 +47,7 @@ const run = (dir, cmd) => {
     config = require(configPath);
   } catch (error) {
     console.error(`Unexpected import '${DEFAULT_CONFIG_FILE_PATH}' in root path.`);
+    console.error(error);
     process.exit();
     return;
   }
