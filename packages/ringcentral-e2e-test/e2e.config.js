@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const loginInfoPath = './loginInfo';
+const loginInfoPath = './loginInfo.js';
 const isExists = fs.existsSync(loginInfoPath);
 const loginInfo = isExists ? require(loginInfoPath) : {};
 

@@ -63,7 +63,7 @@ export default class AccountHelper {
   }
 
   static retryAccount = async (scenarioTag, lock = false) => {
-    console.log(scenarioTag);
+    // console.log(scenarioTag);
     if (!Object.values(TagsEnum).includes(scenarioTag)) {
       return Promise.reject(new Error(`Invalid tag: ${scenarioTag}`));
     }
@@ -97,6 +97,7 @@ export default class AccountHelper {
       method,
       json: true
     };
+    // TODO Replace with logger
     console.log(`${this._baseUrl}${path}/${param}`);
     return new Promise((resolve, reject) => (request(options, (err, response, body) => {
       if (err) {
