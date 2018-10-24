@@ -1,9 +1,8 @@
 import presenceStatus from 'ringcentral-integration/modules/Presence/presenceStatus';
 import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
+import phoneTypes from '../../../enums/phoneTypes';
 
 export default {
-  extensionLabel: "Durchw.",
-  directLabel: "Direkt",
   emailLabel: "E-Mail",
   call: "Anrufen",
   text: "Textnachr",
@@ -14,8 +13,6 @@ export default {
   notActivated: "Inaktiv"
 };
 
-// @key: @#@"extensionLabel"@#@ @source: @#@"Ext."@#@
-// @key: @#@"directLabel"@#@ @source: @#@"Direct"@#@
 // @key: @#@"emailLabel"@#@ @source: @#@"Email"@#@
 // @key: @#@"call"@#@ @source: @#@"Call"@#@
 // @key: @#@"text"@#@ @source: @#@"Text"@#@
