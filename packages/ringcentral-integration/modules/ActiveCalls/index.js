@@ -44,7 +44,7 @@ export default class ActiveCalls extends DataFetcher {
       client,
       ttl,
       getDataReducer,
-      subscriptionFilters: [subscriptionFilters.detailedPresenceWithSip],
+      subscriptionFilters: [subscriptionFilters.detailedPresence],
       subscriptionHandler: async (message) => {
         if (presenceRegExp.test(message.event)) {
           const { ownerId } = this._auth;

@@ -34,7 +34,7 @@ export default class DetailedPresence extends Presence {
   constructor(options) {
     super({
       getReducer: getDetailedPresenceReducer,
-      subscriptionFilter: subscriptionFilters.detailedPresenceWithSip,
+      subscriptionFilter: subscriptionFilters.detailedPresence,
       actionTypes,
       lastNotDisturbDndStatusStorageKey: 'lastNotDisturbDndStatusDetailPresence',
       ...options
@@ -109,7 +109,7 @@ export default class DetailedPresence extends Presence {
     const { ownerId } = this._auth;
     try {
       const body = (await this._client.service.platform()
-        .get(subscriptionFilters.detailedPresenceWithSip)).json();
+        .get(subscriptionFilters.detailedPresence)).json();
       if (this._auth.ownerId === ownerId) {
         this.store.dispatch({
           ...body,
