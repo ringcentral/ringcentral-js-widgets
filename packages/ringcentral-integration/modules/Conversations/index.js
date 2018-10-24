@@ -739,7 +739,7 @@ export default class Conversations extends RcModule {
     () => this.filteredConversations,
     () => this.currentPage,
     (conversations, pageNumber) => {
-      const lastIndex = (pageNumber * this._perPage) - 1;
+      const lastIndex = (pageNumber * this._perPage);
       return conversations.slice(0, lastIndex);
     }
   )

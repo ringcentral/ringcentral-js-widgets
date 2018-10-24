@@ -41,6 +41,8 @@ function ActiveCallList({
   enableContactFallback,
   title,
   sourceIcons,
+  phoneTypeRenderer,
+  phoneSourceNameRenderer,
   disableLinks,
   renderContactName,
   renderExtraButton,
@@ -55,7 +57,7 @@ function ActiveCallList({
   return (
     <div className={classnames(styles.list, className)}>
       <div className={styles.listTitle}>{title}</div>
-      {calls.map((call) => (
+      {calls.map(call => (
         <ActiveCallItem
           call={call}
           key={call.id}
@@ -82,6 +84,8 @@ function ActiveCallList({
           enableContactFallback={enableContactFallback}
           autoLog={autoLog}
           sourceIcons={sourceIcons}
+          phoneTypeRenderer={phoneTypeRenderer}
+          phoneSourceNameRenderer={phoneSourceNameRenderer}
           disableLinks={disableLinks}
           renderContactName={renderContactName}
           renderExtraButton={renderExtraButton}
@@ -122,6 +126,8 @@ ActiveCallList.propTypes = {
   enableContactFallback: PropTypes.bool,
   autoLog: PropTypes.bool,
   sourceIcons: PropTypes.object,
+  phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
   disableLinks: PropTypes.bool,
   renderContactName: PropTypes.func,
   renderExtraButton: PropTypes.func,
@@ -152,6 +158,8 @@ ActiveCallList.defaultProps = {
   createEntityTypes: undefined,
   webphoneToVoicemail: undefined,
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   disableLinks: false,
   renderContactName: undefined,
   renderExtraButton: undefined,
@@ -201,7 +209,7 @@ export default class CallsListPanel extends Component {
     );
   }
 
-  renderCallList = () => {};
+  renderCallList = () => { };
 
   render() {
     const {
@@ -240,6 +248,8 @@ export default class CallsListPanel extends Component {
       enableContactFallback,
       webphoneToVoicemail,
       sourceIcons,
+      phoneTypeRenderer,
+      phoneSourceNameRenderer,
       onClickToDial,
       disableLinks,
       disableClickToDial,
@@ -308,6 +318,8 @@ export default class CallsListPanel extends Component {
         autoLog={autoLog}
         showContactDisplayPlaceholder={showContactDisplayPlaceholder}
         sourceIcons={sourceIcons}
+        phoneTypeRenderer={phoneTypeRenderer}
+        phoneSourceNameRenderer={phoneSourceNameRenderer}
         renderContactName={renderContactName}
         renderExtraButton={renderExtraButton}
         contactDisplayStyle={contactDisplayStyle}
@@ -316,42 +328,44 @@ export default class CallsListPanel extends Component {
         readTextPermission={isShowMessageIcon}
       />
     ) : (
-      <CallList
-        brand={brand}
-        currentLocale={currentLocale}
-        calls={calls}
-        areaCode={areaCode}
-        countryCode={countryCode}
-        onViewContact={onViewContact}
-        onCreateContact={onCreateContact}
-        createEntityTypes={createEntityTypes}
-        onLogCall={onLogCall}
-        onClickToDial={onClickToDial}
-        onClickToSms={onClickToSms}
-        isLoggedContact={isLoggedContact}
-        disableLinks={disableLinks}
-        disableClickToDial={disableClickToDial}
-        outboundSmsPermission={outboundSmsPermission}
-        internalSmsPermission={internalSmsPermission}
-        dateTimeFormatter={dateTimeFormatter}
-        active={active}
-        loggingMap={loggingMap}
-        webphoneAnswer={webphoneAnswer}
-        webphoneReject={webphoneReject}
-        webphoneHangup={webphoneHangup}
-        webphoneResume={webphoneResume}
-        enableContactFallback={enableContactFallback}
-        autoLog={autoLog}
-        showContactDisplayPlaceholder={showContactDisplayPlaceholder}
-        sourceIcons={sourceIcons}
-        renderContactName={renderContactName}
-        renderExtraButton={renderExtraButton}
-        contactDisplayStyle={contactDisplayStyle}
-        externalViewEntity={externalViewEntity}
-        externalHasEntity={externalHasEntity}
-        readTextPermission={isShowMessageIcon}
-      />
-    );
+        <CallList
+          brand={brand}
+          currentLocale={currentLocale}
+          calls={calls}
+          areaCode={areaCode}
+          countryCode={countryCode}
+          onViewContact={onViewContact}
+          onCreateContact={onCreateContact}
+          createEntityTypes={createEntityTypes}
+          onLogCall={onLogCall}
+          onClickToDial={onClickToDial}
+          onClickToSms={onClickToSms}
+          isLoggedContact={isLoggedContact}
+          disableLinks={disableLinks}
+          disableClickToDial={disableClickToDial}
+          outboundSmsPermission={outboundSmsPermission}
+          internalSmsPermission={internalSmsPermission}
+          dateTimeFormatter={dateTimeFormatter}
+          active={active}
+          loggingMap={loggingMap}
+          webphoneAnswer={webphoneAnswer}
+          webphoneReject={webphoneReject}
+          webphoneHangup={webphoneHangup}
+          webphoneResume={webphoneResume}
+          enableContactFallback={enableContactFallback}
+          autoLog={autoLog}
+          showContactDisplayPlaceholder={showContactDisplayPlaceholder}
+          sourceIcons={sourceIcons}
+          phoneTypeRenderer={phoneTypeRenderer}
+          phoneSourceNameRenderer={phoneSourceNameRenderer}
+          renderContactName={renderContactName}
+          renderExtraButton={renderExtraButton}
+          contactDisplayStyle={contactDisplayStyle}
+          externalViewEntity={externalViewEntity}
+          externalHasEntity={externalHasEntity}
+          readTextPermission={isShowMessageIcon}
+        />
+      );
 
     const search = onSearchInputChange ? (
       <div className={classnames(styles.searchContainer)}>
@@ -446,6 +460,8 @@ export default class CallsListPanel extends Component {
         webphoneToVoicemail={webphoneToVoicemail}
         enableContactFallback={enableContactFallback}
         sourceIcons={sourceIcons}
+        phoneTypeRenderer={phoneTypeRenderer}
+        phoneSourceNameRenderer={phoneSourceNameRenderer}
         disableLinks={disableLinks}
         renderContactName={renderContactName}
         renderExtraButton={renderExtraButton}
@@ -459,16 +475,16 @@ export default class CallsListPanel extends Component {
     const historyCall = showSpinner ? (
       <SpinnerOverlay />
     ) : (
-      <div
-        className={classnames(styles.list, className)}
-        ref={this._callListWrapper}
-      >
-        <div className={styles.listTitle}>
-          {onlyHistory ? null : i18n.getString('historyCalls', currentLocale)}
+        <div
+          className={classnames(styles.list, className)}
+          ref={this._callListWrapper}
+        >
+          <div className={styles.listTitle}>
+            {onlyHistory ? null : i18n.getString('historyCalls', currentLocale)}
+          </div>
+          {CallsListView}
         </div>
-        {CallsListView}
-      </div>
-    );
+      );
 
     const noCalls = (
       <p className={styles.noCalls}>
@@ -556,6 +572,8 @@ CallsListPanel.propTypes = {
   loggingMap: PropTypes.object,
   onCallsEmpty: PropTypes.func,
   sourceIcons: PropTypes.object,
+  phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
   calls: PropTypes.arrayOf(PropTypes.any).isRequired,
   onClickToDial: PropTypes.func,
   disableLinks: PropTypes.bool.isRequired,
@@ -617,6 +635,8 @@ CallsListPanel.defaultProps = {
   autoLog: false,
   onCallsEmpty: undefined,
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   onClickToDial: undefined,
   disableClickToDial: false,
   active: false,

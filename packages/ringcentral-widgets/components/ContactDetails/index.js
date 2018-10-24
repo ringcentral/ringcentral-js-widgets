@@ -2,9 +2,14 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import DndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
+import { filter, reduce, map } from 'ramda';
+
 import PresenceStatusIcon from '../PresenceStatusIcon';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import DefaultAvatar from '../../assets/images/DefaultAvatar.svg';
+import phoneTypes from '../../enums/phoneTypes';
+import phoneTypeNames from '../../lib/phoneTypeNames';
+
 // import FaxIcon from '../../assets/images/Fax.svg';
 import i18n from './i18n';
 
@@ -124,89 +129,146 @@ export default class ContactDetails extends PureComponent {
     );
   }
 
-  renderExtensionCell() {
-    const { contactItem, currentLocale } = this.props;
-    const { extensionNumber } = contactItem;
-    if (!extensionNumber) return null;
-    const textBtn = this.props.internalSmsPermission ? (
-      <button
-        title={i18n.getString('text', currentLocale)}
-        onClick={() => this.onClickToSMS(contactItem, extensionNumber)}
-      >
-        <i className={dynamicsFont.composeText} />
-      </button>
-    ) : null;
-    const callBtn = this.props.onClickToDial ? (
-      <button
-        title={i18n.getString('call', currentLocale)}
-        onClick={() => this.onClickToDial(contactItem, extensionNumber)}
-      >
-        <i className={dynamicsFont.call} />
-      </button>
-    ) : null;
+  getListContainerBuilder(label, listComp) {
     return (
-      <div className={styles.item}>
+      <div className={styles.item} key={label}>
         <div className={styles.label}>
-          <span>{i18n.getString('extensionLabel', currentLocale)}</span>
+          <span>{label}</span>
         </div>
         <ul>
-          <li>
-            <div className={styles.number}>
-              <span title={extensionNumber}>{extensionNumber}</span>
-            </div>
-            <div className={styles.menu}>
-              {callBtn}
-              {textBtn}
-            </div>
-          </li>
+          { listComp }
         </ul>
       </div>
     );
   }
 
-  renderDirectNumberCell() {
+  getListItem({
+    showCallBtn,
+    showTextBtn,
+    onClickToDial,
+    onClickToSMS,
+    key,
+    number,
+    currentLocale,
+    contactItem
+  }) {
+    const formattedPhoneNumber = this.props.formatNumber(number);
+
+    return (
+      <li key={key}>
+        <div className={styles.number}>
+          <span title={formattedPhoneNumber}>{formattedPhoneNumber}</span>
+        </div>
+        <div className={styles.menu}>
+          {showCallBtn
+            ? (
+              <button
+                title={i18n.getString('call', currentLocale)}
+                onClick={() => onClickToDial(contactItem, number)}
+              >
+                <i className={dynamicsFont.call} />
+              </button>
+            )
+            : null
+          }
+          {showTextBtn
+            ? (
+              <button
+                title={i18n.getString('text', currentLocale)}
+                onClick={() => onClickToSMS(contactItem, number)}
+            >
+                <i className={dynamicsFont.composeText} />
+              </button>
+            )
+            : null
+          }
+        </div>
+      </li>
+    );
+  }
+
+  getPhoneSections() {
     const { contactItem, currentLocale } = this.props;
     const { phoneNumbers } = contactItem;
-    const phoneNumberListView = phoneNumbers
-      .map(({ phoneType, phoneNumber }, index) => {
-        if (phoneType === 'extension') return null;
-        const formattedPhoneNumber = this.props.formatNumber(phoneNumber);
-        const textBtn = this.props.outboundSmsPermission ? (
-          <button
-            title={i18n.getString('text', currentLocale)}
-            onClick={() => this.onClickToSMS(contactItem, phoneNumber)}
-          >
-            <i className={dynamicsFont.composeText} />
-          </button>
-        ) : null;
-        const callBtn = this.props.onClickToDial ? (
-          <button
-            title={i18n.getString('call', currentLocale)}
-            onClick={() => this.onClickToDial(contactItem, phoneNumber)}
-          >
-            <i className={dynamicsFont.call} />
-          </button>
-        ) : null;
-        return (
-          <li key={index}>
-            <div className={styles.number}>
-              <span title={formattedPhoneNumber}>{formattedPhoneNumber}</span>
-            </div>
-            <div className={styles.menu}>
-              {callBtn}
-              {textBtn}
-            </div>
-          </li>
-        );
-      })
-      .filter(v => !!v);
-    if (phoneNumberListView.length <= 0) return null;
+
+    const phoneMaps = reduce((acc, phoneNumberElm) => {
+      acc[phoneNumberElm.phoneType] = acc[phoneNumberElm.phoneType] || [];
+      acc[phoneNumberElm.phoneType].push(phoneNumberElm);
+
+      return acc;
+    }, {}, phoneNumbers);
+
+    // we need sequence that: ext followed by direct followed by others.
+    const schema = filter(
+      key => (!!phoneTypes[key] && Array.isArray(phoneMaps[key])),
+      [
+        phoneTypes.extension,
+        phoneTypes.direct,
+        ...(Object.keys(phoneMaps).filter(
+          key => key !== phoneTypes.extension && key !== phoneTypes.direct
+        ))
+      ],
+    );
+
     return (
-      <div className={styles.item}>
-        <div className={styles.label}>
-          <span>{i18n.getString('directLabel', currentLocale)}</span>
-        </div>
-        <ul>{phoneNumberListView}</ul>
+      <div className={styles.contacts}>
+        {
+          map(
+            (key) => {
+              switch (key) {
+                case phoneTypes.extension: {
+                  return this.getListContainerBuilder(
+                    i18n.getString(phoneTypes.extension, currentLocale),
+                    map(
+                      phoneNumberElm => this.getListItem({
+                        showCallBtn: this.props.internalSmsPermission,
+                        showTextBtn: this.props.onClickToDial,
+                        onClickToDial: this.props.onClickToDial,
+                        onClickToSMS: this.props.onClickToSMS,
+                        key: phoneNumberElm.phoneNumber,
+                        number: phoneNumberElm.phoneNumber,
+                      }),
+                      phoneMaps[key]
+                    )
+                  );
+                }
+                case phoneTypes.fax: {
+                  return this.getListContainerBuilder(
+                    i18n.getString(phoneTypes.fax, currentLocale),
+                    map(
+                      phoneNumberElm => this.getListItem({
+                        showCallBtn: false,
+                        showTextBtn: false,
+                        onClickToDial: this.props.onClickToDial,
+                        onClickToSMS: this.props.onClickToSMS,
+                        key: phoneNumberElm.phoneNumber,
+                        number: phoneNumberElm.phoneNumber,
+                      }),
+                      phoneMaps[key]
+                    )
+                  );
+                }
+                default: {
+                  return this.getListContainerBuilder(
+                    i18n.getString(phoneTypes[key], currentLocale),
+                    map(
+                      phoneNumberElm => this.getListItem({
+                        showCallBtn: this.props.onClickToDial,
+                        showTextBtn: this.props.outboundSmsPermission,
+                        onClickToDial: this.props.onClickToDial,
+                        onClickToSMS: this.props.onClickToSMS,
+                        key: phoneNumberElm.phoneNumber,
+                        number: phoneNumberElm.phoneNumber,
+                      }),
+                      phoneMaps[key]
+                    )
+                  );
+                }
+              }
+            },
+            schema,
+          )
+        }
       </div>
     );
   }
@@ -238,17 +300,10 @@ export default class ContactDetails extends PureComponent {
   }
 
   render() {
-    const extensionCellView = this.renderExtensionCell();
-    const directNumberCellView = this.renderDirectNumberCell();
     return (
       <div className={styles.root}>
         <div className={styles.profile}>{this.renderProfile()}</div>
-        {extensionCellView || directNumberCellView ? (
-          <div className={styles.contacts}>
-            {extensionCellView}
-            {directNumberCellView}
-          </div>
-        ) : null}
+        { this.getPhoneSections() }
         <div className={styles.email}>{this.renderEmailCell()}</div>
       </div>
     );

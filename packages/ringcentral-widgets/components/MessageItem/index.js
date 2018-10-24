@@ -292,7 +292,7 @@ export default class MessageItem extends Component {
     }
   }
 
-  onMarkMessage= () => {
+  onMarkMessage = () => {
     if (
       this.props.conversation.unreadCounts === 0
     ) {
@@ -348,7 +348,7 @@ export default class MessageItem extends Component {
     }
   }
 
-  getDisableClickToSms= () => {
+  getDisableClickToSms = () => {
     const {
       areaCode,
       countryCode,
@@ -365,7 +365,7 @@ export default class MessageItem extends Component {
         areaCode,
       });
       const isExtension = !parsedInfo.hasPlus &&
-      parsedInfo.number && parsedInfo.number.length <= 6;
+        parsedInfo.number && parsedInfo.number.length <= 6;
       disableClickToSms = !(
         onClickToSms &&
         (
@@ -407,6 +407,8 @@ export default class MessageItem extends Component {
       enableContactFallback,
       showContactDisplayPlaceholder,
       sourceIcons,
+      phoneTypeRenderer,
+      phoneSourceNameRenderer,
       showGroupNumberName,
       renderExtraButton,
     } = this.props;
@@ -464,8 +466,8 @@ export default class MessageItem extends Component {
             direction={direction}
           />
           <div className={classnames(
-              styles.infoWrapper,
-              !extraButton && styles.embellishInfoWrapper
+            styles.infoWrapper,
+            !extraButton && styles.embellishInfoWrapper
           )}>
             <ContactDisplay
               reference={(ref) => { this.contactDisplay = ref; }}
@@ -493,6 +495,8 @@ export default class MessageItem extends Component {
               showType={false}
               showPlaceholder={showContactDisplayPlaceholder}
               sourceIcons={sourceIcons}
+              phoneTypeRenderer={phoneTypeRenderer}
+              phoneSourceNameRenderer={phoneSourceNameRenderer}
             />
             <div className={styles.detailsWithTime}>
               <div className={styles.details} title={detail}>
@@ -605,6 +609,8 @@ MessageItem.propTypes = {
   enableContactFallback: PropTypes.bool,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
+  phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
   showGroupNumberName: PropTypes.bool,
   deleteMessage: PropTypes.func,
   previewFaxMessages: PropTypes.func,
@@ -627,8 +633,10 @@ MessageItem.defaultProps = {
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   showGroupNumberName: false,
-  deleteMessage() {},
+  deleteMessage() { },
   previewFaxMessages: undefined,
   renderExtraButton: undefined,
   internalSmsPermission: true,

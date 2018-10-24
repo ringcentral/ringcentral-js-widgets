@@ -106,6 +106,8 @@ export default class ConversationsPanel extends Component {
       dateTimeFormatter,
       showContactDisplayPlaceholder,
       sourceIcons,
+      phoneTypeRenderer,
+      phoneSourceNameRenderer,
       showGroupNumberName,
       areaCode,
       countryCode,
@@ -186,6 +188,8 @@ export default class ConversationsPanel extends Component {
           dateTimeFormatter={dateTimeFormatter}
           showContactDisplayPlaceholder={showContactDisplayPlaceholder}
           sourceIcons={sourceIcons}
+          phoneTypeRenderer={phoneTypeRenderer}
+          phoneSourceNameRenderer={phoneSourceNameRenderer}
           showGroupNumberName={showGroupNumberName}
           placeholder={placeholder}
           areaCode={areaCode}
@@ -254,6 +258,8 @@ ConversationsPanel.propTypes = {
   showTitle: PropTypes.bool,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
+  phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
   showComposeText: PropTypes.bool,
   goToComposeText: PropTypes.func.isRequired,
   typeFilter: PropTypes.string,
@@ -303,6 +309,8 @@ ConversationsPanel.defaultProps = {
   showTitle: false,
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
+  phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   showComposeText: false,
   typeFilter: messageTypes.all,
   updateTypeFilter: undefined,

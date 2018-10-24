@@ -59,7 +59,7 @@ export function mapToProps(_, {
     autoLog: !!(conversationLogger && conversationLogger.autoLog),
     perPage,
     loadingNextPage: conversations.loadingOldMessages,
-    inputExpandable: inputExpandable,
+    inputExpandable,
   });
 }
 
@@ -123,12 +123,12 @@ export function mapToFunctions(_, {
     getMatcherContactNameList,
     isLoggedContact,
     onLogConversation: onLogConversation ||
-    (conversationLogger && (async ({ redirect = true, ...options }) => {
-      await conversationLogger.logConversation({
-        ...options,
-        redirect,
-      });
-    })),
+      (conversationLogger && (async ({ redirect = true, ...options }) => {
+        await conversationLogger.logConversation({
+          ...options,
+          redirect,
+        });
+      })),
     goBack() {
       routerInteraction.push(conversationsPath);
     },

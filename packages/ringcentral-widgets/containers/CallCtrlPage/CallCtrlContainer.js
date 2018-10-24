@@ -8,7 +8,7 @@ import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import CallCtrlPanel from '../../components/CallCtrlPanel';
 import i18n from './i18n';
 
-class CallCtrlPage extends Component {
+class CallCtrlContainer extends Component {
   constructor(props) {
     super(props);
     const layout = props.getInitialLayout(this.props);
@@ -88,7 +88,7 @@ class CallCtrlPage extends Component {
     this._updateCurrentConferenceCall(this.props);
     this._updateMergingPairToSessionId();
 
-    if (CallCtrlPage.isLastCallEnded(this.props)) {
+    if (CallCtrlContainer.isLastCallEnded(this.props)) {
       /**
        * if the last has already been terminated after rendering, need to trigger the callback at the point
        */
@@ -165,8 +165,8 @@ class CallCtrlPage extends Component {
       }
     } else if (
       layout === callCtrlLayouts.mergeCtrl
-      && CallCtrlPage.isLastCallEnded(this.props) === false
-      && CallCtrlPage.isLastCallEnded(nextProps) === true
+      && CallCtrlContainer.isLastCallEnded(this.props) === false
+      && CallCtrlContainer.isLastCallEnded(nextProps) === true
     ) {
       this.onLastMergingCallEnded();
     } else if (layout === callCtrlLayouts.conferenceCtrl &&
@@ -295,6 +295,7 @@ class CallCtrlPage extends Component {
         searchContactList={this.props.searchContactList}
         searchContact={this.props.searchContact}
         phoneTypeRenderer={this.props.phoneTypeRenderer}
+        phoneSourceNameRenderer={this.props.phoneSourceNameRenderer}
         recipientsContactInfoRenderer={this.props.recipientsContactInfoRenderer}
         recipientsContactPhoneRenderer={this.props.recipientsContactPhoneRenderer}
         layout={this.state.layout}
@@ -318,7 +319,7 @@ class CallCtrlPage extends Component {
   }
 }
 
-CallCtrlPage.propTypes = {
+CallCtrlContainer.propTypes = {
   session: PropTypes.shape({
     id: PropTypes.string,
     direction: PropTypes.string,
@@ -364,6 +365,7 @@ CallCtrlPage.propTypes = {
   searchContactList: PropTypes.array.isRequired,
   searchContact: PropTypes.func.isRequired,
   phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
   recipientsContactInfoRenderer: PropTypes.func,
   recipientsContactPhoneRenderer: PropTypes.func,
   layout: PropTypes.string,
@@ -384,13 +386,14 @@ CallCtrlPage.propTypes = {
   afterOnMerge: PropTypes.func,
 };
 
-CallCtrlPage.defaultProps = {
+CallCtrlContainer.defaultProps = {
   children: undefined,
   showBackButton: false,
   backButtonLabel: null,
   onBackButtonClick: null,
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   recipientsContactInfoRenderer: undefined,
   recipientsContactPhoneRenderer: undefined,
   onAdd: undefined,
@@ -415,4 +418,4 @@ CallCtrlPage.defaultProps = {
 };
 
 
-export default CallCtrlPage;
+export default CallCtrlContainer;

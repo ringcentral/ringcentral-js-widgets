@@ -71,6 +71,7 @@ class ComposeTextPanel extends Component {
           formatContactPhone={this.props.formatContactPhone}
           currentLocale={this.props.currentLocale}
           phoneTypeRenderer={this.props.phoneTypeRenderer}
+          phoneSourceNameRenderer={this.props.phoneSourceNameRenderer}
           contactInfoRenderer={this.props.recipientsContactInfoRenderer}
           contactPhoneRenderer={this.props.recipientsContactPhoneRenderer}
           titleEnabled
@@ -135,10 +136,11 @@ ComposeTextPanel.propTypes = {
   outboundSMS: PropTypes.bool,
   showSpinner: PropTypes.bool,
   phoneTypeRenderer: PropTypes.func,
+  phoneSourceNameRenderer: PropTypes.func,
   recipientsContactInfoRenderer: PropTypes.func,
   recipientsContactPhoneRenderer: PropTypes.func,
   autoFocus: PropTypes.bool,
-  inputExpandable:PropTypes.bool,
+  inputExpandable: PropTypes.bool,
 };
 
 ComposeTextPanel.defaultProps = {
@@ -150,6 +152,7 @@ ComposeTextPanel.defaultProps = {
   outboundSMS: false,
   showSpinner: false,
   phoneTypeRenderer: undefined,
+  phoneSourceNameRenderer: undefined,
   recipientsContactInfoRenderer: undefined,
   recipientsContactPhoneRenderer: undefined,
   autoFocus: false,

@@ -63,6 +63,7 @@ function mapToFunctions(_, {
     countryCode: regionSettings.countryCode,
   }),
   phoneTypeRenderer,
+  phoneSourceNameRenderer,
   recipientsContactInfoRenderer,
   recipientsContactPhoneRenderer,
 }) {
@@ -118,6 +119,7 @@ function mapToFunctions(_, {
     removeToNumber: (...args) => composeText.removeToNumber(...args),
     updateMessageText: (...args) => composeText.updateMessageText(...args),
     phoneTypeRenderer,
+    phoneSourceNameRenderer,
     recipientsContactInfoRenderer,
     recipientsContactPhoneRenderer,
   };
