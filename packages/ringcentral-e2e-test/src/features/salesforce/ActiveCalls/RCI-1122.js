@@ -23,7 +23,7 @@ describe('Test Demo: =====>', () => {
       ['salesforce'],
     ],
     levels: ['p0'],
-    loginAccount: ['rc_uk_common'],
+    loginAccount: ['rc_au_common'],
     options: [{ 
       callingType: 'myRCPhone',
       loginAccount: 'rc_uk_common',

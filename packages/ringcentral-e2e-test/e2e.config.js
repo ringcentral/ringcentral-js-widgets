@@ -73,7 +73,7 @@ module.exports = {
         }
       },
       salesforce: {
-        env: 'itl',
+        env: 'xmnup',
         type: 'uri',
         source: './src/targets/widgets',
         params: {

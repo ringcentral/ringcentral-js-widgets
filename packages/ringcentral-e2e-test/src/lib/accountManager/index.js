@@ -21,7 +21,7 @@ export default class AccountHelper {
     this._baseUrl = baseUrl;
   }
 
-  getEnv(context) {
+  getEnv() {
     let env;
     switch (context.options.config.env) {
       case 'xmnup':
@@ -98,7 +98,7 @@ export default class AccountHelper {
       json: true
     };
     // TODO Replace with logger
-    console.log(`${this._baseUrl}${path}/${param}`);
+    console.log(`${this._baseUrl}/${path}/${param}`);
     return new Promise((resolve, reject) => (request(options, (err, response, body) => {
       if (err) {
         reject(err);

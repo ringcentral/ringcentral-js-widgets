@@ -7,6 +7,7 @@ export default class Account {
     const loginAccount =
       context.options.option.loginAccount ||
       context.options.tag.loginAccount;
+    
     const otherAccount =
       context.options.option.otherAccount ||
       context.options.tag.otherAccount;
