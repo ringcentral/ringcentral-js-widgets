@@ -6,6 +6,7 @@
   "description": "RingCentral Integration UI Component Library",
   "devDependencies": {
     "@storybook/addon-actions": "^3.4.8",
+    "@storybook/addon-backgrounds": "^3.4.11",
     "@storybook/addon-centered": "^3.4.10",
     "@storybook/addon-info": "^3.4.10",
     "@storybook/addon-knobs": "^3.4.10",
