@@ -59,6 +59,10 @@ var _reselect = require('reselect');
 
 var _ramda = require('ramda');
 
+var _phoneTypes = require('../../enums/phoneTypes');
+
+var _phoneTypes2 = _interopRequireDefault(_phoneTypes);
+
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
@@ -562,7 +566,7 @@ var AccountContacts = (_dec = (0, _di.Module)({
           emails: extension.contact ? [extension.contact.email] : [],
           extensionNumber: extension.ext,
           hasProfileImage: !!extension.hasProfileImage,
-          phoneNumbers: [{ phoneNumber: extension.ext, phoneType: 'extension' }],
+          phoneNumbers: [{ phoneNumber: extension.ext, phoneType: _phoneTypes2.default.extension }],
           profileImageUrl: profileImages[id] && profileImages[id].imageUrl,
           presence: presences[id] && presences[id].presence,
           contactStatus: extension.status
@@ -574,7 +578,7 @@ var AccountContacts = (_dec = (0, _di.Module)({
         var phones = extensionToPhoneNumberMap[contact.extensionNumber];
         if (phones && phones.length > 0) {
           phones.forEach(function (phone) {
-            (0, _contactHelper.addPhoneToContact)(contact, phone.phoneNumber, 'directPhone');
+            (0, _contactHelper.addPhoneToContact)(contact, phone.phoneNumber, _phoneTypes2.default.direct);
           });
         }
         result.push(contact);
