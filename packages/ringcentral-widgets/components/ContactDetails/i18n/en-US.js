@@ -8,7 +8,7 @@ export default {
   [phoneTypes.mobile]: 'Mobile',
   [phoneTypes.home]: 'Home',
   [phoneTypes.business]: 'Business',
-  [phoneTypes.fax]: 'fax',
+  [phoneTypes.fax]: 'Fax',
   emailLabel: 'Email',
   call: 'Call',
   text: 'Text',

@@ -3,8 +3,6 @@ import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
 import phoneTypes from '../../../enums/phoneTypes';
 
 export default {
-  [phoneTypes.extension]: "内線",
-  [phoneTypes.direct]: "ダイレクト",
   emailLabel: "Eメール",
   call: "通話",
   text: "テキスト",
@@ -15,8 +13,6 @@ export default {
   notActivated: "非アクティブ"
 };
 
-// @key: @#@"extensionLabel"@#@ @source: @#@"Ext."@#@
-// @key: @#@"directLabel"@#@ @source: @#@"Direct"@#@
 // @key: @#@"emailLabel"@#@ @source: @#@"Email"@#@
 // @key: @#@"call"@#@ @source: @#@"Call"@#@
 // @key: @#@"text"@#@ @source: @#@"Text"@#@
