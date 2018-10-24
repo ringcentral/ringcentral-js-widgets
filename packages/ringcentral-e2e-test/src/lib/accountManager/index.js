@@ -81,8 +81,9 @@ export default class AccountHelper {
   static releaseAccount = async (uuid) => {
     if (!uuid) return Promise.reject(new Error(`Invalid uuid: ${uuid}`));
     const instance = AccountHelper.getInstance();
-    const response = autoAsyncRetry(instance.recycleAccount, uuid)
-      .catch(err => console.error(err));
+    // const response = autoAsyncRetry(instance.recycleAccount, uuid)
+    //   .catch(err => console.error(err));
+    const response = await instance.recycleAccount(uuid);
     return response;
   }
 
