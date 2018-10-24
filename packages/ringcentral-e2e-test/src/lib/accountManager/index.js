@@ -1,5 +1,5 @@
 import request from 'request';
-import { flatten } from 'ramda';
+// import { flatten } from 'ramda';
 import { autoAsyncRetry } from './helper';
 
 const BASE_URL = 'http://10.32.36.75:7789/env';
@@ -53,7 +53,7 @@ export default class AccountHelper {
       }
       return result[0];
     });
-    const accAry = await Promise.all(promises).then(values => flatten(values.reverse()));
+    const accAry = await Promise.all(promises).then(values => values);
     const destroyer = async () => {
       await Promise.all(
         accAry.map(async acc => AccountHelper.releaseAccount(acc.uuid))

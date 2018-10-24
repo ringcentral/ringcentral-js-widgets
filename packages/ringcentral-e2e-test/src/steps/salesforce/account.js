@@ -3,10 +3,15 @@ import AccountHelper from '../../lib/accountManager';
 const AVAILABLE_TYPE = ['browser', 'myRCPhone', 'otherPhone', 'customPhone'];
 export default class Account {
   static async getAccount(context) {
-    const accountTags =
-      context.options.option.accounts ||
-      context.options.tag.accounts;
-
+    // merge case settings
+    const loginAccount =
+      context.options.option.loginAccount ||
+      context.options.tag.loginAccount;
+    const otherAccount =
+      context.options.option.otherAccount ||
+      context.options.tag.otherAccount;
+    // case settings
+    const accountTags = [].concat(loginAccount).concat(otherAccount);
     const { callingType } = context.options.option;
     // TODO should insert logger here
     // console.log('accountTags', accountTags);
@@ -14,7 +19,6 @@ export default class Account {
       console.error(`Invalid callingType ${callingType}`);
       return;
     }
-
     const {
       accounts,
       destroyer
@@ -22,7 +26,7 @@ export default class Account {
     // TODO should insert logger here
     context.driver.addAfterHook(destroyer);
     // TODO should introduce payload concept here
-    context.options.accounts = accounts;
+    context.options.option.accounts = accounts;
   }
   static get steps() {
     return [
