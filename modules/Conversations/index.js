@@ -1277,7 +1277,7 @@ var Conversations = (_dec = (0, _di.Module)({
     }, function () {
       return _this10.currentPage;
     }, function (conversations, pageNumber) {
-      var lastIndex = pageNumber * _this10._perPage - 1;
+      var lastIndex = pageNumber * _this10._perPage;
       return conversations.slice(0, lastIndex);
     });
   }
