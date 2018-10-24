@@ -3,6 +3,7 @@ const location = 'https://na78.salesforce.com/home/showAllTabs.jsp';
 export default class Entry {
   static async goto(context) {
     const { options: { config, driver }, driver: { page } } = context;
+    await $(page).waitForSelector('#username', { visible: true });
     await $(page).type('#username', config.username, { selector: 'css' });
     await $(page).type('#password', config.password, { selector: 'css' });
     await $(page).click('#Login', { selector: 'css' });

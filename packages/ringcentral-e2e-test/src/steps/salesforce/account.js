@@ -1,58 +1,32 @@
-import AccountHelper from '../../lib/accountManager'
+import AccountHelper from '../../lib/accountManager';
+
+const AVAILABLE_TYPE = ['browser', 'myRCPhone', 'otherPhone', 'customPhone'];
 export default class Account {
   static async getAccount(context) {
-    const accountHelper = new AccountHelper();
-    let configOption = context.options.option;
-    let tempAccount;
-    let accountTag = new Array();
-    let accounts = new Array();
-
-    for (var key in configOption) {
-      accountTag.push(configOption[key]);
-      console.log(accountTag);
+    // merge case settings
+    const loginAccount =
+      context.options.option.loginAccount ||
+      context.options.tag.loginAccount;
+    const otherAccount =
+      context.options.option.otherAccount ||
+      context.options.tag.otherAccount;
+    // case settings
+    const accountTags = [].concat(loginAccount).concat(otherAccount);
+    const { callingType } = context.options.option;
+    // TODO should insert logger here
+    // console.log('accountTags', accountTags);
+    if (!AVAILABLE_TYPE.includes(callingType)) {
+      console.error(`Invalid callingType ${callingType}`);
+      return;
     }
-
-    switch (configOption.callingType) {
-      case 'browser':
-      case 'myRCPhone':
-        let myRCPhoneAccount = new Array();
-        for (var i = 1; i < accountTag.length; i++) {
-          let myRCPhoneAccount = await accountHelper.getAccount(accountTag[i]);
-          tempAccount = myRCPhoneAccount[0];
-          accounts.push(tempAccount)
-        }
-        break;
-      case 'otherPhone':
-        let otherAccount = new Array();
-        for (var i = 1; i < accountTag.length; i++) {
-          otherAccount = await accountHelper.getAccount(accountTag[i]);
-          if (accountTag[i].indexOf('forwarding') >= 0) {
-            let tempAccount1 = otherAccount[1];
-            tempAccount = otherAccount[0];
-            accounts.push(tempAccount, tempAccount1);
-          } else {
-            tempAccount = otherAccount[0];
-            accounts.push(tempAccount);
-          }
-        }
-        break;
-      case 'customPhone':
-        let customPhoneAccount = new Array();
-        for (var i = 1; i < accountTag.length; i++) {
-          customPhoneAccount = await accountHelper.getAccount(accountTag[i]);
-          tempAccount = customAccount[0];
-          accounts.push(tempAccount)
-        }
-        break;
-      default:
-        console.error('Please set a valid callingType');
-    }
-    context.driver.addAfterHook(async () => {
-      for (var account in accounts) {
-        await accountHelper.recycleAccount(account['uuid']);
-      }
-    });
-    return context.options.option.accounts = accounts;
+    const {
+      accounts,
+      destroyer
+    } = await AccountHelper.getAccountList(accountTags);
+    // TODO should insert logger here
+    context.driver.addAfterHook(destroyer);
+    // TODO should introduce payload concept here
+    context.options.option.accounts = accounts;
   }
   static get steps() {
     return [

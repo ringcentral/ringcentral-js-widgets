@@ -23,9 +23,12 @@ describe('Test Demo: =====>', () => {
       ['salesforce'],
     ],
     levels: ['p0'],
-    options: [
-      { callingType: 'myRCPhone', accountTag1: 'rc_uk_common', accountTag2: 'rc_us_common' },
-    ],
+    loginAccount: ['rc_uk_common'],
+    options: [{ 
+      callingType: 'myRCPhone',
+      loginAccount: 'rc_uk_common',
+      otherAccount: ['rc_us_common'] 
+    }],
   }, async ({ option, isVirtual }) => {
     const process = createProcess(
       Entry,

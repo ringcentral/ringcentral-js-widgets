@@ -16,7 +16,6 @@ const setting = {
 class Query extends BaseQuery {
   async getText(selector, options = {}) {
     const _selector = this.getSelector(selector, options);
-    console.log(_selector)
     await this.waitForSelector(selector, options);
     const innerText = await this._node.$eval(_selector, node => node.innerText);
     return innerText;
@@ -43,23 +42,19 @@ class Query extends BaseQuery {
     await this._node.type(_selector, value);
   }
 
+  async waitForClickable(selector, options) {
+    const element = await this.waitForSelector(selector, { ...options, visible: true });
+    await this._node.waitForFunction((selector) => {
+      const ele = document.querySelector(selector);
+      return !ele.disabled;
+    }, {}, selector);
+    return element;
+  }
+
   async waitForSelector(selector, options) {
     const _selector = this.getSelector(selector, options);
     const element = await this._node.waitForSelector(_selector, options);
     return element;
-  }
-
-  async waitForNewPage() {
-    const browser = this._node.browser();
-    return new Promise((resolve) => {
-      const listener = (target) => {
-        if (target.type() === 'page') {
-          browser.removeListener('targetcreated', listener);
-          resolve(target.page());
-        }
-      };
-      browser.on('targetcreated', listener);
-    });
   }
 
   async waitForFrames(frameIds) {
