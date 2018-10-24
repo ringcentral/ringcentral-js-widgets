@@ -111,9 +111,11 @@ export default class DetailedPresence extends Presence {
       const body = (await this._client.service.platform()
         .get(subscriptionFilters.detailedPresence)).json();
       if (this._auth.ownerId === ownerId) {
+        const { activeCalls = [], totalActiveCalls = 0 } = body;
         this.store.dispatch({
           ...body,
-          totalActiveCalls: body.activeCalls.length, // api get doesn't response totalActiveCalls
+          // api get doesn't response totalActiveCalls currently
+          totalActiveCalls: totalActiveCalls || activeCalls.length,
           type: this.actionTypes.fetchSuccess,
           lastDndStatus: this.dndStatus,
           timestamp: Date.now(),
