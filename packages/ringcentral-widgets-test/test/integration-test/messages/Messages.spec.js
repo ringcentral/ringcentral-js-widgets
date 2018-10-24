@@ -42,7 +42,7 @@ describe('messages', () => {
 
   test('message list', () => {
     panel.find(MessageItem).forEach((item) => {
-      const { conversation }= item.props();
+      const { conversation } = item.props();
       const { className } = item.find(ContactDisplay).first().props();
       if (conversation.unreadCounts > 0) {
         expect(className).toContain('unread');
