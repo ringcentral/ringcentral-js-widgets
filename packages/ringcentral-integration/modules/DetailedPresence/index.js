@@ -113,6 +113,7 @@ export default class DetailedPresence extends Presence {
       if (this._auth.ownerId === ownerId) {
         this.store.dispatch({
           ...body,
+          totalActiveCalls: body.activeCalls.length, // api get doesn't response totalActiveCalls
           type: this.actionTypes.fetchSuccess,
           lastDndStatus: this.dndStatus,
           timestamp: Date.now(),
