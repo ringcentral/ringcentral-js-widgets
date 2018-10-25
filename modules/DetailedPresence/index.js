@@ -127,7 +127,7 @@ var DetailedPresence = (_dec = (0, _di.Module)({
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (DetailedPresence.__proto__ || (0, _getPrototypeOf2.default)(DetailedPresence)).call(this, (0, _extends3.default)({
       getReducer: _getDetailedPresenceReducer2.default,
-      subscriptionFilter: _subscriptionFilters2.default.detailedPresenceWithSip,
+      subscriptionFilter: _subscriptionFilters2.default.detailedPresence,
       actionTypes: _actionTypes2.default,
       lastNotDisturbDndStatusStorageKey: 'lastNotDisturbDndStatusDetailPresence'
     }, options)));
@@ -189,7 +189,8 @@ var DetailedPresence = (_dec = (0, _di.Module)({
     key: '_fetch',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-        var ownerId, body;
+        var ownerId, body, _body$activeCalls2, activeCalls, _body$totalActiveCall2, totalActiveCalls;
+
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -200,13 +201,18 @@ var DetailedPresence = (_dec = (0, _di.Module)({
                 ownerId = this._auth.ownerId;
                 _context.prev = 2;
                 _context.next = 5;
-                return this._client.service.platform().get(_subscriptionFilters2.default.detailedPresenceWithSip);
+                return this._client.service.platform().get(_subscriptionFilters2.default.detailedPresence);
 
               case 5:
                 body = _context.sent.json();
 
                 if (this._auth.ownerId === ownerId) {
+                  _body$activeCalls2 = body.activeCalls, activeCalls = _body$activeCalls2 === undefined ? [] : _body$activeCalls2, _body$totalActiveCall2 = body.totalActiveCalls, totalActiveCalls = _body$totalActiveCall2 === undefined ? 0 : _body$totalActiveCall2;
+
                   this.store.dispatch((0, _extends3.default)({}, body, {
+                    // api get doesn't response 'totalActiveCalls' currently
+                    // because not like notification, here 'activeCalls' contains all the calls
+                    totalActiveCalls: totalActiveCalls || activeCalls.length,
                     type: this.actionTypes.fetchSuccess,
                     lastDndStatus: this.dndStatus,
                     timestamp: Date.now()

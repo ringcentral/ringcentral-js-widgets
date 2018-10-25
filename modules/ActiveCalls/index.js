@@ -106,7 +106,7 @@ var ActiveCalls = (_dec = (0, _di.Module)({
       client: client,
       ttl: ttl,
       getDataReducer: _getActiveCallsReducer.getDataReducer,
-      subscriptionFilters: [_subscriptionFilters2.default.detailedPresenceWithSip],
+      subscriptionFilters: [_subscriptionFilters2.default.detailedPresence],
       subscriptionHandler: function () {
         var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(message) {
           var ownerId;
