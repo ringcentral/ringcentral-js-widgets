@@ -66,7 +66,7 @@ describe('When user records the outbound call, user can not merge this call into
       expect.arrayContaining([
         expect.objectContaining({
           level: 'warning',
-          message: 'webphone-record-recording'
+          message: 'conferenceCall-callIsRecording'
         })
       ])
     );
@@ -98,7 +98,7 @@ describe('When user records the outbound call, user can not merge this call into
       expect.arrayContaining([
         expect.objectContaining({
           level: 'warning',
-          message: 'webphone-record-recording'
+          message: 'conferenceCall-callIsRecording'
         })
       ])
     );

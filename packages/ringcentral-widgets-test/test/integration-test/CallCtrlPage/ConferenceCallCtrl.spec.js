@@ -176,7 +176,7 @@ describe('Conference Call Control Page - Add', () => {
       expect.arrayContaining([
         expect.objectContaining({
           level: 'warning',
-          message: 'webphone-record-recording'
+          message: 'conferenceCall-callIsRecording'
         })
       ])
     );

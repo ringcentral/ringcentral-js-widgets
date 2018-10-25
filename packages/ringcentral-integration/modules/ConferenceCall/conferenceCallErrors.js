@@ -11,4 +11,5 @@ export default new Enum([
   'bringInFailed',
   'removeFromConferenceFailed',
   'terminateConferenceFailed',
+  'callIsRecording',
 ], 'conferenceCall');

@@ -23,4 +23,5 @@ ConferenceAlert.handleMessage = ({ message }) => contains(message, [
   conferenceCallErrors.makeConferenceFailed,
   conferenceCallErrors.terminateConferenceFailed,
   conferenceCallErrors.removeFromConferenceFailed,
+  conferenceCallErrors.callIsRecording,
 ]);
