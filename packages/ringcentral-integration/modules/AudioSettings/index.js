@@ -84,8 +84,8 @@ export default class AudioSettings extends RcModule {
       ) {
         // Make sure it only prompts once
         if (this.hasAutoPrompted) return;
-        this.getUserMedia();
         this.markAutoPrompted();
+        this.getUserMedia();
       }
     });
   }
@@ -163,7 +163,11 @@ export default class AudioSettings extends RcModule {
       return;
     }
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      if (!this._getUserMediaPromise) {
+        this._getUserMediaPromise = navigator.mediaDevices.getUserMedia({ audio: true });
+      }
+      const stream = await this._getUserMediaPromise;
+      this._getUserMediaPromise = null;
       this._onGetUserMediaSuccess();
       if (typeof stream.getTracks === 'function') {
         stream.getTracks().forEach((track) => {
@@ -173,6 +177,7 @@ export default class AudioSettings extends RcModule {
         stream.stop();
       }
     } catch (error) {
+      this._getUserMediaPromise = null;
       this.onGetUserMediaError(error);
     }
   }
@@ -295,7 +300,7 @@ export default class AudioSettings extends RcModule {
   get userMedia() {
     const isFirefox = navigator.userAgent.indexOf('Firefox') > -1;
     if (isFirefox) {
-      return this.state.userMedia;
+      return this.state.userMedia || !!this.availableDevices.length;
     }
     // this detection method may not work in the future
     // currently there is no good way to detect this
