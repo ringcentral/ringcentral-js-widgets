@@ -114,7 +114,8 @@ export default class DetailedPresence extends Presence {
         const { activeCalls = [], totalActiveCalls = 0 } = body;
         this.store.dispatch({
           ...body,
-          // api get doesn't response totalActiveCalls currently
+          // api get doesn't response 'totalActiveCalls' currently
+          // because not like notification, here 'activeCalls' contains all the calls
           totalActiveCalls: totalActiveCalls || activeCalls.length,
           type: this.actionTypes.fetchSuccess,
           lastDndStatus: this.dndStatus,
