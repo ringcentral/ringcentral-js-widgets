@@ -685,6 +685,7 @@ export default class AdapterCore {
     if (this._minimized) {
       this._logoEl.setAttribute('class', classnames(
         this._styles.logo,
+        this._styles.dock,
         this._logoUrl && this._logoUrl !== '' && this._styles.visible,
       ));
       this._durationEl.setAttribute('class', classnames(
