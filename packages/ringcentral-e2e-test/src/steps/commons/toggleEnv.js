@@ -5,7 +5,7 @@ export default class ToggleEnv {
     await $(app).execute('toggleEnv()');
     await $(app).click('@envToggle');
     await $(app).clear('@envServerUrl');
-    await $(app).type('@envServerUrl', env);
+    await $(app).type('@envServerUrl', 'https://api-itldevxmn.lab.nordigy.ru');
     await $(app).click('@envSave');
   }
 
