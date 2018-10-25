@@ -186,6 +186,49 @@ npx e2e-test run ./src/features/office/*.spec.js --drivers puppeteer -S
 
 > NOTE: Chrome Extension for puppeteer must be `sandbox` mode.
 
+### Selector
+
+Using `data-sign` in `e2e.config.js`.
+
+```javascript
+{
+  selectorLabel: 'data-sign',
+}
+```
+
+* Readability label information within a project (two-three words or less)
+* Within a non-project, you can use CSS selector.
+* When compiling the production, remove the label.
+
+#### Selector Example
+
+**label Selector use `@` beginning. It supports for parent-child selector.**
+
+* label selector
+
+```javascrpt
+<a data-sign="foobar">
+</a>
+```
+
+```javascrpt
+$(app).click('@foobar');
+```
+
+* parent-child label selector
+
+```javascrpt
+<div data-sign="foo">
+  <div>
+    <a data-sign="bar"></a>
+  </div>
+</div>
+```
+
+```javascrpt
+$(app).click('@foo bar');
+```
+
 ### APIs Reference
 
 #### Test CLI
