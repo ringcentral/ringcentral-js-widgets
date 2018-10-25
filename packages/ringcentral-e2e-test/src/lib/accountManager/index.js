@@ -25,7 +25,7 @@ export default class AccountHelper {
 
   getEnv() {
     const env = process.env.PLATFORM;
-    if (AVAILABLE_ENV.includes()) {
+    if (AVAILABLE_ENV.includes(env)) {
       return env;
     }
     return 'itl';
@@ -91,7 +91,7 @@ export default class AccountHelper {
       json: true
     };
     // TODO Replace with logger
-    console.log(`${this._baseUrl}/${path}/${param}`);
+    console.log(`${this._baseUrl}/${env}/account/${path}/${param}`);
     return new Promise((resolve, reject) => (request(options, (err, response, body) => {
       if (err) {
         reject(err);
