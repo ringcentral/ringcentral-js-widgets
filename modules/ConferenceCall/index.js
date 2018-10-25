@@ -74,10 +74,6 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2;
-// import webphoneErrors from '../Webphone/webphoneErrors';
-
-// import sleep from '../../lib/sleep';
-
 
 var _ramda = require('ramda');
 
@@ -93,61 +89,61 @@ var _getter2 = _interopRequireDefault(_getter);
 
 var _di = require('../../lib/di');
 
-var _callDirections = require('../../enums/callDirections');
-
-var _callDirections2 = _interopRequireDefault(_callDirections);
+var _is_type = require('../../lib/di/utils/is_type');
 
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
 
-var _actionTypes = require('./actionTypes');
-
-var _actionTypes2 = _interopRequireDefault(_actionTypes);
-
-var _partyStatusCode = require('./partyStatusCode');
-
-var _partyStatusCode2 = _interopRequireDefault(_partyStatusCode);
-
-var _conferenceRole = require('./conferenceRole');
-
-var _conferenceRole2 = _interopRequireDefault(_conferenceRole);
-
-var _getConferenceCallReducer = require('./getConferenceCallReducer');
-
-var _getConferenceCallReducer2 = _interopRequireDefault(_getConferenceCallReducer);
-
 var _proxify = require('../../lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
-
-var _permissionsMessages = require('../RolesAndPermissions/permissionsMessages');
-
-var _permissionsMessages2 = _interopRequireDefault(_permissionsMessages);
-
-var _conferenceCallErrors = require('./conferenceCallErrors');
-
-var _conferenceCallErrors2 = _interopRequireDefault(_conferenceCallErrors);
-
-var _webphoneHelper = require('../Webphone/webphoneHelper');
 
 var _ensureExist = require('../../lib/ensureExist');
 
 var _ensureExist2 = _interopRequireDefault(_ensureExist);
 
-var _callingModes = require('../CallingSettings/callingModes');
-
-var _callingModes2 = _interopRequireDefault(_callingModes);
-
 var _calleeTypes = require('../../enums/calleeTypes');
 
 var _calleeTypes2 = _interopRequireDefault(_calleeTypes);
 
-var _is_type = require('../../lib/di/utils/is_type');
+var _callDirections = require('../../enums/callDirections');
+
+var _callDirections2 = _interopRequireDefault(_callDirections);
+
+var _callingModes = require('../CallingSettings/callingModes');
+
+var _callingModes2 = _interopRequireDefault(_callingModes);
+
+var _permissionsMessages = require('../RolesAndPermissions/permissionsMessages');
+
+var _permissionsMessages2 = _interopRequireDefault(_permissionsMessages);
+
+var _webphoneHelper = require('../Webphone/webphoneHelper');
 
 var _sessionStatus = require('../Webphone/sessionStatus');
 
 var _sessionStatus2 = _interopRequireDefault(_sessionStatus);
+
+var _actionTypes = require('./actionTypes');
+
+var _actionTypes2 = _interopRequireDefault(_actionTypes);
+
+var _conferenceRole = require('./conferenceRole');
+
+var _conferenceRole2 = _interopRequireDefault(_conferenceRole);
+
+var _partyStatusCode = require('./partyStatusCode');
+
+var _partyStatusCode2 = _interopRequireDefault(_partyStatusCode);
+
+var _conferenceCallErrors = require('./conferenceCallErrors');
+
+var _conferenceCallErrors2 = _interopRequireDefault(_conferenceCallErrors);
+
+var _getConferenceCallReducer = require('./getConferenceCallReducer');
+
+var _getConferenceCallReducer2 = _interopRequireDefault(_getConferenceCallReducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1530,7 +1526,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
 
                 _session = _step2.value;
 
-                if (!this._webphone.isCallRecording({ session: _session })) {
+                if (this.validateCallRecording(_session)) {
                   _context13.next = 12;
                   break;
                 }
@@ -1588,7 +1584,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   return x.id === conferenceState.sessionId;
                 }, this._webphone.sessions);
 
-                if (!this._webphone.isCallRecording({ session: conferenceSession })) {
+                if (this.validateCallRecording(conferenceSession)) {
                   _context13.next = 34;
                   break;
                 }
@@ -1675,6 +1671,17 @@ var ConferenceCall = (_dec = (0, _di.Module)({
 
       return mergeSessions;
     }()
+  }, {
+    key: 'validateCallRecording',
+    value: function validateCallRecording(session) {
+      if ((0, _webphoneHelper.isRecording)(session)) {
+        this._alert.warning({
+          message: _conferenceCallErrors2.default.callIsRecording
+        });
+        return false;
+      }
+      return true;
+    }
 
     /*
     * User action track dispatchs

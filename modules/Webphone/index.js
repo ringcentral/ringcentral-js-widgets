@@ -2629,23 +2629,6 @@ var Webphone = (_dec = (0, _di.Module)({
       }
     }
   }, {
-    key: 'isCallRecording',
-    value: function isCallRecording(_ref35) {
-      var session = _ref35.session,
-          _ref35$showAlert = _ref35.showAlert,
-          showAlert = _ref35$showAlert === undefined ? true : _ref35$showAlert;
-
-      if ((0, _webphoneHelper.isRecording)(session)) {
-        if (showAlert) {
-          this._alert.warning({
-            message: _recordStatus2.default.recording
-          });
-        }
-        return true;
-      }
-      return false;
-    }
-  }, {
     key: 'status',
     get: function get() {
       return this.state.status;
