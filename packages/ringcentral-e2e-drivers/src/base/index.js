@@ -17,7 +17,6 @@ class Query {
   getSelector(selector) {
     const labelSign = /^@\s*/;
     const isUsingCssSelector = !this._label || labelSign.test(selector);
-    console.log(isUsingCssSelector, selector);
     if (isUsingCssSelector) {
       return selector
         .replace(labelSign, '')
