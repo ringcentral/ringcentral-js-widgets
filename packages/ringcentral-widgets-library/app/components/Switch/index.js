@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import styles from './styles.scss';
 
-
 function Switch(props) {
   const onChange = props.onChange ?
     e => !props.disable && props.onChange(e.currentTarget.checked) :
