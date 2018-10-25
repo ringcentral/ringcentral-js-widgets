@@ -1,7 +1,8 @@
 const fs = require('fs');
+const path = require('path');
 
 const loginInfoPath = './loginInfo.js';
-const isExists = fs.existsSync(loginInfoPath);
+const isExists = fs.existsSync(path.resolve(__dirname, loginInfoPath));
 const loginInfo = isExists ? require(loginInfoPath) : {};
 
 module.exports = {
