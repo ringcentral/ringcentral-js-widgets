@@ -248,7 +248,7 @@ function mapToFunctions(_, _ref2) {
       var session = (0, _ramda.find)(function (x) {
         return x.id === sessionId;
       }, webphone.sessions);
-      if (!session || webphone.isCallRecording({ session: session })) {
+      if (!session || !conferenceCall.validateCallRecording(session)) {
         return;
       }
       var otherOutboundCalls = (0, _ramda.filter)(function (call) {
@@ -269,7 +269,7 @@ function mapToFunctions(_, _ref2) {
       var session = (0, _ramda.find)(function (x) {
         return x.id === sessionId;
       }, webphone.sessions);
-      if (!session || webphone.isCallRecording({ session: session })) {
+      if (!session || !conferenceCall.validateCallRecording(session)) {
         return false;
       }
       if (conferenceCall) {
@@ -278,7 +278,7 @@ function mapToFunctions(_, _ref2) {
           var conferenceSession = (0, _ramda.find)(function (x) {
             return x.id === conferenceData.sessionId;
           }, webphone.sessions);
-          if (conferenceSession && webphone.isCallRecording({ session: conferenceSession })) {
+          if (conferenceSession && !conferenceCall.validateCallRecording(conferenceSession)) {
             return false;
           }
         }

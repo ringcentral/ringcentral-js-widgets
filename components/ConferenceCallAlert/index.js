@@ -43,6 +43,6 @@ ConferenceAlert.propTypes = {
 
 ConferenceAlert.handleMessage = function (_ref) {
   var message = _ref.message;
-  return (0, _ramda.contains)(message, [_conferenceCallErrors2.default.bringInFailed, _conferenceCallErrors2.default.makeConferenceFailed, _conferenceCallErrors2.default.terminateConferenceFailed, _conferenceCallErrors2.default.removeFromConferenceFailed]);
+  return (0, _ramda.contains)(message, [_conferenceCallErrors2.default.bringInFailed, _conferenceCallErrors2.default.makeConferenceFailed, _conferenceCallErrors2.default.terminateConferenceFailed, _conferenceCallErrors2.default.removeFromConferenceFailed, _conferenceCallErrors2.default.callIsRecording]);
 };
 //# sourceMappingURL=index.js.map

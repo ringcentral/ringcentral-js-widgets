@@ -84,17 +84,13 @@ var _RolesAndPermissionsAlert2 = _interopRequireDefault(_RolesAndPermissionsAler
 
 var _phoneContext = require('../../lib/phoneContext');
 
-var _index = require('../../components/ConferenceAlert/index');
+var _ConferenceAlert = require('../../components/ConferenceAlert');
 
-var _index2 = _interopRequireDefault(_index);
+var _ConferenceAlert2 = _interopRequireDefault(_ConferenceAlert);
 
-var _index3 = require('../../components/ConferenceCallAlert/index');
+var _ConferenceCallAlert = require('../../components/ConferenceCallAlert');
 
-var _index4 = _interopRequireDefault(_index3);
-
-var _AddCallAlert = require('../../components/AddCallAlert/');
-
-var _AddCallAlert2 = _interopRequireDefault(_AddCallAlert);
+var _ConferenceCallAlert2 = _interopRequireDefault(_ConferenceCallAlert);
 
 var _CallControlAlert = require('../../components/CallControlAlert');
 
@@ -207,12 +203,12 @@ function getDefaultRenderer(_ref2) {
       };
     }
 
-    if (_index2.default.handleMessage(message)) {
-      return _index2.default;
+    if (_ConferenceAlert2.default.handleMessage(message)) {
+      return _ConferenceAlert2.default;
     }
 
-    if (_index4.default.handleMessage(message)) {
-      return _index4.default;
+    if (_ConferenceCallAlert2.default.handleMessage(message)) {
+      return _ConferenceCallAlert2.default;
     }
 
     if (_AudioSettingsAlert2.default.handleMessage(message)) {
@@ -226,11 +222,6 @@ function getDefaultRenderer(_ref2) {
     if (_CallLogAlert2.default.handleMessage(message)) {
       return function (props) {
         return _react2.default.createElement(_CallLogAlert2.default, props);
-      };
-    }
-    if (_AddCallAlert2.default.handleMessage(message)) {
-      return function (props) {
-        return _react2.default.createElement(_AddCallAlert2.default, props);
       };
     }
     if (_CallControlAlert2.default.handleMessage(message)) {
