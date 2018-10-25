@@ -25,6 +25,7 @@
 }
 
 .contacts {
+  line-height: 23px;
   overflow: hidden;
   border-bottom: 1px solid #e9e9e9;
   margin: 0;
@@ -44,9 +45,9 @@
     list-style: none;
     width: 80%;
   }
-  li:not(:first-child) {
-    margin-top: 20px;
-  }
+  // li:not(:first-child) {
+  //   margin-top: 20px;
+  // }
   .label,
   .number,
   .menu {
@@ -67,7 +68,6 @@
   .menu {
     float: right;
     text-align: right;
-    margin-top: -5px;
     margin-right: 5px;
     button {
       border: none;
