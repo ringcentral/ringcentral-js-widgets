@@ -56,10 +56,11 @@ function getTransferredCallsReducer(types) {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
     var _ref3 = arguments[1];
     var type = _ref3.type,
-        sessionId = _ref3.sessionId;
+        sessionId = _ref3.sessionId,
+        transferredMiddleNumber = _ref3.transferredMiddleNumber;
 
     if (type === types.addTransferredCall) {
-      return [].concat((0, _toConsumableArray3.default)(state.slice(state.length >= opacity ? 1 : 0, opacity)), [(0, _defineProperty3.default)({}, sessionId, true)]);
+      return [].concat((0, _toConsumableArray3.default)(state.slice(state.length >= opacity ? 1 : 0, opacity)), [(0, _defineProperty3.default)({}, sessionId, { transferredMiddleNumber: transferredMiddleNumber })]);
     }
     return state;
   };

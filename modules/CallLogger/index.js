@@ -601,23 +601,27 @@ var CallLogger = (_dec = (0, _di.Module)({
               oldCalls.splice(oldCallIndex, 1);
               if (call.telephonyStatus !== oldCall.telephonyStatus) {
                 _this2._onCallUpdated((0, _extends3.default)({}, call, {
-                  isTransferredCall: !!_this2.transferredCallsMap[call.sessionId]
+                  isTransferredCall: !!_this2.transferredCallsMap[call.sessionId],
+                  transferredMiddleNumber: _this2.transferredCallsMap[call.sessionId] ? _this2.transferredCallsMap[call.sessionId].transferredMiddleNumber : null
                 }), _callLoggerTriggerTypes2.default.presenceUpdate);
               }
               if ((call.from && call.from.phoneNumber) !== (oldCall.from && oldCall.from.phoneNumber)) {
                 _this2.store.dispatch({
                   type: _this2.actionTypes.addTransferredCall,
-                  sessionId: call.sessionId
+                  sessionId: call.sessionId,
+                  transferredMiddleNumber: oldCall.from && oldCall.from.phoneNumber
                 });
                 _this2._onCallUpdated((0, _extends3.default)({}, call, {
-                  isTransferredCall: true
+                  isTransferredCall: true,
+                  transferredMiddleNumber: oldCall.from && oldCall.from.phoneNumber
                 }), _callLoggerTriggerTypes2.default.presenceUpdate);
               }
             }
           });
           oldCalls.forEach(function (call) {
             _this2._onCallUpdated((0, _extends3.default)({}, call, {
-              isTransferredCall: !!_this2.transferredCallsMap[call.sessionId]
+              isTransferredCall: !!_this2.transferredCallsMap[call.sessionId],
+              transferredMiddleNumber: _this2.transferredCallsMap[call.sessionId] ? _this2.transferredCallsMap[call.sessionId].transferredMiddleNumber : null
             }), _callLoggerTriggerTypes2.default.presenceUpdate);
           });
         }
@@ -636,7 +640,8 @@ var CallLogger = (_dec = (0, _di.Module)({
               });
               if (callInfo) {
                 _this2._onCallUpdated((0, _extends3.default)({}, callInfo, {
-                  isTransferredCall: !!_this2.transferredCallsMap[callInfo.sessionId]
+                  isTransferredCall: !!_this2.transferredCallsMap[callInfo.sessionId],
+                  transferredMiddleNumber: _this2.transferredCallsMap[call.sessionId] ? _this2.transferredCallsMap[call.sessionId].transferredMiddleNumber : null
                 }), _callLoggerTriggerTypes2.default.callLogSync);
               }
             }
