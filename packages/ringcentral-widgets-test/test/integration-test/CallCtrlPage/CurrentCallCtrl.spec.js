@@ -378,7 +378,7 @@ describe('Current Call Control Page - Record/Stop', () => {
     recordButton.find(CircleButton).simulate('click');
     await timeout(100);
     expect(startRecordFn.mock.calls).toHaveLength(0);
-  })
+  });
   test('RCI-1712679 Answer an inbound call and keep in active call page, click Record/Stop',
     async () => {
       let recordButton = null;
@@ -449,7 +449,7 @@ describe('Current Call Control Page - Merge', () => {
       expect.arrayContaining([
         expect.objectContaining({
           level: 'warning',
-          message: 'webphone-record-recording'
+          message: 'conferenceCall-callIsRecording'
         })
       ])
     );
@@ -475,7 +475,7 @@ describe('Current Call Control Page - Add', () => {
         expect.arrayContaining([
           expect.objectContaining({
             level: 'warning',
-            message: 'webphone-record-recording'
+            message: 'conferenceCall-callIsRecording'
           })
         ])
       );
