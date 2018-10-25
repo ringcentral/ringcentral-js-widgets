@@ -15,13 +15,14 @@ export default class operateWebPhoneBasic {
     const { accounts } = context.options.option;
     const loginAccount = accounts[0];
     const receiverAccount = accounts[1];
-    context.driver.addAfterHook(async () => {
-      await this.close();
-    });
+    
     const dailer = await this.getPhone(loginAccount);
     const receiver = await this.getPhone(receiverAccount);
     context.options.option.webphones = [dailer, receiver];
     context.options.option.webphone = Webphone;
+    context.driver.addAfterHook(async () => {
+      await this.close(context);
+    });
     console.log(context.options.option.webphones);
   }
 
@@ -38,12 +39,20 @@ export default class operateWebPhoneBasic {
     });
   }
 
-  static async preAnswerCall() {
-    const webphone1 = context.options.option.webphones[0];
-    const webphone2 = context.options.option.webphones[1];
-    const webphone = context.options.option.webphone;
-    await webphone.preOperate({ phoneId: webphone1["id"], sessionId: webphone1["sessionId"], action: 'answerCall' });
-    await webphone.preOperate({ phoneId: webphone2["id"], sessionId: webphone2["sessionId"], action: 'answerCall' });
+  static async preAnswerCall(context) {
+    const { webphones } = context.options.option;
+    const dialer = webphones[0];
+    const receiver = webphones[1];
+    await Webphone.preOperate({
+      phoneId: dialer.id,
+      sessionId: dialer.sessionId,
+      action: 'answerCall'
+    });
+    await Webphone.preOperate({
+      phoneId: receiver.id,
+      sessionId: receiver.sessionId,
+      action: 'answerCall'
+    });
   }
 
   static async answerCall(context) {
@@ -70,13 +79,23 @@ export default class operateWebPhoneBasic {
     });
   }
 
-  static async close() {
-    const webphone1 = context.options.option.webphones[0];
-    const webphone2 = context.options.option.webphones[1];
-    const webphone = context.options.option.webphone;
-    console.log(webphone1);
-    await webphone.operate({ phoneId: webphone1["id"], sessionId: webphone1["sessionId"], action: 'close', phoneNumber: webphone1["phoneNumber"] });
-    await webphone.operate({ phoneId: webphone2["id"], sessionId: webphone2["sessionId"], action: 'close', phoneNumber: webphone2["phoneNumber"] });
+  static async close(context) {
+    const { webphones } = context.options.option;
+    const dialer = webphones[0];
+    const receiver = webphones[1];
+    console.log(dialer);
+    await Webphone.operate({
+      phoneId: dialer.id,
+      sessionId: dialer.sessionId,
+      action: 'close',
+      phoneNumber: dialer.phoneNumber
+    });
+    await Webphone.operate({
+      phoneId: receiver.id,
+      sessionId: receiver.sessionId,
+      action: 'close',
+      phoneNumber: receiver.phoneNumber
+    });
   }
 
   static get steps() {

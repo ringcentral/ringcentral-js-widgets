@@ -1,7 +1,14 @@
 /* global $ */
 const location = 'https://na78.salesforce.com/home/showAllTabs.jsp';
 export default class Entry {
+  static setEnv(context) {
+    if (process.env.PLATFORM === undefined) {
+      const PLATFORM = context.options.config.env || null;
+      process.env.PLATFORM = PLATFORM;
+    }
+  }
   static async goto(context) {
+    Entry.setEnv(context);
     const { options: { config, driver }, driver: { page } } = context;
     await $(page).waitForSelector('#username', { visible: true });
     await $(page).type('#username', config.username, { selector: 'css' });
