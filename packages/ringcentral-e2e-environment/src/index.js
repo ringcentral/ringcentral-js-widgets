@@ -89,6 +89,7 @@ class WebDriverEnvironment {
   async setup() {
     // TODO HOOK
     const isSandbox = this._config.globals.execModes.indexOf('sandbox') > -1;
+    const isHeadless = this._config.globals.execModes.indexOf('headless') > -1;
     if (isSandbox) {
       // TODO sandbox mode
     } else {
@@ -102,7 +103,7 @@ class WebDriverEnvironment {
           ...execSetting,
           selectorLabel: this._config.globals.execGlobal.selectorLabel
         });
-        await instance.driver.run();
+        await instance.driver.run({ isHeadless });
         await instance.driver.newPage();
         drivers[name] = instance;
       }

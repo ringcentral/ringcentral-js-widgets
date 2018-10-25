@@ -119,19 +119,22 @@ class Driver extends BaseDriver {
     super(options, program);
   }
 
-  async run({ type, extension = '' } = {}) {
+  async run({ type, extension = '', isHeadless } = {}) {
+    this._isHeadless = isHeadless;
     const isExtension = type === 'extension';
     const extensionPath = path.resolve(process.cwd(), extension);
     const setting = isExtension ? {
       ...this._options.driver.setting,
-      headless: false,
       args: [
         ...this._options.driver.setting.args,
         `--disable-extensions-except=${extensionPath}`,
         `--load-extension=${extensionPath}`
       ],
     } : this._options.driver.setting;
-    this._browser = await this._program.launch(setting);
+    this._browser = await this._program.launch({
+      ...setting,
+      headless: isExtension ? false : this._isHeadless,
+    });
   }
 
   async newPage() {

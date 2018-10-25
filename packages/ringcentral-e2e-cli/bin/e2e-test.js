@@ -13,6 +13,7 @@ commander
   .description('Run E2E test specified case.')
   .option('-P, --params <paramsInfo>', 'Run E2E test case with some params filtering.')
   .option('-S, --sandbox', 'Run E2E test case with \'sandbox\' mode.')
+  .option('-H, --headless', 'Run E2E test case with \'headless\' mode.')
   .option('-D, --debugger', 'Run E2E test case with \'debugger\' mode.')
   .option('-E, --exclude <exclude>', 'Run E2E test case exclude some files.', value => value.split(','))
   .option('--drivers <drivers>', 'Run E2E test case with some drivers.', value => value.split('.'))

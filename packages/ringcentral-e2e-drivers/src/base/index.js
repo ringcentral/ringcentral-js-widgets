@@ -21,7 +21,11 @@ class Query {
       return selector
         .replace(labelSign, '')
         .split(' ')
-        .map(_selector => `[${this._label}="${_selector}"]`)
+        .map((_selector) => {
+          const [labelSelector, index] = _selector.split(':');
+          const childSelector = index ? `:nth-child(${index})` : '';
+          return `[${this._label}="${labelSelector}"]${childSelector}`;
+        })
         .join(' ');
     }
     return selector;
