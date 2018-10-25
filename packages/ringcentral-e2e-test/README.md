@@ -203,6 +203,7 @@ Using `data-sign` in `e2e.config.js`.
 #### Selector Example
 
 **label Selector use `@` beginning. It supports for parent-child selector.**
+**label Selector use `:` for child DOM node with index.**
 
 * label selector
 
@@ -215,10 +216,21 @@ Using `data-sign` in `e2e.config.js`.
 $(app).click('@foobar');
 ```
 
-* parent-child label selector
+* parent-child label selector and using index select child.
 
 ```javascrpt
 <div data-sign="foo">
+  <div>
+    <a data-sign="bar"></a>
+  </div>
+  <div>
+    <a data-sign="bar"></a>
+  </div>
+</div>
+<div data-sign="foo">
+  <div>
+    <a data-sign="bar">select this</a>
+  </div>
   <div>
     <a data-sign="bar"></a>
   </div>
@@ -226,17 +238,18 @@ $(app).click('@foobar');
 ```
 
 ```javascrpt
-$(app).click('@foo bar');
+$(app).click('@foo:2 bar:1');
 ```
 
 ### APIs Reference
 
 #### Test CLI
 
-| Reference | Description                                   | type   | default |
-| --------- | --------------------------------------------- | ------ | ------- |
-| --params  | Run E2E test case with some params filtering. | object | None    |
-| --sandbox | Run E2E test case with 'sandbox' mode.        |        | disable |
+| Reference  | Description                                   | type   | default |
+| ---------- | --------------------------------------------- | ------ | ------- |
+| --params   | Run E2E test case with some params filtering. | object | None    |
+| --sandbox  | Run E2E test case with 'sandbox' mode.        |        | disable |
+| --headless | Run E2E test case with 'headless' mode.       |        | disable |
 
 TODO
 
@@ -288,8 +301,8 @@ TODO
 example:
 ```js
 context.driver.addAfterHook(async () => {
-        await process.exec(Logout);
-      });
+  await process.exec(Logout);
+});
 ```
 TODO
 

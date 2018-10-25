@@ -134,7 +134,9 @@ function testCase(caseParams, fn) {
   const execTags = mergeTags(global.execTags, testCaseTags).map(([_project, _tags]) => (
     [_project, { ..._tags, drivers: [...global.execDrivers] }]
   ));
-  const isSandbox = [...modes, ...global.execModes].indexOf('sandbox') > -1;
+  const _modes = [...modes, ...global.execModes];
+  const isHeadless = _modes.indexOf('headless') > -1;
+  const isSandbox = _modes.indexOf('sandbox') > -1;
   global.testBeforeAll({
     testCaseTags,
     execTags,
@@ -173,12 +175,12 @@ function testCase(caseParams, fn) {
           global.beforeEach(beforeEachStart.bind(null, { driver: instance.driver, isSandbox }));
           global.afterEach(afterEachEnd.bind(null, { driver: instance.driver, isSandbox }));
           /* eslint-disable */
-          const func = async function ({ instance, isSandbox, config, driver, ...args }) {
+          const func = async function ({ instance, isSandbox, isHeadless, config, driver, ...args }) {
             // TODO handle type in `config`
             const isUT = /UT$/.test(driver);
             if (!isUT) {
               if (isSandbox) {
-                await instance.driver.run(config);
+                await instance.driver.run({ ...config, isHeadless });
                 await instance.driver.newPage();
               }
               await instance.driver.goto(config);
@@ -204,6 +206,7 @@ function testCase(caseParams, fn) {
             driver,
             modes,
             isSandbox,
+            isHeadless,
             isVirtual,
           }));
         }

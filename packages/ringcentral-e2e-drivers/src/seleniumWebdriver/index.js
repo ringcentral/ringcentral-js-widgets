@@ -25,8 +25,10 @@ const Browsers = {
 
 const seleniumWebdriverSetting = {
   safari: new safari.Options(),
-  chrome: new chrome.Options().headless(),
-  firefox: new firefox.Options().headless(),
+  chromeHeadless: new chrome.Options().headless(),
+  chrome: new chrome.Options(),
+  firefoxHeadless: new firefox.Options().headless(),
+  firefox: new firefox.Options(),
   ie: new ie.Options(),
   edge: new edge.Options(),
 };
@@ -121,14 +123,18 @@ module.exports = (browser) => {
       super(options, program);
     }
 
-    async run() {
-      // Nothing
+    async run({ isHeadless } = {}) {
+      this._isHeadless = isHeadless;
     }
 
     async newPage() {
+      let _setting = this._options.driver.setting;
+      if (this._isHeadless) {
+        _setting = seleniumWebdriverSetting[`${webdriver}Headless`] || _setting;
+      }
       this._browser = this._program
         .forBrowser(Browsers[webdriver])[setKeyName](
-          this._options.driver.setting,
+          _setting
         )
         .withCapabilities({
           browserName: webdriver,

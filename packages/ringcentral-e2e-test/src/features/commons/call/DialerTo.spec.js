@@ -16,7 +16,7 @@ describe('Test Demo: =====>', () => {
     ],
     levels: ['p0'],
     options: [
-      { username: '+18882032020', password: 'Test!123', selector: '@toTitle', title: 'To:'},
+      { username: '+18332085087', password: 'Test!123', selector: '@toTitle', title: 'To:'},
     ],
   }, async ({ option, isVirtual }) => {
     // 1. login CTI

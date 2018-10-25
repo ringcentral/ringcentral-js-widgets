@@ -55,6 +55,7 @@ const run = (dir, cmd) => {
   const modes = [
     ...cmd.sandbox ? ['sandbox'] : [],
     ...cmd.debugger ? ['debugger'] : [],
+    ...cmd.headless ? ['headless'] : [],
   ];
   const drivers = cmd.drivers || [];
   const params = args.params || {};
