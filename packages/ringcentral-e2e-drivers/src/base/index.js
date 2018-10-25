@@ -14,10 +14,18 @@ class Query {
     return this._label;
   }
 
-  getSelector(selector, options = {}) {
-    const isUsingCssSelector = !this._label || options.selector === 'css';
-    const labelLocator = `[${this._label}="${selector}"]`;
-    return isUsingCssSelector ? selector : labelLocator;
+  getSelector(selector) {
+    const labelSign = /^@\s*/;
+    const isUsingCssSelector = !this._label || labelSign.test(selector);
+    console.log(isUsingCssSelector, selector);
+    if (isUsingCssSelector) {
+      return selector
+        .replace(labelSign, '')
+        .split(' ')
+        .map(_selector => `[${this._label}="${_selector}"]`)
+        .join(' ');
+    }
+    return selector;
   }
 
   async waitFor(param, options, ...args) {

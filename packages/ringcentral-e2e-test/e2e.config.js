@@ -5,7 +5,7 @@ const isExists = fs.existsSync(loginInfoPath);
 const loginInfo = isExists ? require(loginInfoPath) : {};
 
 module.exports = {
-  // selectorLabel: 'css',
+  selectorLabel: 'data-sign',
   caseServices: [{
     name: 'einstein',
     url: 'http://einstein.int.ringcentral.com/',
@@ -112,7 +112,7 @@ module.exports = {
         params: {
           brands: {
             rc: {
-              location: 'https://localhost:8201/',
+              location: 'http://localhost:8080/',
             },
             att: {
               location: 'http://localhost:8080/',

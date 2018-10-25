@@ -303,7 +303,7 @@ class RecipientsInput extends Component {
     const relatedContactList = this.state.value.length >= 3 ?
       this.props.searchContactList.slice(0, 50) : [];
     const label = (
-      <label className={styles.label}>
+      <label className={styles.label} data-sign="toTitle">
         {
           this.props.label === undefined
             ? `${i18n.getString('to', this.props.currentLocale)}:`

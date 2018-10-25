@@ -3,7 +3,7 @@ import ToggleEnv from './toggleEnv';
 /* global $ */
 export default class Login {
   static async prepare(context) {
-    await $(context.driver.app).waitFor('loginButton');
+    await $(context.driver.app).waitForSelector('@loginButton');
     if (context.options.isVirtual) return;
     const process = createProcess(
       ToggleEnv,
@@ -17,7 +17,7 @@ export default class Login {
     } else {
       await $(app).execute(`phone.auth.login({username: '${option.username}', password: '${option.password}'})`);
     }
-    await $(app).waitForSelector('tabNavigationView');
+    await $(app).waitForSelector('@tabNavigationView');
   }
 
   static get steps() {
