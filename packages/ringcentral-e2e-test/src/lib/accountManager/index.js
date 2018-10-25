@@ -3,8 +3,10 @@ import request from 'request';
 import { autoAsyncRetry } from './helper';
 
 const BASE_URL = 'http://10.32.36.75:7789/env';
+const AVAILABLE_ENV = ['xmnup', 'itl'];
+
+// TODO import from a single json file
 export const TagsEnum = {
-  // myRCPhone: 'myRCPhone',
   CM_RC_US: 'rc_us_common',
   CM_RC_EU: 'rc_eu_common',
   CM_RC_UK: 'rc_uk_common',
@@ -21,19 +23,12 @@ export default class AccountHelper {
     this._baseUrl = baseUrl;
   }
 
-  getEnv(context) {
-    let env;
-    switch (context.options.config.env) {
-      case 'xmnup':
-        env = 'xmnup';
-        break;
-      case 'itl':
-        env = 'itl';
-        break;
-      default:
-        env = 'itl';
+  getEnv() {
+    const env = process.env.PLATFORM;
+    if (AVAILABLE_ENV.includes()) {
+      return env;
     }
-    return env;
+    return 'itl';
   }
 
   static getInstance() {
@@ -45,7 +40,7 @@ export default class AccountHelper {
 
   static getAccountList = async (tags) => {
     const promises = tags.map(async (acc) => {
-      const result = await AccountHelper.retryAccount(acc, false);
+      const result = await AccountHelper.retryAccount(acc);
       if (result.length === 0) {
         console.error(`Failed getting account using ${acc}`);
       } else if (acc.includes('forwarding')) {
@@ -62,13 +57,13 @@ export default class AccountHelper {
     return { accounts: accAry, destroyer };
   }
 
-  static retryAccount = async (scenarioTag, lock = false) => {
-    // console.log(scenarioTag);
+  static retryAccount = async (scenarioTag) => {
     if (!Object.values(TagsEnum).includes(scenarioTag)) {
       return Promise.reject(new Error(`Invalid tag: ${scenarioTag}`));
     }
     const instance = AccountHelper.getInstance();
-    const response = autoAsyncRetry(instance.getAccount, scenarioTag);
+    const response = autoAsyncRetry(instance.getAccount, scenarioTag)
+      .catch(err => console.error(err));
     // if (lock) {
     //   response = response.then((accAry) => {
     //     const { uuid } = accAry[0];
@@ -81,8 +76,6 @@ export default class AccountHelper {
   static releaseAccount = async (uuid) => {
     if (!uuid) return Promise.reject(new Error(`Invalid uuid: ${uuid}`));
     const instance = AccountHelper.getInstance();
-    // const response = autoAsyncRetry(instance.recycleAccount, uuid)
-    //   .catch(err => console.error(err));
     const response = await instance.recycleAccount(uuid);
     return response;
   }
@@ -98,7 +91,7 @@ export default class AccountHelper {
       json: true
     };
     // TODO Replace with logger
-    console.log(`${this._baseUrl}${path}/${param}`);
+    console.log(`${this._baseUrl}/${path}/${param}`);
     return new Promise((resolve, reject) => (request(options, (err, response, body) => {
       if (err) {
         reject(err);

@@ -2,6 +2,10 @@ import * as WebPhoneClient from 'webphone-client';
 
 const TTL = 1800000;
 const WAIT_TIMEOUT = 300000;
+const webPhoneEnvMap = new Map([
+  ['xmnup', 'xmnup'],
+  ['itl', 'itldevxmn']
+]);
 export const PhoneType = {
   PSTN: 'pstn',
   WebPhone: 'webphone'
@@ -90,19 +94,12 @@ export default class WebPhone {
     return response;
   }
 
-  getEnv(context) {
-    let env;
-    switch (context.options.config.env) {
-      case 'xmnup':
-        env = 'xmnup';
-        break;
-      case 'itl':
-        env = 'itldevxmn';
-        break;
-      default:
-        env = 'itldevxmn';
+  static getEnv() {
+    const setting = process.env.PLATFORM;
+    if (webPhoneEnvMap.has(setting)) {
+      return webPhoneEnvMap.get(setting);
     }
-    return env;
+    return 'itldevxmn';
   }
 
   static getHost() {
