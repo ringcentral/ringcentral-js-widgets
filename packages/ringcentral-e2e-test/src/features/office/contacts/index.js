@@ -24,7 +24,10 @@ const contactNavSelector = 'div[title="Contacts"]';
 const searchBarSelector = 'input[placeholder="Search..."]';
 const dismissBtn = '[class*="node_modules-ringcentral-widgets-components-Message-_styles_dismiss"]';
 const backBtnSelector = '[class*="node_modules-ringcentral-widgets-components-BackHeader-_styles_iconRotate"]';
-
+const contactFilterSelector = '[class*=ringcentral-widgets-components-ContactSourceFilter-_styles_filterIconContainer]';
+const contactFilterItemSelector = '[class*=contactSourceItem]';
+const spinnerSelector = '[class*=ringcentral-widgets-components-SpinnerOverlay]'
+const defaultFilterColor = 'rgb(6, 132, 189)';
 /**
  * Tests here
  */
@@ -124,7 +127,7 @@ export default async function caseO365Contacts(option) {
     timeout: 600000,
   });
 
-  console.log('Waiting 120s for people panel to mount.');
+  console.log('Waiting for people panel to mount.');
 
   await $(outlookPage).waitFor(contactFolderSelector, {
     selector: 'css',
@@ -191,13 +194,55 @@ export default async function caseO365Contacts(option) {
   await $(page).waitFor(contactNavSelector, {
     selector: 'css'
   });
+
+  const contactNavBtn = await page.$(contactNavSelector);
+  expect(contactNavBtn).toBeTruthy();
+
+  console.log('Goto contact panel');
   await $(page).click(contactNavSelector, {
+    selector: 'css'
+  });
+
+  console.log('Waiting for loading o365 contacts');
+  await $(page).waitFor(spinnerSelector, {
+    selector: 'css',
+    hidden: true,
+    timeout: 120000,
+  });
+  await sleep(1000);
+
+  await $(page).waitFor(contactFilterSelector, {
+    selector: 'css'
+  });
+
+  console.log('Opening filter');
+  await $(page).click(contactFilterSelector, {
+    selector: 'css'
+  });
+  const {
+    allFilterColor,
+    texts,
+  } = await page.evaluate((contactFilterItemSelector) => {
+      const filters = Array.prototype.slice.call(document.querySelectorAll(contactFilterItemSelector));
+
+      return {
+        allFilterColor: window.getComputedStyle(filters[0]).color,
+        texts: filters.map(dom => dom.innerText),
+      };
+    },
+    contactFilterItemSelector);
+  expect(texts.length).toEqual(4);
+  expect(allFilterColor).toEqual(defaultFilterColor);
+  expect(texts).toEqual(['All', 'Company', 'Personal', 'Office 365']);
+
+  await $(page).click(contactFilterSelector, {
     selector: 'css'
   });
 
   for (let contactName of contactsNames) {
     console.log(`Seaching ${contactName} in CTI...`);
     const searchBar = await page.$(searchBarSelector);
+    expect(searchBar).toBeTruthy();
     await searchBar.click();
     await searchBar.focus();
     // click three times to select all
