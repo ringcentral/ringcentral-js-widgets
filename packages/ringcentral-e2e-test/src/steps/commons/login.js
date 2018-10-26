@@ -33,6 +33,12 @@ export default function Login(account) {
       }
 
       static async login({ options: { option, isVirtual }, driver: { app } }) {
+        if (isVirtual) {
+          option.playload.loginAccount = {
+            username: '',
+            password: '',
+          };
+        }
         if (!option.playload.loginAccount) throw new Error('Invalid login account');
         const login = `phone.auth.login({
           username: '${option.playload.loginAccount.username}',

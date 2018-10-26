@@ -43,6 +43,7 @@ module.exports = {
   },
   tester: {
     jest: {
+      testURL: 'http://localhost',
       moduleNameMapper: {
         'assets/images/.+?\\.svg$': '<rootDir>/src/__mocks__/svgMock.js',
         '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|ogg)$': '<rootDir>/src/__mocks__/fileMock.js',
