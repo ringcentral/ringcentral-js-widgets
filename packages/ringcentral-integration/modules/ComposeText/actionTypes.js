@@ -11,4 +11,6 @@ export default new Enum([
   'removeToNumber',
   'updateMessageText',
   'toNumberMatched',
+  'addEntity',
+  'removeEntity'
 ], 'composeText');

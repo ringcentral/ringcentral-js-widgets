@@ -1,3 +1,4 @@
+import messageDirection from 'ringcentral-integration/enums/messageDirection';
 import { Module } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
 import isBlank from '../../lib/isBlank';
@@ -21,7 +22,9 @@ import proxify from '../../lib/proxy/proxify';
     'MessageSender',
     'NumberValidate',
     'RolesAndPermissions',
+    { dep: 'ContactMatcher', optional: true },
     { dep: 'ContactSearch', optional: true },
+    { dep: 'ConversationLogger', optional: true },
     { dep: 'ComposeTextOptions', optional: true }
   ]
 })
@@ -44,6 +47,8 @@ export default class ComposeText extends RcModule {
     numberValidate,
     contactSearch,
     rolesAndPermissions,
+    contactMatcher,
+    conversationLogger,
     ...options
   }) {
     super({
@@ -61,6 +66,8 @@ export default class ComposeText extends RcModule {
     this._messageSender = messageSender;
     this._numberValidate = numberValidate;
     this._contactSearch = contactSearch;
+    this._contactMatcher = contactMatcher;
+    this._conversationLogger = conversationLogger;
     this._lastContactSearchResult = [];
     this.senderNumbersList = [];
     storage.registerReducer({ key: this._storageKey, reducer: this._cacheReducer });
@@ -211,7 +218,57 @@ export default class ComposeText extends RcModule {
         return null;
       }
     }
+    this.addEntitys(this.toNumbers);
     return this._messageSender.send({ fromNumber, toNumbers, text });
+  }
+  get correspondentMatch() {
+    return this.state.correspondentMatch;
+  }
+  addEntitys(entitys) {
+    this.store.dispatch({
+      type: this.actionTypes.addEntity,
+      entitys,
+    });
+  }
+  removeEntity(entity) {
+    this.store.dispatch({
+      type: this.actionTypes.removeEntity,
+      entity
+    });
+  }
+  relateCorrespondentEntity(responses) {
+    if (!this._contactMatcher ||
+      !this._conversationLogger ||
+      !this.correspondentMatch.length) {
+      return;
+    }
+    responses.forEach((response) => {
+      const {
+        conversation: {
+          id
+        }
+      } = response;
+      const correspondentMatch = this.correspondentMatch;
+      const number = response.direction === messageDirection.inbound ? response.from : response.to;
+      if (number.length !== 1) {
+        return;
+      }
+      const phoneNumber = number[0].phoneNumber || number[0].extensionNumber;
+      const correspondentMatches = this._contactMatcher.dataMapping[phoneNumber];
+      const correspondentEntity = correspondentMatches.filter(match =>
+        (correspondentMatch.some(innerMatch => match.id === innerMatch.rawId)));
+      let entity = null;
+      if (correspondentEntity.length === 1) {
+        [entity] = correspondentEntity;
+        this.removeEntity(entity);
+      }
+      if (entity) {
+        this._conversationLogger.logConversation({
+          correspondentEntity: entity,
+          conversationId: id
+        });
+      }
+    });
   }
 
   @proxify

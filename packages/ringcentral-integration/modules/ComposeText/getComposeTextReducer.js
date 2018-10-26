@@ -1,4 +1,5 @@
 import 'core-js/fn/array/find';
+import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import { combineReducers } from 'redux';
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 
@@ -90,7 +91,28 @@ export function getMessageText(types) {
     }
   };
 }
-
+export function getCorrespondentMatch(types) {
+  return (state = [], {
+    type,
+    entitys = [],
+    entity = {}
+  }) => {
+    switch (type) {
+      case types.addEntity: {
+        const newState = [...entitys];
+        return newState;
+      }
+      case types.removeEntity: {
+        const newState = [...state];
+        const filteredState = newState.filter(item =>
+          (item.rawId !== entity.id && item.id !== entity.id));
+        return filteredState;
+      }
+      default:
+        return state;
+    }
+  };
+}
 export default function getComposeTextReducer(types) {
   return combineReducers({
     status: getModuleStatusReducer(types),
@@ -99,5 +121,6 @@ export default function getComposeTextReducer(types) {
     toNumbers: getToNumbers(types),
     messageText: getMessageText(types),
     toNumberEntity: getToNumberEntityReducer(types),
+    correspondentMatch: getCorrespondentMatch(types)
   });
 }
