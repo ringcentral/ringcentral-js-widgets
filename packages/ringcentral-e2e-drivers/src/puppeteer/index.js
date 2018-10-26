@@ -21,6 +21,14 @@ class Query extends BaseQuery {
     return innerText;
   }
 
+  async getAttributeValue(selector, attribute, options = {}) {
+    const element = await this.waitForSelector(selector, options);
+    const attributeValue = await this._node.evaluate((ele,attr) => {
+      return ele.getAttribute(attr);
+    }, element,attribute);
+    return attributeValue;
+  }
+
   async html(selector) {
     const _selector = this.getSelector(selector);
     await this.waitForSelector(selector);
