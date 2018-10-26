@@ -37,6 +37,7 @@ export default class ActionMenu extends Component {
       externalViewEntity,
       externalHasEntity,
       disableClickToSms,
+      withAnimation,
     } = this.props;
     return (
       <div ref={reference}>
@@ -47,6 +48,7 @@ export default class ActionMenu extends Component {
           extendIconClassName={this.props.extendIconClassName}
           minHeight={0}
           maxHeight={53}
+          withAnimation={withAnimation}
         >
           <ActionMenuList
             onLog={onLog}
@@ -120,6 +122,7 @@ ActionMenu.propTypes = {
   externalViewEntity: PropTypes.func,
   externalHasEntity: PropTypes.bool,
   disableClickToSms: PropTypes.bool,
+  withAnimation: PropTypes.bool,
 };
 ActionMenu.defaultProps = {
   extended: undefined,
@@ -155,4 +158,5 @@ ActionMenu.defaultProps = {
   externalViewEntity: undefined,
   externalHasEntity: undefined,
   disableClickToSms: false,
+  withAnimation: true,
 };

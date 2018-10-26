@@ -26,7 +26,6 @@ import {
   normalizeSession,
   isRing,
   isOnHold,
-  isRecording,
   extractHeadersData,
 } from './webphoneHelper';
 import getWebphoneReducer from './getWebphoneReducer';
@@ -1414,18 +1413,6 @@ export default class Webphone extends RcModule {
     if (typeof handler === 'function') {
       this._onBeforeCallEndFunctions.push(handler);
     }
-  }
-
-  isCallRecording({ session, showAlert = true }) {
-    if (isRecording(session)) {
-      if (showAlert) {
-        this._alert.warning({
-          message: recordStatus.recording,
-        });
-      }
-      return true;
-    }
-    return false;
   }
 
   get status() {

@@ -1,13 +1,9 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import CallItem from '../CallItem';
 import NoCalls from '../NoCalls';
 
-export default class CallList extends React.PureComponent {
-  constructor(props) {
-    super(props);
-  }
-
+export default class CallList extends PureComponent {
   render() {
     const {
       className,
@@ -56,9 +52,6 @@ export default class CallList extends React.PureComponent {
               key={call.id}
               call={call}
               renderIndex={index}
-              extended={
-                (this._renderIndex === index && this._cellExtended) || false
-              }
               currentLocale={currentLocale}
               brand={brand}
               areaCode={areaCode}
@@ -107,8 +100,6 @@ export default class CallList extends React.PureComponent {
 }
 
 CallList.propTypes = {
-  renderIndex: PropTypes.number,
-  extended: PropTypes.bool,
   className: PropTypes.string,
   brand: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
@@ -148,8 +139,6 @@ CallList.propTypes = {
 };
 
 CallList.defaultProps = {
-  renderIndex: undefined,
-  extended: undefined,
   className: null,
   active: false,
   disableLinks: false,

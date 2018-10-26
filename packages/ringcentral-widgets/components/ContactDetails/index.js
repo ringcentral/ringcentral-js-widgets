@@ -145,26 +145,25 @@ export default class ContactDetails extends PureComponent {
   getListItem({
     showCallBtn,
     showTextBtn,
-    onClickToDial,
-    onClickToSMS,
     key,
     number,
     currentLocale,
-    contactItem
+    contactItem,
+    needFormat = true,
   }) {
-    const formattedPhoneNumber = this.props.formatNumber(number);
+    const displayedPhoneNumber = needFormat ? this.props.formatNumber(number) : number;
 
     return (
       <li key={key}>
         <div className={styles.number}>
-          <span title={formattedPhoneNumber}>{formattedPhoneNumber}</span>
+          <span title={displayedPhoneNumber}>{displayedPhoneNumber}</span>
         </div>
         <div className={styles.menu}>
           {showCallBtn
             ? (
               <button
                 title={i18n.getString('call', currentLocale)}
-                onClick={() => onClickToDial(contactItem, number)}
+                onClick={() => this.onClickToDial(contactItem, number)}
               >
                 <i className={dynamicsFont.call} />
               </button>
@@ -175,7 +174,7 @@ export default class ContactDetails extends PureComponent {
             ? (
               <button
                 title={i18n.getString('text', currentLocale)}
-                onClick={() => onClickToSMS(contactItem, number)}
+                onClick={() => this.onClickToSMS(contactItem, number)}
             >
                 <i className={dynamicsFont.composeText} />
               </button>
@@ -190,6 +189,10 @@ export default class ContactDetails extends PureComponent {
   getPhoneSections() {
     const { contactItem, currentLocale } = this.props;
     const { phoneNumbers } = contactItem;
+
+    if (!phoneNumbers.length) {
+      return null;
+    }
 
     const phoneMaps = reduce((acc, phoneNumberElm) => {
       acc[phoneNumberElm.phoneType] = acc[phoneNumberElm.phoneType] || [];
@@ -223,10 +226,11 @@ export default class ContactDetails extends PureComponent {
                       phoneNumberElm => this.getListItem({
                         showCallBtn: this.props.internalSmsPermission,
                         showTextBtn: this.props.onClickToDial,
-                        onClickToDial: this.props.onClickToDial,
-                        onClickToSMS: this.props.onClickToSMS,
                         key: phoneNumberElm.phoneNumber,
                         number: phoneNumberElm.phoneNumber,
+                        currentLocale,
+                        contactItem,
+                        needFormat: false,
                       }),
                       phoneMaps[key]
                     )
@@ -239,10 +243,10 @@ export default class ContactDetails extends PureComponent {
                       phoneNumberElm => this.getListItem({
                         showCallBtn: false,
                         showTextBtn: false,
-                        onClickToDial: this.props.onClickToDial,
-                        onClickToSMS: this.props.onClickToSMS,
                         key: phoneNumberElm.phoneNumber,
                         number: phoneNumberElm.phoneNumber,
+                        currentLocale,
+                        contactItem,
                       }),
                       phoneMaps[key]
                     )
@@ -255,10 +259,10 @@ export default class ContactDetails extends PureComponent {
                       phoneNumberElm => this.getListItem({
                         showCallBtn: this.props.onClickToDial,
                         showTextBtn: this.props.outboundSmsPermission,
-                        onClickToDial: this.props.onClickToDial,
-                        onClickToSMS: this.props.onClickToSMS,
                         key: phoneNumberElm.phoneNumber,
                         number: phoneNumberElm.phoneNumber,
+                        currentLocale,
+                        contactItem,
                       }),
                       phoneMaps[key]
                     )

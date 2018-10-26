@@ -23,7 +23,6 @@ beforeEach(async () => {
 describe('history', () => {
   test('initial state', async () => {
     expect(panel).toBeDefined();
-    expect(panel.props()).toBeDefined();
     await timeout(200); // because there is a setTimeout in CallItem implementation
     const callItems = panel.find(CallItem);
     for (let i = 0; i < callItems.length; i += 1) {

@@ -200,7 +200,7 @@ function mapToFunctions(_, {
       // track user click add on call control
       callMonitor.callControlClickAddTrack();
       const session = find(x => x.id === sessionId, webphone.sessions);
-      if (!session || webphone.isCallRecording({ session })) {
+      if (!session || !conferenceCall.validateCallRecording(session)) {
         return;
       }
       const otherOutboundCalls = filter(
@@ -224,14 +224,14 @@ function mapToFunctions(_, {
     },
     onBeforeMerge(sessionId) {
       const session = find(x => x.id === sessionId, webphone.sessions);
-      if (!session || webphone.isCallRecording({ session })) {
+      if (!session || !conferenceCall.validateCallRecording(session)) {
         return false;
       }
       if (conferenceCall) {
         const conferenceData = Object.values(conferenceCall.conferences)[0];
         if (conferenceData) {
           const conferenceSession = find(x => x.id === conferenceData.sessionId, webphone.sessions);
-          if (conferenceSession && webphone.isCallRecording({ session: conferenceSession })) {
+          if (conferenceSession && !conferenceCall.validateCallRecording(conferenceSession)) {
             return false;
           }
         }

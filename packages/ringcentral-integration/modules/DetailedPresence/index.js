@@ -34,7 +34,7 @@ export default class DetailedPresence extends Presence {
   constructor(options) {
     super({
       getReducer: getDetailedPresenceReducer,
-      subscriptionFilter: subscriptionFilters.detailedPresenceWithSip,
+      subscriptionFilter: subscriptionFilters.detailedPresence,
       actionTypes,
       lastNotDisturbDndStatusStorageKey: 'lastNotDisturbDndStatusDetailPresence',
       ...options
@@ -109,10 +109,14 @@ export default class DetailedPresence extends Presence {
     const { ownerId } = this._auth;
     try {
       const body = (await this._client.service.platform()
-        .get(subscriptionFilters.detailedPresenceWithSip)).json();
+        .get(subscriptionFilters.detailedPresence)).json();
       if (this._auth.ownerId === ownerId) {
+        const { activeCalls = [], totalActiveCalls = 0 } = body;
         this.store.dispatch({
           ...body,
+          // api get doesn't response 'totalActiveCalls' currently
+          // because not like notification, here 'activeCalls' contains all the calls
+          totalActiveCalls: totalActiveCalls || activeCalls.length,
           type: this.actionTypes.fetchSuccess,
           lastDndStatus: this.dndStatus,
           timestamp: Date.now(),
