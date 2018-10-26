@@ -6,8 +6,9 @@ export default function hasActiveCalls(phone) {
     webphone,
     callLogSection,
     callMonitorUI,
+    callingSettings,
   } = phone;
-  if (webphone) {
+  if (webphone && callingSettings.callingMode === callingModes.webphone) {
     // need to show the ringout calls
     return !!(webphone.sessions.length) || (callMonitor && callMonitor.calls.length);
   }
