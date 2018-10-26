@@ -67,6 +67,7 @@ export default class SlideMenu extends Component {
       minHeight,
       maxHeight,
       children,
+      withAnimation,
     } = this.props;
     const {
       extended,
@@ -85,7 +86,13 @@ export default class SlideMenu extends Component {
           className
         )}
       >
-        <div className={styles.wrapper} style={wrapperStyles}>
+        <div
+          className={classnames(
+            styles.wrapper,
+            withAnimation && styles.withAnimation
+          )}
+          style={wrapperStyles}
+        >
           <div
             className={styles.content}
           >
@@ -110,11 +117,15 @@ SlideMenu.propTypes = {
   extendIconClassName: PropTypes.string,
   minHeight: PropTypes.number,
   maxHeight: PropTypes.number,
+  withAnimation: PropTypes.bool,
 };
 SlideMenu.defaultProps = {
   className: undefined,
   extendIconClassName: undefined,
   children: undefined,
+  onToggle: undefined,
+  extended: false,
   minHeight: 0,
   maxHeight: 100,
+  withAnimation: true,
 };

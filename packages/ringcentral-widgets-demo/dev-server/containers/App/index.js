@@ -18,7 +18,7 @@ import MeetingPage from 'ringcentral-widgets/containers/MeetingPage';
 import ConversationsPage from 'ringcentral-widgets/containers/ConversationsPage';
 import SettingsPage from 'ringcentral-widgets/containers/SettingsPage';
 import ActiveCallsPage from 'ringcentral-widgets/containers/ActiveCallsPage';
-import CallHistoryPage from 'ringcentral-widgets/containers/CallHistoryPage';
+import CallsListPage from 'ringcentral-widgets/containers/CallsListPage';
 import IncomingCallPage from 'ringcentral-widgets/containers/IncomingCallPage';
 import CallCtrlPage from 'ringcentral-widgets/containers/CallCtrlPage';
 import CallBadgeContainer from 'ringcentral-widgets/containers/CallBadgeContainer';
@@ -202,7 +202,7 @@ export default function App({
               <Route
                 path="/history"
                 component={() => (
-                  <CallHistoryPage
+                  <CallsListPage
                     showContactDisplayPlaceholder={false}
                     onLogCall={async () => { await sleep(1000); }}
                     onCreateContact={() => { }}

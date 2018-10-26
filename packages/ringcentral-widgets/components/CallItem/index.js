@@ -5,7 +5,6 @@ import 'core-js/fn/array/find';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 import messageTypes from 'ringcentral-integration/enums/messageTypes';
 import messageDirection from 'ringcentral-integration/enums/messageDirection';
-// import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 import {
   isInbound,
   isRinging,
@@ -20,7 +19,6 @@ import formatDuration from '../../lib/formatDuration';
 import ActionMenu from '../ActionMenu';
 import FaxInboundIcon from '../../assets/images/FaxInbound.svg';
 import FaxOutboundIcon from '../../assets/images/FaxOutbound.svg';
-// import Button from '../Button';
 import styles from './styles.scss';
 
 import i18n from './i18n';
@@ -135,11 +133,13 @@ export default class CallItem extends Component {
         selected: this.getInitialContactIndex(nextProps),
       });
     }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.extended !== prevState.extended) {
-      this.setState({ extended: this.props.extended });
+    if (
+      this.props.extended !== nextProps.extended &&
+      this.state.extended !== nextProps.extended
+    ) {
+      this.setState({
+        extended: nextProps.extended,
+      });
     }
   }
 
@@ -167,20 +167,17 @@ export default class CallItem extends Component {
     if (this.contactDisplay && this.contactDisplay.contains(e.target)) {
       return;
     }
-    this.setState(
-      (preState) => ({
-        extended: !preState.extended,
-      }),
-      () => {
-        const {
-          onSizeChanged = undefined,
-          renderIndex = undefined,
-        } = this.props;
-        if (onSizeChanged) {
-          onSizeChanged(renderIndex, this.state.extended);
-        }
-      },
-    );
+    const {
+      onSizeChanged,
+      renderIndex,
+    } = this.props;
+    if (onSizeChanged) {
+      onSizeChanged(renderIndex);
+    } else {
+      this.setState(state => ({
+        extended: !state.extended,
+      }));
+    }
   };
 
   getInitialContactIndex(nextProps = this.props) {
@@ -188,7 +185,7 @@ export default class CallItem extends Component {
     const activityMatches = nextProps.call.activityMatches;
     // console.log('getInitialContactIndex:', nextProps.call.toNumberEntity);
     for (const activity of activityMatches) {
-      const index = contactMatches.findIndex((contact) =>
+      const index = contactMatches.findIndex(contact =>
         // TODO find a better name or mechanism...
         this.props.isLoggedContact(nextProps.call, activity, contact),
       );
@@ -196,7 +193,7 @@ export default class CallItem extends Component {
     }
     if (nextProps.call.toNumberEntity) {
       const index = contactMatches.findIndex(
-        (contact) => contact.id === nextProps.call.toNumberEntity,
+        contact => contact.id === nextProps.call.toNumberEntity,
       );
       return index;
     }
@@ -369,6 +366,7 @@ export default class CallItem extends Component {
       externalViewEntity,
       externalHasEntity,
       readTextPermission,
+      withAnimation,
     } = this.props;
     const phoneNumber = this.getPhoneNumber();
     const contactMatches = this.getContactMatches();
@@ -500,6 +498,7 @@ export default class CallItem extends Component {
             externalHasEntity && externalHasEntity(this.props.call)
           }
           disableClickToSms={disableClickToSms}
+          withAnimation={withAnimation}
         />
       </div>
     );
@@ -559,6 +558,7 @@ CallItem.propTypes = {
   externalHasEntity: PropTypes.func,
   readTextPermission: PropTypes.bool,
   onSizeChanged: PropTypes.func,
+  withAnimation: PropTypes.bool,
 };
 
 CallItem.defaultProps = {
@@ -589,4 +589,5 @@ CallItem.defaultProps = {
   externalHasEntity: undefined,
   readTextPermission: true,
   onSizeChanged: undefined,
+  withAnimation: true,
 };
