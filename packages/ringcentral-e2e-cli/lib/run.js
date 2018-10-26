@@ -62,7 +62,7 @@ const run = (dir, cmd) => {
   const testPathIgnorePatterns = cmd.exclude || [];
   const testerCLI = cmd.testerCLI || [];
   const testerParams = {
-    verbose: true,
+    verbose: cmd.verbose || false,
     testMatch,
     testPathIgnorePatterns
   };

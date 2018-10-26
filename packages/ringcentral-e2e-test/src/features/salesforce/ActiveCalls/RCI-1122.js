@@ -41,33 +41,31 @@ describe('Test Demo: =====>', () => {
       Hangup,
       // Logout,
     )(context);
-    await process.execTo(settingMyRCPhone);
-    // context.driver.addAfterHook(async () => {
-    //   await process.exec(Logout);
-    // });
-    // const RCPhone = await $(app).getText('[class*="DropdownSelect"]');
-    // expect(RCPhone.trim()).toBe('Custom Phone');
     await process.execTo(MakeCall);
-    await $(app).waitFor(1000);
-    await $(app).waitForSelector('[class*="InsideModal-_styles_title"]', { selector: 'css' });
-    const logCall = await $(app).getText('[class*="InsideModal-_styles_title"]', { selector: 'css' });
-    expect(logCall.trim()).toBe('Log Call');
-    await $(app).waitForSelector('[class*=SmCallControl-_styles_buttonDisabled]', { selector: 'css', visible: false });
+    await $(app).waitFor(5000);
+    const unmute = await $(app).getAttributeValue('[class*=SmCallControl-_styles_button]', "class", { selector: 'css', visible: true  });
+    expect(unmute).toContain('Disabled');
+
     await $(app).waitForSelector('[class*=SmCallControl-_styles_hangup]', { selector: 'css', visible: true });
+
     const ringing = await $(app).getText('[class*=LogBasicInfo-_styles_status]', { selector: 'css' });
-    await console.log(ringing);
     expect(ringing.trim()).toBe('Ringing');
     // await $(app).click('[class*=SaveLogButton-_styles_primaryButton]');
     await process.execTo(AnswerCall);
     await $(app).waitFor(5000);
-    await $(app).waitForSelector('[class*=LogSection-_styles_callCtrlWrapper] [class*=SmCallControl-_styles_button]', { selector: 'css', visible: true });
-    await $(app).getText('[class*=LogSection-_styles_callCtrlWrapper] svg[class*=SmCallControl-_styles_button]', { selector: 'css' });
+
+    const mute = await  $(app).getAttributeValue('[class*=SmCallControl-_styles_button]', "class", { selector: 'css' });
+    expect(mute).not.toContain('Disabled');
+
     const connected = await $(app).getText('[class*=LogBasicInfo-_styles_green]', { selector: 'css' });
-    await console.log(connected);
+    expect(connected.trim()).toBe('Connected');
+
     await $(app).click('[class*=LogSection-_styles_callCtrlWrapper] svg[class*=SmCallControl-_styles_button]', { selector: 'css' });
-    await console.log('=======');
-    await $(app).waitForSelector('[class*=SmCallControl-_styles_buttonDisabled]', { selector: 'css', visible: false });
-    await $(app).waitFor(100000);
+    await $(app).waitFor(1000);
+    const unmute1 = await $(app).getAttributeValue('[class*=SmCallControl-_styles_button]', "class", { selector: 'css' });
+    expect(unmute1).toContain('Disabled');
+    await $(app).waitFor(3000);
+    await process.execTo(Hangup);
   });
 
 });
