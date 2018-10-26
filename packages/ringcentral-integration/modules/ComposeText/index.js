@@ -21,6 +21,7 @@ import proxify from '../../lib/proxy/proxify';
     'MessageSender',
     'NumberValidate',
     'RolesAndPermissions',
+    { dep: 'Conversations', optional: true },
     { dep: 'ContactSearch', optional: true },
     { dep: 'ComposeTextOptions', optional: true }
   ]
@@ -44,6 +45,7 @@ export default class ComposeText extends RcModule {
     numberValidate,
     contactSearch,
     rolesAndPermissions,
+    conversations,
     ...options
   }) {
     super({
@@ -61,6 +63,7 @@ export default class ComposeText extends RcModule {
     this._messageSender = messageSender;
     this._numberValidate = numberValidate;
     this._contactSearch = contactSearch;
+    this._conversations = conversations;
     this._lastContactSearchResult = [];
     this.senderNumbersList = [];
     storage.registerReducer({ key: this._storageKey, reducer: this._cacheReducer });
@@ -211,6 +214,7 @@ export default class ComposeText extends RcModule {
         return null;
       }
     }
+    this._conversations.addEntitys(this.toNumbers);
     return this._messageSender.send({ fromNumber, toNumbers, text });
   }
 

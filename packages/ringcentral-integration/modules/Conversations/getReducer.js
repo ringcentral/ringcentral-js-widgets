@@ -159,6 +159,28 @@ export function getConversationStatusReducer(types) {
     }
   };
 }
+export function getCorrespondentMatch(types) {
+  return (state = [], {
+    type,
+    entitys = [],
+    entity = {}
+  }) => {
+    switch (type) {
+      case types.addEntity: {
+        const newState = [...entitys];
+        return newState;
+      }
+      case types.removeEntity: {
+        const newState = [...state];
+        const filteredState = newState.filter(item =>
+          (item.rawId !== entity.id && item.id !== entity.id));
+        return filteredState;
+      }
+      default:
+        return state;
+    }
+  };
+}
 
 export default function getReducer(types) {
   return combineReducers({
@@ -173,5 +195,6 @@ export default function getReducer(types) {
     fetchMessagesStatus: getFetchMessagesStatusReducer(types),
     messageTexts: getMessageTextsReducer(types),
     conversationStatus: getConversationStatusReducer(types),
+    correspondentMatch: getCorrespondentMatch(types)
   });
 }

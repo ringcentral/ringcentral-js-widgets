@@ -90,7 +90,6 @@ export function getMessageText(types) {
     }
   };
 }
-
 export default function getComposeTextReducer(types) {
   return combineReducers({
     status: getModuleStatusReducer(types),

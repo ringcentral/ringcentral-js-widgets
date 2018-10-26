@@ -188,7 +188,7 @@ export default function App({
                   </CallCtrlPage>
                 )} />
               <Route
-                path="/transfer/:sessionsId"
+                path="/transfer/:sessionId"
                 component={routerProps => (
                   <TransferPage params={routerProps.params} />
                 )}
