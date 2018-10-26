@@ -5,15 +5,15 @@ import MessageItem from '../MessageItem';
 import styles from './styles.scss';
 import i18n from './i18n';
 
-function NoMessages(props) {
-  return (
-    <p className={styles.noMessages}>{props.placeholder}</p>
-  );
-}
+// function NoMessages(props) {
+//   return (
+//     <p className={styles.noMessages}>{props.placeholder}</p>
+//   );
+// }
 
-NoMessages.propTypes = {
-  placeholder: PropTypes.string.isRequired,
-};
+// NoMessages.propTypes = {
+//   placeholder: PropTypes.string.isRequired,
+// };
 
 export default class ConversationList extends Component {
   constructor(props) {
@@ -68,9 +68,10 @@ export default class ConversationList extends Component {
           disableLinks={disableLinks}
         />
       ));
-    } else if (!loadingNextPage) {
-      content = (<NoMessages placeholder={placeholder} />);
     }
+    // else if (!loadingNextPage) {
+    //   content = (<NoMessages placeholder={placeholder} />);
+    // }
     const loading = loadingNextPage ? (
       <div className={styles.loading}>
         {i18n.getString('loading', currentLocale)}
