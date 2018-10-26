@@ -1,46 +1,27 @@
 import request from 'request';
-// import { flatten } from 'ramda';
 import { autoAsyncRetry } from './helper';
+import accountTypes from './accountTypes';
 
-const BASE_URL = 'http://10.32.36.75:7789/env';
-const AVAILABLE_ENV = ['xmnup', 'itl'];
-
-// TODO import from a single json file
-export const TagsEnum = {
-  CM_RC_US: 'rc_us_common',
-  CM_RC_EU: 'rc_eu_common',
-  CM_RC_UK: 'rc_uk_common',
-  CM_RC_CA: 'rc_ca_common',
-  SF_RC_EU: 'rc_eu_sfentity',
-  SF_RC_US: 'rc_us_sfentity',
-  SF_RC_UK: 'rc_uk_sfentity',
-  SF_RC_CA: 'rc_ca_sfentity'
+export const BASE_URL = 'http://10.32.36.75:7789/env';
+export const ENV_URLS = {
+  xmnup: 'https://api-xmnup.lab.nordigy.ru',
+  itl: 'https://api-itldevxmn.lab.nordigy.ru'
 };
-Object.freeze(TagsEnum);
+export const envList = Object.keys(ENV_URLS);
 
 export default class AccountHelper {
-  constructor({ baseUrl = BASE_URL } = {}) {
-    this._baseUrl = baseUrl;
+  static get baseUrl() {
+    return BASE_URL;
   }
 
-  getEnv() {
-    const env = process.env.PLATFORM;
-    if (AVAILABLE_ENV.includes(env)) {
-      return env;
-    }
-    return 'itl';
+  static get env() {
+    return this._env;
   }
 
-  static getInstance() {
-    if (this._instance === undefined) {
-      this._instance = new AccountHelper();
-    }
-    return this._instance;
-  }
-
-  static getAccountList = async (tags) => {
-    const promises = tags.map(async (acc) => {
-      const result = await AccountHelper.retryAccount(acc);
+  static async getAccountList(context, accountsList) {
+    this._env = context.options.tag.envs;
+    const promises = accountsList.map(async (acc) => {
+      const result = await this.retryAccount(acc);
       if (result.length === 0) {
         console.error(`Failed getting account using ${acc}`);
       } else if (acc.includes('forwarding')) {
@@ -51,72 +32,67 @@ export default class AccountHelper {
     const accAry = await Promise.all(promises).then(values => values);
     const destroyer = async () => {
       await Promise.all(
-        accAry.map(async acc => AccountHelper.releaseAccount(acc.uuid))
+        accAry.map(async acc => this.releaseAccount(acc.uuid))
       );
     };
     return { accounts: accAry, destroyer };
   }
 
-  static retryAccount = async (scenarioTag) => {
-    if (!Object.values(TagsEnum).includes(scenarioTag)) {
+  static async retryAccount(type) {
+    const scenarioTag = accountTypes[type];
+    if (!Object.values(accountTypes).includes(scenarioTag)) {
       return Promise.reject(new Error(`Invalid tag: ${scenarioTag}`));
     }
-    const instance = AccountHelper.getInstance();
-    const response = autoAsyncRetry(instance.getAccount, scenarioTag)
-      .catch(err => console.error(err));
-    // if (lock) {
-    //   response = response.then((accAry) => {
-    //     const { uuid } = accAry[0];
-    //     return autoAsyncRetry(instance.lockAccount, uuid).then(() => accAry);
-    //   });
-    // }
+    const response = autoAsyncRetry(this.getAccount.bind(this), scenarioTag)
+      .catch((e) => { throw new Error(e); });
+    // const response = this.getAccount(scenarioTag);
     return response;
   }
 
-  static releaseAccount = async (uuid) => {
+  static async releaseAccount(uuid) {
     if (!uuid) return Promise.reject(new Error(`Invalid uuid: ${uuid}`));
-    const instance = AccountHelper.getInstance();
-    const response = await instance.recycleAccount(uuid);
+    const response = await this.recycleAccount(uuid);
     return response;
   }
 
-  baseReq = async (method, path, param) => {
-    const env = this.getEnv();
+  static async baseReq(method, path, param) {
+    console.log(`${this.baseUrl}/${this.env}/account/${path}/${param}`);
     const options = {
       headers: {
         charset: 'UTF-8'
       },
-      url: `${this._baseUrl}/${env}/account/${path}/${param}`,
+      url: `${this.baseUrl}/${this.env}/account/${path}/${param}`,
       method,
       json: true
     };
     // TODO Replace with logger
-    console.log(`${this._baseUrl}/${env}/account/${path}/${param}`);
     return new Promise((resolve, reject) => (request(options, (err, response, body) => {
       if (err) {
+        console.error('AccountHelper_Error:', err);
         reject(err);
       } else {
+        console.log('AccountHelper_Body:', body);
         resolve(body);
       }
     })));
   }
 
-  getAccount = async (scenarioTag) => {
+  static async getAccount(scenarioTag) {
     const response = await this.baseReq('GET', 'tag', scenarioTag);
     return response;
   }
 
-  async getAccountByUUid(uuid) {
+  static async getAccountByUUid(uuid) {
     const response = await this.baseReq('GET', 'id', uuid);
     return response;
   }
 
-  lockAccount = async (uuid) => {
+  static async lockAccount(uuid) {
     const response = await this.baseReq('PUT', 'occupy', uuid);
     return response;
   }
 
-  recycleAccount = async (uuid) => {
+  static async recycleAccount(uuid) {
     const response = await this.baseReq('PUT', 'recycle', uuid);
     return response;
   }

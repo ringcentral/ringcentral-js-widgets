@@ -306,8 +306,46 @@ context.driver.addAfterHook(async () => {
 ```
 TODO
 
-#### Account
+### ENV
 
+1.Default case account environment setting using `e2e.config.js`.
+
+```javascript
+{
+  envs: ['xmnup'],
+}
+```
+
+#### Account Type
+
+1.Default case account type setting using `e2e.config.js`.
+
+```javascript
+{
+  accounts: ['CM_RC_US'],
+}
+```
+
+2.Using account setting on test case.
+
+```javascript
+{
+  title: 'Login with username',
+  tags: [
+    ['widgets', { accounts: ['CM_RC_CA'] }],
+  ],
+  accounts: ['CM_RC_US']
+  options: [
+    { username: '+18552085709*103', password: 'Test!123', callingType: 'myRCPhone', accounts: ['CM_RC_EU', 'CM_RC_UK'], },
+  ],
+}
+```
+
+3.Using `Login` step.
+
+```javascript
+Login({ username: '+18552085709*103', password: 'Test!123' })
+```
 
 ### Benchmark Results
 
