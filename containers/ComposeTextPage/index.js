@@ -58,7 +58,7 @@ function mapToFunctions(_, _ref2) {
       messageStore = _ref2$phone.messageStore,
       regionSettings = _ref2$phone.regionSettings,
       routerInteraction = _ref2$phone.routerInteraction,
-      alert = _ref2$phone.alert,
+      conversations = _ref2$phone.conversations,
       _ref2$formatContactPh = _ref2.formatContactPhone,
       formatContactPhone = _ref2$formatContactPh === undefined ? function (phoneNumber) {
     return (0, _formatNumber2.default)({
@@ -102,6 +102,7 @@ function mapToFunctions(_, _ref2) {
         } else {
           routerInteraction.push('/messages');
         }
+        conversations.relateCorrespondentEntity(responses);
         composeText.clean();
         return null;
       }, function () {
