@@ -43,19 +43,17 @@ var _NoCalls2 = _interopRequireDefault(_NoCalls);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var CallList = function (_React$PureComponent) {
-  (0, _inherits3.default)(CallList, _React$PureComponent);
+var CallList = function (_PureComponent) {
+  (0, _inherits3.default)(CallList, _PureComponent);
 
-  function CallList(props) {
+  function CallList() {
     (0, _classCallCheck3.default)(this, CallList);
-    return (0, _possibleConstructorReturn3.default)(this, (CallList.__proto__ || (0, _getPrototypeOf2.default)(CallList)).call(this, props));
+    return (0, _possibleConstructorReturn3.default)(this, (CallList.__proto__ || (0, _getPrototypeOf2.default)(CallList)).apply(this, arguments));
   }
 
   (0, _createClass3.default)(CallList, [{
     key: 'render',
     value: function render() {
-      var _this2 = this;
-
       var _props = this.props,
           className = _props.className,
           brand = _props.brand,
@@ -104,7 +102,6 @@ var CallList = function (_React$PureComponent) {
               key: call.id,
               call: call,
               renderIndex: index,
-              extended: _this2._renderIndex === index && _this2._cellExtended || false,
               currentLocale: currentLocale,
               brand: brand,
               areaCode: areaCode,
@@ -151,14 +148,12 @@ var CallList = function (_React$PureComponent) {
     }
   }]);
   return CallList;
-}(_react2.default.PureComponent);
+}(_react.PureComponent);
 
 exports.default = CallList;
 
 
 CallList.propTypes = {
-  renderIndex: _propTypes2.default.number,
-  extended: _propTypes2.default.bool,
   className: _propTypes2.default.string,
   brand: _propTypes2.default.string.isRequired,
   currentLocale: _propTypes2.default.string.isRequired,
@@ -198,8 +193,6 @@ CallList.propTypes = {
 };
 
 CallList.defaultProps = {
-  renderIndex: undefined,
-  extended: undefined,
   className: null,
   active: false,
   disableLinks: false,

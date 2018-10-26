@@ -132,7 +132,8 @@ var SlideMenu = function (_Component) {
           className = _props.className,
           minHeight = _props.minHeight,
           maxHeight = _props.maxHeight,
-          children = _props.children;
+          children = _props.children,
+          withAnimation = _props.withAnimation;
       var extended = this.state.extended;
 
 
@@ -147,7 +148,10 @@ var SlideMenu = function (_Component) {
         },
         _react2.default.createElement(
           'div',
-          { className: _styles2.default.wrapper, style: wrapperStyles },
+          {
+            className: (0, _classnames2.default)(_styles2.default.wrapper, withAnimation && _styles2.default.withAnimation),
+            style: wrapperStyles
+          },
           _react2.default.createElement(
             'div',
             {
@@ -175,13 +179,17 @@ SlideMenu.propTypes = {
   className: _propTypes2.default.string,
   extendIconClassName: _propTypes2.default.string,
   minHeight: _propTypes2.default.number,
-  maxHeight: _propTypes2.default.number
+  maxHeight: _propTypes2.default.number,
+  withAnimation: _propTypes2.default.bool
 };
 SlideMenu.defaultProps = {
   className: undefined,
   extendIconClassName: undefined,
   children: undefined,
+  onToggle: undefined,
+  extended: false,
   minHeight: 0,
-  maxHeight: 100
+  maxHeight: 100,
+  withAnimation: true
 };
 //# sourceMappingURL=index.js.map

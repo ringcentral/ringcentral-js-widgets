@@ -50,10 +50,6 @@ var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
 var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
 var _callIconMap;
-// import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
-
-// import Button from '../Button';
-
 
 var _react = require('react');
 
@@ -223,21 +219,19 @@ var CallItem = function (_Component) {
       if (_this.contactDisplay && _this.contactDisplay.contains(e.target)) {
         return;
       }
-      _this.setState(function (preState) {
-        return {
-          extended: !preState.extended
-        };
-      }, function () {
-        var _this$props = _this.props,
-            _this$props$onSizeCha = _this$props.onSizeChanged,
-            onSizeChanged = _this$props$onSizeCha === undefined ? undefined : _this$props$onSizeCha,
-            _this$props$renderInd = _this$props.renderIndex,
-            renderIndex = _this$props$renderInd === undefined ? undefined : _this$props$renderInd;
+      var _this$props = _this.props,
+          onSizeChanged = _this$props.onSizeChanged,
+          renderIndex = _this$props.renderIndex;
 
-        if (onSizeChanged) {
-          onSizeChanged(renderIndex, _this.state.extended);
-        }
-      });
+      if (onSizeChanged) {
+        onSizeChanged(renderIndex);
+      } else {
+        _this.setState(function (state) {
+          return {
+            extended: !state.extended
+          };
+        });
+      }
     };
 
     _this.getSelectedContact = function () {
@@ -379,12 +373,10 @@ var CallItem = function (_Component) {
           selected: this.getInitialContactIndex(nextProps)
         });
       }
-    }
-  }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate(prevProps, prevState) {
-      if (this.props.extended !== prevState.extended) {
-        this.setState({ extended: this.props.extended });
+      if (this.props.extended !== nextProps.extended && this.state.extended !== nextProps.extended) {
+        this.setState({
+          extended: nextProps.extended
+        });
       }
     }
   }, {
@@ -564,7 +556,8 @@ var CallItem = function (_Component) {
           contactDisplayStyle = _props.contactDisplayStyle,
           externalViewEntity = _props.externalViewEntity,
           externalHasEntity = _props.externalHasEntity,
-          readTextPermission = _props.readTextPermission;
+          readTextPermission = _props.readTextPermission,
+          withAnimation = _props.withAnimation;
 
       var phoneNumber = this.getPhoneNumber();
       var contactMatches = this.getContactMatches();
@@ -677,7 +670,8 @@ var CallItem = function (_Component) {
           viewEntityTitle: _i18n2.default.getString('viewDetails', currentLocale),
           externalViewEntity: externalViewEntity && this.externalViewEntity,
           externalHasEntity: externalHasEntity && externalHasEntity(this.props.call),
-          disableClickToSms: disableClickToSms
+          disableClickToSms: disableClickToSms,
+          withAnimation: withAnimation
         })
       );
     }
@@ -740,7 +734,8 @@ CallItem.propTypes = {
   externalViewEntity: _propTypes2.default.func,
   externalHasEntity: _propTypes2.default.func,
   readTextPermission: _propTypes2.default.bool,
-  onSizeChanged: _propTypes2.default.func
+  onSizeChanged: _propTypes2.default.func,
+  withAnimation: _propTypes2.default.bool
 };
 
 CallItem.defaultProps = {
@@ -772,6 +767,7 @@ CallItem.defaultProps = {
   externalViewEntity: undefined,
   externalHasEntity: undefined,
   readTextPermission: true,
-  onSizeChanged: undefined
+  onSizeChanged: undefined,
+  withAnimation: true
 };
 //# sourceMappingURL=index.js.map

@@ -1,5 +1,10 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = NoCalls;
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -7,10 +12,6 @@ var _react2 = _interopRequireDefault(_react);
 var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _CallItem = require('../CallItem');
-
-var _CallItem2 = _interopRequireDefault(_CallItem);
 
 var _styles = require('./styles.scss');
 

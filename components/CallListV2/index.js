@@ -33,6 +33,8 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _reactVirtualized = require('react-virtualized');
+
 var _CallItem = require('../CallItem');
 
 var _CallItem2 = _interopRequireDefault(_CallItem);
@@ -40,8 +42,6 @@ var _CallItem2 = _interopRequireDefault(_CallItem);
 var _NoCalls = require('../NoCalls');
 
 var _NoCalls2 = _interopRequireDefault(_NoCalls);
-
-var _reactVirtualized = require('react-virtualized');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53,27 +53,38 @@ var CallListV2 = function (_React$PureComponent) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallListV2.__proto__ || (0, _getPrototypeOf2.default)(CallListV2)).call(this, props));
 
-    _this._resizeAll = function (index, extended) {
-      _this._resizeAllFlag = false;
-      _this._renderIndex = index;
-      _this._cellExtended = extended;
-      if (_this._list && _this._list.current) {
-        _this._list.current.recomputeRowHeights();
-        _this._list.current.forceUpdateGrid();
+    _this._setExtendedIndex = function (extendedIndex) {
+      _this.setState({
+        extendedIndex: extendedIndex
+      }, function () {
+        if (_this._list && _this._list.current) {
+          _this._list.current.recomputeRowHeights(0);
+        }
+      });
+    };
+
+    _this._onSizeChanged = function (index) {
+      if (_this.state.extendedIndex === index) {
+        _this._setExtendedIndex(null);
+      } else {
+        _this._setExtendedIndex(index);
       }
     };
 
-    _this._renderRowHeight = function (params) {
-      if (_this._renderIndex !== undefined && _this._renderIndex === params.index && _this._cellExtended) {
-        return _this._rowHeight * 2;
-      }
-      return _this._rowHeight;
+    _this._renderRowHeight = function (_ref) {
+      var index = _ref.index;
+
+      // If we don't add extra height for the last item
+      // the toggle button will be cut off
+      var margin = index === _this.props.calls.length - 1 ? 15 : 0;
+      var rowHeight = index === _this.state.extendedIndex ? _this.props.extendedRowHeight : _this.props.rowHeight;
+      return rowHeight + margin;
     };
 
-    _this._rowRender = function (_ref) {
-      var index = _ref.index,
-          key = _ref.key,
-          style = _ref.style;
+    _this._rowRender = function (_ref2) {
+      var index = _ref2.index,
+          key = _ref2.key,
+          style = _ref2.style;
       var _this$props = _this.props,
           className = _this$props.className,
           brand = _this$props.brand,
@@ -125,7 +136,7 @@ var CallListV2 = function (_React$PureComponent) {
         content = _react2.default.createElement(_CallItem2.default, {
           key: call.id,
           renderIndex: index,
-          extended: _this._renderIndex === index && _this._cellExtended || false,
+          extended: _this.state.extendedIndex === index,
           style: style,
           call: call,
           currentLocale: currentLocale,
@@ -162,7 +173,9 @@ var CallListV2 = function (_React$PureComponent) {
           externalViewEntity: externalViewEntity,
           externalHasEntity: externalHasEntity,
           readTextPermission: readTextPermission,
-          onSizeChanged: _this._resizeAll
+          onSizeChanged: _this._onSizeChanged
+          // disable animation when rendered with react-virtualized
+          , withAnimation: false
         });
       }
 
@@ -173,59 +186,47 @@ var CallListV2 = function (_React$PureComponent) {
       );
     };
 
-    _this._rowHeight = 65;
+    _this.state = {
+      extendedIndex: null
+    };
     _this._list = _react2.default.createRef();
-
-    _this._mostRecentWidth = 0;
-    _this._resizeAllFlag = false;
     return _this;
   }
 
   (0, _createClass3.default)(CallListV2, [{
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate(prevProps) {
-      if (this.props.calls !== prevProps.calls) {
-        if (this._list && this._list.current) {
-          this._list.current.forceUpdateGrid();
-        }
-      }
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      var extendedIndex = this.state.extendedIndex;
 
-      if (this._resizeAllFlag) {
-        this._resizeAllFlag = false;
-
-        if (this._list) {
-          this._list.current.recomputeRowHeights();
-        }
-      } else if (this.props.calls !== prevProps.calls) {
-        var index = prevProps.calls.length;
-        if (this._list) {
-          this._list.current.recomputeRowHeights(index);
-        }
+      if (extendedIndex !== null && this.props.calls[extendedIndex] !== nextProps.calls[extendedIndex]) {
+        this._setExtendedIndex(null);
       }
     }
   }, {
     key: 'render',
     value: function render() {
       var _props = this.props,
+          width = _props.width,
+          height = _props.height,
           calls = _props.calls,
-          className = _props.className,
-          _props$width = _props.width,
-          width = _props$width === undefined ? 300 : _props$width,
-          _props$height = _props.height,
-          height = _props$height === undefined ? 315 : _props$height;
+          className = _props.className;
 
 
-      return _react2.default.createElement(_reactVirtualized.List, {
-        style: { outline: 'none' },
-        ref: this._list,
-        width: width,
-        height: height,
-        overscanRowCount: 15,
-        className: className,
-        rowCount: calls.length,
-        rowHeight: this._renderRowHeight,
-        rowRenderer: this._rowRender
-      });
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(_reactVirtualized.List, {
+          style: { outline: 'none' },
+          ref: this._list,
+          width: width,
+          height: height,
+          overscanRowCount: 15,
+          className: className,
+          rowCount: calls.length,
+          rowHeight: this._renderRowHeight,
+          rowRenderer: this._rowRender
+        })
+      );
     }
   }]);
   return CallListV2;
@@ -272,7 +273,9 @@ CallListV2.propTypes = {
   contactDisplayStyle: _propTypes2.default.string,
   externalViewEntity: _propTypes2.default.func,
   externalHasEntity: _propTypes2.default.func,
-  readTextPermission: _propTypes2.default.bool
+  readTextPermission: _propTypes2.default.bool,
+  rowHeight: _propTypes2.default.number,
+  extendedRowHeight: _propTypes2.default.number
 };
 
 CallListV2.defaultProps = {
@@ -305,6 +308,8 @@ CallListV2.defaultProps = {
   contactDisplayStyle: undefined,
   externalViewEntity: undefined,
   externalHasEntity: undefined,
-  readTextPermission: true
+  readTextPermission: true,
+  rowHeight: 65,
+  extendedRowHeight: 130
 };
 //# sourceMappingURL=index.js.map

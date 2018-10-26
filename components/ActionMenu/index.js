@@ -85,7 +85,8 @@ var ActionMenu = function (_Component) {
           markTitle = _props.markTitle,
           externalViewEntity = _props.externalViewEntity,
           externalHasEntity = _props.externalHasEntity,
-          disableClickToSms = _props.disableClickToSms;
+          disableClickToSms = _props.disableClickToSms,
+          withAnimation = _props.withAnimation;
 
       return _react2.default.createElement(
         'div',
@@ -98,7 +99,8 @@ var ActionMenu = function (_Component) {
             className: className,
             extendIconClassName: this.props.extendIconClassName,
             minHeight: 0,
-            maxHeight: 53
+            maxHeight: 53,
+            withAnimation: withAnimation
           },
           _react2.default.createElement(_ActionMenuList2.default, {
             onLog: onLog,
@@ -175,7 +177,8 @@ ActionMenu.propTypes = {
   markTitle: _propTypes2.default.string,
   externalViewEntity: _propTypes2.default.func,
   externalHasEntity: _propTypes2.default.bool,
-  disableClickToSms: _propTypes2.default.bool
+  disableClickToSms: _propTypes2.default.bool,
+  withAnimation: _propTypes2.default.bool
 };
 ActionMenu.defaultProps = {
   extended: undefined,
@@ -210,6 +213,7 @@ ActionMenu.defaultProps = {
   markTitle: undefined,
   externalViewEntity: undefined,
   externalHasEntity: undefined,
-  disableClickToSms: false
+  disableClickToSms: false,
+  withAnimation: true
 };
 //# sourceMappingURL=index.js.map

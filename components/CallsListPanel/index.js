@@ -243,19 +243,9 @@ ActiveCallList.defaultProps = {
 var CallsListPanel = function (_Component) {
   (0, _inherits3.default)(CallsListPanel, _Component);
 
-  function CallsListPanel(props) {
+  function CallsListPanel() {
     (0, _classCallCheck3.default)(this, CallsListPanel);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (CallsListPanel.__proto__ || (0, _getPrototypeOf2.default)(CallsListPanel)).call(this, props));
-
-    _this.renderCallList = function () {};
-
-    _this._callListWrapper = _react2.default.createRef();
-    _this.state = {
-      listWidth: 0,
-      listHeight: 0
-    };
-    return _this;
+    return (0, _possibleConstructorReturn3.default)(this, (CallsListPanel.__proto__ || (0, _getPrototypeOf2.default)(CallsListPanel)).apply(this, arguments));
   }
 
   (0, _createClass3.default)(CallsListPanel, [{
@@ -264,7 +254,6 @@ var CallsListPanel = function (_Component) {
       if (!this.hasCalls(this.props) && typeof this.props.onCallsEmpty === 'function') {
         this.props.onCallsEmpty();
       }
-      this.forceUpdate();
     }
   }, {
     key: 'componentWillReceiveProps',
@@ -539,8 +528,7 @@ var CallsListPanel = function (_Component) {
       var historyCall = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : _react2.default.createElement(
         'div',
         {
-          className: (0, _classnames2.default)(_styles2.default.list, className),
-          ref: this._callListWrapper
+          className: (0, _classnames2.default)(_styles2.default.list, className)
         },
         _react2.default.createElement(
           'div',
@@ -566,7 +554,8 @@ var CallsListPanel = function (_Component) {
         _react2.default.createElement(
           'div',
           {
-            className: (0, _classnames2.default)(_styles2.default.root, currentLog && currentLog.showLog ? _styles2.default.hiddenScroll : '', className)
+            className: (0, _classnames2.default)(_styles2.default.root, currentLog && currentLog.showLog ? _styles2.default.hiddenScroll : '', className),
+            ref: this._root
           },
           onlyHistory || getCallList(activeRingCalls, _i18n2.default.getString('ringCall', currentLocale)),
           onlyHistory || getCallList(activeCurrentCalls, _i18n2.default.getString('currentCall', currentLocale)),
@@ -658,8 +647,8 @@ CallsListPanel.propTypes = {
 
 CallsListPanel.defaultProps = {
   useNewList: false,
-  width: undefined,
-  height: undefined,
+  width: 300,
+  height: 315,
   className: undefined,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
