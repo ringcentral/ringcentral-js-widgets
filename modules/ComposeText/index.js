@@ -117,7 +117,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @description Compose text managing module
  */
 var ComposeText = (_dec = (0, _di.Module)({
-  deps: ['Alert', 'Auth', 'Storage', 'MessageSender', 'NumberValidate', 'RolesAndPermissions', { dep: 'ContactSearch', optional: true }, { dep: 'ComposeTextOptions', optional: true }]
+  deps: ['Alert', 'Auth', 'Storage', 'MessageSender', 'NumberValidate', 'RolesAndPermissions', { dep: 'Conversations', optional: true }, { dep: 'ContactSearch', optional: true }, { dep: 'ComposeTextOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(ComposeText, _RcModule);
 
@@ -139,7 +139,8 @@ var ComposeText = (_dec = (0, _di.Module)({
         numberValidate = _ref.numberValidate,
         contactSearch = _ref.contactSearch,
         rolesAndPermissions = _ref.rolesAndPermissions,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'auth', 'storage', 'messageSender', 'numberValidate', 'contactSearch', 'rolesAndPermissions']);
+        conversations = _ref.conversations,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'auth', 'storage', 'messageSender', 'numberValidate', 'contactSearch', 'rolesAndPermissions', 'conversations']);
     (0, _classCallCheck3.default)(this, ComposeText);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ComposeText.__proto__ || (0, _getPrototypeOf2.default)(ComposeText)).call(this, (0, _extends3.default)({}, options, {
@@ -156,6 +157,7 @@ var ComposeText = (_dec = (0, _di.Module)({
     _this._messageSender = messageSender;
     _this._numberValidate = numberValidate;
     _this._contactSearch = contactSearch;
+    _this._conversations = conversations;
     _this._lastContactSearchResult = [];
     _this.senderNumbersList = [];
     storage.registerReducer({ key: _this._storageKey, reducer: _this._cacheReducer });
@@ -313,9 +315,10 @@ var ComposeText = (_dec = (0, _di.Module)({
                 return _context.abrupt('return', null);
 
               case 10:
+                this._conversations.addEntitys(this.toNumbers);
                 return _context.abrupt('return', this._messageSender.send({ fromNumber: fromNumber, toNumbers: toNumbers, text: text }));
 
-              case 11:
+              case 12:
               case 'end':
                 return _context.stop();
             }

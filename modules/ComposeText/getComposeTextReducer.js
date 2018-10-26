@@ -133,7 +133,6 @@ function getMessageText(types) {
     }
   };
 }
-
 function getComposeTextReducer(types) {
   return (0, _redux.combineReducers)({
     status: (0, _getModuleStatusReducer2.default)(types),

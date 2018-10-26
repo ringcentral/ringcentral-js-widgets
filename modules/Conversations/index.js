@@ -17,6 +17,10 @@ var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-pr
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
+var _slicedToArray2 = require('babel-runtime/helpers/slicedToArray');
+
+var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -56,6 +60,10 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11;
 
 var _reselect = require('reselect');
+
+var _messageDirection = require('../../enums/messageDirection');
+
+var _messageDirection2 = _interopRequireDefault(_messageDirection);
 
 var _RcModule2 = require('../../lib/RcModule');
 
@@ -981,6 +989,61 @@ var Conversations = (_dec = (0, _di.Module)({
       return deleteCoversation;
     }()
   }, {
+    key: 'addEntitys',
+    value: function addEntitys(entitys) {
+      this.store.dispatch({
+        type: this.actionTypes.addEntity,
+        entitys: entitys
+      });
+    }
+  }, {
+    key: 'removeEntity',
+    value: function removeEntity(entity) {
+      this.store.dispatch({
+        type: this.actionTypes.removeEntity,
+        entity: entity
+      });
+    }
+  }, {
+    key: 'relateCorrespondentEntity',
+    value: function relateCorrespondentEntity(responses) {
+      var _this3 = this;
+
+      if (!this._contactMatcher || !this._conversationLogger || !this.correspondentMatch.length) {
+        return;
+      }
+      responses.forEach(function (response) {
+        var id = response.conversation.id;
+
+        var correspondentMatch = _this3.correspondentMatch;
+        var number = response.direction === _messageDirection2.default.inbound ? response.from : response.to;
+        if (number.length !== 1) {
+          return;
+        }
+        var phoneNumber = number[0].phoneNumber || number[0].extensionNumber;
+        var correspondentMatches = _this3._contactMatcher.dataMapping[phoneNumber];
+        var correspondentEntity = correspondentMatches.filter(function (match) {
+          return correspondentMatch.some(function (innerMatch) {
+            return match.id === innerMatch.rawId;
+          });
+        });
+        var entity = null;
+        if (correspondentEntity.length === 1) {
+          var _correspondentEntity = (0, _slicedToArray3.default)(correspondentEntity, 1);
+
+          entity = _correspondentEntity[0];
+
+          _this3.removeEntity(entity);
+        }
+        if (entity) {
+          _this3._conversationLogger.logConversation({
+            correspondentEntity: entity,
+            conversationId: id
+          });
+        }
+      });
+    }
+  }, {
     key: 'status',
     get: function get() {
       return this.state.status;
@@ -1045,17 +1108,22 @@ var Conversations = (_dec = (0, _di.Module)({
     get: function get() {
       return this._rolesAndPermissions.hasReadMessagesPermission;
     }
+  }, {
+    key: 'correspondentMatch',
+    get: function get() {
+      return this.state.correspondentMatch;
+    }
   }]);
   return Conversations;
 }(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'updateSearchInput', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateSearchInput'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateTypeFilter', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateTypeFilter'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'fetchOldConversations', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'fetchOldConversations'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'loadNextPage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'loadNextPage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'resetCurrentPage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'resetCurrentPage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'loadConversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'loadConversation'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unloadConversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unloadConversation'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'fetchOldMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'fetchOldMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateMessageText', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateMessageText'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'replyToReceivers', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'replyToReceivers'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'deleteCoversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'deleteCoversation'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'allConversations', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this3 = this;
+    var _this4 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this3._messageStore.allConversations;
+      return _this4._messageStore.allConversations;
     }, function () {
-      return _this3.oldConversations;
+      return _this4.oldConversations;
     }, function (conversations, oldConversations) {
       if (oldConversations.length === 0) {
         return conversations;
@@ -1077,28 +1145,28 @@ var Conversations = (_dec = (0, _di.Module)({
 }), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'uniqueNumbers', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this4 = this;
+    var _this5 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this4.pagingConversations;
+      return _this5.pagingConversations;
     }, getUniqueNumbers);
   }
 }), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'allUniqueNumbers', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this5 = this;
+    var _this6 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this5.allConversations;
+      return _this6.allConversations;
     }, getUniqueNumbers);
   }
 }), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'effectiveSearchString', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this6 = this;
+    var _this7 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this6.state.searchInput;
+      return _this7.state.searchInput;
     }, function (input) {
       if (input.length >= 3) return input;
       return '';
@@ -1107,12 +1175,12 @@ var Conversations = (_dec = (0, _di.Module)({
 }), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'typeFilteredConversations', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this7 = this;
+    var _this8 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this7.allConversations;
+      return _this8.allConversations;
     }, function () {
-      return _this7.typeFilter;
+      return _this8.typeFilter;
     }, function (allConversations, typeFilter) {
       switch (typeFilter) {
         case _messageTypes2.default.text:
@@ -1123,7 +1191,7 @@ var Conversations = (_dec = (0, _di.Module)({
           return allConversations.filter(_messageHelper.messageIsFax);
         default:
           return allConversations.filter(function (conversation) {
-            return (_this7._rolesAndPermissions.readTextPermissions || !(0, _messageHelper.messageIsTextMessage)(conversation)) && (_this7._rolesAndPermissions.voicemailPermissions || !(0, _messageHelper.messageIsVoicemail)(conversation)) && (_this7._rolesAndPermissions.readFaxPermissions || !(0, _messageHelper.messageIsFax)(conversation));
+            return (_this8._rolesAndPermissions.readTextPermissions || !(0, _messageHelper.messageIsTextMessage)(conversation)) && (_this8._rolesAndPermissions.voicemailPermissions || !(0, _messageHelper.messageIsVoicemail)(conversation)) && (_this8._rolesAndPermissions.readFaxPermissions || !(0, _messageHelper.messageIsFax)(conversation));
           });
       }
     });
@@ -1131,20 +1199,20 @@ var Conversations = (_dec = (0, _di.Module)({
 }), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, 'formatedConversations', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this8 = this;
+    var _this9 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this8.typeFilteredConversations;
+      return _this9.typeFilteredConversations;
     }, function () {
-      return _this8._extensionInfo.extensionNumber;
+      return _this9._extensionInfo.extensionNumber;
     }, function () {
-      return _this8._contactMatcher && _this8._contactMatcher.dataMapping;
+      return _this9._contactMatcher && _this9._contactMatcher.dataMapping;
     }, function () {
-      return _this8._conversationLogger && _this8._conversationLogger.loggingMap;
+      return _this9._conversationLogger && _this9._conversationLogger.loggingMap;
     }, function () {
-      return _this8._conversationLogger && _this8._conversationLogger.dataMapping;
+      return _this9._conversationLogger && _this9._conversationLogger.dataMapping;
     }, function () {
-      return _this8._auth.accessToken;
+      return _this9._auth.accessToken;
     }, function (conversations, extensionNumber) {
       var contactMapping = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
       var loggingMap = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
@@ -1161,7 +1229,7 @@ var Conversations = (_dec = (0, _di.Module)({
           var number = contact && (contact.phoneNumber || contact.extensionNumber);
           return number && contactMapping[number] && contactMapping[number].length ? matches.concat(contactMapping[number]) : matches;
         }, []);
-        var conversationLogId = _this8._conversationLogger ? _this8._conversationLogger.getConversationLogId(message) : null;
+        var conversationLogId = _this9._conversationLogger ? _this9._conversationLogger.getConversationLogId(message) : null;
         var isLogging = !!(conversationLogId && loggingMap[conversationLogId]);
         var conversationMatches = conversationLogMapping[conversationLogId] || [];
         var voicemailAttachment = null;
@@ -1177,7 +1245,7 @@ var Conversations = (_dec = (0, _di.Module)({
           unreadCounts = (0, _messageHelper.messageIsUnread)(message) ? 1 : 0;
         }
         var mmsAttachment = null;
-        if ((0, _messageHelper.messageIsTextMessage)(message) && (0, _isBlank2.default)(message.subject) && _this8._showMMSAttachment) {
+        if ((0, _messageHelper.messageIsTextMessage)(message) && (0, _isBlank2.default)(message.subject) && _this9._showMMSAttachment) {
           mmsAttachment = (0, _messageHelper.getMMSAttachment)(message);
         }
         return (0, _extends3.default)({}, message, {
@@ -1192,7 +1260,7 @@ var Conversations = (_dec = (0, _di.Module)({
           voicemailAttachment: voicemailAttachment,
           faxAttachment: faxAttachment,
           mmsAttachment: mmsAttachment,
-          lastMatchedCorrespondentEntity: _this8._conversationLogger && _this8._conversationLogger.getLastMatchedCorrespondentEntity(message) || null
+          lastMatchedCorrespondentEntity: _this9._conversationLogger && _this9._conversationLogger.getLastMatchedCorrespondentEntity(message) || null
         });
       });
     });
@@ -1200,12 +1268,12 @@ var Conversations = (_dec = (0, _di.Module)({
 }), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, 'filteredConversations', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this9 = this;
+    var _this10 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this9.formatedConversations;
+      return _this10.formatedConversations;
     }, function () {
-      return _this9.effectiveSearchString;
+      return _this10.effectiveSearchString;
     }, function (conversations, effectiveSearchString) {
       if (effectiveSearchString === '') {
         return conversations;
@@ -1253,7 +1321,7 @@ var Conversations = (_dec = (0, _di.Module)({
           }));
           return;
         }
-        var messageList = _this9._messageStore.conversationStore[message.conversationId] || [];
+        var messageList = _this10._messageStore.conversationStore[message.conversationId] || [];
         var matchedMessage = messageList.find(function (item) {
           return (item.subject || '').toLowerCase().indexOf(searchString) > -1;
         });
@@ -1270,47 +1338,47 @@ var Conversations = (_dec = (0, _di.Module)({
 }), _descriptor8 = _applyDecoratedDescriptor(_class2.prototype, 'pagingConversations', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this10 = this;
+    var _this11 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this10.filteredConversations;
+      return _this11.filteredConversations;
     }, function () {
-      return _this10.currentPage;
+      return _this11.currentPage;
     }, function (conversations, pageNumber) {
-      var lastIndex = pageNumber * _this10._perPage;
+      var lastIndex = pageNumber * _this11._perPage;
       return conversations.slice(0, lastIndex);
     });
   }
 }), _descriptor9 = _applyDecoratedDescriptor(_class2.prototype, 'earliestTime', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this11 = this;
+    var _this12 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this11.typeFilteredConversations;
+      return _this12.typeFilteredConversations;
     }, getEarliestTime);
   }
 }), _descriptor10 = _applyDecoratedDescriptor(_class2.prototype, 'currentConversation', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this12 = this;
+    var _this13 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this12.currentConversationId;
+      return _this13.currentConversationId;
     }, function () {
-      return _this12._extensionInfo.extensionNumber;
+      return _this13._extensionInfo.extensionNumber;
     }, function () {
-      return _this12._contactMatcher && _this12._contactMatcher.dataMapping;
+      return _this13._contactMatcher && _this13._contactMatcher.dataMapping;
     }, function () {
-      return _this12.oldMessages;
+      return _this13.oldMessages;
     }, function () {
-      return _this12._messageStore.conversationStore;
+      return _this13._messageStore.conversationStore;
     }, function () {
-      return _this12.allConversations;
+      return _this13.allConversations;
     }, function () {
-      return _this12._auth.accessToken;
+      return _this13._auth.accessToken;
     }, function () {
-      return _this12._conversationLogger && _this12._conversationLogger.dataMapping;
+      return _this13._conversationLogger && _this13._conversationLogger.dataMapping;
     }, function (conversationId, extensionNumber, contactMapping, oldMessages, conversationStore, conversations, accessToken) {
       var conversationLogMapping = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : {};
 
@@ -1320,7 +1388,7 @@ var Conversations = (_dec = (0, _di.Module)({
       var messages = [].concat(conversationStore[conversationId] || []);
       var currentConversation = (0, _extends3.default)({}, conversation);
       var allMessages = messages.concat(oldMessages).map(function (m) {
-        if (!_this12._showMMSAttachment) {
+        if (!_this13._showMMSAttachment) {
           return m;
         }
         var mmsAttachment = (0, _messageHelper.getMMSAttachment)(m, accessToken);
@@ -1337,7 +1405,7 @@ var Conversations = (_dec = (0, _di.Module)({
         var number = contact && (contact.phoneNumber || contact.extensionNumber);
         return number && contactMapping[number] && contactMapping[number].length ? matches.concat(contactMapping[number]) : matches;
       }, []);
-      var conversationLogId = _this12._conversationLogger ? _this12._conversationLogger.getConversationLogId(conversation) : null;
+      var conversationLogId = _this13._conversationLogger ? _this13._conversationLogger.getConversationLogId(conversation) : null;
       var conversationMatches = conversationLogMapping[conversationLogId] || [];
       currentConversation.correspondents = correspondents;
       currentConversation.correspondentMatches = correspondentMatches;
@@ -1345,7 +1413,7 @@ var Conversations = (_dec = (0, _di.Module)({
       currentConversation.messages = allMessages.reverse();
       currentConversation.senderNumber = (0, _messageHelper.getMyNumberFromMessage)({
         message: conversation,
-        myExtensionNumber: _this12._extensionInfo.extensionNumber
+        myExtensionNumber: _this13._extensionInfo.extensionNumber
       });
       currentConversation.recipients = (0, _messageHelper.getRecipientNumbersFromMessage)({
         message: conversation,
@@ -1357,12 +1425,12 @@ var Conversations = (_dec = (0, _di.Module)({
 }), _descriptor11 = _applyDecoratedDescriptor(_class2.prototype, 'messageText', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this13 = this;
+    var _this14 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this13.state.messageTexts;
+      return _this14.state.messageTexts;
     }, function () {
-      return _this13.currentConversationId;
+      return _this14.currentConversationId;
     }, function (messageTexts, conversationId) {
       var res = messageTexts.find(function (msg) {
         return (typeof msg === 'undefined' ? 'undefined' : (0, _typeof3.default)(msg)) === 'object' && msg.conversationId === conversationId;

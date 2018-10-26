@@ -4,6 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
 var _typeof2 = require('babel-runtime/helpers/typeof');
 
 var _typeof3 = _interopRequireDefault(_typeof2);
@@ -18,6 +22,7 @@ exports.getOldMessagesReducer = getOldMessagesReducer;
 exports.getFetchMessagesStatusReducer = getFetchMessagesStatusReducer;
 exports.getMessageTextsReducer = getMessageTextsReducer;
 exports.getConversationStatusReducer = getConversationStatusReducer;
+exports.getCorrespondentMatch = getCorrespondentMatch;
 exports.default = getReducer;
 
 var _redux = require('redux');
@@ -245,6 +250,35 @@ function getConversationStatusReducer(types) {
     }
   };
 }
+function getCorrespondentMatch(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var _ref11 = arguments[1];
+    var type = _ref11.type,
+        _ref11$entitys = _ref11.entitys,
+        entitys = _ref11$entitys === undefined ? [] : _ref11$entitys,
+        _ref11$entity = _ref11.entity,
+        entity = _ref11$entity === undefined ? {} : _ref11$entity;
+
+    switch (type) {
+      case types.addEntity:
+        {
+          var newState = [].concat((0, _toConsumableArray3.default)(entitys));
+          return newState;
+        }
+      case types.removeEntity:
+        {
+          var _newState = [].concat((0, _toConsumableArray3.default)(state));
+          var filteredState = _newState.filter(function (item) {
+            return item.rawId !== entity.id && item.id !== entity.id;
+          });
+          return filteredState;
+        }
+      default:
+        return state;
+    }
+  };
+}
 
 function getReducer(types) {
   return (0, _redux.combineReducers)({
@@ -258,7 +292,8 @@ function getReducer(types) {
     oldMessages: getOldMessagesReducer(types),
     fetchMessagesStatus: getFetchMessagesStatusReducer(types),
     messageTexts: getMessageTextsReducer(types),
-    conversationStatus: getConversationStatusReducer(types)
+    conversationStatus: getConversationStatusReducer(types),
+    correspondentMatch: getCorrespondentMatch(types)
   });
 }
 //# sourceMappingURL=getReducer.js.map
