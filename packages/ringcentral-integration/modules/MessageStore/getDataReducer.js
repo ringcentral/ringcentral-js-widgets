@@ -74,17 +74,8 @@ export function getConversationListReducer(types) {
       case types.deleteConversation:
         return state.filter(c => c.id !== conversationId);
 
-      case types.sliceReadConversations: {
-        const newState = state.slice(0, length);
-        const clearState = state.slice(length);
-
-        return newState.concat(
-          clearState.filter((item) => {
-            const messageList = conversationStore[item.id] || [];
-            return messageList.some(msg => messageHelper.messageIsUnread(msg));
-          })
-        );
-      }
+      case types.sliceConversations:
+        return state.slice(0, length);
       case types.resetSuccess:
         return [];
       default:

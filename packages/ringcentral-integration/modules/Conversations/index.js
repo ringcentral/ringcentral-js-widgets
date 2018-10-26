@@ -141,6 +141,14 @@ export default class Conversations extends RcModule {
   }
 
   _onStateChange() {
+    function checkSliceConversation(curList = [], nextList = []) {
+      const curLen = curList.length;
+      const nextLen = nextList.length;
+      const lastSessionInCurList = curList[curLen - 1];
+      const lastSessionInNextList = nextList[nextLen - 1];
+      return (nextLen < curLen)
+      && (lastSessionInCurList.conversationId !== lastSessionInNextList.conversationId);
+    }
     if (this._shouldInit()) {
       this._init();
     } else if (this._shouldReset()) {
@@ -149,7 +157,8 @@ export default class Conversations extends RcModule {
       this._lastProcessedNumbers !== this.allUniqueNumbers ||
       this._lastProcessedPage !== this.currentPage ||
       this._lastTypeFilter !== this.typeFilter ||
-      this._lastSearchString !== this.effectiveSearchString
+      this._lastSearchString !== this.effectiveSearchString ||
+      this._lastAllConversaions !== this.allConversations
     ) {
       this._lastProcessedNumbers = this.allUniqueNumbers;
       this._lastProcessedPage = this.currentPage;
@@ -157,6 +166,12 @@ export default class Conversations extends RcModule {
       this._lastSearchString = this.effectiveSearchString;
       if (this._contactMatcher) {
         this._contactMatcher.triggerMatch();
+      }
+      if (checkSliceConversation(this._lastAllConversaions, this.allConversations)) {
+        this._lastAllConversaions = this.allConversations;
+        this.store.dispatch({
+          type: this.actionTypes.cleanOldConversatioans
+        });
       }
     }
   }

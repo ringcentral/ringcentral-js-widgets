@@ -504,11 +504,10 @@ export default class MessageStore extends Pollable {
     return response;
   }
 
-  sliceReadConversations(len) {
+  sliceConversations(len) {
     this.store.dispatch({
-      type: this.actionTypes.sliceReadConversations,
-      length: len,
-      conversationStore: this.conversationStore
+      type: this.actionTypes.sliceConversations,
+      length: len
     });
   }
 
