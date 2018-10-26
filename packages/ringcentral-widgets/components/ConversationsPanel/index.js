@@ -201,8 +201,11 @@ export default class ConversationsPanel extends Component {
             updateTypeFilter={updateTypeFilter}
           /> :
           (
-            renderNoMessage && renderNoMessage()
-            || <NoMessage placeholder={placeholder} />
+            !loadingNextPage &&
+            (
+              renderNoMessage && renderNoMessage()
+              || <NoMessage placeholder={placeholder} />
+            )
           )
       }
 
