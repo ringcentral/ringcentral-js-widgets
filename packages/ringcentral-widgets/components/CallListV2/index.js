@@ -1,60 +1,58 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { List } from 'react-virtualized';
 import CallItem from '../CallItem';
 import NoCalls from '../NoCalls';
-import { List } from 'react-virtualized';
 
 export default class CallListV2 extends React.PureComponent {
   constructor(props) {
     super(props);
-    this._rowHeight = 65;
+    this.state = {
+      extendedIndex: null,
+    };
     this._list = React.createRef();
-
-    this._mostRecentWidth = 0;
-    this._resizeAllFlag = false;
   }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.calls !== prevProps.calls) {
-      if (this._list && this._list.current) {
-        this._list.current.forceUpdateGrid();
-      }
-    }
-
-    if (this._resizeAllFlag) {
-      this._resizeAllFlag = false;
-
-      if (this._list) {
-        this._list.current.recomputeRowHeights();
-      }
-    } else if (this.props.calls !== prevProps.calls) {
-      const index = prevProps.calls.length;
-      if (this._list) {
-        this._list.current.recomputeRowHeights(index);
-      }
-    }
-  }
-
-  _resizeAll = (index, extended) => {
-    this._resizeAllFlag = false;
-    this._renderIndex = index;
-    this._cellExtended = extended;
-    if (this._list && this._list.current) {
-      this._list.current.recomputeRowHeights();
-      this._list.current.forceUpdateGrid();
-    }
-  };
-
-  _renderRowHeight = (params) => {
+  componentWillReceiveProps(nextProps) {
+    const {
+      extendedIndex
+    } = this.state;
     if (
-      this._renderIndex !== undefined &&
-      this._renderIndex === params.index &&
-      this._cellExtended
+      extendedIndex !== null &&
+      this.props.calls[extendedIndex] !== nextProps.calls[extendedIndex]
     ) {
-      return this._rowHeight * 2;
+      this._setExtendedIndex(null);
     }
-    return this._rowHeight;
-  };
+  }
+
+  _setExtendedIndex = (extendedIndex) => {
+    this.setState({
+      extendedIndex,
+    }, () => {
+      if (this._list && this._list.current) {
+        this._list.current.recomputeRowHeights(0);
+      }
+    });
+  }
+
+  _onSizeChanged = (index) => {
+    if (this.state.extendedIndex === index) {
+      this._setExtendedIndex(null);
+    } else {
+      this._setExtendedIndex(index);
+    }
+  }
+
+  _renderRowHeight = ({ index }) => {
+    // If we don't add extra height for the last item
+    // the toggle button will be cut off
+    const margin = index === this.props.calls.length - 1 ?
+      15 :
+      0;
+    const rowHeight = index === this.state.extendedIndex ?
+      this.props.extendedRowHeight :
+      this.props.rowHeight;
+    return rowHeight + margin;
+  }
 
   _rowRender = ({ index, key, style }) => {
     const {
@@ -109,9 +107,7 @@ export default class CallListV2 extends React.PureComponent {
         <CallItem
           key={call.id}
           renderIndex={index}
-          extended={
-            (this._renderIndex === index && this._cellExtended) || false
-          }
+          extended={this.state.extendedIndex === index}
           style={style}
           call={call}
           currentLocale={currentLocale}
@@ -148,7 +144,9 @@ export default class CallListV2 extends React.PureComponent {
           externalViewEntity={externalViewEntity}
           externalHasEntity={externalHasEntity}
           readTextPermission={readTextPermission}
-          onSizeChanged={this._resizeAll}
+          onSizeChanged={this._onSizeChanged}
+          // disable animation when rendered with react-virtualized
+          withAnimation={false}
         />
       );
     }
@@ -161,20 +159,27 @@ export default class CallListV2 extends React.PureComponent {
   };
 
   render() {
-    const { calls, className, width = 300, height = 315 } = this.props;
+    const {
+      width,
+      height,
+      calls,
+      className,
+    } = this.props;
 
     return (
-      <List
-        style={{ outline: 'none' }}
-        ref={this._list}
-        width={width}
-        height={height}
-        overscanRowCount={15}
-        className={className}
-        rowCount={calls.length}
-        rowHeight={this._renderRowHeight}
-        rowRenderer={this._rowRender}
+      <div>
+        <List
+          style={{ outline: 'none' }}
+          ref={this._list}
+          width={width}
+          height={height}
+          overscanRowCount={15}
+          className={className}
+          rowCount={calls.length}
+          rowHeight={this._renderRowHeight}
+          rowRenderer={this._rowRender}
       />
+      </div>
     );
   }
 }
@@ -218,6 +223,8 @@ CallListV2.propTypes = {
   externalViewEntity: PropTypes.func,
   externalHasEntity: PropTypes.func,
   readTextPermission: PropTypes.bool,
+  rowHeight: PropTypes.number,
+  extendedRowHeight: PropTypes.number,
 };
 
 CallListV2.defaultProps = {
@@ -251,4 +258,6 @@ CallListV2.defaultProps = {
   externalViewEntity: undefined,
   externalHasEntity: undefined,
   readTextPermission: true,
+  rowHeight: 65,
+  extendedRowHeight: 130,
 };

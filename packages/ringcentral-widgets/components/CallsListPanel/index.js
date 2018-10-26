@@ -170,15 +170,6 @@ ActiveCallList.defaultProps = {
 };
 
 export default class CallsListPanel extends Component {
-  constructor(props) {
-    super(props);
-    this._callListWrapper = React.createRef();
-    this.state = {
-      listWidth: 0,
-      listHeight: 0,
-    };
-  }
-
   componentDidMount() {
     if (
       !this.hasCalls(this.props) &&
@@ -186,7 +177,6 @@ export default class CallsListPanel extends Component {
     ) {
       this.props.onCallsEmpty();
     }
-    this.forceUpdate();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -208,8 +198,6 @@ export default class CallsListPanel extends Component {
       props.calls.length > 0
     );
   }
-
-  renderCallList = () => { };
 
   render() {
     const {
@@ -287,47 +275,49 @@ export default class CallsListPanel extends Component {
       return <SpinnerOverlay />;
     }
     const isShowMessageIcon = readTextPermission && !!onClickToSms;
-    const CallsListView = useNewList ? (
-      <CallListV2
-        width={width}
-        height={height}
-        brand={brand}
-        currentLocale={currentLocale}
-        calls={calls}
-        areaCode={areaCode}
-        countryCode={countryCode}
-        onViewContact={onViewContact}
-        onCreateContact={onCreateContact}
-        createEntityTypes={createEntityTypes}
-        onLogCall={onLogCall}
-        onClickToDial={onClickToDial}
-        onClickToSms={onClickToSms}
-        isLoggedContact={isLoggedContact}
-        disableLinks={disableLinks}
-        disableClickToDial={disableClickToDial}
-        outboundSmsPermission={outboundSmsPermission}
-        internalSmsPermission={internalSmsPermission}
-        dateTimeFormatter={dateTimeFormatter}
-        active={active}
-        loggingMap={loggingMap}
-        webphoneAnswer={webphoneAnswer}
-        webphoneReject={webphoneReject}
-        webphoneHangup={webphoneHangup}
-        webphoneResume={webphoneResume}
-        enableContactFallback={enableContactFallback}
-        autoLog={autoLog}
-        showContactDisplayPlaceholder={showContactDisplayPlaceholder}
-        sourceIcons={sourceIcons}
-        phoneTypeRenderer={phoneTypeRenderer}
-        phoneSourceNameRenderer={phoneSourceNameRenderer}
-        renderContactName={renderContactName}
-        renderExtraButton={renderExtraButton}
-        contactDisplayStyle={contactDisplayStyle}
-        externalViewEntity={externalViewEntity}
-        externalHasEntity={externalHasEntity}
-        readTextPermission={isShowMessageIcon}
-      />
-    ) : (
+    const CallsListView = useNewList ?
+      (
+        <CallListV2
+          width={width}
+          height={height}
+          brand={brand}
+          currentLocale={currentLocale}
+          calls={calls}
+          areaCode={areaCode}
+          countryCode={countryCode}
+          onViewContact={onViewContact}
+          onCreateContact={onCreateContact}
+          createEntityTypes={createEntityTypes}
+          onLogCall={onLogCall}
+          onClickToDial={onClickToDial}
+          onClickToSms={onClickToSms}
+          isLoggedContact={isLoggedContact}
+          disableLinks={disableLinks}
+          disableClickToDial={disableClickToDial}
+          outboundSmsPermission={outboundSmsPermission}
+          internalSmsPermission={internalSmsPermission}
+          dateTimeFormatter={dateTimeFormatter}
+          active={active}
+          loggingMap={loggingMap}
+          webphoneAnswer={webphoneAnswer}
+          webphoneReject={webphoneReject}
+          webphoneHangup={webphoneHangup}
+          webphoneResume={webphoneResume}
+          enableContactFallback={enableContactFallback}
+          autoLog={autoLog}
+          showContactDisplayPlaceholder={showContactDisplayPlaceholder}
+          sourceIcons={sourceIcons}
+          phoneTypeRenderer={phoneTypeRenderer}
+          phoneSourceNameRenderer={phoneSourceNameRenderer}
+          renderContactName={renderContactName}
+          renderExtraButton={renderExtraButton}
+          contactDisplayStyle={contactDisplayStyle}
+          externalViewEntity={externalViewEntity}
+          externalHasEntity={externalHasEntity}
+          readTextPermission={isShowMessageIcon}
+        />
+      ) :
+      (
         <CallList
           brand={brand}
           currentLocale={currentLocale}
@@ -472,12 +462,13 @@ export default class CallsListPanel extends Component {
       />
     );
 
-    const historyCall = showSpinner ? (
-      <SpinnerOverlay />
-    ) : (
+    const historyCall = showSpinner ?
+      (
+        <SpinnerOverlay />
+      ) :
+      (
         <div
           className={classnames(styles.list, className)}
-          ref={this._callListWrapper}
         >
           <div className={styles.listTitle}>
             {onlyHistory ? null : i18n.getString('historyCalls', currentLocale)}
@@ -507,6 +498,7 @@ export default class CallsListPanel extends Component {
             currentLog && currentLog.showLog ? styles.hiddenScroll : '',
             className,
           )}
+          ref={this._root}
         >
           {onlyHistory ||
             getCallList(
@@ -610,8 +602,8 @@ CallsListPanel.propTypes = {
 
 CallsListPanel.defaultProps = {
   useNewList: false,
-  width: undefined,
-  height: undefined,
+  width: 300,
+  height: 315,
   className: undefined,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,

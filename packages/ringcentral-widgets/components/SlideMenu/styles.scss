@@ -12,8 +12,11 @@
   overflow: hidden;
   box-sizing: border-box;
   margin-left: 5px;
-  transition: height 0.15s 0s ease-in-out;
   transform: translateZ(0);
+}
+
+.withAnimation {
+  transition: height 0.15s 0s ease-in-out;
 }
 
 .content {
