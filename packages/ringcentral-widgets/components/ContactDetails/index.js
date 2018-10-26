@@ -191,6 +191,10 @@ export default class ContactDetails extends PureComponent {
     const { contactItem, currentLocale } = this.props;
     const { phoneNumbers } = contactItem;
 
+    if (!phoneNumbers.length) {
+      return null;
+    }
+
     const phoneMaps = reduce((acc, phoneNumberElm) => {
       acc[phoneNumberElm.phoneType] = acc[phoneNumberElm.phoneType] || [];
       acc[phoneNumberElm.phoneType].push(phoneNumberElm);
