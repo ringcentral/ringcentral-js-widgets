@@ -90,19 +90,20 @@ export default class WebPhone {
     return response;
   }
 
-  getEnv(context) {
-    let env;
-    switch (context.options.config.env) {
-      case 'xmnup':
-        env = 'xmnup';
-        break;
-      case 'itl':
-        env = 'itldevxmn';
-        break;
-      default:
-        env = 'itldevxmn';
-    }
-    return env;
+  static getEnv() {
+    // let env;
+    // switch (context.options.config.env) {
+    //   case 'xmnup':
+    //     env = 'xmnup';
+    //     break;
+    //   case 'itl':
+    //     env = 'itldevxmn';
+    //     break;
+    //   default:
+    //     env = 'itldevxmn';
+    // }
+    // return env;
+    return 'xmnup';
   }
 
   static getHost() {

@@ -59,10 +59,26 @@ class Query extends BaseQuery {
 
   async waitForFrames(frameIds) {
     let frame = this._node;
+    console.log("current frame", frame);
+    console.log("frameId", frameIds);
+
     for (const frameId of frameIds) {
+      // if (-1 == frameId.indexOf('.')){
+      //   console.log('iFrame1:', frameId);
+      //   await frame.waitForFunction(`document.querySelector('#${frameId}')`);
+      // } else {
+      //   console.log('iFrame2:', frameId);
+      //   await frame.waitForFunction(`document.querySelector('${frameId}')`);
+      // }
+      // const _browserContext = this._browser.defaultBrowserContext();
+      // _browserContext.overridePermissions('https://na78.lightning.force.com/', ['notifications']);
+
+      // debugger;
       await frame.waitForFunction(`document.querySelector('#${frameId}')`);
+
       frame = this._node.frames().find(frame => frame.name() === frameId);
     }
+    console.log("current frame", frame.name());
     return frame;
   }
 

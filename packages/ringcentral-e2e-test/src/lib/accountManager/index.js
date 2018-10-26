@@ -22,18 +22,19 @@ export default class AccountHelper {
   }
 
   getEnv() {
-    let env;
-    switch (context.options.config.env) {
-      case 'xmnup':
-        env = 'xmnup';
-        break;
-      case 'itl':
-        env = 'itl';
-        break;
-      default:
-        env = 'itl';
-    }
-    return env;
+    // let env;
+    // switch (context.options.config.env) {
+    //   case 'xmnup':
+    //     env = 'xmnup';
+    //     break;
+    //   case 'itl':
+    //     env = 'itl';
+    //     break;
+    //   default:
+    //     env = 'itl';
+    // }
+    // return env;
+    return 'xmnup'
   }
 
   static getInstance() {
