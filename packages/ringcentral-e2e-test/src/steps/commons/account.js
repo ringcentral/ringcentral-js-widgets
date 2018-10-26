@@ -18,7 +18,7 @@ export default class Account {
     ];
     if (needLoginAccount) accountsList.unshift(context.options.tag.accounts);
     const needAccount = accountsList.length > 0;
-    if (needAccount) {
+    if (needAccount && !context.options.isVirtual) {
       const { accounts, destroyer } = await AccountHelper.getAccountList(context, accountsList);
       console.log('Get Accounts:', JSON.stringify(accounts, null, 2));
       context.driver.addAfterHook(destroyer);

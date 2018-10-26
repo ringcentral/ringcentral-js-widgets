@@ -16,14 +16,14 @@ describe('Test Demo: =====>', () => {
     ],
     levels: ['p0'],
     options: [
-      { callingType: 'myRCPhone', selector: '@toTitle', title: 'To:' },
+      { callingType: 'myRCPhone', selector: '@toTitle', title: 'To:', accounts: ['CM_RC_EU', 'CM_RC_UK'], },
     ],
   }, async ({ option, isVirtual }) => {
     // 1. login CTI
     const process = createProcess(
       Entry,
       Login(),
-      // NavigateTo('Dialer'),
+      NavigateTo('dialer'),
     )(context);
     await process.exec();
     // 2. check 'toTitle' text
