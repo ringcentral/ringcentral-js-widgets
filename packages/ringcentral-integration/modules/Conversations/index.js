@@ -125,6 +125,7 @@ export default class Conversations extends RcModule {
     this._olderMessagesExsited = true;
     this._enableLoadOldMessages = enableLoadOldMessages;
     this._showMMSAttachment = showMMSAttachment;
+    this._lastAllConversaions = [];
 
     if (this._contactMatcher) {
       this._contactMatcher.addQuerySource({
@@ -141,14 +142,6 @@ export default class Conversations extends RcModule {
   }
 
   _onStateChange() {
-    function checkSliceConversation(curList = [], nextList = []) {
-      const curLen = curList.length;
-      const nextLen = nextList.length;
-      const lastSessionInCurList = curList[curLen - 1];
-      const lastSessionInNextList = nextList[nextLen - 1];
-      return (nextLen < curLen)
-      && (lastSessionInCurList.conversationId !== lastSessionInNextList.conversationId);
-    }
     if (this._shouldInit()) {
       this._init();
     } else if (this._shouldReset()) {
@@ -157,8 +150,7 @@ export default class Conversations extends RcModule {
       this._lastProcessedNumbers !== this.allUniqueNumbers ||
       this._lastProcessedPage !== this.currentPage ||
       this._lastTypeFilter !== this.typeFilter ||
-      this._lastSearchString !== this.effectiveSearchString ||
-      this._lastAllConversaions !== this.allConversations
+      this._lastSearchString !== this.effectiveSearchString
     ) {
       this._lastProcessedNumbers = this.allUniqueNumbers;
       this._lastProcessedPage = this.currentPage;
@@ -167,12 +159,13 @@ export default class Conversations extends RcModule {
       if (this._contactMatcher) {
         this._contactMatcher.triggerMatch();
       }
-      if (checkSliceConversation(this._lastAllConversaions, this.allConversations)) {
-        this._lastAllConversaions = this.allConversations;
+    } else if (this._lastAllConversaions !== this.allConversations) {
+      if (this._lastAllConversaions.length > this.allConversations.length) {
         this.store.dispatch({
           type: this.actionTypes.cleanOldConversatioans
         });
       }
+      this._lastAllConversaions = this.allConversations;
     }
   }
 
