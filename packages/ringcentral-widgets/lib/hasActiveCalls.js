@@ -7,13 +7,13 @@ export default function hasActiveCalls(phone) {
     callLogSection,
     callMonitorUI,
   } = phone;
+  if (webphone) {
+    return !!(webphone.sessions.length);
+  }
   return !!(
-    // (callMonitor && callMonitor.calls.length) &&
-    (webphone && webphone.sessions.length)
-  ) || !!(
     (callMonitor && callMonitor.calls.length)
-    || (callLogSection && callLogSection.showNotification)
-    // || (callLogSection && callLogSection.show)
-    || (callMonitorUI && callMonitorUI.cachedActive)
+      || (callLogSection && callLogSection.showNotification)
+      // || (callLogSection && callLogSection.show)
+      || (callMonitorUI && callMonitorUI.cachedActive)
   );
 }
