@@ -8,7 +8,8 @@ export default function hasActiveCalls(phone) {
     callMonitorUI,
   } = phone;
   if (webphone) {
-    return !!(webphone.sessions.length);
+    // need to show the ringout calls
+    return !!(webphone.sessions.length) || (callMonitor && callMonitor.calls.length);
   }
   return !!(
     (callMonitor && callMonitor.calls.length)
