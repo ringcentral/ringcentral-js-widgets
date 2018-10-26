@@ -10,20 +10,20 @@ import Entry from '../../../steps/entry';
 
 describe('Test Demo: =====>', () => {
   test({
-    title: 'Login with username ${username}, dialer ${selector} text expected "${title}"',
+    title: 'Login with username, dialer ${selector} text expected "${title}"',
     tags: [
       ['widgets'],
     ],
     levels: ['p0'],
     options: [
-      { username: '+18332085087', password: 'Test!123', selector: '@toTitle', title: 'To:'},
+      { callingType: 'myRCPhone', selector: '@toTitle', title: 'To:' },
     ],
   }, async ({ option, isVirtual }) => {
     // 1. login CTI
     const process = createProcess(
       Entry,
-      Login,
-      NavigateTo,
+      Login(),
+      // NavigateTo('Dialer'),
     )(context);
     await process.exec();
     // 2. check 'toTitle' text

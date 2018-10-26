@@ -1,5 +1,7 @@
 const fs = require('fs');
 const path = require('path');
+const { envList: envs } = require('./src/lib/accountManager');
+const { accounts } = require('./src/lib/accountManager/accountTypes');
 
 const loginInfoPath = './loginInfo.js';
 const isExists = fs.existsSync(path.resolve(__dirname, loginInfoPath));
@@ -14,13 +16,10 @@ module.exports = {
   }],
   exec: {
     drivers: ['puppeteer', 'seleniumWebdriverFirefox', 'seleniumWebdriverChrome'],
-    levels: [
-      'p0',
-      'p1'
-    ],
-    brands: [
-      'rc'
-    ],
+    levels: ['p0', 'p1'],
+    brands: ['rc'],
+    envs: ['xmnup'],
+    accounts: ['CM_RC_US'],
     tags: [
       ['widgets'],
       ['salesforce'],
@@ -33,10 +32,13 @@ module.exports = {
     levels: ['p3'],
     brands: ['rc'],
     tags: [
-      ['salesforce', {
-        modes: ['classic'],
-        drivers: ['puppeteer', 'seleniumWebdriverFirefox', 'seleniumWebdriverSafari', 'enzyme', 'seleniumWebdriverChrome']
-      }],
+      [
+        'salesforce',
+        {
+          modes: ['classic'],
+          drivers: ['puppeteer', 'seleniumWebdriverFirefox', 'seleniumWebdriverSafari', 'enzyme', 'seleniumWebdriverChrome']
+        }
+      ],
     ],
   },
   tester: {
@@ -74,7 +76,6 @@ module.exports = {
         }
       },
       salesforce: {
-        env: 'itl',
         type: 'uri',
         source: './src/targets/widgets',
         params: {
@@ -125,6 +126,8 @@ module.exports = {
     drivers: ['enzyme', 'puppeteer', 'seleniumWebdriverFirefox', 'seleniumWebdriverSafari', 'seleniumWebdriverChrome'],
     levels: ['p0', 'p1', 'p2', 'p3'],
     brands: ['rc', 'bt', 'telus', 'att'],
+    accounts,
+    envs,
   },
   lookupConfig({
     config,
@@ -134,7 +137,6 @@ module.exports = {
     const source = project.source;
     return {
       ...project.params.brands[tag.brands],
-      env: project.env,
       type: project.type,
       source,
     };
