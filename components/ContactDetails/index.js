@@ -252,16 +252,18 @@ var ContactDetails = function (_PureComponent) {
   }, {
     key: 'getListItem',
     value: function getListItem(_ref3) {
+      var _this2 = this;
+
       var showCallBtn = _ref3.showCallBtn,
           showTextBtn = _ref3.showTextBtn,
-          onClickToDial = _ref3.onClickToDial,
-          onClickToSMS = _ref3.onClickToSMS,
           key = _ref3.key,
           number = _ref3.number,
           currentLocale = _ref3.currentLocale,
-          contactItem = _ref3.contactItem;
+          contactItem = _ref3.contactItem,
+          _ref3$needFormat = _ref3.needFormat,
+          needFormat = _ref3$needFormat === undefined ? true : _ref3$needFormat;
 
-      var formattedPhoneNumber = this.props.formatNumber(number);
+      var displayedPhoneNumber = needFormat ? this.props.formatNumber(number) : number;
 
       return _react2.default.createElement(
         'li',
@@ -271,8 +273,8 @@ var ContactDetails = function (_PureComponent) {
           { className: _styles2.default.number },
           _react2.default.createElement(
             'span',
-            { title: formattedPhoneNumber },
-            formattedPhoneNumber
+            { title: displayedPhoneNumber },
+            displayedPhoneNumber
           )
         ),
         _react2.default.createElement(
@@ -283,7 +285,7 @@ var ContactDetails = function (_PureComponent) {
             {
               title: _i18n2.default.getString('call', currentLocale),
               onClick: function onClick() {
-                return onClickToDial(contactItem, number);
+                return _this2.onClickToDial(contactItem, number);
               }
             },
             _react2.default.createElement('i', { className: _DynamicsFont2.default.call })
@@ -293,7 +295,7 @@ var ContactDetails = function (_PureComponent) {
             {
               title: _i18n2.default.getString('text', currentLocale),
               onClick: function onClick() {
-                return onClickToSMS(contactItem, number);
+                return _this2.onClickToSMS(contactItem, number);
               }
             },
             _react2.default.createElement('i', { className: _DynamicsFont2.default.composeText })
@@ -304,13 +306,17 @@ var ContactDetails = function (_PureComponent) {
   }, {
     key: 'getPhoneSections',
     value: function getPhoneSections() {
-      var _this2 = this;
+      var _this3 = this;
 
       var _props2 = this.props,
           contactItem = _props2.contactItem,
           currentLocale = _props2.currentLocale;
       var phoneNumbers = contactItem.phoneNumbers;
 
+
+      if (!phoneNumbers.length) {
+        return null;
+      }
 
       var phoneMaps = (0, _ramda.reduce)(function (acc, phoneNumberElm) {
         acc[phoneNumberElm.phoneType] = acc[phoneNumberElm.phoneType] || [];
@@ -333,40 +339,41 @@ var ContactDetails = function (_PureComponent) {
           switch (key) {
             case _phoneTypes2.default.extension:
               {
-                return _this2.getListContainerBuilder(_i18n2.default.getString(_phoneTypes2.default.extension, currentLocale), (0, _ramda.map)(function (phoneNumberElm) {
-                  return _this2.getListItem({
-                    showCallBtn: _this2.props.internalSmsPermission,
-                    showTextBtn: _this2.props.onClickToDial,
-                    onClickToDial: _this2.props.onClickToDial,
-                    onClickToSMS: _this2.props.onClickToSMS,
+                return _this3.getListContainerBuilder(_i18n2.default.getString(_phoneTypes2.default.extension, currentLocale), (0, _ramda.map)(function (phoneNumberElm) {
+                  return _this3.getListItem({
+                    showCallBtn: _this3.props.internalSmsPermission,
+                    showTextBtn: _this3.props.onClickToDial,
                     key: phoneNumberElm.phoneNumber,
-                    number: phoneNumberElm.phoneNumber
+                    number: phoneNumberElm.phoneNumber,
+                    currentLocale: currentLocale,
+                    contactItem: contactItem,
+                    needFormat: false
                   });
                 }, phoneMaps[key]));
               }
             case _phoneTypes2.default.fax:
               {
-                return _this2.getListContainerBuilder(_i18n2.default.getString(_phoneTypes2.default.fax, currentLocale), (0, _ramda.map)(function (phoneNumberElm) {
-                  return _this2.getListItem({
+                return _this3.getListContainerBuilder(_i18n2.default.getString(_phoneTypes2.default.fax, currentLocale), (0, _ramda.map)(function (phoneNumberElm) {
+                  return _this3.getListItem({
                     showCallBtn: false,
                     showTextBtn: false,
-                    onClickToDial: _this2.props.onClickToDial,
-                    onClickToSMS: _this2.props.onClickToSMS,
                     key: phoneNumberElm.phoneNumber,
-                    number: phoneNumberElm.phoneNumber
+                    number: phoneNumberElm.phoneNumber,
+                    currentLocale: currentLocale,
+                    contactItem: contactItem
                   });
                 }, phoneMaps[key]));
               }
             default:
               {
-                return _this2.getListContainerBuilder(_i18n2.default.getString(_phoneTypes2.default[key], currentLocale), (0, _ramda.map)(function (phoneNumberElm) {
-                  return _this2.getListItem({
-                    showCallBtn: _this2.props.onClickToDial,
-                    showTextBtn: _this2.props.outboundSmsPermission,
-                    onClickToDial: _this2.props.onClickToDial,
-                    onClickToSMS: _this2.props.onClickToSMS,
+                return _this3.getListContainerBuilder(_i18n2.default.getString(_phoneTypes2.default[key], currentLocale), (0, _ramda.map)(function (phoneNumberElm) {
+                  return _this3.getListItem({
+                    showCallBtn: _this3.props.onClickToDial,
+                    showTextBtn: _this3.props.outboundSmsPermission,
                     key: phoneNumberElm.phoneNumber,
-                    number: phoneNumberElm.phoneNumber
+                    number: phoneNumberElm.phoneNumber,
+                    currentLocale: currentLocale,
+                    contactItem: contactItem
                   });
                 }, phoneMaps[key]));
               }
@@ -377,7 +384,7 @@ var ContactDetails = function (_PureComponent) {
   }, {
     key: 'renderEmailCell',
     value: function renderEmailCell() {
-      var _this3 = this;
+      var _this4 = this;
 
       var onClickMailTo = this.props.onClickMailTo;
       var _props$contactItem = this.props.contactItem,
@@ -396,7 +403,7 @@ var ContactDetails = function (_PureComponent) {
               title: email,
               className: hasMailToHandler ? _styles2.default.underline : null,
               onClick: function onClick() {
-                return _this3.onClickMailTo(email, type);
+                return _this4.onClickMailTo(email, type);
               }
             },
             email
