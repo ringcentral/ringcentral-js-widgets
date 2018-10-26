@@ -922,11 +922,15 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 return this._client.service._platform.post(url);
 
               case 5:
-                _context13.next = 10;
+                this.store.dispatch({
+                  type: this.actionTypes.hold,
+                  sessionId: sessionId
+                });
+                _context13.next = 11;
                 break;
 
-              case 7:
-                _context13.prev = 7;
+              case 8:
+                _context13.prev = 8;
                 _context13.t0 = _context13['catch'](0);
 
                 if ((0, _helpers.confictError)(_context13.t0)) {
@@ -939,12 +943,12 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                   });
                 }
 
-              case 10:
+              case 11:
               case 'end':
                 return _context13.stop();
             }
           }
-        }, _callee13, this, [[0, 7]]);
+        }, _callee13, this, [[0, 8]]);
       }));
 
       function hold(_x9) {
@@ -969,11 +973,15 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 return this._client.service._platform.post(url);
 
               case 5:
-                _context14.next = 10;
+                this.store.dispatch({
+                  type: this.actionTypes.unhold,
+                  sessionId: sessionId
+                });
+                _context14.next = 11;
                 break;
 
-              case 7:
-                _context14.prev = 7;
+              case 8:
+                _context14.prev = 8;
                 _context14.t0 = _context14['catch'](0);
 
                 if ((0, _helpers.confictError)(_context14.t0)) {
@@ -986,12 +994,12 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                   });
                 }
 
-              case 10:
+              case 11:
               case 'end':
                 return _context14.stop();
             }
           }
-        }, _callee14, this, [[0, 7]]);
+        }, _callee14, this, [[0, 8]]);
       }));
 
       function unHold(_x10) {
