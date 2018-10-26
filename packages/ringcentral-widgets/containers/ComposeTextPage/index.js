@@ -55,6 +55,7 @@ function mapToFunctions(_, {
     messageStore,
     regionSettings,
     routerInteraction,
+    conversations
   },
   formatContactPhone = phoneNumber => formatNumber({
     phoneNumber,
@@ -97,7 +98,7 @@ function mapToFunctions(_, {
         } else {
           routerInteraction.push('/messages');
         }
-        composeText.relateCorrespondentEntity(responses);
+        conversations.relateCorrespondentEntity(responses);
         composeText.clean();
         return null;
       }, () => {
