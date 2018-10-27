@@ -1,4 +1,5 @@
 import { resolve } from 'path';
+import fs from 'fs';
 import runner from '../src/runner.js';
 import { isNil } from '../src/utils/checkType';
 
@@ -35,6 +36,9 @@ function getTestMatch(args) {
 
 
 const run = (dir, cmd) => {
+  if (cmd.params && cmd.params === './params.json') {
+    cmd.params = fs.readFileSync(resolve(__dirname, '../src/params.json'), 'utf-8');
+  }
   if (isNil(dir)) {
     console.error('Unexpected parameters format.');
     process.exit();
