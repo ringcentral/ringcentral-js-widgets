@@ -35,9 +35,14 @@ function getTestMatch(args) {
 }
 
 
-const run = (dir, cmd) => {
-  if (cmd.params && cmd.params === './params.json') {
-    cmd.params = fs.readFileSync(resolve(__dirname, '../src/params.json'), 'utf-8');
+const run = async (dir, cmd) => {
+  // if params exit and is a json file, read params file as cmd params
+  if (cmd.params && (/.json$/).test(cmd.params)) {
+    try {
+      cmd.params = fs.readFileSync(resolve(__dirname, cmd.params), 'utf-8');
+    } catch (error) {
+      console.log(error);
+    }
   }
   if (isNil(dir)) {
     console.error('Unexpected parameters format.');
