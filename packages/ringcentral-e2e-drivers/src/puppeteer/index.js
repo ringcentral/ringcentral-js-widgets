@@ -80,8 +80,9 @@ class Query extends BaseQuery {
     return frame;
   }
 
-  async waitForFunction(...args) {
-    await this._node.waitForFunction(...args);
+  async waitForFunction(fn, ...args) {
+    // TODO waitForFunction for `option` compatibility
+    await this._node.waitForFunction(fn, {}, ...args);
   }
 
   async screenshot({ path } = {}) {
