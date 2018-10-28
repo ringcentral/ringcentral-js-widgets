@@ -13,8 +13,7 @@ export default class TypeComposeToField {
       }
     }
     // send to first number in playload accounts.
-    await $(app).type(recipientsInput, '2344');
-    // await $(app).type(recipientsInput, option.playload.accounts[0].did);
+    await $(app).type(recipientsInput, option.playload.accounts[0].did);
   }
 
   static addCheckPoints(check) {

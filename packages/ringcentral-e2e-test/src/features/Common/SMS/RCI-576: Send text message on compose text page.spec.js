@@ -49,12 +49,11 @@ describe('Commom SMS: =====>', () => {
     title: 'Send text message on compose text page',
     tags: [
       ['widgets'],
-      // ['salesforce'],
+      ['salesforce'],
     ],
     levels: ['p0'],
     options: [
-      { username: '+16503945910', password: 'bGluMjAyMlg=1', typeToFields: ['foobar', '101', '(650)8881234', '+16508881234', '+16508881234*101'], textSMS: 'bar', },
-      // { typeToFields: ['foobar', '101', '(650)8881234', '+16508881234', '+16508881234*101'], textSMS: 'bar', accounts: ['CM_RC_US'], callingType: 'myRCPhone' },
+      { typeToFields: ['foobar', '101', '(650)8881234', '+16508881234', '+16508881234*101'], textSMS: 'bar', accounts: ['CM_RC_US'], callingType: 'myRCPhone' },
     ],
   }, async ({ option }) => {
     const NavigateToComposeText = NavigateTo('composeText');
