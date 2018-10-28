@@ -5,7 +5,8 @@ import accountTypes from './accountTypes';
 export const BASE_URL = 'http://10.32.36.75:7789/env';
 export const ENV_URLS = {
   xmnup: 'https://api-xmnup.lab.nordigy.ru',
-  itl: 'https://api-itldevxmn.lab.nordigy.ru'
+  itl: 'https://api-itldevxmn.lab.nordigy.ru',
+  prod: 'https://api-rcapps.ringcentral.com'
 };
 export const envList = Object.keys(ENV_URLS);
 

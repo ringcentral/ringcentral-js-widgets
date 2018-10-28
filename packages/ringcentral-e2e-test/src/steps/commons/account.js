@@ -6,7 +6,8 @@ export default class Account {
   static async getAccount(context) {
     const {
       playload: { loginAccount = {} } = {},
-      callingType, accounts = []
+      callingType,
+      accounts = [],
     } = context.options.option;
     const isInvalidCallingType = !AVAILABLE_TYPE.includes(callingType);
     if (isInvalidCallingType && accounts.length > 0) {
