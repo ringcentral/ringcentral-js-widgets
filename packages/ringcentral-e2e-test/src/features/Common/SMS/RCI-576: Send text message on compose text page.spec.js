@@ -48,7 +48,7 @@ describe('Commom SMS: =====>', () => {
   test({
     title: 'Send text message on compose text page',
     tags: [
-      ['widgets'],
+      // ['widgets'],
       ['salesforce'],
     ],
     levels: ['p0'],

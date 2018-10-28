@@ -8,7 +8,7 @@ export default function SpinnerOverlay({
   className,
 }) {
   return (
-    <div className={classnames(styles.root, className)} >
+    <div data-sign="spinnerOverlay" className={classnames(styles.root, className)} >
       <div className={styles.mask} />
       <div className={styles.container} >
         <Spinner />

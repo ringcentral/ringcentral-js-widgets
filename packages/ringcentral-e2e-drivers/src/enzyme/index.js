@@ -16,6 +16,22 @@ class Query extends BaseQuery {
     return element.text();
   }
 
+  async getAttribute(selector, attribute, options = {}) {
+    const element = await this.$(selector, options);
+    const attributeValue = element.instance()[attribute];
+    return attributeValue;
+  }
+
+  async getValue(selector, options) {
+    const value = await this.getAttribute(selector, 'value', options);
+    return value;
+  }
+
+  async html(selector, options) {
+    const element = await this.$(selector, options);
+    return element.html();
+  }
+
   async click(selector, options) {
     await this.$(selector, options).simulate('click');
   }
@@ -41,6 +57,13 @@ class Query extends BaseQuery {
     }
     const handle = new Function(script)(args);
     return handle;
+  }
+
+  async waitForFunction(...args) {
+    const result = await this.execute(...args);
+    if (result) return;
+    await this.waitFor(250);
+    await this.waitForFunction(...args);
   }
 
   async waitForSelector(selector, options) {

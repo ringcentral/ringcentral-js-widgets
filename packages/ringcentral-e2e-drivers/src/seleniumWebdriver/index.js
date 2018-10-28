@@ -40,6 +40,22 @@ class Query extends BaseQuery {
     return innerText;
   }
 
+  async getAttribute(selector, attribute, options = {}) {
+    const element = await this._getElement(selector, options);
+    const attributeValue = await element.getAttribute(attribute);
+    return attributeValue;
+  }
+
+  async getValue(selector, options) {
+    const value = this.getAttribute(selector, 'value', options);
+    return value;
+  }
+
+  async html(selector) {
+    const html = this.getAttribute(selector, 'innerHTML');
+    return html;
+  }
+
   async click(selector, options) {
     const element = await this._getElement(selector, options);
     await element.click();
@@ -68,9 +84,9 @@ class Query extends BaseQuery {
     });
   }
 
-  async waitForFrames(frameIds) {
-    for (const frameId of frameIds) {
-      const element = await this._node.wait(until.elementLocated(By.id(frameId)));
+  async waitForFrames(frames) {
+    for (const frame of frames) {
+      const element = await this._node.wait(until.elementLocated(By.css(frame)));
       await this._node.switchTo().frame(element);
     }
     return this._node;
@@ -96,21 +112,30 @@ class Query extends BaseQuery {
     element.clear();
   }
 
-  // async $(selector) {
-  //   const element = await this._node.$(selector);
-  //   return element;
-  // }
-
-  // async $$(selector) {
-  //   const elements = await this._node.$$(selector);
-  //   return elements;
-  // }
+  async waitForFunction(...args) {
+    const result = await this.execute(...args);
+    if (result) return;
+    await this.waitFor(250);
+    await this.waitForFunction(...args);
+  }
 
   async _getElement(selector, options) {
     const _selector = this.getSelector(selector, options);
     const element = await this._node.wait(until.elementLocated(By.css(_selector)));
     return element;
   }
+
+// async $(selector, options) {
+//   const _selector = this.getSelector(selector, options);
+//   const element = await this._node.$(_selector);
+//   return element;
+// }
+
+// async $$(selector, options) {
+//   const _selector = this.getSelector(selector, options);
+//   const elements = await this._node.$$(_selector);
+//   return elements;
+// }
 }
 
 
