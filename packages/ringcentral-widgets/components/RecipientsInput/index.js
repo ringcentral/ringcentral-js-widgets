@@ -258,19 +258,19 @@ class RecipientsInput extends Component {
   }
 
   componentDidMount() {
-    // this.props.searchContact(this.props.value);
-    // window.addEventListener('click', this.clickHandler);
-    // if (this.props.autoFocus) {
-    //   this._focusTimeout = setTimeout(() => {
-    //     if (this.inputRef) {
-    //       this.inputRef.focus();
-    //     }
-    //   }, 300);
-    // }
+    this.props.searchContact(this.props.value);
+    window.addEventListener('click', this.clickHandler);
+    if (this.props.autoFocus) {
+      this._focusTimeout = setTimeout(() => {
+        if (this.inputRef) {
+          this.inputRef.focus();
+        }
+      }, 300);
+    }
   }
 
   componentWillUnmount() {
-    // window.removeEventListener('click', this.clickHandler);
+    window.removeEventListener('click', this.clickHandler);
   }
 
   clickHandler = (evt) => {
