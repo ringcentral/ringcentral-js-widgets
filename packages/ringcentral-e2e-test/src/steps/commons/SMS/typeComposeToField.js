@@ -11,10 +11,13 @@ export default class TypeComposeToField {
         await $(app).type(recipientsInput, typeToField);
         await this._check(recipientsInput, typeToField);
         await $(app).clear(recipientsInput);
-        await $(app).waitForFunction(
-          selector => !document.querySelector(selector).value,
-          _recipientsInput
-        );
+        await Promise.race([
+          $(app).waitFor(500),
+          $(app).waitForFunction(
+            selector => !document.querySelector(selector).value,
+            _recipientsInput
+          )
+        ]);
       }
     }
     // send to first number in playload accounts.

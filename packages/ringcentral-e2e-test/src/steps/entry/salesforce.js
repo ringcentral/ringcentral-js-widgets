@@ -16,6 +16,8 @@ export default class Entry {
 
   static async classic(context) {
     const { driver: { page } } = context;
+    // TODO optimize waiting time
+    await $(page).waitFor(8000);
     await $(page).waitForSelector('#SoftphoneIframe');
     const app = await $(page).waitForFrames(['#SoftphoneIframe', '#rcAppClassic']);
     return app;
@@ -25,12 +27,16 @@ export default class Entry {
     const { driver: { page } } = context;
     await $(page).click('.switch-to-lightning');
     await $(page).click('.flexipageComponent');
+    // TODO optimize waiting time
+    await $(page).waitFor(8000);
     await $(page).waitForSelector('iframe.openctiSoftPhone');
     const app = await $(page).waitForFrames(['iframe.openctiSoftPhone', '#rcAppLightning']);
     return app;
   }
 
   static async routeMode(context) {
+    // TODO optimize waiting time
+    await $(context.driver.page).waitFor(2000);
     await $(context.driver.page).goto(location);
     context.driver.app = await this[context.options.tag.modes](context);
     global.app = context.driver.app;
