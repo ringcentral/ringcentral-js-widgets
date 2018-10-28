@@ -240,7 +240,7 @@ class ConversationPanel extends Component {
       null;
     return (
       <div className={styles.root}>
-        <div className={styles.header}>
+        <div data-sign="conversationPanel" className={styles.header}>
           <ContactDisplay
             brand={this.props.brand}
             className={styles.contactDisplay}

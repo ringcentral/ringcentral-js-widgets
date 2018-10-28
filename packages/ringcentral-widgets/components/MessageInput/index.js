@@ -133,6 +133,7 @@ export default class MessageInput extends Component {
       <div className={styles.root}>
         <div className={styles.textField}>
           <textarea
+            data-sign="messageInput"
             ref={(target) => { this.textArea = target; }}
             placeholder={i18n.getString('typeMessage', currentLocale)}
             value={value}
@@ -146,6 +147,7 @@ export default class MessageInput extends Component {
         </div>
         <div className={styles.submitField}>
           <input
+            data-sign="messageButton"
             type="button"
             value={i18n.getString('send', currentLocale)}
             onClick={onSend}
