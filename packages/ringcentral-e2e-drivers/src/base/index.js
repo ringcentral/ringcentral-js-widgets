@@ -23,7 +23,8 @@ class Query {
         .split(' ')
         .map((_selector) => {
           const [labelSelector, index] = _selector.split(':');
-          const childSelector = index ? `:nth-child(${index})` : '';
+          const childSelector = index ?
+            `:nth-${/-/.test(index) ? 'last-' : ''}child(${index.replace('-', '')})` : '';
           return `[${this._label}="${labelSelector}"]${childSelector}`;
         })
         .join(' ');

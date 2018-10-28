@@ -21,12 +21,18 @@ class Query extends BaseQuery {
     return innerText;
   }
 
-  async getAttributeValue(selector, attribute, options = {}) {
+  async getAttribute(selector, attribute, options = {}) {
     const element = await this.waitForSelector(selector, options);
-    const attributeValue = await this._node.evaluate((ele,attr) => {
-      return ele.getAttribute(attr);
-    }, element,attribute);
+    const attributeValue = await this._node.evaluate(
+      (element, attr) => element.getAttribute(attr),
+      element, attribute
+    );
     return attributeValue;
+  }
+
+  async getValue(selector, options) {
+    const value = this.getAttribute(selector, 'value', options);
+    return value;
   }
 
   async html(selector) {
@@ -98,7 +104,6 @@ class Query extends BaseQuery {
     const _selector = this.getSelector(selector, options);
     await this._node.focus(_selector);
     await this._node.$eval(_selector, input => input.select(), _selector);
-    // await this._node.click(_selector, { clickCount: 3 });
     if (this._node.keyboard) {
       await this._node.keyboard.press('Delete');
     } else {

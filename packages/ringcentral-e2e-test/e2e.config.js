@@ -18,7 +18,7 @@ module.exports = {
     drivers: ['puppeteer', 'seleniumWebdriverFirefox', 'seleniumWebdriverChrome'],
     levels: ['p0', 'p1'],
     brands: ['rc'],
-    envs: ['xmnup'],
+    envs: ['prod'],
     accounts: ['CM_RC_US'],
     tags: [
       ['widgets'],
