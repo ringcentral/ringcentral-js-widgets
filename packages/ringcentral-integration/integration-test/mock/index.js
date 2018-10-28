@@ -1,5 +1,5 @@
-import AccountPhoneNumber from 'ringcentral-integration/modules/AccountPhoneNumber';
-import DialingPlan from 'ringcentral-integration/modules/DialingPlan';
+import AccountPhoneNumber from '../../modules/AccountPhoneNumber';
+import DialingPlan from '../../modules/DialingPlan';
 
 require('es6-promise').polyfill();
 // require('./pubnub');
@@ -88,9 +88,9 @@ export function mockApi({
     headers: responseHeaders,
     sendAsJson: false
   }, {
-      method,
-      times: isOnce ? 1 : 20,
-    });
+    method,
+    times: isOnce ? 1 : 20,
+  });
 }
 
 export function authentication() {

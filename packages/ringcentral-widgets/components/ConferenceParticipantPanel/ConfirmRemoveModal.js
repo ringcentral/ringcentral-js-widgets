@@ -1,14 +1,10 @@
 import React from 'react';
-import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import formatMessage from 'format-message';
 import calleeTypes from 'ringcentral-integration/enums/calleeTypes';
 
 import i18n from './i18n';
 import styles from './styles.scss';
 import Modal from '../Modal';
-import Button from '../Button';
-import CloseIcon from '../../assets/images/CloseIcon.svg';
 
 export default function ConfirmRemoveModal({
   currentLocale,
