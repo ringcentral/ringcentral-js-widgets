@@ -47,6 +47,7 @@ class Query extends BaseQuery {
   }
 
   async click(selector, options) {
+    await this.waitForSelector(selector, options);
     const _selector = this.getSelector(selector, options);
     await this._node.click(_selector);
   }
@@ -71,11 +72,15 @@ class Query extends BaseQuery {
     return element;
   }
 
-  async waitForFrames(frameIds) {
+  async waitForFrames(frameSelectors) {
     let frame = this._node;
-    for (const frameId of frameIds) {
-      await frame.waitForFunction(`document.querySelector('#${frameId}')`);
-      frame = this._node.frames().find(frame => frame.name() === frameId);
+    for (const frameSelector of frameSelectors) {
+      await frame.waitForFunction(`document.querySelector('${frameSelector}')`);
+      const name = await frame.evaluate((frameSelector) => {
+        const { name, id } = document.querySelector(frameSelector);
+        return name || id;
+      }, frameSelector);
+      frame = this._node.frames().find(frame => frame.name() === name);
     }
     return frame;
   }

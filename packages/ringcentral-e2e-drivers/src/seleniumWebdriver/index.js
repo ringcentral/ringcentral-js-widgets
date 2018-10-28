@@ -84,9 +84,9 @@ class Query extends BaseQuery {
     });
   }
 
-  async waitForFrames(frameIds) {
-    for (const frameId of frameIds) {
-      const element = await this._node.wait(until.elementLocated(By.id(frameId)));
+  async waitForFrames(frames) {
+    for (const frame of frames) {
+      const element = await this._node.wait(until.elementLocated(By.css(frame)));
       await this._node.switchTo().frame(element);
     }
     return this._node;
@@ -124,6 +124,18 @@ class Query extends BaseQuery {
     const element = await this._node.wait(until.elementLocated(By.css(_selector)));
     return element;
   }
+
+// async $(selector, options) {
+//   const _selector = this.getSelector(selector, options);
+//   const element = await this._node.$(_selector);
+//   return element;
+// }
+
+// async $$(selector, options) {
+//   const _selector = this.getSelector(selector, options);
+//   const elements = await this._node.$$(_selector);
+//   return elements;
+// }
 }
 
 
