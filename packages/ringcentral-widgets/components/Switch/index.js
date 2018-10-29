@@ -11,6 +11,7 @@ function Switch(props) {
   return (
     <label
       title={props.title}
+      data-sign={props.dataSign}
       className={classnames(styles.switch, props.disable && styles.disable)}
     >
       <input
@@ -27,11 +28,13 @@ Switch.propTypes = {
   disable: PropTypes.bool,
   title: PropTypes.string,
   onChange: PropTypes.func,
+  dataSign: PropTypes.string,
 };
 Switch.defaultProps = {
   checked: false,
   disable: false,
   onChange: undefined,
   title: undefined,
+  dataSign: undefined,
 };
 export default Switch;

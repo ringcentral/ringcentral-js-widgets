@@ -1,6 +1,7 @@
 import SDK from 'ringcentral';
 import RingCentralClient from 'ringcentral-client';
 
+import { ModuleFactory } from 'ringcentral-integration/lib/di';
 import RcModule from 'ringcentral-integration/lib/RcModule';
 
 import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
@@ -60,11 +61,16 @@ import ContactMatcher from 'ringcentral-integration/modules/ContactMatcher';
 import Analytics from 'ringcentral-integration/modules/Analytics';
 import Feedback from 'ringcentral-integration/modules/Feedback';
 import UserGuide from 'ringcentral-integration/modules/UserGuide';
-import { ModuleFactory } from 'ringcentral-integration/lib/di';
 import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 import DialerUI from 'ringcentral-widgets/modules/DialerUI';
 import ConferenceDialerUI from 'ringcentral-widgets/modules/ConferenceDialerUI';
 import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
+
+import normalizeNumber from 'ringcentral-integration/lib/normalizeNumber';
+import hasActiveCalls from 'ringcentral-widgets/lib/hasActiveCalls';
+import ringoutStatus from 'ringcentral-integration/modules/Ringout/ringoutStatus';
+import softphoneStatus from 'ringcentral-integration/modules/Softphone/softphoneStatus';
+import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 
 @ModuleFactory({
   providers: [
@@ -179,19 +185,19 @@ import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
   ]
 })
 export default class BasePhone extends RcModule {
-  constructor({
-    webphone,
-    routerInteraction,
-    callMonitor,
-    contactSearch,
-    contacts,
-    contactMatcher,
-    conferenceCall,
-    ...options
-  }) {
-    super({
-      ...options,
-    });
+  constructor(options) {
+    super(options);
+    const {
+      ringout,
+      webphone,
+      callingSettings,
+      routerInteraction,
+      callMonitor,
+      contactSearch,
+      contacts,
+      contactMatcher,
+      conferenceCall,
+    } = options;
 
     contactSearch.addSearchSource({
       sourceName: 'contacts',
@@ -231,6 +237,7 @@ export default class BasePhone extends RcModule {
       readyCheckFn: () => contacts.ready,
     });
 
+    // Webphone configuration
     webphone.onCallEnd((session, currentSession, ringSession) => {
       const callsOnholdReg = /^\/conferenceCall\/callsOnhold\/(.+)\/(.+)$/;
       const execCallsOnhold = callsOnholdReg.exec(routerInteraction.currentPath);
@@ -286,18 +293,6 @@ export default class BasePhone extends RcModule {
 
       if (!currentSession && ringSession) {
         routerInteraction.push('/calls');
-        return;
-      }
-
-      if (
-        routerInteraction.currentPath === '/calls'
-        && !callMonitor.activeRingCalls.length
-        && !callMonitor.activeOnHoldCalls.length
-        && !callMonitor.activeCurrentCalls.length
-        && !conferenceCall.isMerging
-        // && callMonitor.otherDeviceCalls.length === 0
-      ) {
-        routerInteraction.replace('/dialer');
       }
     });
 
@@ -351,13 +346,49 @@ export default class BasePhone extends RcModule {
     });
 
     // CallMonitor configuration
-    callMonitor._onRinging = async () => {
-      if (this.webphone._webphone) {
-        return;
+    this._softphoneConnectTime = null;
+    this._softphoneConnectNumber = null;
+
+    callMonitor._onRinging = (call) => {
+      // auto nav rules
+      if (
+        callingSettings.callingMode !== callingModes.webphone // not webRTC mode
+        && routerInteraction.currentPath === '/dialer'
+        && (
+          // for ringout
+          ringout.ringoutStatus === ringoutStatus.connecting
+          // for softphone
+          || (
+            this._softphoneConnectTime && call && call.to
+            && (new Date() - this._softphoneConnectTime) < 1 * 60 * 1000 // in 1 minute
+            && this._normalizeNumber(call.to.phoneNumber)
+            === this._normalizeNumber(this._softphoneConnectNumber)
+          )
+        )
+      ) {
+        routerInteraction.push('/calls');
+        this._softphoneConnectTime = null;
+        this._softphoneConnectNumber = null;
       }
-      // TODO refactor some of these logic into appropriate modules
-      this.routerInteraction.push('/calls');
     };
+
+    const phone = this;
+    callMonitor._onCallEnded = () => {
+      if (
+        routerInteraction.currentPath === '/calls'
+        && !hasActiveCalls(phone)
+      ) {
+        routerInteraction.replace('/dialer');
+      }
+    };
+  }
+
+  _normalizeNumber(phoneNumber) {
+    return normalizeNumber({
+      phoneNumber,
+      countryCode: this.regionSettings.countryCode,
+      areaCode: this.regionSettings.areaCode,
+    });
   }
 
   initialize() {
@@ -365,20 +396,22 @@ export default class BasePhone extends RcModule {
     this.store.subscribe(() => {
       if (this.auth.ready) {
         if (
-          this.routerInteraction.currentPath !== '/' &&
-          !this.auth.loggedIn
+          this.routerInteraction.currentPath !== '/'
+          && !this.auth.loggedIn
         ) {
           this.routerInteraction.push('/');
         } else if (
-          this.routerInteraction.currentPath === '/' &&
-          this.auth.loggedIn &&
-          rolesAndPermissions.ready
+          this.routerInteraction.currentPath === '/'
+          && this.auth.loggedIn
+          && rolesAndPermissions.ready
         ) {
           // Determine default tab
           const showDialPad = rolesAndPermissions.callingEnabled;
-          const showCalls = rolesAndPermissions.callingEnabled &&
-            this.callingSettings.ready &&
-            this.callingSettings.callWith !== callingOptions.browser;
+          const showCalls = (
+            rolesAndPermissions.callingEnabled
+            && this.callingSettings.ready
+            && this.callingSettings.callWith !== callingOptions.browser
+          );
           const showHistory = rolesAndPermissions.permissions.ReadCallLog;
           const showContact = rolesAndPermissions.callingEnabled;
           const showComposeText = rolesAndPermissions.hasComposeTextPermission;
@@ -404,6 +437,12 @@ export default class BasePhone extends RcModule {
           } else {
             this.routerInteraction.push('/settings');
           }
+        } else if (
+          this.routerInteraction.currentPath === '/dialer'
+          && this.softphone.softphoneStatus === softphoneStatus.connecting
+        ) {
+          this._softphoneConnectTime = new Date();
+          this._softphoneConnectNumber = this.softphone.connectingPhoneNumber;
         }
       }
     });

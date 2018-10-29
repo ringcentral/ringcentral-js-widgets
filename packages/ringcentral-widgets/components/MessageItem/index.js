@@ -451,7 +451,7 @@ export default class MessageItem extends Component {
       )
       : null;
     return (
-      <div className={styles.root} onClick={this.onClickItem}>
+      <div data-sign="messageItem" className={styles.root} onClick={this.onClickItem}>
         <div
           className={classnames(
             styles.wrapper,

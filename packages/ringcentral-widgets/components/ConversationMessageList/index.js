@@ -21,7 +21,7 @@ export function Message({
     content = (<img src={mmsAttachment.uri} alt="attactment" className={styles.picture} />);
   }
   return (
-    <div className={styles.message}>
+    <div data-sign="message" className={styles.message}>
       {
         time ?
           (
