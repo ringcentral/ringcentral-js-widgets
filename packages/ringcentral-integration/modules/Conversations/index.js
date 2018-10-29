@@ -125,7 +125,7 @@ export default class Conversations extends RcModule {
     this._olderMessagesExsited = true;
     this._enableLoadOldMessages = enableLoadOldMessages;
     this._showMMSAttachment = showMMSAttachment;
-    this._lastAllConversaions = [];
+    this._lastConversaionList = [];
 
     if (this._contactMatcher) {
       this._contactMatcher.addQuerySource({
@@ -159,11 +159,11 @@ export default class Conversations extends RcModule {
       if (this._contactMatcher) {
         this._contactMatcher.triggerMatch();
       }
-    } else if (this._lastAllConversaions.length > this._messageStore.conversationList) {
+    } else if (this._lastConversaionList.length > this._messageStore.allConversations.length) {
       this.store.dispatch({
         type: this.actionTypes.cleanOldConversatioans
       });
-      this._lastAllConversaions = this._messageStore.conversationList;
+      this._lastConversaionList = this._messageStore.allConversations;
     }
   }
 
