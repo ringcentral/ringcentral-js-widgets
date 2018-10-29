@@ -2,7 +2,7 @@ import callingModes from 'ringcentral-integration/modules/CallingSettings/callin
 
 export default function hasActiveCalls(phone) {
   const {
-    callingSettings,
+    callingSettings, // required
     webphone,
     callMonitor,
     callMonitorUI,
@@ -11,7 +11,7 @@ export default function hasActiveCalls(phone) {
   if (callingSettings.callingMode === callingModes.webphone) {
     return !!(
       (webphone && webphone.sessions.length)
-      || (callMonitor && callMonitor.calls.length)
+      || (callMonitor && callMonitor.otherDeviceCalls.length)
     );
   }
   return !!(
