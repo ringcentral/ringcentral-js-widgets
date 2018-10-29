@@ -67,11 +67,11 @@ module.exports = {
         params: {
           brands: {
             rc: {
-              ...loginInfo,
+              ...loginInfo.office || {},
               location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
             },
             att: {
-              ...loginInfo,
+              ...loginInfo.office || {},
               location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
             }
           }
@@ -87,13 +87,11 @@ module.exports = {
           ],
           brands: {
             rc: {
+              ...loginInfo.salesforce || {},
               location: 'https://login.salesforce.com/',
-              username: 'integration.end2end@ringcentral.com',
-              password: 'RNG94405!'
             },
             att: {
-              username: '',
-              password: '',
+              ...loginInfo.salesforce || {},
               location: 'https://login.salesforce.com/',
             }
           },
