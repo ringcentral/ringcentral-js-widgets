@@ -33,6 +33,7 @@ export default class LoginPanel extends Component {
     return (
       <div className={classnames(styles.root, className)}>
         <button
+          data-sign="loginButton"
           className={styles.loginButton}
           onClick={onLoginButtonClick}
           disabled={disabled}

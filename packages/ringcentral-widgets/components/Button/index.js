@@ -9,9 +9,11 @@ export default function Button({
   onClick,
   children,
   tooltip,
+  dataSign,
 }) {
   return (
     <div
+      data-sign={dataSign}
       className={classnames(
         className,
         styles.root,
@@ -29,6 +31,7 @@ Button.propTypes = {
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
   children: PropTypes.node,
+  dataSign: PropTypes.string,
 };
 
 Button.defaultProps = {
@@ -37,4 +40,5 @@ Button.defaultProps = {
   disabled: false,
   onClick: undefined,
   children: undefined,
+  dataSign: undefined,
 };

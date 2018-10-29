@@ -53,6 +53,7 @@ class TextInput extends Component {
           invalid && styles.invalid,
         )}>
         <input
+          data-sign={this.props.dataSign}
           autoFocus={autoFocus} // eslint-disable-line
           ref={(input) => { this.input = input; }}
           onChange={this.onInputChange}
@@ -128,6 +129,7 @@ TextInput.propTypes = {
   filter: PropTypes.func,
   autoFocus: PropTypes.bool,
   inputClassName: PropTypes.string,
+  dataSign: PropTypes.string,
 };
 TextInput.defaultProps = {
   className: undefined,
@@ -144,7 +146,8 @@ TextInput.defaultProps = {
   onKeyDown: undefined,
   filter: undefined,
   autoFocus: false,
-  inputClassName: undefined
+  inputClassName: undefined,
+  dataSign: undefined
 };
 
 export default TextInput;
