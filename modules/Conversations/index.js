@@ -1022,6 +1022,9 @@ var Conversations = (_dec = (0, _di.Module)({
         }
         var phoneNumber = number[0].phoneNumber || number[0].extensionNumber;
         var correspondentMatches = _this3._contactMatcher.dataMapping[phoneNumber];
+        if (!correspondentMatches) {
+          return;
+        }
         var correspondentEntity = correspondentMatches.filter(function (match) {
           return correspondentMatch.some(function (innerMatch) {
             return match.id === innerMatch.rawId;
