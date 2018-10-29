@@ -159,13 +159,11 @@ export default class Conversations extends RcModule {
       if (this._contactMatcher) {
         this._contactMatcher.triggerMatch();
       }
-    } else if (this._lastAllConversaions !== this.allConversations) {
-      if (this._lastAllConversaions.length > this.allConversations.length) {
-        this.store.dispatch({
-          type: this.actionTypes.cleanOldConversatioans
-        });
-      }
-      this._lastAllConversaions = this.allConversations;
+    } else if (this._lastAllConversaions.length > this._messageStore.conversationList) {
+      this.store.dispatch({
+        type: this.actionTypes.cleanOldConversatioans
+      });
+      this._lastAllConversaions = this._messageStore.conversationList;
     }
   }
 
