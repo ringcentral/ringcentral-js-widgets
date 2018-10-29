@@ -172,6 +172,7 @@ var MessageInput = (_temp = _class = function (_Component) {
           'div',
           { className: _styles2.default.textField },
           _react2.default.createElement('textarea', {
+            'data-sign': 'messageInput',
             ref: function ref(target) {
               _this3.textArea = target;
             },
@@ -189,6 +190,7 @@ var MessageInput = (_temp = _class = function (_Component) {
           'div',
           { className: _styles2.default.submitField },
           _react2.default.createElement('input', {
+            'data-sign': 'messageButton',
             type: 'button',
             value: _i18n2.default.getString('send', currentLocale),
             onClick: onSend,

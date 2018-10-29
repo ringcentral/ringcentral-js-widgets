@@ -76,7 +76,7 @@ function Message(_ref) {
   }
   return _react2.default.createElement(
     'div',
-    { className: _styles2.default.message },
+    { 'data-sign': 'message', className: _styles2.default.message },
     time ? _react2.default.createElement(
       'div',
       { className: _styles2.default.time },

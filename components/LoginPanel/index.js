@@ -97,6 +97,7 @@ var LoginPanel = function (_Component) {
         _react2.default.createElement(
           'button',
           {
+            'data-sign': 'loginButton',
             className: _styles2.default.loginButton,
             onClick: onLoginButtonClick,
             disabled: disabled

@@ -329,7 +329,7 @@ var ConversationPanel = function (_Component) {
         { className: _styles2.default.root },
         _react2.default.createElement(
           'div',
-          { className: _styles2.default.header },
+          { 'data-sign': 'conversationPanel', className: _styles2.default.header },
           _react2.default.createElement(_ContactDisplay2.default, {
             brand: this.props.brand,
             className: _styles2.default.contactDisplay,

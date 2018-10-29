@@ -384,6 +384,7 @@ var RecipientsInput = function (_Component) {
           'div',
           { className: _styles2.default.inputField },
           _react2.default.createElement('input', {
+            'data-sign': 'recipientsInput',
             ref: this.setInputRef,
             name: 'receiver',
             value: this.state.value,

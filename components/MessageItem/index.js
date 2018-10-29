@@ -591,7 +591,7 @@ var MessageItem = function (_Component) {
       }) : null;
       return _react2.default.createElement(
         'div',
-        { className: _styles2.default.root, onClick: this.onClickItem },
+        { 'data-sign': 'messageItem', className: _styles2.default.root, onClick: this.onClickItem },
         _react2.default.createElement(
           'div',
           {

@@ -28,11 +28,13 @@ function Button(_ref) {
       disabled = _ref.disabled,
       onClick = _ref.onClick,
       children = _ref.children,
-      tooltip = _ref.tooltip;
+      tooltip = _ref.tooltip,
+      dataSign = _ref.dataSign;
 
   return _react2.default.createElement(
     'div',
     {
+      'data-sign': dataSign,
       className: (0, _classnames2.default)(className, _styles2.default.root, disabled && _styles2.default.disabled),
       onClick: disabled ? null : onClick,
       title: tooltip },
@@ -44,7 +46,8 @@ Button.propTypes = {
   tooltip: _propTypes2.default.string,
   disabled: _propTypes2.default.bool,
   onClick: _propTypes2.default.func,
-  children: _propTypes2.default.node
+  children: _propTypes2.default.node,
+  dataSign: _propTypes2.default.string
 };
 
 Button.defaultProps = {
@@ -52,6 +55,7 @@ Button.defaultProps = {
   tooltip: '',
   disabled: false,
   onClick: undefined,
-  children: undefined
+  children: undefined,
+  dataSign: undefined
 };
 //# sourceMappingURL=index.js.map

@@ -30,6 +30,7 @@ function Switch(props) {
     'label',
     {
       title: props.title,
+      'data-sign': props.dataSign,
       className: (0, _classnames2.default)(_styles2.default.switch, props.disable && _styles2.default.disable)
     },
     _react2.default.createElement('input', {
@@ -44,13 +45,15 @@ Switch.propTypes = {
   checked: _propTypes2.default.bool,
   disable: _propTypes2.default.bool,
   title: _propTypes2.default.string,
-  onChange: _propTypes2.default.func
+  onChange: _propTypes2.default.func,
+  dataSign: _propTypes2.default.string
 };
 Switch.defaultProps = {
   checked: false,
   disable: false,
   onChange: undefined,
-  title: undefined
+  title: undefined,
+  dataSign: undefined
 };
 exports.default = Switch;
 //# sourceMappingURL=index.js.map

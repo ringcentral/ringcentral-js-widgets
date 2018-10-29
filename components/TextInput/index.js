@@ -101,6 +101,7 @@ var TextInput = function (_Component) {
         {
           className: (0, _classnames2.default)(_styles2.default.root, className, invalid && _styles2.default.invalid) },
         _react2.default.createElement('input', {
+          'data-sign': this.props.dataSign,
           autoFocus: autoFocus // eslint-disable-line
           , ref: function ref(input) {
             _this2.input = input;
@@ -177,7 +178,8 @@ TextInput.propTypes = {
   onKeyDown: _propTypes2.default.func,
   filter: _propTypes2.default.func,
   autoFocus: _propTypes2.default.bool,
-  inputClassName: _propTypes2.default.string
+  inputClassName: _propTypes2.default.string,
+  dataSign: _propTypes2.default.string
 };
 TextInput.defaultProps = {
   className: undefined,
@@ -194,7 +196,8 @@ TextInput.defaultProps = {
   onKeyDown: undefined,
   filter: undefined,
   autoFocus: false,
-  inputClassName: undefined
+  inputClassName: undefined,
+  dataSign: undefined
 };
 
 exports.default = TextInput;

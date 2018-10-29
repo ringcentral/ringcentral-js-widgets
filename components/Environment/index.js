@@ -177,6 +177,7 @@ var Environment = function (_Component) {
             null,
             'Server',
             _react2.default.createElement(_TextInput2.default, {
+              dataSign: 'envServerUrl',
               value: this.state.serverValue,
               onChange: this.onServerChange
             })
@@ -194,6 +195,7 @@ var Environment = function (_Component) {
             _IconLine2.default,
             {
               icon: _react2.default.createElement(_Switch2.default, {
+                dataSign: 'envToggle',
                 checked: this.state.enabledValue,
                 onChange: this.onToggleEnabled
               })
@@ -206,6 +208,7 @@ var Environment = function (_Component) {
             _react2.default.createElement(
               _Button2.default,
               {
+                dataSign: 'envSave',
                 className: (0, _classnames2.default)(_styles2.default.saveButton, !hasChanges ? _styles2.default.disabled : null),
                 onClick: this.onOk,
                 disabled: !hasChanges

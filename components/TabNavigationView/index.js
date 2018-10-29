@@ -55,7 +55,7 @@ function TabNavigationView(props) {
     ),
     _react2.default.createElement(
       'div',
-      { className: _styles2.default.main },
+      { 'data-sign': 'tabNavigationView', className: _styles2.default.main },
       props.children
     ),
     props.navigationPosition === 'bottom' ? navBar : null
