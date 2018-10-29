@@ -59,18 +59,6 @@ var _i18n2 = _interopRequireDefault(_i18n);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function NoMessages(props) {
-  return _react2.default.createElement(
-    'p',
-    { className: _styles2.default.noMessages },
-    props.placeholder
-  );
-}
-
-NoMessages.propTypes = {
-  placeholder: _propTypes2.default.string.isRequired
-};
-
 var ConversationList = function (_Component) {
   (0, _inherits3.default)(ConversationList, _Component);
 
@@ -132,8 +120,6 @@ var ConversationList = function (_Component) {
             disableLinks: disableLinks
           }));
         });
-      } else if (!loadingNextPage) {
-        content = _react2.default.createElement(NoMessages, { placeholder: placeholder });
       }
       var loading = loadingNextPage ? _react2.default.createElement(
         'div',

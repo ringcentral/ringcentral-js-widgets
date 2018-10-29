@@ -77,6 +77,14 @@ var _ConversationList = require('../ConversationList');
 
 var _ConversationList2 = _interopRequireDefault(_ConversationList);
 
+var _NoMessage = require('./widgets/NoMessage');
+
+var _NoMessage2 = _interopRequireDefault(_NoMessage);
+
+var _Search = require('./widgets/Search');
+
+var _Search2 = _interopRequireDefault(_Search);
+
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -215,43 +223,30 @@ var ConversationsPanel = function (_Component) {
           renderExtraButton = _props.renderExtraButton,
           outboundSmsPermission = _props.outboundSmsPermission,
           internalSmsPermission = _props.internalSmsPermission,
-          updateTypeFilter = _props.updateTypeFilter;
+          updateTypeFilter = _props.updateTypeFilter,
+          renderSearchTip = _props.renderSearchTip,
+          renderNoMessage = _props.renderNoMessage;
 
       if (showSpinner) {
         return _react2.default.createElement(_SpinnerOverlay2.default, null);
       }
-      var showTextIcon = composeTextPermission && (typeFilter === _messageTypes2.default.all || typeFilter === _messageTypes2.default.text);
-      var search = onSearchInputChange ? _react2.default.createElement(
-        'div',
-        {
-          className: (0, _classnames2.default)(_styles2.default.searchContainer, showTextIcon ? null : _styles2.default.withoutTextIcon)
-        },
-        _react2.default.createElement(_SearchInput2.default, {
-          className: _styles2.default.searchInput,
-          value: searchInput,
-          onChange: onSearchInputChange,
-          placeholder: _i18n2.default.getString('search', currentLocale),
-          disabled: disableLinks
-        }),
-        _react2.default.createElement(
-          'span',
-          {
-            title: _i18n2.default.getString('composeText', currentLocale),
-            className: _styles2.default.textIcon,
-            onClick: goToComposeText
-          },
-          _react2.default.createElement(_NewComposeTextHover2.default, { className: _styles2.default.hoverTextSVGIcon, width: 20, height: 21 }),
-          _react2.default.createElement(_NewComposeText2.default, { className: _styles2.default.textSVGIcon, width: 20, height: 21 })
-        )
-      ) : null;
       var placeholder = onSearchInputChange && searchInput.length > 0 ? _i18n2.default.getString('noSearchResults', currentLocale) : _i18n2.default.getString('noMessages', currentLocale);
       return _react2.default.createElement(
         'div',
         {
           className: (0, _classnames2.default)(_styles2.default.content, showTitle && _styles2.default.contentWithHeader)
         },
-        search,
-        _react2.default.createElement(_ConversationList2.default, {
+        _react2.default.createElement(_Search2.default, {
+          composeTextPermission: composeTextPermission,
+          typeFilter: typeFilter,
+          onSearchInputChange: onSearchInputChange,
+          searchInput: searchInput,
+          currentLocale: currentLocale,
+          disableLinks: disableLinks,
+          goToComposeText: goToComposeText,
+          renderSearchTip: renderSearchTip
+        }),
+        conversations.length ? _react2.default.createElement(_ConversationList2.default, {
           className: onSearchInputChange ? _styles2.default.contentWithSearch : null,
           currentLocale: currentLocale,
           perPage: perPage,
@@ -289,7 +284,7 @@ var ConversationsPanel = function (_Component) {
           outboundSmsPermission: outboundSmsPermission,
           internalSmsPermission: internalSmsPermission,
           updateTypeFilter: updateTypeFilter
-        })
+        }) : !loadingNextPage && (renderNoMessage && renderNoMessage() || _react2.default.createElement(_NoMessage2.default, { placeholder: placeholder }))
       );
     }
   }, {
@@ -380,7 +375,9 @@ ConversationsPanel.propTypes = {
   loadNextPage: _propTypes2.default.func.isRequired,
   loadingNextPage: _propTypes2.default.bool,
   onUnmount: _propTypes2.default.func,
-  renderExtraButton: _propTypes2.default.func
+  renderExtraButton: _propTypes2.default.func,
+  renderSearchTip: _propTypes2.default.func,
+  renderNoMessage: _propTypes2.default.func
 };
 
 ConversationsPanel.defaultProps = {
@@ -418,6 +415,8 @@ ConversationsPanel.defaultProps = {
   previewFaxMessages: undefined,
   loadingNextPage: false,
   onUnmount: undefined,
-  renderExtraButton: undefined
+  renderExtraButton: undefined,
+  renderSearchTip: undefined,
+  renderNoMessage: undefined
 };
 //# sourceMappingURL=index.js.map
