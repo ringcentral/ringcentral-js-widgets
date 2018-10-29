@@ -2,6 +2,16 @@ import Webphone, { PhoneType } from 'ringcentral-e2e-test/src/lib/webphone';
 
 export default class operateWebPhoneBasic {
   static async getPhone(account) {
+    const phoneRes = await Webphone.getPhonesByNumber(`+${account.did}`);
+    const phoneBody = JSON.parse(phoneRes.text);
+    if(phoneBody.length > 0 ){
+      await Webphone.operate({
+        phoneId: phoneBody[0]._id,
+        sessionId: phoneBody[0].sessionId,
+        action: 'close',
+        phoneNumber: phoneBody[0].phoneNumber
+      });
+    }
     const res = await Webphone.createWebPhone(`+${account.did}`, PhoneType.WebPhone, 'Test!123');
     const body = JSON.parse(res.text);
     const webphone = {
