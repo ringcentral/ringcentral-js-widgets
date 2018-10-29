@@ -573,7 +573,7 @@ var ActiveCallItem = function (_Component) {
           contactDisplayStyle = _props2.contactDisplayStyle,
           isOnConferenceCall = _props2.isOnConferenceCall,
           webphoneHold = _props2.webphoneHold,
-          _onClick = _props2.onClick,
+          onClick = _props2.onClick,
           showMergeCall = _props2.showMergeCall,
           showHold = _props2.showHold,
           showAvatar = _props2.showAvatar,
@@ -601,18 +601,17 @@ var ActiveCallItem = function (_Component) {
         renderExtraButton(this.props.call)
       ) : undefined;
       var hasCallControl = !!(webphoneSession || showRingoutCallControl);
+      var cursorPointer = hasCallControl && !!onClick;
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.callItemContainer },
         _react2.default.createElement(_MediaObject2.default, {
           containerCls: _styles2.default.wrapper,
-          bodyCls: (0, _classnames8.default)((_classnames5 = {}, (0, _defineProperty3.default)(_classnames5, _styles2.default.content, true), (0, _defineProperty3.default)(_classnames5, _styles2.default.pointer, hasCallControl), (0, _defineProperty3.default)(_classnames5, _styles2.default.disabled, hasCallControl && disableLinks), _classnames5)),
-          leftCls: (0, _classnames8.default)((_classnames6 = {}, (0, _defineProperty3.default)(_classnames6, _styles2.default.pointer, hasCallControl), (0, _defineProperty3.default)(_classnames6, _styles2.default.disabled, hasCallControl && disableLinks), _classnames6)),
+          bodyCls: (0, _classnames8.default)((_classnames5 = {}, (0, _defineProperty3.default)(_classnames5, _styles2.default.content, true), (0, _defineProperty3.default)(_classnames5, _styles2.default.pointer, cursorPointer), (0, _defineProperty3.default)(_classnames5, _styles2.default.cursorUnset, !cursorPointer), (0, _defineProperty3.default)(_classnames5, _styles2.default.disabled, hasCallControl && disableLinks), _classnames5)),
+          leftCls: (0, _classnames8.default)((_classnames6 = {}, (0, _defineProperty3.default)(_classnames6, _styles2.default.pointer, hasCallControl && !!onClick), (0, _defineProperty3.default)(_classnames6, _styles2.default.disabled, hasCallControl && disableLinks), _classnames6)),
           mediaLeft: _react2.default.createElement(
             'div',
-            { onClick: function onClick() {
-                return hasCallControl && _onClick();
-              } },
+            { onClick: hasCallControl && onClick ? onClick : null },
             _react2.default.createElement(_CallIcon2.default, {
               direction: direction,
               ringing: ringing,
@@ -629,9 +628,9 @@ var ActiveCallItem = function (_Component) {
           ),
           mediaBody: _react2.default.createElement(
             'div',
-            { onClick: function onClick() {
-                return hasCallControl && _onClick();
-              }, className: _styles2.default.strechVertical },
+            {
+              onClick: hasCallControl && onClick ? onClick : null,
+              className: _styles2.default.strechVertical },
             _react2.default.createElement(_ContactDisplay2.default, {
               isOnConferenceCall: isOnConferenceCall,
               contactName: contactName,
