@@ -1,5 +1,4 @@
 import { resolve } from 'path';
-import fs from 'fs';
 import runner from '../src/runner.js';
 import { isNil } from '../src/utils/checkType';
 
