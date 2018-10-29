@@ -66,20 +66,24 @@ npx e2e-test run ./src/features/commons/call/Dialer.spec.js --drivers puppeteer
 **NOTE: If you want to try to write some test cases from the RC widget demo, you can keep on the following [next steps](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#guide-for-rc-integration-app).**
 
 ### Guide For RC Integration App
-description:1. User has logged into Salesforce. 
-            2. User has logged into RC CTI app.
-            3. User go to setting and set up the Make my calls with my ringcentral phone.
+description:
+
+>1. User has logged into Salesforce.
+>2. User has logged into RC CTI app.
+>3. User go to setting and set up the Make my calls with my ringcentral phone.
+
 1. Write a Minimum steps,this steps is setting process include go to setting and set up the Make my calls with my ringcentral phone.
-settingRCPhone.js
+
+`settingRCPhone.js`
 ```js
 export default class SettingMyRCPhone {
   //go to setting
   static async enterSettings() {
     await $(app).waitFor(1000);
-    await $(app).waitForSelector('[title="More Menu"]',{ selector: 'css' });
-    await $(app).click('[title="More Menu"]',{ selector: 'css' });
-    await $(app).waitForSelector('[title="Settings"]',{ selector: 'css' });
-    await $(app).click('[title="Settings"]',{ selector: 'css' });
+    await $(app).waitForSelector('[title="More Menu"]');
+    await $(app).click('[title="More Menu"]');
+    await $(app).waitForSelector('[title="Settings"]');
+    await $(app).click('[title="Settings"]');
     await $(app).waitFor(1000);
   }
   //set up the Make my calls with my ringcentral phone.
@@ -87,10 +91,10 @@ export default class SettingMyRCPhone {
     await $(app).click('#viewport > div > div > div > div > div > div.node_modules-ringcentral-widgets-components-SettingsPanel-_styles_root_1Eq2f > div > a:nth-child(1) > div > div > div.node_modules-ringcentral-widgets-components-IconField-_styles_content_2rExK')
     const DropdownSelectText = await $(app).getText('[class*="DropdownSelect"]');
     if (DropdownSelectText.trim() !== 'My RingCentral Phone') {
-      await $(app).click('[class*="DropdownSelect"]',{ selector: 'css' });
-      await $(app).click('[title="My RingCentral Phone"]',{ selector: 'css' });
-      await $(app).click('[class*=SaveButton]',{ selector: 'css' });
-      await $(app).waitForSelector('[class*="AlertDisplay"]',{ selector: 'css' });
+      await $(app).click('[class*="DropdownSelect"]');
+      await $(app).click('[title="My RingCentral Phone"]');
+      await $(app).click('[class*=SaveButton]');
+      await $(app).waitForSelector('[class*="AlertDisplay"]');
       await $(app).execute('phone.alert.dismissAll');
       await $(app).waitFor(1000);
     }
@@ -106,14 +110,14 @@ export default class SettingMyRCPhone {
 NOTE: If use marten must have a function is steps.
 
 2. write a test case
-stepsDemo.js
+`stepsDemo.js`
 ```js
 import { createProcess } from 'marten';
-import Login from 'ringcentral-e2e-test/src/steps/salesforce/login';
-import NavigateTo from 'ringcentral-e2e-test/src/steps/salesforce/navigateTo';
-import Entry from 'ringcentral-e2e-test/src/steps/entry';
-import SettingMyRCPhone from 'ringcentral-e2e-test/src/steps/salesforce/settingMyRCPhone'
-import Logout from 'ringcentral-e2e-test/src/steps/salesforce/logout'
+import { LoginCTI } from '../src/steps/salesforce/login';
+import NavigateTo from '../src/steps/salesforce/navigateTo';
+import Entry from '../src/steps/entry';
+import SettingMyRCPhone from '../src/steps/salesforce/settingMyRCPhone'
+import Logout from '../steps/salesforce/logout'
 
 describe('Test Demo: =====>', () => {
   test({
@@ -123,12 +127,12 @@ describe('Test Demo: =====>', () => {
     ],
     levels: ['p0'],
     options: [
-      { accountTag: 'rc_uk_sfentity'},
+      { accounts: ['SF_RC_US']},
     ],
   }, async ({ option, isVirtual }) => {
     const process = createProcess(
       Entry,
-      Login,
+      LoginCTI,
       NavigateTo,
       SettingMyRCPhone,
       Logout,
@@ -157,7 +161,7 @@ NOTE:
 3. Run test case
 ```shell
 cd <repo>/packages/ringcentral-e2e-test
-npx e2e-test run ./src/features/salesforce/demo/stepsDemo.js --drivers puppeteer 
+npx e2e-test run ./src/features/salesforce/demo/stepsDemo.js --drivers puppeteer
 ```
 TODO
 
@@ -346,6 +350,9 @@ TODO
 ```javascript
 Login({ username: '+18552085709*103', password: 'Test!123' })
 ```
+
+Note:
+Login user priority: `options` username/password > `Login` parameters > `tags` accounts > `accounts` > default in `e2e.config.js`
 
 ### Benchmark Results
 

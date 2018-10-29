@@ -18,8 +18,7 @@ module.exports = {
     drivers: ['puppeteer', 'seleniumWebdriverFirefox', 'seleniumWebdriverChrome'],
     levels: ['p0', 'p1'],
     brands: ['rc'],
-    envs: ['itl'],
-    accounts: ['CM_RC_US'],
+    envs: ['xmnup'],
     tags: [
       ['widgets'],
       ['salesforce'],
@@ -31,11 +30,13 @@ module.exports = {
     drivers: ['enzyme', 'puppeteer', 'seleniumWebdriverFirefox', 'seleniumWebdriverSafari', 'seleniumWebdriverChrome'],
     levels: ['p3'],
     brands: ['rc'],
+    accounts: ['CM_RC_US'],
     tags: [
       [
         'salesforce',
         {
           modes: ['classic'],
+          accounts: ['SF_RC_US'],
           drivers: ['puppeteer', 'seleniumWebdriverFirefox', 'seleniumWebdriverSafari', 'enzyme', 'seleniumWebdriverChrome']
         }
       ],

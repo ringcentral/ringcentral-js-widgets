@@ -80,3 +80,5 @@ export default function Login(account) {
     }
   );
 }
+
+export const LoginCTI = Login();

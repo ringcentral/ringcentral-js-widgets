@@ -9,7 +9,8 @@ export default class TypeComposeToField {
     if (Array.isArray(option.typeToFields)) {
       for (const typeToField of option.typeToFields) {
         await $(app).type(recipientsInput, typeToField);
-        await this._check(recipientsInput, typeToField);
+        const toFieldText = await $(app).getValue(recipientsInput);
+        await this._check(toFieldText, typeToField);
         await $(app).clear(recipientsInput);
         await Promise.race([
           $(app).waitFor(500),
