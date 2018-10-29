@@ -5,16 +5,18 @@ $avatar-basis:45.5px;
 $button-basis:68.5px;
 $ringout-button-size: 24px;
 
-@mixin pointer {
+.cursorPointer {
   cursor: pointer;
-}
-
-.pointer {
-  @include pointer;
+  * {
+    cursor: pointer;
+  }
 }
 
 .cursorUnset {
   cursor: unset;
+  * {
+    cursor: unset;
+  }
 }
 
 .strechVertical {

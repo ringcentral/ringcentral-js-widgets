@@ -607,8 +607,8 @@ var ActiveCallItem = function (_Component) {
         { className: _styles2.default.callItemContainer },
         _react2.default.createElement(_MediaObject2.default, {
           containerCls: _styles2.default.wrapper,
-          bodyCls: (0, _classnames8.default)((_classnames5 = {}, (0, _defineProperty3.default)(_classnames5, _styles2.default.content, true), (0, _defineProperty3.default)(_classnames5, _styles2.default.pointer, cursorPointer), (0, _defineProperty3.default)(_classnames5, _styles2.default.cursorUnset, !cursorPointer), (0, _defineProperty3.default)(_classnames5, _styles2.default.disabled, hasCallControl && disableLinks), _classnames5)),
-          leftCls: (0, _classnames8.default)((_classnames6 = {}, (0, _defineProperty3.default)(_classnames6, _styles2.default.pointer, hasCallControl && !!onClick), (0, _defineProperty3.default)(_classnames6, _styles2.default.disabled, hasCallControl && disableLinks), _classnames6)),
+          bodyCls: (0, _classnames8.default)((_classnames5 = {}, (0, _defineProperty3.default)(_classnames5, _styles2.default.content, true), (0, _defineProperty3.default)(_classnames5, _styles2.default.cursorPointer, cursorPointer), (0, _defineProperty3.default)(_classnames5, _styles2.default.cursorUnset, !cursorPointer), (0, _defineProperty3.default)(_classnames5, _styles2.default.disabled, hasCallControl && disableLinks), _classnames5)),
+          leftCls: (0, _classnames8.default)((_classnames6 = {}, (0, _defineProperty3.default)(_classnames6, _styles2.default.cursorPointer, cursorPointer), (0, _defineProperty3.default)(_classnames6, _styles2.default.cursorUnset, !cursorPointer), (0, _defineProperty3.default)(_classnames6, _styles2.default.disabled, hasCallControl && disableLinks), _classnames6)),
           mediaLeft: _react2.default.createElement(
             'div',
             { onClick: hasCallControl && onClick ? onClick : null },
