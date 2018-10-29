@@ -974,6 +974,14 @@ var MessageStore = (_dec = (0, _di.Module)({
       return deleteMessageApi;
     }()
   }, {
+    key: 'sliceConversations',
+    value: function sliceConversations(len) {
+      this.store.dispatch({
+        type: this.actionTypes.sliceConversations,
+        length: len
+      });
+    }
+  }, {
     key: '_batchUpdateMessagesApi',
     value: function () {
       var _ref19 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(messageIds, body) {

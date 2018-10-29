@@ -271,6 +271,7 @@ var Conversations = (_dec = (0, _di.Module)({
     _this._olderMessagesExsited = true;
     _this._enableLoadOldMessages = enableLoadOldMessages;
     _this._showMMSAttachment = showMMSAttachment;
+    _this._lastConversaionList = [];
 
     if (_this._contactMatcher) {
       _this._contactMatcher.addQuerySource({
@@ -309,6 +310,11 @@ var Conversations = (_dec = (0, _di.Module)({
         if (this._contactMatcher) {
           this._contactMatcher.triggerMatch();
         }
+      } else if (this._lastConversaionList.length > this._messageStore.allConversations.length) {
+        this.store.dispatch({
+          type: this.actionTypes.cleanOldConversatioans
+        });
+        this._lastConversaionList = this._messageStore.allConversations;
       }
     }
   }, {

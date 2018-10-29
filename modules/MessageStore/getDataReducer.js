@@ -35,7 +35,9 @@ function getConversationListReducer(types) {
     var type = _ref.type,
         records = _ref.records,
         conversationId = _ref.conversationId,
-        conversationStore = _ref.conversationStore;
+        conversationStore = _ref.conversationStore,
+        _ref$length = _ref.length,
+        length = _ref$length === undefined ? Infinity : _ref$length;
 
     var newState = [];
     var stateMap = {};
@@ -111,6 +113,9 @@ function getConversationListReducer(types) {
         return state.filter(function (c) {
           return c.id !== conversationId;
         });
+
+      case types.sliceConversations:
+        return state.slice(0, length);
       case types.resetSuccess:
         return [];
       default:
