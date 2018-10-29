@@ -1,14 +1,7 @@
 /* global $ */
 const location = 'https://na78.salesforce.com/home/showAllTabs.jsp';
 export default class Entry {
-  static setEnv(context) {
-    if (process.env.PLATFORM === undefined) {
-      const PLATFORM = context.options.config.env || null;
-      process.env.PLATFORM = PLATFORM;
-    }
-  }
   static async goto(context) {
-    Entry.setEnv(context);
     const { options: { config, driver }, driver: { page } } = context;
     await $(page).waitForSelector('#username', { visible: true });
     await $(page).type('#username', config.username, { selector: 'css' });
@@ -23,16 +16,27 @@ export default class Entry {
 
   static async classic(context) {
     const { driver: { page } } = context;
+    // TODO optimize waiting time
     await $(page).waitFor(8000);
-    const app = await $(page).waitForFrames(['SoftphoneIframe', 'rcAppClassic']);
+    await $(page).waitForSelector('#SoftphoneIframe');
+    const app = await $(page).waitForFrames(['#SoftphoneIframe', '#rcAppClassic']);
     return app;
   }
 
   static async lightning(context) {
-    //
+    const { driver: { page } } = context;
+    await $(page).click('.switch-to-lightning');
+    await $(page).click('.flexipageComponent');
+    // TODO optimize waiting time
+    await $(page).waitFor(8000);
+    await $(page).waitForSelector('iframe.openctiSoftPhone');
+    const app = await $(page).waitForFrames(['iframe.openctiSoftPhone', '#rcAppLightning']);
+    return app;
   }
 
   static async routeMode(context) {
+    // TODO optimize waiting time
+    await $(context.driver.page).waitFor(2000);
     await $(context.driver.page).goto(location);
     context.driver.app = await this[context.options.tag.modes](context);
     global.app = context.driver.app;

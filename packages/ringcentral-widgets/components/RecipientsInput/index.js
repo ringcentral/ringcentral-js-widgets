@@ -317,6 +317,7 @@ class RecipientsInput extends Component {
         <div className={styles.inputWrapper}>
           <div className={styles.inputField}>
             <input
+              data-sign="recipientsInput"
               ref={this.setInputRef}
               name="receiver"
               value={this.state.value}

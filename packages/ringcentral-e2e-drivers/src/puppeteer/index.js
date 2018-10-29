@@ -21,12 +21,18 @@ class Query extends BaseQuery {
     return innerText;
   }
 
-  async getAttributeValue(selector, attribute, options = {}) {
+  async getAttribute(selector, attribute, options = {}) {
     const element = await this.waitForSelector(selector, options);
-    const attributeValue = await this._node.evaluate((ele,attr) => {
-      return ele.getAttribute(attr);
-    }, element,attribute);
+    const attributeValue = await this._node.evaluate(
+      (element, attr) => element.getAttribute(attr),
+      element, attribute
+    );
     return attributeValue;
+  }
+
+  async getValue(selector, options) {
+    const value = this.getAttribute(selector, 'value', options);
+    return value;
   }
 
   async html(selector) {
@@ -41,6 +47,7 @@ class Query extends BaseQuery {
   }
 
   async click(selector, options) {
+    await this.waitForSelector(selector, options);
     const _selector = this.getSelector(selector, options);
     await this._node.click(_selector);
   }
@@ -65,17 +72,22 @@ class Query extends BaseQuery {
     return element;
   }
 
-  async waitForFrames(frameIds) {
+  async waitForFrames(frameSelectors) {
     let frame = this._node;
-    for (const frameId of frameIds) {
-      await frame.waitForFunction(`document.querySelector('#${frameId}')`);
-      frame = this._node.frames().find(frame => frame.name() === frameId);
+    for (const frameSelector of frameSelectors) {
+      await frame.waitForFunction(`document.querySelector('${frameSelector}')`);
+      const name = await frame.evaluate((frameSelector) => {
+        const { name, id } = document.querySelector(frameSelector);
+        return name || id;
+      }, frameSelector);
+      frame = this._node.frames().find(frame => frame.name() === name);
     }
     return frame;
   }
 
-  async waitForFunction(...args) {
-    await this._node.waitForFunction(...args);
+  async waitForFunction(fn, ...args) {
+    // TODO waitForFunction for `option` compatibility
+    await this._node.waitForFunction(fn, {}, ...args);
   }
 
   async screenshot({ path } = {}) {
@@ -98,7 +110,6 @@ class Query extends BaseQuery {
     const _selector = this.getSelector(selector, options);
     await this._node.focus(_selector);
     await this._node.$eval(_selector, input => input.select(), _selector);
-    // await this._node.click(_selector, { clickCount: 3 });
     if (this._node.keyboard) {
       await this._node.keyboard.press('Delete');
     } else {
