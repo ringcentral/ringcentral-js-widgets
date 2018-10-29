@@ -513,12 +513,13 @@ export default class ActiveCallItem extends Component {
           containerCls={styles.wrapper}
           bodyCls={classnames({
             [styles.content]: true,
-            [styles.pointer]: cursorPointer,
+            [styles.cursorPointer]: cursorPointer,
             [styles.cursorUnset]: !cursorPointer,
             [styles.disabled]: hasCallControl && disableLinks,
           })}
           leftCls={classnames({
-            [styles.pointer]: hasCallControl && !!onClick,
+            [styles.cursorPointer]: cursorPointer,
+            [styles.cursorUnset]: !cursorPointer,
             [styles.disabled]: hasCallControl && disableLinks,
           })}
           mediaLeft={
