@@ -36,14 +36,19 @@ function getTestMatch(args) {
 
 
 const run = async (dir, cmd) => {
-  // if params exit and is a json file, read params file as cmd params
-  if (cmd.params && (/.json$/).test(cmd.params)) {
+  const isRelativePath = (/^.\/|^..\//).test(cmd.params);
+  const isResolvePath = (/^\//).test(cmd.params);
+  if (isRelativePath || isResolvePath) {
     try {
-      cmd.params = fs.readFileSync(resolve(__dirname, cmd.params), 'utf-8');
-    } catch (error) {
-      console.log(error);
+      if (isRelativePath) {
+        cmd.params = resolve(process.cwd(), cmd.params);
+      }
+      cmd.params = JSON.stringify(require(cmd.params));
+    } catch (e) {
+      console.error(e);
     }
   }
+
   if (isNil(dir)) {
     console.error('Unexpected parameters format.');
     process.exit();
