@@ -13,6 +13,10 @@ $ringout-button-size: 24px;
   @include pointer;
 }
 
+.cursorUnset {
+  cursor: unset;
+}
+
 .strechVertical {
   align-self: stretch;
   display: flex;
@@ -204,7 +208,6 @@ $ringout-button-size: 24px;
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 100%;
-  @include pointer;
 
   .icon {
     display: none;
