@@ -506,18 +506,20 @@ export default class ActiveCallItem extends Component {
       <div className={styles.extraButton}>{renderExtraButton(this.props.call)}</div> :
       undefined;
     const hasCallControl = !!(webphoneSession || showRingoutCallControl);
+    const cursorPointer = hasCallControl && !!onClick;
     return (
       <div className={styles.callItemContainer}>
         <MediaObject
           containerCls={styles.wrapper}
           bodyCls={classnames({
             [styles.content]: true,
-            [styles.pointer]: hasCallControl && !!onClick,
-            [styles.disabled]: hasCallControl && disableLinks
+            [styles.pointer]: cursorPointer,
+            [styles.cursorUnset]: !cursorPointer,
+            [styles.disabled]: hasCallControl && disableLinks,
           })}
           leftCls={classnames({
             [styles.pointer]: hasCallControl && !!onClick,
-            [styles.disabled]: hasCallControl && disableLinks
+            [styles.disabled]: hasCallControl && disableLinks,
           })}
           mediaLeft={
             <div onClick={(hasCallControl && onClick) ? onClick : null}>
