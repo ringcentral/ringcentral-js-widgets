@@ -11,6 +11,8 @@ import ComposeText from '../../assets/images/ComposeText.svg';
 import NewComposeText from '../../assets/images/NewComposeText.svg';
 import NewComposeTextHover from '../../assets/images/NewComposeTextHover.svg';
 import ConversationList from '../ConversationList';
+import NoMessage from './widgets/NoMessage';
+import Search from './widgets/Search';
 
 import styles from './styles.scss';
 import i18n from './i18n';
@@ -131,39 +133,13 @@ export default class ConversationsPanel extends Component {
       renderExtraButton,
       outboundSmsPermission,
       internalSmsPermission,
-      updateTypeFilter
+      updateTypeFilter,
+      renderSearchTip,
+      renderNoMessage
     } = this.props;
     if (showSpinner) {
       return (<SpinnerOverlay />);
     }
-    const showTextIcon =
-      composeTextPermission &&
-      (typeFilter === messageTypes.all || typeFilter === messageTypes.text);
-    const search = onSearchInputChange ?
-      (
-        <div
-          className={
-            classnames(styles.searchContainer, showTextIcon ? null : styles.withoutTextIcon)
-          }
-        >
-          <SearchInput
-            className={styles.searchInput}
-            value={searchInput}
-            onChange={onSearchInputChange}
-            placeholder={i18n.getString('search', currentLocale)}
-            disabled={disableLinks}
-          />
-          <span
-            title={i18n.getString('composeText', currentLocale)}
-            className={styles.textIcon}
-            onClick={goToComposeText}
-          >
-            <NewComposeTextHover className={styles.hoverTextSVGIcon} width={20} height={21} />
-            <NewComposeText className={styles.textSVGIcon} width={20} height={21} />
-          </span>
-        </div>
-      ) :
-      null;
     const placeholder = onSearchInputChange && searchInput.length > 0 ?
       i18n.getString('noSearchResults', currentLocale) :
       i18n.getString('noMessages', currentLocale);
@@ -174,46 +150,65 @@ export default class ConversationsPanel extends Component {
           showTitle && styles.contentWithHeader
         )}
       >
-        {search}
-        <ConversationList
-          className={onSearchInputChange ? styles.contentWithSearch : null}
-          currentLocale={currentLocale}
-          perPage={perPage}
-          disableLinks={disableLinks}
-          conversations={conversations}
-          brand={brand}
-          showConversationDetail={showConversationDetail}
-          readMessage={readMessage}
-          markMessage={markMessage}
-          dateTimeFormatter={dateTimeFormatter}
-          showContactDisplayPlaceholder={showContactDisplayPlaceholder}
-          sourceIcons={sourceIcons}
-          phoneTypeRenderer={phoneTypeRenderer}
-          phoneSourceNameRenderer={phoneSourceNameRenderer}
-          showGroupNumberName={showGroupNumberName}
-          placeholder={placeholder}
-          areaCode={areaCode}
-          countryCode={countryCode}
-          onLogConversation={onLogConversation}
-          onViewContact={onViewContact}
-          onCreateContact={onCreateContact}
-          createEntityTypes={createEntityTypes}
-          onClickToDial={onClickToDial}
-          onClickToSms={onClickToSms}
-          disableClickToDial={disableClickToDial}
-          unmarkMessage={unmarkMessage}
-          autoLog={autoLog}
-          enableContactFallback={enableContactFallback}
-          deleteMessage={deleteMessage}
-          previewFaxMessages={previewFaxMessages}
-          loadNextPage={loadNextPage}
-          loadingNextPage={loadingNextPage}
+        <Search
+          composeTextPermission={composeTextPermission}
           typeFilter={typeFilter}
-          renderExtraButton={renderExtraButton}
-          outboundSmsPermission={outboundSmsPermission}
-          internalSmsPermission={internalSmsPermission}
-          updateTypeFilter={updateTypeFilter}
+          onSearchInputChange={onSearchInputChange}
+          searchInput={searchInput}
+          currentLocale={currentLocale}
+          disableLinks={disableLinks}
+          goToComposeText={goToComposeText}
+          renderSearchTip={renderSearchTip}
         />
+        { conversations.length ?
+          <ConversationList
+            className={onSearchInputChange ? styles.contentWithSearch : null}
+            currentLocale={currentLocale}
+            perPage={perPage}
+            disableLinks={disableLinks}
+            conversations={conversations}
+            brand={brand}
+            showConversationDetail={showConversationDetail}
+            readMessage={readMessage}
+            markMessage={markMessage}
+            dateTimeFormatter={dateTimeFormatter}
+            showContactDisplayPlaceholder={showContactDisplayPlaceholder}
+            sourceIcons={sourceIcons}
+            phoneTypeRenderer={phoneTypeRenderer}
+            phoneSourceNameRenderer={phoneSourceNameRenderer}
+            showGroupNumberName={showGroupNumberName}
+            placeholder={placeholder}
+            areaCode={areaCode}
+            countryCode={countryCode}
+            onLogConversation={onLogConversation}
+            onViewContact={onViewContact}
+            onCreateContact={onCreateContact}
+            createEntityTypes={createEntityTypes}
+            onClickToDial={onClickToDial}
+            onClickToSms={onClickToSms}
+            disableClickToDial={disableClickToDial}
+            unmarkMessage={unmarkMessage}
+            autoLog={autoLog}
+            enableContactFallback={enableContactFallback}
+            deleteMessage={deleteMessage}
+            previewFaxMessages={previewFaxMessages}
+            loadNextPage={loadNextPage}
+            loadingNextPage={loadingNextPage}
+            typeFilter={typeFilter}
+            renderExtraButton={renderExtraButton}
+            outboundSmsPermission={outboundSmsPermission}
+            internalSmsPermission={internalSmsPermission}
+            updateTypeFilter={updateTypeFilter}
+          /> :
+          (
+            !loadingNextPage &&
+            (
+              renderNoMessage && renderNoMessage()
+              || <NoMessage placeholder={placeholder} />
+            )
+          )
+      }
+
       </div>
     );
   }
@@ -302,6 +297,8 @@ ConversationsPanel.propTypes = {
   loadingNextPage: PropTypes.bool,
   onUnmount: PropTypes.func,
   renderExtraButton: PropTypes.func,
+  renderSearchTip: PropTypes.func,
+  renderNoMessage: PropTypes.func,
 };
 
 ConversationsPanel.defaultProps = {
@@ -340,4 +337,6 @@ ConversationsPanel.defaultProps = {
   loadingNextPage: false,
   onUnmount: undefined,
   renderExtraButton: undefined,
+  renderSearchTip: undefined,
+  renderNoMessage: undefined,
 };

@@ -3,7 +3,7 @@ import * as messageHelper from '../../lib/messageHelper';
 
 export function getConversationListReducer(types) {
   return (state = [], {
-    type, records, conversationId, conversationStore
+    type, records, conversationId, conversationStore, length = Infinity
   }) => {
     const newState = [];
     const stateMap = {};
@@ -73,6 +73,9 @@ export function getConversationListReducer(types) {
         return newState.filter(c => !!c).sort(messageHelper.sortByCreationTime);
       case types.deleteConversation:
         return state.filter(c => c.id !== conversationId);
+
+      case types.sliceConversations:
+        return state.slice(0, length);
       case types.resetSuccess:
         return [];
       default:

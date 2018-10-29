@@ -14,4 +14,5 @@ export default new Enum([
   'clickToSMS',
   'clickToCall',
   'deleteConversation',
+  'sliceConversations',
 ], 'newMessageStore');

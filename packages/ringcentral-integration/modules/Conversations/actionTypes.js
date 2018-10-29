@@ -20,6 +20,7 @@ export default new Enum([
   'deleteConversation',
   'increaseCurrentPage',
   'resetCurrentPage',
+  'cleanOldConversatioans',
   'addEntity',
-  'removeEntity'
+  'removeEntity',
 ], 'conversations');

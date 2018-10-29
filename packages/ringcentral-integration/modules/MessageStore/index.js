@@ -90,12 +90,12 @@ export default class MessageStore extends Pollable {
       ...options,
       actionTypes,
     });
-    this._auth = this::ensureExist(auth, 'auth');
-    this._alert = this::ensureExist(alert, 'alert');
-    this._client = this::ensureExist(client, 'client');
-    this._subscription = this::ensureExist(subscription, 'subscription');
+    this._auth = this:: ensureExist(auth, 'auth');
+    this._alert = this:: ensureExist(alert, 'alert');
+    this._client = this:: ensureExist(client, 'client');
+    this._subscription = this:: ensureExist(subscription, 'subscription');
     this._rolesAndPermissions =
-      this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+      this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
 
     if (!disableCache) {
       this._storage = storage;
@@ -451,7 +451,7 @@ export default class MessageStore extends Pollable {
         // Mark last 10 messages that dispatched
         // To present dispatching same record twice
         this._dispatchedMessageIds =
-        [{ id, lastModifiedTime }].concat(this._dispatchedMessageIds).slice(0, 20);
+          [{ id, lastModifiedTime }].concat(this._dispatchedMessageIds).slice(0, 20);
         this._messageUpdatedHandlers.forEach(handler => handler(record));
         // For new inbound message notification
         if (
@@ -502,6 +502,13 @@ export default class MessageStore extends Pollable {
       .messageStore(messageId)
       .delete();
     return response;
+  }
+
+  sliceConversations(len) {
+    this.store.dispatch({
+      type: this.actionTypes.sliceConversations,
+      length: len
+    });
   }
 
   async _batchUpdateMessagesApi(messageIds, body) {
