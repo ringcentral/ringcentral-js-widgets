@@ -919,6 +919,9 @@ export default class Conversations extends RcModule {
       }
       const phoneNumber = number[0].phoneNumber || number[0].extensionNumber;
       const correspondentMatches = this._contactMatcher.dataMapping[phoneNumber];
+      if (!correspondentMatches) {
+        return;
+      }
       const correspondentEntity = correspondentMatches.filter(match =>
         (correspondentMatch.some(innerMatch => match.id === innerMatch.rawId)));
       let entity = null;
