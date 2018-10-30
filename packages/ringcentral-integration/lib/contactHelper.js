@@ -15,7 +15,7 @@ export function addPhoneToContact(contact, phone, type) {
   } else {
     contact.phoneNumbers.push({
       phoneNumber: phone,
-      phoneType: type,
+      phoneType: type.replace('Phone', ''),
     });
   }
 }
