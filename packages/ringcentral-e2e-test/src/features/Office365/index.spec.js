@@ -35,7 +35,13 @@ describe('O365 contact flow: =====>', () => {
     levels: ['p0'],
     options: [{
       authSuccess: 'Authorized Account',
-    }, ],
+      appNames: {
+        rc: 'RingCentral for Office365',
+        att: 'Office@Hand for Office365',
+        bt: 'BT Cloud Phone for Office365',
+        telus: 'TELUS Business Connect for Office365',
+      }
+    }],
   }, async (...args) => {
     const process = createProcess(
       Entry,
