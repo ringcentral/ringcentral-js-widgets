@@ -34,7 +34,20 @@ function getTestMatch(args) {
 }
 
 
-const run = (dir, cmd) => {
+const run = async (dir, cmd) => {
+  const isRelativePath = (/^.\/|^..\//).test(cmd.params);
+  const isResolvePath = (/^\//).test(cmd.params);
+  if (isRelativePath || isResolvePath) {
+    try {
+      if (isRelativePath) {
+        cmd.params = resolve(process.cwd(), cmd.params);
+      }
+      cmd.params = JSON.stringify(require(cmd.params));
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   if (isNil(dir)) {
     console.error('Unexpected parameters format.');
     process.exit();
