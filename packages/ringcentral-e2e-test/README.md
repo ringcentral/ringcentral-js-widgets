@@ -163,7 +163,29 @@ NOTE:
 cd <repo>/packages/ringcentral-e2e-test
 npx e2e-test run ./src/features/salesforce/demo/stepsDemo.js --drivers puppeteer
 ```
-TODO
+
+#### Setting `loginInfo.js`
+
+set `loginInfo.js`.
+
+```javascript
+module.exports = {
+  office: {
+    username: '',
+    password: ''
+  },
+  salesforce: {
+    username: '',
+    password: ''
+  }
+};
+```
+
+use it in `e2e.config.js`.
+
+```javascript
+loginInfo.salesforce || {}
+```
 
 #### Run RC for GoogleChrome Test Case
 
@@ -233,16 +255,16 @@ $(app).click('@foobar');
 </div>
 <div data-sign="foo">
   <div>
-    <a data-sign="bar">select this</a>
+    <a data-sign="bar"></a>
   </div>
   <div>
-    <a data-sign="bar"></a>
+    <a data-sign="bar">select this</a>
   </div>
 </div>
 ```
 
 ```javascrpt
-$(app).click('@foo:2 bar:1');
+$(app).click('@foo:2 bar:-1');
 ```
 
 ### APIs Reference
@@ -264,7 +286,6 @@ TODO
 | lookupConfig | Look up executive config from this config file. | function |
 | params       | Setting project basic information.              | object   |
 
-TODO
 
 #### Test Drivers
 
@@ -277,24 +298,18 @@ TODO
 | newPage   | Create a new page in a default browser context. | ()                  |
 | closePage | Closes the current window.                      | ()                  |
 
-TODO
-
 ##### Query APIs
 
-| Reference       | Description                                       | arguments                  |
-| --------------- | ------------------------------------------------- | -------------------------- |
-| getText         | Get text from a selector.                         | (selector[, options])      |
-| goto            | Current page goto a new page with a url.          | (config)                   |
-| click           | left-click with the mouse.                        | (selector, options)        |
-| type            | Enter a value on the selector.                    | (selector, value, options) |
-| waitForSelector | Wait for the selector to appear in page.          | (selector, options)        |
-| waitForFrames   | Wait for the iframes to appear in page and return |                            |
-|                 | a frame.                                          | (frameIds)                 |
-| screenshot      | Takes a screenshot of the current page.           | (path)                     |
-| execute         | Executes JavaScript in the context of the         |                            |
-|                 | currently selectedframe or window.                | (...args)                  |
-
-TODO
+| Reference       | Description                                                | arguments                  |
+| --------------- | ---------------------------------------------------------- | -------------------------- |
+| getText         | Get text from a selector.                                  | (selector[, options])      |
+| goto            | Current page goto a new page with a url.                   | (config)                   |
+| click           | left-click with the mouse.                                 | (selector, options)        |
+| type            | Enter a value on the selector.                             | (selector, value, options) |
+| waitForSelector | Wait for the selector to appear in page.                   | (selector, options)        |
+| waitForFrames   | Wait for the iframes to appear in page and return a frame. | (frameSelector)            |
+| screenshot      | Takes a screenshot of the current page.                    | (path)                     |
+| execute         | Executes JavaScript in sandbox env.                        | (...args)                  |
 
 #### Test Hooks
 
