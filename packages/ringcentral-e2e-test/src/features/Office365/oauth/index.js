@@ -26,7 +26,7 @@ afterEach(async () => {
  * - if is auth: Unauthorise button, Button should be highlight and clickable
  * - if is unauth: Authorise button, Button should be highlight and clickable
  */
-async function detectAuthPanel(isAuth, { config, option }) {
+async function detectAuthPanel(isAuth, { config, option, tag }) {
   await $(page).waitFor('div[title="More Menu"]', {
     selector: 'css'
   });
@@ -60,7 +60,7 @@ async function detectAuthPanel(isAuth, { config, option }) {
     const authTooltip = await $(page).getText('[class*="rc-tooltip-inner"]', {
       selector: 'css'
     });
-    expect(authTooltip).toContain(`You have authorized ${option.appNames[option.brand]} to access your account ${config.officeAccout}.`);
+    expect(authTooltip).toContain(`You have authorized ${option.appNames[tag.brands]} to access your account ${config.officeAccout}.`);
     // Authorise button
     const authButton = await $(page).getText('button[class*="AuthorizeSettingsPanel"]', {
       selector: 'css'
@@ -90,8 +90,6 @@ export async function caseAuthorizePanel(options) {
   // )(context);
   // Authroize Office365
   // await process.exec();
-  console.info('options:', options);
-  debugger;
   await detectAuthPanel(true, options);
   /** Click logout and relogin, user still Authorized **/
   await $(page).waitFor('[class*="loginNumber"]', {

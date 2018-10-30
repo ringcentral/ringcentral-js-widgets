@@ -146,7 +146,7 @@ describe('Test Demo: =====>', () => {
   });
 });
 ```
-NOTE: 
+NOTE:
     title: test case title
     tags:  This tags is similar to the name of your app, include widgets,salesforce,google，office.
     levels: Priority
@@ -207,7 +207,7 @@ npx e2e-test run ./src/features/google/call/Dialer.spec.js --drivers puppeteer -
 
 ```shell
 cd <repo>/packages/ringcentral-e2e-test
-npx e2e-test run ./src/features/office/*.spec.js --drivers puppeteer -S
+npx e2e-test run ./src/features/Office365/*.spec.js --drivers puppeteer -S
 ```
 
 > NOTE: Chrome Extension for puppeteer must be `sandbox` mode.
