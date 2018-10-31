@@ -8,7 +8,6 @@ import actionTypes from './actionTypes';
 import getContactSearchReducer from './getContactSearchReducer';
 import getCacheReducer from './getCacheReducer';
 
-export const AllContactSourceName = 'all';
 export const DefaultMinimalSearchLength = 3;
 
 /**

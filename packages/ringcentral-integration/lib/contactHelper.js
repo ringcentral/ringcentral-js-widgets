@@ -1,4 +1,4 @@
-import { reduce, sort } from 'ramda';
+import { reduce } from 'ramda';
 import isBlank from './isBlank';
 
 export const AllContactSourceName = 'all';
