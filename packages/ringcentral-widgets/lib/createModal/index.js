@@ -5,51 +5,26 @@ import classnames from 'classnames';
 
 import styles from './styles.scss';
 
+// TODO: consider refactoring onClose + clickOutToClose to onOverlayClick
 export default function createModal(Comp) {
   return class KModal extends Component {
     static propTypes = {
       className: propTypes.string,
       modalClassName: propTypes.string,
-      cancelBtnClassName: propTypes.string,
-      confirmBtnClassName: propTypes.string,
-      children: propTypes.node,
       show: propTypes.bool,
-      onConfirm: propTypes.func,
-      onCancel: propTypes.func,
+      onClose: propTypes.func,
       clickOutToClose: propTypes.bool,
-      title: propTypes.string,
-      currentLocale: propTypes.string,
-      textConfirm: propTypes.string,
-      textCancel: propTypes.string,
-      showCloseBtn: propTypes.bool,
-      showTitle: propTypes.bool,
       appendDOM: propTypes.object,
       maskClassName: propTypes.string,
-      headerClassName: propTypes.string,
-      contentClassName: propTypes.string,
-      footerClassName: propTypes.string,
     }
     static defaultProps = {
       className: '',
-      currentLocale: '',
       modalClassName: '',
-      cancelBtnClassName: '',
-      confirmBtnClassName: '',
-      children: undefined,
       show: false,
-      onConfirm: undefined,
-      onCancel: undefined,
+      onClose: undefined,
       clickOutToClose: false,
-      title: '',
-      textConfirm: '',
-      textCancel: '',
-      showCloseBtn: true,
-      showTitle: true,
       appendDOM: undefined,
       maskClassName: undefined,
-      headerClassName: undefined,
-      contentClassName: undefined,
-      footerClassName: undefined,
     }
     static contextTypes = {
       modalRoot: propTypes.object,
@@ -77,11 +52,11 @@ export default function createModal(Comp) {
         maskClassName,
         modalClassName,
         show,
-        onCancel,
+        onClose,
         clickOutToClose,
         ...props
       } = this.props;
-      const onClick = clickOutToClose ? onCancel : () => {};
+      const onClick = clickOutToClose ? onClose : () => {};
       return (
         <div className={show ? classnames(styles.container, className) : styles.containerHidden}>
           <div
@@ -91,7 +66,6 @@ export default function createModal(Comp) {
           <div className={show ? classnames(styles.modal, modalClassName) : styles.modalHidden}>
             <Comp
               {...props}
-              onCancel={onCancel}
             />
           </div>
         </div>
