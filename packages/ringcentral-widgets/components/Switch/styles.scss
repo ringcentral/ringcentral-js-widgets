@@ -51,6 +51,7 @@ $slider-size: #{$switch-height - 2 * $switch-padding};
   .slider {
     opacity: 0.4;
     background-color: $smoke;
+    cursor: not-allowed;
   }
   input:checked + .slider {
     background-color: $primary-color;
