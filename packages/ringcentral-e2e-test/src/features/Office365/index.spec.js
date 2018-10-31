@@ -22,16 +22,13 @@ beforeEach(() => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 600000;
 });
 
-// afterEach(async() => {
-// });
-
 describe('O365 contact flow: =====>', () => {
   test({
     title: 'O365 authorization flow(click authorization on setting panel)',
     tags: [
       ['office'],
     ],
-    brands: ['rc'],
+    brands: ['rc', 'bt', 'att', 'telus'],
     levels: ['p0'],
     options: [{
       authSuccess: 'Authorized Account',
