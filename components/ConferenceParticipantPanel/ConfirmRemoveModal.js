@@ -9,17 +9,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
 var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _formatMessage = require('format-message');
-
-var _formatMessage2 = _interopRequireDefault(_formatMessage);
 
 var _calleeTypes = require('ringcentral-integration/enums/calleeTypes');
 
@@ -36,14 +28,6 @@ var _styles2 = _interopRequireDefault(_styles);
 var _Modal = require('../Modal');
 
 var _Modal2 = _interopRequireDefault(_Modal);
-
-var _Button = require('../Button');
-
-var _Button2 = _interopRequireDefault(_Button);
-
-var _CloseIcon = require('../../assets/images/CloseIcon.svg');
-
-var _CloseIcon2 = _interopRequireDefault(_CloseIcon);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
