@@ -317,6 +317,8 @@ var Conversations = (_dec = (0, _di.Module)({
             type: this.actionTypes.cleanOldConversatioans
           });
         }
+      } else if (this._lastConversaionList.length < this._messageStore.allConversations.length) {
+        this._lastConversaionList = this._messageStore.allConversations;
       }
     }
   }, {
