@@ -26,7 +26,8 @@
     align-items: center;
   }
   .icon {
-    position: unset;
+    // fix IE position bug.
+    position: relative; 
     right: unset;
   }
   .selectedValue {
