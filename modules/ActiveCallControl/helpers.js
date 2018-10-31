@@ -9,7 +9,7 @@ exports.normalizeSession = normalizeSession;
 exports.requestURI = requestURI;
 exports.confictError = confictError;
 
-var _recordStatus = require('ringcentral-integration/modules/Webphone/recordStatus');
+var _recordStatus = require('../../modules/Webphone/recordStatus');
 
 var _recordStatus2 = _interopRequireDefault(_recordStatus);
 

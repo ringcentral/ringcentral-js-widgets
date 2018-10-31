@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.DefaultMinimalSearchLength = exports.AllContactSourceName = undefined;
+exports.default = exports.DefaultMinimalSearchLength = undefined;
 
 var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
 
@@ -128,7 +128,6 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
   return desc;
 }
 
-var AllContactSourceName = exports.AllContactSourceName = 'all';
 var DefaultMinimalSearchLength = exports.DefaultMinimalSearchLength = 3;
 
 /**

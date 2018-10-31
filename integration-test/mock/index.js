@@ -61,11 +61,11 @@ exports.serviceInfo = serviceInfo;
 exports.recentActivity = recentActivity;
 exports.mockForLogin = mockForLogin;
 
-var _AccountPhoneNumber = require('ringcentral-integration/modules/AccountPhoneNumber');
+var _AccountPhoneNumber = require('../../modules/AccountPhoneNumber');
 
 var _AccountPhoneNumber2 = _interopRequireDefault(_AccountPhoneNumber);
 
-var _DialingPlan = require('ringcentral-integration/modules/DialingPlan');
+var _DialingPlan = require('../../modules/DialingPlan');
 
 var _DialingPlan2 = _interopRequireDefault(_DialingPlan);
 

@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _Enum = require('ringcentral-integration/lib/Enum');
+var _Enum = require('../lib/Enum');
 
 var _Enum2 = _interopRequireDefault(_Enum);
 
