@@ -160,10 +160,12 @@ export default class Conversations extends RcModule {
         this._contactMatcher.triggerMatch();
       }
     } else if (this._lastConversaionList.length > this._messageStore.allConversations.length) {
-      this.store.dispatch({
-        type: this.actionTypes.cleanOldConversatioans
-      });
       this._lastConversaionList = this._messageStore.allConversations;
+      if (this.oldConversations.length) {
+        this.store.dispatch({
+          type: this.actionTypes.cleanOldConversatioans
+        });
+      }
     }
   }
 
@@ -205,6 +207,7 @@ export default class Conversations extends RcModule {
     this.store.dispatch({
       type: this.actionTypes.initSuccess,
     });
+    this._lastConversaionList = this._messageStore.allConversations;
     if (
       this.allConversations.length <= this._perPage &&
       this._enableLoadOldMessages &&
