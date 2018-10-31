@@ -166,6 +166,8 @@ export default class Conversations extends RcModule {
           type: this.actionTypes.cleanOldConversatioans
         });
       }
+    } else if (this._lastConversaionList.length < this._messageStore.allConversations.length) {
+      this._lastConversaionList = this._messageStore.allConversations;
     }
   }
 
