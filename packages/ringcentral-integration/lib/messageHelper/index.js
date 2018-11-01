@@ -169,7 +169,7 @@ export function getVoicemailAttachment(message, accessToken) {
     return { duration: 0 };
   }
   const duration = attachment.vmDuration;
-  const uri = `${attachment.uri}?access_token=${decodeURIComponent(accessToken)}`;
+  const uri = `${attachment.uri}?access_token=${decodeURIComponent(accessToken)}&contentDisposition=Attachment`;
   return {
     duration,
     uri,
