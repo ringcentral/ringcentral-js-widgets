@@ -7,6 +7,7 @@ export default function NavigateTo(router = '') {
         await $(app).waitFor(300);
         if (isVirtual) {
           app.props().phone.routerInteraction.push(`/${router}`);
+          app.update();
         } else {
           await $(app).execute(`phone.routerInteraction.push('/${router}')`);
         }
