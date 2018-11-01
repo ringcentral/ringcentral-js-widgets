@@ -19,18 +19,9 @@ export default class AccountHelper {
     return this._env;
   }
 
-  static async getAccountList(context, accountsList) {
+  static async getAccountList(context, accountsTypeList) {
     this._env = context.options.tag.envs;
-    const promises = accountsList.map(async (acc) => {
-      const result = await this.retryAccount(acc);
-      if (result.length === 0) {
-        console.error(`Failed getting account using ${acc}`);
-      } else if (acc.includes('forwarding')) {
-        return result;
-      }
-      return result[0];
-    });
-    const accAry = await Promise.all(promises).then(values => values);
+    const accAry = await this.retryAccount(accountsTypeList);
     const destroyer = async () => {
       await Promise.all(
         accAry.map(async acc => this.releaseAccount(acc.uuid))
@@ -38,16 +29,26 @@ export default class AccountHelper {
     };
     return { accounts: accAry, destroyer };
   }
+  
 
-  static async retryAccount(type) {
-    const scenarioTag = accountTypes[type];
-    if (!Object.values(accountTypes).includes(scenarioTag)) {
-      return Promise.reject(new Error(`Invalid tag: ${scenarioTag}`));
-    }
-    const response = autoAsyncRetry(this.getAccount.bind(this), scenarioTag)
-      .catch((e) => { throw new Error(e); });
-    // const response = this.getAccount(scenarioTag);
+  static async retryAccount(accountsTypeList) {
+    const scenario = accountsTypeList.map((type) => {
+      const scenarioTag = accountTypes[type];
+      if (!Object.values(accountTypes).includes(scenarioTag)) {
+        throw new Error(`Invalid tag: ${type}`);
+      } 
+      return scenarioTag;
+    });
+    const response = this.getGroupAccount(scenario)
+      .catch((e) => { 
+        console.error(e);
+        throw new Error(e); 
+      });
     return response;
+  }
+
+  static async getGroupAccount(tagAry) {
+    return this.getAccount(tagAry.join('&'));
   }
 
   static async releaseAccount(uuid) {
