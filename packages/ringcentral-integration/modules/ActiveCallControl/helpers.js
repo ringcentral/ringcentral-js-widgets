@@ -1,4 +1,4 @@
-import recordStatus from 'ringcentral-integration/modules/Webphone/recordStatus';
+import recordStatus from '../../modules/Webphone/recordStatus';
 import callResults from '../../enums/callResults';
 import callDirections from '../../enums/callDirections';
 import activeCallControlStatus from '../../enums/activeCallControlStatus';

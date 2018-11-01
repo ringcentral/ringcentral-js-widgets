@@ -1,4 +1,4 @@
-import Enum from 'ringcentral-integration/lib/Enum';
+import Enum from '../lib/Enum';
 
 export default new Enum([
   'unknow',
