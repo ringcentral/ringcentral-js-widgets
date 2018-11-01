@@ -5,7 +5,7 @@ import Header from '../Header';
 import Panel from '../Panel';
 import SpinnerOverlay from '../SpinnerOverlay';
 import CallList from '../CallList';
-
+import CallListV2 from '../CallListV2';
 
 import styles from './styles.scss';
 
@@ -42,40 +42,90 @@ export default function CallsPanel({
   phoneTypeRenderer,
   phoneSourceNameRenderer,
 }) {
-  const content = showSpinner ?
-    <SpinnerOverlay /> :
-    (
-      <CallList
-        brand={brand}
-        currentLocale={currentLocale}
-        calls={calls}
-        areaCode={areaCode}
-        countryCode={countryCode}
-        onViewContact={onViewContact}
-        onCreateContact={onCreateContact}
-        onLogCall={onLogCall}
-        onClickToDial={onClickToDial}
-        onClickToSms={onClickToSms}
-        isLoggedContact={isLoggedContact}
-        disableLinks={disableLinks}
-        disableClickToDial={disableClickToDial}
-        outboundSmsPermission={outboundSmsPermission}
-        internalSmsPermission={internalSmsPermission}
-        dateTimeFormatter={dateTimeFormatter}
-        active={active}
-        loggingMap={loggingMap}
-        webphoneAnswer={webphoneAnswer}
-        webphoneReject={webphoneReject}
-        webphoneHangup={webphoneHangup}
-        webphoneResume={webphoneResume}
-        enableContactFallback={enableContactFallback}
-        autoLog={autoLog}
-        showContactDisplayPlaceholder={showContactDisplayPlaceholder}
-        sourceIcons={sourceIcons}
-        phoneTypeRenderer={phoneTypeRenderer}
-        phoneSourceNameRenderer={phoneSourceNameRenderer}
-      />
-    );
+  const callsListView = useNewList ?
+      (
+        <CallListV2
+          width={width}
+          height={height}
+          brand={brand}
+          currentLocale={currentLocale}
+          calls={calls}
+          areaCode={areaCode}
+          countryCode={countryCode}
+          onViewContact={onViewContact}
+          onCreateContact={onCreateContact}
+          createEntityTypes={createEntityTypes}
+          onLogCall={onLogCall}
+          onClickToDial={onClickToDial}
+          onClickToSms={onClickToSms}
+          isLoggedContact={isLoggedContact}
+          disableLinks={disableLinks}
+          disableClickToDial={disableClickToDial}
+          outboundSmsPermission={outboundSmsPermission}
+          internalSmsPermission={internalSmsPermission}
+          dateTimeFormatter={dateTimeFormatter}
+          active={active}
+          loggingMap={loggingMap}
+          webphoneAnswer={webphoneAnswer}
+          webphoneReject={webphoneReject}
+          webphoneHangup={webphoneHangup}
+          webphoneResume={webphoneResume}
+          enableContactFallback={enableContactFallback}
+          autoLog={autoLog}
+          showContactDisplayPlaceholder={showContactDisplayPlaceholder}
+          sourceIcons={sourceIcons}
+          phoneTypeRenderer={phoneTypeRenderer}
+          phoneSourceNameRenderer={phoneSourceNameRenderer}
+          renderContactName={renderContactName}
+          renderExtraButton={renderExtraButton}
+          contactDisplayStyle={contactDisplayStyle}
+          externalViewEntity={externalViewEntity}
+          externalHasEntity={externalHasEntity}
+          readTextPermission={isShowMessageIcon}
+        />
+      ) :
+      (
+        <CallList
+          brand={brand}
+          currentLocale={currentLocale}
+          calls={calls}
+          areaCode={areaCode}
+          countryCode={countryCode}
+          onViewContact={onViewContact}
+          onCreateContact={onCreateContact}
+          createEntityTypes={createEntityTypes}
+          onLogCall={onLogCall}
+          onClickToDial={onClickToDial}
+          onClickToSms={onClickToSms}
+          isLoggedContact={isLoggedContact}
+          disableLinks={disableLinks}
+          disableClickToDial={disableClickToDial}
+          outboundSmsPermission={outboundSmsPermission}
+          internalSmsPermission={internalSmsPermission}
+          dateTimeFormatter={dateTimeFormatter}
+          active={active}
+          loggingMap={loggingMap}
+          webphoneAnswer={webphoneAnswer}
+          webphoneReject={webphoneReject}
+          webphoneHangup={webphoneHangup}
+          webphoneResume={webphoneResume}
+          enableContactFallback={enableContactFallback}
+          autoLog={autoLog}
+          showContactDisplayPlaceholder={showContactDisplayPlaceholder}
+          sourceIcons={sourceIcons}
+          phoneTypeRenderer={phoneTypeRenderer}
+          phoneSourceNameRenderer={phoneSourceNameRenderer}
+          renderContactName={renderContactName}
+          renderExtraButton={renderExtraButton}
+          contactDisplayStyle={contactDisplayStyle}
+          externalViewEntity={externalViewEntity}
+          externalHasEntity={externalHasEntity}
+          readTextPermission={isShowMessageIcon}
+        />
+      );
+
+  const content = showSpinner ? <SpinnerOverlay /> : callsListView
+    
   return (
     <div className={styles.root}>
       <Header>
@@ -119,6 +169,9 @@ CallsPanel.propTypes = {
   sourceIcons: PropTypes.object,
   phoneTypeRenderer: PropTypes.func,
   phoneSourceNameRenderer: PropTypes.func,
+  width: PropTypes.number,
+  height: PropTypes.number,
+  useNewList: PropTypes.bool,
 };
 
 CallsPanel.defaultProps = {
@@ -145,4 +198,7 @@ CallsPanel.defaultProps = {
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
+  width: undefined,
+  height: undefined,
+  useNewList: false,
 };

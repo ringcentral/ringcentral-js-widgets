@@ -18,6 +18,9 @@ function mapToProps(_, {
     rolesAndPermissions,
   },
   enableContactFallback = false,
+  width = undefined,
+  height = undefined,
+  useNewList = false,
 }) {
   return {
     enableContactFallback,
@@ -130,9 +133,12 @@ function mapToFunctions(_, {
           redirect,
         });
       })),
+    width = undefined,
+    height = undefined,
+    useNewList = false,
   };
 }
 
-const CallsPage = withPhone(connect(mapToProps, mapToFunctions)(CallsPanel));
+const CallHistoryPage = withPhone(connect(mapToProps, mapToFunctions)(CallsPanel));
 
-export default CallsPage;
+export default CallHistoryPage;
