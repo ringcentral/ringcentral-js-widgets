@@ -50,7 +50,7 @@ describe('Commom SMS: =====>', () => {
     title: 'Send text message on compose text page',
     tags: [
       ['widgets'],
-      ['salesforce'],
+      // ['salesforce'],
     ],
     levels: ['p0'],
     options: [
@@ -90,7 +90,7 @@ describe('Commom SMS: =====>', () => {
     await process.execTo(TypeTextSMS);
     expect(await TypeTextSMS.getPlaceholder(context)).toBe('Type message...');
     expect(await TypeTextSMS.getInputSMS(context)).toBe(option.textSMS);
-    expect(await TypeTextSMS.getMessageButtonDisabled(context)).toBeNull();
+    expect(await TypeTextSMS.getMessageButtonDisabled(context)).not.toBeTruthy();
 
     /*
     __Step3__: Click the send button

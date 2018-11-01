@@ -6,7 +6,7 @@ export default class TypeComposeToField {
     const _spinnerOverlay = $(app).getSelector(spinnerOverlay);
     const _recipientsInput = $(app).getSelector(recipientsInput);
     await $(app).waitForFunction(selector => !document.querySelector(selector), _spinnerOverlay);
-    if (Array.isArray(option.typeToFields)) {
+    if (Array.isArray(option.typeToFields) && this._check) {
       for (const typeToField of option.typeToFields) {
         await $(app).type(recipientsInput, typeToField);
         const toFieldText = await $(app).getValue(recipientsInput);
@@ -15,14 +15,18 @@ export default class TypeComposeToField {
         await Promise.race([
           $(app).waitFor(500),
           $(app).waitForFunction(
-            selector => !document.querySelector(selector).value,
+            (selector) => {
+              const dom = document.querySelector(selector);
+              return !dom || !dom.value;
+            },
             _recipientsInput
           )
         ]);
       }
     }
     // send to first number in playload accounts.
-    await $(app).type(recipientsInput, option.playload.accounts[0].did);
+    const [{ did = '101' } = {}] = option.playload.accounts || [];
+    await $(app).type(recipientsInput, did);
   }
 
   static addCheckPoints(check) {

@@ -23,8 +23,14 @@ export async function mockPubnub() {
   await timeout(100);
 }
 
-export function mockGenerateMessageApi({
-  count = 1, messageType = 'Text', readStatus = 'Unread', direction = 'Inbound'
+export async function mockGenerateMessageApi({
+  count = 1,
+  messageType = 'Text',
+  readStatus = 'Unread',
+  direction = 'Inbound',
+  subject = '',
+  to = {},
+  from = {},
 }) {
   const records = [];
   for (let i = 1; i <= count; i += 1) {
@@ -33,15 +39,21 @@ export function mockGenerateMessageApi({
       type: messageType,
       readStatus,
       id: i,
+      from: {
+        ...messageSyncBody.records[0].from,
+        ...from,
+      },
       conversationId: i,
       conversation: {
         id: i,
       },
+      subject,
       direction,
       messageStatus: direction === 'Inbound' ? 'Received' : 'Sent',
       to: {
         extensionNumber: '101',
-        name: 'Something1 New1'
+        name: 'Something1 New1',
+        ...to,
       },
       creationTime: (new Date()).toISOString(),
       lastModifiedTime: (new Date()).toISOString(),
@@ -54,6 +66,7 @@ export function mockGenerateMessageApi({
     records.push(mockedMessage);
   }
   mock.messageSync({ records });
+  await timeout(2500);
 }
 export function mockUpdateMessageStatusApi({
   id = 1, messageType = 'Text', readStatus = 'Unread', direction = 'Inbound'
