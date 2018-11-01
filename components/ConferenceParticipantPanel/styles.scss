@@ -44,8 +44,10 @@ $padding-horizontal:20px;
           flex-shrink: 0;
         }
         .detail {
-          display: block;
+          width: 100%;
+          text-overflow: ellipsis;
           align-self: center;
+          overflow: hidden;
         }
         .webphoneButton {
           width: $button-size;

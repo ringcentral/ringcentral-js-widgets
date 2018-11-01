@@ -56,8 +56,11 @@ function ParticipantItem(_ref) {
       { className: _styles2.default.avatar },
       _react2.default.createElement(_CallAvatar2.default, { isOnConferenceCall: false, avatarUrl: avatarUrl })
     ),
-    mediaBody: detail,
-    bodyCls: _styles2.default.detail,
+    mediaBody: _react2.default.createElement(
+      'div',
+      { title: detail, className: _styles2.default.detail },
+      detail
+    ),
     mediaRight: _react2.default.createElement(
       'span',
       { title: _i18n2.default.getString('removeParticipant', currentLocale), className: _styles2.default.webphoneButton },
