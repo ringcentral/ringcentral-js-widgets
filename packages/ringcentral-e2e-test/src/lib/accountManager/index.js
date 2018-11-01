@@ -32,19 +32,18 @@ export default class AccountHelper {
   
 
   static async retryAccount(accountsTypeList) {
-    const promises = accountsTypeList.map(async (type) => {
-      let scenarioList = [];
+    const scenario = accountsTypeList.map((type) => {
       const scenarioTag = accountTypes[type];
       if (!Object.values(accountTypes).includes(scenarioTag)) {
-        return Promise.reject(new Error(`Invalid tag: ${type}`));
-      } else{
-        scenarioList.unshift(scenarioTag);
-      }
-      return scenarioList;
+        throw new Error(`Invalid tag: ${type}`);
+      } 
+      return scenarioTag;
     });
-    const scenario = await Promise.all(promises).then(values => values);
     const response = this.getGroupAccount(scenario)
-    .catch((e) => { throw new Error(e); });
+      .catch((e) => { 
+        console.error(e);
+        throw new Error(e); 
+      });
     return response;
   }
 
