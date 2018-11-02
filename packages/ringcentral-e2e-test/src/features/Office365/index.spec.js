@@ -16,6 +16,7 @@ import {
 } from './oauth';
 import AuthorizeOffice from '../../steps/office/authorizeOffice';
 import {LoginCTI} from 'ringcentral-e2e-test/src/steps/Commons/login';
+import Logout from 'ringcentral-e2e-test/src/steps/Commons/logout';
 import skipGuide from 'ringcentral-e2e-test/src/steps/Commons/skipGuide';
 import Entry from '../../steps/entry';
 
@@ -45,13 +46,21 @@ describe('O365 contact flow: =====>', () => {
       Entry,
       LoginCTI,
       skipGuide,
-      AuthorizeOffice
+      AuthorizeOffice,
+      Logout,
     )(context);
 
-    await process.exec();
-    await sleep(2000);
+    await process.execTo(AuthorizeOffice);
+    //expect().tobe();
+    await process.execTo(Logout);
+    //expect().tobe();
+    await process.reset();
+    await process.skip(Entry);
+    await process.execTo(LoginCTI);
+    //expect().tobe();
 
-    await caseO365Contacts(...args);
-    await caseAuthorizePanel(...args);
+
+
+
   });
 });
