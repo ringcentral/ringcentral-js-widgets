@@ -5,6 +5,20 @@ export default class SendSMS {
     await $(app).waitFor(500);
   }
 
+  static async $mockSMS({ options: { option, isVirtual } }) {
+    // TODO marten enhance hooks for plug-in.
+    if (isVirtual) {
+      const { sms } = require('ringcentral-integration/integration-test/mock');
+      const { mockGenerateMessageApi } = require('ringcentral-widgets-test/test/integration-test/messages/helper');
+      sms({
+        subject: option.textSMS,
+      });
+      await mockGenerateMessageApi({
+        subject: option.textSMS,
+      });
+    }
+  }
+
   static async getIsConversationDetail({ driver: { app } }) {
     const conversationPanel = await $(app).waitForSelector('@conversationPanel');
     return conversationPanel;
@@ -22,6 +36,7 @@ export default class SendSMS {
 
   static get steps() {
     return [
+      this.$mockSMS,
       this.send,
     ];
   }

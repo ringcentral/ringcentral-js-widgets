@@ -11,7 +11,7 @@ export default class TypeComposeToField {
   }
 
   static async getInputSMS({ driver: { app } }) {
-    const inputSMS = await $(app).html('@messageInput');
+    const inputSMS = await $(app).getValue('@messageInput');
     return inputSMS;
   }
 

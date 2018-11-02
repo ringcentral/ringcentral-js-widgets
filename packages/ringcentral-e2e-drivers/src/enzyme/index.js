@@ -33,7 +33,8 @@ class Query extends BaseQuery {
   }
 
   async click(selector, options) {
-    await this.$(selector, options).simulate('click');
+    const element = await this.$(selector, options);
+    element.simulate('click');
   }
 
   async clear(selector, options) {
@@ -83,9 +84,22 @@ class Query extends BaseQuery {
   }
 
   async $$(selector, options) {
-    const _selector = this.getSelector(selector, options);
+    let _selector = this.getSelector(selector, options);
+    // TODO support full child selector with index.
+    let index;
+    let reverseIndex;
+    const childlabel = ':nth-child';
+    const lastChildlabel = ':nth-last-child';
+    if (_selector.indexOf(childlabel) > -1) {
+      [_selector, index] = _selector.split(childlabel);
+      index = Number(index.replace(/\(|\)/g, ''));
+    }
+    if (_selector.indexOf(lastChildlabel) > -1) {
+      [_selector, reverseIndex] = _selector.split(lastChildlabel);
+      index = this._node.find(_selector).length - Number(reverseIndex.replace(/\(|\)/g, ''));
+    }
     const element = this._node.find(_selector);
-    return element;
+    return index ? element.at(index) : element;
   }
 }
 

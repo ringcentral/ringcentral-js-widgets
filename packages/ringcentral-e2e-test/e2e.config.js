@@ -67,19 +67,19 @@ module.exports = {
         params: {
           brands: {
             rc: {
-              ...loginInfo.office.rc || {},
+              ...loginInfo.office && loginInfo.office.rc || {},
               location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
             },
             bt: {
-              ...loginInfo.office.bt || {},
+              ...loginInfo.office && loginInfo.office.bt || {},
               location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
             },
             att: {
-              ...loginInfo.office.att || {},
+              ...loginInfo.office && loginInfo.office.att || {},
               location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
             },
             telus: {
-              ...loginInfo.office.telus || {},
+              ...loginInfo.office && loginInfo.office.telus || {},
               location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
             }
           }
