@@ -15,7 +15,8 @@ import {
   caseAuthorizePanel
 } from './oauth';
 import AuthorizeOffice from '../../steps/office/authorizeOffice';
-import Login from '../../steps/office/login';
+import {LoginCTI} from 'ringcentral-e2e-test/src/steps/Commons/login';
+import skipGuide from 'ringcentral-e2e-test/src/steps/Commons/skipGuide';
 import Entry from '../../steps/entry';
 
 beforeEach(() => {
@@ -42,7 +43,8 @@ describe('O365 contact flow: =====>', () => {
   }, async (...args) => {
     const process = createProcess(
       Entry,
-      Login,
+      LoginCTI,
+      skipGuide,
       AuthorizeOffice
     )(context);
 
