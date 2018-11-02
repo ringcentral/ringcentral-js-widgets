@@ -141,6 +141,7 @@ class VoicemailPlayer extends Component {
       className,
       duration,
       uri,
+      downloadUri,
       disabled,
       currentLocale,
     } = this.props;
@@ -181,7 +182,7 @@ class VoicemailPlayer extends Component {
           target="_blank"
           download
           title={i18n.getString('download', currentLocale)}
-          href={uri}
+          href={downloadUri}
           onClick={this._onDownloadClick}
         >
           <DownloadIcon width={18} height={18} />
@@ -200,6 +201,7 @@ class VoicemailPlayer extends Component {
 VoicemailPlayer.propTypes = {
   duration: PropTypes.number,
   uri: PropTypes.string.isRequired,
+  downloadUri: PropTypes.string.isRequired,
   className: PropTypes.string,
   onPlay: PropTypes.func,
   disabled: PropTypes.bool,
