@@ -11,6 +11,8 @@ const setting = {
   ignoreHTTPSErrors: true,
   args: [
     '--use-fake-ui-for-media-stream',
+    '--disable-setuid-sandbox',
+    '--no-sandbox',
   ]
 };
 class Query extends BaseQuery {
