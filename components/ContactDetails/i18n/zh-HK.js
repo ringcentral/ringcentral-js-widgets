@@ -25,10 +25,10 @@ var _phoneTypes2 = _interopRequireDefault(_phoneTypes);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = (_emailLabel$call$text = {
-  emailLabel: '電子郵件',
-  call: '通話',
-  text: '簡訊'
-}, (0, _defineProperty3.default)(_emailLabel$call$text, _presenceStatus2.default.available, '可用'), (0, _defineProperty3.default)(_emailLabel$call$text, _presenceStatus2.default.offline, '隱形'), (0, _defineProperty3.default)(_emailLabel$call$text, _presenceStatus2.default.busy, '忙碌'), (0, _defineProperty3.default)(_emailLabel$call$text, _dndStatus2.default.doNotAcceptAnyCalls, '勿打擾'), (0, _defineProperty3.default)(_emailLabel$call$text, 'notActivated', '非使用中'), _emailLabel$call$text);
+  emailLabel: "電子郵件",
+  call: "通話",
+  text: "簡訊"
+}, (0, _defineProperty3.default)(_emailLabel$call$text, _presenceStatus2.default.available, "可用"), (0, _defineProperty3.default)(_emailLabel$call$text, _presenceStatus2.default.offline, "隱形"), (0, _defineProperty3.default)(_emailLabel$call$text, _presenceStatus2.default.busy, "忙碌"), (0, _defineProperty3.default)(_emailLabel$call$text, _dndStatus2.default.doNotAcceptAnyCalls, "勿打擾"), (0, _defineProperty3.default)(_emailLabel$call$text, 'notActivated', "非使用中"), _emailLabel$call$text);
 
 // @key: @#@"emailLabel"@#@ @source: @#@"Email"@#@
 // @key: @#@"call"@#@ @source: @#@"Call"@#@

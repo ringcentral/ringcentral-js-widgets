@@ -10,7 +10,7 @@ exports.default = {
   onHoldCall: "通話等待接通",
   otherDeviceCall: "我的其他裝置上仍有進行中通話",
   confirmation: "確認",
-  confirmMergeToConference: "加到電話會議？",
+  confirmMergeToConference: "添加至電話會議？",
   mergeToConference: "合併",
   conferenceCall: "電話會議"
 };
