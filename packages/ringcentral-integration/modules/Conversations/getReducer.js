@@ -181,6 +181,47 @@ export function getCorrespondentMatch(types) {
     }
   };
 }
+export function getCorrespondentResponse(types) {
+  return (state = {}, {
+    type,
+    responses = [],
+    phoneNumber = ''
+  }) => {
+    switch (type) {
+      case types.addResponses: {
+        const newState = { ...state };
+        const formatResponses = responses.reduce((accumulator, response) => {
+          const {
+            to,
+            from,
+            direction,
+            conversation: {
+              id
+            }
+          } = response;
+          const number = direction === 'Inbound' ? from : to[0];
+          phoneNumber = number.phoneNumber || number.extensionNumber;
+          return {
+            ...accumulator,
+            [phoneNumber]: id
+          };
+        }, {});
+        return {
+          ...newState,
+          ...formatResponses
+        };
+      }
+      case types.removeResponse: {
+        const newState = { ...state };
+        delete newState[phoneNumber];
+        return newState;
+      }
+      default:
+        return state;
+    }
+  };
+}
+
 
 export default function getReducer(types) {
   return combineReducers({
@@ -195,6 +236,7 @@ export default function getReducer(types) {
     fetchMessagesStatus: getFetchMessagesStatusReducer(types),
     messageTexts: getMessageTextsReducer(types),
     conversationStatus: getConversationStatusReducer(types),
-    correspondentMatch: getCorrespondentMatch(types)
+    correspondentMatch: getCorrespondentMatch(types),
+    correspondentResponse: getCorrespondentResponse(types)
   });
 }
