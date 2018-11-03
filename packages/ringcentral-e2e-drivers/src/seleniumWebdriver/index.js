@@ -46,6 +46,11 @@ class Query extends BaseQuery {
     return attributeValue;
   }
 
+  async getProperty(selector, property, options) {
+    const propertyValue = await this.getAttribute(selector, property, options);
+    return propertyValue;
+  }
+
   async getValue(selector, options) {
     const value = this.getAttribute(selector, 'value', options);
     return value;
@@ -125,17 +130,17 @@ class Query extends BaseQuery {
     return element;
   }
 
-// async $(selector, options) {
-//   const _selector = this.getSelector(selector, options);
-//   const element = await this._node.$(_selector);
-//   return element;
-// }
+  async $(selector, options) {
+    const _selector = this.getSelector(selector, options);
+    const element = this._node.findElement(_selector);
+    return element;
+  }
 
-// async $$(selector, options) {
-//   const _selector = this.getSelector(selector, options);
-//   const elements = await this._node.$$(_selector);
-//   return elements;
-// }
+  async $$(selector, options) {
+    const _selector = this.getSelector(selector, options);
+    const elements = this._node.findElements(_selector);
+    return elements;
+  }
 }
 
 

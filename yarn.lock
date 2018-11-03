@@ -13837,10 +13837,10 @@ webpack@^3.11.0:
     webpack-sources "^1.0.1"
     yargs "^8.0.2"
 
-webphone-client@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/webphone-client/-/webphone-client-1.0.3.tgz#f03ef20d32236feac3a3c87a9f7527a354a38bd5"
-  integrity sha512-P8hz7150kXzLzlPWjvWWHNIuQ7/I5vk0Zz8beuMMmm8vLepl2To3gYY0ttLjDO7w6/LwLGkoWddn8P7j/zCe+g==
+webphone-client@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/webphone-client/-/webphone-client-1.0.4.tgz#cdd6c3c3331ce6635efeb23f27ae77a1706d244b"
+  integrity sha512-blsU7eOm0366GmlqpZCxpaNIVxHCjHQX/Cr1yszaon/f7ezqG6ygKEcQ8p4g3tuDct38anS+dUml/xz0BOCMeQ==
   dependencies:
     babel-cli "^6.26.0"
     babel-core "^6.26.0"
