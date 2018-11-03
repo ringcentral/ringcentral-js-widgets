@@ -27,6 +27,7 @@ function CircleButton(props) {
   const onClick = props.disabled ? null : props.onClick;
   return (
     <svg
+      data-sign={props.dataSign}
       xmlns="http://www.w3.org/2000/svg"
       className={classnames(styles.btnSvg, props.className)}
       viewBox="0 0 500 500"
@@ -65,6 +66,7 @@ function CircleButton(props) {
 CircleButton.propTypes = {
   icon: PropTypes.func,
   className: PropTypes.string,
+  dataSign: PropTypes.string,
   showBorder: PropTypes.bool,
   iconClassName: PropTypes.string,
   onClick: PropTypes.func,
@@ -84,6 +86,7 @@ CircleButton.propTypes = {
 CircleButton.defaultProps = {
   icon: undefined,
   className: undefined,
+  dataSign: undefined,
   showBorder: true,
   iconClassName: undefined,
   disabled: false,

@@ -142,7 +142,7 @@ export default class LogSection extends Component {
     });
     return (
       <div className={styles.infoWithCtrlWrapper}>
-        <div className={wrapperCls} onClick={onLogBasicInfoClick}>
+        <div data-sign="leftSectionInfo" className={wrapperCls} onClick={onLogBasicInfoClick}>
           <LogBasicInfo
             currentLog={this.props.currentLog}
             currentLocale={this.props.currentLocale}

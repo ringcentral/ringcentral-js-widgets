@@ -114,6 +114,7 @@ export default function LogBasicInfo(props) {
             ) : null
           }
           <span
+            data-sign="callStatus"
             className={statusClassName}
             title={statusI18n}>
             {statusI18n}

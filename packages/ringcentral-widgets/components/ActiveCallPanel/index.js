@@ -130,7 +130,7 @@ function ActiveCallPanel({
   }
 
   return (
-    <div className={styles.root}>
+    <div data-sign="activeCallPanel" className={styles.root}>
       {backHeader}
       <Panel className={styles.panel}>
         {layout !== callCtrlLayouts.mergeCtrl ? timeCounter : null}

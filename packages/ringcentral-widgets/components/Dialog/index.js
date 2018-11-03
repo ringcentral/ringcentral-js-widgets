@@ -94,7 +94,7 @@ export default function Dialog({
         </div>
       ) : null}
       {showCloseBtn ? (
-        <Button className={styles.closeBtn} onClick={onCancel}>
+        <Button dataSign="close" className={styles.closeBtn} onClick={onCancel}>
           <CloseIcon />
         </Button>
       ) : null}

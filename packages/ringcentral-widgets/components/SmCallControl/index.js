@@ -39,6 +39,7 @@ export default function SmCallControl(props) {
   return (
     <div className={styles.smWraper}>
       <CircleButton
+        dataSign={muteTitle}
         icon={muteIcon}
         onClick={muteAction}
         className={classnames(styles.button, disabledCtrl ? styles.buttonDisabled : null)}
@@ -46,6 +47,7 @@ export default function SmCallControl(props) {
         disabled={disabledCtrl}
       />
       <CircleButton
+        dataSign={endTile}
         showBorder={false}
         icon={EndIcon}
         onClick={endAction}
