@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import debounce from 'ringcentral-integration/lib/debounce';
 import 'core-js/fn/array/find';
 import Header from '../Header';
 import Panel from '../Panel';
@@ -9,44 +10,97 @@ import CallListV2 from '../CallListV2';
 
 import styles from './styles.scss';
 
+const HEADER_HEIGHT = 38;
 
-export default function CallsPanel({
-  brand,
-  currentLocale,
-  calls,
-  areaCode,
-  countryCode,
-  onViewContact,
-  onCreateContact,
-  onLogCall,
-  onClickToDial,
-  onClickToSms,
-  isLoggedContact,
-  disableLinks,
-  disableClickToDial,
-  outboundSmsPermission,
-  internalSmsPermission,
-  dateTimeFormatter,
-  showSpinner,
-  title,
-  active,
-  loggingMap,
-  webphoneAnswer,
-  webphoneReject,
-  webphoneHangup,
-  webphoneResume,
-  enableContactFallback,
-  autoLog,
-  showContactDisplayPlaceholder,
-  sourceIcons,
-  phoneTypeRenderer,
-  phoneSourceNameRenderer,
-}) {
-  const callsListView = useNewList ?
+export default class CallsPanel extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      contentHeight: 0,
+      contentWidth: 0,
+    };
+
+    this._mounted = false;
+    this._listWrapper = React.createRef();
+  }
+
+  componentDidMount() {
+    this._mounted = true;
+    this._calculateContentSize();
+    window.addEventListener('resize', this._onResize);
+  }
+
+  componentWillUnmount() {
+    this._mounted = false;
+    window.removeEventListener('resize', this._onResize);
+  }
+
+  _onResize = debounce(() => {
+    if (this._mounted) {
+      this._calculateContentSize();
+    }
+  }, 300);
+
+  _calculateContentSize() {
+    if (this._listWrapper
+      && this._listWrapper.current
+      && this._listWrapper.current.getBoundingClientRect
+    ) {
+      const react = this._listWrapper.current.getBoundingClientRect();
+
+      this.setState({
+        contentHeight: react.bottom - react.top - HEADER_HEIGHT,
+        contentWidth: react.right - react.left,
+      });
+
+      return;
+    }
+
+    this.setState({
+      contentHeight: 0,
+      contentWidth: 0,
+    });
+  }
+
+  render() {
+    const {
+      brand,
+      currentLocale,
+      calls,
+      areaCode,
+      countryCode,
+      onViewContact,
+      onCreateContact,
+      onLogCall,
+      onClickToDial,
+      onClickToSms,
+      isLoggedContact,
+      disableLinks,
+      disableClickToDial,
+      outboundSmsPermission,
+      internalSmsPermission,
+      dateTimeFormatter,
+      showSpinner,
+      title,
+      active,
+      loggingMap,
+      webphoneAnswer,
+      webphoneReject,
+      webphoneHangup,
+      webphoneResume,
+      enableContactFallback,
+      autoLog,
+      showContactDisplayPlaceholder,
+      sourceIcons,
+      phoneTypeRenderer,
+      phoneSourceNameRenderer,
+      useNewList,
+    } = this.props;
+
+    const callsListView = useNewList ?
       (
         <CallListV2
-          width={width}
-          height={height}
           brand={brand}
           currentLocale={currentLocale}
           calls={calls}
@@ -54,7 +108,6 @@ export default function CallsPanel({
           countryCode={countryCode}
           onViewContact={onViewContact}
           onCreateContact={onCreateContact}
-          createEntityTypes={createEntityTypes}
           onLogCall={onLogCall}
           onClickToDial={onClickToDial}
           onClickToSms={onClickToSms}
@@ -76,12 +129,9 @@ export default function CallsPanel({
           sourceIcons={sourceIcons}
           phoneTypeRenderer={phoneTypeRenderer}
           phoneSourceNameRenderer={phoneSourceNameRenderer}
-          renderContactName={renderContactName}
-          renderExtraButton={renderExtraButton}
-          contactDisplayStyle={contactDisplayStyle}
-          externalViewEntity={externalViewEntity}
-          externalHasEntity={externalHasEntity}
-          readTextPermission={isShowMessageIcon}
+          width={this.state.contentWidth}
+          height={this.state.contentHeight}
+          useNewList={useNewList}
         />
       ) :
       (
@@ -93,7 +143,6 @@ export default function CallsPanel({
           countryCode={countryCode}
           onViewContact={onViewContact}
           onCreateContact={onCreateContact}
-          createEntityTypes={createEntityTypes}
           onLogCall={onLogCall}
           onClickToDial={onClickToDial}
           onClickToSms={onClickToSms}
@@ -115,27 +164,22 @@ export default function CallsPanel({
           sourceIcons={sourceIcons}
           phoneTypeRenderer={phoneTypeRenderer}
           phoneSourceNameRenderer={phoneSourceNameRenderer}
-          renderContactName={renderContactName}
-          renderExtraButton={renderExtraButton}
-          contactDisplayStyle={contactDisplayStyle}
-          externalViewEntity={externalViewEntity}
-          externalHasEntity={externalHasEntity}
-          readTextPermission={isShowMessageIcon}
         />
       );
 
-  const content = showSpinner ? <SpinnerOverlay /> : callsListView
-    
-  return (
-    <div className={styles.root}>
-      <Header>
-        {title}
-      </Header>
-      <Panel className={styles.content}>
-        {content}
-      </Panel>
-    </div>
-  );
+    const content = showSpinner ? <SpinnerOverlay /> : callsListView;
+
+    return (
+      <div className={styles.root} ref={this._listWrapper}>
+        <Header>
+          {title}
+        </Header>
+        <Panel className={styles.content} >
+          {content}
+        </Panel>
+      </div>
+    );
+  }
 }
 
 CallsPanel.propTypes = {
@@ -169,8 +213,6 @@ CallsPanel.propTypes = {
   sourceIcons: PropTypes.object,
   phoneTypeRenderer: PropTypes.func,
   phoneSourceNameRenderer: PropTypes.func,
-  width: PropTypes.number,
-  height: PropTypes.number,
   useNewList: PropTypes.bool,
 };
 
@@ -198,7 +240,5 @@ CallsPanel.defaultProps = {
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
-  width: undefined,
-  height: undefined,
   useNewList: false,
 };

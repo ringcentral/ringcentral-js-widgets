@@ -18,8 +18,6 @@ function mapToProps(_, {
     rolesAndPermissions,
   },
   enableContactFallback = false,
-  width = undefined,
-  height = undefined,
   useNewList = false,
 }) {
   return {
@@ -54,6 +52,7 @@ function mapToProps(_, {
       (!callLogger || callLogger.ready)
     ),
     autoLog: !!(callLogger && callLogger.autoLog),
+    useNewList,
   };
 }
 function mapToFunctions(_, {
@@ -133,9 +132,6 @@ function mapToFunctions(_, {
           redirect,
         });
       })),
-    width = undefined,
-    height = undefined,
-    useNewList = false,
   };
 }
 
