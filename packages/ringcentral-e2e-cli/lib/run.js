@@ -1,11 +1,13 @@
 import { resolve } from 'path';
 import runner from '../src/runner.js';
 import { isNil } from '../src/utils/checkType';
+import EinsteinAdapter from './einsteinAdapter';
 
 const DEFAULT_CONFIG_FILE_PATH = './e2e.config.js';
 const DEFAULT_ROOT = '<rootDir>';
 const DEFAULT_TEST_MATCH = '**/?(*.)+(spec|test).js?(x)';
 const configPath = resolve(process.cwd(), DEFAULT_CONFIG_FILE_PATH);
+const einstein = new EinsteinAdapter();
 
 function getArgs(dir, cmd) {
   let args;
@@ -35,6 +37,8 @@ function getTestMatch(args) {
 
 
 const run = async (dir, cmd) => {
+  // const caseContent = await einstein.getCaseByExternalId(961);
+  // console.log('caseContent', caseContent);
   const isRelativePath = (/^.\/|^..\//).test(cmd.params);
   const isResolvePath = (/^\//).test(cmd.params);
   if (isRelativePath || isResolvePath) {

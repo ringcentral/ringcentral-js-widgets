@@ -27,6 +27,7 @@
     "babel-core": "^6.26.3",
     "babel-jest": "^23.4.2",
     "commander": "^2.17.1",
+    "einstein-sdk": "^1.0.11",
     "jest": "^23.5.0",
     "ringcentral-e2e-environment": "^0.0.1"
   }
