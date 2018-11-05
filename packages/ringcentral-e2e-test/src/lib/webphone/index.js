@@ -98,7 +98,6 @@ export default class WebPhone {
     };
     const body = WebPhoneClient.OperationReqeust.constructFromObject(request, null);
     const response = await this.statusChange(await apiInstance.phoneOperatePost(body), phoneStatus);
-    debugger
     return response;
   }
 
