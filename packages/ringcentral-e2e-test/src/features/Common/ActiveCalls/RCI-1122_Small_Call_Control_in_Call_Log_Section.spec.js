@@ -60,7 +60,7 @@ describe('Commom ActiveCalls: =====>', () => {
     ],
     levels: ['p1'],
     options: [
-      { accounts: ['CM_RC_US'], callingType: callingTypes.myPhone },
+      { accounts: ['CM_RC_US', 'CM_RC_US'], callingType: callingTypes.myPhone },
     ],
   }, async () => {
     let process = createProcess(
