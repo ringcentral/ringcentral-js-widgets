@@ -33,7 +33,7 @@ export default function SmCallControl(props) {
   const muteIcon = isOnMute ? MuteIcon : UnmuteIcon;
   const muteAction = isOnMute ? onUnmute : onMute;
   const muteTitle = isOnMute ? 'unmute' : 'mute';
-  const endTile = canRejectCall() ? 'reject' : 'hangup';
+  const endTitle = canRejectCall() ? 'reject' : 'hangup';
   const endAction = canRejectCall() ? onReject : onHangup;
   const disabledCtrl = callStatus === telephonyStatuses.ringing;
   return (
@@ -47,12 +47,12 @@ export default function SmCallControl(props) {
         disabled={disabledCtrl}
       />
       <CircleButton
-        dataSign={endTile}
+        dataSign={endTitle}
         showBorder={false}
         icon={EndIcon}
         onClick={endAction}
         className={classnames(styles.hangup, styles.button)}
-        title={i18n.getString(endTile, currentLocale)}
+        title={i18n.getString(endTitle, currentLocale)}
       />
     </div>
   );
