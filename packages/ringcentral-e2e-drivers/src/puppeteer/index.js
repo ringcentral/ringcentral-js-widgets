@@ -32,12 +32,17 @@ class Query extends BaseQuery {
     return attributeValue;
   }
 
-  async getValue(selector, options) {
+  async getProperty(selector, property, options) {
     const element = await this.waitForSelector(selector, options);
     const value = await this._node.evaluate(
-      element => element.value,
-      element
+      (element, property) => element[property],
+      element, property
     );
+    return value;
+  }
+
+  async getValue(selector, options) {
+    const value = await this.getProperty(selector, 'value', options);
     return value;
   }
 

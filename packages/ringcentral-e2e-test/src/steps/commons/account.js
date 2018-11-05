@@ -1,18 +1,11 @@
 import AccountHelper from '../../lib/accountManager';
 
-export const AVAILABLE_TYPE = ['browser', 'myRCPhone', 'otherPhone', 'customPhone'];
-
 export default class Account {
   static async getAccount(context) {
     const {
       playload: { loginAccount = {} } = {},
-      callingType,
       accounts = [],
     } = context.options.option;
-    const isInvalidCallingType = !AVAILABLE_TYPE.includes(callingType);
-    if (isInvalidCallingType && accounts.length > 0) {
-      throw new Error(`Invalid callingType ${callingType}`);
-    }
     const needLoginAccount = !(loginAccount.username && loginAccount.password);
     const accountsList = [
       ...accounts || [],

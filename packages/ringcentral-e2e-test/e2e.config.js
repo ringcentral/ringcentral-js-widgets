@@ -35,7 +35,7 @@ module.exports = {
       [
         'salesforce',
         {
-          modes: ['classic'],
+          modes: ['lightning', 'classic'],
           accounts: ['SF_RC_US'],
           drivers: ['puppeteer', 'seleniumWebdriverFirefox', 'seleniumWebdriverSafari', 'enzyme', 'seleniumWebdriverChrome']
         }

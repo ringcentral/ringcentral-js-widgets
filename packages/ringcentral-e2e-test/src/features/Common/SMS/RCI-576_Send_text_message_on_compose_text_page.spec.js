@@ -50,11 +50,13 @@ describe('Commom SMS: =====>', () => {
     title: 'Send text message on compose text page',
     tags: [
       ['widgets'],
-      // ['salesforce'],
+      ['salesforce'],
+      ['sfb'],
+      ['dynamics'],
     ],
     levels: ['p0'],
     options: [
-      { typeToFields: ['foobar', '101', '(650)8881234', '+16508881234', '+16508881234*101'], textSMS: 'bar', accounts: ['CM_RC_US'], callingType: 'myRCPhone' },
+      {typeToFields: ['foobar', '101', '(650)8881234', '+16508881234', '+16508881234*101'], textSMS: 'bar', accounts: ['CM_RC_US'], callingType: 'myRCPhone'},
     ],
   }, async ({ option }) => {
     const process = createProcess(

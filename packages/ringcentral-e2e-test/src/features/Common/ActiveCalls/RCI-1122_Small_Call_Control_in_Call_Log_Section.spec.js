@@ -37,36 +37,39 @@ Date Updated	Wed, 24 Oct 2018 13:52:10
 import { createProcess } from 'marten';
 import Entry from '../../../steps/entry';
 import { LoginCTI } from '../../../steps/commons/login';
-import NavigateToSetting from '../../../steps/commons/navigateToSetting';
-import SetCallingSetting from '../../../steps/commons/Setting/setCallingSetting';
-import MakeInboundCall from '../../../steps/commons/Call/makeInboundCall';
-import ClickLeftCallLogSectionInfo from '../../../steps/commons/CallLogSection/clickLeftCallLogSectionInfo';
-import RejectCall from '../../../steps/commons/Call/rejectCall';
-import AnswerInboundCall from '../../../steps/commons/Call/answerInboundCall';
-import MuteCall from '../../../steps/commons/Call/muteCall';
-import UnmuteCall from '../../../steps/commons/Call/unmuteCall';
+import NavigateToCallingSetting from '../../../steps/commons/navigateToCallingSetting';
+import NavigateToDialer from '../../../steps/commons/navigateToDialer';
+import SetCallingSetting, { callingTypes } from '../../../steps/commons/Setting/setCallingSetting';
+import ClickLeftCallLogSectionInfo from '../../../steps/commons/SmallCallControl/clickLeftCallLogSectionInfo';
+import RejectCall from '../../../steps/commons/SmallCallControl/rejectCall';
+import MuteCall from '../../../steps/commons/SmallCallControl/muteCall';
+import UnmuteCall from '../../../steps/commons/SmallCallControl/unmuteCall';
+import HangupCall from '../../../steps/commons/SmallCallControl/hangupCall';
+import AssistMakeInboundCall from '../../../steps/commons/Webphone/assistMakeInboundCall';
+import AssistAnswerInboundCall from '../../../steps/commons/Webphone/assistAnswerInboundCall';
+import AssistAnswerOutboundCall from '../../../steps/commons/Webphone/assistAnswerOutboundCall';
+import AssistHangupCall from '../../../steps/commons/Webphone/assistHangupCall';
 import CloseCallLogSection from '../../../steps/commons/CallLogSection/closeCallLogSection';
-import Hangup from '../../../steps/commons/Call/hangup';
-import MakeOutboundCall from '../../../steps/commons/Call/makeOutboundCall';
-import AnswerOutboundCall from '../../../steps/commons/Call/answerOutboundCall';
+import DialOutCall from '../../../steps/commons/Dialer/dialOutCall';
 
 describe('Commom ActiveCalls: =====>', () => {
   test({
     title: 'Small Call Control in Call Log Section',
     tags: [
-      ['salesforce'],
+      ['widgets'],
     ],
     levels: ['p1'],
     options: [
-      { accounts: ['CM_RC_US'], callingType: 'myRCPhone' },
+      { accounts: ['CM_RC_US', 'CM_RC_US'], callingType: callingTypes.myPhone },
     ],
   }, async () => {
     let process = createProcess(
       Entry,
       LoginCTI,
-      NavigateToSetting,
+      NavigateToCallingSetting,
       SetCallingSetting,
-      MakeInboundCall,
+      NavigateToDialer,
+      AssistMakeInboundCall,
       ClickLeftCallLogSectionInfo,
       RejectCall,
     )(context);
@@ -77,9 +80,9 @@ describe('Commom ActiveCalls: =====>', () => {
     'Mute' button and it's disabled
     'Reject' button and it's enabled
     */
-    await process.execTo(MakeInboundCall);
-    expect(await MakeInboundCall.getIsMuteButtonDisabled(context)).toBeTruthy();
-    expect(await MakeInboundCall.getIsRejectButtonEnabled(context)).toBeTruthy();
+    await process.execTo(AssistMakeInboundCall);
+    expect(await AssistMakeInboundCall.getIsMuteButtonDisabled(context)).toBeTruthy();
+    expect(await AssistMakeInboundCall.getIsRejectButtonEnabled(context)).toBeTruthy();
 
     /*
     __Step2__: Click the left section of basic information on call log section.
@@ -96,10 +99,10 @@ describe('Commom ActiveCalls: =====>', () => {
     expect(await RejectCall.getIsCallHangup(context)).toBeTruthy();
 
     process = createProcess(
-      Hangup,
+      AssistHangupCall,
       CloseCallLogSection,
-      MakeInboundCall,
-      AnswerInboundCall,
+      AssistMakeInboundCall,
+      AssistAnswerInboundCall,
       MuteCall,
       UnmuteCall,
       ClickLeftCallLogSectionInfo,
@@ -109,8 +112,8 @@ describe('Commom ActiveCalls: =====>', () => {
     __Step4__: Repeat step 1 and answer the call
     [Expected Result]: 'Mute' button should be enabled
     */
-    await process.execTo(AnswerInboundCall);
-    expect(await MakeInboundCall.getIsMuteButtonEnabled(context)).toBeTruthy();
+    await process.execTo(AssistMakeInboundCall);
+    expect(await AssistMakeInboundCall.getIsMuteButtonEnabled(context)).toBeTruthy();
 
     /*
     __Step5__: Click the 'Mute' button
@@ -136,11 +139,11 @@ describe('Commom ActiveCalls: =====>', () => {
     expect(await ClickLeftCallLogSectionInfo.getIsNavigateToCallControlPage(context)).toBeTruthy();
 
     process = createProcess(
-      Hangup,
+      AssistHangupCall,
       CloseCallLogSection,
-      MakeOutboundCall,
-      AnswerOutboundCall,
-      Hangup,
+      DialOutCall,
+      AssistAnswerOutboundCall,
+      HangupCall,
       ClickLeftCallLogSectionInfo,
     )(context);
     /*
@@ -150,9 +153,9 @@ describe('Commom ActiveCalls: =====>', () => {
     'Mute' button and it's enabled
     'Hang up' button and it's enabled
     */
-    await process.execTo(AnswerOutboundCall);
-    expect(await AnswerOutboundCall.getIsMuteEnabled(context)).toBeTruthy();
-    expect(await AnswerOutboundCall.getIsHangupEnabled(context)).toBeTruthy();
+    await process.execTo(AssistAnswerOutboundCall);
+    expect(await AssistAnswerOutboundCall.getIsMuteEnabled(context)).toBeTruthy();
+    expect(await AssistAnswerOutboundCall.getIsHangupEnabled(context)).toBeTruthy();
 
     /*
     __Step9__: Click the 'Hang up' button
@@ -162,10 +165,10 @@ describe('Commom ActiveCalls: =====>', () => {
     no 'Mute' button
     no 'Hang up' button
     */
-    await process.execTo(Hangup);
-    expect(await Hangup.getIsHangupCall(context)).toBeTruthy();
-    expect(await Hangup.getIsMuteButtonHidden(context)).toBeTruthy();
-    expect(await Hangup.getIsHangupButtonHidden(context)).toBeTruthy();
+    await process.execTo(HangupCall);
+    expect(await HangupCall.getIsCallHangup(context)).toBeTruthy();
+    expect(await HangupCall.getIsMuteButtonHidden(context)).toBeTruthy();
+    expect(await HangupCall.getIsHangupButtonHidden(context)).toBeTruthy();
 
     /*
     __Step10__: Click the left section of basic information on call log section
