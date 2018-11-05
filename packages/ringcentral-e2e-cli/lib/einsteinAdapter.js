@@ -6,7 +6,7 @@ const BASE_URL = 'http://einstein.int.ringcentral.com';
 const USERNAME = '';
 const PASSWORD = '';
 
-export default class einsteinDateHandle {
+export default class einsteinAdapter {
   constructor() {
     this.einsteinSDK = new EinsteinSDK(BASE_URL);
     this.itemId = null;
