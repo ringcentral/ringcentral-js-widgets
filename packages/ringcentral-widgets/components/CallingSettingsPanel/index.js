@@ -179,6 +179,7 @@ export default class CallingSettingsPanel extends Component {
                 />
               ) : (
                 <TextInput
+                  dataSign="myLocation"
                   value={this.state.myLocation}
                   maxLength={30}
                   onChange={this.onMyLocationTextChange} />
@@ -189,6 +190,7 @@ export default class CallingSettingsPanel extends Component {
             className={styles.iconField}
             icon={
               <Switch
+                dataSign="ringoutPromptToggle"
                 checked={this.state.ringoutPrompt}
                 onChange={this.onRingoutPromptChange}
                 />
@@ -201,7 +203,7 @@ export default class CallingSettingsPanel extends Component {
 
     const toolTip = this.getTooltipContent();
     return (
-      <div className={classnames(styles.root, className)}>
+      <div data-sign="callingSettings" className={classnames(styles.root, className)}>
         <BackHeader
           onBackClick={onBackButtonClick}
           >

@@ -141,8 +141,8 @@ export default class LogSection extends Component {
       [styles.pointer]: !disabledToCallControl()
     });
     return (
-      <div className={styles.infoWithCtrlWrapper}>
-        <div className={wrapperCls} onClick={onLogBasicInfoClick}>
+      <div data-sign="logSection" className={styles.infoWithCtrlWrapper}>
+        <div data-sign="leftSectionInfo" className={wrapperCls} onClick={onLogBasicInfoClick}>
           <LogBasicInfo
             currentLog={this.props.currentLog}
             currentLocale={this.props.currentLocale}
