@@ -946,30 +946,24 @@ export default class Conversations extends RcModule {
       });
       return {
         ...item,
-        phoneNumber: formatted
+        phoneNumber: formatted,
+        id: item.rawId
       };
     });
     formattedCorrespondentMatch.forEach(async (item) => {
       const { phoneNumber } = item;
       const conversationId = this.correspondentResponse[phoneNumber];
-      let correspondentMatches = this._contactMatcher.dataMapping[phoneNumber];
+      const correspondentMatches = this._contactMatcher.dataMapping[phoneNumber];
+      await this._contactMatcher.forceMatchNumber({ phoneNumber });
       if (!correspondentMatches) {
         await sleep(2500);
-        correspondentMatches = this._contactMatcher.dataMapping[phoneNumber];
       }
-      const correspondentEntity = correspondentMatches.filter(match => match.id === item.rawId);
-      let entity = null;
-      if (correspondentEntity.length) {
-        [entity] = correspondentEntity;
-      }
-      if (entity && conversationId) {
-        this._conversationLogger.logConversation({
-          correspondentEntity: entity,
-          conversationId
-        });
-        this.removeEntity(entity);
-        this.removeResponse(phoneNumber);
-      }
+      this._conversationLogger.logConversation({
+        correspondentEntity: item,
+        conversationId
+      });
+      this.removeEntity(item);
+      this.removeResponse(phoneNumber);
     });
   }
 }
