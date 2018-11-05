@@ -1,5 +1,5 @@
 import Webphone, { PhoneType } from '../../../lib/webphone';
-
+/* global $ */
 export default class operateWebPhoneBasic {
   static async _getPhone(account, env) {
     const phoneRes = await Webphone.getPhonesByNumber(`+${account.did}`, env);
@@ -110,6 +110,35 @@ export default class operateWebPhoneBasic {
       action: 'close',
       phoneNumber: receiver.phoneNumber
     });
+  }
+
+  static async getIsMuteEnabled(context) {
+    const className = await $(context.driver.app).getAttribute('@mute', 'class');
+    const isMuteButtonDisabled = className.indexOf('buttonDisabled') > -1;
+    return !isMuteButtonDisabled;
+  }
+
+  static async getIsHangupEnabled(context) {
+    const className = await $(context.driver.app).getAttribute('@hangup', 'class');
+    const isHangupDisabled = className.indexOf('buttonDisabled') > -1;
+    return !isHangupDisabled;
+  }
+
+  static async getIsMuteButtonEnabled(context) {
+    const isMuteButtonDisabled = await this.getIsMuteButtonDisabled(context);
+    return !isMuteButtonDisabled;
+  }
+
+  static async getIsMuteButtonDisabled(context) {
+    const className = await $(context.driver.app).getAttribute('@mute', 'class');
+    const isMuteButtonDisabled = className.indexOf('buttonDisabled') > -1;
+    return isMuteButtonDisabled;
+  }
+
+  static async getIsRejectButtonEnabled(context) {
+    const className = await $(context.driver.app).getAttribute('@reject', 'class');
+    const isRejectButtonEnabled = className.indexOf('buttonDisabled') === -1;
+    return isRejectButtonEnabled;
   }
 
   static get steps() {

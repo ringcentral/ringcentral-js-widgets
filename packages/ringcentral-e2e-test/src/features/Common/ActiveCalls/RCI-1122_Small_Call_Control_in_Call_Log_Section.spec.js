@@ -167,8 +167,8 @@ describe('Commom ActiveCalls: =====>', () => {
     */
     await process.execTo(HangupCall);
     expect(await HangupCall.getIsCallHangup(context)).toBeTruthy();
-    expect(await HangupCall.getIsMuteButtonHidden(context)).not.toBeTruthy();
-    expect(await HangupCall.getIsHangupButtonHidden(context)).not.toBeTruthy();
+    expect(await HangupCall.getIsMuteButtonHidden(context)).toBeTruthy();
+    expect(await HangupCall.getIsHangupButtonHidden(context)).toBeTruthy();
 
     /*
     __Step10__: Click the left section of basic information on call log section
