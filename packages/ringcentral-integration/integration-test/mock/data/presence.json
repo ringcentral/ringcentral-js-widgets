@@ -11,5 +11,6 @@
   "dndStatus": "TakeAllCalls",
   "allowSeeMyPresence": true,
   "ringOnMonitoredCall": false,
-  "pickUpCallsOnHold": false
+  "pickUpCallsOnHold": false,
+  "totalActiveCalls": 0
 }
