@@ -61,50 +61,131 @@ exports.serviceInfo = serviceInfo;
 exports.recentActivity = recentActivity;
 exports.mockForLogin = mockForLogin;
 
-var _AccountPhoneNumber = require('../../modules/AccountPhoneNumber');
+var _fetchMock = require('fetch-mock');
 
-var _AccountPhoneNumber2 = _interopRequireDefault(_AccountPhoneNumber);
+var _fetchMock2 = _interopRequireDefault(_fetchMock);
 
-var _DialingPlan = require('../../modules/DialingPlan');
+var _ringcentral = require('ringcentral');
 
-var _DialingPlan2 = _interopRequireDefault(_DialingPlan);
+var _ringcentral2 = _interopRequireDefault(_ringcentral);
+
+var _dialingPlan = require('./data/dialingPlan');
+
+var _dialingPlan2 = _interopRequireDefault(_dialingPlan);
+
+var _extensionInfo = require('./data/extensionInfo');
+
+var _extensionInfo2 = _interopRequireDefault(_extensionInfo);
+
+var _extension = require('./data/extension');
+
+var _extension2 = _interopRequireDefault(_extension);
+
+var _accountInfo = require('./data/accountInfo');
+
+var _accountInfo2 = _interopRequireDefault(_accountInfo);
+
+var _subscription = require('./data/subscription');
+
+var _subscription2 = _interopRequireDefault(_subscription);
+
+var _apiInfo = require('./data/apiInfo');
+
+var _apiInfo2 = _interopRequireDefault(_apiInfo);
+
+var _messageSync = require('./data/messageSync');
+
+var _messageSync2 = _interopRequireDefault(_messageSync);
+
+var _authzProfile = require('./data/authzProfile');
+
+var _authzProfile2 = _interopRequireDefault(_authzProfile);
+
+var _blockedNumber = require('./data/blockedNumber');
+
+var _blockedNumber2 = _interopRequireDefault(_blockedNumber);
+
+var _forwardingNumber = require('./data/forwardingNumber');
+
+var _forwardingNumber2 = _interopRequireDefault(_forwardingNumber);
+
+var _phoneNumber = require('./data/phoneNumber');
+
+var _phoneNumber2 = _interopRequireDefault(_phoneNumber);
+
+var _accountPhoneNumber = require('./data/accountPhoneNumber');
+
+var _accountPhoneNumber2 = _interopRequireDefault(_accountPhoneNumber);
+
+var _presence = require('./data/presence.json');
+
+var _presence2 = _interopRequireDefault(_presence);
+
+var _numberParser = require('./data/numberParser.json');
+
+var _numberParser2 = _interopRequireDefault(_numberParser);
+
+var _sms = require('./data/sms.json');
+
+var _sms2 = _interopRequireDefault(_sms);
+
+var _ringOut = require('./data/ringOut.json');
+
+var _ringOut2 = _interopRequireDefault(_ringOut);
+
+var _messageItem = require('./data/messageItem.json');
+
+var _messageItem2 = _interopRequireDefault(_messageItem);
+
+var _messageList = require('./data/messageList.json');
+
+var _messageList2 = _interopRequireDefault(_messageList);
+
+var _addressBook = require('./data/addressBook.json');
+
+var _addressBook2 = _interopRequireDefault(_addressBook);
+
+var _callLog = require('./data/callLog.json');
+
+var _callLog2 = _interopRequireDefault(_callLog);
+
+var _device = require('./data/device.json');
+
+var _device2 = _interopRequireDefault(_device);
+
+var _conferencing = require('./data/conferencing.json');
+
+var _conferencing2 = _interopRequireDefault(_conferencing);
+
+var _activeCalls = require('./data/activeCalls.json');
+
+var _activeCalls2 = _interopRequireDefault(_activeCalls);
+
+var _meeting = require('./data/meeting');
+
+var _meeting2 = _interopRequireDefault(_meeting);
+
+var _serviceInfo = require('./data/serviceInfo');
+
+var _serviceInfo2 = _interopRequireDefault(_serviceInfo);
+
+var _conferenceCall = require('./data/conferenceCall');
+
+var _conferenceCall2 = _interopRequireDefault(_conferenceCall);
+
+var _numberParse = require('./data/numberParse');
+
+var _numberParse2 = _interopRequireDefault(_numberParse);
+
+var _conferenceCallBringIn = require('./data/conferenceCallBringIn');
+
+var _conferenceCallBringIn2 = _interopRequireDefault(_conferenceCallBringIn);
+
+var _updateConference = require('./data/updateConference');
+
+var _updateConference2 = _interopRequireDefault(_updateConference);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-require('es6-promise').polyfill();
-// require('./pubnub');
-var RingCentral = require('ringcentral');
-var fetchMock = require('fetch-mock');
-
-var dialingPlanBody = require('./data/dialingPlan');
-var extensionBody = require('./data/extensionInfo');
-var extensionListBody = require('./data/extension');
-var accountBody = require('./data/accountInfo');
-var subscriptionBody = require('./data/subscription');
-var apiInfoBody = require('./data/subscription');
-var messageSyncBody = require('./data/messageSync');
-var authzProfileBody = require('./data/authzProfile');
-var blockedNumberBody = require('./data/blockedNumber');
-var forwardingNumberBody = require('./data/forwardingNumber');
-var phoneNumberBody = require('./data/phoneNumber');
-var accountPhoneNumberBody = require('./data/accountPhoneNumber');
-var presenceBody = require('./data/presence.json');
-var numberParserBody = require('./data/numberParser.json');
-var smsBody = require('./data/sms.json');
-var ringOutBody = require('./data/ringOut.json');
-var messageItemBody = require('./data/messageItem.json');
-var messageListBody = require('./data/messageList.json');
-var addressBookBody = require('./data/addressBook.json');
-var callLogBody = require('./data/callLog.json');
-var deviceBody = require('./data/device.json');
-var conferencingBody = require('./data/conferencing.json');
-var activeCallsBody = require('./data/activeCalls.json');
-var meetingBody = require('./data/meeting');
-var serviceInfoBody = require('./data/serviceInfo');
-var conferenceCallBody = require('./data/conferenceCall');
-var numberParseBody = require('./data/numberParse');
-var conferenceCallBringInBody = require('./data/conferenceCallBringIn');
-var updateConferenceCallBody = require('./data/updateConference');
 
 var mockServer = 'http://whatever';
 function createSDK() {
@@ -114,15 +195,15 @@ function createSDK() {
     appKey: 'test key',
     appSecret: 'test secret',
     server: mockServer,
-    Request: fetchMock.constructor.Request,
-    Response: fetchMock.constructor.Response,
-    Headers: fetchMock.constructor.Headers,
-    fetch: fetchMock.fetchMock.bind(fetchMock),
+    Request: _fetchMock2.default.constructor.Request,
+    Response: _fetchMock2.default.constructor.Response,
+    Headers: _fetchMock2.default.constructor.Headers,
+    fetch: _fetchMock2.default.fetchMock.bind(_fetchMock2.default),
     refreshDelayMs: 1,
     redirectUri: 'http://foo',
     cachePrefix: 'sdkPrefix'
   });
-  return new RingCentral(opts);
+  return new _ringcentral2.default(opts);
 }
 
 function mockApi(_ref) {
@@ -157,7 +238,7 @@ function mockApi(_ref) {
   } else {
     mockUrl = '' + server + path;
   }
-  var mock = isOnce ? fetchMock.once.bind(fetchMock) : fetchMock.mock.bind(fetchMock);
+  var mock = isOnce ? _fetchMock2.default.once.bind(_fetchMock2.default) : _fetchMock2.default.mock.bind(_fetchMock2.default);
   mock(mockUrl, {
     body: isJson ? (0, _stringify2.default)(body) : body,
     status: status,
@@ -252,7 +333,7 @@ function presenceUpdate(id) {
   mockApi({
     path: '/restapi/v1.0/account/~/extension/' + id + '/presence',
     method: 'PUT',
-    body: (0, _extends3.default)({}, presenceBody, mockResponse)
+    body: (0, _extends3.default)({}, _presence2.default, mockResponse)
   });
 }
 
@@ -261,7 +342,7 @@ function dialingPlan() {
 
   mockApi({
     path: '/restapi/v1.0/account/~/dialing-plan?perPage=MAX&page=1',
-    body: (0, _extends3.default)({}, dialingPlanBody, mockResponse)
+    body: (0, _extends3.default)({}, _dialingPlan2.default, mockResponse)
   });
 }
 
@@ -270,7 +351,7 @@ function extensionInfo() {
 
   mockApi({
     path: '/restapi/v1.0/account/~/extension/~',
-    body: (0, _extends3.default)({}, extensionBody, mockResponse),
+    body: (0, _extends3.default)({}, _extensionInfo2.default, mockResponse),
     isOnce: false
   });
 }
@@ -281,7 +362,7 @@ function conferenceCallBringIn(id) {
   mockApi({
     method: 'POST',
     path: '/restapi/v1.0/account/~/telephony/sessions/' + id + '/parties/bring-in',
-    body: (0, _extends3.default)({}, conferenceCallBringInBody, mockResponse),
+    body: (0, _extends3.default)({}, _conferenceCallBringIn2.default, mockResponse),
     isOnce: false
   });
 }
@@ -296,7 +377,7 @@ function extensionList() {
 
   mockApi({
     url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension?',
-    body: (0, _extends3.default)({}, extensionListBody, mockResponse)
+    body: (0, _extends3.default)({}, _extension2.default, mockResponse)
   });
 }
 
@@ -305,7 +386,7 @@ function accountInfo() {
 
   mockApi({
     path: '/restapi/v1.0/account/~',
-    body: (0, _extends3.default)({}, accountBody, mockResponse)
+    body: (0, _extends3.default)({}, _accountInfo2.default, mockResponse)
   });
 }
 
@@ -314,7 +395,7 @@ function apiInfo() {
 
   mockApi({
     path: '/restapi/v1.0',
-    body: (0, _extends3.default)({}, apiInfoBody, mockResponse)
+    body: (0, _extends3.default)({}, _apiInfo2.default, mockResponse)
   });
 }
 
@@ -324,7 +405,7 @@ function messageSync() {
 
   mockApi({
     url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/message-sync',
-    body: (0, _extends3.default)({}, messageSyncBody, mockResponse),
+    body: (0, _extends3.default)({}, _messageSync2.default, mockResponse),
     isOnce: isOnce
   });
 }
@@ -334,7 +415,7 @@ function messageList() {
 
   mockApi({
     url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/message-store?',
-    body: (0, _extends3.default)({}, messageListBody, mockResponse),
+    body: (0, _extends3.default)({}, _messageList2.default, mockResponse),
     isOnce: false
   });
 }
@@ -346,7 +427,7 @@ function updateMessageStatus() {
   mockApi({
     url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/message-store/',
     method: 'PUT',
-    body: (0, _extends3.default)({}, messageItemBody, mockResponse),
+    body: (0, _extends3.default)({}, _messageItem2.default, mockResponse),
     isOnce: isOnce
   });
 }
@@ -356,7 +437,7 @@ function authzProfile() {
 
   mockApi({
     path: '/restapi/v1.0/account/~/extension/~/authz-profile',
-    body: (0, _extends3.default)({}, authzProfileBody, mockResponse)
+    body: (0, _extends3.default)({}, _authzProfile2.default, mockResponse)
   });
 }
 
@@ -365,7 +446,7 @@ function blockedNumber() {
 
   mockApi({
     path: '/restapi/v1.0/account/~/extension/~/blocked-number',
-    body: (0, _extends3.default)({}, blockedNumberBody, mockResponse)
+    body: (0, _extends3.default)({}, _blockedNumber2.default, mockResponse)
   });
 }
 
@@ -374,7 +455,7 @@ function forwardingNumber() {
 
   mockApi({
     url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/forwarding-number',
-    body: (0, _extends3.default)({}, forwardingNumberBody, mockResponse)
+    body: (0, _extends3.default)({}, _forwardingNumber2.default, mockResponse)
   });
 }
 
@@ -383,7 +464,7 @@ function phoneNumber() {
 
   mockApi({
     url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/phone-number',
-    body: (0, _extends3.default)({}, phoneNumberBody, mockResponse)
+    body: (0, _extends3.default)({}, _phoneNumber2.default, mockResponse)
   });
 }
 
@@ -392,7 +473,7 @@ function accountPhoneNumber() {
 
   mockApi({
     url: 'begin:' + mockServer + '/restapi/v1.0/account/~/phone-number',
-    body: (0, _extends3.default)({}, accountPhoneNumberBody, mockResponse),
+    body: (0, _extends3.default)({}, _accountPhoneNumber2.default, mockResponse),
     isOnce: false
   });
 }
@@ -403,19 +484,19 @@ function subscription() {
   mockApi({
     method: 'POST',
     url: 'begin:' + mockServer + '/restapi/v1.0/subscription',
-    body: (0, _extends3.default)({}, subscriptionBody, mockResponse),
+    body: (0, _extends3.default)({}, _subscription2.default, mockResponse),
     isOnce: false
   });
   mockApi({
     method: 'PUT',
     url: 'begin:' + mockServer + '/restapi/v1.0/subscription',
-    body: (0, _extends3.default)({}, subscriptionBody, mockResponse),
+    body: (0, _extends3.default)({}, _subscription2.default, mockResponse),
     isOnce: false
   });
   mockApi({
     method: 'DELETE',
     url: 'begin:' + mockServer + '/restapi/v1.0/subscription',
-    body: (0, _extends3.default)({}, subscriptionBody, mockResponse),
+    body: (0, _extends3.default)({}, _subscription2.default, mockResponse),
     isOnce: false
   });
 }
@@ -427,7 +508,7 @@ function numberParser() {
   mockApi({
     method: 'POST',
     url: 'begin:' + mockServer + '/restapi/v1.0/number-parser/',
-    body: (0, _extends3.default)({}, numberParserBody, mockResponse),
+    body: (0, _extends3.default)({}, _numberParser2.default, mockResponse),
     isOnce: isOnce
   });
 }
@@ -438,7 +519,7 @@ function sms() {
   mockApi({
     method: 'POST',
     path: '/restapi/v1.0/account/~/extension/~/sms',
-    body: (0, _extends3.default)({}, smsBody, mockResponse)
+    body: (0, _extends3.default)({}, _sms2.default, mockResponse)
   });
 }
 function addressBook() {
@@ -446,10 +527,10 @@ function addressBook() {
 
   mockApi({
     url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/address-book-sync',
-    body: (0, _extends3.default)({}, addressBookBody, {
+    body: (0, _extends3.default)({}, _addressBook2.default, {
       syncInfo: {
-        syncType: addressBookBody.syncInfo.syncType,
-        syncToken: addressBookBody.syncInfo.syncToken,
+        syncType: _addressBook2.default.syncInfo.syncType,
+        syncToken: _addressBook2.default.syncInfo.syncToken,
         syncTime: new Date(Date.now()).toISOString()
       }
     }, mockResponse),
@@ -462,16 +543,16 @@ function callLog() {
 
   mockApi({
     url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/call-log-sync',
-    body: (0, _extends3.default)({}, callLogBody, {
-      records: [(0, _extends3.default)({}, callLogBody.records[0], {
+    body: (0, _extends3.default)({}, _callLog2.default, {
+      records: [(0, _extends3.default)({}, _callLog2.default.records[0], {
         startTime: new Date(Date.now()).toISOString()
-      }), (0, _extends3.default)({}, callLogBody.records[1], {
+      }), (0, _extends3.default)({}, _callLog2.default.records[1], {
         startTime: new Date(Date.now()).toISOString()
       })]
     }, {
       syncInfo: {
-        syncType: callLogBody.syncInfo.syncType,
-        syncToken: callLogBody.syncInfo.syncToken,
+        syncType: _callLog2.default.syncInfo.syncType,
+        syncToken: _callLog2.default.syncInfo.syncToken,
         syncTime: new Date(Date.now()).toISOString()
       }
     }, mockResponse),
@@ -485,7 +566,7 @@ function device() {
 
   mockApi({
     url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/device',
-    body: (0, _extends3.default)({}, deviceBody, mockResponse),
+    body: (0, _extends3.default)({}, _device2.default, mockResponse),
     isOnce: isOnce
   });
 }
@@ -495,7 +576,7 @@ function conferencing() {
 
   mockApi({
     path: '/restapi/v1.0/account/~/extension/~/conferencing',
-    body: (0, _extends3.default)({}, conferencingBody, mockResponse)
+    body: (0, _extends3.default)({}, _conferencing2.default, mockResponse)
   });
 }
 
@@ -507,7 +588,7 @@ function numberParse() {
   mockApi({
     method: 'POST',
     path: '/restapi/v1.0/number-parser/parse?homeCountry=' + homeCountry,
-    body: (0, _extends3.default)({}, numberParseBody, mockResponse),
+    body: (0, _extends3.default)({}, _numberParse2.default, mockResponse),
     isOnce: false
   });
 }
@@ -515,11 +596,11 @@ function numberParse() {
 function conferenceCall() {
   var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-  conferenceCallBody.session.on = function () {};
+  _conferenceCall2.default.session.on = function () {};
   mockApi({
     method: 'POST',
     path: '/restapi/v1.0/account/~/telephony/conference',
-    body: (0, _extends3.default)({}, conferenceCallBody, mockResponse),
+    body: (0, _extends3.default)({}, _conferenceCall2.default, mockResponse),
     isOnce: false
   });
 }
@@ -541,7 +622,7 @@ function terminateConferenceCall(id) {
   mockApi({
     method: 'DELETE',
     path: '/restapi/v1.0/account/~/telephony/sessions/' + id,
-    body: (0, _extends3.default)({}, conferenceCallBody, mockResponse)
+    body: (0, _extends3.default)({}, _conferenceCall2.default, mockResponse)
   });
 }
 
@@ -551,16 +632,16 @@ function activeCalls() {
   mockApi({
     method: 'GET',
     url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/active-calls',
-    body: (0, _extends3.default)({}, activeCallsBody, mockResponse)
+    body: (0, _extends3.default)({}, _activeCalls2.default, mockResponse)
   });
 }
 
 function restore() {
-  fetchMock.restore();
+  _fetchMock2.default.restore();
 }
 
 function reset() {
-  fetchMock.reset();
+  _fetchMock2.default.reset();
 }
 
 function mockForbidden(_ref2) {
@@ -591,7 +672,7 @@ function ringOut() {
     isOnce: false,
     method: 'POST',
     url: mockServer + '/restapi/v1.0/account/~/extension/~/ring-out',
-    body: (0, _extends3.default)({}, ringOutBody, mockResponse)
+    body: (0, _extends3.default)({}, _ringOut2.default, mockResponse)
   });
 }
 
@@ -601,7 +682,7 @@ function ringOutUpdate() {
   mockApi({
     isOnce: false,
     url: 'begin:' + mockServer + '/restapi/v1.0/account/~/extension/~/ring-out/',
-    body: (0, _extends3.default)({}, ringOutBody, mockResponse)
+    body: (0, _extends3.default)({}, _ringOut2.default, mockResponse)
   });
 }
 function meeting() {
@@ -610,7 +691,7 @@ function meeting() {
   mockApi({
     method: 'POST',
     url: mockServer + '/restapi/v1.0/account/~/extension/~/meeting',
-    body: (0, _extends3.default)({}, meetingBody, mockResponse),
+    body: (0, _extends3.default)({}, _meeting2.default, mockResponse),
     isOnce: false
   });
 }
@@ -620,7 +701,7 @@ function serviceInfo() {
   mockApi({
     method: 'GET',
     url: mockServer + '/restapi/v1.0/account/~/extension/~/meeting/service-info',
-    body: (0, _extends3.default)({}, serviceInfoBody, mockResponse),
+    body: (0, _extends3.default)({}, _serviceInfo2.default, mockResponse),
     isOnce: false
   });
 }
@@ -631,7 +712,7 @@ function recentActivity() {
   mockApi({
     method: 'GET',
     url: new RegExp(mockServer + '/restapi/v1.0/account/~/extension/~/call-log'),
-    body: (0, _extends3.default)({}, callLogBody, mockResponse),
+    body: (0, _extends3.default)({}, _callLog2.default, mockResponse),
     isOnce: isOnce
   });
 }
@@ -697,7 +778,7 @@ function mockForLogin() {
   }
   if (mockUpdateConference) {
     conferenceCall();
-    updateConferenceCall(updateConferenceCallBody.id, updateConferenceCallBody);
+    updateConferenceCall(_updateConference2.default.id, _updateConference2.default);
   }
   if (mockRecentActivity) {
     recentActivity();
