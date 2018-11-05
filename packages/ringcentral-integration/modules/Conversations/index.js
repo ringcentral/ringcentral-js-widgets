@@ -925,7 +925,7 @@ export default class Conversations extends RcModule {
       phoneNumber
     });
   }
-  async relateCorrespondentEntity(responses) {
+  relateCorrespondentEntity(responses) {
     if (
       !this._contactMatcher ||
       !this._conversationLogger ||
@@ -945,21 +945,15 @@ export default class Conversations extends RcModule {
         areaCode,
       });
       return {
-        ...item,
         phoneNumber: formatted,
         id: item.rawId
       };
     });
-    formattedCorrespondentMatch.forEach(async (item) => {
+    formattedCorrespondentMatch.forEach((item) => {
       const { phoneNumber } = item;
       const conversationId = this.correspondentResponse[phoneNumber];
-      const correspondentMatches = this._contactMatcher.dataMapping[phoneNumber];
-      await this._contactMatcher.forceMatchNumber({ phoneNumber });
-      if (!correspondentMatches) {
-        await sleep(2500);
-      }
       this._conversationLogger.logConversation({
-        correspondentEntity: item,
+        entity: item,
         conversationId
       });
       this.removeEntity(item);
