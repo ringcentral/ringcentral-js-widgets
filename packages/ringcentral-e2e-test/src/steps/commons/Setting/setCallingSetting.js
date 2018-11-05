@@ -17,7 +17,7 @@ export default class SetCallingSetting {
         callingTypes.customPhone
       ].indexOf(option.callingType) > -1;
       if (isWithPrompt) {
-        const ringoutPrompt = await $(app).getProperty('@switch', 'checked');
+        const ringoutPrompt = await $(app).getProperty('@ringoutPromptToggle switch', 'checked');
         // Webphone lib only supports `ringoutPrompt: false`.
         if (ringoutPrompt) await $(app).click('@ringoutPromptToggle');
       }
