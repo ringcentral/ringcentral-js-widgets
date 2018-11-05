@@ -40,6 +40,7 @@ function SaveButton(_ref) {
   return _react2.default.createElement(
     _Button2.default,
     {
+      dataSign: 'saveButton',
       className: (0, _classnames2.default)(_styles2.default.root, disabled ? _styles2.default.disabled : null, className),
       onClick: onClick,
       disabled: disabled

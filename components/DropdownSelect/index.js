@@ -203,6 +203,7 @@ var DropdownSelect = function (_Component) {
           return _react2.default.createElement(
             'li',
             {
+              'data-sign': 'selectMenuItem',
               key: currentValue || idx,
               className: (0, _classnames2.default)(className, _styles2.default[_this2.props.dropdownAlign], ellipsis && _styles2.default.ellipsis, placeholder && _styles2.default.placeholder),
               value: currentValue,
@@ -237,6 +238,7 @@ var DropdownSelect = function (_Component) {
       return _react2.default.createElement(
         'div',
         {
+          'data-sign': 'dropdownSelect',
           className: (0, _classnames2.default)(containerClassName, this.props.wrapperStyle),
           ref: function ref(_ref2) {
             if (reference) reference(_ref2);
@@ -254,6 +256,7 @@ var DropdownSelect = function (_Component) {
           _react2.default.createElement(
             'span',
             {
+              'data-sign': 'selectedItem',
               className: (0, _classnames2.default)(_styles2.default.selectedValue, ellipsis && _styles2.default.ellipsis, this.props.selectedClassName) },
             renderValue
           ),
@@ -326,6 +329,7 @@ DropdownSelect.defaultProps = {
   ellipsis: true,
   noPadding: false,
   onToggle: function onToggle() {},
+
   open: false,
   wrapperStyle: '',
   buttonStyle: ''

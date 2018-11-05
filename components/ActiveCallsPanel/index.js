@@ -287,7 +287,7 @@ var ActiveCallsPanel = function (_Component) {
       if (!this.hasCalls()) {
         return _react2.default.createElement(
           'div',
-          { className: (0, _classnames2.default)(_styles2.default.root, className) },
+          { 'data-sign': 'activeCalls', className: (0, _classnames2.default)(_styles2.default.root, className) },
           _react2.default.createElement(
             'p',
             { className: _styles2.default.noCalls },
@@ -300,7 +300,7 @@ var ActiveCallsPanel = function (_Component) {
       var otherDevice = showOtherDevice ? this.getCallList(otherDeviceCalls, _i18n2.default.getString('otherDeviceCall', currentLocale), true) : null;
       return _react2.default.createElement(
         'div',
-        { className: _styles2.default.root },
+        { 'data-sign': 'activeCalls', className: _styles2.default.root },
         _react2.default.createElement(
           'div',
           {

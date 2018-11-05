@@ -42,6 +42,7 @@ function CircleButton(props) {
   return _react2.default.createElement(
     'svg',
     {
+      'data-sign': props.dataSign,
       xmlns: 'http://www.w3.org/2000/svg',
       className: (0, _classnames2.default)(_styles2.default.btnSvg, props.className),
       viewBox: '0 0 500 500',
@@ -81,6 +82,7 @@ function CircleButton(props) {
 CircleButton.propTypes = {
   icon: _propTypes2.default.func,
   className: _propTypes2.default.string,
+  dataSign: _propTypes2.default.string,
   showBorder: _propTypes2.default.bool,
   iconClassName: _propTypes2.default.string,
   onClick: _propTypes2.default.func,
@@ -100,6 +102,7 @@ CircleButton.propTypes = {
 CircleButton.defaultProps = {
   icon: undefined,
   className: undefined,
+  dataSign: undefined,
   showBorder: true,
   iconClassName: undefined,
   disabled: false,

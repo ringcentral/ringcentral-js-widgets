@@ -218,10 +218,10 @@ var LogSection = function (_Component) {
       var wrapperCls = (0, _classnames3.default)(_styles2.default.basicInfoWrapper, (0, _defineProperty3.default)({}, _styles2.default.pointer, !disabledToCallControl()));
       return _react2.default.createElement(
         'div',
-        { className: _styles2.default.infoWithCtrlWrapper },
+        { 'data-sign': 'logSection', className: _styles2.default.infoWithCtrlWrapper },
         _react2.default.createElement(
           'div',
-          { className: wrapperCls, onClick: onLogBasicInfoClick },
+          { 'data-sign': 'leftSectionInfo', className: wrapperCls, onClick: onLogBasicInfoClick },
           _react2.default.createElement(_LogBasicInfo2.default, {
             currentLog: this.props.currentLog,
             currentLocale: this.props.currentLocale,

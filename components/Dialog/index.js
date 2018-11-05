@@ -113,7 +113,7 @@ function Dialog(_ref2) {
     ) : null,
     showCloseBtn ? _react2.default.createElement(
       _Button2.default,
-      { className: _styles2.default.closeBtn, onClick: onCancel },
+      { dataSign: 'closeButton', className: _styles2.default.closeBtn, onClick: onCancel },
       _react2.default.createElement(_CloseIcon2.default, null)
     ) : null,
     _react2.default.createElement(

@@ -70,13 +70,14 @@ function SmCallControl(props) {
   var muteIcon = isOnMute ? _Mute2.default : _Unmute2.default;
   var muteAction = isOnMute ? onUnmute : onMute;
   var muteTitle = isOnMute ? 'unmute' : 'mute';
-  var endTile = canRejectCall() ? 'reject' : 'hangup';
+  var endTitle = canRejectCall() ? 'reject' : 'hangup';
   var endAction = canRejectCall() ? onReject : onHangup;
   var disabledCtrl = callStatus === _telephonyStatus2.default.ringing;
   return _react2.default.createElement(
     'div',
     { className: _styles2.default.smWraper },
     _react2.default.createElement(_CircleButton2.default, {
+      dataSign: muteTitle,
       icon: muteIcon,
       onClick: muteAction,
       className: (0, _classnames2.default)(_styles2.default.button, disabledCtrl ? _styles2.default.buttonDisabled : null),
@@ -84,11 +85,12 @@ function SmCallControl(props) {
       disabled: disabledCtrl
     }),
     _react2.default.createElement(_CircleButton2.default, {
+      dataSign: endTitle,
       showBorder: false,
       icon: _End2.default,
       onClick: endAction,
       className: (0, _classnames2.default)(_styles2.default.hangup, _styles2.default.button),
-      title: _i18n2.default.getString(endTile, currentLocale)
+      title: _i18n2.default.getString(endTitle, currentLocale)
     })
   );
 }

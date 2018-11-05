@@ -266,6 +266,7 @@ var CallingSettingsPanel = function (_Component) {
             dropdownAlign: 'left',
             titleEnabled: true
           }) : _react2.default.createElement(_TextInput2.default, {
+            dataSign: 'myLocation',
             value: this.state.myLocation,
             maxLength: 30,
             onChange: this.onMyLocationTextChange })
@@ -275,6 +276,7 @@ var CallingSettingsPanel = function (_Component) {
           {
             className: _styles2.default.iconField,
             icon: _react2.default.createElement(_Switch2.default, {
+              dataSign: 'ringoutPromptToggle',
               checked: this.state.ringoutPrompt,
               onChange: this.onRingoutPromptChange
             })
@@ -286,7 +288,7 @@ var CallingSettingsPanel = function (_Component) {
       var toolTip = this.getTooltipContent();
       return _react2.default.createElement(
         'div',
-        { className: (0, _classnames2.default)(_styles2.default.root, className) },
+        { 'data-sign': 'callingSettings', className: (0, _classnames2.default)(_styles2.default.root, className) },
         _react2.default.createElement(
           _BackHeader2.default,
           {

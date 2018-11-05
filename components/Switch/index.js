@@ -34,6 +34,7 @@ function Switch(props) {
       className: (0, _classnames2.default)(_styles2.default.switch, props.disable && _styles2.default.disable)
     },
     _react2.default.createElement('input', {
+      'data-sign': 'switch',
       type: 'checkbox',
       checked: props.checked,
       onChange: onChange }),

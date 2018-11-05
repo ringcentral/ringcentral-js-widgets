@@ -171,7 +171,7 @@ function ActiveCallPanel(_ref) {
 
   return _react2.default.createElement(
     'div',
-    { className: _styles2.default.root },
+    { 'data-sign': 'activeCallPanel', className: _styles2.default.root },
     backHeader,
     _react2.default.createElement(
       _Panel2.default,
