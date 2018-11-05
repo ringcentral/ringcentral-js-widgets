@@ -189,7 +189,6 @@ export function getCorrespondentResponse(types) {
   }) => {
     switch (type) {
       case types.addResponses: {
-        const newState = { ...state };
         const formatResponses = responses.reduce((accumulator, response) => {
           const {
             to,
@@ -206,10 +205,7 @@ export function getCorrespondentResponse(types) {
             [phoneNumber]: id
           };
         }, {});
-        return {
-          ...newState,
-          ...formatResponses
-        };
+        return formatResponses;
       }
       case types.removeResponse: {
         const newState = { ...state };

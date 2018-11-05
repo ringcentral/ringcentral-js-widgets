@@ -934,7 +934,6 @@ export default class Conversations extends RcModule {
       return;
     }
     this.addResponses(responses);
-    await sleep(2000);
     const {
       countryCode,
       areaCode
@@ -950,12 +949,13 @@ export default class Conversations extends RcModule {
         phoneNumber: formatted
       };
     });
-    formattedCorrespondentMatch.forEach((item) => {
+    formattedCorrespondentMatch.forEach(async (item) => {
       const { phoneNumber } = item;
       const conversationId = this.correspondentResponse[phoneNumber];
-      const correspondentMatches = this._contactMatcher.dataMapping[phoneNumber];
+      let correspondentMatches = this._contactMatcher.dataMapping[phoneNumber];
       if (!correspondentMatches) {
-        return;
+        await sleep(2500);
+        correspondentMatches = this._contactMatcher.dataMapping[phoneNumber];
       }
       const correspondentEntity = correspondentMatches.filter(match => match.id === item.rawId);
       let entity = null;
