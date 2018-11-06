@@ -81,16 +81,18 @@ export default class ActiveCallsPanel extends Component {
           <LogSection
             currentLocale={currentLocale}
             currentLog={currentLog}
+            formatPhone={formatPhone}
             // additionalInfo={additionalInfo}
             isInnerMask={logNotification && logNotification.notificationIsExpand}
+            // save call log
             renderEditLogSection={renderEditLogSection}
-            renderSaveLogButton={renderSaveLogButton}
-            formatPhone={formatPhone}
+            showSaveLogBtn
             onUpdateCallLog={onUpdateCallLog}
             onSaveCallLog={onSaveCallLog}
+            renderSaveLogButton={renderSaveLogButton}
+            // active call ctrl
             onLogBasicInfoClick={onLogBasicInfoClick}
             renderSmallCallContrl={renderSmallCallContrl}
-            showSaveLogBtn
           />
         </InsideModal>
         {
