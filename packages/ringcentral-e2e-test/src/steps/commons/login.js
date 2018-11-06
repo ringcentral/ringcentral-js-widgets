@@ -2,7 +2,7 @@ import { createProcess } from 'marten';
 import ToggleEnv from './toggleEnv';
 import Account from './account';
 import { PuppeteerUtils } from '../../lib/utils';
-/* global $ */
+
 export const RC_SCRIPT_ROOT_LITERAL = {
   office: 'runner._client',
   widgets: 'phone',
@@ -19,7 +19,7 @@ export default function Login(account) {
       }
 
       static async prepare(context) {
-        await $(context.driver.app).waitForSelector('@loginButton');
+        await $(context.app).waitForSelector('@loginButton');
         if (context.options.isVirtual) return;
         const { username, password } = context.options.option;
         if (username && password) {
@@ -38,7 +38,7 @@ export default function Login(account) {
         await process.exec();
       }
 
-      static async login({ options: { option, isVirtual, tag }, driver: { app } }) {
+      static async login({ options: { option, isVirtual, tag }, app }) {
         if (isVirtual) {
           option.playload.loginAccount = {
             username: '',
@@ -60,6 +60,8 @@ export default function Login(account) {
         await $(app).waitForSelector('@tabNavigationView');
       }
 
+
+      // TODO apply to case.
       static async realLogin({ did, password }, app, page) {
         await $(app).waitForClickable('[class*=loginButton]');
         await $(app).click('[class*=loginButton]');

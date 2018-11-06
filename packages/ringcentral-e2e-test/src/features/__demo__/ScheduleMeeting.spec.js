@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 /* eslint-env node, jest */
-/* global $, page, browser, driver, context */
+
 import React from 'react';
 import Button from 'ringcentral-widgets/components/Button';
 import { shallow } from 'enzyme';

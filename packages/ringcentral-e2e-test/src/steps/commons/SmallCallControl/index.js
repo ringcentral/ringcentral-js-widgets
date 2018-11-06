@@ -1,23 +1,23 @@
-/* global $ */
+
 export default class SmallCallControl {
   static async click(context) {
-    await $(context.driver.app).click('@leftSectionInfo');
+    await $(context.app).click('@leftSectionInfo');
   }
 
   static async mute(context) {
-    await $(context.driver.app).click('@mute');
+    await $(context.app).click('@mute');
   }
 
   static async hangup(context) {
-    await $(context.driver.app).click('@hangup');
+    await $(context.app).click('@hangup');
   }
 
   static async reject(context) {
-    await $(context.driver.app).click('@reject');
+    await $(context.app).click('@reject');
   }
 
   static async unmute(context) {
-    await $(context.driver.app).click('@unmute');
+    await $(context.app).click('@unmute');
   }
 
   static async getIsCallUnmuted(context) {
@@ -26,23 +26,23 @@ export default class SmallCallControl {
   }
 
   static async getIsMuteButtonDisplay(context) {
-    const muteButton = await $(context.driver.app).$('@mute');
+    const muteButton = await $(context.app).$('@mute');
     return !!muteButton;
   }
 
   static async getIsCallHangup(context) {
-    const callStatus = await $(context.driver.app).getText('@callStatus');
+    const callStatus = await $(context.app).getText('@callStatus');
     const isHangup = callStatus === 'Disconnected';
     return isHangup;
   }
 
   static async getIsMuteButtonHidden(context) {
-    const muteButton = await $(context.driver.app).$('@mute');
+    const muteButton = await $(context.app).$('@mute');
     return !muteButton;
   }
 
   static async getIsHangupButtonHidden(context) {
-    const hangupButton = await $(context.driver.app).$('@hangup');
+    const hangupButton = await $(context.app).$('@hangup');
     return !hangupButton;
   }
 
@@ -51,16 +51,16 @@ export default class SmallCallControl {
   }
 
   static async getIsUnmuteButtonDisplay(context) {
-    const unmuteButton = await $(context.driver.app).$('@mute');
+    const unmuteButton = await $(context.app).$('@mute');
     return !!unmuteButton;
   }
   static async getIsStayAllCallsPage(context) {
-    const activeCalls = await $(context.driver.app).$('@activeCalls');
+    const activeCalls = await $(context.app).$('@activeCalls');
     return !!activeCalls;
   }
 
   static async getIsNavigateToCallControlPage(context) {
-    const activeCallPanel = await $(context.driver.app).$('@activeCallPanel');
+    const activeCallPanel = await $(context.app).$('@activeCallPanel');
     return !!activeCallPanel;
   }
 

@@ -3,7 +3,7 @@
  * we choose to run the cases sequentially.
  * Need to change the solution to run the cases parallelly when deploy to the CI server in the future.
  */
-/* global $, page, browser, driver, context */
+
 
 import {
   createProcess
@@ -39,7 +39,7 @@ describe('O365 contact flow: =====>', () => {
         telus: 'TELUS Business Connect for Office365',
       }
     }],
-  }, async (...args) => {
+  }, async (context) => {
     const process = createProcess(
       Entry,
       Login,
@@ -49,7 +49,7 @@ describe('O365 contact flow: =====>', () => {
     await process.exec();
     await sleep(2000);
 
-    await caseO365Contacts(...args);
-    await caseAuthorizePanel(...args);
+    await caseO365Contacts(context);
+    await caseAuthorizePanel(context);
   });
 });

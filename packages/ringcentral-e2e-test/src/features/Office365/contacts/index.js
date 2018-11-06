@@ -1,5 +1,4 @@
 /* eslint-disable */
-/* global $, page, browser, driver, context */
 import {
   createProcess
 } from 'marten';
@@ -32,8 +31,8 @@ const defaultFilterColor = 'rgb(6, 132, 189)';
 /**
  * Tests here
  */
-export default async function caseO365Contacts(option) {
-  const params = context.options.config;
+export default async function caseO365Contacts(context) {
+  const { options: { config: { params } }, page, browser } = context;
   // const process = createProcess(
   //   Entry,
   //   Login,

@@ -1,5 +1,5 @@
 /* eslint-disable */
-/* global $, page, browser, driver, context */
+
 import {
   createProcess
 } from 'marten';
@@ -26,7 +26,7 @@ afterEach(async () => {
  * - if is auth: Unauthorise button, Button should be highlight and clickable
  * - if is unauth: Authorise button, Button should be highlight and clickable
  */
-async function detectAuthPanel(isAuth, { config, option, tag }) {
+async function detectAuthPanel(isAuth, { options: { config, option, tag }, page, driver }) {
   await $(page).waitFor('div[title="More Menu"]', {
     selector: 'css'
   });
@@ -80,7 +80,8 @@ async function detectAuthPanel(isAuth, { config, option, tag }) {
   }
 }
 
-export async function caseAuthorizePanel(options) {
+export async function caseAuthorizePanel(context) {
+  const { options, page, driver } = context;
   // Login CTI
   // const params = context.options.config;
   // const process = createProcess(
@@ -90,7 +91,7 @@ export async function caseAuthorizePanel(options) {
   // )(context);
   // Authroize Office365
   // await process.exec();
-  await detectAuthPanel(true, options);
+  await detectAuthPanel(true, context);
   /** Click logout and relogin, user still Authorized **/
   await $(page).waitFor('[class*="loginNumber"]', {
     selector: 'css'
