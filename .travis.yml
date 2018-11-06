@@ -114,3 +114,19 @@ jobs:
         provider: script
         skip_cleanup: true
         script: yarn glip-widgets:start-release
+    - stage: Zendesk regression commons script release
+      node_js: "8"
+      if: branch = zendesk-2.0.2-regression
+      script: yarn commons:prepare-release
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script: yarn commons:start-release
+    - stage: Zendesk regression widgets script release
+      if: branch = zendesk-2.0.2-regression
+      node_js: "8"
+      script: yarn widgets:prepare-release
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script: yarn widgets:start-release
