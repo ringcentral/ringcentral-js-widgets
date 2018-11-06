@@ -1,6 +1,6 @@
 import WebPhone from '../Webphone';
 
-export default class HangupCall extends WebPhone {
+export default class AnswerCall extends WebPhone {
   static get steps() {
     return [
       this.answerCall,

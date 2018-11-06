@@ -87,6 +87,8 @@ export default class WebPhone {
     return response;
   }
   static async operate({ phoneId, sessionId, action, phoneNumber }) {
+    //must 
+    await this.sleep(3000);
     const apiClient = new WebPhoneClient.ApiClient(this.getHost());
     const phoneStatus = (await this.getPhonesById(phoneId)).body.status;
     const apiInstance = new WebPhoneClient.OperatePhoneApi(apiClient);
