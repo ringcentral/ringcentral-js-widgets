@@ -477,7 +477,7 @@ export default class CallsListPanel extends Component {
         </div>
       );
 
-    const noCalls = (
+    const noCalls = otherDeviceCalls.length === 0 && (
       <p className={styles.noCalls}>
         {i18n.getString('noCalls', currentLocale)}
       </p>
