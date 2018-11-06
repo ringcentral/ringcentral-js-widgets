@@ -38,7 +38,7 @@ const run = async (dir, cmd) => {
   let config;
   try {
     // eslint-disable-next-line
-    config = require(configPath);// get e2e config there, use input params instead
+    config = require(configPath);
   } catch (error) {
     console.error(`Unexpected import '${DEFAULT_CONFIG_FILE_PATH}' in root path.`);
     console.error(error);
