@@ -8,12 +8,6 @@ $section_height: 36px;
   height: calc(100% - #{$section_height})
 }
 
-.section {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
 .buttonPanel {
   padding: 14px 10px 10px 10px;
 }
@@ -71,36 +65,10 @@ $section_height: 36px;
   z-index: 3;
 }
 
-.infoWithCtrlWrapper {
-  display: flex;
-  padding: 10px 0;
-  align-items: center;
-}
-
-.basicInfoWrapper {
-  flex: 2;
-}
-// .pointer {
-//   cursor: pointer;
-// }
-
-.callCtrlWrapper {
-  flex: 1;
-  padding: 0 10px;
-}
-
-
 .root {
   display: flex;
   flex-direction: column;
   height: 100%;
   width: 100%;
   box-sizing: border-box;
-}
-.modalWrapper {
-  max-height: 450px;
-}
-.contentWrapper {
-  padding-top: 0 !important;
-  background-color: white;
 }
