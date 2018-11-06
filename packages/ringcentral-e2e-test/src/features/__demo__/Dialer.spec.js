@@ -1,5 +1,5 @@
 /* eslint-disable */
-/* global $, page, browser, driver, context */
+
 describe('Test Demo: =====>', () => {
   test({
     title: 'button text with select ${selector} expected ${expected} ',

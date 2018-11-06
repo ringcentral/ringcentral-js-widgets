@@ -1,13 +1,12 @@
 import { createProcess } from 'marten';
-import salesforce from './salesforce';
-import widgets from './widgets';
-import office from './office';
+import salesforce from '../salesforce/entry';
+import widgets from '../widgets/entry';
+import office from '../office/entry';
 
 export default class Entry {
   static async enter(context) {
     if (context.options.isVirtual) {
-      context.driver.app = context.driver.page;
-      global.app = context.driver.app;
+      context.app = context.page;
       return;
     }
     const entries = {

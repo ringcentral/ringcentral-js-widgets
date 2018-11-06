@@ -31,7 +31,6 @@ Date Created	Mon, 08 Oct 2018 16:47:34
 Updated By	klay.chen
 Date Updated	Wed, 24 Oct 2018 13:52:10
  */
-/* global $, page, browser, driver, context, app */
 /* eslint-enable */
 
 import { createProcess } from 'marten';
@@ -63,13 +62,14 @@ describe('Commom ActiveCalls: =====>', () => {
     options: [
       { accounts: ['CM_RC_US', 'CM_RC_US'], callingType: callingTypes.myPhone },
     ],
-  }, async () => {
+  }, async (context) => {
     let process = createProcess(
       Entry,
       LoginCTI,
       NavigateToCallingSetting,
       SetCallingSetting,
       NavigateToDialer,
+      CreateWebPhone,
       AssistMakeInboundCall,
       ClickLeftCallLogSectionInfo,
       RejectCall,
@@ -97,23 +97,20 @@ describe('Commom ActiveCalls: =====>', () => {
     [Expected Result]: Call is hanged up
     */
     await process.execTo(RejectCall);
-    // expect(await RejectCall.getIsCallHangup(context)).toBeTruthy();
+    expect(await RejectCall.getIsCallHangup(context)).toBeTruthy();
 
     process = createProcess(
-      AssistHangupCall,
       CloseCallLogSection,
       AssistMakeInboundCall,
       AssistAnswerInboundCall,
       MuteCall,
       UnmuteCall,
       ClickLeftCallLogSectionInfo,
-      CloseCallLogSection,
     )(context);
     /*
     __Step4__: Repeat step 1 and answer the call
     [Expected Result]: 'Mute' button should be enabled
     */
-    await process.execTo(AssistMakeInboundCall);
     await process.execTo(AssistAnswerInboundCall);
     expect(await AssistAnswerInboundCall.getIsMuteButtonEnabled(context)).toBeTruthy();
 

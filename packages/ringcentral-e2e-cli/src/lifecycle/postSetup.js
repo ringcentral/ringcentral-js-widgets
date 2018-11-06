@@ -186,16 +186,16 @@ function testCase(caseParams, fn) {
               await instance.driver.goto(config);
             }
             global.$ = instance.query;
-            global.browser = instance.driver.browser;
-            global.page = instance.driver.page;
-            global.driver = instance.driver;
-            global.context = {
+            const context = {
               driver: instance.driver,
+              browser: instance.driver.browser,
+              page: instance.driver.page,
+              app: instance.driver.app,
               options: { isSandbox, config, driver, ...args },
             };
             // TODO thinking about using `vm.createContext` implement real sanbox.
             // TODO HOOK
-            await fn(global.context.options);
+            await fn(context);
           };
           /* eslint-enable */
           _test(`${name}${tail}`, func.bind(null, {

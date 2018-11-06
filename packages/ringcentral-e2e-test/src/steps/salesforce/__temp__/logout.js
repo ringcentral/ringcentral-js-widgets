@@ -8,7 +8,7 @@ export default class Settings {
     await $(app).waitFor(1000);
   }
 
-  // static async logout({ options: { option, isVirtual }, driver: { app } }) {
+  // static async logout({ options: { option, isVirtual }, app }) {
   //   if (isVirtual) {
   //     app.props().phone.auth.logout({ username: option.username, password: option.password });
   //   } else {
@@ -16,7 +16,7 @@ export default class Settings {
   //   }
   //   await $(app).waitFor('[class*=loginButton]',{ selector: 'css' });
   // }
-  static async logout({ options: { option, isVirtual }, driver: { app } }) {
+  static async logout({ options: { option, isVirtual }, app }) {
     if (isVirtual) {
       app.props().phone.auth.logout({ username: option.account1[0]['mainNumber'], password: option.account1[0]['password'] });
     } else {

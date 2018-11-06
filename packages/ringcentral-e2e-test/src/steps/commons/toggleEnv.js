@@ -1,8 +1,8 @@
-/* global $ */
+
 import { ENV_URLS } from '../../lib/accountManager';
 
 export default class ToggleEnv {
-  static async setEnv({ driver: { app }, options: { tag: { envs } } }) {
+  static async setEnv({ app, options: { tag: { envs } } }) {
     await $(app).execute('toggleEnv()');
     await $(app).click('@envToggle');
     await $(app).clear('@envServerUrl');

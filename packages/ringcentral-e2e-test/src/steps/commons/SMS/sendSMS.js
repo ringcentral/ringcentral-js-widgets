@@ -1,6 +1,6 @@
-/* global $ */
+
 export default class SendSMS {
-  static async send({ driver: { app } }) {
+  static async send({ app }) {
     await $(app).click('@messageButton');
     await $(app).waitFor(500);
   }
@@ -19,17 +19,17 @@ export default class SendSMS {
     }
   }
 
-  static async getIsConversationDetail({ driver: { app } }) {
+  static async getIsConversationDetail({ app }) {
     const conversationPanel = await $(app).waitForSelector('@conversationPanel');
     return conversationPanel;
   }
 
-  static async getLastTextSMS({ driver: { app } }) {
+  static async getLastTextSMS({ app }) {
     const lastTextSMS = await $(app).getText('@message:-1');
     return lastTextSMS;
   }
 
-  static async getConversationTitle({ driver: { app } }) {
+  static async getConversationTitle({ app }) {
     const title = await $(app).getText('@conversationPanel');
     return title;
   }

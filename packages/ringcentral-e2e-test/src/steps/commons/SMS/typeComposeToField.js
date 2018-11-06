@@ -1,6 +1,6 @@
-/* global $ */
+
 export default class TypeComposeToField {
-  static async type({ driver: { app }, options: { option } }) {
+  static async type({ app, options: { option } }) {
     const recipientsInput = '@recipientsInput';
     const spinnerOverlay = '@spinnerOverlay';
     const _spinnerOverlay = $(app).getSelector(spinnerOverlay);

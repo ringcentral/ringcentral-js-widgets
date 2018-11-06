@@ -1,4 +1,3 @@
-/* global $ */
 export const callingTypes = {
   customPhone: 'Custom Phone',
   myPhone: 'My RingCentral Phone',
@@ -7,7 +6,7 @@ export const callingTypes = {
   otherPhone: 'Other Phone',
 };
 export default class SetCallingSetting {
-  static async setCalling({ driver: { app }, options: { option } }) {
+  static async setCalling({ app, options: { option } }) {
     const selectedItemText = await $(app).getText('@selectedItem');
     if (selectedItemText.indexOf(option.callingType) === -1) {
       await $(app).click('@dropdownSelect');

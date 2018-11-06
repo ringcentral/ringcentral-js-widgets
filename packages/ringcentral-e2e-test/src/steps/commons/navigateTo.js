@@ -1,8 +1,8 @@
-/* global $ */
+
 export default function NavigateTo(router = '') {
   return (
     class {
-      static async go({ driver: { app }, options: { isVirtual } }) {
+      static async go({ app, options: { isVirtual } }) {
         // TODO
         await $(app).waitFor(300);
         if (isVirtual) {
