@@ -12,6 +12,7 @@ export default class CallListV2 extends React.PureComponent {
     };
     this._list = React.createRef();
   }
+
   componentWillReceiveProps(nextProps) {
     const {
       extendedIndex
