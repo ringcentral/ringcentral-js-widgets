@@ -148,7 +148,7 @@ export default class LogSection extends Component {
     const { currentSessionId, call } = currentLog;
     const { telephonyStatus, result } = call;
     const status = telephonyStatus || result;
-    const clickable = (
+    const clickable = !(
       callDirections.inbound === call.direction &&
       telephonyStatuses.ringing === telephonyStatus
     );
