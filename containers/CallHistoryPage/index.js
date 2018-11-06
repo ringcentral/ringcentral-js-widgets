@@ -40,7 +40,9 @@ function mapToProps(_, _ref) {
       composeText = _ref$phone.composeText,
       rolesAndPermissions = _ref$phone.rolesAndPermissions,
       _ref$enableContactFal = _ref.enableContactFallback,
-      enableContactFallback = _ref$enableContactFal === undefined ? false : _ref$enableContactFal;
+      enableContactFallback = _ref$enableContactFal === undefined ? false : _ref$enableContactFal,
+      _ref$useNewList = _ref.useNewList,
+      useNewList = _ref$useNewList === undefined ? false : _ref$useNewList;
 
   return {
     enableContactFallback: enableContactFallback,
@@ -56,7 +58,8 @@ function mapToProps(_, _ref) {
     internalSmsPermission: !!(rolesAndPermissions.permissions && rolesAndPermissions.permissions.InternalSMS),
     loggingMap: callLogger && callLogger.loggingMap,
     showSpinner: !(callHistory.ready && locale.ready && regionSettings.ready && dateTimeFormat.ready && connectivityMonitor.ready && (!rolesAndPermissions || rolesAndPermissions.ready) && (!call || call.ready) && (!composeText || composeText.ready) && (!callLogger || callLogger.ready)),
-    autoLog: !!(callLogger && callLogger.autoLog)
+    autoLog: !!(callLogger && callLogger.autoLog),
+    useNewList: useNewList
   };
 }
 function mapToFunctions(_, _ref2) {
@@ -215,7 +218,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var CallsPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_CallsPanel2.default));
+var CallHistoryPage = (0, _phoneContext.withPhone)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_CallsPanel2.default));
 
-exports.default = CallsPage;
+exports.default = CallHistoryPage;
 //# sourceMappingURL=index.js.map
