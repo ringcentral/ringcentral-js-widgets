@@ -10,15 +10,22 @@ import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import i18n from './i18n';
 import styles from './styles.scss';
 
-const CallIcon = ({ title, iconClassName}) => {
-  return (
-    <div
-      className={styles.callIcon}
-      title={title}>
-      <span className={iconClassName} />
-    </div>
-  );
-}
+const CallIcon = ({ title, iconClassName }) => (
+  <div
+    className={styles.callIcon}
+    title={title}>
+    <span className={iconClassName} />
+  </div>
+);
+
+CallIcon.propTypes = {
+  title: PropTypes.string,
+  iconClassName: PropTypes.string.isRequired
+};
+
+CallIcon.defaultProps = {
+  title: '',
+};
 
 const callIconMap = {
   [callResults.missed]: dynamicsFont.missed,
@@ -50,7 +57,7 @@ const colorStatusMap = {
   ],
 };
 
-export default function LogBasicInfo(props) {
+export default function LogBasicInfoV2(props) {
   const {
     currentLog: {
       call,
@@ -143,7 +150,7 @@ export default function LogBasicInfo(props) {
   );
 }
 
-LogBasicInfo.propTypes = {
+LogBasicInfoV2.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   formatPhone: PropTypes.func,
   currentLog: PropTypes.object,
@@ -153,7 +160,7 @@ LogBasicInfo.propTypes = {
   dataSign: PropTypes.string
 };
 
-LogBasicInfo.defaultProps = {
+LogBasicInfoV2.defaultProps = {
   formatPhone: value => value,
   currentLog: {},
   extraButton: undefined,
