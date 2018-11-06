@@ -270,77 +270,154 @@ var CallsListPanel = function (_Component) {
       return props.activeRingCalls.length > 0 || props.activeOnHoldCalls.length > 0 || props.activeCurrentCalls.length > 0 || props.otherDeviceCalls.length > 0 || props.calls.length > 0;
     }
   }, {
-    key: 'render',
-    value: function render() {
+    key: 'renderLogSection',
+    value: function renderLogSection() {
+      if (!this.props.currentLog) return null;
+
       var _props = this.props,
-          useNewList = _props.useNewList,
-          width = _props.width,
-          height = _props.height,
-          onlyHistory = _props.onlyHistory,
-          activeRingCalls = _props.activeRingCalls,
-          activeOnHoldCalls = _props.activeOnHoldCalls,
-          activeCurrentCalls = _props.activeCurrentCalls,
-          otherDeviceCalls = _props.otherDeviceCalls,
-          showSpinner = _props.showSpinner,
-          searchInput = _props.searchInput,
-          onSearchInputChange = _props.onSearchInputChange,
-          className = _props.className,
-          currentLocale = _props.currentLocale,
-          areaCode = _props.areaCode,
-          countryCode = _props.countryCode,
-          brand = _props.brand,
-          showContactDisplayPlaceholder = _props.showContactDisplayPlaceholder,
           formatPhone = _props.formatPhone,
-          onClickToSms = _props.onClickToSms,
-          onCreateContact = _props.onCreateContact,
-          createEntityTypes = _props.createEntityTypes,
-          onViewContact = _props.onViewContact,
-          outboundSmsPermission = _props.outboundSmsPermission,
-          internalSmsPermission = _props.internalSmsPermission,
-          isLoggedContact = _props.isLoggedContact,
-          onLogCall = _props.onLogCall,
-          autoLog = _props.autoLog,
-          loggingMap = _props.loggingMap,
-          webphoneAnswer = _props.webphoneAnswer,
-          webphoneReject = _props.webphoneReject,
-          webphoneHangup = _props.webphoneHangup,
-          webphoneResume = _props.webphoneResume,
-          enableContactFallback = _props.enableContactFallback,
-          webphoneToVoicemail = _props.webphoneToVoicemail,
-          sourceIcons = _props.sourceIcons,
-          phoneTypeRenderer = _props.phoneTypeRenderer,
-          phoneSourceNameRenderer = _props.phoneSourceNameRenderer,
-          onClickToDial = _props.onClickToDial,
-          disableLinks = _props.disableLinks,
-          disableClickToDial = _props.disableClickToDial,
-          dateTimeFormatter = _props.dateTimeFormatter,
-          calls = _props.calls,
-          active = _props.active,
-          renderContactName = _props.renderContactName,
-          renderExtraButton = _props.renderExtraButton,
-          contactDisplayStyle = _props.contactDisplayStyle,
-          activeContactDisplayStyle = _props.activeContactDisplayStyle,
+          currentLocale = _props.currentLocale,
           currentLog = _props.currentLog,
-          additionalInfo = _props.additionalInfo,
-          onCloseLogSection = _props.onCloseLogSection,
-          onUpdateCallLog = _props.onUpdateCallLog,
-          onSaveCallLog = _props.onSaveCallLog,
-          renderEditLogSection = _props.renderEditLogSection,
-          renderSaveLogButton = _props.renderSaveLogButton,
-          logNotification = _props.logNotification,
-          onCloseNotification = _props.onCloseNotification,
-          onDiscardNotification = _props.onDiscardNotification,
-          onSaveNotification = _props.onSaveNotification,
-          onExpandNotification = _props.onExpandNotification,
-          showSaveLogBtn = _props.showSaveLogBtn,
-          showNotiLogButton = _props.showNotiLogButton,
           sectionContainerStyles = _props.sectionContainerStyles,
           sectionModalStyles = _props.sectionModalStyles,
-          notificationContainerStyles = _props.notificationContainerStyles,
-          externalViewEntity = _props.externalViewEntity,
-          externalHasEntity = _props.externalHasEntity,
-          readTextPermission = _props.readTextPermission,
-          children = _props.children;
+          additionalInfo = _props.additionalInfo,
+          showSaveLogBtn = _props.showSaveLogBtn,
+          renderEditLogSection = _props.renderEditLogSection,
+          renderSaveLogButton = _props.renderSaveLogButton,
+          onSaveCallLog = _props.onSaveCallLog,
+          onUpdateCallLog = _props.onUpdateCallLog,
+          onCloseLogSection = _props.onCloseLogSection,
+          logNotification = _props.logNotification,
+          showNotiLogButton = _props.showNotiLogButton,
+          onCloseNotification = _props.onCloseNotification,
+          onSaveNotification = _props.onSaveNotification,
+          onExpandNotification = _props.onExpandNotification,
+          onDiscardNotification = _props.onDiscardNotification,
+          notificationContainerStyles = _props.notificationContainerStyles;
+
+
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          _InsideModal2.default,
+          {
+            title: currentLog.title,
+            show: currentLog.showLog,
+            onClose: onCloseLogSection,
+            clickOutToClose: false,
+            containerStyles: sectionContainerStyles,
+            modalStyles: sectionModalStyles
+          },
+          _react2.default.createElement(_LogSection2.default, {
+            currentLocale: currentLocale,
+            currentLog: currentLog,
+            additionalInfo: additionalInfo,
+            isInnerMask: logNotification && logNotification.notificationIsExpand,
+            renderEditLogSection: renderEditLogSection,
+            renderSaveLogButton: renderSaveLogButton,
+            formatPhone: formatPhone,
+            onUpdateCallLog: onUpdateCallLog,
+            onSaveCallLog: onSaveCallLog,
+            showSaveLogBtn: showSaveLogBtn
+          })
+        ),
+        logNotification ? _react2.default.createElement(
+          _InsideModal2.default,
+          {
+            show: logNotification.showNotification,
+            showTitle: false,
+            containerStyles: (0, _classnames2.default)(_styles2.default.notificationContainer, notificationContainerStyles),
+            modalStyles: _styles2.default.notificationModal,
+            contentStyle: _styles2.default.notificationContent,
+            onClose: onCloseNotification
+          },
+          _react2.default.createElement(_LogNotification2.default, {
+            showLogButton: showNotiLogButton,
+            currentLocale: currentLocale,
+            formatPhone: formatPhone,
+            currentLog: logNotification,
+            isExpand: logNotification.notificationIsExpand,
+            onSave: onSaveNotification,
+            onExpand: onExpandNotification,
+            onDiscard: onDiscardNotification,
+            onStay: onCloseNotification
+          })
+        ) : null
+      );
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props2 = this.props,
+          useNewList = _props2.useNewList,
+          width = _props2.width,
+          height = _props2.height,
+          onlyHistory = _props2.onlyHistory,
+          activeRingCalls = _props2.activeRingCalls,
+          activeOnHoldCalls = _props2.activeOnHoldCalls,
+          activeCurrentCalls = _props2.activeCurrentCalls,
+          otherDeviceCalls = _props2.otherDeviceCalls,
+          showSpinner = _props2.showSpinner,
+          searchInput = _props2.searchInput,
+          onSearchInputChange = _props2.onSearchInputChange,
+          className = _props2.className,
+          currentLocale = _props2.currentLocale,
+          areaCode = _props2.areaCode,
+          countryCode = _props2.countryCode,
+          brand = _props2.brand,
+          showContactDisplayPlaceholder = _props2.showContactDisplayPlaceholder,
+          formatPhone = _props2.formatPhone,
+          onClickToSms = _props2.onClickToSms,
+          onCreateContact = _props2.onCreateContact,
+          createEntityTypes = _props2.createEntityTypes,
+          onViewContact = _props2.onViewContact,
+          outboundSmsPermission = _props2.outboundSmsPermission,
+          internalSmsPermission = _props2.internalSmsPermission,
+          isLoggedContact = _props2.isLoggedContact,
+          onLogCall = _props2.onLogCall,
+          autoLog = _props2.autoLog,
+          loggingMap = _props2.loggingMap,
+          webphoneAnswer = _props2.webphoneAnswer,
+          webphoneReject = _props2.webphoneReject,
+          webphoneHangup = _props2.webphoneHangup,
+          webphoneResume = _props2.webphoneResume,
+          enableContactFallback = _props2.enableContactFallback,
+          webphoneToVoicemail = _props2.webphoneToVoicemail,
+          sourceIcons = _props2.sourceIcons,
+          phoneTypeRenderer = _props2.phoneTypeRenderer,
+          phoneSourceNameRenderer = _props2.phoneSourceNameRenderer,
+          onClickToDial = _props2.onClickToDial,
+          disableLinks = _props2.disableLinks,
+          disableClickToDial = _props2.disableClickToDial,
+          dateTimeFormatter = _props2.dateTimeFormatter,
+          calls = _props2.calls,
+          active = _props2.active,
+          renderContactName = _props2.renderContactName,
+          renderExtraButton = _props2.renderExtraButton,
+          contactDisplayStyle = _props2.contactDisplayStyle,
+          activeContactDisplayStyle = _props2.activeContactDisplayStyle,
+          currentLog = _props2.currentLog,
+          additionalInfo = _props2.additionalInfo,
+          onCloseLogSection = _props2.onCloseLogSection,
+          onUpdateCallLog = _props2.onUpdateCallLog,
+          onSaveCallLog = _props2.onSaveCallLog,
+          renderEditLogSection = _props2.renderEditLogSection,
+          renderSaveLogButton = _props2.renderSaveLogButton,
+          logNotification = _props2.logNotification,
+          onCloseNotification = _props2.onCloseNotification,
+          onDiscardNotification = _props2.onDiscardNotification,
+          onSaveNotification = _props2.onSaveNotification,
+          onExpandNotification = _props2.onExpandNotification,
+          showSaveLogBtn = _props2.showSaveLogBtn,
+          showNotiLogButton = _props2.showNotiLogButton,
+          sectionContainerStyles = _props2.sectionContainerStyles,
+          sectionModalStyles = _props2.sectionModalStyles,
+          notificationContainerStyles = _props2.notificationContainerStyles,
+          externalViewEntity = _props2.externalViewEntity,
+          externalHasEntity = _props2.externalHasEntity,
+          readTextPermission = _props2.readTextPermission,
+          children = _props2.children;
 
 
       if (showSpinner) {
@@ -436,56 +513,6 @@ var CallsListPanel = function (_Component) {
         })
       ) : null;
 
-      var logSection = currentLog ? _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          _InsideModal2.default,
-          {
-            title: currentLog.title,
-            show: currentLog.showLog,
-            onClose: onCloseLogSection,
-            clickOutToClose: false,
-            containerStyles: sectionContainerStyles,
-            modalStyles: sectionModalStyles
-          },
-          _react2.default.createElement(_LogSection2.default, {
-            currentLocale: currentLocale,
-            currentLog: currentLog,
-            additionalInfo: additionalInfo,
-            isInnerMask: logNotification && logNotification.notificationIsExpand,
-            renderEditLogSection: renderEditLogSection,
-            renderSaveLogButton: renderSaveLogButton,
-            formatPhone: formatPhone,
-            onUpdateCallLog: onUpdateCallLog,
-            onSaveCallLog: onSaveCallLog,
-            showSaveLogBtn: showSaveLogBtn
-          })
-        ),
-        logNotification ? _react2.default.createElement(
-          _InsideModal2.default,
-          {
-            show: logNotification.showNotification,
-            showTitle: false,
-            containerStyles: (0, _classnames2.default)(_styles2.default.notificationContainer, notificationContainerStyles),
-            modalStyles: _styles2.default.notificationModal,
-            contentStyle: _styles2.default.notificationContent,
-            onClose: onCloseNotification
-          },
-          _react2.default.createElement(_LogNotification2.default, {
-            showLogButton: showNotiLogButton,
-            currentLocale: currentLocale,
-            formatPhone: formatPhone,
-            currentLog: logNotification,
-            isExpand: logNotification.notificationIsExpand,
-            onSave: onSaveNotification,
-            onExpand: onExpandNotification,
-            onDiscard: onDiscardNotification,
-            onStay: onCloseNotification
-          })
-        ) : null
-      ) : null;
-
       var getCallList = function getCallList(calls, title) {
         return _react2.default.createElement(ActiveCallList, {
           title: title,
@@ -563,7 +590,7 @@ var CallsListPanel = function (_Component) {
           onlyHistory || getCallList(otherDeviceCalls, _i18n2.default.getString('otherDeviceCall', currentLocale)),
           calls.length > 0 ? historyCall : noCalls
         ),
-        logSection
+        this.renderLogSection()
       );
     }
   }]);

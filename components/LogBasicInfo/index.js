@@ -54,6 +54,27 @@ var _styles2 = _interopRequireDefault(_styles);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var CallIcon = function CallIcon(_ref) {
+  var title = _ref.title,
+      iconClassName = _ref.iconClassName;
+  return _react2.default.createElement(
+    'div',
+    {
+      className: _styles2.default.callIcon,
+      title: title },
+    _react2.default.createElement('span', { className: iconClassName })
+  );
+};
+
+CallIcon.propTypes = {
+  title: _propTypes2.default.string,
+  iconClassName: _propTypes2.default.string.isRequired
+};
+
+CallIcon.defaultProps = {
+  title: ''
+};
+
 var callIconMap = (_callIconMap = {}, (0, _defineProperty3.default)(_callIconMap, _callResults2.default.missed, _DynamicsFont2.default.missed), (0, _defineProperty3.default)(_callIconMap, _callDirections2.default.inbound, _DynamicsFont2.default.inbound), (0, _defineProperty3.default)(_callIconMap, _callDirections2.default.outbound, _DynamicsFont2.default.outbound), (0, _defineProperty3.default)(_callIconMap, _telephonyStatus2.default.ringing, _DynamicsFont2.default.callHover), _callIconMap);
 var colorStatusMap = {
   green: [_telephonyStatus2.default.callConnected, _telephonyStatus2.default.ringing, _callResults2.default.callAccepted, _callResults2.default.accepted],
@@ -66,7 +87,10 @@ function LogBasicInfo(props) {
       call = _props$currentLog.call,
       logName = _props$currentLog.logName,
       formatPhone = props.formatPhone,
-      currentLocale = props.currentLocale;
+      currentLocale = props.currentLocale,
+      clickable = props.clickable,
+      onClick = props.onClick,
+      dataSign = props.dataSign;
 
   if (!call) return null;
   var direction = call.direction,
@@ -91,50 +115,54 @@ function LogBasicInfo(props) {
   var statusClassName = (0, _classnames2.default)(_styles2.default.status, green && _styles2.default.green, red && _styles2.default.red, orange && _styles2.default.orange);
   return _react2.default.createElement(
     'div',
-    { className: _styles2.default.callInfo },
+    { 'data-sign': 'logSection', className: _styles2.default.root },
     _react2.default.createElement(
       'div',
       {
-        className: _styles2.default.callIcon,
-        title: title },
-      _react2.default.createElement('span', {
-        className: iconClassName
-      })
-    ),
-    _react2.default.createElement(
-      'ul',
-      { className: _styles2.default.callDisplay },
+        'data-sign': dataSign,
+        className: (0, _classnames2.default)(_styles2.default.callInfo, clickable && _styles2.default.pointer),
+        onClick: clickable ? onClick : function () {}
+      },
+      _react2.default.createElement(CallIcon, { title: title, iconClassName: iconClassName }),
       _react2.default.createElement(
-        'li',
-        {
-          className: _styles2.default.contact,
-          title: logName },
-        logName
-      ),
-      _react2.default.createElement(
-        'li',
-        null,
+        'ul',
+        { className: _styles2.default.callDisplay },
         _react2.default.createElement(
-          'span',
+          'li',
           {
-            className: _styles2.default.number,
-            title: formatNumber },
-          formatNumber
+            className: _styles2.default.contact,
+            title: logName },
+          logName
         ),
-        formatNumber ? _react2.default.createElement(
-          'span',
-          { className: _styles2.default.separator },
-          '\xA0'
-        ) : null,
         _react2.default.createElement(
-          'span',
-          {
-            'data-sign': 'callStatus',
-            className: statusClassName,
-            title: statusI18n },
-          statusI18n
+          'li',
+          { className: _styles2.default.callDetail },
+          _react2.default.createElement(
+            'span',
+            {
+              className: _styles2.default.number,
+              title: formatNumber },
+            formatNumber
+          ),
+          formatNumber ? _react2.default.createElement(
+            'span',
+            { className: _styles2.default.separator },
+            '\xA0'
+          ) : null,
+          _react2.default.createElement(
+            'span',
+            {
+              className: statusClassName,
+              title: statusI18n },
+            statusI18n
+          )
         )
       )
+    ),
+    _react2.default.createElement(
+      'div',
+      { className: _styles2.default.extra },
+      props.extraButton
     )
   );
 }
@@ -142,13 +170,22 @@ function LogBasicInfo(props) {
 LogBasicInfo.propTypes = {
   currentLocale: _propTypes2.default.string.isRequired,
   formatPhone: _propTypes2.default.func,
-  currentLog: _propTypes2.default.object
+  currentLog: _propTypes2.default.object,
+  extraButton: _propTypes2.default.func,
+  clickable: _propTypes2.default.bool,
+  onClick: _propTypes2.default.func,
+  dataSign: _propTypes2.default.string
 };
 
 LogBasicInfo.defaultProps = {
   formatPhone: function formatPhone(value) {
     return value;
   },
-  currentLog: {}
+  currentLog: {},
+  extraButton: undefined,
+  clickable: false,
+  onClick: function onClick() {},
+
+  dataSign: undefined
 };
 //# sourceMappingURL=index.js.map

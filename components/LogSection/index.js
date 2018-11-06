@@ -5,10 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
-
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
-
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -29,6 +25,14 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
+var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+
+var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -37,9 +41,9 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _classnames2 = require('classnames');
+var _classnames = require('classnames');
 
-var _classnames3 = _interopRequireDefault(_classnames2);
+var _classnames2 = _interopRequireDefault(_classnames);
 
 var _telephonyStatus = require('ringcentral-integration/enums/telephonyStatus');
 
@@ -70,6 +74,63 @@ var _i18n = require('./i18n');
 var _i18n2 = _interopRequireDefault(_i18n);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var EditSection = function EditSection(_ref) {
+  var children = _ref.children,
+      scrollerRef = _ref.scrollerRef,
+      rest = (0, _objectWithoutProperties3.default)(_ref, ['children', 'scrollerRef']);
+  return _react2.default.createElement(
+    'div',
+    (0, _extends3.default)({}, rest, {
+      ref: scrollerRef,
+      className: (0, _classnames2.default)(_styles2.default.editSection) }),
+    children
+  );
+};
+
+EditSection.propTypes = {
+  children: _propTypes2.default.object,
+  scrollerRef: _propTypes2.default.func
+};
+
+EditSection.defaultProps = {
+  children: null,
+  scrollerRef: undefined
+};
+
+var SaveButton = function SaveButton(_ref2) {
+  var isSaving = _ref2.isSaving,
+      onClick = _ref2.onClick,
+      overlapped = _ref2.overlapped,
+      children = _ref2.children;
+  return _react2.default.createElement(
+    'div',
+    { className: (0, _classnames2.default)(_styles2.default.buttonPanel, overlapped && _styles2.default.overlapped) },
+    _react2.default.createElement(
+      _Button2.default,
+      {
+        className: (0, _classnames2.default)(_styles2.default.primaryButton, isSaving && _styles2.default.disabled),
+        disabled: isSaving,
+        onClick: onClick },
+      children
+    )
+  );
+};
+
+SaveButton.propTypes = {
+  isSaving: _propTypes2.default.bool,
+  onClick: _propTypes2.default.func,
+  overlapped: _propTypes2.default.bool,
+  children: _propTypes2.default.string
+};
+
+SaveButton.defaultProps = {
+  isSaving: false,
+  onClick: function onClick() {},
+
+  overlapped: false,
+  children: null
+};
 
 var LogSection = function (_Component) {
   (0, _inherits3.default)(LogSection, _Component);
@@ -113,10 +174,8 @@ var LogSection = function (_Component) {
       }
     }
   }, {
-    key: 'genEditLogSection',
-    value: function genEditLogSection() {
-      var _this2 = this;
-
+    key: 'getEditLogSection',
+    value: function getEditLogSection() {
       var _props = this.props,
           renderEditLogSection = _props.renderEditLogSection,
           currentLocale = _props.currentLocale,
@@ -125,25 +184,13 @@ var LogSection = function (_Component) {
           currentLog = _props.currentLog,
           additionalInfo = _props.additionalInfo;
 
-      var editLogSection = renderEditLogSection({
+      return renderEditLogSection({
         currentLocale: currentLocale,
         onSaveCallLog: onSaveCallLog,
         onUpdateCallLog: onUpdateCallLog,
         currentLog: currentLog,
         additionalInfo: additionalInfo
       });
-      return _react2.default.createElement(
-        'div',
-        {
-          ref: function ref(_ref) {
-            _this2.mainCtrl = _ref;
-          },
-          onScroll: function onScroll() {
-            return _this2.checkOverlap();
-          },
-          className: _styles2.default.editSection },
-        editLogSection
-      );
     }
   }, {
     key: 'genSaveLogButton',
@@ -157,8 +204,6 @@ var LogSection = function (_Component) {
       var call = currentLog.call,
           currentLogCall = currentLog.currentLogCall;
 
-      var buttonPanelClassName = (0, _classnames3.default)(_styles2.default.buttonPanel, this.state.mainCtrlOverlapped && _styles2.default.overlapped);
-      var buttonClassName = (0, _classnames3.default)(_styles2.default.primaryButton, currentLogCall.isSaving && _styles2.default.disabled);
       if (!showSaveLogBtn) {
         return null;
       }
@@ -171,88 +216,76 @@ var LogSection = function (_Component) {
         });
       }
       return _react2.default.createElement(
-        'div',
+        SaveButton,
         {
-          className: buttonPanelClassName },
-        _react2.default.createElement(
-          _Button2.default,
-          {
-            disabled: currentLogCall.isSaving,
-            className: buttonClassName,
-            onClick: function onClick() {
-              return onSaveCallLog(call);
-            } },
-          _i18n2.default.getString('saveLog', currentLocale)
-        )
+          isSaving: currentLogCall.isSaving,
+          onClick: function onClick() {
+            return onSaveCallLog(call);
+          },
+          overlapped: this.state.mainCtrlOverlapped
+        },
+        _i18n2.default.getString('saveLog', currentLocale)
       );
     }
   }, {
-    key: 'genLogBasicInfo',
-    value: function genLogBasicInfo() {
-      return _react2.default.createElement(_LogBasicInfo2.default, {
-        currentLog: this.props.currentLog,
-        currentLocale: this.props.currentLocale,
-        formatPhone: this.props.formatPhone
-      });
-    }
-  }, {
-    key: 'genLogBasicInfoWithSmallCallCtrl',
-    value: function genLogBasicInfoWithSmallCallCtrl() {
-      var currentlog = this.props.currentLog;
-      var currentSessionId = currentlog.currentSessionId,
-          call = currentlog.call;
+    key: 'renderLogBasicInfo',
+    value: function renderLogBasicInfo() {
+      var _props3 = this.props,
+          currentLog = _props3.currentLog,
+          showSmallCallControl = _props3.showSmallCallControl;
+      var currentSessionId = currentLog.currentSessionId,
+          call = currentLog.call;
       var telephonyStatus = call.telephonyStatus,
           result = call.result;
 
       var status = telephonyStatus || result;
+      var clickable = _callDirections2.default.inbound === call.direction && _telephonyStatus2.default.ringing === telephonyStatus;
+      var extraButton = void 0;
       // if `result` is exist, call has been disconnect
-      if (result) {
-        return this.genLogBasicInfo();
+      if (showSmallCallControl && !result) {
+        extraButton = this.props.renderSmallCallContrl(status, currentSessionId);
       }
-      function disabledToCallControl() {
-        return _callDirections2.default.inbound === call.direction && _telephonyStatus2.default.ringing === telephonyStatus;
-      }
-
-      var onLogBasicInfoClick = disabledToCallControl() ? function () {} : this.props.onLogBasicInfoClick;
-
-      var wrapperCls = (0, _classnames3.default)(_styles2.default.basicInfoWrapper, (0, _defineProperty3.default)({}, _styles2.default.pointer, !disabledToCallControl()));
-      return _react2.default.createElement(
-        'div',
-        { 'data-sign': 'logSection', className: _styles2.default.infoWithCtrlWrapper },
-        _react2.default.createElement(
-          'div',
-          { 'data-sign': 'leftSectionInfo', className: wrapperCls, onClick: onLogBasicInfoClick },
-          _react2.default.createElement(_LogBasicInfo2.default, {
-            currentLog: this.props.currentLog,
-            currentLocale: this.props.currentLocale,
-            formatPhone: this.props.formatPhone
-          })
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.callCtrlWrapper },
-          this.props.renderSmallCallContrl(status, currentSessionId)
-        )
-      );
+      return _react2.default.createElement(_LogBasicInfo2.default, {
+        dataSign: 'leftSectionInfo',
+        currentLog: this.props.currentLog,
+        currentLocale: this.props.currentLocale,
+        formatPhone: this.props.formatPhone,
+        extraButton: extraButton,
+        clickable: clickable,
+        onClick: clickable ? this.props.onLogBasicInfoClick : function () {
+          return console.log('noop');
+        }
+      });
     }
   }, {
     key: 'render',
     value: function render() {
-      var _props3 = this.props,
-          currentLog = _props3.currentLog,
-          isInnerMask = _props3.isInnerMask,
-          showSmallCallControl = _props3.showSmallCallControl;
+      var _this2 = this;
+
+      var _props4 = this.props,
+          currentLog = _props4.currentLog,
+          isInnerMask = _props4.isInnerMask;
       var showSpinner = currentLog.showSpinner;
 
       if (showSpinner) {
         return _react2.default.createElement(_SpinnerOverlay2.default, { className: _styles2.default.spinner });
       }
-
       return _react2.default.createElement(
         'div',
-        { className: _styles2.default.section },
-        showSmallCallControl ? this.genLogBasicInfoWithSmallCallCtrl() : this.genLogBasicInfo(),
-        this.genEditLogSection(),
+        { className: _styles2.default.root },
+        this.renderLogBasicInfo(),
+        _react2.default.createElement(
+          EditSection,
+          {
+            scrollerRef: function scrollerRef(el) {
+              _this2.mainCtrl = el;
+            },
+            onScroll: function onScroll() {
+              return _this2.checkOverlap();
+            }
+          },
+          this.getEditLogSection()
+        ),
         this.genSaveLogButton(),
         isInnerMask ? _react2.default.createElement('div', { className: _styles2.default.innerMask }) : null
       );

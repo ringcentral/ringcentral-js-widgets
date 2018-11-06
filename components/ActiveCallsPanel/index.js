@@ -136,17 +136,19 @@ var ActiveCallsPanel = function (_Component) {
           },
           _react2.default.createElement(_LogSection2.default, {
             currentLocale: currentLocale,
-            currentLog: currentLog
+            currentLog: currentLog,
+            formatPhone: formatPhone
             // additionalInfo={additionalInfo}
-            , isInnerMask: logNotification && logNotification.notificationIsExpand,
-            renderEditLogSection: renderEditLogSection,
-            renderSaveLogButton: renderSaveLogButton,
-            formatPhone: formatPhone,
+            , isInnerMask: logNotification && logNotification.notificationIsExpand
+            // save call log
+            , renderEditLogSection: renderEditLogSection,
+            showSaveLogBtn: true,
             onUpdateCallLog: onUpdateCallLog,
             onSaveCallLog: onSaveCallLog,
-            onLogBasicInfoClick: onLogBasicInfoClick,
-            renderSmallCallContrl: renderSmallCallContrl,
-            showSaveLogBtn: true
+            renderSaveLogButton: renderSaveLogButton
+            // active call ctrl
+            , onLogBasicInfoClick: onLogBasicInfoClick,
+            renderSmallCallContrl: renderSmallCallContrl
           })
         ),
         logNotification ? _react2.default.createElement(
