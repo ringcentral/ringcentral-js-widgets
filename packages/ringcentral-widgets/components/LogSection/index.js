@@ -7,7 +7,7 @@ import callDirections from 'ringcentral-integration/enums/callDirections';
 import SpinnerOverlay from '../SpinnerOverlay';
 import Button from '../Button';
 import styles from './styles.scss';
-import LogBasicInfoV2 from '../LogBasicInfoV2';
+import LogBasicInfo from '../LogBasicInfo';
 import i18n from './i18n';
 
 const EditSection = ({ children, scrollerRef, ...rest }) => (
@@ -158,7 +158,7 @@ export default class LogSection extends Component {
       extraButton = this.props.renderSmallCallContrl(status, currentSessionId);
     }
     return (
-      <LogBasicInfoV2
+      <LogBasicInfo
         dataSign="leftSectionInfo"
         currentLog={this.props.currentLog}
         currentLocale={this.props.currentLocale}

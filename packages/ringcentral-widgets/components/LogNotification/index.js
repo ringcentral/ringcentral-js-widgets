@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Button from '../Button';
-import LogBasicInfo from '../LogBasicInfoV2';
+import LogBasicInfo from '../LogBasicInfo';
 import styles from './styles.scss';
 import i18n from './i18n';
 
