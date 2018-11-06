@@ -2,18 +2,24 @@
 import EinsteinSDK from 'einstein-sdk';
 
 const BASE_URL = 'http://einstein.int.ringcentral.com';
-// use username and password of your einstein account
-const USERNAME = '';
-const PASSWORD = '';
 
-export default class einsteinAdapter {
-  constructor() {
-    this.einsteinSDK = new EinsteinSDK(BASE_URL);
+export default class FetchData {
+  constructor(
+    {
+      servicesUrl = BASE_URL,
+      userName, passWord
+    }
+  ) {
+    this.einsteinSDK = new EinsteinSDK(servicesUrl);
     this.itemId = null;
+    this.userName = userName;
+    this.passWord = passWord;
   }
 
+  // TODO: use dom to get text instead of regex
   async getCaseByExternalId(externalId) {
     try {
+      console.log(externalId, '=', this.userName, '=', this.passWord);
       await this.getItemIdByExternalId(externalId);
       const { item } = await this.einsteinSDK.getTestCase(this.itemId);
       item.children.forEach((element) => {
@@ -24,14 +30,13 @@ export default class einsteinAdapter {
       item.summary = item.summary.replace(/<[^>]*>|&nbsp;/g, '');
       return item;
     } catch (error) {
-      console.log(error);
-      return null;
+      throw new Error(error);
     }
   }
 
   async getItemIdByExternalId(externalId) {
     try {
-      await this.einsteinSDK.login(USERNAME, PASSWORD);
+      await this.einsteinSDK.login(this.userName, this.passWord);
       const query = { type: 'eq', property: 'project_id', value: 1309 };
       const allDates = await this.einsteinSDK.searchTestCases(1309, query);
       const projects = allDates.children[0].children;

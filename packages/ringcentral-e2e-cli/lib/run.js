@@ -1,13 +1,11 @@
 import { resolve } from 'path';
 import runner from '../src/runner.js';
 import { isNil } from '../src/utils/checkType';
-import EinsteinAdapter from './einsteinAdapter';
 
 const DEFAULT_CONFIG_FILE_PATH = './e2e.config.js';
 const DEFAULT_ROOT = '<rootDir>';
 const DEFAULT_TEST_MATCH = '**/?(*.)+(spec|test).js?(x)';
 const configPath = resolve(process.cwd(), DEFAULT_CONFIG_FILE_PATH);
-const einstein = new EinsteinAdapter();
 
 function getArgs(dir, cmd) {
   let args;
@@ -37,8 +35,33 @@ function getTestMatch(args) {
 
 
 const run = async (dir, cmd) => {
-  // const caseContent = await einstein.getCaseByExternalId(961);
-  // console.log('caseContent', caseContent);
+  let config;
+  try {
+    // eslint-disable-next-line
+    config = require(configPath);// get e2e config there, use input params instead
+  } catch (error) {
+    console.error(`Unexpected import '${DEFAULT_CONFIG_FILE_PATH}' in root path.`);
+    console.error(error);
+    process.exit();
+    return;
+  }
+  if (cmd.service) {
+    cmd.service = JSON.parse(cmd.service);
+    cmd.service.list.forEach((cmdEle) => {
+      config.caseServices.list.forEach((configEle, index) => {
+        if (configEle.name === cmdEle.name) {
+          config.caseServices.list[index] = { ...configEle, ...cmdEle };
+        }
+      });
+    });
+    config.caseServices.list.forEach(async (element) => {
+      const EinsteinServices = require(resolve(process.cwd(), element.handler));
+      const einsteinServices = new EinsteinServices.default({ userName: element.userName, passWord: element.passWord });
+      await einsteinServices.createCaseTemplate(element.caseID);
+    });
+
+    return;
+  }
   const isRelativePath = (/^.\/|^..\//).test(cmd.params);
   const isResolvePath = (/^\//).test(cmd.params);
   if (isRelativePath || isResolvePath) {
@@ -58,16 +81,6 @@ const run = async (dir, cmd) => {
     return;
   }
   const args = getArgs(dir, cmd);
-  let config;
-  try {
-    // eslint-disable-next-line
-    config = require(configPath);
-  } catch (error) {
-    console.error(`Unexpected import '${DEFAULT_CONFIG_FILE_PATH}' in root path.`);
-    console.error(error);
-    process.exit();
-    return;
-  }
   const testMatch = getTestMatch(args);
   const modes = [
     ...cmd.sandbox ? ['sandbox'] : [],
