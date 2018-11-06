@@ -538,7 +538,7 @@ var CallsListPanel = function (_Component) {
         CallsListView
       );
 
-      var noCalls = _react2.default.createElement(
+      var noCalls = otherDeviceCalls.length === 0 && _react2.default.createElement(
         'p',
         { className: _styles2.default.noCalls },
         _i18n2.default.getString('noCalls', currentLocale)
