@@ -1,4 +1,6 @@
 import Webphone, { PhoneType } from '../../../lib/webphone';
+import { callingTypes } from '../../../steps/commons/Setting/setCallingSetting';
+
 /* global $ */
 export default class operateWebPhoneBasic {
   static async _getPhone(account, env) {
@@ -28,8 +30,13 @@ export default class operateWebPhoneBasic {
   }
 
   static async createWebPhone(context) {
-    const { accounts, loginAccount } = context.options.option.playload;
-    const receiverAccount = accounts[0];
+    const isCustomPhone = context.options.option.callingSetting === callingTypes.customPhone;
+    let { accounts, loginAccount } = context.options.option.playload;
+    let receiverAccount;
+    if (isCustomPhone && accounts.length > 1) {
+      loginAccount = accounts[1];
+    }    
+    receiverAccount = accounts[0];
     const dailer = await this._getPhone(loginAccount, context.options.tag.envs);
     const receiver = await this._getPhone(receiverAccount, context.options.tag.envs);
     context.options.option.webphones = [dailer, receiver];
@@ -37,54 +44,26 @@ export default class operateWebPhoneBasic {
     context.driver.addAfterHook(async () => {
       await this.close(context);
     });
-    console.log(context.options.option.webphones);
   }
 
   static async makeCall(context) {
     console.log('makeCall');
     const { webphones } = context.options.option;
-    const dialer = webphones[0];
+    const dailer = webphones[0];
     const receiver = webphones[1];
     await Webphone.operate({
       phoneId: receiver.id,
       sessionId: receiver.sessionId,
       action: 'makeCall',
-      phoneNumber: dialer.phoneNumber
-    });
-  }
-
-  static async preAnswerCall(context) {
-    const { webphones } = context.options.option;
-    const dialer = webphones[0];
-    const receiver = webphones[1];
-    await Webphone.preOperate({
-      phoneId: dialer.id,
-      sessionId: dialer.sessionId,
-      action: 'answerCall'
-    });
-    await Webphone.preOperate({
-      phoneId: receiver.id,
-      sessionId: receiver.sessionId,
-      action: 'answerCall'
-    });
-  }
-
-  static async answerCall(context) {
-    const { webphones } = context.options.option;
-    const receiver = webphones[0];
-    const dialer = webphones[1];
-    await Webphone.operate({
-      phoneId: receiver.id,
-      sessionId: receiver.sessionId,
-      action: 'answerCall',
-      phoneNumber: dialer.phoneNumber
+      phoneNumber: dailer.phoneNumber
     });
   }
 
   static async hangup(context) {
+    console.log("hangup");
     const { webphones } = context.options.option;
-    const receiver = webphones[0];
-    const dialer = webphones[1];
+    const dialer = webphones[0];
+    const receiver = webphones[1];
     await Webphone.operate({
       phoneId: receiver.id,
       sessionId: receiver.sessionId,
@@ -93,11 +72,41 @@ export default class operateWebPhoneBasic {
     });
   }
 
+  static async answerCall(context) {
+    console.log('answerCall');
+    const { webphones } = context.options.option;
+    const dialer = webphones[0];
+    const receiver = webphones[1];
+    await Webphone.operate({
+      phoneId: dialer.id,   
+      sessionId: dialer.sessionId,
+      action: 'answerCall',
+      phoneNumber: receiver.phoneNumber
+    });
+  }
+
+  static async preAnswerCall(context) {
+    console.log("preAnswerCall");
+    const { webphones } = context.options.option;
+    const dialer = webphones[0];
+    const receiver = webphones[1];
+    const isCustomPhone = context.options.option.callingSetting === callingTypes.customPhone;
+    await Webphone.preOperate({
+      phoneId: receiver.id,
+      sessionId: receiver.sessionId,
+      action: 'answerCall'
+    });
+    await Webphone.preOperate({
+      phoneId: dialer.id,
+      sessionId: dialer.sessionId,
+      action: 'answerCall'
+    });
+  }
+
   static async close(context) {
     const { webphones } = context.options.option;
     const dialer = webphones[0];
     const receiver = webphones[1];
-    console.log(dialer);
     await Webphone.operate({
       phoneId: dialer.id,
       sessionId: dialer.sessionId,
@@ -113,6 +122,7 @@ export default class operateWebPhoneBasic {
   }
 
   static async getIsMuteEnabled(context) {
+    console.log("getIsMuteEnabled");
     const className = await $(context.driver.app).getAttribute('@mute', 'class');
     const isMuteButtonDisabled = className.indexOf('buttonDisabled') > -1;
     return !isMuteButtonDisabled;

@@ -1,8 +1,9 @@
 /* global $ */
 export default class DialOutCall {
-  static async inputPhoneNumber({ options: { playload }, driver: { app } }) {
-    const [_, { did }] = playload.accounts;
-    await $(app).type('@recipientsInput', `+${did}`);
+  static async inputPhoneNumber({ options: { option }, driver: { app } }) {
+    // const [_, { did }] = playload.accounts;
+    const {accounts} = option.playload;
+    await $(app).type('@recipientsInput', `+${accounts[0].did}`);
   }
 
   static async dialOut({ driver: { app } }) {
