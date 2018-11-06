@@ -121,14 +121,6 @@ export default class LogSection extends Component {
       call,
       currentLogCall,
     } = currentLog;
-    const buttonPanelClassName = classnames(
-      styles.buttonPanel,
-      this.state.mainCtrlOverlapped && styles.overlapped
-    );
-    const buttonClassName = classnames(
-      styles.primaryButton,
-      currentLogCall.isSaving && styles.disabled
-    );
     if (!showSaveLogBtn) {
       return null;
     }
@@ -141,15 +133,13 @@ export default class LogSection extends Component {
       });
     }
     return (
-      <div
-        className={buttonPanelClassName}>
-        <Button
-          disabled={currentLogCall.isSaving}
-          className={buttonClassName}
-          onClick={() => onSaveCallLog(call)}>
-          {i18n.getString('saveLog', currentLocale)}
-        </Button>
-      </div>
+      <SaveButton
+        isSaving={currentLogCall.isSaving}
+        onClick={() => onSaveCallLog(call)}
+        overlapped={this.state.mainCtrlOverlapped}
+      >
+        {i18n.getString('saveLog', currentLocale)}
+      </SaveButton>
     );
   }
 
@@ -184,14 +174,9 @@ export default class LogSection extends Component {
     const {
       currentLog,
       isInnerMask,
-      showSaveLogBtn,
-      onSaveCallLog,
-      currentLocale,
       // onCloseLogSection
     } = this.props;
     const {
-      call,
-      currentLogCall,
       showSpinner,
     } = currentLog;
     if (showSpinner) {
@@ -206,15 +191,7 @@ export default class LogSection extends Component {
         >
           {this.getEditLogSection()}
         </EditSection>
-        {showSaveLogBtn && (
-          <SaveButton
-            isSaving={currentLogCall.isSaving}
-            onClick={() => onSaveCallLog(call)}
-            overlapped={this.state.mainCtrlOverlapped}
-          >
-            {i18n.getString('saveLog', currentLocale)}
-          </SaveButton>
-        )}
+        {this.genSaveLogButton()}
         {
           isInnerMask ? (
             <div className={styles.innerMask} />
