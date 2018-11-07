@@ -38,22 +38,24 @@ export default function SmCallControl(props) {
   const disabledCtrl = callStatus === telephonyStatuses.ringing;
   return (
     <div className={styles.smWraper}>
-      <CircleButton
-        dataSign={muteTitle}
-        icon={muteIcon}
-        onClick={muteAction}
-        className={classnames(styles.button, disabledCtrl ? styles.buttonDisabled : null)}
-        title={i18n.getString(muteTitle, currentLocale)}
-        disabled={disabledCtrl}
+      <span title={i18n.getString(muteTitle, currentLocale)}>
+        <CircleButton
+          dataSign={muteTitle}
+          icon={muteIcon}
+          onClick={muteAction}
+          className={classnames(styles.button, disabledCtrl ? styles.buttonDisabled : null)}
+          disabled={disabledCtrl}
       />
-      <CircleButton
-        dataSign={endTitle}
-        showBorder={false}
-        icon={EndIcon}
-        onClick={endAction}
-        className={classnames(styles.hangup, styles.button)}
-        title={i18n.getString(endTitle, currentLocale)}
+      </span>
+      <span title={i18n.getString(endTitle, currentLocale)}>
+        <CircleButton
+          dataSign={endTitle}
+          showBorder={false}
+          icon={EndIcon}
+          onClick={endAction}
+          className={classnames(styles.hangup, styles.button)}
       />
+      </span>
     </div>
   );
 }
