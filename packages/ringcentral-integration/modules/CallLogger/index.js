@@ -282,7 +282,8 @@ export default class CallLogger extends LoggerBase {
               this._onCallUpdated({
                 ...call,
                 isTransferredCall: true,
-                transferredMiddleNumber: oldCall.from && oldCall.from.phoneNumber
+                transferredMiddleNumber: oldCall.from && oldCall.from.phoneNumber,
+                phoneNumberUpdated: true
               }, callLoggerTriggerTypes.presenceUpdate);
             }
           }
