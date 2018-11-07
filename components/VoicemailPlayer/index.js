@@ -250,6 +250,7 @@ var VoicemailPlayer = function (_Component) {
         );
       }
       var currentTime = this._audio.currentTime < duration ? this._audio.currentTime : duration;
+      var downloadUri = uri + '&contentDisposition=Attachment';
       return _react2.default.createElement(
         'div',
         { className: (0, _classnames2.default)(_styles2.default.root, className) },
@@ -266,7 +267,7 @@ var VoicemailPlayer = function (_Component) {
             target: '_blank',
             download: true,
             title: _i18n2.default.getString('download', currentLocale),
-            href: uri,
+            href: downloadUri,
             onClick: this._onDownloadClick
           },
           _react2.default.createElement(_Download2.default, { width: 18, height: 18 })
