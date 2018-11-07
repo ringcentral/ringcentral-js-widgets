@@ -136,6 +136,7 @@ function DialerPanel(_ref) {
           'div',
           { className: _styles2.default.callBtn },
           _react2.default.createElement(_CircleButton2.default, {
+            dataSign: 'callButton',
             className: (0, _classnames2.default)(_styles2.default.dialBtn, callButtonDisabled && _styles2.default.disabled),
             onClick: onCallFunc,
             disabled: callButtonDisabled,
