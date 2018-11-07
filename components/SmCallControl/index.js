@@ -76,22 +76,28 @@ function SmCallControl(props) {
   return _react2.default.createElement(
     'div',
     { className: _styles2.default.smWraper },
-    _react2.default.createElement(_CircleButton2.default, {
-      dataSign: muteTitle,
-      icon: muteIcon,
-      onClick: muteAction,
-      className: (0, _classnames2.default)(_styles2.default.button, disabledCtrl ? _styles2.default.buttonDisabled : null),
-      title: _i18n2.default.getString(muteTitle, currentLocale),
-      disabled: disabledCtrl
-    }),
-    _react2.default.createElement(_CircleButton2.default, {
-      dataSign: endTitle,
-      showBorder: false,
-      icon: _End2.default,
-      onClick: endAction,
-      className: (0, _classnames2.default)(_styles2.default.hangup, _styles2.default.button),
-      title: _i18n2.default.getString(endTitle, currentLocale)
-    })
+    _react2.default.createElement(
+      'span',
+      { title: _i18n2.default.getString(muteTitle, currentLocale) },
+      _react2.default.createElement(_CircleButton2.default, {
+        dataSign: muteTitle,
+        icon: muteIcon,
+        onClick: muteAction,
+        className: (0, _classnames2.default)(_styles2.default.button, disabledCtrl ? _styles2.default.buttonDisabled : null),
+        disabled: disabledCtrl
+      })
+    ),
+    _react2.default.createElement(
+      'span',
+      { title: _i18n2.default.getString(endTitle, currentLocale) },
+      _react2.default.createElement(_CircleButton2.default, {
+        dataSign: endTitle,
+        showBorder: false,
+        icon: _End2.default,
+        onClick: endAction,
+        className: (0, _classnames2.default)(_styles2.default.hangup, _styles2.default.button)
+      })
+    )
   );
 }
 
