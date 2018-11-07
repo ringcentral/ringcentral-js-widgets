@@ -53,6 +53,8 @@ var _callDirections = require('ringcentral-integration/enums/callDirections');
 
 var _callDirections2 = _interopRequireDefault(_callDirections);
 
+var _callLogHelpers = require('ringcentral-integration/lib/callLogHelpers');
+
 var _SpinnerOverlay = require('../SpinnerOverlay');
 
 var _SpinnerOverlay2 = _interopRequireDefault(_SpinnerOverlay);
@@ -239,10 +241,11 @@ var LogSection = function (_Component) {
           result = call.result;
 
       var status = telephonyStatus || result;
-      var clickable = _callDirections2.default.inbound === call.direction && _telephonyStatus2.default.ringing === telephonyStatus;
-      var extraButton = void 0;
       // if `result` is exist, call has been disconnect
-      if (showSmallCallControl && !result) {
+      var isActive = !result;
+      var clickable = isActive && !(0, _callLogHelpers.isRingingInboundCall)(call);
+      var extraButton = void 0;
+      if (showSmallCallControl && isActive) {
         extraButton = this.props.renderSmallCallContrl(status, currentSessionId);
       }
       return _react2.default.createElement(_LogBasicInfo2.default, {

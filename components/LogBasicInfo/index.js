@@ -171,7 +171,7 @@ LogBasicInfo.propTypes = {
   currentLocale: _propTypes2.default.string.isRequired,
   formatPhone: _propTypes2.default.func,
   currentLog: _propTypes2.default.object,
-  extraButton: _propTypes2.default.func,
+  extraButton: _propTypes2.default.object,
   clickable: _propTypes2.default.bool,
   onClick: _propTypes2.default.func,
   dataSign: _propTypes2.default.string
