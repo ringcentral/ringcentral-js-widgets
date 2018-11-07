@@ -17,8 +17,8 @@ commander
   .option('-D, --debugger', 'Run E2E test case with \'debugger\' mode.')
   .option('-V, --verbose', 'Run E2E test case with verbose log.')
   .option('-E, --exclude <exclude>', 'Run E2E test case exclude some files.', value => value.split(','))
-  .option('--drivers <drivers>', 'Run E2E test case with some drivers.', value => value.split('.'))
-  .option('--testerCLI <testerCLI>', 'Run E2E test case with testerCLI args.', value => value.split('.'))
+  .option('--drivers <drivers>', 'Run E2E test case with some drivers.', value => value.split(','))
+  .option('--testerCLI <testerCLI>', 'Run E2E test case with testerCLI args.', value => value.split(','))
   .action((run));
 
 commander.parse(process.argv);
