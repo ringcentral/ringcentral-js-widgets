@@ -67,11 +67,12 @@ export function getFetchConversationsStatusReducer(types) {
 }
 
 export function getCurrentPageReducer(types) {
-  return (state = 1, { type }) => {
+  return (state = 1, { type, isIncreaseCurrentPage }) => {
     switch (type) {
       case types.increaseCurrentPage:
-      case types.fetchOldConverstaionsSuccess:
         return state + 1;
+      case types.fetchOldConverstaionsSuccess:
+        return isIncreaseCurrentPage ? state + 1 : state;
       case types.updateTypeFilter:
       case types.resetSuccess:
       case types.initSuccess:
