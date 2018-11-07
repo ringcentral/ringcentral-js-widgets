@@ -613,7 +613,8 @@ var CallLogger = (_dec = (0, _di.Module)({
                 });
                 _this2._onCallUpdated((0, _extends3.default)({}, call, {
                   isTransferredCall: true,
-                  transferredMiddleNumber: oldCall.from && oldCall.from.phoneNumber
+                  transferredMiddleNumber: oldCall.from && oldCall.from.phoneNumber,
+                  phoneNumberUpdated: true
                 }), _callLoggerTriggerTypes2.default.presenceUpdate);
               }
             }
