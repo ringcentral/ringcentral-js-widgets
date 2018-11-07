@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
 import callDirections from 'ringcentral-integration/enums/callDirections';
+import { isRingingInboundCall } from 'ringcentral-integration/lib/callLogHelpers';
 
 import SpinnerOverlay from '../SpinnerOverlay';
 import Button from '../Button';
@@ -148,13 +149,11 @@ export default class LogSection extends Component {
     const { currentSessionId, call } = currentLog;
     const { telephonyStatus, result } = call;
     const status = telephonyStatus || result;
-    const clickable = (
-      callDirections.inbound === call.direction &&
-      telephonyStatuses.ringing === telephonyStatus
-    );
-    let extraButton;
     // if `result` is exist, call has been disconnect
-    if (showSmallCallControl && !result) {
+    const isActive = !result;
+    const clickable = isActive && !isRingingInboundCall(call);
+    let extraButton;
+    if (showSmallCallControl && isActive) {
       extraButton = this.props.renderSmallCallContrl(status, currentSessionId);
     }
     return (
