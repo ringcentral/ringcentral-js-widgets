@@ -433,7 +433,6 @@ export default class MessageItem extends Component {
         <VoicemailPlayer
           className={styles.player}
           uri={voicemailAttachment.uri}
-          downloadUri={voicemailAttachment.downloadUri}
           duration={voicemailAttachment.duration}
           onPlay={this.onPlayVoicemail}
           disabled={disableLinks}

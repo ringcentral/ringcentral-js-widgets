@@ -141,7 +141,6 @@ class VoicemailPlayer extends Component {
       className,
       duration,
       uri,
-      downloadUri,
       disabled,
       currentLocale,
     } = this.props;
@@ -173,6 +172,7 @@ class VoicemailPlayer extends Component {
     }
     const currentTime =
       (this._audio.currentTime < duration) ? this._audio.currentTime : duration;
+    const downloadUri = `${uri}&contentDisposition=Attachment`;
     return (
       <div className={classnames(styles.root, className)}>
         {icon}
@@ -201,7 +201,6 @@ class VoicemailPlayer extends Component {
 VoicemailPlayer.propTypes = {
   duration: PropTypes.number,
   uri: PropTypes.string.isRequired,
-  downloadUri: PropTypes.string.isRequired,
   className: PropTypes.string,
   onPlay: PropTypes.func,
   disabled: PropTypes.bool,
