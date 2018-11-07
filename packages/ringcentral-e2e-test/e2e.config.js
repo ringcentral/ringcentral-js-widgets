@@ -44,6 +44,7 @@ module.exports = {
   },
   tester: {
     jest: {
+      reporters: ['<rootDir>/src/lib/reporter'],
       testURL: 'http://localhost',
       moduleNameMapper: {
         'assets/images/.+?\\.svg$': '<rootDir>/src/__mocks__/svgMock.js',
