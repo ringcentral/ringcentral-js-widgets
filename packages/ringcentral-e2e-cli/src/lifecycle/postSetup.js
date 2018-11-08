@@ -2,7 +2,7 @@ import '../reporter';
 import { compile } from '../utils/template';
 
 // TODO configuration-based.
-jest.setTimeout(1000 * 60);
+jest.setTimeout(10000 * 60);
 
 const _test = test;
 const _describe = describe;
