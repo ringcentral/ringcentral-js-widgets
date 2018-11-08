@@ -102,6 +102,10 @@ function runner({
     transform,
     ...customTesterConfig
   };
+  if (!testerConfig.reporter) {
+    delete testerConfig.reporters;
+  }
+  delete testerConfig.reporter;
   const args = [
     tester,
     `--config=${JSON.stringify(testerConfig)}`,
