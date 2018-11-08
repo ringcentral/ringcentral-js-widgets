@@ -152,6 +152,7 @@ function LogBasicInfo(props) {
           _react2.default.createElement(
             'span',
             {
+              'data-sign': 'callStatus',
               className: statusClassName,
               title: statusI18n },
             statusI18n
