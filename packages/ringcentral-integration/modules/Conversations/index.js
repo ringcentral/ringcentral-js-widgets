@@ -293,11 +293,15 @@ export default class Conversations extends RcModule {
         .extension()
         .messageStore()
         .list(params);
-      this._olderDataExsited = records.length === this._perPage;
+      const recordsLength = records.length;
+      this._olderDataExsited = recordsLength === this._perPage;
       if (typeFilter === this.typeFilter && currentPage === this.currentPage) {
+        const isIncreaseCurrentPage = recordsLength &&
+          (this._perPage * this.currentPage < recordsLength + this.filteredConversations.length);
         this.store.dispatch({
           type: this.actionTypes.fetchOldConverstaionsSuccess,
           records,
+          isIncreaseCurrentPage,
         });
       }
     } catch (e) {
@@ -312,7 +316,7 @@ export default class Conversations extends RcModule {
   @proxify
   async loadNextPage() {
     const currentPage = this.currentPage;
-    if ((currentPage + 1) * this._perPage <= this.filteredConversations.length) {
+    if (currentPage * this._perPage < this.filteredConversations.length) {
       this.store.dispatch({
         type: this.actionTypes.increaseCurrentPage,
       });

@@ -12,6 +12,8 @@ import getReducer, {
   getFetchMessagesStatusReducer,
   getMessageTextsReducer,
   getConversationStatusReducer,
+  getCorrespondentMatch,
+  getCorrespondentResponse,
 } from './getReducer';
 
 import actionTypes from './actionTypes';
@@ -216,15 +218,26 @@ describe('Conversations :: getCurrentPageReducer', () => {
       expect(reducer(originalState, { type: 'foo' }))
         .to.equal(originalState);
     });
-    it('should increase page on increaseCurrentPage or fetchOldConverstaionsSuccess', () => {
+    it('should increase page on increaseCurrentPage', () => {
       [
         actionTypes.increaseCurrentPage,
-        actionTypes.fetchOldConverstaionsSuccess,
       ].forEach((type) => {
         expect(reducer(2, {
           type,
         })).to.equal(3);
       });
+    });
+    it('should increase page when isIncreaseCurrentPage parameter is true when fetchOldConverstaionsSuccess', () => {
+      expect(reducer(2, {
+        type: actionTypes.fetchOldConverstaionsSuccess,
+        isIncreaseCurrentPage: true,
+      })).to.equal(3);
+    });
+    it('should not increase page when isIncreaseCurrentPage parameter is false when fetchOldConverstaionsSuccess', () => {
+      expect(reducer(2, {
+        type: actionTypes.fetchOldConverstaionsSuccess,
+        isIncreaseCurrentPage: false,
+      })).to.equal(2);
     });
     it('should return idle on resetSuccess', () => {
       [
@@ -480,6 +493,8 @@ describe('getReducer', () => {
     const fetchMessagesStatusReducer = getFetchMessagesStatusReducer(actionTypes);
     const messageTextsReducer = getMessageTextsReducer(actionTypes);
     const conversationStatusReducer = getConversationStatusReducer(actionTypes);
+    const correspondentMatchReducer = getCorrespondentMatch(actionTypes);
+    const correspondentResponseReducer = getCorrespondentResponse(actionTypes);
 
     it('should return the combined initialState', () => {
       expect(reducer(undefined, {})).to.deep.equal({
@@ -494,6 +509,8 @@ describe('getReducer', () => {
         fetchMessagesStatus: fetchMessagesStatusReducer(undefined, {}),
         messageTexts: messageTextsReducer(undefined, {}),
         conversationStatus: conversationStatusReducer(undefined, {}),
+        correspondentMatch: correspondentMatchReducer(undefined, {}),
+        correspondentResponse: correspondentResponseReducer(undefined, {}),
       });
     });
   });
