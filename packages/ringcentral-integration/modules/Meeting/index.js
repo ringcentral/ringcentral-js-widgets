@@ -229,6 +229,16 @@ export default class Meeting extends RcModule {
         for (const error of errors.all) {
           this._alert.warning(error);
         }
+      } else if (errors && errors.apiResponse) {
+        const { errorCode, permissionName } = errors.apiResponse.json();
+        if (errorCode === 'InsufficientPermissions' && permissionName) {
+          this._alert.danger({
+            message: meetingStatus.insufficientPermissions,
+            payload: {
+              permissionName,
+            },
+          });
+        }
       }
       return null;
     }

@@ -125,7 +125,12 @@ function getDefaultRenderer({
       );
     }
     if (MeetingAlert.handleMessage(message)) {
-      return MeetingAlert;
+      return props => (
+        <MeetingAlert
+          {...props}
+          application={brand.appName}
+        />
+      );
     }
     if (RolesAndPermissionsAlert.handleMessage(message)) {
       return props => (

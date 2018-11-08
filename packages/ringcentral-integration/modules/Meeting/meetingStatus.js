@@ -5,5 +5,6 @@ export default new Enum([
   'emptyTopic',
   'noPassword',
   'durationIncorrect',
+  'insufficientPermissions',
   'scheduledSuccess',
 ], 'meetingStatus');
