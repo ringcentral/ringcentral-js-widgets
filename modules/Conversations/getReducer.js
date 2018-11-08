@@ -140,12 +140,14 @@ function getCurrentPageReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
     var _ref5 = arguments[1];
-    var type = _ref5.type;
+    var type = _ref5.type,
+        isIncreaseCurrentPage = _ref5.isIncreaseCurrentPage;
 
     switch (type) {
       case types.increaseCurrentPage:
-      case types.fetchOldConverstaionsSuccess:
         return state + 1;
+      case types.fetchOldConverstaionsSuccess:
+        return isIncreaseCurrentPage ? state + 1 : state;
       case types.updateTypeFilter:
       case types.resetSuccess:
       case types.initSuccess:

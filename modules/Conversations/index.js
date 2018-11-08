@@ -435,7 +435,7 @@ var Conversations = (_dec = (0, _di.Module)({
     key: 'fetchOldConversations',
     value: function () {
       var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
-        var dateFrom, dateTo, typeFilter, currentPage, params, _ref5, records;
+        var dateFrom, dateTo, typeFilter, currentPage, params, _ref5, records, recordsLength, isIncreaseCurrentPage;
 
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
@@ -489,19 +489,23 @@ var Conversations = (_dec = (0, _di.Module)({
               case 16:
                 _ref5 = _context3.sent;
                 records = _ref5.records;
+                recordsLength = records.length;
 
-                this._olderDataExsited = records.length === this._perPage;
+                this._olderDataExsited = recordsLength === this._perPage;
                 if (typeFilter === this.typeFilter && currentPage === this.currentPage) {
+                  isIncreaseCurrentPage = recordsLength && this._perPage * this.currentPage < recordsLength + this.filteredConversations.length;
+
                   this.store.dispatch({
                     type: this.actionTypes.fetchOldConverstaionsSuccess,
-                    records: records
+                    records: records,
+                    isIncreaseCurrentPage: isIncreaseCurrentPage
                   });
                 }
-                _context3.next = 25;
+                _context3.next = 26;
                 break;
 
-              case 22:
-                _context3.prev = 22;
+              case 23:
+                _context3.prev = 23;
                 _context3.t0 = _context3['catch'](13);
 
                 if (typeFilter === this.typeFilter && currentPage === this.currentPage) {
@@ -510,12 +514,12 @@ var Conversations = (_dec = (0, _di.Module)({
                   });
                 }
 
-              case 25:
+              case 26:
               case 'end':
                 return _context3.stop();
             }
           }
-        }, _callee3, this, [[13, 22]]);
+        }, _callee3, this, [[13, 23]]);
       }));
 
       function fetchOldConversations() {
@@ -535,7 +539,7 @@ var Conversations = (_dec = (0, _di.Module)({
               case 0:
                 currentPage = this.currentPage;
 
-                if (!((currentPage + 1) * this._perPage <= this.filteredConversations.length)) {
+                if (!(currentPage * this._perPage < this.filteredConversations.length)) {
                   _context4.next = 4;
                   break;
                 }
