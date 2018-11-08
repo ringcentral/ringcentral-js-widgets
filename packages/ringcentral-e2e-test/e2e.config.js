@@ -44,7 +44,17 @@ module.exports = {
   },
   tester: {
     jest: {
-      reporters: ['<rootDir>/src/lib/reporter'],
+      reporters:["default",
+        ['<rootDir>/src/lib/reporter', {
+          "pageTitle": "Test Report",
+          "outputPath": "test-report.html",
+          "includeFailureMsg": true,
+          "includeConsoleLog": false,
+          "dateFormat": "yyyy-mm-dd HH:MM:ss",
+          "theme":"lightTheme",
+          "sort": "titleAsc"
+        }]
+      ],
       testURL: 'http://localhost',
       moduleNameMapper: {
         'assets/images/.+?\\.svg$': '<rootDir>/src/__mocks__/svgMock.js',
