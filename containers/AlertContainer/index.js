@@ -193,7 +193,11 @@ function getDefaultRenderer(_ref2) {
       };
     }
     if (_MeetingAlert2.default.handleMessage(message)) {
-      return _MeetingAlert2.default;
+      return function (props) {
+        return _react2.default.createElement(_MeetingAlert2.default, (0, _extends3.default)({}, props, {
+          application: brand.appName
+        }));
+      };
     }
     if (_RolesAndPermissionsAlert2.default.handleMessage(message)) {
       return function (props) {
