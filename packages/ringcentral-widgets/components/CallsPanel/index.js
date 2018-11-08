@@ -1,91 +1,185 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import debounce from 'ringcentral-integration/lib/debounce';
 import 'core-js/fn/array/find';
 import Header from '../Header';
 import Panel from '../Panel';
 import SpinnerOverlay from '../SpinnerOverlay';
 import CallList from '../CallList';
-
+import CallListV2 from '../CallListV2';
 
 import styles from './styles.scss';
 
+const HEADER_HEIGHT = 38;
 
-export default function CallsPanel({
-  brand,
-  currentLocale,
-  calls,
-  areaCode,
-  countryCode,
-  onViewContact,
-  onCreateContact,
-  onLogCall,
-  onClickToDial,
-  onClickToSms,
-  isLoggedContact,
-  disableLinks,
-  disableClickToDial,
-  outboundSmsPermission,
-  internalSmsPermission,
-  dateTimeFormatter,
-  showSpinner,
-  title,
-  active,
-  loggingMap,
-  webphoneAnswer,
-  webphoneReject,
-  webphoneHangup,
-  webphoneResume,
-  enableContactFallback,
-  autoLog,
-  showContactDisplayPlaceholder,
-  sourceIcons,
-  phoneTypeRenderer,
-  phoneSourceNameRenderer,
-}) {
-  const content = showSpinner ?
-    <SpinnerOverlay /> :
-    (
-      <CallList
-        brand={brand}
-        currentLocale={currentLocale}
-        calls={calls}
-        areaCode={areaCode}
-        countryCode={countryCode}
-        onViewContact={onViewContact}
-        onCreateContact={onCreateContact}
-        onLogCall={onLogCall}
-        onClickToDial={onClickToDial}
-        onClickToSms={onClickToSms}
-        isLoggedContact={isLoggedContact}
-        disableLinks={disableLinks}
-        disableClickToDial={disableClickToDial}
-        outboundSmsPermission={outboundSmsPermission}
-        internalSmsPermission={internalSmsPermission}
-        dateTimeFormatter={dateTimeFormatter}
-        active={active}
-        loggingMap={loggingMap}
-        webphoneAnswer={webphoneAnswer}
-        webphoneReject={webphoneReject}
-        webphoneHangup={webphoneHangup}
-        webphoneResume={webphoneResume}
-        enableContactFallback={enableContactFallback}
-        autoLog={autoLog}
-        showContactDisplayPlaceholder={showContactDisplayPlaceholder}
-        sourceIcons={sourceIcons}
-        phoneTypeRenderer={phoneTypeRenderer}
-        phoneSourceNameRenderer={phoneSourceNameRenderer}
-      />
+export default class CallsPanel extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      contentHeight: 0,
+      contentWidth: 0,
+    };
+
+    this._mounted = false;
+    this._listWrapper = React.createRef();
+  }
+
+  componentDidMount() {
+    this._mounted = true;
+    this._calculateContentSize();
+    window.addEventListener('resize', this._onResize);
+  }
+
+  componentWillUnmount() {
+    this._mounted = false;
+    window.removeEventListener('resize', this._onResize);
+  }
+
+  _onResize = debounce(() => {
+    if (this._mounted) {
+      this._calculateContentSize();
+    }
+  }, 300);
+
+  _calculateContentSize() {
+    if (this._listWrapper
+      && this._listWrapper.current
+      && this._listWrapper.current.getBoundingClientRect
+    ) {
+      const react = this._listWrapper.current.getBoundingClientRect();
+
+      this.setState({
+        contentHeight: react.bottom - react.top - HEADER_HEIGHT,
+        contentWidth: react.right - react.left,
+      });
+
+      return;
+    }
+
+    this.setState({
+      contentHeight: 0,
+      contentWidth: 0,
+    });
+  }
+
+  render() {
+    const {
+      brand,
+      currentLocale,
+      calls,
+      areaCode,
+      countryCode,
+      onViewContact,
+      onCreateContact,
+      onLogCall,
+      onClickToDial,
+      onClickToSms,
+      isLoggedContact,
+      disableLinks,
+      disableClickToDial,
+      outboundSmsPermission,
+      internalSmsPermission,
+      dateTimeFormatter,
+      showSpinner,
+      title,
+      active,
+      loggingMap,
+      webphoneAnswer,
+      webphoneReject,
+      webphoneHangup,
+      webphoneResume,
+      enableContactFallback,
+      autoLog,
+      showContactDisplayPlaceholder,
+      sourceIcons,
+      phoneTypeRenderer,
+      phoneSourceNameRenderer,
+      useNewList,
+    } = this.props;
+
+    const callsListView = useNewList ?
+      (
+        <CallListV2
+          brand={brand}
+          currentLocale={currentLocale}
+          calls={calls}
+          areaCode={areaCode}
+          countryCode={countryCode}
+          onViewContact={onViewContact}
+          onCreateContact={onCreateContact}
+          onLogCall={onLogCall}
+          onClickToDial={onClickToDial}
+          onClickToSms={onClickToSms}
+          isLoggedContact={isLoggedContact}
+          disableLinks={disableLinks}
+          disableClickToDial={disableClickToDial}
+          outboundSmsPermission={outboundSmsPermission}
+          internalSmsPermission={internalSmsPermission}
+          dateTimeFormatter={dateTimeFormatter}
+          active={active}
+          loggingMap={loggingMap}
+          webphoneAnswer={webphoneAnswer}
+          webphoneReject={webphoneReject}
+          webphoneHangup={webphoneHangup}
+          webphoneResume={webphoneResume}
+          enableContactFallback={enableContactFallback}
+          autoLog={autoLog}
+          showContactDisplayPlaceholder={showContactDisplayPlaceholder}
+          sourceIcons={sourceIcons}
+          phoneTypeRenderer={phoneTypeRenderer}
+          phoneSourceNameRenderer={phoneSourceNameRenderer}
+          width={this.state.contentWidth}
+          height={this.state.contentHeight}
+          useNewList={useNewList}
+        />
+      ) :
+      (
+        <CallList
+          brand={brand}
+          currentLocale={currentLocale}
+          calls={calls}
+          areaCode={areaCode}
+          countryCode={countryCode}
+          onViewContact={onViewContact}
+          onCreateContact={onCreateContact}
+          onLogCall={onLogCall}
+          onClickToDial={onClickToDial}
+          onClickToSms={onClickToSms}
+          isLoggedContact={isLoggedContact}
+          disableLinks={disableLinks}
+          disableClickToDial={disableClickToDial}
+          outboundSmsPermission={outboundSmsPermission}
+          internalSmsPermission={internalSmsPermission}
+          dateTimeFormatter={dateTimeFormatter}
+          active={active}
+          loggingMap={loggingMap}
+          webphoneAnswer={webphoneAnswer}
+          webphoneReject={webphoneReject}
+          webphoneHangup={webphoneHangup}
+          webphoneResume={webphoneResume}
+          enableContactFallback={enableContactFallback}
+          autoLog={autoLog}
+          showContactDisplayPlaceholder={showContactDisplayPlaceholder}
+          sourceIcons={sourceIcons}
+          phoneTypeRenderer={phoneTypeRenderer}
+          phoneSourceNameRenderer={phoneSourceNameRenderer}
+        />
+      );
+
+    const content = showSpinner ? <SpinnerOverlay /> : callsListView;
+
+    return (
+      <div className={styles.root} ref={this._listWrapper}>
+        <Header>
+          {title}
+        </Header>
+        <Panel className={styles.content} >
+          {content}
+        </Panel>
+      </div>
     );
-  return (
-    <div className={styles.root}>
-      <Header>
-        {title}
-      </Header>
-      <Panel className={styles.content}>
-        {content}
-      </Panel>
-    </div>
-  );
+  }
 }
 
 CallsPanel.propTypes = {
@@ -119,6 +213,7 @@ CallsPanel.propTypes = {
   sourceIcons: PropTypes.object,
   phoneTypeRenderer: PropTypes.func,
   phoneSourceNameRenderer: PropTypes.func,
+  useNewList: PropTypes.bool,
 };
 
 CallsPanel.defaultProps = {
@@ -145,4 +240,5 @@ CallsPanel.defaultProps = {
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
+  useNewList: false,
 };

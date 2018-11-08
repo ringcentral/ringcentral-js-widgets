@@ -13,6 +13,7 @@ export default function SaveButton({
 }) {
   return (
     <Button
+      dataSign="saveButton"
       className={classnames(
         styles.root,
         disabled ? styles.disabled : null,

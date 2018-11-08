@@ -10,6 +10,23 @@ import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import i18n from './i18n';
 import styles from './styles.scss';
 
+const CallIcon = ({ title, iconClassName }) => (
+  <div
+    className={styles.callIcon}
+    title={title}>
+    <span className={iconClassName} />
+  </div>
+);
+
+CallIcon.propTypes = {
+  title: PropTypes.string,
+  iconClassName: PropTypes.string.isRequired
+};
+
+CallIcon.defaultProps = {
+  title: '',
+};
+
 const callIconMap = {
   [callResults.missed]: dynamicsFont.missed,
   [callDirections.inbound]: dynamicsFont.inbound,
@@ -48,6 +65,9 @@ export default function LogBasicInfo(props) {
     },
     formatPhone,
     currentLocale,
+    clickable,
+    onClick,
+    dataSign
   } = props;
   if (!call) return null;
   const {
@@ -88,38 +108,44 @@ export default function LogBasicInfo(props) {
     orange && styles.orange
   );
   return (
-    <div className={styles.callInfo}>
+    <div data-sign="logSection" className={styles.root}>
       <div
-        className={styles.callIcon}
-        title={title}>
-        <span
-          className={iconClassName}
-        />
+        data-sign={dataSign}
+        className={classnames(
+          styles.callInfo,
+          clickable && styles.pointer
+        )}
+        onClick={clickable ? onClick : () => {}}
+      >
+        <CallIcon title={title} iconClassName={iconClassName} />
+        <ul className={styles.callDisplay}>
+          <li
+            className={styles.contact}
+            title={logName}>
+            {logName}
+          </li>
+          <li className={styles.callDetail}>
+            <span
+              className={styles.number}
+              title={formatNumber}>
+              {formatNumber}
+            </span>
+            {
+              formatNumber ? (
+                <span className={styles.separator}>&nbsp;</span>
+              ) : null
+            }
+            <span
+              className={statusClassName}
+              title={statusI18n}>
+              {statusI18n}
+            </span>
+          </li>
+        </ul>
       </div>
-      <ul className={styles.callDisplay}>
-        <li
-          className={styles.contact}
-          title={logName}>
-          {logName}
-        </li>
-        <li>
-          <span
-            className={styles.number}
-            title={formatNumber}>
-            {formatNumber}
-          </span>
-          {
-            formatNumber ? (
-              <span className={styles.separator}>&nbsp;</span>
-            ) : null
-          }
-          <span
-            className={statusClassName}
-            title={statusI18n}>
-            {statusI18n}
-          </span>
-        </li>
-      </ul>
+      <div className={styles.extra}>
+        {props.extraButton}
+      </div>
     </div>
   );
 }
@@ -128,9 +154,17 @@ LogBasicInfo.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   formatPhone: PropTypes.func,
   currentLog: PropTypes.object,
+  extraButton: PropTypes.object,
+  clickable: PropTypes.bool,
+  onClick: PropTypes.func,
+  dataSign: PropTypes.string
 };
 
 LogBasicInfo.defaultProps = {
   formatPhone: value => value,
   currentLog: {},
+  extraButton: undefined,
+  clickable: false,
+  onClick() {},
+  dataSign: undefined
 };

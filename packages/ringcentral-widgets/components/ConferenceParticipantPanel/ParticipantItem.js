@@ -27,8 +27,7 @@ function ParticipantItem({
           <CallAvatar isOnConferenceCall={false} avatarUrl={avatarUrl} />
         </div>
       }
-      mediaBody={detail}
-      bodyCls={styles.detail}
+      mediaBody={<div title={detail} className={styles.detail}>{detail}</div>}
       mediaRight={
         <span title={i18n.getString('removeParticipant', currentLocale)} className={styles.webphoneButton}>
           <CircleButton

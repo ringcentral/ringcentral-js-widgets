@@ -172,6 +172,7 @@ class VoicemailPlayer extends Component {
     }
     const currentTime =
       (this._audio.currentTime < duration) ? this._audio.currentTime : duration;
+    const downloadUri = `${uri}&contentDisposition=Attachment`;
     return (
       <div className={classnames(styles.root, className)}>
         {icon}
@@ -181,7 +182,7 @@ class VoicemailPlayer extends Component {
           target="_blank"
           download
           title={i18n.getString('download', currentLocale)}
-          href={uri}
+          href={downloadUri}
           onClick={this._onDownloadClick}
         >
           <DownloadIcon width={18} height={18} />

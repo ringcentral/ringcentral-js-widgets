@@ -81,16 +81,18 @@ export default class ActiveCallsPanel extends Component {
           <LogSection
             currentLocale={currentLocale}
             currentLog={currentLog}
+            formatPhone={formatPhone}
             // additionalInfo={additionalInfo}
             isInnerMask={logNotification && logNotification.notificationIsExpand}
+            // save call log
             renderEditLogSection={renderEditLogSection}
-            renderSaveLogButton={renderSaveLogButton}
-            formatPhone={formatPhone}
+            showSaveLogBtn
             onUpdateCallLog={onUpdateCallLog}
             onSaveCallLog={onSaveCallLog}
+            renderSaveLogButton={renderSaveLogButton}
+            // active call ctrl
             onLogBasicInfoClick={onLogBasicInfoClick}
             renderSmallCallContrl={renderSmallCallContrl}
-            showSaveLogBtn
           />
         </InsideModal>
         {
@@ -232,7 +234,7 @@ export default class ActiveCallsPanel extends Component {
 
     if (!this.hasCalls()) {
       return (
-        <div className={classnames(styles.root, className)}>
+        <div data-sign="activeCalls" className={classnames(styles.root, className)}>
           <p className={styles.noCalls}>{i18n.getString('noActiveCalls', currentLocale)}</p>
           {logSection}
           {showSpinner ? <SpinnerOverlay className={styles.spinner} /> : null}
@@ -241,7 +243,7 @@ export default class ActiveCallsPanel extends Component {
     }
     const otherDevice = showOtherDevice ? this.getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale), true) : null;
     return (
-      <div className={styles.root}>
+      <div data-sign="activeCalls" className={styles.root}>
         <div
           className={classnames(styles.root, className)}
           ref={(target) => { this.container = target; }}

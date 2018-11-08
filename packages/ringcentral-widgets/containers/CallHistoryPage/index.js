@@ -18,6 +18,7 @@ function mapToProps(_, {
     rolesAndPermissions,
   },
   enableContactFallback = false,
+  useNewList = false,
 }) {
   return {
     enableContactFallback,
@@ -51,6 +52,7 @@ function mapToProps(_, {
       (!callLogger || callLogger.ready)
     ),
     autoLog: !!(callLogger && callLogger.autoLog),
+    useNewList,
   };
 }
 function mapToFunctions(_, {
@@ -133,6 +135,6 @@ function mapToFunctions(_, {
   };
 }
 
-const CallsPage = withPhone(connect(mapToProps, mapToFunctions)(CallsPanel));
+const CallHistoryPage = withPhone(connect(mapToProps, mapToFunctions)(CallsPanel));
 
-export default CallsPage;
+export default CallHistoryPage;

@@ -4,7 +4,7 @@
 
 .callInfo {
   display: flex;
-  padding: 10px 0;
+  flex: 1;
   min-width: 0;
 }
 
@@ -15,21 +15,24 @@
   clear: both;
 }
 .callIcon {
-  min-width: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 30px;
 }
 
 .callDisplay {
-  flex-grow: 1;
-  min-width: 105px;
-  max-width: 154px;
+  flex: 1;
+  max-width: 100%;
+  overflow: hidden;
   margin: 0;
   padding: 0;
 }
 
 .icon {
   font-size: 20px;
-  margin: 6px 12px;
-  display: inline-block;
+  // margin: 6px 12px;
+  // display: inline-block;
 }
 
 .callDisplay li {
@@ -93,6 +96,26 @@
   color:$orange;
 }
 
+.root {
+  display: flex;
+  padding: 10px 10px;
+  overflow: hidden;
+}
+
+.extra {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.callDetail {
+  display: list-item;
+}
+
 .separator {
   margin: 0 4px;
   display: inline-block;
@@ -104,3 +127,5 @@
     right: -1px;
   }
 }
+
+

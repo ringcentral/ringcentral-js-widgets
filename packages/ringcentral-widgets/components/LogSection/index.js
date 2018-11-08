@@ -3,12 +3,67 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import telephonyStatuses from 'ringcentral-integration/enums/telephonyStatus';
 import callDirections from 'ringcentral-integration/enums/callDirections';
+import { isRingingInboundCall } from 'ringcentral-integration/lib/callLogHelpers';
 
 import SpinnerOverlay from '../SpinnerOverlay';
 import Button from '../Button';
 import styles from './styles.scss';
 import LogBasicInfo from '../LogBasicInfo';
 import i18n from './i18n';
+
+const EditSection = ({ children, scrollerRef, ...rest }) => (
+  <div
+    {...rest}
+    ref={scrollerRef}
+    className={classnames(
+      styles.editSection
+    )}>
+    {children}
+  </div>
+);
+
+EditSection.propTypes = {
+  children: PropTypes.object,
+  scrollerRef: PropTypes.func,
+};
+
+EditSection.defaultProps = {
+  children: null,
+  scrollerRef: undefined,
+};
+
+const SaveButton = ({
+  isSaving, onClick, overlapped, children
+}) => (
+  <div className={classnames(
+    styles.buttonPanel,
+    overlapped && styles.overlapped
+  )}>
+    <Button
+      className={classnames(
+        styles.primaryButton,
+        isSaving && styles.disabled
+      )}
+      disabled={isSaving}
+      onClick={onClick}>
+      {children}
+    </Button>
+  </div>
+);
+
+SaveButton.propTypes = {
+  isSaving: PropTypes.bool,
+  onClick: PropTypes.func,
+  overlapped: PropTypes.bool,
+  children: PropTypes.string
+};
+
+SaveButton.defaultProps = {
+  isSaving: false,
+  onClick() {},
+  overlapped: false,
+  children: null
+};
 
 export default class LogSection extends Component {
   constructor(props) {
@@ -42,27 +97,19 @@ export default class LogSection extends Component {
     }
   }
 
-  genEditLogSection() {
+  getEditLogSection() {
     const {
       renderEditLogSection, currentLocale,
       onSaveCallLog, onUpdateCallLog,
       currentLog, additionalInfo
     } = this.props;
-    const editLogSection = renderEditLogSection({
+    return renderEditLogSection({
       currentLocale,
       onSaveCallLog,
       onUpdateCallLog,
       currentLog,
       additionalInfo,
     });
-    return (
-      <div
-        ref={(ref) => { this.mainCtrl = ref; }}
-        onScroll={() => this.checkOverlap()}
-        className={styles.editSection}>
-        {editLogSection}
-      </div>
-    );
   }
 
   genSaveLogButton() {
@@ -75,14 +122,6 @@ export default class LogSection extends Component {
       call,
       currentLogCall,
     } = currentLog;
-    const buttonPanelClassName = classnames(
-      styles.buttonPanel,
-      this.state.mainCtrlOverlapped && styles.overlapped
-    );
-    const buttonClassName = classnames(
-      styles.primaryButton,
-      currentLogCall.isSaving && styles.disabled
-    );
     if (!showSaveLogBtn) {
       return null;
     }
@@ -95,64 +134,38 @@ export default class LogSection extends Component {
       });
     }
     return (
-      <div
-        className={buttonPanelClassName}>
-        <Button
-          disabled={currentLogCall.isSaving}
-          className={buttonClassName}
-          onClick={() => onSaveCallLog(call)}>
-          {i18n.getString('saveLog', currentLocale)}
-        </Button>
-      </div>
+      <SaveButton
+        isSaving={currentLogCall.isSaving}
+        onClick={() => onSaveCallLog(call)}
+        overlapped={this.state.mainCtrlOverlapped}
+      >
+        {i18n.getString('saveLog', currentLocale)}
+      </SaveButton>
     );
   }
 
-  genLogBasicInfo() {
-    return (
-      <LogBasicInfo
-        currentLog={this.props.currentLog}
-        currentLocale={this.props.currentLocale}
-        formatPhone={this.props.formatPhone}
-      />
-    );
-  }
-
-  genLogBasicInfoWithSmallCallCtrl() {
-    const currentlog = this.props.currentLog;
-    const { currentSessionId, call } = currentlog;
+  renderLogBasicInfo() {
+    const { currentLog, showSmallCallControl } = this.props;
+    const { currentSessionId, call } = currentLog;
     const { telephonyStatus, result } = call;
     const status = telephonyStatus || result;
     // if `result` is exist, call has been disconnect
-    if (result) {
-      return this.genLogBasicInfo();
+    const isActive = !result;
+    const clickable = isActive && !isRingingInboundCall(call);
+    let extraButton;
+    if (showSmallCallControl && isActive) {
+      extraButton = this.props.renderSmallCallContrl(status, currentSessionId);
     }
-    function disabledToCallControl() {
-      return (
-        callDirections.inbound === call.direction &&
-        telephonyStatuses.ringing === telephonyStatus
-      );
-    }
-
-    const onLogBasicInfoClick = disabledToCallControl()
-      ? () => { }
-      : this.props.onLogBasicInfoClick;
-
-    const wrapperCls = classnames(styles.basicInfoWrapper, {
-      [styles.pointer]: !disabledToCallControl()
-    });
     return (
-      <div className={styles.infoWithCtrlWrapper}>
-        <div className={wrapperCls} onClick={onLogBasicInfoClick}>
-          <LogBasicInfo
-            currentLog={this.props.currentLog}
-            currentLocale={this.props.currentLocale}
-            formatPhone={this.props.formatPhone}
-          />
-        </div>
-        <div className={styles.callCtrlWrapper}>
-          {this.props.renderSmallCallContrl(status, currentSessionId)}
-        </div>
-      </div>
+      <LogBasicInfo
+        dataSign="leftSectionInfo"
+        currentLog={this.props.currentLog}
+        currentLocale={this.props.currentLocale}
+        formatPhone={this.props.formatPhone}
+        extraButton={extraButton}
+        clickable={clickable}
+        onClick={clickable ? this.props.onLogBasicInfoClick : () => console.log('noop')}
+      />
     );
   }
 
@@ -160,26 +173,31 @@ export default class LogSection extends Component {
     const {
       currentLog,
       isInnerMask,
-      showSmallCallControl
+      // onCloseLogSection
     } = this.props;
     const {
       showSpinner,
     } = currentLog;
     if (showSpinner) {
-      return (<SpinnerOverlay className={styles.spinner} />);
+      return <SpinnerOverlay className={styles.spinner} />;
     }
-
     return (
-      <div className={styles.section}>
-        {showSmallCallControl ? this.genLogBasicInfoWithSmallCallCtrl() : this.genLogBasicInfo()}
-        {this.genEditLogSection()}
+      <div className={styles.root}>
+        {this.renderLogBasicInfo()}
+        <EditSection
+          scrollerRef={(el) => { this.mainCtrl = el; }}
+          onScroll={() => this.checkOverlap()}
+        >
+          {this.getEditLogSection()}
+        </EditSection>
         {this.genSaveLogButton()}
         {
           isInnerMask ? (
             <div className={styles.innerMask} />
           ) : null
         }
-      </div>);
+      </div>
+    );
   }
 }
 

@@ -73,6 +73,7 @@ exports[`<jira id>: RCINT-8557:
 >
   <div
     className="root select noPadding"
+    data-sign="dropdownSelect"
   >
     <div
       className="button button"
@@ -82,6 +83,7 @@ exports[`<jira id>: RCINT-8557:
     >
       <span
         className="selectedValue ellipsis selectedValue"
+        data-sign="selectedItem"
       >
         Something1 New1 | RingCentral
       </span>
@@ -98,6 +100,7 @@ exports[`<jira id>: RCINT-8557:
     >
       <li
         className="dropdownItem left ellipsis placeholder"
+        data-sign="selectMenuItem"
         onClick={[Function]}
         title="(209) 231-2939"
         value="-1"
@@ -106,6 +109,7 @@ exports[`<jira id>: RCINT-8557:
       </li>
       <li
         className="dropdownItem left ellipsis placeholder"
+        data-sign="selectMenuItem"
         onClick={[Function]}
         title="Something1 New1 | RingCentral (209) 231-2939"
         value="0"
@@ -116,6 +120,7 @@ exports[`<jira id>: RCINT-8557:
       </li>
       <li
         className="dropdownItem left ellipsis placeholder"
+        data-sign="selectMenuItem"
         onClick={[Function]}
         title="Something2 New2 | RingCentral (209) 231-2939"
         value="1"

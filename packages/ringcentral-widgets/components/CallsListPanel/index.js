@@ -199,6 +199,90 @@ export default class CallsListPanel extends Component {
     );
   }
 
+  renderLogSection() {
+    if (!this.props.currentLog) return null;
+
+    const {
+      formatPhone,
+      currentLocale,
+      currentLog,
+      // - styles
+      sectionContainerStyles,
+      sectionModalStyles,
+      // - aditional
+      additionalInfo,
+      showSaveLogBtn,
+      renderEditLogSection,
+      renderSaveLogButton,
+      onSaveCallLog,
+      onUpdateCallLog,
+      onCloseLogSection,
+      // notification
+      logNotification,
+      showNotiLogButton,
+      onCloseNotification,
+      onSaveNotification,
+      onExpandNotification,
+      onDiscardNotification,
+      notificationContainerStyles,
+    } = this.props;
+
+    return (
+      <div>
+        <InsideModal
+          title={currentLog.title}
+          show={currentLog.showLog}
+          onClose={onCloseLogSection}
+          clickOutToClose={false}
+          containerStyles={sectionContainerStyles}
+          modalStyles={sectionModalStyles}
+        >
+          <LogSection
+            currentLocale={currentLocale}
+            currentLog={currentLog}
+            additionalInfo={additionalInfo}
+            isInnerMask={
+              logNotification && logNotification.notificationIsExpand
+            }
+            renderEditLogSection={renderEditLogSection}
+            renderSaveLogButton={renderSaveLogButton}
+            formatPhone={formatPhone}
+            onUpdateCallLog={onUpdateCallLog}
+            onSaveCallLog={onSaveCallLog}
+            showSaveLogBtn={showSaveLogBtn}
+          />
+        </InsideModal>
+        {
+          logNotification ? (
+            <InsideModal
+              show={logNotification.showNotification}
+              showTitle={false}
+              containerStyles={classnames(
+                styles.notificationContainer,
+                notificationContainerStyles,
+              )}
+              modalStyles={styles.notificationModal}
+              contentStyle={styles.notificationContent}
+              onClose={onCloseNotification}
+            >
+              <LogNotification
+                showLogButton={showNotiLogButton}
+                currentLocale={currentLocale}
+                formatPhone={formatPhone}
+                currentLog={logNotification}
+                isExpand={logNotification.notificationIsExpand}
+                onSave={onSaveNotification}
+                onExpand={onExpandNotification}
+                onDiscard={onDiscardNotification}
+                onStay={onCloseNotification}
+              />
+            </InsideModal>
+          ) : null
+        }
+      </div>
+    );
+  }
+
   render() {
     const {
       useNewList,
@@ -370,59 +454,6 @@ export default class CallsListPanel extends Component {
       </div>
     ) : null;
 
-    const logSection = currentLog ? (
-      <div>
-        <InsideModal
-          title={currentLog.title}
-          show={currentLog.showLog}
-          onClose={onCloseLogSection}
-          clickOutToClose={false}
-          containerStyles={sectionContainerStyles}
-          modalStyles={sectionModalStyles}
-        >
-          <LogSection
-            currentLocale={currentLocale}
-            currentLog={currentLog}
-            additionalInfo={additionalInfo}
-            isInnerMask={
-              logNotification && logNotification.notificationIsExpand
-            }
-            renderEditLogSection={renderEditLogSection}
-            renderSaveLogButton={renderSaveLogButton}
-            formatPhone={formatPhone}
-            onUpdateCallLog={onUpdateCallLog}
-            onSaveCallLog={onSaveCallLog}
-            showSaveLogBtn={showSaveLogBtn}
-          />
-        </InsideModal>
-        {logNotification ? (
-          <InsideModal
-            show={logNotification.showNotification}
-            showTitle={false}
-            containerStyles={classnames(
-              styles.notificationContainer,
-              notificationContainerStyles,
-            )}
-            modalStyles={styles.notificationModal}
-            contentStyle={styles.notificationContent}
-            onClose={onCloseNotification}
-          >
-            <LogNotification
-              showLogButton={showNotiLogButton}
-              currentLocale={currentLocale}
-              formatPhone={formatPhone}
-              currentLog={logNotification}
-              isExpand={logNotification.notificationIsExpand}
-              onSave={onSaveNotification}
-              onExpand={onExpandNotification}
-              onDiscard={onDiscardNotification}
-              onStay={onCloseNotification}
-            />
-          </InsideModal>
-        ) : null}
-      </div>
-    ) : null;
-
     const getCallList = (calls, title) => (
       <ActiveCallList
         title={title}
@@ -477,7 +508,7 @@ export default class CallsListPanel extends Component {
         </div>
       );
 
-    const noCalls = (
+    const noCalls = otherDeviceCalls.length === 0 && (
       <p className={styles.noCalls}>
         {i18n.getString('noCalls', currentLocale)}
       </p>
@@ -522,7 +553,7 @@ export default class CallsListPanel extends Component {
             )}
           {calls.length > 0 ? historyCall : noCalls}
         </div>
-        {logSection}
+        {this.renderLogSection()}
       </div>
     );
   }
