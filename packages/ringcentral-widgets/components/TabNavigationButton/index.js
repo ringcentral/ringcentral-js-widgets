@@ -33,7 +33,11 @@ export default function NavigationButton({
         width,
       }}
     >
-      <div className={styles.iconHolder} title={label}>
+      <div 
+        data-sign="moreMenu"
+        className={styles.iconHolder} 
+        title={label}>
+
         <div className={classnames(styles.icon, styleClass)}>
           {active ? activeIcon : icon}
         </div>
