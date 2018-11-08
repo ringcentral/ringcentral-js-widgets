@@ -6,7 +6,8 @@ export default class DialOutCall {
   }
 
   static async dialOut({ app }) {
-    await $(app).click('@callButton');
+    // await $(app).click('@callButton');
+    await $(app).click('[class*=CircleButton-_styles_noBorder]');
     await $(app).waitForSelector('@logSection');
   }
 

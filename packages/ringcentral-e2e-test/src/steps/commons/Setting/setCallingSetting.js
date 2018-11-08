@@ -20,10 +20,15 @@ export default class SetCallingSetting {
         // Webphone lib only supports `ringoutPrompt: false`.
         if (ringoutPrompt) await $(app).click('@ringoutPromptToggle');
       }
-      const isCustomPhone = option.callingSetting === callingTypes.customPhone;
+      const isCustomPhone = option.callingType === callingTypes.customPhone;
       if (isCustomPhone) {
         const [{ did } = {}] = option.playload.accounts || [];
         await $(app).type('@myLocation', `${did}`);
+      }
+      const isMyPhone = option.callingType === callingTypes.myPhone;
+      if (isMyPhone) {
+        await $(app).click('@myLocation');
+        await $(app).click('@selectMenuItem:-1');
       }
       await $(app).click('@saveButton');
     }
