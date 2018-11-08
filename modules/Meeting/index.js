@@ -296,7 +296,7 @@ var Meeting = (_dec = (0, _di.Module)({
 
         var opener = arguments[2];
 
-        var formattedMeeting, resp, serviceInfo, result, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, error;
+        var formattedMeeting, resp, serviceInfo, result, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, error, _errors$apiResponse$j, errorCode, permissionName;
 
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -372,7 +372,7 @@ var Meeting = (_dec = (0, _di.Module)({
                 });
 
                 if (!(_context.t0 instanceof MeetingErrors)) {
-                  _context.next = 46;
+                  _context.next = 48;
                   break;
                 }
 
@@ -420,9 +420,27 @@ var Meeting = (_dec = (0, _di.Module)({
                 return _context.finish(38);
 
               case 46:
+                _context.next = 49;
+                break;
+
+              case 48:
+                if (_context.t0 && _context.t0.apiResponse) {
+                  _errors$apiResponse$j = _context.t0.apiResponse.json(), errorCode = _errors$apiResponse$j.errorCode, permissionName = _errors$apiResponse$j.permissionName;
+
+                  if (errorCode === 'InsufficientPermissions' && permissionName) {
+                    this._alert.danger({
+                      message: _meetingStatus2.default.insufficientPermissions,
+                      payload: {
+                        permissionName: permissionName
+                      }
+                    });
+                  }
+                }
+
+              case 49:
                 return _context.abrupt('return', null);
 
-              case 47:
+              case 50:
               case 'end':
                 return _context.stop();
             }
