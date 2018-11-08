@@ -75,6 +75,7 @@ export default class ActiveCallsPanel extends Component {
           show={currentLog.showLog}
           onClose={onCloseLogSection}
           clickOutToClose={false}
+          maskStyle={styles.maskStyle}
         // containerStyles={sectionContainerStyles}
         // modalStyles={sectionModalStyles}
         >
