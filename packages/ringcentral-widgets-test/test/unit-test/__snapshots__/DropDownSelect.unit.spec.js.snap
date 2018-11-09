@@ -3,6 +3,7 @@
 exports[`DropdownSelect: render correctly 1`] = `
 <div
   className="root"
+  data-sign="dropdownSelect"
 >
   <div
     className="button"
@@ -12,6 +13,7 @@ exports[`DropdownSelect: render correctly 1`] = `
   >
     <span
       className="selectedValue ellipsis"
+      data-sign="selectedItem"
     />
     <span
       className="icon"
@@ -26,12 +28,14 @@ exports[`DropdownSelect: render correctly 1`] = `
   >
     <li
       className="dropdownItem center ellipsis"
+      data-sign="selectMenuItem"
       onClick={[Function]}
       title=""
       value={undefined}
     />
     <li
       className="dropdownItem center ellipsis"
+      data-sign="selectMenuItem"
       onClick={[Function]}
       title=""
       value={undefined}

@@ -67,11 +67,12 @@ export function getFetchConversationsStatusReducer(types) {
 }
 
 export function getCurrentPageReducer(types) {
-  return (state = 1, { type }) => {
+  return (state = 1, { type, isIncreaseCurrentPage }) => {
     switch (type) {
       case types.increaseCurrentPage:
-      case types.fetchOldConverstaionsSuccess:
         return state + 1;
+      case types.fetchOldConverstaionsSuccess:
+        return isIncreaseCurrentPage ? state + 1 : state;
       case types.updateTypeFilter:
       case types.resetSuccess:
       case types.initSuccess:
@@ -181,6 +182,43 @@ export function getCorrespondentMatch(types) {
     }
   };
 }
+export function getCorrespondentResponse(types) {
+  return (state = {}, {
+    type,
+    responses = [],
+    phoneNumber = ''
+  }) => {
+    switch (type) {
+      case types.addResponses: {
+        const formatResponses = responses.reduce((accumulator, response) => {
+          const {
+            to,
+            from,
+            direction,
+            conversation: {
+              id
+            }
+          } = response;
+          const number = direction === 'Inbound' ? from : to[0];
+          phoneNumber = number.phoneNumber || number.extensionNumber;
+          return {
+            ...accumulator,
+            [phoneNumber]: id
+          };
+        }, {});
+        return formatResponses;
+      }
+      case types.removeResponse: {
+        const newState = { ...state };
+        delete newState[phoneNumber];
+        return newState;
+      }
+      default:
+        return state;
+    }
+  };
+}
+
 
 export default function getReducer(types) {
   return combineReducers({
@@ -195,6 +233,7 @@ export default function getReducer(types) {
     fetchMessagesStatus: getFetchMessagesStatusReducer(types),
     messageTexts: getMessageTextsReducer(types),
     conversationStatus: getConversationStatusReducer(types),
-    correspondentMatch: getCorrespondentMatch(types)
+    correspondentMatch: getCorrespondentMatch(types),
+    correspondentResponse: getCorrespondentResponse(types)
   });
 }

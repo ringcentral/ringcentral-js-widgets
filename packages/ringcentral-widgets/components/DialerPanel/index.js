@@ -93,6 +93,7 @@ function DialerPanel({
         <div className={classnames(styles.callBtnRow, callBtnClassName)}>
           <div className={styles.callBtn}>
             <CircleButton
+              dataSign="callButton"
               className={classnames(
                 styles.dialBtn,
                 callButtonDisabled && styles.disabled,

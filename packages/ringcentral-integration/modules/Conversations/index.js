@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import normalizeNumber from '../../lib/normalizeNumber';
 import messageDirection from '../../enums/messageDirection';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
@@ -9,6 +10,7 @@ import messageTypes from '../../enums/messageTypes';
 import cleanNumber from '../../lib/cleanNumber';
 import isBlank from '../../lib/isBlank';
 import messageSenderMessages from '../MessageSender/messageSenderMessages';
+import sleep from '../../lib/sleep';
 
 import {
   getNumbersFromMessage,
@@ -68,7 +70,6 @@ function getUniqueNumbers(conversations) {
 
 const DEFAULT_PER_PAGE = 20;
 const DEFAULT_DAY_SPAN = 90;
-
 @Module({
   deps: [
     'Alert',
@@ -78,6 +79,7 @@ const DEFAULT_DAY_SPAN = 90;
     'ExtensionInfo',
     'MessageStore',
     'RolesAndPermissions',
+    { dep: 'RegionSettings', optional: true },
     { dep: 'ContactMatcher', optional: true },
     { dep: 'ConversationLogger', optional: true },
     { dep: 'ConversationsOptions', optional: true }
@@ -94,6 +96,7 @@ export default class Conversations extends RcModule {
     rolesAndPermissions,
     contactMatcher,
     conversationLogger,
+    regionSettings,
     perPage = DEFAULT_PER_PAGE,
     daySpan = DEFAULT_DAY_SPAN,
     enableLoadOldMessages = false, // disable old message by default
@@ -114,6 +117,7 @@ export default class Conversations extends RcModule {
       this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
     this._contactMatcher = contactMatcher;
     this._conversationLogger = conversationLogger;
+    this._regionSettings = regionSettings;
 
     this._reducer = getReducer(this.actionTypes);
 
@@ -289,11 +293,15 @@ export default class Conversations extends RcModule {
         .extension()
         .messageStore()
         .list(params);
-      this._olderDataExsited = records.length === this._perPage;
+      const recordsLength = records.length;
+      this._olderDataExsited = recordsLength === this._perPage;
       if (typeFilter === this.typeFilter && currentPage === this.currentPage) {
+        const isIncreaseCurrentPage = recordsLength &&
+          (this._perPage * this.currentPage < recordsLength + this.filteredConversations.length);
         this.store.dispatch({
           type: this.actionTypes.fetchOldConverstaionsSuccess,
           records,
+          isIncreaseCurrentPage,
         });
       }
     } catch (e) {
@@ -308,7 +316,7 @@ export default class Conversations extends RcModule {
   @proxify
   async loadNextPage() {
     const currentPage = this.currentPage;
-    if ((currentPage + 1) * this._perPage <= this.filteredConversations.length) {
+    if (currentPage * this._perPage < this.filteredConversations.length) {
       this.store.dispatch({
         type: this.actionTypes.increaseCurrentPage,
       });
@@ -894,6 +902,9 @@ export default class Conversations extends RcModule {
   get correspondentMatch() {
     return this.state.correspondentMatch;
   }
+  get correspondentResponse() {
+    return this.state.correspondentResponse;
+  }
   addEntitys(entitys) {
     this.store.dispatch({
       type: this.actionTypes.addEntity,
@@ -906,41 +917,51 @@ export default class Conversations extends RcModule {
       entity
     });
   }
+  addResponses(responses) {
+    this.store.dispatch({
+      type: this.actionTypes.addResponses,
+      responses
+    });
+  }
+  removeResponse(phoneNumber) {
+    this.store.dispatch({
+      type: this.actionTypes.removeResponse,
+      phoneNumber
+    });
+  }
   relateCorrespondentEntity(responses) {
-    if (!this._contactMatcher ||
+    if (
+      !this._contactMatcher ||
       !this._conversationLogger ||
-      !this.correspondentMatch.length) {
+      !this.correspondentMatch.length
+    ) {
       return;
     }
-    responses.forEach((response) => {
-      const {
-        conversation: {
-          id
-        }
-      } = response;
-      const correspondentMatch = this.correspondentMatch;
-      const number = response.direction === messageDirection.inbound ? response.from : response.to;
-      if (number.length !== 1) {
-        return;
-      }
-      const phoneNumber = number[0].phoneNumber || number[0].extensionNumber;
-      const correspondentMatches = this._contactMatcher.dataMapping[phoneNumber];
-      if (!correspondentMatches) {
-        return;
-      }
-      const correspondentEntity = correspondentMatches.filter(match =>
-        (correspondentMatch.some(innerMatch => match.id === innerMatch.rawId)));
-      let entity = null;
-      if (correspondentEntity.length === 1) {
-        [entity] = correspondentEntity;
-        this.removeEntity(entity);
-      }
-      if (entity) {
-        this._conversationLogger.logConversation({
-          correspondentEntity: entity,
-          conversationId: id
-        });
-      }
+    this.addResponses(responses);
+    const {
+      countryCode,
+      areaCode
+    } = this._regionSettings;
+    const formattedCorrespondentMatch = this.correspondentMatch.map((item) => {
+      const formatted = normalizeNumber({
+        phoneNumber: item.phoneNumber,
+        countryCode,
+        areaCode,
+      });
+      return {
+        phoneNumber: formatted,
+        id: item.rawId
+      };
+    });
+    formattedCorrespondentMatch.forEach((item) => {
+      const { phoneNumber } = item;
+      const conversationId = this.correspondentResponse[phoneNumber];
+      this._conversationLogger.logConversation({
+        entity: item,
+        conversationId
+      });
+      this.removeEntity(item);
+      this.removeResponse(phoneNumber);
     });
   }
 }

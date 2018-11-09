@@ -1,4 +1,4 @@
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import React from 'react';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 import callResults from 'ringcentral-integration/enums/callResults';
@@ -12,7 +12,7 @@ const setup = (props) => {
   const currentLog = {
     call
   };
-  const wrapper = shallow(<LogBasicInfo
+  const wrapper = mount(<LogBasicInfo
     currentLog={currentLog}
     {...props}
   />);

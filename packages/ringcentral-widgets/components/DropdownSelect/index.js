@@ -137,6 +137,7 @@ class DropdownSelect extends Component {
             const display = this.renderFunction(option, idx);
             return (
               <li
+                data-sign="selectMenuItem"
                 key={currentValue || idx}
                 className={classnames(className,
                   styles[this.props.dropdownAlign],
@@ -187,6 +188,7 @@ class DropdownSelect extends Component {
     const renderValue = this.renderValue(this.props.value);
     return (
       <div
+        data-sign="dropdownSelect"
         className={classnames(containerClassName,
           this.props.wrapperStyle
         )}
@@ -204,6 +206,7 @@ class DropdownSelect extends Component {
           title={this.renderTitle(this.props.options[this.props.value], renderValue)}>
           {label}
           <span
+            data-sign="selectedItem"
             className={classnames(
               styles.selectedValue,
               ellipsis && styles.ellipsis,
@@ -274,7 +277,7 @@ DropdownSelect.defaultProps = {
   placeholder: undefined,
   ellipsis: true,
   noPadding: false,
-  onToggle: () => {},
+  onToggle() {},
   open: false,
   wrapperStyle: '',
   buttonStyle: ''

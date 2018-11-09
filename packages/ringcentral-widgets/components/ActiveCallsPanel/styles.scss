@@ -20,8 +20,11 @@
 }
 
 .notificationContainer {
-  top: 35px;
-  height: auto;
+  // Reason of important
+  // Historical, in order to allow logSection & logNotification with a same mask.
+  // We added some hacky things here.
+  top: 35px !important;
+  height: auto !important;
   .notificationModal {
     margin: 0 20px;
     height: auto;
@@ -29,4 +32,8 @@
       height: auto;
     }
   }
+}
+
+.maskStyle {
+  top: calc(-20% + 84px);
 }

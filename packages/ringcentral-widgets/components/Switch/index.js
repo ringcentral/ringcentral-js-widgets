@@ -15,6 +15,7 @@ function Switch(props) {
       className={classnames(styles.switch, props.disable && styles.disable)}
     >
       <input
+        data-sign="switch"
         type="checkbox"
         checked={props.checked}
         onChange={onChange} />

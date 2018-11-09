@@ -23,4 +23,6 @@ export default new Enum([
   'cleanOldConversatioans',
   'addEntity',
   'removeEntity',
+  'addResponses',
+  'removeResponse'
 ], 'conversations');
