@@ -1,0 +1,297 @@
+@font-face {
+  font-family: 'dynamics_icon';
+  src:  url('./fonts/dynamics_icon.eot?64k03c');
+  src:  url('./fonts/dynamics_icon.eot?64k03c#iefix') format('embedded-opentype'),
+    url('./fonts/dynamics_icon.woff2?64k03c') format('woff2'),
+    url('./fonts/dynamics_icon.ttf?64k03c') format('truetype'),
+    url('./fonts/dynamics_icon.woff?64k03c') format('woff'),
+    url('./fonts/dynamics_icon.svg?64k03c#dynamics_icon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.icon {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'dynamics_icon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.groupConversation {
+  composes: icon;
+}
+.groupConversation:before {
+  content: "\e913";
+}
+.conferenceHover {
+  composes: icon;
+}
+.conferenceHover:before {
+  content: "\e90f";
+}
+.conference {
+  composes: icon;
+}
+.conference:before {
+  content: "\e910";
+}
+.menuHover {
+  composes: icon;
+}
+.menuHover:before {
+  content: "\e911";
+}
+.menu {
+  composes: icon;
+}
+.menu:before {
+  content: "\e912";
+}
+.addEntity {
+  composes: icon;
+}
+.addEntity:before {
+  content: "\e960";
+}
+.clear {
+  composes: icon;
+}
+.clear:before {
+  content: "\e901";
+}
+.portrait {
+  composes: icon;
+}
+.portrait:before {
+  content: "\e904";
+}
+.search {
+  composes: icon;
+}
+.search:before {
+  content: "\e905";
+}
+.activeHover {
+  composes: icon;
+}
+.activeHover:before {
+  content: "\e908";
+}
+.active {
+  composes: icon;
+}
+.active:before {
+  content: "\e90c";
+}
+.composeTextHover {
+  composes: icon;
+}
+.composeTextHover:before {
+  content: "\e90d";
+}
+.composeText {
+  composes: icon;
+}
+.composeText:before {
+  content: "\e941";
+}
+.message {
+  composes: icon;
+}
+.message:before {
+  content: "\e95e";
+}
+.messageHover {
+  composes: icon;
+}
+.messageHover:before {
+  content: "\e95f";
+}
+.expand {
+  composes: icon;
+}
+.expand:before {
+  content: "\e902";
+}
+.information {
+  composes: icon;
+}
+.information:before {
+  content: "\e903";
+}
+.collapse {
+  composes: icon;
+}
+.collapse:before {
+  content: "\e949";
+}
+.close {
+  composes: icon;
+}
+.close:before {
+  content: "\e94a";
+}
+.outbound {
+  composes: icon;
+}
+.outbound:before {
+  content: "\e94b";
+}
+.missed {
+  composes: icon;
+}
+.missed:before {
+  content: "\e94c";
+}
+.inbound {
+  composes: icon;
+}
+.inbound:before {
+  content: "\e94d";
+}
+.record {
+  composes: icon;
+}
+.record:before {
+  content: "\e94e";
+}
+.call {
+  composes: icon;
+}
+.call:before {
+  content: "\e94f";
+}
+.add {
+  composes: icon;
+}
+.add:before {
+  content: "\e950";
+}
+.arrow {
+  composes: icon;
+}
+.arrow:before {
+  content: "\e951";
+}
+.callLog {
+  composes: icon;
+}
+.callLog:before {
+  content: "\e952";
+}
+.callHover {
+  composes: icon;
+}
+.callHover:before {
+  content: "\e953";
+}
+.dialHover {
+  composes: icon;
+}
+.dialHover:before {
+  content: "\e954";
+}
+.dial {
+  composes: icon;
+}
+.dial:before {
+  content: "\e955";
+}
+.edit {
+  composes: icon;
+}
+.edit:before {
+  content: "\e956";
+}
+.file {
+  composes: icon;
+}
+.file:before {
+  content: "\e957";
+}
+.historyHover {
+  composes: icon;
+}
+.historyHover:before {
+  content: "\e958";
+}
+.history {
+  composes: icon;
+}
+.history:before {
+  content: "\e959";
+}
+.logout {
+  composes: icon;
+}
+.logout:before {
+  content: "\e95a";
+}
+.settingHover {
+  composes: icon;
+}
+.settingHover:before {
+  content: "\e95b";
+}
+.setting {
+  composes: icon;
+}
+.setting:before {
+  content: "\e95c";
+}
+.trash {
+  composes: icon;
+}
+.trash:before {
+  content: "\e95d";
+}
+.delete {
+  composes: icon;
+}
+.delete:before {
+  content: "\e909";
+}
+.plus {
+  composes: icon;
+}
+.plus:before {
+  content: "\e90a";
+}
+.caretDownCircle {
+  composes: icon;
+}
+.caretDownCircle:before {
+  content: "\e90b";
+}
+.add2 {
+  composes: icon;
+}
+.add2:before {
+  content: "\e90e";
+}
+.arrowLeft {
+  composes: icon;
+}
+.arrowLeft:before {
+  content: "\e900";
+}
+.refresh {
+  composes: icon;
+}
+.refresh:before {
+  content: "\e906";
+}
+.save {
+  composes: icon;
+}
+.save:before {
+  content: "\e907";
+}

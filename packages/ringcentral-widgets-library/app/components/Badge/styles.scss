@@ -1,0 +1,29 @@
+@import '../UI/varibles';
+
+.badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 0 20px;
+  height: 22px;
+  border-radius: 11px;
+  font-size: 0.8em;
+  color: #fff;
+  line-height: 22px;
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.success {
+  background: $green-500;
+}
+
+.danger {
+  background: $red-600;
+}

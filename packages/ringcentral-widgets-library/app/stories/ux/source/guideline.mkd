@@ -1,0 +1,43 @@
+## Introduction
+
+### Cooperation between designers and engineers.
+Designers and engineers will develop in the same repo so that reducing the coordination cost.
+The responsibility of designer is focused on designing the UX of components and write some document using Markdown syntax.
+Engineers will discuss the design scheme with designers and the some advices  then realizing the components using react.
+
+### Set up environment of repo (assuming the operation system is MAC)
+- Install these application
+  1. [nodejs](https://nodejs.org/en/)
+  2. [yarn](https://yarnpkg.com/en/docs/install#mac-stable)
+  3. [vscode](https://code.visualstudio.com/)
+  4. [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+
+  you can install `nodejs`, `yarn`, `git` by using `homebrew`. open the terminal and exec this command:
+
+  ```shell
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  brew install yarn
+  brew install node
+  brew install git
+  ```
+
+- Get repo from github
+  1. register a personal account in [github](https://github.com/).
+  2. fork repo from [rc-widgets](https://github.com/ringcentral/ringcentral-js-widgets) to your personal repositories
+  3. clone repo to your local laptop
+
+- contribute to the repo
+  ```shell
+  # checkout a new branch from ui-library
+  git checkout -b ui/feature1
+  
+  # then do anything what you want
+  # after modified the files, add files and commit these
+  git add .
+  git commit -m 'your commmit message'
+  git push -u origin ui/feature1
+
+  # after pushed branch to remote, you can merge it in github, if everything is ok, delete branch both in local and remote.
+  git branch -D ui/feature1
+  git push origin -D ui/feature1
+  ```

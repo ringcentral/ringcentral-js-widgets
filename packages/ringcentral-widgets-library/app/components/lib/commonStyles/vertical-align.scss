@@ -1,0 +1,14 @@
+@mixin vertical-align($alignment) {
+  position: relative;
+  display: inline;
+  vertical-align: $alignment;
+
+  &:before {
+    position: relative;
+    display: inline-block;
+    height: 100%;
+    width: 0;
+    vertical-align: $alignment;
+    content: "",
+  }
+}
