@@ -236,6 +236,7 @@ export default class CallsListPanel extends Component {
           clickOutToClose={false}
           containerStyles={sectionContainerStyles}
           modalStyles={sectionModalStyles}
+          maskStyle={styles.maskStyle}
         >
           <LogSection
             currentLocale={currentLocale}
