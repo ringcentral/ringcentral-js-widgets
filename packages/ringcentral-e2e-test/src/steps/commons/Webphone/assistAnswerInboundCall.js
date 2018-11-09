@@ -1,9 +1,11 @@
-import WebPhone from '../Webphone';
+import WebPhone from './index';
 
-export default class AnswerCall extends WebPhone {
-  static get steps() {
-    return [
-      this.answerCall,
-    ];
+export default function AnswerCall(...args) {
+  return class extends WebPhone(..args) {
+    static get steps() {
+      return [
+        this.answerCall,
+      ];
+    }
   }
 }
