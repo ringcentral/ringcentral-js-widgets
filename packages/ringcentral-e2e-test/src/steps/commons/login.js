@@ -53,6 +53,10 @@ export default function Login(account) {
           // await this.realLogin(option.playload.loginAccount, app, page);
         }
         await $(app).waitForSelector('@tabNavigationView');
+        // TODO temp support google
+        if (tag.project === 'google') {
+          await $(app).execute(`${srcriptRootLiteral[tag.project]}.userGuide.dismiss()`);
+        }
       }
 
       static async realLogin({ username, password }, app, page) {
