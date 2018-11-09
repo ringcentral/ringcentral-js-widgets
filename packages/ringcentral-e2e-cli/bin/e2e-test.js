@@ -25,7 +25,7 @@ commander
 commander
   .command('create')
   .arguments('[caseID]')
-  .description('Fetch Case from caseServices.')
+  .description('Create Case from caseServices.')
   .option('-S, --service <service>', 'Create case template with service params.')
   .option('-N, --serviceName <serviceName>', 'Create case template with service.')
   .option('-C, --caseID <caseID>', 'Create case with caseID.')
@@ -35,7 +35,8 @@ commander
   .command('update')
   .arguments('[caseID] <env>')
   .description('Update Case from caseServices.')
-  .option('-U, --service <service>', 'Update case template with service.')
+  .option('-S, --service <service>', 'Create case template with service params.')
+  .option('-N, --serviceName <serviceName>', 'Create case template with service.')
   .option('-C, --caseID <caseID>', 'Update case with caseID.')
   .action((fetchCase));
 
