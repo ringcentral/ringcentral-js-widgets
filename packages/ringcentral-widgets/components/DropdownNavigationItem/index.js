@@ -28,7 +28,6 @@ export default function DropdownNavigationItem({
     <div
       title={title || label}
       onClick={onClick}
-      data-sign="settings"
       className={classnames(
         styles.root,
         active && styles.active,

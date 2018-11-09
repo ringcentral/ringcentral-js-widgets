@@ -29,7 +29,6 @@ function CircleButton(props) {
     <svg
       data-sign={props.dataSign}
       xmlns="http://www.w3.org/2000/svg"
-      data-sign="dialBtn"
       className={classnames(styles.btnSvg, props.className)}
       viewBox="0 0 500 500"
       onClick={onClick}
