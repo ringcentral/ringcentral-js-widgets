@@ -261,6 +261,7 @@ export default function SettingsPanel({
         <section className={styles.section}>
           <IconLine
             noBorder
+            dataSign='logoutButton'
             onClick={onLogoutButtonClick}
             icon={
               <span className={classnames(styles.logoutIcon, dynamicsFont.logout)} />

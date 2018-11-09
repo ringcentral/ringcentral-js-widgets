@@ -6,6 +6,7 @@ import IconField from '../IconField';
 export default function IconLine(props) {
   return (
     <Line
+      dataSign={props.dataSign}
       className={props.className}
       onClick={props.onClick}
       noBorder={props.noBorder}>
@@ -19,9 +20,14 @@ export default function IconLine(props) {
 }
 
 IconLine.propTypes = {
+  dataSign: PropTypes.string,
   children: PropTypes.node,
   icon: PropTypes.node,
   className: PropTypes.string,
   onClick: PropTypes.func,
   noBorder: PropTypes.bool,
+};
+
+IconLine.defaultProps = {
+  dataSign: null
 };

@@ -2,12 +2,7 @@ import { createProcess } from 'marten';
 import ToggleEnv from './toggleEnv';
 import Account from './account';
 import { PuppeteerUtils } from '../../lib/utils';
-
-export const RC_SCRIPT_ROOT_LITERAL = {
-  office: 'runner._client',
-  widgets: 'phone',
-  salesforce: 'phone',
-};
+import srcriptRootLiteral from '../../enums/srcriptRootLiteral';
 
 export default function Login(account) {
   return (
@@ -46,34 +41,31 @@ export default function Login(account) {
           };
         }
         if (!option.playload.loginAccount) throw new Error('Invalid login account');
-        const login = `${RC_SCRIPT_ROOT_LITERAL[tag.project]}.auth.login({
+        const login = `${srcriptRootLiteral[tag.project]}.auth.login({
           username: '${option.playload.loginAccount.username}',
           password: '${option.playload.loginAccount.password}'
         })`;
         if (isVirtual) {
-          const { phone } = app.props();
-          // eslint-disable-next-line
-          Function('phone', login).call(null, phone);
+          Function('phone', login)(app.props().phone);
         } else {
-          await this.realLogin({ did: option.playload.loginAccount.username, password: option.playload.loginAccount.password }, app, page);
+          // TODO temp solution before resolve support seleniumWebdriver with realLogin
+          await $(app).execute(login);
+          // await this.realLogin(option.playload.loginAccount, app, page);
         }
         await $(app).waitForSelector('@tabNavigationView');
       }
 
-
-      // TODO apply to case.
-      static async realLogin({ did, password }, app, page) {
-        await $(app).waitForClickable('[class*=loginButton]');
+      static async realLogin({ username, password }, app, page) {
+        await $(app).waitForSelector('[class*=loginButton]');
         await $(app).click('[class*=loginButton]');
+        // TODO support seleniumWebdriver
         const loginPage = await PuppeteerUtils.waitForNewPage(page);
-        // loginpage-1
         await $(loginPage).waitForSelector('[data-test-automation-id=loginCredentialNext]', { visible: true });
-        // todo clear
-        await $(loginPage).type('[data-test-automation-id=input]', did);
+        // TODO clear?
+        await $(loginPage).type('[data-test-automation-id=input]', username);
         await $(loginPage).click('[data-test-automation-id=loginCredentialNext]');
-        // loginpage-2
         await $(loginPage).waitForSelector('[data-test-automation-id=signInBtn]', { visible: true });
-        // cannot remove this, cause of it will blink
+        // TODO Optimization of waiting
         await $(loginPage).waitFor(1000);
         await $(loginPage).type('[id=password]', password);
         await $(loginPage).click('[data-test-automation-id=signInBtn]');

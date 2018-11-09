@@ -68,15 +68,6 @@ class Query extends BaseQuery {
     await this._node.type(_selector, value);
   }
 
-  async waitForClickable(selector, options) {
-    const element = await this.waitForSelector(selector, { ...options, visible: true });
-    await this._node.waitForFunction((selector) => {
-      const ele = document.querySelector(selector);
-      return !ele.disabled;
-    }, {}, selector);
-    return element;
-  }
-
   async waitForSelector(selector, options) {
     const _selector = this.getSelector(selector, options);
     const element = await this._node.waitForSelector(_selector, options);
