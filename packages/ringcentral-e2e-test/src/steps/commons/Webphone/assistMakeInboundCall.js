@@ -1,10 +1,11 @@
 import WebPhone from './index';
 
-export default class MakeInboundCall extends WebPhone {
-  static get steps() {
-    return [
-      ...super.steps,
-      this.makeCall,
-    ];
+export default function MakeInboundCall(...args) {
+  return class extends WebPhone(..args) {
+    static get steps() {
+      return [
+        this.makeCall,
+      ];
+    }
   }
 }

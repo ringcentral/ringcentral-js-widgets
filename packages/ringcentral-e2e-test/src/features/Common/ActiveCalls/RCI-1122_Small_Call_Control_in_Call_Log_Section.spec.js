@@ -44,7 +44,6 @@ import RejectCall from '../../../steps/commons/SmallCallControl/rejectCall';
 import MuteCall from '../../../steps/commons/SmallCallControl/muteCall';
 import UnmuteCall from '../../../steps/commons/SmallCallControl/unmuteCall';
 import HangupCall from '../../../steps/commons/SmallCallControl/hangupCall';
-import CreateWebPhone from '../../../steps/commons/Webphone';
 import AssistMakeInboundCall from '../../../steps/commons/Webphone/assistMakeInboundCall';
 import AssistAnswerInboundCall from '../../../steps/commons/Webphone/assistAnswerInboundCall';
 import AssistAnswerOutboundCall from '../../../steps/commons/Webphone/assistAnswerOutboundCall';
@@ -63,13 +62,18 @@ describe('Commom ActiveCalls: =====>', () => {
       { accounts: ['CM_RC_US', 'CM_RC_US'], callingType: callingTypes.myPhone },
     ],
   }, async (context) => {
+    const { accounts, loginAccount } = context.options.option.playload;
+    const AssistMakeInboundCallWithFirstAccount = AssistMakeInboundCall({
+      from: accounts[0],
+      to: loginAccount
+    });
     let process = createProcess(
       Entry,
       LoginCTI,
       NavigateToCallingSetting,
       SetCallingSetting,
       NavigateToDialer,
-      AssistMakeInboundCall,
+      AssistMakeInboundCallWithFirstAccount,
       ClickLeftCallLogSectionInfo,
       RejectCall,
     )(context);
@@ -80,9 +84,9 @@ describe('Commom ActiveCalls: =====>', () => {
     'Mute' button and it's disabled
     'Reject' button and it's enabled
     */
-    await process.execTo(AssistMakeInboundCall);
-    expect(await AssistMakeInboundCall.getIsMuteButtonDisabled(context)).toBeTruthy();
-    expect(await AssistMakeInboundCall.getIsRejectButtonEnabled(context)).toBeTruthy();
+    await process.execTo(AssistMakeInboundCallWithFirstAccount);
+    expect(await AssistMakeInboundCallWithFirstAccount.getIsMuteButtonDisabled(context)).toBeTruthy();
+    expect(await AssistMakeInboundCallWithFirstAccount.getIsRejectButtonEnabled(context)).toBeTruthy();
 
     /*
     __Step2__: Click the left section of basic information on call log section.
@@ -96,13 +100,21 @@ describe('Commom ActiveCalls: =====>', () => {
     [Expected Result]: Call is hanged up
     */
     await process.execTo(RejectCall);
-    // expect(await RejectCall.getIsCallHangup(context)).toBeTruthy();
+    expect(await RejectCall.getIsCallHangup(context)).toBeTruthy();
 
+    const AssistMakeInboundCallWithSecondAccount = AssistMakeInboundCall({
+      from: accounts[1],
+      to: loginAccount
+    });
+    const AssistAnswerInboundCallWithSecondAccount = AssistAnswerInboundCall({
+      from: accounts[1],
+      to: loginAccount
+    });
     process = createProcess(
       AssistHangupCall,
       CloseCallLogSection,
-      AssistMakeInboundCall,
-      AssistAnswerInboundCall,
+      AssistMakeInboundCallWithSecondAccount,
+      AssistAnswerInboundCallWithSecondAccount,
       MuteCall,
       UnmuteCall,
       ClickLeftCallLogSectionInfo,
@@ -111,8 +123,8 @@ describe('Commom ActiveCalls: =====>', () => {
     __Step4__: Repeat step 1 and answer the call
     [Expected Result]: 'Mute' button should be enabled
     */
-    await process.execTo(AssistAnswerInboundCall);
-    expect(await AssistAnswerInboundCall.getIsMuteButtonEnabled(context)).toBeTruthy();
+    await process.execTo(AssistAnswerInboundCallWithSecondAccount);
+    expect(await AssistAnswerInboundCallWithSecondAccount.getIsMuteButtonEnabled(context)).toBeTruthy();
 
     /*
     __Step5__: Click the 'Mute' button
@@ -136,12 +148,16 @@ describe('Commom ActiveCalls: =====>', () => {
     */
     await process.execTo(ClickLeftCallLogSectionInfo);
     expect(await ClickLeftCallLogSectionInfo.getIsNavigateToCallControlPage(context)).toBeTruthy();
-
+    
+    const AssistAnswerOutboundCallToFirstAccount = AssistAnswerOutboundCall({
+      to: accounts[0],
+    });
+    const DialOutCallWithFirstAccount = DialOutCall(accounts[0]);
     process = createProcess(
       AssistHangupCall,
       CloseCallLogSection,
-      AssistAnswerOutboundCall,
-      DialOutCall,
+      AssistAnswerOutboundCallToFirstAccount,
+      DialOutCallWithFirstAccount,
       HangupCall,
       ClickLeftCallLogSectionInfo,
     )(context);
@@ -152,9 +168,9 @@ describe('Commom ActiveCalls: =====>', () => {
     'Mute' button and it's enabled
     'Hang up' button and it's enabled
     */
-    await process.execTo(DialOutCall);
-    expect(await AssistAnswerOutboundCall.getIsMuteEnabled(context)).toBeTruthy();
-    expect(await AssistAnswerOutboundCall.getIsHangupEnabled(context)).toBeTruthy();
+    await process.execTo(DialOutCallWithFirstAccount);
+    expect(await AssistAnswerOutboundCallToFirstAccount.getIsMuteEnabled(context)).toBeTruthy();
+    expect(await AssistAnswerOutboundCallToFirstAccount.getIsHangupEnabled(context)).toBeTruthy();
 
     /*
     __Step9__: Click the 'Hang up' button
