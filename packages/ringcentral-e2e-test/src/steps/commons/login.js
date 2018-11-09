@@ -38,7 +38,7 @@ export default function Login(account) {
         await process.exec();
       }
 
-      static async login({ options: { option, isVirtual, tag }, app }) {
+      static async login({ options: { option, isVirtual, tag }, app, page}) {
         if (isVirtual) {
           option.playload.loginAccount = {
             username: '',
@@ -55,7 +55,7 @@ export default function Login(account) {
           // eslint-disable-next-line
           Function('phone', login).call(null, phone);
         } else {
-          await $(app).execute(login);
+          await this.realLogin({ did: option.playload.loginAccount.username, password: option.playload.loginAccount.password }, app, page);
         }
         await $(app).waitForSelector('@tabNavigationView');
       }
