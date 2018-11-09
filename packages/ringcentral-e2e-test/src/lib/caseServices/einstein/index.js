@@ -2,8 +2,8 @@
 import FetchData from './fetchData';
 
 export default class EinsteinServices {
-  constructor({ userName, passWord }) {
-    this._fetchData = new FetchData({ userName, passWord });
+  constructor({ username, password }) {
+    this._fetchData = new FetchData({ username, password });
   }
 
   async createCaseTemplate(externalId) {

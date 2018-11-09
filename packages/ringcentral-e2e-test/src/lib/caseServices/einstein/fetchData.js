@@ -7,19 +7,19 @@ export default class FetchData {
   constructor(
     {
       servicesUrl = BASE_URL,
-      userName, passWord
+      username, password
     }
   ) {
     this.einsteinSDK = new EinsteinSDK(servicesUrl);
     this.itemId = null;
-    this.userName = userName;
-    this.passWord = passWord;
+    this.username = username;
+    this.password = password;
   }
 
   // TODO: use dom to get text instead of regex
   async getCaseByExternalId(externalId) {
     try {
-      console.log(externalId, '=', this.userName, '=', this.passWord);
+      console.log(externalId, '=', this.username, '=', this.password);
       await this.getItemIdByExternalId(externalId);
       const { item } = await this.einsteinSDK.getTestCase(this.itemId);
       item.children.forEach((element) => {
@@ -36,7 +36,7 @@ export default class FetchData {
 
   async getItemIdByExternalId(externalId) {
     try {
-      await this.einsteinSDK.login(this.userName, this.passWord);
+      await this.einsteinSDK.login(this.username, this.password);
       const query = { type: 'eq', property: 'project_id', value: 1309 };
       const allDates = await this.einsteinSDK.searchTestCases(1309, query);
       const projects = allDates.children[0].children;

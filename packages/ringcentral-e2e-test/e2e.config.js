@@ -10,13 +10,17 @@ const loginInfo = isExists ? require(loginInfoPath) : {};
 module.exports = {
   selectorLabel: 'data-sign',
   caseServices: {
+    nameField: 'name',
+    handlerField: 'handler',
+    projectIdField: 'projectId',
+    defaultService: 'einstein',
     list: [{
       name: 'einstein',
       url: 'http://einstein.int.ringcentral.com/',
       handler: './src/lib/caseServices/einstein',
       projectId: loginInfo && loginInfo.projectId || 1309,
-      userName: loginInfo && loginInfo.userName || null,
-      passWord: loginInfo && loginInfo.passWord || null,
+      username: loginInfo && loginInfo.username || null,
+      password: loginInfo && loginInfo.password || null,
     }]
   },
   exec: {

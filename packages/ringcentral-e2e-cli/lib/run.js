@@ -45,29 +45,47 @@ const run = async (dir, cmd) => {
     process.exit();
     return;
   }
-  if (cmd.service) {
-    cmd.service = JSON.parse(cmd.service);
-    cmd.service.list.forEach((cmdEle) => {
-      config.caseServices.list.forEach((configEle, index) => {
-        if (configEle.name === cmdEle.name) {
-          config.caseServices.list[index] = { ...configEle, ...cmdEle };
-        }
-      });
-    });
-    config.caseServices.list.forEach(async (element) => {
-      const EinsteinServices = require(resolve(process.cwd(), element.handler));
-      const einsteinServices = new EinsteinServices.default({ userName: element.userName, passWord: element.passWord });
-      await einsteinServices.createCaseTemplate(element.caseID);
-    });
+  // if (cmd.service) {
+  //   try {
+  //     cmd.services = JSON.parse(cmd.service);
+  //   } catch (error) {
+  //     throw new Error(error);
+  //   }
+  //   cmd.services.list.forEach((service) => {
+  //     config.caseServices.list.forEach((caseService, index) => {
+  //       if (caseService.name === service.name) {
+  //         config.caseServices.list[index] = { ...caseService, ...service };
+  //       }
+  //     });
+  //   });
+  //   let EinsteinServices;
+  //   config.caseServices.list.forEach(async ({
+  //     handler, username, password, caseID
+  //   }) => {
+  //     try {
+  //       if (module && module.__esModule) {
+  //         EinsteinServices = require(resolve(process.cwd(), handler)).default;
+  //       }
+  //       EinsteinServices = require(resolve(process.cwd(), handler));
+  //     } catch (error) {
+  //       throw new Error(error);
+  //     }
+  //     const einsteinServices = new EinsteinServices({ username, password });
+  //     await einsteinServices.createCaseTemplate(caseID);
+  //   });
 
-    return;
-  }
+  //   return;
+  // }
   const isRelativePath = (/^.\/|^..\//).test(cmd.params);
   const isResolvePath = (/^\//).test(cmd.params);
   if (isRelativePath || isResolvePath) {
     try {
       if (isRelativePath) {
-        cmd.params = resolve(process.cwd(), cmd.params);
+        try {
+          cmd.params = resolve(process.cwd(), cmd.params);
+        } catch (error) {
+          throw new Error(error);
+        }
       }
       cmd.params = JSON.stringify(require(cmd.params));
     } catch (e) {
