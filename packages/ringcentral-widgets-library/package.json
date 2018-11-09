@@ -28,7 +28,7 @@
   },
   "scripts": {
     "eslint": "eslint --quiet .",
-    "build-storybook": "build-storybook",
+    "build-storybook": "build-storybook -c ./app/.storybook -o ./build",
     "start": "start-storybook -p 6006 -c ./app/.storybook"
   },
   "dependencies": {
