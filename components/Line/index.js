@@ -26,6 +26,7 @@ function Line(props) {
   return _react2.default.createElement(
     'div',
     {
+      'data-sign': props.dataSign,
       className: (0, _classnames2.default)(_styles2.default.root, props.className, props.onClick && _styles2.default.clickable, props.horizontal && _styles2.default.horizontal, props.noBorder && _styles2.default.noborder),
       onClick: props.onClick
     },
@@ -34,6 +35,7 @@ function Line(props) {
 }
 
 Line.propTypes = {
+  dataSign: _propTypes2.default.string,
   className: _propTypes2.default.string,
   children: _propTypes2.default.node,
   onClick: _propTypes2.default.func,
@@ -42,6 +44,7 @@ Line.propTypes = {
 };
 
 Line.defaultProps = {
+  dataSign: null,
   noBorder: false
 };
 

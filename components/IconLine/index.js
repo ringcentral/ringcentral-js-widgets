@@ -29,6 +29,7 @@ function IconLine(props) {
     {
       className: props.className,
       onClick: props.onClick,
+      dataSign: props.dataSign,
       noBorder: props.noBorder },
     _react2.default.createElement(
       _IconField2.default,
@@ -41,10 +42,14 @@ function IconLine(props) {
 }
 
 IconLine.propTypes = {
+  dataSign: _propTypes2.default.string,
   children: _propTypes2.default.node,
   icon: _propTypes2.default.node,
   className: _propTypes2.default.string,
   onClick: _propTypes2.default.func,
   noBorder: _propTypes2.default.bool
+};
+IconLine.defaultProps = {
+  dataSign: null
 };
 //# sourceMappingURL=index.js.map
