@@ -307,7 +307,8 @@ var CallsListPanel = function (_Component) {
             onClose: onCloseLogSection,
             clickOutToClose: false,
             containerStyles: sectionContainerStyles,
-            modalStyles: sectionModalStyles
+            modalStyles: sectionModalStyles,
+            maskStyle: _styles2.default.maskStyle
           },
           _react2.default.createElement(_LogSection2.default, {
             currentLocale: currentLocale,

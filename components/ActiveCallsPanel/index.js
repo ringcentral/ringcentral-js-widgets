@@ -130,7 +130,8 @@ var ActiveCallsPanel = function (_Component) {
             title: currentLog.title,
             show: currentLog.showLog,
             onClose: onCloseLogSection,
-            clickOutToClose: false
+            clickOutToClose: false,
+            maskStyle: _styles2.default.maskStyle
             // containerStyles={sectionContainerStyles}
             // modalStyles={sectionModalStyles}
           },
