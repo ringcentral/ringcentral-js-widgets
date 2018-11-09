@@ -42,7 +42,7 @@ gulp.task('build', ['clean', 'copy'], () => (
     '!./node_modules{/**,}',
     '!gulpfile.babel.js']
   ).pipe(transformLoader({
-    ...localeSettings,
+    ...localeSettings.BT
   }))
     .pipe(sourcemaps.init())
     .pipe(babel())
