@@ -717,34 +717,34 @@ export default class AdapterCore {
     ));
     this._durationEl.setAttribute('class', classnames(
       this._styles.duration,
-      !this._scrollable && this.showDuration && this._styles.visible,
+      this.showDuration && this._styles.visible,
       this.centerDuration && this._styles.center,
       this.moveOutDuration && this._styles.moveOut,
       this.moveInDuration && this._styles.moveIn,
     ));
     this._ringingCallsEl.setAttribute('class', classnames(
       this._styles.ringingCalls,
-      !this._scrollable && this.showRingingCalls && this._styles.visible,
+      this.showRingingCalls && this._styles.visible,
       this.centerCallInfo && this._styles.center,
       this.moveOutRingingInfo && this._styles.moveOut,
       this.moveInRingingInfo && this._styles.moveIn,
     ));
     this._onHoldCallsEl.setAttribute('class', classnames(
       this._styles.onHoldCalls,
-      !this._scrollable && this.showOnHoldCalls && this._styles.visible,
+      this.showOnHoldCalls && this._styles.visible,
       this.centerCallInfo && this._styles.center,
       this.moveOutOnHoldInfo && this._styles.moveOut,
       this.moveInOnHoldInfo && this._styles.moveIn,
     ));
     this._currentCallEl.setAttribute('class', classnames(
       this._styles.currentCallBtn,
-      !this._scrollable && this.showCurrentCallBtn && this._styles.visible,
+      this.showCurrentCallBtn && this._styles.visible,
       this.moveOutCurrentCallBtn && this._styles.moveOut,
       this.moveInCurrentCallBtn && this._styles.moveIn,
     ));
     this._viewCallsEl.setAttribute('class', classnames(
       this._styles.viewCallsBtn,
-      !this._scrollable && this.showViewCallsBtn && this._styles.visible,
+      this.showViewCallsBtn && this._styles.visible,
       !this.moveInViewCallsBtn && this.moveOutViewCallsBtn && this._styles.moveOut,
       this.moveInViewCallsBtn && this._styles.moveIn,
     ));
@@ -878,15 +878,15 @@ export default class AdapterCore {
   }
 
   get showDuration() {
-    return this.currentState === CURRENT_CALL;
+    return !this._scrollable && this.currentState === CURRENT_CALL;
   }
 
   get showRingingCalls() {
-    return this.currentState === RINGING_CALLS;
+    return !this._scrollable && this.currentState === RINGING_CALLS;
   }
 
   get showOnHoldCalls() {
-    return this.currentState === ON_HOLD_CALLS;
+    return !this._scrollable && this.currentState === ON_HOLD_CALLS;
   }
 
   get showCurrentCallBtn() {
@@ -906,7 +906,7 @@ export default class AdapterCore {
   }
 
   get moveInDuration() {
-    return !this._hoverBar && this.showDuration && this._scrollable;
+    return !this._hoverBar && this.currentState === CURRENT_CALL && this._scrollable;
   }
 
   get moveOutDuration() {
@@ -914,7 +914,7 @@ export default class AdapterCore {
   }
 
   get moveInRingingInfo() {
-    return !this._hoverBar && this.showRingingCalls && this._scrollable;
+    return !this._hoverBar && this.currentState === RINGING_CALLS && this._scrollable;
   }
 
   get moveOutRingingInfo() {
@@ -922,7 +922,7 @@ export default class AdapterCore {
   }
 
   get moveInOnHoldInfo() {
-    return !this._hoverBar && this.showOnHoldCalls && this._scrollable;
+    return !this._hoverBar && this.currentState === ON_HOLD_CALLS && this._scrollable;
   }
 
   get moveOutOnHoldInfo() {
