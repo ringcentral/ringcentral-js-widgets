@@ -10,7 +10,6 @@ export default function createWebphone({
     static async _getPhone(context, account) {
       const env = context.options.tag.envs;
       const phoneRes = await Webphone.getPhonesByNumber(`+${account.did}`, env);
-      debugger
       const phoneBody = JSON.parse(phoneRes.text);
       if (phoneBody.length > 0) {
         await Webphone.operate({
