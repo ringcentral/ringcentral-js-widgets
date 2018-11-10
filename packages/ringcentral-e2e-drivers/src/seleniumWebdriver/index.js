@@ -68,7 +68,14 @@ class Query extends BaseQuery {
 
   async type(selector, value, options) {
     const element = await this._getElement(selector, options);
-    await element.sendKeys(value);
+    if (options && options.delay) {
+      for (const char of value) {
+        await element.sendKeys(char);
+        await this.waitFor(options.delay);
+      }
+    } else {
+      await element.sendKeys(value);
+    }
   }
 
   async waitForSelector(selector, options) {

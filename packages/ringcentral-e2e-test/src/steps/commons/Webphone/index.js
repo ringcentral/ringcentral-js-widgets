@@ -1,5 +1,5 @@
 import Webphone, { PhoneType } from '../../../lib/webphone';
-import { callingTypes } from '../../../steps/commons/Setting/setCallingSetting';
+import callingTypes from '../../../enums/callingTypes';
 
 
 export default function createWebphone({
@@ -33,7 +33,7 @@ export default function createWebphone({
       };
     }
   
-    static _setWebphpne(context, account) {
+    static async _setWebphpne(context, account) {
       if (!account) return;
       const { loginAccount, accounts } = context.options.option.playload;
       const webphone = await this._getPhone(context, account);
@@ -49,7 +49,7 @@ export default function createWebphone({
     }
   
     static async _registerWebphone(context, account) {
-      this._setWebphpne(context, account);
+      await this._setWebphpne(context, account);
       context.driver.addAfterHook(async () => {
         await this._close(context, account);
       });
