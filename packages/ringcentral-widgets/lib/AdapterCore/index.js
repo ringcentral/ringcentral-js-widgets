@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import { prefixEnum } from 'ringcentral-integration/lib/Enum';
 import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import debounce from 'ringcentral-integration/lib/debounce';
-import formatDuration from 'ringcentral-widgets/lib/formatDuration';
+import formatDuration from '../formatDuration';
 import baseMessageTypes from './baseMessageTypes';
 
 
@@ -93,7 +93,7 @@ export default class AdapterCore {
           this._onPushRingState(msg);
           break;
         case this._messageTypes.pushCalls:
-          this._onPushCalls(msg);
+          this._onPushCallsInfo(msg);
           break;
         case this._messageTypes.pushOnCurrentCallPath:
           this._onPushOnCurrentCallPath(msg);
@@ -128,8 +128,8 @@ export default class AdapterCore {
         <div class="${this._styles.duration}"></div>
         <div class="${this._styles.ringingCalls}"></div>
         <div class="${this._styles.onHoldCalls}"></div>
-        <div class="${this._styles.currentCallBtn}">${this._strings.currentCall}</div>
-        <div class="${this._styles.viewCallsBtn}">${this._strings.viewCalls}</div>
+        <div class="${this._styles.currentCallBtn}">${this._strings.currentCallBtn}</div>
+        <div class="${this._styles.viewCallsBtn}">${this._strings.viewCallsBtn}</div>
       </header>
       <div class="${this._styles.frameContainer}">
         <iframe class="${this._styles.contentFrame}" sandbox="${sanboxAttributeValue}" allow="${allowAttributeValue}" >
@@ -419,7 +419,7 @@ export default class AdapterCore {
     this._render();
   }
 
-  _onPushCalls({ ringingCallsLength, onHoldCallsLength, currentStartTime }) {
+  _onPushCallsInfo({ ringingCallsLength, onHoldCallsLength, currentStartTime }) {
     this._currentStartTime = currentStartTime;
     this._ringingCallsLength = ringingCallsLength;
     this._onHoldCallsLength = onHoldCallsLength;
@@ -683,28 +683,32 @@ export default class AdapterCore {
     return newState;
   }
 
+  _renderMinimizedBar() {
+    this._logoEl.setAttribute('class', classnames(
+      this._styles.logo,
+      this._styles.dock,
+      this._logoUrl && this._logoUrl !== '' && this._styles.visible,
+    ));
+    this._durationEl.setAttribute('class', classnames(
+      this._styles.duration,
+    ));
+    this._ringingCallsEl.setAttribute('class', classnames(
+      this._styles.ringingCalls,
+    ));
+    this._onHoldCallsEl.setAttribute('class', classnames(
+      this._styles.onHoldCalls,
+    ));
+    this._currentCallEl.setAttribute('class', classnames(
+      this._styles.currentCallBtn,
+    ));
+    this._viewCallsEl.setAttribute('class', classnames(
+      this._styles.viewCallsBtn,
+    ));
+  }
+
   _renderCallsBar() {
     if (this._minimized) {
-      this._logoEl.setAttribute('class', classnames(
-        this._styles.logo,
-        this._styles.dock,
-        this._logoUrl && this._logoUrl !== '' && this._styles.visible,
-      ));
-      this._durationEl.setAttribute('class', classnames(
-        this._styles.duration,
-      ));
-      this._ringingCallsEl.setAttribute('class', classnames(
-        this._styles.ringingCalls,
-      ));
-      this._onHoldCallsEl.setAttribute('class', classnames(
-        this._styles.onHoldCalls,
-      ));
-      this._currentCallEl.setAttribute('class', classnames(
-        this._styles.currentCallBtn,
-      ));
-      this._viewCallsEl.setAttribute('class', classnames(
-        this._styles.viewCallsBtn,
-      ));
+      this._renderMinimizedBar();
       return;
     }
     this._logoEl.setAttribute('class', classnames(
@@ -714,21 +718,21 @@ export default class AdapterCore {
     this._durationEl.setAttribute('class', classnames(
       this._styles.duration,
       !this._scrollable && this.showDuration && this._styles.visible,
-      this._onCurrentCallPath && this._styles.center,
+      this.centerDuration && this._styles.center,
       this.moveOutDuration && this._styles.moveOut,
       this.moveInDuration && this._styles.moveIn,
     ));
     this._ringingCallsEl.setAttribute('class', classnames(
       this._styles.ringingCalls,
       !this._scrollable && this.showRingingCalls && this._styles.visible,
-      this._onAllCallsPath && this._styles.center,
+      this.centerCallInfo && this._styles.center,
       this.moveOutRingingInfo && this._styles.moveOut,
       this.moveInRingingInfo && this._styles.moveIn,
     ));
     this._onHoldCallsEl.setAttribute('class', classnames(
       this._styles.onHoldCalls,
       !this._scrollable && this.showOnHoldCalls && this._styles.visible,
-      this._onAllCallsPath && this._styles.center,
+      this.centerCallInfo && this._styles.center,
       this.moveOutOnHoldInfo && this._styles.moveOut,
       this.moveInOnHoldInfo && this._styles.moveIn,
     ));
@@ -779,8 +783,8 @@ export default class AdapterCore {
     if (!this._strings) {
       return;
     }
-    this._currentCallEl.innerHTML = this._strings.currentCall;
-    this._viewCallsEl.innerHTML = this._strings.viewCalls;
+    this._currentCallEl.innerHTML = this._strings.currentCallBtn;
+    this._viewCallsEl.innerHTML = this._strings.viewCallsBtn;
   }
 
 
@@ -891,6 +895,14 @@ export default class AdapterCore {
 
   get showViewCallsBtn() {
     return !this._onAllCallsPath && (this.showOnHoldCalls || this.showRingingCalls);
+  }
+
+  get centerDuration() {
+    return this._onCurrentCallPath;
+  }
+
+  get centerCallInfo() {
+    return this._onAllCallsPath;
   }
 
   get moveInDuration() {
