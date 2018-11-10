@@ -35,47 +35,6 @@ function getTestMatch(args) {
 
 
 const run = async (dir, cmd) => {
-  let config;
-  try {
-    // eslint-disable-next-line
-    config = require(configPath);
-  } catch (error) {
-    console.error(`Unexpected import '${DEFAULT_CONFIG_FILE_PATH}' in root path.`);
-    console.error(error);
-    process.exit();
-    return;
-  }
-  // if (cmd.service) {
-  //   try {
-  //     cmd.services = JSON.parse(cmd.service);
-  //   } catch (error) {
-  //     throw new Error(error);
-  //   }
-  //   cmd.services.list.forEach((service) => {
-  //     config.caseServices.list.forEach((caseService, index) => {
-  //       if (caseService.name === service.name) {
-  //         config.caseServices.list[index] = { ...caseService, ...service };
-  //       }
-  //     });
-  //   });
-  //   let EinsteinServices;
-  //   config.caseServices.list.forEach(async ({
-  //     handler, username, password, caseID
-  //   }) => {
-  //     try {
-  //       if (module && module.__esModule) {
-  //         EinsteinServices = require(resolve(process.cwd(), handler)).default;
-  //       }
-  //       EinsteinServices = require(resolve(process.cwd(), handler));
-  //     } catch (error) {
-  //       throw new Error(error);
-  //     }
-  //     const einsteinServices = new EinsteinServices({ username, password });
-  //     await einsteinServices.createCaseTemplate(caseID);
-  //   });
-
-  //   return;
-  // }
   const isRelativePath = (/^.\/|^..\//).test(cmd.params);
   const isResolvePath = (/^\//).test(cmd.params);
   if (isRelativePath || isResolvePath) {
@@ -99,6 +58,16 @@ const run = async (dir, cmd) => {
     return;
   }
   const args = getArgs(dir, cmd);
+  let config;
+  try {
+    // eslint-disable-next-line
+    config = require(configPath);
+  } catch (error) {
+    console.error(`Unexpected import '${DEFAULT_CONFIG_FILE_PATH}' in root path.`);
+    console.error(error);
+    process.exit();
+    return;
+  }
   const testMatch = getTestMatch(args);
   const modes = [
     ...cmd.sandbox ? ['sandbox'] : [],
