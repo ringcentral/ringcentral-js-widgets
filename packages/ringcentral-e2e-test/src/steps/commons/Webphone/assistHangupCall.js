@@ -1,9 +1,11 @@
-import WebPhone from './index';
+import Webphone from './index';
 
-export default class HangupCall extends WebPhone {
-  static get steps() {
-    return [
-      this.hangup,
-    ];
+export default function HangupCall(...args) {
+  return class extends Webphone(...args) {
+    static get steps() {
+      return [
+        this.hangup,
+      ];
+    }
   }
 }

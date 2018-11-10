@@ -34,11 +34,12 @@ Date Updated	Wed, 24 Oct 2018 13:52:10
 /* eslint-enable */
 
 import { createProcess } from 'marten';
+import callingTypes from '../../../enums/callingTypes';
 import Entry from '../../../steps/entry';
 import { LoginCTI } from '../../../steps/commons/login';
 import NavigateToCallingSetting from '../../../steps/commons/navigateToCallingSetting';
 import NavigateToDialer from '../../../steps/commons/navigateToDialer';
-import SetCallingSetting, { callingTypes } from '../../../steps/commons/Setting/setCallingSetting';
+import SetCallingSetting from '../../../steps/commons/Setting/setCallingSetting';
 import ClickLeftCallLogSectionInfo from '../../../steps/commons/SmallCallControl/clickLeftCallLogSectionInfo';
 import RejectCall from '../../../steps/commons/SmallCallControl/rejectCall';
 import MuteCall from '../../../steps/commons/SmallCallControl/muteCall';
@@ -55,24 +56,27 @@ describe('Commom ActiveCalls: =====>', () => {
   test({
     title: 'Small Call Control in Call Log Section',
     tags: [
-      ['salesforce'],
+      ['widgets'],
     ],
     levels: ['p1'],
     options: [
       { accounts: ['CM_RC_US', 'CM_RC_US'], callingType: callingTypes.myPhone },
     ],
   }, async (context) => {
-    const { accounts, loginAccount } = context.options.option.playload;
-    const AssistMakeInboundCallWithFirstAccount = AssistMakeInboundCall({
-      from: accounts[0],
-      to: loginAccount
-    });
     let process = createProcess(
       Entry,
       LoginCTI,
       NavigateToCallingSetting,
       SetCallingSetting,
       NavigateToDialer,
+    )(context);
+    await process.exec();
+    const { accounts, loginAccount } = context.options.option.playload;
+    const AssistMakeInboundCallWithFirstAccount = AssistMakeInboundCall({
+      from: accounts[0],
+      to: loginAccount
+    });
+    process = createProcess(
       AssistMakeInboundCallWithFirstAccount,
       ClickLeftCallLogSectionInfo,
       RejectCall,
