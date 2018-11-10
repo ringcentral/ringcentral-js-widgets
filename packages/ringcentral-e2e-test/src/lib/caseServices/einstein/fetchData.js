@@ -19,7 +19,6 @@ export default class FetchData {
   // TODO: use dom to get text instead of regex
   async getCaseByExternalId(externalId) {
     try {
-      console.log(externalId, '=', this.username, '=', this.password);
       await this.getItemIdByExternalId(externalId);
       const { item } = await this.einsteinSDK.getTestCase(this.itemId);
       item.children.forEach((element) => {

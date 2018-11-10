@@ -15,8 +15,6 @@ const create = async (caseID, cmd) => {
     process.exit();
     return;
   }
-
-  // console.log(caseID, '==', serviceName, '==', cmd);
   let cmdServices;
   if (caseID) {
     const isCaseIDs = (/,/).test(caseID);
@@ -42,8 +40,8 @@ const create = async (caseID, cmd) => {
     handler, username, password, caseID
   }) => {
     try {
-      // EinsteinServices = (module && module.__esModule) ? require(resolve(process.cwd(), handler))['default'] : require(resolve(process.cwd(), handler));
-      EinsteinServices = require(resolve(process.cwd(), handler))['default'];
+      const einsteinServicesModule = require(resolve(process.cwd(), handler));
+      EinsteinServices = (einsteinServicesModule && einsteinServicesModule.__esModule) ? einsteinServicesModule.default : einsteinServicesModule;
     } catch (error) {
       throw new Error(error);
     }

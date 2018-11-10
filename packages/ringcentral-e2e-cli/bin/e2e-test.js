@@ -3,7 +3,7 @@
 import commander from 'commander';
 import info from '../package';
 import run from '../lib/run';
-import fetchCase from '../lib/case';
+import fetchCase from '../lib/fetchCase';
 
 commander
   .version(info.version)
