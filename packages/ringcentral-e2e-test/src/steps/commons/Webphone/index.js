@@ -9,16 +9,16 @@ export default function createWebphone({
   return class {
     static async _getPhone(context, account) {
       const env = context.options.tag.envs;
-      const phoneRes = await Webphone.getPhonesByNumber(`+${account.did}`, env);
-      const phoneBody = JSON.parse(phoneRes.text);
-      if (phoneBody.length > 0) {
-        await Webphone.operate({
-          phoneId: phoneBody[0]._id,
-          sessionId: phoneBody[0].sessionId,
-          action: 'close',
-          phoneNumber: phoneBody[0].phoneNumber
-        });
-      }
+      // const phoneRes = await Webphone.getPhonesByNumber(`+${account.did}`, env);
+      // const phoneBody = JSON.parse(phoneRes.text);
+      // if (phoneBody.length > 0) {
+      //   await Webphone.operate({
+      //     phoneId: phoneBody[0]._id,
+      //     sessionId: phoneBody[0].sessionId,
+      //     action: 'close',
+      //     phoneNumber: phoneBody[0].phoneNumber
+      //   });
+      // }
       const res = await Webphone.createWebPhone({
         phoneNumber: `+${account.did}`,
         type: PhoneType.WebPhone,
@@ -67,23 +67,26 @@ export default function createWebphone({
 
     static async _prepare(context) {
       const accounts = [from, to];
-      accounts.forEach(async (account) => {
+      for(const account of accounts) {
         if (account && !account.webphone) {
           await this._registerWebphone(context, account);
         }
-      });
+      }
     }
 
-
-    static async makeCall(context) {
-      console.log('makeCall');
-      await this._prepare(context, [from, to]);
+    static async _makeCall(context, [from, to]) {
       await Webphone.operate({
         phoneId: from.webphone.id,
         sessionId: from.webphone.sessionId,
         action: 'makeCall',
         phoneNumber: to.webphone.phoneNumber
       });
+    }
+
+    static async makeCall(context) {
+      console.log('makeCall');
+      await this._prepare(context, [from, to]);
+      await this._makeCall(context, [from, to]);
     }
   
     static async hangup(context) {
@@ -105,15 +108,19 @@ export default function createWebphone({
         phoneNumber: to.webphone.phoneNumber
       });
     }
-  
-    static async preAnswerCall(context) {
-      console.log("preAnswerCall");
-      await this._prepare(context, [from, to]);
+
+    static async _preAnswerCall(context, [from, to]) {
       await Webphone.preOperate({
         phoneId: to.webphone.id,
         sessionId: to.webphone.sessionId,
         action: 'answerCall'
       });
+    }
+  
+    static async preAnswerCall(context) {
+      console.log("preAnswerCall");
+      await this._prepare(context, [from, to]);
+      await this._preAnswerCall(context, [from, to]);
     }
   
     static async getIsMuteEnabled(context) {
