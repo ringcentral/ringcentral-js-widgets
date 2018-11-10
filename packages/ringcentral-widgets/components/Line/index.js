@@ -6,6 +6,7 @@ import styles from './styles.scss';
 function Line(props) {
   return (
     <div
+      data-sign = {props.dataSign}
       className={classnames(
         styles.root,
         props.className,
@@ -21,6 +22,7 @@ function Line(props) {
 }
 
 Line.propTypes = {
+  dataSign: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node,
   onClick: PropTypes.func,
@@ -29,6 +31,7 @@ Line.propTypes = {
 };
 
 Line.defaultProps = {
+  dataSign: null,
   noBorder: false
 };
 

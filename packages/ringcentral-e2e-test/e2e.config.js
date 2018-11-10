@@ -15,7 +15,7 @@ module.exports = {
     handler: './einstein.js'
   }],
   exec: {
-    drivers: ['puppeteer', 'seleniumWebdriverFirefox', 'seleniumWebdriverChrome'],
+    drivers: ['puppeteer', 'seleniumWebdriverFirefox', 'enzyme'],
     levels: ['p0', 'p1'],
     brands: ['rc'],
     envs: ['xmnup'],
@@ -72,9 +72,33 @@ module.exports = {
   },
   params: {
     projects: {
-      office: {
+      google: {
         type: 'extension',
         source: './src/targets/google',
+        params: {
+          brands: {
+            rc: {
+              extension: './build/extension/google/rc',
+              location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
+            },
+            bt: {
+              extension: './build/extension/google/bt',
+              location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
+            },
+            att: {
+              extension: './build/extension/google/att',
+              location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
+            },
+            telus: {
+              extension: './build/extension/google/telus',
+              location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
+            }
+          }
+        }
+      },
+      office: {
+        type: 'extension',
+        source: './src/targets/office',
         params: {
           brands: {
             rc: {
