@@ -90,8 +90,8 @@ export default class AdapterModuleCore extends RcModule {
           formatMessage(headerI18n.getString('callOnHold', currentLocale), { numberOf: onHoldCallsLength }) :
           formatMessage(headerI18n.getString('callsOnHold', currentLocale), { numberOf: onHoldCallsLength });
         return {
-          currentCall: headerI18n.getString('currentCall', currentLocale),
-          viewCalls: headerI18n.getString('viewCalls', currentLocale),
+          currentCallBtn: headerI18n.getString('currentCall', currentLocale),
+          viewCallsBtn: headerI18n.getString('viewCalls', currentLocale),
           ringCallsInfo,
           onHoldCallsInfo,
         };
