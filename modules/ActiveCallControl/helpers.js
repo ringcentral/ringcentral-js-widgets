@@ -111,6 +111,6 @@ function requestURI(activeSession) {
 function confictError(error) {
   var conflictErrRgx = /409/g;
   var conflictMsgRgx = /Incorrect State/g;
-  return conflictErrRgx.test(error) && conflictMsgRgx.test(error.apiResponse._text);
+  return conflictErrRgx.test(error.message) && conflictMsgRgx.test(error.apiResponse._text);
 }
 //# sourceMappingURL=helpers.js.map
