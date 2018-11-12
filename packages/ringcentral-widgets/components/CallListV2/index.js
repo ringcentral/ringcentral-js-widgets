@@ -159,6 +159,16 @@ export default class CallListV2 extends React.PureComponent {
     );
   };
 
+  noRowsRender = () => {
+    const {
+      currentLocale,
+      active
+    } = this.props;
+    return (
+      <NoCalls currentLocale={currentLocale} active={active} />
+    );
+  }
+
   render() {
     const {
       width,
@@ -179,6 +189,7 @@ export default class CallListV2 extends React.PureComponent {
           rowCount={calls.length}
           rowHeight={this._renderRowHeight}
           rowRenderer={this._rowRender}
+          noRowsRenderer={this.noRowsRender}
       />
       </div>
     );
