@@ -105,10 +105,10 @@ function SettingsPanel(_ref) {
       onAutoLogSMSChange = _ref.onAutoLogSMSChange,
       showClickToDial = _ref.showClickToDial,
       clickToDialEnabled = _ref.clickToDialEnabled,
+      clickToDialPermissions = _ref.clickToDialPermissions,
       onClickToDialChange = _ref.onClickToDialChange,
       showRegion = _ref.showRegion,
       showHeader = _ref.showHeader,
-      ringoutEnabled = _ref.ringoutEnabled,
       outboundSMS = _ref.outboundSMS,
       showSpinner = _ref.showSpinner,
       dndStatus = _ref.dndStatus,
@@ -189,16 +189,16 @@ function SettingsPanel(_ref) {
     showPresenceSettings: openPresenceSettings
   }) : null;
   var clickToDialText = void 0;
-  if (outboundSMS && ringoutEnabled) {
+  if (outboundSMS && clickToDialPermissions) {
     clickToDialText = _i18n2.default.getString('clickToDialSMS', currentLocale);
-  } else if (!outboundSMS && ringoutEnabled) {
+  } else if (!outboundSMS && clickToDialPermissions) {
     clickToDialText = _i18n2.default.getString('clickToDial', currentLocale);
-  } else if (outboundSMS && !ringoutEnabled) {
+  } else if (outboundSMS && !clickToDialPermissions) {
     clickToDialText = _i18n2.default.getString('clickToSMS', currentLocale);
   } else {
     clickToDialText = '';
   }
-  var clickToDial = showClickToDial && (outboundSMS || ringoutEnabled) ? _react2.default.createElement(
+  var clickToDial = showClickToDial && (outboundSMS || clickToDialPermissions) ? _react2.default.createElement(
     _IconLine2.default,
     {
       icon: _react2.default.createElement(_Switch2.default, {
@@ -350,10 +350,10 @@ SettingsPanel.propTypes = {
   onAutoLogSMSChange: _propTypes2.default.func,
   showClickToDial: _propTypes2.default.bool,
   clickToDialEnabled: _propTypes2.default.bool,
+  clickToDialPermissions: _propTypes2.default.bool,
   onClickToDialChange: _propTypes2.default.func,
   version: _propTypes2.default.string.isRequired,
   showHeader: _propTypes2.default.bool,
-  ringoutEnabled: _propTypes2.default.bool,
   outboundSMS: _propTypes2.default.bool,
   showSpinner: _propTypes2.default.bool,
   dndStatus: _propTypes2.default.string,
@@ -383,6 +383,7 @@ SettingsPanel.defaultProps = {
   children: null,
   showClickToDial: false,
   clickToDialEnabled: false,
+  clickToDialPermissions: false,
   onClickToDialChange: undefined,
   showCalling: false,
   showAudio: false,
@@ -404,7 +405,6 @@ SettingsPanel.defaultProps = {
   autoLogSMSEnabled: false,
   onAutoLogSMSChange: undefined,
   showHeader: false,
-  ringoutEnabled: false,
   outboundSMS: false,
   showSpinner: false,
   dndStatus: undefined,
