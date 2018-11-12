@@ -3,6 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 exports.isHangUp = isHangUp;
 exports.isReject = isReject;
 exports.normalizeSession = normalizeSession;
@@ -54,7 +59,7 @@ function normalizeSession(_ref2) {
       isReject = activeSessionStatus.isReject,
       isOnRecording = activeSessionStatus.isOnRecording;
 
-  return {
+  var formatValue = {
     telephonySessionId: telephonySessionId,
     partyId: partyId,
     direction: direction,
@@ -65,6 +70,7 @@ function normalizeSession(_ref2) {
     toNumber: to && to.phoneNumber,
     toUserName: to && to.name,
     id: sessionId,
+    sessionId: sessionId,
     callStatus: telephonyStatus || result,
     startTime: startTime,
     creationTime: startTime,
@@ -81,6 +87,7 @@ function normalizeSession(_ref2) {
     removed: false,
     isReject: isReject
   };
+  return (0, _extends3.default)({}, formatValue);
 }
 function requestURI(activeSession) {
   var telephonySessionId = activeSession.telephonySessionId,
@@ -104,6 +111,6 @@ function requestURI(activeSession) {
 function confictError(error) {
   var conflictErrRgx = /409/g;
   var conflictMsgRgx = /Incorrect State/g;
-  return conflictErrRgx.test(error.message) && conflictMsgRgx.test(error.message);
+  return conflictErrRgx.test(error) && conflictMsgRgx.test(error.apiResponse._text);
 }
 //# sourceMappingURL=helpers.js.map
