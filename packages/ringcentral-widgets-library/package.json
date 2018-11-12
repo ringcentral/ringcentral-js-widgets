@@ -37,6 +37,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "react-markdown": "^3.4.1"
+    "react-markdown": "^3.4.1",
+    "react-svg-loader": "^2.1.0"
   }
 }
