@@ -186,6 +186,14 @@ var CallListV2 = function (_React$PureComponent) {
       );
     };
 
+    _this.noRowsRender = function () {
+      var _this$props2 = _this.props,
+          currentLocale = _this$props2.currentLocale,
+          active = _this$props2.active;
+
+      return _react2.default.createElement(_NoCalls2.default, { currentLocale: currentLocale, active: active });
+    };
+
     _this.state = {
       extendedIndex: null
     };
@@ -224,7 +232,8 @@ var CallListV2 = function (_React$PureComponent) {
           className: className,
           rowCount: calls.length,
           rowHeight: this._renderRowHeight,
-          rowRenderer: this._rowRender
+          rowRenderer: this._rowRender,
+          noRowsRenderer: this.noRowsRender
         })
       );
     }
