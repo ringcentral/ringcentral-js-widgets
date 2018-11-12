@@ -1,11 +1,11 @@
 import React from 'react';
-import { GROUP_IDS } from './utils/const';
+import { GROUP_IDS } from '../utils/const';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withKnobs, text, select, boolean } from '@storybook/addon-knobs/react';
 
-import Badge from '../../components/Badge';
-import styles from './badge.story.scss';
+import Badge from '../../../elements/Badge';
+import styles from './index.scss';
 
 storiesOf('Badge', module)
   .add('Badge Theme', () => {

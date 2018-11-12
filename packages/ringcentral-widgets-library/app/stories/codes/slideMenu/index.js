@@ -5,7 +5,7 @@ import React from 'react';
 
 import { storiesOf } from '@storybook/react';
 
-import SlideMenu from '../../components/SlideMenu';
+import SlideMenu from '../../../elements/SlideMenu';
 
 storiesOf('SlideMenu', module)
   .add('basic', () => {
