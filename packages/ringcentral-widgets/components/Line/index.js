@@ -6,7 +6,7 @@ import styles from './styles.scss';
 function Line(props) {
   return (
     <div
-      data-sign = {props.dataSign}
+      data-sign={props.dataSign}
       className={classnames(
         styles.root,
         props.className,
