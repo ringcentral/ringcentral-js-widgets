@@ -34,6 +34,7 @@ export default function NavigationButton({
       }}
     >
       <div className={styles.iconHolder} title={label}>
+
         <div className={classnames(styles.icon, styleClass)}>
           {active ? activeIcon : icon}
         </div>
