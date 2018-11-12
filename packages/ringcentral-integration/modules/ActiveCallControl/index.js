@@ -367,10 +367,15 @@ export default class ActiveCallControl extends Pollable {
       });
     }
   }
+  getRecordingId(sessionId) {
+    const partyId = this.callPartyIdMap[sessionId];
+    const recodingId = this.recordingIds[sessionId];
+    return recodingId[partyId].id;
+  }
   async stopRecord(sessionId) {
     try {
       const activeSession = this.getActiveSession(sessionId);
-      const recordingId = this.recordingIds[sessionId].id;
+      const recordingId = this.getRecordingId(sessionId);
       activeSession.recordingId = recordingId;
       const url = requestURI(activeSession).stopRecord;
       this.patch({
@@ -492,7 +497,6 @@ export default class ActiveCallControl extends Pollable {
       });
     }
   }
-
   async flip(flipValue, sessionId) {
     try {
       const activeSession = this.getActiveSession(sessionId);

@@ -83,6 +83,16 @@ function getRecordingIdsStatusReducer(types) {
         };
         return newState;
       }
+      case types.stopRecord: {
+        const {
+          sessionId,
+        } = activeSession;
+        const newState = { ...state };
+        if (newState[sessionId]) {
+          delete newState[sessionId];
+        }
+        return newState;
+      }
       case types.recordFail:
       case types.removeActiveSession:
       case types.resetSuccess:
