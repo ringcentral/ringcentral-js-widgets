@@ -74,7 +74,8 @@ function mapToFunctions(_, _ref2) {
     mute: activeCallControl.mute.bind(activeCallControl),
     unmute: activeCallControl.unmute.bind(activeCallControl),
     hangUp: activeCallControl.hangUp.bind(activeCallControl),
-    reject: activeCallControl.reject.bind(activeCallControl)
+    reject: activeCallControl.reject.bind(activeCallControl),
+    getActiveSession: activeCallControl.getActiveSession.bind(activeCallControl)
   };
 }
 
@@ -95,10 +96,9 @@ var SmCallCtrlContainer = function (_Component) {
 
       var _props = this.props,
           currentLocale = _props.currentLocale,
-          activeSessions = _props.activeSessions,
           sessionId = _props.sessionId;
 
-      var currentSession = activeSessions[sessionId];
+      var currentSession = this.props.getActiveSession(sessionId);
       if (!currentSession) {
         return null;
       }
@@ -211,7 +211,8 @@ SmCallCtrlContainer.propTypes = {
   mute: _propTypes2.default.func.isRequired,
   unmute: _propTypes2.default.func.isRequired,
   hangUp: _propTypes2.default.func.isRequired,
-  reject: _propTypes2.default.func.isRequired
+  reject: _propTypes2.default.func.isRequired,
+  getActiveSession: _propTypes2.default.func
 };
 
 SmCallCtrlContainer.defaultProps = {
@@ -219,7 +220,10 @@ SmCallCtrlContainer.defaultProps = {
   activeCallControl: {},
   activeSessions: {},
   sessionId: '',
-  status: ''
+  status: '',
+  getActiveSession: function getActiveSession() {
+    return null;
+  }
 };
 exports.default = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(SmCallCtrlContainer));
 //# sourceMappingURL=index.js.map
