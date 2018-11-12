@@ -4,7 +4,6 @@ import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import ActiveCallDialPad from '../ActiveCallDialPad';
 import ActiveCallPanel from '../ActiveCallPanel';
 import FlipPanel from '../FlipPanel';
-import TransferPanel from '../TransferPanel';
 import ConfirmMergeModal from '../ConfirmMergeModal';
 import SpinnerOverlay from '../SpinnerOverlay';
 
