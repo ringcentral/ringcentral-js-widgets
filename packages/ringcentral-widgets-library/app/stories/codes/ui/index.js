@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import styles from './UI.story.scss';
+import styles from './index.scss';
 
 const colorsMap = {
   Blue: {

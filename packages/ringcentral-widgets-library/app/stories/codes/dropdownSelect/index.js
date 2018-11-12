@@ -5,7 +5,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
-import DropdownSelect from '../../components/DropdownSelect';
+import DropdownSelect from '../../../elements/DropdownSelect';
 import { select } from '@storybook/addon-knobs/dist/react';
 
 storiesOf('DropdownSelect', module)

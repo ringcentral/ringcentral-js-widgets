@@ -6,7 +6,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
-import Switch from '../../components/Switch';
+import Switch from '../../../elements/Switch';
 
 storiesOf('Switch', module)
   .add('basic', () => {

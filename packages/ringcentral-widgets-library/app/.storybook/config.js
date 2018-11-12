@@ -9,7 +9,7 @@ import { withKnobs } from '@storybook/addon-knobs'
 
 
 function loadCodeStories() {
-  const req = require.context('../stories/codes', true, /.story.js$/);
+  const req = require.context('../stories/codes', true, /index.js$/);
   addDecorator((story, context) => withInfo()(story)(context));
   addDecorator(centered);
   addDecorator(withKnobs);
