@@ -32,7 +32,7 @@ export function normalizeSession({
     isReject,
     isOnRecording,
   } = activeSessionStatus;
-  return {
+  const formatValue = {
     telephonySessionId,
     partyId,
     direction,
@@ -43,6 +43,7 @@ export function normalizeSession({
     toNumber: to && to.phoneNumber,
     toUserName: to && to.name,
     id: sessionId,
+    sessionId,
     callStatus: telephonyStatus || result,
     startTime,
     creationTime: startTime,
@@ -58,6 +59,9 @@ export function normalizeSession({
     recordStatus: isOnRecording ? recordStatus.recording : recordStatus.idle,
     removed: false,
     isReject,
+  };
+  return {
+    ...formatValue,
   };
 }
 export function requestURI(activeSession) {
@@ -83,6 +87,6 @@ export function requestURI(activeSession) {
 export function confictError(error) {
   const conflictErrRgx = /409/g;
   const conflictMsgRgx = /Incorrect State/g;
-  return conflictErrRgx.test(error.message) &&
-    conflictMsgRgx.test(error.message);
+  return conflictErrRgx.test(error) &&
+    conflictMsgRgx.test(error.apiResponse._text);
 }

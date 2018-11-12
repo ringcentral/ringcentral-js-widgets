@@ -29,6 +29,7 @@ function mapToFunctions(_, { phone }) {
     unmute: activeCallControl.unmute.bind(activeCallControl),
     hangUp: activeCallControl.hangUp.bind(activeCallControl),
     reject: activeCallControl.reject.bind(activeCallControl),
+    getActiveSession: activeCallControl.getActiveSession.bind(activeCallControl)
   };
 }
 
@@ -37,10 +38,9 @@ class SmCallCtrlContainer extends Component {
   render() {
     const {
       currentLocale,
-      activeSessions,
       sessionId,
     } = this.props;
-    const currentSession = activeSessions[sessionId];
+    const currentSession = this.props.getActiveSession(sessionId);
     if (!currentSession) {
       return null;
     }
@@ -67,6 +67,7 @@ SmCallCtrlContainer.propTypes = {
   unmute: PropTypes.func.isRequired,
   hangUp: PropTypes.func.isRequired,
   reject: PropTypes.func.isRequired,
+  getActiveSession: PropTypes.func,
 };
 
 SmCallCtrlContainer.defaultProps = {
@@ -75,5 +76,6 @@ SmCallCtrlContainer.defaultProps = {
   activeSessions: {},
   sessionId: '',
   status: '',
+  getActiveSession: () => null
 };
 export default withPhone(connect(mapToProps, mapToFunctions)(SmCallCtrlContainer));
