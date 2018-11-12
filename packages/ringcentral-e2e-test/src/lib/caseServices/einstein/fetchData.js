@@ -7,13 +7,14 @@ export default class FetchData {
   constructor(
     {
       servicesUrl = BASE_URL,
-      username, password
+      username, password, projectId
     }
   ) {
     this.einsteinSDK = new EinsteinSDK(servicesUrl);
     this.itemId = null;
     this.username = username;
     this.password = password;
+    this.projectId = projectId;
   }
 
   // TODO: use dom to get text instead of regex
@@ -36,8 +37,8 @@ export default class FetchData {
   async getItemIdByExternalId(externalId) {
     try {
       await this.einsteinSDK.login(this.username, this.password);
-      const query = { type: 'eq', property: 'project_id', value: 1309 };
-      const allDates = await this.einsteinSDK.searchTestCases(1309, query);
+      const query = { type: 'eq', property: 'project_id', value: this.projectId };
+      const allDates = await this.einsteinSDK.searchTestCases(this.projectId, query);
       const projects = allDates.children[0].children;
       await this.chooseItemIdFromAllItems(projects, externalId);
     } catch (error) {

@@ -3,7 +3,7 @@
 import commander from 'commander';
 import info from '../package';
 import run from '../lib/run';
-import fetchCase from '../lib/fetchCase';
+import { create } from '../lib/fetchCase';
 
 commander
   .version(info.version)
@@ -26,19 +26,17 @@ commander
   .command('create')
   .arguments('[caseID]')
   .description('Create Case from caseServices.')
-  .option('-S, --service <service>', 'Create case template with service params.')
-  .option('-N, --serviceName <serviceName>', 'Create case template with service.')
-  .option('-C, --caseID <caseID>', 'Create case with caseID.')
-  .action((fetchCase));
+  .option('-S, --service <service>', 'Create case template with those service params.')
+  .option('-O, --origin <origin>', 'Create case template with origin.')
+  .action((create));
 
-commander
-  .command('update')
-  .arguments('[caseID] <env>')
-  .description('Update Case from caseServices.')
-  .option('-S, --service <service>', 'Create case template with service params.')
-  .option('-N, --serviceName <serviceName>', 'Create case template with service.')
-  .option('-C, --caseID <caseID>', 'Update case with caseID.')
-  .action((fetchCase));
+// commander
+//   .command('update')
+//   .arguments('[caseID]')
+//   .description('Update Case from caseServices.')
+//   .option('-S, --service <service>', 'Update case template with service params.')
+//   .option('-O, --origin <origin>', 'Update case template with origin.')
+//   .action((update));
 
 commander.parse(process.argv);
 

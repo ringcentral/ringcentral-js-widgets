@@ -20,7 +20,11 @@ const create = async (caseID, cmd) => {
     const isCaseIDs = (/,/).test(caseID);
     // eslint-disable-next-line radix
     const caseIDArray = caseID.split(isCaseIDs ? ',' : ' ').map(e => parseInt(e));
-    cmdServices = cmd.serviceName ? { list: [{ name: cmd.serviceName, caseID: caseIDArray }] } : { list: [{ caseID: caseIDArray }] };
+    if (!cmd.origin) {
+      cmd.origin = config.caseServices.defaultOrigin;
+      console.warn(`you are using defaultOrigin --> ${config.caseServices.defaultOrigin}`);
+    }
+    cmdServices = { list: [{ origin: cmd.origin, caseID: caseIDArray }] };
   } else {
     try {
       cmdServices = JSON.parse(cmd.service);
@@ -28,28 +32,34 @@ const create = async (caseID, cmd) => {
       throw new Error(error);
     }
   }
-  cmdServices.list.forEach((cmdService, index) => {
-    config.caseServices.list.forEach((configService) => {
-      if (!cmdService.name || configService.name === cmdService.name) {
-        cmdServices.list[index] = { ...configService, ...cmdService };
+
+  const configServicesList = config.caseServices.list;
+  const cmdServicesList = cmdServices.list;
+  cmdServicesList.forEach((cmdService, index) => {
+    const length = configServicesList.length;
+    for (let i = 0; i < length; i++) {
+      if (cmdService.origin === configServicesList[i].origin) {
+        cmdServicesList[index] = { ...configServicesList[i], ...cmdService };
+        break;
       }
-    });
+    }
   });
-  let EinsteinServices;
-  cmdServices.list.forEach(async ({
-    handler, username, password, caseID
+
+  let Services;
+  cmdServicesList.forEach(async ({
+    handler, caseID, ...params
   }) => {
     try {
-      const einsteinServicesModule = require(resolve(process.cwd(), handler));
-      EinsteinServices = (einsteinServicesModule && einsteinServicesModule.__esModule) ? einsteinServicesModule.default : einsteinServicesModule;
+      const servicesModule = require(resolve(process.cwd(), handler));
+      Services = (servicesModule && servicesModule.__esModule) ? servicesModule.default : servicesModule;
     } catch (error) {
       throw new Error(error);
     }
-    const einsteinServices = new EinsteinServices({ username, password });
+    const services = new Services(params);
     caseID.forEach(async (id) => {
-      await einsteinServices.createCaseTemplate(id);
+      await services.createCaseTemplate(id);
     });
   });
 };
 
-export { create as default, };
+export { create, };
