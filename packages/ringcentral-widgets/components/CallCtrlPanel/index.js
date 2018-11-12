@@ -97,7 +97,6 @@ class CallCtrlPanel extends Component {
     if (this.props.sessionId !== nextProps.sessionId) {
       this.hiddenKeyPad();
       this.hideFlipPanel();
-      this.hideTransferPanel();
       this.hideMergeConfirm();
     }
   }
