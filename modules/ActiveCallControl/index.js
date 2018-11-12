@@ -775,6 +775,13 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
       return startRecord;
     }()
   }, {
+    key: 'getRecordingId',
+    value: function getRecordingId(sessionId) {
+      var partyId = this.callPartyIdMap[sessionId];
+      var recodingId = this.recordingIds[sessionId];
+      return recodingId[partyId].id;
+    }
+  }, {
     key: 'stopRecord',
     value: function () {
       var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(sessionId) {
@@ -785,7 +792,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
               case 0:
                 _context10.prev = 0;
                 activeSession = this.getActiveSession(sessionId);
-                recordingId = this.recordingIds[sessionId].id;
+                recordingId = this.getRecordingId(sessionId);
 
                 activeSession.recordingId = recordingId;
                 url = (0, _helpers.requestURI)(activeSession).stopRecord;

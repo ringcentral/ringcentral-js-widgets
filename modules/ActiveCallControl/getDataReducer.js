@@ -103,6 +103,16 @@ function getRecordingIdsStatusReducer(types) {
           newState[sessionId][partyId] = (0, _extends3.default)({}, response);
           return newState;
         }
+      case types.stopRecord:
+        {
+          var _sessionId = activeSession.sessionId;
+
+          var _newState = (0, _extends3.default)({}, state);
+          if (_newState[_sessionId]) {
+            delete _newState[_sessionId];
+          }
+          return _newState;
+        }
       case types.recordFail:
       case types.removeActiveSession:
       case types.resetSuccess:
@@ -126,12 +136,12 @@ function getActiveSessionsStatusReducer(types) {
       case types.updateActiveSessions:
         {
           var newState = null;
-          for (var _sessionId in activeSessionsMap) {
-            if (_sessionId) {
+          for (var _sessionId2 in activeSessionsMap) {
+            if (_sessionId2) {
               newState = updateActiveSessionStatus({
                 state: state,
-                party: activeSessionsMap[_sessionId],
-                sessionId: _sessionId
+                party: activeSessionsMap[_sessionId2],
+                sessionId: _sessionId2
               });
             }
           }
@@ -162,11 +172,11 @@ function getActiveSessionsStatusReducer(types) {
         }
       case types.removeActiveSession:
         {
-          var _newState = (0, _extends3.default)({}, state);
-          if (_newState[sessionId]) {
-            delete _newState[sessionId];
+          var _newState2 = (0, _extends3.default)({}, state);
+          if (_newState2[sessionId]) {
+            delete _newState2[sessionId];
           }
-          return _newState;
+          return _newState2;
         }
       case types.resetSuccess:
         {
