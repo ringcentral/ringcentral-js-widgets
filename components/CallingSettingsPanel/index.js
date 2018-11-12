@@ -256,6 +256,7 @@ var CallingSettingsPanel = function (_Component) {
         _react2.default.createElement(
           _InputField2.default,
           {
+            dataSign: 'myLocation',
             label: _i18n2.default.getString('myLocationLabel', currentLocale) },
           availableNumbers[this.state.callWith] ? _react2.default.createElement(_DropdownSelect2.default, {
             className: (0, _classnames2.default)(_styles2.default.select, _styles2.default.locationSelect),
@@ -266,7 +267,7 @@ var CallingSettingsPanel = function (_Component) {
             dropdownAlign: 'left',
             titleEnabled: true
           }) : _react2.default.createElement(_TextInput2.default, {
-            dataSign: 'myLocation',
+            dataSign: 'myLocationInput',
             value: this.state.myLocation,
             maxLength: 30,
             onChange: this.onMyLocationTextChange })

@@ -25,7 +25,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function InputField(props) {
   return _react2.default.createElement(
     'div',
-    { className: (0, _classnames2.default)(_styles2.default.root, props.className) },
+    { 'data-sign': props.dataSign, className: (0, _classnames2.default)(_styles2.default.root, props.className) },
     _react2.default.createElement(
       'div',
       { className: _styles2.default.label },
@@ -48,13 +48,15 @@ InputField.propTypes = {
   children: _propTypes2.default.node,
   label: _propTypes2.default.node,
   labelHint: _propTypes2.default.node,
-  className: _propTypes2.default.string
+  className: _propTypes2.default.string,
+  dataSign: _propTypes2.default.string
 };
 InputField.defaultProps = {
   children: undefined,
   label: undefined,
   labelHint: undefined,
-  className: undefined
+  className: undefined,
+  dataSign: undefined
 };
 
 exports.default = InputField;
