@@ -122,9 +122,8 @@ export default function createWebphone({
           fromStatus = (await Webphone.getPhonesById(from.webphone.id)).body.status;
           toStatus = (await Webphone.getPhonesById(to.webphone.id)).body.status;
           if (fromStatus === 'accepted' && toStatus ==='invited') {
-            debugger
-            console.log(fromStatus,toStatus);
             status = true; 
+            return status;
           }
         }
       } else if (action === 'hangup') {
@@ -134,6 +133,7 @@ export default function createWebphone({
           toStatus = (await Webphone.getPhonesById(to.webphone.id)).body.status;
           if (fromStatus === 'accepted' || toStatus ==='invited' || toStatus === 'accepted' || fromStatus ==='invited') {
             status = true; 
+            return status;
           }
         }
       }
