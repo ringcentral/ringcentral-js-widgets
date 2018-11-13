@@ -10,6 +10,7 @@ import exportLocale from '@ringcentral-integration/locale-loader/lib/exportLocal
 import importLocale from '@ringcentral-integration/locale-loader/lib/importLocale';
 import consolidateLocale from '@ringcentral-integration/locale-loader/lib/consolidateLocale';
 import localeSettings from 'locale-settings';
+// import { builtinModules } from 'module';
 // import gulpSequence from 'gulp-sequence';
 
 async function getVersionFromTag() {
@@ -41,7 +42,8 @@ gulp.task('pre', () => {
 });
 
 gulp.task('clean', ['pre'], async () => {
-  fs.remove(BUILD_PATH);
+  console.log(`BUILD_PATH${BUILD_PATH}`);
+  await fs.remove(BUILD_PATH);
 });
 
 gulp.task('build', ['clean', 'copy'], () => (
@@ -53,7 +55,7 @@ gulp.task('build', ['clean', 'copy'], () => (
     '!./node_modules{/**,}',
     '!gulpfile.babel.js']
   ).pipe(transformLoader({
-    ...localeSettings.TELUS,
+    ...localeSettings[project],
   }))
     .pipe(sourcemaps.init())
     .pipe(babel())
