@@ -1,7 +1,6 @@
 export default class Entry {
   static async goto(context) {
-    context.driver.app = context.driver.page;
-    global.app = context.driver.app;
+    context.app = context.page;
   }
   static get steps() {
     return [

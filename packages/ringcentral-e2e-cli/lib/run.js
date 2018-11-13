@@ -75,13 +75,16 @@ const run = async (dir, cmd) => {
     ...cmd.headless ? ['headless'] : [],
   ];
   const drivers = cmd.drivers || [];
+  const reporter = cmd.reporter || false;
+  const verbose = cmd.verbose || false;
   const params = args.params || {};
   const testPathIgnorePatterns = cmd.exclude || [];
   const testerCLI = cmd.testerCLI || [];
   const testerParams = {
-    verbose: cmd.verbose || false,
+    reporter,
+    verbose,
     testMatch,
-    testPathIgnorePatterns
+    testPathIgnorePatterns,
   };
   const testParams = {
     testerParams,

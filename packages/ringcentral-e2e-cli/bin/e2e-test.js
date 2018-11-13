@@ -17,9 +17,10 @@ commander
   .option('-H, --headless', 'Run E2E test case with \'headless\' mode.')
   .option('-D, --debugger', 'Run E2E test case with \'debugger\' mode.')
   .option('-V, --verbose', 'Run E2E test case with verbose log.')
+  .option('-R, --reporter', 'Run E2E test case with reporter.')
   .option('-E, --exclude <exclude>', 'Run E2E test case exclude some files.', value => value.split(','))
-  .option('--drivers <drivers>', 'Run E2E test case with some drivers.', value => value.split('.'))
-  .option('--testerCLI <testerCLI>', 'Run E2E test case with testerCLI args.', value => value.split('.'))
+  .option('--drivers <drivers>', 'Run E2E test case with some drivers.', value => value.split(','))
+  .option('--testerCLI <testerCLI>', 'Run E2E test case with testerCLI args.', value => value.split(','))
   .action((run));
 
 commander

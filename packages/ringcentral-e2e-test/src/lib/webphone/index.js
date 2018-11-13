@@ -1,21 +1,27 @@
 import * as WebPhoneClient from 'webphone-client';
 
+const HOST = 'http://webphone.lab.nordigy.ru';
+
 const TTL = 1800000;
 const WAIT_TIMEOUT = 300000;
-const webPhoneEnvMap = new Map([
-  ['xmnup', 'xmnup'],
-  ['itl', 'itldevxmn']
-]);
+const webPhoneEnvs = {
+  xmnup: 'xmnup',
+  itl: 'itldevxmn',
+};
+
 export const PhoneType = {
   PSTN: 'pstn',
   WebPhone: 'webphone'
 };
 export default class WebPhone {
-  static async createWebPhone(phoneNumber, type, password) {
+  static async createWebPhone({
+    phoneNumber, type, password, env
+  }) {
+    this._env = webPhoneEnvs[env];
     const apiClient = new WebPhoneClient.ApiClient(this.getHost());
     const apiInstance = new WebPhoneClient.CreatePhoneApi(apiClient);
     const request = {
-      env: this.getEnv(),
+      env: this._env,
       type,
       phoneNumber,
       password,
@@ -59,10 +65,11 @@ export default class WebPhone {
     return response;
   }
 
-  static async getPhonesByNumber(phoneNumber) {
+  static async getPhonesByNumber(phoneNumber, env) {
+    this._env = webPhoneEnvs[env];
     const apiClient = new WebPhoneClient.ApiClient(this.getHost());
     const apiInstance = new WebPhoneClient.ListPhoneApi(apiClient);
-    const response = await apiInstance.getPhoneByEnvAndNum(this.getEnv(), phoneNumber);
+    const response = await apiInstance.getPhoneByEnvAndNum(this._env, phoneNumber);
     return response;
   }
 
@@ -80,6 +87,10 @@ export default class WebPhone {
     return response;
   }
   static async operate({ phoneId, sessionId, action, phoneNumber }) {
+    //TODO 
+    if(action === 'answerCall') {
+      await this.sleep(5000);
+    }
     const apiClient = new WebPhoneClient.ApiClient(this.getHost());
     const phoneStatus = (await this.getPhonesById(phoneId)).body.status;
     const apiInstance = new WebPhoneClient.OperatePhoneApi(apiClient);
@@ -94,22 +105,8 @@ export default class WebPhone {
     return response;
   }
 
-  static getEnv() {
-    const setting = process.env.PLATFORM;
-    if (webPhoneEnvMap.has(setting)) {
-      return webPhoneEnvMap.get(setting);
-    }
-    return 'itldevxmn';
-  }
-
   static getHost() {
-    return 'http://webphone.lab.nordigy.ru/api';
-    // if (this.options.host) {
-    //   return this.options.host;
-    // } else {
-    //   console.warn('WebPhone.host is not set, use default webphone host');
-    //   return 'http://webphone.lab.nordigy.ru/api';
-    // }
+    return `${HOST}/api`;
   }
 
   static async statusChange(response, phoneStatus, timeout = WAIT_TIMEOUT) {

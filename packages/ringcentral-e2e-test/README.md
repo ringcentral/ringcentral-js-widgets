@@ -9,17 +9,18 @@ We are committed to designing a more efficient testing framework that is used to
 
 ### Contents
 
--   [Features](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#features)
--   [Installation](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#Installation)
--   [Getting Started](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#getting-started)
--   [Guide For RC Integration App](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#guide-for-rc-integration-app)
--   [APIs Reference](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#api-reference)
-    -   [Test CLI](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#test-cli)
-    -   [Project Config](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#project-config)
-    -   [Test Drivers](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#test-drivers)
-    -   [Test Hooks](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#test-hooks)
--   [How It Works](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#how-it-works)
--   [Change Log](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#change-log)
+-   [Features](https://github.com/ringcentral/ringcentral-js-widgets/tree/e2e-discusstion/packages/ringcentral-e2e-test#features)
+-   [Installation](https://github.com/ringcentral/ringcentral-js-widgets/tree/e2e-discusstion/packages/ringcentral-e2e-test#Installation)
+-   [Getting Started](https://github.com/ringcentral/ringcentral-js-widgets/tree/e2e-discusstion/packages/ringcentral-e2e-test#getting-started)
+-   [Guideline](https://github.com/ringcentral/ringcentral-js-widgets/tree/e2e-discusstion/packages/ringcentral-e2e-test#guideline)
+-   [Guide For RC Integration App](https://github.com/ringcentral/ringcentral-js-widgets/tree/e2e-discusstion/packages/ringcentral-e2e-test#guide-for-rc-integration-app)
+-   [APIs Reference](https://github.com/ringcentral/ringcentral-js-widgets/tree/e2e-discusstion/packages/ringcentral-e2e-test#api-reference)
+    -   [Test CLI](https://github.com/ringcentral/ringcentral-js-widgets/tree/e2e-discusstion/packages/ringcentral-e2e-test#test-cli)
+    -   [Project Config](https://github.com/ringcentral/ringcentral-js-widgets/tree/e2e-discusstion/packages/ringcentral-e2e-test#project-config)
+    -   [Test Drivers](https://github.com/ringcentral/ringcentral-js-widgets/tree/e2e-discusstion/packages/ringcentral-e2e-test#test-drivers)
+    -   [Test Hooks](https://github.com/ringcentral/ringcentral-js-widgets/tree/e2e-discusstion/packages/ringcentral-e2e-test#test-hooks)
+-   [How It Works](https://github.com/ringcentral/ringcentral-js-widgets/tree/e2e-discusstion/packages/ringcentral-e2e-test#how-it-works)
+-   [Change Log](https://github.com/ringcentral/ringcentral-js-widgets/tree/e2e-discusstion/packages/ringcentral-e2e-test#change-log)
 
 ### Features
 
@@ -43,8 +44,8 @@ npm install -g lerna
 2. Clone current repo and start example from widget demo.
 
 ```shell
-git clone https://github.com/unadlib/ringcentral-js-widget.git
-cd ringcentral-js-widget && git checkout e2e-test && lerna bootstrap
+git clone https://github.com/ringcentral/ringcentral-js-widgets.git
+cd ringcentral-js-widgets && git checkout e2e-test && yarn &&lerna bootstrap
 ```
 
 > NOTE: set demo config file in `./packages/ringcentral-widgets-demo/dev-server/api-config.js`.
@@ -63,7 +64,36 @@ npx e2e-test run ./src/features/commons/call/Dialer.spec.js --drivers puppeteer
 > `webphone-client` in RC private internal package.</br>
 > Using safari note: it needs enable Remote Automation.
 
-**NOTE: If you want to try to write some test cases from the RC widget demo, you can keep on the following [next steps](https://github.com/unadlib/ringcentral-js-widget/tree/e2e-test/packages/ringcentral-e2e-test#guide-for-rc-integration-app).**
+**NOTE: If you want to try to write some test cases from the RC widget demo, you can keep on the following [next steps](https://github.com/ringcentral/ringcentral-js-widgets/tree/e2e-discusstion/packages/ringcentral-e2e-test#guide-for-rc-integration-app).**
+
+### Guideline
+
+* You should strictly follow the test case steps and expectations to achieve the testing code, there are any changes to the case need to communicate with the design case personnel, and in the corresponding case clearly comment.
+* Case design and review need to be rigorous, to ensure that according to the case is fully able to perform correctly, do not omit any steps (even if the obvious steps can not be omitted).
+
+#### Catalog structure
+
+* Features: Strictly in accordance with the Einstein directory structure, to Einstein case ID + case title as the file name.
+* Steps: Only steps specific to each project are placed in their respective project directories, and the step used by more than 2 projects needs to be placed in the Commons folder.
+
+#### Naming rules
+
+* Folder name with nouns, so that reviewers can see what features this folder is used for a glance.
+* File name as far as possible with verbs, steps are generally used for execution, it is used in case, in the lookup at will be easier to read.
+
+#### Coding Test
+
+* Create the feature file first (manually created before the CLI create case from Einstein implementation).
+* It is best to define the required process first steps first, and then to gradually implement each step.
+* If it is a case in which a number of steps are executed in process a simple loop, then marten interfaces such as `reset` `skip` `execTo` can be used.
+* In addition, if a case is a complex process, consider using multiple processes for serial execution.
+* Don't use the native driver APIs, if necessary, you can encapsulate it yourself in drivers lib and consider or implement other driver identical APIs at the same time.
+* DOM node positioning is `data-sign`(`@` for label selector), do not use other Css/xpath and other selector.
+* Use only `$`(it's a global variable) as an interface in step writing.
+* If a step is a dynamic parameter requirement, you can use a higher-order function.
+* At the project maturity stage, do not call the JS function or parameter of the test page directly if it is not necessary, if you must write attention to comment `TODO`.
+* Consider the required support for each driver compatibility whenever possible.
+* Case note in the public part the generalization of step.
 
 ### Guide For RC Integration App
 description:

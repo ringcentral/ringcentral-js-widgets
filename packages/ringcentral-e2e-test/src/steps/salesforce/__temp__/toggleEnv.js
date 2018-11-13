@@ -1,7 +1,7 @@
-/* global $ */
+
 export default class ToggleEnv {
   static async setEnv(context) {
-    const { options: { config, driver }, driver: { app } } = context;
+    const { options: { config, driver }, app } = context;
     let envServerUrl;
     await $(app).execute('toggleEnv()');
     await $(app).click('[class*=styles_switch]', { selector: 'css' });
@@ -27,7 +27,7 @@ export default class ToggleEnv {
     ];
   }
 
-  // static async toggleEnv({ driver: { app } }) {
+  // static async toggleEnv({ app }) {
   //   await $(app).execute('window.toggleEnv()');
   //   await $(app).waitForSelector('[class*=input]', { visible: true });
   //   await $(app).click('[class*=slider]');

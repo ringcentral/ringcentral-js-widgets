@@ -1,6 +1,6 @@
-/* global $ */
+
 export default class TypeComposeToField {
-  static async type({ driver: { app }, options: { option } }) {
+  static async type({ app, options: { option } }) {
     const recipientsInput = '@recipientsInput';
     const spinnerOverlay = '@spinnerOverlay';
     const _spinnerOverlay = $(app).getSelector(spinnerOverlay);
@@ -8,7 +8,7 @@ export default class TypeComposeToField {
     await $(app).waitForFunction(selector => !document.querySelector(selector), _spinnerOverlay);
     if (Array.isArray(option.typeToFields) && this._check) {
       for (const typeToField of option.typeToFields) {
-        await $(app).type(recipientsInput, typeToField);
+        await $(app).type(recipientsInput, typeToField, {delay: 100}); // TODO delay for extension
         const toFieldText = await $(app).getValue(recipientsInput);
         await this._check(toFieldText, typeToField);
         await $(app).clear(recipientsInput);
@@ -26,7 +26,7 @@ export default class TypeComposeToField {
     }
     // send to first number in playload accounts.
     const [{ did = '101' } = {}] = option.playload.accounts || [];
-    await $(app).type(recipientsInput, did);
+    await $(app).type(recipientsInput, did, {delay: 100}); // TODO delay for extension
   }
 
   static addCheckPoints(check) {

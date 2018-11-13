@@ -24,7 +24,7 @@ module.exports = {
     }]
   },
   exec: {
-    drivers: ['puppeteer', 'seleniumWebdriverFirefox', 'seleniumWebdriverChrome'],
+    drivers: ['puppeteer', 'seleniumWebdriverFirefox', 'enzyme'],
     levels: ['p0', 'p1'],
     brands: ['rc'],
     envs: ['xmnup'],
@@ -44,7 +44,7 @@ module.exports = {
       [
         'salesforce',
         {
-          modes: ['classic'],
+          modes: ['lightning', 'classic'],
           accounts: ['SF_RC_US'],
           drivers: ['puppeteer', 'seleniumWebdriverFirefox', 'seleniumWebdriverSafari', 'enzyme', 'seleniumWebdriverChrome']
         }
@@ -53,6 +53,17 @@ module.exports = {
   },
   tester: {
     jest: {
+      reporters:["default",
+        ['<rootDir>/src/lib/reporter', {
+          "pageTitle": "Test Report",
+          "outputPath": "test-report.html",
+          "includeFailureMsg": true,
+          "includeConsoleLog": false,
+          "dateFormat": "yyyy-mm-dd HH:MM:ss",
+          "theme":"lightTheme",
+          "sort": "titleAsc"
+        }]
+      ],
       testURL: 'http://localhost',
       moduleNameMapper: {
         'assets/images/.+?\\.svg$': '<rootDir>/src/__mocks__/svgMock.js',
@@ -70,9 +81,33 @@ module.exports = {
   },
   params: {
     projects: {
-      office: {
+      google: {
         type: 'extension',
         source: './src/targets/google',
+        params: {
+          brands: {
+            rc: {
+              extension: './build/extension/google/rc',
+              location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
+            },
+            bt: {
+              extension: './build/extension/google/bt',
+              location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
+            },
+            att: {
+              extension: './build/extension/google/att',
+              location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
+            },
+            telus: {
+              extension: './build/extension/google/telus',
+              location: 'chrome-extension://pgjpmeckehbghpkamdammcgmmmbojbdi/client.html',
+            }
+          }
+        }
+      },
+      office: {
+        type: 'extension',
+        source: './src/targets/office',
         params: {
           brands: {
             rc: {

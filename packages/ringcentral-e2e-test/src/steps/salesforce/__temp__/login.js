@@ -2,10 +2,10 @@ import { createProcess } from 'marten';
 import { PuppeteerUtils } from '../../lib/utils';
 import ToggleEnv from './toggleEnv';
 import Account from './account';
-/* global $ */
+
 export default class Login {
   static async prepare(context) {
-    await $(context.driver.app).waitForSelector('[class*=loginButton]');
+    await $(context.app).waitForSelector('[class*=loginButton]');
     if (context.options.isVirtual) return;
     const process = createProcess(
       ToggleEnv,
@@ -20,7 +20,7 @@ export default class Login {
     await process.exec();
   }
 
-  static async login({ options, driver: { app, page } }) {
+  static async login({ options, app, page }) {
     const { isVirtual } = options;
     const { did, password } = options.option.accounts[0];
     console.log(`===LOGIN WITH ${did}/${password}===`);
@@ -51,7 +51,7 @@ export default class Login {
     await $(loginPage).click('[data-test-automation-id=signInBtn]');
   }
 
-  // static async login({ options: { option, isVirtual }, driver: { app } }) {
+  // static async login({ options: { option, isVirtual }, app }) {
   //   if (isVirtual) {
   //     app.props().phone.auth.login({ username: option.username, password: option.password });
   //   } else {

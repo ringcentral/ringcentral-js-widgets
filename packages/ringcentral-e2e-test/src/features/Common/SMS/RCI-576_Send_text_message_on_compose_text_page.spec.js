@@ -33,11 +33,11 @@ Date Created	Fri, 24 Aug 2018 18:57:55
 Updated By	sarah.chen
 Date Updated	Fri, 24 Aug 2018 18:57:55
  */
-/* global $, page, browser, driver, context, app */
-/* eslint-enable */
+ /* eslint-enable */
 
 import { createProcess } from 'marten';
 import { LoginCTI } from '../../../steps/commons/login';
+import LogoutCTI from '../../../steps/commons/logout';
 import TypeComposeToField from '../../../steps/commons/SMS/typeComposeToField';
 import TypeTextSMS from '../../../steps/commons/SMS/typeTextSMS';
 import SendSMS from '../../../steps/commons/SMS/sendSMS';
@@ -50,13 +50,18 @@ describe('Commom SMS: =====>', () => {
     title: 'Send text message on compose text page',
     tags: [
       ['widgets'],
-      // ['salesforce'],
+      ['salesforce'],
+      ['google'],
+      ['dynamics'],
     ],
     levels: ['p0'],
     options: [
-      { typeToFields: ['foobar', '101', '(650)8881234', '+16508881234', '+16508881234*101'], textSMS: 'bar', accounts: ['CM_RC_US'], callingType: 'myRCPhone' },
+      {
+        typeToFields: ['foobar', '101', '(650)8881234', '+16508881234', '+16508881234*101'], textSMS: 'bar', accounts: ['CM_RC_US'], callingType: 'myRCPhone'
+      },
     ],
-  }, async ({ option }) => {
+  }, async (context) => {
+    const { textSMS } = context.options.option;
     const process = createProcess(
       Entry,
       LoginCTI,
@@ -65,6 +70,7 @@ describe('Commom SMS: =====>', () => {
       TypeTextSMS,
       SendSMS,
       NavigateToMessages,
+      LogoutCTI
     )(context);
     /*
     __Step1__: Enter some characters in "To" field.
@@ -89,7 +95,7 @@ describe('Commom SMS: =====>', () => {
     */
     await process.execTo(TypeTextSMS);
     expect(await TypeTextSMS.getPlaceholder(context)).toBe('Type message...');
-    expect(await TypeTextSMS.getInputSMS(context)).toBe(option.textSMS);
+    expect(await TypeTextSMS.getInputSMS(context)).toBe(textSMS);
     expect(await TypeTextSMS.getMessageButtonDisabled(context)).not.toBeTruthy();
 
     /*
@@ -101,7 +107,7 @@ describe('Commom SMS: =====>', () => {
     */
     await process.execTo(SendSMS);
     expect(await SendSMS.getIsConversationDetail(context)).toBeTruthy();
-    expect(await SendSMS.getLastTextSMS(context)).toEqual(expect.stringContaining(option.textSMS));
+    expect(await SendSMS.getLastTextSMS(context)).toEqual(expect.stringContaining(textSMS));
     expect(await SendSMS.getConversationTitle(context)).not.toBe('');
 
     /*
@@ -109,6 +115,7 @@ describe('Commom SMS: =====>', () => {
     [Expected Result]: The conversation is shown on the top of messages list
     */
     await process.execTo(NavigateToMessages);
-    expect(await NavigateToMessages.getFirstItemText(context)).toEqual(expect.stringContaining(option.textSMS));
+    expect(await NavigateToMessages.getFirstItemText(context)).toEqual(expect.stringContaining(textSMS));
+    await process.execTo(LogoutCTI);
   });
 });

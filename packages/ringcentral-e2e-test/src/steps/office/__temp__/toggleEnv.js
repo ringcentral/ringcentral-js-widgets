@@ -1,6 +1,6 @@
-/* global $ */
+
 export default class ToggleEnv {
-  static async setEnv({ driver: { app } }) {
+  static async setEnv({ app }) {
     await $(app).execute('toggleEnv()');
     await $(app).click('[class*=styles_switch]', { selector: 'css' });
     await $(app).clear('[class*=styles_input]', { selector: 'css' });
