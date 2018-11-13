@@ -1,0 +1,21 @@
+.endButton {
+  width: 26px;
+  g,
+  path {
+    fill: #ffffff;
+  }
+}
+
+.disabled,
+.disabled * {
+  circle {
+    fill: #c7c7c7;
+  }
+  cursor: not-allowed;
+}
+
+.endButton {
+  circle {
+    fill: #ff4646;
+  }
+}
