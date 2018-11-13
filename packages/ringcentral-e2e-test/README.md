@@ -207,6 +207,10 @@ module.exports = {
   salesforce: {
     username: '',
     password: ''
+  },
+  caseServices: { // such as username and password of Einstein
+    username: '',
+    password: ''
   }
 };
 ```
@@ -306,6 +310,9 @@ $(app).click('@foo:2 bar:-1');
 | --params   | Run E2E test case with some params filtering. | object | None    |
 | --sandbox  | Run E2E test case with 'sandbox' mode.        |        | disable |
 | --headless | Run E2E test case with 'headless' mode.       |        | disable |
+| --exclude  | Run E2E test case exclude some files.         |        | disable |
+| --verbose  | Run E2E test case with verbose log.           |        | false   |
+
 
 TODO
 

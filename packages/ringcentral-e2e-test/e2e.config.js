@@ -9,11 +9,21 @@ const loginInfo = isExists ? require(loginInfoPath) : {};
 
 module.exports = {
   selectorLabel: 'data-sign',
-  caseServices: [{
-    name: 'einstein',
-    url: 'http://einstein.int.ringcentral.com/',
-    handler: './einstein.js'
-  }],
+  caseServices: {
+    originField: 'origin',
+    handlerField: 'handler',
+    projectIdField: 'projectId',
+    urlField: 'url',
+    defaultOrigin: 'einstein',
+    list: [{
+      origin: 'einstein',
+      url: 'http://einstein.int.ringcentral.com/',
+      handler: './src/lib/caseServices/einstein',
+      projectId: loginInfo && loginInfo.caseServices && loginInfo.caseServices.projectId || 1309,
+      username: loginInfo && loginInfo.caseServices && loginInfo.caseServices.username || null,
+      password: loginInfo && loginInfo.caseServices && loginInfo.caseServices.password || null,
+    }]
+  },
   exec: {
     drivers: ['puppeteer', 'seleniumWebdriverFirefox', 'enzyme'],
     levels: ['p0', 'p1'],

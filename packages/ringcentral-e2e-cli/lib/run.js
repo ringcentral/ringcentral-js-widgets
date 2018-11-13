@@ -40,7 +40,11 @@ const run = async (dir, cmd) => {
   if (isRelativePath || isResolvePath) {
     try {
       if (isRelativePath) {
-        cmd.params = resolve(process.cwd(), cmd.params);
+        try {
+          cmd.params = resolve(process.cwd(), cmd.params);
+        } catch (error) {
+          throw new Error(error);
+        }
       }
       cmd.params = JSON.stringify(require(cmd.params));
     } catch (e) {
