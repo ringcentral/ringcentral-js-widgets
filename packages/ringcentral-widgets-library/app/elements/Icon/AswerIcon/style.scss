@@ -1,0 +1,22 @@
+@import '../../lib/commonStyles/colors.scss';
+.answerButton {
+  width: 26px;
+  g,
+  path {
+    fill: #ffffff;
+  }
+}
+
+.disabled,
+.disabled * {
+  circle {
+    fill: #c7c7c7;
+  }
+  cursor: not-allowed;
+}
+
+.answerButton {
+  circle {
+    fill: $leaf;
+  }
+}
