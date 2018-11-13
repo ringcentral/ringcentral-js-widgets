@@ -117,11 +117,13 @@ export default function createWebphone({
       let toStatus;
       const waitUntil = Date.now() + 20000;
       if(action === 'answerCall') {
-        while((fromStatus !== 'accepted' || toStatus !=='invited') && Date.now() < Date.now() + waitUntil){
+        while((fromStatus !== 'accepted' || toStatus !=='invited') && Date.now() < waitUntil){
           await Webphone.sleep(1000);
           fromStatus = (await Webphone.getPhonesById(from.webphone.id)).body.status;
           toStatus = (await Webphone.getPhonesById(to.webphone.id)).body.status;
           if (fromStatus === 'accepted' && toStatus ==='invited') {
+            debugger
+            console.log(fromStatus,toStatus);
             status = true; 
           }
         }
@@ -130,7 +132,6 @@ export default function createWebphone({
           await Webphone.sleep(1000);
           fromStatus = (await Webphone.getPhonesById(from.webphone.id)).body.status;
           toStatus = (await Webphone.getPhonesById(to.webphone.id)).body.status;
-          console.log(fromStatus,toStatus);
           if (fromStatus === 'accepted' || toStatus ==='invited' || toStatus === 'accepted' || fromStatus ==='invited') {
             status = true; 
           }
