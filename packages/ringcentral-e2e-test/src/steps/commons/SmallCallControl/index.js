@@ -31,6 +31,7 @@ export default class SmallCallControl {
   }
 
   static async getIsCallHangup(context) {
+    await await $(context.app).waitFor(1000);
     const callStatus = await $(context.app).getText('@callStatus');
     const isHangup = callStatus === 'Disconnected';
     return isHangup;

@@ -9,16 +9,16 @@ export default function createWebphone({
   return class {
     static async _getPhone(context, account) {
       const env = context.options.tag.envs;
-      // const phoneRes = await Webphone.getPhonesByNumber(`+${account.did}`, env);
-      // const phoneBody = JSON.parse(phoneRes.text);
-      // if (phoneBody.length > 0) {
-      //   await Webphone.operate({
-      //     phoneId: phoneBody[0]._id,
-      //     sessionId: phoneBody[0].sessionId,
-      //     action: 'close',
-      //     phoneNumber: phoneBody[0].phoneNumber
-      //   });
-      // }
+      const phoneBody = (await Webphone.getPhonesByNumber(`+${account.did}`, env)).body;
+      if (phoneBody.length > 0) {
+        const body = phoneBody[0];
+        await Webphone.operate({
+          phoneId: body._id,
+          sessionId: body.sessionId,
+          action: 'close',
+          phoneNumber: body.phoneNumber
+        });
+      }
       const res = await Webphone.createWebPhone({
         phoneNumber: `+${account.did}`,
         type: PhoneType.WebPhone,
@@ -90,23 +90,53 @@ export default function createWebphone({
     }
   
     static async hangup(context) {
-      console.log("hangup");
+      const status = await this._status(context, 'hangup');
+      console.log("hangup", status);
       await Webphone.operate({
-        phoneId: to.webphone.id,
-        sessionId: to.webphone.sessionId,
+        phoneId: from.webphone.id,
+        sessionId: from.webphone.sessionId,
         action: 'hangup',
-        phoneNumber: from.webphone.phoneNumber
+        phoneNumber: to.webphone.phoneNumber
       });
     }
   
     static async answerCall(context) {
-      console.log('answerCall');
+      const status = await this._status(context, 'answerCall');
+      console.log('answerCall', status);
       await Webphone.operate({
-        phoneId: from.webphone.id,   
-        sessionId: from.webphone.sessionId,
+        phoneId: to.webphone.id,   
+        sessionId: to.webphone.sessionId,
         action: 'answerCall',
-        phoneNumber: to.webphone.phoneNumber
+        phoneNumber: from.webphone.phoneNumber
       });
+    }
+
+    static async _status(context, action){
+      let status = false;
+      let fromStatus;
+      let toStatus;
+      const waitUntil = Date.now() + 20000;
+      if(action === 'answerCall') {
+        while((fromStatus !== 'accepted' || toStatus !=='invited') && Date.now() < Date.now() + waitUntil){
+          await Webphone.sleep(1000);
+          fromStatus = (await Webphone.getPhonesById(from.webphone.id)).body.status;
+          toStatus = (await Webphone.getPhonesById(to.webphone.id)).body.status;
+          if (fromStatus === 'accepted' && toStatus ==='invited') {
+            status = true; 
+          }
+        }
+      } else if (action === 'hangup') {
+        for(let i=0; i<10; i++){
+          await Webphone.sleep(1000);
+          fromStatus = (await Webphone.getPhonesById(from.webphone.id)).body.status;
+          toStatus = (await Webphone.getPhonesById(to.webphone.id)).body.status;
+          console.log(fromStatus,toStatus);
+          if (fromStatus === 'accepted' || toStatus ==='invited' || toStatus === 'accepted' || fromStatus ==='invited') {
+            status = true; 
+          }
+        }
+      }
+      return status;
     }
 
     static async _preAnswerCall(context, [from, to]) {
@@ -123,8 +153,12 @@ export default function createWebphone({
       await this._preAnswerCall(context, [from, to]);
     }
   
+    static async close(context){
+      await this._close(context, from);
+      await this._close(context, to);
+    }
+
     static async getIsMuteEnabled(context) {
-      console.log("getIsMuteEnabled");
       const className = await $(context.app).getAttribute('@mute', 'class');
       const isMuteButtonDisabled = className.indexOf('buttonDisabled') > -1;
       return !isMuteButtonDisabled;
