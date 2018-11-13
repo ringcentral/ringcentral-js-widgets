@@ -1,0 +1,17 @@
+@import '../lib/commonStyles/fonts';
+
+.avatar {
+  width: 100%;
+
+  &:not(:root) {
+    overflow: visible;
+  }
+}
+
+.disabledPointerEvents {
+  pointer-events: none;
+}
+
+.autoPointerEvents {
+  pointer-events: auto;
+}

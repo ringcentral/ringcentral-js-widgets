@@ -1,0 +1,13 @@
+import MuteIcon from '../../assets/images/Mute.svg';
+import UnmuteIcon from '../../assets/images/Unmute.svg';
+import KeypadIcon from '../../assets/images/Dialpad.svg';
+import HoldIcon from '../../assets/images/Hold.svg';
+// import ParkIcon from '../../assets/images/Park.svg';
+import RecordIcon from '../../assets/images/Record.svg';
+// import AddIcon from '../../assets/images/AddCall.svg';
+import MoreIcon from '../../assets/images/MoreIcon.svg';
+import TransferIcon from '../../assets/images/Transfer.svg';
+import FlipIcon from '../../assets/images/Flip.svg';
+import EndIcon from '../../assets/images/End.svg';
+import CombineIcon from '../../assets/images/Combine.svg';
+import MergeIcon from '../../assets/images/MergeIntoConferenceIcon.svg';
