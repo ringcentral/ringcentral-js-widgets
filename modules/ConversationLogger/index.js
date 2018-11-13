@@ -187,7 +187,8 @@ var ConversationLogger = (_dec = (0, _di.Module)({
         formatDateTime = _ref2$formatDateTime === undefined ? function () {
       return dateTimeFormat.formatDateTime.apply(dateTimeFormat, arguments);
     } : _ref2$formatDateTime,
-        options = (0, _objectWithoutProperties3.default)(_ref2, ['auth', 'contactMatcher', 'conversationMatcher', 'dateTimeFormat', 'extensionInfo', 'messageStore', 'rolesAndPermissions', 'storage', 'tabManager', 'isLoggedContact', 'isAutoUpdate', 'formatDateTime']);
+        accordWithLogRequirement = _ref2.accordWithLogRequirement,
+        options = (0, _objectWithoutProperties3.default)(_ref2, ['auth', 'contactMatcher', 'conversationMatcher', 'dateTimeFormat', 'extensionInfo', 'messageStore', 'rolesAndPermissions', 'storage', 'tabManager', 'isLoggedContact', 'isAutoUpdate', 'formatDateTime', 'accordWithLogRequirement']);
     (0, _classCallCheck3.default)(this, ConversationLogger);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ConversationLogger.__proto__ || (0, _getPrototypeOf2.default)(ConversationLogger)).call(this, (0, _extends3.default)({}, options, {
@@ -208,6 +209,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
     _this._isLoggedContact = isLoggedContact;
     _this._formatDateTime = formatDateTime;
     _this._isAutoUpdate = isAutoUpdate;
+    _this._accordWithLogRequirement = accordWithLogRequirement;
     _this._storageKey = _this._name + 'Data';
     _this._messageStore.onMessageUpdated(function () {
       _this._processConversationLogMap();
@@ -501,6 +503,11 @@ var ConversationLogger = (_dec = (0, _di.Module)({
       return _processConversationLog;
     }()
   }, {
+    key: 'accordWithProcessLogRequirement',
+    value: function accordWithProcessLogRequirement() {
+      return !this._accordWithLogRequirement || this._accordWithLogRequirement.apply(this, arguments);
+    }
+  }, {
     key: '_processConversationLogMap',
     value: function _processConversationLogMap() {
       var _this5 = this;
@@ -522,9 +529,11 @@ var ConversationLogger = (_dec = (0, _di.Module)({
             (0, _keys2.default)(_this5._lastProcessedConversations[conversationId]).forEach(function (date) {
               var conversation = _this5._lastProcessedConversations[conversationId][date];
               if (!oldMap[conversationId] || !oldMap[conversationId][date] || conversation.messages[0].id !== oldMap[conversationId][date].messages[0].id) {
-                _this5._queueAutoLogConversation({
-                  conversation: conversation
-                });
+                if (_this5.accordWithProcessLogRequirement(conversation)) {
+                  _this5._queueAutoLogConversation({
+                    conversation: conversation
+                  });
+                }
               }
             });
           });
