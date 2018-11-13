@@ -46,9 +46,7 @@ const create = async (caseID, cmd) => {
   });
 
   let Services;
-  cmdServicesList.forEach(async ({
-    handler, caseID, ...params
-  }) => {
+  for (const { handler, caseID, ...params } of cmdServicesList) {
     try {
       const servicesModule = require(resolve(process.cwd(), handler));
       Services = (servicesModule && servicesModule.__esModule) ? servicesModule.default : servicesModule;
@@ -56,10 +54,10 @@ const create = async (caseID, cmd) => {
       throw new Error(error);
     }
     const services = new Services(params);
-    caseID.forEach(async (id) => {
+    for (const id of caseID) {
       await services.createCaseTemplate(id);
-    });
-  });
+    }
+  }
 };
 
 export { create, };

@@ -1,8 +1,10 @@
 
 import FetchData from './fetchData';
+import BaseService from '../../../../../ringcentral-e2e-cli/lib/BaseService';
 
-export default class EinsteinServices {
+export default class EinsteinServices extends BaseService {
   constructor(params) {
+    super();
     this._fetchData = new FetchData(params);
   }
 
