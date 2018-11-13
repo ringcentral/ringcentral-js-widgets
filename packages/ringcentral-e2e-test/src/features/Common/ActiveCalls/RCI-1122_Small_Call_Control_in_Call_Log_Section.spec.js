@@ -56,7 +56,7 @@ describe('Commom ActiveCalls: =====>', () => {
   test({
     title: 'Small Call Control in Call Log Section',
     tags: [
-      ['widgets'],
+      ['salesforce'],
     ],
     levels: ['p1'],
     options: [

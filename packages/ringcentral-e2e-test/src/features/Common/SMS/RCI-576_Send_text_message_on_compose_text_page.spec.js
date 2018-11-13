@@ -52,7 +52,7 @@ describe('Commom SMS: =====>', () => {
       ['widgets'],
       ['salesforce'],
       ['google'],
-      ['dynamics'],
+      ['office'],
     ],
     levels: ['p0'],
     options: [
