@@ -4,7 +4,6 @@ import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import ActiveCallDialPad from '../ActiveCallDialPad';
 import ActiveCallPanel from '../ActiveCallPanel';
 import FlipPanel from '../FlipPanel';
-import TransferPanel from '../TransferPanel';
 import ConfirmMergeModal from '../ConfirmMergeModal';
 import SpinnerOverlay from '../SpinnerOverlay';
 
@@ -41,16 +40,8 @@ class CallCtrlPanel extends Component {
       });
     };
 
-    this.toggleTransferPanel = () => {
-      this.setState(prevState => ({
-        isShowTransferPanel: !prevState.isShowTransferPanel,
-      }));
-    };
-
-    this.hideTransferPanel = () => {
-      this.setState({
-        isShowTransferPanel: false,
-      });
+    this.onTransfer = () => {
+      this.props.onTransfer(this.props.sessionId);
     };
 
     this.onMerge = () => {
@@ -105,7 +96,6 @@ class CallCtrlPanel extends Component {
     if (this.props.sessionId !== nextProps.sessionId) {
       this.hiddenKeyPad();
       this.hideFlipPanel();
-      this.hideTransferPanel();
       this.hideMergeConfirm();
     }
   }
@@ -131,23 +121,6 @@ class CallCtrlPanel extends Component {
           hideFlipPanel={this.hideFlipPanel}
           onFlip={this.props.onFlip}
           complete={this.props.onHangup}
-        />
-      );
-    }
-    if (this.state.isShowTransferPanel) {
-      return (
-        <TransferPanel
-          onTransfer={this.props.onTransfer}
-          currentLocale={this.props.currentLocale}
-          toggleTransferPanel={this.toggleTransferPanel}
-          isOnTransfer={this.props.isOnTransfer}
-          searchContactList={this.props.searchContactList}
-          searchContact={this.props.searchContact}
-          formatPhone={this.props.formatPhone}
-          phoneTypeRenderer={this.props.phoneTypeRenderer}
-          phoneSourceNameRenderer={this.props.phoneSourceNameRenderer}
-          recipientsContactInfoRenderer={this.props.recipientsContactInfoRenderer}
-          recipientsContactPhoneRenderer={this.props.recipientsContactPhoneRenderer}
         />
       );
     }
@@ -186,7 +159,7 @@ class CallCtrlPanel extends Component {
         brand={this.props.brand}
         showContactDisplayPlaceholder={this.props.showContactDisplayPlaceholder}
         onShowFlipPanel={this.showFlipPanel}
-        onToggleTransferPanel={this.toggleTransferPanel}
+        onToggleTransferPanel={this.onTransfer}
         gotoParticipantsCtrl={this.props.gotoParticipantsCtrl}
         flipNumbers={this.props.flipNumbers}
         sourceIcons={this.props.sourceIcons}
@@ -231,7 +204,6 @@ CallCtrlPanel.propTypes = {
   isOnMute: PropTypes.bool,
   isOnHold: PropTypes.bool,
   isOnFlip: PropTypes.bool,
-  isOnTransfer: PropTypes.bool,
   flipNumbers: PropTypes.array,
   recordStatus: PropTypes.string,
   onMute: PropTypes.func.isRequired,
@@ -261,12 +233,8 @@ CallCtrlPanel.propTypes = {
   brand: PropTypes.string,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
-  searchContactList: PropTypes.array,
-  searchContact: PropTypes.func,
   phoneTypeRenderer: PropTypes.func,
   phoneSourceNameRenderer: PropTypes.func,
-  recipientsContactInfoRenderer: PropTypes.func,
-  recipientsContactPhoneRenderer: PropTypes.func,
   layout: PropTypes.string.isRequired,
   showSpinner: PropTypes.bool,
   direction: PropTypes.string,
@@ -288,7 +256,6 @@ CallCtrlPanel.defaultProps = {
   startTime: null,
   isOnMute: false,
   isOnHold: false,
-  isOnTransfer: false,
   isOnFlip: false,
   flipNumbers: [],
   phoneNumber: null,
@@ -304,8 +271,6 @@ CallCtrlPanel.defaultProps = {
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
-  recipientsContactInfoRenderer: undefined,
-  recipientsContactPhoneRenderer: undefined,
   onAdd: undefined,
   onMerge: undefined,
   onBeforeMerge: undefined,
@@ -328,8 +293,6 @@ CallCtrlPanel.defaultProps = {
   onPark: () => null,
   onKeyPadChange: () => null,
   onSelectMatcherName: () => null,
-  searchContactList: [],
-  searchContact: () => [],
   actions: [],
   recordStatus: '',
 };

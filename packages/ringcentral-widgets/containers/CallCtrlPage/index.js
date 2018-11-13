@@ -117,8 +117,6 @@ function mapToFunctions(_, {
   onBackButtonClick,
   phoneTypeRenderer,
   phoneSourceNameRenderer,
-  recipientsContactInfoRenderer,
-  recipientsContactPhoneRenderer,
 }) {
   return {
     getInitialLayout({
@@ -187,15 +185,15 @@ function mapToFunctions(_, {
     getAvatarUrl,
     onBackButtonClick,
     onFlip: (flipNumber, sessionId) => webphone.flip(flipNumber, sessionId),
-    onTransfer: (transferNumber, sessionId) => webphone.transfer(transferNumber, sessionId),
+    onTransfer(sessionId) {
+      routerInteraction.push(`/transfer/${sessionId}/webphone`);
+    },
     onPark: sessionId => webphone.park(sessionId),
     searchContact: searchString => (
       contactSearch.debouncedSearch({ searchString })
     ),
     phoneTypeRenderer,
     phoneSourceNameRenderer,
-    recipientsContactInfoRenderer,
-    recipientsContactPhoneRenderer,
     onAdd(sessionId) {
       // track user click add on call control
       callMonitor.callControlClickAddTrack();

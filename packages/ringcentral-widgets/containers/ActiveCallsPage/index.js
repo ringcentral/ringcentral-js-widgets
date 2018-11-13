@@ -135,7 +135,7 @@ function mapToFunctions(_, {
       return (activeCallControl && activeCallControl.hangUp(...args));
     },
     async ringoutTransfer(sessionId) {
-      routerInteraction.push(`/transfer/${sessionId}`);
+      routerInteraction.push(`/transfer/${sessionId}/active`);
     },
     async ringoutReject(sessionId) {
       // user action track
