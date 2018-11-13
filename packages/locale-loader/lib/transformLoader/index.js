@@ -10,7 +10,7 @@ export default function transformLoader({
   supportedLocales = ['en-US'],
 } = {}) {
   return through.obj(async function transform(file, enc, done) {
-    console.log(JSON.stringify(supportedLocales));
+    // console.log(JSON.stringify(supportedLocales));
 
     const content = file.contents.toString(enc);
     const fileName = file.path.split('/').pop().split('.')[0];
