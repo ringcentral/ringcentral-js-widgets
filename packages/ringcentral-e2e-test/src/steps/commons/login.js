@@ -33,7 +33,7 @@ export default function Login(account) {
         await process.exec();
       }
 
-      static async login({ options: { option, isVirtual, tag }, app, page}) {
+      static async login({ options: { option, isVirtual, tag, config }, app, page}) {
         if (isVirtual) {
           option.playload.loginAccount = {
             username: '',
@@ -53,8 +53,8 @@ export default function Login(account) {
           // await this.realLogin(option.playload.loginAccount, app, page);
         }
         await $(app).waitForSelector('@tabNavigationView');
-        // TODO temp support google
-        if (tag.project === 'google') {
+        // TODO temp support extension
+        if (config.type === 'extension') {
           await $(app).execute(`${srcriptRootLiteral[tag.project]}.userGuide.dismiss()`);
         }
       }
