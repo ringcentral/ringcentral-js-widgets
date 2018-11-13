@@ -319,7 +319,7 @@ function mapToFunctions(_, _ref2) {
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
-                routerInteraction.push('/transfer/' + sessionId);
+                routerInteraction.push('/transfer/' + sessionId + '/active');
 
               case 1:
               case 'end':

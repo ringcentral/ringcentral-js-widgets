@@ -142,9 +142,6 @@ var CallCtrlContainer = function (_Component) {
     _this.onFlip = function (value) {
       return _this.props.onFlip(value, _this.props.session.id);
     };
-    _this.onTransfer = function (value) {
-      return _this.props.onTransfer(value, _this.props.session.id);
-    };
     _this.onPark = function () {
       return _this.props.onPark(_this.props.session.id);
     };
@@ -370,7 +367,6 @@ var CallCtrlContainer = function (_Component) {
           isOnMute: session.isOnMute,
           isOnHold: session.isOnHold,
           isOnFlip: session.isOnFlip,
-          isOnTransfer: session.isOnTransfer,
           recordStatus: session.recordStatus,
           showBackButton: this.props.showBackButton,
           backButtonLabel: backButtonLabel,
@@ -387,7 +383,7 @@ var CallCtrlContainer = function (_Component) {
           onMerge: this.onMerge,
           onBeforeMerge: this.onBeforeMerge,
           onFlip: this.onFlip,
-          onTransfer: this.onTransfer,
+          onTransfer: this.props.onTransfer,
           onPark: this.onPark,
           nameMatches: this.props.nameMatches,
           fallBackName: fallbackUserName,
@@ -400,12 +396,8 @@ var CallCtrlContainer = function (_Component) {
           showContactDisplayPlaceholder: this.props.showContactDisplayPlaceholder,
           flipNumbers: this.props.flipNumbers,
           sourceIcons: this.props.sourceIcons,
-          searchContactList: this.props.searchContactList,
-          searchContact: this.props.searchContact,
           phoneTypeRenderer: this.props.phoneTypeRenderer,
           phoneSourceNameRenderer: this.props.phoneSourceNameRenderer,
-          recipientsContactInfoRenderer: this.props.recipientsContactInfoRenderer,
-          recipientsContactPhoneRenderer: this.props.recipientsContactPhoneRenderer,
           layout: this.state.layout,
           showSpinner: this.props.showSpinner,
           direction: session.direction,
@@ -443,7 +435,6 @@ CallCtrlContainer.propTypes = {
     isOnMute: _propTypes2.default.bool,
     isOnHold: _propTypes2.default.bool,
     isOnFlip: _propTypes2.default.bool,
-    isOnTransfer: _propTypes2.default.bool,
     recordStatus: _propTypes2.default.string,
     to: _propTypes2.default.string,
     from: _propTypes2.default.string,
@@ -478,12 +469,8 @@ CallCtrlContainer.propTypes = {
   showContactDisplayPlaceholder: _propTypes2.default.bool.isRequired,
   flipNumbers: _propTypes2.default.array.isRequired,
   sourceIcons: _propTypes2.default.object,
-  searchContactList: _propTypes2.default.array.isRequired,
-  searchContact: _propTypes2.default.func.isRequired,
   phoneTypeRenderer: _propTypes2.default.func,
   phoneSourceNameRenderer: _propTypes2.default.func,
-  recipientsContactInfoRenderer: _propTypes2.default.func,
-  recipientsContactPhoneRenderer: _propTypes2.default.func,
   layout: _propTypes2.default.string,
   showSpinner: _propTypes2.default.bool,
   conferenceCallParties: _propTypes2.default.array,
@@ -510,8 +497,6 @@ CallCtrlContainer.defaultProps = {
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
-  recipientsContactInfoRenderer: undefined,
-  recipientsContactPhoneRenderer: undefined,
   onAdd: undefined,
   onMerge: undefined,
   onBeforeMerge: undefined,

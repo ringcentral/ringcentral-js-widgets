@@ -35,8 +35,6 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _ramda = require('ramda');
-
 var _DialPad = require('../DialPad');
 
 var _DialPad2 = _interopRequireDefault(_DialPad);
@@ -86,7 +84,7 @@ var TransferPanel = (_temp = _class = function (_PureComponent) {
     };
 
     _this.onTransfer = function () {
-      _this.props.onTransfer(_this._getTransferNumber());
+      _this.props.onTransfer(_this._getTransferNumber(), _this.props.sessionId);
     };
 
     _this.onToNumberChange = function (toNumber) {
@@ -122,8 +120,13 @@ var TransferPanel = (_temp = _class = function (_PureComponent) {
   (0, _createClass3.default)(TransferPanel, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      if (this.props.disablePage) {
-        this.load();
+      this.load();
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      if (this.props.session && !nextProps.session) {
+        this.props.onCallEnd();
       }
     }
   }, {
@@ -139,17 +142,17 @@ var TransferPanel = (_temp = _class = function (_PureComponent) {
   }, {
     key: 'render',
     value: function render() {
-      if (this.props.disablePage && !this.props.activeSession) {
-        this.props.toggleTransferPanel();
+      if (!this.props.session) {
         return null;
       }
+      var isOnTransfer = !!this.props.session.isOnTransfer;
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.root },
         _react2.default.createElement(
           _BackHeader2.default,
           {
-            onBackClick: this.props.toggleTransferPanel },
+            onBackClick: this.props.onBack },
           _i18n2.default.getString('transferTo', this.props.currentLocale)
         ),
         _react2.default.createElement(_RecipientsInput2.default, {
@@ -185,10 +188,10 @@ var TransferPanel = (_temp = _class = function (_PureComponent) {
               'div',
               { className: _styles2.default.button },
               _react2.default.createElement(_CircleButton2.default, {
-                className: this.props.isOnTransfer ? _styles2.default.disabled : undefined,
+                className: isOnTransfer ? _styles2.default.disabled : undefined,
                 onClick: this.onTransfer,
                 icon: _Transfer2.default,
-                disabled: this.props.isOnTransfer
+                disabled: isOnTransfer
               })
             )
           )
@@ -201,29 +204,27 @@ var TransferPanel = (_temp = _class = function (_PureComponent) {
   setActiveSessionId: _propTypes2.default.func,
   onTransfer: _propTypes2.default.func.isRequired,
   currentLocale: _propTypes2.default.string.isRequired,
-  toggleTransferPanel: _propTypes2.default.func.isRequired,
-  searchContactList: _propTypes2.default.array.isRequired,
+  onBack: _propTypes2.default.func.isRequired,
+  onCallEnd: _propTypes2.default.func.isRequired,
+  searchContactList: _propTypes2.default.array,
   searchContact: _propTypes2.default.func.isRequired,
   formatPhone: _propTypes2.default.func.isRequired,
   phoneTypeRenderer: _propTypes2.default.func,
   phoneSourceNameRenderer: _propTypes2.default.func,
   recipientsContactInfoRenderer: _propTypes2.default.func,
   recipientsContactPhoneRenderer: _propTypes2.default.func,
-  isOnTransfer: _propTypes2.default.bool,
   autoFocus: _propTypes2.default.bool,
   sessionId: _propTypes2.default.string.isRequired,
-  activeSession: _propTypes2.default.object,
-  disablePage: _propTypes2.default.bool
+  session: _propTypes2.default.object
 }, _class.defaultProps = {
   setActiveSessionId: null,
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
   recipientsContactInfoRenderer: undefined,
   recipientsContactPhoneRenderer: undefined,
-  isOnTransfer: false,
   autoFocus: true,
-  activeSession: null,
-  disablePage: false
+  session: null,
+  searchContactList: []
 }, _temp);
 exports.default = TransferPanel;
 //# sourceMappingURL=index.js.map

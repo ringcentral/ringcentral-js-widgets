@@ -48,10 +48,6 @@ var _FlipPanel = require('../FlipPanel');
 
 var _FlipPanel2 = _interopRequireDefault(_FlipPanel);
 
-var _TransferPanel = require('../TransferPanel');
-
-var _TransferPanel2 = _interopRequireDefault(_TransferPanel);
-
 var _ConfirmMergeModal = require('../ConfirmMergeModal');
 
 var _ConfirmMergeModal2 = _interopRequireDefault(_ConfirmMergeModal);
@@ -100,18 +96,8 @@ var CallCtrlPanel = function (_Component) {
       });
     };
 
-    _this.toggleTransferPanel = function () {
-      _this.setState(function (prevState) {
-        return {
-          isShowTransferPanel: !prevState.isShowTransferPanel
-        };
-      });
-    };
-
-    _this.hideTransferPanel = function () {
-      _this.setState({
-        isShowTransferPanel: false
-      });
+    _this.onTransfer = function () {
+      _this.props.onTransfer(_this.props.sessionId);
     };
 
     _this.onMerge = function () {
@@ -167,7 +153,6 @@ var CallCtrlPanel = function (_Component) {
       if (this.props.sessionId !== nextProps.sessionId) {
         this.hiddenKeyPad();
         this.hideFlipPanel();
-        this.hideTransferPanel();
         this.hideMergeConfirm();
       }
     }
@@ -191,21 +176,6 @@ var CallCtrlPanel = function (_Component) {
           hideFlipPanel: this.hideFlipPanel,
           onFlip: this.props.onFlip,
           complete: this.props.onHangup
-        });
-      }
-      if (this.state.isShowTransferPanel) {
-        return _react2.default.createElement(_TransferPanel2.default, {
-          onTransfer: this.props.onTransfer,
-          currentLocale: this.props.currentLocale,
-          toggleTransferPanel: this.toggleTransferPanel,
-          isOnTransfer: this.props.isOnTransfer,
-          searchContactList: this.props.searchContactList,
-          searchContact: this.props.searchContact,
-          formatPhone: this.props.formatPhone,
-          phoneTypeRenderer: this.props.phoneTypeRenderer,
-          phoneSourceNameRenderer: this.props.phoneSourceNameRenderer,
-          recipientsContactInfoRenderer: this.props.recipientsContactInfoRenderer,
-          recipientsContactPhoneRenderer: this.props.recipientsContactPhoneRenderer
         });
       }
       return _react2.default.createElement(
@@ -244,7 +214,7 @@ var CallCtrlPanel = function (_Component) {
           brand: this.props.brand,
           showContactDisplayPlaceholder: this.props.showContactDisplayPlaceholder,
           onShowFlipPanel: this.showFlipPanel,
-          onToggleTransferPanel: this.toggleTransferPanel,
+          onToggleTransferPanel: this.onTransfer,
           gotoParticipantsCtrl: this.props.gotoParticipantsCtrl,
           flipNumbers: this.props.flipNumbers,
           sourceIcons: this.props.sourceIcons,
@@ -287,7 +257,6 @@ CallCtrlPanel.propTypes = {
   isOnMute: _propTypes2.default.bool,
   isOnHold: _propTypes2.default.bool,
   isOnFlip: _propTypes2.default.bool,
-  isOnTransfer: _propTypes2.default.bool,
   flipNumbers: _propTypes2.default.array,
   recordStatus: _propTypes2.default.string,
   onMute: _propTypes2.default.func.isRequired,
@@ -317,12 +286,8 @@ CallCtrlPanel.propTypes = {
   brand: _propTypes2.default.string,
   showContactDisplayPlaceholder: _propTypes2.default.bool,
   sourceIcons: _propTypes2.default.object,
-  searchContactList: _propTypes2.default.array,
-  searchContact: _propTypes2.default.func,
   phoneTypeRenderer: _propTypes2.default.func,
   phoneSourceNameRenderer: _propTypes2.default.func,
-  recipientsContactInfoRenderer: _propTypes2.default.func,
-  recipientsContactPhoneRenderer: _propTypes2.default.func,
   layout: _propTypes2.default.string.isRequired,
   showSpinner: _propTypes2.default.bool,
   direction: _propTypes2.default.string,
@@ -344,7 +309,6 @@ CallCtrlPanel.defaultProps = {
   startTime: null,
   isOnMute: false,
   isOnHold: false,
-  isOnTransfer: false,
   isOnFlip: false,
   flipNumbers: [],
   phoneNumber: null,
@@ -360,8 +324,6 @@ CallCtrlPanel.defaultProps = {
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
-  recipientsContactInfoRenderer: undefined,
-  recipientsContactPhoneRenderer: undefined,
   onAdd: undefined,
   onMerge: undefined,
   onBeforeMerge: undefined,
@@ -405,10 +367,6 @@ CallCtrlPanel.defaultProps = {
   },
   onSelectMatcherName: function onSelectMatcherName() {
     return null;
-  },
-  searchContactList: [],
-  searchContact: function searchContact() {
-    return [];
   },
   actions: [],
   recordStatus: ''

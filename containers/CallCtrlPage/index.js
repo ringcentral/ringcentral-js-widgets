@@ -147,9 +147,7 @@ function mapToFunctions(_, _ref2) {
       getAvatarUrl = _ref2.getAvatarUrl,
       onBackButtonClick = _ref2.onBackButtonClick,
       phoneTypeRenderer = _ref2.phoneTypeRenderer,
-      phoneSourceNameRenderer = _ref2.phoneSourceNameRenderer,
-      recipientsContactInfoRenderer = _ref2.recipientsContactInfoRenderer,
-      recipientsContactPhoneRenderer = _ref2.recipientsContactPhoneRenderer;
+      phoneSourceNameRenderer = _ref2.phoneSourceNameRenderer;
 
   return {
     getInitialLayout: function getInitialLayout(_ref3) {
@@ -229,9 +227,10 @@ function mapToFunctions(_, _ref2) {
     onFlip: function onFlip(flipNumber, sessionId) {
       return webphone.flip(flipNumber, sessionId);
     },
-    onTransfer: function onTransfer(transferNumber, sessionId) {
-      return webphone.transfer(transferNumber, sessionId);
+    onTransfer: function onTransfer(sessionId) {
+      routerInteraction.push('/transfer/' + sessionId + '/webphone');
     },
+
     onPark: function onPark(sessionId) {
       return webphone.park(sessionId);
     },
@@ -240,8 +239,6 @@ function mapToFunctions(_, _ref2) {
     },
     phoneTypeRenderer: phoneTypeRenderer,
     phoneSourceNameRenderer: phoneSourceNameRenderer,
-    recipientsContactInfoRenderer: recipientsContactInfoRenderer,
-    recipientsContactPhoneRenderer: recipientsContactPhoneRenderer,
     onAdd: function onAdd(sessionId) {
       // track user click add on call control
       callMonitor.callControlClickAddTrack();

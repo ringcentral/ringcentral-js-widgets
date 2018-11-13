@@ -4,14 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _regenerator = require('babel-runtime/regenerator');
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
-
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -126,10 +118,13 @@ function mapToFunctions(_, _ref2) {
 
   return {
     onBackButtonClick: function onBackButtonClick() {
-      return routerInteraction.goBack();
+      routerInteraction.goBack();
     },
     setActiveSessionId: function setActiveSessionId(sessionId) {
-      return activeCallControl.setActiveSessionId(sessionId);
+      activeCallControl.setActiveSessionId(sessionId);
+    },
+    onTransfer: function onTransfer(sessionId) {
+      routerInteraction.push('/transfer/' + sessionId + '/active');
     }
   };
 }
@@ -138,8 +133,6 @@ var ActiveCallControlPanel = function (_Component) {
   (0, _inherits3.default)(ActiveCallControlPanel, _Component);
 
   function ActiveCallControlPanel(props) {
-    var _this2 = this;
-
     (0, _classCallCheck3.default)(this, ActiveCallControlPanel);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ActiveCallControlPanel.__proto__ || (0, _getPrototypeOf2.default)(ActiveCallControlPanel)).call(this, props));
@@ -163,26 +156,6 @@ var ActiveCallControlPanel = function (_Component) {
     _this.onHangup = function () {
       return _this.props.activeCallControl.hangUp(_this.props.sessionId);
     };
-    _this.onTransfer = function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(number) {
-        return _regenerator2.default.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                return _context.abrupt('return', _this.props.activeCallControl.transfer(number, _this.props.sessionId));
-
-              case 1:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, _this2);
-      }));
-
-      return function (_x) {
-        return _ref3.apply(this, arguments);
-      };
-    }();
 
     _this.formatPhone = function (phoneNumber) {
       return (0, _formatNumber2.default)({
@@ -237,6 +210,7 @@ var ActiveCallControlPanel = function (_Component) {
 
 
       return _react2.default.createElement(_CallCtrlPanel2.default, {
+        sessionId: this.props.sessionId,
         currentLocale: this.props.currentLocale,
         fallBackName: this.props.fallBackName,
         phoneNumber: this.props.phoneNumber,
@@ -245,7 +219,7 @@ var ActiveCallControlPanel = function (_Component) {
         onHold: this.onHold,
         onUnhold: this.onUnhold,
         onHangup: this.onHangup,
-        onTransfer: this.onTransfer,
+        onTransfer: this.props.onTransfer,
         showBackButton: true,
         backButtonLabel: _i18n2.default.getString('allCalls', this.props.currentLocale),
         onBackButtonClick: this.props.onBackButtonClick,
@@ -281,11 +255,13 @@ ActiveCallControlPanel.propTypes = {
   fallBackName: _propTypes2.default.string,
   phoneNumber: _propTypes2.default.string,
   showContactDisplayPlaceholder: _propTypes2.default.bool,
-  brand: _propTypes2.default.string.isRequired
+  brand: _propTypes2.default.string.isRequired,
+  onTransfer: _propTypes2.default.func.isRequired
 };
 
 ActiveCallControlPanel.defaultProps = {
   setActiveSessionId: function setActiveSessionId() {},
+
   currentLocale: 'en-US',
   activeCallControl: {},
   activeSession: null,
