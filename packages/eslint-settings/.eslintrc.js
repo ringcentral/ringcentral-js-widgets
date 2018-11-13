@@ -10,6 +10,9 @@ module.exports = {
     // jest: true,
     // jasmine: true
   },
+  globals: {
+      "$": true,
+  }
   rules: {
     "max-len": [
       2,

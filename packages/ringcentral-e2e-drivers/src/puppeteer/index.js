@@ -32,12 +32,17 @@ class Query extends BaseQuery {
     return attributeValue;
   }
 
-  async getValue(selector, options) {
+  async getProperty(selector, property, options) {
     const element = await this.waitForSelector(selector, options);
     const value = await this._node.evaluate(
-      element => element.value,
-      element
+      (element, property) => element[property],
+      element, property
     );
+    return value;
+  }
+
+  async getValue(selector, options) {
+    const value = await this.getProperty(selector, 'value', options);
     return value;
   }
 
@@ -60,16 +65,7 @@ class Query extends BaseQuery {
 
   async type(selector, value, options) {
     const _selector = this.getSelector(selector, options);
-    await this._node.type(_selector, value);
-  }
-
-  async waitForClickable(selector, options) {
-    const element = await this.waitForSelector(selector, { ...options, visible: true });
-    await this._node.waitForFunction((selector) => {
-      const ele = document.querySelector(selector);
-      return !ele.disabled;
-    }, {}, selector);
-    return element;
+    await this._node.type(_selector, value, options);
   }
 
   async waitForSelector(selector, options) {

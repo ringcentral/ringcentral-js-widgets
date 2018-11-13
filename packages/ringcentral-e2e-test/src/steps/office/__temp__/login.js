@@ -2,13 +2,12 @@ import {
   createProcess
 } from 'marten';
 import ToggleEnv from './toggleEnv';
-/* global $, page, browser, context */
 
 const oauthUrl = 'http://service-itldevxmn.lab.nordigy.ru';
 
 export default class Login {
   static async prepare(context) {
-    await $(context.driver.app).waitFor('[class*=loginButton]', {
+    await $(context.app).waitFor('[class*=loginButton]', {
       selector: 'css'
     });
     if (context.options.isVirtual) return;
@@ -67,7 +66,7 @@ export default class Login {
   }
   static async login(actions) {
     const params = context.options.config;
-    await $(context.driver.app).waitFor('[class*=loginButton]', {
+    await $(context.app).waitFor('[class*=loginButton]', {
       selector: 'css'
     });
     await $(page).waitFor(2000); // wait for js warm up;

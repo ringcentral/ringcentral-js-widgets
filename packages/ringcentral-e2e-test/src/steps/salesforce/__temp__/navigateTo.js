@@ -1,6 +1,6 @@
-/* global $ */
+
 export default class NavigateTo {
-  static async go({ driver: { app }, options: { isVirtual } }) {
+  static async go({ app, options: { isVirtual } }) {
     console.log('==========NAV TO==========');
     // TODO
     await $(app).waitFor(3000);

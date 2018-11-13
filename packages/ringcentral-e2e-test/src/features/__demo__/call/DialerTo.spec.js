@@ -1,6 +1,5 @@
 
 /* eslint-disable */
-/* global $, page, browser, driver, context */
 import React from 'react';
 import Button from 'ringcentral-widgets/components/Button';
 import { createProcess } from 'marten';
