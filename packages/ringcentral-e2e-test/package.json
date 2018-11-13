@@ -9,7 +9,7 @@
   },
   "scripts": {
     "testExample": "e2e-test run ./src/features/widgets/meeting/ScheduleMeeting.spec.js --params '{ \"levels\": [\"p1\"],\"tags\": [[\"widgets\", {\"brands\":[\"rc\"]}],[\"salesforce\"]] }' -D -S --testerCLI '--clearCache' --drivers puppeteer,seleniumWebdriverFirefox",
-    "test": "e2e-test run ./src/features/widgets/meeting/ScheduleMeeting.spec.js --params '{ \"levels\": [\"p1\"],\"tags\": [[\"widgets\", {\"brands\":[\"rc\"], \"levels\": [\"p0\"]}],[\"salesforce\",{\"brands\":[\"att\"]}]] }'"
+    "test": "e2e-test run ./src/features/widgets/meeting/ScheduleMeeting.spec.js --params '{ \"levels\": [\"p1\"],\"tags\": [[\"widgets\", {\"brands\":[\"rc\"], \"levels\": [\"p0\"]}],[\"salesforce\",{\"brands\":[\"att\"]}]] }'",
     "createCase": "npx e2e-test create --service '{ \"list\": [{\"origin\":\"einstein\",\"caseID\": [961] }]}'"
   },
   "engines": {

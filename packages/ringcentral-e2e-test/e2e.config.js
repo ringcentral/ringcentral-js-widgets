@@ -13,6 +13,7 @@ module.exports = {
     originField: 'origin',
     handlerField: 'handler',
     projectIdField: 'projectId',
+    ulField: 'ul',
     defaultOrigin: 'einstein',
     list: [{
       origin: 'einstein',

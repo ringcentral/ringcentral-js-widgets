@@ -33,7 +33,16 @@ const create = async (caseID, cmd) => {
     }
   }
 
-  const configServicesList = config.caseServices.list;
+  const {originField, handlerField, projectIdField, ulField} = config.caseServices;
+  const configServicesList = config.caseServices.list.map((item) => {
+      return {
+        ...item,
+        origin: item[originField || 'origin'],
+        handler: item[handlerField || 'handler'],
+        projectId: item[projectIdField || 'projectId'],
+        ul: item[ulField || 'ul']
+      }
+  });
   const cmdServicesList = cmdServices.list;
   cmdServicesList.forEach((cmdService, index) => {
     const length = configServicesList.length;
