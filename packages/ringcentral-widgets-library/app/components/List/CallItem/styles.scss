@@ -30,4 +30,5 @@
 .extraInfo {
   flex: 4;
   @include text-ellipsis;
+  text-align: right;
 }
