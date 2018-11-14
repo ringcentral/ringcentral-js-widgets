@@ -109,15 +109,20 @@ var NavigationBar = function (_Component) {
           childNavigationView = _props.childNavigationView,
           currentPath = _props.currentPath,
           tabWidth = _props.tabWidth,
+          tabHeight = _props.tabHeight,
           tabs = _props.tabs,
-          fullSizeInk = _props.fullSizeInk;
+          fullSizeInk = _props.fullSizeInk,
+          direction = _props.direction;
 
 
       var NavigationButton = button;
       var ChildNavigationView = childNavigationView;
+      var isVertical = direction === 'vertical';
+      var directionClass = isVertical ? _styles2.default.vertical : undefined;
 
       var currentVirtualPath = this.state.currentVirtualPath;
       var _tabWidth = 0;
+      var _tabHeight = isVertical ? tabHeight || '50px' : '100%';
       if (tabWidth) {
         _tabWidth = tabWidth;
       } else {
@@ -130,7 +135,7 @@ var NavigationBar = function (_Component) {
       var dropdownMenu = dropdownMenuTab && dropdownMenuTab.childTabs;
       return _react2.default.createElement(
         'nav',
-        { className: (0, _classnames2.default)(_styles2.default.root, className) },
+        { className: (0, _classnames2.default)(_styles2.default.root, className, directionClass) },
         tabs.map(function (tab, index) {
           var icon = tab.icon,
               activeIcon = tab.activeIcon;
@@ -153,6 +158,7 @@ var NavigationBar = function (_Component) {
               return childTab.path === currentPath || childTab.path === currentPath.slice(0, 9);
             }),
             width: _tabWidth,
+            height: _tabHeight,
             icon: icon,
             activeIcon: activeIcon
           }));
@@ -193,7 +199,9 @@ NavigationBar.propTypes = {
   currentPath: _propTypes2.default.string.isRequired,
   currentVirtualPath: _propTypes2.default.string,
   tabWidth: _propTypes2.default.string,
-  fullSizeInk: _propTypes2.default.bool
+  tabHeight: _propTypes2.default.string,
+  fullSizeInk: _propTypes2.default.bool,
+  direction: _propTypes2.default.string
 };
 
 NavigationBar.defaultProps = {
@@ -201,7 +209,9 @@ NavigationBar.defaultProps = {
   childNavigationView: undefined,
   currentVirtualPath: undefined,
   tabWidth: undefined,
+  tabHeight: undefined,
   tabs: [],
-  fullSizeInk: true
+  fullSizeInk: true,
+  direction: 'horizonal'
 };
 //# sourceMappingURL=index.js.map

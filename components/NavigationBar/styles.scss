@@ -9,3 +9,9 @@
   background-color: $primary-color;
   overflow: visible;
 }
+
+.vertical {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}

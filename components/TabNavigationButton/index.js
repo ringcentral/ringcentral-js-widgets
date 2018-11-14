@@ -31,6 +31,7 @@ function NavigationButton(_ref) {
       noticeCounts = _ref.noticeCounts,
       onClick = _ref.onClick,
       width = _ref.width,
+      height = _ref.height,
       keepStyle = _ref.keepStyle;
 
   var notice = null;
@@ -56,7 +57,8 @@ function NavigationButton(_ref) {
       onClick: onClick,
       className: (0, _classnames2.default)(_styles2.default.navigationButton, active && _styles2.default.active),
       style: {
-        width: width
+        width: width,
+        height: height
       }
     },
     _react2.default.createElement(
@@ -78,6 +80,7 @@ NavigationButton.propTypes = {
   label: _propTypes2.default.string,
   noticeCounts: _propTypes2.default.number,
   width: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]).isRequired,
+  height: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]).isRequired,
   onClick: _propTypes2.default.func,
   keepStyle: _propTypes2.default.bool
 };

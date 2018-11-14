@@ -35,6 +35,11 @@ var _DropdownNavigationView2 = _interopRequireDefault(_DropdownNavigationView);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function TabNavigationView(props) {
+  var navigationPosition = props.navigationPosition,
+      navBarClassName = props.navBarClassName;
+
+
+  var isVertical = navigationPosition === 'left';
   var navBar = _react2.default.createElement(_NavigationBar2.default, {
     button: _TabNavigationButton2.default,
     childNavigationView: _DropdownNavigationView2.default,
@@ -42,23 +47,25 @@ function TabNavigationView(props) {
     goTo: props.goTo,
     tabWidth: props.tabWidth,
     currentPath: props.currentPath,
-    currentVirtualPath: props.currentVirtualPath
+    direction: isVertical ? 'vertical' : undefined,
+    currentVirtualPath: props.currentVirtualPath,
+    className: navBarClassName
   });
   if (props.holdReady) return null;
   return _react2.default.createElement(
     'div',
-    { className: (0, _classnames2.default)(_styles2.default.root, props.className) },
+    { className: (0, _classnames2.default)(_styles2.default.root, props.className, navigationPosition === 'left' && _styles2.default.vertical) },
     _react2.default.createElement(
       'div',
       { className: _styles2.default.tabContainer },
-      props.navigationPosition === 'top' ? navBar : null
+      navigationPosition === 'top' || navigationPosition === 'left' ? navBar : null
     ),
     _react2.default.createElement(
       'div',
-      { 'data-sign': 'tabNavigationView', className: _styles2.default.main },
+      { 'data-sign': 'tabNavigationView', className: (0, _classnames2.default)(_styles2.default.main, !isVertical && _styles2.default.hasMaxHeight) },
       props.children
     ),
-    props.navigationPosition === 'bottom' ? navBar : null
+    navigationPosition === 'bottom' ? navBar : null
   );
 }
 
@@ -68,10 +75,11 @@ TabNavigationView.propTypes = {
   currentPath: _propTypes2.default.string.isRequired,
   currentVirtualPath: _propTypes2.default.string,
   goTo: _propTypes2.default.func.isRequired,
-  navigationPosition: _propTypes2.default.oneOf(['top', 'bottom']),
+  navigationPosition: _propTypes2.default.oneOf(['top', 'bottom', 'left']),
   tabWidth: _propTypes2.default.string,
   tabs: _NavigationBar2.default.propTypes.tabs,
-  holdReady: _propTypes2.default.bool
+  holdReady: _propTypes2.default.bool,
+  navBarClassName: _propTypes2.default.string
 };
 
 TabNavigationView.defaultProps = {
@@ -81,7 +89,8 @@ TabNavigationView.defaultProps = {
   navigationPosition: 'top',
   tabWidth: undefined,
   tabs: null,
-  holdReady: false
+  holdReady: false,
+  navBarClassName: undefined
 };
 
 exports.default = TabNavigationView;
