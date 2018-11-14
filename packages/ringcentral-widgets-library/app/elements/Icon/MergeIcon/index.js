@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import CircleButton from '../CircleButton';
-import Answer from '../../../assets/images/Answer.svg';
-import styles from './style.scss';
+import Merge from '../../../assets/images/MergeIntoConferenceIcon.svg';
+import styles from './styles.scss';
 
-function AnswerIcon({ onClick, showBorder, disabled }) {
-  const iconCls = classnames(styles.answerButton, {
+function MergeIcon({ onClick, showBorder, disabled }) {
+  const iconCls = classnames(styles.mergeButton, {
     [styles.disabled]: disabled
   });
   return (
@@ -15,22 +15,22 @@ function AnswerIcon({ onClick, showBorder, disabled }) {
       onClick={onClick}
       iconWidth={260}
       iconX={120}
-      icon={Answer}
+      icon={Merge}
       showBorder={showBorder}
     />
   );
 }
 
-AnswerIcon.propTypes = {
+MergeIcon.propTypes = {
   onClick: PropTypes.func,
   showBorder: PropTypes.bool,
   disabled: PropTypes.bool,
 };
 
-AnswerIcon.defaultProps = {
+MergeIcon.defaultProps = {
   onClick() {},
-  showBorder: false,
+  showBorder: true,
   disabled: false,
 };
 
-export default AnswerIcon;
+export default MergeIcon;

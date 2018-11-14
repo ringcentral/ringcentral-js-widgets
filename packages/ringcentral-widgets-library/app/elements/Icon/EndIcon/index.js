@@ -1,13 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import CircleButton from '../CircleButton';
 import End from '../../../assets/images/End.svg';
 import styles from './style.scss';
 
-function EndIcon({ onClick, showBorder }) {
+function EndIcon({ onClick, showBorder, disabled }) {
+  const iconCls = classnames(styles.endButton, {
+    [styles.disabled]: disabled
+  });
   return (
     <CircleButton
-      className={styles.endButton}
+      className={iconCls}
       onClick={onClick}
       iconWidth={260}
       iconX={120}
@@ -19,12 +23,14 @@ function EndIcon({ onClick, showBorder }) {
 
 EndIcon.propTypes = {
   onClick: PropTypes.func,
-  showBorder: PropTypes.bool
+  showBorder: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 EndIcon.defaultProps = {
   onClick() {},
-  showBorder: false
+  showBorder: false,
+  disabled: false,
 };
 
 export default EndIcon;

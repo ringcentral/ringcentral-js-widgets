@@ -16,7 +16,9 @@ storiesOf('List', module)
       onEndCall: action('onEndCall clicked'),
       showAnswerCall: boolean('showAnswerCall', true),
       onAnswerCall: action('onAnswerCall clicked'),
-      showExtraInfo: boolean('showExtraInfo', true),
+      showMergeCall: boolean('showMergeCall', true),
+      onMergeCall: action('onMergeCall clicked'),
+      showExtraInfo: boolean('showExtraInfo', false),
       extraInfo: text('extraInfo', 'hello'),
     };
     return <CallItem {...props} />;
