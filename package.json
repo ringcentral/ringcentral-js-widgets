@@ -11,7 +11,7 @@
     "bootstrap": "lerna bootstrap",
     "test": "lerna run test --stream",
     "start": "lerna run start --scope ringcentral-widgets-demo --stream",
-    "release": "lerna run release --scope ringcentral-widgets --scope ringcentral-integration",
+    "release": "lerna run release --scope ringcentral-widgets ",
     "commons:test": "lerna run test --scope ringcentral-integration --stream",
     "widgets:test": "lerna run test --scope ringcentral-widgets-test --stream",
     "commons:integration-test": "lerna run karma --scope ringcentral-integration --stream",

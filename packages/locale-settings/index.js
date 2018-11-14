@@ -1,5 +1,6 @@
 export default {
   RC: {
+    name: 'RC',
     supportedLocales: [
       'en-US',
       'en-GB',
@@ -20,18 +21,21 @@ export default {
     sourceLocale: 'en-US',
   },
   ATT: {
+    name: 'ATT',
     supportedLocales: [
       'en-US',
     ],
     sourceLocale: 'en-US',
   },
   BT: {
+    name: 'BT',
     supportedLocales: [
       'en-GB',
     ],
     sourceLocale: 'en-US',
   },
   TELUS: {
+    name: 'TELUS',
     supportedLocales: [
       'en-US',
       'en-CA',

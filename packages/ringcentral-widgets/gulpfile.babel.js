@@ -10,109 +10,113 @@ import exportLocale from '@ringcentral-integration/locale-loader/lib/exportLocal
 import importLocale from '@ringcentral-integration/locale-loader/lib/importLocale';
 import consolidateLocale from '@ringcentral-integration/locale-loader/lib/consolidateLocale';
 import localeSettings from 'locale-settings';
-// import { builtinModules } from 'module';
-// import gulpSequence from 'gulp-sequence';
 
-async function getVersionFromTag() {
-  let tag = process.env.TRAVIS_TAG;
-  if (tag && /^\d+.\d+.\d+/.test(tag)) {
-    return tag;
+// async function getVersionFromTag() {
+//   let tag = process.env.TRAVIS_TAG;
+//   if (tag && /^\d+.\d+.\d+/.test(tag)) {
+//     return tag;
+//   }
+//   try {
+//     tag = await execa.shell('git describe --exact-match --tags $(git rev-parse HEAD)');
+//     tag = tag.replace(/\r?\n|\r/g, '');
+//     if (/^\d+.\d+.\d+/.test(tag)) {
+//       return tag;
+//     }
+//   } catch (e) {
+//     console.error(e);
+//   }
+//   return null;
+// }
+
+function buildConfig(brandConfig) {
+  const brand = brandConfig.name;
+  const pathName = brand === 'RC' ? '' : `-${brand}`;
+  const BUILD_PATH = path.resolve(__dirname, `../../build/ringcentral-widgets${pathName}`);
+  const RELEASE_PATH = path.resolve(__dirname, `../../release/ringcentral-widgets${pathName}`);
+
+  function clean() {
+    return fs.remove(BUILD_PATH);
   }
-  try {
-    tag = await execa.shell('git describe --exact-match --tags $(git rev-parse HEAD)');
-    tag = tag.replace(/\r?\n|\r/g, '');
-    if (/^\d+.\d+.\d+/.test(tag)) {
-      return tag;
+
+  function copy() {
+    return gulp.src([
+      './**',
+      '!./**/*.js',
+      '!./test{/**,}',
+      '!./coverage{/**,}',
+      '!./node_modules{/**,}',
+      '!package-lock.json'
+    ]).pipe(gulp.dest(BUILD_PATH));
+  }
+
+  function _build() {
+    return gulp.src([
+      './**/*.js',
+      '!./**/*.test.js',
+      '!./test{/**,}',
+      '!./coverage{/**,}',
+      '!./node_modules{/**,}',
+      '!gulpfile.babel.js']
+    ).pipe(transformLoader({
+      ...brandConfig,
+    }))
+      .pipe(sourcemaps.init())
+      .pipe(babel())
+      .pipe(sourcemaps.write('.'))
+      .pipe(gulp.dest(BUILD_PATH));
+  }
+
+  const build = gulp.series(clean, copy, _build);
+
+  async function releaseClean() {
+    if (!await fs.exists(RELEASE_PATH)) {
+      await execa.shell(`mkdir -p ${RELEASE_PATH}`);
     }
-  } catch (e) {
-    console.error(e);
+    const files = (await fs.readdir(RELEASE_PATH)).filter(file => !/^\./.test(file));
+    for (const file of files) {
+      await fs.remove(path.resolve(RELEASE_PATH, file));
+    }
   }
-  return null;
+
+  function releaseCopy() {
+    return gulp.src([
+      `${BUILD_PATH}/**`,
+      `${__dirname}/README.md`,
+      `${__dirname}/LICENSE`
+    ]).pipe(gulp.dest(RELEASE_PATH));
+  }
+
+  async function _release() {
+    const packageInfo = JSON.parse(await fs.readFile(path.resolve(BUILD_PATH, 'package.json')));
+    delete packageInfo.scripts;
+    delete packageInfo.jest;
+    // const version = await getVersionFromTag();
+    // console.log('version:', version);
+    // if (version) {
+    //   packageInfo.version = version;
+    //   packageInfo.name = 'ringcentral-widgets';
+    // }
+    await fs.writeFile(path.resolve(RELEASE_PATH, 'package.json'), JSON.stringify(packageInfo, null, 2));
+  }
+
+  const release = gulp.series(gulp.parallel(build, releaseClean),
+    releaseCopy, _release);
+
+  return {
+    brand,
+    build,
+    release,
+  };
 }
-const projects = Object.keys(localeSettings);
-let project = '';
-let BUILD_PATH = path.resolve(__dirname, '../../build/ringcentral-widgets');
-let RELEASE_PATH = path.resolve(__dirname, '../../release/ringcentral-widgets');
 
-gulp.task('pre', () => {
-  project = projects.pop();
-  console.log(`pre${project}`);
-  RELEASE_PATH = path.resolve(__dirname, `../../release/ringcentral-widgets-${project}`);
-  BUILD_PATH = path.resolve(__dirname, `../../build/ringcentral-widgets-${project}`);
-});
+function getAllBrand() {
+  const brands = Object.keys(localeSettings);
+  return brands.map(brand => buildConfig(localeSettings[brand]).release);
+}
 
-gulp.task('clean', ['pre'], async () => {
-  console.log(`BUILD_PATH${BUILD_PATH}`);
-  await fs.remove(BUILD_PATH);
-});
-
-gulp.task('build', ['clean', 'copy'], () => (
-  gulp.src([
-    './**/*.js',
-    '!./**/*.test.js',
-    '!./test{/**,}',
-    '!./coverage{/**,}',
-    '!./node_modules{/**,}',
-    '!gulpfile.babel.js']
-  ).pipe(transformLoader({
-    ...localeSettings[project],
-  }))
-    .pipe(sourcemaps.init())
-    .pipe(babel())
-    .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(BUILD_PATH))
-));
-
-gulp.task('copy', ['clean'], () => (
-  gulp.src([
-    './**',
-    '!./**/*.js',
-    '!./test{/**,}',
-    '!./coverage{/**,}',
-    '!./node_modules{/**,}',
-    '!package-lock.json'
-  ]).pipe(gulp.dest(BUILD_PATH))
-));
-
-
-gulp.task('release-clean', async () => {
-  if (!await fs.exists(RELEASE_PATH)) {
-    await execa.shell(`mkdir -p ${RELEASE_PATH}`);
-  }
-  const files = (await fs.readdir(RELEASE_PATH)).filter(file => !/^\./.test(file));
-  for (const file of files) {
-    await fs.remove(path.resolve(RELEASE_PATH, file));
-  }
-});
-
-gulp.task('release-copy', ['build', 'release-clean'], () => (
-  gulp.src([
-    `${BUILD_PATH}/**`,
-    `${__dirname}/README.md`,
-    `${__dirname}/LICENSE`
-  ]).pipe(gulp.dest(RELEASE_PATH))
-));
-
-gulp.task('release-brand', ['release-copy'], async () => {
-  console.log('release');
-
-  const packageInfo = JSON.parse(await fs.readFile(path.resolve(BUILD_PATH, 'package.json')));
-  delete packageInfo.scripts;
-  delete packageInfo.jest;
-  const version = await getVersionFromTag();
-  console.log('version:', version);
-  if (version) {
-    packageInfo.version = version;
-    packageInfo.name = 'ringcentral-widgets';
-  }
-  await fs.writeFile(path.resolve(RELEASE_PATH, 'package.json'), JSON.stringify(packageInfo, null, 2));
-  console.log('release end');
-});
-
-const releaseList = projects.map(x => `release-${x}`);
-console.dir(releaseList);
-// gulp.task('release', gulpSequence(['pre', 'release-brand'], ['pre', 'release-brand']));
-gulp.task('release', ['release-brand']);
+exports.build = buildConfig(localeSettings.RC).build;
+exports.release = buildConfig(localeSettings.RC).release;
+exports.releaseAll = gulp.parallel(...getAllBrand());
 
 function normalizeName(str) {
   return str.split(/[-_]/g)
@@ -168,3 +172,4 @@ gulp.task('consolidate-locale', () => consolidateLocale({
   ...localeSettings,
   sourceFolder: path.resolve(__dirname, 'lib/countryNames'),
 }));
+
