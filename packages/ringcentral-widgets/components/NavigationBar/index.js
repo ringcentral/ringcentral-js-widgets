@@ -49,6 +49,7 @@ export default class NavigationBar extends Component {
       childNavigationView,
       currentPath,
       tabWidth,
+      tabHeight,
       tabs,
       fullSizeInk,
       direction,
@@ -57,13 +58,12 @@ export default class NavigationBar extends Component {
     const NavigationButton = button;
     const ChildNavigationView = childNavigationView;
     const isVertical = direction === 'vertical';
-
-    const additionalCls = isVertical ? styles.vertical : undefined;
+    const directionClass = isVertical ? styles.vertical : undefined;
 
     const currentVirtualPath = this.state.currentVirtualPath;
     let _tabWidth = 0;
-    const _tabHeight = isVertical ? '60px' : '100%';
-    if (tabWidth && isVertical) {
+    const _tabHeight = isVertical ? (tabHeight || '50px') : '100%';
+    if (tabWidth) {
       _tabWidth = tabWidth;
     } else {
       // Align equally fully
@@ -79,7 +79,7 @@ export default class NavigationBar extends Component {
     );
     const dropdownMenu = dropdownMenuTab && dropdownMenuTab.childTabs;
     return (
-      <nav className={classnames(styles.root, className, additionalCls)}>
+      <nav className={classnames(styles.root, className, directionClass)}>
         {
           tabs.map((tab, index) => {
             let { icon, activeIcon } = tab;
@@ -168,6 +168,7 @@ NavigationBar.propTypes = {
   currentPath: PropTypes.string.isRequired,
   currentVirtualPath: PropTypes.string,
   tabWidth: PropTypes.string,
+  tabHeight: PropTypes.string,
   fullSizeInk: PropTypes.bool,
   direction: PropTypes.string,
 };
@@ -177,6 +178,7 @@ NavigationBar.defaultProps = {
   childNavigationView: undefined,
   currentVirtualPath: undefined,
   tabWidth: undefined,
+  tabHeight: undefined,
   tabs: [],
   fullSizeInk: true,
   direction: 'horizonal'
