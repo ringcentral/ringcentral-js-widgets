@@ -79,35 +79,44 @@ class Avatar extends Component {
 
   render() {
     const {
-      extraNum, isOnConferenceCall, spinnerMode, className, onClick
+      extraNum, isOnConferenceCall, spinnerMode, className, onClick, isOnline
     } = this.props;
     const { avatarUrl } = this.state;
+    // styles
     const initialSize = 38;
     const margin = 4;
-    const avatarCircleRadius = 15;
     const extraNumCircleRadius = 8.5;
     const extraNumCircleBorder = 1;
+    const onLineCircleRadius = 4;
+    const onLineCircleBorder = 1;
     const circleBorder = 1;
     const $snow = '#fff';
     const $blueLight = '#cee7f2';
     const $blue = '#0684bd';
     const $dark = '#e2e2e2';
+    const $green = '#5fb95c';
     const $transparency = '0.8';
     const defaultAvatarStyle = { opacity: +$transparency };
-    const hash = uuid.v4();
-    const portraitChar = '\ue904'; // HACK: &#xe904; is the font code for the portrait icon
-    const iconFont = 'dynamics_icon';// Hard coding this for firefox to load iconfont
-    const textId = `text-${hash}`;
-    const clipId = `circleClip-${hash}`;
     const avatarStyle = { stroke: $dark, strokeWidth: `${circleBorder}px` };
-    const showingSpinner = spinnerMode;
-    const aspectRatio = 'xMidYMid meet';
-    const xmlns = 'http://www.w3.org/2000/svg';
     const svgCls = classnames(
       styles.avatar,
       onClick ? styles.autoPointerEvents : styles.disabledPointerEvents,
       className
     );
+
+    // ids
+    const hash = uuid.v4();
+    const textId = `text-${hash}`;
+    const clipId = `circleClip-${hash}`;
+    const conferenceId = `conferenced-${hash}`;
+    const onLineId = `online-${hash}`;
+
+    const portraitChar = '\ue904'; // HACK: &#xe904; is the font code for the portrait icon
+    const iconFont = 'dynamics_icon';// Hard coding this for firefox to load iconfont
+    const showingSpinner = spinnerMode;
+    const aspectRatio = 'xMidYMid meet';
+    const xmlns = 'http://www.w3.org/2000/svg';
+
     // spinner sizing
     const spinnerId = `spinner-${hash}`;
     const spinnerScaleSize = 1.5;
@@ -119,99 +128,6 @@ class Avatar extends Component {
       spinnerScaleSize
     }, ${spinnerScaleSize})`;
 
-    if (isOnConferenceCallWithExtraNum) {
-      return (
-        <svg
-          onClick={onClick ? () => onClick() : null}
-          className={svgCls}
-          style={avatarUrl ? avatarStyle : null}
-          viewBox={`0 0 ${initialSize} ${initialSize}`}
-          preserveAspectRatio={aspectRatio}
-          xmlns={xmlns}
-        >
-          <defs>
-            <g id={textId}>
-              <text
-                x="0"
-                y="0"
-                dy={`${initialSize - 10}px`}
-                style={{
-                      fontSize: `${avatarCircleRadius * 2}px`,
-                      fill: $blue,
-                      opacity: '.5'
-                    }}
-                fontFamily={iconFont}
-              >
-                {portraitChar}
-              </text>
-            </g>
-            <SpinnerIcon id={spinnerId} />
-          </defs>
-          <circle
-            cx={avatarCircleRadius}
-            cy={margin + avatarCircleRadius}
-            r={avatarCircleRadius}
-            fill={$snow}
-            stroke={showingSpinner ? $dark : 'inherit'}
-            strokeOpacity={showingSpinner ? $transparency : '1'}
-          />
-          <g>
-            <clipPath id={clipId}>
-              <circle
-                cx={avatarCircleRadius}
-                cy={margin + avatarCircleRadius}
-                r={avatarCircleRadius}
-                fill={$snow} />
-            </clipPath>
-          </g>
-          {
-            showingSpinner && (
-              <g transform={spinnerTransform}>
-                <use xlinkHref={`#${spinnerId}`} />
-              </g>
-            )
-          }
-          {
-            avatarUrl && (
-              <image clipPath={`url(#${clipId})`} height="100%" width="100%" xlinkHref={avatarUrl} />
-            )
-          }
-          {
-            (!avatarUrl && !showingSpinner) &&
-            <use
-              xlinkHref={`#${textId}`}
-              clipPath={`url(#${clipId})`}
-              style={defaultAvatarStyle}
-            />
-          }
-          <circle
-            cx={initialSize - extraNumCircleRadius}
-            cy={extraNumCircleRadius}
-            r={extraNumCircleRadius}
-            fill={$snow} />
-          <circle
-            cx={initialSize - extraNumCircleRadius}
-            cy={extraNumCircleRadius}
-            r={extraNumCircleRadius - extraNumCircleBorder}
-            fill={$blueLight} />
-
-          <text
-            x={initialSize - extraNumCircleRadius}
-            y={extraNumCircleRadius}
-            dy="3px"
-            textAnchor="middle"
-            style={{
-              fontSize: '9px',
-              stroke: 'none',
-              fill: $blue,
-              fontWeight: 'bolder',
-              opacity: '.5'
-            }}>
-            {`+${extraNum}`}
-          </text>
-        </svg>
-      );
-    }
     return (
       <svg
         className={svgCls}
@@ -238,6 +154,46 @@ class Avatar extends Component {
               {portraitChar}
             </text>
           </g>
+          <g id={conferenceId}>
+            <circle
+              cx={initialSize - extraNumCircleRadius}
+              cy={extraNumCircleRadius}
+              r={extraNumCircleRadius}
+              fill={$snow} />
+            <circle
+              cx={initialSize - extraNumCircleRadius}
+              cy={extraNumCircleRadius}
+              r={extraNumCircleRadius - extraNumCircleBorder}
+              fill={$blueLight} />
+
+            <text
+              x={initialSize - extraNumCircleRadius}
+              y={extraNumCircleRadius}
+              dy="3px"
+              textAnchor="middle"
+              style={{
+                fontSize: '9px',
+                stroke: 'none',
+                fill: $blue,
+                fontWeight: 'bolder',
+              }}>
+              {`+${extraNum}`}
+            </text>
+          </g>
+          <g id={onLineId}>
+            <circle
+              cx={initialSize - onLineCircleRadius}
+              cy={initialSize - 2 * onLineCircleRadius}
+              r={onLineCircleRadius}
+              fill={$snow}
+            />
+            <circle
+              cx={initialSize - onLineCircleRadius}
+              cy={initialSize - 2 * onLineCircleRadius}
+              r={onLineCircleRadius - onLineCircleBorder}
+              fill={$green}
+            />
+          </g>
           <SpinnerIcon id={spinnerId} />
         </defs>
         <circle
@@ -263,14 +219,7 @@ class Avatar extends Component {
                 <use xlinkHref={`#${spinnerId}`} />
               </g>
             )
-          }
-        {
-            showingSpinner && (
-              <g transform={spinnerTransform} >
-                <use xlinkHref={`#${spinnerId}`} />
-              </g>
-            )
-          }
+        }
         {
             avatarUrl && (<image
               clipPath={`url(#${clipId})`}
@@ -279,7 +228,7 @@ class Avatar extends Component {
               xlinkHref={avatarUrl}
               preserveAspectRatio="xMinYMin slice" />
             )
-          }
+        }
         {
             (!avatarUrl && !showingSpinner) &&
             <use
@@ -287,7 +236,21 @@ class Avatar extends Component {
               clipPath={`url(#${clipId})`}
               style={defaultAvatarStyle}
             />
-          }
+        }
+        {
+          isOnConferenceCallWithExtraNum &&
+          <use
+            xlinkHref={`#${conferenceId}`}
+            strokeWidth={0}
+          />
+        }
+        {
+          isOnline &&
+          <use
+            xlinkHref={`#${onLineId}`}
+            strokeWidth={0}
+          />
+        }
       </svg>
     );
   }
@@ -296,6 +259,7 @@ class Avatar extends Component {
 
 Avatar.propTypes = {
   isOnConferenceCall: PropTypes.bool,
+  isOnline: PropTypes.bool,
   avatarUrl: PropTypes.string,
   extraNum: PropTypes.number,
   /**
@@ -308,6 +272,7 @@ Avatar.propTypes = {
 
 Avatar.defaultProps = {
   isOnConferenceCall: false,
+  isOnline: false,
   avatarUrl: null,
   extraNum: 0,
   spinnerMode: false,

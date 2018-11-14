@@ -52,6 +52,7 @@ function CallItem({
           isOnConferenceCall={isConference}
           avatarUrl={avatarUrl}
           extraNum={converenceNumber}
+          isOnline={isOnline}
         />
       </div>
       <div className={styles.username}>{userName}</div>
