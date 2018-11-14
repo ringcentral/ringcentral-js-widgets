@@ -11,6 +11,7 @@ export default function NavigationButton({
   noticeCounts,
   onClick,
   width,
+  height,
   keepStyle,
 }) {
   let notice = null;
@@ -31,6 +32,7 @@ export default function NavigationButton({
       )}
       style={{
         width,
+        height,
       }}
     >
       <div className={styles.iconHolder} title={label}>
@@ -50,6 +52,10 @@ NavigationButton.propTypes = {
   label: PropTypes.string,
   noticeCounts: PropTypes.number,
   width: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+  ]).isRequired,
+  height: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string,
   ]).isRequired,
