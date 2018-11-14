@@ -122,6 +122,15 @@ export default class addMeeting{
     return results;
   }
 
+  static async getSelePlaceholder(context){
+    console.log("=======get selector placeholder=========");
+    const page = context.page;
+    await $(page).waitForSelector("@selectedItem");
+    const text = await $(page).getAttribute("@selectedItem","placeholder");
+    console.info("===placehoder text===",text);
+    return text;
+  }
+
   static get steps() {
     return [
       this.openDetail,
