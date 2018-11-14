@@ -7,6 +7,12 @@ import TabNavigationButton from '../TabNavigationButton';
 import DropdownNavigationView from '../DropdownNavigationView';
 
 function TabNavigationView(props) {
+  const {
+    navigationPosition,
+    navBarClassName,
+  } = props;
+
+  const isVertical = navigationPosition === 'left';
   const navBar = (
     <NavigationBar
       button={TabNavigationButton}
@@ -15,24 +21,26 @@ function TabNavigationView(props) {
       goTo={props.goTo}
       tabWidth={props.tabWidth}
       currentPath={props.currentPath}
+      direction={isVertical ? 'vertical' : undefined}
       currentVirtualPath={props.currentVirtualPath}
+      className={navBarClassName}
     />
   );
   if (props.holdReady) return null;
   return (
-    <div className={classnames(styles.root, props.className)} >
+    <div className={classnames(styles.root, props.className, navigationPosition === 'left' && styles.vertical)} >
       <div className={styles.tabContainer}>
         {
-          props.navigationPosition === 'top' ?
+          (navigationPosition === 'top' || navigationPosition === 'left') ?
             navBar :
             null
         }
       </div>
-      <div data-sign="tabNavigationView" className={styles.main}>
+      <div data-sign="tabNavigationView" className={classnames(styles.main, !isVertical && styles.hasMaxHeight)}>
         {props.children}
       </div>
       {
-        props.navigationPosition === 'bottom' ?
+        navigationPosition === 'bottom' ?
           navBar :
           null
       }
@@ -46,10 +54,11 @@ TabNavigationView.propTypes = {
   currentPath: PropTypes.string.isRequired,
   currentVirtualPath: PropTypes.string,
   goTo: PropTypes.func.isRequired,
-  navigationPosition: PropTypes.oneOf(['top', 'bottom']),
+  navigationPosition: PropTypes.oneOf(['top', 'bottom', 'left']),
   tabWidth: PropTypes.string,
   tabs: NavigationBar.propTypes.tabs,
   holdReady: PropTypes.bool,
+  navBarClassName: PropTypes.string,
 };
 
 TabNavigationView.defaultProps = {
@@ -60,6 +69,7 @@ TabNavigationView.defaultProps = {
   tabWidth: undefined,
   tabs: null,
   holdReady: false,
+  navBarClassName: undefined,
 };
 
 export default TabNavigationView;
