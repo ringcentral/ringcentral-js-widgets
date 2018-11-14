@@ -11,22 +11,22 @@ import importLocale from '@ringcentral-integration/locale-loader/lib/importLocal
 import consolidateLocale from '@ringcentral-integration/locale-loader/lib/consolidateLocale';
 import localeSettings from 'locale-settings';
 
-// async function getVersionFromTag() {
-//   let tag = process.env.TRAVIS_TAG;
-//   if (tag && /^\d+.\d+.\d+/.test(tag)) {
-//     return tag;
-//   }
-//   try {
-//     tag = await execa.shell('git describe --exact-match --tags $(git rev-parse HEAD)');
-//     tag = tag.replace(/\r?\n|\r/g, '');
-//     if (/^\d+.\d+.\d+/.test(tag)) {
-//       return tag;
-//     }
-//   } catch (e) {
-//     console.error(e);
-//   }
-//   return null;
-// }
+async function getVersionFromTag() {
+  let tag = process.env.TRAVIS_TAG;
+  if (tag && /^\d+.\d+.\d+/.test(tag)) {
+    return tag;
+  }
+  try {
+    tag = await execa.shell('git describe --exact-match --tags $(git rev-parse HEAD)');
+    tag = tag.stdout.replace(/\r?\n|\r/g, '');
+    if (/^\d+.\d+.\d+/.test(tag)) {
+      return tag;
+    }
+  } catch (e) {
+    console.error(e);
+  }
+  return null;
+}
 
 function buildConfig(brandConfig) {
   const brand = brandConfig.name;
@@ -37,7 +37,6 @@ function buildConfig(brandConfig) {
   function clean() {
     return fs.remove(BUILD_PATH);
   }
-
   function copy() {
     return gulp.src([
       './**',
@@ -48,7 +47,6 @@ function buildConfig(brandConfig) {
       '!package-lock.json'
     ]).pipe(gulp.dest(BUILD_PATH));
   }
-
   function _build() {
     return gulp.src([
       './**/*.js',
@@ -65,9 +63,7 @@ function buildConfig(brandConfig) {
       .pipe(sourcemaps.write('.'))
       .pipe(gulp.dest(BUILD_PATH));
   }
-
   const build = gulp.series(clean, copy, _build);
-
   async function releaseClean() {
     if (!await fs.exists(RELEASE_PATH)) {
       await execa.shell(`mkdir -p ${RELEASE_PATH}`);
@@ -77,7 +73,6 @@ function buildConfig(brandConfig) {
       await fs.remove(path.resolve(RELEASE_PATH, file));
     }
   }
-
   function releaseCopy() {
     return gulp.src([
       `${BUILD_PATH}/**`,
@@ -85,20 +80,18 @@ function buildConfig(brandConfig) {
       `${__dirname}/LICENSE`
     ]).pipe(gulp.dest(RELEASE_PATH));
   }
-
   async function _release() {
     const packageInfo = JSON.parse(await fs.readFile(path.resolve(BUILD_PATH, 'package.json')));
     delete packageInfo.scripts;
     delete packageInfo.jest;
-    // const version = await getVersionFromTag();
-    // console.log('version:', version);
-    // if (version) {
-    //   packageInfo.version = version;
-    //   packageInfo.name = 'ringcentral-widgets';
-    // }
+    const version = await getVersionFromTag();
+    console.log('version:', version);
+    if (version) {
+      packageInfo.version = version;
+      packageInfo.name = 'ringcentral-widgets';
+    }
     await fs.writeFile(path.resolve(RELEASE_PATH, 'package.json'), JSON.stringify(packageInfo, null, 2));
   }
-
   const release = gulp.series(gulp.parallel(build, releaseClean),
     releaseCopy, _release);
 
@@ -116,7 +109,7 @@ function getAllBrand() {
 
 exports.build = buildConfig(localeSettings.RC).build;
 exports.release = buildConfig(localeSettings.RC).release;
-exports.releaseAll = gulp.parallel(...getAllBrand());
+exports['release-all'] = gulp.parallel(...getAllBrand());
 
 function normalizeName(str) {
   return str.split(/[-_]/g)
@@ -125,7 +118,6 @@ function normalizeName(str) {
     ))
     .join('');
 }
-
 gulp.task('generate-font', async () => {
   try {
     const cssLocation = path.resolve(__dirname, 'assets/DynamicsFont/style.css');
@@ -153,7 +145,6 @@ gulp.task('generate-font', async () => {
     console.log(error);
   }
 });
-
 gulp.task('export-locale', () => exportLocale({
   ...localeSettings,
 }));
