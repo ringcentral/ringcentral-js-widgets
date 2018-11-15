@@ -5,9 +5,15 @@ import CircleButton from '../CircleButton';
 import Merge from '../../../assets/images/MergeIntoConferenceIcon.svg';
 import styles from './styles.scss';
 
-function MergeIcon({ onClick, showBorder, disabled }) {
+function MergeIcon({
+  onClick,
+  showBorder,
+  disabled,
+  className
+}) {
   const iconCls = classnames(styles.mergeButton, {
-    [styles.disabled]: disabled
+    [styles.disabled]: disabled,
+    [className]: true
   });
   return (
     <CircleButton
@@ -25,12 +31,14 @@ MergeIcon.propTypes = {
   onClick: PropTypes.func,
   showBorder: PropTypes.bool,
   disabled: PropTypes.bool,
+  className: PropTypes.string,
 };
 
 MergeIcon.defaultProps = {
   onClick() {},
   showBorder: true,
   disabled: false,
+  className: ''
 };
 
 export default MergeIcon;

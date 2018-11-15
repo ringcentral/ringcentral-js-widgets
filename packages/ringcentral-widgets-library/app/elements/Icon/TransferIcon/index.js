@@ -5,9 +5,12 @@ import CircleButton from '../CircleButton';
 import Transfer from '../../../assets/images/Transfer.svg';
 import styles from './styles.scss';
 
-function TransferIcon({ onClick, showBorder, disabled }) {
+function TransferIcon({
+  onClick, showBorder, disabled, className
+}) {
   const iconCls = classnames(styles.transferButton, {
-    [styles.disabled]: disabled
+    [styles.disabled]: disabled,
+    [className]: true
   });
   return (
     <CircleButton
@@ -26,12 +29,14 @@ TransferIcon.propTypes = {
   onClick: PropTypes.func,
   showBorder: PropTypes.bool,
   disabled: PropTypes.bool,
+  className: PropTypes.string,
 };
 
 TransferIcon.defaultProps = {
   onClick() {},
   showBorder: true,
   disabled: true,
+  className: ''
 };
 
 export default TransferIcon;
