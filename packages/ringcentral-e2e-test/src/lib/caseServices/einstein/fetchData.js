@@ -57,5 +57,17 @@ export default class FetchData {
       }
     }
   }
+
+  async getCaseDirectory() {
+    try {
+        await this.einsteinSDK.login(this.username, this.password);
+        const caseDirectory = await this.einsteinSDK.getSuites(this.projectId);
+        return caseDirectory;
+    } catch(error) {
+      console.log(error);
+    } 
+  }
+
+
 }
 
