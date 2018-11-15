@@ -91,7 +91,7 @@ function checkSkippedCase({ project, ...execTag }, [_, caseTag]) {
   if (!caseTag) return true;
   for (const [name, value] of Object.entries(execTag)) {
     const currentCaseTag = caseTag[name].map(item => (
-      typeof item === 'object' ? Object.keys(item)[0] : item
+      Array.isArray(item) ? item[0] : item
     ));
     if (!Array.isArray(caseTag[name]) || currentCaseTag.indexOf(value) === -1) return true;
   }
@@ -103,8 +103,7 @@ async function beforeEachStart({ driver, isSandbox }) {
 }
 
 async function afterEachEnd({ driver, isSandbox }) {
-  // TODO HOOK
-  for (const hook of driver.afterHooks) {
+  for (const hook of [...driver.afterHooks].reverse()) {
     await hook();
   }
   if (isSandbox) await driver.close();
@@ -198,10 +197,21 @@ function testCase(caseParams, fn) {
             await fn(context);
           };
           /* eslint-enable */
+          let _option = option;
+          Object.entries(tag).forEach(([key, value]) => {
+            if (!caseTag[1][key]) return;
+            const tagOption = caseTag[1][key].find(item => Array.isArray(item) && item[0] === value);
+            if (tagOption) {
+              _option = {
+                ...tagOption[1] || {},
+                ...option,
+              }
+            }
+          });
           _test(`${name}${tail}`, func.bind(null, {
             instance,
             config,
-            option,
+            option: _option,
             tag,
             driver,
             modes,
