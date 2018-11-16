@@ -26,17 +26,17 @@ function CallItem({
     }
     if (showAnswerCall) {
       Operations.push(
-        <span className={styles.iconWrapper}><Icon.Answer onClick={onAnswerCall} /></span>
+        <span key="answerCall" className={styles.iconWrapper}><Icon.Answer onClick={onAnswerCall} /></span>
       );
     }
     if (showEndCall) {
       Operations.push(
-        <span className={styles.iconWrapper}><Icon.End onClick={onEndCall} /></span>
+        <span key="endCall" className={styles.iconWrapper}><Icon.End onClick={onEndCall} /></span>
       );
     }
     if (showMergeCall) {
       Operations.push(
-        <span className={styles.iconWrapper}><Icon.Merge onClick={onMergeCall} /></span>
+        <span key="mergeCall" className={styles.iconWrapper}><Icon.Merge onClick={onMergeCall} /></span>
       );
     }
     return (

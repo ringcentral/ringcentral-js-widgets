@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
+import { formatTime } from './time';
 import styles from './styles.scss';
-
-function formatTime(timestamp) {
-  return 0;
-}
 
 function FormatInfo({
   name, describe, timestamp, className
@@ -16,13 +14,14 @@ function FormatInfo({
     }
     return (
       <div className={styles.timeFormat}>
-        <span>|</span>
+        <span className={styles.separator}>|</span>
         <span>{formatTime(timestamp)}</span>
       </div>
     );
   }
+  const cls = classnames(styles.formatInfo, className);
   return (
-    <div className={className}>
+    <div className={cls}>
       <div className={styles.name}>{name}</div>
       <div className={styles.describe}>
         <div className={styles.detail}>{describe}</div>

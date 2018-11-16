@@ -1,16 +1,25 @@
 @import '../../../../elements/lib/commonStyles//text-ellipsis.scss';
 
+.formatInfo {
+  min-width: 150px;
+}
 .name {
-
+  color: #2f2f2f;
+  font-size: 13px;
 }
 .describe {
+  display: flex;
   font-size: 12px;
   color: #666666;
-  @include text-ellipsis;
 }
 .detail {
-
+  @include text-ellipsis;
+  flex: 3
 }
 .timeFormat {
-  
+  flex: 2;
+  text-align: center;
+}
+.separator {
+  padding: 0 2px;
 }

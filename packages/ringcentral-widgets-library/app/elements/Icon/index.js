@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 // svg icon
 import FaxOutBound from '../../assets/images/FaxOutbound.svg';
 import VoiceMail from '../../assets/images/Voicemail.svg';
+// import VoiceMail from '../../assets/images/VoicemailIcon.svg';
 import Message from '../../assets/images/Message.svg';
 import ActivityCall from '../../assets/images/Calls.svg';
 import Unlogged from '../../assets/images/UnloggedIcon.svg';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { text, boolean, number } from '@storybook/addon-knobs/react';
+import { text, boolean, number, select } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
 import CallItem from '../../../components/List/CallItem';
 import MediaItem from '../../../components/List/MediaItem';
@@ -24,7 +24,7 @@ storiesOf('List', module)
     };
     return <CallItem {...props} />;
   })
-  .add('MediaItem', () => {
+  .add('MediaItem.Call', () => {
     const props = {
 
     };
@@ -38,6 +38,28 @@ storiesOf('List', module)
     return (
       <MediaItem {...props}>
         <MediaItem.Call {...callProps} />
+      </MediaItem>
+    );
+  })
+  .add('MediaItem.Media', () => {
+    const options = [
+      'VoiceMail',
+      'Message',
+      'ActivityCall',
+    ];
+    const defaultValue = 'VoiceMail';
+
+    const mediaProps = {
+      info: {
+        name: 'Kyle',
+        describe: 'Hello, my name is Kyle and what\'s your name ?',
+        timestamp: Date.now()
+      },
+      type: select('types', options, defaultValue)
+    };
+    return (
+      <MediaItem>
+        <MediaItem.Media {...mediaProps} />
       </MediaItem>
     );
   });
