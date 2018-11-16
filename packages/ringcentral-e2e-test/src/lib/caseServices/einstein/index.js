@@ -9,7 +9,7 @@ export default class EinsteinServices extends BaseService {
   }
 
   async createCaseTemplate(externalId) {
+    const caseDirectory = await this._fetchData.getCaseDirectory();
     const caseContent = await this._fetchData.getCaseByExternalId(externalId);
-    console.log('caseContent', caseContent);
   }
 }
