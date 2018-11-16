@@ -17,7 +17,7 @@ function Switch(props) {
         type="checkbox"
         checked={props.checked}
         onChange={onChange} />
-      <div className={styles.slider} />
+      <div className={classnames(styles.slider, props.className)} />
     </label>
   );
 }
@@ -27,11 +27,13 @@ Switch.propTypes = {
   disable: PropTypes.bool,
   title: PropTypes.string,
   onChange: PropTypes.func,
+  className: PropTypes.string,
 };
 Switch.defaultProps = {
   checked: false,
   disable: false,
   onChange: undefined,
   title: undefined,
+  className: '',
 };
 export default Switch;

@@ -28,7 +28,7 @@ $slider-size: #{$switch-height - 2 * $switch-padding};
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background-color: $rc-blue;
   -webkit-transition: .4s;
   transition: .4s;
   border-radius: $switch-height;

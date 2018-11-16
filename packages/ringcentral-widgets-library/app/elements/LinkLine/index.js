@@ -40,13 +40,15 @@ LinkLine.propTypes = {
   hrefClassName: PropTypes.string,
   iconClassName: PropTypes.string,
   onClick: PropTypes.func.isRequired,
-  tooltip: PropTypes.string
+  tooltip: PropTypes.string,
+  noBorder: PropTypes.bool,
 };
 LinkLine.defaultProps = {
   children: undefined,
   className: undefined,
   hrefClassName: undefined,
   iconClassName: undefined,
-  tooltip: undefined
+  tooltip: undefined,
+  noBorder: false
 };
 export default LinkLine;
