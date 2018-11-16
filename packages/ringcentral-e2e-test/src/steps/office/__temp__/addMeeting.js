@@ -71,7 +71,6 @@ export default class addMeeting{
     const brand = context.options.tag.brands;
     const link_com = video_zoom_reg[brand].test(text);
     const link_spe = video_meeting_reg[brand].test(text);  
-    debugger;
     return link_com&&link_spe;
   }
 
@@ -105,7 +104,6 @@ export default class addMeeting{
     });
     const brand = context.options.tag.brands;
     const result = video_zoom_reg[brand].test(text);
-    debugger;
     return result;
   }
 
