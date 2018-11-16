@@ -1,0 +1,16 @@
+@import '../../../../elements/lib/commonStyles//text-ellipsis.scss';
+
+.name {
+
+}
+.describe {
+  font-size: 12px;
+  color: #666666;
+  @include text-ellipsis;
+}
+.detail {
+
+}
+.timeFormat {
+  
+}

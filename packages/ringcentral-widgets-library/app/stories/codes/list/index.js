@@ -3,6 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { text, boolean, number } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
 import CallItem from '../../../components/List/CallItem';
+import MediaItem from '../../../components/List/MediaItem';
 
 storiesOf('List', module)
   .add('callItem', () => {
@@ -22,4 +23,21 @@ storiesOf('List', module)
       extraInfo: text('extraInfo', 'hello'),
     };
     return <CallItem {...props} />;
+  })
+  .add('MediaItem', () => {
+    const props = {
+
+    };
+    const callProps = {
+      info: {
+        name: 'Kyle',
+        describe: 'Hello, my name is Kyle and what\'s your name ?',
+        timestamp: Date.now()
+      }
+    };
+    return (
+      <MediaItem {...props}>
+        <MediaItem.Call {...callProps} />
+      </MediaItem>
+    );
   });
