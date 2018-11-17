@@ -81,6 +81,9 @@ export default function createWebphone({
         action: 'makeCall',
         phoneNumber: to.webphone.phoneNumber
       });
+      context.driver.addAfterHook(async () => {
+        await this.hangup(context);
+      });
     }
 
     static async makeCall(context) {
@@ -91,28 +94,29 @@ export default function createWebphone({
   
     static async hangup(context) {
       const status = await this._status(context, 'hangup');
-      console.log("hangup", status);
-      await Webphone.operate({
-        phoneId: from.webphone.id,
-        sessionId: from.webphone.sessionId,
-        action: 'hangup',
-        phoneNumber: to.webphone.phoneNumber
-      });
+      if(status === true){
+        await Webphone.operate({
+          phoneId: from.webphone.id,
+          sessionId: from.webphone.sessionId,
+          action: 'hangup',
+          phoneNumber: to.webphone.phoneNumber
+        });
+      }
     }
   
     static async answerCall(context) {
       const status = await this._status(context, 'answerCall');
-      console.log('answerCall', status);
-      await Webphone.operate({
-        phoneId: to.webphone.id,   
-        sessionId: to.webphone.sessionId,
-        action: 'answerCall',
-        phoneNumber: from.webphone.phoneNumber
-      });
+      if(status === true) {
+        await Webphone.operate({
+          phoneId: to.webphone.id,   
+          sessionId: to.webphone.sessionId,
+          action: 'answerCall',
+          phoneNumber: from.webphone.phoneNumber
+        });
+      }
     }
 
     static async _status(context, action){
-      let status = false;
       let fromStatus;
       let toStatus;
       const waitUntil = Date.now() + 20000;
@@ -122,22 +126,21 @@ export default function createWebphone({
           fromStatus = (await Webphone.getPhonesById(from.webphone.id)).body.status;
           toStatus = (await Webphone.getPhonesById(to.webphone.id)).body.status;
           if (fromStatus === 'accepted' && toStatus ==='invited') {
-            status = true; 
-            return status;
+            return true;
           }
         }
       } else if (action === 'hangup') {
         for(let i=0; i<10; i++){
           await Webphone.sleep(1000);
-          fromStatus = (await Webphone.getPhonesById(from.webphone.id)).body.status;
-          toStatus = (await Webphone.getPhonesById(to.webphone.id)).body.status;
-          if (fromStatus === 'accepted' || toStatus ==='invited' || toStatus === 'accepted' || fromStatus ==='invited') {
-            status = true; 
-            return status;
-          }
+          [from, to].forEach(async _account=>{
+            const _status = (await Webphone.getPhonesById(_account.webphone.id)).body.status;
+            if(['accepted','invited'].includes(_status)){
+              return true;
+            }
+          })
         }
       }
-      return status;
+      return false;
     }
 
     static async _preAnswerCall(context, [from, to]) {
