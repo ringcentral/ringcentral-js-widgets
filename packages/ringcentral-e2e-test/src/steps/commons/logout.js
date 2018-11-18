@@ -1,4 +1,4 @@
-import { createProcess } from 'marten';
+import { createProcess } from '../../steps';
 import NavigateToSettings from './navigateToSettings';
 import srcriptRootLiteral from '../../enums/srcriptRootLiteral';
 

@@ -98,13 +98,18 @@ function checkSkippedCase({ project, ...execTag }, [_, caseTag]) {
   return false;
 }
 
-async function beforeEachStart({ driver, isSandbox }) {
-  // TODO HOOK
+async function beforeEachStart({ driver, isSandbox }, beforeHook) {
+  if (beforeHook) {
+    await beforeHook(driver);
+  }
 }
 
-async function afterEachEnd({ driver, isSandbox }) {
+async function afterEachEnd({ driver, isSandbox }, afterHook) {
   for (const hook of [...driver.afterHooks].reverse()) {
     await hook();
+  }
+  if (afterHook) {
+    await afterHook(driver);
   }
   if (isSandbox) await driver.close();
 }
@@ -161,7 +166,12 @@ function testCase(caseParams, fn) {
             values: Object.values(templateMappding),
           });
           const tail = ` => (${project} in ${group.join(' & ')} on ${driver})`;
-          const { config, instance } = global.testBeforeEach({
+          const {
+            config,
+            instance,
+            beforeEachCase,
+            afterEachCase,
+          } = global.testBeforeEach({
             caseParams,
             option,
             tag,
@@ -171,8 +181,9 @@ function testCase(caseParams, fn) {
             modes,
             isSandbox,
           });
-          global.beforeEach(beforeEachStart.bind(null, { driver: instance.driver, isSandbox }));
-          global.afterEach(afterEachEnd.bind(null, { driver: instance.driver, isSandbox }));
+          // TODO pass `context`
+          global.beforeEach(beforeEachStart.bind(null, { driver: instance.driver, isSandbox }, beforeEachCase));
+          global.afterEach(afterEachEnd.bind(null, { driver: instance.driver, isSandbox }, afterEachCase));
           /* eslint-disable */
           const func = async function ({ instance, isSandbox, isHeadless, config, driver, ...args }) {
             // TODO handle type in `config`

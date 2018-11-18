@@ -1,4 +1,4 @@
-import { createProcess } from 'marten';
+import { createProcess } from '../../steps';
 import salesforce from '../salesforce/entry';
 import widgets from '../widgets/entry';
 import office from '../office/entry';

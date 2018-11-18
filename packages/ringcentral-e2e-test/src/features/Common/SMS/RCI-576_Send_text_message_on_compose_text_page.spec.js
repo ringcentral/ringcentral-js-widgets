@@ -35,7 +35,7 @@ Date Updated	Fri, 24 Aug 2018 18:57:55
  */
  /* eslint-enable */
 
-import { createProcess } from 'marten';
+import { createProcess } from '../../../steps';
 import { LoginCTI } from '../../../steps/commons/login';
 import LogoutCTI from '../../../steps/commons/logout';
 import TypeComposeToField from '../../../steps/commons/SMS/typeComposeToField';

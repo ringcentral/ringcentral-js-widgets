@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { envList: envs } = require('./src/lib/accountManager');
 const { accounts } = require('./src/lib/accountManager/accountTypes');
+const { beforeEachCase, afterEachCase } = require('./src/steps');
 
 const loginInfoPath = './loginInfo.js';
 const isExists = fs.existsSync(path.resolve(__dirname, loginInfoPath));
@@ -182,6 +183,8 @@ module.exports = {
     accounts,
     envs,
   },
+  beforeEachCase,
+  afterEachCase,
   lookupConfig({
     config,
     tag
