@@ -10,7 +10,7 @@ export default class Account {
     const accountsList = [
       ...accounts || [],
     ];
-    if (needLoginAccount) accountsList.unshift(context.options.tag.accounts);
+    if (needLoginAccount) accountsList.unshift(context.options.option.loginAccount || context.options.tag.accounts);
     const needAccount = accountsList.length > 0;
     if (needAccount && !context.options.isVirtual) {
       const { accounts, destroyer } = await AccountHelper.getAccountList(context, accountsList);

@@ -390,7 +390,10 @@ TODO
   tags: [
     ['widgets', { accounts: ['CM_RC_CA'] }],
   ],
-  accounts: ['CM_RC_US']
+  accounts: ['CM_RC_US'],
+  brands: [
+    ['rc', { loginAccount: 'CM_RC_US' }]
+  ],
   options: [
     { username: '+18552085709*103', password: 'Test!123', callingType: 'myRCPhone', accounts: ['CM_RC_EU', 'CM_RC_UK'], },
   ],
