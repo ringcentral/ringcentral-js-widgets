@@ -94,26 +94,24 @@ export default function createWebphone({
   
     static async hangup(context) {
       const status = await this._status(context, 'hangup');
-      if(status === true){
-        await Webphone.operate({
-          phoneId: from.webphone.id,
-          sessionId: from.webphone.sessionId,
-          action: 'hangup',
-          phoneNumber: to.webphone.phoneNumber
-        });
-      }
+      if (!status) return;
+      await Webphone.operate({
+        phoneId: from.webphone.id,
+        sessionId: from.webphone.sessionId,
+        action: 'hangup',
+        phoneNumber: to.webphone.phoneNumber
+      });
     }
   
     static async answerCall(context) {
       const status = await this._status(context, 'answerCall');
-      if(status === true) {
-        await Webphone.operate({
-          phoneId: to.webphone.id,   
-          sessionId: to.webphone.sessionId,
-          action: 'answerCall',
-          phoneNumber: from.webphone.phoneNumber
-        });
-      }
+      if(!status) return;
+      await Webphone.operate({
+        phoneId: to.webphone.id,   
+        sessionId: to.webphone.sessionId,
+        action: 'answerCall',
+        phoneNumber: from.webphone.phoneNumber
+      });
     }
 
     static async _status(context, action){
@@ -132,6 +130,7 @@ export default function createWebphone({
       } else if (action === 'hangup') {
         for(let i=0; i<10; i++){
           await Webphone.sleep(1000);
+          // TODO refactor
           [from, to].forEach(async _account=>{
             const _status = (await Webphone.getPhonesById(_account.webphone.id)).body.status;
             if(['accepted','invited'].includes(_status)){

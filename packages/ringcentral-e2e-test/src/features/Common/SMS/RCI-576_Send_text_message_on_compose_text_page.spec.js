@@ -55,12 +55,9 @@ describe('Commom SMS: =====>', () => {
       ['office'],
     ],
     levels: ['p0'],
-    brands: [
-      ['rc', { accounts: ['CM_RC_US'] }]
-    ],
     options: [
       {
-        typeToFields: ['foobar', '101', '(650)8881234', '+16508881234', '+16508881234*101'], textSMS: 'bar', callingType: 'myRCPhone'
+        typeToFields: ['foobar', '101', '(650)8881234', '+16508881234', '+16508881234*101'], textSMS: 'bar', accounts: ['CM_RC_US'], callingType: 'myRCPhone'
       },
     ],
   }, async (context) => {
