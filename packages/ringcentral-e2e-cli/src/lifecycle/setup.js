@@ -8,7 +8,11 @@ import { configPath } from '../../lib/run';
 // import logger from '../plugins/logger';
 
 // eslint-disable-next-line
-const { lookupConfig } = require(configPath);
+const {
+  lookupConfig,
+  beforeEachCase,
+  afterEachCase,
+} = require(configPath);
 const config = global.execGlobal;
 
 function getPattern(value) {
@@ -89,6 +93,8 @@ function setup({
     return {
       instance,
       config,
+      beforeEachCase,
+      afterEachCase,
     };
   };
 }

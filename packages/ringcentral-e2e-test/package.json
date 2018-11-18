@@ -21,7 +21,7 @@
     "einstein-sdk": "^1.0.11",
     "geckodriver": "^1.12.2",
     "jest-html-reporter": "^2.4.2",
-    "marten": "^1.0.0-alpha.1",
+    "marten": "^1.0.0-alpha.2",
     "ramda": "^0.25.0",
     "request": "^2.88.0",
     "ringcentral-e2e-cli": "^0.0.1",

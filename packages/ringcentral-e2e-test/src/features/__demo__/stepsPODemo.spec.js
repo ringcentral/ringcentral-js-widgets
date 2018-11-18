@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Button from 'ringcentral-widgets/components/Button';
-import { createProcess } from 'marten';
+import { createProcess } from '../../steps';
 import Login from 'ringcentral-e2e-test/src/steps/salesforce/login';
 import NavigateTo from 'ringcentral-e2e-test/src/steps/salesforce/navigateTo';
 import Entry from 'ringcentral-e2e-test/src/steps/entry';

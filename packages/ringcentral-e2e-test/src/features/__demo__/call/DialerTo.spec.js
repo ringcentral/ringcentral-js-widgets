@@ -2,7 +2,7 @@
 /* eslint-disable */
 import React from 'react';
 import Button from 'ringcentral-widgets/components/Button';
-import { createProcess } from 'marten';
+import { createProcess } from '../../../steps';
 import Login from '../../../steps/commons/login';
 import NavigateTo from '../../../steps/commons/navigateTo';
 import Entry from '../../../steps/entry';

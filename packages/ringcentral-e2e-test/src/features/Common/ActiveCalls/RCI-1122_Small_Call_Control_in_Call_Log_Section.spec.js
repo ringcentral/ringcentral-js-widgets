@@ -33,7 +33,7 @@ Date Updated	Wed, 24 Oct 2018 13:52:10
  */
 /* eslint-enable */
 
-import { createProcess } from 'marten';
+import { createProcess } from '../../../steps';
 import callingTypes from '../../../enums/callingTypes';
 import Entry from '../../../steps/entry';
 import { LoginCTI } from '../../../steps/commons/login';
