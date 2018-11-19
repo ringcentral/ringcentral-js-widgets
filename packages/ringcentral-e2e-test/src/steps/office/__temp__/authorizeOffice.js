@@ -1,9 +1,10 @@
 import sleep from 'ringcentral-integration/lib/sleep';
 
 export default class AuthorizeOffice {
-  static async login() {
+  static async login(context) {
     console.log('office 365 authorization');
     const params = context.options.config;
+    const page = context.page;
     const MICROSOFT_URL = 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize';
 
     await $(page).waitFor('div[title="More Menu"]', {
@@ -23,7 +24,7 @@ export default class AuthorizeOffice {
       selector: 'css'
     });
     const officeAuthPagePromise = new Promise(
-      resolve => browser.on('targetcreated', async (t) => {
+      resolve => context.browser.on('targetcreated', async (t) => {
         if (t._targetInfo && t._targetInfo.url.includes(MICROSOFT_URL)) {
           console.log('MS popup created');
           resolve(await t.page());
