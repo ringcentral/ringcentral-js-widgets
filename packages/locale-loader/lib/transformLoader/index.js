@@ -1,9 +1,9 @@
 import through from 'through2';
 import fs from 'fs-extra';
 import path from 'path';
-import isLocaleFile from '../isLocaleFile';
 import generateLoaderContent from '../generateLoaderContent';
-import isLoaderFile from '../isLoaderFile';
+import { isLocaleFile, localeFileFilter } from '../isLocaleFile';
+import { isLoaderFile, noChunks } from '../isLoaderFile';
 
 export default function transformLoader({
   noChunk = false,
@@ -17,11 +17,11 @@ export default function transformLoader({
     if (isLoaderFile(content)) {
       const folderPath = path.dirname(file.path);
       const files = (await fs.readdir(folderPath)).filter(isLocaleFile).filter(
-        isLocaleFile.typeFilter(supportedLocales)
+        localeFileFilter(supportedLocales)
       );
       const loader = generateLoaderContent({
         files,
-        noChunk: noChunk || isLoaderFile.noChunk(content),
+        noChunk: noChunk || noChunks(content),
       });
       file.contents = Buffer.from(loader, 'utf8');
       this.push(file);

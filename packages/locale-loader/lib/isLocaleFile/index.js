@@ -15,11 +15,15 @@ export default function isLocaleFile(filename) {
   return localeFileRegExp.test(name);
 }
 
-isLocaleFile.typeFilter = function typeFilter(locales = ['en-US']) {
+function localeFileFilter(locales = ['en-US']) {
   return (x) => {
     const y = x.split('/').pop().split('.')[0];
     if (locales.includes(y)) return true;
     return false;
   };
-};
+}
 
+export {
+  isLocaleFile,
+  localeFileFilter
+};
