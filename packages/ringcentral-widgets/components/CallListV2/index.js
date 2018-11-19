@@ -181,6 +181,7 @@ export default class CallListV2 extends React.PureComponent {
       <div>
         <List
           style={{ outline: 'none' }}
+          containerStyle={{ overflow: 'visible' }}
           ref={this._list}
           width={width}
           height={height}
@@ -190,7 +191,7 @@ export default class CallListV2 extends React.PureComponent {
           rowHeight={this._renderRowHeight}
           rowRenderer={this._rowRender}
           noRowsRenderer={this.noRowsRender}
-      />
+        />
       </div>
     );
   }
