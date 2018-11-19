@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import uuid from 'uuid';
 import classnames from 'classnames';
+
+import { GText, GConference, GOnline, GSpinner } from './parts';
+
 import styles from './styles.scss';
-import SpinnerIcon from '../../assets/images/Spinner.svg';
+
 
 const REGEXP_BASE64_URL = /^(data:\w+\/[a-zA-Z\+\-\.]+;base64,)?(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/gi;
 
@@ -82,19 +85,12 @@ class Avatar extends Component {
       extraNum, isOnConferenceCall, spinnerMode, className, onClick, isOnline
     } = this.props;
     const { avatarUrl } = this.state;
+
     // styles
     const initialSize = 38;
-    const margin = 4;
-    const extraNumCircleRadius = 8.5;
-    const extraNumCircleBorder = 1;
-    const onLineCircleRadius = 4;
-    const onLineCircleBorder = 1;
     const circleBorder = 1;
     const $snow = '#fff';
-    const $blueLight = '#cee7f2';
-    const $blue = '#0684bd';
     const $dark = '#e2e2e2';
-    const $green = '#5fb95c';
     const $transparency = '0.8';
     const defaultAvatarStyle = { opacity: +$transparency };
     const avatarStyle = { stroke: $dark, strokeWidth: `${circleBorder}px` };
@@ -110,23 +106,13 @@ class Avatar extends Component {
     const clipId = `circleClip-${hash}`;
     const conferenceId = `conferenced-${hash}`;
     const onLineId = `online-${hash}`;
+    const spinnerId = `spinner-${hash}`;
 
-    const portraitChar = '\ue904'; // HACK: &#xe904; is the font code for the portrait icon
-    const iconFont = 'dynamics_icon';// Hard coding this for firefox to load iconfont
     const showingSpinner = spinnerMode;
     const aspectRatio = 'xMidYMid meet';
     const xmlns = 'http://www.w3.org/2000/svg';
 
-    // spinner sizing
-    const spinnerId = `spinner-${hash}`;
-    const spinnerScaleSize = 1.5;
-    const spinnerSize = 12;
-    const spinnerTranslateTo = (initialSize - (spinnerSize * spinnerScaleSize)) / 2;
     const isOnConferenceCallWithExtraNum = isOnConferenceCall && extraNum > 0;
-    const spinnerTransform = `translate(${spinnerTranslateTo
-      - (isOnConferenceCallWithExtraNum ? margin : 0)},${spinnerTranslateTo}) scale(${
-      spinnerScaleSize
-    }, ${spinnerScaleSize})`;
 
     return (
       <svg
@@ -136,65 +122,12 @@ class Avatar extends Component {
         viewBox={`0 0 ${initialSize} ${initialSize}`}
         preserveAspectRatio={aspectRatio}
         xmlns={xmlns}
-          >
+      >
         <defs>
-          <g id={textId}>
-            <text
-              x="0"
-              y="0"
-              dy={`${initialSize - 10}px`}
-              dx="2"
-              style={{
-                      fontSize: `${(initialSize / 2 - 2) * 2}px`,
-                      fill: $blue,
-                      opacity: '.5'
-                    }}
-              fontFamily={iconFont}
-            >
-              {portraitChar}
-            </text>
-          </g>
-          <g id={conferenceId}>
-            <circle
-              cx={initialSize - extraNumCircleRadius}
-              cy={extraNumCircleRadius}
-              r={extraNumCircleRadius}
-              fill={$snow} />
-            <circle
-              cx={initialSize - extraNumCircleRadius}
-              cy={extraNumCircleRadius}
-              r={extraNumCircleRadius - extraNumCircleBorder}
-              fill={$blueLight} />
-
-            <text
-              x={initialSize - extraNumCircleRadius}
-              y={extraNumCircleRadius}
-              dy="3px"
-              textAnchor="middle"
-              style={{
-                fontSize: '9px',
-                stroke: 'none',
-                fill: $blue,
-                fontWeight: 'bolder',
-              }}>
-              {`+${extraNum}`}
-            </text>
-          </g>
-          <g id={onLineId}>
-            <circle
-              cx={initialSize - onLineCircleRadius}
-              cy={initialSize - 2 * onLineCircleRadius}
-              r={onLineCircleRadius}
-              fill={$snow}
-            />
-            <circle
-              cx={initialSize - onLineCircleRadius}
-              cy={initialSize - 2 * onLineCircleRadius}
-              r={onLineCircleRadius - onLineCircleBorder}
-              fill={$green}
-            />
-          </g>
-          <SpinnerIcon id={spinnerId} />
+          {GText(textId, initialSize)}
+          {GConference(conferenceId, initialSize, extraNum)}
+          {GOnline(onLineId, initialSize)}
+          {GSpinner(spinnerId, initialSize)}
         </defs>
         <circle
           cx={initialSize / 2}
@@ -214,11 +147,7 @@ class Avatar extends Component {
           </clipPath>
         </g>
         {
-            showingSpinner && (
-              <g transform={spinnerTransform} >
-                <use xlinkHref={`#${spinnerId}`} />
-              </g>
-            )
+            showingSpinner && <use xlinkHref={`#${spinnerId}`} />
         }
         {
             avatarUrl && (<image
