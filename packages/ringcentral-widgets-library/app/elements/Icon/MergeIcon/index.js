@@ -2,15 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import CircleButton from '../CircleButton';
-import End from '../../../assets/images/End.svg';
-import styles from './style.scss';
+import Merge from '../../../assets/images/MergeIntoConferenceIcon.svg';
+import styles from './styles.scss';
 
-function EndIcon({
-  onClick, showBorder, disabled, className
+function MergeIcon({
+  onClick,
+  showBorder,
+  disabled,
+  className
 }) {
-  const iconCls = classnames(styles.endButton, {
+  const iconCls = classnames(styles.mergeButton, {
     [styles.disabled]: disabled,
-    [className]: true,
+    [className]: true
   });
   return (
     <CircleButton
@@ -18,24 +21,24 @@ function EndIcon({
       onClick={onClick}
       iconWidth={260}
       iconX={120}
-      icon={End}
+      icon={Merge}
       showBorder={showBorder}
     />
   );
 }
 
-EndIcon.propTypes = {
+MergeIcon.propTypes = {
   onClick: PropTypes.func,
   showBorder: PropTypes.bool,
   disabled: PropTypes.bool,
   className: PropTypes.string,
 };
 
-EndIcon.defaultProps = {
+MergeIcon.defaultProps = {
   onClick() {},
-  showBorder: false,
+  showBorder: true,
   disabled: false,
   className: ''
 };
 
-export default EndIcon;
+export default MergeIcon;

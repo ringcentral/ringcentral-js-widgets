@@ -1,8 +1,11 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { text, boolean, number } from '@storybook/addon-knobs/react';
+import { text, boolean, number, select } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
+
 import CallItem from '../../../components/List/CallItem';
+import MediaItem from '../../../components/List/MediaItem';
+import NormalItem from '../../../components/List/NormalItem';
 
 storiesOf('List', module)
   .add('callItem', () => {
@@ -16,8 +19,72 @@ storiesOf('List', module)
       onEndCall: action('onEndCall clicked'),
       showAnswerCall: boolean('showAnswerCall', true),
       onAnswerCall: action('onAnswerCall clicked'),
-      showExtraInfo: boolean('showExtraInfo', true),
+      showMergeCall: boolean('showMergeCall', true),
+      onMergeCall: action('onMergeCall clicked'),
+      showExtraInfo: boolean('showExtraInfo', false),
       extraInfo: text('extraInfo', 'hello'),
     };
     return <CallItem {...props} />;
+  })
+  .add('MediaItem.Call', () => {
+    const props = {
+
+    };
+    const callProps = {
+      info: {
+        name: 'Kyle',
+        describe: 'Hello, my name is Kyle and what\'s your name ?',
+        timestamp: Date.now()
+      }
+    };
+    return (
+      <MediaItem {...props}>
+        <MediaItem.Call {...callProps} />
+      </MediaItem>
+    );
+  })
+  .add('MediaItem.Media', () => {
+    const options = [
+      'VoiceMail',
+      'Message',
+      'ActivityCall',
+    ];
+    const defaultValue = 'Message';
+
+    const mediaProps = {
+      info: {
+        name: 'Kyle',
+        describe: 'Hello, my name is Kyle and what\'s your name ?',
+        timestamp: Date.now()
+      },
+      type: select('types', options, defaultValue)
+    };
+    return (
+      <MediaItem>
+        <MediaItem.Media {...mediaProps} />
+      </MediaItem>
+    );
+  })
+  .add('NormalItem.line', () => {
+    const props = {
+      type: 'line',
+      label: 'Hello',
+      lineProps: {
+        onClick: action('line clicked')
+      },
+    };
+    return <NormalItem {...props} />;
+  })
+  .add('NormalItem.switch', () => {
+    const props = {
+      type: 'switch',
+      label: 'Hello',
+      switchProps: {
+        title: text('Title', 'Switch Title'),
+        checked: boolean('Checked', false),
+        onChange: action('onChange'),
+        disable: boolean('Disabled', false),
+      },
+    };
+    return <NormalItem {...props} />;
   });

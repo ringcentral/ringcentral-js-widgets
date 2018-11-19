@@ -10,7 +10,6 @@ export default function IconLine(props) {
       onClick={props.onClick}
       noBorder={props.noBorder}>
       <IconField
-        className={props.className}
         icon={props.icon}>
         {props.children}
       </IconField>

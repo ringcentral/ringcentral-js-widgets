@@ -1,0 +1,21 @@
+.transferButton {
+  width: 26px;
+  g,
+  path {
+    fill: #0684bd;
+  }
+}
+
+.disabled,
+.disabled * {
+  circle {
+    fill: #ffffff;
+  }
+  cursor: not-allowed;
+}
+
+.transferButton {
+  circle {
+    fill: #ffffff;
+  }
+}

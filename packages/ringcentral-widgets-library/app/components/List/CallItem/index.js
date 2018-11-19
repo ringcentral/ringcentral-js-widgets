@@ -14,6 +14,8 @@ function CallItem({
   onEndCall,
   showAnswerCall,
   onAnswerCall,
+  showMergeCall,
+  onMergeCall,
   showExtraInfo,
   extraInfo
 }) {
@@ -22,14 +24,19 @@ function CallItem({
     if (showExtraInfo) {
       return null;
     }
-    if (showEndCall) {
-      Operations.push(
-        <span className={styles.iconWrapper}><Icon.End onClick={onEndCall} /></span>
-      );
-    }
     if (showAnswerCall) {
       Operations.push(
-        <span className={styles.iconWrapper}><Icon.Answer onClick={onAnswerCall} /></span>
+        <span key="answerCall" className={styles.iconWrapper}><Icon.Answer onClick={onAnswerCall} /></span>
+      );
+    }
+    if (showEndCall) {
+      Operations.push(
+        <span key="endCall" className={styles.iconWrapper}><Icon.End onClick={onEndCall} /></span>
+      );
+    }
+    if (showMergeCall) {
+      Operations.push(
+        <span key="mergeCall" className={styles.iconWrapper}><Icon.Merge onClick={onMergeCall} /></span>
       );
     }
     return (
@@ -73,6 +80,8 @@ CallItem.propTypes = {
   onEndCall: PropTypes.func,
   showAnswerCall: PropTypes.bool,
   onAnswerCall: PropTypes.func,
+  showMergeCall: PropTypes.bool,
+  onMergeCall: PropTypes.func,
   showExtraInfo: PropTypes.bool,
   extraInfo: PropTypes.string,
 };
@@ -87,6 +96,8 @@ CallItem.defaultProps = {
   onEndCall() {},
   showAnswerCall: false,
   onAnswerCall() {},
+  showMergeCall: false,
+  onMergeCall() {},
   showExtraInfo: false,
   extraInfo: ''
 };
