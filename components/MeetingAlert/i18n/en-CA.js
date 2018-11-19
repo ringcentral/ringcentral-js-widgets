@@ -16,9 +16,10 @@ var _meetingStatus2 = _interopRequireDefault(_meetingStatus);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (_meetingStatus$emptyT = {}, (0, _defineProperty3.default)(_meetingStatus$emptyT, _meetingStatus2.default.emptyTopic, "Please enter meeting topic."), (0, _defineProperty3.default)(_meetingStatus$emptyT, _meetingStatus2.default.noPassword, "Please provide meeting password."), (0, _defineProperty3.default)(_meetingStatus$emptyT, _meetingStatus2.default.scheduledSuccess, "Meeting is scheduled."), _meetingStatus$emptyT);
+exports.default = (_meetingStatus$emptyT = {}, (0, _defineProperty3.default)(_meetingStatus$emptyT, _meetingStatus2.default.emptyTopic, "Please enter meeting topic."), (0, _defineProperty3.default)(_meetingStatus$emptyT, _meetingStatus2.default.noPassword, "Please provide meeting password."), (0, _defineProperty3.default)(_meetingStatus$emptyT, _meetingStatus2.default.insufficientPermissions, "{application} do not have {permissionName} permission."), (0, _defineProperty3.default)(_meetingStatus$emptyT, _meetingStatus2.default.scheduledSuccess, "Meeting is scheduled."), _meetingStatus$emptyT);
 
 // @key: @#@"[meetingStatus.emptyTopic]"@#@ @source: @#@"Please enter meeting topic."@#@
 // @key: @#@"[meetingStatus.noPassword]"@#@ @source: @#@"Please provide meeting password."@#@
+// @key: @#@"[meetingStatus.insufficientPermissions]"@#@ @source: @#@"{application} do not have {permissionName} permission."@#@
 // @key: @#@"[meetingStatus.scheduledSuccess]"@#@ @source: @#@"Meeting is scheduled."@#@
 //# sourceMappingURL=en-CA.js.map

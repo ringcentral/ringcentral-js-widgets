@@ -8,7 +8,7 @@ var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
 
 var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
-var _emailLabel$call$text;
+var _phoneTypes$extension;
 
 var _presenceStatus = require('ringcentral-integration/modules/Presence/presenceStatus');
 
@@ -24,12 +24,14 @@ var _phoneTypes2 = _interopRequireDefault(_phoneTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (_emailLabel$call$text = {
-  emailLabel: "Email",
-  call: "Chamada",
-  text: "Texto"
-}, (0, _defineProperty3.default)(_emailLabel$call$text, _presenceStatus2.default.available, "Disponível"), (0, _defineProperty3.default)(_emailLabel$call$text, _presenceStatus2.default.offline, "Invisível"), (0, _defineProperty3.default)(_emailLabel$call$text, _presenceStatus2.default.busy, "Ocupado"), (0, _defineProperty3.default)(_emailLabel$call$text, _dndStatus2.default.doNotAcceptAnyCalls, "Não perturbe"), (0, _defineProperty3.default)(_emailLabel$call$text, 'notActivated', "Inativo"), _emailLabel$call$text);
+exports.default = (_phoneTypes$extension = {}, (0, _defineProperty3.default)(_phoneTypes$extension, _phoneTypes2.default.extension, "Ramal"), (0, _defineProperty3.default)(_phoneTypes$extension, _phoneTypes2.default.direct, "Direto"), (0, _defineProperty3.default)(_phoneTypes$extension, _phoneTypes2.default.mobile, "Dispositivo móvel"), (0, _defineProperty3.default)(_phoneTypes$extension, _phoneTypes2.default.home, "Página inicial"), (0, _defineProperty3.default)(_phoneTypes$extension, _phoneTypes2.default.business, "Negócio"), (0, _defineProperty3.default)(_phoneTypes$extension, _phoneTypes2.default.fax, "Fax"), (0, _defineProperty3.default)(_phoneTypes$extension, 'emailLabel', "Email"), (0, _defineProperty3.default)(_phoneTypes$extension, 'call', "Chamada"), (0, _defineProperty3.default)(_phoneTypes$extension, 'text', "Texto"), (0, _defineProperty3.default)(_phoneTypes$extension, _presenceStatus2.default.available, "Disponível"), (0, _defineProperty3.default)(_phoneTypes$extension, _presenceStatus2.default.offline, "Invisível"), (0, _defineProperty3.default)(_phoneTypes$extension, _presenceStatus2.default.busy, "Ocupado"), (0, _defineProperty3.default)(_phoneTypes$extension, _dndStatus2.default.doNotAcceptAnyCalls, "Não perturbe"), (0, _defineProperty3.default)(_phoneTypes$extension, 'notActivated', "Inativo"), _phoneTypes$extension);
 
+// @key: @#@"[phoneTypes.extension]"@#@ @source: @#@"Ext."@#@
+// @key: @#@"[phoneTypes.direct]"@#@ @source: @#@"Direct"@#@
+// @key: @#@"[phoneTypes.mobile]"@#@ @source: @#@"Mobile"@#@
+// @key: @#@"[phoneTypes.home]"@#@ @source: @#@"Home"@#@
+// @key: @#@"[phoneTypes.business]"@#@ @source: @#@"Business"@#@
+// @key: @#@"[phoneTypes.fax]"@#@ @source: @#@"Fax"@#@
 // @key: @#@"emailLabel"@#@ @source: @#@"Email"@#@
 // @key: @#@"call"@#@ @source: @#@"Call"@#@
 // @key: @#@"text"@#@ @source: @#@"Text"@#@
