@@ -8916,10 +8916,10 @@ marked@^0.3.6:
   resolved "https://registry.yarnpkg.com/marked/-/marked-0.3.19.tgz#5d47f709c4c9fc3c216b6d46127280f40b39d790"
   integrity sha512-ea2eGWOqNxPcXv8dyERdSr/6FmzvWwzjMxpfGB/sbMccXoct+xY+YukPD+QTUZwyvK7BZwcr4m21WBOW41pAkg==
 
-marten@^1.0.0-alpha.2:
-  version "1.0.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/marten/-/marten-1.0.0-alpha.2.tgz#48b499a003f71d5688c4affc0392159ff211dfa5"
-  integrity sha512-4gRDfHW74Ytsn27cRl6fwonZFz8sZpde+GTVdSgyFZ10iJbXlQAP53lhqGPYUVvXxPkVzcfGWCmgon5OoMtmWw==
+marten@^1.0.0-alpha.3:
+  version "1.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/marten/-/marten-1.0.0-alpha.3.tgz#190d6b63d1ee5434a6624312d67a911e1f53c76b"
+  integrity sha512-XDtAA3SSKdOmck44LKEAiTurcQYuse3xBJNzIDwR6fIMpzkUKWKbhsIO0YyMXVrgFIkgy3AYBIgg5H7jQTK19Q==
 
 math-expression-evaluator@^1.2.14:
   version "1.2.17"

@@ -6,14 +6,14 @@ export const createProcess = generate({
     context,
     options,
   }) {
-    console.log(step.name);
+    console.log(`[${new Date().toTimeString().slice(0,8)}]`, step.__steps__.name, step.name);
   },
   async after({
     step,
     context,
     options,
   }) {
-    console.log(step.name);
+    console.log(`[${new Date().toTimeString().slice(0,8)}]`, step.__steps__.name, step.name);
   }
 });
 
