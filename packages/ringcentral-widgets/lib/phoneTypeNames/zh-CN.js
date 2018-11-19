@@ -8,7 +8,9 @@ export default {
   [phoneTypes.phone]: "电话",
   [phoneTypes.unknown]: "未知电话类型",
   [phoneTypes.company]: "公司号码",
-  [phoneTypes.direct]: "直拨号码"
+  [phoneTypes.direct]: "直拨号码",
+  [phoneTypes.fax]: "传真",
+  [phoneTypes.other]: "其他"
 };
 
 // @key: @#@"[phoneTypes.business]"@#@ @source: @#@"Business Phone"@#@
@@ -19,3 +21,5 @@ export default {
 // @key: @#@"[phoneTypes.unknown]"@#@ @source: @#@"Unknown Phone Type"@#@
 // @key: @#@"[phoneTypes.company]"@#@ @source: @#@"Company Number"@#@
 // @key: @#@"[phoneTypes.direct]"@#@ @source: @#@"Direct Number"@#@
+// @key: @#@"[phoneTypes.fax]"@#@ @source: @#@"Fax"@#@
+// @key: @#@"[phoneTypes.other]"@#@ @source: @#@"Other"@#@
