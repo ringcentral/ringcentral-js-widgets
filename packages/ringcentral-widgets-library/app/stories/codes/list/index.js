@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { text, boolean, number, select } from '@storybook/addon-knobs/react';
+import { text, boolean, number, select, object } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
 
 import CallItem from '../../../components/List/CallItem';
@@ -32,9 +32,9 @@ storiesOf('List', module)
     };
     const callProps = {
       info: {
-        name: 'Kyle',
-        describe: 'Hello, my name is Kyle and what\'s your name ?',
-        timestamp: Date.now()
+        name: text('name', 'kyle'),
+        describe: text('describe', 'Hello, my name is Kyle and what\'s your name ?'),
+        timestamp: number('timestamp', 1542620329248)
       }
     };
     return (

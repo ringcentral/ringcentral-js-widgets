@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import { formatTime } from './time';
+import { formatTime, isValidDate } from './time';
 import styles from './styles.scss';
 
 function FormatInfo({
   name, describe, timestamp, className
 }) {
   function FormatTime() {
-    if (!timestamp) {
+    if (!timestamp || !isValidDate(timestamp)) {
       return null;
     }
     return (
