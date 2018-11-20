@@ -126,21 +126,21 @@ exports['generate-font'] = async () => {
     console.log(error);
   }
 };
-exports['export-locale'] = () => exportLocale({
+exports['export-locale'] = async () => exportLocale({
   ...localeSettings,
 });
-exports['export-locale-full'] = () => exportLocale({
+exports['export-locale-full'] = async () => exportLocale({
   ...localeSettings,
   exportType: 'full'
 });
-exports['export-locale-translated'] = () => exportLocale({
+exports['export-locale-translated'] = async () => exportLocale({
   ...localeSettings,
   exportType: 'translated'
 });
-exports['import-locale'] = () => importLocale({
+exports['import-locale'] = async () => importLocale({
   ...localeSettings,
 });
-exports['consolidate-locale'] = () => consolidateLocale({
+exports['consolidate-locale'] = async () => consolidateLocale({
   ...localeSettings,
   sourceFolder: path.resolve(__dirname, 'lib/countryNames'),
 });
