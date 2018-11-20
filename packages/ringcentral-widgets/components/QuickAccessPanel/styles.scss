@@ -40,20 +40,15 @@
   color: $primary-color;
 }
 
-.cancelBtn {
-  @extend .button;
-  background-color: $snow;
-  margin-top: 15px;
-}
 
-.confirmBtn {
+.finishBtn {
   @extend .button;
   margin-top: 15px;
   background-color: $primary-color;
   color: $snow;
 }
 
-.confirmBtn:hover {
+.finishBtn:hover {
   color: $silver;
 }
 

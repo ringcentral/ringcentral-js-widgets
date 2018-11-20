@@ -6,6 +6,5 @@ export default {
   descriptionAll: 'Go to {optionsLink} to define your blacklist.',
   descriptionUser: 'Go to {optionsLink}  to define your specific websites.',
   extensionOptions: 'Extension Options',
-  Confirm: 'Confirm',
-  Cancel: 'Cancel',
+  Finish: 'Finish Setting',
 };

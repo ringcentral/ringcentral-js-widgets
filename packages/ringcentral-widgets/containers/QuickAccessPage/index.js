@@ -24,7 +24,7 @@ function mapToFunctions(_, {
   }
 }) {
   return {
-    onCancel() {
+    onFinish() {
       quickAccess.exit();
     }
   };

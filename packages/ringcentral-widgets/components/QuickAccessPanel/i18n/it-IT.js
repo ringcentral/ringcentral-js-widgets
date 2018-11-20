@@ -6,8 +6,6 @@ export default {
   descriptionAll: "Vai a {optionsLink} per definire la lista nera.",
   descriptionUser: "Vai a {optionsLink} per definire i siti web specifici.",
   extensionOptions: "Opzioni interno",
-  Confirm: "Conferma",
-  Cancel: "Annulla"
 };
 
 // @key: @#@"textGoogle"@#@ @source: @#@"Only show in {appName} apps"@#@
