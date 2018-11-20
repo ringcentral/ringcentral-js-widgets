@@ -16,9 +16,8 @@ export default function isLocaleFile(filename) {
 }
 
 function localeFileFilter(locales = ['en-US']) {
-  return (x) => {
-    const y = x.split('/').pop().split('.')[0];
-    if (locales.includes(y)) return true;
+  return (typename) => {
+    if (locales.includes(typename)) return true;
     return false;
   };
 }
