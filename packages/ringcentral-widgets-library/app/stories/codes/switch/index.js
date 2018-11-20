@@ -8,7 +8,7 @@ import { action } from '@storybook/addon-actions';
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
 import Switch from '../../../elements/Switch';
 
-storiesOf('Switch', module)
+storiesOf('Elements/Switch', module)
   .add('basic', () => {
     const onChange = action('onChange');
     const switchProps = {

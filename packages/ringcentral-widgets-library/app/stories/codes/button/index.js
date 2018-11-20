@@ -9,7 +9,7 @@ import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
 
 import Button from '../../../elements/Button';
 
-storiesOf('Button', module)
+storiesOf('Elements/Button', module)
   .add('with text', () => <Button onClick={action('clicked')}>RC Button</Button>)
   .add('with dynamic', () => {
     const children = text('children', 'dynamic');

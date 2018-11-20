@@ -8,7 +8,7 @@ import { action } from '@storybook/addon-actions';
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
 import Spinner from '../../../elements/Spinner';
 
-storiesOf('Spinner', module)
+storiesOf('Elements/Spinner', module)
   .add('basic', () => {
     const spinnerProps = {
       ringWidth: number('Border', 8)

@@ -5,7 +5,7 @@ import { text, boolean, number, select } from '@storybook/addon-knobs/react';
 import styles from './styles.scss';
 import Icon from '../../../elements/Icon';
 
-storiesOf('Icon', module)
+storiesOf('Elements/Icon', module)
   .add('Icon', () => {
     const label = 'types';
     const options = [

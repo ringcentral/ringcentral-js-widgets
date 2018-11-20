@@ -27,7 +27,7 @@ const selected = 'option1';
 const onSelect = ({ key }) => {
   console.log(`selected: ${key}`);
 };
-storiesOf('CheckBox', module)
+storiesOf('Elements/CheckBox', module)
   .add('basic', () => (<CheckBox
     data={data}
     selected={selected}

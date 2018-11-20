@@ -7,7 +7,7 @@ import { withKnobs, text, select, boolean } from '@storybook/addon-knobs/react';
 import Badge from '../../../elements/Badge';
 import styles from './index.scss';
 
-storiesOf('Badge', module)
+storiesOf('Elements/Badge', module)
   .add('Badge Theme', () => {
     const themes = {
       success: 'success',

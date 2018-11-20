@@ -8,7 +8,7 @@ import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
 import DropdownSelect from '../../../elements/DropdownSelect';
 import { select } from '@storybook/addon-knobs/dist/react';
 
-storiesOf('DropdownSelect', module)
+storiesOf('Elements/DropdownSelect', module)
   .add('basic', () => {
     const dropdownAlign = {
       left: 'left',
