@@ -32,6 +32,11 @@ const formatDate = (time) => {
   return `${month}/${date}`;
 };
 
+export const isValidDate = (timestamp) => {
+  const date = new Date(timestamp);
+  return date instanceof Date && !Number.isNaN(date.getTime());
+};
+
 export function formatTime(timestamp) {
   if (isYestoday(timestamp)) {
     return 'Yestoday';
