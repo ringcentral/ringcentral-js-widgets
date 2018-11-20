@@ -39,8 +39,8 @@ import { LoginCTI } from '../../../steps/commons/login';
 import Relogin from '../../../steps/commons/relogin';
 import NavigateTo from '../../../steps/commons/navigateTo';
 import NavigateToSettings from '../../../steps/commons/navigateToSettings';
-import AuthorizeOffice from '../../../steps/office/__temp__/authorizeOffice';
-import UnauthorizeOffice from '../../../steps/office/__temp__/unauthorizeOffice';
+import AuthorizeOffice from '../../../steps/office/authorizeOffice';
+import UnauthorizeOffice from '../../../steps/office/unauthorizeOffice';
 
 describe('Commom 3rd Party Authorize: =====>', () => {
   test({

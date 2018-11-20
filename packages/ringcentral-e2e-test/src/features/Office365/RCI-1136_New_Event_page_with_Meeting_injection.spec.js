@@ -30,10 +30,10 @@ Date Updated	Tue, 06 Nov 2018 14:47:44
 
  import { createProcess } from 'marten';
  import { LoginCTI } from '../../steps/commons/login';
- import NavigateToSettings from '../../../steps/commons/navigateToSettings';
- import AuthorizeOffice from '../../steps/office/__temp__/authorizeOffice';
+ import NavigateToSettings from '../../steps/commons/navigateToSettings';
+ import AuthorizeOffice from '../../steps/office/authorizeOffice';
  import Entry from '../../steps/entry';
- import addMeeting from '../../steps/office/__temp__/addMeeting';
+ import addMeeting from '../../steps/office/addMeeting';
 
  beforeEach(() => {
    jasmine.DEFAULT_TIMEOUT_INTERVAL = 1200000;
