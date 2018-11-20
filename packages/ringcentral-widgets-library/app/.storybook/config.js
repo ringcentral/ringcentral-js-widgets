@@ -16,13 +16,13 @@ function loadCodeStories() {
   req.keys().forEach((filename) => req(filename));
 }
 
-function loadUXstories() {
-  const req = require.context('../stories/ux', true, /.story.js$/);
+function loadDSstories() {
+  const req = require.context('../stories/design', true, /.index.js$/);
   req.keys().forEach((filename) => req(filename));
 }
 
 function loadStories() {
-  loadUXstories();
+  loadDSstories();
   loadCodeStories();
 }
 

@@ -90,7 +90,7 @@ const colorsMap = {
   },
 };
 
-storiesOf('Design/UI Pattern', module)
+storiesOf('Design', module)
   .add('Colors', () => (
     <div className={styles.module} > {
       Object.keys(colorsMap).map(dominant => (
