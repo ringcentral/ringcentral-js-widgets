@@ -11,6 +11,9 @@ import importLocale from '@ringcentral-integration/locale-loader/lib/importLocal
 import consolidateLocale from '@ringcentral-integration/locale-loader/lib/consolidateLocale';
 import localeSettings from 'locale-settings';
 
+const BUILD_PATH = path.resolve(__dirname, '../../build/ringcentral-widgets');
+const RELEASE_PATH = path.resolve(__dirname, '../../release/ringcentral-widgets');
+
 async function getVersionFromTag() {
   let tag = process.env.TRAVIS_TAG;
   if (tag && /^\d+.\d+.\d+/.test(tag)) {
@@ -23,94 +26,70 @@ async function getVersionFromTag() {
       return tag;
     }
   } catch (e) {
-    console.error(e);
+    // console.error(e);
   }
   return null;
 }
-
-function buildConfig(brandConfig) {
-  const brand = brandConfig.name;
-  const pathName = brand === 'RC' ? '' : `-${brand}`;
-  const BUILD_PATH = path.resolve(__dirname, `../../build/ringcentral-widgets${pathName}`);
-  const RELEASE_PATH = path.resolve(__dirname, `../../release/ringcentral-widgets${pathName}`);
-
-  function clean() {
-    return fs.remove(BUILD_PATH);
-  }
-  function copy() {
-    return gulp.src([
-      './**',
-      '!./**/*.js',
-      '!./test{/**,}',
-      '!./coverage{/**,}',
-      '!./node_modules{/**,}',
-      '!package-lock.json'
-    ]).pipe(gulp.dest(BUILD_PATH));
-  }
-  function _build() {
-    return gulp.src([
-      './**/*.js',
-      '!./**/*.test.js',
-      '!./test{/**,}',
-      '!./coverage{/**,}',
-      '!./node_modules{/**,}',
-      '!gulpfile.babel.js']
-    ).pipe(transformLoader({
-      ...brandConfig,
-    }))
-      .pipe(sourcemaps.init())
-      .pipe(babel())
-      .pipe(sourcemaps.write('.'))
-      .pipe(gulp.dest(BUILD_PATH));
-  }
-  const build = gulp.series(clean, copy, _build);
-  async function releaseClean() {
-    if (!await fs.exists(RELEASE_PATH)) {
-      await execa.shell(`mkdir -p ${RELEASE_PATH}`);
-    }
-    const files = (await fs.readdir(RELEASE_PATH)).filter(file => !/^\./.test(file));
-    for (const file of files) {
-      await fs.remove(path.resolve(RELEASE_PATH, file));
-    }
-  }
-  function releaseCopy() {
-    return gulp.src([
-      `${BUILD_PATH}/**`,
-      `${__dirname}/README.md`,
-      `${__dirname}/LICENSE`
-    ]).pipe(gulp.dest(RELEASE_PATH));
-  }
-  async function _release() {
-    const packageInfo = JSON.parse(await fs.readFile(path.resolve(BUILD_PATH, 'package.json')));
-    delete packageInfo.scripts;
-    delete packageInfo.jest;
-    const version = await getVersionFromTag();
-    console.log('version:', version);
-    if (version) {
-      packageInfo.version = version;
-      packageInfo.name = 'ringcentral-widgets';
-    }
-    await fs.writeFile(path.resolve(RELEASE_PATH, 'package.json'), JSON.stringify(packageInfo, null, 2));
-  }
-  const release = gulp.series(gulp.parallel(build, releaseClean),
-    releaseCopy, _release);
-
-  return {
-    brand,
-    build,
-    release,
-  };
+function clean() {
+  return fs.remove(BUILD_PATH);
 }
-
-function getAllBrand() {
-  const brands = Object.keys(localeSettings);
-  return brands.map(brand => buildConfig(localeSettings[brand]).release);
+function copy() {
+  return gulp.src([
+    './**',
+    '!./**/*.js',
+    '!./test{/**,}',
+    '!./coverage{/**,}',
+    '!./node_modules{/**,}',
+    '!package-lock.json'
+  ]).pipe(gulp.dest(BUILD_PATH));
 }
-
-exports.build = buildConfig(localeSettings.RC).build;
-exports.release = buildConfig(localeSettings.RC).release;
-exports['release-all'] = gulp.parallel(...getAllBrand());
-
+function _build() {
+  return gulp.src([
+    './**/*.js',
+    '!./**/*.test.js',
+    '!./test{/**,}',
+    '!./coverage{/**,}',
+    '!./node_modules{/**,}',
+    '!gulpfile.babel.js']
+  ).pipe(transformLoader({
+    ...localeSettings,
+  }))
+    .pipe(sourcemaps.init())
+    .pipe(babel())
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(BUILD_PATH));
+}
+const build = gulp.series(clean, copy, _build);
+async function releaseClean() {
+  if (!await fs.exists(RELEASE_PATH)) {
+    await execa.shell(`mkdir -p ${RELEASE_PATH}`);
+  }
+  const files = (await fs.readdir(RELEASE_PATH)).filter(file => !/^\./.test(file));
+  for (const file of files) {
+    await fs.remove(path.resolve(RELEASE_PATH, file));
+  }
+}
+function releaseCopy() {
+  return gulp.src([
+    `${BUILD_PATH}/**`,
+    `${__dirname}/README.md`,
+    `${__dirname}/LICENSE`
+  ]).pipe(gulp.dest(RELEASE_PATH));
+}
+async function _release() {
+  const packageInfo = JSON.parse(await fs.readFile(path.resolve(BUILD_PATH, 'package.json')));
+  delete packageInfo.scripts;
+  delete packageInfo.jest;
+  const version = await getVersionFromTag();
+  console.log('version:', version);
+  if (version) {
+    packageInfo.version = version;
+    packageInfo.name = 'ringcentral-widgets';
+  }
+  await fs.writeFile(path.resolve(RELEASE_PATH, 'package.json'), JSON.stringify(packageInfo, null, 2));
+}
+const release = gulp.series(gulp.parallel(build, releaseClean),
+  releaseCopy, _release);
 function normalizeName(str) {
   return str.split(/[-_]/g)
     .map((token, idx) => (
@@ -118,7 +97,9 @@ function normalizeName(str) {
     ))
     .join('');
 }
-gulp.task('generate-font', async () => {
+exports.build = build;
+exports.release = release;
+exports['generate-font'] = async () => {
   try {
     const cssLocation = path.resolve(__dirname, 'assets/DynamicsFont/style.css');
     const content = await fs.readFile(cssLocation, 'utf8');
@@ -144,23 +125,22 @@ gulp.task('generate-font', async () => {
   } catch (error) {
     console.log(error);
   }
-});
-gulp.task('export-locale', () => exportLocale({
+};
+exports['export-locale'] = () => exportLocale({
   ...localeSettings,
-}));
-gulp.task('export-locale-full', () => exportLocale({
+});
+exports['export-locale-full'] = () => exportLocale({
   ...localeSettings,
   exportType: 'full'
-}));
-gulp.task('export-locale-translated', () => exportLocale({
+});
+exports['export-locale-translated'] = () => exportLocale({
   ...localeSettings,
   exportType: 'translated'
-}));
-gulp.task('import-locale', () => importLocale({
+});
+exports['import-locale'] = () => importLocale({
   ...localeSettings,
-}));
-gulp.task('consolidate-locale', () => consolidateLocale({
+});
+exports['consolidate-locale'] = () => consolidateLocale({
   ...localeSettings,
   sourceFolder: path.resolve(__dirname, 'lib/countryNames'),
-}));
-
+});
