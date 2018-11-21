@@ -16,6 +16,8 @@ export default class SetCallingSetting {
         // Webphone lib only supports `ringoutPrompt: false`.
         if (ringoutPrompt) await $(app).click('@ringoutPromptToggle');
       }
+      // TODO wait for app react
+      await $(app).waitFor(200);
       if (isCustomPhone) {
         const [{ did } = {}] = option.playload.accounts || [];
         await $(app).type('@myLocation myLocationInput', `${did}`);

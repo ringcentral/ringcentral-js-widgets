@@ -6,7 +6,7 @@ import srcriptRootLiteral from '../../enums/srcriptRootLiteral';
 
 export default function Login(account) {
   return (
-    class {
+    class LoginCTI {
       static async preset(context) {
         if (toString.call(context.options.option.playload) !== '[object Object]') {
           context.options.option.playload = {};

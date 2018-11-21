@@ -1,12 +1,14 @@
 import Webphone, { PhoneType } from '../../../lib/webphone';
 import callingTypes from '../../../enums/callingTypes';
+import checkCallStatus from '../../utils/checkCallStatus';
+
 
 
 export default function createWebphone({
   from,
   to,
 }) {
-  return class {
+  return class WebPhone {
     static async _getPhone(context, account) {
       const env = context.options.tag.envs;
       const phoneBody = (await Webphone.getPhonesByNumber(`+${account.did}`, env)).body;
@@ -117,7 +119,7 @@ export default function createWebphone({
     static async _status(context, action){
       let fromStatus;
       let toStatus;
-      const waitUntil = Date.now() + 20000;
+      const waitUntil = Date.now() + 30000;
       if(action === 'answerCall') {
         while((fromStatus !== 'accepted' || toStatus !=='invited') && Date.now() < waitUntil){
           await Webphone.sleep(1000);
@@ -160,28 +162,24 @@ export default function createWebphone({
       await this._close(context, from);
       await this._close(context, to);
     }
-
-    static async getIsMuteEnabled(context) {
-      const className = await $(context.app).getAttribute('@mute', 'class');
-      const isMuteButtonDisabled = className.indexOf('buttonDisabled') > -1;
-      return !isMuteButtonDisabled;
-    }
   
-    static async getIsHangupEnabled(context) {
+    static async getIsHangupButtonEnabled(context) {
+      await checkCallStatus(context, { callStatus: 'Connected' });
       const className = await $(context.app).getAttribute('@hangup', 'class');
-      const isHangupDisabled = className.indexOf('buttonDisabled') > -1;
-      return !isHangupDisabled;
-    }
-  
-    static async getIsMuteButtonEnabled(context) {
-      const isMuteButtonDisabled = await this.getIsMuteButtonDisabled(context);
-      return !isMuteButtonDisabled;
+      const isHangupEnabled = className.indexOf('buttonDisabled') === -1;
+      return isHangupEnabled;
     }
   
     static async getIsMuteButtonDisabled(context) {
       const className = await $(context.app).getAttribute('@mute', 'class');
       const isMuteButtonDisabled = className.indexOf('buttonDisabled') > -1;
       return isMuteButtonDisabled;
+    }
+
+    static async getIsMuteButtonEnabled(context) {
+      await checkCallStatus(context, { callStatus: 'Connected' });
+      const isMuteButtonDisabled = await this.getIsMuteButtonDisabled(context);
+      return !isMuteButtonDisabled;
     }
   
     static async getIsRejectButtonEnabled(context) {

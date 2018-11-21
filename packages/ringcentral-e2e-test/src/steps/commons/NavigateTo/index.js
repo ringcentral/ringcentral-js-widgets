@@ -1,4 +1,4 @@
-import srcriptRootLiteral from '../../enums/srcriptRootLiteral';
+import srcriptRootLiteral from '../../../enums/srcriptRootLiteral';
 
 export default function NavigateTo(router = '') {
   return (

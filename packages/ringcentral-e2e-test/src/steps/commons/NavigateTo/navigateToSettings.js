@@ -1,4 +1,4 @@
-import NavigateTo from './navigateTo';
+import NavigateTo from '../NavigateTo';
 
 
 export default class NavigateToSettings extends NavigateTo('settings') {

@@ -3,7 +3,7 @@
 import React from 'react';
 import Button from 'ringcentral-widgets/components/Button';
 import { createProcess } from '../../../steps';
-import NavigateTo from '../../../steps/commons/navigateTo';
+import NavigateTo from '../../../steps/commons/NavigateTo';
 import Entry from '../../../steps/entry';
 
 describe('Test Demo: =====>', () => {

@@ -1,5 +1,5 @@
 import { createProcess } from '../../steps';
-import NavigateToSettings from './navigateToSettings';
+import NavigateToSettings from './NavigateTo/navigateToSettings';
 import srcriptRootLiteral from '../../enums/srcriptRootLiteral';
 
 export default class Logout {

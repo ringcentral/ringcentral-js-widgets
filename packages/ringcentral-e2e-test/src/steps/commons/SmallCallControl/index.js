@@ -1,10 +1,20 @@
-
+import checkCallStatus from '../../utils/checkCallStatus';
 export default class SmallCallControl {
   static async click(context) {
+    if (context.options.tag.project === 'salesforce') {
+      // TODO waitFor popup form sf.
+      await $(context.app).waitFor(3000);
+      const dom = await $(context.page).$('[title="Close this window"]');
+      if (dom) {
+        await $(context.page).click('[title="Close this window"]');
+      }
+    }
     await $(context.app).click('@leftSectionInfo');
   }
 
   static async mute(context) {
+    // TODO waitFor
+    await $(context.app).waitFor(1000);
     await $(context.app).click('@mute');
   }
 
@@ -17,6 +27,8 @@ export default class SmallCallControl {
   }
 
   static async unmute(context) {
+    // TODO waitFor
+    await $(context.app).waitFor(1000);
     await $(context.app).click('@unmute');
   }
 
@@ -26,12 +38,12 @@ export default class SmallCallControl {
   }
 
   static async getIsMuteButtonDisplay(context) {
-    const muteButton = await $(context.app).$('@mute');
+    const muteButton = await $(context.app).waitForSelector('@mute');
     return !!muteButton;
   }
 
   static async getIsCallHangup(context) {
-    await await $(context.app).waitFor(1000);
+    await checkCallStatus(context, { callStatus: 'Disconnected' });
     const callStatus = await $(context.app).getText('@callStatus');
     const isHangup = callStatus === 'Disconnected';
     return isHangup;
@@ -61,7 +73,7 @@ export default class SmallCallControl {
   }
 
   static async getIsNavigateToCallControlPage(context) {
-    const activeCallPanel = await $(context.app).$('@activeCallPanel');
+    const activeCallPanel = await $(context.app).waitForSelector('@activeCallPanel');
     return !!activeCallPanel;
   }
 
