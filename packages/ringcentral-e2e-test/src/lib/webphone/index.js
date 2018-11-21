@@ -1,6 +1,6 @@
 import * as WebPhoneClient from 'webphone-client';
 
-const HOST = 'http://webphone.lab.nordigy.ru';
+const HOST = 'https://webphone.lab.rcch.ringcentral.com';
 
 const TTL = 1800000;
 const WAIT_TIMEOUT = 300000;

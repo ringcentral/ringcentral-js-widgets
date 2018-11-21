@@ -41,8 +41,8 @@ import LogoutCTI from '../../../steps/commons/logout';
 import TypeComposeToField from '../../../steps/commons/SMS/typeComposeToField';
 import TypeTextSMS from '../../../steps/commons/SMS/typeTextSMS';
 import SendSMS from '../../../steps/commons/SMS/sendSMS';
-import NavigateToComposeText from '../../../steps/commons/navigateToComposeText';
-import NavigateToMessages from '../../../steps/commons/navigateToMessages';
+import NavigateToComposeText from '../../../steps/commons/NavigateTo/navigateToComposeText';
+import NavigateToMessages from '../../../steps/commons/NavigateTo/navigateToMessages';
 import Entry from '../../../steps/entry';
 
 describe('Commom SMS: =====>', () => {
