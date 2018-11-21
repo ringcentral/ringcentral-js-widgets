@@ -3,13 +3,16 @@ export default class SmallCallControl {
   static async click(context) {
     if (context.options.tag.project === 'salesforce') {
       // TODO waitFor popup form sf.
-      await $(context.app).waitFor(3000);
+      await $(context.app).waitFor(3000 * 3);
       const dom = await $(context.page).$('[title="Close this window"]');
       if (dom) {
         await $(context.page).click('[title="Close this window"]');
       }
     }
+    // TODO
+    await $(context.app).waitFor(1000);
     await $(context.app).click('@leftSectionInfo');
+    await $(context.app).waitFor(1000);
   }
 
   static async mute(context) {
@@ -20,6 +23,7 @@ export default class SmallCallControl {
 
   static async hangup(context) {
     await $(context.app).click('@hangup');
+    await checkCallStatus(context, { callStatus: 'Disconnected' });
   }
 
   static async reject(context) {

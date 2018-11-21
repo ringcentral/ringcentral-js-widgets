@@ -61,7 +61,7 @@ describe('Commom ActiveCalls: =====>', () => {
     ],
     levels: ['p1'],
     options: [
-      { accounts: ['CM_RC_US', 'CM_RC_US'], callingType: callingTypes.myPhone },
+      { accounts: ['CM_RC_US'], callingType: callingTypes.myPhone },
     ],
   }, async (context) => {
     let process = createProcess(
@@ -74,6 +74,10 @@ describe('Commom ActiveCalls: =====>', () => {
     await process.exec();
     const { accounts, loginAccount } = context.options.option.playload;
     const AssistMakeInboundCallWithFirstAccount = AssistMakeInboundCall({
+      from: accounts[0],
+      to: loginAccount
+    });
+    const AssistHangupCallWithFirstAccount = AssistHangupCall({
       from: accounts[0],
       to: loginAccount
     });
@@ -106,25 +110,38 @@ describe('Commom ActiveCalls: =====>', () => {
     */
     await process.execTo(RejectCall);
     expect(await RejectCall.getIsCallHangup(context)).toBeTruthy();
+  });
 
-    const AssistHangupCallWithFirstAccount = AssistHangupCall({
+  test({
+    title: 'Small Call Control in Call Log Section',
+    tags: [
+      ['salesforce'],
+    ],
+    levels: ['p1'],
+    options: [
+      { accounts: ['CM_RC_US'], callingType: callingTypes.myPhone },
+    ],
+  }, async (context) => {
+    let process = createProcess(
+      Entry,
+      LoginCTI,
+      NavigateToCallingSetting,
+      SetCallingSetting,
+      NavigateToDialer,
+    )(context);
+    await process.exec();
+    const { accounts, loginAccount } = context.options.option.playload;
+    const AssistMakeInboundCallWithAccount = AssistMakeInboundCall({
       from: accounts[0],
       to: loginAccount
     });
-
-    const AssistMakeInboundCallWithSecondAccount = AssistMakeInboundCall({
-      from: accounts[1],
-      to: loginAccount
-    });
-    const AssistAnswerInboundCallWithSecondAccount = AssistAnswerInboundCall({
-      from: accounts[1],
+    const AssistAnswerInboundCallWithAccount = AssistAnswerInboundCall({
+      from: accounts[0],
       to: loginAccount
     });
     process = createProcess(
-      AssistHangupCallWithFirstAccount,
-      CloseCallLogSection,
-      AssistMakeInboundCallWithSecondAccount,
-      AssistAnswerInboundCallWithSecondAccount,
+      AssistMakeInboundCallWithAccount,
+      AssistAnswerInboundCallWithAccount,
       MuteCall,
       UnmuteCall,
       ClickLeftCallLogSectionInfo,
@@ -135,8 +152,8 @@ describe('Commom ActiveCalls: =====>', () => {
     __Step4__: Repeat step 1 and answer the call
     [Expected Result]: 'Mute' button should be enabled
     */
-    await process.execTo(AssistAnswerInboundCallWithSecondAccount);
-    expect(await AssistAnswerInboundCallWithSecondAccount.getIsMuteButtonEnabled(context)).toBeTruthy();
+    await process.execTo(AssistAnswerInboundCallWithAccount);
+    expect(await AssistAnswerInboundCallWithAccount.getIsMuteButtonEnabled(context)).toBeTruthy();
 
     /*
     __Step5__: Click the 'Mute' button
@@ -151,8 +168,8 @@ describe('Commom ActiveCalls: =====>', () => {
     [Expected Result]: Call is unmuted and 'Unmute' button should be changed to 'Mute' button
     */
     await process.execTo(UnmuteCall);
-    // expect(await UnmuteCall.getIsCallUnmuted(context)).toBeTruthy();
-    // expect(await UnmuteCall.getIsMuteButtonDisplay(context)).toBeTruthy();
+    expect(await UnmuteCall.getIsCallUnmuted(context)).toBeTruthy();
+    expect(await UnmuteCall.getIsMuteButtonDisplay(context)).toBeTruthy();
 
     /*
     __Step7__: Click the left section of basic information
@@ -162,14 +179,32 @@ describe('Commom ActiveCalls: =====>', () => {
     expect(await ClickLeftCallLogSectionInfo.getIsNavigateToCallControlPage(context)).toBeTruthy();
 
     await process.execTo(HangupCall);
+  });
 
+  test({
+    title: 'Small Call Control in Call Log Section',
+    tags: [
+      ['salesforce'],
+    ],
+    levels: ['p1'],
+    options: [
+      { accounts: ['CM_RC_US'], callingType: callingTypes.myPhone },
+    ],
+  }, async (context) => {
+    let process = createProcess(
+      Entry,
+      LoginCTI,
+      NavigateToCallingSetting,
+      SetCallingSetting,
+      NavigateToDialer,
+    )(context);
+    await process.exec();
+    const { accounts, loginAccount } = context.options.option.playload;
     const AssistAnswerOutboundCallToFirstAccount = AssistAnswerOutboundCall({
       from: loginAccount,
       to: accounts[0],
     });
-
     process = createProcess(
-      CloseCallLogSection,
       AssistAnswerOutboundCallToFirstAccount,
       DialOutCall,
       HangupCall,
