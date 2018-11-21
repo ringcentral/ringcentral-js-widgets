@@ -75,21 +75,22 @@ var QuickAccessPanel = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (QuickAccessPanel.__proto__ || (0, _getPrototypeOf2.default)(QuickAccessPanel)).call(this, props));
 
-    _this.onConfirm = function () {
-      if (_this.state.selected === 2) {
-        _this.props.setOptionData({ whitelistOption: OPTION_FOR_ALL });
-      } else if (_this.state.selected === 3) {
-        _this.props.setOptionData({ whitelistOption: OPTION_FOR_USER });
-      } else {
-        _this.props.setOptionData({ whitelistOption: OPTION_FOR_GOOGLE });
-      }
-      _this.props.onCancel();
+    _this.openOptionspage = function () {
+      _this.props.openOptionspage();
+      _this.props.onFinish();
     };
 
     _this.onSelectOption = function (item) {
       _this.setState({
         selected: item.value
       });
+      if (item.value === 2) {
+        _this.props.setOptionData({ whitelistOption: OPTION_FOR_ALL });
+      } else if (item.value === 3) {
+        _this.props.setOptionData({ whitelistOption: OPTION_FOR_USER });
+      } else {
+        _this.props.setOptionData({ whitelistOption: OPTION_FOR_GOOGLE });
+      }
     };
 
     _this.state = {
@@ -145,7 +146,7 @@ var QuickAccessPanel = function (_Component) {
       var extensionOptions = _i18n2.default.getString('extensionOptions', this.props.currentLocale);
       var optionsLink = _react2.default.createElement(
         'a',
-        { href: '#', onClick: this.props.openOptionspage },
+        { href: '#', onClick: this.openOptionspage },
         extensionOptions
       );
       if (this.state.selected === 2) {
@@ -205,17 +206,10 @@ var QuickAccessPanel = function (_Component) {
         _react2.default.createElement(
           _Button2.default,
           {
-            className: _styles2.default.confirmBtn,
-            onClick: this.onConfirm
+            className: _styles2.default.finishBtn,
+            onClick: this.props.onFinish
           },
-          _i18n2.default.getString('Confirm', this.props.currentLocale)
-        ),
-        _react2.default.createElement(
-          _Button2.default,
-          {
-            className: _styles2.default.cancelBtn,
-            onClick: this.props.onCancel },
-          _i18n2.default.getString('Cancel', this.props.currentLocale)
+          _i18n2.default.getString('Finish', this.props.currentLocale)
         )
       );
     }
@@ -229,7 +223,7 @@ exports.default = QuickAccessPanel;
 QuickAccessPanel.propTypes = {
   entered: _propTypes2.default.bool,
   className: _propTypes2.default.string,
-  onCancel: _propTypes2.default.func.isRequired,
+  onFinish: _propTypes2.default.func.isRequired,
   brandName: _propTypes2.default.string,
   brandCode: _propTypes2.default.string,
   appName: _propTypes2.default.string,

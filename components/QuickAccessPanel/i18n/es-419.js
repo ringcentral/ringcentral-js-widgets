@@ -10,9 +10,7 @@ exports.default = {
   title: "Seleccionar dónde aparecerá el acceso directo a {brandName}: ",
   descriptionAll: "Vaya a {optionsLink} para crear su lista negra.",
   descriptionUser: "Vaya a {optionsLink} para indicar los sitios web.",
-  extensionOptions: "Opciones de extensión",
-  Confirm: "Confirmar",
-  Cancel: "Cancelar"
+  extensionOptions: "Opciones de extensión"
 };
 
 // @key: @#@"textGoogle"@#@ @source: @#@"Only show in {appName} apps"@#@

@@ -36,7 +36,7 @@ function mapToFunctions(_, _ref2) {
   var quickAccess = _ref2.phone.quickAccess;
 
   return {
-    onCancel: function onCancel() {
+    onFinish: function onFinish() {
       quickAccess.exit();
     }
   };

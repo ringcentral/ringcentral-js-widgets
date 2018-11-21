@@ -10,9 +10,7 @@ exports.default = {
   title: "Choisir où l'accès rapide {brandName} apparaît : ",
   descriptionAll: "Allez à {optionsLink} pour configurer votre liste noire.",
   descriptionUser: "Allez à {optionsLink} pour configurer vos sites Web spécifiques.",
-  extensionOptions: "Options de poste",
-  Confirm: "Confirmer",
-  Cancel: "Annuler"
+  extensionOptions: "Options de poste"
 };
 
 // @key: @#@"textGoogle"@#@ @source: @#@"Only show in {appName} apps"@#@

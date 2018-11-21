@@ -10,9 +10,7 @@ exports.default = {
   title: "選取 {brandName} Quick Access 顯示的位置：",
   descriptionAll: "前往 {optionsLink} 定義您的黑名單。",
   descriptionUser: "前往 {optionsLink} 定義您指定的網站。",
-  extensionOptions: "擴展選項",
-  Confirm: "確認",
-  Cancel: "取消"
+  extensionOptions: "擴展選項"
 };
 
 // @key: @#@"textGoogle"@#@ @source: @#@"Only show in {appName} apps"@#@

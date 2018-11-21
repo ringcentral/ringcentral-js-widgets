@@ -10,9 +10,7 @@ exports.default = {
   title: "Wählen Sie aus, wo der {brandName}-Schnellzugriff angezeigt werden soll: ",
   descriptionAll: "Navigieren Sie zu {optionsLink}, um Ihre Blacklist zu definieren.",
   descriptionUser: "Navigieren Sie zu {optionsLink}, um Ihre spezifischen Websites zu definieren.",
-  extensionOptions: "Erweiterungsoptionen",
-  Confirm: "Bestätigen",
-  Cancel: "Abbrechen"
+  extensionOptions: "Erweiterungsoptionen"
 };
 
 // @key: @#@"textGoogle"@#@ @source: @#@"Only show in {appName} apps"@#@
