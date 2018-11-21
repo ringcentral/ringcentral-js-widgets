@@ -26,7 +26,7 @@ async function getVersionFromTag() {
       return tag;
     }
   } catch (e) {
-    // console.error(e);
+    console.error(e);
   }
   return null;
 }
@@ -43,7 +43,7 @@ function copy() {
     '!package-lock.json'
   ]).pipe(gulp.dest(BUILD_PATH));
 }
-function _build() {
+function preBuild() {
   return gulp.src([
     './**/*.js',
     '!./**/*.test.js',
@@ -59,7 +59,7 @@ function _build() {
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(BUILD_PATH));
 }
-const build = gulp.series(clean, copy, _build);
+const build = gulp.series(clean, copy, preBuild);
 async function releaseClean() {
   if (!await fs.exists(RELEASE_PATH)) {
     await execa.shell(`mkdir -p ${RELEASE_PATH}`);
@@ -76,7 +76,7 @@ function releaseCopy() {
     `${__dirname}/LICENSE`
   ]).pipe(gulp.dest(RELEASE_PATH));
 }
-async function _release() {
+async function preRelease() {
   const packageInfo = JSON.parse(await fs.readFile(path.resolve(BUILD_PATH, 'package.json')));
   delete packageInfo.scripts;
   delete packageInfo.jest;
@@ -89,7 +89,7 @@ async function _release() {
   await fs.writeFile(path.resolve(RELEASE_PATH, 'package.json'), JSON.stringify(packageInfo, null, 2));
 }
 const release = gulp.series(gulp.parallel(build, releaseClean),
-  releaseCopy, _release);
+  releaseCopy, preRelease);
 function normalizeName(str) {
   return str.split(/[-_]/g)
     .map((token, idx) => (
@@ -97,8 +97,11 @@ function normalizeName(str) {
     ))
     .join('');
 }
-exports.build = build;
-exports.release = release;
+export {
+  build,
+  release
+};
+
 exports['generate-font'] = async () => {
   try {
     const cssLocation = path.resolve(__dirname, 'assets/DynamicsFont/style.css');
