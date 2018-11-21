@@ -121,7 +121,7 @@ export default function createWebphone({
       let toStatus;
       const waitUntil = Date.now() + 30000;
       if(action === 'answerCall') {
-        while((fromStatus !== 'accepted' || toStatus !=='invited') && Date.now() < waitUntil){
+        while(Date.now() < waitUntil){
           await Webphone.sleep(1000);
           fromStatus = (await Webphone.getPhonesById(from.webphone.id)).body.status;
           toStatus = (await Webphone.getPhonesById(to.webphone.id)).body.status;

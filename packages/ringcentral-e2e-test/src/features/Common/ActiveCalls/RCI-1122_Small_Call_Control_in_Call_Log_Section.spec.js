@@ -73,44 +73,44 @@ describe('Commom ActiveCalls: =====>', () => {
     )(context);
     await process.exec();
     const { accounts, loginAccount } = context.options.option.playload;
-    // const AssistMakeInboundCallWithFirstAccount = AssistMakeInboundCall({
-    //   from: accounts[0],
-    //   to: loginAccount
-    // });
-    // process = createProcess(
-    //   AssistMakeInboundCallWithFirstAccount,
-    //   ClickLeftCallLogSectionInfo,
-    //   RejectCall,
-    // )(context);
-    // /*
-    // __Step1__: Direct to entry point 1.
-    // [Expected Result]:
-    // Call log section pop up with two button in the right side of the call info area:
-    // 'Mute' button and it's disabled
-    // 'Reject' button and it's enabled
-    // */
-    // await process.execTo(AssistMakeInboundCallWithFirstAccount);
-    // expect(await AssistMakeInboundCallWithFirstAccount.getIsMuteButtonDisabled(context)).toBeTruthy();
-    // expect(await AssistMakeInboundCallWithFirstAccount.getIsRejectButtonEnabled(context)).toBeTruthy();
+    const AssistMakeInboundCallWithFirstAccount = AssistMakeInboundCall({
+      from: accounts[0],
+      to: loginAccount
+    });
+    process = createProcess(
+      AssistMakeInboundCallWithFirstAccount,
+      ClickLeftCallLogSectionInfo,
+      RejectCall,
+    )(context);
+    /*
+    __Step1__: Direct to entry point 1.
+    [Expected Result]:
+    Call log section pop up with two button in the right side of the call info area:
+    'Mute' button and it's disabled
+    'Reject' button and it's enabled
+    */
+    await process.execTo(AssistMakeInboundCallWithFirstAccount);
+    expect(await AssistMakeInboundCallWithFirstAccount.getIsMuteButtonDisabled(context)).toBeTruthy();
+    expect(await AssistMakeInboundCallWithFirstAccount.getIsRejectButtonEnabled(context)).toBeTruthy();
 
-    // /*
-    // __Step2__: Click the left section of basic information on call log section.
-    // [Expected Result]: Stay on call log page without navigating to call control page
-    // */
-    // await process.execTo(ClickLeftCallLogSectionInfo);
-    // expect(await ClickLeftCallLogSectionInfo.getIsStayAllCallsPage(context)).toBeTruthy();
+    /*
+    __Step2__: Click the left section of basic information on call log section.
+    [Expected Result]: Stay on call log page without navigating to call control page
+    */
+    await process.execTo(ClickLeftCallLogSectionInfo);
+    expect(await ClickLeftCallLogSectionInfo.getIsStayAllCallsPage(context)).toBeTruthy();
 
-    // /*
-    // __Step3__: Click the 'Reject' button
-    // [Expected Result]: Call is hanged up
-    // */
-    // await process.execTo(RejectCall);
-    // expect(await RejectCall.getIsCallHangup(context)).toBeTruthy();
+    /*
+    __Step3__: Click the 'Reject' button
+    [Expected Result]: Call is hanged up
+    */
+    await process.execTo(RejectCall);
+    expect(await RejectCall.getIsCallHangup(context)).toBeTruthy();
 
-    // const AssistHangupCallWithFirstAccount = AssistHangupCall({
-    //   from: accounts[0],
-    //   to: loginAccount
-    // });
+    const AssistHangupCallWithFirstAccount = AssistHangupCall({
+      from: accounts[0],
+      to: loginAccount
+    });
 
     const AssistMakeInboundCallWithSecondAccount = AssistMakeInboundCall({
       from: accounts[1],
@@ -121,8 +121,8 @@ describe('Commom ActiveCalls: =====>', () => {
       to: loginAccount
     });
     process = createProcess(
-      // AssistHangupCallWithFirstAccount,
-      // CloseCallLogSection,
+      AssistHangupCallWithFirstAccount,
+      CloseCallLogSection,
       AssistMakeInboundCallWithSecondAccount,
       AssistAnswerInboundCallWithSecondAccount,
       MuteCall,
@@ -163,47 +163,47 @@ describe('Commom ActiveCalls: =====>', () => {
 
     await process.execTo(HangupCall);
 
-    // const AssistAnswerOutboundCallToFirstAccount = AssistAnswerOutboundCall({
-    //   from: loginAccount,
-    //   to: accounts[0],
-    // });
+    const AssistAnswerOutboundCallToFirstAccount = AssistAnswerOutboundCall({
+      from: loginAccount,
+      to: accounts[0],
+    });
 
-    // process = createProcess(
-    //   CloseCallLogSection,
-    //   AssistAnswerOutboundCallToFirstAccount,
-    //   DialOutCall,
-    //   HangupCall,
-    //   ClickLeftCallLogSectionInfo,
-    // )(context);
-    // /*
-    // __Step8__: Hang up the call and direct to entry point 2
-    // [Expected Result]:
-    // Call log section pop up with two button in the right side of the call info area:
-    // 'Mute' button and it's enabled
-    // 'Hang up' button and it's enabled
-    // */
-    // await process.execTo(DialOutCall);
-    // expect(await AssistAnswerOutboundCallToFirstAccount.getIsMuteButtonEnabled(context)).toBeTruthy();
-    // expect(await AssistAnswerOutboundCallToFirstAccount.getIsHangupButtonEnabled(context)).toBeTruthy();
+    process = createProcess(
+      CloseCallLogSection,
+      AssistAnswerOutboundCallToFirstAccount,
+      DialOutCall,
+      HangupCall,
+      ClickLeftCallLogSectionInfo,
+    )(context);
+    /*
+    __Step8__: Hang up the call and direct to entry point 2
+    [Expected Result]:
+    Call log section pop up with two button in the right side of the call info area:
+    'Mute' button and it's enabled
+    'Hang up' button and it's enabled
+    */
+    await process.execTo(DialOutCall);
+    expect(await AssistAnswerOutboundCallToFirstAccount.getIsMuteButtonEnabled(context)).toBeTruthy();
+    expect(await AssistAnswerOutboundCallToFirstAccount.getIsHangupButtonEnabled(context)).toBeTruthy();
 
-    // /*
-    // __Step9__: Click the 'Hang up' button
-    // [Expected Result]:
-    // Call is hanged up
-    // Call log section should pop up again with:
-    // no 'Mute' button
-    // no 'Hang up' button
-    // */
-    // await process.execTo(HangupCall);
-    // expect(await HangupCall.getIsCallHangup(context)).toBeTruthy();
-    // expect(await HangupCall.getIsMuteButtonHidden(context)).toBeTruthy();
-    // expect(await HangupCall.getIsHangupButtonHidden(context)).toBeTruthy();
+    /*
+    __Step9__: Click the 'Hang up' button
+    [Expected Result]:
+    Call is hanged up
+    Call log section should pop up again with:
+    no 'Mute' button
+    no 'Hang up' button
+    */
+    await process.execTo(HangupCall);
+    expect(await HangupCall.getIsCallHangup(context)).toBeTruthy();
+    expect(await HangupCall.getIsMuteButtonHidden(context)).toBeTruthy();
+    expect(await HangupCall.getIsHangupButtonHidden(context)).toBeTruthy();
 
-    // /*
-    // __Step10__: Click the left section of basic information on call log section
-    // [Expected Result]: Stay on call log section without navigating to call control page
-    // */
-    // await process.execTo(ClickLeftCallLogSectionInfo);
-    // expect(await ClickLeftCallLogSectionInfo.getIsStayAllCallsPage(context)).toBeTruthy();
+    /*
+    __Step10__: Click the left section of basic information on call log section
+    [Expected Result]: Stay on call log section without navigating to call control page
+    */
+    await process.execTo(ClickLeftCallLogSectionInfo);
+    expect(await ClickLeftCallLogSectionInfo.getIsStayAllCallsPage(context)).toBeTruthy();
   });
 });
