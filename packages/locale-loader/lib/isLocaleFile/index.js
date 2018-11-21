@@ -15,14 +15,17 @@ export default function isLocaleFile(filename) {
   return localeFileRegExp.test(name);
 }
 
-function localeFileFilter(locales = ['en-US']) {
-  return (typename) => {
-    if (locales.includes(typename)) return true;
-    return false;
+function localeFilter(locales) {
+  return (filename) => {
+    if (!Array.isArray(locales) || locales.length === 0) {
+      return true;
+    }
+    const name = filename.replace(fileRegExp, '');
+    return locales.includes(name);
   };
 }
 
 export {
   isLocaleFile,
-  localeFileFilter
+  localeFilter
 };
