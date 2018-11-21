@@ -11,16 +11,15 @@ import phoneTypes from '../../enums/phoneTypes';
 import phoneTypeNames from '../../lib/phoneTypeNames';
 
 // import FaxIcon from '../../assets/images/Fax.svg';
-import i18n from './i18n';
 
 import styles from './styles.scss';
 
 export function getPresenceStatusName(presence, currentLocale) {
   const { presenceStatus, dndStatus } = presence;
   if (dndStatus === DndStatus.doNotAcceptAnyCalls) {
-    return i18n.getString(dndStatus, currentLocale);
+    return phoneTypeNames.getString(dndStatus, currentLocale);
   }
-  return i18n.getString(presenceStatus, currentLocale);
+  return phoneTypeNames.getString(presenceStatus, currentLocale);
 }
 
 function AvatarNode({ name, avatarUrl, isInactive }) {
@@ -69,7 +68,7 @@ export default class ContactDetails extends PureComponent {
         <div className={styles.presence}>
           <div>
             <span className={styles.inactiveText}>
-              {i18n.getString('notActivated', currentLocale)}
+              {phoneTypeNames.getString('notActivated', currentLocale)}
             </span>
           </div>
         </div>
@@ -130,6 +129,7 @@ export default class ContactDetails extends PureComponent {
   }
 
   getListContainerBuilder(label, listComp) {
+    console.log('label2333', label);
     return (
       <div className={styles.item} key={label}>
         <div className={styles.label}>
@@ -152,7 +152,6 @@ export default class ContactDetails extends PureComponent {
     needFormat = true,
   }) {
     const displayedPhoneNumber = needFormat ? this.props.formatNumber(number) : number;
-
     return (
       <li key={key}>
         <div className={styles.number}>
@@ -162,7 +161,7 @@ export default class ContactDetails extends PureComponent {
           {showCallBtn
             ? (
               <button
-                title={i18n.getString('call', currentLocale)}
+                title={phoneTypeNames.getString('call', currentLocale)}
                 onClick={() => this.onClickToDial(contactItem, number)}
               >
                 <i className={dynamicsFont.call} />
@@ -173,7 +172,7 @@ export default class ContactDetails extends PureComponent {
           {showTextBtn
             ? (
               <button
-                title={i18n.getString('text', currentLocale)}
+                title={phoneTypeNames.getString('text', currentLocale)}
                 onClick={() => this.onClickToSMS(contactItem, number)}
             >
                 <i className={dynamicsFont.composeText} />
@@ -221,7 +220,7 @@ export default class ContactDetails extends PureComponent {
               switch (key) {
                 case phoneTypes.extension: {
                   return this.getListContainerBuilder(
-                    i18n.getString(phoneTypes.extension, currentLocale),
+                    phoneTypeNames.getString(phoneTypes.ext, currentLocale),
                     map(
                       phoneNumberElm => this.getListItem({
                         showCallBtn: this.props.internalSmsPermission,
@@ -238,7 +237,7 @@ export default class ContactDetails extends PureComponent {
                 }
                 case phoneTypes.fax: {
                   return this.getListContainerBuilder(
-                    i18n.getString(phoneTypes.fax, currentLocale),
+                    phoneTypeNames.getString(phoneTypes.fax, currentLocale),
                     map(
                       phoneNumberElm => this.getListItem({
                         showCallBtn: false,
@@ -254,7 +253,7 @@ export default class ContactDetails extends PureComponent {
                 }
                 default: {
                   return this.getListContainerBuilder(
-                    i18n.getString(phoneTypes[key], currentLocale),
+                    phoneTypeNames.getString(phoneTypes[key], currentLocale),
                     map(
                       phoneNumberElm => this.getListItem({
                         showCallBtn: this.props.onClickToDial,
@@ -296,7 +295,7 @@ export default class ContactDetails extends PureComponent {
     return (
       <div>
         <div className={styles.label}>
-          <span>{i18n.getString('emailLabel', this.props.currentLocale)}</span>
+          <span>{phoneTypeNames.getString('emailLabel', this.props.currentLocale)}</span>
         </div>
         <ul>{emailListView}</ul>
       </div>
