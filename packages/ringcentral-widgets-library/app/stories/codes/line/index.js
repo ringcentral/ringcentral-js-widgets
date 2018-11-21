@@ -13,7 +13,7 @@ import dynamicsFont from '../../../assets/DynamicsFont/DynamicsFont.scss';
 import Switch from '../../../elements/Switch';
 
 
-storiesOf('Line', module)
+storiesOf('Elements/Line', module)
   .add('basic', () => {
     const lineProps = {
       noBorder: boolean('NoBorder', false),

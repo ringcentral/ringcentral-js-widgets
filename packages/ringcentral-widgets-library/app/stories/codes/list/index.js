@@ -7,7 +7,7 @@ import CallItem from '../../../components/List/CallItem';
 import MediaItem from '../../../components/List/MediaItem';
 import NormalItem from '../../../components/List/NormalItem';
 
-storiesOf('List', module)
+storiesOf('Components/List', module)
   .add('callItem', () => {
     const props = {
       avatarUrl: 'https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1542096539&di=1b15909917afacfde67df9f1ec893d2c&src=http://b-ssl.duitang.com/uploads/item/201501/25/20150125100619_waZTn.jpeg',
