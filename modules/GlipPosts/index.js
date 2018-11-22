@@ -76,6 +76,8 @@ var _status2 = _interopRequireDefault(_status);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var glipPostsRegExp = /glip\/posts$/;
+var glipGroupRegExp = /glip\/groups$/;
+
 var subscriptionFilter = '/glip/posts';
 
 var DEFAULT_LOAD_TTL = 30 * 60 * 1000;
@@ -221,11 +223,14 @@ var GlipPosts = (_dec = (0, _di.Module)({
       var message = this._subscription.message;
 
       this._lastMessage = message;
-      if (message && glipPostsRegExp.test(message.event) && message.body) {
+      if (message && (glipPostsRegExp.test(message.event) || glipGroupRegExp.test(message.event)) && message.body) {
         var _message$body = message.body,
             eventType = _message$body.eventType,
             post = (0, _objectWithoutProperties3.default)(_message$body, ['eventType']);
 
+        if (eventType.indexOf('Post') !== 0) {
+          return;
+        }
         if (eventType === 'PostRemoved') {
           return;
         }

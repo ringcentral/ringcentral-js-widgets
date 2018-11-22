@@ -511,15 +511,23 @@ var GlipGroups = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (!(message && glipGroupRegExp.test(message.event) && message.body)) {
-                  _context2.next = 8;
+                if (!(message && glipGroupRegExp.test(message.event) && message.body && message.body.eventType)) {
+                  _context2.next = 10;
                   break;
                 }
 
                 _message$body = message.body, eventType = _message$body.eventType, group = (0, _objectWithoutProperties3.default)(_message$body, ['eventType']);
 
+                if (!(eventType.indexOf('Group') !== 0)) {
+                  _context2.next = 4;
+                  break;
+                }
+
+                return _context2.abrupt('return');
+
+              case 4:
                 if (!(eventType === 'GroupLeft')) {
-                  _context2.next = 5;
+                  _context2.next = 7;
                   break;
                 }
 
@@ -529,7 +537,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
                 });
                 return _context2.abrupt('return');
 
-              case 5:
+              case 7:
                 this.store.dispatch({
                   type: this.actionTypes.updateGroup,
                   group: group
@@ -539,7 +547,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
                 }
                 this._glipPosts.loadPosts(group.id);
 
-              case 8:
+              case 10:
               case 'end':
                 return _context2.stop();
             }
