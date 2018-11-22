@@ -129,7 +129,6 @@ export default class ContactDetails extends PureComponent {
   }
 
   getListContainerBuilder(label, listComp) {
-    console.log('label2333', label);
     return (
       <div className={styles.item} key={label}>
         <div className={styles.label}>
