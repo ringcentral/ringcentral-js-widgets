@@ -20,6 +20,7 @@ function TabNavigationView(props) {
       tabs={props.tabs}
       goTo={props.goTo}
       tabWidth={props.tabWidth}
+      tabHeight={props.tabHeight}
       currentPath={props.currentPath}
       direction={isVertical ? 'vertical' : undefined}
       currentVirtualPath={props.currentVirtualPath}
@@ -56,6 +57,7 @@ TabNavigationView.propTypes = {
   goTo: PropTypes.func.isRequired,
   navigationPosition: PropTypes.oneOf(['top', 'bottom', 'left']),
   tabWidth: PropTypes.string,
+  tabHeight: PropTypes.string,
   tabs: NavigationBar.propTypes.tabs,
   holdReady: PropTypes.bool,
   navBarClassName: PropTypes.string,
@@ -67,6 +69,7 @@ TabNavigationView.defaultProps = {
   currentVirtualPath: undefined,
   navigationPosition: 'top',
   tabWidth: undefined,
+  tabHeight: undefined,
   tabs: null,
   holdReady: false,
   navBarClassName: undefined,
