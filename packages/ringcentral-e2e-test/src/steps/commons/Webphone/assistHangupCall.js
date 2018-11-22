@@ -5,7 +5,7 @@ export default function HangupCall(...args) {
     static get steps() {
       return [
         this.hangup,
-        this.close,
+        // this.close,
       ];
     }
   }

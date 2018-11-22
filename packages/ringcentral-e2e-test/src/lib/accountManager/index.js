@@ -73,7 +73,7 @@ export default class AccountHelper {
         console.error('AccountHelper_Error:', err);
         reject(err);
       } else {
-        console.log('AccountHelper_Body:', body);
+        // console.log('AccountHelper_Body:', body);
         resolve(body);
       }
     })));
