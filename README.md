@@ -68,8 +68,15 @@ module.exports = {
         {
             test: /\.js$/,
             use: [
-                'babel-loader',
-                '@ringcentral-integration/locale-loader',
+                {
+                    loader: 'babel-loader',
+                },
+                {
+                    loader: '@ringcentral-integration/locale-loader',
+                    options: {
+                        supportedLocales: ['en-US','en-UK']// the locales you want to support in the project, when null, undefined or [] , it will pack all locales. 
+                    }
+                },
             ],
             exclude: /node_modules/,
         },
