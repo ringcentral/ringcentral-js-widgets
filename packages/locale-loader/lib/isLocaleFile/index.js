@@ -7,10 +7,25 @@ const fileRegExp = /\.(js)$/i;
  * @param {String} filename
  * @returns {Boolean}
  */
-export default function (filename) {
+export default function isLocaleFile(filename) {
   if (!fileRegExp.test(filename)) {
     return false;
   }
   const name = filename.replace(fileRegExp, '');
   return localeFileRegExp.test(name);
 }
+
+function localeFilter(locales) {
+  return (filename) => {
+    if (!Array.isArray(locales) || locales.length === 0) {
+      return true;
+    }
+    const name = filename.replace(fileRegExp, '');
+    return locales.includes(name);
+  };
+}
+
+export {
+  isLocaleFile,
+  localeFilter
+};
