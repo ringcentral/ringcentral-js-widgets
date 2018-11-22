@@ -361,7 +361,7 @@ class ConferencePanel extends Component {
                 currentLocale={currentLocale}
                 dialInNumber={dialInNumber}
                 getInviteTxt={this.inviteTxt}
-                participantCode={participantCode}
+                participantCode={formatPin(participantCode)}
                 key={Date.now()}
               />)
           )}
