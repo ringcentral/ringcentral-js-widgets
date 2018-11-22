@@ -48,7 +48,7 @@ function mapToProps(_, {
       renderContactName({ sessionId }),
       locale.currentLocale
     );
-    phoneNumber = fallBackNumber;
+    phoneNumber = fallBackNumber || phoneNumber;
     fallBackName = fallBackNameFromThirdParty;
   }
   return {
