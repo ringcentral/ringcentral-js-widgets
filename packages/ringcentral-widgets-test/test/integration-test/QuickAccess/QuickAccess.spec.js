@@ -37,8 +37,14 @@ beforeEach(async () => {
 
 
 describe('<QuickAccessPanel />', () => {
-  test('should render corretcly', () => {
+  test('should render correctly', () => {
     expect(wrapper.find('.group').length).toEqual(1);
+  });
+
+  test('There are some elements should display', () => {
+    expect(wrapper.find('img').length).toEqual(1);
+    expect(quickAccessPanel.find('CheckBox').find('.item').length).toEqual(3);
+    expect(wrapper.find('Button').length).toEqual(1);
   });
 
   test('FinishButton state', async () => {
@@ -78,7 +84,7 @@ describe('<QuickAccessPanel />', () => {
     expect(description.find('span').length).toEqual(0);
   });
 
-  test('when incoming call , page disappear', async () => {
+  test('when incoming call, page disappear', async () => {
     expect(wrapper.find('.group').length).toEqual(1);
     phone = wrapper.props().phone;
     phone.webphone._createWebphone();
@@ -89,4 +95,3 @@ describe('<QuickAccessPanel />', () => {
     expect(wrapper.find('.group').length).toEqual(0);
   });
 });
-
