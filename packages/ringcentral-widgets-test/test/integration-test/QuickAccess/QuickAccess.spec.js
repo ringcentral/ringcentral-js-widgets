@@ -28,7 +28,7 @@ beforeEach(async () => {
   panel = wrapper.find(SettingsPanel).first();
   const quickAccessLinkLine = panel.find({
     children:
-      "Quick Access Setting"
+      'Quick Access Setting'
   }).first();
   await quickAccessLinkLine.simulate('click');
   wrapper.update();
@@ -36,36 +36,26 @@ beforeEach(async () => {
 });
 
 
-
-
 describe('<QuickAccessPanel />', () => {
-
-  test('should render corretcly', () => {
+  test('should render correctly', () => {
     expect(wrapper.find('.group').length).toEqual(1);
   });
 
-  test('confirmButton state', async () => {
-    const confirmButton = quickAccessPanel.find(Button).first();
-    expect(confirmButton.props().disabled).toEqual(false);
+  test('There are some elements should display', () => {
+    expect(wrapper.find('img').length).toEqual(1);
+    expect(quickAccessPanel.find('CheckBox').find('.item').length).toEqual(3);
+    expect(wrapper.find('Button').length).toEqual(1);
   });
 
-  test('cancelButton state', async () => {
-    const cancelButton = quickAccessPanel.find(Button).at(1);
-    expect(cancelButton.props().disabled).toEqual(false);
+  test('FinishButton state', async () => {
+    const FinishButton = quickAccessPanel.find(Button).first();
+    expect(FinishButton.props().disabled).toEqual(false);
   });
 
-  test('click confirm button', async () => {
+  test('click FinishButton', async () => {
     expect(wrapper.find('.group').length).toEqual(1);
-    const confirmButton = quickAccessPanel.find('Button').first();
-    await confirmButton.simulate('click');
-    wrapper.update();
-    expect(wrapper.find('.group').length).toEqual(0);
-  });
-
-  test('click cancel button', async () => {
-    expect(wrapper.find('.group').length).toEqual(1);
-    const cancelButton = quickAccessPanel.find('Button').at(1);
-    await cancelButton.simulate('click');
+    const FinishButton = quickAccessPanel.find('Button').first();
+    await FinishButton.simulate('click');
     wrapper.update();
     expect(wrapper.find('.group').length).toEqual(0);
   });
@@ -94,7 +84,7 @@ describe('<QuickAccessPanel />', () => {
     expect(description.find('span').length).toEqual(0);
   });
 
-  test('when incoming call , page disappear', async () => {
+  test('when incoming call, page disappear', async () => {
     expect(wrapper.find('.group').length).toEqual(1);
     phone = wrapper.props().phone;
     phone.webphone._createWebphone();
@@ -104,5 +94,4 @@ describe('<QuickAccessPanel />', () => {
     wrapper.update();
     expect(wrapper.find('.group').length).toEqual(0);
   });
-
-})
+});

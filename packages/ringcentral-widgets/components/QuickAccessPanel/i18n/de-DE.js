@@ -6,8 +6,6 @@ export default {
   descriptionAll: "Navigieren Sie zu {optionsLink}, um Ihre Blacklist zu definieren.",
   descriptionUser: "Navigieren Sie zu {optionsLink}, um Ihre spezifischen Websites zu definieren.",
   extensionOptions: "Erweiterungsoptionen",
-  Confirm: "Bestätigen",
-  Cancel: "Abbrechen"
 };
 
 // @key: @#@"textGoogle"@#@ @source: @#@"Only show in {appName} apps"@#@

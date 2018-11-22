@@ -3,6 +3,12 @@ import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
 import phoneTypes from '../../../enums/phoneTypes';
 
 export default {
+  [phoneTypes.extension]: "内線",
+  [phoneTypes.direct]: "ダイレクト",
+  [phoneTypes.mobile]: "モバイル",
+  [phoneTypes.home]: "自宅",
+  [phoneTypes.business]: "ビジネス",
+  [phoneTypes.fax]: "FAX",
   emailLabel: "Eメール",
   call: "通話",
   text: "テキスト",
@@ -13,6 +19,12 @@ export default {
   notActivated: "非アクティブ"
 };
 
+// @key: @#@"[phoneTypes.extension]"@#@ @source: @#@"Ext."@#@
+// @key: @#@"[phoneTypes.direct]"@#@ @source: @#@"Direct"@#@
+// @key: @#@"[phoneTypes.mobile]"@#@ @source: @#@"Mobile"@#@
+// @key: @#@"[phoneTypes.home]"@#@ @source: @#@"Home"@#@
+// @key: @#@"[phoneTypes.business]"@#@ @source: @#@"Business"@#@
+// @key: @#@"[phoneTypes.fax]"@#@ @source: @#@"Fax"@#@
 // @key: @#@"emailLabel"@#@ @source: @#@"Email"@#@
 // @key: @#@"call"@#@ @source: @#@"Call"@#@
 // @key: @#@"text"@#@ @source: @#@"Text"@#@

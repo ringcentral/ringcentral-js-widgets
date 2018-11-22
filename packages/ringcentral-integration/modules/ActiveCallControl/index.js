@@ -204,7 +204,7 @@ export default class ActiveCallControl extends Pollable {
       const activeSessionsMap = {};
       for (const sessionId in this.activeSessions) {
         if (sessionId) {
-          const result = await this.getPartyData(this.activeSessions[sessionId], sessionId);
+          const result = await this.getPartyData(sessionId);
           activeSessionsMap[sessionId] = result;
         }
       }
@@ -270,6 +270,7 @@ export default class ActiveCallControl extends Pollable {
     });
   }
 
+
   _checkConnectivity() {
     if (
       this._connectivityMonitor &&
@@ -291,9 +292,14 @@ export default class ActiveCallControl extends Pollable {
       throw error;
     }
   }
+  getActiveSession(sessionId) {
+    const partyId = this.callPartyIdMap[sessionId];
+    const activeSession = this.activeSessions[sessionId];
+    return activeSession && activeSession[partyId];
+  }
   async mute(sessionId) {
     try {
-      const activeSession = this.activeSessions[sessionId];
+      const activeSession = this.getActiveSession(sessionId);
       const url = requestURI(activeSession).mute;
       await this.patch({
         url,
@@ -303,7 +309,7 @@ export default class ActiveCallControl extends Pollable {
       });
       // this.store.dispatch({
       //   type: this.actionTypes.mute,
-      //   sessionId,
+      //   activeSession,
       // });
     } catch (error) {
       if (confictError(error)) {
@@ -319,7 +325,7 @@ export default class ActiveCallControl extends Pollable {
   }
   async unmute(sessionId) {
     try {
-      const activeSession = this.activeSessions[sessionId];
+      const activeSession = this.getActiveSession(sessionId);
       const url = requestURI(activeSession).mute;
       await this.patch({
         url,
@@ -329,7 +335,7 @@ export default class ActiveCallControl extends Pollable {
       });
       // this.store.dispatch({
       //   type: this.actionTypes.unmute,
-      //   sessionId,
+      //   activeSession,
       // });
     } catch (error) {
       if (confictError(error)) {
@@ -345,13 +351,13 @@ export default class ActiveCallControl extends Pollable {
   }
   async startRecord(sessionId) {
     try {
-      const activeSession = this.activeSessions[sessionId];
+      const activeSession = this.getActiveSession(sessionId);
       const url = requestURI(activeSession).record;
       const _response = await this._client.service._platform.post(url);
       const response = JSON.parse(_response._text);
       this.store.dispatch({
         type: this.actionTypes.startRecord,
-        sessionId,
+        activeSession,
         response
       });
     } catch (error) {
@@ -361,10 +367,15 @@ export default class ActiveCallControl extends Pollable {
       });
     }
   }
+  getRecordingId(sessionId) {
+    const partyId = this.callPartyIdMap[sessionId];
+    const recodingId = this.recordingIds[sessionId];
+    return recodingId[partyId].id;
+  }
   async stopRecord(sessionId) {
     try {
-      const activeSession = this.activeSessions[sessionId];
-      const recordingId = this.recordingIds[sessionId].id;
+      const activeSession = this.getActiveSession(sessionId);
+      const recordingId = this.getRecordingId(sessionId);
       activeSession.recordingId = recordingId;
       const url = requestURI(activeSession).stopRecord;
       this.patch({
@@ -375,7 +386,7 @@ export default class ActiveCallControl extends Pollable {
       });
       this.store.dispatch({
         type: this.actionTypes.stopRecord,
-        sessionId,
+        activeSession
       });
     } catch (error) {
       throw error;
@@ -383,7 +394,7 @@ export default class ActiveCallControl extends Pollable {
   }
   async hangUp(sessionId) {
     try {
-      const activeSession = this.activeSessions[sessionId];
+      const activeSession = this.getActiveSession(sessionId);
       const url = requestURI(activeSession).hangUp;
       await this._client.service._platform.delete(url);
       if (typeof this._onCallEndFunc === 'function') {
@@ -401,7 +412,7 @@ export default class ActiveCallControl extends Pollable {
   }
   async reject(sessionId) {
     try {
-      const activeSession = this.activeSessions[sessionId];
+      const activeSession = this.getActiveSession(sessionId);
       const url = requestURI(activeSession).reject;
       await this._client.service._platform.post(url);
       this.store.dispatch({
@@ -416,12 +427,12 @@ export default class ActiveCallControl extends Pollable {
   }
   async hold(sessionId) {
     try {
-      const activeSession = this.activeSessions[sessionId];
+      const activeSession = this.getActiveSession(sessionId);
       const url = requestURI(activeSession).hold;
       await this._client.service._platform.post(url);
       this.store.dispatch({
         type: this.actionTypes.hold,
-        sessionId,
+        activeSession
       });
     } catch (error) {
       if (confictError(error)) {
@@ -437,12 +448,12 @@ export default class ActiveCallControl extends Pollable {
   }
   async unHold(sessionId) {
     try {
-      const activeSession = this.activeSessions[sessionId];
+      const activeSession = this.getActiveSession(sessionId);
       const url = requestURI(activeSession).unHold;
       await this._client.service._platform.post(url);
       this.store.dispatch({
         type: this.actionTypes.unhold,
-        sessionId,
+        activeSession
       });
     } catch (error) {
       if (confictError(error)) {
@@ -458,7 +469,7 @@ export default class ActiveCallControl extends Pollable {
   }
   async transfer(transferNumber, sessionId) {
     try {
-      const activeSession = this.activeSessions[sessionId];
+      const activeSession = this.getActiveSession(sessionId);
       const url = requestURI(activeSession).transfer;
       const validatedResult = await this._numberValidate.validateNumbers([transferNumber]);
       if (!validatedResult.result) {
@@ -486,10 +497,9 @@ export default class ActiveCallControl extends Pollable {
       });
     }
   }
-
   async flip(flipValue, sessionId) {
     try {
-      const activeSession = this.activeSessions[sessionId];
+      const activeSession = this.getActiveSession(sessionId);
       const url = requestURI(activeSession).flip;
       await this._client.service._platform.post(url, {
         callFlipId: flipValue
@@ -506,8 +516,9 @@ export default class ActiveCallControl extends Pollable {
     // No implement at the moment
     // Need to check the API document
   }
-  async getPartyData(item, sessionId) {
-    const url = requestURI(item).getPartyData;
+  async getPartyData(sessionId) {
+    const activeSession = this.getActiveSession(sessionId);
+    const url = requestURI(activeSession).getPartyData;
     try {
       const _response = await this._client.service._platform.get(url);
       const response = JSON.parse(_response._text);
@@ -550,6 +561,19 @@ export default class ActiveCallControl extends Pollable {
     return this.status === moduleStatuses.ready;
   }
   @getter
+  callPartyIdMap = createSelector(
+    () => this._callMonitor.calls,
+    calls => calls.reduce((accumulator, call) => {
+      const {
+        sessionId,
+        partyId
+      } = call;
+      accumulator[sessionId] = partyId;
+      return accumulator;
+    }, {})
+  );
+
+  @getter
   recordingId = createSelector(
     () => this.activeSessionId,
     () => this.recordingIds,
@@ -559,8 +583,7 @@ export default class ActiveCallControl extends Pollable {
   activeSession = createSelector(
     () => this.activeSessionId,
     () => this.activeSessions,
-    (activeSessionId, activeSessions) => activeSessions[activeSessionId]
-  );
+    sessionId => this.getActiveSession(sessionId));
 
   @getter
   activeSessions = createSelector(
@@ -569,10 +592,15 @@ export default class ActiveCallControl extends Pollable {
     (calls, activeSessionsStatus) => {
       const reducer = (accumulator, call) => {
         const {
-          sessionId
+          sessionId,
+          partyId
         } = call;
-        const activeSessionStatus = activeSessionsStatus[sessionId];
-        accumulator[sessionId] = normalizeSession({
+        const activeSessionStatuses = activeSessionsStatus[sessionId];
+        const activeSessionStatus = activeSessionStatuses && activeSessionStatuses[partyId] || {};
+        if (!accumulator[sessionId]) {
+          accumulator[sessionId] = {};
+        }
+        accumulator[sessionId][partyId] = normalizeSession({
           call,
           activeSessionStatus
         });

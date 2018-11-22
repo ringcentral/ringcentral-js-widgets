@@ -73,8 +73,15 @@ function mapToFunctions(_, {
   },
 }) {
   return {
-    onBackButtonClick: () => routerInteraction.goBack(),
-    setActiveSessionId: sessionId => activeCallControl.setActiveSessionId(sessionId)
+    onBackButtonClick() {
+      routerInteraction.goBack();
+    },
+    setActiveSessionId(sessionId) {
+      activeCallControl.setActiveSessionId(sessionId);
+    },
+    onTransfer(sessionId) {
+      routerInteraction.push(`/transfer/${sessionId}/active`);
+    }
   };
 }
 
@@ -91,8 +98,6 @@ class ActiveCallControlPanel extends Component {
     this.onHold = () => this.props.activeCallControl.hold(this.props.sessionId);
     this.onUnhold = () => this.props.activeCallControl.unHold(this.props.sessionId);
     this.onHangup = () => this.props.activeCallControl.hangUp(this.props.sessionId);
-    this.onTransfer = async number =>
-      this.props.activeCallControl.transfer(number, this.props.sessionId);
 
     this.formatPhone = phoneNumber => formatNumber({
       phoneNumber,
@@ -136,6 +141,7 @@ class ActiveCallControlPanel extends Component {
 
     return (
       <CallCtrlPanel
+        sessionId={this.props.sessionId}
         currentLocale={this.props.currentLocale}
         fallBackName={this.props.fallBackName}
         phoneNumber={this.props.phoneNumber}
@@ -144,7 +150,7 @@ class ActiveCallControlPanel extends Component {
         onHold={this.onHold}
         onUnhold={this.onUnhold}
         onHangup={this.onHangup}
-        onTransfer={this.onTransfer}
+        onTransfer={this.props.onTransfer}
         showBackButton
         backButtonLabel={i18n.getString('allCalls', this.props.currentLocale)}
         onBackButtonClick={this.props.onBackButtonClick}
@@ -180,10 +186,11 @@ ActiveCallControlPanel.propTypes = {
   phoneNumber: PropTypes.string,
   showContactDisplayPlaceholder: PropTypes.bool,
   brand: PropTypes.string.isRequired,
+  onTransfer: PropTypes.func.isRequired,
 };
 
 ActiveCallControlPanel.defaultProps = {
-  setActiveSessionId: () => {},
+  setActiveSessionId() {},
   currentLocale: 'en-US',
   activeCallControl: {},
   activeSession: null,

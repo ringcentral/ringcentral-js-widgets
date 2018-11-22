@@ -9,6 +9,8 @@ import getReducer, { getGlipPostsReadTimeReducer } from './getReducer';
 import status from './status';
 
 const glipPostsRegExp = /glip\/posts$/;
+const glipGroupRegExp = /glip\/groups$/;
+
 const subscriptionFilter = '/glip/posts';
 
 const DEFAULT_LOAD_TTL = 30 * 60 * 1000;
@@ -129,13 +131,19 @@ export default class GlipPosts extends RcModule {
     this._lastMessage = message;
     if (
       message &&
-      glipPostsRegExp.test(message.event) &&
+      (
+        glipPostsRegExp.test(message.event) ||
+        glipGroupRegExp.test(message.event)
+      ) &&
       message.body
     ) {
       const {
         eventType,
         ...post
       } = message.body;
+      if (eventType.indexOf('Post') !== 0) {
+        return;
+      }
       if (eventType === 'PostRemoved') {
         return;
       }

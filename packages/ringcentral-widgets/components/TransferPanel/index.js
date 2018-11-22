@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { isNil } from 'ramda';
 import DialPad from '../DialPad';
 import RecipientsInput from '../RecipientsInput';
 import BackHeader from '../BackHeader';
@@ -14,19 +13,18 @@ export default class TransferPanel extends PureComponent {
     setActiveSessionId: PropTypes.func,
     onTransfer: PropTypes.func.isRequired,
     currentLocale: PropTypes.string.isRequired,
-    toggleTransferPanel: PropTypes.func.isRequired,
-    searchContactList: PropTypes.array.isRequired,
+    onBack: PropTypes.func.isRequired,
+    onCallEnd: PropTypes.func.isRequired,
+    searchContactList: PropTypes.array,
     searchContact: PropTypes.func.isRequired,
     formatPhone: PropTypes.func.isRequired,
     phoneTypeRenderer: PropTypes.func,
     phoneSourceNameRenderer: PropTypes.func,
     recipientsContactInfoRenderer: PropTypes.func,
     recipientsContactPhoneRenderer: PropTypes.func,
-    isOnTransfer: PropTypes.bool,
     autoFocus: PropTypes.bool,
     sessionId: PropTypes.string.isRequired,
-    activeSession: PropTypes.object,
-    disablePage: PropTypes.bool,
+    session: PropTypes.object,
   };
 
   static defaultProps = {
@@ -35,10 +33,9 @@ export default class TransferPanel extends PureComponent {
     phoneSourceNameRenderer: undefined,
     recipientsContactInfoRenderer: undefined,
     recipientsContactPhoneRenderer: undefined,
-    isOnTransfer: false,
     autoFocus: true,
-    activeSession: null,
-    disablePage: false
+    session: null,
+    searchContactList: [],
   };
 
   constructor(props) {
@@ -50,8 +47,12 @@ export default class TransferPanel extends PureComponent {
   }
 
   componentDidMount() {
-    if (this.props.disablePage) {
-      this.load();
+    this.load();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.session && !nextProps.session) {
+      this.props.onCallEnd();
     }
   }
 
@@ -77,7 +78,7 @@ export default class TransferPanel extends PureComponent {
   }
 
   onTransfer = () => {
-    this.props.onTransfer(this._getTransferNumber());
+    this.props.onTransfer(this._getTransferNumber(), this.props.sessionId);
   }
 
   onToNumberChange = (toNumber) => {
@@ -104,14 +105,14 @@ export default class TransferPanel extends PureComponent {
   }
 
   render() {
-    if (this.props.disablePage && !this.props.activeSession) {
-      this.props.toggleTransferPanel();
+    if (!this.props.session) {
       return null;
     }
+    const isOnTransfer = !!this.props.session.isOnTransfer;
     return (
       <div className={styles.root}>
         <BackHeader
-          onBackClick={this.props.toggleTransferPanel}>
+          onBackClick={this.props.onBack}>
           {i18n.getString('transferTo', this.props.currentLocale)}
         </BackHeader>
         <RecipientsInput
@@ -141,10 +142,10 @@ export default class TransferPanel extends PureComponent {
           <div className={styles.buttonRow}>
             <div className={styles.button}>
               <CircleButton
-                className={this.props.isOnTransfer ? styles.disabled : undefined}
+                className={isOnTransfer ? styles.disabled : undefined}
                 onClick={this.onTransfer}
                 icon={TransferIcon}
-                disabled={this.props.isOnTransfer}
+                disabled={isOnTransfer}
               />
             </div>
           </div>

@@ -5,6 +5,11 @@ export default function isLoaderFile(content) {
   return loaderRegExp.test(content);
 }
 
-isLoaderFile.noChunk = function noChunks(content) {
+function noChunks(content) {
   return noChunkRegExp.test(content);
+}
+export {
+  isLoaderFile,
+  noChunks
 };
+

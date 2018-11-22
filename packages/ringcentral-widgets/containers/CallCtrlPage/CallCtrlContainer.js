@@ -62,8 +62,6 @@ class CallCtrlContainer extends Component {
       this.props.sendDTMF(value, this.props.session.id);
     this.onFlip = value =>
       this.props.onFlip(value, this.props.session.id);
-    this.onTransfer = value =>
-      this.props.onTransfer(value, this.props.session.id);
     this.onPark = () =>
       this.props.onPark(this.props.session.id);
     this.onAdd = () =>
@@ -262,7 +260,6 @@ class CallCtrlContainer extends Component {
         isOnMute={session.isOnMute}
         isOnHold={session.isOnHold}
         isOnFlip={session.isOnFlip}
-        isOnTransfer={session.isOnTransfer}
         recordStatus={session.recordStatus}
         showBackButton={this.props.showBackButton}
         backButtonLabel={backButtonLabel}
@@ -279,7 +276,7 @@ class CallCtrlContainer extends Component {
         onMerge={this.onMerge}
         onBeforeMerge={this.onBeforeMerge}
         onFlip={this.onFlip}
-        onTransfer={this.onTransfer}
+        onTransfer={this.props.onTransfer}
         onPark={this.onPark}
         nameMatches={this.props.nameMatches}
         fallBackName={fallbackUserName}
@@ -292,12 +289,8 @@ class CallCtrlContainer extends Component {
         showContactDisplayPlaceholder={this.props.showContactDisplayPlaceholder}
         flipNumbers={this.props.flipNumbers}
         sourceIcons={this.props.sourceIcons}
-        searchContactList={this.props.searchContactList}
-        searchContact={this.props.searchContact}
         phoneTypeRenderer={this.props.phoneTypeRenderer}
         phoneSourceNameRenderer={this.props.phoneSourceNameRenderer}
-        recipientsContactInfoRenderer={this.props.recipientsContactInfoRenderer}
-        recipientsContactPhoneRenderer={this.props.recipientsContactPhoneRenderer}
         layout={this.state.layout}
         showSpinner={this.props.showSpinner}
         direction={session.direction}
@@ -327,7 +320,6 @@ CallCtrlContainer.propTypes = {
     isOnMute: PropTypes.bool,
     isOnHold: PropTypes.bool,
     isOnFlip: PropTypes.bool,
-    isOnTransfer: PropTypes.bool,
     recordStatus: PropTypes.string,
     to: PropTypes.string,
     from: PropTypes.string,
@@ -362,12 +354,8 @@ CallCtrlContainer.propTypes = {
   showContactDisplayPlaceholder: PropTypes.bool.isRequired,
   flipNumbers: PropTypes.array.isRequired,
   sourceIcons: PropTypes.object,
-  searchContactList: PropTypes.array.isRequired,
-  searchContact: PropTypes.func.isRequired,
   phoneTypeRenderer: PropTypes.func,
   phoneSourceNameRenderer: PropTypes.func,
-  recipientsContactInfoRenderer: PropTypes.func,
-  recipientsContactPhoneRenderer: PropTypes.func,
   layout: PropTypes.string,
   showSpinner: PropTypes.bool,
   conferenceCallParties: PropTypes.array,
@@ -394,8 +382,6 @@ CallCtrlContainer.defaultProps = {
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
-  recipientsContactInfoRenderer: undefined,
-  recipientsContactPhoneRenderer: undefined,
   onAdd: undefined,
   onMerge: undefined,
   onBeforeMerge: undefined,

@@ -6,8 +6,6 @@ export default {
   descriptionAll: "前往 {optionsLink} 定義您的黑名單。",
   descriptionUser: "前往 {optionsLink} 定義您指定的網站。",
   extensionOptions: "擴展選項",
-  Confirm: "確認",
-  Cancel: "取消"
 };
 
 // @key: @#@"textGoogle"@#@ @source: @#@"Only show in {appName} apps"@#@

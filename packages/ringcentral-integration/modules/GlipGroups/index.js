@@ -296,12 +296,16 @@ export default class GlipGroups extends Pollable {
     if (
       message &&
       glipGroupRegExp.test(message.event) &&
-      message.body
+      message.body &&
+      message.body.eventType
     ) {
       const {
         eventType,
         ...group
       } = message.body;
+      if (eventType.indexOf('Group') !== 0) {
+        return;
+      }
       if (eventType === 'GroupLeft') {
         this.store.dispatch({
           type: this.actionTypes.removeGroup,

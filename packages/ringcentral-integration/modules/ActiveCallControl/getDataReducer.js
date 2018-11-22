@@ -16,12 +16,16 @@ function updateActiveSessionStatus({
       code
     },
     direction,
+    id,
   } = party;
   if (isHangUp(code) && newState[sessionId]) {
     delete newState[sessionId];
   } else {
-    newState[sessionId] = {
-      ...newState[sessionId],
+    if (!newState[sessionId]) {
+      newState[sessionId] = {};
+    }
+    newState[sessionId][id] = {
+      ...newState[sessionId][id],
       standAlone,
       sessionId,
       isOnMute: muted,
@@ -32,10 +36,17 @@ function updateActiveSessionStatus({
   return newState;
 }
 
-function setActiveSessionStatus(state, sessionId, obj) {
+function setActiveSessionStatus(state, activeSession, obj) {
+  const {
+    sessionId,
+    partyId
+  } = activeSession;
   const newState = { ...state };
-  newState[sessionId] = {
-    ...newState[sessionId],
+  if (!newState[sessionId]) {
+    newState[sessionId] = {};
+  }
+  newState[sessionId][partyId] = {
+    ...newState[sessionId][partyId],
     ...obj
   };
   return newState;
@@ -56,13 +67,30 @@ function getActiveSessionIdReducer(types) {
   };
 }
 function getRecordingIdsStatusReducer(types) {
-  return (state = {}, { type, sessionId, response }) => {
+  return (state = {}, { type, activeSession, response }) => {
     switch (type) {
       case types.startRecord: {
+        const {
+          sessionId,
+          partyId
+        } = activeSession;
         const newState = { ...state };
-        newState[sessionId] = {
+        if (!newState[sessionId]) {
+          newState[sessionId] = {};
+        }
+        newState[sessionId][partyId] = {
           ...response
         };
+        return newState;
+      }
+      case types.stopRecord: {
+        const {
+          sessionId,
+        } = activeSession;
+        const newState = { ...state };
+        if (newState[sessionId]) {
+          delete newState[sessionId];
+        }
         return newState;
       }
       case types.recordFail:
@@ -76,7 +104,7 @@ function getRecordingIdsStatusReducer(types) {
 }
 function getActiveSessionsStatusReducer(types) {
   return (state = {}, {
-    type, sessionId, party, activeSessionsMap
+    type, sessionId, party, activeSessionsMap, activeSession
   }) => {
     switch (type) {
       case types.updateActiveSessions: {
@@ -101,15 +129,15 @@ function getActiveSessionsStatusReducer(types) {
       }
       case types.startRecord:
       case types.stopRecord: {
-        return setActiveSessionStatus(state, sessionId, { isOnRecording: type === types.startRecord });
+        return setActiveSessionStatus(state, activeSession, { isOnRecording: type === types.startRecord });
       }
       case types.mute:
       case types.unmute: {
-        return setActiveSessionStatus(state, sessionId, { isOnMute: type === types.mute });
+        return setActiveSessionStatus(state, activeSession, { isOnMute: type === types.mute });
       }
       case types.hold:
       case types.unhold: {
-        return setActiveSessionStatus(state, sessionId, { isOnHold: type === types.hold });
+        return setActiveSessionStatus(state, activeSession, { isOnHold: type === types.hold });
       }
       case types.removeActiveSession: {
         const newState = { ...state };

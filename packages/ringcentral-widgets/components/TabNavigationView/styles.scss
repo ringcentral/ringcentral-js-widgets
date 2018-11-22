@@ -9,6 +9,13 @@
 }
 .main {
   @include full-size;
-  max-height: calc(100% - #{$navigation-bar-height});
   z-index: 10;
+}
+
+.hasMaxHeight {
+  max-height: calc(100% - #{$navigation-bar-height});
+}
+
+.vertical {
+  display: flex;
 }

@@ -1,19 +1,24 @@
 import fs from 'fs-extra';
+import loaderUtils from 'loader-utils';
 import generateLoaderContent from '../generateLoaderContent';
-import isLocaleFile from '../isLocaleFile';
-import isLoaderFile from '../isLoaderFile';
+import { isLocaleFile, localeFilter } from '../isLocaleFile';
+import { isLoaderFile, noChunks } from '../isLoaderFile';
 
 module.exports = function localeLoader(content) {
   const callback = this.async();
+  const querys = loaderUtils.getOptions(this) || {};
+  const supportedLocales = querys.supportedLocales || [];
   if (isLoaderFile(content)) {
     (async () => {
-      const files = (await fs.readdir(this.context)).filter(f => isLocaleFile(f));
+      const files = (await fs.readdir(this.context)).filter(f => isLocaleFile(f)).filter(
+        localeFilter(supportedLocales));
       callback(null, generateLoaderContent({
         files,
-        chunk: !isLoaderFile.noChunk(content),
+        chunk: !noChunks(content),
       }));
     })();
   } else {
     callback(null, content);
   }
 };
+
