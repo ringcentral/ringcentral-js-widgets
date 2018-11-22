@@ -11,9 +11,6 @@ import {
 import sleep from 'ringcentral-integration/lib/sleep';
 
 import caseO365Contacts from './contacts';
-import {
-  caseAuthorizePanel
-} from './oauth';
 import AuthorizeOffice from '../../steps/office/authorizeOffice';
 import Login from '../../steps/office/login';
 import Entry from '../../steps/entry';
@@ -50,6 +47,5 @@ describe('O365 contact flow: =====>', () => {
     await sleep(2000);
 
     await caseO365Contacts(context);
-    await caseAuthorizePanel(context);
   });
 });
