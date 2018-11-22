@@ -38,7 +38,7 @@
     "execa": "^0.10.0",
     "format-message": "^5.0.0",
     "fs-extra": "^6.0.0",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-babel": "^7.0.1",
     "gulp-istanbul": "^1.1.1",
     "gulp-sourcemaps": "^2.4.0",
