@@ -6,7 +6,7 @@ import styles from './styles.scss';
 
 function InputField(props) {
   return (
-    <div className={classnames(styles.root, props.className)}>
+    <div data-sign={props.dataSign} className={classnames(styles.root, props.className)}>
       <div className={styles.label}>
         {props.label}
         <div className={styles.hint}>
@@ -25,12 +25,14 @@ InputField.propTypes = {
   label: PropTypes.node,
   labelHint: PropTypes.node,
   className: PropTypes.string,
+  dataSign: PropTypes.string,
 };
 InputField.defaultProps = {
   children: undefined,
   label: undefined,
   labelHint: undefined,
   className: undefined,
+  dataSign: undefined,
 };
 
 export default InputField;

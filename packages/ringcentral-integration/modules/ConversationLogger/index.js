@@ -62,6 +62,7 @@ export default class ConversationLogger extends LoggerBase {
     isLoggedContact = () => false,
     isAutoUpdate = true,
     formatDateTime = (...args) => dateTimeFormat.formatDateTime(...args),
+    accordWithLogRequirement,
     ...options
   }) {
     super({
@@ -82,6 +83,7 @@ export default class ConversationLogger extends LoggerBase {
     this._isLoggedContact = isLoggedContact;
     this._formatDateTime = formatDateTime;
     this._isAutoUpdate = isAutoUpdate;
+    this._accordWithLogRequirement = accordWithLogRequirement;
     this._storageKey = `${this._name}Data`;
     this._messageStore.onMessageUpdated(() => {
       this._processConversationLogMap();
@@ -329,7 +331,10 @@ export default class ConversationLogger extends LoggerBase {
       });
     }
   }
-
+  accordWithProcessLogRequirement(...rest) {
+    return (!this._accordWithLogRequirement ||
+      this._accordWithLogRequirement(...rest));
+  }
   _processConversationLogMap() {
     if (this.ready && this._lastAutoLog !== this.autoLog) {
       this._lastAutoLog = this.autoLog;
@@ -352,9 +357,11 @@ export default class ConversationLogger extends LoggerBase {
               !oldMap[conversationId][date] ||
               conversation.messages[0].id !== oldMap[conversationId][date].messages[0].id
             ) {
-              this._queueAutoLogConversation({
-                conversation,
-              });
+              if (this.accordWithProcessLogRequirement(conversation)) {
+                this._queueAutoLogConversation({
+                  conversation,
+                });
+              }
             }
           });
         });

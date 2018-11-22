@@ -6,8 +6,6 @@ export default {
   descriptionAll: "あなたのブラックリストを定義する {optionsLink} に移動します。",
   descriptionUser: "特定のウェブサイトを定義する{optionsLink} に移動します。",
   extensionOptions: "拡張オプション",
-  Confirm: "確認",
-  Cancel: "キャンセル"
 };
 
 // @key: @#@"textGoogle"@#@ @source: @#@"Only show in {appName} apps"@#@

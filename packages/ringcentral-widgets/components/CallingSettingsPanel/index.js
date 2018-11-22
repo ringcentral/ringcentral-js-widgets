@@ -165,6 +165,7 @@ export default class CallingSettingsPanel extends Component {
             {i18n.getString('ringoutHint', currentLocale)}
           </div>
           <InputField
+            dataSign="myLocation"
             label={i18n.getString('myLocationLabel', currentLocale)}>
             {
               availableNumbers[this.state.callWith] ? (
@@ -179,7 +180,7 @@ export default class CallingSettingsPanel extends Component {
                 />
               ) : (
                 <TextInput
-                  dataSign="myLocation"
+                  dataSign="myLocationInput"
                   value={this.state.myLocation}
                   maxLength={30}
                   onChange={this.onMyLocationTextChange} />

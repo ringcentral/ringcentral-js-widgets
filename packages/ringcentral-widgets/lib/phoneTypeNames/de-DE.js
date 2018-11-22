@@ -8,7 +8,9 @@ export default {
   [phoneTypes.phone]: "Telefon",
   [phoneTypes.unknown]: "Unbekannter Telefontyp",
   [phoneTypes.company]: "Firmennummer",
-  [phoneTypes.direct]: "Direktwahlnummer"
+  [phoneTypes.direct]: "Direktwahlnummer",
+  [phoneTypes.fax]: "Fax",
+  [phoneTypes.other]: "Andere"
 };
 
 // @key: @#@"[phoneTypes.business]"@#@ @source: @#@"Business Phone"@#@
@@ -19,3 +21,5 @@ export default {
 // @key: @#@"[phoneTypes.unknown]"@#@ @source: @#@"Unknown Phone Type"@#@
 // @key: @#@"[phoneTypes.company]"@#@ @source: @#@"Company Number"@#@
 // @key: @#@"[phoneTypes.direct]"@#@ @source: @#@"Direct Number"@#@
+// @key: @#@"[phoneTypes.fax]"@#@ @source: @#@"Fax"@#@
+// @key: @#@"[phoneTypes.other]"@#@ @source: @#@"Other"@#@

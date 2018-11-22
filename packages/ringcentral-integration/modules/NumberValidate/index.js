@@ -236,7 +236,7 @@ export default class NumberValidate extends RcModule {
       ...phoneNumber,
       international:
         !!phoneNumber.country &&
-        phoneNumber.country.isoCode !== response.homeCountry.isoCode,
+        phoneNumber.country.callingCode !== response.homeCountry.callingCode,
     }));
   }
 
