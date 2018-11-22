@@ -58,6 +58,7 @@ export default function createWebphone({
     }
     
     static async _close(context, account) {
+      if(!account.hasOwnProperty('webphone')) return;
       await Webphone.operate({
         phoneId: account.webphone.id,
         sessionId: account.webphone.sessionId,
@@ -96,17 +97,19 @@ export default function createWebphone({
   
     static async hangup(context) {
       const status = await this._status(context, 'hangup');
+      console.log("hangup", status);
       if (!status) return;
       await Webphone.operate({
-        phoneId: from.webphone.id,
-        sessionId: from.webphone.sessionId,
+        phoneId: to.webphone.id,
+        sessionId: to.webphone.sessionId,
         action: 'hangup',
-        phoneNumber: to.webphone.phoneNumber
+        phoneNumber: from.webphone.phoneNumber
       });
     }
   
     static async answerCall(context) {
       const status = await this._status(context, 'answerCall');
+      console.log("answerCall", status);
       if(!status) return;
       await Webphone.operate({
         phoneId: to.webphone.id,   
@@ -117,37 +120,39 @@ export default function createWebphone({
     }
 
     static async _status(context, action){
-      let fromStatus;
-      let toStatus;
+      let status = false;
+      if(!['answerCall', 'hangup'].includes(action)) return status;
+      if((!from.hasOwnProperty('webphone')) || (!to.hasOwnProperty('webphone'))) return status;
       const waitUntil = Date.now() + 30000;
-      if(action === 'answerCall') {
-        while(Date.now() < waitUntil){
-          await Webphone.sleep(1000);
-          fromStatus = (await Webphone.getPhonesById(from.webphone.id)).body.status;
-          toStatus = (await Webphone.getPhonesById(to.webphone.id)).body.status;
-          if (fromStatus === 'accepted' && toStatus ==='invited') {
-            return true;
+      while(Date.now() < waitUntil){
+        await Webphone.sleep(3000);
+        const fromStatus = (await Webphone.getPhonesById(from.webphone.id)).body.status;
+        const toStatus = (await Webphone.getPhonesById(to.webphone.id)).body.status;
+        if (action === 'answerCall' && fromStatus === 'accepted' && toStatus ==='invited' ) {
+          status = true;
+          break;
+        } else if(action === 'hangup'){
+          if(fromStatus === 'terminated' && toStatus ==='terminated') {
+            status = false;
+            break;
+          }else if(['accepted','invited'].includes(fromStatus) || ['accepted','invited'].includes(toStatus)){
+            status = true;
+            break;
           }
         }
-      } else if (action === 'hangup') {
-        for(let i=0; i<10; i++){
-          await Webphone.sleep(1000);
-          // TODO refactor
-          [from, to].forEach(async _account=>{
-            const _status = (await Webphone.getPhonesById(_account.webphone.id)).body.status;
-            if(['accepted','invited'].includes(_status)){
-              return true;
-            }
-          })
-        }
       }
-      return false;
+      return status;
     }
 
     static async _preAnswerCall(context, [from, to]) {
       await Webphone.preOperate({
         phoneId: to.webphone.id,
         sessionId: to.webphone.sessionId,
+        action: 'answerCall'
+      });
+      await Webphone.preOperate({
+        phoneId: from.webphone.id,
+        sessionId: from.webphone.sessionId,
         action: 'answerCall'
       });
     }
@@ -159,6 +164,7 @@ export default function createWebphone({
     }
   
     static async close(context){
+      console.log("close")
       await this._close(context, from);
       await this._close(context, to);
     }
