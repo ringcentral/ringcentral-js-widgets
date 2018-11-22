@@ -7,6 +7,7 @@ import getConnectivityMonitorReducer from './getConnectivityMonitorReducer';
 import connectivityMonitorMessages from './connectivityMonitorMessages';
 import ensureExist from '../../lib/ensureExist';
 import proxify from '../../lib/proxy/proxify';
+import networkStatus from '../../enums/networkStatus';
 
 export const DEFAULT_TIME_TO_RETRY = 5 * 1000;
 export const DEFAULT_HEART_BEAT_INTERVAL = 60 * 1000;
@@ -142,6 +143,15 @@ export default class ConnectivityMonitor extends RcModule {
       !error.apiResponse ||
       !error.apiResponse._response
     ) {
+      const networkError = (
+        error.message === networkStatus.chrome ||
+        error.message === networkStatus.firefox ||
+        error.message === networkStatus.safari ||
+        error.message === networkStatus.ie
+      );
+      if (networkError) {
+        return;
+      }
       if (this.connectivity) {
         this.store.dispatch({
           type: this.actionTypes.connectFail,
