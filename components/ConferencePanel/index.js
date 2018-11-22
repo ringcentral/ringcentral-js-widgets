@@ -573,6 +573,7 @@ var ConferencePanel = function (_Component) {
               currentLocale: currentLocale,
               dialInNumber: dialInNumber,
               getInviteTxt: _this2.inviteTxt,
+              participantCode: formatPin(participantCode),
               key: Date.now()
             });
           }),
