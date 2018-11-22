@@ -32,7 +32,9 @@ function NavigationButton(_ref) {
       onClick = _ref.onClick,
       width = _ref.width,
       height = _ref.height,
-      keepStyle = _ref.keepStyle;
+      keepStyle = _ref.keepStyle,
+      activeClassName = _ref.activeClassName,
+      inActiveClassName = _ref.inActiveClassName;
 
   var notice = null;
   if (noticeCounts && noticeCounts > 0) {
@@ -51,6 +53,7 @@ function NavigationButton(_ref) {
     }
   }
   var styleClass = !keepStyle ? _styles2.default.iconStyles : null;
+  var activationClassName = active ? activeClassName : inActiveClassName;
   return _react2.default.createElement(
     'div',
     {
@@ -66,7 +69,7 @@ function NavigationButton(_ref) {
       { className: _styles2.default.iconHolder, title: label },
       _react2.default.createElement(
         'div',
-        { className: (0, _classnames2.default)(_styles2.default.icon, styleClass) },
+        { className: (0, _classnames2.default)(_styles2.default.icon, styleClass, activationClassName) },
         active ? activeIcon : icon
       ),
       notice
@@ -82,13 +85,17 @@ NavigationButton.propTypes = {
   width: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]).isRequired,
   height: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]).isRequired,
   onClick: _propTypes2.default.func,
-  keepStyle: _propTypes2.default.bool
+  keepStyle: _propTypes2.default.bool,
+  activeClassName: _propTypes2.default.string,
+  inActiveClassName: _propTypes2.default.string
 };
 NavigationButton.defaultProps = {
   active: false,
   label: undefined,
   noticeCounts: undefined,
   onClick: undefined,
-  keepStyle: false
+  keepStyle: false,
+  inActiveClassName: undefined,
+  activationClassName: undefined
 };
 //# sourceMappingURL=index.js.map
