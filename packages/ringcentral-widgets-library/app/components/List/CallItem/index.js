@@ -18,7 +18,6 @@ function CallItem({
   onMergeCall,
   showExtraInfo,
   extraInfo,
-  id,
 }) {
   function OperationBar() {
     const Operations = [];
@@ -61,7 +60,6 @@ function CallItem({
           avatarUrl={avatarUrl}
           extraNum={converenceNumber}
           isOnline={isOnline}
-          id={id}
         />
       </div>
       <div className={styles.username}>{userName}</div>
@@ -86,7 +84,6 @@ CallItem.propTypes = {
   onMergeCall: PropTypes.func,
   showExtraInfo: PropTypes.bool,
   extraInfo: PropTypes.string,
-  id: PropTypes.string
 };
 
 CallItem.defaultProps = {
@@ -103,7 +100,6 @@ CallItem.defaultProps = {
   onMergeCall() {},
   showExtraInfo: false,
   extraInfo: '',
-  id: ''
 };
 
 export default CallItem;
