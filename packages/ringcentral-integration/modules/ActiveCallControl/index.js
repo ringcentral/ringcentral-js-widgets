@@ -519,6 +519,16 @@ export default class ActiveCallControl extends Pollable {
   async getPartyData(sessionId) {
     const activeSession = this.getActiveSession(sessionId);
     const url = requestURI(activeSession).getPartyData;
+    const {
+      telephonySessionId,
+      partyId
+    } = activeSession;
+    if (
+      !telephonySessionId ||
+      !partyId
+      ) {
+        return;
+    }
     try {
       const _response = await this._client.service._platform.get(url);
       const response = JSON.parse(_response._text);
