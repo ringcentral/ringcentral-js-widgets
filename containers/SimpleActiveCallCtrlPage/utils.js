@@ -62,7 +62,7 @@ var pickFallBackInfo = exports.pickFallBackInfo = function pickFallBackInfo() {
     var extensionNumber = numberObj.extensionNumber,
         phoneNumber = numberObj.phoneNumber;
 
-    return phoneNumber || extensionNumber;
+    return phoneNumber || extensionNumber || numberObj;
   }
 
   switch (direction) {
@@ -82,7 +82,6 @@ var pickFallBackInfo = exports.pickFallBackInfo = function pickFallBackInfo() {
     default:
       break;
   }
-
   return {
     fallBackName: fallBackName,
     fallBackNumber: fallBackNumber
