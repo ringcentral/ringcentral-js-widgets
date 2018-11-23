@@ -105,8 +105,19 @@ export default class Ringout extends RcModule {
   @proxify
   async _fetchRingoutStatus(ringoutId) {
     try {
-      const resp = await this._client.account().extension().ringOut(ringoutId).get();
-      return resp.status.callerStatus;
+      let callStatus;
+      const resp = await this._client.account().extension().ringOut(ringoutId).get()
+        .catch((error) => {
+          if (
+            error &&
+            error.apiResponse &&
+            error.apiResponse._response &&
+            error.apiResponse._response.status === 404
+          ) {
+            callStatus = 'Success';
+          }
+        });
+      return callStatus || resp.status.callerStatus;
     } catch (e) {
       const exception = new Error(ringoutErrors.pollingFailed);
       exception.error = e;
