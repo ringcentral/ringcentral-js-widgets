@@ -59,6 +59,7 @@ export default function createWebphone({
     
     static async _close(context, account) {
       if(!account.hasOwnProperty('webphone')) return;
+      console.log('close', account.webphone.phoneNumber);
       await Webphone.operate({
         phoneId: account.webphone.id,
         sessionId: account.webphone.sessionId,
@@ -100,10 +101,10 @@ export default function createWebphone({
       console.log("hangup", status);
       if (!status) return;
       await Webphone.operate({
-        phoneId: to.webphone.id,
-        sessionId: to.webphone.sessionId,
+        phoneId: from.webphone.id,
+        sessionId: from.webphone.sessionId,
         action: 'hangup',
-        phoneNumber: from.webphone.phoneNumber
+        phoneNumber: to.webphone.phoneNumber
       });
     }
   
@@ -164,7 +165,6 @@ export default function createWebphone({
     }
   
     static async close(context){
-      console.log("close")
       await this._close(context, from);
       await this._close(context, to);
     }
