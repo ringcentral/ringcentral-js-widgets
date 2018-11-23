@@ -35,7 +35,7 @@ storiesOf('Components/List', module)
       info: {
         name: text('name', 'kyle'),
         describe: text('describe', 'Hello, my name is Kyle and what\'s your name ?'),
-        timestamp: number('timestamp', 1542620329248)
+        timestamp: number('timestamp', Date.now())
       }
     };
     return (

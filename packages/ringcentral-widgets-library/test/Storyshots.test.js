@@ -13,11 +13,10 @@ function createChannel() {
   return new Channel({ transport });
 }
 
-
-const kindBackList = [
+const kindBlackList = [
 ];
 
-const nameBackList = [
+const nameBlackList = [
 ];
 
 function genReg(list = []) {
@@ -27,8 +26,9 @@ function genReg(list = []) {
   return new RegExp(`^((?!.*?(${list.join('|')})).)*$`);
 }
 addons.setChannel(createChannel());
+
 initStoryshots({
   configPath: path.join(process.cwd(), 'app', '.storybook'),
-  storyKindRegex: genReg(kindBackList),
-  storyNameRegex: genReg(nameBackList)
+  storyKindRegex: genReg(kindBlackList),
+  storyNameRegex: genReg(nameBlackList)
 });
