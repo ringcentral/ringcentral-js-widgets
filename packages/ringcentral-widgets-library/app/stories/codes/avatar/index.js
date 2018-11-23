@@ -13,7 +13,8 @@ storiesOf('Elements/Avatar', module)
       isOnline: boolean('isOnline', false),
       extraNum: number('extraNum', 2),
       onClick: action('clicked'),
-      spinnerMode: boolean('spinnerMode', false)
+      spinnerMode: boolean('spinnerMode', false),
+      id: 'test'
     };
     return (
       <div className={styles.root}>

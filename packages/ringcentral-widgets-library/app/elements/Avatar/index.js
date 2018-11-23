@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import uuid from 'uuid';
 import classnames from 'classnames';
 
 import { GText, GConference, GOnline, GSpinner } from './parts';
@@ -82,7 +81,7 @@ class Avatar extends Component {
 
   render() {
     const {
-      extraNum, isOnConferenceCall, spinnerMode, className, onClick, isOnline
+      extraNum, isOnConferenceCall, spinnerMode, className, onClick, isOnline, id
     } = this.props;
     const { avatarUrl } = this.state;
 
@@ -101,12 +100,11 @@ class Avatar extends Component {
     );
 
     // ids
-    const hash = uuid.v4();
-    const textId = `text-${hash}`;
-    const clipId = `circleClip-${hash}`;
-    const conferenceId = `conferenced-${hash}`;
-    const onLineId = `online-${hash}`;
-    const spinnerId = `spinner-${hash}`;
+    const textId = `text-${id}`;
+    const clipId = `circleClip-${id}`;
+    const conferenceId = `conferenced-${id}`;
+    const onLineId = `online-${id}`;
+    const spinnerId = `spinner-${id}`;
 
     const showingSpinner = spinnerMode;
     const aspectRatio = 'xMidYMid meet';
@@ -197,6 +195,7 @@ Avatar.propTypes = {
   spinnerMode: PropTypes.bool,
   className: PropTypes.string,
   onClick: PropTypes.func,
+  id: PropTypes.any.isRequired
 };
 
 Avatar.defaultProps = {
