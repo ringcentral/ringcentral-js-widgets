@@ -23,6 +23,7 @@ storiesOf('Components/List', module)
       onMergeCall: action('onMergeCall clicked'),
       showExtraInfo: boolean('showExtraInfo', false),
       extraInfo: text('extraInfo', 'hello'),
+      key: 'callItem'
     };
     return <CallItem {...props} />;
   })
@@ -55,7 +56,7 @@ storiesOf('Components/List', module)
       info: {
         name: 'Kyle',
         describe: 'Hello, my name is Kyle and what\'s your name ?',
-        timestamp: Date.now()
+        timestamp: 1542879420008
       },
       type: select('types', options, defaultValue)
     };

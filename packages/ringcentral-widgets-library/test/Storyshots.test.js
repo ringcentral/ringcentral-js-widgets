@@ -1,21 +1,32 @@
 import path from 'path';
-import addons, { mockChannel } from '@storybook/addons';
-import initStoryshots from '@storybook/addon-storyshots';
+import addons from '@storybook/addons';
+import Channel from '@storybook/channels';
+
+import initStoryshots, { snapshotWithOptions } from '@storybook/addon-storyshots';
+
+function createChannel() {
+  const transport = {
+    setHandler() {},
+    send() {},
+  };
+
+  return new Channel({ transport });
+}
+
 
 const kindBackList = [
-  'Elements/Avatar',
 ];
 
 const nameBackList = [
-  'callItem',
-  'MediaItem.Media'
 ];
 
 function genReg(list = []) {
+  if (!list.length) {
+    return new RegExp('.*');
+  }
   return new RegExp(`^((?!.*?(${list.join('|')})).)*$`);
 }
-
-addons.setChannel(mockChannel());
+addons.setChannel(createChannel());
 initStoryshots({
   configPath: path.join(process.cwd(), 'app', '.storybook'),
   storyKindRegex: genReg(kindBackList),
