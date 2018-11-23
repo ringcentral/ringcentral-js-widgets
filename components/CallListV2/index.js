@@ -224,7 +224,7 @@ var CallListV2 = function (_React$PureComponent) {
         'div',
         null,
         _react2.default.createElement(_reactVirtualized.List, {
-          style: { outline: 'none' },
+          style: { outline: 'none', overflowY: 'auto' },
           containerStyle: { overflow: 'visible' },
           ref: this._list,
           width: width,
