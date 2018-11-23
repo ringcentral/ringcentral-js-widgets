@@ -180,7 +180,7 @@ export default class CallListV2 extends React.PureComponent {
     return (
       <div>
         <List
-          style={{ outline: 'none' }}
+          style={{ outline: 'none', overflowY: 'auto' }}
           containerStyle={{ overflow: 'visible' }}
           ref={this._list}
           width={width}
