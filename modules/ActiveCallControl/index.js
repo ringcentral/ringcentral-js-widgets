@@ -1183,7 +1183,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
     key: 'getPartyData',
     value: function () {
       var _ref21 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee19(sessionId) {
-        var activeSession, url, _response, response, errRgx;
+        var activeSession, url, telephonySessionId, partyId, _response, response, errRgx;
 
         return _regenerator2.default.wrap(function _callee19$(_context19) {
           while (1) {
@@ -1191,18 +1191,28 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
               case 0:
                 activeSession = this.getActiveSession(sessionId);
                 url = (0, _helpers.requestURI)(activeSession).getPartyData;
-                _context19.prev = 2;
-                _context19.next = 5;
-                return this._client.service._platform.get(url);
+                telephonySessionId = activeSession.telephonySessionId, partyId = activeSession.partyId;
+
+                if (!(!telephonySessionId || !partyId)) {
+                  _context19.next = 5;
+                  break;
+                }
+
+                return _context19.abrupt('return');
 
               case 5:
+                _context19.prev = 5;
+                _context19.next = 8;
+                return this._client.service._platform.get(url);
+
+              case 8:
                 _response = _context19.sent;
                 response = JSON.parse(_response._text);
                 return _context19.abrupt('return', response);
 
-              case 10:
-                _context19.prev = 10;
-                _context19.t0 = _context19['catch'](2);
+              case 13:
+                _context19.prev = 13;
+                _context19.t0 = _context19['catch'](5);
                 errRgx = /4[0-9][0-9]/g;
 
                 if (errRgx.test(_context19.t0.message)) {
@@ -1210,12 +1220,12 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 }
                 throw _context19.t0;
 
-              case 15:
+              case 18:
               case 'end':
                 return _context19.stop();
             }
           }
-        }, _callee19, this, [[2, 10]]);
+        }, _callee19, this, [[5, 13]]);
       }));
 
       function getPartyData(_x15) {
