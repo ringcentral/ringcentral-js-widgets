@@ -32,7 +32,7 @@ export const pickFallBackInfo = (call = {}, contactName, currentLocale) => {
 
   function getNumber(numberObj) {
     const { extensionNumber, phoneNumber } = numberObj;
-    return (phoneNumber || extensionNumber);
+    return (phoneNumber || extensionNumber || numberObj);
   }
 
   switch (direction) {
@@ -50,7 +50,6 @@ export const pickFallBackInfo = (call = {}, contactName, currentLocale) => {
     default:
       break;
   }
-
   return {
     fallBackName,
     fallBackNumber
