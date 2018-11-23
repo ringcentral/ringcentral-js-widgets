@@ -308,33 +308,38 @@ var Ringout = (_dec = (0, _di.Module)({
     key: '_fetchRingoutStatus',
     value: function () {
       var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(ringoutId) {
-        var resp, exception;
+        var callStatus, resp, exception;
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.prev = 0;
-                _context3.next = 3;
-                return this._client.account().extension().ringOut(ringoutId).get();
+                callStatus = void 0;
+                _context3.next = 4;
+                return this._client.account().extension().ringOut(ringoutId).get().catch(function (error) {
+                  if (error && error.apiResponse && error.apiResponse._response && error.apiResponse._response.status === 404) {
+                    callStatus = 'Success';
+                  }
+                });
 
-              case 3:
+              case 4:
                 resp = _context3.sent;
-                return _context3.abrupt('return', resp.status.callerStatus);
+                return _context3.abrupt('return', callStatus || resp.status.callerStatus);
 
-              case 7:
-                _context3.prev = 7;
+              case 8:
+                _context3.prev = 8;
                 _context3.t0 = _context3['catch'](0);
                 exception = new Error(_ringoutErrors2.default.pollingFailed);
 
                 exception.error = _context3.t0;
                 throw exception;
 
-              case 12:
+              case 13:
               case 'end':
                 return _context3.stop();
             }
           }
-        }, _callee3, this, [[0, 7]]);
+        }, _callee3, this, [[0, 8]]);
       }));
 
       function _fetchRingoutStatus(_x4) {
