@@ -37,8 +37,8 @@ import { createProcess } from '../../../steps';
 import Entry from '../../../steps/entry';
 import { LoginCTI } from '../../../steps/commons/login';
 import Relogin from '../../../steps/commons/relogin';
-import NavigateTo from '../../../steps/commons/navigateTo';
-import NavigateToSettings from '../../../steps/commons/navigateToSettings';
+import NavigateTo from '../../../steps/commons/navigateTo/index';
+import NavigateToSettings from '../../../steps/commons/navigateTo/navigateToSettings';
 import AuthorizeOffice from '../../../steps/office/authorizeOffice';
 import UnauthorizeOffice from '../../../steps/office/unauthorizeOffice';
 
