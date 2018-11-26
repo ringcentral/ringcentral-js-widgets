@@ -19,7 +19,7 @@ const conf_meeting_reg = /^(http|https):\/\/rcconf.net\/\w+$/;
 
 /* global $ */
 export default class addMeeting{
-  static async openDetail(context) {    
+  static async openDetail(context) {
     console.log('Opening o365 specific page.');
     const page = context.page;
     await $(page).goto(context.options.option.o365URL, { // This page could be slower than you think
@@ -33,7 +33,7 @@ export default class addMeeting{
 
     console.log('create video meeting');
     const page = context.page;
-    await $(page).click("@selectedItem");  
+    await $(page).click("@selectedItem");
     //select video meeting
     await $(page).click("[value=meeting]");
     //savebtn
@@ -48,7 +48,7 @@ export default class addMeeting{
   static async createConfMeeting(context){
     console.log('create conference meeting');
     const page = context.page;
-    await $(page).click("@selectedItem");  
+    await $(page).click("@selectedItem");
     //select video meeting
     await $(page).click("[value=conference]");
     //savebtn
@@ -70,7 +70,7 @@ export default class addMeeting{
     });
     const brand = context.options.tag.brands;
     const link_com = video_zoom_reg[brand].test(text);
-    const link_spe = video_meeting_reg[brand].test(text);  
+    const link_spe = video_meeting_reg[brand].test(text);
     return link_com&&link_spe;
   }
 
@@ -84,7 +84,7 @@ export default class addMeeting{
     });
     const brand = context.options.tag.brands;
     const link_com = conf_zoom_reg[brand].test(text);
-    const link_spe = conf_meeting_reg[brand].test(text);  
+    const link_spe = conf_meeting_reg[brand].test(text);
     return link_com&&link_spe;
   }
 
@@ -127,17 +127,17 @@ export default class addMeeting{
   }
   static async getSeleItems(context){
     console.log("=======get selector items=========");
-    const page = context.page;    
-    await $(page).click("@selectedItem");     
+    const page = context.page;
+    await $(page).click("@selectedItem");
     //get select iem
     const results = await page.evaluate(()=>{
       let seleItems = Array.prototype.slice.call(document.querySelectorAll("span[class*='src-lib-MeetingHelper-MeetingSelector-_styles_menuItem']"));
       return seleItems.map( seleItems => { return seleItems.innerHTML });
     });
-    
+
     console.info('=======selector items ======',results);
     //it's a good idea to collapse drop down for don't affect another steps
-    await $(page).click("@selectedItem"); 
+    await $(page).click("@selectedItem");
     return results;
   }
 

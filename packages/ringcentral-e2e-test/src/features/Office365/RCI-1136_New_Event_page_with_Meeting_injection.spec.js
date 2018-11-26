@@ -30,7 +30,7 @@ Date Updated	Tue, 06 Nov 2018 14:47:44
 
  import { createProcess } from 'marten';
  import { LoginCTI } from '../../steps/commons/login';
- import NavigateToSettings from '../../steps/commons/navigateTo/navigateToSettings';
+ import NavigateToSettings from '../../steps/commons/NavigateTo/navigateToSettings';
  import AuthorizeOffice from '../../steps/office/authorizeOffice';
  import Entry from '../../steps/entry';
  import addMeeting from '../../steps/office/addMeeting';

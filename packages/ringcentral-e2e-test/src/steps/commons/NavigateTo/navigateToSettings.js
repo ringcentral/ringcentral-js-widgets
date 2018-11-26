@@ -1,4 +1,4 @@
-import NavigateTo from '../navigateTo';
+import NavigateTo from '../NavigateTo';
 
 const AUTHORIZED_STATUS = 'authorized';
 const UNAUTHORIZED_STATUS = 'unauthorized';
