@@ -52,7 +52,8 @@ export default class MeetingScheduleButton extends PureComponent {
         <button
           onClick={onClick}
           disabled={disabled}
-          className={classnames(styles.button, disabled ? styles.disabled : null)}>
+          className={classnames(styles.button, disabled ? styles.disabled : null)}
+          dataSign="meetingScheduleButton">
           { this.getI18nButtonString() }
         </button>
       </div>
