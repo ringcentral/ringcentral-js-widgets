@@ -27,9 +27,16 @@ export default class Account {
     }
     console.log('Login Account:', context.options.option.playload.loginAccount);
   }
+  static getAccount2(context) {
+   context.options.option.playload.loginAccount = {
+     username: '+18552085154',
+     password: 'Test!123'
+   }
+  }
   static get steps() {
     return [
       this.getAccount,
+     // this.getAccount2
     ];
   }
 }

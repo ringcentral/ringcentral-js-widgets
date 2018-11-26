@@ -23,7 +23,7 @@ export default class AuthorizeOffice {
 
     // email
     await $(officeAuthPage).waitFor('input[type=email]');
-    await $(officeAuthPage).type('input[type= email]', params.officeAccout);
+    await $(officeAuthPage).type('input[type= email]', params.officeAccount);
     await $(officeAuthPage).click('[value=Next]');
     await $(officeAuthPage).waitFor(1000);
     // password
