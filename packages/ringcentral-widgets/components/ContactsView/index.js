@@ -181,6 +181,7 @@ export default class ContactsView extends Component {
       <div className={styles.root}>
         <div className={styles.actionBar}>
           <SearchInput
+            dataSign="contactsSearchInput"
             className={styles.searchInput}
             value={this.state.searchString || ''}
             onChange={this.onSearchInputChange}

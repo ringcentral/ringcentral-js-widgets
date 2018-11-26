@@ -8,14 +8,14 @@ export const createProcess = generate({
     context,
     options,
   }) {
-    console.log(`[${getNowTime()}]`, step.__steps__.name, step.name);
+    console.log(`[${getNowTime()}]`, step.name);
   },
   async after({
     step,
     context,
     options,
   }) {
-    console.log(`[${getNowTime()}]`, step.__steps__.name, step.name);
+    console.log(`[${getNowTime()}]`, step.name);
   }
 });
 

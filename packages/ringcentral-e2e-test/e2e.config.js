@@ -110,6 +110,17 @@ module.exports = {
       office: {
         type: 'extension',
         source: './src/targets/office',
+        driver: {
+          viewport: {
+            height: 518,
+            width: 300,
+          },
+          setting: {
+            args: [
+              '--disable-dev-shm-usage',
+            ]
+          }
+        },
         params: {
           brands: {
             rc: {
