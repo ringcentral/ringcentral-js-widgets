@@ -28,10 +28,13 @@ const onSelect = ({ key }) => {
   console.log(`selected: ${key}`);
 };
 storiesOf('Elements/CheckBox', module)
-  .add('basic', () => (<CheckBox
-    data={data}
-    selected={selected}
-    onSelect={onSelect}
-    valueField="key"
-    textField="value" />)
-  );
+  .add('basic', () => {
+    return (
+      <CheckBox
+        data={data}
+        selected={selected}
+        onSelect={onSelect}
+        valueField="key"
+        textField="value" />
+    );
+  });
