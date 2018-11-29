@@ -3,5 +3,5 @@ import registerRequireContextHook from 'babel-plugin-require-context-hook/regist
 registerRequireContextHook();
 
 /* global jest */
-Date.now = jest.fn(() => 1542620329248);
+// Date.now = jest.fn(() => 1542620329248);
 jest.mock('uuid', () => () => 'test');

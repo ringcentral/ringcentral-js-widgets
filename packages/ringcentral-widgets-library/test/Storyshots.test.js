@@ -2,12 +2,14 @@ import path from 'path';
 import addons from '@storybook/addons';
 import Channel from '@storybook/channels';
 
-import initStoryshots, { snapshotWithOptions } from '@storybook/addon-storyshots';
+import initStoryshots from '@storybook/addon-storyshots';
+
+Date.now = jest.fn(() => 1542620329248);
 
 function createChannel() {
   const transport = {
-    setHandler() {},
-    send() {},
+    setHandler() { },
+    send() { },
   };
 
   return new Channel({ transport });
