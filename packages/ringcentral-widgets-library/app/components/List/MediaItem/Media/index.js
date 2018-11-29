@@ -9,12 +9,14 @@ function Media({
   onLog,
   info,
   type,
+  isLogged,
 }) {
+  const logType = isLogged ? 'Logged' : 'Unlogged';
   return (
     <div className={styles.mediaItem}>
       <Icon type={type} className={styles.media} />
       <FormatInfo {...info} className={styles.infoRect} />
-      <Icon type="Unlogged" onClick={onLog} className={styles.icon} />
+      <Icon type={logType} onClick={onLog} className={styles.icon} />
     </div>
   );
 }
@@ -23,10 +25,11 @@ Media.propTypes = {
   onLog: PropTypes.func,
   info: PropTypes.object,
   type: PropTypes.string.isRequired,
+  isLogged: PropTypes.bool.isRequired,
 };
 
 Media.defaultProps = {
-  onLog() {},
+  onLog() { },
   info: {},
 };
 

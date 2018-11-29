@@ -28,6 +28,20 @@ describe('MediaItem.Call', () => {
   });
 });
 
+describe('MediaItem.Media', () => {
+  it('functions bind on icons should be executed', () => {
+    const onLogFn = jest.fn();
+    const props = {
+      onLog: onLogFn,
+      isLogged: true
+    };
+    const media = mount(<MediaItem.Media {...props} />);
+    const logIcon = media.find('Icon').at(1);
+    logIcon.simulate('click');
+    expect(onLogFn).toBeCalledTimes(1);
+  });
+});
+
 describe('FormatInfo', () => {
   it('format time', () => {
     const props = {

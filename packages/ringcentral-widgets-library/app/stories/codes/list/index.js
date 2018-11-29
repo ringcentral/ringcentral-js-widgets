@@ -62,7 +62,9 @@ storiesOf('Components/List', module)
         describe: 'Hello, my name is Kyle and what\'s your name ?',
         timestamp: 1542879420008
       },
-      type: select('types', options, defaultValue)
+      type: select('types', options, defaultValue),
+      isLogged: boolean('isLogged', false),
+      onLog: action('on log clicked')
     };
     return (
       <MediaItem>
