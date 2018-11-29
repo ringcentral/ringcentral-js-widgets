@@ -9,14 +9,16 @@ function Call({
   onLog,
   onHangUp,
   onTransfer,
+  isLogged,
   info,
 }) {
   function OperationBar() {
+    const logType = isLogged ? 'Logged' : 'Unlogged';
     return (
       <div className={styles.operationBar}>
         <Icon.End onClick={onHangUp} className={styles.icon} />
         <Icon.Transfer onClick={onTransfer} className={styles.icon} />
-        <Icon type="Unlogged" onClick={onLog} className={styles.icon} />
+        <Icon type={logType} onClick={onLog} className={styles.icon} />
       </div>
     );
   }
@@ -33,13 +35,14 @@ Call.propTypes = {
   onLog: PropTypes.func,
   onHangUp: PropTypes.func,
   onTransfer: PropTypes.func,
+  isLogged: PropTypes.bool.isRequired,
   info: PropTypes.object,
 };
 
 Call.defaultProps = {
-  onLog() {},
-  onHangUp() {},
-  onTransfer() {},
+  onLog() { },
+  onHangUp() { },
+  onTransfer() { },
   info: {}
 };
 

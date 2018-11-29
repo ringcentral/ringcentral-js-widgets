@@ -2,8 +2,6 @@ import React from 'react';
 import { mount } from 'enzyme';
 
 import CallItem from '../CallItem';
-import MediaItem from '../MediaItem';
-import NormalItem from '../NormalItem';
 
 import Icon from '../../../elements/Icon';
 

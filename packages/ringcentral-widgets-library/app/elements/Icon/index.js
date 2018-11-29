@@ -17,7 +17,7 @@ import AnswerIcon from './AswerIcon';
 import TransferIcon from './TransferIcon';
 import MergeIcon from './MergeIcon';
 
-const iconTypes = {
+const IconTypes = {
   FaxOutBound,
   VoiceMail,
   Message,
@@ -32,9 +32,10 @@ function Icon({
   iconWidth,
   iconHeight,
   iconX,
-  iconY
+  iconY,
+  onClick,
 }) {
-  const ChoosenIcon = iconTypes[type];
+  const ChoosenIcon = IconTypes[type];
   if (!ChoosenIcon) {
     return null;
   }
@@ -45,6 +46,7 @@ function Icon({
       height={iconHeight}
       x={iconX}
       y={iconY}
+      onClick={onClick}
     />
   );
 }

@@ -36,7 +36,11 @@ storiesOf('Components/List', module)
         name: text('name', 'kyle'),
         describe: text('describe', 'Hello, my name is Kyle and what\'s your name ?'),
         timestamp: number('timestamp', Date.now())
-      }
+      },
+      onLog: action('on log clicked'),
+      isLogged: boolean('isLogged', false),
+      onHangUp: action('on hangup clicked'),
+      onTransfer: action('on transfer clicked')
     };
     return (
       <MediaItem {...props}>

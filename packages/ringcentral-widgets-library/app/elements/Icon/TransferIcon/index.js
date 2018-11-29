@@ -33,9 +33,9 @@ TransferIcon.propTypes = {
 };
 
 TransferIcon.defaultProps = {
-  onClick() {},
+  onClick() { },
   showBorder: true,
-  disabled: true,
+  disabled: false,
   className: ''
 };
 
