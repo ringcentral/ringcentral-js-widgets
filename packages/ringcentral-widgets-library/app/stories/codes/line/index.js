@@ -11,7 +11,7 @@ import IconLine from '../../../elements/IconLine';
 import LinkLine from '../../../elements/LinkLine';
 import dynamicsFont from '../../../assets/DynamicsFont/DynamicsFont.scss';
 import Switch from '../../../elements/Switch';
-
+import { SwitchWrapper } from '../helper';
 
 storiesOf('Elements/Line', module)
   .add('basic', () => {
@@ -24,10 +24,14 @@ storiesOf('Elements/Line', module)
   })
   .add('IconLine', () => {
     const iconLineProps = {
-      icon: (<Switch />),
+      icon: (<SwitchWrapper><Switch /></SwitchWrapper>),
       noBorder: boolean('NoBorder', false),
     };
-    return <IconLine {...iconLineProps}><span>Iconline</span></IconLine>;
+    return (
+      <IconLine {...iconLineProps}>
+        <span>Iconline</span>
+      </IconLine>
+    );
   })
   .add('LinkLine', () => {
     const linkLineProps = {
