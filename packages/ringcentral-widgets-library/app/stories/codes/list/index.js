@@ -36,7 +36,11 @@ storiesOf('Components/List', module)
         name: text('name', 'kyle'),
         describe: text('describe', 'Hello, my name is Kyle and what\'s your name ?'),
         timestamp: number('timestamp', Date.now())
-      }
+      },
+      onLog: action('on log clicked'),
+      isLogged: boolean('isLogged', false),
+      onHangUp: action('on hangup clicked'),
+      onTransfer: action('on transfer clicked')
     };
     return (
       <MediaItem {...props}>
@@ -58,7 +62,9 @@ storiesOf('Components/List', module)
         describe: 'Hello, my name is Kyle and what\'s your name ?',
         timestamp: 1542879420008
       },
-      type: select('types', options, defaultValue)
+      type: select('types', options, defaultValue),
+      isLogged: boolean('isLogged', false),
+      onLog: action('on log clicked')
     };
     return (
       <MediaItem>
@@ -68,24 +74,28 @@ storiesOf('Components/List', module)
   })
   .add('NormalItem.line', () => {
     const props = {
-      type: 'line',
-      label: 'Hello',
-      lineProps: {
-        onClick: action('line clicked')
-      },
+      label: text('label', 'hello line'),
+      onClick: action('line clicked')
     };
-    return <NormalItem {...props} />;
+    const { Line } = NormalItem;
+    return (
+      <NormalItem>
+        <Line {...props} />
+      </NormalItem>
+    );
   })
   .add('NormalItem.switch', () => {
     const props = {
-      type: 'switch',
-      label: 'Hello',
-      switchProps: {
-        title: text('Title', 'Switch Title'),
-        checked: boolean('Checked', false),
-        onChange: action('onChange'),
-        disable: boolean('Disabled', false),
-      },
+      label: text('label', 'hello switch'),
+      title: text('Title', 'Switch Title'),
+      checked: boolean('Checked', false),
+      onChange: action('onChange'),
+      disable: boolean('Disabled', false),
     };
-    return <NormalItem {...props} />;
+    const { Switch } = NormalItem;
+    return (
+      <NormalItem>
+        <Switch {...props} />
+      </NormalItem>
+    );
   });
