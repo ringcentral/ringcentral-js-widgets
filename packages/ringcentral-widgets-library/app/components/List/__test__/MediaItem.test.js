@@ -33,7 +33,8 @@ describe('MediaItem.Media', () => {
     const onLogFn = jest.fn();
     const props = {
       onLog: onLogFn,
-      isLogged: true
+      isLogged: true,
+      type: 'Message'
     };
     const media = mount(<MediaItem.Media {...props} />);
     const logIcon = media.find('Icon').at(1);

@@ -74,24 +74,28 @@ storiesOf('Components/List', module)
   })
   .add('NormalItem.line', () => {
     const props = {
-      type: 'line',
-      label: 'Hello',
-      lineProps: {
-        onClick: action('line clicked')
-      },
+      label: text('label', 'hello line'),
+      onClick: action('line clicked')
     };
-    return <NormalItem {...props} />;
+    const { Line } = NormalItem;
+    return (
+      <NormalItem>
+        <Line {...props} />
+      </NormalItem>
+    );
   })
   .add('NormalItem.switch', () => {
     const props = {
-      type: 'switch',
-      label: 'Hello',
-      switchProps: {
-        title: text('Title', 'Switch Title'),
-        checked: boolean('Checked', false),
-        onChange: action('onChange'),
-        disable: boolean('Disabled', false),
-      },
+      label: text('label', 'hello switch'),
+      title: text('Title', 'Switch Title'),
+      checked: boolean('Checked', false),
+      onChange: action('onChange'),
+      disable: boolean('Disabled', false),
     };
-    return <NormalItem {...props} />;
+    const { Switch } = NormalItem;
+    return (
+      <NormalItem>
+        <Switch {...props} />
+      </NormalItem>
+    );
   });

@@ -1,47 +1,35 @@
 import React from 'react';
 import PropsTypes from 'prop-types';
 import classnames from 'classnames';
-import LinkLine from '../../../elements/LinkLine';
-import Switch from '../../../elements/Switch';
-import IconLine from '../../../elements/IconLine';
+
+import SwitchItem from './Switch';
+import LineItem from './Line';
 
 import styles from './styles.scss';
 
-const LINE = 'line';
-const SWITCH = 'switch';
-
 function NormalItem({
-  type,
-  label,
-  switchProps,
-  lineProps,
   className,
+  children
 }) {
   const cls = classnames(styles.normalWrapper, className);
-  switch (type) {
-    case LINE: {
-      return <LinkLine className={cls} {...lineProps}>{label}</LinkLine>;
-    }
-    case SWITCH: {
-      return <IconLine className={cls} icon={<Switch {...switchProps} />}>{label}</IconLine>;
-    }
-    default: {
-      return null;
-    }
-  }
+  return (
+    <div className={cls}>
+      {children}
+    </div>
+  );
 }
 
-NormalItem.propsTypes = {
-  type: PropsTypes.string.isRequired,
-  label: PropsTypes.string,
-  switchProps: PropsTypes.object,
-  lineProps: PropsTypes.object,
+NormalItem.propTypes = {
+  className: PropsTypes.string,
+  children: PropsTypes.object
 };
 
 NormalItem.defaultProps = {
-  label: '',
-  switchProps: null,
-  lineProps: null,
+  className: '',
+  children: null
 };
+
+NormalItem.Switch = SwitchItem;
+NormalItem.Line = LineItem;
 
 export default NormalItem;
