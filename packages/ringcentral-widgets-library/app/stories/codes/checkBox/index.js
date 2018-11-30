@@ -7,6 +7,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
 import CheckBox from '../../../elements/CheckBox';
+import { CheckBoxWrapper } from '../helper';
 
 const data = [
   {
@@ -27,14 +28,16 @@ const selected = 'option1';
 const onSelect = ({ key }) => {
   console.log(`selected: ${key}`);
 };
+
 storiesOf('Elements/CheckBox', module)
-  .add('basic', () => {
-    return (
+  .add('basic', () => (
+    <CheckBoxWrapper>
       <CheckBox
         data={data}
         selected={selected}
         onSelect={onSelect}
         valueField="key"
-        textField="value" />
-    );
-  });
+        textField="value"
+      />
+    </CheckBoxWrapper>
+  ));
