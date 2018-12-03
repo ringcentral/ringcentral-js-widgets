@@ -22,5 +22,5 @@ var _baseActionTypes2 = _interopRequireDefault(_baseActionTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)(_baseActionTypes2.default)), ['delete', 'add']), 'accountExtension');
+exports.default = new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)(_baseActionTypes2.default)), ['delete', 'add', 'update']), 'accountExtension');
 //# sourceMappingURL=actionTypes.js.map

@@ -396,6 +396,8 @@ var AccountExtension = (_dec = (0, _di.Module)({
         // if an extension was updated to be not essential anymore
         // eg. not assigned an extension number
         this._deleteExtension(extensionId);
+      } else if (essential && isAvailableExtension) {
+        this._updateExtension(extensionId, extensionData);
       }
     }
   }, {
@@ -413,6 +415,16 @@ var AccountExtension = (_dec = (0, _di.Module)({
       this.store.dispatch({
         type: this.actionTypes.delete,
         id: id,
+        timestamp: Date.now()
+      });
+    }
+  }, {
+    key: '_updateExtension',
+    value: function _updateExtension(id, data) {
+      this.store.dispatch({
+        type: this.actionTypes.update,
+        id: id,
+        data: (0, _accountExtensionHelper.simplifyExtensionData)(data),
         timestamp: Date.now()
       });
     }
