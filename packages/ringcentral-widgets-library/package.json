@@ -21,6 +21,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "babel-runtime": "^6.26.0",
+    "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
@@ -40,7 +41,8 @@
   "scripts": {
     "eslint": "eslint --quiet .",
     "build-storybook": "build-storybook -c ./app/.storybook -o ./build",
-    "start": "start-storybook -p 6006 -c ./app/.storybook",
+    "start": "cross-env STORYBOOK_VERSION=DEFAULT start-storybook -p 6006 -c ./app/.storybook",
+    "start-x": "cross-env STORYBOOK_VERSION=JUPITER start-storybook -p 6006 -c ./app/.storybook",
     "test": "jest",
     "updateSnapshot": "jest --updateSnapshot"
   },

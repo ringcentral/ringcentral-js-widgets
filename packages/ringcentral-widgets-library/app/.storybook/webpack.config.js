@@ -1,5 +1,13 @@
 const path = require("path");
-module.exports = (baseConf, configType) => {
+
+const VERSION = {
+  JUPITER: 'JUPITER',
+  DEFAULT: 'DEFAULT'
+};
+
+module.exports = (baseConf, type) => {
+  const STORYBOOK_VERSION = process.env.STORYBOOK_VERSION;
+
   baseConf.module.rules = [
     {
       test: /\.jsx?$/,
@@ -93,6 +101,21 @@ module.exports = (baseConf, configType) => {
       use: 'raw-loader'
     }
   ];
+
+  // TODO
+  // if (STORYBOOK_VERSION === VERSION.JUPITER) {
+  //   const alias = baseConf.resolve.alias;
+  //   baseConf.resolve.alias = {
+  //     ...alias,
+  //     '@test': './new'
+  //   }
+  // } else {
+  //   const alias = baseConf.resolve.alias;
+  //   baseConf.resolve.alias = {
+  //     ...alias,
+  //     '@test': '.'
+  //   }
+  // }
 
   return baseConf;
 };
