@@ -15,7 +15,7 @@ export function getDataReducer(types) {
           null;
       case types.update: {
         return Array.isArray(state) ?
-          [...(state.filter(item => item.id !== id)), data] :
+          state.filter(item => item.id !== id).concat(data) :
           null;
       }
       case types.resetSuccess:
