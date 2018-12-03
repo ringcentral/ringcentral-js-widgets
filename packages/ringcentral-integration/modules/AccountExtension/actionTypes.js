@@ -5,5 +5,6 @@ export default new Enum([
   ...Object.keys(baseActionTypes),
   'delete',
   'add',
+  'update',
 ], 'accountExtension');
 

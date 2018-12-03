@@ -68,7 +68,7 @@ export default class AccountExtension extends DataFetcher {
     });
 
     this._needCheckStatus = needCheckStatus;
-    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
   }
 
   async _subscriptionHandleFn(message) {
@@ -108,6 +108,8 @@ export default class AccountExtension extends DataFetcher {
       // if an extension was updated to be not essential anymore
       // eg. not assigned an extension number
       this._deleteExtension(extensionId);
+    } else if (essential && isAvailableExtension) {
+      this._updateExtension(extensionId, extensionData);
     }
   }
 
@@ -123,6 +125,15 @@ export default class AccountExtension extends DataFetcher {
     this.store.dispatch({
       type: this.actionTypes.delete,
       id,
+      timestamp: Date.now(),
+    });
+  }
+
+  _updateExtension(id, data) {
+    this.store.dispatch({
+      type: this.actionTypes.update,
+      id,
+      data: simplifyExtensionData(data),
       timestamp: Date.now(),
     });
   }

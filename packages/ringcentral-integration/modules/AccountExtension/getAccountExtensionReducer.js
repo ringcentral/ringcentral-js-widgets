@@ -13,6 +13,11 @@ export function getDataReducer(types) {
         return Array.isArray(state) ?
           state.filter(item => item.id !== id) :
           null;
+      case types.update: {
+        return Array.isArray(state) ?
+          [...(state.filter(item => item.id !== id)), data] :
+          null;
+      }
       case types.resetSuccess:
         return null;
       default:
