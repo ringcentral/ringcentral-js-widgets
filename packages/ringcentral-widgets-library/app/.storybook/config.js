@@ -8,8 +8,8 @@ import centered from '@storybook/addon-centered'
 import { withKnobs } from '@storybook/addon-knobs'
 
 
-function loadCodeStories() {
-  const req = require.context('../stories/codes', true, /index.js$/);
+function loadComponentsStories() {
+  const req = require.context('../stories/components', true, /index.js$/);
   addDecorator((story, context) => withInfo()(story)(context));
   addDecorator(centered);
   addDecorator(withKnobs);
@@ -23,7 +23,7 @@ function loadDSstories() {
 
 function loadStories() {
   loadDSstories();
-  loadCodeStories();
+  loadComponentsStories();
 }
 
 configure(loadStories, module)
