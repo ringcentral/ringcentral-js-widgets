@@ -1,0 +1,15 @@
+.header {
+  width: 300px;
+  height: 44px;
+  background-color: #0684bd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon {
+  flex: 1;
+  g, path {
+    fill: #ffffff;
+  }
+}

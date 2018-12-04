@@ -21,9 +21,16 @@ function loadDSstories() {
   req.keys().forEach((filename) => req(filename));
 }
 
+function loadPagesStories() {
+  const req = require.context('../stories/pages', true, /.index.js$/);
+  addDecorator(centered);
+  req.keys().forEach(filename => req(filename));
+}
+
 function loadStories() {
   loadDSstories();
   loadComponentsStories();
+  loadPagesStories();
 }
 
 configure(loadStories, module)

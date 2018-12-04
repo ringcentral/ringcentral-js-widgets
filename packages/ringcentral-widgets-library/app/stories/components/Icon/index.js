@@ -15,6 +15,9 @@ storiesOf('Elements/Icon', module)
       'Unlogged',
       'Logged',
       'ActivityCall',
+      'Dialpad',
+      'Time',
+      'SettingNav',
     ];
     const defaultValue = 'VoiceMail';
     const value = select(label, options, defaultValue);
