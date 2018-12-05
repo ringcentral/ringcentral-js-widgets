@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Line from '../Line';
 import IconField from '../IconField';
+import styles from './styles.scss';
 
 export default function IconLine(props) {
   return (
@@ -10,6 +11,7 @@ export default function IconLine(props) {
       onClick={props.onClick}
       noBorder={props.noBorder}>
       <IconField
+        className={styles.iconlineWrapper}
         icon={props.icon}>
         {props.children}
       </IconField>

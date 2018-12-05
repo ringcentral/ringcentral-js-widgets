@@ -13,12 +13,15 @@ import dynamicsFont from '../../../assets/DynamicsFont/DynamicsFont.scss';
 import Switch from '../../../elements/Switch';
 import { SwitchWrapper } from '../helper';
 
+import styles from './styles.scss';
+
 storiesOf('Elements/Line', module)
   .add('basic', () => {
     const lineProps = {
       noBorder: boolean('NoBorder', false),
       onClick: action('onClick'),
       horizontal: boolean('Horizontal', false),
+      className: styles.wrapper
     };
     return <Line {...lineProps} />;
   })
@@ -26,6 +29,7 @@ storiesOf('Elements/Line', module)
     const iconLineProps = {
       icon: (<SwitchWrapper><Switch /></SwitchWrapper>),
       noBorder: boolean('NoBorder', false),
+      className: styles.wrapper
     };
     return (
       <IconLine {...iconLineProps}>
@@ -40,6 +44,7 @@ storiesOf('Elements/Line', module)
       hrefClassName: null,
       iconClassName: null,
       noBorder: boolean('NoBorder', false),
+      className: styles.wrapper
     };
     return <LinkLine {...linkLineProps}><span>Linkline</span></LinkLine>;
   });
