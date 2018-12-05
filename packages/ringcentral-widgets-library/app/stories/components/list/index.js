@@ -88,7 +88,7 @@ storiesOf('Components/List', module)
     const props = {
       label: text('label', 'hello switch'),
       title: text('Title', 'Switch Title'),
-      checked: boolean('Checked', false),
+      checked: boolean('Checked', true),
       onChange: action('onChange'),
       disable: boolean('Disabled', false),
     };
