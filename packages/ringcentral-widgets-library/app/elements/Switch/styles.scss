@@ -32,6 +32,7 @@ $slider-size: #{$switch-height - 2 * $switch-padding};
   -webkit-transition: .4s;
   transition: .4s;
   border-radius: $switch-height;
+  background-color: $smoke;
 }
 
 .slider:before {

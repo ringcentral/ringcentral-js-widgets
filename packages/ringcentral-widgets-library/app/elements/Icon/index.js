@@ -10,6 +10,9 @@ import Message from '../../assets/images/Message.svg';
 import ActivityCall from '../../assets/images/Calls.svg';
 import Unlogged from '../../assets/images/UnloggedIcon.svg';
 import Logged from '../../assets/images/MessagesLog.svg';
+import Dialpad from '../../assets/images/Dialpad.svg';
+import Time from '../../assets/images/Time.svg';
+import SettingNav from '../../assets/images/SettingsNavigation.svg';
 
 // circle icon
 import EndIcon from './EndIcon';
@@ -24,6 +27,9 @@ const IconTypes = {
   Unlogged,
   Logged,
   ActivityCall,
+  Dialpad,
+  Time,
+  SettingNav,
 };
 
 function Icon({
@@ -57,21 +63,23 @@ Icon.Transfer = TransferIcon;
 Icon.Merge = MergeIcon;
 
 Icon.propTypes = {
-  iconWidth: PropTypes.number,
-  iconHeight: PropTypes.number,
-  iconX: PropTypes.number,
-  iconY: PropTypes.number,
+  iconWidth: PropTypes.string,
+  iconHeight: PropTypes.string,
+  iconX: PropTypes.string,
+  iconY: PropTypes.string,
   className: PropTypes.string,
   type: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 Icon.defaultProps = {
-  iconWidth: 80,
-  iconHeight: 80,
-  iconX: 40,
-  iconY: 40,
+  iconWidth: '80',
+  iconHeight: '80',
+  iconX: '40',
+  iconY: '40',
   className: '',
-  type: 'default'
+  type: 'default',
+  onClick() { },
 };
 
 export default Icon;

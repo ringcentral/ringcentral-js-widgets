@@ -4,10 +4,8 @@ const VERSION = {
   JUPITER: 'JUPITER',
   DEFAULT: 'DEFAULT'
 };
-
 module.exports = (baseConf, type) => {
   const STORYBOOK_VERSION = process.env.STORYBOOK_VERSION;
-
   baseConf.module.rules = [
     {
       test: /\.jsx?$/,
@@ -41,46 +39,11 @@ module.exports = (baseConf, type) => {
       }
     },
     {
-      test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-      use: {
-        loader: 'url-loader',
-        options: {
-          limit: 10000,
-          mimetype: 'application/font-woff',
-          name: '[name].[hash].[ext]'
-        }
-      }
-    },
-    {
-      test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-      use: {
-        loader: 'url-loader',
-        options: {
-          limit: 10000,
-          mimetype: 'application/font-woff',
-          name: '[name].[hash].[ext]'
-        }
-      }
-    },
-    {
-      test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-      use: {
-        loader: 'url-loader',
-        options: {
-          limit: 10000,
-          mimetype: 'application/octet-stream',
-          name: '[name].[hash].[ext]'
-        }
-      }
-    },
-    {
-      test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-      use: {
-        loader: 'file-loader',
-        options: {
-          name: '[name].[hash].[ext]'
-        }
-      }
+      test: /\.(ttf|svg|eot|woff(2)?)(\?[a-z0-9=&.]+)?$/,
+      use: 'base64-inline-loader?name=[name].[ext]',
+      include: [
+        path.resolve(__dirname, '../assets/DynamicsFont')
+      ],
     },
     {
       test: /\.svg$/,

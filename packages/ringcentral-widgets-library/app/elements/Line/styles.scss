@@ -4,8 +4,13 @@
 .root {
   position: relative;
   width: 100%;
-  padding: 15px;
-  min-height: 30px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+
+  // min-height: 30px;
   box-sizing: border-box;
   background-color: $line-background-color;
   border-style: solid;
