@@ -1,15 +1,72 @@
 @import '../lib/commonStyles/colors';
 
-.root {
-  color: $primary-color;
-  cursor: pointer;
-}
-.root:hover {
-  color: $primary-color-highlight;
+$padding: 16px;
+$outline-gray: #8c8c8c;
+
+// .button {
+//   padding: $padding;
+//   color: $primary-color;
+//   cursor: pointer;
+// }
+// .button:hover {
+//   color: $primary-color-highlight;
+// }
+
+// .button.disabled,
+// .button.dislabed:hover {
+//   color: #999;
+//   cursor: not-allowed;
+// }
+
+// layout & interaction 
+// reset ?
+.button {
+  // cursor: pointer;
+  // padding: $padding;
+  // height: ?;
+  // min-width: ?;
+  // // overflow
+  // border-radius: ?;
+  // border-color: ?;
+  // font-size: ?;
+  // color: ?;
+  
+  // &hover {
+
+  // }
+  // .disabled {
+
+  // }
 }
 
-.root.disabled,
-.root.dislabed:hover {
-  color: #999;
-  cursor: not-allowed;
+// types
+.primay {
+
+}
+
+.warning {
+  background: #8c8c8c;
+}
+
+.outline {
+  border: 1px solid $outline-gray;
+}
+
+.danger {
+
+}
+
+// shaps
+.round {
+
+}
+
+.circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 16px;
+}
+
+.rectangle {
+
 }
