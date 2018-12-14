@@ -1,0 +1,139 @@
+@mixin button-size($height, $padding, $font-size, $border-radius) {
+  padding: $padding;
+  font-size: $font-size;
+  border-radius: $border-radius;
+  height: $height;
+}
+
+@mixin button-color($color, $background, $border) {
+  color: $color;
+  background-color: $background;
+  border-color: $border;
+}
+
+@mixin button-disabled($color, $background, $border) {
+  &.disabled,
+  &[disabled] {
+    &,
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      @include button-color($color, $background, $border);
+      text-shadow: none;
+      box-shadow: none;
+    }
+  }
+}
+
+@mixin button-variant-primary($color, $background) {
+  @include button-color($color, $background, $background);
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+
+  &:hover,
+  &:focus {
+    @include button-color($color, #0570a1, $background);
+  }
+
+  // &:active,
+  // &.active {
+  //   @include button-color();
+  // }
+
+  @include button-disabled(#fff, rgba(0, 0, 0, 0.12), transparent);
+}
+
+@mixin button-variant-other($color, $background, $border) {
+  @include button-color($color, $background, $border);
+  // &:hover,
+  // &:focus {
+  //   @include button-color($primary-5, $background, $primary-5);
+  // }
+
+  // &:active,
+  // &.active {
+  //   @include button-color($primary-7, $background, $primary-7);
+  // }
+  @include button-disabled(rgba(0, 0, 0, 0.26),#fff,rgba(0, 0, 0, 0.08));
+}
+@mixin button-variant-warning($color, $background, $border) {
+  @include button-color($color, $background, $border);
+  &:hover,
+  &:focus {
+    @include button-color($color, $background, $border);
+  }
+
+}
+// base button style
+@mixin btn() {
+  display: inline-block;
+  font-weight: $btn-font-weight;
+  text-align: center;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none;
+  border: $border-width-base $border-style-base transparent;
+  white-space: nowrap;
+  @include button-size($btn-height-base, $btn-padding-base, $font-size-base, $btn-border-radius-base);
+  user-select: none;
+  transition: all 0.3s $ease-in-out;
+  position: relative;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
+  min-width: 96px;
+  &,
+  &:active,
+  &:focus {
+    outline: 0;
+  }
+
+  &:not([disabled]):hover {
+    text-decoration: none;
+  }
+
+  &:not([disabled]):active {
+    outline: 0;
+    box-shadow: none;
+  }
+
+  &.disabled,
+  &[disabled] {
+    cursor: not-allowed;
+    > * {
+      pointer-events: none;
+    }
+  }
+
+  &-lg {
+    @include button-size($btn-height-lg, $btn-padding-lg, $btn-font-size-lg, $btn-border-radius-base);
+  }
+
+  &-sm {
+    @include button-size($btn-height-sm, $btn-padding-sm, $btn-font-size-sm, $btn-border-radius-sm);
+  }
+}
+@mixin btn-default {
+  @include button-variant-other($btn-default-color, $btn-default-bg, $btn-default-border);
+  &:hover,
+  &:focus,
+  &:active,
+  &.active {
+    background: $btn-default-bg;
+    text-decoration: none;
+    }
+}
+@mixin btn-primary {
+  @include button-variant-primary($btn-primary-color, $btn-primary-bg);
+}
+
+@mixin btn-danger {
+  @include button-variant-other($error-color, #fff, #8c8c8c);
+}
+
+@mixin btn-warning {
+  @include button-variant-warning(#fff, $warning-color, transparent);
+}
+
+@mixin btn-outline {
+  @include button-variant-other($primary-color, #fff, $primary-color);
+}
