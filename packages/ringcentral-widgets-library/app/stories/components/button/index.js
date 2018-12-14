@@ -10,11 +10,10 @@ import { linkTo } from '@storybook/addon-links';
 
 import Button from '../../../elements/Button';
 
-import Ripple from './ripple';
-import styles from './styles.scss';
 
 storiesOf('Elements/Button', module)
   .add('with text', () => {
+    const Ripple = Button.Ripple;
     return (
       <Ripple>
         <Button>RC Button</Button>
@@ -40,15 +39,16 @@ storiesOf('Elements/Button', module)
       'circle'
     ];
     const shape = select(label2, shapOptions, 'default');
-
+    const Ripple = Button.Ripple;
     return (
-      <Button
-        type={type}
-        shape={shape}
-        tooltip={tooltip}
-        className={styles.ripple}
-      >
-        {children}
-      </Button>
+      <Ripple>
+        <Button
+          type={type}
+          shape={shape}
+          tooltip={tooltip}
+        >
+          {children}
+        </Button>
+      </Ripple>
     );
   });

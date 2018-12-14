@@ -17,9 +17,7 @@ export default class Ripple extends React.Component {
 
     circle.style.left = `${e.clientX - left - circleSize / 2}px`;
     circle.style.top = `${e.clientY - top - circleSize / 2}px`;
-    console.log('left:', `${e.clientX - left - circleSize}px`);
-    console.log('top:', circle.style.top);
-    circle.classList.add(styles.ripple2);
+    circle.classList.add(styles.ripple);
   }
   componentDidMount() {
     const node = this.ripple.childNodes[0];
