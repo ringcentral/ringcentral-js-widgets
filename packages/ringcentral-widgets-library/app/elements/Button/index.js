@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import styles from './style/index.scss';
 
 import Icon from '../Icon';
+import Ripple from './Ripple';
 
 import {
   BUTTON_SHAP,
@@ -89,3 +90,5 @@ Button.defaultProps = {
   // iconProps: {}
   // size: ''
 };
+
+Button.Ripple = Ripple;

@@ -10,8 +10,16 @@ import { linkTo } from '@storybook/addon-links';
 
 import Button from '../../../elements/Button';
 
+
 storiesOf('Elements/Button', module)
-  .add('with text', () => <Button onClick={action('clicked')}>RC Button</Button>)
+  .add('with text', () => {
+    const Ripple = Button.Ripple;
+    return (
+      <Ripple>
+        <Button>RC Button</Button>
+      </Ripple>
+    );
+  })
   .add('with dynamic', () => {
     const children = text('children', 'Button');
     const tooltip = text('tooltip', 'hello');
@@ -31,18 +39,16 @@ storiesOf('Elements/Button', module)
       'circle'
     ];
     const shape = select(label2, shapOptions, 'default');
-    const label3 = 'disabled';
-    const disabled = boolean(label3, false);
-
+    const Ripple = Button.Ripple;
     return (
-      <Button
-        type={type}
-        shape={shape}
-        tooltip={tooltip}
-        onClick={() => {}}
-        disabled={disabled}
-      >
-        {children}
-      </Button>
+      <Ripple>
+        <Button
+          type={type}
+          shape={shape}
+          tooltip={tooltip}
+        >
+          {children}
+        </Button>
+      </Ripple>
     );
   });
