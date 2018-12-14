@@ -1,5 +1,5 @@
 export const BUTTON_TYPE = {
-  primay: 'primay',
+  primary: 'primary',
   warning: 'warning',
   outline: 'outline',
   danger: 'danger',
