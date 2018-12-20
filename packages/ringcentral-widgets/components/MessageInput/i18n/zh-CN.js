@@ -1,7 +1,7 @@
 export default {
   from: "自",
   to: "至",
-  enterNameOrNumber: "输入号码或姓名...",
+  enterNameOrNumber: "输入号码或名称...",
   typeMessage: "输入消息...",
   send: "发送"
 };

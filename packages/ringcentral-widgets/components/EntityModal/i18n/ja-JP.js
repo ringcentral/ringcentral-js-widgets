@@ -2,7 +2,7 @@ export default {
   account: "アカウント",
   contact: "連絡先",
   lead: "リード",
-  opportunity: "Opportunity",
+  opportunity: "営業案件",
   chooseEntity: "エンティティタイプを選択してください",
   create: "作成"
 };

@@ -3,7 +3,7 @@ export default {
   contact: "Kontakt",
   lead: "Lead",
   opportunity: "Opportunity",
-  chooseEntity: "Wählen Sie einen Entitätstyp aus",
+  chooseEntity: "Entitätstyp auswählen",
   create: "Erstellen"
 };
 

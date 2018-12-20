@@ -455,6 +455,9 @@ describe('ComposeText Unit Test', () => {
         send: ({ fromNumber, toNumbers, text }) =>
           ({ id: '123456', fromNumber, toNumbers, text })
       };
+      composeText._conversations = {
+        addEntitys: () => null,
+      };
       sinon.stub(composeText, 'messageText', { get: () => 'abc' });
       sinon.stub(composeText, 'typingToNumber', { get: () => '' });
       sinon.stub(composeText, 'senderNumber', { get: () => '+1234567890' });
@@ -467,6 +470,9 @@ describe('ComposeText Unit Test', () => {
       composeText._messageSender = {
         send: ({ fromNumber, toNumbers, text }) =>
           ({ id: '1234567', fromNumber, toNumbers, text })
+      };
+      composeText._conversations = {
+        addEntitys: () => null,
       };
       sinon.stub(composeText, '_validatePhoneNumber').callsFake(
         () => true
@@ -483,6 +489,9 @@ describe('ComposeText Unit Test', () => {
       composeText._messageSender = {
         send: ({ fromNumber, toNumbers, text }) =>
           ({ id: '1234567', fromNumber, toNumbers, text })
+      };
+      composeText._conversations = {
+        addEntitys: () => null,
       };
       sinon.stub(composeText, '_validatePhoneNumber').callsFake(
         () => false

@@ -11,7 +11,7 @@ export default {
   [messageSenderMessages.recipientsEmpty]: "Ingrese un número válido de destinatario.",
   [messageSenderMessages.textTooLong]: "El mensaje es demasiado largo. El número máximo de caracteres permitidos es 1000",
   [messageSenderMessages.multipartTextTooLong]: "El mensaje es demasiado largo. El número máximo de caracteres permitidos es 5000",
-  [messageSenderMessages.recipientNumberInvalids]: "Please enter a valid phone number.",
+  [messageSenderMessages.recipientNumberInvalids]: "Ingrese un número de teléfono válido.",
   [messageSenderMessages.noAreaCode]: "Defina el {areaCodeLink} para utilizar números de teléfono locales de 7 dígitos.",
   [messageSenderMessages.specialNumber]: "No se admite el envío de mensajes de texto a números de servicios de emergencia o especiales.",
   [messageSenderMessages.connectFailed]: "Error de conexión. Vuelva a intentarlo más tarde.",

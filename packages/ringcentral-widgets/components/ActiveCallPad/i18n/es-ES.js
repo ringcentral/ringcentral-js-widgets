@@ -1,5 +1,5 @@
 export default {
-  unmute: "Reactivar audio",
+  unmute: "Reactivar",
   mute: "Silenciar",
   keypad: "Teclado",
   hold: "Retener",
@@ -7,7 +7,7 @@ export default {
   park: "Aparcar",
   stopRecord: "Detener",
   record: "Grabar",
-  add: "Agregar",
+  add: "Añadir",
   transfer: "Transferir",
   flip: "Traspasar",
   more: "Acc. de llam.",

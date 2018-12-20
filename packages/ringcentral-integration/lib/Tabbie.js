@@ -43,11 +43,10 @@ export default class Tabbie {
 
       this._gcIntervalId = setInterval(this._gc, gcInterval);
 
-      document.addEventListener('visibilitychange', async () => {
-        // avoid setting mainTabId repeatedly which may result in forced rendering
-        const currentMainTabId = localStorage.getItem(this._mainTabKey);
-        if (!document.hidden && currentMainTabId !== this.id) this._setAsMainTab();
-      });
+      document.addEventListener('visibilitychange', this._setAsVisibleTab);
+
+      window.addEventListener('focus', this._setAsVisibleTab);
+
       window.addEventListener('storage', async (e) => {
         if (e.key === this._mainTabKey) {
           // use the newest main tab id from localhost instead of from the event
@@ -117,6 +116,13 @@ export default class Tabbie {
     localStorage.setItem(this._mainTabKey, this.id);
     this.emit('mainTabIdChanged', this.id);
   }
+
+  _setAsVisibleTab = () => {
+    // avoid setting mainTabId repeatedly which may result in forced rendering
+    const currentMainTabId = localStorage.getItem(this._mainTabKey);
+    if (!document.hidden && currentMainTabId !== this.id) this._setAsMainTab();
+  }
+
   async _fightForMainTab() {
     const originalMainTabId = localStorage.getItem(this._mainTabKey);
     // if a tab becomes visible during the delay, it can just assume the main tab role

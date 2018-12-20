@@ -8,6 +8,23 @@ import getAudioSettingsReducer from './getAudioSettingsReducer';
 import getStorageReducer from './getStorageReducer';
 import audioSettingsErrors from './audioSettingsErrors';
 
+function polyfillGetUserMedia() {
+  if (navigator.mediaDevices === undefined) {
+    navigator.mediaDevices = {};
+  }
+  navigator.getUserMedia =
+    navigator.getUserMedia ||
+    navigator.webkitGetUserMedia ||
+    navigator.mozGetUserMedia;
+  if (navigator.mediaDevices.getUserMedia === undefined && navigator.getUserMedia) {
+    navigator.mediaDevices.getUserMedia = constraints =>
+      new Promise((resolve, reject) => {
+        navigator.getUserMedia.call(navigator, constraints, resolve, reject);
+      });
+  }
+}
+polyfillGetUserMedia();
+
 /**
  * @class
  * @description AudioSettings module.
@@ -32,10 +49,10 @@ export default class AudioSettings extends RcModule {
       ...options,
       actionTypes,
     });
-    this._storage = this::ensureExist(storage, 'storage');
-    this._auth = this::ensureExist(auth, 'auth');
-    this._alert = this::ensureExist(alert, 'alert');
-    this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._storage = this:: ensureExist(storage, 'storage');
+    this._auth = this:: ensureExist(auth, 'auth');
+    this._alert = this:: ensureExist(alert, 'alert');
+    this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
     this._storageKey = 'audioSettings';
     this._storage.registerReducer({
       key: this._storageKey,
@@ -67,8 +84,8 @@ export default class AudioSettings extends RcModule {
       ) {
         // Make sure it only prompts once
         if (this.hasAutoPrompted) return;
-        this.getUserMedia();
         this.markAutoPrompted();
+        this.getUserMedia();
       }
     });
   }
@@ -137,34 +154,32 @@ export default class AudioSettings extends RcModule {
     const devices = await navigator.mediaDevices.enumerateDevices();
     this.store.dispatch({
       type: this.actionTypes.setAvailableDevices,
-      devices,
+      devices: devices.map(d => d.toJSON()),
     });
   }
 
-  getUserMedia() {
-    return new Promise((resolve) => {
-      navigator.getUserMedia = navigator.getUserMedia ||
-      navigator.webkitGetUserMedia ||
-      navigator.mozGetUserMedia;
-      if (navigator.getUserMedia) {
-        navigator.getUserMedia({
-          audio: true,
-        }, (stream) => {
-          this._onGetUserMediaSuccess();
-          if (typeof stream.stop === 'function') {
-            stream.stop();
-          } else {
-            stream.getTracks().forEach((track) => {
-              track.stop();
-            });
-          }
-          resolve();
-        }, (error) => {
-          this.onGetUserMediaError(error);
-          resolve();
-        });
+  async getUserMedia() {
+    if (!navigator.mediaDevices.getUserMedia) {
+      return;
+    }
+    try {
+      if (!this._getUserMediaPromise) {
+        this._getUserMediaPromise = navigator.mediaDevices.getUserMedia({ audio: true });
       }
-    });
+      const stream = await this._getUserMediaPromise;
+      this._getUserMediaPromise = null;
+      this._onGetUserMediaSuccess();
+      if (typeof stream.getTracks === 'function') {
+        stream.getTracks().forEach((track) => {
+          track.stop();
+        });
+      } else if (typeof stream.stop === 'function') {
+        stream.stop();
+      }
+    } catch (error) {
+      this._getUserMediaPromise = null;
+      this.onGetUserMediaError(error);
+    }
   }
 
   @proxify
@@ -283,6 +298,10 @@ export default class AudioSettings extends RcModule {
   }
 
   get userMedia() {
+    const isFirefox = navigator.userAgent.indexOf('Firefox') > -1;
+    if (isFirefox) {
+      return true;
+    }
     // this detection method may not work in the future
     // currently there is no good way to detect this
     return !!(

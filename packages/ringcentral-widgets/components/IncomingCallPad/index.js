@@ -18,6 +18,8 @@ import styles from './styles.scss';
 
 import i18n from './i18n';
 
+const TooltipCom = typeof Tooltip === 'function' ? Tooltip : Tooltip.default;
+
 export default class IncomingCallPad extends Component {
   constructor(props) {
     super(props);
@@ -170,7 +172,7 @@ export default class IncomingCallPad extends Component {
           }}
         />
         <div className={styles.buttonRow}>
-          <Tooltip
+          <TooltipCom
             defaultVisible={false}
             visible={this.state.showForward}
             onVisibleChange={this.onShowForwardChange}
@@ -200,8 +202,8 @@ export default class IncomingCallPad extends Component {
               title={i18n.getString('forward', currentLocale)}
               className={styles.callButton}
             />
-          </Tooltip>
-          <Tooltip
+          </TooltipCom>
+          <TooltipCom
             defaultVisible={false}
             visible={this.state.showReplyWithMessage}
             onVisibleChange={this.onShowReplyWithMessageChange}
@@ -226,7 +228,7 @@ export default class IncomingCallPad extends Component {
               title={i18n.getString('reply', currentLocale)}
               className={styles.callButton}
             />
-          </Tooltip>
+          </TooltipCom>
           <ActiveCallButton
             onClick={reject}
             icon={IgnoreIcon}

@@ -1,5 +1,5 @@
 export default {
-  allCalls: "全部呼叫",
+  allCalls: "所有通话",
   Unknown: "未知",
   Multiple: "多选"
 };

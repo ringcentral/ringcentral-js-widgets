@@ -1,5 +1,5 @@
 {
-  "name": "locale-settings",
+  "name": "@ringcentral-integration/locale-settings",
   "version": "0.0.1",
   "description": "Default locale settings.",
   "main": "index.js",

@@ -7,7 +7,7 @@ export default {
   [callingSettingsMessages.phoneNumberChanged]: "La información de su número de teléfono ha cambiado recientemente. Vaya a {link} para comprobar sus opciones de llamadas.",
   link: "Configuración > Llamadas",
   [callingSettingsMessages.webphonePermissionRemoved]: "Se cambiaron sus permisos y no puede realizar llamadas con el explorador. Para obtener más información, póngase en contacto con el administrador de su cuenta.",
-  [callingSettingsMessages.emergencyCallingNotAvailable]: "No compatible con el llamado de números de emergencia o servicios especiales. En caso de emergencia, utilice su teléfono fijo tradicional o inalámbrico para llamar a un número de emergencia."
+  [callingSettingsMessages.emergencyCallingNotAvailable]: "No es posible llamar a números de emergencia o de servicios especiales. En caso de emergencia, utilice su teléfono fijo tradicional o inalámbrico para llamar a un número de emergencia."
 };
 
 // @key: @#@"[callingSettingsMessages.saveSuccess]"@#@ @source: @#@"Settings saved successfully."@#@

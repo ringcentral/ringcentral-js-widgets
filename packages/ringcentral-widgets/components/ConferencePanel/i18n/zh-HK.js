@@ -5,7 +5,7 @@ export default {
   participantsAccess: "參與者存取",
   addinalDialInNumbers: "其他撥入號碼",
   selectNumbers: "選擇號碼",
-  enableJoinBeforeHost: "主辦前啟用參加",
+  enableJoinBeforeHost: "主持人前啟用參加",
   conferenceCommands: "會議指令",
   inviteWithGCalendar: "透過 Google 日曆邀請",
   inviteWithText: "透過文字訊息邀請",

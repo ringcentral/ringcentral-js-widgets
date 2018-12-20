@@ -6,9 +6,10 @@ export default {
   [phoneTypes.extension]: "Ramal",
   [phoneTypes.direct]: "Direto",
   [phoneTypes.mobile]: "Dispositivo móvel",
-  [phoneTypes.home]: "Página inicial",
+  [phoneTypes.home]: "Página principal",
   [phoneTypes.business]: "Negócio",
   [phoneTypes.fax]: "Fax",
+  [phoneTypes.other]: "Outro",
   emailLabel: "Email",
   call: "Chamada",
   text: "Texto",
@@ -25,6 +26,7 @@ export default {
 // @key: @#@"[phoneTypes.home]"@#@ @source: @#@"Home"@#@
 // @key: @#@"[phoneTypes.business]"@#@ @source: @#@"Business"@#@
 // @key: @#@"[phoneTypes.fax]"@#@ @source: @#@"Fax"@#@
+// @key: @#@"[phoneTypes.other]"@#@ @source: @#@"Other"@#@
 // @key: @#@"emailLabel"@#@ @source: @#@"Email"@#@
 // @key: @#@"call"@#@ @source: @#@"Call"@#@
 // @key: @#@"text"@#@ @source: @#@"Text"@#@

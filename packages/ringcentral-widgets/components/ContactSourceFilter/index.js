@@ -102,9 +102,11 @@ export default class ContactSourceFilter extends Component {
     return (
       <div
         className={classnames(styles.contactSourceFilter, className)}
+        data-sign="contactSourceFilterButton"
         onClick={this.togglePanel}
       >
         <div
+          data-sign="filterIconContainer"
           className={styles.filterIconContainer}
           title={this.getString(selectedSourceName, currentLocale)}
         >
@@ -120,6 +122,7 @@ export default class ContactSourceFilter extends Component {
             <div
               className={styles.contactSourceList}
               onClick={e => e.stopPropagation()}
+              data-sign="contactSourceList"
             >
               {
                 contactSourceNames.map(sourceName => (

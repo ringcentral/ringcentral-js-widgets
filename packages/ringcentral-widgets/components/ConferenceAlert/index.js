@@ -18,5 +18,6 @@ ConferenceAlert.propTypes = {
 };
 
 ConferenceAlert.handleMessage = ({ message }) => (
-  message === messages.requireAditionalNumbers
+  message === messages.requireAditionalNumbers ||
+  message === messages.scheduledSuccess
 );

@@ -5,8 +5,8 @@ export default {
   recurringMeeting: "週期會議",
   recurringDescribe: "請記得檢查日曆中對出席者的週期或重複邀請。",
   video: "影像",
-  videoDescribe: "當加入會議時",
-  host: "主辦人",
+  videoDescribe: "加入會議時",
+  host: "主持人",
   participants: "參與者",
   audioOptions: "音訊選項",
   voIPOnly: "僅 VoIP",
@@ -14,7 +14,7 @@ export default {
   meetingOptions: "會議選項",
   requirePassword: "需要會議密碼",
   password: "密碼",
-  enableJoinBeforeHost: "主辦前啟用參加",
+  enableJoinBeforeHost: "主持人前啟用參加",
   telephonyOnly: "僅網路電話"
 };
 

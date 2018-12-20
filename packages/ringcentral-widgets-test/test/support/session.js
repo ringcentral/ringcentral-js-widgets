@@ -6,7 +6,7 @@ import recordStatus from 'ringcentral-integration/modules/Webphone/recordStatus'
 import { CONFERENCE_SESSION_ID } from './callHelper';
 
 let partyId = 95;
-class MediaHandler {
+class SessionDescriptionHandler {
   constructor() {
     this._events = {};
   }
@@ -45,7 +45,7 @@ export default class Session {
     this.id = id;
     this.startTime = new Date();
     this.telephonyStatus = telephonyStatus || telephonyStatuses.onHold;
-    this.mediaHandler = new MediaHandler();
+    this.sessionDescriptionHandler = new SessionDescriptionHandler();
     this.request = {
       to: {
         uri: {
@@ -86,10 +86,8 @@ export default class Session {
     this._events[event] = cb;
   }
 
-  isOnHold() {
-    return {
-      local: this.__rc_callStatus === sessionStatus.onHold
-    };
+  onLocalHold() {
+    return this.__rc_callStatus === sessionStatus.onHold;
   }
 
   trigger(event, ...args) {
@@ -144,7 +142,6 @@ export default class Session {
   }
 
   unhold() {
-    this.trigger('unhold');
     this.__rc_callStatus = sessionStatus.connected;
     return unholdFn(this.id);
   }

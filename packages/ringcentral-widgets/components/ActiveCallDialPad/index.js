@@ -55,7 +55,7 @@ class ActiveCallDialPad extends Component {
         setTimeout(() => {
           this.playAudio(key);
           this.props.onChange(key);
-        }, 100 * index);
+        }, 150 * index);
       });
     };
 

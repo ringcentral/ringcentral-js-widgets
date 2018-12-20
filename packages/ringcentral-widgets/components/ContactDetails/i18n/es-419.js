@@ -9,6 +9,7 @@ export default {
   [phoneTypes.home]: "Casa",
   [phoneTypes.business]: "Trabajo",
   [phoneTypes.fax]: "Fax",
+  [phoneTypes.other]: "Otro",
   emailLabel: "Correo electrónico",
   call: "Llamar",
   text: "Texto",
@@ -25,6 +26,7 @@ export default {
 // @key: @#@"[phoneTypes.home]"@#@ @source: @#@"Home"@#@
 // @key: @#@"[phoneTypes.business]"@#@ @source: @#@"Business"@#@
 // @key: @#@"[phoneTypes.fax]"@#@ @source: @#@"Fax"@#@
+// @key: @#@"[phoneTypes.other]"@#@ @source: @#@"Other"@#@
 // @key: @#@"emailLabel"@#@ @source: @#@"Email"@#@
 // @key: @#@"call"@#@ @source: @#@"Call"@#@
 // @key: @#@"text"@#@ @source: @#@"Text"@#@

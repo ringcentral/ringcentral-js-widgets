@@ -40,8 +40,18 @@ export function getFromNumberReducer(types) {
   };
 }
 
-export default function getCallingSettingsReducer(types) {
+export function getCallingSettingsReducer(types) {
   return combineReducers({
     status: getModuleStatusReducer(types)
+  });
+}
+
+export function getCallingSettingsStorageReducer(types) {
+  return combineReducers({
+    callWith: getCallWithReducer(types),
+    ringoutPrompt: getRingoutPromptReducer(types),
+    myLocation: getMyLocationReducer(types),
+    fromNumber: getFromNumberReducer(types),
+    timestamp: getTimestampReducer(types),
   });
 }

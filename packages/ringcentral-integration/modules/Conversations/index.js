@@ -51,11 +51,18 @@ function getUniqueNumbers(conversations) {
     }
   }
   conversations.forEach((message) => {
-    if (message.from) {
+    if (
+      message.from &&
+      message.direction === messageDirection.inbound
+    ) {
       const fromNumber = message.from.phoneNumber || message.from.extensionNumber;
       addIfNotExist(fromNumber);
     }
-    if (message.to && message.to.length > 0) {
+    if (
+      message.to &&
+      message.to.length > 0 &&
+      message.direction === messageDirection.outbound
+    ) {
       message.to.forEach((toNumber) => {
         if (!toNumber) {
           return;

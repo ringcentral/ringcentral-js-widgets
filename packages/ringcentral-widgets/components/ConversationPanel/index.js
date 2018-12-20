@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 
-import Spinner from '../Spinner';
+import SpinnerOverlay from '../SpinnerOverlay';
 import ConversationMessageList from '../ConversationMessageList';
 import LogButton from '../LogButton';
 import ContactDisplay from '../ContactDisplay';
@@ -23,7 +23,9 @@ class ConversationPanel extends Component {
   }
 
   componentDidMount() {
-    this.loadConversation();
+    if (!this.props.showSpinner) {
+      this.loadConversation();
+    }
     this._mounted = true;
   }
 
@@ -42,6 +44,9 @@ class ConversationPanel extends Component {
       this.setState({
         selected: this.getInitialContactIndex(nextProps),
       });
+    }
+    if (!nextProps.showSpinner && this.props.showSpinner) {
+      this.loadConversation();
     }
   }
 
@@ -183,18 +188,16 @@ class ConversationPanel extends Component {
 
   render() {
     if (!this.state.loaded) {
-      return null;
+      return (
+        <div className={styles.root}>
+          <SpinnerOverlay />
+        </div>
+      );
     }
     let conversationBody = null;
     const loading = this.props.showSpinner;
     const { recipients, messageSubjectRenderer } = this.props;
-    if (loading) {
-      conversationBody = (
-        <div className={styles.spinerContainer}>
-          <Spinner />
-        </div>
-      );
-    } else {
+    if (!loading) {
       conversationBody = (
         <ConversationMessageList
           currentLocale={this.props.currentLocale}

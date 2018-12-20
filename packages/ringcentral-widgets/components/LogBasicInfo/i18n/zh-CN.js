@@ -12,7 +12,7 @@ export default {
   OutboundDirection: "呼出至：",
   [telephonyStatuses.noCall]: "已断开连接",
   [telephonyStatuses.callConnected]: "已连接",
-  [telephonyStatuses.ringing]: "正在响铃",
+  [telephonyStatuses.ringing]: "正在振铃",
   [telephonyStatuses.onHold]: "等候接听",
   [telephonyStatuses.parkedCall]: "已寄存",
   [callResults.unknown]: "未知",

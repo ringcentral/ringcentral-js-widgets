@@ -1,5 +1,9 @@
 @import '../../lib/commonStyles/colors';
-
+$minWidth: 200px;
+$maxWidth: 385px;
+$minFontSize: 76px;
+$maxFontSize: 90px;
+$minHeight: 500px;
 .root {
   position: relative;
 }
@@ -15,9 +19,19 @@
 .callButton {
   width: 33.33%;
   padding: 0;
-
   text {
-    font-size: 90px;
+    font-size: $maxFontSize;
+  }
+  // fix some view size incoming pad text will overlaps
+  @media screen and (max-width: $maxWidth) and (min-width: $minWidth) and (min-height: $minHeight){
+   text {
+     font-size: calc(#{$minFontSize} + (90 - 76) * ((100vw - #{$maxWidth}) / (385 - 200)));
+   }
+  }
+  @media screen and (max-width: $minWidth){
+    text {
+      font-size: $minFontSize;
+    }
   }
 }
 

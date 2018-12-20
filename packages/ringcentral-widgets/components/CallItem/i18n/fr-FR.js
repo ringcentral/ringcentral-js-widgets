@@ -12,7 +12,7 @@ export default {
   viewDetails: "Afficher les détails",
   addEntity: "Créer",
   addLog: "Journal",
-  text: "Texte",
+  text: "SMS",
   call: "Appeler",
   missedCall: "Manqué",
   inboundCall: "Entrant",

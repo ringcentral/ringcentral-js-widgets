@@ -1,5 +1,5 @@
 export default {
-  Home: "家中",
+  Home: "家用",
   Mobile: "行動",
   Work: "工作"
 };

@@ -8,7 +8,7 @@ export default {
   noSearchResults: "Aucune correspondance de registre trouvée",
   [messageTypes.all]: "Tous",
   [messageTypes.voiceMail]: "Voix",
-  [messageTypes.text]: "Texte",
+  [messageTypes.text]: "SMS",
   [messageTypes.fax]: "Fax"
 };
 

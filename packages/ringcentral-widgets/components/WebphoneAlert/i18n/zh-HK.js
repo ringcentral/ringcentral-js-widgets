@@ -7,7 +7,7 @@ export default {
   [webphoneErrors.webphoneCountOverLimit]: "可註冊最多 5 支網路電話。",
   [webphoneErrors.notOutboundCallWithoutDL]: "您的分機目前不允許使用瀏覽器進行撥出通話，請聯絡您的帳戶代表進行升級。",
   [webphoneErrors.getSipProvisionError]: "您沒有傳送訊息的權限。",
-  [webphoneErrors.toVoiceMailError]: "因為發生內部錯誤，無法將通話傳送到語音信箱",
+  [webphoneErrors.toVoiceMailError]: "因為發生內部錯誤，無法將通話轉語音信箱",
   [webphoneErrors.muteError]: "目前無法靜音。",
   [webphoneErrors.holdError]: "目前無法保留。",
   [webphoneErrors.flipError]: "無法轉接通話。請稍後再試一次。",

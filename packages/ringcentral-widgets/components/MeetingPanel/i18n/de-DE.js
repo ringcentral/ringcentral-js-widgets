@@ -2,7 +2,7 @@ export default {
   topic: "Thema",
   when: "Wann",
   duration: "Dauer",
-  recurringMeeting: "Regelmäßig stattfindendes Meeting",
+  recurringMeeting: "Regelmäßiges Meeting",
   recurringDescribe: "Aktivieren Sie in der Kalendereinladung für die Teilnehmer die Option für Serien oder Wiederholungen.",
   video: "Video",
   videoDescribe: "Beim Beitritt zu einem Meeting",

@@ -12,7 +12,7 @@ export default {
   OutboundDirection: "Chamada de saída para:",
   [telephonyStatuses.noCall]: "Desconectado",
   [telephonyStatuses.callConnected]: "Conectado",
-  [telephonyStatuses.ringing]: "Tocando",
+  [telephonyStatuses.ringing]: "Chamando",
   [telephonyStatuses.onHold]: "Em espera",
   [telephonyStatuses.parkedCall]: "Estacionadas",
   [callResults.unknown]: "Desconhecidas",

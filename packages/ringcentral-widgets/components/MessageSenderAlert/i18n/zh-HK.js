@@ -12,7 +12,7 @@ export default {
   [messageSenderMessages.textTooLong]: "文字過長，限 1000 個",
   [messageSenderMessages.multipartTextTooLong]: "文字過長，限 5000 個",
   [messageSenderMessages.recipientNumberInvalids]: "請輸入有效的電話號碼。",
-  [messageSenderMessages.noAreaCode]: "請設定讓 {areaCodeLink} 使用 7 位數的本地電話號碼。",
+  [messageSenderMessages.noAreaCode]: "請設定讓{areaCodeLink}使用 7 位數的本地電話號碼。",
   [messageSenderMessages.specialNumber]: "不支援傳送文字簡訊至緊急/特別服務號碼。",
   [messageSenderMessages.connectFailed]: "連線失敗。請稍後再試一次。",
   [messageSenderMessages.internalError]: "因為內部錯誤導致無法連線。請稍後再試一次。",

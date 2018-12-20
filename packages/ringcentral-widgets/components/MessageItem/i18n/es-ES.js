@@ -5,18 +5,19 @@ export default {
   editLog: "Editar registro",
   viewDetails: "Ver detalles",
   addEntity: "Crear nuevo",
-  call: "Llamar",
+  call: "Llamada",
   text: "Texto",
   conversation: "Conversación",
   groupConversation: "Conversación grupal",
   voiceMessage: "Mensaje de voz",
   [messageTypes.voiceMail]: "Mensaje de buzón de voz",
+  [messageTypes.fax]: "Fax",
   mark: "Marcar como no leído",
   unmark: "Marcar como leído",
   delete: "Eliminar",
   faxSent: "Fax enviado",
   faxReceived: "Fax recibido",
-  pages: "páginas",
+  pages: "página",
   preview: "Ver",
   download: "Descargar",
   imageAttachment: "Adjunto: 1 imagen"
@@ -32,6 +33,7 @@ export default {
 // @key: @#@"groupConversation"@#@ @source: @#@"Group Conversation"@#@
 // @key: @#@"voiceMessage"@#@ @source: @#@"Voice message"@#@
 // @key: @#@"[messageTypes.voiceMail]"@#@ @source: @#@"Voice Mail"@#@
+// @key: @#@"[messageTypes.fax]"@#@ @source: @#@"Fax"@#@
 // @key: @#@"mark"@#@ @source: @#@"Mark as Unread"@#@
 // @key: @#@"unmark"@#@ @source: @#@"Mark as Read"@#@
 // @key: @#@"delete"@#@ @source: @#@"Delete"@#@

@@ -5,7 +5,7 @@ import callDirections from 'ringcentral-integration/enums/callDirections';
 export default {
   [callDirections.inbound]: "Entrant",
   [callDirections.outbound]: "Sortant",
-  status: "État :",
+  status: "Statut :",
   InboundNumber: "Identifiant de l'appelant :",
   OutboundNumber: "A appelé :",
   InboundDirection: "Appel entrant de :",

@@ -1,9 +1,9 @@
 export default {
   conferenceCall: "Telefonkonferenz",
-  onHold: "Wird gehalten",
+  onHold: "Gehalten",
   unknow: "Unbekannt",
   disconnected: "Getrennt",
-  loading: "Ladevorgang läuft ...",
+  loading: "Ladevorgang läuft…",
   loadingTimeout: "Zeitüberschreitung beim Laden."
 };
 

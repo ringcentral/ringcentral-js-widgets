@@ -188,7 +188,7 @@ class DropdownSelect extends Component {
     const renderValue = this.renderValue(this.props.value);
     return (
       <div
-        data-sign="dropdownSelect"
+        data-sign={this.props.dataSign}
         className={classnames(containerClassName,
           this.props.wrapperStyle
         )}
@@ -254,6 +254,7 @@ DropdownSelect.propTypes = {
   open: PropTypes.bool,
   wrapperStyle: PropTypes.string,
   buttonStyle: PropTypes.string,
+  dataSign: PropTypes.string,
 };
 
 DropdownSelect.defaultProps = {
@@ -280,7 +281,8 @@ DropdownSelect.defaultProps = {
   onToggle() {},
   open: false,
   wrapperStyle: '',
-  buttonStyle: ''
+  buttonStyle: '',
+  dataSign: 'dropdownSelect',
 };
 
 export default DropdownSelect;

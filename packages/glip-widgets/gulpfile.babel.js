@@ -8,7 +8,7 @@ import transformLoader from '@ringcentral-integration/locale-loader/lib/transfor
 import exportLocale from '@ringcentral-integration/locale-loader/lib/exportLocale';
 import importLocale from '@ringcentral-integration/locale-loader/lib/importLocale';
 import consolidateLocale from '@ringcentral-integration/locale-loader/lib/consolidateLocale';
-import localeSettings from 'locale-settings';
+import localeSettings from '@ringcentral-integration/locale-settings';
 
 async function getVersionFromTag() {
   let tag = process.env.TRAVIS_TAG;

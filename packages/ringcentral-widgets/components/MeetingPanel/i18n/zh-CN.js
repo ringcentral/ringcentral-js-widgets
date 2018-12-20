@@ -14,7 +14,7 @@ export default {
   meetingOptions: "会议选项",
   requirePassword: "需要会议密码",
   password: "密码",
-  enableJoinBeforeHost: "允许在主持人加入前进入会议",
+  enableJoinBeforeHost: "主持人到来前启用加入",
   telephonyOnly: "仅电话"
 };
 

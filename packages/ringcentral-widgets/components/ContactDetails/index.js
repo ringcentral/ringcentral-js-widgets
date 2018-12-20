@@ -2,13 +2,13 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import DndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
-import { filter, reduce, map } from 'ramda';
+import { map } from 'ramda';
 
 import PresenceStatusIcon from '../PresenceStatusIcon';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import DefaultAvatar from '../../assets/images/DefaultAvatar.svg';
 import phoneTypes from '../../enums/phoneTypes';
-import phoneTypeNames from '../../lib/phoneTypeNames';
+// import phoneTypeNames from '../../lib/phoneTypeNames';
 
 // import FaxIcon from '../../assets/images/Fax.svg';
 import i18n from './i18n';
@@ -151,7 +151,13 @@ export default class ContactDetails extends PureComponent {
     contactItem,
     needFormat = true,
   }) {
-    const displayedPhoneNumber = needFormat ? this.props.formatNumber(number) : number;
+    let displayedPhoneNumber;
+    if (needFormat) {
+      const { phoneNumber } = this.props.formatNumber(number);
+      displayedPhoneNumber = phoneNumber;
+    } else {
+      displayedPhoneNumber = number;
+    }
 
     return (
       <li key={key}>
@@ -188,30 +194,10 @@ export default class ContactDetails extends PureComponent {
 
   getPhoneSections() {
     const { contactItem, currentLocale } = this.props;
-    const { phoneNumbers } = contactItem;
-
+    const { phoneNumbers, phoneMaps, schema } = contactItem;
     if (!phoneNumbers.length) {
       return null;
     }
-
-    const phoneMaps = reduce((acc, phoneNumberElm) => {
-      acc[phoneNumberElm.phoneType] = acc[phoneNumberElm.phoneType] || [];
-      acc[phoneNumberElm.phoneType].push(phoneNumberElm);
-
-      return acc;
-    }, {}, phoneNumbers);
-
-    // we need sequence that: ext followed by direct followed by others.
-    const schema = filter(
-      key => (!!phoneTypes[key] && Array.isArray(phoneMaps[key])),
-      [
-        phoneTypes.extension,
-        phoneTypes.direct,
-        ...(Object.keys(phoneMaps).filter(
-          key => key !== phoneTypes.extension && key !== phoneTypes.direct
-        ))
-      ],
-    );
 
     return (
       <div className={styles.contacts}>
@@ -230,7 +216,6 @@ export default class ContactDetails extends PureComponent {
                         number: phoneNumberElm.phoneNumber,
                         currentLocale,
                         contactItem,
-                        needFormat: false,
                       }),
                       phoneMaps[key]
                     )

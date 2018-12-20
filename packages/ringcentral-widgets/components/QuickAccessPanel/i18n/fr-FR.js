@@ -6,6 +6,7 @@ export default {
   descriptionAll: "Allez à {optionsLink} pour définir votre liste noire.",
   descriptionUser: "Allez à {optionsLink} pour définir vos sites Web spécifiques.",
   extensionOptions: "Options d'extension",
+  Finish: "Finish Setting"
 };
 
 // @key: @#@"textGoogle"@#@ @source: @#@"Only show in {appName} apps"@#@
@@ -15,5 +16,4 @@ export default {
 // @key: @#@"descriptionAll"@#@ @source: @#@"Go to {optionsLink} to define your blacklist."@#@
 // @key: @#@"descriptionUser"@#@ @source: @#@"Go to {optionsLink}  to define your specific websites."@#@
 // @key: @#@"extensionOptions"@#@ @source: @#@"Extension Options"@#@
-// @key: @#@"Confirm"@#@ @source: @#@"Confirm"@#@
-// @key: @#@"Cancel"@#@ @source: @#@"Cancel"@#@
+// @key: @#@"Finish"@#@ @source: @#@"Finish Setting"@#@

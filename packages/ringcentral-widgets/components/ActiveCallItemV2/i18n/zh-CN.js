@@ -16,8 +16,8 @@ export default {
   // call: 'Call',
   // addContact: 'Add Contact',
   missedCall: "未接",
-  inboundCall: "入站",
-  outboundCall: "出站"
+  inboundCall: "呼入",
+  outboundCall: "呼出"
   // from: 'From',
   // to: 'To',
   // hangup: 'Hangup',

@@ -5,12 +5,13 @@ export default {
   editLog: "Protokoll bearbeiten",
   viewDetails: "Details anzeigen",
   addEntity: "Neu erstellen",
-  call: "Anrufen",
-  text: "Textnachr",
+  call: "Anruf",
+  text: "Textn.",
   conversation: "Gespräch",
   groupConversation: "Gruppengespräch",
-  voiceMessage: "Sprachnachr",
+  voiceMessage: "Sprachn.",
   [messageTypes.voiceMail]: "Voicemail",
+  [messageTypes.fax]: "Fax",
   mark: "Als ungelesen markieren",
   unmark: "Als gelesen markieren",
   delete: "Löschen",
@@ -32,6 +33,7 @@ export default {
 // @key: @#@"groupConversation"@#@ @source: @#@"Group Conversation"@#@
 // @key: @#@"voiceMessage"@#@ @source: @#@"Voice message"@#@
 // @key: @#@"[messageTypes.voiceMail]"@#@ @source: @#@"Voice Mail"@#@
+// @key: @#@"[messageTypes.fax]"@#@ @source: @#@"Fax"@#@
 // @key: @#@"mark"@#@ @source: @#@"Mark as Unread"@#@
 // @key: @#@"unmark"@#@ @source: @#@"Mark as Read"@#@
 // @key: @#@"delete"@#@ @source: @#@"Delete"@#@

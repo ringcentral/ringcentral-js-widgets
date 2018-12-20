@@ -12,6 +12,7 @@ function mapToProps(_, {
   showWhen,
   showDuration,
   showRecurringMeeting,
+  showLaunchMeeting,
 }) {
   return {
     meeting: meeting.meeting || {},
@@ -20,6 +21,7 @@ function mapToProps(_, {
     showWhen,
     showDuration,
     showRecurringMeeting,
+    showLaunchMeeting,
   };
 }
 
@@ -31,9 +33,9 @@ function mapToFunctions(_, {
 }) {
   return {
     update: meetingState => meeting.update(meetingState),
-    invite: (meetingInfo, opener) => {
+    async invite(meetingInfo, opener) {
       if (schedule) {
-        schedule(meetingInfo, opener);
+        await schedule(meetingInfo, opener);
         return;
       }
       meeting.schedule(meetingInfo, {}, opener);

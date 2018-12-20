@@ -14,7 +14,7 @@ export default {
   [holdConflictError]: "此通話已由其他裝置保留。處理此應用程式前，請先取消保留該通話。",
   [unMuteConflictError]: "此通話已在其他裝置上取消靜音。處理此應用程式前，請先將該通話靜音。",
   [unHoldConflictError]: "此通話已由其他裝置取消保留。處理此應用程式前，請先保留該通話。",
-  [generalError]: "伺服器發生意外錯誤。請稍後再試。"
+  [generalError]: "伺服器發生意外錯誤。請稍後再試一次。"
 };
 
 // @key: @#@"muteConflictError"@#@ @source: @#@"This call had been muted on other device. Please unmute the call before you control in this App."@#@

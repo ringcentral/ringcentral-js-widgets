@@ -312,13 +312,13 @@ class ConferencePanel extends Component {
           </div>
           <div className={styles.formGroup}>
             <label>{i18n.getString('hostAccess', currentLocale)}</label>
-            <div className={styles.field}>
+            <div className={styles.field} data-sign="hostCode">
               {formatPin(hostCode)}
             </div>
           </div>
           <div className={styles.formGroup}>
             <label>{i18n.getString('participantsAccess', currentLocale)}</label>
-            <div className={styles.field}>
+            <div className={styles.field} data-sign="participantCode">
               {formatPin(participantCode)}
             </div>
           </div>
@@ -331,6 +331,7 @@ class ConferencePanel extends Component {
               <Switch
                 checked={showAdditionalNumbers}
                 onChange={this.onAddionalNumbersSwitch}
+                dataSign="addinalNumbersToggle"
               />
             </span>
             {additionalNumbersCtrl}
@@ -343,6 +344,7 @@ class ConferencePanel extends Component {
                 <Switch
                   checked={allowJoinBeforeHost}
                   onChange={onAllowJoinBeforeHostChange}
+                  dataSign="enableJoinToggle"
                 />
               </span>
             </div>

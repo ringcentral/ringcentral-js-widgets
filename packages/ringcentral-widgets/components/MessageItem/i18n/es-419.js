@@ -11,6 +11,7 @@ export default {
   groupConversation: "Conversación grupal",
   voiceMessage: "Mensaje de voz",
   [messageTypes.voiceMail]: "Mensaje de buzón de voz",
+  [messageTypes.fax]: "Fax",
   mark: "Marcar como no leído",
   unmark: "Marcar como leído",
   delete: "Eliminar",
@@ -32,6 +33,7 @@ export default {
 // @key: @#@"groupConversation"@#@ @source: @#@"Group Conversation"@#@
 // @key: @#@"voiceMessage"@#@ @source: @#@"Voice message"@#@
 // @key: @#@"[messageTypes.voiceMail]"@#@ @source: @#@"Voice Mail"@#@
+// @key: @#@"[messageTypes.fax]"@#@ @source: @#@"Fax"@#@
 // @key: @#@"mark"@#@ @source: @#@"Mark as Unread"@#@
 // @key: @#@"unmark"@#@ @source: @#@"Mark as Read"@#@
 // @key: @#@"delete"@#@ @source: @#@"Delete"@#@

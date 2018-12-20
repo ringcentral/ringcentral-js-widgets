@@ -9,6 +9,7 @@ export default {
   [phoneTypes.home]: "Home",
   [phoneTypes.business]: "Business",
   [phoneTypes.fax]: "Fax",
+
   emailLabel: "Email",
   call: "Call",
   text: "Text",

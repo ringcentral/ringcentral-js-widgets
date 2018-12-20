@@ -2,14 +2,14 @@ export default {
   unmute: "Désac. muet",
   mute: "Muet",
   keypad: "Clavier",
-  hold: "Attente",
+  hold: "Mettre en attente",
   onHold: "En attente",
   park: "Parc",
   stopRecord: "Arrêter",
   record: "Enregistrer",
   add: "Ajouter",
   transfer: "Transférer",
-  flip: "Renvoi\ninstantané",
+  flip: "Renvoi",
   more: "Actions d'appel",
   mergeToConference: "Fusionner"
 };

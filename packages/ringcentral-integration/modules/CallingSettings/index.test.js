@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { createStore } from 'redux';
 import CallingSettings from './index';
-import getCallingSettingsReducer from './getCallingSettingsReducer';
+import { getCallingSettingsReducer } from './getCallingSettingsReducer';
 import actionTypes from './actionTypes';
 import callingOptions from './callingOptions';
 import callingSettingsMessages from './callingSettingsMessages';

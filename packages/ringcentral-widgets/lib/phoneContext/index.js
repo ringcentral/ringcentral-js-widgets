@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 const PhoneContext = React.createContext(null);
 export default PhoneContext;
@@ -38,4 +39,25 @@ export function withPhone(Comp) {
     );
   }
   return WithPhone;
+}
+
+export function connectModule(fn) {
+  return (Comp) => {
+    const WithModule = connect(
+      (_, props) => fn(props.phone).getUIProps(props),
+      (_, props) => fn(props.phone).getUIFunctions(props),
+    )(Comp);
+    return props => (
+      <PhoneContext.Consumer>
+        {
+          phone => (
+            <WithModule
+              phone={phone}
+              {...props}
+            />
+          )
+        }
+      </PhoneContext.Consumer>
+    );
+  };
 }

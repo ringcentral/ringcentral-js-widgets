@@ -12,7 +12,7 @@ export default {
   viewDetails: "檢視詳細資訊",
   addEntity: "建立新的",
   addLog: "記錄",
-  text: "簡訊",
+  text: "文字",
   call: "通話",
   addContact: "新增聯絡人",
   missedCall: "未接",
@@ -22,13 +22,13 @@ export default {
   to: "至",
   hangup: "掛斷",
   accept: "接受",
-  toVoicemail: "傳送至語音信箱",
+  toVoicemail: "轉語音信箱",
   anonymous: "匿名",
   mergeToConference: "合併",
   hold: "通話保留",
   unhold: "取消通話保留",
-  transfer: "轉移",
-  reject: "拒絕"
+  transfer: "轉接",
+  reject: "繼絕"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@

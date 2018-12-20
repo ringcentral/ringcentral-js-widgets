@@ -71,7 +71,11 @@ import hasActiveCalls from 'ringcentral-widgets/lib/hasActiveCalls';
 import ringoutStatus from 'ringcentral-integration/modules/Ringout/ringoutStatus';
 import softphoneStatus from 'ringcentral-integration/modules/Softphone/softphoneStatus';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
+import { hashHistory } from 'react-router';
 
+const history = global.process && global.process.release && global.process.release.name === 'node' ?
+  undefined :
+  hashHistory;
 @ModuleFactory({
   providers: [
     {
@@ -182,6 +186,13 @@ import callingModes from 'ringcentral-integration/modules/CallingSettings/callin
     //   },
     //   spread: true,
     // },
+    {
+      provide: 'RouterInteractionOptions',
+      useValue: {
+        history,
+      },
+      spread: true,
+    }
   ]
 })
 export default class BasePhone extends RcModule {

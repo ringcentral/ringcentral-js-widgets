@@ -1,5 +1,5 @@
 export default {
-  status: "État",
+  status: "Statut",
   acceptQueueCalls: "Accepter les appels en attente"
 };
 

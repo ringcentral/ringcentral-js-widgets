@@ -2,8 +2,8 @@ export default {
   account: "Compte",
   contact: "Contact",
   lead: "Piste",
-  opportunity: "Opportunity",
-  chooseEntity: "Veuillez sélectionner un type d'entité.",
+  opportunity: "Occasion",
+  chooseEntity: "Sélectionnez un type d'entité",
   create: "Créer"
 };
 

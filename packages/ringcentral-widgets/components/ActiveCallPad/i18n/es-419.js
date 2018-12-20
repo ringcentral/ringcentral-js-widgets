@@ -1,5 +1,5 @@
 export default {
-  unmute: "Reactivar",
+  unmute: "Sonido",
   mute: "Silenciar",
   keypad: "Teclado",
   hold: "Retener",

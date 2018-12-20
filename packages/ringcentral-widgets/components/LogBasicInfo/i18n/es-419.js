@@ -15,7 +15,7 @@ export default {
   [telephonyStatuses.ringing]: "Llamando",
   [telephonyStatuses.onHold]: "En espera",
   [telephonyStatuses.parkedCall]: "Aparcada",
-  [callResults.unknown]: "Desconocida",
+  [callResults.unknown]: "Desconocido",
   [callResults.missed]: "Perdida",
   [callResults.callAccepted]: "Atendida",
   [callResults.accepted]: "Atendida",

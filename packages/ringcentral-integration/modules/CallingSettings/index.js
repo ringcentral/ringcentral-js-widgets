@@ -1,11 +1,9 @@
+import { createSelector } from 'reselect';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
-import getCallingSettingsReducer, {
-  getCallWithReducer,
-  getRingoutPromptReducer,
-  getMyLocationReducer,
-  getTimestampReducer,
-  getFromNumberReducer,
+import {
+  getCallingSettingsReducer,
+  getCallingSettingsStorageReducer,
 } from './getCallingSettingsReducer';
 import moduleStatuses from '../../enums/moduleStatuses';
 import mapOptionToMode from './mapOptionToMode';
@@ -13,6 +11,7 @@ import callingOptions from './callingOptions';
 import callingSettingsMessages from './callingSettingsMessages';
 import actionTypes from './actionTypes';
 import proxify from '../../lib/proxy/proxify';
+import getter from '../../lib/getter';
 
 /**
  * @class
@@ -73,115 +72,16 @@ export default class CallingSettings extends RcModule {
     this._rolesAndPermissions = rolesAndPermissions;
     this._tabManager = tabManager;
     this._webphone = webphone;
-
-    this._callWithStorageKey = 'callingSettingsCallWith';
-    this._ringoutPromptStorageKey = 'callingSettingsRingoutPrompt';
-    this._myLocationStorageKey = 'callingSettingsMyLocation';
-    this._timestampStorageKey = 'callingSettingsTimestamp';
-    this._fromNumberStorageKey = 'fromCallIdNumber';
+    this._storageKey = 'callingSettingsData';
 
     this._onFirstLogin = onFirstLogin;
 
     this._storage.registerReducer({
-      key: this._callWithStorageKey,
-      reducer: getCallWithReducer(this.actionTypes),
+      key: this._storageKey,
+      reducer: getCallingSettingsStorageReducer(this.actionTypes),
     });
-    this._storage.registerReducer({
-      key: this._ringoutPromptStorageKey,
-      reducer: getRingoutPromptReducer(this.actionTypes),
-    });
-    this._storage.registerReducer({
-      key: this._myLocationStorageKey,
-      reducer: getMyLocationReducer(this.actionTypes),
-    });
-    this._storage.registerReducer({
-      key: this._timestampStorageKey,
-      reducer: getTimestampReducer(this.actionTypes),
-    });
-    this._storage.registerReducer({
-      key: this._fromNumberStorageKey,
-      reducer: getFromNumberReducer(this.actionTypes),
-    });
+
     this._reducer = getCallingSettingsReducer(this.actionTypes);
-
-    this.addSelector('myPhoneNumbers',
-      () => this._extensionPhoneNumber.directNumbers,
-      () => this._extensionPhoneNumber.mainCompanyNumber,
-      () => this._extensionInfo.extensionNumber,
-      (directNumbers, mainCompanyNumber, extensionNumber) => {
-        const myPhoneNumbers = directNumbers.map(item => item.phoneNumber);
-        if (mainCompanyNumber && extensionNumber) {
-          myPhoneNumbers.push(`${mainCompanyNumber.phoneNumber}*${extensionNumber}`);
-        }
-        return myPhoneNumbers;
-      }
-    );
-
-    this.addSelector('otherPhoneNumbers',
-      () => this._forwardingNumber.flipNumbers,
-      () => this._extensionPhoneNumber.callerIdNumbers,
-      () => this._extensionPhoneNumber.directNumbers,
-      (flipNumbers, callerIdNumbers, directNumbers) => {
-        const filterMapping = {};
-        callerIdNumbers.forEach((item) => {
-          filterMapping[item.phoneNumber] = true;
-        });
-        directNumbers.forEach((item) => {
-          filterMapping[item.phoneNumber] = true;
-        });
-        return flipNumbers
-          .filter(item => !filterMapping[item.phoneNumber])
-          .sort((a, b) => (a.label === 'Mobile' && a.label !== b.label ? -1 : 1))
-          .map(item => item.phoneNumber);
-      }
-    );
-
-    this.addSelector(
-      'fromNumbers',
-      () => this._extensionPhoneNumber.callerIdNumbers,
-      phoneNumbers => phoneNumbers.sort((firstItem, lastItem) => {
-        if (firstItem.usageType === 'DirectNumber') return -1;
-        else if (lastItem.usageType === 'DirectNumber') return 1;
-        else if (firstItem.usageType === 'MainCompanyNumber') return -1;
-        else if (lastItem.usageType === 'MainCompanyNumber') return 1;
-        else if (firstItem.usageType < lastItem.usageType) return -1;
-        else if (firstItem.usageType > lastItem.usageType) return 1;
-        return 0;
-      }),
-    );
-
-    this.addSelector('callWithOptions',
-      () => this._rolesAndPermissions.ringoutEnabled,
-      () => this._rolesAndPermissions.webphoneEnabled,
-      () => this.otherPhoneNumbers.length > 0,
-      () => this._extensionPhoneNumber.numbers.length > 0,
-      (ringoutEnabled, webphoneEnabled, hasOtherPhone, hasExtensionPhoneNumber) => {
-        if (!hasExtensionPhoneNumber) {
-          return [callingOptions.softphone];
-        }
-        const callWithOptions = [];
-        if (this._webphone && webphoneEnabled) {
-          callWithOptions.push(callingOptions.browser);
-        }
-        callWithOptions.push(callingOptions.softphone);
-        if (ringoutEnabled) {
-          callWithOptions.push(callingOptions.myphone);
-          if (hasOtherPhone) {
-            callWithOptions.push(callingOptions.otherphone);
-          }
-          callWithOptions.push(callingOptions.customphone);
-        }
-        return callWithOptions;
-      },
-    );
-    this.addSelector('availableNumbers',
-      () => this.myPhoneNumbers,
-      () => this.otherPhoneNumbers,
-      (myPhoneNumbers, otherPhoneNumbers) => ({
-        [callingOptions.myphone]: myPhoneNumbers,
-        [callingOptions.otherphone]: otherPhoneNumbers,
-      }),
-    );
   }
 
   initialize() {
@@ -356,6 +256,10 @@ export default class CallingSettings extends RcModule {
     }
   }
 
+  get data() {
+    return this._storage.getItem(this._storageKey);
+  }
+
   get status() {
     return this.state.status;
   }
@@ -369,48 +273,113 @@ export default class CallingSettings extends RcModule {
   }
 
   get callWith() {
-    return this._storage.getItem(this._callWithStorageKey);
+    return this.data.callWith;
   }
 
   get callingMode() {
     return mapOptionToMode(this.callWith);
   }
 
-  get callWithOptions() {
-    return this._selectors.callWithOptions();
-  }
-
   get ringoutPrompt() {
-    return this._storage.getItem(this._ringoutPromptStorageKey);
+    return this.data.ringoutPrompt;
   }
 
   get myLocation() {
-    return this._storage.getItem(this._myLocationStorageKey);
+    return this.data.myLocation;
   }
 
   get timestamp() {
-    return this._storage.getItem(this._timestampStorageKey);
+    return this.data.timestamp;
   }
 
-  get myPhoneNumbers() {
-    return this._selectors.myPhoneNumbers();
-  }
+  @getter
+  callWithOptions = createSelector(
+    () => this._rolesAndPermissions.ringoutEnabled,
+    () => this._rolesAndPermissions.webphoneEnabled,
+    () => this.otherPhoneNumbers.length > 0,
+    () => this._extensionPhoneNumber.numbers.length > 0,
+    (ringoutEnabled, webphoneEnabled, hasOtherPhone, hasExtensionPhoneNumber) => {
+      if (!hasExtensionPhoneNumber) {
+        return [callingOptions.softphone];
+      }
+      const callWithOptions = [];
+      if (this._webphone && webphoneEnabled) {
+        callWithOptions.push(callingOptions.browser);
+      }
+      callWithOptions.push(callingOptions.softphone);
+      if (ringoutEnabled) {
+        callWithOptions.push(callingOptions.myphone);
+        if (hasOtherPhone) {
+          callWithOptions.push(callingOptions.otherphone);
+        }
+        callWithOptions.push(callingOptions.customphone);
+      }
+      return callWithOptions;
+    },
+  )
 
-  get otherPhoneNumbers() {
-    return this._selectors.otherPhoneNumbers();
-  }
+  @getter
+  myPhoneNumbers = createSelector(
+    () => this._extensionPhoneNumber.directNumbers,
+    () => this._extensionPhoneNumber.mainCompanyNumber,
+    () => this._extensionInfo.extensionNumber,
+    (directNumbers, mainCompanyNumber, extensionNumber) => {
+      const myPhoneNumbers = directNumbers.map(item => item.phoneNumber);
+      if (mainCompanyNumber && extensionNumber) {
+        myPhoneNumbers.push(`${mainCompanyNumber.phoneNumber}*${extensionNumber}`);
+      }
+      return myPhoneNumbers;
+    }
+  )
 
-  get availableNumbers() {
-    return this._selectors.availableNumbers();
-  }
+
+  @getter
+  otherPhoneNumbers = createSelector(
+    () => this._forwardingNumber.flipNumbers,
+    () => this._extensionPhoneNumber.callerIdNumbers,
+    () => this._extensionPhoneNumber.directNumbers,
+    (flipNumbers, callerIdNumbers, directNumbers) => {
+      const filterMapping = {};
+      callerIdNumbers.forEach((item) => {
+        filterMapping[item.phoneNumber] = true;
+      });
+      directNumbers.forEach((item) => {
+        filterMapping[item.phoneNumber] = true;
+      });
+      return flipNumbers
+        .filter(item => !filterMapping[item.phoneNumber])
+        .sort((a, b) => (a.label === 'Mobile' && a.label !== b.label ? -1 : 1))
+        .map(item => item.phoneNumber);
+    }
+  )
+
+  @getter
+  availableNumbers = createSelector(
+    () => this.myPhoneNumbers,
+    () => this.otherPhoneNumbers,
+    (myPhoneNumbers, otherPhoneNumbers) => ({
+      [callingOptions.myphone]: myPhoneNumbers,
+      [callingOptions.otherphone]: otherPhoneNumbers,
+    }),
+  )
 
   get fromNumber() {
-    return this._storage.getItem(this._fromNumberStorageKey);
+    return this.data.fromNumber;
   }
 
-  get fromNumbers() {
-    return this._selectors.fromNumbers();
-  }
+  @getter
+  fromNumbers = createSelector(
+    () => this._extensionPhoneNumber.callerIdNumbers,
+    phoneNumbers => phoneNumbers.sort((firstItem, lastItem) => {
+      if (firstItem.usageType === 'DirectNumber') return -1;
+      else if (lastItem.usageType === 'DirectNumber') return 1;
+      else if (firstItem.usageType === 'MainCompanyNumber') return -1;
+      else if (lastItem.usageType === 'MainCompanyNumber') return 1;
+      else if (firstItem.usageType < lastItem.usageType) return -1;
+      else if (firstItem.usageType > lastItem.usageType) return 1;
+      return 0;
+    }),
+  )
 
   @proxify
   async setData({ callWith, myLocation, ringoutPrompt }, withPrompt) {

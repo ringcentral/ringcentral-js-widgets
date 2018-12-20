@@ -15,6 +15,7 @@ async function makeInbountCall(phone, wrapper) {
     direction: 'Inbound',
     callId: 'call-111'
   });
+  await timeout(10);
   wrapper.update();
   return session;
 }
@@ -33,7 +34,7 @@ describe('Inbound Call in Call Control Page', () => {
     const session = await makeInbountCall(phone, wrapper);
     const buttonAnswer = wrapper.find(IncomingCallPad).find(ActiveCallButton).at(4);
     buttonAnswer.find(CircleButton).simulate('click');
-    await timeout(100);
+    await timeout(10);
     wrapper.update();
     expect(phone.routerInteraction.currentPath).toEqual(`/calls/active/${session.id}`);
     const buttonAdd = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);

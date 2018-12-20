@@ -14,7 +14,7 @@ export default {
   meetingOptions: "Options de réunion",
   requirePassword: "Exiger un MDP pour la réunion",
   password: "Mot de passe",
-  enableJoinBeforeHost: "Activer l'option permettant de rejoindre la conférence avant l'hôte",
+  enableJoinBeforeHost: "Activer l'option permettant de joindre la réunion avant l'hôte",
   telephonyOnly: "Téléphonie seulement"
 };
 

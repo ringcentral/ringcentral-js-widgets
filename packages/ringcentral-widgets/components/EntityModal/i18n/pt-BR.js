@@ -2,8 +2,8 @@ export default {
   account: "Conta",
   contact: "Contato",
   lead: "Lead",
-  opportunity: "Opportunity",
-  chooseEntity: "Selecione o tipo de entidade",
+  opportunity: "Oportunidade",
+  chooseEntity: "Selec. o tipo de entidade",
   create: "Criar"
 };
 

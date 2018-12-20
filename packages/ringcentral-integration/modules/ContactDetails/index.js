@@ -1,16 +1,28 @@
+import { filter, reduce } from 'ramda';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import actionTypes from './actionTypes';
 import getContactDetailsReducer from './getContactDetailsReducer';
 import proxify from '../../lib/proxy/proxify';
 import background from '../../lib/background';
+import phoneTypes from '../../enums/phoneTypes';
 
+
+const sortOtherTypes = ({ unSortTypes = [] }) => {
+  const [MOBILE, BUSINESS, HOME, FAX, OTHER] = [0, 1, 2, 3, 4];
+  const goalOrderTypes = {
+    mobile: MOBILE, business: BUSINESS, home: HOME, fax: FAX, other: OTHER
+  };
+  unSortTypes.sort((a, b) => goalOrderTypes[a] - goalOrderTypes[b]);
+  return unSortTypes;
+};
 @Module({
   deps: [
     'Contacts',
     { dep: 'ContactDetailsOptions', optional: true }
   ]
 })
+
 export default class ContactDetails extends RcModule {
   constructor({ contacts, ...options }) {
     super({ ...options, actionTypes });
@@ -25,6 +37,36 @@ export default class ContactDetails extends RcModule {
       (condition) => {
         if (condition) { return this._contacts.find(condition); }
         return null;
+      }
+    );
+
+    this.addSelector(
+      'currentSortedContact',
+      () => this.currentContact,
+      (currentContact) => {
+        if (!currentContact) return null;
+        const { phoneNumbers } = currentContact;
+        const phoneMaps = reduce((acc, phoneNumberElm) => {
+          acc[phoneNumberElm.phoneType] = acc[phoneNumberElm.phoneType] || [];
+          acc[phoneNumberElm.phoneType].push(phoneNumberElm);
+          return acc;
+        }, {}, phoneNumbers);
+
+        const unSortTypes = (Object.keys(phoneMaps).filter(
+          key => key !== phoneTypes.extension && key !== phoneTypes.direct
+        ));
+
+        const sortedTypes = sortOtherTypes({ unSortTypes });
+        // we need sequence that: ext followed by direct followed by others.
+        const schema = filter(
+          key => (!!phoneTypes[key] && Array.isArray(phoneMaps[key])),
+          [
+            phoneTypes.extension,
+            phoneTypes.direct,
+            ...sortedTypes
+          ],
+        );
+        return { ...currentContact, schema, phoneMaps };
       }
     );
   }
@@ -107,8 +149,12 @@ export default class ContactDetails extends RcModule {
     });
   }
 
-  get contact() {
+  get currentContact() {
     return this._selectors.currentContact();
+  }
+
+  get contact() {
+    return this._selectors.currentSortedContact();
   }
 
   get condition() {

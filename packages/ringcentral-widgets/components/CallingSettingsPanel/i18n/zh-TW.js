@@ -17,7 +17,7 @@ export default {
   [`${callingOptions.myphone}Tooltip1`]: "對於您所撥出的電話，您的 {brand} 電話將會先對受話方響鈴。",
   [`${callingOptions.otherphone}Tooltip`]: "請使用這個選項，透過您已在 {brand} 分機中加入的家用電話或行動電話等其他電話進行通話。",
   [`${callingOptions.otherphone}Tooltip1`]: "對於您所撥出的電話，這支電話將會先對受話方響鈴。",
-  [`${callingOptions.customphone}Tooltip`]: "請使用這個選項，藉由在以下欄位輸入有效的電話號碼，以便任選任何電話進行通話。",
+  [`${callingOptions.customphone}Tooltip`]: "請使用這個選項，在以下欄位輸入有效的電話號碼，使用任選的任何電話，進行通話。",
   [`${callingOptions.customphone}Tooltip1`]: "對於您所撥出的電話，這支電話將會先對受話方響鈴。"
 };
 

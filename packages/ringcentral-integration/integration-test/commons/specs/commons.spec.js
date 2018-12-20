@@ -148,7 +148,7 @@ phone = getTestPhone();
 runPresenceTests(
   phone.auth,
   phone.client,
-  phone.presence,
+  phone.detailedPresence,
   defaultAccount,
 );
 

@@ -9,9 +9,10 @@ export default {
   [phoneTypes.home]: "Casa",
   [phoneTypes.business]: "Ufficio",
   [phoneTypes.fax]: "Fax",
+  [phoneTypes.other]: "Altro",
   emailLabel: "E-mail",
   call: "Chiamata",
-  text: "SMS",
+  text: "Testo",
   [presenceStatus.available]: "Disponibile",
   [presenceStatus.offline]: "Invisibile",
   [presenceStatus.busy]: "Occupato",
@@ -25,6 +26,7 @@ export default {
 // @key: @#@"[phoneTypes.home]"@#@ @source: @#@"Home"@#@
 // @key: @#@"[phoneTypes.business]"@#@ @source: @#@"Business"@#@
 // @key: @#@"[phoneTypes.fax]"@#@ @source: @#@"Fax"@#@
+// @key: @#@"[phoneTypes.other]"@#@ @source: @#@"Other"@#@
 // @key: @#@"emailLabel"@#@ @source: @#@"Email"@#@
 // @key: @#@"call"@#@ @source: @#@"Call"@#@
 // @key: @#@"text"@#@ @source: @#@"Text"@#@

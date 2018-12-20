@@ -3,12 +3,12 @@ import messageTypes from 'ringcentral-integration/enums/messageTypes';
 export default {
   title: "Nachrichten",
   search: "Suchen ...",
-  composeText: "Text erstellen",
+  composeText: "Textnachricht erstellen",
   noMessages: "Keine Meldungen",
   noSearchResults: "Kein übereinstimmender Datensatz gefunden",
   [messageTypes.all]: "Alle",
-  [messageTypes.voiceMail]: "Sprachnachr.",
-  [messageTypes.text]: "Textnachr.",
+  [messageTypes.voiceMail]: "Sprachn.",
+  [messageTypes.text]: "Textn.",
   [messageTypes.fax]: "Fax"
 };
 

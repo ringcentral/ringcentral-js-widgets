@@ -1,9 +1,9 @@
 export default {
-  unmute: "Stummsch. aufh.",
+  unmute: "Stumm Ende",
   mute: "Stummsch.",
   keypad: "Wählfeld",
   hold: "Halten",
-  onHold: "Wird gehalten",
+  onHold: "Gehalten",
   park: "Parken",
   stopRecord: "Stoppen",
   record: "Aufzeichnen",

@@ -3,17 +3,31 @@ import sessionStatus from './sessionStatus';
 import { camelize } from '../../lib/di/utils/utils';
 import callDirections from '../../enums/callDirections';
 
-export function isBrowserSupport() {
-  const isChrome = !!(navigator.userAgent.match(/Chrom(e|ium)/));
-  if (!isChrome) {
+let environment;
+if (typeof window !== 'undefined') {
+  environment = window;
+}
+if (typeof global !== 'undefined') {
+  environment = global.window || global;
+}
+
+export function isWebSocketSupport() {
+  return !!(environment && environment.WebSocket);
+}
+
+export function isWebRTCSupport() {
+  if (!environment.navigator) {
     return false;
   }
-  const chromeVersion =
-    parseInt(navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./)[2], 10);
-  if (chromeVersion >= 51) {
-    return true;
-  }
-  return false;
+  return !!(
+    environment.MediaStream &&
+    environment.RTCPeerConnection &&
+    environment.navigator.mediaDevices.getUserMedia
+  );
+}
+
+export function isBrowserSupport() {
+  return isWebSocketSupport() && isWebRTCSupport();
 }
 
 export function extractHeadersData(session, headers) {
@@ -70,7 +84,7 @@ export function normalizeSession(session) {
     fromUserName: session.request.from.displayName,
     startTime: session.startTime && (new Date(session.startTime)).getTime(),
     creationTime: session.__rc_creationTime,
-    isOnHold: !!session.isOnHold().local,
+    isOnHold: !!session.onLocalHold(),
     isOnMute: !!session.__rc_isOnMute,
     isOnFlip: !!session.__rc_isOnFlip,
     isOnTransfer: !!session.__rc_isOnTransfer,

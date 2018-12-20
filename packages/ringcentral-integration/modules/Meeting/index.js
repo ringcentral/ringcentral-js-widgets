@@ -172,6 +172,24 @@ export default class Meeting extends RcModule {
     });
   }
 
+  getMobileDialingNumberTpl(dialInNumbers, meetingId) {
+    return dialInNumbers
+      .map(({ country, formattedNumber, location = '' }) => {
+        const filterFormattedNumber = formattedNumber.replace(/\s|-/g, '');
+        return `+${country.callingCode}${filterFormattedNumber},,${meetingId}# ${location}`;
+      })
+      .join('\n    ');
+  }
+
+  getPhoneDialingNumberTpl(dialInNumbers) {
+    return dialInNumbers
+      .map(({ country, formattedNumber, location = '' }) => {
+        const filterFormattedNumber = formattedNumber.replace(/-/g, ' ');
+        return `+${country.callingCode} ${filterFormattedNumber}${location}`;
+      })
+      .join('\n    ');
+  }
+
   @proxify
   async schedule(meeting, { isAlertSuccess = true } = {}, opener) {
     if (this.isScheduling) return null;
@@ -202,6 +220,10 @@ export default class Meeting extends RcModule {
           _saved: meeting._saved
         }
       });
+      const mobileDialingNumberTpl = this.getMobileDialingNumberTpl(serviceInfo.dialInNumbers, resp.id);
+      const phoneDialingNumberTpl = this.getPhoneDialingNumberTpl(serviceInfo.dialInNumbers, resp.id);
+      serviceInfo.mobileDialingNumberTpl = mobileDialingNumberTpl;
+      serviceInfo.phoneDialingNumberTpl = phoneDialingNumberTpl;
       const result = {
         meeting: resp,
         serviceInfo,

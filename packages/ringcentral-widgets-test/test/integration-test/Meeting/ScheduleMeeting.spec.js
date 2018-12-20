@@ -2,6 +2,7 @@ import moment from 'moment';
 import { MeetingType } from 'ringcentral-integration/modules/Meeting';
 import MeetingSection from 'ringcentral-widgets/components/MeetingSection';
 import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
+import Button from 'ringcentral-widgets/components/Button';
 import sleep from 'ringcentral-integration/lib/sleep';
 import { getWrapper } from '../shared';
 
@@ -137,7 +138,7 @@ describe('Schedule Meeting', () => {
     expect(app.props().phone.meeting.meeting.allowJoinBeforeHost).toBe(true);
   });
   test('<MeetingScheduleButton />', async () => {
-    const MeetingScheduleButton = app.find('MeetingScheduleButton').find('button');
+    const MeetingScheduleButton = app.find('MeetingScheduleButton').find(Button);
     expect(MeetingScheduleButton.props().children).toBe('Schedule Meeting');
     expect(MeetingScheduleButton.props().disabled).toBe(false);
   });

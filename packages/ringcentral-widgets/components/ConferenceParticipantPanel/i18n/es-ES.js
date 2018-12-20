@@ -1,6 +1,6 @@
 export default {
   removeParticipant: "Quitar participante",
-  confirmStr1: "¿Seguro que desea quitar a este participante",
+  confirmStr1: "¿Está seguro de que desea quitar a este participante",
   confirmStr2: "de la llamada?",
   remove: "Quitar",
   cancel: "Cancelar",

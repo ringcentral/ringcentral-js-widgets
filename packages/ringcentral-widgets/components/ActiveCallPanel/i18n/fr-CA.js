@@ -3,7 +3,7 @@ export default {
   onHold: "En attente",
   unknow: "Inconnu",
   disconnected: "Déconnecté",
-  loading: "Chargement en cours...",
+  loading: "Chargement en cours…",
   loadingTimeout: "Temps de chargement écoulé."
 };
 

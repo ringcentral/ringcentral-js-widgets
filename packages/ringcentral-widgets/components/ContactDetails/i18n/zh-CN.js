@@ -4,11 +4,12 @@ import phoneTypes from '../../../enums/phoneTypes';
 
 export default {
   [phoneTypes.extension]: "分机号",
-  [phoneTypes.direct]: "私信",
-  [phoneTypes.mobile]: "移动电话",
+  [phoneTypes.direct]: "直拨",
+  [phoneTypes.mobile]: "移动",
   [phoneTypes.home]: "家庭",
   [phoneTypes.business]: "商务",
   [phoneTypes.fax]: "传真",
+  [phoneTypes.other]: "其他",
   emailLabel: "电子邮件",
   call: "呼叫",
   text: "短信",
@@ -25,6 +26,7 @@ export default {
 // @key: @#@"[phoneTypes.home]"@#@ @source: @#@"Home"@#@
 // @key: @#@"[phoneTypes.business]"@#@ @source: @#@"Business"@#@
 // @key: @#@"[phoneTypes.fax]"@#@ @source: @#@"Fax"@#@
+// @key: @#@"[phoneTypes.other]"@#@ @source: @#@"Other"@#@
 // @key: @#@"emailLabel"@#@ @source: @#@"Email"@#@
 // @key: @#@"call"@#@ @source: @#@"Call"@#@
 // @key: @#@"text"@#@ @source: @#@"Text"@#@

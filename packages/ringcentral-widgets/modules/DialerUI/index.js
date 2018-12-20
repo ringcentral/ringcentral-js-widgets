@@ -1,64 +1,79 @@
-import RcModule from 'ringcentral-integration/lib/RcModule';
 import { Module } from 'ringcentral-integration/lib/di';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
-import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import callErrors from 'ringcentral-integration/modules/Call/callErrors';
-import actionTypes from './actionTypes';
+import Enum from 'ringcentral-integration/lib/Enum';
+import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
+import formatNumber from 'ringcentral-integration/lib/formatNumber';
+import { createSelector } from 'reselect';
+import getter from 'ringcentral-integration/lib/getter';
+import RcUIModule from '../../lib/RcUIModule';
 import getReducer from './getReducer';
 
 @Module({
   name: 'DialerUI',
   deps: [
-    'Call',
+    'CallingSettings',
+    { dep: 'AudioSettings', optional: true },
+    'CallingSettings',
+    'ConnectivityMonitor',
+    { dep: 'ContactSearch', optional: true },
+    'Locale',
+    'RateLimiter',
+    'RegionSettings',
+    { dep: 'Webphone', optional: true },
     'Alert',
+    'Call',
     { dep: 'ConferenceCall', optional: true },
     { dep: 'DialerUIOptions', optional: true },
   ],
 })
-export default class DialerUI extends RcModule {
+export default class DialerUI extends RcUIModule {
   constructor({
-    call,
     alert,
+    audioSettings,
+    call,
+    callingSettings,
     conferenceCall,
-    actionTypes: subActionTypes,
+    connectivityMonitor,
+    contactSearch,
+    locale,
+    rateLimiter,
+    regionSettings,
+    webphone,
     ...options
   }) {
     super({
       ...options,
-      actionTypes: (subActionTypes || actionTypes),
     });
-
-    this._call = this:: ensureExist(call, 'call');
-    this._alert = this:: ensureExist(alert, 'alert');
+    this._alert = alert;
+    this._audioSettings = audioSettings;
+    this._call = call;
+    this._callingSettings = callingSettings;
     this._conferenceCall = conferenceCall;
+    this._connectivityMonitor = connectivityMonitor;
+    this._contactSearch = contactSearch;
+    this._locale = locale;
+    this._rateLimiter = rateLimiter;
+    this._regionSettings = regionSettings;
+    this._webphone = webphone;
     this._reducer = getReducer(this.actionTypes);
     this._callHooks = [];
   }
 
-  async _onStateChange() {
-    if (
-      this.pending &&
-      this._call.ready
-    ) {
-      this.store.dispatch({
-        type: this.actionTypes.init,
-      });
-      this.store.dispatch({
-        type: this.actionTypes.initSuccess,
-      });
-    } else if (
-      this.ready &&
-      (
-        !this._call.ready
-      )
-    ) {
-      this.store.dispatch({
-        type: this.actionTypes.reset,
-      });
-      this.store.dispatch({
-        type: this.actionTypes.resetSuccess,
-      });
-    }
+  get _actionTypes() {
+    return new Enum(
+      [
+        'setToNumberField',
+        'clearToNumberField',
+        'setRecipient',
+        'clearRecipient',
+        'loadLastCallState',
+        'call',
+        'callError',
+        'callSuccess',
+      ],
+      'dialerUI',
+    );
   }
 
   @proxify
@@ -96,11 +111,7 @@ export default class DialerUI extends RcModule {
   }
 
   @proxify
-  async call({
-    phoneNumber = '',
-    recipient = null,
-    fromNumber = null,
-  }) {
+  async call({ phoneNumber = '', recipient = null, fromNumber = null }) {
     if (phoneNumber || recipient) {
       this.store.dispatch({
         type: this.actionTypes.call,
@@ -148,10 +159,7 @@ export default class DialerUI extends RcModule {
 
   @proxify
   async onCallButtonClick({ fromNumber, fromSessionId } = {}) {
-    if (
-      `${this.toNumberField}`.trim().length === 0 &&
-      !this.recipient
-    ) {
+    if (`${this.toNumberField}`.trim().length === 0 && !this.recipient) {
       this._loadLastPhoneNumber();
     } else {
       this._onBeforeCall(fromSessionId);
@@ -177,7 +185,82 @@ export default class DialerUI extends RcModule {
     return this.state.recipient;
   }
 
-  get status() {
-    return this.state.status;
+  get isWebphoneMode() {
+    return this._callingSettings.callingMode === callingModes.webphone;
+  }
+
+  get isWebphoneDisconnected() {
+    return this.isWebphoneMode && !this._webphone.connected;
+  }
+
+  get isWebphoneConnecting() {
+    return this.isWebphoneMode && this._webphone.connecting;
+  }
+
+  get isAudioNotEnabled() {
+    return this.isWebphoneMode && !this._audioSettings.userMedia;
+  }
+
+  get isCallButtonDisabled() {
+    return (
+      !this._call.isIdle ||
+      !this._connectivityMonitor.connectivity ||
+      this._rateLimiter.throttling ||
+      this.isWebphoneDisconnected ||
+      this.isAudioNotEnabled
+    );
+  }
+
+  get showSpinner() {
+    return !(
+      this._call.ready &&
+      this._callingSettings.ready &&
+      this._locale.ready &&
+      this._connectivityMonitor.ready &&
+      (!this._audioSettings || this._audioSettings.ready) &&
+      !this.isWebphoneConnecting
+    );
+  }
+
+  @getter
+  searchContactList = createSelector(
+    () => this._contactSearch && this._contactSearch.sortedResult,
+    sortedResult => (sortedResult || []),
+  )
+
+  getUIProps() {
+    return {
+      currentLocale: this._locale.currentLocale,
+      callingMode: this._callingSettings.callingMode,
+      isWebphoneMode: this.isWebphoneMode,
+      callButtonDisabled: this.isCallButtonDisabled,
+      fromNumber: this._callingSettings.fromNumber,
+      fromNumbers: this._callingSettings.fromNumbers,
+      toNumber: this.toNumberField,
+      recipient: this.recipient,
+      searchContactList: this.searchContactList,
+      showSpinner: this.showSpinner,
+      dialButtonVolume: this._audioSettings ? this._audioSettings.dialButtonVolume : 1,
+      dialButtonMuted: this._audioSettings ? this._audioSettings.dialButtonMuted : false,
+    };
+  }
+  getUIFunctions() {
+    return {
+      onToNumberChange: value => this.setToNumberField(value),
+      clearToNumber: () => this.clearToNumberField(),
+      onCallButtonClick: () => this.onCallButtonClick(),
+      changeFromNumber: (...args) => this._callingSettings.updateFromNumber(...args),
+      formatPhone: phoneNumber => formatNumber({
+        phoneNumber,
+        areaCode: this._regionSettings.areaCode,
+        countryCode: this._regionSettings.countryCode,
+      }),
+      setRecipient: recipient => this.setRecipient(recipient),
+      clearRecipient: () => this.clearRecipient(),
+      searchContact: searchString => (
+        this._contactSearch &&
+        this._contactSearch.debouncedSearch({ searchString })
+      ),
+    };
   }
 }

@@ -1,5 +1,6 @@
 import { expect } from 'chai';
-import getCallingSettingsReducer, {
+import {
+  getCallingSettingsReducer,
   getCallWithReducer,
   getMyLocationReducer,
   getRingoutPromptReducer,

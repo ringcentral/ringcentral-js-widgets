@@ -20,6 +20,8 @@ import TextInput from '../TextInput';
 import Select from '../DropdownSelect';
 import SaveButton from '../SaveButton';
 
+const TooltipCom = typeof Tooltip === 'function' ? Tooltip : Tooltip.default;
+
 export default class CallingSettingsPanel extends Component {
   constructor(props) {
     super(props);
@@ -195,7 +197,7 @@ export default class CallingSettingsPanel extends Component {
                 checked={this.state.ringoutPrompt}
                 onChange={this.onRingoutPromptChange}
                 />
-            }
+              }
             >
             {i18n.getString('press1ToStartCallLabel', currentLocale)}
           </IconField>
@@ -207,7 +209,7 @@ export default class CallingSettingsPanel extends Component {
       <div data-sign="callingSettings" className={classnames(styles.root, className)}>
         <BackHeader
           onBackClick={onBackButtonClick}
-          >
+        >
           {i18n.getString('title', currentLocale)}
         </BackHeader>
         <Panel className={styles.content}>
@@ -215,7 +217,7 @@ export default class CallingSettingsPanel extends Component {
             label={
               <span>
                 {i18n.getString('makeCallsWith', currentLocale)}
-                <Tooltip
+                <TooltipCom
                   placement="bottom"
                   trigger="click"
                   overlay={toolTip}
@@ -226,12 +228,13 @@ export default class CallingSettingsPanel extends Component {
                   getTooltipContainer={() => this.tooltipContainner}
                 >
                   <InfoIcon width={14} height={14} className={styles.infoIcon} />
-                </Tooltip>
+                </TooltipCom>
               </span>
             }
             noBorder
           >
             <Select
+              dataSign="callingSetting"
               className={styles.select}
               value={this.state.callWith}
               onChange={this.onCallWithChange}

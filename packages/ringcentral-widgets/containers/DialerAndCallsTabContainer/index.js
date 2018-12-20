@@ -12,7 +12,7 @@ import styles from './styles.scss';
 
 class TabContentView extends Component {
   static propTypes = {
-    applicable: PropTypes.bool.isRequired,
+    showTabs: PropTypes.bool.isRequired,
     showSpinner: PropTypes.bool.isRequired,
     currentLocale: PropTypes.string.isRequired,
     currentPath: PropTypes.string.isRequired,
@@ -61,7 +61,7 @@ function mapToProps(_, {
   },
 }) {
   return {
-    applicable: hasActiveCalls(phone),
+    showTabs: hasActiveCalls(phone),
     currentLocale: locale.currentLocale,
     showSpinner: !locale.ready,
     currentPath: routerInteraction.currentPath,

@@ -12,8 +12,8 @@ export default {
   viewDetails: "Visualizza dettagli",
   addEntity: "Crea nuovo",
   addLog: "Registro",
-  text: "SMS",
-  call: "Chiama",
+  text: "Testo",
+  call: "Chiamata",
   missedCall: "Perse",
   inboundCall: "In entrata",
   outboundCall: "In uscita"

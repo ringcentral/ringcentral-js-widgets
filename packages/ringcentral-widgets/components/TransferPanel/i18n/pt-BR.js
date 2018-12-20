@@ -1,7 +1,7 @@
 export default {
   to: "Para:",
   transferTo: "Transferir para",
-  blindTransfer: "Transferência",
+  blindTransfer: "Transferir",
   enterNameOrNumber: "Inserir número"
 };
 

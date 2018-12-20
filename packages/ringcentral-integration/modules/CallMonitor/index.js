@@ -247,20 +247,33 @@ export default class CallMonitor extends RcModule {
     this.addSelector('otherDeviceCalls',
       this._selectors.calls,
       () => this._webphone && this._webphone.lastEndedSessions,
-      (calls, lastEndedSessions) => {
-        let sessionsCache = lastEndedSessions;
-        return calls.filter((callItem) => {
+      (calls, lastEndedSessions) => (
+        calls.reduce(({ sessionsCache, res }, callItem) => {
           if (callItem.webphoneSession) {
-            return false;
+            return {
+              sessionsCache,
+              res
+            };
           }
-          if (!sessionsCache) {
-            return true;
+
+          if (!sessionsCache || !sessionsCache.length) {
+            return {
+              sessionsCache,
+              res: [...res, callItem]
+            };
           }
-          const endCall = matchWephoneSessionWithAcitveCall(sessionsCache, callItem);
-          sessionsCache = sessionsCache.filter(x => x !== endCall);
-          return !endCall;
-        });
-      },
+
+          const endCall = matchWephoneSessionWithAcitveCall(sessionsCache, [...res, callItem]);
+
+          return {
+            sessionsCache: sessionsCache.filter(x => x !== endCall),
+            res: endCall ? res : [...res, callItem]
+          };
+        }, {
+          sessionsCache: lastEndedSessions,
+          res: []
+        }).res
+      ),
     );
 
     this.addSelector('uniqueNumbers',
