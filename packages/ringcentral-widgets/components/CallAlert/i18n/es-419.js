@@ -3,7 +3,7 @@ import callErrors from 'ringcentral-integration/modules/Call/callErrors';
 export default {
   [callErrors.noToNumber]: "Ingrese un número de teléfono válido.",
   [callErrors.noAreaCode]: "Defina el {areaCodeLink} para utilizar números de teléfono locales de 7 dígitos.",
-  [callErrors.specialNumber]: "No es posible llamar a emergencias o a números de servicios especiales.",
+  [callErrors.specialNumber]: "No es posible llamar a números de emergencia o de servicios especiales.",
   [callErrors.connectFailed]: "Error de conexión. Vuelva a intentarlo más tarde.",
   [callErrors.internalError]: "Se produjo un error en la conexión. Vuelva a intentarlo más tarde.",
   [callErrors.notAnExtension]: "El número de extensión no existe.",

@@ -6,12 +6,13 @@ import sourcemaps from 'gulp-sourcemaps';
 import cp from 'child_process';
 
 const BUILD_PATH = path.resolve(__dirname, '../../build/phone-number');
-gulp.task('clean', async () => (
-  fs.remove(BUILD_PATH)
-));
 
-gulp.task('build', ['clean'], () => (
-  gulp.src([
+export function clean() {
+  return fs.remove(BUILD_PATH);
+}
+
+export function compile() {
+  return gulp.src([
     './lib/**/*.js',
     '!./lib/**/*.test.js',
     './*.js',
@@ -22,8 +23,10 @@ gulp.task('build', ['clean'], () => (
     .pipe(sourcemaps.init())
     .pipe(babel())
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(BUILD_PATH))
-));
+    .pipe(gulp.dest(BUILD_PATH));
+}
+
+export const build = gulp.series(clean, compile);
 
 async function exec(command) {
   return new Promise((resolve, reject) => {
@@ -51,7 +54,8 @@ async function getVersionFromTag() {
 }
 
 const RELEASE_PATH = path.resolve(__dirname, '../../release/phone-number');
-gulp.task('release-clean', async () => {
+
+export async function releaseClean() {
   if (!await fs.exists(RELEASE_PATH)) {
     await fs.mkdirp(RELEASE_PATH);
   }
@@ -59,14 +63,14 @@ gulp.task('release-clean', async () => {
   for (const file of files) {
     await fs.remove(path.resolve(RELEASE_PATH, file));
   }
-});
+}
 
-gulp.task('release-copy', ['build', 'release-clean'], () => (
-  gulp.src([`${BUILD_PATH}/**`, `${__dirname}/README.md`, `${__dirname}/LICENSE`])
-    .pipe(gulp.dest(RELEASE_PATH))
-));
+export function releaseCopy() {
+  return gulp.src([`${BUILD_PATH}/**`, `${__dirname}/README.md`, `${__dirname}/LICENSE`])
+    .pipe(gulp.dest(RELEASE_PATH));
+}
 
-gulp.task('release', ['release-copy'], async () => {
+export async function generatePackage() {
   const packageInfo = JSON.parse(await fs.readFile(path.resolve(__dirname, 'package.json')));
   delete packageInfo.scripts;
   delete packageInfo.devDependencies;
@@ -75,4 +79,9 @@ gulp.task('release', ['release-copy'], async () => {
     packageInfo.version = version;
   }
   await fs.writeFile(path.resolve(RELEASE_PATH, 'package.json'), JSON.stringify(packageInfo, null, 2));
-});
+}
+
+export const release = gulp.series(
+  gulp.parallel(build, releaseClean),
+  gulp.parallel(releaseCopy, generatePackage),
+);

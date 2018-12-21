@@ -83,7 +83,7 @@ describe('RCI-1710773 Conference Call Control Page - Hold/Unhold', () => {
     // Click Hold Button
     holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
     holdButton.find(CircleButton).simulate('click');
-    await timeout(100);
+    await timeout(10);
     wrapper.update();
     muteButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(0);
     holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
@@ -94,7 +94,7 @@ describe('RCI-1710773 Conference Call Control Page - Hold/Unhold', () => {
     expect(recordButton.props().disabled).toBe(true);
     // Unhold button
     holdButton.find(CircleButton).simulate('click');
-    await timeout(100);
+    await timeout(10);
     wrapper.update();
     muteButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(0);
     holdButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(2);
@@ -185,53 +185,53 @@ describe('Conference Call Control Page - Add', () => {
 
 describe(`RCI-12004 Conference maximize participants: User has a Conference Call and has 10
  participants (include host)`, () => {
-  test('#2, #3 , check the Conference/Normal call control page:', async () => {
-    const { wrapper, phone } = await initPhoneWrapper();
-    await mockConferenceCallEnv(phone, { conferencePartiesCount: 10 });
-    wrapper.update();
-    expect(wrapper.find(ConferenceInfo).find('.remains').text()).toEqual('+5');
-    // #2 Go to Conference call control page, the Add button is disabled
-    const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
-    expect(addButton.props().title).toEqual('Add');
-    expect(addButton.props().disabled).toBe(true);
-    expect(addButton.find(CircleButton).find('svg').props().className).toContain('buttonDisabled');
-    // #3 Make an outbound call, the Merge button is disabled
-    await makeOutboundCall(phone);
-    wrapper.update();
-    const mergeButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
-    expect(mergeButton.props().title).toEqual('Merge');
-    expect(mergeButton.props().disabled).toBe(true);
-    expect(mergeButton.find(CircleButton).find('svg').props().className).toContain('buttonDisabled');
-  });
-  test('#4 One of Participants quit Conference Call, Merge button is enabled in Normal Call Ctrl Page:',
-    async () => {
+    test('#2, #3 , check the Conference/Normal call control page:', async () => {
       const { wrapper, phone } = await initPhoneWrapper();
-      // Add to maximum
       await mockConferenceCallEnv(phone, { conferencePartiesCount: 10 });
-      // make outbound call
+      wrapper.update();
+      expect(wrapper.find(ConferenceInfo).find('.remains').text()).toEqual('+5');
+      // #2 Go to Conference call control page, the Add button is disabled
+      const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
+      expect(addButton.props().title).toEqual('Add');
+      expect(addButton.props().disabled).toBe(true);
+      expect(addButton.find(CircleButton).find('svg').props().className).toContain('buttonDisabled');
+      // #3 Make an outbound call, the Merge button is disabled
       await makeOutboundCall(phone);
-      // one of Participants quit Conference Call
-      await updateConferenceCallEnv(phone, { conferencePartiesCount: 9 });
       wrapper.update();
       const mergeButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
       expect(mergeButton.props().title).toEqual('Merge');
-      expect(mergeButton.props().disabled).toBe(false);
-      expect(mergeButton.find(CircleButton).find('svg').props().className).not.toContain('buttonDisabled');
-    }
-  );
-  test('#5 One of Participants quit Conference Call, Add button is enabled in Conference Call Ctrl Page:',
-    async () => {
-      const { wrapper, phone } = await initPhoneWrapper();
-      // Add to maximum
-      await mockConferenceCallEnv(phone, { conferencePartiesCount: 10 });
-      // one of Participants quit Conference Call
-      await updateConferenceCallEnv(phone, { conferencePartiesCount: 9 });
-      wrapper.update();
-      expect(wrapper.find(ConferenceInfo).find('.remains').text()).toEqual('+4');
-      const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
-      expect(addButton.props().title).toEqual('Add');
-      expect(addButton.props().disabled).toBe(false);
-      expect(addButton.find(CircleButton).find('svg').props().className).not.toContain('buttonDisabled');
-    }
-  );
-});
+      expect(mergeButton.props().disabled).toBe(true);
+      expect(mergeButton.find(CircleButton).find('svg').props().className).toContain('buttonDisabled');
+    });
+    test('#4 One of Participants quit Conference Call, Merge button is enabled in Normal Call Ctrl Page:',
+      async () => {
+        const { wrapper, phone } = await initPhoneWrapper();
+        // Add to maximum
+        await mockConferenceCallEnv(phone, { conferencePartiesCount: 10 });
+        // make outbound call
+        await makeOutboundCall(phone);
+        // one of Participants quit Conference Call
+        await updateConferenceCallEnv(phone, { conferencePartiesCount: 9 });
+        wrapper.update();
+        const mergeButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
+        expect(mergeButton.props().title).toEqual('Merge');
+        expect(mergeButton.props().disabled).toBe(false);
+        expect(mergeButton.find(CircleButton).find('svg').props().className).not.toContain('buttonDisabled');
+      }
+    );
+    test('#5 One of Participants quit Conference Call, Add button is enabled in Conference Call Ctrl Page:',
+      async () => {
+        const { wrapper, phone } = await initPhoneWrapper();
+        // Add to maximum
+        await mockConferenceCallEnv(phone, { conferencePartiesCount: 10 });
+        // one of Participants quit Conference Call
+        await updateConferenceCallEnv(phone, { conferencePartiesCount: 9 });
+        wrapper.update();
+        expect(wrapper.find(ConferenceInfo).find('.remains').text()).toEqual('+4');
+        const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
+        expect(addButton.props().title).toEqual('Add');
+        expect(addButton.props().disabled).toBe(false);
+        expect(addButton.find(CircleButton).find('svg').props().className).not.toContain('buttonDisabled');
+      }
+    );
+  });

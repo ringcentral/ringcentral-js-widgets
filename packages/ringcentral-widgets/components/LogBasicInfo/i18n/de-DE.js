@@ -13,7 +13,7 @@ export default {
   [telephonyStatuses.noCall]: "Getrennt",
   [telephonyStatuses.callConnected]: "Verbunden",
   [telephonyStatuses.ringing]: "Es wird angerufen",
-  [telephonyStatuses.onHold]: "Wird gehalten",
+  [telephonyStatuses.onHold]: "Gehalten",
   [telephonyStatuses.parkedCall]: "Geparkt",
   [callResults.unknown]: "Unbekannt",
   [callResults.missed]: "Verpasst",

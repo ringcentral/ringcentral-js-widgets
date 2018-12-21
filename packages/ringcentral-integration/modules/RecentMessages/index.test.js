@@ -130,7 +130,13 @@ describe('RecentMessages Unit Test', () => {
 
     it('should fetch from server if local recent messages is not enough', async () => {
       sinon.stub(recentMessages, '_fetchRemoteRecentMessages').callsFake(() => []);
-      sinon.stub(recentMessages, '_getLocalRecentMessages').returns([1, 2, 3]);
+      sinon.stub(recentMessages, '_getLocalRecentMessages').returns(
+        [
+          { creationTime: 1542790696000 },
+          { creationTime: 1542790696000 },
+          { creationTime: 1542790696000 }
+        ]
+      );
       await recentMessages._getRecentMessages({});
       expect(recentMessages._fetchRemoteRecentMessages.called).to.equal(true);
     });

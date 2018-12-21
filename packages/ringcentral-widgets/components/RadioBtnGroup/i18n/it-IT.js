@@ -1,5 +1,5 @@
 export default {
-  Home: "Abitazione",
+  Home: "Casa",
   Mobile: "Cellulare",
   Work: "Lavoro"
 };

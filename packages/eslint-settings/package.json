@@ -12,6 +12,7 @@
   },
   "scripts": {},
   "dependencies": {
+    "@ringcentral-integration/locale-settings": "*",
     "babel-eslint": "^8.2.3",
     "eslint": "^4.12.0",
     "eslint-config-airbnb": "^16.1.0",

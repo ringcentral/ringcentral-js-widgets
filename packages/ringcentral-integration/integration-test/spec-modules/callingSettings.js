@@ -5,8 +5,9 @@ import loginStatus from '../../modules/Auth/loginStatus';
 import { containsErrorMessage, ensureLogin } from '../utils/HelpUtil';
 import { waitUntilEqual } from '../utils/WaitUtil';
 import * as mock from '../mock';
+import authzProfileBody from '../mock/data/authzProfile';
+import extensionInfoBody from '../mock/data/extensionInfo';
 
-const authzProfileBody = require('../mock/data/authzProfile');
 
 export default (auth, client, alert, account, callingSettings, extensionPhoneNumber, extensionInfo) => {
   describe('Calling Settings', async function () {
@@ -193,14 +194,18 @@ export default (auth, client, alert, account, callingSettings, extensionPhoneNum
 
     it('Should only include softphone when ReadUserForwardingFlipNumbers is false', async () => {
       mock.restore();
-      mock.mockForLogin({ mockAuthzProfile: false });
-      mock.authzProfile({
-        permissions: authzProfileBody.permissions.filter(p => p.permission.id !== 'ReadUserForwardingFlipNumbers')
+      mock.mockForLogin({ mockExtensionInfo: false });
+      mock.extensionInfo({
+        serviceFeatures: extensionInfoBody.serviceFeatures.filter(p => p.featureName !== 'WebPhone').concat({
+          featureName : "WebPhone",
+          enabled : false
+        })
       });
       await ensureLogin(auth, account);
       expect(callingSettings.callWithOptions).to.deep.equals([
         callingOptions.softphone,
         callingOptions.myphone,
+        callingOptions.otherphone,
         callingOptions.customphone
       ]);
     });

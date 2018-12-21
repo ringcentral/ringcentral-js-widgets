@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   supportedLocales: [
     'en-US',
     'en-GB',
@@ -18,4 +18,3 @@ export default {
   ],
   sourceLocale: 'en-US',
 };
-

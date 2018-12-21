@@ -1,7 +1,7 @@
 export default {
   to: "收件人：",
-  transferTo: "轉移至",
-  blindTransfer: "轉移",
+  transferTo: "轉接至",
+  blindTransfer: "轉接",
   enterNameOrNumber: "輸入號碼"
 };
 

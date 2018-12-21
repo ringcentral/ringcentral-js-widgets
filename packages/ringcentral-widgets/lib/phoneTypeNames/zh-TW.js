@@ -3,7 +3,7 @@ import phoneTypes from '../../enums/phoneTypes';
 export default {
   [phoneTypes.business]: "商務電話",
   [phoneTypes.extension]: "分機號碼",
-  [phoneTypes.home]: "家中電話",
+  [phoneTypes.home]: "家用電話",
   [phoneTypes.mobile]: "行動電話",
   [phoneTypes.phone]: "電話",
   [phoneTypes.unknown]: "未知的電話類型",

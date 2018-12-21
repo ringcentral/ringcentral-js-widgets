@@ -13,7 +13,7 @@ export default {
   [muteConflictError]: "Le son de cet appel a été désactivé sur un autre appareil. Veuillez activer le son de l'appel avant votre action dans l'application.",
   [holdConflictError]: "Cet appel a été mis en attente sur un autre appareil. Veuillez reprendre l'appel avant votre action dans l'application.",
   [unMuteConflictError]: "Le son de cet appel a été activé sur un autre appareil. Veuillez désactiver le son de l'appel avant votre action dans l'application.",
-  [unHoldConflictError]: "Cet appel a été repris sur un autre appareil. Veuillez mettre en attente l'appel avant votre action dans l'application.",
+  [unHoldConflictError]: "Cet appel a été repris sur un autre appareil. Veuillez mettre en attente l'appel avant toute action au sein de l'application.",
   [generalError]: "Erreur de serveur inconnue. Veuillez réessayer plus tard."
 };
 

@@ -2,7 +2,7 @@ export default {
   en: "Anglais",
   ja: "Japonais",
   fr: "Français",
-  de: "Deutsch",
+  de: "Allemand",
   es: "Espagnol",
   it: "Italien",
   pt: "Portugais"

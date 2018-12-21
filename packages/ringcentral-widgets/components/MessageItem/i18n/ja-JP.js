@@ -11,12 +11,13 @@ export default {
   groupConversation: "グループ会話",
   voiceMessage: "ボイスメッセージ",
   [messageTypes.voiceMail]: "ボイスメール",
+  [messageTypes.fax]: "FAX",
   mark: "未読にする",
   unmark: "既読にする",
   delete: "削除",
   faxSent: "FAX送信済み",
   faxReceived: "FAX受信済み",
-  pages: "ポケットベル",
+  pages: "ページ",
   preview: "表示",
   download: "ダウンロード",
   imageAttachment: "添付ファイル：1個の画像"
@@ -32,6 +33,7 @@ export default {
 // @key: @#@"groupConversation"@#@ @source: @#@"Group Conversation"@#@
 // @key: @#@"voiceMessage"@#@ @source: @#@"Voice message"@#@
 // @key: @#@"[messageTypes.voiceMail]"@#@ @source: @#@"Voice Mail"@#@
+// @key: @#@"[messageTypes.fax]"@#@ @source: @#@"Fax"@#@
 // @key: @#@"mark"@#@ @source: @#@"Mark as Unread"@#@
 // @key: @#@"unmark"@#@ @source: @#@"Mark as Read"@#@
 // @key: @#@"delete"@#@ @source: @#@"Delete"@#@

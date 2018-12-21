@@ -1,6 +1,6 @@
 export default {
-  currentCall: "当前呼叫",
-  viewCalls: "查看",
+  currentCall: "当前通话",
+  viewCalls: "查看呼叫",
   incomingCall: "{numberOf} 个呼入电话",
   incomingCalls: "{numberOf} 个呼入电话",
   callOnHold: "{numberOf} 个呼叫等候接听",

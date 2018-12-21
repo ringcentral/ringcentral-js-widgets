@@ -179,7 +179,8 @@ export default class UserGuide extends React.Component {
   }
 
   render() {
-    if (!this.state.entered) return null;
+    if (!this.props.guides || this.props.guides.length === 0 || !this.state.entered) return null;
+
     if (this.props.showSpinner) {
       return <SpinnerOverlay />;
     }

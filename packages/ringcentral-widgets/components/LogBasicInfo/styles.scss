@@ -102,6 +102,18 @@
   overflow: hidden;
 }
 
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  /* Apply the style only in IE11
+  * For logNotification the father element use 
+  *   space-between IE will miss calculate the correct position.
+  * Details: https://github.com/philipwalton/flexbugs#flexbug-17
+  * Here defined the width of logBasicInfo to resolve it
+  */
+  .root {
+    min-width: 70%;
+  }
+}
+
 .extra {
   display: flex;
   justify-content: center;

@@ -12,19 +12,19 @@ describe('format', () => {
   });
 
   test('should default to US', () => {
-    const phoneNumber = '1234567890';
+    const phoneNumber = '16503618700';
     expect(format({ phoneNumber }))
       .toBe(format({ phoneNumber, countryCode: 'US' }));
   });
 
   test('should format a number', () => {
-    const phoneNumber = '1234567890';
+    const phoneNumber = '16503618700';
     expect(format({ phoneNumber }).length)
       .not.toBe(phoneNumber.length);
   });
 
   test('should default to local format', () => {
-    const phoneNumber = '1234567890';
+    const phoneNumber = '16503618700';
     expect(format({ phoneNumber }))
       .toBe(format({ phoneNumber, type: formatTypes.local }));
   });
@@ -43,7 +43,7 @@ describe('format', () => {
     });
   });
   test('should only remove extension number if params.removeExtension is true', () => {
-    const phoneNumber = '1234567890';
+    const phoneNumber = '16503618700';
     const extension = '123';
     expect(format({
       phoneNumber: `${phoneNumber}*${extension}`,
@@ -295,7 +295,7 @@ describe('format', () => {
     }));
   });
   test('should only remove extension number if params.removeExtension is true', () => {
-    const phoneNumber = '1234567890';
+    const phoneNumber = '16503618700';
     const extension = '123';
     expect(format({
       phoneNumber: `${phoneNumber}*${extension}`,

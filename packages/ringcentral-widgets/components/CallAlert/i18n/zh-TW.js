@@ -2,7 +2,7 @@ import callErrors from 'ringcentral-integration/modules/Call/callErrors';
 
 export default {
   [callErrors.noToNumber]: "請輸入有效的電話號碼。",
-  [callErrors.noAreaCode]: "請設定讓 {areaCodeLink} 使用 7 位數的本地電話號碼。",
+  [callErrors.noAreaCode]: "請設定讓{areaCodeLink}使用 7 位數的本地電話號碼。",
   [callErrors.specialNumber]: "不支援撥號至緊急或特別服務號碼。",
   [callErrors.connectFailed]: "連線失敗。請稍後再試一次。",
   [callErrors.internalError]: "因為內部錯誤導致無法連線。請稍後再試一次。",

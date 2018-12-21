@@ -116,7 +116,7 @@ export default class ContactItem extends PureComponent {
     const { sourceNodeRenderer } = this.props;
     const sourceNode = sourceNodeRenderer({ sourceType: type });
     return (
-      <div className={styles.root} onClick={this.onItemSelected}>
+      <div className={styles.root} onClick={this.onItemSelected} data-sign="contactItem">
         <div className={styles.contactProfile}>
           <div className={styles.avatarNodeContainer}>
             <AvatarNode

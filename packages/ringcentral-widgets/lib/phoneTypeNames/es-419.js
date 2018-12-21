@@ -7,7 +7,7 @@ export default {
   [phoneTypes.mobile]: "Teléfono móvil",
   [phoneTypes.phone]: "Teléfono",
   [phoneTypes.unknown]: "Tipo de teléfono desconocido",
-  [phoneTypes.company]: "Número de la empresa",
+  [phoneTypes.company]: "Número de la compañía",
   [phoneTypes.direct]: "Número directo",
   [phoneTypes.fax]: "Fax",
   [phoneTypes.other]: "Otro"

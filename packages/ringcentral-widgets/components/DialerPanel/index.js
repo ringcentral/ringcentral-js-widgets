@@ -39,7 +39,8 @@ function DialerPanel({
   autoFocus,
   showFromField = true,
   children,
-  callBtnClassName,
+  withTabs,
+  inConference,
 }) {
   const onCallFunc = () => {
     if (!callButtonDisabled) {
@@ -66,21 +67,24 @@ function DialerPanel({
         contactPhoneRenderer={recipientsContactPhoneRenderer}
         titleEnabled
         autoFocus={autoFocus}
-        className={!showFromField ? classnames(styles.inputField, styles.recipientsField) : null}
+        className={
+          !showFromField
+            ? classnames(styles.inputField, styles.recipientsField)
+            : null
+        }
       />
-      {
-        showFromField ?
-          <div className={styles.inputField}>
-            <FromField
-              fromNumber={fromNumber}
-              fromNumbers={fromNumbers}
-              onChange={changeFromNumber}
-              formatPhone={formatPhone}
-              currentLocale={currentLocale}
-              hidden={!isWebphoneMode}
-            />
-          </div> : null
-      }
+      {showFromField ? (
+        <div className={styles.inputField}>
+          <FromField
+            fromNumber={fromNumber}
+            fromNumbers={fromNumbers}
+            onChange={changeFromNumber}
+            formatPhone={formatPhone}
+            currentLocale={currentLocale}
+            hidden={!isWebphoneMode}
+          />
+        </div>
+      ) : null}
       <div className={classnames(styles.dialButtons, dialButtonsClassName)}>
         <DialPad
           className={styles.dialPad}
@@ -90,7 +94,13 @@ function DialerPanel({
           dialButtonVolume={dialButtonVolume}
           dialButtonMuted={dialButtonMuted}
         />
-        <div className={classnames(styles.callBtnRow, callBtnClassName)}>
+        <div
+          className={classnames(
+            styles.callBtnRow,
+            withTabs && styles.callBtnRowWithTabs,
+            inConference && styles.callBtnRowInConference,
+          )}
+        >
           <div className={styles.callBtn}>
             <CircleButton
               dataSign="callButton"
@@ -122,22 +132,26 @@ DialerPanel.propTypes = {
   toNumber: PropTypes.string,
   onToNumberChange: PropTypes.func,
   fromNumber: PropTypes.string,
-  fromNumbers: PropTypes.arrayOf(PropTypes.shape({
-    phoneNumber: PropTypes.string,
-    usageType: PropTypes.string,
-  })),
+  fromNumbers: PropTypes.arrayOf(
+    PropTypes.shape({
+      phoneNumber: PropTypes.string,
+      usageType: PropTypes.string,
+    }),
+  ),
   changeFromNumber: PropTypes.func,
   formatPhone: PropTypes.func,
   showSpinner: PropTypes.bool,
   dialButtonVolume: PropTypes.number,
   dialButtonMuted: PropTypes.bool,
   searchContact: PropTypes.func.isRequired,
-  searchContactList: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    entityType: PropTypes.string.isRequired,
-    phoneType: PropTypes.string.isRequired,
-    phoneNumber: PropTypes.string.isRequired,
-  })).isRequired,
+  searchContactList: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      entityType: PropTypes.string.isRequired,
+      phoneType: PropTypes.string.isRequired,
+      phoneNumber: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
   recipient: PropTypes.shape({
     phoneNumber: PropTypes.string.isRequired,
     name: PropTypes.string,
@@ -152,7 +166,8 @@ DialerPanel.propTypes = {
   autoFocus: PropTypes.bool,
   showFromField: PropTypes.bool,
   children: PropTypes.node,
-  callBtnClassName: PropTypes.string,
+  withTabs: PropTypes.bool,
+  inConference: PropTypes.bool,
 };
 
 DialerPanel.defaultProps = {
@@ -177,7 +192,8 @@ DialerPanel.defaultProps = {
   autoFocus: false,
   showFromField: true,
   children: undefined,
-  callBtnClassName: undefined,
+  withTabs: false,
+  inConference: false,
 };
 
 export default DialerPanel;

@@ -3,7 +3,7 @@ import * as messageHelper from '../../lib/messageHelper';
 
 export function getConversationListReducer(types) {
   return (state = [], {
-    type, records, conversationId, conversationStore, length = Infinity
+    type, records, conversationId, conversationStore, messageIds
   }) => {
     const newState = [];
     const stateMap = {};
@@ -75,7 +75,7 @@ export function getConversationListReducer(types) {
         return state.filter(c => c.id !== conversationId);
 
       case types.sliceConversations:
-        return state.slice(0, length);
+        return state.filter(({ messageId }) => messageIds.indexOf(messageId) > -1);
       case types.resetSuccess:
         return [];
       default:
@@ -85,7 +85,9 @@ export function getConversationListReducer(types) {
 }
 
 export function getConversationStoreReducer(types) {
-  return (state = {}, { type, records, conversationId }) => {
+  return (state = {}, {
+    type, records, conversationId, messageIds
+  }) => {
     let newState = {};
     const updatedConversations = {};
     switch (type) {
@@ -134,6 +136,18 @@ export function getConversationStoreReducer(types) {
         newState = { ...state };
         delete newState[conversationId];
         return newState;
+      case types.sliceConversations: {
+        const keys = Object.keys(state);
+        return keys.reduce((acc, key) => {
+          const messages = state[key];
+          const persist = messages.filter(({ id }) => messageIds.indexOf(id) > -1);
+          if (!persist.length) {
+            return acc;
+          }
+          acc[key] = persist;
+          return acc;
+        }, {});
+      }
       case types.resetSuccess:
         return {};
       default:

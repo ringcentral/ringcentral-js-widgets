@@ -30,7 +30,7 @@
     "enzyme-adapter-react-16": "^1.2.0",
     "enzyme-to-json": "^3.3.4",
     "format-message": "^5.0.0",
-    "fs-extra": "^6.0.0",
+    "fs-extra": "^7.0.1",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^22.4.3",
     "moment": "^2.22.1",
@@ -51,7 +51,7 @@
     "ringcentral-integration": "^0.9.0",
     "ringcentral-widgets": "^0.9.0",
     "ringcentral-widgets-demo": "^0.0.1",
-    "yargs": "^12.0.1"
+    "yargs": "^12.0.5"
   },
   "jest": {
     "moduleNameMapper": {

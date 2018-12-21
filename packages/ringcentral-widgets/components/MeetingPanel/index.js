@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { reduce } from 'ramda';
+import sleep from 'ringcentral-integration/lib/sleep';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 import DropdownList from 'react-widgets/lib/DropdownList';
 import Moment from 'moment';
@@ -61,14 +62,14 @@ const Topic = (
     that,
   }
 ) => (
-    <MeetingSection hideTopBorderLine>
-      <div className={styles.inline}>
-        <span className={styles.label}>
-          {i18n.getString('topic', currentLocale)}
-        </span>
-        <input
-          ref={(ref) => { that.topic = ref; }}
-          onPaste={(event) => {
+  <MeetingSection hideTopBorderLine>
+    <div className={styles.inline}>
+      <span className={styles.label}>
+        {i18n.getString('topic', currentLocale)}
+      </span>
+      <input
+        ref={(ref) => { that.topic = ref; }}
+        onPaste={(event) => {
             const topic = event.target.value;
             event.preventDefault();
             event.clipboardData.items[0].getAsString((data) => {
@@ -93,10 +94,10 @@ const Topic = (
               });
             });
           }}
-          type="text"
-          className={styles.input}
-          defaultValue={meeting.topic || ''}
-          onChange={({ target }) => {
+        type="text"
+        className={styles.input}
+        defaultValue={meeting.topic || ''}
+        onChange={({ target }) => {
             const topic = target.value;
             if (topic.length >= 0 && topic.length <= MAX_TOPIC_LENGTH) {
               clearTimeout(that.topicSetTimeoutId);
@@ -112,10 +113,12 @@ const Topic = (
             } else {
               target.value = meeting.topic || '';
             }
-          }} />
-      </div>
-    </MeetingSection>
-  );
+          }}
+        data-sign="scheduleMeetingTopic"
+        />
+    </div>
+  </MeetingSection>
+);
 
 Topic.propTypes = {
   update: PropTypes.func.isRequired,
@@ -340,17 +343,17 @@ const Duration = (
     update
   }
 ) => (
-    !isRecurring ? (
-      <MeetingSection title={i18n.getString('duration', currentLocale)}>
-        <div className={classnames(styles.spaceBetween, styles.duration)}>
-          <div className={styles.list}>
-            <div className={styles.hoursList}>
-              <DropdownList
-                data={hoursList}
-                valueField="value"
-                textField="text"
-                value={parseInt((meeting.schedule.durationInMinutes / 60), 10)}
-                onChange={({ value }) => {
+  !isRecurring ? (
+    <MeetingSection title={i18n.getString('duration', currentLocale)}>
+      <div className={classnames(styles.spaceBetween, styles.duration)}>
+        <div className={styles.list}>
+          <div className={styles.hoursList}>
+            <DropdownList
+              data={hoursList}
+              valueField="value"
+              textField="text"
+              value={parseInt((meeting.schedule.durationInMinutes / 60), 10)}
+              onChange={({ value }) => {
                   let restMinutes = meeting.schedule.durationInMinutes % 60;
                   const isMax = value === hoursList.slice(-1)[0].value;
                   restMinutes = isMax ? 0 : restMinutes;
@@ -363,16 +366,16 @@ const Duration = (
                     }
                   });
                 }} />
-            </div>
           </div>
-          <div className={styles.list}>
-            <div className={styles.minutesList}>
-              <DropdownList
-                data={minutesList}
-                valueField="value"
-                textField="text"
-                value={(meeting.schedule.durationInMinutes % 60) || 0}
-                onChange={({ value }) => {
+        </div>
+        <div className={styles.list}>
+          <div className={styles.minutesList}>
+            <DropdownList
+              data={minutesList}
+              valueField="value"
+              textField="text"
+              value={(meeting.schedule.durationInMinutes % 60) || 0}
+              onChange={({ value }) => {
                   const restHours = parseInt((meeting.schedule.durationInMinutes / 60), 10);
                   const isMax = restHours === hoursList.slice(-1)[0].value;
                   const minutes = isMax ? 0 : value;
@@ -385,12 +388,12 @@ const Duration = (
                     }
                   });
                 }} />
-            </div>
           </div>
         </div>
-      </MeetingSection>
-    ) : null
-  );
+      </div>
+    </MeetingSection>
+  ) : null
+);
 
 Duration.propTypes = {
   update: PropTypes.func.isRequired,
@@ -407,32 +410,34 @@ const RecurringMeeting = (
     meeting,
   }
 ) => (
-    <MeetingSection className={styles.section}>
-      <div>
-        <div className={styles.spaceBetween}>
-          <span className={styles.label}>
-            {i18n.getString('recurringMeeting', currentLocale)}
-          </span>
-          <Switch
-            checked={isRecurring}
-            onChange={(isCheckRecurring) => {
+  <MeetingSection className={styles.section}>
+    <div>
+      <div className={styles.spaceBetween}>
+        <span className={styles.label}>
+          {i18n.getString('recurringMeeting', currentLocale)}
+        </span>
+        <Switch
+          checked={isRecurring}
+          onChange={(isCheckRecurring) => {
               const meetingType = isCheckRecurring ? 'Recurring' : 'Scheduled';
               update({
                 ...meeting,
                 meetingType,
               });
-            }} />
-        </div>
-        {
+            }}
+          dataSign="recuttingMeeting"
+          />
+      </div>
+      {
           isRecurring ? (
             <div className={styles.recurringDescribe}>
               {i18n.getString('recurringDescribe', currentLocale)}
             </div>
           ) : null
         }
-      </div>
-    </MeetingSection>
-  );
+    </div>
+  </MeetingSection>
+);
 
 RecurringMeeting.propTypes = {
   update: PropTypes.func.isRequired,
@@ -448,40 +453,44 @@ const Video = (
     update,
   }
 ) => (
-    <MeetingSection title={i18n.getString('video', currentLocale)} withSwitch>
-      <div>
-        <div className={classnames(styles.labelLight, styles.fixTopMargin)}>
-          {i18n.getString('videoDescribe', currentLocale)}
-        </div>
-        <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
-          <span className={styles.labelLight}>
-            {i18n.getString('host', currentLocale)}
-          </span>
-          <Switch
-            checked={meeting.startHostVideo}
-            onChange={(startHostVideo) => {
+  <MeetingSection title={i18n.getString('video', currentLocale)} withSwitch>
+    <div>
+      <div className={classnames(styles.labelLight, styles.fixTopMargin)}>
+        {i18n.getString('videoDescribe', currentLocale)}
+      </div>
+      <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
+        <span className={styles.labelLight}>
+          {i18n.getString('host', currentLocale)}
+        </span>
+        <Switch
+          checked={meeting.startHostVideo}
+          onChange={(startHostVideo) => {
               update({
                 ...meeting,
                 startHostVideo,
               });
-            }} />
-        </div>
-        <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
-          <span className={styles.labelLight}>
-            {i18n.getString('participants', currentLocale)}
-          </span>
-          <Switch
-            checked={meeting.startParticipantsVideo}
-            onChange={(startParticipantsVideo) => {
+            }}
+          dataSign="videoHostToggle"
+          />
+      </div>
+      <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
+        <span className={styles.labelLight}>
+          {i18n.getString('participants', currentLocale)}
+        </span>
+        <Switch
+          checked={meeting.startParticipantsVideo}
+          onChange={(startParticipantsVideo) => {
               update({
                 ...meeting,
                 startParticipantsVideo,
               });
-            }} />
-        </div>
+            }}
+          dataSign="videoParticipantToggle"
+          />
       </div>
-    </MeetingSection>
-  );
+    </div>
+  </MeetingSection>
+);
 
 Video.propTypes = {
   update: PropTypes.func.isRequired,
@@ -497,21 +506,21 @@ const AudioOptions = (
     data,
   }
 ) => (
-    <MeetingSection title={i18n.getString('audioOptions', currentLocale)} withSwitch>
-      <CheckBox
-        onSelect={({ key }) => {
+  <MeetingSection title={i18n.getString('audioOptions', currentLocale)} withSwitch>
+    <CheckBox
+      onSelect={({ key }) => {
           const audioOptions = key.split('_');
           update({
             ...meeting,
             audioOptions,
           });
         }}
-        valueField="key"
-        textField="text"
-        selected={meeting.audioOptions.join('_')}
-        data={data} />
-    </MeetingSection>
-  );
+      valueField="key"
+      textField="text"
+      selected={meeting.audioOptions.join('_')}
+      data={data} />
+  </MeetingSection>
+);
 
 AudioOptions.propTypes = {
   update: PropTypes.func.isRequired,
@@ -528,18 +537,18 @@ const MeetingOptions = (
     that,
   }
 ) => (
-    <MeetingSection
-      title={i18n.getString('meetingOptions', currentLocale)}
-      toggle={false}
-      withSwitch>
-      <div>
-        <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
-          <span className={styles.labelLight}>
-            {i18n.getString('requirePassword', currentLocale)}
-          </span>
-          <Switch
-            checked={meeting._requireMeetingPassword}
-            onChange={(_requireMeetingPassword) => {
+  <MeetingSection
+    title={i18n.getString('meetingOptions', currentLocale)}
+    toggle={false}
+    withSwitch>
+    <div>
+      <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
+        <span className={styles.labelLight}>
+          {i18n.getString('requirePassword', currentLocale)}
+        </span>
+        <Switch
+          checked={meeting._requireMeetingPassword}
+          onChange={(_requireMeetingPassword) => {
               if (_requireMeetingPassword) {
                 setTimeout(() => {
                   that.password.focus();
@@ -551,9 +560,11 @@ const MeetingOptions = (
                 _requireMeetingPassword,
                 password,
               });
-            }} />
-        </div>
-        {
+            }}
+          dataSign="requirePasswordToggle"
+          />
+      </div>
+      {
           meeting._requireMeetingPassword ? (
             <div className={styles.passwordBox}>
               <div className={styles.labelLight}>
@@ -571,26 +582,30 @@ const MeetingOptions = (
                       password: target.value
                     });
                   }
-                }} />
+                }}
+                data-sign="requirePasswordInput"
+              />
             </div>
           ) : null
         }
-        <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
-          <span className={styles.labelLight}>
-            {i18n.getString('enableJoinBeforeHost', currentLocale)}
-          </span>
-          <Switch
-            checked={meeting.allowJoinBeforeHost}
-            onChange={(allowJoinBeforeHost) => {
+      <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
+        <span className={styles.labelLight}>
+          {i18n.getString('enableJoinBeforeHost', currentLocale)}
+        </span>
+        <Switch
+          checked={meeting.allowJoinBeforeHost}
+          onChange={(allowJoinBeforeHost) => {
               update({
                 ...meeting,
                 allowJoinBeforeHost,
               });
-            }} />
-        </div>
+            }}
+          dataSign="enableJoinToggle"
+          />
       </div>
-    </MeetingSection>
-  );
+    </div>
+  </MeetingSection>
+);
 
 MeetingOptions.propTypes = {
   update: PropTypes.func.isRequired,
@@ -646,6 +661,8 @@ class MeetingPanel extends Component {
       showWhen,
       showDuration,
       showRecurringMeeting,
+      showLaunchMeeting,
+      launchMeeting,
     } = this.props;
     if (!Object.keys(meeting).length) {
       return null;
@@ -743,13 +760,16 @@ class MeetingPanel extends Component {
           hidden={hidden}
           disabled={disabled}
           meeting={meeting}
-          onClick={() => {
+          onClick={async () => {
             if (!disabled) {
-              setTimeout(() => {
-                const opener = isSafari() ? window.open() : null;
-                invite(this.props.meeting, opener);
-              }, 100);
+              await sleep(100);
+              const opener = isSafari() ? window.open() : null;
+              await invite(this.props.meeting, opener);
             }
+          }}
+          showLaunchMeeting={showLaunchMeeting}
+          launchMeeting={async () => {
+            await launchMeeting(this.props.meeting);
           }} />
       </div>
     );
@@ -769,6 +789,8 @@ MeetingPanel.propTypes = {
   showWhen: PropTypes.bool,
   showDuration: PropTypes.bool,
   showRecurringMeeting: PropTypes.bool,
+  showLaunchMeeting: PropTypes.bool,
+  launchMeeting: PropTypes.func,
 };
 
 MeetingPanel.defaultProps = {
@@ -778,6 +800,8 @@ MeetingPanel.defaultProps = {
   showWhen: true,
   showDuration: true,
   showRecurringMeeting: true,
+  showLaunchMeeting: false,
+  launchMeeting() {}
 };
 
 export default MeetingPanel;

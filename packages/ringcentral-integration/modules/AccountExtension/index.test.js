@@ -113,43 +113,4 @@ describe('AccountExtension Unit Test', () => {
       sinon.assert.called(accountExtension._addOrDeleteExtension);
     });
   });
-
-  describe('_addOrDeleteExtension', () => {
-    beforeEach(() => {
-      sinon.stub(accountExtension, '_addExtension');
-      sinon.stub(accountExtension, '_deleteExtension');
-    });
-    it('_deleteExtension should be called when extension is not essential and extension is available', () => {
-      accountExtension._addOrDeleteExtension(false, true);
-      sinon.assert.called(accountExtension._deleteExtension);
-    });
-    it('_deleteExtension should not be called when extension is essential and extension is available', async () => {
-      accountExtension._addOrDeleteExtension(true, true);
-      sinon.assert.notCalled(accountExtension._deleteExtension);
-    });
-    it('_deleteExtension should not be called when extension is essential and extension is not available', async () => {
-      accountExtension._addOrDeleteExtension(true, false);
-      sinon.assert.notCalled(accountExtension._deleteExtension);
-    });
-    it('_deleteExtension should not be called when extension is not essential and extension is not available', async () => {
-      accountExtension._addOrDeleteExtension(false, false);
-      sinon.assert.notCalled(accountExtension._deleteExtension);
-    });
-    it('_addExtension should be called when extension is essential and extension is not available', async () => {
-      accountExtension._addOrDeleteExtension(true, false);
-      sinon.assert.called(accountExtension._addExtension);
-    });
-    it('_addExtension should not be called when extension is essential and extension is available', async () => {
-      accountExtension._addOrDeleteExtension(true, true);
-      sinon.assert.notCalled(accountExtension._addExtension);
-    });
-    it('_addExtension should not be called when extension is not essential and extension is available', async () => {
-      accountExtension._addOrDeleteExtension(false, true);
-      sinon.assert.notCalled(accountExtension._addExtension);
-    });
-    it('_addExtension should not be called when extension is not essential and extension is not available', async () => {
-      accountExtension._addOrDeleteExtension(false, false);
-      sinon.assert.notCalled(accountExtension._addExtension);
-    });
-  });
 });

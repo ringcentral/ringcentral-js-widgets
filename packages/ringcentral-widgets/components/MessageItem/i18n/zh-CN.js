@@ -11,6 +11,7 @@ export default {
   groupConversation: "群组对话",
   voiceMessage: "语音消息",
   [messageTypes.voiceMail]: "语音邮件",
+  [messageTypes.fax]: "传真",
   mark: "标记为未读",
   unmark: "标记为已读",
   delete: "删除",
@@ -32,6 +33,7 @@ export default {
 // @key: @#@"groupConversation"@#@ @source: @#@"Group Conversation"@#@
 // @key: @#@"voiceMessage"@#@ @source: @#@"Voice message"@#@
 // @key: @#@"[messageTypes.voiceMail]"@#@ @source: @#@"Voice Mail"@#@
+// @key: @#@"[messageTypes.fax]"@#@ @source: @#@"Fax"@#@
 // @key: @#@"mark"@#@ @source: @#@"Mark as Unread"@#@
 // @key: @#@"unmark"@#@ @source: @#@"Mark as Read"@#@
 // @key: @#@"delete"@#@ @source: @#@"Delete"@#@

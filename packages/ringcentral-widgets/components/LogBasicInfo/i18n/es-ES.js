@@ -9,7 +9,7 @@ export default {
   InboundNumber: "ID de llamadas:",
   OutboundNumber: "Llamada de:",
   InboundDirection: "Llamada entrante de:",
-  OutboundDirection: "Llamada saliente a:",
+  OutboundDirection: "Saliente a:",
   [telephonyStatuses.noCall]: "Desconectada",
   [telephonyStatuses.callConnected]: "Conectada",
   [telephonyStatuses.ringing]: "Llamando",

@@ -22,16 +22,23 @@ TabTitle.propTypes = {
   isActive: PropTypes.func.isRequired,
 };
 
+function renderChildren({ children, showTabs }) {
+  if (typeof children === 'function') {
+    return children({ showTabs });
+  }
+  return children;
+}
+
 function TabContentPanel({
-  applicable,
+  showTabs,
   navClassName,
   tabContentClassName,
   tabs,
   goTo,
   children,
 }) {
-  if (!applicable) {
-    return children;
+  if (!showTabs) {
+    return renderChildren({ children, showTabs });
   }
 
   const formattedTabs = tabs.map(tab => ({
@@ -63,29 +70,29 @@ function TabContentPanel({
         [styles.content]: true,
         [tabContentClassName]: !!tabContentClassName,
       })}>
-        {children}
+        {renderChildren({ children, showTabs })}
       </div>
     </div>
   );
 }
 
 TabContentPanel.propTypes = {
-  applicable: PropTypes.bool,
+  showTabs: PropTypes.bool,
   tabs: PropTypes.arrayOf(PropTypes.shape({
     path: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     isActive: PropTypes.func.isRequired,
   })).isRequired,
   goTo: PropTypes.func.isRequired,
-  children: PropTypes.node,
+  children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   navClassName: PropTypes.string,
   tabContentClassName: PropTypes.string,
 };
 
 TabContentPanel.defaultProps = {
-  applicable: false,
-  children: null,
+  showTabs: false,
   navClassName: null,
+  children: null,
   tabContentClassName: null,
 };
 

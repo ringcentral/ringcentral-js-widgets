@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { isE164, parseIncompletePhoneNumber } from '@ringcentral-integration/phone-number';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import ContactDetailsView from '../../components/ContactDetailsView';
 import { withPhone } from '../../lib/phoneContext';
@@ -7,7 +8,6 @@ function mapToProps(_, {
   params,
   phone: {
     locale,
-    contacts,
     contactDetails,
     contactSearch,
     rolesAndPermissions,
@@ -49,23 +49,31 @@ function mapToFunctions(_, {
   },
 }) {
   return {
-    getContact: () => {
+    getContact() {
       contactDetails.find({
         id: params.contactId,
         type: params.contactType
       });
     },
-    clearContact: () => {
+    clearContact() {
       contactDetails.clear();
     },
-    formatNumber: phoneNumber => formatNumber({
-      phoneNumber,
-      areaCode: regionSettings.areaCode,
-      countryCode: regionSettings.countryCode,
-    }),
+    formatNumber(phoneNumber) {
+      // if the cleaned phone number is not a E164 format, we will show it directly, doesn't format it.
+      const cleanedNumber = parseIncompletePhoneNumber(phoneNumber.toString());
+      const isE164Number = isE164(cleanedNumber);
+      if (isE164Number) {
+        const formatedNumber = formatNumber({
+          phoneNumber,
+          countryCode: regionSettings.countryCode,
+        });
+        return { phoneNumber: formatedNumber, beFormated: true };
+      }
+      return { phoneNumber, beFormated: false };
+    },
     getAvatar: contact => contactDetails.getProfileImage(contact),
     getPresence: contact => contactDetails.getPresence(contact),
-    onBackClick: () => {
+    onBackClick() {
       routerInteraction.goBack();
     },
     onClickToDial: dialerUI && rolesAndPermissions.callingEnabled ?

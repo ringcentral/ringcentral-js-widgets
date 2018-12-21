@@ -3,7 +3,7 @@ export default {
   when: "时间",
   duration: "持续时间",
   recurringMeeting: "定期会议",
-  recurringDescribe: "请记住检查或重复参与者日历邀请。",
+  recurringDescribe: "请记得检查通过日历向参与者发送的邀请中是否存在重复。",
   video: "视频",
   videoDescribe: "加入会议时",
   host: "主持人",
@@ -14,7 +14,7 @@ export default {
   meetingOptions: "会议选项",
   requirePassword: "需要会议密码",
   password: "密码",
-  enableJoinBeforeHost: "允许在主持人加入前进入会议",
+  enableJoinBeforeHost: "主持人到来前启用加入",
   telephonyOnly: "仅电话"
 };
 

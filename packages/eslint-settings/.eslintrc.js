@@ -1,3 +1,5 @@
+const localeSettings = require('@ringcentral-integration/locale-settings');
+
 module.exports = {
   extends: "airbnb",
   parserOptions: {
@@ -9,6 +11,9 @@ module.exports = {
     // webextensions: true,
     // jest: true,
     // jasmine: true
+  },
+  globals: {
+    "$": true,
   },
   rules: {
     "max-len": [
@@ -93,9 +98,7 @@ module.exports = {
       }
     },
     {
-      // files: ['**/i18n/*.js', '**/phoneSourceNames/*.js','**/phoneTypeNames/*.js'],
-      files: ['**/de-DE.js', '**/de-AU.js', '**/de-CA.js', '**/en-GB.js', '**/de-US.js', '**/es-419.js', '**/de-ES.js', '**/fr-CA.js', '**/fr-FR.js', '**/it-IT.js',
-        '**/ja-JP.js', '**/pt-BR.js', '**/zh-CN.js', '**/zh-TW.js', '**/es-ES.js', '**/en-AU.js', '**/en-CA.js', '**/en-US.js'],
+      files: localeSettings.supportedLocales.map(locale => `**/${locale}.js`),
       rules: {
         "quotes": 0,
       }

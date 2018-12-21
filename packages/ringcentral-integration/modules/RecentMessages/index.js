@@ -172,7 +172,7 @@ export default class RecentMessages extends RcModule {
     // we need to search for messages on server.
     if (!fromLocal && recentMessages.length < length) {
       const dateTo = recentMessages.length > 0
-        ? recentMessages[recentMessages.length - 1].creationTime
+        ? (new Date(recentMessages[recentMessages.length - 1].creationTime))
         : undefined;
 
       try {
@@ -181,7 +181,7 @@ export default class RecentMessages extends RcModule {
           await this._fetchRemoteRecentMessages(
             currentContact,
             dateFrom.toISOString(),
-            dateTo.toISOString(),
+            dateTo && dateTo.toISOString(),
             length
           )
         );

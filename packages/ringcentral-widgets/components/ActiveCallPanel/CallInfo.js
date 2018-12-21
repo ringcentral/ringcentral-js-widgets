@@ -41,7 +41,7 @@ export default function CallInfo(props) {
           phoneSourceNameRenderer={props.phoneSourceNameRenderer}
         />
       </div>
-      <div className={styles.userPhoneNumber}>
+      <div className={styles.userPhoneNumber} data-sign="userPhoneNumber">
         {props.formatPhone(props.phoneNumber)}
       </div>
     </div>

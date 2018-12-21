@@ -28,7 +28,8 @@ class UserAgent {
   get audioHelper() {
     return {
       setVolume() {},
-      playIncoming() {}
+      playIncoming() {},
+      loadAudio() {},
     };
   }
 }

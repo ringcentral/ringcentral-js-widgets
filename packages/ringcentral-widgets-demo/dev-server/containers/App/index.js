@@ -125,7 +125,7 @@ export default function App({
                 path="/dialer"
                 component={() => (
                   <DialerAndCallsTabContainer>
-                    <DialerPage />
+                    {({ showTabs }) => (<DialerPage withTabs={showTabs} />)}
                   </DialerAndCallsTabContainer>
                 )} />
               <Route
@@ -286,13 +286,7 @@ export default function App({
               />
               <Route
                 path="/conferenceCall/dialer/:fromNumber/:fromSessionId"
-                component={routerProps => (
-                  <ConferenceCallDialerPage
-                    params={routerProps.params}
-                    onBack={() => {
-                      phone.routerInteraction.push('/calls/active');
-                    }} />
-                )} />
+                component={ConferenceCallDialerPage} />
               <Route
                 path="/conferenceCall/participants"
                 component={() => (

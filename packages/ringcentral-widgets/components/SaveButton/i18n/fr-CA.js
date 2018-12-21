@@ -1,5 +1,5 @@
 export default {
-  save: "Sauvegarder"
+  save: "Enregistrer"
 };
 
 // @key: @#@"save"@#@ @source: @#@"Save"@#@

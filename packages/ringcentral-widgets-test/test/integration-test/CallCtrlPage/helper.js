@@ -17,9 +17,7 @@ import { timeout } from '../shared';
 
 export async function makeOutboundCall(phone) {
   mock.device(deviceBody);
-  for (const session of phone.webphone.sessions) {
-    await phone.webphone.hold(session.id);
-  }
+  await Promise.all(phone.webphone.sessions.map(session => phone.webphone.hold(session.id)));
   const outboundSession = await makeCall(phone);
   return outboundSession;
 }
@@ -42,9 +40,7 @@ export async function updateConferenceCallEnv(phone, {
 export async function mockConferenceCallEnv(phone, params = {
   conferencePartiesCount: 3,
 }) {
-  for (const session of phone.webphone.sessions) {
-    await phone.webphone.hold(session.id);
-  }
+  await Promise.all(phone.webphone.sessions.map(session => phone.webphone.hold(session.id)));
   const conferenceBodyData = getConferenceCallBody(params.conferencePartiesCount);
   /* mock data */
   mock.device(deviceBody);

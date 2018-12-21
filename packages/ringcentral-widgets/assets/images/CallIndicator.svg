@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="5" height="5" viewBox="0 0 5 5">
+  <rect fill="#5FB95C" x="0" y="0" width="5" height="5" rx="3">
+    <animate
+      attributeName="opacity"
+      attributeType="XML"
+      values="1; .1; 1"
+      begin="0.2s"
+      dur="1s"
+      repeatCount="indefinite"
+    />
+  </rect>
+</svg>

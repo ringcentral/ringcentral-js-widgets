@@ -12,7 +12,8 @@ export default function IconLine(props) {
       noBorder={props.noBorder}>
       <IconField
         className={props.className}
-        icon={props.icon}>
+        icon={props.icon}
+        title={props.title}>
         {props.children}
       </IconField>
     </Line>
@@ -26,7 +27,9 @@ IconLine.propTypes = {
   className: PropTypes.string,
   onClick: PropTypes.func,
   noBorder: PropTypes.bool,
+  title: PropTypes.string,
 };
 IconLine.defaultProps = {
-  dataSign: null
-}
+  dataSign: null,
+  title: null,
+};

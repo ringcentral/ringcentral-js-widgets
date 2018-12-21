@@ -24,6 +24,7 @@ function SearchInput(props) {
         placeholder={props.placeholder}
         autoComplete="off"
         disabled={props.disabled}
+        data-sign={props.dataSign}
       />
     </div>
   );
@@ -37,6 +38,7 @@ SearchInput.propTypes = {
   maxLength: PropTypes.number,
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
+  dataSign: PropTypes.string,
 };
 
 SearchInput.defaultProps = {
@@ -45,6 +47,7 @@ SearchInput.defaultProps = {
   placeholder: '',
   maxLength: undefined,
   onKeyUp: undefined,
+  dataSign: '',
 };
 
 export default SearchInput;

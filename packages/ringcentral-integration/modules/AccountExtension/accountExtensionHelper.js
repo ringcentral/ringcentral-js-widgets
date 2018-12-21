@@ -45,6 +45,15 @@ export function isEnabled(ext) {
 
 /**
  *
+ * @param {Extension} ext
+ * @returns {boolean}
+ */
+export function isNotActivated(ext) {
+  return ext.status === 'NotActivated';
+}
+
+/**
+ *
  * @param {object} ext
  * @param {string[]} list
  * @returns {boolean}

@@ -5,7 +5,6 @@ import debounce from 'ringcentral-integration/lib/debounce';
 import formatDuration from '../formatDuration';
 import baseMessageTypes from './baseMessageTypes';
 
-
 const SANDBOX_ATTRIBUTE_VALUE = [
   'allow-same-origin',
   'allow-scripts',

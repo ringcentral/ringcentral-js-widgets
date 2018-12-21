@@ -117,7 +117,8 @@ describe('getTransferredCallsReducer', () => {
       expect(reducer(originalState, {
         type: actionTypes.addTransferredCall,
         sessionId: '456',
-      })).to.deep.equal([{ 123: true }, { 456: true }]);
+        transferredMiddleNumber: '101'
+      })).to.deep.equal([{ 123: true }, { 456: { transferredMiddleNumber: '101' } }]);
     });
     it('should remove oldest matcher when actionType is addTransferredCall andsize of temporary matcher exceed the opacity', () => {
       const originalState = [];
@@ -131,7 +132,8 @@ describe('getTransferredCallsReducer', () => {
       expect(reducer(originalState, {
         type: actionTypes.addTransferredCall,
         sessionId: '456',
-      })[opacity - 1]).to.deep.equal({ 456: true });
+        transferredMiddleNumber: '101'
+      })[opacity - 1]).to.deep.equal({ 456: { transferredMiddleNumber: '101' } });
     });
   });
 });

@@ -5,7 +5,7 @@ export default {
   [phoneSources.contact]: "联系人",
   [phoneSources.rcContact]: "{brand}",
   [phoneSources.lead]: "引导",
-  [phoneSources.opportunity]: "机会",
+  [phoneSources.opportunity]: "对象",
   [phoneSources.systemUser]: "系统用户"
 };
 

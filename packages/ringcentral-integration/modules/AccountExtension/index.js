@@ -13,6 +13,7 @@ import {
 } from './getAccountExtensionReducer';
 import {
   isEnabled,
+  isNotActivated,
   isFiltered,
   simplifyExtensionData,
   hasExtensionNumber,
@@ -66,6 +67,7 @@ export default class AccountExtension extends DataFetcher {
     ttl = DEFAULT_TTL,
     checkStatus = DEFAULT_CHECK_STATUS,
     typeList = DEFAULT_TYPE_LIST,
+    showNotActivated = false,
     ...options
   }) {
     super({
@@ -90,12 +92,13 @@ export default class AccountExtension extends DataFetcher {
     this._checkStatus = checkStatus;
     this._typeList = typeList;
     this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
+    this._showNotActivated = showNotActivated;
   }
 
   _extensionFilter(ext) {
     return (
       hasExtensionNumber(ext) &&
-      (!this._checkStatus || isEnabled(ext)) &&
+      (!this._checkStatus || isEnabled(ext) || (this._showNotActivated && isNotActivated(ext))) &&
       !isFiltered(ext, this._typeList)
     );
   }
@@ -136,6 +139,8 @@ export default class AccountExtension extends DataFetcher {
       this._addExtension(extensionData);
     } else if (!essential && alreadyExists) {
       this._deleteExtension(extensionId);
+    } else if (essential && alreadyExists) {
+      this._updateExtension(extensionId, extensionData);
     }
   }
 
@@ -151,6 +156,15 @@ export default class AccountExtension extends DataFetcher {
     this.store.dispatch({
       type: this.actionTypes.delete,
       id,
+      timestamp: Date.now(),
+    });
+  }
+
+  _updateExtension(id, data) {
+    this.store.dispatch({
+      type: this.actionTypes.update,
+      id,
+      data: simplifyExtensionData(data),
       timestamp: Date.now(),
     });
   }

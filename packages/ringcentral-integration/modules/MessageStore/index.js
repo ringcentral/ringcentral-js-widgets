@@ -21,6 +21,7 @@ const DEFAULT_CONVERSATION_LOAD_LENGTH = 100;
 const DEFAULT_TTL = 30 * 60 * 1000;
 const DEFAULT_RETRY = 62 * 1000;
 const DEFAULT_DAYSPAN = 7; // default to load 7 days's messages
+const DEFAULT_MESSAGES_FILTER = list => list;
 
 function getSyncParams({
   recordCount, conversationLoadLength, dateFrom, dateTo, syncToken
@@ -84,6 +85,7 @@ export default class MessageStore extends Pollable {
     daySpan = DEFAULT_DAYSPAN,
     conversationsLoadLength = DEFAULT_CONVERSATIONS_LOAD_LENGTH,
     conversationLoadLength = DEFAULT_CONVERSATION_LOAD_LENGTH,
+    messagesFilter = DEFAULT_MESSAGES_FILTER,
     ...options
   }) {
     super({
@@ -110,6 +112,7 @@ export default class MessageStore extends Pollable {
     this._polling = polling;
     this._conversationsLoadLength = conversationsLoadLength;
     this._conversationLoadLength = conversationLoadLength;
+    this._messagesFilter = messagesFilter;
 
     this._daySpan = daySpan;
 
@@ -339,14 +342,14 @@ export default class MessageStore extends Pollable {
         this.store.dispatch({
           type: actionType,
           recordCount,
-          records: data.records,
+          records: this._messagesFilter(data.records),
           syncInfo: data.syncInfo,
           timestamp: Date.now(),
           conversationStore: this.conversationStore,
         });
         // this is only executed in passive sync mode (aka. invoked by subscription)
         if (passive) {
-          this._dispatchMessageHandlers(data.records);
+          this._dispatchMessageHandlers(this._messagesFilter(data.records));
         }
       }
     } catch (error) {
@@ -504,10 +507,15 @@ export default class MessageStore extends Pollable {
     return response;
   }
 
-  sliceConversations(len) {
+  sliceConversations() {
+    const conversationIds = Object.keys(this.conversationStore);
+    const messages = conversationIds.reduce(
+      (acc, id) => acc.concat(this.conversationStore[id]), []
+    );
+    const messageIds = this._messagesFilter(messages).map(item => item.id);
     this.store.dispatch({
       type: this.actionTypes.sliceConversations,
-      length: len
+      messageIds
     });
   }
 

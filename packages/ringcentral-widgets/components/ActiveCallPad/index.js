@@ -340,6 +340,7 @@ class ActiveCallPad extends Component {
               showBorder={false}
               iconWidth={250}
               iconX={125}
+              dataSign="hangup"
             />
           </div>
         </div>

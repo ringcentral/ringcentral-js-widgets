@@ -1,8 +1,8 @@
 export default {
-  en: "English",
-  ja: "Japanese",
+  en: "Inglês",
+  ja: "Japonês",
   fr: "Francês",
-  de: "Deutsch",
+  de: "Alemão",
   es: "Espanhol",
   it: "Italiano",
   pt: "Português"

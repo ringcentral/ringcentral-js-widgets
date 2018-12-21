@@ -4,7 +4,7 @@ export default {
   editLog: "编辑记录",
   select: "选择匹配项",
   OnHold: "等候接听",
-  Ringing: "正在响铃",
+  Ringing: "正在振铃",
   CallConnected: "通话已连接",
   unknownUser: "未知用户",
   unknownNumber: "匿名",

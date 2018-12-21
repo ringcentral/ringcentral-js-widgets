@@ -12,7 +12,7 @@ export default {
   viewDetails: "檢視詳細資訊",
   addEntity: "建立新的",
   addLog: "記錄",
-  text: "簡訊",
+  text: "文字",
   call: "通話",
   missedCall: "未接",
   inboundCall: "來電",

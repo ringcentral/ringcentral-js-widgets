@@ -20,7 +20,7 @@ export default {
   outboundCall: "発信",
   from: "発信元",
   to: "宛先",
-  hangup: "通話を終了する",
+  hangup: "通話終了",
   accept: "同意する",
   toVoicemail: "ボイスメールへ転送",
   anonymous: "匿名",

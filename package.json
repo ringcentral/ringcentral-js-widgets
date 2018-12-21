@@ -8,8 +8,9 @@
     "packages/*"
   ],
   "scripts": {
+    "setup": "echo \"Error: no setup specified\" && exit 0",
     "bootstrap": "lerna bootstrap",
-    "test": "lerna run test --stream",
+    "test": "./scripts/runAllTests.sh",
     "start": "lerna run start --scope ringcentral-widgets-demo --stream",
     "release": "lerna run release --scope ringcentral-widgets --scope ringcentral-integration",
     "commons:test": "lerna run test --scope ringcentral-integration --stream",

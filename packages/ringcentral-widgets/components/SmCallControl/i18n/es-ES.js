@@ -1,6 +1,6 @@
 export default {
   mute: "Silenciar",
-  unmute: "Reactivar audio",
+  unmute: "Reactivar",
   hangup: "Colgar",
   reject: "Rechazar"
 };

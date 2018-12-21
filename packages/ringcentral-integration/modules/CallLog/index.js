@@ -27,6 +27,7 @@ const DEFAULT_TTL = 5 * 60 * 1000;
 const DEFAULT_TOKEN_EXPIRES_IN = 60 * 60 * 1000;
 const DEFAULT_DAY_SPAN = 7;
 const RECORD_COUNT = 250;
+const LIST_RECORD_COUNT = 250;
 const DEFAULT_TIME_TO_RETRY = 62 * 1000;
 const SYNC_DELAY = 30 * 1000;
 
@@ -103,6 +104,8 @@ export default class CallLog extends Pollable {
     daySpan = DEFAULT_DAY_SPAN,
     polling = true,
     disableCache = false,
+    isLimitList = false,
+    listRecordCount = LIST_RECORD_COUNT,
     ...options
   }) {
     super({
@@ -119,6 +122,8 @@ export default class CallLog extends Pollable {
     this._subscription = subscription;
     this._rolesAndPermissions = rolesAndPermissions;
     this._tabManager = tabManager;
+    this._isLimitList = isLimitList;
+    this._listRecordCount = listRecordCount;
     this._callLogStorageKey = 'callLog';
     this._ttl = ttl;
     this._tokenExpiresIn = tokenExpiresIn;
@@ -145,9 +150,9 @@ export default class CallLog extends Pollable {
 
     this.addSelector('calls',
       () => this.data,
-      data => (
+      (data) => {
         // TODO make sure removeDuplicateIntermediateCalls is necessary here
-        removeInboundRingOutLegs(removeDuplicateIntermediateCalls(data.filter(call => (
+        const calls = removeInboundRingOutLegs(removeDuplicateIntermediateCalls(data.filter(call => (
           // [RCINT-3472] calls with result === 'stopped' seems to be useless
           call.result !== callResults.stopped &&
           // [RCINT-51111] calls with result === 'busy'
@@ -199,8 +204,12 @@ export default class CallLog extends Pollable {
             };
           }
           return call;
-        })
-      ),
+        });
+        if (this._isLimitList) {
+          return calls.slice(0, this._listRecordCount);
+        }
+        return calls;
+      },
     );
 
     this._promise = null;
@@ -357,11 +366,13 @@ export default class CallLog extends Pollable {
 
   @proxify
   async _fetch({ dateFrom, dateTo }) {
+    const perPageParam = this._isLimitList ? { perPage: this._listRecordCount } : {};
     return fetchList(params => (
       this._client.account().extension().callLog().list({
         ...params,
         dateFrom,
         dateTo,
+        ...perPageParam
       })
     ));
   }

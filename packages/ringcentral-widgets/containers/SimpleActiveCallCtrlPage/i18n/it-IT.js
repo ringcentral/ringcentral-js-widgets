@@ -1,5 +1,5 @@
 export default {
-  allCalls: "Tutte le chiamate",
+  allCalls: "Tutte",
   Unknown: "Sconosciuto",
   Multiple: "Multipli"
 };

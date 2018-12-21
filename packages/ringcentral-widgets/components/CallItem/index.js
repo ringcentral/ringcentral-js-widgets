@@ -411,6 +411,8 @@ export default class CallItem extends Component {
       typeof renderExtraButton === 'function'
         ? renderExtraButton(this.props.call)
         : undefined;
+    const menuExtended = this.props.extended || this.state.extended;
+
     return (
       <div className={styles.root} onClick={this.toggleExtended}>
         <div className={styles.wrapper}>
@@ -467,7 +469,7 @@ export default class CallItem extends Component {
           {extraButton}
         </div>
         <ActionMenu
-          extended={this.state.extended}
+          extended={menuExtended}
           onToggle={this.toggleExtended}
           currentLocale={currentLocale}
           onLog={onLogCall && this.logCall}
