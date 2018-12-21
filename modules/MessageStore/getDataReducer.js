@@ -36,8 +36,7 @@ function getConversationListReducer(types) {
         records = _ref.records,
         conversationId = _ref.conversationId,
         conversationStore = _ref.conversationStore,
-        _ref$length = _ref.length,
-        length = _ref$length === undefined ? Infinity : _ref$length;
+        messageIds = _ref.messageIds;
 
     var newState = [];
     var stateMap = {};
@@ -115,7 +114,10 @@ function getConversationListReducer(types) {
         });
 
       case types.sliceConversations:
-        return state.slice(0, length);
+        return state.filter(function (_ref2) {
+          var messageId = _ref2.messageId;
+          return messageIds.indexOf(messageId) > -1;
+        });
       case types.resetSuccess:
         return [];
       default:
@@ -127,10 +129,11 @@ function getConversationListReducer(types) {
 function getConversationStoreReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var _ref2 = arguments[1];
-    var type = _ref2.type,
-        records = _ref2.records,
-        conversationId = _ref2.conversationId;
+    var _ref3 = arguments[1];
+    var type = _ref3.type,
+        records = _ref3.records,
+        conversationId = _ref3.conversationId,
+        messageIds = _ref3.messageIds;
 
     var newState = {};
     var updatedConversations = {};
@@ -182,6 +185,22 @@ function getConversationStoreReducer(types) {
         newState = (0, _extends3.default)({}, state);
         delete newState[conversationId];
         return newState;
+      case types.sliceConversations:
+        {
+          var keys = (0, _keys2.default)(state);
+          return keys.reduce(function (acc, key) {
+            var messages = state[key];
+            var persist = messages.filter(function (_ref4) {
+              var id = _ref4.id;
+              return messageIds.indexOf(id) > -1;
+            });
+            if (!persist.length) {
+              return acc;
+            }
+            acc[key] = persist;
+            return acc;
+          }, {});
+        }
       case types.resetSuccess:
         return {};
       default:
@@ -193,9 +212,9 @@ function getConversationStoreReducer(types) {
 function getTimestampReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    var _ref3 = arguments[1];
-    var type = _ref3.type,
-        timestamp = _ref3.timestamp;
+    var _ref5 = arguments[1];
+    var type = _ref5.type,
+        timestamp = _ref5.timestamp;
 
     switch (type) {
       case types.conversationsFSyncSuccess:
@@ -212,9 +231,9 @@ function getTimestampReducer(types) {
 function getSyncInfoReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    var _ref4 = arguments[1];
-    var type = _ref4.type,
-        syncInfo = _ref4.syncInfo;
+    var _ref6 = arguments[1];
+    var type = _ref6.type,
+        syncInfo = _ref6.syncInfo;
 
     switch (type) {
       case types.conversationsFSyncSuccess:

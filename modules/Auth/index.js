@@ -792,9 +792,9 @@ var Auth = (_dec = (0, _di.Module)({
 
               case 3:
                 extensionData = _context9.sent;
-                ownerId = extensionData.id;
+                ownerId = String(extensionData.id);
 
-                if (!(ownerId !== this.ownerId)) {
+                if (!(ownerId !== String(this.ownerId))) {
                   _context9.next = 7;
                   break;
                 }

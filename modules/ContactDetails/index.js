@@ -9,6 +9,14 @@ var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-pr
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
+var _keys = require('babel-runtime/core-js/object/keys');
+
+var _keys2 = _interopRequireDefault(_keys);
+
 var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
@@ -39,6 +47,8 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _dec, _class, _desc, _value, _class2;
 
+var _ramda = require('ramda');
+
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
@@ -60,6 +70,10 @@ var _proxify2 = _interopRequireDefault(_proxify);
 var _background = require('../../lib/background');
 
 var _background2 = _interopRequireDefault(_background);
+
+var _phoneTypes = require('../../enums/phoneTypes');
+
+var _phoneTypes2 = _interopRequireDefault(_phoneTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -92,14 +106,31 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
   return desc;
 }
 
+var sortOtherTypes = function sortOtherTypes(_ref) {
+  var _ref$unSortTypes = _ref.unSortTypes,
+      unSortTypes = _ref$unSortTypes === undefined ? [] : _ref$unSortTypes;
+  var MOBILE = 0,
+      BUSINESS = 1,
+      HOME = 2,
+      FAX = 3,
+      OTHER = 4;
+
+  var goalOrderTypes = {
+    mobile: MOBILE, business: BUSINESS, home: HOME, fax: FAX, other: OTHER
+  };
+  unSortTypes.sort(function (a, b) {
+    return goalOrderTypes[a] - goalOrderTypes[b];
+  });
+  return unSortTypes;
+};
 var ContactDetails = (_dec = (0, _di.Module)({
   deps: ['Contacts', { dep: 'ContactDetailsOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(ContactDetails, _RcModule);
 
-  function ContactDetails(_ref) {
-    var contacts = _ref.contacts,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['contacts']);
+  function ContactDetails(_ref2) {
+    var contacts = _ref2.contacts,
+        options = (0, _objectWithoutProperties3.default)(_ref2, ['contacts']);
     (0, _classCallCheck3.default)(this, ContactDetails);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ContactDetails.__proto__ || (0, _getPrototypeOf2.default)(ContactDetails)).call(this, (0, _extends3.default)({}, options, { actionTypes: _actionTypes2.default })));
@@ -116,6 +147,29 @@ var ContactDetails = (_dec = (0, _di.Module)({
         return _this._contacts.find(condition);
       }
       return null;
+    });
+
+    _this.addSelector('currentSortedContact', function () {
+      return _this.currentContact;
+    }, function (currentContact) {
+      if (!currentContact) return null;
+      var phoneNumbers = currentContact.rawPhoneNumbers || currentContact.phoneNumbers;
+      var phoneMaps = (0, _ramda.reduce)(function (acc, phoneNumberElm) {
+        acc[phoneNumberElm.phoneType] = acc[phoneNumberElm.phoneType] || [];
+        acc[phoneNumberElm.phoneType].push(phoneNumberElm);
+        return acc;
+      }, {}, phoneNumbers);
+
+      var unSortTypes = (0, _keys2.default)(phoneMaps).filter(function (key) {
+        return key !== _phoneTypes2.default.extension && key !== _phoneTypes2.default.direct;
+      });
+
+      var sortedTypes = sortOtherTypes({ unSortTypes: unSortTypes });
+      // we need sequence that: ext followed by direct followed by others.
+      var schema = (0, _ramda.filter)(function (key) {
+        return !!_phoneTypes2.default[key] && Array.isArray(phoneMaps[key]);
+      }, [_phoneTypes2.default.extension, _phoneTypes2.default.direct].concat((0, _toConsumableArray3.default)(sortedTypes)));
+      return (0, _extends3.default)({}, currentContact, { schema: schema, phoneMaps: phoneMaps });
     });
     return _this;
   }
@@ -160,9 +214,9 @@ var ContactDetails = (_dec = (0, _di.Module)({
 
   }, {
     key: 'find',
-    value: function find(_ref2) {
-      var id = _ref2.id,
-          type = _ref2.type;
+    value: function find(_ref3) {
+      var id = _ref3.id,
+          type = _ref3.type;
 
       this.store.dispatch({
         type: this.actionTypes.updateCondition,
@@ -210,9 +264,14 @@ var ContactDetails = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: 'contact',
+    key: 'currentContact',
     get: function get() {
       return this._selectors.currentContact();
+    }
+  }, {
+    key: 'contact',
+    get: function get() {
+      return this._selectors.currentSortedContact();
     }
   }, {
     key: 'condition',

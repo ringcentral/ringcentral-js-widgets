@@ -343,11 +343,11 @@ var RecentMessages = (_dec = (0, _di.Module)({
                   break;
                 }
 
-                dateTo = recentMessages.length > 0 ? recentMessages[recentMessages.length - 1].creationTime : undefined;
+                dateTo = recentMessages.length > 0 ? new Date(recentMessages[recentMessages.length - 1].creationTime) : undefined;
                 _context2.prev = 4;
                 _context2.t0 = recentMessages;
                 _context2.next = 8;
-                return this._fetchRemoteRecentMessages(currentContact, dateFrom.toISOString(), dateTo.toISOString(), length);
+                return this._fetchRemoteRecentMessages(currentContact, dateFrom.toISOString(), dateTo && dateTo.toISOString(), length);
 
               case 8:
                 _context2.t1 = _context2.sent;

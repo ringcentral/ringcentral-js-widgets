@@ -13,6 +13,10 @@ var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-pr
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
+var _keys = require('babel-runtime/core-js/object/keys');
+
+var _keys2 = _interopRequireDefault(_keys);
+
 var _getIterator2 = require('babel-runtime/core-js/get-iterator');
 
 var _getIterator3 = _interopRequireDefault(_getIterator2);
@@ -161,6 +165,9 @@ var DEFAULT_CONVERSATION_LOAD_LENGTH = 100;
 var DEFAULT_TTL = 30 * 60 * 1000;
 var DEFAULT_RETRY = 62 * 1000;
 var DEFAULT_DAYSPAN = 7; // default to load 7 days's messages
+var DEFAULT_MESSAGES_FILTER = function DEFAULT_MESSAGES_FILTER(list) {
+  return list;
+};
 
 function getSyncParams(_ref) {
   var recordCount = _ref.recordCount,
@@ -226,7 +233,9 @@ var MessageStore = (_dec = (0, _di.Module)({
         conversationsLoadLength = _ref2$conversationsLo === undefined ? DEFAULT_CONVERSATIONS_LOAD_LENGTH : _ref2$conversationsLo,
         _ref2$conversationLoa = _ref2.conversationLoadLength,
         conversationLoadLength = _ref2$conversationLoa === undefined ? DEFAULT_CONVERSATION_LOAD_LENGTH : _ref2$conversationLoa,
-        options = (0, _objectWithoutProperties3.default)(_ref2, ['auth', 'alert', 'client', 'subscription', 'storage', 'tabManager', 'rolesAndPermissions', 'connectivityMonitor', 'ttl', 'polling', 'disableCache', 'timeToRetry', 'daySpan', 'conversationsLoadLength', 'conversationLoadLength']);
+        _ref2$messagesFilter = _ref2.messagesFilter,
+        messagesFilter = _ref2$messagesFilter === undefined ? DEFAULT_MESSAGES_FILTER : _ref2$messagesFilter,
+        options = (0, _objectWithoutProperties3.default)(_ref2, ['auth', 'alert', 'client', 'subscription', 'storage', 'tabManager', 'rolesAndPermissions', 'connectivityMonitor', 'ttl', 'polling', 'disableCache', 'timeToRetry', 'daySpan', 'conversationsLoadLength', 'conversationLoadLength', 'messagesFilter']);
     (0, _classCallCheck3.default)(this, MessageStore);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (MessageStore.__proto__ || (0, _getPrototypeOf2.default)(MessageStore)).call(this, (0, _extends3.default)({}, options, {
@@ -268,6 +277,7 @@ var MessageStore = (_dec = (0, _di.Module)({
     _this._polling = polling;
     _this._conversationsLoadLength = conversationsLoadLength;
     _this._conversationLoadLength = conversationLoadLength;
+    _this._messagesFilter = messagesFilter;
 
     _this._daySpan = daySpan;
 
@@ -632,14 +642,14 @@ var MessageStore = (_dec = (0, _di.Module)({
                   this.store.dispatch({
                     type: actionType,
                     recordCount: recordCount,
-                    records: data.records,
+                    records: this._messagesFilter(data.records),
                     syncInfo: data.syncInfo,
                     timestamp: Date.now(),
                     conversationStore: this.conversationStore
                   });
                   // this is only executed in passive sync mode (aka. invoked by subscription)
                   if (passive) {
-                    this._dispatchMessageHandlers(data.records);
+                    this._dispatchMessageHandlers(this._messagesFilter(data.records));
                   }
                 }
                 _context4.next = 33;
@@ -975,10 +985,19 @@ var MessageStore = (_dec = (0, _di.Module)({
     }()
   }, {
     key: 'sliceConversations',
-    value: function sliceConversations(len) {
+    value: function sliceConversations() {
+      var _this5 = this;
+
+      var conversationIds = (0, _keys2.default)(this.conversationStore);
+      var messages = conversationIds.reduce(function (acc, id) {
+        return acc.concat(_this5.conversationStore[id]);
+      }, []);
+      var messageIds = this._messagesFilter(messages).map(function (item) {
+        return item.id;
+      });
       this.store.dispatch({
         type: this.actionTypes.sliceConversations,
-        length: len
+        messageIds: messageIds
       });
     }
   }, {
@@ -1424,12 +1443,12 @@ var MessageStore = (_dec = (0, _di.Module)({
 }(_Pollable3.default), (_applyDecoratedDescriptor(_class2.prototype, 'fetchData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'fetchData'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'pushMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'pushMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'readMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'readMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unreadMessage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unreadMessage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onUnmarkMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onUnmarkMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'deleteConversationMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'deleteConversationMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'deleteConversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'deleteConversation'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onClickToSMS', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onClickToSMS'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onClickToCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onClickToCall'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'allConversations', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this5 = this;
+    var _this6 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this5.data && _this5.data.conversationList;
+      return _this6.data && _this6.data.conversationList;
     }, function () {
-      return _this5.conversationStore;
+      return _this6.conversationStore;
     }, function () {
       var conversationList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
       var conversationStore = arguments[1];
@@ -1444,10 +1463,10 @@ var MessageStore = (_dec = (0, _di.Module)({
 }), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'textConversations', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this6 = this;
+    var _this7 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this6.allConversations;
+      return _this7.allConversations;
     }, function (conversations) {
       return conversations.filter(function (conversation) {
         return messageHelper.messageIsTextMessage(conversation);
@@ -1457,10 +1476,10 @@ var MessageStore = (_dec = (0, _di.Module)({
 }), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'textUnreadCounts', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this7 = this;
+    var _this8 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this7.textConversations;
+      return _this8.textConversations;
     }, function (conversations) {
       return conversations.reduce(function (a, b) {
         return a + b.unreadCounts;
@@ -1470,10 +1489,10 @@ var MessageStore = (_dec = (0, _di.Module)({
 }), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'faxMessages', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this8 = this;
+    var _this9 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this8.allConversations;
+      return _this9.allConversations;
     }, function (conversations) {
       return conversations.filter(function (conversation) {
         return messageHelper.messageIsFax(conversation);
@@ -1483,10 +1502,10 @@ var MessageStore = (_dec = (0, _di.Module)({
 }), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'faxUnreadCounts', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this9 = this;
+    var _this10 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this9.faxMessages;
+      return _this10.faxMessages;
     }, function (conversations) {
       return conversations.reduce(function (a, b) {
         return a + b.unreadCounts;
@@ -1496,10 +1515,10 @@ var MessageStore = (_dec = (0, _di.Module)({
 }), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, 'voicemailMessages', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this10 = this;
+    var _this11 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this10.allConversations;
+      return _this11.allConversations;
     }, function (conversations) {
       return conversations.filter(function (conversation) {
         return messageHelper.messageIsVoicemail(conversation);
@@ -1509,10 +1528,10 @@ var MessageStore = (_dec = (0, _di.Module)({
 }), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, 'voiceUnreadCounts', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this11 = this;
+    var _this12 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this11.voicemailMessages;
+      return _this12.voicemailMessages;
     }, function (conversations) {
       return conversations.reduce(function (a, b) {
         return a + b.unreadCounts;
@@ -1522,23 +1541,23 @@ var MessageStore = (_dec = (0, _di.Module)({
 }), _descriptor8 = _applyDecoratedDescriptor(_class2.prototype, 'unreadCounts', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
-    var _this12 = this;
+    var _this13 = this;
 
     return (0, _reselect.createSelector)(function () {
-      return _this12.voiceUnreadCounts;
+      return _this13.voiceUnreadCounts;
     }, function () {
-      return _this12.textUnreadCounts;
+      return _this13.textUnreadCounts;
     }, function () {
-      return _this12.faxUnreadCounts;
+      return _this13.faxUnreadCounts;
     }, function (voiceUnreadCounts, textUnreadCounts, faxUnreadCounts) {
       var unreadCounts = 0;
-      if (_this12._rolesAndPermissions.readTextPermissions) {
+      if (_this13._rolesAndPermissions.readTextPermissions) {
         unreadCounts += textUnreadCounts;
       }
-      if (_this12._rolesAndPermissions.voicemailPermissions) {
+      if (_this13._rolesAndPermissions.voicemailPermissions) {
         unreadCounts += voiceUnreadCounts;
       }
-      if (_this12._rolesAndPermissions.readFaxPermissions) {
+      if (_this13._rolesAndPermissions.readFaxPermissions) {
         unreadCounts += faxUnreadCounts;
       }
       return unreadCounts;

@@ -140,6 +140,7 @@ var DEFAULT_TTL = 5 * 60 * 1000;
 var DEFAULT_TOKEN_EXPIRES_IN = 60 * 60 * 1000;
 var DEFAULT_DAY_SPAN = 7;
 var RECORD_COUNT = 250;
+var LIST_RECORD_COUNT = 250;
 var DEFAULT_TIME_TO_RETRY = 62 * 1000;
 var SYNC_DELAY = 30 * 1000;
 
@@ -215,7 +216,11 @@ var CallLog = (_dec = (0, _di.Module)({
         polling = _ref$polling === undefined ? true : _ref$polling,
         _ref$disableCache = _ref.disableCache,
         disableCache = _ref$disableCache === undefined ? false : _ref$disableCache,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'client', 'storage', 'extensionPhoneNumber', 'extensionInfo', 'subscription', 'rolesAndPermissions', 'tabManager', 'ttl', 'tokenExpiresIn', 'timeToRetry', 'daySpan', 'polling', 'disableCache']);
+        _ref$isLimitList = _ref.isLimitList,
+        isLimitList = _ref$isLimitList === undefined ? false : _ref$isLimitList,
+        _ref$listRecordCount = _ref.listRecordCount,
+        listRecordCount = _ref$listRecordCount === undefined ? LIST_RECORD_COUNT : _ref$listRecordCount,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'client', 'storage', 'extensionPhoneNumber', 'extensionInfo', 'subscription', 'rolesAndPermissions', 'tabManager', 'ttl', 'tokenExpiresIn', 'timeToRetry', 'daySpan', 'polling', 'disableCache', 'isLimitList', 'listRecordCount']);
     (0, _classCallCheck3.default)(this, CallLog);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallLog.__proto__ || (0, _getPrototypeOf2.default)(CallLog)).call(this, (0, _extends3.default)({}, options, {
@@ -324,6 +329,8 @@ var CallLog = (_dec = (0, _di.Module)({
     _this._subscription = subscription;
     _this._rolesAndPermissions = rolesAndPermissions;
     _this._tabManager = tabManager;
+    _this._isLimitList = isLimitList;
+    _this._listRecordCount = listRecordCount;
     _this._callLogStorageKey = 'callLog';
     _this._ttl = ttl;
     _this._tokenExpiresIn = tokenExpiresIn;
@@ -351,46 +358,48 @@ var CallLog = (_dec = (0, _di.Module)({
     _this.addSelector('calls', function () {
       return _this.data;
     }, function (data) {
-      return (
-        // TODO make sure removeDuplicateIntermediateCalls is necessary here
-        (0, _callLogHelpers.removeInboundRingOutLegs)((0, _callLogHelpers.removeDuplicateIntermediateCalls)(data.filter(function (call) {
-          return (
-            // [RCINT-3472] calls with result === 'stopped' seems to be useless
-            call.result !== _callResults2.default.stopped &&
-            // [RCINT-51111] calls with result === 'busy'
-            call.result !== _callResults2.default.busy &&
-            // [RCINT-6839]
-            // Call processing result is undefined
-            call.result !== _callResults2.default.unknown &&
-            // Outgoing fax sending has failed
-            call.result !== _callResults2.default.faxSendError &&
-            // Incoming fax has failed to be received
-            call.result !== _callResults2.default.faxReceiptError &&
-            // Outgoing fax has failed because of no answer
-            call.result !== _callResults2.default.callFailed &&
-            // Outgoing fax sending has been stopped
-            call.result !== _callResults2.default.stopped &&
-            // Error Internal error occurred when receiving fax
-            call.result !== _callResults2.default.faxReceipt
-          );
-        }))).map(function (call) {
-          // [RCINT-7364] Call presence is incorrect when make ringout call from a DL number.
-          // When user use DL number set ringout and the outBound from number must not a oneself company/extension number
-          // Call log sync will response tow legs.
-          // But user use company plus extension number, call log sync will response only one leg.
-          // And the results about `to` and `from` in platform APIs call log sync response is opposite.
-          // This is a temporary solution.
-          var isOutBoundCompanyNumber = call.from && call.from.phoneNumber && _this.mainCompanyNumbers.indexOf(call.from.phoneNumber) > -1;
-          var isOutBoundFromSelfExtNumber = call.from && call.from.extensionNumber && call.from.extensionNumber === _this._extensionInfo.data.extensionNumber;
-          if ((0, _callLogHelpers.isOutbound)(call) && (call.action === _callActions2.default.ringOutWeb || call.action === _callActions2.default.ringOutPC || call.action === _callActions2.default.ringOutMobile) && !isOutBoundCompanyNumber && !isOutBoundFromSelfExtNumber) {
-            return (0, _extends3.default)({}, call, {
-              from: call.to,
-              to: call.from
-            });
-          }
-          return call;
-        })
-      );
+      // TODO make sure removeDuplicateIntermediateCalls is necessary here
+      var calls = (0, _callLogHelpers.removeInboundRingOutLegs)((0, _callLogHelpers.removeDuplicateIntermediateCalls)(data.filter(function (call) {
+        return (
+          // [RCINT-3472] calls with result === 'stopped' seems to be useless
+          call.result !== _callResults2.default.stopped &&
+          // [RCINT-51111] calls with result === 'busy'
+          call.result !== _callResults2.default.busy &&
+          // [RCINT-6839]
+          // Call processing result is undefined
+          call.result !== _callResults2.default.unknown &&
+          // Outgoing fax sending has failed
+          call.result !== _callResults2.default.faxSendError &&
+          // Incoming fax has failed to be received
+          call.result !== _callResults2.default.faxReceiptError &&
+          // Outgoing fax has failed because of no answer
+          call.result !== _callResults2.default.callFailed &&
+          // Outgoing fax sending has been stopped
+          call.result !== _callResults2.default.stopped &&
+          // Error Internal error occurred when receiving fax
+          call.result !== _callResults2.default.faxReceipt
+        );
+      }))).map(function (call) {
+        // [RCINT-7364] Call presence is incorrect when make ringout call from a DL number.
+        // When user use DL number set ringout and the outBound from number must not a oneself company/extension number
+        // Call log sync will response tow legs.
+        // But user use company plus extension number, call log sync will response only one leg.
+        // And the results about `to` and `from` in platform APIs call log sync response is opposite.
+        // This is a temporary solution.
+        var isOutBoundCompanyNumber = call.from && call.from.phoneNumber && _this.mainCompanyNumbers.indexOf(call.from.phoneNumber) > -1;
+        var isOutBoundFromSelfExtNumber = call.from && call.from.extensionNumber && call.from.extensionNumber === _this._extensionInfo.data.extensionNumber;
+        if ((0, _callLogHelpers.isOutbound)(call) && (call.action === _callActions2.default.ringOutWeb || call.action === _callActions2.default.ringOutPC || call.action === _callActions2.default.ringOutMobile) && !isOutBoundCompanyNumber && !isOutBoundFromSelfExtNumber) {
+          return (0, _extends3.default)({}, call, {
+            from: call.to,
+            to: call.from
+          });
+        }
+        return call;
+      });
+      if (_this._isLimitList) {
+        return calls.slice(0, _this._listRecordCount);
+      }
+      return calls;
     });
 
     _this._promise = null;
@@ -466,18 +475,20 @@ var CallLog = (_dec = (0, _di.Module)({
 
         var dateFrom = _ref5.dateFrom,
             dateTo = _ref5.dateTo;
+        var perPageParam;
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
+                perPageParam = this._isLimitList ? { perPage: this._listRecordCount } : {};
                 return _context4.abrupt('return', (0, _fetchList2.default)(function (params) {
                   return _this3._client.account().extension().callLog().list((0, _extends3.default)({}, params, {
                     dateFrom: dateFrom,
                     dateTo: dateTo
-                  }));
+                  }, perPageParam));
                 }));
 
-              case 1:
+              case 2:
               case 'end':
                 return _context4.stop();
             }

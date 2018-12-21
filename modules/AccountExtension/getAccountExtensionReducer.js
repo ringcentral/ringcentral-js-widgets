@@ -32,6 +32,12 @@ function getDataReducer(types) {
         return Array.isArray(state) ? state.filter(function (item) {
           return item.id !== id;
         }) : null;
+      case types.update:
+        {
+          return Array.isArray(state) ? state.filter(function (item) {
+            return item.id !== id;
+          }).concat(data) : null;
+        }
       case types.resetSuccess:
         return null;
       default:

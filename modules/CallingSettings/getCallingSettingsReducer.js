@@ -8,7 +8,8 @@ exports.getRingoutPromptReducer = getRingoutPromptReducer;
 exports.getMyLocationReducer = getMyLocationReducer;
 exports.getTimestampReducer = getTimestampReducer;
 exports.getFromNumberReducer = getFromNumberReducer;
-exports.default = getCallingSettingsReducer;
+exports.getCallingSettingsReducer = getCallingSettingsReducer;
+exports.getCallingSettingsStorageReducer = getCallingSettingsStorageReducer;
 
 var _redux = require('redux');
 
@@ -89,6 +90,16 @@ function getFromNumberReducer(types) {
 function getCallingSettingsReducer(types) {
   return (0, _redux.combineReducers)({
     status: (0, _getModuleStatusReducer2.default)(types)
+  });
+}
+
+function getCallingSettingsStorageReducer(types) {
+  return (0, _redux.combineReducers)({
+    callWith: getCallWithReducer(types),
+    ringoutPrompt: getRingoutPromptReducer(types),
+    myLocation: getMyLocationReducer(types),
+    fromNumber: getFromNumberReducer(types),
+    timestamp: getTimestampReducer(types)
   });
 }
 //# sourceMappingURL=getCallingSettingsReducer.js.map

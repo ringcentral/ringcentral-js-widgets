@@ -36,11 +36,17 @@ var _mock = require('../mock');
 
 var mock = _interopRequireWildcard(_mock);
 
+var _authzProfile = require('../mock/data/authzProfile');
+
+var _authzProfile2 = _interopRequireDefault(_authzProfile);
+
+var _extensionInfo = require('../mock/data/extensionInfo');
+
+var _extensionInfo2 = _interopRequireDefault(_extensionInfo);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var authzProfileBody = require('../mock/data/authzProfile');
 
 exports.default = function (auth, client, alert, account, callingSettings, extensionPhoneNumber, extensionInfo) {
   describe('Calling Settings', (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee22() {
@@ -461,7 +467,7 @@ exports.default = function (auth, client, alert, account, callingSettings, exten
                       mock.restore();
                       mock.mockForLogin({ mockAuthzProfile: false });
                       mock.authzProfile({
-                        permissions: authzProfileBody.permissions.filter(function (p) {
+                        permissions: _authzProfile2.default.permissions.filter(function (p) {
                           return p.permission.id !== 'ReadUserPhoneNumbers';
                         })
                       });
@@ -486,17 +492,20 @@ exports.default = function (auth, client, alert, account, callingSettings, exten
                   switch (_context21.prev = _context21.next) {
                     case 0:
                       mock.restore();
-                      mock.mockForLogin({ mockAuthzProfile: false });
-                      mock.authzProfile({
-                        permissions: authzProfileBody.permissions.filter(function (p) {
-                          return p.permission.id !== 'ReadUserForwardingFlipNumbers';
+                      mock.mockForLogin({ mockExtensionInfo: false });
+                      mock.extensionInfo({
+                        serviceFeatures: _extensionInfo2.default.serviceFeatures.filter(function (p) {
+                          return p.featureName !== 'WebPhone';
+                        }).concat({
+                          featureName: "WebPhone",
+                          enabled: false
                         })
                       });
                       _context21.next = 5;
                       return (0, _HelpUtil.ensureLogin)(auth, account);
 
                     case 5:
-                      expect(callingSettings.callWithOptions).to.deep.equals([_callingOptions2.default.softphone, _callingOptions2.default.myphone, _callingOptions2.default.customphone]);
+                      expect(callingSettings.callWithOptions).to.deep.equals([_callingOptions2.default.softphone, _callingOptions2.default.myphone, _callingOptions2.default.otherphone, _callingOptions2.default.customphone]);
 
                     case 6:
                     case 'end':

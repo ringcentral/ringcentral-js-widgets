@@ -9,10 +9,6 @@ var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-pr
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
-var _promise = require('babel-runtime/core-js/promise');
-
-var _promise2 = _interopRequireDefault(_promise);
-
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -48,6 +44,10 @@ var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorRet
 var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _promise = require('babel-runtime/core-js/promise');
+
+var _promise2 = _interopRequireDefault(_promise);
 
 var _dec, _class, _desc, _value, _class2;
 
@@ -114,6 +114,21 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
   return desc;
 }
 
+function polyfillGetUserMedia() {
+  if (navigator.mediaDevices === undefined) {
+    navigator.mediaDevices = {};
+  }
+  navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+  if (navigator.mediaDevices.getUserMedia === undefined && navigator.getUserMedia) {
+    navigator.mediaDevices.getUserMedia = function (constraints) {
+      return new _promise2.default(function (resolve, reject) {
+        navigator.getUserMedia.call(navigator, constraints, resolve, reject);
+      });
+    };
+  }
+}
+polyfillGetUserMedia();
+
 /**
  * @class
  * @description AudioSettings module.
@@ -176,8 +191,8 @@ var AudioSettings = (_dec = (0, _di.Module)({
         if (_this2.ready && _this2._auth.loggedIn && _this2._rolesAndPermissions.webphoneEnabled && !_this2.userMedia) {
           // Make sure it only prompts once
           if (_this2.hasAutoPrompted) return;
-          _this2.getUserMedia();
           _this2.markAutoPrompted();
+          _this2.getUserMedia();
         }
       });
     }
@@ -304,7 +319,9 @@ var AudioSettings = (_dec = (0, _di.Module)({
 
                 this.store.dispatch({
                   type: this.actionTypes.setAvailableDevices,
-                  devices: devices
+                  devices: devices.map(function (d) {
+                    return d.toJSON();
+                  })
                 });
 
               case 4:
@@ -323,39 +340,73 @@ var AudioSettings = (_dec = (0, _di.Module)({
     }()
   }, {
     key: 'getUserMedia',
-    value: function getUserMedia() {
-      var _this4 = this;
-
-      return new _promise2.default(function (resolve) {
-        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-        if (navigator.getUserMedia) {
-          navigator.getUserMedia({
-            audio: true
-          }, function (stream) {
-            _this4._onGetUserMediaSuccess();
-            if (typeof stream.stop === 'function') {
-              stream.stop();
-            } else {
-              stream.getTracks().forEach(function (track) {
-                track.stop();
-              });
-            }
-            resolve();
-          }, function (error) {
-            _this4.onGetUserMediaError(error);
-            resolve();
-          });
-        }
-      });
-    }
-  }, {
-    key: '_onGetUserMediaSuccess',
     value: function () {
       var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
-        var userMediaAlert;
+        var stream;
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
+              case 0:
+                if (navigator.mediaDevices.getUserMedia) {
+                  _context4.next = 2;
+                  break;
+                }
+
+                return _context4.abrupt('return');
+
+              case 2:
+                _context4.prev = 2;
+
+                if (!this._getUserMediaPromise) {
+                  this._getUserMediaPromise = navigator.mediaDevices.getUserMedia({ audio: true });
+                }
+                _context4.next = 6;
+                return this._getUserMediaPromise;
+
+              case 6:
+                stream = _context4.sent;
+
+                this._getUserMediaPromise = null;
+                this._onGetUserMediaSuccess();
+                if (typeof stream.getTracks === 'function') {
+                  stream.getTracks().forEach(function (track) {
+                    track.stop();
+                  });
+                } else if (typeof stream.stop === 'function') {
+                  stream.stop();
+                }
+                _context4.next = 16;
+                break;
+
+              case 12:
+                _context4.prev = 12;
+                _context4.t0 = _context4['catch'](2);
+
+                this._getUserMediaPromise = null;
+                this.onGetUserMediaError(_context4.t0);
+
+              case 16:
+              case 'end':
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this, [[2, 12]]);
+      }));
+
+      function getUserMedia() {
+        return _ref5.apply(this, arguments);
+      }
+
+      return getUserMedia;
+    }()
+  }, {
+    key: '_onGetUserMediaSuccess',
+    value: function () {
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
+        var userMediaAlert;
+        return _regenerator2.default.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 userMediaAlert = (0, _ramda.find)(function (item) {
                   return item.message === _audioSettingsErrors2.default.userMediaPermission;
@@ -371,14 +422,14 @@ var AudioSettings = (_dec = (0, _di.Module)({
 
               case 4:
               case 'end':
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee5, this);
       }));
 
       function _onGetUserMediaSuccess() {
-        return _ref5.apply(this, arguments);
+        return _ref6.apply(this, arguments);
       }
 
       return _onGetUserMediaSuccess;
@@ -386,10 +437,10 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: 'onGetUserMediaError',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(error) {
-        return _regenerator2.default.wrap(function _callee5$(_context5) {
+      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(error) {
+        return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 this.store.dispatch({
                   type: this.actionTypes.getUserMediaError,
@@ -402,14 +453,14 @@ var AudioSettings = (_dec = (0, _di.Module)({
 
               case 2:
               case 'end':
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee6, this);
       }));
 
       function onGetUserMediaError(_x) {
-        return _ref6.apply(this, arguments);
+        return _ref7.apply(this, arguments);
       }
 
       return onGetUserMediaError;
@@ -417,10 +468,10 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: 'showAlert',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6() {
-        return _regenerator2.default.wrap(function _callee6$(_context6) {
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
+        return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 if (!this.userMedia) {
                   this._alert.danger({
@@ -432,14 +483,14 @@ var AudioSettings = (_dec = (0, _di.Module)({
 
               case 1:
               case 'end':
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6, this);
+        }, _callee7, this);
       }));
 
       function showAlert() {
-        return _ref7.apply(this, arguments);
+        return _ref8.apply(this, arguments);
       }
 
       return showAlert;
@@ -447,24 +498,24 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: 'setData',
     value: function () {
-      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(_ref8) {
-        var _ref8$dialButtonVolum = _ref8.dialButtonVolume,
-            dialButtonVolume = _ref8$dialButtonVolum === undefined ? this.dialButtonVolume : _ref8$dialButtonVolum,
-            _ref8$dialButtonMuted = _ref8.dialButtonMuted,
-            dialButtonMuted = _ref8$dialButtonMuted === undefined ? this.dialButtonMuted : _ref8$dialButtonMuted,
-            _ref8$ringtoneVolume = _ref8.ringtoneVolume,
-            ringtoneVolume = _ref8$ringtoneVolume === undefined ? this.ringtoneVolume : _ref8$ringtoneVolume,
-            _ref8$ringtoneMuted = _ref8.ringtoneMuted,
-            ringtoneMuted = _ref8$ringtoneMuted === undefined ? this.ringtoneMuted : _ref8$ringtoneMuted,
-            _ref8$callVolume = _ref8.callVolume,
-            callVolume = _ref8$callVolume === undefined ? this.callVolume : _ref8$callVolume,
-            _ref8$outputDeviceId = _ref8.outputDeviceId,
-            outputDeviceId = _ref8$outputDeviceId === undefined ? this.outputDeviceId : _ref8$outputDeviceId,
-            _ref8$inputDeviceId = _ref8.inputDeviceId,
-            inputDeviceId = _ref8$inputDeviceId === undefined ? this.inputDeviceId : _ref8$inputDeviceId;
-        return _regenerator2.default.wrap(function _callee7$(_context7) {
+      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(_ref9) {
+        var _ref9$dialButtonVolum = _ref9.dialButtonVolume,
+            dialButtonVolume = _ref9$dialButtonVolum === undefined ? this.dialButtonVolume : _ref9$dialButtonVolum,
+            _ref9$dialButtonMuted = _ref9.dialButtonMuted,
+            dialButtonMuted = _ref9$dialButtonMuted === undefined ? this.dialButtonMuted : _ref9$dialButtonMuted,
+            _ref9$ringtoneVolume = _ref9.ringtoneVolume,
+            ringtoneVolume = _ref9$ringtoneVolume === undefined ? this.ringtoneVolume : _ref9$ringtoneVolume,
+            _ref9$ringtoneMuted = _ref9.ringtoneMuted,
+            ringtoneMuted = _ref9$ringtoneMuted === undefined ? this.ringtoneMuted : _ref9$ringtoneMuted,
+            _ref9$callVolume = _ref9.callVolume,
+            callVolume = _ref9$callVolume === undefined ? this.callVolume : _ref9$callVolume,
+            _ref9$outputDeviceId = _ref9.outputDeviceId,
+            outputDeviceId = _ref9$outputDeviceId === undefined ? this.outputDeviceId : _ref9$outputDeviceId,
+            _ref9$inputDeviceId = _ref9.inputDeviceId,
+            inputDeviceId = _ref9$inputDeviceId === undefined ? this.inputDeviceId : _ref9$inputDeviceId;
+        return _regenerator2.default.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
                 this.store.dispatch({
                   type: this.actionTypes.setData,
@@ -479,14 +530,14 @@ var AudioSettings = (_dec = (0, _di.Module)({
 
               case 1:
               case 'end':
-                return _context7.stop();
+                return _context8.stop();
             }
           }
-        }, _callee7, this);
+        }, _callee8, this);
       }));
 
       function setData(_x2) {
-        return _ref9.apply(this, arguments);
+        return _ref10.apply(this, arguments);
       }
 
       return setData;
@@ -499,10 +550,10 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: 'outputDevice',
     get: function get() {
-      var _this5 = this;
+      var _this4 = this;
 
       return (0, _ramda.find)(function (device) {
-        return device.kind === 'audiooutput' && device.deviceId === _this5.outputDeviceId;
+        return device.kind === 'audiooutput' && device.deviceId === _this4.outputDeviceId;
       }, this.availableDevices);
     }
   }, {
@@ -513,10 +564,10 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: 'inputDevice',
     get: function get() {
-      var _this6 = this;
+      var _this5 = this;
 
       return (0, _ramda.find)(function (device) {
-        return device.kind === 'audioinput' && device.deviceId === _this6.inputDeviceId;
+        return device.kind === 'audioinput' && device.deviceId === _this5.inputDeviceId;
       }, this.availableDevices);
     }
   }, {
@@ -572,6 +623,10 @@ var AudioSettings = (_dec = (0, _di.Module)({
   }, {
     key: 'userMedia',
     get: function get() {
+      var isFirefox = navigator.userAgent.indexOf('Firefox') > -1;
+      if (isFirefox) {
+        return true;
+      }
       // this detection method may not work in the future
       // currently there is no good way to detect this
       return !!(this.availableDevices.length && this.availableDevices[0].label !== '');

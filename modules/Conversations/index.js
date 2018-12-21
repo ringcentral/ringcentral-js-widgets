@@ -183,11 +183,11 @@ function getUniqueNumbers(conversations) {
     }
   }
   conversations.forEach(function (message) {
-    if (message.from) {
+    if (message.from && message.direction === _messageDirection2.default.inbound) {
       var fromNumber = message.from.phoneNumber || message.from.extensionNumber;
       addIfNotExist(fromNumber);
     }
-    if (message.to && message.to.length > 0) {
+    if (message.to && message.to.length > 0 && message.direction === _messageDirection2.default.outbound) {
       message.to.forEach(function (toNumber) {
         if (!toNumber) {
           return;

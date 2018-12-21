@@ -13,10 +13,6 @@ var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
-var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
-
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
-
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
@@ -33,6 +29,10 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _dec, _class;
+
+exports.createPhone = createPhone;
+
 var _ringcentral = require('ringcentral');
 
 var _ringcentral2 = _interopRequireDefault(_ringcentral);
@@ -41,11 +41,19 @@ var _ringcentralClient = require('ringcentral-client');
 
 var _ringcentralClient2 = _interopRequireDefault(_ringcentralClient);
 
-var _redux = require('redux');
+var _di = require('../../../lib/di');
 
 var _RcModule2 = require('../../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
+
+var _callingOptions = require('../../../modules/CallingSettings/callingOptions');
+
+var _callingOptions2 = _interopRequireDefault(_callingOptions);
+
+var _AccountContacts = require('../../../modules/AccountContacts');
+
+var _AccountContacts2 = _interopRequireDefault(_AccountContacts);
 
 var _AccountExtension = require('../../../modules/AccountExtension');
 
@@ -55,6 +63,14 @@ var _AccountInfo = require('../../../modules/AccountInfo');
 
 var _AccountInfo2 = _interopRequireDefault(_AccountInfo);
 
+var _AccountPhoneNumber = require('../../../modules/AccountPhoneNumber');
+
+var _AccountPhoneNumber2 = _interopRequireDefault(_AccountPhoneNumber);
+
+var _AddressBook = require('../../../modules/AddressBook');
+
+var _AddressBook2 = _interopRequireDefault(_AddressBook);
+
 var _Alert = require('../../../modules/Alert');
 
 var _Alert2 = _interopRequireDefault(_Alert);
@@ -63,17 +79,9 @@ var _Auth = require('../../../modules/Auth');
 
 var _Auth2 = _interopRequireDefault(_Auth);
 
-var _AccountPhoneNumber = require('../../../modules/AccountPhoneNumber');
-
-var _AccountPhoneNumber2 = _interopRequireDefault(_AccountPhoneNumber);
-
 var _Brand = require('../../../modules/Brand');
 
 var _Brand2 = _interopRequireDefault(_Brand);
-
-var _BlockedNumber = require('../../../modules/BlockedNumber');
-
-var _BlockedNumber2 = _interopRequireDefault(_BlockedNumber);
 
 var _Call = require('../../../modules/Call');
 
@@ -83,6 +91,14 @@ var _CallingSettings = require('../../../modules/CallingSettings');
 
 var _CallingSettings2 = _interopRequireDefault(_CallingSettings);
 
+var _Contacts = require('../../../modules/Contacts');
+
+var _Contacts2 = _interopRequireDefault(_Contacts);
+
+var _ContactDetails = require('../../../modules/ContactDetails');
+
+var _ContactDetails2 = _interopRequireDefault(_ContactDetails);
+
 var _ConnectivityMonitor = require('../../../modules/ConnectivityMonitor');
 
 var _ConnectivityMonitor2 = _interopRequireDefault(_ConnectivityMonitor);
@@ -90,6 +106,10 @@ var _ConnectivityMonitor2 = _interopRequireDefault(_ConnectivityMonitor);
 var _DialingPlan = require('../../../modules/DialingPlan');
 
 var _DialingPlan2 = _interopRequireDefault(_DialingPlan);
+
+var _ExtensionDevice = require('../../../modules/ExtensionDevice');
+
+var _ExtensionDevice2 = _interopRequireDefault(_ExtensionDevice);
 
 var _Environment = require('../../../modules/Environment');
 
@@ -115,10 +135,6 @@ var _Locale = require('../../../modules/Locale');
 
 var _Locale2 = _interopRequireDefault(_Locale);
 
-var _Presence = require('../../../modules/Presence');
-
-var _Presence2 = _interopRequireDefault(_Presence);
-
 var _RateLimiter = require('../../../modules/RateLimiter');
 
 var _RateLimiter2 = _interopRequireDefault(_RateLimiter);
@@ -130,6 +146,10 @@ var _RegionSettings2 = _interopRequireDefault(_RegionSettings);
 var _Ringout = require('../../../modules/Ringout');
 
 var _Ringout2 = _interopRequireDefault(_Ringout);
+
+var _Webphone = require('../../../modules/Webphone');
+
+var _Webphone2 = _interopRequireDefault(_Webphone);
 
 var _RolesAndPermissions = require('../../../modules/RolesAndPermissions');
 
@@ -163,10 +183,6 @@ var _ComposeText = require('../../../modules/ComposeText');
 
 var _ComposeText2 = _interopRequireDefault(_ComposeText);
 
-var _ContactSearch = require('../../../modules/ContactSearch');
-
-var _ContactSearch2 = _interopRequireDefault(_ContactSearch);
-
 var _MessageStore = require('../../../modules/MessageStore');
 
 var _MessageStore2 = _interopRequireDefault(_MessageStore);
@@ -175,549 +191,490 @@ var _Conversations = require('../../../modules/Conversations');
 
 var _Conversations2 = _interopRequireDefault(_Conversations);
 
-var _ContactMatcher = require('../../../modules/ContactMatcher');
+var _ContactSearch = require('../../../modules/ContactSearch');
 
-var _ContactMatcher2 = _interopRequireDefault(_ContactMatcher);
+var _ContactSearch2 = _interopRequireDefault(_ContactSearch);
 
-var _ActivityMatcher = require('../../../modules/ActivityMatcher');
+var _DateTimeFormat = require('../../../modules/DateTimeFormat');
 
-var _ActivityMatcher2 = _interopRequireDefault(_ActivityMatcher);
+var _DateTimeFormat2 = _interopRequireDefault(_DateTimeFormat);
+
+var _Conference = require('../../../modules/Conference');
+
+var _Conference2 = _interopRequireDefault(_Conference);
 
 var _ConferenceCall = require('../../../modules/ConferenceCall');
 
 var _ConferenceCall2 = _interopRequireDefault(_ConferenceCall);
 
+var _QuickAccess = require('../../../modules/QuickAccess');
+
+var _QuickAccess2 = _interopRequireDefault(_QuickAccess);
+
+var _ActiveCallControl = require('../../../modules/ActiveCallControl');
+
+var _ActiveCallControl2 = _interopRequireDefault(_ActiveCallControl);
+
+var _ActiveCalls = require('../../../modules/ActiveCalls');
+
+var _ActiveCalls2 = _interopRequireDefault(_ActiveCalls);
+
+var _DetailedPresence = require('../../../modules/DetailedPresence');
+
+var _DetailedPresence2 = _interopRequireDefault(_DetailedPresence);
+
+var _CallLog = require('../../../modules/CallLog');
+
+var _CallLog2 = _interopRequireDefault(_CallLog);
+
+var _CallMonitor = require('../../../modules/CallMonitor');
+
+var _CallMonitor2 = _interopRequireDefault(_CallMonitor);
+
+var _CallHistory = require('../../../modules/CallHistory');
+
+var _CallHistory2 = _interopRequireDefault(_CallHistory);
+
+var _RecentMessages = require('../../../modules/RecentMessages');
+
+var _RecentMessages2 = _interopRequireDefault(_RecentMessages);
+
+var _RecentCalls = require('../../../modules/RecentCalls');
+
+var _RecentCalls2 = _interopRequireDefault(_RecentCalls);
+
+var _AudioSettings = require('../../../modules/AudioSettings');
+
+var _AudioSettings2 = _interopRequireDefault(_AudioSettings);
+
+var _Meeting = require('../../../modules/Meeting');
+
+var _Meeting2 = _interopRequireDefault(_Meeting);
+
+var _LocaleSettings = require('../../../modules/LocaleSettings');
+
+var _LocaleSettings2 = _interopRequireDefault(_LocaleSettings);
+
+var _ContactMatcher = require('../../../modules/ContactMatcher');
+
+var _ContactMatcher2 = _interopRequireDefault(_ContactMatcher);
+
+var _UserGuide = require('../../../modules/UserGuide');
+
+var _UserGuide2 = _interopRequireDefault(_UserGuide);
+
+var _normalizeNumber2 = require('../../../lib/normalizeNumber');
+
+var _normalizeNumber3 = _interopRequireDefault(_normalizeNumber2);
+
+var _ringoutStatus = require('../../../modules/Ringout/ringoutStatus');
+
+var _ringoutStatus2 = _interopRequireDefault(_ringoutStatus);
+
+var _softphoneStatus = require('../../../modules/Softphone/softphoneStatus');
+
+var _softphoneStatus2 = _interopRequireDefault(_softphoneStatus);
+
+var _callingModes = require('../../../modules/CallingSettings/callingModes');
+
+var _callingModes2 = _interopRequireDefault(_callingModes);
+
+var _BlockedNumber = require('../../../modules/BlockedNumber');
+
+var _BlockedNumber2 = _interopRequireDefault(_BlockedNumber);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Phone = function (_RcModule) {
-  (0, _inherits3.default)(Phone, _RcModule);
+var BasePhone = (_dec = (0, _di.ModuleFactory)({
+  providers: [{
+    provide: 'Client',
+    useFactory: function useFactory(_ref) {
+      var sdkConfig = _ref.sdkConfig;
+      return new _ringcentralClient2.default(new _ringcentral2.default(sdkConfig));
+    },
+    deps: [{ dep: 'SdkConfig', useParam: true }]
+  }, { provide: 'Alert', useClass: _Alert2.default }, { provide: 'Brand', useClass: _Brand2.default }, { provide: 'Softphone', useClass: _Softphone2.default }, { provide: 'Locale', useClass: _Locale2.default }, { provide: 'DateTimeFormat', useClass: _DateTimeFormat2.default }, { provide: 'TabManager', useClass: _TabManager2.default }, { provide: 'GlobalStorage', useClass: _GlobalStorage2.default }, { provide: 'LocaleSettings', useClass: _LocaleSettings2.default }, { provide: 'Environment', useClass: _Environment2.default }, { provide: 'Auth', useClass: _Auth2.default }, { provide: 'Ringout', useClass: _Ringout2.default }, { provide: 'ConnectivityMonitor', useClass: _ConnectivityMonitor2.default }, { provide: 'RateLimiter', useClass: _RateLimiter2.default }, { provide: 'Storage', useClass: _Storage2.default }, { provide: 'AudioSettings', useClass: _AudioSettings2.default }, { provide: 'AccountExtension', useClass: _AccountExtension2.default }, { provide: 'AccountInfo', useClass: _AccountInfo2.default }, { provide: 'ExtensionDevice', useClass: _ExtensionDevice2.default }, { provide: 'ExtensionInfo', useClass: _ExtensionInfo2.default }, { provide: 'RolesAndPermissions', useClass: _RolesAndPermissions2.default }, { provide: 'DialingPlan', useClass: _DialingPlan2.default }, { provide: 'ExtensionPhoneNumber', useClass: _ExtensionPhoneNumber2.default }, { provide: 'ForwardingNumber', useClass: _ForwardingNumber2.default }, { provide: 'RegionSettings', useClass: _RegionSettings2.default }, { provide: 'NumberValidate', useClass: _NumberValidate2.default }, { provide: 'CallingSettings', useClass: _CallingSettings2.default }, { provide: 'Call', useClass: _Call2.default }, { provide: 'Subscription', useClass: _Subscription2.default }, { provide: 'ActiveCalls', useClass: _ActiveCalls2.default }, { provide: 'DetailedPresence', useClass: _DetailedPresence2.default }, { provide: 'MessageSender', useClass: _MessageSender2.default }, { provide: 'ComposeText', useClass: _ComposeText2.default }, { provide: 'MessageStore', useClass: _MessageStore2.default }, { provide: 'Conversations', useClass: _Conversations2.default }, { provide: 'Conference', useClass: _Conference2.default }, { provide: 'CallLog', useClass: _CallLog2.default }, { provide: 'CallHistory', useClass: _CallHistory2.default }, { provide: 'AccountPhoneNumber', useClass: _AccountPhoneNumber2.default }, { provide: 'AccountContacts', useClass: _AccountContacts2.default }, { provide: 'AddressBook', useClass: _AddressBook2.default }, { provide: 'Contacts', useClass: _Contacts2.default }, { provide: 'QuickAccess', useClass: _QuickAccess2.default }, {
+    provide: 'ContactSources',
+    deps: ['AddressBook', 'AccountContacts'],
+    useFactory: function useFactory(_ref2) {
+      var addressBook = _ref2.addressBook,
+          accountContacts = _ref2.accountContacts;
+      return [addressBook, accountContacts];
+    }
+  }, { provide: 'ContactDetails', useClass: _ContactDetails2.default }, { provide: 'ContactMatcher', useClass: _ContactMatcher2.default }, { provide: 'RecentMessages', useClass: _RecentMessages2.default }, { provide: 'RecentCalls', useClass: _RecentCalls2.default }, { provide: 'Meeting', useClass: _Meeting2.default }, { provide: 'Webphone', useClass: _Webphone2.default }, { provide: 'ContactSearch', useClass: _ContactSearch2.default }, { provide: 'CallMonitor', useClass: _CallMonitor2.default }, { provide: 'UserGuide', useClass: _UserGuide2.default }, { provide: 'ActiveCallControl', useClass: _ActiveCallControl2.default }, {
+    provide: 'StorageOptions',
+    useValue: {
+      // StorageProvider: LocalForageStorage, // IndexedDB
+      disableAllowInactiveTabsWrite: true
+    },
+    spread: true
+  }, {
+    provide: 'MessageStoreOptions',
+    useValue: {
+      daySpan: 90,
+      conversationsLoadLength: 10,
+      conversationLoadLength: 15
+    },
+    spread: true
+  }, {
+    provide: 'ConversationsOptions',
+    useValue: {
+      enableLoadOldMessages: true,
+      showMMSAttachment: true
+    },
+    spread: true
+  }, { provide: 'ConferenceCall', useClass: _ConferenceCall2.default },
+  // {
+  // provide: 'ConferenceCallOptions',
+  // useValue: {
+  // pulling: false,
+  // },
+  // spread: true,
+  // },
+  { provide: 'BlockedNumber', useClass: _BlockedNumber2.default }]
+}), _dec(_class = function (_RcModule) {
+  (0, _inherits3.default)(BasePhone, _RcModule);
 
-  function Phone() {
-    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  function BasePhone(options) {
+    (0, _classCallCheck3.default)(this, BasePhone);
 
-    var history = _ref.history,
-        appKey = _ref.appKey,
-        appSecret = _ref.appSecret,
-        server = _ref.server,
-        appName = _ref.appName,
-        appVersion = _ref.appVersion,
-        brandId = _ref.brandId,
-        brandName = _ref.brandName,
-        brandFullName = _ref.brandFullName,
-        redirectUri = _ref.redirectUri,
-        proxyUri = _ref.proxyUri,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['history', 'appKey', 'appSecret', 'server', 'appName', 'appVersion', 'brandId', 'brandName', 'brandFullName', 'redirectUri', 'proxyUri']);
-    (0, _classCallCheck3.default)(this, Phone);
+    var _this = (0, _possibleConstructorReturn3.default)(this, (BasePhone.__proto__ || (0, _getPrototypeOf2.default)(BasePhone)).call(this, options));
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Phone.__proto__ || (0, _getPrototypeOf2.default)(Phone)).call(this, (0, _extends3.default)({}, options)));
+    var ringout = options.ringout,
+        webphone = options.webphone,
+        callingSettings = options.callingSettings,
+        routerInteraction = options.routerInteraction,
+        callMonitor = options.callMonitor,
+        contactSearch = options.contactSearch,
+        contacts = options.contacts,
+        contactMatcher = options.contactMatcher,
+        conferenceCall = options.conferenceCall;
 
-    var cachePrefix = 'sdk' + (options.prefix ? '-' + options.prefix : '');
+    //     contactSearch.addSearchSource({
+    //       sourceName: 'contacts',
+    //       searchFn({ searchString }) {
+    //         const items = contacts.allContacts;
+    //         if (!searchString) {
+    //           return items;
+    //         }
+    //         const searchText = searchString.toLowerCase();
+    //         const result = [];
+    //         items.forEach((item) => {
+    //           const name = item.name || `${item.firstName} ${item.lastName}`;
+    //           item.phoneNumbers.forEach((p) => {
+    //             if (
+    //               name.toLowerCase().indexOf(searchText) >= 0 ||
+    // p.phoneNumber.indexOf(searchText) >= 0
+    //             ) {
+    //               result.push({
+    //                 id: `${item.id}${p.phoneNumber}`,
+    //                 name,
+    //                 type: item.type,
+    //                 phoneNumber: p.phoneNumber,
+    //                 phoneType: p.phoneType.replace('Phone', ''),
+    //                 entityType: 'contact',
+    //               });
+    //             }
+    //           });
+    //         });
+    //         return result;
+    //       },
+    //       formatFn: entities => entities,
+    //       readyCheckFn: () => contacts.ready,
+    //     });
+    //     contactMatcher.addSearchProvider({
+    //       name: 'contacts',
+    //       searchFn: async ({ queries }) => contacts.matchContacts({ phoneNumbers: queries }),
+    //       readyCheckFn: () => contacts.ready,
+    //     });
 
-    _this.addModule('client', new _ringcentralClient2.default(new _ringcentral2.default({
-      cachePrefix: cachePrefix,
-      appKey: appKey,
-      appSecret: appSecret,
-      appName: appName,
-      appVersion: appVersion,
-      server: server
-    })));
-    _this.addModule('tabManager', new _TabManager2.default((0, _extends3.default)({}, options, {
-      getState: function getState() {
-        return _this.state.tabManager;
-      }
-    })));
-    _this.addModule('globalStorage', new _GlobalStorage2.default((0, _extends3.default)({}, options, {
-      getState: function getState() {
-        return _this.state.globalStorage;
-      }
-    })));
-    _this.addModule('alert', new _Alert2.default((0, _extends3.default)({}, options, {
-      getState: function getState() {
-        return _this.state.alert;
-      }
-    })));
+    //     // Webphone configuration
+    //     webphone.onCallEnd((session, currentSession, ringSession) => {
+    //       const callsOnholdReg = /^\/conferenceCall\/callsOnhold\/(.+)\/(.+)$/;
+    //       const execCallsOnhold = callsOnholdReg.exec(routerInteraction.currentPath);
 
-    _this.addModule('brand', new _Brand2.default((0, _extends3.default)({}, options, {
-      id: brandId,
-      name: brandName,
-      fullName: brandFullName,
-      getState: function getState() {
-        return _this.state.brand;
-      }
-    })));
-    _this.addModule('locale', new _Locale2.default((0, _extends3.default)({}, options, {
-      getState: function getState() {
-        return _this.state.locale;
-      }
-    })));
-    _this.addModule('environment', new _Environment2.default((0, _extends3.default)({}, options, {
-      sdkConfig: {
-        cachePrefix: cachePrefix,
-        appKey: appKey,
-        appSecret: appSecret,
-        appName: appName,
-        appVersion: appVersion,
-        server: server
-      },
-      client: _this.client,
-      globalStorage: _this.globalStorage,
-      getState: function getState() {
-        return _this.state.environment;
-      }
-    })));
-    _this.addModule('connectivityMonitor', new _ConnectivityMonitor2.default((0, _extends3.default)({}, options, {
-      alert: _this.alert,
-      client: _this.client,
-      environment: _this.environment,
-      checkConnectionFunc: function checkConnectionFunc() {
-        return true;
-      },
-      getState: function getState() {
-        return _this.state.connectivityMonitor;
-      }
-    })));
-    _this.addModule('auth', new _Auth2.default((0, _extends3.default)({}, options, {
-      client: _this.client,
-      brand: _this.brand,
-      locale: _this.locale,
-      alert: _this.alert,
-      environment: _this.environment,
-      tabManager: _this.tabManager,
-      proxyUri: proxyUri,
-      redirectUri: redirectUri,
-      getState: function getState() {
-        return _this.state.auth;
-      }
-    })));
-    _this.addModule('storage', new _Storage2.default((0, _extends3.default)({}, options, {
-      auth: _this.auth,
-      getState: function getState() {
-        return _this.state.storage;
-      }
-    })));
-    _this.addModule('subscription', new _Subscription2.default((0, _extends3.default)({}, options, {
-      auth: _this.auth,
-      client: _this.client,
-      storage: _this.storage,
-      getState: function getState() {
-        return _this.state.subscription;
-      }
-    })));
-    // this.addModule('router', new RouterInteraction({
-    //   ...options,
-    //   history,
-    //   getState: () => this.state.router,
-    // }));
-    _this.addModule('extensionInfo', new _ExtensionInfo2.default((0, _extends3.default)({}, options, {
-      auth: _this.auth,
-      client: _this.client,
-      storage: _this.storage,
-      tabManager: _this.tabManager,
-      alert: _this.alert,
-      getState: function getState() {
-        return _this.state.extensionInfo;
-      }
-    })));
-    _this.addModule('rolesAndPermissions', new _RolesAndPermissions2.default((0, _extends3.default)({}, options, {
-      auth: _this.auth,
-      storage: _this.storage,
-      client: _this.client,
-      extensionInfo: _this.extensionInfo,
-      tabManager: _this.tabManager,
-      alert: _this.alert,
-      getState: function getState() {
-        return _this.state.rolesAndPermissions;
-      }
-    })));
-    _this.addModule('accountInfo', new _AccountInfo2.default((0, _extends3.default)({}, options, {
-      auth: _this.auth,
-      storage: _this.storage,
-      client: _this.client,
-      tabManager: _this.tabManager,
-      rolesAndPermissions: _this.rolesAndPermissions,
-      alert: _this.alert,
-      getState: function getState() {
-        return _this.state.accountInfo;
-      }
-    })));
-    _this.addModule('presence', new _Presence2.default((0, _extends3.default)({}, options, {
-      auth: _this.auth,
-      client: _this.client,
-      subscription: _this.subscription,
-      rolesAndPermissions: _this.rolesAndPermissions,
-      getState: function getState() {
-        return _this.state.presence;
-      }
-    })));
-    _this.addModule('accountExtension', new _AccountExtension2.default((0, _extends3.default)({}, options, {
-      auth: _this.auth,
-      client: _this.client,
-      storage: _this.storage,
-      subscription: _this.subscription,
-      rolesAndPermissions: _this.rolesAndPermissions,
-      getState: function getState() {
-        return _this.state.accountExtension;
-      }
-    })));
-    _this.addModule('accountPhoneNumber', new _AccountPhoneNumber2.default((0, _extends3.default)({}, options, {
-      auth: _this.auth,
-      client: _this.client,
-      storage: _this.storage,
-      subscription: _this.subscription,
-      rolesAndPermissions: _this.rolesAndPermissions,
-      getState: function getState() {
-        return _this.state.accountPhoneNumber;
-      }
-    })));
-    _this.addModule('dialingPlan', new _DialingPlan2.default((0, _extends3.default)({}, options, {
-      auth: _this.auth,
-      storage: _this.storage,
-      client: _this.client,
-      tabManager: _this.tabManager,
-      rolesAndPermissions: _this.rolesAndPermissions,
-      getState: function getState() {
-        return _this.state.dialingPlan;
-      }
-    })));
-    _this.addModule('extensionPhoneNumber', new _ExtensionPhoneNumber2.default((0, _extends3.default)({}, options, {
-      auth: _this.auth,
-      storage: _this.storage,
-      client: _this.client,
-      tabManager: _this.tabManager,
-      rolesAndPermissions: _this.rolesAndPermissions,
-      getState: function getState() {
-        return _this.state.extensionPhoneNumber;
-      }
-    })));
-    _this.addModule('forwardingNumber', new _ForwardingNumber2.default((0, _extends3.default)({}, options, {
-      auth: _this.auth,
-      storage: _this.storage,
-      client: _this.client,
-      tabManager: _this.tabManager,
-      rolesAndPermissions: _this.rolesAndPermissions,
-      getState: function getState() {
-        return _this.state.forwardingNumber;
-      }
-    })));
-    _this.addModule('blockedNumber', new _BlockedNumber2.default((0, _extends3.default)({}, options, {
-      auth: _this.auth,
-      storage: _this.storage,
-      client: _this.client,
-      rolesAndPermissions: _this.rolesAndPermissions,
-      getState: function getState() {
-        return _this.state.blockedNumber;
-      }
-    })));
-    _this.addModule('regionSettings', new _RegionSettings2.default((0, _extends3.default)({}, options, {
-      storage: _this.storage,
-      alert: _this.alert,
-      extensionInfo: _this.extensionInfo,
-      dialingPlan: _this.dialingPlan,
-      tabManager: _this.tabManager,
-      getState: function getState() {
-        return _this.state.regionSettings;
-      }
-    })));
-    _this.addModule('rateLimiter', new _RateLimiter2.default((0, _extends3.default)({}, options, {
-      alert: _this.alert,
-      client: _this.client,
-      environment: _this.environment,
-      globalStorage: _this.globalStorage,
-      getState: function getState() {
-        return _this.state.rateLimiter;
-      }
-    })));
+    //       if (execCallsOnhold) {
+    //         const fromSessionIdOfCallsOnhold = execCallsOnhold[2];
+    //         if (!currentSession || session.id === currentSession.id) {
+    //           routerInteraction.go(-2);
+    //           return;
+    //         }
+    //         if (session.id === fromSessionIdOfCallsOnhold) {
+    //           routerInteraction.replace('/calls/active');
+    //           return;
+    //         }
+    //       }
 
-    _this.addModule('contactMatcher', new _ContactMatcher2.default((0, _extends3.default)({}, options, {
-      auth: _this.auth,
-      storage: _this.storage,
-      getState: function getState() {
-        return _this.state.contactMatcher;
-      }
-    })));
-    _this.addModule('activityMatcher', new _ActivityMatcher2.default((0, _extends3.default)({}, options, {
-      auth: _this.auth,
-      storage: _this.storage,
-      getState: function getState() {
-        return _this.state.activityMatcher;
-      }
-    })));
-    // this.addModule('callLog', new CallLog({
-    //   ...options,
-    //   auth: this.auth,
-    //   client: this.client,
-    //   storage: this.storage,
-    //   regionSettings: this.regionSettings,
-    //   onFetchSuccess: () => {
-    //     this.contactMatcher.triggerMatch();
-    //     this.activityMatcher.triggerMatch();
-    //   },
-    //   getState: () => this.state.callLog,
-    // }));
-    // this.contactMatcher.addQuerySource({
-    //   sourceName: 'callLog',
-    //   getQueriesFn: this.callLog.getSelector('normalizedPhoneNumbers'),
-    //   readyCheckFn: () => this.callLog.ready,
-    // });
-    // this.contactMatcher.addSearchSource({
-    //   sourceName: 'dynamics',
-    //   searchFn: async ({ queries }) => this.adapter.matchEntities({ phoneNumbers: queries }),
-    //   readyCheckFn: () => this.adapter.ready,
-    // });
-    // this.activityMatcher.addQuerySource({
-    //   sourceName: 'callLog',
-    //   getQueriesFn: this.callLog.getSelector('callLogSessionIds'),
-    //   readyCheckFn: () => this.callLog.ready,
-    // });
-    // this.activityMatcher.addSearchSource({
-    //   sourceName: 'dynamics',
-    //   searchFn: async ({ queries }) => this.adapter.matchPhoneCalls({ sessionIds: queries }),
-    //   readyCheckFn: () => this.adapter.ready,
-    // });
-    _this.addModule('callingSettings', new _CallingSettings2.default((0, _extends3.default)({}, options, {
-      alert: _this.alert,
-      brand: _this.brand,
-      client: _this.client,
-      storage: _this.storage,
-      extensionInfo: _this.extensionInfo,
-      extensionPhoneNumber: _this.extensionPhoneNumber,
-      forwardingNumber: _this.forwardingNumber,
-      rolesAndPermissions: _this.rolesAndPermissions,
-      onFirstLogin: function onFirstLogin() {
-        _this.router.history.push('/settings'); // TODO find a better solution
-      },
-      getState: function getState() {
-        return _this.state.callingSettings;
-      }
-    })));
-    _this.addModule('softphone', new _Softphone2.default((0, _extends3.default)({}, options, {
-      getState: function getState() {
-        return _this.state.softphone;
-      },
-      brand: _this.brand
-    })));
-    _this.addModule('ringout', new _Ringout2.default((0, _extends3.default)({}, options, {
-      auth: _this.auth,
-      client: _this.client,
-      getState: function getState() {
-        return _this.state.ringout;
-      }
-    })));
-    _this.addModule('numberValidate', new _NumberValidate2.default((0, _extends3.default)({}, options, {
-      brand: _this.brand,
-      client: _this.client,
-      accountExtension: _this.accountExtension,
-      regionSettings: _this.regionSettings,
-      accountInfo: _this.accountInfo,
-      getState: function getState() {
-        return _this.state.numberValidate;
-      }
-    })));
-    _this.addModule('call', new _Call2.default((0, _extends3.default)({}, options, {
-      alert: _this.alert,
-      client: _this.client,
-      callingSettings: _this.callingSettings,
-      softphone: _this.softphone,
-      storage: _this.storage,
-      ringout: _this.ringout,
-      numberValidate: _this.numberValidate,
-      regionSettings: _this.regionSettings,
-      rolesAndPermissions: _this.rolesAndPermissions,
-      getState: function getState() {
-        return _this.state.call;
-      }
-    })));
-    // this.addModule('autoLogger', new AutoLogger({
-    //   ...options,
-    //   storage: this.storage,
-    //   getState: () => this.state.autoLogger,
-    // }));
-    // this.autoLogger.addLogHandler({
-    //   sourceName: 'dynamics',
-    //   handlerFn: async args => this.adapter.logCallBatch(args),
-    //   readyCheckFn: () => this.adapter.ready,
-    // });
+    //       const withinCallCtrl = !![
+    //         '/calls/active',
+    //         '/conferenceCall/dialer/',
+    //         '/conferenceCall/callsOnhold',
+    //         '/conferenceCall/participants',
+    //       ].find(path => routerInteraction.currentPath.indexOf(path) === 0);
 
-    _this.addModule('contactSearch', new _ContactSearch2.default((0, _extends3.default)({}, options, {
-      auth: _this.auth,
-      storage: _this.storage,
-      getState: function getState() {
-        return _this.state.contactSearch;
-      }
-    })));
-    _this.contactSearch.addSearchSource({
-      sourceName: 'test',
-      searchFn: function searchFn(_ref2) {
-        var searchString = _ref2.searchString;
-        return [{
-          entityType: 'account',
-          name: searchString,
-          phoneNumber: '+1234567890',
-          phoneType: 'phone'
-        }];
-      },
-      formatFn: function formatFn(entities) {
-        return entities;
-      },
-      readyCheckFn: function readyCheckFn() {
-        return true;
-      }
-    });
+    //       if (
+    //         withinCallCtrl
+    // && (!currentSession || session.id === currentSession.id)
+    // && !ringSession
+    //       ) {
+    //         if (!currentSession) {
+    //           routerInteraction.replace('/dialer');
+    //           return;
+    //         }
+    //         if (routerInteraction.currentPath.indexOf('/calls/active') === -1) {
+    //           routerInteraction.replace('/calls/active');
+    //           return;
+    //         }
+    //         if (conferenceCall.isMerging) {
+    //           // Do nothing, let the merge() to do the jump
+    //           return;
+    //         }
+    //         routerInteraction.goBack();
+    //         return;
+    //       }
 
-    _this.addModule('messageSender', new _MessageSender2.default((0, _extends3.default)({}, options, {
-      alert: _this.alert,
-      client: _this.client,
-      getState: function getState() {
-        return _this.state.messageSender;
-      },
-      extensionPhoneNumber: _this.extensionPhoneNumber,
-      extensionInfo: _this.extensionInfo,
-      numberValidate: _this.numberValidate
-    })));
+    //       if (
+    //         currentSession
+    // && currentSession.id !== session.id
+    // && routerInteraction.currentPath === `/calls/active/${session.id}`
+    //       ) {
+    //         routerInteraction.replace(`/calls/active/${currentSession.id}`);
+    //         return;
+    //       }
 
-    _this.addModule('composeText', new _ComposeText2.default((0, _extends3.default)({}, options, {
-      auth: _this.auth,
-      alert: _this.alert,
-      storage: _this.storage,
-      getState: function getState() {
-        return _this.state.composeText;
-      },
-      messageSender: _this.messageSender,
-      numberValidate: _this.numberValidate,
-      rolesAndPermissions: _this.rolesAndPermissions
-    })));
+    //       if (!currentSession && ringSession) {
+    //         routerInteraction.push('/calls');
+    //       }
+    //     });
 
-    _this.addModule('messageStore', new _MessageStore2.default((0, _extends3.default)({}, options, {
-      alert: _this.alert,
-      auth: _this.auth,
-      client: _this.client,
-      storage: _this.storage,
-      subscription: _this.subscription,
-      connectivityMonitor: _this.connectivityMonitor,
-      rolesAndPermissions: _this.rolesAndPermissions,
-      getState: function getState() {
-        return _this.state.messageStore;
-      }
-    })));
+    //     webphone.onCallStart((session) => {
+    //       const path = `/calls/active/${session.id}`;
+    //       if (routerInteraction.currentPath !== path) {
+    //         if (routerInteraction.currentPath.indexOf('/calls/active') === 0) {
+    //           routerInteraction.replace(path);
+    //         } else {
+    //           routerInteraction.push(path);
+    //         }
+    //       }
+    //     });
 
-    _this.addModule('conversations', new _Conversations2.default((0, _extends3.default)({}, options, {
-      alert: _this.alert,
-      auth: _this.auth,
-      client: _this.client,
-      messageSender: _this.messageSender,
-      messageStore: _this.messageStore,
-      extensionInfo: _this.extensionInfo,
-      rolesAndPermissions: _this.rolesAndPermissions,
-      getState: function getState() {
-        return _this.state.conversations;
-      }
-    })));
+    //     webphone.onCallRing(() => {
+    //       if (webphone.ringSessions.length > 1) {
+    //         if (routerInteraction.currentPath !== '/calls') {
+    //           routerInteraction.push('/calls');
+    //         }
+    //         webphone.ringSessions.forEach((session) => {
+    //           if (!session.minimized) {
+    //             webphone.toggleMinimized(session.id);
+    //           }
+    //         });
+    //       }
+    //     });
 
-    // this.addModule('adapter', new DynamicsAdapter({
-    //   ...options,
-    //   auth: this.auth,
-    //   call: this.call,
-    //   composeText: this.composeText,
-    //   locale: this.locale,
-    //   router: this.router,
-    //   presence: this.presence,
-    //   storage: this.storage,
-    //   globalStorage: this.globalStorage,
-    //   regionSettings: this.regionSettings,
-    //   getState: () => this.state.adapter,
-    // }));
+    //     webphone.onBeforeCallResume((session) => {
+    //       const sessionId = session && session.id;
+    //       const mergingPair = conferenceCall && conferenceCall.mergingPair;
+    //       if (mergingPair && sessionId !== mergingPair.toSessionId) {
+    //         // close merging pair to close the merge call.
+    //         conferenceCall.closeMergingPair();
+    //       }
+    //     });
 
-    _this.addModule('conferenceCall', new _ConferenceCall2.default((0, _extends3.default)({}, options, {
-      auth: _this.auth,
-      storage: _this.storage,
-      client: _this.client,
-      tabManager: _this.tabManager,
-      alert: _this.alert,
-      call: _this.call,
-      callingSettings: _this.callingSettings,
-      rolesAndPermissions: _this.rolesAndPermissions,
-      pulling: false,
-      getState: function getState() {
-        return _this.state.conferenceCall;
-      }
-    })));
+    //     webphone.onBeforeCallEnd((session) => {
+    //       const mergingPair = conferenceCall && conferenceCall.mergingPair;
+    //       if (
+    //         session
+    // && mergingPair
+    // && (Object.values(mergingPair).indexOf(session.id) !== -1)
+    //       ) {
+    //         // close merging pair to close the merge call.
+    //         conferenceCall.closeMergingPair();
+    //       }
+    //     });
 
-    _this._reducer = (0, _redux.combineReducers)({
-      app: function app() {
-        var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
-          name: appName,
-          version: appVersion
-        };
-        return state;
-      },
-      tabManager: _this.tabManager.reducer,
-      alert: _this.alert.reducer,
-      auth: _this.auth.reducer,
-      brand: _this.brand.reducer,
-      connectivityMonitor: _this.connectivityMonitor.reducer,
-      locale: _this.locale.reducer,
-      subscription: _this.subscription.reducer,
-      // router: this.router.reducer,
-      accountExtension: _this.accountExtension.reducer,
-      accountPhoneNumber: _this.accountPhoneNumber.reducer,
-      accountInfo: _this.accountInfo.reducer,
-      rolesAndPermissions: _this.rolesAndPermissions.reducer,
-      extensionInfo: _this.extensionInfo.reducer,
-      dialingPlan: _this.dialingPlan.reducer,
-      extensionPhoneNumber: _this.extensionPhoneNumber.reducer,
-      forwardingNumber: _this.forwardingNumber.reducer,
-      blockedNumber: _this.blockedNumber.reducer,
-      regionSettings: _this.regionSettings.reducer,
-      callingSettings: _this.callingSettings.reducer,
-      call: _this.call.reducer,
-      rateLimiter: _this.rateLimiter.reducer,
-      ringout: _this.ringout.reducer,
-      softphone: _this.softphone.reducer,
-      // callLog: this.callLog.reducer,
-      // callMonitor: callMonitorReducer,
-      environment: _this.environment.reducer,
-      presence: _this.presence.reducer,
-      contactMatcher: _this.contactMatcher.reducer,
-      activityMatcher: _this.activityMatcher.reducer,
-      storage: _this.storage.reducer,
-      // autoLogger: this.autoLogger.reducer,
-      globalStorage: _this.globalStorage.reducer,
-      contactSearch: _this.contactSearch.reducer,
-      numberValidate: _this.numberValidate.reducer,
-      messageSender: _this.messageSender.reducer,
-      composeText: _this.composeText.reducer,
-      messageStore: _this.messageStore.reducer,
-      conversations: _this.conversations.reducer,
-      // adapter: this.adapter.reducer,
-      conferenceCall: _this.conferenceCall.reducer
-    });
+    //     conferenceCall.onMergeSuccess((conferenceData) => {
+    //       routerInteraction.push(`/calls/active/${conferenceData.sessionId}`);
+    //     });
+
+    //     // CallMonitor configuration
+    //     this._softphoneConnectTime = null;
+    //     this._softphoneConnectNumber = null;
+
+    //     callMonitor._onRinging = (call) => {
+    //       // auto nav rules
+    //       if (
+    //         callingSettings.callingMode !== callingModes.webphone // not webRTC mode
+    // && routerInteraction.currentPath === '/dialer'
+    // && (
+    // // for ringout
+    //   ringout.ringoutStatus === ringoutStatus.connecting
+    // // for softphone
+    // || (
+    //   this._softphoneConnectTime && call && call.to
+    // && (new Date() - this._softphoneConnectTime) < 1 * 60 * 1000 // in 1 minute
+    // && this._normalizeNumber(call.to.phoneNumber)
+    // === this._normalizeNumber(this._softphoneConnectNumber)
+    // )
+    // )
+    //       ) {
+    //         routerInteraction.push('/calls');
+    //         this._softphoneConnectTime = null;
+    //         this._softphoneConnectNumber = null;
+    //       }
+    //     };
+
+    //     const phone = this;
+    //     callMonitor._onCallEnded = () => {
+    //       if (
+    //         routerInteraction.currentPath === '/calls'
+    // && !hasActiveCalls(phone)
+    //       ) {
+    //         routerInteraction.replace('/dialer');
+    //       }
+    //     };
+
     return _this;
   }
 
-  (0, _createClass3.default)(Phone, [{
-    key: 'name',
-    get: function get() {
-      return this.state.app.name;
+  (0, _createClass3.default)(BasePhone, [{
+    key: '_normalizeNumber',
+    value: function _normalizeNumber(phoneNumber) {
+      return (0, _normalizeNumber3.default)({
+        phoneNumber: phoneNumber,
+        countryCode: this.regionSettings.countryCode,
+        areaCode: this.regionSettings.areaCode
+      });
     }
+
+    //   initialize() {
+    //     const { rolesAndPermissions } = this;
+    //     this.store.subscribe(() => {
+    //       if (this.auth.ready) {
+    //         if (
+    //           this.routerInteraction.currentPath !== '/'
+    // && !this.auth.loggedIn
+    //         ) {
+    //           this.routerInteraction.push('/');
+    //         } else if (
+    //           this.routerInteraction.currentPath === '/'
+    // && this.auth.loggedIn
+    // && rolesAndPermissions.ready
+    //         ) {
+    //           // Determine default tab
+    //           const showDialPad = rolesAndPermissions.callingEnabled;
+    //           const showCalls = (
+    //             rolesAndPermissions.callingEnabled
+    // && this.callingSettings.ready
+    // && this.callingSettings.callWith !== callingOptions.browser
+    //           );
+    //           const showHistory = rolesAndPermissions.permissions.ReadCallLog;
+    //           const showContact = rolesAndPermissions.callingEnabled;
+    //           const showComposeText = rolesAndPermissions.hasComposeTextPermission;
+    //           const showMessages = rolesAndPermissions.hasReadMessagesPermission;
+    //           const showConference = rolesAndPermissions.permissions.OrganizeConference;
+    //           const showMeeting = rolesAndPermissions.permissions.Meetings;
+    //           if (showDialPad) {
+    //             this.routerInteraction.push('/dialer');
+    //           } else if (showCalls) {
+    //             this.routerInteraction.push('/calls');
+    //           } else if (showHistory) {
+    //             this.routerInteraction.push('/history');
+    //           } else if (showMessages) {
+    //             this.routerInteraction.push('/messages');
+    //           } else if (showComposeText) {
+    //             this.routerInteraction.push('/composeText');
+    //           } else if (showContact) {
+    //             this.routerInteraction.push('/contacts');
+    //           } else if (showMeeting) {
+    //             this.routerInteraction.push('/meeting');
+    //           } else if (showConference) {
+    //             this.routerInteraction.push('/conference');
+    //           } else {
+    //             this.routerInteraction.push('/settings');
+    //           }
+    //         } else if (
+    //           this.routerInteraction.currentPath === '/dialer'
+    // && this.softphone.softphoneStatus === softphoneStatus.connecting
+    //         ) {
+    //           this._softphoneConnectTime = new Date();
+    //           this._softphoneConnectNumber = this.softphone.connectingPhoneNumber;
+    //         }
+    //       }
+    //     });
+    //   }
+
   }, {
-    key: 'version',
+    key: '_actionTypes',
     get: function get() {
-      return this.state.app.version;
+      /* no action types */
+      return null;
     }
   }]);
-  return Phone;
-}(_RcModule3.default);
+  return BasePhone;
+}(_RcModule3.default)) || _class);
+exports.default = BasePhone;
+function createPhone(_ref3) {
+  var _dec2, _class2;
 
-// import DynamicsAdapter from '../../../modules/DynamicsInteraction';
+  var _ref3$prefix = _ref3.prefix,
+      prefix = _ref3$prefix === undefined ? 'rc' : _ref3$prefix,
+      _ref3$version = _ref3.version,
+      version = _ref3$version === undefined ? '0.1.0' : _ref3$version,
+      apiConfig = _ref3.apiConfig,
+      brandConfig = _ref3.brandConfig;
+  var Phone = (_dec2 = (0, _di.ModuleFactory)({
+    providers: [{
+      provide: 'ModuleOptions',
+      useValue: {
+        prefix: prefix
+      },
+      spread: true
+    }, {
+      provide: 'SdkConfig',
+      useValue: (0, _extends3.default)({}, apiConfig, {
+        cachePrefix: 'sdk-rc',
+        clearCacheOnRefreshError: false
+      })
+    }, {
+      provide: 'EnvironmentOptions',
+      useValue: {
+        sdkConfig: (0, _extends3.default)({}, apiConfig, {
+          cachePrefix: 'sdk-rc',
+          clearCacheOnRefreshError: false
+        })
+      },
+      spread: true
+    }, {
+      provide: 'BrandOptions',
+      spread: true,
+      useValue: brandConfig
+    }, {
+      provide: 'WebphoneOptions',
+      spread: true,
+      useValue: {
+        // appKey: apiConfig.appKey,
+        appKey: 'eac8797af1b3502F2CEAAEECAC3Ed378AA7858A386656f28A008b0c638A754B1',
+        appName: brandConfig.appName,
+        appVersion: version,
+        webphoneLogLevel: 1
+      }
+    }, {
+      provide: 'Version',
+      useFactory: function useFactory() {
+        return version;
+      }
+    }]
+  }), _dec2(_class2 = function (_BasePhone) {
+    (0, _inherits3.default)(Phone, _BasePhone);
 
-// import { callMonitorReducer } from '../CallMonitor/reducers';
+    function Phone() {
+      (0, _classCallCheck3.default)(this, Phone);
+      return (0, _possibleConstructorReturn3.default)(this, (Phone.__proto__ || (0, _getPrototypeOf2.default)(Phone)).apply(this, arguments));
+    }
 
+    return Phone;
+  }(BasePhone)) || _class2);
 
-// import CallLog from '../CallLog';
-// import AutoLogger from '../AutoLogger';
-// import DataMatcher from '../DataMatcher';
-
-// import RouterInteraction from 'ringcentral-js-widget/modules/RouterInteraction';
-
-exports.default = Phone;
+  return Phone.create();
+}
 //# sourceMappingURL=index.js.map

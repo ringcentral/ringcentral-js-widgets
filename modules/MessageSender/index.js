@@ -713,7 +713,8 @@ var MessageSender = (_dec = (0, _di.Module)({
               case 107:
 
                 this.store.dispatch({
-                  type: this.actionTypes.sendOver
+                  type: this.actionTypes.sendOver,
+                  toNumbers: toNumbers
                 });
 
                 return _context2.abrupt('return', responses);

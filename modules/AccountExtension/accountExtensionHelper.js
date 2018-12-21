@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.hasExtensionNumber = hasExtensionNumber;
 exports.isEnabled = isEnabled;
+exports.isNotActivated = isNotActivated;
 exports.isFiltered = isFiltered;
 exports.simplifyExtensionData = simplifyExtensionData;
 /**
@@ -47,6 +48,15 @@ function hasExtensionNumber(ext) {
  */
 function isEnabled(ext) {
   return ext.status === 'Enabled';
+}
+
+/**
+ *
+ * @param {Extension} ext
+ * @returns {boolean}
+ */
+function isNotActivated(ext) {
+  return ext.status === 'NotActivated';
 }
 
 /**

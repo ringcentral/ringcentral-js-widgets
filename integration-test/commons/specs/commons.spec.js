@@ -119,7 +119,7 @@ phone = (0, _TestPhoneFactory2.default)();
 (0, _extensionPhoneNumber2.default)(phone.auth, phone.client, phone.extensionPhoneNumber, _testAccount.defaultAccount);
 
 phone = (0, _TestPhoneFactory2.default)();
-(0, _presence2.default)(phone.auth, phone.client, phone.presence, _testAccount.defaultAccount);
+(0, _presence2.default)(phone.auth, phone.client, phone.detailedPresence, _testAccount.defaultAccount);
 
 phone = (0, _TestPhoneFactory2.default)();
 (0, _conferenceCall2.default)(phone.auth, phone.client, phone.conferenceCall, phone.alert, _testAccount.defaultAccount);

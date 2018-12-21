@@ -12,6 +12,8 @@ var _slicedToArray2 = require('babel-runtime/helpers/slicedToArray');
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
+exports.isWebSocketSupport = isWebSocketSupport;
+exports.isWebRTCSupport = isWebRTCSupport;
 exports.isBrowserSupport = isBrowserSupport;
 exports.extractHeadersData = extractHeadersData;
 exports.normalizeSession = normalizeSession;
@@ -38,16 +40,27 @@ var _callDirections2 = _interopRequireDefault(_callDirections);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function isBrowserSupport() {
-  var isChrome = !!navigator.userAgent.match(/Chrom(e|ium)/);
-  if (!isChrome) {
+var environment = void 0;
+if (typeof window !== 'undefined') {
+  environment = window;
+}
+if (typeof global !== 'undefined') {
+  environment = global.window || global;
+}
+
+function isWebSocketSupport() {
+  return !!(environment && environment.WebSocket);
+}
+
+function isWebRTCSupport() {
+  if (!environment.navigator) {
     return false;
   }
-  var chromeVersion = parseInt(navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./)[2], 10);
-  if (chromeVersion >= 51) {
-    return true;
-  }
-  return false;
+  return !!(environment.MediaStream && environment.RTCPeerConnection && environment.navigator.mediaDevices.getUserMedia);
+}
+
+function isBrowserSupport() {
+  return isWebSocketSupport() && isWebRTCSupport();
 }
 
 function extractHeadersData(session, headers) {
@@ -97,7 +110,7 @@ function normalizeSession(session) {
     fromUserName: session.request.from.displayName,
     startTime: session.startTime && new Date(session.startTime).getTime(),
     creationTime: session.__rc_creationTime,
-    isOnHold: !!session.isOnHold().local,
+    isOnHold: !!session.onLocalHold(),
     isOnMute: !!session.__rc_isOnMute,
     isOnFlip: !!session.__rc_isOnFlip,
     isOnTransfer: !!session.__rc_isOnTransfer,
@@ -119,7 +132,7 @@ function isRing(session) {
 }
 
 function isOnHold(session) {
-  return !!(session && session.callStatus === _sessionStatus2.default.onHold);
+  return !!(session && session.isOnHold);
 }
 
 function sortByCreationTimeDesc(l, r) {

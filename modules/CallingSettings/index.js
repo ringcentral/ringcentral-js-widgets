@@ -5,6 +5,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _defineProperty2 = require('babel-runtime/core-js/object/define-property');
+
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
+var _defineProperty4 = require('babel-runtime/helpers/defineProperty');
+
+var _defineProperty5 = _interopRequireDefault(_defineProperty4);
+
 var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
@@ -16,10 +24,6 @@ var _regenerator2 = _interopRequireDefault(_regenerator);
 var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
-var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
-
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
 var _extends2 = require('babel-runtime/helpers/extends');
 
@@ -49,7 +53,9 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _dec, _class, _desc, _value, _class2;
+var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
+
+var _reselect = require('reselect');
 
 var _RcModule2 = require('../../lib/RcModule');
 
@@ -58,8 +64,6 @@ var _RcModule3 = _interopRequireDefault(_RcModule2);
 var _di = require('../../lib/di');
 
 var _getCallingSettingsReducer = require('./getCallingSettingsReducer');
-
-var _getCallingSettingsReducer2 = _interopRequireDefault(_getCallingSettingsReducer);
 
 var _moduleStatuses = require('../../enums/moduleStatuses');
 
@@ -85,7 +89,25 @@ var _proxify = require('../../lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
 
+var _getter = require('../../lib/getter');
+
+var _getter2 = _interopRequireDefault(_getter);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _initDefineProp(target, property, descriptor, context) {
+  if (!descriptor) return;
+  (0, _defineProperty3.default)(target, property, {
+    enumerable: descriptor.enumerable,
+    configurable: descriptor.configurable,
+    writable: descriptor.writable,
+    value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+  });
+}
+
+function _initializerWarningHelper(descriptor, context) {
+  throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
+}
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
   var desc = {};
@@ -157,6 +179,16 @@ var CallingSettings = (_dec = (0, _di.Module)({
       actionTypes: _actionTypes2.default
     })));
 
+    _initDefineProp(_this, 'callWithOptions', _descriptor, _this);
+
+    _initDefineProp(_this, 'myPhoneNumbers', _descriptor2, _this);
+
+    _initDefineProp(_this, 'otherPhoneNumbers', _descriptor3, _this);
+
+    _initDefineProp(_this, 'availableNumbers', _descriptor4, _this);
+
+    _initDefineProp(_this, 'fromNumbers', _descriptor5, _this);
+
     _this._alert = alert;
     _this._brand = brand;
     _this._extensionInfo = extensionInfo;
@@ -166,120 +198,16 @@ var CallingSettings = (_dec = (0, _di.Module)({
     _this._rolesAndPermissions = rolesAndPermissions;
     _this._tabManager = tabManager;
     _this._webphone = webphone;
-
-    _this._callWithStorageKey = 'callingSettingsCallWith';
-    _this._ringoutPromptStorageKey = 'callingSettingsRingoutPrompt';
-    _this._myLocationStorageKey = 'callingSettingsMyLocation';
-    _this._timestampStorageKey = 'callingSettingsTimestamp';
-    _this._fromNumberStorageKey = 'fromCallIdNumber';
+    _this._storageKey = 'callingSettingsData';
 
     _this._onFirstLogin = onFirstLogin;
 
     _this._storage.registerReducer({
-      key: _this._callWithStorageKey,
-      reducer: (0, _getCallingSettingsReducer.getCallWithReducer)(_this.actionTypes)
-    });
-    _this._storage.registerReducer({
-      key: _this._ringoutPromptStorageKey,
-      reducer: (0, _getCallingSettingsReducer.getRingoutPromptReducer)(_this.actionTypes)
-    });
-    _this._storage.registerReducer({
-      key: _this._myLocationStorageKey,
-      reducer: (0, _getCallingSettingsReducer.getMyLocationReducer)(_this.actionTypes)
-    });
-    _this._storage.registerReducer({
-      key: _this._timestampStorageKey,
-      reducer: (0, _getCallingSettingsReducer.getTimestampReducer)(_this.actionTypes)
-    });
-    _this._storage.registerReducer({
-      key: _this._fromNumberStorageKey,
-      reducer: (0, _getCallingSettingsReducer.getFromNumberReducer)(_this.actionTypes)
-    });
-    _this._reducer = (0, _getCallingSettingsReducer2.default)(_this.actionTypes);
-
-    _this.addSelector('myPhoneNumbers', function () {
-      return _this._extensionPhoneNumber.directNumbers;
-    }, function () {
-      return _this._extensionPhoneNumber.mainCompanyNumber;
-    }, function () {
-      return _this._extensionInfo.extensionNumber;
-    }, function (directNumbers, mainCompanyNumber, extensionNumber) {
-      var myPhoneNumbers = directNumbers.map(function (item) {
-        return item.phoneNumber;
-      });
-      if (mainCompanyNumber && extensionNumber) {
-        myPhoneNumbers.push(mainCompanyNumber.phoneNumber + '*' + extensionNumber);
-      }
-      return myPhoneNumbers;
+      key: _this._storageKey,
+      reducer: (0, _getCallingSettingsReducer.getCallingSettingsStorageReducer)(_this.actionTypes)
     });
 
-    _this.addSelector('otherPhoneNumbers', function () {
-      return _this._forwardingNumber.flipNumbers;
-    }, function () {
-      return _this._extensionPhoneNumber.callerIdNumbers;
-    }, function () {
-      return _this._extensionPhoneNumber.directNumbers;
-    }, function (flipNumbers, callerIdNumbers, directNumbers) {
-      var filterMapping = {};
-      callerIdNumbers.forEach(function (item) {
-        filterMapping[item.phoneNumber] = true;
-      });
-      directNumbers.forEach(function (item) {
-        filterMapping[item.phoneNumber] = true;
-      });
-      return flipNumbers.filter(function (item) {
-        return !filterMapping[item.phoneNumber];
-      }).sort(function (a, b) {
-        return a.label === 'Mobile' && a.label !== b.label ? -1 : 1;
-      }).map(function (item) {
-        return item.phoneNumber;
-      });
-    });
-
-    _this.addSelector('fromNumbers', function () {
-      return _this._extensionPhoneNumber.callerIdNumbers;
-    }, function (phoneNumbers) {
-      return phoneNumbers.sort(function (firstItem, lastItem) {
-        if (firstItem.usageType === 'DirectNumber') return -1;else if (lastItem.usageType === 'DirectNumber') return 1;else if (firstItem.usageType === 'MainCompanyNumber') return -1;else if (lastItem.usageType === 'MainCompanyNumber') return 1;else if (firstItem.usageType < lastItem.usageType) return -1;else if (firstItem.usageType > lastItem.usageType) return 1;
-        return 0;
-      });
-    });
-
-    _this.addSelector('callWithOptions', function () {
-      return _this._rolesAndPermissions.ringoutEnabled;
-    }, function () {
-      return _this._rolesAndPermissions.webphoneEnabled;
-    }, function () {
-      return _this.otherPhoneNumbers.length > 0;
-    }, function () {
-      return _this._extensionPhoneNumber.numbers.length > 0;
-    }, function (ringoutEnabled, webphoneEnabled, hasOtherPhone, hasExtensionPhoneNumber) {
-      if (!hasExtensionPhoneNumber) {
-        return [_callingOptions2.default.softphone];
-      }
-      var callWithOptions = [];
-      if (_this._webphone && webphoneEnabled) {
-        callWithOptions.push(_callingOptions2.default.browser);
-      }
-      callWithOptions.push(_callingOptions2.default.softphone);
-      if (ringoutEnabled) {
-        callWithOptions.push(_callingOptions2.default.myphone);
-        if (hasOtherPhone) {
-          callWithOptions.push(_callingOptions2.default.otherphone);
-        }
-        callWithOptions.push(_callingOptions2.default.customphone);
-      }
-      return callWithOptions;
-    });
-    _this.addSelector('availableNumbers', function () {
-      return _this.myPhoneNumbers;
-    }, function () {
-      return _this.otherPhoneNumbers;
-    }, function (myPhoneNumbers, otherPhoneNumbers) {
-      var _ref2;
-
-      return _ref2 = {}, (0, _defineProperty3.default)(_ref2, _callingOptions2.default.myphone, myPhoneNumbers), (0, _defineProperty3.default)(_ref2, _callingOptions2.default.otherphone, otherPhoneNumbers), _ref2;
-    });
+    _this._reducer = (0, _getCallingSettingsReducer.getCallingSettingsReducer)(_this.actionTypes);
     return _this;
   }
 
@@ -295,7 +223,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: '_onStateChange',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -350,7 +278,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
       }));
 
       function _onStateChange() {
-        return _ref3.apply(this, arguments);
+        return _ref2.apply(this, arguments);
       }
 
       return _onStateChange;
@@ -373,7 +301,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: '_init',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
         var defaultCallWith;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
@@ -421,7 +349,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
       }));
 
       function _init() {
-        return _ref4.apply(this, arguments);
+        return _ref3.apply(this, arguments);
       }
 
       return _init;
@@ -436,7 +364,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: '_initFromNumber',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3() {
         var fromNumber, fromNumberList;
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
@@ -462,7 +390,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
       }));
 
       function _initFromNumber() {
-        return _ref5.apply(this, arguments);
+        return _ref4.apply(this, arguments);
       }
 
       return _initFromNumber;
@@ -470,7 +398,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: 'updateFromNumber',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(number) {
+      var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(number) {
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
@@ -489,7 +417,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
       }));
 
       function updateFromNumber(_x) {
-        return _ref6.apply(this, arguments);
+        return _ref5.apply(this, arguments);
       }
 
       return updateFromNumber;
@@ -497,7 +425,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: '_setSoftPhoneToCallWith',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
+      var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5() {
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -517,7 +445,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
       }));
 
       function _setSoftPhoneToCallWith() {
-        return _ref7.apply(this, arguments);
+        return _ref6.apply(this, arguments);
       }
 
       return _setSoftPhoneToCallWith;
@@ -525,7 +453,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: '_validateSettings',
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6() {
+      var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6() {
         return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
@@ -586,7 +514,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
       }));
 
       function _validateSettings() {
-        return _ref8.apply(this, arguments);
+        return _ref7.apply(this, arguments);
       }
 
       return _validateSettings;
@@ -609,7 +537,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: '_warningEmergencyCallingNotAvailable',
     value: function () {
-      var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
+      var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
         return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
@@ -630,7 +558,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
       }));
 
       function _warningEmergencyCallingNotAvailable() {
-        return _ref9.apply(this, arguments);
+        return _ref8.apply(this, arguments);
       }
 
       return _warningEmergencyCallingNotAvailable;
@@ -638,10 +566,10 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: 'setData',
     value: function () {
-      var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(_ref10, withPrompt) {
-        var callWith = _ref10.callWith,
-            myLocation = _ref10.myLocation,
-            ringoutPrompt = _ref10.ringoutPrompt;
+      var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(_ref9, withPrompt) {
+        var callWith = _ref9.callWith,
+            myLocation = _ref9.myLocation,
+            ringoutPrompt = _ref9.ringoutPrompt;
         return _regenerator2.default.wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
@@ -676,11 +604,16 @@ var CallingSettings = (_dec = (0, _di.Module)({
       }));
 
       function setData(_x2, _x3) {
-        return _ref11.apply(this, arguments);
+        return _ref10.apply(this, arguments);
       }
 
       return setData;
     }()
+  }, {
+    key: 'data',
+    get: function get() {
+      return this._storage.getItem(this._storageKey);
+    }
   }, {
     key: 'status',
     get: function get() {
@@ -699,7 +632,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: 'callWith',
     get: function get() {
-      return this._storage.getItem(this._callWithStorageKey);
+      return this.data.callWith;
     }
   }, {
     key: 'callingMode',
@@ -707,52 +640,137 @@ var CallingSettings = (_dec = (0, _di.Module)({
       return (0, _mapOptionToMode2.default)(this.callWith);
     }
   }, {
-    key: 'callWithOptions',
-    get: function get() {
-      return this._selectors.callWithOptions();
-    }
-  }, {
     key: 'ringoutPrompt',
     get: function get() {
-      return this._storage.getItem(this._ringoutPromptStorageKey);
+      return this.data.ringoutPrompt;
     }
   }, {
     key: 'myLocation',
     get: function get() {
-      return this._storage.getItem(this._myLocationStorageKey);
+      return this.data.myLocation;
     }
   }, {
     key: 'timestamp',
     get: function get() {
-      return this._storage.getItem(this._timestampStorageKey);
-    }
-  }, {
-    key: 'myPhoneNumbers',
-    get: function get() {
-      return this._selectors.myPhoneNumbers();
-    }
-  }, {
-    key: 'otherPhoneNumbers',
-    get: function get() {
-      return this._selectors.otherPhoneNumbers();
-    }
-  }, {
-    key: 'availableNumbers',
-    get: function get() {
-      return this._selectors.availableNumbers();
+      return this.data.timestamp;
     }
   }, {
     key: 'fromNumber',
     get: function get() {
-      return this._storage.getItem(this._fromNumberStorageKey);
-    }
-  }, {
-    key: 'fromNumbers',
-    get: function get() {
-      return this._selectors.fromNumbers();
+      return this.data.fromNumber;
     }
   }]);
   return CallingSettings;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, '_initFromNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_initFromNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateFromNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateFromNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_setSoftPhoneToCallWith', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_setSoftPhoneToCallWith'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_validateSettings', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_validateSettings'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_warningEmergencyCallingNotAvailable', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_warningEmergencyCallingNotAvailable'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setData'), _class2.prototype)), _class2)) || _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, '_initFromNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_initFromNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateFromNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateFromNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_setSoftPhoneToCallWith', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_setSoftPhoneToCallWith'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_validateSettings', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_validateSettings'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_warningEmergencyCallingNotAvailable', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_warningEmergencyCallingNotAvailable'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'callWithOptions', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this3 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this3._rolesAndPermissions.ringoutEnabled;
+    }, function () {
+      return _this3._rolesAndPermissions.webphoneEnabled;
+    }, function () {
+      return _this3.otherPhoneNumbers.length > 0;
+    }, function () {
+      return _this3._extensionPhoneNumber.numbers.length > 0;
+    }, function (ringoutEnabled, webphoneEnabled, hasOtherPhone, hasExtensionPhoneNumber) {
+      if (!hasExtensionPhoneNumber) {
+        return [_callingOptions2.default.softphone];
+      }
+      var callWithOptions = [];
+      if (_this3._webphone && webphoneEnabled) {
+        callWithOptions.push(_callingOptions2.default.browser);
+      }
+      callWithOptions.push(_callingOptions2.default.softphone);
+      if (ringoutEnabled) {
+        callWithOptions.push(_callingOptions2.default.myphone);
+        if (hasOtherPhone) {
+          callWithOptions.push(_callingOptions2.default.otherphone);
+        }
+        callWithOptions.push(_callingOptions2.default.customphone);
+      }
+      return callWithOptions;
+    });
+  }
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'myPhoneNumbers', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this4 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this4._extensionPhoneNumber.directNumbers;
+    }, function () {
+      return _this4._extensionPhoneNumber.mainCompanyNumber;
+    }, function () {
+      return _this4._extensionInfo.extensionNumber;
+    }, function (directNumbers, mainCompanyNumber, extensionNumber) {
+      var myPhoneNumbers = directNumbers.map(function (item) {
+        return item.phoneNumber;
+      });
+      if (mainCompanyNumber && extensionNumber) {
+        myPhoneNumbers.push(mainCompanyNumber.phoneNumber + '*' + extensionNumber);
+      }
+      return myPhoneNumbers;
+    });
+  }
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'otherPhoneNumbers', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this5 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this5._forwardingNumber.flipNumbers;
+    }, function () {
+      return _this5._extensionPhoneNumber.callerIdNumbers;
+    }, function () {
+      return _this5._extensionPhoneNumber.directNumbers;
+    }, function (flipNumbers, callerIdNumbers, directNumbers) {
+      var filterMapping = {};
+      callerIdNumbers.forEach(function (item) {
+        filterMapping[item.phoneNumber] = true;
+      });
+      directNumbers.forEach(function (item) {
+        filterMapping[item.phoneNumber] = true;
+      });
+      return flipNumbers.filter(function (item) {
+        return !filterMapping[item.phoneNumber];
+      }).sort(function (a, b) {
+        return a.label === 'Mobile' && a.label !== b.label ? -1 : 1;
+      }).map(function (item) {
+        return item.phoneNumber;
+      });
+    });
+  }
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'availableNumbers', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this6 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this6.myPhoneNumbers;
+    }, function () {
+      return _this6.otherPhoneNumbers;
+    }, function (myPhoneNumbers, otherPhoneNumbers) {
+      var _ref11;
+
+      return _ref11 = {}, (0, _defineProperty5.default)(_ref11, _callingOptions2.default.myphone, myPhoneNumbers), (0, _defineProperty5.default)(_ref11, _callingOptions2.default.otherphone, otherPhoneNumbers), _ref11;
+    });
+  }
+}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'fromNumbers', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this7 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this7._extensionPhoneNumber.callerIdNumbers;
+    }, function (phoneNumbers) {
+      return phoneNumbers.sort(function (firstItem, lastItem) {
+        if (firstItem.usageType === 'DirectNumber') return -1;else if (lastItem.usageType === 'DirectNumber') return 1;else if (firstItem.usageType === 'MainCompanyNumber') return -1;else if (lastItem.usageType === 'MainCompanyNumber') return 1;else if (firstItem.usageType < lastItem.usageType) return -1;else if (firstItem.usageType > lastItem.usageType) return 1;
+        return 0;
+      });
+    });
+  }
+}), _applyDecoratedDescriptor(_class2.prototype, 'setData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setData'), _class2.prototype)), _class2)) || _class);
 exports.default = CallingSettings;
 //# sourceMappingURL=index.js.map

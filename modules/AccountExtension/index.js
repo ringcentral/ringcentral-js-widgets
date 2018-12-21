@@ -176,7 +176,9 @@ var AccountExtension = (_dec = (0, _di.Module)({
         checkStatus = _ref$checkStatus === undefined ? DEFAULT_CHECK_STATUS : _ref$checkStatus,
         _ref$typeList = _ref.typeList,
         typeList = _ref$typeList === undefined ? DEFAULT_TYPE_LIST : _ref$typeList,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'rolesAndPermissions', 'ttl', 'checkStatus', 'typeList']);
+        _ref$showNotActivated = _ref.showNotActivated,
+        showNotActivated = _ref$showNotActivated === undefined ? false : _ref$showNotActivated,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'rolesAndPermissions', 'ttl', 'checkStatus', 'typeList', 'showNotActivated']);
     (0, _classCallCheck3.default)(this, AccountExtension);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (AccountExtension.__proto__ || (0, _getPrototypeOf2.default)(AccountExtension)).call(this, (0, _extends3.default)({}, options, {
@@ -253,13 +255,14 @@ var AccountExtension = (_dec = (0, _di.Module)({
     _this._checkStatus = checkStatus;
     _this._typeList = typeList;
     _this._rolesAndPermissions = _ensureExist2.default.call(_this, rolesAndPermissions, 'rolesAndPermissions');
+    _this._showNotActivated = showNotActivated;
     return _this;
   }
 
   (0, _createClass3.default)(AccountExtension, [{
     key: '_extensionFilter',
     value: function _extensionFilter(ext) {
-      return (0, _accountExtensionHelper.hasExtensionNumber)(ext) && (!this._checkStatus || (0, _accountExtensionHelper.isEnabled)(ext)) && !(0, _accountExtensionHelper.isFiltered)(ext, this._typeList);
+      return (0, _accountExtensionHelper.hasExtensionNumber)(ext) && (!this._checkStatus || (0, _accountExtensionHelper.isEnabled)(ext) || this._showNotActivated && (0, _accountExtensionHelper.isNotActivated)(ext)) && !(0, _accountExtensionHelper.isFiltered)(ext, this._typeList);
     }
   }, {
     key: '_subscriptionHandleFn',
@@ -414,6 +417,8 @@ var AccountExtension = (_dec = (0, _di.Module)({
         this._addExtension(extensionData);
       } else if (!essential && alreadyExists) {
         this._deleteExtension(extensionId);
+      } else if (essential && alreadyExists) {
+        this._updateExtension(extensionId, extensionData);
       }
     }
   }, {
@@ -431,6 +436,16 @@ var AccountExtension = (_dec = (0, _di.Module)({
       this.store.dispatch({
         type: this.actionTypes.delete,
         id: id,
+        timestamp: Date.now()
+      });
+    }
+  }, {
+    key: '_updateExtension',
+    value: function _updateExtension(id, data) {
+      this.store.dispatch({
+        type: this.actionTypes.update,
+        id: id,
+        data: (0, _accountExtensionHelper.simplifyExtensionData)(data),
         timestamp: Date.now()
       });
     }

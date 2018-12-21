@@ -341,20 +341,36 @@ var CallMonitor = (_dec = (0, _di.Module)({
     _this.addSelector('otherDeviceCalls', _this._selectors.calls, function () {
       return _this._webphone && _this._webphone.lastEndedSessions;
     }, function (calls, lastEndedSessions) {
-      var sessionsCache = lastEndedSessions;
-      return calls.filter(function (callItem) {
+      return calls.reduce(function (_ref2, callItem) {
+        var sessionsCache = _ref2.sessionsCache,
+            res = _ref2.res;
+
         if (callItem.webphoneSession) {
-          return false;
+          return {
+            sessionsCache: sessionsCache,
+            res: res
+          };
         }
-        if (!sessionsCache) {
-          return true;
+
+        if (!sessionsCache || !sessionsCache.length) {
+          return {
+            sessionsCache: sessionsCache,
+            res: [].concat((0, _toConsumableArray3.default)(res), [callItem])
+          };
         }
-        var endCall = (0, _callMonitorHelper.matchWephoneSessionWithAcitveCall)(sessionsCache, callItem);
-        sessionsCache = sessionsCache.filter(function (x) {
-          return x !== endCall;
-        });
-        return !endCall;
-      });
+
+        var endCall = (0, _callMonitorHelper.matchWephoneSessionWithAcitveCall)(sessionsCache, [].concat((0, _toConsumableArray3.default)(res), [callItem]));
+
+        return {
+          sessionsCache: sessionsCache.filter(function (x) {
+            return x !== endCall;
+          }),
+          res: endCall ? res : [].concat((0, _toConsumableArray3.default)(res), [callItem])
+        };
+      }, {
+        sessionsCache: lastEndedSessions,
+        res: []
+      }).res;
     });
 
     _this.addSelector('uniqueNumbers', _this._selectors.normalizedCalls, function (normalizedCalls) {
@@ -412,7 +428,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
   (0, _createClass3.default)(CallMonitor, [{
     key: '_onStateChange',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+      var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
         var _this2 = this;
 
         var uniqueNumbers, sessionIds, oldCalls, entities;
@@ -521,7 +537,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
       }));
 
       function _onStateChange() {
-        return _ref2.apply(this, arguments);
+        return _ref3.apply(this, arguments);
       }
 
       return _onStateChange;

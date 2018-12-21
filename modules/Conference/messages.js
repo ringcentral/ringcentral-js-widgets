@@ -10,5 +10,5 @@ var _Enum2 = _interopRequireDefault(_Enum);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new _Enum2.default(['requireAditionalNumbers'], 'conference-msg');
+exports.default = new _Enum2.default(['requireAditionalNumbers', 'scheduledSuccess'], 'conference-msg');
 //# sourceMappingURL=messages.js.map
