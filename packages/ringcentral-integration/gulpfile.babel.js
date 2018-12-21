@@ -68,7 +68,7 @@ function preCoverage() {
 }
 
 function runTest() {
-  gulp.src(getTestSources())
+  return gulp.src(getTestSources())
     .pipe(mocha({
       timeout: TIMEOUT,
       compilers: 'js:babel-core/register'
