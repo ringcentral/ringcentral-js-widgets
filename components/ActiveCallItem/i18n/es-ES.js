@@ -18,7 +18,7 @@ exports.default = {
   addEntity: "Crear nuevo",
   addLog: "Registro",
   text: "Texto",
-  call: "Llamar",
+  call: "Llamada",
   addContact: "Añadir contacto",
   missedCall: "Perdida",
   inboundCall: "Entrante",

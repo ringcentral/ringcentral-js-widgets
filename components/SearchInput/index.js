@@ -42,7 +42,8 @@ function SearchInput(props) {
       maxLength: props.maxLength,
       placeholder: props.placeholder,
       autoComplete: 'off',
-      disabled: props.disabled
+      disabled: props.disabled,
+      'data-sign': props.dataSign
     })
   );
 }
@@ -54,7 +55,8 @@ SearchInput.propTypes = {
   onKeyUp: _propTypes2.default.func,
   maxLength: _propTypes2.default.number,
   placeholder: _propTypes2.default.string,
-  disabled: _propTypes2.default.bool
+  disabled: _propTypes2.default.bool,
+  dataSign: _propTypes2.default.string
 };
 
 SearchInput.defaultProps = {
@@ -62,7 +64,8 @@ SearchInput.defaultProps = {
   disabled: false,
   placeholder: '',
   maxLength: undefined,
-  onKeyUp: undefined
+  onKeyUp: undefined,
+  dataSign: ''
 };
 
 exports.default = SearchInput;

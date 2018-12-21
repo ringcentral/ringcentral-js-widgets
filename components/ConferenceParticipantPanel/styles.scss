@@ -6,6 +6,7 @@ $avatar-size:35px;
 $button-size:24px;
 $marginBetweenItems:25px;
 $padding-horizontal:20px;
+
 .root {
   @include full-size;
   background: $snow;
@@ -76,11 +77,11 @@ $padding-horizontal:20px;
 }
 
 .ConfirmRemoveModal {
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
+  // top: 0;
+  // bottom: 0;
+  // left: 0;
+  // right: 0;
+  // margin: auto;
   .contentText {
     font-weight: bold;
     padding: 5px 10px 0;

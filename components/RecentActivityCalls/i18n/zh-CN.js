@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  noRecords: "未找到最近记录。",
+  noRecords: "未找到任何最近的记录。",
   inBound: "呼入",
   outBound: "呼出",
   missed: "未接来电"

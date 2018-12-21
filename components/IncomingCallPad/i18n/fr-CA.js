@@ -7,7 +7,7 @@ exports.default = {
   forward: "Renvoi",
   reply: "Répondre",
   ignore: "Ignorer",
-  toVoicemail: "Boîte vocale",
+  toVoicemail: "Vers messagerie vocale",
   answer: "Réponse",
   answerAndEnd: "Répondre et\nterminer",
   answerAndHold: "Rép. et mise en att."

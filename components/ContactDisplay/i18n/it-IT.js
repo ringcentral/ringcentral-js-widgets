@@ -9,7 +9,7 @@ exports.default = {
   editLog: "Modifica registro",
   select: "Seleziona corrispondenza",
   OnHold: "In attesa",
-  Ringing: "Chiamata in corso",
+  Ringing: "Squillo",
   CallConnected: "Chiamata connessa",
   unknownUser: "Utente sconosciuto",
   unknownNumber: "Anonimo",

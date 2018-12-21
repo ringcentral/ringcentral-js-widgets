@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   to: "Para:",
   transferTo: "Transferir para",
-  blindTransfer: "Transferência",
+  blindTransfer: "Transferir",
   enterNameOrNumber: "Inserir número"
 };
 

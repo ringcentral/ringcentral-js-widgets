@@ -9,7 +9,7 @@ exports.default = {
   editLog: "Modifica registro",
   select: "Seleziona un record corrispondente",
   OnHold: "In attesa",
-  Ringing: "Chiamata in corso",
+  Ringing: "Squillo",
   CallConnected: "Chiamata connessa",
   unknownUser: "Utente sconosciuto",
   unknownNumber: "Anonimo",
@@ -18,7 +18,7 @@ exports.default = {
   addEntity: "Crea nuovo",
   addLog: "Registro",
   text: "SMS",
-  call: "Chiama",
+  call: "Chiamata",
   missedCall: "Perse",
   inboundCall: "In entrata",
   outboundCall: "In uscita"

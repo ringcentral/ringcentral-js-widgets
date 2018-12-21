@@ -4,8 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  mute: "Activer le mode discrétion",
-  unmute: "Désactiver le mode discrétion",
+  mute: "Act. disc.",
+  unmute: "Désac. disc.",
   hangup: "Raccrocher",
   reject: "Rejeter"
 };

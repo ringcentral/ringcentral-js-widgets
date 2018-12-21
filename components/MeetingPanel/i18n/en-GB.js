@@ -8,7 +8,7 @@ exports.default = {
   when: "When",
   duration: "Duration",
   recurringMeeting: "Recurring meeting",
-  recurringDescribe: "Please remember to check recurrence or repeat in your calendar invitation to your attendees.",
+  recurringDescribe: "Please remember to check for recurrences or repeats in your calendar invitations to your attendees.",
   video: "Video",
   videoDescribe: "When joining a meeting",
   host: "Host",

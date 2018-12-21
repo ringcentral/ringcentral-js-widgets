@@ -9,6 +9,14 @@ var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-pr
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
+var _keys = require('babel-runtime/core-js/object/keys');
+
+var _keys2 = _interopRequireDefault(_keys);
+
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -41,6 +49,10 @@ var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstru
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
+var _get2 = require('babel-runtime/helpers/get');
+
+var _get3 = _interopRequireDefault(_get2);
+
 var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
@@ -53,13 +65,13 @@ var _proxify = require('ringcentral-integration/lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
 
+var _Enum = require('ringcentral-integration/lib/Enum');
+
+var _Enum2 = _interopRequireDefault(_Enum);
+
 var _DialerUI2 = require('../DialerUI');
 
 var _DialerUI3 = _interopRequireDefault(_DialerUI2);
-
-var _actionTypes = require('./actionTypes');
-
-var _actionTypes2 = _interopRequireDefault(_actionTypes);
 
 var _getReducer = require('./getReducer');
 
@@ -98,20 +110,23 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 var ConferenceDialerUI = (_dec = (0, _di.Module)({
   name: 'ConferenceDialerUI',
-  deps: ['ConferenceCall']
+  deps: ['ConferenceCall', 'RouterInteraction']
 }), _dec(_class = (_class2 = function (_DialerUI) {
   (0, _inherits3.default)(ConferenceDialerUI, _DialerUI);
 
   function ConferenceDialerUI(_ref) {
     var conferenceCall = _ref.conferenceCall,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['conferenceCall']);
+        routerInteraction = _ref.routerInteraction,
+        _ref$backURL = _ref.backURL,
+        backURL = _ref$backURL === undefined ? '/calls/active' : _ref$backURL,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['conferenceCall', 'routerInteraction', 'backURL']);
     (0, _classCallCheck3.default)(this, ConferenceDialerUI);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (ConferenceDialerUI.__proto__ || (0, _getPrototypeOf2.default)(ConferenceDialerUI)).call(this, (0, _extends3.default)({}, options, {
-      actionTypes: _actionTypes2.default
-    })));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (ConferenceDialerUI.__proto__ || (0, _getPrototypeOf2.default)(ConferenceDialerUI)).call(this, (0, _extends3.default)({}, options)));
 
     _this._conferenceCall = conferenceCall;
+    _this._routerInteraction = routerInteraction;
+    _this._backURL = backURL;
     _this._reducer = (0, _getReducer2.default)(_this.actionTypes);
     return _this;
   }
@@ -156,6 +171,43 @@ var ConferenceDialerUI = (_dec = (0, _di.Module)({
           fromSessionId: fromSessionId
         });
       }
+    }
+  }, {
+    key: 'getUIProps',
+    value: function getUIProps() {
+      return (0, _extends3.default)({}, (0, _get3.default)(ConferenceDialerUI.prototype.__proto__ || (0, _getPrototypeOf2.default)(ConferenceDialerUI.prototype), 'getUIProps', this).call(this), {
+        showFromField: false
+      });
+    }
+  }, {
+    key: 'getUIFunctions',
+    value: function getUIFunctions(_ref3) {
+      var _this2 = this;
+
+      var _ref3$params = _ref3.params,
+          fromNumber = _ref3$params.fromNumber,
+          fromSessionId = _ref3$params.fromSessionId;
+
+      return (0, _extends3.default)({}, (0, _get3.default)(ConferenceDialerUI.prototype.__proto__ || (0, _getPrototypeOf2.default)(ConferenceDialerUI.prototype), 'getUIFunctions', this).call(this), {
+        onBack: function onBack() {
+          return _this2._routerInteraction.push(_this2._backURL);
+        },
+        setLastSessionId: function setLastSessionId() {
+          return _this2.setLastSessionId(fromSessionId);
+        },
+        onCallButtonClick: function onCallButtonClick() {
+          return _this2.onCallButtonClick({
+            fromNumber: fromNumber,
+            fromSessionId: fromSessionId
+          });
+        },
+        inConference: true
+      });
+    }
+  }, {
+    key: '_actionTypes',
+    get: function get() {
+      return new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)((0, _get3.default)(ConferenceDialerUI.prototype.__proto__ || (0, _getPrototypeOf2.default)(ConferenceDialerUI.prototype), '_actionTypes', this))), ['setLastSessionId']), 'conferenceDialerUI');
     }
   }, {
     key: 'lastSessionId',

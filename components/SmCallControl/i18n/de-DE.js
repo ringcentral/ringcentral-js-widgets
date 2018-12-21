@@ -4,8 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  mute: "Stummschalten",
-  unmute: "Stummschaltung aufheben",
+  mute: "Stummsch.",
+  unmute: "Stumm Ende",
   hangup: "Auflegen",
   reject: "Ablehnen"
 };

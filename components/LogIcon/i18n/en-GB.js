@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   logged: "Logged",
   unlogged: "Unworked",
-  faxNotSupported: "To log fax is not supported."
+  faxNotSupported: "To-log fax is not supported."
 };
 
 // @key: @#@"logged"@#@ @source: @#@"Logged"@#@

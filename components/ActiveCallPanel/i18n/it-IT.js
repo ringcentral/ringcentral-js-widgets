@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   conferenceCall: "Conferenza telefonica",
-  onHold: "Messa in attesa",
+  onHold: "In attesa",
   unknow: "Sconosciuto",
   disconnected: "Disconnessa",
   loading: "Caricamento...",

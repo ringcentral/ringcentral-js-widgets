@@ -76,7 +76,8 @@ function DialerPanel(_ref) {
       _ref$showFromField = _ref.showFromField,
       showFromField = _ref$showFromField === undefined ? true : _ref$showFromField,
       children = _ref.children,
-      callBtnClassName = _ref.callBtnClassName;
+      withTabs = _ref.withTabs,
+      inConference = _ref.inConference;
 
   var onCallFunc = function onCallFunc() {
     if (!callButtonDisabled) {
@@ -131,7 +132,9 @@ function DialerPanel(_ref) {
       }),
       _react2.default.createElement(
         'div',
-        { className: (0, _classnames2.default)(_styles2.default.callBtnRow, callBtnClassName) },
+        {
+          className: (0, _classnames2.default)(_styles2.default.callBtnRow, withTabs && _styles2.default.callBtnRowWithTabs, inConference && _styles2.default.callBtnRowInConference)
+        },
         _react2.default.createElement(
           'div',
           { className: _styles2.default.callBtn },
@@ -191,7 +194,8 @@ DialerPanel.propTypes = {
   autoFocus: _propTypes2.default.bool,
   showFromField: _propTypes2.default.bool,
   children: _propTypes2.default.node,
-  callBtnClassName: _propTypes2.default.string
+  withTabs: _propTypes2.default.bool,
+  inConference: _propTypes2.default.bool
 };
 
 DialerPanel.defaultProps = {
@@ -222,7 +226,8 @@ DialerPanel.defaultProps = {
   autoFocus: false,
   showFromField: true,
   children: undefined,
-  callBtnClassName: undefined
+  withTabs: false,
+  inConference: false
 };
 
 exports.default = DialerPanel;

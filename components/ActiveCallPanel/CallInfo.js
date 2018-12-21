@@ -73,7 +73,7 @@ function CallInfo(props) {
     ),
     _react2.default.createElement(
       'div',
-      { className: _styles2.default.userPhoneNumber },
+      { className: _styles2.default.userPhoneNumber, 'data-sign': 'userPhoneNumber' },
       props.formatPhone(props.phoneNumber)
     )
   );

@@ -3,7 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.mapToFunctions = exports.mapToProps = undefined;
 
 var _extends2 = require('babel-runtime/helpers/extends');
 
@@ -41,11 +40,7 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactRedux = require('react-redux');
-
-var _withPhone = require('../../lib/withPhone');
-
-var _withPhone2 = _interopRequireDefault(_withPhone);
+var _phoneContext = require('../../lib/phoneContext');
 
 var _BackButton = require('../../components/BackButton');
 
@@ -59,15 +54,9 @@ var _DialerPanel = require('../../components/DialerPanel');
 
 var _DialerPanel2 = _interopRequireDefault(_DialerPanel);
 
-var _DialerPage = require('../DialerPage');
-
 var _i18n = require('./i18n');
 
 var _i18n2 = _interopRequireDefault(_i18n);
-
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -110,60 +99,7 @@ ConferenceCallDialerPanel.propTypes = (0, _extends3.default)({}, _DialerPanel2.d
 
 ConferenceCallDialerPanel.defaultProps = (0, _extends3.default)({}, _DialerPanel2.default.defaultProps);
 
-function mapToProps(_, _ref) {
-  var _ref$phone = _ref.phone,
-      conferenceDialerUI = _ref$phone.conferenceDialerUI,
-      components = (0, _objectWithoutProperties3.default)(_ref$phone, ['conferenceDialerUI']),
-      props = (0, _objectWithoutProperties3.default)(_ref, ['phone']);
-
-  var baseProps = (0, _DialerPage.mapToProps)(_, (0, _extends3.default)({}, props, {
-    phone: (0, _extends3.default)({}, components, {
-      dialerUI: conferenceDialerUI // override
-    })
-  }));
-  return (0, _extends3.default)({}, baseProps, {
-    showFromField: false
-  });
-}
-
-function mapToFunctions(_, _ref2) {
-  var params = _ref2.params,
-      _ref2$phone = _ref2.phone,
-      conferenceCall = _ref2$phone.conferenceCall,
-      conferenceDialerUI = _ref2$phone.conferenceDialerUI,
-      components = (0, _objectWithoutProperties3.default)(_ref2$phone, ['conferenceCall', 'conferenceDialerUI']),
-      onBack = _ref2.onBack,
-      props = (0, _objectWithoutProperties3.default)(_ref2, ['params', 'phone', 'onBack']);
-
-  var baseProps = (0, _DialerPage.mapToFunctions)(_, (0, _extends3.default)({
-    params: params
-  }, props, {
-    phone: (0, _extends3.default)({}, components, {
-      conferenceCall: conferenceCall,
-      dialerUI: conferenceDialerUI // override
-    })
-  }));
-  return (0, _extends3.default)({}, baseProps, {
-    onBack: onBack,
-    setLastSessionId: function setLastSessionId() {
-      var fromSessionId = params.fromSessionId;
-
-      conferenceDialerUI.setLastSessionId(fromSessionId);
-    },
-    onCallButtonClick: function onCallButtonClick() {
-      conferenceDialerUI.onCallButtonClick({
-        fromNumber: params.fromNumber,
-        fromSessionId: params.fromSessionId
-      });
-    },
-
-    callBtnClassName: _styles2.default.callBtn
-  });
-}
-
-var ConferenceCallDialerPage = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(ConferenceCallDialerPanel));
-
-exports.mapToProps = mapToProps;
-exports.mapToFunctions = mapToFunctions;
-exports.default = ConferenceCallDialerPage;
+exports.default = (0, _phoneContext.connectModule)(function (phone) {
+  return phone.conferenceDialerUI;
+})(ConferenceCallDialerPanel);
 //# sourceMappingURL=index.js.map

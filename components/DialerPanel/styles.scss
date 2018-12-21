@@ -85,3 +85,12 @@ $dial_input_height: 10%;
     }
   }
 }
+
+// TODO: find a better way to render call button row height
+.callBtnRowWithTabs {
+  padding-top: 20px;
+  box-sizing: border-box;
+}
+.callBtnRowInConference {
+  padding-top: 4px;
+}

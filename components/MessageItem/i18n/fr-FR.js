@@ -18,15 +18,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = (_addLog$editLog$viewD = {
   addLog: "Journal",
-  editLog: "Éditer le journal",
+  editLog: "Modifier le journal",
   viewDetails: "Afficher les détails",
   addEntity: "Créer",
   call: "Appeler",
-  text: "Texte",
+  text: "SMS",
   conversation: "Conversation",
   groupConversation: "Conversation de groupe",
   voiceMessage: "Message vocal"
-}, (0, _defineProperty3.default)(_addLog$editLog$viewD, _messageTypes2.default.voiceMail, "Message vocal"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "mark", "Marquer comme non lu"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "unmark", "Marquer comme lu"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "delete", "Supprimer"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "faxSent", "Fax envoyé"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "faxReceived", "Fax reçu"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "pages", "pages"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "preview", "Afficher"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "download", "Télécharger"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "imageAttachment", "Pièce jointe : 1 image"), _addLog$editLog$viewD);
+}, (0, _defineProperty3.default)(_addLog$editLog$viewD, _messageTypes2.default.voiceMail, "Message vocal"), (0, _defineProperty3.default)(_addLog$editLog$viewD, _messageTypes2.default.fax, "Fax"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "mark", "Marquer comme non lu"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "unmark", "Marquer comme lu"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "delete", "Supprimer"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "faxSent", "Fax envoyé"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "faxReceived", "Fax reçu"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "pages", "pages"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "preview", "Afficher"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "download", "Télécharger"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "imageAttachment", "Pièce jointe : 1 image"), _addLog$editLog$viewD);
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -38,6 +38,7 @@ exports.default = (_addLog$editLog$viewD = {
 // @key: @#@"groupConversation"@#@ @source: @#@"Group Conversation"@#@
 // @key: @#@"voiceMessage"@#@ @source: @#@"Voice message"@#@
 // @key: @#@"[messageTypes.voiceMail]"@#@ @source: @#@"Voice Mail"@#@
+// @key: @#@"[messageTypes.fax]"@#@ @source: @#@"Fax"@#@
 // @key: @#@"mark"@#@ @source: @#@"Mark as Unread"@#@
 // @key: @#@"unmark"@#@ @source: @#@"Mark as Read"@#@
 // @key: @#@"delete"@#@ @source: @#@"Delete"@#@

@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  unmute: "Reactivar",
+  unmute: "Sonido",
   mute: "Silenciar",
   keypad: "Teclado",
   hold: "Retener",
@@ -12,7 +12,7 @@ exports.default = {
   park: "Estacionar",
   stopRecord: "Parar",
   record: "Grabar",
-  add: "Añadir",
+  add: "Agregar",
   transfer: "Transferir",
   flip: "Volteo",
   more: "Acc. de llam.",

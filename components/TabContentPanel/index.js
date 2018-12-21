@@ -50,18 +50,28 @@ TabTitle.propTypes = {
   isActive: _propTypes2.default.func.isRequired
 };
 
-function TabContentPanel(_ref2) {
+function renderChildren(_ref2) {
+  var children = _ref2.children,
+      showTabs = _ref2.showTabs;
+
+  if (typeof children === 'function') {
+    return children({ showTabs: showTabs });
+  }
+  return children;
+}
+
+function TabContentPanel(_ref3) {
   var _classnames, _classnames2;
 
-  var applicable = _ref2.applicable,
-      navClassName = _ref2.navClassName,
-      tabContentClassName = _ref2.tabContentClassName,
-      tabs = _ref2.tabs,
-      goTo = _ref2.goTo,
-      children = _ref2.children;
+  var showTabs = _ref3.showTabs,
+      navClassName = _ref3.navClassName,
+      tabContentClassName = _ref3.tabContentClassName,
+      tabs = _ref3.tabs,
+      goTo = _ref3.goTo,
+      children = _ref3.children;
 
-  if (!applicable) {
-    return children;
+  if (!showTabs) {
+    return renderChildren({ children: children, showTabs: showTabs });
   }
 
   var formattedTabs = tabs.map(function (tab) {
@@ -90,28 +100,28 @@ function TabContentPanel(_ref2) {
     _react2.default.createElement(
       'div',
       { className: (0, _classnames4.default)((_classnames2 = {}, (0, _defineProperty3.default)(_classnames2, _styles2.default.content, true), (0, _defineProperty3.default)(_classnames2, tabContentClassName, !!tabContentClassName), _classnames2)) },
-      children
+      renderChildren({ children: children, showTabs: showTabs })
     )
   );
 }
 
 TabContentPanel.propTypes = {
-  applicable: _propTypes2.default.bool,
+  showTabs: _propTypes2.default.bool,
   tabs: _propTypes2.default.arrayOf(_propTypes2.default.shape({
     path: _propTypes2.default.string.isRequired,
     label: _propTypes2.default.string.isRequired,
     isActive: _propTypes2.default.func.isRequired
   })).isRequired,
   goTo: _propTypes2.default.func.isRequired,
-  children: _propTypes2.default.node,
+  children: _propTypes2.default.oneOfType([_propTypes2.default.func, _propTypes2.default.node]),
   navClassName: _propTypes2.default.string,
   tabContentClassName: _propTypes2.default.string
 };
 
 TabContentPanel.defaultProps = {
-  applicable: false,
-  children: null,
+  showTabs: false,
   navClassName: null,
+  children: null,
   tabContentClassName: null
 };
 

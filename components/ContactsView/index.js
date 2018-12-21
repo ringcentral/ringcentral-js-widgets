@@ -266,6 +266,7 @@ var ContactsView = function (_Component) {
           'div',
           { className: _styles2.default.actionBar },
           _react2.default.createElement(_SearchInput2.default, {
+            dataSign: 'contactsSearchInput',
             className: _styles2.default.searchInput,
             value: this.state.searchString || '',
             onChange: this.onSearchInputChange,

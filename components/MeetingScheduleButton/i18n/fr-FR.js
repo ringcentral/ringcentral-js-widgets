@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  schedule: "Programmer une réunion",
+  schedule: "Planifier une réunion",
   prompt: "Veuillez autoriser RingCentral à accéder à vos informations de compte Google."
 };
 

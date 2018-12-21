@@ -10,7 +10,8 @@ exports.default = {
   title: "选择显示 {brandName} Quick Access 的位置：",
   descriptionAll: "转至 {optionsLink} 以定义黑名单。",
   descriptionUser: "转至 {optionsLink} 以定义指定网站。",
-  extensionOptions: "分机选项"
+  extensionOptions: "分机选项",
+  Finish: "结束设置"
 };
 
 // @key: @#@"textGoogle"@#@ @source: @#@"Only show in {appName} apps"@#@
@@ -20,6 +21,5 @@ exports.default = {
 // @key: @#@"descriptionAll"@#@ @source: @#@"Go to {optionsLink} to define your blacklist."@#@
 // @key: @#@"descriptionUser"@#@ @source: @#@"Go to {optionsLink}  to define your specific websites."@#@
 // @key: @#@"extensionOptions"@#@ @source: @#@"Extension Options"@#@
-// @key: @#@"Confirm"@#@ @source: @#@"Confirm"@#@
-// @key: @#@"Cancel"@#@ @source: @#@"Cancel"@#@
+// @key: @#@"Finish"@#@ @source: @#@"Finish Setting"@#@
 //# sourceMappingURL=zh-CN.js.map

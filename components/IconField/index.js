@@ -25,7 +25,7 @@ function IconField(props) {
     { className: props.className },
     _react2.default.createElement(
       'div',
-      { className: _styles2.default.content },
+      { className: _styles2.default.content, title: props.title },
       props.children
     ),
     _react2.default.createElement(
@@ -43,6 +43,11 @@ function IconField(props) {
 IconField.propTypes = {
   children: _propTypes2.default.node,
   icon: _propTypes2.default.node,
-  className: _propTypes2.default.string
+  className: _propTypes2.default.string,
+  title: _propTypes2.default.string
+};
+
+IconField.defaultProps = {
+  title: null
 };
 //# sourceMappingURL=index.js.map

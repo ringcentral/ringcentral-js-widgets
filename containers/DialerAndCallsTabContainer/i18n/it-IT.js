@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   dialer: "Tastierino",
-  allCalls: "Tutte le chiamate"
+  allCalls: "Tutte"
 };
 
 // @key: @#@"dialer"@#@ @source: @#@"Dial Pad"@#@

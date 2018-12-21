@@ -14,6 +14,8 @@ var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var _reactRedux = require('react-redux');
 
+var _phoneNumber = require('@ringcentral-integration/phone-number');
+
 var _formatNumber2 = require('ringcentral-integration/lib/formatNumber');
 
 var _formatNumber3 = _interopRequireDefault(_formatNumber2);
@@ -30,7 +32,6 @@ function mapToProps(_, _ref) {
   var params = _ref.params,
       _ref$phone = _ref.phone,
       locale = _ref$phone.locale,
-      contacts = _ref$phone.contacts,
       contactDetails = _ref$phone.contactDetails,
       contactSearch = _ref$phone.contactSearch,
       rolesAndPermissions = _ref$phone.rolesAndPermissions;
@@ -73,12 +74,19 @@ function mapToFunctions(_, _ref2) {
       contactDetails.clear();
     },
     formatNumber: function formatNumber(phoneNumber) {
-      return (0, _formatNumber3.default)({
-        phoneNumber: phoneNumber,
-        areaCode: regionSettings.areaCode,
-        countryCode: regionSettings.countryCode
-      });
+      // if the cleaned phone number is not a E164 format, we will show it directly, doesn't format it.
+      var cleanedNumber = (0, _phoneNumber.parseIncompletePhoneNumber)(phoneNumber.toString());
+      var isE164Number = (0, _phoneNumber.isE164)(cleanedNumber);
+      if (isE164Number) {
+        var formatedNumber = (0, _formatNumber3.default)({
+          phoneNumber: phoneNumber,
+          countryCode: regionSettings.countryCode
+        });
+        return { phoneNumber: formatedNumber, beFormated: true };
+      }
+      return { phoneNumber: phoneNumber, beFormated: false };
     },
+
     getAvatar: function getAvatar(contact) {
       return contactDetails.getProfileImage(contact);
     },
@@ -88,6 +96,7 @@ function mapToFunctions(_, _ref2) {
     onBackClick: function onBackClick() {
       routerInteraction.goBack();
     },
+
     onClickToDial: dialerUI && rolesAndPermissions.callingEnabled ? function (recipient) {
       if (call.isIdle) {
         routerInteraction.push(dialerRoute);

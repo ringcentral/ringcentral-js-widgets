@@ -8,7 +8,7 @@ exports.default = {
   text: "Texto",
   fax: "Fax",
   voicemail: "Buzón de voz",
-  call: "Llamar"
+  call: "Llamada"
 };
 
 // @key: @#@"recentActivities"@#@ @source: @#@"Recent Activities"@#@

@@ -187,7 +187,7 @@ var ContactItem = function (_PureComponent) {
       var sourceNode = sourceNodeRenderer({ sourceType: type });
       return _react2.default.createElement(
         'div',
-        { className: _styles2.default.root, onClick: this.onItemSelected },
+        { className: _styles2.default.root, onClick: this.onItemSelected, 'data-sign': 'contactItem' },
         _react2.default.createElement(
           'div',
           { className: _styles2.default.contactProfile },

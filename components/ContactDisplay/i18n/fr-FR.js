@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   logging: "Connexion en cours...",
   logCall: "Journal des appels",
-  editLog: "Éditer le journal",
+  editLog: "Modifier le journal",
   select: "Sélectionner une correspondance",
   OnHold: "En attente",
   Ringing: "Sonnerie en cours",

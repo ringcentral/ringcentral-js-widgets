@@ -10,7 +10,8 @@ exports.default = {
   title: "Choisissez l'emplacement où l'accès rapide {brandName} apparaît : ",
   descriptionAll: "Allez à {optionsLink} pour définir votre liste noire.",
   descriptionUser: "Allez à {optionsLink} pour définir vos sites Web spécifiques.",
-  extensionOptions: "Options d'extension"
+  extensionOptions: "Options d'extension",
+  Finish: "Finaliser les paramètres"
 };
 
 // @key: @#@"textGoogle"@#@ @source: @#@"Only show in {appName} apps"@#@
@@ -20,6 +21,5 @@ exports.default = {
 // @key: @#@"descriptionAll"@#@ @source: @#@"Go to {optionsLink} to define your blacklist."@#@
 // @key: @#@"descriptionUser"@#@ @source: @#@"Go to {optionsLink}  to define your specific websites."@#@
 // @key: @#@"extensionOptions"@#@ @source: @#@"Extension Options"@#@
-// @key: @#@"Confirm"@#@ @source: @#@"Confirm"@#@
-// @key: @#@"Cancel"@#@ @source: @#@"Cancel"@#@
+// @key: @#@"Finish"@#@ @source: @#@"Finish Setting"@#@
 //# sourceMappingURL=fr-FR.js.map

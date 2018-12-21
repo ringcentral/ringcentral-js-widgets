@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   to: "至",
-  enterNameOrNumber: "输入姓名或号码"
+  enterNameOrNumber: "输入名称或号码"
 };
 
 // @key: @#@"to"@#@ @source: @#@"To"@#@

@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  status: "État",
+  status: "Statut",
   acceptQueueCalls: "Accepter les appels en attente"
 };
 

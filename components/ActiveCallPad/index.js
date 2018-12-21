@@ -421,7 +421,8 @@ var ActiveCallPad = function (_Component) {
               icon: _End2.default,
               showBorder: false,
               iconWidth: 250,
-              iconX: 125
+              iconX: 125,
+              dataSign: 'hangup'
             })
           )
         )

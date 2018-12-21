@@ -20,6 +20,4 @@ exports.default = {
 // @key: @#@"descriptionAll"@#@ @source: @#@"Go to {optionsLink} to define your blacklist."@#@
 // @key: @#@"descriptionUser"@#@ @source: @#@"Go to {optionsLink}  to define your specific websites."@#@
 // @key: @#@"extensionOptions"@#@ @source: @#@"Extension Options"@#@
-// @key: @#@"Confirm"@#@ @source: @#@"Confirm"@#@
-// @key: @#@"Cancel"@#@ @source: @#@"Cancel"@#@
 //# sourceMappingURL=en-CA.js.map

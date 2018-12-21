@@ -22,7 +22,7 @@ exports.default = (_title$search$compose = {
   composeText: "撰寫簡訊",
   noMessages: "無訊息",
   noSearchResults: "找不到相符的記錄"
-}, (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.all, "所有"), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.voiceMail, "聲音"), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.text, "簡訊"), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.fax, "傳真"), _title$search$compose);
+}, (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.all, "所有"), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.voiceMail, "語音"), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.text, "文字"), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.fax, "傳真"), _title$search$compose);
 
 // @key: @#@"title"@#@ @source: @#@"Messages"@#@
 // @key: @#@"search"@#@ @source: @#@"Search..."@#@

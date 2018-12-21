@@ -19,10 +19,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = (_title$search$compose = {
   title: "Nachrichten",
   search: "Suchen ...",
-  composeText: "Text erstellen",
+  composeText: "Textnachricht erstellen",
   noMessages: "Keine Meldungen",
   noSearchResults: "Kein übereinstimmender Datensatz gefunden"
-}, (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.all, "Alle"), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.voiceMail, "Sprachnachr."), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.text, "Textnachr."), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.fax, "Fax"), _title$search$compose);
+}, (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.all, "Alle"), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.voiceMail, "Sprachn."), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.text, "Textn."), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.fax, "Fax"), _title$search$compose);
 
 // @key: @#@"title"@#@ @source: @#@"Messages"@#@
 // @key: @#@"search"@#@ @source: @#@"Search..."@#@

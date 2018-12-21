@@ -26,7 +26,7 @@ exports.default = (_addLog$editLog$viewD = {
   conversation: "Conversa",
   groupConversation: "Conversa em grupo",
   voiceMessage: "Mensagens de voz"
-}, (0, _defineProperty3.default)(_addLog$editLog$viewD, _messageTypes2.default.voiceMail, "Correio de voz"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "mark", "Marcar como não lido"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "unmark", "Marcar como lido"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "delete", "Excluir"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "faxSent", "Fax enviado"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "faxReceived", "Fax recebido"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "pages", "páginas"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "preview", "Exibir"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "download", "Baixar"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "imageAttachment", "Anexo: 1 imagem"), _addLog$editLog$viewD);
+}, (0, _defineProperty3.default)(_addLog$editLog$viewD, _messageTypes2.default.voiceMail, "Correio de voz"), (0, _defineProperty3.default)(_addLog$editLog$viewD, _messageTypes2.default.fax, "Fax"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "mark", "Marcar como não lido"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "unmark", "Marcar como lido"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "delete", "Excluir"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "faxSent", "Fax enviado"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "faxReceived", "Fax recebido"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "pages", "páginas"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "preview", "Exibir"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "download", "Baixar"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "imageAttachment", "Anexo: 1 imagem"), _addLog$editLog$viewD);
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -38,6 +38,7 @@ exports.default = (_addLog$editLog$viewD = {
 // @key: @#@"groupConversation"@#@ @source: @#@"Group Conversation"@#@
 // @key: @#@"voiceMessage"@#@ @source: @#@"Voice message"@#@
 // @key: @#@"[messageTypes.voiceMail]"@#@ @source: @#@"Voice Mail"@#@
+// @key: @#@"[messageTypes.fax]"@#@ @source: @#@"Fax"@#@
 // @key: @#@"mark"@#@ @source: @#@"Mark as Unread"@#@
 // @key: @#@"unmark"@#@ @source: @#@"Mark as Read"@#@
 // @key: @#@"delete"@#@ @source: @#@"Delete"@#@

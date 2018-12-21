@@ -127,7 +127,8 @@ function SettingsPanel(_ref) {
       additional = _ref.additional,
       supportedLocales = _ref.supportedLocales,
       savedLocale = _ref.savedLocale,
-      saveLocale = _ref.saveLocale;
+      saveLocale = _ref.saveLocale,
+      clickToDialTitle = _ref.clickToDialTitle;
 
   if (showSpinner) {
     return _react2.default.createElement(_SpinnerOverlay2.default, null);
@@ -204,7 +205,8 @@ function SettingsPanel(_ref) {
       icon: _react2.default.createElement(_Switch2.default, {
         checked: clickToDialEnabled,
         onChange: onClickToDialChange
-      })
+      }),
+      title: clickToDialTitle
     },
     clickToDialText
   ) : null;
@@ -375,7 +377,8 @@ SettingsPanel.propTypes = {
   onFeedbackSettingsLinkClick: _propTypes2.default.func.isRequired,
   onQuickAccessLinkClick: _propTypes2.default.func,
   onUserGuideClick: _propTypes2.default.func.isRequired,
-  showUserGuide: _propTypes2.default.bool
+  showUserGuide: _propTypes2.default.bool,
+  clickToDialTitle: _propTypes2.default.string
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -435,6 +438,7 @@ SettingsPanel.defaultProps = {
   showQuickAccess: false,
   onQuickAccessLinkClick: function onQuickAccessLinkClick() {
     return null;
-  }
+  },
+  clickToDialTitle: null
 };
 //# sourceMappingURL=index.js.map

@@ -112,7 +112,7 @@ var ActiveCallDialPad = function (_Component) {
         setTimeout(function () {
           _this.playAudio(key);
           _this.props.onChange(key);
-        }, 100 * index);
+        }, 150 * index);
       });
     };
 

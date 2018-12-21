@@ -238,7 +238,7 @@ var DropdownSelect = function (_Component) {
       return _react2.default.createElement(
         'div',
         {
-          'data-sign': 'dropdownSelect',
+          'data-sign': this.props.dataSign,
           className: (0, _classnames2.default)(containerClassName, this.props.wrapperStyle),
           ref: function ref(_ref2) {
             if (reference) reference(_ref2);
@@ -298,7 +298,8 @@ DropdownSelect.propTypes = {
   onToggle: _propTypes2.default.func,
   open: _propTypes2.default.bool,
   wrapperStyle: _propTypes2.default.string,
-  buttonStyle: _propTypes2.default.string
+  buttonStyle: _propTypes2.default.string,
+  dataSign: _propTypes2.default.string
 };
 
 DropdownSelect.defaultProps = {
@@ -332,7 +333,8 @@ DropdownSelect.defaultProps = {
 
   open: false,
   wrapperStyle: '',
-  buttonStyle: ''
+  buttonStyle: '',
+  dataSign: 'dropdownSelect'
 };
 
 exports.default = DropdownSelect;

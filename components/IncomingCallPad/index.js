@@ -89,6 +89,8 @@ var _i18n2 = _interopRequireDefault(_i18n);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var TooltipCom = typeof _rcTooltip2.default === 'function' ? _rcTooltip2.default : _rcTooltip2.default.default;
+
 var IncomingCallPad = function (_Component) {
   (0, _inherits3.default)(IncomingCallPad, _Component);
 
@@ -260,7 +262,7 @@ var IncomingCallPad = function (_Component) {
           'div',
           { className: _styles2.default.buttonRow },
           _react2.default.createElement(
-            _rcTooltip2.default,
+            TooltipCom,
             {
               defaultVisible: false,
               visible: this.state.showForward,
@@ -295,7 +297,7 @@ var IncomingCallPad = function (_Component) {
             })
           ),
           _react2.default.createElement(
-            _rcTooltip2.default,
+            TooltipCom,
             {
               defaultVisible: false,
               visible: this.state.showReplyWithMessage,

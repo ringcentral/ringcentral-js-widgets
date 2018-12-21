@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  confirmationInfo: "您對先前通話的未儲存編輯將會遺失，是否確定要編輯新的通話？",
+  confirmationInfo: "先前通話未儲存的編輯將會遺失，確定要編輯新的通話？",
   log: "記錄",
   save: "儲存並編輯新通話",
   discard: "捨棄並編輯新通話",

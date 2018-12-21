@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   eula: 'End User License Agreement',
-  serviceTerms: 'Service Terms'
+  serviceTerms: 'Service Terms',
+  termsOfService: 'Terms of Service'
 };
 //# sourceMappingURL=en-US.js.map

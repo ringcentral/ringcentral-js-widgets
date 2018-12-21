@@ -22,7 +22,7 @@ exports.default = (_title$search$compose = {
   composeText: "Rédiger texto",
   noMessages: "Aucun message",
   noSearchResults: "Aucun enregistrement correspondant trouvé"
-}, (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.all, "Tous"), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.voiceMail, "Appel"), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.text, "Texto"), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.fax, "Fax"), _title$search$compose);
+}, (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.all, "Tous"), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.voiceMail, "Appel"), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.text, "Texto"), (0, _defineProperty3.default)(_title$search$compose, _messageTypes2.default.fax, "Télécopieur"), _title$search$compose);
 
 // @key: @#@"title"@#@ @source: @#@"Messages"@#@
 // @key: @#@"search"@#@ @source: @#@"Search..."@#@

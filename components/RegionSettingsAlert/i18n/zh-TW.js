@@ -18,7 +18,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = (_region$regionSetting = {
   region: "地區"
-}, (0, _defineProperty3.default)(_region$regionSetting, _regionSettingsMessages2.default.saveSuccess, "設定儲存成功。"), (0, _defineProperty3.default)(_region$regionSetting, _regionSettingsMessages2.default.dialingPlansChanged, "您的帳戶不再支援先前的地區。\n    請確認您新的 {regionSettingsLink}。"), (0, _defineProperty3.default)(_region$regionSetting, "regionSettings", "地區設定"), (0, _defineProperty3.default)(_region$regionSetting, _regionSettingsMessages2.default.areaCodeInvalid, "請輸入有效的區碼。"), _region$regionSetting);
+}, (0, _defineProperty3.default)(_region$regionSetting, _regionSettingsMessages2.default.saveSuccess, "設定儲存成功。"), (0, _defineProperty3.default)(_region$regionSetting, _regionSettingsMessages2.default.dialingPlansChanged, "您的帳號不再支援先前的地區。\n    請確認您新的 {regionSettingsLink}。"), (0, _defineProperty3.default)(_region$regionSetting, "regionSettings", "地區設定"), (0, _defineProperty3.default)(_region$regionSetting, _regionSettingsMessages2.default.areaCodeInvalid, "請輸入有效的區碼。"), _region$regionSetting);
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"[regionSettingsMessages.saveSuccess]"@#@ @source: @#@"Settings saved successfully."@#@

@@ -503,7 +503,7 @@ var ConferencePanel = function (_Component) {
             ),
             _react2.default.createElement(
               'div',
-              { className: _styles2.default.field },
+              { className: _styles2.default.field, 'data-sign': 'hostCode' },
               formatPin(hostCode)
             )
           ),
@@ -517,7 +517,7 @@ var ConferencePanel = function (_Component) {
             ),
             _react2.default.createElement(
               'div',
-              { className: _styles2.default.field },
+              { className: _styles2.default.field, 'data-sign': 'participantCode' },
               formatPin(participantCode)
             )
           ),
@@ -535,7 +535,8 @@ var ConferencePanel = function (_Component) {
               { className: _styles2.default.field },
               _react2.default.createElement(_Switch2.default, {
                 checked: showAdditionalNumbers,
-                onChange: this.onAddionalNumbersSwitch
+                onChange: this.onAddionalNumbersSwitch,
+                dataSign: 'addinalNumbersToggle'
               })
             ),
             additionalNumbersCtrl
@@ -553,7 +554,8 @@ var ConferencePanel = function (_Component) {
               { className: _styles2.default.field },
               _react2.default.createElement(_Switch2.default, {
                 checked: allowJoinBeforeHost,
-                onChange: onAllowJoinBeforeHostChange
+                onChange: onAllowJoinBeforeHostChange,
+                dataSign: 'enableJoinToggle'
               })
             )
           ),

@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   recentActivities: "Activités récentes",
-  text: "Texte",
+  text: "SMS",
   fax: "Fax",
   voicemail: "Messagerie vocale",
   call: "Appeler"

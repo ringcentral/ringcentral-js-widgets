@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  Home: "Abitazione",
+  Home: "Casa",
   Mobile: "Cellulare",
   Work: "Lavoro"
 };

@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   newConference: "Nuova conferenza",
-  dialInNumber: "Numero con accesso esterno",
+  dialInNumber: "Numero di accesso",
   hostAccess: "Accesso moderatore",
   participantsAccess: "Accesso partecipanti",
   addinalDialInNumbers: "Numeri di accesso aggiuntivi",
@@ -13,7 +13,7 @@ exports.default = {
   enableJoinBeforeHost: "Consenti ingresso prima del moderatore",
   conferenceCommands: "Comandi conferenza",
   inviteWithGCalendar: "Invita con Google Calendar",
-  inviteWithText: "Invita con testo",
+  inviteWithText: "Invita con SMS",
   joinAsHost: "Avvia conferenza",
   internationalNumber: "Numeri di accesso internazionali:",
   inviteText_att: "Accedi alla conferenza {brandName}.\n\nNumero di accesso: {formattedDialInNumber} \n{additionalNumbersSection} \nAccesso partecipanti: {participantCode} \n\nTi serve un numero di accesso internazionale? Visita {dialInNumbersLinks} \n\nQuesta conferenza telefonica è fornita dal servizio di conferenza {brandName}.",

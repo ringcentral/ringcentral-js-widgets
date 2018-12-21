@@ -13,8 +13,8 @@ exports.default = {
   stopRecord: "停止",
   record: "錄音",
   add: "加入",
-  transfer: "轉移",
-  flip: "轉接",
+  transfer: "轉接",
+  flip: "翻轉",
   more: "撥號動作",
   mergeToConference: "合併"
 };

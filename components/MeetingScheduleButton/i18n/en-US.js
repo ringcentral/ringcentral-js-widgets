@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   schedule: 'Schedule Meeting',
-  prompt: 'Please authorize RingCentral to access your account information.'
+  prompt: 'Please authorize RingCentral to access your account information.',
+  lanuchMeeting: 'Launch Meeting'
 };
 //# sourceMappingURL=en-US.js.map

@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  schedule: "计划会议",
+  schedule: "安排会议",
   prompt: "请授权 RingCentral 访问您的账户信息。"
 };
 

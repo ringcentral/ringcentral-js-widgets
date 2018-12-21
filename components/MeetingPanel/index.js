@@ -5,6 +5,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.PASSWORD_REGEX = undefined;
 
+var _regenerator = require('babel-runtime/regenerator');
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
 var _keys = require('babel-runtime/core-js/object/keys');
 
 var _keys2 = _interopRequireDefault(_keys);
@@ -46,6 +54,10 @@ var _classnames = require('classnames');
 var _classnames2 = _interopRequireDefault(_classnames);
 
 var _ramda = require('ramda');
+
+var _sleep = require('ringcentral-integration/lib/sleep');
+
+var _sleep2 = _interopRequireDefault(_sleep);
 
 var _DateTimePicker = require('react-widgets/lib/DateTimePicker');
 
@@ -196,7 +208,9 @@ var Topic = function Topic(_ref) {
           } else {
             target.value = meeting.topic || '';
           }
-        } })
+        },
+        'data-sign': 'scheduleMeetingTopic'
+      })
     )
   );
 };
@@ -547,7 +561,9 @@ var RecurringMeeting = function RecurringMeeting(_ref15) {
             update((0, _extends3.default)({}, meeting, {
               meetingType: meetingType
             }));
-          } })
+          },
+          dataSign: 'recuttingMeeting'
+        })
       ),
       isRecurring ? _react2.default.createElement(
         'div',
@@ -594,7 +610,9 @@ var Video = function Video(_ref16) {
             update((0, _extends3.default)({}, meeting, {
               startHostVideo: startHostVideo
             }));
-          } })
+          },
+          dataSign: 'videoHostToggle'
+        })
       ),
       _react2.default.createElement(
         'div',
@@ -610,7 +628,9 @@ var Video = function Video(_ref16) {
             update((0, _extends3.default)({}, meeting, {
               startParticipantsVideo: startParticipantsVideo
             }));
-          } })
+          },
+          dataSign: 'videoParticipantToggle'
+        })
       )
     )
   );
@@ -688,7 +708,9 @@ var MeetingOptions = function MeetingOptions(_ref19) {
               _requireMeetingPassword: _requireMeetingPassword,
               password: password
             }));
-          } })
+          },
+          dataSign: 'requirePasswordToggle'
+        })
       ),
       meeting._requireMeetingPassword ? _react2.default.createElement(
         'div',
@@ -713,7 +735,9 @@ var MeetingOptions = function MeetingOptions(_ref19) {
                 password: target.value
               }));
             }
-          } })
+          },
+          'data-sign': 'requirePasswordInput'
+        })
       ) : null,
       _react2.default.createElement(
         'div',
@@ -729,7 +753,9 @@ var MeetingOptions = function MeetingOptions(_ref19) {
             update((0, _extends3.default)({}, meeting, {
               allowJoinBeforeHost: allowJoinBeforeHost
             }));
-          } })
+          },
+          dataSign: 'enableJoinToggle'
+        })
       )
     )
   );
@@ -808,7 +834,9 @@ var MeetingPanel = function (_Component) {
           recipientsSection = _props.recipientsSection,
           showWhen = _props.showWhen,
           showDuration = _props.showDuration,
-          showRecurringMeeting = _props.showRecurringMeeting;
+          showRecurringMeeting = _props.showRecurringMeeting,
+          showLaunchMeeting = _props.showLaunchMeeting,
+          launchMeeting = _props.launchMeeting;
 
       if (!(0, _keys2.default)(meeting).length) {
         return null;
@@ -893,14 +921,48 @@ var MeetingPanel = function (_Component) {
           hidden: hidden,
           disabled: disabled,
           meeting: meeting,
-          onClick: function onClick() {
-            if (!disabled) {
-              setTimeout(function () {
-                var opener = isSafari() ? window.open() : null;
-                invite(_this4.props.meeting, opener);
-              }, 100);
-            }
-          } })
+          onClick: (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+            var opener;
+            return _regenerator2.default.wrap(function _callee$(_context) {
+              while (1) {
+                switch (_context.prev = _context.next) {
+                  case 0:
+                    if (disabled) {
+                      _context.next = 6;
+                      break;
+                    }
+
+                    _context.next = 3;
+                    return (0, _sleep2.default)(100);
+
+                  case 3:
+                    opener = isSafari() ? window.open() : null;
+                    _context.next = 6;
+                    return invite(_this4.props.meeting, opener);
+
+                  case 6:
+                  case 'end':
+                    return _context.stop();
+                }
+              }
+            }, _callee, _this4);
+          })),
+          showLaunchMeeting: showLaunchMeeting,
+          launchMeeting: (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
+            return _regenerator2.default.wrap(function _callee2$(_context2) {
+              while (1) {
+                switch (_context2.prev = _context2.next) {
+                  case 0:
+                    _context2.next = 2;
+                    return launchMeeting(_this4.props.meeting);
+
+                  case 2:
+                  case 'end':
+                    return _context2.stop();
+                }
+              }
+            }, _callee2, _this4);
+          })) })
       );
     }
   }]);
@@ -919,7 +981,9 @@ MeetingPanel.propTypes = {
   hidden: _propTypes2.default.bool,
   showWhen: _propTypes2.default.bool,
   showDuration: _propTypes2.default.bool,
-  showRecurringMeeting: _propTypes2.default.bool
+  showRecurringMeeting: _propTypes2.default.bool,
+  showLaunchMeeting: _propTypes2.default.bool,
+  launchMeeting: _propTypes2.default.func
 };
 
 MeetingPanel.defaultProps = {
@@ -928,7 +992,9 @@ MeetingPanel.defaultProps = {
   hidden: false,
   showWhen: true,
   showDuration: true,
-  showRecurringMeeting: true
+  showRecurringMeeting: true,
+  showLaunchMeeting: false,
+  launchMeeting: function launchMeeting() {}
 };
 
 exports.default = MeetingPanel;

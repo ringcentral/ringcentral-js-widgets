@@ -267,7 +267,8 @@ var UserGuide = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      if (!this.state.entered) return null;
+      if (!this.props.guides || this.props.guides.length === 0 || !this.state.entered) return null;
+
       if (this.props.showSpinner) {
         return _react2.default.createElement(_SpinnerOverlay2.default, null);
       }

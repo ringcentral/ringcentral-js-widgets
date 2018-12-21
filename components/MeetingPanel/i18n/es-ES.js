@@ -11,7 +11,7 @@ exports.default = {
   recurringDescribe: "Recuerde comprobar la periodicidad o repetición en la invitación de calendario enviada a los asistentes.",
   video: "Vídeo",
   videoDescribe: "Al unirse a una reunión",
-  host: "Host",
+  host: "Anfitrión",
   participants: "Participante",
   audioOptions: "Opciones de audio",
   voIPOnly: "Solo VoIP",

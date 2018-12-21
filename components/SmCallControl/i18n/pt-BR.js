@@ -4,8 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  mute: "Ativar mudo",
-  unmute: "Desativar mudo",
+  mute: "Mudo",
+  unmute: "Ativar som",
   hangup: "Desligar",
   reject: "Rejeitar"
 };

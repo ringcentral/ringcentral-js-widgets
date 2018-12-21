@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   region: "Região",
   calling: "Chamadas",
-  logout: "Logout",
+  logout: "Sair",
   version: "Versão",
   settings: "Configurações",
   clickToDial: "Clique para discar",

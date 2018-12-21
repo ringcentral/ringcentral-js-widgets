@@ -17,7 +17,7 @@ exports.default = {
   viewDetails: "Ver detalles",
   addEntity: "Crear nuevo",
   addLog: "Registro",
-  text: "Texto",
+  text: "Mensaje",
   call: "Llamar",
   addContact: "Añadir contacto",
   missedCall: "Perdida",

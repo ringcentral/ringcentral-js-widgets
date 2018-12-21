@@ -225,13 +225,13 @@ var ProxyFrameOAuth = (_dec = (0, _di.Module)({
   }, {
     key: '_handleCallbackUri',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(options) {
+      var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(callbackUri, refresh) {
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return (0, _get3.default)(ProxyFrameOAuth.prototype.__proto__ || (0, _getPrototypeOf2.default)(ProxyFrameOAuth.prototype), '_handleCallbackUri', this).call(this, options);
+                return (0, _get3.default)(ProxyFrameOAuth.prototype.__proto__ || (0, _getPrototypeOf2.default)(ProxyFrameOAuth.prototype), '_handleCallbackUri', this).call(this, callbackUri, refresh);
 
               case 2:
                 if (this._auth.isImplicit && this._auth.loggedIn) {
@@ -246,7 +246,7 @@ var ProxyFrameOAuth = (_dec = (0, _di.Module)({
         }, _callee2, this);
       }));
 
-      function _handleCallbackUri(_x2) {
+      function _handleCallbackUri(_x2, _x3) {
         return _ref4.apply(this, arguments);
       }
 

@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  sureToDeleteVoiceMail: "¿Seguro que desea eliminar este mensaje de voz?",
+  sureToDeleteVoiceMail: "¿Está seguro de que desea eliminar este mensaje de voz?",
   doNotAskAgain: "No volver a preguntar"
 };
 

@@ -44,9 +44,9 @@ var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
 
 var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
 
-var _Spinner = require('../Spinner');
+var _SpinnerOverlay = require('../SpinnerOverlay');
 
-var _Spinner2 = _interopRequireDefault(_Spinner);
+var _SpinnerOverlay2 = _interopRequireDefault(_SpinnerOverlay);
 
 var _ConversationMessageList = require('../ConversationMessageList');
 
@@ -124,7 +124,9 @@ var ConversationPanel = function (_Component) {
   (0, _createClass3.default)(ConversationPanel, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this.loadConversation();
+      if (!this.props.showSpinner) {
+        this.loadConversation();
+      }
       this._mounted = true;
     }
   }, {
@@ -134,6 +136,9 @@ var ConversationPanel = function (_Component) {
         this.setState({
           selected: this.getInitialContactIndex(nextProps)
         });
+      }
+      if (!nextProps.showSpinner && this.props.showSpinner) {
+        this.loadConversation();
       }
     }
   }, {
@@ -276,7 +281,11 @@ var ConversationPanel = function (_Component) {
       var _this2 = this;
 
       if (!this.state.loaded) {
-        return null;
+        return _react2.default.createElement(
+          'div',
+          { className: _styles2.default.root },
+          _react2.default.createElement(_SpinnerOverlay2.default, null)
+        );
       }
       var conversationBody = null;
       var loading = this.props.showSpinner;
@@ -284,13 +293,7 @@ var ConversationPanel = function (_Component) {
           recipients = _props.recipients,
           messageSubjectRenderer = _props.messageSubjectRenderer;
 
-      if (loading) {
-        conversationBody = _react2.default.createElement(
-          'div',
-          { className: _styles2.default.spinerContainer },
-          _react2.default.createElement(_Spinner2.default, null)
-        );
-      } else {
+      if (!loading) {
         conversationBody = _react2.default.createElement(_ConversationMessageList2.default, {
           currentLocale: this.props.currentLocale,
           height: this.getMessageListHeight(),

@@ -26,7 +26,7 @@ exports.default = (_addLog$editLog$viewD = {
   conversation: "会話",
   groupConversation: "グループ会話",
   voiceMessage: "ボイスメッセージ"
-}, (0, _defineProperty3.default)(_addLog$editLog$viewD, _messageTypes2.default.voiceMail, "ボイスメール"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "mark", "未読にする"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "unmark", "既読にする"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "delete", "削除"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "faxSent", "FAX送信済み"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "faxReceived", "FAX受信済み"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "pages", "ポケットベル"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "preview", "表示"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "download", "ダウンロード"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "imageAttachment", "添付ファイル：1個の画像"), _addLog$editLog$viewD);
+}, (0, _defineProperty3.default)(_addLog$editLog$viewD, _messageTypes2.default.voiceMail, "ボイスメール"), (0, _defineProperty3.default)(_addLog$editLog$viewD, _messageTypes2.default.fax, "FAX"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "mark", "未読にする"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "unmark", "既読にする"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "delete", "削除"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "faxSent", "FAX送信済み"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "faxReceived", "FAX受信済み"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "pages", "ページ"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "preview", "表示"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "download", "ダウンロード"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "imageAttachment", "添付ファイル：1個の画像"), _addLog$editLog$viewD);
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -38,6 +38,7 @@ exports.default = (_addLog$editLog$viewD = {
 // @key: @#@"groupConversation"@#@ @source: @#@"Group Conversation"@#@
 // @key: @#@"voiceMessage"@#@ @source: @#@"Voice message"@#@
 // @key: @#@"[messageTypes.voiceMail]"@#@ @source: @#@"Voice Mail"@#@
+// @key: @#@"[messageTypes.fax]"@#@ @source: @#@"Fax"@#@
 // @key: @#@"mark"@#@ @source: @#@"Mark as Unread"@#@
 // @key: @#@"unmark"@#@ @source: @#@"Mark as Read"@#@
 // @key: @#@"delete"@#@ @source: @#@"Delete"@#@

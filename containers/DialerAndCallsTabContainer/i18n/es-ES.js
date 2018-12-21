@@ -4,8 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  dialer: "Teclado de marcación",
-  allCalls: "Todas las llamadas"
+  dialer: "Tec. de marc.",
+  allCalls: "Todas llam."
 };
 
 // @key: @#@"dialer"@#@ @source: @#@"Dial Pad"@#@

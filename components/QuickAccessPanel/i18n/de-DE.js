@@ -10,7 +10,8 @@ exports.default = {
   title: "Wählen Sie aus, wo der {brandName}-Schnellzugriff angezeigt werden soll: ",
   descriptionAll: "Navigieren Sie zu {optionsLink}, um Ihre Blacklist zu definieren.",
   descriptionUser: "Navigieren Sie zu {optionsLink}, um Ihre spezifischen Websites zu definieren.",
-  extensionOptions: "Erweiterungsoptionen"
+  extensionOptions: "Erweiterungsoptionen",
+  Finish: "Konfiguration abschließen"
 };
 
 // @key: @#@"textGoogle"@#@ @source: @#@"Only show in {appName} apps"@#@
@@ -20,6 +21,5 @@ exports.default = {
 // @key: @#@"descriptionAll"@#@ @source: @#@"Go to {optionsLink} to define your blacklist."@#@
 // @key: @#@"descriptionUser"@#@ @source: @#@"Go to {optionsLink}  to define your specific websites."@#@
 // @key: @#@"extensionOptions"@#@ @source: @#@"Extension Options"@#@
-// @key: @#@"Confirm"@#@ @source: @#@"Confirm"@#@
-// @key: @#@"Cancel"@#@ @source: @#@"Cancel"@#@
+// @key: @#@"Finish"@#@ @source: @#@"Finish Setting"@#@
 //# sourceMappingURL=de-DE.js.map

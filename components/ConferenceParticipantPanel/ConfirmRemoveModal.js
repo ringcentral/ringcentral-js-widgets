@@ -54,6 +54,7 @@ function ConfirmRemoveModal(_ref) {
       currentLocale: currentLocale,
       className: _styles2.default.ConfirmRemoveModal,
       modalClassName: _styles2.default.ConfirmRemoveModal,
+      maskClassName: _styles2.default.confirmRemoveModalMask,
       title: _i18n2.default.getString('removeParticipant', currentLocale),
       onConfirm: onRemove,
       onCancel: onCancel,

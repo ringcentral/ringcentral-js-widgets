@@ -22,11 +22,11 @@ exports.default = (_addLog$editLog$viewD = {
   viewDetails: "Ver detalles",
   addEntity: "Crear nuevo",
   call: "Llamar",
-  text: "Texto",
+  text: "Mensaje",
   conversation: "Conversación",
   groupConversation: "Conversación grupal",
   voiceMessage: "Mensaje de voz"
-}, (0, _defineProperty3.default)(_addLog$editLog$viewD, _messageTypes2.default.voiceMail, "Mensaje de buzón de voz"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "mark", "Marcar como no leído"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "unmark", "Marcar como leído"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "delete", "Eliminar"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "faxSent", "Fax enviado"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "faxReceived", "Fax recibido"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "pages", "páginas"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "preview", "Ver"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "download", "Descargar"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "imageAttachment", "Adjunto: 1 imagen"), _addLog$editLog$viewD);
+}, (0, _defineProperty3.default)(_addLog$editLog$viewD, _messageTypes2.default.voiceMail, "Mensaje de buzón de voz"), (0, _defineProperty3.default)(_addLog$editLog$viewD, _messageTypes2.default.fax, "Fax"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "mark", "Marcar como no leído"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "unmark", "Marcar como leído"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "delete", "Eliminar"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "faxSent", "Fax enviado"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "faxReceived", "Fax recibido"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "pages", "páginas"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "preview", "Ver"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "download", "Descargar"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "imageAttachment", "Adjunto: 1 imagen"), _addLog$editLog$viewD);
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -38,6 +38,7 @@ exports.default = (_addLog$editLog$viewD = {
 // @key: @#@"groupConversation"@#@ @source: @#@"Group Conversation"@#@
 // @key: @#@"voiceMessage"@#@ @source: @#@"Voice message"@#@
 // @key: @#@"[messageTypes.voiceMail]"@#@ @source: @#@"Voice Mail"@#@
+// @key: @#@"[messageTypes.fax]"@#@ @source: @#@"Fax"@#@
 // @key: @#@"mark"@#@ @source: @#@"Mark as Unread"@#@
 // @key: @#@"unmark"@#@ @source: @#@"Mark as Read"@#@
 // @key: @#@"delete"@#@ @source: @#@"Delete"@#@

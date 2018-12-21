@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  sureToDeleteVoiceMail: "ボイスメールを削除しますか？",
+  sureToDeleteVoiceMail: "このボイスメールを削除しますか？",
   doNotAskAgain: "次回から通知しない"
 };
 

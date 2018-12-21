@@ -114,7 +114,7 @@ var TabContentView = (_temp = _class = function (_Component) {
   }]);
   return TabContentView;
 }(_react.Component), _class.propTypes = {
-  applicable: _propTypes2.default.bool.isRequired,
+  showTabs: _propTypes2.default.bool.isRequired,
   showSpinner: _propTypes2.default.bool.isRequired,
   currentLocale: _propTypes2.default.string.isRequired,
   currentPath: _propTypes2.default.string.isRequired,
@@ -129,7 +129,7 @@ function mapToProps(_, _ref) {
       routerInteraction = _ref$phone.routerInteraction;
 
   return {
-    applicable: (0, _hasActiveCalls2.default)(phone),
+    showTabs: (0, _hasActiveCalls2.default)(phone),
     currentLocale: locale.currentLocale,
     showSpinner: !locale.ready,
     currentPath: routerInteraction.currentPath

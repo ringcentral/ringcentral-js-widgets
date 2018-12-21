@@ -10,7 +10,8 @@ exports.default = {
   title: "{brandName} Quick Access が表示される場所を選択: ",
   descriptionAll: "あなたのブラックリストを定義する {optionsLink} に移動します。",
   descriptionUser: "特定のウェブサイトを定義する{optionsLink} に移動します。",
-  extensionOptions: "拡張オプション"
+  extensionOptions: "拡張オプション",
+  Finish: "設定の完了"
 };
 
 // @key: @#@"textGoogle"@#@ @source: @#@"Only show in {appName} apps"@#@
@@ -20,6 +21,5 @@ exports.default = {
 // @key: @#@"descriptionAll"@#@ @source: @#@"Go to {optionsLink} to define your blacklist."@#@
 // @key: @#@"descriptionUser"@#@ @source: @#@"Go to {optionsLink}  to define your specific websites."@#@
 // @key: @#@"extensionOptions"@#@ @source: @#@"Extension Options"@#@
-// @key: @#@"Confirm"@#@ @source: @#@"Confirm"@#@
-// @key: @#@"Cancel"@#@ @source: @#@"Cancel"@#@
+// @key: @#@"Finish"@#@ @source: @#@"Finish Setting"@#@
 //# sourceMappingURL=ja-JP.js.map

@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   recentActivities: "最近活動",
-  text: "簡訊",
+  text: "文字",
   fax: "傳真",
   voicemail: "語音訊息",
   call: "通話"

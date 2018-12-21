@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   DirectNumber: "Diretto",
   MainCompanyNumber: "Principale",
-  CompanyNumber: "Società",
+  CompanyNumber: "Azienda",
   CompanyFaxNumber: "Fax",
   Blocked: "Bloccato",
   AdditionalCompanyNumber: "Azienda",

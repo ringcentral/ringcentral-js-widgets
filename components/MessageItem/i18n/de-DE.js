@@ -21,12 +21,12 @@ exports.default = (_addLog$editLog$viewD = {
   editLog: "Protokoll bearbeiten",
   viewDetails: "Details anzeigen",
   addEntity: "Neu erstellen",
-  call: "Anrufen",
-  text: "Textnachr",
+  call: "Anruf",
+  text: "Textn.",
   conversation: "Gespräch",
   groupConversation: "Gruppengespräch",
-  voiceMessage: "Sprachnachr"
-}, (0, _defineProperty3.default)(_addLog$editLog$viewD, _messageTypes2.default.voiceMail, "Voicemail"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "mark", "Als ungelesen markieren"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "unmark", "Als gelesen markieren"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "delete", "Löschen"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "faxSent", "Fax gesendet"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "faxReceived", "Fax erhalten"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "pages", "Seiten"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "preview", "Anzeigen"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "download", "Herunterladen"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "imageAttachment", "Anhang: 1 Bild"), _addLog$editLog$viewD);
+  voiceMessage: "Sprachn."
+}, (0, _defineProperty3.default)(_addLog$editLog$viewD, _messageTypes2.default.voiceMail, "Voicemail"), (0, _defineProperty3.default)(_addLog$editLog$viewD, _messageTypes2.default.fax, "Fax"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "mark", "Als ungelesen markieren"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "unmark", "Als gelesen markieren"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "delete", "Löschen"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "faxSent", "Fax gesendet"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "faxReceived", "Fax erhalten"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "pages", "Seiten"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "preview", "Anzeigen"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "download", "Herunterladen"), (0, _defineProperty3.default)(_addLog$editLog$viewD, "imageAttachment", "Anhang: 1 Bild"), _addLog$editLog$viewD);
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -38,6 +38,7 @@ exports.default = (_addLog$editLog$viewD = {
 // @key: @#@"groupConversation"@#@ @source: @#@"Group Conversation"@#@
 // @key: @#@"voiceMessage"@#@ @source: @#@"Voice message"@#@
 // @key: @#@"[messageTypes.voiceMail]"@#@ @source: @#@"Voice Mail"@#@
+// @key: @#@"[messageTypes.fax]"@#@ @source: @#@"Fax"@#@
 // @key: @#@"mark"@#@ @source: @#@"Mark as Unread"@#@
 // @key: @#@"unmark"@#@ @source: @#@"Mark as Read"@#@
 // @key: @#@"delete"@#@ @source: @#@"Delete"@#@

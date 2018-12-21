@@ -7,7 +7,7 @@ exports.default = {
   account: "帳戶",
   contact: "通訊錄",
   lead: "主管",
-  opportunity: "Opportunity",
+  opportunity: "機會",
   chooseEntity: "請選擇組織類型",
   create: "建立"
 };

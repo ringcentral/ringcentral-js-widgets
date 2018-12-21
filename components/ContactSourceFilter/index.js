@@ -171,11 +171,13 @@ var ContactSourceFilter = function (_Component) {
         'div',
         {
           className: (0, _classnames2.default)(_styles2.default.contactSourceFilter, className),
+          'data-sign': 'contactSourceFilterButton',
           onClick: this.togglePanel
         },
         _react2.default.createElement(
           'div',
           {
+            'data-sign': 'filterIconContainer',
             className: _styles2.default.filterIconContainer,
             title: this.getString(selectedSourceName, currentLocale)
           },
@@ -188,7 +190,8 @@ var ContactSourceFilter = function (_Component) {
             className: _styles2.default.contactSourceList,
             onClick: function onClick(e) {
               return e.stopPropagation();
-            }
+            },
+            'data-sign': 'contactSourceList'
           },
           contactSourceNames.map(function (sourceName) {
             return _react2.default.createElement(ContactSourceItem, {

@@ -4,8 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  unmute: "Désac. mode disc.",
-  mute: "Act. mode disc.",
+  unmute: "Désac. disc.",
+  mute: "Act. disc.",
   keypad: "Clavier",
   hold: "Mettre\nen attente",
   onHold: "En attente",

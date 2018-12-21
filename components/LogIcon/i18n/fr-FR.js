@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  logged: "Connecté",
+  logged: "Enregistré",
   unlogged: "Non traité",
   faxNotSupported: "L'option permettant de journaliser un fax n'est pas prise en charge."
 };

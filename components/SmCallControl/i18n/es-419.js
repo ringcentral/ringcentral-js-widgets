@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   mute: "Silenciar",
-  unmute: "Desactivar silencio",
+  unmute: "Sonido",
   hangup: "Colgar",
   reject: "Rechazar"
 };

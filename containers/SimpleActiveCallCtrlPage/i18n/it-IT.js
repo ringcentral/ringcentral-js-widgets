@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  allCalls: "Tutte le chiamate",
+  allCalls: "Tutte",
   Unknown: "Sconosciuto",
   Multiple: "Multipli"
 };

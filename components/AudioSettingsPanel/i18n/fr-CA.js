@@ -8,7 +8,7 @@ exports.default = {
   dialButtonVolume: "Volume du bouton pour composer un numéro",
   ringtoneVolume: "Volume de la sonnerie",
   callVolume: "Volume de l'appel",
-  muteCalls: "Couper le son d'un appel",
+  muteCalls: "Act. mode disc. appels",
   outputDevice: "Périphérique de sortie",
   inputDevice: "Périphérique d'entrée",
   micPermission: "Autorisation de l'usage du microphone",

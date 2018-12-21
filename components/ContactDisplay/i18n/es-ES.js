@@ -7,7 +7,7 @@ exports.default = {
   logging: "Iniciando sesión...",
   logCall: "Registrar llamada",
   editLog: "Editar registro",
-  select: "Seleccionar emparejamiento",
+  select: "Seleccionar emparej.",
   OnHold: "En espera",
   Ringing: "Llamando",
   CallConnected: "Llamada conectada",

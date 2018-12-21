@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   add: "添加",
   noCalls: "无可用通话",
-  activeCall: "活动通话"
+  activeCall: "启用中通话"
 };
 
 // @key: @#@"add"@#@ @source: @#@"Add"@#@

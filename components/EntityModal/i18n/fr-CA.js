@@ -6,9 +6,9 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   account: "Compte",
   contact: "Contact",
-  lead: "Occasion",
-  opportunity: "Opportunity",
-  chooseEntity: "Veuillez sélectionner un type d'entité",
+  lead: "Piste",
+  opportunity: "Occasion",
+  chooseEntity: "Choisir type d'entité",
   create: "Créer"
 };
 

@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  activeCall: "活动通话"
+  activeCall: "启用中通话"
 };
 
 // @key: @#@"activeCall"@#@ @source: @#@"Active Call"@#@

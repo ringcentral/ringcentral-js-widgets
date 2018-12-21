@@ -35,7 +35,8 @@ function IconLine(props) {
       _IconField2.default,
       {
         className: props.className,
-        icon: props.icon },
+        icon: props.icon,
+        title: props.title },
       props.children
     )
   );
@@ -47,9 +48,11 @@ IconLine.propTypes = {
   icon: _propTypes2.default.node,
   className: _propTypes2.default.string,
   onClick: _propTypes2.default.func,
-  noBorder: _propTypes2.default.bool
+  noBorder: _propTypes2.default.bool,
+  title: _propTypes2.default.string
 };
 IconLine.defaultProps = {
-  dataSign: null
+  dataSign: null,
+  title: null
 };
 //# sourceMappingURL=index.js.map

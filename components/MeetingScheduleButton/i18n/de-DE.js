@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  schedule: "Besprechung planen",
+  schedule: "Meeting planen",
   prompt: "Bitte autorisieren Sie RingCentral für den Zugriff auf Ihre Kontoinformationen."
 };
 

@@ -5,8 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   title: "會議指令",
-  starSharp2Title: "通話人數",
-  starSharp2Body: "隨時瞭解通話人數",
+  starSharp2Title: "來電者人數",
+  starSharp2Body: "隨時瞭解來電者人數",
   starSharp3Title: "離開會議",
   starSharp3Body: "讓主持人掛斷並結束通話",
   starSharp4Title: "選單",

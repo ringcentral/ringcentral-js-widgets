@@ -5,14 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.contactItemPropTypes = exports.default = undefined;
 
-var _keys = require('babel-runtime/core-js/object/keys');
-
-var _keys2 = _interopRequireDefault(_keys);
-
-var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
-
 var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
@@ -73,10 +65,6 @@ var _phoneTypes = require('../../enums/phoneTypes');
 
 var _phoneTypes2 = _interopRequireDefault(_phoneTypes);
 
-var _phoneTypeNames = require('../../lib/phoneTypeNames');
-
-var _phoneTypeNames2 = _interopRequireDefault(_phoneTypeNames);
-
 var _i18n = require('./i18n');
 
 var _i18n2 = _interopRequireDefault(_i18n);
@@ -86,6 +74,8 @@ var _styles = require('./styles.scss');
 var _styles2 = _interopRequireDefault(_styles);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// import phoneTypeNames from '../../lib/phoneTypeNames';
 
 // import FaxIcon from '../../assets/images/Fax.svg';
 function getPresenceStatusName(presence, currentLocale) {
@@ -263,7 +253,15 @@ var ContactDetails = function (_PureComponent) {
           _ref3$needFormat = _ref3.needFormat,
           needFormat = _ref3$needFormat === undefined ? true : _ref3$needFormat;
 
-      var displayedPhoneNumber = needFormat ? this.props.formatNumber(number) : number;
+      var displayedPhoneNumber = void 0;
+      if (needFormat) {
+        var _props$formatNumber = this.props.formatNumber(number),
+            phoneNumber = _props$formatNumber.phoneNumber;
+
+        displayedPhoneNumber = phoneNumber;
+      } else {
+        displayedPhoneNumber = number;
+      }
 
       return _react2.default.createElement(
         'li',
@@ -311,26 +309,13 @@ var ContactDetails = function (_PureComponent) {
       var _props2 = this.props,
           contactItem = _props2.contactItem,
           currentLocale = _props2.currentLocale;
-      var phoneNumbers = contactItem.phoneNumbers;
-
+      var phoneNumbers = contactItem.phoneNumbers,
+          phoneMaps = contactItem.phoneMaps,
+          schema = contactItem.schema;
 
       if (!phoneNumbers.length) {
         return null;
       }
-
-      var phoneMaps = (0, _ramda.reduce)(function (acc, phoneNumberElm) {
-        acc[phoneNumberElm.phoneType] = acc[phoneNumberElm.phoneType] || [];
-        acc[phoneNumberElm.phoneType].push(phoneNumberElm);
-
-        return acc;
-      }, {}, phoneNumbers);
-
-      // we need sequence that: ext followed by direct followed by others.
-      var schema = (0, _ramda.filter)(function (key) {
-        return !!_phoneTypes2.default[key] && Array.isArray(phoneMaps[key]);
-      }, [_phoneTypes2.default.extension, _phoneTypes2.default.direct].concat((0, _toConsumableArray3.default)((0, _keys2.default)(phoneMaps).filter(function (key) {
-        return key !== _phoneTypes2.default.extension && key !== _phoneTypes2.default.direct;
-      }))));
 
       return _react2.default.createElement(
         'div',
@@ -346,8 +331,7 @@ var ContactDetails = function (_PureComponent) {
                     key: phoneNumberElm.phoneNumber,
                     number: phoneNumberElm.phoneNumber,
                     currentLocale: currentLocale,
-                    contactItem: contactItem,
-                    needFormat: false
+                    contactItem: contactItem
                   });
                 }, phoneMaps[key]));
               }

@@ -14,7 +14,7 @@ var _connectivityMonitorMessages2 = _interopRequireDefault(_connectivityMonitorM
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (0, _defineProperty3.default)({}, _connectivityMonitorMessages2.default.disconnected, "ネットワーク接続が切断されます。");
+exports.default = (0, _defineProperty3.default)({}, _connectivityMonitorMessages2.default.disconnected, "ネットワーク接続が切断されています。");
 
 // @key: @#@"[connectivityMonitorMessages.disconnected]"@#@ @source: @#@"Network connection is lost."@#@
 //# sourceMappingURL=ja-JP.js.map

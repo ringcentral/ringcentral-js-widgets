@@ -8,7 +8,7 @@ exports.default = {
   logCall: "Anruf protokollieren",
   editLog: "Protokoll bearbeiten",
   select: "Übereinstimmende/s/n auswählen",
-  OnHold: "Wird gehalten",
+  OnHold: "Gehalten",
   Ringing: "Es wird angerufen",
   CallConnected: "Anruf verbunden",
   unknownUser: "Unbekannter Benutzer",

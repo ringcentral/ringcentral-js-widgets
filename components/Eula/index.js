@@ -26,7 +26,8 @@ function Eula(props) {
   switch (props.brandId) {
     case '3420':
       // att
-      link = 'https://asecare.att.com/tutorials/ringcentral-officehand-from-att-end-user-licensing-agreement/?product=ringcentral-officehand-from-att-end-user-licensing-agreement';
+      labelId = 'termsOfService';
+      link = 'http://www.att.com/officeathandpolicy';
       break;
     case '7710':
       // bt

@@ -18,7 +18,7 @@ exports.default = {
   addEntity: "Crea nuovo",
   addLog: "Registro",
   text: "SMS",
-  call: "Chiama",
+  call: "Chiamata",
   addContact: "Aggiungi contatto",
   missedCall: "Perse",
   inboundCall: "In entrata",
@@ -30,7 +30,7 @@ exports.default = {
   toVoicemail: "Invia alla segreteria telefonica",
   anonymous: "Anonimo",
   mergeToConference: "Unisci",
-  hold: "Metti in attesa",
+  hold: "Attesa",
   unhold: "Riprendi",
   transfer: "Trasferisci",
   reject: "Rifiuta"
