@@ -45,7 +45,7 @@ export default class ContactDetails extends RcModule {
       () => this.currentContact,
       (currentContact) => {
         if (!currentContact) return null;
-        const { phoneNumbers } = currentContact;
+        const phoneNumbers = currentContact.rawPhoneNumbers || currentContact.phoneNumbers;
         const phoneMaps = reduce((acc, phoneNumberElm) => {
           acc[phoneNumberElm.phoneType] = acc[phoneNumberElm.phoneType] || [];
           acc[phoneNumberElm.phoneType].push(phoneNumberElm);

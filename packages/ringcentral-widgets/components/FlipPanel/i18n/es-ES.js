@@ -1,6 +1,6 @@
 export default {
-  flipHeader: "Traspasar la llamada a...",
-  flip: "Traspasar",
+  flipHeader: "Transferir la llamada a...",
+  flip: "Transferir",
   complete: "Completar traspaso"
 };
 

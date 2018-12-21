@@ -4,9 +4,8 @@
   "description": "RingCentral Integration Glip Widgets Library",
   "main": "index.js",
   "scripts": {
-    "build": "gulp build",
-    "gulp": "gulp",
-    "release": "gulp release",
+    "build": "yarn gulp build",
+    "release": "yarn gulp release",
     "eslint": "eslint --quiet ."
   },
   "repository": {
@@ -35,7 +34,7 @@
     "autoprefixer": "^9.3.1",
     "execa": "^1.0.0",
     "fs-extra": "^7.0.1",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-babel": "^7.0.1",
     "gulp-istanbul": "^1.1.1",
     "gulp-sourcemaps": "^2.4.0",

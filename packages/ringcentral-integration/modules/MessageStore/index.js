@@ -507,10 +507,15 @@ export default class MessageStore extends Pollable {
     return response;
   }
 
-  sliceConversations(len) {
+  sliceConversations() {
+    const conversationIds = Object.keys(this.conversationStore);
+    const messages = conversationIds.reduce(
+      (acc, id) => acc.concat(this.conversationStore[id]), []
+    );
+    const messageIds = this._messagesFilter(messages).map(item => item.id);
     this.store.dispatch({
       type: this.actionTypes.sliceConversations,
-      length: len
+      messageIds
     });
   }
 

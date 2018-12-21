@@ -1,5 +1,5 @@
 export default {
-  recentActivities: "最近活动",
+  recentActivities: "最近的活动",
   text: "短信",
   fax: "传真",
   voicemail: "语音邮件",

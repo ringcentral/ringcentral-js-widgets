@@ -12,7 +12,7 @@ export default {
   viewDetails: "Visualizza dettagli",
   addEntity: "Crea nuovo",
   addLog: "Registro",
-  text: "Testo",
+  text: "SMS",
   call: "Chiamata",
   addContact: "Aggiungi contatto",
   missedCall: "Perse",
@@ -25,7 +25,7 @@ export default {
   toVoicemail: "Invia alla segreteria telefonica",
   anonymous: "Anonimo",
   mergeToConference: "Unisci",
-  hold: "Metti in attesa",
+  hold: "Attesa",
   unhold: "Riprendi",
   transfer: "Trasferisci",
   reject: "Rifiuta"

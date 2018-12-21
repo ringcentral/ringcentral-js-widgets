@@ -55,8 +55,8 @@ export default class ProxyFrameOAuth extends OAuthBase {
     }
   }
 
-  async _handleCallbackUri(options) {
-    await super._handleCallbackUri(options);
+  async _handleCallbackUri(callbackUri, refresh) {
+    await super._handleCallbackUri(callbackUri, refresh);
     if (this._auth.isImplicit && this._auth.loggedIn) {
       this._createImplicitRefreshTimeout();
     }

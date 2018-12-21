@@ -71,6 +71,7 @@ export default function SettingsPanel({
   supportedLocales,
   savedLocale,
   saveLocale,
+  clickToDialTitle,
 }) {
   if (showSpinner) {
     return (
@@ -167,6 +168,7 @@ export default function SettingsPanel({
             onChange={onClickToDialChange}
           />
         }
+        title={clickToDialTitle}
       >
         {clickToDialText}
       </IconLine>
@@ -261,7 +263,7 @@ export default function SettingsPanel({
         <section className={styles.section}>
           <IconLine
             noBorder
-            dataSign = 'logoutButton'
+            dataSign="logoutButton"
             onClick={onLogoutButtonClick}
             icon={
               <span className={classnames(styles.logoutIcon, dynamicsFont.logout)} />
@@ -333,6 +335,7 @@ SettingsPanel.propTypes = {
   onQuickAccessLinkClick: PropTypes.func,
   onUserGuideClick: PropTypes.func.isRequired,
   showUserGuide: PropTypes.bool,
+  clickToDialTitle: PropTypes.string,
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -376,5 +379,6 @@ SettingsPanel.defaultProps = {
   saveLocale: undefined,
   showFeedback: true,
   showQuickAccess: false,
-  onQuickAccessLinkClick: () => null
+  onQuickAccessLinkClick: () => null,
+  clickToDialTitle: null,
 };

@@ -2,7 +2,7 @@ import messageTypes from 'ringcentral-integration/enums/messageTypes';
 
 export default {
   addLog: "Journal",
-  editLog: "Éditer le journal",
+  editLog: "Modifier le journal",
   viewDetails: "Afficher les détails",
   addEntity: "Créer",
   call: "Appeler",

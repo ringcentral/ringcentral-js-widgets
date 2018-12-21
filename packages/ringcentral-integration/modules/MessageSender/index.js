@@ -263,6 +263,7 @@ export default class MessageSender extends RcModule {
 
       this.store.dispatch({
         type: this.actionTypes.sendOver,
+        toNumbers,
       });
 
       return responses;

@@ -7,7 +7,7 @@ export default {
   [phoneTypes.direct]: "Direkt",
   [phoneTypes.mobile]: "Mobile",
   [phoneTypes.home]: "Home",
-  [phoneTypes.business]: "Business",
+  [phoneTypes.business]: "Geschäftlich",
   [phoneTypes.fax]: "Fax",
   [phoneTypes.other]: "Andere",
   emailLabel: "E-Mail",

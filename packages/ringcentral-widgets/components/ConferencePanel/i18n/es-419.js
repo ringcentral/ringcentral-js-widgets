@@ -1,6 +1,6 @@
 export default {
   newConference: "Nueva conferencia",
-  dialInNumber: "Número de marcación",
+  dialInNumber: "Número de marcado",
   hostAccess: "Acceso de host",
   participantsAccess: "Acceso de participantes",
   addinalDialInNumbers: "Números de marcado adicionales",
@@ -8,7 +8,7 @@ export default {
   enableJoinBeforeHost: "Permitir unirse antes que el host",
   conferenceCommands: "Comandos de conferencia",
   inviteWithGCalendar: "Invitar con Google Calendar",
-  inviteWithText: "Invitar con texto",
+  inviteWithText: "Invitar con mensaje",
   joinAsHost: "Iniciar conferencia",
   internationalNumber: "Números de marcado internacionales:",
   inviteText_att: "Únase a la conferencia de {brandName}.\n\nNúmero de marcado: {formattedDialInNumber} \n{additionalNumbersSection} \nAcceso de participante: {participantCode} \n\n¿Necesita un número de marcado internacional? Visite {dialInNumbersLinks} \n\nEsta conferencia telefónica es posible gracias a Conferencias de {brandName}.",

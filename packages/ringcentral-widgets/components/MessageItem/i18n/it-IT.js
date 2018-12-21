@@ -6,7 +6,7 @@ export default {
   viewDetails: "Visualizza dettagli",
   addEntity: "Crea nuovo",
   call: "Chiamata",
-  text: "Testo",
+  text: "SMS",
   conversation: "Conversazione",
   groupConversation: "Conversazione di gruppo",
   voiceMessage: "Messaggio vocale",

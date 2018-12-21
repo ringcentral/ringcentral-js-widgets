@@ -12,9 +12,9 @@ export default {
   voIPOnly: "VoIP seulement",
   both: "Les deux",
   meetingOptions: "Options de réunion",
-  requirePassword: "Exiger un MDP pour la réunion",
+  requirePassword: "Exiger un mot de passe pour la réunion",
   password: "Mot de passe",
-  enableJoinBeforeHost: "Activer l'option permettant de joindre la réunion avant l'hôte",
+  enableJoinBeforeHost: "Activer l'option permettant de rejoindre la conférence avant l'hôte",
   telephonyOnly: "Téléphonie seulement"
 };
 

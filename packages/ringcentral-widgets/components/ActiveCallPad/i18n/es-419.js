@@ -7,7 +7,7 @@ export default {
   park: "Estacionar",
   stopRecord: "Parar",
   record: "Grabar",
-  add: "Añadir",
+  add: "Agregar",
   transfer: "Transferir",
   flip: "Volteo",
   more: "Acc. de llam.",

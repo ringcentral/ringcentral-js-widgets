@@ -9,7 +9,7 @@ export default {
   record: "Grabar",
   add: "Añadir",
   transfer: "Transferir",
-  flip: "Traspasar",
+  flip: "Transferir",
   more: "Acc. de llam.",
   mergeToConference: "Combinar"
 };

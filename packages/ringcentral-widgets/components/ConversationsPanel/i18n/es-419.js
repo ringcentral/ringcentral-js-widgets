@@ -8,7 +8,7 @@ export default {
   noSearchResults: "No se encontraron registros que coincidan",
   [messageTypes.all]: "Todos",
   [messageTypes.voiceMail]: "Voz",
-  [messageTypes.text]: "Texto",
+  [messageTypes.text]: "Mensaje",
   [messageTypes.fax]: "Fax"
 };
 

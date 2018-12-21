@@ -110,7 +110,7 @@ export function isRing(session) {
 }
 
 export function isOnHold(session) {
-  return !!(session && session.callStatus === sessionStatus.onHold);
+  return !!(session && session.isOnHold);
 }
 
 export function sortByCreationTimeDesc(l, r) {

@@ -39,7 +39,7 @@ export default {
   [callResults.restrictedNumber]: "受限制號碼",
   [callResults.wrongNumber]: "錯誤號碼",
   [callResults.stopped]: "已停止",
-  [callResults.suspendedAccount]: "已暫停帳戶",
+  [callResults.suspendedAccount]: "已暫停帳號",
   [callResults.hangUp]: "掛斷",
   [callResults.HangUp]: "掛斷",
   [callResults.abandoned]: "已棄置",

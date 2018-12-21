@@ -1,21 +1,21 @@
 export default {
   topic: "主題",
-  when: "何時",
+  when: "時間",
   duration: "持續時間",
-  recurringMeeting: "週期會議",
-  recurringDescribe: "請記得檢查日曆中對出席者的週期或重複邀請。",
+  recurringMeeting: "定期會議",
+  recurringDescribe: "請記得確認發送給列席者的行事曆邀請中的定期或重複會議。",
   video: "影像",
   videoDescribe: "加入會議時",
   host: "主持人",
   participants: "參與者",
   audioOptions: "音訊選項",
-  voIPOnly: "僅 VoIP",
+  voIPOnly: "僅網路語音協定 (VoIP)",
   both: "兩者皆是",
   meetingOptions: "會議選項",
-  requirePassword: "需要會議密碼",
+  requirePassword: "會議密碼為必填",
   password: "密碼",
-  enableJoinBeforeHost: "主持人前啟用參加",
-  telephonyOnly: "僅網路電話"
+  enableJoinBeforeHost: "允許在主持人之前加入",
+  telephonyOnly: "僅電話"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@

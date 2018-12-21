@@ -4,7 +4,7 @@ export default {
   [phoneSources.account]: "Conta",
   [phoneSources.contact]: "Contato",
   [phoneSources.rcContact]: "{brand}",
-  [phoneSources.lead]: "Lead",
+  [phoneSources.lead]: "Líder",
   [phoneSources.opportunity]: "Oportunidade",
   [phoneSources.systemUser]: "Usuário do sistema"
 };

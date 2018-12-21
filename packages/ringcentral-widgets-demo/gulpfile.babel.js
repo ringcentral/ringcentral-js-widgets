@@ -6,7 +6,7 @@ import WebpackDevServer from 'webpack-dev-server';
 import devServerConfig from './dev-server/webpack.config';
 import demoExtensionConfig from './demo-extension/webpack.config';
 
-gulp.task('dev-server', async () => {
+export function devServer() {
   const compiler = webpack(devServerConfig);
   const server = new WebpackDevServer(compiler, {
     contentBase: path.resolve('dev-server'),
@@ -22,27 +22,14 @@ gulp.task('dev-server', async () => {
   });
   server.listen(devServerConfig.port);
   console.log(`server listening to ${devServerConfig.port}...`);
-});
-
-async function rm(filepath) {
-  if (await fs.exists(filepath)) {
-    if ((await fs.stat(filepath)).isDirectory()) {
-      await Promise.all(
-        (await fs.readdir(filepath))
-          .map(item => rm(path.resolve(filepath, item)))
-      );
-      await fs.rmdir(filepath);
-    } else {
-      await fs.unlink(filepath);
-    }
-  }
 }
 
-gulp.task('demo-extension-clean', async () => {
-  await rm('demo-extension-build');
-});
-gulp.task('demo-extension-webpack', ['demo-extension-clean'], () => (
-  new Promise((resolve, reject) => {
+export function demoExtensionClean() {
+  return fs.remove('demo-extension-build');
+}
+
+export function demoExtensionWebpack() {
+  return new Promise((resolve, reject) => {
     webpack(demoExtensionConfig, (err) => {
       if (err) {
         reject(err);
@@ -50,16 +37,14 @@ gulp.task('demo-extension-webpack', ['demo-extension-clean'], () => (
       }
       resolve();
     });
-  })
-));
-gulp.task('demo-extension-copy', ['demo-extension-clean'], () => (
-  gulp.src(['demo-extension/**/*', '!demo-extension/**/*.js'])
-    .pipe(gulp.dest('demo-extension-build'))
-));
-gulp.task('demo-extension',
-  [
-    'demo-extension-clean',
-    'demo-extension-webpack',
-    'demo-extension-copy',
-  ],
+  });
+}
+export function demoExtensionCopy() {
+  return gulp.src(['demo-extension/**/*', '!demo-extension/**/*.js'])
+    .pipe(gulp.dest('demo-extension-build'));
+}
+
+export const demoExtension = gulp.series(
+  demoExtensionClean,
+  gulp.parallel(demoExtensionWebpack, demoExtensionCopy),
 );

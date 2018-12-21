@@ -1,6 +1,6 @@
 export default {
   title: "Comandos de conferencia",
-  starSharp2Title: "Recuento de personas que llaman",
+  starSharp2Title: "Recuento de interlocutor",
   starSharp2Body: "Lleve un control del número de personas que hay en una llamada.",
   starSharp3Title: "Abandonar conferencia",
   starSharp3Body: "Permite al host colgar y finalizar la llamada.",

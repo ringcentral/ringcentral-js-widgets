@@ -6,7 +6,7 @@ export default {
   descriptionAll: "Allez à {optionsLink} pour configurer votre liste noire.",
   descriptionUser: "Allez à {optionsLink} pour configurer vos sites Web spécifiques.",
   extensionOptions: "Options de poste",
-  Finish: "Finish Setting"
+  Finish: "Terminer la configuration"
 };
 
 // @key: @#@"textGoogle"@#@ @source: @#@"Only show in {appName} apps"@#@

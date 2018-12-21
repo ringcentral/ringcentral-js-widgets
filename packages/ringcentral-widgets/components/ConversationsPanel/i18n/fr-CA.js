@@ -9,7 +9,7 @@ export default {
   [messageTypes.all]: "Tous",
   [messageTypes.voiceMail]: "Appel",
   [messageTypes.text]: "Texto",
-  [messageTypes.fax]: "Fax"
+  [messageTypes.fax]: "Télécopieur"
 };
 
 // @key: @#@"title"@#@ @source: @#@"Messages"@#@

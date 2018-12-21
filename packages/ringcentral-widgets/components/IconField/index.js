@@ -6,7 +6,7 @@ import styles from './styles.scss';
 export default function IconField(props) {
   return (
     <div className={props.className}>
-      <div className={styles.content}>
+      <div className={styles.content} title={props.title}>
         {props.children}
       </div>
       <div className={styles.iconHolder}>
@@ -22,4 +22,9 @@ IconField.propTypes = {
   children: PropTypes.node,
   icon: PropTypes.node,
   className: PropTypes.string,
+  title: PropTypes.string,
+};
+
+IconField.defaultProps = {
+  title: null
 };

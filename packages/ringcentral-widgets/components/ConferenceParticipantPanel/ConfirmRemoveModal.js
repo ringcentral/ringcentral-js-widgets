@@ -28,6 +28,7 @@ export default function ConfirmRemoveModal({
       currentLocale={currentLocale}
       className={styles.ConfirmRemoveModal}
       modalClassName={styles.ConfirmRemoveModal}
+      maskClassName={styles.confirmRemoveModalMask}
       title={i18n.getString('removeParticipant', currentLocale)}
       onConfirm={onRemove}
       onCancel={onCancel}

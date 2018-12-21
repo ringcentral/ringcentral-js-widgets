@@ -20,7 +20,7 @@
   "devDependencies": {
     "faker": "^4.1.0",
     "fs-extra": "^7.0.1",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-babel": "^7.0.1",
     "gulp-sourcemaps": "^2.6.4",
     "jest": "^22.4.3"

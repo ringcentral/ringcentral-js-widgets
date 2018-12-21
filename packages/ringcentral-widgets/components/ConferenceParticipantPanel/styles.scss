@@ -6,6 +6,7 @@ $avatar-size:35px;
 $button-size:24px;
 $marginBetweenItems:25px;
 $padding-horizontal:20px;
+
 .root {
   @include full-size;
   background: $snow;

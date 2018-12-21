@@ -1,6 +1,6 @@
 export default {
   recentActivities: "Attività recenti",
-  text: "Testo",
+  text: "SMS",
   fax: "Fax",
   voicemail: "Messaggio vocale",
   call: "Chiamata"

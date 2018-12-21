@@ -5,39 +5,27 @@ import babel from 'gulp-babel';
 import sourcemaps from 'gulp-sourcemaps';
 import cp from 'child_process';
 
-async function rm(filepath) {
-  if (await fs.exists(filepath)) {
-    if ((await fs.stat(filepath)).isDirectory()) {
-      await Promise.all(
-        (await fs.readdir(filepath))
-          .map(item => rm(path.resolve(filepath, item)))
-      );
-      await fs.rmdir(filepath);
-    } else {
-      await fs.unlink(filepath);
-    }
-  }
+const BUILD_PATH = path.resolve(__dirname, '../../build/locale-loader');
+
+export function clean() {
+  return fs.remove(BUILD_PATH);
 }
 
-const BUILD_PATH = path.resolve(__dirname, '../../build/locale-loader');
-gulp.task('clean', async () => (
-  rm(BUILD_PATH)
-));
-
-gulp.task('build', ['clean'], () => (
-  gulp.src([
-    './lib/**/*.js',
-    '!./lib/**/*.test.js',
-    './*.js',
-    '!./gulpfile*.js',
-  ], {
-    base: './'
-  })
+export function compile() {
+  return gulp
+    .src(
+      ['./lib/**/*.js', '!./lib/**/*.test.js', './*.js', '!./gulpfile*.js'],
+      {
+        base: './',
+      },
+    )
     .pipe(sourcemaps.init())
     .pipe(babel())
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(BUILD_PATH))
-));
+    .pipe(gulp.dest(BUILD_PATH));
+}
+
+export const build = gulp.series(clean, compile);
 
 async function exec(command) {
   return new Promise((resolve, reject) => {
@@ -53,7 +41,9 @@ async function exec(command) {
 
 async function getVersionFromTag() {
   try {
-    let tag = await exec('git describe --exact-match --tags $(git rev-parse HEAD)');
+    let tag = await exec(
+      'git describe --exact-match --tags $(git rev-parse HEAD)',
+    );
     tag = tag.replace(/\r?\n|\r/g, '');
     if (/^\d+.\d+.\d+/.test(tag)) {
       return tag;
@@ -65,22 +55,26 @@ async function getVersionFromTag() {
 }
 
 const RELEASE_PATH = path.resolve(__dirname, '../../release/locale-loader');
-gulp.task('release-clean', async () => {
-  if (!await fs.exists(RELEASE_PATH)) {
+
+export async function releaseClean() {
+  if (!(await fs.exists(RELEASE_PATH))) {
     await fs.mkdirp(RELEASE_PATH);
   }
-  const files = (await fs.readdir(RELEASE_PATH)).filter(file => !/^\./.test(file));
+  const files = (await fs.readdir(RELEASE_PATH)).filter(
+    file => (!/^\./.test(file)),
+  );
   for (const file of files) {
-    await rm(path.resolve(RELEASE_PATH, file));
+    await fs.remove(path.resolve(RELEASE_PATH, file));
   }
-});
+}
 
-gulp.task('release-copy', ['build', 'release-clean'], () => (
-  gulp.src([`${BUILD_PATH}/**`, `${__dirname}/README.md`, `${__dirname}/LICENSE`])
-    .pipe(gulp.dest(RELEASE_PATH))
-));
+export function releaseCopy() {
+  return gulp
+    .src([`${BUILD_PATH}/**`, `${__dirname}/README.md`, `${__dirname}/LICENSE`])
+    .pipe(gulp.dest(RELEASE_PATH));
+}
 
-gulp.task('release', ['release-copy'], async () => {
+export async function generatePackage() {
   const packageInfo = JSON.parse(await fs.readFile(path.resolve(__dirname, 'package.json')));
   delete packageInfo.scripts;
   delete packageInfo.devDependencies;
@@ -90,4 +84,8 @@ gulp.task('release', ['release-copy'], async () => {
     packageInfo.version = version;
   }
   await fs.writeFile(path.resolve(RELEASE_PATH, 'package.json'), JSON.stringify(packageInfo, null, 2));
-});
+}
+export const release = gulp.series(
+  gulp.parallel(build, releaseClean),
+  gulp.parallel(releaseCopy, generatePackage)
+);

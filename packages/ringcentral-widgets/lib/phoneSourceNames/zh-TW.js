@@ -1,7 +1,7 @@
 import phoneSources from '../../enums/phoneSources';
 
 export default {
-  [phoneSources.account]: "帳戶",
+  [phoneSources.account]: "帳號",
   [phoneSources.contact]: "通訊錄",
   [phoneSources.rcContact]: "{brand}",
   [phoneSources.lead]: "主管",

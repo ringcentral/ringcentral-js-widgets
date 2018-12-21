@@ -4,8 +4,9 @@ export default {
   textUser: "Show on the websites I specify",
   title: "Choose where {brandName} Quick Access appears: ",
   descriptionAll: "Go to {optionsLink} to define your blacklist.",
-  descriptionUser: "Go to {optionsLink}  to define your specific websites.",
-  extensionOptions: "Extension Options"
+  descriptionUser: "Go to {optionsLink} to define your specific websites.",
+  extensionOptions: "Extension Options",
+  Finish: "Finish Setting"
 };
 
 // @key: @#@"textGoogle"@#@ @source: @#@"Only show in {appName} apps"@#@
@@ -15,3 +16,4 @@ export default {
 // @key: @#@"descriptionAll"@#@ @source: @#@"Go to {optionsLink} to define your blacklist."@#@
 // @key: @#@"descriptionUser"@#@ @source: @#@"Go to {optionsLink}  to define your specific websites."@#@
 // @key: @#@"extensionOptions"@#@ @source: @#@"Extension Options"@#@
+// @key: @#@"Finish"@#@ @source: @#@"Finish Setting"@#@

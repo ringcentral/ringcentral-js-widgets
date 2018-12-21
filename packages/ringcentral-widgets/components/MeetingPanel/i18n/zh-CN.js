@@ -3,7 +3,7 @@ export default {
   when: "时间",
   duration: "持续时间",
   recurringMeeting: "定期会议",
-  recurringDescribe: "请记住检查或重复参与者日历邀请。",
+  recurringDescribe: "请记得检查通过日历向参与者发送的邀请中是否存在重复。",
   video: "视频",
   videoDescribe: "加入会议时",
   host: "主持人",

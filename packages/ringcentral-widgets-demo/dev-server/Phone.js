@@ -65,6 +65,8 @@ import RouterInteraction from 'ringcentral-widgets/modules/RouterInteraction';
 import DialerUI from 'ringcentral-widgets/modules/DialerUI';
 import ConferenceDialerUI from 'ringcentral-widgets/modules/ConferenceDialerUI';
 import ProxyFrameOAuth from 'ringcentral-widgets/modules/ProxyFrameOAuth';
+import AudioSettingsUI from 'ringcentral-widgets/modules/AudioSettingsUI';
+import CallingSettingsUI from 'ringcentral-widgets/modules/CallingSettingsUI';
 
 import normalizeNumber from 'ringcentral-integration/lib/normalizeNumber';
 import hasActiveCalls from 'ringcentral-widgets/lib/hasActiveCalls';
@@ -104,6 +106,8 @@ const history = global.process && global.process.release && global.process.relea
     { provide: 'RateLimiter', useClass: RateLimiter },
     { provide: 'Storage', useClass: Storage },
     { provide: 'AudioSettings', useClass: AudioSettings },
+    { provide: 'AudioSettingsUI', useClass: AudioSettingsUI },
+    { provide: 'CallingSettingsUI', useClass: CallingSettingsUI },
     { provide: 'AccountExtension', useClass: AccountExtension },
     { provide: 'AccountInfo', useClass: AccountInfo },
     { provide: 'ExtensionDevice', useClass: ExtensionDevice },
@@ -115,6 +119,7 @@ const history = global.process && global.process.release && global.process.relea
     { provide: 'RegionSettings', useClass: RegionSettings },
     { provide: 'NumberValidate', useClass: NumberValidate },
     { provide: 'CallingSettings', useClass: CallingSettings },
+    { provide: 'CallingSettingsUI', useClass: CallingSettingsUI },
     { provide: 'Call', useClass: Call },
     { provide: 'Subscription', useClass: Subscription },
     { provide: 'ActiveCalls', useClass: ActiveCalls },

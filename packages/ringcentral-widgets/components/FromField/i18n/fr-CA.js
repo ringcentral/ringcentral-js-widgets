@@ -2,7 +2,7 @@ export default {
   DirectNumber: "Direct",
   MainCompanyNumber: "Principal",
   CompanyNumber: "Entreprise",
-  CompanyFaxNumber: "Fax",
+  CompanyFaxNumber: "Télécopieur",
   Blocked: "Bloqué",
   AdditionalCompanyNumber: "Entreprise",
   ForwardedCompanyNumber: "Transféré",

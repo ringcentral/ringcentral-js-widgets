@@ -11,9 +11,9 @@
     "node": ">=8"
   },
   "scripts": {
-    "start": "npm run dev-server",
-    "dev-server": "gulp dev-server",
-    "build-extension": "gulp demo-extension"
+    "start": "yarn gulp devServer",
+    "dev-server": "yarn gulp devServer",
+    "build-extension": "yarn gulp demoExtension"
   },
   "dependencies": {
     "@ringcentral-integration/i18n": "^2.0.0",
@@ -27,7 +27,7 @@
     "file-loader": "^2.0.0",
     "format-message": "^5.0.0",
     "fs-extra": "^7.0.1",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-babel": "^7.0.1",
     "gulp-istanbul": "^1.1.1",
     "gulp-sourcemaps": "^2.4.0",

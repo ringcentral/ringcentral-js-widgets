@@ -8,7 +8,7 @@ export default {
   [phoneTypes.mobile]: "Appareil mobile",
   [phoneTypes.home]: "Domicile",
   [phoneTypes.business]: "Professionnel",
-  [phoneTypes.fax]: "Fax",
+  [phoneTypes.fax]: "Télécopieur",
   [phoneTypes.other]: "Autre",
   emailLabel: "Courriel",
   call: "Appeler",

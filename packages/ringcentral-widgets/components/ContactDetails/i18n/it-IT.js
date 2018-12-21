@@ -12,7 +12,7 @@ export default {
   [phoneTypes.other]: "Altro",
   emailLabel: "E-mail",
   call: "Chiamata",
-  text: "Testo",
+  text: "SMS",
   [presenceStatus.available]: "Disponibile",
   [presenceStatus.offline]: "Invisibile",
   [presenceStatus.busy]: "Occupato",

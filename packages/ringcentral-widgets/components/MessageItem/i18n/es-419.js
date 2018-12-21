@@ -6,7 +6,7 @@ export default {
   viewDetails: "Ver detalles",
   addEntity: "Crear nuevo",
   call: "Llamar",
-  text: "Texto",
+  text: "Mensaje",
   conversation: "Conversación",
   groupConversation: "Conversación grupal",
   voiceMessage: "Mensaje de voz",

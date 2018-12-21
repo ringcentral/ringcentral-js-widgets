@@ -11,7 +11,7 @@ export default {
   groupConversation: "Conversation de groupe",
   voiceMessage: "Message vocal",
   [messageTypes.voiceMail]: "Message vocal",
-  [messageTypes.fax]: "Fax",
+  [messageTypes.fax]: "Télécopieur",
   mark: "Marquer comme non lu",
   unmark: "Marquer comme lu",
   delete: "Supprimer",

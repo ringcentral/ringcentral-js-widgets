@@ -4,7 +4,7 @@ export default {
   revert: "元に戻す",
   instruction: "お客様のフィードバックは重要です。アプリの使用に関する問題、機能のリクエストやバグの報告など、いつでも喜んでサポートいたします。",
   fillForm: "以下のフォームに記入し、次をクリックしてください ",
-  useMailBox: " またはメールボックスを利用して、次にリクエストをお寄せください ",
+  useMailBox: "またはメールボックスを利用して、次にリクエストをお寄せください ",
   email: "Eメールアドレス",
   reply: "（返信先）",
   emailPlaceHolder: "ronald.app@ringcentral.com",

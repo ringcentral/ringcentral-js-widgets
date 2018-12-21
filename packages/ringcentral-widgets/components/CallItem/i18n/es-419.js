@@ -12,7 +12,7 @@ export default {
   viewDetails: "Ver detalles",
   addEntity: "Crear nuevo",
   addLog: "Registro",
-  text: "Texto",
+  text: "Mensaje",
   call: "Llamar",
   missedCall: "Perdida",
   inboundCall: "Entrante",

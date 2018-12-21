@@ -421,8 +421,8 @@ export default class Auth extends RcModule {
   }) {
     try {
       const extensionData = await this._client.account().extension().get();
-      const ownerId = extensionData.id;
-      if (ownerId !== this.ownerId) {
+      const ownerId = String(extensionData.id);
+      if (ownerId !== String(this.ownerId)) {
         return;
       }
       const platform = this._client.service.platform();
