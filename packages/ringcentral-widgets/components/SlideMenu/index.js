@@ -69,9 +69,8 @@ export default class SlideMenu extends Component {
       children,
       withAnimation,
     } = this.props;
-    const {
-      extended,
-    } = this.state;
+
+    const extended = this.props.extended || this.state.extended;
 
     const wrapperStyles = {
       height: extended ?
