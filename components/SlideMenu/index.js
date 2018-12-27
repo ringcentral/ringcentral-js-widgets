@@ -134,8 +134,9 @@ var SlideMenu = function (_Component) {
           maxHeight = _props.maxHeight,
           children = _props.children,
           withAnimation = _props.withAnimation;
-      var extended = this.state.extended;
 
+
+      var extended = this.props.extended || this.state.extended;
 
       var wrapperStyles = {
         height: extended ? maxHeight : minHeight

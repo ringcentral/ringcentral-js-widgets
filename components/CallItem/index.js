@@ -588,6 +588,7 @@ var CallItem = function (_Component) {
       }
       var contactName = typeof renderContactName === 'function' ? renderContactName(this.props.call) : undefined;
       var extraButton = typeof renderExtraButton === 'function' ? renderExtraButton(this.props.call) : undefined;
+      var menuExtended = this.props.extended || this.state.extended;
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.root, onClick: this.toggleExtended },
@@ -644,7 +645,7 @@ var CallItem = function (_Component) {
           extraButton
         ),
         _react2.default.createElement(_ActionMenu2.default, {
-          extended: this.state.extended,
+          extended: menuExtended,
           onToggle: this.toggleExtended,
           currentLocale: currentLocale,
           onLog: onLogCall && this.logCall,
