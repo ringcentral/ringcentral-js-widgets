@@ -1,4 +1,3 @@
-import { createSelector } from 'reselect';
 import { reduce } from 'ramda';
 import phoneTypes from '../../enums/phoneTypes';
 import RcModule from '../../lib/RcModule';
@@ -8,7 +7,7 @@ import ensureExist from '../../lib/ensureExist';
 import { addPhoneToContact, getMatchContacts } from '../../lib/contactHelper';
 import { batchGetApi } from '../../lib/batchApiHelper';
 import proxify from '../../lib/proxy/proxify';
-import getter from '../../lib/getter';
+import { selector } from '../../lib/selector';
 import actionTypes from './actionTypes';
 import getReducer from './getReducer';
 
@@ -260,8 +259,8 @@ export default class AccountContacts extends RcModule {
   }
 
   // interface of contact source
-  @getter
-  contacts = createSelector(
+  @selector
+  contacts = [
     () => this._accountExtension.availableExtensions,
     () => this._accountPhoneNumber.extensionToPhoneNumberMap,
     () => this.profileImages,
@@ -298,7 +297,7 @@ export default class AccountContacts extends RcModule {
       [],
       extensions,
     ),
-  )
+  ]
 
   get sourceReady() {
     return this.ready;

@@ -4,8 +4,7 @@ import callErrors from 'ringcentral-integration/modules/Call/callErrors';
 import Enum from 'ringcentral-integration/lib/Enum';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
-import { createSelector } from 'reselect';
-import getter from 'ringcentral-integration/lib/getter';
+import { selector } from 'ringcentral-integration/lib/selector';
 import RcUIModule from '../../lib/RcUIModule';
 import getReducer from './getReducer';
 
@@ -222,11 +221,11 @@ export default class DialerUI extends RcUIModule {
     );
   }
 
-  @getter
-  searchContactList = createSelector(
+  @selector
+  searchContactList = [
     () => this._contactSearch && this._contactSearch.sortedResult,
     sortedResult => (sortedResult || []),
-  )
+  ]
 
   getUIProps() {
     return {

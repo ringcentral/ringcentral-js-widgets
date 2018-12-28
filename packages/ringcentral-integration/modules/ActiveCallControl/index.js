@@ -1,5 +1,4 @@
-import { createSelector } from 'reselect';
-import getter from '../../lib/getter';
+import { selector } from '../../lib/selector';
 
 import { Module } from '../../lib/di';
 import Pollable from '../../lib/Pollable';
@@ -526,8 +525,8 @@ export default class ActiveCallControl extends Pollable {
     if (
       !telephonySessionId ||
       !partyId
-      ) {
-        return;
+    ) {
+      return;
     }
     try {
       const _response = await this._client.service._platform.get(url);
@@ -570,8 +569,8 @@ export default class ActiveCallControl extends Pollable {
   get ready() {
     return this.status === moduleStatuses.ready;
   }
-  @getter
-  callPartyIdMap = createSelector(
+  @selector
+  callPartyIdMap = [
     () => this._callMonitor.calls,
     calls => calls.reduce((accumulator, call) => {
       const {
@@ -581,22 +580,23 @@ export default class ActiveCallControl extends Pollable {
       accumulator[sessionId] = partyId;
       return accumulator;
     }, {})
-  );
+  ]
 
-  @getter
-  recordingId = createSelector(
+  @selector
+  recordingId = [
     () => this.activeSessionId,
     () => this.recordingIds,
     (activeSessionId, recordingIds) => recordingIds[activeSessionId]
-  );
-  @getter
-  activeSession = createSelector(
+  ]
+  @selector
+  activeSession = [
     () => this.activeSessionId,
     () => this.activeSessions,
-    sessionId => this.getActiveSession(sessionId));
+    sessionId => this.getActiveSession(sessionId)
+  ]
 
-  @getter
-  activeSessions = createSelector(
+  @selector
+  activeSessions = [
     () => this._callMonitor.calls,
     () => this.activeSessionsStatus,
     (calls, activeSessionsStatus) => {
@@ -618,5 +618,5 @@ export default class ActiveCallControl extends Pollable {
       };
       return calls.reduce(reducer, {});
     }
-  );
+  ]
 }

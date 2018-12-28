@@ -1,5 +1,4 @@
 import { DEFAULT_LOCALE } from '@ringcentral-integration/i18n';
-import { createSelector } from 'reselect';
 import { combineReducers } from 'redux';
 import RcModule from '../../lib/RcModule';
 import Enum from '../../lib/Enum';
@@ -7,7 +6,7 @@ import moduleActionTypes from '../../enums/moduleActionTypes';
 import proxify from '../../lib/proxy/proxify';
 import { Module } from '../../lib/di';
 import ensureExist from '../../lib/ensureExist';
-import getter from '../../lib/getter';
+import { selector } from '../../lib/selector';
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 import { getSavedLocaleReducer } from './reducers';
 
@@ -91,11 +90,11 @@ export default class LocaleSettings extends RcModule {
     return this._globalStorage.getItem(this._storageKey);
   }
 
-  @getter
-  supportedLocales = createSelector(
+  @selector
+  supportedLocales = [
     () => this._supportedLocales,
     s => s.slice().sort(),
-  );
+  ];
 
   @proxify
   async saveLocale(locale) {

@@ -202,17 +202,20 @@ export default class Meeting extends RcModule {
       this._validate(meeting);
       const formattedMeeting = this._format(meeting);
 
-      const resp = await this._client
-        .account()
-        .extension()
-        .meeting()
-        .post(formattedMeeting);
-      const serviceInfo = await this._client
-        .account()
-        .extension()
-        .meeting()
-        .serviceInfo()
-        .get();
+      const [resp, serviceInfo] = await Promise.all([
+        this._client
+          .account()
+          .extension()
+          .meeting()
+          .post(formattedMeeting),
+        this._client
+          .account()
+          .extension()
+          .meeting()
+          .serviceInfo()
+          .get()
+      ]);
+
       this.store.dispatch({
         type: this.actionTypes.scheduled,
         meeting: {

@@ -1,12 +1,10 @@
-import { createSelector } from 'reselect';
-
 import { Module } from '../../lib/di';
 import Pollable from '../../lib/Pollable';
 import isBlank from '../../lib/isBlank';
 import sleep from '../../lib/sleep';
 import moduleStatuses from '../../enums/moduleStatuses';
 import ensureExist from '../../lib/ensureExist';
-import getter from '../../lib/getter';
+import { selector } from '../../lib/selector';
 import proxify from '../../lib/proxy/proxify';
 
 import getReducer, {
@@ -514,8 +512,8 @@ export default class GlipGroups extends Pollable {
     return group.id;
   }
 
-  @getter
-  allGroups = createSelector(
+  @selector
+  allGroups = [
     () => this.data,
     () => (this._glipPersons && this._glipPersons.personsMap),
     () => (this._glipPosts && this._glipPosts.postsMap),
@@ -523,10 +521,10 @@ export default class GlipGroups extends Pollable {
     (data, personsMap = {}, postsMap = {}, ownerId) => (data || []).map(
       group => formatGroup(group, personsMap, postsMap, ownerId)
     ),
-  )
+  ]
 
-  @getter
-  filteredGroups = createSelector(
+  @selector
+  filteredGroups = [
     () => this.allGroups,
     () => this.searchFilter,
     () => (this._glipPosts && this._glipPosts.postsMap),
@@ -553,10 +551,10 @@ export default class GlipGroups extends Pollable {
         return result;
       });
     },
-  )
+  ]
 
-  @getter
-  groups = createSelector(
+  @selector
+  groups = [
     () => this.filteredGroups,
     (filteredGroups) => {
       const sortedGroups =
@@ -568,25 +566,25 @@ export default class GlipGroups extends Pollable {
         });
       return sortedGroups;
     },
-  )
+  ]
 
-  @getter
-  uniqueMemberIds = createSelector(
+  @selector
+  uniqueMemberIds = [
     () => this.allGroups,
     getUniqueMemberIds,
-  )
+  ]
 
-  @getter
-  groupMemberIds = createSelector(
+  @selector
+  groupMemberIds = [
     () => this.allGroups,
     (groups) => {
       const noTeamGroups = groups.filter(g => g.type !== 'Team');
       return getUniqueMemberIds(noTeamGroups);
     },
-  )
+  ]
 
-  @getter
-  currentGroup = createSelector(
+  @selector
+  currentGroup = [
     () => this.allGroups,
     () => this.currentGroupId,
     () => (this._glipPersons && this._glipPersons.personsMap) || {},
@@ -594,10 +592,10 @@ export default class GlipGroups extends Pollable {
       const group = allGroups.find(g => g.id === currentGroupId) || {};
       return formatGroup(group, personsMap, undefined, this._auth.ownerId);
     },
-  )
+  ]
 
-  @getter
-  currentGroupPosts = createSelector(
+  @selector
+  currentGroupPosts = [
     () => {
       const postsMap = (this._glipPosts && this._glipPosts.postsMap) || {};
       return postsMap[this.currentGroupId];
@@ -615,10 +613,10 @@ export default class GlipGroups extends Pollable {
         };
       });
     },
-  )
+  ]
 
-  @getter
-  groupsWithUnread = createSelector(
+  @selector
+  groupsWithUnread = [
     () => this.groups,
     () => (this._glipPosts && this._glipPosts.postsMap) || {},
     () => (this._glipPosts && this._glipPosts.readTimeMap) || {},
@@ -634,14 +632,14 @@ export default class GlipGroups extends Pollable {
           ).length
       };
     })
-  )
+  ]
 
-  @getter
-  unreadCounts = createSelector(
+  @selector
+  unreadCounts = [
     () => this.groupsWithUnread,
     groups =>
       groups.reduce((a, b) => a + b.unread, 0)
-  )
+  ]
 
   get searchFilter() {
     return this.state.searchFilter;

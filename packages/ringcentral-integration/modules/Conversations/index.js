@@ -1,16 +1,14 @@
-import { createSelector } from 'reselect';
 import normalizeNumber from '../../lib/normalizeNumber';
 import messageDirection from '../../enums/messageDirection';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
-import getter from '../../lib/getter';
 import ensureExist from '../../lib/ensureExist';
 import proxify from '../../lib/proxy/proxify';
 import messageTypes from '../../enums/messageTypes';
 import cleanNumber from '../../lib/cleanNumber';
 import isBlank from '../../lib/isBlank';
+import { selector } from '../../lib/selector';
 import messageSenderMessages from '../MessageSender/messageSenderMessages';
-import sleep from '../../lib/sleep';
 
 import {
   getNumbersFromMessage,
@@ -29,6 +27,22 @@ import {
 import actionTypes from './actionTypes';
 import getReducer from './getReducer';
 import status from './status';
+
+function mergeMessages(messages, oldMessages) {
+  const tmp = {};
+  const currentMessages = [];
+  messages.forEach((element) => {
+    currentMessages.push(element);
+    tmp[element.id] = 1;
+  });
+
+  oldMessages.forEach((element) => {
+    if (!tmp[element.id]) {
+      currentMessages.push(element);
+    }
+  });
+  return currentMessages;
+}
 
 function getEarliestTime(messages) {
   let newTime = Date.now();
@@ -534,8 +548,8 @@ export default class Conversations extends RcModule {
     }
   }
 
-  @getter
-  allConversations = createSelector(
+  @selector
+  allConversations = [
     () => this._messageStore.allConversations,
     () => this.oldConversations,
     (conversations, oldConversations) => {
@@ -555,31 +569,31 @@ export default class Conversations extends RcModule {
       oldConversations.forEach(pushConversation);
       return newConversations;
     }
-  )
+  ]
 
-  @getter
-  uniqueNumbers = createSelector(
+  @selector
+  uniqueNumbers = [
     () => this.pagingConversations,
     getUniqueNumbers
-  )
+  ]
 
-  @getter
-  allUniqueNumbers = createSelector(
+  @selector
+  allUniqueNumbers = [
     () => this.allConversations,
     getUniqueNumbers,
-  )
+  ]
 
-  @getter
-  effectiveSearchString = createSelector(
+  @selector
+  effectiveSearchString = [
     () => this.state.searchInput,
     (input) => {
       if (input.length >= 3) return input;
       return '';
     }
-  )
+  ]
 
-  @getter
-  typeFilteredConversations = createSelector(
+  @selector
+  typeFilteredConversations = [
     () => this.allConversations,
     () => this.typeFilter,
     (allConversations, typeFilter) => {
@@ -609,10 +623,10 @@ export default class Conversations extends RcModule {
           );
       }
     }
-  );
+  ];
 
-  @getter
-  formatedConversations = createSelector(
+  @selector
+  formatedConversations = [
     () => this.typeFilteredConversations,
     () => this._extensionInfo.extensionNumber,
     () => this._contactMatcher && this._contactMatcher.dataMapping,
@@ -681,10 +695,10 @@ export default class Conversations extends RcModule {
         };
       })
     ),
-  )
+  ]
 
-  @getter
-  filteredConversations = createSelector(
+  @selector
+  filteredConversations = [
     () => this.formatedConversations,
     () => this.effectiveSearchString,
     (conversations, effectiveSearchString) => {
@@ -759,26 +773,26 @@ export default class Conversations extends RcModule {
       });
       return searchResults.sort(sortSearchResults);
     },
-  )
+  ]
 
-  @getter
-  pagingConversations = createSelector(
+  @selector
+  pagingConversations = [
     () => this.filteredConversations,
     () => this.currentPage,
     (conversations, pageNumber) => {
       const lastIndex = (pageNumber * this._perPage);
       return conversations.slice(0, lastIndex);
     }
-  )
+  ]
 
-  @getter
-  earliestTime = createSelector(
+  @selector
+  earliestTime = [
     () => this.typeFilteredConversations,
     getEarliestTime,
-  )
+  ]
 
-  @getter
-  currentConversation = createSelector(
+  @selector
+  currentConversation = [
     () => this.currentConversationId,
     () => this._extensionInfo.extensionNumber,
     () => this._contactMatcher && this._contactMatcher.dataMapping,
@@ -804,7 +818,7 @@ export default class Conversations extends RcModule {
       const currentConversation = {
         ...conversation
       };
-      const allMessages = (messages.concat(oldMessages)).map((m) => {
+      const allMessages = (mergeMessages(messages, oldMessages)).map((m) => {
         if (!this._showMMSAttachment) {
           return m;
         }
@@ -841,10 +855,10 @@ export default class Conversations extends RcModule {
       });
       return currentConversation;
     }
-  )
+  ]
 
-  @getter
-  messageText = createSelector(
+  @selector
+  messageText = [
     () => this.state.messageTexts,
     () => this.currentConversationId,
     (messageTexts, conversationId) => {
@@ -853,7 +867,7 @@ export default class Conversations extends RcModule {
       );
       return res ? res.text : '';
     },
-  );
+  ];
 
   get status() {
     return this.state.status;

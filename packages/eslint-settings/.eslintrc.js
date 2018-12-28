@@ -91,7 +91,8 @@ module.exports = {
     {
       files: ['*.test.js', '*.spec.js'],
       env: {
-        jest: true
+        jest: true,
+        jasmine: true,
       },
       rules: {
         "no-eval": 0,

@@ -1,3 +1,4 @@
+import { reduce } from 'ramda';
 import { Module } from '../../lib/di';
 import LoggerBase from '../../lib/LoggerBase';
 import ensureExist from '../../lib/ensureExist';
@@ -10,9 +11,7 @@ import callLoggerTriggerTypes from '../../enums/callLoggerTriggerTypes';
 import actionTypes from './actionTypes';
 import getDataReducer from './getDataReducer';
 import proxify from '../../lib/proxy/proxify';
-import { getTokenReducer } from '../Auth/getAuthReducer';
-import getter from '../../lib/getter';
-import { createSelector } from 'reselect';
+import { selector } from '../../lib/selector';
 
 /**
  * @function
@@ -273,7 +272,9 @@ export default class CallLogger extends LoggerBase {
                   this.transferredCallsMap[call.sessionId].transferredMiddleNumber : null
               }, callLoggerTriggerTypes.presenceUpdate);
             }
-            if ((call.from && call.from.phoneNumber) !== (oldCall.from && oldCall.from.phoneNumber)) {
+            if (
+              (call.from && call.from.phoneNumber) !== (oldCall.from && oldCall.from.phoneNumber)
+            ) {
               this.store.dispatch({
                 type: this.actionTypes.addTransferredCall,
                 sessionId: call.sessionId,
@@ -357,11 +358,16 @@ export default class CallLogger extends LoggerBase {
     }
   }
 
-  @getter
-  transferredCallsMap = createSelector(
+  @selector
+  transferredCallsMap = [
     () => this.transferredCallsArr,
-    transferredCallsArr => transferredCallsArr.reduce((mapping, matcher) => Object.assign({}, mapping, matcher), {})
-  )
+    transferredCallsArr => reduce(
+      (mapping, matcher) => Object.assign({}, mapping, matcher),
+      {},
+      transferredCallsArr,
+    ),
+  ]
+
   get logOnRinging() {
     return this._storage.getItem(this._storageKey).logOnRinging;
   }

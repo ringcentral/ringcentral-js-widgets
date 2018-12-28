@@ -1,11 +1,8 @@
-import { createSelector } from 'reselect';
-
 import { Module } from '../../lib/di';
 import DataFetcher from '../../lib/DataFetcher';
 import fetchList from '../../lib/fetchList';
-import getter from '../../lib/getter';
 import ensureExist from '../../lib/ensureExist';
-
+import { selector } from '../../lib/selector';
 /**
  * @class
  * @description Blocked number list managing module
@@ -42,11 +39,11 @@ export default class BlockedNumber extends DataFetcher {
     this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
   }
 
-  @getter
-  numbers = createSelector(
+  @selector
+  numbers = [
     () => this.data,
     data => data || [],
-  )
+  ]
 
   get _hasPermission() {
     return !!this._rolesAndPermissions.permissions.ReadBlockedNumbers;

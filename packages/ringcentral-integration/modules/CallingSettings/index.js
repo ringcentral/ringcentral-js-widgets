@@ -1,4 +1,3 @@
-import { createSelector } from 'reselect';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import {
@@ -11,7 +10,7 @@ import callingOptions from './callingOptions';
 import callingSettingsMessages from './callingSettingsMessages';
 import actionTypes from './actionTypes';
 import proxify from '../../lib/proxy/proxify';
-import getter from '../../lib/getter';
+import { selector } from '../../lib/selector';
 
 /**
  * @class
@@ -292,8 +291,8 @@ export default class CallingSettings extends RcModule {
     return this.data.timestamp;
   }
 
-  @getter
-  callWithOptions = createSelector(
+  @selector
+  callWithOptions = [
     () => this._rolesAndPermissions.ringoutEnabled,
     () => this._rolesAndPermissions.webphoneEnabled,
     () => this.otherPhoneNumbers.length > 0,
@@ -316,10 +315,10 @@ export default class CallingSettings extends RcModule {
       }
       return callWithOptions;
     },
-  )
+  ]
 
-  @getter
-  myPhoneNumbers = createSelector(
+  @selector
+  myPhoneNumbers = [
     () => this._extensionPhoneNumber.directNumbers,
     () => this._extensionPhoneNumber.mainCompanyNumber,
     () => this._extensionInfo.extensionNumber,
@@ -330,11 +329,11 @@ export default class CallingSettings extends RcModule {
       }
       return myPhoneNumbers;
     }
-  )
+  ]
 
 
-  @getter
-  otherPhoneNumbers = createSelector(
+  @selector
+  otherPhoneNumbers = [
     () => this._forwardingNumber.flipNumbers,
     () => this._extensionPhoneNumber.callerIdNumbers,
     () => this._extensionPhoneNumber.directNumbers,
@@ -351,24 +350,24 @@ export default class CallingSettings extends RcModule {
         .sort((a, b) => (a.label === 'Mobile' && a.label !== b.label ? -1 : 1))
         .map(item => item.phoneNumber);
     }
-  )
+  ]
 
-  @getter
-  availableNumbers = createSelector(
+  @selector
+  availableNumbers = [
     () => this.myPhoneNumbers,
     () => this.otherPhoneNumbers,
     (myPhoneNumbers, otherPhoneNumbers) => ({
       [callingOptions.myphone]: myPhoneNumbers,
       [callingOptions.otherphone]: otherPhoneNumbers,
     }),
-  )
+  ]
 
   get fromNumber() {
     return this.data.fromNumber;
   }
 
-  @getter
-  fromNumbers = createSelector(
+  @selector
+  fromNumbers = [
     () => this._extensionPhoneNumber.callerIdNumbers,
     phoneNumbers => phoneNumbers.sort((firstItem, lastItem) => {
       if (firstItem.usageType === 'DirectNumber') return -1;
@@ -379,7 +378,7 @@ export default class CallingSettings extends RcModule {
       else if (firstItem.usageType > lastItem.usageType) return 1;
       return 0;
     }),
-  )
+  ]
 
   @proxify
   async setData({ callWith, myLocation, ringoutPrompt }, withPrompt) {

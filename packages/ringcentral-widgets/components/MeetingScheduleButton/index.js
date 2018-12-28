@@ -35,8 +35,8 @@ export default class MeetingScheduleButton extends PureComponent {
     return i18n.getString('prompt');
   }
 
-  getI18nLanuchMeetingString() {
-    return i18n.getString('lanuchMeeting');
+  getI18nLaunchMeetingString() {
+    return i18n.getString('launchMeeting');
   }
 
   render() {
@@ -67,9 +67,9 @@ export default class MeetingScheduleButton extends PureComponent {
             disabled={disabled}
             className={classnames(styles.button, disabled ? styles.disabled : null,
                styles.launchMeetingButton)}
-            dataSign="lanuchMeetingButton"
+            dataSign="launchMeetingButton"
           >
-            { this.getI18nLanuchMeetingString() }
+            { this.getI18nLaunchMeetingString() }
           </Button>
           : null
         }

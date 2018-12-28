@@ -1,12 +1,11 @@
-import 'core-js/fn/array/find';
-import { createSelector } from 'reselect';
-
+import { find } from 'ramda';
 import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
 import removeUri from '../../lib/removeUri';
 import DataFetcher from '../../lib/DataFetcher';
 import ensureExist from '../../lib/ensureExist';
-import getter from '../../lib/getter';
+import { selector } from '../../lib/selector';
+
 
 /**
  * @class
@@ -47,47 +46,47 @@ export default class ExtensionPhoneNumber extends DataFetcher {
     this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
   }
 
-  @getter
-  numbers = createSelector(
+  @selector
+  numbers = [
     () => this.data,
     data => data || [],
-  )
+  ]
 
-  @getter
-  companyNumbers = createSelector(
+  @selector
+  companyNumbers = [
     () => this.numbers,
     phoneNumbers => phoneNumbers.filter(p => p.usageType === 'CompanyNumber'),
-  )
+  ]
 
-  @getter
-  mainCompanyNumber = createSelector(
+  @selector
+  mainCompanyNumber = [
     () => this.numbers,
-    phoneNumbers => phoneNumbers.find(p => p.usageType === 'MainCompanyNumber'),
-  )
+    phoneNumbers => find(p => p.usageType === 'MainCompanyNumber', phoneNumbers),
+  ]
 
-  @getter
-  directNumbers = createSelector(
+  @selector
+  directNumbers = [
     () => this.numbers,
     phoneNumbers => phoneNumbers.filter(p => p.usageType === 'DirectNumber'),
-  )
+  ]
 
-  @getter
-  callerIdNumbers = createSelector(
+  @selector
+  callerIdNumbers = [
     () => this.numbers,
     phoneNumbers => phoneNumbers.filter(p => (
       (p.features && p.features.indexOf('CallerId') !== -1) ||
       (p.usageType === 'ForwardedNumber' && p.status === 'PortedIn')
     )),
-  )
+  ]
 
-  @getter
-  smsSenderNumbers = createSelector(
+  @selector
+  smsSenderNumbers = [
     () => this.numbers,
     phoneNumbers =>
       phoneNumbers.filter(
         p => (p.features && p.features.indexOf('SmsSender') !== -1)
       ),
-  )
+  ]
 
   get _hasPermission() {
     return !!this._rolesAndPermissions.permissions.ReadUserPhoneNumbers;

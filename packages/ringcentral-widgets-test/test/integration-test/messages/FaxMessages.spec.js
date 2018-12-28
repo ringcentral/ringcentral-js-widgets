@@ -1,8 +1,8 @@
 import messageTypes from 'ringcentral-integration/enums/messageTypes';
 import * as mock from 'ringcentral-integration/integration-test/mock';
-import ClientHistoryRequest from 'ringcentral-integration/integration-test/utils/ClientHistoryRequest';
 import messageSyncBody from 'ringcentral-integration/integration-test/mock/data/messageSync.json';
-import { ensureLogin, containsErrorMessage } from 'ringcentral-integration/integration-test/utils/HelpUtil';
+import { ensureLogin } from 'ringcentral-integration/integration-test/utils/HelpUtil';
+import { waitUntil } from 'ringcentral-integration/lib/waitUntil';
 
 import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
 import ConversationsPanel from 'ringcentral-widgets/components/ConversationsPanel';
@@ -46,7 +46,9 @@ describe('fax messages', () => {
       wrapper.update();
       panel = wrapper.find(ConversationsPanel).first();
       expect(panel.props().readFaxPermission).toEqual(false);
-      const faxTabs = panel.find(NavigationBar).props().tabs.filter(tab => tab.path === messageTypes.fax);
+      const faxTabs = panel
+        .find(NavigationBar).props().tabs
+        .filter(tab => tab.path === messageTypes.fax);
       expect(faxTabs.length).toEqual(0);
     });
     test('when have fax permission should show fax sub tab', async () => {
@@ -62,11 +64,13 @@ describe('fax messages', () => {
       wrapper.update();
       panel = wrapper.find(ConversationsPanel).first();
       expect(panel.props().readFaxPermission).toEqual(true);
-      const faxTabs = panel.find(NavigationBar).props().tabs.filter(tab => tab.path === messageTypes.fax);
+      const faxTabs = panel
+        .find(NavigationBar).props().tabs
+        .filter(tab => tab.path === messageTypes.fax);
       expect(faxTabs.length).toEqual(1);
     });
     test('when fax message sent before today should display date', async () => {
-      wrapper = await getWrapper({ shouldMockForLogin: false});
+      wrapper = await getWrapper({ shouldMockForLogin: false });
       phone = wrapper.props().phone;
       mock.restore();
       mock.mockForLogin({ mockMessageSync: false });
@@ -82,7 +86,7 @@ describe('fax messages', () => {
       Object.defineProperty(phone.tabManager, 'active', {
         value: true
       });
-     await ensureLogin(phone.auth, {
+      await ensureLogin(phone.auth, {
         username: 'test',
         password: 'test'
       });
@@ -100,7 +104,7 @@ describe('fax messages', () => {
       expect(messageItem.find('.creationTime').text()).toMatch(/\d{1,2}\/\d{1,2}\/\d{4}/g);
     });
     test('when fax message sent in today should display time', async () => {
-      wrapper = await getWrapper({ shouldMockForLogin: false});
+      wrapper = await getWrapper({ shouldMockForLogin: false });
       phone = wrapper.props().phone;
       mock.restore();
       mock.mockForLogin({ mockMessageSync: false });
@@ -131,7 +135,7 @@ describe('fax messages', () => {
       expect(messageItem.find('.creationTime').text()).toMatch(/\d\d:\d\d/g);
     });
     test('when fax message is received should show received direction', async () => {
-      wrapper = await getWrapper({ shouldMockForLogin: false});
+      wrapper = await getWrapper({ shouldMockForLogin: false });
       phone = wrapper.props().phone;
       mock.restore();
       mock.mockForLogin({ mockMessageSync: false });
@@ -168,7 +172,7 @@ describe('fax messages', () => {
       expect(messageItem.find('.details').text()).toMatch(/^Fax received/g);
     });
     test('when fax message is sent should show show sent direction', async () => {
-      wrapper = await getWrapper({ shouldMockForLogin: false});
+      wrapper = await getWrapper({ shouldMockForLogin: false });
       phone = wrapper.props().phone;
       mock.restore();
       mock.mockForLogin({ mockMessageSync: false });
@@ -207,7 +211,7 @@ describe('fax messages', () => {
     test('when authorize should display google contact in fax list', async () => {
       mock.restore();
       // mock.subscription();
-      wrapper = await getWrapper({ shouldMockForLogin: false});
+      wrapper = await getWrapper({ shouldMockForLogin: false });
       phone = wrapper.props().phone;
       Object.defineProperty(phone.tabManager, 'active', {
         value: true
@@ -481,17 +485,19 @@ describe('fax messages', () => {
       mockGenerateMessageApi({
         count: 100, messageType: 'Fax', readStatus: 'Unread', direction: 'Inbound'
       });
-      mockUpdateMessageStatusApi({
-        id: 1,
-        readStatus: 'Read',
-        messageType: 'Fax',
-      });
       Object.defineProperty(phone.tabManager, 'active', {
         value: true
       });
       await ensureLogin(phone.auth, {
         username: 'test',
         password: 'test'
+      });
+
+      await timeout(100);
+      mockUpdateMessageStatusApi({
+        id: 1,
+        readStatus: 'Read',
+        messageType: 'Fax',
       });
 
       wrapper.setProps({ phone });
@@ -508,8 +514,10 @@ describe('fax messages', () => {
 
       const markButton = wrapper.find(ConversationsPanel).find(MessageItem).at(0).find(MarkButton);
       expect(markButton).toBeDefined();
-      await markButton.simulate('click');
-      await timeout(1000);
+      // debugger;
+      // console.error('@@@ beforeClick');
+      markButton.simulate('click');
+      await waitUntil(() => phone.messageStore.faxUnreadCounts === 99);
       wrapper.update();
       expect(phone.messageStore.faxUnreadCounts).toEqual(99);
       notice = wrapper.find(ConversationsPanel).find(NavigationBar).find('.active').find('.notice');
@@ -523,17 +531,19 @@ describe('fax messages', () => {
       mockGenerateMessageApi({
         count: 100, messageType: 'Fax', readStatus: 'Unread', direction: 'Inbound'
       });
-      mockUpdateMessageStatusApi({
-        id: 1,
-        readStatus: 'Read',
-        messageType: 'Fax',
-      });
+
       Object.defineProperty(phone.tabManager, 'active', {
         value: true
       });
       await ensureLogin(phone.auth, {
         username: 'test',
         password: 'test'
+      });
+      await timeout(100);
+      mockUpdateMessageStatusApi({
+        id: 1,
+        readStatus: 'Read',
+        messageType: 'Fax',
       });
       wrapper.setProps({ phone });
       wrapper.update();
@@ -546,7 +556,7 @@ describe('fax messages', () => {
       let markButton = wrapper.find(ConversationsPanel).find(MessageItem).at(0).find(MarkButton);
       expect(markButton).toBeDefined();
       await markButton.simulate('click');
-      await timeout(1000);
+      await waitUntil(() => phone.messageStore.faxUnreadCounts === 99);
       wrapper.update();
       let notice = wrapper.find(ConversationsPanel).find(NavigationBar).find('.active').find('.notice');
       expect(notice.at(0).text()).toEqual('99');
@@ -560,7 +570,7 @@ describe('fax messages', () => {
       markButton = wrapper.find(ConversationsPanel).find(MessageItem).at(0).find(MarkButton);
       expect(markButton).toBeDefined();
       await markButton.simulate('click');
-      await timeout(1000);
+      await waitUntil(() => phone.messageStore.faxUnreadCounts === 100);
       wrapper.update();
       phone = wrapper.props().phone;
       expect(phone.messageStore.faxUnreadCounts).toEqual(100);
