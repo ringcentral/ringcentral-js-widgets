@@ -7,16 +7,11 @@ import Icon from '../Icon';
 import Ripple from './Ripple';
 
 import {
-  BUTTON_SHAP,
   BUTTON_TYPE,
-  BUTTON_ICON
+  BUTTON_ICON,
+  BUTTON_SHAPE,
+  BUTTON_COLOR,
 } from './enum';
-
-const shapStyleMap = {
-  [BUTTON_SHAP.circle]: styles.circle,
-  [BUTTON_SHAP.round]: styles.round,
-  [BUTTON_SHAP.rectangle]: styles.rectangle,
-};
 
 const IconMap = {
   // [BUTTON_ICON.download]: // <Icon type='download'></Icon>,
@@ -28,6 +23,7 @@ export default function Button({
   loading,
   shape,
   type,
+  color,
   icon,
   className,
   disabled,
@@ -36,17 +32,26 @@ export default function Button({
   tooltip,
   prefixCls,
 }) {
+  const shapStyleMap = {
+    [BUTTON_SHAPE.circle]: styles.circle,
+    [BUTTON_SHAPE.round]: styles.round,
+    [BUTTON_SHAPE.rectangle]: styles.rectangle,
+  };
   const typeStyleMap = {
     [BUTTON_TYPE.primary]: styles[`${prefixCls}-primary`],
-    [BUTTON_TYPE.warning]: styles[`${prefixCls}-warning`],
     [BUTTON_TYPE.outline]: styles[`${prefixCls}-outline`],
-    [BUTTON_TYPE.danger]: styles[`${prefixCls}-danger`],
   };
+  const colorStyleMap = {
+    [BUTTON_COLOR.warning]: styles[`${prefixCls}-warning`],
+    [BUTTON_COLOR.danger]: styles[`${prefixCls}-danger`],
+  };
+
   const classNames = classnames(
     styles[prefixCls],
     className,
     shapStyleMap[shape],
     typeStyleMap[type],
+    colorStyleMap[color],
     disabled && 'disabled'
   );
   return (
@@ -62,8 +67,10 @@ Button.propTypes = {
   loading: PropTypes.bool,
   // ['oval', 'circle' ]
   shape: PropTypes.string,
-  // ['primary', 'warning', 'outline', 'danger', 'default']
+  // ['primary', 'outline', 'default']
   type: PropTypes.string,
+  // ['warning', 'danger']
+  color: PropTypes.string,
   // ['download', 'plus', 'checked']
   icon: PropTypes.string,
   className: PropTypes.string,

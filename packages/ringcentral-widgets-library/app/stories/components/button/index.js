@@ -39,12 +39,20 @@ storiesOf('Elements/Button', module)
       'circle'
     ];
     const shape = select(label2, shapOptions, 'default');
+
+    const label3 = 'colors';
+    const colorOptions = [
+      'warning',
+      'danger'
+    ];
+    const color = select(label3, colorOptions, 'warning');
     const Ripple = Button.Ripple;
     return (
       <Ripple>
         <Button
           type={type}
           shape={shape}
+          color={color}
           tooltip={tooltip}
         >
           {children}
