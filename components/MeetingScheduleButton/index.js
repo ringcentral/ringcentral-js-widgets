@@ -76,9 +76,9 @@ var MeetingScheduleButton = (_temp = _class = function (_PureComponent) {
       return _i18n2.default.getString('prompt');
     }
   }, {
-    key: 'getI18nLanuchMeetingString',
-    value: function getI18nLanuchMeetingString() {
-      return _i18n2.default.getString('lanuchMeeting');
+    key: 'getI18nLaunchMeetingString',
+    value: function getI18nLaunchMeetingString() {
+      return _i18n2.default.getString('launchMeeting');
     }
   }, {
     key: 'render',
@@ -108,9 +108,9 @@ var MeetingScheduleButton = (_temp = _class = function (_PureComponent) {
             onClick: launchMeeting,
             disabled: disabled,
             className: (0, _classnames3.default)(_styles2.default.button, disabled ? _styles2.default.disabled : null, _styles2.default.launchMeetingButton),
-            dataSign: 'lanuchMeetingButton'
+            dataSign: 'launchMeetingButton'
           },
-          this.getI18nLanuchMeetingString()
+          this.getI18nLaunchMeetingString()
         ) : null,
         _react2.default.createElement(
           _Button2.default,

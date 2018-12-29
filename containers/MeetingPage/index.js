@@ -71,9 +71,10 @@ function mapToFunctions(_, _ref2) {
                 return _context.abrupt('return');
 
               case 4:
-                meeting.schedule(meetingInfo, {}, opener);
+                _context.next = 6;
+                return meeting.schedule(meetingInfo, {}, opener);
 
-              case 5:
+              case 6:
               case 'end':
                 return _context.stop();
             }

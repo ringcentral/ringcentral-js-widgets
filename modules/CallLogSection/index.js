@@ -63,11 +63,7 @@ var _ensureExist = require('ringcentral-integration/lib/ensureExist');
 
 var _ensureExist2 = _interopRequireDefault(_ensureExist);
 
-var _getter = require('ringcentral-integration/lib/getter');
-
-var _getter2 = _interopRequireDefault(_getter);
-
-var _reselect = require('reselect');
+var _selector = require('ringcentral-integration/lib/selector');
 
 var _getCallLogSectionReducer = require('./getCallLogSectionReducer');
 
@@ -534,12 +530,12 @@ var CallLogSection = (_dec = (0, _di.Module)({
     }
   }]);
   return CallLogSection;
-}(_RcModule3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'calls', [_getter2.default], {
+}(_RcModule3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'calls', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this2 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this2.callsList;
     }, function () {
       return _this2.callsMapping;
@@ -547,18 +543,18 @@ var CallLogSection = (_dec = (0, _di.Module)({
       return list.map(function (identify) {
         return mapping[identify];
       });
-    });
+    }];
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'callsMapping', [_getter2.default], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'callsMapping', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this3 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this3._callsMapping;
     }, function () {
       return _this3._callsSavingStatus;
-    }, (0, _ramda.converge)((0, _ramda.mergeWith)((0, _ramda.flip)((0, _ramda.assoc)('isSaving'))), [_ramda.identity, (0, _ramda.useWith)(_ramda.pick, [_ramda.keys, _ramda.identity])]));
+    }, (0, _ramda.converge)((0, _ramda.mergeWith)((0, _ramda.flip)((0, _ramda.assoc)('isSaving'))), [_ramda.identity, (0, _ramda.useWith)(_ramda.pick, [_ramda.keys, _ramda.identity])])];
   }
 })), _class2)) || _class);
 exports.default = CallLogSection;

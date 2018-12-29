@@ -77,11 +77,7 @@ var _formatNumber = require('ringcentral-integration/lib/formatNumber');
 
 var _formatNumber2 = _interopRequireDefault(_formatNumber);
 
-var _reselect = require('reselect');
-
-var _getter = require('ringcentral-integration/lib/getter');
-
-var _getter2 = _interopRequireDefault(_getter);
+var _selector = require('ringcentral-integration/lib/selector');
 
 var _RcUIModule2 = require('../../lib/RcUIModule');
 
@@ -588,16 +584,16 @@ var DialerUI = (_dec = (0, _di.Module)({
     }
   }]);
   return DialerUI;
-}(_RcUIModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'clearToNumberField', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'clearToNumberField'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setToNumberField', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setToNumberField'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setRecipient', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setRecipient'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'clearRecipient', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'clearRecipient'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'call', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'call'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onCallButtonClick', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onCallButtonClick'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'searchContactList', [_getter2.default], {
+}(_RcUIModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'clearToNumberField', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'clearToNumberField'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setToNumberField', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setToNumberField'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setRecipient', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setRecipient'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'clearRecipient', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'clearRecipient'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'call', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'call'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onCallButtonClick', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onCallButtonClick'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'searchContactList', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this3 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this3._contactSearch && _this3._contactSearch.sortedResult;
     }, function (sortedResult) {
       return sortedResult || [];
-    });
+    }];
   }
 })), _class2)) || _class);
 exports.default = DialerUI;
