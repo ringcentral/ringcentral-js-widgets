@@ -55,8 +55,6 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
 
-var _reselect = require('reselect');
-
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
@@ -89,9 +87,7 @@ var _proxify = require('../../lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
 
-var _getter = require('../../lib/getter');
-
-var _getter2 = _interopRequireDefault(_getter);
+var _selector = require('../../lib/selector');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -661,12 +657,12 @@ var CallingSettings = (_dec = (0, _di.Module)({
     }
   }]);
   return CallingSettings;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, '_initFromNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_initFromNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateFromNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateFromNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_setSoftPhoneToCallWith', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_setSoftPhoneToCallWith'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_validateSettings', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_validateSettings'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_warningEmergencyCallingNotAvailable', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_warningEmergencyCallingNotAvailable'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'callWithOptions', [_getter2.default], {
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, '_initFromNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_initFromNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateFromNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateFromNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_setSoftPhoneToCallWith', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_setSoftPhoneToCallWith'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_validateSettings', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_validateSettings'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_warningEmergencyCallingNotAvailable', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_warningEmergencyCallingNotAvailable'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'callWithOptions', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this3 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this3._rolesAndPermissions.ringoutEnabled;
     }, function () {
       return _this3._rolesAndPermissions.webphoneEnabled;
@@ -691,14 +687,14 @@ var CallingSettings = (_dec = (0, _di.Module)({
         callWithOptions.push(_callingOptions2.default.customphone);
       }
       return callWithOptions;
-    });
+    }];
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'myPhoneNumbers', [_getter2.default], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'myPhoneNumbers', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this4 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this4._extensionPhoneNumber.directNumbers;
     }, function () {
       return _this4._extensionPhoneNumber.mainCompanyNumber;
@@ -712,14 +708,14 @@ var CallingSettings = (_dec = (0, _di.Module)({
         myPhoneNumbers.push(mainCompanyNumber.phoneNumber + '*' + extensionNumber);
       }
       return myPhoneNumbers;
-    });
+    }];
   }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'otherPhoneNumbers', [_getter2.default], {
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'otherPhoneNumbers', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this5 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this5._forwardingNumber.flipNumbers;
     }, function () {
       return _this5._extensionPhoneNumber.callerIdNumbers;
@@ -740,14 +736,14 @@ var CallingSettings = (_dec = (0, _di.Module)({
       }).map(function (item) {
         return item.phoneNumber;
       });
-    });
+    }];
   }
-}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'availableNumbers', [_getter2.default], {
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'availableNumbers', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this6 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this6.myPhoneNumbers;
     }, function () {
       return _this6.otherPhoneNumbers;
@@ -755,21 +751,21 @@ var CallingSettings = (_dec = (0, _di.Module)({
       var _ref11;
 
       return _ref11 = {}, (0, _defineProperty5.default)(_ref11, _callingOptions2.default.myphone, myPhoneNumbers), (0, _defineProperty5.default)(_ref11, _callingOptions2.default.otherphone, otherPhoneNumbers), _ref11;
-    });
+    }];
   }
-}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'fromNumbers', [_getter2.default], {
+}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'fromNumbers', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this7 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this7._extensionPhoneNumber.callerIdNumbers;
     }, function (phoneNumbers) {
       return phoneNumbers.sort(function (firstItem, lastItem) {
         if (firstItem.usageType === 'DirectNumber') return -1;else if (lastItem.usageType === 'DirectNumber') return 1;else if (firstItem.usageType === 'MainCompanyNumber') return -1;else if (lastItem.usageType === 'MainCompanyNumber') return 1;else if (firstItem.usageType < lastItem.usageType) return -1;else if (firstItem.usageType > lastItem.usageType) return 1;
         return 0;
       });
-    });
+    }];
   }
 }), _applyDecoratedDescriptor(_class2.prototype, 'setData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setData'), _class2.prototype)), _class2)) || _class);
 exports.default = CallingSettings;

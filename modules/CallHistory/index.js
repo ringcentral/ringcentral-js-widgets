@@ -55,8 +55,6 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
 
-var _reselect = require('reselect');
-
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
@@ -85,10 +83,6 @@ var _normalizeNumber = require('../../lib/normalizeNumber');
 
 var _normalizeNumber2 = _interopRequireDefault(_normalizeNumber);
 
-var _getter = require('../../lib/getter');
-
-var _getter2 = _interopRequireDefault(_getter);
-
 var _proxify = require('../../lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
@@ -96,6 +90,8 @@ var _proxify2 = _interopRequireDefault(_proxify);
 var _debounce = require('../../lib/debounce');
 
 var _debounce2 = _interopRequireDefault(_debounce);
+
+var _selector = require('../../lib/selector');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -525,12 +521,12 @@ var CallHistory = (_dec = (0, _di.Module)({
     }
   }]);
   return CallHistory;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'onClickToSMS', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onClickToSMS'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onClickToCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onClickToCall'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateSearchInput', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateSearchInput'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'normalizedCalls', [_getter2.default], {
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'onClickToSMS', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onClickToSMS'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onClickToCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onClickToCall'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateSearchInput', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateSearchInput'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'normalizedCalls', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this3 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this3._callLog.calls;
     }, function () {
       return _this3._accountInfo.countryCode;
@@ -555,14 +551,14 @@ var CallHistory = (_dec = (0, _di.Module)({
           to: callTo
         });
       }).sort(_callLogHelpers.sortByStartTime);
-    });
+    }];
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'calls', [_getter2.default], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'calls', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this4 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this4.normalizedCalls;
     }, function () {
       return _this4.recentlyEndedCalls;
@@ -608,14 +604,14 @@ var CallHistory = (_dec = (0, _di.Module)({
         });
       });
       return [].concat((0, _toConsumableArray3.default)(filteredEndedCalls), (0, _toConsumableArray3.default)(calls)).sort(_callLogHelpers.sortByStartTime);
-    });
+    }];
   }
-}), _applyDecoratedDescriptor(_class2.prototype, 'debouncedSearch', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'debouncedSearch'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'callsSearch', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'callsSearch'), _class2.prototype), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'latestCalls', [_getter2.default], {
+}), _applyDecoratedDescriptor(_class2.prototype, 'debouncedSearch', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'debouncedSearch'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'callsSearch', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'callsSearch'), _class2.prototype), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'latestCalls', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this5 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this5.filterCalls;
     }, function () {
       return _this5._activityMatcher && _this5._activityMatcher.dataMapping;
@@ -629,14 +625,14 @@ var CallHistory = (_dec = (0, _di.Module)({
         return newCalls;
       }
       return calls;
-    });
+    }];
   }
-}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'uniqueNumbers', [_getter2.default], {
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'uniqueNumbers', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this6 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this6.normalizedCalls;
     }, function () {
       return _this6.recentlyEndedCalls;
@@ -664,14 +660,14 @@ var CallHistory = (_dec = (0, _di.Module)({
       normalizedCalls.forEach(addNumbersFromCall);
       endedCalls.forEach(addNumbersFromCall);
       return output;
-    });
+    }];
   }
-}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'sessionIds', [_getter2.default], {
+}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'sessionIds', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this7 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this7._callLog.calls;
     }, function () {
       return _this7.recentlyEndedCalls;
@@ -685,7 +681,7 @@ var CallHistory = (_dec = (0, _di.Module)({
       }).map(function (call) {
         return call.sessionId;
       }));
-    });
+    }];
   }
 })), _class2)) || _class);
 exports.default = CallHistory;

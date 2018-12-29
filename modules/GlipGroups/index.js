@@ -55,8 +55,6 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9;
 
-var _reselect = require('reselect');
-
 var _di = require('../../lib/di');
 
 var _Pollable2 = require('../../lib/Pollable');
@@ -79,9 +77,7 @@ var _ensureExist = require('../../lib/ensureExist');
 
 var _ensureExist2 = _interopRequireDefault(_ensureExist);
 
-var _getter = require('../../lib/getter');
-
-var _getter2 = _interopRequireDefault(_getter);
+var _selector = require('../../lib/selector');
 
 var _proxify = require('../../lib/proxy/proxify');
 
@@ -1080,12 +1076,12 @@ var GlipGroups = (_dec = (0, _di.Module)({
     }
   }]);
   return GlipGroups;
-}(_Pollable3.default), (_applyDecoratedDescriptor(_class2.prototype, 'updateFilter', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateFilter'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateCurrentGroupId', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateCurrentGroupId'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'fetchData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'fetchData'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'startChat', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'startChat'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'allGroups', [_getter2.default], {
+}(_Pollable3.default), (_applyDecoratedDescriptor(_class2.prototype, 'updateFilter', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateFilter'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateCurrentGroupId', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateCurrentGroupId'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'fetchData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'fetchData'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'startChat', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'startChat'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'allGroups', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this3 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this3.data;
     }, function () {
       return _this3._glipPersons && _this3._glipPersons.personsMap;
@@ -1100,14 +1096,14 @@ var GlipGroups = (_dec = (0, _di.Module)({
       return (data || []).map(function (group) {
         return formatGroup(group, personsMap, postsMap, ownerId);
       });
-    });
+    }];
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'filteredGroups', [_getter2.default], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'filteredGroups', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this4 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this4.allGroups;
     }, function () {
       return _this4.searchFilter;
@@ -1136,14 +1132,14 @@ var GlipGroups = (_dec = (0, _di.Module)({
         var result = searchPosts(filterString, postsMap[group.id] || []);
         return result;
       });
-    });
+    }];
   }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'groups', [_getter2.default], {
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'groups', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this5 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this5.filteredGroups;
     }, function (filteredGroups) {
       var sortedGroups = filteredGroups.sort(function (a, b) {
@@ -1151,37 +1147,37 @@ var GlipGroups = (_dec = (0, _di.Module)({
         return a.updatedTime > b.updatedTime ? -1 : 1;
       });
       return sortedGroups;
-    });
+    }];
   }
-}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'uniqueMemberIds', [_getter2.default], {
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'uniqueMemberIds', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this6 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this6.allGroups;
-    }, getUniqueMemberIds);
+    }, getUniqueMemberIds];
   }
-}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'groupMemberIds', [_getter2.default], {
+}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'groupMemberIds', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this7 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this7.allGroups;
     }, function (groups) {
       var noTeamGroups = groups.filter(function (g) {
         return g.type !== 'Team';
       });
       return getUniqueMemberIds(noTeamGroups);
-    });
+    }];
   }
-}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, 'currentGroup', [_getter2.default], {
+}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, 'currentGroup', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this8 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this8.allGroups;
     }, function () {
       return _this8.currentGroupId;
@@ -1192,14 +1188,14 @@ var GlipGroups = (_dec = (0, _di.Module)({
         return g.id === currentGroupId;
       }) || {};
       return formatGroup(group, personsMap, undefined, _this8._auth.ownerId);
-    });
+    }];
   }
-}), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, 'currentGroupPosts', [_getter2.default], {
+}), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, 'currentGroupPosts', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this9 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       var postsMap = _this9._glipPosts && _this9._glipPosts.postsMap || {};
       return postsMap[_this9.currentGroupId];
     }, function () {
@@ -1214,14 +1210,14 @@ var GlipGroups = (_dec = (0, _di.Module)({
           creator: creator
         });
       });
-    });
+    }];
   }
-}), _descriptor8 = _applyDecoratedDescriptor(_class2.prototype, 'groupsWithUnread', [_getter2.default], {
+}), _descriptor8 = _applyDecoratedDescriptor(_class2.prototype, 'groupsWithUnread', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this10 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this10.groups;
     }, function () {
       return _this10._glipPosts && _this10._glipPosts.postsMap || {};
@@ -1237,20 +1233,20 @@ var GlipGroups = (_dec = (0, _di.Module)({
           }).length
         });
       });
-    });
+    }];
   }
-}), _descriptor9 = _applyDecoratedDescriptor(_class2.prototype, 'unreadCounts', [_getter2.default], {
+}), _descriptor9 = _applyDecoratedDescriptor(_class2.prototype, 'unreadCounts', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this11 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this11.groupsWithUnread;
     }, function (groups) {
       return groups.reduce(function (a, b) {
         return a + b.unread;
       }, 0);
-    });
+    }];
   }
 })), _class2)) || _class);
 exports.default = GlipGroups;

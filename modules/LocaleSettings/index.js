@@ -61,8 +61,6 @@ var _dec, _class, _desc, _value, _class2, _descriptor;
 
 var _i18n = require('@ringcentral-integration/i18n');
 
-var _reselect = require('reselect');
-
 var _redux = require('redux');
 
 var _RcModule2 = require('../../lib/RcModule');
@@ -87,9 +85,7 @@ var _ensureExist = require('../../lib/ensureExist');
 
 var _ensureExist2 = _interopRequireDefault(_ensureExist);
 
-var _getter = require('../../lib/getter');
-
-var _getter2 = _interopRequireDefault(_getter);
+var _selector = require('../../lib/selector');
 
 var _getModuleStatusReducer = require('../../lib/getModuleStatusReducer');
 
@@ -293,16 +289,16 @@ var LocaleSettings = (_dec = (0, _di.Module)({
     }
   }]);
   return LocaleSettings;
-}(_RcModule3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'supportedLocales', [_getter2.default], {
+}(_RcModule3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'supportedLocales', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this2 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this2._supportedLocales;
     }, function (s) {
       return s.slice().sort();
-    });
+    }];
   }
 }), _applyDecoratedDescriptor(_class2.prototype, 'saveLocale', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'saveLocale'), _class2.prototype)), _class2)) || _class);
 exports.default = LocaleSettings;

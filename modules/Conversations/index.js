@@ -55,8 +55,6 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11;
 
-var _reselect = require('reselect');
-
 var _normalizeNumber = require('../../lib/normalizeNumber');
 
 var _normalizeNumber2 = _interopRequireDefault(_normalizeNumber);
@@ -70,10 +68,6 @@ var _RcModule2 = require('../../lib/RcModule');
 var _RcModule3 = _interopRequireDefault(_RcModule2);
 
 var _di = require('../../lib/di');
-
-var _getter = require('../../lib/getter');
-
-var _getter2 = _interopRequireDefault(_getter);
 
 var _ensureExist = require('../../lib/ensureExist');
 
@@ -95,13 +89,11 @@ var _isBlank = require('../../lib/isBlank');
 
 var _isBlank2 = _interopRequireDefault(_isBlank);
 
+var _selector = require('../../lib/selector');
+
 var _messageSenderMessages = require('../MessageSender/messageSenderMessages');
 
 var _messageSenderMessages2 = _interopRequireDefault(_messageSenderMessages);
-
-var _sleep = require('../../lib/sleep');
-
-var _sleep2 = _interopRequireDefault(_sleep);
 
 var _messageHelper = require('../../lib/messageHelper');
 
@@ -160,6 +152,22 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
   }
 
   return desc;
+}
+
+function mergeMessages(messages, oldMessages) {
+  var tmp = {};
+  var currentMessages = [];
+  messages.forEach(function (element) {
+    currentMessages.push(element);
+    tmp[element.id] = 1;
+  });
+
+  oldMessages.forEach(function (element) {
+    if (!tmp[element.id]) {
+      currentMessages.push(element);
+    }
+  });
+  return currentMessages;
 }
 
 function getEarliestTime(messages) {
@@ -1154,12 +1162,12 @@ var Conversations = (_dec = (0, _di.Module)({
     }
   }]);
   return Conversations;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'updateSearchInput', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateSearchInput'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateTypeFilter', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateTypeFilter'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'fetchOldConversations', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'fetchOldConversations'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'loadNextPage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'loadNextPage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'resetCurrentPage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'resetCurrentPage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'loadConversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'loadConversation'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unloadConversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unloadConversation'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'fetchOldMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'fetchOldMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateMessageText', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateMessageText'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'replyToReceivers', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'replyToReceivers'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'deleteCoversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'deleteCoversation'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'allConversations', [_getter2.default], {
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'updateSearchInput', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateSearchInput'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateTypeFilter', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateTypeFilter'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'fetchOldConversations', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'fetchOldConversations'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'loadNextPage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'loadNextPage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'resetCurrentPage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'resetCurrentPage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'loadConversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'loadConversation'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unloadConversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unloadConversation'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'fetchOldMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'fetchOldMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateMessageText', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateMessageText'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'replyToReceivers', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'replyToReceivers'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'deleteCoversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'deleteCoversation'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'allConversations', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this4 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this4._messageStore.allConversations;
     }, function () {
       return _this4.oldConversations;
@@ -1179,44 +1187,44 @@ var Conversations = (_dec = (0, _di.Module)({
       conversations.forEach(pushConversation);
       oldConversations.forEach(pushConversation);
       return newConversations;
-    });
+    }];
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'uniqueNumbers', [_getter2.default], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'uniqueNumbers', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this5 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this5.pagingConversations;
-    }, getUniqueNumbers);
+    }, getUniqueNumbers];
   }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'allUniqueNumbers', [_getter2.default], {
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'allUniqueNumbers', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this6 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this6.allConversations;
-    }, getUniqueNumbers);
+    }, getUniqueNumbers];
   }
-}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'effectiveSearchString', [_getter2.default], {
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'effectiveSearchString', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this7 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this7.state.searchInput;
     }, function (input) {
       if (input.length >= 3) return input;
       return '';
-    });
+    }];
   }
-}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'typeFilteredConversations', [_getter2.default], {
+}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'typeFilteredConversations', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this8 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this8.allConversations;
     }, function () {
       return _this8.typeFilter;
@@ -1233,14 +1241,14 @@ var Conversations = (_dec = (0, _di.Module)({
             return (_this8._rolesAndPermissions.readTextPermissions || !(0, _messageHelper.messageIsTextMessage)(conversation)) && (_this8._rolesAndPermissions.voicemailPermissions || !(0, _messageHelper.messageIsVoicemail)(conversation)) && (_this8._rolesAndPermissions.readFaxPermissions || !(0, _messageHelper.messageIsFax)(conversation));
           });
       }
-    });
+    }];
   }
-}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, 'formatedConversations', [_getter2.default], {
+}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, 'formatedConversations', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this9 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this9.typeFilteredConversations;
     }, function () {
       return _this9._extensionInfo.extensionNumber;
@@ -1302,14 +1310,14 @@ var Conversations = (_dec = (0, _di.Module)({
           lastMatchedCorrespondentEntity: _this9._conversationLogger && _this9._conversationLogger.getLastMatchedCorrespondentEntity(message) || null
         });
       });
-    });
+    }];
   }
-}), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, 'filteredConversations', [_getter2.default], {
+}), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, 'filteredConversations', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this10 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this10.formatedConversations;
     }, function () {
       return _this10.effectiveSearchString;
@@ -1372,37 +1380,37 @@ var Conversations = (_dec = (0, _di.Module)({
         }
       });
       return searchResults.sort(_messageHelper.sortSearchResults);
-    });
+    }];
   }
-}), _descriptor8 = _applyDecoratedDescriptor(_class2.prototype, 'pagingConversations', [_getter2.default], {
+}), _descriptor8 = _applyDecoratedDescriptor(_class2.prototype, 'pagingConversations', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this11 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this11.filteredConversations;
     }, function () {
       return _this11.currentPage;
     }, function (conversations, pageNumber) {
       var lastIndex = pageNumber * _this11._perPage;
       return conversations.slice(0, lastIndex);
-    });
+    }];
   }
-}), _descriptor9 = _applyDecoratedDescriptor(_class2.prototype, 'earliestTime', [_getter2.default], {
+}), _descriptor9 = _applyDecoratedDescriptor(_class2.prototype, 'earliestTime', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this12 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this12.typeFilteredConversations;
-    }, getEarliestTime);
+    }, getEarliestTime];
   }
-}), _descriptor10 = _applyDecoratedDescriptor(_class2.prototype, 'currentConversation', [_getter2.default], {
+}), _descriptor10 = _applyDecoratedDescriptor(_class2.prototype, 'currentConversation', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this13 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this13.currentConversationId;
     }, function () {
       return _this13._extensionInfo.extensionNumber;
@@ -1426,7 +1434,7 @@ var Conversations = (_dec = (0, _di.Module)({
       });
       var messages = [].concat(conversationStore[conversationId] || []);
       var currentConversation = (0, _extends3.default)({}, conversation);
-      var allMessages = messages.concat(oldMessages).map(function (m) {
+      var allMessages = mergeMessages(messages, oldMessages).map(function (m) {
         if (!_this13._showMMSAttachment) {
           return m;
         }
@@ -1459,14 +1467,14 @@ var Conversations = (_dec = (0, _di.Module)({
         myNumber: currentConversation.senderNumber
       });
       return currentConversation;
-    });
+    }];
   }
-}), _descriptor11 = _applyDecoratedDescriptor(_class2.prototype, 'messageText', [_getter2.default], {
+}), _descriptor11 = _applyDecoratedDescriptor(_class2.prototype, 'messageText', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this14 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this14.state.messageTexts;
     }, function () {
       return _this14.currentConversationId;
@@ -1475,7 +1483,7 @@ var Conversations = (_dec = (0, _di.Module)({
         return (typeof msg === 'undefined' ? 'undefined' : (0, _typeof3.default)(msg)) === 'object' && msg.conversationId === conversationId;
       });
       return res ? res.text : '';
-    });
+    }];
   }
 })), _class2)) || _class);
 exports.default = Conversations;

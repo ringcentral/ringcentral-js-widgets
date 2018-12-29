@@ -51,9 +51,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _dec, _class, _desc, _value, _class2, _descriptor;
 
-require('core-js/fn/array/find');
-
-var _reselect = require('reselect');
+var _ramda = require('ramda');
 
 var _RcModule2 = require('../../lib/RcModule');
 
@@ -85,9 +83,7 @@ var _proxify = require('../../lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
 
-var _getter = require('../../lib/getter');
-
-var _getter2 = _interopRequireDefault(_getter);
+var _selector = require('../../lib/selector');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -285,18 +281,18 @@ var RegionSettings = (_dec = (0, _di.Module)({
               case 0:
                 countryCode = this._storage.getItem(this._countryCodeKey);
 
-                if (countryCode && !this.availableCountries.find(function (plan) {
+                if (countryCode && !(0, _ramda.find)(function (plan) {
                   return plan.isoCode === countryCode;
-                })) {
+                }, this.availableCountries)) {
                   countryCode = null;
                   if (this._brand.id === '1210') {
                     this._alertSettingsChanged();
                   }
                 }
                 if (!countryCode) {
-                  country = this.availableCountries.find(function (plan) {
+                  country = (0, _ramda.find)(function (plan) {
                     return plan.isoCode === _this3._extensionInfo.country.isoCode;
-                  }) || this.availableCountries[0];
+                  }, this.availableCountries) || this.availableCountries[0];
 
                   countryCode = country && country.isoCode;
                   this.store.dispatch({
@@ -411,12 +407,12 @@ var RegionSettings = (_dec = (0, _di.Module)({
     }
   }]);
   return RegionSettings;
-}(_RcModule3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'availableCountries', [_getter2.default], {
+}(_RcModule3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'availableCountries', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this4 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this4._dialingPlan.plans;
     }, function () {
       return _this4._extensionInfo.country;
@@ -425,7 +421,7 @@ var RegionSettings = (_dec = (0, _di.Module)({
         return plans;
       }
       return country && [country] || [];
-    });
+    }];
   }
 }), _applyDecoratedDescriptor(_class2.prototype, 'checkRegionSettings', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'checkRegionSettings'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setData'), _class2.prototype)), _class2)) || _class);
 exports.default = RegionSettings;

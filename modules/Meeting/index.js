@@ -17,6 +17,14 @@ var _getIterator2 = require('babel-runtime/core-js/get-iterator');
 
 var _getIterator3 = _interopRequireDefault(_getIterator2);
 
+var _promise = require('babel-runtime/core-js/promise');
+
+var _promise2 = _interopRequireDefault(_promise);
+
+var _slicedToArray2 = require('babel-runtime/helpers/slicedToArray');
+
+var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
+
 var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
@@ -322,7 +330,7 @@ var Meeting = (_dec = (0, _di.Module)({
 
         var opener = arguments[2];
 
-        var formattedMeeting, resp, serviceInfo, mobileDialingNumberTpl, phoneDialingNumberTpl, result, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, error, _errors$apiResponse$j, errorCode, permissionName;
+        var formattedMeeting, _ref6, _ref7, resp, serviceInfo, mobileDialingNumberTpl, phoneDialingNumberTpl, result, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, error, _errors$apiResponse$j, errorCode, permissionName;
 
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -346,15 +354,14 @@ var Meeting = (_dec = (0, _di.Module)({
                 this._validate(meeting);
                 formattedMeeting = this._format(meeting);
                 _context.next = 9;
-                return this._client.account().extension().meeting().post(formattedMeeting);
+                return _promise2.default.all([this._client.account().extension().meeting().post(formattedMeeting), this._client.account().extension().meeting().serviceInfo().get()]);
 
               case 9:
-                resp = _context.sent;
-                _context.next = 12;
-                return this._client.account().extension().meeting().serviceInfo().get();
+                _ref6 = _context.sent;
+                _ref7 = (0, _slicedToArray3.default)(_ref6, 2);
+                resp = _ref7[0];
+                serviceInfo = _ref7[1];
 
-              case 12:
-                serviceInfo = _context.sent;
 
                 this.store.dispatch({
                   type: this.actionTypes.scheduled,

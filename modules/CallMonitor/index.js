@@ -53,8 +53,6 @@ var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor
 
 require('core-js/fn/array/find');
 
-var _reselect = require('reselect');
-
 var _di = require('../../lib/di');
 
 var _RcModule2 = require('../../lib/RcModule');
@@ -83,9 +81,7 @@ var _normalizeNumber2 = _interopRequireDefault(_normalizeNumber);
 
 var _callMonitorHelper = require('./callMonitorHelper');
 
-var _getter = require('../../lib/getter');
-
-var _getter2 = _interopRequireDefault(_getter);
+var _selector = require('../../lib/selector');
 
 var _callLogHelpers = require('../../lib/callLogHelpers');
 
@@ -716,44 +712,44 @@ var CallMonitor = (_dec = (0, _di.Module)({
     }
   }]);
   return CallMonitor;
-}(_RcModule3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'ringoutRingCalls', [_getter2.default], {
+}(_RcModule3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'ringoutRingCalls', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this4 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this4.otherDeviceCalls;
     }, function (otherDeviceCalls) {
       return otherDeviceCalls.filter(function (callItem) {
         return (0, _callLogHelpers.isRingingInboundCall)(callItem);
       });
-    });
+    }];
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'ringoutCurrentCalls', [_getter2.default], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'ringoutCurrentCalls', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this5 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this5.otherDeviceCalls;
     }, function (otherDeviceCalls) {
       return otherDeviceCalls.filter(function (callItem) {
         return !(0, _callLogHelpers.isRingingInboundCall)(callItem) && !(0, _callLogHelpers.isOnHold)(callItem);
       });
-    });
+    }];
   }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'ringoutOnHoldCalls', [_getter2.default], {
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'ringoutOnHoldCalls', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this6 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this6.otherDeviceCalls;
     }, function (otherDeviceCalls) {
       return otherDeviceCalls.filter(function (callItem) {
         return (0, _callLogHelpers.isOnHold)(callItem);
       });
-    });
+    }];
   }
 })), _class2)) || _class);
 exports.default = CallMonitor;

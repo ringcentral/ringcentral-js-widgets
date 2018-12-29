@@ -47,17 +47,13 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _dec, _class, _desc, _value, _class2, _descriptor;
 
-var _reselect = require('reselect');
-
 var _di = require('../../lib/di');
 
 var _DataFetcher2 = require('../../lib/DataFetcher');
 
 var _DataFetcher3 = _interopRequireDefault(_DataFetcher2);
 
-var _getter = require('../../lib/getter');
-
-var _getter2 = _interopRequireDefault(_getter);
+var _selector = require('../../lib/selector');
 
 var _ensureExist = require('../../lib/ensureExist');
 
@@ -195,16 +191,16 @@ var GlipCompany = (_dec = (0, _di.Module)({
     }
   }]);
   return GlipCompany;
-}(_DataFetcher3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'info', [_getter2.default], {
+}(_DataFetcher3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'info', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this3 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this3.data;
     }, function (data) {
       return data || {};
-    });
+    }];
   }
 })), _class2)) || _class);
 exports.default = GlipCompany;

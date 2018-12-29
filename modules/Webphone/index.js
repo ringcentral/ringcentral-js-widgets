@@ -73,8 +73,6 @@ var _dec, _class, _desc, _value, _class2, _descriptor;
 
 var _ramda = require('ramda');
 
-var _reselect = require('reselect');
-
 var _ringcentralWebPhone = require('ringcentral-web-phone');
 
 var _ringcentralWebPhone2 = _interopRequireDefault(_ringcentralWebPhone);
@@ -137,9 +135,7 @@ var _proxify = require('../../lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
 
-var _getter = require('../../lib/getter');
-
-var _getter2 = _interopRequireDefault(_getter);
+var _selector = require('../../lib/selector');
 
 var _Enum = require('../../lib/Enum');
 
@@ -1536,18 +1532,38 @@ var Webphone = (_dec = (0, _di.Module)({
                             return _context15.abrupt('return');
 
                           case 4:
-                            _context15.next = 6;
-                            return session.hold();
+                            if (!(session.__rc_callStatus === _sessionStatus2.default.connecting)) {
+                              _context15.next = 6;
+                              break;
+                            }
+
+                            return _context15.abrupt('return');
 
                           case 6:
+                            _context15.prev = 6;
+                            _context15.next = 9;
+                            return session.hold();
+
+                          case 9:
+                            _context15.next = 15;
+                            break;
+
+                          case 11:
+                            _context15.prev = 11;
+                            _context15.t0 = _context15['catch'](6);
+
+                            console.error('Hold call fail');
+                            throw _context15.t0;
+
+                          case 15:
                             session.__rc_callStatus = _sessionStatus2.default.onHold;
 
-                          case 7:
+                          case 16:
                           case 'end':
                             return _context15.stop();
                         }
                       }
-                    }, _callee15, _this10);
+                    }, _callee15, _this10, [[6, 11]]);
                   }));
 
                   return function (_x12) {
@@ -2865,18 +2881,18 @@ var Webphone = (_dec = (0, _di.Module)({
     }
   }]);
   return Webphone;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, '_sipProvision', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_sipProvision'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_connect', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_connect'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'connect', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'connect'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'disconnect', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'disconnect'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'answer', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'answer'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'reject', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'reject'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'resume', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'resume'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'forward', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'forward'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'mute', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'mute'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unmute', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unmute'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hold', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'hold'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unhold', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unhold'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'startRecord', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'startRecord'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'stopRecord', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'stopRecord'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'park', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'park'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'transfer', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'transfer'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'transferWarm', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'transferWarm'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'flip', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'flip'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_sendDTMF', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_sendDTMF'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'sendDTMF', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'sendDTMF'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hangup', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'hangup'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'toVoiceMail', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'toVoiceMail'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'replyWithMessage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'replyWithMessage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'makeCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'makeCall'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateSessionMatchedContact', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateSessionMatchedContact'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setSessionCaching', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setSessionCaching'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'clearSessionCaching', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'clearSessionCaching'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'toggleMinimized', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'toggleMinimized'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'showAlert', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'showAlert'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'ringingCallOnView', [_getter2.default], {
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, '_sipProvision', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_sipProvision'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_connect', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_connect'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'connect', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'connect'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'disconnect', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'disconnect'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'answer', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'answer'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'reject', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'reject'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'resume', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'resume'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'forward', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'forward'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'mute', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'mute'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unmute', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unmute'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hold', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'hold'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unhold', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unhold'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'startRecord', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'startRecord'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'stopRecord', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'stopRecord'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'park', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'park'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'transfer', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'transfer'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'transferWarm', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'transferWarm'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'flip', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'flip'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_sendDTMF', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_sendDTMF'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'sendDTMF', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'sendDTMF'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'hangup', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'hangup'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'toVoiceMail', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'toVoiceMail'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'replyWithMessage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'replyWithMessage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'makeCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'makeCall'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateSessionMatchedContact', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateSessionMatchedContact'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setSessionCaching', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setSessionCaching'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'clearSessionCaching', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'clearSessionCaching'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'toggleMinimized', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'toggleMinimized'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'showAlert', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'showAlert'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'ringingCallOnView', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this21 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this21.ringSessions;
     }, function (sessions) {
       return (0, _ramda.find)(function (session) {
         return !session.minimized;
       }, sessions);
-    });
+    }];
   }
 })), _class2)) || _class);
 exports.default = Webphone;

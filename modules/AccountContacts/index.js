@@ -55,8 +55,6 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _dec, _class, _desc, _value, _class2, _descriptor;
 
-var _reselect = require('reselect');
-
 var _ramda = require('ramda');
 
 var _phoneTypes = require('../../enums/phoneTypes');
@@ -85,9 +83,7 @@ var _proxify = require('../../lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
 
-var _getter = require('../../lib/getter');
-
-var _getter2 = _interopRequireDefault(_getter);
+var _selector = require('../../lib/selector');
 
 var _actionTypes = require('./actionTypes');
 
@@ -542,12 +538,12 @@ var AccountContacts = (_dec = (0, _di.Module)({
     }
   }]);
   return AccountContacts;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'getProfileImage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getProfileImage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getPresence', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getPresence'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'contacts', [_getter2.default], {
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'getProfileImage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getProfileImage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getPresence', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getPresence'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'contacts', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this4 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this4._accountExtension.availableExtensions;
     }, function () {
       return _this4._accountPhoneNumber.extensionToPhoneNumberMap;
@@ -584,7 +580,7 @@ var AccountContacts = (_dec = (0, _di.Module)({
         result.push(contact);
         return result;
       }, [], extensions);
-    });
+    }];
   }
 })), _class2)) || _class);
 exports.default = AccountContacts;

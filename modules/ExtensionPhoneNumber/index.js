@@ -47,9 +47,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6;
 
-require('core-js/fn/array/find');
-
-var _reselect = require('reselect');
+var _ramda = require('ramda');
 
 var _di = require('../../lib/di');
 
@@ -69,9 +67,7 @@ var _ensureExist = require('../../lib/ensureExist');
 
 var _ensureExist2 = _interopRequireDefault(_ensureExist);
 
-var _getter = require('../../lib/getter');
-
-var _getter2 = _interopRequireDefault(_getter);
+var _selector = require('../../lib/selector');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -206,81 +202,81 @@ var ExtensionPhoneNumber = (_dec = (0, _di.Module)({
     }
   }]);
   return ExtensionPhoneNumber;
-}(_DataFetcher3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'numbers', [_getter2.default], {
+}(_DataFetcher3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'numbers', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this3 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this3.data;
     }, function (data) {
       return data || [];
-    });
+    }];
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'companyNumbers', [_getter2.default], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'companyNumbers', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this4 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this4.numbers;
     }, function (phoneNumbers) {
       return phoneNumbers.filter(function (p) {
         return p.usageType === 'CompanyNumber';
       });
-    });
+    }];
   }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'mainCompanyNumber', [_getter2.default], {
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'mainCompanyNumber', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this5 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this5.numbers;
     }, function (phoneNumbers) {
-      return phoneNumbers.find(function (p) {
+      return (0, _ramda.find)(function (p) {
         return p.usageType === 'MainCompanyNumber';
-      });
-    });
+      }, phoneNumbers);
+    }];
   }
-}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'directNumbers', [_getter2.default], {
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'directNumbers', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this6 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this6.numbers;
     }, function (phoneNumbers) {
       return phoneNumbers.filter(function (p) {
         return p.usageType === 'DirectNumber';
       });
-    });
+    }];
   }
-}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'callerIdNumbers', [_getter2.default], {
+}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'callerIdNumbers', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this7 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this7.numbers;
     }, function (phoneNumbers) {
       return phoneNumbers.filter(function (p) {
         return p.features && p.features.indexOf('CallerId') !== -1 || p.usageType === 'ForwardedNumber' && p.status === 'PortedIn';
       });
-    });
+    }];
   }
-}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, 'smsSenderNumbers', [_getter2.default], {
+}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, 'smsSenderNumbers', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this8 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this8.numbers;
     }, function (phoneNumbers) {
       return phoneNumbers.filter(function (p) {
         return p.features && p.features.indexOf('SmsSender') !== -1;
       });
-    });
+    }];
   }
 })), _class2)) || _class);
 exports.default = ExtensionPhoneNumber;

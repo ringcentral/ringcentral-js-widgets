@@ -47,8 +47,6 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _dec, _class, _desc, _value, _class2, _descriptor;
 
-var _reselect = require('reselect');
-
 var _di = require('../../lib/di');
 
 var _fetchList = require('../../lib/fetchList');
@@ -67,9 +65,7 @@ var _ensureExist = require('../../lib/ensureExist');
 
 var _ensureExist2 = _interopRequireDefault(_ensureExist);
 
-var _getter = require('../../lib/getter');
-
-var _getter2 = _interopRequireDefault(_getter);
+var _selector = require('../../lib/selector');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -235,16 +231,16 @@ var DialingPlan = (_dec = (0, _di.Module)({
     }
   }]);
   return DialingPlan;
-}(_DataFetcher3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'plans', [_getter2.default], {
+}(_DataFetcher3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'plans', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this3 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this3.data;
     }, function (data) {
       return data || [];
-    });
+    }];
   }
 })), _class2)) || _class);
 exports.default = DialingPlan;

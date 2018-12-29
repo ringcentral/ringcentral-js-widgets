@@ -63,11 +63,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
 
-var _reselect = require('reselect');
-
-var _getter = require('../../lib/getter');
-
-var _getter2 = _interopRequireDefault(_getter);
+var _selector = require('../../lib/selector');
 
 var _RcModule2 = require('../../lib/RcModule');
 
@@ -637,12 +633,12 @@ var Contacts = (_dec = (0, _di.Module)({
     }
   }]);
   return Contacts;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'updateFilter', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateFilter'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProfileImage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getProfileImage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getPresence', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getPresence'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'sync', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'sync'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'sourceNames', [_getter2.default], {
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'updateFilter', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateFilter'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProfileImage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getProfileImage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getPresence', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getPresence'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'sync', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'sync'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'sourceNames', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this4 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this4._contactSources.size;
     }, function () {
       return _this4._checkSourceUpdated();
@@ -677,14 +673,14 @@ var Contacts = (_dec = (0, _di.Module)({
       }
 
       return names;
-    });
+    }];
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'allContacts', [_getter2.default], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'allContacts', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this5 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this5._checkSourceUpdated();
     }, function () {
       var contacts = [];
@@ -717,25 +713,25 @@ var Contacts = (_dec = (0, _di.Module)({
       }
 
       return contacts;
-    });
+    }];
   }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'contactGroups', [_getter2.default], {
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'contactGroups', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this6 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this6.filteredContacts;
     }, function (filteredContacts) {
       return (0, _contactHelper.groupByFirstLetterOfName)((0, _contactHelper.sortContactItemsByName)((0, _contactHelper.uniqueContactItems)(filteredContacts)));
-    });
+    }];
   }
-}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'filteredContacts', [_getter2.default], {
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'filteredContacts', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this7 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this7.searchFilter;
     }, function () {
       return _this7.sourceFilter;
@@ -761,7 +757,7 @@ var Contacts = (_dec = (0, _di.Module)({
         contacts = (0, _contactHelper.filterContacts)(contacts, searchFilter);
       }
       return contacts;
-    });
+    }];
   }
 })), _class2)) || _class);
 exports.default = Contacts;

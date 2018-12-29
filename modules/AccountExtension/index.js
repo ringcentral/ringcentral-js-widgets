@@ -57,8 +57,6 @@ var _dec, _class, _desc, _value, _class2, _descriptor;
 
 var _ramda = require('ramda');
 
-var _reselect = require('reselect');
-
 var _di = require('../../lib/di');
 
 var _DataFetcher2 = require('../../lib/DataFetcher');
@@ -73,9 +71,7 @@ var _ensureExist = require('../../lib/ensureExist');
 
 var _ensureExist2 = _interopRequireDefault(_ensureExist);
 
-var _getter = require('../../lib/getter');
-
-var _getter2 = _interopRequireDefault(_getter);
+var _selector = require('../../lib/selector');
 
 var _actionTypes = require('./actionTypes');
 
@@ -487,16 +483,16 @@ var AccountExtension = (_dec = (0, _di.Module)({
     }
   }]);
   return AccountExtension;
-}(_DataFetcher3.default), (_applyDecoratedDescriptor(_class2.prototype, '_fetchExtensionData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_fetchExtensionData'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'availableExtensions', [_getter2.default], {
+}(_DataFetcher3.default), (_applyDecoratedDescriptor(_class2.prototype, '_fetchExtensionData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_fetchExtensionData'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'availableExtensions', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this3 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this3.data;
     }, function (data) {
       return data || [];
-    });
+    }];
   }
 })), _class2)) || _class);
 exports.default = AccountExtension;

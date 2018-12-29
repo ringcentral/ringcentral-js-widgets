@@ -47,11 +47,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
 
-var _reselect = require('reselect');
-
-var _getter = require('../../lib/getter');
-
-var _getter2 = _interopRequireDefault(_getter);
+var _selector = require('../../lib/selector');
 
 var _di = require('../../lib/di');
 
@@ -1286,12 +1282,12 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
     }
   }]);
   return ActiveCallControl;
-}(_Pollable3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'callPartyIdMap', [_getter2.default], {
+}(_Pollable3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'callPartyIdMap', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this5 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this5._callMonitor.calls;
     }, function (calls) {
       return calls.reduce(function (accumulator, call) {
@@ -1301,40 +1297,40 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
         accumulator[sessionId] = partyId;
         return accumulator;
       }, {});
-    });
+    }];
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'recordingId', [_getter2.default], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'recordingId', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this6 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this6.activeSessionId;
     }, function () {
       return _this6.recordingIds;
     }, function (activeSessionId, recordingIds) {
       return recordingIds[activeSessionId];
-    });
+    }];
   }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'activeSession', [_getter2.default], {
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'activeSession', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this7 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this7.activeSessionId;
     }, function () {
       return _this7.activeSessions;
     }, function (sessionId) {
       return _this7.getActiveSession(sessionId);
-    });
+    }];
   }
-}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'activeSessions', [_getter2.default], {
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'activeSessions', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this8 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this8._callMonitor.calls;
     }, function () {
       return _this8.activeSessionsStatus;
@@ -1355,7 +1351,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
         return accumulator;
       };
       return calls.reduce(reducer, {});
-    });
+    }];
   }
 })), _class2)) || _class);
 exports.default = ActiveCallControl;

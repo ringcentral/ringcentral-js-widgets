@@ -61,6 +61,8 @@ var _dec, _class, _desc, _value, _class2, _descriptor;
 
 exports.callIdentityFunction = callIdentityFunction;
 
+var _ramda = require('ramda');
+
 var _di = require('../../lib/di');
 
 var _LoggerBase2 = require('../../lib/LoggerBase');
@@ -89,13 +91,7 @@ var _proxify = require('../../lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
 
-var _getAuthReducer = require('../Auth/getAuthReducer');
-
-var _getter = require('../../lib/getter');
-
-var _getter2 = _interopRequireDefault(_getter);
-
-var _reselect = require('reselect');
+var _selector = require('../../lib/selector');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -753,18 +749,18 @@ var CallLogger = (_dec = (0, _di.Module)({
     }
   }]);
   return CallLogger;
-}(_LoggerBase3.default), (_applyDecoratedDescriptor(_class2.prototype, 'log', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'log'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'logCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'logCall'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setAutoLog', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setAutoLog'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setLogOnRinging', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setLogOnRinging'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'transferredCallsMap', [_getter2.default], {
+}(_LoggerBase3.default), (_applyDecoratedDescriptor(_class2.prototype, 'log', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'log'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'logCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'logCall'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setAutoLog', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setAutoLog'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setLogOnRinging', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setLogOnRinging'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'transferredCallsMap', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this3 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this3.transferredCallsArr;
     }, function (transferredCallsArr) {
-      return transferredCallsArr.reduce(function (mapping, matcher) {
+      return (0, _ramda.reduce)(function (mapping, matcher) {
         return (0, _assign2.default)({}, mapping, matcher);
-      }, {});
-    });
+      }, {}, transferredCallsArr);
+    }];
   }
 })), _class2)) || _class);
 exports.default = CallLogger;

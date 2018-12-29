@@ -47,8 +47,6 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3;
 
-var _reselect = require('reselect');
-
 var _di = require('../../lib/di');
 
 var _DataFetcher2 = require('../../lib/DataFetcher');
@@ -63,9 +61,7 @@ var _ensureExist = require('../../lib/ensureExist');
 
 var _ensureExist2 = _interopRequireDefault(_ensureExist);
 
-var _getter = require('../../lib/getter');
-
-var _getter2 = _interopRequireDefault(_getter);
+var _selector = require('../../lib/selector');
 
 var _removeUri = require('../../lib/removeUri');
 
@@ -199,42 +195,42 @@ var ForwardingNumber = (_dec = (0, _di.Module)({
     }
   }]);
   return ForwardingNumber;
-}(_DataFetcher3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'numbers', [_getter2.default], {
+}(_DataFetcher3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'numbers', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this3 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this3.data;
     }, function (data) {
       return data || [];
-    });
+    }];
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'flipNumbers', [_getter2.default], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'flipNumbers', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this4 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this4.numbers;
     }, function (phoneNumbers) {
       return phoneNumbers.filter(function (p) {
         return p.features.indexOf('CallFlip') !== -1 && p.phoneNumber;
       });
-    });
+    }];
   }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'forwardingNumbers', [_getter2.default], {
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'forwardingNumbers', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this5 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this5.numbers;
     }, function (phoneNumbers) {
       return phoneNumbers.filter(function (p) {
         return p.features.indexOf('CallForwarding') !== -1 && p.phoneNumber;
       });
-    });
+    }];
   }
 })), _class2)) || _class);
 exports.default = ForwardingNumber;

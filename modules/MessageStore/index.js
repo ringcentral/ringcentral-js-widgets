@@ -59,8 +59,6 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8;
 
-var _reselect = require('reselect');
-
 var _di = require('../../lib/di');
 
 var _Pollable2 = require('../../lib/Pollable');
@@ -71,9 +69,7 @@ var _ensureExist = require('../../lib/ensureExist');
 
 var _ensureExist2 = _interopRequireDefault(_ensureExist);
 
-var _getter = require('../../lib/getter');
-
-var _getter2 = _interopRequireDefault(_getter);
+var _selector = require('../../lib/selector');
 
 var _sleep = require('../../lib/sleep');
 
@@ -1440,12 +1436,12 @@ var MessageStore = (_dec = (0, _di.Module)({
     }
   }]);
   return MessageStore;
-}(_Pollable3.default), (_applyDecoratedDescriptor(_class2.prototype, 'fetchData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'fetchData'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'pushMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'pushMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'readMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'readMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unreadMessage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unreadMessage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onUnmarkMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onUnmarkMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'deleteConversationMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'deleteConversationMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'deleteConversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'deleteConversation'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onClickToSMS', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onClickToSMS'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onClickToCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onClickToCall'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'allConversations', [_getter2.default], {
+}(_Pollable3.default), (_applyDecoratedDescriptor(_class2.prototype, 'fetchData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'fetchData'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'pushMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'pushMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'readMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'readMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unreadMessage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unreadMessage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onUnmarkMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onUnmarkMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'deleteConversationMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'deleteConversationMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'deleteConversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'deleteConversation'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onClickToSMS', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onClickToSMS'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onClickToCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onClickToCall'), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, 'allConversations', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this6 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this6.data && _this6.data.conversationList;
     }, function () {
       return _this6.conversationStore;
@@ -1458,92 +1454,92 @@ var MessageStore = (_dec = (0, _di.Module)({
           unreadCounts: messageList.filter(messageHelper.messageIsUnread).length
         });
       });
-    });
+    }];
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'textConversations', [_getter2.default], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'textConversations', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this7 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this7.allConversations;
     }, function (conversations) {
       return conversations.filter(function (conversation) {
         return messageHelper.messageIsTextMessage(conversation);
       });
-    });
+    }];
   }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'textUnreadCounts', [_getter2.default], {
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'textUnreadCounts', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this8 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this8.textConversations;
     }, function (conversations) {
       return conversations.reduce(function (a, b) {
         return a + b.unreadCounts;
       }, 0);
-    });
+    }];
   }
-}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'faxMessages', [_getter2.default], {
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'faxMessages', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this9 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this9.allConversations;
     }, function (conversations) {
       return conversations.filter(function (conversation) {
         return messageHelper.messageIsFax(conversation);
       });
-    });
+    }];
   }
-}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'faxUnreadCounts', [_getter2.default], {
+}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'faxUnreadCounts', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this10 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this10.faxMessages;
     }, function (conversations) {
       return conversations.reduce(function (a, b) {
         return a + b.unreadCounts;
       }, 0);
-    });
+    }];
   }
-}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, 'voicemailMessages', [_getter2.default], {
+}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, 'voicemailMessages', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this11 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this11.allConversations;
     }, function (conversations) {
       return conversations.filter(function (conversation) {
         return messageHelper.messageIsVoicemail(conversation);
       });
-    });
+    }];
   }
-}), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, 'voiceUnreadCounts', [_getter2.default], {
+}), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, 'voiceUnreadCounts', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this12 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this12.voicemailMessages;
     }, function (conversations) {
       return conversations.reduce(function (a, b) {
         return a + b.unreadCounts;
       }, 0);
-    });
+    }];
   }
-}), _descriptor8 = _applyDecoratedDescriptor(_class2.prototype, 'unreadCounts', [_getter2.default], {
+}), _descriptor8 = _applyDecoratedDescriptor(_class2.prototype, 'unreadCounts', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this13 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this13.voiceUnreadCounts;
     }, function () {
       return _this13.textUnreadCounts;
@@ -1561,7 +1557,7 @@ var MessageStore = (_dec = (0, _di.Module)({
         unreadCounts += faxUnreadCounts;
       }
       return unreadCounts;
-    });
+    }];
   }
 })), _class2)) || _class);
 exports.default = MessageStore;

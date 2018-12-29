@@ -47,8 +47,6 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2;
 
-var _reselect = require('reselect');
-
 var _di = require('../../lib/di');
 
 var _fetchList = require('../../lib/fetchList');
@@ -63,9 +61,7 @@ var _removeUri = require('../../lib/removeUri');
 
 var _removeUri2 = _interopRequireDefault(_removeUri);
 
-var _getter = require('../../lib/getter');
-
-var _getter2 = _interopRequireDefault(_getter);
+var _selector = require('../../lib/selector');
 
 var _ensureExist = require('../../lib/ensureExist');
 
@@ -232,23 +228,23 @@ var AccountPhoneNumber = (_dec = (0, _di.Module)({
     }
   }]);
   return AccountPhoneNumber;
-}(_DataFetcher3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'numbers', [_getter2.default], {
+}(_DataFetcher3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'numbers', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this3 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this3.data;
     }, function (data) {
       return data || [];
-    });
+    }];
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'extensionToPhoneNumberMap', [_getter2.default], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'extensionToPhoneNumberMap', [_selector.selector], {
   enumerable: true,
   initializer: function initializer() {
     var _this4 = this;
 
-    return (0, _reselect.createSelector)(function () {
+    return [function () {
       return _this4.numbers;
     }, function (numbers) {
       var numberMap = {};
@@ -261,7 +257,7 @@ var AccountPhoneNumber = (_dec = (0, _di.Module)({
         }
       });
       return numberMap;
-    });
+    }];
   }
 })), _class2)) || _class);
 exports.default = AccountPhoneNumber;
