@@ -1,6 +1,6 @@
 {
   "name": "ringcentral-integration",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "RingCentral Integration Common Javascript Core Library",
   "main": "build/rc-phone.js",
   "scripts": {
