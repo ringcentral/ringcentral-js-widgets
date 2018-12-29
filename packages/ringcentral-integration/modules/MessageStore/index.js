@@ -1,9 +1,7 @@
-import { createSelector } from 'reselect';
-
 import { Module } from '../../lib/di';
 import Pollable from '../../lib/Pollable';
 import ensureExist from '../../lib/ensureExist';
-import getter from '../../lib/getter';
+import { selector } from '../../lib/selector';
 import sleep from '../../lib/sleep';
 import proxify from '../../lib/proxy/proxify';
 import moduleStatuses from '../../enums/moduleStatuses';
@@ -708,8 +706,8 @@ export default class MessageStore extends Pollable {
     return this._rolesAndPermissions.hasReadMessagesPermission;
   }
 
-  @getter
-  allConversations = createSelector(
+  @selector
+  allConversations = [
     () => this.data && this.data.conversationList,
     () => this.conversationStore,
     (conversationList = [], conversationStore) =>
@@ -722,58 +720,58 @@ export default class MessageStore extends Pollable {
           };
         }
       )
-  )
+  ]
 
-  @getter
-  textConversations = createSelector(
+  @selector
+  textConversations = [
     () => this.allConversations,
     conversations =>
       conversations.filter(
         conversation => messageHelper.messageIsTextMessage(conversation)
       )
-  )
+  ]
 
-  @getter
-  textUnreadCounts = createSelector(
+  @selector
+  textUnreadCounts = [
     () => this.textConversations,
     conversations =>
       conversations.reduce((a, b) => a + b.unreadCounts, 0)
-  )
+  ]
 
-  @getter
-  faxMessages = createSelector(
+  @selector
+  faxMessages = [
     () => this.allConversations,
     conversations =>
       conversations.filter(
         conversation => messageHelper.messageIsFax(conversation)
       )
-  )
+  ]
 
-  @getter
-  faxUnreadCounts = createSelector(
+  @selector
+  faxUnreadCounts = [
     () => this.faxMessages,
     conversations =>
       conversations.reduce((a, b) => a + b.unreadCounts, 0)
-  )
+  ]
 
-  @getter
-  voicemailMessages = createSelector(
+  @selector
+  voicemailMessages = [
     () => this.allConversations,
     conversations =>
       conversations.filter(
         conversation => messageHelper.messageIsVoicemail(conversation)
       )
-  )
+  ]
 
-  @getter
-  voiceUnreadCounts = createSelector(
+  @selector
+  voiceUnreadCounts = [
     () => this.voicemailMessages,
     conversations =>
       conversations.reduce((a, b) => a + b.unreadCounts, 0)
-  )
+  ]
 
-  @getter
-  unreadCounts = createSelector(
+  @selector
+  unreadCounts = [
     () => this.voiceUnreadCounts,
     () => this.textUnreadCounts,
     () => this.faxUnreadCounts,
@@ -790,5 +788,5 @@ export default class MessageStore extends Pollable {
       }
       return unreadCounts;
     }
-  )
+  ]
 }

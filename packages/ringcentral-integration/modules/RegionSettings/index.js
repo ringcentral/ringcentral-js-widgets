@@ -1,6 +1,4 @@
-import 'core-js/fn/array/find';
-import { createSelector } from 'reselect';
-
+import { find } from 'ramda';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import getRegionSettingsReducer, {
@@ -12,7 +10,7 @@ import regionSettingsMessages from '../RegionSettings/regionSettingsMessages';
 import actionTypes from './actionTypes';
 import validateAreaCode from '../../lib/validateAreaCode';
 import proxify from '../../lib/proxy/proxify';
-import getter from '../../lib/getter';
+import { selector } from '../../lib/selector';
 
 /**
  * @class
@@ -118,8 +116,8 @@ export default class RegionSettings extends RcModule {
     return this.state.status === moduleStatuses.ready;
   }
 
-  @getter
-  availableCountries = createSelector(
+  @selector
+  availableCountries = [
     () => this._dialingPlan.plans,
     () => this._extensionInfo.country,
     (plans, country) => {
@@ -128,7 +126,7 @@ export default class RegionSettings extends RcModule {
       }
       return (country && [country]) || [];
     },
-  )
+  ]
 
   _alertSettingsChanged() {
     this._alert.warning({
@@ -143,9 +141,10 @@ export default class RegionSettings extends RcModule {
     let countryCode = this._storage.getItem(this._countryCodeKey);
     if (
       countryCode &&
-      !this.availableCountries.find(plan => (
-        plan.isoCode === countryCode
-      ))
+      !find(
+        plan => (plan.isoCode === countryCode),
+        this.availableCountries
+      )
     ) {
       countryCode = null;
       if (this._brand.id === '1210') {
@@ -153,9 +152,10 @@ export default class RegionSettings extends RcModule {
       }
     }
     if (!countryCode) {
-      const country = this.availableCountries.find(plan => (
-        plan.isoCode === this._extensionInfo.country.isoCode
-      )) || this.availableCountries[0];
+      const country = find(
+        plan => (plan.isoCode === this._extensionInfo.country.isoCode),
+        this.availableCountries,
+      ) || this.availableCountries[0];
       countryCode = country && country.isoCode;
       this.store.dispatch({
         type: this.actionTypes.setData,

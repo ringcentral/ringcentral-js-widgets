@@ -1,5 +1,4 @@
 import 'core-js/fn/array/find';
-import { createSelector } from 'reselect';
 import { Module } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
 import moduleStatuses from '../../enums/moduleStatuses';
@@ -8,7 +7,7 @@ import getCallMonitorReducer, { getCallMatchedReducer } from './getCallMonitorRe
 import ensureExist from '../../lib/ensureExist';
 import normalizeNumber from '../../lib/normalizeNumber';
 import { matchWephoneSessionWithAcitveCall } from './callMonitorHelper';
-import getter from '../../lib/getter';
+import { selector } from '../../lib/selector';
 
 import {
   isRinging,
@@ -600,26 +599,26 @@ export default class CallMonitor extends RcModule {
     return this._selectors.otherDeviceCalls();
   }
 
-  @getter
-  ringoutRingCalls = createSelector(
+  @selector
+  ringoutRingCalls = [
     () => this.otherDeviceCalls,
     otherDeviceCalls => otherDeviceCalls.filter(callItem =>
       isRingingInboundCall(callItem)
     )
-  );
-  @getter
-  ringoutCurrentCalls = createSelector(
+  ]
+  @selector
+  ringoutCurrentCalls = [
     () => this.otherDeviceCalls,
     otherDeviceCalls => otherDeviceCalls.filter(callItem =>
       !isRingingInboundCall(callItem) &&
       !isRingOutOnHold(callItem)
     )
-  );
-  @getter
-  ringoutOnHoldCalls = createSelector(
+  ]
+  @selector
+  ringoutOnHoldCalls = [
     () => this.otherDeviceCalls,
     otherDeviceCalls => otherDeviceCalls.filter(callItem =>
       isRingOutOnHold(callItem)
     )
-  );
+  ]
 }

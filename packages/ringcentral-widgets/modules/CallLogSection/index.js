@@ -11,8 +11,7 @@ import {
 import RcModule from 'ringcentral-integration/lib/RcModule';
 import { Module } from 'ringcentral-integration/lib/di';
 import ensureExist from 'ringcentral-integration/lib/ensureExist';
-import getter from 'ringcentral-integration/lib/getter';
-import { createSelector } from 'reselect';
+import { selector } from 'ringcentral-integration/lib/selector';
 import getCallLogSectionReducer from './getCallLogSectionReducer';
 import getStorageReducer from './getStorageReducer';
 import actionTypes from './actionTypes';
@@ -221,25 +220,25 @@ export default class CallLogSection extends RcModule {
     }
   }
 
-  @getter
-  calls = createSelector(
+  @selector
+  calls = [
     () => this.callsList,
     () => this.callsMapping,
     (list, mapping) => list.map(identify => mapping[identify])
-  );
+  ];
 
   /**
    * Merge isSaving property from reducer to callsMapping
    */
-  @getter
-  callsMapping = createSelector(
+  @selector
+  callsMapping = [
     () => this._callsMapping,
     () => this._callsSavingStatus,
     converge(
       mergeWith(flip(assoc('isSaving'))),
       [identity, useWith(pick, [keys, identity])]
     )
-  )
+  ]
 
   get callsList() {
     return this._storage.getItem(this._storageKey).callsList;

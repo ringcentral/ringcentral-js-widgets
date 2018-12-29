@@ -1,9 +1,8 @@
-import { createSelector } from 'reselect';
 import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
 import DataFetcher from '../../lib/DataFetcher';
 import removeUri from '../../lib/removeUri';
-import getter from '../../lib/getter';
+import { selector } from '../../lib/selector';
 import ensureExist from '../../lib/ensureExist';
 import { getDataReducer } from './getReducer';
 
@@ -82,14 +81,14 @@ export default class AccountPhoneNumber extends DataFetcher {
     this._rolesAndPermissions = this:: ensureExist(rolesAndPermissions, 'rolesAndPermissions');
   }
 
-  @getter
-  numbers = createSelector(
+  @selector
+  numbers = [
     () => this.data,
     data => data || [],
-  )
+  ]
 
-  @getter
-  extensionToPhoneNumberMap = createSelector(
+  @selector
+  extensionToPhoneNumberMap = [
     () => this.numbers,
     (numbers) => {
       const numberMap = {};
@@ -103,7 +102,7 @@ export default class AccountPhoneNumber extends DataFetcher {
       });
       return numberMap;
     },
-  )
+  ]
 
   get _hasPermission() {
     return !!this._rolesAndPermissions.permissions.ReadCompanyPhoneNumbers;

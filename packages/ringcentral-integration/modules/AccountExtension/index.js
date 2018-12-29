@@ -1,10 +1,9 @@
 import { find } from 'ramda';
-import { createSelector } from 'reselect';
 import { Module } from '../../lib/di';
 import DataFetcher from '../../lib/DataFetcher';
 import fetchList from '../../lib/fetchList';
 import ensureExist from '../../lib/ensureExist';
-import getter from '../../lib/getter';
+import { selector } from '../../lib/selector';
 
 import actionTypes from './actionTypes';
 import {
@@ -174,11 +173,11 @@ export default class AccountExtension extends DataFetcher {
     return this._client.account().extension(id).get();
   }
 
-  @getter
-  availableExtensions = createSelector(
+  @selector
+  availableExtensions = [
     () => this.data,
     data => data || [],
-  )
+  ]
 
   isAvailableExtension(extensionNumber) {
     return !!find(item => item.ext === extensionNumber, this.availableExtensions);

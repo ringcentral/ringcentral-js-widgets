@@ -1,5 +1,4 @@
-import { createSelector } from 'reselect';
-import getter from '../../lib/getter';
+import { selector } from '../../lib/selector';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import ensureExist from '../../lib/ensureExist';
@@ -256,8 +255,8 @@ export default class Contacts extends RcModule {
     return this.state.sourceFilter;
   }
 
-  @getter
-  sourceNames = createSelector(
+  @selector
+  sourceNames = [
     () => this._contactSources.size,
     () => this._checkSourceUpdated(),
     () => {
@@ -270,10 +269,10 @@ export default class Contacts extends RcModule {
       }
       return names;
     }
-  )
+  ]
 
-  @getter
-  allContacts = createSelector(
+  @selector
+  allContacts = [
     () => this._checkSourceUpdated(),
     () => {
       let contacts = [];
@@ -285,20 +284,20 @@ export default class Contacts extends RcModule {
       }
       return contacts;
     }
-  )
+  ]
 
-  @getter
-  contactGroups = createSelector(
+  @selector
+  contactGroups = [
     () => this.filteredContacts,
     filteredContacts => groupByFirstLetterOfName(
       sortContactItemsByName(
         uniqueContactItems(filteredContacts)
       )
     )
-  )
+  ]
 
-  @getter
-  filteredContacts = createSelector(
+  @selector
+  filteredContacts = [
     () => this.searchFilter,
     () => this.sourceFilter,
     () => this._checkSourceUpdated(),
@@ -326,5 +325,5 @@ export default class Contacts extends RcModule {
       }
       return contacts;
     }
-  )
+  ]
 }

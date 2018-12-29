@@ -1,14 +1,12 @@
 import { find } from 'ramda';
 import EventEmitter from 'event-emitter';
-import { createSelector } from 'reselect';
-import getter from '../../lib/getter';
 import { Module } from '../../lib/di';
-import { isFunction } from '../../lib/di/utils/is_type';
 import RcModule from '../../lib/RcModule';
 import proxify from '../../lib/proxy/proxify';
 import ensureExist from '../../lib/ensureExist';
 import calleeTypes from '../../enums/calleeTypes';
 import callDirections from '../../enums/callDirections';
+import { selector } from '../../lib/selector';
 
 import callingModes from '../CallingSettings/callingModes';
 import permissionsMessages from '../RolesAndPermissions/permissionsMessages';
@@ -947,8 +945,8 @@ export default class ConferenceCall extends RcModule {
     return this.state.currentConferenceId;
   }
 
-  @getter
-  lastCallInfo = createSelector(
+  @selector
+  lastCallInfo = [
     () => this._webphone.sessions,
     () => this.mergingPair.fromSessionId,
     () => this.partyProfiles,
@@ -1033,10 +1031,10 @@ export default class ConferenceCall extends RcModule {
       _fromSessionId = fromSessionId;
       return _lastCallInfo;
     },
-  );
+  ]
 
-  @getter
-  partyProfiles = createSelector(
+  @selector
+  partyProfiles = [
     () => this.currentConferenceId,
     () => this.conferences,
     (currentConferenceId, conferences) => {
@@ -1046,7 +1044,7 @@ export default class ConferenceCall extends RcModule {
       }
       return this.getOnlinePartyProfiles(currentConferenceId);
     },
-  )
+  ]
 }
 
 EventEmitter(ConferenceCall.prototype);

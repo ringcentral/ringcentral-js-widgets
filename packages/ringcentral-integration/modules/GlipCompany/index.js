@@ -1,7 +1,6 @@
-import { createSelector } from 'reselect';
 import { Module } from '../../lib/di';
 import DataFetcher from '../../lib/DataFetcher';
-import getter from '../../lib/getter';
+import { selector } from '../../lib/selector';
 import ensureExist from '../../lib/ensureExist';
 
 /**
@@ -40,11 +39,11 @@ export default class GlipCompany extends DataFetcher {
     this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
   }
 
-  @getter
-  info = createSelector(
+  @selector
+  info = [
     () => this.data,
     data => data || {},
-  )
+  ]
 
   get name() {
     return this.info.name;

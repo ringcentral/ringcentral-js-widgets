@@ -1,4 +1,3 @@
-import { createSelector } from 'reselect';
 import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import moduleStatuses from '../../enums/moduleStatuses';
@@ -7,9 +6,9 @@ import actionTypes from './actionTypes';
 import getCallHistoryReducer, { getEndedCallsReducer } from './getCallHistoryReducer';
 import ensureExist from '../../lib/ensureExist';
 import normalizeNumber from '../../lib/normalizeNumber';
-import getter from '../../lib/getter';
 import proxify from '../../lib/proxy/proxify';
 import debounce from '../../lib/debounce';
+import { selector } from '../../lib/selector';
 
 // const DEBOUNDCE_THRESHOLD = 800;
 // const DEBOUNDCE_IMMEDIATE = false;
@@ -302,8 +301,8 @@ export default class CallHistory extends RcModule {
     return this.state.status === moduleStatuses.pending;
   }
 
-  @getter
-  normalizedCalls = createSelector(
+  @selector
+  normalizedCalls = [
     () => this._callLog.calls,
     () => this._accountInfo.countryCode,
     (calls, countryCode) => (
@@ -333,10 +332,10 @@ export default class CallHistory extends RcModule {
         };
       }).sort(sortByStartTime)
     ),
-  )
+  ]
 
-  @getter
-  calls = createSelector(
+  @selector
+  calls = [
     () => this.normalizedCalls,
     () => this.recentlyEndedCalls,
     () => (this._contactMatcher && this._contactMatcher.dataMapping),
@@ -386,7 +385,7 @@ export default class CallHistory extends RcModule {
         ...calls
       ].sort(sortByStartTime);
     }
-  )
+  ]
 
   @proxify
   debouncedSearch(...args) {
@@ -427,8 +426,8 @@ export default class CallHistory extends RcModule {
     });
   }
 
-  @getter
-  latestCalls = createSelector(
+  @selector
+  latestCalls = [
     () => this.filterCalls,
     () => this._activityMatcher && this._activityMatcher.dataMapping,
     (calls, dataMapping) => {
@@ -441,11 +440,11 @@ export default class CallHistory extends RcModule {
       }
       return calls;
     },
-  )
+  ]
 
 
-  @getter
-  uniqueNumbers = createSelector(
+  @selector
+  uniqueNumbers = [
     () => this.normalizedCalls,
     () => this.recentlyEndedCalls,
     (normalizedCalls, endedCalls) => {
@@ -473,10 +472,10 @@ export default class CallHistory extends RcModule {
       endedCalls.forEach(addNumbersFromCall);
       return output;
     },
-  )
+  ]
 
-  @getter
-  sessionIds = createSelector(
+  @selector
+  sessionIds = [
     () => this._callLog.calls,
     () => this.recentlyEndedCalls,
     (calls, endedCalls) => {
@@ -490,7 +489,7 @@ export default class CallHistory extends RcModule {
           .map(call => call.sessionId)
       );
     },
-  )
+  ]
 
   get filterCalls() {
     if (this.searchInput === '') {

@@ -38,7 +38,7 @@ function mapToFunctions(_, {
         await schedule(meetingInfo, opener);
         return;
       }
-      meeting.schedule(meetingInfo, {}, opener);
+      await meeting.schedule(meetingInfo, {}, opener);
     },
     init: () => meeting.init(),
   };

@@ -1,11 +1,9 @@
-import { createSelector } from 'reselect';
-
 import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
 import DataFetcher from '../../lib/DataFetcher';
 import moduleStatuses from '../../enums/moduleStatuses';
 import ensureExist from '../../lib/ensureExist';
-import getter from '../../lib/getter';
+import { selector } from '../../lib/selector';
 
 /**
  * @class
@@ -49,11 +47,11 @@ export default class DialingPlan extends DataFetcher {
     this._rolesAndPermissions = this::ensureExist(rolesAndPermissions, 'rolesAndPermissions');
   }
 
-  @getter
-  plans = createSelector(
+  @selector
+  plans = [
     () => this.data,
     data => data || [],
-  )
+  ]
 
   get plans() {
     return this._selectors.plans();
