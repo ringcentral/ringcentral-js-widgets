@@ -1,75 +1,7 @@
 @import '../../lib/commonStyles/colors';
 @import './mixin.scss';
 @import '../../UI/varibles.scss';
-//@import 'theme/rc.scss'
-//===== THEME FILE START===== //
-
-// The prefix to use on all css classes from theme rc.
-$theme-prefix: "rc";
-
-// -------- Colors ----------- //
-$primary-color: $blue500;
-$warning-color: $orange500;
-$error-color: #dc0202;
-// $info-color: $blue500;
-// $success-color: $blue500;
-// $processing-color: $blue500;
-// $highlight-color: $blue500;
-
-$normal-color: #d9d9d9;
-
-$text-color: $blue500;
-
-$background-color-base: rgba(0, 0, 0, 0.08);
-
-// ----- Disabled states ---- //
-$disabled-bg: $background-color-base;
-$disabled-color-dark: fade(#fff, 35%);
-
-//----- Base background color for most components ---//
-
-$font-size-base: 14px;
-$font-size-lg: $font-size-base + 2px;
-$font-size-sm: 12px;
-//---- border radius ----//
-$border-radius-base: 4px;
-$border-radius-sm: 2px;
-//--- Border color ----//
-$border-color-base: $primary-color; // base border outline a component
-$border-width-base: 1px; // width of the border for a component
-$border-style-base: solid; // style of a components border
-//---- Animations ----//
-$ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
-//--- vertical paddings ----//
-$padding-lg: 24px;
-$padding-md: 16px;
-$padding-sm: 12px;
-$padding-xs: 8px;
-//--- default button's size border ... ----//
-$btn-font-weight: 400;
-$btn-border-radius-base: $border-radius-base;
-$btn-border-radius-sm: $border-radius-base;
-$btn-primary-color: #fff;
-$btn-primary-bg: $primary-color;
-$btn-default-color: $text-color;
-$btn-default-bg: #fff;
-$btn-default-border: $border-color-base;
-$btn-danger-color: $error-color;
-$btn-danger-bg: $background-color-base;
-$btn-danger-border: $border-color-base;
-$btn-disable-bg: $disabled-bg;
-$btn-disable-border: $border-color-base;
-$btn-padding-base: 0 $padding-md;
-$btn-font-size-lg: $font-size-lg;
-$btn-font-size-sm: $font-size-base;
-$btn-padding-lg: $btn-padding-base;
-$btn-padding-sm: 0 $padding-xs - 1px;
-$btn-height-base: 36px;
-$btn-height-lg: 36px;
-$btn-height-sm: 32px;
-
-$outline-gray: #8c8c8c;
-//===== THEME FILE END ===== //
+@import '../../UI/themes/default.scss';
 
 $btn-prefix-cls: '#{$theme-prefix}-btn';
 
@@ -88,8 +20,7 @@ $btn-prefix-cls: '#{$theme-prefix}-btn';
   &-warning {
     @include btn-warning;
   }
-  &:before {
-
+  &-text {
+    @include btn-text;
   }
-
 }
