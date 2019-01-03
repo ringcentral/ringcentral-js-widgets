@@ -20,7 +20,7 @@ module.exports = (baseConf, type) => {
       test: /\.scss$/,
       loaders: [
         "style-loader",
-        "css-loader?modules&localIdentName=[local]",
+        "css-loader?modules&localIdentName=[path]_[name]_[local]_[hash:base64:5]",
         "sass-loader"],
       include: path.resolve(__dirname, "../")
     },

@@ -1,16 +1,17 @@
 export const BUTTON_TYPE = {
   primary: 'primary',
-  warning: 'warning',
   outline: 'outline',
-  danger: 'danger',
-  default: 'default'
 };
 
-export const BUTTON_SHAP = {
+export const BUTTON_COLOR = {
+  warning: 'warning',
+  danger: 'danger',
+};
+
+export const BUTTON_SHAPE = {
   round: 'round',
   circle: 'circle',
   rectangle: 'rectangle',
-  default: 'default'
 };
 
 export const BUTTON_ICON = {
