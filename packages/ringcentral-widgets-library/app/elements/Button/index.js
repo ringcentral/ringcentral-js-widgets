@@ -15,7 +15,7 @@ import {
 
 const IconMap = {
   // [BUTTON_ICON.download]: // <Icon type='download'></Icon>,
-  // [BUTTON_ICON.plus]: // Icon.Plus,
+  // [BUTTON_ICON.plus]: // <Icon.Plus />,
   // [BUTTON_ICON.checked]: // Icon.Checked
 };
 
@@ -37,10 +37,15 @@ export default function Button({
     [BUTTON_SHAPE.round]: styles.round,
     [BUTTON_SHAPE.rectangle]: styles.rectangle,
   };
+
   const typeStyleMap = {
     [BUTTON_TYPE.primary]: styles[`${prefixCls}-primary`],
     [BUTTON_TYPE.outline]: styles[`${prefixCls}-outline`],
+    [BUTTON_TYPE.text]: styles[`${prefixCls}-text`],
+    [BUTTON_TYPE.warning]: styles[`${prefixCls}-warning`],
+    [BUTTON_TYPE.danger]: styles[`${prefixCls}-danger`],
   };
+  // discusstion //
   const colorStyleMap = {
     [BUTTON_COLOR.warning]: styles[`${prefixCls}-warning`],
     [BUTTON_COLOR.danger]: styles[`${prefixCls}-danger`],
@@ -54,12 +59,16 @@ export default function Button({
     colorStyleMap[color],
     disabled && 'disabled'
   );
+  const iconType = loading ? 'loading' : icon;
+  const iconNode = iconType ? <Icon type={iconType} /> : null;
+  console.log(classNames);
   return (
     <button
       className={classNames}
       onClick={disabled ? null : onClick}
       title={tooltip}>
-      {children}
+      {iconNode}
+      <span>{children} </span>
     </button>
   );
 }
@@ -87,7 +96,7 @@ Button.defaultProps = {
   loading: false,
   shape: 'default',
   type: 'default',
-  icon: '',
+  icon: 'answer',
   className: undefined,
   tooltip: '',
   disabled: false,

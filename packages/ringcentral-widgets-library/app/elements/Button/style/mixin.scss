@@ -26,14 +26,14 @@
   }
 }
 
-@mixin button-variant-primary($color, $background) {
-  @include button-color($color, $background, $background);
+@mixin button-variant-primary($color, $background, $border) {
+  @include button-color($color, $background, $border);
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
 
   &:hover,
   &:focus {
-    @include button-color($color, #0570a1, $background);
+    @include button-color($color, #0570a1, $border);
   }
 
   // &:active,
@@ -65,9 +65,21 @@
   }
 
 }
+
+@mixin button-variant-text($color, $background, $border) {
+  box-shadow: none;
+  @include button-color($color, $background, $border);
+  &:hover,
+  &:focus {
+    @include button-color($primary-color, rgba(6, 132, 189, 0.12), none);
+  }
+}
+
 // base button style
 @mixin btn() {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-weight: $btn-font-weight;
   text-align: center;
   touch-action: manipulation;
@@ -111,7 +123,14 @@
   &-sm {
     @include button-size($btn-height-sm, $btn-padding-sm, $btn-font-size-sm, $btn-border-radius-sm);
   }
+  &>svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+  }
+
 }
+
 @mixin btn-default {
   @include button-variant-other($btn-default-color, $btn-default-bg, $btn-default-border);
   &:hover,
@@ -122,8 +141,9 @@
     text-decoration: none;
     }
 }
+
 @mixin btn-primary {
-  @include button-variant-primary($btn-primary-color, $btn-primary-bg);
+  @include button-variant-primary($btn-primary-color, $btn-primary-bg, $btn-primary-bg);
 }
 
 @mixin btn-danger {
@@ -136,4 +156,8 @@
 
 @mixin btn-outline {
   @include button-variant-other($primary-color, #fff, $primary-color);
+}
+
+@mixin btn-text {
+  @include button-variant-text($primary-color, #fff, #fff);
 }

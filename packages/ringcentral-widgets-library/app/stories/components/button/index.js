@@ -30,6 +30,7 @@ storiesOf('Elements/Button', module)
       'primary',
       'default',
       'danger',
+      'text',
     ];
     const type = select(label1, options, 'primary');
 
@@ -47,13 +48,31 @@ storiesOf('Elements/Button', module)
     ];
     const color = select(label3, colorOptions, 'warning');
     const Ripple = Button.Ripple;
+    const label4 = 'icon';
+    const iconOptinons = [
+      'FaxOutBound',
+      'VoiceMail',
+      'Message',
+      'Unlogged',
+      'Logged',
+      'ActivityCall',
+      'Dialpad',
+      'Time',
+      'SettingNav',
+      ''
+    ];
+    const icon = select(label4, iconOptinons, '');
+    const loading = boolean('Loading', false);
+    const disabled = boolean('Disabled', false);
     return (
       <Ripple>
         <Button
           type={type}
           shape={shape}
-          color={color}
           tooltip={tooltip}
+          icon={icon}
+          loading={loading}
+          disabled={disabled}
         >
           {children}
         </Button>

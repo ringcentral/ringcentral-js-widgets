@@ -1,6 +1,10 @@
 export const BUTTON_TYPE = {
-  primary: 'primary',
+  contained: 'contained',
   outline: 'outline',
+  text: 'text',
+  primary: 'primary',
+  warning: 'warning',
+  danger: 'danger',
 };
 
 export const BUTTON_COLOR = {
@@ -14,8 +18,34 @@ export const BUTTON_SHAPE = {
   rectangle: 'rectangle',
 };
 
-export const BUTTON_ICON = {
-  download: 'download',
-  plus: 'plus',
-  checked: 'checked'
-};
+// export const BUTTON_ICON = {
+//   download: 'download',
+//   plus: 'plus',
+//   checked: 'checked',
+//   loading: 'loading',
+//   answer: 'answer',
+// };
+
+// === TYPE === //
+// export const BUTTON_TYPE = {
+//   contained: 'contained',
+//   outline: 'outline',
+//   text: 'text',
+//   primary: 'primary',
+//   warning: 'warning',
+//   danger: 'danger',
+// };
+
+// export const BUTTON_SHAPE = {
+//   round: 'round',
+//   circle: 'circle',
+//   rectangle: 'rectangle',
+// };
+
+// export const BUTTON_ICON = {
+//   download: 'download',
+//   plus: 'plus',
+//   checked: 'checked',
+//   loading: 'loading',
+//   answer: 'answer',
+// };
